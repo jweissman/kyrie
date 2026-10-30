@@ -6,29 +6,29 @@ Module circus "Wapshott's Peregrine Circus" {
   Measure regard(group).
   Relation metCircus(group).
 
-  Person wapshott "Colonel Florian Wapshott" at road_ca {
+  Person wapshott "Colonel Florian Wapshott" at tober_a {
     Role "the proprietor of Wapshott's Grand Peregrine Circus". Ancestry human. Peaceable. Pronouns he. Manner jovial.
     Greets "A big man in a crimson coat with frogging across the chest, a moustache dyed the black of a new boot, and a voice like a church organ with the stops out, takes your hand before you have offered it. 'Colonel Florian Augustus Wapshott,' he says, 'Proprietor, Ringmaster, and Sole Patentee of the Grand Peregrine Circus and Hippodrama, at your service, and very much at your disposal, and if you are from the Rates, I am not here.' He considers you. 'You are not from the Rates. You have an honest face. I have one myself; I keep it for Sundays.'".
     Greets again "'My friend!' The Colonel opens his arms as if you had been away at the wars. 'You find me at a moment of TRIUMPH, or very nearly. What can Wapshott's do for you? More to the point, what can you do for Wapshott's?'".
   }
-  Person ada "Ada Thripp" at road_ca {
+  Person ada "Ada Thripp" at tober_a {
     Role "the circus's book-keeper". Ancestry human. Peaceable. Pronouns she. Manner acerbic.
     Greets "A young woman in a green bonnet with ink on her fingers sits in the hatch of the ticket wagon with a cash-box, a ledger and a pencil behind each ear. 'Ada Thripp,' she says. 'I keep the books. Somebody has to; the Colonel thinks a ledger is a kind of hat.' She looks you up and down as if pricing you. 'If you have come to be paid, the answer is Thursday. If you have come to pay, you are the first this week and I could kiss you.'".
     Greets again "Ada Thripp looks up from the ledger. 'Oh, it's you,' she says, in a voice that means it is better than it might have been.".
   }
-  Person mumchance "Mumchance" at road_ca {
+  Person mumchance "Mumchance" at tober_a {
     Role "the circus's old clown". Ancestry human. Peaceable. Pronouns he. Manner stoic.
     Greets "An old man sits on an upturned bucket in his shirtsleeves, painting his face white in a bit of mirror nailed to a wagon wheel. He has a long, lined, patient face, like a horse that has seen everything twice. He finishes the line of his mouth before he looks at you. 'They call me Mumchance,' he says, in a soft dry voice that you have to lean toward, 'because in the ring I never say a word. Out here I say several.'".
     Greets again "Mumchance lifts one hand from his knee and lets it fall again.".
   }
-  Person pip "Pip Gallant" at road_ca {
+  Person pip "Pip Gallant" at tober_a {
     Role "the circus's ring-girl and Mumchance's apprentice". Ancestry human. Calling monk. Level 1. Peaceable. Pronouns she. Manner cheerful.
     Greets "A girl of seventeen or so, all elbows, with a broom twice her height and sawdust in her hair, falls over the broom, rolls, comes up on her feet, and bows. 'Meant that,' she says. 'Pip Gallant. I sweep the ring and hold the hoops and I'm going to be the greatest clown since Mumchance, only he says I have to learn to fall first, and I've been learning to fall for two years, and I can fall really well now, look.' She falls over again.".
     Greets again "'Hullo!' says Pip, from somewhere she has just landed.".
     Joins "Pip goes and tells Mumchance, and comes back with her bundle, a juggling club and a red nose in her pocket for emergencies. 'He said, go and fall over in front of the world,' she says, 'and come back funnier. He shook my hand. He's never shaken my hand.' She wipes her eyes with the back of her wrist, briskly. 'Right. Where are we going?'".
     Leaves "'I'll go back to the wagons,' says Pip. 'Mumchance will want to know if I've been falling properly.' She salutes, upside down, and goes.".
   }
-  Person zephyrine "Mademoiselle Zéphyrine" at road_ca {
+  Person zephyrine "Mademoiselle Zéphyrine" at tober_a {
     Role "the Sylph of the Wire". Ancestry human. Peaceable. Pronouns she. Manner proud.
     Known as "a woman in a silver wrap" when not knows(party, zephyrine_named).
     Greets "A slight woman with her hair scraped up in a silver net, her feet in soft kid slippers, is doing something to the inside of one ankle with a strip of linen, very slowly, as if the ankle were a violin. 'I am Zéphyrine,' she says, in an accent that comes from somewhere, though perhaps not from anywhere in particular. 'The Sylph. Of the Wire.' She looks at you with very still grey eyes. 'You have come to look at me. Everyone does. It is permitted.'".
@@ -36,53 +36,53 @@ Module circus "Wapshott's Peregrine Circus" {
   }
   Entity zephyrine_named: fact "The Sylph of the Wire at Wapshott's is Mademoiselle Zéphyrine.".
   Rule zephyrine_known when addressed(zephyrine, party) and not knows(party, zephyrine_named) says "She is Mademoiselle Zéphyrine, the Sylph of the Wire." teaches zephyrine_named { }
-  Person hal "Hal Quincey" at road_ca {
+  Person hal "Hal Quincey" at tober_a {
     Role "a tumbler, one of the Brothers Quincey". Ancestry human. Peaceable. Pronouns he. Manner proud.
     Greets "A square young man in tights and a striped jersey is doing handsprings across the sawdust, one after another, very fast, as if to get away from something. He lands in front of you. 'Hal Quincey,' he says. 'The elder. By eleven minutes. The better, by more than that. If you're looking for my brother, he's the one over there pretending he can't see me.'".
     Greets again "Hal Quincey nods to you from a handstand.".
   }
-  Person dunstan "Dunstan Quincey" at road_ca {
+  Person dunstan "Dunstan Quincey" at tober_a {
     Role "a tumbler, one of the Brothers Quincey". Ancestry human. Peaceable. Pronouns he. Manner grim.
     Greets "A square young man in tights and a striped jersey, the image of the other one across the ring, is stretching his hamstrings with tremendous dignity. 'Dunstan Quincey,' he says. 'Of the Brothers Quincey. There is, for the time being, only one Brother Quincey. Tell the other one that, if he asks. He won't ask. He's too proud. It's the only thing he ever invented.'".
     Greets again "Dunstan Quincey nods, and looks across the ring to see whether his brother saw him nod.".
   }
-  Person honoria "Honoria Bulstrode" at road_ca {
+  Person honoria "Honoria Bulstrode" at tober_a {
     Role "the Ox of Abernant, strongwoman and cook". Ancestry human. Peaceable. Pronouns she. Manner compassionate.
     Greets "A woman as wide as a doorway, in a flowered apron, is lifting a cauldron off the fire one-handed and setting it on the grass as if it were a teacup. 'Honoria Bulstrode,' she says, wiping her hand to shake yours, which she does gently, like someone who has broken hands before by accident. 'The Ox of Abernant on the bills; Mrs Bulstrode at the stove. Have you eaten? You haven't. Sit there. No, there. The other one's a goose.'".
     Greets again "'Sit down,' says Honoria Bulstrode, already reaching for a bowl.".
   }
-  Person fipps "Signor Cornelius Fipps" at road_ca {
+  Person fipps "Signor Cornelius Fipps" at tober_a {
     Role "the circus's bandmaster". Ancestry human. Peaceable. Pronouns he. Manner cheerful. Wants band_serpent_kind.
     Greets "A round man with a round face and a black wooden horn wound three times round his body is polishing the horn's mouthpiece on his waistcoat. 'Fipps,' he says. 'Signor Fipps, for the profession; Cornelius to my friends; Corny to the Colonel, who has no idea how much I mind. The band, sir: myself on the serpent, young Tom Gale on cornet, and Abel Rudd on the drum, who is deaf, which is a help.' He pats the horn. 'This is the serpent. She is very old and she has a crack, and there are three notes she will not play, and one of them is the one we need.'".
     Greets again "Fipps lifts the serpent an inch in greeting, and it makes a small sad noise of its own accord.".
   }
-  Person hench "Lucius Hench" at road_ca {
+  Person hench "Lucius Hench" at tober_a {
     Role "the circus's wardrobe-master". Ancestry human. Peaceable. Pronouns he. Manner acerbic.
     Greets "A thin, upright man in a black coat brushed till it shines, with a tape-measure round his neck like a chain of office and six pins in his lapel, looks up from the spangled bodice he is mending without moving his head. 'Hench,' he says. 'Wardrobe. I was eleven years valet to the Margravine of Oster and I have dressed a bishop for his own funeral, and I now sew sequins on the trousers of tumblers who will not stand still.' He bites a thread. 'You have a button loose. No, don't touch it. Give it to me.'".
     Greets again "Hench looks at your clothes before he looks at you, and sighs, and then nods.".
   }
-  Person lusk "Gideon Lusk" at road_ca {
+  Person lusk "Gideon Lusk" at tober_a {
     Role "the circus's boss canvasman". Ancestry human. Peaceable. Pronouns he. Manner stoic.
     Greets "A very large man with a beard like a hedge and hands like spades is splicing a rope with his teeth and one hand. He takes the rope out of his teeth. 'Lusk,' he says. That seems to be all. Then, after a while: 'Canvas.' Then, after another while, as if he had thought hard about whether you deserved it: 'Mind the guys.'".
     Greets again "Lusk nods.".
   }
-  Person nance "Nance Tibbet" at road_ca {
+  Person nance "Nance Tibbet" at tober_a {
     Role "the Sibyl of the Seven Rivers, fortune-teller". Ancestry human. Peaceable. Pronouns she. Manner jovial.
     Greets "An old woman in nine shawls, rings on every finger and two on one thumb, is sitting on the steps of a black wagon with SIBYL on it in gold, smoking a clay pipe. 'Nance Tibbet,' she says, 'the Sibyl of the Seven Rivers, which the Colonel made up; I'm from a town with one river and that one's mostly mud.' She looks at your face the way a horse-coper looks at teeth. 'You want to know something. Everybody who comes to the Sibyl wants to know something. It's usually something they know already.'".
     Greets again "'Back again, dearie,' says Nance Tibbet. 'They always come back. I'd say I foresaw it, but I'd be lying, and I only lie for money.'".
   }
-  Person billie "Billie Ostrander" at road_ca {
+  Person billie "Billie Ostrander" at tober_a {
     Role "the keeper of the circus's horses and beasts" when menagerieOpen(wapshotts).
     Role "the circus's horse-keeper". Ancestry human. Peaceable. Pronouns she. Manner grim.
     Greets "A broad-shouldered woman in a man's coat and gaiters, with a curry-comb in one hand and an apple in the other, is grooming an old grey horse who is pretending not to notice. 'Wilhelmina Ostrander,' she says. 'Billie. I keep the horses: the four ponies and His Lordship here, Bucephalus, who keeps himself. My father was a drover. I've been kicked by everything with legs.' She hands the horse the apple. 'Don't feed him. He'll tell you he's starving. He's lying.'".
     Greets again "Billie Ostrander nods without stopping what her hands are doing.".
   }
   Species circus_horse "an old grey horse" like horse tame described "A tall grey horse, almost white with age, with a Roman nose, a plume holder on his bridle, and the bearing of a retired general who has heard better speeches.".
-  Person bucephalus "Bucephalus" at road_ca {
+  Person bucephalus "Bucephalus" at tober_a {
     Role "the circus's old grey horse". Species circus_horse. Peaceable. Pronouns he.
     Greets "Bucephalus looks at you down the length of his nose, decides you have no apples, and looks at the horizon instead.".
   }
-  Person quirk "Sidney Quirk" at road_ca {
+  Person quirk "Sidney Quirk" at tober_a {
     Role "the circus's advance agent and bill-poster". Ancestry human. Peaceable. Pronouns he. Manner cheerful.
     Greets "A thin man with a paste-pot in one hand, a brush in the other and a roll of bills under each arm is pasting a bill to the wall at a speed that suggests he has been asked to stop. 'Quirk!' he says. 'Advance agent, Wapshott's. I go a day ahead and bill everything that holds still. Walls, barns, gates, a hearse, once, by mistake, though the family were very good about it.' He looks at you with professional interest. 'You're nice and flat across the back. Hold still a moment.'".
     Greets again "'Still flat?' says Sidney Quirk hopefully, lifting his brush.".

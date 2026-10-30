@@ -1,0 +1,145 @@
+Module circus "Wapshott's Peregrine Circus" {
+  // ── The company's own lives, in the Revels round ────────────────────────────────────────────────────────────
+  // These go on whether or not the company has a hand in them. The company can be asked to; it changes how they go.
+
+  // Honoria and Mumchance: Wakeham, at last, in the chapel of the Rest on the day before the Revels.
+  Relation weddingSet(group). Relation weddingDone(group). Relation witness(group). Relation ringMade(group).
+  Rule wedding_set when letterCome(wapshotts) and day(clock) >= letterDay(wapshotts) + 3 and not weddingSet(honoria) { Assert weddingSet(honoria). }
+  Topic hon_singing with honoria "Ask Honoria why she is singing over the pot" when weddingSet(honoria) and not weddingDone(honoria) once {
+    Says "Honoria goes red from the apron up. 'He asked me,' she says. 'Last night. At the cookhouse door.' She stirs the pot, which does not need stirring. 'He said one word. Wakeham. Just that. With a question at the end of it.' She wipes her eyes on her sleeve. 'Thirty years that bridge has been washed out. We're to be married in the little chapel up at the Rest, the day before the Revels, by {priest_b}, if {priest_b} will climb the hill.' She looks at you. 'Will you stand for us? Somebody has to hold the ring, and Gus says his hands shake, and mine would bend it.'".
+    On discuss { Assert witness(actor). Increase regard(honoria) by 2. }
+  }
+  Topic hob_ring with ninepence "Ask Ninepence whether he could make a wedding ring for the Ox" when witness(actor) and (hobJoined(ninepence) or hobStaysToRevels(ninepence)) and not ringMade(honoria) once {
+    Says "'For the Ox,' says Ninepence, and something in his brown face goes soft. 'Her mother left cream for the slate-hob at Abernant forty years and never once saw him. He told me.' He holds out a long hand. 'Give me a night and a brass curtain-ring off the wardrobe wagon.' In the morning there is a ring on the cookhouse step: brass, worked all round with tiny slates, and a bridge.".
+    On discuss { Assert ringMade(honoria). }
+  }
+  Rule wedding_rest at rest_chapel when weddingSet(honoria) and here(tober_r) and day(clock) == revelsDay(wapshotts) - 1 and hour(clock) >= 12 and not weddingDone(honoria) and at(party, rest_chapel)
+    says "The chapel of the Rest is full to the door and the door is full of Bucephalus. {priest_b} has climbed the hill, and is out of breath, and is moved. Honoria wears a hat with a whole garden on it; Mumchance wears no face at all, for the first time in public, and is a plain old man with kind eyes, and looks younger. When {priest_b} asks for the ring, you hold it out; and Mumchance, who hardly ever says anything at all, says two words, clearly, in the little chapel under the crowned wheel: 'I do.' Then Honoria lifts him off his feet, which was not in the service, and nobody minds." {
+    Assert weddingDone(honoria). Increase regard(honoria) by 2. Increase regard(mumchance) by 2. }
+  Rule wedding_away when weddingSet(honoria) and here(tober_r) and day(clock) == revelsDay(wapshotts) - 1 and hour(clock) >= 13 and not weddingDone(honoria) {
+    Assert weddingDone(honoria). }
+  Observe wedding_after near honoria when weddingDone(honoria) and pitched(wapshotts) and hour(clock) >= 18 and hour(clock) < 19 "Honoria Bulstrode, who is Honoria Fell now, if anyone dares call her it, is making Mumchance up for the show herself, with the white and the lard, very carefully, at the cookhouse table; and he is letting her.".
+
+  // Ada, The Brigand's Bride, and a reader at court.
+  Relation partRead(concern). Relation dowagerReads(group). Relation adaReveals(group). Relation colonelKnowsBride(group).
+  Rule part_read near wapshott when letterCome(wapshotts) and day(clock) >= letterDay(wapshotts) + 5 and hour(clock) >= 21 and pitched(wapshotts) and not partRead(wapshotts)
+    says "In the backyard after the show, Quirk comes in from the road with the new part of THE BRIGAND'S BRIDE from the printer at {town_a}, and the Colonel, who has never read a novel, seizes it and reads it aloud to the cookhouse fire with all the voices. He is magnificent. He is magnificent for eleven pages, until there enters, in a crimson coat, COUNT FLORIZEL WAPSOTTI, A MOUNTEBANK OF RUINOUS HABITS AND IRRESISTIBLE MOUSTACHE, and he stops. He reads the paragraph again, silently. Across the fire Ada Thripp has gone the colour of the page." {
+    Assert partRead(wapshotts). }
+  Topic tobias_dowager with tobias "Ask Tobias what the Dowager Archduchess is like" when knows(actor, letter_known) once {
+    Says "'Terrifying,' says Tobias at once, with love. 'She is a Dowager, an Archduchess and a Margravine, by three treaties, and nobody knows which she is on any day until she gives you a hand to kiss. She is eighty. She has outlived two husbands and a war.' He lowers his voice. 'And she reads, every month, a penny romance called THE BRIGAND'S BRIDE, which her ladies buy for her in disguise, and she would give a province to know who A Lady of the Road is. She has said so. In front of a bishop.'".
+    On discuss { Assert knows(actor, dowager_reads). }
+  }
+  Entity dowager_reads: fact "The Dowager Archduchess who comes to the Revels reads THE BRIGAND'S BRIDE every month in secret, and would give a province to know who A Lady of the Road is.".
+  Topic ada_dowager with ada "Tell Ada that the Dowager Archduchess reads The Brigand's Bride, and longs to meet its author" when knows(actor, ada_writes) and knows(actor, dowager_reads) and not adaReveals(ada) once {
+    Says "Ada puts down her pencil. 'The Dowager,' she says. 'Reads. The Bride.' She looks at the ledger as if it might help. 'If I say who I am, the Colonel will know he's Count Wapsotti. Everybody will. I'll be the book-keeper who writes penny dreadfuls.' Then, slowly: 'I'll be a writer who keeps books.' She closes the ledger. 'I'll think. Don't watch me thinking.'".
+    On discuss { Assert adaReveals(ada). }
+  }
+  Topic wap_bride with wapshott "Tell the Colonel who wrote The Brigand's Bride" when partRead(wapshotts) and knows(actor, ada_writes) and not colonelKnowsBride(wapshott) once {
+    Says "The Colonel says nothing for so long that you think he has not heard. Then: 'Ada.' He looks across at the ticket wagon. 'Ada wrote Wapsotti.' His chest begins, slowly, to swell. 'A COUNT,' he says. 'She made me a COUNT. Irresistible MOUSTACHE.' He strides off to the ticket wagon, and you hear him through the hatch, very loud and very hurt and very proud all at once: 'Eleven hundred copies? ELEVEN HUNDRED? And in part twenty-three I am to be hanged?'".
+    On discuss { Assert colonelKnowsBride(wapshott). }
+  }
+
+  // The Sylph's Ascension: a wire from the gatehouse tower across the Long Court, at the Revels.
+  Relation ascensionRigged(concern). Relation triedRig(group).
+  Topic zeph_tower with zephyrine "Tell Zéphyrine about the gatehouse tower at the King's Rest" when letterCome(wapshotts) and knows(actor, ascension_known) once {
+    Says "The Sylph goes very still. 'How high?' You tell her. 'And the court below. Half a furlong of court, and the Household of the Progress looking up.' She stands, and her accent is gone entirely; she is Susan Pruett of {town_c}, and she wants something so much she is shaking. 'The Ascension. From a tower. My mother underneath.' She takes your hands. 'Lusk will have to anchor it. And somebody will have to go up that tower with the end of the rope. I can't carry the rope; I have to carry myself.'".
+    On discuss { Assert knows(actor, ascension_plan). }
+  }
+  Entity ascension_plan: fact "Zéphyrine means to make her Ascension at the Revels on a wire from the gatehouse tower of the King's Rest across the Long Court, if Lusk anchors it and somebody takes the rope up the tower.".
+  Action rig_ascension(actor: group, site: place) "Take the end of the Sylph's wire up the gatehouse tower while Lusk anchors it at the mounting-block" {
+    Time 6.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, gate_tower) and knows(actor, ascension_plan) and here(tober_r) and not ascensionRigged(wapshotts) and not triedRig(actor).
+    Resolve check(actor, climbing, dc_fair).
+    On success { Assert ascensionRigged(wapshotts). Increase regard(zephyrine) by 2. Increase regard(lusk) by 1. }
+    On failure { Assert triedRig(actor). }
+    Result "With a coil of the Sylph's wire over your shoulder you make it fast round the gatehouse merlon in the knot Lusk taught you, three turns and a hitch, while Old Tom watches with interest and tries to steal the end. Far below, across the court, Lusk hauls on the turnbuckle at the mounting-block until the wire sings, and the whole Long Court is suddenly crossed by a line too fine to see except where the sun runs along it.".
+    Otherwise "You get the wire round the merlon and the knot will not sit, and the whole coil slithers off the parapet and down the face of the gatehouse with a long singing rattle; Lusk, below, looks up at you for some time.".
+  }
+
+  // Clemency Vane, offered the chance to be funny.
+  Relation clemencyFolly(group).
+  Topic offer_clemency with clemency "Offer Clemency Vane the part of Folly in Wapshott's masque at the Revels" when knows(actor, clemency_comic) and knows(actor, letter_known) and not clemencyFolly(clemency) once {
+    Grave "A leading lady who plays in a rival's masque does not go back to her own company's the same.".
+    Says "Clemency Vane looks at you over her cold tea for a long time. 'Folly,' she says. 'In a circus masque. Before the Household of the Progress. With my husband in the other masque, being Justice.' She puts the cup down very carefully. 'He will never forgive me.' A pause. 'He has never once laughed at me. Not once in twenty years.' She stands up. 'Yes. Tell your Colonel yes. Tell him I want a fan, and a ladder, and I want to sit down in the middle of something.'".
+    On discuss { Assert clemencyFolly(clemency). }
+  }
+
+  // Fipps's Grand Circus Overture, for a band of twenty: Pell's musicians, and the low G.
+  Relation orchestraLent(group).
+  Topic augustus_band with augustus "Ask Augustus Pell to lend his musicians for Fipps's Overture at the Revels" when knows(actor, letter_known) and knows(actor, augustus_pierrot) and not orchestraLent(augustus) once {
+    Says "'Lend my band,' says Augustus Pell, magnificently, 'to a circus, for an overture, to be played before the Household, in the masque that opposes mine?' He draws breath for an aria of refusal. You say, quietly, that you know about the Pierrot. Augustus stops. For a moment he is eight years old in a ruff on the stage of the Theatre Royal, with the house laughing. 'Grandmother,' he says. Then, slowly, he lets the breath go. 'Fourteen musicians,' he says, in a small ordinary voice. 'They are better than your three. Tell your Signor that if his serpent cannot play the low G, mine can.'".
+    On discuss { Assert orchestraLent(augustus). Increase regard(fipps) by 2. }
+  }
+
+  // Lusk's Nell, and the seventh hook in the Keeper's Lodge.
+  Relation jabezHeir(group).
+  Rule nell_up_hill when nellTold(nell) and here(tober_r) and hour(clock) >= 8 and hour(clock) < 17 and not at(nell, keeper_lodge) and not nellSweeping(nell) { Assert at(nell, keeper_lodge). Assert nellSweeping(nell). }
+  Rule nell_down_hill when nellSweeping(nell) and hour(clock) >= 17 { Retract nellSweeping(nell). Assert at(nell, aske_cottage_b). }
+  Relation nellSweeping(group).
+  Observe nell_and_jabez near nell when nellSweeping(nell) and at(nell, keeper_lodge) "Lusk's Nell is sitting on Jabez Orme's table with her legs swinging, being shown the Keepers' Book a page at a time, and she is not bored by any of it, and Jabez is so happy he has to keep stopping.".
+  Topic jabez_nell with jabez "Ask Jabez whether Nell might take down the seventh broom, one day" when nellSweeping(nell) and knows(actor, seventh_hook) and not jabezHeir(jabez) once {
+    Says "Jabez looks at the child on his table, who is reading the Book's margins aloud in a whisper and getting the long words wrong in the right way. 'She's not an Orme,' he says. Then: 'There's never been anything in the Book about that.' His voice is not steady. 'Her father goes round with the wagons. She'd see him every time they came up the hill.' He looks at the seventh hook on the wall. 'I'll ask her gran,' he says. 'Her gran's always right. It's a terrible thing in a woman.'".
+    On discuss { Assert jabezHeir(jabez). Increase regard(lusk) by 2. }
+  }
+
+  // The hob of the kitchen comes home.
+  Relation hobKnowsRest(group). Relation hobAtRest(group).
+  Topic hob_kitchen with ninepence "Ask Ninepence whether he knows the King's Rest" when (hobJoined(ninepence) or hobAtInn(ninepence)) and knows(actor, inventory_known) once {
+    Says "Ninepence does not answer. He is looking up the hill. 'A Hobbe of the Kitchenne,' he says at last. 'In Service. Not to be Thanked.' He says it as if reading it, though he cannot have seen the Book. 'I swept that kitchen for the old kings. Turned the spits, scoured the coppers, in the dark, for two hundred years. And then they went away one spring and nobody came back, and there was nobody to cook for.' He rubs his long hands. 'A hob without a kitchen is a sad thing. I walked down the hill to the fulling-mill because they were working in the night there, and that's near enough to a kitchen if you're lonely.' He looks at you. 'Is there anybody to cook for, up there? Now?'".
+    On discuss { Assert hobKnowsRest(ninepence). }
+  }
+  Topic jabez_hob with jabez "Tell Jabez that the Hob of the Kitchen is Ninepence, and that he remembers the Rest" when hobKnowsRest(ninepence) once {
+    Says "Jabez sits down very suddenly on his own step. 'The Hobbe,' he says. 'Gone, nobody to cook for. My first father wrote that.' He looks at the ruined kitchen range through the broken wall of the lodge. 'I cook,' he says. 'Porridge. Every morning for seventy years. Very badly.' He stands up. 'Tell him there's porridge. Tell him it's very bad. He'll like that; a hob likes something to put right.'".
+    On discuss { Assert hobInvited(ninepence). }
+  }
+  Relation hobInvited(group).
+
+  // Hench at court: the Dowager knows him.
+  Relation henchOffered(group). Relation henchStays(group). Relation henchGoes(group).
+
+  // ── Cordelia: inside the company, or across the court ──────────────────────────────────────────────────────
+  Relation lionLent(group). Relation lionHere(group).
+  Species old_lion "an old lion" like lion tame described "A lion with a grey muzzle, a torn ear and a mane gone thin and pale, nearly blind, who moves like a great tired dog and lies down wherever he stops.".
+  Person neb "Nebuchadnezzar" at tober_a {
+    Role "an old blind lion". Species old_lion. Peaceable. Pronouns he.
+    Greets "The old lion lifts his head toward your voice, and breathes in your smell for a long time, and lays his head down again, satisfied, as if you would do.".
+  }
+  Initially Assert offstage(neb).
+  // United, he is the company's; Billie keeps him.
+  Rule lion_ours when merged(wapshotts) and offstage(neb) and pitched(wapshotts) {
+    Retract offstage(neb). Assert exhibit(neb). Assert travels(neb). Assert post(neb, rk_beasts). Assert lionHere(neb). Increase draw(wapshotts) by 3. Increase exhibits(wapshotts) by 1. }
+  Observe neb_shown near neb when exhibit(neb) "In a deep straw pen at the back of the menagerie, the old lion Nebuchadnezzar lies with his chin on his paws. A board says only: NEBUCHADNEZZAR. HE WAS AT DUNMERE. Somebody, at some point, has added underneath in chalk: SO WAS I.".
+  Observe colonel_lion near neb when exhibit(neb) and merged(wapshotts) and (hour(clock) >= 22 or hour(clock) < 5) "In the dark of the menagerie, by the old lion's pen, somebody is sitting on an upturned bucket in a crimson coat, talking to the lion in a low voice about Dunmere. After a while somebody else comes in with a lantern and a cane, and stands, and then, after a longer while, sits on the straw beside the bucket.".
+  // The two companies as one: the white horses in the ring, the wages paid, every expense argued.
+  Rule horses_told near ringpost when showOn(wapshotts) and act(wapshotts) == 2 and merged(wapshotts) and not horsesToldTonight(wapshotts)
+    says "After Bucephalus, the Hippodrome's twelve white horses come in at a canter in a wheel, nose to tail, with no riders, turning together like a thing with one mind; and Bucephalus, at the curtain, watches them with the bleak tolerance of an old general watching recruits." {
+    Assert horsesToldTonight(wapshotts). Increase quality(wapshotts) by 2. Increase house(wapshotts) by 2. }
+  Rule horses_reset when horsesToldTonight(wapshotts) and not showOn(wapshotts) { Retract horsesToldTonight(wapshotts). }
+  Relation horsesToldTonight(concern).
+  Rule cordelia_pays when merged(wapshotts) and onRoad(wapshotts) and wagesReckoned(wapshotts) and arrears(wapshotts) >= 1 and not cordeliaPaid(wapshotts) {
+    Assert cordeliaPaid(wapshotts). Set arrears(wapshotts) to 0. }
+  Rule cordelia_paid_reset when cordeliaPaid(wapshotts) and pitched(wapshotts) { Retract cordeliaPaid(wapshotts). }
+  Relation cordeliaPaid(concern).
+  Topic sallow_inside with sallow "Ask Madame Sallow how she finds being half of the Colonel's circus" when merged(wapshotts) once {
+    Says "Madame Sallow is going through the Colonel's receipts with a red pencil, and there are a great many red marks. 'Exhausting,' she says. 'He ordered a gilded coach for the Revels, and I cancelled it, and he did not speak to me for a day, and then he brought me a cup of tea and asked whether the horses would like to see the King's Rest.' She draws a line through something. 'The wages are paid on the day now. Your Lusk shook my hand. Nobody in the Hippodrome ever shook my hand; they were paid on the day too, and thought nothing of it.' She looks up. 'I had forgotten that a circus could be a family. Mine was a business. His is a family that cannot add.' She makes another red mark. 'I am going to teach it.'".
+  }
+  Topic wap_partner with wapshott "Ask the Colonel how he likes having a partner again" when merged(wapshotts) once {
+    Says "The Colonel lowers his voice to a rumble, which for him is a whisper. 'Terrible,' he says. 'Wonderful. She has taken away my pen. She reads my letters before I send them. She has made me pay Hench for the gold braid, with interest.' He looks across at the ticket wagon, where a dove-grey back is bent over the ledger beside a green bonnet, the two of them conferring like generals. 'Ada has a friend,' he says, quite softly. 'I never thought of that. Ada never had a friend in this circus who could add.'".
+  }
+  // Rivals: she brings her white horses, and the lion, to the Revels in her own name.
+  Topic sallow_rival with sallow "Ask Madame Sallow why she is claiming the Revels too" when not merged(wapshotts) and knows(actor, rivals_known) and here(tober_r) once {
+    Says "'Because I said I would beat him fairly,' says Madame Sallow, 'and I keep my word. And because the Household should have someone who can add.' She looks across the Long Court at the striped big top. 'And because if I do not, he will be given a royal ruin and a menagerie and a warrant, and he will spend the Treasury's wagon in a fortnight, and somebody will have to watch.' A pause. 'I would rather it were me watching than reading about it.'".
+  }
+  Topic sallow_lend_lion with sallow "Ask Madame Sallow to let Nebuchadnezzar walk in Wapshott's procession of the Inventory" when not merged(wapshotts) and knows(actor, inventory_known) and here(tober_r) and not lionLent(neb) once {
+    Says "Madame Sallow considers it. 'He is in the Inventory,' she says. 'His line, at least. Nebuchadnezzar the third was this one's great-great-something. I bought him from the last of the Dunmere menageries, and they had him from the Rest.' She looks at her own blue-and-gold wagons. 'If he walks for you he does not walk for me.' Then: 'He is very old, and very slow. He would walk in anyone's procession who walked slowly enough.' She looks at you. 'And Florian has never once asked after him.'".
+    On discuss { Assert lionAsked(neb). }
+  }
+  Relation lionAsked(group).
+  Topic sallow_lion_yes with sallow "Say that the Colonel sits up at night talking about Dunmere to anyone who will listen, and asked after the lion" answering sallow_lend_lion when lionAsked(neb) and not lionLent(neb) and knows(actor, lion_well) {
+    Says "Madame Sallow is quiet for a while. 'Did he,' she says. Then: 'Very well. Nebuchadnezzar walks for Wapshott's. Last, and slowly, and Billie walks beside him, not Florian.' She makes a note. 'I shall lose the Revels by it. I find I do not much mind.'".
+    On discuss { Assert lionLent(neb). }
+  }
+  Topic sallow_lion_no with sallow "Say that the lion should walk for whoever owns him" answering sallow_lend_lion when lionAsked(neb) and not lionLent(neb) {
+    Says "'Yes,' says Madame Sallow. 'That is what I think too.' She seems, for a moment, disappointed in you both.".
+  }
+}

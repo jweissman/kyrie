@@ -10,7 +10,7 @@ Module circus "Wapshott's Peregrine Circus" {
   // ── Before the note: what is seen before it is said ─────────────────────────────────────────────────────────
   Observe grey_hat_house near ringpost when showOn(wapshotts) and nights(wapshotts) >= 1 and not noteServed(wapshotts) and act(wapshotts) >= 2 "At the very back of the house, standing, though there are seats, is a man in a grey topper who does not laugh at anything. He is writing in a small book: not during the acts, you notice, but between them, when the canvasmen come on to clear the ring. He seems to be counting the benches.".
   Observe colonel_counting near wagonring when at(wagonring, ?r) and noteServed(wapshotts) and not noteSettled(wapshotts) and (hour(clock) >= 23 or hour(clock) < 5) "There is one candle still lit in the crimson wagon. Through the little window you can see the Colonel in his shirt, alone, counting the strongbox onto the table, then counting it again, then writing a sum on the back of a playbill and crossing it out.".
-  Thing relics "the Colonel's relics" at road_ca {
+  Thing relics "the Colonel's relics" at tober_a {
     State hung "Inside the crimson wagon, over the Colonel's bunk, hang his relics: a framed bill, a length of iron chain, and a picture in a gilt frame with its face to the wall.".
     State turned "Inside the crimson wagon, over the Colonel's bunk, hang his relics: a framed bill, a length of iron chain, and the picture in its gilt frame, turned to face the room: a young woman with a lion cub in her lap and an account-book under her elbow, painted by somebody who loved her.".
     Change turn_picture "Turn the picture round" from hung to turned.
@@ -34,7 +34,7 @@ Module circus "Wapshott's Peregrine Circus" {
   // At eleven, three men from Dunmere come onto the ground with knives for the guy-ropes, hired by Slee by the rope.
   // They can be fought; or the old cry raised, which brings the whole backyard; or paid; or told whose ropes they
   // are; or led a dance through the ropes in the dark. Left alone for an hour, they bring the big top down.
-  Person raiders "three men from Dunmere" at road_ca {
+  Person raiders "three men from Dunmere" at tober_a {
     Role "tober-raiders with knives and cudgels". Ancestry human. Calling warrior. Level 2. Numbers 3. Pronouns they.
     Temperament territorial.
     Warns "Three men are coming across the dark field from the hedge, low, with their hats pulled down: one has a lantern with the shutter nearly closed, and in the slice of light you see a knife, and a rope parting under it with a sound like a bow-string. The biggest of them sees you and stops. 'Go back to bed,' he says, quite kindly. 'This is none of yours. We're paid by the rope.'".
@@ -49,7 +49,7 @@ Module circus "Wapshott's Peregrine Circus" {
   Rule raid_heard near beastpost when raidOn(wapshotts) and at(party, beasts_a) and not raidHeard(wapshotts)
     says "Out on the front, in the dark, voices, low; and then a sound you know, the creak of a guy-rope taking a knife, and the snap as it goes." { Assert raidHeard(wapshotts). }
   Relation raidHeard(concern).
-  Rule raid_done when raidOn(wapshotts) and watch(clock) >= raidAt(wapshotts) + 6 and not raidStopped(wapshotts) and able(raiders)
+  Rule raid_done near pole when raidOn(wapshotts) and watch(clock) >= raidAt(wapshotts) + 6 and not raidStopped(wapshotts) and able(raiders)
     says "In the small hours, with a long groan of canvas, the big top of Wapshott's sags, and leans, and comes down on one side across the ring, with the guy-ropes cut on the side toward the hedge. Lusk is out in his nightshirt with a lantern before it has finished falling. By first light the whole circus is sewing." {
     Assert canvasCut(wapshotts). Retract raidOn(wapshotts). Assert offstage(raiders). Set canvas(wapshotts) to 0. }
   Rule raid_beaten when raidOn(wapshotts) and not able(raiders) { Assert raidStopped(wapshotts). Retract raidOn(wapshotts). Increase evidence(party) by 1. }

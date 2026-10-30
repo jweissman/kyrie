@@ -115,8 +115,8 @@ Module circus "Wapshott's Peregrine Circus" {
   Initially Assert greenOf(tober_a, green_a). Initially Assert greenOf(tober_b, green_b). Initially Assert greenOf(tober_c, green_c).
   Initially Assert nextGround(tober_a, tober_b). Initially Assert nextGround(tober_b, tober_c). Initially Assert nextGround(tober_c, tober_a).
   Initially Assert roadOut(tober_a, road_ab). Initially Assert roadOut(tober_b, road_bc). Initially Assert roadOut(tober_c, road_ca).
-  // The first morning the wagons are on the road into the fair town, and come onto its ground by two.
-  Initially Assert onRoad(wapshotts). Initially Assert current(wapshotts, tober_a). Initially Assert onWay(wapshotts, road_ca).
+  // The first morning the circus is on the fair town's ground already, come in the evening before; it parades at four.
+  Initially Assert pitched(wapshotts). Initially Assert here(tober_a). Initially Assert current(wapshotts, tober_a). Initially Assert onWay(wapshotts, road_ca).
 
   Query inRing(g: place, r: place) means groundRoom(g, rk_ring, r).
   Query circusRoom(r: place) means groundOf(r, ?g) and distinct(r, ?g).
@@ -177,8 +177,9 @@ Module circus "Wapshott's Peregrine Circus" {
   Observe tober_b_scene at tober_b when true "A rough meadow behind the last houses of {town_b}, with a pond in one corner where the geese of the town come to complain.".
   Observe tober_c_scene at tober_c when true "A long field outside {town_c} with an old stone cross at the top of it, worn to a stump, that someone has hung a horseshoe on.".
   Observe tober_up near pole when here(?g) and at(pole, ?g) "The big top stands in the middle of the field, striped red and dirty white, its king-pole flying a pennant that says WAPSHOTT'S in letters gone pink. Guy-ropes run out from it to stakes in every direction, so that walking anywhere is a kind of dance. Before the flap a painted front of boards announces THE GRAND PEREGRINE CIRCUS & HIPPODRAMA, PATRONIZED BY THE NOBILITY, and someone has written under it in chalk, WHICH NOBILITY.".
-  Thing pole "the king-pole" at road_ca is scenery {
+  Thing pole "the king-pole" at tober_a is scenery {
     State standing "The big top's king-pole stands up through the canvas, and the pennant snaps.".
+    State packed "The big top is folded on the canvas wagon, poles and all, under a tarpaulin lashed down with forty knots.".
   }
   Initially Assert travels(pole). Initially Assert post(pole, rk_tober).
   Observe flap_laced near pole when showOn(wapshotts) and at(pole, ?r) and not admitted(party) "The show is on. The flap of the big top is laced back, and a canvasman stands in it with his arms folded; beside it, in the hatch of the ticket wagon, Ada Thripp sits with her cash-box. One coin, and no arguing.".
@@ -186,45 +187,77 @@ Module circus "Wapshott's Peregrine Circus" {
   Observe tober_bare_b at tober_b when not here(tober_b) "There is a ring of yellowed grass in the middle of the field, and a scatter of old sawdust, and deep ruts going out at the gate.".
   Observe tober_bare_c at tober_c when not here(tober_c) "There is a ring of yellowed grass in the middle of the field, and a scatter of old sawdust, and deep ruts going out at the gate.".
   Observe ring_scene near ringpost when ringHere(?r) and at(ringpost, ?r) "Inside, the big top is brown and warm and smells of trodden grass, sawdust, horse and oranges. Benches rise on scaffolding round the ring, which is a low wall of painted boards forty-two feet across, because that is the size a horse likes to canter in. High up between the two king-poles a wire is strung, so fine you lose it against the canvas.".
-  Thing ringpost "the ring" at road_ca is scenery {
+  Thing ringpost "the ring" at tober_a is scenery {
     State ready "The ring's painted boards are scuffed with a hundred towns' boots.".
+    State packed "The ring boards are stacked in the back of a wagon like a load of painted fencing.".
   }
   Initially Assert travels(ringpost). Initially Assert post(ringpost, rk_ring).
   Observe yard_scene near cookfire when at(cookfire, ?r) and pitched(wapshotts) "Behind the big top is the backyard, where the circus lives: horse lines, a cookhouse fire with a kettle on a chain, washing on the guy-ropes, a heap of hay, a man asleep in a barrow. Through the gap in the canvas you can hear the ring.".
-  Thing cookfire "the cookhouse fire" at road_ca is scenery {
+  Thing cookfire "the cookhouse fire" at tober_a is scenery {
     State lit "Honoria Bulstrode's cookhouse fire burns under a black kettle and a pot the size of a font.".
+    State packed "The cookhouse wagon goes along with its chimney smoking, Honoria on the step, and a smell of bacon trailing behind it for a quarter of a mile.".
   }
   Initially Assert travels(cookfire). Initially Assert post(cookfire, rk_yard).
   Observe wagons_scene near wagonring when at(wagonring, ?r) and pitched(wapshotts) "The living-wagons stand in a ring with their shafts down and their steps let down, like a village that walked here: green, yellow, a blue one with stars, a black one with the word SIBYL in gold. Chimneys smoke. On the steps of the biggest, which is crimson and has a brass knocker in the shape of a lion, there is a boot-scraper and a sign: THE COLONEL. KNOCK. WAIT. KNOCK AGAIN.".
-  Thing wagonring "the ring of wagons" at road_ca is scenery {
+  Thing wagonring "the ring of wagons" at tober_a is scenery {
     State standing "The living-wagons stand shafts-down in their ring.".
+    State packed "The living-wagons sway along the road nose to tail, their chimneys smoking, washing still pegged on a line between two of them.".
   }
   Initially Assert travels(wagonring). Initially Assert post(wagonring, rk_wagons).
+  Rule camp_packs when onRoad(wapshotts) and not state(pole, packed) {
+    Assert state(pole, packed). Assert state(ringpost, packed). Assert state(cookfire, packed). Assert state(wagonring, packed). Assert state(beastpost, packed). }
+  Rule camp_pitches when pitched(wapshotts) and state(pole, packed) {
+    Assert state(pole, standing). Assert state(ringpost, ready). Assert state(cookfire, lit). Assert state(wagonring, standing). Assert state(beastpost, kept). }
+  // A field the circus is coming to: the marking-stakes are in the day before.
+  Observe stakes_a at tober_a when not here(tober_a) and state(bill_a, coming) "Fresh marking-stakes have been driven into the grass in a great circle, each with a red rag tied to it, and one in the middle taller than the rest: the circus is expected.".
+  Observe stakes_b at tober_b when not here(tober_b) and state(bill_b, coming) "Fresh marking-stakes have been driven into the grass in a great circle, each with a red rag tied to it, and one in the middle taller than the rest: the circus is expected.".
+  Observe stakes_c at tober_c when not here(tober_c) and state(bill_c, coming) "Fresh marking-stakes have been driven into the grass in a great circle, each with a red rag tied to it, and one in the middle taller than the rest: the circus is expected.".
+  // Where it is now, and for how long: what any of the three innkeepers can say.
+  Topic where_a_b with keeper_a "Ask {keeper_a} where the circus is now" when not here(tober_a) and (current(wapshotts, tober_b) or current(wapshotts, tober_r)) {
+    Says "'At {town_b},' says {keeper_a}, 'or on the road there. They go on to {town_c} after, and they're back here after that. Three days in a town, always, and then six o'clock in the morning and away.'".
+  }
+  Topic where_a_c with keeper_a "Ask {keeper_a} where the circus is now" when not here(tober_a) and current(wapshotts, tober_c) {
+    Says "'At {town_c},' says {keeper_a}, 'or on the road there; and here next, by the road from {town_c}. Three days a town; ask the carrier which of them it is.'".
+  }
+  Topic where_b_a with keeper_b "Ask {keeper_b} where the circus is now" when not here(tober_b) and not here(tober_r) and current(wapshotts, tober_a) {
+    Says "'At {town_a},' says {keeper_b}, 'and coming here next, by the road from {town_a}. Three days a town, and the morning after they're on the road.'".
+  }
+  Topic where_b_c with keeper_b "Ask {keeper_b} where the circus is now" when not here(tober_b) and not here(tober_r) and current(wapshotts, tober_c) {
+    Says "'Gone on to {town_c},' says {keeper_b}. 'Then {town_a}, then back here. You'd catch them at {town_c} if you went now.'".
+  }
+  Topic where_c_a with keeper_c "Ask {keeper_c} where the circus is now" when not here(tober_c) and current(wapshotts, tober_a) {
+    Says "'At {town_a},' says {keeper_c}, 'then {town_b}, then here. You'd do better to go to them than wait.'".
+  }
+  Topic where_c_b with keeper_c "Ask {keeper_c} where the circus is now" when not here(tober_c) and (current(wapshotts, tober_b) or current(wapshotts, tober_r)) {
+    Says "'At {town_b},' says {keeper_c}, 'and here next, by the road from {town_b}. They stop three days, and then the wagons come.'".
+  }
   Observe road_wagons near pole when onRoad(wapshotts) and onWay(wapshotts, ?w) and at(pole, ?w) "Wapshott's Circus is on the road: eleven wagons nose to tail, a canvas wagon stacked with poles, the cookhouse wagon smoking as it goes, the living-wagons swaying, the ponies on a string behind, Bucephalus out in front at his own pace, which is the pace of everyone. A painted board on the last wagon says WAPSHOTT'S. WE ARE COMING TO YOUR TOWN. Someone has written under it, IN THE END.".
 
   // ── The bills: Sidney Quirk goes ahead the day before and pastes the town ──────────────────────────────────────
-  Thing bill_a "Wapshott's bill on the green" at green_a {
-    State coming "A bill is pasted on the nearest wall, still wet, red and black: WAPSHOTT'S GRAND PEREGRINE CIRCUS & HIPPODRAMA! COMING! THE SYLPH OF THE WIRE! THE OX OF ABERNANT! MUMCHANCE THE SILENT! THE BROTHERS QUINCEY! AND BUCEPHALUS! Underneath, smaller: and the Colonel.".
+  Thing bill_a "Wapshott's bill" at green_a {
+    State coming "A bill is pasted on the nearest wall, still wet, red and black: WAPSHOTT'S GRAND PEREGRINE CIRCUS & HIPPODRAMA! COMING! TOMORROW, BY TWO O'CLOCK! THE SYLPH OF THE WIRE! THE OX OF ABERNANT! MUMCHANCE THE SILENT! THE BROTHERS QUINCEY! AND BUCEPHALUS! Underneath, smaller: and the Colonel.".
     State playing "Wapshott's bill on the wall says NOW PLAYING, NIGHTLY AT SEVEN, ADMISSION ONE COIN, CHILDREN AND DOGS HALF, on a strip pasted over the word COMING.".
-    State gone "A faded circus bill is peeling off the wall. Someone has written across it in charcoal: GONE ON TO {town_b}.".
+    State gone "A faded circus bill is peeling off the wall. Someone has written across it in charcoal: GONE ON TO {town_b}. BACK ROUND IN SIX DAYS.".
     State defaced "Wapshott's bill on the wall has been pasted over with a clean new one in gold and blue: SALLOW'S IMPERIAL HIPPODROME. THE ONLY CIRCUS WORTH THE NAME. A corner of Wapshott's still sticks out from under it, with half the Colonel's face.".
     Change repaste "Paste a fresh Wapshott's bill over Sallow's" from defaced to playing.
   }
-  Thing bill_b "Wapshott's bill on the green" at green_b {
-    State coming "A bill is pasted on the nearest wall, still wet, red and black: WAPSHOTT'S GRAND PEREGRINE CIRCUS & HIPPODRAMA! COMING! THE SYLPH OF THE WIRE! THE OX OF ABERNANT! MUMCHANCE THE SILENT! THE BROTHERS QUINCEY! AND BUCEPHALUS! Underneath, smaller: and the Colonel.".
+  Thing bill_b "Wapshott's bill" at green_b {
+    State coming "A bill is pasted on the nearest wall, still wet, red and black: WAPSHOTT'S GRAND PEREGRINE CIRCUS & HIPPODRAMA! COMING! TOMORROW, BY TWO O'CLOCK! THE SYLPH OF THE WIRE! THE OX OF ABERNANT! MUMCHANCE THE SILENT! THE BROTHERS QUINCEY! AND BUCEPHALUS! Underneath, smaller: and the Colonel.".
     State playing "Wapshott's bill on the wall says NOW PLAYING, NIGHTLY AT SEVEN, ADMISSION ONE COIN, CHILDREN AND DOGS HALF, on a strip pasted over the word COMING.".
-    State gone "A faded circus bill is peeling off the wall. Someone has written across it in charcoal: GONE ON TO {town_c}.".
+    State gone "A faded circus bill is peeling off the wall. Someone has written across it in charcoal: GONE ON TO {town_c}. BACK ROUND IN SIX DAYS.".
+    State old "A faded Wapshott's bill from the last round is peeling off the wall, the Colonel's face half gone. Across it someone has chalked the round: {town_a}, {town_b}, {town_c}, THREE DAYS EACH.".
     State defaced "Wapshott's bill on the wall has been pasted over with a clean new one in gold and blue: SALLOW'S IMPERIAL HIPPODROME. THE ONLY CIRCUS WORTH THE NAME. A corner of Wapshott's still sticks out from under it, with half the Colonel's face.".
     Change repaste "Paste a fresh Wapshott's bill over Sallow's" from defaced to playing.
   }
-  Thing bill_c "Wapshott's bill on the green" at green_c {
-    State coming "A bill is pasted on the nearest wall, still wet, red and black: WAPSHOTT'S GRAND PEREGRINE CIRCUS & HIPPODRAMA! COMING! THE SYLPH OF THE WIRE! THE OX OF ABERNANT! MUMCHANCE THE SILENT! THE BROTHERS QUINCEY! AND BUCEPHALUS! Underneath, smaller: and the Colonel.".
+  Thing bill_c "Wapshott's bill" at green_c {
+    State coming "A bill is pasted on the nearest wall, still wet, red and black: WAPSHOTT'S GRAND PEREGRINE CIRCUS & HIPPODRAMA! COMING! TOMORROW, BY TWO O'CLOCK! THE SYLPH OF THE WIRE! THE OX OF ABERNANT! MUMCHANCE THE SILENT! THE BROTHERS QUINCEY! AND BUCEPHALUS! Underneath, smaller: and the Colonel.".
     State playing "Wapshott's bill on the wall says NOW PLAYING, NIGHTLY AT SEVEN, ADMISSION ONE COIN, CHILDREN AND DOGS HALF, on a strip pasted over the word COMING.".
-    State gone "A faded circus bill is peeling off the wall. Someone has written across it in charcoal: GONE ON TO {town_a}.".
+    State gone "A faded circus bill is peeling off the wall. Someone has written across it in charcoal: GONE ON TO {town_a}. BACK ROUND IN SIX DAYS.".
+    State old "A faded Wapshott's bill from the last round is peeling off the wall, the Colonel's face half gone. Across it someone has chalked the round: {town_a}, {town_b}, {town_c}, THREE DAYS EACH.".
     State defaced "Wapshott's bill on the wall has been pasted over with a clean new one in gold and blue: SALLOW'S IMPERIAL HIPPODROME. THE ONLY CIRCUS WORTH THE NAME. A corner of Wapshott's still sticks out from under it, with half the Colonel's face.".
     Change repaste "Paste a fresh Wapshott's bill over Sallow's" from defaced to playing.
   }
-  Initially Assert state(bill_a, coming). Initially Assert state(bill_b, gone). Initially Assert state(bill_c, gone).
+  Initially Assert state(bill_a, playing). Initially Assert state(bill_b, old). Initially Assert state(bill_c, old).
   Relation billOf(place, thing).
   Initially Assert billOf(tober_a, bill_a). Initially Assert billOf(tober_b, bill_b). Initially Assert billOf(tober_c, bill_c).
   Rule bill_playing when here(?g) and billOf(?g, ?b) and state(?b, coming) { Assert state(?b, playing). }

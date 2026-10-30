@@ -1,0 +1,128 @@
+Module circus "Wapshott's Peregrine Circus" {
+  // ── The Marl Wake, and the pit ──────────────────────────────────────────────────────────────────────────────
+  // The third town's diggers keep their Wake on the second day of the circus's stand there in the Revels round: a
+  // Marl Queen, a greasy pole, the pit opened for the year. The pit is flooded; a great pike lives in it; under the
+  // water, where the King's diggers stopped three hundred years ago, there is more of whatever the Leg came from.
+  Relation wakeOn(concern). Relation wakeDone(concern).
+  Rule wake_starts when letterCome(wapshotts) and current(wapshotts, tober_c) and pitched(wapshotts) and day(clock) == arrivedDay(wapshotts) + 1 and hour(clock) >= 13
+    and not wakeDone(wapshotts) and not wakeOn(wapshotts) {
+    Assert wakeOn(wapshotts). Retract offstage(tull). Retract offstage(granfer). Assert at(tull, green_c). Assert at(granfer, green_c). }
+  Rule wake_ends when wakeOn(wapshotts) and hour(clock) >= 19 { Retract wakeOn(wapshotts). Assert wakeDone(wapshotts). }
+  Observe wake_green at green_c when wakeOn(wapshotts) "It is the Marl Wake. The green is full of diggers in clean smocks with marl still in the creases of their hands, and their wives, and a fiddler, and a pole thirty feet high greased from top to bottom with a leg of mutton tied at the summit. Down the street comes the Marl Queen in a crown of white clay and cowslips, on a cart drawn by four diggers, throwing sugared almonds at the shrine. Wapshott's band has been asked to play her in, and is playing something it does not know with tremendous confidence.".
+  Person tull "Sim Tull" at tober_a {
+    Role "the foreman of the marl-diggers". Ancestry human. Peaceable. Pronouns he. Manner jovial.
+    Greets "A broad man in a clean smock with forearms the colour of the pit, a sprig of cowslip in his hat and a pot of ale in each hand, gives you one of the pots before you have asked. 'Sim Tull,' he says. 'Foreman of the marl. It's the Wake. Nobody pays for ale at the Wake; it's bad luck.' He drinks. 'Are you for the pole? There's a leg of mutton on top. Nobody's had the mutton in four years. My granfer had it in his day; he never stops telling us.'".
+  }
+  Person granfer "Granfer Tull" at tober_a {
+    Role "the oldest digger of the town". Ancestry human. Peaceable. Pronouns he. Manner acerbic.
+    Greets "A tiny, bald, furious old man in a smock older than you are, sitting on a bench with his stick between his knees, looks you up and down. 'In my day,' he says, 'we had the mutton every year. Every year. Now they slide down that pole like butter off a knife.' He spits. 'And some thief of a dealer had my best bantam off me at Michaelmas for a shilling and a lie.'".
+  }
+  Initially Assert offstage(tull). Initially Assert offstage(granfer).
+  Rule wake_folk_home when wakeDone(wapshotts) and not offstage(tull) and hour(clock) >= 20 { Assert offstage(tull). Assert offstage(granfer). }
+  Topic granfer_roderick with granfer "Tell Granfer Tull his bantam is in Wapshott's menagerie, as a cockerel of uncommon malice" when exhibit(roderick) and basiliskHonest(wapshotts) once {
+    Says "Granfer Tull gets up. He walks up the field to the menagerie on his stick, very fast for a man of his age, and you follow; and in front of the pen where Sir Roderick stands under his board, he stops, and reads it, his lips moving. WHO BELIEVES HIMSELF A BASILISK. DO NOT CONTRADICT HIM. Sir Roderick sees him and flies at the wire. 'That's him,' says Granfer Tull. 'That's him. Took the eye out of a fox at three weeks old.' He wipes his nose on his sleeve. 'Uncommon malice. Well. They've got him right.' He goes away down the field quite happy, and tells the whole Wake.".
+    On discuss { Increase standing(tober_c) by 1. }
+  }
+  Topic granfer_basilisk with granfer "Tell Granfer Tull his bantam is in Wapshott's menagerie, billed as a basilisk" when exhibit(roderick) and basiliskBilled(wapshotts) once {
+    Says "Granfer Tull goes purple. He walks up the field to the menagerie as fast as his stick will go, and tears down the black curtain over the pen, and holds up Sir Roderick by the legs for the whole Wake to see. 'BASILISK!' he roars. 'That's my bantam! He's a Tull bird! Dyed!' The diggers, who have all paid a penny to view the basilisk in the glass provided, are not pleased. The Colonel, coming up at a run, is pleased even less.".
+    On discuss { Decrease standing(tober_c) by 2 or to nothing. Retract basiliskBilled(wapshotts). Assert basiliskHonest(wapshotts). }
+  }
+  Relation poleTried(group). Relation muttonWon(group).
+  Action greasy_pole(actor: group, site: place) "Climb the greasy pole for the leg of mutton" {
+    Time 2.
+    Requires able(actor) and company(actor) and at(actor, site) and wakeOn(wapshotts) and at(actor, green_c) and not poleTried(actor).
+    Resolve check(actor, tumbling, dc_hard).
+    On success { Assert poleTried(actor). Assert muttonWon(actor). Increase standing(tober_c) by 2. Increase larder(wapshotts) by 1. Increase renown(actor) by 1. }
+    On failure { Assert poleTried(actor). }
+    Result "Nobody climbs a greasy pole. You learn this at once. What you can do, if you have learned to fall, is fall upward: a little way, and slide, and catch, and fall a little further up, like a clown going up a ladder that leans against nothing. The diggers stop laughing about halfway, and start shouting. At the top you untie the mutton with your teeth. Granfer Tull, on his bench, stands up and takes off his hat.".
+    Otherwise "You go up the pole like a man up a waterfall, and come down it the same way, all of it, into the arms of the Marl Queen, who is very kind about it.".
+  }
+
+  Topic granfer_mutton with granfer "Tell Granfer Tull you had the mutton off the pole" when muttonWon(actor) once {
+    Says "Granfer Tull looks at you for a long time from under his eyebrows. 'Fell up it,' he says. 'I saw. Fell up it like a cat up a curtain.' He spits, with approval. 'Nobody's done that since me. And I did it sober, which you did, which is a disgrace to the Wake.' He gives you his hand, which is like a root. 'Come and have your dinner with the Tulls. There's more mutton.'".
+    On discuss { Increase larder(wapshotts) by 1. Increase standing(tober_c) by 1. }
+  }
+
+  // ── The pit ─────────────────────────────────────────────────────────────────────────────────────────────────
+  Entity marl_heard: fact "The marl-pit outside {town_c}, where the great bone came from, has been flooded since spring; the diggers will not go down because of what lives in the water.".
+  Initially Assert leadsTo(marl_heard, marl_lip).
+  Topic tull_pit with tull "Ask Sim Tull about the marl-pit, where the bone came from" when true once {
+    Says "Sim Tull's face changes. 'Flooded,' he says. 'The spring we dug the Leg out, the bottom of the pit went through into a spring, and filled overnight. Forty feet of water.' He lowers his voice. 'And there's a pike in it. Came up the culvert from the river as a jack and grew on whatever it could find. Took the Pargeter's dog in May, the whole dog. Nobody's been down since.' He drinks. 'There's an old sluice at the foot, on the river side. My granfer says the King's diggers put it in. Rusted solid. If you could get it open, the pit would drain into the river in a night, and the pike with it, or not.' He grins. 'Or you could just ask the pike nicely.'".
+    On discuss { Assert knows(actor, marl_heard). Assert knows(actor, sluice_known). }
+  }
+  Entity sluice_known: fact "An old sluice at the foot of the marl-pit, on the river side, would drain it in a night if it could be opened; it is rusted solid.".
+  Place marl_lip "the lip of the marl-pit" is room within town_c at 4, 4.
+  Place pit_water "the flooded bottom of the marl-pit" is room within town_c at 4, 5.
+  Passage marl_lane "the diggers' lane to the marl-pit" is path between green_c and marl_lip taking 25 minutes hidden until marl_heard.
+  Passage pit_ladder "the diggers' ladder" is path between marl_lip and pit_water taking 5 minutes.
+  Observe lip_scene at marl_lip when not pitDrained(wapshotts) "A great raw bowl cut in the hillside, terraced in grey-white steps by a hundred years of digging, and at the bottom, forty feet down, black water, perfectly still. A ladder goes down into it and does not come out. On the far side, at the foot, a stone sluice-gate with an iron wheel, red with rust.".
+  Observe lip_drained at marl_lip when pitDrained(wapshotts) "The marl-pit is empty: a great grey bowl, its floor a field of wet white clay pocked with puddles, the old sluice open at its foot and still running a little. Down on the floor, near the middle, something stands up out of the clay like the rib of a boat.".
+  Observe water_scene at pit_water when not pitDrained(wapshotts) "Black water to the waist, cold enough to stop the breath, on a floor of slick clay that tilts toward the middle. The far side is very far. Something moves under the surface out there, a long shadow, and the water bulges and settles.".
+  Observe floor_scene at pit_water when pitDrained(wapshotts) "The floor of the pit: wet white clay to the ankle, and the smell of a river bed. Near the middle, where the King's diggers must have stopped, a squared stone stands upright in the clay with letters cut in it, and beside it something stands up out of the marl that is not stone: dark, curved, ribbed, taller than a man.".
+  Relation pitDrained(concern). Relation sluiceOpened(concern). Measure sluiceAt(concern). Relation triedSluice(group).
+  Species marl_pike "a great pike" like great_pike temperament territorial described "A pike as long as a boat, olive and gold, its jaw undershot, its eye like a coin set in it upside down. It is very old, and very hungry, and it has the patience of a thing that has been waiting in the dark for the next dog.".
+  Person pike "the pike in the marl-pit" at pit_water {
+    Role "a great pike, as long as a boat". Species marl_pike. Pronouns it.
+    Warns "Out in the black water the long shadow turns, and comes toward you, unhurried, a wake running ahead of it like an arrowhead, and stops a few yards off; and you see, just under the surface, an eye, gold, watching you, and a mouth that could take a dog. It waits. It has always been good at waiting.".
+    Comes "The pike comes out of the black water at you with its mouth open.".
+  }
+  Rule pike_stranded when pitDrained(wapshotts) and not dead(pike) and not pikeStranded(pike) { Assert pikeStranded(pike). Assert peaceable(pike). Assert tolerates(pike, party). }
+  Relation pikeStranded(group). Relation pikeSaved(group).
+  Observe pike_mud near pike when pikeStranded(pike) and not pikeSaved(pike) "In the last of the water, in a hollow of the clay, the great pike lies on its side, gasping, its gold eye rolling up at the sky. It is enormous. It is also, very obviously, dying.".
+  Action open_sluice(actor: group, site: place) "Put your weight to the rusted wheel of the old sluice" {
+    Time 6.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, marl_lip) and knows(actor, sluice_known) and not sluiceOpened(wapshotts) and not triedSluice(actor).
+    Resolve check(actor, brawn, dc_hard).
+    On success { Assert sluiceOpened(wapshotts). Set sluiceAt(wapshotts) to watch(clock). }
+    On failure { Assert triedSluice(actor). }
+    Result "You get round the outside of the pit to the sluice and set your back to the iron wheel and heave; and heave; and then, with a shriek like a gate the size of a church, it turns a quarter. Water spouts out of the foot of the gate into the river, brown and roaring. Slowly, over the night, the black water in the pit will go down.".
+    Otherwise "The wheel will not move. You might as well heave at the hill.".
+  }
+  Topic honoria_sluice with honoria "Ask Honoria to come and turn the sluice-wheel at the marl-pit" when knows(actor, sluice_known) and not sluiceOpened(wapshotts) and here(tober_c) once {
+    Says "Honoria comes, in her apron, with her sleeves rolled up, and looks at the wheel, and spits on her hands, and turns it. It shrieks, and gives, and turns, and the river roars at the foot of the gate. She dusts her palms. 'There,' she says. 'Is that all? I left a pie.'".
+    On discuss { Assert sluiceOpened(wapshotts). Set sluiceAt(wapshotts) to watch(clock). }
+  }
+  Rule pit_drains when sluiceOpened(wapshotts) and watch(clock) >= sluiceAt(wapshotts) + 30 and not pitDrained(wapshotts) { Assert pitDrained(wapshotts). }
+  Action save_pike(actor: group, site: place) "Get the great pike into a canvas sling with Billie and carry it down to the river" {
+    Time 6.
+    Requires able(actor) and company(actor) and at(actor, site) and at(pike, site) and pikeStranded(pike) and not pikeSaved(pike) and not dead(pike) and regard(billie) >= 2.
+    On success { Assert pikeSaved(pike). Assert offstage(pike). Increase regard(billie) by 2. }
+    Result "Billie comes down the ladder with a length of canvas side-wall and two of Lusk's lads, and between the four of you, up to the knees in clay, you get the pike into it, all of it, thrashing, and carry it up the terraces like a coffin with a temper and down to the river below the sluice; and let it go. It lies in the shallows a long moment, gold eye looking at you. Then it is a long shadow going away downstream, unhurried. Billie wipes her face with her sleeve, which spreads the clay about. 'Well,' she says. 'Somebody had to.'".
+  }
+  Action wade_by_night(actor: group, site: place) "Wade out across the black water in the dark, while the pike is far side" {
+    Time 2.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, pit_water) and dark() and not pitDrained(wapshotts) and not knows(actor, worm_stone) and not dead(pike).
+    Resolve check(actor, stealth, dc_hard).
+    On success { Assert knows(actor, worm_stone). }
+    Result "You go out into the black water up to the chest, feeling with your feet on the tilted clay, without a sound, while far off on the other side something turns, and turns, and does not come. In the middle your foot strikes stone, squared, upright; your hands find letters cut in it; you read them like a blind man. Then something else, beside the stone, under the water: a great curve, ribbed, colder than stone. You get out of the pit without remembering how.".
+  }
+  Entity worm_stone: fact "On the floor of the marl-pit stands a squared stone cut with the words HERE THE KINGS DIGGERS STOPT. NOT DEAD ENOUGH., and beside it, standing out of the marl, a great dark ribbed curve taller than a man.".
+  Observe stone_read at pit_water when pitDrained(wapshotts) and not knows(party, worm_stone) "On the upright stone, cut deep and carefully, as if by someone who meant it to be read in three hundred years: HERE THE KINGS DIGGERS STOPT. NOT DEAD ENOUGH. And beside it, standing out of the clay at an angle, the thing like a boat's rib: a single claw, black and glossy, curved like a sickle and as tall as you, still sharp along its inner edge." teaches worm_stone.
+  Kind claw_kind "the great claw from the marl-pit" is gear worth 30 weighing 6
+    described "A claw as long as a scythe-blade, black and glossy as if lacquered, curved like a sickle, ribbed along its back, and still, after however long it has been in the marl, sharp along its inner edge. It is heavier than it looks, and colder.".
+  Item great_claw "the great claw from the marl-pit" is claw_kind at pit_water hidden until worm_stone.
+  Relation clawShown(group). Relation clawToShrine(group). Relation clawReburied(group). Relation clawToColonel(group).
+  Topic fenwick_claw with fenwick "Show Sir Gervase the great claw from the marl-pit" when holding(actor, claw_kind) and not clawShown(fenwick) once {
+    Says "Sir Gervase does not say anything at all. He takes off his hat. He takes the claw in both hands as a priest takes the cup, and turns it in the light, and runs his thumb, very carefully, along the inner edge, and draws blood, and does not notice. 'It is not a bird,' he says at last, quietly. 'It is not a bear. It is not a lizard, though it is very like a lizard, if a lizard were a cathedral.' He gives it back to you. His hands are shaking. 'The rest of it is under that field,' he says. 'Isn't it. That is what the stone means.' He laughs, quite wildly, a boy's laugh. 'Not dead enough!'".
+    On discuss { Assert clawShown(fenwick). Assert shownFenwick(party). Increase regard(fenwick) by 2. }
+  }
+  Topic wap_claw with wapshott "Show the Colonel the great claw from the marl-pit" when holding(actor, claw_kind) and not clawToColonel(wapshott) once {
+    Says "The Colonel holds the claw up to the sky, at arm's length, with both hands, and his moustache begins to tremble. 'What,' he says, 'is this OFF?' You tell him about the stone. NOT DEAD ENOUGH. A light comes into the Colonel's eye that Ada, from the ticket wagon, sees from forty feet off. 'Bigger than an elephant,' he whispers. 'Under a field. And the Household of the Progress has a warrant for beasts.' He hands the claw back to you as if it were a crown. 'Keep it safe,' he says. 'Show it at the Revels. And say nothing to Sir Gervase. Say nothing to anybody. Say nothing to me; I shall only get ideas.' He has already got them.".
+    On discuss { Assert clawToColonel(wapshott). Assert clawGiven(party). }
+  }
+  Topic priest_c_claw with priest_c "Take the great claw to {priest_c}, to lie with the Leg under the altar" when holding(actor, claw_kind) and not clawToShrine(priest_c) once {
+    Says "{priest_c} lays the claw on the altar cloth beside the Leg, and stands back. Together they make a shape the mind does not want to finish. {priest_c} says nothing for some time. Then: 'I shall say the prayers over two now,' {priest_c} says. 'Still for whom, I don't know. It seems a better place for them than a cabinet.' {priest_c} lays the cloth over both.".
+    On discuss { Assert clawToShrine(priest_c). Assert clawGiven(party). Spend claw_kind from actor. }
+  }
+  Action rebury_claw(actor: group, site: place) "Put the claw back in the marl beside the stone, where the King's diggers left it" {
+    Time 2.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, pit_water) and holding(actor, claw_kind) and not clawReburied(actor).
+    On success { Assert clawReburied(actor). Assert clawGiven(party). Spend claw_kind from actor. Increase regard(jabez) by 1. }
+    Result "You put it back where you found it, point down, in the cold clay beside the stone, and press the marl round it with your hands. It is a strange feeling, burying a thing that was never alive in your time, as if you were tucking it in. Up on the lip of the pit, when you climb out, the wind has got up, and for a moment you could swear the ground under your boots was warm.".
+  }
+  Topic priest_c_leg with priest_c "Ask {priest_c} to lend the great bone to the Revels at the King's Rest" when knows(actor, bone_seen) and knows(actor, inventory_known) and not legLent(priest_c) once {
+    Says "{priest_c} hesitates. 'It has been in the shrine a year,' {priest_c} says. 'The children bring it flowers.' Then: 'The Book says it came from the Rest before it went into the marl?' You explain: from the marl to the Rest, three hundred years ago, and back into the marl. {priest_c} considers this. 'Then it is going home for a night. It may go. On a cart, with a cloth over it, and back the next day. And the children may walk beside it.'".
+    On discuss { Assert legLent(priest_c). }
+  }
+  Relation legLent(group).
+}

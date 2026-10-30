@@ -66,7 +66,7 @@ Module circus "Wapshott's Peregrine Circus" {
     Result "You get your shoulder under the tail of the wagon with three canvasmen and Honoria, who takes most of it, and heave, and the corner comes up out of the ditch an inch, two, and Lusk slides the wheel on and drives the pin home with the heel of his hand. A cheer. Bucephalus, a quarter of a mile off, turns round and comes back as if it had been his idea.".
     Otherwise "You heave with the rest, and the wagon comes up an inch and goes down again on Lusk's thumb, and the language under the axle is something the circus will quote for years.".
   }
-  Rule late_in when wheelOff(wapshotts) and onRoad(wapshotts) and hour(clock) >= 14 and hour(clock) < 18 and not lateTold(wapshotts)
+  Rule late_in near quirk when wheelOff(wapshotts) and onRoad(wapshotts) and hour(clock) >= 14 and hour(clock) < 18 and not lateTold(wapshotts)
     says "Word comes along the road that Wapshott's will be late in: a wheel off the canvas wagon. There will be no parade today." { Assert lateTold(wapshotts). }
   Relation lateTold(concern).
   Rule late_reset when pitched(wapshotts) and lateTold(wapshotts) { Retract lateTold(wapshotts). Assert paraded(wapshotts). }
@@ -121,7 +121,7 @@ Module circus "Wapshott's Peregrine Circus" {
     On success { Decrease quantity(actor, gold) by 10. Increase strongbox(wapshotts) by 10. Assert lentColonel(actor). Increase regard(wapshott) by 1. Decrease regard(ada) by 0. }
     Result "The Colonel takes the coins as a bishop takes a relic, and kisses one, and gives them to Ada, who was standing behind him and did not want him to see her face. 'You will be repaid,' he says, 'TENFOLD.' Ada writes down: ten.".
   }
-  Rule colonel_repays when lentColonel(party) and noteDischarged(wapshotts) and strongbox(wapshotts) >= 10 and not repaid(party)
+  Rule colonel_repays near ada when lentColonel(party) and at(party, ?r) and at(ada, ?r) and noteDischarged(wapshotts) and strongbox(wapshotts) >= 10 and not repaid(party)
     says "Ada finds you before you have finished breakfast and counts ten coin into your hand, and then, after a moment, one more. 'From the Colonel,' she says. 'He said tenfold. I said one. We compromised.'" {
     Assert repaid(party). Decrease strongbox(wapshotts) by 11. Increase quantity(party, gold) by 11. }
   Relation repaid(group).
@@ -141,7 +141,7 @@ Module circus "Wapshott's Peregrine Circus" {
   Entity wheel_bill: fact "A playbill of twenty-four years ago shows the Quincey Wheel performed by Barnaby Quincey, of his own invention, before either of his sons was born.".
   Kind quincey_bill_kind "Barnaby Quincey's old playbill" is gear worth 0 weighing 0
     described "A foxed playbill from a fair at Marlow, twenty-four years old: MR BARNABY QUINCEY WILL PERFORM THE QUINCEY WHEEL, OF HIS OWN INVENTION. A woodcut of two men back to back, going over each other like the spokes of a wheel.".
-  Item wheel_playbill "Barnaby Quincey's old playbill" is quincey_bill_kind at road_ca hidden until playbill_given.
+  Item wheel_playbill "Barnaby Quincey's old playbill" is quincey_bill_kind at tober_a hidden until playbill_given.
   Discovery playbill_given "You have Barnaby Quincey's old playbill, from his trunk.".
   Action show_brothers(actor: group, site: place) "Get both Quinceys together and show them their father's playbill" {
     Time 3.

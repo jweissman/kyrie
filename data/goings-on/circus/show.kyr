@@ -14,30 +14,32 @@ Module circus "Wapshott's Peregrine Circus" {
   Rule saw_act when told(?p) and at(party, ?r) and ringHere(?r) and not sawAct(?p) { Assert sawAct(?p). }
   Query tonightGround(g: place) means pitched(wapshotts) and current(wapshotts, g).
   Rule admit_ticket when ticketDay(party) == day(clock) and not admitted(party) { Assert admitted(party). }
-  Rule admit_hand when hand(party) and not admitted(party) { Assert admitted(party). }
-  Rule admit_ends when admitted(party) and not hand(party) and ticketDay(party) < day(clock) { Retract admitted(party). }
+  Rule admit_hand when (hand(party) or booked(party, ?t)) and not admitted(party) { Assert admitted(party). }
+  Rule admit_ends when admitted(party) and not hand(party) and not booked(party, ?t) and ticketDay(party) < day(clock) { Retract admitted(party). }
 
   Action buy_ticket(actor: group, site: place) "Buy a ticket for tonight's show from Ada, one coin" {
     Speaker ada. Time 1 minute.
     Requires able(actor) and company(actor) and at(actor, site) and at(ada, site) and pitched(wapshotts) and not admitted(actor)
       and quantity(actor, gold) >= 1 and hour(clock) >= 12 and hour(clock) < 21.
     On success { Decrease quantity(actor, gold) by 1. Increase strongbox(wapshotts) by 1. Set ticketDay(actor) to day(clock). Assert admitted(actor). }
-    Result "Ada takes your coin, bites it, which is a joke, and tears a ticket off a roll: a square of pink card that says WAPSHOTT'S. ADMIT ONE. NO REFUNDS IN CASE OF ACTS OF GOD, FIRE, OR THE COLONEL.".
+    Result "Ada takes your coin, bites it, which is a joke, and tears a ticket off a roll: a square of pink card that says WAPSHOTT'S. ADMIT ONE. NO REFUNDS IN CASE OF ACTS OF GOD, FIRE, OR THE COLONEL. 'Doors at seven,' she says. 'Find a bench by the ring and stay put; it runs two hours, a turn every twenty minutes, and the wire's last.'".
   }
 
-  // The weather of the evening, thrown at six: a wet night in a sound tent is snug; in a rotten one, it is a wash.
+  // A rotten canvas, thrown at six: on a big top worn to one seam in three, a seam may go in the night wind.
   Rule rain_falls when pitched(wapshotts) and hour(clock) == 18 and showDay(wapshotts) < day(clock) and not rainThrown(wapshotts) {
     Assert rainThrown(wapshotts). }
-  Rule rain_wet when rainThrown(wapshotts) and not raining(wapshotts) and not rainSettled(wapshotts) and dice(wapshotts) <= 22 { Assert raining(wapshotts). Assert rainSettled(wapshotts). }
+  Rule rain_wet when rainThrown(wapshotts) and not raining(wapshotts) and not rainSettled(wapshotts) and canvas(wapshotts) <= 1 and dice(wapshotts) <= 40 { Assert raining(wapshotts). Assert rainSettled(wapshotts). }
   Rule rain_dry when rainThrown(wapshotts) and not rainSettled(wapshotts) { Assert rainSettled(wapshotts). }
   Relation rainThrown(concern). Relation rainSettled(concern).
-  Observe rain_on_canvas near pole when raining(wapshotts) and at(pole, ?r) "It is raining. The canvas of the big top has gone dark and heavy, and drums.".
+  Rule seam_goes near ringpost when showOn(wapshotts) and act(wapshotts) == 3 and raining(wapshotts) and not seamTold(wapshotts)
+    says "Above the gallery a rotten seam of the big top gives way with a noise like a sail going, and the night wind comes in through the gap and blows half the lamps out; people under it get up, and some of them go home." { Assert seamTold(wapshotts). }
+  Relation seamTold(concern).
 
   // ── The doors at seven ──────────────────────────────────────────────────────────────────────────────────────
-  Rule show_begins when tonightGround(?g) and hour(clock) >= 19 and hour(clock) < 20 and showDay(wapshotts) < day(clock) and not strikeOn(wapshotts) {
+  Rule show_begins when tonightGround(?g) and hour(clock) >= 19 and hour(clock) < 20 and showDay(wapshotts) < day(clock) and not strikeOn(wapshotts) and not revelsNight() {
     Assert showOn(wapshotts). Set showDay(wapshotts) to day(clock). Set act(wapshotts) to 1. Set actAt(wapshotts) to watch(clock).
     Set house(wapshotts) to 2 + standing(?g) * 2. Set quality(wapshotts) to 0. Set incident(wapshotts) to dice(wapshotts). Retract told(part_entry). Retract told(part_horse). Retract told(part_quincey). Retract told(part_ox). Retract told(part_clown). Retract told(part_wire). Retract told(part_close). }
-  Rule show_struck when tonightGround(?g) and hour(clock) >= 19 and showDay(wapshotts) < day(clock) and strikeOn(wapshotts)
+  Rule show_struck near pole when tonightGround(?g) and hour(clock) >= 19 and showDay(wapshotts) < day(clock) and strikeOn(wapshotts) and not revelsNight()
     says "There is no show tonight. The canvasmen are sitting on the grass with their arms folded, and the big top stands dark, and people come to the field gate and look at it and go away." {
     Set showDay(wapshotts) to day(clock). Decrease standing(?g) by 1 or to nothing. }
   Rule show_next when showOn(wapshotts) and watch(clock) >= actAt(wapshotts) + 2 and act(wapshotts) < 7 and not onTurn(party) {
@@ -45,8 +47,6 @@ Module circus "Wapshott's Peregrine Circus" {
   // What brings people, or keeps them away, counted as the doors open.
   Rule house_menagerie when showOn(wapshotts) and act(wapshotts) == 1 and not told(part_entry) and menagerieOpen(wapshotts) {
     Increase house(wapshotts) by draw(wapshotts). }
-  Rule house_rain when showOn(wapshotts) and act(wapshotts) == 1 and not told(part_entry) and raining(wapshotts) and canvas(wapshotts) >= 2 {
-    Increase house(wapshotts) by 1. }
   Rule house_wet when showOn(wapshotts) and act(wapshotts) == 1 and not told(part_entry) and raining(wapshotts) and canvas(wapshotts) <= 1 {
     Decrease house(wapshotts) by 4 or to nothing. Decrease quality(wapshotts) by 2. }
   Rule house_rival when showOn(wapshotts) and act(wapshotts) == 1 and not told(part_entry) and sallowPlaying(?g) and current(wapshotts, ?g) {
@@ -57,6 +57,9 @@ Module circus "Wapshott's Peregrine Circus" {
     says "Ada Thripp comes along the bench with her cash-box before the band has finished, and stops in front of you, and holds out her hand, and waits, and you find you have given her a coin." {
     Decrease quantity(party, gold) by 1. Increase strongbox(wapshotts) by 1. Set ticketDay(party) to day(clock). Assert admitted(party). }
 
+  Observe house_full near ringpost when showOn(wapshotts) and at(ringpost, ?r) and house(wapshotts) >= 10 "Every bench is full, and people are standing at the back and sitting on the ring boards' edge, and children are being passed along the rows over heads like parcels.".
+  Observe house_fair near ringpost when showOn(wapshotts) and at(ringpost, ?r) and house(wapshotts) >= 6 and house(wapshotts) < 10 "The benches are well filled: farmers in their good coats, girls in threes, a row of boys who have got in under the side-wall and are pretending they paid.".
+  Observe house_thin near ringpost when showOn(wapshotts) and at(ringpost, ?r) and house(wapshotts) < 6 "The house is thin tonight: a few families on the front benches, a courting couple at the back, and a great deal of bare planking that the Colonel plays to as if it were full.".
   // ── 1. The Grand Entry ─────────────────────────────────────────────────────────────────────────────────────
   Rule entry_told near ringpost when showOn(wapshotts) and act(wapshotts) == 1 and not told(part_entry) and not musicSwapped(wapshotts) and not sawAct(part_entry)
     says "The band crashes into the Grand Entry. The flap flies back and in they all come, at a canter, at a walk, on their hands: the Brothers Quincey turning cartwheels, Pip with a banner, the Ox of Abernant with a pony under each arm, the Sylph in silver standing on Bucephalus's back as if he were a floor, and last of all the Colonel, enormous in crimson, cracking a whip at nothing. 'LADIES,' he roars, 'AND GENTLEMEN, AND THOSE OF YOU WHO ARE NEITHER!' The benches roar back. It is impossible not to roar back." {
@@ -157,7 +160,7 @@ Module circus "Wapshott's Peregrine Circus" {
     Assert told(part_close). }
   Rule takings when showOn(wapshotts) and act(wapshotts) == 7 and told(part_close) and current(wapshotts, ?g) {
     Retract showOn(wapshotts). Increase strongbox(wapshotts) by house(wapshotts). Set takenTonight(wapshotts) to house(wapshotts). Increase nights(wapshotts) by 1.
-    Retract rainThrown(wapshotts). Retract rainSettled(wapshotts). Retract raining(wapshotts). Retract musicSwapped(wapshotts). Assert reckoned(wapshotts). }
+    Retract rainThrown(wapshotts). Retract rainSettled(wapshotts). Retract raining(wapshotts). Retract seamTold(wapshotts). Retract musicSwapped(wapshotts). Assert reckoned(wapshotts). }
   Relation reckoned(concern).
   Rule good_night when reckoned(wapshotts) and quality(wapshotts) >= 7 and current(wapshotts, ?g) and standing(?g) < 6 {
     Retract reckoned(wapshotts). Increase standing(?g) by 1. Assert lastNightGood(wapshotts). }
@@ -256,7 +259,7 @@ Module circus "Wapshott's Peregrine Circus" {
   }
   Kind circus_motley_kind "a coat of motley" like mantle_of_charisma granting performance worth 4 weighing 1
     described "A jacket of patched silk in nine colours, the sleeves too long on purpose, the buttons as big as biscuits. It once belonged to Tumbling Ned Pye.".
-  Item motley "a coat of motley" is circus_motley_kind at road_ca hidden until motley_given.
+  Item motley "a coat of motley" is circus_motley_kind at tober_a hidden until motley_given.
   Discovery motley_given "Hench has given you a coat of motley to go on in.".
   Query prepBonus(a: group) means costumed(a).
 
@@ -280,7 +283,7 @@ Module circus "Wapshott's Peregrine Circus" {
   // The turn comes after the Ox: the Colonel calls it, and the one booked must be in the ring.
   Rule turn_called near ringpost when showOn(wapshotts) and act(wapshotts) == 5 and told(part_clown) and booked(party, ?t) and not onTurn(party) and not turnDone(party)
     and at(party, ?r) and ringHere(?r)
-    says "As Mumchance goes off, the Colonel steps into the middle of the ring. 'LADIES AND GENTLEMEN,' he roars, 'a NEW FACE. Never before seen in {town_a}, nor, I may say, anywhere. I give you,' and he points at you, and the light finds you, and the house goes quiet in the particular way of a house that has no idea what is about to happen." {
+    says "As Mumchance goes off, the Colonel steps into the middle of the ring. 'LADIES AND GENTLEMEN,' he roars, 'a NEW FACE. Never before seen in {town_a}, nor, I may say, anywhere. I give you,' and he points at you, and the light finds you, and the house goes quiet in the particular way of a house that has no idea what is about to happen, and waits for you to begin." {
     Assert onTurn(party). Set turnScore(party) to prep(party). }
   Rule turn_costume when onTurn(party) and costumed(party) and not turnCostumed(party) { Increase turnScore(party) by 1. Assert turnCostumed(party). }
   Rule turn_cue when onTurn(party) and cuedDay(party) == day(clock) and not turnCued(party) { Increase turnScore(party) by 1. Assert turnCued(party). }
@@ -340,7 +343,7 @@ Module circus "Wapshott's Peregrine Circus" {
   Relation turnResult(group).
   Rule turn_left_ring when onTurn(party) and not (at(party, ?r) and ringHere(?r)) and booked(party, ?t) {
     Retract onTurn(party). Assert turnDone(party). Set turnScore(party) to 0. Assert turnResult(party). Assert turnChosen(party). }
-  Rule turn_timeout when onTurn(party) and not turnChosen(party) and watch(clock) >= actAt(wapshotts) + 4 {
+  Rule turn_timeout when onTurn(party) and not turnChosen(party) and watch(clock) >= actAt(wapshotts) + 6 {
     Assert turnChosen(party). Set turnScore(party) to 0. }
 
   // How it went, by the turn and the score: a triumph (six or more), a fair turn (three to five), or a flop.

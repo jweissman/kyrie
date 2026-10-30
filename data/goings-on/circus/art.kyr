@@ -22,14 +22,17 @@ Module circus "Wapshott's Peregrine Circus" {
     Resolve check(actor, tumbling, dc_fair).
     On success { Assert fallLearned(actor). Assert teaches(mumchance, pratfall). Assert canTurn(actor, turn_clown). Give slap_shoes to actor. Assert knows(actor, shoes_given). }
     On failure { Set triedFallDay(actor) to day(clock). }
-    Result "An hour of falling. Forwards, backwards, sideways off a barrel, off a chair, off Pip. 'Don't fall,' says Mumchance, over and over. 'Go down. A fall happens to you. Going down is something you do.' Near the end of the hour you trip over the ring boards by accident and your body does it by itself: tucks, rolls, takes the ground along the long muscles of the back, and you come up sitting, unhurt, looking at the boards as if they had been rude. Mumchance nods. Then he goes to his trunk and gives you a pair of long, flat, floppy shoes, soft as gloves. 'My first slap-shoes,' he says. 'They'll know where the ground is before you do.'".
+    Result "An hour of falling. Forwards, backwards, sideways off a barrel, off a chair, off Pip. 'Don't fall,' says Mumchance, over and over. 'Go down. A fall happens to you. Going down is something you do.' Near the end of the hour you trip over the ring boards by accident and your body does it by itself: tucks, rolls, takes the ground along the long muscles of the back, and you come up sitting, unhurt, looking at the boards as if they had been rude. Mumchance nods. Then he goes to his trunk and gives you a pair of long, flat, floppy shoes, soft as gloves. 'My first slap-shoes,' he says. 'They'll know where the ground is before you do.' Then: 'The next is the Look. You can't be told it. Stand in the wing at the ring curtain one night when I go on, and watch me from the side, not the front. Then come and ask.'".
     Otherwise "An hour of falling, and every fall is a fall: you go down like a dropped sack and come up wincing. 'Tomorrow,' says Mumchance mildly. 'The body has to forget that it's afraid. That takes a night's sleep.'".
   }
   Kind circus_slapshoe_kind "a clown's slap-shoes" like boots_of_swiftness granting tumbling worth 2 weighing 1
     described "Long, flat, floppy shoes of soft leather, worn thin at the toes, that slap the ground with a sound like applause. They were Mumchance's first.".
-  Item slap_shoes "Mumchance's old slap-shoes" is circus_slapshoe_kind at road_ca hidden until shoes_given.
+  Item slap_shoes "Mumchance's old slap-shoes" is circus_slapshoe_kind at tober_a hidden until shoes_given.
   Discovery shoes_given "Mumchance has given you his first slap-shoes.".
 
+  Topic mum_next_lesson with mumchance "Ask Mumchance about the second lesson" when fallLearned(actor) and not watchedEntree(actor) and not lookLearned(actor) {
+    Says "'The Look,' says Mumchance. 'Stand in the wing, by the ring curtain, when I go on with the ladder: after the Ox, before the wire. Watch from the side. Then come and ask me.'".
+  }
   Action watch_entree(actor: group, site: place) "Stand in the wing at the ring curtain and watch Mumchance's entrée from the side" {
     Time 1.
     Requires able(actor) and company(actor) and at(actor, site) and ringHere(site) and showOn(wapshotts) and act(wapshotts) == 5 and fallLearned(actor)

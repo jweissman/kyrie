@@ -17,28 +17,28 @@ Module circus "Wapshott's Peregrine Circus" {
   Passage sallow_lane "the lane to the far meadow" is path between green_a and sallow_ground taking 10 minutes hidden until note_known.
   Observe sallow_scene at sallow_ground when noteServed(wapshotts) and not sallowGone(wapshotts) "In the far meadow along the lane stands Sallow's Imperial Hippodrome: a big top twice the size of Wapshott's, blue and gold, every guy-rope new and white, its wagons all painted alike in blue with gold lettering, its canvasmen in blue jackets with brass buttons. A camel stands by the front, eating a hat. A painted board says THE IMPERIAL HIPPODROME. COMFORT. ELEGANCE. SATISFACTION. NO ANIMALS HAVE BEEN HARMED EXCEPT IN THE ADVERTISED MANNER.".
   Relation sallowGone(concern).
-  Person sallow "Madame Cordelia Sallow" at road_ca {
+  Person sallow "Madame Cordelia Sallow" at tober_a {
     Role "the proprietress of Sallow's Imperial Hippodrome". Ancestry human. Peaceable. Pronouns she. Manner proud.
     Greets "A tall woman of fifty in dove-grey silk, with a silver-headed cane and an account-book under her arm, turns from the camel to look at you. She has a beautiful, intelligent, tired face, like a duchess who has been doing her own sums. 'Cordelia Sallow,' she says. 'You will be one of Florian's. You have the look of someone he has made a promise to.' She considers you. 'Sit down. I am not the villain of this piece. I am merely the only person in it who can add.'".
     Greets again "Madame Sallow inclines her head, and makes a small note in her account-book, which may or may not be about you.".
   }
-  Person slee "Varney Slee" at road_ca {
+  Person slee "Varney Slee" at tober_a {
     Role "Madame Sallow's agent". Ancestry human. Peaceable. Pronouns he. Manner jovial.
     Known as "a man in a grey hat" when not knows(party, slee_named).
     Greets "A smooth, pleasant man in a grey topper, grey gloves and a grey waistcoat, with a face so agreeable you forget it while you are looking at it, lifts his hat to you. 'Slee,' he says. 'Varney Slee. Madame Sallow's man of business. I make things easy, for Madame. Anything at all that you would like made easy, you have only to ask.'".
   }
   Entity slee_named: fact "The man in the grey hat is Varney Slee, Madame Sallow's man of business.".
   Rule slee_known when addressed(slee, party) and not knows(party, slee_named) says "He is Varney Slee, Madame Sallow's man of business." teaches slee_named { }
-  Person bombazine "Captain Bombazine" at road_ca {
+  Person bombazine "Captain Bombazine" at tober_a {
     Role "the clown of Sallow's Imperial Hippodrome". Ancestry human. Peaceable. Pronouns he. Manner jovial.
     Greets "An enormous clown in a red wig and a uniform with epaulettes the size of dinner plates is practising falling off a stool, loudly. 'CAPTAIN BOMBAZINE!' he shouts, from the ground. 'THE LOUDEST CLOWN IN THE COUNTRY! I don't do silence,' he says, sitting up. 'Silence is for old men who've forgotten the words.' He offers you a hand with a buzzer in it.".
     Greets again "'AH!' shouts Captain Bombazine, delighted, from wherever he has fallen.".
   }
-  Person wat "Wat Coppock" at road_ca {
+  Person wat "Wat Coppock" at tober_a {
     Role "a lanky lad of the fair town, with a paste-pot". Ancestry human. Peaceable. Pronouns he. Manner cheerful.
     Greets "A long lad of sixteen with a paste-pot, a brush, and a roll of gold-and-blue bills under his arm, freezes like a heron. 'I never,' he says. 'Whatever it is. I never. I was at my nan's.'".
   }
-  Person pettigrew "Master Obadiah Pettigrew" at road_ca {
+  Person pettigrew "Master Obadiah Pettigrew" at tober_a {
     Role "the Clerk of the Goose Fair". Ancestry human. Peaceable. Pronouns he. Manner proud.
     Greets "A small, round, important man in a black gown with a goose-quill behind his ear and a chain of office on which hangs a silver goose stands on a mounting-block with a ledger. 'Pettigrew,' he says. 'Clerk of the Goose Fair, by charter of the town, these thirty years. Pitches, tolls, weights, measures, and disputes concerning geese. If you are here about a goose, take a ticket.' He hands you a ticket. It has a number on it: 341.".
   }
@@ -129,7 +129,7 @@ Module circus "Wapshott's Peregrine Circus" {
   }
   Measure untilShow(clock).
   Rule until_show when hour(clock) < 19 { Set untilShow(clock) to (19 - hour(clock)) * 6. }
-  Thing hymnal "a hymnal on Fipps's music-stand" at road_ca {
+  Thing hymnal "a hymnal on Fipps's music-stand" at tober_a {
     State left "A fat hymnal, THE PENITENT'S PSALTER, lies open on Fipps's music-stand where his band-book should be.".
     Tries looking.
   }

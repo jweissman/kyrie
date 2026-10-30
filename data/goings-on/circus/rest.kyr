@@ -1,0 +1,229 @@
+Module circus "Wapshott's Peregrine Circus" {
+  // ── The King's Rest: the Household of the Progress's winter seat, on the hill above the second town ──────────
+  // A ruin since the last Progress, three hundred years ago; swept every day since by a family of keepers nobody has
+  // paid. It is there from the first day, for whoever asks about the walls on the hill; in Phase II it is where the
+  // Revels are held, and the circus's last stand of that round is pitched in its Long Court.
+  Entity rest_heard: fact "On the hill above {town_b} stand the walls of the King's Rest, where the old kings' Progress wintered, three hundred years ago; an old man called Jabez Orme still keeps it.".
+  Initially Assert leadsTo(rest_heard, rest_gate).
+  Topic keeper_b_rest with keeper_b "Ask {keeper_b} about the walls on the hill" when true once {
+    Says "'The King's Rest,' says {keeper_b}. 'Where the old kings stopped, when they went round. Three hundred years since anybody stopped there but rooks.' {keeper_b} wipes a cup. 'Old Jabez Orme keeps it. Keeps it from what, nobody knows. He sweeps it. His father swept it, and his father's father, back to the last king. Comes down for bread on Saturdays and won't take it for nothing, pays in rooks' eggs.' A pause. 'Go up if you like. He'll be glad. He's always glad, which is the sad part.'".
+    On discuss { Assert knows(actor, rest_heard). }
+  }
+  Place rest_gate "the gatehouse of the King's Rest" is room within town_b at 7, 0.
+  Place gate_tower "the top of the gatehouse tower" is room within town_b at 7, 1.
+  Place beast_yard "the Beast Yard" is room within town_b at 8, 0.
+  Place warm_house "the Warm-House" is room within town_b at 9, 0 indoors.
+  Place revels_hall "the Revels Hall" is room within town_b at 8, 2.
+  Place keeper_lodge "the Keeper's Lodge" is room within town_b at 7, 2 indoors.
+  Place rest_chapel "the chapel of the Rest" is room within town_b at 9, 2 indoors.
+  Place tober_r "the Long Court of the King's Rest" is room within town_b at 8, 1.
+  Place ring_r "the big top" is room within town_b at 9, 1 indoors.
+  Place yard_r "the backyard of the circus" is room within town_b at 10, 1.
+  Place wagons_r "the ring of living-wagons" is room within town_b at 10, 0.
+  Place beasts_r "the menagerie tent" is room within town_b at 10, 2 indoors.
+  Passage hill_road "the hill road to the King's Rest" is road between green_b and rest_gate taking 40 minutes hidden until rest_heard.
+  Passage tower_stair "the broken gatehouse stair" is path between rest_gate and gate_tower taking 5 minutes needing climbing or rope.
+  Passage gate_arch "the arch of the gatehouse" is arch between rest_gate and tober_r.
+  Passage yard_arch "the archway to the Beast Yard" is arch between tober_r and beast_yard.
+  Passage warm_door "the Warm-House door" is doorway between beast_yard and warm_house.
+  Passage hall_door "the great door of the Revels Hall" is doorway between tober_r and revels_hall.
+  Passage lodge_door "the lodge door" is door between rest_gate and keeper_lodge.
+  Passage chapel_door "the chapel door" is door between tober_r and rest_chapel.
+  Passage flap_r "the flap of the big top" is doorway between tober_r and ring_r opening when here(tober_r) and (not showOn(wapshotts) or admitted(party)).
+  Passage back_r "the way round behind the big top" is path between tober_r and yard_r taking 2 minutes opening when here(tober_r).
+  Passage wagon_steps_r "the gap between the wagons" is path between yard_r and wagons_r taking 1 minute opening when here(tober_r).
+  Passage ring_curtain_r "the ring curtain" is doorway between ring_r and yard_r opening when here(tober_r).
+  Passage beast_flap_r "the menagerie flap" is doorway between tober_r and beasts_r hidden until list_given opening when here(tober_r) and menagerieOpen(wapshotts).
+  Initially Assert groundRoom(tober_r, rk_tober, tober_r). Initially Assert groundRoom(tober_r, rk_ring, ring_r).
+  Initially Assert groundRoom(tober_r, rk_yard, yard_r). Initially Assert groundRoom(tober_r, rk_wagons, wagons_r).
+  Initially Assert groundRoom(tober_r, rk_beasts, beasts_r).
+  Initially Assert groundOf(tober_r, tober_r). Initially Assert groundOf(ring_r, tober_r). Initially Assert groundOf(yard_r, tober_r).
+  Initially Assert groundOf(wagons_r, tober_r). Initially Assert groundOf(beasts_r, tober_r).
+  Initially Assert greenOf(tober_r, green_b). Initially Assert roadOut(tober_r, road_bc). Initially Assert nextGround(tober_r, tober_c).
+  Initially Assert billOf(tober_r, bill_b). Initially Assert sellsTo(tober_r, merchant_b). Initially Set standing(tober_r) to 3.
+
+  Observe gate_scene at rest_gate when true "A gatehouse of grey stone, twice the height it needs to be, with a carved wheel over the arch, a crown over the wheel, and a rook's nest in the crown. The gates themselves went for firewood long ago. The arch is swept. Someone has swept it this morning.".
+  Observe tower_scene at gate_tower when true "The top of the gatehouse tower, open to the sky, with a broken parapet and a view of the whole country: the road going down to {town_b}, the road going on, the long roof of the Revels Hall, the glitter of the Warm-House. In a corner of the parapet is a heap of sticks, wool, and things that shine.".
+  Observe court_scene at tober_r when true "The Long Court: a yard of setts half a furlong long, between ranges of low stone sheds with their roofs gone, where two hundred wagons once stood in rows. Every sett is swept. Weeds grow only along the walls, where a broom cannot quite reach. At the far end a stone mounting-block with steps, worn to a dip in the middle by three hundred years of nobody.".
+  Observe court_circus near pole when at(pole, tober_r) and here(tober_r) "In the middle of the Long Court, where nothing has stood for three hundred years, stands the big top of Wapshott's, its pennant snapping above the old sheds; the living-wagons are drawn up in a ring at the end where the royal wagons stood, and Bucephalus is drinking from a stone trough with a crown cut on it.".
+  Observe yard_scene_r at beast_yard when true "The Beast Yard: a square of stone dens with iron-barred fronts, each with a name cut in the lintel, half of them unreadable. BISHOP. NEBUCHADNEZZAR. THE GLIMMER. THE TWO BEARS. SALAMANDERS (WARM-HOUSE). And one long den at the end, empty and enormous, with no name at all, and the bars bent outward.".
+  Observe warm_scene at warm_house when true "A long glass-house over a warm spring, its iron ribs whole and most of its glass gone, so that it is warm underfoot and cold above. Steam lies on the water in the stone basin. Ferns grow here that grow nowhere else in the country, and on the hot stones round the basin, small red shapes lie very still, like coals that have learned to bask.".
+  Observe hall_scene at revels_hall when true "The Revels Hall: a great room with a stage at one end and a gallery at the other, its roof timbers standing against the sky like the ribs of a boat. A painted cloud hangs over the stage on rusted chains, a cloud of wood and canvas big enough to carry four people, with a faded gilt sun behind it. Rain has been falling on the stage for three centuries; the boards are green.".
+  Observe lodge_scene at keeper_lodge when true "One room, very clean: a bed, a table, a fire, a broom by the door, a row of six brooms worn to the stick on hooks along the wall, one for each Orme. On the table a great book in a box, and a green velvet coat of a cut three hundred years old, brushed and folded.".
+  Observe chapel_scene at rest_chapel when true "A little chapel with a crowned wheel in the east window, half its glass gone and the gaps filled with sacking. The benches are sound. Somebody has put a jar of primroses on the altar.".
+
+  // ── Jabez Orme, Keeper of the King's Rest ───────────────────────────────────────────────────────────────────
+  Person jabez "Jabez Orme" at keeper_lodge {
+    Role "the hereditary Keeper of the King's Rest". Ancestry human. Peaceable. Pronouns he. Manner cheerful.
+    Greets "A very old man, small and bent, with a broom in his hand and a face like a walnut that has been pleased about something for ninety years, puts the broom carefully against the wall and bows to you: a real bow, from the waist, the kind you have only read about. 'Jabez Orme,' he says, 'Keeper of the King's Rest, at your service. Is it the Progress? No. No, I can see it isn't.' He does not seem disappointed; he seems to have practised not being disappointed. 'Come in, come in. You're the first in a twelvemonth. Will you see the dens? Everybody likes the dens.'".
+    Greets again "'You came back,' says Jabez Orme, delighted, as if this were the most remarkable thing that had happened in three hundred years, which it may be.".
+  }
+  Rule jabez_rounds when hour(clock) >= 7 and hour(clock) < 12 and not at(jabez, tober_r) and not jabezBusy(jabez) { Assert at(jabez, tober_r). }
+  Rule jabez_home when (hour(clock) >= 12 or hour(clock) < 7) and not at(jabez, keeper_lodge) and not jabezBusy(jabez) { Assert at(jabez, keeper_lodge). }
+  Relation jabezBusy(group).
+  Observe jabez_sweeping near jabez when at(jabez, tober_r) and not here(tober_r) "Jabez Orme is sweeping the Long Court, sett by sett, working down from the gatehouse in a long patient line, as his father did and his father's father.".
+  Topic jabez_why with jabez "Ask Jabez why he keeps the Rest" when true once {
+    Says "'Because the Progress will come back,' says Jabez, simply. 'The last king said so, at the gate, in the year of the comet. My first father was standing where you're standing. The King said, Keep it, Orme, and we shall come again next spring. And he gave him a shilling.' He shows you, on a ribbon round his neck, a silver coin worn as thin as a fingernail. 'They didn't come next spring. Something happened in the city; a war, or a wedding. But the King said. So we've kept it.' He smiles. 'Somebody has to be ready. It would be a terrible thing if they came and found it dirty.'".
+    On discuss { Increase regard(jabez) by 1. Assert knows(actor, jabez_shilling). }
+  }
+  Entity jabez_shilling: fact "The last king told Jabez Orme's ancestor at the gate of the King's Rest to keep it, for the Progress would come again next spring; six generations of Ormes have kept it since, unpaid, on the strength of a shilling.".
+  Topic jabez_brooms with jabez "Ask Jabez about the six brooms on the wall" when true once {
+    Says "'Fathers,' says Jabez. 'Mine and his and his. You sweep with a broom till it's worn to the stick, and then you hang it up and take a new one, and when you hang up your last one your son takes it down.' He looks at the hooks. 'There's a seventh hook. I put it up myself, when I was young.' He is quiet. 'I never married. There was a girl in {town_b} but she wanted to see the sea.' He picks up his broom. 'It'll want somebody. After.'".
+    On discuss { Assert knows(actor, seventh_hook). }
+  }
+  Entity seventh_hook: fact "There is a seventh hook on the wall of the Keeper's Lodge for the next Orme's broom, and there is no next Orme.".
+
+  // The Keepers' Book: the Menagerie Royal's last inventory, with three hundred years of notes in its margins.
+  Thing keepers_book "the Keepers' Book" at keeper_lodge {
+    State boxed "On the table, in a box of black oak, lies the Keepers' Book.".
+    Tries looking.
+  }
+  Initially Assert state(keepers_book, boxed).
+  Action read_book(actor: group, site: place) "Ask Jabez to show you the Keepers' Book" {
+    Speaker jabez. Time 6.
+    Requires able(actor) and company(actor) and at(actor, site) and at(jabez, site) and at(keepers_book, site) and regard(jabez) >= 1 and not knows(actor, inventory_known).
+    On success { Assert knows(actor, inventory_known). Increase regard(jabez) by 1. }
+    Result "Jabez lifts the book out of its box with both hands, as you would lift a sleeping child, and opens it on the table. The first pages are in a clerk's hand, brown and spiky: THE INVENTORIE OF THE MENAGERIE ROYALL AS IT LAY AT THE KING'S REST AT THE LAST PROGRESSE. Then a list. THE BISHOP, a tortoise of the isle of Ascensioun, given to the King by the Admiral, and his Diett. A LION of Barbary, NEBUCHADNEZZAR, the third of that Name, and his Wiff. THE GLIMMER, a Fox of the Fennes that burneth colde. A HOBBE of the Kitchenne, in Service, not to be Thanked. Two BEARES of the Owle Kind, very savage. SALAMANDERS of the Warme-House, a dozen, not to be let grow colde. And at the last, in a different ink: THE LEGGE OF THE GREAT WORME, from the Marle at the third Towne, the rest of Him being still under the Field. In the margins, in six hands, three hundred years of notes, and Jabez knows every one by heart.".
+  }
+  Entity inventory_known: fact "The Keepers' Book lists the Menagerie Royal at the last Progress: the Bishop, a tortoise; a lion of Barbary, Nebuchadnezzar the third; the Glimmer, a fox of the fens that burns cold; a Hob of the Kitchen, in service; two bears of the owl kind; a dozen salamanders of the Warm-House; and the Leg of the Great Worm, from the marl at the third town, the rest of him still under the field.".
+  Topic jabez_margins with jabez "Ask Jabez what the notes in the margins say" when knows(actor, inventory_known) once {
+    Says "Jabez runs a finger down the margins. 'Here, my first father: THE BISHOP STRAYED AT THE THIRD TOWNE FORD ON THE LAST DAY. NOT FOUND. That was the morning they left. He was always slow.' His finger moves. 'Here, his son: THE GLIMMERS GONE BACK TO THE FENNE. Here: THE HOBBE GONE, NOBODY TO COOK FOR. Here, the bears: GONE OVER THE WALL IN THE GREAT FROST, and somebody's added, my grandfather, I think, THEIR GRANDCHILDREN IN THE ORCHARDS AT THE FAIR TOWNE, EATING BEES.' He laughs, a dry little laugh like a bird. 'And here, at the Leg, my great-grandfather, the only time any Orme ever wrote in red: DO NOT DIGGE. HE IS NOT DEAD ENOUGH.' Jabez closes the book. 'We never knew what he meant. Grandfather said it was a joke. He never laughed at it, though.'".
+    On discuss { Assert knows(actor, margins_known). }
+  }
+  Entity margins_known: fact "The Keepers' Book's margins say the Bishop strayed at the third town's ford on the last day of the last Progress; the Glimmer went back to the fen; the Hob left with nobody to cook for; the owl-bears went over the wall and their grandchildren eat bees in the fair town's orchards; and, in red, at the Leg of the Great Worm: DO NOT DIG. HE IS NOT DEAD ENOUGH.".
+  // What the company already knows answers lines in the Book: Phase I's beasts, recognised.
+  Topic jabez_bishop with jabez "Tell Jabez that Wapshott's has a great tortoise with a crowned wheel on his shell" when knows(actor, margins_known) and exhibit(methuselah) once {
+    Says "Jabez sits down. He does not seem able to stand. 'The Bishop,' he says. 'The Bishop's alive.' He takes your hand in both his, and his hands are shaking. 'Three hundred years. Strayed at the ford. My first father went back for him and looked a week.' He stands up, and goes to the door, and looks down the hill toward {town_b}, as if the tortoise might be coming up it now, slowly. 'Would they bring him? Your people? Just to see the yard? He'd know it. They say a tortoise knows a place.'".
+    On discuss { Assert knows(actor, bishop_identified). Increase regard(jabez) by 2. }
+  }
+  Entity bishop_identified: fact "Wapshott's giant tortoise is the Bishop of the Menagerie Royal, a tortoise of Ascension given to the King by the Admiral, who strayed at the third town's ford on the last day of the last Progress, three hundred years ago.".
+  Topic jabez_bears with jabez "Tell Jabez about Bramble, the owlbear from the fair town's orchards" when knows(actor, margins_known) and (exhibit(bramble) or brambleLost(wapshotts)) once {
+    Says "'Grandchildren of the two that went over the wall!' Jabez is delighted. 'Grandchildren of grandchildren. Eating bees, Grandfather said. He was right.' He finds the line and taps it. 'Two Beares of the Owle Kind, very savage. Is she very savage?' You tell him about the honey and the net and the face. He laughs till he has to hold the table. 'That's the Orme in her,' he says. 'We always fed them honey on feast days. It's in the Book.'".
+  }
+
+  // ── Old Tom, the raven of the Rest ─────────────────────────────────────────────────────────────────────────
+  Species rest_raven "a great raven" like raven tame described "A raven the size of a cat, black with a sheen of purple, with a grey beard of feathers at his throat and a white feather in one wing. He has a voice like a creaking door and a vocabulary three hundred years old.".
+  Person tom "Old Tom" at gate_tower {
+    Role "the raven of the King's Rest". Species rest_raven. Peaceable. Pronouns he.
+    Greets "The raven looks at you with one eye and says, distinctly, in an old man's voice: 'MAKE WAY. MAKE WAY FOR THE KING.' Then, in a different voice, younger: 'Tom! Supper!' Then he laughs, exactly like Jabez Orme.".
+  }
+  Rule tom_down when hour(clock) >= 7 and hour(clock) < 9 and not at(tom, tober_r) { Assert at(tom, tober_r). }
+  Rule tom_up when (hour(clock) >= 9 or hour(clock) < 7) and not at(tom, gate_tower) { Assert at(tom, gate_tower). }
+  Topic jabez_tom with jabez "Ask Jabez about the raven" when true once {
+    Says "'Old Tom,' says Jabez. 'He was my grandfather's. Eighty-one years old, which is old for a raven but he doesn't know it. He talks. Ravens of the Rest always talked; there's been a raven at the gate since the Progress, father to son, like us.' He lowers his voice. 'He steals. Anything that shines. He's a hoard on the gatehouse top you could buy a farm with, if it weren't mostly buttons. You can't climb to it without a rope, and he'll not come down for anybody but me, at supper, when I call him the old way.' Jabez cups his hands and calls, in a high thin voice: 'Tom! Supper!' On the gatehouse a raven laughs, exactly like him.".
+    On discuss { Assert knows(actor, tom_call). }
+  }
+  Entity tom_call: fact "Old Tom the raven comes down only to Jabez's old call, 'Tom! Supper!', at supper; his hoard of shining things is on the gatehouse top, which wants a rope to climb to.".
+  Observe hoard_scene near tom when at(tom, gate_tower) and at(party, gate_tower) "Old Tom sits on the edge of his hoard, which is enormous: buttons, buckles, a spoon, a bishop's ring, a child's whistle, three thimbles, a brass doorknob, a piece of a mirror, and, on top, catching the light, a heavy gold seal-ring with a crowned wheel cut in it.".
+  Kind seal_kind "the Steward's seal-ring" is gear worth 20 weighing 0
+    described "A heavy gold ring with a flat bezel cut in reverse: a crowned wheel, and round it, HOUSEHOLD OF THE PROGRESSE. It is very old, and much too large for anybody now living.".
+  Item seal_ring "the Steward's seal-ring" is seal_kind at gate_tower hidden until seal_seen.
+  Discovery seal_seen "On top of Old Tom's hoard on the gatehouse tower lies a gold seal-ring with a crowned wheel." { Known by jabez. }
+  Rule seal_noticed when at(party, gate_tower) and sealLost(tobias) and not knows(party, seal_seen) says "On top of the raven's hoard, catching the light, lies a heavy gold seal-ring with a crowned wheel cut in it." teaches seal_seen { }
+  Relation sealLost(group). Relation sealBack(group).
+  Action take_seal(actor: group, site: place) "Take the seal-ring off the raven's hoard while he is watching" {
+    Time 1 minute.
+    Requires able(actor) and company(actor) and at(actor, site) and at(seal_ring, site) and at(tom, site) and knows(actor, seal_seen).
+    Resolve check(actor, stealth, dc_hard).
+    On success { Give seal_ring to actor. }
+    On failure { Assert strikes(raven_beak, party). }
+    Result "You wait until he turns his head to look at a rook, and have it, and he turns back and sees the gap in his hoard and screams at you in four voices, one of them a bishop's.".
+    Otherwise "Your hand is an inch from the ring when Old Tom drives his beak into the back of it like a cobbler's awl, and says, in Jabez's voice, 'Now then.'".
+  }
+  Hazard raven_beak "A raven's beak" means "Deal (1d3) physical damage to ally.".
+  Action trade_spangles(actor: group, site: place) "Spread Hench's spare spangles on the parapet for Old Tom, and take the ring while he chooses" {
+    Time 2.
+    Requires able(actor) and company(actor) and at(actor, site) and at(seal_ring, site) and at(tom, site) and spangles(actor).
+    On success { Give seal_ring to actor. Retract spangles(actor). Increase regard(tom) by 1. }
+    Result "You lay the spangles out on the parapet in a little galaxy, silver and gold and one green one, and Old Tom forgets the world. He goes along them one at a time, turning each over with his beak, saying 'Ah,' in Hench's voice, which he cannot possibly have heard; and you lift the ring off his hoard and he does not even look round.".
+  }
+  Relation spangles(group).
+  Topic hench_spangles with hench "Ask Hench for a handful of spare spangles" when knows(actor, seal_seen) and not spangles(actor) once {
+    Says "Hench looks at you over his pins. 'For a raven,' he says. 'Naturally. Everything I sew in this circus is for an animal.' He tips a saucerful into a twist of paper: silver, gold, and one green, which he looks at a moment. 'The green is from the Margravine's ball gown. Give it to him last. He should have one good thing.'".
+    On discuss { Assert spangles(actor). }
+  }
+  Action call_tom(actor: group, site: place) "Cup your hands and call Old Tom down in Jabez's voice: 'Tom! Supper!'" {
+    Time 1 minute.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, rest_gate) and knows(actor, tom_call) and knows(actor, seal_seen) and at(seal_ring, gate_tower) and echoLearned(actor).
+    Resolve check(actor, performance, dc_easy).
+    On success { Give seal_ring to actor. }
+    Result "You cup your hands and call, high and thin, the way Jabez calls, and it is Jabez's voice that comes out, near enough to fool a raven of eighty-one. Old Tom comes down off the gatehouse in a long black slant and lands on your shoulder, and puts into your ear, as a present, the thing he likes best in the world, which is a heavy gold ring. Then he waits for supper. You owe him supper.".
+    Otherwise "You call, and it is your voice, not Jabez's, and on the gatehouse top Old Tom says, in your voice, exactly, 'Tom! Supper!' and laughs at you.".
+  }
+  Action climb_tower(actor: group, site: place) "Climb the broken gatehouse stair to the raven's hoard" {
+    Time 3.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, rest_gate) and not at(actor, gate_tower) and not capable(actor, climbing).
+    Resolve check(actor, climbing, dc_hard).
+    On success { Assert at(actor, gate_tower). }
+    Result "You go up what is left of the gatehouse stair by its broken edges, with the wind in your ears and three hundred years of rook-droppings under your hands, and come out at the top among the sky.".
+    Otherwise "Halfway up the broken stair a step goes from under your foot and you come down in a slither of stone and rook-nest, bruised, with Old Tom laughing above you.".
+  }
+  Event seal_home near tobias when keeps(tobias, seal_ring) "Tobias Quarrendon takes the ring as if it were his great-aunt's heart, and kisses it, and puts it on his thumb, where it fits. 'She would have struck me off the Household,' he says. 'There are only two of us. It would have been a very small ceremony.'" then {
+    Assert sealBack(tobias). Retract sealLost(tobias). Increase regard(tobias) by 2. }
+
+  // ── The salamanders of the Warm-House ─────────────────────────────────────────────────────────────────────
+  Species rest_salamander "a salamander" like lizard tame described "A lizard the length of a hand, coal-red and shining as if wet, with a crest like a cock's comb and eyes like drops of honey. It is hot to stand near. When frightened it glows brighter, and whatever dry thing it is lying on begins to smoke.".
+  Person salamanders "the salamanders" at warm_house {
+    Role "a dozen fire-lizards on the warm stones". Species rest_salamander. Numbers 12. Peaceable. Pronouns they.
+    Greets "A dozen salamanders lift their heads together from the hot stones and look at you with honey-coloured eyes, and one of them, the largest, glows a little brighter, and the fern beside it begins to steam.".
+  }
+  Topic jabez_salamanders with jabez "Ask Jabez about the red lizards in the Warm-House" when true once {
+    Says "'The salamanders! Twelve of them in the Book, and there's twelve now, give or take. They came with the Admiral, with the Bishop, from somewhere very hot.' He beams. 'They live on the warm stones by the spring, and eat beetles, and they'll set fire to anything dry if they're frighted or cold. My father lost three hats.' He sobers. 'The glass is going. Every winter more of it. When it's all gone the spring won't keep them warm enough, and they'll go into the straw of the sheds to get warm, and,' he spreads his hands, 'the Rest will burn down. It'll be the most exciting thing that's ever happened here, and the last.'".
+    On discuss { Assert knows(actor, salamander_ways). }
+  }
+  Entity salamander_ways: fact "The salamanders of the Warm-House set anything dry alight if they are frightened or cold; the glass of the Warm-House is going, and when it is gone they will go into the straw of the sheds for warmth and burn the Rest down.".
+  Relation warmGlazed(concern). Relation salamanderTaken(concern). Relation brazierCage(group). Measure glazeCost(concern).
+  Topic billie_salamanders with billie "Ask Billie what she makes of the salamanders" when knows(actor, salamander_ways) once {
+    Says "Billie has been to look. 'They belong in that glass-house,' she says. 'It's the only place in the country hot enough for them, and it's falling down. Mend the glass and they'll be there in a hundred years.' She is quiet. 'Take one on the road and you'll want a brazier going under it day and night, in an iron cage, and somebody awake to feed it coal. Let it go cold in a straw tent and you'll have no tent.' She looks at you. 'I'd mend the glass. But I'm not the one wanting a show.'".
+  }
+  Action glaze_warm(actor: group, site: place) "Pay a glazier from {town_b} to mend the Warm-House, eight coin" {
+    Time 6.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, warm_house) and knows(actor, salamander_ways) and quantity(actor, gold) >= 8 and not warmGlazed(wapshotts).
+    On success { Decrease quantity(actor, gold) by 8. Assert warmGlazed(wapshotts). Increase regard(billie) by 1. Increase regard(jabez) by 2. }
+    Result "The glazier comes up from {town_b} with a boy and a handcart of glass, and stands looking at the iron ribs for a long while with his mouth open, and then works till dark. By evening the Warm-House holds its heat again; the steam lies thick on the basin, and on the stones the salamanders have gone from dull red to a bright and comfortable orange, like a grate that has just been made up.".
+  }
+  Topic lusk_brazier with lusk "Ask Lusk to make an iron cage with a brazier under it, for a salamander" when knows(actor, salamander_ways) and not brazierCage(actor) once {
+    Says "Lusk looks at you for a while. 'Fire,' he says. 'In a tent.' Then: 'Old grate from the cookhouse. Bars from the cage-wagon offcuts. Tray of sand.' He goes off to do it. When he comes back with it he says: 'Somebody feeds it coal. Every night. Or.' He does not finish.".
+    On discuss { Assert brazierCage(actor). }
+  }
+  Action take_salamander(actor: group, site: place) "Coax the biggest salamander onto a hot stone and carry it in Lusk's iron brazier-cage" {
+    Time 2.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, warm_house) and brazierCage(actor) and not salamanderTaken(wapshotts) and menagerieOpen(wapshotts).
+    Resolve check(actor, woodcraft, dc_fair).
+    On success { Assert salamanderTaken(wapshotts). Increase draw(wapshotts) by 2. Increase exhibits(wapshotts) by 1. }
+    Result "You lift a flat stone off the basin's edge with tongs, hot enough to hiss in the steam, and set it in the brazier-cage, and wait; and the biggest salamander considers it, and you, and walks onto it as if it were a throne, and settles, and glows a contented orange through the bars.".
+    Otherwise "The salamander does not want to go. It glows white, and the fern under it bursts into flame, and you drop the tongs.".
+  }
+  Observe salamander_shown near beastpost when salamanderTaken(wapshotts) and at(beastpost, ?r) "In an iron cage on a tray of sand, over a brazier of coals, a salamander the length of a hand lies on a flat stone and glows like a coal in a grate. A board says: THE SALAMANDER OF THE KING'S REST. HOTTER THAN IT LOOKS. DO NOT BLOW ON IT.".
+  // A salamander gone cold on a night with no coal sets the straw alight.
+  Rule salamander_cold when salamanderTaken(wapshotts) and feed(wapshotts) < 1 and hour(clock) == 2 and pitched(wapshotts) and not strawFire(wapshotts) {
+    Assert strawFire(wapshotts). Decrease welfare(wapshotts) by 2 or to nothing. Decrease strongbox(wapshotts) by 4 or to nothing. }
+  Relation strawFire(concern).
+  Rule straw_fire_told near beastpost when strawFire(wapshotts) and not strawFireTold(wapshotts) says "In the small hours the menagerie is full of smoke: the salamander's brazier has gone out, and the salamander, cold, has climbed down into the straw to get warm, and the straw has done what straw does. Billie has it out with two buckets before it reaches the canvas; but the tent is scorched black on one side, and every beast in it is shaking." { Assert strawFireTold(wapshotts). }
+  Relation strawFireTold(concern).
+  Rule straw_fire_reset when strawFire(wapshotts) and hour(clock) == 12 { Retract strawFire(wapshotts). Retract strawFireTold(wapshotts). }
+
+  // ── The Bishop goes home ─────────────────────────────────────────────────────────────────────────────────
+  // Whose tortoise is he? Once the Household knows him, it may claim him; the company may give him back (and so,
+  // if the Warrant comes, keep him after all), sell him to Fenwick, or ask the Colonel to keep him.
+  Relation bishopHome(group). Relation bishopSold(group). Relation bishopKept(group).
+  Topic tobias_bishop with tobias "Tell Tobias that the tortoise in the menagerie is the Bishop of the Inventory" when knows(actor, bishop_identified) and exhibit(methuselah) and not bishopHome(methuselah) and not bishopSold(methuselah) once {
+    Says "Tobias goes to the menagerie and kneels in the straw, in his good coat, and reads the shell with his finger as Hench did, and his lips move. 'He is the Crown's,' he says at last, unhappily. 'I mean, legally. He is the property of the Household, strayed, never sold, never given. My great-aunt will have to claim him. She will hate it; she hates claiming things.' He looks up at you. 'Unless the Colonel gives him back. Then it is a gift, not a claim, and gifts are recorded in the Book in red.'".
+    On discuss { Assert knows(actor, bishop_claim). }
+  }
+  Entity bishop_claim: fact "Tobias says the Bishop is the Household's by law: strayed, never sold. The Steward must claim him, unless the Colonel gives him back as a gift.".
+  Topic wap_bishop with wapshott "Put it to the Colonel that the Bishop should be given back to the Household" when knows(actor, bishop_claim) and not bishopHome(methuselah) and not bishopSold(methuselah) once {
+    Says "The Colonel's face goes through several provinces. 'Give him BACK,' he says. 'My Tortoise of Antiquity. My second-best attraction.' He walks to the menagerie flap and looks at the tortoise eating a cabbage, and something happens to him that you have seen happen to him once before, at the lion. 'He has been walking home for three hundred years,' he says, quite quietly. 'At a cabbage an hour.' Then, in his own voice, enormous: 'Of COURSE we shall give him back. In PERSON. With the BAND. Fipps! We need a processional!'".
+    On discuss { Assert bishopHome(methuselah). Increase regard(wapshott) by 1. Increase regard(jabez) by 3. Increase regard(tobias) by 2. }
+  }
+  Topic fenwick_bishop with fenwick "Sell the tortoise to Sir Gervase for forty coin" when knows(actor, bishop_identified) and exhibit(methuselah) and not bishopHome(methuselah) and not bishopSold(methuselah) once {
+    Grave "A tortoise sold is gone with his buyer; the Household will remember it.".
+    Says "Sir Gervase counts out forty coin with the delight of a boy buying a kite. 'The Bishop!' he says. 'The actual Bishop! He shall have a heated pen at Coldharbour and a man to measure him daily.' He shakes your hand. In the menagerie, Billie turns her back. Tobias Quarrendon writes something in a small book, and does not look at you either.".
+    On discuss { Assert bishopSold(methuselah). Increase strongbox(wapshotts) by 40. Retract exhibit(methuselah). Assert offstage(methuselah). Decrease exhibits(wapshotts) by 1 or to nothing. Decrease draw(wapshotts) by 2 or to nothing. Decrease regard(billie) by 3 or to nothing. Decrease regard(tobias) by 2 or to nothing. }
+  }
+  Rule bishop_walks_home near methuselah when bishopHome(methuselah) and here(tober_r) and at(methuselah, ?b) and groundOf(?b, tober_r) and not bishopAtRest(methuselah)
+    says "The procession goes out of the menagerie and across the Long Court at the pace of a tortoise, which is to say for most of an hour: Fipps and the band playing a processional he wrote last night on the back of a playbill, Bucephalus with a plume, the Colonel bareheaded, and the Bishop walking toward a cabbage that Jabez Orme is holding out at the Beast Yard arch, in his ancestors' green velvet coat, crying without trying to stop. At the den with BISHOP cut over it, the tortoise stops, and lifts his old head, and looks at the stone for a long time, and goes in." {
+    Assert bishopAtRest(methuselah). Retract travels(methuselah). Assert at(methuselah, beast_yard). }
+  Relation bishopAtRest(group).
+  Observe bishop_in_yard near methuselah when bishopAtRest(methuselah) "In the den with BISHOP cut over it, on fresh straw, the old tortoise is eating a cabbage at the pace of the hour hand, at home.".
+}

@@ -270,6 +270,28 @@
         "notes": "The third foundation of the Gentle Art (Wapshott's Circus): the fencing-master's feint taught with a broom handle. Orsino's distracted status, as a technique rather than the arcane Minor Distraction."
       }
     },
+    "echo": {
+      "name": "Echo",
+      "kind": "technique",
+      "description": "Give a foe back its own voice and bearing, a beat late, until it cannot tell which of you it is answering: the second degree of the Gentle Art.",
+      "effect": "Apply distracted to enemies for 1 turn unless wisdom save against (13).",
+      "recharge": 4,
+      "source": {
+        "kyr": true,
+        "notes": "Mother Pell's art of voices (Wapshott's Circus, Phase II): imitation as attention, not mimicry of powers. Orsino's distracted status on every foe for one exchange; nothing of a foe's abilities is copied."
+      }
+    },
+    "reversal": {
+      "name": "Reversal",
+      "kind": "technique",
+      "description": "Give a foe's own weight back to it, as the mirror-door of Pell and Fell gives back a movement: its rush carries it over its own feet.",
+      "effect": "Deal (1d8) physical damage to enemy unless dexterity save against (13).",
+      "recharge": 3,
+      "source": {
+        "kyr": true,
+        "notes": "Taught by Mumchance and Mother Pell together (Wapshott's Circus, Phase II): the door to the Mirror, and not the Mirror. Damage by the foe's own momentum, which a quick foe avoids."
+      }
+    },
     "guard": {
       "name": "Guard",
       "kind": "technique",

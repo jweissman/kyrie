@@ -12,8 +12,13 @@ Module circus "Wapshott's Peregrine Circus" {
   }
   Kind wonders_list_kind "the Colonel's List of Wonders Wanted" is gear worth 0 weighing 0
     described "A playbill with a list written on the back of it in the Colonel's huge looping hand: WONDERS WANTED. 1. The Basilisk (in hand; in crate; do not open). 2. The Glimmer-Fox, said to walk the water-meadows below the third town by night, burning cold. 3. A Hob, a genuine one, said to haunt the old fulling-mill at the second town, which is to be sold. 4. Some great Beast that is eating the bees in the orchards of the fair town, description various, all large. 5. A Tortoise of Antiquity, at the carrier's yard in the third town, to be had cheap, as nobody can move it. 6. A SERPENT, for Fipps, who will not stop asking. Under it, smaller: Billie says no cages for anything that can talk. Noted.".
-  Item wonders_paper "the Colonel's List of Wonders Wanted" is wonders_list_kind at road_ca hidden until list_given.
+  Item wonders_paper "the Colonel's List of Wonders Wanted" is wonders_list_kind at tober_a hidden until list_given.
   Discovery list_given "The Colonel has given you his List of Wonders Wanted.".
+  Action read_list(actor: group, site: place) "Read the Colonel's List of Wonders Wanted" {
+    Time 1 minute.
+    Requires able(actor) and at(actor, site) and holding(actor, wonders_list_kind).
+    Result "On the back of a playbill, in the Colonel's huge looping hand: WONDERS WANTED. 1. The Basilisk (in hand; in crate; do not open). 2. The Glimmer-Fox, said to walk the water-meadows below {town_c} by night, burning cold. 3. A Hob, a genuine one, said to haunt the old fulling-mill at {town_b}, which is to be sold. 4. Some great Beast that is eating the bees in the orchards of {town_a}, description various, all large. 5. A Tortoise of Antiquity, at the carrier's yard in {town_c}, to be had cheap, as nobody can move it. 6. A SERPENT, for Fipps, who will not stop asking. Underneath, smaller, in another hand: Billie says no cages for anything that can talk. Noted.".
+  }
   Entity wonders_list: fact "Colonel Wapshott wants for his menagerie: the basilisk in its crate, a glimmer-fox from the water-meadows of {town_c}, the hob of the mill at {town_b}, whatever is eating the bees in {town_a}'s orchards, a giant tortoise at the carrier's yard in {town_c}, and a serpent for Fipps.".
   Objective wonders when knows(party, wonders_list) and menagerieOpen(wapshotts) and exhibits(wapshotts) < 3 "Find the Colonel his Wonders, if you choose: a basilisk in a crate, a glimmer-fox, a hob, a beast in the orchards, a tortoise, a serpent.".
   Topic billie_keeper with billie "Ask Billie whether she will keep the Colonel's menagerie" when menagerieOpen(wapshotts) once {
@@ -22,13 +27,14 @@ Module circus "Wapshott's Peregrine Circus" {
   }
   Entity billie_terms: fact "Billie Ostrander keeps the menagerie on her terms: clean straw daily, fed before the people, room to turn round, anything that pines goes home, and anything that can talk is asked, not caught.".
   Observe beasts_scene near beastpost when at(beastpost, ?r) and menagerieOpen(wapshotts) "The menagerie is an old canvas tent, patched, smelling of straw and something wild. A painted board inside the flap says WAPSHOTT'S CABINET OF LIVING WONDERS, and under it, in Billie's square hand, DO NOT POKE.".
-  Thing beastpost "the menagerie" at road_ca is scenery {
+  Thing beastpost "the menagerie" at tober_a is scenery {
     State kept "Billie Ostrander's straw is clean and fresh.".
     State neglected "The straw is foul, the water-pails empty, and the tent stinks.".
+    State packed "The menagerie travels in its own wagons behind the cookhouse, the cages lashed under canvas, Billie walking alongside talking to them.".
   }
   Initially Assert travels(beastpost). Initially Assert post(beastpost, rk_beasts).
-  Rule beasts_kept when welfare(wapshotts) >= 2 and state(beastpost, neglected) { Assert state(beastpost, kept). }
-  Rule beasts_neglected when welfare(wapshotts) < 2 and state(beastpost, kept) { Assert state(beastpost, neglected). }
+  Rule beasts_kept when pitched(wapshotts) and welfare(wapshotts) >= 2 and state(beastpost, neglected) { Assert state(beastpost, kept). }
+  Rule beasts_neglected when pitched(wapshotts) and welfare(wapshotts) < 2 and state(beastpost, kept) { Assert state(beastpost, neglected). }
   // Each morning: feed eaten, welfare kept by Billie if there is feed, falling if there is none.
   Rule beasts_fed when menagerieOpen(wapshotts) and exhibits(wapshotts) >= 1 and hour(clock) == 7 and keptDay(billie) < day(clock) and feed(wapshotts) >= 1 {
     Set keptDay(billie) to day(clock). Decrease feed(wapshotts) by 1. Increase welfare(wapshotts) by 1. }
@@ -62,9 +68,9 @@ Module circus "Wapshott's Peregrine Circus" {
   Query beastIn(b: group) means exhibit(b) and pitched(wapshotts).
 
   // ── 1. The basilisk, in its crate ───────────────────────────────────────────────────────────────────────────
-  Thing crate "a crate stencilled BASILISK" at road_ca {
+  Thing crate "a crate stencilled BASILISK" at tober_a {
     State sealed "A tall slatted crate stands in the straw, nailed shut and stencilled in red: BASILISK. LIVE. DO NOT LOOK INTO ITS EYES. THIS WAY UP. There is a knot-hole in one side, at about the height of an eye.".
-    State empty "The basilisk's crate stands open and empty in the corner, with a feather in it.".
+    State empty "The lid is off the basilisk's crate.".
     Change prise "Prise the lid off the basilisk's crate" from sealed to empty.
     Tries looking, listening.
   }
@@ -94,7 +100,7 @@ Module circus "Wapshott's Peregrine Circus" {
   Rule crate_reasoned when knows(party, crate_clucks) and knows(party, sale_read) and not knows(party, roderick_known)
     says "Corn. Crows at dawn. A green thumb-print. A noise like a hen with opinions. You do not need to look into its eyes; you know what is in the crate." teaches roderick_known { }
   Species bantam "a bantam cockerel" like hen tame described "A small, upright cockerel with a comb dyed green and spurs like nails. He is afraid of nothing, including you.".
-  Person roderick "Sir Roderick" at road_ca {
+  Person roderick "Sir Roderick" at tober_a {
     Role "a bantam cockerel with a green comb, billed as a basilisk". Species bantam. Peaceable. Pronouns he.
     Greets "Sir Roderick looks at you with one eye, then the other, and then flies at your knees.".
   }
@@ -140,14 +146,14 @@ Module circus "Wapshott's Peregrine Circus" {
   Species glimmer_fox "a glimmer-fox" like fox tame described "A small, slender fox, its coat pale as ash, whose brush glows with a cold blue-white light, like moonlight on frost. Where it steps the grass whitens.".
   Person glimmer "the glimmer-fox" at meadow_c {
     Role "a fox whose brush burns cold". Species glimmer_fox. Peaceable. Pronouns she.
-    Seen when foxWaiting(viewer) or exhibit(glimmer) or foxSeen(viewer).
   }
-  Relation foxWaiting(group). Relation foxSeen(group). Relation foxCaught(group). Relation foxPainted(concern). Relation foxFreed(group).
+  Initially Assert offstage(glimmer).
+  Relation foxSeen(group). Relation foxCaught(group). Relation foxPainted(concern). Relation foxFreed(group).
   Action wait_fox(actor: group, site: place) "Lie in the reeds by the frost-line, and wait for the glimmer-fox" {
     Time 6.
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, meadow_c) and dark() and knows(actor, fox_trail) and not foxSeen(actor) and not exhibit(glimmer).
     Resolve check(actor, stealth, dc_fair).
-    On success { Assert foxSeen(actor). Assert foxWaiting(actor). }
+    On success { Assert foxSeen(actor). Retract offstage(glimmer). Assert at(glimmer, meadow_c). }
     Result "You lie in the wet reeds for an hour, not moving, until your legs are part of the meadow. Then, along the frost-line, a light: low, blue-white, cold. She comes out of the alders with her brush held high and burning, a small pale fox, and stops, and looks straight at you, and goes on; and where she steps the grass goes white. She is hunting moths. They come to her light and she takes them out of the air, delicately, like someone eating grapes.".
     Otherwise "You lie in the reeds an hour, and shift, and a moorhen goes up with a clatter, and far off by the willows a cold light winks once and goes out.".
   }
@@ -187,7 +193,7 @@ Module circus "Wapshott's Peregrine Circus" {
   Action free_fox(actor: group, site: place) "Carry the glimmer-fox back to the water-meadows, and let her go" {
     Time 3.
     Requires able(actor) and company(actor) and at(actor, site) and at(glimmer, site) and exhibit(glimmer) and here(tober_c).
-    On success { Retract exhibit(glimmer). Retract travels(glimmer). Assert at(glimmer, meadow_c). Assert foxFreed(actor). Decrease draw(wapshotts) by 3 or to nothing. Decrease exhibits(wapshotts) by 1 or to nothing. Increase regard(billie) by 2. Increase draw(wapshotts) by 1. }
+    On success { Retract exhibit(glimmer). Retract travels(glimmer). Assert at(glimmer, meadow_c). Assert foxFreed(actor). Assert offstage(glimmer). Decrease draw(wapshotts) by 3 or to nothing. Decrease exhibits(wapshotts) by 1 or to nothing. Increase regard(billie) by 2. Increase draw(wapshotts) by 1. }
     Result "You carry her down in the sack to the frost-line and open it, and she steps out into the grass and stands, and her brush comes up and lights, slowly, from the root, like a wick taking. She looks back at you once. Then she is a light going away along the willows, and the grass whitening behind her. On the way back up, Billie is waiting by the field gate. She does not say anything. She walks back beside you.".
   }
 
@@ -212,16 +218,16 @@ Module circus "Wapshott's Peregrine Circus" {
   Action leave_cream(actor: group, site: place) "Set Honoria's bowl of cream on the hearth of the mill, and wait in the dark" {
     Time 6.
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, mill_b) and cream(actor) and dark() and not hobMet(actor).
-    On success { Assert hobMet(actor). Retract cream(actor). }
+    On success { Assert hobMet(actor). Retract cream(actor). Retract offstage(ninepence). Assert at(ninepence, mill_b). }
     Result "You set the bowl down on the swept hearth and sit back in the dark by the stocks. For a long time nothing. Then the bowl is being drunk from: you hear it, a small neat lapping. Then, very close to your ear, a voice like a dry leaf: 'Cream from the Ox,' it says. 'I know the Ox. I know her mother's slates.' And there he is, on the edge of the hearth, wiping his mouth: a little brown man as high as your knee, hairy as a burr, in a coat made of a fulling-cloth, with long clever hands and eyes like wet sloes.".
   }
   Relation hobMet(group).
   Species hob_kind "a hob" like pixie tame described "A little brown man as high as your knee, hairy as a burr, with long clever hands and eyes like wet sloes, in a coat cut from fulling-cloth.".
   Person ninepence "Ninepence" at mill_b {
     Role "the hob of the fulling-mill". Species hob_kind. Peaceable. Pronouns he. Manner acerbic.
-    Seen when hobMet(viewer) or hobJoined(ninepence).
     Greets "'Ninepence,' he says, before you can ask. 'Because that's what I was paid, once, in the reign of a king you never heard of, and I've not had a rise.' He looks at you sidelong. 'You're the circus. You'll be wanting to put me in a box and charge a penny to look at me. Everyone wants to put me in something. The tannery wants to put me in a vat.'".
   }
+  Initially Assert offstage(ninepence).
   Relation hobJoined(group). Relation hobTerms(group). Relation hobCage(concern). Relation hobAtInn(group).
   Topic hob_terms with ninepence "Ask Ninepence what it would take for him to come with the circus" when hobMet(actor) and not hobJoined(ninepence) and not hobAtInn(ninepence) once {
     Says "Ninepence holds up one long finger. 'Cream, nightly, from the Ox, who knows how.' Another. 'No box. No cage. No curtain. A corner of my own, somewhere with a hearth, that I sweep, and nobody else sweeps.' Another. 'Work. I'll not be looked at like a turnip in a show. Give me something to do, and I'll do it, in the dark, as I always have, and better than you've ever seen it done.' The fourth finger. 'And my name on the bills. An inch high. Spelled right.' He folds his hands. 'Those are the terms. Take them to your Colonel. I'll not haggle. I've been haggled at by better.'".
@@ -283,15 +289,15 @@ Module circus "Wapshott's Peregrine Circus" {
     Greets "A woman with a veil pushed up over her hat and a smoker in her hand is sitting on an upturned skep among the wreck of three others. 'Six skeps,' she says. 'In a fortnight. It comes at dusk. It's as big as a bullock and it's got a face like an owl, and it eats the comb and the bees and all, and screams.' She looks at you. 'If you're going to kill it, kill it. If you're not, I don't want to hear about it.'".
   }
   Topic billie_orchard with billie "Ask Billie what kind of beast would claw a tree that high and eat bees" when knows(actor, wonders_list) once {
-    Says "Billie's face changes. 'Face like an owl,' she says. 'Screams.' She looks at you. 'Owlbear. A young one, if it's eating bees: the old ones eat sheep. They're mad for honey at that age, and they've no more sense than a dog in a dairy.' She is quiet. 'And it'll kill you, mind. A young owlbear will take your arm off out of curiosity. If you're bringing it in, you'll want the cage-wagon iron-strapped, a net, honey to bring it, and somebody it'll look at while you close the net. And if it comes to it,' she says, 'it's you or it. I'd rather it was it.'".
+    Says "Billie's face changes. 'Face like an owl,' she says. 'Screams.' She looks at you. 'Owlbear. A young one, if it's eating bees: the old ones eat sheep. They're mad for honey at that age, and they've no more sense than a dog in a dairy.' She is quiet. 'And it'll kill you, mind. A young owlbear will take your arm off out of curiosity. If you're bringing it in, you'll want the cage-wagon iron-strapped, a net, honey to bring it, and somebody it'll look at while you close the net. And if it comes to it,' she says, 'it's you or it. I'd rather it was it.' She counts on her fingers. 'Lusk will make you a net, and strap the cage if you buy him the iron. The bee-wife will spare a comb. And ask me, when it's ready, and I'll come.'".
     On discuss { Assert knows(actor, owlbear_ways). }
   }
   Entity owlbear_ways: fact "Billie Ostrander says the beast in the orchards is a young owlbear, mad for honey: to bring it in you want the cage-wagon iron-strapped, a net, honey to bring it, and somebody it will look at while the net closes.".
   Species young_owlbear "a young owlbear" like owlbear temperament territorial described "A beast the size of a bullock, shaggy brown with a ruff of grey feathers, with the round, staring, horn-beaked face of an owl and great hooked claws on its forepaws. It is young: there is down still on its ruff, and it moves with the clumsy suddenness of a puppy that could kill you.".
-  Person bramble "Bramble" at orchard_a {
-    Role "a young owlbear, raiding the skeps" when not exhibit(bramble).
+  Person bramble "the young owlbear" at orchard_a {
+    Role "a young owlbear, raiding the skeps" when not exhibit(bramble) and not brambleLoose(wapshotts).
     Role "the menagerie's owlbear". Species young_owlbear. Pronouns she.
-    Known as "the beast in the orchards" when not exhibit(bramble) and not brambleLoose(wapshotts) and not dead(bramble).
+    Known as "Bramble, the menagerie's owlbear" when exhibit(bramble) and not brambleLoose(wapshotts).
         Warns "Something moves under the apple trees, and stands up. It is the size of a bullock, with a ruff of grey feathers and a round white owl's face, and it looks at you down its beak, and screams: a long, tearing, ridiculous, horrible scream, like a gate the size of a church. Then it comes a step nearer, swaying. You have a moment, no more, to do something other than fight.".
     Comes "The owlbear comes at you through the skeps in a run like a landslide.".
     Pleads "The owlbear goes down in the long grass and lies there with its round face in its claws, making a small sound, like a child.".
@@ -302,7 +308,7 @@ Module circus "Wapshott's Peregrine Circus" {
   Rule bramble_comes when offstage(bramble) and dusk() and watch(clock) >= brambleBack(bramble) and not exhibit(bramble) and not dead(bramble) and not brambleLost(wapshotts) { Retract offstage(bramble). Assert at(bramble, orchard_a). }
   Rule bramble_goes when at(bramble, orchard_a) and not dusk() and not exhibit(bramble) and not dead(bramble) and not threatened(party) { Assert offstage(bramble). }
   Relation netRigged(group). Relation cageStrapped(concern). Relation honeyBought(group). Relation brambleLoose(concern).
-  Topic tarrant_honey with tarrant "Ask Goody Tarrant for a comb of honey, to bring the beast with" when knows(actor, owlbear_ways) and not honeyBought(actor) once {
+  Topic tarrant_honey with tarrant "Ask Goody Tarrant for a comb of honey, to bring the beast with" when (knows(actor, owlbear_ways) or knows(actor, wonders_list)) and not honeyBought(actor) once {
     Says "Goody Tarrant looks at you as if you were mad, which in fairness you may be. 'A comb,' she says, 'to bring it. To bring it here. On purpose.' Then she gets up and goes to a skep it hasn't found and smokes it, and cuts you a comb, golden and dripping, and wraps it in a dock-leaf. 'If you take it away,' she says, 'alive, and it never comes back, that's my honey well spent. If it eats you, I'll want the leaf back.'".
     On discuss { Assert honeyBought(actor). }
   }
@@ -405,7 +411,7 @@ Module circus "Wapshott's Peregrine Circus" {
     Otherwise "You give her the Look, and she gives it back, and then she sits on you.".
   }
   Rule bramble_home when not brambleLoose(wapshotts) and exhibit(bramble) and travels(bramble) and peaceable(bramble) and current(wapshotts, ?g) and greenOf(?g, ?green) and at(bramble, ?green) { Assert at(bramble, ?g). }
-  Rule bramble_gone when brambleLoose(wapshotts) and watch(clock) >= looseSince(wapshotts) + 30 and current(wapshotts, ?g)
+  Rule bramble_gone near billie when brambleLoose(wapshotts) and watch(clock) >= looseSince(wapshotts) + 30 and current(wapshotts, ?g)
     says "Bramble is gone. She went off over the hedges toward the hills in the afternoon with half the town's washing on her back, and nobody could stop her, and nobody, in the end, much wanted to. The Colonel is to pay for the washing, and for the baker's buns, and for a door." {
     Retract brambleLoose(wapshotts). Retract exhibit(bramble). Assert offstage(bramble). Decrease draw(wapshotts) by 4 or to nothing. Decrease exhibits(wapshotts) by 1 or to nothing.
     Decrease standing(?g) by 2 or to nothing. Decrease strongbox(wapshotts) by 5 or to nothing. Assert brambleLost(wapshotts). }
@@ -460,7 +466,7 @@ Module circus "Wapshott's Peregrine Circus" {
     Result "Honoria comes down with her sleeves rolled up and looks at the tortoise and says 'Well, my love,' and squats, and gets her arms under him, and stands up with forty stone of tortoise against her chest; and walks up the street with him, step by step, red as a brick, while the tortoise looks out over her shoulder at {town_c} with an expression of mild interest. At the field gate she puts him down very gently and straightens up and something in her back goes click. 'Oh,' she says. 'Oh, dear.'".
   }
   Rule honoria_abed when honoriaBack(wapshotts) and day(clock) <= backDay(wapshotts) + 1 and not honoriaAbed(honoria) and current(wapshotts, ?g) and groundRoom(?g, rk_wagons, ?w) { Assert honoriaAbed(honoria). Assert away(honoria). Assert at(honoria, ?w). }
-  Rule honoria_up when honoriaAbed(honoria) and day(clock) > backDay(wapshotts) + 1 says "Honoria Bulstrode is up again, walking a little carefully, and the cookhouse smells of bacon, and everybody in the circus is very pleased about it and pretends not to be." {
+  Rule honoria_up near honoria when honoriaAbed(honoria) and day(clock) > backDay(wapshotts) + 1 says "Honoria Bulstrode is up again, walking a little carefully, and the cookhouse smells of bacon, and everybody in the circus is very pleased about it and pretends not to be." {
     Retract honoriaAbed(honoria). Retract away(honoria). Retract honoriaBack(wapshotts). }
   Relation honoriaAbed(group).
   Rule ox_abed near ringpost when showOn(wapshotts) and act(wapshotts) == 4 and not told(part_ox) and honoriaAbed(honoria)
@@ -493,19 +499,20 @@ Module circus "Wapshott's Peregrine Circus" {
   Relation serpentFound(group). Relation serpentGiven(group).
   Kind band_serpent_kind "an old band serpent" is gear worth 3 weighing 3
     described "A bass horn of black leather over wood, coiled like a snake three times on itself, with brass keys gone green and a mouthpiece like a little cup. Inside the bell somebody has carved: J.R. HIS SERPENT. HARVEST.".
-  Item old_serpent "the old serpent from the shrine loft" is band_serpent_kind at road_ca hidden until serpent_handed.
+  Item old_serpent "the old serpent from the shrine loft" is band_serpent_kind at tober_a hidden until serpent_handed.
   Discovery serpent_handed "{priest_c} has given you the shrine's old band serpent.".
   Person snake "a grass snake" at tober_b {
-    Role "a little green snake of the pond reeds, yellow at the collar". Species snake. Peaceable. Pronouns it.
-    Seen when snakeCaught(wapshotts) or knows(viewer, serpent_muddle).
+    Role "a little green grass snake with a yellow collar". Species snake. Peaceable. Pronouns it.
   }
+  Initially Assert offstage(snake).
+  Rule snake_seen when offstage(snake) and knows(party, serpent_muddle) and not snakeCaught(wapshotts) { Retract offstage(snake). Assert at(snake, tober_b). }
   Relation snakeCaught(concern).
   Action catch_snake(actor: group, site: place) "Catch the grass snake in the pond reeds for the Colonel's menagerie" {
     Time 3.
     Requires able(actor) and company(actor) and at(actor, site) and at(snake, site) and knows(actor, serpent_muddle) and not snakeCaught(wapshotts) and here(tober_b).
     Resolve check(actor, woodcraft, dc_easy).
     On success { Assert snakeCaught(wapshotts). Assert exhibit(snake). Assert travels(snake). Assert post(snake, rk_beasts). Increase draw(wapshotts) by 1. Increase exhibits(wapshotts) by 1. }
-    Result "You wade in among the geese, who object, and come out with a grass snake as long as your arm, green and yellow-collared, which pretends to be dead in your hands with great conviction, tongue out. Billie looks at it. 'It'll go in a bucket,' she says. The Colonel looks at it. 'THE GREAT SERPENT OF {town_b},' he says reverently. 'In a bucket. Yes.'".
+    Result "You wade in among the geese, who object, and come out with a grass snake as long as your arm, green and yellow-collared, which pretends to be dead in your hands with great conviction, tongue out. When you carry it into the menagerie Billie looks at it and says, 'It'll go in a bucket.' The Colonel, sent for, looks at it for a long time. 'THE GREAT SERPENT OF {town_b},' he says reverently. 'In a bucket. Yes.'".
     Otherwise "You wade in among the geese, who object, and the grass snake goes away through the reeds like a ribbon pulled through a ring.".
   }
   Observe snake_shown near snake when exhibit(snake) "In a bucket with a lid of wire netting, on a table draped in black velvet, under a board six feet long that says THE GREAT SERPENT OF {town_b}, a grass snake is asleep.".

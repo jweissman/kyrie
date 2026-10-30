@@ -8,7 +8,14 @@
     "ledger.kyr",
     "menagerie.kyr",
     "acts.kyr",
-    "note.kyr"
+    "note.kyr",
+    "rest.kyr",
+    "progress.kyr",
+    "pells.kyr",
+    "art2.kyr",
+    "lives.kyr",
+    "marl.kyr",
+    "revels.kyr"
   ],
   "rules": [
     "world"

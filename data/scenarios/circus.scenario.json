@@ -56,7 +56,6 @@
       "fact": "circus.heard_circus",
       "topic": "Wapshott's Circus",
       "channels": [
-        "tavern",
         "market",
         "road"
       ],
