@@ -52,6 +52,9 @@ describe('a reading held to a later world', () => {
     expect(start.apply([{ kind: 'assert', call: call('at', 'b', 'z') }]).agrees(names, stamped)).toBe(false);
     expect(new World(module).apply(module.initial).agrees(names, stamped)).toBe(false);
   });
+  it('counts asking whether something is within an area as reading where it is', () => {
+    expect(Reads.names(module, [call('within', 'a', 'y')])).toEqual(['at', 'within']);
+  });
   it('lets a rule that held nowhere go unasked until something its condition reads is written', () => {
     const rule = module.rules!.find(r => r.id === 'alarm')!;
     expect(CampaignTick.instances(rule, start)).toEqual([]);

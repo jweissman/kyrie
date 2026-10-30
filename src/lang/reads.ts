@@ -18,6 +18,9 @@ export class Reads {
         names.add(part.name);
         // A thing's own die (dice(?room)) is drawn from the watch's die and the watch (see World.die).
         if (part.name === 'dice') { names.add('watch'); }
+        // Whether something is within an area is where it is (see ComputedRelations): a rule asking it is asked again
+        // when the company moves (the Lull's friction F3, LUL-03: never, before).
+        if (part.name === 'within') { names.add('at'); }
         const query = queries.get(part.name);
         if (query) { this.visit(query.body, queries, names); }
         return;

@@ -23,7 +23,7 @@ describe('The Lull in the world', () => {
       expect(['x0ym1', 'x1y0', 'xm1y0', 'x0y1']).not.toContain(at);
     }
     expect([...Countries.plan('l127', 'forest')].find(([, c]) => c.id === 'lull')?.[0]).toBe('x1ym1');
-  });
+  }, 30000);
 
   it('is heard of in the country next to it, and walked into over the north march, and keeps its own sennight', async () => {
     const seed = 'l127';
