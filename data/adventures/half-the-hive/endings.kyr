@@ -26,7 +26,7 @@ Module hume "Half the Hive" {
   Rule fate_agnes_freed within hume_wold when accounting() and goes(agnes) and not spread(fate_agnes) says "Agnes Mellor went with the Mother, and left Tobit capped in the Gallery with the others, safe, and has a view." { Assert spread(fate_agnes). }
   Rule fate_agnes_stays within hume_wold when accounting() and not goes(agnes) and not spread(fate_agnes) says "Agnes Mellor stayed. She sits in the Capped Gallery every night in the dark with Tobit, on her stool, talking about the goat." { Assert spread(fate_agnes). }
   Entity fate_agnes: fact "Agnes".
-  Rule fate_moth_dead within hume_wold when accounting() and mothDead(deathshead) and not spread(fate_moth) says "Nothing comes into the Capped Gallery in the small hours now. The Cappers have taken down the board that says no flame among the Capped, and put it back up again, because it is still true." { Assert spread(fate_moth). }
+  Rule fate_moth_dead within hume_wold when accounting() and mothDead(deathshead) and not spread(fate_moth) says "Nothing comes into the Capped Gallery in the small hours now." { Assert spread(fate_moth). }
   Rule fate_moth_alive within hume_wold when accounting() and not mothDead(deathshead) and not spread(fate_moth) says "Something still comes into the Capped Gallery in the small hours, soft and dry, smelling of the Mother, and drinks from the seals of the dead; and the children of the Brow have a name for it, and a rhyme, and will not go up the honey stair after dark." { Assert spread(fate_moth). }
   Entity fate_moth: fact "the Gallery".
   // Nell, and the squire.
@@ -39,7 +39,7 @@ Module hume "Half the Hive" {
   Rule fate_corve_none within hume_wold when accounting() and not left(larkhill) and not spread(fate_corve) says "At Larkhill the squire's tower stands empty and dry and pointed, with an empty green flask in a crack at the top of it; and the squire sits in his study among twelve years of drawings and does not draw." { Assert spread(fate_corve). }
   Entity fate_corve: fact "Corve".
   // Moss, the Daughters, Ivo, the mead, the Drewes.
-  Rule fate_moss_hurt within hume_wold when accounting() and mossHurt(moss) and not spread(fate_moss) says "Moss Ashdown can walk again, with a stick, and will be a Searcher still, they say, in a year. There is a song about him in the Brow after all; the children made it up. It is not the song he wanted. It is quite a good song." { Assert spread(fate_moss). }
+  Rule fate_moss_hurt within hume_wold when accounting() and mossHurt(moss) and not spread(fate_moss) says "Moss Ashdown can walk again, with a stick. The Leaving went without him." { Assert spread(fate_moss). }
   Rule fate_moss_brocks within hume_wold when accounting() and brocksKilled(brocks) and not mossHurt(moss) and not spread(fate_moss) says "Moss Ashdown has two brock claws on a thong round his neck and a song in every comb in the Wold, and does not sing it, and does not wear the claws when Kestrel is near." { Assert spread(fate_moss). }
   Entity fate_moss: fact "Moss".
   Rule fate_daughters_pierced within hume_wold when accounting() and breckPierced(brenna) and not spread(fate_daughters) says "The Candlish princess reigns in the Brow, and the Candlishes are the Mother's household for thirty years, and do not know what to do with it. Dame Brenna Breck has not left her cell in the Brood since the night, and her grandson Tibby brings her meals, with his drone, and she eats them." { Assert spread(fate_daughters). }
