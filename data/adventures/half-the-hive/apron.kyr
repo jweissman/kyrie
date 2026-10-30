@@ -1,0 +1,68 @@
+Module hume "Half the Hive" {
+  // ── The Apron and the Scenting House ──────────────────────────────────────────────────────────────────────────────
+  Person elspet "Elspet Garnock" at scenting_room {
+    Role "the Scent-warden: a small exact woman with a stained apron and very clean hands, who smells overwhelmingly of the Comb".
+    Ancestry human. Peaceable. Pronouns she. Manner stoic.
+    Greets "A small woman at the stone basin looks at you over her spectacles, and then, deliberately, leans close and smells you: hair, throat, hands. 'Lowland,' she says. 'Woodsmoke, sheep, somebody else's soap. Nothing of ours.' She wipes her hands. 'Two coin and I'll make you smell like a cousin for a day. The Sisters won't know you from a Hume child. They'll know you the day after, so come back.'".
+    Greets again "Elspet leans in and smells you, out of habit, and nods.".
+  }
+  Action scent_paid(actor: group, site: place) "Ask Elspet to scent you for a day, two coin" {
+    Speaker elspet.
+    Requires at(actor, site) and able(actor) and company(actor) and at(actor, scenting_room) and at(elspet, scenting_room) and not searcher(actor) and not named(actor) and not scented() and quantity(actor, gold) >= 2.
+    Time 1.
+    On success { Decrease quantity(actor, gold) by 2. Increase quantity(elspet, gold) by 2. Set scentUntil(actor) to watch(clock) + 144. Retract spread(scent_faded). }
+    Result "She dips two fingers in a jar of something gold and thick, and draws them down your forehead, your throat, the insides of your wrists, behind your ears, saying something under her breath that has the hum's tune and no words. It is warm, and then it is nothing; and then, as you go out, a Sister on the doorframe turns her head toward you, and away, uninterested, as if you were family.".
+  }
+  Action scent_searcher(actor: group, site: place) "Show Elspet your Searcher's ribbon, and be scented" {
+    Speaker elspet.
+    Requires at(actor, site) and able(actor) and company(actor) and at(actor, scenting_room) and at(elspet, scenting_room) and searcher(actor) and not named(actor).
+    Time 1.
+    On success { Set scentUntil(actor) to watch(clock) + 144. Retract spread(scent_faded). }
+    Result "Elspet looks at the yellow ribbon and nods and does it without a word, quicker than for a guest: forehead, throat, wrists. 'Kestrel's,' she says. 'Mind she pays you.'".
+  }
+  Topic elspet_scent with elspet "Ask Elspet what the scent is" when true once {
+    Says "'The Mother.' She holds up the jar. 'Every queen has her own smell, and every Sister born to her knows it, and knows that whatever smells of it is the hive, and whatever does not is a robber. So we take a little of what the Mother leaves on the comb where she walks, and we cut it with wax and oil, and we put it on our children the day they are born, and on ourselves at every feast. That is what it is to be of the Comb.' She stoppers the jar. 'On you it lasts a day. On us it never quite comes off.'".
+  }
+  Topic elspet_who with elspet "Ask Elspet who she will not scent" when true once {
+    Says "'Anyone may be scented for a day, if they pay. That is hospitality.' She dries her hands, finger by finger. 'To be named, to be scented for life, is another thing. That is for those born to it, and for those the Comb takes in: a marriage, sometimes; a service. I decide. My mother decided before me.' She looks at you over the spectacles. 'People think it is a small thing, a smell. It is everything. It is the only thing the Sisters know about you.'".
+  }
+  Topic elspet_nell with elspet "Ask Elspet about Nell Quarrie" when knows(actor, nell_forges) and not nellNamed(nell) and not nellBarred(nell) once {
+    Says "Her face goes very still. 'Aldo Quarrie's widow. A lowlander. She asked to be named after he died, so she could sit with him. I said no.' She says it without heat. 'He married out. He went down the gorge for eleven years. The Comb did not take her in; he took her out. It is not the same.' A pause. 'She asks me every year. I say no every year. I am not cruel,' she says. 'I am the door. A door that opens to everyone is not a door.'".
+  }
+  Action expose_nell(actor: group, site: place) "Tell Elspet that Nell Quarrie forges the scent and goes up the stair in it" {
+    Speaker elspet.
+    Grave "Elspet will close the stair to Nell Quarrie for good; she will never sit with Aldo again.".
+    Requires at(actor, site) and able(actor) and at(actor, scenting_room) and at(elspet, scenting_room) and knows(actor, nell_forges) and not nellNamed(nell) and not nellBarred(nell).
+    Time 1.
+    On success { Assert nellBarred(nell). }
+    Result "Elspet hears you out without moving. Then she takes off her spectacles and folds them. 'Six years,' she says. 'Up my stair.' She calls her son from the back and sends him running up the Comb for two of the Hum-keepers. 'Thank you,' she says to you, quite sincerely, and you understand that you have done a thing that cannot be taken back, and that she is grateful for it.".
+  }
+  // Agnes Mellor's word, from one Capper's widow for another's friend's: Aldo Quarrie was Tobit's friend.
+  Relation agnesVouches(group).
+  Action plead_nell(actor: group, site: place) "Ask Elspet to name Nell Quarrie to the Comb, on Agnes Mellor's word" {
+    Speaker elspet.
+    Requires at(actor, site) and able(actor) and at(actor, scenting_room) and at(elspet, scenting_room) and knows(actor, nell_forges) and agnesVouches(agnes) and not nellNamed(nell) and not nellBarred(nell).
+    Time 2.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert nellNamed(nell). }
+    Result "You tell her all of it: the oil, the six years, the fourth row on the left. And then what Agnes Mellor said, that Tobit sealed Aldo Quarrie himself and wept doing it, and that Nell sat with Tobit's body last week in the dark when nobody else would. Elspet is silent a long time. 'She has been coming up my stair,' she says at last, 'for six years, to sit in the dark with a dead man, because I would not let her do it in the light.' She puts her spectacles back on. 'Tell her to come in the morning. I will do it properly. The way it is done for a bride.'".
+    Otherwise "Elspet hears you out and shakes her head. 'You are asking me to reward a forger for forging.' She turns back to the basin. 'Ask me again when I have slept on it.'".
+  }
+
+  // The Apron's market: food, of the Comb's kind.
+  Person doll "Doll Rowntree" at apron {
+    Role "a stallholder by the troughs, with a griddle, a fly-whisk, and forearms like hams".
+    Ancestry human. Peaceable. Pronouns she. Manner jovial.
+    Sells rations for 1 coin from 20.
+    Sells bee_bread for 1 coin from 6.
+    Greets "'Honey-cake, bee-bread, comb on a leaf, mead by the horn,' says the woman at the griddle, 'and brood, fried, hot, the best in the Brow, a coin the cone. Go on. The Escort eat it every night and they're the handsomest men in the Wold.' She laughs until she has to hold on to the trough.".
+    Greets again "Doll Rowntree waves her fly-whisk at you. 'Hungry?'".
+  }
+  Topic doll_brood with doll "Ask Doll Rowntree why the Escort eat fried brood" when true once {
+    Says "'Because it's drone brood, love.' She flips a cone of it on the griddle: little pale curls in golden wax, crackling. 'Drones. Lads. Born to do nothing but follow the princess up the Toot. Fed and pampered and good for nothing else, and then turned out, come the autumn.' She grins. 'So we feed the Escort on drones. They think it's a compliment.' She shrugs. 'Might be. Might not. It's been done since before the Comb, and nobody's ever said which.'".
+  }
+  Topic doll_who with doll "Ask Doll Rowntree who is going" when not leavingBegun() {
+    Says "'Me? Staying. I've a griddle that weighs more than me and the Mother's got no use for brood fried or otherwise.' She fans the coals. 'My sister's going. My boy's going. Searcher, he is, like his dad was.' She fans harder. 'He's twenty-two. You can't keep them.' She does not look up for a while.".
+  }
+  Observe apron_after at apron when leavingBegun() "The Apron is too quiet. The Sisters still come and go overhead, but thinly, a stream where there was a river; half the stalls are bare boards; and the people who are left stand about in twos and threes, not talking much, looking up at the Comb as if it were somebody's house after a funeral.".
+}

@@ -1,0 +1,44 @@
+{
+  "version": 1,
+  "source": [
+    "country.kyr",
+    "clock.kyr",
+    "dance.kyr",
+    "smoke.kyr",
+    "apron.kyr",
+    "lovers.kyr",
+    "stores.kyr",
+    "ivo.kyr",
+    "wold.kyr",
+    "gallow.kyr",
+    "dell.kyr",
+    "lark.kyr",
+    "calling.kyr",
+    "leaving.kyr",
+    "daughters.kyr",
+    "turning.kyr",
+    "endings.kyr",
+    "growth.kyr",
+    "placed.kyr"
+  ],
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "exports": {
+    "party": "party",
+    "region": "hume_wold",
+    "drove_end": "drove_end"
+  },
+  "imports": [
+    "party"
+  ],
+  "roles": {
+    "party": {
+      "type": "group"
+    }
+  },
+  "experience": 800
+}

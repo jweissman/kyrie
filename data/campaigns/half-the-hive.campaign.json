@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "name": "Half the Hive",
+  "calendar": { "year": 1312, "month": 6, "day": 9 },
+  "pitch": {
+    "heading": "Up the drove road to the Wold of Hume",
+    "text": "The drove road climbs out of the lowland hedges onto the Wold, where four hundred people live inside a honeycomb under a cliff and belong to bees as big as hounds by the smell of their queen. The limes are in flower. The old queen is about to swarm, and when she goes, half the town will walk out behind her and never come back. The Searchers who must find them a new home are short of hands, and have sent a notice down to Smoke End: any who can walk and look."
+  },
+  "modules": [
+    { "id": "hume", "bundle": "../adventures/half-the-hive/module.json" }
+  ],
+  "party": [
+    { "name": "Wren", "raceId": "human", "classId": "ranger" }
+  ]
+}

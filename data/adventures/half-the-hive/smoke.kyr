@@ -1,0 +1,124 @@
+Module hume "Half the Hive" {
+  // ── Smoke End ─────────────────────────────────────────────────────────────────────────────────────────────────────
+  // The outsiders' street at the mouth of the gorge: an inn, a smith of smokers and veils, a perfumer, and the
+  // Chandlers' yard, where this week the Leavers' things are bought at a fifth of what they are worth.
+
+  // Martin Sayle, who keeps the Smoker's Rest.
+  Person martin "Martin Sayle" at taproom {
+    Role "the keeper of the Smoker's Rest: a grey, square, careful man who turns his head to listen with his left ear".
+    Profession innkeeper. Ancestry human. Peaceable. Pronouns he. Manner stoic.
+    Sells rations for 2 coin from 8.
+    Buys wax_cake for 2 coin.
+    Buys wild_comb for 3 coin.
+    Greets "The man behind the board turns his head to bring his left ear round to you. 'Speak up on that side. The right's been no use since a Sister put a sting in it, twenty years back, the first week I came up here.' He pours you something without asking. 'Mead. Mine. It isn't as good as Huw Penry's up the Comb, and I'll tell you why before you ask: he's got the heather honey and I've got what he sells me. Bed's two coin. Welcome to the Wold.'".
+    Greets again "Martin turns his good ear to you and reaches for a cup.".
+  }
+  Topic martin_wold with martin "Ask Martin about the Wold" when true {
+    Says "'Up the gorge is the Comb, and in the Comb are the Humefolk, and the Sisters, and the honey.' He wipes the board. 'They're good people. Odd. They'll sell to you all day at the foot of the stair, but they won't have you up it unless you smell right; Elspet at the Scenting House'll do you for two coin, a day's worth. Don't let it run out up there.' He touches his deaf ear. 'And this week they're splitting the town in half and walking off with the old queen, so mind where you stand.'".
+  }
+  Topic martin_leaving with martin "Ask Martin about the Leaving" when not leavingBegun() {
+    Says "'Every thirty, forty years. The old queen swarms and half of them go with her and never come back. Nobody's made to. They choose.' He looks at the door, at the handcarts going by. 'Families split down the middle. Husbands, wives. I saw the last one, my first year. A man and his wife stood on the Apron with their hands on each other's faces for an hour, and then he walked off after the bees and she went back up the stair.' He sets a cup down. 'It's the best week's trade Smoke End ever has. Make of that what you like. Crispin Penhallow at the Chandlers' yard is making something of it.'".
+  }
+  Topic martin_mead with martin "Ask Martin about Huw Penry's mead" when true once {
+    Says "His face does something complicated. 'Huw Penry is the finest mead-maker in the Wold and the vainest man in it, and he's going with the Mother, and he's making one last mead for the Calling that'll be drunk at every Calling for thirty years, he says.' A pause. 'I hear it's stuck. Stopped working in the barrel. Won't go.' Another pause. 'I'm not glad,' says Martin, who is a little glad. 'Somebody should tell him what'll start it. It won't be me. He'd sooner pour it in the stream than take a word from Smoke End.'".
+    On discuss { Assert knows(actor, mead_stuck). }
+  }
+  Discovery mead_stuck "Huw Penry's mead for the Calling has stuck in the barrel and will not work.".
+
+  // Hild Thorle, smith of smokers and veils.
+  Person hild "Hild Thorle" at forge {
+    Role "the smith of Smoke End: a broad dwarf woman in a leather apron, with a bee-veil pushed up on her head like a bonnet".
+    Ancestry dwarf. Peaceable. Pronouns she. Manner jovial.
+    Sells bee_smoker for 3 coin from 4.
+    Sells bee_veil for 2 coin from 4.
+    Sells sister_sting for 2 coin from 3.
+    Greets "A dwarf woman looks up from a tin can she is riveting a spout onto. 'Smoker? Veil? Both? You'll want both, if you're going up. The scent's the thing, but scent wears off and smoke doesn't lie.' She hands you the can to admire. 'Three coin. And I pull stings, a coin a sting, if you come back down with any in you.'".
+    Greets again "Hild waves a hammer at you.".
+  }
+  Topic hild_stings with hild "Ask Hild why she keeps the stings she pulls" when true once {
+    Says "'Because they're worth more out than in.' She takes one out of a jar, in its paper, and sniffs it, and holds it under your nose: bananas, sharp and sweet. 'Smell that? That's what a Sister leaves when she stings. It means: here's a robber, come and help. Every Sister in a mile comes to that smell.' She folds the paper up. 'Rub one on a thing, and the Sisters will kill that thing, whatever it smells of underneath. The Waxwrights buy them to set the bees on the wild hives when they rob. Two coin.' She grins. 'Don't rub it on yourself.'".
+    On discuss { Assert knows(actor, alarm_known). }
+  }
+  Discovery alarm_known "A Sister's sting carries a smell like bananas that calls every Sister near to kill whatever it is rubbed on, whatever that thing smells of underneath.".
+  Topic hild_comb with hild "Ask Hild about the Comb" when true {
+    Says "'Beautiful. Hot. Sticky. I went up once with my scent running thin and came down with eleven stings.' She shows you a wrist pocked with little white scars. 'Lowlanders think the Sisters are gentle because they're furry. They're gentle because they're full. Annoy one and you'll see what four hundred years of not needing to be gentle looks like.'".
+  }
+
+  // Nell Quarrie, perfumer: who was refused, and forged it.
+  Person nell "Nell Quarrie" at nell_shop {
+    Role "the perfumer of Smoke End: a tall woman in black, fifty, very upright, who smells faintly of the Comb".
+    Ancestry human. Peaceable. Pronouns she. Manner proud.
+    Sells nell_oil for 1 coin from 6.
+    Greets "A tall woman in black looks up from a row of little bottles. The shop smells of roses, of resin, of musk, and under it all, faint and impossible, of warm wax and summer fields. 'Rosewater,' she says, 'lavender, attar, civet, and a few things of my own.' She watches you notice the smell under the smells. 'Yes,' she says, 'that too. One coin. Half a day.'".
+    Greets again "Nell Quarrie inclines her head.".
+  }
+  Action anoint_nell(actor: group) "Anoint yourself with Nell Quarrie's oil" {
+    Description "Half a day of smelling as if you belonged to the Comb.".
+    Requires able(actor) and company(actor) and holding(actor, nell_oil) and not named(actor).
+    Time 1 minute.
+    On success { Spend nell_oil from actor. Set scentUntil(actor) to watch(clock) + 72. Assert usedNellOil(actor). }
+    Result "You dab it at your throat and wrists and in your hair. For a moment you smell like a summer afternoon in the Comb; then you stop noticing, the way you stop noticing your own house.".
+  }
+  Relation usedNellOil(group).
+  Measure nellTrust(group). Relation nellConfessed(group). Relation nellNamed(group). Relation nellBarred(group).
+  Topic nell_oil_how with nell "Ask Nell Quarrie how she makes the oil that smells of the Comb" when not nellConfessed(nell) once {
+    Says "'Carefully.' She does not smile. 'Six years of carefully. Heather oil, and wax, and propolis, and fourteen other things, and a great deal of standing at the foot of the stair with my eyes shut, smelling.' She sets a bottle straight on the shelf. 'It is not illegal. There is no law in the Wold about smelling of things. There is only Elspet Garnock.'".
+    On discuss { Increase nellTrust(nell) by 1. }
+  }
+  Topic nell_aldo with nell "Ask Nell Quarrie why she learned to make it" when nellTrust(nell) >= 1 once {
+    Says "She is quiet so long you think she will not answer. 'My husband was Aldo Quarrie, of the Comb. He came down to Smoke End to buy lavender for his mother and he stayed eleven years. When he was dying he wanted to go home, and I took him up the stair, and Elspet Garnock scented him, and would not scent me.' Her hands are quite still on the counter. 'He's capped in the Gallery. Fourth row from the arch, on the left. I asked to go up and sit with him the way the Humefolk sit with theirs. Three times. Elspet said I was not of the Comb.' She looks at you. 'So I made myself of the Comb. Once a month, for six years, I have gone up the stair smelling of this, and sat with him an hour in the dark, and come down. Nobody has ever stopped me. Nobody has ever noticed.'".
+    On discuss { Increase nellTrust(nell) by 1. Assert knows(actor, nell_forges). }
+  }
+  Discovery nell_forges "Nell Quarrie forges the Comb's scent, and has gone up the stair in it once a month for six years to sit with her dead husband Aldo in the Capped Gallery, because Elspet Garnock would not scent her.".
+  Topic nell_sat_aldo with nell "Tell Nell Quarrie you sat a while with Aldo" when knows(actor, aldo_sat) and not nellConfessed(nell) once {
+    Says "Something goes out of her shoulders. 'Fourth row,' she says. 'On the left.' You tell her what he looks like now: the brown coat, the hands, the little smile they all have. She nods at each thing. 'Yes. Yes.' Then she says, abruptly, as if it has been sitting in her mouth for a week: 'I made a thing I should not have. For the squire at Larkhill.'".
+    On discuss { Increase nellTrust(nell) by 1. }
+  }
+  Topic nell_flask with nell "Ask Nell Quarrie what she made for the squire" when nellTrust(nell) >= 2 and not nellConfessed(nell) once {
+    Says "'A flask.' She takes a breath. 'Not this,' the phials, 'but the thing itself. Strong. Stronger than the Mother smells to her own bees. Lucian Corve came here in the spring with his drawings and his letters and his good manners, and asked me if it could be done, and paid me forty crowns, and I did it, because it could be done, and because the Comb would not have me, and because forty crowns is forty crowns.' She looks at her hands. 'Uncorked on his tower, on the wind, it will call the swarm. It will call it whatever they dance. He means to open it on the fourth morning.' A pause. 'I hoped he would not. I hoped, when I gave it him, that he would turn out to be a man who would not.'".
+    On discuss { Assert nellConfessed(nell). Assert knows(actor, flask_known). }
+  }
+  Discovery flask_known "Squire Corve of Larkhill has a flask of Nell Quarrie's making, stronger than the Mother's own scent, and means to uncork it on his tower on the fourth morning to call the swarm to his chantry, whatever the Searchers dance.".
+  Topic nell_named with nell "Tell Nell Quarrie that Elspet Garnock will scent her" when nellNamed(nell) once {
+    Says "She does not believe you, and then she does, and then she sits down on the stool behind her counter very suddenly, like a much older woman. 'Properly,' she says. 'Up the stair in daylight, like anybody.' She puts her hands over her face. When she takes them away she is smiling, which you have not seen her do. 'I shall go up tomorrow,' she says, 'and sit with him in the afternoon. In the afternoon! With the light coming down the arch.'".
+  }
+  Topic nell_barred with nell "Ask Nell Quarrie for the oil" when nellBarred(nell) once {
+    Says "'There is no oil.' Her face is closed like a door. 'Elspet Garnock came down the gorge yesterday with two of the Hum-keepers and poured it in the stream, every phial, and put a mark on my door that the Comb reads, and told me that if I am found on the stair again the Sisters will be told what I am.' She looks at you without any expression at all. 'Somebody told her. I wonder who.'".
+  }
+
+  // Crispin Penhallow, factor of the Chandlers' Company, and the Leavers' Market.
+  Person penhallow "Crispin Penhallow" at leavers_yard {
+    Role "the factor of the Chandlers' Company: a pleasant, soft-voiced man in a black coat, with a boy and a slate".
+    Ancestry human. Peaceable. Pronouns he. Manner cheerful.
+    Buys wax_cake for 1 coin.
+    Buys wild_comb for 2 coin.
+    Buys fine_candles for 3 coin.
+    Greets "The man in the black coat smiles at you, a real smile, sympathetic. 'Sad week,' he says. 'Sad week for them. They can't carry it, you see. The Leaving takes what it stands up in, and the ones staying have no money to buy it off them, because they never do, so it comes to us.' He gestures at the rows of wax and chests and cradles. 'We give them what we can.' What he can is one coin for a cake of wax that the Company sells in the lowland for six.".
+    Greets again "Crispin Penhallow nods to you pleasantly.".
+  }
+  Topic penhallow_price with penhallow "Ask Crispin Penhallow what he pays" when true once {
+    Says "'A fifth.' He does not lower his voice. 'Of the lowland price. Which sounds hard, I grant you, but consider: if I did not buy it, it would sit in the Comb till the stayers took it for nothing. A fifth of something is better than all of nothing.' He taps the boy's slate. 'And the Company has carriage to pay, and the risk, and my wage. I am not a bad man,' he says, as if you had asked. 'I am a price. Somebody has to be.'".
+  }
+  // The Drewes, going with the Mother, selling the best of what they made.
+  Person drewes "the Drewes" at leavers_yard {
+    Role "a family of chandlers of the Comb going with the Mother: a mother, a father, two girls, standing by a table of fine candles".
+    Ancestry human. Numbers 4. Peaceable. Pronouns they.
+    Greets "The mother of the family watches you look at the candles: tall, white, fluted, the best work you have seen. 'Thirty years of my mother's moulds,' she says. 'Master Penhallow says two coin the bundle.' She does not look at Master Penhallow.".
+  }
+  Relation drewesPaid(group). Relation drewesCheated(group).
+  Item drewe_candles "a bundle of fluted Brow candles" is fine_candles at limbo.
+  Action buy_drewes_cheap(actor: group, site: place) "Buy the Drewes' candles at the Leavers' price, two coin" {
+    Speaker drewes.
+    Requires at(actor, site) and able(actor) and at(actor, leavers_yard) and at(drewes, leavers_yard) and quantity(actor, gold) >= 2 and not drewesPaid(actor) and not drewesCheated(actor) and not leavingBegun().
+    Time 1.
+    On success { Decrease quantity(actor, gold) by 2. Give drewe_candles to actor. Assert drewesCheated(actor). }
+    Result "The mother takes your two coins and puts them in her apron and hands you the candles, and says thank you, and does not look at you either.".
+  }
+  Action buy_drewes_fair(actor: group, site: place) "Pay the Drewes what the candles are worth, six coin" {
+    Speaker drewes.
+    Requires at(actor, site) and able(actor) and at(actor, leavers_yard) and at(drewes, leavers_yard) and quantity(actor, gold) >= 6 and not drewesPaid(actor) and not drewesCheated(actor) and not leavingBegun().
+    Time 1.
+    On success { Decrease quantity(actor, gold) by 6. Give drewe_candles to actor. Assert drewesPaid(actor). }
+    Result "The mother looks at the six coins in her hand, and then at you, and then, for the first time, at Crispin Penhallow, who is looking at the sky. 'There,' she says to her daughters, and closes her hand. The younger girl says, 'Now we can have the goat,' and is hushed.".
+  }
+}

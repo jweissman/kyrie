@@ -1,0 +1,7 @@
+Module hume "Half the Hive" {
+  // The campaign played alone: a traveller come up the drove road from the march on a June morning, with a little
+  // money and no particular reason to be here. (placed.kyr is the world's own company, come over the march by the
+  // same road.)
+  Company party "You" of 1 at drove_end.
+  Initially Set quantity(party, gold) to 10. Initially Set quantity(party, rations) to 2.
+}

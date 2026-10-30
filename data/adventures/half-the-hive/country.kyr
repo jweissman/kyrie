@@ -1,0 +1,177 @@
+Module hume "Half the Hive" {
+  Description "The Wold of Hume, high limestone country east over the march, where four hundred people live inside a honeycomb under a cliff and belong to bees as big as hounds by the smell of their queen; in the week the old queen swarms, and half the town walks out behind her to found another.".
+
+  // ── The country ───────────────────────────────────────────────────────────────────────────────────────────────────
+  // The Wold rises out of the lowland farms in long dry swells of turf and linden wood. The drove road comes up from the
+  // march to Smoke End at the mouth of the Hask gorge; up the gorge, under the Brow, hangs the Comb. North of the gorge
+  // the linden wood, and beyond it the heather moor, which runs east a long day to the Far Brow. The Gallowtree stands
+  // on its knoll west of the wood; the Chalk Dell is south-east; Larkhill and its chantry are on the Wold's western
+  // edge, near the road from the lowlands. No plane is declared: the canonical Imbar is not on main (friction.md).
+  Place hume_wold "the Wold of Hume" is region.
+  Initially Assert terrain(hume_wold, hills).
+  Place wold_edge "the Wold's edge" is wilderness within hume_wold at 0, 3.
+  Place smoke_end "Smoke End" is settlement within hume_wold at 1, 3.
+  Place hume_brow "Hume Brow" is settlement within hume_wold at 1, 2.
+  Place high_wold "the High Wold" is wilderness within hume_wold at 1, 1.
+  Place gallowtree "the Gallowtree" is site within hume_wold at 0, 1.
+  Place chalk_dell "the Chalk Dell" is site within hume_wold at 2, 2.
+  Place larkhill "Larkhill" is site within hume_wold at 0, 2.
+  Place heather_moor "the heather moor" is wilderness within hume_wold at 2, 1.
+  Place far_brow "the Far Brow" is site within hume_wold at 3, 0.
+  Initially Assert landform(high_wold, land_wood).
+
+  // ── Buildings ─────────────────────────────────────────────────────────────────────────────────────────────────────
+  Place rest_house "the Smoker's Rest" is building within smoke_end.
+  Place quarrie_house "Nell Quarrie's" is building within smoke_end.
+  Place thorle_house "Thorle's smithy" is building within smoke_end.
+  Place scenting_house "the Scenting House" is building within hume_brow.
+  Place comb "the Comb" is building within hume_brow.
+  Place brood "the Brood" is level within comb.
+  Place stores "the Stores" is level within comb.
+  Place crown "the Crown of the Comb" is level within comb.
+  Place gallow_trunk "the hollow of the Gallowtree" is building within gallowtree.
+  Place chantry "the chantry at Larkhill" is building within larkhill.
+
+  // ── Rooms ─────────────────────────────────────────────────────────────────────────────────────────────────────────
+  // The Wold's edge, where the drove road comes up from the march
+  Place drove_end "the drove road at the Wold's edge" is room within wold_edge at 0, 1 outdoors.
+  Place larkhill_lane "the lane to Larkhill" is room within wold_edge at 0, 0 outdoors.
+  // Smoke End, at the mouth of the gorge
+  Place smoke_street "Smoke End" is room within smoke_end at 1, 1 outdoors.
+  Place taproom "the taproom of the Smoker's Rest" is room within rest_house at 0, 1 indoors.
+  Place nell_shop "Nell Quarrie's shop" is room within quarrie_house at 1, 0 indoors.
+  Place forge "Thorle's smithy" is room within thorle_house at 2, 1 indoors.
+  Place leavers_yard "the Leavers' Market" is room within smoke_end at 1, 2 outdoors.
+  // Hume Brow: the gorge floor under the Comb, and the Comb
+  Place gorge_path "the gorge path" is room within hume_brow at 0, 3 outdoors.
+  Place apron "the Apron" is room within hume_brow at 0, 2 outdoors.
+  Place scenting_room "the Scenting House" is room within scenting_house at 1, 2 indoors.
+  Place brood_gallery "the Brood gallery" is room within brood at 0, 1 indoors.
+  Place wax_gallery "the Waxwrights' gallery" is room within brood at 1, 1 indoors.
+  Place royal_gallery "the royal gallery" is room within brood at 0, 0 indoors.
+  Place dancing_hall "the Dancing Hall" is room within brood at 2, 0 indoors.
+  Place mellor_cell "the Mellors' cell" is room within brood at 2, 1 indoors.
+  Place honey_vaults "the honey vaults" is room within stores at 0, 0 indoors.
+  Place capped_gallery "the Capped Gallery" is room within stores at 1, 0 indoors.
+  Place mothers_chamber "the Mother's Chamber" is room within crown at 0, 0 indoors.
+  Place drones_gallery "the Drones' Gallery" is room within crown at 1, 0 indoors.
+  // The High Wold: the linden wood, the Toot above the gorge
+  Place linden_wood "the linden wood" is room within high_wold at 0, 1 outdoors.
+  Place honey_oak "the honey linden" is room within high_wold at 1, 1 outdoors.
+  Place toot "the Toot" is room within high_wold at 1, 0 outdoors.
+  // The Gallowtree, on its knoll
+  Place gallow_knoll "the Gallowtree's knoll" is room within gallowtree at 0, 1 outdoors.
+  Place gallow_hollow "the hollow of the Gallowtree" is room within gallow_trunk at 0, 0 indoors.
+  // The Chalk Dell
+  Place dell_rim "the rim of the Chalk Dell" is room within chalk_dell at 0, 0 outdoors.
+  Place dell_floor "the floor of the Chalk Dell" is room within chalk_dell at 0, 1 outdoors.
+  Place sett_mouth "the cave in the chalk" is room within chalk_dell at 1, 1 outdoors.
+  // Larkhill
+  Place chantry_yard "the chantry yard at Larkhill" is room within larkhill at 0, 1 outdoors.
+  Place chantry_nave "the chantry at Larkhill" is room within chantry at 0, 0 indoors.
+  Place corve_study "Squire Corve's study" is room within chantry at 1, 0 indoors.
+  // The heather moor
+  Place moor_edge "the edge of the heather moor" is room within heather_moor at 0, 1 outdoors.
+  Place black_crag "the black crag" is room within heather_moor at 1, 0 outdoors.
+  Place bothy "the shepherds' bothy" is room within heather_moor at 1, 2 outdoors.
+  // The Far Brow
+  Place far_ledge "the ledge under the Far Brow" is room within far_brow at 0, 0 outdoors.
+  Place far_hollow "the hollow under the Far Brow" is room within far_brow at 1, 0 outdoors.
+  // Where what is not yet anywhere waits.
+  Place limbo "nowhere" is room within wold_edge at 9, 9.
+
+  // ── Passages ──────────────────────────────────────────────────────────────────────────────────────────────────────
+  Passage drove_climb "the drove road" is road between drove_end and smoke_street taking 30 minutes.
+  Passage lark_turn "the Larkhill lane" is track between drove_end and larkhill_lane taking 1 hour.
+  Passage lark_gate "the chantry gate" is gate between larkhill_lane and chantry_yard.
+  Passage chantry_door "the chantry door" is door between chantry_yard and chantry_nave.
+  Passage study_door "the study door" is door between chantry_nave and corve_study.
+  Passage rest_door "the door of the Smoker's Rest" is door between smoke_street and taproom.
+  Passage nell_door "Nell Quarrie's door" is door between smoke_street and nell_shop.
+  Passage forge_door "the smithy door" is door between smoke_street and forge.
+  Passage yard_way "the way to the Chandlers' yard" is path between smoke_street and leavers_yard taking 2 minutes.
+  Passage gorge_up "the gorge path" is path between smoke_street and gorge_path taking 20 minutes.
+  Passage apron_way "the last of the gorge path" is path between gorge_path and apron taking 5 minutes.
+  Passage scent_door "the Scenting House door" is door between apron and scenting_room.
+  Passage foot_stair "the foot stair" is stair between apron and brood_gallery.
+  Passage wax_arch "the Waxwrights' arch" is arch between brood_gallery and wax_gallery.
+  Passage royal_arch "the royal arch" is arch between brood_gallery and royal_gallery.
+  Passage dance_door "the dancers' door" is doorway between brood_gallery and dancing_hall.
+  Passage mellor_door "the Mellors' door" is doorway between brood_gallery and mellor_cell.
+  Passage stores_stair "the honey stair" is stair between brood_gallery and honey_vaults.
+  Passage capped_arch "the arch of the Capped" is arch between honey_vaults and capped_gallery.
+  Passage crown_stair "the crown stair" is stair between honey_vaults and mothers_chamber.
+  Passage drones_arch "the yellow arch" is arch between mothers_chamber and drones_gallery.
+  Passage toot_path "the Toot path" is path between gorge_path and toot taking 40 minutes.
+  Passage wood_path "the wood path" is path between gorge_path and linden_wood taking 1 hour.
+  Passage oak_path "the honey path" is path between linden_wood and honey_oak taking 20 minutes.
+  Passage gallow_path "the knoll path" is path between linden_wood and gallow_knoll taking 1 hour.
+  Passage gallow_door "the door in the Gallowtree" is doorway between gallow_knoll and gallow_hollow.
+  Passage dell_track "the dell track" is track between linden_wood and dell_rim taking 2 hours.
+  Passage dell_steps "the chalk steps" is steps between dell_rim and dell_floor.
+  Passage sett_way "the way into the cave" is path between dell_floor and sett_mouth taking 2 minutes.
+  Passage lark_way "the edge path" is path between linden_wood and larkhill_lane taking 2 hours.
+  Passage moor_path "the moor path" is path between linden_wood and moor_edge taking 1 hour.
+  Passage crag_path "the crag path" is path between moor_edge and black_crag taking 3 hours.
+  Passage far_path "the far path" is path between black_crag and far_ledge taking 3 hours.
+  Passage far_in "the way under the Far Brow" is path between far_ledge and far_hollow taking 5 minutes.
+  // The shepherds' drove round the moor: longer, gentle, and known to nobody but the shepherds and one idle man.
+  Passage drove_round "the shepherds' drove" is track between moor_edge and bothy taking 4 hours hidden until drove_known.
+  Passage drove_on "the drove beyond the bothy" is track between bothy and far_ledge taking 4 hours hidden until drove_known.
+
+  // ── The look of the country ───────────────────────────────────────────────────────────────────────────────────────
+  Observe drove_end_scene at drove_end when true "The drove road comes up out of the lowland hedges onto open turf, short and springy and full of thyme, and the sky gets bigger. Ahead the Wold goes up in long dry swells, linden-dark on the tops. A cut in it, like a door left ajar, is the Hask gorge, with smoke standing up out of its mouth in a column the wind cannot quite knock over. A lane goes off west along the edge toward a hill with a tower on it.".
+  Observe drove_end_bees at drove_end as ambience when not leavingBegun() "Once, high up, something crosses the sky from north to south that you take for weather: a long brown smudge, unravelling and knitting up again, with a sound under it like a mill-race a long way off.".
+  Observe lane_scene at larkhill_lane when true "A sunken lane under ash trees, with the Wold going up on one side and the lowland falling away green on the other. Ahead, on its hill, a little grey chapel with a square tower, and a new slate roof on the house beside it that does not match.".
+  Observe smoke_scene at smoke_street when true "Smoke End is one street of turf-roofed houses and timber yards strung along a stream at the mouth of the gorge, and all of it smokes. Smudge-fires of damp bracken and dung burn in iron baskets at every door and at the street's ends, and the smoke goes up the gorge on the draught, grey and sweetish, and makes your eyes run. People here walk with a hand over their mouths, out of habit. Somewhere a hammer. Up the gorge, through the smoke, a glow like a lamp behind a curtain.".
+  Observe smoke_signs at smoke_street as sign when not leavingBegun() "Handcarts go up the gorge empty and come down loaded: chests, chairs, a cradle, a loom in pieces, all with that faint golden tackiness of things that have lived a long time in the Comb.".
+  Observe yard_scene at leavers_yard when true "The Chandlers' Company's yard, behind a fence of split oak: a long shed, a weighing-beam, and today a field's worth of other people's lives set out on the trodden mud in rows. Wax in cakes and candles. Honey in crocks. Spinning wheels, bee-veils, carved chests, a child's cot, a pair of good boots. A man in a black coat walks the rows with a boy and a slate, saying a number at each thing, low, and the boy writing it, and the families standing by their things not looking at each other.".
+  Observe gorge_scene at gorge_path when true "The gorge closes in: grey limestone walls going up and up, ferns in every crack, a stream loud beside the path. The smoke thins behind you and something else takes its place: warmth, out of all proportion to the day, and a smell like a summer field baked and then poured into a jar, and a sound you feel first in your teeth.".
+  Observe apron_scene at apron when true "The gorge opens into a bowl, and over the bowl the Brow: a lip of grey rock a quarter of a mile long jutting out over everything like the brim of a hat. And hanging under it, filling the whole underside, the Comb. It is gold and amber and brown and in places nearly black; it hangs in great curved sheets, like curtains frozen in a wind, the oldest of them four hundred years old; and it is cut through with doors, and stairs, and windows, and people are going in and out of it. The light through the wax is the colour of beer. The hum is everywhere: in the walls of the gorge, in the ground, in your breastbone.".
+  Observe apron_sisters at apron as feature when not leavingBegun() "Overhead, the Sisters come and go in brown streams the width of a road: bees, each the size of a foxhound, gold-and-black, furred like a good coat, with eyes like wet coal. They land on the comb's lip and walk in. When one passes low the wind of her wings lifts your hair. The people on the Apron do not look up, the way people in a town do not look up at the weather.".
+  Observe apron_market at apron as sign when daytime() "Stalls along the troughs sell honey-cake, comb in squares on vine leaves, bee-bread in brown loaves, mead by the horn, and a fried thing in paper cones that smells of nuts and butter, which the stallholder says is brood: the drone brood, a delicacy, fried in its own wax.".
+  Observe scenting_scene at scenting_room when true "A low room cut into the rock beside the foot stair, very clean. Shelves of stoppered jars, a stone basin, a brazier with something resinous on it. A slate on the wall says in chalk: GUESTS SCENTED, ONE DAY. TWO COIN. SEARCHERS NOTHING.".
+  Observe brood_scene at brood_gallery when true "Inside, the Comb is warm as a kitchen and gold as the inside of an egg. The gallery is a corridor of six-sided rooms, each as big as a cottage, their walls thin enough to see shapes through: bees, people, a cradle. The floor gives very slightly underfoot and is tacky, like a well-polished table on a hot day, and everyone here goes barefoot or in felt. The hum is so close now that you hear words in it if you let yourself.".
+  Observe wax_scene at wax_gallery when true "The Waxwrights' gallery is cooler, and smells of warm candles and of something sharp they use to keep the wax workable. Benches, moulds, knives with long thin blades, cakes of wax from almost white to almost black. And going up out of the middle of it, through a hole in the ceiling, round and round, the Lantern Stair: a spiral of carved wax so fine the light comes through every tread, each step carved with flowers, bees, faces, hands, the whole of the Brow's life climbing up into the dark. It stops, three turns up, at nothing.".
+  Observe royal_scene at royal_gallery when true "A high room where the ceiling comes down in a fold, and from the fold hang three things like great acorns made of brown wax, each as big as a cradle, each pitted all over like the skin of a lemon. Princess cells. Under each a stool, and on each stool someone sitting, watching, not talking to the others. The air here is thick and sweet and makes your scalp prickle.".
+  Observe dancing_scene at dancing_hall when true "The Dancing Hall is the strangest room you have ever stood in. Its floor is tilted like a roof, steep enough that you would slide if it were not tacky; and its walls are written all over with marks scored into the wax: lines and loops and figure-eights, thousands of them, overlapping, generations deep. Up at the top of the slope a round window lets in the sun, and the Searchers dance on the slope below it: a straight run, waggling, then a loop back round, then the run again. The angle of the run from straight up is the angle from the sun. How long the waggle lasts is how far. How hard is how good.".
+  Observe garrow_scene at mellor_cell when true "A family's cell: one six-sided room with a hearth-stone in the middle that has never had a fire on it, a loom, a bed in a wax alcove, children's drawings pressed into the wall. A bundle tied up in a blanket by the door, ready to go. The other half of the room is not packed at all.".
+  Observe vaults_scene at honey_vaults when true "The honey vaults go back into the dark under the Brow: cell upon cell, each the size of a barrel, each capped with white wax, each full. Where the cap is thin, the honey shows through, dark gold, like looking into a lamp from the side. Bees stand on the comb fanning with their wings, and the air moves past you warm and thick and smelling of every flower you have ever known.".
+  Observe capped_scene at capped_gallery when true "The Capped Gallery is cool and silent, the only place in the Comb where the hum is far away. Here the walls are clear wax, very thick, and in the wax, upright, in rows going back further than you can see, are the Humefolk dead. They stand in their best clothes with their eyes shut and their hands folded, perfectly kept, the newest nearest, the oldest so far back they are only shapes, four hundred years deep. Here and there someone living sits on a little stool in front of one of them, and talks to it in a low voice, and is not embarrassed.".
+  Observe capped_dark at capped_gallery as feature when true "There is no light in the Capped Gallery but what comes down the arch from the vaults. By the arch a board is pegged, burnt in with a hot iron: NO FLAME AMONG THE CAPPED.".
+  Observe chamber_scene at mothers_chamber when true "The Crown of the Comb is a long dim hall under the very rock of the Brow, where the comb is oldest and nearly black. In the middle of it, on a wide shallow cell like a bed, is the Mother: as long as a pony, slender, the gold of her body gone dark with age, her wings short on her long back. The Sisters stand round her in a ring facing in, touching her, stroking her, feeding her from their mouths. She is quite still. The hum here is so deep it is not a sound at all but a pressure, like being underwater.".
+  Observe chamber_restless at mothers_chamber as sign when not leavingBegun() "Every little while the ring round the Mother breaks: a Sister pushes at her, butts her, runs up her back, and the Mother walks three steps, and the ring closes again. They are making her thin enough to fly.".
+  Observe drones_scene at drones_gallery when true "The Drones' Gallery is all yellow: yellow hangings, yellow cushions, yellow-painted wax, a long table laid with honey-cake and fried brood and mead in yellow glass. A dozen men and a few women in yellow coats lie about on the cushions in attitudes, being fed by nobody in particular, talking about horses they do not own. It is the most comfortable room in the Comb and the saddest.".
+  Observe wood_scene at linden_wood when true "The linden wood is tall and cool and full of the noise of bees: the limes are in flower, and the Sisters work the high branches, huge shapes in the green, and the scent of the flowers comes down so thick it is almost a taste. Paths go off every way: north to the moor, west to a knoll with one great tree on it, south-east downhill toward chalk, west along the edge toward Larkhill.".
+  Observe oak_scene at honey_oak when true "A clearing round one enormous old lime, its trunk split and healed and split again. Forty feet up, where a limb was lost, there is a dark mouth in the bark, and out of it hangs a lip of wild comb, black and gold, with small wild bees going in and out, ordinary bees, the size of your thumbnail, which seems very strange now. Old pegs go up the trunk, some of them new.".
+  Observe toot_scene at toot when true "The Toot is a round green hill above the gorge, with a single standing stone on top, leaning, and the whole Wold laid out round it: the wood, the moor going away purple to the east, the white scar of the Dell, the knoll with its great tree, and far off in the west the lowland, blue. Up here, on still afternoons, the drones gather: you can hear them, a deep rich droning over the hilltop, from bees you cannot see.".
+  Observe knoll_scene at gallow_knoll when true "The Gallowtree stands alone on its knoll, a linden so old it has outlived its own name: nobody was ever hanged on it; the name is older than hanging. Its trunk is as big round as a cottage, grey and ridged and hollow, and its crown is still full and green and loud with wild bees. In the trunk, at the height of a man, someone long ago cut a door, and shaped its sill in wax, and the wax has gone grey.".
+  Observe hollow_scene at gallow_hollow when true "Inside the tree is a room, round, tall as a chapel, lit greenly from cracks high up. The walls are comb: old grey comb, built up the inside of the trunk in sheets, abandoned, dry; and there are people in it.".
+  Observe dell_rim_scene at dell_rim when true "The ground falls away into a dell: a great bowl of white chalk, scooped out of the Wold as if by a spoon, its sides bare and bright, its floor green and sheltered and warm. It faces full south. In its far wall, at the back, a dark low cave. Chalk steps, cut long ago, go down.".
+  Observe dell_floor_scene at dell_floor when true "The floor of the Dell is the warmest place on the Wold, out of every wind, the grass full of harebells. The white walls throw the sun back.".
+  Observe sett_scene at sett_mouth when true "The cave mouth is low and wide and dry, and smells strongly of musk and old bones. The chalk round it is scored deep in long parallel grooves, four together, higher than your head. A path in and out is worn to bare earth, wide as a cart.".
+  Observe chantry_yard_scene at chantry_yard when true "A little walled yard round a grey stone chantry, very old, its windows empty, its tower square and stout and bigger than a chantry needs. Someone has been mending it: new mortar, a new door, beehives in a row along the south wall, ordinary straw skeps, with ordinary bees. Beside the chantry a farmhouse with the new slate roof.".
+  Observe nave_scene at chantry_nave when true "The chantry's nave has been cleared of everything but its stone. The tower stair goes up from the west end. On the walls, pinned in rows, are drawings: bees, the Sisters, done from life in brown ink and coloured, wings, legs, eyes, stings, each with a note in a small neat hand. Hundreds of them. Twelve years of them, by the dates.".
+  Observe study_scene at corve_study when true "A small warm room with books to the ceiling, a microscope of brass, a table covered with papers, a dead Sister's wing in a glass frame on the wall, gold and veined like a leaf of mica. Letters in a rack, each with the same seal broken: a hexagon.".
+  Observe moor_edge_scene at moor_edge when true "The trees stop and the moor begins: heather, purple and humming, going away east in long swells under an enormous sky. A path goes on across it, straight as a thrown stone. Off to the south, far away, a smudge of smoke from somewhere on the moor.".
+  Observe crag_scene at black_crag when true "Halfway across the moor a crag of black rock stands up out of the heather like a broken tooth, and the path goes right under it. The rock is split, and the splits are full of comb: black comb, and on it, and in the air round it, bees. Smaller than the Sisters, the size of a cat, black all over, quick and jerky in the air. Their sound is higher, and has an edge.".
+  Observe bothy_scene at bothy when true "A shepherds' bothy, low, stone, turf-roofed, with a peat fire somebody banked and left, a kettle, a bench, a pile of fleeces, and on the lintel, scratched with a knife, a dozen names and dates, the oldest two hundred years.".
+  Observe far_ledge_scene at far_ledge when true "The moor ends at the lip of another gorge, and across it, facing west into the afternoon sun, another Brow: a long grey overhang of limestone the twin of the one at home, with nothing under it at all.".
+  Observe far_hollow_scene at far_hollow when true "Under the Far Brow it is dry and still and warm. The rock overhead is stained all over in long brown streaks, the ghost of comb that hung here once, and in the floor dust there are scraps of old wax gone hard as horn. At the back, where the rock comes down to meet the ground, in a smooth patch of old wax, there are handprints, small ones, a child's, a row of them, pressed in long ago and never taken out.".
+
+  // The rooms of the country, and those of the Comb (where the Sisters are).
+  Relation wold(place). Relation combRoom(place).
+  Initially Assert wold(drove_end). Initially Assert wold(larkhill_lane). Initially Assert wold(smoke_street). Initially Assert wold(taproom).
+  Initially Assert wold(nell_shop). Initially Assert wold(forge). Initially Assert wold(leavers_yard). Initially Assert wold(gorge_path).
+  Initially Assert wold(apron). Initially Assert wold(scenting_room). Initially Assert wold(brood_gallery). Initially Assert wold(wax_gallery).
+  Initially Assert wold(royal_gallery). Initially Assert wold(dancing_hall). Initially Assert wold(mellor_cell). Initially Assert wold(honey_vaults).
+  Initially Assert wold(capped_gallery). Initially Assert wold(mothers_chamber). Initially Assert wold(drones_gallery). Initially Assert wold(linden_wood).
+  Initially Assert wold(honey_oak). Initially Assert wold(toot). Initially Assert wold(gallow_knoll). Initially Assert wold(gallow_hollow).
+  Initially Assert wold(dell_rim). Initially Assert wold(dell_floor). Initially Assert wold(sett_mouth). Initially Assert wold(chantry_yard).
+  Initially Assert wold(chantry_nave). Initially Assert wold(corve_study). Initially Assert wold(moor_edge). Initially Assert wold(black_crag).
+  Initially Assert wold(bothy). Initially Assert wold(far_ledge). Initially Assert wold(far_hollow).
+  Initially Assert combRoom(brood_gallery). Initially Assert combRoom(wax_gallery). Initially Assert combRoom(royal_gallery).
+  Initially Assert combRoom(dancing_hall). Initially Assert combRoom(mellor_cell). Initially Assert combRoom(honey_vaults).
+  Initially Assert combRoom(capped_gallery). Initially Assert combRoom(mothers_chamber). Initially Assert combRoom(drones_gallery).
+  Initially Assert unlit(capped_gallery).
+}

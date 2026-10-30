@@ -1,0 +1,173 @@
+Module hume "Half the Hive" {
+  // ── Agnes Mellor, and the dark watch ──────────────────────────────────────────────────────────────────────────────
+  // Tobit Mellor, the Capper who sealed the dead, was found dead in the Capped Gallery four mornings ago with his face
+  // slack and the honey cells beside him empty. The Hum-keepers say his heart. By custom someone sits a night in the
+  // dark with the dead before they are capped, without a light, because there is no flame among the Capped. Nobody will
+  // sit with Agnes: there is something in the Gallery since Tobit died, they say. There is. It is a death's-head moth as
+  // long as a man's arm, and it smells of the Mother, so the Sisters let it be, and it comes in the small hours to drink
+  // the honey the dead are sealed with. It is nobody's plan. Nell Quarrie saw it the night Tobit died, and dropped a phial.
+  Person agnes "Agnes Mellor" at mellor_cell {
+    Role "the Capper's widow: a heavy, quiet woman with grey plaits and a mourning band of black wax on her wrist" when not leavingBegun().
+    Role "the Capper's widow" when leavingBegun().
+    Ancestry human. Peaceable. Pronouns she. Manner grim.
+    Greets "A heavy grey woman is sitting on the end of the bed with her hands in her lap, the way people sit in a room where somebody has died. She looks up at you without much interest. 'If you're from the Hum-keepers, the answer's still the same,' she says. 'If you're not, sit down. Nobody sits down in here since Tobit.'".
+    Greets again "Agnes looks up. 'Sit down.'".
+  }
+  Relation wantsTobit(group). Relation watchAgreed(group). Relation keptWatch(group). Relation agnesStays(group).
+  Relation likenessGiven(group). Relation agnesFreed(group).
+  Initially Assert wantsTobit(agnes).
+  Topic agnes_tobit with agnes "Ask Agnes how Tobit died" when true once {
+    Says "'In the Capped Gallery. In the night. He went up to see to old Mother Rook's seal, which was weeping, and he didn't come down, and they found him in the morning by the wall, sitting, with his face,' she says, and stops. 'Slack. Like a child's, asleep. Except his eyes were open.' She turns her mourning band round on her wrist. 'And the cells beside him, the honey cells under the seals, empty. Licked out. The keepers say his heart. Sixty-one, and up and down that stair forty times a day, and his heart.' She reaches into her apron and holds something out on her palm. 'This was by his hand. It isn't his. I don't know what it is.'".
+    On discuss { Give agnes_phial to actor. Assert knows(actor, phial_found). }
+  }
+  Item agnes_phial "a little phial Agnes found" is found_phial at limbo.
+  Discovery phial_found "By Tobit Mellor's body in the Capped Gallery, Agnes found a little empty phial that smells of the Comb, not quite.".
+  Topic agnes_watch with agnes "Ask Agnes about the dark watch" when not keptWatch(actor) once {
+    Says "'The night before you're capped, someone sits with you. In the Gallery, in the dark, no light, because there's no flame among the Capped: one candle up there and four hundred years of us go up like a hayrick.' She looks at her hands. 'Tomorrow they cap him, or the day after, whenever I've sat. I can't sit alone; it's not done. And nobody'll sit with me.' Her mouth goes thin. 'They say there's something up there since he died. Something in the dark that smells of the Mother. Children's talk.' She looks at you. 'You're not a child.'".
+  }
+  Topic agnes_offer with agnes "Offer to sit the dark watch with Agnes tonight" when not watchAgreed(agnes) and not keptWatch(actor) and not leavingBegun() once {
+    Says "She looks at you a long time. 'Tonight,' she says. 'At ten, in the Gallery. No light. You'll not need one; you sit where you're put and you don't move.' She almost smiles. 'You talk to him, if you like. I do.'".
+    On discuss { Assert watchAgreed(agnes). }
+  }
+  Topic agnes_going with agnes "Ask Agnes whether she will go with the Leaving" when not leavingBegun() once {
+    Says "'I was always going to go. Tobit and me both. We'd said, when it came, we'd go together and start again somewhere with a view.' She is quiet. 'He's going to be capped in that wall with four hundred years of strangers, and I'm going to walk off over the Wold and never see him again. That's the custom. The dead stay.' She looks up. 'I want to take him. Capped, in his wax, on a litter. Linnet says no. Everyone says no. It's never been done.' Her hands close. 'I'll not leave him alone up there with whatever it is that's in the dark.'".
+  }
+  Topic agnes_nell with agnes "Tell Agnes the phial was Nell Quarrie's, and that Nell sat with Tobit the night he died" when knows(actor, nell_sat_tobit) and not agnesVouches(agnes) once {
+    Says "'Nell Quarrie.' Agnes says the name slowly. 'Aldo's widow. From Smoke End.' She takes it in. 'Tobit capped Aldo. Six years ago. He cried doing it; he was fond of Aldo. He said it was a shame about the wife, that Elspet wouldn't have her.' She is silent. 'And she was up there. In the dark, with nobody knowing, and she found him, and she sat with him till it got light.' Agnes wipes her face with the flat of her hand, roughly. 'Somebody sat with him, then. Somebody did.' She stands up. 'You tell Elspet Garnock that Agnes Mellor says Nell Quarrie is more of the Comb than Elspet is. Tell her I said it.'".
+    On discuss { Assert agnesVouches(agnes). }
+  }
+  Topic agnes_likeness with agnes "Give Agnes the wax likeness Eben made of Tobit" when holding(actor, tobit_likeness) and not likenessGiven(agnes) once {
+    Says "She takes it in both hands: a little figure as long as her forearm, white and gold, Tobit in his capping apron with his sleeves rolled, his head a little on one side the way he must have stood. She looks at it for a long time. 'That's him,' she says. 'That's exactly how he stood when he was waiting for me to stop talking.' She wraps it in her shawl and puts it in the bundle by the door, on top. 'I'll take this, then,' she says. 'And he can stay.'".
+    On discuss { Spend tobit_likeness from actor. Assert likenessGiven(agnes). }
+  }
+  Topic agnes_go_free with agnes "Tell Agnes the thing in the Gallery is dead, and Tobit is safe to leave" when mothDead(deathshead) and knows(actor, moth_heard) and not agnesFreed(agnes) once {
+    Says "She looks at the bundle by the door, and at the unpacked half of the room. 'Safe,' she says. 'In the wall, with the others, and nothing coming in the dark.' She gets up and begins, slowly, to pack the other half. 'He'd want me to go. He'd say, go on, woman, you've always wanted a view.' She folds his spare apron and puts it in, and then takes it out again and leaves it on the bed.".
+    On discuss { Assert agnesFreed(agnes). }
+  }
+  Topic eben_likeness with eben "Ask Eben to carve a likeness of Tobit Mellor for Agnes to carry" when wantsTobit(agnes) and holding(actor, wax_cake) and not holding(actor, tobit_likeness) and not likenessGiven(agnes) once {
+    Says "'Tobit.' Eben puts down his blade. 'I can do Tobit. I've done him on the Stair: fourth turn, with the sealing-iron.' He takes your cake of wax and warms it in his hands. 'Give me an hour.' It is less than an hour. When he gives it to you it is still warm.".
+    On discuss { Spend wax_cake from actor. Give tobit_figure to actor. }
+  }
+
+  Item tobit_figure "a wax likeness of Tobit Mellor" is tobit_likeness at limbo.
+  // The watch: Agnes goes up at ten on the night agreed, and sits till first light.
+  Rule agnes_to_gallery when watchAgreed(agnes) and not keptWatch(party) and (hour(clock) >= 22 or hour(clock) < 5) and not at(agnes, capped_gallery) and not leavingBegun() { Assert at(agnes, capped_gallery). }
+  Rule agnes_home when at(agnes, capped_gallery) and hour(clock) >= 5 and hour(clock) < 22 { Assert at(agnes, mellor_cell). }
+  Rule watch_kept at capped_gallery when watchAgreed(agnes) and at(party, capped_gallery) and at(agnes, capped_gallery) and hour(clock) >= 4 and hour(clock) < 5 and not keptWatch(party) says "The dark goes grey at the arch, and then you can see your hands. Agnes Mellor gets up stiffly off her stool and puts her palm flat on the wax in front of Tobit's face, the way you would on a door, and holds it there. 'There,' she says to him. 'Somebody sat.'" { Assert keptWatch(party). }
+  Rule watch_missed when watchAgreed(agnes) and not at(party, capped_gallery) and hour(clock) >= 4 and hour(clock) < 5 and at(agnes, capped_gallery) and not keptWatch(party) { Retract watchAgreed(agnes). }
+  Observe agnes_talks at capped_gallery as sound when at(agnes, capped_gallery) and night() "Beside you in the dark Agnes is talking to Tobit, low and steady, the way you talk to someone across a kitchen: the goat has got into the beans again; the roof over the loom wants seeing to; their boy in Ketter has not written; whose turn it is to fetch water. She leaves gaps for him to answer.".
+
+  // Tobit, waiting; and Aldo, fourth row on the left.
+  Thing tobit_bier "Tobit Mellor on his bier" at capped_gallery {
+    State waiting "Nearest the arch, on a trestle, under a sheet of muslin, a stocky man lies waiting to be capped, his hands folded on a sealing-iron.".
+    State capped "In the newest place in the wall, nearest the arch, a stocky man stands in clear wax with a sealing-iron in his hands.".
+  }
+  Rule tobit_capped when keptWatch(party) and state(tobit_bier, waiting) and hour(clock) >= 9 and not linnetPermitsDead(linnet) { Assert state(tobit_bier, capped). }
+  Thing aldo_capped "Aldo Quarrie, fourth row on the left" at capped_gallery hidden until nell_forges {
+    State kept "Fourth row from the arch, on the left, a man in a brown lowland coat with a sprig of lavender in his buttonhole, smiling a little, as they all do.".
+  }
+  Action sit_aldo(actor: group, site: place) "Sit a while with Aldo Quarrie" {
+    Requires at(actor, site) and able(actor) and company(actor) and at(actor, capped_gallery) and knows(actor, nell_forges) and not knows(actor, aldo_sat).
+    Time 3.
+    On success { Assert knows(actor, aldo_sat). }
+    Result "You find a stool and sit in front of him. Up close the lavender in his buttonhole is still purple, sealed in with him. His face is a kind face, long, with laughter-lines, and there is a small worn place on the floor in front of him, where a stool has stood, once a month, for six years, in the dark.".
+  }
+  Discovery aldo_sat "You sat a while in the Capped Gallery with Aldo Quarrie, fourth row on the left: a kind long face, a lavender sprig, and a worn place on the floor where a stool has stood once a month for six years.".
+
+  // ── The thing in the dark ─────────────────────────────────────────────────────────────────────────────────────────
+  Species deathshead_kind "a death's-head moth" like nightmare temperament savage described "A moth as long as a man's arm, its body thick and furred and banded yellow and black like a Sister's, its wings brown as a dead leaf; and on its back, in pale fur, a skull. It smells, overwhelmingly, of the Mother.".
+  Person deathshead "the Deathshead" at limbo {
+    Role "a death's-head moth as long as a man's arm, with a skull in pale fur on its back".
+    Species deathshead_kind. Level 4. Peaceable.
+    Known as "something in the dark" when not mothSeen(party).
+    Comes "It comes at the light. A shape the size of a dog, soft and fast, out of the rows of the dead, wings rattling like dry paper, and on its back, lit from below, a skull; and it squeals, a high thin sound like a wet finger on glass, so loud and so close it goes into your teeth.".
+  }
+  Relation mothDead(group). Relation mothSeen(group). Relation mothPassed(group). Relation lightAmongCapped(group).
+  Discovery moth_heard "Something comes into the Capped Gallery in the small hours that smells of the Mother so the Sisters let it be, that squeaks, and that drinks the honey from the seals of the dead: a death's-head moth as long as a man's arm.".
+  Rule gallery_dark when night() and not unlit(capped_gallery) { Assert unlit(capped_gallery). }
+  Rule gallery_dim when not night() and unlit(capped_gallery) { Retract unlit(capped_gallery). }
+  Rule moth_in when hour(clock) >= 1 and hour(clock) < 4 and not mothDead(deathshead) and able(deathshead) and not at(deathshead, capped_gallery) { Assert at(deathshead, capped_gallery). }
+  Rule moth_out when at(deathshead, capped_gallery) and (hour(clock) >= 4 or hour(clock) < 1) and peaceable(deathshead) { Assert at(deathshead, limbo). }
+  Observe moth_sound at capped_gallery as sound when at(deathshead, capped_gallery) and peaceable(deathshead) "In the dark, among the rows, something is moving: a soft dry pattering, like a hand brushing a wall, coming nearer, and a smell of the Mother so strong your eyes water. It stops. Close by, at the wax, something squeaks, high and thin, like a wet finger on glass, and then there is a small wet sound, like sucking. Whatever it is, it is drinking from the seals of the dead, and the Sisters on the walls do not stir for it. It smells of home to them." teaches moth_heard.
+  Rule moth_lit at capped_gallery when at(deathshead, capped_gallery) and at(party, capped_gallery) and capable(party, light) and peaceable(deathshead) {
+    Retract peaceable(deathshead). Assert assails(deathshead, party). Assert mothSeen(party). }
+  Rule light_among when at(party, capped_gallery) and capable(party, light) and night() and at(agnes, capped_gallery) and not lightAmongCapped(party) says "'No,' Agnes says, aloud, appalled, the first thing she has said above a whisper. 'Not here. Not among them.'" { Assert lightAmongCapped(party). }
+  Rule moth_seen_teaches when mothSeen(party) and not knows(party, moth_heard) says "It was a moth. A death's-head moth as long as your arm, that smells of the Mother, so the Sisters let it be; and it drinks from the seals of the dead." teaches moth_heard { }
+  Rule moth_slain when not able(deathshead) and not mothDead(deathshead) { Assert mothDead(deathshead). }
+  Action rub_sting(actor: group, site: place) "Reach out in the dark and rub the Sister's sting on the thing at the wax" {
+    Description "It smells of the Mother. Make it smell of a robber.".
+    Requires at(actor, site) and able(actor) and company(actor) and at(actor, capped_gallery) and at(deathshead, capped_gallery) and peaceable(deathshead) and holding(actor, sister_sting) and not mothDead(deathshead).
+    Time 1 minute.
+    Resolve check(actor, stealth, dc_fair).
+    On success { Spend sister_sting from actor. Assert mothDead(deathshead). Assert mothSeen(actor). Assert knows(actor, moth_heard). Assert at(deathshead, limbo). Give moth_wing to actor. }
+    On failure { Spend sister_sting from actor. Retract peaceable(deathshead). Assert assails(deathshead, actor). Assert mothSeen(actor). }
+    Result "You unfold the paper by feel, and the smell of bananas comes up sharp in the dark, and you lean toward the sucking sound and reach, slowly, slowly, and your fingers meet fur: thick, soft, warm, the size of a dog's back. You draw the sting down it. For a heartbeat nothing. Then every Sister on every wall of the Gallery goes up at once with a roar like a furnace door opened, and the dark is full of wings, and something squeals and squeals and squeals in the middle of it, and the squealing stops. When the grey comes at the arch there is a wing on the floor, brown as a dead leaf, with a pale eye on it, and nothing else.".
+    Otherwise "Your fingers find fur, and it feels them: the sucking stops, there is a dry rattle of wings, and something squeals in your face.".
+  }
+  Item moth_wing "a death's-head moth's wing" is deathshead_wing at limbo.
+  Action keep_still(actor: group, site: place) "Keep still in the dark, and let it pass" {
+    Requires at(actor, site) and able(actor) and company(actor) and at(actor, capped_gallery) and at(deathshead, capped_gallery) and peaceable(deathshead) and not mothPassed(actor).
+    Time 6.
+    On success { Assert mothPassed(actor). Assert knows(actor, moth_heard). }
+    Result "You keep still. It goes along the rows, slowly, stopping, drinking. Once it passes so close behind you that its wing touches the back of your neck, soft and dry as ash, and the smell of the Mother is so strong you could weep. Beside you Agnes's hand finds your wrist and holds it, very hard. Then it is further away, and further, and gone.".
+  }
+  Observe tobit_drained at capped_gallery when mothPassed(party) and state(tobit_bier, waiting) and not night() "On the sheet over Tobit Mellor's hands there are small brown marks, like footprints of dust, and the honey-wax on his sealing-iron has been licked clean.".
+
+  // Nell's night.
+  Topic nell_night with nell "Ask Nell Quarrie whether she was in the Capped Gallery the night Tobit Mellor died" when knows(actor, phial_found) and knows(actor, nell_forges) and not knows(actor, nell_sat_tobit) once {
+    Says "She does not pretend. She has been waiting for someone to ask. 'Yes. It was my night.' She sits down. 'I was with Aldo. In the dark. And Tobit came up with a little lamp, which they never do, to see to a seal that was weeping, and I heard him stop, and say, What are you? Very surprised. And then there was a noise.' Her hands tighten. 'A squeal. And I saw, by his lamp, before it went over, a moth. As long as my arm. On the wall over him, with its wings open. It had a face on its back. A skull.' She breathes. 'Then the lamp was out. I went to him in the dark. He was sitting against the wall, and he was dead, and it was drinking, beside us, at the seals. It smelt of the Mother. It smelt like me.' She looks at you. 'I closed his eyes. I sat with him until it went away and the arch went grey, and then I ran, because if I was found there they would have said I did it, the lowland woman in the forged scent. I dropped a phial. I have been waiting for someone to come and ask me about it ever since.'".
+    On discuss { Assert knows(actor, nell_sat_tobit). Assert knows(actor, moth_heard). }
+  }
+  Discovery nell_sat_tobit "Nell Quarrie was in the Capped Gallery the night Tobit Mellor died: she saw a death's-head moth as long as her arm squeal over him, sat with his body in the dark until dawn, closed his eyes, and fled.".
+
+  // ── Huw Penry's mead ──────────────────────────────────────────────────────────────────────────────────────────────
+  Person huw "Huw Penry" at honey_vaults {
+    Role "the Comb's mead-maker: a big man with a magnificent beard and a voice he uses to its full extent, among his barrels".
+    Ancestry human. Peaceable. Pronouns he. Manner proud.
+    Greets "A big bearded man among the barrels turns round with his arms out as if you had come to his wedding. 'A stranger! A lowlander! Have you ever tasted mead? You have not. You have tasted what Martin Sayle sells in Smoke End, which is honey-water that has had a fright.' He thumps a barrel. 'This is mead.' He lowers his voice. 'Not this one.'".
+    Greets again "Huw Penry flings his arms out. 'Back for more!'".
+  }
+  Relation meadSaved(group). Relation meadSecret(group). Relation huwRefused(group).
+  Topic huw_mead with huw "Ask Huw about his mead for the Calling" when not meadSaved(huw) and not leavingBegun() {
+    Says "'My last.' He lays a hand on the biggest barrel. 'Heather honey off the moor, lime honey off the wood, water from the Brow spring, and forty years of knowing. It'll be drunk at the Calling, and they'll keep a cask of it to drink at every Calling after, for thirty years, and say: Penry made that, the year he went.' His hand stays on the barrel. Then, quietly, all the voice gone out of him: 'It's stopped. It was working, and it stopped. Eight days now. It just sits there, sweet, and won't go.' He looks at you with real despair. 'Forty years and it's never happened.'".
+    On discuss { Assert knows(actor, mead_stuck). }
+  }
+  Topic martin_fix with martin "Ask Martin what would start a stuck mead" when knows(actor, mead_stuck) and not knows(actor, bread_fix) once {
+    Says "'Bee-bread,' says Martin at once, and then looks as if he wished he had not. 'A fist of it, crumbled in. The yeast's hungry, honey's not enough for it; it wants feeding. Any brewer in the lowland knows that.' He polishes a cup that does not need it. 'Doll Rowntree on the Apron sells it by the loaf. Huw'd know it himself if he ever listened to anybody.' He sets the cup down. 'Don't tell him it came from me.'".
+    On discuss { Assert knows(actor, bread_fix). }
+  }
+  Discovery bread_fix "A fist of bee-bread crumbled into a stuck mead feeds the yeast and starts it working again; any lowland brewer knows it, and Martin Sayle told you.".
+  Action tell_huw(actor: group, site: place) "Tell Huw that a fist of bee-bread will start his mead" {
+    Speaker huw.
+    Requires at(actor, site) and able(actor) and at(actor, honey_vaults) and at(huw, honey_vaults) and knows(actor, bread_fix) and not meadSaved(huw) and not huwRefused(huw).
+    Time 1.
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert meadSaved(huw). }
+    On failure { Assert huwRefused(huw). }
+    Result "Huw Penry stares at you. Then he stares at the barrel. 'Bee-bread,' he says, 'is for babies and the sick.' But he goes and gets a loaf, and stands with it a long while, and crumbles in a fistful as if he were throwing away his own good name. By evening the barrel is talking to itself, and Huw is telling everyone in the vaults that it came to him in the night.".
+    Otherwise "'Bee-bread!' Huw Penry's voice fills the vaults. 'In my mead! Is that what they do down in Smoke End? Is that Martin Sayle's notion?' He turns his back on you and will not hear another word.".
+  }
+  Action trick_huw(actor: group, site: place) "Tell Huw that the old mead-masters of the Comb swore by bee-bread in a stuck barrel" {
+    Speaker huw.
+    Requires at(actor, site) and able(actor) and at(actor, honey_vaults) and at(huw, honey_vaults) and knows(actor, bread_fix) and not meadSaved(huw).
+    Time 1.
+    Resolve check(actor, deception, dc_fair).
+    On success { Assert meadSaved(huw). }
+    Result "You tell him you heard it from the Waxwrights, who heard it from their grandfathers: that the old masters of the Comb, in the days before anybody wrote anything down, would crumble a fist of bee-bread into a sulking barrel. Huw Penry's eyes go wide. 'The old masters,' he says reverently. 'Of course. Of course they did. Lost knowledge.' He has a loaf in the barrel before you have finished, and by evening it is working, and he is telling everyone that he rediscovered it.".
+    Otherwise "Huw narrows his eyes. 'What old masters? I knew the old masters. My master was the old master.' He turns his back.".
+  }
+  Rule huw_sleeps when (hour(clock) >= 22 or hour(clock) < 6) and at(huw, honey_vaults) { Assert at(huw, limbo). }
+  Rule huw_wakes when hour(clock) >= 6 and hour(clock) < 22 and at(huw, limbo) and not leavingBegun() { Assert at(huw, honey_vaults). }
+  Thing mead_barrel "Huw Penry's great barrel" at honey_vaults {
+    State stuck "The biggest barrel in the vaults, chalked PENRY · CALLING, sits silent: put your ear to it and there is nothing.".
+    State working "The biggest barrel in the vaults, chalked PENRY · CALLING, is muttering and ticking to itself, and smells of summer.".
+  }
+  Initially Assert suits(mead_barrel, listening).
+  Rule mead_works when meadSaved(huw) and state(mead_barrel, stuck) { Assert state(mead_barrel, working). }
+  Action slip_bread(actor: group, site: place) "Crumble a loaf of bee-bread into Huw's barrel while he sleeps" {
+    Requires at(actor, site) and able(actor) and company(actor) and at(actor, honey_vaults) and not at(huw, honey_vaults) and holding(actor, bee_bread) and not meadSaved(huw).
+    Time 1.
+    On success { Spend bee_bread from actor. Assert meadSaved(huw). Assert meadSecret(huw). }
+    Result "You prise the bung, and crumble the loaf in, and knock the bung home with the heel of your hand, and go. By morning the barrel is ticking like a clock, and Huw Penry is on his knees beside it with his ear to the staves, weeping into his beard and telling it that he always knew.".
+  }
+}
