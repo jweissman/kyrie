@@ -14,7 +14,7 @@ and the Mill working.
 
 The young of Linger, who have never seen a Monday, mean to work.
 
-Module `lull`, in [`data/adventures/the-lull`](../../../data/adventures/the-lull): 17 files, about 2,100 lines of Kyr,
+Module `lull`, in [`data/adventures/the-lull`](../../../data/adventures/the-lull): 18 files, about 2,000 lines of Kyr,
 31 people, 38 rooms, about a hundred things to ask. Played alone from the title page (*The Lull*,
 `data/campaigns/the-lull.campaign.json`), or found in a generated world north over the march of a forest, mountain or
 fen country, never on the first ring, where an innkeeper a country off says "there is a valley you can only walk into
