@@ -9,9 +9,9 @@ import { Countries } from '../src/world/countries';
 import { WorldGrid } from '../src/world/world-grid';
 import { GeneratedWorld } from './support/generated';
 
-// Fair Weather in a generated world: an ordinary wanderer, beginning in a mountain country, walks east, north, north and
-// east through countries drawn from the seed, hears of the Gannet Reach from whoever keeps travellers there, and goes
-// on north over the march to the coast road above Skeel. Seed wren puts the Reach north of the country at x2ym2.
+// Fair Weather in a generated world: an ordinary wanderer, beginning in a mountain country, walks east, north, north
+// and east through countries drawn from the seed, hears of the Gannet Reach from whoever keeps travellers there, and
+// goes on north over the march to the coast road above Skeel. Seed wren puts the Reach north of the country at x2ym2.
 describe('Fair Weather in the world', () => {
   it('lies north of a fen, forest or frost country drawn from the seed, and moves no other country', () => {
     for (const seed of ['thorn', 'wren', 'g1', 'g5', 'g26', 'kite', 'a1', 'h2']) {
