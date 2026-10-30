@@ -106,7 +106,7 @@ Module skeel "Fair Weather" {
   Discovery hender_shaken "Hender Brask's hands close on his pen whenever he names the Lantern, and he cannot hold it at all when he names Loveday Kitto.".
   // Hender's offer: to a stranger he has seen out on the sands, on the second day.
   Relation henderOffered(group). Relation dogDeal(group).
-  Topic hender_offer with hender "Ask Hender Brask whether there is work for a stranger" when secondDay() and knows(actor, dog_known) and not dogDealt(admiral) once {
+  Topic hender_offer with hender "Ask Hender Brask whether there is work for a stranger" when secondDay() and knows(actor, dog_known) and not dogDealt(admiral) and not dogPenned(admiral) once {
     Says "He looks at you for a long moment, as if adding you up. 'You have been out on the Strand,' he says. 'You walk it well enough. The dog that has been worrying the Holm sheep is out there, and the town's boys cannot get near it.' He takes a shilling from the drawer and lays it on the book, and beside it, slowly, four more coins. 'A shilling for the dog, at the Wreck-House, before the Court sits. And a stranger's portion of the Admiral's third, which is mine to give, at the Court. Twelve coin, perhaps more.' He does not look away. 'It is a sheep-worrier. You understand me.'".
     On discuss { Assert henderOffered(actor). }
   }

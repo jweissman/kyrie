@@ -135,6 +135,18 @@ describe('Fair Weather', () => {
     expect(g.at('admiral')).toBe(k('wreck_house'));
   }, 600000);
 
+  it('a thief: takes the Reeve\'s offer, picks the pen at night, hides the dog with Mother Jago, and brings him up the loft', async () => {
+    const g = await Reach.start('test/fixtures/skeel/thief.campaign.json', 's1');
+    await g.fixture('thief');
+    expect(g.holds('dogDeal', 'party')).toBe(true);
+    expect(g.holds('tookDog', 'party')).toBe(true);
+    expect(g.holds('dogDrowned', 'admiral')).toBe(false);
+    expect(g.holds('livingShown', 'reach')).toBe(true);
+    // The lie told the Reeve is a roll: on this seed it fails, and he knows.
+    expect(g.page).toMatch(/No, it isn.t/);
+    expect(g.ending()).toEqual([k('living')]);
+  }, 600000);
+
   it('the Cawse lads on the Strand: warned, and paid off', async () => {
     const g = await Reach.start('data/campaigns/skeel.campaign.json', 's1');
     await g.fixture('lads');

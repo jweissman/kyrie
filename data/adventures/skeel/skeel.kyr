@@ -88,6 +88,10 @@ Module skeel "Fair Weather" {
     On discuss { Retract following(admiral, actor). Assert dogHidden(admiral). Assert at(admiral, taproom). }
   }
 
+  Topic jago_dog_back with jago "Ask Mother Jago for the dog from under the stairs" when dogHidden(admiral) and at(admiral, taproom) once {
+    Says "She goes to the stairs and says something to the dark under them, and Admiral comes out with ham on his whiskers and his tail going, and she brushes him down with the cloth as if he were going to church. 'There,' she says. 'Somebody in this town had better be respectable.'".
+    On discuss { Retract dogHidden(admiral). Assert following(admiral, actor). }
+  }
   // ── Bartle Tonkin's ropewalk ──────────────────────────────────────────────────────────────────────────────────────
   Observe rope_scene at ropewalk when true "A long straight alley of beaten earth behind the houses, two hundred yards of it, roofed with old sails on posts. At one end a great wheel with a handle; down its length, strands of hemp stretched between hooks, being twisted into rope as a man walks backward away from the wheel feeding fibre from a bundle at his waist. It smells of tar and hay.".
   Person bartle "Bartle Tonkin" at ropewalk {
@@ -129,7 +133,7 @@ Module skeel "Fair Weather" {
   Action pay_jinny(actor: group, site: place) "Pay Jinny Rowse three coin for the day's sailing" {
     Description "Holm, Skerry or Inish Gall, as often as you like today, while there is water in the harbour.".
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, quay) and at(jinny, quay)
-      and quantity(actor, gold) >= 3 and not passage(actor).
+      and quantity(actor, gold) >= 3 and not passage(actor) and not refusesJinny(actor).
     Time 0.
     On success { Decrease quantity(actor, gold) by 3. Increase quantity(jinny, gold) by 3. Set fareDay(actor) to dayN(reach). }
     Result "Jinny Rowse puts the coins in her boot. 'When there's water,' she says, and looks at the harbour, and at the tide-board.".

@@ -62,5 +62,9 @@ describe('Fair Weather in the world', () => {
     for (let i = 0; i < 120 && !c.world.related('reached').length; i++) { await j.play('^Wait › An hour'); }
     expect(c.world.related('reached').map(r => r.args[0])).toEqual([`${drawn!.rid}__wreck`]);
     expect(c.running).toBe(true);
+    // Coming back up Fore Street after: the Constancy's saint is on the Reeve's gable, and the Holm is Jack Cawse's.
+    await j.play('^Out to Fore Street');
+    expect(j.page).toMatch(/CONSTANT AND TRUE/);
+    expect(c.world.one('at', `${drawn!.rid}__cawse`)).toBe(`${drawn!.rid}__lamp_room`);
   }, 900000);
 });

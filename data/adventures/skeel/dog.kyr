@@ -86,10 +86,10 @@ Module skeel "Fair Weather" {
   // Reeve's shilling. If the dog is loose, they get him; the Reeve will not have him drowned, when it comes to it, and
   // has him penned in the Wreck-House until after the Court.
   Person lads "the Cawse lads" at limbo {
-    Role "three young men with a herring net and a club". Ancestry human. Calling warrior. Level 1. Numbers 3. Pronouns they.
+    Role "three young men with a herring net and their fists". Ancestry human. Calling commoner. Level 1. Numbers 3. Pronouns they.
     Temperament territorial.
     Warns "The three Cawse lads spread out across the sand with their net between them. 'Stand off, stranger,' calls the biggest. 'That's the Reeve's shilling, that dog. You'll not come between a man and his shilling in a bad year.'".
-    Comes "The Cawse lads drop the net and come at you with the club and their fists.".
+    Comes "The Cawse lads drop the net and come at you with their fists and their boots.".
     Pleads "The Cawse lads back off across the sand with their hands up, bleeding, and go off toward the Slip, shouting what the Reeve will say.".
   }
   Rule lads_out when secondDay() and lowWater() and hour(clock) >= 10 and hour(clock) < 14 and not huntOver(reach) and not at(lads, flats) and dogFree() { Retract at(lads, limbo). Assert at(lads, flats). }
@@ -98,7 +98,10 @@ Module skeel "Fair Weather" {
   Rule lads_catch when at(lads, flats) and dogFree() and hour(clock) >= 12 and not huntOver(reach) says "Out on the Strand there is a shout, and a yelp, and then the sound of a dog that has been caught in a net and is fighting it, which goes on a long time." { Assert huntOver(reach). Assert dogPenned(admiral). Retract at(admiral, flats). Assert at(admiral, wreck_house). Retract at(lads, flats). Assert at(lads, limbo). }
   Rule lads_give_up when at(lads, flats) and not dogFree() and not huntOver(reach) says "The Cawse lads stand about on the sand with their net, and look at the dog at your heel, and at you, and one of them spits, and they go home." { Assert huntOver(reach). Retract at(lads, flats). Assert at(lads, limbo). }
   Rule lads_beaten when at(lads, flats) and not able(lads) and not huntOver(reach) { Assert huntOver(reach). Assert beatLads(party). }
-  Relation beatLads(group).
+  Relation beatLads(group). Relation ladsMourned(place).
+  // Three of the town's sons left on the sand: Skeel does not forgive a stranger that, whatever the dog was worth.
+  Rule lads_mourned when beatLads(party) and not ladsMourned(reach) and within(party, skeel) says "Skeel knows. You can see it in the doorways as you pass: the Cawse boys were carried up the Slip on hurdles, and the town has decided what you are. Mother Jago will not serve you. Jinny Rowse looks at the sea when you speak to her." { Assert ladsMourned(reach). Assert refusesService(jago, party). Assert refusesJinny(party). }
+  Relation refusesJinny(group).
   Action pay_lads(actor: group, site: place) "Pay the Cawse lads two coin to go home" {
     Speaker lads.
     Requires able(actor) and company(actor) and at(actor, site) and at(lads, site) and not huntOver(reach) and quantity(actor, gold) >= 2.
@@ -114,7 +117,7 @@ Module skeel "Fair Weather" {
     Change cut_pen "Cut the cords of the pen" from pen_shut to pen_open needing brawn.
   }
   Initially Assert state(pen, pen_shut).
-  Rule dog_freed when dogPenned(admiral) and state(pen, pen_open) and at(party, wreck_house) says "The dog is out of the pen and at your knees before the gate has finished swinging. On his rope collar, a brass tag: CONSTANCY, and under it, ADMIRAL." teaches dog_named { Retract dogPenned(admiral). Assert following(admiral, party). Assert tookDog(party). }
+  Rule dog_freed when dogPenned(admiral) and state(pen, pen_open) and at(party, wreck_house) says "The dog is out of the pen and at your knees before the gate has finished swinging. On his rope collar, a brass tag: CONSTANCY, and under it, ADMIRAL." teaches dog_named { Retract dogPenned(admiral). Assert following(admiral, party). Assert tookDog(party). Assert dogFriend(party). }
   Relation tookDog(group).
   Topic ask_hender_dog with hender "Ask Hender Brask what he will do with the dog in the pen" when dogPenned(admiral) once {
     Says "He does not look up for a long time. 'Keep him,' he says. 'Until after the Court. Then he can go where he likes.' His pen has stopped. 'They wanted me to drown him. I went out to the pen last night with a sack, and he looked at me.' He puts the pen down. 'You can think what you like of me. I could not drown a dog.'".
