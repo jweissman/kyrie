@@ -1,10 +1,14 @@
 {
-  "about": "How a protagonist comes into a settlement, by the country it stands in; and what each trade looks like from the road.",
+  "about": "How a protagonist comes into a settlement, by the country it stands in: the way's name, the scene of the town coming into sight, and a sign of the life going on there as they come (now), which the first place opens on once an opening has told the scene (OWN-17, OWN-18); and what each trade looks like from the road.",
   "approach": {
-    "marsh": { "name": "the causeway into {home}", "way": "the causeway", "scene": "The causeway runs on its piles across the last of the fen, and at the end of it is {home}: low roofs against the sky, {sight}, {trade}, smoke going straight up from the chimneys." },
-    "forest": { "name": "the road into {home}", "way": "the road", "scene": "The road comes out from under the trees, and there is {home} in its clearing: {sight}, {trade}, smoke from a dozen chimneys." },
-    "mountain": { "name": "the road down into {home}", "way": "the road", "scene": "The road comes down off the high ground in long zigzags, and {home} is below you at the foot of it: stone roofs, {sight}, {trade}, the chimneys smoking." },
-    "frost": { "name": "the road into {home}", "way": "the road", "scene": "The road comes in between the snow-fences, and {home} is ahead of you: low roofs weighted with turf, {sight}, {trade}, a dog barking at nothing." }
+    "marsh": { "name": "the causeway into {home}", "way": "the causeway", "scene": "The causeway runs on its piles across the last of the fen, and at the end of it is {home}: low roofs against the sky, {sight}, {trade}, smoke going straight up from the chimneys.",
+      "now": "Someone is cutting reed in the ditch beside the causeway, up to the knees in it, and straightens to watch you go by." },
+    "forest": { "name": "the road into {home}", "way": "the road", "scene": "The road comes out from under the trees, and there is {home} in its clearing: {sight}, {trade}, smoke from a dozen chimneys.",
+      "now": "Somewhere ahead an axe is going, and a dog at the first house has started barking at the sound of you." },
+    "mountain": { "name": "the road down into {home}", "way": "the road", "scene": "The road comes down off the high ground in long zigzags, and {home} is below you at the foot of it: stone roofs, {sight}, {trade}, the chimneys smoking.",
+      "now": "A child minding goats on the slope above the road stands up to watch you come down, and shouts something to the houses below." },
+    "frost": { "name": "the road into {home}", "way": "the road", "scene": "The road comes in between the snow-fences, and {home} is ahead of you: low roofs weighted with turf, {sight}, {trade}, a dog barking at nothing.",
+      "now": "A woman cutting turf by the last of the fences straightens to watch you come, and calls something back over her shoulder to the houses." }
   },
   "trade": {
     "charcoal": "the blue smoke of the charcoal hearths", "timber": "timber stacked to season along the road",

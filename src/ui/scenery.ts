@@ -25,6 +25,19 @@ export class Scenery {
     const views = this.views[terrain ?? ''] ?? this.views.wild!;
     return views[this.hash(key) % views.length];
   }
+  // The way into a town, as a new game's opening paints it (OWN-17): by the land its arrival is told in (the approach
+  // lines of data/origins/tables.json, by terrain, the road out from under the trees where a terrain has none of its
+  // own), never a sight the words deny (a frost town's way in, told by its snow-fences, turf roofs and peat, had opened
+  // on boats drawn up in a pale bay: the opening's critique). The country the life was chosen over, where it is one of
+  // these, so that the painting behind the choice sharpens into the way in.
+  static readonly approaches: Record<string, string[]> = { forest: ['forest', 'herd', 'chapel'], marsh: ['mill'],
+    mountain: ['idyll', 'bridge'], frost: ['idyll', 'wintre'] };
+  static approach(screen: Screen, country?: string): string | undefined {
+    const terrain = screen.region?.terrain?.replace(/^.*__/, '') ?? '';
+    const season = /; (\w+)$/.exec(screen.date?.long ?? '')?.[1];
+    const views = this.seasonal(this.approaches[terrain] ?? this.approaches.forest!, season);
+    return country && views.includes(country) ? country : views[this.hash(screen.place.id) % views.length];
+  }
   // What is painted in winter is shown only in winter (a frozen river with skaters was shown on 23 Midsummer); and in
   // winter, where a kind has a winter painting, one of those (a cold country's town in summer is a grey northern bay,
   // in winter its frozen river: a fresh play had a leafy fair for a town of snow-fences and turf roofs).

@@ -9,6 +9,8 @@ Module origin "What is owed" {
   Relation spoke(group).
   Initially Set owed(loan) to 50. Initially Assert inDebtTo(party, creditor).
   Observe owed at shop as feature when owed(loan) > 0 and watch(clock) < 2 "You owe {creditor} fifty coin, for {lost} that went into the river at the ford last spring, oxen and all. {creditor} has been patient, and wrote to say so: patient until market day, ten days from now, and not after.".
+  // Come in off the road, the town named: the opening had told what was owed and never where (its critique).
+  Observe arrival at shop as feature when watch(clock) < 1 "{homename} has not changed. You come in off the road with your head down, past faces that knew you once, and go straight to {creditor}'s door: better it is done at once.".
   Observe sees near creditor when owed(loan) > 0 and watch(clock) < 2 and not spoke(party) "'{protagonist},' says {creditor}, and does not get up. 'Fifty coin, by market day. You'll have heard I said so.'".
   Topic promise with creditor "Tell {creditor} you will have it by market day" when owed(loan) > 0 and not called(actor) once {
     Says "'See that I do,' says {creditor}, going back to the tally. 'There's no shortage of work for someone with nothing to lose. Ask at the inn.'".

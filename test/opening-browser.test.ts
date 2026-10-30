@@ -5,6 +5,9 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import type { Page } from 'playwright-core';
 import { SiteBuild } from '../src/cli/site-build';
+import { Origins } from '../src/world/origins';
+import { NodeBundleSource } from '../src/campaign/node-bundle-source';
+import { Typography } from '../src/presentation/typography';
 import { MonoBrowser } from './support/mono-browser';
 import { Identity } from '../src/presentation/identity';
 
@@ -150,6 +153,55 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the opening and the choice of a lif
     expect(errors).toEqual([]);
     await page.close();
   }, 240000);
+
+  // Set out, a new game opens on its opening (OWN-17), asked for here as automation is otherwise spared it: the way in
+  // over the whole screen, nothing of play on it; the origin's chapter, small and gold; why you came, then by a key or
+  // a touch, once the way on has appeared, the way in, naming the town; and one Go on, into the first place, which
+  // tells neither, nor your aim, which the opening has just told. Where motion is unwanted, the way on is there at
+  // once.
+  it.each([[1440, 900, 'kin', false], [390, 844, 'wanderer', true]] as [number, number, string, boolean][])(
+    'at %i by %i sets out into the opening of %s, and goes on into the place', async (width, height, origin, touch) => {
+      const { page, errors, driver } = await MonoBrowser.page(browser, { width, height }, { site, pointer: touch,
+        query: '?world=kite&opening' });
+      if (touch) { await page.emulateMedia({ reducedMotion: 'reduce' }); }
+      await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
+      await page.click(`[data-action="origin"][data-id="${origin}"]`);
+      await page.click('[data-action="start"]');
+      await page.waitForSelector('[data-mode="prologue"]', { timeout: 120000 });
+      expect(await page.locator('[data-action="book"], .place-foot, .on-pane, [data-action="choice"]').count()).toBe(0);
+      expect((await Stage.bounds(page)).margin).toBe(0);
+      const title = (await Origins.load(NodeBundleSource.shared)).find(o => o.manifest.id === origin)!.manifest.title;
+      expect(await page.textContent('[data-id="chapter"]')).toBe(Typography.curl(title));
+      const first = (await page.textContent('[data-id="beat"]'))!;
+      expect(await page.locator('[data-action="go-on"]').count()).toBe(0);
+      // Pressed at once, before its way on has appeared, it stays (two Enters had gone past a beat unread).
+      if (!touch) {
+        await page.keyboard.press('Enter');
+        expect(await page.textContent('[data-id="beat"]')).toBe(first);
+        await page.waitForSelector('[data-action="beat"]', { state: 'visible' });
+      }
+      // Where motion is unwanted, the way on is there at once, and held only long enough that one touch is not two.
+      if (touch) { await page.waitForTimeout(400); await driver.click('[data-action="beat"]'); } else { await page.keyboard.press('Enter'); }
+      // The way in names the town the place is in.
+      const second = (await page.textContent('[data-id="beat"]'))!, town = (await driver.inspect()).path!
+        .find(p => p.kind === 'settlement')!.name;
+      expect([second !== first, second.includes(Typography.curl(town))]).toEqual([true, true]);
+      if (touch) {
+        const go = page.locator('[data-action="go-on"]');
+        expect(await go.evaluate(e => getComputedStyle(e).animationName)).toBe('none');
+        await page.waitForTimeout(400);
+      }
+      await driver.click('[data-action="go-on"]');
+      await page.waitForSelector('[data-mode="explore"]', { timeout: 30000 });
+      // The place opens without the chapter, either beat (not even the way in's first sentence) or the aim.
+      expect(await page.locator('.place-head .chapter, [data-id="aim"]').count()).toBe(0);
+      const place = (await page.textContent('.scene'))!, opens = (t: string) => /^.*?[.!?](?=\s|$)/.exec(t)?.[0] ?? t;
+      expect([place.includes(opens(first)), place.includes(opens(second)), place.includes('looking for work')])
+        .toEqual([false, false, false]);
+      expect(await page.locator('[data-action="book"]').count()).toBe(1);
+      expect(errors).toEqual([]);
+      await page.close();
+    }, 240000);
 
   it.each([[1440, 900, 130], [1180, 820, 40], [820, 1180, 16], [390, 844, 0]])(
     'at %i by %i holds the stage inside the screen, its margins kept, the page still', async (width, height, margin) => {

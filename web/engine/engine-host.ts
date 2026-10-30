@@ -18,6 +18,7 @@ import type { Entry, Frame, Leaf, Message, Request, SaveSummary } from './protoc
 import { SaveCodec } from './save-codec';
 import { KeptGame, type Keyed, type KeptState, type Whole, type WorldPart } from './kept-game';
 import { Narrator, type Told } from '../../src/presentation/narrator';
+import { Prologue } from '../../src/presentation/prologue';
 import { Obituary } from '../../src/narrative/obituary';
 import { Endings } from '../../src/lang/endings';
 import { BandNames } from '../../src/narrative/band-names';
@@ -50,6 +51,8 @@ export class EngineHost {
   private told?: Told;
   private country?: string;
   private crossed = false;
+  // Whether the page tells the game's opening apart, before the first place (see Prologue).
+  private apart = false;
   // Whether the next page is the first of a game taken up again: it opens on what the company was about.
   private resumed = false;
   // How long the last command took the engine, before the screen was built and told.
@@ -75,7 +78,7 @@ export class EngineHost {
       case 'preview': return Creation.preview(request.party, request.generated);
       case 'begin': return this.begin(request);
       case 'ready': this.prepare(request); return null;
-      case 'resume': return this.resume(request.saved, request.world);
+      case 'resume': return this.resume(request.saved, { world: request.world, apart: request.apart });
       case 'perform':
         return this.command(() => this.perform(request.command));
       case 'fight': this.fight(request.choice); return null;
@@ -127,12 +130,12 @@ export class EngineHost {
       ? new Frontier(r.seed, Scenarios.source(), r.terrain ? { region: { terrain: r.terrain } } : {}) : undefined;
     if (this.frontier) { this.session.extend({ expand: this.widening(game) }); }
     this.log = []; this.opening = []; this.screen = undefined; this.told = undefined; this.country = undefined;
-    this.crossed = false; this.world = undefined;
+    this.crossed = false; this.world = undefined; this.apart = !!r.apart;
     return this.settled();
   }
   // A game kept in this browser (packed), or a save file: a checkpoint, with or without the page's telling of it.
   // A game kept in this browser is its state and the world it names, kept apart (see KeptGame).
-  private async resume(text: string, world?: string): Promise<Frame> {
+  private async resume(text: string, { world, apart }: { world?: string; apart?: boolean } = {}): Promise<Frame> {
     const game = this.abandon();
     const parsed = JSON.parse(await SaveCodec.unpack(text)) as KeptState | Whole | SessionCheckpoint;
     const unpacked = world ? await SaveCodec.unpack(world) : undefined;
@@ -167,7 +170,11 @@ export class EngineHost {
     this.log = (saved.log ?? []).map((e, i) => ({ ...e, id: e.id ?? i, notes: e.notes ?? [] }));
     this.bound = saved.bound;
     this.opening = []; this.screen = undefined; this.told = undefined; this.country = undefined;
-    this.crossed = true; this.resumed = true;
+    // Kept before anything was done (the page left in its opening), it opens as it began, on its opening; there is
+    // nothing to take up (reloaded in the opening, the place had said why the company came three times over: in the
+    // recap, the place and the aim).
+    const fresh = this.log.every(e => Prologue.kept(e));
+    this.crossed = !fresh; this.resumed = !fresh; this.apart = fresh && !!apart;
     return this.settled();
   }
   // What was done, as the engine words it: a way by the label the screen it last sent gave it, anything else by what
@@ -358,12 +365,20 @@ export class EngineHost {
   // The page's telling: the narrator's, with a heading when the game opens and when the company comes into a country
   // it was not in before.
   private leaf(): Leaf {
-    const campaign = this.session!.campaign, screen = this.screen!;
-    const leaf = Narrator.leaf(campaign, screen, this.told);
+    const campaign = this.session!.campaign, screen = this.screen!, opening = !this.told && !this.crossed;
     const country = screen.path.find(p => p.kind === 'region')?.name;
-    // The opening is headed with the chapter its origin names ("Coming home"), or the country's name.
-    const chapter = campaign.module.entities.find(e => /(^|__)chapter$/.test(e.type))?.name;
-    if (!this.told && !this.crossed) { leaf.heading = { kind: 'opening', title: chapter ?? screen.title.split(' — ')[0]! }; }
+    // The opening is headed with the chapter its origin names ("Coming home"), or the country's name. Where the page
+    // tells it apart, before the first place (OWN-17), the chapter heads that, and the place does not say it again,
+    // nor why the company came, nor how it came in; the story begins with it, once.
+    const chapter = campaign.module.entities.find(e => /(^|__)chapter$/.test(e.type))?.name
+      ?? screen.title.split(' — ')[0]!;
+    const prologue = opening && this.apart ? Prologue.of(campaign, screen, chapter) : undefined;
+    const leaf = Narrator.leaf(campaign, screen, this.told, prologue?.opening);
+    if (prologue && !this.log.length) {
+      this.log.push(Prologue.entry(prologue.told, screen));
+    }
+    if (prologue) { leaf.prologue = prologue.told; }
+    else if (opening) { leaf.heading = { kind: 'opening', title: chapter }; }
     else if (country && this.country && country !== this.country) { leaf.heading = { kind: 'country', title: country }; }
     if (this.told || this.crossed) { this.crossed = true; }
     this.country = country;
@@ -383,8 +398,10 @@ export class EngineHost {
     const region = this.frontier && this.screen.path.find(p => p.kind === 'region')?.name;
     // In a fight, the company's own by their portraits, as on their pages.
     const faces = new Map(this.screen.party.flatMap(m => m.face ? [[m.id, m.face] as const] : []));
+    // Told before the story is sent: the opening is the story's first entry (see leaf).
+    const leaf = this.leaf();
     return { title: region ?? this.screen.title.split(' — ')[0]!, screen: this.screen, entries: this.log.slice(-120),
-      leaf: this.leaf(),
+      leaf,
       // A fight that ended the story is held too, ahead of the end: the last act chosen in it had gone unseen, the
       // page turning to the end as it was struck (the cold playtest's "my last strike's result never shown": CMB-02).
       ...this.turn ? { combat: CombatModel.build(this.turn.battle, BandNames.of(campaign), faces) }

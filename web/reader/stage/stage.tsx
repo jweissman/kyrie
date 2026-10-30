@@ -12,8 +12,9 @@ import { RoadStage } from './road-stage';
 import { FightStage } from './fight-stage';
 import { BookStage } from './book-stage';
 import { Held } from './held';
+import { PrologueStage } from './prologue-stage';
 
-export type Mode = 'explore' | 'talk' | 'examine' | 'road' | 'combat' | 'book' | 'fallen';
+export type Mode = 'prologue' | 'explore' | 'talk' | 'examine' | 'road' | 'combat' | 'book' | 'fallen';
 
 // Play, one composition at a time, chosen by what the player is attending to: a place (the page of it, with who and
 // what is there and the ways out), a road (the line across the country), someone spoken with (their painting when
@@ -21,7 +22,8 @@ export type Mode = 'explore' | 'talk' | 'examine' | 'road' | 'combat' | 'book' |
 // passed between them), or a book (the character, notes, the pack, the map, the story). Every one is on the same
 // white page; the dark, the night and the deep are told, not painted over it. Nothing stands across any of them but
 // the book in the corner, which opens the books (the owner's interim report: a bar of utilities across every page,
-// a conversation's too, had made play a web application).
+// a conversation's too, had made play a web application). Before all of them in a new game is its opening, over the
+// whole screen with nothing across it, not even the book (see PrologueStage).
 export class Stage {
   static View({ app }: { app: ReaderApp }) {
     const s = app.state, menu = app.menu, mode = Stage.mode(app), frame = s.frame!;
@@ -29,6 +31,7 @@ export class Stage {
       <div className={`stage mode-${mode}`} data-mode={Stage.inspected(app, mode)} aria-busy={s.pending ? true : undefined}>
         {['explore', 'road', 'talk', 'examine'].includes(mode) && <Stage.Corner app={app} />}
         <div className="intentions" data-region="choices">
+          {mode === 'prologue' && <PrologueStage.View app={app} />}
           {mode === 'fallen' && <BookStage.Ending app={app} />}
           {mode === 'combat' && <FightStage.View app={app} />}
           {mode === 'book' && <BookStage.View app={app} />}
@@ -42,11 +45,17 @@ export class Stage {
   }
   static mode(app: ReaderApp): Mode {
     const s = app.state, frame = s.frame!, menu = app.menu, held = Held.page(frame);
+    if (Stage.prologue(app)) { return 'prologue'; }
     if (held) { return held; }
     if (s.view !== 'here') { return 'book'; }
     if (s.attention.kind === 'person' && menu.talk) { return 'talk'; }
     if (s.attention.kind === 'thing' && menu.examined) { return 'examine'; }
     return Routes.of(frame.screen) ? 'road' : 'explore';
+  }
+  // Whether a new game's opening is being told, before its first place: then the keys are the opening's.
+  static prologue(app: ReaderApp): boolean {
+    const s = app.state;
+    return s.phase === 'play' && s.prologue !== undefined && !!s.frame?.leaf.prologue;
   }
   // Whether the map is open over everything (not a fight, or the end, come over it): then the keys are the map's, and
   // what would be said over the page is said over the map.

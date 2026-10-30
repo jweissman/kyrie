@@ -115,14 +115,16 @@ export type Request =
   | { kind: 'setting'; campaign: string }
   | { kind: 'world'; seed: string; terrain?: string }
   | { kind: 'preview'; party: Member[]; generated: boolean }
+  // apart: the page tells the opening apart, before the first place (see Prologue), and its frame says so.
   | { kind: 'begin'; campaign: string; seed: string; party: Member[]; terrain?: string; origin?: string;
-    memorial?: Memorial }
+    memorial?: Memorial; apart?: boolean }
   // What Begin will be asked, as the page stands while the player reads it: made ready in advance, and taken up by a
   // Begin asking the same.
   | { kind: 'ready'; campaign: string; seed: string; party: Member[]; terrain?: string; origin?: string;
     memorial?: Memorial }
   // A kept game, with the world it was played in when that is kept apart from it (see KeptGame).
-  | { kind: 'resume'; saved: string; world?: string }
+  // apart: as begin's, for a game kept before anything was done in it, which opens as it began.
+  | { kind: 'resume'; saved: string; world?: string; apart?: boolean }
   // The page only chooses: what was done is worded by the engine, a way by the label its own screen gave it (the page's
   // words had been kept as the story: the architecture review's H2).
   | { kind: 'perform'; command: string }

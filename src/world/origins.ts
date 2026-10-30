@@ -28,6 +28,9 @@ export interface OriginChoice { id: string; title: string; choice: string; backg
 // types), and where the protagonist begins.
 interface Bound { values: Record<string, string>; imports: Record<string, [string, string]>; start: Start }
 type Start = NonNullable<Company['start']>;
+// The way into a settlement, by its country: its name, the scene of the town coming into sight, and the life going on
+// there as one comes (data/origins/tables.json).
+interface Way { name: string; way: string; scene: string; now: string }
 interface Loaded { manifest: OriginManifest; source: string }
 
 export class Origins {
@@ -104,15 +107,15 @@ export class Origins {
     return { scene: a.scene.replace('{home}', s.name).replace('{trade}', trade).replace('{sight}', sight), home: s.name,
       homename: s.name, region: region.name };
   }
-  private static way(region: Region): { name: string; way: string; scene: string } {
-    return (tables.approach as Record<string, { name: string; way: string; scene: string }>)[region.terrain]
-      ?? tables.approach.forest;
+  private static way(region: Region): Way {
+    return (tables.approach as Record<string, Way>)[region.terrain] ?? tables.approach.forest;
   }
-  // Beginning on the way into a settlement, which the region writes for the protagonist.
+  // Beginning on the way into a settlement, which the region writes for the protagonist, with the life going on there
+  // as they come (see RegionWriter.company).
   private static arriving(region: Region, s: Settlement): { start: Start; approach: [string, string] } {
     const a = this.way(region);
     return { start: { place: `${s.id}_approach`, approach: { settlement: s.id, name: a.name.replace('{home}', s.name),
-      way: a.way } }, approach: [`region.${s.id}_approach`, 'place'] };
+      way: a.way, now: a.now.replace('{home}', s.name) } }, approach: [`region.${s.id}_approach`, 'place'] };
   }
   private static home(region: Region, id: string): Settlement | undefined {
     return region.settlements.find(s => s.id === id);
@@ -138,7 +141,7 @@ export class Origins {
     if (!p || !s || !sender) { return undefined; }
     const { start, approach } = this.arriving(region, s);
     return { values: { ...this.approach(region, s), sender: sender.name }, start,
-      imports: { approach, mother: [`${p.instance}.mother`, 'group'] } };
+      imports: { approach, mother: [`${p.instance}.mother`, 'group'], sick: [this.fact('fever.sick', p), 'fact'] } };
   }
   // An order's errand: the old writing at the first of the makers' works that has some, and the priest of the town
   // nearest the order's road (the region's town).

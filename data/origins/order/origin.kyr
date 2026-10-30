@@ -10,6 +10,8 @@ Module origin "The brothers' errand" {
   Entity bed: service "the bed in the back". Initially Assert serviceOf(bed, lodging). Initially Set fee(bed) to 0.
   Initially Assert expects(priest, party). Initially Assert knows(party, named).
   Observe letter at shrine as feature when expects(priest, party) "You have the letter inside your coat: from the brothers of your order, over the hills, to the priest of {cult} at {homename}, asking that {protagonist}, who reads the old script, be given a bed and shown the way to {work}. There is writing there that the order has heard of for a hundred years and never seen copied.".
+  // Come in off the road, the town named: the opening had told the letter and never where (its critique).
+  Observe arrival at shrine as feature when watch(clock) < 1 "{homename} is smaller than the brothers made it sound, after so many days on the road. The first person you ask points the way to the priest of {cult}, and you go in.".
   Topic give_letter with priest "Give {priest} the brothers' letter" when expects(priest, actor) once {
     Says "{priest} reads it by the door, where the light is, and then reads it again. 'Brother Anselm's hand,' {priest} says. 'I did not know he was still living.' A pause. 'There is a bed in the back, such as it is. As for {work}: it is out in {where}, and I will tell you the way, since he asks it. People go out there and come back with their sheep missing. Go in daylight, and take the shrine's rope: the old places were not built to be walked into.'".
     On discuss { Retract expects(priest, actor). Assert delivered(actor). Assert knows(actor, found). Assert offers(priest, bed).

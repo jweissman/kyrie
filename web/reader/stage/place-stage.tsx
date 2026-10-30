@@ -52,7 +52,7 @@ export class PlaceStage {
           <HerePane.Services app={app} />
         </div></section>
         <footer className="place-foot">
-          <PlaceStage.Aim screen={screen} bound={!!frame.bound} />
+          <PlaceStage.Aim screen={screen} bound={!!frame.bound} opened={!!frame.leaf.prologue} />
           <PlaceStage.You app={app} draw={draw} />
         </footer>
       </article>
@@ -261,10 +261,12 @@ export class PlaceStage {
   }
   // Your aim, said quietly at the head of the ways on: the first the notes hold, your own errand before what the
   // country holds (the owner's interim report: little to say where anything worth doing was, without the notes). It
-  // is said as written: "You mean to / the brothers want …" was no sentence (play 7).
-  static Aim({ screen, bound }: { screen: Screen; bound: boolean }) {
+  // is said as written: "You mean to / the brothers want …" was no sentence (play 7). Not on the first place after a
+  // new game's opening, which has just said it (opened): "Your father … did not come home" was read on the choice of
+  // a life, in the opening and under the first place, three screens running (the opening's critique).
+  static Aim({ screen, bound, opened }: { screen: Screen; bound: boolean; opened?: boolean }) {
     const aim = screen.objectives[0];
-    if (!aim || bound) { return null; }
+    if (!aim || bound || opened) { return null; }
     return <p className="aim" data-id="aim"><span className="label">Your aim</span>{Typography.curl(Words.upper(aim))}</p>;
   }
   // Where you are going, while you are: where to, the next way and how long it is, how long in all; going on (by the

@@ -9,6 +9,7 @@ import { Narration } from './narration';
 import { Spoken } from './spoken';
 import { ModuleWriter } from '../lang/module-writer';
 import { Chapters } from '../lang/chapters';
+import type { Opening } from './prologue';
 
 // One line of what came of a command: someone's words, the telling of what happened, an event that broke in, a
 // change to the place, or a fight's turning point.
@@ -23,6 +24,8 @@ export interface Leaf {
   moved?: boolean; journey?: string[];
   // Taken up again from a save: what the company is about, and the last thing it did, and when (see EngineHost).
   recap?: { aim?: string; last?: { said: string; told: string; at: string } };
+  // A new game's opening, told apart before the first place where the page asks it to be (see Prologue).
+  prologue?: { title: string; beats: string[] };
 }
 // One command, as the host keeps it until the next: what happened, what the company saw of it, the words it was
 // chosen in, and whether it brought the company somewhere else.
@@ -38,7 +41,8 @@ export class Narrator {
     return one ? 'It is a long time since you slept. You are weary, and will fight the worse for it until you sleep.'
       : 'It is a long time since anyone slept. The company is weary, and will fight the worse for it until it sleeps.';
   }
-  static leaf(campaign: Campaign, screen: Screen, told?: Told): Leaf {
+  // opening: what an opening told before the first place (see Prologue), which the place leaves out.
+  static leaf(campaign: Campaign, screen: Screen, told?: Told, opening?: Opening): Leaf {
     const defs = this.defs(campaign), shelter = this.shelter(campaign, screen.place.id);
     const seenBefore = this.seenBefore(campaign);
     const known = [...seenBefore].some(id => Narrator.def(defs, id)?.place === screen.place.id);
@@ -48,8 +52,8 @@ export class Narrator {
     const under = !told || (told.moved && this.cameOut(campaign, told.event));
     // Why a way is shut is told the first time it is seen shut; after, the way says it (A Winter in Carth's friction
     // 12: the gaol's hours were told each time the company came into the Close).
-    const kept = screen.observed.filter(o => this.tells(this.def(defs, o.id), { shelter, known, arrived: under, turned,
-      here: screen.place.id }) && !(/__shut$/.test(o.id) && seenBefore.has(o.id)));
+    const kept = this.unsaid(screen.observed.filter(o => this.tells(this.def(defs, o.id), { shelter, known,
+      arrived: under, turned, here: screen.place.id }) && !(/__shut$/.test(o.id) && seenBefore.has(o.id))), opening);
     // What has changed since the company was last here is told under that, not twice.
     const changed = known && told?.moved ? screen.fresh : [];
     const exchange = told && this.exchange(campaign, told);
@@ -93,6 +97,10 @@ export class Narrator {
       ...exchange ? { exchange } : {}, ...shelter ? { shelter } : {}, ...told?.moved ? { moved: true } : {},
       ...journey.length ? { journey } : {},
     });
+  }
+  // What an opening told just before is left out of the place (see Prologue).
+  private static unsaid<T extends { id: string }>(lines: T[], opening?: Opening): T[] {
+    return opening ? lines.filter(l => !opening.apart.has(l.id)) : lines;
   }
   // A place come back to, where everything it says that lasts was told before, is recalled by its first sentence,
   // with its sky and passing life as they are now, and what has changed since told under it (What Tessary Owes' W2

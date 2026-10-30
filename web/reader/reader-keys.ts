@@ -1,11 +1,12 @@
 import type { ReaderApp } from './reader-app';
 import type { View } from './menu-model';
 import { Stage } from './stage/stage';
+import { PrologueStage } from './stage/prologue-stage';
 
 // The keyboard. In play, arrows move the highlight through what can be done now, Enter does it, a digit does one at
 // once, Esc goes back; letters open the company, the pack, the journal and the map. Over the map, the arrows, Enter,
-// Space and the digits are the map's own. Before play, arrows move between the page's choices and Enter takes the
-// one in focus.
+// Space and the digits are the map's own; in a new game's opening, Enter goes on. Before play, arrows move between
+// the page's choices and Enter takes the one in focus.
 export class ReaderKeys {
   static readonly views: Record<string, View> = { e: 'here', c: 'company', i: 'pack', j: 'journal', m: 'map', h: 'story' };
   constructor(private readonly app: ReaderApp) {}
@@ -16,7 +17,8 @@ export class ReaderKeys {
       if (e.key === 'Escape') { target.blur(); }
       return;
     }
-    const handled = this.app.state.phase === 'play' ? this.play(e.key) : this.page(e.key);
+    const handled = this.app.state.phase !== 'play' ? this.page(e.key)
+      : Stage.prologue(this.app) ? this.prologue(e.key, e.repeat) : this.play(e.key);
     if (handled) { e.preventDefault(); }
   };
   private play(key: string): boolean {
@@ -47,6 +49,17 @@ export class ReaderKeys {
     }
     if (key === 'Escape' || key === 'Backspace') { app.back(); return true; }
     return this.letter(key.toLowerCase());
+  }
+  // A new game's opening: Enter, Space or an arrow on brings the next beat (and after the last, the place), once it
+  // has been shown a moment (see PrologueStage.next), and never by a key held down; Esc goes straight on. Nothing
+  // reaches the place's choices under it, unseen.
+  private prologue(key: string, held: boolean): boolean {
+    if (/^(Enter| |ArrowRight|ArrowDown)$/.test(key)) {
+      if (!held) { PrologueStage.next(this.app); }
+      return true;
+    }
+    if (key === 'Escape') { PrologueStage.done(this.app); return true; }
+    return /^([1-9]|ArrowUp|ArrowLeft)$/.test(key);
   }
   private letter(key: string): boolean {
     const app = this.app;

@@ -162,29 +162,39 @@ export class ReaderOpening {
   readonly begin = () => { void this.setOut(); };
   async setOut() {
     const starting = this.starting();
-    this.app.setState({ phase: 'loading', stage: 'Setting out', error: '' });
+    this.app.setState({ phase: 'loading', stage: 'Setting out', error: '', leaving: true });
     clearTimeout(this.readyTimer);
-    await this.enter(this.app.engine.request<Frame>({ kind: 'begin', ...starting }), 'company');
+    await this.enter(this.app.engine.request<Frame>({ kind: 'begin', ...starting, apart: this.apart() }), 'company');
+  }
+  // Whether the page tells a new game's opening apart, before the first place (see PrologueStage). The engine says
+  // whether there is one (an origin's first moment; an authored campaign has none, and opens on its first place).
+  // Automation goes straight to the place unless the address asks (?opening), as it is spared the studio's mark.
+  private apart(): boolean {
+    return !navigator.webdriver || this.app.props.query.has('opening');
   }
   // Automation (kyrieMono.begin): set out with exactly this company, as Begin would, so a kept journey can be played
   // again in the browser in the world it was recorded in.
   async setOutWith(starting: Omit<Extract<Request, { kind: 'begin' }>, 'kind'>) {
-    this.app.setState({ phase: 'loading', stage: 'Setting out', error: '' });
+    this.app.setState({ phase: 'loading', stage: 'Setting out', error: '', leaving: true });
     await this.enter(this.app.engine.request<Frame>({ kind: 'begin', ...starting }), 'company');
   }
+  // A game kept before anything was done in it opens on its opening again, where the page tells it apart.
   async resume(text: string, world?: string) {
-    this.app.setState({ phase: 'loading', stage: 'Finding where you left off', error: '' });
-    await this.enter(this.app.engine.request<Frame>({ kind: 'resume', saved: text, ...world ? { world } : {} }), 'title');
+    this.app.setState({ phase: 'loading', stage: 'Finding where you left off', error: '', leaving: false });
+    await this.enter(this.app.engine.request<Frame>({ kind: 'resume', saved: text, ...world ? { world } : {},
+      apart: this.apart() }), 'title');
   }
   private async enter(request: Promise<Frame>, otherwise: 'company' | 'title') {
     try {
       const frame = await request;
-      this.app.setState({ phase: 'play', frame, view: 'here', cursor: 0, open: [], member: '' });
+      // A game begun opens on its opening, where the engine told one apart; one taken up again, on where it was.
+      this.app.setState({ phase: 'play', frame, view: 'here', cursor: 0, open: [], member: '', leaving: false,
+        prologue: frame.leaf.prologue ? 0 : undefined, beat: performance.now() });
     } catch (error) { this.fail(error, otherwise); }
   }
   private fail(error: unknown, phase?: 'title' | 'campaigns' | 'company') {
     const message = error instanceof Error ? error.message : String(error);
-    this.app.setState({ error: message, phase: phase ?? this.app.state.phase });
+    this.app.setState({ error: message, phase: phase ?? this.app.state.phase, leaving: false });
   }
   readonly title = () => {
     this.app.setState({ phase: 'title', frame: undefined, view: 'here', pending: undefined, error: '' });

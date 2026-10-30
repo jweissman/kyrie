@@ -82,7 +82,7 @@ export interface Carrier { id: string; settlement: string; channel: 'tavern' | '
 // protagonist, where they begin (a room, or a way into a settlement written for them) and the coin they carry.
 export interface Company {
   size: number; contacts: Contact[]; coin?: number;
-  start?: { place: string; approach?: { settlement: string; name: string; way: string } };
+  start?: { place: string; approach?: { settlement: string; name: string; way: string; now?: string } };
 }
 export interface Contact {
   member: string; background: string; channel: Carrier['channel']; carrier: string; room: string; text: string;
@@ -163,11 +163,14 @@ export class RegionWriter {
     const q = JSON.stringify, lines: string[] = [];
     if (!company) { return ['  Entity party: group "Your company".', '  Goal false.']; }
     company.contacts.forEach((c, i) => lines.push(`  Observe tie${i + 1} at ${c.room} when true ${q(c.text)}.`));
-    // One protagonist begins where their origin says: a room of a settlement, or the way into it.
+    // One protagonist begins where their origin says: a room of a settlement, or the way into it, where some life of
+    // the town is going on as they come: what the place opens on once an opening has told the town coming into sight
+    // (OWN-17; OWN-18's sign of current life).
     const a = company.start?.approach;
     if (a) {
       lines.push(`  Place ${a.settlement}_approach ${q(a.name)} is room within ${a.settlement} outdoors.`,
-        `  Passage ${a.settlement}_approach_way ${q(a.way)} is road between ${a.settlement}_approach and ${a.settlement}_green taking 10 minutes.`);
+        `  Passage ${a.settlement}_approach_way ${q(a.way)} is road between ${a.settlement}_approach and ${a.settlement}_green taking 10 minutes.`,
+        ...a.now ? [`  Observe ${a.settlement}_approach_life at ${a.settlement}_approach as ambience when not dark() ${q(a.now)}.`] : []);
     }
     lines.push(`  Company party ${q(company.size > 1 ? 'Your company' : 'You')} of ${company.size} at ${company.start?.place ?? `${region.settlements[0]!.id}_green`}.`,
       `  Initially Set quantity(party, gold) to ${company.coin ?? 12}. Initially Set quantity(party, rations) to 2.`, '  Goal false.');

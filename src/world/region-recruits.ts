@@ -1,14 +1,14 @@
 import { Canon } from '../canon/canon';
 import { GenerationSetting } from '../generation-setting';
 import { Draw } from './land/draw';
+import { Foundings } from './founding';
 import type { Contact, Region, Settlement } from './region-writer';
 
 // Who in a generated region would go along with a company: the traveller at each inn, whose calling is a class (a
 // drover can fight, a pilgrim pray, a tinker open locks). Asked whether they would come along, they say what brings
 // them there, and that they would travel with a company for a few coins and their keep; then they can be asked to
 // join (the hire had been asked for as small talk, "what brings them", and was passed by: the play-structure
-// investigation's PT-12). The first settlement's is the
-// cheapest, so a company of one is never long alone.
+// investigation's PT-12). The first settlement's is the cheapest, so a company of one is never long alone.
 export class RegionRecruits {
   static readonly classes: Record<string, string> = { drover: 'warrior', tinker: 'thief', pilgrim: 'cleric',
     pedlar: 'bard', 'charcoal-burner': 'ranger', 'eel-catcher': 'ranger', trapper: 'ranger', minstrel: 'bard',
@@ -37,13 +37,14 @@ export class RegionRecruits {
     return { ...region, settlements: region.settlements.map((s, i) => ({ ...s, calling: order[i % order.length]! })) };
   }
   // Why the company has come, said as it arrives, as a module of its own so it stands apart from the town: each
-  // member an old acquaintance sent word to, and what of; a company of one is told who at the first town's inn is
-  // looking for work, by name. Nothing is a task: it is what they came for. It is said where the company begins
-  // (said on the town's green, it was never heard by one who began at its shrine: play 7; PT-11, a lone mage, thief
-  // or bard does not get far alone), and only there: said all over the town, it was told at the forge the company
-  // began at, again in the square, and a third time at the inn (play 8).
+  // member an old acquaintance sent word to, and what of. Nothing is a task: it is what they came for. It is said
+  // where the company begins, and only there: said all over the town, it was told at the forge the company began at,
+  // again in the square, and a third time at the inn (play 8).
   static arrival(region: Region, company: { size: number; contacts: Contact[]; start?: string }) {
-    const town = region.settlements[0]!, start = company.start ?? `${town.id}_green`;
+    const first = region.settlements[0]!, start = company.start ?? `${first.id}_green`;
+    // The town the company begins in, by the place it begins at (a drover's child comes home to a town ten hours from
+    // the first, and was told of the first one's inn: the opening's critique).
+    const town = region.settlements.find(s => start.startsWith(`${s.id}_`)) ?? first;
     const imports: Record<string, string> = { party: 'region.party', start: `region.${start}` };
     const said = company.contacts.map((c, i) => {
       const s = region.settlements.find(x => c.carrier.startsWith(`${x.id}_`));
@@ -52,18 +53,36 @@ export class RegionRecruits {
       return c.concern ? `${c.member} came because ${who}, sent word of ${c.concern}.`
         : `${c.member} came to see ${who}, an old friend.`;
     });
-    if (company.size === 1) {
-      const one = town.traveller && town.calling ? `${town.traveller}, ${/^[aeiou]/i.test(town.calling) ? 'an' : 'a'} ${town.calling},`
-        : 'a traveller';
-      said.push(`You have come alone. At the inn at ${town.name}, ${one} is looking for work, and would come with you for`
-        + ` a few coins and their keep; the inns of ${region.name}'s other towns have others.`);
-    }
-    if (!said.length) { return undefined; }
-    const names = Object.keys(imports), source = ['Module arrival "Why the company came" {', '  Entity party: group "Your company".',
-      '  Place start "Where they begin" is room.', ...names.filter(n => /^c\d+$/.test(n)).map(n => `  Entity ${n}: group "Someone".`),
-      `  Observe arrival at start when watch(clock) < 1 ${JSON.stringify(said.join(' '))}.`, '  Goal false.', '}'].join('\n');
+    const alone = company.size === 1 ? this.alone(region, town, imports) : [];
+    if (!said.length && !alone.length) { return undefined; }
+    const names = Object.keys(imports), places = ['start', 'inn'];
+    const source = ['Module arrival "Why the company came" {', '  Entity party: group "Your company".',
+      '  Place start "Where they begin" is room.', ...names.filter(n => n !== 'party' && !places.includes(n))
+        .map(n => `  Entity ${n}: group "Someone".`),
+      ...said.length ? [`  Observe arrival at start when watch(clock) < 1 ${JSON.stringify(said.join(' '))}.`] : [],
+      ...alone, '  Goal false.', '}'].join('\n');
     return { source, imports, manifest: { version: 1, source: 'arrival.kyr', rules: ['world'], globals: ['party'],
-      imports: names, roles: Object.fromEntries(names.map(n => [n, { type: n === 'start' ? 'place' : 'group' }])) } };
+      imports: names, roles: Object.fromEntries(names.map(n => [n, { type: places.includes(n) ? 'place' : 'group' }])) } };
+  }
+  // One who comes alone knows before they set out who at the inn of the town they begin in is looking for work, by
+  // name, and its keeper says so there, in the telling of the room, until that one has been asked: a lone mage, thief
+  // or bard does not get far alone (PT-11), and wherever in the town they begin it is in their notes (said on the
+  // town's green, it was never heard by one who began at its shrine: play 7). Said on the first page, it had stood
+  // between the way in and why they came (OWN-17); said as the keeper's own doing, it was on no card a desktop shows
+  // (the opening's critique).
+  private static alone(region: Region, town: Settlement, imports: Record<string, string>): string[] {
+    const q = JSON.stringify, a = /^[aeiou]/i.test(town.calling ?? '') ? 'an' : 'a';
+    const one = town.traveller && town.calling ? `${town.traveller}, ${a} ${town.calling},` : 'a traveller';
+    const known = [`  Entity hire: fact ${q(`At the inn at ${town.name}, ${one} is looking for work, and would come with you`
+      + ` for a few coins and their keep; the inns of ${region.name}'s other towns have others.`)}.`,
+    '  Initially Assert established(hire). Initially Assert knows(party, hire).'];
+    if (!town.traveller) { return known; }
+    // Where the keeper stands: the taproom, or the heart of a place that keeps no inn (see SettlementWriter.standing).
+    const inn = Foundings.of(region, region.settlements.indexOf(town)).keeping !== 'none' ? 'taproom' : 'green';
+    Object.assign(imports, { keeper: `region.${town.id}_innkeeper`, traveller: `region.${town.id}_traveller`,
+      inn: `region.${town.id}_${inn}` });
+    return [...known, '  Place inn "The inn" is room.', '  Observe hiring at inn as feature when not willing(traveller, party)'
+      + ` and not travelsWith(traveller, party) ${q("'{traveller} there is looking for work,' says {keeper}. 'Would go anywhere with anyone, for a few coins and their keep.'")}.`];
   }
   static traveller(s: Settlement, i: number, region: Region, at = `${s.id}_taproom`): string[] {
     const q = JSON.stringify, id = `${s.id}_traveller`, ancestry = s.people?.traveller ?? s.folk ?? region.ancestry;

@@ -3,7 +3,11 @@ Module origin "Feverwort" {
   Entity party: group "You".
   Entity mother: group "The sick child's mother".
   Place approach "The way in" is room.
-  Initially Assert expects(mother, party).
+  // The company knows from the first what the errand is for, and is expected with the cure, which the fever's own aim
+  // says: told only in the opening, the errand had been lost with it, the notes saying nothing was asked of you (the
+  // opening's critique).
+  Entity sick: fact "A child has a fever".
+  Initially Assert expects(mother, party). Initially Assert knows(party, sick).
   Observe arrival at approach as fixture when true "{scene}".
   Observe errand at approach as feature when watch(clock) < 1 "The herb-wife at {sender} wrapped the feverwort in a cloth and put it in your hands. 'The child at {home} has had the fever three days, and they have nothing left there,' she said. 'Don't dawdle.'".
   Goal false.

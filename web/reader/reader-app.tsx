@@ -18,6 +18,7 @@ import { PlayPage } from './play-page';
 import { OptionsPage } from './options-page';
 import { ReaderOptions, type Options } from './reader-options';
 import { Shell } from './shell';
+import { Stage } from './stage/stage';
 
 export type Phase = 'title' | 'options' | 'campaigns' | 'company' | 'loading' | 'play';
 // A journey under way: from where, to where, by what way and how long. Said while the engine works it out, never
@@ -35,6 +36,10 @@ export interface AppState {
   // Someone who died in this country before, whom it will remember when it is begun again.
   memorial?: import('../../src/world/memorial').Memorial;
   frame?: Frame; view: View; cursor: number; hovered?: string; member: string;
+  // Which beat of a new game's opening is shown, while it is, and when it came (see PrologueStage).
+  prologue?: number; beat?: number;
+  // Whether the company is setting out from the choice of a life: the page says only that, over the country.
+  leaving?: boolean;
   // The choices that are open, showing what can be done with them (what to say to someone, what to buy).
   open: string[];
   // Whether the keys are being used: only then is the choice they are on shown.
@@ -256,7 +261,7 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     const s = this.state, menu = this.menu, frame = s.frame;
     const mode = s.phase !== 'play' ? { title: 'title', options: 'options', campaigns: 'campaigns', company: 'create',
       loading: 'create' }[s.phase]
-      : frame?.combat ? 'combat' : s.view === 'here' && s.attention.kind !== 'place'
+      : Stage.prologue(this) ? 'prologue' : frame?.combat ? 'combat' : s.view === 'here' && s.attention.kind !== 'place'
         ? { person: 'talk', thing: 'examine' }[s.attention.kind] : { here: 'explore', company: 'party', pack: 'pack',
           journal: 'journal', map: 'map', story: 'story' }[s.view];
     return { mode, place: frame?.screen.place, path: frame?.screen.path,

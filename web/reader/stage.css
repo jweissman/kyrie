@@ -96,6 +96,57 @@
 .scenery figcaption { font: 400 11px/1.4 var(--do); color: var(--faint); }
 .scenery.gone { visibility: hidden; }
 
+/* ---- A new game's opening (OWN-17): the way in painted over the whole screen, out of the stage, and on it only the
+   chapter, small and gold, and one paragraph at a time, centred low in the light; a touch goes on, and under the last,
+   Go on. No book in the corner and nothing of yourself. ---- */
+.shell.prologue { --frame-w: 100vw; --frame-h: 100dvh; }
+.shell.prologue .frame { background: var(--ground); border: 0; box-shadow: none; }
+.shell.prologue .frame::after { display: none; }
+.prologue-page { position: relative; height: var(--frame-h); display: grid; align-items: end; justify-items: center;
+  padding: 0 max(20px, env(safe-area-inset-left)) max(clamp(56px, 13vh, 132px), env(safe-area-inset-bottom));
+  cursor: pointer; overflow: hidden; -webkit-tap-highlight-color: transparent; }
+.prologue-page.last { cursor: default; }
+.prologue-page .scenery { position: absolute; inset: 0; overflow: hidden; }
+/* Held still, and softened a little, with a grain over it: the paintings are small (some 750 by 600), and drawn over a
+   whole screen, slowly zoomed, their skies had shown the squares of their compression. */
+.prologue-page .scenery img { height: 100%; object-position: 50% 38%;
+  filter: saturate(.85) brightness(.84) blur(clamp(.5px, .07vmax, 1.2px)); animation: settle-in 2s var(--ease) both; }
+.prologue-page .scenery::before { content: ''; position: absolute; inset: 0; z-index: 1; opacity: .09; mix-blend-mode: overlay;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+.prologue-page .scenery::after { content: ''; position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(10, 11, 14, .05) 0%, rgba(10, 11, 14, .3) 42%, rgba(10, 11, 14, .9) 82%),
+    radial-gradient(ellipse 90% 80% at 50% 40%, transparent 50%, rgba(10, 11, 14, .55) 100%); }
+.prologue-body { position: relative; z-index: 1; width: min(35rem, 100%); text-align: center; }
+.prologue-page .chapter { margin: 0 0 22px; animation: rise 1s .3s var(--ease) both; }
+.prologue-page .beat { margin: 0 0 30px; font: 400 clamp(19px, 1.65vw, 23px)/1.62 var(--told); color: var(--ivory);
+  text-wrap: pretty; text-shadow: 0 1px 16px rgba(0, 0, 0, .7); animation: rise 1.1s .5s var(--ease) both; }
+/* The way on: a gold diamond that breathes until it is touched; under the last beat, Go on. */
+.prologue-page .on { all: unset; cursor: pointer; display: inline-grid; place-items: center; width: 44px; height: 44px; }
+.prologue-page .on i { width: 8px; height: 8px; background: var(--gold); transform: rotate(45deg);
+  box-shadow: 0 0 14px var(--gold); animation: breathe 2.4s var(--ease) infinite; }
+.prologue-page .on:focus-visible i { outline: 1px solid var(--ivory); outline-offset: 6px; }
+.prologue-page .go-on { all: unset; box-sizing: border-box; cursor: pointer; position: relative; display: inline-flex;
+  align-items: center; min-height: 48px; padding: 10px 28px 10px 44px; font: 500 14px/1.2 var(--do); letter-spacing: .26em;
+  text-transform: uppercase; color: var(--ivory); border: 1px solid var(--gold-line); border-radius: 2px;
+  background: rgba(10, 11, 14, .45); transition: background var(--quick), border-color var(--quick); }
+.prologue-page .go-on::before { content: ''; position: absolute; left: 20px; top: 50%; width: 7px; height: 7px;
+  margin-top: -4px; background: var(--gold); transform: rotate(45deg); box-shadow: 0 0 10px var(--gold); }
+.prologue-page .go-on:hover, .prologue-page .go-on:focus-visible { background: var(--gold-glow); border-color: var(--gold);
+  outline: none; }
+/* The way on comes after the words, and cannot be touched before it is seen. Set after the buttons' own rules, and
+   above them: their `all: unset` had undone it, and two Enters or two taps went past a beat unread (the opening's
+   critique). The page holds its keys and touches as long (see PrologueStage.next). */
+.prologue-page .beat + .on, .prologue-page .beat + .go-on { animation: appear .8s 1.4s var(--ease) both; }
+@keyframes appear { from { opacity: 0; visibility: hidden; pointer-events: none; transform: translateY(8px); } }
+/* To one who waits on a beat a while, not knowing the page goes on, how it does: quietly, by keys or by a touch. */
+.prologue-page .hint { margin: 2px 0 0; font: 500 10px/1.4 var(--do); letter-spacing: .24em; text-transform: uppercase;
+  color: var(--faint); animation: appear 1.2s 7s var(--ease) both; }
+.prologue-page .hint .by-touch { display: none; }
+@media (hover: none) { .prologue-page .hint .by-key { display: none; } .prologue-page .hint .by-touch { display: inline; } }
+.prologue-page .credit { position: absolute; left: max(20px, env(safe-area-inset-left));
+  bottom: max(14px, env(safe-area-inset-bottom)); z-index: 1; margin: 0; font: 400 11px/1.4 var(--do); color: var(--faint); }
+@media (prefers-reduced-motion: reduce) { .prologue-page *, .prologue-page .scenery img { animation: none !important; } }
+
 /* ---- A place. Its head across the stage (the painting, dimming into the stage, with the name set on it), the telling
    under it, the ways on beside the telling, and a quiet foot: your aim, yourself, what you can do of yourself. ---- */
 .scene-page { height: var(--frame-h); display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(300px, 1fr);
@@ -277,13 +328,16 @@
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .across-country .act.stride .t { font: 400 12px/1.3 var(--do); color: var(--dim); }
 
-/* A tablet held upright, or a phone: the head, the telling, then the ways at the foot (the busy place's nearest few
-   and a sheet), then yourself. */
+/* A tablet held upright, or a phone: the head, the telling, then the ways (the busy place's nearest few and a sheet),
+   then yourself at the foot. The ways follow the telling, however short, and what is left over lies under them: a
+   place told in a line had stood six hundred pixels above its ways on an upright tablet (the opening's critique). The
+   telling keeps the head's left edge. */
 @media (max-width: 1023px), (orientation: portrait) {
-  .scene-page { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr) auto auto;
-    grid-template-areas: "head" "scene" "on" "foot"; }
+  .scene-page { grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, max-content) auto minmax(0, 1fr) auto;
+    grid-template-areas: "head" "scene" "on" "." "foot"; }
   .scene-page > .on-pane { max-height: calc(var(--frame-h) * .4); border-left: 0; border-top: 1px solid var(--edge); padding-top: 14px; }
-  .scene-page > .scene .measure { max-width: 40rem; margin: 0 auto; }
+  .scene-page > .scene .measure { max-width: 40rem; margin: 0; }
   .on.busy .nearest { display: block; }
   .on.busy > .ways-all:not(.raised) { display: none; }
   .on.busy > .ways-all.raised { position: absolute; z-index: 6; left: 0; right: 0; bottom: 0; max-height: calc(var(--frame-h) * .86);

@@ -33,9 +33,13 @@ export class Told {
     const beside = new Set(subjects.flatMap(x => PlaceStage.danger(x) ? x.says?.slice(0, 1) ?? []
       : x.kind === 'person' ? x.says ?? [] : []).map(Typography.curl));
     const situation = leaf.situation.filter(p => !beside.has(Typography.curl(p)));
+    // Taken up again, your aim is recalled only where the foot does not say it (on the road): said in both, a game
+    // continued said it twice on one page, "Your father … did not come home" over and under the place (the opening's
+    // critique).
+    const recap = leaf.recap && { ...leaf.recap, aim: frame.bound ? leaf.recap.aim : undefined };
     return <>
       {headed && <Told.Heading frame={frame} />}
-      {leaf.recap && (leaf.recap.aim || leaf.recap.last) && <Told.Recap recap={leaf.recap} />}
+      {recap && (recap.aim || recap.last) && <Told.Recap recap={recap} />}
       {screen.dark && !Told.says(leaf, /\bdark\b/i) && <p className="dark-note">It is dark here. You have no light to see by.</p>}
       {s.pending && <Told.Working pending={{ ...s.pending, stage: s.stage }} />}
       {journey && <Told.Travelled app={app} />}
