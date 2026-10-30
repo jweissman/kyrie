@@ -42,7 +42,7 @@ by the shared rules, or give modules `now()` for them.
 
 **F5. `Spend` takes a kind, not an item.** "Spend weight_stone from actor" spends one of a *kind*. A ribbon bought of
 Nan on the Green and a ribbon bought of her in Sixways were one kind, and the sunset would have taken whichever came
-first. *Done instead*: a kind of its own for each thing that must ravel (`lull_lull_ribbon`, `pryce_cloak_kind`,
+first. *Done instead*: a kind of its own for each thing that must ravel (`lull_ribbon_kind`, `pryce_cloak_kind`,
 `keepsake_kind`, `purse_kind`). *Reusable improvement*: `Spend item from group` for a particular item.
 
 **F6. A rule may not write `knows`, and teaches one fact.** Correct as a principle (a rule teaches what it says), but
