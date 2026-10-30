@@ -1,0 +1,6 @@
+{
+ "taken on": [">hume__scenting_room", "Ask Elspet to scent you", ">hume__dancing_hall", "Talk to Kestrel", "Ask to be taken on", "^Take your leave"],
+ "the honey linden": [">hume__honey_oak", "Climb the pegs", ">hume__taproom", "Talk to Martin", "Sell a slab of wild comb", "^Take your leave"],
+ "the gallowtree": [">hume__gallow_hollow", "the capped of the seventh Leaving: Examine — Look closely", ">hume__dancing_hall", "Talk to Kestrel", "Tell Kestrel what you found at the Gallowtree", "Ask Kestrel how a Searcher goes unseen", "Train — Hide", "^Take your leave"],
+ "the princess": [">hume__royal_gallery", "Pierce the Breck princess-cell"]
+}
