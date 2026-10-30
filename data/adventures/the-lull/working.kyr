@@ -9,6 +9,12 @@ Module lull "The Lull" {
     Greets "Eight young people on the broken end of the bridge stop talking all at once and look at you, then at each other, then at you again, the way people do who have been talking about the very thing.".
   }
   Initially Assert lullFolk(club). Initially Assert dayAt(club, mill_bridge). Initially Assert bedAt(club, weavers_row).
+  Topic club_monday with club "Ask the Weekday Club what they would do with a Monday" when lullOpen() once {
+    Says "They all talk at once, and then, because Corin glares, one at a time. A boy wants to be bored, properly, for a whole day, the way the Sixers say they are. A girl wants to start a thing and not finish it and come back to it. Tam Hollis wants to apprentice to the smith in Sixways and come home every evening with burnt hands. Kezia Pryce, if she is there, wants to be late for something. The smallest of them, a girl of fifteen with a squint, says she would like to have a birthday that was a different day from everybody else's, and the others go quiet.".
+  }
+  Topic club_mean with club "Ask the Weekday Club whether they mean it" when lullOpen() and knows(actor, working_day_plan) once {
+    Says "They look at each other. 'Mean what?' says the boy who wants to be bored. 'To end it,' you say. 'All of it. Your grandparents' Lull.' Nobody says anything for a while. Then the girl with the squint says, 'We don't mean to end it. We mean to start something,' and Corin, without turning round, says, 'Same thing,' and the girl says, 'It isn't, though,' and nobody answers her.".
+  }
   Person davy "Davy Mote" at mill_bridge {
     Role "Aldith's brother, who wants to be a soldier". Ancestry human. Calling warrior. Level 1. Peaceable. Pronouns he. Manner cheerful.
     Greets "A gangling boy of seventeen with a stick he holds like a pike jumps down off the pier. 'Davy Mote. Are you a soldier? You look like a soldier. Have you been in a war?' He does not wait. 'I'm going to be a soldier. As soon as there's a Monday.'".

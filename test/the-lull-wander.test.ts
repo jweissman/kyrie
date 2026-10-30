@@ -51,7 +51,8 @@ describe('The Lull, wandered', () => {
           for (let i = 0; i < steps && j.campaign.running; i++) {
             const offered = j.choices().filter(c => !/Set down here|Give to ›|prepare spells|Make camp/.test(c.label));
             if (!offered.length) { break; }
-            const waits = offered.filter(c => /Wait › (An hour|Until)|Lie down|Sit down by the Fold-stone/.test(c.label));
+            const resting = /Wait › (An hour|Until)|Lie down|Sit down by the Fold-stone/;
+            const waits = offered.filter(c => resting.test(c.label));
             const pool = waits.length && next() < 0.15 ? waits : offered.filter(c => !/^Wait/.test(c.label));
             const c = (pool.length ? pool : offered)[Math.floor(next() * (pool.length || offered.length))]!;
             taken.push(c.command);
@@ -71,7 +72,8 @@ describe('The Lull, wandered', () => {
             expect(j.campaign.world.related('reached').length).toBe(1);
           }
           if (process.env.WANDER_REPORT) {
-            console.log(who, seed, j.campaign.world.related('reached').map(r => r.args[0]).join(','), j.watch(), j.campaign.world.one('at', 'party'));
+            const ends = j.campaign.world.related('reached').map(r => r.args[0]).join(',');
+            console.log(who, seed, ends, j.watch(), j.campaign.world.one('at', 'party'));
           }
         } catch (error) {
           throw new Error(`Wander ${who} ${seed} failed after ${taken.length} steps: ${(error as Error).message}\n` +

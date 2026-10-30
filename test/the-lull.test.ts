@@ -158,7 +158,10 @@ describe('The Lull', () => {
     expect(g.holds('stayPromised', 'party')).toBe(true);
   }, 300000);
 
-  // Different hands: a priest, a thief, a bard, a woodsman, a climber; and a company of three that fights.
+});
+
+// Different hands: a priest, a thief, a bard, a climber; a company of three that fights; and the graver branches.
+describe('The Lull, by other hands', () => {
   it('a cleric eases Hester with the words for the dying, and nothing is bought across the Tump', async () => {
     const g = await Lull.start('test/fixtures/the-lull/cleric.campaign.json');
     await g.fixture('rites');
@@ -224,5 +227,13 @@ describe('The Lull', () => {
     expect(g.holds('tobiasConfessed', 'tobias')).toBe(true);
     expect(g.holds('corinBetrayed', 'corin')).toBe(false);
     expect(g.holds('tobiasLovePath', 'tobias')).toBe(true);
+  }, 300000);
+
+  it('Linnet asked to come out over the Tump, and asked again in the road: she joins the company with her fiddle', async () => {
+    const g = await Lull.start();
+    await g.fixture('linnet', 'arrive', 'day1', 'day2');
+    await g.play('Talk to Linnet', 'Linnet Gale asks whether', 'Ask Linnet Gale to come out over the Tump', 'Take your leave', 'Ask Linnet Gale to join');
+    expect(g.j.campaign.world.test({ kind: 'call', name: 'travelsWith', args: [k('linnet'), 'party'] })).toBe(true);
+    expect(g.holds('stayPromised', 'party')).toBe(false);
   }, 300000);
 });
