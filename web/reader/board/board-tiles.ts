@@ -10,7 +10,7 @@ import { Noise } from './noise';
 import type { PathReach } from './path-reach';
 
 // The rivers' and roads' reach, and the hexes a river's bed is cut into.
-export interface TileWays { rivers: PathReach; roads: PathReach; beds: Set<number> }
+export interface TileWays { rivers: PathReach; roads: PathReach; beds: Set<number>; tracks: Set<number> }
 // The land as a table of hex tiles: each top in rings, finer where it swells into fells or a river's bed is cut into
 // it, softly lit and mottled in its land's colours (lighter on a swell's crest; a wood's canopy lighter on its crowns,
 // the floor of the wood showing where it opens), sand where it meets water, the earth of a bank where it falls to a
@@ -93,7 +93,8 @@ export class BoardTiles {
   // canopy is over it.
   private fine(c: number): number {
     const cover = this.ground.cover(c);
-    return this.ways.beds.has(c) ? 12 : cover === 'w' ? 8 : 'fph'.includes(cover) ? 7 : 5;
+    return this.ways.beds.has(c) || (cover === 'w' && this.ways.tracks.has(c)) ? 12 : cover === 'w' ? 8
+      : 'fph'.includes(cover) ? 7 : 5;
   }
   // A dry hex: its top, swelling and mottled and smoothly lit, and its sides under its rim.
   private tile(c: number): BufferGeometry[] {

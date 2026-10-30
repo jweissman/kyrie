@@ -23,8 +23,10 @@ export class BoardPaths {
   readonly roads: CatmullRomCurve3[];
   // How near a point of the land is to a river or a road: a bed and its banks, a verge worn, nothing growing on either.
   readonly reach: { rivers: PathReach; roads: PathReach };
-  // The hexes a river's bed is cut into, whose tops are made the finer for it.
+  // The hexes a river's bed is cut into, whose tops are made the finer for it; and those a road crosses, where a
+  // wood's canopy opens along it and is made finer too (made coarsely, the opening was a white saw's edge: OWN-49).
   readonly beds = new Set<number>();
+  readonly tracks = new Set<number>();
   private ribbons?: Ribbon[];
   // The hexes the rivers and roads cross, whose standing is all that decides which lengths of them are drawn.
   private crossed: number[] = [];
@@ -34,6 +36,12 @@ export class BoardPaths {
     this.roads = Object.values(land.roads).filter(r => r.length > 1).map((r, i) => this.meander(r, [0.08, 31 + i],
       towns));
     this.reach = { rivers: BoardPaths.along(this.rivers, 0.02), roads: BoardPaths.along(this.roads, 0.05) };
+    for (const c of this.roads) {
+      for (const p of c.getSpacedPoints(Math.round(c.getLength() / 0.04))) {
+        const cell = grid.cellAt(p.x, p.z);
+        if (cell !== undefined) { this.tracks.add(cell); }
+      }
+    }
     for (const c of this.rivers) {
       for (const p of c.getSpacedPoints(Math.round(c.getLength() / 0.04))) {
         for (const [dx, dz] of [[0, 0], [0.09, 0], [-0.09, 0], [0, 0.09], [0, -0.09]] as const) {

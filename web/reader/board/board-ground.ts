@@ -67,8 +67,9 @@ export class BoardGround {
   // How thick a wood's canopy is at a point, from nothing to all of it: broken into crowns, and opening where a river
   // or a road goes through.
   canopy(x: number, z: number): number {
-    const w = this.ways, open = w ? Math.min(w.rivers.distance(x, z, 0.15), w.roads.distance(x, z, 0.15)) : 0.15;
-    return (0.4 + Noise.value(x * 5.3 + 11, z * 5.3 + 3) * 0.6) * MathUtils.smoothstep(open, 0.05, 0.15);
+    // Opening over a breadth, not at a cliff's edge, so that the cut along a road is not a saw's teeth (OWN-49).
+    const w = this.ways, open = w ? Math.min(w.rivers.distance(x, z, 0.3), w.roads.distance(x, z, 0.3)) : 0.3;
+    return (0.4 + Noise.value(x * 5.3 + 11, z * 5.3 + 3) * 0.6) * MathUtils.smoothstep(open, 0.05, 0.3);
   }
   // How far a point is cut down into a river's bed.
   bed(x: number, z: number): number {

@@ -81,7 +81,7 @@ export class Board implements BoardApi {
       this.offer(host);
       this.look = new BoardLook(this.scene, this.grid, this.knowing);
       this.tiles = new BoardTiles(this.scene, this.ground, this.look.water(), { ...this.paths.reach,
-        beds: this.paths.beds });
+        beds: this.paths.beds, tracks: this.paths.tracks });
       new BoardUnder(this.scene, this.ground); new BoardFringe(this.scene, this.ground, c => this.knowing.will(c));
       const flora = new BoardFlora(this.ground, this.paths.reach, towns.map(t => t.cell));
       this.scatters = Object.entries(flora.spots).map(([kind, spots]) => new Scatter(this.scene, BoardKit.make(kind),
