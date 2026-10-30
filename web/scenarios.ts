@@ -60,6 +60,11 @@ export class Scenarios {
     { manifest: 'data/campaigns/skeel.campaign.json', title: 'Fair Weather', seed: 'reach',
       note: 'Skeel lives by wrecks. Three nights ago, in fair weather, a merchantman went onto the sands of the Gannet Reach, and the town has stripped her. At four on the third day the Wreck Court will call her wreck, and she will be Skeel\'s, if nothing living came ashore of her.',
       detail: 'A wrecking town, a sea that goes out twice a day, a dog, a boy, a lantern, and the Wreck Court' },
+    // An independent adventure: a town inside a honeycomb, and the week half of it leaves
+    // (doc/adventures/half-the-hive).
+    { manifest: 'data/campaigns/half-the-hive.campaign.json', title: 'Half the Hive', seed: 'hume',
+      note: 'On the Wold of Hume four hundred people live inside a honeycomb under a cliff and belong to bees as big as hounds by the smell of their queen. The old queen is about to swarm, and half the town will walk out behind her and never come back. Their Searchers are short of hands.',
+      detail: 'A town in a honeycomb, a high wold of lindens, chalk and heather, four places to live and a week to choose' },
   ];
   static source(): MemoryBundleSource { return new MemoryBundleSource(Scenarios.files); }
 }

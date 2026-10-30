@@ -1,0 +1,91 @@
+Module hume "Half the Hive" {
+  // ── Larkhill: Squire Corve and his flask ──────────────────────────────────────────────────────────────────────────
+  // A younger son of a lowland house, a naturalist, who has drawn the Sisters for twelve years and written every spring
+  // to the keeper to be named to the Comb, and been refused three times by the Scent-warden. This spring he paid Nell
+  // Quarrie forty crowns for a flask of the Mother's scent made stronger than the Mother, to uncork on his tower at
+  // dawn on the fourth day and call the swarm to his chantry. Under lowland law what nests on a man's land is his. He is
+  // not greedy. He wants to belong to something that will not have him, and he has stolen it.
+  Person corve "Squire Lucian Corve" at corve_study {
+    Role "the squire of Larkhill: a thin fair man of forty in a good shabby coat, with ink on his cuffs and a magnifying glass on a ribbon round his neck".
+    Ancestry human. Peaceable. Pronouns he. Manner compassionate.
+    Greets "A thin fair man at the table jumps up so fast he knocks a sheet of drawings to the floor. 'A visitor! From the Wold? You've come down from the Brow?' He has your hand in both of his. 'Lucian Corve. Forgive the mess. Do you know them? The Sisters? Have you been in the Comb? What is it like inside, really like, the light, the sound?' He hears himself, and lets go of your hand, and smiles, embarrassed. 'Forgive me. I've been trying to get up that stair for twelve years.'".
+    Greets again "Squire Corve looks up from his drawings with real pleasure.".
+    Objects "Squire Corve looks at the flask in your hands, and goes white, and then red, and says nothing at all, and goes out of the room.".
+  }
+  Person halse "Halse" at chantry_yard {
+    Role "the Larkhill bailiff: a big slow lowlander with a cudgel, who touches his hat to everyone".
+    Ancestry human. Calling warrior. Level 3. Peaceable. Pronouns he. Manner stoic.
+    Greets "A big man by the chantry gate touches his hat. 'Squire's in his study. Go in. He'll want to show you the drawings.' He sighs, very slightly. 'He'll want to show you all of them.'".
+  }
+  Initially Assert serves(halse, corve).
+  Topic halse_squire with halse "Ask Halse about the squire" when true once {
+    Says "'Good master.' Halse turns his hat round in his hands. 'Better than his father. Pays on quarter day, mends the cottages, talks to the bees in the skeps every morning like they were his aunts.' He looks at the chantry. 'Writes letters up the gorge every spring and nobody writes back.' A pause. 'Back in the spring he came home from Smoke End with a parcel, and he's not slept right since. Walks about at night. Went up the tower one morning a week back with something in his hand, and came down again white as a sheet, and every bee in the Wold was round that tower by noon.'".
+  }
+  Topic halse_skeps with halse "Ask Halse about the skeps along the wall" when true once {
+    Says "'Ordinary bees. Lowland bees, the little brown sort.' He almost smiles. 'He bought them to practise on. Twelve years. He's never once been stung, he says, because he's never once been rough.' He scratches his neck. 'I have. Plenty.'".
+  }
+  Relation corveGives(group). Relation corveConfronted(group). Relation flaskGone(group).
+  Thing flask_case "the squire's oak case" at corve_study {
+    Holds.
+    State locked closed "On a shelf by the window, a small case of polished oak with a brass lock, the only locked thing in the room.".
+    State open "The oak case on the shelf stands open.".
+  }
+  Action pick_case(actor: group, site: place) "Pick the lock of the squire's oak case" {
+    Description "While he is not in the room.".
+    Requires at(actor, site) and able(actor) and company(actor) and at(actor, corve_study) and not at(corve, corve_study) and state(flask_case, locked).
+    Time 1.
+    Resolve check(actor, lockwork, dc_fair).
+    On success { Assert state(flask_case, open). }
+    Result "The lock is good lowland work and takes you longer than it should, in the dark, with the house creaking; and then it gives.".
+    Otherwise "The lock is good lowland work. It does not give, and somewhere in the house a floorboard does.".
+  }
+  Item corve_flask "the squire's flask" is queen_flask in flask_case owned by corve.
+  Rule corve_sleeps when (hour(clock) >= 21 or hour(clock) < 7) and at(corve, corve_study) { Assert at(corve, limbo). }
+  Rule corve_wakes when hour(clock) >= 7 and hour(clock) < 21 and at(corve, limbo) and not flaskGone(corve) { Assert at(corve, corve_study). }
+  Rule halse_sleeps when (hour(clock) >= 22 or hour(clock) < 6) and at(halse, chantry_yard) { Assert at(halse, limbo). }
+  Rule halse_wakes when hour(clock) >= 6 and hour(clock) < 22 and at(halse, limbo) { Assert at(halse, chantry_yard). }
+
+  Topic corve_drawings with corve "Ask Squire Corve about his drawings" when true once {
+    Says "He shows you. He cannot help it. Sisters from above, from below, in flight; a leg under the glass, every hair; a wing; the sting, the barb, the venom-sac; a Sister feeding a larva; the Mother, from a description, wrong in a dozen ways he does not know about. 'Twelve years,' he says. 'I came up the drove road at twenty-eight on a walking tour and saw them go over and never went home.' He touches the drawing of the Mother. 'I've never seen her. I've written to the keeper every spring since I came. Old Garnock wrote back, kindly. He sent me a wing.' The framed wing on the wall. 'And every spring the Scent-warden says no.'".
+    On discuss { Assert knows(actor, corve_refused). }
+  }
+  Discovery corve_refused "Squire Lucian Corve of Larkhill has drawn the Sisters for twelve years, written to the keeper every spring, and been refused the scent each time by the Scent-warden, because a lowland lord owns things.".
+  Topic corve_tower with corve "Ask Squire Corve about his tower" when not knows(actor, flask_known) once {
+    Says "'Isn't it fine? I've had it pointed. Dry as a granary. South wall. Room for a hive four times the size of the Comb.' He looks out of the window at it. 'I've told the Searchers. I wrote to the Wardmistress. I'd ask no rent. I'd ask nothing at all.' He says it a little too quickly. 'They could come and go as they liked. I'd just be,' he searches for the word, 'near.'".
+  }
+  Topic corve_flask with corve "Ask Squire Corve about the flask Nell Quarrie made him" when knows(actor, flask_known) and not corveConfronted(corve) and not corveGives(corve) once {
+    Says "He does not deny it. He sits down at his table among the drawings and looks at his inky hands. 'Yes.' After a while: 'Do you know what it is to love a thing that does not know you exist? For twelve years?' He laughs, without any pleasure. 'Of course they would have been mine. In law. I know that. I told myself I'd never use it; I'd never take a pot of honey; I'd just have them here, on my land, where I could see them, where I could go in among them with the smell on me and they would let me.' He looks at the shelf by the window. 'I tried it once, on the tower, a week ago. A minute. I had to know. By noon there were Sisters all over the stone, dancing on it.' His face is wretched and shining at once. 'I'm not a bad man. I'm a thief. It's not the same, quite, but it's near.' He does not offer to give it up.".
+    On discuss { Assert corveConfronted(corve). }
+  }
+  Topic corve_named with corve "Tell Squire Corve the Hum-keeper will name him to the Comb herself, if he gives up the flask and gives the land" when linnetWillName(linnet) and knows(actor, flask_known) and not corveGives(corve) and not flaskGone(corve) once {
+    Says "He does not understand you at first. Then he does, and stands up so fast the chair goes over. 'Name me. The keeper. Herself.' He goes to the window, and back. 'Up the stair. With the smell on me. Not stolen.' He goes to the shelf, and fumbles a key out of his waistcoat, and opens the oak case, and takes out a flask of green glass, and stands holding it in both hands like a man holding a bird. Then he gives it to you. 'Pour it in the stream,' he says. 'Or keep it. I don't want to see it.' He sits down at the table and pulls a sheet of paper toward him and writes, fast, in his neat hand, and signs it, and sands it: a deed of gift. The chantry at Larkhill and its tower and its yard, to the Comb of Hume Brow and whatever nests there, for ever, owned by nobody. He hands you that too. His hands are shaking. 'When?' he says. 'When can I go up?'".
+    On discuss { Assert corveGives(corve). Assert flaskGone(corve). Assert lends(corve, corve_flask, actor). Give corve_flask to actor. }
+  }
+  // The flask in the company's hands: poured away, or uncorked where it will call her.
+  Relation flaskAt(place). Measure flaskAtWatch(place). Relation forcedSwarm(group). Relation pouredFlask(group).
+  Rule flask_taken when not inside(corve_flask, flask_case) and not flaskGone(corve) { Assert flaskGone(corve). }
+  Action pour_flask(actor: group) "Pour the squire's flask out on the ground" {
+    Requires able(actor) and company(actor) and holding(actor, queen_flask) and not committed().
+    Time 1 minute.
+    On success { Spend queen_flask from actor. Assert pouredFlask(actor). }
+    Result "You break the wax and pull the stopper and pour it out, and the smell comes up off the ground like a shout, so strong your eyes stream; a Sister going over a long way up turns, and turns again, and circles, puzzled, and goes on. In an hour it is only a smell. In a day it will be nothing.".
+  }
+  Action uncork_flask(actor: group, dest: place, room: place) "Uncork the squire's flask here, on the wind, to call the swarm to {dest}" {
+    Description "She will go where it smells of her, stronger than herself, whatever the dancers say.".
+    Grave "Uncorked, it calls the Mother here at the next noon, whatever the Searchers dance; you will have chosen for the bees, and for two hundred people.".
+    Requires able(actor) and company(actor) and holding(actor, queen_flask) and at(actor, room) and seenFrom(room, dest) and swarmReady() and not committed() and not leavingBegun().
+    Time 1.
+    On success { Spend queen_flask from actor. Assert flaskAt(dest). Assert forcedSwarm(actor). }
+    Result "You break the wax and draw the stopper and set the flask in a crack where the wind takes it. The smell goes out from it like ripples from a stone. Within the hour the first Sisters come, high, circling, then lower; by evening there are dozens, walking on the rock, fanning their wings, beside themselves. They will go back and dance it. They will not be able to help it.".
+  }
+  // Left with him, he uncorks it on his tower at dawn on the fourth day.
+  Rule corve_uncorks when day(clock) >= 4 and hour(clock) >= 6 and inside(corve_flask, flask_case) and not committed() and not leavingBegun() and not corveGives(corve) {
+    Retract inside(corve_flask, flask_case). Assert at(corve_flask, limbo). Assert flaskAt(larkhill). Assert flaskGone(corve). }
+  Rule corve_dawn at chantry_yard when flaskAt(larkhill) and not spread(corve_dawn) says "At dawn a thin fair man in a good shabby coat climbs to the top of the chantry tower at Larkhill with something green in his hands, and stands there a long time; and then the wind brings, all down the Wold's edge, a smell of the Mother so strong that the ordinary bees in the skeps along the wall come boiling out, crazed." { Assert spread(corve_dawn). }
+  Entity corve_dawn: fact "the flask on the tower".
+  Rule flask_word at dancing_hall when flaskAt(?s) and not committed() and not spread(flask_word) says "On the upper slope of the Dancing Hall the Sisters' own scouts have gone mad. They are all dancing the same line, over and over, frantic, butting each other out of the way to dance it, and it is not the line of any place a Searcher danced. Kestrel Dunn stands at the foot of the slope with her face like a shut door." { Assert spread(flask_word). }
+  Entity flask_word: fact "the scouts gone mad".
+  Topic corve_after with corve "Ask Squire Corve whether he has been up the stair" when corveGives(corve) and leavingBegun() once {
+    Says "'Yesterday.' He looks ten years younger and has not slept. 'She put her fingers on my forehead and my throat and my wrists, the keeper, and said something under her breath, and I went up the stair, and a Sister landed on my sleeve and tasted me and walked away.' He laughs, helplessly. 'She walked away. As if I were nobody. As if I were family.' He looks at his drawing of the Mother. 'I got her wrong,' he says. 'Every single thing. I'm going to do it again.'".
+  }
+}

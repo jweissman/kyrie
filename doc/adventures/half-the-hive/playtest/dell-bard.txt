@@ -1,0 +1,872 @@
+# dell-bard: test/fixtures/half-the-hive/bard.campaign.json dell
+# ending: dell_peace
+
+> >hume__smoke_street
+You set out from the drove road at the Wold’s edge early, with your shadow long in front of you on the road. In the Wold of Hume the limes are in flower, the queen-cells in the Comb were capped six days ago, and every household under the Brow is deciding who goes. The hum has dropped a note. Anyone in the Wold can hear it, if they know what it sounded like before. Smoke End is one street of turf-roofed houses and timber yards strung along a stream at the mouth of the gorge, and all of it smokes. Smudge-fires of damp bracken and dung burn in iron baskets at every door and at the street’s ends, and the smoke goes up the gorge on the draught, grey and sweetish, and makes your eyes run. People here walk with a hand over their mouths, out of habit. Somewhere a hammer. Up the gorge, through the smoke, a glow like a lamp behind a curtain. On the post of the Smoker’s Rest a notice is nailed up, in a square hand, in lowland letters: SEARCHERS WANTED. ANY WHO CAN WALK AND LOOK. PAID IN WAX. ASK FOR K. DUNN, THE DANCING HALL, UP THE COMB. And under it, smaller: GET SCENTED FIRST. Handcarts go up the gorge empty and come down loaded: chests, chairs, a cradle, a loom in pieces, all with that faint golden tackiness of things that have lived a long time in the Comb.
+
+> >hume__gorge_path
+The gorge closes in: grey limestone walls going up and up, ferns in every crack, a stream loud beside the path. The smoke thins behind you and something else takes its place: warmth, out of all proportion to the day, and a smell like a summer field baked and then poured into a jar, and a sound you feel first in your teeth.
+
+> >hume__apron
+The gorge opens into a bowl under a lip of grey rock a quarter of a mile long, and hanging from the underside of the rock is a honeycomb the size of a town, with people going in and out of it, and bees as big as hounds. It is gold and amber and brown and in places nearly black; it hangs in great curved sheets, like curtains frozen in a wind, the oldest of them four hundred years old; and it is cut through with doors, and stairs, and windows. The light through the wax is the colour of beer. The hum is everywhere: in the walls of the gorge, in the ground, in your breastbone. Overhead the Sisters come and go in brown streams the width of a road, gold-and-black, furred like a good coat, with eyes like wet coal. They land on the comb’s lip and walk in. When one passes low the wind of her wings lifts your hair. The people on the Apron do not look up, the way people in a town do not look up at the weather. Stalls along the troughs sell honey-cake, comb in squares on vine leaves, bee-bread in brown loaves, mead by the horn, and a fried thing in paper cones that smells of nuts and butter, which the stallholder says is brood: the drone brood, a delicacy, fried in its own wax. Doll Rowntree, a stallholder by the troughs, with a griddle, a fly-whisk, and forearms like hams, is here.
+
+> >hume__scenting_room
+A low room cut into the rock beside the foot stair, very clean. Shelves of stoppered jars, a stone basin, a brazier with something resinous on it. A slate on the wall says in chalk: GUESTS SCENTED, ONE DAY. TWO COIN. SEARCHERS NOTHING. Elspet Garnock, the Scent-warden: a small exact woman with a stained apron and very clean hands, who smells overwhelmingly of the Comb, is here.
+
+> Ask Elspet to scent you for a day, two coin
+She dips two fingers in a jar of something gold and thick, and draws them down your forehead, your throat, the insides of your wrists, behind your ears, saying something under her breath that has the hum’s tune and no words. It is warm, and then it is nothing; and then, as you go out, a Sister on the doorframe turns her head toward you, and away, uninterested, as if you were family.
+
+> >hume__apron
+The gorge opens into a bowl under a lip of grey rock a quarter of a mile long, and hanging from the underside of the rock is a honeycomb the size of a town, with people going in and out of it, and bees as big as hounds. Doll Rowntree, a stallholder by the troughs, with a griddle, a fly-whisk, and forearms like hams, is here.
+
+> >hume__brood_gallery
+Inside, the Comb is warm as a kitchen and gold as the inside of an egg. The gallery is a corridor of six-sided rooms, each as big as a cottage, their walls thin enough to see shapes through: bees, people, a cradle. The floor gives very slightly underfoot and is tacky, like a well-polished table on a hot day, and everyone here goes barefoot or in felt. The hum is so close now that you hear words in it if you let yourself.
+
+> >hume__dancing_hall
+The Dancing Hall is the strangest room you have ever stood in. Its floor is tilted like a roof, steep enough that you would slide if it were not tacky; and its walls are written all over with marks scored into the wax: lines and loops and figure-eights, thousands of them, overlapping, generations deep. Up at the top of the slope a round window lets in the sun, and the Searchers dance on the slope below it: a straight run, waggling, then a loop back round, then the run again. The angle of the run from straight up is the angle from the sun. How long the waggle lasts is how far. How hard is how good. The Searchers do not dance alone. On the upper slope, where the wax is darkest, Sisters dance too, the bees’ own scouts, huge and fast and silent, running their lines and turning; and where a Sister dances, the people watching go quiet and lean to read her. For the Far Brow, east over the moor, a long waggling run straight toward the window and a little left, a day’s distance: three dancing it. For the Chalk Dell, south-east: two. For the Gallowtree, a short run west, two hours: one. Here are Kestrel Dunn, the Wardmistress of the Searchers, lean and brown, two fingers short on her left hand; Hannet Coke, the oldest of the Searchers, small and brown and bent, sitting on the slope with her stick across her knees; and Moss Ashdown, a Searcher, nineteen, freckled, with a boar-spear he will not put down.
+
+> Talk to Kestrel Dunn
+A lean brown woman at the foot of the slope looks you up and down the way a farrier looks at a horse. ‘You came about the notice,’ she says. It is not a question. ‘Good. I’ve two hundred people to house by Midsummer and half my Searchers have decided to stay home and grow old. Can you walk? Can you look? Can you tell a dry hollow from a wet one? Then you’ll do.’
+
+> Ask to be taken on as a Searcher
+‘Taken on.’ Kestrel takes a strip of yellow ribbon out of her belt and ties it round your arm, hard, with her teeth and her good hand. ‘Elspet at the Scenting House will scent you for nothing while you wear that. You’re paid in wax, a cake for every place you go and look at and come back and tell me about, honestly. Four places worth the walk, this year.’ She counts on her short hand. ‘The Gallowtree: Hannet’s. Two hours west, on a knoll, big hollow lime, close, which is all Hannet cares about. The Chalk Dell: Moss’s. South-east. Dry, warm, a cave in the chalk, and the brocks live in it, which Moss thinks is a selling point. The Far Brow: mine. A day east, over the moor, and the most beautiful place in the Wold. And Larkhill.’ Her face shuts. ‘A lowland squire’s got a chapel on the Wold’s edge, and for a week the Sisters’ own scouts have been flying out to it and coming back excited, and I don’t know why, and I don’t like not knowing.’ Tamsin gains 25 experience: was taken on as a Searcher of Hume Brow.
+
+> Ask Kestrel to teach you the dance
+She stands you at the bottom of the slope with the sun coming in at the round window. ‘Straight up is the sun. Wherever it is. Run up the slope, that’s toward it; run off to the left of straight up, that’s left of the sun, by as much.’ She runs a line, waggling her hips, comically and then not comically at all: you see the moor in it. ‘Waggle as long as it is far. Waggle as hard as it is good. Loop back, do it again, till they’ve got it.’ She makes you do it, twenty times, thirty, until your legs know it and the Searchers sitting round the walls stop laughing. ‘You dance like a lowlander,’ she says at last. ‘But it reads. Don’t dance for anything you haven’t stood in.’ Tamsin gains 50 experience: learned the Searchers’ dance.
+
+> Take your leave
+‘Don’t let me keep you,’ says Kestrel Dunn, who was not trying to.
+
+> >hume__brood_gallery
+Inside, the Comb is warm as a kitchen and gold as the inside of an egg.
+
+> >hume__apron
+The gorge opens into a bowl under a lip of grey rock a quarter of a mile long, and hanging from the underside of the rock is a honeycomb the size of a town, with people going in and out of it, and bees as big as hounds. Doll Rowntree, a stallholder by the troughs, with a griddle, a fly-whisk, and forearms like hams, is here.
+
+> >hume__gorge_path
+The gorge closes in: grey limestone walls going up and up, ferns in every crack, a stream loud beside the path.
+
+> >hume__linden_wood
+You leave Hume Brow in the full of the morning, with the sun climbing and the path dry underfoot. The linden wood is tall and cool and full of the noise of bees: the limes are in flower, and the Sisters work the high branches, huge shapes in the green, and the scent of the flowers comes down so thick it is almost a taste. Paths go off every way: north to the moor, west to a knoll with one great tree on it, south-east downhill toward chalk, west along the edge toward Larkhill.
+
+> >hume__dell_rim
+The ground falls away into a dell: a great bowl of white chalk, scooped out of the Wold as if by a spoon, its sides bare and bright, its floor green and sheltered and warm. It faces full south. In its far wall, at the back, a dark low cave. Chalk steps, cut long ago, go down.
+
+> >hume__dell_floor
+The floor of the Dell is the warmest place on the Wold, out of every wind, the grass full of harebells. The white walls throw the sun back. Low on the white wall of the Dell, at the height of a hand, are scored marks: lines and loops and figure-eights, old, weathered, the edges gone soft.
+
+> Examine — Look closely
+You look closely at the marks on the chalk. Looked at with the eye Kestrel gave you, the marks are not decoration. They are dances, scored where a dancer would run them, and you can read them, slowly, like a child spelling: a short run toward the cave. A loop. A run that turns round on itself, the sign for the end of the year. A run back from the cave, waggling hard: good, good, very good. And at the end, a sign you have seen on the wall of the Dancing Hall a thousand times: the mark of the Searchers. At the turning of the year, the old comb at the cave. Then all is well.
+
+> >hume__dell_rim
+Tamsin gains 100 experience: read the brocks’ truce on the chalk. The ground falls away into a dell: a great bowl of white chalk, scooped out of the Wold as if by a spoon, its sides bare and bright, its floor green and sheltered and warm.
+
+> >hume__linden_wood
+You set out from the rim of the Chalk Dell in the full of the afternoon, the path pale with dust. The linden wood is tall and cool and full of the noise of bees: the limes are in flower, and the Sisters work the high branches, huge shapes in the green, and the scent of the flowers comes down so thick it is almost a taste.
+
+> >hume__gorge_path
+The gorge closes in: grey limestone walls going up and up, ferns in every crack, a stream loud beside the path.
+
+> >hume__apron
+The gorge opens into a bowl under a lip of grey rock a quarter of a mile long, and hanging from the underside of the rock is a honeycomb the size of a town, with people going in and out of it, and bees as big as hounds. Doll Rowntree, a stallholder by the troughs, with a griddle, a fly-whisk, and forearms like hams, is here.
+
+> >hume__brood_gallery
+Inside, the Comb is warm as a kitchen and gold as the inside of an egg.
+
+> >hume__wax_gallery
+The Waxwrights’ gallery is cooler, and smells of warm candles and of something sharp they use to keep the wax workable. Benches, moulds, knives with long thin blades, cakes of wax from almost white to almost black. And going up out of the middle of it, through a hole in the ceiling, round and round, the Lantern Stair: a spiral of carved wax so fine the light comes through every tread, each step carved with flowers, bees, faces, hands, the whole of the Brow’s life climbing up into the dark. It stops, three turns up, at nothing. The Lantern Stair climbs round and round toward the Crown and stops, three turns up, at nothing. Eben Candlish, a Waxwright: a long-faced man of forty with burnt fingertips and wax in his beard, who keeps looking up at the Stair, is here.
+
+> Talk to Eben Candlish
+A long-faced man at the foot of the Stair is warming a blade in a little brazier, and does not look round. ‘Don’t touch it,’ he says. ‘Everyone touches it.’ Then he looks round, and sees you are a stranger, and something in his face lets go. ‘Sorry. Nineteen years. You’d think they’d stop touching it.’ He looks up the spiral to where it ends in air. ‘One course,’ he says. ‘One turn. And then it goes all the way to the Crown and the sun comes down it at midsummer like water down a drain.’
+
+> Ask Eben for some old dark comb
+‘Brood comb? Old black stuff?’ He jerks his head at a heap of it under the bench, gone dark as liver with a hundred years of being lived in. ‘Take what you like. Nobody can carve it.’ He watches you pick a slab out. ‘What do you want it for?’ You tell him. ‘The brock-gift,’ he says slowly. ‘My grandad used to talk about that. They stopped doing it when the Searchers stopped reading the old marks.’ You take a slab of old black comb.
+
+> Ask Eben about the Lantern Stair
+‘Every Waxwright makes one thing that’s theirs. That’s mine.’ He follows it up with his eyes, turn by turn: flowers, Sisters, the faces of the Brow, children, hands. ‘My master started it. I took it on at twenty-one. Every tread is somebody: that’s Kestrel at fourteen, that’s old Penry’s first barrel, that’s Linnet the day she was made keeper.’ He stops. ‘The last course wants white wax. New comb, never brooded. The Sisters don’t draw it white any more, not in a hive this old; the only white comb left in the Wold is in places nobody goes.’ He shrugs, too hard. ‘It doesn’t matter now.’
+
+> Ask Eben why it doesn't matter now
+He looks at you a long time, and decides, and you can see him deciding: a stranger, who will be gone in a week. ‘Because I’m going,’ he says. ‘With the Leaving. With her.’ He doesn’t say who. ‘She’s the keeper; keepers go. And I’m not going to stand on the Apron and watch her walk off after the bees and then come up here and carve. So I’m going.’ He looks up the Stair. ‘Somebody’ll finish it. Or not. It’s wax.’ His voice does something on the last word. ‘I haven’t told her. She’d only tell me to stay and finish it, and she’d be right, and I’d stay.’ He turns back to his brazier. ‘Don’t tell her.’ Tamsin gains 50 experience: learned what Eben Candlish meant to do.
+
+> Take your leave
+Eben Candlish has gone back to work before you have turned round.
+
+> >hume__brood_gallery
+Inside, the Comb is warm as a kitchen and gold as the inside of an egg.
+
+> >hume__honey_vaults
+The honey vaults go back into the dark under the Brow: cell upon cell, each the size of a barrel, each capped with white wax, each full. Where the cap is thin, the honey shows through, dark gold, like looking into a lamp from the side. Bees stand on the comb fanning with their wings, and the air moves past you warm and thick and smelling of every flower you have ever known. The biggest barrel in the vaults, chalked PENRY · CALLING, sits silent: put your ear to it and there is nothing. Huw Penry, the Comb’s mead-maker: a big man with a magnificent beard and a voice he uses to its full extent, among his barrels, is here.
+
+> >hume__mothers_chamber
+The Crown of the Comb is a long dim hall under the very rock of the Brow, where the comb is oldest and nearly black. In the middle of it, on a wide shallow cell like a bed, is the Mother: as long as a pony, slender, the gold of her body gone dark with age, her wings short on her long back. The Sisters stand round her in a ring facing in, touching her, stroking her, feeding her from their mouths. She is quite still. The hum here is so deep it is not a sound at all but a pressure, like being underwater. Every little while the ring round the Mother breaks: a Sister pushes at her, butts her, runs up her back, and the Mother walks three steps, and the ring closes again. They are making her thin enough to fly. Here are Linnet Amory, the Hum-keeper: a young woman with a shaved head and bare arms crawling with Sisters, who does not seem to notice them; and Pim Garnock, the keeper’s novice: a gangling boy of seventeen with a newly shaved head, sunburnt where the hair was.
+
+> Talk to Pim Garnock
+A gangling boy with a raw scalp is holding a bowl of something for the Sisters to drink from, and spilling it. ‘Sorry, sorry,’ he says to the bees, and then to you. ‘I’m Pim. I’m the novice. When Linnet goes I’ll be the keeper.’ He laughs, a little high. ‘Of the Daughters. Three of them. In the royal gallery. Who’ll wake up and try to kill each other.’ He spills some more. ‘It’ll be fine.’
+
+> Ask Pim about the Daughters
+‘Three princess cells. One’s the Brecks’, one’s the Candlishes’, one’s the Ashdowns’. Every queen-cell has a household to watch it, it’s an honour.’ He swallows. ‘When the Mother goes, the first princess out pipes; you can hear it all through the Comb. And the others answer from inside their cells, because they’re not out yet. And then the first one goes to their cells and stings them through the wax.’ He looks at his bowl. ‘That’s how it’s always been. One queen.’ He lowers his voice. ‘Unless the other cells are caged. Then she can’t get at them, and the second one comes out and leaves with some of the bees: a cast, a little Leaving. Old Garnock did it once. Everybody said it was unnatural.’
+
+> Take your leave
+‘Come back and tell me how it goes!’ calls Pim Garnock after you.
+
+> Talk to Linnet Amory
+A young woman sitting cross-legged beside the Mother looks up. Her head is shaved and her arms are bare and there are Sisters walking on them, on her shoulders, on her scalp, and she moves them aside with a finger as you might move a cat off a chair. ‘Shh,’ she says, not to you. Then, to you, low: ‘She’s resting. She has a long way to go and she’s never flown in her life, not since she was a girl.’ She looks at the Mother with an expression you have seen on people at a bedside. ‘I’m Linnet. I keep her. For four more days.’
+
+> Ask Linnet whether she is ready to go
+She does not answer for a while. A Sister walks across her face and she closes her eyes for it. ‘No,’ she says. ‘I’m not going.’ She says it so quietly you hardly hear it under the hum. ‘I’ll give her to Pim. Keepers have handed over before, when they were ill. I’ll say I’m ill.’ She opens her eyes. ‘There’s a man in the Waxwrights’ gallery who has given nineteen years to a stair, and it wants one course, and if I go he’ll come with me; I know he will; he’ll leave it. So I’m not going. I’ll stay and he can finish it and I’ll be in the Comb when he does.’ She looks at Pim spilling the Sisters’ water across the chamber. ‘Pim will be all right,’ she says. ‘Pim will be fine.’ You can hear she does not believe it. Tamsin gains 50 experience: learned what Linnet Amory meant to do.
+
+> Take your leave
+‘Look after yourself,’ says Linnet Amory. ‘I mean it.’
+
+> >hume__honey_vaults
+The honey vaults go back into the dark under the Brow: cell upon cell, each the size of a barrel, each capped with white wax, each full. The biggest barrel in the vaults, chalked PENRY · CALLING, sits silent: put your ear to it and there is nothing. Huw Penry, the Comb’s mead-maker: a big man with a magnificent beard and a voice he uses to its full extent, among his barrels, is here.
+
+> >hume__brood_gallery
+Inside, the Comb is warm as a kitchen and gold as the inside of an egg.
+
+> >hume__wax_gallery
+The Waxwrights’ gallery is cooler, and smells of warm candles and of something sharp they use to keep the wax workable. Eben Candlish, a Waxwright: a long-faced man of forty with burnt fingertips and wax in his beard, who keeps looking up at the Stair, is here.
+
+> Talk to Eben Candlish
+Eben Candlish looks up from his brazier, and then up at the Stair, as he always does.
+
+> Tell Eben that Linnet means to stay behind for him
+He puts the blade down on the bench, very carefully, as if it might go off. ‘Stay,’ he says. ‘Linnet. Give the Mother to Pim?’ And then, getting it: ‘For me. So I could finish this.’ He looks up the Stair and for a moment you think he will knock it down. ‘The stupid,’ he says. ‘The stupid, stupid,’ and then he laughs, and sits down on the bench with his burnt hands over his face, and laughs until it is not laughing.
+
+> Ask Eben to make queen-cages for the other two princess-cells
+‘Cages.’ He looks at you sharply. ‘Garnock’s trick.’ Then, slowly: ‘The Candlish cell is my family’s. My father’s sat under it nine days.’ He picks up a handful of thin wax rods from the bench. ‘They’d say it was against nature. Two queens, two Leavings.’ He starts bending the rods. ‘They said the Stair was against nature.’ In half an hour he gives you two little lanterns of wax. ‘The keeper has to allow it,’ he says. ‘Or it’s just two cages.’ You take a queen-cage of wax rods.
+
+> Take your leave
+Eben Candlish has gone back to work before you have turned round.
+
+> >hume__brood_gallery
+Inside, the Comb is warm as a kitchen and gold as the inside of an egg.
+
+> >hume__apron
+The gorge opens into a bowl under a lip of grey rock a quarter of a mile long, and hanging from the underside of the rock is a honeycomb the size of a town, with people going in and out of it, and bees as big as hounds. Doll Rowntree, a stallholder by the troughs, with a griddle, a fly-whisk, and forearms like hams, is here.
+
+> >hume__gorge_path
+The gorge closes in: grey limestone walls going up and up, ferns in every crack, a stream loud beside the path.
+
+> >hume__smoke_street
+Smoke End is one street of turf-roofed houses and timber yards strung along a stream at the mouth of the gorge, and all of it smokes.
+
+> >hume__taproom
+Martin Sayle, the keeper of the Smoker’s Rest: a grey, square, careful man who turns his head to listen with his left ear, is here.
+
+> Take a bed and supper
+All over the Wold the Searchers are out: walking the lindens, the moor, the chalk, looking into every hollow big enough to hold two hundred people and a cloud of bees. In the Dancing Hall the dances have begun to lean one way, then another. The Mother will not go before the Calling, tonight. After that she will go when five dance for one place, and not before; unless something else decides it. You eat what is put in front of you, and sleep long, under a roof.
+
+> >hume__smoke_street
+Smoke End is one street of turf-roofed houses and timber yards strung along a stream at the mouth of the gorge, and all of it smokes.
+
+> >hume__gorge_path
+The gorge closes in: grey limestone walls going up and up, ferns in every crack, a stream loud beside the path.
+
+> >hume__linden_wood
+You leave Hume Brow with the sun low behind you and the dew still on the grass. You catch the smell of yourself, as the air moves: your own smell, coming back through the Mother’s, like a stone coming up through snow. The anointing is wearing off. Within the hour you will smell of nothing but yourself. The linden wood is tall and cool and full of the noise of bees: the limes are in flower, and the Sisters work the high branches, huge shapes in the green, and the scent of the flowers comes down so thick it is almost a taste.
+
+> >hume__dell_rim
+The ground falls away into a dell: a great bowl of white chalk, scooped out of the Wold as if by a spoon, its sides bare and bright, its floor green and sheltered and warm.
+
+> >hume__dell_floor
+The floor of the Dell is the warmest place on the Wold, out of every wind, the grass full of harebells. Low on the white wall of the Dell, at the height of a hand, are scored marks: lines and loops and figure-eights, old, weathered, the edges gone soft.
+
+> >hume__sett_mouth
+In the dark of the cave mouth something grey heaves up, and then another: two shapes, low and very broad, as big as ponies, with flat striped heads that swing toward you. One of them clacks its teeth, a sound like a shut book. They do not come. They wait, and the smell of musk rolls out of the cave at you so thick you could lean on it. A fire would send them back into the dark. The brocks will wait a few minutes more, no longer. The cave mouth is low and wide and dry, and smells strongly of musk and old bones. The chalk round it is scored deep in long parallel grooves, four together, higher than your head. A path in and out is worn to bare earth, wide as a cart. The brocks, two brock sows, honey badgers as big as ponies, grey-backed, lying in the cave mouth, are here.
+
+> Leave the old black comb at the cave mouth, as the marks say
+You walk to the cave mouth with the black comb held out in front of you in both hands, which is the stupidest thing you have ever done, and put it down on the bare earth there, and back away. For a long moment nothing. Then a broad striped head comes out of the dark, and sniffs, and sniffs again, and a paw as big as a spade drags the comb inside. You hear it being eaten: a long, contented, crunching sound. The second brock comes out and lies down in the cave mouth in the sun, and yawns, showing you everything, and looks at you with its small black eyes as if you were weather. Tamsin gains 200 experience: kept the old peace with the brocks. The brocks lie in the cave mouth in the sun with their chins on their paws, and watch you, and do not get up.
+
+> >hume__dell_floor
+The floor of the Dell is the warmest place on the Wold, out of every wind, the grass full of harebells. Low on the white wall of the Dell, at the height of a hand, are scored marks: lines and loops and figure-eights, old, weathered, the edges gone soft.
+
+> >hume__dell_rim
+The ground falls away into a dell: a great bowl of white chalk, scooped out of the Wold as if by a spoon, its sides bare and bright, its floor green and sheltered and warm.
+
+> >hume__linden_wood
+You set out from the rim of the Chalk Dell. The linden wood is tall and cool and full of the noise of bees: the limes are in flower, and the Sisters work the high branches, huge shapes in the green, and the scent of the flowers comes down so thick it is almost a taste.
+
+> >hume__gallow_knoll
+The Gallowtree stands alone on its knoll, a linden so old it has outlived its own name: nobody was ever hanged on it; the name is older than hanging. Its trunk is as big round as a cottage, grey and ridged and hollow, and its crown is still full and green and loud with wild bees. In the trunk, at the height of a man, someone long ago cut a door, and shaped its sill in wax, and the wax has gone grey.
+
+> >hume__gallow_hollow
+Inside the tree is a room, round, tall as a chapel, lit greenly from cracks high up. The walls are comb: old grey comb, built up the inside of the trunk in sheets, abandoned, dry; and there are people in it. In the grey comb of the walls, upright, capped in wax gone the colour of old bone: men, women, a few children, in clothes eighty years out of fashion, eyes shut. Some have their hands folded. Some do not. One woman holds a baby. By the door, on the floor, against the wall, sits the one who capped the others: uncapped, because there was nobody left to do it. Bones in a brown Capper’s apron, a sealing-iron by one hand. In the lap, something small. At the back of the hollow the inner wood of the tree goes up into the dark, ridged and grey, wet-looking. High up in the hollow, above the capped, where the dry top of the trunk catches the light, a few sheets of comb hang that are not grey but white, white as milk: the first comb the seventh Leaving’s bees drew, before anything was born in it.
+
+> Climb the old comb of the hollow and cut a slab of the white · an even chance
+Halfway up, the grey comb crumbles under your foot like stale bread, and you come down among the capped, hard. Tamsin fails the climbing check (d20 9 + strength 2 = 11 against 13). Tamsin fails to resist (dexterity). You take 6 physical damage (3 HP left).
+
+> Climb the old comb of the hollow and cut a slab of the white · an even chance
+You go up the old grey comb with your knife in your teeth, careful where you put your hands and feet, because the hands and feet are not all wax; and the white comb comes away under your knife in one sheet, light as paper. Tamsin makes the climbing check (d20 12 + strength 2 = 14 against 13). You take a slab of white comb. Tamsin gains 50 experience: cut white comb in the Gallowtree. High in the hollow, where the white comb hung, a clean pale scar.
+
+> Examine — Look closely
+You look closely at the one by the door. In the lap of the bones, where the hands were, is a little bee carved in wax, no bigger than a thumb, very carefully done, every leg; and cut into the iron by the hand, small and square: M. COKE.
+
+> Take the little wax bee from the lap of the one by the door
+The bones do not hold it. It comes away into your hand, warm from the green light, lighter than it looks. You take a little bee carved in wax.
+
+> >hume__gallow_knoll
+The Gallowtree stands alone on its knoll, a linden so old it has outlived its own name: nobody was ever hanged on it; the name is older than hanging.
+
+> >hume__linden_wood
+You set out from the Gallowtree’s knoll in the full of the afternoon, the path pale with dust. The linden wood is tall and cool and full of the noise of bees: the limes are in flower, and the Sisters work the high branches, huge shapes in the green, and the scent of the flowers comes down so thick it is almost a taste.
+
+> >hume__gorge_path
+The gorge closes in: grey limestone walls going up and up, ferns in every crack, a stream loud beside the path.
+
+> >hume__apron
+The gorge opens into a bowl under a lip of grey rock a quarter of a mile long, and hanging from the underside of the rock is a honeycomb the size of a town, with people going in and out of it, and bees as big as hounds. Doll Rowntree, a stallholder by the troughs, with a griddle, a fly-whisk, and forearms like hams, is here.
+
+> >hume__scenting_room
+A low room cut into the rock beside the foot stair, very clean. Elspet Garnock, the Scent-warden: a small exact woman with a stained apron and very clean hands, who smells overwhelmingly of the Comb, is here.
+
+> Show Elspet your Searcher's ribbon, and be scented
+Elspet looks at the yellow ribbon and nods and does it without a word, quicker than for a guest: forehead, throat, wrists. ‘Kestrel’s,’ she says. ‘Mind she pays you.’
+
+> >hume__apron
+The gorge opens into a bowl under a lip of grey rock a quarter of a mile long, and hanging from the underside of the rock is a honeycomb the size of a town, with people going in and out of it, and bees as big as hounds. Doll Rowntree, a stallholder by the troughs, with a griddle, a fly-whisk, and forearms like hams, is here.
+
+> >hume__brood_gallery
+Inside, the Comb is warm as a kitchen and gold as the inside of an egg.
+
+> >hume__dancing_hall
+The Dancing Hall is the strangest room you have ever stood in. Its floor is tilted like a roof, steep enough that you would slide if it were not tacky; and its walls are written all over with marks scored into the wax: lines and loops and figure-eights, thousands of them, overlapping, generations deep. Up at the top of the slope a round window lets in the sun, and the Searchers dance on the slope below it: a straight run, waggling, then a loop back round, then the run again. The angle of the run from straight up is the angle from the sun. How long the waggle lasts is how far. How hard is how good. The Searchers do not dance alone. On the upper slope, where the wax is darkest, Sisters dance too, the bees’ own scouts, huge and fast and silent, running their lines and turning; and where a Sister dances, the people watching go quiet and lean to read her. For the Far Brow, east over the moor, a long waggling run straight toward the window and a little left, a day’s distance: three dancing it. For the Chalk Dell, south-east: three. For the Gallowtree, a short run west, two hours: one. Here are Kestrel Dunn, the Wardmistress of the Searchers, lean and brown, two fingers short on her left hand; Hannet Coke, the oldest of the Searchers, small and brown and bent, sitting on the slope with her stick across her knees; and Moss Ashdown, a Searcher, nineteen, freckled, with a boar-spear he will not put down.
+
+> Dance for the Chalk Dell in the Dancing Hall · an even chance
+You run your line up the tilted floor toward the sun, waggling, and loop back, and run it again, and again. The first time the Searchers watch. By the fifth a Sister has come down the slope to stand beside you, her feelers on your back, reading you; and then she turns, and runs your line herself, faster and better. Tamsin makes the performance check (d20 17 + charisma -1 + performance 2 = 18 against 10). Tamsin gains 75 experience: danced for a place in the Dancing Hall. For the Chalk Dell, south-east: four.
+
+> Talk to Hannet Coke
+A tiny old woman sitting on the slope pats the wax beside her. ‘Sit, sit, you’ll slide. You’re Kestrel’s new legs? Good. Mine are seventy and they’ve struck. Two hours and then they sit down wherever they are and won’t get up for anybody.’ She laughs, a startling young laugh.
+
+> Give Hannet the little wax bee from the Gallowtree
+Hannet takes it in her palm and does not say anything. Then she reaches inside her collar and pulls out a cord, and on the cord, worn smooth and dark with seventy years of being held, is another bee, its twin, every leg. She holds them side by side. ‘Merrit,’ she says. ‘My aunt Merrit. She went with the seventh. She gave me this one when I was four and said she’d send the other when they’d built, and that would be the sign.’ She looks at you. ‘Where was it?’ You tell her: the tree, the grey comb, the people standing in it; the one by the door, uncapped, who capped all the others and had nobody to do it for her. Hannet closes her hand on both bees. ‘Well,’ she says. ‘She sent it.’ After a while she gets up, very slowly, with her stick, and goes and sits by the wall, and does not dance any more. Tamsin gains 100 experience: found what became of the seventh Leaving. Tamsin gains 150 experience: brought Merrit Coke’s wax bee home to her niece.
+
+> Promise Hannet she will be carried, wherever the Mother goes
+Hannet looks at you, and laughs, and then stops laughing because you are not. ‘Carried. Like a cheese to market.’ She thinks about it. ‘There’s a litter in the Searchers’ store, for the hurt ones. Two to carry it, four for the moor.’ She grips your wrist with a hand like a bundle of twigs. ‘If you mean it, I’ll dance again. Not for the tree. Tell me where, and I’ll dance it, and they’ll know old Hannet’s seen sense.’ Tamsin gains 50 experience: promised Hannet Coke she would be carried.
+
+> Ask Hannet to dance for the Chalk Dell
+Hannet gets up on her stick, and goes to the slope, and watches you run your line twice, with her head on one side; and then she runs it herself, very short, very slow, every waggle exact, an old woman’s dance, and the Searchers round the walls stop talking to watch her do it. Elspet Garnock, the Scent-warden, strikes the slope three times with a staff of black wax, and the hall goes quiet, and the hum comes back into the quiet like water into a footprint. For the Chalk Dell, south-east: five.
+
+> Take your leave
+At six the hum in the Dancing Hall is drowned out for once by people: the whole of Hume Brow crowded onto the tilted floor, standing, sitting, holding on to each other so as not to slide. The Calling. Every household, in turn, will say aloud who goes with the Mother, and who stays. ‘Come back and tell me how it goes!’ calls Hannet Coke after you.
+
+> Talk to Kestrel Dunn
+Kestrel looks round from the slope. ‘Well? What have you found?’
+
+> Tell Kestrel what you found at the Gallowtree
+She hears you out. When you tell her about the people in the comb inside the tree she is quiet a long time. ‘The seventh Leaving,’ she says. ‘We say they went on east.’ She gives you a cake of wax and does not look at you. ‘Don’t tell Hannet. Or do. I don’t know. Her aunt went with them.’ You take a cake of Brow wax.
+
+> Tell Kestrel what you found in the Chalk Dell
+‘Dry. Warm. South. Yes.’ She pays you. ‘And the brocks?’ She listens. ‘If you can find a way to live beside them, it’s not a bad place. If Moss’s way is to go in there with a spear, it’s a grave.’ You take a cake of Brow wax.
+
+> Take your leave
+‘Don’t let me keep you,’ says Kestrel Dunn, who was not trying to.
+
+> >hume__brood_gallery
+Inside, the Comb is warm as a kitchen and gold as the inside of an egg.
+
+> >hume__royal_gallery
+A high room where the ceiling comes down in a fold, and from the fold hang three things like great acorns made of brown wax, each as big as a cradle, each pitted all over like the skin of a lemon. Princess cells. Under each a stool, and on each stool someone sitting, watching, not talking to the others. The air here is thick and sweet and makes your scalp prickle. The first princess-cell, the Brecks’, is fatter than the others, and darker, and very faintly moving. The second princess-cell, the Candlishes’, hangs still, a little paler. The third princess-cell, the Ashdowns’, is the smallest, and hangs a little crooked. Here are Tibby Breck, a small boy of eight with a scab on his chin, sitting under the Breck princess-cell, kicking his heels; Dame Brenna Breck, the head of the Brecks: a tall old woman in black with a silver bee at her throat, sitting very upright under the first princess-cell; and the watchers of the other cells, an old Waxwright on one stool and a freckled woman on the other, not speaking.
+
+> Talk to Tibby Breck
+A small boy under the first princess-cell looks at you with frank interest. ‘Are you a lowlander? Can you find things? Duke’s gone. He’s my drone. I raised him from an egg. He’s got a red ribbon on. Gran says drones always go, it’s what they’re for, but he’s mine.’ His lip goes. Then it firms up. ‘I can show you where he went. I saw him go.’
+
+> Ask Tibby to show you where Duke went
+Tibby stands up, very serious, and shows you with a dance, the way Hume children do: a little run toward where the sun would be, and then off to one side, waggling his bottom for all he is worth, and then a loop, and again. He is very bad at it and very proud.
+
+> Take your leave
+‘Come back and tell me how it goes!’ calls Tibby Breck after you.
+
+> >hume__brood_gallery
+Inside, the Comb is warm as a kitchen and gold as the inside of an egg.
+
+> >hume__apron
+The gorge opens into a bowl under a lip of grey rock a quarter of a mile long, and hanging from the underside of the rock is a honeycomb the size of a town, with people going in and out of it, and bees as big as hounds. Doll Rowntree, a stallholder by the troughs, with a griddle, a fly-whisk, and forearms like hams, is here.
+
+> >hume__gorge_path
+The gorge closes in: grey limestone walls going up and up, ferns in every crack, a stream loud beside the path.
+
+> >hume__toot
+The shadows are long when you leave Hume Brow, and getting longer. Duke comes to see who you are. The Toot is a round green hill above the gorge, with a single standing stone on top, leaning, and the whole Wold laid out round it: the wood, the moor going away purple to the east, the white scar of the Dell, the knoll with its great tree, and far off in the west the lowland, blue. Up here, on still afternoons, the drones gather: you can hear them, a deep rich droning over the hilltop, from bees you cannot see.
+
+> Ask them to come with you
+Duke falls in beside you, keeping close.
+
+> >hume__gorge_path
+You leave the Toot late, with the light already going yellow. The gorge closes in: grey limestone walls going up and up, ferns in every crack, a stream loud beside the path.
+
+> >hume__apron
+The gorge opens into a bowl under a lip of grey rock a quarter of a mile long, and hanging from the underside of the rock is a honeycomb the size of a town, with people going in and out of it, and bees as big as hounds. Doll Rowntree, a stallholder by the troughs, with a griddle, a fly-whisk, and forearms like hams, is here.
+
+> >hume__brood_gallery
+Inside, the Comb is warm as a kitchen and gold as the inside of an egg.
+
+> >hume__royal_gallery
+Tibby sees Duke before Duke sees him, and makes a noise like a kettle, and then he has the drone round the neck, which is a thing you would not have thought possible, and Duke is humming deep in his chest like a cat purring, and Tibby is telling him he is a very bad drone, very bad, the worst. Tamsin gains 50 experience: brought Duke home to Tibby. A high room where the ceiling comes down in a fold, and from the fold hang three things like great acorns made of brown wax, each as big as a cradle, each pitted all over like the skin of a lemon. The first princess-cell, the Brecks’, is fatter than the others, and darker, and very faintly moving. The second princess-cell, the Candlishes’, hangs still, a little paler. The third princess-cell, the Ashdowns’, is the smallest, and hangs a little crooked. Here are Tibby Breck, a small boy of eight with a scab on his chin, sitting under the Breck princess-cell, kicking his heels; Dame Brenna Breck, the head of the Brecks: a tall old woman in black with a silver bee at her throat, sitting very upright under the first princess-cell; and the watchers of the other cells, an old Waxwright on one stool and a freckled woman on the other, not speaking.
+
+> Talk to Tibby Breck
+Tibby kicks his heels. ‘Have you found Duke?’
+
+> Ask Tibby whether anything strange happens in the royal gallery
+Tibby looks round to see if anyone is listening, and then puts his mouth up to your ear, and Duke’s enormous eye comes round too, as if he wants to hear. ‘Gran comes at night,’ Tibby whispers. ‘When everyone’s gone to sleep. With the big spoon and the jelly-pot. And she puts jelly in our princess’s cell through a little hole, lots of it. I followed her, looking for Duke.’ He thinks. ‘She said if I told, the princess would be sad.’ He looks worried. ‘Is it a secret if you tell a lowlander?’ Tamsin gains 75 experience: found out about Dame Brenna’s spoon.
+
+> Take your leave
+‘Come back and tell me how it goes!’ calls Tibby Breck after you.
+
+> >hume__brood_gallery
+Inside, the Comb is warm as a kitchen and gold as the inside of an egg.
+
+> >hume__honey_vaults
+The honey vaults go back into the dark under the Brow: cell upon cell, each the size of a barrel, each capped with white wax, each full. The biggest barrel in the vaults, chalked PENRY · CALLING, sits silent: put your ear to it and there is nothing. Huw Penry, the Comb’s mead-maker: a big man with a magnificent beard and a voice he uses to its full extent, among his barrels, is here.
+
+> >hume__mothers_chamber
+The Crown of the Comb is a long dim hall under the very rock of the Brow, where the comb is oldest and nearly black. Here are Linnet Amory, the Hum-keeper: a young woman with a shaved head and bare arms crawling with Sisters, who does not seem to notice them; and Pim Garnock, the keeper’s novice: a gangling boy of seventeen with a newly shaved head, sunburnt where the hair was.
+
+> Talk to Linnet Amory
+Linnet looks up from beside the Mother, and moves a Sister off her cheek, and smiles.
+
+> Tell Linnet that Dame Brenna has been feeding her princess at night
+Linnet closes her eyes. ‘Brenna,’ she says. ‘Of course.’ When she opens them she is a keeper. ‘Cage the others, if you’ve cages. The Mother’s choosing should be the Mother’s. I’ll answer to the Comb.’
+
+> Take your leave
+‘Look after yourself,’ says Linnet Amory. ‘I mean it.’
+
+> >hume__honey_vaults
+The honey vaults go back into the dark under the Brow: cell upon cell, each the size of a barrel, each capped with white wax, each full. The biggest barrel in the vaults, chalked PENRY · CALLING, sits silent: put your ear to it and there is nothing. Huw Penry, the Comb’s mead-maker: a big man with a magnificent beard and a voice he uses to its full extent, among his barrels, is here.
+
+> >hume__brood_gallery
+Inside, the Comb is warm as a kitchen and gold as the inside of an egg.
+
+> >hume__royal_gallery
+A high room where the ceiling comes down in a fold, and from the fold hang three things like great acorns made of brown wax, each as big as a cradle, each pitted all over like the skin of a lemon. The first princess-cell, the Brecks’, is fatter than the others, and darker, and very faintly moving. The second princess-cell, the Candlishes’, hangs still, a little paler. The third princess-cell, the Ashdowns’, is the smallest, and hangs a little crooked. Here are Tibby Breck, a small boy of eight with a scab on his chin, sitting under the Breck princess-cell, kicking his heels; Dame Brenna Breck, the head of the Brecks: a tall old woman in black with a silver bee at her throat, sitting very upright under the first princess-cell; and the watchers of the other cells, an old Waxwright on one stool and a freckled woman on the other, not speaking.
+
+> Close a queen-cage round the Candlish princess-cell
+You lift the little lantern of rods up round the cell, and close it, and the watcher on the stool beneath stands up and watches you do it and does not stop you. ‘The keeper said,’ they say, to the room, to Dame Brenna, who says nothing. The second princess-cell, the Candlishes’, is closed in a cage of thin wax rods like a lantern.
+
+> Close a queen-cage round the Ashdown princess-cell
+You lift the little lantern of rods up round the cell, and close it, and the watcher on the stool beneath stands up and watches you do it and does not stop you. ‘The keeper said,’ they say, to the room, to Dame Brenna, who says nothing. The third princess-cell, the Ashdowns’, is closed in a cage of thin wax rods like a lantern.
+
+> >hume__brood_gallery
+Inside, the Comb is warm as a kitchen and gold as the inside of an egg.
+
+> >hume__wax_gallery
+The Waxwrights’ gallery is cooler, and smells of warm candles and of something sharp they use to keep the wax workable. Eben Candlish, a Waxwright: a long-faced man of forty with burnt fingertips and wax in his beard, who keeps looking up at the Stair, is here.
+
+> Talk to Eben Candlish
+Eben Candlish looks up from his brazier, and then up at the Stair, as he always does.
+
+> Give a slab of white comb
+You give a slab of white comb to Eben Candlish. Eben Candlish takes the white comb from you in both hands and holds it up to the light, and the light comes through it as if through a leaf. ‘Where,’ he says, and then, ‘no, don’t, I can guess.’ He is already reaching for his blades. ‘Tonight. It must be tonight; it has to set cool. I’ll want a pair of hands to hold the mould while it takes, all night, without moving. Or,’ he hesitates, ‘a voice. The old Waxwrights sang it in. The hum’s key. It sets truer sung.’
+
+> Take your leave
+Eben Candlish has gone back to work before you have turned round.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Sing the hum's key to the last course of the Stair while it sets · an even chance
+Eben pours the white wax, clear as water, into the mould on the last turn, and wedges it, and nods to you; and you sing. Not a song: the hum. The note under everything in the Comb, which you find you know, after these days, the way you know your own pulse. You hold it, and when your breath goes you take another and hold it again, and the Sisters on the walls of the gallery lean toward you, and some of them begin to hum with you, and the wax in the mould clouds and whitens evenly from the edges in, without a crack, while Eben carves faces into it as it comes. By dawn your throat is raw and the Stair goes all the way up. At sunrise the sun comes in at the window of the Crown and down the Lantern Stair, all the way down, for the first time, turn by turn, lighting each tread from inside: the flowers, the bees, the hands, the faces of the Brow one after another, gold, and at the bottom, white, the newest faces. People come running from all over the Brood to stand at the foot of it and look up. Somebody starts to cry. Eben Candlish sits on the bottom step with his chin on his fists and does not say anything at all. Tamsin makes the performance check (d20 18 + charisma -1 + performance 2 = 19 against 13). Tamsin gains 250 experience: set the last course of the Lantern Stair. The Lantern Stair goes all the way up now, to the Crown, its last course white, and in the white you can find, if you look, a face you know. It is a long time since you slept. You are weary, and will fight the worse for it until you sleep.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> >hume__brood_gallery
+Inside, the Comb is warm as a kitchen and gold as the inside of an egg.
+
+> >hume__apron
+The gorge opens into a bowl under a lip of grey rock a quarter of a mile long, and hanging from the underside of the rock is a honeycomb the size of a town, with people going in and out of it, and bees as big as hounds. Doll Rowntree, a stallholder by the troughs, with a griddle, a fly-whisk, and forearms like hams, is here.
+
+> >hume__scenting_room
+A low room cut into the rock beside the foot stair, very clean. Elspet Garnock, the Scent-warden: a small exact woman with a stained apron and very clean hands, who smells overwhelmingly of the Comb, is here.
+
+> Show Elspet your Searcher's ribbon, and be scented
+Elspet looks at the yellow ribbon and nods and does it without a word, quicker than for a guest: forehead, throat, wrists. ‘Kestrel’s,’ she says. ‘Mind she pays you.’
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes. It begins as a change in the hum: up, and up, a whole octave, until the gorge rings with it like a struck bell. Then out of every door and crack and window of the Comb at once, the Sisters pour. Not in streams: in a flood, a brown roaring flood, filling the air of the gorge from wall to wall, so many and so loud that the sun goes dim and you cannot hear yourself shout. They boil up over the lip of the Brow in a column a quarter of a mile wide. Somewhere in the middle of it, invisible, is the Mother. And down the foot stair, out of the doors, with bundles on their backs and veils on their heads and little bells tied on their wrists so as not to lose each other, come the people who are going: two hundred of them, walking fast, not looking back, while the people who are staying stand at the troughs and on the Apron and in the doorways and watch them go.
+
+> >hume__apron
+She goes. Somewhere in the Leaving, Hannet Coke is being carried, and is complaining about it, and is there. Tamsin gains 150 experience: saw Hannet Coke carried with the Leaving. The gorge opens into a bowl under a lip of grey rock a quarter of a mile long, and hanging from the underside of the rock is a honeycomb the size of a town, with people going in and out of it, and bees as big as hounds. Doll Rowntree, a stallholder by the troughs, with a griddle, a fly-whisk, and forearms like hams, is here. The Apron is too quiet. The Sisters still come and go overhead, but thinly, a stream where there was a river; half the stalls are bare boards; and the people who are left stand about in twos and threes, not talking much, looking up at the Comb as if it were somebody’s house after a funeral.
+
+> >hume__brood_gallery
+Inside, the Comb is warm as a kitchen and gold as the inside of an egg.
+
+> >hume__royal_gallery
+A high room where the ceiling comes down in a fold, and from the fold hang three things like great acorns made of brown wax, each as big as a cradle, each pitted all over like the skin of a lemon. The first princess-cell, the Brecks’, is fatter than the others, and darker, and very faintly moving. The second princess-cell, the Candlishes’, is closed in a cage of thin wax rods like a lantern. The third princess-cell, the Ashdowns’, is closed in a cage of thin wax rods like a lantern. Here are Linnet Amory, the Hum-keeper, with a shaved head, who stayed; Tibby Breck, a small boy of eight with a scab on his chin, sitting under the Breck princess-cell, kicking his heels; Dame Brenna Breck, the head of the Brecks: a tall old woman in black with a silver bee at her throat, sitting very upright under the first princess-cell; and the watchers of the other cells, an old Waxwright on one stool and a freckled woman on the other, not speaking.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+In the half-empty Comb, in the royal gallery, something is moving inside the wax. Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+From the royal gallery a sound you have never heard: a thin high piping, like a tin whistle blown through a comb, toot, toot, toot-toot-toot, the new queen, out, calling. And from inside the other cells, muffled through the wax, the answers: quack, quack, quack, deeper, frightened, still shut in. The first princess-cell, the Brecks’, hangs open at the bottom like a cup, empty. All over the half-empty Comb people wake and sit up in the dark and listen to the piping, and nobody goes back to sleep. Tamsin gains 200 experience: kept the night of the Daughters in the Brow.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+At two the new queen comes along the ceiling of the royal gallery: long, gold, new, quick as a cat. She goes to each cell in turn, and at each she walks round and round the cage, piping, frantic, and cannot get in; and inside, the quacking goes on, frightened and alive. The two watchers sit under their cages with their hands clenched in their laps and do not look at Dame Brenna. In the grey of the morning the keeper who stayed comes along the gallery with the jar, and stops in front of you, and dips two fingers in it, and draws them down your forehead, your throat, your wrists, behind your ears, saying the words. ‘You stayed with us,’ is all that is said. ‘Half of us went. You stayed.’ Tamsin gains 250 experience: was named to the hive.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+At noon the hum goes up again, thinner, and out of the Comb pours a second, smaller swarm, a cast, behind the princess who was caged; and after it, with bundles hastily tied, the watchers of her cell and their families and forty others who stayed yesterday and have changed their minds, walking out over the Wold after it, south, toward somewhere nobody has danced for. Tamsin gains 200 experience: saw a cast go out of the Brow.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+Two days after the Leaving the new queen flies, and the Escort walks behind her in yellow; and at dusk, by a custom older than the Comb, the Escort is turned out.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+From up the Toot comes singing, old and wordless, and then a sound like the whole sky humming, and then quiet.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+You are of the Comb now. The scent will not come off: you will smell, a little, of the Mother for the rest of your life, in the lowland, in the rain, in your grave; and any Sister anywhere in the Wold will turn her head toward you, and away, as if you were family. Linnet Amory and Eben Candlish stayed, both of them, and are to be married at the Feast of the Lime, and Eben is finishing the Stair, slowly, now there is no hurry; and somewhere across the Wold a boy of seventeen is keeping the old Mother in a new comb, and writing back every week to ask how to do it. Hannet Coke went with the Mother at last, carried, complaining the whole way, and sits now in the sun at the mouth of the new comb on a stool somebody made her, telling the children how it was done in the old Brow, mostly wrongly, with two wax bees on a cord round her neck. Agnes Mellor stayed. She sits in the Capped Gallery every night in the dark with Tobit, on her stool, talking about the goat. Something still comes into the Capped Gallery in the small hours, soft and dry, smelling of the Mother, and drinks from the seals of the dead; and the children of the Brow have a name for it, and a rhyme, and will not go up the honey stair after dark. Once a month Nell Quarrie goes up the stair in the dark smelling of her own oil, and sits an hour with Aldo, and comes down, and nobody notices. At Larkhill the squire’s tower stands empty and dry and pointed, with an empty green flask in a crack at the top of it; and the squire sits in his study among twelve years of drawings and does not draw. The Breck princess reigns in the Brow; and the princess who was caged went out with a cast the next noon, south, with forty people behind her, toward somewhere nobody danced for; and no word has come back yet. The Comb has never had two Leavings in one summer. Some say it is against nature. Some say Garnock would have been proud. Ivo Gildersleeve was turned out with the Escort, with a cloak and a loaf, and is sitting on a milestone at the edge of the Wold looking down the drove road at the lowland, which he has never seen, deciding. In the Chalk Dell the new comb fills the cave in the chalk, and the brocks sleep in a smaller hole at the back and are given the old comb at the turn of the year, as the marks say, and keep the peace. Moss Ashdown is cutting new marks under the old ones, for whoever comes next, so that this time somebody reads them.

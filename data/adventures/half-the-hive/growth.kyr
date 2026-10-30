@@ -1,0 +1,67 @@
+Module hume "Half the Hive" {
+  // ── What the company grows by ─────────────────────────────────────────────────────────────────────────────────────
+  // Experience for what is found, made, carried and changed; nothing for killing but what killing costs.
+  Milestone m_searcher "was taken on as a Searcher of Hume Brow" worth 25 when searcher(party).
+  Milestone m_dance "learned the Searchers' dance" worth 50 when danceLearned(party).
+  Milestone m_danced "danced for a place in the Dancing Hall" worth 75 when dancedAny().
+  Milestone m_gallow "found what became of the seventh Leaving" worth 100 when knows(party, lost_leaving).
+  Milestone m_rot "found the Gallowtree rotten at the heart" worth 50 when knows(party, gallow_rotten).
+  Milestone m_merrit "brought Merrit Coke's wax bee home to her niece" worth 150 when hannetHasBee(hannet).
+  Milestone m_far "stood under the Far Brow" worth 100 when hasSeen(far_brow).
+  Milestone m_drove "learned the shepherds' drove from a Drone" worth 50 when knows(party, drove_known).
+  Milestone m_kestrel "saw Kestrel Dunn take a Drone's word" worth 150 when kestrelTurned(kestrel).
+  Milestone m_truce "read the brocks' truce on the chalk" worth 100 when knows(party, brock_truce).
+  Milestone m_peace "kept the old peace with the brocks" worth 200 when brockTruce(brocks).
+  Milestone m_brocks "killed the brocks of the Chalk Dell" worth 150 when brocksKilled(brocks).
+  Milestone m_moss "kept Moss Ashdown from going into the Dell alone" worth 75 when mossWaits(moss).
+  Milestone m_hannet "promised Hannet Coke she would be carried" worth 50 when promiseMade(carry_hannet).
+  Milestone m_hannet_kept "saw Hannet Coke carried with the Leaving" worth 150 when promiseKept(carry_hannet).
+  Milestone m_eben "learned what Eben Candlish meant to do" worth 50 when knows(party, eben_secret).
+  Milestone m_linnet "learned what Linnet Amory meant to do" worth 50 when knows(party, linnet_secret).
+  Milestone m_lovers "brought Linnet and Eben to say it to each other" worth 200 when linnetKnows(linnet) and ebenKnows(eben).
+  Milestone m_white "cut white comb in the Gallowtree" worth 50 when whiteTaken(party).
+  Milestone m_stair "set the last course of the Lantern Stair" worth 250 when stairLit(eben).
+  Milestone m_watch "kept the dark watch with Agnes Mellor" worth 100 when keptWatch(party).
+  Milestone m_heard "heard what comes into the Capped Gallery in the dark" worth 50 when knows(party, moth_heard).
+  Milestone m_moth "rid the Capped Gallery of the Deathshead" worth 200 when mothDead(deathshead).
+  Milestone m_tobit "won leave for Agnes Mellor to carry her dead" worth 150 when linnetPermitsDead(linnet).
+  Milestone m_likeness "brought Agnes Mellor a likeness of Tobit" worth 100 when likenessGiven(agnes).
+  Milestone m_nell "heard Nell Quarrie out" worth 75 when knows(party, nell_forges).
+  Milestone m_nell_night "learned who sat with Tobit Mellor the night he died" worth 100 when knows(party, nell_sat_tobit).
+  Milestone m_nell_named "saw Nell Quarrie named to the Comb" worth 200 when nellNamed(nell).
+  Milestone m_flask "learned of the squire's flask" worth 100 when knows(party, flask_known).
+  Milestone m_corve "saw Squire Corve give what he had stolen" worth 250 when corveGives(corve).
+  Milestone m_poured "poured the squire's flask out on the ground" worth 100 when pouredFlask(party).
+  Milestone m_ivo "asked a Drone to come searching" worth 50 when travelsWith(ivo, party).
+  Milestone m_ivo_dance "saw Ivo Gildersleeve dance" worth 150 when ivoSearcher(ivo).
+  Milestone m_duke "brought Duke home to Tibby" worth 50 when dukeHome(duke).
+  Milestone m_spoon "found out about Dame Brenna's spoon" worth 75 when knows(party, breck_spoon).
+  Milestone m_cast "saw a cast go out of the Brow" worth 200 when castWent(brenna).
+  Milestone m_mead "got Huw Penry's mead working" worth 75 when meadSaved(huw).
+  Milestone m_drewes "paid the Drewes what their candles were worth" worth 50 when drewesPaid(party).
+  Milestone m_comb "cut wild comb from the honey linden" worth 25 when combCutDay(honey_oak) > 0.
+  Milestone m_walked "walked with the Leaving" worth 200 when walkedWith(party).
+  Milestone m_daughters "kept the night of the Daughters in the Brow" worth 200 when stayedForDaughters(party).
+  Milestone m_named "was named to the hive" worth 250 when named(party).
+
+  // ── Things to learn ───────────────────────────────────────────────────────────────────────────────────────────────
+  // Kestrel teaches a Searcher how to go unseen; Hild Thorle how to lay smoke in a fight; a night beside the Mother
+  // teaches a patience that stays.
+  Relation hideOffered(group). Relation smokeOffered(group). Relation motherNight(group).
+  Topic kestrel_hide with kestrel "Ask Kestrel how a Searcher goes unseen among brocks and robbers" when searcher(actor) and reported(actor, ?s) and not hideOffered(kestrel) once {
+    Says "'Slowly.' She looks at you. 'Low. Downwind. Still when they look, moving when they don't. Like a cloud's shadow.' She shows you, there on the slope, and you lose sight of her twice in the time it takes to say it. 'An hour's drill, if you've an hour.'".
+    On discuss { Assert hideOffered(kestrel). Assert teaches(kestrel, hide). }
+  }
+  Topic hild_smoke with hild "Ask Hild to show you how to lay smoke in a fight" when holding(actor, bee_smoker) and not smokeOffered(hild) once {
+    Says "'In a fight?' Hild Thorle grins. 'Same as with the Sisters. Smoke in their eyes and they go stupid. Men, brocks, bees: all the same underneath.' She takes your smoker and works the bellows and a grey wall goes up between you and the forge in a breath. 'An hour, and you'll do it without thinking.'".
+    On discuss { Assert smokeOffered(hild). Assert teaches(hild, smoke_screen). }
+  }
+  Action mother_night(actor: group, reader: member, site: place) "Have {reader} sit the night beside the Mother with Linnet" {
+    Description "A night of the hum, so deep it is not a sound. Something of its patience stays.".
+    Requires at(actor, site) and memberOf(reader, actor) and awake(reader) and at(actor, mothers_chamber) and at(linnet, mothers_chamber) and scented() and not motherNight(actor)
+      and not leavingBegun() and (hour(clock) >= 20 or hour(clock) < 4).
+    Time 36. Resolve endow(reader, wisdom, by_one).
+    On success { Assert motherNight(actor). }
+    Result "Linnet makes room for {reader} on the warm comb beside the old queen, and does not talk. The hum goes through the night like a tide. Somewhere toward three {reader} stops hearing it and starts, instead, to be in it, the way you are in weather; and the Mother, once, turns her long head and touches {reader}'s hand with her feelers, light as breath, and turns back. In the morning the world seems very fast and very loud, and {reader} finds there is no hurry about any of it.".
+  }
+}

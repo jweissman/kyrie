@@ -1,0 +1,6 @@
+{
+ "taken on": [">hume__scenting_room", "Ask Elspet to scent you", ">hume__dancing_hall", "Talk to Kestrel", "Ask to be taken on", "Ask Kestrel to teach you the dance", "^Take your leave"],
+ "the marks": [">hume__dell_floor", "the marks on the chalk: Examine — Look closely", ">hume__wax_gallery", "Talk to Eben", "Ask Eben for some old dark comb", "^Take your leave"],
+ "the theft": [">hume__chantry_yard", "=23:00", "^To the chantry|^Into the chantry", "^To Squire Corve's study", "?Pick the lock", "?Pick the lock", "?Pick the lock", "?Pick the lock", "Take from the squire's oak case", "Pour the squire's flask"],
+ "the gift": [">hume__sett_mouth", "Leave the old black comb"]
+}

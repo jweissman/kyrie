@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "name": "Half the Hive: a company of three",
+  "calendar": {
+    "year": 1312,
+    "month": 6,
+    "day": 9
+  },
+  "modules": [
+    {
+      "id": "hume",
+      "bundle": "company3/module.json"
+    }
+  ],
+  "party": [
+    {
+      "name": "Elen",
+      "raceId": "elf",
+      "classId": "ranger",
+      "backgroundId": "hunter"
+    },
+    {
+      "name": "Bran",
+      "raceId": "human",
+      "classId": "warrior",
+      "backgroundId": "locksmith",
+      "traits": [
+        "toughness"
+      ]
+    },
+    {
+      "name": "Dori",
+      "raceId": "dwarf",
+      "classId": "cleric",
+      "backgroundId": "medic",
+      "traits": [
+        "vitalist"
+      ]
+    }
+  ]
+}

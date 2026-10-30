@@ -1,0 +1,99 @@
+Module hume "Half the Hive" {
+  // ── The Daughters ─────────────────────────────────────────────────────────────────────────────────────────────────
+  // Three princess cells in the royal gallery, each watched by a household: the Brecks', the Candlishes', the
+  // Ashdowns'. The night the Mother goes, the first princess wakes, pipes, and the others answer from inside; at two in
+  // the morning she goes to their cells and stings them through the wax. The Brecks' wakes first because Dame Brenna has
+  // fed it at night with a spoon; unless it is pierced in its cell first. A caged cell she cannot reach: its princess
+  // wakes the next day and goes with a cast, a second, smaller Leaving. Caging needs the keeper's leave.
+  Person brenna "Dame Brenna Breck" at royal_gallery {
+    Role "the head of the Brecks: a tall old woman in black with a silver bee at her throat, sitting very upright under the first princess-cell".
+    Ancestry human. Peaceable. Pronouns she. Manner proud.
+    Greets "A tall old woman in black under the first princess-cell inclines her head to you a quarter of an inch. 'Dame Brenna Breck. That is our cell.' She does not need to say whose. 'You will forgive me if I do not get up. A watcher does not get up.'".
+    Greets again "Dame Brenna inclines her head a quarter of an inch.".
+  }
+  Person watchers "Abel Candlish and Wenn Ashdown" at royal_gallery {
+    Role "the watchers of the other two cells: Eben's old father on one stool, Moss's freckled mother on the other, not speaking".
+    Ancestry human. Numbers 2. Peaceable. Pronouns they.
+  }
+  Relation brennaShamed(group). Relation pimConsents(group). Relation breckPierced(group). Relation emerged(entity). Relation castTomorrow(group). Relation castWent(group).
+  Relation stung(entity). Relation caged(entity). Relation royalCell(entity).
+  Thing cell_breck "the Breck princess-cell" at royal_gallery {
+    State sealed "The first princess-cell, the Brecks', is fatter than the others, and darker, and very faintly moving.".
+    State pierced "The first princess-cell, the Brecks', hangs with a slit in its side, dark and wet.".
+    State open "The first princess-cell, the Brecks', hangs open at the bottom like a cup, empty.".
+  }
+  Thing cell_candlish "the Candlish princess-cell" at royal_gallery {
+    State sealed "The second princess-cell, the Candlishes', hangs still, a little paler.".
+    State caged "The second princess-cell, the Candlishes', is closed in a cage of thin wax rods like a lantern.".
+    State killed "The second princess-cell, the Candlishes', has a small neat hole in its side.".
+    State open "The second princess-cell, the Candlishes', hangs open at the bottom, empty.".
+  }
+  Thing cell_ashdown "the Ashdown princess-cell" at royal_gallery {
+    State sealed "The third princess-cell, the Ashdowns', is the smallest, and hangs a little crooked.".
+    State caged "The third princess-cell, the Ashdowns', is closed in a cage of thin wax rods like a lantern.".
+    State killed "The third princess-cell, the Ashdowns', has a small neat hole in its side.".
+    State open "The third princess-cell, the Ashdowns', hangs open at the bottom, empty.".
+  }
+  Initially Assert royalCell(cell_candlish). Initially Assert royalCell(cell_ashdown).
+  Observe spoon_seen at royal_gallery when night() and not leavingBegun() and at(party, royal_gallery) and not knows(party, breck_spoon) "In the dark of the royal gallery, a tall figure in black is standing on a stool under the first cell, with a pot in one hand and a long spoon in the other, feeding something through a hole in the wax. The other two watchers are asleep on their stools. The figure sees you, and goes very still, and then gets down, and goes out without a word." teaches breck_spoon.
+
+  Topic brenna_cells with brenna "Ask Dame Brenna about the princess-cells" when not leavingBegun() once {
+    Says "'Three. One will reign.' She looks up at her cell. 'Every princess-cell has its household. It is the greatest honour the Comb gives: to watch a cell. And when your princess wakes first, your household is the Mother's household, for her whole life. Thirty years.' A pause. 'The Brecks have watched a cell at every Leaving for a hundred years. Ours has never woken first.' Another pause. 'My mother watched. She sat on this stool for nine days and nights, and her princess was stung in the cell, and she went home and died that winter. People said it was the cold.'".
+  }
+  Topic brenna_spoon with brenna "Tell Dame Brenna you know about the spoon" when knows(actor, breck_spoon) and not brennaShamed(brenna) and not leavingBegun() once {
+    Says "She does not move. For a while you think she will not answer. Then she says, without looking at you, 'Royal jelly. From our own hives. My own princess, my own jelly, my own spoon.' Her hands are perfectly still in her lap. 'A queen that is fed more wakes sooner and stronger. Every keeper knows it. Nobody does it, because it is not done.' She looks at you at last. 'A hundred years of being the household that loses. Of being looked at, at the Calling, with that particular kindness. I am seventy-three. I wanted, once, to be looked at another way.' She turns back to her cell. 'Tell whom you like.'".
+    On discuss { Assert brennaShamed(brenna). }
+  }
+  Topic eben_cages with eben "Ask Eben to make queen-cages for the other two princess-cells" when knows(actor, cages_known) and not leavingBegun() and not holding(actor, queen_cage) once {
+    Says "'Cages.' He looks at you sharply. 'Garnock's trick.' Then, slowly: 'The Candlish cell is my family's. My father's sat under it nine days.' He picks up a handful of thin wax rods from the bench. 'They'd say it was against nature. Two queens, two Leavings.' He starts bending the rods. 'They said the Stair was against nature.' In half an hour he gives you two little lanterns of wax. 'The keeper has to allow it,' he says. 'Or it's just two cages.'".
+    On discuss { Give cage_one to actor. Give cage_two to actor. }
+  }
+  Topic pim_spoon with pim "Tell Pim that Dame Brenna has been feeding her princess at night" when knows(actor, breck_spoon) and not pimConsents(pim) and not goes(pim) once {
+    Says "Pim's mouth falls open. 'With a spoon?' He looks as if you had told him somebody had been cheating at a funeral. 'Then it's not the Mother's choosing at all. It's Dame Brenna's.' He goes red, and then white, and then he stands up very straight, and for a moment he looks like a keeper. 'If you've cages, cage the other two. I'll answer for it. Old Garnock did it once. Tell them the keeper said.' His voice cracks on keeper.".
+    On discuss { Assert pimConsents(pim). }
+  }
+  Topic linnet_spoon with linnet "Tell Linnet that Dame Brenna has been feeding her princess at night" when knows(actor, breck_spoon) and not pimConsents(pim) and not goes(linnet) once {
+    Says "Linnet closes her eyes. 'Brenna,' she says. 'Of course.' When she opens them she is a keeper. 'Cage the others, if you've cages. The Mother's choosing should be the Mother's. I'll answer to the Comb.'".
+    On discuss { Assert pimConsents(pim). }
+  }
+  Item cage_one "a queen-cage of wax rods" is queen_cage at limbo. Item cage_two "a queen-cage of wax rods" is queen_cage at limbo.
+  Action cage_cell(actor: group, cell: entity, site: place) "Close a queen-cage round {cell}" {
+    Requires at(actor, site) and able(actor) and company(actor) and at(actor, royal_gallery) and royalCell(cell) and state(cell, sealed) and holding(actor, queen_cage) and pimConsents(pim) and not emerged(cell_breck).
+    Time 1.
+    On success { Spend queen_cage from actor. Assert state(cell, caged). }
+    Result "You lift the little lantern of rods up round the cell, and close it, and the watcher on the stool beneath stands up and watches you do it and does not stop you. 'The keeper said,' says the watcher under it, to the room, to Dame Brenna, who says nothing.".
+  }
+  Action pierce_breck(actor: group, site: place) "Pierce the Breck princess-cell with a blade before she wakes" {
+    Grave "The princess in it will die in the wax, the Brecks' hundred years of hoping with her.".
+    Requires at(actor, site) and able(actor) and company(actor) and at(actor, royal_gallery) and state(cell_breck, sealed) and not emerged(cell_breck).
+    Time 1 minute.
+    On success { Assert state(cell_breck, pierced). Assert breckPierced(brenna). }
+    Result "The wax is thicker than you thought, and then it gives. Something inside moves once, hard, against the blade, and then not. Dame Brenna Breck makes no sound at all. She gets down off her stool, and puts her hand flat on the cell, and stands there with her eyes shut, and does not move again while you are in the room.".
+  }
+
+  // The night: at eleven the first wakes; at two she goes to the others.
+  Rule daughter_wakes when leftNight() and hour(clock) >= 23 and not emerged(cell_breck) and not emerged(cell_candlish) {
+    Assert emerged(cell_breck). }
+  Rule breck_wakes when emerged(cell_breck) and state(cell_breck, sealed) { Assert state(cell_breck, open). }
+  Rule candlish_first when emerged(cell_breck) and breckPierced(brenna) and not emerged(cell_candlish) and state(cell_candlish, sealed) { Assert emerged(cell_candlish). Assert state(cell_candlish, open). }
+  Observe piping at royal_gallery as sound when leftNight() and emerged(cell_breck) and hour(clock) >= 23 "From the royal gallery a sound you have never heard: a thin high piping, like a tin whistle blown through a comb, toot, toot, toot-toot-toot, the new queen, out, calling. And from inside the other cells, muffled through the wax, the answers: quack, quack, quack, deeper, frightened, still shut in.".
+  Rule daughters_told at royal_gallery when emerged(cell_breck) and leftNight() and within(party, comb) and not spread(daughters_told) says "All over the half-empty Comb people wake and sit up in the dark and listen to the piping, and nobody goes back to sleep." { Assert spread(daughters_told). }
+  Entity daughters_told: fact "the piping".
+  Relation stayedForDaughters(group).
+  Rule saw_daughters when at(party, royal_gallery) and emerged(cell_breck) and leftNight() and not stayedForDaughters(party) { Assert stayedForDaughters(party). }
+  Relation daughtersDone(group).
+  Rule daughters_resolve when emerged(cell_breck) and hour(clock) >= 2 and hour(clock) < 6 and not daughtersDone(brenna) {
+    Assert daughtersDone(brenna). }
+  Rule candlish_stung when daughtersDone(brenna) and state(cell_candlish, sealed) and not breckPierced(brenna) { Assert state(cell_candlish, killed). }
+  Rule ashdown_stung when daughtersDone(brenna) and state(cell_ashdown, sealed) { Assert state(cell_ashdown, killed). }
+  Rule cast_coming when daughtersDone(brenna) and (state(cell_candlish, caged) or state(cell_ashdown, caged)) and not castTomorrow(brenna) { Assert castTomorrow(brenna). }
+  Rule stinging_caged at royal_gallery when daughtersDone(brenna) and at(party, royal_gallery) and state(cell_candlish, caged) and state(cell_ashdown, caged) and not spread(stinging_seen) says "At two the new queen comes along the ceiling of the royal gallery: long, gold, new, quick as a cat. She goes to each cell in turn, and at each she walks round and round the cage, piping, frantic, and cannot get in; and inside, the quacking goes on, frightened and alive. Abel Candlish and Wenn Ashdown sit under their cages with their hands clenched in their laps and do not look at Dame Brenna, and Dame Brenna does not look at them." { Assert spread(stinging_seen). }
+  Rule stinging_seen at royal_gallery when daughtersDone(brenna) and at(party, royal_gallery) and not spread(stinging_seen) says "At two the new queen comes along the ceiling of the royal gallery: long, gold, new, quick as a cat. She goes to each cell in turn. Where a cell is caged she walks round and round the cage, piping, frantic, and cannot get in. Where it is not, she clings to the wax and curls her body under her, and the quacking from inside stops. Under the Candlish cell old Abel Candlish puts his face in his hands; under the Ashdown cell Wenn Ashdown stands up, and sits down again, and stands up." { Assert spread(stinging_seen). }
+  Entity stinging_seen: fact "the stinging".
+  Rule cast_goes when castTomorrow(brenna) and hour(clock) >= 12 and not castWent(brenna) and daughtersDone(brenna) {
+    Assert castWent(brenna). }
+  Rule cast_seen when castWent(brenna) and within(party, hume_brow) and not spread(cast_seen) says "At noon the hum goes up again, thinner, and out of the Comb pours a second, smaller swarm, a cast, behind the princess who was caged; and after it, with bundles hastily tied, the watchers of her cell and their families and forty others who stayed yesterday and have changed their minds, walking out over the Wold after it, south, toward somewhere nobody has danced for." { Assert spread(cast_seen). }
+  Entity cast_seen: fact "the cast".
+  // Pim, or Linnet, names whoever kept the night with the Daughters.
+  Rule named_at_brow when stayedForDaughters(party) and daughtersDone(brenna) and at(party, royal_gallery) and not named(party) says "In the grey of the morning the keeper who stayed comes along the gallery with the jar, and stops in front of you, and dips two fingers in it, and draws them down your forehead, your throat, your wrists, behind your ears, saying the words. 'You stayed with us,' is all that is said. 'Half of us went. You stayed.'" { Assert named(party). }
+}

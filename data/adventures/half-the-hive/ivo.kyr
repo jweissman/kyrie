@@ -1,0 +1,76 @@
+Module hume "Half the Hive" {
+  // ── Ivo Gildersleeve, of the Escort ───────────────────────────────────────────────────────────────────────────────
+  // Born to the Escort: fed by the town, dressed in yellow, good for one thing, which is to walk behind a new queen to
+  // the Toot; and two days after the Leaving, by custom, turned out of the Wold with a cloak and a loaf. He has walked
+  // every path in the Wold out of idleness and knows it better than any Searcher, and nobody has ever asked him
+  // anything. He can come with the company; he can dance; he can be turned out, and follow the company into the world.
+  Person ivo "Ivo Gildersleeve" at drones_gallery {
+    Role "one of the Escort: a tall gold-haired man in a yellow coat, lying on a cushion as if he had been poured there" when not ivoSearcher(ivo).
+    Role "one of the Escort, and a Searcher, with a yellow ribbon tied round the sleeve of his yellow coat" when ivoSearcher(ivo).
+    Ancestry human. Calling bard. Level 2. Peaceable. Pronouns he. Manner jovial.
+    Greets "A tall man in a yellow coat turns his head and looks at you as if you had come expressly to rescue him from boredom. 'Oh, a new face. Thank the Mother. I have been looking at the old ones for thirty-four years.' He makes you a bow, beautifully, without getting up. 'Ivo Gildersleeve, of the Escort, at your service, which is to say at nobody's: we don't serve, we are served. Have a brood-cake. They're made of our little brothers.' His voice is extraordinary: deep and warm, like a cello in a small room. 'What brings you up among the useless?'".
+    Greets again "Ivo raises his cup to you from the cushions. 'My only friend.'".
+    Joins "Ivo stands up, and brushes the crumbs off his yellow coat, and looks round him as if he were seeing everything for the first time. 'Well,' he says. 'Lead on. I know where everything is. I have simply never had a reason to go there.'".
+    Leaves "Ivo sketches you a bow. 'I'll be on the cushions,' he says, 'being decorative. Come and fetch me if you want anything found.'".
+  }
+  // What Ivo says, coming somewhere with the company. (The shared Remarks ask that he be able, which a companion who
+  // has joined is not: friction.md.)
+  Relation ivoRemarked(place).
+  Rule ivo_at_gallow_hollow when travelsWith(ivo, party) and at(party, gallow_hollow) and not ivoRemarked(gallow_hollow) says "Ivo, who has talked since the linden wood, stops talking. After a while he says, very quietly, 'I used to come and sit on the knoll when I was a boy. I never once came in.'" { Assert ivoRemarked(gallow_hollow). }
+  Rule ivo_at_black_crag when travelsWith(ivo, party) and at(party, black_crag) and not ivoRemarked(black_crag) says "'Ah,' says Ivo, looking up at the black bees on the crag. 'The robbers. I came this way once at fifteen and ran the last mile with my coat over my head. There is,' he adds, 'another way. Nobody ever asks.'" { Assert ivoRemarked(black_crag). }
+  Rule ivo_at_far_hollow when travelsWith(ivo, party) and at(party, far_hollow) and not ivoRemarked(far_hollow) says "Ivo walks to the back of the hollow and kneels by the handprints in the old wax, and puts his own hand over one of them, enormous, and laughs. 'I did this,' he says. 'When I was nine. I ran away from the Escort for three days and came here and pressed my hand in the wax beside these and thought I was the first person in the world.' He takes his hand away. 'I wasn't, of course.'" { Assert ivoRemarked(far_hollow). }
+  Rule ivo_at_dell_floor when travelsWith(ivo, party) and at(party, dell_floor) and not ivoRemarked(dell_floor) says "Ivo looks at the scored marks on the chalk. 'Those are dances,' he says. 'Old ones. Somebody left a message.' He squints. 'I never learned to read them. The Escort doesn't dance.'" { Assert ivoRemarked(dell_floor). }
+  Rule ivo_at_toot when travelsWith(ivo, party) and at(party, toot) and not ivoRemarked(toot) says "Ivo looks at the standing stone on the Toot and is quiet for once. 'That's where we walk her,' he says. 'The new queen. All of us in our yellow, behind her, up the hill. She flies, and we stand round the stone and watch her go up, and that's what we're for.' He clears his throat. 'And then they turn us out.'" { Assert ivoRemarked(toot). }
+  Person escort "the Escort" at drones_gallery {
+    Role "a dozen men and women in yellow coats, lolling on cushions, talking about horses they do not own" when at(escort, drones_gallery).
+    Role "a dozen men and women in yellow coats" when not at(escort, drones_gallery).
+    Ancestry human. Numbers 12. Peaceable. Pronouns they.
+  }
+  Relation ivoSearcher(group). Relation ivoAsked(group). Relation ivoSaw(place). Relation ivoDances(place). Relation ivoTurnedOut(group).
+  Relation kestrelTurned(group). Relation kestrelWatched(group).
+  Topic ivo_escort with ivo "Ask Ivo what the Escort is for" when true once {
+    Says "'Ornament.' He spreads his arms to show the yellow. 'The Escort are born, not made: the Gildersleeves, the Hollands, the Pyes. We are fed by the Comb from the cradle, and we do nothing, and we are very good at it, and once in a generation, when there is a new queen, we put on our best yellow and walk behind her up the Toot when she flies to be married, and stand round the stone and gaze up admiringly.' He drinks. 'Like drones, you see. That is the joke. Everybody's joke. Mine too.' He holds the cup up to the light. 'And then two days later they take us down to the edge of the Wold with a cloak and a loaf apiece and point us at the lowland, because the queen's married now and the Comb need not feed us any more. Like drones.' He smiles at you, beautifully. 'I'm told it's very moving.'".
+  }
+  Topic ivo_turning with ivo "Ask Ivo whether he is afraid of the Turning-out" when not ivoSearcher(ivo) and not leavingBegun() once {
+    Says "He laughs. He makes a whole performance of laughing. Then he stops, and looks at his hands, which are very clean. 'I can't do anything,' he says, in a different voice. 'Do you understand? Not anything. I can't spin, I can't carve, I can't cook, I can't dance the dance, I can't keep a bee. I can talk and I can sing and I can walk. I have walked every path in this Wold, every single one, because there was nothing else to do.' He looks up. 'Thirty-four years. And in three days they'll put a loaf in my hand and point at the lowland. What does a man do in the lowland, who can walk?' He picks the cup back up. 'Don't answer. I'm being dull. Have a brood-cake.'".
+  }
+  Topic ivo_walks with ivo "Ask Ivo where he walks" when true {
+    Says "'Everywhere. The wood, the moor, the Dell, the Toot, the knoll, out to the Far Brow and back.' He ticks them off. 'I know where the wild bees are in every tree in the linden wood. I know where the brocks drink. I know a shepherds' drove round the moor that misses the black crag by a mile and has a bothy halfway with a roof on it.' He shrugs. 'Nobody asks the Escort the way. We're not supposed to know it.'".
+    On discuss { Assert knows(actor, drove_known). }
+  }
+  Discovery drove_known "Ivo Gildersleeve knows a shepherds' drove round the heather moor, gentle walking, a mile wide of the black crag, with a bothy halfway: a way to the Far Brow the old could walk.".
+  Topic ivo_come with ivo "Ask Ivo to come out searching with you" when not ivoAsked(ivo) and not travelsWith(ivo, actor) once {
+    Says "He looks at you as if you had spoken in another language. 'Searching,' he says. 'Me.' The cup stops halfway to his mouth. 'Nobody,' he says slowly, 'has ever asked me to come anywhere.' He puts the cup down. 'The Escort don't search. It isn't done.' He stands up. 'I should be delighted.'".
+    On discuss { Assert ivoAsked(ivo). Assert willing(ivo, actor). }
+  }
+  // Where he has stood with the company, he can dance for.
+  Rule ivo_sees when travelsWith(ivo, party) and at(party, ?r) and seenFrom(?r, ?s) and not ivoSaw(?s) { Assert ivoSaw(?s). }
+  Topic ivo_learn with ivo "Ask Ivo whether he would like to learn the dance" when travelsWith(ivo, actor) and danceLearned(actor) and not ivoSearcher(ivo) and not leavingBegun() once {
+    Says "'From you?' He looks delighted and appalled. 'A lowlander teaching the Escort the Searchers' dance. My grandmother would come out of the wax.' He takes off his coat. 'Show me.' You show him, there and then, wherever you are: the run, the waggle, the loop. He is terrible, and then, quite suddenly, he is not: he has a dancer's body and has never had a reason to use it, and when he runs the line the third time you see the place in it. He stops, breathing hard. 'Oh,' he says. 'Oh, I see. It's a kind of singing.'".
+    On discuss { Assert ivoLearned(ivo). }
+  }
+  Relation ivoLearned(group).
+  Action ivo_dance(actor: group, dest: place) "Ask Ivo to dance for {dest} in the Dancing Hall" {
+    Requires able(actor) and company(actor) and at(actor, dancing_hall) and travelsWith(ivo, actor) and ivoLearned(ivo) and ivoSaw(dest) and hollowSite(dest)
+      and not ivoDances(?any) and not committed() and not leavingBegun() and daytime().
+    Time 3.
+    On success { Assert ivoDances(dest). Increase tally(dest) by 1. Assert ivoSearcher(ivo). Assert kestrelWatched(kestrel). }
+    Result "Ivo Gildersleeve of the Escort, in his yellow coat, walks out onto the slope of the Dancing Hall in front of every Searcher in the Brow, and the hall goes quiet in a particular way, the way a room does when someone is about to make a fool of himself. Then he dances. He dances the place the way he talks: too much, gorgeously, with his whole body, every waggle a phrase, and it is the best dance anyone in the hall has seen in years. Three Sisters come down the slope to read him. When he stops, the hall is silent. Then Kestrel Dunn, at the foot of the slope, takes the yellow ribbon off her own arm and walks up and ties it round his.".
+  }
+  Topic kestrel_ivo with kestrel "Ask Kestrel what she made of Ivo's dance" when kestrelWatched(kestrel) once {
+    Says "'Nothing.' She is very busy with a strap. 'A Drone dancing. It reads, I suppose. It reads very well.' The strap will not do up. 'Thirty-four years he's been lying on cushions with that,' she says, to the strap, angrily, 'and nobody thought to ask him.' She gives up on the strap. 'He walked to the Far Brow when he was nine, did he tell you? On his own. I was eleven. I walked there when I was fourteen and found a new little handprint in the wax beside the old ones, fresh, and thought it was a ghost. I told my gran a ghost child had been there.' She looks at you, and then away, and goes rather red under the brown. 'Don't tell him that.'".
+  }
+  // Kestrel and the shepherds' drove: told by a stranger, she scoffs; told with Ivo there to say it, she listens.
+  Topic kestrel_drove with kestrel "Tell Kestrel about the shepherds' drove round the moor" when knows(actor, drove_known) and not kestrelTurned(kestrel) and not travelsWith(ivo, actor) once {
+    Says "'There's no way round the moor.' She does not even look up. 'I've crossed it forty times. You go by the crag, fast, with smoke, and hope.' Then she does look up. 'Who told you there was a way round?' You tell her. 'A Drone.' She laughs, not kindly. 'The Escort can't find the honey in a honey-cake.'".
+  }
+  Topic kestrel_drove_ivo with kestrel "Ask Ivo to tell Kestrel about the shepherds' drove" when knows(actor, drove_known) and not kestrelTurned(kestrel) and travelsWith(ivo, actor) once {
+    Says "Ivo tells her. He does it well: the drove, where it leaves the moor path, the cairns that mark it, the bothy halfway with the names on the lintel, the gentle fall of it down to the Far Brow from the north, where the ground is soft. Kestrel listens with her arms folded, and her face does several things. When he has finished she says, 'Hannet could walk that.' And then: 'Agnes Mellor could walk that. Carrying.' And then, as if it hurt her: 'I didn't know it was there.' She looks at Ivo for a long moment. 'Forty times I've crossed that moor by the crag.' She unfolds her arms. 'Show me tomorrow. If it's there, the Leaving goes by it.'".
+    On discuss { Assert kestrelTurned(kestrel). }
+  }
+  // After the Turning-out, a man with a loaf at the edge of the Wold.
+  Topic ivo_world with ivo "Ask Ivo to come with you, out into the world" when ivoTurnedOut(ivo) and not travelsWith(ivo, actor) once {
+    Says "He looks down the drove road toward the lowland for a long time, his loaf under his arm, his yellow coat already dusty. 'I can walk,' he says. 'I can talk. I can sing.' He tucks the loaf more firmly under his arm. 'And it turns out I can find things.' He smiles, the real smile, not the one for cushions. 'Yes. Thank you. Yes.'".
+    On discuss { Assert willing(ivo, actor). }
+  }
+}

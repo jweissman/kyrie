@@ -1,0 +1,124 @@
+Module hume "Half the Hive" {
+  // ── Crossed: Linnet Amory and Eben Candlish ───────────────────────────────────────────────────────────────────────
+  // Each has decided, secretly, to give up their calling for the other. Eben will walk with the Leaving and leave the
+  // Lantern Stair one course short; Linnet will stay and give the Mother to Pim, who is seventeen. Neither has told the
+  // other. Told that Eben is going, Linnet goes too; told that Linnet is staying, Eben stays; told both, they go together.
+  // Left alone, they cross on the Apron. The Stair can be finished in a night, with white wax, a hand and a voice.
+  Person linnet "Linnet Amory" at mothers_chamber {
+    Role "the Hum-keeper: a young woman with a shaved head and bare arms crawling with Sisters, who does not seem to notice them" when not leavingBegun().
+    Role "the Hum-keeper, with a shaved head, and grass-stains on her gown from the long walk" when leavingBegun() and goes(linnet).
+    Role "the Hum-keeper, with a shaved head, who stayed" when leavingBegun() and not goes(linnet).
+    Ancestry human. Calling cleric. Level 3. Peaceable. Pronouns she. Manner compassionate.
+    Greets "A young woman sitting cross-legged beside the Mother looks up. Her head is shaved and her arms are bare and there are Sisters walking on them, on her shoulders, on her scalp, and she moves them aside with a finger as you might move a cat off a chair. 'Shh,' she says, not to you. Then, to you, low: 'She's resting. She has a long way to go and she's never flown in her life, not since she was a girl.' She looks at the Mother with an expression you have seen on people at a bedside. 'I'm Linnet. I keep her. For four more days.'".
+    Greets again "Linnet looks up from beside the Mother, and moves a Sister off her cheek, and smiles.".
+  }
+  Person eben "Eben Candlish" at wax_gallery {
+    Role "a Waxwright: a long-faced man of forty with burnt fingertips and wax in his beard, who keeps looking up at the Stair" when not leavingBegun().
+    Role "a Waxwright, with wax in his beard" when leavingBegun().
+    Ancestry human. Peaceable. Pronouns he. Manner grim.
+    Wants white_wax.
+    Greets "A long-faced man at the foot of the Stair is warming a blade in a little brazier, and does not look round. 'Don't touch it,' he says. 'Everyone touches it.' Then he looks round, and sees you are a stranger, and something in his face lets go. 'Sorry. Nineteen years. You'd think they'd stop touching it.' He looks up the spiral to where it ends in air. 'One course,' he says. 'One turn. And then it goes all the way to the Crown and the sun comes down it at midsummer like water down a drain.'".
+    Greets again "Eben Candlish looks up from his brazier, and then up at the Stair, as he always does.".
+  }
+  Person pim "Pim Garnock" at mothers_chamber {
+    Role "the keeper's novice: a gangling boy of seventeen with a newly shaved head, sunburnt where the hair was" when not leavingBegun().
+    Role "the keeper's novice, keeping what is left" when leavingBegun() and not goes(pim).
+    Role "the keeper's novice, keeping the Leaving's queen, out of his depth" when leavingBegun() and goes(pim).
+    Ancestry human. Peaceable. Pronouns he. Manner cheerful.
+    Greets "A gangling boy with a raw scalp is holding a bowl of something for the Sisters to drink from, and spilling it. 'Sorry, sorry,' he says to the bees, and then to you. 'I'm Pim. I'm the novice. When Linnet goes I'll be the keeper.' He laughs, a little high. 'Of the Daughters. Three of them. In the royal gallery. Who'll wake up and try to kill each other.' He spills some more. 'It'll be fine.'".
+    Greets again "Pim looks up and spills something. 'Oh, hello.'".
+  }
+
+  Relation ebenGoing(group). Relation linnetStaying(group). Relation linnetKnows(group). Relation ebenKnows(group).
+  Initially Assert ebenGoing(eben). Initially Assert linnetStaying(linnet).
+  Discovery eben_secret "Eben Candlish means to walk with the Leaving and leave the Lantern Stair unfinished, for Linnet's sake. He has not told her.".
+  Discovery linnet_secret "Linnet Amory means to stay behind and give the Mother to Pim, for Eben's sake. She has not told him.".
+  Relation stairLit(group). Relation stairFailed(group).
+
+  // Eben.
+  Topic eben_stair with eben "Ask Eben about the Lantern Stair" when not stairLit(eben) and not leavingBegun() {
+    Says "'Every Waxwright makes one thing that's theirs. That's mine.' He follows it up with his eyes, turn by turn: flowers, Sisters, the faces of the Brow, children, hands. 'My master started it. I took it on at twenty-one. Every tread is somebody: that's Kestrel at fourteen, that's old Penry's first barrel, that's Linnet the day she was made keeper.' He stops. 'The last course wants white wax. New comb, never brooded. The Sisters don't draw it white any more, not in a hive this old; the only white comb left in the Wold is in places nobody goes.' He shrugs, too hard. 'It doesn't matter now.'".
+  }
+  Topic eben_why with eben "Ask Eben why it doesn't matter now" when not stairLit(eben) and not knows(actor, eben_secret) and not leavingBegun() once {
+    Says "He looks at you a long time, and decides, and you can see him deciding: a stranger, who will be gone in a week. 'Because I'm going,' he says. 'With the Leaving. With her.' He doesn't say who. 'She's the keeper; keepers go. And I'm not going to stand on the Apron and watch her walk off after the bees and then come up here and carve. So I'm going.' He looks up the Stair. 'Somebody'll finish it. Or not. It's wax.' His voice does something on the last word. 'I haven't told her. She'd only tell me to stay and finish it, and she'd be right, and I'd stay.' He turns back to his brazier. 'Don't tell her.'".
+    On discuss { Assert knows(actor, eben_secret). }
+  }
+  Topic eben_told with eben "Tell Eben that Linnet means to stay behind for him" when knows(actor, linnet_secret) and not ebenKnows(eben) and not leavingBegun() once {
+    Says "He puts the blade down on the bench, very carefully, as if it might go off. 'Stay,' he says. 'Linnet. Give the Mother to Pim?' And then, getting it: 'For me. So I could finish this.' He looks up the Stair and for a moment you think he will knock it down. 'The stupid,' he says. 'The stupid, stupid,' and then he laughs, and sits down on the bench with his burnt hands over his face, and laughs until it is not laughing.".
+    On discuss { Assert ebenKnows(eben). }
+  }
+  Topic eben_old_comb with eben "Ask Eben for some old dark comb" when knows(actor, brock_truce) and not holding(actor, old_comb) once {
+    Says "'Brood comb? Old black stuff?' He jerks his head at a heap of it under the bench, gone dark as liver with a hundred years of being lived in. 'Take what you like. Nobody can carve it.' He watches you pick a slab out. 'What do you want it for?' You tell him. 'The brock-gift,' he says slowly. 'My grandad used to talk about that. They stopped doing it when the Searchers stopped reading the old marks.'".
+    On discuss { Give old_slab to actor. }
+  }
+  Item old_slab "a slab of old black comb" is old_comb at limbo.
+  Event white_wax_given near eben when keeps(eben, white_slab) "Eben Candlish takes the white comb from you in both hands and holds it up to the light, and the light comes through it as if through a leaf. 'Where,' he says, and then, 'no, don't, I can guess.' He is already reaching for his blades. 'Tonight. It must be tonight; it has to set cool. I'll want a pair of hands to hold the mould while it takes, all night, without moving. Or,' he hesitates, 'a voice. The old Waxwrights sang it in. The hum's key. It sets truer sung.'" then { Assert ebenReady(eben). }
+  Relation ebenReady(group).
+  Action stair_hold(actor: group, site: place) "Hold the mould for Eben through the night while the last course sets" {
+    Requires at(actor, site) and able(actor) and company(actor) and at(actor, wax_gallery) and at(eben, wax_gallery) and ebenReady(eben) and not stairLit(eben) and (hour(clock) >= 20 or hour(clock) < 2).
+    Time 30.
+    Resolve check(actor, brawn, dc_fair).
+    On success { Assert stairLit(eben). }
+    On failure { Assert stairFailed(eben). }
+    Result "Eben warms the white wax in a copper over the brazier until it goes clear as water, and pours it, and you hold the mould: a curved trough of oiled wood the length of a coffin, up on the last turn of the Stair, braced against your shoulder, while the wax cools and clouds and whitens inside it. You hold it for five hours. Your arms burn and then stop burning and then burn again. Eben carves as it sets, fast, not talking, and you see under his knife a face coming out of the wax, and then another. Toward dawn he says, 'Let go,' and you do, and the course stays: a last white turn of the Stair, joining the old wax to the hole in the ceiling, and through the hole, grey, the light of the Crown.".
+    Otherwise "Somewhere around three your arm shakes, once, and the mould moves a finger's breadth, and the wax inside it cracks across like ice. Eben says nothing at all. He tips the cracked course out into the copper to melt down again. 'Tomorrow night,' he says. 'It'll take it twice.'".
+  }
+  Action stair_sing(actor: group, site: place) "Sing the hum's key to the last course of the Stair while it sets" {
+    Requires at(actor, site) and able(actor) and company(actor) and at(actor, wax_gallery) and at(eben, wax_gallery) and ebenReady(eben) and not stairLit(eben) and (hour(clock) >= 20 or hour(clock) < 2).
+    Time 30.
+    Resolve check(actor, performance, dc_fair).
+    On success { Assert stairLit(eben). }
+    On failure { Assert stairFailed(eben). }
+    Result "Eben pours the white wax, clear as water, into the mould on the last turn, and wedges it, and nods to you; and you sing. Not a song: the hum. The note under everything in the Comb, which you find you know, after these days, the way you know your own pulse. You hold it, and when your breath goes you take another and hold it again, and the Sisters on the walls of the gallery lean toward you, and some of them begin to hum with you, and the wax in the mould clouds and whitens evenly from the edges in, without a crack, while Eben carves faces into it as it comes. By dawn your throat is raw and the Stair goes all the way up.".
+    Otherwise "You lose the note around three: your voice cracks, the Sisters on the walls go quiet, and the wax in the mould cracks with it, across, like ice. Eben tips it back into the copper. 'Tomorrow night,' he says. 'It'll take it twice.'".
+  }
+  Action stair_ivo(actor: group, site: place) "Ask Ivo to sing the hum's key to the last course while it sets" {
+    Requires at(actor, site) and able(actor) and company(actor) and at(actor, wax_gallery) and at(eben, wax_gallery) and ebenReady(eben) and not stairLit(eben) and travelsWith(ivo, actor) and (hour(clock) >= 20 or hour(clock) < 2).
+    Time 30.
+    On success { Assert stairLit(eben). Assert ivoSang(ivo). }
+    Result "Ivo looks at the mould, and at Eben, and at you, and for once makes no joke at all. He takes off his yellow coat and folds it and sits down on the bottom step, and opens his mouth, and the hum comes out of him: deep, steady, enormous, the voice he has been wasting all his life on feasts. The Sisters on every wall of the gallery turn toward him. Some come down and stand round him on the floor. All night he holds it, breathing in the gaps so you cannot hear him breathe, and the white wax sets in the mould as evenly as frost on a window, and Eben, carving, keeps stopping to look at him. At dawn Ivo closes his mouth and says, hoarsely, 'Well. Nobody's ever asked me that before.'".
+  }
+  Relation ivoSang(group).
+  Rule stair_retry when stairFailed(eben) and hour(clock) >= 12 and hour(clock) < 13 { Retract stairFailed(eben). }
+  Rule stair_dawn at wax_gallery when stairLit(eben) and hour(clock) >= 5 and not spread(stair_dawn) says "At sunrise the sun comes in at the window of the Crown and down the Lantern Stair, all the way down, for the first time, turn by turn, lighting each tread from inside: the flowers, the bees, the hands, the faces of the Brow one after another, gold, and at the bottom, white, the newest faces. People come running from all over the Brood to stand at the foot of it and look up. Somebody starts to cry. Eben Candlish sits on the bottom step with his chin on his fists and does not say anything at all." { Assert spread(stair_dawn). }
+  Entity stair_dawn: fact "the Stair lit".
+  Passage lantern_stair "the Lantern Stair" is stair between wax_gallery and mothers_chamber opening when stairLit(eben) "The Lantern Stair climbs round and round toward the Crown and stops, three turns up, at nothing.".
+  Observe stair_done at wax_gallery as feature when stairLit(eben) "The Lantern Stair goes all the way up now, to the Crown, its last course white, and in the white you can find, if you look, a face you know.".
+
+  // Linnet.
+  Topic linnet_mother with linnet "Ask Linnet about the Mother" when not leavingBegun() {
+    Says "'She's nine years old, which is very old for a queen, and she has laid more eggs than there are stars, and every Sister in this Comb is her daughter.' Linnet strokes the dark flank. 'Old Garnock, the keeper before me, said she'd swarm this year, and he was right, and then he died in the spring before he could see it, so I'm her keeper.' She smiles crookedly. 'I'm twenty-four. I'll walk her across the Wold to wherever the dancers say, and sit with her while they build, and keep her till she dies, and then I'll keep her daughter. That's what a keeper is.'".
+  }
+  Topic linnet_ready with linnet "Ask Linnet whether she is ready to go" when not knows(actor, linnet_secret) and not leavingBegun() once {
+    Says "She does not answer for a while. A Sister walks across her face and she closes her eyes for it. 'No,' she says. 'I'm not going.' She says it so quietly you hardly hear it under the hum. 'I'll give her to Pim. Keepers have handed over before, when they were ill. I'll say I'm ill.' She opens her eyes. 'There's a man in the Waxwrights' gallery who has given nineteen years to a stair, and it wants one course, and if I go he'll come with me; I know he will; he'll leave it. So I'm not going. I'll stay and he can finish it and I'll be in the Comb when he does.' She looks at Pim spilling the Sisters' water across the chamber. 'Pim will be all right,' she says. 'Pim will be fine.' You can hear she does not believe it.".
+    On discuss { Assert knows(actor, linnet_secret). }
+  }
+  Topic linnet_told with linnet "Tell Linnet that Eben means to go with the Leaving, and leave the Stair" when knows(actor, eben_secret) and not linnetKnows(linnet) and not leavingBegun() once {
+    Says "Linnet sits very still. Then she says, 'He what?' loudly enough that the Mother stirs, and every Sister in the ring turns its head. 'He'd leave it,' she says, lower. 'Nineteen years. For me.' She puts her hand on the Mother's back as if to steady herself. 'And I was going to stay. For him. So he could finish it.' She laughs, once, appalled. 'We'd have passed each other on the Apron. Him going, me staying. Both of us being noble.' She is quiet. Then she says, decided, a keeper: 'I'm going. I keep her; I go. If he comes, he comes.'".
+    On discuss { Assert linnetKnows(linnet). }
+  }
+  // Told both, they meet: wherever the second is told, the other comes.
+  Rule lovers_meet at wax_gallery when linnetKnows(linnet) and ebenKnows(eben) and not spread(lovers_meet) says "Linnet Amory comes down into the Waxwrights' gallery with Sisters still on her arms, and every Waxwright at every bench stops work. Eben stands up. Neither of them says anything for so long that someone drops a blade. Then Linnet says, 'You were going to leave it,' and Eben says, 'You were going to stay,' and Linnet says, 'Idiot,' and Eben says, 'Yes,' and that seems to be all that needs saying, because she walks into his arms, Sisters and all, and the Waxwrights start working again very loudly, all at once, looking at their benches." { Assert spread(lovers_meet). }
+  Entity lovers_meet: fact "Linnet and Eben".
+  Topic linnet_dead with linnet "Ask Linnet to let Agnes Mellor carry Tobit with the Leaving" when wantsTobit(agnes) and not linnetPermitsDead(linnet) and not leavingBegun() once {
+    Says "'No.' She says it at once, gently. 'The dead stay. They always stay. That's what the Capped Gallery is: the ones who went are the Comb's future, and the ones who stay are its past, and the dead are with the past.' She strokes the Mother. 'If we carried our dead, we'd carry everything. Every Leaving would be a funeral procession, and the new comb would be built round coffins.' She looks at you. 'I know what Agnes wants. I'm sorry.'".
+  }
+  Action plead_tobit(actor: group, site: place) "Tell Linnet about the dark watch you kept with Agnes, and what she said to him" {
+    Speaker linnet.
+    Requires at(actor, site) and able(actor) and at(actor, mothers_chamber) and at(linnet, mothers_chamber) and keptWatch(actor) and wantsTobit(agnes) and not linnetPermitsDead(linnet) and not leavingBegun().
+    Time 1.
+    On success { Assert linnetPermitsDead(linnet). }
+    Result "You tell her about the watch in the dark: Agnes's voice going on and on to the shape in the wax, about the goat, and the roof, and their son in Ketter, and whose turn it was to fetch water, as if he could answer. Linnet listens with her hand on the Mother. When you have done she says, 'She talked to him about the goat.' And then, after a while: 'Nobody ever wrote down that the dead must stay. It's just what's done.' She looks at the old queen, who is leaving everything she ever made. 'Tell Agnes she can carry him. Tell her I'll walk beside her.'".
+  }
+  Relation linnetPermitsDead(group).
+  Topic linnet_corve with linnet "Tell Linnet about Squire Corve and his twelve years of drawings" when knows(actor, corve_refused) and not linnetWillName(linnet) and not leavingBegun() once {
+    Says "'Corve.' She knows the name. 'He writes to the keeper every spring. Old Garnock used to read his letters out to us in the Crown, the drawings especially; they're better than anything in the Brow. Every leg-hair. And every spring he asks to be named, and every spring Elspet says no, because he's a lowland lord, and lowland lords own things.' She frowns. 'He's never asked me. I've only been keeper since Lady Day.' She thinks. 'If he gave up whatever he's doing at Larkhill, and if he gave the land, freely, so that whatever nested there was nobody's,' and she looks at the Mother. 'I'd name him myself. Elspet can't stop the keeper. A man who has drawn every hair on a Sister's leg for twelve years is more of the Comb than half the Escort.'".
+    On discuss { Assert linnetWillName(linnet). }
+  }
+  Relation linnetWillName(group).
+  Topic pim_daughters with pim "Ask Pim about the Daughters" when not leavingBegun() {
+    Says "'Three princess cells. One's the Brecks', one's the Candlishes', one's the Ashdowns'. Every queen-cell has a household to watch it, it's an honour.' He swallows. 'When the Mother goes, the first princess out pipes; you can hear it all through the Comb. And the others answer from inside their cells, because they're not out yet. And then the first one goes to their cells and stings them through the wax.' He looks at his bowl. 'That's how it's always been. One queen.' He lowers his voice. 'Unless the other cells are caged. Then she can't get at them, and the second one comes out and leaves with some of the bees: a cast, a little Leaving. Old Garnock did it once. Everybody said it was unnatural.'".
+    On discuss { Assert knows(actor, cages_known). }
+  }
+  Discovery cages_known "If the other princess cells are caged before the first princess wakes, she cannot reach them, and the second wakes and leaves with a cast: a second, smaller Leaving. It was done once, in old Garnock's time.".
+}

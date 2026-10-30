@@ -1,0 +1,62 @@
+Module hume "Half the Hive" {
+  // ── The Gallowtree: the seventh Leaving ───────────────────────────────────────────────────────────────────────────
+  // Eighty-one years ago the seventh Leaving went to the Gallowtree, close, vast, sheltered; and the tree's heart was
+  // rotten and wet, and the comb sagged in the first winter, and the honey soured, and they died, one by one, and were
+  // capped by the ones still living, until the last, the Capper's girl, Merrit Coke, capped the last but herself and sat
+  // down by the door. The Brow says they went on east. The white comb they drew first is still up in the dry top of the
+  // hollow, never brooded, the last white comb in the Wold.
+  Thing seventh "the capped of the seventh Leaving" at gallow_hollow {
+    State kept "In the grey comb of the walls, upright, capped in wax gone the colour of old bone: men, women, a few children, in clothes eighty years out of fashion, eyes shut. Some have their hands folded. Some do not. One woman holds a baby.".
+  }
+  Observe seventh_seen at gallow_hollow when tried(seventh, looking) and not knows(party, lost_leaving) "You go round the walls slowly. Forty-one of them. The capping gets worse as you go: the first are smooth and clear and careful, the work of a Capper with time; then rougher; then thin, hurried, cracked, as if done by someone who was cold, or ill, or alone. The last few are hardly capped at all." teaches lost_leaving.
+  Discovery lost_leaving "Inside the Gallowtree are the seventh Leaving, eighty-one years dead: forty-one people capped in the comb by each other, more roughly as they went, as if they died one by one through a winter. The Brow says they went on east.".
+  Thing merrit "the one by the door" at gallow_hollow {
+    State sitting "By the door, on the floor, against the wall, sits the one who capped the others: uncapped, because there was nobody left to do it. Bones in a brown Capper's apron, a sealing-iron by one hand. In the lap, something small.".
+  }
+  Observe merrit_seen at gallow_hollow when tried(merrit, looking) and not knows(party, merrit_found) "In the lap of the bones, where the hands were, is a little bee carved in wax, no bigger than a thumb, very carefully done, every leg; and cut into the iron by the hand, small and square: M. COKE." teaches merrit_found.
+  Discovery merrit_found "The last of the seventh Leaving, the one who capped the others and was never capped, was M. Coke: a Capper's girl, with a little wax bee in her lap.".
+  Action take_wax_bee(actor: group, site: place) "Take the little wax bee from the lap of the one by the door" {
+    Requires at(actor, site) and able(actor) and company(actor) and at(actor, gallow_hollow) and knows(actor, merrit_found) and not tookBee(actor).
+    Time 1 minute.
+    On success { Give merrit_bee to actor. Assert tookBee(actor). }
+    Result "The bones do not hold it. It comes away into your hand, warm from the green light, lighter than it looks.".
+  }
+  Relation tookBee(group).
+  Item merrit_bee "a little bee carved in wax" is wax_bee at limbo.
+  Topic hannet_bee_dancing with hannet "Give Hannet the little wax bee from the Gallowtree" when holding(actor, wax_bee) and not hannetHasBee(hannet) and dancesFor(hannet, gallowtree) once {
+    Says "Hannet takes it in her palm and does not say anything. Then she reaches inside her collar and pulls out a cord, and on the cord, worn smooth and dark with seventy years of being held, is another bee, its twin, every leg. She holds them side by side. 'Merrit,' she says. 'My aunt Merrit. She went with the seventh. She gave me this one when I was four and said she'd send the other when they'd built, and that would be the sign.' She looks at you. 'Where was it?' You tell her: the tree, the grey comb, the people standing in it; the one by the door, uncapped, who capped all the others and had nobody to do it for her. Hannet closes her hand on both bees. 'Well,' she says. 'She sent it.' After a while she gets up, very slowly, with her stick, and goes and sits by the wall, and does not dance any more.".
+    On discuss { Spend wax_bee from actor. Assert hannetHasBee(hannet). Assert knows(actor, lost_leaving). Assert hannetStopped(hannet). Retract dancesFor(hannet, gallowtree). Decrease tally(gallowtree) by 1. Assert knows(actor, merrit_aunt). }
+  }
+  Topic hannet_bee with hannet "Give Hannet the little wax bee from the Gallowtree" when holding(actor, wax_bee) and not hannetHasBee(hannet) and not dancesFor(hannet, gallowtree) once {
+    Says "Hannet takes it in her palm and does not say anything. Then she reaches inside her collar and pulls out a cord, and on the cord, worn smooth and dark with seventy years of being held, is another bee, its twin, every leg. She holds them side by side. 'She said she'd send for me,' Hannet says. 'When they'd built. She said she'd send this one, and that would be the sign.' She closes her hand on both of them. 'Well,' she says. 'She sent it.'".
+    On discuss { Spend wax_bee from actor. Assert hannetHasBee(hannet). Assert knows(actor, lost_leaving). }
+  }
+  Relation hannetHasBee(group).
+  // Its heart.
+  Thing gallow_heart "the heart of the Gallowtree" at gallow_hollow {
+    State standing "At the back of the hollow the inner wood of the tree goes up into the dark, ridged and grey, wet-looking.".
+  }
+  Observe heart_prodded at gallow_hollow when (tried(gallow_heart, prodding) or tried(gallow_heart, prying) or tried(gallow_heart, pushing)) and not knows(party, gallow_rotten) "The wood gives. It is soft as cake under a crust, and wet; a lump of it comes away, black inside, crawling with white grubs, and from somewhere up in the dark there is a slow drip of water, and the whole great trunk round you seems to sigh." teaches gallow_rotten.
+  Observe heart_heard at gallow_hollow when tried(gallow_heart, listening) and not knows(party, gallow_rotten) "With your ear to the wood you hear water: a slow drip, deep inside, and the tick of something eating. The tree is green outside and wet and rotten in." teaches gallow_rotten.
+  Discovery gallow_rotten "The Gallowtree is green outside and wet and rotten at its heart: comb built in it would sag and sour in a winter.".
+  // The white comb, high in the dry top.
+  Thing white_comb "the white comb high in the hollow" at gallow_hollow {
+    State whole "High up in the hollow, above the capped, where the dry top of the trunk catches the light, a few sheets of comb hang that are not grey but white, white as milk: the first comb the seventh Leaving's bees drew, before anything was born in it.".
+    State cut "High in the hollow, where the white comb hung, a clean pale scar.".
+  }
+  Hazard comb_fall "a fall in the hollow of the Gallowtree" means "Deal (2d4) physical damage to ally unless dexterity save against (11).".
+  Action cut_white(actor: group, site: place) "Climb the old comb of the hollow and cut a slab of the white" {
+    Description "Up the grey comb, past the faces, to the white.".
+    Requires at(actor, site) and able(actor) and company(actor) and at(actor, gallow_hollow) and state(white_comb, whole).
+    Time 3.
+    Resolve check(actor, climbing, dc_fair).
+    On success { Assert state(white_comb, cut). }
+    On failure { Assert strikes(comb_fall, actor). }
+    Result "You go up the old grey comb with your knife in your teeth, careful where you put your hands and feet, because the hands and feet are not all wax; and the white comb comes away under your knife in one sheet, light as paper.".
+    Otherwise "Halfway up, the grey comb crumbles under your foot like stale bread, and you come down among the capped, hard.".
+  }
+  Rule white_cut when state(white_comb, cut) and not whiteTaken(party) { Assert whiteTaken(party). Give white_slab to party. }
+  Relation whiteTaken(group).
+  Item white_slab "a slab of white comb" is white_wax at limbo.
+  Initially Assert suits(gallow_heart, listening). Initially Assert suits(gallow_heart, pushing). Initially Assert suits(gallow_heart, prodding).
+}

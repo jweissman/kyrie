@@ -1,0 +1,208 @@
+Module hume "Half the Hive" {
+  // ── Who dances for what ───────────────────────────────────────────────────────────────────────────────────────────
+  // tally(place) is how many dance for it: the Sisters' own scouts (two for the Far Brow, one for the Dell, and one more
+  // for the Dell once the brocks are no danger), and the Searchers: Kestrel for the Far Brow, Hannet for the Gallowtree,
+  // Moss for the Dell; the company, once taught and having seen a place; Ivo, once he has seen one with the company;
+  // Hannet again, if she is promised a way. Every change to who dances is made where it happens, with its tally.
+  Measure tally(place). Relation dancesFor(group, place).
+  Initially Set tally(far_brow) to 3. Initially Set tally(chalk_dell) to 2. Initially Set tally(gallowtree) to 1. Initially Set tally(larkhill) to 0.
+  Initially Assert dancesFor(kestrel, far_brow). Initially Assert dancesFor(hannet, gallowtree). Initially Assert dancesFor(moss, chalk_dell).
+  Relation sistersDell(place).
+
+  // Where the Leaving camps at each, and the bivouac in the lindens.
+  Relation siteRoom(place, place).
+  Initially Assert siteRoom(gallowtree, gallow_knoll). Initially Assert siteRoom(chalk_dell, dell_floor).
+  Initially Assert siteRoom(larkhill, chantry_yard). Initially Assert siteRoom(far_brow, far_hollow). Initially Assert siteRoom(high_wold, honey_oak).
+
+  // ── The Dancing Hall, as it leans ─────────────────────────────────────────────────────────────────────────────────
+  Observe hall_far at dancing_hall as sign when not leavingBegun() and tally(far_brow) > 0 "For the Far Brow, east over the moor, a long waggling run straight toward the window and a little left, a day's distance: {tally(far_brow) in words} dancing it.".
+  Observe hall_dell at dancing_hall as sign when not leavingBegun() and tally(chalk_dell) > 0 "For the Chalk Dell, south-east: {tally(chalk_dell) in words}.".
+  Observe hall_gallow at dancing_hall as sign when not leavingBegun() and tally(gallowtree) > 0 "For the Gallowtree, a short run west, two hours: {tally(gallowtree) in words}.".
+  Observe hall_lark at dancing_hall as sign when not leavingBegun() and tally(larkhill) > 0 "For Larkhill, west, toward the lowland: {tally(larkhill) in words}.".
+  Observe hall_sisters at dancing_hall as feature when not leavingBegun() "The Searchers do not dance alone. On the upper slope, where the wax is darkest, Sisters dance too, the bees' own scouts, huge and fast and silent, running their lines and turning; and where a Sister dances, the people watching go quiet and lean to read her.".
+  Observe hall_quorum at dancing_hall as sign when committed() and not leavingBegun() "Something has changed in the hall. The dancers have stopped arguing. Every run on the slope, bee and human, goes the same way now, over and over, and the hum has gone up and up until the wax buzzes under your bare feet. She will go at noon.".
+  Observe hall_empty at dancing_hall when leavingBegun() "The Dancing Hall is empty. The marks of this week's dances are the newest on the walls, pale and sharp among the old ones.".
+
+  // ── Kestrel Dunn, Wardmistress of the Searchers ───────────────────────────────────────────────────────────────────
+  Person kestrel "Kestrel Dunn" at dancing_hall {
+    Role "the Wardmistress of the Searchers, lean and brown, two fingers short on her left hand" when not leavingBegun().
+    Role "the Wardmistress of the Searchers, a lean brown woman with cropped grey hair, walking at the head of the Leaving" when leavingBegun().
+    Ancestry human. Calling ranger. Level 4. Peaceable. Pronouns she. Manner acerbic.
+    Greets "A lean brown woman at the foot of the slope looks you up and down the way a farrier looks at a horse. 'You came about the notice,' she says. It is not a question. 'Good. I've two hundred people to house by Midsummer and half my Searchers have decided to stay home and grow old. Can you walk? Can you look? Can you tell a dry hollow from a wet one? Then you'll do.'".
+    Greets again "Kestrel looks round from the slope. 'Well? What have you found?'".
+  }
+  Relation searcher(group). Relation danceLearned(group). Relation reported(group, place).
+  Discovery sites_named "Kestrel Dunn named the places the Searchers are dancing for: the Gallowtree, two hours west on its knoll, Hannet Coke's; the Chalk Dell, south-east, Moss Ashdown's; the Far Brow, a day east across the moor, her own; and something at Larkhill on the Wold's edge that the Sisters keep flying to, which she does not like.".
+  Initially Assert leadsTo(sites_named, gallow_knoll). Initially Assert leadsTo(sites_named, dell_rim). Initially Assert leadsTo(sites_named, far_ledge). Initially Assert leadsTo(sites_named, larkhill_lane).
+  Topic kestrel_hire with kestrel "Ask to be taken on as a Searcher" when not searcher(actor) and not leavingBegun() once {
+    Says "'Taken on.' Kestrel takes a strip of yellow ribbon out of her belt and ties it round your arm, hard, with her teeth and her good hand. 'Elspet at the Scenting House will scent you for nothing while you wear that. You're paid in wax, a cake for every place you go and look at and come back and tell me about, honestly. Four places worth the walk, this year.' She counts on her short hand. 'The Gallowtree: Hannet's. Two hours west, on a knoll, big hollow lime, close, which is all Hannet cares about. The Chalk Dell: Moss's. South-east. Dry, warm, a cave in the chalk, and the brocks live in it, which Moss thinks is a selling point. The Far Brow: mine. A day east, over the moor, and the most beautiful place in the Wold. And Larkhill.' Her face shuts. 'A lowland squire's got a chapel on the Wold's edge, and for a week the Sisters' own scouts have been flying out to it and coming back excited, and I don't know why, and I don't like not knowing.'".
+    On discuss { Assert searcher(actor). Assert knows(actor, sites_named). }
+  }
+  Topic kestrel_teach with kestrel "Ask Kestrel to teach you the dance" when searcher(actor) and not danceLearned(actor) once {
+    Says "She stands you at the bottom of the slope with the sun coming in at the round window. 'Straight up is the sun. Wherever it is. Run up the slope, that's toward it; run off to the left of straight up, that's left of the sun, by as much.' She runs a line, waggling her hips, comically and then not comically at all: you see the moor in it. 'Waggle as long as it is far. Waggle as hard as it is good. Loop back, do it again, till they've got it.' She makes you do it, twenty times, thirty, until your legs know it and the Searchers sitting round the walls stop laughing. 'You dance like a lowlander,' she says at last. 'But it reads. Don't dance for anything you haven't stood in.'".
+    On discuss { Assert danceLearned(actor). }
+  }
+  Topic kestrel_why with kestrel "Ask Kestrel why the Far Brow" when not leavingBegun() {
+    Says "'Because it's the best place in the Wold, and because the Sisters think so too: look at them.' She nods up the slope at the bees' dancers. 'My gran said the Brow's founders came from there. I've danced for it at every Leaving since I was fourteen, and every time the Mother's gone somewhere nearer, and every time I've been right and they've been wrong. Ketter's damp. The Nine Holes have the moth. Sallowcomb starves every third winter.' She folds her arms. 'This time the bees are with me.' Then, quieter, almost to herself: 'It's a long walk. I know it's a long walk.'".
+  }
+  Topic kestrel_fingers with kestrel "Ask Kestrel about her hand" when true once {
+    Says "She holds it up: thumb, first finger, and two neat stumps. 'Brock,' she says. 'In the Dell, when I was Moss's age and as stupid. I put my hand in a hole to feel how deep it went.' She puts the hand away. 'It went quite deep.'".
+  }
+  // Reports: a cake of wax for each, and what she makes of it.
+  Topic report_gallow with kestrel "Tell Kestrel what you found at the Gallowtree" when searcher(actor) and hasSeen(gallowtree) and not reported(actor, gallowtree) and not leavingBegun() once {
+    Says "She hears you out. When you tell her about the people in the comb inside the tree she is quiet a long time. 'The seventh Leaving,' she says. 'We say they went on east.' She gives you a cake of wax and does not look at you. 'Don't tell Hannet. Or do. I don't know. Her aunt went with them.'".
+    On discuss { Assert reported(actor, gallowtree). Give cake_gallow to actor. Assert knows(actor, merrit_aunt). }
+  }
+  Topic report_dell with kestrel "Tell Kestrel what you found in the Chalk Dell" when searcher(actor) and hasSeen(chalk_dell) and not reported(actor, chalk_dell) and not leavingBegun() once {
+    Says "'Dry. Warm. South. Yes.' She pays you. 'And the brocks?' She listens. 'If you can find a way to live beside them, it's not a bad place. If Moss's way is to go in there with a spear, it's a grave.'".
+    On discuss { Assert reported(actor, chalk_dell). Give cake_dell to actor. }
+  }
+  Topic report_lark with kestrel "Tell Kestrel what you found at Larkhill" when searcher(actor) and hasSeen(larkhill) and not reported(actor, larkhill) and not leavingBegun() once {
+    Says "'A tower.' She frowns. 'A good tower; I'll give him that. Dry, high, south wall.' She pays you. 'But it's his. Lowland law: what nests on a man's land is his. Two hundred of us and the Mother, rent-payers to a squire.' She spits, neatly, off the slope. 'Over my dead body. Over the Mother's.'".
+    On discuss { Assert reported(actor, larkhill). Give cake_lark to actor. }
+  }
+  Topic report_far with kestrel "Tell Kestrel what you found at the Far Brow" when searcher(actor) and hasSeen(far_brow) and not reported(actor, far_brow) and not leavingBegun() once {
+    Says "Her whole face changes when you say you've stood under it, as if you had brought her news of someone she loved. 'The handprints,' she says. 'Are they still there? My gran told me about the handprints.' She gives you two cakes of wax instead of one, and then looks at the second as if she does not know how it got into your hand, and lets you keep it.".
+    On discuss { Assert reported(actor, far_brow). Give cake_far to actor. Give cake_far2 to actor. }
+  }
+  Item cake_gallow "a cake of Brow wax" is wax_cake at limbo. Item cake_dell "a cake of Brow wax" is wax_cake at limbo. Item cake_lark "a cake of Brow wax" is wax_cake at limbo.
+  Item cake_far "a cake of Brow wax" is wax_cake at limbo. Item cake_far2 "a cake of Brow wax" is wax_cake at limbo.
+  Discovery merrit_aunt "Hannet Coke's aunt, Merrit Coke, went with the seventh Leaving to the Gallowtree eighty-one years ago.".
+
+  // The company's dance.
+  Relation partyDances(place).
+  Query dancedAny() means partyDances(?s).
+  Action dance_for(actor: group, dest: place) "Dance for {dest} in the Dancing Hall" {
+    Description "Run your line on the slope for a place you have stood in, and add your dance to those for it.".
+    Requires able(actor) and company(actor) and at(actor, dancing_hall) and danceLearned(actor) and hollowSite(dest) and hasSeen(dest)
+      and not dancedAny() and not committed() and not leavingBegun() and daytime().
+    Time 3.
+    Resolve check(actor, performance, dc_easy).
+    On success { Assert partyDances(dest). Increase tally(dest) by 1. }
+    Result "You run your line up the tilted floor toward the sun, waggling, and loop back, and run it again, and again. The first time the Searchers watch. By the fifth a Sister has come down the slope to stand beside you, her feelers on your back, reading you; and then she turns, and runs your line herself, faster and better.".
+    Otherwise "You run your line, and loop, and run it; but you lose the angle on the loop, and the Searchers watching shake their heads, and a Sister who came down to read you turns away. Try again when you have your breath.".
+  }
+  Action dance_instead(actor: group, dest: place, old: place) "Dance for {dest} instead of {old}" {
+    Description "Stop dancing for one place and dance for another, as the bees' own scouts do when they have seen something better.".
+    Requires able(actor) and company(actor) and at(actor, dancing_hall) and danceLearned(actor) and hollowSite(dest) and hasSeen(dest)
+      and partyDances(old) and distinct(dest, old) and not committed() and not leavingBegun() and daytime().
+    Time 3.
+    Resolve check(actor, performance, dc_easy).
+    On success { Retract partyDances(old). Decrease tally(old) by 1. Assert partyDances(dest). Increase tally(dest) by 1. }
+    Result "You stop running the old line and run the new one, and the Searchers who knew your first dance look at each other.".
+    Otherwise "Your feet keep finding the old line. Try again when you have your breath.".
+  }
+
+  // ── Hannet Coke ───────────────────────────────────────────────────────────────────────────────────────────────────
+  Person hannet "Hannet Coke" at dancing_hall {
+    Role "the oldest of the Searchers, small and brown and bent, sitting on the slope with her stick across her knees" when not walked(hannet).
+    Role "the oldest of the Searchers, small and brown and bent, sitting on a fleece with her stick across her knees and two wax bees on a cord round her neck" when walked(hannet).
+    Ancestry human. Peaceable. Pronouns she. Manner cheerful.
+    Greets "A tiny old woman sitting on the slope pats the wax beside her. 'Sit, sit, you'll slide. You're Kestrel's new legs? Good. Mine are seventy and they've struck. Two hours and then they sit down wherever they are and won't get up for anybody.' She laughs, a startling young laugh.".
+    Greets again "Hannet pats the wax beside her. 'Sit.'".
+  }
+  Relation hannetStopped(group). Relation hannetToldRot(group).
+  Topic hannet_why with hannet "Ask Hannet why she dances for the Gallowtree" when dancesFor(hannet, gallowtree) {
+    Says "'Because I can walk there.' She says it simply. 'I've stayed six Leavings. Six. My mother stayed, and I stayed with her, and then my man stayed, and I stayed with him, and then I was too old for anyone to take me, and now they're all capped upstairs and I can go where I please, and I please to go with the Mother.' She taps her knee. 'Two hours. The Gallowtree's two hours. It's a big old hollow lime and the Sisters could fill it in a summer. Kestrel's Far Brow, now, that's a day across the moor and I'd be capped in the heather by teatime.'".
+  }
+  Topic hannet_rot with hannet "Tell Hannet the Gallowtree is rotten at its heart" when knows(actor, gallow_rotten) and dancesFor(hannet, gallowtree) and not hannetToldRot(actor) once {
+    Says "She waves it away. 'They're all rotten in the middle, limes. That's how they get hollow. It's stood a thousand years, it'll stand twenty more, and twenty more is all I want of it.' She looks at you sidelong. 'You've been in it, then. Is it big?'".
+    On discuss { Assert hannetToldRot(actor). }
+  }
+  Topic hannet_merrit with hannet "Tell Hannet what is inside the Gallowtree" when knows(actor, lost_leaving) and dancesFor(hannet, gallowtree) and not holding(actor, wax_bee) once {
+    Says "You tell her: the comb gone grey, the people standing in it, the children. And the one by the door, uncapped, who capped all the others and then had nobody to do it for her. Hannet listens without moving. When you have finished she says, 'Merrit,' and then nothing for a long time. 'My aunt Merrit went with the seventh. She was the Capper's girl. She gave me a wax bee when I was four and said she'd send for me.' She puts her hand flat on the slope, on the line she has been dancing all week, as if to stop it. 'They didn't go on east, then.' After a while she gets up, very slowly, with her stick, and goes and sits by the wall, and does not dance any more.".
+    On discuss { Assert hannetStopped(hannet). Retract dancesFor(hannet, gallowtree). Decrease tally(gallowtree) by 1. Assert knows(actor, merrit_aunt). }
+  }
+  Promise carry_hannet "to see Hannet Coke carried wherever the Mother goes" to hannet
+    kept when leavingBegun() and goes(hannet) "Somewhere in the Leaving, Hannet Coke is being carried, and is complaining about it, and is there."
+    broken when leavingBegun() and not goes(hannet) "Hannet Coke is not in the Leaving. You promised." { Assert failedHannet(party). }.
+  Relation failedHannet(group).
+  Topic hannet_promise with hannet "Promise Hannet she will be carried, wherever the Mother goes" when hannetStopped(hannet) and not promiseMade(carry_hannet) and not leavingBegun() once {
+    Grave "A promise to an old woman that she will go: if the Leaving goes without her, you broke it.".
+    Says "Hannet looks at you, and laughs, and then stops laughing because you are not. 'Carried. Like a cheese to market.' She thinks about it. 'There's a litter in the Searchers' store, for the hurt ones. Two to carry it, four for the moor.' She grips your wrist with a hand like a bundle of twigs. 'If you mean it, I'll dance again. Not for the tree. Tell me where, and I'll dance it, and they'll know old Hannet's seen sense.'".
+    On discuss { Assert promiseMade(carry_hannet). }
+  }
+  Action ask_hannet_dance(actor: group, dest: place) "Ask Hannet to dance for {dest}" {
+    Speaker hannet.
+    Requires able(actor) and at(actor, dancing_hall) and at(hannet, dancing_hall) and promiseMade(carry_hannet) and partyDances(dest)
+      and not dancesFor(hannet, ?any) and not committed() and not leavingBegun().
+    Time 2.
+    On success { Assert dancesFor(hannet, dest). Increase tally(dest) by 1. }
+    Result "Hannet gets up on her stick, and goes to the slope, and watches you run your line twice, with her head on one side; and then she runs it herself, very short, very slow, every waggle exact, an old woman's dance, and the Searchers round the walls stop talking to watch her do it.".
+  }
+
+  // ── Moss Ashdown ──────────────────────────────────────────────────────────────────────────────────────────────────
+  Person moss "Moss Ashdown" at dancing_hall {
+    Role "a Searcher, nineteen, freckled, with a boar-spear he will not put down" when not mossHurt(moss).
+    Role "a Searcher, nineteen, freckled, with his arm and side bound up in bloody linen" when mossHurt(moss).
+    Ancestry human. Calling warrior. Level 2. Peaceable. Pronouns he. Manner jovial.
+    Greets "A freckled boy with a boar-spear grins at you. 'You're the lowlander? I'm Moss. I'm dancing for the Dell. Best place in the Wold, the Dell: dry as a bone, warm as an oven, faces south, and the brocks are in it, which means there's nothing else is.' He hefts the spear. 'There'll be nothing in it at all, once I've been.'".
+    Greets again "Moss raises his spear to you.".
+  }
+  Relation mossHurt(group). Relation mossWaits(group). Relation mossWent(group).
+  Topic moss_brocks with moss "Ask Moss what he means to do about the brocks" when not mossHurt(moss) and not brocksSafe() and not mossWent(moss) {
+    Says "'Kill them.' He says it the way you would say you were going to mend a gate. 'There's two. Sows, both, big as ponies. I'll go in at first light the day after the Calling, when they're sleepy, with this,' the spear, 'and there'll be a song about it in every comb in the Wold. Kestrel lost two fingers there. I'll bring her two claws.' He looks at you to see if you are impressed. Under the grin he is very young and a little white.".
+  }
+  Action talk_moss_down(actor: group, site: place) "Talk Moss into waiting for you before he goes into the Dell" {
+    Speaker moss.
+    Requires able(actor) and at(actor, site) and at(moss, site) and not mossHurt(moss) and not mossWaits(moss) and not brocksSafe() and not mossWent(moss).
+    Time 1.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert mossWaits(moss). Assert willing(moss, actor). }
+    Result "Moss argues, and blusters, and in the end lets out a long breath that might be relief. 'Together, then,' he says. 'Ask me when you're going, and I'll come. But I get the first blow.'".
+    Otherwise "'You sound like my mother,' says Moss, and turns his back on you to sharpen his spear.".
+  }
+  // On the third morning, at first light, he goes, unless he waits for the company or there is nothing to go for.
+  Rule moss_goes when day(clock) >= 3 and hour(clock) >= 5 and not mossWaits(moss) and not mossWent(moss) and not brocksSafe() and not mossHurt(moss) and not leavingBegun() {
+    Assert mossWent(moss). Assert mossHurt(moss). Retract dancesFor(moss, chalk_dell). Decrease tally(chalk_dell) by 1. Assert at(moss, mellor_cell).
+  }
+  Rule moss_brought_back at dancing_hall when mossHurt(moss) and mossWent(moss) and not spread(moss_back) says "There is shouting on the foot stair. They are carrying Moss Ashdown up out of the gorge on a hurdle, grey as wax, with his spear broken and his side opened from the ribs to the hip. He went into the Dell alone at first light. The brocks were not sleepy." { Assert spread(moss_back). }
+  Entity moss_back: fact "Moss carried back".
+  Topic moss_hurt with moss "Sit with Moss a while" when mossHurt(moss) once {
+    Says "He is lying in the Mellors' cell because it was nearest, with Agnes Mellor sponging his side, and he is not grinning. 'There's no song,' he says. 'Is there. There's no song about the one who got carried home.' He can't go with the Leaving now; he can't walk. He knows. He turns his face to the wax.".
+  }
+
+  // ── When she goes ─────────────────────────────────────────────────────────────────────────────────────────────────
+  // Called to a place, by quorum after the Calling, by the flask, or at noon on the fourth day by the most dances or none.
+  Relation calledTo(place). Measure calledAt(place).
+  Query committed() means calledTo(?s).
+  Query swarmReady() means occasionOver(the_calling).
+  Query outdone(s: place) means hollowSite(?o) and distinct(?o, s) and tally(?o) >= tally(s).
+  Rule quorum when swarmReady() and hollowSite(?s) and tally(?s) >= 5 and not committed() and not leavingBegun() { Assert calledTo(?s). Set calledAt(hume_wold) to watch(clock). }
+  Rule flask_calls when swarmReady() and flaskAt(?s) and hour(clock) >= 10 and hour(clock) < 13 and not committed() and not leavingBegun() { Assert calledTo(?s). Assert flaskCalled(?s). Set calledAt(hume_wold) to watch(clock). }
+  Rule noon_leader when day(clock) >= 4 and hour(clock) >= 12 and hollowSite(?s) and tally(?s) > 0 and not outdone(?s) and not committed() and not leavingBegun() { Assert calledTo(?s). Set calledAt(hume_wold) to watch(clock). }
+  Rule noon_bivouac when day(clock) >= 4 and hour(clock) >= 12 and not committed() and not leavingBegun() { Assert calledTo(high_wold). Set calledAt(hume_wold) to watch(clock). }
+  Relation flaskCalled(place).
+  Rule called_told at dancing_hall when committed() and not spread(called_told) says "On the slope every dance, bee and human, runs the same way now, over and over. The Searchers stand up one by one along the walls. Kestrel Dunn says, not loudly, 'That's it, then.'" { Assert spread(called_told). }
+  Entity called_told: fact "the dance agreed".
+
+  // She goes, between eleven and three, at least half an hour after she is called.
+  Relation left(place). Measure leftDay(place).
+  Query leavingBegun() means left(?s).
+  Query leftNight() means leavingBegun() and (day(clock) == leftDay(hume_wold) and hour(clock) >= 20 or day(clock) == leftDay(hume_wold) + 1 and hour(clock) < 6).
+  Query flightDay() means leavingBegun() and day(clock) >= leftDay(hume_wold) + 2.
+  Rule she_goes when calledTo(?s) and hour(clock) >= 11 and hour(clock) < 15 and watch(clock) >= calledAt(hume_wold) + 3 and not leavingBegun() {
+    Assert left(?s). Set leftDay(hume_wold) to day(clock). }
+  Rule leaving_seen when leavingBegun() and within(party, hume_brow) and not spread(leaving_seen) says "It begins as a change in the hum: up, and up, a whole octave, until the gorge rings with it like a struck bell. Then out of every door and crack and window of the Comb at once, the Sisters pour. Not in streams: in a flood, a brown roaring flood, filling the air of the gorge from wall to wall, so many and so loud that the sun goes dim and you cannot hear yourself shout. They boil up over the lip of the Brow in a column a quarter of a mile wide. Somewhere in the middle of it, invisible, is the Mother. And down the foot stair, out of the doors, with bundles on their backs and veils on their heads and little bells tied on their wrists so as not to lose each other, come the people who are going: two hundred of them, walking fast, not looking back, while the people who are staying stand at the troughs and on the Apron and in the doorways and watch them go. At the foot of the stair the keeper of the Leaving looks back once, at you, and lifts a hand: come, if you are coming. Behind you, up in the Comb, three cells hang in a quiet gallery with a night to wake in." { Assert spread(leaving_seen). }
+  Rule leaving_heard when leavingBegun() and inWold() and not within(party, hume_brow) and not spread(leaving_seen) says "From the direction of the gorge comes a sound like the sea getting up, and then the whole sky over the Brow goes brown, and moves." { Assert spread(leaving_seen). }
+  Entity leaving_seen: fact "the Leaving seen".
+
+  // Walking with it: from Hume Brow or Smoke End, on the day it goes, in the afternoon.
+  Relation walkedWith(group).
+  Query walkable(s: place) means left(s) and distinct(s, far_brow) and day(clock) == leftDay(hume_wold) and hour(clock) < 17.
+  Action walk_with(actor: group, dest: place, camp: place) "Walk with the Leaving" {
+    Description "Go with them, behind the swarm, to wherever she has gone.".
+    Requires able(actor) and company(actor) and (within(actor, hume_brow) or within(actor, smoke_end)) and walkable(dest) and siteRoom(dest, camp) and not walkedWith(actor).
+    Time 24.
+    On success { Assert walkedWith(actor). Retract at(actor, ?p). Assert at(actor, camp). }
+    Result "You walk with them. The talk dies away after the first mile. The swarm goes ahead of you like a weather-front, low, roaring, settling on a tree to rest and lifting off again, and the Leaving follows it at a walk, two hundred people strung out over the turf with their bundles, the old on sticks and on each other's arms, the children riding on shoulders, the little bells on everyone's wrists going all the way along the line, so that from a distance you would think a flock of sheep was crossing the Wold. Twice someone stops and turns round and looks back at the Brow. Then they turn round again and walk on.".
+  }
+  Action walk_with_far(actor: group, camp: place) "Walk with the Leaving, east over the moor" {
+    Description "Go with them, behind the swarm, over the moor to the Far Brow: a long day.".
+    Requires able(actor) and company(actor) and (within(actor, hume_brow) or within(actor, smoke_end)) and left(far_brow) and siteRoom(far_brow, camp)
+      and day(clock) == leftDay(hume_wold) and hour(clock) < 16 and not walkedWith(actor).
+    Time 54.
+    On success { Assert walkedWith(actor). Retract at(actor, ?p). Assert at(actor, camp). }
+    Result "You walk with them, all the long afternoon and into the evening, east over the moor behind a roaring cloud. The heather is waist-high and the bees in it are wild and small and indifferent. The line stretches and stretches; the old fall behind and the young go back for them; the little bells on everyone's wrists go on, all down the moor, a mile of bells. Near sunset, ahead, you see the Far Brow catch the light; and the swarm, which has been going in long low loops all day, goes straight at it, like water finding a drain, and pours in under the rock.".
+  }
+}
