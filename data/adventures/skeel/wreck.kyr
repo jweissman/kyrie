@@ -1,0 +1,204 @@
+Module skeel "Fair Weather" {
+  // ── The Constancy on Scarth Bank ──────────────────────────────────────────────────────────────────────────────────
+  Observe scarth_scene at scarth when true "The Constancy lies on her side on Scarth Bank with her back broken, her bow half buried and her stern cocked up in the air higher than a house, so that you walk under her counter as under a cliff. Her planking has sprung along the turn of the bilge and you can see into her: the ribs, the hold, the black inside of a ship. Weed has started on her already. The sand round her is trodden to porridge by boots and cartwheels.".
+  Observe scarth_saint at scarth as feature when not saintTaken(reach) "Down at the buried end, with the sand to her waist, is her figurehead: a girl of nine or ten, carved and painted, in a blue dress, holding an open book against her chest. The paint on her face is quite fresh. Somebody has tied a rope round her, ready, and not pulled.".
+  Relation saintTaken(place).
+  Observe scarth_work at scarth as ambience when lowWater() and salvaging() "Twenty people of Skeel are at work on her: men in the hold passing up casks, women with barrows, boys on the yards cutting down what is left of her rigging. They work fast and do not talk much, and every so often somebody looks at the sea.".
+  Observe scarth_quiet at scarth as ambience when lowWater() and not salvaging() "There is nobody at her now. She has been stripped to the ribs.".
+  Query salvaging() means not courtOver(reach) and daylight().
+  Observe stern_scene at stern when true "You are up on the Constancy's stern, on the tilted deck, holding on. The great cabin is below you through a hatch, its stern windows broken out: a table bolted to the floor, a bunk, a bird-cage with its door open and no bird. Everything that could be carried has been carried. From up here the whole Reach is laid out round you, and you can see why a ship coming in from the south at night would want a light to steer by.".
+  Observe stern_cage at stern as feature when true "On the cage a brass plate: DICKON.".
+  Observe stern_sea at stern as weather when not lowWater() "The sea is all round the wreck, grey and moving. The ladder goes down into it. You are on an island the size of a cart, and it creaks.".
+
+  // A night on the stern: the tide in, the dark, the ship talking. Told an hour at a time.
+  Measure sternSince(group). Initially Set sternSince(party) to 0.
+  Relation sternNight(group).
+  Rule stern_begins when at(party, stern) and not lowWater() and not daylight() and not sternNight(party) and sternHours(party) < 6 { Assert sternNight(party). Set sternSince(party) to watch(clock). Set sternHours(party) to 1. }
+  Rule stern_ends when sternNight(party) and not at(party, stern) { Retract sternNight(party). }
+  Measure sternHours(group). Initially Set sternHours(party) to 0.
+  Rule stern_later when sternNight(party) and sternHours(party) == 2 and watch(clock) >= sternSince(party) + 6 { Set sternHours(party) to 3. }
+  Rule stern_latest when sternNight(party) and sternHours(party) == 4 and watch(clock) >= sternSince(party) + 12 { Set sternHours(party) to 5. }
+  Rule stern_one at stern when at(party, stern) and sternHours(party) == 1 and not lowWater() says "The wreck moves under you, once, very slowly, like a sleeper turning over. Down in the hold, something heavy rolls from one side to the other, and stops." { Increase sternHours(party) by 1. }
+  Rule stern_two at stern when at(party, stern) and sternHours(party) == 3 and not lowWater() says "Something is knocking on the hull, below the waterline. Not regular, the way a loose cask would knock. Three knocks, then nothing, then two." { Increase sternHours(party) by 1. }
+  Rule stern_three at stern when at(party, stern) and sternHours(party) == 5 and not lowWater() says "You understand what is knocking, and wish you did not. The Constancy's people are under her. The tide has brought them back to her, the way the tide brings everything back, and they are caught in the rigging that hangs down her side into the water, and the sea moves them against the planks. Eleven men. You sit with your back against the cabin hatch and listen to them asking to come in." teaches crew_under { Increase sternHours(party) by 1. }
+  Discovery crew_under "The Constancy's drowned are caught under her in the trailing rigging; the tide moves them against her hull.".
+
+  // Salvage: a stranger can work on the wreck at low water for a day's share, as anybody in Skeel does.
+  Measure workedDay(group). Initially Set workedDay(party) to 0.
+  Relation salvaged(group).
+  Action work_wreck(actor: group, site: place) "Work on the wreck for a stranger's share" {
+    Description "Passing casks up out of the hold, and bales, and whatever else is still in her. Four coin, paid at the Wreck-House.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, scarth) and lowWater() and salvaging()
+      and not turning() and workedDay(actor) != dayN(reach).
+    Time 6.
+    Resolve check(actor, brawn, dc_easy).
+    On success { Increase quantity(actor, gold) by 4. Set workedDay(actor) to dayN(reach). Assert salvaged(actor). }
+    On failure { Increase quantity(actor, gold) by 2. Set workedDay(actor) to dayN(reach). Assert salvaged(actor). }
+    Result "You work an hour and more in the hold of the Constancy, up to your knees in water and wet grain, passing casks up a chain of hands. The men beside you are careful and quick and kind to you, and do not talk about anything. When the tide-bell rings at the Slip they stop all at once, as if a string had been cut, and walk. Big Jack Cawse pays you on the sand out of a bag: four coin, the stranger's share.".
+    Otherwise "You are slower than the Skeel men, and drop a cask, and it bursts and runs red into the bilge, wine, and a man laughs at you, not unkindly. Big Jack Cawse pays you two coin on the sand, the slow stranger's share.".
+  }
+  Rule cawse_out when salvaging() and lowWater() and not turning() and at(cawse, wreck_house) and not courtSitting() { Retract at(cawse, wreck_house). Assert at(cawse, scarth). }
+  Rule cawse_in when (not lowWater() or turning() or not salvaging()) and at(cawse, scarth) { Retract at(cawse, scarth). Assert at(cawse, wreck_house). }
+  Topic salvage_talk with cawse "Ask Jack Cawse why the men don't talk on the wreck" when salvaged(actor) once {
+    Says "'Bad luck.' He weighs the coin-bag. 'You don't talk on a dead ship. They can hear you.' He looks at you to see if you'll laugh, and you don't, so he goes on. 'My grandad said you sing the Psalm under your breath, and you never take anything off a wreck with your left hand, and you don't look at the saint.' He jerks his head toward the figurehead in the sand. 'That one's been looking at me two days.'".
+  }
+
+  // The saint: the Reeve's to give. Whoever has her raised sets her on their gable.
+  Kind saint_kind "the Constancy's figurehead" is treasure worth 0 weighing 40
+    described "A carved girl of nine or ten in a blue dress, holding an open book against her chest. On the open pages, very small, someone has carved the words CONSTANT AND TRUE. She is wet and heavy and smells of the sea.".
+
+  // ── The Wreck-House ───────────────────────────────────────────────────────────────────────────────────────────────
+  Observe wh_scene at wreck_house when true "A stone barn with iron-bound doors, built for salvage. It is full to the rafters: grain in sacks stacked to the beams, casks of wine in rows on their sides, wet bales of cloth, a ship's bell, coils of cable, a binnacle, chairs, a harmonium, a crate of something stencilled WITH CARE in a southern hand. Everything is chalked with a number. On a table by the door is a great book, and a lamp, and the Reeve.".
+  Observe wh_grain at wreck_house as feature when not courtOver(reach) "The smell of the grain is sweet and heavy and fills the place. There is enough in here, you think, to feed a town through a winter. That is what it is for.".
+  Observe wh_empty at wreck_house when courtOver(reach) and cargoToOwners(reach) "The Wreck-House is half empty. The grain has gone down to the quay in carts, to the packet, consigned to Ferrar and Daughters.".
+  Person cawse "Big Jack Cawse" at wreck_house {
+    Role "the Reeve's man". Ancestry human. Calling warrior. Level 2. Peaceable. Pronouns he. Manner jovial.
+    Greets "A very large young man with a cudgel stuck in his belt, who stands up when you come in, and then sits down again when he sees you are not anybody. 'Reeve's busy,' he says.".
+    Greets again "Big Jack Cawse touches his cudgel, the way another man would touch his hat.".
+  }
+  Topic cawse_lantern with cawse "Ask Jack Cawse what he wants" when true once {
+    Says "He thinks about it seriously. 'The Lantern,' he says. 'Reeve says he'll ask the Court for it, for me, when Loveday's turned off. Three coin a week and the house on the Holm and nobody bothers you.' He grins. 'And you can see everything that comes into the Reach, first.'".
+    On discuss { Assert knows(actor, cawse_lantern_known). }
+  }
+  Discovery cawse_lantern_known "The Reeve means to ask the Wreck Court to turn Loveday Kitto off the Lantern for letting it go dark, and give it to Jack Cawse.".
+
+  // ── Hender Brask ──────────────────────────────────────────────────────────────────────────────────────────────────
+  Person hender "Hender Brask" at wreck_house {
+    Role "the Wreck-Reeve of the Gannet Reach". Ancestry human. Calling warrior. Level 3. Peaceable. Pronouns he. Manner stoic.
+    Greets "A tall man of fifty in a good black coat, with the book open in front of him and a pen in his hand. He has a very still, careful face, and has not slept; the skin under his eyes is the colour of a bruise. 'Hender Brask, the Admiral's Reeve,' he says, and writes a number before he looks up. 'If you have come to buy, the sale is the day after tomorrow. If you have come to sell, I do not buy. If you have come off the coast road to look at the wreck, everyone does, and you are welcome.'".
+    Greets again "Hender Brask looks up from the book, and finishes the number he was writing first.".
+  }
+  // Where he is: the Wreck-House by day; the church at the end of the day, oiling the charter; his parlour at night.
+  Rule hender_church when hour(clock) >= 18 and hour(clock) < 20 and not courtSitting() and henderFree() and not at(hender, church) { Retract at(hender, wreck_house). Retract at(hender, reeve_parlour). Assert at(hender, church). }
+  Rule hender_home when (hour(clock) >= 20 or hour(clock) < 8) and henderFree() and not at(hender, reeve_parlour) { Retract at(hender, church). Retract at(hender, wreck_house). Assert at(hender, reeve_parlour). }
+  Rule hender_work when hour(clock) >= 8 and hour(clock) < 18 and not courtSitting() and henderFree() and not at(hender, wreck_house) { Retract at(hender, church). Retract at(hender, reeve_parlour). Assert at(hender, wreck_house). }
+  Query henderFree() means not henderGone(hender) and not henderAtSale().
+  Relation henderGone(group).
+  Observe hender_oils at church when at(hender, church) and not henderConfessed(hender) "Hender Brask is at the charter board with a rag and a dish of linseed oil, working it into the gilt letters one at a time, slowly, as a man does a thing he has done every week of his life.".
+
+  Topic hender_wreck with hender "Ask Hender Brask about the wreck" when true once {
+    Says "'The Constancy, Ferrar's of the south, master Abel Dunn, four hundred tons, grain and wine and sundries.' He says it like an entry. 'She stood into the Reach in the night on a false reckoning and struck Scarth Bank. The Lantern was not lit.' His pen does not move. 'Loveday Kitto is seventy-three. She fell asleep. It is nobody's fault, and it is the end of her keeping, and I am sorry for it; she was good to me when I was a boy.'".
+    On discuss { Assert knows(actor, wreck_known). Assert knows(actor, cawse_lantern_known). }
+  }
+  Topic hender_charter with hender "Ask Hender Brask about the charter" when knows(actor, charter_known) once {
+    Says "For the first time he looks fully at you. 'It is the best law I know,' he says. 'Short. Plain. Nobody can argue it. If a thing lives, she's theirs; if nothing lives, she's ours. It doesn't care who is hungry, or who is owed, or who is sorry. It just counts.' He puts the pen down. 'I oil the board myself. My father taught me to read on it.'".
+  }
+  Topic hender_dog with hender "Ask Hender Brask about the dog on the sands" when knows(actor, dog_known) once {
+    Says "'A black dog has been seen on the Strand worrying the Holm sheep.' He picks the pen up again. 'There's a shilling on it at the Wreck-House for whoever brings it in. That is all.' He writes a number. He does not look up. 'It is not the Constancy's dog. The Constancy had no dog.'".
+  }
+  Topic hender_father with hender "Ask Hender Brask about his father" when knows(actor, pilot_son) once {
+    Says "Something goes out of his face, and comes back. 'Jacob Brask was a pilot. The best on the Reach. When the Admiral let the station go he had nothing to do with what he knew, and he drank, and one night he took the gig out and I suppose he went where he was going.' He closes the book. 'I learned something from him, which is that the Reach does not want pilots. It wants wrecks. It has wanted wrecks for forty years. I have only ever given it what it wants, honestly, by the book.'".
+  }
+  Topic hender_hunger with hender "Ask Hender Brask what becomes of Skeel if the Constancy is not wreck" when knows(actor, hunger_known) once {
+    Says "'Then her owners have their grain back, and are glad of it, I am sure.' He spreads his hands flat on the book. 'And we have two failed seasons and the Admiral's factor at Martinmas, and a Lowland salt company on the Strand by spring, and the children of this town eating limpets off the Holm by February. I have counted it. I have counted it many times.' He looks at the stacked sacks, and his voice is very quiet. 'I have counted every grain in this building.'".
+  }
+  // Hender's offer: to a stranger he has seen out on the sands, on the second day.
+  Relation henderOffered(group). Relation dogDeal(group).
+  Topic hender_offer with hender "Ask Hender Brask whether there is work for a stranger" when secondDay() and knows(actor, dog_known) and not dogDealt(admiral) once {
+    Says "He looks at you for a long moment, as if adding you up. 'You have been out on the Strand,' he says. 'You walk it well enough. The dog that has been worrying the Holm sheep is out there, and the town's boys cannot get near it.' He takes a shilling from the drawer and lays it on the book, and beside it, slowly, four more coins. 'A shilling for the dog, at the Wreck-House, before the Court sits. And a stranger's portion of the Admiral's third, which is mine to give, at the Court. Twelve coin, perhaps more.' He does not look away. 'It is a sheep-worrier. You understand me.'".
+    On discuss { Assert henderOffered(actor). }
+  }
+  Topic take_offer with hender "Tell Hender Brask you will see to the dog" answering hender_offer when henderOffered(actor) once {
+    Grave "Admiral is the only living thing in Skeel's way, and the town would thank you for it in its stomach and never in its church.".
+    Says "He nods, once, and puts the coins back in the drawer, all but the shilling. 'Before the Court sits,' he says. 'The Gut is deep, off the Sill.' He goes back to his writing, and you see that his hand is not steady, and that he sees you see it.".
+    On discuss { Assert dogDeal(actor). }
+  }
+  Topic refuse_offer with hender "Tell Hender Brask you do not do that kind of work" answering hender_offer when henderOffered(actor) once {
+    Says "'No,' he says. 'No, I did not think you did.' He puts the shilling back in the drawer. 'Forgive me. I have not slept.'".
+  }
+
+  // The mailbag: the drowned's letters, which nobody in Skeel will pay a farthing for.
+  Kind mailbag_kind "the Constancy's mailbag" is gear worth 0 weighing 4
+    described "A canvas bag with a brass lock, sodden and salt-white, stencilled FERRAR'S PACKET: MAILS. Inside, letters going north and south, some swollen to pulp and some still legible.".
+  Item mailbag "the Constancy's mailbag" is mailbag_kind at wreck_house owned by hender.
+  Topic ask_mailbag with hender "Ask Hender Brask for the Constancy's mailbag, for the families of the drowned" when true once {
+    Says "He looks at the bag on its hook. 'The mails are not wreck,' he says, almost to himself. 'The charter does not reach to letters. They are nobody's.' He gets up and takes it down and holds it a moment. 'I read them, you know. Everybody's letters, all my life, for those who can't. I have not opened this one.' He holds it out. 'Take it. Do what is right with them. I find I cannot.'".
+    On discuss { Assert lends(hender, mailbag, actor). Give mailbag to actor. Assert mailbagGiven(hender). }
+  }
+  Relation mailbagGiven(group).
+  Relation bagRead(group).
+  Action read_mailbag(actor: group, site: place) "Go through the Constancy's mailbag" {
+    Description "Letters of the living, carried by the dead.".
+    Requires able(actor) and company(actor) and at(actor, site) and carries(actor, mailbag) and not bagRead(actor) and not benighted(actor).
+    Time 3.
+    On success { Assert bagRead(actor). Give morva_letter to actor. }
+    Result "You go through the mailbag, letter by letter. Most are pulp. Some are not: a bill for forty yards of sailcloth; a mother in the north writing to her son that the cow has calved; a love letter so explicit that you put it back. And one, in a large uncertain hand, folded small and sealed with a thumbprint in tallow, addressed to EWAN MARROCK, THE SEAL SKERRY, THE GANNET REACH, BY KINDNESS OF ANY SAILOR. It has been paid for twice, in two different ports.".
+  }
+  Kind letter_morva "a letter for Ewan Marrock" is gear worth 0 weighing 0
+    described "A letter folded small and sealed with a thumbprint in tallow, addressed to EWAN MARROCK, THE SEAL SKERRY. The postmark is from a southern port. It has been paid for twice.".
+  Item morva_letter "the letter for Ewan Marrock" is letter_morva at limbo.
+
+  // ── The sale ──────────────────────────────────────────────────────────────────────────────────────────────────────
+  // On the second morning the Reeve sells, on the quay, what will not keep or will not go to market: lots unopened, as
+  // they lie. The town bids against itself with wreck money it has not yet been paid.
+  Query henderAtSale() means occasionBegun(sale) and not occasionOver(sale).
+  Occasion sale "the Wreck Sale" at quay when secondDay() and hour(clock) >= 9 and not henderConfessed(hender) {
+    Matter lot_cask "Hender Brask, on a barrel with the book under his arm, calls the first lot: 'A cask, unmarked, wet. Sound, by the knock of it. Two coin? Two coin for the cask.' Somebody at the back says, 'It's water,' and the quay laughs." for 20 minutes until lotSold(lot_cask).
+    Matter lot_crate "'Lot two. A crate, small, very heavy for its size, stencilled WITH CARE, in the southern hand.' He rocks it with his foot, and it clinks, finely, like a great many small things. 'Glass. Three coin?' Mother Jago, at the front, puts her hand up." for 20 minutes until lotSold(lot_crate).
+    Matter lot_chest "'Lot three.' He hesitates over this one. 'A sea-chest. Officer's. Initials M.F. on the lid. Locked; the key's at the bottom of the Reach. Contents unknown.' Jack Cawse says, 'A shilling,' and nobody else says anything." for 20 minutes until lotSold(lot_chest).
+    Closes "Hender Brask closes the book, and gets down off the barrel, and the quay goes back to its work.".
+  }
+  Relation lotSold(matter).
+  Observe sale_on at quay when henderAtSale() "The quay is crowded. Hender Brask stands on a barrel with the book under his arm and sells the drowned's things to the drowned's finders, one lot at a time, in the voice he uses for numbers.".
+  Action bid_cask(actor: group, site: place) "Bid two coin for the cask" {
+    Requires able(actor) and at(actor, site) and at(actor, quay) and matterOpen(lot_cask) and quantity(actor, gold) >= 2.
+    Time 1 minute.
+    On success { Decrease quantity(actor, gold) by 2. Assert lotSold(lot_cask). Give wine_cask to actor. }
+    Result "'Two coin, to the stranger.' The quay laughs again. Somebody tells you to mind it's not water.".
+  }
+  Action bid_crate(actor: group, site: place) "Bid four coin for the crate, over Mother Jago" {
+    Requires able(actor) and at(actor, site) and at(actor, quay) and matterOpen(lot_crate) and quantity(actor, gold) >= 4.
+    Time 1 minute.
+    On success { Decrease quantity(actor, gold) by 4. Assert lotSold(lot_crate). Give spectacles to actor. Assert crateBought(actor). }
+    Result "Mother Jago turns round and looks at you, and laughs, and puts her hand down. 'Four coin, to the stranger.' You prise the lid off on the quay. It is full of spectacles: two hundred pairs, each in a little tin case lined with green baize, steel-rimmed, graded by strength and labelled in the southern hand: FOR THE OLD.".
+  }
+  Relation crateBought(group).
+  Action bid_chest(actor: group, site: place) "Bid two coin for the sea-chest, over Jack Cawse" {
+    Requires able(actor) and at(actor, site) and at(actor, quay) and matterOpen(lot_chest) and quantity(actor, gold) >= 2.
+    Time 1 minute.
+    On success { Decrease quantity(actor, gold) by 2. Assert lotSold(lot_chest). Give sea_chest to actor. Assert chestBought(actor). }
+    Result "Jack Cawse turns round. 'Two coin,' you say again, and he shrugs, and the Reeve says 'Two coin, to the stranger,' without looking at you, and writes it down.".
+  }
+  Relation chestBought(group).
+  // Unbid, the lots go where they would have gone.
+  Rule cask_goes when matterDone(lot_cask) and not lotSold(lot_cask) { Assert lotSold(lot_cask). }
+  Rule crate_goes when matterDone(lot_crate) and not lotSold(lot_crate) { Assert lotSold(lot_crate). Assert jagoHasCrate(jago). }
+  Rule chest_goes when matterDone(lot_chest) and not lotSold(lot_chest) { Assert lotSold(lot_chest). Assert cawseHasChest(cawse). }
+  Relation jagoHasCrate(group). Relation cawseHasChest(group).
+  // No sale, when the Reeve has stopped selling: Jack Cawse sells off what will not keep himself, out of the door.
+  Rule no_sale when secondDay() and hour(clock) >= 11 and not occasionBegun(sale) and not lotSold(lot_chest) { Assert lotSold(lot_cask). Assert lotSold(lot_crate). Assert lotSold(lot_chest). Assert jagoHasCrate(jago). Assert cawseHasChest(cawse). }
+  // If the sale was missed, what was sold can still be had of whoever bought it.
+  Topic jago_specs with jago "Ask Mother Jago for a pair of the spectacles out of the crate" when jagoHasCrate(jago) once {
+    Says "'Two hundred pairs of spectacles,' she says, 'and not a soul in Skeel who can read.' She digs in her apron and brings out a tin case. 'Take a pair. Take two. I bought them for the tins.'".
+    On discuss { Give spectacles to actor. }
+  }
+  Action buy_chest_cawse(actor: group, site: place) "Buy the officer's sea-chest off Jack Cawse for four coin" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(cawse, site) and cawseHasChest(cawse) and quantity(actor, gold) >= 4.
+    Time 0.
+    On success { Decrease quantity(actor, gold) by 4. Increase quantity(cawse, gold) by 4. Retract cawseHasChest(cawse). Give sea_chest to actor. Assert chestBought(actor). }
+    Result "Jack Cawse is delighted. 'Couldn't get it open,' he says. 'Tried with a cleaver.'".
+  }
+  Item wine_cask "a cask of southern wine" is wine_cask_kind at limbo.
+  Kind specs_kind "a pair of spectacles in a tin case" is gear worth 1 weighing 0
+    described "Steel-rimmed spectacles with round lenses, ground in the south, in a tin case lined with green baize. A label inside the lid in a careful hand: FOR THE OLD. NO. 6, STRONG.".
+  Item spectacles "a pair of spectacles" is specs_kind at limbo.
+  Kind chest_kind "an officer's sea-chest, initials M.F." is gear worth 0 weighing 12
+    described "A sea-chest of oak bound with brass, swollen with water, the lid carved M.F. and under that, in smaller letters, someone has scratched with a knife CONSTANT.".
+  Item sea_chest "the sea-chest marked M.F." is chest_kind at limbo.
+  Relation chestOpened(group).
+  Action open_chest(actor: group, site: place) "Force the sea-chest marked M.F." {
+    Requires able(actor) and company(actor) and at(actor, site) and carries(actor, sea_chest) and not chestOpened(actor).
+    Time 2.
+    Resolve check(actor, brawn, dc_fair).
+    On success { Assert chestOpened(actor). Give matthew_ring to actor. Give matthew_letter to actor. Assert knows(actor, matthew_known). }
+    Result "The lid comes up with a crack of swollen oak. Inside, wet through: shirts, a razor, a quadrant in a box, a child's book of sea-stories with a girl's name written in it, CONSTANCE, and under them a ring on a string, gold, with a ship cut into it, and a letter in an oilskin wrapper, dry, addressed to Miss Constance Ferrar.".
+    Otherwise "The swollen lid will not move. It needs a stronger arm, or more patience.".
+  }
+  Discovery matthew_known "The officer's chest marked M.F. was Matthew Ferrar's, the Constancy's mate: in it, his sister Constance's childhood book, a gold ring with a ship cut into it, and a letter to her.".
+  Kind mate_ring_kind "a gold ring with a ship cut into it" is treasure worth 5 weighing 0
+    described "A man's gold ring, worn thin, with a three-masted ship cut into the bezel. Inside the band: M.F. FROM HIS SISTER.".
+  Item matthew_ring "Matthew Ferrar's ring" is mate_ring_kind at limbo.
+  Kind letter_matthew "a letter to Miss Constance Ferrar" is gear worth 0 weighing 0
+    described "A letter in an oilskin wrapper, dry inside. It is not sealed. It begins: 'Con — we raise the Reach tomorrow night, if this wind holds, and Dunn says there will be the Holm light to steer by and good water all the way in.' It goes on about the price of grain, and their father's knees, and ends: 'I shall be home for your birthday, and I shall bring you something foolish.'".
+  Item matthew_letter "Matthew Ferrar's letter to his sister" is letter_matthew at limbo.
+}

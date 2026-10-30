@@ -1,0 +1,6 @@
+Module skeel "Fair Weather" {
+  // The campaign played alone: a traveller come down the coast road with a little money and no reason to stop, three
+  // days after the Constancy struck. (placed.kyr is the world's own company, come in over the march.)
+  Company party "You" of 1 at coast_road.
+  Initially Set quantity(party, gold) to 8. Initially Set quantity(party, rations) to 3.
+}

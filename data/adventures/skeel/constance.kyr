@@ -1,0 +1,75 @@
+Module skeel "Fair Weather" {
+  // ── Constance Ferrar ──────────────────────────────────────────────────────────────────────────────────────────────
+  // The shipowner's daughter, twenty-eight, who keeps the books of Ferrar and Daughters in a southern port because her
+  // father's hands shake. The Constancy was named for her when she was nine, and carved as her. Her brother Matthew was
+  // the mate. She comes in on the owners' packet on the evening of the second day, on the flood, for him and for the
+  // ship; and the firm needs the grain as badly as Skeel does.
+  Person constance "Constance Ferrar" at limbo {
+    Role "who keeps the books of Ferrar and Daughters, shipowners". Ancestry human. Peaceable. Pronouns she. Manner proud.
+    Greets "A young woman in grey, very upright, with a ledger under her arm and salt on the hem of her skirt, who looks at you as she must look at a bill of lading: carefully, and expecting it to be wrong. 'Constance Ferrar,' she says. 'The Constancy was ours. My brother was her mate. If you have anything to tell me, I would be grateful for it. Nobody in this town has told me anything except the price of a bed.'".
+    Greets again "Constance Ferrar closes her ledger on her finger and waits.".
+  }
+  Relation constanceCome(group).
+  Rule packet_in when secondDay() and hour(clock) >= 17 and not constanceCome(constance) { Assert constanceCome(constance). Retract at(constance, limbo). Assert at(constance, quay). }
+  Rule packet_seen at quay when constanceCome(constance) and at(party, quay) and not packetTold(constance) and secondDay() says "A packet-boat is coming up the channel on the flood, a cutter with a red ensign, very careful, sounding as she comes, a man in the bows swinging the lead and calling the marks. She ties up at the quay steps, and a young woman in grey with a ledger under her arm comes up them alone, and stands on the quay looking at the Wreck-House, and the figureheads, and the town looking at her." { Assert packetTold(constance). }
+  Relation packetTold(group).
+  Rule constance_to_inn when constanceCome(constance) and hour(clock) >= 19 and at(constance, quay) and not courtSitting() { Retract at(constance, quay). Assert at(constance, taproom). }
+  Rule constance_to_acre when constanceCome(constance) and thirdDay() and hour(clock) >= 8 and hour(clock) < 14 and at(constance, taproom) { Retract at(constance, taproom). Assert at(constance, acre). }
+  Rule constance_from_acre when constanceCome(constance) and thirdDay() and hour(clock) >= 14 and at(constance, acre) { Retract at(constance, acre). Assert at(constance, taproom). }
+  Observe acre_constance at acre when at(constance, acre) "Constance Ferrar is walking slowly along the open graves by the wall, reading the old stones as she goes. A SAILOR. A SAILOR. A WOMAN. She has her ledger open, and is writing them down.".
+
+  Topic constance_matthew with constance "Ask Constance Ferrar about her brother" when true once {
+    Says "'Matthew.' She opens the ledger and closes it. 'He was the mate. He was thirty. He was the one of us who liked the sea; I like the books.' She looks out at the Reach. 'They tell me the Reach gives back its drowned on the third ebb. I mean to be on the sand when it does. I mean to take him home.' Her voice does not shake at all. 'They tell me also that they bury what it gives them under stones that say A SAILOR. He will not have a stone that says A SAILOR.'".
+    On discuss { Assert knows(actor, matthew_named). Assert knows(actor, third_ebb). }
+  }
+  Topic constance_firm with constance "Ask Constance Ferrar what the Constancy's cargo means to Ferrar and Daughters" when true once {
+    Says "She almost smiles. 'Everything.' She taps the ledger. 'Four hundred tons of grain bought on credit at the top of the market, to sell in the north at the bottom of a famine. If it is wreck, the underwriters pay a third, and we sell the house. If it is ours, we live.' She looks at the Wreck-House. 'They are hungry here. I can see that. I have been hungry. It does not make the grain theirs.'".
+    On discuss { Assert knows(actor, ferrar_need). }
+  }
+  Discovery ferrar_need "Ferrar and Daughters bought the Constancy's grain on credit; if she is wreck, the firm is ruined. If she is not, Skeel goes hungry through the winter.".
+  Topic give_matthew_letter with constance "Give Constance Ferrar her brother's letter" when carries(actor, matthew_letter) and constanceCome(constance) once {
+    Says "She knows the hand before she has it out of the oilskin. She reads it standing, once, fast, the way she reads everything, and then again very slowly, and then she sits down on the nearest thing, which is a lobster-pot, and holds it in her lap. 'I shall bring you something foolish,' she says, aloud. She laughs, which is worse than anything. 'He would have, too. Last year it was a monkey.' She folds the letter along its folds. 'Dunn says there will be the Holm light to steer by,' she reads. She looks up at you. 'There was no Holm light. Was there.'".
+    On discuss { Spend letter_matthew from actor. Assert constanceMoved(constance). Assert knows(actor, matthew_known). }
+  }
+  Relation constanceMoved(group).
+  Topic give_ring with constance "Give Constance Ferrar the ring from her brother's chest" when carries(actor, matthew_ring) and constanceCome(constance) once {
+    Says "She turns it to the light and reads the inside of the band, M.F. FROM HIS SISTER, and closes her hand on it. 'I bought it with my first quarter's wages,' she says. 'He said it was the ugliest ring he had ever seen, and never took it off.' She puts it on her thumb, where it is too big. 'Thank you.'".
+    On discuss { Spend mate_ring_kind from actor. Assert constanceMoved(constance). }
+  }
+  Topic constance_light with constance "Tell Constance Ferrar what you know of how the Constancy came onto the bank" when knows(actor, hender_did) and constanceCome(constance) once {
+    Says "She listens without moving, the ledger shut on her knee. When you have finished she sits a long time. 'So it was not the sea,' she says. 'It was a man. A Reeve. With an oil can and a horn lantern.' She stands up. 'I came here to take my brother home. I will do that. And then I will go to the Admiral's court, in the south, and I will lay an information, and they will hang him, and it will not bring Matthew back, and I will do it anyway.' She looks at you. 'Unless there is some other thing to be done. Is there?'".
+    On discuss { Assert constanceKnows(constance). }
+  }
+  Relation constanceKnows(group).
+
+  // ── The third ebb ─────────────────────────────────────────────────────────────────────────────────────────────────
+  // On the night low water of the third day the Reach gives back the Constancy's eleven men at the wrack line below the
+  // Slip, as it nearly always does.
+  Relation drownedIn(place).
+  Rule third_ebb when thirdDay() and lowWater() and hour(clock) >= 22 and not drownedIn(reach) { Assert drownedIn(reach). }
+  Rule third_ebb_late when dayN(reach) >= 4 and not drownedIn(reach) { Assert drownedIn(reach). }
+  Observe drowned_scene at slip when drownedIn(reach) and not acreFilled(reach) "Along the wrack line at the foot of the Slip, among the weed and the driftwood, the sea has laid out the Constancy's people: eleven men, side by side, almost in a row, as if somebody had arranged them. Lanterns stand on the sand by them, and Skeel stands round them in the dark, men with their hats off, women with their shawls over their heads, quiet. Parson Hosken is going from one to the next.".
+  Relation matthewFound(group). Relation matthewHome(group). Relation crewNamed(place).
+  Action find_matthew(actor: group, site: place) "Look among the drowned for Matthew Ferrar" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, slip) and drownedIn(reach) and not matthewFound(actor)
+      and (knows(actor, matthew_named) or knows(actor, matthew_known)).
+    Time 2.
+    On success { Assert matthewFound(actor). }
+    Result "You go along the line with a lantern. They are not frightening; they are only men, very tired, a long way from home. The seventh is a man of thirty with fair hair and a mate's coat and, on the third finger of his right hand, the white band in the brown where a ring was for years and is not now.".
+  }
+  Event constance_finds at slip when matthewFound(party) and constanceCome(constance) and not matthewHome(constance) "Constance Ferrar comes down the Slip with her skirts held up out of the wet, and sees where you are standing, and comes along the line of men to you without hurrying and kneels down on the sand by her brother, and puts her hand flat on his chest, the way you put a hand on someone's chest to wake them. Nobody in Skeel says anything at all. After a long time she says, not to anyone: 'Well, Mattie. I've come to fetch you.'" then { Assert matthewHome(constance). }
+  Topic give_names with hosken "Give Parson Hosken the names of the Constancy's men" when knows(actor, crew_names) and not crewNamed(reach) once {
+    Says "He writes them down in the back of his prayer-book, one by one, as you say them, moving his lips: Abel Dunn, master; Matthew Ferrar, mate; and the rest. When you have finished he reads them through once aloud, very quietly, as if in church. 'Eleven names,' he says. 'Eleven stones. I shall cut them myself if I must.' He takes off his spectacles and wipes them on his cassock, which makes them worse, and puts them on again. 'Thank you. You do not know what you have done for me.'".
+    On discuss { Assert crewNamed(reach). }
+  }
+  Topic nye_names with nye "Ask Nye Gallow for the names of the Constancy's men" when knows(actor, nye_saw) once {
+    Says "He says them without stopping, like a lesson: 'Master Abel Dunn. Mister Ferrar, the mate. Tom Kellow, bosun. Davey Treen and his brother Sam. Old Hob. Josiah Wake, the cook. Billy Ash. Dancer, we called him Dancer, his name was Peter Rule. Ned Penrose. Luke Gale.' He stops. 'And me. But I'm not.'".
+    On discuss { Assert knows(actor, crew_names). }
+  }
+  Discovery crew_names "The Constancy's men: Abel Dunn, master; Matthew Ferrar, mate; Tom Kellow, bosun; Davey and Sam Treen; Old Hob; Josiah Wake, cook; Billy Ash; Peter Rule, called Dancer; Ned Penrose; Luke Gale.".
+  Rule acre_filled when drownedIn(reach) and dayN(reach) >= 4 and hour(clock) >= 10 and not acreFilled(reach) { Assert acreFilled(reach). }
+  Observe acre_named at acre as sign when acreFilled(reach) and crewNamed(reach) "Along the wall, ten new stones, and on each one, cut by an unpractised hand, a name: ABEL DUNN. TOM KELLOW. DAVEY TREEN. SAM TREEN. HOB. JOSIAH WAKE. BILLY ASH. PETER RULE, DANCER. NED PENROSE. LUKE GALE. OF THE CONSTANCY.".
+  Observe acre_unnamed at acre as sign when acreFilled(reach) and not crewNamed(reach) "Along the wall, ten new stones, small and square, each one cut the same: A SAILOR.".
+  Observe acre_matthew at acre as sign when acreFilled(reach) and not matthewHome(constance) "And an eleventh, a little apart: A SAILOR, MATE.".
+  Observe acre_matthew_home at acre as sign when acreFilled(reach) and matthewHome(constance) "There is no eleventh. Constance Ferrar took her brother home on the packet.".
+}

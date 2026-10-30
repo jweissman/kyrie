@@ -1,0 +1,122 @@
+Module skeel "Fair Weather" {
+  // ── Admiral ───────────────────────────────────────────────────────────────────────────────────────────────────────
+  // The Constancy's dog: a big black curly water-dog, who came ashore swimming the morning after the wreck and has
+  // lived on the Strand since, eating wrack and dead fish, wary of everybody. At low water he quarters the sands round
+  // the wreck; when the tide comes in he swims out to Seal Skerry, where his boy is. Under the charter he is a living
+  // thing come ashore, and he makes the Constancy no wreck.
+  Species ship_dog "a ship's dog" like dog temperament wary
+    described "A big black curly-coated water-dog, web-footed, bred to go over the side after a dropped line or a man; thin now, with a frayed rope collar.".
+  Person admiral "Admiral" at flats {
+    Role "a big black curly-coated water-dog, thin, with a frayed rope collar". Species ship_dog. Peaceable. Pronouns he.
+    Joins "Admiral falls in at your heel as if he had always walked there.".
+    Known as "a black dog" when not knows(party, dog_named).
+  }
+  Discovery dog_known "A black water-dog has been living on the Strand since the morning after the wreck: the Constancy's dog, come ashore alive. Under the charter a living thing come ashore makes her no wreck. The Reeve has put a shilling on its head, for a sheep-worrier.".
+  Discovery dog_named "The black dog on the Strand is called Admiral: it says so on a brass tag on his rope collar, under CONSTANCY.".
+  Discovery dog_swims "When the tide comes in, the black dog leaves the Strand and swims west, strongly, toward Seal Skerry.".
+  Observe dog_seen near admiral when not following(admiral, party) and not dogPenned(admiral) and onSands(party) "A big black curly dog is trotting along the wrack line a hundred yards off, nose down, ribs showing. When you stop, he stops, and watches you, one forefoot lifted. He has a rope collar. When you take a step toward him he takes two away." teaches dog_known.
+  Topic dog_jago with jago "Ask Mother Jago about the black dog on the Strand" when not knows(actor, dog_known) once {
+    Says "'Off the Constancy. Swam ashore the morning after, half dead, and won't come to anybody.' She lowers her voice. 'There's a shilling on him at the Wreck-House. For a sheep-worrier, the Reeve says, and there's not a sheep on the Strand.' She looks at you over the cloth. 'A living thing come ashore, you see. Neither man nor dog nor cat.'".
+    On discuss { Assert knows(actor, dog_known). }
+  }
+  // Where he is.
+  Relation dogPenned(group). Relation dogHidden(group). Relation dogDrowned(group). Relation dogDealt(group). Relation dogWithNye(group).
+  Query dogFree() means not following(admiral, party) and not dogPenned(admiral) and not dogHidden(admiral) and not dogDrowned(admiral) and not dogWithNye(admiral) and not travelsWith(admiral, party).
+  Rule dog_to_sands when dogFree() and lowWater() and not at(admiral, flats) { Retract at(admiral, haulout). Assert at(admiral, flats). }
+  Rule dog_to_skerry when dogFree() and not lowWater() and not at(admiral, haulout) { Retract at(admiral, flats). Assert at(admiral, haulout). }
+  Rule dog_swims_seen when dogFree() and turning() and onSands(party) and not knows(party, dog_swims) says "Out on the sand the black dog lifts his head and looks at the sea coming, and then trots, not toward Skeel or the Holm, but straight out toward the Gut, and into the water, and you watch his black head go away west across the channel, steady, toward Seal Skerry, until you lose it." teaches dog_swims { }
+  Observe dog_at_haulout at haulout when at(admiral, haulout) and dogFree() "Among the seals, absurdly, a black dog lies on a rock with his chin on his paws, looking at the bothy.".
+
+  // Winning him: food, thrown, and patience; three times and he will come to a hand.
+  Measure dogTrust(group). Initially Set dogTrust(admiral) to 0.
+  Measure fedDog(group). Initially Set fedDog(party) to 0.
+  Action feed_dog(actor: group, site: place) "Throw the black dog something to eat" {
+    Description "From a distance, and then sit down, and look away.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(admiral, site) and dogFree() and quantity(actor, rations) >= 1
+      and fedDog(actor) != watch(clock).
+    Time 2.
+    On success { Decrease quantity(actor, rations) by 1. Increase dogTrust(admiral) by 1. Set fedDog(actor) to watch(clock). }
+    Result "You throw it as far as you can toward him and sit down on the sand and look at the Holm. After a long time you hear him come, and stop, and come, and eat, fast, the way a starved dog eats, and go away again, but not so far.".
+  }
+  Action feed_dog_eggs(actor: group, site: place) "Throw the black dog a gannet egg" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(admiral, site) and dogFree() and holding(actor, gannet_eggs_kind)
+      and fedDog(actor) != watch(clock).
+    Time 2.
+    On success { Increase dogTrust(admiral) by 2. Set fedDog(actor) to watch(clock). }
+    Result "The egg lands and does not break. The dog comes for it, and rolls it with his nose, and breaks it, and eats it shell and all, and then looks at you as if you might be a person after all.".
+  }
+  Observe dog_closer near admiral when dogFree() and dogTrust(admiral) >= 2 and onSands(party) "The black dog lies down twenty feet from you with his chin on his forepaws, watching you, and his tail moves, once, on the sand.".
+  Action call_dog(actor: group, site: place) "Hold out your hand to the black dog" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(admiral, site) and dogFree() and dogTrust(admiral) >= 3.
+    Time 1.
+    On success { Assert following(admiral, actor). Assert knows(actor, dog_named). Assert dogFriend(actor). }
+    Result "He comes, low, his whole back end going, and puts his head under your hand, and leans on your leg with all his weight, and shakes. On his rope collar there is a brass tag, green with the sea: CONSTANCY, and under it, ADMIRAL. You say his name. He looks up at you as if you had brought him something he had lost.".
+  }
+  Relation dogFriend(group).
+  // Or run him down. He is quick, and frightened, and he will not thank you for it.
+  Action catch_dog(actor: group, site: place) "Run the black dog down" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(admiral, site) and dogFree() and onSands(actor).
+    Resolve check(actor, tumbling, dc_hard).
+    On success { Assert following(admiral, actor). Assert knows(actor, dog_named). }
+    Result "You run him across the sand in a long loop and he doubles back and you throw yourself on him, and for a moment it is all teeth and sand and wet black fur, and then you have him by the rope collar and he goes limp, trembling, and lets you. CONSTANCY, says the brass tag on the collar. ADMIRAL. He will come with you on the rope. He will not look at you.".
+    Otherwise "He is away across the sand before you are halfway to him, and stops two hundred yards off, and watches you, and you have to start again. He has learned something about you.".
+  }
+  Rule catch_cost when following(admiral, party) and not dogFriend(party) and dogTrust(admiral) > 0 { Set dogTrust(admiral) to 0. }
+  Observe dog_with_you near admiral when following(admiral, party) and dogFriend(party) "Admiral walks at your heel with his nose at your hand.".
+  Observe dog_with_you_led near admiral when following(admiral, party) and not dogFriend(party) "Admiral comes on the end of the rope, as far from you as the rope allows.".
+  Action pet_admiral(actor: group, site: place) "Make much of Admiral" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(admiral, site) and (following(admiral, actor) or travelsWith(admiral, actor) or dogHidden(admiral) or dogWithNye(admiral)).
+    Time 0.
+    Result "You scratch him behind the ears and he groans and leans on you and his eyes close.".
+  }
+
+  // ── The hunt ──────────────────────────────────────────────────────────────────────────────────────────────────────
+  // On the second morning, at low water, Jack Cawse's brothers go out on the Strand with a net and a club to earn the
+  // Reeve's shilling. If the dog is loose, they get him; the Reeve will not have him drowned, when it comes to it, and
+  // has him penned in the Wreck-House until after the Court.
+  Person lads "the Cawse lads" at limbo {
+    Role "three young men with a herring net and a club". Ancestry human. Calling warrior. Level 1. Numbers 3. Pronouns they.
+    Temperament territorial.
+    Warns "The three Cawse lads spread out across the sand with their net between them. 'Stand off, stranger,' calls the biggest. 'That's the Reeve's shilling, that dog. You'll not come between a man and his shilling in a bad year.'".
+    Comes "The Cawse lads drop the net and come at you with the club and their fists.".
+    Pleads "The Cawse lads back off across the sand with their hands up, bleeding, and go off toward the Slip, shouting what the Reeve will say.".
+  }
+  Rule lads_out when secondDay() and lowWater() and hour(clock) >= 10 and hour(clock) < 14 and not huntOver(reach) and not at(lads, flats) and dogFree() { Retract at(lads, limbo). Assert at(lads, flats). }
+  Relation huntOver(place).
+  Observe lads_scene at flats when at(lads, flats) and not huntOver(reach) "Out on the sand three young men are stalking the black dog with a herring net held between them, the way you drive a sheep into a corner, and the dog is running, low, doubling, tiring.".
+  Rule lads_catch when at(lads, flats) and dogFree() and hour(clock) >= 12 and not huntOver(reach) says "Out on the Strand there is a shout, and a yelp, and then the sound of a dog that has been caught in a net and is fighting it, which goes on a long time." { Assert huntOver(reach). Assert dogPenned(admiral). Retract at(admiral, flats). Assert at(admiral, wreck_house). Retract at(lads, flats). Assert at(lads, limbo). }
+  Rule lads_give_up when at(lads, flats) and not dogFree() and not huntOver(reach) says "The Cawse lads stand about on the sand with their net, and look at the dog at your heel, and at you, and one of them spits, and they go home." { Assert huntOver(reach). Retract at(lads, flats). Assert at(lads, limbo). }
+  Rule lads_beaten when at(lads, flats) and not able(lads) and not huntOver(reach) { Assert huntOver(reach). Assert beatLads(party). }
+  Relation beatLads(group).
+  Action pay_lads(actor: group, site: place) "Pay the Cawse lads two coin to go home" {
+    Speaker lads.
+    Requires able(actor) and company(actor) and at(actor, site) and at(lads, site) and not huntOver(reach) and quantity(actor, gold) >= 2.
+    Time 1 minute.
+    On success { Decrease quantity(actor, gold) by 2. Assert tolerates(lads, actor). Assert huntOver(reach). Retract at(lads, flats). Assert at(lads, limbo). }
+    Result "The biggest one looks at the coins, and at his brothers. 'That's twice the Reeve's shilling,' he says, wondering. 'What's a dog to you?' But he takes it, and they roll up the net and go.".
+  }
+  Observe dog_penned at wreck_house when dogPenned(admiral) and at(admiral, wreck_house) "In a pen of hurdles at the back, among the casks, the black dog lies with his nose through the bars, not moving, watching the door.".
+  Thing pen "the hurdle pen" at wreck_house {
+    State pen_shut blocking "A pen of hurdles lashed together with cord and a padlocked chain.".
+    State pen_open "The pen of hurdles stands open.".
+    Change pick_pen "Pick the padlock on the pen" from pen_shut to pen_open needing lockwork.
+    Change cut_pen "Cut the cords of the pen" from pen_shut to pen_open needing brawn.
+  }
+  Initially Assert state(pen, pen_shut).
+  Rule dog_freed when dogPenned(admiral) and state(pen, pen_open) and at(party, wreck_house) says "The dog is out of the pen and at your knees before the gate has finished swinging. On his rope collar, a brass tag: CONSTANCY, and under it, ADMIRAL." teaches dog_named { Retract dogPenned(admiral). Assert following(admiral, party). Assert tookDog(party). }
+  Relation tookDog(group).
+  Topic ask_hender_dog with hender "Ask Hender Brask what he will do with the dog in the pen" when dogPenned(admiral) once {
+    Says "He does not look up for a long time. 'Keep him,' he says. 'Until after the Court. Then he can go where he likes.' His pen has stopped. 'They wanted me to drown him. I went out to the pen last night with a sack, and he looked at me.' He puts the pen down. 'You can think what you like of me. I could not drown a dog.'".
+  }
+
+  // ── The offer taken ───────────────────────────────────────────────────────────────────────────────────────────────
+  Action drown_dog(actor: group, site: place) "Drown Admiral in the Gut, for the Reeve's shilling" {
+    Grave "He trusts you. He will go into the water with you, and not come out.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, gut_lip) and following(admiral, actor) and dogDeal(actor).
+    Time 3.
+    On success { Retract following(admiral, actor). Assert dogDrowned(admiral). Assert dogDealt(admiral). Retract at(admiral, gut_lip). Assert at(admiral, limbo). Assert drownedDog(actor). }
+    Result "It does not take long. That is the worst of it. Afterward you sit on the soft sand at the lip of the Gut with your arms wet to the shoulder, and a shilling owed you at the Wreck-House, and the sea comes over the Strand behind you, and you do not feel it for a while.".
+  }
+  Relation drownedDog(group).
+  Event dog_shilling at wreck_house when drownedDog(party) and at(party, wreck_house) and at(hender, wreck_house) "Hender Brask looks at your sleeves, which are still stiff with salt, and takes a shilling out of the drawer and lays it on the table, and does not touch your hand when you take it. He writes something in the book. Then he sits looking at what he has written." then { Increase quantity(party, gold) by 1. }
+}

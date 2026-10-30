@@ -1,0 +1,67 @@
+Module skeel "Fair Weather" {
+  // ── After the Court ───────────────────────────────────────────────────────────────────────────────────────────────
+  // Skeel is still here after its story, and shows what became of it. The packet sails on the fourth day, on the
+  // evening flood, with whoever is going.
+  Rule ewan_brings at net_loft when matterOpen(call) and at(nye, net_loft) and not at(party, net_loft) and not decided(call) says "Ewan Marrock walks the boy up the loft to the table with his hand on his shoulder." { Assert livingShown(reach). Assert decided(call). Assert notWreck(reach). Assert nyeFaced(nye). }
+  Rule after_return when courtDone(reach) and not dispersed(reach) {
+    Assert dispersed(reach).
+    Retract at(jago, net_loft). Assert at(jago, taproom). Retract at(hosken, net_loft). Assert at(hosken, church).
+    Retract at(constance, net_loft). Assert at(constance, taproom). Retract at(kerensa, net_loft). Assert at(kerensa, quay).
+    Retract at(ewan, net_loft). Assert at(ewan, quay). Retract at(nye, net_loft). Assert at(nye, taproom).
+    Retract at(admiral, net_loft). Assert at(admiral, taproom). }
+  Relation dispersed(place).
+  Rule after_hender_home when courtDone(reach) and not henderGone(hender) and at(hender, net_loft) { Retract at(hender, net_loft). Assert at(hender, reeve_parlour). }
+  Rule after_hender_cellar when courtDone(reach) and henderExposed(hender) and not henderGone(hender) and not at(hender, cellars) { Retract at(hender, net_loft). Retract at(hender, reeve_parlour). Assert at(hender, cellars). }
+  Rule after_cawse_lantern when courtDone(reach) and lovedayOff(reach) and not at(cawse, lamp_room) { Retract at(cawse, net_loft). Retract at(cawse, wreck_house). Assert at(cawse, lamp_room). }
+  Rule after_cawse_back when courtDone(reach) and lovedayKept(reach) and at(cawse, net_loft) { Retract at(cawse, net_loft). Assert at(cawse, wreck_house). }
+  Rule after_loveday_home when courtDone(reach) and lovedayKept(reach) and not at(loveday, lamp_room) and not following(loveday, party) { Retract at(loveday, net_loft). Retract at(loveday, taproom). Assert at(loveday, lamp_room). }
+  Rule after_loveday_off when courtDone(reach) and lovedayOff(reach) and not at(loveday, taproom) { Retract at(loveday, net_loft). Retract at(loveday, lamp_room). Retract following(loveday, party). Assert at(loveday, taproom). }
+  Rule after_ewan_home when courtDone(reach) and at(ewan, quay) and not ewanGoesSouth(ewan) and hour(clock) >= 18 { Retract at(ewan, quay). Assert at(ewan, skerry_landing). }
+  Rule after_nye_follow when courtDone(reach) and following(nye, party) { Retract following(nye, party). Assert at(nye, taproom). }
+
+  // The packet: on the fourth day at six in the evening, with the flood.
+  Query fourthEvening() means dayN(reach) >= 5 or dayN(reach) == 4 and hour(clock) >= 18.
+  Relation packetSailed(place).
+  Rule packet_sails when fourthEvening() and courtDone(reach) and not packetSailed(reach) { Assert packetSailed(reach).
+    Retract at(constance, taproom). Retract at(constance, acre). Assert at(constance, limbo).
+    Retract at(nye, taproom). Assert at(nye, limbo). }
+  Rule packet_takes_dog when packetSailed(reach) and dogWithNye(admiral) and not at(admiral, limbo) { Retract at(admiral, taproom). Retract at(admiral, bothy). Assert at(admiral, limbo). }
+  Rule packet_takes_hender when packetSailed(reach) and (henderConfessed(hender) or henderExposed(hender)) and not henderGone(hender) { Assert henderGone(hender). Retract at(hender, reeve_parlour). Retract at(hender, cellars). Retract at(hender, church). Retract at(hender, wreck_house). Assert at(hender, limbo). }
+  Rule packet_takes_ewan when packetSailed(reach) and ewanGoesSouth(ewan) and not at(ewan, limbo) { Retract at(ewan, quay). Retract at(ewan, skerry_landing). Assert at(ewan, limbo). Assert ewanRows(party). }
+  Rule packet_takes_kerensa when packetSailed(reach) and not pilotsAgreed(reach) and not travelsWith(kerensa, party) and not kerensaGone(kerensa) { Assert kerensaGone(kerensa). Retract at(kerensa, quay). Retract at(kerensa, reeve_parlour). Assert at(kerensa, limbo). }
+  Rule packet_seen_go at quay when packetSailed(reach) and at(party, quay) and not packetGoneTold(party) says "Ferrar's packet goes down the channel on the evening flood, sounding as she goes, the leadsman in the bows calling the marks; and Skeel stands on the quay and watches her, the way it watches anything that comes into the Reach or goes out of it." { Assert packetGoneTold(party). }
+  Relation packetGoneTold(group).
+  // The dog, if he has nobody else: he will go with the company.
+  Rule dog_stays_on when courtDone(reach) and dogFriend(party) and not reunited(nye) and not dogDrowned(admiral) and not willing(admiral, party) and not travelsWith(admiral, party) { Assert willing(admiral, party). }
+  Rule dog_leaves_follow when courtDone(reach) and following(admiral, party) and willing(admiral, party) { Retract following(admiral, party). Assert at(admiral, taproom). Retract dogHidden(admiral). }
+
+  // ── How Skeel looks, after ────────────────────────────────────────────────────────────────────────────────────────
+  Observe fore_wreck_after at fore_street as sign when courtDone(reach) and wreckDeclared(reach) "On the Reeve's gable, beside the Lady with the Lyre, there is a new saint: a girl of nine in a blue dress with an open book against her chest. CONSTANT AND TRUE.".
+  Observe fore_notwreck_after at fore_street as sign when courtDone(reach) and notWreck(reach) and not pilotsAgreed(reach) "On every door along Fore Street somebody has chalked, small, a dog: four legs and a tail and a curl for the coat. Some are rude. Most are not.".
+  Observe church_board_after at church as sign when courtDone(reach) and henderExposed(hender) "Chalked on the charter board under NEITHER MAN NOR DOG NOR CAT, in a child's capitals: NOR BOY.".
+  Observe church_saint_pilots at church as sign when courtDone(reach) and notWreck(reach) "In the church, under the hanging ships, propped against the altar rail where Constance Ferrar left her, the Constancy's figurehead: the girl in the blue dress with the open book. CONSTANT AND TRUE. 'Keep her,' Constance Ferrar said. 'Put her where people will look at her.'".
+  Observe inish_lit at beacon as sign when pilotsAgreed(reach) "The iron basket on the cairn is lit, and burns, and on the strand below there are two gigs where there was one: JACOB, blue, and a second, unpainted, with new planks, that Kerensa Brask says is to be called THE CONSTANCY, and Malachy Sennen says over his dead body.".
+  Observe inish_pilots at pilot_house as sign when pilotsAgreed(reach) "On the door of the pilot-house, newly painted in white: STATION. And under it, smaller, in Malachy's own shaking hand: KNOCK.".
+  Observe quay_pilots at quay as sign when pilotsAgreed(reach) "On the harbour wall, under the tide-board, a new board, freshly painted: PILOTS OF THE REACH. FIRE A GUN OFF THE BAR. And Jinny Rowse sitting on her bollard under it, eating an apple off her knife, looking very pleased with herself and pretending not to.".
+  Observe tap_after_wreck at taproom as ambience when courtDone(reach) and wreckDeclared(reach) "The Admiral is full: there is wreck money in Skeel, and the fishermen at the long table have something stronger than small beer in front of them, and are not looking at it any more cheerfully.".
+  Observe tap_after_hungry at taproom as ambience when courtDone(reach) and notWreck(reach) and not pilotsAgreed(reach) "The Admiral is half empty. Mother Jago is giving the fishermen their beer on the slate, and writing nothing on the slate.".
+  Observe tap_after_pilots at taproom as ambience when courtDone(reach) and pilotsAgreed(reach) "The Admiral is loud. Somebody has chalked the twelve gigs on the wall by the fire, with their colours, and the fishermen are arguing about which family had which.".
+  Observe tap_loveday at taproom when at(loveday, taproom) and lovedayOff(reach) "In the back corner by the fire, where it is warm, Loveday Kitto sits with her hands in her lap, facing the window that looks toward the Holm.".
+  Observe parlour_after at reeve_parlour when courtDone(reach) and at(hender, reeve_parlour) and (henderConfessed(hender) or henderExposed(hender)) "The Reeve's parlour, very tidy. Hender Brask sits in his chair by the cold grate in his shirtsleeves, with his hands on his knees, waiting. He looks as if he has slept, for the first time in a long while.".
+  Observe parlour_gone at reeve_parlour when henderGone(hender) "The Reeve's parlour is empty and the grate is cold. On the table, squared to the edge, the Wreck-House book, closed.".
+  Observe lamp_cawse at lamp_room when at(cawse, lamp_room) "Jack Cawse sits in Loveday Kitto's chair in the lamp-room with his boots on the table and his cudgel across his knees, very pleased, looking out at the Reach. The wicks want trimming.".
+  Observe bothy_empty at bothy when packetSailed(reach) and ewanGoesSouth(ewan) "The bothy is swept and cold. The shelf where the comb and the ribbon and the shell were is bare. On the door, scratched with a knife: GONE SOUTH. MIND THE SEALS.".
+  Observe acre_after at acre as ambience when acreFilled(reach) "The open graves along the wall are filled in, and the turf put back, and there are new stones.".
+  Topic jago_after with jago "Ask Mother Jago how Skeel is taking it" when courtDone(reach) once {
+    Says "She leans on the bar. 'Like a town that's been told something about itself,' she says. 'Some'll never forgive it, and some'll never forgive themselves, and most'll do both on alternate days for twenty years and then die.' She looks up at the yellow bird in the rafters. 'I'm keeping him. He's no wreck. He's a lodger.'".
+  }
+  Topic loveday_after_court with loveday "Ask Loveday Kitto how she does" when courtDone(reach) once {
+    Says "'I sit and think of the Pulpit,' she says, 'every evening, the notch in the Craigs, and I don't know yet whether I'll stop.' She turns toward the sound of you. 'He was a quiet boy. He'd sit up with me all night and never say a word. I should have known that wasn't goodness. That was a boy counting.'".
+  }
+  Topic kerensa_pilot_after with kerensa "Ask Kerensa Brask what she will do now" when courtDone(reach) and pilotsAgreed(reach) once {
+    Says "She grins with her whole face. 'Pilot. First of the new.' She slaps the gig. 'Malachy says I've hands like Jacob's and a head like a bucket, and he'll make something of me if it kills him, and it might.' Then, not grinning: 'I'll write to my father. Wherever they take him. I'll not go and see him. I'll write.'".
+  }
+  Topic kerensa_after with kerensa "Ask Kerensa Brask what she will do now" when courtDone(reach) and not pilotsAgreed(reach) and not kerensaGone(kerensa) once {
+    Says "'Go,' she says. 'Same as I said. The packet sails on the fourth tide. Or with you, if you're going somewhere with ships in it.' She looks at the gig. 'I'll write to him. I'll not go and see him. I'll write.'".
+  }
+}

@@ -1,0 +1,120 @@
+Module skeel "Fair Weather" {
+  // ── Hender, asked ─────────────────────────────────────────────────────────────────────────────────────────────────
+  // He will not be moved by a hook, or a cup of oil, or a stranger's say-so. He cannot lie to Loveday Kitto.
+  Relation henderConfessed(group). Relation henderExposed(group). Relation bribed(group). Relation toldToConfess(group).
+  Event loveday_asks when following(loveday, party) and lovedaySees(loveday) and at(hender, ?p) and at(party, ?p) and not henderConfessed(hender) and not courtSitting() "Loveday Kitto lets go of your arm and walks up to Hender Brask, and he sees her, and stands up; and she stands in front of him in her good shawl, a head shorter than his chest, and takes off the spectacles, as if she would rather not see this, and folds them. 'Hender,' she says. 'Did you put the sea in my oil.' It is not a question the way she says it. He opens his mouth. Nothing comes. You watch his ears go red, slowly, from the lobes up, like a boy's. 'Yes,' he says. Then he sits down, very suddenly, as if somebody had cut a string, and puts his face in his hands, and says it all, to her, not to you: the factor's letter, the arrears, the salt company, the weeks of counting; the watered oil; the hook driven in beside his father's ring; the ship turning for the light; his hand over the lantern. And the boy on the hatch. 'I held up the lamp,' he says into his hands, 'and he looked at me, and I thought: if he lives, she's no wreck. And I walked away.' Loveday Kitto stands and listens to all of it without a word. When he has finished she puts her hand on his head, the way you would on a child's, and leaves it there." teaches hender_did then { Assert henderConfessed(hender). Retract following(loveday, party). }
+  Event loveday_asks_blind when following(loveday, party) and not lovedaySees(loveday) and at(hender, ?p) and at(party, ?p) and not henderConfessed(hender) and not courtSitting() "Loveday Kitto lets go of your arm and walks up to Hender Brask, and he sees her, and stands up; and she stands in front of him in her good shawl, a head shorter than his chest, and looks up at him, though she cannot see his face, and he knows she cannot. 'Hender,' she says. 'Did you put the sea in my oil.' It is not a question the way she says it. He opens his mouth. Nothing comes. You watch his ears go red, slowly, from the lobes up, like a boy's. 'Yes,' he says. Then he sits down, very suddenly, as if somebody had cut a string, and puts his face in his hands, and says it all, to her, not to you: the factor's letter, the arrears, the salt company, the weeks of counting; the watered oil; the hook driven in beside his father's ring; the ship turning for the light; his hand over the lantern. And the boy on the hatch. 'I held up the lamp,' he says into his hands, 'and he looked at me, and I thought: if he lives, she's no wreck. And I walked away.' Loveday Kitto stands and listens to all of it without a word. When he has finished she puts her hand on his head, the way you would on a child's, and leaves it there." teaches hender_did then { Assert henderConfessed(hender). Retract following(loveday, party). }
+  Topic loveday_after with loveday "Ask Loveday Kitto what happens now" when henderConfessed(hender) and not courtOver(reach) once {
+    Says "'Now he'll do what's right,' she says. 'He always does, once he's been made to look at it.' She puts the spectacles back on, if she has them. 'He'll stand up in that loft and say it to Skeel's face. And they'll hang him, likely, the Admiral's men. And I'll keep the Lantern till I can't, and then I'll keep it some more.'".
+  }
+  // A company that knows can tell him so: he will offer it money to say nothing; or it can send him to her.
+  Topic confront_hender with hender "Tell Hender Brask you know who hung the light in the Pulpit" when knows(actor, hender_did) and not henderConfessed(hender) and not bribed(actor) and not toldToConfess(actor) and not courtOver(reach) once {
+    Says "He does not deny it. He does not say anything. He looks at the book in front of him for a long time, and then he closes it, and takes out of the drawer a purse, a heavy one, and puts it on the cover. 'Twenty coin,' he says. 'The Admiral's third is mine to give. Nobody has to know. Not the Court. Not Skeel.' His voice drops. 'Not Loveday. Whatever else. Not Loveday.' He looks up. 'What do you want?'".
+  }
+  Topic take_bribe with hender "Take the purse, and say nothing" answering confront_hender when knows(actor, hender_did) once {
+    Grave "Eleven men, and a boy on a hatch, and a purse.".
+    Says "He pushes it across the book to you and takes his hand away quickly, as if it were hot. 'Thank you,' he says. It is the worst thing anybody has said to you in a long time.".
+    On discuss { Increase quantity(actor, gold) by 20. Assert bribed(actor). }
+  }
+  Topic send_to_her with hender "Tell him to row out to the Holm and tell Loveday himself, before the Court" answering confront_hender when knows(actor, hender_did) once {
+    Says "He flinches as if you had struck him. 'I can't.' He puts the purse back in the drawer, slowly. 'I can't look at her.' But he does not say no again; he sits looking at the closed book, and you leave him there.".
+    On discuss { Assert toldToConfess(actor). }
+  }
+  Topic threaten_court with hender "Tell him you will say it at the Court" answering confront_hender when knows(actor, hender_did) once {
+    Says "'Say it, then.' He puts the purse back in the drawer. 'You're a stranger off the coast road. Skeel will look at you, and then at the Wreck-House full of grain, and then at me.' He opens the book again. 'And it will believe whatever keeps it fed. You know that. I know it better than anybody.'".
+  }
+  // Sent, he goes: on the third morning, in his own boat, to the Holm; and comes back to sit the Court a different man.
+  Rule hender_rows when toldToConfess(party) and thirdDay() and hour(clock) >= 8 and not henderConfessed(hender) and not henderGone(hender) { Assert henderConfessed(hender). Assert confessedAlone(hender). }
+  Relation confessedAlone(group).
+  Rule hender_rows_told when confessedAlone(hender) and within(party, skeel) and not toldRowed(party) says "Word goes along Fore Street at mid-morning: the Reeve was seen at first light rowing himself out to the Holm, alone, in his black coat, and came back an hour later and went into the church and has not come out." { Assert toldRowed(party). }
+  Relation toldRowed(group).
+  Observe church_hender at church when henderConfessed(hender) and not courtOver(reach) and at(hender, church) "Hender Brask is sitting in the front pew under the hanging ships, not praying, only sitting, with his hat on his knees.".
+  Rule hender_sits_church when henderConfessed(hender) and not courtSitting() and not courtOver(reach) and not at(hender, church) { Retract at(hender, wreck_house). Retract at(hender, reeve_parlour). Assert at(hender, church). }
+
+  // ── The Wreck Court ───────────────────────────────────────────────────────────────────────────────────────────────
+  // Four o'clock on the third day, on the flood, in the net-loft: the Reeve at a table, the town on the benches, and
+  // three matters in order. Nobody votes. The Reeve says the words, in front of whoever is in the room.
+  Query courtSitting() means occasionBegun(court) and not occasionOver(court).
+  Query courtBegun(p: place) means occasionBegun(court).
+  Relation courtDone(place).
+  Query courtOver(p: place) means courtDone(reach).
+  Relation livingShown(place). Relation wreckDeclared(place). Relation notWreck(place). Relation pilotsAgreed(place).
+  Relation lovedayOff(place). Relation lovedayKept(place). Relation attended(group).
+  Query cargoToOwners(p: place) means notWreck(reach).
+  Rule court_gathers when thirdDay() and hour(clock) >= 15 and not occasionBegun(court) and not courtDone(reach) {
+    Retract at(hender, church). Retract at(hender, wreck_house). Retract at(hender, reeve_parlour). Assert at(hender, net_loft).
+    Retract at(cawse, wreck_house). Assert at(cawse, net_loft). Retract at(hosken, church). Assert at(hosken, net_loft).
+    Retract at(jago, taproom). Assert at(jago, net_loft). }
+  Rule court_constance when thirdDay() and hour(clock) >= 15 and constanceCome(constance) and not occasionBegun(court) and not at(constance, net_loft) { Retract at(constance, taproom). Retract at(constance, acre). Retract at(constance, quay). Assert at(constance, net_loft). }
+  Rule court_loveday when thirdDay() and hour(clock) >= 15 and not occasionBegun(court) and not following(loveday, party) and not at(loveday, net_loft) { Retract at(loveday, lamp_room). Assert at(loveday, net_loft). }
+  Rule court_kerensa when thirdDay() and hour(clock) >= 15 and not occasionBegun(court) and not travelsWith(kerensa, party) and not at(kerensa, net_loft) { Retract at(kerensa, quay). Retract at(kerensa, reeve_parlour). Assert at(kerensa, net_loft). }
+  Observe loft_court at net_loft when courtSitting() "The net-loft is packed to the walls: Skeel on the benches in its Sunday black, men standing at the back with their hats in their hands, children on the beams. The air smells of tar and wet wool. At the far end Hender Brask sits at the table with the book open in front of him and the charter board, brought from the church, propped against the wall behind him, shining. Loveday Kitto sits alone on a stool in front of the table, in her good shawl, with her hands in her lap.".
+  Observe loft_constance at net_loft as feature when courtSitting() and at(constance, net_loft) "Constance Ferrar stands at the side, by the window, with her ledger, very upright. Nobody stands near her.".
+  Observe loft_ewan at net_loft as feature when courtSitting() and at(ewan, net_loft) "By the stair-head, with his arms folded and a sealing-club in his belt, stands Ewan Marrock, and every head in the loft has turned to look at him, and at the boy with the bandaged head beside him.".
+  Rule attending when courtSitting() and at(party, net_loft) and not attended(party) { Assert attended(party). }
+  Occasion court "the Wreck Court" at net_loft when thirdDay() and hour(clock) >= 16 {
+    Matter call "Hender Brask stands. 'The Wreck Court of the Gannet Reach,' he says, 'under the Admiral's charter. The ship Constancy, Ferrar's, struck on Scarth Bank on the night of Saturday last, in fair weather. If any man here knows of a living thing that came ashore of her, neither man nor dog nor cat, let him say so now.' He waits, with the pen in his hand, and the loft is so quiet you can hear the tide coming in under the floor." for 20 minutes until decided(call).
+    Matter lantern "'The second matter,' says the Reeve, without looking up. 'The Holm Lantern was dark on the night of the wreck. Its keeper, Loveday Kitto, asks no excuse.' Loveday sits very straight on her stool. 'I shall ask the Court to relieve her of the keeping, with thanks for forty-one years, and give the Lantern to John Cawse.' Big Jack Cawse goes red to the ears." for 20 minutes until decided(lantern).
+    Matter winter "'The last matter,' says the Reeve, and his voice is not quite steady, 'is the winter.' He looks at the book." for 20 minutes until decided(winter).
+    Closes "The Reeve closes the book. The loft empties down the stair in silence, onto a quay where the tide is in and the boats are knocking gently against the wall.".
+  }
+  Relation decided(matter).
+
+  // The first matter: a living thing in the loft, brought forward.
+  Action show_dog(actor: group, site: place) "Bring Admiral forward to the Reeve's table" {
+    Requires able(actor) and at(actor, site) and at(actor, net_loft) and matterOpen(call) and at(admiral, net_loft) and not dogDrowned(admiral).
+    Time 1 minute.
+    On success { Assert livingShown(reach). Assert decided(call). Assert notWreck(reach). }
+    Result "You walk up the loft between the benches with the black dog at your heel, and the whole of Skeel watches him go by, and he goes up to the Reeve's table and puts his front paws on it, on the open book, and looks into Hender Brask's face, and wags. Somewhere at the back a man begins to laugh, the helpless kind, and then a woman, and then the children on the beams, and Mother Jago puts her cloth over her face. 'His name's Admiral,' you say, and that does it: the loft roars. Hender Brask does not laugh. He looks at the dog. Then he dips his pen and writes, in the voice he uses for numbers: 'A dog came ashore of her, living. The Constancy is no wreck.' The laughter stops as if it had been cut.".
+  }
+  Action show_nye(actor: group, site: place) "Bring Nye Gallow forward to the Reeve's table" {
+    Requires able(actor) and at(actor, site) and at(actor, net_loft) and matterOpen(call) and at(nye, net_loft).
+    Time 1 minute.
+    On success { Assert livingShown(reach). Assert decided(call). Assert notWreck(reach). Assert nyeFaced(nye). }
+    Result "The boy walks up the loft to the table on his own, with his bandage and his blanket and Ewan Marrock's knife in his belt, and the whole of Skeel draws its breath in at once. He stands in front of the Reeve. 'Nye Gallow,' he says. 'Ship's boy, Constancy. I came ashore.' And then he does the thing he said he wanted to do: he looks at Hender Brask's face. Hender Brask looks back at him. Nobody in the loft can see what passes between them; you can, a little. The Reeve dips his pen. 'A boy came ashore of her, living,' he says, 'and the Constancy is no wreck,' and his hand shakes so that the ink runs.".
+  }
+  Relation nyeFaced(group).
+  // Each matter is given a watch for whoever has something to say; then the Reeve says the words.
+  Measure openedAt(matter). Initially Set openedAt(call) to 0. Initially Set openedAt(lantern) to 0. Initially Set openedAt(winter) to 0.
+  Rule call_opened when matterOpen(call) and openedAt(call) == 0 { Set openedAt(call) to watch(clock) + 1. }
+  Rule lantern_opened when matterOpen(lantern) and openedAt(lantern) == 0 { Set openedAt(lantern) to watch(clock) + 1. }
+  Rule winter_opened when matterOpen(winter) and openedAt(winter) == 0 { Set openedAt(winter) to watch(clock) + 1. }
+  Query heard(m: matter) means matterOpen(m) and openedAt(m) > 0 and watch(clock) >= openedAt(m).
+  Rule call_wreck when heard(call) and not livingShown(reach) and not henderConfessed(hender) and not wreckDeclared(reach) and not decided(call) says "'No living thing came ashore of her,' says the Reeve, 'and the Constancy is wreck: two parts to Skeel, one to the Lord Admiral.' He writes it. The loft lets out its breath, all at once, like a sail emptying." { Assert wreckDeclared(reach). Assert decided(call). }
+  // Confessed, he will not say wreck.
+  Rule call_confessed at net_loft when matterOpen(call) and henderConfessed(hender) and not decided(call) says "He stops. He puts the pen down. 'No,' he says. 'I will not say it.' The loft stirs. He stands up, holding on to the table. 'She is no wreck. I made her one. I put the sea in Loveday Kitto's oil and I hung a light in the Pulpit beside my father's ring, so that she would steer for it, and she did. I did it for you. You will none of you thank me for it, and you are right.' He turns the book round on the table so that they can read it. 'There was a boy alive on a hatch, after. I saw him. The Constancy is no wreck, and her cargo is her owners', and I am done.' And he sits down, and nobody in the loft moves at all." { Assert decided(call). Assert notWreck(reach). }
+
+  // The second matter: the Lantern. Spoken for, or let go.
+  Action speak_loveday(actor: group, site: place) "Tell the Court the Lantern's oil was cut with seawater" {
+    Requires able(actor) and at(actor, site) and at(actor, net_loft) and matterOpen(lantern) and knows(actor, oil_watered) and not lovedayKept(reach).
+    Time 1 minute.
+    On success { Assert lovedayKept(reach). Assert decided(lantern). }
+    Result "You tell them. The cloudy oil, the beads that will not mix, the salt on your tongue, the barrel filled on the Saturday. The loft listens in a different silence from before: a town hearing something it has half known. Loveday Kitto does not turn round. Hender Brask writes nothing at all. Then Jinny Rowse, at the back, says quite loudly, 'Then she never slept, did she,' and somebody else says 'No,' and the Reeve, not looking up, says: 'The keeper is not at fault. She keeps the Lantern.' Jack Cawse looks at his boots.".
+  }
+  Action ask_nye_face(actor: group, site: place) "Ask Nye Gallow whether the man with the lantern is in this room" {
+    Requires able(actor) and at(actor, site) and at(actor, net_loft) and matterOpen(lantern) and at(nye, net_loft) and knows(actor, nye_saw) and not henderConfessed(hender) and not henderExposed(hender).
+    Time 1 minute.
+    On success { Assert henderExposed(hender). Assert lovedayKept(reach). Assert decided(lantern). }
+    Result "The boy does not answer you. He has not stopped looking at the Reeve since he came up the stair. He lifts his arm and points, across the table, and his voice when it comes is high and cracked and carries to the back wall. 'Him. He held his lamp up and he saw me on the hatch and he went away.' For a moment nothing at all happens. Then Loveday Kitto, on her stool, turns her head and looks at Hender Brask, and he looks at her, and you see his ears go red, slowly, from the lobes up, like a boy's; and that is answer enough for everyone in Skeel who ever knew him as a boy, which is everyone.".
+  }
+  Rule lantern_confessed at net_loft when matterOpen(lantern) and henderConfessed(hender) and not decided(lantern) says "'The keeper is not at fault,' the Reeve says, without lifting his head. 'She keeps the Lantern, as long as she likes.' Loveday Kitto folds her hands in her lap, and does not turn round." { Assert lovedayKept(reach). Assert decided(lantern). }
+  Rule lantern_off when heard(lantern) and not lovedayKept(reach) and not lovedayOff(reach) and not decided(lantern) says "'The keeper is relieved,' says the Reeve, 'with the thanks of the Reach.' Loveday Kitto gets up off her stool and goes down the stair without looking at anybody, and Jack Cawse does not look at her either." { Assert lovedayOff(reach). Assert decided(lantern). }
+
+  // The third matter: the winter. What a ship that is no wreck leaves Skeel; and what might be done instead.
+  Rule winter_wreck at net_loft when matterOpen(winter) and wreckDeclared(reach) and not decided(winter) says "He reads out the shares, house by house, two parts in three, and Skeel sits and listens to it like a congregation to a blessing. The grain will see them to the spring. The Admiral's third will see to the factor. 'The Admiral's third,' he says at the end, 'is in my gift, and I give a stranger's portion from it to the strangers who worked her,' and looks at you." { Assert decided(winter). }
+  Rule winter_bare at net_loft when heard(winter) and notWreck(reach) and not pilotsAgreed(reach) and not decided(winter) and not pilotsPossible() says "There is nothing to say about the winter, and nobody says it. Constance Ferrar, by the window, opens her ledger and closes it again. On the benches people are looking at their hands." { Assert decided(winter). }
+  Relation portioned(group).
+  Rule stranger_portion at net_loft when wreckDeclared(reach) and decided(winter) and at(party, net_loft) and (salvaged(party) or dogDeal(party)) and not portioned(party) says "Jack Cawse comes along the bench to you with a little bag, and puts it in your hand without looking at you: the stranger's portion. Six coin." { Assert portioned(party). Increase quantity(party, gold) by 6. }
+  Query pilotsPossible() means rutterWritten(reach) and knows(party, kerensa_sounds) and constanceCome(constance) and at(constance, net_loft) and at(kerensa, net_loft) or rutterWritten(reach) and knows(party, kerensa_sounds) and constanceCome(constance) and at(constance, net_loft) and travelsWith(kerensa, party).
+  Action propose_pilots(actor: group, site: place) "Put the Rutter on the table, and ask Kerensa Brask to say what it is for" {
+    Requires able(actor) and at(actor, site) and at(actor, net_loft) and matterOpen(winter) and notWreck(reach) and pilotsPossible() and carries(actor, rutter) and not pilotsAgreed(reach).
+    Time 1 minute.
+    On success { Assert pilotsAgreed(reach). Assert decided(winter). }
+    Result "You lay the Rutter on the Reeve's table, open at the last page: PULPIT OVER THE HOLM. Kerensa Brask stands up on her bench before you have said her name, red to the hair, and says it, all of it, too fast and then slower, to the whole town: Jacob's gig, two summers on the bar, Malachy alive on Inish, the channel sounded cast by cast; a station reopened; ships brought up the Reach for a fee instead of onto it for nothing. 'We know this water better than anyone alive,' she says. 'We've spent forty years learning where ships die in it. We could learn where they don't.' Then she turns, shaking, to Constance Ferrar by the window. 'Ferrar's ships come into the Reach, don't they. Every year.' Constance Ferrar looks at the girl, and at the Rutter, and at the town on its benches, and at her ledger; and you watch her do a sum. 'Three years' pilotage on every Ferrar hull into the Reach,' she says slowly. 'Paid in advance. In grain. From the Constancy's hold.' She looks at Hender Brask. 'I am told that is a very great deal of grain.' He looks at the girl on the bench, who is his daughter, and who is not looking at him. 'It is,' he says.".
+  }
+  Rule winter_pilots_lost at net_loft when heard(winter) and notWreck(reach) and pilotsPossible() and not carries(party, rutter) and not decided(winter) and not pilotsAgreed(reach) says "Kerensa Brask half rises from her bench, and looks round the loft for something, and does not find it, and sits down again." { }
+  Rule court_closes when occasionOver(court) and not courtDone(reach) { Assert courtDone(reach). }
+  Rule court_missed when thirdDay() and hour(clock) >= 18 and not occasionBegun(court) and not courtDone(reach) { Assert courtDone(reach). Assert wreckDeclared(reach). Assert lovedayOff(reach). }
+  Rule after_wreck_default when courtDone(reach) and not wreckDeclared(reach) and not notWreck(reach) { Assert wreckDeclared(reach). }
+  Rule after_lantern_default when courtDone(reach) and not lovedayKept(reach) and not lovedayOff(reach) { Assert lovedayOff(reach). }
+}

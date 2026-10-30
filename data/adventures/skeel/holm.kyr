@@ -1,0 +1,95 @@
+Module skeel "Fair Weather" {
+  // ── Hobb's Holm ───────────────────────────────────────────────────────────────────────────────────────────────────
+  // A tidal island a mile out: on foot at low water, by the Patience at high. The Lantern is a squat round tower with a
+  // coal-and-oil light in a glazed lamp-room; Loveday Kitto has kept it for forty-one years, and her mother before her.
+  Observe holm_scene at holm_shore when true "A hump of turf and grey rock a quarter-mile long, with sheep on it, and the Lantern on its crown: a squat round tower of whitewashed stone, with a glazed lamp-room on top like a lantern on a stick. At the tower's foot, a low cell of older stone half sunk in the turf, its doorway facing the sea. A well with a stone lid. Washing on a line: one woman's.".
+  Observe holm_well at holm_shore as feature when true "On the well-lid, scratched deep and old: HOBB. And under it, newer, in chalk, the islanders' joke: SALT SINCE THE WRECK YEAR. The Holm's well went brackish forty years ago, the year the pilots went, and Skeel says the island is ashamed.".
+  Observe holm_low at holm_shore as weather when lowWater() "The sands run away from the Holm on every side, shining, and the withies march across them to Skeel.".
+  Observe holm_high at holm_shore as weather when not lowWater() "The sea is round the Holm, and laps at the turf.".
+  Observe foot_scene at tower_foot when true "The tower's one room: a bed, a chair, a table with a Bible of Lir and a teapot on it, a fire of driftwood. Everything is very clean and set exactly where it is, the way things are in a house where someone has learned to find them without looking. A stair goes up round the wall.".
+  Observe lamp_scene at lamp_room when true "The lamp-room: glass on every side, salt-dimmed, and in the middle on its iron stand the light, a great brass oil-lamp with eight wicks in a ring and a polished reflector behind them like a sunflower. The whole Reach is round you. To the south, across the water, the black line of the Craigs, and the high notch in them they call the Pulpit.".
+  Observe lamp_lit at lamp_room as feature when lanternLit() "The eight wicks burn steady and yellow, and the reflector throws them out across the Reach in a long golden road.".
+  Query lanternLit() means hour(clock) >= 19 or hour(clock) < 6.
+  Observe holm_lit at holm_shore as sign when lanternLit() "Above you the Lantern burns, and you stand in its light.".
+  Observe slip_lantern at slip as sign when lanternLit() "Out on the Reach the Lantern on the Holm is lit, a steady yellow star.".
+
+  Person loveday "Loveday Kitto" at lamp_room {
+    Role "who keeps the Holm Lantern". Ancestry human. Peaceable. Pronouns she. Manner stoic.
+    Greets "A small old woman in a grey shawl is polishing the great reflector with a rag, slowly, by touch, her face very close to the brass. She turns her head toward you, not quite at you. 'If you're from the Reeve,' she says, 'you can tell him I've polished it. If you're not, you've walked a long way to see an old woman who let a ship go on the bank, and here she is.'".
+    Greets again "Loveday Kitto turns her head toward the sound of you. 'Back again,' she says.".
+    Joins "Loveday Kitto takes your arm, and holds it, and you go at her pace.".
+    Remarks at acre "Loveday Kitto stands a long time at the open graves along the wall, and says the names of the Constancy's men to herself, those she has been told.".
+  }
+  Discovery loveday_eyes "Loveday Kitto is going blind. She can tell light from dark, and little more; she keeps the Lantern by touch and by habit, and could not see that it had gone out.".
+  Discovery oil_watered "The oil in the Lantern's barrel has been cut with seawater: it is cloudy, and when it burns it spits and gutters and goes out. Whoever filled that barrel meant the Lantern to fail.".
+
+  Topic loveday_night with loveday "Ask Loveday Kitto about the night of the wreck" when true once {
+    Says "She folds the rag very small. 'I lit at sunset. I've lit at sunset fourteen thousand nights. I trimmed her and I went down and made my tea, and I sat, and I must have slept.' Her hands keep folding. 'When I came up she was out. All eight wicks out, and cold. I don't know how long. I didn't hear the ship. You'd think you'd hear a ship.' She looks toward the glass, not seeing it. 'I've never slept at the Lantern. Never once. I don't know how I came to.'".
+    On discuss { Assert knows(actor, wreck_known). Assert askedLoveday(actor). }
+  }
+  Relation askedLoveday(group).
+  Topic loveday_hender with loveday "Ask Loveday Kitto about Hender Brask" when askedLoveday(actor) once {
+    Says "Her face softens. 'Hender. I had him from twelve, when Jacob went. He was a quiet boy. He'd sit up here with me all night and never say a word, only watch the light go out across the water.' She smiles. 'He brings my oil every Saturday in his own boat. Forty years. Never once missed.' The smile goes. 'He'll turn me off at the Court. He has to. He came and told me himself, and cried, which I've not seen him do since he was twelve. I told him he must do his duty. He always does.'".
+    On discuss { Assert knows(actor, pilot_son). Assert knows(actor, oil_by_hender). }
+  }
+  Discovery oil_by_hender "Hender Brask brings the Lantern's oil out to the Holm in his own boat every Saturday, and has for forty years. He brought it on the evening of the wreck.".
+  Topic loveday_pilots with loveday "Ask Loveday Kitto about the pilots" when askedLoveday(actor) once {
+    Says "'Oh, the pilots.' She sits down on the iron step of the lamp-stand. 'Twelve gigs on the Reach when I was a girl, painted all colours, racing out to the ships. Jacob Brask's was blue. He used to say to me, Loveday, keep the Lantern lit and I'll keep the Pulpit, and between us we'll bring them home.' She laughs, a little. 'The leading mark. The Pulpit over the Holm. A ship coming in from the south keeps the notch in the Craigs right over this light, one on top of the other, and comes straight up the channel to Skeel in the dark without touching. Jacob used to light a lamp up on the Pulpit on the black nights, so they'd have both.' She is quiet. 'Nobody's done that in forty years.'".
+    On discuss { Assert knows(actor, leading_mark). }
+  }
+  Discovery leading_mark "The old pilots' leading mark: a ship coming in from the south keeps the Pulpit, the high notch in the Craigs, directly over the Holm Lantern, and comes up the channel to Skeel safely. On black nights Jacob Brask used to hang a lamp on the Pulpit, so a ship would have both lights. A light on the Pulpit with the Holm dark would show a stranger the wrong line: straight onto Scarth Bank.".
+
+  // ── The lamp, kept with her ───────────────────────────────────────────────────────────────────────────────────────
+  Relation helpedLight(group).
+  Action help_light(actor: group, site: place) "Help Loveday Kitto light the Lantern" {
+    Description "Sunset, on the Holm: eight wicks, trimmed and lit, and the reflector turned to the Reach.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lamp_room) and at(loveday, lamp_room)
+      and hour(clock) >= 18 and hour(clock) < 21 and not helpedLight(actor).
+    Time 3.
+    On success { Assert helpedLight(actor). Assert knows(actor, loveday_eyes). }
+    Result "She hands you the taper and talks you through it: trim each wick square with the scissors, so; turn it up a hair; light from the sea side round. You do the first two. Then she takes the scissors back to show you the third, and you watch her find the wick with her fingertips, and the scissors with her other hand, and bring them together very slowly, an inch from her face, and miss. She tries again, and finds it. She does not look at you. 'There,' she says. 'Nothing to it.' And you understand that she has not seen the flame of her own Lantern for a long time; that she keeps it by the warmth on her face.".
+  }
+  Topic loveday_eyes_ask with loveday "Ask Loveday Kitto how long she has not been able to see" when knows(actor, loveday_eyes) and not lovedaySees(loveday) once {
+    Says "She sits very still. 'Two winters,' she says at last. 'I can see the sun. I can see the lamp, a little, like a candle through a blanket. I can see the Craigs at sunset, a black line.' Her hands are folded. 'If I'd told anyone, they'd have given the Lantern to Jack Cawse, and he'd have let it go out the first night it rained. I thought: I'll keep it till I can't.' Then, very low: 'And then I couldn't. And eleven men.'".
+  }
+  Relation keptNight(group).
+  Action keep_night(actor: group, site: place) "Sit the night watch in the lamp-room with Loveday Kitto" {
+    Description "Trimming the wicks every two hours, and talking, or not.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lamp_room) and at(loveday, lamp_room)
+      and (hour(clock) >= 21 or hour(clock) < 2) and not keptNight(actor).
+    Time 36.
+    On success { Assert keptNight(actor). Assert knows(actor, leading_mark). Assert knows(actor, pilot_son). }
+    Result "You keep the Lantern through the night with her. Every two hours you trim the wicks and she tells you how; between, the sea, and the dark, and the light going out across the water in its long road. She tells you about her mother, who kept the Lantern before her, and about the pilots' gigs racing out, and about a boy called Hender who sat up here every night the winter his father drowned and never said a word. She tells you the old leading mark, the Pulpit over the Holm, and you look south across the dark to where the Craigs must be, and see nothing there at all. Toward dawn she falls asleep in her chair with the scissors in her lap, and you trim the wicks yourself, and when she wakes she knows by the warmth that they were done, and says nothing, and pats your hand.".
+  }
+
+  // ── The spectacles ────────────────────────────────────────────────────────────────────────────────────────────────
+  Relation lovedaySees(group).
+  Topic give_specs with loveday "Give Loveday Kitto a pair of spectacles from the Constancy" when holding(actor, specs_kind) and not lovedaySees(loveday) once {
+    Says "She turns the tin case over in her hands, and opens it, and feels the spectacles inside, and puts them on, very carefully, hooking them over each ear. Then she is quite still. She looks at her hands. She looks at you, properly, for the first time. She looks out through the salt-dim glass at the whole Reach in the light, and the Craigs, and the Pulpit, and a long time passes. 'Oh,' she says. 'Oh, there it all is.'".
+    On discuss { Spend specs_kind from actor. Assert lovedaySees(loveday). }
+  }
+  Rule loveday_reads at lamp_room when lovedaySees(loveday) and at(loveday, lamp_room) and at(party, lamp_room) and not knows(party, oil_watered) and not lovedayKnowsOil(loveday) says "Then, because she has been a lamp-keeper fifty years and the first thing a lamp-keeper does with her eyes is look at her lamp, she goes to the stand and draws off a cup of oil from the reservoir and holds it up to the window. It is cloudy. At the bottom of the cup there are beads, clear as glass, that will not mix. She tips the cup, and they roll. 'That's water,' she says. 'That's sea in my oil.' She puts the cup down very gently on the iron. 'Somebody put the sea in my oil.'" teaches oil_watered { Assert lovedayKnowsOil(loveday). }
+  Relation lovedayKnowsOil(group).
+
+  // ── The cell, and the oil barrel ──────────────────────────────────────────────────────────────────────────────────
+  Observe cell_scene at cell when true "The oldest building on the Reach: a beehive of unmortared stone, so low you stoop, with a stone bench along one wall worn hollow by somebody's sitting a very long time ago. Carved over the bench, a fish and a flame. It is the Lantern's store now: a pile of coal, wicks in a box, cans, and a big iron-hooped oil barrel on a trestle with a tap.".
+  Thing barrel "the oil barrel" at cell {
+    State standing "An oil barrel on a trestle, half full, with a brass tap and a tin cup hung on it. Chalked on the head: SAT. — H.B.".
+  }
+  Initially Assert state(barrel, standing).
+  Observe barrel_looked near barrel when tried(barrel, looking) "You draw a cup from the tap and hold it to the doorway. Lamp oil should be clear and yellow as honey. This is cloudy, and at the bottom of the cup, beads, clear as glass, that roll and will not mix. You touch one and taste your finger. Salt." teaches oil_watered.
+  Observe barrel_burnt near barrel when tried(barrel, burning) "You wet a wick from the cup and put a flame to it. It catches, and spits, and sputters blue, and burns for the count of twenty, and goes out with a hiss, and will not light again." teaches oil_watered.
+  Topic tell_oil with loveday "Tell Loveday Kitto her oil was cut with seawater" when knows(actor, oil_watered) and not lovedayKnowsOil(loveday) once {
+    Says "She does not answer at once. Then she gets up, and feels her way down the stair, and you follow, and in the cell she draws a cup and puts her finger in it and touches it to her tongue. She stands there with the cup in her hand. 'Saturday,' she says. 'The barrel's filled Saturday. I lit at sunset Saturday, and she burned an hour, and went out.' She puts the cup back on its hook. 'And I sat downstairs with my tea and thought I'd slept.'".
+    On discuss { Assert lovedayKnowsOil(loveday). }
+  }
+  Topic loveday_who with loveday "Ask Loveday Kitto who filled the barrel" when lovedayKnowsOil(loveday) once {
+    Says "'You know who fills it.' She is looking at the chalk on the barrel-head, SAT. — H.B., which she can read now, or has always known by heart. 'Every Saturday for forty years.' Her voice does not change. 'I'll not have you say it. Not you, and not the Court, and not anybody. If it was him, he'll tell me. He never could lie to me. He used to try, when he was twelve, and his ears went red.'".
+    On discuss { Assert lovedayResolved(loveday). }
+  }
+  Relation lovedayResolved(group).
+  Topic loveday_come with loveday "Ask Loveday Kitto to come with you to Skeel, to ask him" when lovedayResolved(loveday) and not following(loveday, actor) and not henderConfessed(hender) once {
+    Says "She takes off her apron and folds it and puts on her other shawl, the good one. 'I've not been in Skeel since Lir's Day,' she says. 'They'll stare.' She takes your arm. 'Let them.'".
+    On discuss { Assert following(loveday, actor). }
+  }
+}

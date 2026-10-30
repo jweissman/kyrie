@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "source": [
+    "reach.kyr",
+    "tide.kyr",
+    "skeel.kyr",
+    "wreck.kyr",
+    "holm.kyr",
+    "craigs.kyr",
+    "dog.kyr",
+    "skerry.kyr",
+    "inish.kyr",
+    "kerensa.kyr",
+    "constance.kyr",
+    "court.kyr",
+    "endings.kyr",
+    "after.kyr",
+    "growth.kyr",
+    "placed.kyr"
+  ],
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "imports": [
+    "party",
+    "word"
+  ],
+  "optional": [
+    "word"
+  ],
+  "roles": {
+    "party": {
+      "type": "group"
+    }
+  },
+  "exports": {
+    "party": "party",
+    "region": "reach",
+    "coast_road": "coast_road"
+  },
+  "experience": 1000
+}

@@ -276,6 +276,29 @@
       "heard": "North over the march the fell road climbs over Carth Fell and comes down to Gaunt, a walled city on the Levels where penance is bought and sold by the day, and a barefoot heretic is to be tried on Ash Day.",
       "skyline": "a walled city on a white plain, with a great church in it that has one tower and the stump of another",
       "far": "penance is bought and sold by the day, and a barefoot heretic is to be tried at the Minster on Ash Day"
+    },
+    {
+      "id": "skeel",
+      "bundle": "skeel/placed.json",
+      "entry": "coast_road",
+      "marker": "loveday",
+      "side": "north",
+      "beside": [
+        "marsh",
+        "forest",
+        "frost"
+      ],
+      "name": "the Gannet Reach",
+      "topic": "the wreck on the Gannet Reach",
+      "terrain": "marsh",
+      "rumour": "'North, over the march, the coast road goes down to the Gannet Reach,' says {keeper}, 'where the sea goes out twice a day and leaves nine miles of sand. There's a town on it called Skeel that lives off wrecks, and a big ship went onto the sands there a few nights back in fair weather, which ships don't. They're stripping her now. The Wreck Court sits on her in two days, and if nothing came ashore of her alive, she's theirs. They say there's a dog.'",
+      "heard": "North over the march the coast road goes down to the Gannet Reach, a tidal sea of sands and islands where the wrecking town of Skeel is stripping a merchantman that went onto the sands in fair weather; its Wreck Court sits in two days, and she is the town's only if nothing came ashore of her alive.",
+      "skyline": "a great flat shining to the west, sand or sea, with islands standing in it and a tower on one of them",
+      "far": "a ship went onto the sands of a tidal reach in fair weather, and the wrecking town there will have her if nothing came ashore alive",
+      "after": {
+        "talk": "Nobody talks of the Gannet Reach this week except to say the Wreck Court has sat on the ship in Skeel, and nobody quite agrees how it went.",
+        "told": "{keeper} hears you out about Skeel and the Court and the dog, and shakes their head slowly. 'A town that prays for wrecks,' {keeper} says. 'And it got one, and then it got you.' Whatever {keeper} thinks of that is kept for later."
+      }
     }
   ]
 }

@@ -1,0 +1,24 @@
+Module skeel "Fair Weather" {
+  // ── What a company grows by here ──────────────────────────────────────────────────────────────────────────────────
+  // For what is found out, mended, made and decided; nothing for what is killed.
+  Milestone m_tide "learned the tide of the Reach" worth 100 when knows(party, tide_known) and knows(party, withy_way_known).
+  Milestone m_stern "kept a night on the wreck" worth 200 when knows(party, crew_under).
+  Milestone m_dog "won the Constancy's dog" worth 200 when dogFriend(party) or tookDog(party).
+  Milestone m_nye "found the boy on the Skerry" worth 250 when knows(party, nye_known).
+  Milestone m_eyes "saw how the Lantern went dark" worth 250 when knows(party, loveday_eyes) and knows(party, oil_watered).
+  Milestone m_sees "gave Loveday Kitto her eyes" worth 200 when lovedaySees(loveday).
+  Milestone m_pulpit "climbed the Pulpit" worth 200 when knows(party, hook_found).
+  Milestone m_piran "brought Piran Penhallow to the Pulpit, or home from it" worth 200 when piranUp(piran) or carriedPiran(party).
+  Milestone m_supper "sang at the Gannet Supper" worth 100 when sang(party).
+  Milestone m_letter "gave Ewan Marrock his wife's letter" worth 200 when letterTruth(ewan) or letterLie(ewan) or letterKept(ewan).
+  Milestone m_mark "learned the leading mark" worth 100 when knows(party, leading_mark).
+  Milestone m_rutter "wrote up the Pilots' Rutter" worth 500 when rutterWritten(reach).
+  Milestone m_who "found out who hung the light" worth 400 when knows(party, hender_did).
+  Milestone m_confess "brought Loveday to ask him" worth 400 when henderConfessed(hender) and not confessedAlone(hender).
+  Milestone m_confess_alone "sent him to her" worth 300 when confessedAlone(hender).
+  Milestone m_matthew "found Matthew Ferrar for his sister" worth 300 when matthewHome(constance).
+  Milestone m_names "gave the drowned their names" worth 250 when crewNamed(reach).
+  Milestone m_living "showed the Court a living thing" worth 300 when livingShown(reach) and attended(party).
+  Milestone m_lantern "kept Loveday Kitto her Lantern" worth 200 when lovedayKept(reach).
+  Milestone m_pilots "set the pilots on the Reach again" worth 800 when pilotsAgreed(reach).
+}

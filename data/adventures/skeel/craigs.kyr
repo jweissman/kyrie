@@ -1,0 +1,146 @@
+Module skeel "Fair Weather" {
+  // ── The Craigs ────────────────────────────────────────────────────────────────────────────────────────────────────
+  // The cliffs of the south arm of the Reach, white with gannets. The egg-climbers of the Penhallow family camp on the
+  // top in the season and go down the face on fixed ropes. High on the seaward end is a notch in the skyline, the
+  // Pulpit: from the sea it is a mark, and once it was a light.
+  Observe cliffroad_scene at cliff_road when true "The cliff road goes round the head of the Reach through gorse and thrift, with the sea below on your right hand, for miles. Ahead the land rises into a long ridge of cliffs, the Craigs, and the noise of them comes to you before anything else: tens of thousands of birds, all talking at once.".
+  Observe camp_scene at clifftop when true "A camp on the turf at the top of the Craigs: three tents of old sailcloth, a fire-pit, a cart with the shafts up, and a row of iron stakes driven into the cliff edge with ropes going over and down. The noise of the gannets comes up from below like weather. Baskets of eggs, greenish-white and as big as a fist, stand in rows in the grass, and there is a smell of guano and woodsmoke and the sea.".
+  Observe camp_pulpit at clifftop as feature when true "Along the edge to the west, where the cliff steps out highest over the sea, is a notch in the rock like a window: the Pulpit. You can see the ledges below it, and nobody on them.".
+  Observe foot_scene_c at craigs_foot when true "The foot of the Craigs: a beach of great rounded boulders under a wall of rock that goes up and up, streaked white. The birds wheel over you and the noise is enormous. A goat path goes up the face in zigzags, and higher up, ropes hang down the cliff from somewhere above.".
+  Observe ledges_scene at ledges when true "The gannet ledges: you are standing on a shelf of rock a yard wide, halfway up the Craigs, with the sea two hundred feet below and the birds all round you, close enough to touch. Gannets: big, white, with butter-yellow heads and pale murderous eyes, sitting on their nests a beak's length apart and stabbing at each other and at you. The ledge goes on westward round a buttress, and above, the face goes up to a notch in the sky.".
+  Observe pulpit_scene at pulpit when true "The Pulpit: a niche in the very top of the Craigs, open to the sea, with room in it for two people to stand. The wind comes straight through it. Below, the whole Reach; to the north, across nine miles, Skeel on its headland; and directly between, out on the water, the Holm and its tower, so exactly in line with you that they could have been put there with a rule.".
+  Observe pulpit_line at pulpit as sign when knows(party, leading_mark) "The Pulpit over the Holm: this is the leading mark. From here you can see the line a ship must hold up the channel, and, just to the east of it, the pale hump of Scarth Bank with the wreck on it.".
+
+  Thing ring_hook "the iron in the Pulpit wall" at pulpit {
+    State fixed "Above head height in the back of the niche, cut into the rock, two letters, J.B., worn nearly smooth; beneath them an iron ring rusted to a brown stain. And beside the ring, driven into a crack in the rock, an iron hook, new, bright still where the hammer struck it.".
+  }
+  Initially Assert state(ring_hook, fixed).
+  Hazard edge_wind "The wind on the cliff edge" means "Deal (1d8) physical damage to ally unless dexterity save against (13).".
+  Thing edge_gusts "the wind along the edge" on edge_scramble is scenery {
+    State gusting dangerous "The way out to the Pulpit along the cliff edge is a sheep-track a foot wide over two hundred feet of air, and the wind comes up the face in gusts that lift your coat.".
+    State lulled "The wind along the edge has dropped for a moment.".
+    Hurts with edge_wind when gusting then lulled.
+  }
+  Initially Assert state(edge_gusts, gusting).
+  // It is only ever a lull: the wind comes back for the next who goes along the edge.
+  Rule gusts_return when state(edge_gusts, lulled) and not enRoute(party, edge_scramble) { Assert state(edge_gusts, gusting). }
+  Observe hook_looked near ring_hook when tried(ring_hook, looking) "The new hook has been driven into the crack this month: the rock-dust is still pale in the crack round it. On the rock under it, a fan of tallow drips, white, from a lantern hung there for some hours. On the hook itself, caught in a burr of the iron, a scrap of scorched horn: a pane from a horn lantern, the kind every boat in Skeel carries. Whoever hung it knew to hang it beside J.B.'s ring, where the old pilots' lamp hung." teaches hook_found.
+  Discovery hook_found "In the Pulpit, beside the rusted ring where Jacob Brask hung the pilots' lamp, someone drove a new iron hook this month, and hung a horn lantern on it for some hours: there is tallow under it, and a scrap of scorched horn.".
+
+  // ── The Penhallows ────────────────────────────────────────────────────────────────────────────────────────────────
+  Person ebrel "Ebrel Penhallow" at clifftop {
+    Role "who leads the egg-climbers". Ancestry human. Calling warrior. Level 2. Peaceable. Pronouns she. Manner jovial.
+    Greets "A broad, weathered woman with a rope coiled over her shoulder and her sleeves rolled up to show forearms like a man's thighs, eating an egg raw out of the shell. 'You came round by the road or over the sands?' she says. 'Either way you're a long way from anywhere. Sit. Have an egg. Mind the birds, they've no manners.'".
+    Greets again "Ebrel Penhallow waves an egg at you.".
+  }
+  Person piran "Piran Penhallow" at clifftop {
+    Role "an egg-climber's son, fifteen". Ancestry human. Peaceable. Pronouns he. Manner cheerful.
+    Greets "A thin boy with his hair in his eyes, sitting at the edge of the cliff with his legs over it, looking west along the face toward the Pulpit. He looks round at you, and back.".
+    Greets again "Piran looks round, and nods, and looks back at the Pulpit.".
+    Joins "Piran is on his feet before you have finished asking.".
+  }
+  Topic ebrel_craigs with ebrel "Ask Ebrel Penhallow about the egg-climbing" when true once {
+    Says "'Gannets lay one egg.' She holds one up. 'You take the first, and she lays another, and you leave her that. Twenty days in the spring, three hundred eggs a day, pickled, salted, smoked, sold up and down the coast. The Reeve gives the licence, and takes a penny in the shilling.' She cracks the egg on her knee. 'My father's father climbed these, and his. My man climbed them.' A pause. 'He fell off the Pulpit eight years ago, reaching for a nest he didn't need. So now I climb them.'".
+    On discuss { Assert knows(actor, piran_father). }
+  }
+  Discovery piran_father "Ebrel Penhallow's husband, Piran's father, fell from the Pulpit eight years ago. She has forbidden Piran the Pulpit face.".
+  Topic ebrel_light with ebrel "Ask Ebrel Penhallow about the light on the Craigs" when knows(actor, craigs_light) once {
+    Says "She stops eating. 'Piran saw it. He came in white and said it was his father's ghost, up in the Pulpit with a lamp.' She throws the shell over the edge. 'I told him to hush. I told him there's no ghosts, and he's to say nothing to nobody.' She looks at you straight. 'You want to know why? Because the only folk who go up the Pulpit are climbers, and the climbing's on the Reeve's licence, and I've three children and an old mother. That's why.' She wipes her mouth. 'He's never forgiven me. Talk to him if you like. He talks to strangers. He doesn't talk to me.'".
+  }
+  Topic piran_ghost with piran "Ask Piran what he saw on the night of the wreck" when true once {
+    Says "He does not look round. 'A light. In the Pulpit. I was out on the edge here, I come out here at night, Mam doesn't know. And there was a light in the Pulpit where there's never anything, a lamp, hung up, and a man beside it, all dark. I thought it was my da.' He swallows. 'And then the ship hit, out on the sand, I heard it, like a door slammed a mile off. And the man put his hand over the lamp. And it was dark.' Now he looks at you. 'Ghosts don't put their hands over lamps. Do they.'".
+    On discuss { Assert knows(actor, craigs_light). Assert knows(actor, piran_saw). }
+  }
+  Discovery piran_saw "Piran Penhallow saw a man in the Pulpit on the night of the wreck, beside a hung lamp; when the ship struck, the man covered it with his hand.".
+  Topic piran_plan with piran "Ask Piran what he means to do" when knows(actor, piran_saw) once {
+    Says "'Go up.' He says it quite calmly. 'Tomorrow night, when they're all at the Supper and drunk. Up the fixed rope to the ledges, and up the face. I've done the face in my head every night since I was seven. I'll see what's up there.' He looks at you. 'If you tell Mam, I'll go tonight instead.'".
+    On discuss { Assert piranPlans(piran). }
+  }
+  Relation piranPlans(group). Relation piranStopped(group). Relation piranWaits(group). Relation piranUp(group). Relation piranFell(group).
+  Topic tell_ebrel with ebrel "Tell Ebrel Penhallow that Piran means to climb the Pulpit" when piranPlans(piran) and not piranStopped(piran) and not piranUp(piran) and not piranFell(piran) once {
+    Says "She goes white under the weather. Then she gets up and walks over to the boy at the cliff edge and takes him by the collar and the seat of his breeches and lifts him back from the edge like a sack, and sets him down in the grass, and holds him there, and does not say anything at all for a long time. He does not fight her. Over her shoulder he looks at you, once, the way you look at someone you will not forgive.".
+    On discuss { Assert piranStopped(piran). Assert piranHatesYou(piran). }
+  }
+  Relation piranHatesYou(group).
+  Action talk_piran(actor: group, site: place) "Ask Piran to let you go up and look instead" {
+    Speaker piran.
+    Requires able(actor) and at(actor, site) and at(piran, site) and piranPlans(piran) and not piranStopped(piran) and not piranWaits(piran) and not piranUp(piran) and not piranFell(piran).
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert piranWaits(piran). }
+    Result "He thinks about it for a long time, pulling grass. 'All right,' he says. 'But you come back and tell me. Everything. Exactly what's there.' He holds out his hand, and you shake it, and his is shaking.".
+    Otherwise "'You'd only tell Mam.' He turns back to the Pulpit. 'Tomorrow night.'".
+  }
+  Topic take_piran with piran "Ask Piran to climb the Pulpit with you, now" when piranPlans(piran) and not piranStopped(piran) and not piranUp(piran) and not piranFell(piran) and not following(piran, actor) once {
+    Says "His face goes very bright and then very serious. 'Now?' He gets up. 'Mam's at the far stakes. Come on. I'll show you where the rope is good.'".
+    On discuss { Assert following(piran, actor). }
+  }
+  Rule piran_summit at pulpit when following(piran, party) and at(party, pulpit) and not piranUp(piran) says "Piran comes up into the Pulpit beside you on his hands and knees, and stands, holding the rock, and looks. He looks at the sea, and at the Holm, and at Skeel. Then he looks at the back of the niche, and you watch him find the letters there, and the ring, and the new hook. He puts his hand over the hook and holds it, as if it were warm. 'Somebody,' he says, and stops. 'It wasn't him. It was somebody.' He is quiet. Then, quite differently, like a much younger boy: 'He used to say you could see the whole world from up here. You can, nearly.'" { Assert piranUp(piran). }
+  Rule piran_home when piranUp(piran) and following(piran, party) and at(party, clifftop) { Retract following(piran, party). Assert at(piran, clifftop). }
+  Observe camp_piran_up at clifftop when piranUp(piran) and at(piran, clifftop) "Ebrel Penhallow has her arm round her son's shoulders at the fire. Somebody has told her where he has been, and she has said everything she had to say about it, at length, and now she is not letting go of him.".
+  Rule piran_tells when piranWaits(piran) and knows(party, hook_found) and at(party, clifftop) and at(piran, clifftop) and not piranUp(piran) says "You tell Piran what is in the Pulpit, exactly, as you promised: the letters, the ring, the new hook, the tallow, the horn. He listens with his whole body. At the end he lets out a breath. 'Not a ghost, then,' he says, and you cannot tell whether he is glad or sorry." { Assert piranUp(piran). }
+  // Left alone with his plan, he goes up on the night of the Supper, in the dark, and the face has him.
+  Rule piran_climbs when piranPlans(piran) and not piranStopped(piran) and not piranWaits(piran) and not piranUp(piran) and not piranFell(piran) and secondDay() and hour(clock) >= 21 { Assert piranFell(piran). Retract following(piran, party). Assert at(piran, ledges). }
+  Rule piran_climbs_unasked when not piranPlans(piran) and not piranFell(piran) and not piranUp(piran) and not piranStopped(piran) and thirdDay() and hour(clock) >= 21 { Assert piranFell(piran). Assert at(piran, ledges). }
+  Observe piran_fallen at ledges when piranFell(piran) and at(piran, ledges) "Piran Penhallow lies on the ledge against the rock with one leg out in front of him at an angle no leg should make. He fell from the face above, in the dark, and the ledge caught him. He is grey and sweating and very quiet. The gannets have drawn back from him.".
+  Rule piran_found when piranFell(piran) and at(piran, ledges) and hour(clock) >= 6 and hour(clock) < 21 and not piranCarried(piran) and dayN(reach) >= 3 { Assert piranCarried(piran). Retract at(piran, ledges). Assert at(piran, clifftop). }
+  Relation piranCarried(group).
+  Action carry_piran(actor: group, site: place) "Get Piran up the fixed rope to the camp" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, ledges) and at(piran, ledges) and piranFell(piran) and not piranCarried(piran).
+    Time 6.
+    Resolve check(actor, brawn, dc_fair).
+    On success { Assert piranCarried(piran). Retract at(piran, ledges). Assert at(piran, clifftop). Assert carriedPiran(actor). }
+    Result "You get him up the rope on your back, a yard at a time, with his arms round your neck and his breath in your ear, and at the top Ebrel Penhallow is waiting on her knees at the stake, and takes him off you, and does not say a word, and does not need to.".
+    Otherwise "You cannot get him up alone; you go up for help, and Ebrel's crew bring him up in a sling, and Ebrel does not look at you.".
+  }
+  Relation carriedPiran(group).
+  Observe camp_piran_hurt at clifftop when piranFell(piran) and at(piran, clifftop) "Piran lies by the fire with his leg splinted between two oars, and Ebrel sits by him, and the crew go round them quietly.".
+
+  // ── Work on the ropes ─────────────────────────────────────────────────────────────────────────────────────────────
+  Measure ropeDay(group). Initially Set ropeDay(party) to 0.
+  Relation climbedFor(group).
+  Action work_ropes(actor: group, site: place) "Work a shift on the ropes with Ebrel's crew, for eggs" {
+    Description "Over the edge on a rope, a basket at your hip, three hundred feet of air under you and a gannet at every handhold.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, clifftop) and at(ebrel, clifftop) and daylight()
+      and ropeDay(actor) != dayN(reach).
+    Time 18.
+    Resolve check(actor, climbing, dc_fair).
+    On success { Set ropeDay(actor) to dayN(reach). Assert climbedFor(actor). Give gannet_eggs to actor. Increase quantity(actor, gold) by 2. }
+    On failure { Set ropeDay(actor) to dayN(reach). Assert climbedFor(actor). Assert strikes(gannet_beak, actor). }
+    Result "You go over the edge on a rope with a basket, and for three hours you are a part of the cliff: swing, foot on the ledge, hand under the warm indignant bird, the egg, the basket, swing. The gannets stab at your knuckles. At the end Ebrel gives you a dozen eggs and two coin and says you climb like a Penhallow, which is the highest thing she knows how to say.".
+    Otherwise "Halfway down a gannet goes for your eyes and you let go of the rock with both hands, and swing out over two hundred feet of nothing, and come back against the cliff hard, and hang there. Ebrel's crew haul you up like a sack. 'Next time,' Ebrel says, kindly enough, 'keep one hand on the mountain.'".
+  }
+  Hazard gannet_beak "A gannet's beak, and the cliff" means "Deal (1d6) physical damage to ally unless dexterity save against (11).".
+  Kind gannet_eggs_kind "a dozen gannet eggs" is gear worth 2 weighing 2
+    described "Twelve big eggs the colour of skimmed milk, chalky, with a smell of fish about them. Roasted in the ashes they taste of the sea, and of hunger, and are very good.".
+  Item gannet_eggs "a dozen gannet eggs" is gannet_eggs_kind at limbo.
+
+  // ── The Gannet Supper ─────────────────────────────────────────────────────────────────────────────────────────────
+  // On the second night of every big tide in the season the climbers eat what they have gathered, on the cliff top, and
+  // sing; and anybody who has come round by the road or over the sands is fed.
+  Query supper() means secondDay() and hour(clock) >= 19 and hour(clock) < 23.
+  Observe supper_scene at clifftop when supper() "The Gannet Supper: a fire built up high on the cliff top, and the eggs roasted in the ashes by the basketful, and a pot of something with mutton in it, and a cask from somewhere, and twenty climbers and their families sitting round in the firelight with their faces red on one side and dark on the other. Below in the dark, the birds; out across the Reach, the Lantern on the Holm.".
+  Relation supped(group). Relation sang(group).
+  Action gannet_supper(actor: group, site: place) "Sit down at the Gannet Supper" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, clifftop) and supper() and not supped(actor).
+    Time 6.
+    On success { Assert supped(actor). Assert fed(actor). }
+    Result "They make room for you without asking, and put an egg in your hand too hot to hold, and somebody pours you something. For an hour nobody talks about the wreck, or the Court, or the winter. Ebrel Penhallow tells the story of the climber who went down for an egg and came up with a mermaid's comb, and everybody has heard it, and everybody laughs at the same place. A child falls asleep against your arm.".
+  }
+  Relation fed(group).
+  Action sing_gigs(actor: group, site: place) "Stand up and sing when the song comes round to you" {
+    Speaker ebrel.
+    Requires able(actor) and at(actor, site) and at(actor, clifftop) and supper() and supped(actor) and not sang(actor).
+    Resolve check(actor, performance, dc_fair).
+    On success { Assert sang(actor). Assert climbersLike(actor). Assert knows(actor, gigs_song). }
+    On failure { Assert sang(actor). Assert knows(actor, gigs_song). }
+    Result "You sing what you know, and they listen, and when you stop they bang the ground with their hands, and Ebrel stands up and sings back to you the climbers' own, the old one, 'The Twelve Gigs', about the pilots racing out to a ship in a gale: the blue gig, the red gig, the green gig and the grey. They all come in on the chorus — 'Pulpit over the Holm, my love, and the Holm over the stern' — and you find you are singing it too.".
+    Otherwise "You forget the words halfway, and stand there, and they wait kindly, and then Ebrel takes it up for you with the climbers' own, the old one, 'The Twelve Gigs', and everybody comes in on the chorus — 'Pulpit over the Holm, my love, and the Holm over the stern' — and you are let off.".
+  }
+  Relation climbersLike(group).
+  Discovery gigs_song "The climbers' old song, 'The Twelve Gigs', is about the Reach pilots racing out to a ship in a gale. Its chorus is the pilots' leading mark: 'Pulpit over the Holm, my love, and the Holm over the stern.'".
+  Topic ebrel_rope with ebrel "Ask Ebrel Penhallow for the loan of a climbing rope" when climbersLike(actor) or climbedFor(actor) once {
+    Says "She throws you a coil from the cart without getting up. 'Bring it back or bring me its price,' she says. 'A Penhallow rope's never been off the Craigs before. Don't shame it.'".
+    On discuss { Give penhallow_rope to actor. Assert lends(ebrel, penhallow_rope, actor). }
+  }
+  Item penhallow_rope "a Penhallow climbing rope" is rope at limbo owned by ebrel.
+}
