@@ -9,7 +9,7 @@ import { Travel } from '../src/session/travel';
 // in wild country whose way in it does not know, it goes as far as the wild country's edge and stops there, saying
 // so: striking out across country is the company's own choice, asked of it there, never the journey's (the play-
 // structure investigation's PT-16: journeys "strike cross-country unasked"). Kite's Paliduslac, known by its name
-// only, lies in Beorquudu.
+// only, lies in Birchwood.
 describe('a journey toward a place in wild country', () => {
   it('goes by known ways to the edge, and asks before going across country', async () => {
     const w = await WorldAssembler.assemble('kite', NodeBundleSource.shared, { origin: 'debt',

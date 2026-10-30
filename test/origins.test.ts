@@ -202,7 +202,7 @@ describe('an origin', () => {
   }, 60000);
   it('holds a debt that comes due', async () => {
     const s = await Opening.start('debt');
-    expect(ScreenModel.build(s.campaign).objectives.join(' ')).toContain('You owe Mik at Murkstede 50 coin, by market day');
+    expect(ScreenModel.build(s.campaign).objectives.join(' ')).toContain('You owe Mik at Lowmouth 50 coin, by market day');
     for (let n = 0; n < 30 && !s.campaign.world.test(ModuleWriter.call('origin__called', 'party')); n++) {
       const until = PlayerView.choices(s.campaign).find(c => ['wait_for_dark', 'wait_for_light'].includes(c.choice.id));
       await s.perform(until?.choice.id ?? 'wait_hour');

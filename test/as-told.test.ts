@@ -39,8 +39,8 @@ describe('as the company would tell it', () => {
   it('has a traveller resting at an inn tell of where they came from', async () => {
     const s = await Thorn.start();
     Thorn.put(s, 's1_taproom');
-    expect(Thorn.names(s)).toContain('Ask Ralf for news of Meósdael');
-    expect(Thorn.names(s)).not.toContain('Ask Ralf for news of Merscheald');
+    expect(Thorn.names(s)).toContain('Ask Ralf for news of Merscstede');
+    expect(Thorn.names(s)).not.toContain('Ask Ralf for news of Misthythe');
     // Eight in the morning is not the night: he is making ready for the road, at the inn, where he is.
     expect(Thorn.seen(s)).toContain('Ralf the drover is at the window, counting the cattle in the pens before the road');
     expect(Thorn.seen(s)).not.toContain('penned for the night');
@@ -93,8 +93,8 @@ describe('as the company would tell it', () => {
     const w = await WorldAssembler.assemble('a1', NodeBundleSource.shared,
       { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
     const s = await PlaySession.start(w.path, 'a1', w.source);
-    const news = s.campaign.module.actions.find(a => a.name === 'Ask Lambert for news of Meóswaeter');
-    expect(JSON.stringify(news)).toContain('Meóswaeter');
+    const news = s.campaign.module.actions.find(a => a.name === 'Ask Lambert for news of Mistshaw');
+    expect(JSON.stringify(news)).toContain('Mistshaw');
   }, 60000);
   // And dice are bought as dice (cov7's ironmongery sold "a dice").
   it('says heather, comfrey, wine and dice as they are said, and a dandelion as one', () => {

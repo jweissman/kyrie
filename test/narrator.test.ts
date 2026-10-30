@@ -12,7 +12,7 @@ import { ModuleParser } from '../src/lang/module-parser';
 
 // The narrator chooses what to tell. What someone says when asked is said in their words, where they say it; the sky
 // is told when the company comes out under it, not at every step under the same sky, and never under a roof as if it
-// were outside; and the passing life of a place is told the first time. a1: Murkstede, its inn, and Eikwudu.
+// were outside; and the passing life of a place is told the first time. a1: Lowmouth, its inn, and Oakhurst.
 class Telling {
   static async start() {
     const w = await WorldAssembler.assemble('a1', NodeBundleSource.shared,
@@ -75,7 +75,7 @@ describe('the narrator', () => {
     expect(told(await Telling.take(s, /Lucky Phoenix$/))).toEqual([]);
     // Coming out under it, it is told; walking on under it, not again.
     expect(told(await Telling.take(s, /s1_green\)$/)).length).toBeGreaterThan(0);
-    const wood = await Telling.take(s, /to the edge of Eikwudu/);
+    const wood = await Telling.take(s, /to the edge of Oakhurst/);
     const woodSky = (s.campaign.module.observations ?? []).filter(o => o.aspect === 'weather' && o.place === 'region__z3_edge')
       .map(o => o.text);
     expect(woodSky.filter(t => wood.situation.join(' ').includes(t))).toEqual([]);
@@ -83,9 +83,10 @@ describe('the narrator', () => {
   it('tells the passing life of a place the first time only', async () => {
     const s = await Telling.start();
     await Telling.take(s, /s1_green\)$/);
-    const first = await Telling.take(s, /to the edge of Eikwudu/), clearing = await Telling.take(s, /charcoal-burners/);
+    const first = await Telling.take(s, /to the edge of Oakhurst/);
+    const clearing = await Telling.take(s, /charcoal-burners/);
     expect(clearing.situation.join(' ')).toContain('A woodpecker is at work');
-    await Telling.take(s, /to the edge of Eikwudu/);
+    await Telling.take(s, /to the edge of Oakhurst/);
     const again = await Telling.take(s, /charcoal-burners/);
     expect(again.situation.join(' ')).not.toContain('A woodpecker is at work');
     expect(first.situation.length).toBeGreaterThan(0);

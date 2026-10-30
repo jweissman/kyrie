@@ -9,8 +9,8 @@ import type { Change } from '../src/lang/module';
 
 // Bringing home what a deep site's makers died for: the innkeeper who first told of it hears what the company
 // brought up, in the site's own words, and keeps it a night on the house. Found when a1's king-barrow was played to
-// its heart, the crown came into daylight, and nobody in Murkstede said a word; nor did anyone on the roads, where
-// all a traveller had heard was that some stranger had been making themselves useful.
+// its heart, the crown came into daylight, and nobody in Murkstede (now Lowmouth) said a word; nor did anyone on the
+// roads, where all a traveller had heard was that some stranger had been making themselves useful.
 class Home {
   static async start() {
     const w = await WorldAssembler.assemble('a1', NodeBundleSource.shared,

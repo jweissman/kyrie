@@ -9,7 +9,7 @@ import { ScreenModel } from '../src/ui/screen-model';
 import { GeneratedWorld } from './support/generated';
 import { Intentions } from '../src/ui/intentions';
 
-// Wild country is ground, not a list of rooms. a1's Eikwudu: landmarks where they stand on the land, joined by
+// Wild country is ground, not a list of rooms. a1's Oakhurst: landmarks where they stand on the land, joined by
 // trails; a way into it from every road and settlement it borders, so it can be crossed and come out somewhere else;
 // a way straight across between places the company has been, which can lose it; and, lost, a way to find a path again.
 class Wood {
@@ -17,7 +17,7 @@ class Wood {
   static async start() {
     const w = await WorldAssembler.assemble('a1', NodeBundleSource.shared, { scenarios: 0, towns: 0, framework: null,
       origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
-    const zone = w.report.region.atlas!.zones.find(z => z.naming.name === 'Eikwudu')!;
+    const zone = w.report.region.atlas!.zones.find(z => z.naming.name === 'Oakhurst')!;
     return { w, zone, s: await PlaySession.start(w.path, 'a1', w.source) };
   }
   static ways(s: PlaySession): string[] {
@@ -36,7 +36,7 @@ describe('wild country', () => {
     expect(marks.length).toBeGreaterThanOrEqual(3);
     expect(new Set(marks.map(l => l.cell)).size).toBe(marks.length);
     expect(new Set(marks.map(l => l.name)).size).toBe(marks.length);
-    expect(marks.map(l => l.name)).toContain('the edge of Eikwudu by Murkstede');
+    expect(marks.map(l => l.name)).toContain('the edge of Oakhurst by Lowmouth');
   }, 60000);
   it('is come to at its edge from where the edge is said to be, though no road or settlement is beside it', async () => {
     const reached = (lines: string[], zone: string, from = '\\S+') =>
@@ -77,18 +77,18 @@ describe('wild country', () => {
     const { s } = await Wood.start();
     GeneratedWorld.put(s, 'z3_edge');
     await s.perform('wait');
-    await Wood.take(s, /to the charcoal-burners' clearing in Eikwudu$/);
-    await Wood.take(s, /to the old bank( in Eikwudu)?$/);
+    await Wood.take(s, /to the charcoal-burners' clearing in Oakhurst$/);
+    await Wood.take(s, /to the old bank( in Oakhurst)?$/);
     expect(s.campaign.world.one('at', 'party')).toBe('region__z3_deep');
     // Where a trail runs there is no striking out across instead.
-    expect(Wood.ways(s).some(n => /^Strike out across Eikwudu toward the charcoal/.test(n))).toBe(false);
+    expect(Wood.ways(s).some(n => /^Strike out across Oakhurst toward the charcoal/.test(n))).toBe(false);
     // Across, at least once, without a path: either there, or lost and casting about until a path is found.
     for (let tries = 0; tries < 30 && s.campaign.world.one('at', 'party') !== 'region__z3_lost'; tries++) {
       const here = s.campaign.world.one('at', 'party');
-      await Wood.take(s, here === 'region__z3_deep' ? /^Strike out across Eikwudu toward the edge/ : /^Strike out across Eikwudu toward the old bank/);
+      await Wood.take(s, here === 'region__z3_deep' ? /^Strike out across Oakhurst toward the edge/ : /^Strike out across Oakhurst toward the old bank/);
     }
     expect(s.campaign.world.one('at', 'party')).toBe('region__z3_lost');
-    expect(ScreenModel.build(s.campaign).place.name).toBe('somewhere in Eikwudu');
+    expect(ScreenModel.build(s.campaign).place.name).toBe('somewhere in Oakhurst');
     // Lost, the ways back to a path are ways to go, offered as such.
     const go = Intentions.book(ScreenModel.build(s.campaign)).find(x => x.title === 'Go');
     expect(go?.choices.map(c => c.label)).toContain('Cast about for a path you know');

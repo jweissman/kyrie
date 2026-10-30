@@ -6,13 +6,14 @@ import { TitlePage } from './title-page';
 
 // The lantern: a dark ground with the country's painting far behind it, dim and out of focus and tinted by the hour,
 // and on it one bounded stage, lit, where the game is played. Every page is held inside the stage, with its margins
-// kept (about a fifth of a desktop's width, less on a tablet, none on a phone); the title alone breaks out of it.
+// kept (about a fifth of a desktop's width, less on a tablet, none on a phone); the title and the choice of a life in
+// a drawn country (OWN-14: no window frame) break out of it.
 export class Shell {
   static View({ app, children }: { app: ReaderApp; children: ReactNode }) {
-    const s = app.state, plate = Shell.plate(app);
+    const s = app.state, plate = Shell.plate(app), creating = s.phase === 'company' && !!s.setting?.generated;
     const style = { '--plate': plate ? `url(paintings/large/${plate}.webp)` : 'none' } as CSSProperties;
     return (
-      <div className={`shell phase-${s.phase} hour-${Shell.hour(app)}`} style={style}>
+      <div className={`shell phase-${s.phase} hour-${Shell.hour(app)}${creating ? ' creating' : ''}`} style={style}>
         <div className="ambient" aria-hidden="true" />
         <div className="frame">{children}</div>
       </div>

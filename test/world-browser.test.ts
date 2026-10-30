@@ -25,15 +25,18 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a generated world in the browser', 
       { site, pointer: false, query: `?world=${seed}` });
     await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
     // The qualities are six rolls placed by choosing one and then another (the cold playtest could not place them),
-    // on their own page of the book creation is.
+    // behind Details on the last page of creation (OWN-14: creation asks only why, people, calling, way and name).
+    while (await page.locator('[data-action="next"]').count()) { await page.click('[data-action="next"]'); }
+    await page.click('[data-action="details"]');
     await page.click('[data-step="qualities"]');
-    const roll = (q: string) => page.textContent(`[data-quality="${q}"]`);
+    const roll = (q: string) => page.getAttribute(`[data-quality="${q}"]`, 'data-roll');
     const [strength, dexterity] = [await roll('strength'), await roll('dexterity')];
     await page.click('[data-quality="strength"]');
     await page.click('[data-quality="dexterity"]');
     expect([await roll('strength'), await roll('dexterity')]).toEqual([dexterity, strength]);
     // Changed over, neither stays chosen: the page does not ask for another quality to give a roll to.
     expect(await page.locator('[data-quality][aria-pressed="true"]').count()).toBe(0);
+    await page.keyboard.press('Escape');
     await page.waitForTimeout(3000);
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
@@ -60,7 +63,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a generated world in the browser', 
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
     await driver.pick(c => /^To the market-place/.test(c.label), 'the market-place');
-    await driver.pick(c => /^To the bridge over the Beorcex/.test(c.label), 'the bridge');
+    await driver.pick(c => /^To the bridge over the Birchwater/.test(c.label), 'the bridge');
     const beneath = await page.$$eval('.end-way .route', ends => ends.map(end => {
       const n = end.querySelector('.n')!.getBoundingClientRect(), r = end.querySelector('.r')!.getBoundingClientRect();
       return r.top >= n.bottom - 1;

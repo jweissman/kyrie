@@ -18,6 +18,9 @@ import { Fighting } from '../../src/rules/fighting';
 import { Creation as RulesCreation } from '../../src/rules/creation';
 import { MechanicsText } from '../../src/presentation/mechanics-text';
 import type { Trait } from '../../src/canon/schema';
+import { ProtagonistNames } from '../../src/world/protagonist-names';
+import { FirstSpells } from './first-spells';
+import { CardLines } from './card-lines';
 
 
 // The engine's side of forming a company: what there is to choose from, what a campaign asks of the company, a
@@ -29,24 +32,12 @@ export class Creation {
     const backgrounds = Object.keys(Overlays.catalog).filter(id => Overlays.has(id, 'background'));
     return {
       ancestries: (Content.playableRaces as string[]).map(id => ({ id, name: Canon.ancestries[id]?.name ?? id,
-        text: Canon.ancestries[id]?.description ?? '',
+        text: Canon.ancestries[id]?.description ?? '', line: CardLines.line(id),
         callings: (Content.playableClasses as string[])
           .filter(c => Canon.ancestries[id]?.classes.includes(c) ?? true),
+        forbids: [...Canon.ancestries[id]?.forbiddenTraits ?? []],
         qualities: { ...Canon.ancestries[id]?.attributes ?? {} } as Record<string, number>, gifts: this.gifts(id) })),
-      callings: (Content.playableClasses as string[]).map(id => {
-        const c = Canon.classes[Canon.resolve('classes', id)];
-        return { id, name: c?.name ?? id, text: c?.practice ?? c?.description ?? '',
-          specializations: (c?.specializations ?? []).map(t => ({ id: t, name: Canon.traits[t]?.name ?? t,
-            text: Canon.traits[t]?.description ?? '', of: Canon.traits[t]?.spellAccess?.domain
-              ?? Canon.traits[t]?.spellAccess?.school ?? '',
-            does: MechanicsText.modifiers(Canon.traits[t]?.modifiers ?? {}).join(', ') })),
-          qualities: { ...c?.attributes ?? {} } as Record<string, number>,
-          hitDie: c?.hitDie ?? 4, armour: this.armour(id),
-          skills: (c?.skills ?? []).map(k => Canon.skills[k]?.name ?? k),
-          ...c?.spellcasting ? { casts: c.spellcasting.attribute } : {},
-          ...c?.abilities.includes('set_spear') ? { braces: true } : {},
-          weapons: this.arms(id) };
-      }),
+      callings: (Content.playableClasses as string[]).map(id => this.calling(id)),
       qualities: CreatureSchema.attributes.map(id => ({ id, name: CharacterSheets.names[id],
         rests: CharacterSheets.rests[id] })),
       worth: Array.from({ length: 31 }, (_, score) => score ? Fighting.statMod(score) : 0),
@@ -67,6 +58,36 @@ export class Creation {
         detail: 'Three settlements and three adventures' }],
     };
   }
+  private static calling(id: string): Catalog['callings'][number] {
+    const c = Canon.classes[Canon.resolve('classes', id)];
+    return { id, name: c?.name ?? id, text: c?.practice ?? c?.description ?? '', line: CardLines.line(id),
+      ...CardLines.trades[id] ? { trade: CardLines.trades[id] } : {},
+      specializations: (c?.specializations ?? []).map(t => this.specialization(id, t)),
+      qualities: { ...c?.attributes ?? {} } as Record<string, number>,
+      hitDie: c?.hitDie ?? 4, armour: this.armour(id),
+      skills: (c?.skills ?? []).map(k => Canon.skills[k]?.name ?? k),
+      ...c?.spellcasting ? { casts: c.spellcasting.attribute } : {},
+      ...c?.abilities.includes('set_spear') ? { braces: true } : {},
+      weapons: this.arms(id) };
+  }
+  // A school, a god's domain or a way: a school by its name without "Specialist" and its specialist ("Abjurer"), a
+  // domain by its own name ("Life", not "Vitalist", which is its clerics' title), a way by its name, with a sentence
+  // of its own and its rules in plain words; and, for one that casts, the spells it sets out knowing and the picks
+  // among them (see FirstSpells).
+  private static specialization(calling: string, id: string): Catalog['callings'][number]['specializations'][number] {
+    const t = Canon.traits[id], own = FirstSpells.own(calling), access = t?.spellAccess;
+    const named = (t?.name ?? id).replace(/ Specialist$/, ''), domain = access?.domain && Creation.upper(access.domain);
+    const callingName = (Canon.classes[Canon.resolve('classes', calling)]?.name ?? calling).toLowerCase();
+    const picks = access ? FirstSpells.picks(id, own) : [];
+    const way = { name: domain || named, text: CardLines.sentences[id] ?? t?.description ?? '',
+      line: CardLines.line(id), of: access?.domain ?? access?.school ?? '',
+      rules: CardLines.plain(MechanicsText.modifiers(t?.modifiers ?? {})) };
+    const who = domain ? { title: named, who: `${callingName} of ${domain}` }
+      : access ? { title: Creation.upper(id), who: id }
+        : { who: `${callingName}, ${CardLines.manners[id] ?? named.toLowerCase()}` };
+    return { id, ...way, ...who, ...access ? { picks, spells: FirstSpells.shown(id, own, picks) } : {} };
+  }
+  private static upper(s: string): string { return s.charAt(0).toUpperCase() + s.slice(1); }
   // The weapons a protagonist of a calling may set out with: its own, and every ordinary weapon of the kinds and
   // weights it is trained to (a warrior, any), each with what it is by the rules. Not a treasure or a thing of one
   // adventure (the Wardens' blade, the longsword of flames): those are found.
@@ -129,10 +150,11 @@ export class Creation {
     if (!party) { setTimeout(() => void Creation.warm(world.path, world.source), 200); }
     const title = campaign.name, region = world.report.region;
     const origins = Origins.choices(await Origins.load(Scenarios.source()), region, world.report.placements);
-    return { title, generated: true, origins, terrain: region.terrain,
+    const names = ProtagonistNames.drawn(region, seed);
+    return { title, generated: true, origins, terrain: region.terrain, names,
       pitch: { heading: `Who comes to ${title}?`, text: `${title} is ${Creation.country(region.terrain)} country. `
         + 'You come into it alone, for a reason of your own; whoever goes with you, you will meet on the way.' },
-      party: [Creation.protagonist(region.ancestry, seed)] };
+      party: [Creation.protagonist(region.ancestry, seed, names)] };
   }
   // The country first, then what is set in it.
   private static async warm(path: string, source: BundleSource) {
@@ -144,12 +166,12 @@ export class Creation {
   static country(terrain: string): string {
     return ({ marsh: 'fen', forest: 'forest', mountain: 'high', frost: 'cold northern' } as Record<string, string>)[terrain] ?? terrain;
   }
-  // Someone to begin as, of the country's own people; every part of them can be changed.
   // Who comes into a drawn country, until the player says otherwise: of its people where they may be a protagonist,
-  // with six rolls of three dice to place on the qualities (the same for the same country).
-  static protagonist(ancestry: string, seed: string): Member {
+  // named as their people name their own (the first of the country's names for them), with six rolls of three dice to
+  // place on the qualities (the same for the same country). Every part of them can be changed.
+  static protagonist(ancestry: string, seed: string, names: Record<string, string[]> = {}): Member {
     const playable = (Content.playableRaces as string[]).includes(ancestry) ? ancestry : 'human';
-    return { name: 'Wenna', raceId: playable as Member['raceId'], classId: 'warrior',
+    return { name: names[playable]?.[0] ?? 'Wenna', raceId: playable as Member['raceId'], classId: 'warrior',
       rolled: Rolls.suited(Content.rolls(seed), Canon.classes.warrior?.attributes ?? {}) };
   }
   // Where a company sets out: an authored campaign from the bundled files, or the generated region drawn again for

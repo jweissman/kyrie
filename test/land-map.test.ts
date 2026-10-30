@@ -10,7 +10,8 @@ import type { RegionChart } from '../src/ui/screen-types';
 
 // The map draws what the company knows of the land, as land: each known cell its land's tone, water as water, the
 // rest of the country fading to a trace; a name beside each place, never across another; and the company, the places
-// it knows and the ways it knows, where they are on the land. a1: Murkstede by the sea, Eikwudu east of it.
+// it knows and the ways it knows, where they are on the land. a1: Murkstede by the sea, Eikwudu east of it (now
+// Lowmouth and Oakhurst).
 class Land {
   // A land of rows of cover marks, all of it known but the last row, with a town in the middle of the first row.
   static region(rows: string[]): RegionChart {
@@ -67,7 +68,7 @@ describe('the map', () => {
     const w = await WorldAssembler.assemble('a1', NodeBundleSource.shared,
       { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
     const s = await PlaySession.start(w.path, 'a1', w.source);
-    for (const way of [/s1_green\)$/, /to the edge of Eikwudu/, /charcoal-burners/]) {
+    for (const way of [/s1_green\)$/, /to the edge of Oakhurst/, /charcoal-burners/]) {
       const c = PlayerView.choices(s.campaign).find(x => way.test(x.choice.name) || way.test(x.choice.id))!;
       await s.perform(c.choice.id);
     }
@@ -77,12 +78,14 @@ describe('the map', () => {
     expect(land.here).toBe(clearing.cell);
     // The old bank is known of, from the edge of the wood, but not yet been to.
     expect(land.marks.find(m => m.name === 'the old bank')).toMatchObject({ visited: false, here: false });
-    expect(land.zones.map(z => z.name)).toEqual(['Eikwudu']);
+    expect(land.zones.map(z => z.name)).toEqual(['Oakhurst']);
     expect(land.zones[0]!.cells).toContain(clearing.cell);
-    // The road out of Murkstede runs over the road's own cells, half of it to the country between the two towns.
+    // The road out of Lowmouth runs over the road's own cells, half of it to the country between the two towns.
     const road = region.edges.find(e => e.road && e.from === 'region__s1' && e.to === 'region__s1_s4_land')!;
     expect(road).toMatchObject({ road: true });
     expect(road.course![0]).toBe(42);
-    expect(land.glosses).toMatchObject({ region__s1: 'Westron for “black stead”' });
+    // Lowmouth (Murkstede, "black stead" in Westron, before the heartland's places had Common names) says what it
+    // means, and is not glossed on the map.
+    expect(land.glosses).not.toHaveProperty('region__s1');
   }, 60000);
 });

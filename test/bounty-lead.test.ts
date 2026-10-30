@@ -22,7 +22,7 @@ describe('a price on a power', () => {
     const offer = PlayerView.choices(c).find(x => /what she is waiting for/.test(x.choice.name))!;
     expect((await s.perform(offer.choice.id)).response).toContain('looking toward a toll-house by the water');
     const hold = Itineraries.destinations(c).find(d => d.name === 'a toll-house by the water')!;
-    expect([hold.toward, hold.legs.length]).toEqual(['Thyrnebearwas', 1]);
+    expect([hold.toward, hold.legs.length]).toEqual(['Thornholt', 1]);
   }, 120000);
   // At the hold, the challenge to fight is weighed up before it is taken, as an attack is, and a fight it
   // brings on and loses is told as chosen, not as being set upon (a fresh play took it up unwarned and died).
@@ -51,6 +51,6 @@ describe('a price on a power', () => {
     const s = await PlaySession.start(w.path, 'ember', w.source), c = s.campaign;
     await GeneratedWorld.travel(s, 's5_green');
     const ask = PlayerView.choices(c).find(x => /^Ask Maud about the country off the road/.test(x.choice.name))!;
-    expect((await s.perform(ask.choice.id)).response).toContain('Fyrsteport, a toll-house by the water in Thyrnebearwas');
+    expect((await s.perform(ask.choice.id)).response).toContain('Fyrsteport, a toll-house by the water in Thornholt');
   }, 120000);
 });

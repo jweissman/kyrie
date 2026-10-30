@@ -56,6 +56,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the reader', () => {
     expect(await page.waitForSelector('[data-mode="loading"]', { timeout: 150 })).toBeTruthy();
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
     expect(await page.textContent('[data-id="place"]')).toBe('Reedwake quay');
+    // The company's portraits are for their cards in a fight and their pages, never what is told (OWN-29).
+    expect(await page.locator('img[src*="paintings/pcs/"]').count()).toBe(0);
     // Told once, and the story does not move while the pointer does.
     await d.do('relative', 'Ask what is wrong');
     const told = await Reading.text(page);
@@ -85,6 +87,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the reader', () => {
     await Reading.fight(d);
     expect((await d.inspect()).mode).toBe('combat');
     expect(await page.locator('.foes .intent').count()).toBeGreaterThan(0);
+    expect([await page.locator('.ours .fighter img.face').count(), await page.locator('.foes .face').count()]).toEqual([3, 0]);
     await d.fight();
     const fought = await Reading.text(page);
     // Those the fight left dead are told dead, and not offered as a danger (play 9: dead spiders under "Danger").

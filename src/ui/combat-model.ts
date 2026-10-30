@@ -16,19 +16,21 @@ import { DangerSense } from '../presentation/danger-sense';
 import { ItemCatalog } from '../item-catalog';
 import { ItemNames } from '../item-names';
 import type { CombatantRow, CombatScreen } from './screen-types';
+import type { Face } from '../paintings/company-portraits';
 
 // Encounter projection for the game screen. Abilities and targets come from Battle.legalCommands only. Who is in the
 // fight is called as the company knows them (called, from BandNames): "the second of the agile bone hounds", as the
-// place and the account afterwards call it, never "Knitted bone hound 2".
+// place and the account afterwards call it, never "Knitted bone hound 2". The company's own are shown by their
+// portraits (faces, by id: see CompanyPortraits), where they have one.
 export class CombatModel {
-  static build(battle: Battle, called?: ReadonlyMap<string, string>): CombatScreen {
+  static build(battle: Battle, called?: ReadonlyMap<string, string>, faces?: ReadonlyMap<string, Face>): CombatScreen {
     const state = this.called(battle.state, called), actor = state.combatants.find(f => f.id === state.actor);
     const ours = !!actor && battle.playerControls(actor.id);
     const choices = ours && !state.outcome ? CombatChoices.actions(battle.legalCommands(), battle.repertoire) : [];
     return {
       turn: state.turn, actor: state.actor, actorName: actor?.name ?? '', ours, outcome: state.outcome,
       foes: state.combatants.filter(f => f.team !== 'fighters').map(f => this.row(f, state)),
-      allies: state.combatants.filter(f => f.team === 'fighters').map(f => this.row(f, state)),
+      allies: state.combatants.filter(f => f.team === 'fighters').map(f => this.row(f, state, faces?.get(f.id))),
       abilities: choices.map(c => ({ id: c.ability.id, name: this.named(c.ability, actor),
         text: MechanicsText.full(c.ability, actor && Effects.context(actor)),
         cost: c.ability.cost ?? 0, price: MechanicsText.price(c.ability),
@@ -58,16 +60,17 @@ export class CombatModel {
   }
   // A fight that has ended, as its page holds it until the player goes on: how each side stands, and what the
   // command told after each of its fights ended, before another began (the end, and the experience gained).
-  static ended(battle: Battle, told: CombatEvent[], called?: ReadonlyMap<string, string>): CombatScreen {
+  static ended(battle: Battle, told: CombatEvent[], called?: ReadonlyMap<string, string>,
+    faces?: ReadonlyMap<string, Face>): CombatScreen {
     const lines: string[] = [], state = this.called(battle.state, called);
     let over = false;
     for (const e of told) {
       over = e.type === 'end' || (over && e.type !== 'initiative');
       if (over && e.type !== 'action') { lines.push(CombatPresenter.format(e, state)); }
     }
-    return { ...this.build(battle, called), after: [...new Set(Narration.tidy(lines.filter(Boolean)))] };
+    return { ...this.build(battle, called, faces), after: [...new Set(Narration.tidy(lines.filter(Boolean)))] };
   }
-  private static row(f: BattleState['combatants'][number], state: BattleState): CombatantRow {
+  private static row(f: BattleState['combatants'][number], state: BattleState, face?: Face): CombatantRow {
     const race = Content.race(f.raceId)?.name ?? f.raceId;
     const klass = f.classId ? Content.classes[f.classId as keyof typeof Content.classes]?.name ?? f.classId : '';
     const worn = f.statuses.filter(s => !ConditionSense.law(s.id));
@@ -77,7 +80,7 @@ export class CombatModel {
       statuses: worn.filter(s => !ConditionSense.helps(s.id)).map(s => ConditionSense.name(s.id)),
       boons: worn.filter(s => ConditionSense.helps(s.id)).map(s => ConditionSense.name(s.id)),
       acting: f.id === state.actor,
-      down: f.hp === 0, ...f.team === 'fighters' ? {} : this.reading(f, state) };
+      down: f.hp === 0, ...face ? { face } : {}, ...f.team === 'fighters' ? {} : this.reading(f, state) };
   }
   // What the company can read off a foe: what it means to do this round, and what it shrugs off or fears.
   private static reading(f: Fighter, state: BattleState): Pick<CombatantRow, 'intent' | 'defenses'> {

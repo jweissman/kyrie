@@ -44,6 +44,17 @@
   color: var(--dim); }
 .fight .fighter .intent .at { color: var(--ember); font-weight: 600; }
 .fight .fighter .defenses { margin: 6px 0 0; font: italic 400 13.5px/1.4 var(--told); color: var(--violet); }
+/* One of the company by a small portrait at the card's side (or the first letter of a name on a plain plate), beside
+   the name, the bar and what they are under: the card no taller for it. Gold-ringed with the card when they act;
+   grey when down. */
+.fight .fighter.faced { display: grid; grid-template-columns: 46px minmax(0, 1fr); column-gap: 12px; }
+.fight .fighter.faced > :not(.face) { grid-column: 2; }
+.fight .fighter .face { grid-column: 1; grid-row: 1 / span 3; align-self: center; width: 46px; height: 46px;
+  object-fit: cover; border: 1px solid var(--edge); background: var(--lift); }
+.fight .fighter .face.plate { display: grid; place-items: center; font: 300 22px/1 var(--told); color: var(--dim); }
+.fight .fighter .face.gone { visibility: hidden; }
+.fight .fighter.acting .face { border-color: var(--gold); }
+.fight .fighter.down .face { filter: grayscale(1); }
 .fight .fighter.struck { animation: struck .7s var(--ease); }
 @keyframes struck { 0% { background: rgba(255, 107, 69, .3); transform: translateX(-3px); } 18% { transform: translateX(2px); }
   36% { transform: none; } }
@@ -95,4 +106,7 @@
   .fight .beat .what.earlier { display: none; }
   .fight .moves .act { min-width: 7.5rem; min-height: 50px; padding: 8px 12px 8px 30px; font-size: 14px; }
   .fight .fighter { padding: 10px 11px; }
+  .fight .fighter.faced { grid-template-columns: 34px minmax(0, 1fr); column-gap: 9px; }
+  .fight .fighter .face { width: 34px; height: 34px; }
+  .fight .fighter .face.plate { font-size: 17px; }
 }

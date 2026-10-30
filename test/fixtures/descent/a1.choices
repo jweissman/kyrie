@@ -17,7 +17,7 @@
 ^Buy one ration from Mik
 ^Buy one ration from Mik
 ^Take Mik's door
-^Take the path into Eikwudu
+^Take the path into Oakhurst
 ^Take a green ride
 ^Take the track to Lapistumul
 ^Take the way in to the forecourt
@@ -46,7 +46,7 @@
 ^Take the way in to Lapistumul
 ^Take the track to the holly hollow
 ^Take a green ride
-^Take the path into Eikwudu to the landing
+^Take the path into Oakhurst to the landing
 ^Take Mik's door
 ^Sell a silver arm-ring
 ^Sell a jade idol
@@ -58,7 +58,7 @@
 ^Take the shrine porch
 ^Ask Eogan about the sealed door
 ^Buy a glossary of the old script for Wenna
-^Take the shrine porch in Murkstede to the landing
+^Take the shrine porch in Lowmouth to the landing
 ^Take the door of the Lucky Phoenix to the taproom
 ^Tell Eamon the stones are going back
 ^Equip a glossary of the old script on Wenna
@@ -66,13 +66,13 @@
 ^Buy one ration from Eamon
 ^Buy one ration from Eamon
 ^Take the door of the Lucky Phoenix to the landing
-^Take the road to the road between Murkstede and Meóswaeter
-^Take the road to Meóswaeter green
-^Take the road to the road between Meóswaeter and Faennslím
-^Take the road to the camp at Faennslím
-^Take the Deopex road to the bridge
+^Take the road to the road between Lowmouth and Mistshaw
+^Take the road to Mistshaw green
+^Take the road to the road between Mistshaw and Millholm
+^Take the road to the camp at Millholm
+^Take the Deepwater road to the bridge
 ^Pay the lord's toll
-^Take the bridge over the Deopex to Wǽttún green
+^Take the bridge over the Deepwater to Sedgebrook green
 ^Buy a ten-foot pole for Wenna
 ^Buy a lantern for Cyril
 ^Buy a flask of lamp oil for Cyril
@@ -85,8 +85,8 @@
 ^Ask Aghavan to join
 ^Take a bench by the fire from Tazala
 ^Take Tazala's door
-^Take the bridge over the Deopex$
-^Take the path into Eikwudu to the old bank
+^Take the bridge over the Deepwater$
+^Take the path into Oakhurst to the old bank
 ^Take a carters' track, soft with leaf to the charcoal-burners' clearing
 ^Take a carters' track, soft with leaf to the edge
 ^Take a green ride

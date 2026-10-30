@@ -13,7 +13,7 @@ import type { Region } from '../src/world/region-writer';
 
 // A settlement is the people who live in it: at their work by day, at the inn or at home of an evening, indoors at
 // night; with animals about the place that can be made much of; and a small trouble a stranger could help with. What
-// grows wild grows where the land lets it. Thorn: Merscheald, a town that lives by eels, by the Sealtbrōc.
+// grows wild grows where the land lets it. Thorn: Misthythe, a town that lives by eels, by the Saltbrook.
 class Settled {
   static async start(origin = 'wanderer') {
     const w = await WorldAssembler.assemble('thorn', NodeBundleSource.shared,

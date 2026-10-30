@@ -10,8 +10,9 @@ import { MonoBrowser } from './support/mono-browser';
 // The opening and the choice of a life (Mission 18's A3 and A6), and the stage held inside the screen (A1). The studio
 // mark plays when asked for (automation is otherwise spared it) and any key goes straight to the ways in; the gold
 // mark beside the ways in goes to the one pointed at; creation asks first why you have come, shows no likeness of you
-// anywhere, and goes on by Continue; and at a desktop's size, a tablet's either way up and a phone's, the stage stays
-// inside the screen, keeps its margins where there is room for them, and the page itself never scrolls.
+// anywhere, and goes on by Continue, the chosen card's rules behind Details; and at a desktop's size, a tablet's either
+// way up and a phone's, creation is the whole screen and play's stage stays inside it, keeping its margins where there
+// is room for them, and the page itself never scrolls.
 class Stage {
   static bounds(page: Page) {
     return page.evaluate(() => {
@@ -63,7 +64,13 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the opening and the choice of a lif
     await page.click('[data-action="next"]');
     await page.click('[data-choice="classId:thief"]');
     expect(await page.getAttribute('[data-choice="classId:thief"]', 'aria-pressed')).toBe('true');
-    expect(await page.textContent('.creation-foot .so-far')).toContain('thief');
+    // The chosen card's sentence is beneath the cards, and its rules behind Details, over the page.
+    expect(await page.textContent('.chosen-lead')).toContain('quick blade');
+    await page.click('[data-action="details"]');
+    expect(await page.textContent('[aria-modal="true"]')).toContain('Hit points');
+    await page.keyboard.press('Escape');
+    expect(await page.locator('[aria-modal="true"]').count()).toBe(0);
+    expect(await page.getAttribute('.creation-body', 'data-page')).toBe('calling');
     expect(await page.locator('.creation img').count()).toBe(0);
     expect(errors).toEqual([]);
     await page.close();
@@ -78,9 +85,9 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the opening and the choice of a lif
       await page.click('[data-action="start"]');
       await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
       const playing = await Stage.bounds(page);
-      for (const b of [creating, playing]) {
-        expect([b.inside, b.margin >= margin, b.scrolls]).toEqual([true, true, false]);
-      }
+      // Creation is the whole screen, as the title is (OWN-14: no window frame); play keeps the stage's margins.
+      expect([creating.inside, creating.margin, creating.scrolls]).toEqual([true, 0, false]);
+      expect([playing.inside, playing.margin >= margin, playing.scrolls]).toEqual([true, true, false]);
       expect(errors).toEqual([]);
       await page.close();
     }, 240000);

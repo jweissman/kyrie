@@ -255,6 +255,9 @@ kbd { font: 500 10.5px/1 var(--do); color: var(--dim); border: 1px solid var(--e
 .character .head-of .who { margin: 0; font-size: clamp(44px, 5vw, 64px); }
 .character .head-of.faced { grid-template-columns: 92px minmax(0, 1fr) auto; }
 .character .head-of .sat { grid-row: 1 / span 2; width: 92px; height: 116px; object-fit: cover; display: block; }
+/* A portrait of someone of their calling and people (see CompanyPortraits): smaller, and square, as on their card. */
+.character .head-of.pc { grid-template-columns: 76px minmax(0, 1fr) auto; }
+.character .head-of.pc .sat { width: 76px; height: 76px; align-self: center; }
 .character .head-of.faced .who, .character .head-of.faced .line-of { grid-column: 2; }
 .character .head-of.faced .gauges { grid-column: 3; }
 .character .head-of .line-of { margin: 0; grid-column: 1; }
@@ -287,6 +290,10 @@ kbd { font: 500 10.5px/1 var(--do); color: var(--dim); border: 1px solid var(--e
   .character { grid-template-columns: minmax(0, 1fr); }
   .character .head-of { grid-template-columns: minmax(0, 1fr); }
   .character .gauges { grid-column: 1; grid-row: auto; min-width: 0; margin-top: 10px; }
+  .character .head-of.faced { grid-template-columns: 60px minmax(0, 1fr); column-gap: 16px; }
+  .character .head-of.faced .gauges { grid-column: 1 / -1; }
+  .character .head-of .sat { width: 60px; height: 76px; }
+  .character .head-of.pc .sat { width: 60px; height: 60px; }
   .character .qualities-of { grid-column: 1; }
   .character .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }

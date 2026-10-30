@@ -1,4 +1,4 @@
-import { Likeness } from '../paintings/likeness';
+import { Likeness } from '../paintings/likeness'; import { CompanyPortraits } from '../paintings/company-portraits';
 import { CharacterSheets } from '../presentation/character-sheet';
 import { CoinReading } from '../presentation/coin-reading';
 import { Itineraries } from './itinerary';
@@ -362,8 +362,11 @@ export class ScreenModel {
       const klass = Content.classes[m.classId as keyof typeof Content.classes]?.name ?? m.classId;
       const background = m.backgroundId ? Canon.backgrounds[m.backgroundId]?.name : undefined;
       const likeness = campaign.readout.creatures.find(c => c.id === m.id)?.likeness;
+      const pronoun = ref && campaign.world.relates('pronouns') ? campaign.world.one('pronouns', ref) : undefined;
+      const face = CompanyPortraits.member(m, { ...pronoun ? { pronoun } : {}, ...likeness ? { likeness } : {} });
       return { id: m.id, ...(ref ? { ref } : {}), name: m.name, line: `${race} ${klass}`.toLowerCase(),
         ...likeness && Likeness.ids.has(likeness) ? { portrait: Likeness.portrait(likeness) } : {},
+        ...face ? { face } : {},
         ...(background ? { background } : {}), level: m.level, hp: m.hp, maxHp: m.maxHp, mana: m.mana,
         maxMana: m.maxMana, ...(m.maxSlots ? { slots: m.slots, maxSlots: m.maxSlots } : {}),
         ...(m.prepared ? { spells: this.prepared(m.prepared, m.ready ?? []) } : {}),

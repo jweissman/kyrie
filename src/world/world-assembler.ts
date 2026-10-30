@@ -218,7 +218,7 @@ export class WorldAssembler {
   // where each kind can stand (those that can stand nowhere left out).
   static lay(drawn: Region, seed: string, world = seed, taken: string[] = []): Region {
     const atlas = Atlases.make(RandomStreams.key(seed, 'world', 'land'), drawn.terrain,
-      { tongue: PlaceNames.tongues[drawn.ancestry] ?? 'westron', taken: [drawn.name] });
+      { tongue: PlaceNames.landTongue(drawn), taken: [drawn.name] });
     const region = RegionRecruits.distinct(Livelihoods.seat(drawn, atlas, seed), seed);
     const history = Histories.make(RandomStreams.key(seed, 'world', 'history'), drawn.terrain, atlas,
       { world: RandomStreams.key(world, 'world', 'history'), taken });

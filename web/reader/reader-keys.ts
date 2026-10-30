@@ -55,17 +55,21 @@ export class ReaderKeys {
     if (key === '?') { app.setState({ help: !app.state.help }); return true; }
     return false;
   }
-  // Before play: the page's own buttons, in order.
+  // Before play: the page's own buttons, in order; or, while a sheet is open over the page, the sheet's, and Escape
+  // puts it away. Creation's cards stand in rows, so there the arrows across go along them too.
   private page(key: string): boolean {
-    const items = [...document.querySelectorAll<HTMLElement>('[data-nav]')];
+    const sheet = document.querySelector<HTMLElement>('[aria-modal="true"]');
+    const items = [...(sheet ?? document).querySelectorAll<HTMLElement>('[data-nav]')];
     const at = items.indexOf(document.activeElement as HTMLElement);
-    if (key === 'ArrowDown' || key === 'ArrowUp') {
-      const next = items[(at + (key === 'ArrowDown' ? 1 : -1) + items.length) % items.length];
+    const across = this.app.state.phase === 'company' && (key === 'ArrowRight' || key === 'ArrowLeft');
+    if (key === 'ArrowDown' || key === 'ArrowUp' || across) {
+      const next = items[(at + (key === 'ArrowDown' || key === 'ArrowRight' ? 1 : -1) + items.length) % items.length];
       next?.focus();
       return !!next;
     }
     if (/^[1-9]$/.test(key)) { items[Number(key) - 1]?.click(); return !!items[Number(key) - 1]; }
     if (key === 'Escape') {
+      if (sheet) { sheet.querySelector<HTMLElement>('[data-action="close"]')?.click(); return true; }
       if (this.app.state.phase === 'campaigns') { this.app.opening.title(); return true; }
       if (this.app.state.phase === 'company') { this.app.setState({ phase: 'campaigns' }); return true; }
     }

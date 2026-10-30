@@ -30,6 +30,8 @@ export interface AppState {
   phase: Phase; catalog?: Catalog; saved?: SavedGame; options: Options;
   campaign: string; seed: string; setting?: Setting; party: Member[]; preview?: CompanyView; editing: number;
   origin?: string;
+  // Whether the protagonist's name is one the player wrote: a name drawn for them is drawn again for a new people.
+  named?: boolean;
   // Someone who died in this country before, whom it will remember when it is begun again.
   memorial?: import('../../src/world/memorial').Memorial;
   frame?: Frame; view: View; cursor: number; hovered?: string; member: string;

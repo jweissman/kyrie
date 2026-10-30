@@ -379,11 +379,13 @@ export class EngineHost {
     this.screen ??= ScreenModel.build(campaign);
     // A generated world is named on the page for the region the company is in, as it goes on past the first.
     const region = this.frontier && this.screen.path.find(p => p.kind === 'region')?.name;
+    // In a fight, the company's own by their portraits, as on their pages.
+    const faces = new Map(this.screen.party.flatMap(m => m.face ? [[m.id, m.face] as const] : []));
     return { title: region ?? this.screen.title.split(' — ')[0]!, screen: this.screen, entries: this.log.slice(-120),
       leaf: this.leaf(),
-      ...this.turn ? { combat: CombatModel.build(this.turn.battle, BandNames.of(campaign)) }
+      ...this.turn ? { combat: CombatModel.build(this.turn.battle, BandNames.of(campaign), faces) }
         : this.fought && this.told && this.screen.running
-          ? { combat: CombatModel.ended(this.fought, this.told.event.combat, BandNames.of(campaign)) } : {},
+          ? { combat: CombatModel.ended(this.fought, this.told.event.combat, BandNames.of(campaign), faces) } : {},
       opening: this.opening.filter(Boolean),
       ...this.screen.running ? {} : { ending: Endings.reached(campaign.world, campaign.installations)
         ?? Obituary.of(campaign) },

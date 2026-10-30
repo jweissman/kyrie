@@ -56,18 +56,18 @@ describe('somewhere high', () => {
     const w = await WorldAssembler.assemble('kite', NodeBundleSource.shared, { origin: 'debt',
       party: [{ name: 'Wenna', raceId: 'human', classId: 'ranger' }] });
     const s = await PlaySession.start(w.path, 'kite', w.source), c = s.campaign;
-    const climb = 'Climb the tower and look out over Weligtún';
+    const climb = 'Climb the tower and look out over Newmeet';
     await GeneratedWorld.travel(s, 's1_shrine');
     const { lines, notes, situation } = await High.page(s, climb);
-    expect(lines[0]).toStartWith('From the top of the tower Weligtún lies below you');
-    expect(lines.slice(1, 6)).toEqual(['To the north, not far off: the edge of Beorquudu by Weligtún.',
-      'To the north-west, not far off: a square doorway in a hillside in Beorquudu.',
+    expect(lines[0]).toStartWith('From the top of the tower Newmeet lies below you');
+    expect(lines.slice(1, 6)).toEqual(['To the north, not far off: the edge of Birchwood by Newmeet.',
+      'To the north-west, not far off: a square doorway in a hillside in Birchwood.',
       'You know it by its look: that is Paliduslac.', 'It is your wayfinding that makes it out.',
-      'The way to a square doorway in a hillside in Beorquudu: to the edge of Beorquudu by Weligtún, and on to the old bank,'
+      'The way to a square doorway in a hillside in Birchwood: to the edge of Birchwood by Newmeet, and on to the old bank,'
       + ' where the track to it starts.']);
     expect(lines.filter(l => /^To the /.test(l))).toHaveLength(6);
     expect(lines.at(-1)).toBe('The way down is the stair you came up.');
-    expect(notes).toEqual(['Noted: Paliduslac: a square doorway in a hillside in Beorquudu']);
+    expect(notes).toEqual(['Noted: Paliduslac: a square doorway in a hillside in Birchwood']);
     expect(situation.some(p => /^To the /.test(p))).toBe(false);
     // Seen with the way to it, it is somewhere to set out for all the way, not only toward the wood it stands in.
     const ruin = Itineraries.destinations(c).find(d => d.name === 'Paliduslac')!;
@@ -86,9 +86,9 @@ describe('somewhere high', () => {
       party: [{ name: 'Wenna', raceId: 'human', classId: 'ranger' }] });
     const s = await PlaySession.start(w.path, 'kite', w.source), c = s.campaign;
     await GeneratedWorld.travel(s, 's1_shrine');
-    await High.page(s, 'Climb the tower and look out over Weligtún');
-    expect(ScreenModel.build(c).knowledge.map(k => k.text)).toContain('The way to Paliduslac: to the edge of Beorquudu by'
-      + ' Weligtún, and on to the old bank, where the track to it starts.');
+    await High.page(s, 'Climb the tower and look out over Newmeet');
+    expect(ScreenModel.build(c).knowledge.map(k => k.text)).toContain('The way to Paliduslac: to the edge of Birchwood by'
+      + ' Newmeet, and on to the old bank, where the track to it starts.');
     await GeneratedWorld.travel(s, 'z1_heart');
     expect(ScreenModel.build(c).exits.filter(e => e.destination.id === 'region__w3').map(e => e.destination.name))
       .toEqual(['Paliduslac']);
@@ -105,18 +105,19 @@ describe('somewhere high', () => {
     const climb = PlayerView.choices(c).find(x => /^Climb the tower/.test(x.choice.name))!;
     const { lines } = await High.page(s, climb.choice.name);
     expect(lines.filter(l => /through the glass/.test(l))).toEqual([
-      'To the south, far off, through the glass: a cave in the hillside in Pintreowwudu.',
-      'To the south, far off, through the glass: the footbridge over the Quicex.',
-      'To the south-east, far off, through the glass: the foot of Wīdecg by Snáwstede.']);
+      'To the south, far off, through the glass: a cave in the hillside in Pinehurst.',
+      'To the south, far off, through the glass: the footbridge over the Swiftwater.',
+      'To the south-east, far off, through the glass: the foot of Bittermoor by Oldgreen.']);
     // Over the march-stone of Merrowdale, something of the country beyond: the Long Man, before anyone speaks of it.
     expect(lines).toContain('Beyond it, over the march: a long ridge laid straight across the head of a dale, too straight'
       + ' for a hill.');
-    // On the map from then on, by their look: no ruin's name is glossed there before it is learned.
+    // On the map from then on, by their look: no ruin's name is glossed there before it is learned. Nor is a Common
+    // name, which says what it means: only Wannstede's old Westron and Levankhafar's Khuzdul are.
     const land = ScreenModel.build(c).region!.land!, marks = land.marks.map(m => m.name);
     expect(marks).toEqual(expect.arrayContaining(['a broken keep', 'the march-stone of Merrowdale']));
-    expect(Object.keys(land.glosses).map(id => id.replace(/^region__/, ''))).toEqual(['s1', 's2', 's3', 's4', 's5']);
+    expect(Object.keys(land.glosses).map(id => id.replace(/^region__/, ''))).toEqual(['s3', 's4']);
     // A site seen through it is seen with the way to it, as one seen nearer is.
-    expect(lines).toContain('The way to a cave in the hillside in Pintreowwudu: to the edge of Pintreowwudu by Karahnof,'
+    expect(lines).toContain('The way to a cave in the hillside in Pinehurst: to the edge of Pinehurst by Levankhafar,'
       + ' where the track to it starts.');
   }, 120000);
   it('sees nothing behind a ridge, and nothing far in haze', () => {

@@ -6,8 +6,8 @@ import { PlayerView } from '../src/presentation/player-view';
 import { ModuleWriter } from '../src/lang/module-writer';
 
 // What the company does to a power, the power answers. In a1 a lord's customs-men keep the toll on the road from
-// Faennslím to Wǽttún, and Faennslím's inn feeds them. Walk on past the bar without paying and the lord hears of
-// it: the inn bars its door, and riders go out to Faennslím to wait for the company. There they warn it: twenty coin
+// Millholm to Sedgebrook, and Millholm's inn feeds them. Walk on past the bar without paying and the lord hears of
+// it: the inn bars its door, and riders go out to Millholm to wait for the company. There they warn it: twenty coin
 // for the toll-house, or come with them. Paid, they go home, and the inn serves the company again.
 class Lord {
   static async start() {
@@ -37,7 +37,7 @@ describe('a power answering the company', () => {
     expect(Lord.fact(s, 'hostile', 'tollKeepers__chief', 'party')).toBe(true);
     expect(Lord.told(ran)).toContain('riders out to');
     expect(s.campaign.world.one('at', 'tollKeepers__riders')).toBe('region__s2_green');
-    // At Faennslím the riders are waiting, and say what they want.
+    // At Millholm the riders are waiting, and say what they want.
     Lord.change(s, ['assert', 'at', 'party', 'region__s2_green'], ['set', 'quantity', 'party', 'gold', '30']);
     const met = await s.perform('wait');
     expect(Lord.told(met)).toContain('Twenty coin for his toll-house');

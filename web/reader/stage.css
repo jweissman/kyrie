@@ -177,7 +177,7 @@
 
 /* The ways on: where you are bound first, then the ways about the place, the roads out, and further off. Each way is
    a key that says where it goes and how long, the road under it. */
-.on > * + * { margin-top: 22px; }
+.on > * + *, .ways-all > :is(nav, section) + :is(nav, section) { margin-top: 22px; }
 .ways .label { margin-bottom: 10px; }
 .ways .options { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
 .act.way { display: flex; width: 100%; align-items: baseline; flex-wrap: wrap; gap: 0 10px; }

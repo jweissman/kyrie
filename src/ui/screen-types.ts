@@ -1,6 +1,7 @@
 import type { Counter } from './trade-model';
 import type { Danger } from '../presentation/danger-sense';
 import type { CharacterSheet, Development, Recruit } from '../presentation/character-sheet';
+import type { Face } from '../paintings/company-portraits';
 
 // Renderer-independent game screen contract. Every executable leaf carries a PlayerView command id; the client
 // never decides what is legal. Rows describe what the party can perceive at its current location.
@@ -97,6 +98,8 @@ export interface MemberRow {
   sheet?: CharacterSheet; development?: Development;
   // The painting chosen to be them, where one was (the protagonist's, at creation).
   portrait?: { src: string; large: string; focus: number; credit?: string };
+  // A portrait of someone of their calling, people and presentation, where one fits (see CompanyPortraits).
+  face?: Face;
   overlays?: { id: string; name: string; role: string; grants: string[] }[];
 }
 export interface LogEntry { at: string; title: string; lines: string[]; tone: 'act' | 'fight' | 'note' | 'fail' }
@@ -217,4 +220,6 @@ export interface CombatantRow {
   statuses: string[]; boons?: string[]; acting: boolean; down: boolean;
   // For a foe: what it means to do this round, and the damage it shrugs off or fears.
   intent?: string; defenses?: string;
+  // For a member of the company: their portrait, as on their page (see MemberRow).
+  face?: Face;
 }

@@ -30,18 +30,33 @@ export interface Setting {
   terrain?: string;
   // In a generated country, the reasons one person might have come into it, as this country holds them.
   origins?: { id: string; title: string; choice: string; background?: string }[];
+  // In a generated country, the given names a protagonist of each people may have, in the order they are offered: of
+  // the people's own names, none a name someone of the country already has (see ProtagonistNames).
+  names?: Record<string, string[]>;
+}
+// A spell a protagonist sets out knowing, as creation shows it: its name, what it does in a short line and in whole
+// (see SpellLines), what the conditions it lays do and the save that resists it, its level (0 a cantrip), its emblem
+// (what it is for: see SpellKinds), and whether the calling teaches it.
+export interface FirstSpell {
+  id: string; name: string; line: string; does: string; rules: string[]; level: number; kind: string; own?: boolean;
 }
 
 // The choices a company is made from, read from the same catalogs the game runs on.
 export interface Catalog {
-  // Each people, the callings open to it (an elf is no cleric), and what it and each calling add to the qualities.
-  // A people: what it is, the callings it follows, what it adds to the qualities, and its gifts by birth ("Keen
-  // Senses: +4 to search checks").
-  ancestries: { id: string; name: string; text: string; callings: string[]; qualities: Record<string, number>;
-    gifts: string[] }[];
-  // A calling's specializations (a cleric's domains, a mage's schools): what each is, and what its first spells are of.
-  callings: { id: string; name: string; text: string;
-    specializations: { id: string; name: string; text?: string; of?: string; does?: string }[];
+  // A people: what it is, in a sentence and in a few words (its card's line), the callings it follows (an elf is no
+  // cleric) and the ways it may not take (an elf is no necromancer), what it adds to the qualities, and its gifts by
+  // birth ("Keen Senses: +4 to search checks").
+  ancestries: { id: string; name: string; text: string; line: string; callings: string[]; forbids: string[];
+    qualities: Record<string, number>; gifts: string[] }[];
+  // A calling, in a sentence and in a few words; and its specializations (a cleric's domains, a mage's schools, a
+  // warrior's ways): each by name (a domain's, not its clerics' title), what one who takes it is called and what one
+  // is in the line of their life ("abjurer"; "cleric of Life"; "warrior, tough as old boots"), what it is in a sentence
+  // and in a few words, what its spells are of, a way's rules in plain words, and, for one that casts, the spells it
+  // sets out knowing (shown) and the picks among them that the protagonist is given as chosen (see FirstSpells). The
+  // trade one who comes with only their trade has, until they choose another.
+  callings: { id: string; name: string; text: string; line: string; trade?: string;
+    specializations: { id: string; name: string; title?: string; who?: string; text?: string; line?: string;
+      of?: string; rules?: string[]; spells?: FirstSpell[]; picks?: string[] }[];
     qualities: Record<string, number>;
     // Its hit die, the armour it may wear and the skills it brings, in words; the quality its spells rest on, if it
     // casts; and whether it can brace a weapon against a charge (Set Spear).

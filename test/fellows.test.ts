@@ -8,7 +8,7 @@ import { ModuleParser } from '../src/lang/module-parser';
 import { ScreenModel } from '../src/ui/screen-model';
 import { GeneratedWorld } from './support/generated';
 
-// Whoever joins a company is somebody. a1's Cyril, a pedlar met at the inn at Murkstede, comes from Meóswaeter,
+// Whoever joins a company is somebody. a1's Cyril, a pedlar met at the inn at Lowmouth, comes from Mistshaw,
 // where a cousin keeps the inn: talked to on the road, Cyril says so, and has news of a place nobody likes to talk
 // about, which the company then knows; on quiet nights Cyril tells a story of their own, a part a night; brought
 // home, Cyril is welcomed and the company fed. In e5, Wynd, a charcoal-burner, finds the way through a wood for a
@@ -46,7 +46,7 @@ describe('a fellow traveller', () => {
     GeneratedWorld.put(s, 's1_green');
     await s.perform('wait');
     expect(ScreenModel.build(s.campaign).people.find(p => p.companion)?.name).toBe('Cyril, pedlar');
-    expect((await Fellowship.take(s, /^Ask Cyril about home$/)).response).toContain('Meóswaeter. My cousin');
+    expect((await Fellowship.take(s, /^Ask Cyril about home$/)).response).toContain('Mistshaw. My cousin');
     const news = await Fellowship.take(s, /^Ask Cyril for the news$/);
     expect(news.response).toContain('Folk go quiet when it comes up');
     expect(s.campaign.world.related('knows').some(r => r.args[0] === 'party' && /^region__w\d+_named$/.test(r.args[1]!))).toBe(true);

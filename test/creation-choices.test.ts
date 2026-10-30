@@ -44,7 +44,7 @@ describe('qualities placed at creation', () => {
 });
 
 // Someone who would join the company is seen as they would come, before they are asked: what they are and ask, how
-// they fight, and what they can do (CMB-07). mere's traveller at Faennsīe's inn, once asked whether they would come
+// they fight, and what they can do (CMB-07). mere's traveller at Broadholm's inn, once asked whether they would come
 // along.
 describe('a recruit seen before hiring', () => {
   it('shows what they are, what they ask, how they fight and what they can do', async () => {

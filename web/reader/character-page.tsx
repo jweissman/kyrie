@@ -12,7 +12,8 @@ import { CreationRules } from './creation-rules';
 // The character: who they are, how they stand, what they can do and what they could become. Everything on it is
 // worked out by the rules the game plays by (see CharacterSheets), so what it says is what a fight or a check will
 // read. A level's development, when there is one to spend, comes first: each way of spending it with what it would
-// change, chosen here. With more than one in the company, each is a page of their own.
+// change, chosen here. With more than one in the company, each is a page of their own. A portrait of someone of their
+// calling and people stands small beside their name, as on their card in a fight, where one fits.
 export class CharacterPage {
   static View({ app }: { app: ReaderApp }) {
     const frame = app.state.frame!, screen = frame.screen, draw = Act.draw(app);
@@ -25,9 +26,10 @@ export class CharacterPage {
         {members.length > 0 && <nav className="members" aria-label="The company">
           {members.map(c => <Act.View key={c.id} choice={c} draw={draw} className={`member${c.id === m.id ? ' here' : ''}`}>
             <span className="n">{c.label}</span><span className="r">{c.note}</span></Act.View>)}</nav>}
-        <header className={`head-of${m.portrait ? ' faced' : ''}`}>
-          {m.portrait && <img className="sat" src={m.portrait.src} alt="" decoding="async"
-            style={{ objectPosition: `50% ${m.portrait.focus}%` }} />}
+        <header className={`head-of${m.portrait ? ' faced' : m.face ? ' faced pc' : ''}`}>
+          {m.portrait ? <img className="sat" src={m.portrait.src} alt="" decoding="async"
+            style={{ objectPosition: `50% ${m.portrait.focus}%` }} />
+            : m.face && <img className="sat" src={m.face.medium} alt="" decoding="async" />}
           <h2 className="who">{Typography.curl(m.name)}</h2>
           <p className="line-of">{Words.upper(Words.article(m.line))}, level {m.level}{m.background
             ? `, once ${Words.article(m.background.toLowerCase())}` : ''}</p>

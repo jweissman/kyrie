@@ -12,7 +12,7 @@ import type { Change } from '../src/lang/module';
 // Nobody dead says goodbye. Found by an independent review of the deployed game: the company was talking to Sergeant
 // Mawr at his toll when it attacked him, and with him dead the road still offered to talk to him and to take its leave,
 // and he answered with a caring farewell. A conversation now ends when whoever it was with falls, or turns on the
-// company. Here it is a1's toll-reeve at the bridge over the Deopex.
+// company. Here it is a1's toll-reeve at the bridge over the Deepwater.
 class Bar {
   static async start() {
     const w = await WorldAssembler.assemble('a1', NodeBundleSource.shared,

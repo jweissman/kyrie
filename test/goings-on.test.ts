@@ -11,7 +11,7 @@ import { ActionFeedbackView } from '../src/presentation/action-feedback';
 
 // What is going on in a generated region's settlements: people with something the matter, found where they live,
 // that a company can find out about and do something about, and that does not wait for it. Thorn: a drover from
-// Wǽtwaeter went out on the causeway road and did not come home.
+// Broadford went out on the causeway road and did not come home.
 class Town {
   static async start(seed = 'thorn', towns?: number) {
     const w = await WorldAssembler.assemble(seed, NodeBundleSource.shared, towns ? { towns } : {});

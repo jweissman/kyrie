@@ -2,6 +2,7 @@ import type { Catalog, CompanyView, Frame, Member, Request, Setting } from '../e
 import type { ReaderApp } from './reader-app';
 import { Rolls } from '../../src/rules/rolls';
 import { CreationRules } from './creation-rules';
+import { CreationDefaults } from './creation-defaults';
 
 // Before play: the title, the choice of campaign, forming the company, and setting out (or carrying on).
 export class ReaderOpening {
@@ -31,11 +32,15 @@ export class ReaderOpening {
         ? await app.engine.request<Setting>({ kind: 'world', seed: seed ?? choice?.seed ?? 'thorn',
           ...app.props.query.get('terrain') ? { terrain: app.props.query.get('terrain')! } : {} })
         : await app.engine.request<Setting>({ kind: 'setting', campaign });
-      // The first reason for having come is chosen to begin with, and what it makes you with it.
-      const first = setting.origins?.[0], party = structuredClone(setting.party);
+      // The first reason for having come is chosen to begin with, and what it makes you with it; and in a drawn
+      // country, the rest of a protagonist as it stands until changed (see CreationDefaults).
+      const first = setting.origins?.[0], party = structuredClone(setting.party), catalog = app.state.catalog;
       if (first?.background && party[0]) { party[0].backgroundId = first.background; }
+      if (setting.generated && party[0] && catalog) {
+        CreationDefaults.settle(party[0], catalog, { trade: !first?.background });
+      }
       app.setState({ phase: 'company', campaign, seed: seed ?? choice?.seed ?? 'kyr', setting, party,
-        editing: -1, origin: first?.id });
+        editing: -1, origin: first?.id, named: false });
       this.readySoon();
       await this.preview(party);
     } catch (error) { this.fail(error, 'campaigns'); }
@@ -50,35 +55,65 @@ export class ReaderOpening {
     this.app.setState({ party, editing: -1 });
     void this.preview(party);
   }
-  // A change to one companion. Changing calling or specialization discards choices that no longer fit.
+  // A change to one companion. Changing calling or specialization discards choices that no longer fit; in a drawn
+  // country, what is discarded is taken again as it stands until changed (see CreationDefaults), and a name the
+  // player has not written is drawn again for a new people.
   edit(index: number, field: string, value: string) {
-    const party = structuredClone(this.app.state.party), member = party[index];
+    const party = structuredClone(this.app.state.party), member = party[index], was = member?.classId;
     if (!member) { return; }
+    const people = member.raceId;
     if (field === 'specialization') { member.traits = value ? [value] : []; delete member.spells; }
     else if (field === 'backgroundId' && !value) { delete member.backgroundId; }
-    else {
-      (member as unknown as Record<string, string>)[field] = value;
-      // A people takes only the callings open to it: one that is not takes the first that is.
-      const open = this.app.state.catalog?.ancestries.find(a => a.id === member.raceId)?.callings;
-      if (field === 'raceId' && open?.length && !open.includes(member.classId ?? '')) { member.classId = open[0]!; }
-      if (field === 'classId' || field === 'raceId') { delete member.traits; delete member.spells; }
-      // A calling's weapons are its own: a new calling's is the one its bearer strikes best with until chosen; and its
-      // rolls are placed where it wants them.
-      if (field === 'classId') { delete member.weapon; this.suit(member); }
-      // A trade is a calling's own: a new calling has none until one is chosen.
-      const trade = this.app.state.catalog?.backgrounds.find(b => b.id === member.backgroundId);
-      if (field === 'classId' && trade?.calling && trade.calling !== member.classId) { delete member.backgroundId; }
+    else { this.change(member, field, value); }
+    const s = this.app.state, drawn = index === 0 && s.setting?.generated && s.catalog;
+    if (drawn) { CreationDefaults.settle(member, s.catalog!, { trade: !this.given(), was }); }
+    if (drawn && value !== people && field === 'raceId' && !s.named) {
+      member.name = s.setting?.names?.[value]?.[0] ?? member.name;
     }
-    this.app.setState({ party });
+    // A name emptied is no name written: the next people's is drawn again, and the drawn one is set out with.
+    this.app.setState({ party, ...field === 'name' ? { named: !!value.trim() } : {} });
     if (field !== 'name') { void this.preview(party); }
     this.readySoon();
   }
-  // A reason for having come, and what it makes you: its own background, or, for one who brings their own trade,
-  // none until it is chosen (the engine gives the origin's too: Origins.member).
-  origin(id: string) {
+  private change(member: Member, field: string, value: string) {
+    const catalog = this.app.state.catalog, was = member.classId;
+    (member as unknown as Record<string, string>)[field] = value;
+    // A people takes only the callings open to it: one that is not takes the first that is.
+    const people = catalog?.ancestries.find(a => a.id === member.raceId), open = people?.callings;
+    if (field === 'raceId' && open?.length && !open.includes(member.classId ?? '')) { member.classId = open[0]!; }
+    // A way and its spells are the calling's: a new calling, or a people that may not take the way, has none.
+    if (field === 'classId' || member.classId !== was || member.traits?.some(t => people?.forbids.includes(t))) {
+      delete member.traits; delete member.spells;
+    }
+    // A calling's weapons are its own: a new calling's is the one its bearer strikes best with until chosen; and its
+    // rolls are placed where it wants them.
+    if (field === 'classId') { delete member.weapon; this.suit(member); }
+    // A trade is a calling's own: a new calling has none until one is chosen.
+    const trade = catalog?.backgrounds.find(b => b.id === member.backgroundId);
+    if (field === 'classId' && trade?.calling && trade.calling !== member.classId) { delete member.backgroundId; }
+  }
+  // Whether the reason for having come gives a trade of its own (one who comes over the hills brings their own).
+  private given(): boolean {
+    const s = this.app.state;
+    return !!s.setting?.origins?.find(o => o.id === s.origin)?.background;
+  }
+  // Another of the people's names, in place of the one there (see ProtagonistNames).
+  readonly rename = () => {
     const party = structuredClone(this.app.state.party), member = party[0];
-    const given = this.app.state.setting?.origins?.find(o => o.id === id)?.background;
+    const next = member && CreationDefaults.another(member, this.app.state.setting);
+    if (!member || !next) { return; }
+    member.name = next;
+    this.app.setState({ party, named: false });
+    this.readySoon();
+  };
+  // A reason for having come, and what it makes you: its own background, or, for one who brings their own trade,
+  // none until it is chosen, or in a drawn country the calling's own until then (the engine gives the origin's too:
+  // Origins.member).
+  origin(id: string) {
+    const party = structuredClone(this.app.state.party), member = party[0], s = this.app.state;
+    const given = s.setting?.origins?.find(o => o.id === id)?.background;
     if (member) { if (given) { member.backgroundId = given; } else { delete member.backgroundId; } }
+    if (member && s.setting?.generated && s.catalog) { CreationDefaults.settle(member, s.catalog, { trade: !given }); }
     this.app.setState({ origin: id, party });
     this.readySoon();
   }
@@ -125,7 +160,9 @@ export class ReaderOpening {
     const one = s.setting?.generated && s.party.length === 1 && s.catalog && s.party[0]!;
     const calling = one ? s.catalog!.callings.find(c => c.id === one.classId) : undefined;
     const weapon = one && !one.weapon && calling ? CreationRules.best(calling.weapons, one, s.catalog!)?.id : undefined;
-    const armed = one && weapon ? [{ ...one, weapon }] : s.party;
+    // And with a name, whatever is left in the field.
+    const armed = one ? [{ ...one, name: CreationDefaults.named(one, s.setting), ...weapon ? { weapon } : {} }]
+      : s.party;
     return { campaign: s.campaign, seed: s.seed, party: armed, ...terrain ? { terrain } : {},
       ...s.setting?.generated && s.origin ? { origin: s.origin } : {}, ...s.memorial ? { memorial: s.memorial } : {} };
   }

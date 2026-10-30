@@ -22,7 +22,7 @@ describe('weariness', () => {
     const held = c as unknown as { world: { apply(c: unknown[]): unknown }; commit(w: unknown): void };
     held.commit(held.world.apply([{ kind: 'set', call: ModuleWriter.call('lastSlept', 'party'),
       value: ModuleWriter.number(watch - 108) }]));
-    const before = PlayerView.observe(c), name = 'Climb the tower and look out over Weligtún';
+    const before = PlayerView.observe(c), name = 'Climb the tower and look out over Newmeet';
     const climb = PlayerView.choices(c).find(x => x.choice.name === name)!;
     const event = await s.perform(climb.choice.id), feedback = ActionFeedbackView.read(c, event, before);
     const lines = Narrator.leaf(c, ScreenModel.build(c), { event, feedback, said: name, moved: false })

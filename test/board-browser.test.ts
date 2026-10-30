@@ -39,7 +39,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the map\'s board, in three dimensio
     expect(drawn.towns).toBeGreaterThan(1);
     await page.focus('[data-action="map-place"][data-id="region__s4"]');
     await page.keyboard.press('Enter');
-    expect(await page.textContent('.plan')).toContain('Fearnglaed');
+    expect(await page.textContent('.plan')).toContain('Brockfield');
     await page.click('[data-action="set-out"]');
     await driver.settle();
     const after = await driver.inspect();

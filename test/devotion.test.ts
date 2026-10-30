@@ -11,7 +11,7 @@ import { RegionGeography } from '../src/world/region-geography';
 
 // A shrine as Orsino's shrine is: coin left and the observance kept, and the god's favour (its faith's blessing) goes
 // with the one it was asked for into their next ten turns of fighting; a good god heals a little, another hurts a
-// little. Once a day at each shrine. Thorn: Merscheald keeps Belenus (light); Wǽtwaeter, by the ford of the Wīdex,
+// little. Once a day at each shrine. Thorn: Misthythe keeps Belenus (light); Broadford, by the ford of the Broadwater,
 // keeps Boann of the waters.
 class Shrine {
   static async start() {
@@ -30,7 +30,7 @@ describe('a shrine in a generated region', () => {
   it('is a god of the land kept in a form, with a practice and a history', async () => {
     const { w } = await Shrine.start(), region = w.report.region, cults = RegionFaith.cults(region);
     expect(cults[0]).toMatchObject({ name: 'Belenus', domain: 'light' });
-    // Wǽtwaeter's road fords the Wīdex, and it keeps the river's goddess.
+    // Broadford's road fords the Broadwater, and it keeps the river's goddess.
     const i = cults.findIndex(c => c.name !== 'Belenus'), town = region.settlements[i]!;
     const river = RegionGeography.roads(region).find(r => r.form?.form === 'river'
       && (r.from.id === town.id || r.to.id === town.id))!.form!.name;

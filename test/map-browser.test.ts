@@ -33,7 +33,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the map and the notes, to plan with
     await page.focus('[data-action="map-place"][data-id="region__s4"]');
     await page.keyboard.press('Enter');
     const plan = await page.textContent('.plan');
-    expect(plan).toContain('Fearnglaed');
+    expect(plan).toContain('Brockfield');
     expect(plan).toMatch(/By the .+ to /);
     await page.click('[data-action="set-out"]');
     await driver.settle();

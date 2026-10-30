@@ -58,7 +58,9 @@ export class Foundings {
     this.cached.set(region, out);
     return out;
   }
-  private static kinds(region: Region): Kind[] {
+  // What made each of a region's settlements, read before their names are given (see PlaceNames): nothing here
+  // reads a settlement's name.
+  static kinds(region: Region): Kind[] {
     const out: (Kind | undefined)[] = region.settlements.map(() => undefined), draw = new Draw(`${region.name}:foundings`);
     const fort = this.fort(region);
     if (fort !== undefined) { out[fort] = 'fortress'; }

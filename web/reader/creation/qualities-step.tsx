@@ -3,10 +3,11 @@ import type { ReaderApp } from '../reader-app';
 import { CreationRules } from '../creation-rules';
 import { Card } from './card';
 
-// Your qualities: six rolls of three dice, a tile each, with the score your people, calling and past make of it;
-// choose one roll and then another to change them over, or roll again. Beneath, what the quality under the pointer
-// (or the one chosen) comes to by the rules at its score: what it adds to a blow and to a check, and what else rests
-// on it.
+// Your qualities: six rolls of three dice, a tile each, the score your people, calling and past make of the roll large
+// in it and the roll and what is added to it beneath (a roll of 5 over "2 with −1 elf, −2 mage" had read as a score
+// broken); choose one and then another to change their rolls over, or roll again. Beneath, what the quality under the
+// pointer (or the one chosen) comes to by the rules at its score: what it adds to a blow and to a check, and what else
+// rests on it.
 export class QualitiesStep {
   static View({ app }: { app: ReaderApp }) {
     const [held, hold] = useState<string>(), [shown, show] = useState<string>();
@@ -22,10 +23,10 @@ export class QualitiesStep {
         const score = CreationRules.score(m, catalog, q.id), adds = CreationRules.sources(m, catalog, q.id);
         return <li key={q.id} className={held === q.id ? 'held' : undefined} onMouseEnter={() => show(q.id)}>
           <span className="q-name">{q.name}</span>
-          <button type="button" className="roll" data-nav data-quality={q.id} aria-pressed={held === q.id}
-            aria-label={`${q.name}: rolled ${rolled[q.id]}`} onFocus={() => show(q.id)}
-            onClick={choose.bind(null, q.id)}>{rolled[q.id]}</button>
-          <span className="q-score">{score === rolled[q.id] ? 'as rolled' : `${score} with ${adds}`}</span>
+          <button type="button" className="roll" data-nav data-quality={q.id} data-roll={rolled[q.id]}
+            aria-pressed={held === q.id} aria-label={`${q.name}: ${score}, rolled ${rolled[q.id]}`}
+            onFocus={() => show(q.id)} onClick={choose.bind(null, q.id)}>{score}</button>
+          <span className="q-score">{`rolled ${rolled[q.id]}`}{adds && <><br />{adds}</>}</span>
         </li>;
       })}</ul>
       <Card.Particulars title={`${about.name} at ${CreationRules.score(m, catalog, about.id)}`}

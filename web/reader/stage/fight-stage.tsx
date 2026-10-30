@@ -71,9 +71,10 @@ export class FightStage {
   }
   static Card({ fighter: f, took, foe }: { fighter: CombatantRow; took: number; foe?: boolean }) {
     const hurt = Words.hurt(f.hp, f.maxHp);
+    const marks = [foe ? '' : ' faced', f.down ? ' down' : '', f.acting ? ' acting' : '', took > 0 ? ' struck' : ''];
     return (
-      <li className={`fighter${f.down ? ' down' : ''}${f.acting ? ' acting' : ''}${took > 0 ? ' struck' : ''}`}
-        data-fighter={f.id}>
+      <li className={`fighter${marks.join('')}`} data-fighter={f.id}>
+        {!foe && <FightStage.Face fighter={f} />}
         <p className="n"><b>{Typography.curl(Words.upper(f.name))}</b>{took > 0 && <span className="took" key={`${f.hp}`}>−{took}</span>}
           <span className="of">{f.hp} of {f.maxHp}</span></p>
         <span className="hp" aria-hidden="true"><i style={{ width: `${f.maxHp ? (f.hp / f.maxHp) * 100 : 0}%` }} /></span>
@@ -84,5 +85,12 @@ export class FightStage {
         {foe && !f.down && f.defenses && <p className="defenses">{Words.upper(f.defenses)}.</p>}
       </li>
     );
+  }
+  // One of the company by their portrait (see CompanyPortraits), small at the card's side so the card is no taller for
+  // it; one no portrait fits by the first letter of their name on a plain plate.
+  static Face({ fighter: f }: { fighter: CombatantRow }) {
+    return f.face ? <img className="face" src={f.face.src} alt="" decoding="async"
+      onError={e => { e.currentTarget.classList.add('gone'); }} />
+      : <span className="face plate" aria-hidden="true">{f.name.replace(/^(the|an?) /i, '').charAt(0).toUpperCase()}</span>;
   }
 }
