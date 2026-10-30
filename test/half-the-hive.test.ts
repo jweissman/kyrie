@@ -125,3 +125,15 @@ describe('Half the Hive: what goes wrong', () => {
     expect(g.page).toMatch(/Ivo Gildersleeve is with you/);
   }, 300000);
 });
+
+describe('Half the Hive: the long way', () => {
+  it('the flask poured and nothing else done: noon on the fourth day, and the Mother goes where the bees and Kestrel dance, without the old', async () => {
+    const g = await Hume.start(build('thief'));
+    await g.fixture('longway');
+    await g.until();
+    expect(g.holds('left', 'far_brow')).toBe(true);
+    expect(g.holds('goes', 'hannet')).toBe(false);
+    expect(g.ending()).toEqual(['far_hard']);
+    expect(g.page).toMatch(/She was wrong about who could walk it/);
+  }, 300000);
+});

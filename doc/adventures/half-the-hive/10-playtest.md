@@ -7,7 +7,7 @@ here is evidence that the work is enjoyable; see [11-critique.md](11-critique.md
 
 | | Where |
 |---|---|
-| **Mechanical journeys** (by the labels a player sees, asserted) | `test/half-the-hive.test.ts` (8), `test/half-the-hive-small.test.ts` (3), `test/half-the-hive-placed.test.ts` (2), `test/half-the-hive-browser.test.ts` (2, opt-in) |
+| **Mechanical journeys** (by the labels a player sees, asserted) | `test/half-the-hive.test.ts` (9), `test/half-the-hive-small.test.ts` (3), `test/half-the-hive-placed.test.ts` (2), `test/half-the-hive-browser.test.ts` (2, opt-in) |
 | **Full transcripts** of each journey to its ending | `playtest/*.txt` |
 | **A cold run by visible labels only**, no shortcuts | `playtest/cold-ordinary.txt` (`test/fixtures/half-the-hive/cold.json`) |
 | **A curious autoplayer** (`bin/kyrie reach`, 600 steps) | below |
@@ -27,6 +27,7 @@ here is evidence that the work is enjoyable; see [11-critique.md](11-critique.md
 | `nell` | bard | The phial by Tobit's hand; Nell's night; Agnes's word; Nell named; the Drewes paid fair; the mead talked round | (alone after) |
 | `watch` | company of three | The watch kept with a light; Agnes appalled; the Deathshead fought and killed; Linnet's leave to carry Tobit | (alone after) |
 | `living` | thief | Wild comb cut and sold to Martin; Kestrel's *hide*; the Breck princess pierced | The Squire's Bees, the Candlish princess reigning |
+| `longway` | thief | The flask poured; nothing else done: noon on the fourth day, the Far Brow by the crag, the old left behind | The Long Way |
 | Placed | elf ranger, wanderer | Heard of from the innkeeper of a mountain country; over the south march; scented; the Crown; left to itself to its ending; the world goes on; Kestrel at Larkhill; back down the road, the innkeeper has heard | The Squire's Bees |
 
 ## The cold run
