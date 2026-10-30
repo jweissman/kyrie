@@ -1,4 +1,8 @@
 Module hume "Half the Hive" {
-  // The country beyond a march of a generated world: the company that comes in by the road is the world's own.
+  // The country beyond a march of a generated world: the company that comes in by the drove road is the world's own.
   Entity party: group "Your company".
+  // What the country below says of the Wold (its innkeepers' rumour of the swarm): once the Mother has gone, it is old
+  // news there, and they say so to whoever comes back down the drove road.
+  Entity word: fact "What is said of the Wold of Hume in the country below.".
+  Rule word_old when leavingBegun() and not stale(word) { Assert stale(word). }
 }

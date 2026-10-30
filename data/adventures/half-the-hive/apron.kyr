@@ -10,14 +10,14 @@ Module hume "Half the Hive" {
     Speaker elspet.
     Requires at(actor, site) and able(actor) and company(actor) and at(actor, scenting_room) and at(elspet, scenting_room) and not searcher(actor) and not named(actor) and not scented() and quantity(actor, gold) >= 2.
     Time 1.
-    On success { Decrease quantity(actor, gold) by 2. Increase quantity(elspet, gold) by 2. Set scentUntil(actor) to watch(clock) + 144. Retract spread(scent_faded). }
+    On success { Decrease quantity(actor, gold) by 2. Increase quantity(elspet, gold) by 2. Set scentUntil(actor) to watch(clock) + 144. Assert anointed(actor). Retract spread(scent_faded). }
     Result "She dips two fingers in a jar of something gold and thick, and draws them down your forehead, your throat, the insides of your wrists, behind your ears, saying something under her breath that has the hum's tune and no words. It is warm, and then it is nothing; and then, as you go out, a Sister on the doorframe turns her head toward you, and away, uninterested, as if you were family.".
   }
   Action scent_searcher(actor: group, site: place) "Show Elspet your Searcher's ribbon, and be scented" {
     Speaker elspet.
     Requires at(actor, site) and able(actor) and company(actor) and at(actor, scenting_room) and at(elspet, scenting_room) and searcher(actor) and not named(actor).
     Time 1.
-    On success { Set scentUntil(actor) to watch(clock) + 144. Retract spread(scent_faded). }
+    On success { Set scentUntil(actor) to watch(clock) + 144. Assert anointed(actor). Retract spread(scent_faded). }
     Result "Elspet looks at the yellow ribbon and nods and does it without a word, quicker than for a guest: forehead, throat, wrists. 'Kestrel's,' she says. 'Mind she pays you.'".
   }
   Rule elspet_smells at scenting_room when at(party, scenting_room) and usedNellOil(party) and scented() and not named(party) and not spread(elspet_smelled) says "Elspet Garnock leans in to smell you, out of habit, and stops. 'That is not mine,' she says, very quietly. 'That is very nearly mine.' She looks at you over her spectacles for a long moment, and does not ask where you got it, which is worse." { Assert spread(elspet_smelled). }

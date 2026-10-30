@@ -23,14 +23,14 @@ Module hume "Half the Hive" {
   // A scent lasts a day from the Scenting House (Searchers' and guests' alike), half a day from Nell's oil; for one named
   // to the hive it does not wear off. In the Comb unscented, a Sister tastes you; the watch after, they sting. A
   // smoking smoker carried makes them slow, and they do not.
-  Measure scentUntil(group). Relation named(group). Relation tasted(group). Measure tastedAt(group).
-  Query scented() means named(party) or scentUntil(party) > watch(clock).
+  Measure scentUntil(group). Relation named(group). Relation anointed(group). Relation tasted(group). Measure tastedAt(group).
+  Query scented() means named(party) or anointed(party) and scentUntil(party) > watch(clock).
   Query smoking() means holding(party, bee_smoker).
   Hazard sting "a Sister's sting" means "Deal (2d6) poison damage to ally unless constitution save against (12).".
   Rule sisters_taste when inComb() and not scented() and not smoking() and not tasted(party) and not leftNight() says "A Sister lands on the wall beside you, as big as a hound, and turns her head; and then she is on your shoulder, light as a cat, and her feelers are going over your face and hair, quick, quick, tasting. The hum near you goes up half a note. Someone in the gallery says sharply, 'You're not scented. Get out, or get smoke.'" { Assert tasted(party). Set tastedAt(party) to watch(clock). }
   Rule sisters_sting when at(party, ?p) and combRoom(?p) and not scented() and not smoking() and tasted(party) and watch(clock) > tastedAt(party) and not leftNight() says "The Sisters come for you. One, then three, then the air is full of them, and a sting goes in like a hot nail driven, and there is a smell like bananas, sharp and sudden, and more come to it. A Sister that stings dies of it, tearing; you see her drop and crawl. You get your arms over your head and run, down and down, out of the Comb into the light of the Apron, with the hum roaring after you." { Assert strikes(sting, party). Set tastedAt(party) to watch(clock). Retract at(party, ?p). Assert at(party, apron). }
   Rule sisters_forget when tasted(party) and not inComb() { Retract tasted(party). }
-  Rule scent_fades when inWold() and scentUntil(party) > 0 and scentUntil(party) <= watch(clock) + 6 and not named(party) and not spread(scent_faded) says "You catch the smell of yourself, as the air moves: your own smell, coming back through the Mother's, like a stone coming up through snow. The anointing is wearing off. Within the hour you will smell of nothing but yourself." { Assert spread(scent_faded). }
+  Rule scent_fades when inWold() and anointed(party) and scentUntil(party) <= watch(clock) + 6 and not named(party) and not spread(scent_faded) says "You catch the smell of yourself, as the air moves: your own smell, coming back through the Mother's, like a stone coming up through snow. The anointing is wearing off. Within the hour you will smell of nothing but yourself." { Assert spread(scent_faded). }
   Entity scent_faded: fact "the scent worn off".
 
   // ── The things of the Wold ──

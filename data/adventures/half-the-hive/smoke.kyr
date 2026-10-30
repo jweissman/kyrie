@@ -56,7 +56,7 @@ Module hume "Half the Hive" {
     Description "Half a day of smelling as if you belonged to the Comb.".
     Requires able(actor) and company(actor) and holding(actor, nell_oil) and not named(actor).
     Time 1 minute.
-    On success { Spend nell_oil from actor. Set scentUntil(actor) to watch(clock) + 72. Assert usedNellOil(actor). }
+    On success { Spend nell_oil from actor. Set scentUntil(actor) to watch(clock) + 72. Assert anointed(actor). Assert usedNellOil(actor). }
     Result "You dab it at your throat and wrists and in your hair. For a moment you smell like a summer afternoon in the Comb; then you stop noticing, the way you stop noticing your own house.".
   }
   Relation usedNellOil(group).

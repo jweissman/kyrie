@@ -33,12 +33,16 @@
     "drove_end": "drove_end"
   },
   "imports": [
-    "party"
+    "party",
+    "word"
   ],
   "roles": {
     "party": {
       "type": "group"
     }
   },
-  "experience": 800
+  "experience": 800,
+  "optional": [
+    "word"
+  ]
 }

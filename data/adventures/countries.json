@@ -276,6 +276,27 @@
       "heard": "North over the march the fell road climbs over Carth Fell and comes down to Gaunt, a walled city on the Levels where penance is bought and sold by the day, and a barefoot heretic is to be tried on Ash Day.",
       "skyline": "a walled city on a white plain, with a great church in it that has one tower and the stump of another",
       "far": "penance is bought and sold by the day, and a barefoot heretic is to be tried at the Minster on Ash Day"
+    },
+    {
+      "id": "hume",
+      "bundle": "half-the-hive/placed.json",
+      "entry": "drove_end",
+      "marker": "mothers_chamber",
+      "side": "south",
+      "beside": [
+        "mountain"
+      ],
+      "name": "the Wold of Hume",
+      "topic": "the Wold of Hume, and its bees",
+      "terrain": "hills",
+      "rumour": "'South, up on the Wold of Hume, past the mountains, there's a town lives inside a honeycomb under a cliff,' says {keeper}. 'Bees as big as hounds, and they'll sting a stranger dead unless he smells right. The candles come from there, the ones that burn three nights. And the word down the drove road is that their old queen's going to swarm, and half the town will walk off after her and never come back. They want hands to help them look for where.'",
+      "heard": "South over the march, past the mountains, lies the Wold of Hume, where a town lives inside a honeycomb under a cliff among bees as big as hounds; their old queen is about to swarm, half the town will walk after her, and their Searchers want hands to find where.",
+      "skyline": "a long grey brow of rock on the hills, and under it a glow like a lamp behind a curtain",
+      "far": "a town lives inside a honeycomb under a cliff, and half of it is about to walk away after a swarm",
+      "after": {
+        "talk": "The word down the drove road is that the bees on the Wold of Hume have swarmed, and half the town under the Brow walked off after them, and nobody yet knows where they have built.",
+        "told": "{keeper} hears you out about the Wold, the Comb and the Leaving, and is quiet a while. 'Half of them,' {keeper} says at last. 'Just walked off. And the other half stood and watched them go.' {keeper} leans closer, then, and sniffs, and sits back with an odd look. 'You smell of honey,' {keeper} says. 'Did you know that? Like a summer field. It's in your clothes.'"
+      }
     }
   ]
 }
