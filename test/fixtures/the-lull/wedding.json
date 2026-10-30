@@ -1,0 +1,28 @@
+{
+ "abel": [
+  "Sixways street$",
+  "Rooke's yard$",
+  "Talk to Abel",
+  "Ask Abel Rooke about the chair",
+  "Ask Abel Rooke what he likes",
+  "Take your leave",
+  "Sixways street$",
+  "To the Fold-stone$",
+  "Sit down by the Fold-stone",
+  "To the Tump's shoulder",
+  "To Linger green"
+ ],
+ "wenna": [
+  "Into Spurling",
+  "Talk to Wenna",
+  "Ask Wenna Spurling what she wants",
+  "Tell Wenna Spurling what Abel",
+  "Take your leave",
+  "Out to Linger green"
+ ],
+ "nights": [
+  "=20:30",
+  "Lie down Lull-fashion",
+  "=20:30"
+ ]
+}

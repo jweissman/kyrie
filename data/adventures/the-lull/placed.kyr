@@ -1,0 +1,7 @@
+Module lull "The Lull" {
+  // The country beyond a march of a generated world: the company that comes in by the march road is the world's own.
+  Entity party: group "Your company".
+  // What is said of the Lull in the country behind it: once the Working Day is over, it is old news there.
+  Entity word: fact "What is said of the Lull in the country behind it.".
+  Rule word_old when workingOver(lull_country) and not stale(word) { Assert stale(word). }
+}

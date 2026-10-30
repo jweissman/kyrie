@@ -1,0 +1,115 @@
+Module lull "The Lull" {
+  // ── The Bride-Gift: Abel Rooke and Wenna Spurling ───────────────────────────────────────────────────────────────────
+  // Abel thinks that to marry into the Lull he must become a Lull man and give up the road; so he makes Wenna a chair,
+  // the most settling thing there is, meaning to give himself up. He does not mean it, and it comes apart. Wenna wants
+  // to go on the road with him, and has never said, because he talks so much about how restful the Lull is.
+  Person wenna "Wenna Spurling" at spurling_shop {
+    Role "the chandler's daughter, who dips candles". Ancestry human. Peaceable. Pronouns she. Manner cheerful.
+    Likeness "apprentice".
+    Greets "The girl at the candle-bench looks up with her tongue still between her teeth, and takes it in. 'Sorry. If I talk I get them lumpy.' She hangs a pair of wet candles on the rack by their wick. 'Wenna Spurling. You're a Sixer. Do you know Abel Rooke? Everybody out there knows Abel, he says.' She goes pink. 'He says that about everybody.'".
+    Greets again "Wenna Spurling lifts a dripping candle to you in greeting.".
+    Wants keepsake_kind.
+  }
+  Initially Assert lullFolk(wenna). Initially Assert dayAt(wenna, spurling_shop). Initially Assert bedAt(wenna, spurling_shop).
+  // Abel comes in on Lulldays, to her; and goes home before midnight.
+  Rule abel_in when lullOpen() and hour(clock) >= 9 and hour(clock) < 19 and not at(abel, spurling_shop) and not abelHeld(abel) { Assert at(abel, spurling_shop). }
+  Rule abel_table when lullOpen() and hour(clock) >= 19 and hour(clock) < 21 and not at(abel, green) and not abelHeld(abel) { Assert at(abel, green). }
+  Rule abel_out when (folded() or hour(clock) >= 21) and not at(abel, rooke_yard) and not abelHeld(abel) and not travelsWith(abel, party) { Assert at(abel, rooke_yard). }
+  Relation abelHeld(group).
+  Observe abel_at_wenna at spurling_shop when lullOpen() and at(abel, spurling_shop) "Abel Rooke is sitting on a stool much too small for him in the corner of the chandlery, holding a skein of wicks for Wenna, and talking, mostly about how restful it is in here.".
+  Relation abelLoves(group). Relation wennaWants(group). Relation abelTold(group). Relation wennaTold(group). Relation abelMeans(group). Relation wedded(group). Relation abelPaidHelp(group).
+  Topic abel_likes with abel "Ask Abel Rooke what he likes best in the world" when not lullOpen() and knows(actor, chair_ravels) once {
+    Says "'Wenna,' says Abel at once. Then, because you wait: 'And Dulcie. And the road. You'd not think it, a road, but in the morning when you've got the cart loaded and you come up over Sixways rise and the whole march is in front of you and Dulcie's leaning into the collar and you've got a pipe going, and you don't know who you'll meet, and it's just a road, going to somewhere, and you're on it.' He stops. He looks at the thing under the sack. 'In the Lull you don't go anywhere. That's the beauty of it.' He does not sound as if it is.".
+    On discuss { Assert abelLoves(abel). Assert knows(actor, abel_road). }
+  }
+  Discovery abel_road "Abel Rooke loves the road more than he knows: the cart, the mare, the march in the morning. He means to give it up to marry into the Lull.".
+  Topic wenna_wants with wenna "Ask Wenna Spurling what she wants of Abel" when lullOpen() and knows(actor, chair_ravels) once {
+    Says "Wenna puts down the wicks. 'Don't tell him,' she says. 'He loves it here. He's always saying how restful it is.' She dips a candle, slowly, and draws it out. 'I want to go on the cart. I want to see the mill towns, and the downs, and the sea if there is one, and sleep under a cart in the rain and get up in the morning and not know who we'll meet.' She hangs the candle up. 'I've dipped candles in this shop since I was six and it's always the same afternoon. He brings the road in on his boots. I can smell it.' She looks at you, fierce. 'Don't tell him. He'd give it up for me, and then he'd hate me, at sunset, every day.'".
+    On discuss { Assert wennaWants(wenna). Assert knows(actor, wenna_road). }
+  }
+  Discovery wenna_road "Wenna Spurling wants to leave the Lull and go on the road with Abel Rooke. She has never told him, because he talks so much about how restful the Lull is.".
+  Topic abel_told with abel "Tell Abel Rooke what Wenna Spurling wants" when knows(actor, wenna_road) and not abelTold(abel) once {
+    Says "Abel stares at you. 'The road,' he says. 'Wenna.' He sits down on the mounting-block, slowly, the way a man sits who has been carrying something very heavy and has just been told he can put it down. 'I thought she'd want me to stop,' he says. 'Everyone in there stops.' Then he is up again and pulling the sack off the chair and looking at it with something like hatred, and then something like laughter. 'A chair,' he says. 'I made her a chair.' He pushes it over with his boot. 'I'll make her a seat. A cart-seat. Two wide, with a back, and a box under it for her candles.' He is already measuring. 'That I'd mean.'".
+    On discuss { Assert abelTold(abel). Assert abelMeans(abel). }
+  }
+  Topic wenna_told with wenna "Tell Wenna Spurling what Abel Rooke loves" when lullOpen() and knows(actor, abel_road) and not wennaTold(wenna) once {
+    Says "Wenna listens with a candle forgotten in her hand, dripping. 'He loves it,' she says. 'The road.' She starts to laugh. 'And he's been making me chairs.' She puts the candle down. 'Then I'll tell him. Today. I'll tell him I want the road and see if he can say no to that.' She takes off her apron. 'If the next chair comes apart, it'll be because he's a fool, not because I am.'".
+    On discuss { Assert wennaTold(wenna). Assert abelMeans(abel). }
+  }
+  // Paid help with the chair: the company's work for wages comes apart with it.
+  Action help_chair(actor: group, site: place) "Help Abel Rooke with the chair's joints, for three coin" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(abel, site) and at(actor, rooke_yard) and knows(actor, chair_ravels) and not abelPaidHelp(abel) and not abelMeans(abel) and not lullday().
+    Time 18.
+    On success { Increase quantity(actor, gold) by 3. Assert abelPaidHelp(abel). }
+    Result "You spend the afternoon with Abel at the chair, paring tenons and driving pegs, and it is a good chair when you have done, square and sound. Abel pays you, gratefully. 'Next Lullday,' he says. 'Fourth time lucky.'".
+  }
+  // The gift set out at the Watching on the second Lullday: the chair again, unless he means something else.
+  Thing abel_gift "Abel's wedding gift" at limbo {
+    State chair "Before the Long Table stands a plain ash chair with a card on it: FOR WENNA, FROM ABEL. People are already smiling.".
+    State seat "Before the Long Table stands a cart-seat, two wide, with a back, and a box under it that smells of beeswax, and a card: FOR WENNA, FOR THE ROAD, FROM ABEL.".
+    State ravelled "Where Abel's chair stood before the Long Table there is a little heap of pegs and shavings.".
+    State held "Abel's cart-seat stands before the Long Table, and Wenna Spurling is sitting on it.".
+  }
+  Initially Assert state(abel_gift, chair).
+  Rule gift_out when dayTwo() and lullOpen() and hour(clock) >= 19 and at(abel_gift, limbo) and not wedded(wenna) { Assert at(abel_gift, green). }
+  Rule gift_is_seat when abelMeans(abel) and state(abel_gift, chair) and not at(abel_gift, green) { Assert state(abel_gift, seat). }
+  Rule chair_ravels at green when lullDusk() and at(abel_gift, green) and state(abel_gift, chair)
+    says "At sunset Abel's chair comes apart for the fourth time, in front of the whole Long Table: legs, rails, seat, a little heap of pegs and shavings. Wenna Spurling's aunt does not laugh this time. Nobody laughs. Abel stands looking at it with his big hands hanging, and then he goes off up the Tump road in the dusk, alone, without his supper, and Wenna watches him go." {
+    Assert state(abel_gift, ravelled). Assert abelGaveUp(abel). Assert at(abel_gift, limbo).
+  }
+  Relation abelGaveUp(group).
+  Rule seat_holds at green when lullDusk() and at(abel_gift, green) and state(abel_gift, seat)
+    says "The sun goes off the Tump. The cart-seat stands in the grass. Abel Rooke, who has been standing beside it rigid as a gatepost, sees that it has not moved and makes a noise nobody in Linger has heard a man make before, and Wenna Spurling walks out from the Table and sits down on it, on her side, and pats his. The Long Table stands up. Somebody starts the wedding-song, which is old and goes 'Rest you, rest you', and somebody else changes it to 'Go you, go you', and by the second verse the whole of Linger is singing it that way. In the music room over the Open Hand a fiddle takes it up. They are married by the Glosser at the top of the Table, with the seat as the witness." {
+    Assert state(abel_gift, held). Assert wedded(wenna). Assert spreadFact(wedding_told).
+  }
+  Entity wedding_told: fact "the wedding".
+  // Married, they go out over the Tump before midnight in the cart; they come back for the Working Day.
+  Rule newlyweds_out when wedded(wenna) and lullOpen() and hour(clock) >= 22 and lullFolk(wenna) and dayTwo() { Retract lullFolk(wenna). Assert at(wenna, rooke_yard). Assert wennaOut(wenna). }
+  Relation wennaOut(group).
+  Observe wenna_in_yard at rooke_yard when wennaOut(wenna) and at(wenna, rooke_yard) and not dark() "Wenna Rooke, who was Wenna Spurling, is sitting on the cart-seat in the yard in a borrowed coat, watching the road, with Dulcie's nose on her shoulder.".
+  Rule wenna_with_abel when wennaOut(wenna) and at(abel, ?p) and not at(wenna, ?p) and not wennaHand(wenna) { Assert at(wenna, ?p). }
+  Relation wennaHand(group).
+  Topic wenna_out_talk with wenna "Ask Wenna Rooke how she finds the world" when wennaOut(wenna) and not lullOpen() once {
+    Says "'Loud,' says Wenna happily. 'Everybody's in such a hurry. A man shouted at Dulcie this morning, at nothing, and Abel shouted back, and they both laughed.' She looks at her hands. 'It's Third already. Third! I've never had a Third. Tomorrow's Fourth.' She hugs her knees. 'Mother's had one day. One day, and I've had three. I'll be older than her soon, the way it goes, in my heart.' She does not stop smiling while she says it, but she says it.".
+  }
+  Event wenna_keepsake near wenna when keeps(wenna, keepsake) and madeFor(keepsake, wenna) "Wenna turns the little carving over and over, and then wraps it in a twist of wick and puts it in her apron pocket. 'For the cart,' she says. 'For the box under the seat.'" then { Assert keepsakeKept(keepsake). }
+
+  // ── The Waiting Woman: Dorcas and Piran ───────────────────────────────────────────────────────────────────────────
+  // Piran carves his wife every Lullday, and has for four years of his: two hundred heads, and she ages along the shelf.
+  // He knows; she does not know he knows. She is ill, and has not told him. His mother is of the Old Shift.
+  Person piran "Piran Trewin" at piran_shop {
+    Role "a carver of Linger". Ancestry human. Peaceable. Pronouns he. Manner stoic.
+    Likeness "craftsman".
+    Greets "A quiet man in his thirties with shavings in his beard looks up from a block of limewood. He is shaping, you see, a woman's head. 'Sixer,' he says, not unkindly, and goes on shaping. 'If you're from the Waiting Woman, she's not here yet. She comes at nine.'".
+    Greets again "Piran Trewin nods, and goes on carving.".
+    Wants keepsake_kind.
+  }
+  Initially Assert lullFolk(piran). Initially Assert dayAt(piran, piran_shop). Initially Assert bedAt(piran, piran_shop).
+  Rule dorcas_in when lullOpen() and hour(clock) >= 9 and hour(clock) < 19 and not at(dorcas, piran_shop) and not dorcasStays(dorcas) { Assert at(dorcas, piran_shop). }
+  Rule dorcas_table when lullOpen() and hour(clock) >= 19 and hour(clock) < 21 and not at(dorcas, green) { Assert at(dorcas, green). }
+  Rule dorcas_home when (folded() or hour(clock) >= 21) and not at(dorcas, sx_taproom) and not dorcasStays(dorcas) { Assert at(dorcas, sx_taproom). }
+  Relation dorcasStays(group). Relation piranOut(group). Relation piranKnowsIll(group). Relation dorcasKnowsHeads(group).
+  Observe dorcas_with_piran at piran_shop when lullOpen() and at(dorcas, piran_shop) "Dorcas Trewin is sitting for her husband on a stool by the window, very straight, in her good blue gown, turning her face a little away from the light without seeming to.".
+  Topic piran_heads with piran "Ask Piran Trewin about the heads on his shelves" when lullOpen() once {
+    Says "Piran looks along the shelves: the same woman, again and again, a little apart from each other. 'One every Lullday,' he says. 'Four years of mine. Two hundred and some.' He takes one down from the near end, a young woman, and one from the far end, and puts them side by side on the bench. He does not say anything. He does not need to. 'She thinks I can't see it,' he says. 'She says the walk tires her. I let her say it.' He puts the young one back. 'I'm a carver. I see faces. I see hers every morning.' He picks up his knife. 'Don't tell her.'".
+    On discuss { Assert knows(actor, piran_sees). }
+  }
+  Discovery piran_sees "Piran Trewin has carved his wife's head every Lullday for four years of his: two hundred heads, and she ages along the shelf. He knows. He lets her say it is the walk.".
+  Topic piran_ill with piran "Tell Piran Trewin that Dorcas is ill" when lullOpen() and knows(actor, dorcas_ill) and not piranKnowsIll(piran) once {
+    Grave "She has not told him.".
+    Says "Piran's knife stops. He sets it down, and the block, and sits with his hands on his knees for a long time. 'A year,' he says. 'Two. Her count.' He looks along the shelf. 'Fifteen Lulldays. Twenty.' Then he gets up and takes his coat off the peg. 'My mother's in the Almshouse,' he says. 'Agnes Crane, that sang it on the Tump. If I go out, she'll see me once a week and I'll see her once a year, and when I come back she'll still be there and I'll be old.' He puts the coat on. 'I'm going out. Tonight. With Dorcas. For the year, or the two.' He looks at you. 'Don't say anything kind. I'll not manage it.'".
+    On discuss { Assert piranKnowsIll(piran). Assert piranOut(piran). }
+  }
+  Topic dorcas_heads with dorcas "Tell Dorcas Trewin about the heads on Piran's shelves" when knows(actor, piran_sees) and not dorcasKnowsHeads(dorcas) once {
+    Says "Dorcas has her back to you, at the barrel. She does not turn round. 'Two hundred,' she says. 'Every week.' Her shoulders move. 'And I've been turning my face from the window.' She does turn, then, and she is laughing, and crying, and she does not care which. 'The fool. The fool. Four years.' She wipes her face with the bar-cloth. 'Then he knows I'm old, and I can stop pretending I'm not.' She takes off her apron. 'I've been thinking. If I went in. Lived in. I'd be ill there a day a week instead of seven. Ruth says a year or two: that's ten years of the Lull, with him.' She folds the apron. 'Ten years of Lulldays. Like Hester Lindsell.' She is quiet. 'I'd take that. I'd take that and say thank you.'".
+    On discuss { Assert dorcasKnowsHeads(dorcas). Assert dorcasWouldStay(dorcas). }
+  }
+  Relation dorcasWouldStay(group).
+  Rule piran_goes_out when piranOut(piran) and lullOpen() and hour(clock) >= 21 and lullFolk(piran) and not dorcasStays(dorcas) { Retract lullFolk(piran). Assert at(piran, sx_taproom). }
+  Rule dorcas_moves_in when dorcasWouldStay(dorcas) and not piranOut(piran) and lullOpen() and hour(clock) >= 21 and not dorcasStays(dorcas) { Assert dorcasStays(dorcas). Assert lullFolk(dorcas). Assert bedAt(dorcas, piran_shop). Assert dayAt(dorcas, piran_shop). }
+  Observe piran_out at sx_taproom when at(piran, sx_taproom) and not lullday() "Behind the bar of the Waiting Woman a quiet man in his thirties with a carver's hands is drawing ale, badly, and Dorcas Trewin is teaching him, and they keep stopping to look at each other.".
+  Observe piran_shop_shut at piran_shop when lullOpen() and piranOut(piran) and not at(piran, piran_shop) "Piran's workshop is shut up, the shavings swept. The heads are gone from the shelves: all but one, the youngest, which faces the door.".
+  Observe dorcas_lives_in at piran_shop when lullOpen() and dorcasStays(dorcas) "Dorcas Trewin sits by the window of the workshop in her blue gown, not turning her face from the light any more, while Piran carves her.".
+  Event piran_keepsake near piran when keeps(piran, keepsake) and madeFor(keepsake, piran) "Piran turns the little carving to the light and looks at it as a carver does, critically, and then not critically at all. He puts it on the shelf with the heads." then { Assert keepsakeKept(keepsake). }
+  Event dorcas_keepsake near dorcas when keeps(dorcas, keepsake) and madeFor(keepsake, dorcas) "Dorcas puts the little carving on the shelf behind the bar, beside the old sign, facing the window and the stone." then { Assert keepsakeKept(keepsake). }
+}

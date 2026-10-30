@@ -1,0 +1,173 @@
+Module lull "The Lull" {
+  // ── The Lindsells' house ─────────────────────────────────────────────────────────────────────────────────────────────
+  // Tobias Lindsell, of the Old Shift, who tells the strike best; Hester, his wife, who has been dying for six years of the
+  // world's time; Corin, their granddaughter, whose clocks come apart every dusk. Tobias was not a striker. On the
+  // seventh day of the strike he went into the Mill to work, alone, for his mother's physic, and was inside when the
+  // Hallowing came; he climbed out of the window after the others had barred the doors from within. His name is not
+  // on the beam. He has never bought anything across the Tump since.
+  Observe kitchen_scene at lindsell_kitchen when lullOpen() "A weaver's kitchen with the loom long gone and a clockmaker's bench in the loom's place under the long window: a vice, a lens on a stalk, trays of tiny wheels sorted by size, and a litter of brass shavings. There is no clock anywhere in the room. On the dresser, plates with starlings painted on them; on the settle, a blanket folded by somebody who folds things when they are worried.".
+  Observe kitchen_dark at lindsell_kitchen when folded() "The Lindsells' kitchen in the dark. At the bench under the window someone has fallen asleep with her head on her arms among the trays of little wheels.".
+  Observe hester_scene at hester_room when lullOpen() and not hesterDead(hester) "A small room with a big bed, and in the bed a very small old woman, propped up, with a face like a walnut and eyes like a bird's. The window is open on the Gardens. There is a chair by the bed with the shape of a man worn into it, and a cup on the sill that nobody has drunk from.".
+  Observe hester_gone at hester_room when lullOpen() and hesterDead(hester) "The small room with the big bed, and the bed made, very smooth, and nobody in it. The window is open. On the chair by the bed somebody has left a folded weaver's shirt.".
+  Observe hester_dark at hester_room when folded() and not hesterDead(hester) "Hester Lindsell's room in the dark. The old woman is asleep, or something like it, with her hands open on the sheet; her breath is very slow, and in the chair beside her, sleeping too, an old man holds one of them.".
+  Observe hester_dark_gone at hester_room when folded() and hesterDead(hester) "Hester Lindsell's room in the dark, the bed empty, and in the chair beside it an old man asleep, holding nothing.".
+
+  // ── Hester ────────────────────────────────────────────────────────────────────────────────────────────────────────
+  Person hester "Hester Lindsell" at hester_room {
+    Role "an old weaver of the Old Shift, who is dying". Ancestry human. Peaceable. Pronouns she. Manner acerbic.
+    Likeness "abbess".
+    Greets "The old woman in the bed looks at you for a while before she says anything, the way you might look at weather. 'A Sixer,' she says. 'Come in, then. Shut the door; Tobias'll fuss. Sit on the end of the bed; the chair's his.' She closes her eyes, opens them. 'I'm dying. You'll have heard. Everybody's heard. I've been at it six of your years, which is ten months of mine, and it's very dull, and nobody will talk to me about anything else.'".
+    Greets again "Hester Lindsell opens one eye. 'You. Good. Talk to me about something.'".
+    Wants poppy_kind. Wants nightshade_kind. Wants keepsake_kind.
+  }
+  Initially Assert lullFolk(hester). Initially Assert held(hester). Initially Assert bedAt(hester, hester_room).
+  Relation hesterDead(group). Relation hesterEased(group). Relation diedBy(group, group). Measure hesterTrust(group).
+  Discovery hester_sick "Hester Lindsell, of the Old Shift, is dying of a wasting sickness. In the Lull nobody dies quickly: she has been at it six years of the world's time, ten months of hers.".
+  Observe hester_teaches at hester_room when lullOpen() and at(hester, hester_room) and not hesterDead(hester) and not knows(party, hester_sick) "When she moves, her face goes white round the mouth and comes back, and she does not stop talking while it does." teaches hester_sick.
+  Topic hester_else with hester "Talk to Hester Lindsell about something else" when lullOpen() and not hesterDead(hester) once {
+    Says "So you tell her about the world: the road you came by, the march, the price of things, a fight you saw, a fair. She listens with her eyes shut and her mouth twitching. 'Thirty years since I went out,' she says. 'Their thirty. I went to Sixways to see the sea, because somebody told me you could see the sea from the stone, and you can't.' She opens her eyes. 'It was the noise. Everyone in such a hurry. Doing things they didn't mean.' Pause. 'I liked it.' She laughs, and it hurts her, and she laughs anyway.".
+    On discuss { Increase hesterTrust(hester) by 1. }
+  }
+  Topic hester_monday_ask with hester "Ask Hester Lindsell what she wants" when lullOpen() and not hesterDead(hester) and hesterTrust(hester) >= 1 and not knows(actor, hester_monday) {
+    Says "Hester looks at you a long time. 'A Monday,' she says. 'Do you know what that means, here? It means a day that never comes. When a child says they'll tidy their room, you say, on Monday. When a man says he'll forgive his brother: Monday.' She moves her hand on the sheet. 'I want mine. I've had the Lull fifty-seven years and I've loved every day of it and I want it to stop now, and it won't, not for years.' She is quite calm. 'There's a woman in Sixways, Ruth Coll, keeps a phial with a black thread round its neck. Tobias won't fetch it. He'd sooner do it with his own two hands, and he would, God help him, and then he'd carry it, the rest of his life, which here is a very long time.' She looks at you. 'You'd not carry it so far. You'd be out of here by midnight.'".
+    On discuss { Assert knows(actor, hester_monday). Increase hesterTrust(hester) by 1. }
+  }
+  Discovery hester_monday "Hester Lindsell has asked for her Monday: the phial with the black thread that Ruth Coll keeps in Sixways. Tobias will not fetch it, and she is afraid that he will do it himself, and carry it.".
+  Topic hester_tobias with hester "Ask Hester Lindsell about Tobias" when lullOpen() and not hesterDead(hester) once {
+    Says "'Tobias Lindsell,' says Hester, 'tells the Strike better than anyone alive, because he was at the window when we came out.' She smiles at the ceiling. 'He always says that. At the window.' The smile goes somewhere private. 'Ask him, one day, which side of the window. Not today. He's tired.'".
+    On discuss { Assert knows(actor, which_side). Increase hesterTrust(hester) by 1. }
+  }
+  Discovery which_side "Hester Lindsell says to ask Tobias, one day, which side of the Mill window he was on.".
+  Topic hester_simeon with hester "Tell Hester Lindsell that Simeon Eddowes is in Sixways, and old" when lullOpen() and not hesterDead(hester) and knows(actor, simeon_banned) and not following(simeon, party) once {
+    Says "Hester's eyes come open all the way. 'Simeon.' She laughs, and coughs, and laughs. 'Old? He was old at twenty. He wrote me a Gloss once, number forty, that a girl who walks up a hill with one man is not thereby walking away from another. The Reeve made him paint over it.' She lies back. 'Old,' she says again, differently. 'Of course he is. He went out.' She is quiet. 'Tell him I'd like to see him. Tell him I said Gloss forty.'".
+    On discuss { Assert hesterAsksSimeon(hester). }
+  }
+  Relation hesterAsksSimeon(group).
+
+  // Poppy: she sleeps, and is eased, and lives on into the Working Day. Tobias minds that it was bought.
+  Event hester_poppy near hester when keeps(hester, ?p) and itemKind(?p, poppy_kind) and not hesterEased(hester) "Hester turns the twist of paper over and reads Ruth Coll's writing on it, and snorts. 'Don't boil it,' she says. 'As if I'd boil it.' She has you steep it in the cup on the sill, and drinks it, and makes a face, and in a little while her face changes, all of it, the way a field changes when the cloud goes off it. 'Oh,' she says. 'Oh, that's.' She sleeps. When Tobias comes in he looks at her for a long time, and at the paper, and at you, and he does not say anything at all." then {
+    Assert hesterEased(hester). Assert tobiasSawPoppy(tobias).
+  }
+  Relation tobiasSawPoppy(group).
+  Observe hester_eased at hester_room when lullOpen() and hesterEased(hester) and not hesterDead(hester) "Hester is asleep, or nearly; her face is smooth, and her hands are easy on the sheet. The cup on the sill has been drunk from.".
+  // The phial: she drinks it that evening, and dies before midnight, and it holds.
+  Event hester_phial near hester when keeps(hester, ?p) and itemKind(?p, nightshade_kind) and not hesterDead(hester) "Hester holds the phial up to the window and looks at the black thread. 'Ruth Coll,' she says. 'She always did know what people meant.' She puts it under her pillow. 'Not now. At the Watching, when they're all out at the Table. Tobias too: I'll send him.' She takes your hand, which surprises you; her hand is very light and very hot. 'Thank you,' she says. 'Now go and eat something. You'll not want to be here.'" then {
+    Assert hesterHasPhial(hester).
+  }
+  Relation hesterHasPhial(group).
+  // Simeon, there when she has it, gives it her himself.
+  Rule simeon_gives at hester_room when hesterHasPhial(hester) and following(simeon, party) and at(party, hester_room) and not hesterDead(hester) and not simeonWith(hester)
+    says "Simeon has not said a word since he came in. He sits on the end of the bed, where Hester pats, and they look at each other, and she says, 'Gloss forty,' and he says, 'Held,' and his voice goes. Then she shows him what is under her pillow, and he looks at it for a long time, and at her, and he says, 'I'll stay. I'll sit with you. Tobias can have the Table.' She says, 'You always did want to be in at the end of things.' He says, 'Only yours.'" {
+    Assert simeonWith(hester). Retract following(simeon, party). Assert at(simeon, hester_room). Assert simeonHome(simeon).
+  }
+  Relation simeonWith(group).
+  Rule hester_drinks when hesterHasPhial(hester) and lullOpen() and hour(clock) >= 20 and not hesterDead(hester) { Assert hesterDead(hester). Assert diedBy(hester, party). Assert at(hester, limbo). }
+  Rule hester_drinks_told at green when hesterDead(hester) and diedBy(hester, party) and at(party, green) and not spreadFact(hester_death_told)
+    says "In the middle of the Watching Tobias Lindsell comes out of his house and stands at the end of the Long Table, and the table goes quiet from that end to the other, the way a field goes quiet when a hawk goes over. He does not say anything. He does not need to. Somebody gets up and gives him their place, and he sits in it, and puts his hands on the table, open." { Assert spreadFact(hester_death_told). }
+  Entity hester_death_told: fact "Hester's death, told".
+  Relation spreadFact(fact).
+
+  // Unless something else has been done, Tobias does it himself, on the night of the company's first Lullday, after
+  // the Watching. He tells nobody.
+  Rule tobias_does_it when dayOne() and lullOpen() and hour(clock) >= 22 and not hesterDead(hester) and not hesterEased(hester) and not hesterHasPhial(hester) { Assert hesterDead(hester). Assert diedBy(hester, tobias). Assert at(hester, limbo). Assert tobiasCarries(tobias). }
+  Relation tobiasCarries(group).
+  // Her Watching, on the next Lullday: the town believes the wasting took her at last.
+  Observe hester_watching at green when dayTwo() and lullOpen() and hour(clock) >= 19 and hour(clock) < 21 and hesterDead(hester) "Tonight there is a space at the top of the Long Table, by the Old Shift, with a cup set at it and a weaver's shirt folded on the bench. It is Hester Lindsell's Watching. They set her shirt out on the grass with the day's makings, and they watch it with the rest, and it holds, because it was always going to: it was woven fifty-seven years ago by a woman who meant it.".
+
+  // ── Tobias ────────────────────────────────────────────────────────────────────────────────────────────────────────
+  Person tobias "Tobias Lindsell" at hester_room {
+    Role "an old weaver of the Old Shift, who tells the strike best". Ancestry human. Peaceable. Pronouns he. Manner compassionate.
+    Likeness "abbot".
+    Greets "A tall stooped old man gets up out of the chair by the bed, slowly, and looks at you with very mild blue eyes. 'You'll be the Sixer that's been talking to my wife,' he says. 'She likes a new face. Come in the kitchen, and don't tire her.'".
+    Greets again "Tobias Lindsell nods to you, mildly, as if you had been there yesterday, which for him perhaps you were.".
+    Wants keepsake_kind.
+  }
+  Initially Assert lullFolk(tobias). Initially Assert dayAt(tobias, hester_room). Initially Assert bedAt(tobias, hester_room).
+  Measure tobiasTrust(group).
+  Topic tobias_strike with tobias "Ask Tobias Lindsell to tell you the strike" when lullOpen() once {
+    Says "Tobias sits down on the settle and puts his hands on his knees and tells it, and he tells it well: the Long Shift, the war that wanted cloth, which war nobody now remembers; the seven-day weeks; Agnes Crane's sister falling asleep at her loom and the shuttle taking her eye; the morning the weavers did not go in. Seven days on the Tump in the rain, with the bailiffs' men at the foot of it. 'And on the seventh day,' he says, 'they came down off the hill and went into the Mill, all fifty-one, and barred the doors behind them from the inside with the big beam, and wrote their names on it, and then they climbed out of the windows one by one, and I was at the window.' He stops. 'And they walked up the Tump, and they asked. And when the sun went down, it was still the holy day, and in the morning it was the holy day, and it has been the holy day ever since.' He looks at his hands. 'That's the strike.'".
+    On discuss { Assert knows(actor, strike_told). Increase tobiasTrust(tobias) by 1. }
+  }
+  Topic tobias_hester_ask with tobias "Tell Tobias Lindsell what Hester has asked you for" when lullOpen() and knows(actor, hester_monday) and not hesterDead(hester) once {
+    Says "Tobias does not look surprised. He looks very tired. 'She's asked me every day for a month,' he says. 'Every day. That's four months of yours.' He turns his cup round. 'I'll not fetch it. I'll not buy anything over the Tump; I bought physic once, for my mother, and I'll not do that again.' He is quiet. 'If it comes to it,' he says, 'I'll not need anything bought.' Then he looks at you, and you see that he has frightened himself.".
+    On discuss { Increase tobiasTrust(tobias) by 1. Assert knows(actor, tobias_will). }
+  }
+  Discovery tobias_will "Tobias Lindsell will not buy physic across the Tump, because he bought it once for his mother; and if it comes to it, he says, he will not need anything bought to give Hester her Monday.".
+  // What he will tell, and to whom: which side of the window.
+  Topic tobias_window with tobias "Ask Tobias Lindsell which side of the window he was on" when lullOpen() and not dayOne() and (knows(actor, which_side) or knows(actor, beam_names)) and tobiasTrust(tobias) >= 2 and not tobiasConfessed(tobias) {
+    Says "Tobias is still for so long that you think he has not heard. Then he gets up and shuts the kitchen door, and sits down again. 'The inside,' he says. 'My mother was dying, and the bailiffs said a shilling a day to anyone who'd come in on the seventh day and keep a loom going, and nobody would, and I did.' His hands are open on his knees. 'I was alone in there at a loom when they came in and barred the doors. They didn't see me. I heard them say their names and cut them. I heard them go out of the windows, one by one. Then I went out of the window, last, and up the Tump after them, at the back, in the rain.' He looks at you. 'And it was the holy day ever after, and my mother died anyway, on the Monday that never came, and the shilling was back in the bailiff's purse by sunset. I never told. Hester knew. Hester always knew.' He breathes. 'You'll want to know why I'll not have the week back. That's why. I know what I'd do for wages. I did it.'".
+    On discuss { Assert tobiasConfessed(tobias). Assert knows(actor, tobias_inside). Increase tobiasTrust(tobias) by 1. }
+  }
+  Relation tobiasConfessed(group).
+  Discovery tobias_inside "Tobias Lindsell was not a striker. On the seventh day he was inside the Mill working at a loom for a shilling, for his mother's physic, when the strikers barred the doors; he climbed out of the window last. His name is not on the beam. He fears the week's return because he knows what he would do for wages.".
+  Topic tobias_how_died with tobias "Ask Tobias Lindsell how Hester died" when lullOpen() and hesterDead(hester) and diedBy(hester, tobias) and tobiasTrust(tobias) >= 1 and not tobiasToldDeath(tobias) {
+    Says "Tobias looks at the chair by the bed, and then at you. 'She asked me,' he says. 'Every day for a month. And on the night you were here she asked me again, and I said yes.' He holds his hands out in front of him and looks at them as if they belonged to someone in the street. 'I held the pillow. I meant it. That's the thing about this place: I meant it, and it held.' He puts the hands away. 'They think the wasting took her. Let them.'".
+    On discuss { Assert tobiasToldDeath(tobias). Assert knows(actor, tobias_killed). }
+  }
+  Relation tobiasToldDeath(group).
+  Discovery tobias_killed "Hester Lindsell did not die of the wasting. Tobias gave her her Monday himself, with a pillow, on the night she asked him again. The town does not know.".
+  Topic tobias_poppy with tobias "Ask Tobias Lindsell about the poppy" when lullOpen() and hesterEased(hester) and not hesterDead(hester) and dayTwo() once {
+    Says "Tobias sits by the bed and does not look at you for a while. 'Bought,' he says at last. 'Over the Tump. In my house.' Then: 'She knew my face this morning. She said, You've not shaved, Tobias Lindsell. She's not said my name in a month.' He rubs his jaw. 'I'll not thank you. I don't know how to. Sit down.'".
+    On discuss { Increase tobiasTrust(tobias) by 1. Assert tobiasSoftened(tobias). }
+  }
+  Relation tobiasSoftened(group).
+
+  // ── Corin ─────────────────────────────────────────────────────────────────────────────────────────────────────────
+  Person corin "Corin Lindsell" at mill_bridge {
+    Role "who makes clocks that do not last". Ancestry human. Peaceable. Pronouns she. Manner acerbic.
+    Likeness "apprentice".
+    Greets "A young woman with brass dust on her hands and her hair tied up with a bootlace is sitting on the broken end of the bridge, swinging her heels over the leat. 'You're a Sixer,' she says. 'You've got that look. Like you've somewhere to be.' She looks at you properly. 'I'd give anything for somewhere to be.'".
+    Greets again "Corin Lindsell looks up, quick, as if she had been expecting someone else, and then decides you will do.".
+    Wants purse_kind. Wants keepsake_kind.
+  }
+  Initially Assert lullFolk(corin). Initially Assert dayAt(corin, mill_bridge). Initially Assert bedAt(corin, lindsell_kitchen).
+  Measure corinTrust(group).
+  Topic corin_clocks with corin "Ask Corin Lindsell about her clocks" when lullOpen() once {
+    Says "'I make clocks,' says Corin. 'Good ones. I've made forty-one. Every one of them falls to bits at sunset, at the Watching, in front of everybody.' She holds up her brass-dusty hands. 'Wheels, springs, pins, in the grass. Forty-one times.' She laughs, not nicely. 'The Glossers say it's because I'm not making them for anybody. Aunt Lettice says it's because I don't love clockmaking. I love clockmaking more than I love anything in this valley.' She looks at the dark mill. 'I make them because a clock is the one thing in here that knows something's supposed to happen next.'".
+    On discuss { Assert knows(actor, clock_ravels). Increase corinTrust(corin) by 1. }
+  }
+  Discovery clock_ravels "Corin Lindsell's clocks come apart at every Watching: forty-one of them. She makes them, she says, because a clock knows something is supposed to happen next.".
+  Topic corin_want with corin "Ask Corin Lindsell what she wants" when lullOpen() and corinTrust(corin) >= 1 once {
+    Says "Corin swings her heels. 'Everybody asks the Lull-born that like we want to leave. I don't want to leave. If I go out over the Tump for a year I come back a year older and Davy's a week older and Grandad's a week older and I'm a stranger in my own house.' She kicks the bridge. 'I want all of us to go on. I want Monday. I want to make a thing on Monday and come back on Tuesday and find it a day old.' She looks at you. 'Two hundred and thirty-one of us have never seen a day that wasn't this one. We're not resting. We're stopped.'".
+    On discuss { Increase corinTrust(corin) by 1. Assert knows(actor, corin_stopped). }
+  }
+  Discovery corin_stopped "Corin Lindsell does not want to leave the Lull: she wants it to go on, all of it, into a week. 'We're not resting,' she says. 'We're stopped.'".
+  // Making a clock for someone: suggested once she has said why she makes them.
+  Topic corin_for_someone with corin "Ask Corin Lindsell whether she has ever made a clock for someone" when lullOpen() and knows(actor, clock_ravels) and corinTrust(corin) >= 2 and not corinMaking(corin) and not corinClockHeld(corin) {
+    Says "'For someone,' says Corin, and makes a face. 'Who would I make a clock for? Nobody here needs to know the time. It's always the same time.' She is quiet. Then, not looking at you: 'Grandad used to time the strike. He had a watch, a big turnip of a thing, he said he timed the seven days on it. It stopped, the day of the Hallowing. Never went again.' She picks at the brass on her fingers. 'I could make him one that goes.' She gets up. 'I'll make it for the next Lullday. It'll fall to bits like all the rest. But I'll make it.'".
+    On discuss { Assert corinMaking(corin). Set corinStarted(corin) to lullCount(clock). }
+  }
+  Relation corinMaking(group). Relation corinClockHeld(group). Measure corinStarted(group).
+  Thing corin_clock "Corin's clock for her grandfather" at limbo {
+    State ticking "A small clock in a case of pale wood stands on the grass before the Long Table, ticking, with a card propped against it: FOR GRANDAD, WHO TIMED THE STRIKE.".
+    State held "Corin's clock for her grandfather is still ticking.".
+  }
+  Initially Assert state(corin_clock, ticking).
+  Rule clock_set_out when corinMaking(corin) and lullOpen() and hour(clock) >= 19 and lullCount(clock) > corinStarted(corin) and at(corin_clock, limbo) and not corinClockHeld(corin) { Assert at(corin_clock, green). }
+  Rule clock_holds at green when at(corin_clock, green) and lullDusk() and state(corin_clock, ticking)
+    says "Among the makings, Corin's little clock goes on ticking. A basket beside it comes apart into withies with a dry rustle, and someone at the Table groans and is laughed at. The clock goes on ticking. Corin is standing up. She has not noticed she is standing. The clock ticks. The starlings come over. The clock ticks. Somebody starts to clap, and is hushed, because it is not a thing you clap; and then the whole Table is clapping anyway, and Corin sits down on the grass in front of her clock with her hands over her face." {
+    Assert state(corin_clock, held). Assert corinClockHeld(corin). Retract corinMaking(corin).
+  }
+  // Given, it changes Tobias.
+  Rule clock_given at green when corinClockHeld(corin) and lullDusk() and at(tobias, green) and not hesterDeadByHim() and not clockGiven(tobias)
+    says "Corin picks the clock up off the grass and walks the length of the Long Table with it, to the top, where the Old Shift sit, and puts it into her grandfather's hands. Tobias holds it to his ear. Then he holds it against his chest, under his coat, the way you would hold a bird. He says something to her that nobody else hears, and Corin's face changes, and she sits down beside him, very close, and they talk with their heads together until the lanterns are out." {
+    Assert clockGiven(tobias). Assert tobiasConfessed(tobias). Assert corinKnowsWindow(corin). Assert tobiasLovePath(tobias). Retract at(corin_clock, green). Assert at(corin_clock, hester_room).
+  }
+  Rule clock_given_grief at green when corinClockHeld(corin) and lullDusk() and at(tobias, green) and hesterDeadByHim() and not clockGiven(tobias)
+    says "Corin picks the clock up off the grass and walks the length of the Long Table with it, to the top, and puts it into her grandfather's hands. Tobias holds it to his ear. Then he gives it back to her, very gently, and gets up, and goes home without a word, and the Table watches him go." {
+    Assert clockGiven(tobias). Retract at(corin_clock, green). Assert at(corin_clock, lindsell_kitchen).
+  }
+  Query hesterDeadByHim() means diedBy(hester, tobias) and not tobiasForgiven(tobias).
+  Relation clockGiven(group). Relation corinKnowsWindow(group). Relation tobiasLovePath(group). Relation tobiasForgiven(group).
+  // What Corin hears from the company, of what it learned.
+  Topic corin_window with corin "Tell Corin Lindsell which side of the window her grandfather was on" when lullOpen() and knows(actor, tobias_inside) and not corinKnowsWindow(corin) once {
+    Grave "This is Tobias's to tell, and he has not told her.".
+    Says "Corin listens with her jaw set. When you have finished she does not say anything for a long time. Then: 'He timed the strike,' she says. 'On his watch. He told me he timed it from the Tump.' She stands up. 'He was inside.' And she goes to the very end of the broken pier and stands there with her back to you, looking across the leat at the dark mill, so still that people on the green stop to look.".
+    On discuss { Assert corinKnowsWindow(corin). Assert corinBetrayed(corin). }
+  }
+  Relation corinBetrayed(group).
+  Topic corin_forgive with corin "Ask Corin Lindsell to hear it from her grandfather" when lullOpen() and corinBetrayed(corin) and not tobiasLovePath(tobias) and tobiasConfessed(tobias) and not hesterDeadByHim() once {
+    Says "Corin is on the bridge with her back to you. 'Why should I?' she says. Then, after a while, because you wait: 'Because it's him.' She gets up and goes to find him, slowly this time. At the Watching you see them at the top of the Table, the old man talking, the girl listening, his hands open on the boards.".
+    On discuss { Assert tobiasLovePath(tobias). Retract corinBetrayed(corin). }
+  }
+}

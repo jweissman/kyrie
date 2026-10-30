@@ -1,0 +1,32 @@
+{
+ "arrive": [
+  "Sixways street$",
+  "To the Fold-stone$",
+  "Sit down by the Fold-stone",
+  "To the Tump's shoulder",
+  "To Linger green"
+ ],
+ "hobday": [
+  "Talk to Hobday",
+  "Ask Hobday Pryce about the Old Brock",
+  "Take your leave"
+ ],
+ "hob": [
+  "To the Pleasure Gardens",
+  "To the Mill yard",
+  "To the shore of Lammas",
+  "Talk to Hob",
+  "Ask Hob Linsey about the Old Brock",
+  "Take your leave"
+ ],
+ "sett": [
+  "To the path through the Hangers",
+  "To the Old Brock's sett",
+  "Set Hob Linsey's honeycomb",
+  "To the path through the Hangers",
+  "To the shore of Lammas",
+  "Talk to Hob",
+  "Ask Hob Linsey to leave comb",
+  "Take your leave"
+ ]
+}

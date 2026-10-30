@@ -1,0 +1,69 @@
+Module lull "The Lull" {
+  // ── Linnet ────────────────────────────────────────────────────────────────────────────────────────────────────────
+  // Linnet Gale plays the Watching in. Nothing she makes can come apart, because a tune is not a thing; and every tune
+  // she makes is sung once and forgotten, because in the Lull nothing ever happens that a tune could be about. For her
+  // the company is there every day. She notices what a week does to someone.
+  Observe loft_scene at linnet_loft when lullOpen() "A long room under the roof of the Open Hand, all window on one side, the old loom-light: a fiddle on a nail, a bench, music written on the whitewashed wall in charcoal and rubbed out and written again until the wall is grey with it, and a young woman sitting in the window with her feet up, playing something and stopping and playing it differently.".
+  Observe loft_dark at linnet_loft when folded() "The music room in the dark. The young woman is asleep on the window-seat with the fiddle across her knees and her hands open on it. You could touch her shoulder. She would not wake.".
+  Observe linnet_plays at green as sound when lullOpen() and hour(clock) >= 19 and hour(clock) < 21 and at(linnet, green) "At the top of the Long Table Linnet Gale is playing, standing on the bench: a dance, then a slow air, then something new that nobody knows, which the Table listens to with its spoons held still.".
+  Person linnet "Linnet Gale" at linnet_loft {
+    Role "who plays the Watching in". Ancestry human. Calling bard. Level 2. Peaceable. Pronouns she. Manner cheerful.
+    Likeness "minstrel".
+    Greets "The young woman in the window stops playing and looks at you over the fiddle. 'Oh, you're new,' she says, delighted, as if you were weather. 'Nobody's new. Sit down. No: stand there, where the light is.' She plays four notes, looking at you, and nods. 'Linnet. That's you, that bit. I'll use it.'".
+    Greets again "Linnet looks up from the fiddle and plays your four notes at you, by way of hello.".
+    Joins "Linnet takes the fiddle off its nail and puts it under her arm, and looks round the music room as if she were memorising it, and then does not look back.".
+    Wants keepsake_kind.
+  }
+  Initially Assert lullFolk(linnet). Initially Assert dayAt(linnet, linnet_loft). Initially Assert bedAt(linnet, linnet_loft).
+  Initially Set hire(linnet) to 0.
+  Measure linnetWarm(group). Relation linnetLoves(group). Relation linnetTune(group). Relation linnetSawDay(group). Measure linnetLast(group).
+  Rule linnet_remembers when addressed(linnet, party) and linnetLast(linnet) != lullCount(clock) { Set linnetLast(linnet) to lullCount(clock). Increase linnetWarm(linnet) by 1. }
+  Topic linnet_tunes with linnet "Ask Linnet Gale about her tunes" when lullOpen() once {
+    Says "'I make one a day,' says Linnet. 'Every day. A Lull's worth of tunes. Fifty-seven years of Lulldays, and my mother says there were fiddlers before me making one a day too.' She plucks a string. 'They can't ravel. A tune's not a thing. But nobody keeps them. Nothing happens here for a tune to be about, so they sing it once at the Watching and in the morning it's gone, like a dream, and I make another.' She looks at the charcoal on the wall. 'I'd like to make one that everybody sings next week. Next year. One that's about something.' She laughs. 'I'd need something to happen.'".
+    On discuss { Assert knows(actor, linnet_wants). }
+  }
+  Discovery linnet_wants "Linnet Gale makes a tune every Lullday, and every one is sung once and forgotten. She wants to make one that is about something, and kept; and for that something would have to happen.".
+  Topic linnet_sixways with linnet "Ask Linnet Gale whether she has been out over the Tump" when lullOpen() once {
+    Says "'Once.' Linnet makes a face. 'I was sixteen. I went to Sixways for a day to hear their fiddler, and it was so loud. Not him: everything. Carts and hammers and people saying hurry, hurry, and a dog that barked at nothing all afternoon, and I couldn't hear anything I was playing.' She tunes a peg. 'I came back by the evening road and I cried at the stone. Not because it was horrible. Because I liked it, and I couldn't bear it.' She looks at you sideways. 'You came through all that to get here. Is it like that everywhere?'".
+    On discuss { Assert knows(actor, linnet_afraid). }
+  }
+  Discovery linnet_afraid "Linnet Gale went out to Sixways once, at sixteen, and liked the noise of the world, and could not bear it, and cried at the Fold-stone.".
+  // The second day she sees you: for her it is the next morning; for you, a week.
+  Topic linnet_yesterday with linnet "Let Linnet Gale look at you" when lullOpen() and linnetWarm(linnet) >= 2 and not linnetSawDay(linnet) {
+    Says "Linnet puts the fiddle down and looks at you properly, head on one side, the way she looks at a tune that is not right yet. 'You were here yesterday,' she says. 'And you're not the same.' She reaches out and turns your hand over. 'You had a scratch there. It's gone. Healed.' She lets go. 'You've been out there a week. Seven days of things happening to you, and I've been asleep.' She picks the fiddle up, and puts it down again. 'I'll count them,' she says. 'Your weeks. If you keep coming. Somebody ought to.'".
+    On discuss { Assert linnetSawDay(linnet). Assert knows(actor, linnet_counts). }
+  }
+  Discovery linnet_counts "Linnet Gale sees what a week has done to you, every time you come back, and says she will count your weeks.".
+  Topic linnet_came_back with linnet "Tell Linnet Gale that you came back to see her" when lullOpen() and linnetSawDay(linnet) and not linnetLoves(linnet) once {
+    Says "Linnet does not say anything for a while. She plays four notes, the ones that are you, slowly, and then four more after them that you have not heard before, that answer them. 'There,' she says. 'Now it's about something.' She does not look at you. 'Don't say it again till you mean it at sunset. I couldn't stand it if it ravelled.' Then she does look at you, and laughs, because she cannot help it. 'Oh, I'm so glad. I'm so glad you came back.'".
+    On discuss { Assert linnetLoves(linnet). Assert cares(party, linnet). }
+  }
+  Topic linnet_play with linnet "Ask Linnet Gale to play you something" when lullOpen() and not linnetLoves(linnet) once {
+    Says "She plays you yesterday's tune, she says, from memory, which she is not sure of: a slow thing like water going over a weir, that turns at the end into a dance and stops before the dance is finished. 'That's the trouble with them,' she says. 'They stop. There's never a next bit.'".
+  }
+  Topic linnet_play_love with linnet "Ask Linnet Gale to play you something" when lullOpen() and linnetLoves(linnet) and not linnetTune(linnet) {
+    Says "She plays the four notes that are you, and the four that answer them, and then goes on, and it is a tune, a whole one, that goes somewhere and comes back changed. When she stops she sits looking at the fiddle. 'That's the first one with a next bit,' she says.".
+  }
+  Event linnet_keepsake near linnet when keeps(linnet, keepsake) and madeFor(keepsake, linnet) "Linnet holds the little carving in both hands and looks at it, and then at the window, where the sun is going. 'Stay till the Watching,' she says. 'Stay and see if it holds.' At sunset it is still in her hands, and she does not say anything at all; she takes up the fiddle and plays, there in the window over the green, and down at the Long Table they stop talking to listen, and before she is done the children have the tune, and are singing it, wrong, under the table." then {
+    Assert keepsakeKept(keepsake). Assert linnetTune(linnet). Assert spreadFact(tune_told).
+  }
+  Entity tune_told: fact "Linnet's tune".
+  // What she asks, on the Working Day or after.
+  Relation stayPromised(group). Relation linnetWillCome(group).
+  Topic linnet_tomorrow with linnet "Linnet Gale asks whether you will be here tomorrow" when lullOpen() and linnetLoves(linnet) and (dayThree() or pastThree()) and not stayPromised(party) and not linnetWillCome(linnet) {
+    Says "Linnet is sitting on the window-seat with her arms round her knees. 'Tomorrow,' she says. 'Will you be here tomorrow?' She means it the Lull's way: the next Lullday, which for you is a week. She means it the other way too, and you both know it. 'Don't answer now,' she says. 'Answer before midnight. I want to hear what you mean.'".
+  }
+  Topic linnet_stay with linnet "Tell Linnet Gale that you will stay in the Lull" when lullOpen() and linnetLoves(linnet) and (dayThree() or pastThree()) and not stayPromised(party) and not linnetWillCome(linnet) once {
+    Grave "Every night you sleep in the Lull is a week gone in the world outside.".
+    Says "Linnet looks at you for a long time. 'Every night a week,' she says. 'Everything out there, going on without you. All the people.' She puts her hand flat on your chest. 'You mean it,' she says, surprised, as if she could feel it there. 'All right. All right, then.' She takes up the fiddle, and does not play, and holds it.".
+    On discuss { Assert stayPromised(party). }
+  }
+  Topic linnet_come with linnet "Ask Linnet Gale to come out over the Tump with you" when lullOpen() and linnetLoves(linnet) and (dayThree() or pastThree()) and not stayPromised(party) and not linnetWillCome(linnet) once {
+    Says "Linnet's face goes white, and then very bright. 'Out,' she says. 'Into all that.' She looks round the music room, the charcoal on the walls. 'Mother would have one day for every seven of mine. I'd come back for the Watching and she'd say, You look tired.' She swallows. 'I'd be loud. I'd be in a hurry. I'd have tomorrows.' She stands up. 'Yes. Ask me again in the road, so I know you meant it.'".
+    On discuss { Assert linnetWillCome(linnet). Assert willing(linnet, actor). }
+  }
+  Promise stay_promise "to stay in the Lull, with Linnet" to linnet kept when stayPromised(party) and lullCount(clock) >= firstLull(clock) + 5 and inLull(party) "Linnet has counted five of your weeks on the window-frame of the music room, in charcoal, and stopped counting." broken when stayPromised(party) and lullEvening() and not inLull(party) "Somewhere in Linger, in the music room over the Open Hand, a tune is going round and round without a next bit." .
+  Topic linnet_travel with linnet travelling "Ask Linnet what she makes of the world" when travelsWith(linnet, party) and not inLull(party) once {
+    Says "'It's so loud,' says Linnet, delighted, with her fiddle under her arm, looking at everything. 'Everything's going somewhere. Do you hear that? That man's late. He's late! For something!' She plays four notes at a passing cart, and the carter looks round. 'I'm going to make a tune about him,' she says. 'And tomorrow I'm going to make one about tomorrow.'".
+  }
+}

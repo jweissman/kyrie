@@ -1,0 +1,128 @@
+Module lull "The Lull" {
+  // ── The Open Houses ───────────────────────────────────────────────────────────────────────────────────────────────
+  // The Pryces and the Gales keep open house, and are at war in generosity. On the first Lullday Lettice Pryce gives
+  // the guest something magnificent, to beat Mabyn Gale; a gift given to win comes apart at dusk, and at the Watching
+  // everybody sees it. On the next, humiliated, she gives Mabyn her house, out of pure spite; spite is meant, and holds;
+  // the Pryces are homeless by their own gift, and the Chief Rest-warden sleeps in his enemy's spare room. What that
+  // does to Hobday decides whether the wardens come to the Green on the Working Day.
+  Observe pryce_scene at pryce_parlour when lullOpen() and not pryceHouseGiven(lettice) "The best parlour in Linger, and it knows it: a carpet, a clock that does not go (on the mantel, as an ornament), a glass-fronted cabinet of gifts received with each card turned outward, and a second cabinet, larger, of gifts given, represented by the receivers' thank-you letters, framed. Everything smells of beeswax and of being looked at.".
+  Observe pryce_given at pryce_parlour when lullOpen() and pryceHouseGiven(lettice) "The Pryces' parlour, which is now Mabyn Gale's, and which Mabyn has not come into. The cabinets are there, and the carpet. The ornamental clock has been turned to face the wall.".
+  Observe pryce_dark at pryce_parlour when folded() "The best parlour in Linger in the dark, with the glass of its cabinets catching what little light there is.".
+
+  Person lettice "Lettice Pryce" at pryce_parlour {
+    Role "who keeps the Pryces' open house, and is the most generous woman in the Lull". Ancestry human. Peaceable. Pronouns she. Manner proud.
+    Likeness "noblewoman".
+    Greets "A tall woman with a great deal of grey hair piled up like a loaf sweeps across the parlour to you with both hands out. 'A guest. And nobody has given you anything yet, I can see it in your face. Sit. Sit! Lettice Pryce. You'll have been to the Gales'.' The smile does not move. 'Lovely people. Simple.'".
+    Greets again "'My dear,' says Lettice Pryce, and looks at once at what you are carrying.".
+  }
+  Initially Assert lullFolk(lettice). Initially Assert dayAt(lettice, pryce_parlour). Initially Assert bedAt(lettice, pryce_parlour).
+  Person hobday "Hobday Pryce" at green {
+    Role "the Chief Rest-warden of the Lull". Ancestry human. Calling warrior. Level 3. Peaceable. Pronouns he. Manner proud.
+    Likeness "constable".
+    Greets "A big pink man with a staff and a sash of the grey-gold cloth stops you with a raised hand. 'Slowly,' he says. 'Slowly, friend. You're in the Lull. Nobody here is late for anything.' He looks you up and down. 'Hobday Pryce. Chief Rest-warden. You'll find us very easy to get on with, provided you're easy.'".
+    Greets again "Hobday Pryce raises his staff to you, slowly, as a lesson.".
+  }
+  Initially Assert lullFolk(hobday). Initially Assert dayAt(hobday, green). Initially Assert bedAt(hobday, pryce_parlour).
+  Person kezia "Kezia Pryce" at gardens {
+    Role "the Pryces' daughter, with mud to the elbow". Ancestry human. Peaceable. Pronouns she. Manner cheerful.
+    Greets "A girl of seventeen in an expensive dress with mud on it to the elbow looks up from a strip of leeks. 'If Mother sent you, I'm not here,' she says. 'If she didn't, hello. I'm Kezia. Don't tell her you saw me digging. Digging's fine. It's that I'm digging leeks, and leeks are the Gales'.'".
+    Greets again "Kezia Pryce waves a trowel at you.".
+  }
+  Initially Assert lullFolk(kezia). Initially Assert dayAt(kezia, gardens). Initially Assert bedAt(kezia, pryce_parlour).
+  Person wardens "the Rest-wardens" at tump_shoulder {
+    Role "in grey-gold sashes, with staves". Ancestry human. Calling warrior. Level 2. Numbers 3. Peaceable.
+    Greets "Three wardens in grey-gold sashes lean on their staves and look at you with the patience of men who are paid in nothing and like it. 'Slowly,' says one, out of habit.".
+  }
+  Initially Assert lullFolk(wardens). Initially Assert dayAt(wardens, tump_shoulder). Initially Assert bedAt(wardens, weavers_row).
+  // The wardens keep the shoulder in the morning, and the green after.
+  Rule wardens_to_green when lullOpen() and hour(clock) >= 11 and hour(clock) < 19 and routine(wardens) and not at(wardens, green) { Assert at(wardens, green). }
+  Initially Assert serves(wardens, hobday).
+  // The wardens turn Simeon Eddowes back at the shoulder, by the old Chief Warden's word, while they keep it.
+  Relation simeonTurned(group). Relation simeonHome(group).
+  Rule simeon_turned at tump_shoulder when following(simeon, party) and at(party, tump_shoulder) and at(wardens, tump_shoulder) and lullOpen() and not simeonHome(simeon) and not hobdayGrateful(hobday)
+    says "The wardens on the shoulder look at the old man in the white apron, and at each other, and one of them steps into the road with his staff across it. 'Simeon Eddowes,' he says, not unkindly, as if reading it off something. 'Put out by the Chief Warden's word. You'll go back to the stone, sir.' Simeon stands in the road for a long moment, looking past them at the valley. Then he turns round and walks back up toward the Fold-stone, very straight, without a word, and the wardens watch him go, and look at their boots." {
+    Retract following(simeon, party). Assert at(simeon, fold_stone). Assert simeonTurned(simeon).
+  }
+  Rule simeon_waits when at(simeon, fold_stone) and simeonTurned(simeon) and not lullOpen() { Assert at(simeon, simeon_room). }
+  Rule simeon_comes_home when following(simeon, party) and inLull(party) and lullOpen() and not simeonHome(simeon) and not (at(party, tump_shoulder) and at(wardens, tump_shoulder))
+    says "Simeon stops in the road below the shoulder with the whole valley in front of him, the woods and the tarn and the town and the dark mill, and he does not say anything at all for a long time. Then he says, 'They've painted the Glossary,' in a voice you have not heard him use." { Assert simeonHome(simeon). }
+
+  // The war in generosity.
+  Topic hobday_fines with hobday "Ask Hobday Pryce what the Rest-wardens do" when lullOpen() once {
+    Says "'Keep the peace,' says Hobday. 'The rest, I should say. A man runs, we stop him. A woman haggles, we have a word. Somebody's seen to be trying too hard at a thing, we remind them.' He leans on his staff. 'Fines are in gifts. You give the Lull something: a loaf to the Table, a morning in the Gardens. Freely.' He frowns slightly, as if at an old splinter. 'It holds, mostly. You'd be surprised how many people give a fine freely.'".
+  }
+  Topic lettice_gift with lettice "Accept what Lettice Pryce wants to give you" when lullOpen() and dayOne() and not letticeGave(lettice) and not letticeHumbled(lettice) once {
+    Says "Lettice opens the larger cabinet and takes out a cloak: grey-gold Lull-cloth, lined with red, with a silver clasp in the shape of a starling, and puts it round your shoulders herself. 'There,' she says. 'Now you can tell the Gales you've been given something.' She stands back. 'Wear it to the Watching. They'll all see.'".
+    On discuss { Assert letticeGave(lettice). Give pryce_cloak to actor. }
+  }
+  Relation letticeGave(group). Relation letticeHumbled(group). Relation letticeShamed(group). Relation pryceHouseGiven(group).
+  Kind pryce_cloak_kind "a cloak from Lettice Pryce" is gear worth 6 weighing 1 described "A cloak of grey-gold Lull-cloth lined with red, with a silver clasp in the shape of a starling, given to you by Lettice Pryce to show the Gales.".
+  Item pryce_cloak "a cloak from Lettice Pryce" is pryce_cloak_kind at limbo.
+  Initially Assert unmeant(pryce_cloak).
+  // At the Watching, in front of everybody, it comes apart; if the company is elsewhere, it comes apart elsewhere.
+  Rule cloak_ravels_public at green when lullDusk() and carries(party, pryce_cloak) and at(party, green) and at(lettice, green)
+    says "The cloak Lettice Pryce gave you begins to come apart on your back: first the lining, a red thread at a time, then the grey-gold, the way a cobweb goes in a draught, until the silver clasp drops into your lap on its own and there is a little heap of loose wool at your feet. Along the Table nobody says anything, very loudly. Lettice Pryce sits perfectly upright with her face like a plate. At the far end, Mabyn Gale gets up, and comes down the Table, and picks the clasp out of your lap, and gives it back to Lettice, and goes back to her seat; and that is the worst thing that has happened to Lettice Pryce in fifty years." teaches given_to_win {
+    Spend pryce_cloak_kind from party. Assert at(pryce_cloak, limbo). Assert letticeShamed(lettice).
+  }
+  Rule cloak_ravels_private when lullDusk() and carries(party, pryce_cloak) and not (at(party, green) and at(lettice, green))
+    says "Somewhere about sunset, the cloak Lettice Pryce gave you comes apart: lining first, then the grey-gold, until the silver starling clasp drops on its own into a little heap of loose wool. Nobody sees it but you." teaches given_to_win {
+    Spend pryce_cloak_kind from party. Assert at(pryce_cloak, limbo).
+  }
+  Discovery given_to_win "A gift given to win comes apart at sunset in the Lull: Lettice Pryce's cloak, given to beat the Gales, ravelled to loose wool.".
+  // Told beforehand what will happen, she is shaken, and gives something else instead.
+  Topic lettice_warned with lettice "Tell Lettice Pryce that a gift given to beat Mabyn Gale will not hold" when lullOpen() and dayOne() and letticeGave(lettice) and not letticeShamed(lettice) and not letticeHumbled(lettice) and (knows(actor, glosser_doctrine) or knows(actor, simeon_doctrine) or knows(actor, chair_ravels)) once {
+    Says "Lettice looks at you as if you had slapped her. Then at the cloak. Then at the cabinet of framed letters, and for a moment you see her read them, all of them, at once. 'Take it off,' she says, quite quietly. She folds the cloak over her arm. 'I am sixty-one,' she says. 'I have given away a great deal. I suppose I should like to know how much of it held.' She sits down. 'Mabyn's girl has the croup every winter. Every winter Mabyn sits up with her. I have a recipe of my mother's for it.' She looks at the cloak. 'I could give her that. I don't know if I'd mean it.' A pause. 'I'd like to try.'".
+    On discuss { Assert letticeHumbled(lettice). Spend pryce_cloak_kind from actor. Assert at(pryce_cloak, limbo). }
+  }
+  Rule lettice_recipe at green when letticeHumbled(lettice) and lullDusk() and at(lettice, green) and at(mabyn, green) and not spreadFact(recipe_told)
+    says "At the Watching Lettice Pryce sets a folded paper on the grass with the day's makings, and the town reads the card on it, FOR MABYN GALE, A RECEIPT FOR THE CROUP, and looks at Mabyn, and Mabyn looks at Lettice. The sun goes. The paper stays. Mabyn Gale comes down the Table and picks it up and reads it, and says, 'Your mother's,' and Lettice says, 'Yes,' and that is all anybody says, and it is the talk of the Lull for a week of Lulldays." { Assert spreadFact(recipe_told). Assert housesAtPeace(mabyn). }
+  Entity recipe_told: fact "the receipt for the croup".
+  Item mabyn_cloth "a length of Lull-cloth from Mabyn Gale" is lull_cloth at limbo.
+  Rule mabyn_thanks at green when housesAtPeace(mabyn) and at(party, green) and lullOpen() and hour(clock) >= 20 and at(mabyn_cloth, limbo) and not spreadFact(mabyn_thanked)
+    says "Later, when the lanterns are going out, Mabyn Gale finds you at the bottom of the Table and puts something soft into your arms without a word: a length of grey-gold Lull-cloth, folded small, that smells of her linen-press. 'My mother wove that,' she says. 'For whoever made Lettice Pryce give me something she meant.' She pats it. 'It'll outlast you. Don't sell it to that Haskett for less than fifteen.'" { Assert spreadFact(mabyn_thanked). Give mabyn_cloth to party. }
+  Entity mabyn_thanked: fact "Mabyn's thanks".
+  Relation housesAtPeace(group).
+  // Shamed, on the next Lullday she gives Mabyn her house. Spite is meant. It holds.
+  Rule house_given at green when letticeShamed(lettice) and dayTwo() and lullDusk() and not pryceHouseGiven(lettice)
+    says "At the Watching Lettice Pryce stands up at her place at the Long Table, which nobody does, and says in a clear voice that she gives her house, her parlour and her cabinets and her carpets, to Mabyn Gale of the Open Hand, freely, as a courtesy for the clasp. Then she sits down. Nobody breathes. The sun goes off the Tump. The Pryces' house does not come apart, or go anywhere; it stands there across the green, as a house does, and it is not the Pryces' any more, because she meant it. She meant it with every bone in her body. Hobday Pryce puts his face in his hands. Mabyn Gale says, to nobody, 'Oh, Lettice, you fool,' and goes to make up the spare room." teaches spite_holds {
+    Assert pryceHouseGiven(lettice).
+  }
+  Rule house_given_quiet when letticeShamed(lettice) and dayTwo() and lullDusk() and not pryceHouseGiven(lettice) and not at(party, green) { Assert pryceHouseGiven(lettice). }
+  Discovery spite_holds "Spite holds in the Lull. Lettice Pryce gave her house to Mabyn Gale out of pure spite at the Watching, and it held: the Pryces are homeless by their own gift.".
+  // Homeless, the Pryces lodge at the Open Hand.
+  Rule pryces_lodge when pryceHouseGiven(lettice) and bedAt(lettice, pryce_parlour) { Retract bedAt(lettice, pryce_parlour). Assert bedAt(lettice, open_hand). Retract bedAt(hobday, pryce_parlour). Assert bedAt(hobday, open_hand). Retract bedAt(kezia, pryce_parlour). Assert bedAt(kezia, linnet_loft). Retract dayAt(lettice, pryce_parlour). Assert dayAt(lettice, open_hand). }
+  Observe hobday_lodging at open_hand when lullOpen() and pryceHouseGiven(lettice) and at(hobday, open_hand) "Hobday Pryce is sitting in the corner of the Open Hand in his sash, with a cup of something, being looked after by Matthias Gale with a tenderness that is clearly agony to both of them.".
+  Rule hobday_mornings when pryceHouseGiven(lettice) and lullOpen() and hour(clock) < 11 and routine(hobday) and dayAt(hobday, green) { Retract dayAt(hobday, green). Assert dayAt(hobday, open_hand). }
+  // Under Mabyn's roof he softens, if anyone speaks to him kindly about it; or he hardens, if nobody does.
+  Topic hobday_lodged with hobday "Ask Hobday Pryce how he finds the Open Hand" when lullOpen() and pryceHouseGiven(lettice) and not hobdaySoftened(hobday) once {
+    Says "Hobday looks into his cup for a long time. 'He brought me cocoa,' he says. 'At two in the morning. I was sitting on the end of the bed in my sash because I couldn't think how to take it off in somebody else's house, and Matthias Gale knocked and brought me cocoa and a hot brick for my feet and said he'd always wanted to look after a warden.' He sets the cup down. 'Forty years I've fined people for trying too hard. That man tries harder than anyone in the Lull. And it holds.' He looks at you. 'I don't know what to do with that.'".
+    On discuss { Assert hobdaySoftened(hobday). }
+  }
+  Relation hobdaySoftened(group).
+  Observe pryces_dark at open_hand as feature when folded() and pryceHouseGiven(lettice) "In the corner, the Chief Rest-warden is asleep upright in a chair by the dead fire, with his sash on and a cocoa cup in his open hand.".
+
+  // Kezia, who is in the Weekday Club because her mother would hate it.
+  Topic kezia_club with kezia "Ask Kezia Pryce whether she knows Corin Lindsell" when lullOpen() and (knows(actor, club_rumour) or knows(actor, working_day_plan)) once {
+    Says "Kezia sits back on her heels and looks at you sideways. 'Everybody knows Corin.' Then, lower: 'If you mean, am I in the Club: yes. Don't tell Father. He'd have to arrest me, and he'd cry.' She stabs a leek. 'Why? Because Mother would hate it. Because if I have to spend my whole life being a Pryce at a table, I'd like it to be a table where something happens.' She grins. 'And you needn't look like that. Aldith says spite's as good as love, at sunset. Better, some days.'".
+    On discuss { Assert knows(actor, kezia_club). }
+  }
+  Discovery kezia_club "Kezia Pryce, the Chief Rest-warden's daughter, is in the Weekday Club, because her mother would hate it.".
+  // Hobday will give something for the names of the Club. A gift given to buy a name comes undone at sunset.
+  Topic hobday_names with hobday "Ask Hobday Pryce what he knows of the Weekday Club" when lullOpen() and knows(actor, working_day_plan) and not hobdayKnows(hobday) once {
+    Says "Hobday's face closes. 'Young people with nothing to do,' he says. 'Talking. They'll grow out of it, or we'll grow them out of it.' He lowers his voice. 'I'd take it kindly if anybody told me who. I'd give them something for it. A gift.' He looks at your purse. 'A handsome one.'".
+    On discuss { Assert hobdayAsks(hobday). }
+  }
+  Relation hobdayAsks(group). Relation hobdayKnows(group).
+  Action tell_names(actor: group, site: place) "Give Hobday Pryce the names of the Weekday Club, for his gift of ten coin" {
+    Grave "The Club will know who told.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(hobday, site) and hobdayAsks(hobday) and lullOpen() and not hobdayKnows(hobday).
+    On success { Assert hobdayKnows(hobday). Increase quantity(actor, gold) by 10. Assert informerPaid(actor). }
+    Result "You give him the names, Corin's first. Hobday writes them down on his cuff with a pencil, slowly, and his face gets pinker at one of them, and he does not say which. He counts ten coins into your hand. 'A gift,' he says. 'Freely given.' He does not look at you while he says it.".
+  }
+  Relation informerPaid(group).
+  Rule informer_ravels when lullDusk() and informerPaid(party) and not informerRavelled(party)
+    says "At sunset the ten coins Hobday Pryce gave you for the names go out of your purse like water out of a cupped hand, and are gone, back to his, you suppose. A gift given to buy something is not a gift. The names stay told." {
+    Decrease quantity(party, gold) by 10 or to nothing. Increase quantity(hobday, gold) by 10. Assert informerRavelled(party).
+  }
+  Relation informerRavelled(group).
+}

@@ -1,0 +1,100 @@
+Module lull "The Lull" {
+  // ── Lammas Tarn and Hob Linsey ────────────────────────────────────────────────────────────────────────────────────
+  // Hob Linsey keeps bees by the tarn and does not always lie down at night, because bees don't. He knows the dark.
+  Observe tarn_scene at tarn_shore when lullOpen() "Lammas Tarn lies at the head of the valley in a bowl of beeches, black and still, so clear at the edge you can count the stones. The Idle comes out of it over a lip of rock. Along the shore on a bank of thyme stand skeps, dozens of them, straw domes on planks, and the air over the bank is loud and gold. There is a hut, and a boat drawn up, and a man asleep in the boat.".
+  Observe tarn_dark at tarn_shore when folded() "Lammas Tarn in the dark, without a star in it. The skeps are silent. Out on the water, so faint you might be imagining it, someone is rowing.".
+  Person hob "Hob Linsey" at tarn_shore {
+    Role "who keeps bees at the tarn". Ancestry human. Peaceable. Pronouns he. Manner stoic.
+    Likeness "hermit".
+    Greets "The man in the boat sits up with bees in his beard and looks at you without hurry. 'Don't flap,' he says. 'They don't mind you. They mind flapping.' He climbs out. 'Hob Linsey. These are mine, or I'm theirs; it's been argued both ways.'".
+    Greets again "Hob Linsey lifts a hand, slowly, so as not to annoy the bees.".
+  }
+  Initially Assert lullFolk(hob). Initially Assert dayAt(hob, tarn_shore). Initially Assert bedAt(hob, tarn_shore).
+  Topic hob_skep with hob "Ask Hob Linsey to set a skep in the Gardens for one of Aldith Mote's coins" when lullOpen() and aldithTesting(aldith) and at(skep, limbo) and quantity(actor, gold) >= 1 once {
+    Says "Hob looks at the coin as if it were a wasp. 'Money,' he says. 'For bees.' He looks at it longer. 'For the Mote girl.' He sighs through his beard. 'She wants to see if it ravels.' He takes the coin and puts it in his cheek, which is apparently where he keeps things, and picks up a skep from the bank, and a smoker, and walks off down the leat path without another word. When you see him next, in the Gardens, there is a new skep on a plank by the bean-rows, and bees going in and out of it, and Hob Linsey is sitting beside it with the face of a man watching his child's first day at school.".
+    On discuss { Decrease quantity(actor, gold) by 1. Increase quantity(hob, gold) by 1. Assert at(skep, gardens). Assert state(skep, set). }
+  }
+  Topic hob_dark with hob "Ask Hob Linsey what the Lull is like at night" when lullOpen() once {
+    Says "Hob is quiet for a while. 'There isn't a night,' he says. 'Not like yours. You lie down Lull-fashion, hands open, and you wake up and it's Lullday. That's the night.' He turns a skep to the light. 'Bees don't lie down. So some nights I don't.' He does not look at you. 'Then it's dark. Six days of it. Everybody asleep, and you can't wake them; I've tried. And the Mill going.' He sets the skep down. 'If you're ever in it, keep away from the Mill. If they see you, lie down with your hands open, like the strikers did on the Tump; they don't touch the resting. And if you want out, there's the Gap, under the Swallow, where the Idle goes into the hill. It comes out behind the Waiting Woman. I've been out that way. It's a long crawl and it smells of wool.'".
+    On discuss { Assert knows(actor, open_hands). Assert knows(actor, gap_known). Assert knows(actor, mill_works). }
+  }
+  Discovery mill_works "Hob Linsey says that in the dark between Lulldays, the six days the Lull does not keep, the Wrought Mill is working; and that whatever works it does not touch those who lie with open hands.".
+  Kind comb_kind "a comb of Hob Linsey's honey" is gear worth 2 weighing 0 described "A slab of honeycomb wrapped in a dock leaf, dripping, smelling of thyme.".
+  Item comb "a comb of Hob Linsey's honey" is comb_kind at limbo.
+  Topic hob_brock with hob "Ask Hob Linsey about the Old Brock" when lullOpen() and knows(actor, brock_known) once {
+    Says "'Poor old devil,' says Hob. 'He's been in the Hangers longer than me. Last Lullday Hobday paid a Sixer trapper to lay him, and the fool did, and took the coin, and at sunset the Brock got up.' He shakes his head. 'Hired harm. It doesn't hold, here. You can only hurt something in the Lull if you mean it. Well, he's been hurt and got up, and now he means it.' He goes into the hut and comes out with something wrapped in a dock leaf. 'He's a honey-badger at heart, like all of them. Leave him that at the sett and he'll be your friend for an hour. Leave him that every Lullday and he'll keep out of the Gardens.' He gives it to you. 'Freely. Don't thank me, it'll go to my head.'".
+    On discuss { Retract at(comb, limbo). Give comb to actor. Assert knows(actor, brock_honey). }
+  }
+  Discovery brock_honey "Hob Linsey says the Old Brock will take honey at his sett and be peaceable for it; and that if he is given it every Lullday he will keep out of the Gardens.".
+  Topic hob_feed with hob "Ask Hob Linsey to leave comb at the Old Brock's sett every Lullday" when lullOpen() and brockTruce(brock) and not brockFed(brock) once {
+    Says "Hob grunts. 'He took it, then. Good.' He looks at the skeps. 'I've comb enough. I'll take him a piece on my way round. He's a neighbour.' He considers. 'I never thought to. Forty years. Nobody asked.'".
+    On discuss { Assert brockFed(brock). }
+  }
+
+  // ── The Hangers and the Old Brock ─────────────────────────────────────────────────────────────────────────────────
+  Observe hangers_scene at hanger_path when lullOpen() "A path along the valley side under tall beeches, their trunks grey as elephants, the floor deep in copper leaves. Old charcoal hearths, round and black, stand in the clearings, cold for fifty-seven years, with ferns in them. Here and there a beech has been carved with initials and a date, the date always a Lullday.".
+  Observe hangers_dark at hanger_path when folded() "The Hangers in the dark: the grey trunks, a smell of leaf-mould, and the lint of the Ravel caught in the low branches like old-man's-beard.".
+  Observe sett_scene at brock_sett when lullOpen() "A bank under the beeches torn open in a dozen places: the Old Brock's sett, generations deep, with spoil-heaps the size of carts and paths beaten through the leaves to every hole. It smells of earth and musk. In the mouth of the biggest hole the soil has been dug out fresh, and there are hairs on the roots, grey, and very long.".
+  Observe sett_dark at brock_sett when folded() "The sett in the dark. From deep in the bank, something breathes.".
+  Species brock_kind "a badger the size of a pony" like badger temperament territorial described "A badger, grey and black and white, as big as a pony, with a head like a ram's and claws like garden forks.".
+  Person brock "the Old Brock" at brock_sett {
+    Role "a badger the size of a pony, grey with age, scarred across the shoulders". Species brock_kind. Level 5. Pronouns he.
+    Temperament territorial.
+    Lair brock_sett. Refuge brock_sett. Fears flame.
+    Warns "Something comes up out of the biggest hole and stands in the leaves, and it is a badger, and it is as big as a pony, and there is a long bare scar across its shoulders where something went in and came out again. It does not run. It has been killed once already, and it remembers. It will not have you at its sett; it will give you the time it takes to back away, or to show it something it wants more than you.".
+    Comes "The Old Brock comes at you low and fast, the way badgers do, as if the ground were throwing it.".
+    Flinches "The Old Brock shies from the flame with a cough of rage and goes down into the bank.".
+    Pleads "The Old Brock backs into the mouth of the sett with its head low, grunting, and will not come out again.".
+  }
+  Discovery brock_known "The Old Brock, a badger as big as a pony, comes down out of the Hangers into the Pleasure Gardens at dusk and roots up the strips. Hobday Pryce gives a bounty for him.".
+  Relation brockTruce(group). Relation brockFed(group). Relation brockGone(group). Relation bountyTaken(group). Relation brockRose(group).
+  // At dusk he comes down into the Gardens, unless he is fed, or gone.
+  Rule brock_raids when lullOpen() and hour(clock) >= 19 and hour(clock) < 21 and able(brock) and not brockFed(brock) and not brockGone(brock) and at(brock, brock_sett) and not at(party, brock_sett) { Assert at(brock, gardens). }
+  Rule brock_home when lullOpen() and (hour(clock) >= 21 or hour(clock) < 19) and able(brock) and at(brock, gardens) { Assert at(brock, brock_sett). }
+  Observe brock_in_gardens at gardens when lullOpen() and at(brock, gardens) "At the top of the Gardens the Old Brock is tearing up a strip of potatoes, as big as a pony in the dusk, and the children who were racing barrows have all gone indoors.".
+  Observe brock_met near brock when not knows(party, brock_known) "The grass and the leaf-litter all about are torn as if with forks." teaches brock_known.
+  Topic hobday_bounty with hobday "Ask Hobday Pryce about the Old Brock" when lullOpen() and not bountyTaken(party) once {
+    Says "'A nuisance,' says Hobday. 'He has the Gardens every dusk. Nobody here will lay him; they say you can't, not meaning it, and nobody means it, he's a badger.' He looks at your weapons with interest. 'A Sixer could. I'd make it worth your while. Ten coin, freely given, to whoever brings me word he's laid.'".
+    On discuss { Assert knows(actor, brock_known). Assert bountyOffered(hobday). }
+  }
+  Relation bountyOffered(group).
+  Topic hobday_bounty_take with hobday "Take Hobday Pryce's bounty on the Old Brock" when lullOpen() and bountyOffered(hobday) and not bountyTaken(party) and able(brock) once {
+    Says "'Good,' says Hobday, and shakes your hand. 'Freely given, mind. When you've done it.'".
+    On discuss { Assert bountyTaken(party). }
+  }
+  // Honey at the sett: a truce.
+  Action leave_comb(actor: group, site: place) "Set Hob Linsey's honeycomb down in the mouth of the sett, and back off" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, brock_sett) and carries(actor, comb) and able(brock) and not brockTruce(brock).
+    On success { Spend comb_kind from actor. Assert at(comb, limbo). Assert brockTruce(brock). Assert tolerates(brock, actor). Retract warned(brock, actor). Retract assails(brock, actor). }
+    Result "You put the comb down in the leaves at the mouth of the big hole and step back, and back again. The Old Brock comes up out of the bank and stands over the comb, and looks at you, and you look at it. Then it eats, the whole comb, leaf and all, with its eyes half shut, and when it has finished it licks its claws one by one and lies down in the mouth of the sett with its chin on its paws, and lets you be.".
+  }
+  // Smoked out with flame, he goes over the Hangers and does not come back.
+  Action smoke_sett(actor: group, site: place) "Fill the sett with smoke from a brand, and drive him out of the valley" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, brock_sett) and capable(actor, flame) and able(brock) and not brockGone(brock) and not brockTruce(brock).
+    Time 6.
+    On success { Assert brockGone(brock). Assert at(brock, limbo). }
+    Result "You pile leaves and green beech in the mouths of the holes and set the brand to them, and the smoke goes in, and in, and out of holes you had not seen, all along the bank. A long time later, far up the slope, something big breaks out of the ground coughing and goes away over the top of the Hangers, crashing, into the next valley, and does not come back. The sett smokes for an hour. You find you are not proud of it.".
+  }
+  // Laid for the bounty, he gets up at sunset. Laid meaning it, he does not.
+  Person brock_risen "the Old Brock, up again" at limbo {
+    Role "a badger the size of a pony, with two scars now, and his eyes red". Species brock_kind. Level 6. Pronouns he.
+    Temperament savage.
+    Lair brock_sett.
+    Comes "The Old Brock comes up out of the leaves at you, the second scar open and dry across his ribs where your blow went in, and he does not stop to warn you this time; he has been killed for hire twice, and he means it.".
+  }
+  Rule brock_rises when dead(brock) and bountyTaken(party) and lullDusk() and not brockRose(brock)
+    says "At sunset, somewhere up in the Hangers, there is a sound like a sack of earth being dropped and picked up again; and then a long, low, furious cough. The Old Brock was laid for a bounty. In the Lull, that does not hold." teaches hired_harm {
+    Assert brockRose(brock). Assert at(brock, limbo). Assert at(brock_risen, brock_sett).
+  }
+  Discovery hired_harm "Harm done in the Lull for hire does not hold: the Old Brock, laid for Hobday Pryce's bounty, got up again at sunset.".
+  Topic hobday_bounty_paid with hobday "Tell Hobday Pryce that the Old Brock is laid" when lullOpen() and dead(brock) and bountyTaken(party) and not bountyPaid(party) once {
+    Says "Hobday counts out ten coins into your hand, beaming. 'Freely given,' he says. Then he looks at the sky, at where the sun is, and his beam goes thoughtful. 'You'll want to be over the Tump with that before sunset,' he says. 'Just to be safe.'".
+    On discuss { Assert bountyPaid(party). Increase quantity(actor, gold) by 10. Decrease quantity(hobday, gold) by 10 or to nothing. }
+  }
+  Relation bountyPaid(group).
+  Rule bounty_ravels when lullDusk() and bountyPaid(party) and inLull(party) and not bountyRavelled(party)
+    says "At sunset the ten coins of Hobday's bounty go out of your purse like water out of a cupped hand, back to his, and are gone. A wage comes undone in the Lull with the work it paid for." {
+    Decrease quantity(party, gold) by 10 or to nothing. Increase quantity(hobday, gold) by 10. Assert bountyRavelled(party).
+  }
+  Relation bountyRavelled(group).
+}

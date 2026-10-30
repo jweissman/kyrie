@@ -1,0 +1,104 @@
+Module lull "The Lull" {
+  // ── The Dusk Market: Quick Nan and the ribbons ────────────────────────────────────────────────────────────────────
+  // Nan sells on the Green from six until four on Lulldays, and is home over the Tump before sunset. What she sold
+  // goes back to her tray at sunset, wherever she is; the coin she took is out of the Lull and stays hers. Mothers of
+  // Linger buy her bright ribbons for their newborns to tie on the Strike Post; at the Watching the ribbons go, and
+  // the Glossers say a ribbon that ravels was not meant.
+  Rule nan_in when lullOpen() and hour(clock) >= 7 and hour(clock) < 16 and not nanBanned(nan) and not nanDelayed(nan) and able(nan) and not at(nan, green) { Assert at(nan, green). Assert at(gurney, green). }
+  Rule nan_out when (folded() or hour(clock) >= 16) and not nanDelayed(nan) and able(nan) and not at(nan, sx_street) { Assert at(nan, sx_street). Assert at(gurney, sx_street). }
+  Relation nanBanned(group). Relation nanDelayed(group). Relation nanExposed(group). Relation nanReformed(group). Relation nanPartner(group).
+  Observe nan_on_green at green when lullOpen() and at(nan, green) and hour(clock) < 16 "By the Gift Hall steps Quick Nan has her tray open on a trestle, with Gurney behind her like a wall: pasties, tin whistles, and ribbons, red and blue and a yellow like nothing that grows in the Lull. Lull women are buying the ribbons, two and three at a time.".
+  Observe post_nan_ribbons at strike_post as feature when lullOpen() and not nanExposed(nan) and not nanReformed(nan) and not nanBanned(nan) "Among the faded ribbons at the bottom of the Post, a few are new and very bright: a red, a yellow like nothing that grows in the Lull.".
+
+  Person jenet "Jenet Hollis" at chapel {
+    Role "a young mother of Linger, with a baby in a shawl". Ancestry human. Peaceable. Pronouns she. Manner grim.
+    Greets "A young woman is sitting on the bench round the wall of the chapel with a baby asleep in a shawl on her chest, watching the starlings in the basin. She has been crying, and has stopped, and is waiting to start again.".
+    Greets again "Jenet Hollis looks up from the baby, and down again.".
+  }
+  Initially Assert lullFolk(jenet). Initially Assert dayAt(jenet, chapel). Initially Assert bedAt(jenet, weavers_row).
+  Relation jenetHealed(group).
+  Topic jenet_ribbon with jenet "Ask Jenet Hollis what is the matter" when lullOpen() and not jenetHealed(jenet) once {
+    Says "'Robin's ribbon,' says Jenet. 'My boy. He came last Lullday and I tied his ribbon on the Post in the morning, like everyone, and at the Watching it was gone. Just gone. Off the Post.' She looks down at the baby. 'Glosser Fenn says a ribbon that ravels wasn't meant. He was very kind about it.' Her mouth goes wrong. 'I love him. I'm sure I love him. I sit here and I look at him and I'm sure. But it ravelled. And the Glosser says you can't fool the sunset.' The baby wakes, and she rocks him, and he sleeps.".
+    On discuss { Assert knows(actor, ribbon_ravelled). }
+  }
+  Discovery ribbon_ravelled "Jenet Hollis's newborn's ribbon came off the Strike Post at the Watching. The Glosser told her a ribbon that ravels was not meant, and she is afraid she does not love her child.".
+  Topic jenet_where with jenet "Ask Jenet Hollis where the ribbon came from" when lullOpen() and knows(actor, ribbon_ravelled) and not jenetHealed(jenet) once {
+    Says "'Off Quick Nan's tray,' says Jenet, surprised. 'On the Green. Everybody has hers now. They're so bright. We've nothing in the Lull that dyes like that yellow.' She frowns. 'Moll Lacey's girl's went too. And the Tolley twins'. Glosser Fenn says it's a hard year.' She looks at you. 'Why?'".
+    On discuss { Assert knows(actor, ribbon_from_nan). }
+  }
+  Discovery ribbon_from_nan "Jenet Hollis bought her son's ribbon from Quick Nan's tray on the Green. Other mothers' ribbons from Nan have gone from the Post too.".
+  // Buying one, to see.
+  Kind lull_ribbon_kind "one of Quick Nan's ribbons, bought in the Lull" is gear worth 1 weighing 0 described "A length of bright red ribbon off Quick Nan's tray, the kind a Lull child ties to the Strike Post; bought on the Green.".
+  Item nan_ribbon "one of Quick Nan's ribbons, bought in the Lull" is lull_ribbon_kind at limbo.
+  Initially Assert unmeant(nan_ribbon). Initially Assert ownRavel(nan_ribbon).
+  Action buy_lull_ribbon(actor: group, site: place) "Buy a ribbon off Quick Nan's tray for a coin" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, green) and at(nan, green) and lullOpen() and quantity(actor, gold) >= 1 and at(nan_ribbon, limbo) and not ravelled(nan_ribbon).
+    On success { Decrease quantity(actor, gold) by 1. Increase quantity(nan, gold) by 1. Retract at(nan_ribbon, limbo). Give nan_ribbon to actor. }
+    Result "'Lovely choice,' says Nan, and the coin is gone into her apron before the ribbon is in your hand.".
+  }
+  Rule nan_ribbon_ravels when lullDusk() and carries(party, nan_ribbon)
+    says "The ribbon you bought off Quick Nan's tray slides out of your pack like a snake out of a basket and is gone, off toward the Tump, quick as a swift. The coin does not come back. Nan is over the hill with it." teaches nan_ribbons_ravel {
+    Spend lull_ribbon_kind from party. Assert at(nan_ribbon, limbo). Assert ravelled(nan_ribbon).
+  }
+  Discovery nan_ribbons_ravel "What Quick Nan sells in the Lull goes back to her at sunset, as any sale there does; but she is over the Tump by then, with the coin, which stays hers. The mothers' ribbons were never theirs to mean.".
+  Topic jenet_told with jenet "Tell Jenet Hollis that the ribbon was sold, and that a sale comes undone, whoever loves whom" when lullOpen() and knows(actor, ribbon_from_nan) and (knows(actor, nan_ribbons_ravel) or knows(actor, wage_ravels) or knows(actor, meaning_law)) and not jenetHealed(jenet) once {
+    Says "Jenet looks at you without understanding, and then all at once she does, and her whole face comes undone. 'Sold,' she says. 'It was sold.' She holds the baby so tight that he wakes and complains. 'It wasn't him. It wasn't me. It was Nan's.' She is laughing. 'I'll weave him one. Tonight. Off my own loom, blue, the ugly blue we have, and I'll tie it on myself.' She stands up. 'Glosser Fenn,' she says, in quite a different voice, 'is going to hear about this.'".
+    On discuss { Assert jenetHealed(jenet). }
+  }
+  Observe post_jenet at strike_post as feature when lullOpen() and jenetHealed(jenet) "At the bottom of the Post there is a new ribbon in the ugly Lull blue, tied in a fierce knot: ROBIN HOLLIS, says the label.".
+  // Nan, confronted on the Green.
+  Topic nan_confronted with nan "Tell Quick Nan you know what happens to her ribbons at sunset" when lullOpen() and inLull(party) and knows(actor, nan_ribbons_ravel) and not nanReformed(nan) and not nanExposed(nan) and not nanPartner(nan) once {
+    Says "Nan's smile does not move at all. 'Everything I sell's good till sunset, love,' she says. 'They know the law. It's their law.' She straightens a whistle on the tray. 'Nobody makes them buy. And I'll tell you what: a Lull ribbon's a dull thing. Mine are pretty. Pretty for a day's better than dull for ever, ask anybody.' Gurney, behind her, has stopped looking at the Green and is looking at you.".
+    On discuss { Assert nanConfronted(nan). }
+  }
+  Relation nanConfronted(group).
+  Action shame_nan(actor: group, site: place) "Tell Quick Nan what the mothers think it means when the ribbon goes" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(nan, site) and nanConfronted(nan) and not nanReformed(nan) and not nanExposed(nan) and lullOpen().
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert nanReformed(nan). Decrease quantity(nan, gold) by 6 or to nothing. }
+    On failure { Assert nanShrugged(nan). }
+    Result "You tell her about Jenet Hollis in the chapel with her baby, and what the Glosser said, and what Jenet has been sitting there believing. Nan listens with her head on one side. When you have done she is quiet a moment. Then she takes the ribbons off her tray, all of them, and stuffs them in her apron. 'I've a girl myself,' she says, not to you. 'In the mill towns. With her gran.' She counts six coins out of her apron and puts them in your hand. 'For the mothers. Tell them it was the dye.' She shuts the tray. 'Pasties only, from now. Pasties they eat before sunset.'".
+    Otherwise "Nan hears you out with her bright smile, and says, 'Sad, love, sad,' and sells a ribbon over your shoulder to the next woman.".
+  }
+  Relation nanShrugged(group).
+  Action threaten_nan(actor: group, site: place) "Tell Quick Nan that if she sells another ribbon in the Lull, you will see to it she regrets it" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(nan, site) and nanConfronted(nan) and not nanReformed(nan) and not nanExposed(nan) and lullOpen().
+    Resolve check(actor, intimidation, dc_fair).
+    On success { Assert nanReformed(nan). }
+    On failure { Retract peaceable(gurney). Assert hostile(gurney, actor). Assert assails(gurney, actor). }
+    Result "Nan looks at you, and at Gurney, and at the Green full of Lull folk who would not lift a hand, and back at you, and decides. 'No more ribbons,' she says. 'There. Happy?' She is not frightened. She is doing sums.".
+    Otherwise "Nan laughs, and says, 'Gurney,' and the big man comes round the trestle with his hands open, and they do not stay open.".
+  }
+  // The clever way: keep her talking past four, and let the sunset catch her in the Lull.
+  Action delay_nan(actor: group, site: place) "Keep Quick Nan talking until it is too late for her to leave before sunset" {
+    Description "She will want to be over the Tump by sunset. Talk well enough, and she will not notice the shadows.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(nan, site) and at(actor, green) and knows(actor, nan_ribbons_ravel) and lullOpen() and hour(clock) >= 14 and hour(clock) < 16 and not nanDelayed(nan) and not nanReformed(nan) and not nanExposed(nan).
+    Resolve check(actor, deception, dc_fair).
+    Time 6.
+    On success { Assert nanDelayed(nan). }
+    Result "You ask Nan about her pasties, and her girl in the mill towns, and the price of tin, and you admire her whistles, and you buy a pasty and ask how she crimps it, and she shows you, and tells you about her mother's, and Gurney sits down on the grass, and the shadow of the Tump comes across the Green and nobody remarks it.".
+    Otherwise "Nan answers you with half her mind and keeps one eye on the shadow of the Tump, and at four she shuts her tray in the middle of your sentence. 'Lovely talking, love,' she says, and goes.".
+  }
+  Rule nan_caught at green when lullDusk() and nanDelayed(nan) and at(nan, green) and not nanExposed(nan)
+    says "The sun goes off the Tump, and Quick Nan, who has just looked up and seen where the shadow is, says a word that stops the Long Table. Then it happens: from every pocket and pack along the Table, from the children's hands and the necks of the cats, Nan's day comes back to her: pasties, whistles, and from the top of the Tump a stream of bright ribbons that pours down the hill in the dusk like a flock of finches and into her tray. And out of her apron, the coins: up, and out, and away down the Long Table to the purses they came from, ringing on the boards. Nobody speaks. Then Jenet Hollis stands up with her baby and says, very clearly, 'It was sold,' and the Long Table understands all at once, and the noise it makes is not a kind one. Hobday Pryce walks Nan and Gurney to the Tump road himself, and tells them not to come back." {
+    Assert nanExposed(nan). Assert nanBanned(nan). Assert jenetHealed(jenet). Retract nanDelayed(nan). Assert at(nan, sx_street). Assert at(gurney, sx_street).
+  }
+  Topic hobday_nan with hobday "Tell Hobday Pryce what Quick Nan's ribbons are" when lullOpen() and knows(actor, nan_ribbons_ravel) and not nanBanned(nan) and not nanReformed(nan) and not nanPartner(nan) once {
+    Says "Hobday goes from pink to purple, slowly, like a sky. 'The mothers,' he says. 'The mothers have been coming to me. Asking if they're bad mothers.' He takes up his staff. 'She'll not come over the Tump again. Not while I'm Chief Warden.' He looks at you. 'Thank you. That was well done. That was meant.'".
+    On discuss { Assert nanBanned(nan). Assert hobdayGrateful(hobday). }
+  }
+  Relation hobdayGrateful(group).
+  // Or go in with her.
+  Topic nan_partner with nan "Offer to carry Quick Nan's tray in the Lull for a share of the take" when knows(actor, nan_hours) and not nanReformed(nan) and not nanBanned(nan) and not nanExposed(nan) and not nanPartner(nan) once {
+    Says "Nan looks you up and down. 'Not a bad idea,' she says. 'Gurney frightens them. You look like someone they'd buy a ribbon from.' She spits on her palm and holds it out. 'A third of the morning's take, and out by four, and if anyone asks, the ribbons are for luck.'".
+    On discuss { Assert nanPartner(nan). }
+  }
+  Relation nanCarried(group).
+  Action carry_tray(actor: group, site: place) "Carry Quick Nan's tray through the morning on the Green, for a third of the take" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, green) and at(nan, green) and nanPartner(nan) and lullOpen() and hour(clock) < 14 and not nanCarried(actor).
+    Time 24.
+    On success { Increase quantity(actor, gold) by 4. Assert nanCarried(actor). }
+    Result "You stand on the Green with the tray round your neck and smile, and the Lull women come, and buy, ribbons mostly, for babies; and at two Nan counts the take on the trestle and pushes your third across. Four coin. It stays in your hand, because you will be over the Tump with it before sunset. You find you do not look at the Post on your way out.".
+  }
+  Rule tray_resets when hour(clock) == 0 and nanCarried(?g) { Retract nanCarried(?g). }
+}

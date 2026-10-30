@@ -1,0 +1,69 @@
+Module lull "The Lull" {
+  // ── What different hands can do here ──────────────────────────────────────────────────────────────────────────────
+  // Ways into the valley's stories for those who have the craft for them: a priest's words for the dying, which are
+  // not bought; a watchful eye on an old man's hands; a thief's way round the wardens; a scholar's way into the
+  // Glossary's back room; a woodsman's way to the Brock; a climber's way into the Mill; a bonesetter's way with a hand.
+
+  // A priest's words for the dying: Hester eased, and nothing bought across the Tump.
+  Action rites_for_hester(actor: group, site: place) "Sit with Hester Lindsell and say the words for the dying over her" {
+    Description "Not to hasten anything: the words that let the dying stop holding on so hard.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hester_room) and at(hester, hester_room) and lullOpen() and capable(actor, rites) and knows(actor, hester_sick) and not hesterEased(hester) and not hesterDead(hester).
+    Time 6.
+    On success { Assert hesterEased(hester). Assert hesterBlessed(hester). Assert tobiasSoftened(tobias). Increase tobiasTrust(tobias) by 1. }
+    Result "You sit on the end of the bed and say them, the old words, the ones every priest in Imbar knows in some tongue or other, about rest and about letting go and about the birds. Hester listens with her eyes shut. Halfway through she says, 'Again, that bit,' and you say it again. When you have finished her hands are lying open on the sheet and her face has gone smooth, the way a field does when the cloud goes off it, and she is asleep, properly asleep, for the first time, Tobias says afterwards, in a month. He does not thank you. He brings you a cup of something, and sits with you, and that is the same thing.".
+  }
+  Relation hesterBlessed(group).
+
+  // A watchful eye: the old man's hands, while he tells it.
+  Action watch_tobias(actor: group, site: place) "Watch Tobias Lindsell's hands while he tells the strike" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(tobias, site) and lullOpen() and capable(actor, insight) and knows(actor, strike_told) and not knows(actor, which_side).
+    On success { Assert knows(actor, which_side). Increase tobiasTrust(tobias) by 1. }
+    Result "He tells it with his hands, the way weavers do, and you watch them. When the strikers barred the doors, his hands do not bar anything: they throw a shuttle, left to right, right to left, and stop, the way hands stop at a loom when somebody comes in. Every time he says 'I was at the window', his thumb goes to his waistcoat pocket, where a man keeps a coin. He does not know he does it.".
+  }
+
+  // A thief's way round: the sheep-walk on the Tump's far side, out of the wardens' sight.
+  Action sheep_walk(actor: group, site: place) "Take Simeon round the Tump by the sheep-walk, out of the wardens' sight" {
+    Description "A way a shepherd or a thief would see: up the back of the hill and down through the gorse.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, fold_stone) and lullOpen() and capable(actor, stealth) and following(simeon, actor) and not simeonHome(simeon).
+    Time 6.
+    On success { Assert at(actor, strike_post). }
+    Result "You leave the road at the stone and go up the back of the Tump through the gorse, bent double, with the old man puffing behind you and laughing under his breath, and come out on the top among the ribbons with the wardens below you on the shoulder looking the other way.".
+  }
+
+  // A scholar's way into the Glossary's back room: the boards painted over.
+  Discovery gloss_forty "In the Glossary's back room, among the boards the Reeves have had painted over, the old lettering of one still shows through the white under a lamp: GLOSS 40. THAT A GIRL WHO WALKS UP A HILL WITH ONE MAN IS NOT THEREBY WALKING AWAY FROM ANOTHER. And in the corner, very small: S.E.".
+  Action read_boards(actor: group, site: place) "Read the old boards in the Glossary's back room, under the paint" {
+    Description "Painted-over glosses still show through, to someone who knows the old hands.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, glossary) and lullOpen() and capable(actor, lore) and not knows(actor, gloss_forty).
+    Time 6.
+    On success { Assert knows(actor, gloss_forty). }
+    Result "In the back room the boards stand in stacks against the walls, painted over white by order of one Reeve or another, and with a lamp held low and slantwise the old letters come up through the paint like fish under ice. There is a gloss on whether a sigh is speech; one on whether a dog can be thanked; the famous nine hundred and twelve, which somebody has painted over three times. And one very old board, much smaller than the rest, that you read twice.".
+  }
+  Topic hester_gloss with hester "Tell Hester Lindsell you found Gloss forty in the Glossary's back room" when lullOpen() and knows(actor, gloss_forty) and not hesterDead(hester) once {
+    Says "Hester laughs until she has to hold her side, and then lies back. 'Under the paint,' she says. 'They never could get rid of anything in that place, only cover it.' She is quiet. 'He was right, you know. I went up the hill with Tobias and I never walked away from Simeon. I just never went anywhere with him.' She turns her head on the pillow. 'If you see him, tell him I said held.'".
+    On discuss { Increase hesterTrust(hester) by 1. Assert hesterAsksSimeon(hester). }
+  }
+
+  // A woodsman's way to the Brock: his drinking place, where he can be met without coming to his door.
+  Action track_brock(actor: group, site: place) "Follow the Old Brock's road down to where he drinks, and leave the comb there" {
+    Description "A badger keeps to his own roads. Find the one to water, and you need not face him at his door.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hanger_path) and capable(actor, woodcraft) and carries(actor, comb) and able(brock) and not brockTruce(brock).
+    Time 6.
+    On success { Spend comb_kind from actor. Assert at(comb, limbo). Assert brockTruce(brock). Assert tolerates(brock, actor). }
+    Result "His road is easy to find once you see it: a groove in the leaf-litter worn hand-deep, going down through the beeches to a spring under a root. You leave the comb on a stone there and go back up the slope and wait. He comes at dusk, as big as a pony, scarred, slow, and finds it, and eats it, and lifts his long grey head and looks straight up the slope at where you are sitting, for a long time. Then he goes back up his road, and the next time you meet him he only looks.".
+  }
+
+  // A climber's way into the Mill: the hoist-beam over the loading door, up the outside to the bell loft.
+  Passage hoist "the old hoist-beam, up the outside of the Mill" is passage between mill_yard and bell_loft taking 20 minutes needing climbing or rope.
+  Observe hoist_seen at mill_yard as feature when true "High on the Mill's end wall a hoist-beam sticks out over a loading door at the top floor, with a stub of chain still hanging from it.".
+
+  // A bonesetter's hands: Corin's broken hand set straight on the bank.
+  Relation corinMended(group).
+  Action set_corin_hand(actor: group, site: place) "Set Corin Lindsell's broken hand properly, here on the bank" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(corin, site) and corinHurt(corin) and capable(actor, mending) and not corinMended(corin).
+    Time 3.
+    On success { Assert corinMended(corin). }
+    Result "You kneel on the bank and take her hand, and she lets you, white to the lips, and you feel for the broken ends and draw them true and splint the hand with two straight pieces of the new oak and a strip of somebody's apron. 'Will it,' she says, and stops. 'Yes,' you say. You mean it, and in the Lull that is worth something.".
+  }
+  Rule fate_corin_mended when accounting() and corinHurt(corin) and corinMended(corin) and not spreadFact(fate_corin) says "Corin Lindsell's hand was set on the bank of the leat by a Sixer, and mended straight. She has made a clock since for whoever it was, and it is waiting on the bench in her window, with no card, ticking, for whenever they come back." { Assert spreadFact(fate_corin). }
+}

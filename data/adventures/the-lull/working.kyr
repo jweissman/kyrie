@@ -1,0 +1,199 @@
+Module lull "The Lull" {
+  // ── The Weekday Club ──────────────────────────────────────────────────────────────────────────────────────────────
+  // Corin's plan: on the Working Day, from dawn to dusk, the Club will work in public for wages: mend the Shift Bridge
+  // to the Mill, which nobody has crossed since the strike. They think a day's wage-work will break the Hallowing. They
+  // are wrong about the wages and right about the day: the Lull holds while the valley wants it, and the Working Day
+  // shows, at the Watching, whose work was meant.
+  Person club "the Weekday Club" at mill_bridge {
+    Role "the young of Linger, sitting on the broken bridge with their legs over the leat". Ancestry human. Numbers 8. Peaceable.
+    Greets "Eight young people on the broken end of the bridge stop talking all at once and look at you, then at each other, then at you again, the way people do who have been talking about the very thing.".
+  }
+  Initially Assert lullFolk(club). Initially Assert dayAt(club, mill_bridge). Initially Assert bedAt(club, weavers_row).
+  Topic club_monday with club "Ask the Weekday Club what they would do with a Monday" when lullOpen() once {
+    Says "They all talk at once, and then, because Corin glares, one at a time. A boy wants to be bored, properly, for a whole day, the way the Sixers say they are. A girl wants to start a thing and not finish it and come back to it. Tam Hollis wants to apprentice to the smith in Sixways and come home every evening with burnt hands. Kezia Pryce, if she is there, wants to be late for something. The smallest of them, a girl of fifteen with a squint, says she would like to have a birthday that was a different day from everybody else's, and the others go quiet.".
+  }
+  Topic club_mean with club "Ask the Weekday Club whether they mean it" when lullOpen() and knows(actor, working_day_plan) once {
+    Says "They look at each other. 'Mean what?' says the boy who wants to be bored. 'To end it,' you say. 'All of it. Your grandparents' Lull.' Nobody says anything for a while. Then the girl with the squint says, 'We don't mean to end it. We mean to start something,' and Corin, without turning round, says, 'Same thing,' and the girl says, 'It isn't, though,' and nobody answers her.".
+  }
+  Person davy "Davy Mote" at mill_bridge {
+    Role "Aldith's brother, who wants to be a soldier". Ancestry human. Calling warrior. Level 1. Peaceable. Pronouns he. Manner cheerful.
+    Greets "A gangling boy of seventeen with a stick he holds like a pike jumps down off the pier. 'Davy Mote. Are you a soldier? You look like a soldier. Have you been in a war?' He does not wait. 'I'm going to be a soldier. As soon as there's a Monday.'".
+    Greets again "Davy Mote salutes you with his stick.".
+  }
+  Initially Assert lullFolk(davy). Initially Assert dayAt(davy, mill_bridge). Initially Assert bedAt(davy, glossary).
+  Topic davy_why with davy "Ask Davy Mote why he wants to be a soldier" when lullOpen() once {
+    Says "Davy considers it, seriously, which he does not do with much. 'Because they go places,' he says. 'And things happen to them, and then they come home and the things have happened. Here nothing's happened to anybody since Grandad's time.' He swings the stick. 'Aldith says I'd hate it. Aldith says soldiers are what the Long Shift was for.' He looks at the dark mill. 'Maybe. But I'd have hated it on a Tuesday.'".
+  }
+  Relation clockKicked(group). Relation workingNamed(group).
+  // The first Watching: a clock comes apart, and is kicked across the Green.
+  Rule first_clock at green when dayOne() and lullDusk() and at(party, green) and not clockKicked(corin) and not corinMaking(corin)
+    says "Among the makings on the grass, a little apart, stands a clock in a case of brass and walnut, very fine, ticking, with no card. It comes apart with the light. It does it neatly, almost politely: the case opens, the wheels lift out one by one and lie down in the grass in order of size, the spring uncoils with a small sigh. A young woman with brass dust on her hands gets up from the Table and walks out and kicks the whole lot, wheels and case and all, across the Green into the dark, and walks off after it. Nobody says anything. An old woman near you says, 'That's forty-two,' to nobody." teaches clock_ravels {
+    Assert clockKicked(corin).
+  }
+  Rule first_clock_quiet when dayOne() and lullDusk() and not at(party, green) and not clockKicked(corin) { Assert clockKicked(corin). }
+  Topic corin_club with corin "Ask Corin Lindsell about the Weekday Club" when lullOpen() and (knows(actor, club_rumour) or clockKicked(corin) or corinTrust(corin) >= 1) and not workingNamed(corin) {
+    Says "Corin looks at you for a long moment, deciding. Then she jerks her head, and you sit beside her on the end of the broken bridge. 'There's eight of us. More who'd come.' She talks fast and low. 'The Glossers say: what's done for wages, ravels. So we'll do it. A whole day, dawn to dusk, in front of everybody: we'll mend the Shift Bridge, for wages, real coin, all of us. A whole valley's day of wage-work. Not one thing done for love.' She grips the stone. 'Either it all ravels at sunset and we're laughed at for ever, or it doesn't and the Hallowing's broken and tomorrow is Monday.' She looks at you. 'The Lullday after next. We need coin, a Sixer's coin, for wages: there's a factor in Sixways would give it, he'd give anything to see the Lull open. We can't go out for it; we'd come back a week older than everyone. You can.'".
+    On discuss { Assert workingNamed(corin). Assert knows(actor, working_day_plan). Increase corinTrust(corin) by 1. }
+  }
+  Discovery working_day_plan "Corin Lindsell and the Weekday Club mean to work for wages, in public, from dawn to dusk on the Working Day (the Lullday after the one when she told you of it), mending the Shift Bridge to the Mill; they believe a day of wage-work will break the Hallowing. They need coin for wages from Mercer Haskett in Sixways.".
+  Objective obj_working when knows(party, working_day_plan) and not workingOver(lull_country) "On the Working Day the Weekday Club will mend the Shift Bridge for wages, from dawn to dusk, to break the Hallowing; at the Watching the town will see what holds.".
+  // The wages, from Haskett.
+  Kind purse_kind "a purse of Haskett's wages" is gear worth 30 weighing 0 described "A heavy leather purse with M.H. stamped on it: thirty coin, for the wages of the Working Day.".
+  Item wages "a purse of Haskett's wages" is purse_kind at limbo.
+  Relation wagesGiven(group). Relation clubPaid(group). Relation corinRefusesWages(group).
+  Topic haskett_wages with haskett "Tell Mercer Haskett that Corin Lindsell wants wages for a Working Day in the Lull" when knows(actor, working_day_plan) and not wagesGiven(haskett) once {
+    Says "Haskett is quite still. Then he gets up and shuts the loft door. 'A day's wage-work,' he says. 'In the Lull. In public.' He goes to the strongbox under the desk and counts thirty coin into a purse without, you think, entirely meaning to. 'Thirty. Wages for a day for twenty hands, Lull rates, which is to say whatever I like.' He gives it to you, and then five more, separately. 'And that's for carrying it. If it holds, I'll want first refusal on every loom in the valley.' He shakes your hand too hard. 'If it ravels, tell them it was a gift from an admirer. It'll go back to my strongbox at sunset in any case, I suppose.'".
+    On discuss { Assert wagesGiven(haskett). Retract at(wages, limbo). Give wages to actor. Increase quantity(actor, gold) by 5. }
+  }
+  Event corin_wages near corin when keeps(corin, wages) and not clubPaid(club) "Corin weighs the purse in her hand and laughs, a short hard laugh. 'Wages,' she says. 'Real ones.' She ties it to her belt. 'Now we'll see.'" then {
+    Assert clubPaid(club).
+  }
+  // What the company learned of the law, told to Corin, changes her Working Day.
+  Topic corin_meaning with corin "Tell Corin Lindsell what Aldith Mote found: that what holds is what is meant, wages or no" when lullOpen() and knows(actor, meaning_law) and workingNamed(corin) and not corinKnowsMeaning(corin) once {
+    Says "Corin stares at you. 'Then the wages don't matter.' She gets up and walks to the end of the broken pier and back. 'It's not whether we're paid. It's whether we mean it. Whether we want it.' She stops. 'Whether the valley wants it.' She sits down again, hard. 'That's worse. That's much worse. You can pay people.' After a while she says, quietly: 'Grandad and the others asked for it, on the Tump. They meant it. If the Lull's going to end, it'll be because somebody who asked for it means it to.' She looks up at the Almshouse. 'And none of them will.'".
+    On discuss { Assert corinKnowsMeaning(corin). Assert knows(actor, old_shift_key). }
+  }
+  Relation corinKnowsMeaning(group).
+  Discovery old_shift_key "Corin Lindsell thinks the Lull can end only if someone of the Old Shift, who asked for it, means it to.".
+  Event corin_wages_refused near corin when keeps(corin, wages) and corinKnowsMeaning(corin) and not corinRefusesWages(corin) "Corin pushes the purse back at you. 'Give it back to Haskett. We'll not pay anybody. Whoever comes, comes because they want to.'" then {
+    Assert corinRefusesWages(corin). Retract keeps(corin, wages). Give wages to party.
+  }
+  Rule wages_refused_after when clubPaid(club) and corinKnowsMeaning(corin) and not corinRefusesWages(corin) { Assert corinRefusesWages(corin). }
+  Topic haskett_return with haskett "Give Mercer Haskett his purse back" when carries(party, wages) once {
+    Says "Haskett takes the purse and weighs it, and looks at you. 'Unspent,' he says. 'In my experience that means somebody had a better idea.' He puts it back in the strongbox. 'I hope it was a good one. I hope it costs me a great deal of money.'".
+    On discuss { Spend purse_kind from actor. Assert at(wages, limbo). Assert wagesReturned(haskett). }
+  }
+  Relation wagesReturned(group).
+  // Talking Corin out of it.
+  Topic corin_calloff with corin "Ask Corin Lindsell to call off the Working Day" when lullOpen() and workingNamed(corin) and corinClockHeld(corin) and not tobiasLovePath(tobias) and not clubDisbanded(club) once {
+    Says "Corin looks at the little clock in her hands, ticking. 'It held,' she says. 'I made a thing that held. In here.' She is quiet. 'I could stay. I could make things.' She puts the clock to her ear. 'Grandad's not coming down. Without him it's just us, working, and laughing, and it won't do anything.' She stands up. 'All right. Not this Lullday.' She looks at the Mill. 'Not never. Not this Lullday.'".
+    On discuss { Assert clubDisbanded(club). }
+  }
+  Relation clubDisbanded(group).
+
+  // ── Who will come down to the Green ───────────────────────────────────────────────────────────────────────────────
+  // Each Hand on the Working Day either means it or does not; the Lull ends only if one of those who asked for it comes.
+  Relation joins(group). Relation means(group).
+  Topic linnet_hand with linnet "Ask Linnet Gale to work beside you on the Working Day" when lullOpen() and linnetLoves(linnet) and knows(actor, working_day_plan) and not joins(linnet) and not workingOver(lull_country) once {
+    Says "Linnet is quiet a long time. 'If it works,' she says, 'there'll be a Monday. And I'll have to wait for things. And so will you; for me.' She looks at you. 'And you'd not lose a week every time you slept.' She puts the fiddle down. 'I've never worked. I don't know how.' Then she laughs. 'I'll carry stones. I'll carry them meaning it. I'll make a tune about carrying stones.'".
+    On discuss { Assert joins(linnet). Assert means(linnet). }
+  }
+  Topic aldith_hand with aldith "Ask Aldith Mote whether she will come to the Working Day" when lullOpen() and lawFound(aldith) and knows(actor, working_day_plan) and not joins(aldith) and not workingOver(lull_country) once {
+    Says "'Come?' says Aldith. 'I'll work. I want to see. All my life I've painted what other people found out.' She takes off the white apron, and looks at it, and puts it back on. 'I'll work in it. Let them see a Glosser carrying stones. Gloss two thousand two hundred and fourteen.' She grins. 'If the Reeve wants me to paint over that one he can come and find me on the bridge.'".
+    On discuss { Assert joins(aldith). Assert means(aldith). }
+  }
+  Topic kezia_father with kezia "Ask Kezia Pryce whether she can keep her father off the bridge" when lullOpen() and knows(actor, kezia_club) and knows(actor, working_day_plan) and not keziaAsked(kezia) and not workingOver(lull_country) once {
+    Says "Kezia sits back on her heels. 'Father,' she says. 'Father will come down at noon with the wardens and his staff and tell us all to rest, and then he'll take hold of somebody, and it'll be me, and he'll cry.' She thinks. 'I could tell him. Before. That I'll be there. He'd have to come and drag his own daughter off a bridge in front of the Lull.' She rubs her nose with a muddy wrist. 'He mightn't. He might just not come. He's soft, Father. Mother's the one with the staff, really.'".
+    On discuss { Assert keziaAsked(kezia). Assert keziaTells(hobday). }
+  }
+  Relation keziaAsked(group). Relation keziaTells(group).
+  // Tobias, for love of his granddaughter, or in grief for what he did.
+  Relation tobiasComes(group). Relation tobiasGrief(group).
+  Topic tobias_come_love with tobias "Ask Tobias Lindsell to come down to the Shift Bridge on the Working Day, for Corin" when lullOpen() and tobiasLovePath(tobias) and knows(actor, working_day_plan) and not tobiasComes(tobias) and not workingOver(lull_country) once {
+    Says "Tobias turns the shilling, or the clock, or nothing, in his hands. 'I asked for it,' he says. 'Up there, at the back, in the rain, with the shilling gone out of my pocket. I asked as hard as any of them.' He looks at you. 'And it was good. Fifty-seven years. I'd not give one of them back.' He gets up, slowly, the way he does everything. 'But it's hers now, not mine. The Lull. And she wants it to go on.' He takes his coat off the peg. 'I'll carry a stone for her. I know how to work. That's the one thing I do know.'".
+    On discuss { Assert tobiasComes(tobias). }
+  }
+  Topic tobias_come_grief with tobias "Ask Tobias Lindsell to come down to the Shift Bridge on the Working Day, for Hester" when lullOpen() and diedBy(hester, tobias) and tobiasToldDeath(tobias) and not tobiasLovePath(tobias) and knows(actor, working_day_plan) and not tobiasComes(tobias) and not workingOver(lull_country) once {
+    Grave "He will mean it. Not as Corin means it.".
+    Says "Tobias looks at the empty bed for a long time. 'Six years she was dying,' he says. 'Ten months of it hers. In a valley where nothing ever comes.' He gets up. 'Aye. I'll come down. I'll put my hands to it. Let it end. Let it all end, and let the old die when they're old, and the sick when they're sick.' His mild blue eyes are not mild. 'I mean it,' he says. 'God help me, I mean that more than anything I ever said on the Tump.'".
+    On discuss { Assert tobiasComes(tobias). Assert tobiasGrief(tobias). }
+  }
+  // Hester, eased, asks to be carried down to see it; and Tobias comes with her.
+  Topic hester_come with hester "Ask Hester Lindsell whether she would like to see the Working Day" when lullOpen() and hesterEased(hester) and not hesterDead(hester) and knows(actor, working_day_plan) and not hesterWatches(hester) and not workingOver(lull_country) once {
+    Says "Hester opens her eyes. 'Corin's day?' She smiles. 'Carry me down. In the chair. I want to see the bridge mended. I was on it the morning we stopped.' She closes her eyes again. 'Tobias will carry me. He'll grumble. He'll stay. He always stays where I am.' A pause. 'And if he puts his hand to a stone while he's there, I'll not stop him.'".
+    On discuss { Assert hesterWatches(hester). Assert tobiasLovePath(tobias). }
+  }
+  Relation hesterWatches(group).
+
+  // ── The Working Day ───────────────────────────────────────────────────────────────────────────────────────────────
+  Relation workingBegun(place). Relation workingOver(place). Relation wardensCame(group). Relation wardensBroke(group).
+  Relation wardensAside(group). Relation killedMeant(group). Relation bridgeBuilt(group). Relation corinHurt(group).
+  Query working() means dayThree() and lullOpen() and workingBegun(lull_country) and not workingOver(lull_country).
+  Rule working_begins when dayThree() and lullOpen() and hour(clock) >= 6 and not workingBegun(lull_country) and not clubDisbanded(club) and workingNamed(corin) { Assert workingBegun(lull_country). Assert held(corin). Assert held(club). Assert held(davy). Assert at(corin, mill_bridge). Assert at(club, mill_bridge). Assert at(davy, mill_bridge). }
+  Rule working_unnamed when dayThree() and lullOpen() and hour(clock) >= 6 and not workingBegun(lull_country) and not workingNamed(corin) and not clubDisbanded(club) { Assert workingNamed(corin). }
+  Observe work_dawn at mill_bridge when working() and hour(clock) < 12 and not wardensBroke(club) "The Working Day. The young of Linger are on the broken bridge at the leat in their oldest clothes, with ropes and timbers and a cart of stone from the old wall of the Gardens, working: actually working, in the Lull, in daylight, sweating, with their sleeves rolled up. They are not very good at it. Davy Mote has fallen in the leat twice. Up on the Green the town has come out and stands along the bank to watch, the way it might watch a fire.".
+  Observe work_afternoon at mill_bridge when working() and hour(clock) >= 12 and not wardensBroke(club) "The Shift Bridge is half across the leat: new oak on the old piers, stone at the ends, and the young of Linger on it like ants, and others now among them.".
+  Observe work_broken at mill_bridge when working() and wardensBroke(club) "The new timbers of the Shift Bridge are in the leat. The Club sit on the bank in a row, wet, saying nothing. Corin Lindsell is holding her right hand in her left.".
+  Observe work_green at green as sign when working() "Everybody in Linger is at the leat bank by the Shift Bridge, watching the young work. Nobody is laying the Long Table.".
+  // The Hands come down, as the morning goes.
+  Rule hand_kezia when working() and hour(clock) >= 8 and not joins(kezia) and not hobdayKnows(hobday) { Assert joins(kezia). Assert means(kezia). Assert held(kezia). Assert at(kezia, mill_bridge). }
+  Rule hand_wenna when working() and hour(clock) >= 8 and wedded(wenna) and not joins(wenna) { Assert joins(wenna). Assert means(wenna). Assert wennaHand(wenna). Assert at(wenna, mill_bridge). Assert abelHeld(abel). Assert at(abel, mill_bridge). }
+  Rule hand_piran when working() and hour(clock) >= 8 and piranKnowsIll(piran) and not joins(piran) { Assert joins(piran). Assert means(piran). Assert held(piran). Assert at(piran, mill_bridge). }
+  Rule hand_linnet when working() and hour(clock) >= 9 and joins(linnet) and not at(linnet, mill_bridge) and not travelsWith(linnet, party) { Assert held(linnet). Assert at(linnet, mill_bridge). }
+  Rule hand_aldith when working() and hour(clock) >= 9 and joins(aldith) and not at(aldith, mill_bridge) { Assert held(aldith). Assert at(aldith, mill_bridge). }
+  Rule hand_paid when working() and hour(clock) >= 9 and clubPaid(club) and not corinRefusesWages(corin) and not joins(folk) { Assert joins(folk). Assert held(folk). Assert at(folk, mill_bridge). }
+  Rule hand_tobias when working() and hour(clock) >= 10 and tobiasComes(tobias) and not joins(tobias) { Assert joins(tobias). Assert means(tobias). Assert held(tobias). Assert at(tobias, mill_bridge). }
+  Rule hand_hester when working() and hour(clock) >= 10 and hesterWatches(hester) and not hesterDead(hester) and not at(hester, mill_bridge) { Assert at(hester, mill_bridge). }
+  Rule tobias_follows_hester when working() and hour(clock) >= 10 and hesterWatches(hester) and not joins(tobias) { Assert tobiasComes(tobias). }
+  Observe kezia_on_bridge at mill_bridge as sign when working() and joins(kezia) and not wardensBroke(club) "Kezia Pryce, in her best dress, is carrying stone, very badly, very fast, with a face like a lit lamp.".
+  Observe paid_on_bridge at mill_bridge as sign when working() and joins(folk) and not wardensBroke(club) "A dozen of the townsfolk have come down for Haskett's wages and are working at the stone-end, cheerfully, with their pay in their aprons.".
+  Observe hester_at_bridge at mill_bridge as sign when working() and at(hester, mill_bridge) "Hester Lindsell is sitting in a chair on the bank, wrapped in a quilt of strikers' shirts, watching with her bird's eyes, and telling everybody what they are doing wrong.".
+  Rule tobias_arrives at mill_bridge when working() and joins(tobias) and at(party, mill_bridge) and not spreadFact(tobias_came_told)
+    says "At ten o'clock, the bank goes quiet from the top. Tobias Lindsell is coming down the path from the Green, slowly, in his weaver's coat, with his sleeves already turned back. The Club stop working. Corin stops with a timber on her shoulder. He does not look at anyone. He goes to the stone-cart and takes a stone out of it in both hands, and walks out onto the new timbers with it, and sets it where it goes, and stands up, and looks at the Mill. Then he goes back for another. Along the bank, one of the Old Shift begins to cry, and another to laugh, and no one can tell which is which." { Assert spreadFact(tobias_came_told). }
+  Entity tobias_came_told: fact "Tobias came down".
+  // The company's own hands.
+  Relation workedBridge(group).
+  Action work_bridge(actor: group, site: place) "Take off your coat and work on the Shift Bridge with them" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, mill_bridge) and working() and not wardensBroke(club) and not workedBridge(actor) and hour(clock) < 18.
+    Time 18.
+    Interrupted when wardensCame(wardens) and not wardensAside(wardens) and not wardensBroke(club) and not wardensWarned(party).
+    On success { Assert workedBridge(actor). }
+    Result "You work. You carry stone from the cart and pass timbers and hold ropes, and someone hands you a mallet, and the sun goes round, and nobody is in a hurry and nobody stops. The young of Linger work beside you the way you might dance a dance you have only seen done: with great seriousness, getting it wrong, getting it right. Somewhere in the afternoon you see Corin Lindsell on the middle of the bridge, filthy, with her hands on her hips, looking at what they have made, and her face is a thing you will remember.".
+  }
+
+  // On the bridge, while the day goes on.
+  Topic corin_working with corin "Ask Corin Lindsell how it is going" when working() and not wardensBroke(club) once {
+    Says "Corin wipes her forehead with the back of a wrist and leaves a stripe of mud on it. 'Badly,' she says, delighted. 'Davy's been in the leat three times. Kezia dropped a stone on my foot. We put the first timber in upside down.' She looks along the bridge at the others, at the town on the bank. 'I've never been tired before,' she says. 'Not like this. Tired from something.' Then: 'Don't tell anyone I said it was good. It's supposed to be wages.'".
+  }
+  Topic tobias_working with tobias "Ask Tobias Lindsell what it is like, working again" when working() and joins(tobias) and not wardensBroke(club) once {
+    Says "Tobias sets a stone down and straightens, slowly, with a hand in the small of his back. 'My hands know it,' he says. 'Fifty-seven years, and they knew it before I did. That's the worst of it.' He looks at Corin on the timbers. 'And the best.' He goes back for another stone. Over his shoulder: 'Don't tell her I'm enjoying it. She'll think it's the wages.'".
+  }
+  Topic davy_working with davy "Ask Davy Mote whether this is like a war" when working() and not wardensBroke(club) once {
+    Says "Davy considers, wet to the waist, with a rope over his shoulder. 'No,' he says. 'Nobody's trying to stop us.' He looks up at the top of the bank. 'Yet.' He grins. 'I'd still rather this. Don't tell Aldith.'".
+  }
+  Topic linnet_working with linnet "Ask Linnet Gale to play while they work" when working() and at(linnet, mill_bridge) and not wardensBroke(club) once {
+    Says "Linnet puts down the stone she is carrying, very carefully, as if it might ravel, and gets her fiddle off a bush where she hung it, and stands on the pier and plays: a working tune, which nobody in the Lull has ever heard, with a beat you could lift a timber to; and they do. By the third time round the bank is clapping on the beat. 'There,' she says to you, out of the side of her mouth. 'A tune about something.'".
+    On discuss { Assert linnetTune(linnet). }
+  }
+  Topic hester_working with hester "Ask Hester Lindsell how they are doing" when working() and at(hester, mill_bridge) once {
+    Says "'Terribly,' says Hester, from inside her quilt. 'They've no idea. The boy's put that beam in like a man putting on a hat in a gale.' She watches Tobias carry a stone out along the timbers, slow and sure. 'He hasn't,' she says, differently. 'Look at him. He hasn't forgotten anything.' She closes her eyes, and opens them again, quickly, as if she might miss something.".
+  }
+
+  // ── The wardens ───────────────────────────────────────────────────────────────────────────────────────────────────
+  // At noon Hobday brings the wardens down to stop it, unless he has been softened, or will not drag his daughter off a
+  // bridge, or the Glossary has a ruling on the bank in a white apron.
+  Query wardensStay() means hobdaySoftened(hobday) or keziaTells(hobday) or lawFound(aldith) and joins(aldith) or housesAtPeace(mabyn).
+  Rule wardens_come when working() and hour(clock) >= 12 and not wardensCame(wardens) and not wardensStay() { Assert wardensCame(wardens). Assert held(wardens). Assert held(hobday). Assert at(wardens, mill_bridge). Assert at(hobday, mill_bridge). }
+  Relation wardensWarned(group).
+  Rule wardens_arrive at mill_bridge when working() and wardensCame(wardens) and not wardensAside(wardens) and not wardensBroke(club) and at(party, mill_bridge) and not wardensWarned(party)
+    says "At noon Hobday Pryce comes down the path from the Green with three wardens behind him, staves on their shoulders, and stops at the top of the bank. He is very red. 'That's enough,' he says. 'That's enough now. Down off it, all of you. It's the holy day.' Nobody moves. 'I'll give you till one o'clock,' says Hobday, 'and then we'll take you down.' And he stands there, with the town watching him, and waits." { Assert wardensWarned(party). }
+  Rule wardens_stay_told at mill_bridge when working() and hour(clock) >= 12 and wardensStay() and at(party, mill_bridge) and not spreadFact(wardens_stayed_told)
+    says "At noon Hobday Pryce comes down to the top of the bank with his staff and his sash and the wardens behind him, and stands there. He looks at the bridge, and at the young on it, and at his daughter, if she is there, and at Aldith Mote on the timbers in her white apron, if she is. He stands there a long time. Then he plants his staff in the turf, and sits down on the bank beside it, and the wardens, after a moment, sit down beside him; and they watch, like everybody else." { Assert spreadFact(wardens_stayed_told). Assert wardensAside(wardens). }
+  Entity wardens_stayed_told: fact "the wardens sat down".
+  Rule wardens_stay_quiet when working() and hour(clock) >= 12 and wardensStay() and not at(party, mill_bridge) and not wardensAside(wardens) { Assert wardensAside(wardens). }
+  Observe wardens_here at mill_bridge as sign when working() and wardensCame(wardens) and not wardensAside(wardens) and not wardensBroke(club) and able(wardens) "Hobday Pryce stands at the top of the bank with three wardens and their staves, red in the face, telling the young of Linger to rest, in a voice that is not resting. 'Down off it,' he says. 'Down off it, all of you, or we'll take you down. I'll give you till one.'".
+  Rule wardens_break when working() and wardensCame(wardens) and hour(clock) >= 13 and not wardensAside(wardens) and not wardensBroke(club) and able(wardens) and not routed(wardens)
+    says "At one o'clock the wardens go out onto the bridge. It is not a fight; the young of Linger do not know how to fight, and the wardens do not quite mean to. The new timbers go into the leat. The stone goes in after them. Davy Mote stands in their way with his stick and is knocked into the water. Corin Lindsell holds onto a timber, and a warden's staff comes down on her hand, and there is a sound, and she lets go. The warden, a Tolley, stands looking at his staff. He meant it. He did not know he did until it was done. It holds." {
+    Assert wardensBroke(club). Assert corinHurt(corin). Retract means(corin).
+  }
+  Action talk_down(actor: group, site: place) "Talk Hobday Pryce down off the bank" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(hobday, site) and working() and wardensCame(wardens) and not wardensAside(wardens) and not wardensBroke(club).
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert wardensAside(wardens). }
+    Result "You go up the bank to him and talk, not loud: about his daughter, about what a bridge is for, about what the Lull is for, about what he will look like to the Long Table tonight if he puts his staff through a mended bridge. Hobday listens with his jaw going. Then he plants the staff, and sits down on the bank by it, heavily, and the wardens sit down with him.".
+    Otherwise "Hobday hears you out, and shakes his head. 'Rest,' he says, 'is the law of the Lull. I'm sorry for it. Off the bank.'".
+  }
+  Action talk_down_easy(actor: group, site: place) "Remind Hobday Pryce what you did for the mothers of Linger, and ask him to sit down" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(hobday, site) and working() and wardensCame(wardens) and not wardensAside(wardens) and not wardensBroke(club) and hobdayGrateful(hobday).
+    On success { Assert wardensAside(wardens). }
+    Result "Hobday looks at you, and remembers, and his face does several things. 'That was meant,' he says at last. 'I said so.' He plants his staff in the turf and sits down on the bank beside it, and after a moment the wardens sit down too.".
+  }
+  Action stand_against(actor: group, site: place) "Stand on the bridge-end between the wardens and the Club" {
+    Grave "Whatever you do to them here, you will mean.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(wardens, site) and working() and wardensCame(wardens) and not wardensAside(wardens) and not wardensBroke(club).
+    On success { Retract peaceable(wardens). Retract peaceable(hobday). Assert hostile(wardens, actor). Assert hostile(hobday, actor). Assert assails(wardens, actor). Assert assails(hobday, actor). }
+    Result "You go and stand on the end of the new timbers with your hands where they can see them, and Hobday comes down the bank at you with the wardens, and nobody in the Lull has seen this in fifty-seven years.".
+  }
+  Rule wardens_routed when working() and wardensCame(wardens) and (routed(wardens) or dead(wardens)) and not wardensAside(wardens) { Assert wardensAside(wardens). }
+  Rule warden_killed when (dead(wardens) or dead(hobday)) and dayThree() and not killedMeant(party) { Assert killedMeant(party). }
+}

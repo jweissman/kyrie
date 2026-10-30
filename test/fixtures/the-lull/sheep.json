@@ -1,0 +1,43 @@
+{
+ "arrive": [
+  "Sixways street$",
+  "To the Fold-stone$",
+  "Sit down by the Fold-stone",
+  "To the Tump's shoulder",
+  "To Linger green"
+ ],
+ "hester": [
+  "Into the Lindsells",
+  "Hester Lindsell.s room",
+  "Talk to Hester",
+  "Take your leave",
+  "Lindsells. kitchen",
+  "Out to Linger green"
+ ],
+ "out": [
+  "To the Tump's shoulder",
+  "To the Fold-stone",
+  "To Sixways street",
+  "To Exiles' Row",
+  "Into Simeon",
+  "Talk to Simeon",
+  "Ask Simeon Eddowes why",
+  "Tell Simeon Eddowes that Hester",
+  "Ask them to come with you",
+  "Take your leave",
+  "Out to Exiles' Row",
+  "To Sixways street",
+  "To the Fold-stone"
+ ],
+ "back": [
+  "=10:10",
+  "To the Tump's shoulder"
+ ],
+ "sneak": [
+  "To the Fold-stone",
+  "Talk to Simeon",
+  "Ask them to come with you",
+  "Take your leave",
+  "Take Simeon round the Tump"
+ ]
+}

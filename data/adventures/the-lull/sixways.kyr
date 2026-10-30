@@ -1,0 +1,239 @@
+Module lull "The Lull" {
+  Description "Sixways, a hamlet on the march that lives by a valley you can walk into one day in seven; and the Lull, that valley, where it has been the holy day for fifty-seven years and whatever is done without meaning it comes apart at sunset.".
+
+  // ── The country ───────────────────────────────────────────────────────────────────────────────────────────────────
+  // West to east: the march road comes into Sixways; the Fold-stone stands on the rise beyond it; one day in seven the
+  // Lull road goes down from the stone over the Tump's shoulder into the valley. The valley runs north to south: Lammas
+  // Tarn at its head, the Wrought Mill on its leat, Linger on the Idle, the Swallow at its foot where the river goes
+  // under the hill. The Hangers are the beech woods of its western side.
+  Place lull_country "the Lull country" is region.
+  Place sixways "Sixways" is settlement within lull_country at 5, 3.
+  Place fold "the Fold" is wilderness within lull_country at 4, 3.
+  Place tump "the Tump" is wilderness within lull_country at 3, 2.
+  Place linger "Linger" is settlement within lull_country at 2, 2.
+  Place mill "the Wrought Mill" is site within lull_country at 2, 1.
+  Place tarn "Lammas Tarn" is wilderness within lull_country at 2, 0.
+  Place hangers "the Hangers" is wilderness within lull_country at 1, 1.
+  Place swallow "the Swallow" is wilderness within lull_country at 2, 3.
+
+  Initially Assert terrain(lull_country, forest).
+  Initially Assert landform(tarn, land_lake). Initially Assert landform(hangers, land_wood).
+  Place waiting_woman "the Waiting Woman" is building within sixways.
+  Place coll_house "Ruth Coll's" is building within sixways.
+  Place haskett_house "Haskett's" is building within sixways.
+  Place simeon_house "Simeon Eddowes's cottage" is building within sixways.
+
+  Place march_road "the march road at Sixways" is room within sixways at 0, 1.
+  Place sx_street "Sixways street" is room within sixways at 1, 1.
+  Place sx_taproom "the Waiting Woman's taproom" is room within waiting_woman at 1, 0.
+  Place rooke_yard "Rooke's yard" is room within sixways at 2, 1.
+  Place coll_kitchen "Ruth Coll's kitchen" is room within coll_house at 1, 2.
+  Place haskett_loft "Haskett's cloth-loft" is room within haskett_house at 2, 0.
+  Place exiles_row "Exiles' Row" is room within sixways at 2, 2.
+  Place simeon_room "Simeon Eddowes's room" is room within simeon_house at 3, 2.
+  Place sx_spring "the spring behind the Waiting Woman" is room within sixways at 0, 0.
+  Place fold_stone "the Fold-stone" is room within fold at 0, 0.
+  Place limbo "nowhere" is room within fold at 9, 9.
+
+  Passage march_way "Sixways street" is road between march_road and sx_street taking 5 minutes.
+  Passage taproom_door "the Waiting Woman's door" is door between sx_street and sx_taproom.
+  Passage yard_gate "Rooke's yard gate" is gate between sx_street and rooke_yard.
+  Passage coll_door "Ruth Coll's door" is door between sx_street and coll_kitchen.
+  Passage haskett_stair "the outside stair to Haskett's loft" is steps between rooke_yard and haskett_loft.
+  Passage row_lane "the lane to Exiles' Row" is path between sx_street and exiles_row taking 5 minutes.
+  Passage simeon_door "Simeon Eddowes's door" is door between exiles_row and simeon_room.
+  Passage spring_path "the path round the back of the inn" is path between sx_street and sx_spring taking 5 minutes.
+  Passage stone_road "the road up to the Fold-stone" is road between sx_street and fold_stone taking 20 minutes.
+
+  // ── What Sixways is ───────────────────────────────────────────────────────────────────────────────────────────────
+  Observe march_scene at march_road when true "The march road comes over the last rise and down into a hamlet of one street: flint walls, low thatch, a pump, and more carts than so few houses need. At every door there hangs a curtain of the same grey-gold cloth, and every one of them looks new. Beyond the roofs the road climbs on to a standing stone on a bare green rise, and stops.".
+  Observe street_scene at sx_street when not dark() "Sixways street: the pump, the inn, a carter's yard, a herbwife's door with bunches hung in the porch, and the lane to a row of three cottages that stand a little apart. Everybody here seems to know what day it is in a way that people elsewhere do not.".
+  Observe street_night at sx_street when dark() "Sixways street at night: the pump, the inn's lit window, and up on the rise the Fold-stone against the sky.".
+  Observe street_count at sx_street when lullCycle(clock) < 6 and not weekReturned(lull_country) and not dark() "The board by the pump says, in chalk: LULL IN {lullDaysAway(clock)}.".
+  Observe street_lullday at sx_street when lullday() and not weekReturned(lull_country) and not dark() "The board by the pump says, in chalk, LULLDAY, and underneath, in another hand, BACK BY MIDNIGHT.".
+  Observe taproom_scene at sx_taproom when true "The Waiting Woman's taproom is low and long, with a settle by the fire and a window at the end that looks up the road to the stone. Everybody who sits down sits facing that window. On the wall is the inn's old sign, taken down and kept indoors: a young woman at a window, in fresh paint, her face very carefully done.".
+  Observe yard_scene at rooke_yard when true "A carter's yard: two carts, a heap of harness, a grey mare in a stall with her head over the door, and against the wall, under a sack, something with four legs that somebody has been making and unmaking.".
+  Observe coll_scene at coll_kitchen when true "Ruth Coll's kitchen smells of rue and boiled linen. Bunches hang from every beam, the jars on the dresser are labelled in a sharp hand, and a pestle stands in a mortar on the table, mid-sentence.".
+  Observe haskett_loft_scene at haskett_loft when true "A long loft over the yard, smelling of wool. On racks along the walls hang bolts of the grey-gold cloth, some of them, by their tickets, older than the inn, and every one of them unworn and unfaded. A desk at the end has samples pinned along its edge like butterflies.".
+  Observe exiles_scene at exiles_row when true "Three cottages in a row on the slope behind the street, set a little apart from Sixways, with their windows facing up the rise to the stone. The people of Sixways call them the Outlived: Lull-born who came out, and stayed out, and got old.".
+  Observe simeon_room_scene at simeon_room when true "A room full of paper. Sheets pinned to the walls, stacked on the chair, weighted on the table with stones; every sheet headed GLOSS and a number, in a fine old hand, and some of the numbers in the thousands.".
+  Observe spring_scene at sx_spring when true "Behind the inn a spring comes out of the hillside under a lip of rock, cold and very clear, with a draught breathing out of the dark above the water. It smells of wet stone, and, faintly, of wool.".
+  Observe stone_scene at fold_stone when true "The Fold-stone is a grey stone, waist-high, on the bare top of the rise, notched along both edges with seven notches to a row, row on row, so many that the lower ones are worn to dimples. Nothing hangs on it but the weather. From it the road goes on round a bare green hill, and comes back to the stone.".
+  Observe stone_open at fold_stone when lullOpen() "There is another road from the stone this morning: down, through a gap in the turf that was not there, into a valley full of beech trees and smoke and birds, with a town in it, and a mill.".
+  Observe stone_count at fold_stone when lullCycle(clock) < 6 and not weekReturned(lull_country) "The newest notches on the stone say that the Lull is {lullDaysAway(clock) in words} days off.".
+
+  // The days to the Lull, as Sixways chalks them.
+  Measure lullDaysAway(clock).
+  Rule days_away when lullDaysAway(clock) != 6 - lullCycle(clock) { Set lullDaysAway(clock) to 6 - lullCycle(clock). }
+
+
+  // ── Dorcas Trewin, the Waiting Woman ───────────────────────────────────────────────────────────────────────────
+  Person dorcas "Dorcas Trewin" at sx_taproom {
+    Role "who keeps the Waiting Woman". Profession innkeeper. Ancestry human. Peaceable. Pronouns she. Manner cheerful.
+    Likeness "innkeeper".
+    Greets "A handsome woman of sixty or so, in a good blue gown that is a little young for her, looks up from the barrel she is tapping. 'Come in, come in, shut it, the wind comes straight down off the stone.' She looks at your boots. 'Come for the Lull, have you? Everyone has. Sit where you can see the road; everyone does.'".
+    Greets again "Dorcas Trewin looks up, and then, before she looks back at you, out of the window at the stone.".
+    Sells rations for 2 coin from 8.
+    Sells torch for 1 coin from 6.
+    Sells rope for 2 coin from 2.
+  }
+  Topic dorcas_lull with dorcas "Ask Dorcas Trewin about the Lull" when true once {
+    Says "'One day in seven,' says Dorcas, wiping the tap. 'On the other six the road goes round the hill and back to the stone, and you can walk it all day if you like; people do, the first time. On the seventh, at six in the morning, there's another road, and down you go.' She leans on the bar. 'They don't work in there. Anything you do in the Lull you don't mean comes to bits at sunset. Bread, chairs, money.' She smiles. 'And mind the night. Be on the road back by midnight, or lie down the way they do and sleep it out. Sleep a night in the Lull and you wake up a week on.'".
+    On discuss { Assert knows(actor, lull_heard). }
+  }
+  Discovery lull_heard "Over the Fold-stone, one day in seven, a road goes down into the Lull. Inside, what is done without meaning it comes undone at sunset; a night slept there is a week gone outside; whoever is not on the road out by midnight must lie down the Lull's way, or be awake in the dark.".
+  Topic dorcas_sign with dorcas "Ask Dorcas Trewin about the sign on the wall" when true once {
+    Says "'That's me,' says Dorcas, not looking at it. 'At twenty-eight. My husband painted it, the week we married, before the old sign blew down. I touch her up every spring.' She does look at it, then. 'He's in there. Piran. In the Lull. Thirty years we've been married, my count, and four of his.' She turns back to the barrel. 'I go in on Lulldays. He says I look tired. I tell him it's the walk.'".
+    On discuss { Assert knows(actor, dorcas_piran). }
+  }
+  Discovery dorcas_piran "Dorcas Trewin of the Waiting Woman is married to Piran, a Lull man. Thirty years have passed for her and four for him. She walks in every Lullday, and he tells her she looks tired.".
+  Topic dorcas_week with dorcas "Ask Dorcas Trewin what a week is like, waiting" when knows(actor, dorcas_piran) once {
+    Says "Dorcas puts down the cloth. 'Six days,' she says. 'You keep busy. Carters, the factor's people, folk come to look at the stone. The first day after is the worst: you've just seen him, and he's just seen you, and for him it was this morning.' She laughs, short. 'For him I come every day. Can you think of it? Every single morning, there's his wife at the door, a bit older. He told me once he can see me age if he looks hard. He was being kind. He meant it was hard to see.' She picks the cloth back up. 'He doesn't know I'm poorly. Ruth Coll says a year, two. That's three months to him, three and a half.' Then, briskly: 'What'll you have?'".
+    On discuss { Assert knows(actor, dorcas_ill). }
+  }
+  Discovery dorcas_ill "Dorcas Trewin is ill: Ruth Coll gives her a year or two, which is three months of Piran's. He does not know.".
+
+  // ── Ruth Coll, herbwife ───────────────────────────────────────────────────────────────────────────────────────────
+  Kind poppy_kind "a twist of poppy" is gear worth 3 weighing 0 described "Dried poppy-heads and a little wild lettuce in a twist of brown paper, with RUTH COLL — FOR PAIN — STEEP, DON'T BOIL written on it in a sharp hand.".
+  Kind nightshade_kind "a phial of nightshade" is gear worth 4 weighing 0 described "A small corked phial of something dark, with a black thread tied round its neck, which is how Ruth Coll marks what she does not want mistaken for anything else.".
+  Person ruth "Ruth Coll" at coll_kitchen {
+    Role "herbwife of Sixways". Profession herbalist. Ancestry human. Peaceable. Pronouns she. Manner acerbic.
+    Likeness "herbalist".
+    Greets "A thin woman with her sleeves rolled to the elbow is grinding something in a mortar and does not stop. 'If you're bleeding, sit there. If you're not, tell me what you want. If you want to ask about the Lull, I've a pestle in my hand.'".
+    Greets again "Ruth Coll goes on grinding. 'Well?'".
+    Sells bandages for 1 coin from 6.
+    Sells herbs for 2 coin from 4.
+    Sells antidote for 3 coin from 2.
+    Offers healing "stitching and a poultice" for 2 coin.
+  }
+  Item poppy "a twist of poppy" is poppy_kind at limbo.
+  Item nightshade "a phial of nightshade" is nightshade_kind at limbo.
+  Topic ruth_lull with ruth "Ask Ruth Coll about physic in the Lull" when true once {
+    Says "Ruth puts the pestle down, which is a sign of something. 'Physic I make out here and carry in, holds; it's made here, and I mean it. What they mix in there for sale, if anybody did, which they don't, would be weeds again by supper.' She wipes her hands. 'They don't buy physic. That's their custom, not their law; their law doesn't care. The old ones won't have anything bought across the Tump. Pride.' She picks the pestle back up. 'Tobias Lindsell came out to me once, years ago their time, for his wife. Stood just where you're standing, with the money in his fist. Went away without buying. Pride, or something worse.'".
+    On discuss { Assert knows(actor, tobias_came_out). }
+  }
+  Discovery tobias_came_out "Tobias Lindsell, of the Lull, came out to Ruth Coll in Sixways once for physic for his wife, with the money in his hand, and went away without buying.".
+  Topic ruth_hester with ruth "Ask Ruth Coll what she would send in for Hester Lindsell" when knows(actor, hester_sick) and not ruthAsked(ruth) {
+    Says "'Poppy,' says Ruth at once. 'Steeped, not boiled. It won't mend her; nothing mends what she's got. It'll let her sleep, and stop the worst of it, and she'll know her husband's face.' She takes down a jar. 'Three coin. I'd give it, but then it would be a gift from me, and they'd want to know what I meant by it.' She looks at you over the jar. 'And if what she's asked you for is the other thing, I keep that too. Black thread on the neck. Four coin. I don't ask, and you'll not tell me.'".
+    On discuss { Assert ruthAsked(ruth). }
+  }
+  Relation ruthAsked(group).
+  Action buy_poppy(actor: group, site: place) "Pay Ruth Coll three coin for a twist of poppy" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(ruth, site) and ruthAsked(ruth) and quantity(actor, gold) >= 3 and at(poppy, limbo).
+    On success { Decrease quantity(actor, gold) by 3. Increase quantity(ruth, gold) by 3. Retract at(poppy, limbo). Give poppy to actor. }
+    Result "Ruth weighs out the poppy, twists the paper, and writes on it. 'Steep it. Don't boil it. If she sleeps a long while, let her.'".
+  }
+  Action buy_nightshade(actor: group, site: place) "Pay Ruth Coll four coin for the phial with the black thread" {
+    Grave "This is for Hester Lindsell to die by. It cannot be undone.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(ruth, site) and ruthAsked(ruth) and quantity(actor, gold) >= 4 and at(nightshade, limbo).
+    On success { Decrease quantity(actor, gold) by 4. Increase quantity(ruth, gold) by 4. Retract at(nightshade, limbo). Give nightshade to actor. }
+    Result "Ruth takes the phial down from the top shelf without looking at you, and puts it in your hand, and closes your fingers on it with hers. 'All of it, in something sweet,' she says. 'She'll sleep first.' Then she goes back to her mortar, and grinds, and does not look up again until you have gone.".
+  }
+
+  // ── Mercer Haskett, cloth-factor ──────────────────────────────────────────────────────────────────────────────────
+  Kind lull_cloth "a length of Lull-cloth" is gear worth 12 weighing 1 described "A length of grey-gold woollen cloth, close-woven and soft, with no wear on it anywhere and none to come: it was woven by someone who meant it, in the Lull, and it does not fray, fade, or felt.".
+  Kind long_shift_cloth "a bolt of the Long Shift's cloth" is gear worth 20 weighing 2 described "A bolt of grey cloth from the looms of the Wrought Mill in the dark: close, even, perfect, and the colour of nothing at all. You wove it. It will never wear out.".
+  Kind wrought_shillings_kind "a bag of the Wroughts' shillings" is gear worth 15 weighing 1 described "Old silver shillings in a canvas bag, struck with a hammer and a fleece: the Long Shift's wages for the seventh day, paid out to whoever would work it, and come back to the bailiff's chest at sunset.".
+  Person haskett "Mercer Haskett" at haskett_loft {
+    Role "cloth-factor of Sixways, who buys Lull-cloth". Ancestry human. Peaceable. Pronouns he. Manner jovial.
+    Likeness "merchant".
+    Greets "A stout pleasant man in a waistcoat of the grey-gold cloth gets up from the desk with his hand already out. 'Haskett. Cloth. You'll have come about the Lull; everyone comes about the Lull. Sit down, sit down. Feel that.' He puts a corner of a bolt into your hand. 'Forty years old, that piece. Not a thread gone. You can't buy it in there for love or money: only for love.' He laughs at his own joke, which he has clearly made before, and means.".
+    Greets again "'Ah!' says Haskett, delighted. 'Back from the Lull, or going?'".
+    Buys lull_cloth for 12 coin.
+    Buys long_shift_cloth for 20 coin.
+    Buys wrought_shillings_kind for 15 coin.
+  }
+  Topic haskett_shift with haskett "Show Mercer Haskett the grey cloth you wove in the Mill" when carries(party, shift_bolt) once {
+    Says "Haskett takes the bolt to the window and does not say anything for a long time, which for him is a great deal of not saying. He rubs it, smells it, holds it to the light. 'Perfect,' he says at last. 'Perfect, and the colour of nothing.' He gives it back to you, not quite at once. 'I'll give you twenty for it. I'll give you twenty and I'll put it at the back of the rack where I don't have to look at it.' He wipes his hands on his waistcoat. 'Who wove that? No. Don't tell me.'".
+  }
+  Topic haskett_trade with haskett "Ask Mercer Haskett how he comes by Lull-cloth" when true once {
+    Says "'Gifts,' says Haskett. 'Every scrap of it. A Lull weaver weaves a length for her sister in Sixways because she loves her sister and loves the loom, and the sister, who has a roof to mend, brings it to me. Forty years my father did it and thirty I have.' He strokes the bolt. 'Do you know what it would be worth, if they wove for wages and it held? They have four hundred people in there who have done nothing for fifty years but get good at things they love.' He sighs like a man looking at an orchard over a wall. 'And they won't take a penny. Their law, they say. Their custom, I say.'".
+    On discuss { Assert knows(actor, haskett_wants). }
+  }
+  Discovery haskett_wants "Mercer Haskett, cloth-factor of Sixways, would give a great deal to hire the Lull's weavers for wages, if the Lull ever let him.".
+
+  // ── Abel Rooke, carter ────────────────────────────────────────────────────────────────────────────────────────────
+  Person abel "Abel Rooke" at rooke_yard {
+    Role "carter of Sixways". Ancestry human. Peaceable. Pronouns he. Manner cheerful.
+    Likeness "farmer".
+    Greets "A big young man with sawdust in his hair is standing in front of something under a sack, looking at it as if it owed him money. 'Don't look,' he says. 'It's a chair. Well, it's a chair till sunset.' He wipes his hands down his front and holds one out. 'Abel Rooke. Carts. If you want a load taken, I'm your man; if you want a chair made, I'm not.'".
+    Greets again "Abel Rooke looks up from the thing under the sack, and grins in spite of himself.".
+  }
+  Species mare_kind "a grey mare" like horse tame described "A big grey cart-mare with feathered feet and a patient, sceptical eye, who leans on whoever stands next to her.".
+  Person bess "Dulcie" at rooke_yard {
+    Role "Abel Rooke's mare". Species mare_kind. Peaceable. Pronouns she.
+  }
+  Topic abel_chair with abel "Ask Abel Rooke about the chair" when true once {
+    Says "'Wedding gift,' says Abel. 'In the Lull you give each other a thing you made, at the Long Table, the evening before, and if it's still there at sunset you're as good as wed.' He lifts the sack: a plain good chair, well-jointed, in ash. 'Wenna Spurling. She's a chandler's daughter in Linger. Sixty days I've been courting her, her count, and sixty weeks mine.' He drops the sack. 'Three times I've carried a chair in there and set it down by the Table and three times it's come to bits at sundown in front of the whole town. Pegs, legs, shavings. Her aunt laughed so hard she had to be helped home.' He looks at the chair. 'I don't know what I'm doing wrong. I mean it. I swear I mean it.'".
+    On discuss { Assert knows(actor, chair_ravels). }
+  }
+  Discovery chair_ravels "Abel Rooke's wedding chair for Wenna Spurling has come apart at sunset in the Lull three times, in front of the whole town.".
+  // A run with the cart: work that holds, because it is done in the world.
+  Relation carted(group). Measure runs(group).
+  Action cart_run(actor: group, site: place) "Take a load to the mill towns with Abel Rooke, for four coin" {
+    Description "Out along the march road and back: most of a day.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(abel, site) and not lullday() and not dark() and hour(clock) <= 10 and not cartedToday(actor).
+    Time 54.
+    On success { Increase quantity(actor, gold) by 4. Assert cartedToday(actor). Increase runs(actor) by 1. Assert carted(actor). }
+    Result "You load bales and barrels with Abel in the yard, and walk beside the cart behind Dulcie all day along the march road to the mill towns and back, while Abel talks: about Dulcie, about the road, about the price of hay and the way the light goes on the downs in the evening, and about Wenna, and then about the road again. He pays you at the yard gate. The money stays in your hand. It is the most ordinary thing in the world.".
+  }
+  Relation cartedToday(group).
+  Rule carted_resets when hour(clock) == 0 and cartedToday(?g) { Retract cartedToday(?g). }
+
+  // ── Simeon Eddowes, the Outlived ─────────────────────────────────────────────────────────────────────────────────
+  Person simeon "Simeon Eddowes" at simeon_room {
+    Role "a Glosser of the Lull, put out of it" when not following(simeon, party).
+    Role "a Glosser of the Lull, going back" when following(simeon, party).
+    Ancestry human. Calling mage. Level 3. Peaceable. Pronouns he. Manner acerbic.
+    Likeness "scholar".
+    Greets "An old man in a white apron with no pockets looks up from his writing as though you had interrupted a sentence of some length. 'Gloss two thousand and ninety,' he says. 'Whether a visitor who knocks meaning to be let in is welcome, if he does not mean to stay. Held: he is.' He puts down the pen. 'Simeon Eddowes. I used to be a Glosser. I'm told I still am, by the apron, which I haven't taken off in twenty years. Sit, if you can find a chair under the law.'".
+    Greets again "Simeon Eddowes looks up. 'Ah. The visitor. Held: welcome.'".
+  }
+  Topic simeon_who with simeon "Ask Simeon Eddowes why he was put out of the Lull" when true once {
+    Says "'For a gloss,' says Simeon, with relish. 'Number nine hundred and twelve. A weaver's lad wanted to pay the woman he loved for sitting to him while he drew her, because he was poor and proud and she was poorer and prouder, and the Rest-wardens said a wage was a wage. I held that a wage paid in love is not a wage.' He spreads his hands. 'They said I'd opened the door to the week. Hobday Pryce's father was Chief Warden then. I was walked to the stone and told not to come back.' He smiles. 'The lad and the woman were married. The drawing held. Hobday's father did not.'".
+    On discuss { Assert knows(actor, simeon_banned). }
+  }
+  Discovery simeon_banned "Simeon Eddowes was put out of the Lull by the Rest-wardens twenty years ago, his time, for ruling that a wage paid in love is not a wage. The wardens will turn him back at the Tump.".
+  Topic simeon_law with simeon "Ask Simeon Eddowes what the Lull's law really is" when true once {
+    Says "'The Glossers will tell you: what is done for wages, or under compulsion, comes undone. That is wrong at the edges, and I lost my place saying so.' He holds up a finger. 'The law is love. What is done for love holds; what is not, ravels. A wage changes nothing if the hand that takes it loves the work. A gift given without love comes apart in your hand.' He taps the table. 'I have had twenty years out here to doubt it and I have not managed to. Go and see. Bring me back what you see, and I'll tell you how it proves me right.'".
+    On discuss { Assert knows(actor, simeon_doctrine). }
+  }
+  Discovery simeon_doctrine "Simeon Eddowes holds that the Lull's law is love: what is done for love holds, and what is not comes undone, wages or no wages.".
+  Topic simeon_hester with simeon "Tell Simeon Eddowes that Hester Lindsell is dying" when knows(actor, hester_sick) and not simeonToldHester(simeon) {
+    Says "Simeon is still for a long moment. Then he takes off his spectacles and folds them, very carefully, as if they might break. 'Hester Lumb,' he says. 'Lindsell. Yes.' He puts the spectacles down on a gloss. 'When we were twenty, her count and mine, I asked her to walk up the Tump with me, and she went up it with Tobias Lindsell instead. He was the better man. I have held that for sixty years and it has never once ravelled.' He looks at the window, at the stone. 'Dying. In there, nobody dies quick. She'll have been dying for years of mine.' He gets up. 'I should like to see her. I should very much like to see her. And I can't get past the Tump.'".
+    On discuss { Assert simeonToldHester(simeon). Assert acceptsEscort(simeon, actor). }
+  }
+  Relation simeonToldHester(group).
+  Topic simeon_join_offer with simeon "Ask Simeon Eddowes to come into the Lull with you" when knows(actor, simeon_banned) and not simeonToldHester(simeon) and not acceptsEscort(simeon, actor) once {
+    Says "Simeon looks at you over his spectacles for a long time. 'The wardens would turn me back at the Tump,' he says. 'And I would stand there and let them, because I am old and I have nothing in there worth the shame of it.' He goes back to his pen. 'Ask me again if that changes.'".
+  }
+  // He will come with the company once there is something in the Lull worth the shame of being turned back.
+  Rule simeon_sets_out when following(simeon, party) and not simeonSetOut(simeon)
+    says "Simeon takes off the white apron, folds it, looks at it, and puts it back on. 'If I am going to be turned back at the Tump,' he says, 'I should like them to see what they are turning back. They keep the shoulder in the mornings, the wardens. After eleven they go down to the Green to fine people for enjoying themselves.'" { Assert simeonSetOut(simeon). }
+  Relation simeonSetOut(group).
+  Topic simeon_travel_lull with simeon "Ask Simeon what he makes of the Lull, now he is back" when inLull(party) and lullOpen() and following(simeon, party) once {
+    Says "Simeon has stopped in the road and is looking at the Strike Post on the Tump with his mouth a little open. 'It's the same,' he says. 'It's the same morning. The same birds.' He wipes his eyes, without embarrassment. 'Twenty years out there, and in here they've had three. The Pryce boy will be Chief Warden. The Lindsell girl will be grown.' He sniffs. 'I am going to be very rude to a great many people.'".
+  }
+
+  // ── Quick Nan Fossick and Gurney ──────────────────────────────────────────────────────────────────────────────────
+  Kind pasty_kind "a Sixways pasty" is gear worth 1 weighing 0 described "A big pasty, still warm, crimped along the top, with N.F. pricked into the crust.".
+  Kind lull_ribbon "a ribbon of Nan's" is gear worth 1 weighing 0 described "A length of bright red ribbon, the kind a Lull child ties to the Strike Post.".
+  Person nan "Quick Nan Fossick" at sx_street {
+    Role "a pedlar with a tray". Ancestry human. Peaceable. Pronouns she. Manner cheerful.
+    Likeness "merchant".
+    Greets "A small quick woman with a tray of pasties, ribbons and tin whistles slung from her neck darts over to you. 'There's a face that wants a pasty,' she says. 'Nan Fossick, Quick Nan, everybody knows me. Pasties a coin, ribbons a coin, whistles two, and if you're going in on Lullday, love, I'm the only one sells anything in there at all.'".
+    Greets again "'Back again!' says Quick Nan. 'I knew you'd be back. They all come back.'".
+    Sells pasty_kind for 1 coin from 6.
+    Sells lull_ribbon for 1 coin from 6.
+  }
+  Person gurney "Gurney" at sx_street {
+    Role "a big silent man who carries Quick Nan's baskets". Ancestry human. Calling warrior. Level 2. Peaceable. Pronouns he. Manner stoic.
+    Greets "The big man with the baskets looks at you and does not say anything. After a while he nods, which seems to be the whole of it.".
+  }
+  Initially Assert serves(gurney, nan).
+  Topic nan_lull with nan "Ask Quick Nan how she can sell in the Lull" when true once {
+    Says "Nan laughs and taps her nose. 'Early bird, love. In at six, out by four. What they buy off me stays bought till sunset, and by sunset I'm home with my feet up.' She winks. 'There's no harm in it. They like a pasty, same as anyone.'".
+    On discuss { Assert knows(actor, nan_hours). }
+  }
+  Discovery nan_hours "Quick Nan goes into the Lull at six on Lullday mornings and sells on the Green, and is back out over the Tump by four, before sunset.".
+}

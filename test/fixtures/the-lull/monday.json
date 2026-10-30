@@ -1,0 +1,10 @@
+{
+  "arrive": ["Sixways street$", "To the Fold-stone$", "Sit down by the Fold-stone", "To the Tump's shoulder", "To Linger green"],
+  "tobias": ["Into the Lindsells", "Hester Lindsell.s room", "Talk to Tobias", "Ask Tobias Lindsell to tell you the strike", "Take your leave", "Lindsells. kitchen", "Out to Linger green"],
+  "corin": ["To the end of the Shift Bridge", "Talk to Corin", "Ask Corin Lindsell about her clocks", "Ask Corin Lindsell about the Weekday Club", "Take your leave", "To Linger green"],
+  "kezia": ["To the Pleasure Gardens", "Talk to Kezia", "Ask Kezia Pryce whether she knows Corin", "Ask Kezia Pryce whether she can keep", "Take your leave", "To Linger green"],
+  "night1": ["=20:30", "Lie down Lull-fashion"],
+  "day2": ["Into the Lindsells", "Hester Lindsell.s room", "Talk to Tobias", "Ask Tobias Lindsell how Hester died", "Ask Tobias Lindsell to come down to the Shift Bridge on the Working Day, for Hester", "Take your leave",
+           "Lindsells. kitchen", "Out to Linger green", "=20:30", "Lie down Lull-fashion"],
+  "day3": ["To the end of the Shift Bridge", "=12:30", "=20:30", "=23:30"]
+}

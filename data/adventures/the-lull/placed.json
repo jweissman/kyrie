@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "source": [
+    "clock.kyr",
+    "acts.kyr",
+    "sixways.kyr",
+    "linger.kyr",
+    "law.kyr",
+    "ashbys.kyr",
+    "houses.kyr",
+    "linnet.kyr",
+    "bride.kyr",
+    "market.kyr",
+    "wild.kyr",
+    "sixnight.kyr",
+    "working.kyr",
+    "builds.kyr",
+    "endings.kyr",
+    "after.kyr",
+    "placed.kyr"
+  ],
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "imports": [
+    "party",
+    "word"
+  ],
+  "roles": {
+    "party": {
+      "type": "group"
+    }
+  },
+  "exports": {
+    "party": "party",
+    "region": "lull_country",
+    "march_road": "march_road"
+  },
+  "experience": 1000,
+  "optional": [
+    "word"
+  ]
+}

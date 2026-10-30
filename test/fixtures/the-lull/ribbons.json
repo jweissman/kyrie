@@ -1,0 +1,34 @@
+{
+ "arrive": [
+  "Sixways street$",
+  "To the Fold-stone$",
+  "Sit down by the Fold-stone",
+  "To the Tump's shoulder",
+  "To Linger green"
+ ],
+ "jenet": [
+  "=07:30",
+  "Into the Chapel",
+  "Talk to Jenet",
+  "Ask Jenet Hollis what is the matter",
+  "Ask Jenet Hollis where",
+  "Take your leave",
+  "Out to Linger green",
+  "Buy a ribbon off",
+  "=20:30"
+ ],
+ "tell": [
+  "=20:40"
+ ],
+ "next": [
+  "Lie down Lull-fashion",
+  "Into the Chapel",
+  "Talk to Jenet",
+  "Tell Jenet Hollis that the ribbon was sold",
+  "Take your leave",
+  "Out to Linger green",
+  "Talk to Hobday",
+  "Tell Hobday Pryce what Quick Nan",
+  "Take your leave"
+ ]
+}

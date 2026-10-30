@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "name": "The Lull",
+  "calendar": { "year": 1312, "month": 8, "day": 3 },
+  "pitch": {
+    "heading": "The Lull",
+    "text": "Over the march there is a valley you can walk into one day in seven. On the other six the road goes round a bare hill and comes back to the stone. They don't work in there, they say; whatever is done there without meaning it comes apart at sunset. And a night slept there is a week gone outside."
+  },
+  "modules": [ { "id": "lull", "bundle": "../adventures/the-lull/module.json" } ],
+  "party": [ { "name": "Wren", "raceId": "human", "classId": "warrior" } ]
+}

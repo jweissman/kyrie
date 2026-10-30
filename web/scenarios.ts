@@ -65,6 +65,10 @@ export class Scenarios {
     { manifest: 'data/campaigns/half-the-hive.campaign.json', title: 'Half the Hive', seed: 'hume',
       note: 'On the Wold of Hume four hundred people live inside a honeycomb under a cliff and belong to bees as big as hounds by the smell of their queen. The old queen is about to swarm, and half the town will walk out behind her and never come back. Their Searchers are short of hands.',
       detail: 'A town in a honeycomb, a high wold of lindens, chalk and heather, four places to live and a week to choose' },
+    // An independent adventure over the north march (doc/adventures/the-lull).
+    { manifest: 'data/campaigns/the-lull.campaign.json', title: 'The Lull', seed: 'lull',
+      note: 'Above the hamlet of Sixways a road goes down from a standing stone, one day in seven, into a valley that has kept only its holy day for fifty-seven years. Whatever is done there without meaning it comes apart at sunset; a night slept there is a week gone outside. The young of Linger mean to work.',
+      detail: 'A hamlet that waits, a valley that rests, a mill that works in the dark, and three Lulldays' },
   ];
   static source(): MemoryBundleSource { return new MemoryBundleSource(Scenarios.files); }
 }
