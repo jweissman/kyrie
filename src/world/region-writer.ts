@@ -247,7 +247,9 @@ export class RegionWriter {
     const atlas = RegionGeography.atlas(region), glyphs: Record<string, string> = { sea: '~', lake: 'o', fen: ',',
       meadow: '.', wood: 'w', heath: 'h', fell: 'f', peak: 'p' };
     return { width: atlas.land.width, height: atlas.land.height, cover: atlas.land.cover.map(c => glyphs[c]).join(''),
-      rivers: atlas.rivers.map(r => r.cells), roads: Object.fromEntries([...roads.map(r => [r.way, r.route.cells]),
+      rivers: atlas.rivers.map(r => r.cells), springs: atlas.rivers.map(r => r.spring ?? []),
+      falls: atlas.rivers.map(r => r.fall ?? -1),
+      roads: Object.fromEntries([...roads.map(r => [r.way, r.route.cells]),
         ...atlas.borders.map(b => [RegionBorders.room(b), b.road.cells]),
         ...(region.provinces ?? []).map(p => [Provinces.room(p.country), p.gate.road.cells])]),
       parts: Object.fromEntries(atlas.zones.flatMap(z => z.parts.map((cells, i) => [RegionZones.room(z, i), cells]))),

@@ -1,7 +1,9 @@
 import { MinHeap } from './min-heap';
 import type { Relief } from './heights';
 
-export interface River { cells: number[]; flow: number; outlet: 'sea' | 'lake' | 'edge' }
+// A river's spring: the brook above where it is a river, up its largest feeder into the hills, where it rises; and its
+// fall, the cell of the sea or lake it runs into (none where it leaves the region).
+export interface River { cells: number[]; flow: number; outlet: 'sea' | 'lake' | 'edge'; spring: number[]; fall?: number }
 // Where the water of a region is: the sea, the cell each cell drains into (-1 where water leaves: the sea, the
 // region's edge), how many cells drain through each, the lakes standing in hollows, and the rivers, largest first.
 export interface Water { sea: boolean[]; to: number[]; flow: number[]; lakes: number[][]; rivers: River[] }
@@ -127,8 +129,27 @@ export class Drainage {
       }
       const mouth = queue[i]!, below = to[mouth]!;
       const outlet = below < 0 ? (sea[mouth] ? 'sea' : 'edge') : sea[below] ? 'sea' : wet.has(below) ? 'lake' : 'edge';
-      if (cells.length >= 3) { rivers.push({ cells: cells.reverse(), flow: flow[mouth]!, outlet }); }
+      if (cells.length >= 3) {
+        const spring = this.spring(relief, water, cells.at(-1)!);
+        rivers.push({ cells: cells.reverse(), flow: flow[mouth]!, outlet, spring, ...outlet !== 'edge' && below >= 0 ? { fall: below } : {} });
+      }
     }
     return rivers.sort((a, b) => b.flow - a.flow);
+  }
+  // Up from a river's head by the feeder that brings it the most water, until the ground is high (the upper third of
+  // the region's land) or there is no going higher: a river had seemed to rise in the middle of a town, or a meadow
+  // (the owner, OWN-49). Drawn only: the river itself, its crossings and the country it names, are as they were.
+  private static spring(relief: Relief, water: { sea: boolean[]; to: number[]; flow: number[]; wet: Set<number> },
+    head: number): number[] {
+    const { heights, width, height } = relief, { sea, to, flow, wet } = water, out: number[] = [];
+    const land = heights.filter((_, c) => !sea[c]).sort((a, b) => a - b);
+    const high = land[Math.floor(land.length * 0.67)] ?? 1;
+    for (let c = head; out.length < 8 && heights[c]! < high;) {
+      const up = this.neighbours(c, width, height).filter(n => to[n] === c && !wet.has(n) && !sea[n])
+        .sort((a, b) => flow[b]! - flow[a]! || heights[b]! - heights[a]! || a - b)[0];
+      if (up === undefined) { break; }
+      out.push(up); c = up;
+    }
+    return out.reverse();
   }
 }

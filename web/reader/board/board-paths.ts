@@ -102,7 +102,7 @@ export class BoardPaths {
       pts = curve.getSpacedPoints(n), across = river ? [-1, 1] : [-1, 0, 1], verts: number[] = [], col: number[] = [];
     pts.forEach((p, i) => {
       const t = curve.getTangentAt(Math.min(1, i / n)), s = new Vector3(-t.z, 0, t.x).normalize(),
-        half = river ? 0.066 : 0.046 * (0.85 + Math.sin(i * 0.31) * 0.15),
+        half = river ? 0.066 * Math.min(1, 0.3 + 2.8 * i / n) : 0.046 * (0.85 + Math.sin(i * 0.31) * 0.15),
         level = ground(p.x, p.z) + BoardGround.BED - 0.016;
       for (const k of across) {
         const q = p.clone().addScaledVector(s, k * half);

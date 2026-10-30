@@ -7,7 +7,7 @@ import { Terrain, type Land } from './terrain';
 import { Zones, type Zone } from './zones';
 import type { Cover } from './land-cover';
 
-export interface Water { cells: number[]; naming: Naming }
+export interface Water { cells: number[]; naming: Naming; spring?: number[]; fall?: number }
 export interface Wilds extends Zone { naming: Naming; peak?: { cell: number; naming: Naming } }
 export interface Way extends Road { id: string; start: number; end: number; pass?: number; over?: Naming }
 // Where a site stands: its cell, and the wild country (and which part of it) it lies in, if any.
@@ -22,7 +22,7 @@ export class Atlases {
     const land = Terrain.make(key, terrain), seats = Settling.make(key, terrain, land);
     const roads = Roads.make(land, seats), zones = Zones.make(land, seats, roads);
     const names = { key, ...at };
-    const rivers = land.water.rivers.slice(0, 3).map((r, i) => ({ cells: r.cells,
+    const rivers = land.water.rivers.slice(0, 3).map((r, i) => ({ cells: r.cells, spring: r.spring, fall: r.fall,
       naming: this.name(names, 'river', `river${i}`, i === 0 ? 'river' : undefined) }));
     const lakes = land.water.lakes.map((cells, i) => ({ cells, naming: this.name(names, 'lake', `lake${i}`) }));
     const wilds = zones.map(z => {

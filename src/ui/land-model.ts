@@ -84,7 +84,8 @@ export class LandModel {
     const marks = [...placed, ...this.unmade(new Set([...placed.map(m => m.cell),
       ...Object.keys(towns).map(t => this.chart.places[t])]), known)];
     const named = new Set([...areas.map(a => a.id), ...placed.map(m => m.id)]);
-    return { width: chart.width, height: chart.height, cover: chart.cover, rivers: chart.rivers, roads,
+    return { width: chart.width, height: chart.height, cover: chart.cover,
+      rivers: chart.rivers.map((r, i) => LandModel.drawn(chart, r, i)), roads,
       known: [...known].sort((a, b) => a - b), ...this.at(here), marks, towns, zones: this.zones(areas, known),
       glosses: Object.fromEntries(Object.entries(chart.glosses ?? {}).filter(([id]) => named.has(id))),
       ...chart.blocks ? { blocks: chart.blocks } : {}, ...this.tracts() };
@@ -195,6 +196,11 @@ export class LandModel {
     return Object.keys(this.chart.parts).some(room => this.entities.get(room)?.space?.parent === parent) ? 'landmark' : 'stone';
   }
   // The wild country on the chart, with the cells of it the company knows, to write its name across.
+  // A river as the map draws it: from where it rises to the water it runs into (see Drainage.spring).
+  private static drawn(chart: LandChart, river: number[], i: number): number[] {
+    const fall = chart.falls?.[i] ?? -1;
+    return [...chart.springs?.[i] ?? [], ...river, ...fall >= 0 ? [fall] : []];
+  }
   private zones(areas: RegionChart['areas'], known: Set<number>): Land['zones'] {
     return areas.filter(a => a.kind === 'wilderness').flatMap(a => {
       const cells = Object.entries(this.chart.parts).filter(([room]) => this.entities.get(room)?.space?.parent === a.id)
