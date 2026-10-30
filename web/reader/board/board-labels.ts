@@ -20,6 +20,7 @@ export class BoardLabels {
   readonly layer = document.createElement('div');
   private readonly labels: Label[] = [];
   private readonly v = new Vector3();
+  private readonly w = new Vector3();
   private you?: { el: HTMLElement; at: Vector3; cell: number };
   // What is told of a label's hex: that it has the keys' focus (to be drawn toward), or has lost it; and how far the
   // hex stands below where it belongs, and whether what is on it is shown yet.
@@ -99,9 +100,12 @@ export class BoardLabels {
     if (!you) { return; }
     you.el.style.visibility = y ? '' : 'hidden';
     if (!y) { return; }
+    const across = this.screen({ ...you, at: this.w.copy(you.at).setX(you.at.x + 0.5) }, camera, size);
+    const px = Math.round(Math.min(120, Math.max(36, across ? Math.hypot(across[0] - y[0], across[1] - y[1]) : 36)));
+    you.el.style.setProperty('--you', `${px}px`);
     you.el.style.transform = 'translate(-50%, calc(-100% + 3px)) '
       + `translate3d(${y[0].toFixed(1)}px, ${y[1].toFixed(1)}px, 0)`;
-    taken.push(new DOMRect(box.left + y[0] - 17, box.top + y[1] - 52, 34, 54));
+    taken.push(new DOMRect(box.left + y[0] - px / 2 - 2, box.top + y[1] - px * 1.7, px + 4, px * 1.7 + 2));
   }
   // Where a point over a hex is on the screen, the hex standing as far as it has come; nowhere while the hex has not
   // yet come most of the way up out of the mist (but for a place known only from afar, over the mist where the land

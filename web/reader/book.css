@@ -222,17 +222,20 @@
 .board-labels > .away:not(:focus), .board-labels > .off { opacity: 0; pointer-events: none; }
 /* You: a pin on a plate, the same size however near the view, over every name and sign; a short staff down from it to
    its shadow on the ground where you are, and a soft gold about the plate. */
-.board-you { pointer-events: none !important; width: 30px; height: 52px; z-index: 5; }
-.board-you .you-plate { position: absolute; left: 0; top: 0; width: 30px; height: 30px; box-sizing: border-box; border-radius: 50%;
-  display: grid; place-items: center; background: #14151a; border: 2px solid var(--ivory);
+/* Sized to about half a hex where you stand (--you, the plate's width, set as the camera moves), never under 36px. */
+.board-you { --you: 36px; pointer-events: none !important; width: var(--you); height: calc(var(--you) * 1.7);
+  z-index: 5; }
+.board-you .you-plate { position: absolute; left: 0; top: 0; width: var(--you); height: var(--you); box-sizing: border-box; border-radius: 50%;
+  display: grid; place-items: center; background: #14151a; border: calc(var(--you) / 14) solid var(--ivory);
   box-shadow: 0 0 0 2px rgba(242, 189, 76, .7), 0 0 14px 2px rgba(242, 189, 76, .4), 0 3px 8px rgba(0, 0, 0, .8); }
-.board-you svg { width: 17px; height: 17px; fill: var(--gold); }
+.board-you svg { width: 56%; height: 56%; fill: var(--gold); }
 /* Your face on the plate where there is one, cropped close to it (the paintings are of head and shoulders, the face a
    little right of centre and high), ringed in the plate's gold. */
 .board-you .you-plate.faced { overflow: hidden; border-color: var(--gold); background: #14151a; }
 .board-you .you-plate.faced img { width: 100%; height: 100%; display: block; object-fit: cover;
   object-position: 55% 30%; transform: scale(1.45); transform-origin: 55% 30%; }
-.board-you .you-staff { position: absolute; left: 14px; top: 30px; width: 2px; height: 18px;
+.board-you .you-staff { position: absolute; left: calc(50% - 1px); top: var(--you); width: 2px;
+  height: calc(var(--you) * .6);
   background: linear-gradient(var(--ivory), rgba(236, 230, 217, .35)); }
-.board-you .you-shadow { position: absolute; left: 7px; bottom: 0; width: 16px; height: 7px; border-radius: 50%;
+.board-you .you-shadow { position: absolute; left: 22%; bottom: 0; width: 56%; height: calc(var(--you) * .22); border-radius: 50%;
   background: radial-gradient(rgba(242, 189, 76, .9) 0 18%, rgba(0, 0, 0, .7) 30%, rgba(0, 0, 0, 0) 70%); }
