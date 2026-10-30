@@ -6,7 +6,7 @@ builder. What was changed in answer is in [12-changes.md](12-changes.md); what w
 ## What it is now, honestly
 
 A country of thirty-six rooms, twenty-eight named people, fifteen smaller stories, a week with six chapters and nine
-endings, about 3,000 lines of Kyr. It can be found from a generated world, entered, explored, and played to an ending
+endings, about 1,800 lines of Kyr (most of them long). It can be found from a generated world, entered, explored, and played to an ending
 by an ordinary wanderer, and it persists after. The tests prove that the paths I wrote exist. They do not prove that a
 stranger would enjoy them, and I have not watched a stranger play it.
 
