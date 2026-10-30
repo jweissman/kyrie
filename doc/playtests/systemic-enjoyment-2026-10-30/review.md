@@ -546,6 +546,150 @@ The right UI primitive is a small runtime-owned **decision frame**, not another 
 After an action, the frame should explicitly show `attempt → result → changed state → newly relevant act`. The full
 legal command set remains available for simulation freedom, but it stops defining the composition of every scene.
 
+### Cartographic legibility and refinement of the diorama
+
+The new three-dimensional map is a strong foundation, but it is not yet a dependable cartographic instrument. It has
+the atmosphere of a miniature country viewed at dusk, while its most important distinctions—where the company is,
+which mark is selected, where it is bound, what is merely rumored, and where the known country ends—are small,
+ambiguous or expressed through the same gold accent. The resulting roughness is not only cosmetic. A player who must
+re-find the company after every camera movement or decode whether a ring means *here*, *chosen* or *destination* has
+less attention left for route choice and discovery.
+
+#### Marks need optical construction, not only CSS centering
+
+The point-of-interest signs are a 22-pixel circle containing a 13-pixel SVG on a nominal `0 0 16 16` drawing grid.
+CSS correctly centers the SVG's rectangular box, but the paths do not share consistent optical bounds or visual
+weight. A tower is tall and top-heavy, a cave is broad and bottom-heavy, a ruin has a baseline, and several paths run
+almost to one edge of the view box. Thus a mathematically centered SVG can still look displaced inside its circle.
+The italic name adjoining it and the sign's bottom-anchored placement over the terrain amplify the impression. This
+should be treated as a tiny icon system rather than a collection of unrelated path strings.
+
+The concrete correction is:
+
+- author every sign on one grid with a common optical centre, baseline and safe area, preferably reserving about two
+  units around a 16-unit view box;
+- normalize each glyph's *visible* bounds rather than its path bounds, with small per-glyph optical offsets where
+  symmetry cannot achieve the right result;
+- use one stroke specification at the final rendered size and avoid details separated by less than a physical pixel;
+- enlarge ordinary signs from 22 to roughly 26–28 CSS pixels and their glyphs from 13 to 15–16 pixels, while keeping
+  settlement names and secondary waymarks quieter;
+- test the complete sheet at 1× mobile density, not just enlarged in a browser inspector, and include selected,
+  unvisited, hovered and fog-adjacent examples;
+- give genuinely different silhouettes to categories that imply different actions: an entrance for a cave, broken
+  masonry for a ruin, a vertical beacon for a tower, water crossing for a ford. Decoration that cannot be identified
+  without its label is not yet doing cartographic work.
+
+The circle should be a stable cartographic plate, not another state indicator. Its fill and border should normally
+remain neutral. Selection can add an outer halo; new knowledge can briefly pulse; uncertainty can use a broken plate
+or question mark. Recoloring the same small plate gold for several unrelated meanings makes its glyph harder to read.
+
+#### “You are here” needs a token as well as a terrain treatment
+
+The current location is expressed in three competing ways: the current hex receives a gold rim, a miniature lantern
+is placed in the scene, and a six-pixel glowing DOM dot is projected over it. At useful country-scale zoom the lantern
+is scenery and the dot is below reliable acquisition size. The hex outline identifies an area but not immediately the
+company within a town or landmark hex. It also becomes easy to confuse with the gold destination treatment.
+
+Add a persistent player token above the terrain. The simplest version is a 28–32 pixel circular plate carrying a
+map-arrow or chevron, with a short leader or ground shadow connecting it to the actual hex. It should remain a
+constant screen size and sit above labels and models rather than shrinking with the diorama. If the recently added
+player/company icons are available to the map model, the plate can carry the leader's icon or a compact party stack;
+the arrow can remain as the unmistakable positional silhouette. Do not use a detailed portrait alone: at map scale it
+communicates identity better than location and is harder to find than a simple arrow.
+
+The arrow's direction must have an honest meaning. It can show the company's actual heading while travelling, point
+along the first leg of a committed itinerary while stationary, or point north when neither is known. It should not
+silently rotate with an unconstrained camera. If party facing has no modelled meaning, a symmetric pin is preferable
+to a false directional claim.
+
+Use a strict state vocabulary:
+
+| Meaning | Recommended treatment |
+|---|---|
+| Current company | Player token, small ground shadow, restrained gold halo |
+| Selected hex or POI | Ivory outer ring and visible name; no implication of commitment |
+| Committed destination | Gold pennant and canonical route |
+| Hover/focus | Thin high-contrast temporary halo |
+| Newly discovered | Short reveal pulse, then the normal discovered style |
+| Rumored/unlocated | Broken or diffuse mark over an approximate area |
+
+The gold hex rim can remain as a secondary locational cue, especially when several figures occupy a hex, but it
+should no longer bear the whole burden of “you are here.” A one-press “locate company” control should frame the token
+without changing zoom or bearing unnecessarily.
+
+#### The country must continue beyond the chart
+
+The apparent end of the world follows directly from the rendering model. Unknown chart cells are sunk and collapsed
+out of the geometry; the two mist planes extend only a fixed margin beyond the finite rectangular `width × height`
+chart. At an oblique view the player can therefore see the irregular last row of raised slabs, their dark sides, and
+then an empty haze. This reads as missing content or a tabletop edge, not as country the protagonist does not know.
+
+Kyrie does not need an actually infinite simulation to look geographically unbounded. It needs three visual layers:
+
+1. **Known terrain:** the present detailed, interactive cells.
+2. **Uncertain fringe:** low-detail silhouettes for adjacent unseen country, with no inspectable POIs or exact cover
+   information, increasingly submerged in mist.
+3. **Horizon ground:** a large non-interactive terrain skirt or plane continuing under the fog to and beyond the
+   camera horizon, coloured and lit like the country but carrying no claim of generated geography.
+
+The uncertain fringe can be deterministically synthesized from boundary heights and broad regional character. Its
+purpose is not to leak the next cell's true terrain; it is to prevent absence of knowledge from appearing as absence
+of world. Low ridges, tree masses and water haze may be deliberately ambiguous. As true cells become known, their
+geometry replaces this scenery beneath a reveal transition. At sea, the continuation should become water and horizon
+rather than a generic land skirt.
+
+The camera should also participate in the illusion. Pan limits ought to be soft and relative to revealed country:
+resistance increases as the company leaves the useful map behind, and the fog thickens before any backing geometry
+can be reached. Hard clamping at the chart rectangle would merely replace a visible edge with an invisible wall.
+Likewise, zooming out should reach a composed overview whose perimeter is lost in paper, cloud or atmospheric haze,
+not reveal the rectangular allocation beneath it.
+
+This separates three concepts currently conflated: the finite generated chart, the finite geography the player
+knows, and the indefinitely continuing fictional world. Only the first is an implementation boundary, and it should
+never be presented as either of the other two.
+
+#### The diorama needs a deliberate finish pass
+
+Several individually attractive choices currently compete at the same visual level: terraced hex sides, mottled
+tops, trees, rocks, sheep, settlement models, shadows, mist, glowing lamps, routes, rims, DOM signs and labels. The
+terrain consequently reads as a prototype made of good components rather than one composed map. Refinement should
+begin with a hierarchy, not with more props.
+
+At ordinary zoom, the intended reading order should be: company → committed route or selected subject → major
+landmarks and settlements → roads and rivers → terrain character → decorative life. To produce it:
+
+- reduce hex gaps and the contrast of their vertical soil walls; reserve conspicuous terraces for real relief;
+- add contact shadows beneath buildings and the player token, but soften the broad directional shadows that obscure
+  paths and terrain colour;
+- widen or brighten roads just enough to survive dusk lighting, give rivers a continuous recessed course, and make
+  crossings visibly interrupt both;
+- distinguish field, heath, wood, fen, fell and peak through texture frequency, vegetation silhouette and contour as
+  well as hue—the present brown-grey compression is attractive but weak at a glance;
+- choose prop density by zoom and importance: sheep, stones and small trees may fade or combine into masses as the
+  camera retreats, while roads, sites and the player remain stable;
+- introduce restrained ambient movement—water glint, chimney smoke, a mill or clustered town lights—at inhabited
+  places, but do not animate every tile. Motion should identify activity, not make the whole board shimmer;
+- use atmospheric dusk as a tint over a legible neutral base. The map should remain readable when the low sun falls
+  behind a road or when the display has poor black-level separation.
+
+Labels need the same hierarchy. Current location, selected subject and destination should always win collision.
+Nearby important settlements come next; ordinary POIs may show only their plate until hovered or selected. Faint
+regional names and perhaps major rivers should appear at wider zoom, giving the player intermediate-scale anchors
+between a hex and a distant town. Labels should fade and cross-fade by zoom band rather than all competing in one
+screen-space layer.
+
+Finally, camera behavior should be judged as part of cartography. Selecting a POI should not automatically pull the
+view away from the company. The default should remain north-up and somewhat more overhead, with selection merely
+highlighting the mark. When the selected subject lies outside the viewport, frame both company and subject. A scenic
+low-angle orbit can remain available for enjoying the miniature, but it should be a conscious view mode rather than
+the posture in which every route decision must be made.
+
+These changes can be verified with simple recognition tests rather than taste alone: ask an unfamiliar player, after
+three seconds' viewing, to point to the company, selected place, intended destination, traversable route and boundary
+of certain knowledge. Test each at wide, ordinary and close zoom on desktop and phone. Also pan toward every chart
+edge and record whether any view reveals a last tile, rectangular mask, empty plane or hard camera stop. The target is
+not merely a prettier board; it is a map whose visual grammar can be read before its controls are explained.
+
 ### What should be built first
 
 Before adding wilderness quantity or more shops, reconstruct one complete loop and use it as the architectural test:
