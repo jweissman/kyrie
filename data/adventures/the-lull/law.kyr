@@ -1,0 +1,104 @@
+Module lull "The Lull" {
+  // ── The Ravel ─────────────────────────────────────────────────────────────────────────────────────────────────────
+  // What is done in the Lull without meaning it comes apart at its dusk. What the company carries of such a thing goes
+  // from its hands; each that has words of its own (ownRavel) says them, the rest are told plainly.
+  Relation unmeant(item). Relation ravelled(item). Relation ownRavel(item).
+  Rule ravel_carried when lullDusk() and unmeant(?i) and carries(party, ?i) and itemKind(?i, ?k) and not ownRavel(?i)
+    says "At sunset {?i} comes apart in your pack, the way frost goes off a pane: it is there, and then it is a little loose stuff, and then it is not even that." {
+    Spend ?k from party. Assert at(?i, limbo). Assert ravelled(?i).
+  }
+
+  // ── On What Holds ─────────────────────────────────────────────────────────────────────────────────────────────────
+  // Aldith Mote, the junior Glosser, suspects the twelfth Gloss. With a Sixer's help she tries it: a cairn stacked for
+  // a coin; a skep set for a coin by a man who loves bees; and what the company sees of gifts given to win, and of
+  // spite. The law is meaning it: wages are beside the point.
+  Relation aldithTesting(group). Relation lawFound(group).
+  Topic aldith_test with aldith "Offer to help Aldith Mote test the twelfth Gloss" when lullOpen() and knows(actor, glosser_doctrine) and not aldithTesting(aldith) once {
+    Says "Aldith goes pink to the ears. 'Would you? Nobody in the Lull can, you see; we can't do anything for wages without meaning to see if it holds, and then we mean it, and it's spoiled.' She is already writing. 'Two things. First: I give you a coin, and you stack me a cairn on the Glossary step, for the coin. Second: there's Hob Linsey at the tarn, who loves his bees more than his life. If he'd take a coin to set a skep in the Gardens, he'd be working for wages at a thing he loves. Gloss twelve says it ravels.' She bites the pencil. 'I don't think it will.' She gives you two coins. 'And anything else you see at sunset, tell me. Anything that holds that shouldn't, or goes that shouldn't.'".
+    On discuss { Assert aldithTesting(aldith). Increase quantity(actor, gold) by 2. }
+  }
+  Thing cairn "a cairn on the Glossary step" at limbo {
+    State stacked "On the Glossary step stands a neat cairn of river stones, stacked for a coin.".
+    State scattered "On the Glossary step lie a few river stones, scattered, where a cairn stood.".
+  }
+  Initially Assert state(cairn, stacked).
+  Action stack_cairn(actor: group, site: place) "Stack a cairn of river stones on the Glossary step, for Aldith Mote's coin" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, green) and aldithTesting(aldith) and lullOpen() and hour(clock) < 19 and at(cairn, limbo) and not knows(actor, wage_ravels).
+    Time 3.
+    On success { Retract at(cairn, limbo). Assert at(cairn, green). Assert state(cairn, stacked). }
+    Result "You fetch stones up from the Idle, flat ones, and stack them on the Glossary step to the height of your knee, carefully, because she is watching and because it is the kind of thing you find you want to do properly. It is the first thing you have done in the Lull for wages.".
+  }
+  Rule cairn_falls at green when lullDusk() and at(cairn, green) and state(cairn, stacked)
+    says "The cairn on the Glossary step comes down, not as if pushed but as if each stone had remembered, at the same moment, where in the river it was lying this morning; the stones roll down the step and lie there. Aldith Mote, at the Table, writes it down without looking surprised." teaches wage_ravels {
+    Assert state(cairn, scattered).
+  }
+  Observe cairn_seen at green when at(cairn, green) and state(cairn, scattered) and lullOpen() and not knows(party, wage_ravels) "On the Glossary step, river stones lie scattered where your cairn stood." teaches wage_ravels.
+  Discovery wage_ravels "Work done in the Lull for wages, by someone who does not care for it, comes undone at sunset: the cairn you stacked for Aldith Mote's coin fell back into the river's order.".
+  Rule cairn_cleared when lullOpen() and hour(clock) == 7 and at(cairn, green) and state(cairn, scattered) { Assert at(cairn, limbo). }
+  // Hob Linsey and the skep.
+  Thing skep "a new skep in the Gardens" at limbo {
+    State set "A new straw skep stands on a plank in the Gardens, with bees already finding it.".
+    State held "The skep Hob Linsey set for a coin stands in the Gardens, and the bees are in and out of it.".
+  }
+  Initially Assert state(skep, set).
+  Rule skep_holds when lullDusk() and at(skep, gardens) and state(skep, set) { Assert state(skep, held). }
+  Observe skep_seen at gardens when lullOpen() and at(skep, gardens) and state(skep, held) and not knows(party, loved_wage_holds) "Hob Linsey's skep, set for a coin, is still standing in the Gardens, bees and all." teaches loved_wage_holds.
+  Rule skep_told at green when lullDusk() and at(skep, gardens) and at(party, green) and not knows(party, loved_wage_holds)
+    says "Aldith Mote comes running down the Table, which nobody does, with her apron flying. 'The skep held,' she says, to you, low and fierce. 'He took the coin. He set it for the coin. It held.'" teaches loved_wage_holds { }
+  Discovery loved_wage_holds "Work done in the Lull for wages by someone who loves the work holds: Hob Linsey set a skep in the Gardens for a coin, and it stood at sunset.".
+  Rule davy_stone at green when dayTwo() and lullDusk() and not pryceHouseGiven(lettice) and at(party, green) and not knows(party, spite_holds)
+    says "Among the makings on the grass tonight is a stone with a face cut on it, a big pink face with a mouth like a purse, which everybody recognises and nobody mentions. The card says BY DAVY MOTE, FOR THE CHIEF WARDEN, and it is not a kind card. The sun goes. The stone stays. Hobday Pryce looks at it for a long time, and then laughs, which nobody expected, least of all Davy." teaches spite_holds { }
+  Topic aldith_found with aldith "Tell Aldith Mote what you have seen hold, and come undone" when lullOpen() and aldithTesting(aldith) and knows(actor, wage_ravels) and knows(actor, loved_wage_holds) and (knows(actor, given_to_win) or knows(actor, spite_holds) or knows(actor, chair_ravels)) and not lawFound(aldith) {
+    Says "Aldith writes while you talk, fast, and stops you twice, and when you have finished she sits for a while with the pencil against her teeth. 'The cairn went, and you didn't care for it. The skep held, and he did, and he was paid.' She writes. 'Mrs Pryce's gifts were free, and given to win, and went. And spite holds.' She looks up. 'It isn't wages. It isn't love, either, Simeon Eddowes, wherever you are. It's meaning it. Whatever you do in the Lull, if you mean it, all of you, all the way down, it holds.' She gets up on the ladder with a new white board and starts to paint, very carefully, and you read it as it comes: GLOSS 2,214: THAT WHAT HOLDS IS WHAT IS MEANT. She stops. 'They'll make me paint over it,' she says. 'I don't care.' And then, quite differently: 'Corin should know this. If it isn't wages, her Working Day isn't what she thinks it is.'".
+    On discuss { Assert lawFound(aldith). Assert knows(actor, meaning_law). }
+  }
+  Discovery meaning_law "What holds in the Lull is what is meant: not what is unpaid, not what is loved, but what is done meaning it, all the way down. Wages are beside the point; so is love; spite holds, and grief.".
+  Topic simeon_wrong with simeon travelling "Tell Simeon what Aldith Mote found the law to be" when knows(actor, meaning_law) and travelsWith(simeon, party) and not simeonWrong(simeon) once {
+    Says "Simeon stops dead in the road. 'Meaning,' he says. 'Not love.' He thinks about it with his whole face, which works like a loom. 'Spite holds. Yes. It would. God help us, of course it would.' Then he laughs, a great bark that sends birds up. 'Held: I was wrong. Twenty years. Wonderful. Oh, that is wonderful.' He wipes his eyes. 'Who found it? The little Mote girl? Good. Good. They'll make her paint over it. They made me.'".
+    On discuss { Assert simeonWrong(simeon). }
+  }
+  Relation simeonWrong(group).
+  Topic simeon_wrong_here with simeon "Tell Simeon what Aldith Mote found the law to be" when knows(actor, meaning_law) and not travelsWith(simeon, party) and not simeonWrong(simeon) once {
+    Says "Simeon puts down his pen. 'Meaning,' he says. 'Not love.' He sits back. 'Spite holds,' he says slowly. 'Yes. It would.' Then he laughs, a great bark of a laugh. 'Held: I was wrong. Twenty years. Wonderful.' He picks the pen up, and puts it down again, and looks at the stone through the window. 'I should like to see that board before they paint it out.'".
+    On discuss { Assert simeonWrong(simeon). Assert willing(simeon, actor). }
+  }
+
+  // ── The Gift Hall bench ───────────────────────────────────────────────────────────────────────────────────────────
+  // Piran Penhallow leaves limewood offcuts on the bench for anyone. Make something there for someone; at sunset it
+  // holds if you meant it, which is to say if you have come to care for them, and comes apart if you were only being
+  // polite.
+  Relation cares(group, group). Relation canMakeFor(group). Relation madeFor(item, group). Relation benchUsed(group).
+  Initially Assert canMakeFor(linnet). Initially Assert canMakeFor(hester). Initially Assert canMakeFor(corin). Initially Assert canMakeFor(tobias).
+  Initially Assert canMakeFor(wenna). Initially Assert canMakeFor(dorcas). Initially Assert canMakeFor(piran).
+  Relation met(group, group).
+  Rule meeting when addressed(?p, ?c) and not met(?p, ?c) { Assert met(?p, ?c). }
+  Rule cares_hester when hesterTrust(hester) >= 2 and not cares(party, hester) { Assert cares(party, hester). }
+  Rule cares_corin when corinTrust(corin) >= 2 and not cares(party, corin) { Assert cares(party, corin). }
+  Rule cares_tobias when tobiasConfessed(tobias) and not cares(party, tobias) { Assert cares(party, tobias). }
+  Rule cares_wenna when (wennaTold(wenna) or abelTold(abel)) and not cares(party, wenna) { Assert cares(party, wenna). }
+  Rule cares_dorcas when dorcasKnowsHeads(dorcas) and not cares(party, dorcas) { Assert cares(party, dorcas). }
+  Rule cares_piran when piranKnowsIll(piran) and not cares(party, piran) { Assert cares(party, piran). }
+  Kind keepsake_kind "a little limewood carving you made" is gear worth 0 weighing 0 described "A small thing of pale limewood, whittled at the Gift Hall bench from one of Piran Penhallow's offcuts: not very good, and yours.".
+  Item keepsake "a little limewood carving you made" is keepsake_kind at limbo.
+  Observe bench_scene at gift_hall as feature when lullOpen() "Under the window at the end is a long bench with a box of limewood offcuts on it, and knives, and a card: FROM PIRAN, FOR ANYBODY.".
+  Action make_keepsake(actor: group, who: group, site: place) "Sit at the Gift Hall bench and carve something for {who}" {
+    Description "Whether it lasts the sunset depends on whether you meant it.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, gift_hall) and lullOpen() and hour(clock) < 19 and canMakeFor(who) and met(who, actor) and at(keepsake, limbo) and not benchUsed(actor).
+    Time 12.
+    On success { Retract at(keepsake, limbo). Give keepsake to actor. Assert madeFor(keepsake, who). Assert benchUsed(actor). }
+    Result "You sit at the bench for two hours with a knife and a lump of limewood, and the light moves across the floor, and a child comes and watches and goes away again, and what comes out of the wood is small and lopsided and, you think, recognisably what you meant. You put it in your pack for sunset.".
+  }
+  Rule bench_resets when hour(clock) == 0 and benchUsed(?g) and at(keepsake, limbo) { Retract benchUsed(?g). }
+  Rule keepsake_meant when madeFor(keepsake, ?w) and not cares(party, ?w) and not unmeant(keepsake) and not keepsakeKept(keepsake) { Assert unmeant(keepsake). Assert ownRavel(keepsake). }
+  Rule keepsake_cared when madeFor(keepsake, ?w) and cares(party, ?w) and unmeant(keepsake) { Retract unmeant(keepsake). }
+  Relation keepsakeKept(item).
+  Rule keepsake_ravels when lullDusk() and unmeant(keepsake) and carries(party, keepsake) and madeFor(keepsake, ?w)
+    says "At sunset the little carving in your pack comes apart into shavings, curl by curl, until there is only a pinch of pale dust. You were being kind. Kind is not the same." {
+    Spend keepsake_kind from party. Assert at(keepsake, limbo). Retract madeFor(keepsake, ?w). Retract unmeant(keepsake).
+  }
+  Rule keepsake_ravels_given when lullDusk() and unmeant(keepsake) and keeps(?w, keepsake) and madeFor(keepsake, ?w)
+    says "Somewhere in Linger, at sunset, a little limewood carving comes apart in somebody's hand into shavings." {
+    Retract keeps(?w, keepsake). Assert at(keepsake, limbo). Retract madeFor(keepsake, ?w). Retract unmeant(keepsake).
+  }
+  Rule keepsake_holds when lullDusk() and madeFor(keepsake, ?w) and not unmeant(keepsake) and not keepsakeKept(keepsake) { Assert keepsakeKept(keepsake). }
+}

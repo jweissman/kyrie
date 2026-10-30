@@ -1,0 +1,4 @@
+Module lull "The Lull" {
+  Company party "Your company" of 1 at march_road.
+  Initially Set quantity(party, gold) to 14. Initially Set quantity(party, rations) to 2.
+}

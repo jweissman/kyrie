@@ -1,0 +1,118 @@
+Module lull "The Lull" {
+  // ── The Wrought Mill, by day ──────────────────────────────────────────────────────────────────────────────────────
+  Observe bridge_scene at mill_bridge when lullOpen() and not bridgeBuilt(club) "Here the Shift Bridge went over the mill-leat to the Mill yard, and does not now: two stone piers, a few black timbers hanging from the far one, and the leat running deep and quick between. The young of Linger sit on the near end with their legs over the water. Across the leat the Mill stands up seven storeys, with its windows dark.".
+  Observe bridge_dark at mill_bridge when folded() and not bridgeBuilt(club) "The broken end of the Shift Bridge in the dark. The leat is loud. Across it, the Mill is not dark. In every one of its seven storeys of windows there is a faint grey light, like dawn seen through cloth, and it is moving.".
+  Thing bridge_gap "the gap in the Shift Bridge" on shift_bridge is scenery {
+    State broken blocking "The Shift Bridge is down: two old piers, and the leat running deep and quick between them.".
+    State mended "The Shift Bridge is whole again, new oak over old stone.".
+  }
+  Initially Assert state(bridge_gap, broken).
+  Observe yard_mill at mill_yard when lullOpen() "The Mill yard: setts with grass between, a mounting-block, the great double doors of the Mill, iron-studded, shut. Over the doors is a stone shield with a hammer and a fleece on it and a name cut away. Along the ground floor the windows are boarded; one of them, low down, has its boards painted white and lettered: GLOSS 3. THAT THE MILL IS STOPPED.".
+  Observe yard_mill_dark at mill_yard when folded() "The Mill yard in the dark, and the Mill above it lit grey from within, every window, all seven storeys, and the whole building faintly shaking. From inside comes a sound like heavy rain on a roof that does not stop: looms, hundreds of them, going. The boarded window low down is not boarded. It is open, the way it was the night the strikers climbed out of it.".
+  Observe floor_scene at mill_floor when lullOpen() "The ground floor of the Mill: a long room of iron pillars and dust, the light coming grey through the boarded windows. The great doors are barred on the inside with a beam of black oak as thick as a man, set in iron brackets, and the beam is cut all over with letters.".
+  Observe floor_dark at mill_floor when folded() "The Mill's ground floor in the grey light that comes down the stairwell from above, where the noise is. The lint of the Ravel lies on the floor like snow and drifts in the draught from the stair. The great doors are barred on the inside with a beam of black oak cut all over with letters, and something on the other side of them, from the yard, is pushing: the doors move in their frame, a finger's breadth, and back, and again, very slowly, as if breathing.".
+  Thing beam "the beam across the Mill doors" at mill_floor is scenery {
+    State barring "Across the Mill doors, on the inside, lies the strikers' beam.".
+  }
+  Initially Assert state(beam, barring).
+  Observe beam_read at mill_floor as feature when not knows(party, beam_names) and tried(beam, looking) "Cut deep along the beam, in capitals: WE HAVE STOPPED. And under it, names, fifty-one of them, in fifty-one hands, some cut neat and some hacked, some barely letters: AGNES CRANE. AMOS TOLLEY. HESTER LUMB. NELL LUMB, in a child's hand, a little crooked, very deep. SIMEON'S FATHER, OSWY EDDOWES. You read them all. There is no Tobias Lindsell." teaches beam_names.
+  Discovery beam_names "On the beam that bars the Mill doors from inside are cut WE HAVE STOPPED and the fifty-one strikers' names: Agnes Crane, Amos Tolley, Hester Lumb, Nell Lumb, Oswy Eddowes and the rest. Tobias Lindsell's name is not among them.".
+  Observe loom_scene at loom_floor when lullOpen() "The loom floor: a hall the length of the Mill, and in it looms, row on row, a hundred of them, with warps still on them gone grey as cobweb, and every shuttle lying where it was dropped fifty-seven years ago. It is completely silent. Dust lies on the dust.".
+  Observe loom_dark at loom_floor when folded() "The loom floor, lit grey from nowhere, and every loom going: a hundred of them, the shuttles flying, the beaters coming down, the noise like a mill-race. At each loom something is working it. They have the shape of weavers, and are made of grey lint, the Ravel packed into the shape of a woman, a boy, a man, and they have no faces, and they do not stop. The cloth comes off the looms grey and endless and goes away into the dark at the end of the hall.".
+  Observe loft_scene_bell at bell_loft when lullOpen() "The bell loft under the Mill's roof: rafters, pigeons, a bell on a beam with its rope hanging down the well to the floors below, and in a corner an iron-bound chest under a heap of sacking.".
+  Observe loft_bell_dark at bell_loft when folded() "The bell loft, grey-lit and shaking with the looms below. The bell on its beam swings a little, by itself.".
+  Observe pit_scene at wheel_pit when true "The wheel-pit under the Mill: the great wheel standing still in a slot of black water, its buckets furred with weed, and beyond it, low, the tail-race going away into the hill, wet-walled and breathing cold.".
+
+  // The strikers' window: open in the dark, boarded in the day.
+  Thing strikers_boards "the boards on the strikers' window" on strikers_window is scenery {
+    State boarded blocking "The low window the strikers climbed out of is boarded, and the boards are painted: GLOSS 3. THAT THE MILL IS STOPPED.".
+    State open "The strikers' window stands open.".
+  }
+  Initially Assert state(strikers_boards, boarded).
+  Rule window_opens_dark when folded() and state(strikers_boards, boarded) { Assert state(strikers_boards, open). }
+  Rule window_boarded_day when lullOpen() and state(strikers_boards, open) { Assert state(strikers_boards, boarded). }
+
+  // ── The Sixnight ──────────────────────────────────────────────────────────────────────────────────────────────────
+  // Whoever is awake in the Lull at midnight on its day is in the six days it does not keep. The valley is unlit, its
+  // people asleep and not to be woken, the Ravel drifting, the Mill working. It explains nothing.
+  // Told as the company first sees the dark, wherever in the valley it is; never to a company that slept through.
+  Observe sixnight_tump within tump when inSixnight() and not knows(party, sixnight_known) "It is past midnight. There was no sound to it: the starlings stopped, all at once, in the middle of a note, and the lights went out together as if a door had shut on them, and the stars went. Not behind cloud. Out. You are standing in the Lull in a dark with no top to it, and nobody else in the valley is awake." teaches sixnight_known.
+  Observe sixnight_linger within linger when inSixnight() and not knows(party, sixnight_known) "It is past midnight. There was no sound to it: the starlings stopped, all at once, in the middle of a note, and the lanterns along the Long Table went out together as if a door had shut on them, and the stars went. Not behind cloud. Out. You are standing in the Lull in a dark with no top to it, and nobody else in the valley is awake." teaches sixnight_known.
+  Observe sixnight_mill within mill when inSixnight() and not knows(party, sixnight_known) "It is past midnight. There was no sound to it, except that the starlings stopped, and the stars went out, and the Mill began." teaches sixnight_known.
+  Observe sixnight_wild within hangers when inSixnight() and not knows(party, sixnight_known) "It is past midnight. The birds stopped all at once in the middle of a note, and the stars went out, and nobody else in the valley is awake." teaches sixnight_known.
+  Observe sixnight_tarn within tarn when inSixnight() and not knows(party, sixnight_known) "It is past midnight. The birds stopped all at once in the middle of a note, and the stars went out of the tarn, and nobody else in the valley is awake." teaches sixnight_known.
+  Observe sixnight_swallow within swallow when inSixnight() and not knows(party, sixnight_known) "It is past midnight. The birds stopped all at once, and the stars went out, and the river goes on into the hill in the dark." teaches sixnight_known.
+  Rule sixnight_now when inSixnight() and not inSixnightNow(party) { Assert inSixnightNow(party). }
+  Relation inSixnightNow(group).
+  Discovery sixnight_known "Whoever is awake in the Lull at its midnight is in the six days it does not keep: a dark without stars, the people asleep and not to be woken, and the Mill working.".
+  Observe green_sound at green as sound when folded() "From up the leat, very faint, comes a sound like rain on a roof that does not stop.".
+  Observe sixnight_shoulder at tump_shoulder as feature when folded() and inSixnightNow(party) "The road you came by goes up into the dark and does not come down anywhere. There is no stone at the end of it. There is no end of it.".
+  Topic sleeper_wake with folk "Try to wake the people of Linger" when folded() once {
+    Says "You shake a shoulder; you shout; you hold a light to a face. They sleep on with their hands open, breathing very slowly, a breath to your ten, and do not wake.".
+  }
+
+  // The Hands.
+  Species hands_kind "a shape of grey lint, working" like spirit temperament seizing described "The shape of a weaver, made of the Ravel: grey lint packed close into a body, with hands that are very exact and no face at all.".
+  Person hands "the Hands" at limbo {
+    Role "shapes of grey lint in the shape of weavers, with no faces, working". Species hands_kind. Numbers 12. Pronouns it.
+    Temperament seizing.
+    Warns "Along the nearest row the Hands stop. All of them, at once, the shuttles hanging. They turn toward you the places where their faces are not, and the looms behind them go on by themselves. The nearest holds out a shuttle to you. There is no fighting a whole floor of this. Lie down, or take it, or go.".
+    Comes "The Hands come down the rows to you without hurry, and take you by the arms with fingers like wet wool, very gently, and put you at a loom, and put the shuttle in your hand.".
+  }
+  Rule hands_wake when folded() and not at(hands, loom_floor) and able(hands) { Assert at(hands, loom_floor). }
+  Rule hands_sleep when lullOpen() and not at(hands, limbo) { Assert at(hands, limbo). Retract tolerates(hands, party). }
+  // Set to work: the company is kept at the loom, and can only work until the Lull's morning, or lie down open-handed.
+  Relation atLoom(group).
+  Rule hands_take when captured(hands, party) and not atLoom(party)
+    says "There is a loom in front of you and a shuttle in your hand, and your hands are working it. They are quite good at it. They seem to know how. Around you the Hands work without looking at you, and if you stop, the nearest turns toward you, and waits." {
+    Assert atLoom(party). Retract captured(hands, party). Assert tolerates(hands, party).
+  }
+  Rule hands_return when atLoom(party) and inSixnight() and not at(party, loom_floor) and not sleptLull(party)
+    says "On the stair, gently, wet-wool hands take you by the arms, and turn you round, and bring you back to your loom." { Assert at(party, loom_floor). }
+  Rule loom_freed when atLoom(party) and lullOpen() { Retract atLoom(party). }
+  Kind long_shift_cloth "a bolt of the Long Shift's cloth" is gear worth 20 weighing 2 described "A bolt of grey cloth from the looms of the Wrought Mill in the dark: close, even, perfect, and the colour of nothing at all. You wove it. It will never wear out.".
+  Item shift_bolt "a bolt of the Long Shift's cloth" is long_shift_cloth at limbo.
+  Action work_loom(actor: group, site: place) "Work the loom, as they want, until the Lull's morning" {
+    Description "Six days, less what has gone. There is nothing else.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, loom_floor) and atLoom(actor) and inSixnight().
+    Time untilLull(clock).
+    On success { Retract atLoom(actor). Assert at(actor, mill_yard). Retract at(shift_bolt, limbo). Give shift_bolt to actor. Assert weary(actor). Assert sleptLull(actor). Assert knows(actor, wove_shift). }
+    Result "You work. There is no other word for it, and no other thing. The shuttle goes, the beater comes down, the cloth comes, and the grey light does not change, and you do not get hungry or thirsty or sleep, and you do not stop, because there is nothing to stop for, and the Hands beside you do not stop. Somewhere in it you understand that this is what the strikers stopped. Then the bell above you rings once, and you are standing in the Mill yard in the morning with starlings going over and a bolt of grey cloth in your arms that you wove, and your hands ache to the shoulder, and it is Lullday.".
+  }
+  Discovery wove_shift "You worked the six days at a loom of the Wrought Mill in the dark, beside the Hands, and came out on the Lull's morning with a bolt of grey cloth that you wove.".
+
+  // The Overseer, in the bell loft, over the pay-chest.
+  Species overseer_kind "a tall shape of iron and lint" like golem temperament territorial described "Taller than a door, a coat of grey lint over a frame of iron, a hand like a bell-clapper, and where the face should be a bailiff's iron hat with nothing under it.".
+  Person overseer "the Overseer" at limbo {
+    Role "a tall shape of iron and lint with a bailiff's hat for a face, beside the bell". Species overseer_kind. Level 6. Pronouns it.
+    Temperament territorial.
+    Lair bell_loft. Refuge loom_floor. Fears performance.
+    Warns "By the bell, in the grey light, something unfolds that you took for a heap of sacking: tall, iron under lint, a bailiff's hat where a face should be. It lifts one long arm toward the bell-rope. It does not care that you are here; it cares that you are idle here. It will ring, and come, unless you take up work, or lie down like a striker, or are gone. Someone who could sing the strikers' hymn at it might make it remember what it lost.".
+    Comes "The Overseer comes across the loft at you in three long strides with the bell ringing behind it, and the floor below goes silent to listen.".
+    Flinches "You sing it, the hymn they sang on the Tump, Rest and be thankful, badly, and the tall thing stops with its arm up, and the hat turns as if to listen, and then it goes down the ladder backwards into the noise of the looms and is lost among the Hands.".
+    Pleads "The Overseer goes down on its iron knees with a sound like a dropped anvil, and the bailiff's hat rolls off, and there is nothing under it at all.".
+  }
+  Rule overseer_wakes when folded() and at(overseer, limbo) and able(overseer) and not overseerBroken(overseer) { Assert at(overseer, bell_loft). }
+  Rule overseer_sleeps when lullOpen() and not at(overseer, limbo) { Assert at(overseer, limbo). }
+  Relation overseerBroken(group).
+  Rule overseer_down when dead(overseer) and not overseerBroken(overseer) { Assert overseerBroken(overseer). }
+  Thing pay_chest "the Wroughts' pay-chest" at bell_loft {
+    Holds.
+    State locked closed "In the corner, under sacking, stands an iron-bound chest with a hammer and a fleece painted on its lid.".
+    State open "The Wroughts' pay-chest stands open, and the smell that comes out of it is of old coin.".
+    Change pick "Pick the lock of the pay-chest" from locked to open needing lockwork.
+    Change force "Lever the lid of the pay-chest off its hinges" from locked to open needing crowbar.
+    Change smash "Break the pay-chest's lock with a blow" from locked to open needing brawn.
+  }
+  Initially Assert state(pay_chest, locked).
+  Kind wrought_shillings_kind "a bag of the Wroughts' shillings" is gear worth 15 weighing 1 described "Old silver shillings in a canvas bag, struck with a hammer and a fleece: the Long Shift's wages for the seventh day, paid out to whoever would work it, and come back to the bailiff's chest at sunset.".
+  Kind shilling_kind "one shilling, notched" is gear worth 1 weighing 0 described "A single old silver shilling, worn, with a notch filed in its edge by somebody who meant to know it again.".
+  Item shillings "a bag of the Wroughts' shillings" is wrought_shillings_kind in pay_chest.
+  Item notched_shilling "one shilling, notched" is shilling_kind in pay_chest.
+  Observe chest_looked near pay_chest when tried(pay_chest, looking) "The lid is painted with the Wroughts' hammer and fleece. Chalked inside the lid, very faint: SEVENTH DAY. 1 TAKER.".
+  // The notched shilling, given to Tobias.
+  Topic tobias_shilling with tobias "Give Tobias Lindsell the notched shilling from the Wroughts' pay-chest" when lullOpen() and carries(party, notched_shilling) and tobiasConfessed(tobias) and not tobiasForgiven(tobias) once {
+    Says "Tobias turns the shilling over and finds the notch with his thumbnail without looking, the way you find a key in your own pocket. 'I filed that,' he says. 'With a nail. In the Mill, at the loom, on the seventh day, so I'd know it. A shilling a day.' He holds it up to the window. 'It was gone from my pocket at sunset. Back to the bailiff. I've thought of it every day since. Every day.' He closes his hand on it. 'Fifty-seven years in a box.' He laughs, which you have not heard him do. 'In a box, in the dark, with the rest. Not even spent.' He puts it in his waistcoat pocket and pats it. 'I'll keep it. Not for the shame of it. For the joke.'".
+    On discuss { Spend shilling_kind from actor. Assert tobiasForgiven(tobias). }
+  }
+}

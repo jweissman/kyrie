@@ -1,0 +1,110 @@
+Module lull "The Lull" {
+  // ── The Lull-count ────────────────────────────────────────────────────────────────────────────────────────────────
+  // Imbar counts thirty days to a month and no weeks. The Lull keeps a sennight of its own, counted from the Hallowing,
+  // and Sixways keeps it for the Lull, notched on the Fold-stone. lullCycle is the day of that sennight (0 to 6) and
+  // turns at midnight; the seventh, 6, is the Lullday. The valley is open from six in the morning of its day until
+  // midnight; the rest of the week it is folded.
+  Measure lullCycle(clock). Relation midnightTurned(clock).
+  Initially Set lullCycle(clock) to 4.
+  Rule lull_midnight when hour(clock) == 0 and not midnightTurned(clock) { Assert midnightTurned(clock). Increase lullCycle(clock) by 1. }
+  Rule lull_wraps when lullCycle(clock) >= 7 { Set lullCycle(clock) to 0. }
+  Rule lull_unturn when hour(clock) != 0 and midnightTurned(clock) { Retract midnightTurned(clock). }
+  Query lullday() means lullCycle(clock) == 6.
+  // Once the week has come back to the valley (weekReturned), it is open every day; its law keeps the Lullday, or
+  // nothing, as the Working Day went (lawGone).
+  Relation weekReturned(place). Relation lawGone(place).
+  Query lullOpen() means lullCycle(clock) == 6 and hour(clock) >= 6 or weekReturned(lull_country).
+  Query folded() means not lullOpen().
+  Query lawDay() means lullCycle(clock) == 6 and not lawGone(lull_country).
+  // The Lull's dusk: eight in the evening, when the starlings go over the Tump and what was not meant comes apart.
+  Query lullDusk() means lawDay() and lullOpen() and hour(clock) >= 20.
+  Query lullEvening() means lullOpen() and hour(clock) >= 19.
+
+  // How many Lulldays have dawned (lullCount), the watch of the next dawn (lullNextDawn), and the watches until it
+  // (untilLull), which is how long a night in the Lull lasts, or a wait at the stone. The first is reckoned from the
+  // hour the country is first reached, and set exactly at each midnight that begins a Lullday; at each dawn the next is
+  // a week on. (A country placed in a world counts its watches from its own first morning; only differences of watches
+  // are read here, never a watch of the world's.)
+  Measure lullCount(clock). Measure lullNextDawn(clock). Measure untilLull(clock). Relation dawnReckoned(clock).
+  Rule lull_reckons when not dawnReckoned(clock) { Set lullNextDawn(clock) to watch(clock) + (24 - hour(clock)) * 6 + (5 - lullCycle(clock)) * 144 + 36. Assert dawnReckoned(clock). }
+  Rule lull_eve when lullCycle(clock) == 6 and hour(clock) == 0 and not eveReckoned(clock) { Set lullNextDawn(clock) to watch(clock) + 36. Assert eveReckoned(clock). }
+  Rule lull_eve_ends when hour(clock) != 0 and eveReckoned(clock) { Retract eveReckoned(clock). }
+  Relation eveReckoned(clock).
+  Rule lull_dawns when lullCycle(clock) == 6 and hour(clock) >= 6 and lullNextDawn(clock) <= watch(clock) { Set lullNextDawn(clock) to watch(clock) + 1008. Increase lullCount(clock) by 1. }
+  Rule lull_counts_down when untilLull(clock) != lullNextDawn(clock) - watch(clock) { Set untilLull(clock) to lullNextDawn(clock) - watch(clock). }
+
+  // ── The story's Lulldays ──────────────────────────────────────────────────────────────────────────────────────────
+  // The story is told in Lulldays counted from the first the company spends inside: the first (I), the next (II), and
+  // the Working Day (III), which Corin names on the first evening for the Lullday after next. Nothing in the valley
+  // waits for the company after that.
+  Relation cameIn(group). Measure firstLull(clock).
+  Rule came_in_first when lullOpen() and within(party, lull_country) and inLull(party) and not cameIn(party) { Assert cameIn(party). Set firstLull(clock) to lullCount(clock). }
+  Query storyDay(n: entity) means cameIn(party) and lullCount(clock) - firstLull(clock) + 1 == lullDayNumber(n).
+  Measure lullDayNumber(entity).
+  Entity day_one: fact "the first Lullday". Entity day_two: fact "the second Lullday". Entity day_three: fact "the Working Day".
+  Initially Set lullDayNumber(day_one) to 1. Initially Set lullDayNumber(day_two) to 2. Initially Set lullDayNumber(day_three) to 3.
+  Query dayOne() means cameIn(party) and lullCount(clock) == firstLull(clock).
+  Query dayTwo() means cameIn(party) and lullCount(clock) == firstLull(clock) + 1.
+  Query dayThree() means cameIn(party) and lullCount(clock) == firstLull(clock) + 2.
+  Query pastThree() means cameIn(party) and lullCount(clock) >= firstLull(clock) + 3.
+  // Whether the company is in the valley (not Sixways, which is the world's).
+  Relation lullRoom(place).
+  Query inLull(g: group) means at(g, ?p) and lullRoom(?p).
+  Query inSixnight() means folded() and inLull(party).
+
+  // ── The fold ──────────────────────────────────────────────────────────────────────────────────────────────────────
+  // Folded, the valley is dark and its people asleep where they lie down at night, and cannot be woken. Whoever is in
+  // the fold does not hunger: nobody eats in a day that is not kept.
+  Rule fold_darkens when folded() and lullRoom(?p) and not unlit(?p) { Assert unlit(?p). }
+  Rule fold_lightens when lullOpen() and lullRoom(?p) and unlit(?p) and not alwaysDark(?p) { Retract unlit(?p). }
+  Relation alwaysDark(place).
+  Relation lullFolk(group). Relation bedAt(group, place). Relation dayAt(group, place). Relation held(group).
+  Query routine(x: group) means lullFolk(x) and able(x) and not held(x) and not travelsWith(x, party) and not following(x, party).
+  Rule folk_sleep when folded() and lullFolk(?x) and able(?x) and not asleep(?x) and not travelsWith(?x, party) { Assert asleep(?x). }
+  Rule folk_to_bed when folded() and routine(?x) and bedAt(?x, ?p) and not at(?x, ?p) { Assert at(?x, ?p). }
+  Rule folk_wake when lullOpen() and lullFolk(?x) and asleep(?x) { Retract asleep(?x). }
+  Rule folk_day when lullOpen() and hour(clock) < 19 and routine(?x) and dayAt(?x, ?p) and not at(?x, ?p) { Assert at(?x, ?p). }
+  Rule folk_table when lullOpen() and hour(clock) >= 19 and hour(clock) < 21 and routine(?x) and dayAt(?x, ?d) and not at(?x, green) { Assert at(?x, green). }
+  Rule folk_home when lullOpen() and hour(clock) >= 21 and routine(?x) and bedAt(?x, ?p) and not at(?x, ?p) { Assert at(?x, ?p). }
+
+  Relation foldFast(group).
+  Rule fold_fast when inSixnight() and eats(party) { Retract eats(party). Assert foldFast(party). }
+  Rule fold_fast_ends when foldFast(party) and not inSixnight() { Assert eats(party). Retract foldFast(party). }
+
+  // ── Sleeping Lull-fashion ─────────────────────────────────────────────────────────────────────────────────────────
+  // Lie down in the Lull after dusk with your hands open, and the Lull's night takes you through the six days it does
+  // not keep, and you wake on its next morning, a week older outside. A bed bought or a camp made is a night like any
+  // other, and ends in the morning, in the dark.
+  Relation sleptLull(group). Measure weeksAsleep(group).
+  Action lull_sleep(actor: group, site: place) "Lie down Lull-fashion, hands open, and let the Lull's night take you" {
+    Description "You will wake on the Lull's next morning. Outside, a week will have gone by.".
+    Requires able(actor) and company(actor) and at(actor, site) and lullRoom(site) and lullEvening() and not alwaysDark(site) and not weekReturned(lull_country).
+    Time untilLull(clock).
+    On success { Assert sleptLull(actor). Increase weeksAsleep(actor) by 1. Increase lastSlept(actor) by 1008. Retract weary(actor). }
+    Result "You lie down with your hands open, as they showed you, and the starlings' noise goes over and away, and you do not hear it stop. You wake to the same light, birds again, and the smell of bread from the Long Table. Nothing has moved. Your beard, or your nails, or the cut on somebody's hand, says otherwise: outside, it has been a week.".
+  }
+  // In the Sixnight, open hands are the strikers' sign: lie down so and the six days take you out the other side.
+  Action sixnight_sleep(actor: group, site: place) "Lie down with your hands open, and wait for the Lull's morning" {
+    Description "The six days will go over you, as over everyone else in the valley.".
+    Requires able(actor) and company(actor) and at(actor, site) and lullRoom(site) and inSixnight() and knows(actor, open_hands) and not threatened(actor).
+    Time untilLull(clock).
+    Interrupted when threatened(actor).
+    On success { Assert sleptLull(actor). Increase lastSlept(actor) by 1008. Retract weary(actor). }
+    Result "You lie down in the dark with your hands open, palms up, the way the strikers lay down on the Tump, and the dark is very long and does not touch you, and then the starlings are going over and it is morning.".
+  }
+  Discovery open_hands "In the Lull you lie down to sleep with your hands open, palms up, as the strikers lay on the Tump: then the Lull's night takes you through to its next morning. Whoever lies down otherwise, or not at all, is awake in the six days it does not keep.".
+
+  // ── Waiting at the stone ──────────────────────────────────────────────────────────────────────────────────────────
+  // How long the wait was, for the sleep it stood for: the longest wait ahead seen at the stone.
+  Measure stoneMark(group).
+  Rule stone_marks when at(party, fold_stone) and folded() and stoneMark(party) < untilLull(clock) { Set stoneMark(party) to untilLull(clock). }
+  Rule stone_unmarks when not at(party, fold_stone) and stoneMark(party) > 0 { Set stoneMark(party) to 0. }
+  Action stone_wait(actor: group, site: place) "Sit down by the Fold-stone and wait for the Lull" {
+    Description "Until the road goes down into the valley, at six on its morning.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, fold_stone) and folded() and not inLull(actor).
+    Time untilLull(clock).
+    Interrupted when threatened(actor).
+    On success { Increase lastSlept(actor) by stoneMark(actor). Retract weary(actor). Set stoneMark(actor) to 0. }
+    Result "You sit with your back to the stone and watch the road go round the bare hill and come back, all day, and sleep in your coat against the stone, and wake, and watch it again; people come and go past you from Sixways and do not remark it, because people do. Then one morning at six the light changes, the way it does, and there is another road, going down.".
+  }
+}

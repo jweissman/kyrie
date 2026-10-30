@@ -1,0 +1,254 @@
+Module lull "The Lull" {
+  // ── The valley's places ───────────────────────────────────────────────────────────────────────────────────────────
+  Place open_hand_inn "the Open Hand" is building within linger.
+  Place chapel_b "the Chapel of the Birds" is building within linger.
+  Place glossary_b "the Glossary" is building within linger.
+  Place gift_hall_b "the Gift Hall" is building within linger.
+  Place almshouse_b "the Almshouse of the Old Shift" is building within linger.
+  Place spurling_b "Spurling's chandlery" is building within linger.
+  Place lindsell_b "the Lindsells' house" is building within linger.
+  Place pryce_b "the Pryces' house" is building within linger.
+  Place piran_b "Piran Penhallow's workshop" is building within linger.
+  Place mill_b "the mill" is building within mill.
+  Place mill_upper "the loom floor" is level within mill_b.
+  Place mill_roof "the roof" is level within mill_b.
+  Place hand_upper "the floor above" is level within open_hand_inn.
+  Place mill_under "under the mill" is level within mill_b.
+
+  Place tump_shoulder "the Tump's shoulder" is room within tump at 1, 1.
+  Place strike_post "the top of the Tump" is room within tump at 1, 0.
+  Place green "Linger green" is room within linger at 1, 1.
+  Place open_hand "the Open Hand" is room within open_hand_inn at 0, 1.
+  Place linnet_loft "the music room over the Open Hand" is room within hand_upper at 0, 0.
+  Place chapel "the Chapel of the Birds" is room within chapel_b at 1, 0.
+  Place glossary "the Glossary" is room within glossary_b at 2, 0.
+  Place gift_hall "the Gift Hall" is room within gift_hall_b at 2, 1.
+  Place almshouse "the Almshouse of the Old Shift" is room within almshouse_b at 3, 1.
+  Place spurling_shop "Spurling's chandlery" is room within spurling_b at 0, 2.
+  Place lindsell_kitchen "the Lindsells' kitchen" is room within lindsell_b at 1, 2.
+  Place hester_room "Hester Lindsell's room" is room within lindsell_b at 1, 3.
+  Place pryce_parlour "the Pryces' parlour" is room within pryce_b at 2, 2.
+  Place piran_shop "Piran Penhallow's workshop" is room within piran_b at 0, 3.
+  Place gardens "the Pleasure Gardens" is room within linger at 3, 2.
+  Place weavers_row "Weavers' Row" is room within linger at 2, 3.
+  Place mill_bridge "the end of the Shift Bridge" is room within mill at 0, 1.
+  Place mill_yard "the Mill yard" is room within mill at 1, 1.
+  Place mill_floor "the mill's ground floor" is room within mill_b at 1, 0.
+  Place loom_floor "the loom floor" is room within mill_upper at 1, 0.
+  Place bell_loft "the bell loft" is room within mill_roof at 2, 0.
+  Place wheel_pit "the wheel-pit" is room within mill_under at 0, 0.
+  Place tarn_shore "the shore of Lammas Tarn" is room within tarn at 0, 0.
+  Place hanger_path "the path through the Hangers" is room within hangers at 0, 1.
+  Place brock_sett "the Old Brock's sett" is room within hangers at 0, 0.
+  Place weir "the weir above the Swallow" is room within swallow at 0, 0.
+  Place gap "the Weaver's Gap" is room within swallow at 1, 0 underground.
+
+  Initially Assert lullRoom(tump_shoulder). Initially Assert lullRoom(strike_post). Initially Assert lullRoom(green).
+  Initially Assert lullRoom(open_hand). Initially Assert lullRoom(linnet_loft). Initially Assert lullRoom(chapel).
+  Initially Assert lullRoom(glossary). Initially Assert lullRoom(gift_hall). Initially Assert lullRoom(almshouse).
+  Initially Assert lullRoom(spurling_shop). Initially Assert lullRoom(lindsell_kitchen). Initially Assert lullRoom(hester_room).
+  Initially Assert lullRoom(pryce_parlour). Initially Assert lullRoom(piran_shop). Initially Assert lullRoom(gardens).
+  Initially Assert lullRoom(weavers_row). Initially Assert lullRoom(mill_bridge). Initially Assert lullRoom(mill_yard).
+  Initially Assert lullRoom(mill_floor). Initially Assert lullRoom(loom_floor). Initially Assert lullRoom(bell_loft).
+  Initially Assert lullRoom(wheel_pit). Initially Assert lullRoom(tarn_shore). Initially Assert lullRoom(hanger_path).
+  Initially Assert lullRoom(brock_sett). Initially Assert lullRoom(weir). Initially Assert lullRoom(gap).
+  Initially Assert alwaysDark(gap). Initially Assert alwaysDark(wheel_pit).
+  Initially Assert unlit(gap). Initially Assert unlit(wheel_pit).
+
+  Passage lull_road "the Lull road" is road between fold_stone and tump_shoulder taking 30 minutes opening when lullOpen() "Today the road goes round the bare hill and comes back to where it began.".
+  Passage post_path "the path up the Tump" is path between tump_shoulder and strike_post taking 15 minutes.
+  Passage tump_road "the Tump road" is road between tump_shoulder and green taking 20 minutes.
+  Passage hand_door "the Open Hand's door" is door between green and open_hand.
+  Passage loft_stair "the stair to the music room" is stair between open_hand and linnet_loft.
+  Passage chapel_arch "the chapel's arch" is arch between green and chapel.
+  Passage glossary_door "the Glossary's door" is door between green and glossary.
+  Passage hall_arch "the Gift Hall's great arch" is arch between green and gift_hall.
+  Passage alms_door "the Almshouse door" is door between green and almshouse.
+  Passage spurling_door "the chandlery door" is door between green and spurling_shop.
+  Passage lindsell_door "the Lindsells' door" is door between green and lindsell_kitchen.
+  Passage hester_door "Hester's door" is door between lindsell_kitchen and hester_room.
+  Passage pryce_door "the Pryces' door" is door between green and pryce_parlour.
+  Passage piran_door "Piran's door" is door between weavers_row and piran_shop.
+  Passage gardens_path "the path to the Gardens" is path between green and gardens taking 5 minutes.
+  Passage row_way "Weavers' Row" is path between green and weavers_row taking 5 minutes.
+  Passage bridge_path "the path to the Shift Bridge" is path between green and mill_bridge taking 5 minutes.
+  Passage shift_bridge "the Shift Bridge" is bridge between mill_bridge and mill_yard.
+  Passage leat_path "the leat path" is path between gardens and mill_yard taking 30 minutes.
+  Passage strikers_window "the strikers' window" is crawl between mill_yard and mill_floor.
+  Passage mill_stair "the mill stair" is stair between mill_floor and loom_floor.
+  Passage bell_ladder "the ladder to the bell loft" is ladder between loom_floor and bell_loft.
+  Passage pit_stair "the steps down to the wheel" is stair between mill_floor and wheel_pit.
+  Passage tarn_path "the leat path to the tarn" is path between mill_yard and tarn_shore taking 40 minutes.
+  Passage hanger_way "the path into the Hangers" is path between green and hanger_path taking 30 minutes.
+  Passage sett_path "a badger-road through the beeches" is path between hanger_path and brock_sett taking 15 minutes.
+  Passage hanger_tarn "the high path along the Hangers" is path between hanger_path and tarn_shore taking 40 minutes.
+  Passage idle_path "the Idle path" is path between green and weir taking 30 minutes.
+  Passage tail_race "the tail-race" is tunnel between wheel_pit and gap taking 30 minutes.
+  Passage gap_way "the Weaver's Gap" is crawl between weir and gap taking 20 minutes hidden until gap_known.
+  Passage gap_out "the Gap, outward" is culvert between gap and sx_spring taking 40 minutes hidden until gap_known opening when folded() "The Gap goes in under the hill a little way, and stops at a face of wet rock. Water comes through it, and a draught, and the smell of wool. Whatever the Gap is, today it is not a way.".
+  Discovery gap_known "Under the Swallow, where the Idle goes into the hill, there is a way through: the Weaver's Gap, an old tail-race the river took, which comes out behind the Waiting Woman in Sixways. It goes through on the six days the Lull does not keep, and on its own day it is shut." {
+    Found by searching weir "Where the Idle goes down into the hill under the weir, a ledge goes in beside the water, and above the ledge somebody long ago cut steps.".
+  }
+
+  // ── The first sight of the valley ─────────────────────────────────────────────────────────────────────────────────
+  Observe shoulder_first at tump_shoulder when lullOpen() and not sawValley(party) "The road comes over the shoulder of a round green hill and the whole valley is below you at once: beech woods on both slopes going copper, a tarn at the head of it like a dropped coin, a river, a grey town of long-windowed houses, and above the town a mill of seven storeys with every window dark. Smoke goes straight up from the chimneys. Nothing moves fast. The noise that comes up to you is birds, and a fiddle, and somebody laughing a long way off, and under it all, so faint you have to stop to hear it, nothing at all: no hammer, no wheel, no cart.".
+  Observe shoulder_scene at tump_shoulder when lullOpen() and sawValley(party) "The shoulder of the Tump, where the Lull road comes over and the valley opens below: the woods, the tarn, the town, the dark mill. A path goes up to the Strike Post on the top.".
+  Observe shoulder_dark at tump_shoulder when folded() "The shoulder of the Tump in a dark with no stars in it. Below, where the town is, there is no light at all. Behind you the road goes up into the dark and does not come down anywhere.".
+  Observe post_scene at strike_post when lullOpen() "The top of the Tump: short turf, a ring of sky, and the Strike Post, an old loom-beam set upright in the ground and hung from top to foot with ribbons, hundreds of them, red and blue and faded to no colour, one for every child born in the Lull, tied on the Lullday they were born. The newest are at the bottom, within a child's reach. Somebody has carved into the beam, very deep, WE ASKED.".
+  Observe post_dark at strike_post when folded() "The Strike Post on the dark top of the Tump. The ribbons move, though there is no wind.".
+  Observe post_asked at strike_post as feature when lullOpen() "The grass round the post is worn bare in a ring, where people stand to tell the story.".
+
+  Relation sawValley(group).
+  Rule saw_valley when cameIn(party) and not at(party, tump_shoulder) and not sawValley(party) { Assert sawValley(party). }
+
+  // ── Linger green and the Long Table ───────────────────────────────────────────────────────────────────────────────
+  Observe green_morning at green when lullOpen() and hour(clock) < 12 "Linger green is long and wide, along the Idle, with grey weavers' houses round it whose top floors are all window, the long loom-lights of the old trade, now hung with plants and curtains and, in one, a cello. Down the middle of the green runs the Long Table: trestles end to end, two hundred yards of them, and people are wandering out with cloths and bowls and laying it, not in any order, as the fancy takes them. Nobody is hurrying. A man is asleep on a bench in the sun with his hat over his face and a child asleep on him.".
+  Observe green_afternoon at green when lullOpen() and hour(clock) >= 12 and hour(clock) < 19 "The Long Table runs the length of the green, half-laid, with bowls of fruit on it and a cat walking down it. People sit about in the sun, talking, mending, playing draughts on the table's end; somebody is teaching a small boy to whistle, and the boy is not getting it, and nobody minds. On the Gift Hall steps a Glosser in a white apron is reading out something from a board, to a small crowd that keeps interrupting.".
+  Observe green_evening at green when lullOpen() and hour(clock) >= 19 and hour(clock) < 21 "The whole town is at the Long Table: four hundred people on benches the length of the green, under lanterns strung on poles, with the food going up and down it hand to hand. The Old Shift sit at the top, by the chapel. At the bottom the children have a table of their own and are under it more than at it. Everybody's eyes keep going to the things set out on the grass in front of the Table, a little apart: a chair, a quilt, a cake, a clock.".
+  Observe green_night at green when lullOpen() and hour(clock) >= 21 "The Long Table is being cleared by whoever is nearest, and the lanterns are going out one by one along the poles. A few people are still talking at the far end. Somebody plays a last tune in the music room over the Open Hand, and people stop on their way home to hear the end of it.".
+  Observe green_dark at green when folded() "Linger green in a dark without stars. The Long Table is a shape. The houses are shapes, every window black. Something grey and fine drifts across the grass at the height of your knee, like lint off a loom, or fog; it parts round your legs and closes again behind you without a sound.".
+  Observe green_birds at green as ambience when lullOpen() and hour(clock) < 19 "Starlings everywhere: on the ridges, on the Table, on the ropes of the lanterns, talking.".
+
+  // The Long Table feeds anyone who sits at it.
+  Relation fedToday(group).
+  Action sit_at_table(actor: group, site: place) "Sit down at the Long Table and eat" {
+    Description "Whatever comes down the table to you is given; take what you like and pass the rest on.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, green) and lullOpen() and hour(clock) >= 19 and hour(clock) < 21 and not fedToday(actor).
+    Time 3.
+    On success { Assert fedToday(actor). Increase quantity(actor, rations) by 2. Retract hungry(actor). }
+    Result "You sit where there is a space, which is anywhere, and the food comes down the table to you hand over hand: pease pottage, new bread, trout from the tarn, a plum duff with a face drawn in it, honey, a jug of something cold. The woman beside you puts two loaves in your pack without asking, 'for the road', and goes on talking to someone else. Nobody asks what you came for. Somebody asks your name, and repeats it down the table, and it comes back up to you twenty yards later, mispronounced, with a cup of cider.".
+  }
+  // The Watching begins, for whoever is at the Table.
+  Rule watching_opens at green when lullDusk() and at(party, green) and not watchingToday(lull_country)
+    says "The sun goes down behind the Hangers and the light goes up the Tump, the way water goes out of a basin, and leaves the top of it last. Along the Long Table people stop eating. On the grass in front of the Table the day's makings stand in a row, each with its card, and four hundred people look at them." { Assert watchingToday(lull_country). }
+  Rule watching_resets when hour(clock) == 0 and watchingToday(lull_country) { Retract watchingToday(lull_country). }
+  Relation watchingToday(place).
+  Rule unfed_daily when hour(clock) == 0 and fedToday(?g) { Retract fedToday(?g). }
+
+  // ── The people of Linger, together ────────────────────────────────────────────────────────────────────────────────
+  Person folk "the people of Linger" at gardens {
+    Role "townsfolk of the Lull, in grey-gold coats fifty years old and good as new". Ancestry human. Numbers 6. Peaceable.
+    Greets "Half a dozen people look round and smile, the way people smile who have nowhere to be.".
+  }
+  Initially Assert lullFolk(folk). Initially Assert dayAt(folk, green).
+  Rule folk_afternoon when lullOpen() and hour(clock) >= 12 and hour(clock) < 19 and dayAt(folk, green) { Retract dayAt(folk, green). Assert dayAt(folk, gardens). }
+  Rule folk_morning when lullOpen() and hour(clock) < 12 and dayAt(folk, gardens) { Retract dayAt(folk, gardens). Assert dayAt(folk, green). } Initially Assert bedAt(folk, weavers_row).
+  Topic folk_work with folk "Ask the people of Linger what they do" when lullOpen() once {
+    Says "They look at each other, amused. 'Do?' says a woman with a basket of beans. 'Today I'm picking beans, because I like picking beans. Yesterday I made a hat.' 'It was a terrible hat,' says somebody. 'It held,' she says, with dignity. A man says, 'You mean what's my trade. I'm a weaver. My father was a weaver. I've woven four lengths in my life and every one of them for somebody I liked.' He shrugs. 'You can't do a thing here you don't mean, so you only do what you mean. It's not so hard, once you get the knack.' 'Some never get the knack,' says the woman with the beans, not looking at anyone.".
+  }
+  Topic folk_watching with folk "Ask the people of Linger about the Watching" when lullOpen() once {
+    Says "'At dusk,' says the man. 'At the Long Table. Whatever's been made that day, for somebody, gets set out on the grass, and we eat, and we watch it, and the sun goes, and either it holds or it ravels.' 'Mostly it holds,' says the woman. 'When it doesn't, everybody knows you've stopped loving something. Or never did.' She looks down. 'It's kinder than it sounds. Mostly.' 'Not for Abel Rooke,' says somebody, and they all laugh, and then look sorry.".
+  }
+  Topic folk_strike with folk "Ask the people of Linger how the Lull began" when lullOpen() once {
+    Says "'Ask the Old Shift,' they say, all at once, and laugh. Then the woman with the beans says: 'The Wroughts had the Mill, and the war wanted cloth, and they ran the looms seven days, and people died at them. And our grandparents stopped. Seven days they sat on the Tump and didn't go in. And on the seventh day they asked for it to be the holy day, and never another day.' 'Asked who?' says a child. 'Her,' says the woman, and nods at the starlings. 'Rhiannon. Her birds lull the living. Ask Tobias Lindsell, he tells it best.' 'He tells it longest,' says the man.".
+    On discuss { Assert knows(actor, strike_told). }
+  }
+  Discovery strike_told "Fifty-seven years ago in the Lull's count, when the Wroughts' mill ran its looms seven days a week for a war's cloth, the weavers struck. On the seventh day of the strike they climbed the Tump and asked Rhiannon that the valley might keep its holy day and never another, and it was so.".
+  Topic folk_ribbons with folk "Ask the people of Linger about the ribbons on the Tump" when lullOpen() once {
+    Says "'One for every child born,' says the woman. 'Tied on the Lullday they come. You can count us on it.' She counts on her fingers. 'Two hundred and thirty-one born in the Lull. That's more than half of Linger, now.' A boy says, 'I'm at the bottom,' and is shushed. 'None of the Lull-born have ever seen a week,' says the man. 'They've only got Lulldays. They don't know any different.' 'Some of them want to,' says the woman, and the man says, 'Hush.'".
+    On discuss { Assert knows(actor, club_rumour). }
+  }
+  Discovery club_rumour "Some of the Lull-born young of Linger, who have never seen a week, want to.".
+
+  // ── The Open Hand ─────────────────────────────────────────────────────────────────────────────────────────────────
+  Observe open_hand_scene at open_hand when lullOpen() "A big low room with the fire going and every table laid, though it is nobody's mealtime. There is no counter, and no tap, and no slate of prices. There is a great deal of food, and a man in an apron whose whole face lights up when you come in, which is slightly alarming.".
+  Observe open_hand_dark at open_hand when folded() "The Open Hand's room is dark and cold, and the fire is out. Somebody is asleep in a chair by it, with his apron on.".
+  Person matthias "Matthias Gale" at open_hand {
+    Role "who keeps the Open Hand, for love". Ancestry human. Peaceable. Pronouns he. Manner jovial.
+    Likeness "innkeeper".
+    Greets "'A guest!' says the man in the apron, and comes at you with his arms out. 'A guest, a guest. Sit. No, here, by the fire. Have you eaten? You haven't eaten. Mabyn! A guest!' He has your coat off you before you have agreed to anything. 'Matthias Gale, the Open Hand, and I want you to know before anything else that I adore you. I adore all guests. It's a weakness. Sit.'".
+    Greets again "'You came back!' says Matthias Gale, with real joy, and then at once, anxiously: 'Have you eaten?'".
+  }
+  Initially Assert lullFolk(matthias). Initially Assert dayAt(matthias, open_hand). Initially Assert bedAt(matthias, open_hand).
+  Topic matthias_pay with matthias "Ask Matthias Gale what you owe him" when lullOpen() once {
+    Says "Matthias goes white. Then red. 'Owe,' he says. 'Owe.' He sits down heavily. 'Don't. Please. If you paid me it'd come undone at sunset, the bed and the supper and all, and you'd be sitting on the floor with nothing in you, and I'd have your coin in my hand going back to your pocket like a bird.' He pats your arm. 'Love me back, that's all. Or don't, I'll love you anyway. Have a pie.'".
+  }
+  Topic matthias_rivals with matthias "Ask Matthias Gale about the Pryces" when lullOpen() once {
+    Says "Matthias's face does something complicated. 'Lovely people,' he says. 'Lovely, generous people.' He lowers his voice. 'Lettice Pryce gave the Glossary a new roof last spring. Gave it. So Mabyn gave it a bell. So Lettice gave the bell a rope. A silk rope.' He breathes. 'You'll be invited to the Pryces'. When you are, and they give you something, you come back here and tell me what it was. Not for Mabyn. For me. I'm interested.' He is not interested; he is in agony.".
+    On discuss { Assert knows(actor, houses_rivals). }
+  }
+  Discovery houses_rivals "The Pryces and the Gales of Linger, two Open Houses, are at war in generosity: what one gives, the other must outgive.".
+
+  // ── The Chapel of the Birds ───────────────────────────────────────────────────────────────────────────────────────
+  Observe chapel_scene at chapel when lullOpen() "The Chapel of the Birds has no roof. It never had one: it has rafters, black with age and white with birds, and the sky through them. There is no altar. There is a long bench round the walls, and in the middle of the flagged floor a stone basin full of rainwater where the starlings bathe and argue. Carved over the arch on the inside: SHE LULLS THE LIVING.".
+  Observe chapel_dark at chapel when folded() "The roofless chapel in the dark. The rafters are full of birds that do not move or make any sound. The basin is very still.".
+  Observe chapel_dusk at chapel as ambience when lullOpen() and hour(clock) >= 19 "At dusk the starlings leave the rafters all at once, with a noise like a sheet shaken out, and go over the Tump in a cloud that turns on itself, black, then grey, then black.".
+
+  // ── The Almshouse of the Old Shift ────────────────────────────────────────────────────────────────────────────────
+  Observe alms_scene at almshouse when lullOpen() "A long low room with a fire at each end and a row of high-backed chairs between, and in the chairs the Old Shift: the strikers, the eleven of them that are left, in their seventies and eighties, in coats of the first Lull-cloth ever woven. On the wall over the fire at one end, framed, is a weaver's shirt, torn at the shoulder; over the other, a shuttle. They are arguing, comfortably, about something that happened fifty-seven years ago.".
+  Observe alms_dark at almshouse when folded() "The Almshouse in the dark, the row of high-backed chairs, and in every one of them an old man or woman asleep upright, with their hands open on their knees.".
+  Person old_shift "the Old Shift" at almshouse {
+    Role "the eleven strikers who are left, in their chairs". Ancestry human. Numbers 11. Peaceable.
+    Greets "Eleven old faces turn to look at you, and an old woman at the near end says: 'Another one come to hear about the Strike. Sit down. We'll tell it you, and then we'll tell it you right.'".
+  }
+  Initially Assert lullFolk(old_shift). Initially Assert dayAt(old_shift, almshouse). Initially Assert bedAt(old_shift, almshouse).
+  Topic shift_words with old_shift "Ask the Old Shift what was said on the Tump" when lullOpen() once {
+    Says "'Holy day and never another,' says the old woman at once. 'Those were the words.' 'They were not,' says a man with one eye. 'It was Let it be the holy day, and the rest of the week can go hang. I was there.' 'We were all there, Amos.' 'Agnes Crane sang it,' says a third, 'and it was a hymn, and the words were the hymn's, Rest and be thankful.' They argue. It is clearly a very old argument, and a happy one. After a while the old woman leans to you and says, low: 'It was a child that said it, in the end. Little Nell Lumb, that's dead. She said, Can't it just stay Sunday? And it did.' She sits back. 'Don't tell them I said.'".
+    On discuss { Assert knows(actor, words_disputed). }
+  }
+  Discovery words_disputed "The Old Shift do not agree what was said on the Tump: 'holy day and never another', 'the rest of the week can go hang', a hymn's 'rest and be thankful', or a child's 'can't it just stay Sunday?'".
+  Topic shift_tobias with old_shift "Ask the Old Shift about Tobias Lindsell" when lullOpen() once {
+    Says "'Tobias tells it best,' they say. 'He was at the window when we came out. He saw it all.' 'He was the last down off the Tump,' says the one-eyed man. 'Carried Nell Lumb on his back.' 'He's not been himself,' says the old woman. 'Since Hester took bad. He sits with her. He'll not come to the Table.' A silence. 'Not like him,' someone says. 'Not like him at all.'".
+    On discuss { Assert knows(actor, tobias_at_window). }
+  }
+  Discovery tobias_at_window "The Old Shift say Tobias Lindsell tells the strike best, because he was at the Mill window when the strikers came out, and saw it all.".
+
+  // ── Weavers' Row, the chandlery, the Gardens ──────────────────────────────────────────────────────────────────────
+  Observe row_scene at weavers_row when lullOpen() "A lane of weavers' cottages, each with its long window at the top, each window open. Out of one comes the sound of a loom going, slowly, stopping, going again: somebody weaving something for somebody. Out of another, an argument about a cake.".
+  Observe row_dark at weavers_row when folded() "Weavers' Row in the dark. Through the long windows, if you put a light up to them, you see people asleep in their beds with their hands open on the covers, and they do not wake when the light goes over their faces.".
+  Observe spurling_scene at spurling_shop when lullOpen() "A chandlery that has nothing to sell and is full: candles hung in bunches from the beams by their wicks, spurling and beeswax and some green ones that smell of bay, and a girl at a bench dipping them, very slowly, with her tongue between her teeth.".
+  Observe spurling_dark at spurling_shop when folded() "The chandlery in the dark, the candles hanging in their bunches. Somebody is asleep at the bench with her head on her arms.".
+  Observe piran_scene at piran_shop when lullOpen() "A carver's workshop with the shavings swept into a heap for the gardens, and on every shelf small animals in limewood: hares, a heron, an owl, a woman's head, the same woman's head, again, again, at different ages.".
+  Observe piran_dark at piran_shop when folded() "The carver's workshop in the dark. The little carved heads on the shelves, a row of them, all one woman.".
+  Observe gardens_spring at gardens when lullOpen() and season(clock) <= 1 "The Pleasure Gardens slope down to the Idle in strips, each strip somebody's: beans up poles, early peas, cabbages in rows so straight they must be a joke. There are more than the town could eat. Children are racing wheelbarrows down the main path, which is apparently the harvest, and an old man is keeping score.".
+  Observe gardens_summer at gardens when lullOpen() and season(clock) == 2 "The Pleasure Gardens in high summer, heavy with it: beans, marrows, currants, everything a week further on than it was last Lullday, as it always is. Children are picking for a prize nobody has named. Somebody's strip has gone to seed and been left to, and has a board in it saying RESTING.".
+  Observe gardens_autumn at gardens when lullOpen() and season(clock) == 3 "The Pleasure Gardens in autumn: the last beans, apples on the espaliers, the potatoes up and lying out to dry in rows, and every week further on than it was. The Lull-born talk of the year as if it were weather: 'it was blossom on Tuesday', meaning seven Lulldays ago, which is seven weeks of the world's.".
+  Observe gardens_winter at gardens when lullOpen() and season(clock) >= 4 "The Pleasure Gardens under frost: leeks, kale, a row of cloches made of old window-glass. A child is breaking the ice on the water-butt with great seriousness, and a woman is watching her as if it were the theatre.".
+  Observe gardens_dark at gardens when folded() "The Gardens in the dark. You can hear them growing: a creak, a tick, a leaf turning over. Things are a week further on every time the Lull opens; this is when.".
+
+  // ── The Gift Hall ─────────────────────────────────────────────────────────────────────────────────────────────────
+  Observe hall_scene at gift_hall when lullOpen() "The old Cloth Hall: a long room under a hammer-beam roof, with the wool-weighing beam still hanging from the middle of it on its chains, now used to swing children. Along the walls are shelves, and on the shelves are things that held: a pair of boots, a cake under a glass, a quilt of strikers' shirts, a child's clay horse, a lute, each with a card in a careful hand saying who made it, and for whom, and when. At a table by the door people exchange courtesies, two at a time, with a Glosser in a white apron sitting between them like a referee.".
+  Observe hall_dark at gift_hall when folded() "The Gift Hall in the dark. On the shelves, everything that held, in rows. The beam hangs on its chains, quite still.".
+  Person mabyn "Mabyn Gale" at gift_hall {
+    Role "who keeps the courtesy table at the Gift Hall". Ancestry human. Peaceable. Pronouns she. Manner cheerful.
+    Likeness "farmer".
+    Greets "A broad woman with flour on her forearms and a pencil behind her ear waves you over to the table by the door. 'Courtesies? You'll want courtesies. You give me something, I give you something, at the same moment, and neither of us asks; Glosser Mote sees it's fair, and then it's not trade, it's two presents.' She beams. 'Mabyn Gale. Linnet's mother. Matthias's wife, God help me. What do you need?'".
+    Greets again "'There you are,' says Mabyn Gale, and pushes a honey-cake at you before you can speak.".
+  }
+  Initially Assert lullFolk(mabyn). Initially Assert dayAt(mabyn, gift_hall). Initially Assert bedAt(mabyn, open_hand).
+  // Courtesies: two gifts at once. They hold, because the Lull gives meaning to: what the company gives, it gives.
+  Action courtesy_bread(actor: group, site: place) "Exchange courtesies with Mabyn Gale: two coin and a loaf of bread for the road each way" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(mabyn, site) and lullOpen() and quantity(actor, gold) >= 2 and hour(clock) < 19.
+    On success { Decrease quantity(actor, gold) by 2. Increase quantity(mabyn, gold) by 2. Increase quantity(actor, rations) by 3. }
+    Result "You put two coins on the table and Mabyn puts down three loaves wrapped in a cloth, at the same moment, and the Glosser looks from one to the other and says, 'Courtesy,' and Mabyn says, 'Thank you,' and so, you find, do you.".
+  }
+  Action courtesy_candles(actor: group, site: place) "Exchange courtesies with Mabyn Gale: a coin and a bundle of Spurling's candles each way" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(mabyn, site) and lullOpen() and quantity(actor, gold) >= 1 and hour(clock) < 19 and not candlesGiven(actor).
+    On success { Decrease quantity(actor, gold) by 1. Increase quantity(mabyn, gold) by 1. Give spurling_candles to actor. Assert candlesGiven(actor). }
+    Result "Mabyn puts down a bunch of green bay-scented candles, tied by their wicks, as you put down your coin. 'Wenna Spurling's,' she says. 'She dips them for whoever's going into the dark. You'd be surprised who does.'".
+  }
+  Relation candlesGiven(group).
+  Item spurling_candles "a bunch of Spurling's candles" is candle at limbo.
+  Topic mabyn_courtesy with mabyn "Ask Mabyn Gale why the Glosser watches every courtesy" when lullOpen() once {
+    Says "'Because if I gave you a loaf meaning to get your coin,' says Mabyn, 'and you gave me a coin meaning to get my loaf, that's a sale, and at sunset the loaf's back on my table and the coin's back in your purse and we've both had a wasted afternoon. So we give. Properly. And the Glosser sees we gave properly, so nobody can say after.' She lowers her voice. 'Half of it's for show. You can't fool the sunset. But it makes people feel better, and Glosser Mote's a nice girl and needs something to do.'".
+  }
+
+  // ── The Glossary ──────────────────────────────────────────────────────────────────────────────────────────────────
+  Observe glossary_scene at glossary when lullOpen() "The Glossary is a tall narrow house full of boards: wooden boards, painted white, each lettered with a Gloss and its number and hung on pegs, floor to ceiling, room after room, like a library written on doors. Gloss 1: THAT REST IS NOT IDLENESS. Gloss 7: THAT A KINDNESS EXPECTING THANKS IS A LOAN. Gloss 1,104: THAT WHISTLING WHILE ONE SWEEPS MAKES THE SWEEPING PLAY, IF THE TUNE BE ONE'S OWN. Gloss 2,213, newly painted: THAT A CAT WHICH BRINGS A MOUSE IS NOT IN SERVICE. A young woman in a white apron stands on a ladder, painting.".
+  Observe glossary_dark at glossary when folded() "The Glossary in the dark: board after board, and the young Glosser asleep at the foot of her ladder with the brush still in her open hand.".
+  Observe glossary_912 at glossary as feature when lullOpen() "In a corner one board hangs face to the wall.".
+  Observe glossary_912_seen at glossary as feature when lullOpen() and knows(party, simeon_banned) "The board turned to the wall will be nine hundred and twelve.".
+  Person aldith "Aldith Mote" at glossary {
+    Role "a young Glosser in a white apron with no pockets". Ancestry human. Calling cleric. Level 1. Trait vitalist. Peaceable. Pronouns she. Manner compassionate.
+    Likeness "scholar".
+    Greets "The young woman on the ladder looks down, with paint on her nose. 'Oh! A Sixer. Hello. I'm Aldith Mote, I'm a Glosser, the most junior one, they give me the painting.' She climbs down. 'Could I ask you something? You don't have to answer. Do things come undone outside? At sunset? Ever?'".
+    Greets again "Aldith Mote looks round from her ladder with paint on her nose.".
+  }
+  Initially Assert lullFolk(aldith). Initially Assert dayAt(aldith, glossary). Initially Assert bedAt(aldith, glossary).
+  Topic aldith_doctrine with aldith "Ask Aldith Mote what the Glossers hold the law to be" when lullOpen() once {
+    Says "'Gloss twelve,' says Aldith promptly. 'That what is done for wages, or under compulsion, is undone at the going down of the sun. And everything else is a footnote to it.' She looks at the boards, and lowers her voice. 'Two thousand two hundred footnotes. I paint them. And sometimes I think if you need two thousand two hundred footnotes, perhaps the text is wrong.' She looks horrified at herself. 'Don't tell the Reeve.'".
+    On discuss { Assert knows(actor, glosser_doctrine). }
+  }
+  Discovery glosser_doctrine "The Glossers of the Lull hold, by their twelfth Gloss, that what is done for wages or under compulsion is undone at sunset.".
+  Observe hall_watching at gift_hall as ambience when lullOpen() and hour(clock) < 19 "A child swings on the old weighing-beam, very high, and the Glosser at the table says 'Mind,' without looking up.".
+}
