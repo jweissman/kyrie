@@ -58,7 +58,7 @@ Module lull "The Lull" {
   // Simeon, there when she has it, gives it her himself.
   Rule simeon_gives at hester_room when hesterHasPhial(hester) and following(simeon, party) and at(party, hester_room) and not hesterDead(hester) and not simeonWith(hester)
     says "Simeon has not said a word since he came in. He sits on the end of the bed, where Hester pats, and they look at each other, and she says, 'Gloss forty,' and he says, 'Held,' and his voice goes. Then she shows him what is under her pillow, and he looks at it for a long time, and at her, and he says, 'I'll stay. I'll sit with you. Tobias can have the Table.' She says, 'You always did want to be in at the end of things.' He says, 'Only yours.'" {
-    Assert simeonWith(hester).
+    Assert simeonWith(hester). Retract following(simeon, party). Assert at(simeon, hester_room). Assert simeonHome(simeon).
   }
   Relation simeonWith(group).
   Rule hester_drinks when hesterHasPhial(hester) and lullOpen() and hour(clock) >= 20 and not hesterDead(hester) { Assert hesterDead(hester). Assert diedBy(hester, party). Assert at(hester, limbo). }
@@ -162,7 +162,7 @@ Module lull "The Lull" {
   // What Corin hears from the company, of what it learned.
   Topic corin_window with corin "Tell Corin Lindsell which side of the window her grandfather was on" when lullOpen() and knows(actor, tobias_inside) and not corinKnowsWindow(corin) once {
     Grave "This is Tobias's to tell, and he has not told her.".
-    Says "Corin listens with her jaw set. When you have finished she does not say anything for a long time. Then: 'He timed the strike,' she says. 'On his watch. He told me he timed it from the Tump.' She stands up. 'He was inside.' And she walks off along the leat toward the dark mill, fast, which in the Lull is a thing people turn to look at.".
+    Says "Corin listens with her jaw set. When you have finished she does not say anything for a long time. Then: 'He timed the strike,' she says. 'On his watch. He told me he timed it from the Tump.' She stands up. 'He was inside.' And she goes to the very end of the broken pier and stands there with her back to you, looking across the leat at the dark mill, so still that people on the green stop to look.".
     On discuss { Assert corinKnowsWindow(corin). Assert corinBetrayed(corin). }
   }
   Relation corinBetrayed(group).

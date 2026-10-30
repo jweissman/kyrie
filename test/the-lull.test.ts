@@ -207,4 +207,22 @@ describe('The Lull', () => {
     expect(g.ending()).toEqual([k('what_was_meant')]);
     expect(g.page).toMatch(/In the Lull you can only be killed by somebody who means it/);
   }, 600000);
+
+  it('Hester\'s Monday from the company\'s hand: the phial bought of Ruth Coll, Simeon sits with her, and Tobias comes to the Table', async () => {
+    const g = await Lull.start();
+    await g.fixture('phial');
+    expect(g.holds('diedBy', 'hester', 'party')).toBe(true);
+    expect(g.holds('simeonWith', 'hester')).toBe(true);
+    expect(g.holds('tobiasCarries', 'tobias')).toBe(false);
+    expect(g.page).toMatch(/Only yours/);
+    expect(g.page).toMatch(/puts his hands on the table, open/);
+  }, 300000);
+
+  it('Corin told what was Tobias\'s to tell, and asked to hear it from him: the love path is open by another door', async () => {
+    const g = await Lull.start('test/fixtures/the-lull/cleric.campaign.json');
+    await g.fixture('betrayal');
+    expect(g.holds('tobiasConfessed', 'tobias')).toBe(true);
+    expect(g.holds('corinBetrayed', 'corin')).toBe(false);
+    expect(g.holds('tobiasLovePath', 'tobias')).toBe(true);
+  }, 300000);
 });

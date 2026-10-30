@@ -1,0 +1,50 @@
+{
+ "arrive": [
+  "Sixways street$",
+  "To the Fold-stone$",
+  "Sit down by the Fold-stone",
+  "To the Tump's shoulder",
+  "To Linger green"
+ ],
+ "hester": [
+  "Into the Lindsells",
+  "Hester Lindsell.s room",
+  "Talk to Hester",
+  "Talk to Hester Lindsell about something else",
+  "Ask Hester Lindsell what she wants",
+  "Take your leave",
+  "Lindsells. kitchen",
+  "Out to Linger green"
+ ],
+ "out": [
+  "To the Tump's shoulder",
+  "To the Fold-stone",
+  "To Sixways street",
+  "Into Ruth",
+  "Talk to Ruth",
+  "Ask Ruth Coll what she would send",
+  "Pay Ruth Coll four coin",
+  "Take your leave",
+  "Out to Sixways street",
+  "To Exiles' Row",
+  "Into Simeon",
+  "Talk to Simeon",
+  "Tell Simeon Eddowes that Hester",
+  "Ask them to come with you",
+  "Take your leave",
+  "Out to Exiles' Row",
+  "To Sixways street",
+  "To the Fold-stone"
+ ],
+ "in": [
+  "=11:30",
+  "To the Tump's shoulder",
+  "To Linger green",
+  "Into the Lindsells",
+  "Hester Lindsell.s room",
+  "Hester Lindsell: Give .*nightshade",
+  "Lindsells. kitchen",
+  "Out to Linger green",
+  "=20:30"
+ ]
+}

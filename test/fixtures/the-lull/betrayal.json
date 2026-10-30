@@ -1,0 +1,46 @@
+{
+ "arrive": [
+  "Sixways street$",
+  "To the Fold-stone$",
+  "Sit down by the Fold-stone",
+  "To the Tump's shoulder",
+  "To Linger green"
+ ],
+ "day1": [
+  "Into the Lindsells",
+  "Hester Lindsell.s room",
+  "Talk to Hester",
+  "Ask Hester Lindsell about Tobias",
+  "Talk to Hester Lindsell about something else",
+  "Take your leave",
+  "Sit with Hester Lindsell and say the words",
+  "Talk to Tobias",
+  "Ask Tobias Lindsell to tell you the strike",
+  "Take your leave",
+  "Lindsells. kitchen",
+  "Out to Linger green",
+  "To the end of the Shift Bridge",
+  "Talk to Corin",
+  "Ask Corin Lindsell about her clocks",
+  "Ask Corin Lindsell what she wants",
+  "Ask Corin Lindsell about the Weekday Club",
+  "Take your leave",
+  "To Linger green",
+  "=20:30",
+  "Lie down Lull-fashion"
+ ],
+ "day2": [
+  "Into the Lindsells",
+  "Hester Lindsell.s room",
+  "Talk to Tobias",
+  "Ask Tobias Lindsell which side",
+  "Take your leave",
+  "Lindsells. kitchen",
+  "Out to Linger green",
+  "To the end of the Shift Bridge",
+  "Talk to Corin",
+  "Tell Corin Lindsell which side",
+  "Ask Corin Lindsell to hear it",
+  "Take your leave"
+ ]
+}
