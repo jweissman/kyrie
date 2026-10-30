@@ -24,7 +24,7 @@ independent ones batched.
 | Inherited, at the start | 0 | 61 | 11 | 0 | 1 | 0 | 73 |
 | Inherited, now | 8 | 55 | 9 | 0 | 1 | 0 | 73 |
 | New in Mission 18 | 10 | 0 | 1 | 0 | 0 | 0 | 11 |
-| The owner's review | 0 | 28 | 15 | 0 | 0 | 0 | 43 |
+| The owner's review | 0 | 28 | 17 | 0 | 0 | 0 | 45 |
 | The adventures' authors | 0 | 14 | 55 | 0 | 0 | 0 | 69 |
 | The navigation review | 0 | 4 | 18 | 0 | 0 | 0 | 22 |
 | The cold review, section H | 0 | 1 | 5 | 0 | 0 | 0 | 6 |
@@ -254,6 +254,8 @@ After 49c4338. Modest refinements to OWN-29, OWN-16 and OWN-30.
 | OWN-41 | Every name through one mechanism: the Common names of the human heartland from a true "common" tongue in the `languages` package that echoes the concept structure it is given, rather than a lexicon of their own (src/world/common-names.ts) | D | P2 | Open | Not urgent; noted when the Common names were built (49c4338) |
 | OWN-42 | The intro and studio stab given care, with words (a studio name such as "Freehaven" or "Seventh Star"); the product's own name not to stay "Kyrie", candidates proposed for the owner's choice | A | P2 | Partial | Built: the stab sets the studio's name beneath the seven towers (SEVENTH STAR by default, a lamp lit on each lesser tower and the star the seventh; ?studio=freehaven or any words to compare), skippable without a tap falling through to Begin; the game's name one constant (src/presentation/identity.ts; ?name=Lanthorn to compare), its mark sized to its letters; painters' credits mended. Candidates: .claude/names-report.md (LANTHORN, HOLLOWAY, CRESSET; Seven Lamps for the studio). The owner's choice awaited |
 | OWN-43 | The map as the basic way to navigate (2026-10-30, after playing): crossing into a new country left the map unusable, "you know no way" even to adjacent cells and to places along the road; set-out from the map to any cell, place or road stop in any country, by road where known and across country where not, with the look and feel improved | C | P0 | Partial | Repaired for the engine: the map sets out to any hex, road stop, town or site and arrives, in the first country and in a country over the march, drawn or authored (test/map-beyond.test.ts, map-set-out, set-out-page, map-browser). The cause: ordinary planning skipped every way ending in open country, so a company standing out on the land had no ways at all. The owner's play awaited |
+| OWN-44 | Varied terrain on the map and in the land: tundra, snowfield and ice for frost countries, desert (dunes, scrub, stony waste, oases) and steppe, open ocean; islands given their own treatment (a coast all round, a crossing to reach them); the land's covers today are only sea, lake, fen, meadow, wood, heath, fell and peak | A | P1 | Open | src/world/land/land-cover.ts; web/reader/board/board-tiles.ts |
+| OWN-45 | "You are here" carrying the protagonist's portrait: the company token's plate holds the protagonist's face, the pin and ground shadow kept so it still reads as a position | A | P2 | Open | The token is in 3321f6f; portraits from 49c4338 |
 
 ### The owner's directive of 2026-10-30: one universe
 
