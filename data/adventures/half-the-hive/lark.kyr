@@ -18,6 +18,12 @@ Module hume "Half the Hive" {
     Greets "A big man by the chantry gate touches his hat. 'Squire's in his study. Go in. He'll want to show you the drawings.' He sighs, very slightly. 'He'll want to show you all of them.'".
   }
   Initially Assert serves(halse, corve).
+  Topic halse_squire with halse "Ask Halse about the squire" when true once {
+    Says "'Good master.' Halse turns his hat round in his hands. 'Better than his father. Pays on quarter day, mends the cottages, talks to the bees in the skeps every morning like they were his aunts.' He looks at the chantry. 'Writes letters up the gorge every spring and nobody writes back.' A pause. 'Back in the spring he came home from Smoke End with a parcel, and he's not slept right since. Walks about at night. Went up the tower one morning a week back with something in his hand, and came down again white as a sheet, and every bee in the Wold was round that tower by noon.'".
+  }
+  Topic halse_skeps with halse "Ask Halse about the skeps along the wall" when true once {
+    Says "'Ordinary bees. Lowland bees, the little brown sort.' He almost smiles. 'He bought them to practise on. Twelve years. He's never once been stung, he says, because he's never once been rough.' He scratches his neck. 'I have. Plenty.'".
+  }
   Relation corveGives(group). Relation corveConfronted(group). Relation flaskGone(group).
   Thing flask_case "the squire's oak case" at corve_study {
     Holds.
@@ -48,7 +54,7 @@ Module hume "Half the Hive" {
     Says "'Isn't it fine? I've had it pointed. Dry as a granary. South wall. Room for a hive four times the size of the Comb.' He looks out of the window at it. 'I've told the Searchers. I wrote to the Wardmistress. I'd ask no rent. I'd ask nothing at all.' He says it a little too quickly. 'They could come and go as they liked. I'd just be,' he searches for the word, 'near.'".
   }
   Topic corve_flask with corve "Ask Squire Corve about the flask Nell Quarrie made him" when knows(actor, flask_known) and not corveConfronted(corve) and not corveGives(corve) once {
-    Says "He does not deny it. He sits down at his table among the drawings and looks at his inky hands. 'Yes.' After a while: 'Do you know what it is to love a thing that does not know you exist? For twelve years?' He laughs, without any pleasure. 'Of course they would have been mine. In law. I know that. I told myself I'd never use it; I'd never take a pot of honey; I'd just have them here, on my land, where I could see them, where I could go in among them with the smell on me and they would let me.' He looks at the shelf by the window. 'I'm not a bad man. I'm a thief. It's not the same, quite, but it's near.' He does not offer to give it up.".
+    Says "He does not deny it. He sits down at his table among the drawings and looks at his inky hands. 'Yes.' After a while: 'Do you know what it is to love a thing that does not know you exist? For twelve years?' He laughs, without any pleasure. 'Of course they would have been mine. In law. I know that. I told myself I'd never use it; I'd never take a pot of honey; I'd just have them here, on my land, where I could see them, where I could go in among them with the smell on me and they would let me.' He looks at the shelf by the window. 'I tried it once, on the tower, a week ago. A minute. I had to know. By noon there were Sisters all over the stone, dancing on it.' His face is wretched and shining at once. 'I'm not a bad man. I'm a thief. It's not the same, quite, but it's near.' He does not offer to give it up.".
     On discuss { Assert corveConfronted(corve). }
   }
   Topic corve_named with corve "Tell Squire Corve the Hum-keeper will name him to the Comb herself, if he gives up the flask and gives the land" when linnetWillName(linnet) and knows(actor, flask_known) and not corveGives(corve) and not flaskGone(corve) once {
