@@ -245,4 +245,24 @@ describe('The Lull, by other hands', () => {
     expect(g.ending()).toEqual([k('long_sunday')]);
     expect(g.page).toMatch(/The people who were paid stand looking at their hands/);
   }, 600000);
+
+  it('a watchful cleric, a scholarly bard, a ranger, a climbing monk, and a thief who learned the hymn', async () => {
+    const cleric = await Lull.start('test/fixtures/the-lull/cleric.campaign.json');
+    await cleric.fixture('insight');
+    expect(cleric.knows('which_side')).toBe(true);
+    const bard = await Lull.start('test/fixtures/the-lull/bard.campaign.json');
+    await bard.fixture('lore');
+    expect(bard.knows('gloss_forty')).toBe(true);
+    expect(bard.holds('hesterAsksSimeon', 'hester')).toBe(true);
+    const ranger = await Lull.start('test/fixtures/the-lull/ranger.campaign.json');
+    await ranger.fixture('woodcraft');
+    expect(ranger.holds('brockTruce', 'brock')).toBe(true);
+    const monk = await Lull.start('test/fixtures/the-lull/monk.campaign.json');
+    await monk.fixture('hoist');
+    expect(monk.at('party')).toBe(k('bell_loft'));
+    const thief = await Lull.start('test/fixtures/the-lull/thief.campaign.json');
+    await thief.fixture('chest');
+    expect(thief.knows('hymn_learned')).toBe(true);
+    expect(thief.carries('notched_shilling')).toBe(true);
+  }, 600000);
 });

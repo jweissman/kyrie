@@ -1,4 +1,4 @@
-# The Lull, played: seventh (the-lull)
+# The Lull, played: seventh
 
 Played by `bin/kyrie play data/campaigns/the-lull.campaign.json --steps test/fixtures/the-lull/seventh.json` (seed `journey`). Each step is the label the player chose, in brackets, then what the page told.
 
@@ -197,6 +197,12 @@ Played by `bin/kyrie play data/campaigns/the-lull.campaign.json --steps test/fix
 
 **[To the end of the Shift Bridge]** It is the Lullday. It is also, for the first time in fifty-seven years, something else. Before six the young of Linger went down to the Shift Bridge in their oldest clothes with ropes and timbers and a cart of stone, and when the town came out to lay the Long Table it found them working: in public, in daylight, with their sleeves rolled. Nobody is laying the Table. Everybody is going down to the leat. Here the Shift Bridge went over the mill-leat to the Mill yard, and does not now: two stone piers, a few black timbers hanging from the far one, and the leat running deep and quick between. Here are Corin Lindsell, who makes clocks that do not last; the Weekday Club, the young of Linger, sitting on the broken bridge with their legs over the leat; and Davy Mote, Aldith’s brother, who wants to be a soldier. The Working Day. The young of Linger are on the broken bridge at the leat in their oldest clothes, with ropes and timbers and a cart of stone from the old wall of the Gardens, working: actually working, in the Lull, in daylight, sweating, with their sleeves rolled up. They are not very good at it. Davy Mote has fallen in the leat twice. Up on the Green the town has come out and stands along the bank to watch, the way it might watch a fire.
 
+**[Talk to Corin Lindsell]** Corin Lindsell looks up, quick, as if she had been expecting someone else, and then decides you will do.
+
+**[Ask Corin Lindsell how it is going]** Corin wipes her forehead with the back of a wrist and leaves a stripe of mud on it. ‘Badly,’ she says, delighted. ‘Davy’s been in the leat three times. Kezia dropped a stone on my foot. We put the first timber in upside down.’ She looks along the bridge at the others, at the town on the bank. ‘I’ve never been tired before,’ she says. ‘Not like this. Tired from something.’ Then: ‘Don’t tell anyone I said it was good. It’s supposed to be wages.’
+
+**[Take your leave]** ‘Don’t let me keep you,’ says Corin Lindsell, who was not trying to.
+
 **[Wait › An hour]** An hour passes.
 
 **[Wait › An hour]** Kezia Pryce, in her best dress, is carrying stone, very badly, very fast, with a face like a lit lamp. An hour passes.
@@ -204,6 +210,24 @@ Played by `bin/kyrie play data/campaigns/the-lull.campaign.json --steps test/fix
 **[Wait › An hour]** An hour passes.
 
 **[Wait › An hour]** Hester Lindsell is sitting in a chair on the bank, wrapped in a quilt of strikers’ shirts, watching with her bird’s eyes, and telling everybody what they are doing wrong. At ten o’clock, the bank goes quiet from the top. Tobias Lindsell is coming down the path from the Green, slowly, in his weaver’s coat, with his sleeves already turned back. The Club stop working. Corin stops with a timber on her shoulder. He does not look at anyone. He goes to the stone-cart and takes a stone out of it in both hands, and walks out onto the new timbers with it, and sets it where it goes, and stands up, and looks at the Mill. Then he goes back for another. Along the bank, one of the Old Shift begins to cry, and another to laugh, and no one can tell which is which.
+
+**[Wait › A while]** Time passes.
+
+**[Wait › A while]** Time passes.
+
+**[Wait › A while]** Time passes.
+
+**[Talk to Tobias Lindsell]** Tobias Lindsell nods to you, mildly, as if you had been there yesterday, which for him perhaps you were.
+
+**[Ask Tobias Lindsell what it is like, working again]** Tobias sets a stone down and straightens, slowly, with a hand in the small of his back. ‘My hands know it,’ he says. ‘Fifty-seven years, and they knew it before I did. That’s the worst of it.’ He looks at Corin on the timbers. ‘And the best.’ He goes back for another stone. Over his shoulder: ‘Don’t tell her I’m enjoying it. She’ll think it’s the wages.’
+
+**[Take your leave]** ‘Look after yourself,’ says Tobias Lindsell. ‘I mean it.’
+
+**[Talk to Hester Lindsell]** Hester Lindsell opens one eye. ‘You. Good. Talk to me about something.’
+
+**[Ask Hester Lindsell how they are doing]** ‘Terribly,’ says Hester, from inside her quilt. ‘They’ve no idea. The boy’s put that beam in like a man putting on a hat in a gale.’ She watches Tobias carry a stone out along the timbers, slow and sure. ‘He hasn’t,’ she says, differently. ‘Look at him. He hasn’t forgotten anything.’ She closes her eyes, and opens them again, quickly, as if she might miss something.
+
+**[Take your leave]** ‘Don’t let me keep you,’ says Hester Lindsell, who was not trying to.
 
 **[Wait › An hour]** An hour passes.
 
@@ -225,7 +249,7 @@ Played by `bin/kyrie play data/campaigns/the-lull.campaign.json --steps test/fix
 
 **[Wait › An hour]** An hour passes.
 
-**[Wait › An hour]** The Shift Bridge goes over the mill-leat again: new oak on the old piers, a little crooked in the middle where Davy Mote set it, and worn already on the boards where people walk out to the middle to stand and look at the Mill. At the Mill end an old weighbridge house has a new door, and a clock over it, and a board: C. LINDSELL, CLOCKS, FOR WAGES SIX DAYS IN SEVEN. The Shift Bridge is whole again, new oak over old stone. And the rest stands. The new oak lies across the leat from pier to pier, rough, and a little crooked where Davy Mote set it, and the stones at the Mill end are the stones the young carried meaning it, and they do not move. Corin Lindsell walks out onto the middle of it, slowly, and stamps, once, and it holds her. Behind her the Mill stands dark across the water, and for the first time in fifty-seven years there is a way to its door. Then the starlings come over, as they do every dusk, and go over the Tump, and come back. They come back. They come down onto the new bridge in hundreds, onto the rails and the stones and Tobias Lindsell’s shoulders, and stay there, talking. Up at the Mill there is a sound like a door taking a breath. Nobody moves. Hester, or the space where Hester would have been, is very quiet. Tobias says, so that only Corin and the birds can hear it: ‘Monday, then.’ And Corin says: ‘Tuesday too.’ Midnight will come, and go, and something tells everyone at that table that tomorrow will be tomorrow. Wren gains 200 experience: saw the Working Day through.
+**[Wait › An hour]** The Shift Bridge goes over the mill-leat again: new oak on the old piers, a little crooked in the middle where Davy Mote set it, and worn already on the boards where people walk out to the middle to stand and look at the Mill. At the Mill end an old weighbridge house has a new door, and a clock over it, and a board: C. LINDSELL, CLOCKS, FOR WAGES SIX DAYS IN SEVEN. The Shift Bridge is whole again, new oak over old stone. And the rest stands. The new oak lies across the leat from pier to pier, rough, and a little crooked where Davy Mote set it, and the stones at the Mill end are the stones the young carried meaning it, and they do not move. Corin Lindsell walks out onto the middle of it, slowly, and stamps, once, and it holds her. Behind her the Mill stands dark across the water, and for the first time in fifty-seven years there is a way to its door. Then the starlings come over, as they do every dusk, and go over the Tump, and come back. They come back. They come down onto the new bridge in hundreds, onto the rails and the stones and Tobias Lindsell’s shoulders, and stay there, talking. Up at the Mill there is a sound like a door taking a breath. Nobody moves. Tobias says, so that only Corin and the birds can hear it: ‘Monday, then.’ And Corin says: ‘Tuesday too.’ Midnight will come, and go, and something tells everyone at that table that tomorrow will be tomorrow. On the bank Hester Lindsell, in her quilt of strikers’ shirts, has her eyes open, and is laughing without any sound, and has one hand out of the quilt, open, palm up, on her knee. Wren gains 200 experience: saw the Working Day through.
 
 **[Wait › A while]** Time passes.
 

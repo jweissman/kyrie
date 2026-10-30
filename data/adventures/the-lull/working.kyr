@@ -141,6 +141,24 @@ Module lull "The Lull" {
     Result "You work. You carry stone from the cart and pass timbers and hold ropes, and someone hands you a mallet, and the sun goes round, and nobody is in a hurry and nobody stops. The young of Linger work beside you the way you might dance a dance you have only seen done: with great seriousness, getting it wrong, getting it right. Somewhere in the afternoon you see Corin Lindsell on the middle of the bridge, filthy, with her hands on her hips, looking at what they have made, and her face is a thing you will remember.".
   }
 
+  // On the bridge, while the day goes on.
+  Topic corin_working with corin "Ask Corin Lindsell how it is going" when working() and not wardensBroke(club) once {
+    Says "Corin wipes her forehead with the back of a wrist and leaves a stripe of mud on it. 'Badly,' she says, delighted. 'Davy's been in the leat three times. Kezia dropped a stone on my foot. We put the first timber in upside down.' She looks along the bridge at the others, at the town on the bank. 'I've never been tired before,' she says. 'Not like this. Tired from something.' Then: 'Don't tell anyone I said it was good. It's supposed to be wages.'".
+  }
+  Topic tobias_working with tobias "Ask Tobias Lindsell what it is like, working again" when working() and joins(tobias) and not wardensBroke(club) once {
+    Says "Tobias sets a stone down and straightens, slowly, with a hand in the small of his back. 'My hands know it,' he says. 'Fifty-seven years, and they knew it before I did. That's the worst of it.' He looks at Corin on the timbers. 'And the best.' He goes back for another stone. Over his shoulder: 'Don't tell her I'm enjoying it. She'll think it's the wages.'".
+  }
+  Topic davy_working with davy "Ask Davy Mote whether this is like a war" when working() and not wardensBroke(club) once {
+    Says "Davy considers, wet to the waist, with a rope over his shoulder. 'No,' he says. 'Nobody's trying to stop us.' He looks up at the top of the bank. 'Yet.' He grins. 'I'd still rather this. Don't tell Aldith.'".
+  }
+  Topic linnet_working with linnet "Ask Linnet Gale to play while they work" when working() and at(linnet, mill_bridge) and not wardensBroke(club) once {
+    Says "Linnet puts down the stone she is carrying, very carefully, as if it might ravel, and gets her fiddle off a bush where she hung it, and stands on the pier and plays: a working tune, which nobody in the Lull has ever heard, with a beat you could lift a timber to; and they do. By the third time round the bank is clapping on the beat. 'There,' she says to you, out of the side of her mouth. 'A tune about something.'".
+    On discuss { Assert linnetTune(linnet). }
+  }
+  Topic hester_working with hester "Ask Hester Lindsell how they are doing" when working() and at(hester, mill_bridge) once {
+    Says "'Terribly,' says Hester, from inside her quilt. 'They've no idea. The boy's put that beam in like a man putting on a hat in a gale.' She watches Tobias carry a stone out along the timbers, slow and sure. 'He hasn't,' she says, differently. 'Look at him. He hasn't forgotten anything.' She closes her eyes, and opens them again, quickly, as if she might miss something.".
+  }
+
   // ── The wardens ───────────────────────────────────────────────────────────────────────────────────────────────────
   // At noon Hobday brings the wardens down to stop it, unless he has been softened, or will not drag his daughter off a
   // bridge, or the Glossary has a ruling on the bank in a white apron.
