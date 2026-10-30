@@ -47,8 +47,13 @@ export class BoardKit {
       [-0.06, 0.17, 0.11, 0.2]];
     return mergeGeometries(peaks.map(([x, z, r, h], i) => BoardKit.peak(r!, h!, i).translate(x!, 0, z!)));
   }
+  // One peak, its flanks in four bands. Not a cone of the drawing kit's own: one in more than one band comes from it
+  // with only one of the two triangles of each piece of its flanks below the topmost band (the others left out as if
+  // they met at the point), so that the sky showed through half of every mountain. A peak is made as a column
+  // narrowed all but to nothing at its head instead, every piece of its flanks whole.
   private static peak(r: number, h: number, seed: number): BufferGeometry {
-    const g = new ConeGeometry(r, h, 9, 4).translate(0, h / 2, 0).toNonIndexed(), pos = g.getAttribute('position');
+    const g = new CylinderGeometry(1e-4, r, h, 9, 4).translate(0, h / 2, 0).toNonIndexed(),
+      pos = g.getAttribute('position');
     g.deleteAttribute('uv'); g.deleteAttribute('normal');
     for (let i = 0; i < pos.count; i++) {
       const x = pos.getX(i), y = pos.getY(i), z = pos.getZ(i), f = y / h,

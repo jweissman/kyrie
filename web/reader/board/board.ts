@@ -4,6 +4,7 @@ import {
 } from 'three';
 import { BoardCamera } from './board-camera';
 import { BoardFlora } from './board-flora';
+import { BoardFringe } from './board-fringe';
 import { BoardGround } from './board-ground';
 import { BoardKit } from './board-kit';
 import { BoardKnowing } from './board-knowing';
@@ -81,7 +82,7 @@ export class Board implements BoardApi {
       this.look = new BoardLook(this.scene, this.grid, this.knowing);
       this.tiles = new BoardTiles(this.scene, this.ground, this.look.water(), { ...this.paths.reach,
         beds: this.paths.beds });
-      new BoardUnder(this.scene, this.ground);
+      new BoardUnder(this.scene, this.ground); new BoardFringe(this.scene, this.ground, c => this.knowing.will(c));
       const flora = new BoardFlora(this.ground, this.paths.reach, towns.map(t => t.cell));
       this.scatters = Object.entries(flora.spots).map(([kind, spots]) => new Scatter(this.scene, BoardKit.make(kind),
         spots, (x, z) => this.ground.at(x, z)));
@@ -90,6 +91,7 @@ export class Board implements BoardApi {
       this.labels = new BoardLabels(host, hooks, c => this.heed(c), c => this.up(c));
       this.view = new BoardCamera(this.renderer.domElement, this.grid.centres[land.here ?? towns[0]?.cell ?? 0]!,
         still);
+      this.hold();
       this.furnish(new BoardTowns(this.scene, this.ground, this.look, towns));
       this.look.mist([0.16, 0.05, 0.31], [0.85, 0.64]); this.look.mist([0.62, 0.03, 0.77], [0.36, 0]);
       this.know(true);
@@ -135,8 +137,14 @@ export class Board implements BoardApi {
       const aside = this.land.marks.some(m => m.cell === here) ? 0.28 : 0, lamp = this.places.lantern(here, aside);
       this.scene.add(lamp); this.stand(here, lamp);
       const p = this.grid.centres[here]!;
-      this.labels.here(new Vector3(p.x, this.ground.levels[here]! + 0.26, p.y + aside), here);
+      this.labels.here(new Vector3(p.x, this.ground.levels[here]! + 0.03, p.y + aside), here);
     }
+  }
+  // The view kept to the country known (and where you are, and the places heard of), with some hexes to spare.
+  private hold(): void {
+    const g = this.grid, at = [...this.land.known, ...this.land.marks.map(m => m.cell), this.land.here ?? 0]
+      .map(c => g.centres[c]!), mid = at.reduce((a, b) => a.clone().add(b)).multiplyScalar(1 / at.length);
+    this.view.hold(mid, Math.max(...at.map(p => p.distanceTo(mid))) + 2);
   }
   private stand(c: number, o: Object3D): void {
     this.standing.set(c, [...this.standing.get(c) ?? [], o]); this.models.push(o);
@@ -159,11 +167,10 @@ export class Board implements BoardApi {
     this.paths.lay(this.scene, (x, z) => this.ground.at(x, z), c => this.tiles.lift(c) > -0.001, this.river);
     this.rims(); this.shade(all || moved.length > 0); this.dirty = true;
   }
-  // The rings about where you are, where you are bound, what is chosen and what is pointed at, each on its hex as it
-  // now stands.
+  // The rings about where you are, what is chosen and what is pointed at, each on its hex as it now stands (where you
+  // are bound has its pennant and the way there instead, so that it is not taken for where you are).
   private rims(): void {
-    const here = this.land.here, bound = this.cellOf(this.bound);
-    this.tiles.mark('here', here); this.tiles.mark('dest', bound === here ? undefined : bound);
+    this.tiles.mark('here', this.land.here);
     this.tiles.mark('chosen', this.cellOf(this.chosen)); this.tiles.mark('hover', this.pointed);
   }
   // The shadows cast again when what casts them has moved: while new country arrives, a few times a second (the
@@ -174,13 +181,13 @@ export class Board implements BoardApi {
     if (!this.owed || this.knowing.arriving && now - this.shaded < 120) { return; }
     this.renderer.shadowMap.needsUpdate = true; this.owed = false; this.shaded = now;
   }
-  // What is chosen, and where you are bound: each ringed, the ways to them laid, and the view drawn toward what is
-  // newly chosen.
+  // What is chosen, and where you are bound: each marked, the ways to them laid, and what is newly chosen brought into
+  // view if it is out of it, with you (the view is not taken away from you to it).
   show(chosen?: string, bound?: string): void {
     const cell = this.cellOf(chosen), glide = chosen !== this.chosen && cell !== undefined;
     this.chosen = chosen; this.bound = bound;
     this.lay(); this.rims();
-    if (glide) { this.view.to(this.grid.centres[cell]!); }
+    if (glide) { this.view.show(this.grid.centres[cell]!, this.hereAt()); }
     this.dirty = true;
   }
   // The ways over the land from where you are: to where you are bound, with its pennant, and paler to what is chosen
@@ -284,9 +291,12 @@ export class Board implements BoardApi {
     if (c === this.pointed) { return; }
     this.pointed = c; this.tiles.mark('hover', c); this.dirty = true;
   }
-  // A label given the keys' focus, the view drawn toward its place; or let go of it.
+  private hereAt(): Vector2 | undefined {
+    return this.land.here === undefined ? undefined : this.grid.centres[this.land.here];
+  }
+  // A label given the keys' focus, its place brought into view if it is out of it; or let go of it.
   private heed(c?: number): void {
-    if (c !== undefined) { this.view.to(this.grid.centres[c]!); }
+    if (c !== undefined) { this.view.show(this.grid.centres[c]!, this.hereAt()); }
     this.dirty = true;
   }
   private listen(): void {
@@ -341,7 +351,7 @@ export class Board implements BoardApi {
       this.look.air(this.view.distance, this.still ? 40 : t);
       this.renderer.render(this.scene, this.view.camera); this.began ??= performance.now();
       if (this.dirty) { this.labels.place(this.view.camera, [this.host.clientWidth, this.host.clientHeight],
-        [this.chosen, this.pointed]); }
+        [this.chosen, this.pointed, this.bound]); }
       this.dirty = false; this.drawn = now;
     }
     this.frame = requestAnimationFrame(x => this.tick(x));

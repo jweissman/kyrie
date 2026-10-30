@@ -178,36 +178,56 @@
    picture already drawn (see BoardLabels.place), its soft shadows not drawn again at every step of the view. */
 .board-town, .board-sign { all: unset; }
 .board-labels > * { position: absolute; left: 0; top: 0; pointer-events: auto; white-space: nowrap; will-change: transform; }
-.board-town { cursor: pointer; font: 500 13px/1 var(--do); letter-spacing: .26em; color: var(--ivory); padding-bottom: 5px;
-  border-bottom: 1px solid rgba(242, 189, 76, .45); text-shadow: 0 1px 2px rgba(0, 0, 0, .9), 0 0 12px rgba(5, 6, 9, .85); }
-.board-town:not(.visited) { color: #e2d7bf; }
-.board-sign { cursor: pointer; display: flex; align-items: center; gap: 7px; color: var(--ivory);
+/* The board's marks speak one tongue. Each sign stands on a plate that is always the same, dark with a pale edge, so
+   that its sign can be read; what a mark is to you is said around it, never by recolouring the plate: chosen, a ring
+   of ivory outside it and its name; bound for, a gold pennant beside it (and the way there, on the land); pointed at
+   or with the keys' focus, a thin white ring for as long as it is; only heard of, a small ring of dashes; not made
+   out, a question. Gold is for you, and for where you are bound, and for nothing else. Towns' names are quieter than
+   the marks over the land. */
+.board-town { cursor: pointer; font: 500 11.5px/1 var(--do); letter-spacing: .22em; color: #e6dcc6; padding-bottom: 4px;
+  border-bottom: 1px solid rgba(236, 230, 217, .28); text-shadow: 0 1px 2px rgba(0, 0, 0, .95), 0 0 10px rgba(5, 6, 9, .9); }
+.board-town:not(.visited) { color: #cfc5ae; }
+.board-sign { cursor: pointer; display: flex; align-items: center; gap: 7px; color: #ece6d9;
   font: italic 400 14.5px/1 var(--told); text-shadow: 0 1px 2px rgba(0, 0, 0, .9), 0 0 12px rgba(5, 6, 9, .85); }
-.board-sign i { flex: none; width: 22px; height: 22px; box-sizing: border-box; border-radius: 50%; display: grid; place-items: center;
-  background: rgba(11, 12, 15, .8); border: 1px solid rgba(236, 230, 217, .6); box-shadow: 0 1px 6px rgba(0, 0, 0, .65); }
-.board-sign svg { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 1.35; stroke-linejoin: round; stroke-linecap: round; }
-.board-sign:not(.visited) { color: #ecd296; }
-.board-sign:not(.visited) i { border-color: rgba(242, 189, 76, .85); }
-/* Only heard of: over the mist where it is said to be, an empty ring of dashes, the name it was told by beside it;
-   a town, its told name in the same hand. Not made out, a question in a pale ring of dashes. */
-.board-sign[data-known="heard"] i, .board-sign[data-known="unknown"] i { border-style: dashed; background: rgba(11, 12, 15, .5); }
-.board-sign[data-known="heard"] i { width: 16px; height: 16px; margin: 0 3px; border-color: rgba(236, 210, 150, .75); }
-.board-sign[data-known="heard"] { color: #e0d3b3; gap: 6px; font-size: 14px; }
+.board-sign i { position: relative; flex: none; width: 27px; height: 27px; box-sizing: border-box; border-radius: 50%;
+  display: grid; place-items: center; background: rgba(17, 18, 22, .9); border: 1px solid rgba(236, 230, 217, .5);
+  box-shadow: 0 1px 5px rgba(0, 0, 0, .7); }
+.board-sign svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.4; stroke-linejoin: round; stroke-linecap: round; }
+.board-sign:not(.visited) { color: #d8cfbd; }
+.board-sign[data-known="heard"] i, .board-sign[data-known="unknown"] i { border-style: dashed; background: rgba(11, 12, 15, .45); }
+.board-sign[data-known="heard"] i { width: 17px; height: 17px; margin: 0 5px; border-color: rgba(236, 230, 217, .6);
+  box-shadow: 0 0 10px 3px rgba(207, 198, 180, .14); }
+.board-sign[data-known="heard"] { color: #d6ccb6; gap: 6px; font-size: 14px; }
 .board-sign[data-known="unknown"] { color: #cfc6b4; }
-.board-sign[data-known="unknown"] i { border-color: rgba(207, 198, 180, .7); }
-.board-town[data-known="heard"] { font: italic 400 15px/1 var(--told); letter-spacing: .02em; color: #e0d3b3;
-  border-bottom-style: dashed; border-bottom-color: rgba(236, 210, 150, .5); }
-.board-sign.way i { width: 17px; height: 17px; margin: 0 2.5px; }
-.board-sign.way svg { width: 10px; height: 10px; }
-.board-sign.chosen, .board-town.chosen { color: var(--gold); }
-.board-sign.chosen i { border-color: var(--gold); background: rgba(40, 31, 12, .9); }
-.board-sign:focus-visible i, .board-town:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.board-sign[data-known="unknown"] i { border-color: rgba(207, 198, 180, .6); }
+.board-town[data-known="heard"] { font: italic 400 14.5px/1 var(--told); letter-spacing: .02em; color: #d6ccb6;
+  border-bottom-style: dashed; border-bottom-color: rgba(236, 230, 217, .35); }
+.board-sign.way i { width: 21px; height: 21px; margin: 0 3px; }
+.board-sign.way svg { width: 13px; height: 13px; }
+.board-sign.pointed i, .board-sign:hover i { box-shadow: 0 0 0 1.5px #fff, 0 1px 5px rgba(0, 0, 0, .7); }
+.board-town.pointed, .board-town:hover { color: #fff; border-bottom-color: #fff; }
+.board-sign:focus-visible i, .board-town:focus-visible { outline: 1.5px solid #fff; outline-offset: 2px; }
+.board-sign.chosen, .board-town.chosen { color: var(--ivory); }
+.board-sign.chosen i { border-color: var(--ivory); box-shadow: 0 0 0 2px rgba(11, 12, 15, .9), 0 0 0 4px var(--ivory), 0 1px 8px rgba(0, 0, 0, .8); }
+.board-town.chosen { outline: 2px solid var(--ivory); outline-offset: 5px; border-radius: 2px; }
+.board-sign.bound i::after, .board-town.bound::before { content: ''; position: absolute; width: 11px; height: 15px;
+  background: linear-gradient(var(--gold), var(--gold)) 0 0 / 1.5px 100% no-repeat, linear-gradient(var(--gold), var(--gold)) 1.5px 0 / 9px 7px no-repeat;
+  clip-path: polygon(0 0, 100% 0, 60% 25%, 100% 50%, 15% 50%, 15% 100%, 0 100%); filter: drop-shadow(0 1px 1px #000); }
+.board-sign.bound i::after { right: -8px; top: -11px; }
+.board-town.bound { position: relative; color: var(--gold); border-bottom-color: var(--gold); }
+.board-town.bound::before { left: -16px; top: -4px; }
 /* A town's name given up where it would cover another, a sign where it would cover a town's name (but neither while
-   it has the keys' focus); and any name or sign whose place is out of view, or not yet come up out of the mist,
-   unseen until it is (focused too, so that it is not seen where it last was). */
+   it is chosen, bound for or has the keys' focus); and any name or sign whose place is out of view, or not yet come
+   up out of the mist, unseen until it is (focused too, so that it is not seen where it last was). */
 .board-labels > .away:not(:focus), .board-labels > .off { opacity: 0; pointer-events: none; }
-/* You: a mark the size of its dot, centred on where you are (one of no size is not seen, by a reader of the page as
-   by a test). */
-.board-you { pointer-events: none !important; width: 6px; height: 6px; }
-.board-you .you-dot { position: absolute; inset: 0; border-radius: 50%; background: var(--gold);
-  box-shadow: 0 0 10px rgba(242, 189, 76, .9); }
+/* You: a pin on a plate, the same size however near the view, over every name and sign; a short staff down from it to
+   its shadow on the ground where you are, and a soft gold about the plate. */
+.board-you { pointer-events: none !important; width: 30px; height: 52px; z-index: 5; }
+.board-you .you-plate { position: absolute; left: 0; top: 0; width: 30px; height: 30px; box-sizing: border-box; border-radius: 50%;
+  display: grid; place-items: center; background: #14151a; border: 2px solid var(--ivory);
+  box-shadow: 0 0 0 2px rgba(242, 189, 76, .7), 0 0 14px 2px rgba(242, 189, 76, .4), 0 3px 8px rgba(0, 0, 0, .8); }
+.board-you svg { width: 17px; height: 17px; fill: var(--gold); }
+.board-you .you-staff { position: absolute; left: 14px; top: 30px; width: 2px; height: 18px;
+  background: linear-gradient(var(--ivory), rgba(236, 230, 217, .35)); }
+.board-you .you-shadow { position: absolute; left: 7px; bottom: 0; width: 16px; height: 7px; border-radius: 50%;
+  background: radial-gradient(rgba(242, 189, 76, .9) 0 18%, rgba(0, 0, 0, .7) 30%, rgba(0, 0, 0, 0) 70%); }

@@ -1,20 +1,23 @@
 import { MathUtils, PerspectiveCamera, Vector2, Vector3 } from 'three';
 import { MapControls } from 'three/examples/jsm/controls/MapControls.js';
 
-// The view over the board: low over the land as from a hill, toward where you are; dragged or touched to move about,
-// pinched or wheeled nearer, turned by two fingers or the right button; to a place chosen it glides, or for whoever
-// has asked for less motion goes at once. The player's own moving of it, by hand or by the arrow keys, is theirs: a
-// glide under way gives way to it.
+// The view over the board: north up and looking well down on the land, as a map is read, over where you are; dragged
+// or touched to move about, pinched or wheeled nearer, tilted and turned by two fingers or the right button (to enjoy
+// the country from low over it); to a place chosen out of view it glides, or for whoever has asked for less motion
+// goes at once. The player's own moving of it, by hand or by the arrow keys, is theirs: a glide under way gives way
+// to it. Taken far from the country known, it is drawn back to it, harder the further it goes.
 export class BoardCamera {
-  // How far from overhead the view looks (about twenty degrees down from the level, as from a low hill), how wide,
-  // how far off it stands, and how far beyond where you are it looks, so that you stand in the nearer part of it.
-  private static readonly TILT = 1.22;
+  // How far from overhead the view looks (about forty-five degrees), how wide, how far off it stands, and how far
+  // beyond where you are it looks, so that you stand a little into the nearer half of it.
+  private static readonly TILT = 0.8;
   private static readonly FOV = 36;
-  private static readonly FAR = 11.5;
-  private static readonly AHEAD = 1.3;
+  private static readonly FAR = 12;
+  private static readonly AHEAD = 0.5;
   readonly camera: PerspectiveCamera;
   readonly controls: MapControls;
-  private glide?: { from: Vector3; to: Vector3; start: number };
+  private glide?: { from: Vector3; to: Vector3; start: number; near: number; far: number };
+  // The country known, as a middle and a reach, past which the view is drawn back.
+  private bounds?: { at: Vector2; reach: number };
   // The page the board is on, as it was when the view was made (see dispose).
   private readonly page: Node;
   private readonly listening = new AbortController();
@@ -39,22 +42,50 @@ export class BoardCamera {
   step(now: number): boolean {
     let moving = false;
     if (this.glide) {
-      const k = Math.min(1, (now - this.glide.start) / 900), o = this.camera.position.clone().sub(this.controls.target);
-      this.controls.target.lerpVectors(this.glide.from, this.glide.to, 1 - (1 - k) ** 3);
+      const g = this.glide, k = Math.min(1, (now - g.start) / 900), e = 1 - (1 - k) ** 3;
+      const o = this.camera.position.clone().sub(this.controls.target).setLength(MathUtils.lerp(g.near, g.far, e));
+      this.controls.target.lerpVectors(g.from, g.to, e);
       this.camera.position.copy(this.controls.target).add(o);
       if (k >= 1) { this.glide = undefined; }
       moving = true;
     }
-    return this.controls.update() || moving;
+    return this.controls.update() || this.held() || moving;
   }
-  to(p: Vector2): void {
+  // The country known, past which the view is drawn back.
+  hold(at: Vector2, reach: number): void { this.bounds = { at, reach }; }
+  // The view drawn back toward the country known when it has been taken past it: a little of the way at each step
+  // (all of it, for whoever has asked for less motion), so that it gives the more the further it is taken.
+  private held(): boolean {
+    const b = this.bounds, t = this.controls.target;
+    if (!b || this.glide) { return false; }
+    const off = new Vector2(t.x - b.at.x, t.z - b.at.y), over = off.length() - b.reach;
+    if (over <= 0.01) { return false; }
+    off.setLength(over * (this.still ? 1 : 0.18));
+    t.x -= off.x; t.z -= off.y; this.camera.position.x -= off.x; this.camera.position.z -= off.y;
+    return true;
+  }
+  // Whether a point on the land is well within the view.
+  sees(p: Vector2): boolean {
+    const v = new Vector3(p.x, 0.4, p.y).project(this.camera);
+    return v.z < 1 && Math.abs(v.x) < 0.82 && Math.abs(v.y) < 0.78;
+  }
+  // What is chosen brought into view only if it is not in it already: framed together with where you are, the view
+  // standing off as far as it must for both to be seen, and no further.
+  show(p: Vector2, here?: Vector2): void {
+    if (this.sees(p)) { return; }
+    if (!here) { this.to(p); return; }
+    const mid = p.clone().add(here).multiplyScalar(0.5), half = p.distanceTo(here) / 2 + 1.4;
+    const need = half / (Math.tan(MathUtils.degToRad(BoardCamera.FOV / 2)) * Math.min(1, this.camera.aspect));
+    this.to(mid, Math.max(this.distance, Math.min(need, this.controls.maxDistance)));
+  }
+  to(p: Vector2, far = this.distance): void {
     const at = new Vector3(p.x, 0.4, p.y);
     if (this.still) {
-      const o = this.camera.position.clone().sub(this.controls.target);
+      const o = this.camera.position.clone().sub(this.controls.target).setLength(far);
       this.controls.target.copy(at); this.camera.position.copy(at).add(o);
       return;
     }
-    this.glide = { from: this.controls.target.clone(), to: at, start: performance.now() };
+    this.glide = { from: this.controls.target.clone(), to: at, start: performance.now(), near: this.distance, far };
   }
   back(): void { this.to(new Vector2(this.home.x, this.home.y - BoardCamera.AHEAD)); }
   // The glide given up where it has got to.

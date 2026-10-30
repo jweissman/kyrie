@@ -45,8 +45,8 @@ export class BoardTiles {
       this.risen(new MeshStandardMaterial({ vertexColors: true, roughness: 1, flatShading: true })));
     const waters = this.laid(grid.cells.filter(c => ground.wet(c)).map(c => this.cap(c)), this.risenWater(water));
     this.pick = [land, waters].filter((m): m is Mesh => m !== undefined);
-    for (const [k, color, opacity, band] of [['here', '#f2bd4c', 0.95, [0.84, 0.95]],
-      ['dest', '#f2bd4c', 0.6, [0.84, 0.95]], ['chosen', '#ece6d9', 0.85, [0.7, 0.79]],
+    for (const [k, color, opacity, band] of [['here', '#f2bd4c', 0.7, [0.86, 0.95]],
+      ['chosen', '#ece6d9', 0.85, [0.7, 0.79]],
       ['hover', '#ece6d9', 0.5, [0.84, 0.95]]] as const) {
       this.rims.set(k, this.rim(color, opacity, band));
     }
@@ -72,8 +72,8 @@ export class BoardTiles {
     if (moved.length) { this.riseTexture.needsUpdate = true; }
     return moved;
   }
-  // A ring about a hex's rim: where you are, where you are bound, what is pointed at; within it, what is chosen.
-  mark(which: 'here' | 'dest' | 'chosen' | 'hover', c: number | undefined): void {
+  // A ring about a hex's rim: where you are, what is pointed at; within it, what is chosen.
+  mark(which: 'here' | 'chosen' | 'hover', c: number | undefined): void {
     const m = this.rims.get(which)!, p = c === undefined ? undefined : this.ground.grid.centres[c];
     m.visible = c !== undefined && this.rise[c]! > -1;
     if (p && c !== undefined) { m.position.set(p.x, this.ground.levels[c]! + this.rise[c]! + 0.035, p.y); }
