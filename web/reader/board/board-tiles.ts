@@ -1,7 +1,6 @@
 import {
-  BufferAttribute, BufferGeometry, Color, CylinderGeometry, DataTexture, Float32BufferAttribute, FloatType,
-  LineBasicMaterial, LineSegments, type Material, MathUtils, Mesh, MeshBasicMaterial, MeshStandardMaterial, RedFormat,
-  RingGeometry, type Scene, type ShaderMaterial, type TypedArray,
+  BufferGeometry, Color, CylinderGeometry, DataTexture, Float32BufferAttribute, FloatType, type Material, MathUtils,
+  Mesh, MeshBasicMaterial, MeshStandardMaterial, RedFormat, RingGeometry, type Scene, type ShaderMaterial,
 } from 'three';
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import { BoardGround } from './board-ground';
@@ -10,42 +9,42 @@ import { HexGrid } from './hex-grid';
 import { Noise } from './noise';
 import type { PathReach } from './path-reach';
 
-// The land as a table of hex tiles: each top in rings, so that it swells and is mottled in its land's colours, sand
-// where it meets water, a darker bank by a river; each side a lip of turf, then soil, then the dark. All the tops are
-// one mesh and all the sides another; a hex standing up as it comes to be known is done as it is drawn, from a small
-// texture of how far each stands below where it belongs. What is not known is not drawn at all; what is glimpsed lies
-// low and dim with its edge drawn.
+// The rivers' and roads' reach, and the hexes a river's bed is cut into.
+export interface TileWays { rivers: PathReach; roads: PathReach; beds: Set<number> }
+// The land as a table of hex tiles: each top in rings, finer where it swells into fells or a river's bed is cut into
+// it, softly lit and mottled in its land's colours (lighter on a swell's crest; a wood's canopy lighter on its crowns,
+// the floor of the wood showing where it opens), sand where it meets water, the earth of a bank where it falls to a
+// river, worn by a road; each side a lip of turf, then soil, then the dark, its top edge following the top's rim down
+// into a river's bed. All the tiles are one mesh and all the open water another; a hex standing up as it comes to be
+// known is done as it is drawn, from a small texture of how far each stands below where it belongs. What is not known
+// is not drawn at all (the land under the mist is BoardUnder's).
 export class BoardTiles {
-  private static readonly RINGS = 4;
   private static readonly BASE = -0.55;
-  private static readonly tones: Record<string,
-    [string, string]> = { '.': ['#55653a', '#7d8748'], h: ['#5f5437', '#7c7045'],
-    f: ['#5f4b53', '#7a6e50'], p: ['#55524e', '#6f6c66'], w: ['#22351d', '#304a29'], ',': ['#2f3b33', '#55634a'] };
+  private static readonly tones: Record<string, Color[]> = Object.fromEntries(Object.entries({
+    '.': ['#56613a', '#7b7f47'], h: ['#5f5236', '#80704a'], f: ['#5b4f4a', '#7a6f57'], p: ['#57544f', '#77736b'],
+    w: ['#1c2c1d', '#4a6436'], ',': ['#323d31', '#56603f'] }).map(([k, v]) => [k, v.map(c => new Color(c))]));
   private static readonly sand = new Color('#9a8a62');
-  private static readonly bank = new Color('#3b4632');
-  private static readonly verge = new Color('#77684a');
+  private static readonly bank = new Color('#4a4230');
+  private static readonly floor = new Color('#3a3324');
+  private static readonly verge = new Color('#7d6a4c');
+  private static readonly earth = ['#4d3c2b', '#33281e', '#120f0c'].map(c => new Color(c));
+  private static readonly made = new Map<number, { points: [number, number][]; index: number[]; rim: number }>();
   readonly pick: Mesh[];
   private readonly rise: Float32Array<ArrayBuffer>;
   private readonly riseTexture: DataTexture;
   private readonly rims = new Map<string, Mesh>();
-  // A glimpsed hex's shape, copied to each hex glimpsed, and what it and its edge are drawn in, made once for all.
-  private readonly hex = BoardTiles.slab();
-  private readonly dim = new MeshBasicMaterial({ color: '#15181e', transparent: true, opacity: 0.7 });
-  private readonly rimmed = new LineBasicMaterial({ color: '#ece6d9', transparent: true, opacity: 0.12 });
-  private ghosts: (Mesh | LineSegments)[] = [];
-  private edge = '';
   constructor(private readonly scene: Scene, private readonly ground: BoardGround, water: ShaderMaterial,
-    paths: { rivers: PathReach; roads: PathReach }) {
+    private readonly ways: TileWays) {
     const grid = ground.grid;
     this.rise = new Float32Array(grid.cells.length).fill(-4);
     this.riseTexture = new DataTexture(this.rise, grid.width, grid.height, RedFormat, FloatType);
     this.riseTexture.needsUpdate = true;
-    const tops = this.laid(grid.cells.filter(c => !ground.wet(c)).map(c => this.top(c, paths)),
-      this.risen(new MeshStandardMaterial({ vertexColors: true, roughness: 0.95, flatShading: true })));
-    this.laid(grid.cells.map(c => this.side(c)),
+    const land = this.laid(grid.cells.filter(c => !ground.wet(c)).flatMap(c => this.tile(c)),
+      this.risen(new MeshStandardMaterial({ vertexColors: true, roughness: 0.95 })));
+    this.laid(grid.cells.filter(c => ground.wet(c)).map(c => this.side(c, ...this.flat(c))),
       this.risen(new MeshStandardMaterial({ vertexColors: true, roughness: 1, flatShading: true })));
     const waters = this.laid(grid.cells.filter(c => ground.wet(c)).map(c => this.cap(c)), this.risenWater(water));
-    this.pick = [tops, waters].filter((m): m is Mesh => m !== undefined);
+    this.pick = [land, waters].filter((m): m is Mesh => m !== undefined);
     for (const [k, color, opacity, band] of [['here', '#f2bd4c', 0.95, [0.84, 0.95]],
       ['dest', '#f2bd4c', 0.6, [0.84, 0.95]], ['chosen', '#ece6d9', 0.85, [0.7, 0.79]],
       ['hover', '#ece6d9', 0.5, [0.84, 0.95]]] as const) {
@@ -57,6 +56,7 @@ export class BoardTiles {
   private laid(shapes: BufferGeometry[], material: Material): Mesh | undefined {
     if (!shapes.length) { return undefined; }
     const m = new Mesh(mergeGeometries(shapes), material); m.receiveShadow = true; this.scene.add(m);
+    for (const s of shapes) { s.dispose(); }
     return m;
   }
   // How far a hex stands below where it belongs: nothing when known, rising as it comes, far below when unknown.
@@ -70,17 +70,7 @@ export class BoardTiles {
       if (r !== this.rise[c]) { this.rise[c] = r; moved.push(c); }
     }
     if (moved.length) { this.riseTexture.needsUpdate = true; }
-    this.glimpse(k);
     return moved;
-  }
-  // What is glimpsed laid again when it has changed, the shapes of what was glimpsed before given back.
-  private glimpse(k: BoardKnowing): void {
-    const glimpsed = this.ground.grid.cells.filter(c => k.now[c]! > 0.05 && this.rise[c]! <= -4), key = glimpsed.join();
-    if (key === this.edge) { return; }
-    this.edge = key; this.scene.remove(...this.ghosts);
-    for (const g of this.ghosts) { g.geometry.dispose(); }
-    this.ghosts = glimpsed.length ? this.glimpsed(glimpsed) : [];
-    if (this.ghosts.length) { this.scene.add(...this.ghosts); }
   }
   // A ring about a hex's rim: where you are, where you are bound, what is pointed at; within it, what is chosen.
   mark(which: 'here' | 'dest' | 'chosen' | 'hover', c: number | undefined): void {
@@ -88,78 +78,91 @@ export class BoardTiles {
     m.visible = c !== undefined && this.rise[c]! > -1;
     if (p && c !== undefined) { m.position.set(p.x, this.ground.levels[c]! + this.rise[c]! + 0.035, p.y); }
   }
-  private top(c: number, paths: { rivers: PathReach; roads: PathReach }): BufferGeometry {
-    const g = this.ground, p = g.grid.centres[c]!, level = g.levels[c]!,
-      [lo, hi] = BoardTiles.tones[g.cover(c)] ?? BoardTiles.tones['.']!;
-    const a = new Color(lo), b = new Color(hi), jitter = 0.92 + Noise.hash(c, 77) * 0.16;
-    const shores = g.grid.neighbours(c).filter(n => g.wet(n)).map(n => Math.atan2(g.grid.centres[n]!.y - p.y,
-      g.grid.centres[n]!.x - p.x));
-    const { points, index } = BoardTiles.rings(), pos: number[] = [], col: number[] = [];
-    for (const [lx, lz] of points) {
-      const x = p.x + lx, z = p.y + lz, d = HexGrid.outward(lx, lz, 0.5 * BoardGround.GAP), facing = Math.atan2(lz, lx);
-      const k = new Color().lerpColors(a, b,
-        MathUtils.smoothstep(Noise.fbm(x * 4.3 + c, z * 4.3), 0.3, 0.75)).multiplyScalar(jitter);
-      if (d > 0.6 && shores.some(w => Math.abs(Math.atan2(Math.sin(facing - w), Math.cos(facing - w))) < 0.75)) {
-        k.lerp(BoardTiles.sand, MathUtils.smoothstep(d, 0.6, 0.95) * 0.75);
-      }
-      if (paths.rivers.near(x, z, 0.12)) { k.lerp(BoardTiles.bank, 0.5); }
-      else if (paths.roads.near(x, z, 0.07)) { k.lerp(BoardTiles.verge, 0.35); }
-      pos.push(x, level + g.swell(c, x, z), z); col.push(k.r, k.g, k.b);
-    }
-    const geom = BoardTiles.geometry(pos, col); geom.setIndex(index);
-    const flat = geom.toNonIndexed(); flat.computeVertexNormals();
-    return BoardTiles.of(flat, c);
+  // How finely a hex's top is made: finest where a river's bed is cut into it, finer where it swells or a wood's
+  // canopy is over it.
+  private fine(c: number): number {
+    const cover = this.ground.cover(c);
+    return this.ways.beds.has(c) ? 12 : cover === 'w' ? 8 : 'fph'.includes(cover) ? 7 : 5;
   }
+  // A dry hex: its top, swelling and mottled and smoothly lit, and its sides under its rim.
+  private tile(c: number): BufferGeometry[] {
+    const g = this.ground, p = g.grid.centres[c]!, level = g.levels[c]!, { points, index, rim } = this.rings(c);
+    const shores = g.grid.neighbours(c).filter(n => g.wet(n)).map(n => Math.atan2(g.grid.centres[n]!.y - p.y,
+      g.grid.centres[n]!.x - p.x)), pos: number[] = [], col: number[] = [];
+    for (const [lx, lz] of points) {
+      const x = p.x + lx, z = p.y + lz, at = g.point(c, x, z), k = this.colour(c, [x, z, lx, lz], [at, shores]);
+      pos.push(x, level + at.y, z); col.push(k.r, k.g, k.b);
+    }
+    const top = BoardTiles.geometry(pos, col); top.setIndex(index); top.computeVertexNormals();
+    const edge = [...Array(points.length - rim).keys()].map(i => i + rim);
+    const side = this.side(c, edge.map(i => [pos[i * 3]!, pos[i * 3 + 1]!, pos[i * 3 + 2]!]),
+      edge.map(i => new Color(col[i * 3]!, col[i * 3 + 1]!, col[i * 3 + 2]!)));
+    return [BoardTiles.of(top, c), side];
+  }
+  // The colour of a point of a dry hex's top: its land's, mottled; toward sand where it meets water; the earth of a
+  // bank as it falls to a river; worn by a road.
+  private colour(c: number, [x, z, lx, lz]: [number, number, number, number],
+    [{ y, bed: cut, crown }, shores]: [{ y: number; bed: number; crown: number }, number[]]): Color {
+    const g = this.ground, [lo, hi] = BoardTiles.tones[g.cover(c)] ?? BoardTiles.tones['.']!,
+      d = HexGrid.outward(lx, lz, 0.5 * BoardGround.GAP), facing = Math.atan2(lz, lx);
+    const wood = g.cover(c) === 'w', k = lo!.clone().lerp(hi!,
+      wood ? MathUtils.smoothstep(crown, 0.5, 1) : MathUtils.smoothstep(Noise.fbm(x * 4.3 + c, z * 4.3), 0.3, 0.75))
+      .multiplyScalar(0.92 + Noise.hash(c, 77) * 0.16);
+    if (wood) { k.lerp(BoardTiles.floor, 1 - MathUtils.smoothstep(crown, 0.1, 0.4)); }
+    else { k.multiplyScalar(1 + Math.max(0, y) * 1.5); }
+    if (d > 0.6 && shores.some(w => Math.abs(Math.atan2(Math.sin(facing - w), Math.cos(facing - w))) < 0.75)) {
+      k.lerp(BoardTiles.sand, MathUtils.smoothstep(d, 0.6, 0.95) * 0.75);
+    }
+    const bed = cut / BoardGround.BED, road = this.ways.roads.distance(x, z, 0.08);
+    if (bed > 0) { k.lerp(BoardTiles.bank, Math.min(1, bed * 1.8) * 0.85); }
+    if (road < 0.08) { k.lerp(BoardTiles.verge, (1 - MathUtils.smoothstep(road, 0.02, 0.08)) * 0.3); }
+    return k;
+  }
+  // The rim of a wet hex: its six corners, at the water's level.
+  private flat(c: number): [[number, number, number][], Color[]] {
+    const p = this.ground.grid.centres[c]!, r = HexGrid.R * BoardGround.GAP, level = this.ground.levels[c]!;
+    return [[...Array(6).keys()].map(s => {
+      const [x, z] = HexGrid.corner(s, r);
+      return [p.x + x, level, p.y + z];
+    }), Array(6).fill(new Color('#2b3a44')) as Color[]];
+  }
+  // A hex's sides under its rim (its points round from the top corner, so many to a side, and their colours): each
+  // side a lip of turf, then soil, then the dark, lit as the side it is.
+  private side(c: number, rim: [number, number, number][], turf: Color[]): BufferGeometry {
+    const per = rim.length / 6, level = this.ground.levels[c]!, pos: number[] = [], col: number[] = [],
+      nrm: number[] = [], index: number[] = [];
+    for (let s = 0; s < 6; s++) {
+      const mid = (s + 0.5) * Math.PI / 3, nx = Math.sin(mid), nz = Math.cos(mid), first = pos.length / 3;
+      for (let j = 0; j <= per; j++) {
+        const [x, y, z] = rim[(s * per + j) % rim.length]!, k = turf[(s * per + j) % rim.length]!;
+        for (const [h, tone] of [[y, k], [y - 0.022, BoardTiles.earth[0]!], [level - 0.11, BoardTiles.earth[1]!],
+          [BoardTiles.BASE, BoardTiles.earth[2]!]] as const) {
+          pos.push(x, h, z); col.push(tone.r, tone.g, tone.b); nrm.push(nx, 0, nz);
+        }
+      }
+      for (let j = 0; j < per; j++) {
+        for (let row = 0; row < 3; row++) {
+          const a = first + j * 4 + row, b = a + 4;
+          index.push(a, a + 1, b, b, a + 1, b + 1);
+        }
+      }
+    }
+    const g = BoardTiles.geometry(pos, col); g.setAttribute('normal', new Float32BufferAttribute(nrm, 3));
+    g.setIndex(index);
+    return BoardTiles.of(g, c);
+  }
+  // Open water, one sheet from hex to hex (its sides, under its rim, seen only at a shore).
   private cap(c: number): BufferGeometry {
-    const p = this.ground.grid.centres[c]!,
-      g = new CylinderGeometry(HexGrid.R * BoardGround.GAP, HexGrid.R * BoardGround.GAP, 0.01, 6)
-      .toNonIndexed();
+    const p = this.ground.grid.centres[c]!, g = new CylinderGeometry(HexGrid.R, HexGrid.R, 0.01, 6).toNonIndexed();
     g.deleteAttribute('uv'); g.translate(p.x, this.ground.levels[c]!, p.y);
     return BoardTiles.of(g, c);
   }
-  private side(c: number): BufferGeometry {
-    const g = this.ground, p = g.grid.centres[c]!, top = g.levels[c]!,
-      turf = g.wet(c) ? '#2b3a44' : (BoardTiles.tones[g.cover(c)] ?? ['#55653a'])[0];
-    const rows: [number, Color][] = [[top, new Color(turf)], [top - 0.022, new Color('#4d3c2b')],
-      [top - 0.11, new Color('#33281e')],
-      [BoardTiles.BASE, new Color('#120f0c')]], pos: number[] = [], col: number[] = [], r = HexGrid.R * BoardGround.GAP;
-    for (let s = 0; s < 6; s++) {
-      const a = HexGrid.corner(s, r), b = HexGrid.corner(s + 1, r);
-      for (let i = 0; i < 3; i++) {
-        const [y0, k0] = rows[i]!, [y1, k1] = rows[i + 1]!;
-        const q: [number, number, number, Color][] = [[a[0], y0, a[1], k0], [b[0], y0, b[1], k0], [a[0], y1, a[1], k1],
-          [b[0], y1, b[1], k1]];
-        for (const j of [0, 2, 1, 1, 2, 3]) { const v = q[j]!; pos.push(p.x + v[0], v[1], p.y + v[2]); col.push(v[3].r,
-          v[3].g, v[3].b); }
-      }
-    }
-    const geom = BoardTiles.geometry(pos, col); geom.computeVertexNormals();
-    return BoardTiles.of(geom, c);
-  }
-  private glimpsed(cells: number[]): [Mesh, LineSegments] {
-    const r = HexGrid.R * BoardGround.GAP, hex = this.hex, slabs = new Float32Array(hex.length * cells.length),
-      edges: number[] = [];
-    cells.forEach((c, n) => {
-      const p = this.ground.grid.centres[c]!, o = n * hex.length;
-      for (let i = 0; i < hex.length; i += 3) {
-        slabs[o + i] = hex[i]! + p.x; slabs[o + i + 1] = hex[i + 1]! + 0.01; slabs[o + i + 2] = hex[i + 2]! + p.y;
-      }
-      for (let k = 0; k < 6; k++) {
-        const a = HexGrid.corner(k, r), b = HexGrid.corner(k + 1, r);
-        edges.push(p.x + a[0], 0.025, p.y + a[1], p.x + b[0], 0.025, p.y + b[1]);
-      }
-    });
-    const g = new BufferGeometry(); g.setAttribute('position', new BufferAttribute(slabs, 3));
-    return [new Mesh(g, this.dim), new LineSegments(BoardTiles.geometry(edges), this.rimmed)];
-  }
-  // A glimpsed hex's shape where the land's first hex would lie, a thin slab as wide as a tile.
-  private static slab(): TypedArray {
-    const r = HexGrid.R * BoardGround.GAP;
-    return new CylinderGeometry(r, r, 0.02, 6).toNonIndexed().getAttribute('position').array;
-  }
+  // A ring in its own colour, as it is (not toned as the lit land is), over whatever stands on its hex: a wood's crowns
+  // or a hill's swell do not hide where you are.
   private rim(color: string, opacity: number, [inner, outer]: readonly [number, number]): Mesh {
     const m = new Mesh(new RingGeometry(HexGrid.R * inner, HexGrid.R * outer, 6, 1, Math.PI / 6),
-      new MeshBasicMaterial({ color, transparent: true, opacity, depthWrite: false }));
+      new MeshBasicMaterial({ color, transparent: true, opacity, depthWrite: false, depthTest: false,
+        toneMapped: false }));
     m.rotation.x = -Math.PI / 2; m.visible = false; m.renderOrder = 4; this.scene.add(m);
     return m;
   }
@@ -200,10 +203,12 @@ export class BoardTiles {
   private static on(start: number[], ring: number, i: number): number {
     return ring === 0 ? 0 : start[ring]! + (i % (6 * ring));
   }
-  // A hex top in rings about its centre, each ring's points along the hex's sides, and the triangles between rings.
-  private static rings(): { points: [number, number][]; index: number[] } {
-    const n = BoardTiles.RINGS, r = HexGrid.R * BoardGround.GAP, points: [number, number][] = [[0, 0]], start = [0],
-      index: number[] = [];
+  // A hex top in rings about its centre, each ring's points along the hex's sides, and the triangles between rings;
+  // where its rim's points begin. Made once for each fineness.
+  private rings(c: number): { points: [number, number][]; index: number[]; rim: number } {
+    const n = this.fine(c), made = BoardTiles.made.get(n);
+    if (made) { return made; }
+    const r = HexGrid.R * BoardGround.GAP, points: [number, number][] = [[0, 0]], start = [0], index: number[] = [];
     for (let k = 1; k <= n; k++) {
       start.push(points.length);
       for (let s = 0; s < 6; s++) {
@@ -221,6 +226,8 @@ export class BoardTiles {
         }
       }
     }
-    return { points, index };
+    const shape = { points, index, rim: start[n]! };
+    BoardTiles.made.set(n, shape);
+    return shape;
   }
 }

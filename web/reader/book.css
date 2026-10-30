@@ -32,9 +32,10 @@
   animation: arrive var(--settle) var(--ease) both; }
 /* The map takes the keys' focus as it opens; it is not ringed for it (what is in it is, as Tab reaches it). */
 .field-map:focus { outline: none; }
-.field-land, .field-land svg { position: absolute; inset: 0; width: 100%; height: 100%; }
-.field-land svg { display: block; touch-action: none; cursor: grab; user-select: none; }
-.field-land svg:active { cursor: grabbing; }
+/* The flat map's own drawing, and none drawn within it (the board's signs are drawn in their rings, not over it). */
+.field-land, .field-land > svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.field-land > svg { display: block; touch-action: none; cursor: grab; user-select: none; }
+.field-land > svg:active { cursor: grabbing; }
 .field-map::after { content: ''; position: absolute; inset: 0; pointer-events: none;
   background: radial-gradient(ellipse 75% 70% at 50% 50%, rgba(11, 12, 15, 0) 55%, rgba(11, 12, 15, .78)); }
 .field-head { position: absolute; left: 24px; top: 18px; z-index: 2; pointer-events: none; text-shadow: 0 1px 12px #0B0C0F; }
@@ -95,6 +96,13 @@
 .field-land .spot .reach { fill: transparent; }
 .field-land .spot .disc { fill: rgba(11, 12, 15, .78); stroke: rgba(236, 230, 217, .7); stroke-width: 1.2; }
 .field-land .spot:not(.visited) .disc { stroke: #E7CF95; }
+/* A place only heard of, a ring of dashes where it is said to be; something not made out, a question, no name, in
+   the land's own pale rather than the gold of a place known and not yet been to. */
+.field-land .spot[data-known="heard"] .disc, .field-land .spot[data-known="unknown"] .disc { stroke-dasharray: 2.5 2; }
+.field-land .spot[data-known="unknown"] .disc { stroke: rgba(207, 198, 180, .7); }
+/* Only heard of: its ring empty, its name as told, in the told hand (a town's too). */
+.field-land .spot[data-known="heard"] .name-mark, .field-land .spot.town[data-known="heard"] .name-town { opacity: .8;
+  font-family: var(--told); font-style: italic; font-weight: 400; letter-spacing: .02em; }
 .field-land .spot .sign { fill: none; stroke: var(--ivory); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
 .field-land .spot.town .sign .walls { fill: #CFC6B4; stroke: #0E1013; stroke-width: 1.1; }
 .field-land .spot.town .sign .roofs { fill: none; stroke: #9C5B3E; stroke-width: 2.2; }
@@ -180,6 +188,15 @@
 .board-sign svg { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 1.35; stroke-linejoin: round; stroke-linecap: round; }
 .board-sign:not(.visited) { color: #ecd296; }
 .board-sign:not(.visited) i { border-color: rgba(242, 189, 76, .85); }
+/* Only heard of: over the mist where it is said to be, an empty ring of dashes, the name it was told by beside it;
+   a town, its told name in the same hand. Not made out, a question in a pale ring of dashes. */
+.board-sign[data-known="heard"] i, .board-sign[data-known="unknown"] i { border-style: dashed; background: rgba(11, 12, 15, .5); }
+.board-sign[data-known="heard"] i { width: 16px; height: 16px; margin: 0 3px; border-color: rgba(236, 210, 150, .75); }
+.board-sign[data-known="heard"] { color: #e0d3b3; gap: 6px; font-size: 14px; }
+.board-sign[data-known="unknown"] { color: #cfc6b4; }
+.board-sign[data-known="unknown"] i { border-color: rgba(207, 198, 180, .7); }
+.board-town[data-known="heard"] { font: italic 400 15px/1 var(--told); letter-spacing: .02em; color: #e0d3b3;
+  border-bottom-style: dashed; border-bottom-color: rgba(236, 210, 150, .5); }
 .board-sign.way i { width: 17px; height: 17px; margin: 0 2.5px; }
 .board-sign.way svg { width: 10px; height: 10px; }
 .board-sign.chosen, .board-town.chosen { color: var(--gold); }

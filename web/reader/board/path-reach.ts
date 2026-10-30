@@ -26,5 +26,19 @@ export class PathReach {
     }
     return false;
   }
+  // How far a point of the land is from the nearest of the points, as far as so far (asked no further than a
+  // square's side).
+  distance(x: number, z: number, limit: number): number {
+    const i = Math.floor(x / PathReach.SIDE), j = Math.floor(z / PathReach.SIDE);
+    let most = limit * limit;
+    for (let a = i - 1; a <= i + 1; a++) {
+      for (let b = j - 1; b <= j + 1; b++) {
+        for (const p of this.squares.get(PathReach.key(a, b)) ?? PathReach.none) {
+          most = Math.min(most, (p.x - x) ** 2 + (p.z - z) ** 2);
+        }
+      }
+    }
+    return Math.sqrt(most);
+  }
   private static key(i: number, j: number): number { return (i + 64) * 8192 + j + 64; }
 }

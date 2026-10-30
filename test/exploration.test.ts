@@ -27,8 +27,17 @@ describe('exploring the open country', () => {
     const before = j.screen().region!.land!;
     await j.step('^Look out over the country from here');
     const after = j.screen().region!.land!, tower = after.marks.find(m => /tower/.test(m.name));
-    expect(after.known.length).toBeGreaterThan(before.known.length + 20);
-    expect(tower?.visited).toBe(false);
+    // The country as far as the eye goes from the fells, three hexes every way, is known (counted by the hexes in
+    // sight, not by how many more are known: the land under every place named and every road to it had come with
+    // what was seen, and had made the count, until OWN-23).
+    const W = after.width, x = after.here! % W, y = Math.floor(after.here! / W);
+    const sight = Array.from({ length: W * after.height }, (_, c) => c)
+      .filter(c => Math.abs(c % W - x) <= 3 && Math.abs(Math.floor(c / W) - y) <= 3);
+    expect(after.known).toEqual(expect.arrayContaining(sight));
+    expect(after.known.length).toBeGreaterThan(before.known.length);
+    // Seen from afar: by its look, on its own hex, a long way off past the land known, not yet been to (OWN-24).
+    expect([tower?.visited, tower?.state, after.known.includes(tower!.cell), before.known.includes(tower!.cell)])
+      .toEqual([false, 'seen', true, false]);
     // Each town seen is somewhere to set out for once, by its own name, and the view sets out for it (seen from the
     // fells, Ramavor was offered as "the bailey of Ramavor" and as "Ramavor", and the panorama's row for a town had no
     // Set out: the navigation review).
@@ -46,6 +55,6 @@ describe('exploring the open country', () => {
     expect(done.arrived).toBe(true);
     const land = j.screen().region!.land!;
     expect(land.known).toEqual(expect.arrayContaining(after.known));
-    expect(land.marks.find(m => m.id === tower!.id)?.visited).toBe(true);
+    expect(land.marks.find(m => m.id === tower!.id)).toMatchObject({ visited: true, state: 'visited' });
   }, 300000);
 });

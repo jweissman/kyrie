@@ -1,11 +1,11 @@
-import type { RegionChart } from '../../src/ui/screen-types';
+import type { Knowing, RegionChart } from '../../src/ui/screen-types';
 import { Typography } from '../../src/presentation/typography';
 
 type Land = NonNullable<RegionChart['land']>;
 export interface Pt { x: number; y: number }
 export interface Tile extends Pt { i: number; cover: string; points: string; known: boolean }
 export interface Mark extends Pt {
-  id: string; name: string; sign: string; visited: boolean; town: boolean; here: boolean;
+  id: string; name: string; sign: string; visited: boolean; town: boolean; here: boolean; state: Knowing;
 }
 export interface Drawn {
   size: { w: number; h: number }; tiles: Tile[]; edge: Tile[];
@@ -88,6 +88,18 @@ export class HexLand {
       x: t.x + (this.hash(t.i * 7 + k, 3) - 0.5) * this.R * 1.05,
       y: t.y + (this.hash(t.i * 5 + k, 9) - 0.42) * this.R * 0.95, s })).sort((a, b) => a.y - b.y);
   }
+  // How much the company knows of a town, as the land says (see LandModel.towns).
+  static town(land: Land, a: { id: string; visited: boolean }): Knowing {
+    return land.towns[a.id] ?? (a.visited ? 'visited' : 'heard');
+  }
+  // A place's sign: not made out, a question; only heard of, a place and no more, whatever its name says (hearing of
+  // a place shows that it is there, finding it shows what it is: OWN-24); seen or been to, by what it is called (a
+  // tower, a cave, a shrine), else by what it is (a site's broken walls, a standing stone).
+  static sign(m: Land['marks'][number]): string {
+    if (m.state === 'unknown') { return 'unknown'; }
+    if (m.state === 'heard') { return 'place'; }
+    return this.signs.find(([re]) => re.test(m.name))?.[1] ?? (m.kind === 'site' ? 'ruin' : 'stone');
+  }
   // Each place on the land with its sign: a town; anything else by what it is called (a tower, a cave, a shrine).
   static readonly signs: [RegExp, string][] = [[/tower|keep|spire/i, 'tower'], [/ruin|fallen|walls|arch/i, 'ruin'],
     [/cave|hollow|den|adit|workings|mine|pit/i, 'cave'], [/shrine|chapel|altar|well/i, 'shrine'],
@@ -97,10 +109,9 @@ export class HexLand {
   private static marks(region: RegionChart): Mark[] {
     const land = region.land!, W = land.width;
     const towns = region.areas.filter(a => a.kind === 'settlement').map(a => ({ id: a.id, name: a.name,
-      cell: a.y * W + a.x, sign: 'town', visited: a.visited, town: true, here: a.here }));
+      cell: a.y * W + a.x, sign: 'town', visited: a.visited, town: true, here: a.here, state: this.town(land, a) }));
     const others = land.marks.map(m => ({ id: m.id, name: Typography.curl(m.name.replace(/^the /, '')), cell: m.cell,
-      sign: this.signs.find(([re]) => re.test(m.name))?.[1] ?? (m.kind === 'site' ? 'ruin' : 'stone'),
-      visited: m.visited, town: false, here: m.here }));
+      sign: this.sign(m), visited: m.visited, town: false, here: m.here, state: m.state }));
     return [...towns, ...others].map(m => ({ ...m, ...this.centre(m.cell, W) }));
   }
   private static zone(z: Land['zones'][number], W: number): Pt & { id: string; name: string } {

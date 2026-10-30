@@ -3,15 +3,18 @@ import { Noise } from './noise';
 import type { PathReach } from './path-reach';
 import { Scatter, type Spot } from './scatter';
 
-// Where the country's growing things and furniture stand, hex by hex, by its land: woods in clumps of broadleaf and
-// fir, heather and boulders on the fells, reeds and pools in the fens, fields and hedges about the towns, bushes and
-// gorse, walls across the open hill, a farmstead by a road, sheep on the grazing, small mountains on the heights.
-// Nothing stands on a river, a road, or the middle of a town.
+// Where the country's growing things and furniture stand, hex by hex, by its land: woods in layers (over the canopy
+// of the wood's own ground, broadleaf crowns in many greens and a few already turning, firs over those, the more of
+// them the higher the wood), heather and boulders on the fells, reeds and pools in the fens,
+// fields and hedges about the towns, bushes and gorse, walls across the open hill, a farmstead by a road, sheep on the
+// grazing, a group of peaks on each hex of the heights. Nothing stands on a river, a road, or the middle of a town.
 export class BoardFlora {
   readonly spots: Record<string,
-    Spot[]> = { broadleaf: [], fir: [], rock: [], heather: [], reed: [], strip: [], peak: [],
+    Spot[]> = { broadleaf: [], fir: [], rock: [], heather: [], reed: [], strip: [], massif: [],
     bush: [], sheep: [], wall: [], hedge: [], farm: [], pool: [] };
-  private static readonly greens = ['#3b6640', '#2f5534', '#46703f', '#36593a', '#4d6b35'];
+  private static readonly greens = ['#46663d', '#3c5c38', '#52703f', '#43603f', '#5c6d3b', '#4b6a44', '#6c6a3a',
+    '#76603a'];
+  private static readonly firs = ['#2a4532', '#2f4c35', '#34492f'];
   private static readonly fields = ['#7b7a44', '#5c6935', '#8b7c4c', '#6d7a3e', '#857245'];
   private readonly towns: Set<number>;
   private readonly roads: Set<number>;
@@ -46,9 +49,9 @@ export class BoardFlora {
     if ((cover === 'f' || cover === 'h') && Noise.hash(c, 95) < 0.5) { this.many(c, ['wall', 1, 0.16],
       () => [0.8 + Noise.hash(c, 96) * 0.5, '#8a8577']); }
     if (cover === 'p') {
-      this.many(c, ['peak', 2 + Math.floor(Noise.hash(c, 1) * 2), 0.3],
-        i => [0.5 + Noise.hash(c, i + 3) * 0.3 - i * 0.08, '#ffffff']);
-      this.many(c, ['rock', 5, 0.4], i => [(0.9 + Noise.hash(c, i) * 1.1) * 0.5, '#8f8b82']);
+      const [x, z] = this.around(c, 1, 0.08);
+      this.put('massif', c, [x, z], [1.3 + Noise.hash(c, 2) * 0.35, '#ffffff']);
+      this.many(c, ['rock', 5, 0.42], i => [(0.9 + Noise.hash(c, i) * 1.1) * 0.5, '#8f8b82']);
     }
     if (cover === ',') {
       this.many(c, ['reed', 12, 0.4],
@@ -58,17 +61,13 @@ export class BoardFlora {
     if ((cover === 'f' || cover === 'h' || cover === '.') && !this.towns.has(c) && Noise.hash(c,
       90) < 0.45) { this.flock(c); }
   }
+  // A wood in its layers: over its canopy (see BoardGround), broadleaf crowns standing out of it, firs over all.
   private wood(c: number): void {
-    const upland = this.ground.levels[c]! > 0.25;
-    for (let g = 0; g < 4; g++) {
-      const [gx, gz] = this.around(c, g + 90, 0.28);
-      for (let k = 0; k < 9; k++) {
-        const fir = Noise.hash(c + g, k) < (upland ? 0.7 : 0.25), at = this.around(c, g * 20 + k, 0.2, [gx, gz]);
-        this.put(fir ? 'fir' : 'broadleaf', c, at, [(0.8 + Noise.hash(c, k + 9 * g) * 0.55) * 1.1,
-          BoardFlora.greens[Math.floor(Noise.hash(c + k, g) * 5)]!]);
-      }
-    }
-    this.many(c, ['bush', 6, 0.4], i => [0.6 + Noise.hash(c, i) * 0.4, '#2f4a26']);
+    const upland = this.ground.levels[c]! > 0.2;
+    this.many(c, ['broadleaf', upland ? 7 : 13, 0.42], i => [0.85 + Noise.hash(c, i + 7) * 0.45,
+      BoardFlora.greens[Math.floor(Noise.hash(c + i, 5) ** 2.2 * 8)]!]);
+    this.many(c, ['fir', upland ? 10 : 5, 0.4], i => [(0.95 + Noise.hash(c, i + 9) * 0.5) * 1.1,
+      BoardFlora.firs[i % 3]!]);
   }
   private flock(c: number): void {
     const [x, z] = this.around(c, 90, 0.24);

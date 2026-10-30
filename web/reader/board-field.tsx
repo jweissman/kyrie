@@ -3,6 +3,8 @@ import type { RegionChart } from '../../src/ui/screen-types';
 import type { BoardApi, BoardLand, BoardModule } from './board/board-types';
 import { HexLand } from './hex-land';
 
+type Land = NonNullable<RegionChart['land']>;
+
 // The map's board, when the browser can draw it (Mission 18, the owner's addendum): the country as a table of hex
 // tiles in three dimensions. Its script is the page's own (board.js, beside the reader), fetched only when the map is
 // first opened, so that nothing of it is paid for before; where it cannot be drawn, the flat map stands in its place.
@@ -36,19 +38,21 @@ export class BoardField {
     return BoardField.loading;
   }
   // What the board is given of the region's land: its hexes, rivers and roads, what is known, where you are, and each
-  // town and place known with the sign of its kind (as the flat map has them).
+  // town and place known of with the sign of its kind (as the flat map has them) and how much is known of it.
   static land(region: RegionChart): BoardLand {
     const land = region.land!, W = land.width;
-    const towns = region.areas.filter(a => a.kind === 'settlement').map(a => ({ id: a.id, name: a.name, cell: a.y * W + a.x,
-      kind: 'town', visited: a.visited, town: true }));
-    const marks = land.marks.map(m => ({ id: m.id, name: m.name, cell: m.cell, visited: m.visited, kind: BoardField.kind(m) }));
+    const towns = region.areas.filter(a => a.kind === 'settlement').map(a => ({ id: a.id, name: a.name,
+      cell: a.y * W + a.x, kind: 'town', visited: a.visited, town: true, state: HexLand.town(land, a) }));
+    const marks = land.marks.map(m => ({ id: m.id, name: m.name, cell: m.cell, visited: m.visited,
+      kind: BoardField.kind(m), state: m.state }));
     return { key: land.cover, width: W, height: land.height, cover: land.cover, rivers: land.rivers, roads: land.roads,
       known: land.known, here: land.here, marks: [...towns, ...marks] };
   }
-  // A place's kind, by its sign on the flat map; where a way goes into wild country, a cairn.
-  static kind(m: { name: string; kind: string }): string {
-    const sign = /^the (edge|foot) of/i.test(m.name) ? 'way' : HexLand.signs.find(([re]) => re.test(m.name))?.[1];
-    return sign === 'gate' ? 'way' : sign ?? (m.kind === 'site' ? 'ruin' : 'stone');
+  // A place's kind, by its sign on the flat map; where a way goes into wild country, seen or been to, a cairn.
+  static kind(m: Land['marks'][number]): string {
+    const found = m.state === 'seen' || m.state === 'visited';
+    const sign = found && /^the (edge|foot) of/i.test(m.name) ? 'way' : HexLand.sign(m);
+    return sign === 'gate' ? 'way' : sign;
   }
   // The land as the board is given it, and that land told whole as text: a new frame that leaves the land as it was
   // (anything done with the map open, short of a journey) leaves the board as it is, its view where the player had it.

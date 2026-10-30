@@ -24,7 +24,7 @@ independent ones batched.
 | Inherited, at the start | 0 | 61 | 11 | 0 | 1 | 0 | 73 |
 | Inherited, now | 8 | 55 | 9 | 0 | 1 | 0 | 73 |
 | New in Mission 18 | 10 | 0 | 1 | 0 | 0 | 0 | 11 |
-| The owner's review | 0 | 23 | 20 | 0 | 0 | 0 | 43 |
+| The owner's review | 0 | 26 | 17 | 0 | 0 | 0 | 43 |
 | The adventures' authors | 0 | 14 | 55 | 0 | 0 | 0 | 69 |
 | The navigation review | 0 | 4 | 18 | 0 | 0 | 0 | 22 |
 | The cold review, section H | 0 | 0 | 6 | 0 | 0 | 0 | 6 |
@@ -218,10 +218,10 @@ OWN-12, not a new mission.
 | ID | Requirement | Gate | Pri | Now | Evidence, or what remains |
 |---|---|---|---|---|---|
 | OWN-22 | A world that does not end abruptly: the map continues beyond what is visible or explored; where it is unknown, a clear, attractive treatment of uncertainty (fog, darkness, mist, incomplete cartography); no blank holes that look like missing data | A | P0 | Open | |
-| OWN-23 | One clear knowledge model, partially revealed geography with an explicit fog of war: the unknown looks like unknown world; a place only heard of shows that it exists (a marker), not the route to it or the land about it, unless route knowledge was really acquired | A | P0 | Open | |
-| OWN-24 | Places on the map by what is known of them: icons centred in their markers; a nearby site not yet identified as a question mark; known places by type (settlement, ruin, shrine, cave, tower, bridge, camp); hearing of a place shows its marker; discovering or visiting shows its icon, name and way | A | P0 | Open | |
+| OWN-23 | One clear knowledge model, partially revealed geography with an explicit fog of war: the unknown looks like unknown world; a place only heard of shows that it exists (a marker), not the route to it or the land about it, unless route knowledge was really acquired | A | P0 | Partial | Built: one knowledge model for the board and the flat map; a place only heard of is a marker (dashed ring, its name as told), not its hex, land or route unless a way was told (test/land-knowing.test.ts). The owner's verdict awaited |
+| OWN-24 | Places on the map by what is known of them: icons centred in their markers; a nearby site not yet identified as a question mark; known places by type (settlement, ruin, shrine, cave, tower, bridge, camp); hearing of a place shows its marker; discovering or visiting shows its icon, name and way | A | P0 | Partial | Built in part: a nearby site not made out is a centred ?; heard, seen and visited marks drawn by state; a ? can be set out for. The icon system's optical construction is REV-06 |
 | OWN-25 | Terrain and composition refined: more beautiful and readable land; forests, hills, mountains, rivers and roads in the land, not harsh lines over it; palette and harmony; a more pronounced tilt; a world, not a rough tile prototype | A | P0 | Open | |
-| OWN-26 | Cumulative discovery: the immediate surroundings visible; nearby unexplored sites as unknown markers; rumoured places as markers without their routes; surveying, travel and local knowledge reveal more; visiting and exploring turn partial knowledge into full | C | P0 | Open | |
+| OWN-26 | Cumulative discovery: the immediate surroundings visible; nearby unexplored sites as unknown markers; rumoured places as markers without their routes; surveying, travel and local knowledge reveal more; visiting and exploring turn partial knowledge into full | C | P0 | Partial | Built: discovery adds up across the journey: surroundings, ? marks, rumoured marks, sights from height, walked and told ways, visits (test/land-knowing.test.ts) |
 | OWN-27 | A wilderness worth exploring: exploration regularly uncovers worthwhile destinations and interactions (the wild's own meetings and finds, more and more varied sites), so that a better map has something to show | C | P0 | Open | |
 
 ### The owner's diagnostic directive of 2026-10-30

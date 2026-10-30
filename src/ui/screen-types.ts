@@ -163,6 +163,11 @@ export interface Chart {
   level?: string;
   levels?: { name: string; here: boolean }[];
 }
+// How much the company knows of a place on its map (the owner's corrections of 2026-10-29, OWN-23, OWN-24, OWN-26):
+// only heard of (told, rumoured, read in a notice), its name as heard and where it is said to be, not the land about
+// it nor the way to it; something near the country known that it has not made out, no name and no kind; seen (from
+// afar, or come upon), its look and the name it was given; been to, all of it.
+export type Knowing = 'heard' | 'unknown' | 'seen' | 'visited';
 export interface RegionChart {
   // An area's form is the land it is, when its region says (river, wood, lake, pass, peak); the terrain is the
   // region's own (forest, marsh, mountain, frost), which the chart is textured with.
@@ -176,11 +181,14 @@ export interface RegionChart {
   // The area each known place lies in, so a journey to a place can be drawn between areas.
   within: Record<string, string>;
   // The region's land, as far as the company knows it: every cell's cover, the rivers and the known roads' cells,
-  // and which cells it knows; the cell the company is at; each known place that is not a settlement or wild country
-  // (a landmark, a site, a march-stone); the known cells of each stretch of wild country; and what names mean.
+  // and which cells it knows; the cell the company is at; each place known of that is not a settlement or wild
+  // country (a landmark, a site, a march-stone), with how much of it is known (see Knowing), and how much of each
+  // town; the known cells of each stretch of wild country; and what names mean. The board and the flat map draw
+  // both by these, and work out nothing of their own about what is known.
   land?: { width: number; height: number; cover: string; rivers: number[][]; roads: Record<string, number[]>;
     known: number[]; here?: number;
-    marks: { id: string; name: string; cell: number; kind: string; visited: boolean; here: boolean }[];
+    marks: { id: string; name: string; cell: number; kind: string; visited: boolean; here: boolean; state: Knowing }[];
+    towns: Record<string, Knowing>;
     zones: { id: string; name: string; form?: string; cells: number[] }[];
     glosses: Record<string, string>;
     // Where an authored region's places stand on its land, a stretch each (see AuthoredLand): the rooms of the one

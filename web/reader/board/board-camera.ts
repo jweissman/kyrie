@@ -6,6 +6,12 @@ import { MapControls } from 'three/examples/jsm/controls/MapControls.js';
 // has asked for less motion goes at once. The player's own moving of it, by hand or by the arrow keys, is theirs: a
 // glide under way gives way to it.
 export class BoardCamera {
+  // How far from overhead the view looks (about twenty degrees down from the level, as from a low hill), how wide,
+  // how far off it stands, and how far beyond where you are it looks, so that you stand in the nearer part of it.
+  private static readonly TILT = 1.22;
+  private static readonly FOV = 36;
+  private static readonly FAR = 11.5;
+  private static readonly AHEAD = 1.3;
   readonly camera: PerspectiveCamera;
   readonly controls: MapControls;
   private glide?: { from: Vector3; to: Vector3; start: number };
@@ -15,9 +21,9 @@ export class BoardCamera {
   constructor(element: HTMLElement, private readonly home: Vector2, private readonly still: boolean) {
     this.page = element.getRootNode();
     const aspect = element.clientWidth / Math.max(1, element.clientHeight), tall = Math.max(1, 1.45 / aspect) ** 0.5;
-    this.camera = new PerspectiveCamera(32, aspect, 0.05, 300);
-    const look = new Vector3(home.x, 0.4, home.y - 1.6), d = 13 * tall;
-    this.camera.position.copy(look).add(new Vector3(0, Math.cos(1.13) * d, Math.sin(1.13) * d));
+    this.camera = new PerspectiveCamera(BoardCamera.FOV, aspect, 0.05, 300);
+    const look = new Vector3(home.x, 0.4, home.y - BoardCamera.AHEAD), d = BoardCamera.FAR * tall;
+    this.camera.position.copy(look).add(new Vector3(0, Math.cos(BoardCamera.TILT) * d, Math.sin(BoardCamera.TILT) * d));
     this.camera.lookAt(look);
     this.controls = new MapControls(this.camera, element);
     Object.assign(this.controls,
@@ -50,7 +56,7 @@ export class BoardCamera {
     }
     this.glide = { from: this.controls.target.clone(), to: at, start: performance.now() };
   }
-  back(): void { this.to(new Vector2(this.home.x, this.home.y - 1.6)); }
+  back(): void { this.to(new Vector2(this.home.x, this.home.y - BoardCamera.AHEAD)); }
   // The glide given up where it has got to.
   stop(): void { this.glide = undefined; }
   zoom(by: number): void {

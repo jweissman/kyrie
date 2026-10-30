@@ -37,7 +37,8 @@ export class Atlas {
         came: this.ends(e) === ends }));
     const places = [...region.areas.filter(a => a.kind === 'settlement').map(a => ({ id: a.id, kind: 'settlement',
       visited: a.visited, ...this.centre(a.y * W + a.x, W), name: a.name })),
-    ...land.marks.map(m => ({ id: m.id, kind: m.kind, visited: m.visited, ...this.centre(m.cell, W), name: m.name }))];
+    ...land.marks.filter(m => m.state !== 'unknown')
+      .map(m => ({ id: m.id, kind: m.kind, visited: m.visited, ...this.centre(m.cell, W), name: m.name }))];
     const zones = land.zones.map(z => {
       const pts = z.cells.map(c => this.centre(c, W)), x = pts.reduce((s, p) => s + p.x, 0) / pts.length;
       const y = pts.reduce((s, p) => s + p.y, 0) / pts.length;

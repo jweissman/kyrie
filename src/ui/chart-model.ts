@@ -48,9 +48,7 @@ export class ChartModel {
   // things, and only the two march-stones could be set out for (M16).
   private toldWays(model: PassageModel): WayInfo[] {
     const w = this.world;
-    const passages = new Set([
-      ...w.related('revealedBy').filter(r => this.knows(r.args[1]!)).map(r => r.args[0]!),
-      ...w.related('leadsVia').filter(r => this.knows(r.args[0]!)).map(r => r.args[1]!),
+    const passages = new Set([...this.directions(),
       ...w.related('leadsTo').filter(r => this.knows(r.args[0]!)).flatMap(r => Spatial
         .ancestry(this.entities, r.args[1]!).filter(e => e.id === r.args[1] || e.space?.kind === 'wilderness')
         .flatMap(e => this.into(e.id)))]);
@@ -245,8 +243,8 @@ export class ChartModel {
     const terrain = home ? this.form(home, 'terrain').form : undefined;
     return areas.size > 1 || (chart && areas.size) ? { region: { areas: [...areas.values()], edges: [...edges.values()],
       within: Object.fromEntries(this.within), ...terrain ? { terrain } : {},
-      ...land ? { land: this.glossed(land.land({ visited, told, surveys: this.surveys() }, ways, place,
-        [...areas.values()])) } : {} } } : {};
+      ...land ? { land: this.glossed(land.land({ visited, told, sighted: this.sighted(), routes: this.routes(),
+        surveys: this.surveys() }, ways, place, [...areas.values()])) } : {} } } : {};
   }
   // A name is glossed (Westron for "battle gate") once the company knows the place by it: a ruin seen from a tower,
   // known only by its look, is not explained by a name it has not learned.
@@ -256,6 +254,30 @@ export class ChartModel {
   private learned(id: string): boolean {
     const e = this.world.module.entities.find(x => x.id === id);
     return !e?.alias || ObservationText.known(this.world, e) === e.name;
+  }
+  // The places it has seen with its own eyes, from afar: from high ground, or looking out over the open country (a
+  // sign perceived teaches its fact as witnessed), not only been told of (see LandModel.land).
+  private sighted(): string[] {
+    const w = this.world;
+    return w.relates('leadsTo') && w.relates('witnessed') ? w.related('leadsTo')
+      .filter(r => w.test(ModuleWriter.call('witnessed', this.actor, r.args[0]!))).map(r => r.args[1]!) : [];
+  }
+  // The ways whose course the company knows, not only that they are there: a track's secret told it, the directions a
+  // fact gives landmark by landmark, and with wayfinding every road and path of the country, as from a map. Not the
+  // ways into a place merely heard of, which a journey toward it may take (see toldWays), nor the country's roads,
+  // which its folk would direct anyone along (see LandModel.land).
+  private routes(): string[] {
+    const w = this.world, told = this.directions();
+    if (!w.test(ModuleWriter.call('capable', this.actor, 'wayfinding'))) { return told; }
+    return [...told, ...w.related('passageKind').filter(r => ChartModel.regional.includes(r.args[1]!))
+      .map(r => r.args[0]!)];
+  }
+  // The ways told: a track hidden until its way is known, once someone has told it; and the ways a fact tells,
+  // landmark by landmark (leadsVia).
+  private directions(): string[] {
+    const w = this.world;
+    return [...w.related('revealedBy').filter(r => this.knows(r.args[1]!)).map(r => r.args[0]!),
+      ...w.related('leadsVia').filter(r => this.knows(r.args[0]!)).map(r => r.args[1]!)];
   }
   // The places facts the company knows lead to.
   private leads(): string[] {

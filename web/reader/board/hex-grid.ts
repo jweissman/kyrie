@@ -17,8 +17,11 @@ export class HexGrid {
   get across(): number { return this.width + 0.5; }
   get down(): number { return this.height * HexGrid.ROW + 0.5; }
   centre(i: number): Vector2 {
-    const row = Math.floor(i / this.width);
-    return new Vector2((i % this.width) + (row % 2) * 0.5 + 0.5, row * HexGrid.ROW + 0.5);
+    return HexGrid.at(i % this.width, Math.floor(i / this.width));
+  }
+  // Where a hex of a column and a row would stand, on the land or past its edge (the rows go on alternating there).
+  static at(col: number, row: number): Vector2 {
+    return new Vector2(col + (((row % 2) + 2) % 2) * 0.5 + 0.5, row * HexGrid.ROW + 0.5);
   }
   neighbours(i: number): number[] {
     const x = i % this.width, y = Math.floor(i / this.width);

@@ -28,7 +28,7 @@ export class BoardPlaces {
     else if (kind === 'ruin') { this.ruin(g, m.cell); }
     else if (kind === 'cave') { this.cave(g, m.cell); }
     else if (kind === 'ford') { for (let k = 0; k < 7; k++) { g.add(this.put(new CylinderGeometry(0.022, 0.026, 0.03,
-      6), [k * 0.045 - 0.135, 0.01, (k % 2) * 0.03 - 0.015])); } }
+      6), [k * 0.045 - 0.135, -0.016, (k % 2) * 0.03 - 0.015])); } }
     else if (kind === 'stone') { const s = this.put(new BoxGeometry(0.05, 0.24, 0.035),
       [0, 0.11, 0]); s.rotation.set(0, 0.4, 0.07); g.add(s); }
     else if (kind === 'camp') {

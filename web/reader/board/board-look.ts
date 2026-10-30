@@ -1,14 +1,15 @@
 import {
   AdditiveBlending, BackSide, Box3, CanvasTexture, Color, DirectionalLight, FogExp2, HemisphereLight, Mesh,
-  PlaneGeometry, type Scene, ShaderMaterial, SphereGeometry, Sprite, SpriteMaterial, SRGBColorSpace, Vector3,
+  PlaneGeometry, type Scene, ShaderMaterial, SphereGeometry, Sprite, SpriteMaterial, SRGBColorSpace, Vector2, Vector3,
 } from 'three';
 import { Noise } from './noise';
 import type { BoardKnowing } from './board-knowing';
 import type { HexGrid } from './hex-grid';
 
 // The board's light and air, after the title: dusk over the country, a gold thread low at the horizon, the far land
-// going into a haze the colour of the sky there; mist in two drifting banks over what is not known; water that shows
-// the sky as you look across it and the low sun's glint; lamps and lanterns as soft glows rather than lights.
+// going into a haze the colour of the sky there; mist over what is not known, a soft veil low over all of it and
+// drifts above; water that shows the sky as you look across it and the low sun's glint; lamps and lanterns as soft
+// glows rather than lights.
 export class BoardLook {
   static readonly HAZE = '#1c2029';
   // The haze as it is shown: laid over the mist and the water once their colours are made ready to be shown, as the
@@ -19,13 +20,14 @@ export class BoardLook {
   private static readonly flat = 'varying vec3 vW; void main() { vec4 w = modelMatrix * vec4(position, 1.0); vW = w.xyz;'
     + ' gl_Position = projectionMatrix * viewMatrix * w; }';
   private static readonly mistShader = `
-uniform sampler2D uMask, uNoise; uniform vec2 uOrigin, uSize; uniform float uTime, uScale, uOpacity, uSeed, uFog;
-uniform vec3 uLow, uHigh, uHaze; varying vec3 vW;
+uniform sampler2D uMask, uNoise; uniform vec2 uOrigin, uSize, uMid, uRoom; uniform float uTime, uScale, uOpacity, uSeed;
+uniform float uFog, uVeil; uniform vec3 uLow, uHigh, uHaze; varying vec3 vW;
 void main() {
-  float kn = texture2D(uMask, (vW.xz - uOrigin) / uSize).r; vec2 p = vW.xz * uScale + uSeed;
+  float kn = texture2D(uMask, clamp((vW.xz - uOrigin) / uSize, 0., 1.)).r; vec2 p = vW.xz * uScale + uSeed;
   float f = texture2D(uNoise, p + vec2(uTime * .006, uTime * .002)).r * .62
     + texture2D(uNoise, p * 2.3 - vec2(uTime * .009, -uTime * .004)).r * .38;
-  float a = (1. - smoothstep(.15, .85, kn)) * smoothstep(.36, .74, f) * uOpacity;
+  vec2 rim = 1. - smoothstep(.8, 1., abs(vW.xz - uMid) / uRoom);
+  float a = (1. - smoothstep(.15, .85, kn)) * mix(uVeil, 1., smoothstep(.3, .78, f)) * uOpacity * rim.x * rim.y;
   float d = distance(vW, cameraPosition), fog = 1. - exp(-pow(uFog * d, 2.));
   gl_FragColor = vec4(mix(uLow, uHigh, smoothstep(.42, .85, f)), a);
   #include <tonemapping_fragment>
@@ -95,23 +97,28 @@ void main() {
     dome.position.copy(mid); dome.renderOrder = -1; dome.frustumCulled = false;
     return dome;
   }
-  // A bank of mist at a height, of a grain, so thick, from a place in the noise.
-  mist(y: number, scale: number, opacity: number, seed: number): void {
-    const k = this.knowing, m = new ShaderMaterial({ vertexShader: BoardLook.flat, fragmentShader: BoardLook.mistShader,
+  // A bank of mist at a height, of a grain, from a place in the noise; so thick at its thickest, and so much of that
+  // laid evenly over all that is not known (the rest in drifts). It lies over the land past the country's edge as
+  // well, thinning out only at its own far edge.
+  mist([y, scale, seed]: [number, number, number], [opacity, veil]: [number, number]): void {
+    const k = this.knowing, room = new Vector2(this.grid.across / 2 + 16, this.grid.down / 2 + 16),
+      mid = new Vector2(this.grid.across / 2, this.grid.down / 2);
+    const m = new ShaderMaterial({ vertexShader: BoardLook.flat, fragmentShader: BoardLook.mistShader,
       transparent: true, depthWrite: false, uniforms: { uMask: { value: k.texture }, uNoise: { value: this.noise },
-        uOrigin: { value: k.origin }, uSize: { value: k.size }, uTime: this.time, uScale: { value: scale },
-        uOpacity: { value: opacity }, uSeed: { value: seed }, uFog: this.fog, uLow: { value: new Color('#12151b') },
-        uHigh: { value: new Color('#474d5b') }, uHaze: { value: BoardLook.shownHaze } } });
-    const plane = new Mesh(new PlaneGeometry(k.size.x, k.size.y), m);
-    plane.rotateX(-Math.PI / 2); plane.position.set(this.grid.across / 2, y, this.grid.down / 2);
+        uOrigin: { value: k.origin }, uSize: { value: k.size }, uMid: { value: mid }, uRoom: { value: room },
+        uTime: this.time, uScale: { value: scale }, uOpacity: { value: opacity }, uVeil: { value: veil },
+        uSeed: { value: seed }, uFog: this.fog, uLow: { value: new Color('#20252f') },
+        uHigh: { value: new Color('#5d6473') }, uHaze: { value: BoardLook.shownHaze } } });
+    const plane = new Mesh(new PlaneGeometry(room.x * 2, room.y * 2), m);
+    plane.rotateX(-Math.PI / 2); plane.position.set(mid.x, y, mid.y);
     plane.renderOrder = 10;
     this.scene.add(plane); this.shaders.push(m);
   }
   water(): ShaderMaterial {
     const m = new ShaderMaterial({ vertexShader: BoardLook.flat, fragmentShader: BoardLook.waterShader,
       uniforms: { uNoise: { value: this.noise }, uTime: this.time, uFog: this.fog,
-        uDeep: { value: new Color('#163450') },
-        uSky: { value: new Color('#8d8780') }, uSun: { value: new Color('#ffc98a') },
+        uDeep: { value: new Color('#12293d') },
+        uSky: { value: new Color('#6c6e72') }, uSun: { value: new Color('#ffc98a') },
         uSunDir: { value: BoardLook.toSun }, uHaze: { value: BoardLook.shownHaze } } });
     this.shaders.push(m);
     return m;

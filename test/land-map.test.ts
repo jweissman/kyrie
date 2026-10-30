@@ -19,8 +19,9 @@ class Land {
     return { areas: [{ id: 't', name: 'Murkstede', kind: 'settlement', x: Math.floor(width / 2), y: 0, visited: true, here: true }],
       edges: [], within: {}, land: { width, height: rows.length, cover, rivers: [], roads: {}, known,
         here: Math.floor(width / 2),
-        marks: [{ id: 'oak', name: 'the great oak', cell: width + 1, kind: 'landmark', visited: false, here: false }],
-        zones: [], glosses: {} } };
+        marks: [{ id: 'oak', name: 'the great oak', cell: width + 1, kind: 'landmark', visited: false, here: false,
+          state: 'seen' }],
+        towns: { t: 'visited' }, zones: [], glosses: {} } };
   }
 }
 
@@ -76,8 +77,9 @@ describe('the map', () => {
     const clearing = land.marks.find(m => m.name.startsWith('the charcoal-burners\' clearing'))!;
     expect(clearing).toMatchObject({ kind: 'landmark', visited: true, here: true });
     expect(land.here).toBe(clearing.cell);
-    // The old bank is known of, from the edge of the wood, but not yet been to.
-    expect(land.marks.find(m => m.name === 'the old bank')).toMatchObject({ visited: false, here: false });
+    // The old bank is known of, from the edge of the wood (the way there starts there), but not yet been to: only
+    // heard of, a mark on the map and no more (OWN-23).
+    expect(land.marks.find(m => m.name === 'the old bank')).toMatchObject({ visited: false, here: false, state: 'heard' });
     expect(land.zones.map(z => z.name)).toEqual(['Oakhurst']);
     expect(land.zones[0]!.cells).toContain(clearing.cell);
     // The road out of Lowmouth runs over the road's own cells, half of it to the country between the two towns.

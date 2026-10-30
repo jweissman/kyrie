@@ -3,7 +3,7 @@ import {
   type WheelEvent,
 } from 'react';
 import { createPortal } from 'react-dom';
-import type { RegionChart, Screen } from '../../src/ui/screen-types';
+import type { Knowing, RegionChart, Screen } from '../../src/ui/screen-types';
 import type { Choice } from '../../src/ui/choice-list';
 import type { ReaderApp } from './reader-app';
 import { HexLand, type Drawn, type Mark } from './hex-land';
@@ -121,12 +121,13 @@ export class MapView {
       </aside>
     );
   }
-  // A hex chosen, across the open country the company knows: not into the sea or a lake, where there is no stretch
-  // of country to come to (the card had offered "Go across country to the sea", and said "You know no way on to
-  // region__t177": the navigation review).
-  private static across(land: NonNullable<RegionChart['land']>, cell: string | undefined,
+  // Where no way is known, across the open country to the hex: a hex chosen, the hex a place seen stands on, or one
+  // with something on it not yet made out, at the edge of what is known (going to look is how it is found out); never
+  // into the sea or a lake, where there is no stretch of country to come to (the navigation review).
+  private static across(land: NonNullable<RegionChart['land']>, cell: string | number | undefined,
     name: string): Choice | undefined {
-    if (!land.tracts || cell === undefined || !land.known.includes(Number(cell)) || !MapView.walkable(land, Number(cell))) {
+    const n = Number(cell), near = land.marks.some(m => m.cell === n && m.state === 'unknown');
+    if (!land.tracts || cell === undefined || !(land.known.includes(n) || near) || !MapView.walkable(land, n)) {
       return undefined;
     }
     const id = `${land.tracts}${cell}`;
@@ -151,18 +152,22 @@ export class MapView {
   private static walkable(land: NonNullable<RegionChart['land']>, cell: number): boolean {
     return !['sea', 'lake'].includes(HexLand.covers[land.cover[cell] ?? '.'] ?? '');
   }
-  // Whether the company has been where is chosen: a place, as it was kept; a hex, as the town or the place on it was,
-  // or, where nothing stands (no count is kept of open country), only that it is country it knows.
+  // How much the company knows of where is chosen (see Knowing): a place, as the land says; a hex, as the town or the
+  // place on it, or, where nothing stands (no count is kept of open country), only that it is country it knows.
   private static told(region: RegionChart, chosen: string, here: boolean): string {
     const cell = /^hex:(\d+)$/.exec(chosen)?.[1], n = Number(cell), W = region.land?.width ?? 0;
     const on = cell === undefined ? chosen : region.land?.marks.find(m => m.cell === n)?.id
       ?? region.areas.find(a => a.kind === 'settlement' && a.y * W + a.x === n)?.id;
     if (here) { return 'You are here'; }
     if (!on) { return 'Country you know'; }
-    return MapView.been(region, on) ? 'You have been here' : 'You have not been here';
+    return MapView.knowing[MapView.known(region, on) ?? 'seen'];
   }
-  private static been(region: RegionChart, id: string): boolean {
-    return !!(region.areas.find(a => a.id === id)?.visited ?? region.land?.marks.find(m => m.id === id)?.visited);
+  private static readonly knowing: Record<Knowing, string> = { visited: 'You have been here',
+    seen: 'You have not been here', heard: 'You have only heard of it', unknown: 'Something you have not made out' };
+  private static known(region: RegionChart, id: string): Knowing | undefined {
+    const land = region.land, area = region.areas.find(a => a.id === id);
+    if (!area || !land) { return land?.marks.find(m => m.id === id)?.state; }
+    return area.kind === 'settlement' ? HexLand.town(land, area) : area.visited ? 'visited' : 'seen';
   }
   // A hex of open country, by its land.
   static ground(land: NonNullable<RegionChart['land']>, cell: number): string {
@@ -237,17 +242,18 @@ export class MapView {
     const pick = () => choose(m.id);
     return (
       <g className={`spot${m.town ? ' town' : ''}${m.visited ? ' visited' : ''}${chosen ? ' chosen' : ''}${bound ? ' bound' : ''}`}
-        role="button" tabIndex={0} data-action="map-place" data-id={m.id} aria-label={m.name} aria-pressed={chosen} onClick={pick}
+        role="button" tabIndex={0} data-action="map-place" data-id={m.id} data-known={m.state} aria-label={m.name}
+        aria-pressed={chosen} onClick={pick}
         onKeyDown={e => {
           if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); e.stopPropagation(); choose(m.id, true); }
         }}>
         <circle className="reach" cx={m.x} cy={m.y} r={18} />
         {!m.town && <circle className="disc" cx={m.x} cy={m.y - 1} r={11} />}
         {bound && <circle className="whither" cx={m.x} cy={m.y} r={19} />}
-        <use href={`#s-${m.sign}`} className={`sign ${m.sign}`} x={m.x - (m.town ? 14 : 10)} y={m.y - (m.town ? 14 : 12)}
-          width={m.town ? 28 : 20} height={m.town ? 22 : 20} />
-        <text className={m.town ? 'name-town' : 'name-mark'} x={m.x} y={m.y + (m.town ? 26 : 24)} textAnchor="middle">
-          {m.town ? m.name.toUpperCase() : m.name}</text>
+        {(m.town || m.state !== 'heard') && <use href={`#s-${m.sign}`} className={`sign ${m.sign}`}
+          x={m.x - (m.town ? 14 : 10)} y={m.y - (m.town ? 14 : 12)} width={m.town ? 28 : 20} height={m.town ? 22 : 20} />}
+        {m.state !== 'unknown' && <text className={m.town ? 'name-town' : 'name-mark'} x={m.x} y={m.y + (m.town ? 26 : 24)}
+          textAnchor="middle">{m.town && m.state !== 'heard' ? m.name.toUpperCase() : m.name}</text>}
       </g>
     );
   }

@@ -1,6 +1,12 @@
+import type { Knowing } from '../../../src/ui/screen-types';
+
 // What the map's board is given, and what it gives back. The board is its own script, loaded only when the map is
-// first opened (see BoardField), so the reader and it share these shapes and nothing else.
-export interface BoardMark { id: string; name: string; cell: number; kind: string; visited: boolean; town?: boolean }
+// first opened (see BoardField), so the reader and it share these shapes and nothing else. Each town and place with
+// how much the company knows of it (see Knowing): only heard of, or not made out, it is a sign over the land and no
+// more.
+export interface BoardMark {
+  id: string; name: string; cell: number; kind: string; visited: boolean; town?: boolean; state: Knowing;
+}
 export interface BoardLand {
   // Which country this is, so that what was known the last time it was opened can be told from what is new.
   key: string;

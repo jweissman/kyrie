@@ -1,7 +1,6 @@
 import {
-  ACESFilmicToneMapping, type BufferGeometry, type Intersection, type Material, type Mesh, MeshStandardMaterial,
-  type Object3D, PCFShadowMap, Raycaster, Scene, type ShaderMaterial, SRGBColorSpace, type Texture, Vector2, Vector3,
-  WebGLRenderer,
+  ACESFilmicToneMapping, type BufferGeometry, type Intersection, type Material, type Mesh, type Object3D,
+  PCFShadowMap, Raycaster, Scene, type ShaderMaterial, SRGBColorSpace, type Texture, Vector2, Vector3, WebGLRenderer,
 } from 'three';
 import { BoardCamera } from './board-camera';
 import { BoardFlora } from './board-flora';
@@ -15,6 +14,7 @@ import { BoardPlaces } from './board-places';
 import { BoardPresses } from './board-presses';
 import { BoardTiles } from './board-tiles';
 import { BoardTowns } from './board-towns';
+import { BoardUnder } from './board-under';
 import type { BoardApi, BoardHooks, BoardLand } from './board-types';
 import { HexGrid } from './hex-grid';
 import { Scatter } from './scatter';
@@ -41,7 +41,7 @@ export class Board implements BoardApi {
   private readonly places: BoardPlaces;
   private readonly labels: BoardLabels;
   private readonly view: BoardCamera;
-  private readonly kit: Record<string, Material>;
+  private readonly river: ShaderMaterial;
   private readonly watch: ResizeObserver;
   // When newly known country began to arrive: once the board is made and first drawn, so that neither is counted in
   // it and the nearest hexes are seen to rise first, however long the making took.
@@ -66,7 +66,10 @@ export class Board implements BoardApi {
   constructor(private readonly host: HTMLElement, private readonly land: BoardLand, private readonly hooks: BoardHooks,
     private readonly still: boolean) {
     try {
-      this.grid = new HexGrid(land.width, land.height); this.ground = new BoardGround(this.grid, land);
+      const towns = land.marks.filter(m => m.town);
+      this.grid = new HexGrid(land.width, land.height);
+      this.paths = new BoardPaths(this.grid, land, new Set(towns.map(t => t.cell)));
+      this.ground = new BoardGround(this.grid, land, this.paths.reach);
       this.knowing = new BoardKnowing(this.grid, land.known, land.key, land.here);
       if (still) { this.knowing.settle(); }
       this.renderer.setPixelRatio(Math.min(1.5, devicePixelRatio));
@@ -76,23 +79,19 @@ export class Board implements BoardApi {
       Object.assign(this.renderer.shadowMap, { enabled: true, type: PCFShadowMap, autoUpdate: false });
       this.offer(host);
       this.look = new BoardLook(this.scene, this.grid, this.knowing);
-      const towns = land.marks.filter(m => m.town);
-      this.paths = new BoardPaths(this.grid, land, new Set(towns.map(t => t.cell)));
-      this.tiles = new BoardTiles(this.scene, this.ground, this.look.water(), this.paths.reach);
+      this.tiles = new BoardTiles(this.scene, this.ground, this.look.water(), { ...this.paths.reach,
+        beds: this.paths.beds });
+      new BoardUnder(this.scene, this.ground);
       const flora = new BoardFlora(this.ground, this.paths.reach, towns.map(t => t.cell));
       this.scatters = Object.entries(flora.spots).map(([kind, spots]) => new Scatter(this.scene, BoardKit.make(kind),
         spots, (x, z) => this.ground.at(x, z)));
-      this.kit = { river: Object.assign(this.look.water(), { side: 2, polygonOffset: true, polygonOffsetFactor: -2 }),
-        road: new MeshStandardMaterial({ color: '#a08a64', roughness: 1, side: 2, polygonOffset: true,
-          polygonOffsetFactor: -2 }), verge: new MeshStandardMaterial({ color: '#5a4b36', roughness: 1,
-          transparent: true, opacity: 0.55, depthWrite: false, side: 2, polygonOffset: true,
-          polygonOffsetFactor: -1 }) };
+      this.river = this.look.water();
       this.places = new BoardPlaces(this.scene, this.ground, this.look);
       this.labels = new BoardLabels(host, hooks, c => this.heed(c), c => this.up(c));
       this.view = new BoardCamera(this.renderer.domElement, this.grid.centres[land.here ?? towns[0]?.cell ?? 0]!,
         still);
       this.furnish(new BoardTowns(this.scene, this.ground, this.look, towns));
-      this.look.mist(0.3, 0.05, 0.62, 0.31); this.look.mist(0.75, 0.03, 0.22, 0.77);
+      this.look.mist([0.16, 0.05, 0.31], [0.85, 0.64]); this.look.mist([0.62, 0.03, 0.77], [0.36, 0]);
       this.know(true);
       this.watch = new ResizeObserver(() => this.fit()); this.watch.observe(host);
       this.listen();
@@ -122,10 +121,13 @@ export class Board implements BoardApi {
     for (const [c, gs] of towns.groups) { for (const g of gs) { this.stand(c, g); } }
     this.scatters.push(...towns.scatters);
     for (const m of this.land.marks) {
-      const at = new Vector3(this.grid.centres[m.cell]!.x, this.ground.levels[m.cell]!, this.grid.centres[m.cell]!.y);
-      if (m.town) { this.labels.town(m, at.clone().setY(at.y + 0.5)); continue; }
-      const g = this.places.place(m); this.scene.add(g); this.stand(m.cell, g);
-      this.labels.sign(m, at.clone().setY(at.y + (m.kind === 'tower' ? 0.78 : 0.36)));
+      // A town or a place on land not known stands over the mist, at no height of the land it stands on.
+      const p = this.grid.centres[m.cell]!, low = !this.knowing.will(m.cell),
+        at = new Vector3(p.x, low ? BoardUnder.TOP : this.ground.levels[m.cell]!, p.y);
+      if (m.town) { this.labels.town(m, at.setY(at.y + (low ? 0.3 : 0.42))); continue; }
+      // A place only heard of, or not made out, is its sign over the land and nothing standing there.
+      if (!BoardLabels.afar(m)) { const g = this.places.place(m); this.scene.add(g); this.stand(m.cell, g); }
+      this.labels.sign(m, at.setY(at.y + (low ? 0.2 : m.kind === 'tower' ? 0.78 : 0.36)));
     }
     const here = this.land.here;
     if (here !== undefined) {
@@ -154,7 +156,7 @@ export class Board implements BoardApi {
       const [lift, shown] = this.up(c);
       for (const o of this.standing.get(c) ?? []) { o.position.y = this.ground.levels[c]! + lift; o.visible = shown; }
     }
-    this.paths.lay(this.scene, (x, z) => this.ground.at(x, z), c => this.tiles.lift(c) > -0.001, this.kit);
+    this.paths.lay(this.scene, (x, z) => this.ground.at(x, z), c => this.tiles.lift(c) > -0.001, this.river);
     this.rims(); this.shade(all || moved.length > 0); this.dirty = true;
   }
   // The rings about where you are, where you are bound, what is chosen and what is pointed at, each on its hex as it
@@ -198,10 +200,10 @@ export class Board implements BoardApi {
       c => !this.ground.wet(c) && this.knowing.will(c));
     return way.every(c => this.knowing.still(c)) ? way : [];
   }
-  // The height of the land at a point as it is drawn: a glimpsed hex lies low and flat (see BoardTiles.glimpsed).
+  // The height of the land at a point as it is drawn: a hex not known lies low under the mist (see BoardUnder).
   private drawnAt(x: number, z: number): number {
-    const c = this.grid.cellAt(x, z), lift = c === undefined ? 0 : this.tiles.lift(c);
-    return lift <= -1 ? 0.02 : this.ground.at(x, z) + lift;
+    const c = this.grid.cellAt(x, z), lift = c === undefined ? -4 : this.tiles.lift(c);
+    return lift <= -1 ? BoardUnder.TOP + 0.012 : this.ground.at(x, z) + lift;
   }
   zoom(by: number): void { this.view.zoom(by); this.dirty = true; }
   home(): void { this.view.back(); this.dirty = true; }

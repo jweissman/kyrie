@@ -3,11 +3,16 @@ import type { BoardHooks, BoardMark } from './board-types';
 
 interface Label {
   el: HTMLElement; at: Vector3; cell: number; id: string; town: boolean; w: number; h: number; name?: HTMLElement;
+  // Only heard of, or not made out: over its hex whether or not the hex is known, the mist under it; only heard of,
+  // its name always told.
+  afar?: boolean; told?: boolean;
 }
-// Few words on the board: each town by its name, each place known by the sign of its kind (its name beside it only
-// when it is pointed at, chosen or reached by Tab), and where you are. Each is a button, reached by Tab and chosen
-// with Enter or a touch, as on the flat map; kept over the land as the view moves, a town's name given up where it
-// would cover another, a sign where it would cover a town's name.
+// Few words on the board: each town by its name, each place known by the sign of its kind centred over it (its name
+// beside it only when it is pointed at, chosen or reached by Tab), and where you are. Each is a button, reached by Tab
+// and chosen with Enter or a touch, as on the flat map; kept over the land as the view moves, a town's name given up
+// where it would cover another, a sign where it would cover a town's name. A place only heard of is an empty ring and
+// the name it was told by over the mist, where it is said to be (a town, its name); something not made out, a
+// question.
 export class BoardLabels {
   private static readonly glyphs: Record<string, string> = {
     tower: 'M5.5 14V5.5h5V14M4.5 5.5V2.5h1.5v1.2h1.2V2.5h1.6v1.2h1.2V2.5h1.5v3',
@@ -23,6 +28,7 @@ export class BoardLabels {
     crag: 'M1.5 14l3.5-7 2 3 2.5-6 5 10z',
     grove: 'M5 14v-3M11 14v-3M8 14V9M5 11a2.5 2.5 0 1 1 0-5a2.5 2.5 0 0 1 0 5zM11 11a2.5 2.5 0 1 1 0-5a2.5 2.5 0 0 1 0 5z',
     place: 'M8 2.5l5 5.5-5 5.5-5-5.5z',
+    unknown: 'M5.5 6a2.5 2.5 0 1 1 3.6 2.2c-.7.4-1.1.9-1.1 1.7v.6M8 12.6v.4',
   };
   readonly layer = document.createElement('div');
   private readonly labels: Label[] = [];
@@ -35,15 +41,21 @@ export class BoardLabels {
     this.layer.className = 'board-labels'; host.appendChild(this.layer);
   }
   town(m: BoardMark, at: Vector3): void {
-    const el = this.button(m, 'board-town'); el.textContent = m.name.toUpperCase();
-    this.add({ el, at, cell: m.cell, id: m.id, town: true, w: 0, h: 0 });
+    // A town only heard of, by the name it was told by, as the told names of places are.
+    const el = this.button(m, 'board-town'); el.textContent = m.state === 'heard' ? m.name : m.name.toUpperCase();
+    this.add({ el, at, cell: m.cell, id: m.id, town: true, w: 0, h: 0, afar: BoardLabels.afar(m) });
   }
+  // A place's sign: centred in its ring, the sign of its kind; only heard of, an empty ring of dashes with the name it
+  // was told by always beside it; not made out, a question.
   sign(m: BoardMark, at: Vector3): void {
-    const el = this.button(m, `board-sign ${m.kind}`), name = document.createElement('span');
-    el.innerHTML = `<i><svg viewBox="0 0 16 16" aria-hidden="true"><path d="${BoardLabels.glyphs[m.kind] ?? BoardLabels.glyphs.place}"/></svg></i>`;
-    name.className = 'name'; name.textContent = m.name.replace(/^the /, ''); name.hidden = true; el.appendChild(name);
-    this.add({ el, at, cell: m.cell, id: m.id, town: false, w: 0, h: 0, name });
+    const el = this.button(m, `board-sign ${m.kind}`), name = document.createElement('span'),
+      told = m.state === 'heard', glyphs = BoardLabels.glyphs,
+      glyph = m.state === 'unknown' ? glyphs.unknown : glyphs[m.kind] ?? glyphs.place;
+    el.innerHTML = told ? '<i></i>' : `<i><svg viewBox="0 0 16 16" aria-hidden="true"><path d="${glyph}"/></svg></i>`;
+    name.className = 'name'; name.textContent = m.name.replace(/^the /, ''); name.hidden = !told; el.appendChild(name);
+    this.add({ el, at, cell: m.cell, id: m.id, town: false, w: 0, h: 0, name, afar: BoardLabels.afar(m), told });
   }
+  static afar(m: BoardMark): boolean { return m.state === 'heard' || m.state === 'unknown'; }
   // You, as a mark that says so; and the name or sign of where you are, saying so too.
   here(at: Vector3, cell: number): void {
     const el = document.createElement('span');
@@ -68,34 +80,36 @@ export class BoardLabels {
       .map(e => e.getBoundingClientRect());
     const box = this.layer.getBoundingClientRect(), focused = document.activeElement;
     for (const l of [...this.labels].sort((a, b) => Number(b.town) - Number(a.town))) {
-      const p = this.screen(l.at, l.cell, camera, [width, height]);
+      const p = this.screen(l, camera, [width, height]);
       const on = l.id === chosen || l.cell === pointed || l.el === focused, pressed = String(l.id === chosen);
       l.el.classList.toggle('chosen', l.id === chosen); l.el.classList.toggle('off', !p);
       if (l.el.getAttribute('aria-pressed') !== pressed) { l.el.setAttribute('aria-pressed', pressed); }
       if (!p) { continue; }
-      if (l.name) { l.name.hidden = !on; }
-      l.el.style.transform = `translate(${l.town ? '-50%' : '-11px'}, -100%) translate3d(${p[0].toFixed(1)}px, ${p[1].toFixed(1)}px, 0)`;
+      if (l.name) { l.name.hidden = !on && !l.told; }
+      l.el.style.transform = `translate(${l.town ? '-50%, -100%' : '-11px, -50%'}) translate3d(${p[0].toFixed(1)}px, ${p[1].toFixed(1)}px, 0)`;
       const r = l.town ? new DOMRect(box.left + p[0] - l.w / 2 - 3, box.top + p[1] - l.h - 2, l.w + 6, l.h + 4)
-        : new DOMRect(box.left + p[0] - 11, box.top + p[1] - l.h, l.w, l.h);
+        : new DOMRect(box.left + p[0] - 11, box.top + p[1] - l.h / 2, l.w, l.h);
       const clash = taken.some(t => r.x < t.right && r.right > t.x && r.y < t.bottom && r.bottom > t.y);
       l.el.classList.toggle('away', clash && !on); if (!clash && l.town) { taken.push(r); }
     }
-    const y = this.you && this.screen(this.you.at, this.you.cell, camera, [width, height]);
+    const y = this.you && this.screen(this.you, camera, [width, height]);
     if (this.you) { this.you.el.style.visibility = y ? '' : 'hidden'; if (y) { this.you.el.style.transform = `translate(-50%, -50%) translate3d(${y[0]}px, ${y[1]}px, 0)`; } }
   }
   // Where a point over a hex is on the screen, the hex standing as far as it has come; nowhere while the hex has not
-  // yet come most of the way up out of the mist, or when the point is out of view.
-  private screen(at: Vector3, cell: number, camera: Camera,
+  // yet come most of the way up out of the mist (but for a place known only from afar, over the mist where the land
+  // would be), or when the point is out of view.
+  private screen({ at, cell, afar }: { at: Vector3; cell: number; afar?: boolean }, camera: Camera,
     [width, height]: [number, number]): [number, number] | undefined {
     const [lift, shown] = this.up(cell);
-    if (!shown) { return undefined; }
-    this.v.copy(at).setY(at.y + lift).project(camera);
+    if (!shown && !afar) { return undefined; }
+    this.v.copy(at).setY(at.y + (shown ? lift : 0)).project(camera);
     if (this.v.z > 1 || Math.abs(this.v.x) > 1.05 || Math.abs(this.v.y) > 1.05) { return undefined; }
     return [(this.v.x * 0.5 + 0.5) * width, (-this.v.y * 0.5 + 0.5) * height];
   }
   private button(m: BoardMark, cls: string): HTMLButtonElement {
     const el = document.createElement('button');
     el.type = 'button'; el.className = `${cls}${m.visited ? ' visited' : ''}`; el.dataset.action = 'map-place'; el.dataset.id = m.id;
+    el.dataset.known = m.state;
     el.setAttribute('aria-label', m.name); el.setAttribute('aria-pressed', 'false');
     el.addEventListener('click', () => this.hooks.choose(m.id));
     el.addEventListener('focus', () => this.heed(m.cell));
