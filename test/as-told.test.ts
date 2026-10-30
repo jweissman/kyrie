@@ -14,10 +14,10 @@ import type { Change } from '../src/lang/module';
 // drover resting at an inn has news of where he came from, not of where he sits. What lies in wait in the cisterns
 // makes no sound, but a ranger sees its slime at the mouth of the way. And heather is bought as heather.
 class Thorn {
-  static async start(calling = 'ranger') {
-    const w = await WorldAssembler.assemble('thorn', NodeBundleSource.shared,
+  static async start(calling = 'ranger', seed = 'thorn') {
+    const w = await WorldAssembler.assemble(seed, NodeBundleSource.shared,
       { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: calling }] });
-    return PlaySession.start(w.path, 'thorn', w.source);
+    return PlaySession.start(w.path, seed, w.source);
   }
   static put(s: PlaySession, place: string) {
     const c = s.campaign as unknown as { world: { apply(c: Change[]): unknown }; commit(w: unknown): void };
@@ -45,10 +45,11 @@ describe('as the company would tell it', () => {
     expect(Thorn.seen(s)).toContain('Ralf the drover is at the window, counting the cattle in the pens before the road');
     expect(Thorn.seen(s)).not.toContain('penned for the night');
   }, 60000);
+  // In wren's mine (thorn's cisterns have nothing lying in wait since the ooze went down to the deepest level).
   it('lets someone who reads sign see what lies in wait, and nobody else', async () => {
-    const ranger = await Thorn.start(), warrior = await Thorn.start('warrior');
-    for (const s of [ranger, warrior]) { Thorn.put(s, 'w8_galleries_colonnade'); }
-    expect(Thorn.seen(ranger)).toContain('The stone at the mouth of the way to the great wheel is slick');
+    const ranger = await Thorn.start('ranger', 'wren'), warrior = await Thorn.start('warrior', 'wren');
+    for (const s of [ranger, warrior]) { Thorn.put(s, 'w9_adit_crossing'); }
+    expect(Thorn.seen(ranger)).toContain('The stone at the mouth of the way to the head of the winze is slick');
     expect(Thorn.seen(warrior)).not.toContain('Something lies in wait in there');
   }, 60000);
   it('does not offer to try what is already undone, nor to look at what was gathered, nor to send a goat off', async () => {

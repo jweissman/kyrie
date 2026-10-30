@@ -16,9 +16,9 @@ import type { Change } from '../src/lang/module';
 // match for you" while they bit Wenna, at seven hit points, down; her conjured light went out as she fell; she died
 // of the fall at rest; and the page said she fell at the forecourt, where she was carried, struck "with a mandibles".
 class Barrow {
-  static async start(party: CreatureGenerationContext[]) {
-    const w = await WorldAssembler.assemble('cov7', NodeBundleSource.shared, { party });
-    return PlaySession.start(w.path, 'cov7', w.source, party);
+  static async start(party: CreatureGenerationContext[], seed = 'cov7') {
+    const w = await WorldAssembler.assemble(seed, NodeBundleSource.shared, { party });
+    return PlaySession.start(w.path, seed, w.source, party);
   }
   static readonly mage = { name: 'Wenna', raceId: 'human', classId: 'mage' } as CreatureGenerationContext;
   static async take(s: PlaySession, pattern: RegExp) {
@@ -36,11 +36,13 @@ class Barrow {
 }
 
 describe('a mage in the king-barrow', () => {
+  // In a1's barrow, at its end: cov7's beetles, since foes choose as their kind would and not always the frailest,
+  // no longer go for the mage, and are told as no match.
   it('is told who could fall in a fight the company would win, and by whom', async () => {
-    const s = await Barrow.start([Barrow.mage, { name: 'Tharash', raceId: 'human', classId: 'warrior' }]);
-    GeneratedWorld.put(s, 'w9_barrow_back_stone');
-    const beetles = ScreenModel.build(s.campaign).people.find(p => /beetles/.test(p.name))!;
-    expect(beetles.reckoning).toEqual({ danger: 'hard', text: 'Tharash reckons you would likely beat them, but Wenna could fall.' });
+    const s = await Barrow.start([Barrow.mage, { name: 'Tharash', raceId: 'human', classId: 'warrior' }], 'a1');
+    GeneratedWorld.put(s, 'w4_end');
+    const dead = ScreenModel.build(s.campaign).people.find(p => /barrow-dead/.test(p.name))!;
+    expect(dead.reckoning).toEqual({ danger: 'hard', text: 'Tharash reckons you would likely beat them, but Wenna could fall.' });
   }, 60000);
   // Alone, the one who could fall is the one who plays, and no one would get them up: the laboratory's lone warrior
   // took on hobs reckoned only "someone could fall", and died.
