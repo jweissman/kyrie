@@ -151,7 +151,7 @@ Module circus "Wapshott's Peregrine Circus" {
   Relation riding(group).
   Rule ride_out when onRoad(wapshotts) and riding(party) and onWay(wapshotts, ?w) and at(party, ?r) and groundOf(?r, ?g)
     and not here(?g) and not at(party, ?w)
-    says "You ride out with the wagons, on the tail-board of the cookhouse wagon with Honoria Bulstrode's feet beside you, and the field you slept on goes away behind you, already only a ring of yellow grass." {
+    says "You ride out with the wagons, on the tail-board of the cookhouse wagon with Honoria Bulstrode's feet beside you, and the field you were camped on goes away behind you, already only a ring of yellow grass." {
     Assert at(party, ?w). }
   Rule ride_in when pitched(wapshotts) and riding(party) and current(wapshotts, ?g) and onWay(wapshotts, ?w) and at(party, ?w)
     says "The wagons turn in off the road at a field gate, one after another, and Gideon Lusk walks into the middle of the field and stands there, and that is where the king-pole goes. By the time the kettle boils the big top is a shape against the sky." {

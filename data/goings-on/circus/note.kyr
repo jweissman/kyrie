@@ -149,7 +149,7 @@ Module circus "Wapshott's Peregrine Circus" {
     Requires able(actor) and company(actor) and at(actor, site) and ringHere(site) and noteTold(wapshotts) and not showOn(wapshotts) and not wireChecked(wapshotts) and hour(clock) >= 12.
     Resolve check(actor, climbing, dc_fair).
     On success { Assert wireChecked(wapshotts). Retract wireGreased(zephyrine). }
-    Result "You go up the king-pole on its pegs to the Sylph's platform, forty feet over the ring, and look at everything: the wire, the anchor, the turnbuckle, the platform's boards. On the foot of the far pole's ladder, where her slipper goes first, you find it: a smear of goose-grease, shining, and a white goose feather stuck in it, and on the platform a blue ticket-stub with gold edges. You wipe it off with your sleeve, and come down with the stub.".
+    Result "You go up the king-pole on its pegs to the Sylph's platform, forty feet over the ring, and look at everything: the wire, the anchor, the turnbuckle, the platform's boards. On the foot of the far pole's ladder, where her slipper goes first, you find it: a smear of goose-grease, shining, and a white goose feather stuck in it, and on the platform a blue ticket-stub with gold edges. You wipe the grease off with your sleeve, and leave the stub where it lies; you will not forget it.".
     Otherwise "You go up the king-pole a little way and find you do not much want to go further, and come down with your hands sweating.".
   }
   Rule wire_check_counts when wireChecked(wapshotts) and not wireCounted(party) { Increase evidence(party) by 1. Assert wireCounted(party). }
@@ -169,6 +169,9 @@ Module circus "Wapshott's Peregrine Circus" {
   Relation sleeCaught(group).
   Topic slee_caught with slee "Ask Slee whether Madame Sallow sent him to let the owlbear out" when sleeCaught(slee) once {
     Says "'Madame,' says Slee, brushing straw off his waistcoat, 'has never in her life sent me to do anything. She sends me to make things easy. What I do to make them easy, she is too busy to ask.' He smiles his forgettable smile. 'She will have the circus either way. I merely wished her to have it a little more cheaply, and at a little less risk of sentiment.' He looks at you. 'You won't tell her. Nobody ever does. People like a thing made easy.'".
+  }
+  Topic ada_evidence with ada "Tell Ada what you have found of the sabotage, and ask what to do with it" when evidence(actor) >= 1 and not sleeExposed(slee) once {
+    Says "Ada listens, and does not write anything down, which is how you know she is frightened. 'Not to the Colonel,' she says at once. 'He'll go round to the Hippodrome with a horsewhip and she'll have the law on him and the wagons by teatime.' She thinks. 'To her. To Cordelia Sallow. She's hard and she's dear and she has never cheated in her life, the Colonel says so when he's drunk. If her man is doing this, she doesn't know. Take her what you've got, when you've got enough of it to be believed: two things, at least. She's in the far meadow at {town_a} when the circus is there.'".
   }
   Action tell_sallow(actor: group, site: place) "Set before Madame Sallow what her man has been doing to Wapshott's" {
     Speaker sallow. Time 3.

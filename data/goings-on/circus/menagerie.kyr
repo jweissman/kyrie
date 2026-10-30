@@ -26,7 +26,7 @@ Module circus "Wapshott's Peregrine Circus" {
     On discuss { Increase regard(billie) by 1. Assert knows(actor, billie_terms). }
   }
   Entity billie_terms: fact "Billie Ostrander keeps the menagerie on her terms: clean straw daily, fed before the people, room to turn round, anything that pines goes home, and anything that can talk is asked, not caught.".
-  Observe beasts_scene near beastpost when at(beastpost, ?r) and menagerieOpen(wapshotts) "The menagerie is an old canvas tent, patched, smelling of straw and something wild. A painted board inside the flap says WAPSHOTT'S CABINET OF LIVING WONDERS, and under it, in Billie's square hand, DO NOT POKE.".
+  Observe beasts_scene near beastpost when at(beastpost, ?r) and menagerieOpen(wapshotts) and pitched(wapshotts) "The menagerie is an old canvas tent, patched, smelling of straw and something wild. A painted board inside the flap says WAPSHOTT'S CABINET OF LIVING WONDERS, and under it, in Billie's square hand, DO NOT POKE.".
   Thing beastpost "the menagerie" at tober_a is scenery {
     State kept "Billie Ostrander's straw is clean and fresh.".
     State neglected "The straw is foul, the water-pails empty, and the tent stinks.".
@@ -240,7 +240,7 @@ Module circus "Wapshott's Peregrine Circus" {
   Entity wap_wants_cage: fact "Colonel Wapshott will take the hob on every term but one: he wants him in a gilded cage, exhibited.".
   Action persuade_hob_terms(actor: group, site: place) "Persuade the Colonel that a hob who works the show unseen is worth more than a hob in a cage" {
     Speaker wapshott. Time 3.
-    Requires able(actor) and company(actor) and at(actor, site) and at(wapshott, site) and knows(actor, wap_wants_cage) and not hobJoined(ninepence) and not hobAtInn(ninepence) and not triedHobTerms(actor).
+    Requires able(actor) and company(actor) and at(actor, site) and at(wapshott, site) and knows(actor, wap_wants_cage) and not hobJoined(ninepence) and not hobAtInn(ninepence) and not triedHobTerms(actor) and not colonelAgreesHob(wapshotts).
     Resolve check(actor, persuasion, dc_fair).
     On success { Assert colonelAgreesHob(wapshotts). }
     On failure { Assert triedHobTerms(actor). }
@@ -288,7 +288,7 @@ Module circus "Wapshott's Peregrine Circus" {
     Role "the bee-wife of the orchards". Ancestry human. Peaceable. Pronouns she. Manner grim.
     Greets "A woman with a veil pushed up over her hat and a smoker in her hand is sitting on an upturned skep among the wreck of three others. 'Six skeps,' she says. 'In a fortnight. It comes at dusk. It's as big as a bullock and it's got a face like an owl, and it eats the comb and the bees and all, and screams.' She looks at you. 'If you're going to kill it, kill it. If you're not, I don't want to hear about it.'".
   }
-  Topic billie_orchard with billie "Ask Billie what kind of beast would claw a tree that high and eat bees" when knows(actor, wonders_list) once {
+  Topic billie_orchard with billie "Ask Billie what kind of beast might be eating the bees in the orchards" when knows(actor, wonders_list) once {
     Says "Billie's face changes. 'Face like an owl,' she says. 'Screams.' She looks at you. 'Owlbear. A young one, if it's eating bees: the old ones eat sheep. They're mad for honey at that age, and they've no more sense than a dog in a dairy.' She is quiet. 'And it'll kill you, mind. A young owlbear will take your arm off out of curiosity. If you're bringing it in, you'll want the cage-wagon iron-strapped, a net, honey to bring it, and somebody it'll look at while you close the net. And if it comes to it,' she says, 'it's you or it. I'd rather it was it.' She counts on her fingers. 'Lusk will make you a net, and strap the cage if you buy him the iron. The bee-wife will spare a comb. And ask me, when it's ready, and I'll come.'".
     On discuss { Assert knows(actor, owlbear_ways). }
   }
@@ -313,7 +313,7 @@ Module circus "Wapshott's Peregrine Circus" {
     On discuss { Assert honeyBought(actor). }
   }
   Topic lusk_net with lusk "Ask Lusk for a net, and help to iron-strap the cage-wagon" when knows(actor, owlbear_ways) and not cageStrapped(wapshotts) once {
-    Says "Lusk listens to the whole thing, and you see him see it: the beast, the orchard, the net. 'Old side-wall,' he says. 'Cut in strips. Knotted. Two hours.' He looks at the cage-wagon, which has wooden bars. 'Iron,' he says. 'Straps. Four coin of straps from {merchant_a}. Somebody who can mend to help me fit them.' Then, as you go: 'Owlbear.' He shakes his head slowly. 'The Colonel.'".
+    Says "Lusk listens to the whole thing, and you can watch him put it together behind his beard: a beast, an orchard, a net. 'Old side-wall,' he says. 'Cut in strips. Knotted. Two hours.' He looks at the cage-wagon, which has wooden bars. 'Iron,' he says. 'Straps. Four coin of straps from {merchant_a}. Somebody who can mend to help me fit them.' Then, as you go: 'Owlbear.' He shakes his head slowly. 'The Colonel.'".
     On discuss { Assert knows(actor, cage_wanted). Assert netRigged(actor). }
   }
   Entity cage_wanted: fact "Gideon Lusk will iron-strap the cage-wagon for the owlbear, with four coin of iron straps from {merchant_a} and somebody who can mend to help.".
@@ -423,7 +423,7 @@ Module circus "Wapshott's Peregrine Circus" {
   Observe carrier_scene at carrier_c when true "A cobbled yard behind the carrier's house, with a wagon on blocks, its back axle snapped clean in two, and, beside it, eating a cabbage with the slow thoroughness of a glacier, a tortoise the size of a hip-bath.".
   Person wiltshaw "Joby Wiltshaw" at carrier_c {
     Role "the carrier". Ancestry human. Peaceable. Pronouns he. Manner jovial.
-    Greets "A red-faced man in a smock is sitting on the shafts of his broken wagon with his chin in his hands, staring at the tortoise. 'A sailor gave him me,' he says. 'Against a debt. Eleven shillings, and a tortoise thrown in. I thought he meant a little one. He broke my wagon getting off it.' He sighs. 'He eats a cabbage an hour. He's eaten my wife's garden. If you want him, you can have him for what the sailor owed me, and the use of my blessing.'".
+    Greets "A red-faced man in a smock is sitting on the shafts of his broken wagon with his chin in his hands, staring at the tortoise. 'A sailor gave him me,' he says. 'Against a debt. Eleven coin, and a tortoise thrown in. I thought he meant a little one. He broke my wagon getting off it.' He sighs. 'He eats a cabbage an hour. He's eaten my wife's garden. If you want him, you can have him for what the sailor owed me, and the use of my blessing.'".
   }
   Species old_tortoise "a giant tortoise" like turtle tame described "A tortoise the size of a hip-bath, his shell domed and seamed like an old map, his neck wrinkled like a glove, his eye small, black, and immensely patient. He moves at the pace of a minute hand, toward cabbages.".
   Person methuselah "the giant tortoise" at carrier_c {

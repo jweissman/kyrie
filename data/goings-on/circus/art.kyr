@@ -31,11 +31,11 @@ Module circus "Wapshott's Peregrine Circus" {
   Discovery shoes_given "Mumchance has given you his first slap-shoes.".
 
   Topic mum_next_lesson with mumchance "Ask Mumchance about the second lesson" when fallLearned(actor) and not watchedEntree(actor) and not lookLearned(actor) {
-    Says "'The Look,' says Mumchance. 'Stand in the wing, by the ring curtain, when I go on with the ladder: after the Ox, before the wire. Watch from the side. Then come and ask me.'".
+    Says "'The Look,' says Mumchance. 'Get a ticket from Ada, and when the Ox goes on, stand in the wing by the ring curtain, so you see me go on with the ladder from the side. Not the front. The side. Then come and ask me.'".
   }
   Action watch_entree(actor: group, site: place) "Stand in the wing at the ring curtain and watch Mumchance's entrée from the side" {
     Time 1.
-    Requires able(actor) and company(actor) and at(actor, site) and ringHere(site) and showOn(wapshotts) and act(wapshotts) == 5 and fallLearned(actor)
+    Requires able(actor) and company(actor) and at(actor, site) and ringHere(site) and showOn(wapshotts) and act(wapshotts) >= 4 and act(wapshotts) <= 5 and fallLearned(actor)
       and not watchedEntree(actor).
     On success { Assert watchedEntree(actor). }
     Result "You watch him from the side, where the house cannot see you and you can see both him and them. And you see what you never could from the benches: that the laugh does not come when he falls. It comes a moment after, when he looks. He waits until the house has finished being frightened for him; and then he looks at the ladder; and the look is the joke. He times it to their breathing. He is conducting them.".
@@ -52,7 +52,7 @@ Module circus "Wapshott's Peregrine Circus" {
   }
   Action learn_feint(actor: group, site: place) "Fence with Mumchance in the backyard, a stick each, for the Feint" {
     Speaker mumchance. Time 6.
-    Requires able(actor) and company(actor) and at(actor, site) and at(mumchance, site) and lookLearned(actor) and freeHour()
+    Requires able(actor) and company(actor) and at(actor, site) and at(mumchance, site) and at(cookfire, site) and lookLearned(actor) and freeHour()
       and not feintLearned(actor) and triedFeintDay(actor) < day(clock).
     Resolve check(actor, deception, dc_fair).
     On success { Assert feintLearned(actor). Assert teaches(mumchance, feint). Assert teaches(mumchance, dodge). }
@@ -236,7 +236,7 @@ Module circus "Wapshott's Peregrine Circus" {
   Measure wrestledDay(group). Relation beatHonoria(group).
   Action wrestle_honoria(actor: group, site: place) "Arm-wrestle Honoria Bulstrode across the cookhouse table" {
     Speaker honoria. Time 1.
-    Requires able(actor) and company(actor) and at(actor, site) and at(honoria, site) and freeHour() and wrestledDay(actor) < day(clock).
+    Requires able(actor) and company(actor) and at(actor, site) and at(honoria, site) and at(cookfire, site) and freeHour() and wrestledDay(actor) < day(clock).
     Resolve check(actor, brawn, dc_formidable).
     On success { Set wrestledDay(actor) to day(clock). Assert beatHonoria(actor). Increase regard(honoria) by 1. }
     On failure { Set wrestledDay(actor) to day(clock). }

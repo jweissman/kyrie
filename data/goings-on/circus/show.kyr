@@ -62,7 +62,7 @@ Module circus "Wapshott's Peregrine Circus" {
   Observe house_thin near ringpost when showOn(wapshotts) and at(ringpost, ?r) and house(wapshotts) < 6 "The house is thin tonight: a few families on the front benches, a courting couple at the back, and a great deal of bare planking that the Colonel plays to as if it were full.".
   // ── 1. The Grand Entry ─────────────────────────────────────────────────────────────────────────────────────
   Rule entry_told near ringpost when showOn(wapshotts) and act(wapshotts) == 1 and not told(part_entry) and not musicSwapped(wapshotts) and not sawAct(part_entry)
-    says "The band crashes into the Grand Entry. The flap flies back and in they all come, at a canter, at a walk, on their hands: the Brothers Quincey turning cartwheels, Pip with a banner, the Ox of Abernant with a pony under each arm, the Sylph in silver standing on Bucephalus's back as if he were a floor, and last of all the Colonel, enormous in crimson, cracking a whip at nothing. 'LADIES,' he roars, 'AND GENTLEMEN, AND THOSE OF YOU WHO ARE NEITHER!' The benches roar back. It is impossible not to roar back." {
+    says "The band crashes into the Grand Entry. The flap flies back and in they all come, at a canter, at a walk, on their hands: the Brothers Quincey turning cartwheels, a banner going round on a pole, the Ox of Abernant with a pony under each arm, the Sylph in silver standing on Bucephalus's back as if he were a floor, and last of all the Colonel, enormous in crimson, cracking a whip at nothing. 'LADIES,' he roars, 'AND GENTLEMEN, AND THOSE OF YOU WHO ARE NEITHER!' The benches roar back. It is impossible not to roar back." {
     Assert told(part_entry). Increase quality(wapshotts) by 1. }
   Rule entry_hymn near ringpost when showOn(wapshotts) and act(wapshotts) == 1 and not told(part_entry) and musicSwapped(wapshotts)
     says "The band crashes into the Grand Entry, and it is a hymn. Fipps stares at the book on his stand, which is not his book, and goes on, because the band always goes on, and the whole company comes cantering into the ring to THE PENITENT'S LAMENT, slow, in a minor key, so that the Brothers Quincey cartwheel in like mourners and Bucephalus stops dead in the ring, swings his great head round, and looks at Fipps. The benches do not know whether to laugh. Some of them take their hats off." {
@@ -109,7 +109,7 @@ Module circus "Wapshott's Peregrine Circus" {
     says "Then Mumchance. He comes in through the curtain carrying a ladder, very carefully, and puts it up against nothing, and climbs it. That is the whole act, in a way. He climbs a ladder that is leaning on nothing, and it does not fall, and then it does, slowly, and he goes with it, all the way down, and lands, and lies there, and lifts his head and looks at the ladder with such reproach that the whole house howls. He does not say a word. Somebody on the back bench is crying with laughter and saying 'Oh no, oh no' over and over." {
     Assert told(part_clown). Increase quality(wapshotts) by 2. }
   Rule clown_stiff near ringpost when showOn(wapshotts) and act(wapshotts) == 5 and not told(part_clown) and not liniment(mumchance)
-    says "Then Mumchance, with his ladder that leans on nothing: he climbs a ladder that is leaning against nothing at all, and it stands, and then it doesn't, and he goes down with it. It is very funny. It is not quite what it could be: the fall, at the end, is a little careful, a little slow, as if the floor were further off than it used to be. The house laughs. Pip, at the curtain, is watching his knees." {
+    says "Then Mumchance, with his ladder that leans on nothing: he climbs a ladder that is leaning against nothing at all, and it stands, and then it doesn't, and he goes down with it. It is very funny. It is not quite what it could be: the fall, at the end, is a little careful, a little slow, as if the floor were further off than it used to be. The house laughs. At the curtain, the Ox of Abernant is watching his knees." {
     Assert told(part_clown). Increase quality(wapshotts) by 1. }
   Rule clown_again near ringpost when showOn(wapshotts) and act(wapshotts) == 5 and not told(part_clown) and liniment(mumchance) and sawAct(part_clown)
     says "Mumchance and the ladder that leans on nothing. You know exactly what is going to happen, and it happens, and knowing does not help at all; the man next to you has seen it eleven times and is lying on the bench." {
@@ -142,7 +142,7 @@ Module circus "Wapshott's Peregrine Circus" {
   Rule incident_lamps near ringpost when showOn(wapshotts) and act(wapshotts) == 6 and incident(wapshotts) >= 29 and incident(wapshotts) <= 42 and not incidentTold(wapshotts)
     says "Halfway through the wire the lamps gutter in a draught and go down to blue; for a moment the Sylph is a grey shape over the dark. Then a light comes up from below: Pip, standing on the ring boards with a stable lantern held up over her head at the full stretch of her arm, holding it there, shaking, till the Sylph is home." {
     Assert incidentTold(wapshotts). Increase quality(wapshotts) by 1. }
-  Rule incident_child near ringpost when showOn(wapshotts) and act(wapshotts) == 5 and incident(wapshotts) >= 43 and incident(wapshotts) <= 56 and not incidentTold(wapshotts)
+  Rule incident_child near ringpost when showOn(wapshotts) and act(wapshotts) == 6 and incident(wapshotts) >= 43 and incident(wapshotts) <= 56 and not incidentTold(wapshotts)
     says "On the front bench a child of about four has gone to sleep against her father's arm, and stays asleep through the cannon of laughter that goes up at the ladder, and through the band, and through the Colonel. When the house goes quiet for the wire she wakes up, and says, very loud, into the silence: 'Is it finished?' and the whole tent laughs, tenderly, like one person." {
     Assert incidentTold(wapshotts). }
   Rule incident_goose near ringpost when showOn(wapshotts) and act(wapshotts) == 2 and incident(wapshotts) >= 57 and incident(wapshotts) <= 70 and not incidentTold(wapshotts)
@@ -156,7 +156,7 @@ Module circus "Wapshott's Peregrine Circus" {
 
   // ── 7. The close, and the takings ──────────────────────────────────────────────────────────────────────────
   Rule close_told near ringpost when showOn(wapshotts) and act(wapshotts) == 7 and not told(part_close)
-    says "The band plays the company out, and they go round the ring once more, bowing, waving, Pip cartwheeling, the Colonel walking backwards before them all with his hat held high, so that he falls over the ring boards at the very end, as he does every night, and gets the biggest laugh of the evening, which he has never once intended." {
+    says "The band plays the company out, and they go round the ring once more, bowing, waving, the ring-hands cartwheeling, the Colonel walking backwards before them all with his hat held high, so that he falls over the ring boards at the very end, as he does every night, and gets the biggest laugh of the evening, which he has never once intended." {
     Assert told(part_close). }
   Rule takings when showOn(wapshotts) and act(wapshotts) == 7 and told(part_close) and current(wapshotts, ?g) {
     Retract showOn(wapshotts). Increase strongbox(wapshotts) by house(wapshotts). Set takenTonight(wapshotts) to house(wapshotts). Increase nights(wapshotts) by 1.
@@ -283,8 +283,12 @@ Module circus "Wapshott's Peregrine Circus" {
   // The turn comes after the Ox: the Colonel calls it, and the one booked must be in the ring.
   Rule turn_called near ringpost when showOn(wapshotts) and act(wapshotts) == 5 and told(part_clown) and booked(party, ?t) and not onTurn(party) and not turnDone(party)
     and at(party, ?r) and ringHere(?r)
-    says "As Mumchance goes off, the Colonel steps into the middle of the ring. 'LADIES AND GENTLEMEN,' he roars, 'a NEW FACE. Never before seen in {town_a}, nor, I may say, anywhere. I give you,' and he points at you, and the light finds you, and the house goes quiet in the particular way of a house that has no idea what is about to happen, and waits for you to begin." {
+    says "As Mumchance goes off, the Colonel steps into the middle of the ring. 'LADIES AND GENTLEMEN,' he roars, 'a NEW FACE. Never before seen in this town, nor, I may say, anywhere. I give you,' and he points at you, and the light finds you, and the house goes quiet in the particular way of a house that has no idea what is about to happen, and waits for you to begin." {
     Assert onTurn(party). Set turnScore(party) to prep(party). }
+  Rule turn_called_again near ringpost when onTurn(party) and turns(party) >= 1 and not againTold(party)
+    says "'Or rather,' the Colonel corrects himself, with a bow toward you, 'a face you will be seeing a great deal more of. BY DEMAND.'" { Assert againTold(party). }
+  Rule again_reset when againTold(party) and not onTurn(party) { Retract againTold(party). }
+  Relation againTold(group).
   Rule turn_costume when onTurn(party) and costumed(party) and not turnCostumed(party) { Increase turnScore(party) by 1. Assert turnCostumed(party). }
   Rule turn_cue when onTurn(party) and cuedDay(party) == day(clock) and not turnCued(party) { Increase turnScore(party) by 1. Assert turnCued(party). }
   Rule turn_warm when onTurn(party) and quality(wapshotts) >= 4 and not turnWarm(party) { Increase turnScore(party) by 1. Assert turnWarm(party). }
@@ -356,7 +360,7 @@ Module circus "Wapshott's Peregrine Circus" {
   Rule clown_fair near ringpost when fairTurn(party) and booked(party, turn_clown)
     says "You and Mumchance play the ladder: he climbs, you help, he falls. It gets its laughs, honest ones. Afterwards Mumchance pats your shoulder once, which is a sentence in him." { Assert turnPaid(party). }
   Rule clown_flop near ringpost when flop(party) and booked(party, turn_clown)
-    says "You and Mumchance play the ladder, and you are always half a beat behind him, so that he has to wait for you to fall over, and a clown who waits is not funny. He covers for you with a look at the house, a look that says: this is my nephew, he means well. They laugh at the look." { Assert turnPaid(party). }
+    says "You and Mumchance play the ladder, and you are always half a beat behind him, so that he has to wait for you to fall over, and a clown who waits is not funny. He covers for you with a look at the house, a look that says: this one is with me, and means well. They laugh at the look." { Assert turnPaid(party). }
   Rule tumble_triumph near ringpost when triumph(party) and booked(party, turn_tumble)
     says "You go round the ring with the Brothers Quincey, three of you, so fast the house cannot count you, and at the end, without anybody planning it, Hal and Dunstan throw you up between them and you come down on their shoulders, one foot on each, arms out, and for one second the two of them are holding the same thing and know it. The house comes down. In the curtain Hal looks at Dunstan and nearly says something." {
     Assert turnPaid(party). Increase regard(hal) by 1. Increase regard(dunstan) by 1. }

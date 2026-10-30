@@ -147,3 +147,22 @@ header; long choice labels drawn with a blank first line; danger at night with n
 and filing an item given in play under "Known before you set out". Two the playtester attributed to the circus are
 engine behaviour: the place description repeated under every act of the show (the room is re-described each watch),
 and Ada's takings line told twice in one description.
+
+### The command-line playtest, split as asked
+
+Its **circus** findings are fixed and listed in [verification.md](verification.md). Its **engine and interface**
+findings, not specific to the circus: `kyrie play --world` replays every step from the beginning, so a two-week play
+costs minutes a step by day nine, and there is no save to resume from; the company's coin is not shown, so a choice
+that costs more than the purse simply vanishes; an action on a carried thing ("Read the Colonel's List") is shown
+under "The company" rather than on the thing; waiting until first light beside wagons that leave rides off without
+the company having slept; a companion's check is told as "You go up…"; "Sing for your supper" rolls persuasion, not
+performance; some outcomes show no roll; places are told as one paragraph of three to five thousand characters, every
+sign and wagon each time; generated townsfolk keep no hours (elders whispering at the well at ten at night); a
+generated errand's text goes stale after it is done (a widow still saying her husband went missing three days back).
+And from both: a `Known as` name is not used in the "Talk to …" choice (the Sylph is "a woman in a silver wrap" on the
+page and "Mademoiselle Zéphyrine" in the choice).
+
+36. **Two adventures' names met in the shared world.** A local item kind (`seal_kind`) was also What Tessary Owes',
+    and a person's id (`clemency`) was the marker by which the world knows whether Pentrice has been placed, so with
+    the circus in every world the road west no longer led to Pentrice. Both are now prefixed. *Could:* markers kept
+    as namespaced ids, and a lint of every module in the library for local kinds that collide.

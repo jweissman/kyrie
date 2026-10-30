@@ -1,7 +1,9 @@
 # Wapshott's Peregrine Circus — Phase I
 
-*The first adventure of a recurring company. Written 30 October 2026. Spoilers throughout. What might come after it,
-kept apart from what is built, is [future.md](future.md).*
+*The first adventure of a recurring company. Written 30 October 2026. Spoilers throughout. Phase II, which follows
+the Goose Fair under all three of its reckonings, is [phase2.md](phase2.md); what has and has not been verified, and
+by whom, is [verification.md](verification.md); what might come after, kept apart from what is built, is
+[future.md](future.md).*
 
 A travelling circus goes round three towns of the first country, three days in each, and has done for nineteen years.
 Its proprietor, Colonel Florian Wapshott, is the best showman in the country and the worst man of business in the
@@ -56,8 +58,8 @@ going on in them (a drover, a fever, a disputation), so another adventure set in
 coexists with it. Its ground in each town is a field off the green (`tober_a`, `tober_b`, `tober_c`); its ring,
 backyard, living-wagons and menagerie are rooms of that field that are open only while it is pitched there.
 
-**The circuit.** The wagons come into the fair town at two on the first afternoon, parade the green at four, play at
-seven, and play three nights; at six on the fourth morning they strike and are on the road until two; then the next
+**The circuit.** The circus is on the fair town's ground on the first morning (it came in the evening before),
+parades the town's heart at four, plays at seven, and plays three nights; at six on the fourth morning they strike and are on the road until two; then the next
 town. So: the fair town days 1–3, the second 4–6, the third 7–9, the fair town again 10–12, and on round for as long as
 the world lasts. On the road the whole company is in the road room between the towns, and can be met there. Sidney
 Quirk goes ahead the day before and bills the next town (`COMING!`); behind them the bills say `GONE ON TO …`. Every

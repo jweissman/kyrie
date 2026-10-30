@@ -17,7 +17,7 @@ Module circus "Wapshott's Peregrine Circus" {
     Tries looking.
   }
   Initially Assert state(relics, hung). Initially Assert travels(relics). Initially Assert post(relics, rk_wagons).
-  Observe relics_looked near relics when tried(relics, looking) and not knows(party, relics_known) "The bill, framed in black: WAPSHOTT'S CIRCUS. IN HOB'S FIELD, BEHIND THE WAGGONER, DUNMERE. ONE HORSE. ONE LADDER. ONE GENTLEMAN. ADMISSION AN EGG. The chain is an elephant's ankle-chain, the iron worn bright on the inside, with DIDO stamped on the lock; she died at Marlow in the flood year, Ada says later, and is buried under the market cross, and the town still argues about whether it was a privilege." teaches relics_known.
+  Observe relics_looked near relics when tried(relics, looking) and not knows(party, relics_known) "The bill, framed in black: WAPSHOTT'S CIRCUS. IN HOB'S FIELD, BEHIND THE WAGGONER, DUNMERE. ONE HORSE. ONE LADDER. ONE GENTLEMAN. ADMISSION AN EGG. The chain is an elephant's ankle-chain, the iron worn bright on the inside, with DIDO stamped on the lock; she died at Marlow in the flood year, says a note pinned under it in Ada's hand, and is buried under the market cross, and the town still argues about whether it was a privilege." teaches relics_known.
   Entity relics_known: fact "The Colonel keeps the bill of his first show (Hob's Field, Dunmere; admission an egg), the ankle-chain of Dido, an elephant who died at Marlow in the flood year, and a portrait turned to the wall.".
   Observe sallow_portrait near relics when state(relics, turned) and not knows(party, portrait_known) "Under the portrait, on the frame, a small brass plate: C., AT DUNMERE." teaches portrait_known.
   Entity portrait_known: fact "The portrait the Colonel keeps turned to the wall is of a young woman with a lion cub and an account-book, marked C., AT DUNMERE.".
@@ -136,7 +136,7 @@ Module circus "Wapshott's Peregrine Circus" {
   Topic mum_back_bench with mumchance "Tell Mumchance about Mrs Pruett on the back bench" when knows(actor, susan_pruett) once {
     Says "Mumchance puts down his brush. 'My father sat at the back,' he says. 'Every year, at the Midsummer Fair at Dunmere, for twenty-two years. Never once came round. I never once went out to him. I'd see the shape of him against the lamps at the flap and I'd do the ladder for him, the whole act, for one man at the back who'd sent me to the sword.' He picks the brush up again. 'Then one year the shape wasn't there.' He goes on painting. 'Somebody should walk that girl down the lane.'".
   }
-  Topic mum_colonel_fall with mumchance "Ask Mumchance about the way the Colonel falls over the ring boards every night" when true once {
+  Topic mum_colonel_fall with mumchance "Ask Mumchance about the way the Colonel falls over the ring boards every night" when sawAct(part_close) once {
     Says "Mumchance smiles, which takes some time to arrive. 'Nineteen years,' he says, 'and he has never once meant it. He backs out bowing, and the boards are where they always are, and down he goes, and the house thinks it is the best joke of the night, and he gets up red to the ears and furious.' He blots his lip. 'The day he means it, he'll be a clown. I've been waiting for that day since he was a young man in Hob's Field with one horse and a borrowed ladder.'".
   }
   Topic priest_c_bone with priest_c "Ask {priest_c} about the great bone kept in the shrine" when true once {

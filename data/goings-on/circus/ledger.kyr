@@ -179,7 +179,7 @@ Module circus "Wapshott's Peregrine Circus" {
     Resolve check(actor, persuasion, dc_hard).
     On success { Assert reunited(pruett). Assert walksForHer(zephyrine). Increase regard(zephyrine) by 2. Increase larder(wapshotts) by 2. }
     On failure { Assert triedPruett(actor). }
-    Result "You do not tell her anything about her daughter she does not know. You tell her about the wire: that the Sylph sits down on it halfway, every night, and nobody in the house knows why, and you think you do. Mrs Pruett scrapes the same piece of tripe for a long while. Then she unties her apron. That night, when the house has gone, a small woman in her Sunday shawl comes round the back of the big top past the horse lines, with a parcel of tripe under her arm, and knocks on the steps of a blue wagon with stars on it; and the door opens, and nobody in the backyard looks, very carefully, for an hour.".
+    Result "You do not tell her anything about her daughter she does not know. You tell her about the wire: that the Sylph sits down on it halfway, every night, and nobody in the house knows why, and you think you do. Mrs Pruett scrapes the same piece of tripe for a long while. Then she unties her apron. 'After the show,' she says. 'Once.' And after the show that night, when the house has gone, so you hear in the morning, a small woman in her Sunday shawl comes round the back of the big top past the horse lines, with a parcel of tripe under her arm, and knocks on the steps of a blue wagon with stars on it; and the door opens, and nobody in the backyard looks, very carefully, for an hour.".
     Otherwise "'No,' says Mrs Pruett. 'She knows where the lane is.'".
   }
   Relation triedPruett(group).
@@ -226,6 +226,10 @@ Module circus "Wapshott's Peregrine Circus" {
   Person nell "Nell" at aske_cottage_b {
     Role "a girl of eight, Lusk's daughter". Ancestry human. Peaceable. Pronouns she.
     Greets "A girl of eight with her father's enormous serious face, in miniature, is sitting under the table drawing a tent on a slate. 'Is my dad coming?' she says. 'Has he got the big top up? Is it the red one? It's always the red one.'".
+  }
+  Topic nell_dad with nell "Tell Nell that her father's big top is up, and it is the red one" when here(tober_b) once {
+    Says "Nell comes out from under the table like a rabbit out of a hedge. 'The red one,' she says. 'It's always the red one.' She looks at her gran, who is looking at her sampler with great determination. 'I can see it from the back step,' Nell says, quieter. 'The top of it. I stand on the bucket.' She goes back under the table and draws a pennant on the tent.".
+    On discuss { Assert knows(actor, nell_known). }
   }
   Relation nellAtShow(group).
   Action persuade_aske(actor: group, site: place) "Ask Mrs Aske to bring Nell to the circus tonight, to see her father's tent lit" {
