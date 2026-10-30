@@ -136,7 +136,10 @@ export interface Screen {
   expedition: { time: string; daylight: string; rations: number; hungry: boolean; weary?: boolean; nextMeal?: string;
     // The company's light, where it matters (somewhere unlit, or a light burning): who carries what is lit and how
     // long it has left, and what there is to spare. "Rharash's torch, 40 minutes left · 2 torches to spare".
-    light?: string };
+    light?: string;
+    // The flame it goes by there, if one burns: its kind, who carries it, and the minutes it has left (see the stage's
+    // glow, which rises with it and draws in as it runs down).
+    flame?: { kind: 'lantern' | 'torch' | 'candle' | 'conjured'; who: string; left?: number } };
   unplaced: Act[];
   // The places the company knows the way to and could set out for, more than a step away, with the legs of the way;
   // and those it could set out toward, as far as the wild country a place is said to lie in.

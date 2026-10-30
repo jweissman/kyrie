@@ -1,0 +1,36 @@
+/* ---- The light the company carries. Somewhere unlit, the stage is lit from its foot by the flame the company goes by
+   (Friday's surprise: the lantern becomes a lantern): warm and slow to flicker for a torch, wider and steady for a
+   lantern, small for a candle, cool and still for a light conjured. With ten minutes or less it draws in and flickers
+   quicker, and the footer's word on it turns ember; gone out, it fades and the page goes cold. It lies behind every
+   word (z-index -1 in the stage's own stacking context) and is faint (at most .14 of gold at the foot, where the dim
+   grey words keep better than six to one against it), so no colour of the text changes. ---- */
+.frame > .flame { position: absolute; left: 0; right: 0; bottom: 0; height: 60%; z-index: -1; pointer-events: none;
+  opacity: 0; animation: none; transition: opacity 1.6s var(--ease), height 1.2s var(--ease); }
+.frame > .flame::before { content: ''; position: absolute; inset: 0; transform-origin: 50% 100%;
+  background: radial-gradient(ellipse 70% 100% at 50% 100%, rgba(242, 189, 76, .14), rgba(242, 189, 76, .045) 45%,
+    transparent 72%); }
+.frame > .flame.on { opacity: 1; }
+.frame > .flame-torch::before { animation: flicker 3.5s ease-in-out infinite; }
+.frame > .flame-lantern { height: 72%; }
+.frame > .flame-lantern::before { background: radial-gradient(ellipse 90% 100% at 50% 100%, rgba(246, 205, 140, .13),
+  rgba(246, 205, 140, .05) 50%, transparent 78%); }
+.frame > .flame-candle { height: 40%; }
+.frame > .flame-candle::before { animation: flicker 2.6s ease-in-out infinite;
+  background: radial-gradient(ellipse 46% 100% at 50% 100%, rgba(246, 205, 140, .12), transparent 70%); }
+.frame > .flame-conjured::before { background: radial-gradient(ellipse 80% 100% at 50% 100%, rgba(214, 226, 255, .09),
+  rgba(214, 226, 255, .03) 48%, transparent 74%); }
+/* Running down: the light draws in, and a flame flickers quicker. */
+.frame > .flame.low { height: 34%; }
+.frame > .flame-candle.low { height: 24%; }
+.frame > .flame.low::before { animation-duration: 2s; }
+.frame > .flame-lantern.low::before, .frame > .flame-conjured.low::before { animation: flicker 2.4s ease-in-out infinite; }
+.frame:has(> .flame.low) [data-id="light"] { color: var(--ember); transition: color var(--settle) var(--ease); }
+@keyframes flicker {
+  0%, 100% { opacity: 1; transform: scaleY(1); }
+  18% { opacity: .82; transform: scaleY(.97); }
+  37% { opacity: .96; transform: scaleY(1.02); }
+  58% { opacity: .86; transform: scaleY(.985); }
+  79% { opacity: 1; transform: scaleY(1.03); }
+}
+/* Still for those who would have it still: the flame steady, the glow arriving and going at once. */
+@media (prefers-reduced-motion: reduce) { .frame > .flame::before { animation: none; } }

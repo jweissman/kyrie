@@ -326,7 +326,8 @@ export class Narrator {
     const notes = [...feedback.resources.map(r => this.resource(r)), ...(spoken.length ? []
       : feedback.discoveries.filter(d => !said.has(d)).map(d => `Noted: ${this.gist(d)}`)),
     ...(feedback.leads ?? []).map(l => `Noted: ${l}`), ...(feedback.aims ?? []).map(a => `Aim: ${a}`),
-    ...(feedback.amended ?? []).map(a => `Aim now: ${a}`)];
+    ...(feedback.amended ?? []).map(a => `Aim now: ${a}`),
+    ...(feedback.borne ?? []).map(b => `Borne out: ${this.gist(b.text)}${b.from ? ` (${b.from})` : ''}`)];
     // A fight that fell on the company is not an activity it began (its action is the attack it was drawn into: "You
     // begin to attack the wheel-keeper" was told of a company that walked into the wheel-room and fled).
     const begun = event.cut && !event.prelude && campaign.operator(event.action)?.name, me = this.alone(campaign);

@@ -26,6 +26,9 @@ export interface ActionFeedback {
   amended?: string[];
   // Places something learned leads to that nothing said where they are, now somewhere to set out for.
   leads?: string[];
+  // What the company was told and has now seen for itself (come to the place, or the thing in its hands), and who told
+  // it: following the innkeeper's word to the mound, it is borne out where it is come to (Friday's surprise).
+  borne?: { text: string; from?: string }[];
 }
 export class ActionFeedbackView {
   // An aim is new when it was not one before: the same aim told again with its count gone up (graves opened, five,
@@ -66,6 +69,23 @@ export class ActionFeedbackView {
       return [`${name.charAt(0).toUpperCase()}${name.slice(1)}: somewhere to set out for now, ${far}`];
     });
     return leads.length ? { leads } : {};
+  }
+  // What was heard and not yet seen before, and is borne out now: told once, when it is (a fact heard after its place
+  // was already come to is borne out as it is learned, and is noted as learned, not as borne out).
+  // Of several borne out by coming to one place (a site's name, and the way to it, both told by the innkeeper), the
+  // first is said for it.
+  private static borne(campaign: Campaign, before: PlayerSnapshot, after: PlayerSnapshot):
+    Pick<ActionFeedback, 'borne'> {
+    const heard = new Set(before.knowledge.filter(k => k.source === 'heard' && !k.confirmed).map(k => k.id));
+    const world = campaign.world, leads = world.relates('leadsTo') ? world.related('leadsTo') : [];
+    const said = new Set<string>();
+    const borne = after.knowledge.filter(k => k.confirmed && heard.has(k.id)).filter(k => {
+      const to = leads.filter(r => r.args[0] === k.id).map(r => r.args[1]!);
+      const fresh = !to.length || to.some(p => !said.has(p));
+      to.forEach(p => said.add(p));
+      return fresh;
+    }).map(k => ({ text: k.text, ...k.from ? { from: k.from } : {} }));
+    return borne.length ? { borne } : {};
   }
   // A recovery that removes a status the member never had is not news.
   private static lacked(before: PlayerSnapshot, target: string, status: string): boolean {
@@ -228,7 +248,7 @@ export class ActionFeedbackView {
       rolls, discoveries: learned.map(k => shown.get(k.id) ?? k.text),
       ...this.leads(campaign, learned, new Set(before.knowledge.map(k => k.id))),
       ...!response && battleResult ? { ended: true } : {}, ...aims.length ? { aims } : {},
-      ...amended.length ? { amended } : {},
+      ...amended.length ? { amended } : {}, ...this.borne(campaign, before, after),
       events: (event.perceptions ?? []).filter(p => p.kind === 'event').map(p => p.text),
       observations: changed.map(o => FictionalTime.prose(o.text)),
       available: before.location?.id === after.location?.id ?

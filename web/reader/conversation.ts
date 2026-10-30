@@ -42,7 +42,7 @@ export class Conversation {
     const restated = Words.restates(Words.echo(words), exchange?.lines[0]?.text);
     const you: TalkLine[] = /#talk$/.test(choice.id) || restated ? [] : [{ kind: 'you', text: words }];
     return [...you, ...(exchange?.lines ?? []).map(l => ({ kind: l.kind, text: l.text })),
-      ...(exchange?.notes ?? []).map(text => ({ kind: /^Noted: /.test(text) ? 'learned' as const
+      ...(exchange?.notes ?? []).map(text => ({ kind: /^(Noted|Borne out): /.test(text) ? 'learned' as const
         : /^Aim( now)?: /.test(text) ? 'aim' as const : 'tally' as const, text: text.replace(Words.noted, ''),
         ...Words.label(text) ? { label: Words.label(text) } : {} }))];
   }

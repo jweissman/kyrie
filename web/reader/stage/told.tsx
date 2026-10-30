@@ -10,6 +10,7 @@ import { Panorama } from './panorama';
 import { PlaceStage } from './place-stage';
 import { Stage } from './stage';
 import { Journey } from './journey';
+import { Check } from './check';
 
 // What the place says and what just happened in it. Coming somewhere, the way there is told, then the place, then
 // who is about; doing something where the company stands, what came of it is told first, and the place, already
@@ -124,11 +125,13 @@ export class Told {
     return (
       <section className={`happened tone-${exchange.tone}`} data-id="response" aria-live="polite">
         {echo && !Words.restates(echo, exchange.lines[0]?.text) && <p className="you">{Typography.curl(echo)}</p>}
-        {plain.map((l, i) => <p key={i} className={l.kind}>{Typography.curl(l.text)}</p>)}
+        {plain.map((l, i) => Check.of(l, i)
+          ?? <p key={i} className={l.kind}>{Typography.curl(l.text)}</p>)}
         {sights.length > 0 && <Panorama.View sights={sights} going={[...app?.state.frame?.screen.destinations ?? [],
           ...app?.state.frame?.screen.roads ?? []].map(d => ({ id: d.id, name: d.name, journey: MenuModel.journey(d) }))}
           choose={app && (c => app.choose(c))} />}
-        {rest.map((l, i) => <p key={`r${i}`} className={l.kind}>{Typography.curl(l.text)}</p>)}
+        {rest.map((l, i) => Check.of(l, `r${i}`)
+          ?? <p key={`r${i}`} className={l.kind}>{Typography.curl(l.text)}</p>)}
         {ended && <Moments.SeenThrough ended={ended} ready={ready} />}
         {levels.length > 0 && <Moments.Levelled levels={levels} />}
         {notes.length > 0 && <ul className="notes">{notes.map(n => <li key={n}

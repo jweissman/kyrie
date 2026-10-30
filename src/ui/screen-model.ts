@@ -25,7 +25,7 @@ import { DangerSense } from '../presentation/danger-sense';
 import { ChoiceGrouping, type Grouped, type Row } from './choice-grouping';
 import { Passages } from './passages';
 import { ObservationText } from '../lang/observation-text';
-import { ChartModel } from './chart-model'; import { Carriers } from './carriers';
+import { ChartModel } from './chart-model'; import { Carriers } from './carriers'; import { CarriedFlame } from './carried-flame';
 import { Overlays } from '../overlays'; import { PerkText } from '../presentation/perk-text'; import { Exposure } from './exposure';
 import { Services } from './services'; import { Headings } from './headings'; import { TradeModel } from './trade-model'; import { ItemUses } from './item-uses'; import { Skies } from './skies';
 import { Stakes } from './stakes';
@@ -230,8 +230,9 @@ export class ScreenModel {
     const dark = world.relates('dark') ? world.test(ModuleWriter.call('dark')) : part === 'night';
     const daylight = dark ? 'night' : part === 'evening' ? 'evening' : 'day';
     const meal = world.module.measures.some(m => m.name === 'nextMeal') ? world.number(ModuleWriter.call('nextMeal', actor)) : 0;
-    return { time: FictionalTime.at(elapsed, view.minutes), daylight,
-      ...this.light(view, items, !!here && world.test(ModuleWriter.call('unlit', here))),
+    const unlit = !!here && world.test(ModuleWriter.call('unlit', here));
+    return { time: FictionalTime.at(elapsed, view.minutes), daylight, ...this.light(view, items, unlit),
+      ...CarriedFlame.of(view, unlit),
       rations: world.module.measures.some(m => m.name === 'quantity') ? world.number(ModuleWriter.call('quantity', actor, 'rations')) : 0,
       hungry: world.module.relations.some(r => r.name === 'hungry') && world.test(ModuleWriter.call('hungry', actor)),
       weary: world.relates('weary') && world.test(ModuleWriter.call('weary', actor)),

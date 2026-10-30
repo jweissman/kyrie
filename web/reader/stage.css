@@ -449,3 +449,24 @@
   .thing .face { max-height: calc(var(--frame-h) * .5); padding-top: max(56px, env(safe-area-inset-top)); }
   .thing .uses { padding-top: 16px; border-left: 0; border-top: 1px solid var(--edge); }
 }
+/* ---- The die on the table: a roll made outside a fight, as it fell. Its twenty faces in a row, those that would have
+   done it lit, and the die come down on one, in gold when it did and in ember when it fell short: the road's own
+   marker (.strip .you), not a widget. ---- */
+.throw { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; grid-template-areas: "who track words";
+  align-items: center; gap: 6px 14px; max-width: 40em; margin: 8px 0; font: 400 13px/1.35 var(--do); color: var(--dim); }
+.throw .who { grid-area: who; letter-spacing: .04em; color: var(--ivory); white-space: nowrap; }
+.throw .words { grid-area: words; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.throw .track { grid-area: track; position: relative; display: grid; grid-template-columns: repeat(20, minmax(0, 1fr));
+  gap: 2px; height: 14px; align-items: center; min-width: 120px; }
+.throw .track i { display: block; height: 3px; background: var(--edge-strong); }
+.throw .track i.lit { background: rgba(242, 189, 76, .38); }
+.throw .die { position: absolute; top: 50%; width: 9px; height: 9px; margin: -4.5px 0 0 -4.5px; background: var(--gold);
+  transform: rotate(45deg); box-shadow: 0 0 10px var(--gold); animation: thrown 600ms var(--ease) both; }
+.throw.missed .die { background: var(--ember); box-shadow: 0 0 10px var(--ember); }
+.throw.missed .words { color: var(--ember); }
+.throw.sure .track i.lit { background: rgba(242, 189, 76, .55); }
+@keyframes thrown { from { left: 0; opacity: 0; } 30% { opacity: 1; } }
+@media (max-width: 519px) {
+  .throw { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "who words" "track track"; }
+  .throw .who { white-space: normal; }
+}

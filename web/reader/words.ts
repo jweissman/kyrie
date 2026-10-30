@@ -17,9 +17,11 @@ export class Words {
   static readonly ordinals = ['first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh', 'eighth', 'ninth',
     'tenth', 'eleventh', 'twelfth'];
   static upper(s: string): string { return s.charAt(0).toUpperCase() + s.slice(1); }
-  // A note set apart by what it is (see Narrator): something learned, an aim taken up, or one as it stands now.
-  static readonly noted = /^(Noted|Aim|Aim now): /;
-  static readonly notes: Record<string, string> = { Noted: 'You know now', Aim: 'A new aim', 'Aim now': 'The aim now' };
+  // A note set apart by what it is (see Narrator): something learned, an aim taken up, or one as it stands now; or
+  // something heard, borne out by coming to it.
+  static readonly noted = /^(Noted|Aim|Aim now|Borne out): /;
+  static readonly notes: Record<string, string> = { Noted: 'You know now', Aim: 'A new aim', 'Aim now': 'The aim now',
+    'Borne out': 'As you were told' };
   static label(note: string): string | undefined { return this.notes[this.noted.exec(note)?.[1] ?? '']; }
   // The sky as the hour has it: a sunny sky at night is a clear one ("Night, sunny" over Tatharimlad: play 9).
   static sky(part: string, weather?: string): string { return part === 'night' && weather === 'sunny' ? 'clear' : weather ?? ''; }
