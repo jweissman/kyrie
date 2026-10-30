@@ -1,0 +1,5 @@
+{
+  "road": ["^To the cliff road", "^To the climbers' camp", "Talk to Ebrel", "about the egg-climbing", "Talk to Piran", "what he saw", "what he means to do", "Ask Piran to climb the Pulpit with you",
+    "^To the Pulpit", "Examine", "^To the climbers' camp"],
+  "supper": ["=day 2 19:10", "Sit down at the Gannet Supper", "Stand up and sing"]
+}

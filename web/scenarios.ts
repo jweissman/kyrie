@@ -56,6 +56,10 @@ export class Scenarios {
     { manifest: 'data/campaigns/the-third-night.campaign.json', title: 'The Third Night', seed: 'wray',
       note: 'Three years you have been on the far side of the fells, hiring out with the droves. Your father went out on the road with the cart and did not come home. Now you are coming down the drove road to Wrayford, the bridge-city on the Wray, a week late.',
       detail: 'A bridge-city on the Wray, a missing father, and three nights' },
+    // An independent adventure on a tidal reach (doc/adventures/fair-weather).
+    { manifest: 'data/campaigns/skeel.campaign.json', title: 'Fair Weather', seed: 'reach',
+      note: 'Skeel lives by wrecks. Three nights ago, in fair weather, a merchantman went onto the sands of the Gannet Reach, and the town has stripped her. At four on the third day the Wreck Court will call her wreck, and she will be Skeel\'s, if nothing living came ashore of her.',
+      detail: 'A wrecking town, a sea that goes out twice a day, a dog, a boy, a lantern, and the Wreck Court' },
   ];
   static source(): MemoryBundleSource { return new MemoryBundleSource(Scenarios.files); }
 }

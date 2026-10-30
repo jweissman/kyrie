@@ -1,0 +1,80 @@
+Module skeel "Fair Weather" {
+  // ── The days ──────────────────────────────────────────────────────────────────────────────────────────────────────
+  // Counted from the company's coming, at each dawn after the first hour it is here: the day it comes is the first.
+  // The Constancy struck three nights before. The Wreck Court sits at four on the third day, on the flood.
+  Measure dayN(place). Relation dawned(place).
+  Initially Set dayN(reach) to 1.
+  Rule dawn_counts when hour(clock) == 6 and not dawned(reach) and watch(clock) >= 6 { Increase dayN(reach) by 1. Assert dawned(reach). Increase lag(reach) by 1. }
+  Rule dawn_passes when hour(clock) != 6 and dawned(reach) { Retract dawned(reach). }
+  Query firstDay() means dayN(reach) == 1.
+  Query secondDay() means dayN(reach) == 2.
+  Query thirdDay() means dayN(reach) == 3.
+  Query evening() means hour(clock) >= 18 and hour(clock) < 23.
+  Query daylight() means hour(clock) >= 6 and hour(clock) < 20.
+
+  // ── The tide ──────────────────────────────────────────────────────────────────────────────────────────────────────
+  // Low water comes an hour later each day: on the first day the Strand stands dry from nine until one, and from nine at
+  // night until one in the morning; on the second from ten, and so on, for four days, when the springs come round again
+  // and it is back to nine. tide(reach) is the hour, put back by the day's lateness, and twenty-four on, so that it is
+  // never below nothing: the morning low water is 33 to 37, the night's is 45 and over, or under 25.
+  Measure lag(place). Measure tide(place).
+  Initially Set lag(reach) to 0. Initially Set tide(reach) to 32.
+  Rule springs_return when lag(reach) >= 4 { Set lag(reach) to 0. }
+  Rule tide_reckoned when tide(reach) != hour(clock) + 24 - lag(reach) { Set tide(reach) to hour(clock) + 24 - lag(reach). }
+  Query lowWater() means tide(reach) >= 33 and tide(reach) < 37 or tide(reach) >= 45 or tide(reach) < 25.
+  // Slack: the middle of low water, an hour each side of the bottom of the ebb, when the Gut stops running through the Sill.
+  Query slack() means tide(reach) >= 34 and tide(reach) < 36 or tide(reach) >= 46 or tide(reach) >= 22 and tide(reach) < 24.
+  // The last hour before the flood.
+  Query turning() means tide(reach) == 36 or tide(reach) == 24.
+  // The harbour dries at low water: the boats sit on the mud on their legs. Jinny Rowse sails by day, round high water.
+  Query boatsRun() means not lowWater() and hour(clock) >= 6 and hour(clock) < 21.
+  Query onSands(g: group) means at(g, flats) or at(g, scarth) or at(g, gut_lip) or at(g, sill).
+  // A company already crossing when the sea comes keeps its way: it is between two places, and the sea is between it and both.
+  Query sandsOpen() means lowWater() or onSands(party) or enRoute(party, ?w).
+
+  // The tide-board on the quay: the hours of low water, chalked fresh each morning by the harbourmaster's boy.
+  Discovery tide_known "The Strand stands dry for four hours at each low water, morning and night, and low water comes an hour later every day; the harbour dries at the same time, and boats can only sail round high water." {
+    Source board_reading "the tide-board" at quay readable by party.
+  }
+  Observe board_today at quay as sign when lag(reach) == 0 "On the harbour wall a black tide-board, chalked fresh this morning: LOW WATER 11 AND 11. SANDS FROM 9. Under the chalk, painted and peeling: KEEP THE WITHIES. THE STRAND GIVES FOUR HOURS. THE SEA TAKES THE FIFTH.".
+  Observe board_today1 at quay as sign when lag(reach) == 1 "On the harbour wall the tide-board, chalked fresh this morning: LOW WATER 12 AND 12. SANDS FROM 10.".
+  Observe board_today2 at quay as sign when lag(reach) == 2 "On the harbour wall the tide-board, chalked fresh this morning: LOW WATER 1 AND 1. SANDS FROM 11.".
+  Observe board_today3 at quay as sign when lag(reach) == 3 "On the harbour wall the tide-board, chalked fresh this morning: LOW WATER 2 AND 2. SANDS FROM 12.".
+
+  // ── What the water looks like, from where the company is ──────────────────────────────────────────────────────────
+  Observe reach_low at slip as weather when lowWater() and daylight() "The sea has gone out of the Reach. The Strand lies ribbed and shining for miles, cut by the dark line of the Gut, with the Holm and its Lantern standing up out of it, and the wreck on Scarth Bank, and far off the Craigs. Gulls walk on it like people.".
+  Observe reach_high at slip as weather when not lowWater() and daylight() "The sea is in. Where the Strand was there is grey water to the Craigs, with the Holm standing in it, and the wreck's stern, and a line of withy-tops showing like a hedge drowned to the eyes.".
+  Observe reach_dark at slip as weather when not daylight() "You can hear the Reach, out in the dark, and not see it.".
+  Observe sands_low at flats when lowWater() "Ribbed sand to every side, hard as a road where the withies are and softer off them, shining wet. Each ripple holds a thread of water. A line of laurel branches stuck upright leads away across it, one every twenty paces, toward the Holm, toward Scarth Bank, toward the Gut, toward the Craigs.".
+  Observe sands_flood at flats when not lowWater() "The sea is coming over the Strand. It does not come as waves; it comes as a sheet, an inch deep and then a foot, faster than you can walk, from every side at once, with a hiss like frying.".
+  Observe sands_dark at flats as ambience when not daylight() and lowWater() "In the dark the withies are the only thing: you go from one to the next with your hand out, and between them there is nothing at all.".
+  Observe sands_turning at flats as sign when turning() "The ripples have begun to fill. Far out, toward the Gut, there is a line on the sand that was not there before, white, and it is moving.".
+  Observe lip_scene at gut_lip when lowWater() "The Strand ends at a bank of soft grey sand, and below it the Gut runs, a channel sixty yards wide that the tide never empties, green-black and moving. Across it, low and brown, is Inish Gall, with a stone house and a cairn. Downstream the water breaks white over a bar of stones: the Sill, the one place a man can wade it.".
+  Observe sill_scene at sill when true "Water to the thigh, cold enough to stop your breath, pulling at you toward the sea. Under your feet the stones of the Sill shift and settle. Upstream the Gut is deep and green; downstream it falls away into the dark.".
+  Observe sill_running at sill as sign when not slack() "The current is strong. Each step is a negotiation.".
+  Observe sill_slack at sill as sign when slack() "The water hangs still in the Gut, for now, as if it were thinking.".
+
+  // ── The flood ─────────────────────────────────────────────────────────────────────────────────────────────────────
+  // A company out on the sands when the sea comes is struck by the water every watch until it gets to high ground: the
+  // Holm, the Craigs, Inish, the wreck's stern, or back up the Slip.
+  Hazard flood_water "The flood over the Strand" means "Deal (1d6) physical damage to ally unless constitution save against (12).".
+  Hazard gut_water "The Gut running through the Sill" means "Deal (2d6) physical damage to ally unless strength save against (14).".
+  Rule flood_warns when onSands(party) and turning() and not warnedTurn(party) says "Out across the sand, from the direction of the sea, there is a sound like a long breath let out. The tide has turned." { Assert warnedTurn(party). }
+  Rule flood_reset when not onSands(party) and warnedTurn(party) { Retract warnedTurn(party). }
+  Relation warnedTurn(group).
+  Rule flood_strikes when onSands(party) and not lowWater() and not at(party, sill) says "The sea is round your knees and pulling, and then round your waist. Somewhere behind you a withy goes under." { Assert strikes(flood_water, party). Assert caughtByFlood(party). }
+  Rule gut_strikes when at(party, sill) and not slack() says "The Gut takes your legs. For a long moment there is nothing under you, and then there are stones, and you are further downstream than you were." { Assert strikes(gut_water, party). }
+  Relation caughtByFlood(group).
+
+  // ── The withies, and the sinking sand off them ────────────────────────────────────────────────────────────────────
+  // Cuddy Pascoe sets the withies after every big tide. Off them, at the edges of the Strand, the sand will take a leg
+  // to the thigh, and then hold it while the tide comes. Whoever has walked the way with him, or learned it from Malachy
+  // Sennen, keeps to them; a stranger walking alone may not.
+  Discovery withy_way_known "The way over the Strand is the line of laurel withies Cuddy Pascoe sets out; keep them on the right going out and the left coming in, never walk between two that are more than twenty paces apart, and where the sand shines dull instead of wet, go round.".
+  Hazard sinking_sand "The sinking sand" means "Deal (1d6) physical damage to ally unless dexterity save against (12).".
+  Relation sankHere(group). Relation guided(group).
+  Rule quick_takes at flats when at(party, flats) and not knows(party, withy_way_known) and not guided(party) and not sankHere(party) and dice(clock) <= 60 says "Ten paces off the withies the sand goes soft as butter and takes you to the knee, and then to the thigh, and holds. It takes a long, frightening time, and all your strength, to get out of it, and you leave a boot-full of sand behind." { Assert strikes(sinking_sand, party). Assert sankHere(party). }
+  Rule quick_spared at flats when at(party, flats) and not sankHere(party) { Assert sankHere(party). }
+  Rule quick_reset when not onSands(party) and sankHere(party) { Retract sankHere(party). }
+  Rule guide_lapses when guided(party) and (at(party, quay) or at(party, fore_street) or within(party, holm) or within(party, craigs) or within(party, inish) or within(party, coast)) { Retract guided(party). }
+}

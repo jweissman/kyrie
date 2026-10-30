@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "name": "Fair Weather",
+  "calendar": {
+    "year": 1312,
+    "month": 9,
+    "day": 14
+  },
+  "pitch": {
+    "heading": "Down the coast road to Skeel",
+    "text": "You have walked the coast road for a week with a little money and no reason to stop. This morning it comes over the shoulder of a down, and below you is the Gannet Reach: nine miles of shining sand, or of shining sea, depending on the hour, with islands in it, and a town of grey roofs on the near headland, and out on the sands a ship lying on her side."
+  },
+  "modules": [
+    {
+      "id": "skeel",
+      "bundle": "../adventures/skeel/module.json"
+    }
+  ],
+  "party": [
+    {
+      "name": "Tamar",
+      "raceId": "human",
+      "classId": "ranger",
+      "backgroundId": "hunter"
+    }
+  ]
+}
