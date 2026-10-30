@@ -95,7 +95,7 @@ export class AutoplayRun {
     const c = s.campaign, offered = PlayerView.choices(c).map(x => ({ id: x.choice.id, name: x.choice.name }));
     return { offered, destinations: Itineraries.destinations(c).map(d => ({ id: d.id, name: d.name })),
       visited: VisitedPlaces.of(c, c.playerActor!), step, dangers: this.dangers(s, offered),
-      dark: Travel.night(c.readout.elapsed) };
+      dark: Travel.dark(c) };
   }
   // How each fight offered would go, as the page reckons it, for those it reckons (a group the company could fight).
   private static dangers(s: PlaySession, offered: { id: string }[]): Record<string, string> {

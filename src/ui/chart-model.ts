@@ -67,8 +67,19 @@ export class ChartModel {
     const known = roam ? Object.values(chart.places)
       : new LandModel(chart, this.entities).explored(visited, this.surveys());
     const tracts = new Set([...known].map(c => `${prefix}${c}`));
-    return [...tracts].filter(t => !visited.has(t) && this.entities.has(t))
-      .flatMap(t => model.ways(t).filter(w => tracts.has(w.to)));
+    return [...[...tracts].filter(t => !visited.has(t) && this.entities.has(t))
+      .flatMap(t => model.ways(t).filter(w => tracts.has(w.to))), ...roam ? this.out(model, tracts) : []];
+  }
+  // From wherever stands on the open country (a town's green, a site, a road), the way out into the stretch it stands
+  // in, walked or not: the road into a town, or a shop in it, is joined to the country about it by the town (from the
+  // road in, every hex had said "You know no way on": the navigation review).
+  private out(model: PassageModel, tracts: Set<string>): WayInfo[] {
+    const w = this.world, overland = new Set(w.related('passageKind').filter(r => r.args[1] === 'way_overland')
+      .map(r => r.args[0]!));
+    const out = w.related('connects').filter(c => overland.has(c.args[0]!) && tracts.has(c.args[2]!) && !tracts.has(c.args[1]!));
+    const passages = new Set(out.map(c => c.args[0]!));
+    return [...new Set(out.map(c => c.args[1]!))].flatMap(from => model.ways(from)
+      .filter(x => passages.has(x.passage) && tracts.has(x.to)));
   }
   private knows(fact: string): boolean { return this.world.test(ModuleWriter.call('knows', this.actor, fact)); }
   // The ways into a place from outside it.
@@ -183,10 +194,12 @@ export class ChartModel {
   surveys(): Surveys {
     return { surveyed: this.looked('surveyed'), well: this.looked('surveyedWell'), dim: this.looked('surveyedDim') };
   }
-  // The places the company stands in a country's relation to (a country's own, named for its module: region__surveyed).
+  // The places the company stands in a country's relation to, in every country (each its own, named for its module:
+  // region__surveyed, x1y0__surveyed). Only the first country's had been read, so the land looked out over in a
+  // country over the march was never known (the owner, OWN-43).
   private looked(end: string): string[] {
-    const name = this.world.module.relations.find(r => r.name.endsWith(`__${end}`))?.name;
-    return name ? this.world.related(name, this.actor).map(r => r.args[1]!) : [];
+    return this.world.module.relations.filter(r => r.name.endsWith(`__${end}`))
+      .flatMap(r => this.world.related(r.name, this.actor).map(x => x.args[1]!));
   }
   private told(passage: string): boolean {
     return this.world.related('revealedBy').some(r => r.args[0] === passage
@@ -222,9 +235,11 @@ export class ChartModel {
           ...land?.course(w.from, w.to, w.passage), ...w.reason ? { reason: w.reason } : {} });
       }
     }
-    // Each area where it stands on the land, where the land is drawn (an authored region's grid is not its land's).
+    // Each area where it stands on the land, where the land is drawn (an authored region's grid is not its land's); one
+    // with no cell of its own, where what it lies in stands: a province's towns at its way in (Cobble Ring and Lowmere
+    // had been drawn by their own grid, in the far corner of the country: the navigation review).
     for (const a of areas.values()) {
-      const cell = chart?.places[a.id];
+      const cell = chart?.places[a.id] ?? land?.cell(a.id);
       if (chart && cell !== undefined) { a.x = cell % chart.width; a.y = Math.floor(cell / chart.width); }
     }
     const terrain = home ? this.form(home, 'terrain').form : undefined;

@@ -5,9 +5,14 @@ import { Counted } from '../../src/presentation/counted';
 // How the page says small things: the time of day, a choice echoed as what the company did, how hurt someone looks.
 export class Words {
   // A leg of a journey: by its way, to where it comes; a way named for where it goes is not followed by the name again
-  // ("By the track to a great long mound … to a great long mound …": the cold evaluation).
-  static leg(way: string, to: string): string {
-    return way.toLowerCase().endsWith(` to ${to.toLowerCase()}`) ? `By ${way}` : `By ${way} to ${to}`;
+  // ("By the track to a great long mound … to a great long mound …": the cold evaluation), nor a way that is the place
+  // it comes to, or that the place's name says ("By the bridge … to the bridge …", "By the road to the road between
+  // Weligtún and Fearnglaed": the navigation review).
+  static leg(way: string, to: string): string { return this.upper(this.by(way, to)); }
+  static by(way: string, to: string): string {
+    const w = way.toLowerCase(), t = to.toLowerCase();
+    if (w === t || w.endsWith(` to ${t}`)) { return `by ${way}`; }
+    return t.startsWith(`${w} `) ? `by ${to}` : `by ${way} to ${to}`;
   }
   static readonly ordinals = ['first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh', 'eighth', 'ninth',
     'tenth', 'eleventh', 'twelfth'];

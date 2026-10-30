@@ -1,6 +1,8 @@
 import type { Campaign, CampaignEvent } from '../campaign/campaign';
 import { ModuleWriter } from '../lang/module-writer';
+import { FictionalTime } from '../campaign/fictional-time';
 import { ObservationText } from '../lang/observation-text';
+import { EntityIndex } from '../lang/entity-index';
 import { PlayerView } from '../presentation/player-view';
 import { Itineraries, type Leg } from '../ui/itinerary';
 import { PassageModel } from '../ui/passage-model';
@@ -30,7 +32,8 @@ export class Travel {
       if (!plan) {
         done.arrived = this.at(t.campaign, destination);
         // Toward a place whose way is not known, as far as the edge of the country it is said to lie in.
-        if (!done.arrived) { done.stopped = `You know no way on to ${ObservationText.label(t.campaign.world, destination)}`; }
+        const name = this.named(t.campaign, destination);
+        if (!done.arrived) { done.stopped = `You know no way ${name ? `on to ${name}` : 'there'}`; }
         break;
       }
       const leg = plan.legs[0]!, choice = PlayerView.choices(t.campaign)
@@ -55,6 +58,12 @@ export class Travel {
       .find(w => w.passage === leg.passage && w.to === leg.to);
     return way?.reason ? way.reason.replace(/\.$/, '') : `${leg.way} will not let you by from here`;
   }
+  // A place set out for, as the company knows it; nothing, where it is no place of the world (the map's sea had been
+  // "region__t177": the navigation review).
+  static named(campaign: Campaign, destination: string): string | undefined {
+    return EntityIndex.of(campaign.module.entities).byId.has(destination)
+      ? ObservationText.label(campaign.world, destination) : undefined;
+  }
   private static at(campaign: Campaign, destination: string): boolean {
     const here = campaign.world.one('at', campaign.playerActor!);
     return !!here && Itineraries.within(new Map(campaign.module.entities.map(e => [e.id, e])), here, destination);
@@ -65,11 +74,14 @@ export class Travel {
     return { hp: campaign.readout.creatures.filter(c => ids.includes(c.id)).reduce((s, c) => s + c.state.hp, 0),
       weary: world.relates('weary') && world.test(ModuleWriter.call('weary', actor)),
       hungry: world.relates('hungry') && world.test(ModuleWriter.call('hungry', actor)),
-      dark: this.night(campaign.readout.elapsed) };
+      dark: this.dark(campaign) };
   }
-  static night(elapsed: number): boolean {
-    const hour = (8 + Math.floor(elapsed / 6)) % 24;
-    return hour >= 20 || hour < 6;
+  // Whether it is night, as the world has it (its dark, at the hours the campaign keeps), else by the world's clock:
+  // a journey had stopped for night at eight while the world stayed light until nine, and walked on into A Winter in
+  // Carth's dark from five (the navigation review).
+  static dark(campaign: Campaign): boolean {
+    const world = campaign.world;
+    return world.relates('dark') ? world.test(ModuleWriter.call('dark')) : FictionalTime.dark(campaign.readout.elapsed);
   }
   // Danger is someone here who could be fought and does not tolerate the company: hobs parleyed with stopped every
   // journey past them (the play-structure investigation's PT-16).

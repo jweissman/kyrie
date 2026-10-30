@@ -7,13 +7,15 @@ import { Itineraries } from '../src/ui/itinerary';
 import { Travel } from '../src/session/travel';
 import { GeneratedWorld } from './support/generated';
 import { ScreenModel } from '../src/ui/screen-model';
+import { Hours } from '../web/reader/hours';
 
 // The way into adventure (Mission 16's Gate B): the first country's towns tell of the authored country beyond it,
 // the notice is up where travellers are kept, and once it is known the way there is known too, over the country's
 // roads; going there is one choice, made leg by leg as the page would make it.
 describe('the way into Merrowdale', () => {
   // The map draws the towns the country's roads go to, and a town drawn there is somewhere to set out for: the map had
-  // said "You know no way there yet" of a town at the end of a road it drew (Mission 17).
+  // said "You know no way there yet" of a town at the end of a road it drew (Mission 17); and so are the march-stones
+  // and the way into the province at the roads' ends, a single road away too (the navigation review).
   it('can set out from the map for any town the roads it knows go to, without it being a lead', async () => {
     const w = await WorldAssembler.assemble('kite', NodeBundleSource.shared, { origin: 'wanderer',
       party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
@@ -22,8 +24,11 @@ describe('the way into Merrowdale', () => {
     const here = c.world.one('at', c.playerActor!)!.replace(/_[a-z]+$/, '');
     // Not leads: the place offers none to set out for yet; the map and the notes may set out for each town.
     const leads = Itineraries.destinations(c), roads = Itineraries.roads(c, leads);
-    expect(roads.map(d => d.id).sort()).toEqual(towns.filter(t => !here.startsWith(t)).sort());
-    expect(roads.every(d => d.legs.length > 1 && d.minutes > 0)).toBe(true);
+    expect(roads.map(d => d.id).filter(id => towns.includes(id)).sort())
+      .toEqual(towns.filter(t => !here.startsWith(t)).sort());
+    expect(roads.map(d => d.id).filter(id => !towns.includes(id)).sort()).toEqual(['region__edge_east', 'region__edge_north',
+      'region__edge_south', 'region__edge_west', 'region__gate_strewnfield']);
+    expect(roads.every(d => d.legs.length > 0 && d.minutes > 0)).toBe(true);
     expect(roads.some(d => leads.some(l => l.id === d.id))).toBe(false);
   }, 120000);
   it('is told in the town the protagonist comes to, and is one journey along known roads', async () => {
@@ -78,8 +83,8 @@ describe('the way into Merrowdale', () => {
     const legs = (ScreenModel.build(s.campaign).destinations ?? []).flatMap(d => d.legs.map(l => l.way));
     expect([legs.includes('the track to Lapiscustod'), legs.some(l => l.includes('{'))]).toEqual([true, false]);
   }, 120000);
+  // As the world keeps them: dark from nine (a journey's night had fallen at eight: the navigation review).
   it('reckons night as the dark hours, which stop a journey that runs into them', () => {
-    expect([Travel.night(0), Travel.night(6 * 11), Travel.night(6 * 12), Travel.night(6 * 22)])
-      .toEqual([false, false, true, false]);
+    expect([0, 11, 12, 13, 22].map(h => Hours.night(h * 60))).toEqual([false, false, false, true, false]);
   });
 });

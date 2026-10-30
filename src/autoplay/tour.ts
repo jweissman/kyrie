@@ -183,7 +183,7 @@ export class Tour {
       return !['grave', 'deadly'].includes((g && DangerSense.reckon(c, g)?.danger) || ''); });
     if (winnable) { await this.perform(winnable); return; }
     const rest = offered.find(id => /^(take_lodging|rest|make_camp|camp|sleep|wait_for_light)/.test(id));
-    if (rest && (Travel.night(c.readout.elapsed) || this.hurt())) { await this.perform(rest); return; }
+    if (rest && (Travel.dark(c) || this.hurt())) { await this.perform(rest); return; }
     await this.perform(offered.find(id => /^wait/.test(id)) ?? offered[0]!);
   }
   private hurt(): boolean {

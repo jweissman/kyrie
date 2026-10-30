@@ -32,8 +32,10 @@ export class RegionBorders {
     // An authored country entered from another side: the folk know there is no road over into it from here.
     const there = !beyond ? '' : beyond.closed ? ` Beyond it lies ${land}, the folk say; but no road goes over into it from this side.${beyond.way ? ` The way in is from ${beyond.way}, they say.` : ''}`
       : ` Beyond it the road goes on ${b.side} into ${land}, the folk say. Few of them have been.`;
-    // Where the road leaves for a country folk tell of, the place is the road to it; elsewhere, the country's edge.
-    const edge = beyond?.rumour ? `the march-stone of ${beyond.name}` : `the ${b.side}ern edge of ${region.name}`;
+    // The place is named for the country beyond, as the folk call it, so every way, mark and lead to it says where it
+    // goes (a generated neighbour's had been "the eastern edge of Acornweald", and a lead to Thrume, by Highfells,
+    // "Set out for the southern edge of Acornweald": the navigation review); the country's edge where none is known.
+    const edge = beyond ? `the march-stone of ${beyond.name}` : `the ${b.side}ern edge of ${region.name}`;
     return [`  Place ${id}_land ${q(`the ${b.side}ern marches of ${region.name}`)} is wilderness within region at ${x}, ${y}.`,
       `  Place ${id} ${q(edge)} is room within ${id}_land at 0, 0.`,
       `  Passage ${id}_road ${q(`the old road ${b.side}`)} is road between ${from.id}_green and ${id} taking ${RegionRoads.time(Math.max(60, b.road.hours * RegionRoads.minutesPerHour))}.`,

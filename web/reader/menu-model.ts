@@ -112,9 +112,19 @@ export class MenuModel {
     const named = Aims.named(all, screen.objectives[0], this.near);
     const shown = [...all.slice(0, this.near), ...named ? [named] : []], rest = all.length - shown.length;
     return [...shown.map(d => ({ ...this.journey(d), note: [d.scale, this.by(d), Hours.dark(screen.elapsed, d.minutes)]
-      .filter(Boolean).join(' · ') })),
+      .filter(Boolean).join(' · ') })), ...this.roads(screen, bound, this.near - shown.length),
       ...rest > 0 ? [{ id: 'view:map', label: rest === 1 ? 'One other place you know, on the map'
         : `${Words.upper(Words.many(rest, 'other place'))} you know, on the map`, tone: 'way' as const, command: 'view:map' }] : []];
+  }
+  // Where nothing much has been told of yet (a first town), the nearest of the towns the roads go to and the
+  // march-stones at their ends, as many as make up the few: the first town had offered nowhere to set out for, though
+  // four towns were a day or less by the roads (the navigation review). Not one a single way off: that way is on the
+  // page already.
+  private static roads(screen: Frame['screen'], bound: string | undefined, few: number): Choice[] {
+    if (few <= 0) { return []; }
+    return (screen.roads ?? []).filter(d => d.id !== bound && d.legs.length > 1).slice(0, few)
+      .map(d => ({ ...this.journey(d), note: [`${Words.span(d.minutes)} by the roads`, Hours.dark(screen.elapsed, d.minutes)]
+        .filter(Boolean).join(' · ') }));
   }
   // A journey held (set out on, and not yet come to the end of): going on with it, by the way known from here, and
   // giving it up.

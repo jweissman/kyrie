@@ -147,6 +147,8 @@ export interface Screen {
   roads?: NonNullable<Screen['destinations']>;
   // The other places of the town the company is in, further than a step (by its square), to walk to directly.
   around?: NonNullable<Screen['destinations']>;
+  // Every other place the map draws that the company knows a way to (see Itineraries.mapped), to set out for from it.
+  mapped?: NonNullable<Screen['destinations']>;
   // Where in the settlement the company is in what anyone needs is found (see Services): each need, who meets it,
   // where, whether that is here, and what of it they have.
   services?: { need: string; who: string; place: PlaceRef; here: boolean; has: string[] }[];

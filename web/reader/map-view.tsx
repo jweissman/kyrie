@@ -94,14 +94,16 @@ export class MapView {
         <p className="label">Somewhere to go</p>
         <p className="how">Choose a hex or a place to see what it is, and to go there.</p></aside>;
     }
-    const cell = /^hex:(\d+)$/.exec(chosen)?.[1], id = cell !== undefined ? `${land.tracts ?? ''}${cell}` : chosen;
+    const cell = /^hex:(\d+)$/.exec(chosen)?.[1], id = cell !== undefined ? MapView.on(land, Number(cell)) : chosen;
     const area = region.within[id] ?? id, name = cell !== undefined ? MapView.ground(land, Number(cell))
       : region.areas.find(a => a.id === chosen)?.name ?? land.marks.find(m => m.id === chosen)?.name ?? chosen;
-    const d = [...screen.destinations ?? [], ...screen.roads ?? [], ...screen.around ?? []].find(x => x.id === id || x.id === area);
-    const mark = land.marks.find(m => m.id === chosen);
-    const here = cell !== undefined ? land.here === Number(cell) : mark ? mark.here : region.areas.find(a => a.here)?.id === area;
-    const go: Choice | undefined = d ? MenuModel.journey(d)
-      : MapView.across(land, here ? undefined : cell ?? MapView.at(land, chosen), name);
+    // The place itself before what it lies in: a keep in a fen is set out for, not the fen.
+    const plans = [...screen.destinations ?? [], ...screen.roads ?? [], ...screen.around ?? [], ...screen.mapped ?? []];
+    const d = plans.find(x => x.id === id) ?? plans.find(x => x.id === area);
+    const mark = land.marks.find(m => m.id === chosen), within = region.areas.find(a => a.here)?.id === area;
+    const here = cell !== undefined ? land.here === Number(cell) || (!land.tracts && within) : mark ? mark.here : within;
+    // A place the page plans no way to is not set out for (a journey that knows no way leaves nothing to go on with).
+    const go: Choice | undefined = d ? MenuModel.journey(d) : here || mark ? undefined : MapView.across(land, cell, name);
     return (
       <aside className="plan" aria-label={`The way to ${name}`} data-id={chosen} aria-live="polite">
         <p className="label">{MapView.told(region, chosen, here)}</p>
@@ -109,7 +111,9 @@ export class MapView {
         {d && <ol className="legs">{d.legs.map((l, i) => <li key={i}>{Typography.curl(Words.leg(l.way, l.to))}
           <span className="note">{Words.span(l.minutes)}</span></li>)}</ol>}
         <p className="how">{d ? `${Words.upper(Words.span(d.minutes))} in all${d.toward ? `, as far as ${d.toward}` : ''}.`
-          : here ? 'You are here already.' : go ? 'Across the country you can see, the quickest way.' : 'You know no way there yet.'}</p>
+          : here ? 'You are here already.' : go ? 'Across the country you can see, the quickest way.'
+            : cell !== undefined && !MapView.walkable(land, Number(cell)) ? 'There is no going there on foot.'
+              : 'You know no way there yet.'}</p>
         {go && <button type="button" className="act go" data-action="set-out" onClick={() => app.choose(go)}>
           {Typography.curl(go.label)}</button>}
         {clear && <button type="button" className="unchoose" data-action="map-unchoose" aria-label={`Let go of ${name}`}
@@ -117,15 +121,35 @@ export class MapView {
       </aside>
     );
   }
-  // Where no way is known, across the open country to the hex: a hex chosen, or the hex a place seen stands on.
-  private static across(land: NonNullable<RegionChart['land']>, cell: string | number | undefined,
+  // A hex chosen, across the open country the company knows: not into the sea or a lake, where there is no stretch
+  // of country to come to (the card had offered "Go across country to the sea", and said "You know no way on to
+  // region__t177": the navigation review).
+  private static across(land: NonNullable<RegionChart['land']>, cell: string | undefined,
     name: string): Choice | undefined {
-    if (!land.tracts || cell === undefined || !land.known.includes(Number(cell))) { return undefined; }
+    if (!land.tracts || cell === undefined || !land.known.includes(Number(cell)) || !MapView.walkable(land, Number(cell))) {
+      return undefined;
+    }
     const id = `${land.tracts}${cell}`;
     return { id: `travel:${id}`, label: `Go across country to ${name}`, tone: 'way', command: `travel:${id}` };
   }
-  private static at(land: NonNullable<RegionChart['land']>, id: string): number | undefined {
-    return land.marks.find(m => m.id === id && !m.here)?.cell;
+  // What a hex chosen is gone to as: the stretch of open country on it; on an authored country's land, which has no
+  // stretches, the place whose block of the land it lies in, or, between the places its author set (the margin of
+  // the map, a square of the author's grid with nothing in it), the place nearest it (over the march into Merrowdale
+  // every hex had said "You know no way there yet": the owner, OWN-43). A place on the map is set out for itself, by
+  // the way the page plans (Itineraries.mapped), never for the hex it stands on: the map had stopped beside it, and
+  // from beside a march-stone the country beyond was never drawn (the navigation review).
+  static on(land: NonNullable<RegionChart['land']>, cell: number): string {
+    if (land.tracts) { return `${land.tracts}${cell}`; }
+    const blocks = Object.entries(land.blocks ?? {}).filter(([, cells]) => cells.length)
+      .map(([id, cells]) => ({ id, by: Math.min(...cells.map(c => MapView.apart(land.width, c, cell))) }));
+    return blocks.sort((a, b) => a.by - b.by)[0]?.id ?? `hex:${cell}`;
+  }
+  private static apart(width: number, a: number, b: number): number {
+    return Math.hypot(a % width - b % width, Math.floor(a / width) - Math.floor(b / width));
+  }
+  // Whether a hex is land to walk: the sea and the lakes have no stretch of country (see RegionTracts.cells).
+  private static walkable(land: NonNullable<RegionChart['land']>, cell: number): boolean {
+    return !['sea', 'lake'].includes(HexLand.covers[land.cover[cell] ?? '.'] ?? '');
   }
   // Whether the company has been where is chosen: a place, as it was kept; a hex, as the town or the place on it was,
   // or, where nothing stands (no count is kept of open country), only that it is country it knows.

@@ -58,6 +58,7 @@ export class ScreenModel {
     const scene = this.scene(campaign, view, present), along = this.along(world, view.actor);
     const items = this.items(campaign, grouped, entities);
     const dark = view.observations.some(o => o.id === 'darkness'), stakes = Stakes.of(campaign);
+    const charted = new ChartModel(world, view.actor, entities).build(visited, here);
     // Each person in the one painting they are met in wherever they are (see Portraits).
     const rows = this.stack(view.present.map(p => ({ ...this.target(p, grouped, world, { dark, campaign }),
       ...this.marks(campaign, p.id, { along, stakes }),
@@ -85,11 +86,11 @@ export class ScreenModel {
       trade: here ? TradeModel.at(world, here, names) : [], services: Services.of(campaign, names),
       objectives: Stakes.here(campaign, view.objectives ?? [], here).map(o => FictionalTime.prose(o.text)),
       ...stakes.size ? { aimed: [...stakes] } : {},
-      ...new ChartModel(world, view.actor, entities).build(visited, here),
+      ...charted,
       expedition: this.expedition(world, view, items, here),
       map: view.map.places.map(p => ({ id: p.id, name: p.name, visited: p.visited, here: p.id === here,
         zone: passages.path(p.id).slice(0, -1).at(-1)?.name ?? p.zone ?? '' })),
-      ...Itineraries.shown(campaign, entities),
+      ...Itineraries.shown(campaign, entities, charted.region),
       unplaced: [...grouped.unplaced, ...[...unclaimed.entries()].flatMap(([id, acts]) =>
         acts.map(a => ({ ...a, label: `${entities.get(id)?.name ?? id}: ${a.label}` })))],
     };

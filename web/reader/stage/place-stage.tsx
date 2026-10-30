@@ -284,7 +284,7 @@ export class PlaceStage {
       <section className="bound" aria-label={`Bound for ${bound.name}`} data-id="bound">
         <p className="label">Bound for</p>
         <p className="whither">{Typography.curl(Words.upper(bound.name))}</p>
-        <p className="next">{Typography.curl([next ? `Next, by ${next.way} to ${next.to}: ${Words.span(next.minutes)}.` : '',
+        <p className="next">{Typography.curl([next ? `Next, ${Words.by(next.way, next.to)}: ${Words.span(next.minutes)}.` : '',
           bound.toward ? `As far as ${bound.toward} by the ways you know.` : '',
           bound.legs.length > 1 ? `${Words.upper(Words.span(bound.minutes))} in all.` : ''].filter(Boolean).join(' '))}</p>
         <p className="go"><Act.View choice={on} draw={draw} className="option go-on">{`Go on to ${bound.name}`}</Act.View>

@@ -147,7 +147,9 @@ export class RegionTracts {
     return RegionWeather.kinds(region, region.calendar).filter(k => RegionSights.haze.includes(k));
   }
   // What stands up from the land and is seen from each stretch looked out from, by the lie of the land between (see
-  // Vantage): a few, nearest first, each known from then on and somewhere to set out toward.
+  // Vantage): a few, nearest first, each known from then on and somewhere to set out toward. A town seen is the town,
+  // not the green it is gone into by (seen from the fells, Ramavor was offered twice, as "the bailey of Ramavor" and as
+  // "Ramavor": the navigation review).
   private static sightings(region: Region): string[] {
     const land = RegionGeography.atlas(region).land, q = JSON.stringify, lines: string[] = [];
     const afar = this.standing(region).filter(s => s.afar), seen = new Set<string>();
@@ -159,10 +161,11 @@ export class RegionTracts {
         if (!seen.has(fact)) {
           seen.add(fact);
           lines.push(`  Entity ${fact}: fact ${q(`${this.upper(what.afar!)}, seen across the open country.`)}.`,
-            `  Initially Assert leadsTo(${fact}, ${what.room}).`);
+            `  Initially Assert leadsTo(${fact}, ${what.id}).`);
         }
+        // Said as from any height (RegionSights), so the page sets each out on its compass, with setting out for it.
         lines.push(`  Observe ${this.id(c)}_saw_${s.id} at ${this.id(c)} as sign when surveyed(party, ${this.id(c)})`
-          + ` ${q(`${this.upper(s.bearing)}, ${Vantage.said(s)}: ${what.afar}.`)} teaches ${fact}.`);
+          + ` ${q(`To the ${s.bearing}, ${Vantage.said(s)}: ${what.afar}.`)} teaches ${fact}.`);
       }
     }
     return lines;

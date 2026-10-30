@@ -7,8 +7,11 @@ import { ChartModel } from './chart-model';
 import type { WayInfo } from './passage-model';
 import { VisitedPlaces } from '../presentation/visited-places';
 import { Spatial } from '../spatial';
-import type { Screen } from './screen-types';
+import type { RegionChart, Screen } from './screen-types';
 import { SiteScale } from './site-scale';
+import { RegionWriter } from '../world/region-writer';
+import { Provinces } from '../world/provinces';
+import { EntityIndex } from '../lang/entity-index';
 
 // One leg of a journey: by what way, from where to where, and how long it takes.
 export interface Leg { passage: string; way: string; from: string; to: string; minutes: number }
@@ -37,16 +40,20 @@ export class Itineraries {
     const ways = roam ? kept.roam! : kept.ways, graph = new Map<string, WayInfo[]>();
     for (const w of ways) {
       if (w.status === 'blocked' || (clear && w.status !== 'open')) { continue; }
-      // Not seen nor been to, a place is not struck out toward: a journey goes into no open country for it.
-      if (!roam && LandModel.tract.test(w.to)) { continue; }
+      // Not seen nor been to, a place is not struck out toward: a journey goes into no open country for it. But from
+      // out on the open country it crosses what it knows of it, back to a way (over the march, from a hex beside the
+      // march-stone, nothing on the map had a way to it: the owner, OWN-43).
+      if (!roam && LandModel.tract.test(w.to) && !LandModel.tract.test(w.from)) { continue; }
       if (!(graph.get(w.from) ?? []).some(x => x.passage === w.passage && x.to === w.to)) {
         graph.set(w.from, [...graph.get(w.from) ?? [], w]);
       }
     }
     return graph;
   }
+  // Each way by the name the company knows it by, as the page names it, so a leg is told the same wherever it is said
+  // (the Bound card read "Next, by the track to {region__w9} to a lone tower": the navigation review).
   private static chart(campaign: Campaign): ChartModel {
-    return new ChartModel(campaign.world, campaign.playerActor!, new Map(campaign.module.entities.map(e => [e.id, e])));
+    return new ChartModel(campaign.world, campaign.playerActor!, ObservationText.presented(campaign.world));
   }
   // Whether a place is one the company may strike out across the open country toward: a stretch of it chosen on the
   // map, something it has seen from high ground (RegionTracts), or somewhere it has been (the way home). Toward a
@@ -68,7 +75,7 @@ export class Itineraries {
       ?? this.toward(campaign, destination);
   }
   private static toward(campaign: Campaign, destination: string): Itinerary | undefined {
-    const entities = new Map(campaign.module.entities.map(e => [e.id, e]));
+    const entities = this.byId(campaign);
     const here = campaign.world.one('at', campaign.playerActor!);
     for (const area of Spatial.ancestry(entities, destination).slice(1).filter(e => e.space?.kind === 'wilderness')) {
       if (!here || this.within(entities, here, area.id)) { return undefined; }
@@ -82,7 +89,7 @@ export class Itineraries {
     const world = campaign.world, here = world.one('at', campaign.playerActor!);
     if (!here || here === destination) { return undefined; }
     const graph = this.graph(campaign, clear, this.seen(campaign, destination));
-    const entities = new Map(campaign.module.entities.map(e => [e.id, e]));
+    const entities = this.byId(campaign);
     const best = new Map<string, { minutes: number; legs: Leg[] }>([[here, { minutes: 0, legs: [] }]]);
     const open = [here];
     while (open.length) {
@@ -121,7 +128,7 @@ export class Itineraries {
     const actor = campaign.playerActor!, world = campaign.world, entities = campaign.module.entities;
     const told = world.relates('leadsTo') ? world.related('leadsTo')
       .filter(r => world.test(ModuleWriter.call('knows', actor, r.args[0]!))).map(r => r.args[1]!) : [];
-    const visited = VisitedPlaces.of(campaign, actor), byId = new Map(entities.map(e => [e.id, e]));
+    const visited = VisitedPlaces.of(campaign, actor), byId = this.byId(campaign);
     const here = world.one('at', actor), area = here ? this.area(byId, here) : undefined;
     const known = new Set([...told, ...[...visited].map(v => this.area(byId, v)?.id ?? v)]);
     // A place someone has told of is somewhere to set out for, whatever it is (a pit in the ground, a lone tower);
@@ -140,33 +147,55 @@ export class Itineraries {
     return plans.filter(p => !plans.some(o => o !== p && (o.name === p.name && p.legs.some(l => l.to === o.id)
       || SiteScale.behind(entities, o.id, ways) === p.id)));
   }
-  // The towns the roads the company knows go to, that it has not been to or been told of: the map draws them, and
-  // they can be set out for from it, and from the notes (the map had said "You know no way there yet" of a town at
-  // the end of a road it drew). Not leads, and not offered among the place's own ways to set out.
+  // The towns the roads the company knows go to, that it has not been to or been told of, and the march-stones and the
+  // ways into provinces at their ends: the map draws them, and they can be set out for from it, and from the notes (the
+  // map had said "You know no way there yet" of a town at the end of a road it drew; and it went across country to the
+  // hex beside a march-stone, so the country beyond was never drawn: the navigation review). One a single road away
+  // too: the map and the notes set out by it. Not leads (but see MenuModel.destinations).
   static roads(campaign: Campaign, leads: Itinerary[]): Itinerary[] {
-    const byId = new Map(campaign.module.entities.map(e => [e.id, e])), here = campaign.world.one('at', campaign.playerActor!);
+    const byId = this.byId(campaign), here = campaign.world.one('at', campaign.playerActor!);
     const area = here ? this.area(byId, here)?.id : undefined, listed = new Set(leads.map(d => d.id));
-    const towns = new Set([...this.graph(campaign).values()].flat().map(w => this.area(byId, w.to)?.id)
-      .filter((id): id is string => !!id && id !== area && !listed.has(id) && byId.get(id)?.space?.kind === 'settlement'));
-    return [...towns].flatMap(id => { const p = this.plan(campaign, id); return p && p.legs.length > 1 ? [p] : []; })
+    const ends = new Set([...this.graph(campaign).values()].flat()
+      .map(w => this.outward(w.to) ? w.to : this.area(byId, w.to)?.id)
+      .filter((id): id is string => !!id && id !== area && id !== here && !listed.has(id)
+        && (this.outward(id) || byId.get(id)?.space?.kind === 'settlement')));
+    return [...ends].flatMap(id => { const p = this.plan(campaign, id); return p?.legs.length ? [p] : []; })
       .sort((a, b) => a.minutes - b.minutes);
   }
+  // A march-stone, where a road goes on into the country beyond, or the way into one of the country's provinces. No
+  // fact says so of a place: the ids RegionBorders and Provinces give their rooms (x1y0__edge_east, region__gate_…)
+  // are the only handle on them today, as Frontier reads them.
+  static outward(id: string): boolean { return this.ends.some(r => r.test(id)); }
+  private static readonly ends = [/__edge_(north|east|south|west)$/,
+    new RegExp(`^${RegionWriter.id}__${Provinces.room('')}\\w+$`)];
   // Where the company could set out for, and the towns its roads go to besides, each leg named as the page names its
   // way and place (the Bushweald play read "By the track to {region__w13}"): what the page is given of them. And the
   // other places of the town it is in, further than a step.
-  static shown(campaign: Campaign, names: Map<string, Entity>): Pick<Screen, 'destinations' | 'roads' | 'around'> {
-    if (!campaign.running) { return { destinations: [], roads: [], around: [] }; }
-    const leads = this.destinations(campaign);
-    return { destinations: leads.map(d => this.scaled(campaign, d, names)),
-      roads: this.roads(campaign, leads).map(d => this.named(d, names)),
-      around: this.around(campaign).map(d => this.named(d, names)) };
+  // And every other place the map draws (see mapped).
+  static shown(campaign: Campaign, names: Map<string, Entity>,
+    region?: RegionChart): Pick<Screen, 'destinations' | 'roads' | 'around' | 'mapped'> {
+    if (!campaign.running) { return { destinations: [], roads: [], around: [], mapped: [] }; }
+    const leads = this.destinations(campaign), roads = this.roads(campaign, leads), around = this.around(campaign);
+    const listed = new Set([...leads, ...roads, ...around].map(d => d.id));
+    return { destinations: leads.map(d => this.scaled(campaign, d, names)), roads: roads.map(d => this.named(d, names)),
+      around: around.map(d => this.named(d, names)),
+      mapped: this.mapped(campaign, region, listed).map(d => this.named(d, names)) };
+  }
+  // Every other place the map draws that the company knows a way to, in whatever country it is in: each area and
+  // mark on its land not set out for already, a single way off too, so that a place chosen on the map is set out for
+  // itself and come to (over the march, the map had said "You know no way there yet" of everything on it but the
+  // towns: the owner, OWN-43).
+  static mapped(campaign: Campaign, region: RegionChart | undefined, listed: Set<string>): Itinerary[] {
+    const ids = new Set([...region?.areas.map(a => a.id) ?? [], ...region?.land?.marks.map(m => m.id) ?? []]);
+    return [...ids].filter(id => !listed.has(id))
+      .flatMap(id => { const p = this.plan(campaign, id); return p?.legs.length ? [p] : []; });
   }
   // The other places of the town the company is in that are further than a step: each a walk by the town's own ways
   // (from a shop to the inn, by the square), so that going about a town is not going back to its square every time
   // (the owner's interim report: the same few places walked between, over and over).
   static around(campaign: Campaign): Itinerary[] {
     const here = campaign.world.one('at', campaign.playerActor!);
-    const byId = new Map(campaign.module.entities.map(e => [e.id, e]));
+    const byId = this.byId(campaign);
     const town = here && Spatial.ancestry(byId, here).find(e => e.space?.kind === 'settlement');
     if (!town) { return []; }
     return campaign.module.entities.filter(e => e.type === 'place' && e.space?.kind === 'room' && e.id !== here
@@ -181,13 +210,27 @@ export class Itineraries {
   }
   private static named(d: Itinerary, names: Map<string, Entity>): NonNullable<Screen['destinations']>[number] {
     return { id: d.id, name: names.get(d.id)?.name ?? d.name, minutes: d.minutes,
-      ...d.toward ? { toward: d.toward } : {}, legs: d.legs.map(l => ({ way: names.get(l.passage)?.name ?? l.way,
-        to: names.get(l.to)?.name ?? l.to, minutes: l.minutes })) };
+      ...d.toward ? { toward: d.toward } : {}, legs: this.told(d.legs, id => names.get(id)?.name ?? id) };
   }
+  // The legs of a journey as the page tells them: by each way, to the place it comes to by its name, and one stretch
+  // of wild country after another by the same way one leg, their times together (a plan across Beorquudu had said
+  // "By the way across country to among the trees of Beorquudu" seven times over: the navigation review).
+  static told(legs: Leg[], name: (id: string) => string): { way: string; to: string; minutes: number }[] {
+    const out: { way: string; to: string; minutes: number }[] = [];
+    for (const l of legs) {
+      const to = name(l.to), last = out.at(-1);
+      if (last?.way === l.way && last.to === to) { last.minutes += l.minutes; }
+      else { out.push({ way: l.way, to, minutes: l.minutes }); }
+    }
+    return out;
+  }
+  // The entities by id, read once for the world as it is (a route had read every entity of the world again for each
+  // place it planned for).
+  private static byId(campaign: Campaign): Map<string, Entity> { return EntityIndex.of(campaign.module.entities).byId; }
   private static area(byId: Map<string, Entity>, id: string): Entity | undefined {
     return Spatial.ancestry(byId, id).find(e => ['settlement', 'site'].includes(e.space?.kind ?? ''));
   }
   private static worth(e?: Entity): boolean {
-    return !!e && (['settlement', 'site'].includes(e.space?.kind ?? '') || /__edge_(north|east|south|west)$/.test(e.id));
+    return !!e && (['settlement', 'site'].includes(e.space?.kind ?? '') || this.outward(e.id));
   }
 }

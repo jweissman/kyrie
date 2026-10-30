@@ -4,6 +4,11 @@ import { DrawnWorld } from '../src/world/drawn-world';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { Itineraries } from '../src/ui/itinerary';
 import { Travel } from '../src/session/travel';
+import { createElement } from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
+import { Moments } from '../web/reader/stage/moments';
+import { Panorama } from '../web/reader/stage/panorama';
+import { MenuModel } from '../web/reader/menu-model';
 
 // Leaving a town simply to explore (the owner's correction of Mission 18: exploration as one of the game's central
 // pleasures). b2's Ramavor stands in woods under the fells: out into the country about it, up onto the fells by the
@@ -24,6 +29,17 @@ describe('exploring the open country', () => {
     const after = j.screen().region!.land!, tower = after.marks.find(m => /tower/.test(m.name));
     expect(after.known.length).toBeGreaterThan(before.known.length + 20);
     expect(tower?.visited).toBe(false);
+    // Each town seen is somewhere to set out for once, by its own name, and the view sets out for it (seen from the
+    // fells, Ramavor was offered as "the bailey of Ramavor" and as "Ramavor", and the panorama's row for a town had no
+    // Set out: the navigation review).
+    const s = j.screen(), going = [...s.destinations ?? [], ...s.roads ?? []];
+    expect([going.filter(d => /_green$/.test(d.id)), new Set(going.map(d => d.name)).size]).toEqual([[], going.length]);
+    const seen = (j.taken.at(-1)!.event.perceptions ?? []).map(p => ({ text: p.text, kind: 'change' as const }));
+    const { sights } = Moments.of(seen);
+    const towns = sights.filter(x => s.region!.areas.some(a => a.kind === 'settlement' && a.name === x.place));
+    const html = renderToStaticMarkup(createElement(Panorama.View, { sights: towns, choose: () => undefined,
+      going: going.map(d => ({ id: d.id, name: d.name, journey: MenuModel.journey(d) })) }));
+    expect([towns.length > 0, html.match(/data-action="set-out"/g)?.length]).toEqual([true, towns.length]);
     // Set out toward it, across the country seen: it is reached, and the country stays known.
     expect(Itineraries.plan(j.campaign, tower!.id)).toBeDefined();
     const done = await Travel.go({ campaign: j.campaign, perform: (c: string) => j.session.perform(c) }, tower!.id);

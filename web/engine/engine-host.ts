@@ -232,10 +232,12 @@ export class EngineHost {
     const trail: Trail = { legs: [] };
     this.bound = destination;
     const done = await Travel.go({ campaign: session.campaign, perform: this.leg.bind(this, trail) }, destination);
-    if (done.arrived) { this.bound = undefined; }
+    const plan = Itineraries.plan(session.campaign, destination);
+    // Come there, or with no way on known from where it stopped, nothing is held: the page had said "Go on to …
+    // (0 minutes)" after a set-out that found no way, and going on only said so again (the navigation review).
+    if (done.arrived || !plan) { this.bound = undefined; }
     const frame = trail.last ?? this.settled(), legs = trail.legs;
-    const to = Itineraries.plan(session.campaign, destination)?.name
-      ?? session.campaign.module.entities.find(e => e.id === destination)?.name ?? destination;
+    const to = plan?.name ?? Travel.named(session.campaign, destination) ?? 'where you set out for';
     return { ...frame, travel: { to, arrived: done.arrived, legs, ...done.stopped ? { stopped: done.stopped } : {} } };
   }
   // One leg of a journey, done as the page does a way chosen, and kept as it was told.
@@ -404,10 +406,12 @@ export class EngineHost {
     const entities = new Map(campaign.module.entities.map(e => [e.id, e]));
     if (at && Spatial.ancestry(entities, at).some(e => e.id === id)) { this.bound = undefined; return {}; }
     const plan = Itineraries.plan(campaign, id);
-    const name = plan?.name ?? campaign.module.entities.find(e => e.id === id)?.name ?? id;
-    // Each leg by where it comes, as the company knows the place (the card had said "to region__z1_heart": play 11).
-    const legs = (plan?.legs ?? []).map(l => ({ way: l.way, to: ObservationText.label(campaign.world, l.to),
-      minutes: l.minutes }));
-    return { bound: { id, name, minutes: plan?.minutes ?? 0, legs, ...plan?.toward ? { toward: plan.toward } : {} } };
+    // No way on from here (gone off the way by another), and there is nothing to go on with.
+    if (!plan) { this.bound = undefined; return {}; }
+    // Each leg by where it comes, as the company knows the place (the card had said "to region__z1_heart": play 11),
+    // as the page tells a journey's legs (see Itineraries.told).
+    const legs = Itineraries.told(plan.legs, to => ObservationText.label(campaign.world, to));
+    const toward = plan.toward ? { toward: plan.toward } : {};
+    return { bound: { id, name: plan.name, minutes: plan.minutes, legs, ...toward } };
   }
 }

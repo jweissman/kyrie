@@ -120,8 +120,9 @@ export class Told {
       <section className={`happened tone-${exchange.tone}`} data-id="response" aria-live="polite">
         {echo && !Words.restates(echo, exchange.lines[0]?.text) && <p className="you">{Typography.curl(echo)}</p>}
         {plain.map((l, i) => <p key={i} className={l.kind}>{Typography.curl(l.text)}</p>)}
-        {sights.length > 0 && <Panorama.View sights={sights} going={(app?.state.frame?.screen.destinations ?? [])
-          .map(d => ({ id: d.id, name: d.name, journey: MenuModel.journey(d) }))} choose={app && (c => app.choose(c))} />}
+        {sights.length > 0 && <Panorama.View sights={sights} going={[...app?.state.frame?.screen.destinations ?? [],
+          ...app?.state.frame?.screen.roads ?? []].map(d => ({ id: d.id, name: d.name, journey: MenuModel.journey(d) }))}
+          choose={app && (c => app.choose(c))} />}
         {rest.map((l, i) => <p key={`r${i}`} className={l.kind}>{Typography.curl(l.text)}</p>)}
         {ended && <Moments.SeenThrough ended={ended} ready={ready} />}
         {levels.length > 0 && <Moments.Levelled levels={levels} />}

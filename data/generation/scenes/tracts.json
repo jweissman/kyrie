@@ -5,7 +5,7 @@
       "told": ["Open country: rough pasture and old field-strips gone back to grass, a hedge here and there, the sky very big over it.", "Grassland, rolling a little, cropped short by sheep you cannot see. A wall of fieldstone runs along nowhere in particular.", "Meadow, wet in the hollows and dry on the rises, with a few thorn trees leaning all the same way."] },
     "heath": { "name": "open heath", "zoned": "the heath of {zone}", "minutes": 40,
       "told": ["Heath, brown and purple, the wind going over it in long runs, and a path made by deer going away through the heather.", "High open heath: ling and bilberry, a scatter of grey stones, a lark going up and up.", "Rough heath, boggy between the tussocks, the kind of country that is further across than it looks."] },
-    "wood": { "name": "woodland", "zoned": "among the trees of {zone}", "minutes": 60,
+    "wood": { "name": "woodland", "zoned": "the woods of {zone}", "minutes": 60,
       "told": ["Woodland: oak and ash and holly, the light green and broken, last year's leaves deep underfoot.", "Close wood, old and mossy, the paths between the trunks made by animals and going where animals go.", "A stand of tall trees with little under them, so that you can see a long way between the trunks, and nothing moving."] },
     "fen": { "name": "wet ground", "zoned": "the fen of {zone}", "minutes": 70,
       "told": ["Fen: reeds taller than a man, black water between, and the ground giving underfoot with every step.", "Wet ground, sedge and cotton-grass, the pools reflecting the sky, a heron getting up slow and offended.", "A causey of old turves across the marsh, and on either side of it water that does not show how deep it is."] },

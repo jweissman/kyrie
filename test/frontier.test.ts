@@ -65,7 +65,7 @@ describe('the world beyond a region', () => {
     for (const site of drawn!.region!.sites.filter(x => x.work)) {
       expect(w.report.region.sites.filter(x => x.work && RegionLand.confusable(x.name, site.name))).toEqual([]);
     }
-    await March.choose(s, /^Take the road across the march to the eastern edge of /);
+    await March.choose(s, /^Take the road across the march to the march-stone of /);
     expect(s.campaign.world.one('at', 'party')).toBe('xm1y0__edge_east');
     await March.choose(s, /^Take the old road east to /);
     expect(s.campaign.world.one('at', 'party')).toMatch(/^xm1y0__s\d+_green$/);
