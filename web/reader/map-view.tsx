@@ -13,6 +13,7 @@ import { MenuModel } from './menu-model';
 import { Notices } from './notices';
 import { Typography } from '../../src/presentation/typography';
 import { Words } from './words';
+import { Act } from './stage/act';
 
 type Box = [number, number, number, number];
 interface Held { x: number; y: number; view: Box; moved: boolean }
@@ -29,7 +30,15 @@ export class MapView {
     const [chosen, choose] = useState<string>(), [keyed, key] = useState(0), region = screen.region;
     const dialog = useRef<HTMLElement>(null), bound = region && BoardField.whither(region, app.state.frame?.bound?.id);
     // A place chosen by the keys: the way there is the next thing they reach, not the rest of the places on the map.
-    const pick = useCallback((id: string, keys?: boolean) => { choose(id); if (keys) { key(n => n + 1); } }, []);
+    // Pointed at, a hex or a place with a way to it is set out for at once, a waypoint, the way walked on the map as
+    // the company goes (the owner, OWN-48); one that would be asked about first waits on its set-out.
+    const pick = useCallback((id: string, keys?: boolean) => {
+      choose(id);
+      if (keys) { key(n => n + 1); return; }
+      const go = region?.land && MapView.way(screen, id).go;
+      if (go && !Act.asks(go)) { app.choose(go); }
+    }, [app, screen, region]);
+    const walking = app.state.pending ? chosen : undefined;
     const forget = useCallback(() => { MapView.forget(dialog.current, choose); }, []);
     useEffect(() => {
       const before = MapView.hold(dialog.current);
@@ -40,7 +49,7 @@ export class MapView {
       <section className="field-map" data-region="map" aria-label="The map" role="dialog" aria-modal="true"
         tabIndex={-1} ref={dialog} onKeyDown={e => MapView.escape(e, app, chosen ? forget : undefined)}>
         {region?.land ? <BoardField.View region={region} chosen={chosen} choose={pick} bound={bound}
-          face={screen.party[0]?.face?.src}
+          face={screen.party[0]?.face?.src} walking={walking}
           flat={<MapView.Field region={region} chosen={chosen} choose={pick} bound={bound} />} />
           : <p className="none">You have no map of this country yet.</p>}
         <header className="field-head"><p className="where"><span className="title">{app.state.frame!.title}</span>
@@ -93,18 +102,9 @@ export class MapView {
     if (!chosen || !region || !land) {
       return <aside className="plan" aria-label="A place on the map" aria-live="polite">
         <p className="label">Somewhere to go</p>
-        <p className="how">Choose a hex or a place to see what it is, and to go there.</p></aside>;
+        <p className="how">Choose a hex or a place to set out for it.</p></aside>;
     }
-    const cell = /^hex:(\d+)$/.exec(chosen)?.[1], id = cell !== undefined ? MapView.on(land, Number(cell)) : chosen;
-    const area = region.within[id] ?? id, name = cell !== undefined ? MapView.ground(land, Number(cell))
-      : region.areas.find(a => a.id === chosen)?.name ?? land.marks.find(m => m.id === chosen)?.name ?? chosen;
-    // The place itself before what it lies in: a keep in a fen is set out for, not the fen.
-    const plans = [...screen.destinations ?? [], ...screen.roads ?? [], ...screen.around ?? [], ...screen.mapped ?? []];
-    const d = plans.find(x => x.id === id) ?? plans.find(x => x.id === area);
-    const mark = land.marks.find(m => m.id === chosen), within = region.areas.find(a => a.here)?.id === area;
-    const here = cell !== undefined ? land.here === Number(cell) || (!land.tracts && within) : mark ? mark.here : within;
-    // A place the page plans no way to is not set out for (a journey that knows no way leaves nothing to go on with).
-    const go: Choice | undefined = d ? MenuModel.journey(d) : here || mark ? undefined : MapView.across(land, cell, name);
+    const { cell, name, d, here, go } = MapView.way(screen, chosen);
     return (
       <aside className="plan" aria-label={`The way to ${name}`} data-id={chosen} aria-live="polite">
         <p className="label">{MapView.told(region, chosen, here)}</p>
@@ -121,6 +121,22 @@ export class MapView {
           onClick={clear}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg></button>}
       </aside>
     );
+  }
+  // A hex or a place chosen: what it is called, the way the page plans there, whether you are there already, and how
+  // to set out for it, if there is any way to.
+  static way(screen: Screen, chosen: string) {
+    const region = screen.region!, land = region.land!;
+    const cell = /^hex:(\d+)$/.exec(chosen)?.[1], id = cell !== undefined ? MapView.on(land, Number(cell)) : chosen;
+    const area = region.within[id] ?? id, name = cell !== undefined ? MapView.ground(land, Number(cell))
+      : region.areas.find(a => a.id === chosen)?.name ?? land.marks.find(m => m.id === chosen)?.name ?? chosen;
+    // The place itself before what it lies in: a keep in a fen is set out for, not the fen.
+    const plans = [...screen.destinations ?? [], ...screen.roads ?? [], ...screen.around ?? [], ...screen.mapped ?? []];
+    const d = plans.find(x => x.id === id) ?? plans.find(x => x.id === area);
+    const mark = land.marks.find(m => m.id === chosen), within = region.areas.find(a => a.here)?.id === area;
+    const here = cell !== undefined ? land.here === Number(cell) || (!land.tracts && within) : mark ? mark.here : within;
+    // A place the page plans no way to is not set out for (a journey that knows no way leaves nothing to go on with).
+    const go: Choice | undefined = d ? MenuModel.journey(d) : here || mark ? undefined : MapView.across(land, cell, name);
+    return { cell, name, d, here, go };
   }
   // Where no way is known, across the open country to the hex: a hex chosen, the hex a place seen stands on, or one
   // with something on it not yet made out, at the edge of what is known (going to look is how it is found out); never

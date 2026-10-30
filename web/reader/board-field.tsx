@@ -75,9 +75,10 @@ export class BoardField {
       || region.areas.some(t => t.id === x && t.kind === 'settlement'));
     return marked ?? (a ? `hex:${a.y * land.width + a.x}` : undefined);
   }
-  // The board, given where the company is bound as the maps know it (see whither).
-  static View({ region, chosen, choose, bound, flat, face }: { region: RegionChart; chosen?: string;
-    choose: (id: string, keyed?: boolean) => void; bound?: string; flat: ReactNode; face?: string }) {
+  // The board, given where the company is bound as the maps know it (see whither), and where it is setting out for,
+  // that your mark walk the way there.
+  static View({ region, chosen, choose, bound, flat, face, walking }: { region: RegionChart; chosen?: string;
+    choose: (id: string, keyed?: boolean) => void; bound?: string; flat: ReactNode; face?: string; walking?: string }) {
     const host = useRef<HTMLDivElement>(null), board = useRef<BoardApi | undefined>(undefined), pick = useRef(choose);
     const [failed, fail] = useState(() => !BoardField.able()), [ready, readied] = useState(false);
     const [land, same] = useMemo(() => BoardField.drawn(region, face), [region, face]);
@@ -108,6 +109,7 @@ export class BoardField {
     // BoardCamera.dispose).
     useLayoutEffect(() => () => { board.current?.dispose(); board.current = undefined; }, []);
     useEffect(() => { board.current?.show(chosen, bound); }, [chosen, bound, ready]);
+    useEffect(() => { if (walking) { board.current?.walk(walking); } }, [walking, ready]);
     if (failed) { return <>{flat}</>; }
     return (
       <div className="field-land board" ref={host} data-board={ready ? 'ready' : 'loading'}>

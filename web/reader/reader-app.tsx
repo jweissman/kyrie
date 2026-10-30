@@ -212,9 +212,12 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     this.setState({ pending: { said, ...travel ? { travel } : {} }, error: '' });
     try {
       const journey = /^travel:(.+)$/.exec(choice.command!)?.[1], unbind = choice.command === MenuModel.unbind;
+      // Set out from the map, the way is walked on it before where it comes to is told.
+      const walked = journey && this.state.view === 'map' ? ReaderApp.walk() : undefined;
       const next = journey ? await this.engine.request<Frame>({ kind: 'travel', destination: journey })
         : unbind ? await this.engine.request<Frame>({ kind: 'unbind' })
           : await this.engine.request<Frame>({ kind: 'perform', command: choice.command! });
+      await walked;
       // What is done from the pack or the company page in the middle of a conversation is not said in it: the follow-up
       // review tended a wound from the pack and was put back in the creditor's dialogue, the bandaging told there.
       const aside = !turning && (this.state.view === 'pack' || this.state.view === 'company');
@@ -228,6 +231,11 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
         asked: person && !turning ? [...this.state.asked, choice.id] : [],
         acted: this.state.attention.kind === 'thing' ? this.state.attention.id : undefined });
     } catch (error) { this.failed(error); }
+  }
+  // As long as your mark takes to walk the way on the map; no time where nothing moves on it.
+  private static walk(): Promise<void> | undefined {
+    if (typeof matchMedia === 'undefined' || matchMedia('(prefers-reduced-motion: reduce)').matches) { return undefined; }
+    return new Promise(resolve => { setTimeout(resolve, 1500); });
   }
   // A conversation goes on: what was open with someone (what to buy from them) stays open, if they are still there
   // with more to offer. Anything else is put away.

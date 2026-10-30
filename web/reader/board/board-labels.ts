@@ -22,6 +22,7 @@ export class BoardLabels {
   private readonly v = new Vector3();
   private readonly w = new Vector3();
   private you?: { el: HTMLElement; at: Vector3; cell: number };
+  private walking?: { way: Vector3[]; from: number; ms: number };
   // What is told of a label's hex: that it has the keys' focus (to be drawn toward), or has lost it; and how far the
   // hex stands below where it belongs, and whether what is on it is shown yet.
   constructor(host: HTMLElement, private readonly hooks: BoardHooks, private readonly heed: (cell?: number) => void,
@@ -56,6 +57,22 @@ export class BoardLabels {
     for (const l of this.labels.filter(x => x.cell === cell)) {
       l.el.setAttribute('aria-label', `${l.el.getAttribute('aria-label') ?? ''}, where you are`);
     }
+  }
+  // Your mark set walking along the way, a hex in about a third of a second, the whole in no less than one and no more
+  // than about as long as the page waits before telling where it comes to (see ReaderApp.walk).
+  walk(way: Vector3[]): void {
+    if (!this.you || way.length < 2) { return; }
+    this.walking = { way, from: performance.now(), ms: Math.min(1400, Math.max(1000, 320 * (way.length - 1))) };
+  }
+  // Your mark a step further along the way as the board is drawn; whether it is still walking.
+  step(now: number): boolean {
+    const w = this.walking, you = this.you;
+    if (!w || !you) { return false; }
+    const t = Math.min(1, Math.max(0, now - w.from) / w.ms), along = t * (w.way.length - 1);
+    const i = Math.min(w.way.length - 2, Math.floor(along));
+    you.at.lerpVectors(w.way[i]!, w.way[i + 1]!, along - i);
+    if (t >= 1) { this.walking = undefined; }
+    return true;
   }
   // A face on your plate in place of the pin, the pin again if the painting will not come.
   private static face(plate: Element, src: string): void {

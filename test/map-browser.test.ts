@@ -98,4 +98,25 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the map and the notes, to plan with
     expect(errors).toEqual([]);
     await page.close();
   }, 240000);
+  // Pointed at, a hex of country known is a waypoint set out for at once, your mark walking the way there on the map
+  // before the journey is told where it comes to (the owner, OWN-48).
+  it('sets out at once for a hex pointed at, and comes to it', async () => {
+    const { page, errors, driver } = await MonoBrowser.page(browser, { width: 1440, height: 900 },
+      { site, query: '?world=kite' });
+    await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
+    await page.click('[data-action="start"]');
+    await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
+    const from = (await driver.inspect()).place?.id;
+    await driver.mode('m');
+    await page.waitForSelector('.field-land.board[data-board="ready"]', { timeout: 180000 });
+    await page.waitForTimeout(6000);
+    const you = (await page.locator('.board-you').boundingBox())!;
+    await page.mouse.click(you.x + you.width * 2.5, you.y + you.height - 4);
+    await page.waitForSelector('.field-map', { state: 'detached', timeout: 60000 });
+    await driver.settle();
+    const after = await driver.inspect();
+    expect([after.mode, after.place?.id !== from]).toEqual(['explore', true]);
+    expect(errors).toEqual([]);
+    await page.close();
+  }, 300000);
 });

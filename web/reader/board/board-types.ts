@@ -22,6 +22,8 @@ export interface BoardLand {
 export interface BoardHooks { choose(id: string, keyed?: boolean): void; lost?(): void }
 export interface BoardApi {
   show(chosen?: string, bound?: string): void;
+  // Your mark walked along the way to a hex or a place, as the company sets out for it.
+  walk(to: string): void;
   zoom(by: number): void;
   home(): void;
   dispose(): void;

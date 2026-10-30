@@ -212,6 +212,15 @@ export class Board implements BoardApi {
     const c = this.grid.cellAt(x, z), lift = c === undefined ? -4 : this.tiles.lift(c);
     return lift <= -1 ? BoardUnder.TOP + 0.012 : this.ground.at(x, z) + lift;
   }
+  // Your mark walked hex by hex along the way there (straight over, where no way is drawn), the view brought along.
+  walk(to: string): void {
+    const cell = this.cellOf(to), here = this.land.here;
+    if (cell === undefined || here === undefined || this.still) { return; }
+    const way = this.route(cell), cells = way.length ? way : [here, cell];
+    this.labels.walk(cells.map(c => new Vector3(this.grid.centres[c]!.x, this.ground.levels[c]! + 0.03,
+      this.grid.centres[c]!.y)));
+    this.view.show(this.grid.centres[cell]!, this.hereAt()); this.dirty = true;
+  }
   zoom(by: number): void { this.view.zoom(by); this.dirty = true; }
   home(): void { this.view.back(); this.dirty = true; }
   // The board put away: its listening stopped, all it put on the graphics card given back, and its drawing let go at
@@ -341,7 +350,7 @@ export class Board implements BoardApi {
   }
   private tick(now: number): void {
     const t = this.began === undefined ? 0 : Math.max(0, now - this.began) / 1000;
-    if (this.view.step(now)) { this.dirty = true; }
+    if (this.view.step(now) || this.labels.step(now)) { this.dirty = true; }
     if (this.knowing.arriving) {
       const moving = this.knowing.arrive(t); this.know();
       // The country come: the ways over it laid as it now stands.
