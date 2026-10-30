@@ -29,6 +29,7 @@ independent ones batched.
 | The navigation review | 0 | 4 | 18 | 0 | 0 | 0 | 22 |
 | The cold review, section H | 0 | 1 | 5 | 0 | 0 | 0 | 6 |
 | Fair Weather's author | 0 | 1 | 14 | 0 | 0 | 0 | 15 |
+| Half the Hive's author | 0 | 0 | 13 | 0 | 0 | 0 | 13 |
 
 | By gate | A | B | C | D | E | F |
 |---|---|---|---|---|---|---|
@@ -460,6 +461,28 @@ re-verified line by line here). Points 9, 12 and 18 are held by GTR-15 (by desig
 | FWR-15 | A journey step's pattern matches another person's topic in the same room | F | P3 | Open | Steps by speaker as well as words |
 | FWR-16 | Topics cannot roll; persuasion is an action that sits elsewhere in the list | D | P3 | Open | A Topic with a check |
 | FWR-17 | No non-lethal fight: three village lads with their fists kill or are killed | C | P1 | Open | A Yields temperament that stops at the first fall, for fights whose stakes are not lives |
+
+### Half the Hive's friction (adventure/half-the-hive, merged 2026-10-30)
+
+The author's own record, doc/adventures/half-the-hive/friction.md. Held elsewhere: HTH-1 by OWN-31 and OWN-35, HTH-2 by
+FWR-01, HTH-3 by ARV-M6, HTH-9 by AUT-07, HTH-11 by GTR-06, HTH-19 by FWR-06; HTH-20 was met on merging (a surname
+renamed).
+
+| ID | Finding | Gate | Pri | Now | Would help |
+|---|---|---|---|---|---|
+| HTH-04 | A companion's `Remarks` never fire: the rule asks `able(id)`, and a member's group is no longer able | D | P1 | Open | Drop `able` when `travelsWith` holds, or test the member |
+| HTH-05 | `Give` takes an item, not a kind, and takes it from whoever has it | D | P2 | Open | `Give one <kind> to actor`, fresh, as buying is |
+| HTH-06 | No count of relations: a tally kept by hand at every change | D | P2 | Open | `count(...)` in expressions (with AUT-05) |
+| HTH-07 | A placed country's clock is below nothing until its first morning, so a measure at 0 reads as later than now | D | P1 | Open | With GTR-01: times as the world's, or sentinels; said in the guide |
+| HTH-08 | Kinds must be declared before a file uses them, across files | D | P3 | Open | Kinds read before use (with GTR-30) |
+| HTH-10 | An action's unbound parameter offers one choice per place in the world, and lint says nothing | D | P1 | Open | Lint a parameter no requirement binds |
+| HTH-12 | Farewells cannot be authored; the voice tables give a grieving widow a jaunty one | D | P2 | Open | A `Parts "..."` word beside Greets and Leaves; conditional words in the guide |
+| HTH-13 | A shared rule consumes the state a module's rule waits on (`brought_home` retracts `following`) | D | P2 | Open | Say in the guide which shared rules run first and what they retract |
+| HTH-14 | An `as sound` observation in an unlit room is told but its `teaches` not learned | D | P1 | Open | Learn what is heard in the dark |
+| HTH-15 | An interrupted action is told as if a light gave out, whatever interrupted it | A | P2 | Open | The interruption's own words |
+| HTH-16 | A rule's words on arrival come before the room's own description | A | P2 | Open | Arrival first, then what happens in it |
+| HTH-17 | A chapter or long scene is told wherever its condition holds, a day's walk away | D | P2 | Open | Chapters scoped to where the company is (with ICE-02) |
+| HTH-18 | A hostile's weight cannot be judged from its catalog name; two owlbears of level 2 kill a level-1 company | D | P1 | Open | A lint advice comparing a hostile's strength with an ordinary company's (the novice measure's tooling) |
 
 ## Appendix: Mission 17's evidence, as it stood at 28b306c
 
