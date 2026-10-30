@@ -53,13 +53,13 @@ Module lowwater "Low Water" {
   Observe pan_level at equal_hall when balanced() "The floor lies level under you, and the stone pan hangs level at the far end, and the Equals stand facing one another across the hall as if you were not there.".
   Observe pan_tipped at equal_hall when not balanced() and stonesIn(counterpan) > 0 "The pan has gone down some way, but not all: the floor is still tipped your way, a finger's breadth.".
   // A watch to see it; then they come. tippedSince is the watch the floor was first seen tipped, and one more.
-  Measure tippedSince(group). Relation warnedOff(group).
+  Measure tippedSince(group). Relation equalsWarned(group).
   Rule tipped_mark when at(party, equal_hall) and not balanced() and able(equals) and not broken(reckoner) and tippedSince(party) == 0 {
     Set tippedSince(party) to watch(clock) + 1. }
-  Rule tipped_eases when tippedSince(party) > 0 and (not at(party, equal_hall) or balanced()) { Set tippedSince(party) to 0. Retract warnedOff(party). }
-  Rule equals_warn at equal_hall when at(party, equal_hall) and tippedSince(party) > 0 and not warnedOff(party) and able(equals) and tolerates(equals, party)
+  Rule tipped_eases when tippedSince(party) > 0 and (not at(party, equal_hall) or balanced()) { Set tippedSince(party) to 0. Retract equalsWarned(party). }
+  Rule equals_warn at equal_hall when at(party, equal_hall) and tippedSince(party) > 0 and not equalsWarned(party) and able(equals) and tolerates(equals, party)
     says "The Equals turn, both together, without a sound, and face you where you stand on the tipped floor. One lifts its hands, flat, palms down, and presses the air, as you would press down the end of a plank that has come up." {
-    Assert warnedOff(party). }
+    Assert equalsWarned(party). }
   Rule equals_come when at(party, equal_hall) and not balanced() and tippedSince(party) > 0 and watch(clock) >= tippedSince(party) + 1 and able(equals) and tolerates(equals, party) {
     Retract tolerates(equals, party). Assert assails(equals, party). }
   Rule equals_settle when balanced() and not tolerates(equals, party) and able(equals) and not guarding(equals) { Assert tolerates(equals, party). }

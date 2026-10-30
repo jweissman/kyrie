@@ -24,7 +24,7 @@ independent ones batched.
 | Inherited, at the start | 0 | 61 | 11 | 0 | 1 | 0 | 73 |
 | Inherited, now | 2 | 61 | 9 | 0 | 1 | 0 | 73 |
 | New in Mission 18 | 10 | 0 | 0 | 0 | 0 | 0 | 10 |
-| The owner's review | 0 | 12 | 9 | 0 | 0 | 0 | 21 |
+| The owner's review | 0 | 12 | 15 | 0 | 0 | 0 | 27 |
 
 | By gate | A | B | C | D | E | F |
 |---|---|---|---|---|---|---|
@@ -205,6 +205,20 @@ refine the interface requirements (Gate A); they do not interrupt the other gate
 | OWN-19 | A quiet gameplay view: the present scene and the actions that matter now; fewer persistent controls, frames, stacked panels, lists of people and destinations, repeated status and long description; what is perceived, known, doable, inspectable and reference kept distinct, the last in map, sheet, journal or encyclopedia; hierarchy and whitespace, not shrinking | A | P0 | Open | |
 | OWN-20 | Each activity its own composition in one artistic world: creation an almost empty selection; the opening a quiet narrative stage; conversation the speaker and their words; exploration the scene and a few meaningful actions; the map the whole viewport; inventory, spells, character and reference denser when deliberately opened | A | P0 | Open | |
 | OWN-21 | Demonstration: ancestry, calling and background chosen from centred cards; a spell school with its actual spells; a randomized name; a quiet opening; into exploration; a town arrival, concise, with a few meaningful actions; deeper information only on request; judged on the rendered screens at desktop and tablet sizes, substantially quieter, more beautiful and more intentional | F | P0 | Open | |
+
+### The owner's corrections of 2026-10-29 on the world map and exploration
+
+The map is improving in ambition but is not yet a satisfying exploration surface. A refinement of OWN-08, OWN-09 and
+OWN-12, not a new mission.
+
+| ID | Requirement | Gate | Pri | Now | Evidence, or what remains |
+|---|---|---|---|---|---|
+| OWN-22 | A world that does not end abruptly: the map continues beyond what is visible or explored; where it is unknown, a clear, attractive treatment of uncertainty (fog, darkness, mist, incomplete cartography); no blank holes that look like missing data | A | P0 | Open | |
+| OWN-23 | One clear knowledge model, partially revealed geography with an explicit fog of war: the unknown looks like unknown world; a place only heard of shows that it exists (a marker), not the route to it or the land about it, unless route knowledge was really acquired | A | P0 | Open | |
+| OWN-24 | Places on the map by what is known of them: icons centred in their markers; a nearby site not yet identified as a question mark; known places by type (settlement, ruin, shrine, cave, tower, bridge, camp); hearing of a place shows its marker; discovering or visiting shows its icon, name and way | A | P0 | Open | |
+| OWN-25 | Terrain and composition refined: more beautiful and readable land; forests, hills, mountains, rivers and roads in the land, not harsh lines over it; palette and harmony; a more pronounced tilt; a world, not a rough tile prototype | A | P0 | Open | |
+| OWN-26 | Cumulative discovery: the immediate surroundings visible; nearby unexplored sites as unknown markers; rumoured places as markers without their routes; surveying, travel and local knowledge reveal more; visiting and exploring turn partial knowledge into full | C | P0 | Open | |
+| OWN-27 | A wilderness worth exploring: exploration regularly uncovers worthwhile destinations and interactions (the wild's own meetings and finds, more and more varied sites), so that a better map has something to show | C | P0 | Open | |
 
 ## Appendix: Mission 17's evidence, as it stood at 28b306c
 

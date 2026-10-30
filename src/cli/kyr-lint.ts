@@ -18,8 +18,10 @@ export class KyrLint {
   static readonly root = resolve(import.meta.dir, '../..');
   // Every campaign the game offers is held to the canonical vocabulary.
   static get recommended(): string[] { return this.campaigns(); }
+  // In name order, so that every machine reads the files alike (a module's kinds are known to the files after the one
+  // that declares them, and the directory's own order had let a file be skipped on one machine and read on another).
   static walk(dir: string, keep: (file: string) => boolean): string[] {
-    return readdirSync(dir).flatMap(f => {
+    return readdirSync(dir).sort().flatMap(f => {
       const p = join(dir, f);
       return statSync(p).isDirectory() ? this.walk(p, keep) : keep(f) ? [p] : [];
     });

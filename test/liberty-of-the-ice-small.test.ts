@@ -218,9 +218,9 @@ describe('The Liberty of the Ice: the Fair', () => {
     await g.play('?Ask her for your purse back', '=+1', 'Ride the swing-boat');
     expect(g.knows('fair_from_above')).toBe(true);
   }, 300000);
-  // The owner's review (OWN-06): a philosopher who calls a stranger over, a debate among several who answer one another,
-  // what the ice has heard told as something to keep, and at the Court the stranger's answer remembered.
-  it('argues at the Glove Post: Callow calls the stranger over, Sir Lionel and Ursel are set at it, and the Court remembers', async () => {
+  // The owner's review (OWN-06): a philosopher who calls a stranger over, a debate among several who answer one
+  // another, what the ice has heard told as something to keep, and at the Court the stranger's answer remembered.
+  it('argues at the Glove Post: Callow calls the stranger over, Sir Lionel and Ursel set at it, the Court remembers', async () => {
     const g = await Pellam.start();
     await g.play('go:swan_lane', 'Shake on a penny a stair', 'go:swan_foot', '=9:00', 'go:freezeland');
     expect(g.holds('callowHailed', 'party')).toBe(true);
