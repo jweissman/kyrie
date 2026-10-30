@@ -1,0 +1,5 @@
+Module lull "The Lull" {
+  // The Lull played by a company of three, for the fights and the crafts a lone traveller cannot bring together.
+  Company party "Your company" of 3 at march_road.
+  Initially Set quantity(party, gold) to 20. Initially Set quantity(party, rations) to 4.
+}

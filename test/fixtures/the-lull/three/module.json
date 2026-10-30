@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "source": [
+    "../../../../data/adventures/the-lull/clock.kyr",
+    "../../../../data/adventures/the-lull/acts.kyr",
+    "../../../../data/adventures/the-lull/sixways.kyr",
+    "../../../../data/adventures/the-lull/linger.kyr",
+    "../../../../data/adventures/the-lull/law.kyr",
+    "../../../../data/adventures/the-lull/ashbys.kyr",
+    "../../../../data/adventures/the-lull/houses.kyr",
+    "../../../../data/adventures/the-lull/linnet.kyr",
+    "../../../../data/adventures/the-lull/bride.kyr",
+    "../../../../data/adventures/the-lull/market.kyr",
+    "../../../../data/adventures/the-lull/wild.kyr",
+    "../../../../data/adventures/the-lull/sixnight.kyr",
+    "../../../../data/adventures/the-lull/working.kyr",
+    "../../../../data/adventures/the-lull/builds.kyr",
+    "../../../../data/adventures/the-lull/endings.kyr",
+    "company.kyr"
+  ],
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "exports": {
+    "party": "party",
+    "region": "lull_country",
+    "march_road": "march_road"
+  },
+  "experience": 1000
+}

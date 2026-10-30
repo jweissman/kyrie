@@ -1,0 +1,7 @@
+{
+  "version": 1,
+  "name": "The Lull (thief)",
+  "calendar": { "year": 1312, "month": 8, "day": 3 },
+  "modules": [ { "id": "lull", "bundle": "../../../data/adventures/the-lull/module.json" } ],
+  "party": [ { "name": "Ashe", "raceId": "human", "classId": "thief" } ]
+}

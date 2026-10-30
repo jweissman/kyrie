@@ -157,4 +157,54 @@ describe('The Lull', () => {
     expect(g.holds('linnetTune', 'linnet')).toBe(true);
     expect(g.holds('stayPromised', 'party')).toBe(true);
   }, 300000);
+
+  // Different hands: a priest, a thief, a bard, a woodsman, a climber; and a company of three that fights.
+  it('a cleric eases Hester with the words for the dying, and nothing is bought across the Tump', async () => {
+    const g = await Lull.start('test/fixtures/the-lull/cleric.campaign.json');
+    await g.fixture('rites');
+    expect(g.holds('hesterEased', 'hester')).toBe(true);
+    expect(g.holds('hesterBlessed', 'hester')).toBe(true);
+    expect(g.holds('tobiasSawPoppy', 'tobias')).toBe(false);
+  }, 300000);
+
+  it('a thief takes Simeon round the Tump by the sheep-walk when the wardens have turned him back', async () => {
+    const g = await Lull.start('test/fixtures/the-lull/thief.campaign.json');
+    await g.fixture('sheep');
+    expect(g.holds('simeonTurned', 'simeon')).toBe(true);
+    expect(g.holds('simeonHome', 'simeon')).toBe(true);
+    expect(g.at('party')).toBe(k('strike_post'));
+  }, 300000);
+
+  it('a bard sings the strikers\' hymn at the Overseer, and it goes down among the Hands; a monk meets it and must answer', async () => {
+    const bard = await Lull.start('test/fixtures/the-lull/bard.campaign.json');
+    await bard.fixture('overseer');
+    expect(bard.at('overseer')).toBe(k('loom_floor'));
+    expect(bard.page).toMatch(/Rest and be thankful/);
+    const monk = await Lull.start('test/fixtures/the-lull/monk.campaign.json');
+    await monk.fixture('overseer');
+    expect(monk.at('overseer')).toBe(k('bell_loft'));
+    expect(monk.j.campaign.world.test({ kind: 'call', name: 'warned', args: [k('overseer'), 'party'] })).toBe(true);
+  }, 300000);
+
+  it('a company of three lays the Old Brock for Hobday\'s bounty, and at sunset he gets up, and the bounty goes home', async () => {
+    const g = await Lull.start('test/fixtures/the-lull/party.campaign.json');
+    await g.play('Sixways street$', 'To the Fold-stone$', 'Sit down by the Fold-stone', "To the Tump's shoulder", 'To Linger green',
+      'Talk to Hobday', 'Ask Hobday Pryce about the Old Brock', "Take Hobday Pryce's bounty", 'Take your leave',
+      'To the path through the Hangers', "To the Old Brock's sett", 'Attack');
+    expect(g.j.campaign.world.test({ kind: 'call', name: 'dead', args: [k('brock')] })).toBe(true);
+    await g.play('To the path through the Hangers', 'To Linger green', 'Talk to Hobday', 'Tell Hobday Pryce that the Old Brock', 'Take your leave');
+    const paid = g.gold;
+    await g.play('=20:30');
+    expect(g.knows('hired_harm')).toBe(true);
+    expect(g.at('brock_risen')).toBe(k('brock_sett'));
+    expect(g.gold).toBe(paid - 10);
+  }, 300000);
+
+  it('What Was Meant: a company that stands against the wardens on the bridge, and kills, and it holds', async () => {
+    const g = await Lull.start('test/fixtures/the-lull/party.campaign.json');
+    await g.fixture('meant');
+    expect(g.holds('killedMeant', 'party')).toBe(true);
+    expect(g.ending()).toEqual([k('what_was_meant')]);
+    expect(g.page).toMatch(/In the Lull you can only be killed by somebody who means it/);
+  }, 600000);
 });
