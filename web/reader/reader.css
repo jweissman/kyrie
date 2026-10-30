@@ -139,6 +139,7 @@ kbd { font: 500 10.5px/1 var(--do); color: var(--dim); border: 1px solid var(--e
 .opening { max-width: 62rem; margin: 0 auto; padding: clamp(28px, 7vw, 96px) clamp(16px, 5vw, 64px) 64px; min-height: var(--frame-h); }
 .small-ways .link { font: inherit; }
 .options-page h1, .loading h1 { font: 400 clamp(36px, 4.6vw, 56px)/1.05 var(--told); margin: 0 0 22px; }
+.options-page .colophon { margin: 44px 0 0; font: italic 400 14px/1.4 var(--told); color: var(--faint); }
 .setting { margin: 0 0 26px; }
 .setting .acts { gap: 8px; }
 .setting .act .why { display: block; flex-basis: 100%; font: 400 14px/1.4 var(--told); color: var(--dim); }

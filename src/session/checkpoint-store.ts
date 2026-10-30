@@ -1,5 +1,6 @@
 import type { CampaignSave } from '../campaign/campaign';
 import type { SessionCheckpoint } from './play-session';
+import { Identity } from '../presentation/identity';
 
 // The subset of the Web Storage API this store needs; browsers pass localStorage, tests pass a fake.
 export interface KeyValueStorage {
@@ -54,7 +55,7 @@ export class CheckpointStore {
     if (value?.version === 1 && value.module && value.state && Array.isArray(value.events)) {
       return value as CampaignSave;
     }
-    throw new Error('Not a Kyrie session checkpoint or campaign save');
+    throw new Error(`Not a ${Identity.spoken()} session checkpoint or campaign save`);
   }
   private static checkpoint(value: SessionCheckpoint): SessionCheckpoint {
     const t = value?.transcript;

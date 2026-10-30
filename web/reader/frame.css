@@ -51,16 +51,22 @@ html, body { overflow: hidden; }
 .title-page { position: relative; height: 100dvh; display: grid; place-items: center; padding: 0 20px; max-width: none;
   min-height: 0; }
 .title-main { display: flex; flex-direction: column; align-items: center; text-align: center; width: min(980px, 100%); }
-.mark { margin: 0; font: 300 clamp(44px, 8vw, 116px)/1 var(--do); letter-spacing: .34em; padding-left: .34em; white-space: nowrap;
-  color: var(--ivory); text-shadow: 0 0 40px rgba(242, 189, 76, .18); }
+/* The name's size follows its letters (--letters, set by the page, a space between words counted as one), so a longer
+   one still keeps to one line on a phone and never spreads past a broad line on a desk: each capital takes about its
+   em with the tracking, and the tracking's width again is set before the first. KYRIE is held only by 8vw; a name of
+   eight letters comes out near 85px. */
+.mark { --letters: 5; --fit: calc(min(88vw, 720px) / (var(--letters) + .34) / 1.02); margin: 0;
+  font: 300 clamp(min(44px, var(--fit)), min(8vw, var(--fit)), 116px)/1 var(--do); letter-spacing: .34em;
+  padding-left: .34em; white-space: nowrap; color: var(--ivory); text-shadow: 0 0 40px rgba(242, 189, 76, .18); }
 .mark span { display: inline-block; }
+.mark .gap { margin: 0 .15em; }
 .horizon { position: relative; width: min(340px, 70vw); height: 12px; margin: clamp(18px, 3vh, 30px) 0 clamp(16px, 2.6vh, 26px); }
 .horizon::before { content: ''; position: absolute; left: 0; right: 0; top: 50%; height: 1px;
   background: linear-gradient(90deg, transparent, var(--gold) 30%, var(--gold) 70%, transparent); }
 .horizon i { position: absolute; left: 50%; top: 50%; width: 8px; height: 8px; margin: -4px 0 0 -4px; background: var(--gold);
   transform: rotate(45deg); box-shadow: 0 0 14px var(--gold); }
 .title-page .lede { font: italic 400 clamp(17px, 1.6vw, 21px)/1.5 var(--told); color: var(--dim); max-width: 26em;
-  margin: 0 0 clamp(28px, 6vh, 56px); }
+  margin: 0 0 clamp(28px, 6vh, 56px); text-wrap: balance; }
 .title-menu { position: relative; width: min(360px, 100%); }
 .title-menu ul { list-style: none; margin: 0; padding: 0; }
 .way-in { all: unset; box-sizing: border-box; cursor: pointer; display: flex; flex-direction: column; align-items: center;
@@ -71,46 +77,72 @@ html, body { overflow: hidden; }
 .way-in[aria-current="true"], .way-in:hover, .way-in:focus-visible { color: var(--ivory); outline: none; }
 .way-in[aria-current="true"] .why { color: var(--dim); }
 .way-in:active .n { transform: translateY(1px); color: var(--gold); }
-/* The selection: a diamond before the way and a line after it, sliding to the way the pointer or the keys are on. */
-.title-menu .indicator { position: absolute; left: 0; right: 0; top: 0; height: 0; pointer-events: none;
-  transition: transform var(--settle) var(--ease); }
+/* The selection: a diamond just before the chosen way's name and a short line just after it, the two closing about the
+   name (TitlePage.useIndicator sets where and how wide), sliding and widening to the way the pointer or keys are on. */
+.title-menu .indicator { position: absolute; left: 0; top: 0; width: 0; height: 0; pointer-events: none;
+  transition: transform var(--settle) var(--ease), width var(--settle) var(--ease); }
 .title-menu .indicator::before, .title-menu .indicator::after { content: ''; position: absolute; top: 0; }
-.title-menu .indicator::before { left: 6px; width: 7px; height: 7px; margin-top: -4px; background: var(--gold);
+.title-menu .indicator::before { left: 1px; width: 7px; height: 7px; margin-top: -4px; background: var(--gold);
   transform: rotate(45deg); box-shadow: 0 0 12px var(--gold); }
-.title-menu .indicator::after { right: 0; width: 22px; height: 1px; background: var(--gold-line); }
+.title-menu .indicator::after { right: 0; width: 12px; height: 1px; background: var(--gold-line); }
 .title-page .credit { position: absolute; left: max(20px, env(safe-area-inset-left)); bottom: max(16px, env(safe-area-inset-bottom));
   margin: 0; font: 400 11.5px var(--do); color: var(--faint); letter-spacing: .04em; }
 .title-page .dev { margin-top: 32px; text-align: left; }
 .title-page .dev ol { list-style: none; padding: 0; display: grid; gap: 6px; }
-/* The opening, beat by beat: the mark; black; the name lit letter by letter, the horizon drawn, the ways in after. */
+/* The opening, beat by beat. The studio's mark; black; then, over about three seconds, the painting comes up slowly
+   out of the dark while the name is lit from its middle letter outward, each letter out of a blur and a gold glow; the
+   horizon is drawn under it and its diamond kindled, the mark's star again; the line beneath; the ways in arrive one
+   after another; last, the selection and the painter's name. The page (TitlePage.reveal) outlasts the last of it. */
 .beat-ident .title-main, .beat-dark .title-main { visibility: hidden; }
 .beat-ident ~ .ambient, .shell:has(.beat-ident) .ambient, .shell:has(.beat-dark) .ambient { opacity: 0; }
-.shell:has(.beat-reveal) .ambient { animation: plate-up 2.6s var(--ease) both; }
+.beat-dark .credit { opacity: 0; }
+.shell:has(.beat-reveal) .ambient { animation: plate-up 3s cubic-bezier(.33, 0, .2, 1) both; }
 @keyframes plate-up { from { opacity: 0; transform: scale(1.12); } }
-.beat-reveal .mark span { animation: letter 1.2s var(--ease) both; }
-@keyframes letter { from { opacity: 0; filter: blur(8px); letter-spacing: .2em; } }
-.beat-reveal .horizon { animation: draw-out 1s .5s var(--ease) both; }
-@keyframes draw-out { from { clip-path: inset(0 50% 0 50%); } to { clip-path: inset(0 0 0 0); } }
-.beat-reveal .lede { animation: rise .9s .9s var(--ease) both; }
-.beat-reveal .title-menu li { animation: rise .7s var(--ease) both; }
-.beat-reveal .title-menu li:nth-child(1) { animation-delay: 1.15s; }
-.beat-reveal .title-menu li:nth-child(2) { animation-delay: 1.27s; }
-.beat-reveal .title-menu li:nth-child(3) { animation-delay: 1.39s; }
-.beat-reveal .title-menu li:nth-child(4) { animation-delay: 1.51s; }
-.beat-reveal .title-menu .indicator { animation: rise .7s 1.6s var(--ease) both; }
+.beat-reveal .mark span { animation: letter 1.5s var(--ease) both; }
+@keyframes letter { from { opacity: 0; filter: blur(10px); transform: translateY(.06em);
+  text-shadow: 0 0 30px rgba(242, 189, 76, .6); } }
+.beat-reveal .horizon::before { animation: line-out 1.1s .7s var(--ease) both; }
+@keyframes line-out { from { transform: scaleX(0); } }
+.beat-reveal .horizon i { animation: kindle .8s 1.25s var(--ease) both; }
+@keyframes kindle { from { opacity: 0; transform: rotate(45deg) scale(.2); box-shadow: 0 0 0 var(--gold); }
+  60% { opacity: 1; transform: rotate(45deg) scale(1.35); box-shadow: 0 0 22px var(--gold); } }
+.beat-reveal .lede { animation: rise 1s 1.2s var(--ease) both; }
+.beat-reveal .title-menu li { animation: rise .8s var(--ease) both; }
+.beat-reveal .title-menu li:nth-child(1) { animation-delay: 1.55s; }
+.beat-reveal .title-menu li:nth-child(2) { animation-delay: 1.67s; }
+.beat-reveal .title-menu li:nth-child(3) { animation-delay: 1.79s; }
+.beat-reveal .title-menu li:nth-child(4) { animation-delay: 1.91s; }
+.beat-reveal .title-menu li:nth-child(5) { animation-delay: 2.03s; }
+.beat-reveal .title-menu .indicator { animation: fade-in .8s 2.1s var(--ease) both; }
+.beat-reveal .dev { animation: rise .8s 2.05s var(--ease) both; }
+.beat-reveal .credit { animation: fade-in 1.1s 2s var(--ease) both; }
 @keyframes rise { from { opacity: 0; transform: translateY(8px); } }
-.ident { position: absolute; inset: 0; z-index: 30; display: grid; place-items: center; background: #000;
-  animation: ident-out 2.6s var(--ease) both; }
+@keyframes fade-in { from { opacity: 0; } }
+/* The studio's mark (Ident): its timings are the page's, set on each part; here only how each part arrives. */
+.ident { position: absolute; inset: 0; z-index: 30; display: grid; place-content: center; justify-items: center;
+  gap: clamp(10px, 2.2vh, 20px); background: var(--ground); animation: ident-out 3.7s ease-in-out both; }
 .ident svg { width: min(240px, 50vw); overflow: visible; }
 .ident line { stroke-linecap: round; }
-.ident .ground { stroke: var(--gold-line); stroke-width: 1; animation: draw-out .7s var(--ease) both; }
+.ident .ground { stroke: var(--gold-line); stroke-width: 1; animation: draw-out .8s var(--ease) both; }
+@keyframes draw-out { from { clip-path: inset(0 50% 0 50%); } to { clip-path: inset(0 0 0 0); } }
 .ident .tower { stroke: var(--ivory); stroke-width: 2.4; stroke-dasharray: 90; stroke-dashoffset: 90;
   filter: drop-shadow(0 0 6px rgba(242, 189, 76, .7)); animation: tower .8s var(--ease) forwards; }
 @keyframes tower { to { stroke-dashoffset: 0; } }
+.ident .spire { stroke: var(--ivory); stroke-width: 1; stroke-dasharray: 8; stroke-dashoffset: 8; opacity: .9;
+  filter: drop-shadow(0 0 4px rgba(242, 189, 76, .6)); animation: tower .45s var(--ease) forwards; }
+.ident .lamp { fill: var(--gold); opacity: 0; transform-box: fill-box; transform-origin: center;
+  filter: drop-shadow(0 0 3px var(--gold)); animation: lamp .6s var(--ease) forwards; }
+@keyframes lamp { 0% { opacity: 0; transform: scale(.2); } 55% { opacity: 1; transform: scale(1.6); }
+  100% { opacity: .92; transform: scale(1); } }
+.ident .lamp.seventh { animation-duration: .8s; filter: drop-shadow(0 0 6px var(--gold)); }
 .ident .star { fill: var(--gold); filter: drop-shadow(0 0 8px var(--gold)); opacity: 0; transform-box: fill-box;
-  transform-origin: center; animation: star .6s 1.35s var(--ease) forwards; }
+  transform-origin: center; animation: star .8s var(--ease) forwards; }
 @keyframes star { from { opacity: 0; transform: scale(.2) rotate(-45deg); } to { opacity: 1; transform: scale(1) rotate(0deg); } }
-@keyframes ident-out { 0%, 78% { opacity: 1; } 100% { opacity: 0; } }
+.ident .studio { margin: 0; font: 300 clamp(11px, 1.15vw, 15px)/1 var(--do); letter-spacing: .5em; padding-left: .5em;
+  color: var(--ivory); white-space: nowrap; opacity: 0; animation: studio 1.1s var(--ease) forwards; }
+@keyframes studio { from { opacity: 0; letter-spacing: .72em; padding-left: .72em; filter: blur(3px); }
+  to { opacity: .82; letter-spacing: .5em; padding-left: .5em; filter: blur(0); } }
+@keyframes ident-out { 0%, 85% { opacity: 1; } 100% { opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { .title-page *, .ident, .shell .ambient { animation: none !important; } }
 
 /* ---- Controls beyond choices: an option is a key pressed (Back, Continue, Roll again); the primary one is gold. ---- */

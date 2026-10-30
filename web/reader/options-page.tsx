@@ -2,9 +2,11 @@ import type { MouseEvent } from 'react';
 import type { ReaderApp } from './reader-app';
 import { ReaderOptions, type Options } from './reader-options';
 import { TitlePage } from './title-page';
+import { Identity } from '../../src/presentation/identity';
 
 // Options, from the title: the size of the page's letters, whether the dice behind what happens are told ("Wenna
-// makes the persuasion check (d20 16 …)") or only what came of them, and a game saved elsewhere opened from its file.
+// makes the persuasion check (d20 16 …)") or only what came of them, and a game saved elsewhere opened from its file;
+// at its foot, whose game it is.
 export class OptionsPage {
   static readonly settings: { key: keyof Options; label: string; values: { id: string; label: string; note: string }[] }[] = [
     { key: 'size', label: 'Letters', values: [
@@ -14,11 +16,11 @@ export class OptionsPage {
       { id: 'shown', label: 'Told', note: 'What was rolled, and against what, under what came of it.' },
       { id: 'hidden', label: 'Not told', note: 'Only what came of it.' }] }];
   static View({ app }: { app: ReaderApp }) {
-    const options = app.state.options;
+    const options = app.state.options, named = Identity.named(app.props.query);
     return (
       <div className="opening options-page" data-mode="options">
         <main>
-          <p className="label">Kyrie</p>
+          <p className="label">{Identity.spoken(named.game)}</p>
           <h1>Options</h1>
           {OptionsPage.settings.map(setting => (
             <section key={setting.key} className="setting" aria-label={setting.label}>
@@ -37,6 +39,7 @@ export class OptionsPage {
           </section>
           <p className="set-out"><button type="button" className="act go" data-nav data-action="back"
             onClick={OptionsPage.back.bind(null, app)}>Back</button></p>
+          <p className="colophon">{Identity.spoken(named.game)}, from {Identity.spoken(named.studio)}</p>
         </main>
       </div>
     );

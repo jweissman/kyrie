@@ -5,6 +5,7 @@ import type { PluginBuilder } from 'bun';
 import { Handbooks } from '../handbook/handbooks';
 import { HandbookPublisher } from '../handbook/publish';
 import { BuildStamp } from '../session/build-stamp';
+import { Identity } from '../presentation/identity';
 
 // Static browser build: classic IIFE scripts plus HTML/CSS with relative URLs, so the site works from file://,
 // a domain root, or a GitHub Pages repository subpath. Tests reuse bundle() to execute the browser artifact.
@@ -82,8 +83,10 @@ export class SiteBuild {
   // The page's stylesheets, in the order index.html links them: the lantern's ground, controls and books; the shell,
   // title and creation; then each composition of play.
   static readonly sheets = ['reader.css', 'frame.css', 'stage.css', 'talk.css', 'fight.css', 'book.css'];
+  // The page, its title the game's name (src/presentation/identity.ts) and the given script before its end.
   private static async page(out: string, script: string) {
-    const html = (await readFile(join(this.root, 'web/reader/index.html'), 'utf8')).replace('</body>', `${script}</body>`);
+    const html = (await readFile(join(this.root, 'web/reader/index.html'), 'utf8'))
+      .replace(/<title>[^<]*<\/title>/, `<title>${Identity.spoken()}</title>`).replace('</body>', `${script}</body>`);
     for (const name of ['index.html', 'mono.html']) { await writeFile(join(out, name), html); }
     for (const sheet of SiteBuild.sheets) { await cp(join(this.root, 'web/reader', sheet), join(out, sheet)); }
     await cp(join(this.root, 'web/reader/fonts'), join(out, 'fonts'), { recursive: true });

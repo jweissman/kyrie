@@ -2,6 +2,7 @@ import { HandbookStatus, Statuses, type Book, type Entry, type Section, type Sta
 import type { Coverage, Placed } from './handbooks';
 import { HandbookStyle } from './style';
 import { CapabilityAudit, type Audit } from './audit';
+import { Identity } from '../presentation/identity';
 
 // The books as static pages: a contents column, a search that filters entries and table rows as you type, status
 // filters, and stable anchors (an entry's id) that other pages and the game link to.
@@ -22,8 +23,9 @@ export class HandbookHtml {
       `<a href="${id}.html"${id === current ? ' aria-current="page"' : ''}>${HandbookHtml.esc(t!)}</a>`).join('');
     return `<!doctype html>\n<html lang="en"><head><meta charset="utf-8">`
       + '<meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#110f0c">'
-      + `<title>${HandbookHtml.esc(title)} · Kyr</title><style>${HandbookStyle.css}</style></head><body>`
-      + `<header class="bar"><a class="brand" href="../index.html">Kyr</a><nav class="books">${nav}</nav></header>${body}`
+      + `<title>${HandbookHtml.esc(title)} · ${Identity.spoken()}</title><style>${HandbookStyle.css}</style></head><body>`
+      + `<header class="bar"><a class="brand" href="../index.html">${Identity.spoken()}</a>`
+      + `<nav class="books">${nav}</nav></header>${body}`
       + `<script>${HandbookStyle.script}</script></body></html>\n`;
   }
   book(b: Book): string {

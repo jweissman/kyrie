@@ -6,13 +6,17 @@ import { join } from 'node:path';
 import type { Page } from 'playwright-core';
 import { SiteBuild } from '../src/cli/site-build';
 import { MonoBrowser } from './support/mono-browser';
+import { Identity } from '../src/presentation/identity';
 
 // The opening and the choice of a life (Mission 18's A3 and A6), and the stage held inside the screen (A1). The studio
-// mark plays when asked for (automation is otherwise spared it) and any key goes straight to the ways in; the gold
-// mark beside the ways in goes to the one pointed at; creation asks first why you have come, shows no likeness of you
-// anywhere, and goes on by Continue, the chosen card's rules behind Details; and at a desktop's size, a tablet's either
-// way up and a phone's, creation is the whole screen and play's stage stays inside it, keeping its margins where there
-// is room for them, and the page itself never scrolls.
+// mark plays when asked for (automation is otherwise spared it, and so is one who asks for less motion), its name set
+// beneath it, and any key goes straight to the ways in under the game's name; a tap or a click that skips does only
+// that, though it lands where Begin is about to be; another name asked for by the address is shown instead, and keeps
+// to one line on a phone; the gold mark about the ways in closes on the name of the one pointed at;
+// creation asks first why you have come, shows no likeness of you anywhere, and goes on by Continue, the chosen card's
+// rules behind Details; and at a desktop's size, a tablet's either way up and a phone's, creation is the whole screen
+// and play's stage stays inside it, keeping its margins where there is room for them, and the page itself never
+// scrolls.
 class Stage {
   static bounds(page: Page) {
     return page.evaluate(() => {
@@ -21,6 +25,30 @@ class Stage {
       return { inside: f.left >= 0 && f.top >= 0 && f.right <= innerWidth && f.bottom <= innerHeight,
         margin: Math.round(Math.min(f.left, innerWidth - f.right)),
         scrolls: doc.scrollHeight > innerHeight || doc.scrollWidth > innerWidth };
+    });
+  }
+  // Where the gold mark stands about the way it is on, beside where that way's name is.
+  static indicator(page: Page) {
+    return page.evaluate(() => {
+      const mark = document.querySelector('.title-menu .indicator')!.getBoundingClientRect();
+      const name = document.querySelector('.way-in[aria-current="true"] .n')!.getBoundingClientRect();
+      return { before: Math.round(name.left - mark.left), after: Math.round(mark.right - name.right),
+        middle: Math.abs(Math.round(mark.top - (name.top + name.height / 2))) };
+    });
+  }
+  // Where the opening has got to, and where Begin's middle is (laid out though not yet shown).
+  static begin(page: Page) {
+    return page.evaluate(() => {
+      const r = document.querySelector('[data-action="begin"]')!.getBoundingClientRect();
+      return { beat: document.querySelector('.title-page')!.className.replace(/^.*beat-/, ''),
+        x: r.x + r.width / 2, y: r.y + r.height / 2 };
+    });
+  }
+  // Where the name's first and last letters fall, and the screen's width.
+  static mark(page: Page) {
+    return page.evaluate(() => {
+      const letters = Array.from(document.querySelectorAll('.mark span')).map(e => e.getBoundingClientRect());
+      return { left: Math.round(letters[0]!.left), right: Math.round(letters.at(-1)!.right), width: innerWidth };
     });
   }
 }
@@ -37,16 +65,63 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the opening and the choice of a lif
   it('plays the studio mark when asked, and a key goes straight to the ways in', async () => {
     const { page, errors } = await MonoBrowser.page(browser, { width: 1440, height: 900 }, { site, query: '?ident' });
     await page.waitForSelector('.ident', { timeout: 30000 });
+    expect(await page.textContent('.ident .studio')).toBe(Identity.studio);
     expect(await page.locator('[data-action="begin"]').isVisible()).toBe(false);
     await page.keyboard.press('Space');
     await page.waitForSelector('.ident', { state: 'detached', timeout: 5000 });
     expect(await page.locator('[data-action="begin"]').isVisible()).toBe(true);
+    const named = [await page.getAttribute('.mark', 'aria-label'), await page.title()];
+    expect(named).toEqual([Identity.spoken(), Identity.spoken()]);
     // The gold mark goes to the way pointed at.
     const at = () => page.locator('.title-menu .indicator').evaluate(e => getComputedStyle(e).transform);
     const before = await at();
     await page.hover('[data-action="options"]');
     await page.waitForTimeout(400);
     expect(await at()).not.toBe(before);
+    // It closes about that way's name, a little before and after it, at the name's middle (to a pixel's rounding).
+    const mark = await Stage.indicator(page);
+    expect([mark.before - 22, mark.after - 22, mark.middle].map(d => Math.abs(d) <= 1)).toEqual([true, true, true]);
+    expect(errors).toEqual([]);
+    await page.close();
+  }, 120000);
+
+  it('lets a tap or a click that skips the opening do nothing else, where Begin is about to be', async () => {
+    const { page, errors } = await MonoBrowser.page(browser, { width: 1024, height: 1366 },
+      { site, pointer: true, query: '?ident' });
+    const tapped: string[] = [];
+    for (const [beat, how] of [['ident', 'tap'], ['dark', 'tap'], ['reveal', 'tap'], ['reveal', 'click']] as const) {
+      if (tapped.length) { await page.reload(); }
+      await page.waitForSelector(`.beat-${beat}`, { timeout: 30000 });
+      const begin = await Stage.begin(page);
+      await (how === 'tap' ? page.touchscreen.tap(begin.x, begin.y) : page.mouse.click(begin.x, begin.y));
+      await page.waitForSelector('.beat-ready', { timeout: 5000 });
+      await page.waitForTimeout(600);
+      tapped.push(`${begin.beat === 'ready' ? 'too late' : 'opening'} ${how}: ${
+        await page.getAttribute('[data-mode]', 'data-mode')}`);
+    }
+    expect(tapped).toEqual(['opening tap: title', 'opening tap: title', 'opening tap: title', 'opening click: title']);
+    // Once the ways in are there, a tap on Begin begins.
+    const begin = await Stage.begin(page);
+    await page.touchscreen.tap(begin.x, begin.y);
+    await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
+    expect(errors).toEqual([]);
+    await page.close();
+  }, 240000);
+
+  it('shows the names the address asks for, and spares one who asks for less motion the mark', async () => {
+    const { page, errors } = await MonoBrowser.page(browser, { width: 390, height: 844 },
+      { site, pointer: true, query: '?studio=freehaven&name=Seven%20Lamps' });
+    await page.waitForSelector('.ident', { timeout: 30000 });
+    expect(await page.textContent('.ident .studio')).toBe('FREEHAVEN');
+    await page.touchscreen.tap(30, 30);
+    await page.waitForSelector('.ident', { state: 'detached', timeout: 5000 });
+    expect([await page.textContent('.mark'), await page.title()]).toEqual(['SEVEN\u00a0LAMPS', 'Seven Lamps']);
+    const mark = await Stage.mark(page);
+    expect(mark.left >= 0 && mark.right <= mark.width).toBe(true);
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.reload();
+    await page.waitForSelector('[data-action="begin"]', { timeout: 30000 });
+    expect(await page.locator('.ident').count()).toBe(0);
     expect(errors).toEqual([]);
     await page.close();
   }, 120000);

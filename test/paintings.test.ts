@@ -3,6 +3,7 @@ import { existsSync, readdirSync } from 'node:fs';
 import registry from '../data/paintings/registry.json';
 import occupations from '../data/generation/scenes/occupations.json';
 import { Likeness } from '../src/paintings/likeness';
+import { Credits } from '../src/paintings/credits';
 import { Portraits } from '../src/paintings/portraits';
 import { CommunityWriter } from '../src/world/community/community-writer';
 import type { Region } from '../src/world/region-writer';
@@ -24,6 +25,10 @@ describe('the painting corpus', () => {
   });
   it('says only what each image says of itself', () => {
     for (const p of paintings.filter(x => x.source === 'none')) { expect([p.artist, p.title]).toEqual([undefined, undefined]); }
+  });
+  it('credits a painting in words, never broken bytes, and by its holder where its file names no painter', () => {
+    expect(Object.entries(Likeness.credits).filter(([, c]) => /\p{Cc}/u.test(c))).toEqual([]);
+    for (const [id, credit] of Object.entries(Credits.known)) { expect(Likeness.credits[id]).toBe(credit); }
   });
   it('has a painting for every kind of work a settlement holds', () => {
     for (const o of Object.values((occupations as { occupations: Record<string, { painting: string }> }).occupations)) {

@@ -7,6 +7,7 @@ import { MemoryBundleSource } from '../src/campaign/memory-bundle-source';
 import type { CampaignSave } from '../src/campaign/campaign';
 import type { Command } from '../src/model';
 import { Scenarios } from '../web/scenarios';
+import { Identity } from '../src/presentation/identity';
 
 class Fixture {
   static yard = 'test/fixtures/wolf-yard/campaign.json';
@@ -105,7 +106,7 @@ describe('browser persistence', () => {
     await imported.perform('wait');
     await session.perform('wait');
     expect(imported.campaign.save()).toEqual(session.campaign.save());
-    expect(() => CheckpointStore.parse('{"version":1}')).toThrow('Not a Kyrie');
+    expect(() => CheckpointStore.parse('{"version":1}')).toThrow(`Not a ${Identity.spoken()} session checkpoint`);
     expect(() => CheckpointStore.parse(JSON.stringify({ transcript: { version: 1 }, save: {} }))).toThrow('Invalid session');
   });
   it('loads bundled browser assets exactly as the CLI loads files', async () => {
