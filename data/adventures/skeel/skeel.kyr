@@ -1,0 +1,211 @@
+Module skeel "Fair Weather" {
+  // ── What everybody in Skeel knows ─────────────────────────────────────────────────────────────────────────────────
+  Discovery wreck_known "Three nights ago, in fair weather and a light westerly, the merchantman Constancy, out of the south with grain and wine, steered into the Reach in the dark and struck Scarth Bank, and broke her back. The Lantern on Hobb's Holm was dark that night. Nobody came ashore from her alive, they say, and by morning half Skeel was out on the sands with carts." {
+    Known by jago, hender, kerensa, cawse, bartle, jinny, cuddy, huer, hosken, loveday, ebrel, piran, ewan, malachy.
+  }
+  Discovery court_known "At four o'clock on the third day, on the flood, so that the island men can come, the Wreck-Reeve, Hender Brask, sits as the Wreck Court in the net-loft over the fish cellars and calls the Constancy wreck or not. Wreck, under the Reach's charter, is two parts in three to Skeel and one to the Lord Admiral." {
+    Known by jago, hender, kerensa, cawse, bartle, jinny, cuddy, hosken.
+  }
+  Discovery charter_known "Skeel's charter, painted by the church door: what the sea brings into the Reach is wreck, two parts to the town and one to the Lord Admiral, PROVIDED THAT NO LIVING THING CAME ASHORE OF HER, NEITHER MAN NOR DOG NOR CAT. If anything did, the ship and all of her are her owners' still." {
+    Source charter_board "the charter board by the church door" at church readable by party.
+    Known by hender, hosken, kerensa, malachy, jago.
+  }
+  Discovery hunger_known "The herring failed off the Reach last autumn and the autumn before. The Lord Admiral's factor has written that the Reach's rents are two years behind, and that if they are not paid at Martinmas he will let the wreck-right to a Lowland salt company. Without the Constancy's grain, Skeel's children go hungry this winter." {
+    Known by jago, hender, kerensa, bartle, jinny, hosken.
+  }
+  Discovery craigs_light "On the night of the wreck, before she struck, there was a light on the Craigs, high up, where no light belongs; and when she struck it went out." {
+    Known by huer, jinny, piran, ebrel.
+  }
+
+  // ── The town ──────────────────────────────────────────────────────────────────────────────────────────────────────
+  Observe road_scene at coast_road when true "The coast road comes over the shoulder of the down and there below you, all at once, is the Gannet Reach: nine miles of shining water, or of shining sand, depending on the hour, with islands in it, and on the near headland a town of grey roofs going down to a harbour in steps. A track leads off right along the cliff to a little hut on the very end of the headland. The road goes on down into the town, and another, longer, goes away round the head of the Reach toward a line of cliffs on the far side, white with birds.".
+  Observe road_wreck at coast_road as sign when not courtOver(reach) "Out on the sands a ship lies on her side, stern up, like a dead animal. Even from here you can see people round her.".
+  Observe fore_scene at fore_street when true "Skeel is built of ships. The house-beams are ships' beams, tarred black, with the treenail holes still in them; the doors are hatch-covers; a garden fence is a row of oars stuck in the ground. And on every gable, leaning out over the street, there is a figurehead: a woman with a lyre, a lion, a bishop, a mermaid with her nose gone, a man in a cocked hat, a horse, a child holding a dove. The town calls them the Wooden Saints and knows the name of every one. Fore Street runs along the top of the town, with the church at one end and an inn at the other, and a steep stepped lane, the Drang, falls away between the houses toward the harbour.".
+  Observe fore_saints at fore_street as feature when true "Over the inn door is the biggest of the saints: an admiral in a gilt coat with a telescope under his arm and most of his nose shot away. Under him, the sign: THE ADMIRAL.".
+  Observe fore_busy at fore_street as ambience when daylight() and not courtOver(reach) "Carts come up the Drang loaded with casks and wet bales, and men walk beside them with their hands on the load, the way you walk beside a coffin.".
+  Observe fore_after at fore_street as ambience when courtOver(reach) and daylight() "Fore Street is quiet. People speak to each other on doorsteps in low voices, about the winter.".
+  Observe church_scene at church when true "A low church, whitewashed, smelling of tar and candles. The roof is a ship's hull turned over, keel to the sky, and from the ribs hang little ship-models, dozens of them, votive, each one made by somebody's hand for somebody who did not come home. Behind the altar a carving of Lir Who Gives: a bearded man rising waist-deep from the sea with both hands held out, full.".
+  Observe church_psalm at church as feature when true "By the door, two boards, both lettered in gilt. The first is the Wreck Psalm, which Skeel sings on the Sunday after a wreck: IF SHIPS MUST FOUNDER, LORD, SEND THEM TO SKEEL. The second, older and better kept, is the charter. Someone oils that one; the wood shines.".
+  Observe acre_scene at acre when true "The Strangers' Acre is the strip of turf between the church and the cliff edge, where Skeel buries what the sea brings it. The stones are small and most of them have no names: A SAILOR. A SAILOR. A WOMAN. A SAILOR, 1291. Over the wall the Reach goes out to the horizon.".
+  Observe acre_fresh at acre as sign when not acreFilled(reach) "Eleven graves have been dug ready along the wall and stand open and empty, with planks over them against the rain: for the Constancy's dead, when the Reach gives them back.".
+  Relation acreFilled(place).
+  Observe quay_scene at quay when true "A curved stone quay with a harbour inside it no bigger than a field. Herring boats lie in it with their sails furled, and the ferry lugger, and a long, narrow, very old rowing-gig pulled up on the slip with a girl working on her. On the quay: barrows, nets spread to dry, the Wreck-House with its iron-bound doors, and the fish cellars with a loft over them.".
+  Observe quay_dry at quay as weather when lowWater() "The harbour has emptied. The boats lie on the mud, each on its side or propped on its legs, and you can walk round them. It smells of weed and fish and the inside of things.".
+  Observe quay_full at quay as weather when not lowWater() "The harbour is full and the boats ride in it, knocking gently against the wall.".
+  Observe cellar_scene at cellars when true "Long low vaults with the herring-presses in them, great beams with stones hung on the ends, standing idle. The salt is stacked waiting for fish that did not come. It is very cold.".
+  Observe loft_scene at net_loft when not courtBegun(reach) "A long loft under the roof, where the nets are mended in winter. It has been swept, and benches set out in rows, and at the far end, a table with a cloth on it and one chair behind it: for the Wreck Court.".
+  Observe slip_scene at slip when true "A cobbled slipway goes down off the end of the harbour wall onto the Strand. At its foot a post is driven into the sand with a bell on it, and beside the post the first of the withies: a laurel branch stuck upright, then another, and another, away across the sand.".
+
+  Observe parlour_scene at reeve_parlour when true "A narrow, very tidy parlour: two chairs by a grate, a clock, a shelf of ledgers in date order, and on the wall a framed chart of the Reach, old and foxed, with a pilot's soundings on it in faded ink. Under the chart, a blue-painted oar, very old, hung on two pegs like a sword.".
+  Relation chartRead(group).
+  Action read_chart(actor: group, site: place) "Study the old chart of the Reach on the Reeve's wall" {
+    Description "Faded soundings in a pilot's hand, and marks nobody in Skeel uses any more.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, reeve_parlour) and not chartRead(actor) and not benighted(actor).
+    Time 2.
+    Resolve check(actor, lore, dc_fair).
+    On success { Assert chartRead(actor). Assert knows(actor, leading_mark). Assert knows(actor, chart_jacob). }
+    On failure { Assert chartRead(actor). }
+    Result "It is a pilot's working chart, sixty years old, the soundings in brown ink in a small neat hand, and in the margin, signed J.B., a note on the leading mark: the Pulpit kept over the Holm light brings a ship up the channel clear of Scarth Bank, and a lamp is hung in the Pulpit on black nights at the iron ring. Somebody has gone over that note very recently with a finger; the dust on the glass is wiped clean along it, and nowhere else.".
+    Otherwise "Soundings, bearings, marks in a cramped hand and an old notation you cannot follow. You can see that it means something, and not what.".
+  }
+  Discovery chart_jacob "On the Reeve's parlour wall hangs Jacob Brask's own chart of the Reach, with the leading mark noted in the margin and the place of the Pulpit lamp; the dust on the glass has been wiped away along that note, recently, by a finger.".
+  Observe head_scene at head when true "The very end of Skeel Head: turf, thrift, a sheer drop on three sides to the sea, and the whole Reach spread below like a map. A stone hut the size of a cupboard stands on the point with a window on every side.".
+  // ── Mother Jago and the Admiral ───────────────────────────────────────────────────────────────────────────────────
+  Observe tap_scene at taproom when true "A low room built into the hold of a ship, they say, and it feels it: the beams curve, the floor tilts a little toward the fire, and the lamps swing when the door opens. Fishermen with nothing to fish sit at the long table over small beer. On the wall, a painted board with the names of ships that have come to Skeel, and the years. The last name, freshly painted: CONSTANCY.".
+  Person jago "Mother Jago" at taproom {
+    Role "who keeps the Admiral". Ancestry human. Profession innkeeper. Peaceable. Pronouns she. Manner cheerful.
+    Sells rations for 1 coin from 20.
+    Sells pilchard_pie for 1 coin from 10.
+    Buys wine_cask_kind for 7 coin.
+    Greets "'Come in, come in, mind the floor, it goes downhill.' A big woman in a man's waistcoat, with a cloth over one shoulder. 'You'll be off the coast road. You've come at a bad time or a good one, depending who you ask, and I'm not saying which.'".
+    Greets again "Mother Jago lifts the cloth off her shoulder at you by way of hello.".
+  }
+  Initially Set quantity(jago, gold) to 40.
+  Kind wine_cask_kind "a cask of southern wine" is treasure worth 6 weighing 8
+    described "A small cask, wet, sound by the knock. It is not water. It is red, and very good, and worth a good deal more in the Admiral's taproom than it cost you on the quay.".
+  Observe tap_bird at taproom as feature when true "Up in the rafters, in among the hams, a small yellow bird hops about and sings, as if it had always lived here. Mother Jago says it came in at the door the morning after the wreck and she has not the heart to put it out.".
+  Topic jago_bird with jago "Ask Mother Jago whether a bird is a living thing, under the charter" when knows(actor, charter_known) once {
+    Says "Mother Jago looks up at the rafters, where the yellow bird is singing, and then at you, and then she puts a finger to her lips. 'Neither man nor dog nor cat,' she says. 'It says nothing about canaries. I asked Hosken. He said it was a very interesting question and he'd pray on it.' She lowers her voice. 'Don't you dare.'".
+  }
+  Kind pilchard_pie "a star-gazy pie" is gear worth 1 weighing 1
+    described "A pie with the heads of six pilchards sticking up through the crust round the edge, looking at the sky. Mother Jago says it is so they can see where they are going.".
+  Topic jago_wreck with jago "Ask Mother Jago about the wreck" when true once {
+    Says "'The Constancy.' She points the cloth at the board on the wall. 'Painted her up yesterday. Fair weather, light airs, a big ship from the south, and she walks straight onto Scarth Bank like a cow onto a cart. Lantern was out, that's what they say. Loveday Kitto fell asleep.' She wipes a table that does not need it. 'Forty-one years that woman's kept the Lantern and never once. Well. Once is all it takes, at sea.'".
+    On discuss { Assert knows(actor, wreck_known). }
+  }
+  Topic jago_court with jago "Ask Mother Jago what happens now" when knows(actor, wreck_known) once {
+    Says "'Now? Now the Reeve sits in the net-loft day after tomorrow at four, on the flood, and says wreck, and we eat this winter.' She looks round at the fishermen at the long table, who are looking at their beer. 'Two years the herring's not come. You see them? Thirty boats and nothing to put in them. The Admiral's factor wants his rents, and there's talk of a salt company. So: wreck, and grain, and nobody asks too close how a ship comes to walk onto a bank in fair weather.' She stops wiping. 'I didn't say that. It's the beer talking, and I've not had any.'".
+    On discuss { Assert knows(actor, court_known). Assert knows(actor, hunger_known). }
+  }
+  Topic jago_name with jago "Ask Mother Jago why everyone laughs when the Admiral is mentioned" when knows(actor, dog_known) once {
+    Says "She laughs herself, helplessly, into the cloth. 'Because the dog's called Admiral. The ship's dog. Off the Constancy, came ashore swimming, and the Reeve wants it dead before the Court, because a living dog makes her no wreck, and there's our winter gone over a dog. And the Lord Admiral gets his third, and this house is the Admiral, and him on the gable is the Admiral, and the dog is the Admiral.' She wipes her eyes. 'Every time anybody says it this week somebody chokes. Old Hosken preached on Sunday about the Admiral's due and the whole church was in fits and he never knew why.'".
+  }
+  Topic jago_saints with jago "Ask Mother Jago about the figureheads" when true once {
+    Says "'The saints?' She is pleased; it is a thing she likes to be asked. 'One for every ship that ever came to Skeel. They go up on the house of whoever got to her first. Him over my door's the oldest, the Admiral, off a man-of-war a hundred years back, and the Jagos have had him since. The Reeve has the Lady with the Lyre. The Kittos have none; they keep the Lantern, it's not right for them.' A pause. 'The Constancy's saint's up on Scarth Bank still, on her bow, under the water half the day. A girl, they say, holding a book. Nobody's got to her yet. She's in the Reeve's gift, the saint is, and he's not given her.'".
+  }
+  Topic jago_dog_hide with jago "Ask Mother Jago to hide the dog under her stairs" when following(admiral, actor) and not dogHidden(admiral) once {
+    Says "Mother Jago looks at the dog, and the dog looks at Mother Jago, and something passes between them. 'Under the stairs,' she says. 'There's a sack there, and a bone with some ham left. If the Reeve asks, I've never seen a dog in my life, and I'll swear it in church.' She points the cloth at the dog. 'You. Not a sound.'".
+    On discuss { Retract following(admiral, actor). Assert dogHidden(admiral). Assert at(admiral, taproom). }
+  }
+
+  Topic jago_dog_back with jago "Ask Mother Jago for the dog from under the stairs" when dogHidden(admiral) and at(admiral, taproom) once {
+    Says "She goes to the stairs and says something to the dark under them, and Admiral comes out with ham on his whiskers and his tail going, and she brushes him down with the cloth as if he were going to church. 'There,' she says. 'Somebody in this town had better be respectable.'".
+    On discuss { Retract dogHidden(admiral). Assert following(admiral, actor). }
+  }
+  // ── Bartle Tonkin's ropewalk ──────────────────────────────────────────────────────────────────────────────────────
+  Observe rope_scene at ropewalk when true "A long straight alley of beaten earth behind the houses, two hundred yards of it, roofed with old sails on posts. At one end a great wheel with a handle; down its length, strands of hemp stretched between hooks, being twisted into rope as a man walks backward away from the wheel feeding fibre from a bundle at his waist. It smells of tar and hay.".
+  Person bartle "Bartle Tonkin" at ropewalk {
+    Role "rope-maker of Skeel". Ancestry human. Peaceable. Pronouns he. Manner stoic.
+    Sells rope for 1 coin from 6.
+    Sells lead_line for 2 coin from 3.
+    Greets "A man walking backward down the ropewalk, with hemp round his middle, stops walking backward and looks at you. 'Rope or work?' he says.".
+    Greets again "Bartle Tonkin nods without stopping walking backward.".
+  }
+  Kind lead_line "a lead-line" like rope worth 2 weighing 2
+    described "Twenty fathoms of tarred line marked with leather and bunting and calico at every fathom, and on the end a lead the shape of a bell, hollowed underneath and filled with tallow, so that it brings up a little of whatever it touches: sand, shell, mud, stone. A pilot reads the bottom of the sea with it, as a blind man reads a face.".
+  Topic bartle_lead with bartle "Ask Bartle Tonkin what a lead-line is for" when true once {
+    Says "'Sounding.' He holds one up: a bell of lead on a marked line. 'Heave it, let it run, read the depth off the marks as it goes slack. Tallow in the bottom. Brings you up sand, or shell, or mud.' He looks at it. 'Used to sell forty a year to the pilots. Now I sell one a year, to the Reeve's girl, and she doesn't think I know what she wants it for.'".
+  }
+  Relation turnedWheel(group). Measure wheelDays(group).
+  Action turn_wheel(actor: group, site: place) "Turn Bartle Tonkin's rope-wheel for the afternoon, for two coin" {
+    Description "Hard work and no thinking. He pays at the end.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, ropewalk) and at(bartle, ropewalk)
+      and daylight() and wheelDays(actor) != dayN(reach).
+    Time 18.
+    On success { Increase quantity(actor, gold) by 2. Set wheelDays(actor) to dayN(reach). Assert turnedWheel(actor). }
+    Result "You turn the wheel for three hours while Bartle walks backward away from you with the hemp, and back, and away, and the strands twist and tighten and become rope. He does not speak once. At the end he counts two coins into your hand and says, 'You'll do,' which from Bartle Tonkin is a speech.".
+  }
+  Topic bartle_talk with bartle "Ask Bartle Tonkin about the Reeve" when turnedWheel(actor) once {
+    Says "He coils rope while he talks. 'Hender Brask.' Coil. 'I was at school with him. His father was Jacob Brask, the pilot, the best on the Reach. When the pilots were finished, Jacob drank, and then he went out in his gig one night and didn't come back, and Hender was twelve and Loveday Kitto took him in.' Coil. 'He's a good Reeve. Reads everybody's letters for them, them that can't. Knows what everybody owes. Never cheated anyone of a farthing in his life.' He hangs the coil on its peg. 'Hasn't slept since the wreck. You can see it on him. I don't know what that means and I'm not going to think about it.'".
+    On discuss { Assert knows(actor, pilot_son). }
+  }
+  Discovery pilot_son "Hender Brask is the son of Jacob Brask, the best pilot the Reach ever had. When the pilots were finished, forty years ago, Jacob drank, and was lost in his gig, and Loveday Kitto took the boy in.".
+
+  // ── Jinny Rowse and the Patience ──────────────────────────────────────────────────────────────────────────────────
+  Person jinny "Jinny Rowse" at quay {
+    Role "who sails the Patience". Ancestry human. Peaceable. Pronouns she. Manner acerbic.
+    Greets "A small woman in a man's sea-boots, sitting on a bollard eating an apple with a knife. 'If you want the Patience,' she says, 'it's three coin for the day, anywhere she'll go, as many times as you like, while there's water. Holm, Skerry, Inish. Not the Craigs, there's no landing.'".
+    Greets again "Jinny Rowse cuts you a slice of apple and holds it out on the knife.".
+  }
+  Measure fareDay(group). Initially Set fareDay(party) to 0.
+  Query passage(g: group) means fareDay(g) == dayN(reach) or rowsFor(kerensa, g).
+  Relation rowsFor(group, group).
+  Action pay_jinny(actor: group, site: place) "Pay Jinny Rowse three coin for the day's sailing" {
+    Description "Holm, Skerry or Inish Gall, as often as you like today, while there is water in the harbour.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, quay) and at(jinny, quay)
+      and quantity(actor, gold) >= 3 and not passage(actor) and not refusesJinny(actor).
+    Time 0.
+    On success { Decrease quantity(actor, gold) by 3. Increase quantity(jinny, gold) by 3. Set fareDay(actor) to dayN(reach). }
+    Result "Jinny Rowse puts the coins in her boot. 'When there's water,' she says, and looks at the harbour, and at the tide-board.".
+  }
+  Topic jinny_night with jinny "Ask Jinny Rowse about the night of the wreck" when true once {
+    Says "She cuts a slice of apple and eats it off the knife. 'I was out. Lines, off the Skerry. Nothing biting.' Another slice. 'I saw the Constancy's lights come in from the south, a big ship, going careful. Then there was a light on the Craigs, high up, where there's never a light. And she turned for it.' She stops chewing. 'You know why she'd turn for it? Because a light up there is where the Holm's light would be if you were further south than you are. A stranger reads it as the Holm. And then she struck, and the light on the Craigs went out, like that.' She closes her hand. 'And the Lantern was dark the whole time. I sat in my boat and watched it, and I've not told the Reeve, and I'll tell you why: he never asked.'".
+    On discuss { Assert knows(actor, craigs_light). }
+  }
+  Topic jinny_pilot with jinny "Ask Jinny Rowse how she knows the channels" when knows(actor, craigs_light) once {
+    Says "'Same as anybody. Forty years in them.' She wipes the knife on her knee. 'There's no pilots on the Reach, not since the Admiral let the station go. A ship that wants bringing in hangs about off the bar and fires a gun, and if I'm about I go out to her, and if I'm not, she takes her chance. Most years she takes her chance and comes to Skeel the other way.' She looks at the gable over the Wreck-House: a lady with a lyre. 'I'm not a pilot. Pilots are paid.'".
+  }
+
+  // ── Cuddy Pascoe, the Sands-Guide ─────────────────────────────────────────────────────────────────────────────────
+  Person cuddy "Cuddy Pascoe" at slip {
+    Role "the Sands-Guide". Ancestry human. Peaceable. Pronouns he. Manner cheerful.
+    Greets "A long thin man with a bundle of laurel branches under one arm and a staff with a bell on it, wet to the thighs. 'Going out? Don't,' he says, beaming. 'Not on your own. Not your first time. A coin and I'll walk you, and you'll come back with the same number of legs.'".
+    Greets again "Cuddy Pascoe rings his little bell at you.".
+  }
+  Rule cuddy_at_slip when lowWater() and daylight() and not at(cuddy, slip) { Retract at(cuddy, taproom). Assert at(cuddy, slip). }
+  Rule cuddy_at_inn when not (lowWater() and daylight()) and not at(cuddy, taproom) { Retract at(cuddy, slip). Assert at(cuddy, taproom). }
+  Action hire_cuddy(actor: group, site: place) "Pay Cuddy Pascoe a coin to walk you over the sands" {
+    Description "He knows every soft place on the Strand by its first name.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, slip) and at(cuddy, slip)
+      and lowWater() and quantity(actor, gold) >= 1 and not guided(actor).
+    Time 0.
+    On success { Decrease quantity(actor, gold) by 1. Increase quantity(cuddy, gold) by 1. Assert guided(actor). Increase walkedWith(cuddy) by 1. }
+    Result "Cuddy takes the coin and rings his bell at the sand, as if to warn it. 'Right side going out,' he says. 'Left side coming in. Walk where I walk. If I stop, stop. If I run, run.'".
+  }
+  Measure walkedWith(group). Initially Set walkedWith(cuddy) to 0.
+  Topic cuddy_teach with cuddy "Ask Cuddy Pascoe how he knows where the soft sand is" when walkedWith(cuddy) >= 1 once {
+    Says "'Look at it.' He points with his staff. 'Wet sand shines. Hard sand shines. Soft sand's dull, like a sick dog's eye. And never walk between two withies more than twenty paces apart, because if they're further than that, one's washed out and the sand's moved.' He hands you a withy. 'Right side going out, left side coming in. That's the whole of it. That and four hours. I lost a boy last spring who knew the whole of it and forgot the four hours.'".
+    On discuss { Assert knows(actor, withy_way_known). }
+  }
+  Topic cuddy_night with cuddy "Ask Cuddy Pascoe who was on the sands the night of the wreck" when knows(actor, wreck_known) once {
+    Says "His smile goes. 'Everybody, by morning.' He turns a withy in his hands. 'Before? Nobody. Nobody walks the Strand at night but me, and I was abed.' He looks out at the sand. 'Only the withies were wrong, after. Three of them out by Scarth Bank, pulled and stuck back a yard off, the way a man does who's walking with a lantern and leans on them. I put them right. I never said.' He rings the bell, very softly. 'You don't, in Skeel.'".
+    On discuss { Assert knows(actor, withies_moved). }
+  }
+  Topic cuddy_wet with cuddy "Tell Cuddy Pascoe the sea caught you on the Strand" when caughtByFlood(actor) once {
+    Says "He stops smiling and looks at you properly, up and down, the way you look at someone to count their legs. 'Four hours,' he says. 'And the fifth is the sea's.' Then he rings his little bell at you, softly, twice, which you understand is what he does instead of saying he is glad you are alive.".
+  }
+  Discovery withies_moved "On the morning after the wreck, Cuddy Pascoe found three withies out by Scarth Bank pulled and stuck back a yard off true, the way a man leans on them who is walking the Strand at night with a lantern.".
+
+  // ── The huer ──────────────────────────────────────────────────────────────────────────────────────────────────────
+  Observe huer_scene at huer_hut when true "A stone hut the size of a cupboard on the very end of Skeel Head, with a window on every side and a speaking-trumpet on a hook. From here you can see the whole Reach, and the open sea beyond it to the west. Painted over the door, very faded: HEVVA.".
+  Person huer "Old Pender" at huer_hut {
+    Role "the huer of Skeel". Ancestry human. Peaceable. Pronouns he. Manner acerbic.
+    Greets "An old man with a telescope, who does not take his eye from it. 'Hevva,' he says, softly, to nobody. 'That's what you cry, when you see the herring. The water goes red with them, and you cry Hevva! down the trumpet, and the whole town runs.' He lowers the telescope. 'I've not cried it in two years.'".
+    Greets again "Old Pender lifts a hand without turning from the window.".
+  }
+  Topic huer_wreck with huer "Ask Old Pender what he cries now" when true once {
+    Says "'Wreck.' He puts the telescope down. 'They pay me the same for wrecks. Four shillings a year to watch the sea, and a share. I cried the Constancy at first light, and the town came running, and I got my share.' He rubs his eye. 'There was a light on the Craigs before she struck. I saw that too. I didn't cry it. A huer cries what he's paid to.'".
+    On discuss { Assert knows(actor, craigs_light). }
+  }
+  Topic huer_herring with huer "Ask Old Pender where the herring have gone" when true once {
+    Says "'Ah.' He brightens. 'Now there's a question. The Lowlanders say we fished them out. Hosken says it's a judgement. My father said the herring go where they're sung for, and they stopped singing for them when the pilots went, because it was the pilots' wives who sang them in.' He looks at you sidelong. 'I don't hold with that. But they came every year he was alive.'".
+  }
+
+  // ── The parson ────────────────────────────────────────────────────────────────────────────────────────────────────
+  Person hosken "Parson Hosken" at church {
+    Role "priest of Lir Who Gives". Ancestry human. Peaceable. Pronouns he. Manner compassionate.
+    Greets "A round, kind, short-sighted man in a cassock gone green at the seams. 'Welcome to Lir's house. He gives, you know. That is the whole of the theology here, and I have found it to be sufficient.'".
+    Greets again "Parson Hosken peers at you, and finds you, and beams.".
+  }
+  Topic hosken_psalm with hosken "Ask Parson Hosken about the Wreck Psalm" when true once {
+    Says "'Ah, the Psalm.' He looks at the board as at a difficult relative. 'It is very old. It is a prayer for the town to be fed, and if you pray to be fed by the sea you must take what the sea brings.' He polishes his spectacles on his cassock, which makes them worse. 'I preached once that we should add a verse, for the drowned. They were very kind about it. Nobody came for three weeks.'".
+  }
+  Topic hosken_charter with hosken "Ask Parson Hosken about the charter" when knows(actor, charter_known) once {
+    Says "'Neither man nor dog nor cat.' He says it with pleasure, like a line of verse. 'It is an old law, older than the Admiral. The idea, I think, was that if anything lived, someone might come for her. A ship with a living thing on her is still somebody's.' He looks at the board. 'Hender oils it himself, every week. He says it is the only law on the Reach that has never been broken. I have always thought that a strange thing to be proud of.'".
+  }
+  Topic hosken_burial with hosken "Ask Parson Hosken about the open graves in the Acre" when true once {
+    Says "'The Reach gives back its drowned on the third ebb, nearly always. On the Strand, at the wrack line below the Slip.' He folds his hands. 'We bury them in the Acre with a stone each, A SAILOR, because we do not know their names. Once a man came from the south to look for his son, two years too late, and walked up and down the Acre reading A SAILOR, A SAILOR, A SAILOR, and then went home.' He is quiet a moment. 'I should like, this once, to know their names.'".
+    On discuss { Assert knows(actor, third_ebb). }
+  }
+  Discovery third_ebb "The Reach gives back its drowned on the third ebb after a wreck, at the wrack line on the Strand below the Slip, and Skeel buries them in the Strangers' Acre under stones that say A SAILOR.".
+}

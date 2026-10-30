@@ -1,0 +1,23 @@
+{
+  "day1": [
+    "^To Fore Street",
+    "^To Tonkin's ropewalk",
+    "Turn Bartle Tonkin's rope-wheel",
+    "^To Fore Street",
+    "^To the quay",
+    "Talk to Kerensa",
+    "about the gig",
+    "what she means to do",
+    "what she has been sounding",
+    "Ask Kerensa Brask about the night"
+  ],
+  "court": [
+    "=day 3 15:20",
+    "^Into the fish cellars",
+    "^Into the net-loft",
+    "=until matterOpen(lantern)",
+    "Ask Kerensa Brask, in front of the loft",
+    "=until courtDone(reach)",
+    "=day 4 18:30"
+  ]
+}

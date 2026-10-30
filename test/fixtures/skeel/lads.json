@@ -1,0 +1,3 @@
+{
+  "out": ["=day 2 08:00", "^To Fore Street", "^To the quay", "^To the Slip", "=until lowWater()", "Pay Cuddy", "^To the open Strand", "=until at(skeel__lads, skeel__flats)"]
+}

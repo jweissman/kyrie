@@ -1,0 +1,7 @@
+{
+  "version": 1,
+  "name": "Fair Weather (a thief)",
+  "calendar": { "year": 1312, "month": 9, "day": 14 },
+  "modules": [ { "id": "skeel", "bundle": "../../../data/adventures/skeel/module.json" } ],
+  "party": [ { "name": "Ysolt", "raceId": "human", "classId": "thief", "backgroundId": "locksmith" } ]
+}

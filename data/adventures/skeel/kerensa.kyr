@@ -1,0 +1,66 @@
+Module skeel "Fair Weather" {
+  // ── Kerensa Brask ─────────────────────────────────────────────────────────────────────────────────────────────────
+  // The Reeve's daughter, nineteen. Two summers ago she took her grandfather's gig off the shingle at Inish, where it
+  // had lain rotting for thirty-eight years, and rebuilt it plank by plank on the slip; and on summer nights she has
+  // been rowing it out alone to sound the bar, with Bartle Tonkin's lead-line, for no reason she can tell anybody. She
+  // means to leave Skeel on the Ferrar packet. She knows what her father did, or knows enough.
+  Person kerensa "Kerensa Brask" at quay {
+    Role "the Reeve's daughter, with tar to the elbows". Ancestry human. Calling ranger. Level 2. Peaceable. Pronouns she. Manner acerbic.
+    Greets "A tall girl in an old guernsey with her hair tied up in a rag is caulking the seams of a long narrow rowing-gig on the slip, with a mallet and a bucket of pitch. The gig is painted blue, quite new, over very old wood. Without looking up: 'If you're looking for my father he's in the Wreck-House counting. If you're looking for the wreck it's that way. If you're looking for me, nobody is.'".
+    Greets again "Kerensa Brask looks up from the gig and points the mallet at you.".
+    Joins "Kerensa Brask wipes the tar off her hands onto her guernsey, which is past saving. 'Right,' she says. 'Where to.'".
+    Leaves "Kerensa Brask nods, and goes back to her gig.".
+  }
+  Observe gig_scene at quay as feature when at(kerensa, quay) "On the bow of the blue gig, newly cut and gilded, a name: JACOB.".
+  Rule kerensa_home when hour(clock) >= 21 and at(kerensa, quay) and not travelsWith(kerensa, party) and not courtSitting() { Retract at(kerensa, quay). Assert at(kerensa, reeve_parlour). }
+  Rule kerensa_out when hour(clock) >= 7 and hour(clock) < 21 and at(kerensa, reeve_parlour) and not travelsWith(kerensa, party) and not kerensaGone(kerensa) { Retract at(kerensa, reeve_parlour). Assert at(kerensa, quay). }
+  Measure kerensaTrust(group). Initially Set kerensaTrust(kerensa) to 0.
+  Relation kerensaGone(group).
+
+  Topic kerensa_gig with kerensa "Ask Kerensa Brask about the gig" when true once {
+    Says "She stops caulking. 'My grandfather's. Jacob Brask's. She lay on the shingle on Inish for thirty-eight years with the grass growing through her, and two summers ago I rowed over in Jinny's punt and dug her out and towed her home.' She slaps the gunwale. 'New garboards, new stem, eleven new planks, and every rib but three. She's more mine than his now. Don't tell my father; he thinks I bought her off a man in Callowport.' She goes back to the seam. 'He's never once come down the quay to look.'".
+    On discuss { Increase kerensaTrust(kerensa) by 1. Assert knows(actor, pilot_son). }
+  }
+  Relation helpedGig(group).
+  Action help_gig(actor: group, site: place) "Help Kerensa Brask turn the gig and pay her seams" {
+    Description "Hot pitch, a mallet, and a long hull to roll over on the slip without cracking her.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, quay) and at(kerensa, quay) and daylight() and not helpedGig(actor).
+    Time 12.
+    Resolve check(actor, mending, dc_fair).
+    On success { Assert helpedGig(actor). Increase kerensaTrust(kerensa) by 1. }
+    On failure { Assert helpedGig(actor). }
+    Result "You roll her over between you on the slip, slowly, on old fenders, and pay the seams of her bottom with hot pitch, and Kerensa talks to the boat the whole time, the way you talk to a horse: steady now, there, there's my girl. When it is done she sits back on her heels with pitch to the eyebrows and looks at you differently. 'You've done that before,' she says. 'Or you've hands that learn.'".
+    Otherwise "You do your best, and it is not much, and she does it again after you without a word. But she lets you stay.".
+  }
+  Topic kerensa_leaving with kerensa "Ask Kerensa Brask what she means to do" when kerensaTrust(kerensa) >= 1 once {
+    Says "'Go.' She drives a strand of oakum into a seam. 'There's a packet coming tomorrow from the south for the Constancy, the owners' packet. It goes back on the fourth tide. I'm going on it if I have to stow away in the bread.' Mallet. 'There's nothing here. There's wreck and there's waiting for wreck. There's my father in the Wreck-House counting the dead's grain, and the whole town hoping the sea'll be kind to it and cruel to somebody else.' She looks out at the Reach. 'I want to go where there's ships coming in, not ships coming apart.'".
+    On discuss { Increase kerensaTrust(kerensa) by 1. }
+  }
+  Topic kerensa_bar with kerensa "Ask Kerensa Brask what she has been sounding the bar for" when kerensaTrust(kerensa) >= 2 and (knows(actor, pilots_known) or turnedWheel(actor)) once {
+    Says "She goes very still with the mallet in the air. Then she laughs, angrily. 'Bartle. Bartle Tonkin and his one lead-line a year.' She puts the mallet down and wipes her hands and takes out of her guernsey a little notebook bound in sailcloth, and holds it, not giving it. 'Two summers. Every state of the tide, every cast, the whole bar from the Craigs to Inish. I don't know why. Because he did it. Because it's there to be known and nobody knows it any more.' She turns the notebook over. 'Because if anybody ever wanted pilots on the Reach again, somebody would have to know the bar.' She almost holds it out. 'It's no use to anybody. There's no station.'".
+    On discuss { Assert knows(actor, kerensa_sounds). Increase kerensaTrust(kerensa) by 1. }
+  }
+  Discovery kerensa_sounds "Kerensa Brask has been rowing her grandfather's rebuilt gig out at night for two summers, sounding the whole of the Reach's bar, cast by cast, and keeps it in a notebook.".
+  Topic kerensa_notes_ask with kerensa "Ask Kerensa Brask to let Old Malachy see her notebook, for the Rutter" when knows(actor, kerensa_sounds) and rutterAsked(actor) once {
+    Says "'Malachy Sennen.' She says it as you might say the name of a saint. 'He's alive? He's still on Inish? I thought — father said — ' She stops. She looks at the notebook, and at the gig, and at you. Then she puts the notebook in your hand and closes your fingers over it. 'Tell him it's Jacob's line,' she says. 'Tell him who sounded it. And bring it back.'".
+    On discuss { Give kerensa_notes to actor. Increase kerensaTrust(kerensa) by 1. }
+  }
+  Topic return_notes with kerensa "Give Kerensa Brask back her notebook" when carries(actor, kerensa_notes) and sounded(snd_bar) once {
+    Says "She takes it and turns the pages as if to see whether anything is missing. 'He read it?' You tell her what Malachy said. She does not say anything for a while. Then she puts the notebook inside her guernsey, against her chest, and picks up the mallet, and hits the gig rather harder than the seam needs.".
+    On discuss { Spend notebook_kind from actor. Increase kerensaTrust(kerensa) by 1. }
+  }
+  // What she saw. She will tell it only when she has decided to go, and only to someone she trusts.
+  Discovery kerensa_saw "On the night of the wreck Kerensa Brask heard her father come in at three in the morning. He was wet to the thigh and there was red clay on his boots, Craigs clay, that does not come from anywhere in Skeel; he burned his coat in the wash-house copper before dawn, and he has not slept since.".
+  Topic kerensa_father with kerensa "Ask Kerensa Brask about the night of the wreck" when kerensaTrust(kerensa) >= 3 once {
+    Says "She does not answer for a long time. She is looking at the gig's name. 'He came in at three,' she says at last. 'I wasn't asleep. I heard the door. He was wet to here.' She touches her thigh. 'There was red clay on his boots. There's no red clay in Skeel. There's only red clay on the Craigs path.' She swallows. 'He lit the copper in the wash-house at four in the morning, and burned his good black coat in it, and stood watching it burn. In the morning he had his other coat on and he went out with the carts and he's not slept since. Not one night. I hear him walking.' Now she looks at you. 'I'm going on the packet. I'm telling you because I'm going. I'll not stand in the loft and say it to his face. I'll not. Don't ask me.'".
+    On discuss { Assert knows(actor, kerensa_saw). }
+  }
+  Rule kerensa_willing when kerensaTrust(kerensa) >= 3 and not willing(kerensa, party) and not travelsWith(kerensa, party) and not kerensaGone(kerensa) { Assert willing(kerensa, party). }
+  Rule kerensa_rows when travelsWith(kerensa, party) and not rowsFor(kerensa, party) { Assert rowsFor(kerensa, party). }
+  Rule kerensa_rows_not when rowsFor(kerensa, party) and not travelsWith(kerensa, party) { Retract rowsFor(kerensa, party). }
+
+  // ── The inference ─────────────────────────────────────────────────────────────────────────────────────────────────
+  Discovery hender_did "Hender Brask put the sea in the Lantern's oil on the Saturday he brought it, and hung a horn lantern in his father's place in the Pulpit, so that the Constancy would take it for the Holm and steer onto Scarth Bank; and when she struck he covered it. Afterwards he walked the Strand with it at low water among the wreck, and saw a boy alive on a hatch, and turned his back.".
+  Rule put_together when knows(party, nye_saw) and (knows(party, kerensa_saw) or knows(party, only_four) or knows(party, oil_watered) and knows(party, oil_by_hender) or knows(party, withies_moved) and knows(party, hook_found)) and not knows(party, hender_did)
+    says "A tall man in a black coat, with marks under his eyes like bruises, who walked away from a boy in the sea. You have met him. He oils the charter board himself, every week." teaches hender_did { }
+}

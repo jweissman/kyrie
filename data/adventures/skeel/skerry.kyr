@@ -1,0 +1,129 @@
+Module skeel "Fair Weather" {
+  // ── Seal Skerry ───────────────────────────────────────────────────────────────────────────────────────────────────
+  // A low black rock beyond the Holm, by boat only, where the grey seals haul out. Ewan Marrock lives on it alone, by
+  // sealing: oil, skins, and the wrack. Seven years ago his wife Morva went, and Skeel says she went back into the sea,
+  // being a seal-woman, as everybody knew; and Ewan has let them say it. On the morning after the wreck he found a boy
+  // on a hatch in the weed at the haul-out, and has hidden him, because he knows what Skeel is.
+  Observe landing_scene at skerry_landing when true "A shelf of black rock with weed on it, slippery, and a ring in the rock to tie up to. Behind it the Skerry humps up, all rock and sea-pinks, with a turf bothy crouched in the lee of it, smoke going sideways from a hole in its roof. Seal-skins are pegged out to dry on the rock, and a coracle lies upside down like a black beetle.".
+  Observe haul_scene at haulout when true "The haul-out: a long sloping slab of rock running down into the sea at the Skerry's western end, and lying on it, packed close, like people on a beach on a feast day, the grey seals: forty, fifty, great mottled cows and their white pups and a bull or two as long as a boat, rolling, scratching, groaning, watching you with enormous wet black eyes.".
+  Observe haul_evening at haulout as ambience when evening() "As the light goes, the seals begin to sing: a long, rising, falling, human sound, one voice and then another, out across the water, like women calling to each other from boats.".
+  Observe bothy_scene at bothy when true "Inside the bothy: smoke, a peat fire, a box bed, a barrel of seal oil, skins, a lamp, and a great deal of order. On a shelf by itself, a woman's comb, and a shell, and a blue ribbon, laid out the way things are laid out in a church.".
+
+  Person ewan "Ewan Marrock" at skerry_landing {
+    Role "the sealer of Seal Skerry". Ancestry human. Calling warrior. Level 3. Peaceable. Pronouns he. Manner grim.
+    Greets "A big man with a black beard going grey and a sealing-club through his belt is waiting on the rock with his arms folded before your boat has touched. 'There's nothing here for Skeel,' he says. 'No wreck. No dog. No anything. Go home.'".
+    Greets again "Ewan Marrock watches you come ashore with his arms folded.".
+  }
+  Person nye "Nye Gallow" at bothy {
+    Role "the Constancy's boy, fourteen, with a bandaged head". Ancestry human. Peaceable. Pronouns he. Manner stoic.
+    Seen when knows(viewer, nye_known).
+    Greets "A boy is sitting up in the box bed in the corner with a blanket round him and a bandage round his head, very white, holding Ewan's sealing-knife in both hands pointed at you. 'I'm not going,' he says. 'I'm not going to Skeel. They'll do me like they want to do the dog.'".
+    Greets again "Nye Gallow looks at you, and at the door behind you, to see who else is coming.".
+    Joins "Nye Gallow comes, with the blanket round him and the knife in his belt, keeping close.".
+  }
+  Discovery nye_known "A boy came ashore alive from the Constancy: Nye Gallow, fourteen, her cabin boy, who was washed onto Seal Skerry on a hatch the morning after the wreck. Ewan Marrock has hidden him in his bothy. Under the charter he makes her no wreck.".
+  Measure ewanTrust(group). Initially Set ewanTrust(ewan) to 0.
+  Relation ewanRows(group).
+  Query ewanTrusts() means ewanTrust(ewan) >= 2.
+
+  Topic ewan_skeel with ewan "Ask Ewan Marrock what he has against Skeel" when true once {
+    Says "'Against it?' He looks across the water at the town on its headland. 'Nothing. It's a fine town. It buries what the sea sends it under stones that say A SAILOR, and it sings a hymn asking for more.' He spits into the sea. 'And when my wife went, it said she was a seal and had gone back to her own, and laughed at me in the Admiral for seven years. I've nothing against Skeel. I just don't go there.'".
+    On discuss { Increase ewanTrust(ewan) by 1. Assert knows(actor, morva_tale). }
+  }
+  Discovery morva_tale "Seven years ago Ewan Marrock's wife Morva left the Skerry and did not come back. Skeel says she was a seal-woman who went back to the sea; it has laughed at Ewan over it for seven years. He keeps her comb and ribbon on a shelf in his bothy.".
+  Topic ewan_seals with ewan "Ask Ewan Marrock about the seals" when true once {
+    Says "His arms come unfolded. 'Greys. They come in at the back end to pup. Fifty on the slab this year, more than last.' He looks at them as you might look at a field of your own. 'I take some. Oil and skins. Not the pups, not the cows. Old bulls, past it.' A pause. 'They sing, at night. Did they tell you that in Skeel? Skeel says it's the seal-women singing for their men.' He looks at the haul-out. 'I don't know what it is. I sit out and listen to it.'".
+    On discuss { Increase ewanTrust(ewan) by 1. }
+  }
+  Action ewan_plea(actor: group, site: place) "Tell Ewan Marrock you are not from the Reeve, and you know the boy is here" {
+    Speaker ewan.
+    Requires able(actor) and at(actor, site) and at(ewan, site) and knows(actor, dog_swims) and not ewanTrusts() and not knows(actor, nye_known).
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Set ewanTrust(ewan) to 2. }
+    Result "He looks at you for a long time, and then at the sea, where the dog swims every tide. 'You followed the dog,' he says. 'Aye. I thought somebody would.' He unfolds his arms. 'Come in, then. Mind him; he has my knife.'".
+    Otherwise "'There's no boy here,' he says, flatly. 'There's me and the seals. Go home.'".
+  }
+  // The dog knows where his boy is.
+  Rule dog_finds_nye at skerry_landing when following(admiral, party) and at(party, skerry_landing) and not dogWithNye(admiral) says "Admiral is off the boat before it touches, into the water and up the weed, and across the rock past Ewan Marrock as if he were not there, straight to the bothy door, barking, high and frantic, the way a dog barks only for one person; and from inside a boy's voice cries out a name, and the barking stops." teaches nye_known { Set ewanTrust(ewan) to 2. }
+  Rule ewan_shows when ewanTrusts() and not knows(party, nye_known) and at(party, skerry_landing) and at(ewan, skerry_landing) says "Ewan Marrock jerks his head toward the bothy. 'There's a boy in there,' he says. 'Off your wreck. I found him on a hatch in the weed at the haul-out the morning after, more dead than not. I've kept him.' He looks at you hard. 'If you take him to Skeel, you take him over my body. That's all.'" teaches nye_known { }
+  Rule dog_reunited when following(admiral, party) and knows(party, nye_known) and at(party, bothy) and not dogWithNye(admiral) says "The boy drops the knife and has his arms round the dog's neck, and his face in the wet black curls, and the dog is making a sound you have not heard a dog make." { Retract following(admiral, party). Assert dogWithNye(admiral). Assert at(admiral, bothy). Assert reunited(nye). }
+  Relation reunited(group).
+  Observe nye_dog at bothy when dogWithNye(admiral) and at(admiral, bothy) and knows(party, nye_known) "Admiral lies across the foot of the box bed with the boy's feet under him, and will not be moved.".
+  // Searching the bothy by force: Ewan will fight for the boy.
+  Action force_bothy(actor: group, site: place) "Push past Ewan Marrock into the bothy" {
+    Grave "He has told you he will fight, and he will.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, skerry_landing) and at(ewan, skerry_landing) and not ewanTrusts() and not knows(actor, nye_known).
+    Time 1 minute.
+    On success { Retract peaceable(ewan). Assert assails(ewan, actor). Assert ewanFought(actor). }
+    Result "Ewan Marrock takes the club out of his belt.".
+  }
+  Relation ewanFought(group).
+  Rule ewan_beaten when ewanFought(party) and not able(ewan) and not knows(party, nye_known) says "Ewan Marrock is down on the weed, and from the bothy door a boy with a bandaged head is screaming at you to leave him alone." teaches nye_known { }
+
+  // ── Nye ───────────────────────────────────────────────────────────────────────────────────────────────────────────
+  Discovery nye_saw "Nye Gallow's account. The Constancy came in from the south at night, steering for a light the master took for the Holm, high up to the south of them. When she struck, the light went out 'as if a hand covered it'. Nye went over the side and held on to a hatch. At low water, in the dark, among the wreckage on the sand, a man came walking with a horn lantern, a tall man in a black coat with marks under his eyes like bruises; he held the lantern up, and saw Nye on the hatch, and looked at him, and turned round and walked away. Then the tide came and took the hatch.".
+  Topic nye_story with nye "Ask Nye Gallow what happened to the Constancy" when knows(actor, nye_known) once {
+    Says "He tells it with the knife still in his hands, not fast. 'Master Dunn had the Holm light on the chart. And there it was, high up, south, and he said good, that's her, and brought her round for it.' He swallows. 'Mister Ferrar said it was too high. He said it twice. And then she hit, and the whole ship stood up on end, and I went over.' His voice goes very flat. 'And the light went out. Like somebody put their hand over it.' He looks at the fire. 'After, it was low water, and I was on a hatch, on the sand, in the dark, and all the others were — and a man came walking. With a lantern. A horn one. Tall, black coat. Marks under his eyes. He held it up and he saw me. He looked right at me.' The boy's hands are white on the knife. 'And he turned round and walked away.'".
+    On discuss { Assert knows(actor, nye_saw). }
+  }
+  Topic nye_wants with nye "Ask Nye Gallow what he wants" when knows(actor, nye_saw) once {
+    Says "'Home.' At once. 'My mam's in Callowport. And Admiral. He's mine; Mister Ferrar gave him me when he was a pup, for the ship.' He looks at the door. 'And I want — ' He stops. 'I want to see that man's face again. I want to look at him. That's all. I want to see if he looks back.'".
+    On discuss { Assert nyeWantsFace(nye). }
+  }
+  Relation nyeWantsFace(group).
+  Topic nye_matthew with nye "Ask Nye Gallow about Mister Ferrar" when knows(actor, nye_saw) once {
+    Says "'The mate. He was all right.' The boy's mouth works. 'He had a sister he was always on about. Con. The ship's named for her, the figurehead's her when she was little, he said, holding her book. He was taking her a parrot. It was in a cage in his cabin.' He looks away. 'He said the light was too high. He said it twice.'".
+    On discuss { Assert knows(actor, matthew_named). }
+  }
+  Discovery matthew_named "The Constancy's mate was Matthew Ferrar, the owner's son; the ship was named for his sister Constance, and her figurehead is Constance as a child, holding a book. On the night of the wreck he told the master twice that the light was too high.".
+  // To the Court. Ewan will bring him, if asked by someone he trusts; or he will come with the company.
+  Relation nyeComing(group).
+  Topic ask_ewan_court with ewan "Ask Ewan Marrock to bring the boy to the Wreck Court at four o'clock" when knows(actor, nye_saw) and ewanTrusts() and not nyeComing(nye) once {
+    Says "He thinks about it a long time, looking at the town. 'In my boat,' he says at last. 'On the flood, at the quay steps. I'll walk him up the Drang myself, and stand by him in the loft, with my club, and we'll see who in Skeel wants to put a hand on him.' He nearly smiles. 'Seven years I've not set foot in that town. It'll be worth it to see their faces.'".
+    On discuss { Assert nyeComing(nye). }
+  }
+  Topic ask_nye_come with nye "Ask Nye Gallow to come with you" when knows(actor, nye_saw) and not following(nye, actor) and not nyeComing(nye) once {
+    Says "He looks at Ewan, and Ewan shrugs. The boy gets out of the box bed, slowly, with the blanket round him, and puts the knife in his belt. 'All right,' he says. 'But I keep the knife.'".
+    On discuss { Assert following(nye, actor). }
+  }
+  Rule nye_to_court when nyeComing(nye) and thirdDay() and hour(clock) >= 15 and not courtOver(reach) and not at(nye, net_loft) and not following(nye, party) { Retract at(nye, bothy). Retract at(ewan, skerry_landing). Assert at(nye, net_loft). Assert at(ewan, net_loft). Assert ewanInSkeel(ewan). }
+  Relation ewanInSkeel(group).
+  Rule dog_to_court when dogWithNye(admiral) and at(nye, net_loft) and not at(admiral, net_loft) { Retract at(admiral, bothy). Assert at(admiral, net_loft). }
+  Rule dog_follows_nye when dogWithNye(admiral) and following(nye, party) and not following(admiral, party) { Assert following(admiral, party). }
+  // In Skeel before the Court, a boy off the wreck is noticed.
+  Rule nye_noticed at fore_street when following(nye, party) and within(party, skeel) and not courtBegun(reach) and not nyeSeen(nye) says "On Fore Street a woman at a door sees the boy with the bandaged head, and looks, and looks again, and goes in fast. By the time you are at the end of the street there are faces at every window, and a man running down the Drang toward the quay." { Assert nyeSeen(nye). }
+  Relation nyeSeen(group).
+
+  // ── Morva's letter ────────────────────────────────────────────────────────────────────────────────────────────────
+  // Nothing to do with the wreck, except that the Constancy carried the mail. Ewan cannot read.
+  Relation letterGiven(group). Relation letterTruth(group). Relation letterLie(group). Relation letterKept(group).
+  Topic give_letter with ewan "Give Ewan Marrock the letter from the Constancy's mailbag" when carries(actor, morva_letter) and not letterGiven(ewan) once {
+    Says "He takes it and turns it over in his big hands and looks at the writing on it for a long time, and at the thumbprint in the tallow. 'That's her hand,' he says. 'She wrote big, she never learned it right.' He holds it out to you again. 'I can't read it. I never could. Morva could, a bit; she said she'd teach me.' His voice is quite steady. 'You read it. Tell me what it says.'".
+    On discuss { Assert letterGiven(ewan). Spend letter_morva from actor. }
+  }
+  Topic read_true with ewan "Read Ewan the letter as it is written" answering give_letter when letterGiven(ewan) once {
+    Says "You read it to him. It is not long. Morva is in Callowport, in the south, in service at an inn. She went because she could not bear the Skerry any longer, the wind and the quiet and the seals, and she was ashamed to say so, and so she said nothing, and went. She has a daughter. The daughter is six. 'She has your hands,' the letter says, 'and she is afraid of nothing, and I have told her about the seals.' She asks him to forgive her if he can, and if he cannot, to write and say so, and she will not trouble him again. There is no more. Ewan sits on the rock with his hands hanging between his knees. 'Six,' he says. After a long time: 'Afraid of nothing.' The seals have begun to sing, out on the slab. He does not seem to hear them.".
+    On discuss { Assert letterTruth(ewan). }
+  }
+  Topic read_lie with ewan "Tell Ewan the letter says she is happy in the sea, and he is not to wait" answering give_letter when letterGiven(ewan) once {
+    Grave "He will believe you. He will never ask anyone else to read it.".
+    Says "You tell him that. He listens, and nods slowly, and nods. 'Aye,' he says. 'Aye, I thought so.' He takes the letter back from you, very carefully, and goes into the bothy and puts it on the shelf beside the comb and the ribbon, and comes out, and sits down on the rock to listen to the seals; and for the first time since you came to the Skerry he looks almost at peace.".
+    On discuss { Assert letterLie(ewan). }
+  }
+  Topic read_none with ewan "Tell Ewan you will not read another's letter to him; let him find someone he trusts" answering give_letter when letterGiven(ewan) once {
+    Says "He looks at you, and then at the letter, and nods. 'Fair,' he says. He puts it inside his shirt, against his skin. 'Hosken can read. I'll ask Hosken.' He looks across the water at the church on the headland. 'Seven years,' he says. 'I'll have to go into Skeel.'".
+    On discuss { Assert letterKept(ewan). }
+  }
+  Relation ewanGoesSouth(group).
+  Topic ewan_south with ewan "Ask Ewan Marrock what he will do" when letterTruth(ewan) once {
+    Says "'Go south.' He says it as if it surprised him. 'There's a packet, the girl's coming on, Ferrar's, for her brother. Goes back on the fourth tide. I'll ask them for a passage, and work it.' He looks round at the Skerry, the bothy, the seals. 'Six. She'll not know me.' Then: 'Will you take the boat, after? Somebody should. The seals know it.'".
+    On discuss { Assert ewanGoesSouth(ewan). }
+  }
+  Action listen_seals(actor: group, site: place) "Sit on the rock and listen to the seals sing" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, haulout) and evening() and not heardSeals(actor).
+    Time 6.
+    On success { Assert heardSeals(actor). }
+    Result "You sit on the cold rock with your arms round your knees while the light goes out of the sky, and the seals sing. It is not like anything. It rises and falls and breaks off and is taken up further along the slab, one voice and then many, and dies away, and begins again; and out on the dark water, very far off, something answers it. You understand why Skeel says what it says about the seal-women. You understand why Ewan Marrock sits out here every night and has never once told anyone whether he believes it.".
+  }
+  Relation heardSeals(group).
+}

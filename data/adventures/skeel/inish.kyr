@@ -1,0 +1,99 @@
+Module skeel "Fair Weather" {
+  // ── Inish Gall ────────────────────────────────────────────────────────────────────────────────────────────────────
+  // Beyond the Gut: a low brown island with three stone houses on it, two of them roofless, and a cairn. It was the
+  // pilot station. Old Malachy Sennen, the last of the Reach pilots, lives in the third house with a goat.
+  Observe inish_scene at inish_strand when true "A strand of shingle under a low brown island. Three stone houses stand above it in a row, facing the sea: two have no roofs, and grass growing in their doorways; the third has a roof of tarred canvas and a goat on it. Drawn up on the shingle, rotting gently, are the bones of boats: long, narrow gigs, six of them, their paint gone to a ghost of blue and red and green.".
+  Observe inish_gigs at inish_strand as feature when true "Five gigs, and a gap at the end of the row where a sixth lay: the shingle there is pressed into the shape of a long hull, and two drag-marks run down from it to the sea, grassed over, a summer or two old.".
+  Observe beacon_scene at beacon when true "A cairn of stones on the top of Inish, as high as a man, with an iron basket on it full of old tarred wood, ready. From here you see the whole Reach and the open sea, and the bar where the sea breaks at the mouth of the channel, and the channel itself, a darker line in the water, running in toward Skeel past the Holm.".
+  Observe pilot_scene at pilot_house when true "One room, crammed: a bed, a stove, nets, a telescope on a tripod at the window, a goat-harness, two hundred books, and on every wall, in chalk and charcoal and paint, the Reach. Channels, banks, depths in fathoms, bearings, marks: drawn and corrected and drawn again over forty years, so that the walls are dark with it, like a cave painted by a man who has never seen anything else.".
+  Observe pilot_rutter at pilot_house as feature when not rutterWritten(reach) "On the table under the window, a book in a canvas cover, burned along one edge, its pages stiff and brown. On the cover, in old gilt: THE PILOTS' RUTTER OF THE GANNET REACH.".
+
+  Person malachy "Old Malachy Sennen" at pilot_house {
+    Role "the last pilot of the Reach". Ancestry human. Peaceable. Pronouns he. Manner acerbic.
+    Greets "A very old man, very small, very upright, in a blue coat with brass buttons gone green, is looking at you through a telescope from across the room. 'You came over the Sill,' he says, 'or Jinny Rowse brought you. If it was the Sill, you're a fool, and if it was Jinny, you're a fool with three coin less. Sit down. Nobody's come to Inish in a year but the goat.'".
+    Greets again "Old Malachy Sennen lowers the telescope. 'You again. Sit.'".
+  }
+  Topic malachy_pilots with malachy "Ask Malachy Sennen about the pilots" when true once {
+    Says "'Twelve gigs.' He holds up both hands and two fingers. 'Twelve crews of six, racing out over the bar to every sail that showed, first aboard got the job. Brought her in up the channel, Pulpit over the Holm, and took her fee, and the Reach lived on it. Eighty years of that.' He lowers the hands. 'Then the old Admiral bought the wreck-right from the crown. He never forbade us. He was cleverer than that. He just let the station's lease run out, and kept the Lantern, and let it be known a ship that came in without a pilot came in at her own risk. And they did. And they struck. And the wreck paid better than the pilotage.' He laughs, a dry small sound. 'In one generation Skeel went from bringing ships in to taking them to pieces. Never noticed it happening. Nobody does.'".
+    On discuss { Assert knows(actor, pilots_known). }
+  }
+  Discovery pilots_known "Forty years ago the Reach lived by piloting: twelve gigs out of Inish Gall brought ships in up the channel for a fee. When the old Lord Admiral bought the wreck-right he let the pilot station's lease lapse, and Skeel turned from piloting ships in to stripping the ones that struck.".
+  Topic malachy_tide with malachy "Ask Malachy Sennen to teach you to read the tide" when true once {
+    Says "He is delighted. He takes a stick of chalk and goes to the wall. 'Four hours dry at each low water. Low water an hour later every day, and back round with the springs. The Gut runs through the Sill like a mill-race, except the hour either side of dead low, when it stops to think, and that's when a man can wade it, if he's a fool. Your harbour dries when your sands do; so you walk out on the ebb and sail home on the flood, and never the other way about.' He draws as he talks, fast, a tide like a heartbeat. 'And the fifth hour, when the sea comes over the Strand, you are somewhere high, or you are dead. That's all of it. Fifty years to learn it properly. Now go away and do it.'".
+    On discuss { Assert knows(actor, tide_known). Assert knows(actor, slack_known). Assert knows(actor, withy_way_known). }
+  }
+  Discovery slack_known "The Gut runs through the Sill too hard to wade except for the hour either side of dead low water, when it slackens.".
+  Topic malachy_jacob with malachy "Ask Malachy Sennen about Jacob Brask" when knows(actor, pilots_known) once {
+    Says "He is quiet for a while. 'My partner. The best of us. Blue gig.' He points out of the window at the rotting boats, at the gap at the end of the row. 'She lay there. JACOB, she was called. Somebody took her, two summers back. I never asked who. He could take a ship up the channel on a black night with no Lantern, by the feel of the water and the smell of the Holm sheep. When the station went, he had nothing to do with it all.' He taps his head. 'He drank. He burned the Rutter in the stove one night, roaring, and I pulled it out, half of it. Next week he took his gig out over the bar alone and the sea brought it back without him.' He looks at you. 'His boy's the Reeve now. Hender. Brought up by Loveday Kitto on the Holm. Fine boy. Never set foot on Inish since. I don't blame him.'".
+    On discuss { Assert knows(actor, pilot_son). }
+  }
+  Topic malachy_light with malachy "Tell Malachy Sennen about the light in the Pulpit" when knows(actor, hook_found) or knows(actor, craigs_light) and knows(actor, leading_mark) once {
+    Says "He puts the telescope down very carefully, as if it might break. 'In the Pulpit,' he says. 'With the Lantern dark.' He looks at the wall, at the channel drawn there and drawn again, and puts one finger on it, at Scarth Bank. 'A stranger from the south sees one light, high, where the chart says the Holm is, and steers for it. And the line from there to that light goes straight over Scarth.' His finger stays on the bank. 'You'd have to know the mark. You'd have to know where the old lamp hung. You'd have to know it in your bones, the way you know it if your father took you up there on his back when you were five to show you.' He takes his finger away, and sits down, suddenly, an old man. 'There's four people alive who know where the Pulpit lamp hung. I'm one. Loveday's one. Jinny Rowse might be. And Jacob's boy.'".
+    On discuss { Assert knows(actor, only_four). }
+  }
+  Discovery only_four "Only four people alive know where the old pilots' lamp hung in the Pulpit: Old Malachy Sennen, Loveday Kitto, perhaps Jinny Rowse, and Jacob Brask's son Hender.".
+
+  // ── The Rutter ────────────────────────────────────────────────────────────────────────────────────────────────────
+  // Malachy's half-burned book of the Reach: its channels, depths, marks and bottoms. What is burned can be sounded
+  // again: five passages of it, each to be taken with a lead-line, at the right water, in the right place.
+  Topic malachy_rutter with malachy "Ask Malachy Sennen about the burned book" when knows(actor, pilots_known) once {
+    Says "'The Rutter.' He lays a hand on it. 'Every depth, every mark, every bottom, every danger on the Reach, sounded and written down by eighty years of pilots. Half of it's ash.' He opens it: the burned edge crumbles. 'The bar's gone. The channel by Scarth Bank's gone. The Sill. The Holm channel. The leading mark itself, the page with the bearing on it, gone.' He shuts it. 'I could write it again, if I had the soundings. I'm too old to take them. You'd want a lead-line, and the tide-hours, and the sense not to drown.' He looks at you sideways. 'Not that anybody needs a Rutter. There's no pilots.'".
+    On discuss { Assert rutterAsked(actor). }
+  }
+  Relation rutterAsked(group).
+  Measure soundings(place). Initially Set soundings(reach) to 0.
+  Relation sounded(entity).
+  Entity snd_scarth: fact "the channel by Scarth Bank". Entity snd_sill: fact "the Sill". Entity snd_holm: fact "the Holm channel".
+  Entity snd_mark: fact "the leading mark". Entity snd_bar: fact "the bar".
+  Action sound_scarth(actor: group, site: place) "Sound the channel beside Scarth Bank with the lead-line" {
+    Description "From the wreck's stern with the sea in, or wading the gully along the bank at low water.".
+    Requires able(actor) and company(actor) and at(actor, site) and (at(actor, stern) and not lowWater() or at(actor, scarth) and lowWater()) and holding(actor, lead_line) and not sounded(snd_scarth).
+    Time 3.
+    On success { Assert sounded(snd_scarth). Increase soundings(reach) by 1. }
+    Result "You heave the lead into the channel beside the bank and let the line run: two fathoms, three, four and a half by the calico, and the tallow comes up with clean grey sand in it and a fleck of shell. Then you sound along the bank, a cast every few yards, and see where it shoals to nothing under you, and write it all down: here a ship can go; here she cannot.".
+  }
+  Action sound_sill(actor: group, site: place) "Sound the Sill at slack water with the lead-line" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, sill) and slack() and holding(actor, lead_line) and not sounded(snd_sill).
+    Time 2.
+    On success { Assert sounded(snd_sill). Increase soundings(reach) by 1. }
+    Result "Standing thigh-deep on the Sill in the stopped water, you cast up the Gut and down it. Upstream, nine fathoms and black mud; downstream it shelves away fast over stones. The tallow comes up with a tiny crab in it.".
+  }
+  Action sound_holm(actor: group, site: place) "Sound the Holm channel from the Holm strand with the lead-line" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, holm_shore) and not lowWater() and holding(actor, lead_line) and not sounded(snd_holm).
+    Time 3.
+    On success { Assert sounded(snd_holm). Increase soundings(reach) by 1. }
+    Result "You walk the Holm's edge and cast into the channel that runs past it toward Skeel: five fathoms, six, steady, a good clean channel with a shell bottom, deep enough for anything. This is the way in. This is what a pilot would bring a ship up.".
+  }
+  Action sound_mark(actor: group, site: place) "Take the bearing of the leading mark from the Pulpit" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, pulpit) and knows(actor, leading_mark) and not sounded(snd_mark).
+    Time 2.
+    On success { Assert sounded(snd_mark). Increase soundings(reach) by 1. }
+    Result "You lay a straight edge along the line from the Pulpit's lip to the Lantern on the Holm, and past it to the church tower in Skeel, and note how the three stand, and what lies either side: the channel to the west, Scarth Bank close to the east. It is not a wide line. You see for yourself how little it would take to bring a ship onto the bank: a light a few yards from where it should be.".
+  }
+  Kind notebook_kind "a pilot's notebook, very new" is gear worth 0 weighing 0
+    described "A small notebook bound in sailcloth, full of soundings in a neat hand: the bar, cast by cast, at every state of the tide, for two summers. On the first page: JACOB'S LINE. K.B.".
+  Item kerensa_notes "Kerensa Brask's notebook" is notebook_kind at limbo.
+  Topic give_notes with malachy "Give Malachy Sennen Kerensa Brask's soundings of the bar" when carries(actor, kerensa_notes) and not sounded(snd_bar) once {
+    Says "He reads the notebook through, every page, his lips moving. Then he reads it again. 'Two summers,' he says. 'Every state of the tide. The bar, cast by cast.' He closes it. 'Jacob's granddaughter.' He wipes his eyes with the back of his hand and is angry about it. 'Jacob's granddaughter, in her grandfather's gig, all alone, sounding the bar for a station that doesn't exist.'".
+    On discuss { Assert sounded(snd_bar). Increase soundings(reach) by 1. }
+  }
+  Relation rutterWritten(place).
+  Action write_rutter(actor: group, site: place) "Sit with Malachy Sennen and write the Rutter up again" {
+    Description "Two hours at his table, with the burned book open and your soundings beside it.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, pilot_house) and at(malachy, pilot_house) and soundings(reach) >= 4 and not rutterWritten(reach).
+    Time 12.
+    On success { Assert rutterWritten(reach). Give rutter to actor. Assert knows(actor, rutter_known). }
+    Result "You write it up with him through the afternoon. He dictates and you write, because his hand shakes; he argues with every figure and accepts every one; he draws the channel on the last clean page from memory and your soundings and gets it, he says, exactly right, and then draws it again because exactly right is not good enough. Toward the end the goat comes in and lies down by the stove. At the end he blots the page, and sits back, and looks at it. 'There,' he says. 'There's the Reach. All of her. Any fool could bring a ship in with that.' He closes the book and pushes it across the table to you. 'Somebody should.'".
+  }
+  Kind rutter_kind "the Pilots' Rutter of the Gannet Reach" is treasure worth 0 weighing 2
+    described "A canvas-covered book, burned along one edge, its old pages brown and its new ones white: every depth, bottom, mark and danger of the Reach, sounded again this week. The leading mark on the last page, drawn twice: PULPIT OVER THE HOLM.".
+  Item rutter "the Pilots' Rutter" is rutter_kind at limbo.
+  Discovery rutter_known "The Pilots' Rutter of the Gannet Reach has been written up again from new soundings: with it, anyone who can handle a boat could bring a ship safely up the channel to Skeel.".
+  // Back across, in the gig nobody has rowed in forty years: Malachy will put the company over to the quay when there is water.
+  Action malachy_rows(actor: group, site: place) "Ask Old Malachy Sennen to put you across to Skeel" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, inish_strand) and boatsRun() and (rutterAsked(actor) or knows(actor, pilots_known)).
+    Time 6.
+    On success { Retract at(actor, inish_strand). Assert at(actor, quay). }
+    Result "He has a little cockleshell of a boat under the stern of the blue gig, and he rows it as if it were a gig, upright, slow, every stroke the same, all the way across the Reach to the quay, and will not let you take an oar. At the harbour wall he holds on to a ring and looks up at the town for a long time. 'No,' he says, to nobody, and lets go, and rows home.".
+  }
+}

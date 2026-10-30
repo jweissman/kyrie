@@ -1,0 +1,58 @@
+{
+  "day1": [
+    "^To Fore Street",
+    "^Into the Admiral",
+    "Talk to Mother Jago",
+    "about the black dog",
+    "=20:00",
+    "Work for Mother Jago",
+    "on the house"
+  ],
+  "offer": [
+    "=8:10",
+    "^Out to Fore Street",
+    "^To the quay",
+    "^Into the Wreck-House",
+    "Talk to Hender",
+    "whether there is work for a stranger",
+    "Tell Hender Brask you will see to the dog",
+    "^Out to the quay",
+    "^To Fore Street",
+    "^Into the Admiral",
+    "=until dogPenned(admiral)"
+  ],
+  "night": [
+    "=21:00",
+    "^Out to Fore Street",
+    "^To the quay",
+    "^Into the Wreck-House",
+    "Pick the padlock on the pen",
+    "^Out to the quay",
+    "^To Fore Street",
+    "^Into the Admiral",
+    "Ask Mother Jago to hide the dog",
+    "Take a bed"
+  ],
+  "lie": [
+    "=8:10",
+    "^Out to Fore Street",
+    "^To the quay",
+    "^Into the Wreck-House",
+    "Tell Hender Brask the dog is drowned"
+  ],
+  "court": [
+    "^Out to the quay",
+    "^To Fore Street",
+    "^Into the Admiral",
+    "=day 3 14:30",
+    "Ask Mother Jago for the dog",
+    "^Out to Fore Street",
+    "^To the quay",
+    "^Into the fish cellars",
+    "^Into the net-loft",
+    "=until matterOpen(call)",
+    "Bring Admiral forward",
+    "=until courtDone(reach)",
+    "=day 4 18:30"
+  ]
+}

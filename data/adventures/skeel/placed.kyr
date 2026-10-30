@@ -1,0 +1,7 @@
+Module skeel "Fair Weather" {
+  // The Reach as a country beyond a march: the company that comes in by the coast road is the world's own.
+  Entity party: group "Your company".
+  // What is said of the Reach in the country behind it: once the Wreck Court has risen, it is old news there.
+  Entity word: fact "What is said of the Gannet Reach in the country behind it.".
+  Rule word_old when courtDone(reach) and not stale(word) { Assert stale(word). }
+}

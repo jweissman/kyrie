@@ -1,0 +1,7 @@
+{
+  "skerry": ["^To Fore Street", "^To the quay", "=until boatsRun() and hour(clock) >= 13", "Pay Jinny", "^To the Skerry landing", "Talk to Ewan", "what he has against Skeel", "about the seals",
+    "^Into Ewan Marrock's bothy", "Talk to Nye", "what happened to the Constancy", "^Out to the Skerry landing", "^To the quay"],
+  "holm": ["^To the Holm strand", "^Into the hermit", "the oil barrel: .*Look", "^Out to the Holm strand", "^Into the Lantern", "^Into the lamp-room", "Talk to Loveday", "about the night of the wreck", "about Hender Brask"],
+  "send": ["=until lowWater()", ">skeel__holm_shore", "^To the open Strand", "^To the Slip", "^To the quay", "^To Fore Street", "^Into the Reeve's house", "Talk to Hender", "Tell Hender Brask you know", "Tell him to row out to the Holm"],
+  "court": ["=day 3 15:20", "^Out to Fore Street", "^To the quay", "^Into the fish cellars", "^Into the net-loft", "=until courtDone(reach)", "=day 4 18:30"]
+}

@@ -1,0 +1,131 @@
+Module skeel "Fair Weather" {
+  Description "Skeel, a wrecking town on the Gannet Reach, a shallow sea of sands and islands that the tide empties twice a day; three days after the merchantman Constancy went onto Scarth Bank in fair weather, and two before the Wreck Court will call her wreck, if nothing living came ashore.".
+
+  // ── The Reach ─────────────────────────────────────────────────────────────────────────────────────────────────────
+  // A bight of the western sea nine miles across. At low water it is a desert of ribbed sand with islands standing up
+  // out of it and one channel, the Gut, that never drains; at high water it is a sea with islands in it. Skeel is on
+  // the north headland. The Craigs are the south arm. The Holm, the Skerry and Inish Gall stand out in the middle.
+  Place imbar "Imbar" is plane.
+  Place reach "the Gannet Reach" is region within imbar.
+  Initially Assert terrain(reach, marsh).
+  Place coast "the coast road" is wilderness within reach at 1, 0.
+  Place skeel "Skeel" is settlement within reach at 1, 1.
+  Place strand "the Strand" is wilderness within reach at 1, 2.
+  Place holm "Hobb's Holm" is site within reach at 0, 2.
+  Place craigs "the Craigs" is wilderness within reach at 2, 2.
+  Place skerry "Seal Skerry" is wilderness within reach at 0, 3.
+  Place inish "Inish Gall" is wilderness within reach at 1, 3.
+  Place nowhere "the far sea" is wilderness within reach at 3, 4.
+
+  // ── Buildings ─────────────────────────────────────────────────────────────────────────────────────────────────────
+  Place church_bldg "the church of Lir Who Gives" is building within skeel.
+  Place inn_bldg "the Admiral" is building within skeel.
+  Place wreck_bldg "the Wreck-House" is building within skeel.
+  Place reeve_bldg "the Reeve's house" is building within skeel.
+  Place cellar_bldg "the fish cellars" is building within skeel.
+  Place loft_level "the net-loft over the cellars" is level within cellar_bldg.
+  Place huer_bldg "the huer's hut" is building within coast.
+  Place tower "the Lantern" is building within holm.
+  Place lamp_level "the lamp-room" is level within tower.
+  Place cell_bldg "the hermit's cell" is building within holm.
+  Place bothy_bldg "Ewan Marrock's bothy" is building within skerry.
+  Place pilot_bldg "the pilot-house" is building within inish.
+
+  // ── Rooms ─────────────────────────────────────────────────────────────────────────────────────────────────────────
+  Place coast_road "the coast road above Skeel" is room within coast at 1, 0 outdoors.
+  Place head "Skeel Head" is room within coast at 0, 0 outdoors.
+  Place huer_hut "the huer's hut" is room within huer_bldg at 0, 1 indoors.
+  Place fore_street "Fore Street" is room within skeel at 1, 0 outdoors.
+  Place church "Lir Who Gives" is room within church_bldg at 0, 0 indoors.
+  Place taproom "the Admiral's taproom" is room within inn_bldg at 2, 0 indoors.
+  Place reeve_parlour "the Reeve's parlour" is room within reeve_bldg at 0, 1 indoors.
+  Place ropewalk "Tonkin's ropewalk" is room within skeel at 3, 0 outdoors.
+  Place acre "the Strangers' Acre" is room within skeel at 0, 2 outdoors.
+  Place quay "the quay" is room within skeel at 2, 2 outdoors.
+  Place wreck_house "the Wreck-House" is room within wreck_bldg at 3, 2 indoors.
+  Place cellars "the fish cellars" is room within cellar_bldg at 2, 3 indoors.
+  Place net_loft "the net-loft" is room within loft_level at 2, 4 indoors.
+  Place slip "the Slip" is room within skeel at 1, 3 outdoors.
+  Place flats "the open Strand" is room within strand at 1, 0 outdoors.
+  Place scarth "Scarth Bank, under the wreck" is room within strand at 2, 1 outdoors.
+  Place aboard "aboard the Constancy" is level within strand.
+  Place stern "the Constancy's stern" is room within aboard at 3, 1 outdoors.
+  Place gut_lip "the lip of the Gut" is room within strand at 1, 2 outdoors.
+  Place sill "the Sill, in the Gut" is room within strand at 1, 3 outdoors.
+  Place holm_shore "the Holm strand" is room within holm at 1, 0 outdoors.
+  Place tower_foot "the foot of the Lantern" is room within tower at 1, 1 indoors.
+  Place lamp_room "the lamp-room" is room within lamp_level at 1, 2 indoors.
+  Place cell "the hermit's cell" is room within cell_bldg at 0, 1 indoors.
+  Place craigs_foot "the foot of the Craigs" is room within craigs at 0, 2 outdoors.
+  Place clifftop "the climbers' camp on the Craigs" is room within craigs at 1, 1 outdoors.
+  Place face "halfway down the Craigs" is level within craigs.
+  Place summit "the high Craigs" is level within craigs.
+  Place ledges "the gannet ledges" is room within face at 1, 2 outdoors.
+  Place pulpit "the Pulpit" is room within summit at 2, 2 outdoors.
+  Place cliff_road "the cliff road round the Reach" is room within craigs at 1, 0 outdoors.
+  Place skerry_landing "the Skerry landing" is room within skerry at 1, 0 outdoors.
+  Place haulout "the haul-out" is room within skerry at 2, 0 outdoors.
+  Place bothy "Ewan Marrock's bothy" is room within bothy_bldg at 1, 1 indoors.
+  Place inish_strand "the Inish strand" is room within inish at 0, 0 outdoors.
+  Place pilot_house "the pilot-house" is room within pilot_bldg at 1, 0 indoors.
+  Place beacon "the beacon on Inish Gall" is room within inish at 1, 1 outdoors.
+  Place limbo "the sea" is room within nowhere at 0, 0 outdoors.
+
+  // ── Ways by land ──────────────────────────────────────────────────────────────────────────────────────────────────
+  Passage town_road "the road down into Skeel" is road between coast_road and fore_street taking 20 minutes.
+  Passage head_path "the path out to Skeel Head" is path between coast_road and head taking 15 minutes.
+  Passage huer_door "the huer's door" is door between head and huer_hut.
+  Passage church_door "the church door" is door between fore_street and church.
+  Passage inn_door "the Admiral's door" is door between fore_street and taproom.
+  Passage reeve_door "the Reeve's door" is door between fore_street and reeve_parlour.
+  Passage rope_lane "the ropewalk lane" is path between fore_street and ropewalk taking 5 minutes.
+  Passage acre_gate "the lych-gate" is gate between church and acre.
+  Passage drang "the Drang" is steps between fore_street and quay taking 5 minutes.
+  Passage wreck_door "the Wreck-House door" is door between quay and wreck_house.
+  Passage cellar_door "the cellar door" is door between quay and cellars.
+  Passage loft_stair "the loft stair" is stair between cellars and net_loft.
+  Passage slip_way "the harbour wall" is path between quay and slip taking 5 minutes.
+  // The long way to the Craigs: round the head of the Reach by the cliff road, two hours, any tide.
+  Passage round_road "the cliff road round the head of the Reach" is road between coast_road and cliff_road taking 2 hours.
+  Passage camp_path "the cliff-top path" is path between cliff_road and clifftop taking 20 minutes.
+  Passage craigs_path "the goat path down the Craigs" is path between clifftop and craigs_foot taking 30 minutes.
+  Passage fixed_rope "the climbers' fixed rope" is ladder between clifftop and ledges taking 10 minutes needing climbing or rope.
+  Passage pulpit_climb "the face up to the Pulpit" is ladder between ledges and pulpit taking 20 minutes needing climbing.
+  // Or along the edge from the camp: no skill wanted, only nerve, and the wind.
+  Passage edge_scramble "the cliff edge out to the Pulpit" is path between clifftop and pulpit taking 20 minutes.
+  Passage tower_door "the Lantern door" is door between holm_shore and tower_foot.
+  Passage lamp_stair "the lamp stair" is stair between tower_foot and lamp_room.
+  Passage cell_door "the cell doorway" is doorway between holm_shore and cell.
+  Passage haul_path "the rocks to the haul-out" is path between skerry_landing and haulout taking 10 minutes.
+  Passage bothy_door "the bothy door" is door between skerry_landing and bothy.
+  Passage pilot_door "the pilot-house door" is door between inish_strand and pilot_house.
+  Passage beacon_path "the path up to the beacon" is path between inish_strand and beacon taking 10 minutes.
+  Passage stern_ladder "the salvagers' ladder" is ladder between scarth and stern taking 5 minutes.
+
+  // ── Ways over the sands: only at low water, or for whoever is already out there when the sea comes ───────────────
+  Passage withy_way "the withy way" is path between slip and flats taking 30 minutes
+    opening when sandsOpen() "The Strand is under the sea. The withies stick up out of the water in a line, a hand's breadth showing, and the tide-board says when they will stand on sand again.".
+  Passage bank_way "the sand to Scarth Bank" is path between flats and scarth taking 20 minutes
+    opening when sandsOpen() "Grey water runs over Scarth Bank. The Constancy's stern stands up out of it like a house in a flood.".
+  Passage holm_sands "the sands to the Holm" is path between flats and holm_shore taking 30 minutes
+    opening when sandsOpen() "The sea lies between the Strand and the Holm, a mile of it, and a boat would be the way.".
+  Passage craigs_sands "the sands to the Craigs" is path between flats and craigs_foot taking 40 minutes
+    opening when sandsOpen() "The sea is in under the Craigs, slapping at the rocks.".
+  Passage gut_sands "the sand down to the Gut" is path between flats and gut_lip taking 30 minutes
+    opening when sandsOpen() "The Gut and the sands either side of it are all one sea now.".
+  Passage sill_wade "the Sill" is ford between gut_lip and sill taking 10 minutes
+    opening when sandsOpen() "Only the sea, where the Sill was.".
+  Passage sill_far "the far side of the Sill" is ford between sill and inish_strand taking 15 minutes
+    opening when slack() or at(party, sill) or enRoute(party, ?w) "The Gut is running through the Sill like a river in spate, green and fast and full of sand. It runs slack only in the middle of low water, for an hour or two.".
+
+  // ── Ways by boat: Jinny Rowse's lugger, the Patience, from the quay, while there is water in the harbour ─────────
+  Passage holm_boat "the Patience, to the Holm" is ferry between quay and holm_shore taking 30 minutes
+    opening when boatsRun() and passage(party) "Jinny Rowse's Patience comes and goes round high water, while there is water at the quay, for whoever has paid her for the day.".
+  Passage skerry_boat "the Patience, to the Skerry" is ferry between quay and skerry_landing taking 45 minutes
+    opening when boatsRun() and passage(party) "Jinny Rowse's Patience comes and goes round high water, while there is water at the quay, for whoever has paid her for the day.".
+  Passage inish_boat "the Patience, to Inish Gall" is ferry between quay and inish_strand taking 1 hour
+    opening when boatsRun() and passage(party) "Jinny Rowse's Patience comes and goes round high water, while there is water at the quay, for whoever has paid her for the day.".
+  // Ewan's coracle, from the Holm strand to the Skerry, for those he will take.
+  Passage coracle "Ewan Marrock's coracle" is ferry between holm_shore and skerry_landing taking 20 minutes
+    opening when not lowWater() and ewanRows(party) "Ewan Marrock's coracle is a black hide bowl on the Skerry rocks, a mile off. It does not come for anyone he has not asked.".
+}
