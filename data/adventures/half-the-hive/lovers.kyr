@@ -36,10 +36,10 @@ Module hume "Half the Hive" {
   Relation stairLit(group). Relation stairFailed(group).
 
   // Eben.
-  Topic eben_stair with eben "Ask Eben about the Lantern Stair" when not stairLit(eben) {
+  Topic eben_stair with eben "Ask Eben about the Lantern Stair" when not stairLit(eben) and not leavingBegun() {
     Says "'Every Waxwright makes one thing that's theirs. That's mine.' He follows it up with his eyes, turn by turn: flowers, Sisters, the faces of the Brow, children, hands. 'My master started it. I took it on at twenty-one. Every tread is somebody: that's Kestrel at fourteen, that's old Penry's first barrel, that's Linnet the day she was made keeper.' He stops. 'The last course wants white wax. New comb, never brooded. The Sisters don't draw it white any more, not in a hive this old; the only white comb left in the Wold is in places nobody goes.' He shrugs, too hard. 'It doesn't matter now.'".
   }
-  Topic eben_why with eben "Ask Eben why it doesn't matter now" when not stairLit(eben) and not knows(actor, eben_secret) once {
+  Topic eben_why with eben "Ask Eben why it doesn't matter now" when not stairLit(eben) and not knows(actor, eben_secret) and not leavingBegun() once {
     Says "He looks at you a long time, and decides, and you can see him deciding: a stranger, who will be gone in a week. 'Because I'm going,' he says. 'With the Leaving. With her.' He doesn't say who. 'She's the keeper; keepers go. And I'm not going to stand on the Apron and watch her walk off after the bees and then come up here and carve. So I'm going.' He looks up the Stair. 'Somebody'll finish it. Or not. It's wax.' His voice does something on the last word. 'I haven't told her. She'd only tell me to stay and finish it, and she'd be right, and I'd stay.' He turns back to his brazier. 'Don't tell her.'".
     On discuss { Assert knows(actor, eben_secret). }
   }

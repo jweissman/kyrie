@@ -30,7 +30,7 @@ Module hume "Half the Hive" {
   Person robbers "the black bees of the crag" at black_crag {
     Role "a swarm of black robber-bees, each the size of a cat, boiling out of the splits in the crag".
     Species robber_kind. Level 2. Numbers 5.
-    State hanging blocking "Black bees hang in the air over the far path under the crag, whining, and nobody goes by them who has not dealt with them.".
+    State hanging blocking "Black bees hang in the air over the far path under the crag, whining, and they will let no one by who has not dealt with them.".
     Guards far_path.
     Fears flame.
     Refuge limbo.

@@ -44,10 +44,16 @@ describe('Half the Hive: the Searching, the Leaving and the Daughters', () => {
     expect(g.holds('named', 'party')).toBe(true);
     expect(g.holds('goes', 'hannet')).toBe(true);
     expect(g.j.holds('promiseKept', h('carry_hannet'))).toBe(true);
+    // The camp is a place with people in it, who have their own news.
+    await g.play('Talk to Kestrel', 'Ask Kestrel how the Leaving does under the Far Brow', '^Take your leave', 'Talk to Hannet', 'Ask Hannet how she likes', '^Take your leave');
+    expect(g.page).toMatch(/A Drone showed me a road/);
+    expect(g.page).toMatch(/Nothing in my whole life has been new/);
+    expect(g.page).toMatch(/somebody has scratched FAR BROW on a post/);
     await g.until();
     expect(g.ending()).toEqual(['far_free']);
     expect(g.page).toMatch(/Both halves are alive/);
     expect(g.page).toMatch(/Ivo Gildersleeve is with you/);
+    expect(g.page).toMatch(/makes room/);
   }, 300000);
 });
 

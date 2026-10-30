@@ -49,19 +49,19 @@ Module hume "Half the Hive" {
     Says "She holds it up: thumb, first finger, and two neat stumps. 'Brock,' she says. 'In the Dell, when I was Moss's age and as stupid. I put my hand in a hole to feel how deep it went.' She puts the hand away. 'It went quite deep.'".
   }
   // Reports: a cake of wax for each, and what she makes of it.
-  Topic report_gallow with kestrel "Tell Kestrel what you found at the Gallowtree" when searcher(actor) and hasSeen(gallowtree) and not reported(actor, gallowtree) once {
+  Topic report_gallow with kestrel "Tell Kestrel what you found at the Gallowtree" when searcher(actor) and hasSeen(gallowtree) and not reported(actor, gallowtree) and not leavingBegun() once {
     Says "She hears you out. When you tell her about the people in the comb inside the tree she is quiet a long time. 'The seventh Leaving,' she says. 'We say they went on east.' She gives you a cake of wax and does not look at you. 'Don't tell Hannet. Or do. I don't know. Her aunt went with them.'".
     On discuss { Assert reported(actor, gallowtree). Give cake_gallow to actor. Assert knows(actor, merrit_aunt). }
   }
-  Topic report_dell with kestrel "Tell Kestrel what you found in the Chalk Dell" when searcher(actor) and hasSeen(chalk_dell) and not reported(actor, chalk_dell) once {
+  Topic report_dell with kestrel "Tell Kestrel what you found in the Chalk Dell" when searcher(actor) and hasSeen(chalk_dell) and not reported(actor, chalk_dell) and not leavingBegun() once {
     Says "'Dry. Warm. South. Yes.' She pays you. 'And the brocks?' She listens. 'If you can find a way to live beside them, it's not a bad place. If Moss's way is to go in there with a spear, it's a grave.'".
     On discuss { Assert reported(actor, chalk_dell). Give cake_dell to actor. }
   }
-  Topic report_lark with kestrel "Tell Kestrel what you found at Larkhill" when searcher(actor) and hasSeen(larkhill) and not reported(actor, larkhill) once {
+  Topic report_lark with kestrel "Tell Kestrel what you found at Larkhill" when searcher(actor) and hasSeen(larkhill) and not reported(actor, larkhill) and not leavingBegun() once {
     Says "'A tower.' She frowns. 'A good tower; I'll give him that. Dry, high, south wall.' She pays you. 'But it's his. Lowland law: what nests on a man's land is his. Two hundred of us and the Mother, rent-payers to a squire.' She spits, neatly, off the slope. 'Over my dead body. Over the Mother's.'".
     On discuss { Assert reported(actor, larkhill). Give cake_lark to actor. }
   }
-  Topic report_far with kestrel "Tell Kestrel what you found at the Far Brow" when searcher(actor) and hasSeen(far_brow) and not reported(actor, far_brow) once {
+  Topic report_far with kestrel "Tell Kestrel what you found at the Far Brow" when searcher(actor) and hasSeen(far_brow) and not reported(actor, far_brow) and not leavingBegun() once {
     Says "Her whole face changes when you say you've stood under it, as if you had brought her news of someone she loved. 'The handprints,' she says. 'Are they still there? My gran told me about the handprints.' She gives you two cakes of wax instead of one, and then looks at the second as if she does not know how it got into your hand, and lets you keep it.".
     On discuss { Assert reported(actor, far_brow). Give cake_far to actor. Give cake_far2 to actor. }
   }
@@ -195,7 +195,7 @@ Module hume "Half the Hive" {
     Requires able(actor) and company(actor) and (within(actor, hume_brow) or within(actor, smoke_end)) and walkable(dest) and siteRoom(dest, camp) and not walkedWith(actor).
     Time 24.
     On success { Assert walkedWith(actor). Retract at(actor, ?p). Assert at(actor, camp). }
-    Result "You walk with them. Nobody talks much. The swarm goes ahead of you like a weather-front, low, roaring, settling on a tree to rest and lifting off again, and the Leaving follows it at a walk, two hundred people strung out over the turf with their bundles, the old on sticks and on each other's arms, the children riding on shoulders, the little bells on everyone's wrists going all the way along the line, so that from a distance you would think a flock of sheep was crossing the Wold. Twice someone stops and turns round and looks back at the Brow. Then they turn round again and walk on.".
+    Result "You walk with them. The talk dies away after the first mile. The swarm goes ahead of you like a weather-front, low, roaring, settling on a tree to rest and lifting off again, and the Leaving follows it at a walk, two hundred people strung out over the turf with their bundles, the old on sticks and on each other's arms, the children riding on shoulders, the little bells on everyone's wrists going all the way along the line, so that from a distance you would think a flock of sheep was crossing the Wold. Twice someone stops and turns round and looks back at the Brow. Then they turn round again and walk on.".
   }
   Action walk_with_far(actor: group, camp: place) "Walk with the Leaving, east over the moor" {
     Description "Go with them, behind the swarm, over the moor to the Far Brow: a long day.".

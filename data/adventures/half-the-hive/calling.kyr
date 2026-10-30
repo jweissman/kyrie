@@ -23,7 +23,7 @@ Module hume "Half the Hive" {
 
   // The keepers.
   Rule call_linnet_knows at dancing_hall when matterOpen(call_keepers) and linnetKnows(linnet) and not spread(said_linnet) says "Linnet lifts her head and looks straight down the slope across the whole hall at Eben Candlish, and he looks back, and a few people who know turn to see what she is looking at." { Assert spread(said_linnet). }
-  Rule call_linnet_hides at dancing_hall when matterOpen(call_keepers) and not linnetKnows(linnet) and knows(party, linnet_secret) and not spread(said_linnet) says "You know what she means to say on the morning of the Leaving: that she is ill, that Pim must go. Nobody else in the hall does. Pim, beside her, is beaming." { Assert spread(said_linnet). }
+  Rule call_linnet_hides at dancing_hall when matterOpen(call_keepers) and not linnetKnows(linnet) and knows(party, linnet_secret) and not spread(said_linnet) says "You know what she means to say on the morning of the Leaving: that she is ill, that Pim must go. You are the only one in the hall who knows it. Pim, beside her, is beaming." { Assert spread(said_linnet). }
   Entity said_linnet: fact "the keeper at the Calling".
   // The Searchers.
   Rule call_hannet_carried at dancing_hall when matterOpen(call_searchers) and promiseMade(carry_hannet) and not spread(said_hannet) says "Hannet Coke gets up off the floor on her stick. 'Hannet Coke goes,' she says, in a voice that carries, 'carried, like a cheese, by this lowlander and whoever else they can bully into it,' and the hall laughs out loud, and some of them are crying as they laugh, because she has stayed six times." { Assert spread(said_hannet). }

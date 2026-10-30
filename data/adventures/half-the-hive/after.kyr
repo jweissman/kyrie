@@ -1,0 +1,88 @@
+Module hume "Half the Hive" {
+  // ── After the Leaving: what the places and people are, for a company that comes back ─────────────────────────────
+  // Each half of the hive goes on. Wherever the Mother went, the new comb is there to be seen and its people to be
+  // asked; in the Brow, those who stayed have their own news. Nothing here asks whether the company saw it happen.
+
+  // The new combs.
+  Observe new_far at far_hollow when left(far_brow) and spread(founding) "Under the Far Brow a new comb hangs from the rock, a yard long already and growing, white at the edges and going gold at the heart, roaring softly. Along the back wall the Leaving has put up shelters of wattle and sailcloth, and somebody has scratched FAR BROW on a post, and somebody else has added NEW in front of it.".
+  Observe new_far_here at far_hollow when left(far_brow) and not spread(founding) "Under the Far Brow a new comb hangs from the rock, white going gold, roaring softly, and along the back wall are the shelters of the Leaving.".
+  Observe new_dell at dell_floor when left(chalk_dell) "The cave in the chalk roars softly all day, like a sea-cave, and the Sisters come and go from it in a brown stream. On the warm floor of the Dell the Leaving has put up shelters of wattle among the harebells.".
+  Observe new_lark at chantry_yard when left(larkhill) "The chantry tower at Larkhill hums from its belfry like a bell that has been struck and will not stop, and the Sisters pour in and out of the louvres. The Leaving lives in the yard and the lane in shelters of wattle and sailcloth.".
+  Observe lark_deed at chantry_yard as feature when left(larkhill) and corveGives(corve) "In the chantry porch, framed and glazed, hangs a sheet of paper in a neat hand: a deed of gift of the chantry, its tower and its yard, to whatever nests there, owned by nobody.".
+  Observe lark_board at chantry_yard as feature when left(larkhill) and not corveGives(corve) "On the chantry gate a board is nailed: THESE BEES AND ALL THEY MAKE THE PROPERTY OF L. CORVE ESQ. OF LARKHILL. Someone has scratched the hexagon of the Comb over the ESQ., deep.".
+  Observe new_gallow at gallow_knoll when left(gallowtree) "The Gallowtree roars from root to crown like a forest in a gale, and the Leaving lives on the knoll round it in shelters of wattle. The children are not allowed through the door in the trunk, and do not ask why.".
+  Observe new_bivouac at honey_oak when left(high_wold) "From a great bough of the honey linden hangs the new comb, in the open air, white sheets swaying a little in the wind, and the Sisters cling over it in a living brown curtain. The Leaving camps in the clearing under it and looks up at it a great deal.".
+
+  // The Brow, half empty.
+  Observe chamber_empty at mothers_chamber when leavingBegun() and not daughtersDone(brenna) "The Mother's long bed of comb is empty. The Sisters who stayed stand round it in a ring, facing in, touching nothing.".
+  Observe chamber_new at mothers_chamber when daughtersDone(brenna) "On the Mother's long bed of comb lies a new queen, slender and very gold, with Sisters stroking her; she is restless, and keeps walking to the end of the bed and back.".
+  Observe tobit_gone at capped_gallery as feature when left(?s) and goes(agnes) and linnetPermitsDead(linnet) "Nearest the arch, where a bier stood on a trestle, there is only the trestle.".
+  Observe bench_bare at wax_gallery as feature when goes(eben) "Eben Candlish's bench under the Stair is bare: his blades are gone, and his brazier is cold.".
+
+  // Kestrel, wherever the Leaving is.
+  Topic kestrel_after_far with kestrel "Ask Kestrel how the Leaving does under the Far Brow" when left(far_brow) and kestrelTurned(kestrel) once {
+    Says "Kestrel is sitting with her back to the rock and her boots off, which you have never seen. 'Forty years I danced for this,' she says. 'Forty years they went somewhere nearer.' She looks along the ledge at the shelters, the smoke, the children, Hannet on her fleece. Her face does not know what to do. 'I was right about the place,' she says. 'I wasn't right about the rest. I'd have left them. A Drone showed me a road.'".
+  }
+  Topic kestrel_after_far_hard with kestrel "Ask Kestrel how the Leaving does under the Far Brow" when left(far_brow) and not kestrelTurned(kestrel) once {
+    Says "Kestrel is counting shelters, and then counting them again. 'It's the best place in the Wold,' she says, without looking up. 'I always said.' She gets to the end of the row. 'Hannet's not here. The Mellors aren't. Old Penry's mother isn't. Half the grey heads in the Brow stood on the Apron and watched us go, because they knew they couldn't walk it, and I knew, and I danced for it anyway.' She starts counting again. 'I was right,' she says. 'I was right.'".
+  }
+  Topic kestrel_after_dell with kestrel "Ask Kestrel how the Leaving does in the Dell" when left(chalk_dell) once {
+    Says "'Dry,' says Kestrel. 'Warm. South.' She is cutting a stake with her short hand. 'Not mine. Not the Far Brow. But the comb's coming on, and nobody's sick, and the walls give back the heat all night.' She glances at the back of the Dell, where the brocks are or were. 'Ask me in a year.'".
+  }
+  Topic kestrel_after_lark with kestrel "Ask Kestrel how the Leaving does at Larkhill" when left(larkhill) and corveGives(corve) once {
+    Says "Kestrel looks up at the humming tower. 'It's a good tower,' she says, as if it hurt her. 'And it's nobody's. He gave it.' She scowls at the farmhouse. 'I've had to say thank you to a lowland squire. Twice. He went red both times.'".
+  }
+  Topic kestrel_after_owned with kestrel "Ask Kestrel how the Leaving does at Larkhill" when left(larkhill) and not corveGives(corve) once {
+    Says "Kestrel looks up at the humming tower, and then at the board on the gate, and does not say anything at all for so long that you think she has not heard. Then she says, 'Rent,' as if it were a word in another language, and goes back to splitting withies.".
+  }
+  Topic kestrel_after_gallow with kestrel "Ask Kestrel how the Leaving does at the Gallowtree" when left(gallowtree) once {
+    Says "'The wood's wet.' Kestrel says it quietly so the people on the knoll won't hear. 'I put my hand inside the trunk this morning and it came out wet to the wrist.' She looks at the tree, roaring and green. 'Linnet's been in. She won't say what she saw.' She looks at you. 'You've been in. You know.' It is not a question.".
+  }
+  Topic kestrel_after_open with kestrel "Ask Kestrel what the Leaving will do" when left(high_wold) once {
+    Says "'Wait,' says Kestrel. 'Pray they change their minds. Build them a box.' She laughs, without anything in it. 'Nobody's ever built a box for the Sisters. They'd laugh at us, if bees laughed.' She looks up at the comb swinging in the wind. 'It's a fine summer,' she says.".
+  }
+  // Linnet, keeping the old queen, or the Daughters.
+  Topic linnet_after_mother with linnet "Ask Linnet how the Mother does" when leavingBegun() and goes(linnet) once {
+    Says "'She flew.' Linnet says it as if she still cannot believe it. 'Nine years in the dark in the Crown and she flew all the way, in the middle of them, and when they hung on the rock she walked up through them to the top and started laying in the first cells before the wax was cool.' She smiles. 'She's old. She won't see another summer. But the first brood here will be hers.'".
+  }
+  Topic linnet_after_daughters with linnet "Ask Linnet how the Daughters do" when daughtersDone(brenna) and not goes(linnet) once {
+    Says "'One reigns.' Linnet is very tired. 'She's strong. She'll fly in a day or two, and the Escort will walk her up the Toot, and then they'll be turned out, and the Brow will be the Brow again, half of it.' She looks at the empty half of the gallery. 'I stayed to keep this. It's quieter than I thought.'".
+  }
+  Topic pim_after with pim "Ask Pim how he is keeping the old Mother" when leavingBegun() and goes(pim) once {
+    Says "Pim's arms are covered in Sisters and he is holding them out from his sides, as he did on the walk, as if they were wet. 'She likes me,' he says, astonished. 'She touched my hand this morning. With her feelers.' He swallows. 'I write to Linnet every day. She writes back. I do what she says. Mostly it's: don't panic.' He beams, terrified. 'I'm not panicking.'".
+  }
+  // Eben.
+  Topic eben_after_lit with eben "Ask Eben whether he misses the Stair" when leavingBegun() and goes(eben) and stairLit(eben) once {
+    Says "Eben is carving the doorframe of the first cell, a little, between other work. 'It's finished,' he says. 'It's lit. They'll send word at midsummer how the sun came down it. I don't need to see it. I made it.' He blows wax-dust off a carved bee. 'She's here,' he says, as if that answered something, and perhaps it does.".
+  }
+  Topic eben_after_short with eben "Ask Eben whether he misses the Stair" when leavingBegun() and goes(eben) and not stairLit(eben) once {
+    Says "Eben is carving the doorframe of the first cell, a little, between other work. 'Every night,' he says. 'Three turns up and stopping at nothing.' He blows wax-dust off a carved bee. 'Somebody will finish it. Or the children will dare each other to stand on the last step for a hundred years, and that's a kind of finishing.' He looks across the camp to where the keeper sits with the old queen, if she is here, and his face changes.".
+  }
+  Topic eben_after_home with eben "Ask Eben about the Stair, now there is no hurry" when leavingBegun() and not goes(eben) once {
+    Says "'No hurry,' says Eben, and laughs, and looks up the Stair. 'I've been carving faces into it since you went. Everyone who walked out. I'm doing them from memory.' He touches a white tread. 'So they're still here. Some of them.'".
+  }
+  // Hannet, and Agnes.
+  Topic hannet_after with hannet "Ask Hannet how she likes the new comb" when leavingBegun() and goes(hannet) once {
+    Says "Hannet is on her fleece in the sun with the two wax bees on their cord. 'I like it,' she says. 'It's new. Nothing in my whole life has been new.' She pats the ground. 'I danced for it, didn't I? An old woman's dance. They'll tell that.' She shuts her eyes. 'Merrit would have liked it.'".
+  }
+  Topic agnes_after_gone with agnes "Ask Agnes whether she has her view" when leavingBegun() and goes(agnes) once {
+    Says "Agnes points with her chin. 'There.' Whatever is there, she has been looking at it a long time. 'Tobit would have said it was too windy,' she says. 'He'd have been right.' She keeps looking. 'It's a good view.'".
+  }
+  Topic agnes_after_quiet with agnes "Ask Agnes how she does" when leavingBegun() and not goes(agnes) and mothDead(deathshead) once {
+    Says "'I sit with him.' Agnes's hands are in her lap. 'Nights, mostly. In the dark, the way you do. It's quiet up there now. Just the two of us and four hundred years.'".
+  }
+  Topic agnes_after_stick with agnes "Ask Agnes how she does" when leavingBegun() and not goes(agnes) and not mothDead(deathshead) once {
+    Says "'I sit with him.' Agnes's hands are in her lap, and beside her, against the bed, there is a stout ash stick that was not there before. 'Nights. In the dark.' She does not say anything about the stick, and you do not ask.".
+  }
+  Topic huw_after with huw "Ask Huw what he will make here" when leavingBegun() and goes(huw) once {
+    Says "'Heather mead.' Huw Penry spreads his arms at whatever is round him: moor, chalk, tower or tree. 'Wild, dark, strong as a horse. A new country, a new mead. The first barrel will be ready at the Lime Feast, and they'll drink it at the first Calling of this comb in thirty years' time and say: Penry made that, the year he came.' He lowers his voice. 'I've brought bee-bread. Just in case.'".
+  }
+  // Smoke End, which hears of it.
+  Topic martin_after with martin "Ask Martin what Smoke End says of the Leaving" when leavingBegun() once {
+    Says "'That they went.' Martin turns his good ear to you. 'That the sky over the gorge went brown and the whole street came out to look, and the wax-buyers were up the gorge before the bees were over the Brow, buying what the stayers couldn't carry back.' He wipes the board. 'And that a stranger walked about up there all week asking questions.' He looks at you. 'They say that too.'".
+  }
+  Topic elspet_after with elspet "Ask Elspet how the Comb is, half empty" when leavingBegun() once {
+    Says "'Quieter.' Elspet wipes her hands. 'I scent half as many, and the Sisters are thinner on the stair, and in a year they'll have bred it back and nobody will remember how loud it was.' She looks at you over her spectacles, and leans in, out of habit, and smells you.".
+  }
+  Observe elspet_ours near elspet when named(party) and leavingBegun() "When Elspet Garnock smells you now, something in her face eases, as it does for the Comb's own.".
+}

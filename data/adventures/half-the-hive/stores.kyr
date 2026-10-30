@@ -9,7 +9,7 @@ Module hume "Half the Hive" {
   Person agnes "Agnes Mellor" at mellor_cell {
     Role "the Capper's widow: a heavy, quiet woman with grey plaits and a mourning band of black wax on her wrist" when not leavingBegun().
     Role "the Capper's widow" when leavingBegun().
-    Ancestry human. Peaceable. Pronouns she. Manner grim.
+    Ancestry human. Peaceable. Pronouns she. Manner stoic.
     Greets "A heavy grey woman is sitting on the end of the bed with her hands in her lap, the way people sit in a room where somebody has died. She looks up at you without much interest. 'If you're from the Hum-keepers, the answer's still the same,' she says. 'If you're not, sit down. Nobody sits down in here since Tobit.'".
     Greets again "Agnes looks up. 'Sit down.'".
   }
@@ -44,7 +44,7 @@ Module hume "Half the Hive" {
     Says "She looks at the bundle by the door, and at the unpacked half of the room. 'Safe,' she says. 'In the wall, with the others, and nothing coming in the dark.' She gets up and begins, slowly, to pack the other half. 'He'd want me to go. He'd say, go on, woman, you've always wanted a view.' She folds his spare apron and puts it in, and then takes it out again and leaves it on the bed.".
     On discuss { Assert agnesFreed(agnes). }
   }
-  Topic eben_likeness with eben "Ask Eben to carve a likeness of Tobit Mellor for Agnes to carry" when wantsTobit(agnes) and holding(actor, wax_cake) and not holding(actor, tobit_likeness) and not likenessGiven(agnes) once {
+  Topic eben_likeness with eben "Ask Eben to carve a likeness of Tobit Mellor for Agnes to carry" when not leavingBegun() and wantsTobit(agnes) and holding(actor, wax_cake) and not holding(actor, tobit_likeness) and not likenessGiven(agnes) once {
     Says "'Tobit.' Eben puts down his blade. 'I can do Tobit. I've done him on the Stair: fourth turn, with the sealing-iron.' He takes your cake of wax and warms it in his hands. 'Give me an hour.' It is less than an hour. When he gives it to you it is still warm.".
     On discuss { Spend wax_cake from actor. Give tobit_figure to actor. }
   }
