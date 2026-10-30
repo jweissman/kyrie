@@ -59,5 +59,19 @@ describe('Half the Hive in the world', () => {
     expect(j.page).toMatch(/I keep her/);
     expect(j.page).not.toMatch(/The Sisters come for you/);
     expect(c.running).toBe(true);
-  }, 600000);
+    // Left to itself the week goes on: the squire's flask, the Leaving to Larkhill, the Turning-out; the chapter
+    // closes on its ending and the world goes on, with the Wold in it.
+    for (let i = 0; i < 200 && !c.world.related('reached').length; i++) { await j.play('^Wait › An hour'); }
+    expect(c.world.related('reached').map(r => r.args[0])).toEqual([`${drawn!.rid}__lark_owned`]);
+    expect(c.running).toBe(true);
+    expect(c.world.test({ kind: 'call', name: 'stale', args: [`${rid}__edge_south_beyond`] } as never)).toBe(true);
+    // The Leaving is where it went, and its people have their own news.
+    await j.play(`>${drawn!.rid}__chantry_yard`, 'Talk to Kestrel', 'Ask Kestrel how the Leaving does at Larkhill');
+    expect(j.page).toMatch(/Rent/);
+    // And down the road, whoever keeps travellers has heard, and says so.
+    const back = c.module.actions.find(a => a.id.startsWith(`${rid}__edge_south_beyond_back_`))!;
+    await GeneratedWorld.travel(s, c.world.one('at', back.speaker!)!);
+    const told = (await s.perform(PlayerView.choices(c).find(x => x.choice.id.includes(back.id))!.choice.id)).response ?? '';
+    expect(told).toContain('You smell of honey');
+  }, 900000);
 });
