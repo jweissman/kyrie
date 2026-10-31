@@ -5,7 +5,6 @@ import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { ModuleWriter } from '../src/lang/module-writer';
 import { PlaySession } from '../src/session/play-session';
 import { Spatial } from '../src/spatial';
-import { ChoiceList } from '../src/ui/choice-list';
 import { ScreenModel } from '../src/ui/screen-model';
 import { Frontier } from '../src/world/frontier';
 import { WorldAssembler } from '../src/world/world-assembler';
@@ -30,20 +29,21 @@ class Imbar {
 }
 
 describe('Imbar, one plane', () => {
-  it('holds a cold country and Pellam over its west march, and the road between goes across country', async () => {
+  it('holds a cold country and Pellam within it, and the road between goes across country', async () => {
     const w = await WorldAssembler.assemble('rime', NodeBundleSource.shared, { region: { terrain: 'frost' } });
-    expect(w.report.region.beyond!.west!.name).toBe('Pellam on the Lisk');
+    expect(w.report.region.provinces!.map(p => p.name)).toContain('Pellam on the Lisk');
     const s = await PlaySession.start(w.path, 'rime', w.source), c = s.campaign;
-    GeneratedWorld.put(s, 'edge_west');
-    const rid = (await new Frontier('rime', NodeBundleSource.shared).expand(c))!.rid;
-    // One plane called Imbar, the canon's, which the country and the Lisk at Pellam both lie within.
+    GeneratedWorld.put(s, 'gate_pellam');
+    await new Frontier('rime', NodeBundleSource.shared).expand(c);
+    const rid = 'ppellam';
+    // One plane called Imbar, the canon's; Pellam a province of the country (Gate B), and both within it.
     expect(c.module.entities.filter(e => e.space?.kind === 'plane' && e.name === 'Imbar').map(e => e.id))
       .toEqual(['imbar']);
-    expect(Imbar.line(c, 'region__edge_west').slice(-2)).toEqual(['region__region', 'imbar']);
-    expect(Imbar.line(c, `${rid}__north_road`).slice(-2)).toEqual([`${rid}__lisk`, 'imbar']);
-    // At the march-stone, the road over the march goes across country, and no way from it is a planar threshold.
-    const exits = ScreenModel.build(c).exits, march = exits.find(e => e.destination.id === `${rid}__north_road`)!;
-    expect([march.transition, ChoiceList.wayLabel(march)]).toEqual(['travel', 'To the North Road, above Pellam']);
+    expect(Imbar.line(c, 'region__gate_pellam').slice(-2)).toEqual(['region__region', 'imbar']);
+    expect(Imbar.line(c, `${rid}__north_road`).slice(-2)).toEqual(['region__region', 'imbar']);
+    // At its way in, the road on goes across country, and no way from it is a planar threshold.
+    const exits = ScreenModel.build(c).exits, road = exits.find(e => e.destination.id === `${rid}__north_road`)!;
+    expect(road.transition).toBe('travel');
     expect(exits.length).toBeGreaterThan(1);
     expect(exits.filter(e => e.transition === 'cross_plane').map(e => e.destination.id)).toEqual([]);
   }, 180000);

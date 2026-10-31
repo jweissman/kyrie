@@ -27,13 +27,17 @@ export class GeneratedWorld {
     const id = Object.values(placement.carriers).flat()[0]!;
     return { id, room: s.campaign.world.one('at', `region__${id}`)!.replace(/^region__/, '') };
   }
-  // Goes to whoever carries word of the n-th placement and asks them about it.
+  // Goes to whoever carries word of a placement and asks them about it: the word whose topic tells of one of the
+  // placement's own facts (word modules are numbered in the order placements carry word, which the heralds placed
+  // first shift; n, the number expected, is the first tried).
   static async hear(s: PlaySession, placement: Placement, n: number) {
-    const { id, room } = this.carrier(s, placement);
+    const { id, room } = this.carrier(s, placement), c = s.campaign;
     this.put(s, room);
     await s.perform('wait');
-    const ask = PlayerView.choices(s.campaign).map(c => c.choice.id)
-      .find(c => c.startsWith(`ask(region__${id},word${n}__`));
+    const asks = PlayerView.choices(c).map(x => x.choice.id).filter(x => x.startsWith(`ask(region__${id},word`));
+    const ours = (x: string) => c.world.related('reveals', /,(.+)\)$/.exec(x)?.[1] ?? '')
+      .some(r => placement.modules.some(m => r.args[1]!.startsWith(`${m}__`)));
+    const ask = asks.find(x => x.startsWith(`ask(region__${id},word${n}__`) && ours(x)) ?? asks.find(ours);
     if (!ask) { throw new Error(`No one at ${room} to ask about ${placement.scenario}`); }
     return s.perform(ask);
   }

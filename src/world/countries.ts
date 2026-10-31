@@ -133,12 +133,14 @@ export class Countries {
   }
   // The heralds the first region of a world sends out on the roads to the countries next to it (each entered from it,
   // on its own side): those of them that send one, by the side their road goes out.
+  // The authored countries whose heralds the first country holds: those on its first ring, and its provinces (Gate B:
+  // one country, every adventure in it), whose news comes to its towns as a ring's does.
   static heralds(terrain: string, seed: string): { side: Side; country: Country }[] {
     const plan = this.plan(seed, terrain);
-    return Borders.sides.flatMap(side => {
+    return [...Borders.sides.flatMap(side => {
       const c = plan.get(WorldGrid.id(...WorldGrid.next([0, 0], side)));
       return c?.herald && c.side === side ? [{ side, country: c }] : [];
-    });
+    }), ...this.provinces.filter(c => c.herald).map(c => ({ side: c.side, country: c }))];
   }
   private static told(c: Country): Beyond {
     const seen = c.skyline ? { skyline: c.skyline } : {};

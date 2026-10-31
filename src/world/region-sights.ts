@@ -1,6 +1,7 @@
 import { RegionGeography } from './region-geography';
 import { RegionZones } from './region-zones';
 import { RegionBorders } from './region-borders';
+import { Provinces } from './provinces';
 import { RegionWeather } from './region-weather';
 import { Vantage, type Sighting } from './vantage';
 import type { Region } from './region-writer';
@@ -61,11 +62,14 @@ export class RegionSights {
     `  Observe ${id}_way at ${at} as sign when ${seen} and not knows(party, ${s.id}_found)`
       + ` ${q(RegionSites.way(seat, region))} teaches ${s.id}_found.`];
   }
-  // Over a march-stone seen from up there, something of the country beyond it, when its authors give it a skyline.
+  // Over a march-stone seen from up there, something of the country beyond it, when its authors give it a skyline;
+  // and over the way into a province of the country (Gate B), something of the province.
   private static beyond(region: Region, s: Sighting, o: { id: string; at: string; seen: string }): string[] {
     const side = RegionGeography.atlas(region).borders.find(b => RegionBorders.room(b) === s.id)?.side;
-    const skyline = side && region.beyond?.[side]?.skyline;
-    return skyline ? [`  Observe ${o.id}_beyond at ${o.at} as sign when ${o.seen} ${JSON.stringify(`Beyond it, over the march: ${skyline}.`)}.`] : [];
+    const province = (region.provinces ?? []).find(p => Provinces.room(p.country) === s.id);
+    const skyline = side ? region.beyond?.[side]?.skyline : province && Provinces.country(province.country).skyline;
+    const where = side ? 'Beyond it, over the march' : `Beyond it, in ${province?.name ?? ''}`;
+    return skyline ? [`  Observe ${o.id}_beyond at ${o.at} as sign when ${o.seen} ${JSON.stringify(`${where}: ${skyline}.`)}.`] : [];
   }
   // What is seen from a high place: by eye, and past the edge of sight through the glass, a few.
   private static sighted(land: Land, h: { cell: number; kind?: string }, places: { id: string; cell: number }[]) {

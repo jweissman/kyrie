@@ -36,7 +36,7 @@ describe('word that leads somewhere', () => {
     const s = await start(), c = s.campaign;
     const tower = built.report.placements.find(p => p.scenario === 'unquiet-tower')!, id = `region__${tower.bindings.spire}`;
     expect(Itineraries.destinations(c).map(d => d.id)).not.toContain(id);
-    await GeneratedWorld.hear(s, tower, 1);
+    await GeneratedWorld.hear(s, tower, built.report.placements.indexOf(tower) + 1);
     // Out of the taproom the carrier was found in, by its door (hear puts the company there unwalked).
     await GeneratedWorld.travel(s, GeneratedWorld.carrier(s, tower).room.replace(/_[a-z]+$/, '_green'));
     const d = Itineraries.destinations(c).find(x => x.id === id)!;

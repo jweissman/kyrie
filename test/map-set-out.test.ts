@@ -3,6 +3,7 @@ import { ModuleWriter } from '../src/lang/module-writer';
 import { FictionalTime } from '../src/campaign/fictional-time';
 import { Hours } from '../web/reader/hours';
 import { MapCard } from './support/map-card';
+import { Countries } from '../src/world/countries';
 import { MapPlay } from './support/map-play';
 
 // The ways to other countries, set out for from the map (the navigation review: every march-stone and the way into the
@@ -12,7 +13,8 @@ describe('setting out from the map', () => {
   it('goes by the road to each march-stone, named for the country beyond, and draws that country there', async () => {
     const j = await MapPlay.start('kite', 'wanderer'), screen = j.screen(), land = screen.region!.land!;
     const stones = land.marks.filter(m => /__(edge_[a-z]+|gate_\w+)$/.test(m.id));
-    expect(stones.length).toBe(5);
+    // The four march-stones, and the way into each of the country's provinces (Gate B: every adventure in it).
+    expect(stones.length).toBe(4 + Countries.provinces.length);
     for (const m of stones) {
       const card = MapCard.of(screen, m.id);
       expect([m.id, card.command, card.legs > 0]).toEqual([m.id, `travel:${m.id}`, true]);

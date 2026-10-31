@@ -3,12 +3,10 @@ import { readdirSync, readFileSync } from 'node:fs';
 import { WorldAssembler } from '../src/world/world-assembler';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { PlaySession } from '../src/session/play-session';
-import { PlayerView } from '../src/presentation/player-view';
-import { Frontier } from '../src/world/frontier';
 import { Countries } from '../src/world/countries';
 import { WorldGrid } from '../src/world/world-grid';
 import { Borders } from '../src/world/land/borders';
-import { GeneratedWorld } from './support/generated';
+import { ProvincePlay } from './support/province-play';
 
 // One continuing world holds every authored adventure (Mission 16's XIII). Where each lies is decided by the seed
 // before anyone goes anywhere: the first country's marches lead where its folk have always said, and every other
@@ -54,50 +52,21 @@ describe('a world of every adventure', () => {
       .toEqual(Countries.list.map(c => [c.id, [c.id]]));
   });
 
-  it('is told of a country further off, then in full where it is entered, and the road leads in', async () => {
+  // One country, every adventure in it (Mission 18's Gate B): each a province of the first country, its way in on the
+  // country's own land with a road to it from a town, told of in every town, and gone into by that road.
+  it('holds every adventure as a province of the first country, each told of and each with its road in', async () => {
     const w = await WorldAssembler.assemble('kite', NodeBundleSource.shared,
       { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
+    expect(w.report.region.provinces!.map(p => p.country).sort()).toEqual(Countries.list.map(c => c.id).sort());
+    expect(Countries.marches).toEqual([]);
     const s = await PlaySession.start(w.path, 'kite', w.source), c = s.campaign;
-    const frontier = new Frontier('kite', NodeBundleSource.shared);
-    const ask = async (pattern: RegExp) => {
-      const topic = c.module.actions.find(a => pattern.test(a.id))!;
-      await GeneratedWorld.travel(s, c.world.one('at', topic.speaker!)!);
-      const choice = PlayerView.choices(c).find(x => x.choice.id.includes(topic.id))!;
-      return (await s.perform(choice.choice.id)).response ?? '';
-    };
-    // In the first country: Thrume lies beyond Highfells, the country south, east of it (and others, further off).
-    expect(w.report.region.further!.map(f => [f.id, f.side, f.then])).toContainEqual(['thrume', 'south', 'east']);
-    expect(await ask(/^region__edge_south_further_told_/)).toContain('East of it there is Thrume');
-    expect(PlayerView.observe(c).knowledge.map(k => k.id)).toContain('region__edge_south_further_thrume');
-    // Down the road south, over the march, to Highfells, where the innkeepers tell of it in full.
-    await GeneratedWorld.travel(s, 'edge_south');
-    expect((await frontier.expand(c))!.rid).toBe('x0y1');
-    await s.perform(PlayerView.choices(c).find(x => /^go\(link.*x0y1__edge_north\)$/.test(x.choice.id))!.choice.id);
-    expect(await ask(/^x0y1__edge_east_beyond_told_/)).toContain('salt town');
-    expect(c.module.entities.find(e => e.id === 'x0y1__edge_east')!.name).toBe('the march-stone of Thrume');
-    // At its march-stone the road goes on into Thrume, a chapter of the world, and in by the salt road.
-    await GeneratedWorld.travel(s, 'x0y1__edge_east');
-    const drawn = await frontier.expand(c);
-    expect(drawn!.rid).toBe('x1y1');
-    expect(c.installations.find(m => m.id === 'x1y1')?.chapter).toBe(true);
-    await s.perform(PlayerView.choices(c).find(x => /^go\(link.*x1y1__salt_road\)$/.test(x.choice.id))!.choice.id);
-    expect(c.world.one('at', 'party')).toBe('x1y1__salt_road');
-  }, 300000);
-
-  it('goes no further at a march toward one entered from another side, and says so', async () => {
-    const w = await WorldAssembler.assemble('kite', NodeBundleSource.shared,
+    for (const country of Countries.list.filter(x => x.rumour)) {
+      expect(c.module.actions.some(a => a.id.startsWith(`region__gate_${country.id}_beyond_told_`)), country.id).toBe(true);
+    }
+    const { c: into, told } = await ProvincePlay.enter('kite', 'thrume',
       { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
-    const s = await PlaySession.start(w.path, 'kite', w.source), c = s.campaign;
-    const frontier = new Frontier('kite', NodeBundleSource.shared);
-    // Faenn, east of the first, has Thrume south of it; Thrume is entered from Highfells.
-    await GeneratedWorld.travel(s, 'edge_east');
-    expect((await frontier.expand(c))!.rid).toBe('x1y0');
-    const scene = c.module.observations!.find(o => o.id === 'x1y0__edge_south_scene')!.text;
-    expect(scene).toContain('Beyond it lies Thrume');
-    expect(scene).toContain('no road goes over into it from this side. The way in is from Highfells, they say.');
-    await GeneratedWorld.travel(s, 'x1y0__edge_south');
-    expect(frontier.drawing(c)).toBe(false);
-    expect(await frontier.expand(c)).toBeUndefined();
-    expect(c.installed).not.toContain('x1y1');
+    expect(told).toContain('salt town');
+    expect(into.installations.find(m => m.id === 'pthrume')?.chapter).toBe(true);
+    expect(into.world.one('at', 'party')).toBe('pthrume__salt_road');
   }, 300000);
 });

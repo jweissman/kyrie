@@ -9,7 +9,7 @@ import { ModuleAssembly, type AdventureManifest } from './module-assembly';
 import { ModuleNamespace, type ModuleDraft } from './module-namespace';
 import type { InstalledModule } from './definition';
 import type { BundleSource } from './bundle-source';
-import type { Module } from '../lang/module';
+import type { Entity, Module } from '../lang/module';
 import { ModuleShadow } from './module-shadow';
 import { ModuleCanon } from './module-canon';
 import { FictionalTime } from './fictional-time';
@@ -83,6 +83,13 @@ export class ModuleBundle {
     if (!entries.some(e => Composition.isKit(e))) { return { ...manifest, modules: entries as BundleRequest[] }; }
     const composed = await Composition.expand(entries, { seed, source });
     return { ...manifest, modules: composed.modules, composition: composed };
+  }
+  // A story's context with the names of everyone already in the world among those its people are drawn apart from,
+  // where it draws them apart at all.
+  private static apart(context: BundleRequest['context'], people?: readonly Entity[]): BundleRequest['context'] {
+    if (!context || !Array.isArray(context.taken) || !people?.length) { return context; }
+    const named = people.filter(e => e.type === 'group').map(e => (e.name ?? '').split(', ')[0]!).filter(Boolean);
+    return { ...context, taken: [...new Set([...context.taken as string[], ...named])] };
   }
   // What DEEM contributes to a bundle. A bundle that declares no generation is entirely authored.
   private static generated(manifest: BundleManifest, [tables, templates]: [string, string], seed: string,
@@ -259,8 +266,10 @@ export class ModuleBundle {
     rules: shared.flatMap(r => r === 'world' ? ModuleBundle.world : [r])
       .map(name => source.resolve(`data/rules/${name}.kyr`)) };
   }
+  // people: who is in the world already, whose names a story's generated people are drawn apart from as the country's
+  // folk's are (two stories in b2 each gave one of their people Rurik).
   static async load(request: BundleRequest, options: {
-    seed: string; installed?: InstalledModule[]; elapsed?: number;
+    seed: string; installed?: InstalledModule[]; elapsed?: number; people?: readonly Entity[];
   }, source: BundleSource): Promise<ModuleDraft> {
     if (!/^[A-Za-z][A-Za-z0-9-]*$/.test(request.id)) { throw new Error('Invalid module installation ID'); }
     const path = source.resolve(request.bundle);
@@ -280,7 +289,8 @@ export class ModuleBundle {
     const own = files.slice(0, situationPaths.length), mine = this.own(own);
     const seed = RandomStreams.key(options.seed, 'module', mine[0]!.id, request.randomIdentity ?? '');
     const generated = { ...this.generated(manifest, texts.slice(-2) as [string, string], seed,
-      { ...request.context, now: options.elapsed ?? 0 }), imports: manifest.imports ?? [] };
+      { ...ModuleBundle.apart(request.context, options.people), now: options.elapsed ?? 0 }),
+    imports: manifest.imports ?? [] };
     const combined = this.merge(files.slice(situationPaths.length).map(f => this.parsed(f)));
     // What the module names that the shared rules name too is its own, within it (see ModuleShadow).
     const parsed = this.merge(mine);

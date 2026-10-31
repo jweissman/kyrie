@@ -3,6 +3,7 @@
  "countries": [
   {
    "id": "longman",
+   "province": true,
    "bundle": "the-long-man/placed.json",
    "entry": "road_end",
    "marker": "long_man",
@@ -33,6 +34,7 @@
   },
   {
    "id": "thrume",
+   "province": true,
    "bundle": "thrume/placed.json",
    "entry": "salt_road",
    "marker": "thane_ring",
@@ -79,6 +81,7 @@
   },
   {
    "id": "corrow",
+   "province": true,
    "bundle": "let-one-remember/placed.json",
    "entry": "eighth_bend",
    "marker": "teshen",
@@ -98,6 +101,7 @@
   },
   {
    "id": "ghessil",
+   "province": true,
    "bundle": "patient-star/placed.json",
    "entry": "square",
    "marker": "saro",
@@ -118,6 +122,7 @@
   },
   {
    "id": "lowwater",
+   "province": true,
    "bundle": "low-water/placed.json",
    "entry": "rim_road",
    "marker": "deep_gate",
@@ -138,6 +143,7 @@
   },
   {
    "id": "tessary",
+   "province": true,
    "bundle": "what-tessary-owes/placed.json",
    "entry": "causeway_end",
    "marker": "ossel",
@@ -154,6 +160,7 @@
   },
   {
    "id": "wrayford",
+   "province": true,
    "bundle": "wrayford/placed.json",
    "entry": "drove_road",
    "marker": "maudie",
@@ -171,6 +178,7 @@
   },
   {
    "id": "calamy",
+   "province": true,
    "bundle": "parliament-of-books/placed.json",
    "entry": "causey",
    "marker": "sewing_beam",
@@ -189,6 +197,7 @@
   },
   {
    "id": "pentrice",
+   "province": true,
    "bundle": "gosses-company/placed.json",
    "entry": "road_end",
    "marker": "clemency",
@@ -224,6 +233,7 @@
   },
   {
    "id": "pellam",
+   "province": true,
    "bundle": "liberty-of-the-ice/placed.json",
    "entry": "north_road",
    "marker": "ursel",
@@ -242,6 +252,7 @@
   },
   {
    "id": "hessel",
+   "province": true,
    "bundle": "hessel/placed.json",
    "entry": "south_road",
    "marker": "cherrett",
@@ -261,6 +272,7 @@
   },
   {
    "id": "gaunt",
+   "province": true,
    "bundle": "winter-in-carth/placed.json",
    "entry": "cross_road",
    "marker": "carth_vigil",
@@ -279,6 +291,7 @@
   },
   {
    "id": "skeel",
+   "province": true,
    "bundle": "skeel/placed.json",
    "entry": "coast_road",
    "marker": "loveday",
@@ -302,6 +315,7 @@
   },
   {
    "id": "hume",
+   "province": true,
    "bundle": "half-the-hive/placed.json",
    "entry": "drove_end",
    "marker": "mothers_chamber",
@@ -323,6 +337,7 @@
   },
   {
    "id": "lull",
+   "province": true,
    "bundle": "the-lull/placed.json",
    "entry": "march_road",
    "marker": "fold_stone",
@@ -346,6 +361,7 @@
   },
   {
    "id": "larum",
+   "province": true,
    "bundle": "quiet-in-the-sky/placed.json",
    "entry": "road",
    "marker": "cleeve",

@@ -71,7 +71,8 @@ describe('what the map knows of a place', () => {
     // Heard of: the march-stone the north road runs out to, where it is said to stand, by its name and a plain sign;
     // not its hex, nor the land about it.
     const stone = start.land.marks.find(m => m.id === 'region__edge_north')!;
-    expect(stone).toMatchObject({ name: 'the march-stone of Merrowdale', state: 'heard', kind: 'place' });
+    // (Named for the country beyond, drawn from the seed: Merrowdale is a province of this one now, Gate B.)
+    expect(stone).toMatchObject({ name: expect.stringMatching(/^the march-stone of /), state: 'heard', kind: 'place' });
     expect([HexLand.sign(stone), BoardField.kind(stone)]).toEqual(['place', 'place']);
     expect(Knowing.about(start.land, stone.cell).filter(c => start.land.known.includes(c))).toEqual([]);
     // The towns along the roads are names over the unknown, the roads to them drawn only as far as the land is known.

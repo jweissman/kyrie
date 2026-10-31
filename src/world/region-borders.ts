@@ -39,22 +39,25 @@ export class RegionBorders {
     return [`  Place ${id}_land ${q(`the ${b.side}ern marches of ${region.name}`)} is wilderness within region at ${x}, ${y}.`,
       `  Place ${id} ${q(edge)} is room within ${id}_land at 0, 0.`,
       `  Passage ${id}_road ${q(`the old road ${b.side}`)} is road between ${from.id}_green and ${id} taking ${RegionRoads.time(Math.max(60, b.road.hours * RegionRoads.minutesPerHour))}.`,
-      `  Observe ${id}_scene at ${id} when true ${q(`${mark}${there}`)}.`, ...this.rumour(b, beyond, region)];
+      `  Observe ${id}_scene at ${id} when true ${q(`${mark}${there}`)}.`,
+      ...this.rumour({ room: this.room(b), way: `the road ${b.side}`, seat: b.seat }, beyond, region)];
   }
   // What the folk of every town of the country say of an authored country beyond, asked: whoever keeps travellers
   // tells it, named for what it is about, and the way to it from where they are; and where its news is posted, the
   // notice is nailed up where travellers are kept in each. Either is known from then as heard, and puts the road's
   // end on the company's map; the country's roads, which its folk know, take it there.
-  private static rumour(b: Border, beyond: NonNullable<Region['beyond']>[Border['side']], region: Region): string[] {
+  // The same of a province of the country (RegionGates), at its way in: way, the road there as its folk say it.
+  static rumour(b: { room: string; way: string; seat: number }, beyond: NonNullable<Region['beyond']>[Border['side']],
+    region: Region): string[] {
     if (!beyond?.rumour || !beyond.heard) { return []; }
-    const q = JSON.stringify, id = `${this.room(b)}_beyond`, seat = region.settlements[b.seat]!;
+    const q = JSON.stringify, id = `${b.room}_beyond`, seat = region.settlements[b.seat]!;
     // Once the country marks what is said of it old news (seen through), it is not passed on as news.
     const fresh = this.remembers(beyond) ? ` and not stale(${id})` : '';
-    const lines = [`  Discovery ${id} ${q(beyond.heard)}.`, `  Initially Assert leadsTo(${id}, ${this.room(b)}).`,
+    const lines = [`  Discovery ${id} ${q(beyond.heard)}.`, `  Initially Assert leadsTo(${id}, ${b.room}).`,
       ...beyond.notice ? this.notice(b, beyond, region) : []];
     for (const s of region.settlements) {
-      const keeper = `${s.id}_innkeeper`, about = beyond.topic ?? `the road ${b.side}`;
-      const directions = s === seat ? '' : ` '${seat.name} is where the road ${b.side} goes out from,' {${keeper}} adds.`;
+      const keeper = `${s.id}_innkeeper`, about = beyond.topic ?? b.way;
+      const directions = s === seat ? '' : ` '${seat.name} is where ${b.way} goes out from,' {${keeper}} adds.`;
       lines.push(`  Topic ${id}_told_${s.id} with ${keeper} ${q(`Ask {${keeper}} about ${about}`)} when not knows(actor, ${id})${fresh} {`,
         `    Says ${q(beyond.rumour.replaceAll('{keeper}', `{${keeper}}`) + directions)}.`,
         `    On discuss { Assert knows(actor, ${id}). }`, '  }', ...this.back(b, beyond, s.id,
@@ -91,12 +94,13 @@ export class RegionBorders {
   }
   // The notice nailed up where travellers are kept in each town, talked of until the news is old, and then talked of
   // as old news until it comes down.
-  private static notice(b: Border, beyond: NonNullable<NonNullable<Region['beyond']>[Border['side']]>, region: Region) {
-    const q = JSON.stringify, id = `${this.room(b)}_beyond`, notice = `${this.room(b)}_notice`, after = beyond.after;
+  private static notice(b: { room: string }, beyond: NonNullable<NonNullable<Region['beyond']>[Border['side']]>,
+    region: Region) {
+    const q = JSON.stringify, id = `${b.room}_beyond`, notice = `${b.room}_notice`, after = beyond.after;
     const at = region.settlements.map(s => [s.id, SettlementWriter.standing(region, s, 'innkeeper')] as const);
     return [`  Discovery ${notice} ${q(beyond.notice!.text)} {`, ...at.map(([sid, place]) =>
       `    Source ${notice}_${sid} ${q(beyond.notice!.name)} at ${place} readable by party.`),
-    '  }', `  Initially Assert leadsTo(${notice}, ${this.room(b)}).`,
+    '  }', `  Initially Assert leadsTo(${notice}, ${b.room}).`,
     // The notice is seen where it is nailed up, and talked of, before anyone is asked.
     ...at.map(([sid, place]) => `  Observe ${notice}_${sid}_talk at ${place} when ${this.remembers(beyond)
       ? `not stale(${id})` : 'true'} ${q(beyond.notice!.talk)}.`),
@@ -105,11 +109,11 @@ export class RegionBorders {
   }
   // The company back from a country seen through, told what the road brought down of it before the company says its
   // own part: the report and the company's own history, said apart (a world that remembers). The notice comes down.
-  private static back(b: Border, beyond: NonNullable<NonNullable<Region['beyond']>[Border['side']]>, sid: string,
-    place: string) {
+  private static back(b: { room: string }, beyond: NonNullable<NonNullable<Region['beyond']>[Border['side']]>,
+    sid: string, place: string) {
     if (!this.remembers(beyond)) { return []; }
-    const q = JSON.stringify, id = `${this.room(b)}_beyond`, keeper = `${sid}_innkeeper`;
-    const notice = beyond.notice ? `${this.room(b)}_notice_${sid}` : undefined;
+    const q = JSON.stringify, id = `${b.room}_beyond`, keeper = `${sid}_innkeeper`;
+    const notice = beyond.notice ? `${b.room}_notice_${sid}` : undefined;
     return [`  Topic ${id}_back_${sid} with ${keeper} ${q(`Tell {${keeper}} you have been to ${beyond.name}`)} when stale(${id}) once {`,
       `    Says ${q(beyond.after!.told.replaceAll('{keeper}', `{${keeper}}`))}.`,
       ...notice ? [`    On discuss { Retract intact(${notice}). Retract at(${notice}, ${place}). }`] : [], '  }'];

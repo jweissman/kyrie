@@ -72,7 +72,7 @@ describe('a generated region with situated scenarios', () => {
   it('keeps a scenario out of sight until the company hears of it, then opens the way', async () => {
     const world = await Worlds.assemble('thorn', 'mountain');
     const s = await PlaySession.start(world.path, 'thorn', world.source);
-    const way = 'go(sink__sink_path,sink__lip)', brood = world.report.placements[0]!;
+    const way = 'go(sink__sink_path,sink__lip)', brood = world.report.placements.find(p => p.scenario === 'brood-hollow')!;
     // At the sinkhole before anyone has said a word of it: the way down is not there to be taken.
     GeneratedWorld.put(s, brood.bindings.approach!);
     await s.perform('wait');

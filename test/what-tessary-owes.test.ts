@@ -7,9 +7,7 @@ import { Journey } from '../src/session/journey';
 import type { CreatureStore } from '../src/creature-store';
 import { PlaySession } from '../src/session/play-session';
 import { PlayerView } from '../src/presentation/player-view';
-import { WorldAssembler } from '../src/world/world-assembler';
-import { Frontier } from '../src/world/frontier';
-import { GeneratedWorld } from './support/generated';
+import { ProvincePlay } from './support/province-play';
 
 // What Tessary Owes (doc/adventures/what-tessary-owes): each journey plays by the labels a player sees, from the
 // steps in test/fixtures/tessary, and checks what the world did. The standalone campaign starts at eight in the
@@ -370,20 +368,13 @@ describe('What Tessary Owes: saving, replaying, and the world it lies in', () =>
     expect(a.j.taken.map(x => x.told)).toEqual(b.j.taken.map(x => x.told));
   }, 240000);
 
-  it('a generated marsh country holds Tessary beyond its east march, its innkeeper tells of it, and the road leads in', async () => {
-    const w = await WorldAssembler.assemble('ossel', NodeBundleSource.shared, { region: { terrain: 'marsh' } });
-    expect(w.report.region.beyond!.east!.name).toBe('the Ossel delta');
-    const s = await PlaySession.start(w.path, 'ossel', w.source);
-    const told = s.campaign.module.actions.find(a => a.id.startsWith('region__edge_east_beyond_told_'))!;
-    GeneratedWorld.put(s, s.campaign.world.one('at', told.speaker!)!.replace(/^region__/, ''));
-    expect(await Journey.of(s).play('about the road east')).toContain('walking into the sea');
-    expect(PlayerView.observe(s.campaign).knowledge.some(k => k.id === 'region__edge_east_beyond')).toBe(true);
-    await GeneratedWorld.travel(s, 'edge_east');
-    const drawn = await new Frontier('ossel', NodeBundleSource.shared).expand(s.campaign);
-    expect(s.campaign.installations.find(m => m.id === drawn!.rid)?.chapter).toBe(true);
+  it('a generated marsh country holds Tessary as a province, its innkeeper tells of it, and the road leads in', async () => {
+    const { s, told, rid } = await ProvincePlay.enter('ossel', 'tessary', { region: { terrain: 'marsh' } });
+    expect(told).toContain('walking into the sea');
+    expect(PlayerView.observe(s.campaign).knowledge.some(k => k.id === 'region__gate_tessary_beyond')).toBe(true);
+    expect(s.campaign.installations.find(m => m.id === rid)?.chapter).toBe(true);
     const j = Journey.of(s);
-    await j.play("Causeway, at the marsh's edge");
-    expect(s.campaign.world.one('at', 'party')).toBe(`${drawn!.rid}__causeway_end`);
+    expect(s.campaign.world.one('at', 'party')).toBe(`${rid}__causeway_end`);
     expect(await j.play('To the Landgate', 'notice')).toContain('Nan Teazle');
   }, 240000);
 });

@@ -39,11 +39,12 @@ class High {
 describe('somewhere high', () => {
   it('shows, climbed, what is in sight of it, and each is somewhere to set out for after', async () => {
     const { c, told } = await High.climbed('larch');
-    // (Thrume's: the Bowl of Ammerlin's until the Strewnfield became a province of the first country, Mission 18.)
-    expect(told).toContain('To the north-east, not far off: the march-stone of Thrume.');
+    // (A country drawn from the seed's: Thrume's until every adventure became a province of the first country, Gate B.)
+    expect(told.some(t => /^To the north-east, not far off: the march-stone of \S+\.$/.test(t))).toBe(true);
     expect(told).toContain('To the north-east, not far off: a half-fallen tower.');
     const going = Itineraries.destinations(c).map(d => d.name);
-    expect(going).toEqual(expect.arrayContaining(['the march-stone of Thrume', 'a half-fallen tower']));
+    expect(going).toEqual(expect.arrayContaining(['a half-fallen tower']));
+    expect(going.some(g => /^the march-stone of /.test(g))).toBe(true);
     const fact = c.module.entities.find(e => e.type === 'fact' && /_saw\d+$/.test(e.id))!;
     expect(c.world.test(ModuleWriter.call('knows', c.playerActor!, fact.id))).toBe(true);
   }, 120000);
@@ -110,14 +111,11 @@ describe('somewhere high', () => {
       'To the south, far off, through the glass: a cave in the hillside in Pinehurst.',
       'To the south, far off, through the glass: the footbridge over the Swiftwater.',
       'To the south-east, far off, through the glass: the foot of Bittermoor by Oldgreen.']);
-    // Over the march-stone of Merrowdale, something of the country beyond: the Long Man, before anyone speaks of it.
-    expect(lines).toContain('Beyond it, over the march: a long ridge laid straight across the head of a dale, too straight'
-      + ' for a hill.');
     // On the map from then on, by their look: no ruin's name is glossed there before it is learned. Nor is a Common
     // name, which says what it means: only Wannstede's old Westron and Levankhafar's Khuzdul are. The broken keep the
     // hobs hold is named, and glossed, as the first town says it of the bell they took (the expedition diagnosis).
     const land = ScreenModel.build(c).region!.land!, marks = land.marks.map(m => m.name);
-    expect(marks).toEqual(expect.arrayContaining(['Gefeohtgaet', 'the march-stone of Merrowdale']));
+    expect(marks).toEqual(expect.arrayContaining(['Gefeohtgaet']));
     expect(Object.keys(land.glosses).map(id => id.replace(/^region__/, ''))).toEqual(['s3', 's4', 'w5']);
     // A site seen through it is seen with the way to it, as one seen nearer is.
     expect(lines).toContain('The way to a cave in the hillside in Pinehurst: to the edge of Pinehurst by Levankhafar,'

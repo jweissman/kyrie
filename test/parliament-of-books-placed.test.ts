@@ -10,20 +10,19 @@ import { GeneratedWorld } from './support/generated';
 // chooses; beyond the east march of a cold country, where the river runs out through the reeds and the estuary
 // begins. Its nine days to the Kindling run from the morning after it is reached; its folk speak of it in the
 // country before; and after the Kindling it goes on, changed, with no ending to close the book.
-describe('Calamy beyond a march', () => {
-  it('is spoken of in a cold country, held beyond its east march, and its Kindling falls nine days on from reaching it', async () => {
+describe('Calamy in the one country', () => {
+  it('is spoken of in a cold country, a province of it, and its Kindling falls nine days on from reaching it', async () => {
     const w = await WorldAssembler.assemble('cold', NodeBundleSource.shared, { region: { terrain: 'frost' } });
-    expect(w.report.region.beyond!.east!.name).toBe('Calamy');
+    expect(w.report.region.provinces!.map(p => p.name)).toContain('Calamy');
     const s = await PlaySession.start(w.path, 'cold', w.source), frontier = new Frontier('cold', NodeBundleSource.shared);
-    await GeneratedWorld.travel(s, 'edge_east');
-    const drawn = await frontier.expand(s.campaign);
-    expect(drawn!.region).toBeUndefined();
-    const rid = drawn!.rid, L = (x: string) => `${rid}__${x}`;
+    await GeneratedWorld.travel(s, 'gate_calamy');
+    await frontier.expand(s.campaign);
+    const rid = 'pcalamy', L = (x: string) => `${rid}__${x}`;
     expect(s.campaign.module.entities.some(e => e.id === L('sewing_beam'))).toBe(true);
     // No ending is installed in a world that goes on.
     expect(s.campaign.module.entities.some(e => e.id === L('lending'))).toBe(false);
     const go = async (re: RegExp) => { const c = PlayerView.choices(s.campaign).find(x => re.test(x.choice.name)); if (!c) { throw new Error(`No ${re} among ${PlayerView.choices(s.campaign).map(x => x.choice.name).join(' | ')}`); } return s.perform(c.choice.id); };
-    await go(/road across the march/);
+    await go(/road on into Calamy/);
     expect(s.campaign.world.one('at', 'party')).toBe(L('causey'));
     await go(/causeway into the Hithe/);
     await go(/door under the lantern/);

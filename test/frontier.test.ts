@@ -4,7 +4,6 @@ import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { PlaySession } from '../src/session/play-session';
 import { PlayerView } from '../src/presentation/player-view';
 import { Frontier } from '../src/world/frontier';
-import { Countries } from '../src/world/countries';
 import { WorldGrid } from '../src/world/world-grid';
 import { RegionLand } from '../src/world/region-land';
 import { GeneratedWorld } from './support/generated';
@@ -82,25 +81,25 @@ describe('the world beyond a region', () => {
     expect(PlayerView.choices(back.campaign).some(c => c.choice.id.startsWith('go('))).toBe(true);
     expect(back.campaign.module.entities.find(e => e.id === 'xm1y0__region')?.name).toBe(west.name);
   }, 120000);
-  it('holds an authored country where it fits: the Long Man beyond the north march of an upland country, once', async () => {
+  // Merrowdale a province of the first country (Gate B: one country, every adventure in it): installed where its way in
+  // stands, once, its three days run from the morning after it is reached.
+  it('holds an authored country as a province: the Long Man installed at its way in, once', async () => {
     const w = await WorldAssembler.assemble('thorn', NodeBundleSource.shared, { region: { terrain: 'mountain' } });
     const s = await PlaySession.start(w.path, 'thorn', w.source), frontier = new Frontier('thorn', NodeBundleSource.shared);
-    expect(w.report.region.beyond!.north!.name).toBe('Merrowdale');
-    await GeneratedWorld.travel(s, 'edge_north');
-    const elapsed = s.campaign.state.elapsed, drawn = await frontier.expand(s.campaign);
-    expect(drawn!.region).toBeUndefined();
-    expect(s.campaign.module.entities.some(e => e.id === `${drawn!.rid}__long_man`)).toBe(true);
-    // Merrowdale is set in no plane, and so is in Imbar: the road in from a country of Imbar is no planar crossing.
-    expect(March.way(s, `${drawn!.rid}__road_end`)).toBe('travel');
-    await March.choose(s, /road across the march/);
-    expect(s.campaign.world.one('at', 'party')).toBe(`${drawn!.rid}__road_end`);
+    expect(w.report.region.provinces!.map(p => p.name)).toContain('Merrowdale');
+    await GeneratedWorld.travel(s, 'gate_longman');
+    const elapsed = s.campaign.state.elapsed;
+    expect(await frontier.expand(s.campaign)).toBeUndefined();
+    expect(s.campaign.module.entities.some(e => e.id === 'plongman__long_man')).toBe(true);
+    await March.choose(s, /^Take the road on into Merrowdale/);
+    expect(s.campaign.world.one('at', 'party')).toBe('plongman__road_end');
     // Its three days run from the morning after it is reached, not from when the world began (see placed-days).
-    const storm = s.campaign.module.rules!.find(r => r.id === `${drawn!.rid}__storm_comes`)!;
+    const storm = s.campaign.module.rules!.find(r => r.id === 'plongman__storm_comes')!;
     expect(JSON.stringify(storm.when)).toContain(`"value":${312 + Math.ceil(elapsed / 144) * 144}`);
-    // Placed once: another upland country's north march leads somewhere else (a country of its own, or another
-    // authored one that lies north, as the Lull does), never into Merrowdale again.
-    expect(Countries.fits('mountain', 'north', c => s.campaign.module.entities.some(e => e.id.endsWith(`__${c.marker}`)), 'thorn')
-      ?.id).not.toBe('longman');
+    // Once: standing at the way in again installs nothing more.
+    const installed = s.campaign.installed.length;
+    await frontier.expand(s.campaign);
+    expect(s.campaign.installed.length).toBe(installed);
   }, 120000);
   // The independent review's E2: a later country's march-stone named its own neighbour ("into Loxorloew, fen
   // country"), and the frontier installed an authored country beyond it. Only the first country's marches lead into
@@ -123,35 +122,22 @@ describe('the world beyond a region', () => {
   }, 180000);
   // The independent adventures, as countries a generated world may hold: one to a world, as its seed chooses, beyond
   // the first march where it fits; the folk of the first region speak of it, and the road across leads in.
-  it('holds one independent adventure, as its seed chooses, beyond the march where it fits, and leads the company in', async () => {
-    // (h2: f1 held Thrume east until the Strewnfield became a province of the first country, Mission 18.)
-    const f1 = await WorldAssembler.assemble('h2', NodeBundleSource.shared);
-    const beyond = Object.values(f1.report.region.beyond!).map(c => c!.name);
-    expect([f1.report.region.terrain, f1.report.region.beyond!.east!.name]).toEqual(['forest', 'Thrume']);
-    expect(beyond.filter(n => ['the Strewnfield', 'the Corrow', 'the Ghessil Uplands', 'the Bowl of Ammerlin']
-      .includes(n))).toEqual([]);
-    const s = await PlaySession.start(f1.path, 'h2', f1.source);
-    await GeneratedWorld.travel(s, 'edge_east');
-    const thrume = await new Frontier('h2', NodeBundleSource.shared).expand(s.campaign);
-    await March.choose(s, /road across the march to the salt road/);
-    expect(s.campaign.world.one('at', 'party')).toBe(`${thrume!.rid}__salt_road`);
-    expect(await Journey.of(s).play('^To the market', 'notice')).toContain('THE GIANT MÓRRACH');
-    // The Patient Star says what it will of the company that comes in (its breath, its memories), by names of its own.
+  // The independent adventures are provinces too: the Ghessil Uplands' rumour a hook in every town, known as heard
+  // from whoever told it, and its road in from its way in.
+  it('holds the independent adventures as provinces, each told of and led into', async () => {
     const wren = await WorldAssembler.assemble('wren', NodeBundleSource.shared);
-    expect(wren.report.region.beyond!.west!.name).toBe('the Ghessil Uplands');
+    expect(wren.report.region.provinces!.map(p => p.name)).toContain('the Ghessil Uplands');
     const u = await PlaySession.start(wren.path, 'wren', wren.source);
-    // Its rumour is a hook: whoever keeps travellers in any town of the country tells it, asked about it by its name,
-    // and it is known as heard from them.
-    const told = u.campaign.module.actions.find(a => a.id.startsWith('region__edge_west_beyond_told_'))!;
+    const told = u.campaign.module.actions.find(a => a.id.startsWith('region__gate_ghessil_beyond_told_'))!;
     GeneratedWorld.put(u, u.campaign.world.one('at', told.speaker!)!.replace(/^region__/, ''));
     expect(await Journey.of(u).play('about the Ghessil Uplands')).toContain('people standing in it');
-    const known = PlayerView.observe(u.campaign).knowledge.find(k => k.id === 'region__edge_west_beyond')!;
+    const known = PlayerView.observe(u.campaign).knowledge.find(k => k.id === 'region__gate_ghessil_beyond')!;
     const keeper = u.campaign.module.entities.find(e => e.id === told.speaker)!.name;
     expect([known.source, known.from?.startsWith(keeper)]).toEqual(['heard', true]);
-    await GeneratedWorld.travel(u, 'edge_west');
-    const ghessil = await new Frontier('wren', NodeBundleSource.shared).expand(u.campaign);
-    await March.choose(u, /road across the march to the Shift Market/);
-    expect(u.campaign.world.one('at', 'party')).toBe(`${ghessil!.rid}__square`);
+    await GeneratedWorld.travel(u, 'gate_ghessil');
+    await new Frontier('wren', NodeBundleSource.shared).expand(u.campaign);
+    await March.choose(u, /road on into the Ghessil Uplands/);
+    expect(u.campaign.world.one('at', 'party')).toBe('pghessil__square');
   }, 180000);
 });
 

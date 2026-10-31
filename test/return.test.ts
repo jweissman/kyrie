@@ -17,10 +17,11 @@ describe('coming back from Merrowdale', () => {
     const w = await WorldAssembler.assemble('thorn', NodeBundleSource.shared, { region: { terrain: 'mountain' } });
     const s = await PlaySession.start(w.path, 'thorn', w.source), c = s.campaign;
     const choose = async (re: RegExp) => s.perform(PlayerView.choices(c).find(x => re.test(x.choice.name))!.choice.id);
-    const word = 'region__edge_north_beyond';
-    await GeneratedWorld.travel(s, 'edge_north');
+    // Merrowdale a province of the country (Gate B): its way in on the country's land, the road on into it.
+    const word = 'region__gate_longman_beyond';
+    await GeneratedWorld.travel(s, 'gate_longman');
     await new Frontier('thorn', NodeBundleSource.shared).expand(c);
-    for (const re of [/road across the march/, /Merrow green/, /Hall yard/, /Untie the tarpaulin/, /^Take .*bell-teeth/,
+    for (const re of [/road on into|road_end|the road's end/i, /Merrow green/, /Hall yard/, /Untie the tarpaulin/, /^Take .*bell-teeth/,
       /to the crest/i]) { await choose(re); }
     expect(c.world.test(ModuleWriter.call('stale', word))).toBe(false);
     await choose(/Give a sack of bell-teeth to the Mower/);

@@ -314,9 +314,9 @@ describe("Gosse's Company: saving, replaying, and the world it lies in", () => {
     expect(a.j.taken.map(x => x.told)).toEqual(b.j.taken.map(x => x.told));
   }, 240000);
 
-  it('a generated forest country holds the vale of the Arle beyond its west march, the players stuck on a green on the road there, and the road in', async () => {
+  it('a generated forest country holds the vale of the Arle as a province, the players stuck on a green on the road there, and the road in', async () => {
     const w = await WorldAssembler.assemble('troupe', NodeBundleSource.shared, { region: { terrain: 'forest' } });
-    expect(w.report.region.beyond!.west!.name).toBe('the vale of the Arle');
+    expect(w.report.region.provinces!.map(p => p.name)).toContain('the vale of the Arle');
     // The herald: the players are on the green of the town the west road leaves from, and the inns have heard.
     const herald = w.report.placements.find(pl => pl.scenario === 'players')!;
     expect(herald).toBeDefined();
@@ -327,14 +327,14 @@ describe("Gosse's Company: saving, replaying, and the world it lies in", () => {
     const j = Journey.of(s);
     expect(await j.play('Ask Gosse what has happened')).toMatch(/chain/i);
     // The innkeeper tells of the country to the west.
-    const told = s.campaign.module.actions.find(a => a.id.startsWith('region__edge_west_beyond_told_'))!;
+    const told = s.campaign.module.actions.find(a => a.id.startsWith('region__gate_pentrice_beyond_told_'))!;
     GeneratedWorld.put(s, s.campaign.world.one('at', told.speaker!)!.replace(/^region__/, ''));
     expect(await j.play('about the Trial of the Wheel at Pentrice')).toMatch(/Trial|Pentrice|players/);
-    await GeneratedWorld.travel(s, 'edge_west');
-    const drawn = await new Frontier('troupe', NodeBundleSource.shared).expand(s.campaign);
-    expect(s.campaign.installations.find(m => m.id === drawn!.rid)?.chapter).toBe(true);
+    await GeneratedWorld.travel(s, 'gate_pentrice');
+    await new Frontier('troupe', NodeBundleSource.shared).expand(s.campaign);
+    expect(s.campaign.installations.find(m => m.id === 'ppentrice')?.chapter).toBe(true);
     await j.play('West Road above Pentrice');
-    expect(s.campaign.world.one('at', 'party')).toBe(`${drawn!.rid}__road_end`);
+    expect(s.campaign.world.one('at', 'party')).toBe('ppentrice__road_end');
     expect(await j.play('To the Westgate')).toMatch(/Westgate/);
   }, 240000);
 });

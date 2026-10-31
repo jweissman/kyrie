@@ -4,6 +4,7 @@ import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { PlaySession } from '../src/session/play-session';
 import { PlayerView } from '../src/presentation/player-view';
 import { Itineraries } from '../src/ui/itinerary';
+import { Countries } from '../src/world/countries';
 import { Travel } from '../src/session/travel';
 import { GeneratedWorld } from './support/generated';
 import { ScreenModel } from '../src/ui/screen-model';
@@ -27,18 +28,19 @@ describe('the way into Merrowdale', () => {
     expect(roads.map(d => d.id).filter(id => towns.includes(id)).sort())
       .toEqual(towns.filter(t => !here.startsWith(t)).sort());
     expect(roads.map(d => d.id).filter(id => !towns.includes(id)).sort()).toEqual(['region__edge_east', 'region__edge_north',
-      'region__edge_south', 'region__edge_west', 'region__gate_strewnfield']);
+      'region__edge_south', 'region__edge_west', ...Countries.list.map(x => `region__gate_${x.id}`)].sort());
     expect(roads.every(d => d.legs.length > 0 && d.minutes > 0)).toBe(true);
     expect(roads.some(d => leads.some(l => l.id === d.id))).toBe(false);
   }, 120000);
   it('is told in the town the protagonist comes to, and is one journey along known roads', async () => {
     const w = await WorldAssembler.assemble('wren', NodeBundleSource.shared, { origin: 'wanderer',
       party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
-    expect(w.report.region.beyond!.north!.name).toBe('Merrowdale');
+    // Merrowdale a province of the country (Gate B: one country, every adventure in it).
+    expect(w.report.region.provinces!.map(p => p.name)).toContain('Merrowdale');
     const s = await PlaySession.start(w.path, 'wren', w.source);
     const c = s.campaign, names = () => PlayerView.choices(c).map(x => x.choice.name);
     // Every town's keeper of travellers can tell it, named for what it is about.
-    const told = c.module.actions.filter(a => a.id.startsWith('region__edge_north_beyond_told_'));
+    const told = c.module.actions.filter(a => a.id.startsWith('region__gate_longman_beyond_told_'));
     expect(told.length).toBe(w.report.region.settlements.length);
     await s.perform(PlayerView.choices(c).find(x => /bailey/.test(x.choice.name))!.choice.id);
     await s.perform(PlayerView.choices(c).find(x => /Wooden Wolf/.test(x.choice.name))!.choice.id);
@@ -46,21 +48,21 @@ describe('the way into Merrowdale', () => {
     expect(Itineraries.destinations(c)).toEqual([]);
     await s.perform(PlayerView.choices(c).find(x => x.choice.name === 'Ask Fargrim about the forty crowns in Merrowdale')!
       .choice.id);
-    // Known, the march-stone is somewhere to set out for, by the country's roads.
+    // Known, the way in is somewhere to set out for, by the country's roads.
     const [to] = Itineraries.destinations(c);
-    expect([to?.name, to?.legs.map(l => l.way)]).toEqual(['the march-stone of Merrowdale',
-      ['the door of the Wooden Wolf', 'the Karavor road', 'the Karavor road', 'the old road north']]);
+    expect(to?.name).toBe('the way into Merrowdale');
+    expect(to!.legs.length).toBeGreaterThan(1);
     const done = await Travel.go({ campaign: c, perform: command => s.perform(command) }, to!.id);
-    expect([done.arrived, done.stopped, done.legs.length]).toEqual([true, undefined, 4]);
+    expect([done.arrived, done.stopped, done.legs.length]).toEqual([true, undefined, to!.legs.length]);
     // Told as one journey: it sets out once, not on every leg, and the land is not told twice over (the free play
     // read "You set out from …, and the rain sets out with you" on four legs running).
     const voiced = done.legs.flatMap(l => l.event.voiced ?? []);
     expect(voiced.filter(v => v.kind === 'journey-depart').length).toBe(1);
     const land = voiced.filter(v => v.kind === 'journey-land').map(v => v.text);
     expect(new Set(land).size).toBe(land.length);
-    expect(c.world.one('at', c.playerActor!)).toBe('region__edge_north');
+    expect(c.world.one('at', c.playerActor!)).toBe('region__gate_longman');
     // Each leg is an ordinary command in the transcript, so the journey replays as it was made.
-    expect(s.transcript.steps.slice(-4).every(step => step.command.startsWith('go('))).toBe(true);
+    expect(s.transcript.steps.slice(-done.legs.length).every(step => step.command.startsWith('go('))).toBe(true);
   }, 180000);
   // The free play crossed the bridge over the Karnahar "with your boots full": a road crosses its river as it is
   // built to, by its bridge or its ford.

@@ -129,8 +129,8 @@ export class Campaign implements WatchHost {
     this.installBoundary();
     if (!this.definition?.installations) { throw new Error('Install modules into a bundle-based campaign'); }
     await CanonInstall.before(this, request, source); const startedAt = this.current.elapsed;
-    const draft = await ModuleBundle.load(request, { seed: this.current.seed,
-      elapsed: this.current.elapsed, installed: this.definition.installations }, source);
+    const draft = await ModuleBundle.load(request, { seed: this.current.seed, elapsed: this.current.elapsed,
+      installed: this.definition.installations, people: this.compiled.entities }, source);
     this.installBoundary();
     if (this.current.elapsed !== startedAt) { throw new Error('Campaign advanced while loading module; retry installation'); }
     Overlays.declareGear(draft.instance); Overlays.declareWorth(draft.instance);

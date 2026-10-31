@@ -4,9 +4,7 @@ import { KyrLint } from '../src/cli/kyr-lint';
 import { Journey } from '../src/session/journey';
 import { PlaySession } from '../src/session/play-session';
 import { PlayerView } from '../src/presentation/player-view';
-import { WorldAssembler } from '../src/world/world-assembler';
-import { Frontier } from '../src/world/frontier';
-import { GeneratedWorld } from './support/generated';
+import { ProvincePlay } from './support/province-play';
 import { Wrayford, build, home, steps, w } from './support/wrayford';
 
 // The Third Night (doc/adventures/the-third-night): each journey plays by the labels a player sees, from the steps in
@@ -231,20 +229,13 @@ describe('The Third Night: saving, replaying, and the world it lies in', () => {
     expect(a.j.taken.map(x => x.told)).toEqual(b.j.taken.map(x => x.told));
   }, 240000);
 
-  it('a generated mountain country holds Wrayford beyond its south march, its innkeeper tells of it, and the road leads in', async () => {
-    const world = await WorldAssembler.assemble('wray', NodeBundleSource.shared, { region: { terrain: 'mountain' } });
-    expect(world.report.region.beyond!.south!.name).toBe('the vale of the Wray');
-    const s = await PlaySession.start(world.path, 'wray', world.source);
-    const told = s.campaign.module.actions.find(a => a.id.startsWith('region__edge_south_beyond_told_'))!;
-    GeneratedWorld.put(s, s.campaign.world.one('at', told.speaker!)!.replace(/^region__/, ''));
-    expect(await Journey.of(s).play('about the bridge at Wrayford')).toContain('hanged three of them off the gatehouse');
-    expect(PlayerView.observe(s.campaign).knowledge.some(k => k.id === 'region__edge_south_beyond')).toBe(true);
-    await GeneratedWorld.travel(s, 'edge_south');
-    const drawn = await new Frontier('wray', NodeBundleSource.shared).expand(s.campaign);
-    expect(s.campaign.installations.find(m => m.id === drawn!.rid)?.chapter).toBe(true);
+  it('a generated mountain country holds Wrayford as a province, its innkeeper tells of it, and the road leads in', async () => {
+    const { s, told, rid } = await ProvincePlay.enter('wray', 'wrayford', { region: { terrain: 'mountain' } });
+    expect(told).toContain('hanged three of them off the gatehouse');
+    expect(PlayerView.observe(s.campaign).knowledge.some(k => k.id === 'region__gate_wrayford_beyond')).toBe(true);
+    expect(s.campaign.installations.find(m => m.id === rid)?.chapter).toBe(true);
     const j = Journey.of(s);
-    await j.play('drove road, above Wrayford');
-    expect(s.campaign.world.one('at', 'party')).toBe(`${drawn!.rid}__drove_road`);
+    expect(s.campaign.world.one('at', 'party')).toBe(`${rid}__drove_road`);
     // A stranger: not told whose coat hangs by the door, nor called kin.
     const kitchen = await j.play('To Northgate', 'To Wain Row', 'Into the Pardoe house');
     expect(kitchen).toMatch(/a man.s coat on a hook/);
@@ -252,11 +243,11 @@ describe('The Third Night: saving, replaying, and the world it lies in', () => {
     // Left alone, the four days go by in the city; the chapter closes at the verdict, and the world goes on.
     const start = j.watch();
     while (!s.campaign.world.related('reached').length && j.watch() < start + 800) { await j.play(`=${j.watch() + 6}`); }
-    expect(s.campaign.world.related('reached').map(r => r.args[0])).toEqual([`${drawn!.rid}__third_night`]);
+    expect(s.campaign.world.related('reached').map(r => r.args[0])).toEqual([`${rid}__third_night`]);
     expect(s.campaign.running).toBe(true);
     expect(j.page).toMatch(/The kitchen is cold/);
     expect(j.page).not.toMatch(/kitchen is cold[^[]*kneading/);
-    await j.play('Out to Wain Row', 'To Northgate', 'drove road', 'march-stone');
-    expect(s.campaign.world.one('at', 'party')).not.toMatch(new RegExp(`^${drawn!.rid}__`));
+    await j.play('Out to Wain Row', 'To Northgate', 'drove road', 'way into');
+    expect(s.campaign.world.one('at', 'party')).not.toMatch(new RegExp(`^${rid}__`));
   }, 240000);
 });

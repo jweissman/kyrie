@@ -1,6 +1,5 @@
 import { describe, expect, it } from 'bun:test';
 import type { Journey } from '../src/session/journey';
-import { MapCard } from './support/map-card';
 import { MapPlay } from './support/map-play';
 import { SiteScale } from '../src/ui/site-scale';
 
@@ -63,16 +62,16 @@ describe('the map in a country over the march', () => {
   }, 600000);
   // An authored country's land has no stretches of open country: a hex is of the place whose block of it it lies in.
   // The town first: from the end of the south road the hex nearest that is of another place is of the town.
-  it('in an authored country, comes to its town, and to the place a hex chosen lies in', async () => {
+  // Merrowdale a province of the country (Gate B): gone into by its way in, the map is still the country's, and from
+  // inside the dale the country's hexes are somewhere to set out for.
+  it('in an authored province, is still the country\'s map, and comes back out to a hex chosen', async () => {
     const j = await MapPlay.start('kite', 'wanderer');
-    expect((await MapPlay.reach(j, 'region__edge_north')).arrived).toBe(true);
+    expect((await MapPlay.reach(j, 'region__gate_longman')).arrived).toBe(true);
     await j.step('^To the end of the south road');
-    const town = Picks.town(j, 'x0ym1__');
-    expect(await MapPlay.press(j, town)).toEqual({ to: town, arrived: true });
-    const land = Picks.land(j), hex = Picks.beside(j);
-    expect([land.tracts, !!land.blocks]).toEqual([undefined, true]);
-    const block = Picks.block(j, hex);
-    expect(MapCard.of(j.screen(), `hex:${land.here}`).text).toContain('You are here already.');
-    expect(await MapPlay.press(j, `hex:${hex}`)).toEqual({ to: block, arrived: true });
+    expect(MapPlay.at(j)).toMatch(/^plongman__/);
+    const land = Picks.land(j);
+    expect(land.tracts).toBeDefined();
+    const dry = land.known.find(c => !['~', 'o'].includes(land.cover[c]!) && c !== land.here)!;
+    expect((await MapPlay.press(j, `hex:${dry}`)).arrived).toBe(true);
   }, 600000);
 });

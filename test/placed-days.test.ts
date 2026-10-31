@@ -23,7 +23,8 @@ describe('a country reached partway through a day', () => {
   it('counts its days from the next morning, so its storm comes at the hour its author meant', async () => {
     const w = await WorldAssembler.assemble('thorn', NodeBundleSource.shared, { region: { terrain: 'mountain' } });
     const s = await PlaySession.start(w.path, 'thorn', w.source), c = s.campaign;
-    await GeneratedWorld.travel(s, 'edge_north');
+    // Merrowdale a province of the country (Gate B): reached at its way in.
+    await GeneratedWorld.travel(s, 'gate_longman');
     const reached = c.state.elapsed;
     await new Frontier('thorn', NodeBundleSource.shared).expand(c);
     const storm = Days.due(c.module.rules!.find(r => r.id.endsWith('__storm_comes'))!.when)!;

@@ -4,10 +4,7 @@ import { KyrLint } from '../src/cli/kyr-lint';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { Journey } from '../src/session/journey';
 import { PlaySession } from '../src/session/play-session';
-import { PlayerView } from '../src/presentation/player-view';
-import { WorldAssembler } from '../src/world/world-assembler';
-import { Frontier } from '../src/world/frontier';
-import { GeneratedWorld } from './support/generated';
+import { ProvincePlay } from './support/province-play';
 import { Hessel, alone, build, h, steps } from './support/hessel';
 
 // The Banns at Hessel's journeys and what each must leave behind; the helper and the calendar are in
@@ -347,36 +344,19 @@ describe('The Banns at Hessel: fates, builds and the third reading', () => {
     expect(g.page).toMatch(/That is an opinion/);
   }, 180000);
 
-  // An ordinary player's way in: a first country whose folk have only heard of Hessel; the country beyond, whose
-  // innkeepers tell it in full; the road over its north march; and the Season, a chapter of the world, closing at noon
-  // on the fifth day while the world goes on.
+  // An ordinary player's way in, Hessel a province of the first country (Gate B: one country, every adventure in it):
+  // whoever keeps travellers in a town of it tells of Hessel; the road to its way in; and the Season, a chapter of the
+  // world, closing at noon on the fifth day while the world goes on.
 });
 
 describe('The Banns at Hessel in the world', () => {
-  it('heard of from a first country, told in full in the next, and walked into over the north march as a chapter of the world', async () => {
-    const seed = 'h14';
-    const w = await WorldAssembler.assemble(seed, NodeBundleSource.shared,
+  it('heard of in the country, and walked into by its road as a chapter of the world', async () => {
+    const { s, c, told, rid } = await ProvincePlay.enter('h14', 'hessel',
       { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: 'bard' }] });
-    expect(w.report.region.further!.map(f => [f.id, f.side, f.then])).toContainEqual(['hessel', 'east', 'north']);
-    const s = await PlaySession.start(w.path, seed, w.source), c = s.campaign;
-    const frontier = new Frontier(seed, NodeBundleSource.shared);
-    const ask = async (pattern: RegExp) => {
-      const topic = c.module.actions.find(a => pattern.test(a.id))!;
-      await GeneratedWorld.travel(s, c.world.one('at', topic.speaker!)!);
-      const choice = PlayerView.choices(c).find(x => x.choice.id.includes(topic.id))!;
-      return (await s.perform(choice.choice.id)).response ?? '';
-    };
-    expect(await ask(/^region__edge_east_further_told_/)).toContain('the old go there to be mended and the young to be married');
-    await GeneratedWorld.travel(s, 'edge_east');
-    const east = await frontier.expand(c);
-    await s.perform(PlayerView.choices(c).find(x => new RegExp(`^go\\(link.*${east!.rid}__edge_west\\)$`).test(x.choice.id))!.choice.id);
-    expect(await ask(new RegExp(`^${east!.rid}__edge_north_beyond_told_`))).toContain('kept its shutters closed nine years');
-    await GeneratedWorld.travel(s, `${east!.rid}__edge_north`);
-    const drawn = await frontier.expand(c);
-    expect(c.installations.find(m => m.id === drawn!.rid)?.chapter).toBe(true);
+    expect(told).toContain('kept its shutters closed nine years');
+    expect(c.installations.find(m => m.id === rid)?.chapter).toBe(true);
     const j = Journey.of(s);
-    await j.play('Lim Bridge');
-    expect(c.world.one('at', 'party')).toBe(`${drawn!.rid}__south_road`);
+    expect(c.world.one('at', 'party')).toBe(`${rid}__south_road`);
     // In by the bridge and up through the town, as a stranger: the chair comes down the Parade at whoever is there.
     const yard = await j.play('foot of Lim Bridge', 'Quay Lane', 'Stall Street', 'Abbey Yard');
     expect(j.page).toMatch(/comes a bath-chair/);
@@ -385,10 +365,10 @@ describe('The Banns at Hessel in the world', () => {
     expect(j.page).toMatch(/I am Abigail Cherrett/);
     // Left to itself, the Season ends at noon on the fifth day; the chapter closes and the company can go on.
     for (let i = 0; i < 200 && !c.world.related('reached').length; i++) { await j.play('^Wait › An hour'); }
-    expect(c.world.related('reached').map(r => r.args[0])).toEqual([`${drawn!.rid}__seasons_end`]);
+    expect(c.world.related('reached').map(r => r.args[0])).toEqual([`${rid}__seasons_end`]);
     expect(c.running).toBe(true);
     await j.play('To Stall Street', 'To Quay Lane', 'foot of Lim Bridge', 'south road');
-    expect(c.world.one('at', 'party')).toBe(`${drawn!.rid}__south_road`);
+    expect(c.world.one('at', 'party')).toBe(`${rid}__south_road`);
   }, 400000);
 
   it('kept on the second morning and opened again, the Season goes on to the same end', async () => {
