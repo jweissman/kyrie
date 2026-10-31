@@ -83,5 +83,9 @@ describe('The Quiet in the Sky in the world', () => {
     expect(j.page).toMatch(/roar of the Daily/);
     await j.play('To the southern Field', 'To Trophy Row');
     expect(j.page).toMatch(/churned snow/);
+    if (process.env.LARUM_TRANSCRIPT) {
+      await Bun.write('doc/adventures/the-quiet-in-the-sky/playtest/world-wanderer.txt',
+        j.taken.map(t => t.page).join('\n\n').replace(/(\[Wait › An hour\] An hour passes\.\n\n)+/g, '[… waited many hours …]\n\n'));
+    }
   }, 900000);
 });
