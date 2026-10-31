@@ -1,0 +1,44 @@
+Module riddledoor "A speaking door across a way in" {
+  Place field "a field" is wilderness.
+  Place lane "the lane" is room within field at 0, 0 outdoors.
+  Place hall "the hall" is room within field at 1, 0.
+  Passage door_in "the way in" is path between lane and hall taking 2 minutes.
+  Company party "You" of 1 at lane.
+  Hazard cold "the breath of the stone" means "Deal (1d6) cold damage to ally unless constitution save against (11).".
+  Relation speaking(thing). Relation said(thing).
+  Initially Assert speaking(stone).
+  Thing stone "the speaking door" on door_in {
+    State sealed blocking "A door of one grey stone fills the way in. Cut across it: ‘What has keys but can't open locks?’ Below is a row of words.".
+    State open "The stone door stands open.".
+  }
+  Action word0(actor: group, door: thing) "Press the word “Lute”" {
+    Grave "Pressing a word answers the riddle; a wrong word, and the stone breathes out cold.".
+    Requires able(actor) and at(actor, lane) and speaking(door) and state(door, sealed).
+    Time 1.
+    On success { Assert strikes(cold, actor). }
+    Result "The stone breathes out cold.".
+  }
+  Action word1(actor: group, door: thing) "Press the word “Piano”" {
+    Grave "Pressing a word answers the riddle; a wrong word, and the stone breathes out cold.".
+    Requires able(actor) and at(actor, lane) and speaking(door) and state(door, sealed).
+    Time 1.
+    On success { Retract state(door, sealed). Assert state(door, open). }
+    Result "The door swings open.".
+  }
+  Action word2(actor: group, door: thing) "Press the word “Trumpet”" {
+    Requires able(actor) and at(actor, lane) and speaking(door) and state(door, sealed).
+    Time 1.
+    On success { Assert strikes(cold, actor). }
+    Result "The stone breathes out cold.".
+  }
+  // Neither of these two says what it risks: the one that strikes asks first all the same, and so, alike, does the
+  // one that does not (ChoiceGrouping.hurts).
+  Action word3(actor: group, door: thing) "Press the word “Cello”" {
+    Requires able(actor) and at(actor, lane) and speaking(door) and state(door, sealed).
+    Time 1.
+    On success { Assert said(door). }
+    Result "The word sinks, and comes back up.".
+  }
+  Observe lane_scene at lane when true "A lane runs up to a door in a hillside.".
+  Goal false.
+}

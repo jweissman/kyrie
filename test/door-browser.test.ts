@@ -57,7 +57,12 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a thing on a way', () => {
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
     await page.click('.all-ways');
-    await page.locator('.ways [data-exit] .act.way').first().click();
+    // A way with a risk on it asks first (the owner's play, 31 October: nothing that may hurt is done unasked).
+    const way = page.locator('.ways [data-exit] .act.way').first();
+    await way.click();
+    await driver.settle();
+    expect(await page.locator('.grave-said').count()).toBeGreaterThan(0);
+    await way.click();
     await driver.settle();
     const text = await page.evaluate(() => document.body.innerText);
     const struck = text.search(/takes? \d+ piercing damage|resists/), left = text.indexOf('has gone off, and is spent');

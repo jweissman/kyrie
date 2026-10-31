@@ -72,6 +72,9 @@
 .glance-keys { position: sticky; bottom: 0; z-index: 2; display: flex; flex-wrap: wrap; gap: 8px; margin: 0;
   padding: 12px 0 max(28px, env(safe-area-inset-bottom)); background: linear-gradient(to bottom, transparent, var(--surface) 12px); }
 .glance-row + .glance-keys, .glance-row + .need + .glance-keys { padding-top: 12px; }
+/* What a choice opens, brought into view, clears the keys held at the foot (see PlaceStage.Opened). */
+.unfolded-group { scroll-margin-bottom: 110px; }
+.unfolded-group > .acts.unfolded + * { margin-top: 10px; }
 .led + .glance-keys, .led + .need + .glance-keys { margin-top: 10px; }
 .glance-keys > button { all: unset; box-sizing: border-box; cursor: pointer; display: inline-flex; align-items: center; gap: 10px;
   width: auto; min-height: 44px; padding: 10px 16px; border: 1px solid var(--edge-strong); background: var(--surface);

@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, useEffect, useRef } from 'react';
 import type { Choice } from '../../../src/ui/choice-list';
 import { SceneModel, type SceneSubject } from '../../../src/ui/scene';
 import type { ExitRow, Screen } from '../../../src/ui/screen-types';
@@ -16,6 +16,7 @@ import { GlanceStage } from './glance';
 import { LookAbout } from './look-about';
 import { MorePane } from './more-pane';
 import { Raised } from './raised';
+import { ThingStage } from './thing-stage';
 
 // A way out of a place, with every choice that goes by it (go; open it first; look at what is on it).
 export interface Way { exit: ExitRow; choices: Choice[] }
@@ -315,9 +316,28 @@ export class PlaceStage {
       ? m[1]! : way;
   }
   // What a way or a thing opens, once opened, under it.
+  // What is opened under a choice: its own acts in a column, and a run of them alike but for one word (the words of a
+  // speaking door) said once, each word apart; brought into view as it opens, so that nothing of it lies hidden under
+  // the foot of the page (the owner's play, 31 October: a door's words had run under it, and one was taken for another).
   static Opened({ choice: c, draw }: { choice: Choice; draw: Draw }) {
-    return c.children && draw.open.has(c.id) ? <Act.List choices={c.children} draw={draw} className="column unfolded" />
-      : null;
+    const shown = !!c.children && draw.open.has(c.id), at = useRef<HTMLDivElement>(null);
+    useEffect(() => { if (shown) { at.current?.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); } }, [shown]);
+    if (!shown) { return null; }
+    const alike = PlaceStage.alike(c.children!), rest = c.children!.filter(k => !alike.includes(k));
+    return <div ref={at} className="unfolded-group">
+      {rest.length > 0 && <Act.List choices={rest} draw={draw} className="column unfolded" />}
+      {alike.length > 0 && <ThingStage.Choices choices={alike} draw={draw} />}
+    </div>;
+  }
+  // The largest run of choices worded alike but for one part ("Press the word …"): three at least, or none.
+  private static alike(choices: Choice[]): Choice[] {
+    const by = new Map<string, Choice[]>();
+    for (const k of choices.filter(x => !x.children)) {
+      const head = k.label.split(' ').slice(0, 2).join(' ');
+      by.set(head, [...by.get(head) ?? [], k]);
+    }
+    const run = [...by.values()].sort((a, b) => b.length - a.length)[0] ?? [];
+    return run.length >= 3 && Words.shared(run.map(k => k.label)) ? run : [];
   }
   // How someone with the company is, if they are hurt; nothing if they are not.
   static hurt(screen: Screen, name: string): string | undefined {

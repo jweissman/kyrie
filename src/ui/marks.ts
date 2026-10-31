@@ -39,7 +39,9 @@ export class Marks {
     if (exposed) { marks.push({ kind: 'exposed', said: c.grave! }); }
     const fight = this.fight(c, s, here, act);
     if (fight) { marks.push(fight); }
-    else if (c.risk && c.command) { marks.push({ kind: 'trap', said: exit?.hazard ?? 'It could go wrong.' }); }
+    // A risk is asked about before it is taken, as what cannot be undone is: a wrong word on a speaking door, chosen
+    // for something else, had killed a company (the owner's play, 31 October).
+    else if (c.risk && c.command) { marks.push({ kind: 'trap', said: exit?.hazard ?? 'It could go wrong.', ask: true }); }
     if (c.note?.split(' · ').includes(ChoiceList.unexamined)) {
       marks.push({ kind: 'unlooked', said: 'Not looked at closely yet.' });
     }

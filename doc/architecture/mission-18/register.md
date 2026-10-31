@@ -285,6 +285,20 @@ or competing institutions accepted world facts.
 | OWN-37 | The Grand Tour for an ordinary player: its premise (Tamsin, a bard) working for any created protagonist of another calling, ancestry, name or background, a fixed protagonist only an explicit special mode; its seven-day contest against a persistent world clock, travel, other adventures and late entry, with missed opportunities and later history coherent; its seventy-odd places and its conversations discoverable and navigable in ordinary play (authored depth is not experienced depth) | C | P0 | Open | |
 | OWN-38 | Demonstrations: two adventures extending and visiting one Plane of Fire; two extending one Infinite Library (or its diagnosis and correction); the Grand Tour's courts stable through adventure transitions; one House of Doors reachable and referable from independent content; a whole Rose opening the upper precinct without conflating inner and outer planes; a Grand Tour outcome recognised by another module; an ordinary new protagonist entering and playing it without private authoring assumptions | F | P0 | Open | |
 
+### The owner's notes of 2026-10-31 from play
+
+Six observations from the owner's own play, to be taken into the core adventuring loop without a broad rewrite:
+each a system's failure, not a case's; judged by an ordinary fresh character's journey through the graphical game.
+
+| ID | Requirement | Gate | Pri | Now | Evidence, or what remains |
+|---|---|---|---|---|---|
+| OWN-50 | Control integrity: a displayed act does exactly what it says; nothing that may hurt is done through a hidden default or unasked; a puzzle can be looked at, understood and declined (a speaking door's words ran under the foot of the page, one was taken for another, and a wrong word killed the company) | A | P0 | Fixed | A way-thing's acts are under it ("Look at the speaking door": looks, tries, and its words), not ways in of their own (src/ui/choice-grouping.ts `under`); words alike but one are one row, and an opened group is brought clear of the foot (web/reader/stage/place-stage.tsx `Opened`); every riddle word asks first, alike (region-riddles `Grave`); any authored act that can strike the company asks first, and so does every other act on the same thing, so the asking gives nothing away (ChoiceGrouping.hurts: 28 authored acts had not said so); a trapped way asks first (marks). test/riddle-door.test.ts, test/riddle-door-browser.test.ts (every word in view; a word asks, then does that word), test/door-browser.test.ts |
+| OWN-51 | Common the default tongue of ordinary generated settlements, through the `languages` library's Common passthrough (its real API and version); elven and dwarven places in their own tongues; native, Common and ancient names kept apart; malformed names fixed where they are made and shown; names a saved world already holds never renamed | B | P1 | Open | |
+| OWN-52 | The overworld map authoritative for movement across hexes: map → place → map predictable; interiors drawn apart; every "?" mark intelligible; no duplicate or contradictory movement affordances | A | P0 | Partial | OWN-48 (setting out from the map), REV-09 (the page keeps local ways; "Out to the country" opens the map). Still to do: open country moved through on the map by default; "?" marks said |
+| OWN-53 | Current Aim restrained and reliable: only intentions truly chosen or remembered, no new panel | A | P1 | Open | REV-08 relates |
+| OWN-54 | Origin continuity: the feverwort errand delivered is delivered, and nobody speaks after as though it were still awaited; the single-protagonist opening kept | A | P0 | Open | |
+| OWN-55 | Success judged by ordinary play: a fresh character through creation, a recognizable origin, word of an adventure, the map, a real site and its obstacles, and back with understandable consequences, the world coherent before and after | A | P0 | Open | |
+
 ### The cold review's section H, 2026-10-30
 
 The independent systemic review (doc/playtests/systemic-enjoyment-2026-10-30/review.md, section H, "Why it does not

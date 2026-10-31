@@ -38,6 +38,10 @@ export class RegionRiddles {
     const q = JSON.stringify;
     return [`  Action ${a.id}_word${a.n}(actor: group, door: thing) ${q(`Press the word “${a.word}”`)} {`,
       `    Description "Put a finger in the hollow beside the word, and press.".`,
+      // Asked first, every word alike (a mark on the wrong ones only would give the answer away): a word pressed is
+      // the door's answer, and a wrong one is answered with cold (a player pressed one thinking it the way in, and the
+      // cold killed the company: the owner's play, 31 October).
+      `    Grave "Pressing a word answers the riddle; a wrong word, and the stone breathes out cold.".`,
       `    Requires able(actor) and at(actor, ${a.room}) and ${a.id}_door(door) and state(door, sealed).`, '    Time 1.',
       // Whoever presses the right word has opened it, as whoever works any change on a thing has changed it: those
       // who watch the way can tell who did it (Sir Hamo's men at Fyrsteport, PT-33).

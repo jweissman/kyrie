@@ -42,6 +42,8 @@ export interface GroupingContext {
   world?: World;
   // How a fight with a group would go, for a choice that begins one (see DangerSense).
   reckon?: (group: string) => { danger: Danger; text: string } | undefined;
+  // What an authored act that can hurt the company is done to (see ChoiceGrouping.hurts).
+  struck?: Set<string>;
 }
 
 // Organizes legal commands by what the player is acting on. It never adds, removes or reinterprets a command;
@@ -169,7 +171,8 @@ export class ChoiceGrouping {
       if (to && way) { ways.set(to, (ways.get(to) ?? new Set()).add(way)); }
     }
     const several = new Set([...ways].filter(([, w]) => w.size > 1).map(([d]) => d));
-    for (const row of rows) { this.place(out, row, { ...context, several }); }
+    const struck = this.struck(rows);
+    for (const row of rows) { this.place(out, row, { ...context, several, struck }); }
     for (const acts of [...out.targets.values(), ...out.items.values(), ...out.members.values(), out.camp,
       ...[...out.exits.values()].map(e => e.acts)]) { this.distinguish(acts); }
     return out;
@@ -206,6 +209,20 @@ export class ChoiceGrouping {
     if (bitter) { Object.assign(leaf, { grave: Exposure.going(bitter) }); }
     const foe = Provocation.of(action), reckoned = foe && context.reckon?.(foe);
     if (reckoned) { Object.assign(leaf, { reckoned, risk: true }); }
+    const on = Object.entries(b).filter(([k]) => k !== 'actor' && k !== 'site').map(([, v]) => v);
+    if (!this.rules[action.schema ?? action.id] && !action.grave && !('risk' in leaf)
+      && (this.hurts(action) || on.some(v => context.struck?.has(v)))) { Object.assign(leaf, { risk: true }); }
+  }
+  // An authored act that can hurt whoever does it (a hazard strikes) is asked about before it is done, and so is every
+  // other act on the same thing, alike, so that the asking gives nothing away (of a riddle's words, only the wrong ones
+  // strike): nothing that may hurt is done unasked (the owner's play, 31 October, where a word pressed on a speaking
+  // door killed the company).
+  static hurts(action: Operator): boolean {
+    return [...action.success, ...action.failure].some(c => JSON.stringify(c).includes('"name":"strikes"'));
+  }
+  private static struck(rows: Row[]): Set<string> {
+    return new Set(rows.filter(r => !this.rules[r.action.schema ?? r.action.id] && this.hurts(r.action)).flatMap(r =>
+      Object.entries(r.action.bindings ?? {}).filter(([k]) => k !== 'actor' && k !== 'site').map(([, v]) => v)));
   }
   // A sleep that lasts until morning says when it will end: at seven, or eight hours on, by day.
   // The hour only, or with "tomorrow" if it ends on the next day ("3:00 p.m. on day 2" was said of a camp made in the
@@ -279,13 +296,23 @@ export class ChoiceGrouping {
     const subject = changed ?? Object.entries(row.action.bindings ?? {})
       .find(([k, v]) => k !== 'actor' && k !== 'site' && context.present.has(v))?.[1];
     const path = row.choice.name.split('; ');
-    // One about something on a way out (the words of a speaking door) is done at that way; one about no one and
-    // nothing in view is something the company does here.
+    // One about something on a way out (the words of a speaking door) is done to that thing, at that way: under it,
+    // with what else can be done to it, and not said of the way as if it were going in ("Into Gaudumport — press the
+    // word Lute" stood apart from the door it is pressed on, and the door's own acts did not show its words: the
+    // owner's play, 31 October); one about no one and nothing in view is something the company does here.
     const onWay = Object.entries(row.action.bindings ?? {})
       .find(([k, v]) => k !== 'actor' && k !== 'site' && context.passageOf.has(v))?.[1];
     if (subject) { this.insert(this.slot(out.targets, subject), path, leaf); }
-    else if (onWay) { this.exit(out, context.passageOf.get(onWay)!, { acts: [], path, leaf }); }
+    else if (onWay) {
+      this.exit(out, context.passageOf.get(onWay)!, { acts: [], path: this.under(onWay, path, context), leaf });
+    }
     else { this.insert(out.camp, path, leaf); }
+  }
+  // What is done to a thing on a way, under it: "Look at the speaking door", then the act without the thing's name.
+  private static under(thing: string, path: string[], context: GroupingContext): string[] {
+    const name = context.names.get(thing);
+    if (!name || path.length !== 1) { return path; }
+    return [`Look at ${name}`, path[0]!.replace(` (${name})`, '')];
   }
   private static named(p: Predicate): string[] {
     if ('args' in p) { return p.args; }
