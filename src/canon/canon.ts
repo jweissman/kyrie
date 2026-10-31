@@ -32,6 +32,17 @@ export type Family = 'abilities' | 'conditions' | 'traits' | 'items' | 'organism
 // naming the same Orsino source, which marks it as a deliberate adaptation.
 export class Canon {
   static readonly conflicts: string[] = [];
+  // A fine make of each ordinary weapon, a smith's best work: a point more on every blow, four times the price
+  // (REV-04, the owner's note of 31 October: "no real way to improve weapons").
+  private static fine(items: Record<string, ItemKind>): Record<string, ItemKind> {
+    const made = Object.entries(items).filter(([id, i]) => i.category === 'weapon' && i.weapon && !id.startsWith('fine_')
+      && /^\d+d\d+$/.test(i.weapon.damage.replace(/\s/g, '')) && (i.value ?? 0) > 0 && (i.value ?? 0) <= 50)
+      .map(([id, i]): [string, ItemKind] => [`fine_${id}`, { ...i, name: `fine ${i.name}`, value: (i.value ?? 1) * 4,
+        description: `${i.description} A smith's best make of it, of better steel and balanced to the hand: it bites `
+          + 'a little deeper.', weapon: { ...i.weapon!, damage: `${i.weapon!.damage.replace(/\s/g, '')}+1` },
+        source: { kyr: true, notes: `A fine make of ${id}, for the capability market's masters to sell (REV-04).` } }]);
+    return { ...items, ...Object.fromEntries(made) };
+  }
   private static merge<T extends { source?: Source }>(family: string, generated: Record<string, unknown>,
     own: Record<string, unknown>): Record<string, T> {
     const out = { ...generated } as Record<string, T>;
@@ -58,7 +69,7 @@ export class Canon {
     species.species as unknown as Record<string, unknown>);
   static readonly classes = classes.classes as unknown as Record<string, CharacterClass>;
   static readonly skills = skills.skills as unknown as Record<string, Skill>;
-  static readonly items = Canon.merge<ItemKind>('item', orsinoItems.items, items.items);
+  static readonly items = Canon.fine(Canon.merge<ItemKind>('item', orsinoItems.items, items.items));
   // A domain's blessing is Orsino's, generated; the domain itself (name, alignment, spell domain) is hand-written.
   static readonly domains = Object.fromEntries(Object.entries(religion.domains as unknown as Record<string, Domain>)
     .map(([id, d]) => [id, { ...d, ...(orsinoBlessings.blessings as Record<string, Domain['blessing']>)[id]

@@ -17,6 +17,9 @@ interface Teacher { kind: 'arms' | 'arcane'; name: string; pronoun: string; draw
 export class RegionMarket {
   static readonly techniques = ['cleave', 'riposte', 'shield_bash', 'second_wind', 'dodge', 'rapid_strike',
     'dirty_trick', 'reckless_attack', 'roundhouse', 'whirlwind', 'taunt', 'feint', 'guard', 'dig_in'];
+  // The fine makes a master-at-arms has from the yard's smith to sell (see Canon.fine).
+  static readonly blades = ['fine_longsword', 'fine_battleaxe', 'fine_shortsword', 'fine_spear', 'fine_scimitar',
+    'fine_handaxe', 'fine_shortbow', 'fine_longbow', 'fine_morningstar', 'fine_greatsword', 'fine_dagger', 'fine_halberd'];
   static readonly spells = ['magic_missile', 'armor', 'blur', 'charm', 'firebolt', 'hex', 'spark', 'thunderclap',
     'ward', 'shrieking_missile', 'conjure_light', 'drench', 'acid_arrow'];
   static lines(region: Region, i: number): string[] {
@@ -43,16 +46,20 @@ export class RegionMarket {
     const q = JSON.stringify, t = this.teacher(region, s, 'arms'), id = `${s.id}_drill`, who = `${id}_master`;
     const taught = t.draw.shuffle(this.techniques).slice(0, 3), fee = 20 + Math.floor(t.draw.next() * 4) * 5;
     const likeness = CommunityWriter.likenessOf(region, { pronoun: t.pronoun, painting: 'fencing-master', id: who });
+    const blades = t.draw.shuffle(this.blades).slice(0, 3);
+    const sells = blades.map(b => ` Sells ${b} for ${Canon.items[b]?.value ?? 40} coin from 1.`).join('');
+    const rack = blades.map(b => `a ${Canon.items[b]?.name ?? b}`), sold = `${rack.slice(0, -1).join(', ')} and ${rack.at(-1)}`;
     return [`  Place ${id} ${q(`the drill-yard behind ${s.inn}`)} is room within ${s.id} outdoors.`,
       `  Passage ${id}_gate ${q('the yard gate')} is door between ${id} and ${s.id}_green.`,
       `  Person ${who} ${q(t.name)} at ${id} { Role ${q(`a master-at-arms, who teaches for ${fee} coin a lesson`)}.`
-        + ` Ancestry ${s.folk ?? region.ancestry}.${likeness} Peaceable. Pronouns ${t.pronoun}. Manner stoic. }`,
+        + ` Ancestry ${s.folk ?? region.ancestry}.${likeness} Peaceable. Pronouns ${t.pronoun}. Manner stoic.${sells} }`,
       ...taught.map(a => `  Initially Assert teaches(${who}, ${a}).`),
       `  Initially Set lessonFee(${who}) to ${fee}.`,
       `  Observe ${id}_scene at ${id} as fixture when true ${q(`A square of beaten earth behind ${s.inn}, a rack of `
         + 'blunted blades along one wall and a post hacked pale at the height of a man\'s neck. Whoever teaches here '
         + 'will show a technique to anyone who has done enough to be worth the showing, and can pay for it.')}.`,
-      `  Observe ${id}_lessons at ${id} as ambience when true ${q(this.offer(t.name, taught, [fee, 'one']))}.`];
+      `  Observe ${id}_lessons at ${id} as ambience when true ${q(`${this.offer(t.name, taught, [fee, 'one'])} `
+        + `On the rack by the gate, for sale and not for practice, ${sold}: the yard's smith's best work.`)}.`];
   }
   // What a teacher teaches, said where they teach it: the lessons by name, the fee, and what a lesson asks.
   private static offer(name: string, taught: string[], [fee, to]: [number, string]): string {

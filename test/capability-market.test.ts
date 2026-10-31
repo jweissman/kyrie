@@ -34,6 +34,16 @@ describe('the capability market of a town', () => {
     expect(gold(j)).toBeLessThan(before);
     expect(j.choices().some(c => c.label === lesson.label)).toBe(false);
   }, 60000);
+  // Better than the company's own: a fine make of a weapon, off the master's rack (the owner: "no real way to improve
+  // weapons").
+  it('sells a fine weapon off the master-at-arms\' rack', async () => {
+    const j = await start('ranger');
+    await j.play('^To the market-place of Newmeet', '^To the drill-yard', '^Talk to');
+    const buy = j.choices().find(c => /fine /.test(c.label))!;
+    expect(buy).toBeDefined();
+    await j.play(buy.label.replace(/[.*+?^$()|[\]\\]/g, '\\$&'));
+    expect(j.screen().items.some(i => /^fine /i.test(i.name) || / fine /i.test(i.name))).toBe(true);
+  }, 60000);
   // A pack mule, bought of the chandler: whoever leads it can carry thirty more before the company goes slowly.
   it('sells a pack mule, which carries for whoever leads it', async () => {
     const j = await start('ranger'), aud = () => j.campaign.world.related('memberOf').find(r => r.args[1] === 'party')!.args[0]!;
