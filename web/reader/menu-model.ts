@@ -105,6 +105,10 @@ export class MenuModel {
       : aimed.flatMap(id => choices.find(c => c.id === id) ?? []);
     return [...first, ...choices.filter(c => !first.includes(c))];
   }
+  // A thing for sale, open whole (its quantities are among the choices).
+  private static ware(w: Choice, opened: Set<string>): Choice[] {
+    return this.unfold(w, new Set([...opened, ...this.all(w)]));
+  }
   // Something in a way and what can be done about it are drawn under the way, open, and are among the choices (they
   // had been a fold: play 7): a choice of a way's own that holds choices of its own, the first of them too (a way
   // barred by a portcullis drew "Push and pull at it" under it, and a touch on it found nothing: play 9).
@@ -187,11 +191,16 @@ export class MenuModel {
       // What is for sale is on the counter, each thing a control, in the counter's order before what can be said, as
       // the page draws them: among the choices, never folded (play 7).
       const sold = talk && Wares.of(frame?.screen.trade.find(c => c.id === talk.subject.id), talk.replies);
-      // Everything asked, nothing to buy: taking leave is the first thing to do, not asking it all again.
-      const spent = talk && !sold!.wares.length && talk.replies.every(r => done.has(r.id));
-      const choices = talk && [...spent ? [talk.leave] : [], ...sold!.wares.flatMap(w => w.buy
-        ? this.unfold(w.buy, new Set([...opened, ...this.all(w.buy)])) : []),
-      ...sold!.rest.flatMap(c => this.unfold(c, opened)), ...spent ? [] : [talk.leave]];
+      // What is new to ask first, then what can be bought, then what has been asked and what cannot be afforded (a
+      // counter had led the page, and a player following it spent the last coin on candles, or stood at it for ever);
+      // everything asked, taking leave leads.
+      const buys = (sold?.wares ?? []).flatMap(w => w.buy ? [w.buy] : []), can = buys.filter(b => !b.disabled);
+      const rest = sold?.rest ?? [], spent = talk && rest.every(c => done.has(c.id));
+      const choices = talk && [...spent ? [talk.leave] : [],
+        ...rest.filter(c => !done.has(c.id)).flatMap(c => this.unfold(c, opened)),
+        ...can.flatMap(w => this.ware(w, opened)),
+        ...rest.filter(c => done.has(c.id)).flatMap(c => this.unfold(c, opened)),
+        ...buys.filter(b => b.disabled).flatMap(w => this.ware(w, opened)), ...spent ? [] : [talk.leave]];
       return talk && { scene, talk, choices: choices!, sections: [{ id: talk.subject.id, title: talk.subject.name,
         tone: 'person', glyph: '☺', choices: choices! }] };
     }

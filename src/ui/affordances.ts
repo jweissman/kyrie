@@ -36,7 +36,8 @@ export class Affordances {
     const lightless = !!screen.dark && !scene.you.some(c => this.kind(c, r) === 'light');
     return [...scene.subjects.flatMap(s => this.warning(this.subject(s, screen, r), s, screen)),
       ...[...scene.near, ...scene.far].flatMap(c => this.way(c, screen, { r, back })),
-      ...this.around(screen, r), ...scene.you.flatMap(c => this.yours(c, screen, { r, threat, lightless }))]
+      ...this.around(screen, r), ...this.journeys(screen, r),
+      ...scene.you.flatMap(c => this.yours(c, screen, { r, threat, lightless }))]
       .map((c, order) => ({ ...c, order }));
   }
   // Whoever warns the company off: what is done toward them comes first, before the way back.
@@ -72,12 +73,15 @@ export class Affordances {
   // nested in it, said beside it (an answer owed, the aim, a bed for the night).
   private static opened(s: SceneSubject, opener: Choice, screen: Screen, r: Reading): Candidate[] {
     const leaves = Attending.all(opener.children ?? []).filter(c => c.command && !c.disabled);
+    // What is new to be said to them: not a question asked once more (its action the first's, "_again"), nor what
+    // they sell; the page had led with "Talk to Adrik — your aim" for as long as he had an answer to repeat.
+    const fresh = leaves.filter(c => r.speakers.has(c.command!) && !/_again(\(|$)/.test(c.command!));
     const talked = r.talked.has(s.id), person = s.kind === 'person';
-    const answer = leaves.find(c => c.answer), kin = s.stake && (!talked || leaves.some(c => !r.done.has(c.command!)));
+    const answer = leaves.find(c => c.answer), kin = s.stake && (!talked || fresh.some(c => !r.done.has(c.command!)));
     const word = s.note?.split(' · ')[0], feature = screen.things.find(t => t.id === s.id)?.kind === 'feature';
     const looked = leaves.find(c => r.schema.get(c.command!) === 'look_closely' && !r.done.has(c.command!));
     const whys: Why[] = [...answer ? ['answer' as const] : [], ...kin ? ['kin' as const] : [],
-      ...this.about(leaves, r) ? ['about' as const] : [], ...person && r.life === s.id && !talked ? ['life' as const] : [],
+      ...this.about(fresh, r) ? ['about' as const] : [], ...person && r.life === s.id && !talked ? ['life' as const] : [],
       ...this.ownWhy(leaves, r), ...r.signs.has(s.id) ? ['sign' as const] : [],
       ...person && s.asked && !talked ? ['asked' as const] : [], ...feature && looked ? ['unlooked' as const] : []];
     const needs = this.served(leaves, r);
@@ -131,6 +135,18 @@ export class Affordances {
       pointed: r.pointed.has(d.id), whys: [...r.named.has(d.id) ? ['named' as const] : [],
         ...r.held.has(d.id) ? ['held' as const] : [], ...visited.has(d.id) ? [] : ['unvisited' as const]],
       notes: { named: 'your aim', held: 'another aim' } }));
+  }
+  // A journey to where the aim shown is, further than the ways from here, by the way the company knows (as far as it
+  // is known), unless it goes only as far as here: a far aim had been set out for from the map alone (the owner, 31
+  // October). Not another aim held: two such, each shown where it names the place, sent a company back and forth
+  // between the edges of two wild countries (REV-08).
+  private static journeys(screen: Screen, r: Reading): Candidate[] {
+    const near = new Set((screen.around ?? []).map(d => d.id)), here = screen.place.name.toLowerCase();
+    return (screen.destinations ?? []).filter(d => !near.has(d.id) && r.named.has(d.id)
+      && d.toward?.toLowerCase() !== here).map(d => ({ choice: `travel:${d.id}`, command: `travel:${d.id}`,
+      kind: 'travel' as const, order: 0, label: `Set out ${d.toward ? 'toward' : 'for'} ${d.name}`, minutes: d.minutes,
+      marks: Marks.journey(screen.elapsed, d.minutes) ? [Marks.dusk] : [], whys: ['named' as const],
+      notes: { named: 'your aim' } }));
   }
   // What the company does by itself: light a light in the dark, tend whoever is hurt, eat when hungry, camp at night
   // in the open or weary, rest when hurt, search for a sign or where the aim is, and the place's own acts.
