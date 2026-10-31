@@ -130,14 +130,18 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
         attention: Conversation.place, talk: [], asked: [], confirming: undefined });
     }
   }
-  private built?: { frame?: Frame; view: View; open: string[]; attention: Attention; member: string; menu: Menu };
-  // What can be chosen now, built once for each frame, view, attention, member shown and set of open choices.
+  private built?: { frame?: Frame; view: View; open: string[]; attention: Attention; member: string; asked: string[];
+    menu: Menu };
+  // What can be chosen now, built once for each frame, view, attention, member shown, set of open choices and what has
+  // been asked in a conversation.
   get menu(): Menu {
-    const { frame, view, open, attention, member } = this.state, b = this.built;
-    if (b && b.frame === frame && b.view === view && b.open === open && b.attention === attention && b.member === member) {
+    const { frame, view, open, attention, member, asked } = this.state, b = this.built;
+    if (b && b.frame === frame && b.view === view && b.open === open && b.attention === attention && b.member === member
+      && b.asked === asked) {
       return b.menu;
     }
-    this.built = { frame, view, open, attention, member, menu: MenuModel.build(frame, view, open, { attention, member }) };
+    this.built = { frame, view, open, attention, member, asked,
+      menu: MenuModel.build(frame, view, open, { attention, member, asked }) };
     return this.built.menu;
   }
   // A choice made: what it opens is shown beneath it (or put away again); a fight goes on; or the company does it.

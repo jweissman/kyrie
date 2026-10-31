@@ -26,13 +26,14 @@ export interface Sheets { look: string[]; ways: string[]; more: string[] }
 
 export class MenuModel {
   static build(frame: Frame | undefined, view: View, open: string[],
-    at: { attention?: Attention; member?: string } = {}): Menu {
+    at: { attention?: Attention; member?: string; asked?: string[] } = {}): Menu {
     const { attention, member } = at;
     if (!frame) { return { sections: [], choices: [] }; }
     const opened = new Set(open);
     if (!frame.combat && !['pack', 'company'].includes(view)) {
       const scene = SceneModel.build(frame.screen);
-      return this.attending(scene, opened, attention, frame) ?? this.place(Attending.place(scene), opened, frame);
+      return this.attending(scene, opened, { attention, asked: at.asked }, frame)
+        ?? this.place(Attending.place(scene), opened, frame);
     }
     const sections = frame.combat ? ChoiceList.combat(frame.combat)
       : view === 'pack' ? ChoiceList.pack(frame.screen) : this.character(frame.screen, member);
@@ -85,7 +86,7 @@ export class MenuModel {
       more: this.ids(yours, opened) };
     return { scene, sections: [...this.sections(scene), ...going.length
       ? [{ id: 'destinations', title: 'Set out for', tone: 'way' as const, glyph: '⇢', choices: going }] : []],
-    choices: this.led(this.unfolded([...subjects, ...ways, ...scene.you], opened), glance), destinations: going,
+    choices: this.led(this.unfolded([...subjects, ...ways, ...scene.you], opened), glance, aimed), destinations: going,
     around: about, ...glance ? { sheets } : {} };
   }
   // Every choice as drawn, what is open under its opener (and what is in a way, always: see inWay).
@@ -97,8 +98,11 @@ export class MenuModel {
   }
   // What the glance leads with comes first, in its order (the keys' 1, 2 and 3), then everything else as it was: the
   // same choices, none twice, none lost.
-  private static led(choices: Choice[], glance?: Glance): Choice[] {
-    const first = (glance?.acts ?? []).flatMap(a => choices.find(c => c.id === a.choice) ?? []);
+  // What the glance leads with first; on a road, where no glance is drawn, the way toward the aim (the first key had
+  // been a word with whoever was by the road, and a player following the page went back and forth to them).
+  private static led(choices: Choice[], glance?: Glance, aimed: string[] = []): Choice[] {
+    const first = glance ? glance.acts.flatMap(a => choices.find(c => c.id === a.choice) ?? [])
+      : aimed.flatMap(id => choices.find(c => c.id === id) ?? []);
     return [...first, ...choices.filter(c => !first.includes(c))];
   }
   // Something in a way and what can be done about it are drawn under the way, open, and are among the choices (they
@@ -172,15 +176,22 @@ export class MenuModel {
   }
   // Someone spoken with: what can be said to them, and taking leave. Something looked at: what can be done with it, by
   // kind, and turning away. The scene is kept whole, so what is said is said to them by name.
-  private static attending(scene: Scene, opened: Set<string>, attention?: Attention, frame?: Frame): Menu | undefined {
+  // What has been asked already goes after what has not, taking leave last of all: the page led with "Ask again about
+  // the road your father took" for as long as a player went on pressing what it led with (the owner, 31 October).
+  private static attending(scene: Scene, opened: Set<string>, { attention, asked = [] }: { attention?: Attention;
+    asked?: string[] }, frame?: Frame): Menu | undefined {
     if (attention?.kind === 'person') {
-      const talk = Attending.talk(scene, attention.id);
+      const said = Attending.talk(scene, attention.id), done = new Set(asked);
+      const talk = said && { ...said,
+        replies: [...said.replies].sort((a, b) => Number(done.has(a.id)) - Number(done.has(b.id))) };
       // What is for sale is on the counter, each thing a control, in the counter's order before what can be said, as
       // the page draws them: among the choices, never folded (play 7).
       const sold = talk && Wares.of(frame?.screen.trade.find(c => c.id === talk.subject.id), talk.replies);
-      const choices = talk && [...sold!.wares.flatMap(w => w.buy
+      // Everything asked, nothing to buy: taking leave is the first thing to do, not asking it all again.
+      const spent = talk && !sold!.wares.length && talk.replies.every(r => done.has(r.id));
+      const choices = talk && [...spent ? [talk.leave] : [], ...sold!.wares.flatMap(w => w.buy
         ? this.unfold(w.buy, new Set([...opened, ...this.all(w.buy)])) : []),
-      ...sold!.rest.flatMap(c => this.unfold(c, opened)), talk.leave];
+      ...sold!.rest.flatMap(c => this.unfold(c, opened)), ...spent ? [] : [talk.leave]];
       return talk && { scene, talk, choices: choices!, sections: [{ id: talk.subject.id, title: talk.subject.name,
         tone: 'person', glyph: '☺', choices: choices! }] };
     }
