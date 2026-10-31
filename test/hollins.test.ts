@@ -7,7 +7,7 @@ import { Hollins, home, k } from './support/hollins';
 // test/fixtures/hollins. The company comes down the moor road into Bootscrape at eight on the first morning (watch 0);
 // the Lady came home three days before and dies on the tenth night, whatever anyone does. Each journey is an ordinary
 // protagonist (a human warrior, the campaign's default) unless it says otherwise.
-describe('Behind the Wainscot', () => {
+describe('Behind the Wainscot: the endings', () => {
   it('lints clean', async () => {
     const findings = await KyrLint.campaign(home, new NodeBundleSource());
     expect(findings.filter(f => f.level === 'error' || f.level === 'warning')).toEqual([]);
@@ -41,6 +41,7 @@ describe('Behind the Wainscot', () => {
     expect(g.holds('belled', 'bishop')).toBe(true);
     await g.fixture('freehold', 'moot', 'vault');
     expect(g.holds('refugeesHoused', 'hollins')).toBe(true);
+    expect(g.holds('wainscotOut', 'hollins')).toBe(true);
     expect(g.holds('underfolkEntered', 'annet')).toBe(true);
     expect(g.holds('deedLodged', 'party')).toBe(true);
     expect(g.knows('mother_letter')).toBe(true);
@@ -100,6 +101,9 @@ describe('Behind the Wainscot', () => {
     expect(g.ending()).toEqual([k('sold')]);
   }, 600000);
 
+});
+
+describe('Behind the Wainscot: builds and smaller stories', () => {
   it('a bard: the Keys\' lost page paid out of the Post, the colliers on the bass, the First Air to the end, and the Lady down at the piano', async () => {
     const g = await Hollins.start('test/fixtures/hollins/bard.campaign.json');
     await g.fixture('concert');

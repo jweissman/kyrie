@@ -28,7 +28,7 @@ Module hollins "Behind the Wainscot" {
     Result "You pull an armful of it, and the bees go up round you in a cloud and come down again. Your hands smell of it for an hour.".
   }
 
-  Observe coal_scene at coal_store when true "The coal cellar: a heap of coal like a black hill under the hole in the roof, with grey light falling on it from above, and footprints across the dust where a good many people, over a long time, have come down the heap and gone on through the arch.".
+  Observe coal_scene at coal_store when true "The coal cellar: a heap of coal like a black hill under the hole in the roof, with grey light falling on it from above, and footprints across the dust where a good many people, over three centuries, have come down the heap and gone on through the arch.".
   Observe cfoot_scene at cellar_foot when true "At the foot of the cellar steps, which are each a fall of eight feet with a ladder lashed to it, the dark opens out under vaults of brick. It is cold, and still, and smells of earth and old wine. Somewhere water drips into water.".
   Observe bins_scene at wine_bins when true "The wine-bins: brick cells in rows, each as big as a chapel, each racked with bottles lying on their sides like great green cannons. In the cells people are living, in the dark, among pale mushrooms grown on the straw. Nobody carries a light. Voices come from everywhere, quiet.".
   Observe cistern_scene at cistern when true "The cistern is a black lake under a brick vault, and the drip from somewhere high falls into it with a sound that goes on and on round the walls. A ledge a hand wide runs along the wall to the left. On the far side, forty yards off, steps go up out of the water to an iron door with a lock in it you could stand inside.".

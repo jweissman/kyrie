@@ -62,7 +62,7 @@ Module hollins "Behind the Wainscot" {
   }
   Discovery stone_told "On the moor above Bootscrape stands the Waiting Stone, like a man sitting with his elbows on his knees. Bootscrape grandmothers say it is a giant who sat down to wait for somebody and never got up.".
   Topic jory_shelter with jory "Ask Jory Mudge whether Bootscrape would take them in, if they had to come out" when knows(actor, wainscot_told) once {
-    Says "Jory puts the bread down. He looks at the door, and the wall, and the door. 'Come out,' he says. 'Down the ladder. Six hundred.' He is quiet a long time. 'Three hundred years we've bought their pins and sold them bread and never once asked them in to sit down.' Then: 'There's lofts in Bootscrape, and barns, and the Mat's got a cellar. We'd manage. We'd have to.' He picks the bread back up, and his hands are not steady. 'Tell them that. From Jory Mudge. If it comes to it, we'd take them in.'".
+    Says "Jory puts the bread down. He looks at the door, and the wall, and the door. 'Come out,' he says. 'Down the ladder. Six hundred.' He counts something on his floury fingers and gives it up. 'Three hundred years we've bought their pins and sold them bread and never once asked them in to sit down.' Then: 'There's lofts in Bootscrape, and barns, and the Mat's got a cellar. We'd manage. We'd have to.' He picks the bread back up, and his hands are not steady. 'Tell them that. From Jory Mudge. If it comes to it, we'd take them in.'".
     On discuss { Assert knows(actor, bootscrape_shelter). }
   }
   Discovery bootscrape_shelter "Jory Mudge says Bootscrape will take the people of the Wainscot in, in its lofts and barns and the Mat's cellar, if they come down the ladder.".

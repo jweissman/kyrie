@@ -77,7 +77,7 @@ Module hollins "Behind the Wainscot" {
     Resolve check(actor, persuasion, dc_hard).
     On success { Assert pageGot(party). Give score_page to actor. }
     On failure { Assert pleadedPage(party). }
-    Result "Faith Penny opens her mouth, and shuts it, and looks at the register for a long time. 'It was addressed,' she says. 'But it was not sent anywhere. It went from him to him. It was never in the post. It was in a cupboard that happened to be the post.' She takes off her cap and rubs her forehead. 'Ninety-one years.' She goes and gets it. 'Don't tell anyone,' she says. 'Especially not Ludovic.'".
+    Result "Faith Penny opens her mouth, and shuts it, and looks at the register. 'It was addressed,' she says. 'But it was not sent anywhere. It went from him to him. It was never in the post. It was in a cupboard that happened to be the post.' She takes off her cap and rubs her forehead. 'Ninety-one years.' She goes and gets it. 'Don't tell anyone,' she says. 'Especially not Ludovic.'".
     Otherwise "'Postage,' says Faith Penny, 'is due on what is posted. It was posted. It went through my hands. The Post does not do philosophy.' She goes back to her register.".
   }
   Relation pleadedPage(group). Relation pageGot(group).
@@ -141,7 +141,7 @@ Module hollins "Behind the Wainscot" {
     Assert state(long_clock, jammed).
   }
   Rule verity_watched at clock_hood when state(long_clock, going) and dayN(hollins) >= 3 and hour(clock) >= 23 and at(party, clock_hood) and not verityRelents(verity) and not verityCaught(verity)
-    says "Sister Verity comes up the chain in the dark with a giant's pin over her shoulder like a lance, and stops when she sees you, and stands a long time with it there. Then she lets it down, very carefully, against the wheels. 'You'd tell,' she says. 'You'd tell the Prior.' She sits down on a spoke of the strike wheel with her face in her hands." { Assert verityCaught(verity). }
+    says "Sister Verity comes up the chain in the dark with a giant's pin over her shoulder like a lance, and stops when she sees you, and stands with it there while the wheels go round. Then she lets it down, very carefully, against the wheels. 'You'd tell,' she says. 'You'd tell the Prior.' She sits down on a spoke of the strike wheel with her face in her hands." { Assert verityCaught(verity). }
   Topic verity_diary with verity "Read Sister Verity Cogg what the Child wrote about the clock" when knows(actor, diary_clock) and not verityRelents(verity) once {
     Says "You read it to her from the diary's copy: I have stopped the hall clock with my finger so that it will still be today when I come home. Sister Verity does not move. Then she puts down the oil-can, and takes the giant's pin out from where she had hidden it behind the bell, and lays it on the floor of the works. 'When I come home,' she says. 'She wrote that. She meant to come home.' She looks up at the wheels, which are turning. 'Then it's today,' she says. 'It's today. She came.' And she laughs, a small helpless sound, and goes on laughing, and cannot stop.".
     On discuss { Assert verityRelents(verity). }

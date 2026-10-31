@@ -106,7 +106,7 @@ Module hollins "Behind the Wainscot" {
   }
   Relation inkGot(group).
   Topic gideon_ink with gideon "Ask Gideon Lamb for a bucket of the Readers' ink" when knows(actor, chart_plan) and not inkGot(party) once {
-    Says "Gideon Lamb looks at you over his mended spectacles for a long time. 'For Mistress Haddow's broom,' he says. 'For writing on Her chart.' He takes them off. 'The Readers read. It is what we are. We have never once in a hundred and sixty years written in one of Her books.' He puts the spectacles on again. 'Second bucket on the left, by Mandragora. Don't tell me which night.'".
+    Says "Gideon Lamb looks at you over his mended spectacles. 'For Mistress Haddow's broom,' he says. 'For writing on Her chart.' He takes them off. 'The Readers read. It is what we are. We have never once in a hundred and sixty years written in one of Her books.' He puts the spectacles on again. 'Second bucket on the left, by Mandragora. Don't tell me which night.'".
     On discuss { Assert inkGot(party). }
   }
   Action correct_chart(actor: group, site: place) "Draw the Wainscot into the Lady's chart, in her hand, while she sleeps" {

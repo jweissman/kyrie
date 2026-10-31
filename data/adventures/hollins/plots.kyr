@@ -201,7 +201,7 @@ Module hollins "Behind the Wainscot" {
     Resolve check(actor, persuasion, dc_hard).
     On success { Assert haspStands(hasp). Assert answeredJarl(party). }
     On failure { Assert answeredJarl(party). }
-    Result "You answer him, in front of all of them: that she did not lay the trap and does not know his son's name; that the house is not theirs and never was, and would be less theirs, not more, with her dead and her cousin's lawyers on the doorstep. And then, because it is true, that you are sorry about Wat. Hasp looks at you for a long time across the parlour. Then he sits down, heavily, and puts his pin across his knees, and does not say anything else; and the Jarmen round him look at each other.".
+    Result "You answer him, in front of all of them: that she did not lay the trap and does not know his son's name; that the house is not theirs and never was, and would be less theirs, not more, with her dead and her cousin's lawyers on the doorstep. And then, because it is true, that you are sorry about Wat. Hasp looks at you across the parlour. Then he sits down, heavily, and puts his pin across his knees, and does not say anything else; and the Jarmen round him look at each other.".
     Otherwise "You answer him, and he hears you out, and says, 'You're not from here,' and sits down; and you can see that it has made no difference at all.".
   }
   Relation answeredJarl(group).
