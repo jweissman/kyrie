@@ -3,7 +3,6 @@ Module season "Hold One Season" {
 
   // The plateau, as far as this slice goes: Quell on the western margin, the heath and the Ramp to the gorge,
   // Ennick on the gorge floor, the Clear Fields above it, and the city under the glass.
-  Place imbar "Imbar" is plane.
   Place ghessil "the Ghessil Uplands" is region within imbar.
   Place quell "Quell" is settlement within ghessil at 0, 1.
   Place heath "the heath" is wilderness within ghessil at 1, 1.

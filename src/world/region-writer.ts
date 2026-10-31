@@ -21,6 +21,7 @@ import { RegionMarvels } from './region-marvels';
 import { SettlementWriter } from './settlement-writer';
 import { RegionTraffic } from './region-traffic';
 import { RegionTracts } from './region-tracts';
+import { ModuleCanon } from '../campaign/module-canon';
 // A generated region (the Deem `region` generator's output, plus sites scenarios asked for) written as an ordinary
 // Kyr module: settlements as their founding made them (see SettlementWriter), roads between them, and a track out to
 // each site. Every
@@ -144,7 +145,8 @@ export class RegionWriter {
     const q = JSON.stringify, lines: string[] = [];
     lines.push(
       `  Description ${q(`${region.name}: ${this.terrain(region.terrain)} country, home to ${this.peoples(region)}, who keep the faith of ${region.deity}.${this.meaning(region)}`)}.`,
-      `  Place region ${q(region.name)} is region.`, `  Initially Assert terrain(region, ${region.terrain}).`);
+      `  Place region ${q(region.name)} is region within ${ModuleCanon.imbar}.`,
+      `  Initially Assert terrain(region, ${region.terrain}).`);
     region.settlements.forEach((s, i) => lines.push(...this.settlement(s, i, region)));
     // Each road runs through its own stretch of country, where travellers can be met or waylaid; the land decides
     // how long it takes and what it asks (see RegionGeography).
@@ -199,7 +201,8 @@ export class RegionWriter {
   private static meaning(place: { gloss?: string; tongue?: string }): string { return RegionGeography.meaning(place); }
   // The module manifest: the world rules, every place and person exported under its own id, and what the assembler
   // is told about it: the terrain, which rooms are on the roads, what kind each site is and which a scenario took.
-  // A region beyond the first imports the one company from the first.
+  // A region beyond the first imports the one company from the first. Every one is a country of Imbar, the world's
+  // own (data/imbar), as the authored countries beyond its marches are: the road over a march is no planar crossing.
   // The region's module written into a world's files: its manifest and its parts.
   static write(files: Record<string, string>, root: string, region: Region,
     at: { company: Company | null; taken: Record<string, string>; beyond?: boolean }) {
@@ -238,7 +241,7 @@ export class RegionWriter {
       ...region.settlements.map(s => ['keeper', `${s.id}_innkeeper`, `${s.id}_green`]),
       ...region.sites.map(w => ['siteKind', w.id, w.kind]), ...Object.entries(taken).map(([w, by]) => ['taken', w, by])];
     return { version: 1, source: sources, rules: ['world', 'elements', 'devotion'], globals: ['party'],
-      ...beyond ? { imports: ['party'], roles: { party: { type: 'group' } } } : {},
+      canon: [ModuleCanon.imbar], ...beyond ? { imports: ['party'], roles: { party: { type: 'group' } } } : {},
       exports: Object.fromEntries([...ids.map(id => [id, id]), ...lands]), assembly: { commitments },
       chart: this.chart(region, roads) };
   }

@@ -23,6 +23,9 @@
   "globals": [
     "party"
   ],
+  "canon": [
+    "imbar"
+  ],
   "imports": [
     "party"
   ],

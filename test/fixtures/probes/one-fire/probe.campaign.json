@@ -1,0 +1,1 @@
+{ "version": 1, "name": "Probe: one Plane of Fire", "modules": [{ "id": "home", "bundle": "home/module.json" }, { "id": "ember", "bundle": "ember/module.json" }, { "id": "cinder", "bundle": "cinder/module.json" }], "party": [{ "name": "Ama", "raceId": "human", "classId": "warrior" }] }

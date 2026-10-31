@@ -1,0 +1,93 @@
+Module canon "Imbar and the planes" {
+  // ── The outer planes ──────────────────────────────────────────────────────────────────────────────────────────────
+  // Orsino's nine, each under its law (the catalog's plane condition: its spell DC is held by everyone fighting
+  // anywhere in it), and the Abyss, Nirvana and the Mount of the Exalted, which have none. A module puts no law of its
+  // own on them: its laws go on its own places.
+  Entity plane_arcadia: law "the law of Arcadia". Entity plane_cthelll: law "the law of Cthell".
+  Entity plane_gehenna: law "the law of Gehenna". Entity plane_hades: law "the law of Hades".
+  Entity plane_limbo: law "the law of Limbo". Entity plane_mechanus: law "the law of Mechanus".
+  Entity plane_pandemonium: law "the law of Pandemonium". Entity plane_ysgard: law "the law of Ysgard".
+  Entity plane_zephyrus: law "the law of Zephyrus".
+
+  Place outer_arcadia "Arcadia" is plane.
+  Place outer_arcadia_region "Arcadia" is region within outer_arcadia elsewhere.
+  Place outer_arcadia_land "the threshold of Arcadia" is wilderness within outer_arcadia_region at 0, 0 elsewhere.
+  Place outer_arcadia_threshold "the threshold of Arcadia" is room within outer_arcadia_land at 0, 0.
+  Initially Assert law(outer_arcadia, plane_arcadia).
+  Observe outer_arcadia_seen at outer_arcadia_threshold when true "Green country in the light of a spring that does not end, and everything in leaf.".
+
+  // Spelt as the owner spells it; the catalog's condition keeps Orsino's spelling in its id.
+  Place outer_cthell "Cthell" is plane.
+  Place outer_cthell_region "Cthell" is region within outer_cthell elsewhere.
+  Place outer_cthell_land "the threshold of Cthell" is wilderness within outer_cthell_region at 0, 0 elsewhere.
+  Place outer_cthell_threshold "the threshold of Cthell" is room within outer_cthell_land at 0, 0.
+  Initially Assert law(outer_cthell, plane_cthelll).
+  Observe outer_cthell_seen at outer_cthell_threshold when true "Black water and reeds in a fog that does not lift.".
+
+  Place outer_gehenna "Gehenna" is plane.
+  Place outer_gehenna_region "Gehenna" is region within outer_gehenna elsewhere.
+  Place outer_gehenna_land "the threshold of Gehenna" is wilderness within outer_gehenna_region at 0, 0 elsewhere.
+  Place outer_gehenna_threshold "the threshold of Gehenna" is room within outer_gehenna_land at 0, 0.
+  Initially Assert law(outer_gehenna, plane_gehenna).
+  Observe outer_gehenna_seen at outer_gehenna_threshold when true "Black slopes of broken rock under a sky of ash, and the smell of sulphur.".
+
+  Place outer_hades "Hades" is plane.
+  Place outer_hades_region "Hades" is region within outer_hades elsewhere.
+  Place outer_hades_land "the threshold of Hades" is wilderness within outer_hades_region at 0, 0 elsewhere.
+  Place outer_hades_threshold "the threshold of Hades" is room within outer_hades_land at 0, 0.
+  Initially Assert law(outer_hades, plane_hades).
+  Observe outer_hades_seen at outer_hades_threshold when true "A grey cavern without end, in a gloom where nothing has its colour.".
+
+  Place outer_limbo "Limbo" is plane.
+  Place outer_limbo_region "Limbo" is region within outer_limbo elsewhere.
+  Place outer_limbo_land "the threshold of Limbo" is wilderness within outer_limbo_region at 0, 0 elsewhere.
+  Place outer_limbo_threshold "the threshold of Limbo" is room within outer_limbo_land at 0, 0.
+  Initially Assert law(outer_limbo, plane_limbo).
+  Observe outer_limbo_seen at outer_limbo_threshold when true "Sand to every horizon, shifting underfoot, and the dunes never where they were.".
+
+  Place outer_mechanus "Mechanus" is plane.
+  Place outer_mechanus_region "Mechanus" is region within outer_mechanus elsewhere.
+  Place outer_mechanus_land "the threshold of Mechanus" is wilderness within outer_mechanus_region at 0, 0 elsewhere.
+  Place outer_mechanus_threshold "the threshold of Mechanus" is room within outer_mechanus_land at 0, 0.
+  Initially Assert law(outer_mechanus, plane_mechanus).
+  Observe outer_mechanus_seen at outer_mechanus_threshold when true "Everything here is set square and turning in its time, like the inside of a great clock.".
+
+  Place outer_pandemonium "Pandemonium" is plane.
+  Place outer_pandemonium_region "Pandemonium" is region within outer_pandemonium elsewhere.
+  Place outer_pandemonium_land "the threshold of Pandemonium" is wilderness within outer_pandemonium_region at 0, 0 elsewhere.
+  Place outer_pandemonium_threshold "the threshold of Pandemonium" is room within outer_pandemonium_land at 0, 0.
+  Initially Assert law(outer_pandemonium, plane_pandemonium).
+  Observe outer_pandemonium_seen at outer_pandemonium_threshold when true "Wind howling on every side, and nothing it does not move.".
+
+  Place outer_ysgard "Ysgard" is plane.
+  Place outer_ysgard_region "Ysgard" is region within outer_ysgard elsewhere.
+  Place outer_ysgard_land "the threshold of Ysgard" is wilderness within outer_ysgard_region at 0, 0 elsewhere.
+  Place outer_ysgard_threshold "the threshold of Ysgard" is room within outer_ysgard_land at 0, 0.
+  Initially Assert law(outer_ysgard, plane_ysgard).
+  Observe outer_ysgard_seen at outer_ysgard_threshold when true "Snow on high mountains, and a wind off them as sharp as a blade.".
+
+  Place outer_zephyrus "Zephyrus" is plane.
+  Place outer_zephyrus_region "Zephyrus" is region within outer_zephyrus elsewhere.
+  Place outer_zephyrus_land "the threshold of Zephyrus" is wilderness within outer_zephyrus_region at 0, 0 elsewhere.
+  Place outer_zephyrus_threshold "the threshold of Zephyrus" is room within outer_zephyrus_land at 0, 0.
+  Initially Assert law(outer_zephyrus, plane_zephyrus).
+  Observe outer_zephyrus_seen at outer_zephyrus_threshold when true "Deep forest under a storm, and thunder that never quite stops.".
+
+  Place outer_abyss "the Abyss" is plane.
+  Place outer_abyss_region "the Abyss" is region within outer_abyss elsewhere.
+  Place outer_abyss_land "the threshold of the Abyss" is wilderness within outer_abyss_region at 0, 0 elsewhere.
+  Place outer_abyss_threshold "the threshold of the Abyss" is room within outer_abyss_land at 0, 0.
+  Observe outer_abyss_seen at outer_abyss_threshold when true "The edge of a drop that has no bottom, and the edge is under your feet.".
+
+  Place outer_nirvana "Nirvana" is plane.
+  Place outer_nirvana_region "Nirvana" is region within outer_nirvana elsewhere.
+  Place outer_nirvana_land "the threshold of Nirvana" is wilderness within outer_nirvana_region at 0, 0 elsewhere.
+  Place outer_nirvana_threshold "the threshold of Nirvana" is room within outer_nirvana_land at 0, 0.
+  Observe outer_nirvana_seen at outer_nirvana_threshold when true "A stillness so whole that you can hear your own heart.".
+
+  Place outer_exalted "the Mount of the Exalted" is plane.
+  Place outer_exalted_region "the Mount of the Exalted" is region within outer_exalted elsewhere.
+  Place outer_exalted_land "the foot of the Mount" is wilderness within outer_exalted_region at 0, 0 elsewhere.
+  Place outer_exalted_threshold "the foot of the Mount" is room within outer_exalted_land at 0, 0.
+  Observe outer_exalted_seen at outer_exalted_threshold when true "The foot of a mountain in a high clear light, its slope going up into more light than you can look at.".
+}

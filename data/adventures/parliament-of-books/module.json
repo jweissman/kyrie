@@ -35,6 +35,10 @@
   "globals": [
     "party"
   ],
+  "canon": [
+    "outer_cthell",
+    "outer_exalted"
+  ],
   "exports": {
     "party": "party",
     "region": "calam",

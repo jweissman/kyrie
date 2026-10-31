@@ -4,6 +4,7 @@ import type { World } from '../lang/world';
 import type { SpatialScene } from '../presentation/player-view';
 import type { Act, ExitRow, Passage, PlaceRef, Transition } from './screen-types';
 import { PassageModel } from './passage-model';
+import { ModuleCanon } from '../campaign/module-canon';
 
 export interface ExitActs { acts: Act[]; passage?: Passage; via?: string }
 interface Known {
@@ -27,9 +28,13 @@ export class Passages {
   private within(id: string, kind: string): Entity | undefined {
     return Spatial.ancestry(this.entities, id).find(e => e.space?.kind === kind);
   }
+  // The plane a place lies in. One its author set in no plane is in Imbar, as every country is: the road over a
+  // march from a generated country (within Imbar) to Merrowdale (in no plane) is no more a planar threshold than the
+  // road to Wrayford (within Imbar) is.
+  private plane(id: string): string { return this.within(id, 'plane')?.id ?? ModuleCanon.imbar; }
   transition(origin: string, destination: string): Transition {
     const kinds = ['plane', 'region', 'settlement', 'wilderness'];
-    if (this.within(origin, 'plane')?.id !== this.within(destination, 'plane')?.id) { return 'cross_plane'; }
+    if (this.plane(origin) !== this.plane(destination)) { return 'cross_plane'; }
     if (kinds.slice(1).some(k => this.within(origin, k)?.id !== this.within(destination, k)?.id)) { return 'travel'; }
     const from = this.within(origin, 'level'), to = this.within(destination, 'level');
     if (from && to && from.id !== to.id) { return 'level'; }

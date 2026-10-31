@@ -111,3 +111,6 @@ Behind the Reading Room (by the Order of the Hexagons) and at the back of the Re
 not end) the Commonplace becomes the Library proper: fourteen hexagons and galleries charted, and the rest of it not.
 Its plan, its law and its people are in [12-the-stacks.md](12-the-stacks.md). From its Hexagon of Doors two books open
 on realms outside the Commonplace altogether: the Gate of Cthelll, and the lowest terrace of the Mount of the Exalted.
+Each is the adventure's own part of the outer plane it lies in, as every world holds the planes
+([`data/imbar`](../../../data/imbar)): the furnace-city is a region of Cthell, and fights there are fought under
+Cthell's law; the terraces are a region of the Mount. Nothing joins either to the rest of its plane but the books.

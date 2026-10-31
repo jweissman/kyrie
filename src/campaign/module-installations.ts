@@ -148,7 +148,9 @@ export class ModuleInstallations {
       outcomes: [...(prior?.outcomes ?? []), ...addition.outcomes.map(o => ({ ...o, id: `${draft.id}.${o.id}` }))] };
     const actorIds = definition.actors.map(a => a.id), members = definition.actors.flatMap(a => a.members);
     const pressureIds = definition.pressures.map(p => p.id);
-    if (definition.actors.filter(a => a.player).length !== 1 || new Set(actorIds).size !== actorIds.length
+    // A world with no one in it yet (the canon alone, installed before anything else) has no company to control.
+    if ((definition.actors.length && definition.actors.filter(a => a.player).length !== 1)
+      || new Set(actorIds).size !== actorIds.length
       || new Set(members).size !== members.length) { throw new Error('Each actor/creature must have one controller'); }
     if (new Set(pressureIds).size !== pressureIds.length
       || addition.pressures.some(p => draft.imports.includes(p.id))) {

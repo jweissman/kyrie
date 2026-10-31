@@ -1,9 +1,13 @@
 Module calamy "A Parliament of Books" {
   Description "The realms beyond the Commonplace that its doors open on: Cthelll, the furnace-city of the damned, which is administered; and the lowest terrace of the Mount of the Exalted, whose libraries are of true books.".
 
-  Place realms "the Realms Beyond" is region elsewhere.
-  Place cthelll "Cthelll" is wilderness within realms at 0, 0 elsewhere.
-  Place mount "the Mount of the Exalted" is wilderness within realms at 1, 0 elsewhere.
+  // Each realm is this adventure's own part of the outer plane it lies in, as every world holds the planes
+  // (data/imbar): the furnace-city in Cthell, under Cthell's law; the lowest terrace on the Mount of the Exalted. Only
+  // the Hexagon's two books lead there; neither is joined to its plane's threshold.
+  Place furnace_city "the furnace-city of the damned" is region within outer_cthell elsewhere.
+  Place terraces "the terraces of the Mount" is region within outer_exalted elsewhere.
+  Place cthelll "Cthelll" is wilderness within furnace_city at 0, 0 elsewhere.
+  Place mount "the Mount of the Exalted" is wilderness within terraces at 0, 0 elsewhere.
   Place cthelll_gate "the Gate of Cthelll" is room within cthelll at 0, 0.
   Place celestia_terrace "the lowest terrace of the Mount" is room within mount at 0, 0.
 

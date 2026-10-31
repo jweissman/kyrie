@@ -7,7 +7,7 @@ import { CompanyChoices } from './company-choices';
 import { Perceptions } from './perceptions';
 import { ModuleBundle, type BundleRequest } from './module-bundle';
 import type { BundleSource } from './bundle-source';
-import { ModuleInstallations } from './module-installations';
+import { ModuleInstallations } from './module-installations'; import { CanonInstall } from './canon-install';
 import { CreatureFacts } from './creature-facts'; import { Progression } from './progression';
 import type { InstalledModule, CampaignActor, CampaignDefinition } from './definition';
 import { ModuleWriter } from '../lang/module-writer'; import { ModuleCompiler } from '../lang/module-compiler';
@@ -16,10 +16,8 @@ import { CommittedWorld } from './committed-world'; import { Endings } from '../
 import { Projection } from './projection'; import { CampaignGrounding } from './campaign-grounding';
 import type { Creature } from '../creature';
 import { Membership, type LiveCache } from './membership';
-import { CampaignPlan } from './campaign-plan';
-import { LoadCache } from './load-cache';
-import { CombatProjection } from '../combat-projection';
-import { Battle } from '../arena';
+import { CampaignPlan } from './campaign-plan'; import { Battle } from '../arena';
+import { LoadCache } from './load-cache'; import { CombatProjection } from '../combat-projection';
 import { Content, type CreatureGenerationContext } from '../content';
 import type { CombatEvent, Fighter } from '../model'; import type { Instance, Module } from '../lang/module';
 import { World } from '../lang/world'; import { Checks } from '../rules/checks';
@@ -109,14 +107,15 @@ export class Campaign implements WatchHost {
     party?: CreatureGenerationContext[]): Promise<Campaign> {
     LocalKinds.reset(); const manifest = await ModuleBundle.campaign(path, source, seed);
     party ??= manifest.party;
-    let campaign: Campaign | undefined;
+    // The canon first, so that what it names is there before any module names it (see CanonInstall).
+    const canon = await CanonInstall.first(seed, source); let campaign: Campaign | undefined;
     // Each module is checked as it is compiled; the joined whole, once, when the last is in.
     for (const request of manifest.modules) {
       if (campaign) { await campaign.install(request, source, false); continue; }
-      const draft = await ModuleBundle.load(request, { seed }, source);
+      const draft = await ModuleBundle.load(request, { seed, installed: canon?.campaign.installations }, source);
       if (party) { CompanyChoices.apply(draft, party); }
       Overlays.declareGear(draft.instance); Overlays.declareWorth(draft.instance);
-      const first = ModuleInstallations.prepare(undefined, draft, 0, false);
+      const first = ModuleInstallations.prepare(canon, draft, 0, false);
       campaign = new Campaign(seed, first, undefined, { calendar: manifest.calendar, night: manifest.night });
     }
     // Settled when the last is in: everyone's facts projected (each install projected only its newcomers'), and the
@@ -129,7 +128,7 @@ export class Campaign implements WatchHost {
   async install(request: BundleRequest, source: BundleSource, checked = true, everyone = checked): Promise<void> {
     this.installBoundary();
     if (!this.definition?.installations) { throw new Error('Install modules into a bundle-based campaign'); }
-    const startedAt = this.current.elapsed;
+    await CanonInstall.before(this, request, source); const startedAt = this.current.elapsed;
     const draft = await ModuleBundle.load(request, { seed: this.current.seed,
       elapsed: this.current.elapsed, installed: this.definition.installations }, source);
     this.installBoundary();
@@ -152,6 +151,9 @@ export class Campaign implements WatchHost {
   get actors(): readonly CampaignActor[] { return this.definition?.actors ?? []; }
   get playerActor(): string | undefined { return this.definition?.actors.find(a => a.player)?.id; }
   get persistent(): boolean { return !!this.definition; }
+  // What the world could not take (the canon, in a world kept from before it: see CanonInstall), said for the lint.
+  get conflicts(): readonly string[] { return this.definition?.conflicts ?? []; }
+  conflict(note: string) { this.definition = { ...this.definition!, conflicts: [...this.conflicts, note] }; }
   // Whether anyone of the company stands, from the live records: read many times a turn (`party` copies each twice).
   get running(): boolean {
     return this.current.partyIds.some(id => this.creatures.peek(id).state.hp > 0) && (this.persistent

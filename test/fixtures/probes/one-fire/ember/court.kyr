@@ -1,0 +1,18 @@
+Module ember "The Ember Court" {
+  // A court of the Plane of Fire: a region of this module's own within the canon's plane, joined to its threshold.
+  // The Rose of the Winds is kept here (seatOf, said of a canonical identity at installation), and made whole here,
+  // which is a world event (befell, asserted in play).
+  Place ember_court "the Ember Court" is region within inner_fire elsewhere.
+  Place embers "the Ember Court" is wilderness within ember_court at 0, 0 elsewhere.
+  Place ember_hall "the hall of embers" is room within embers at 0, 0.
+  Passage ember_way "the way to the Ember Court" is path between inner_fire_threshold and ember_hall taking 5 minutes.
+  Initially Assert seatOf(rose_of_the_winds, ember_hall).
+  Observe ember_scene at ember_hall when true "A hall of banked embers, and on a stand in the middle of it a rose of four petals.".
+  Action set_petal(actor: group, site: place) "Set the last petal in the Rose" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, ember_hall) and not befell(rose_made_whole).
+    Time 1.
+    On success { Assert befell(rose_made_whole). }
+    Result "The last petal goes in with a sound like a struck glass, and the Rose is whole.".
+  }
+  Goal false.
+}

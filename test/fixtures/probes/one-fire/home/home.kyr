@@ -1,0 +1,11 @@
+Module home "A hall with a door into the Fire" {
+  // A country of Imbar with a door in it to the Plane of Fire: the canon gives the plane and its threshold, which no
+  // module here declares.
+  Place vale "the probe vale" is region within imbar.
+  Place hamlet "the hamlet" is settlement within vale at 0, 0.
+  Place hall "the hall of doors" is room within hamlet at 0, 0.
+  Company party "You" of 1 at hall.
+  Passage fire_door "the Fire Door" is door between hall and inner_fire_threshold.
+  Observe hall_scene at hall when true "A bare hall with one door in it, warm to the touch.".
+  Goal false.
+}

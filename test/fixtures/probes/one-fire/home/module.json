@@ -1,0 +1,1 @@
+{ "version": 1, "source": "home.kyr", "rules": ["world"], "globals": ["party"], "canon": ["imbar", "inner_fire"], "exports": { "party": "party" } }

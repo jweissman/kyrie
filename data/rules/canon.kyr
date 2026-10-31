@@ -1,0 +1,19 @@
+Module world_canon "What every world holds before any adventure is in it, and what can be said of it" {
+  // The canon itself is data/imbar: the planes and their thresholds, the College of Dun Rì and its House of Doors,
+  // and the world events an adventure may bring about. This file names only what is said of them, so that whatever
+  // one module says of the canon another can read; it declares nothing and asserts nothing, since the shared rules
+  // are joined again to every module installed, and an event that had befallen would be undone.
+
+  // Something every author may name before anyone has built a place for it: a college, a house, a city, a key, an
+  // office. Where an adventure builds a place for one, it says so: the House of Doors is seated in its building.
+  Kind identity.
+  Relation seatOf(identity, place).
+  // One identity of another, and where one is seated before it has a place: the House of Doors is the college's,
+  // the Rector's office the House's, and the college is seated in Dun Rì.
+  Relation partOf(identity, identity). Relation seatedIn(identity, identity).
+  // Who holds an office (the Rector of the House of Doors).
+  Relation holdsOffice(group, identity).
+  // A world event (one of the facts of data/imbar) that has befallen: asserted in play, once, and never undone.
+  Relation befell(fact).
+  Goal false.
+}

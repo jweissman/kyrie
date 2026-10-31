@@ -10,6 +10,7 @@ import { RegionLand } from '../src/world/region-land';
 import { GeneratedWorld } from './support/generated';
 import { Journey } from '../src/session/journey';
 import { ModuleWriter } from '../src/lang/module-writer';
+import { ScreenModel } from '../src/ui/screen-model';
 
 // A generated world goes on past the edges of its first region: an old road runs out to a march-stone on every side,
 // and the first time the company stands at one the country beyond is drawn from the world's seed and where it lies,
@@ -25,6 +26,10 @@ class March {
     const c = PlayerView.choices(s.campaign).find(x => pattern.test(x.choice.name));
     if (!c) { throw new Error(`No choice like ${pattern}`); }
     return s.perform(c.choice.id);
+  }
+  // How the way from where the company stands to a place is told: across country, or through a planar threshold.
+  static way(s: PlaySession, to: string) {
+    return ScreenModel.build(s.campaign).exits.find(e => e.destination.id === to)?.transition;
   }
 }
 
@@ -65,6 +70,8 @@ describe('the world beyond a region', () => {
     for (const site of drawn!.region!.sites.filter(x => x.work)) {
       expect(w.report.region.sites.filter(x => x.work && RegionLand.confusable(x.name, site.name))).toEqual([]);
     }
+    // Both countries are of Imbar: the road over the march goes across country, not through a planar threshold.
+    expect(March.way(s, 'xm1y0__edge_east')).toBe('travel');
     await March.choose(s, /^Take the road across the march to the march-stone of /);
     expect(s.campaign.world.one('at', 'party')).toBe('xm1y0__edge_east');
     await March.choose(s, /^Take the old road east to /);
@@ -83,6 +90,8 @@ describe('the world beyond a region', () => {
     const elapsed = s.campaign.state.elapsed, drawn = await frontier.expand(s.campaign);
     expect(drawn!.region).toBeUndefined();
     expect(s.campaign.module.entities.some(e => e.id === `${drawn!.rid}__long_man`)).toBe(true);
+    // Merrowdale is set in no plane, and so is in Imbar: the road in from a country of Imbar is no planar crossing.
+    expect(March.way(s, `${drawn!.rid}__road_end`)).toBe('travel');
     await March.choose(s, /road across the march/);
     expect(s.campaign.world.one('at', 'party')).toBe(`${drawn!.rid}__road_end`);
     // Its three days run from the morning after it is reached, not from when the world began (see placed-days).

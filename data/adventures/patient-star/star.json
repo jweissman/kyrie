@@ -23,6 +23,9 @@
   "globals": [
     "party"
   ],
+  "canon": [
+    "imbar"
+  ],
   "exports": {
     "party": "party",
     "region": "ghessil",

@@ -5,7 +5,6 @@ Module hessel "The Banns at Hessel" {
   // One hillside, so that class is height: the Old Town by the river, where the work is done; the Baths in the middle,
   // where the water comes up hot; Upper Hessel, the new stone town built to look at itself; and the downs above it,
   // over which the road goes to Orm. The road from the south comes in at the bottom, over the Lim.
-  Place imbar "Imbar" is plane.
   Place hessel "the Lim valley" is region within imbar.
   Initially Assert terrain(hessel, hills).
   Place orm_way "the Orm road" is wilderness within hessel at 0, 0.

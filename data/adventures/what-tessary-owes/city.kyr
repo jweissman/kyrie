@@ -5,7 +5,6 @@ Module tessary "What Tessary Owes" {
   // The Ossel comes down out of the marsh country in a dozen channels and meets the sea at Tessary. The city stands on
   // piles and fill along the last ridge of dry ground; north of its Tidewall is the outer basin, where the old city lies
   // under the water and comes up at the ebb.
-  Place imbar "Imbar" is plane.
   Place ossel "the Ossel delta" is region within imbar.
   Place saltmarsh "the salt-marsh" is wilderness within ossel at 0, 1.
   Place tessary "Tessary" is settlement within ossel at 1, 1.

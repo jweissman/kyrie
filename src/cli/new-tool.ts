@@ -16,12 +16,13 @@ export class NewTool {
   private static json(v: unknown): string { return `${JSON.stringify(v, null, 2)}\n`; }
   static files(id: string, title: string): Record<string, string> {
     const q = JSON.stringify.bind(JSON), json = NewTool.json.bind(NewTool);
+    // Its country is a country of Imbar, the world's own (data/imbar), as every country is.
     const module = { version: 1, source: ['site.kyr', 'company.kyr'], rules: ['world'], globals: ['party'],
-      exports: { party: 'party', region: 'country', road: 'road' } };
+      canon: ['imbar'], exports: { party: 'party', region: 'country', road: 'road' } };
     return {
       [`data/adventures/${id}/site.kyr`]: [`Module ${id} ${q(title)} {`,
         `  Description ${q(`${title}: what it is, in a sentence.`)}.`,
-        '  Place country "the country" is region.',
+        '  Place country "the country" is region within imbar.',
         '  Place town "the town" is settlement within country at 0, 0.',
         '  Place road "the road into town" is room within town at 0, 0 outdoors.',
         '  Place square "the square" is room within town at 1, 0 outdoors.',

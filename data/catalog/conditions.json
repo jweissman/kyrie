@@ -217,7 +217,8 @@
         "orsino": "plane:Arcadia",
         "fidelity": "adapted",
         "notes": "A plane as a place's law (law(place, plane_arcadia)): its spell DC is held by everyone fighting there. Its spell durations and spare spell slots are not modelled."
-      }
+      },
+      "law": true
     },
     "plane_cthelll": {
       "name": "Cthelll",
@@ -230,7 +231,8 @@
         "orsino": "plane:Cthelll",
         "fidelity": "adapted",
         "notes": "A plane as a place's law (law(place, plane_cthelll)): its spell DC is held by everyone fighting there. "
-      }
+      },
+      "law": true
     },
     "plane_gehenna": {
       "name": "Gehenna",
@@ -243,7 +245,8 @@
         "orsino": "plane:Gehenna",
         "fidelity": "adapted",
         "notes": "A plane as a place's law (law(place, plane_gehenna)): its spell DC is held by everyone fighting there. "
-      }
+      },
+      "law": true
     },
     "plane_hades": {
       "name": "Hades",
@@ -256,7 +259,8 @@
         "orsino": "plane:Hades",
         "fidelity": "adapted",
         "notes": "A plane as a place's law (law(place, plane_hades)): its spell DC is held by everyone fighting there. Its spell durations and spare spell slots are not modelled."
-      }
+      },
+      "law": true
     },
     "plane_limbo": {
       "name": "Limbo",
@@ -269,7 +273,8 @@
         "orsino": "plane:Limbo",
         "fidelity": "adapted",
         "notes": "A plane as a place's law (law(place, plane_limbo)): its spell DC is held by everyone fighting there. Its spell durations and spare spell slots are not modelled."
-      }
+      },
+      "law": true
     },
     "plane_mechanus": {
       "name": "Mechanus",
@@ -282,7 +287,8 @@
         "orsino": "plane:Mechanus",
         "fidelity": "adapted",
         "notes": "A plane as a place's law (law(place, plane_mechanus)): its spell DC is held by everyone fighting there. Its spell durations and spare spell slots are not modelled."
-      }
+      },
+      "law": true
     },
     "plane_pandemonium": {
       "name": "Pandemonium",
@@ -295,7 +301,8 @@
         "orsino": "plane:Pandemonium",
         "fidelity": "adapted",
         "notes": "A plane as a place's law (law(place, plane_pandemonium)): its spell DC is held by everyone fighting there. Its spell durations and spare spell slots are not modelled."
-      }
+      },
+      "law": true
     },
     "plane_prime_material": {
       "name": "Prime Material",
@@ -306,7 +313,8 @@
         "orsino": "plane:Prime Material",
         "fidelity": "adapted",
         "notes": "A plane as a place's law (law(place, plane_prime_material)): its spell DC is held by everyone fighting there. Its spell durations and spare spell slots are not modelled."
-      }
+      },
+      "law": true
     },
     "plane_ysgard": {
       "name": "Ysgard",
@@ -319,7 +327,8 @@
         "orsino": "plane:Ysgard",
         "fidelity": "adapted",
         "notes": "A plane as a place's law (law(place, plane_ysgard)): its spell DC is held by everyone fighting there. Its spell durations and spare spell slots are not modelled."
-      }
+      },
+      "law": true
     },
     "plane_zephyrus": {
       "name": "Zephyrus",
@@ -332,7 +341,8 @@
         "orsino": "plane:Zephyrus",
         "fidelity": "adapted",
         "notes": "A plane as a place's law (law(place, plane_zephyrus)): its spell DC is held by everyone fighting there. Its spell durations and spare spell slots are not modelled."
-      }
+      },
+      "law": true
     },
     "slain": {
       "name": "Dead",

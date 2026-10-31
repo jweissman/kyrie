@@ -1,0 +1,51 @@
+Module canon "Imbar and the planes" {
+  Description "What every world holds before any adventure is in it: Imbar, the planes beyond it and the threshold of each, the College of Dun Rì and its House of Doors, and what may befall them.".
+
+  // ── Imbar ─────────────────────────────────────────────────────────────────────────────────────────────────────────
+  // The material world. Every country is a region of it; the canon builds nothing in it, since there is no one place
+  // in Imbar that every door from elsewhere opens on.
+  Place imbar "Imbar" is plane.
+
+  // ── The inner planes ──────────────────────────────────────────────────────────────────────────────────────────────
+  // Each plane is one region and, in it, a threshold, where doors from elsewhere arrive and an author's own places
+  // join it. Its courts, cities and wastes are whatever authors set in it, each a region of its own within the plane.
+  // The elemental planes carry no law of their own yet: one written for a plane is written here, for every author.
+  Place inner_fire "the Plane of Fire" is plane.
+  Place inner_fire_region "the Plane of Fire" is region within inner_fire elsewhere.
+  Place inner_fire_land "the threshold of Fire" is wilderness within inner_fire_region at 0, 0 elsewhere.
+  Place inner_fire_threshold "the threshold of Fire" is room within inner_fire_land at 0, 0.
+  Observe inner_fire_seen at inner_fire_threshold when true "Heat and light on every side, and nothing in sight that is not burning.".
+
+  Place inner_air "the Plane of Air" is plane.
+  Place inner_air_region "the Plane of Air" is region within inner_air elsewhere.
+  Place inner_air_land "the threshold of Air" is wilderness within inner_air_region at 0, 0 elsewhere.
+  Place inner_air_threshold "the threshold of Air" is room within inner_air_land at 0, 0.
+  Observe inner_air_seen at inner_air_threshold when true "Open sky on every side, below as well as above, and a wind that does not stop.".
+
+  Place inner_earth "the Plane of Earth" is plane.
+  Place inner_earth_region "the Plane of Earth" is region within inner_earth elsewhere.
+  Place inner_earth_land "the threshold of Earth" is wilderness within inner_earth_region at 0, 0 elsewhere.
+  Place inner_earth_threshold "the threshold of Earth" is room within inner_earth_land at 0, 0.
+  Observe inner_earth_seen at inner_earth_threshold when true "Rock on every side, close and dark, and the weight of it pressing in.".
+
+  // The Court of Waters is a place of the plane that authors name before any has built it (the merfolk's
+  // grandmothers left it, the Grand Tour says): a part of the plane of its own, beside the threshold.
+  Place inner_water "the Plane of Water" is plane.
+  Place inner_water_region "the Plane of Water" is region within inner_water elsewhere.
+  Place inner_water_land "the threshold of Water" is wilderness within inner_water_region at 0, 0 elsewhere.
+  Place inner_water_threshold "the threshold of Water" is room within inner_water_land at 0, 0.
+  Place court_of_waters "the Court of Waters" is wilderness within inner_water_region at 1, 0 elsewhere.
+  Observe inner_water_seen at inner_water_threshold when true "Water on every side, green and deep, with no surface above it.".
+
+  Place inner_positive "the Positive Energy Plane" is plane.
+  Place inner_positive_region "the Positive Energy Plane" is region within inner_positive elsewhere.
+  Place inner_positive_land "the threshold of the Positive Plane" is wilderness within inner_positive_region at 0, 0 elsewhere.
+  Place inner_positive_threshold "the threshold of the Positive Plane" is room within inner_positive_land at 0, 0.
+  Observe inner_positive_seen at inner_positive_threshold when true "Light on every side with nothing that casts it, and a warmth that runs into you like strength.".
+
+  Place inner_negative "the Negative Energy Plane" is plane.
+  Place inner_negative_region "the Negative Energy Plane" is region within inner_negative elsewhere.
+  Place inner_negative_land "the threshold of the Negative Plane" is wilderness within inner_negative_region at 0, 0 elsewhere.
+  Place inner_negative_threshold "the threshold of the Negative Plane" is room within inner_negative_land at 0, 0.
+  Observe inner_negative_seen at inner_negative_threshold when true "Dark on every side, and a cold that draws the warmth out of you.".
+}

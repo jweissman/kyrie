@@ -5,7 +5,6 @@ Module gaunt "A Winter in Carth" {
   // A flat white country, the Levels, with the fell road coming up out of the south over Carth Fell and down to the
   // city; the city in three rings, the warmest in the middle; and to the east the Bishop's Wood, whose firewood is
   // licensed.
-  Place imbar "Imbar" is plane.
   Place gaunt_country "the Levels of Gaunt" is region within imbar.
   Initially Assert terrain(gaunt_country, frost).
   Place fell_road "the fell road" is wilderness within gaunt_country at 0, 3.

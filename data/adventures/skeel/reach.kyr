@@ -5,7 +5,7 @@ Module skeel "Fair Weather" {
   // A bight of the western sea nine miles across. At low water it is a desert of ribbed sand with islands standing up
   // out of it and one channel, the Gut, that never drains; at high water it is a sea with islands in it. Skeel is on
   // the north headland. The Craigs are the south arm. The Holm, the Skerry and Inish Gall stand out in the middle.
-  Place imbar "Imbar" is plane.
+
   Place reach "the Gannet Reach" is region within imbar.
   Initially Assert terrain(reach, marsh).
   Place coast "the coast road" is wilderness within reach at 1, 0.

@@ -1,0 +1,32 @@
+Module canon "Imbar and the planes" {
+  // ── The Infinite Library ──────────────────────────────────────────────────────────────────────────────────────────
+  // A plane of its own, to which every city that writes has its way in; what any author adds to it is a region
+  // within it, joined to its threshold.
+  Place infinite_library "the Infinite Library" is plane.
+  Place infinite_library_region "the Infinite Library" is region within infinite_library elsewhere.
+  Place infinite_library_land "the threshold of the Library" is wilderness within infinite_library_region at 0, 0 elsewhere.
+  Place infinite_library_threshold "the threshold of the Library" is room within infinite_library_land at 0, 0.
+  Observe infinite_library_seen at infinite_library_threshold when true "Shelves of books on every side, going away further than you can see.".
+
+  // ── The College of Dun Rì, and its House of Doors ────────────────────────────────────────────────────────────────
+  // Named before any adventure builds a place for them. The college is seated in Dun Rì, the City of Seven Towers
+  // (Orsino's dun_ri); the House of Doors is its restricted precinct, and the Rector of the House an office of it.
+  // An adventure that builds a place for one says so: Initially Assert seatOf(house_of_doors, its building).
+  Entity mages_college: identity "the College of Dun Rì".
+  Entity house_of_doors: identity "the House of Doors".
+  Entity dun_ri: identity "Dun Rì".
+  Entity rose_of_the_winds: identity "the Rose of the Winds".
+  Entity rector_of_the_house: identity "the Rector of the House of Doors".
+  Initially Assert seatedIn(mages_college, dun_ri).
+  Initially Assert partOf(house_of_doors, mages_college). Initially Assert partOf(rector_of_the_house, house_of_doors).
+
+  // ── The upper House ───────────────────────────────────────────────────────────────────────────────────────────────
+  // The far side of the Door of Doors: the House going on upward, gallery over gallery. Its first gallery is all the
+  // canon builds of it.
+  Place house_upper "the upper House" is plane.
+  Place house_upper_region "the upper House" is region within house_upper elsewhere.
+  Place house_upper_land "the first gallery" is wilderness within house_upper_region at 0, 0 elsewhere.
+  Place house_upper_threshold "the first gallery" is room within house_upper_land at 0, 0.
+  Observe house_upper_seen at house_upper_threshold when true "A long gallery with doors down both sides of it, every one of them shut.".
+  Goal true.
+}

@@ -1,0 +1,19 @@
+Module canon "Imbar and the planes" {
+  // ── What may befall ───────────────────────────────────────────────────────────────────────────────────────────────
+  // World events: what an adventure brings about that any other may read. Each is a fact, what someone who has heard
+  // of it knows; befell(event) says that it has happened, which the adventure that brings it about asserts in play,
+  // once, and nothing undoes. None has befallen in a world that has just begun.
+  // The Grand Tour's, at Sennet: the Rose, the Door of Doors, Cloudgate and the Whelm under it, the Rector, Perrin.
+  Entity rose_made_whole: fact "The Rose of the Winds has been made whole.".
+  Entity door_of_doors_opened: fact "The Door of Doors, in the House of Doors, has been opened.".
+  Entity cloudgate_fell: fact "Cloudgate has come down out of the sky into Sennet bay.".
+  Entity whelm_crushed: fact "The Whelm under Sennet bay was crushed when Cloudgate came down on it.".
+  Entity whelm_emptied: fact "The merfolk of the Whelm were warned in time to leave it.".
+  Entity merfolk_gone_home: fact "The merfolk of the Whelm have gone home through the Water Door.".
+  Entity rector_through_the_door: fact "The Rector of the House of Doors went through the Door of Doors, and has not come back.".
+  Entity rector_taken: fact "The Rector of the House of Doors has been taken up by the Watch.".
+  Entity rector_fled: fact "The Rector of the House of Doors has fled.".
+  Entity rector_barred: fact "The Rector of the House of Doors was kept from the Door of Doors, and would not go through it.".
+  Entity perrin_lives: fact "Perrin Halyard, who was given out for dead, is alive, and has come up out of the sea.".
+  Entity perrin_lost: fact "Perrin Halyard is dead.".
+}

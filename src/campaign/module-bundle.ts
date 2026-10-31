@@ -11,6 +11,7 @@ import type { InstalledModule } from './definition';
 import type { BundleSource } from './bundle-source';
 import type { Module } from '../lang/module';
 import { ModuleShadow } from './module-shadow';
+import { ModuleCanon } from './module-canon';
 import { FictionalTime } from './fictional-time';
 import { Composition, type Composed, type ManifestEntry } from '../world/compose/composition';
 
@@ -43,6 +44,9 @@ export interface BundleManifest {
   // Imports a module goes on without, keeping its own: what the country below says of it, in a world kept from before
   // it said so.
   optional?: string[];
+  // The ids of the canon (data/imbar) it names: given their declarations from there, and bound to the world's own
+  // (see ModuleCanon). A plane named brings its region and threshold; a place, the places it lies within.
+  canon?: string[];
   exports?: Record<string, string>;
   generation?: { type: string; context?: Record<string, DeemValue>; tables?: string; templates?: string };
   // Experience for each companion when the module's goal first holds.
@@ -53,7 +57,7 @@ export interface BundleManifest {
 export class ModuleBundle {
   // Rule modules named in a manifest resolve to data/rules; "world" is the standard set every world uses.
   static readonly world = ['core', 'passages', 'people', 'needs', 'services', 'discovery', 'care', 'belongings',
-    'dominion', 'probing', 'inhabitants', 'growing', 'belief', 'ambitions'];
+    'dominion', 'probing', 'inhabitants', 'growing', 'belief', 'ambitions', 'canon'];
   static readonly ruleNames = [...ModuleBundle.world, 'elements', 'devotion'];
   private static strings(v: unknown, min = 0): boolean {
     return typeof v === 'string' || (Array.isArray(v) && v.length >= min && v.every(x => typeof x === 'string'));
@@ -62,7 +66,7 @@ export class ModuleBundle {
     const strings = ModuleBundle.strings.bind(ModuleBundle);
     const valid = m.version === 1 && strings(m.source, 1) && strings(m.rules, 1)
       && (!m.generation || typeof m.generation.type === 'string')
-      && [m.imports, m.globals].every(list => list === undefined || Array.isArray(list) && strings(list))
+      && [m.imports, m.globals, m.canon].every(list => list === undefined || Array.isArray(list) && strings(list))
       && (m.exports === undefined || (typeof m.exports === 'object' && !Array.isArray(m.exports)
         && Object.entries(m.exports).every(([k, v]) => /^[A-Za-z][A-Za-z0-9_-]*$/.test(k) && typeof v === 'string')));
     if (!valid) { throw new Error('Invalid module manifest'); }
@@ -262,6 +266,7 @@ export class ModuleBundle {
     const path = source.resolve(request.bundle);
     const manifest = JSON.parse(await source.read(path)) as BundleManifest;
     ModuleBundle.check(manifest);
+    const canon = ModuleCanon.is(path, source) ? undefined : await ModuleCanon.declarations(source);
     const { situations: situationPaths, rules: rulePaths } = this.paths(manifest, path, source);
     const settled = await Promise.allSettled([...situationPaths, ...rulePaths,
       manifest.generation?.tables, manifest.generation?.templates].map((p, i) => !p ? Promise.resolve('{}')
@@ -283,15 +288,19 @@ export class ModuleBundle {
     const composed = ModuleShadow.apart(shadowed.functions.length
       ? this.merge(own.map(f => this.parsed({ ...f, text: ModuleShadow.text(f.text, shadowed) }, true))) : parsed,
     shadowed);
+    // What it names of the canon is given it, and bound as the world's own (see ModuleCanon).
+    const given = ModuleCanon.give(composed, manifest.canon ?? [], canon, path);
+    const bound = given.length ? { ...manifest, globals: [...manifest.globals ?? [], ...given] } : manifest;
     // A module read before (and kept parsed) puts its own kinds back for the campaign being assembled.
     LocalKinds.install(combined.catalog); LocalKinds.install(composed.catalog);
     let draft: ModuleDraft, imports: Record<string, string>;
     try {
       const instance = ModuleAssembly.compose(composed, structuredClone(combined), generated, seed);
+      ModuleCanon.settle(instance.module, given);
       if (told.length) { instance.campaign = { ...instance.campaign!, shadows: told }; }
-      imports = this.imports(manifest, request, options.installed, instance.module);
+      imports = this.imports(bound, request, options.installed, instance.module);
       draft = new ModuleNamespace(instance, combined, { id: request.id, seed,
-        imports, globals: manifest.globals ?? [], exports: manifest.exports ?? {} }).draft();
+        imports, globals: bound.globals ?? [], exports: manifest.exports ?? {} }).draft();
     } catch (error) {
       throw Diagnostics.explain(error, files.slice(0, situationPaths.length), files.slice(situationPaths.length));
     }
@@ -302,10 +311,17 @@ export class ModuleBundle {
     if (request.chapter) { draft.chapter = true; }
     return draft;
   }
-  // Sets a module's top-level regions inside a host place, as a province of it.
+  // Sets a province's own country inside a host place: the region its manifest exports as its region, or, if it
+  // names none, each region it sets in Imbar or in no plane. Never a region elsewhere (Parliament's Commonplace, which
+  // every city that writes has), nor one in another plane (its Cthelll, in Cthell), nor, where it names its own
+  // country, any other (Thrume's Between, under every sleeping thing): those are where they are, whatever country the
+  // province is part of.
   private static nest(draft: ModuleDraft, host: string) {
+    const own = draft.exports.region;
     for (const e of draft.instance.module.entities) {
-      if (e.space?.kind === 'region' && !e.space.parent) { e.space = { ...e.space, parent: host }; }
+      const material = e.space?.kind === 'region' && e.space.shelter !== 'elsewhere'
+        && (!e.space.parent || e.space.parent === ModuleCanon.imbar);
+      if (material && (!own || e.id === own)) { e.space = { ...e.space!, parent: host }; }
     }
   }
 }

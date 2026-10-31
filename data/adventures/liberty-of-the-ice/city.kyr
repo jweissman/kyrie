@@ -5,7 +5,6 @@ Module pellam "The Liberty of the Ice" {
   // The North Road comes down off the fells to the one bridge over the Lisk in thirty miles. The city proper is on the
   // north bank, Bankside across the bridge; between them, for as long as it holds, the ice. Below the last booth the
   // river widens into the Reach, where the ice is grey; above the city, the water-meadows called the Flashes.
-  Place imbar "Imbar" is plane.
   Place lisk "the Lisk at Pellam" is region within imbar.
   Initially Assert terrain(lisk, frost).
   Place north_country "the North Road" is wilderness within lisk at 1, 0.

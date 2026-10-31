@@ -4,7 +4,6 @@ Module wrayford "The Third Night" {
   // ── The vale ──────────────────────────────────────────────────────────────────────────────────────────────────────
   // The drove roads come down off the fells to the one bridge in forty miles. The city proper is on the north bank;
   // across nineteen arches, the Liberty of Overbridge, which has been Saint Wade's since before there was a bridge.
-  Place imbar "Imbar" is plane.
   Place wray "the vale of the Wray" is region within imbar.
   Initially Assert terrain(wray, hills).
   Place fells_edge "the fell road" is wilderness within wray at 1, 0.

@@ -1,0 +1,13 @@
+Module cinder "The Cinder Market" {
+  // Another court of the same Plane of Fire, by another hand, joined to the same threshold; it reads what the Ember
+  // Court says of the canon (where the Rose is kept, and that it was made whole) by the canon's own names.
+  Place cinder_market "the Cinder Market" is region within inner_fire elsewhere.
+  Place cinders "the Cinder Market" is wilderness within cinder_market at 0, 0 elsewhere.
+  Place cinder_stalls "the cinder stalls" is room within cinders at 0, 0.
+  Passage cinder_way "the way to the Cinder Market" is path between inner_fire_threshold and cinder_stalls taking 5 minutes.
+  Query roseKept() means seatOf(rose_of_the_winds, ?p).
+  Query roseWhole() means befell(rose_made_whole).
+  Observe stalls_scene at cinder_stalls when true "Stalls of hot iron in rows, and nobody minding them.".
+  Observe stalls_news at cinder_stalls when roseWhole() "Somebody has chalked on the nearest stall: THE ROSE IS WHOLE.".
+  Goal false.
+}

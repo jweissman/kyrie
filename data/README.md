@@ -6,7 +6,8 @@ a campaign composes modules and binds their roles.
 | Directory | Holds | Authority |
 |---|---|---|
 | `catalog/` | The canonical fantasy domain: ancestries, species, classes, traits, abilities, conditions, items, backgrounds, skills, religion, organisms, vocabulary | Global. Read only through `src/canon`. Validated at load (`kyrie validate`). |
-| `rules/` | Kyr rule modules every world is written against (`core`, `passages`, `people`, `needs`, `services`, `discovery`, `care`, `belongings`, `dominion`, `probing`, `inhabitants`; optional `elements`) | Global. A manifest names them in `rules`; `"world"` means the standard set. |
+| `rules/` | Kyr rule modules every world is written against (`core`, `passages`, `people`, `needs`, `services`, `discovery`, `care`, `belongings`, `dominion`, `probing`, `inhabitants`, `canon`; optional `elements`) | Global. A manifest names them in `rules`; `"world"` means the standard set. |
+| `imbar/` | The canon: Imbar, the inner and outer planes, the Infinite Library and the upper House (each with one region and a threshold in it), the College of Dun Rì, its House of Doors, Dun Rì, the Rose of the Winds, the Rector's office, and the world events other modules read | Global. Installed first in every world; a module names what it uses in its manifest's `canon`. |
 | `campaigns/` | `*.campaign.json`: which modules are installed, in what order, how their roles are bound, and the default company. `companies.json`: the ready companies | Composition only; no content. |
 | `sites/`, `situations/` | The generator's library: a reusable problem with roles (someone caught below, a brood in a hollow, an unquiet tower, a den in the wild) and the sites some of them need | Local to an installation. A situation must install in at least two settings. |
 | `scenarios/`, `kits/`, `frameworks/` | How the world assembler places situations and kits in a generated region: what each needs, where it fits, how word of it travels | Global. |
@@ -40,6 +41,16 @@ Every region, site, institution and situation is a directory with a `module.json
 
 - `imports` are placeholders the module declares (`Place ridge "The high approach" is room.`) and the campaign binds
   to another module's export (`"ridge": "march.high_road"`). `roles` states each import's type and conditions.
+- `canon` names the ids of `data/imbar` the module uses (`"canon": ["imbar", "inner_fire"]`). The loader gives it
+  their declarations from there, bound to the world's own, so it declares none of them (one that does is refused); a
+  plane named brings its region and threshold. It may set regions of its own within a canonical plane, join its ways
+  to a threshold, and say `seatOf(identity, place)` of a canonical identity; it puts no `law` on a canonical place.
+  A world event is asserted in play, `Assert befell(door_of_doors_opened)`, and read by any module that names it.
+- A country of the material world is a region within `imbar`: every generated country is, and so are the authored
+  countries that name it. One set in no plane is taken to be in Imbar too, so the road over a march is no planar
+  crossing. A province is installed `within` its host country, and only its own region is moved there (its export
+  `region`; naming none, each region it sets in Imbar or in no plane): its regions elsewhere (a Commonplace) or in
+  another plane stay where they are.
 - `exports` name what later modules may bind to. Ids are namespaced by installation (`hill__vault`); catalog-backed
   entities (abilities, item kinds, capabilities, goods) keep their ids everywhere.
 - `generation` is optional. A situation uses it to cast and label its people and things per setting.

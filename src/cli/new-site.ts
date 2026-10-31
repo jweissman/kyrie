@@ -26,7 +26,8 @@ export class Sites {
       '  Observe table_closer near table when tried(table, looking) "Someone has scratched a line of marks along its edge, and the last of them is fresh.".',
       '  Goal false.', '}', ''].join('\n');
     const region = ['Module country "A country to put it in" {', '  Description "A probe country for the site.".',
-      '  Place land "the country" is region.', '  Place town "the town" is settlement within land at 0, 0.',
+      '  Place land "the country" is region within imbar.',
+      '  Place town "the town" is settlement within land at 0, 0.',
       '  Place road "the road out of town" is room within town at 0, 0 outdoors.',
       '  Company party "Your company" of 1 at road.', '  Goal false.', '}', ''].join('\n');
     return {
@@ -37,7 +38,7 @@ export class Sites {
         exports: { site: id, mouth: 'mouth', below: 'hall' } }),
       [`test/fixtures/${id}/country/country.kyr`]: region,
       [`test/fixtures/${id}/country/module.json`]: json({ version: 1, source: 'country.kyr', rules: ['world'],
-        globals: ['party'], exports: { party: 'party', region: 'land', road: 'road' } }),
+        globals: ['party'], canon: ['imbar'], exports: { party: 'party', region: 'land', road: 'road' } }),
       [`test/fixtures/${id}/probe.campaign.json`]: json({ version: 1, name: name,
         pitch: { heading: name, text: `A probe of ${name}, in a country of its own.` },
         modules: [{ id: 'country', bundle: 'country/module.json' },
