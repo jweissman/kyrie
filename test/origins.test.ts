@@ -107,8 +107,15 @@ describe('an origin', () => {
     const s = await Opening.start('herbs', 'wren'), c = s.campaign;
     await Opening.take(s, /green/i);
     await Opening.take(s, /^Give .*feverwort/i);
+    // Given, it is not awaited: she does not see it in your hands again, nor is the aim to bring it (OWN-54).
+    const aims = () => ScreenModel.build(c).objectives.join(' ');
+    expect(PlayerView.choices(c).some(x => /^Ask .* about the child$/.test(x.choice.name))).toBe(false);
+    expect(aims()).not.toContain('feverwort you carry');
     for (let h = 0; h < 9; h++) { await s.perform('wait_hour'); }
     expect(c.world.test(ModuleWriter.call('fever__dosed', 'fever__mother'))).toBe(false);
+    expect(aims()).toContain('the herbs are spent');
+    expect(aims()).not.toContain('feverwort you carry');
+    expect((await Opening.take(s, /^Ask .* how the child is$/)).response).toMatch(/^'It came back,'/);
     await Opening.take(s, /^Give healing herbs/i);
     expect(c.world.test(ModuleWriter.call('fever__dosed', 'fever__mother'))).toBe(true);
     await Opening.take(s, /^Sit with the child/);

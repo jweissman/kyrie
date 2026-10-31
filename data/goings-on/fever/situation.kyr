@@ -5,6 +5,8 @@ Module fever "A fever on the green" {
   Place road "The road" is room.
   Relation mended(group). Relation lost(group). Relation offered(group). Measure mendedOn(group).
   Relation dosed(group). Relation helping(group). Relation nursed(group). Measure dosedAt(group).
+  // Herbs brought and taken in: what was asked for has come, whatever comes of it after (OWN-54).
+  Relation brought(group).
   Entity sick: fact "A child at {green} has a fever that will not break, and the herbs have run out.".
   Initially Assert established(sick).
 
@@ -18,21 +20,22 @@ Module fever "A fever on the green" {
   Entity bark_lore: fact "Willow bark breaks a fever. Willows grow where there is water: by a river, a mere, a ditch.".
 
   Topic mother_child with mother "Ask {mother} about the child" when not mended(mother) and not lost(mother)
-    and not expects(mother, actor) once {
+    and not expects(mother, actor) and not brought(mother) once {
     Says "'Three days,' says {mother}. 'Hot as a stone in the sun, and the herb-wife has nothing left. Willow bark would do it. There were willows out on the road, by the water, when I was a girl.' She looks at you. 'I cannot leave her.'".
     On discuss { Assert knows(actor, bark_lore). }
   }
   // Sent for, the company is known by what it carries: the herb-wife's feverwort, which she has waited for (she spoke
-  // of herbs run out and willows to one who carried it: the play-structure investigation's PT-30).
+  // of herbs run out and willows to one who carried it: the play-structure investigation's PT-30). Once it is given
+  // her it is not in your hands, and she does not see it there again (the owner's play, 31 October: OWN-54).
   Topic mother_sent with mother "Ask {mother} about the child" when not mended(mother) and not lost(mother)
-    and expects(mother, actor) once {
+    and expects(mother, actor) and not brought(mother) once {
     Says "'Three days,' says {mother}, 'and no better.' Then she sees the cloth in your hands, and knows it, and her hand goes to her mouth. 'The herb-wife sent you. She said she would send someone.'".
   }
   // Whatever herbs are given her, she uses: steeped, a cup every hour until it breaks, and the worst of it before it
   // does. She has not slept in three days. Somebody must keep the cups: the company, sitting with the child, or the
   // sister, if she is asked; or nobody, and the mother falls asleep in her chair, the fever comes back, and the herbs
   // are spent (the feverwort errand had been over the moment the cloth changed hands: Mission 17's M17-21).
-  Rule dosed_by when keeps(mother, ?i) and not dosed(mother) and not mended(mother) and not lost(mother) says "{mother} takes the herbs inside and puts the kettle on. 'A cup every hour till it breaks,' she says. 'That is how the herb-wife always had it. And it gets worse before it breaks.'" { Assert dosed(mother). Set dosedAt(mother) to watch(clock). }
+  Rule dosed_by when keeps(mother, ?i) and not dosed(mother) and not mended(mother) and not lost(mother) says "{mother} takes the herbs inside and puts the kettle on. 'A cup every hour till it breaks,' she says. 'That is how the herb-wife always had it. And it gets worse before it breaks.'" { Assert dosed(mother). Assert brought(mother). Set dosedAt(mother) to watch(clock). }
   Observe weary at green when dosed(mother) and not mended(mother) and not lost(mother) "The shutters are still drawn. Inside, {mother} is counting the hours aloud so as not to fall asleep in her chair.".
   Topic mother_dosed with mother "Ask {mother} how the child is" when dosed(mother) and not mended(mother) and not lost(mother) once {
     Says "'Hotter,' says {mother}. 'The herb-wife said it would be: a cup every hour, and the worst before it breaks.' She has not sat down. 'I have not slept since it started. If I sit down now I will not get up again.'".
@@ -43,6 +46,11 @@ Module fever "A fever on the green" {
     Time 480 minutes.
     On success { Assert nursed(mother). Assert mended(mother). Set mendedOn(mother) to day(clock). Assert stale(sick). Assert stale(bark_lore). Assert grateful(mother, party). Assert grateful(sister, party). }
     Result "You sit by the bed with the cup and a candle, and {mother} sleeps in her chair for the first time in three days. The worst of it comes as the herb-wife said it would: the child cries out at nothing and burns to the touch, and will not drink, and then drinks. A long while after, her hand goes cool in yours, and she sleeps properly.".
+  }
+  // The herbs spent and the fever back, she wants herbs again, and says so to whoever brought the first.
+  Topic mother_again with mother "Ask {mother} how the child is" when brought(mother) and not dosed(mother) and not mended(mother) and not lost(mother) once {
+    Says "'It came back,' says {mother}. 'I sat down, just for a moment.' She will not look at you. 'The herbs are all gone. If anyone has more, or willow bark, from by the water, I will not sit down again.'".
+    On discuss { Assert knows(actor, bark_lore). }
   }
   Topic sister_help with sister "Speak with {sister}" when dosed(mother) and not mended(mother) and not lost(mother) and not helping(sister) once {
     Says "'I can do the cups,' says {sister}. 'I can count. Mother has to sleep, or she will be ill as well.' She is about nine, and she means it.".
@@ -71,8 +79,9 @@ Module fever "A fever on the green" {
 
   // Sent with the herb-wife's feverwort, the company means to bring it: told only in the opening of the game, the
   // errand had been in neither the notes nor the aim, and one who carried the cure was told the child needed herbs.
-  Objective herbs when knows(party, sick) and not expects(mother, party) and not dosed(mother) and not mended(mother) and not lost(mother) "A child at {green} has a fever; it needs herbs, or willow bark from where willows grow by water.".
-  Objective sent when expects(mother, party) and not dosed(mother) and not mended(mother) and not lost(mother) "The child at {green} has had the fever three days, and its mother is waiting for the feverwort you carry.".
+  Objective herbs when knows(party, sick) and not expects(mother, party) and not brought(mother) and not dosed(mother) and not mended(mother) and not lost(mother) "A child at {green} has a fever; it needs herbs, or willow bark from where willows grow by water.".
+  Objective sent when expects(mother, party) and not brought(mother) and not dosed(mother) and not mended(mother) and not lost(mother) "The child at {green} has had the fever three days, and its mother is waiting for the feverwort you carry.".
+  Objective again when brought(mother) and not dosed(mother) and not mended(mother) and not lost(mother) "The fever came back at {green} when nobody kept the cups, and the herbs are spent: it needs herbs again, or willow bark from where willows grow by water.".
   Objective nursing when dosed(mother) and not mended(mother) and not lost(mother) "The child at {green} has the herbs, a cup every hour; someone must keep the cups until the fever breaks, and her mother has not slept in three days.".
   Goal mended(mother).
 }
