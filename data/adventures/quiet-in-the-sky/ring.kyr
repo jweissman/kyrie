@@ -57,7 +57,7 @@ Module larum "The Quiet in the Sky" {
     Resolve check(actor, rites, dc_fair).
     On success { Assert knows(actor, wound_read). }
     Result "You know wounds. This one was made by a fuller's knife, or something like one, short and broad and very sharp, held low and driven up from behind by somebody small, somebody who stood close and waited for the moment; and he never saw it. And it is not like the others. Every other wound this man ever took up here has gone; this one has not even begun to close. It was not the Field that would not mend it. It was the hand.".
-    Otherwise "You look a long time. A small blade, from behind, close. Beyond that it will not tell you anything.".
+    Otherwise "You look a long time. A small blade, from behind, close: whoever did it was in the press beside him, where nobody looks at anybody but the man in front, and where the Runners go with their sledges. Beyond that it will not tell you anything.".
   }
   Discovery wound_read "The wound that killed Halvard was made by a short broad blade like a fuller's knife, driven up from behind by someone small who stood close and waited; and it has not begun to close, as though it were not the Field that would not mend it, but the hand.".
   // Slipping in at night, past the watch.
