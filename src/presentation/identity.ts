@@ -6,7 +6,7 @@
 // keep "kyrie" whatever the game comes to be called.
 export class Identity {
   // The game's name as its mark sets it: in capitals, a space between words.
-  static readonly game = 'KYRIE';
+  static readonly game = 'WESTERNESSE';
   // The studio's: the seven towers' mark lights a lamp on each lesser tower, and the seventh light is the star.
   static readonly studio = 'SEVENTH STAR';
   // The studio's names on the owner's list, and the namer's, by the word an address asks for them by.

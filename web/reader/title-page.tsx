@@ -38,7 +38,7 @@ export class TitlePage {
         <main className="title-main" aria-hidden={beat === 'ident' || beat === 'dark' || undefined}>
           <TitlePage.Mark name={named.game} />
           <p className="horizon" aria-hidden="true"><i /></p>
-          <p className="lede">A country that was there before you, people who live in it, and the road out of town.</p>
+          <p className="lede">Vol I: A History of Emprise</p>
           <nav className="title-menu" aria-label="Ways in" ref={menu}>
             {at && <span className="indicator" aria-hidden="true"
               style={{ transform: `translate(${at.x}px, ${at.y}px)`, width: `${at.w}px` }} />}
