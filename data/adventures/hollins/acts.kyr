@@ -32,4 +32,32 @@ Module hollins "Behind the Wainscot" {
   Rule concert_last at counterpane when day10() and hour(clock) >= 22 and gathered(hollins) and concertPlayed(party) and not lastAir(hollins)
     says "And from downstairs, through the floor, slow as weather, a note; and a minute's silence; and another. The Keys have gone down to the piano without being asked. The Lady smiles, and says the words under her breath with them, a beat ahead, as she must have said them in the nursery to a family in a doll's house, three hundred and twelve years ago: the Little Ship." { Assert lastAir(hollins). }
   Relation lastAir(place).
+
+  // ── Places heard of ───────────────────────────────────────────────────────────────────────────────────────────────
+  Initially Assert leadsTo(wainscot_told, skirting). Initially Assert leadsTo(stone_told, waiting_stone).
+  Initially Assert leadsTo(coal_hole_known, kitchen_garden). Initially Assert leadsTo(dumbwaiter_known, kitchen_floor).
+  Initially Assert leadsTo(court_told, small_house_parlour). Initially Assert leadsTo(page_held, letterdrift).
+  Initially Assert leadsTo(underfolk_uncounted, wine_bins). Initially Assert leadsTo(moot_coming, small_house_parlour).
+
+  // ── What the company is about ─────────────────────────────────────────────────────────────────────────────────────
+  Objective obj_rats when hiredBy(party, pye) and not soldOut(party) and not pyeTurned(pye) and not ladyDead(lady) "Clear the pantry and the skirtings of rats for Mrs Pyecroft, twopence a tail on the string; she wants to be told where they nest.".
+  Objective obj_hearth when knows(party, fire_coming) and not hearthBurned(hollins) and not hearthWarned(hollins) "Get the colliers out of the Hearth before the fire laid on the irons in the middle of their town is lit.".
+  Objective obj_trap when knows(party, trap_seen) and state(pye_trap, set) and not watDead(wat) and not trapGivenUp(pye) "Spring Mrs Pyecroft's trap on the run into the back of the Pantry before Wat Tallowby goes in, as he does every morning before light.".
+  Objective obj_letter when carries(party, c_letter) "Deliver the letter with the black seal where the Lady will find it: on her chart in the Library, or by her bed.".
+  Objective obj_reply when carries(party, reply) "Carry the Lady's reply up the moor to the Waiting Stone.".
+  Objective obj_chart when knows(party, chart_plan) and not chartWritten(party) and not ladyKnows(lady) "Draw the Wainscot into the Lady's chart at night, in a hand she can read: pace it out first, and get ink from the Readers.".
+  Objective obj_answer when state(lady_chart, questioned) and knows(party, chart_known) and not ladyKnows(lady) "Answer the Lady's question in the margin of her chart: WHO ARE YOU?".
+  Objective obj_moot when knows(party, moot_coming) and not occasionOver(moot) and dayN(hollins) <= 3 "Be at the Moot in the Small House parlour at two in the afternoon of the third day, with someone of the Wainscot to speak for you.".
+  Objective obj_keys when knows(party, keys_need) and not concertPlayed(party) and not ladyDead(lady) "Help the Keys play the First Air to its end at night: their lost page, weight on the bass, and someone to lead the count.".
+  Objective obj_smoke when knows(party, smoking_planned) and not smokingOver(hollins) and not ladyForbids(lady) and not candlesGone(pye) "Stop Mrs Pyecroft smoking the house with sulphur on the night of the {smokeNight(hollins)}th, or get the Wainscot out of its way.".
+  Objective obj_poison when knows(party, poison_plan) and not poisoned(lady) and not haspStands(hasp) and not sugarSpilled(party) and not brackStopped(brack) and not potEmptied(party) and dayN(hollins) <= 6 "Keep the Jarl's poison out of the Lady's sugar on the sixth afternoon, while she naps before tea.".
+  Objective obj_will when willWanted(lady) and not willMade(lady) "The Lady would make her will: fetch Mr Saltash from Bootscrape to witness it, and someone to write large.".
+  Objective obj_deed when knows(party, will_needs) and (willWanted(lady) or willMade(lady)) and not deedLodged(party) and not deedSold(party) "Find the deed of Hollins, which nobody upstairs has seen, and lodge it with Mr Saltash beside her will.".
+  Objective obj_bell when bellVolunteer(party) and not belled(bishop) "Bell the cat, as you told the Moot you would.".
+  Objective obj_kit when knows(party, nan_fears) and not kitNanMet(kit) "Bring Kit Lacey and Nan Collier, who have written to each other for two years along the bell-wires, into one room.".
+  Objective obj_under when knows(party, underfolk_uncounted) and not underfolkEntered(annet) "See the Under-folk of the cellars entered in the Post's register, so that they are somebody's, and get water.".
+  Objective obj_verity when knows(party, verity_plans) and not verityRelents(verity) and not verityCaught(verity) and not ladyDead(lady) "Keep Sister Verity from stopping the Long Clock.".
+  Objective obj_regiment when knows(party, fennick_stopped) and not standDown(regiment) and not regimentStopped(regiment) "Decide what becomes of the Tin Regiment, which is running down because Fennick will not wind it.".
+  Objective obj_sovereign when knows(party, sovereign_wanted) and not sovereignSold(party) and not ladyDead(lady) "Bring Hob Ludd a Whitlock sovereign out of the Lady's purse, for thirty coin, if you mean to.".
+  Objective obj_last when day10() and ladyKnows(lady) and not ladyDead(lady) "Be with her, if you can. She will not see the morning.".
 }

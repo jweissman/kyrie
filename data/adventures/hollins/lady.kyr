@@ -12,6 +12,16 @@ Module hollins "Behind the Wainscot" {
     Greets again "The Lady bends down out of the air, peering, until she finds you. 'There you are.'".
   }
   Measure primed(group). Measure fright(group). Relation ladyKnows(group).
+  // The page offers what is done near someone as theirs, and whatever is someone's as talk with them: what is done
+  // before she knows anyone is there is asked of her by queries, and comes of it by rules, so that it is the company's
+  // own doing and not a conversation with someone who cannot yet be spoken to (friction.md, F3).
+  Query ladyUnaware() means not ladyKnows(lady).
+  Query primedReady() means primed(lady) >= 2.
+  Query primedOnce() means primed(lady) == 1.
+  Query primedNever() means primed(lady) == 0.
+  Relation steppedOut(group). Relation honorBrought(group).
+  Rule stepped_out_known when steppedOut(party) and not ladyKnows(lady) { Assert ladyKnows(lady). }
+  Rule honor_brought_known when honorBrought(honor) and not honorMet(honor) { Assert ladyKnows(lady). Assert honorMet(honor). Retract following(honor, party). Assert honorWithLady(honor). }
   Rule lady_mute when talks(lady) and not ladyKnows(lady) { Retract talks(lady). }
   Rule lady_speaks when ladyKnows(lady) and not talks(lady) and not ladyDead(lady) and not poisoned(lady) { Assert talks(lady). }
   Rule lady_silent_dead when talks(lady) and (ladyDead(lady) or poisoned(lady)) { Retract talks(lady). }
@@ -26,7 +36,7 @@ Module hollins "Behind the Wainscot" {
   Observe lady_close near lady when nearLady(party) and not stilled(party) and not ladyKnows(lady) "The floor is shaking with her footfall, her breathing; everyone of the Wainscot within sight has gone still as a stone. You had better do the same, or be gone.".
   Action keep_still(actor: group, site: place) "Keep still, as the Wainscot does, until she has gone by" {
     Description "Stand exactly where you are, and do not move, and do not breathe much.".
-    Requires able(actor) and company(actor) and at(actor, site) and nearLady(actor) and not stilled(actor) and not ladyKnows(lady).
+    Requires able(actor) and company(actor) and at(actor, site) and nearLady(actor) and not stilled(actor) and ladyUnaware().
     Time 0.
     On success { Assert stilled(actor). }
     Result "You stand stock still, as the children do in the Wainscot's game of Statues, which they learned from their grandparents, who learned it from this.".
@@ -43,17 +53,17 @@ Module hollins "Behind the Wainscot" {
   Query ladySitting(p: place) means at(lady, p) and ladyUp() and (at(lady, chart_table) or at(lady, tea_table)).
   Action step_out_ready(actor: group, site: place) "Step out into the light on the table, where she can see you, and speak to her" {
     Grave "Whatever she does, she will have seen you.".
-    Requires able(actor) and company(actor) and at(actor, site) and ladySitting(site) and not ladyKnows(lady) and primed(lady) >= 2.
+    Requires able(actor) and company(actor) and at(actor, site) and ladySitting(site) and ladyUnaware() and primedReady().
     Time 1.
-    On success { Assert ladyKnows(lady). Assert stilled(actor). }
+    On success { Assert steppedOut(actor). }
     Result "You walk out into the light on the table and stand there and look up. Her hand stops. She bends, slowly, until her face is close enough that you can see the lines of it like the contours on a map, and her breath comes over you warm, and her eyes, milky at the rims, find you, and stop. 'You,' she says. 'Somebody has been trying to tell me something, in my own house, for days. Was it you?' And when you answer, she shuts her eyes, and opens them, and you are still there. 'I am not ill,' she says. 'I am not ill, Dorothea. Go and walk in the garden.'".
   }
   Action step_out_doubt(actor: group, site: place) "Step out into the light on the table, where she can see you, and speak to her" {
     Grave "Whatever she does, she will have seen you.".
-    Requires able(actor) and company(actor) and at(actor, site) and ladySitting(site) and not ladyKnows(lady) and primed(lady) == 1 and daredDay(actor) != dayN(hollins).
+    Requires able(actor) and company(actor) and at(actor, site) and ladySitting(site) and ladyUnaware() and primedOnce() and daredDay(actor) != dayN(hollins).
     Time 1.
     Resolve check(actor, persuasion, dc_hard).
-    On success { Assert ladyKnows(lady). Assert stilled(actor). }
+    On success { Assert steppedOut(actor). }
     On failure { Set daredDay(actor) to dayN(hollins). Increase fright(lady) by 1. }
     Result "You walk out into the light and speak up at her, plainly, about the letter, about the chart, about the Laceys, and she bends down, slowly, until her eye is as big as a window, and stays there. 'Go on,' she says, in a whisper that stirs your hair. 'Go on. I am listening. I am trying very hard to be sure that I am listening.' And at the end she puts out one finger, as long as a boat, and touches the table beside you, very gently, and you feel the table take her weight. 'Real,' she says. 'You are real.'".
     Otherwise "She sees you. She makes a sound you will not forget, a long breath in, like someone at the edge of water, and turns her face away. 'No,' she says. 'Dorothea, no, I will not, take it away,' and Mrs Pyecroft's hand comes down out of nowhere with a napkin like a sail, and you have to run for the edge of the table and the rope.".
@@ -61,24 +71,25 @@ Module hollins "Behind the Wainscot" {
   Hazard swept "A giant's hand, sweeping" means "Deal (1d6) physical damage to ally unless dexterity save against (12).".
   Action step_out_cold(actor: group, site: place) "Step out into the light on the table, where she can see you, and speak to her" {
     Grave "Nothing has prepared her for you. Whatever she does, she will have seen you.".
-    Requires able(actor) and company(actor) and at(actor, site) and ladySitting(site) and not ladyKnows(lady) and primed(lady) == 0 and daredDay(actor) != dayN(hollins).
+    Requires able(actor) and company(actor) and at(actor, site) and ladySitting(site) and ladyUnaware() and primedNever() and daredDay(actor) != dayN(hollins).
     Time 1.
     Resolve check(actor, persuasion, dc_formidable).
-    On success { Assert ladyKnows(lady). Assert stilled(actor). }
+    On success { Assert steppedOut(actor). }
     On failure { Set daredDay(actor) to dayN(hollins). Increase fright(lady) by 2. Assert strikes(swept, actor). }
     Result "You walk out into the light and shout up at her, and by some miracle of nerve and timing you say the one thing: Honor Lacey's name. She goes still. She bends, and bends, until her eye is all there is, and then she says, in a voice like a door opening in another house: 'Honor?' And you have to tell her: no; but Honor's people, still. She listens. Her hand is shaking on the table so that the cups chatter. 'I am going to believe you,' she says at last, with enormous care, the voice of a woman stepping out onto ice. 'I am going to believe you, and if I am mad, I shall at least be mad in company.'".
     Otherwise "She sees you, and screams: an old woman's scream, but as big as a house, and the table jumps, and the cup goes over and a wave of tea comes across the cloth at you, and then her hand, sweeping blindly, the size of a cart, and you are struck and flung and rolling, and the edge is there, and the rope.".
   }
   // Dame Honor Lacey, brought before her.
   Relation honorComes(group). Relation honorMet(group).
+  Query ladyAwakeAt(p: place) means at(lady, p) and ladyKnows(lady) and not ladyDead(lady).
   Topic honor_go with honor "Ask Dame Honor Lacey to come with you to the Lady" when knows(actor, diary_laceys) and (primed(lady) >= 1 or knows(actor, mother_letter) or ladyKnows(lady)) and not honorComes(honor) and not honorMet(honor) once {
     Says "You tell her what the diary says. Honor who is nine, who is my best friend. Dame Honor hears it standing, with one hand on the back of her chair. Then she sits down, which you have not seen her do while anyone else stood. 'My best friend,' she says. 'It says that. In her hand.' She looks at the parlour, the eight chairs, the clock. Then she rings for Mr Ambry. 'Mr Ambry,' she says, 'fetch the chain of office, and my good gloves, and the Address. We are going out.' Mr Ambry drops the bell.".
     On discuss { Assert honorComes(honor). Assert acceptsEscort(honor, actor). Assert following(honor, actor). }
   }
   Action bring_honor(actor: group, site: place) "Bring Dame Honor Lacey forward into the light, before the Lady" {
-    Requires able(actor) and company(actor) and at(actor, site) and following(honor, actor) and ((ladySitting(site) and not ladyKnows(lady)) or (at(lady, site) and ladyKnows(lady) and not ladyDead(lady))) and not honorMet(honor).
+    Requires able(actor) and company(actor) and at(actor, site) and following(honor, actor) and (ladySitting(site) or ladyAwakeAt(site)) and not honorMet(honor).
     Time 2.
-    On success { Assert ladyKnows(lady). Assert honorMet(honor). Retract following(honor, actor). Assert honorWithLady(honor). }
+    On success { Assert honorBrought(honor). }
     Result "Dame Honor walks out into the light alone, in her handkerchief gown and her chain of buttons, and stops, and looks up. Behind her Mr Ambry clears his throat and begins, in a voice that has waited forty years: 'MOST HIGH AND GRACIOUS DAUGHTER OF HOLLINS,' and gets as far as THE PANTRY before Dame Honor says, without turning round, 'Thank you, Mr Ambry,' and he stops. The Lady has bent down. Her eye is as big as the parlour of the Small House. 'Who are you?' she says, as Dame Honor had known she would; and Dame Honor answers, as she had not known she could: 'Honor Lacey. Not the one you knew. Her great-great-great-great-great-granddaughter. We kept your house for you, Miss Whitlock. We kept it ready.' And the Lady puts her face down on her arms on the table, slowly, like a hill settling, and weeps, and Dame Honor stands in the light beside her enormous grey hair and, after a while, reaches out a gloved hand and lays it on a strand of it.".
   }
   Relation honorWithLady(group).

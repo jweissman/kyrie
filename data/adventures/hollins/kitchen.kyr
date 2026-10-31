@@ -150,6 +150,8 @@ Module hollins "Behind the Wainscot" {
   Observe pantry_pye at pantry as sign when at(pye, pantry) "Every Jarman has vanished into the crocks. Mrs Pyecroft walks along the shelf with a lantern and her skirts held up out of the meal, looking at her trap, looking at the droppings, looking at nothing else.".
   Rule trap_seen_sprung when state(pye_trap, sprung) and changedBy(pye_trap, party) and at(pye, pantry) and at(party, pantry) and not pyeSuspects(pye)
     says "Mrs Pyecroft has seen. She stands with her lantern up and looks at the shut jaws, and then at you. 'That,' she says, 'was my trap.' She writes something in a little book from her pocket, without taking her eyes off you." { Assert pyeSuspects(pye). }
+  Discovery trap_seen "Mrs Pyecroft has set a spring-trap on the run between the sacks into the back of the Pantry.".
+  Observe trap_teaches at pantry as feature when state(pye_trap, set) and not knows(party, trap_seen) "Wat Tallowby goes in that way every morning before light, to look at the honey." teaches trap_seen.
   Rule trap_laid when dayN(hollins) >= 2 and hour(clock) >= 7 and state(pye_trap, unset) and not pyeTurned(pye) and not pyeGone(pye) { Assert state(pye_trap, set). }
   Rule trap_takes_wat when day2() and hour(clock) == 5 and state(pye_trap, set) and not watDead(wat) { Assert state(pye_trap, bloodied). Assert watDead(wat). Assert at(wat, nowhere). }
   Rule trap_reset when dayN(hollins) >= 3 and hour(clock) == 7 and state(pye_trap, sprung) and not pyeTurned(pye) and not pyeGone(pye) and not trapGivenUp(pye) { Assert state(pye_trap, set). Assert pyeSuspects(pye). }

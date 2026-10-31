@@ -24,7 +24,7 @@ Module hollins "Behind the Wainscot" {
   // ash, its pits sunk in the cinder-heap, its chimneys the flue. The fire is lit at nine on the second morning.
   Relation hearthWarned(place). Relation hearthBurned(place). Relation collierDead(place). Relation refugeesHoused(place).
   Thing fire "the drawing-room fire" on hearth_edge is scenery {
-    State laid "Across the middle of the town, on the irons, somebody has laid logs as long as boats crosswise over a bed of kindling, with coal heaped round them: a fire, ready, waiting for a match.".
+    State laid "In the great grate, on the irons, somebody has laid logs as long as boats crosswise over a bed of kindling, with coal heaped round them: a fire, ready, waiting for a match.".
     State blazing blocking "The fire is roaring in the grate, a wall of flame and heat that comes across the fender like a hand. Nobody goes near it.".
     State banked "The fire is banked under its ash for the night, red at the heart, and the grate ticks as it cools.".
   }
@@ -34,7 +34,7 @@ Module hollins "Behind the Wainscot" {
   Rule fire_banks when hearthBurned(hollins) and (hour(clock) >= 22 or hour(clock) < 9) and state(fire, blazing) { Assert state(fire, banked). }
   Rule fire_out when ladyDead(lady) and state(fire, blazing) { Assert state(fire, banked). }
 
-  Observe hearth_scene at hearth when not hearthBurned(hollins) "The Hearth: a town in a cold grate. The ash of the Whitlocks' last fire, three hundred years old, has been dug into streets; the cinders are walls; on the iron fire-dogs, which are as tall as gallows, people have built galleries of slate and hung lanterns. The coal-heap at the back is a hill with pits sunk in it and a windlass over each. Up the black throat of the chimney you can see, far up, a square of sky, and ledges in the soot with doors.".
+  Observe hearth_scene at hearth when not hearthBurned(hollins) "The Hearth: a town in a cold grate, where eighty colliers live in the ash of the Whitlocks' last fire. The ash of the Whitlocks' last fire, three hundred years old, has been dug into streets; the cinders are walls; on the iron fire-dogs, which are as tall as gallows, people have built galleries of slate and hung lanterns. The coal-heap at the back is a hill with pits sunk in it and a windlass over each. Up the black throat of the chimney you can see, far up, a square of sky, and ledges in the soot with doors.".
   Observe hearth_burned at hearth when hearthBurned(hollins) and not state(fire, blazing) "What was the Hearth: a grate full of hot ash with the banked fire in the middle of it, red under grey. The galleries on the fire-dogs have gone. The windlasses have gone. A melted lantern hangs from an iron bar, and on the brick at the back, black on black, somebody has written with a cinder the names of the dead.".
   Observe hearth_burning at hearth when hearthBurned(hollins) and state(fire, blazing) "You cannot stand here: the fire fills the grate like a sunrise, and the air beyond the fender shakes.".
   Observe hearth_names at hearth as feature when collierDead(hollins) and hearthBurned(hollins) and not state(fire, blazing) "Eleven names on the brick. The last is BET COLLIER, FOREWOMAN, and under it, smaller: SHE WENT BACK FOR THE PIT BOYS.".
@@ -74,7 +74,16 @@ Module hollins "Behind the Wainscot" {
     Result "'They laid one the week she came,' says Bet, 'and never lit it.' But she is looking at the logs while she says it, and after a while she says: 'All right. All right. We'll sleep on the Skirting tonight. If nothing comes of it, you can stand the Hearth a barrel.' She whistles, and the grate goes still.".
     Otherwise "'They laid one the week she came, and never lit it,' says Bet Collier. 'We're not moving eighty-three people up a wall for a stranger's nerves.'".
   }
-  Relation urgedBet(group).
+  Relation urgedBet(group). Relation toldBetFires(group).
+  Action tell_bet_fires(actor: group, site: place) "Tell Bet Collier the Lady has had a fire lit in her own room every night since she came" {
+    Speaker bet.
+    Requires able(actor) and company(actor) and at(actor, site) and at(bet, site) and knows(actor, fire_coming) and knows(actor, lady_home) and not hearthWarned(hollins) and not hearthBurned(hollins) and not toldBetFires(party).
+    Resolve check(actor, persuasion, dc_easy).
+    On success { Assert hearthWarned(hollins). }
+    On failure { Assert toldBetFires(party). }
+    Result "Bet Collier stops with her hand on the windlass. 'Every night,' she says. 'Her own room.' She looks at the logs on the irons, and up the black throat of the chimney, where the sky is. 'Then she's a woman who likes a fire.' She puts two fingers in her mouth and whistles, and the whole grate goes still. 'We'll sleep on the Skirting tonight,' she says. 'And if I'm a fool, I'm a fool with eighty-three people.'".
+    Otherwise "'A bedroom's a bedroom,' says Bet Collier. 'She's not sat in this room once.' She goes back to the windlass.".
+  }
   // At nine on the second morning Mrs Pyecroft lights the fire.
   Rule fire_lit when day2() and hour(clock) >= 9 and not hearthBurned(hollins) and not ladyDead(lady) {
     Assert hearthBurned(hollins). Assert state(fire, blazing). Retract at(bet, hearth). Retract at(nan, hearth).
@@ -86,6 +95,10 @@ Module hollins "Behind the Wainscot" {
   Event fire_told_dead within hollins when hearthBurned(hollins) and not hearthWarned(hollins) "At nine the whole house hears it: a sound like a sheet of paper torn the length of a street, and then a roar in the chimney that shakes the walls, and under the roar, for a little while, a sound which is not the fire. By ten the colliers who got out are coming along the Skirting black to the eyes, carrying their children, and some of them are carrying other things, wrapped, which they lay down in a row by the gap.".
 
   // ── Nan, afterwards ───────────────────────────────────────────────────────────────────────────────────────────────
+  Topic nan_writing with nan "Ask Nan Collier what she is writing" when not hearthBurned(hollins) and not knows(actor, kit_nan) once {
+    Says "Nan puts her hand over the paper. Then, because you are a stranger and will be gone, and because she has wanted to tell somebody for two years: 'A letter. Along the wires.' She points up at the iron wire that runs out of the wall above the grate, as thick as a finger, going away into the dark on a pulley. 'The bell-wires go through every wall in the house. You tie a note on, and pull, and it goes.' She goes red under the soot. 'There's somebody at the other end. Up the Stair. I've never seen him.' She folds the paper very small. 'Don't tell Mam.'".
+    On discuss { Assert knows(actor, kit_nan). }
+  }
   Topic nan_hearth with nan "Ask Nan Collier about the Hearth" when hearthBurned(hollins) once {
     Says "Nan looks at her hands. 'It burned,' she says. 'Nine o'clock. Like a door opening onto the sun.' If you warned them she says, 'We got everybody. Mam carried the Lightfoot twins. We've nothing, but we've everybody,' and if you did not, she does not say anything for a long time, and then: 'Mam went back for the pit boys.'".
   }

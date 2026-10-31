@@ -36,6 +36,11 @@ Module hollins "Behind the Wainscot" {
     Greets "A halfling woman in a green cap with POST on it in brass letters looks up from a register the size of a cottage door, laid flat on trestles. 'Name, place of origin, purpose of visit,' she says, and dips a pen. 'Everyone who comes in by the Slot is entered. We have entered everyone for two hundred and ninety years.' She waits. 'And you've no letters for anyone, I suppose. Nobody ever has letters.'".
     Greets again "Faith Penny looks up from the register and, without asking, turns to your entry.".
   }
+  Relation registered(group).
+  Topic faith_enter with faith "Give Faith Penny your name, and where you are from, for the register" when not registered(actor) once {
+    Says "Faith Penny writes it down, slowly, in a round clerk's hand, and blots it, and reads it back to you, getting one thing wrong on purpose to see if you are listening. 'Entered,' she says. 'You're somebody in Hollins now. You can draw a thimble at the Sink, and be buried by the Post if it comes to that.' She turns back a page. 'Mrs Pyecroft is entered too. Every morning. She comes down the ladder past this counter and never stops, and I write her down: D. PYECROFT, OF THE LADY'S POCKET, PURPOSE UNSTATED.' She almost smiles. 'She doesn't know she's in the book. Most people don't.'".
+    On discuss { Assert registered(actor). }
+  }
   Topic faith_post with faith "Ask Faith Penny what the Post does" when true once {
     Says "'We keep the drift,' says Faith Penny. 'Everything that ever came through the Slot. We read it, for the news, because three-hundred-year-old news is the only kind that comes in; it's how we know there was a war in the east and a king called Aldo who died. We enter every soul that comes in.' She sets the pen down. 'And we deliver. When the person a letter is for comes home, we deliver it. That's the oath of the Post. Nobody ever came home.' She looks at the pigeonholes. 'Until Thursday.'".
     On discuss { Assert knows(actor, post_oath). }

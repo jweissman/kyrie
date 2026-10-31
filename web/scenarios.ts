@@ -69,6 +69,11 @@ export class Scenarios {
     { manifest: 'data/campaigns/the-lull.campaign.json', title: 'The Lull', seed: 'lull',
       note: 'Above the hamlet of Sixways a road goes down from a standing stone, one day in seven, into a valley that has kept only its holy day for fifty-seven years. Whatever is done there without meaning it comes apart at sunset; a night slept there is a week gone outside. The young of Linger mean to work.',
       detail: 'A hamlet that waits, a valley that rests, a mill that works in the dark, and three Lulldays' },
+    // An independent adventure over the north march: a giant's house, and the people in its walls
+    // (doc/adventures/behind-the-wainscot).
+    { manifest: 'data/campaigns/hollins.campaign.json', title: 'Behind the Wainscot', seed: 'hollins',
+      note: 'In the western hills there is a house twelve times the size of a house, shut three hundred years, and six hundred people of your own size have lived in its walls all that time, having come in by the letterbox. Four days ago the giantess who owns it came home to die. Her companion has put up a notice in the village on the doorstep: WANTED, A RATCATCHER.',
+      detail: 'A village on a doorstep, a house that is a country, a doll\'s house that is a court, and ten days before she dies' },
   ];
   static source(): MemoryBundleSource { return new MemoryBundleSource(Scenarios.files); }
 }
