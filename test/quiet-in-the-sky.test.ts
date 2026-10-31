@@ -5,8 +5,8 @@ import { Journey } from '../src/session/journey';
 
 // The Quiet in the Sky (doc/adventures/the-quiet-in-the-sky), played by the labels a player sees from the steps in
 // test/fixtures/quiet-in-the-sky. The company comes up the valley road into Larum at eight on the first morning
-// (watch 0). The story is counted from the first time the company stands in Ysgard; at the first Hour after that (six in
-// the evening) Torold names the Testing for the fourth morning: day 5 when the company goes up on day 1.
+// (watch 0). The story is counted from the first time the company stands in Ysgard; at the first Hour after that (six
+// in the evening) Torold names the Testing for the fourth morning: day 5 when the company goes up on day 1.
 const home = 'data/campaigns/the-quiet-in-the-sky.campaign.json';
 const thief = 'test/fixtures/quiet-in-the-sky/thief.campaign.json';
 const k = (id: string) => `larum__${id}`;

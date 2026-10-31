@@ -46,7 +46,8 @@ describe('The Quiet in the Sky, wandered', () => {
         };
         try {
           for (let i = 0; i < steps && j.campaign.running; i++) {
-            const offered = j.choices().filter(c => !/Set down here|Give to ›|prepare spells|Make camp|advance ›/.test(c.label));
+            const skipped = /Set down here|Give to ›|prepare spells|Make camp|advance ›/;
+            const offered = j.choices().filter(c => !skipped.test(c.label));
             if (!offered.length) { break; }
             const resting = /Wait › (An hour|Until)|Rest six hours/;
             const waits = offered.filter(c => resting.test(c.label));
