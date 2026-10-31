@@ -192,4 +192,15 @@ describe('Behind the Wainscot', () => {
     expect(g.holds('sugarSpilled', 'party')).toBe(true);
     expect(g.holds('poisoned', 'lady')).toBe(false);
   }, 600000);
+
+  it('Kit and Nan meet in the Small House, and Kit carries the Moot; a sovereign out of her purse, and what she says when she counts it', async () => {
+    const g = await Hollins.start();
+    await g.fixture('kit');
+    expect(g.knows('kit_nan')).toBe(true);
+    expect(g.holds('kitNanMet', 'kit')).toBe(true);
+    expect(g.holds('refugeesHoused', 'hollins')).toBe(true);
+    expect(g.holds('sovereignSold', 'party')).toBe(true);
+    expect(g.holds('sovereignMissed', 'lady')).toBe(true);
+    expect(g.holds('poisonLaid', 'skirting')).toBe(true);
+  }, 600000);
 });
