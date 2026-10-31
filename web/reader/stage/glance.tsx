@@ -95,7 +95,8 @@ export class GlanceStage {
   // What the glance leads with, best first: each as the player would say it, why beside it (your brother, your aim,
   // the way you came), and under it what it risks, in words; whatever it opens, open under it.
   static Acts({ app, draw, acts }: { app: ReaderApp; draw: Draw; acts: Promoted[] }) {
-    const shown = acts.flatMap(a => { const c = GlanceStage.choice(app, a.choice); return c ? [{ a, c }] : []; });
+    const shown = acts.flatMap(a => { const c = GlanceStage.choice(app, a.choice); return c ? [{ a, c }] : []; })
+      .filter((x, i, all) => all.findIndex(y => y.c.id === x.c.id) === i);
     if (!shown.length) { return null; }
     return (
       <ol className="led" aria-label="What you could do now">{shown.map(({ a, c }, i) => {
@@ -128,7 +129,10 @@ export class GlanceStage {
   }
   // The quiet row: the nearest ways the glance rows (across the open country, the compass).
   static Row({ app, draw, glance: g }: { app: ReaderApp; draw: Draw; glance: Glance }) {
-    const ways = g.ways.flatMap(id => GlanceStage.choice(app, id) ?? []), aimed = PlaceStage.aimed(app);
+    // In a town or a site, going out to the country is always among the nearest ways (see MenuModel.place).
+    const out = app.menu.overland ? app.menu.choices.find(c => c.id === MenuModel.country.id) : undefined;
+    const ways = [...g.ways.flatMap(id => GlanceStage.choice(app, id) ?? []), ...out ? [out] : []]
+      .filter((c, i, all) => all.indexOf(c) === i), aimed = PlaceStage.aimed(app);
     const screen = app.state.frame!.screen;
     if (!ways.length) { return null; }
     return (
@@ -163,5 +167,9 @@ export class GlanceStage {
       </nav>
     );
   }
-  static choice(app: ReaderApp, id: string): Choice | undefined { return app.menu.choices.find(c => c.id === id); }
+  // A way out into the country, in a town or a site, is drawn as going out to it (see MenuModel.place).
+  static choice(app: ReaderApp, id: string): Choice | undefined {
+    return app.menu.choices.find(c => c.id === id)
+      ?? (app.menu.overland?.has(id) ? app.menu.choices.find(c => c.id === MenuModel.country.id) : undefined);
+  }
 }

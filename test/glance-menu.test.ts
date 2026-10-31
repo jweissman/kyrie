@@ -18,12 +18,14 @@ class Menus {
     const frame = g.frame(), glance = frame.leaf.glance!, menu = MenuModel.build(frame, 'here', []);
     // A road draws no glance (see RoadStage), and keeps its own order.
     expect(Routes.of(frame.screen)).toBeUndefined();
-    const ids = menu.choices.map(c => c.id);
-    expect(ids.slice(0, glance.acts.length)).toEqual(glance.acts.map(a => a.choice));
-    expect(glance.ways.filter(id => !ids.includes(id))).toEqual([]);
+    // In a town or a site, a way out into the country the glance leads with is drawn as going out to it.
+    const ids = menu.choices.map(c => c.id), out = (id: string) => menu.overland?.has(id) ? MenuModel.country.id : id;
+    const led = [...new Set(glance.acts.map(a => out(a.choice)))];
+    expect(ids.slice(0, led.length)).toEqual(led);
+    expect(glance.ways.map(out).filter(id => !ids.includes(id))).toEqual([]);
     expect([...ids].sort()).toEqual(Menus.ids(Menus.unglanced(frame)).sort());
     // Each choice is drawn on the glance or under a sheet.
-    const sheets = menu.sheets!, drawn = new Set([...glance.acts.map(a => a.choice), ...glance.ways, ...sheets.look,
+    const sheets = menu.sheets!, drawn = new Set([...led, ...glance.ways.map(out), ...sheets.look,
       ...sheets.ways, ...sheets.more]);
     expect(ids.filter(id => !drawn.has(id))).toEqual([]);
   }

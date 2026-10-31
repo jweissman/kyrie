@@ -27,7 +27,10 @@ interface Held { x: number; y: number; view: Box; moved: boolean }
 // over it; what is chosen is let go of by Esc, before it closes the map, or by the Plan's own quiet cross.
 export class MapView {
   static View({ app, screen }: { app: ReaderApp; screen: Screen }) {
-    const [chosen, choose] = useState<string>(), [keyed, key] = useState(0), region = screen.region;
+    // Opened with an aim whose way is known, the map has it chosen and its set-out to hand (gone out of a town toward
+    // the aim, the next thing to do is go: the owner, 31 October).
+    const [aim] = useState(() => MapView.aim(app, screen));
+    const [chosen, choose] = useState<string | undefined>(aim), [keyed, key] = useState(aim ? 1 : 0), region = screen.region;
     const [pointed, point] = useState<string>();
     const dialog = useRef<HTMLElement>(null), bound = region && BoardField.whither(region, app.state.frame?.bound?.id);
     // A place chosen by the keys: the way there is the next thing they reach, not the rest of the places on the map.
@@ -62,6 +65,11 @@ export class MapView {
       </section>
     );
     return typeof document === 'undefined' ? map : createPortal(map, document.body);
+  }
+  // The place the aim shown is set out for, where the way to it is known and the map has it.
+  private static aim(app: ReaderApp, screen: Screen): string | undefined {
+    const id = app.state.frame?.leaf.glance?.aimed?.find(a => a.startsWith('travel:'))?.slice('travel:'.length);
+    return id && screen.region?.land && MapView.way(screen, id).go ? id : undefined;
   }
   // Opened, the map takes the keys' focus and holds it: what is under it is out of reach (and unread) until it
   // closes, when the focus goes back to what had it, or, where that has gone, to the first thing to do.

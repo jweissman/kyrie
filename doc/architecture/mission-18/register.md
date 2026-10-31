@@ -31,6 +31,7 @@ independent ones batched.
 | Fair Weather's author | 0 | 1 | 14 | 0 | 0 | 0 | 15 |
 | Half the Hive's author | 0 | 0 | 13 | 0 | 0 | 0 | 13 |
 | The Lull's author | 2 | 0 | 10 | 0 | 0 | 0 | 12 |
+| The Quiet in the Sky's author | 0 | 0 | 9 | 0 | 0 | 0 | 9 |
 | The IF review (holistic) | 0 | 0 | 10 | 0 | 0 | 0 | 10 |
 
 | By gate | A | B | C | D | E | F |
@@ -299,6 +300,7 @@ The design is in [loops.md](loops.md).
 | REV-05 | No decision frame: an act collapses anticipation, commitment, response and explanation into a button and a paragraph, then a new list of legal commands | A | P0 | Open | Runtime frame (now, aim, acts, inspect, reference) and attempt, result, changed state, newly relevant act after each act (extends the glance) |
 | REV-07 | Following the page's lead loops: in conversation an already-asked "Ask again" stayed first for ever; on a road the first key was a word with whoever was by it, not the way toward the aim | A | P0 | Fixed | Asked replies sort after unasked, and leave leads once all are asked; on a road the aimed way leads (web/reader/menu-model.ts). Verified by a browser walk pressing the first act from a fresh kite game: the hobs' gate in 13 presses, the fight won in 3, the chimney found by searching, the speaking door led to (before: stuck at Aldred for ever) |
 | REV-08 | A company with two aims, each in wild country beyond the known roads, is led back and forth between their edges and never into the wild (pine, the order origin: the brothers' errand to Witrumcol and another aim at Gefeohtgaet; the shown aim is the one naming where the company stands, so at each edge the page points at the other) | A | P0 | Open | Lead from the edge of the known into the wild country the aim lies in (a step toward it, which the promotion today refuses for every step); keep the shown aim stable across an expedition (Stakes.here ranks by place). Partial today: conversations no longer loop (asked replies sink, a spent talk leads with leave, unaffordable wares after questions, repeated "Ask again" topics and wares are not reasons to go back to a person), and a journey to the shown aim is led with when the way is known |
+| REV-09 | The owner, 31 October: cross-hex travel belongs to the map, not the page ("start the player off in the world map and offer enter town … exit to overworld") | A | P1 | Partial | In a town or site of a drawn country the page keeps its own ways and those a step away; journeys across the country are gone out to by "Out to the country", which opens the map with the shown aim chosen and its set-out focused (web/reader/menu-model.ts, map-view.tsx). Authored countries keep their authors' walks. Still to do: the map as the default view in open country, and the game opening on the map |
 | REV-06 | The map is not yet a cartographic instrument: marks not optically constructed (glyphs off-centre in their plates, one gold for here, chosen and bound); no persistent company token; the chart's finite rectangle reads as the world's end; terrain, props, mist, routes and labels compete at one level; selecting pans away from the company | A | P0 | Partial | The review's "Cartographic legibility and refinement of the diorama": one icon grid with optical centres, 26–28 px neutral plates; a constant-size company token (arrow with honest heading, or a pin); a strict state vocabulary (company, selected, destination, hover, new, rumoured); known terrain, an uncertain fringe and a horizon ground under fog; a finish pass by reading order; labels by zoom band; north-up, more overhead, framing company and subject; verified by three-second recognition tests at three zooms on desk and phone Built in part: whole mountains (the multi-band cone left half its flank triangles out); a constant-size company token with a ground shadow; one state vocabulary (gold only for the company and the destination); 27 px neutral plates with glyphs on one grid by kind; an uncertain fringe and a horizon ground under the fog, soft pan limits; selection no longer pans away, and frames company and subject when off-screen; more overhead, north-up. A discovery pulse (places found or better known since the map was last open ring twice in gold) and told names that give way rather than overlap, their plates after them. Remaining: the fringe's reveal blend, labels by zoom band |
 
 ### The navigation review of 2026-10-30
@@ -530,6 +532,25 @@ viewer projection, telling order, rule phases) is kept.
 | IFR-08 | Each command told as one transaction in causal order (act, result, reactions, discoveries, changed scene, later news); interruption policy per event; `First`/`Again` lines | The Telling and the as-told tests already hold page and told to one stream; order and interruption are not declared | GTR-X05, HTH-15, HTH-16, LUL-08, LUL-02, GTR-X01, GTR-17, WPC-26, GTR-06 | A/D | P1 | Open | The default order in the narrator; `Again` on Observe; events marked as interrupting or waiting |
 | IFR-09 | Proven patterns only: warning with grace, dates and recurrence, directional passages, containers, typed verdicts, offscreen conflict | `Warns` is a person's line, not a deadline; no recurrence or per-end passage fields | AUT-09, WPC-26, GTR-X08, GTR-08, GTR-04, WPC-05 | D | P2 | Open | Directional passage ends (the commonest need); recurrence with a lint for impossible dates |
 | IFR-10 | Scale: state names scoped to their thing, typed relation roles, a names tool, coverage and prose reports, journeys by semantic id, one transcript command | Names are global (AUT-07, GTR-14, WPC-14); the names lint exists and could list what is taken | AUT-07, GTR-14, WPC-14, WPC-07, LUL-12, GTR-X16, WPC-25, WPC-20, GTR-P2, GTR-X12 | D | P2 | Open | `kyrie names` (taken and available); journey steps by action id that fail on ambiguity |
+
+### The Quiet in the Sky's friction (adventure/quiet-in-the-sky, merged 2026-10-31)
+
+The author's own record, doc/adventures/the-quiet-in-the-sky/friction.md. Held elsewhere: F1 by LUL-01, F2 and F5 by
+OWN-31 (the canonical planes and `befell` are still not on main: this module declares the first private outer plane,
+Ysgard, to be dropped for the canonical id when the canon lands), F6 by CTH-09, F7 by LUL-10, F10 by HTH-12, F13 by
+LUL-02, F14 by HTH-08, F17 by NVR-04, F18 by GTR-20, F19 by WPC-21, F20 by LUL-12.
+
+| ID | Finding | Gate | Pri | Now | Would help |
+|---|---|---|---|---|---|
+| QIS-01 | No temperature: cold is a module's own measure, warnings and hazard, reinvented by every winter country (the Lull, Carth, Pellam, here) | D | P2 | Open | A shared exposure idea (cold, heat, wet) in the rules, with clothing that answers it |
+| QIS-02 | A placed country's `after` has one voice whatever the outcome | D | P2 | Open | `after` keyed by a fact the module asserts |
+| QIS-03 | A portrait chosen by occupation ignores the person's pronouns (an innkeeper she shown as an old bearded man) | A | P1 | Open | Likeness filtered by Pronouns |
+| QIS-04 | No bout short of death: sparring is a roll whose consequence the label misstates | D | P2 | Open | A fight `to yielding` ending on routed |
+| QIS-05 | A module cannot own the company's death: no rule pass runs after the company falls, so an Ending on dead(party) is never reached | D | P1 | Open | A death epilogue a module can write, reached before "The fight is lost" |
+| QIS-06 | `visitedBefore` re-declared by every module that needs it | D | P3 | Open | In the shared rules |
+| QIS-07 | A person whose `Known as` equals their name never changes name, and lint is silent | D | P3 | Open | A lint for it |
+| QIS-08 | Placing a country is trial and error across seeds | D | P2 | Open | `kyrie countries --try` reporting moved and missing countries per seed |
+| QIS-09 | Travel through generated countries in a test fails mid-route ("Unavailable command") | D | P2 | Open | GeneratedWorld.travel that goes on past what stops it, as MapPlay.reach does |
 
 ## Appendix: Mission 17's evidence, as it stood at 28b306c
 

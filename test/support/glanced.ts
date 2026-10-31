@@ -58,7 +58,12 @@ export class Glanced {
     return { title: '', screen: this.screen, entries: [], leaf: this.leaf, opening: [], chronicle: [],
       transcript: { steps: [] } as unknown as Frame['transcript'] };
   }
-  menu(): string[] { return MenuModel.build(this.frame(), 'here', []).choices.map(c => c.id); }
+  // What the page draws to choose among; in a town or a site its ways out into the country among them, drawn as
+  // going out to the country (see MenuModel.place).
+  menu(): string[] {
+    const m = MenuModel.build(this.frame(), 'here', []);
+    return [...m.choices.map(c => c.id), ...m.overland ?? []];
+  }
   // Every command a player can reach from here: the place and everything opened under it, the pack, each member.
   reachable(): Set<string> {
     const screen = this.screen, scene = SceneModel.build(screen);

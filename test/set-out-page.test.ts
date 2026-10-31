@@ -35,7 +35,11 @@ describe('the page of the first town', () => {
     const { host, first } = await Page.begin('wanderer');
     const green = await Page.take(host, /market-place/);
     for (const frame of [first, green]) {
-      const going = MenuModel.build(frame, 'here', []).destinations ?? [];
+      // In a town the page goes out to the country, where the map sets out by the roads it plans (see MenuModel.place).
+      const menu = MenuModel.build(frame, 'here', []), inside = MenuModel.inside(frame.screen);
+      if (inside) { expect(menu.choices.map(c => c.id)).toContain(MenuModel.country.id); }
+      const going = inside ? MenuModel.destinations(frame.screen).filter(c => c.id !== MenuModel.country.id)
+        : menu.destinations ?? [];
       expect(going.length).toBeGreaterThan(0);
       expect(going.length).toBeLessThanOrEqual(MenuModel.near);
       expect(going.every(c => /^Set out for /.test(c.label) && / by the roads/.test(c.note ?? ''))).toBe(true);

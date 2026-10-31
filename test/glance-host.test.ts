@@ -27,7 +27,9 @@ describe('the glance on the frame', () => {
     const at = glance.acts.indexOf(on);
     expect(glance.acts.filter(a => a.tier === 0).every(a => glance.acts.indexOf(a) < at)).toBe(true);
     expect(glance.acts.length).toBeLessThanOrEqual(3);
-    expect(MenuModel.build(held, 'here', []).choices.map(c => c.id)).toContain(on.choice);
+    // Drawn among the choices, or in a town as going out to the country (see MenuModel.place).
+    const menu = MenuModel.build(held, 'here', []);
+    expect([...menu.choices.map(c => c.id), ...menu.overland ?? []]).toContain(on.choice);
     expect(glance.ways).not.toContain(on.choice);
     inner.bound = undefined;
     const went = await host.handle({ kind: 'travel', destination: known[0]!.id }) as Frame;

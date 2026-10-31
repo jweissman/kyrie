@@ -18,6 +18,9 @@ export interface Menu {
   sections: Section[]; choices: Choice[]; scene?: Scene; talk?: Talk; examined?: Examined; destinations?: Choice[];
   // The other places of the town, further than a step, walked to directly.
   around?: Choice[];
+  // In a town or a site, the ways out into the country the page does not draw (they are the map's): what the glance
+  // leads with among them is drawn as going out to the country.
+  overland?: Set<string>;
   // Where each choice at a place is drawn besides the glance (see Glance): who and what is here and the place's own
   // acts under Look about, the ways under Every way, the company's own under More. It places them; it ranks nothing.
   sheets?: Sheets;
@@ -72,22 +75,46 @@ export class MenuModel {
   // nearest few are journeys to set out on, the rest on the map (the owner's interim report: folded trees of roads and
   // destinations were the graph laid bare, a town square's thirty peers the reason they had been folded: PT-09).
   private static place(found: Scene, opened: Set<string>, frame: Frame): Menu {
-    const screen = frame.screen;
-    const scene = { ...found, you: found.you.map(c => /^advance:/.test(c.id) ? this.developing(c, screen)
+    const screen = frame.screen, inside = MenuModel.inside(screen);
+    const kept = { ...found, you: found.you.map(c => /^advance:/.test(c.id) ? this.developing(c, screen)
       : /^prepare:/.test(c.id) ? this.preparing(c, screen) : c) };
     // On a road the page draws no glance (see RoadStage): its two ends and what is by it, in their own order.
     const glance = Routes.of(screen) ? undefined : frame.leaf.glance;
     const aimed = frame.leaf.glance?.aimed;
-    const going = [...this.onward(frame.bound), ...this.destinations(screen, frame.bound?.id, aimed)];
-    const about = this.around(screen), subjects = scene.subjects.flatMap(s => s.choices);
+    const journeys = [...this.onward(frame.bound), ...this.destinations(screen, frame.bound?.id, aimed)];
+    // In a town or a site of a drawn country the page keeps to its own ways and those a step away; the journeys
+    // across the country are the map's, gone out to by one way (the owner, 31 October: "move all cross-hex travel
+    // out of the play environment").
+    const overland = inside ? kept.far.filter(c => !c.local) : [];
+    const scene = inside ? { ...kept, far: kept.far.filter(c => c.local) } : kept;
+    const going = inside ? [] : journeys, country = overland.length || (inside && journeys.length)
+      ? MenuModel.country : undefined;
+    const about = [...this.around(screen), ...country ? [country] : []];
+    const subjects = scene.subjects.flatMap(s => s.choices);
     const ways = [...scene.near, ...about, ...scene.far, ...going];
     const own = scene.you.filter(SceneModel.own), yours = scene.you.filter(c => !SceneModel.own(c));
     const sheets = { look: this.ids([...subjects, ...own], opened), ways: this.ids(ways, opened),
       more: this.ids(yours, opened) };
     return { scene, sections: [...this.sections(scene), ...going.length
       ? [{ id: 'destinations', title: 'Set out for', tone: 'way' as const, glyph: '⇢', choices: going }] : []],
-    choices: this.led(this.unfolded([...subjects, ...ways, ...scene.you], opened), glance, aimed), destinations: going,
-    around: about, ...glance ? { sheets } : {} };
+    choices: this.led(this.unfolded([...subjects, ...ways, ...scene.you], opened), glance,
+      { aimed, overland: new Set([...overland, ...journeys].map(c => c.id)) }), destinations: going,
+    around: about, ...glance ? { sheets } : {},
+    ...country ? { overland: new Set([...overland, ...journeys].map(c => c.id)) } : {} };
+  }
+  // A choice by its id; a way out into the country, in a town or a site, as going out to it.
+  private static found(choices: Choice[], id: string, overland: Set<string>): Choice | undefined {
+    return choices.find(c => c.id === id)
+      ?? (overland.has(id) ? choices.find(c => c.id === MenuModel.country.id) : undefined);
+  }
+  // Going out of a town or a site into the country: the map, where the country is crossed.
+  static readonly country: Choice = { id: 'view:map', label: 'Out to the country', tone: 'way', command: 'view:map' };
+  // Whether the company is in a town or a site of a drawn country, whose land is in hexes (and not on a road or out
+  // in the country): an authored country's ways out of a town are its author's own walks (the Strand at Skeel, the
+  // gorge path out of the Comb), and its pages keep them.
+  static inside(screen: Frame['screen']): boolean {
+    return !!screen.region?.land?.tracts && !Routes.of(screen)
+      && screen.path.some(p => p.kind === 'settlement' || p.kind === 'site');
   }
   // Every choice as drawn, what is open under its opener (and what is in a way, always: see inWay).
   private static unfolded(choices: Choice[], opened: Set<string>): Choice[] {
@@ -100,9 +127,10 @@ export class MenuModel {
   // same choices, none twice, none lost.
   // What the glance leads with first; on a road, where no glance is drawn, the way toward the aim (the first key had
   // been a word with whoever was by the road, and a player following the page went back and forth to them).
-  private static led(choices: Choice[], glance?: Glance, aimed: string[] = []): Choice[] {
-    const first = glance ? glance.acts.flatMap(a => choices.find(c => c.id === a.choice) ?? [])
-      : aimed.flatMap(id => choices.find(c => c.id === id) ?? []);
+  private static led(choices: Choice[], glance?: Glance,
+    { aimed = [], overland = new Set() }: { aimed?: string[]; overland?: Set<string> } = {}): Choice[] {
+    const first = [...new Set((glance ? glance.acts.map(a => a.choice) : aimed)
+      .flatMap(id => MenuModel.found(choices, id, overland) ?? []))];
     return [...first, ...choices.filter(c => !first.includes(c))];
   }
   // A thing for sale, open whole (its quantities are among the choices).
