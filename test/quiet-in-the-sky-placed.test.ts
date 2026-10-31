@@ -15,7 +15,7 @@ import { ModuleWriter } from '../src/lang/module-writer';
 // travellers in the country next to it, and goes on over its west march up the valley road. Seed q335 puts Larum west
 // of xm1ym1.
 describe('The Quiet in the Sky in the world', () => {
-  it('lies west of a frost or mountain country drawn from the seed, and moves no other country', () => {
+  it('lies west of a frost, mountain or forest country drawn from the seed, and moves no other country', () => {
     const seen: string[] = [];
     for (const seed of ['wren', 'a1', 'b2', 'g7', 'kin', 'mere', 'cov13', 'kite', 'q335']) {
       const first = WorldGrid.drawn(seed, 0, 0).terrain as string;

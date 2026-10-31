@@ -129,5 +129,6 @@ Module larum "The Quiet in the Sky" {
   Place high_cairn "the cairn on the highest Tooth" is room within teeth at 1, 0 outdoors.
   Passage teeth_track "the track to the Teeth" is track between field_south and teeth_path taking 1 hour.
   Passage ledge_climb "the scramble up to the ledge" is path between teeth_path and wolf_ledge taking 20 minutes.
-  Passage tooth_climb "the climb to the highest Tooth" is path between wolf_ledge and high_cairn taking 30 minutes.
+  Passage tooth_climb "the climb to the highest Tooth" is path between wolf_ledge and high_cairn taking 30 minutes
+    opening when not at(wolves, wolf_ledge) or not able(wolves) or tolerates(wolves, party) "Three white wolves stand across the foot of the climb with their heads low.".
 }

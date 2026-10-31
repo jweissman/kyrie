@@ -26,7 +26,7 @@ Module larum "The Quiet in the Sky" {
   Person bet "Bet Garside" at hark {
     Role "who keeps the Hark". Ancestry human. Profession innkeeper. Peaceable. Pronouns she. Manner cheerful.
     Likeness "innkeeper".
-    Sells rations for 1 coin from 20. Sells ballad_kind for 1 coin from 6.
+    Sells rations for 1 coin from 20. Sells halvard_ballad_kind for 1 coin from 6.
     Greets "A big fair woman with grey under her eyes looks up from the fire. 'Come in and shut that, the cold's not paying.' She looks at you properly. 'You're not a collector. You've not got the hands. You've come about the quiet, or you've come to go up.' She yawns enormously and is not sorry. 'Either way, you'll want feeding first.'".
     Greets again "Bet Garside looks up from the fire with her chin on her fist. 'Back down,' she says. 'Sit by the fire. You've got that blue look.'".
   }
@@ -57,9 +57,9 @@ Module larum "The Quiet in the Sky" {
   Discovery bell_heard "Larum chapel rings the Mending Bell at dusk, when the noise from the Pass stops for the day; nobody remembers why. Since the quiet the parson rings it anyway.".
 
   // The ballad of Halvard Eld.
-  Item ballad "the Ballad of Halvard Eld" is ballad_kind at limbo.
+  Item ballad "the Ballad of Halvard Eld" is halvard_ballad_kind at limbo.
   Action read_ballad(actor: group, site: place) "Read the Ballad of Halvard Eld" {
-    Requires able(actor) and company(actor) and at(actor, site) and holding(actor, ballad_kind) and not knows(actor, ballad_read).
+    Requires able(actor) and company(actor) and at(actor, site) and holding(actor, halvard_ballad_kind) and not knows(actor, ballad_read).
     Time 1.
     On success { Assert knows(actor, ballad_read). Assert knows(actor, halvard_heard). }
     Result "You read it through. It jogs along cheerfully: Wendmere of the fullers put to the torch, man, wife and child, and Halvard laughing, and the fullers' vats boiling over red. Then Coldharbour, nine men round him, and the snow, and glory. It is a good tune. It is a very bad thing to have a good tune.".
