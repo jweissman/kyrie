@@ -34,6 +34,14 @@ describe('the capability market of a town', () => {
     expect(gold(j)).toBeLessThan(before);
     expect(j.choices().some(c => c.label === lesson.label)).toBe(false);
   }, 60000);
+  // A pack mule, bought of the chandler: whoever leads it can carry thirty more before the company goes slowly.
+  it('sells a pack mule, which carries for whoever leads it', async () => {
+    const j = await start('ranger'), aud = () => j.campaign.world.related('memberOf').find(r => r.args[1] === 'party')!.args[0]!;
+    await j.play('^To the market-place of Newmeet', "^To .*'s chandlery");
+    const before = j.measure('capacity', aud());
+    await j.play('Buy .*pack mule');
+    expect(j.measure('capacity', aud())).toBe(before + 30);
+  }, 60000);
   it('opens the scrivener\'s curtain to whoever asks, and teaches spells only to a caster', async () => {
     const ranger = await start('ranger');
     await ranger.play('^To the market-place of Newmeet', '^To the scrivener', 'after the older books', '^To the room behind');

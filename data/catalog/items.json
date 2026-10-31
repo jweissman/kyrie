@@ -371,6 +371,18 @@
         "notes": "What a lantern burns (Orsino's lantern has a duration and no fuel; here the duration is in the flask)."
       }
     },
+    "pack_mule": {
+      "name": "Pack mule",
+      "category": "gear",
+      "description": "A patient grey mule with a pair of panniers and opinions about bridges. Led by one of the company, it carries what they cannot: thirty more of weight before anyone goes slowly.",
+      "value": 30,
+      "mass": 0,
+      "carries": 30,
+      "source": {
+        "kyr": true,
+        "notes": "The capability market (REV-04, the owner's note of 31 October: pack animals to make further trips easier). Burden counts what a kind carries toward its bearer's capacity."
+      }
+    },
     "candle": {
       "name": "Candle",
       "category": "gear",

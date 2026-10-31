@@ -22,5 +22,9 @@ export class Burden {
   static load(c: Creature): number {
     return (c.state.inventory ?? []).reduce((n, i) => n + this.mass(i.definition), 0);
   }
-  static capacity(c: Creature): number { return 10 + 2 * c.base.strength; }
+  // Anyone can carry ten and twice their strength, and what a beast they lead carries besides (a pack mule's thirty).
+  static capacity(c: Creature): number {
+    return 10 + 2 * c.base.strength + (c.state.inventory ?? []).reduce((n, i) => n + this.carries(i.definition), 0);
+  }
+  static carries(kind: string): number { return (Canon.items[kind] as { carries?: number } | undefined)?.carries ?? 0; }
 }
