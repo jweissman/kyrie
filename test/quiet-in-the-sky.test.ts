@@ -97,6 +97,16 @@ describe('The Quiet in the Sky', () => {
     expect(g.ending()).toEqual([k('ending_halt')]);
   }, 900000);
 
+  it('the Long Quiet another way: a bard gives Wystan a peace to sing, and the Runners will not clear the Field', async () => {
+    const g = await Larum.start('test/fixtures/quiet-in-the-sky/bard.campaign.json');
+    await g.fixture('strike');
+    expect(g.holds('songMade', 'wystan')).toBe(true);
+    expect(g.holds('runnersStrike', 'cuddy')).toBe(true);
+    expect(g.holds('testingBlocked', 'field_country')).toBe(true);
+    expect(g.ending()).toEqual([k('ending_quiet')]);
+    expect(g.page).toMatch(/it said: grass|horn the Truce/);
+  }, 900000);
+
   it('the Daily: gone up once and left alone, the Testing is fought, everyone gets up, and Larum hears the sky again', async () => {
     const g = await Larum.start();
     await g.fixture('daily');

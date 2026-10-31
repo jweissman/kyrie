@@ -3,7 +3,7 @@ Module larum "The Quiet in the Sky" {
   // A siege-tower lying on its side in the middle of Halt, with a door cut in its floor and benches nailed to its walls:
   // the alehouse, where they drink a mead whose honey the Runners trade for at the pass.
   Observe truce_scene at truce when true "You crawl in through the hatch and are inside a siege-tower lying on its side: its floors are walls now, and its walls are floor and ceiling, and benches have been nailed to what used to be the floor of the second storey. There is no fire. Lamps of ox-fat. A barrel of mead on a trestle, and dead men and women sitting on the benches with horn cups, talking low. In the far corner, alone, a little old man in a skald's blue coat sits with three empty cups in front of him and a full one in his hand, glaring at nothing.".
-  Observe truce_singing at truce as sign when songMade(wystan) "Somebody at the far end is humming the new song. Somebody else joins in, and gets the words wrong, and is corrected by half the room.".
+  Observe truce_singing at truce as sign when songMade(wystan) and spoke(song_end_told) and not theHour() "Somebody at the far end is humming the new song. Somebody else joins in, and gets the words wrong, and is corrected by half the room.".
 
   Person wystan "Wystan Hollins" at truce {
     Role "the skald of Evenhall". Ancestry human. Calling bard. Level 6. Peaceable. Pronouns he. Manner acerbic.
@@ -51,12 +51,12 @@ Module larum "The Quiet in the Sky" {
   }
   // Two things told, and the lullaby: he can make it, and sings it at the Hour the next day.
   Topic wystan_make with wystan "Ask Wystan Hollins whether that is enough to make a song of" when knows(actor, lullaby_known) and verses(wystan) >= 2 and not songPromised(wystan) and not elegyMade(wystan) once {
-    Says "Wystan looks at the table, where the mead has dried in streaks of your words, a bell, a loaf, whatever you told him. He is quiet a long time. 'A sheep went over the hill,' he says under his breath, 'to see what was there.' He looks up. 'Tomorrow. At the Hour. Here. If it's any good I'll sing it and if it isn't I'll break the cup over your head.' He drinks off the cup. 'Go away. I'm working.'".
+    Says "Wystan looks at the table, where the mead has dried in streaks of what you told him. He is quiet a long time. 'A sheep went over the hill,' he says under his breath, 'to see what was there.' He looks up. 'Tomorrow. At the Hour. Here. If it's any good I'll sing it and if it isn't I'll break the cup over your head.' He drinks off the cup. 'Go away. I'm working.'".
     On discuss { Assert songPromised(wystan). Set songDay(wystan) to day(clock). }
   }
   Rule song_made when songPromised(wystan) and day(clock) > songDay(wystan) and hour(clock) >= 18 and not songMade(wystan) { Assert songMade(wystan). }
   Rule song_sung at truce when songMade(wystan) and at(party, truce) and theHour() and not spoke(song_told)
-    says "At the Hour Wystan Hollins climbs onto the mead-trestle with a cup in his fist, and the Truce goes quiet, because he has not sung in forty days. He does not sing the Tally of anyone. He sings about a sheep that went over the hill to see what was there." { Assert spoke(song_told). }
+    says "At the Hour Wystan Hollins climbs onto the mead-trestle with a cup in his fist, and the Truce goes quiet, because he has not sung in forty days. He does not sing the Tally of anyone. He sings about a sheep that went over the hill to see what was there." { Assert spoke(song_told). Assert hourToday(field_country). }
   Entity song_told: fact "the song".
   Rule song_bell at truce when songMade(wystan) and toldBell(wystan) and at(party, truce) and theHour() and not spoke(song_bell_told) says "The second verse is a bell rung at dusk in a hamlet under the snow, for nobody, every night, in case." { Assert spoke(song_bell_told). }
   Rule song_bread at truce when songMade(wystan) and toldBread(wystan) and at(party, truce) and theHour() and not spoke(song_bread_told) says "There is a verse about a loaf that pushed its cloth off the board, and the room laughs, and stops laughing, because of the line about the steam." { Assert spoke(song_bread_told). }
