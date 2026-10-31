@@ -1,9 +1,10 @@
 import { LocalObservations } from './local-observations';
 import { ObservationText } from '../lang/observation-text';
 import { ModuleWriter } from '../lang/module-writer';
-import type { Change, Module } from '../lang/module';
+import type { Module } from '../lang/module';
 import type { World } from '../lang/world';
 import type { CampaignEvent } from './campaign-types';
+import { CampaignTick, type Happening, type TickHost } from './campaign-tick';
 
 // What the player's company perceives after a command: what happened near it, what its place is now like, and
 // what it learned by this command (a fact already known is not discovered again).
@@ -33,20 +34,26 @@ export class Perceptions {
     noted: facts.map(f => `+ knows(${player}, ${f})`) };
   }
   // What the company perceives after a command, and learns by it, settled: what it learns may show it more (once
-  // the cart is found, the brother kneeling by it), and that is seen and learned in the same moment, a few times over
-  // at most. Each thing perceived is told once; everything learned is committed through commit.
-  static settle(module: Module, seen: { before: World; after: World; player: string | undefined;
-    happenings: { id: string; text: string; kind: 'event' }[] }, commit: (changes: Change[]) => World):
-    { perceptions: CampaignEvent['perceptions']; noted: string[] } {
-    let world = seen.after, perceived = this.after(module, seen);
+  // the cart is found, the brother kneeling by it), and the world's rules answer it (a conclusion drawn from what was
+  // read, an ending on that: see CampaignTick.answer); all that is seen, learned and answered in the same moment, a few
+  // times over at most. Each thing perceived is told once; what is learned, and what the rules then do, is committed
+  // to the host, and noted among the command's changes; answered says whether the rules did anything.
+  static settle(host: TickHost, seen: { before: World; after: World; happenings: Happening[] }):
+    { perceptions: CampaignEvent['perceptions']; noted: string[]; answered: boolean } {
+    const module = host.module, player = host.playerActor;
+    let world = seen.after, perceived = this.after(module, { ...seen, player }), answered = false;
     const all = [...perceived ?? []], noted: string[] = [];
     for (let pass = 0; perceived && pass < 3; pass++) {
-      const learned = this.witness(module, world, seen.player, perceived);
+      const learned = this.witness(module, world, player, perceived);
       if (!learned.changes.length) { break; }
-      world = commit(learned.changes);
+      const since = host.world;
+      host.commitWorld(since.apply(learned.changes));
       noted.push(...learned.noted);
       all.push(...learned.told);
-      perceived = this.after(module, { ...seen, after: world, happenings: [] });
+      const known = host.world, said = CampaignTick.answer(host, since);
+      if (host.world !== known) { answered = true; host.refreshProjection(); noted.push(...host.world.changes(known)); }
+      world = host.world;
+      perceived = this.after(module, { ...seen, player, after: world, happenings: said });
       all.push(...(perceived ?? []).filter(p => !all.some(a => a.kind === p.kind && a.id === p.id)));
     }
     // What is learned is told as the company knows it at the end of the moment: word of the hobs' hold, with the
@@ -54,10 +61,10 @@ export class Perceptions {
     const told = all.map(p => p.kind === 'discovery'
       ? { ...p, text: ObservationText.render(module.entities.find(e => e.id === p.id)!.name, world) } : p);
     return { perceptions: told.length || perceived ? told.filter((p, i) => told.findIndex(a => a.kind === p.kind
-      && a.id === p.id) === i) : undefined, noted };
+      && a.id === p.id) === i) : undefined, noted, answered };
   }
   static after(module: Module, seen: { before: World; after: World; player: string | undefined;
-    happenings: { id: string; text: string; kind: 'event' }[] }): CampaignEvent['perceptions'] {
+    happenings: Happening[] }): CampaignEvent['perceptions'] {
     const { before, after, player, happenings } = seen;
     if (!player || !(module.observations?.length || happenings.length)
       || !after.test(ModuleWriter.call('able', player))) { return undefined; }

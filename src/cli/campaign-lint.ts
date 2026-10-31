@@ -5,7 +5,8 @@ import { Canon } from '../canon/canon';
 import { Spatial } from '../spatial';
 import { Effects } from '../effects';
 import { parseAbility } from '../lang/parse';
-import type { Entity, Module, Predicate } from '../lang/module';
+import type { Entity, Module } from '../lang/module';
+import { EndingOrder } from '../lang/ending-order';
 import type { World } from '../lang/world';
 import type { Finding } from './kyr-lint';
 import { CommitmentLint } from './commitment-lint';
@@ -110,8 +111,6 @@ export class CampaignLint {
   private oneWay(way: string, a: string, b: string): boolean {
     return !this.relations('connects').some(r => r.args[0] === way && r.args[1] === b && r.args[2] === a);
   }
-  // The first ending whose condition holds is the one reached: a later one that asks all an earlier one asks, and
-  // more, can never be (Low Water's 21: seventeen endings ordered by hand, nothing saying one was shadowed).
   // A fact of a module's own that something writes and nothing reads, in a condition, a value or a text: an unfinished
   // thread, said as advice (the Road's licensed, warmed, grieved and warnedChimed were found by hand: its friction's
   // "lint that understands rules").
@@ -138,16 +137,18 @@ export class CampaignLint {
     if (n.kind === 'call' && n.name) { read.add(n.name); }
     for (const v of Array.isArray(node) ? node : Object.values(node)) { this.walk(v, read, written); }
   }
+  // The first ending whose condition holds is the one reached: a later one that asks all an earlier one of its
+  // installation asks, and more, can never be (Low Water's 21: seventeen endings ordered by hand, nothing saying one
+  // was shadowed). One said to be over the earlier is not: the earlier asks that it does not hold (see EndingOrder).
+  // Two that can merely hold together are not advised of here: nearly every pair of an adventure's endings shares its
+  // closing condition (departed, fourthDay, morningAfter), and a journey says of the pairs that did hold together.
   endings() {
-    const ends = (this.module.rules ?? []).filter(r => r.effects.some(e => e.kind === 'assert' && e.call.name === 'reached'))
-      .map(r => ({ id: r.id, asks: this.conjuncts(r.when.kind === 'and' ? r.when.left : r.when) }));
+    const ends = (this.module.rules ?? []).filter(r => EndingOrder.shuts(r))
+      .map(r => ({ id: r.id, shuts: EndingOrder.shuts(r), asks: EndingOrder.asks(r) }));
     ends.forEach((late, i) => {
-      const early = ends.slice(0, i).find(e => [...e.asks].every(a => late.asks.has(a)));
+      const early = ends.slice(0, i).find(e => e.shuts === late.shuts && EndingOrder.within(e.asks, late.asks));
       if (early) { this.add('warning', 'ending', `${late.id} is never reached: ${early.id} comes first, and holds whenever it does`); }
     });
-  }
-  private conjuncts(p: Predicate): Set<string> {
-    return p.kind === 'and' ? new Set([...this.conjuncts(p.left), ...this.conjuncts(p.right)]) : new Set([JSON.stringify(p)]);
   }
   private needs(way: string): string {
     return this.relations('needs').filter(r => r.args[0] === way).map(r => r.args[1]).join(',');

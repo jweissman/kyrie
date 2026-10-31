@@ -135,7 +135,7 @@ export class ModuleParser {
     const expanded = Discovery.describe(information);
     module.entities.push(...expanded.entities); module.initial.push(...expanded.initial);
     if (expanded.observations.length) { (module.observations ??= []).push(...expanded.observations); }
-    Spatial.addEscorts(module); Spatial.addSearches(module);
+    Spatial.addEscorts(module); Spatial.addSearches(module); Endings.rank(module, fields);
     // A module that never says what would end it goes on: Goal false is the default, and one file of a module in
     // several files says it for all of them.
     return module;

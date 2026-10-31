@@ -1,0 +1,50 @@
+Module vow "Two promises to a hermit" {
+  Place hollow "the hollow" is site.
+  Place cell "the hermit's cell" is room within hollow at 0, 0.
+  Place shrine "the shrine" is room within hollow at 1, 0 outdoors.
+  Passage cell_door "the cell door" is door between cell and shrine.
+  Company party "You" of 1 at cell.
+  Person hermit "the hermit" at cell { Role "a hermit". Peaceable. Pronouns he. }
+  Relation shrineAt(place). Relation lampLit(place). Relation buried(group). Relation troubled(group).
+  Relation leftHollow(group).
+  Initially Assert shrineAt(shrine).
+  Topic promise_lamp with hermit "Promise the hermit to light the shrine lamp" when not promiseMade(lamp_promise) once {
+    Says "'The lamp, then,' he says. 'Before dark.'".
+    On discuss { Assert promiseMade(lamp_promise). }
+  }
+  Topic promise_peace with hermit "Promise the hermit to leave him in peace" when not promiseMade(peace_promise) once {
+    Says "'And not a word to the valley,' he says.".
+    On discuss { Assert promiseMade(peace_promise). }
+  }
+  Action light(actor: group, site: place) "Light the shrine lamp" {
+    Time 1 minute.
+    Requires able(actor) and at(actor, site) and shrineAt(site) and not lampLit(site).
+    On success { Assert lampLit(site). }
+    Result "The wick takes, and the shrine lamp burns.".
+  }
+  // The snow above the cell lets go: the hermit is buried after the company has left him undisturbed all along.
+  Action ring(actor: group, site: place) "Ring the shrine bell" {
+    Time 1 minute.
+    Requires able(actor) and at(actor, site) and shrineAt(site) and not buried(hermit).
+    On success { Assert buried(hermit). }
+    Result "The bell booms; above the cell the snow lets go.".
+  }
+  Action leave(actor: group, site: place) "Take the road out of the hollow" {
+    Time 1 minute.
+    Requires able(actor) and at(actor, site) and shrineAt(site).
+    On success { Assert leftHollow(actor). }
+    Result "You take the road down.".
+  }
+  // Kept when the lamp burns, which the hermit in his cell learns when the company is back with him.
+  Promise lamp_promise "to light the shrine lamp before dark" to hermit
+    kept when lampLit(shrine) "The hermit sees the glow at the shrine and nods."
+    broken when hour(clock) >= 21 "The shrine stays dark, and the hermit knows it." { Assert troubled(hermit). }.
+  // Kept by something lasting: judged only as the story closes, and broken there if it does not hold.
+  Promise peace_promise "to leave him in peace" to hermit
+    kept at the close when not buried(hermit) and not troubled(hermit) "Behind you the hermit goes on in his peace, as he asked."
+    broken when troubled(hermit) "The hermit's peace is broken, and you broke it.".
+  Ending gone "The Road Out" when leftHollow(party) "You leave the hollow behind.".
+  Observe cell_scene at cell when true "A cell cut into the hill.".
+  Observe shrine_scene at shrine when true "A shrine under the snow, with a lamp and a bell.".
+  Goal false.
+}

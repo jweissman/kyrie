@@ -1,0 +1,23 @@
+Module inference "What is read, set against what is known" {
+  Place town "the town" is settlement.
+  Place office "the Courant's office" is room within town at 0, 0.
+  Company party "You" of 1 at office.
+  // What the company knows already: Kittiwake's account of the night the barque came in.
+  Discovery memory "Kittiwake saw the barque come in at two in the morning, showing no lights." { Known by party. }
+  Discovery printed "The Courant prints that the barque came in at dawn, lit from stem to stern.".
+  Discovery lie "The Courant's account of the barque is a lie.".
+  Thing courant "the Courant" at office {
+    State kept "This morning's Courant lies folded on the counter.".
+  }
+  // Reading the paper teaches what it prints.
+  Observe courant_read at office of courant as reading when tried(courant, looking) "The Courant reports the barque came in at dawn, lit from stem to stern." teaches printed.
+  // What is read, set against what is known, teaches a third thing; and that, known, ends the story.
+  Rule infer when knows(party, printed) and knows(party, memory) and not knows(party, lie)
+    says "That is not what Kittiwake saw: the Courant is lying about the barque." teaches lie { }
+  Ending exposed "The Lie Found Out" when knows(party, lie) "You fold the Courant away, knowing what it hides. Here the story ends.".
+  // Kittiwake's account is turned over on every pass of the rules while it is known: it held before the reading, so
+  // what the reading teaches does not turn it over twice.
+  Measure musings(group).
+  Rule muse when knows(party, memory) { Increase musings(party) by 1. }
+  Observe office_scene at office when true "A printing office, smelling of ink.".
+}

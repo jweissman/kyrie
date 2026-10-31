@@ -6,9 +6,11 @@ import { ObservationText } from './observation-text';
 import { Chapters } from './chapters';
 import { Promises } from './promises';
 import { Occasions } from './occasions';
+import { EndingOrder } from './ending-order';
 
 type Node = ohm.Node;
-export interface EndingSpec { id: string; title: string; when: Predicate; text: string }
+// over: the endings this one is reached before, where both hold (see EndingOrder).
+export interface EndingSpec { id: string; title: string; when: Predicate; text: string; over?: string[] }
 
 // An ending closes the book: `Ending sealed "The Re-Sealing" when sealed(heart) "epilogue".` The first whose condition
 // holds is reached, its epilogue told as it happens, and play stops, the page closing on its title and epilogue
@@ -16,15 +18,26 @@ export interface EndingSpec { id: string; title: string; when: Predicate; text: 
 // observation, with play carrying on after). It is an entity of the kind `ending` and a rule that reaches it once: the
 // first of its module's endings to hold, for each installation has its own `concluded`. A module installed into a world
 // already under way (a country beyond a march: InstalledModule.chapter) closes only its own chapter: its epilogue is
-// told as it happens, and the world goes on (What Tessary Owes, the authoring-friction report).
+// told as it happens, and the world goes on (What Tessary Owes, the authoring-friction report). Of two that hold at
+// once, the one written first is reached, unless the other is said to be over it (see EndingOrder).
 export class Endings {
   // A chapter is written as an ending is, and opens as an ending closes (see Chapters); a promise is kept or broken as
   // one does (see Promises).
-  static readonly actions = { Ending: Endings.parse, EndingWhen: Endings.when, ...Chapters.actions,
-    ...Promises.actions, ...Occasions.actions };
-  static parse(_ending: Node, id: Node, title: Node, when: Node) {
+  static readonly actions = { Ending: Endings.parse, EndingTail: Endings.tail, EndingOver: Endings.over,
+    EndingWhen: Endings.when, ...Chapters.actions, ...Promises.actions, ...Occasions.actions };
+  static parse(_ending: Node, id: Node, title: Node, tail: Node) {
     return { field: 'ending', value: { id: id.sourceString, title: Endings.ast(title) as string,
-      ...Endings.ast(when) as { when: Predicate; text: string } } };
+      ...Endings.ast(tail) as { over?: string[]; when: Predicate; text: string } } };
+  }
+  // `over a, b` before its condition: the endings this one is reached before, where both hold.
+  static tail(over: Node, when: Node) {
+    return { ...over.children.length ? { over: Endings.ast(over.children[0]!) as string[] } : {},
+      ...Endings.ast(when) as { when: Predicate; text: string } };
+  }
+  static over(_over: Node, ids: Node): string[] { return ids.asIteration().children.map(c => c.sourceString); }
+  // Once a file's endings are all written, each said to be over others holds them back (see EndingOrder.rank).
+  static rank(module: Module, fields: readonly { field: string; value: unknown }[]) {
+    EndingOrder.rank(module, fields.filter(f => f.field === 'ending').map(f => f.value as EndingSpec));
   }
   static when(_when: Node, when: Node, text: Node, _dot: Node) {
     return { when: Endings.ast(when) as Predicate, text: Endings.ast(text) as string };

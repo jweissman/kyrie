@@ -49,11 +49,15 @@ Kyr {
   Milestone = "Milestone" ident string MilestoneWorth
   MilestoneWorth = "worth" integer MilestoneWhen
   MilestoneWhen = "when" Predicate "."
-  Ending = "Ending" ident string EndingWhen
+  Ending = "Ending" ident string EndingTail
+  EndingTail = EndingOver? EndingWhen
+  EndingOver = "over" NonemptyListOf<ident, ",">
   Chapter = "Chapter" ident string EndingWhen
   Promise = "Promise" PromiseHead PromiseKept PromiseBroken
   PromiseHead = ident string "to" ident
-  PromiseKept = "kept" "when" Predicate string?
+  PromiseKept = "kept" PromiseClose? PromiseWhen string?
+  PromiseClose = "at" "the" "close"
+  PromiseWhen = "when" Predicate
   PromiseBroken = "broken" "when" Predicate PromiseTail
   PromiseTail = string PromiseEffects? "."
   PromiseEffects = "{" ChangeStatement* "}"

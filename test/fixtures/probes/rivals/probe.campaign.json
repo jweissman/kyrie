@@ -1,0 +1,1 @@
+{ "version": 1, "name": "Probe: endings that hold at once", "modules": [ { "id": "p", "bundle": "module.json" } ], "party": [ { "name": "Ama", "raceId": "human", "classId": "warrior" } ] }

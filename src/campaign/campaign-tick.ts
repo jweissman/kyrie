@@ -12,6 +12,7 @@ import { ObservationText } from '../lang/observation-text';
 import { LocalObservations } from './local-observations';
 import { World } from '../lang/world';
 import { Reads } from '../lang/reads';
+import { EndingOrder } from '../lang/ending-order';
 import { Journey } from './journey';
 import type { Call, Change, Module, Operator, WorldRule, WorldState } from '../lang/module';
 import type { CampaignDefinition } from './definition';
@@ -32,7 +33,9 @@ export interface TickHost {
 export interface TickDecision {
   actor: string; goal: string; action: string; plan: string[]; elapsed: number; changes: string[]; seen?: boolean;
 }
-export type Happening = { id: string; text: string; kind: 'event' };
+// rivals: for an ending, the others that held as it was reached and could have been reached instead (see
+// EndingOrder.rivals).
+export type Happening = { id: string; text: string; kind: 'event'; rivals?: string[] };
 
 // One watch of the world after the player's action: every NPC acts or continues what it is doing, then each rule
 // fires once in authored order. A rule with ?variables fires once for every binding that satisfies it.
@@ -115,22 +118,47 @@ export class CampaignTick {
   }
   // The world's rules, in the order they are declared; then a way's opening once more, so that a gate declared
   // before the rule that lets the company through is open as soon as it has (Low Water's 1, the Assayers' gate; What
-  // Tessary Owes' W10, the black wall that shut a watch late).
-  static rules(host: TickHost, happenings: Happening[]) {
+  // Tessary Owes' W10, the black wall that shut a watch late). began is the world as the watch began, before anyone
+  // acted in it: what the company perceived then it heard said in the watch (see heard).
+  static rules(host: TickHost, happenings: Happening[], began: World = host.world) {
     const rules = host.module.rules ?? [];
-    for (const rule of rules) { this.fire(host, rule, happenings); }
-    for (const rule of rules) { if (rule.upkeep) { this.fire(host, rule, happenings); } }
+    for (const rule of rules) { this.fire(host, rule, happenings, { began }); }
+    for (const rule of rules) { if (rule.upkeep) { this.fire(host, rule, happenings, { began }); } }
   }
-  private static fire(host: TickHost, rule: WorldRule, happenings: Happening[]) {
+  // The world's rules once more, as the company learns something by seeing, reading or hearing it (see
+  // Perceptions.settle); since is the world before it was learned. A rule is asked again only if something it reads
+  // has changed since then, and fires only where it holds now and did not then: what was learned is answered in the
+  // command that taught it, and nothing that held before fires twice. Asked only in the next command's watch, an
+  // inference on what had just been read (the Courant's account set against Kittiwake's memory) fired after the
+  // company had done something else, and an ending on what it taught later still (the Grand Tour's friction 23).
+  static answer(host: TickHost, since: World): Happening[] {
+    const happenings: Happening[] = [], rules = host.module.rules ?? [], at = { began: host.world, since };
+    for (const rule of rules) { if (this.stirred(host.world, rule, since)) { this.fire(host, rule, happenings, at); } }
+    for (const rule of rules) {
+      if (rule.upkeep && this.stirred(host.world, rule, since)) { this.fire(host, rule, happenings, at); }
+    }
+    return happenings;
+  }
+  private static stirred(world: World, rule: WorldRule, since: World): boolean {
+    const reads = this.idle.get(rule)?.reads ?? Reads.names(world.module, [rule.when]);
+    return !world.agrees(reads, since.stamped(reads));
+  }
+  private static fire(host: TickHost, rule: WorldRule, happenings: Happening[],
+    { began, since }: { began: World; since?: World }) {
     const { definition, creatures } = host.tickState;
     // A rule said within an area waits for the company to be there: news of the city is told, and done, when the
     // company comes up from under the sea (What Tessary Owes' W1, the Road's F9).
     if (rule.anchor === 'within' && rule.place
       && !(host.playerActor && LocalObservations.inArea(host.world, host.playerActor, rule.place))) { return; }
+    // One held as news waits for the company to hear it: a promise's line, until the company is with the one it was
+    // made to (the Grand Tour's friction 5, Perrin's 'as he asked' told wherever the company was).
+    if (rule.held && !this.heard(host, rule, [host.world])) { return; }
     for (const [effects, binding] of this.instances(rule, host.world)) {
       // Each instance fires only if its condition still holds after those before it (two powers cannot both seize
       // the one stronghold left vacant).
       if (Object.keys(binding).length && !host.world.test(rule.when, binding)) { continue; }
+      // Only what the learning makes hold answers it (see answer): what held before fires in a watch, as it did.
+      if (since?.test(rule.when, binding)) { continue; }
       // Whoever follows the company comes along when a rule carries it off (a chair to the downs: the Banns at
       // Hessel's friction 6, which kept its own rule for it).
       const prior = host.world, next = Journey.along(prior, prior.apply(this.yielding(host, rule, effects)),
@@ -139,15 +167,26 @@ export class CampaignTick {
       // The world itself is kept, not a copy of its facts, which the next reading of the world would build again
       // from every fact (Mission 15's profile: most of a command's time in a country of several regions).
       host.commitWorld(next);
-      const player = host.playerActor;
-      if (rule.say && player && next.test(ModuleWriter.call('able', player))
-        && (!rule.place || LocalObservations.perceives(next, player, rule.place, rule.anchor))) {
+      if (rule.say && this.heard(host, rule, [began, prior, next])) {
         // One told for each binding it fires for (each member polled), as an observation near a variable is seen once
         // for each thing it is near: an instance's id is its rule's and the binding's (aye@roll).
         const instance = Object.keys(binding).length ? `${rule.id}@${Object.values(binding).join(',')}` : rule.id;
-        happenings.push({ id: instance, text: ObservationText.render(rule.say, next, true, binding), kind: 'event' });
+        // An ending is told with any other that held where it was reached, as it was, for the journeys to warn of.
+        const rivals = EndingOrder.rivals(host.module, rule, prior);
+        happenings.push({ id: instance, text: ObservationText.render(rule.say, next, true, binding), kind: 'event',
+          ...rivals.length ? { rivals } : {} });
       }
     }
+  }
+  // Whether the company hears what a rule says, as a witness would: it can when the rule has done, and it perceived
+  // the rule's anchor as the watch began, or just before the rule's effects, or just after them (the test seen applies
+  // to an act). Judged only after them, an event near Quance that carried her to the Nexus went untold to the company
+  // beside her, as did one near her in the watch her routine moved her, and its latch spent it unheard (the Grand
+  // Tour's friction 2, GTR-02). What the company perceived in none of them it did not hear: that is news, told later.
+  private static heard(host: TickHost, rule: WorldRule, worlds: World[]): boolean {
+    const player = host.playerActor, place = rule.place;
+    if (!player || !worlds.at(-1)!.test(ModuleWriter.call('able', player))) { return false; }
+    return !place || worlds.some(world => LocalObservations.perceives(world, player, place, rule.anchor));
   }
   // One who follows the company goes where it goes: a rule that neither asks nor says who follows whom (an hour's
   // routine: Rupert, asked to come and tell his mother, walked off to the King's Bath at two, the Banns at Hessel's

@@ -47,10 +47,11 @@ export class WatchLoop {
       if (journey && tick === watches - 1) { journey.arrive(); }
       host.advanceWatch(combat, asleep);
       if (host.persistent) {
-        const said = happenings.length;
+        // What the company perceived as the watch began, before anyone acted, it hears said in the watch.
+        const said = happenings.length, began = host.world;
         CampaignTick.npcs(host, npc);
         present = Arrivals.tell(host.world, player, present, happenings);
-        CampaignTick.rules(host, happenings);
+        CampaignTick.rules(host, happenings, began);
         present = Arrivals.tell(host.world, player, present, happenings);
         Consequences.strike(host, combat); Consequences.hand(host, combat);
         host.settleWatch(combat);

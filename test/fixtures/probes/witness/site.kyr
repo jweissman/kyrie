@@ -1,0 +1,30 @@
+Module witness "What happens beside the company" {
+  Place house "the climbing-house" is site.
+  Place hall "the hall" is room within house at 0, 0.
+  Place yard "the yard" is room within house at 1, 0 outdoors.
+  Place loft "the loft" is room within house at 2, 0.
+  Place nexus "the Nexus" is room within house at 0, 1.
+  Place cellar "the cellar" is room within house at 1, 1 underground.
+  Passage hall_yard "the hall door" is door between hall and yard.
+  Passage cellar_steps "the cellar steps" is stair between hall and cellar.
+  Company party "You" of 1 at hall.
+  Person quance "Quance" at hall { Role "a climber". Peaceable. Pronouns she. }
+  Person wren "Wren" at hall { Role "a gardener". Peaceable. Pronouns she. }
+  Person hob "Hob" at yard { Role "a carter". Peaceable. Pronouns he. }
+  // Its own effects carry Quance off: the company beside her sees her go.
+  Event climb near quance when watch(clock) >= 2 "Quance sets her hands to the rope and is drawn up to the Nexus." then {
+    Retract at(quance, hall). Assert at(quance, nexus). }
+  // Wren's routine, written first, takes her out in the watch her petals fall: the company she stood beside sees them.
+  Rule wren_goes when watch(clock) >= 2 and at(wren, hall) { Retract at(wren, hall). Assert at(wren, yard). }
+  Event petals near wren when at(wren, yard) "Petals fall about Wren's shoulders as she goes out into the yard.".
+  // Hob goes up from the yard to the loft: the company in the hall was beside him in neither, and hears nothing.
+  Event hob_climbs near hob when watch(clock) >= 2 "Hob shoulders the sacks and climbs to the loft." then {
+    Retract at(hob, yard). Assert at(hob, loft). }
+  // The hall's boards give under the company: it was in the hall when they gave, and is told, though it falls out of it.
+  Event boards at hall when watch(clock) >= 8 and at(party, hall) "The boards give under you, and you drop into the cellar." then {
+    Retract at(party, hall). Assert at(party, cellar). }
+  Observe hall_scene at hall when true "A bare hall with a rope hanging from a hole in the roof.".
+  Observe yard_scene at yard when true "A yard of cobbles and sacks.".
+  Observe cellar_scene at cellar when true "A cellar of broken boards.".
+  Goal false.
+}

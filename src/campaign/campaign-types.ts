@@ -55,7 +55,9 @@ export interface CampaignEvent {
   // An activity broken off before it had run its course (a wait, a rest, a search), by what came: the response says
   // what broke it off.
   cut?: true;
-  perceptions?: { id: string; text: string; kind: 'observation' | 'discovery' | 'event' }[];
+  // What the company perceived of the command; an ending among it carries the others that held as it was reached
+  // (rivals: see EndingOrder.rivals).
+  perceptions?: { id: string; text: string; kind: 'observation' | 'discovery' | 'event'; rivals?: string[] }[];
   // A fight the company was drawn into: what it had been doing when it was fallen on, and where it ran to, if it ran.
   // What the company did before it was set upon, and how many of the combat's events were that first fight's.
   prelude?: { action: string; response?: string; perceptions?: CampaignEvent['perceptions']; fought?: number };

@@ -68,6 +68,9 @@ export interface WorldRule {
   teaches?: string;
   // Read again once the rules of the moment have run: a way's opening (see WorldConstructs.opening).
   upkeep?: boolean;
+  // Said only where the company hears it, and until then not done but held as news: a promise's line, for the one it
+  // was made to (see Promises.lower).
+  held?: boolean;
 }
 // What an observation tells of: what a place is (a fixture, the default), a part worth a closer look (a feature),
 // evidence of something (a sign), the sky (weather), the passing life of the place (ambience), something happening

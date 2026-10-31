@@ -321,9 +321,10 @@ export class Campaign implements WatchHost {
         { creatures: this.creatures.live, world: this.world, elapsed: this.current.elapsed },
         { events: combat, success, sequence: this.log.length });
     }
-    const seen = Perceptions.settle(this.module, { before, after, player: this.playerActor, happenings },
-      changes => { this.commit(this.world.apply(changes)); return this.world; });
+    const seen = Perceptions.settle(this, { before, after, happenings });
     event.changes.push(...seen.noted); if (seen.perceptions) { event.perceptions = seen.perceptions; }
+    // What the rules did in answer to what was learned (see CampaignTick.answer) may have sent someone home.
+    if (seen.answered) { this.updateOutcome(); }
     this.log.push(event);
     return structuredClone(event);
   }

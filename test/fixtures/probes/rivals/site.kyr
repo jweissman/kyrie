@@ -1,0 +1,58 @@
+Module rivals "Endings that hold at once" {
+  Place tower "the bell tower" is site.
+  Place belfry "the belfry" is room within tower at 0, 0.
+  Company party "You" of 1 at belfry.
+  Thing lantern "the lantern" at belfry {
+    State unlit "A lantern hangs unlit from a hook.".
+    State lit "The lantern burns on its hook.".
+    Change light "Light the lantern" from unlit to lit.
+  }
+  Thing hatch "the hatch" at belfry {
+    State down "A hatch in the floor lies shut over the stair.".
+    State raised "The hatch stands open on the stair below.".
+    Change raise "Raise the hatch" from down to raised.
+  }
+  Thing bell "the bell" at belfry {
+    State silent "The great bell hangs silent.".
+    State rung "The bell is still humming from its stroke.".
+    Change ring "Ring the bell" from silent to rung.
+  }
+  Thing gong "the gong" at belfry {
+    State still "A bronze gong hangs still.".
+    State struck "The gong shivers on its cord.".
+    Change strike "Strike the gong" from still to struck.
+  }
+  Thing bowl "the singing bowl" at belfry {
+    State quiet "A singing bowl sits quiet on the sill.".
+    State humming "The singing bowl hums.".
+  }
+  Thing horn "the horn" at belfry {
+    State hung "A hunting horn hangs on a nail.".
+    State blown "The horn's call is still in the rafters.".
+    Change blow "Blow the horn" from hung to blown.
+  }
+  Thing fife "the fife" at belfry {
+    State cased "A fife lies in its case.".
+    State played "The fife lies out of its case.".
+    Change play "Play the fife" from cased to played.
+  }
+  Thing drum "the drum" at belfry {
+    State slack "A drum stands in the corner.".
+    State beaten "The drum is still throbbing.".
+    Change beat "Beat the drum" from slack to beaten.
+  }
+  // The bowl hums when the gong is struck, before the endings are tried.
+  Rule hum when state(gong, struck) and not state(bowl, humming) { Retract state(bowl, quiet). Assert state(bowl, humming). }
+  // Two that can hold at once, neither asking all the other asks: the first written is reached, and a journey says the
+  // other held too. The bell alone, written after both, is the general case, as the order means it: no rival.
+  Ending lamplit "The Lamplit Peal" when state(bell, rung) and state(lantern, lit) "You ring the bell by lantern light. Here the story ends.".
+  Ending downstair "The Peal Down the Stair" when state(bell, rung) and state(hatch, raised) "You ring the bell down the open stair. Here the story ends.".
+  Ending peal "The Peal" when state(bell, rung) "You ring the bell. Here the story ends.".
+  // Two that never hold at once: the bowl hums as the gong is reached, but the second asks that the gong is not struck.
+  Ending gonged "The Gong" when state(gong, struck) "The gong's note fills the tower. Here the story ends.".
+  Ending bowl_alone "The Bowl Alone" when not state(gong, struck) and state(bowl, humming) "The bowl hums on its own. Here the story ends.".
+  // Said which wins: the fife's, written after the horn's, is over it.
+  Ending horn_call "The Horn Call" when state(drum, beaten) and state(horn, blown) "Drum and horn call the valley up. Here the story ends.".
+  Ending fife_call "The Fife Call" over horn_call when state(drum, beaten) and state(fife, played) "Drum and fife call the valley up. Here the story ends.".
+  Observe belfry_scene at belfry when true "A belfry, open to the wind on four sides.".
+}

@@ -881,6 +881,12 @@ A rule's `says` is told to the company wherever it is, unless the rule is anchor
 (The Long Man's mower, the drover's son). News that should travel at its own pace is a rule anchored where it
 arrives, with a clock for when (The Road the Star Came Down's F9, The Patient Star's 32).
 
+The company hears it as a witness would: if it perceived the anchor as the watch began, before anyone acted in it, or
+just before the rule did what it does, or just after. So an event near someone that carries them off is told to the
+company beside them, and so is one near someone whose routine, written earlier, took them out in the same watch; an
+event at a place that drops the company out of it is told to it as it falls (`probes/witness`; the Grand Tour's 2,
+whose event near Quance that carried her to the Nexus was spent unheard).
+
 ```text
   Rule son_goes at green when watch(clock) >= 204 and not told(son) and at(son, green) says "{son} has taken his father's old spear and gone out on the road alone." { Retract at(son, green). Assert gone(son). }
 ```
@@ -988,6 +994,13 @@ A rule or an event happens whether or not the company is there to hear it, so wh
 it, and only then (the Banns at Hessel's 19). A scene that teaches two things is two rules, each saying its part (A
 Winter in Carth's 19).
 
+What the company learns, the world answers at once. A rule, an event or an ending on something just seen, read or
+heard fires in the command that taught it, and its line is told with what taught it: above, the bell rings in the
+same moment the prayer and the line are put together. In `probes/inference` the company reads the Courant: the rule
+that sets its account against what Kittiwake saw and finds the lie, and the ending on knowing it, both come on that
+one reading (the Grand Tour's 23, whose inference fired only once the company had done something else). Only what the
+learning makes hold fires then: a rule that held already goes on as it did.
+
 ### How the story ends
 
 An ending closes the book. The first whose condition holds is reached once: its epilogue is told as it happens, play
@@ -1001,6 +1014,27 @@ stops, and the page closes on its title and epilogue, as it does when no one is 
 `reached(opened)` says which ending a game came to, in a kept game as in play. Endings are tried in the order they
 are written, so the more particular comes first: the lint says when one asks all that an earlier one asks, and so can
 never be reached.
+
+Two endings that can hold at once, neither asking all the other asks, are another matter: the one written first is
+reached, whether or not that was meant (the Grand Tour's 4: an accomplice whose hill crushed the Whelm was given the
+Second Whelming's ending, written first, and not First Through). An ending reached while such another held carries
+that other's name with its line (never told to the player), and a journey warns of it as it happens, naming both and
+the one reached (`Journey.contested`). One written
+after that asks only part of what the reached one asks (the general after the particular: Low Water's last, `Low
+Water` when `departed(party)`) is the order meant, and not said. Say which wins with `over`, before the condition: the
+ending is reached before those it names, wherever they are written in its file, and the pair is not warned of
+(`test/fixtures/probes/rivals`):
+
+```text
+  Ending horn_call "The Horn Call" when state(drum, beaten) and state(horn, blown) "Drum and horn call the valley up.".
+  Ending fife_call "The Fife Call" over horn_call when state(drum, beaten) and state(fife, played) "Drum and fife call the valley up.".
+```
+
+An ending over another holds it back only while its own condition holds: the Horn Call is not reached while the drum
+is beaten and the fife played, and is reached when the horn was blown and the fife was not. What one ending asks of
+another is read as it is written: one that holds only where another does by way of a rule or a query (Low Water's
+census endings, whose `completedFed(reckoner)` a rule asserts only once `complete(reckoner)` holds) is warned of all
+the same, and `over` quiets it.
 
 ### A chapter that opens
 

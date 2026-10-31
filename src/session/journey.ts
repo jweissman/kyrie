@@ -13,6 +13,7 @@ import { ChoiceList, type Choice } from '../ui/choice-list';
 import { PlayerView } from '../presentation/player-view';
 import { Narrator } from '../presentation/narrator';
 import { ActionFeedbackView } from '../presentation/action-feedback';
+import { EndingOrder } from '../lang/ending-order';
 
 // A choice the page offers, as an author names it in a step: its label ("Examine › Push and pull at it", "Pack › A
 // torch › Light", "a torch: Light"), and the same under the heading it is offered beneath ("the Sleeper's left
@@ -48,6 +49,10 @@ export interface Taken {
 export class Journey {
   readonly taken: Taken[] = [];
   readonly ambiguous: string[] = [];
+  // An ending reached while another held that could have been reached instead (see EndingOrder.rivals): each said,
+  // naming both and which won by the order they are written in, and warned of as it happens, so that the author
+  // learns of it from the journeys and not in play (the Grand Tour's friction 4, GTR-04).
+  readonly contested: string[] = [];
   // The page as last built, and the world and log it was built of: a step reads the page to find its choice, and
   // again to tell what came of it, and a wait reads it up to three times; the page is the same until either changes.
   private built?: { world: World; length: number; last?: CampaignEvent; screen: Screen };
@@ -157,7 +162,20 @@ export class Journey {
     const chapter = leaf.heading?.kind === 'chapter' ? leaf.heading.title : undefined;
     this.taken.push({ label, command, told, page, event, ...grave ? { grave } : {}, ...chapter ? { chapter } : {} });
     if (process.env.JOURNEY_TRACE) { console.log(`[${label}] ${page}`); }
+    this.contests(event);
     return told;
+  }
+  // Each pair is warned of once in a run, however many of its journeys come to it (a file of Hessel's journeys came
+  // to the Last Dance over the Morning After four times); each journey keeps every one it came to.
+  private static readonly warned = new Set<string>();
+  private contests(event: CampaignEvent) {
+    for (const p of event.perceptions ?? []) {
+      for (const held of p.rivals ?? []) {
+        const said = EndingOrder.contest(this.campaign.module, p.id, held);
+        this.contested.push(said);
+        if (!Journey.warned.has(said)) { Journey.warned.add(said); console.warn(`journey: ${said}`); }
+      }
+    }
   }
   screen(): Screen {
     const world = this.campaign.world, log = this.campaign.history, b = this.built;

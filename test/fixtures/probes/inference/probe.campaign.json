@@ -1,0 +1,1 @@
+{ "version": 1, "name": "Probe: what is read, set against what is known", "modules": [ { "id": "p", "bundle": "module.json" } ], "party": [ { "name": "Ama", "raceId": "human", "classId": "warrior" } ] }
