@@ -84,6 +84,19 @@ describe('The Quiet in the Sky', () => {
     expect(g.page).toMatch(/HALT, for those who come in with no hour/);
   }, 900000);
 
+  it('Halt another way: a cleric reads the wound, finds Edith by her breath, brings her to the ring, buries Halvard in the Old Ice and takes her home', async () => {
+    const g = await Larum.start('test/fixtures/quiet-in-the-sky/cleric.campaign.json');
+    await g.fixture('edith');
+    expect(g.knows('wound_read')).toBe(true);
+    expect(g.holds('edithConfessed', 'edith')).toBe(true);
+    expect(g.holds('edithSpared', 'edith')).toBe(true);
+    expect(g.holds('sittersDown', 'aulus')).toBe(true);
+    expect(g.holds('buriedIce', 'torold')).toBe(true);
+    expect(g.holds('edithHome', 'edith')).toBe(true);
+    expect(g.holds('mabScarred', 'mab')).toBe(false);
+    expect(g.ending()).toEqual([k('ending_halt')]);
+  }, 900000);
+
   it('the Daily: gone up once and left alone, the Testing is fought, everyone gets up, and Larum hears the sky again', async () => {
     const g = await Larum.start();
     await g.fixture('daily');

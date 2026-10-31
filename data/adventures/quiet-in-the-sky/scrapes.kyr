@@ -24,7 +24,7 @@ Module larum "The Quiet in the Sky" {
 
   // ── Cuddy Wardle, foreman of the Runners ────────────────────────────────────────────────────────────────────────────
   Person cuddy "Cuddy Wardle" at scrapes_mouth {
-    Role "foreman of the Runners". Ancestry human. Calling thief. Level 4. Peaceable. Pronouns she. Manner acerbic.
+    Role "the foreman of the Runners". Ancestry human. Calling thief. Level 4. Peaceable. Pronouns she. Manner acerbic.
     Likeness "urchin".
     Wants tobacco_kind.
     Greets "A thin sharp girl of sixteen or so, with a face that has been sixteen for a hundred and fifty years, looks you up and down from the sledge she is checking. 'Breather,' she says. 'You'll be wanting something. They always want something, the ones that come up. Iron for Larum, or the way to somewhere, or a look at the poor dead Runners.' She spits. 'What've you got?'".
@@ -63,14 +63,12 @@ Module larum "The Quiet in the Sky" {
   // Living, a fuller's widow from Wendmere, whose husband and daughter Halvard Eld's company burned in life. She came up
   // with the Runners' sledges dressed as a picker, and killed him in the Daily with a fuller's knife. Cuddy hides her,
   // because she is the first person in Ysgard who ever did a Runner's work and then did something else.
-  Person edith "a woman wrapped in Runners' smocks" at edith_nook {
+  Person edith "Edith Marl" at edith_nook {
     Role "who breathes white". Ancestry human. Calling commoner. Peaceable. Pronouns she. Manner stoic.
     Likeness "widow".
     Known as "a woman wrapped in Runners' smocks" when not knows(party, edith_named).
     Greets "The woman on the sacking looks up at you, and at your breath, white like hers in the lamplight, and something goes out of her shoulders that has been holding them up for a long time. 'Oh,' she says. 'You're alive.' She does not get up. 'Have you come to take me to Torold Hame?'".
     Greets again "Edith Marl looks up from her sacking, and pulls the smocks closer.".
-    Remarks at the_ring "Edith stands outside the spears and looks at the man on the bier for a long time, and her face does nothing at all.".
-    Remarks at larum_street "Edith stops in Larum street and stands with her face up to the warm air coming out of the bakehouse door, with her eyes shut, breathing it.".
   }
   Measure edithTrust(group).
   Relation edithHome(group). Relation edithGivenUp(group). Relation edithConfessed(group). Relation edithDead(group). Relation edithSpared(group).
@@ -101,7 +99,7 @@ Module larum "The Quiet in the Sky" {
   // Cuddy shows the nook to one she trusts.
   Topic cuddy_edith with cuddy "Ask Cuddy Wardle about the breather in the Scrapes" when (knows(actor, widow_heard) or knows(actor, wound_read) or knows(actor, breath_sign)) and cuddyTrust(cuddy) >= 3 and not knows(actor, nook_known) once {
     Says "Cuddy looks at you a long time, chewing her lip. Then she jerks her head. 'Come on,' she says. 'She's the first one ever did a Runner's work up here and then did something else. If you hurt her, I'll know.' She takes you into the warren and holds a banner aside.".
-    On discuss { Assert knows(actor, nook_known). }
+    On discuss { Assert knows(actor, nook_known). Assert at(actor, warren). }
   }
   // Given up to Even, without being brought: Even goes down into the Scrapes, and she is killed, and comes in out of the
   // snow at the hour she died, and Cleeve sends her west, into Evenhall, forever.
@@ -118,8 +116,14 @@ Module larum "The Quiet in the Sky" {
   Entity edith_in_told: fact "Edith coming in".
   Rule edith_to_evenhall when edithDead(edith) and at(edith, snow_gate) and not at(party, snow_gate) { Assert at(edith, even_hall). }
   // Brought to the ring, she confesses before Torold.
-  Rule edith_at_ring at the_ring when following(edith, party) and at(party, the_ring) and at(torold, the_ring) and state(halvard, lying) and not edithConfessed(edith)
-    says "Edith stops outside the spears. Torold Hame sees her breath, white, and her red hands, and lifts his head. For a long moment nobody moves. Then Edith goes in between the spears, past the watch, who do not stop her because they do not understand what they are seeing, and stands at the foot of the bier, and says, loud enough for the whole of Halt that is in earshot: 'I am Edith Marl of Wendmere. I killed him. With my fulling-knife. Because he burned my husband and my child in the vats, and laughed, and you made a song of him.' The lane goes silent from end to end." { Assert edithConfessed(edith). Assert truthSpoken(field_country). Assert toroldKnows(torold). }
+  Action bring_edith(actor: group, site: place) "Bring Edith Marl in among the spears, before Torold Hame" {
+    Description "She will say what she did, aloud, to him and to all Halt. What he does then is his.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, the_ring) and following(edith, actor) and at(torold, site) and state(halvard, lying) and not edithConfessed(edith).
+    Grave "Torold Hame is the best sword in Evenhall, and she is living.".
+    Time 2 minutes.
+    On success { Assert edithConfessed(edith). Assert truthSpoken(field_country). Assert toroldKnows(torold). }
+    Result "Edith stops outside the spears. Torold Hame sees her breath, white, and her red hands, and lifts his head. For a long moment nobody moves. Then Edith goes in between the spears, past the watch, who do not stop her because they do not understand what they are seeing, and stands at the foot of the bier, and says, loud enough for the whole of Halt that is in earshot: 'I am Edith Marl of Wendmere. I killed him. With my fulling-knife. Because he burned my husband and my child in the vats, and laughed, and you made a song of him.' The lane goes silent from end to end.".
+  }
   Rule torold_spares at the_ring when edithConfessed(edith) and following(edith, party) and at(party, the_ring) and (toroldTrust(torold) >= 2 or knows(party, torold_knows_what)) and not edithSpared(edith) and not edithDead(edith)
     says "Torold Hame looks at her for so long that the watch begin to shift. His hands are on the pommel of the sword stood in the snow, and they tighten, and loosen. 'I know what he was,' he says at last, to her, not loud. 'He told me. The first night.' He looks down at the frost on Halvard's face. 'I'll not take it from you. You've carried it twenty years. It's yours.' He turns his back on her, which in Even is the gravest courtesy there is. 'Go home, Edith Marl. Before the cold has you.'" { Assert edithSpared(edith). }
   Rule torold_kills at the_ring when edithConfessed(edith) and following(edith, party) and at(party, the_ring) and toroldTrust(torold) < 2 and not knows(party, torold_knows_what) and not edithSpared(edith) and not edithDead(edith)

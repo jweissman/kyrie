@@ -19,11 +19,20 @@ Module larum "The Quiet in the Sky" {
   }
   Discovery brindle_known "Brindle, Morrowhall's ox, died hauling a siege-ram six hundred years ago and came in under arms; the hall eats him every night, and every morning he is in the yard again, chewing.".
   Item brindle_slab "a slab of roast Brindle" is brindle_kind at limbo.
-  Action beg_brindle(actor: group, site: place) "Ask at the fire-trench for a slab of the ox" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, morrow_hall) and (hour(clock) >= 19 or hour(clock) < 5) and at(brindle_slab, limbo).
+  Relation fedAtTrench(group).
+  Action beg_brindle(actor: group, site: place) "Eat at the fire-trench with Morrow" {
+    Description "Morrow eats Brindle every night; a breather is welcome to a share, and to a slab for the road.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, morrow_hall) and (hour(clock) >= 19 or hour(clock) < 5) and not fedAtTrench(actor).
     Time 1.
-    On success { Give brindle_slab to actor. Increase quantity(actor, rations) by 1. }
-    Result "A big man at the spit carves you a slab the size of a book without being asked twice, and another for your belly, and watches you eat it with an odd tender interest. 'Warm, is it?' he says. 'You can taste it warm?' He shakes his head. 'We taste it. But it's never warm.'".
+    On success { Assert fedAtTrench(actor). Increase quantity(actor, rations) by 2. }
+    Result "A big man at the spit carves you a slab the size of a book without being asked twice, and another for your pack, and watches you eat with an odd tender interest. 'Warm, is it?' he says. 'You can taste it warm?' He shakes his head. 'We taste it. But it's never warm.'".
+  }
+  Rule trench_resets when hour(clock) == 12 and fedAtTrench(?g) { Retract fedAtTrench(?g). }
+  Action take_slab(actor: group, site: place) "Ask for a slab of Brindle wrapped in a cloth, to carry" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, morrow_hall) and (hour(clock) >= 19 or hour(clock) < 5) and at(brindle_slab, limbo).
+    Time 1 minute.
+    On success { Give brindle_slab to actor. }
+    Result "The carver wraps a slab of the ox in a clean rag for you. 'For the road,' he says. 'Or for the bear,' says somebody down the bench, and they all laugh, as if it were an old joke.".
   }
 
   // ── Hild Varley, Marshal of Morrow ─────────────────────────────────────────────────────────────────────────────────
