@@ -1,0 +1,142 @@
+Module hollins "Behind the Wainscot" {
+  // ── The first floor ───────────────────────────────────────────────────────────────────────────────────────────────
+  // At the top of the Stair the landing; off it the nursery, with the Small House against its west wall and the Fort
+  // on the hearthrug; and along the passage the Lady's room. The dumbwaiter comes up in a cupboard on the landing.
+  Place landing "the first-floor landing" is room within first_floor at 1, 1.
+  Place nursery_floor "the Nursery floor" is room within first_floor at 0, 1.
+  Place small_house_hall "the Small House: the front hall" is room within first_floor at 0, 0.
+  Place small_house_parlour "the Small House: the parlour" is room within first_floor at 1, 0.
+  Place fort "the Fort" is room within first_floor at 0, 2.
+  Place toy_box "the toy box" is room within first_floor at 1, 2.
+
+  Passage nursery_door "the nursery door" is passage between landing and nursery_floor taking 10 minutes.
+  Passage small_door "the front door of the Small House" is door between nursery_floor and small_house_hall.
+  Passage parlour_door "the parlour door" is door between small_house_hall and small_house_parlour.
+  Passage fort_path "the way across the hearthrug to the Fort" is passage between nursery_floor and fort taking 5 minutes.
+  Passage box_lid "the lip of the toy box" is steps between nursery_floor and toy_box.
+
+  Observe landing_scene at landing when true "The first-floor landing is a gallery of polished boards as wide as a road, with a banister along it like a fence of trees, and the Stair dropping away below into the dimness of the Hall. Doors as tall as cliffs open off it: one with a painted frieze of ducks, which is the nursery; one at the end, where a line of warm light shows under it, which is hers. In a cupboard in the wall, the dumbwaiter's box hangs on its ropes.".
+  Observe nursery_scene at nursery_floor when true "The Nursery: a high room papered with faded ships, cold even now, with a rocking horse as big as a dray-horse standing dappled and still by the window, a toy box under it, and on the hearthrug a toy fort of painted wood with a pennant on its tower. Against the west wall, in the light from the window, stands a doll's house. It is a house. It has three storeys and a slate roof and a front door with a brass knocker, and smoke comes out of its chimney, and there are people at its windows.".
+  Observe nursery_horse at nursery_floor as feature when true "The rocking horse rocks a little in the draught, all by itself, with a creak like a ship; and every time it does, everyone on the nursery floor looks up.".
+
+  // ── The Small House and the Little Court ──────────────────────────────────────────────────────────────────────────
+  // The doll's house is the one thing in Hollins made at our size: its chairs fit, its cups fit a hand, its beds a
+  // body. The Laceys moved back into it after the Sweeping, and their descendants are the Court, by right of the
+  // only furniture in the world that fits.
+  Observe hall_sh_scene at small_house_hall when true "The front hall of the Small House is a front hall: a painted stair, a tiled floor, a chandelier with candles in it, a hat-stand, a looking-glass. Everything fits. After the house outside, it is so strange that you stand in the door a moment, dizzy. The paint on the stair-rail is worn through to the wood where three hundred years of hands have held it. On the wall, framed, a scrap of a giant's paper, a single word in a child's huge round hand: WELCOME.".
+  Observe parlour_scene at small_house_parlour when true "The parlour: a little room with a carpet, a fireplace, a round table with a cloth, eight chairs, a clock on the mantel that ticks, and a window onto the nursery, where the light comes in grey off a world of giants. The furniture is three hundred years old and has been mended a thousand times and is the only furniture in the world that fits you. People speak in low voices here, as in a church.".
+  Person honor "Dame Honor Lacey" at small_house_parlour {
+    Role "the Chatelaine of the Small House". Ancestry human. Peaceable. Pronouns she. Manner proud.
+    Likeness "noble".
+    Greets "A tall old woman in a gown made from a giant's silk handkerchief, with a chain of shirt-buttons over her shoulders like a mayor's, rises from the head of the round table and inclines her head exactly as far as she means to. 'Honor Lacey,' she says, 'of the Small House. Named, as the eldest daughter of this house has been named for three hundred and twelve years, for the Child's friend.' She sits. 'You are the outsider. Everyone is talking about you. Sit.'".
+    Greets again "Dame Honor Lacey inclines her head the same exact distance.".
+  }
+  Topic honor_court with honor "Ask Dame Honor Lacey what the Court is" when true once {
+    Says "'The Laceys were the first,' says Dame Honor. 'The Child found them in the coal-hole and put them here, in her own house, with her own hands. She gave them this.' She touches the table. 'When the Sweeping came they went into the walls, and when it was safe they came back to the house she gave them, and they kept it for her. Everyone who has come in since has come into the Laceys' keeping.' She folds her hands. 'We mint the buttons. We keep the peace, such as it is. We keep the Forms.' Something flickers in her face. 'We keep the house ready for her. We always said she would come back to it.'".
+    On discuss { Assert knows(actor, court_told). }
+  }
+  Discovery court_told "The Little Court of the Small House is the Lacey family, whom the Child put in her doll's house; they mint the buttons, keep the peace and the Forms, and have always said she would come back.".
+  Topic honor_forms with honor "Ask Dame Honor Lacey what the Forms are" when knows(actor, court_told) once {
+    Says "Dame Honor almost smiles. 'The Forms of Address to the Family,' she says. 'Compiled by my great-grandmother's grandmother, in nine volumes, against the day.' She rings a little bell, and an old man in a tabard made of a giant's cuff comes in at once, as if he had been waiting behind the door for forty years, which he has. 'Mr Ambry, our Herald. Mr Ambry, the Address.' Mr Ambry draws himself up and begins, in a voice like a horn: 'MOST HIGH AND GRACIOUS DAUGHTER OF HOLLINS, THE LACEYS OF THE SMALL HOUSE, WITH ALL THE PEOPLE OF THE WAINSCOT, THE HEARTH, THE PANTRY,' and goes on for some time. When he stops for breath Dame Honor says, gently, 'Thank you, Mr Ambry,' and he goes out. 'He has never said it to anybody,' she says. 'He practises on the rocking horse.'".
+  }
+  Topic honor_fear with honor "Ask Dame Honor Lacey why she has not gone to the Lady" when knows(actor, court_told) once {
+    Says "Dame Honor is silent long enough that you think she will not answer. Then: 'Because I am afraid she will look at me,' she says, very low, 'and not know who I am.' She turns her button chain in her fingers. 'Three hundred years we have told it: the Child, and Honor, and the house she gave us. Every child in the Wainscot knows it. And if I go to her, and she looks down at me, and she says, who are you, little woman,' her voice does not break; it stops, and goes on, 'then we have been telling ourselves a story. Then we are only people who live in a doll's house.' She lifts her chin. 'The Court will decide what is to be done at the Moot. On the third day, at two. You may speak, if someone of the Wainscot brings you.'".
+    On discuss { Assert knows(actor, honor_fears). Assert knows(actor, moot_coming). }
+  }
+  Discovery honor_fears "Dame Honor Lacey is afraid that if she goes to the Lady, the Lady will not know who she is, and the Court's three hundred years will turn out to be a story it told itself.".
+  Discovery moot_coming "The Little Court holds a Moot in the Small House parlour at two in the afternoon of the third day, on what is to be done about the Lady; outsiders may speak if someone of the Wainscot brings them.".
+  Person kit "Kit Lacey" at small_house_hall {
+    Role "Dame Honor's nephew, heir of the Small House". Ancestry human. Peaceable. Pronouns he. Manner compassionate.
+    Likeness "noble".
+    Greets "A young man in a coat that is too good for him, with ink on his cuff, is sitting on the painted stair reading a letter, and puts it away very fast. 'You're the outsider,' he says. 'Aunt Honor said you'd come. Everybody comes to the Small House eventually. It's the only place in Hollins where the chairs fit.'".
+    Greets again "Kit Lacey looks up from the stair, and his hand goes to his pocket.".
+  }
+  Topic kit_nan with kit "Ask Kit Lacey about Nan Collier" when knows(actor, kit_nan) and not kitNanMet(kit) once {
+    Says "Kit goes white, and then red. 'You've seen her? Is she,' and he stops, and starts again. 'They burned the Hearth. I pulled the wire all night.' He takes the letter out of his pocket and looks at it without unfolding it. 'Two years. I know what she thinks about everything. I know she hates turnips and thinks the Winders are mad and wants to see the sea. I don't know what she looks like.' He laughs. 'I've never been down the Stair. Aunt Honor says the heir doesn't go among the Wainscot, the Wainscot comes to the heir.' He folds the letter. 'She'd be ashamed of me. A Lacey who's never done anything but sit on a stair.'".
+    On discuss { Assert knows(actor, kit_fears). }
+  }
+  Discovery kit_fears "Kit Lacey fears Nan Collier will be ashamed of him, a Lacey who has never done anything but sit on a stair.".
+  Rule nan_meets_kit at small_house_hall when following(nan, party) and at(party, small_house_hall) and at(kit, small_house_hall) and not kitNanMet(kit)
+    says "Kit Lacey stands up off the painted stair so fast the letter falls out of his hand. Nan Collier stands in the front door of the Small House with soot in her plaits and her chin up. Neither of them says anything. Then Nan says, 'You're taller than your writing,' and Kit says, 'You're,' and cannot finish, and Nan says, 'Black. I know. It's the house burning,' and Kit comes down the last two steps and takes her sooty hand in his clean one and does not let go, and says, in a voice nothing like a book: 'Pull twice.' Dame Honor has come to the parlour door. She looks at them for a long moment, and then, with enormous dignity, goes back into the parlour and shuts the door." {
+    Assert kitNanMet(kit). Retract following(nan, party). Assert at(nan, small_house_hall).
+  }
+
+  // ── The Fort and the Tin Regiment ─────────────────────────────────────────────────────────────────────────────────
+  // Clockwork soldiers half our height, a giant's toys, wound by the Child before she was sent away and told to keep
+  // the little people safe from Mother. They have fought the nursery's mice for three hundred years. Fennick, their
+  // winder, has deserted; the Regiment is running down.
+  Measure wound(group).
+  Initially Set wound(regiment) to 30.
+  Relation regimentStopped(group). Relation standDown(group). Relation regimentMarched(group). Relation countersign(group).
+  Rule regiment_runs_down when hour(clock) == 0 and not windingDone(regiment) and wound(regiment) > 0 and not standDown(regiment) { Decrease wound(regiment) by 6. Assert windingDone(regiment). }
+  Rule regiment_night_resets when hour(clock) == 1 and windingDone(regiment) { Retract windingDone(regiment). }
+  Relation windingDone(group).
+  Rule regiment_stops when wound(regiment) <= 0 and not regimentStopped(regiment) { Assert regimentStopped(regiment). Assert peaceable(regiment). Assert tolerates(regiment, party). }
+  Observe fort_scene at fort when true "The Fort is a toy fort on the hearthrug, painted wood, its walls three times your height, its gate a drawbridge on a string. Inside its courtyard a regiment of tin soldiers stands in ranks: each half your height, red-coated, the paint worn to the tin at the elbows, each with a key in its back. A pennant on the tower says, in a child's capitals, THE LITTLE PEOPLES REGIMENT.".
+  Observe fort_running at fort as feature when not regimentStopped(regiment) and not standDown(regiment) and wound(regiment) < 20 "The soldiers move slowly, as if through honey: a head turns, and goes on turning for a long while; a hand comes up to a salute and stops halfway. The ticking from their backs is uneven, like a heart.".
+  Observe fort_stopped at fort as feature when regimentStopped(regiment) and not standDown(regiment) "The soldiers have stopped where they stood: a sentry with his musket half shouldered, the drummer with his sticks up, the captain with his sword out pointing at the nursery door. Nothing ticks.".
+  Observe fort_rest at fort as feature when standDown(regiment) "The soldiers are sitting down, which you did not know they could do: on the courtyard floor, in rows, with their muskets across their knees and their keys still. A sheet of paper is pinned to the gate in an enormous hand: THE WAR IS OVER. YOU MAY REST. WITH LOVE AND THANKS, E. W.".
+  Person regiment "the Tin Regiment" at fort {
+    Role "clockwork soldiers half your height, red-coated, keys in their backs". Species clockwork_soldier. Level 2. Numbers 6. Pronouns they.
+    Temperament obedient.
+    Lair fort.
+    Comes "The tin soldiers turn all together with a whirr of springs and come at you across the courtyard in step, bayonets down, ticking.".
+  }
+  Person ordinance "Captain Ordinance" at fort {
+    Role "the captain of the Tin Regiment". Species clockwork_soldier. Level 3. Peaceable. Pronouns he. Manner stoic.
+    Greets "A tin captain with a painted moustache and a sword the length of your arm turns his head toward you with a whirr. 'HALT,' he says, in a voice like a musical box. 'WHO GOES. GIVE THE WORD, OR BE TAKEN FOR MOTHER'S.'".
+    Greets again "'WHO GOES,' says Captain Ordinance, and waits.".
+  }
+  Rule regiment_tolerates when countersign(party) and not tolerates(regiment, party) and not regimentMarched(regiment) { Assert tolerates(regiment, party). }
+  Topic ordinance_orders with ordinance "Ask Captain Ordinance what his orders are" when countersign(actor) once {
+    Says "'ORDERS,' says the Captain, 'GIVEN BY THE COLONEL IN PERSON, ON THE DAY.' He recites, in a child's cadence through a musical box: 'You are to keep my little people safe from Mother, and from Mother's traps, and from the cat, and from the mice, until I come home. You are not to stop. You are the best regiment in the world.' He salutes, slowly. 'THREE HUNDRED AND TWELVE YEARS. NO LITTLE PERSON TAKEN BY A MOUSE. MOTHER HAS NOT RETURNED.' His head turns, creaking, to the nursery door. 'IF MOTHER RETURNS WE MARCH.'".
+    On discuss { Assert knows(actor, regiment_orders). }
+  }
+  Discovery regiment_orders "The Tin Regiment's orders, from the Child: keep the little people safe from Mother, Mother's traps, the cat and the mice, until she comes home, and never stop. If Mother returns, they march.".
+  Topic ordinance_mother with ordinance "Tell Captain Ordinance that Mother's traps have come back, and whose they are" when knows(actor, regiment_orders) and (watDead(wat) or pyeSuspects(pye) or hiredBy(actor, pye)) and not regimentMarched(regiment) and not regimentStopped(regiment) and not standDown(regiment) once {
+    Grave "The Regiment will march on Mrs Pyecroft's hatbox tonight, with bayonets. What they do there will be done.".
+    Says "The Captain's whole body whirrs. 'TRAPS,' he says. 'MOTHER'S TRAPS.' His sword comes up, very slowly, to the vertical. 'WHERE.' You tell him: the hatbox on the dressing table, in her room, where the woman who lays them sleeps. 'REGIMENT,' says the Captain, and every tin head in the courtyard turns. 'TONIGHT, WE MARCH.'".
+    On discuss { Assert regimentMarched(regiment). }
+  }
+  Relation pyeStabbed(group).
+  Rule regiment_attacks when regimentMarched(regiment) and night() and not regimentStopped(regiment) and not pyeStabbed(pye) and not pyeGone(pye) and at(pye, hatbox) { Assert pyeStabbed(pye). Assert pyeGone(pye). Assert at(pye, nowhere). }
+  Event regiment_told within house when pyeStabbed(pye) "In the night, from upstairs, a sound like a musical box played very fast, and a drum, and tin feet on boards, and then a woman's scream, small and high, and the Lady's voice, enormous, 'Dorothea? Dorothea!', and a light, and then the Lady weeping, on and on, in the dark over the house.".
+  Observe fort_after at fort as sign when pyeStabbed(pye) "In the courtyard the tin soldiers stand in their ranks with their bayonets dark to the socket. The Captain stands before them, very still. Something has gone out of the way he stands.".
+
+  // ── Fennick ───────────────────────────────────────────────────────────────────────────────────────────────────────
+  Observe box_scene at toy_box when true "The toy box is a wooden cave full of broken things: a jack-in-the-box with its spring sprung and its head on its chest, a Noah's ark with half the animals, skittles like felled trees, a ball the size of a hay-cart gone soft, and, on a red ribbon, a silver sleigh bell as big as a bucket.".
+  Person fennick "Lance-Corporal Fennick" at toy_box {
+    Role "a tin soldier, the Regiment's winder". Species clockwork_soldier. Level 2. Peaceable. Pronouns he. Manner stoic.
+    Greets "In the ark, sitting on the deck between a tin giraffe and a tin bear, a tin soldier half your height turns his head toward you and does not get up. 'Don't tell the Captain,' he says. His voice is a musical box too, but a quieter one. 'Or do. It doesn't matter. He's running down.'".
+    Greets again "Lance-Corporal Fennick turns his head toward you, ticking.".
+    Joins "Fennick gets up out of the ark, stiffly, and brushes off his red coat, and shoulders his musket as if he had forgotten how and was remembering. 'Somebody will have to wind me,' he says. 'Every day. There's a key in my back.'".
+    Remarks at fort "Fennick stops at the edge of the courtyard and looks at the Regiment for a long time. 'I wound every one of them,' he says. 'Every morning. Three hundred years.'".
+  }
+  Topic fennick_why with fennick "Ask Fennick why he left the Fort" when true once {
+    Says "'I'm the winder,' says Fennick. 'Every morning I go down the ranks with the key and wind them for another day. Three hundred and twelve years of mornings.' He looks at his hands. 'Against mice. We kill mice. The mice come back. We kill them. The Colonel said, until I come home. The Colonel never came home.' He ticks. 'And on Thursday something came into the house that shook the floor, and the Captain said, the Colonel? And I thought: if it's her, the war's over. And if it isn't, it never will be.' He looks at you. 'So I stopped winding. If I wind them, it goes on. If I don't, they stop, and the war stops, and so do they.' A long tick. 'I don't know which is right. So I'm sitting in the ark.'".
+    On discuss { Assert knows(actor, fennick_stopped). Assert willing(fennick, actor). Assert countersign(actor). }
+  }
+  Discovery fennick_stopped "Lance-Corporal Fennick, the Tin Regiment's winder, has stopped winding them, so that the war against the mice will end, and so will they; he does not know which is right. The Regiment's word is 'Today'.".
+  Topic fennick_word with fennick "Ask Fennick for the Regiment's word" when true once {
+    Says "'Today,' says Fennick. 'The Colonel's word. It will still be today when I come home.' He ticks. 'Say it to the Captain and they'll know you for a little person and not one of Mother's.'".
+    On discuss { Assert countersign(actor). }
+  }
+  Measure spring(group).
+  Initially Set spring(fennick) to 24.
+  Rule fennick_ticks when travelsWith(fennick, party) and hour(clock) != lastTick(fennick) and spring(fennick) > 0 { Decrease spring(fennick) by 1. Set lastTick(fennick) to hour(clock). }
+  Measure lastTick(group).
+  Rule fennick_runs_down when spring(fennick) <= 0 and travelsWith(fennick, party) and not fennickStopped(fennick) says "Fennick's ticking slows, and stutters, and stops. He stands where he is with one foot lifted, and does not put it down." { Assert fennickStopped(fennick). Retract travelsWith(fennick, party). Assert at(fennick, toy_box). }
+  Relation fennickStopped(group).
+  Action wind_fennick(actor: group, site: place) "Wind Fennick's key" {
+    Requires able(actor) and company(actor) and at(actor, site) and travelsWith(fennick, actor) and spring(fennick) < 20.
+    Time 0.
+    On success { Set spring(fennick) to 24. }
+    Result "The key in his back turns stiffly, twenty turns, and the ticking steadies. 'Thank you,' says Fennick, as he always does, as if it were a kindness and not a necessity, which perhaps it is.".
+  }
+  Action wind_regiment(actor: group, site: place) "Go down the ranks with Fennick and wind the Regiment for another day" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, fort) and travelsWith(fennick, actor) and not standDown(regiment) and wound(regiment) < 30 and wound(regiment) > 0.
+    Time 3.
+    On success { Set wound(regiment) to 30. }
+    Result "Fennick goes down the ranks with the key, and you go with him and hold each one steady while he winds, and they come up to the mark one by one, heads lifting, eyes brightening, ticking. The Captain watches without a word. When it is done Fennick stands at the end of the rank and says, quietly, 'Another day, then,' and you cannot tell whether he means it as a mercy or a sentence.".
+  }
+}

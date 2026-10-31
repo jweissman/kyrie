@@ -1,0 +1,73 @@
+Module hollins "Behind the Wainscot" {
+  // ── Mrs Pyecroft ───────────────────────────────────────────────────────────────────────────────────────────────────────
+  // Dorothea Pyecroft, sixty-one, a vicar's widow from a market town, the Lady's companion twenty-two years and unpaid
+  // eleven of them. She is of our size, and has been looked down on all her life by something larger; she looks down
+  // on rats. She has sold the house for stone, on commission, to provide for herself, and wants it to be rats.
+  Person pye "Mrs Pyecroft" at hatbox {
+    Role "the Lady's companion". Ancestry human. Peaceable. Pronouns she. Manner acerbic.
+    Likeness "official".
+    Greets "A small upright woman in black, with a pen behind her ear and a face that has been patient for a long time on purpose, looks at you as she would look at a bill. 'Yes?'".
+    Greets again "Mrs Pyecroft looks at you as she would look at a bill she has already paid once.".
+    Buys tail_kind for 3 coin.
+    Objects "Mrs Pyecroft looks at {?i} in your hands, and then at you, and her face closes like a purse.".
+  }
+  Topic pye_lady with pye "Ask Mrs Pyecroft about Miss Whitlock" when true once {
+    Says "'She is the most accomplished woman in Imbar,' says Mrs Pyecroft, without warmth or irony, as a fact. 'Her charts are in every harbour-master's office from here to the ice. Admirals write to her. Wrote.' She straightens a cuff. 'She cannot see to read now, so I read. She cannot see to write, so I write. She cannot see the stair, so I tell her where it is.' A pause. 'She has come home to draw this house before she dies, and she cannot see it, and she will not be told she cannot.' Another pause, shorter. 'She hears things in the walls.'".
+  }
+  Topic pye_self with pye "Ask Mrs Pyecroft about herself" when true once {
+    Says "Mrs Pyecroft looks at you as if nobody had asked her that in some time, which is the case. 'A vicar's widow,' she says. 'Market Lambury. Twenty-two years ago Miss Whitlock advertised for a companion of the small size, steady, able to write a fair hand and climb a ladder.' Her mouth twitches. 'I could do all three. I have lived in her pocket since. I have seen every coast in Imbar from her shoulder, and slept in a hatbox on a dressing table in nine countries.' She stops. 'It is a great privilege,' she says, in a voice that has said it often, to itself.".
+    On discuss { Assert knows(actor, pye_life). }
+  }
+  Discovery pye_life "Mrs Pyecroft, a vicar's widow from Market Lambury, has been the Lady's companion for twenty-two years, living in her pocket and sleeping in a hatbox, and calls it a great privilege.".
+
+  // What she wants of the ratcatcher: the nest.
+  Relation soldOut(group).
+  Topic pye_nest with pye "Tell Mrs Pyecroft where the vermin nest: behind the Hall skirting, and in the doll's house" when hiredBy(actor, pye) and knows(actor, wainscot_told) and not soldOut(party) and not pyeTurned(pye) once {
+    Grave "She will believe you, and act on it.".
+    Says "Mrs Pyecroft writes it down: behind the skirting of the Hall, along its whole length; the grate; the doll's house. Her pen does not hesitate. 'The doll's house,' she says. 'I knew it. The bed slept in.' She blots the page and counts ten coins onto the table. 'That is worth more to me than any number of tails.' Then she looks up, sharply, as if something in your face had told her more than you said. 'Rats,' she says. 'Yes? Rats.' And waits for you to say it.".
+    On discuss { Assert soldOut(party). Increase quantity(actor, gold) by 10. Assert poisonLaid(skirting). }
+  }
+  Observe court_shut at small_house_hall as sign when soldOut(party) and knows(party, court_told) "The front door of the Small House is barred from inside, and someone has hung a sheet over the parlour window, and written on it, in charcoal, for you: RATCATCHER.".
+
+  // Her ledger, read, and put to her.
+  Relation pyeConfronted(group). Relation pyeCowed(group).
+  Topic pye_ledger_put with pye "Tell Mrs Pyecroft you have read her ledger" when knows(actor, pye_ledger) and not pyeConfronted(pye) and not pyeTurned(pye) and not pyeGone(pye) once {
+    Says "Mrs Pyecroft goes white, and then two spots of red come up on her cheekbones, exactly round. 'You have been in my box,' she says. 'Among my things.' She folds her hands, which are shaking, and holds them still. 'Very well. Four hundred and forty crowns. Eleven years. When she dies there will be a cousin who has never met her, and a lawyer, and I shall be put out on the doorstep of a house in a country where I know nobody, at sixty-one, with my clothes in a bandbox.' She lifts her chin. 'The Concern will pay me forty crowns a year for the rest of my life. That is what I have arranged. I would do it again.' And then, much lower: 'She has never asked me one thing about myself. Not one. In twenty-two years.'".
+    On discuss { Assert pyeConfronted(pye). Assert knows(actor, pye_reasons). }
+  }
+  Discovery pye_reasons "Mrs Pyecroft sold the house for stone because she will be put out with nothing when the Lady dies, unpaid eleven years; and because in twenty-two years the Lady has never once asked her anything about herself.".
+  Action threaten_pye(actor: group, site: place) "Tell Mrs Pyecroft you will take her ledger to Mr Saltash unless she gives up the sale and the sulphur" {
+    Speaker pye.
+    Requires able(actor) and company(actor) and at(actor, site) and at(pye, site) and pyeConfronted(pye) and not pyeTurned(pye) and not pyeCowed(pye) and not threatenedPye(party).
+    Resolve check(actor, intimidation, dc_fair).
+    On success { Assert pyeCowed(pye). Assert trapGivenUp(pye). }
+    On failure { Assert threatenedPye(party). }
+    Result "She looks at you a long moment with real hatred, and you see her count it up: the ledger, Saltash, the county, gaol. 'Very well,' she says. 'No sulphur. I shall write to the Concern.' She turns her back. 'And when she dies I shall have nothing, and that will be your doing, and I hope you sleep.'".
+    Otherwise "'Take it to him,' says Mrs Pyecroft. 'She signed it. It is her hand. You will find Mr Saltash knows the difference between a scandal and a crime.' She does not believe it, quite; but neither, quite, do you.".
+  }
+  Relation threatenedPye(group).
+  Action pay_pye_sovereign(actor: group, site: place) "Give Mrs Pyecroft the Whitlock sovereign, for her wages" {
+    Speaker pye.
+    Requires able(actor) and company(actor) and at(actor, site) and at(pye, site) and pyeConfronted(pye) and carries(actor, sovereign) and not pyeTurned(pye).
+    On success { Spend sovereign from actor. Assert pyeTurned(pye). Assert trapGivenUp(pye). }
+    Result "Mrs Pyecroft looks at the gold in your arms, a foot across, and knows it at once: the green purse, the bedside table. Her mouth opens. 'You stole it,' she says. And then, as you put it down in front of her: 'For me.' She sits down on her narrow bed. She puts both hands on the coin, flat, as if to warm them. 'Thirty crowns,' she says. 'It is not four hundred and forty.' A long breath. 'It is the first thing anyone has given me in twenty-two years without my writing it down first.' She looks up. 'No sulphur,' she says. 'I'll write to the Concern tonight. I had not liked it. I want you to know that. I had not liked it at all.'".
+  }
+  Topic pye_understand with pye "Tell Mrs Pyecroft that you would ask her, if no one else will: what does she want?" when pyeConfronted(pye) and knows(actor, pye_reasons) and not pyeTurned(pye) and not pyeCowed(pye) once {
+    Says "Mrs Pyecroft stares at you. Then she laughs, short and hard, and then she is not laughing. 'A cottage,' she says. 'With a door my size. A garden I can see the end of. Somebody to say good morning to who is not up in the air.' She wipes her eyes with the back of her wrist, fiercely, as if they had done it on purpose. 'And for her to know I was there. Twenty-two years. I'd like her to know I was there.' She sits very straight. 'If she knew. If she provided. I should not need the Concern.' She looks at you. 'But she does not know anything, does she. She can't see.'".
+    On discuss { Assert knows(actor, pye_wants). }
+  }
+  Discovery pye_wants "Mrs Pyecroft wants a cottage with a door her size, and for the Lady to know she was there; if the Lady provided for her, she would not need the Concern.".
+  Promise pye_promise "to have the Lady provide for Mrs Pyecroft" to pye
+    kept when saleRevoked(lady) or pyeProvided(pye) "Mrs Pyecroft has a paper in her desk in the Lady's huge slanting hand, and reads it, they say, every evening."
+    broken when ladyDead(lady) and not saleRevoked(lady) and not pyeProvided(pye) "Somewhere a small woman in black packs a bandbox.".
+  Relation pyeProvided(group).
+  Topic pye_promise_made with pye "Promise Mrs Pyecroft that the Lady will provide for her, if she gives up the sulphur and the sale" when knows(actor, pye_wants) and not pyeTurned(pye) and not promiseMade(pye_promise) once {
+    Says "Mrs Pyecroft looks at you for a long time. 'You think you can make her see,' she says. 'Where I have been reading to her for eleven years.' She considers. 'Very well. I will wait. No sulphur, while I wait.' She picks up her pen. 'But the Concern has my letter, and the paper is signed. If she dies not knowing, it goes ahead whether I like it or not.'".
+    On discuss { Assert promiseMade(pye_promise). Assert pyeWaits(pye). }
+  }
+  Relation pyeWaits(group).
+  Topic lady_pye with lady "Tell the Lady that Mrs Pyecroft has served her twenty-two years, unpaid for eleven" when ladyKnows(lady) and knows(actor, pye_life) and not pyeProvided(pye) and not saleRevoked(lady) once {
+    Says "'Eleven,' says the Lady. 'Unpaid.' She turns her head, slowly, to where Mrs Pyecroft stands on the inkwell's rim. 'Dorothea. Is that so?' 'Yes, Miss Whitlock.' A long silence. 'Where were you born, Dorothea?' Mrs Pyecroft's mouth opens, and stays open. 'Market Lambury,' she says at last, in a voice nobody has heard her use. 'There is a green, and a pond. My father kept bees.' 'Bees,' says the Lady. 'Then you shall have bees.' And she writes it there and then on the corner of her chart, large: TO D. PYECROFT, FOUR HUNDRED AND FORTY CROWNS AND A COTTAGE WITH BEES.".
+    On discuss { Assert pyeProvided(pye). Assert pyeTurned(pye). }
+  }
+}

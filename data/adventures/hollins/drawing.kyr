@@ -1,0 +1,160 @@
+Module hollins "Behind the Wainscot" {
+  // ── The Drawing Room ──────────────────────────────────────────────────────────────────────────────────────────────
+  // The Carpet is a plain between the door and the fire; the colliers' Hearth is in the grate; the Keys live in the
+  // piano against the north wall, reached from the top of the skirting by a plank; the tea table stands by the sofa.
+  Place carpet "the Carpet" is room within ground_floor at 4, 2.
+  Place hearth "the Hearth" is room within ground_floor at 5, 2.
+  Place piano_keys "the keyboard of the piano" is room within ground_floor at 4, 3.
+  Place tea_table "the tea table" is room within ground_floor at 5, 3.
+
+  Passage drawing_door "the drawing-room door" is passage between hall_flags and carpet taking 10 minutes.
+  Passage grate_walk "the wall-way to the grate" is passage between skirting and hearth taking 20 minutes.
+  Passage hearth_edge "the fender" is passage between carpet and hearth taking 5 minutes.
+  Passage keys_plank "the Keys' plank" is steps between skirting and piano_keys taking 10 minutes.
+  Passage piano_leg "the piano leg" is steps between carpet and piano_keys taking 10 minutes.
+  Passage table_leg "the table leg" is steps between carpet and tea_table taking 10 minutes.
+
+  Observe carpet_scene at carpet when not dark() "The Carpet: a plain of faded red and blue wool, its pile as high as your knee and worn to the threads along the paths the giants walked, three hundred years ago. Its pattern is a garden of flowers each the size of a field. Far off across it the sofa stands like a cliff, the tea table beside it on four turned legs as tall as trees, and on the north wall a black piano, and in the west wall the great mouth of the fireplace.".
+  Observe carpet_night at carpet when dark() "The Carpet at night, a dark field. The only light is the fire, banked red in the great grate, and the shapes of the furniture are hills against it. The wool moves round your legs in the draught, and whispers.".
+  Observe carpet_lady at carpet as ambience when at(lady, carpet) "On the sofa above, the Lady sits with a rug over her knees, enormous and quiet, her head nodding; and the floor of the room trembles, very slightly, with her breathing.".
+  Observe carpet_cat at carpet as sign when at(bishop, carpet) and prowling() "Out on the Carpet, between you and everything, something long and grey is lying with its paws tucked under, and its eyes, which are the size of cartwheels, are open, and turned your way.".
+
+  // ── The Hearth and the colliers ───────────────────────────────────────────────────────────────────────────────────
+  // Colliers from a flooded pit in the hills came in by the Slot ninety years ago and took the cold grate: a town in the
+  // ash, its pits sunk in the cinder-heap, its chimneys the flue. The fire is lit at nine on the second morning.
+  Relation hearthWarned(place). Relation hearthBurned(place). Relation collierDead(place). Relation refugeesHoused(place).
+  Thing fire "the drawing-room fire" on hearth_edge is scenery {
+    State laid "Across the middle of the town, on the irons, somebody has laid logs as long as boats crosswise over a bed of kindling, with coal heaped round them: a fire, ready, waiting for a match.".
+    State blazing blocking "The fire is roaring in the grate, a wall of flame and heat that comes across the fender like a hand. Nobody goes near it.".
+    State banked "The fire is banked under its ash for the night, red at the heart, and the grate ticks as it cools.".
+  }
+  Hazard scorched "Heat off the fire" means "Deal (2d6) physical damage to ally unless dexterity save against (12).".
+  Rule fire_scorches at hearth when at(party, hearth) and state(fire, blazing) says "The heat comes at you like a wall. Your clothes smoke." { Assert strikes(scorched, party). }
+  Rule fire_burns when hearthBurned(hollins) and hour(clock) >= 9 and hour(clock) < 22 and not ladyDead(lady) and not state(fire, blazing) { Assert state(fire, blazing). }
+  Rule fire_banks when hearthBurned(hollins) and (hour(clock) >= 22 or hour(clock) < 9) and state(fire, blazing) { Assert state(fire, banked). }
+  Rule fire_out when ladyDead(lady) and state(fire, blazing) { Assert state(fire, banked). }
+
+  Observe hearth_scene at hearth when not hearthBurned(hollins) "The Hearth: a town in a cold grate. The ash of the Whitlocks' last fire, three hundred years old, has been dug into streets; the cinders are walls; on the iron fire-dogs, which are as tall as gallows, people have built galleries of slate and hung lanterns. The coal-heap at the back is a hill with pits sunk in it and a windlass over each. Up the black throat of the chimney you can see, far up, a square of sky, and ledges in the soot with doors.".
+  Observe hearth_burned at hearth when hearthBurned(hollins) and not state(fire, blazing) "What was the Hearth: a grate full of hot ash with the banked fire in the middle of it, red under grey. The galleries on the fire-dogs have gone. The windlasses have gone. A melted lantern hangs from an iron bar, and on the brick at the back, black on black, somebody has written with a cinder the names of the dead.".
+  Observe hearth_burning at hearth when hearthBurned(hollins) and state(fire, blazing) "You cannot stand here: the fire fills the grate like a sunrise, and the air beyond the fender shakes.".
+  Observe hearth_names at hearth as feature when collierDead(hollins) and hearthBurned(hollins) and not state(fire, blazing) "Eleven names on the brick. The last is BET COLLIER, FOREWOMAN, and under it, smaller: SHE WENT BACK FOR THE PIT BOYS.".
+
+  Person bet "Bet Collier" at hearth {
+    Role "the forewoman of the Hearth". Ancestry dwarf. Peaceable. Pronouns she. Manner grim.
+    Likeness "miner".
+    Greets "A square black-faced dwarf-woman with a lamp on her cap straightens up from a windlass. 'You're not from the grate,' she says. 'You're not from anywhere, by your boots. What do you want in the Hearth?'".
+    Greets again "Bet Collier lifts her lamp to see you, and lets it down.".
+  }
+  Person nan "Nan Collier" at hearth {
+    Role "Bet Collier's daughter". Ancestry dwarf. Peaceable. Pronouns she. Manner acerbic.
+    Likeness "miner".
+    Greets "A young dwarf-woman with soot in her plaits and a pencil behind her ear is sitting on an upturned bucket, writing very small on a scrap of paper on her knee. She hides it when she sees you, badly.".
+    Greets again "Nan Collier looks up, and her hand goes, without her meaning it to, to her pocket.".
+  }
+  Topic bet_hearth with bet "Ask Bet Collier about the Hearth" when not hearthBurned(hollins) once {
+    Says "'Ninety years,' says Bet. 'Since my gran's gran came in by the Slot off Holloway pit when it flooded. Forty men drowned and the owners said it was God.' She spits into the ash. 'We dig her coal. Nobody's burned it in three hundred years; it burns lovely. We sell it to the Wainscot for their stoves, a bucket for a button.' She looks round at the galleries. 'Eighty-three of us. It's warm in the grate, warmer than anywhere. It holds the heat of her last fire, my gran said, the last fire her mother lit, the night before the Child went away.'".
+  }
+  Discovery fire_coming "Logs and coal have been laid in the drawing-room grate, on top of the colliers' Hearth. The Lady will want a fire in the room where she sits.".
+  Observe laid_teaches at hearth as feature when state(fire, laid) and not knows(party, fire_coming) "The colliers walk round the laid fire without looking at it, the way you walk round something in a dream." teaches fire_coming.
+  Topic pye_fire with pye "Ask Mrs Pyecroft about the drawing-room fire" when hiredBy(actor, pye) and not hearthBurned(hollins) once {
+    Says "'I laid it myself last night,' says Mrs Pyecroft. 'She sits in that room, and it is perishing; three hundred years of cold in the walls. I shall light it at nine, when she goes through to the Library.' She looks at you. 'Why?'".
+    On discuss { Assert knows(actor, fire_at_nine). }
+  }
+  Discovery fire_at_nine "Mrs Pyecroft will light the drawing-room fire at nine on the second morning, as the Lady goes through to the Library.".
+  Topic warn_bet with bet "Warn Bet Collier that the fire will be lit in the morning" when knows(actor, fire_coming) and not hearthWarned(hollins) and not hearthBurned(hollins) and knows(actor, fire_at_nine) once {
+    Says "Bet Collier hears you out with her arms folded. 'At nine,' she says. 'By her woman's own mouth.' She looks at the logs on the irons, as if for the first time. Then she puts two fingers in her mouth and whistles, and the whole grate goes still. 'Everybody out,' she says, not loud. 'Children first, then the old, then what you can carry. Up the wall-way to the Skirting. Now.' And as the Hearth begins to move round her, she turns back to you: 'If you're wrong, I'll have your hide. If you're right, I owe you eighty-three.'".
+    On discuss { Assert hearthWarned(hollins). }
+  }
+  Action urge_bet(actor: group, site: place) "Urge Bet Collier to take the Hearth out tonight, before they light the fire" {
+    Speaker bet.
+    Requires able(actor) and company(actor) and at(actor, site) and at(bet, site) and knows(actor, fire_coming) and not knows(actor, fire_at_nine) and not hearthWarned(hollins) and not hearthBurned(hollins) and not urgedBet(party).
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert hearthWarned(hollins). }
+    On failure { Assert urgedBet(party). }
+    Result "'They laid one the week she came,' says Bet, 'and never lit it.' But she is looking at the logs while she says it, and after a while she says: 'All right. All right. We'll sleep on the Skirting tonight. If nothing comes of it, you can stand the Hearth a barrel.' She whistles, and the grate goes still.".
+    Otherwise "'They laid one the week she came, and never lit it,' says Bet Collier. 'We're not moving eighty-three people up a wall for a stranger's nerves.'".
+  }
+  Relation urgedBet(group).
+  // At nine on the second morning Mrs Pyecroft lights the fire.
+  Rule fire_lit when day2() and hour(clock) >= 9 and not hearthBurned(hollins) and not ladyDead(lady) {
+    Assert hearthBurned(hollins). Assert state(fire, blazing). Retract at(bet, hearth). Retract at(nan, hearth).
+  }
+  Rule hearth_evacuated when hearthBurned(hollins) and hearthWarned(hollins) and not at(nan, skirting) and not refugeesHoused(hollins) { Assert at(bet, skirting). Assert at(nan, skirting). }
+  Rule hearth_burned_dead when hearthBurned(hollins) and not hearthWarned(hollins) and not collierDead(hollins) { Assert collierDead(hollins). Assert at(bet, nowhere). Assert at(nan, skirting). Assert ladyCursed(hollins). }
+  Relation ladyCursed(place).
+  Event fire_told within hollins when hearthBurned(hollins) and hearthWarned(hollins) "At nine the whole house hears it: a sound like a sheet of paper torn the length of a street, and then a roar in the chimney that shakes the walls. In the Skirting the colliers stand in the doorways with their bundles, and listen to their town burn, and nobody says anything, and then a child begins to cry because he has left a wooden horse.".
+  Event fire_told_dead within hollins when hearthBurned(hollins) and not hearthWarned(hollins) "At nine the whole house hears it: a sound like a sheet of paper torn the length of a street, and then a roar in the chimney that shakes the walls, and under the roar, for a little while, a sound which is not the fire. By ten the colliers who got out are coming along the Skirting black to the eyes, carrying their children, and some of them are carrying other things, wrapped, which they lay down in a row by the gap.".
+
+  // ── Nan, afterwards ───────────────────────────────────────────────────────────────────────────────────────────────
+  Topic nan_hearth with nan "Ask Nan Collier about the Hearth" when hearthBurned(hollins) once {
+    Says "Nan looks at her hands. 'It burned,' she says. 'Nine o'clock. Like a door opening onto the sun.' If you warned them she says, 'We got everybody. Mam carried the Lightfoot twins. We've nothing, but we've everybody,' and if you did not, she does not say anything for a long time, and then: 'Mam went back for the pit boys.'".
+  }
+  Topic nan_kit with nan "Ask Nan Collier about Kit Lacey" when knows(actor, kit_nan) once {
+    Says "Nan goes red under the soot, all the way up. 'Who told you?' And then, because she has wanted to tell somebody for two years: 'Along the wires. He tied a note on the Nursery wire for a dare, two winters back: is anybody there? And I was mending the Drawing Room wire where they cross, and I wrote back: yes.' She turns the pencil over. 'He writes like a book. I write like a collier. He's never seen me. I've never been up the Stair.' She looks at you. 'He'll be ashamed. When he sees. A collier, with a burned house.'".
+    On discuss { Assert knows(actor, nan_fears). }
+  }
+  Discovery nan_fears "Nan Collier fears that Kit Lacey, who has only ever read her letters, will be ashamed of her when he sees her: a collier with a burned house.".
+  Relation nanBrought(group). Relation kitNanMet(group).
+  Topic nan_come with nan "Ask Nan Collier to come up the Stair with you, to the Nursery" when knows(actor, nan_fears) and hearthBurned(hollins) and not nanBrought(nan) once {
+    Says "Nan looks at the gap, and the flagstones, and the Stair beyond them going up into the dark. Then she spits on her hand and rubs her face with it, which makes it worse, and stands up. 'If he's ashamed,' she says, 'I'll know. That's something.' She puts the pencil behind her ear.".
+    On discuss { Assert nanBrought(nan). Assert acceptsEscort(nan, actor). Assert following(nan, actor). }
+  }
+
+  // ── The Keys ──────────────────────────────────────────────────────────────────────────────────────────────────────
+  // The Guild of the Keys has played the First Air, the Child's nursery song, a note a minute, by teams jumping on the
+  // keys of her piano, every Midwinter for a hundred years; and never finished it, because the last page was lost.
+  Relation keysJumpers(group). Relation concertPlayed(group).
+  Observe keys_scene at piano_keys when true "The keyboard of the piano is a long white road with black stones on it: eighty-eight keys, each a slab of yellowed ivory as long as a cart and as wide as a door, the black ones raised like tombs. The lid is up. Inside it, over the strings, the Keys have their guildhall: hammocks hung on the strings, which are as thick as cables and hum when the wind goes through the room. A blackboard leans on middle C, chalked with a staff of music and numbers: which team on which key, and when.".
+  Observe keys_unfinished at piano_keys as feature when not concertPlayed(party) "On the blackboard, at the end of the music, the last bar is a row of question marks.".
+  Person ludovic "Ludovic Flatt" at piano_keys {
+    Role "the Cantor of the Keys". Ancestry human. Peaceable. Pronouns he. Manner jovial.
+    Likeness "bard".
+    Greets "A tall old man with white hair like a dandelion clock and a tuning fork on a ribbon round his neck turns from the blackboard. 'A visitor! To the Keys! Nobody visits the Keys.' He seizes your hand. 'Ludovic Flatt, Cantor. Do you sing? Do you jump? Can you count to sixty without losing your place? Most people can't.'".
+    Greets again "'Can you count to sixty yet?' says Ludovic Flatt.".
+  }
+  Topic ludovic_air with ludovic "Ask Ludovic Flatt about the First Air" when true once {
+    Says "'The Child taught it to the Laceys,' says Ludovic, 'in the doll's house, at bedtime, the winter she hid them. A nursery song. The Little Ship. My grandfather's grandfather Anselm wrote it down from old Honor Lacey's singing, ninety years after, and founded the Keys to play it on Her piano, because,' and he spreads his hands, 'because what else would you do with a song she sang?' He points to the keys. 'One note a minute. A team to a key: you run, you climb, you jump, together, and the key goes down, and the hammer falls inside, and the note comes up through the strings, enormous.' He stops. 'We've never finished it. The last page was lost when Anselm died. Every Midwinter we play to the end of what we have, and stop, on the fifth, unresolved, and stand there in the silence.' He laughs, and then does not. 'A hundred years of Midwinters ending on a question.'".
+    On discuss { Assert knows(actor, page_lost). Assert knows(actor, first_air). }
+  }
+  Discovery page_lost "The last page of the Keys' score of the First Air, the Child's nursery song, was lost when Anselm Flatt died; the Keys have never played it to the end.".
+  Discovery first_air "The First Air is the nursery song the Child sang the Laceys in the doll's house, The Little Ship. The Keys play it on her piano, a note a minute, by teams jumping on the keys.".
+  Topic ludovic_jumpers with ludovic "Ask Ludovic Flatt what the Keys need to play it" when knows(actor, first_air) once {
+    Says "'Weight,' says Ludovic sadly. 'The bass keys want weight. The colliers jumped the bass for us, sixty years: Bet Collier's people, big and heavy and on the beat. And now,' he gestures at the fireplace, 'now the colliers are on the Skirting with nothing, and nobody's thinking about the bass.' He brightens. 'And the page. If you found the page. Then with weight on the bass, and somebody who can hold a tune to lead the count, we could play it to the end. At night, when She's abed. All of it.' He looks up, at the ceiling, at what is above it. 'She'd hear it, through the floor. Do you think she'd hear it?'".
+    On discuss { Assert knows(actor, keys_need). }
+  }
+  Discovery keys_need "To play the First Air to the end, the Keys need the lost page, weight on the bass keys (the colliers jumped it), and someone to lead the count; and they would play it at night, when the Lady is abed above.".
+  Topic ludovic_page with ludovic "Give Ludovic Flatt the lost page" when carries(actor, score_page) once {
+    Says "Ludovic takes the sheet in both hands, and unfolds it, and reads it, and you see his lips moving through the eleven notes. Then he sits down on a hammer-felt. 'Postage,' he says faintly. 'He posted it. The old fool posted it to himself.' He reads it again. 'It resolves,' he says. 'It goes down to the tonic. It ends.' And he puts his face in the sheet of music and laughs into it, or something like laughing.".
+    On discuss { Spend score_page from actor. Assert pageGiven(ludovic). }
+  }
+  Relation pageGiven(group).
+  Topic bet_jump with bet "Ask Bet Collier whether the colliers would jump the bass for the Keys again" when knows(actor, keys_need) and hearthBurned(hollins) and hearthWarned(hollins) and not keysJumpers(party) once {
+    Says "Bet Collier looks at you as if you had asked her to dance at a funeral. Then she looks at her people along the Skirting, sitting in doorways with nothing to do with their hands. 'We jumped that bass for sixty years,' she says slowly. 'My dad jumped it. Bottom C, the big one.' She gets up. 'Aye. Why not. It's that or sit here and look at the wall.' She raises her voice. 'Who's for the Keys?'".
+    On discuss { Assert keysJumpers(party). }
+  }
+  Topic nan_jump with nan "Ask Nan Collier whether the colliers would jump the bass for the Keys again" when knows(actor, keys_need) and hearthBurned(hollins) and collierDead(hollins) and not keysJumpers(party) once {
+    Says "Nan looks along the Skirting at what is left of the Hearth. 'Mam jumped bottom C,' she says. 'Every Midwinter.' She is quiet. 'Aye. We'll jump it for her.'".
+    On discuss { Assert keysJumpers(party). }
+  }
+  Relation concertTried(group).
+  Action play_air(actor: group, site: place) "Lead the Keys through the First Air, to the end" {
+    Description "An hour of running, climbing and jumping on the keys in the dark, a note a minute, with the whole Guild and the colliers on the bass, while the Lady sleeps above.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, piano_keys) and at(ludovic, piano_keys) and pageGiven(ludovic) and keysJumpers(party) and night() and not concertPlayed(party) and not ladyDead(lady) and not concertTried(party).
+    Time 6.
+    Resolve check(actor, performance, dc_fair).
+    On success { Assert concertPlayed(party). Increase primed(lady) by 2. }
+    On failure { Assert concertTried(party). }
+    Result "It takes an hour. You stand on middle C with Ludovic and count, out loud, sixty to a note, and the teams run down the long white road in the dark and climb and gather and jump, all together, and the key goes down under them with a sound like a door, and somewhere inside the piano a hammer the size of a ram falls, and the note comes up through the strings, so big it is less a sound than a weather. Then silence, and the count, and the next. The colliers jump the bass like men driving piles. The tune goes on, impossibly slowly, a nursery song played by a mountain: The Little Ship. When you come to the last page Ludovic is weeping openly and still counting. The last note is bottom C, and every collier in the Wainscot is on it, and it goes down into the floor of the house and into the walls and up the Stair. And then, in the silence after it, overhead, the floor of the Lady's room creaks, and creaks again.".
+    Otherwise "It goes wrong at the turn of the second page: a team on the wrong key, a count lost, two notes at once like a dropped tray, and then everybody stops, and stands in the dark on the keys listening to the strings hum down into silence. 'Again,' says Ludovic. 'Not tonight. But again.' Overhead, nothing stirs.".
+  }
+  Rule concert_retry when concertTried(party) and hour(clock) == 12 { Retract concertTried(party). }
+  // She comes down to the piano with her candle.
+  Rule lady_comes_down at piano_keys when concertPlayed(party) and not ladyAtPiano(lady) and at(party, piano_keys)
+    says "A long time after, a light comes into the drawing room: a candle the size of a tree, carried slowly, and the great slow tread that shakes the keys. The Lady stands over the piano in a nightgown, holding the candle out, peering, and the Keys scatter into the strings, and you are standing on middle C in the light. She does not look at you. She is not looking at anything. She sets the candle down and puts out one finger, as long as a boat, and plays, very softly, the last eleven notes of the Little Ship, which come up through the keys under your feet; and then she sits on the piano stool and puts her face in her hands. 'Honor,' she says, to nobody. 'Honor, Ned. Are you there?'" { Assert ladyAtPiano(lady). }
+  Relation ladyAtPiano(group).
+
+  // ── The tea table ─────────────────────────────────────────────────────────────────────────────────────────────────
+  Observe table_scene at tea_table when true "The top of the tea table is a polished field of walnut, with a lace cloth over half of it like a frozen sea. The tea things stand on it like the buildings of a city: the pot a domed hall of blue and white china, the sugar bowl a round tower with tongs in it like a crane, a cup and saucer, a plate with a cake on it as big as a haystack and smelling of caraway.".
+  Observe table_lady at tea_table as ambience when at(lady, tea_table) "The Lady's hand comes down out of the air, slowly, with a fingertip the size of a loaf, and feels across the cloth for the cup, and finds it; and lifts it out of sight; and after a long while sets it down again, so close to you that the saucer rings like a bell.".
+  Observe table_pye at tea_table as ambience when at(lady, tea_table) and at(pye, tea_table) "Mrs Pyecroft is reading aloud from somewhere up by the Lady's shoulder: the shipping news, three months old.".
+}

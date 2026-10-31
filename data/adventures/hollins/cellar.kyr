@@ -1,0 +1,112 @@
+Module hollins "Behind the Wainscot" {
+  // ── The cellars ───────────────────────────────────────────────────────────────────────────────────────────────────
+  // Down the cellar steps from the kitchen, or down the coal-hole from the garden: the coal cellar; the wine-bins,
+  // where the Under-folk live; the cistern; and across the cistern, the vault of the Whitlocks. No light comes here.
+  Place coal_store "the coal cellar" is room within cellars at 0, 0 underground.
+  Place cellar_foot "the foot of the cellar steps" is room within cellars at 1, 0 underground.
+  Place wine_bins "the wine-bins" is room within cellars at 1, 1 underground.
+  Place cistern "the edge of the cistern" is room within cellars at 2, 1 underground.
+  Place vault "the Whitlock vault" is room within cellars at 3, 1 underground.
+
+  Passage cellar_steps "the cellar steps" is stair between kitchen_floor and cellar_foot taking 20 minutes.
+  Passage coal_hole "the coal-hole" is shaft between kitchen_garden and coal_store taking 10 minutes hidden until coal_hole_known.
+  Passage coal_door "the coal-cellar arch" is arch between coal_store and cellar_foot.
+  Passage bins_way "the way between the bins" is passage between cellar_foot and wine_bins taking 10 minutes.
+  Passage cistern_way "the way down to the cistern" is passage between wine_bins and cistern taking 10 minutes.
+  Passage vault_way "the vault steps, across the water" is passage between cistern and vault taking 10 minutes
+    opening when annetHelps(annet) or eelGone(eel) "The way to the vault is across the cistern: forty yards of black water with something in it, and the steps on the far side going up to an iron door.".
+
+  Observe garden_scene at kitchen_garden when not dark() "The kitchen garden of Hollins, gone wild in three hundred years: a forest of giant rhubarb with leaves like sails, artichokes as tall as trees going to seed in purple thistles, and everywhere, in drifts as high as your shoulder, grey-green catmint, humming with bees. Against the house wall, an iron grating as big as a barn door lies half open on its hinge over a black hole that breathes cold.".
+  Observe garden_night at kitchen_garden when dark() "The kitchen garden at night: the shapes of rhubarb like ships, the smell of catmint, the black hole of the coal-hole under the house wall.".
+  Observe garden_grating at kitchen_garden as feature when knows(party, mother_letter) "The grating over the coal-hole stands open on its hinge, as it has, you know now, for three hundred winters, because somebody wanted it so.".
+  Relation catmintCarried(group).
+  Kind catmint_kind "an armful of catmint" is gear worth 0 weighing 1 described "An armful of grey-green catmint out of the kitchen garden, bruised, smelling sharp and minty; to a cat, irresistible.".
+  Item catmint "an armful of catmint" is catmint_kind at nowhere.
+  Action gather_catmint(actor: group, site: place) "Gather an armful of catmint" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, kitchen_garden) and not carries(actor, catmint).
+    On success { Give catmint to actor. }
+    Result "You pull an armful of it, and the bees go up round you in a cloud and come down again. Your hands smell of it for an hour.".
+  }
+
+  Observe coal_scene at coal_store when true "The coal cellar: a heap of coal like a black hill under the hole in the roof, with grey light falling on it from above, and footprints across the dust where a good many people, over a long time, have come down the heap and gone on through the arch.".
+  Observe cfoot_scene at cellar_foot when true "At the foot of the cellar steps, which are each a fall of eight feet with a ladder lashed to it, the dark opens out under vaults of brick. It is cold, and still, and smells of earth and old wine. Somewhere water drips into water.".
+  Observe bins_scene at wine_bins when true "The wine-bins: brick cells in rows, each as big as a chapel, each racked with bottles lying on their sides like great green cannons. In the cells people are living, in the dark, among pale mushrooms grown on the straw. Nobody carries a light. Voices come from everywhere, quiet.".
+  Observe cistern_scene at cistern when true "The cistern is a black lake under a brick vault, and the drip from somewhere high falls into it with a sound that goes on and on round the walls. A ledge a hand wide runs along the wall to the left. On the far side, forty yards off, steps go up out of the water to an iron door with a lock in it you could stand inside.".
+  Observe cistern_eel at cistern as sign when not eelGone(eel) and not annetHelps(annet) "Out in the middle of the cistern something moves under the water, long and slow, and a ring spreads across the black and laps at your feet.".
+  Observe vault_scene at vault when true "The vault of the Whitlocks: a long brick room with shelves cut into the walls, and on the shelves the coffins of the tall family, oak, each as long as a barge, with brass plates the size of doors. LADY AGATHE WHITLOCK. SIR AMBROSE WHITLOCK. And smaller, a child's length, which is still twice yours: EDMUND, AGED FOUR. At the end, under the last shelf, an iron strongbox the size of a cottage, with a keyhole in its front like an arched door.".
+
+  // ── The Under-folk ────────────────────────────────────────────────────────────────────────────────────────────────
+  // A hundred years ago the Court sent down the Candle Rioters, who had stormed the Small House over a tax on light,
+  // and they stayed down: their children have never seen a candle. They came in, in the first place, by the coal-hole,
+  // not by the Slot, and so the Post has never entered them, and the Tapwarden has never given them a thimble; they
+  // drink what drips in the cistern. Blind Annet is their eldest.
+  Person annet "Blind Annet" at wine_bins {
+    Role "the eldest of the Under-folk". Ancestry human. Peaceable. Pronouns she. Manner acerbic.
+    Likeness "elder".
+    Greets "A voice out of the dark, old and dry, very close: 'You've a light. Put it down; it hurts the children.' A hand finds your sleeve, light as a moth. 'I'm Annet. They call me Blind, which is a joke, since there's nothing down here to see. What brings an upstairs body to the bins?'".
+    Greets again "'The upstairs one,' says Annet's voice, out of the dark, pleased.".
+  }
+  Topic annet_folk with annet "Ask Blind Annet who the Under-folk are" when true once {
+    Says "'The Candle Riot,' says Annet. 'A hundred years. The Court put a tax on candle-ends, and my grandmother's people went up the Stair and broke the Small House windows, and the Court sent them down here, and said stay.' She laughs. 'We stayed. We like it. It's quiet.' Then, not laughing: 'But we came into Hollins by the coal-hole, my grandmother's grandmother, in the Hungry Winter of Forty. The grating was open. So the Post never wrote us down. So we're not in the book. So Drewe gives us no water, and we drink the cistern, and the children are sick of it every summer.' Her hand tightens on your sleeve. 'Six hundred in the house, they say. They don't count us. Forty-one. We're not anybody.'".
+    On discuss { Assert knows(actor, underfolk_uncounted). }
+  }
+  Discovery underfolk_uncounted "The Under-folk of the cellars, forty-one of them, came into Hollins by the open coal-hole and not by the Slot, so the Post has never entered them, and the Tapwarden gives them no water; they drink the cistern and their children sicken.".
+  Relation underfolkEntered(group). Relation annetHelps(group).
+  Topic faith_underfolk with faith "Ask Faith Penny to enter the Under-folk in the register" when knows(actor, underfolk_uncounted) and not underfolkEntered(annet) once {
+    Says "Faith Penny's pen stops. 'They came in by the coal-hole,' she says. 'The register is of all who come in by the Slot.' She looks at the register, at its two hundred and ninety years. Then she turns to the first page, the very first, where in a faded hand it says what the Post is for, and reads it under her breath, and stops. 'All who come in,' she says. 'It says all who come in. It doesn't say by the Slot.' She sits very still. 'Ninety years we've been saying by the Slot, and it doesn't say it.' She dips the pen. 'Forty-one, you said. Give me the names, if she'll give them.' And then, fiercely, to the register: 'The Post is not a gate.'".
+    On discuss { Assert underfolkEntered(annet). }
+  }
+  Topic annet_entered with annet "Tell Blind Annet the Post will enter her people" when underfolkEntered(annet) and not annetHelps(annet) once {
+    Says "Annet is quiet for so long you think she has gone. Then her voice, near and changed: 'In the book. With names.' Somewhere in the dark a child asks what is happening and is hushed. 'Then Drewe owes us forty-one thimbles a day, and she'll pay them, because Drewe's fair, whatever else.' Her hand finds yours. 'You wanted the vault. Everybody upstairs wants the vault this week; her woman's been down the steps twice with a lantern, poking. There's a raft. We use it at the Old One's sleeping time, which is now, near enough. I'll take you over myself.'".
+    On discuss { Assert annetHelps(annet). Assert knows(actor, pye_hunts_deed). }
+  }
+  Discovery pye_hunts_deed "Mrs Pyecroft has been down the cellar steps twice with a lantern, hunting for the vault.".
+  Topic annet_old with annet "Ask Blind Annet about the Old One in the cistern" when true once {
+    Says "'An eel,' says Annet. 'Came up the drain when it was a bootlace, and found the cistern, and never found the way back. That was before my grandmother.' She considers. 'As long as a ladder now, and white, and blind as me. It sleeps in the day and hunts at night, by the feel of the water. Anyone who goes in the water, it knows. There's a ledge along the left wall, a hand wide, if you're a fly.'".
+    On discuss { Assert knows(actor, eel_told). }
+  }
+  Discovery eel_told "A blind white eel as long as a ladder, the Old One, lives in the cistern and hunts whatever goes into the water; a ledge a hand wide runs along the left wall.".
+
+  // ── The Old One ───────────────────────────────────────────────────────────────────────────────────────────────────
+  Species old_one_kind "the Old One" like great_pike temperament ambush described "A blind eel as long as a ladder, white as a peeled stick, that came up the drain as a bootlace a hundred years ago and has lived on whatever falls into the cistern since.".
+  Person eel "the Old One" at cistern {
+    Role "a blind white eel as long as a ladder". Species old_one_kind. Level 3.
+    Lair cistern.
+  }
+  Relation eelGone(group).
+  Rule eel_down when (dead(eel) or routed(eel)) and not eelGone(eel) { Assert eelGone(eel). }
+  Rule eel_quiet when annetHelps(annet) and not tolerates(eel, party) { Assert tolerates(eel, party). }
+  Relation ledgeFell(group).
+  Action edge_ledge(actor: group, site: place) "Edge along the cistern ledge to the vault steps" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, cistern) and not eelGone(eel) and not annetHelps(annet) and not ledgeFell(party).
+    Time 2.
+    Resolve check(actor, climbing, dc_fair).
+    On success { Assert at(actor, vault). }
+    On failure { Assert ledgeFell(party). Assert assails(eel, actor). }
+    Result "Forty yards, face to the brick, heels over the water, fingers in the mortar. Halfway along, something passes under you in the black with a long slow swirl, and goes on. You come to the steps and climb them on your hands and knees.".
+    Otherwise "Twenty yards along, the ledge crumbles under your heel and you go in, into water so cold it stops your breath; and before you can get it back, something white comes up out of the dark below you.".
+  }
+
+  // ── The vault ─────────────────────────────────────────────────────────────────────────────────────────────────────
+  Thing strongbox "the Whitlocks' strongbox" at vault {
+    Holds.
+    State locked closed "An iron strongbox the size of a cottage, locked. Its keyhole is an arch you could walk into; inside it, in the dark, the wards and tumblers of the lock are iron bars as thick as your arm.".
+    State open "The strongbox stands open, its lid propped on its own great hinge. You had to go inside the lock to do it, among iron bars as thick as your arm, and heave, and the whole box rang like a bell when it gave.".
+    Change pick "Climb into the lock and lift the tumblers" from locked to open needing lockwork.
+    Change heave "Climb into the lock and heave the tumblers up by main strength" from locked to open needing brawn.
+  }
+  Kind deed_kind "the deed of Hollins" is gear worth 0 weighing 4 described "A roll of parchment as thick as a man and as long as two, tied with a ribbon the colour of old blood, sealed with the arms of the Whitlocks: a tower on a hill. Spread out, it would cover a floor. CONVEYANCE OF THE HOUSE AND LANDS OF HOLLINS, in letters you can read from across a room.".
+  Item deed "the deed of Hollins" is deed_kind in strongbox.
+  Kind mama_letter_kind "Lady Agathe's letter" is gear worth 0 weighing 3 described "A giant's letter, folded, never sealed, the paper as brown as a leaf, and on the outside in a fine tall hand: For Ermengarde. Not to be sent. To be found.".
+  Item mama_letter "Lady Agathe's letter" is mama_letter_kind in strongbox.
+  Relation deedTaken(group).
+  Rule deed_out when carries(party, deed) and not deedTaken(party) { Assert deedTaken(party). }
+  Relation motherRead(group).
+  Action read_mama(actor: group, site: place) "Unfold Lady Agathe's letter and read it" {
+    Requires able(actor) and company(actor) and at(actor, site) and carries(actor, mama_letter) and not motherRead(party).
+    Time 2.
+    On success { Assert motherRead(party). Assert knows(actor, mother_letter). }
+    Result "It takes walking to read, the sheet spread out on the floor, a line at a time: For Ermengarde. My darling. I saw her. The little girl, at the window of your doll's house, on the night before Doctor Hume came; she had a candle-end and she looked straight at me. I told the doctor you were ill because I could not bear to have him say it of me as well, and your father would have let him. I sent you to Sabine to keep you from being looked at. I have been a coward, and I have left the coal-hole grating open every winter since, which is all the courage I have. If they are still here, it is because of the grating. Forgive me. I could not say it. I am writing it so that it is somewhere. Mama.".
+  }
+  Discovery mother_letter "Lady Agathe Whitlock saw the Lacey child at the doll's house window, and told the doctor her daughter was ill rather than be called ill herself. She sent Ermengarde away to keep her from being looked at, and left the coal-hole grating open every winter after, which is how the Under-folk and others came in. She wrote it, and never sent it.".
+}

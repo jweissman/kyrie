@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "source": [
+    "clock.kyr",
+    "acts.kyr",
+    "bootscrape.kyr",
+    "hall.kyr",
+    "wainscot.kyr",
+    "drawing.kyr",
+    "library.kyr",
+    "kitchen.kyr",
+    "cellar.kyr",
+    "nursery.kyr",
+    "bedroom.kyr",
+    "lady.kyr",
+    "pye.kyr",
+    "plots.kyr",
+    "endings.kyr",
+    "after.kyr",
+    "company.kyr"
+  ],
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "exports": {
+    "party": "party",
+    "region": "hollins_country",
+    "march_road": "march_road"
+  },
+  "experience": 1000
+}

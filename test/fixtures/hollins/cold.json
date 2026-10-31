@@ -1,0 +1,72 @@
+{
+ "hired": [
+  "To Bootscrape street",
+  "Into the Mat",
+  "=10:10",
+  "Talk to Mrs Pyecroft",
+  "Ask Mrs Pyecroft about the position",
+  "Take Mrs",
+  "Ask Mrs Pyecroft about the drawing-room fire",
+  "Take your leave"
+ ],
+ "arkle": [
+  "Out to Bootscrape street",
+  "Into Widow Arkle",
+  "Talk to Widow Arkle",
+  "Ask Widow Arkle about the yellow",
+  "Buy Widow Arkle",
+  "Take your leave"
+ ],
+ "in": [
+  "Out to Bootscrape street",
+  "To the top of the doorstep",
+  "by the Slot",
+  "Letterdrift",
+  "Skirting",
+  "To the Hearth",
+  "Talk to Bet",
+  "Warn Bet",
+  "Take your leave",
+  "To the Skirting",
+  "To the Button Market",
+  "To the Nail",
+  "Talk to Mab",
+  "Take a bed"
+ ],
+ "wat": [
+  "=day 2 07:40",
+  "To the Button Market",
+  "To the Skirting",
+  "To the Hall floor",
+  "To the kitchen floor",
+  "To the Pantry door",
+  "Tell the pin-men",
+  "To the Jarl's hall",
+  "=day 2 08:10",
+  "Spring the trap",
+  "To the Pantry door",
+  "To the kitchen floor",
+  "To the Hall floor",
+  "To the Skirting",
+  "To the Button Market",
+  "To the Nail"
+ ],
+ "hatbox": [
+  "=day 8 10:00",
+  "To the Button Market",
+  "To the Skirting",
+  "To the Hall floor",
+  "To the foot of the Stair",
+  "Pay Ma Riser",
+  "To the first-floor landing",
+  "To the floor of the Lady",
+  "To Mrs Pyecroft's hatbox",
+  "Take the sulphur candles",
+  "To the floor of the Lady",
+  "To the first-floor landing",
+  "To the Nursery floor"
+ ],
+ "wait": [
+  "=day 11 08:00"
+ ]
+}

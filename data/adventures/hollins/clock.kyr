@@ -1,0 +1,93 @@
+Module hollins "Behind the Wainscot" {
+  Description "Bootscrape, a salvagers' village on a giant's doorstep in the western hills; and Hollins, the house of the last of the tall gentry, shut three hundred years, where six hundred people of our own size live in the walls, the grate, the pantry and the doll's house, and where the giantess has come home to die.".
+
+  // ── The country ───────────────────────────────────────────────────────────────────────────────────────────────────
+  // West to east: the moor road comes down off the moor (the Waiting Stone stands up on it) into Bootscrape, a village
+  // on the house's doorstep, under its iron boot-scraper. Hollins stands over the village like a hill with windows.
+  // Round the north side of the house the lane goes to the kitchen garden and the coal-hole.
+  Place hollins_country "the Hollins country" is region.
+  Place moor "Scrape Moor" is wilderness within hollins_country at 0, 1.
+  Place bootscrape "Bootscrape" is settlement within hollins_country at 1, 1.
+  Place grounds "the grounds of Hollins" is wilderness within hollins_country at 2, 0.
+  Place hollins "Hollins" is settlement within hollins_country at 2, 1.
+  Initially Assert terrain(hollins_country, hills).
+
+  // The house is twelve times the size of a house. Its rooms are countries; the places a company can stand in are
+  // the places its people stand in: a ledge, a shelf, the space behind a skirting board.
+  Place house "the house" is building within hollins.
+  Place cellars "the cellars" is level within house.
+  Place ground_floor "the ground floor" is level within house.
+  Place first_floor "the first floor" is level within house.
+
+  // ── The days ──────────────────────────────────────────────────────────────────────────────────────────────────────
+  // Counted from the company's coming, at each dawn after the first hour it is here: the day it comes is the first.
+  // The Lady came home three days before. She dies on the night of the tenth, whatever anyone does.
+  Measure dayN(place). Relation dawned(place).
+  Initially Set dayN(hollins) to 1.
+  Rule dawn_counts when hour(clock) == 6 and not dawned(hollins) and watch(clock) >= 0 { Increase dayN(hollins) by 1. Assert dawned(hollins). }
+  Rule dawn_passes when hour(clock) != 6 and dawned(hollins) { Retract dawned(hollins). }
+  Query onDay(n: entity) means dayN(hollins) == dayNumber(n).
+  Measure dayNumber(entity).
+  Query day1() means dayN(hollins) == 1.
+  Query day2() means dayN(hollins) == 2.
+  Query day3() means dayN(hollins) == 3.
+  Query day4() means dayN(hollins) == 4.
+  Query day5() means dayN(hollins) == 5.
+  Query day6() means dayN(hollins) == 6.
+  Query day7() means dayN(hollins) == 7.
+  Query day8() means dayN(hollins) == 8.
+  Query day9() means dayN(hollins) == 9.
+  Query day10() means dayN(hollins) == 10.
+  Query night() means hour(clock) >= 21 or hour(clock) < 6.
+
+  // ── The Lady's day ────────────────────────────────────────────────────────────────────────────────────────────────
+  // Miss Whitlock keeps a cartographer's hours. She dresses at seven; works at her chart in the Library from nine to
+  // noon; lunches in the kitchen; dozes on the drawing-room sofa over the Carpet; takes tea at the drawing-room table
+  // at ten past four, which was the hour the carriage left; winds the Long Clock at six; sits by the fire; goes up at
+  // nine. From the ninth day she keeps to her bed. Where she is, the floor shakes, and the house goes still.
+  Relation bedridden(group). Relation ladyDead(group). Relation poisoned(group).
+  Query ladyUp() means not ladyDead(lady) and not bedridden(lady) and not poisoned(lady).
+  Rule lady_takes_bed when dayN(hollins) >= 9 and not bedridden(lady) and not ladyDead(lady) { Assert bedridden(lady). }
+  Rule lady_poisoned_abed when poisoned(lady) and not ladyDead(lady) and not at(lady, counterpane) { Assert at(lady, counterpane). }
+  Rule lady_bedridden_abed when bedridden(lady) and not ladyDead(lady) and not at(lady, counterpane) { Assert at(lady, counterpane). }
+  Rule lady_night when ladyUp() and (hour(clock) >= 21 or hour(clock) < 7) and not at(lady, counterpane) { Assert at(lady, counterpane). }
+  Rule lady_dresses when ladyUp() and hour(clock) >= 7 and hour(clock) < 9 and not at(lady, bedroom_floor) { Assert at(lady, bedroom_floor). }
+  Rule lady_charts when ladyUp() and hour(clock) >= 9 and hour(clock) < 12 and not at(lady, chart_table) { Assert at(lady, chart_table). }
+  Rule lady_lunches when ladyUp() and hour(clock) >= 12 and hour(clock) < 13 and not at(lady, kitchen_floor) { Assert at(lady, kitchen_floor). }
+  Rule lady_dozes when ladyUp() and (hour(clock) >= 13 and hour(clock) < 16 or hour(clock) >= 17 and hour(clock) < 18 or hour(clock) >= 19 and hour(clock) < 21) and not at(lady, carpet) { Assert at(lady, carpet). }
+  Rule lady_tea when ladyUp() and hour(clock) >= 16 and hour(clock) < 17 and not at(lady, tea_table) { Assert at(lady, tea_table). }
+  Rule lady_winds when ladyUp() and hour(clock) >= 18 and hour(clock) < 19 and not at(lady, clock_foot) { Assert at(lady, clock_foot). }
+  Rule lady_gone when ladyDead(lady) and not at(lady, nowhere) { Assert at(lady, nowhere). }
+
+  // ── Mrs Pyecroft's day ─────────────────────────────────────────────────────────────────────────────────────────────────
+  // Mrs Pyecroft is our size. She goes where the Lady goes, in her pocket or on her shoulder, except at seven, when she
+  // goes round her traps; on the first two days from ten until two, when she is at the Mat in Bootscrape seeing
+  // ratcatchers; on the fourth and seventh afternoons, when she goes down to the village on business; and at night,
+  // when she sleeps in her hatbox.
+  Relation pyeGone(group). Relation pyeAway(group).
+  Query pyeFree() means not pyeGone(pye) and not pyeAway(pye).
+  Query interviewing() means (day1() or day2() and not hiredBy(party, pye)) and hour(clock) >= 10 and hour(clock) < 14 and not pyeTurned(pye).
+  Query pyeErrand() means (day4() or day7()) and hour(clock) >= 14 and hour(clock) < 17.
+  Relation hiredBy(group, group). Relation pyeTurned(group).
+  Rule pye_sleeps when pyeFree() and (hour(clock) >= 21 or hour(clock) < 7) and not at(pye, hatbox) { Assert at(pye, hatbox). }
+  Rule pye_rounds when pyeFree() and hour(clock) >= 7 and hour(clock) < 8 and not interviewing() and not at(pye, pantry) { Assert at(pye, pantry). }
+  Rule pye_interviews when pyeFree() and interviewing() and not at(pye, mat_tap) { Assert at(pye, mat_tap). }
+  Rule pye_errand when pyeFree() and pyeErrand() and not at(pye, bs_street) and not interviewing() { Assert at(pye, bs_street). }
+  Rule pye_with_lady when pyeFree() and hour(clock) >= 8 and hour(clock) < 21 and not interviewing() and not pyeErrand() and at(lady, ?p) and not at(pye, ?p) and not ladyDead(lady) { Assert at(pye, ?p). }
+  Rule pye_mourns when pyeFree() and ladyDead(lady) and not at(pye, hatbox) { Assert at(pye, hatbox). }
+
+  // ── The Bishop's night ────────────────────────────────────────────────────────────────────────────────────────────
+  // The Lady's cat sleeps on her counterpane by day and hunts the ground floor by night: the Hall from nine, the
+  // Carpet from midnight, the kitchen from three, and goes up to the bed at six. Belled, it can be heard coming.
+  Relation catAway(group).
+  Query prowling() means (hour(clock) >= 21 or hour(clock) < 6) and not catAway(bishop) and able(bishop).
+  Rule cat_sleeps when not prowling() and not catAway(bishop) and not at(bishop, counterpane) { Assert at(bishop, counterpane). Assert peaceable(bishop). Assert asleep(bishop). Assert tolerates(bishop, party). }
+  Rule cat_dozes when not prowling() and at(bishop, counterpane) and not asleep(bishop) and not catAway(bishop) { Assert peaceable(bishop). Assert asleep(bishop). Assert tolerates(bishop, party). }
+  Rule cat_wakes when prowling() and asleep(bishop) and not belled(bishop) { Retract asleep(bishop). Retract peaceable(bishop). Retract tolerates(bishop, party). }
+  Rule cat_wakes_belled when prowling() and asleep(bishop) and belled(bishop) { Retract asleep(bishop). }
+  Rule cat_hall when prowling() and hour(clock) >= 21 and not at(bishop, hall_flags) { Assert at(bishop, hall_flags). }
+  Rule cat_carpet when prowling() and hour(clock) < 3 and not at(bishop, carpet) { Assert at(bishop, carpet). }
+  Rule cat_kitchen when prowling() and hour(clock) >= 3 and hour(clock) < 6 and not at(bishop, kitchen_floor) { Assert at(bishop, kitchen_floor). }
+  Rule cat_away_night when catAway(bishop) and not at(bishop, kitchen_garden) { Assert at(bishop, kitchen_garden). Assert peaceable(bishop). Assert tolerates(bishop, party). }
+  Rule cat_comes_back when catAway(bishop) and hour(clock) == 6 { Retract catAway(bishop). }
+}

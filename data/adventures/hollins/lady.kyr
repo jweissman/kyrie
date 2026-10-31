@@ -1,0 +1,162 @@
+Module hollins "Behind the Wainscot" {
+  // ── Miss Whitlock ─────────────────────────────────────────────────────────────────────────────────────────────────
+  // Ermengarde Whitlock: three hundred and twenty, the greatest cartographer in Imbar, nearly blind, dying of her heart.
+  // Until she knows the Wainscot is there she cannot be spoken to as people are; she can be watched, and kept still
+  // for, and corrected, and played to, and written to, and, by someone very brave, stepped out in front of. How ready
+  // she is to believe what she sees is primed(lady): a corrected chart, a letter delivered, the First Air played.
+  Person lady "Miss Whitlock" at counterpane {
+    Role "the Lady of Hollins, twelve times your height". Ancestry human. Peaceable. Pronouns she. Manner proud.
+    Likeness "elder".
+    Known as "the Lady" when not knows(party, lady_home).
+    Greets "The Lady bends down out of the air until her face fills everything: a face the size of a house, lined like a chart, with eyes gone milky at the rims, peering. Her breath smells of tea and foxglove. 'There you are,' she says, and her voice is not loud; she is taking care with it, as you would take care not to blow out a candle. 'I can see you if you stand in the light. Stand in the light.' She looks for a long time. 'Yes,' she says. 'Yes. I was not mistaken.'".
+    Greets again "The Lady bends down out of the air, peering, until she finds you. 'There you are.'".
+  }
+  Measure primed(group). Measure fright(group). Relation ladyKnows(group).
+  Rule lady_mute when talks(lady) and not ladyKnows(lady) { Retract talks(lady). }
+  Rule lady_speaks when ladyKnows(lady) and not talks(lady) and not ladyDead(lady) and not poisoned(lady) { Assert talks(lady). }
+  Rule lady_silent_dead when talks(lady) and (ladyDead(lady) or poisoned(lady)) { Retract talks(lady). }
+
+  // ── Keeping still ─────────────────────────────────────────────────────────────────────────────────────────────────
+  // Where she is, the Wainscot freezes. Whoever stays and moves where she can see them is glimpsed, and every glimpse
+  // is, to her, her mind going: she asks Mrs Pyecroft to make it stop.
+  Relation stilled(group). Relation nearLady(group). Measure nearSince(group). Measure glimpsedOn(group).
+  Rule near_lady when ladyUp() and not ladyKnows(lady) and at(lady, ?p) and at(party, ?p) and not nearLady(party) and not at(?p, counterpane) { Assert nearLady(party). Set nearSince(party) to watch(clock). }
+  Rule near_lady_counterpane when at(lady, counterpane) and at(party, counterpane) and not nearLady(party) and not ladyKnows(lady) and hour(clock) >= 7 and hour(clock) < 21 and ladyUp() { Assert nearLady(party). Set nearSince(party) to watch(clock). }
+  Rule leave_lady when nearLady(party) and not together(lady, party) { Retract nearLady(party). Retract stilled(party). }
+  Observe lady_close near lady when nearLady(party) and not stilled(party) and not ladyKnows(lady) "The floor is shaking with her footfall, her breathing; everyone of the Wainscot within sight has gone still as a stone. You had better do the same, or be gone.".
+  Action keep_still(actor: group, site: place) "Keep still, as the Wainscot does, until she has gone by" {
+    Description "Stand exactly where you are, and do not move, and do not breathe much.".
+    Requires able(actor) and company(actor) and at(actor, site) and nearLady(actor) and not stilled(actor) and not ladyKnows(lady).
+    Time 0.
+    On success { Assert stilled(actor). }
+    Result "You stand stock still, as the children do in the Wainscot's game of Statues, which they learned from their grandparents, who learned it from this.".
+  }
+  Rule lady_glimpses when nearLady(party) and not stilled(party) and watch(clock) > nearSince(party) and glimpsedOn(lady) != dayN(hollins) and not ladyKnows(lady) and ladyUp()
+    says "The Lady stops. Her head comes round, slowly, enormous, and her milky eyes go over the place where you are, and past it, and back. 'Dorothea,' she says, very quietly. 'There is something on the floor. Tell me there is nothing on the floor.' And Mrs Pyecroft's small dry voice, from her shoulder: 'Rats, Miss Whitlock. I have a man in. It will be seen to.' The Lady closes her eyes. 'Make it stop, Dorothea,' she says. 'Whatever you have to do. I cannot bear to see things.'" {
+    Set glimpsedOn(lady) to dayN(hollins). Increase fright(lady) by 1.
+  }
+
+  // ── Stepping out ──────────────────────────────────────────────────────────────────────────────────────────────────
+  // At her chart table, or her tea table, in the light, while she sits: someone can step out and be seen on purpose.
+  // What comes of it depends on what has gone before.
+  Relation daredOn(group). Measure daredDay(group).
+  Query ladySitting(p: place) means at(lady, p) and ladyUp() and (at(lady, chart_table) or at(lady, tea_table)).
+  Action step_out_ready(actor: group, site: place) "Step out into the light on the table, where she can see you, and speak to her" {
+    Grave "Whatever she does, she will have seen you.".
+    Requires able(actor) and company(actor) and at(actor, site) and ladySitting(site) and not ladyKnows(lady) and primed(lady) >= 2.
+    Time 1.
+    On success { Assert ladyKnows(lady). Assert stilled(actor). }
+    Result "You walk out into the light on the table and stand there and look up. Her hand stops. She bends, slowly, until her face is close enough that you can see the lines of it like the contours on a map, and her breath comes over you warm, and her eyes, milky at the rims, find you, and stop. 'You,' she says. 'Somebody has been trying to tell me something, in my own house, for days. Was it you?' And when you answer, she shuts her eyes, and opens them, and you are still there. 'I am not ill,' she says. 'I am not ill, Dorothea. Go and walk in the garden.'".
+  }
+  Action step_out_doubt(actor: group, site: place) "Step out into the light on the table, where she can see you, and speak to her" {
+    Grave "Whatever she does, she will have seen you.".
+    Requires able(actor) and company(actor) and at(actor, site) and ladySitting(site) and not ladyKnows(lady) and primed(lady) == 1 and daredDay(actor) != dayN(hollins).
+    Time 1.
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert ladyKnows(lady). Assert stilled(actor). }
+    On failure { Set daredDay(actor) to dayN(hollins). Increase fright(lady) by 1. }
+    Result "You walk out into the light and speak up at her, plainly, about the letter, about the chart, about the Laceys, and she bends down, slowly, until her eye is as big as a window, and stays there. 'Go on,' she says, in a whisper that stirs your hair. 'Go on. I am listening. I am trying very hard to be sure that I am listening.' And at the end she puts out one finger, as long as a boat, and touches the table beside you, very gently, and you feel the table take her weight. 'Real,' she says. 'You are real.'".
+    Otherwise "She sees you. She makes a sound you will not forget, a long breath in, like someone at the edge of water, and turns her face away. 'No,' she says. 'Dorothea, no, I will not, take it away,' and Mrs Pyecroft's hand comes down out of nowhere with a napkin like a sail, and you have to run for the edge of the table and the rope.".
+  }
+  Hazard swept "A giant's hand, sweeping" means "Deal (1d6) physical damage to ally unless dexterity save against (12).".
+  Action step_out_cold(actor: group, site: place) "Step out into the light on the table, where she can see you, and speak to her" {
+    Grave "Nothing has prepared her for you. Whatever she does, she will have seen you.".
+    Requires able(actor) and company(actor) and at(actor, site) and ladySitting(site) and not ladyKnows(lady) and primed(lady) == 0 and daredDay(actor) != dayN(hollins).
+    Time 1.
+    Resolve check(actor, persuasion, dc_formidable).
+    On success { Assert ladyKnows(lady). Assert stilled(actor). }
+    On failure { Set daredDay(actor) to dayN(hollins). Increase fright(lady) by 2. Assert strikes(swept, actor). }
+    Result "You walk out into the light and shout up at her, and by some miracle of nerve and timing you say the one thing: Honor Lacey's name. She goes still. She bends, and bends, until her eye is all there is, and then she says, in a voice like a door opening in another house: 'Honor?' And you have to tell her: no; but Honor's people, still. She listens. Her hand is shaking on the table so that the cups chatter. 'I am going to believe you,' she says at last, with enormous care, the voice of a woman stepping out onto ice. 'I am going to believe you, and if I am mad, I shall at least be mad in company.'".
+    Otherwise "She sees you, and screams: an old woman's scream, but as big as a house, and the table jumps, and the cup goes over and a wave of tea comes across the cloth at you, and then her hand, sweeping blindly, the size of a cart, and you are struck and flung and rolling, and the edge is there, and the rope.".
+  }
+  // Dame Honor Lacey, brought before her.
+  Relation honorComes(group). Relation honorMet(group).
+  Topic honor_go with honor "Ask Dame Honor Lacey to come with you to the Lady" when knows(actor, diary_laceys) and (primed(lady) >= 1 or knows(actor, mother_letter) or ladyKnows(lady)) and not honorComes(honor) and not honorMet(honor) once {
+    Says "You tell her what the diary says. Honor who is nine, who is my best friend. Dame Honor hears it standing, with one hand on the back of her chair. Then she sits down, which you have not seen her do while anyone else stood. 'My best friend,' she says. 'It says that. In her hand.' She looks at the parlour, the eight chairs, the clock. Then she rings for Mr Ambry. 'Mr Ambry,' she says, 'fetch the chain of office, and my good gloves, and the Address. We are going out.' Mr Ambry drops the bell.".
+    On discuss { Assert honorComes(honor). Assert acceptsEscort(honor, actor). Assert following(honor, actor). }
+  }
+  Action bring_honor(actor: group, site: place) "Bring Dame Honor Lacey forward into the light, before the Lady" {
+    Requires able(actor) and company(actor) and at(actor, site) and following(honor, actor) and ((ladySitting(site) and not ladyKnows(lady)) or (at(lady, site) and ladyKnows(lady) and not ladyDead(lady))) and not honorMet(honor).
+    Time 2.
+    On success { Assert ladyKnows(lady). Assert honorMet(honor). Retract following(honor, actor). Assert honorWithLady(honor). }
+    Result "Dame Honor walks out into the light alone, in her handkerchief gown and her chain of buttons, and stops, and looks up. Behind her Mr Ambry clears his throat and begins, in a voice that has waited forty years: 'MOST HIGH AND GRACIOUS DAUGHTER OF HOLLINS,' and gets as far as THE PANTRY before Dame Honor says, without turning round, 'Thank you, Mr Ambry,' and he stops. The Lady has bent down. Her eye is as big as the parlour of the Small House. 'Who are you?' she says, as Dame Honor had known she would; and Dame Honor answers, as she had not known she could: 'Honor Lacey. Not the one you knew. Her great-great-great-great-great-granddaughter. We kept your house for you, Miss Whitlock. We kept it ready.' And the Lady puts her face down on her arms on the table, slowly, like a hill settling, and weeps, and Dame Honor stands in the light beside her enormous grey hair and, after a while, reaches out a gloved hand and lays it on a strand of it.".
+  }
+  Relation honorWithLady(group).
+  Rule honor_home when honorWithLady(honor) and not together(honor, lady) and not at(honor, small_house_parlour) and not following(honor, party) { Assert at(honor, small_house_parlour). }
+  Observe honor_by_lady near lady when honorWithLady(honor) and together(honor, lady) and not ladyDead(lady) "Near the Lady's hand, on a doll's chair somebody has carried down from the Small House, Dame Honor Lacey sits in her handkerchief gown, talking, and the Lady bends her enormous head to listen.".
+
+  // ── What can be said to her, once she knows ───────────────────────────────────────────────────────────────────────
+  Topic lady_mind with lady "Ask the Lady why she thought it was her mind" when ladyKnows(lady) once {
+    Says "'Because I was told so,' says the Lady. 'By my mother, and by Doctor Hume, who measured my head with calipers, and by my aunt, who was kind about it.' She is quiet. 'I was eight. I believed them. What else does a child do?' She looks at the window. 'So I learned to measure everything. Every coast, every bay, every height, to the inch, with chain and staff and theodolite, and wrote the figures on the chart beside every line, so that nobody, ever again, could tell me I had imagined it.' She almost laughs. 'Three hundred years, and I have charted every shore in Imbar, and never this house. I did not dare. I came home to draw it before I died, and the first night I heard you in the walls, and I thought: there. It has come for me at last, the thing Mama said.'".
+  }
+  Topic lady_who with lady "Tell the Lady who lives in her walls" when ladyKnows(lady) once {
+    Says "You tell her. The Slot and the Post. The Skirting and the Nail. The Hearth in her grate, the Keys in her piano, the Readers on her bottom shelf walking her encyclopaedia, the Jarmen in her pantry, the Winders in her clock, the Court in her doll's house. Six hundred. The Lady listens with her chin on her hand and her eye very close, and stops you every so often to ask a measurement: how wide the Skirting, how deep the grate. At the end she sits back. 'In my walls,' she says. 'All of them. All this time.' Then: 'And I have been lighting fires.'".
+    On discuss { Assert ladyToldAll(lady). }
+  }
+  Relation ladyToldAll(group).
+  Observe chart_drawing at chart_table as feature when ladyToldAll(lady) and not ladyDead(lady) "Along the Skirting on her chart, beside the big black lines of the Wainscot, there are new figures in her own fine hand: widths, depths, the height of the Nail. She has been measuring what she was told.".
+  Topic lady_hearth with lady "Tell the Lady what her fire did to the Hearth" when ladyKnows(lady) and hearthBurned(hollins) and not hearthAtoned(lady) once {
+    Says "The Lady hears it with her hand over her mouth. If anyone died in it she asks their names, and you tell her, and she repeats each one, carefully, as if she were writing it on a chart. 'Then the fire goes out,' she says. 'Dorothea will let it go out. I have a shawl.' She looks at the grate across the house, as if she could see it through the walls. 'They may have the grate back, and the coal, all of it. And when I am gone they may light it themselves, at whatever size they like.'".
+    On discuss { Assert hearthAtoned(lady). Retract ladyCursed(hollins). }
+  }
+  Relation hearthAtoned(group).
+  Rule hearth_let_out when hearthAtoned(lady) and hearthBurned(hollins) and state(fire, blazing) { Assert state(fire, banked). }
+  Rule hearth_stays_out when hearthAtoned(lady) and hearthBurned(hollins) and not fireOut(hollins) { Assert fireOut(hollins). }
+  Relation fireOut(place).
+  Topic lady_traps with lady "Tell the Lady about Mrs Pyecroft's traps" when ladyKnows(lady) and not trapsLifted(lady) once {
+    Says "'Traps,' says the Lady. 'Dorothea's rat-traps.' If you tell her about Wat Tallowby, she does not say anything at all for a long while, and then she says, 'Eleven,' and then, 'Bring me his father, if he will come. I cannot go to him. Tell him I will sit as still as I can.' Then she raises her voice, the voice of a woman who has given orders to harbour-masters: 'Dorothea. Every trap in this house. Today.'".
+    On discuss { Assert trapsLifted(lady). Assert trapGivenUp(pye). }
+  }
+  Relation trapsLifted(group).
+  Rule traps_up when trapsLifted(lady) and state(pye_trap, set) { Assert state(pye_trap, sprung). }
+  Topic lady_sulphur with lady "Tell the Lady what Mrs Pyecroft means to do with the sulphur" when ladyKnows(lady) and knows(actor, smoking_planned) and not ladyForbids(lady) once {
+    Says "The Lady goes grey. 'Sulphur,' she says. 'In the walls.' She sits with her hand flat on the table for a long time. 'I told her to make it stop,' she says. 'I said, whatever you have to do.' She closes her eyes. 'Then I have been the monster under the bed, all this week, in my own house.' And then, opening them: 'There will be no sulphur. Not while I live, and I shall put it in writing for after.'".
+    On discuss { Assert ladyForbids(lady). }
+  }
+  Relation ladyForbids(group).
+  Topic lady_paper with lady "Tell the Lady what the paper she signed in the spring really was" when ladyKnows(lady) and knows(actor, pye_ledger) and not saleRevoked(lady) once {
+    Says "'A letter to my bank,' says the Lady slowly. 'She read it to me. I signed where she put my finger.' She is silent. Then, without raising her voice at all: 'Dorothea.' Mrs Pyecroft comes out from behind the inkwell, very small and very straight, and stands in the light, and does not look away. 'Eleven years without wages,' says the Lady. 'Is that in your ledger too?' 'Yes, Miss Whitlock.' 'Then why did you not ask me?' And Mrs Pyecroft's face does something you did not expect: it crumples, like a child's. 'You never asked me anything,' she says. 'Twenty-two years. You never once asked me anything at all.' The Lady looks at her for a long time. 'No,' she says. 'I did not.' Then: 'The paper is void, and I shall say so to whoever asks. And you shall have your four hundred and forty crowns, Dorothea, and a cottage, and I am sorry.'".
+    On discuss { Assert saleRevoked(lady). Assert pyeTurned(pye). }
+  }
+  Relation saleRevoked(group).
+  Topic lady_mother with lady "Give the Lady her mother's letter, from the vault" when ladyKnows(lady) and carries(actor, mama_letter) once {
+    Says "She knows the hand before she has the glass up. She sits with the letter unread in her lap for a long time. Then she reads it. You watch her read it: the glass going along the lines, and stopping, and going back, and stopping. I saw her. When she reaches the end she folds it, very precisely, in its old folds, and holds it against her chest with both hands, the way you would hold a small animal that might get away. 'She saw,' she says. 'She saw, and she sent me away so that no one would look at me the way they would have looked at her.' Her face is wet. 'And she left the grating open. Every winter.' She is quiet. 'Three hundred years I thought she was the one person in the world who knew I was lying.' And then, at last, she laughs, a real laugh, enormous, so that the windows ring. 'Oh, Mama. You coward. You dear.'".
+    On discuss { Spend mama_letter from actor. Assert motherDelivered(lady). }
+  }
+  Relation motherDelivered(group).
+  Topic lady_cat with lady "Tell the Lady what her cat does at night" when ladyKnows(lady) and not belled(bishop) once {
+    Says "'The Bishop?' says the Lady, appalled. 'Oh, the Bishop. He lost his bell in the carriage; I have it in my reticule.' She feels in a bag by her chair, and brings out a silver bell as big as a barrel, and rings it, and somewhere upstairs a cat lifts its head. 'He shall wear it night and day. And he shall sleep shut in my room.' She puts the bell away. 'Your Court held a council about belling him, I suppose,' she says, and when you tell her yes, she laughs until she has to hold the table.".
+    On discuss { Assert belled(bishop). Assert catShutIn(bishop). }
+  }
+  Relation catShutIn(group).
+  Rule cat_shut_in when catShutIn(bishop) and not catAway(bishop) and prowling() { Assert catAway(bishop). }
+  Topic lady_regiment with lady "Tell the Lady that her Tin Regiment is still fighting" when ladyKnows(lady) and knows(actor, regiment_orders) and not standDown(regiment) once {
+    Says "'My soldiers?' The Lady's whole face changes; for a moment, under the lines, she is eight. 'Captain Ordinance? Still?' You tell her: three hundred and twelve years; no little person taken by a mouse; the winder in the ark. She is quiet. 'I told them never to stop,' she says. 'Children say never.' She takes a sheet of paper and writes on it, large, and blots it, and holds it out to you, pinched in two fingers like a sail. 'Pin it on the gate. They will know my hand.' It says: THE WAR IS OVER. YOU MAY REST. WITH LOVE AND THANKS, E. W.".
+    On discuss { Assert standDown(regiment). Assert tolerates(regiment, party). Assert peaceable(regiment). }
+  }
+  Topic lady_clock with lady "Tell the Lady that the Winders kept her clock" when ladyKnows(lady) and knows(actor, tobit_wants) and not tobitHonored(tobit) once {
+    Says "'Kept it?' You tell her about the Winders: two hundred years of oil and no winding, the Day of the Going, Prior Tobit's benches under the weights. The Lady listens with her eyes shut. 'I stopped it,' she says. 'With my finger, going out. So that it would still be today.' She opens her eyes. 'I had forgotten. Three hundred years, and I had forgotten that, and they remembered it for me.' She is quiet a moment. 'Tell the Prior he may wind it now. Tell him, from me, that it is today.'".
+    On discuss { Assert tobitHonored(tobit). }
+  }
+  Relation tobitHonored(group).
+  Topic lady_corwen with lady "Ask the Lady about Corwen" when ladyKnows(lady) and letterRead(lady) once {
+    Says "'Corwen Ashgrove,' says the Lady. 'The Ashgroves had the next valley. He was slow. Everybody said so: slow to speak, slow to laugh, slow to grow; he was a head shorter than me at twelve.' She smiles. 'He said he would wait at the stone on the moor. I never had his letter, until this week. Three hundred years I thought he had not written.' She looks out of the window, toward the moor. 'There is a stone up there that the village says is a giant who sat down to wait. I always thought it was a story. I thought most things were stories.' She is quiet. 'I have written to him. If it is him, I should like him to know I came home.'".
+  }
+  Topic lady_house with lady "Ask the Lady what will become of Hollins when she is gone" when ladyKnows(lady) and (knows(actor, concern_heard) or knows(actor, sale_rumour) or knows(actor, pye_ledger)) and not willWanted(lady) once {
+    Says "'There are no Whitlocks,' says the Lady. 'There is a cousin in Sabine's country who would sell it for its stone before I was cold.' She looks round the room, at the shelves, at the dark where the walls are. 'And there are six hundred people who have lived in it longer than I did, and kept it, and kept my clock.' She sits up. 'Then I shall make a will. A proper one, in my hand or one I own, witnessed, lodged. Find me a notary, and somebody to write large. My hand shakes.'".
+    On discuss { Assert willWanted(lady). }
+  }
+  Relation willWanted(group). Relation willMade(group). Relation willLodged(group). Relation deedLodged(group).
+  Topic saltash_come with saltash "Ask Mr Saltash to come into Hollins with you, to witness the Lady's will" when willWanted(lady) and not willMade(lady) and not following(saltash, actor) once {
+    Says "Mr Saltash is putting on his coat before you have finished. 'Her will,' he says. 'Hers. In the house.' He takes his pen-case, a stick of wax, his seal, and, after a moment's thought, his hat. 'My clerk will be the second witness; he's in the back pretending to copy. Toller!' A youth with ink on his nose appears. 'Lead on,' says Mr Saltash. 'I have lived on her doorstep fifty-one years. Lead on.'".
+    On discuss { Assert acceptsEscort(saltash, actor). Assert following(saltash, actor). }
+  }
+  Topic lady_will with lady "Ask the Lady to make her will now, with Mr Saltash to witness" when ladyKnows(lady) and willWanted(lady) and not willMade(lady) and following(saltash, actor) and (travelsWith(sorrel, actor) or pyeTurned(pye)) once {
+    Says "It is done at the Lady's table, in the window light. Mr Saltash stands on the inkwell's rim to read the forms aloud; the Lady says each sentence after him, slowly, in her enormous careful voice; and the writing is done large, walked across a sheet of her paper with a broom, in a hand she has looked at and owned as hers: I, ERMENGARDE WHITLOCK OF HOLLINS, BEING OF SOUND MIND, which makes her laugh, LEAVE THE HOUSE AND LANDS OF HOLLINS, AND ALL IN IT, TO THE PEOPLE WHO LIVE IN ITS WALLS, IN COMMON, FOR EVER. She signs it with the mast of a pen, a signature as long as a street. Mr Saltash and Toller sign under it, very small. Then Mr Saltash rolls it, which takes all three of you, and seals it. 'Lodged,' he says, 'as soon as I am down the ladder.'".
+    On discuss { Assert willMade(lady). Assert willLodged(lady). Retract following(saltash, actor). Assert at(saltash, saltash_office). }
+  }
+  Topic saltash_deed with saltash "Give Mr Saltash the deed of Hollins, to lodge it in his strongbox" when carries(actor, deed) and not deedLodged(party) once {
+    Says "Mr Saltash takes the roll in his arms like a man taking a sleeping child, and has to sit down under it. 'Hollins,' he reads, from the seal. He gets up and unlocks his strongbox and puts the deed in it, which fills it, so that he must take out three other men's wills and put them on the desk. He locks it. 'It lies with me,' he says, 'until whoever has the right to it comes for it.' He puts the key on his watch-chain.".
+    On discuss { Spend deed from actor. Assert deedLodged(party). }
+  }
+}

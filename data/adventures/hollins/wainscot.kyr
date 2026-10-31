@@ -1,0 +1,83 @@
+Module hollins "Behind the Wainscot" {
+  // ── The Wainscot ──────────────────────────────────────────────────────────────────────────────────────────────────
+  // Behind the skirting of the Hall, between the board and the wall, a town: lanes of lath, stairs cut in the plaster,
+  // shops in the gaps where the board has warped, and the Nail, an inn built round a giant's nail driven into a stud.
+  // It runs the length of the Hall and on round into the walls of the drawing room and the kitchen.
+  Place skirting "the Skirting" is room within ground_floor at 2, 0.
+  Place button_market "the Button Market" is room within ground_floor at 1, 1.
+  Place nail_room "the Nail" is room within ground_floor at 1, 2.
+  Place bell_walk "the Bell Walk" is room within ground_floor at 3, 2.
+
+  Passage hall_gap "the gap under the skirting" is crawl between hall_flags and skirting.
+  Passage drift_lane "the lane from the drift into the walls" is passage between letterdrift and skirting taking 5 minutes.
+  Passage market_lane "Lath Lane" is passage between skirting and button_market taking 5 minutes.
+  Passage nail_lane "the stair down to the Nail" is steps between button_market and nail_room.
+  Passage bell_lane "the way into the Bell Walk" is passage between skirting and bell_walk taking 10 minutes.
+
+  Observe skirting_scene at skirting when true "Behind the skirting board, in the dark between the board and the wall, a street. The board is the street's one side, a cliff of painted oak with its paint flaking in sheets; the wall is the other, plaster over lath, and into the plaster people have cut doorways and windows and stairs. Candle-ends burn in niches. Washing hangs on thread. There is a smell of soup and tallow and three hundred years of other people's dust, and a great many people, all talking quietly, the way people talk in a house where somebody is ill.".
+  Observe skirting_refugees at skirting as sign when hearthBurned(hollins) and not refugeesHoused(hollins) "All down the Skirting, in every doorway and under every stair, colliers from the Hearth: black to the eyes, wrapped in whatever they got out with, children asleep on bundles. A woman is going along them with a pot and a ladle. There is not enough in the pot.".
+  Observe skirting_poison at skirting as sign when poisonLaid(skirting) "Somebody has chalked a skull on the board every few yards, and under each skull a heap of bread spread with grey paste has been swept into a sack. The sack has POISON on it, and DON'T, in a child's capitals.".
+  Observe skirting_smoked at skirting as sign when smoked(hollins) and not evacuated(hollins) "The Skirting is silent. The candle-ends have gone out in their niches. There is a yellow stain on the plaster at the height of your knee, all the way along, like a tidemark, and a smell of rotten eggs, and nobody, anywhere, talking.".
+  Observe skirting_emptied at skirting as sign when smoked(hollins) and evacuated(hollins) "The Skirting is empty, every door open, washing still on the threads. There is a yellow stain on the plaster at the height of your knee, all the way along, like a tidemark; and nobody under it.".
+
+  // ── The Button Market ─────────────────────────────────────────────────────────────────────────────────────────────
+  Observe market_scene at button_market when true "Where the skirting board has warped away from the wall the street widens into a market: stalls under awnings of envelope paper, a well that is a giant's thimble sunk in the floor and kept full from the Sink, and everywhere buttons. Buttons as tables, as wheels, as roofs, as shields; buttons in a bin, sorted by size, smallest first; and at the far end a long counter made of a single bone button, where Ottoline Fogg sits under a sign that says BUTTONS BOUGHT, OUTSIDE GOODS SOLD, NO CREDIT, NO CHEESE.".
+  Person ottoline "Ottoline Fogg" at button_market {
+    Role "the button-factor of the Wainscot". Ancestry gnome. Peaceable. Pronouns she. Manner acerbic.
+    Likeness "merchant".
+    Greets "A very old gnome-woman in a coat sewn all over with shirt-buttons, like scales, looks you up and down. 'Outside goods,' she says, with relish. 'A body your size come in by the Slot carries the dearest things in the house, and doesn't know it. Every cup that fits a hand, every needle that's not a spear. In here a thimble's a well. A needle is a jewel.'".
+    Greets again "'Back to sell me your boots?' says Ottoline Fogg.".
+    Sells lantern for 4 coin from 2.
+    Sells candle for 1 coin from 10.
+    Sells bandages for 1 coin from 6.
+    Sells rope for 3 coin from 3.
+    Sells honey_kind for 2 coin from 4.
+  }
+  Kind honey_kind "a pot of Whitlock honey" is gear worth 2 weighing 1 described "A clay pot of honey cut from a giant's honey-jar in the Pantry, three hundred years old and as good as the day it was put up: dark, thick, tasting of heather. Honey never spoils; the Wainscot has lived on it.".
+  Topic ottoline_buttons with ottoline "Ask Ottoline Fogg why buttons" when true once {
+    Says "'Because they can't be made,' says Ottoline Fogg. 'Bread can be made, of her flour. Cloth can be made, of her thread. Rope, of her string. But a button is a button. There's so many in the house and no more, and when they're spent they're spent, so a button's worth what it's worth.' She taps the bone counter. 'The Court mints them. Pins are the Jarmen's. Coin from outside is better than both, because it comes from somewhere there's more of it.' She smiles, all gums. 'Economy. Nobody in there understands it but me and the Jarl.'".
+  }
+  Topic ottoline_lady with ottoline "Ask Ottoline Fogg what the Lady's coming means for trade" when true once {
+    Says "'Ruin,' says Ottoline cheerfully. 'Or a fortune. A warm house means the cress grows on the sill, so bread's down. The fire burned out the colliers, so coal's up. The Jarmen are saying the Pantry's hers again, so honey's up.' She leans over. 'And if she's to be gone in a week, and the house sold for stone, then buttons are worth nothing at all, because there'll be no house to spend them in.' She sits back. 'Which is what I'm buying on. I've a cart in Bootscrape. I'm not a sentimental woman.'".
+    On discuss { Assert knows(actor, sale_rumour). }
+  }
+  Discovery sale_rumour "Ottoline Fogg has heard in Bootscrape that the house is to be sold for stone once the Lady is gone, and has a cart waiting in the village.".
+
+  // ── The Nail ──────────────────────────────────────────────────────────────────────────────────────────────────────
+  Observe nail_scene at nail_room when true "The Nail is an inn built round a nail: a giant's iron nail as thick as an oak, driven through the lath into a stud three hundred years ago and rusted to the colour of bread-crust. Rooms are hung off it on brackets, up and round, like nests. Below, a long table, a hearth made of a giant's tinder-box, a smell of mutton broth. Over the hearth, a portrait cut out of a giant's newspaper: a man in a periwig, captioned THE LATE KING ALDO, whom nobody living here has any idea about.".
+  Person mab "Mab Tenter" at nail_room {
+    Role "who keeps the Nail". Profession innkeeper. Ancestry human. Peaceable. Pronouns she. Manner stoic.
+    Likeness "innkeeper".
+    Greets "A thin woman with a black ribbon on her sleeve looks up from ladling. 'Bed's a button a night, or a coin, the broth comes with it. Don't go out on the flagstones after nine.' She says it the way people say a thing they say to everyone. Then, differently: 'Don't.'".
+    Greets again "Mab Tenter nods, and puts another bowl on the table without being asked.".
+    Sells rations for 2 coin from 8.
+  }
+  Topic mab_ribbon with mab "Ask Mab Tenter about the ribbon on her sleeve" when true once {
+    Says "'My boy,' says Mab Tenter. 'Ezra's and mine. Joss. Nine. The first night she came, he went out on the flagstones to see her, because everybody had been saying all his life that one day she'd come.' She goes on ladling. 'The cat had him. Didn't kill him. Played with him all night, on the flagstones, by the drift, where we could hear it.' She puts the ladle down. 'They say she can't see. They say she doesn't know we're here. I don't care. I want it to stop.'".
+    On discuss { Assert knows(actor, joss_taken). }
+  }
+  Discovery joss_taken "Joss Tenter, nine, Mab Tenter's son, went out on the Hall flagstones to see the Lady the night she came, and her cat played with him till he died.".
+  Topic mab_house with mab "Ask Mab Tenter how the Wainscot lives" when true once {
+    Says "'Off her,' says Mab. 'What else. Flour from the bins, thread from the workbox, honey from the Pantry if the Jarmen let you have it. The Sink for water, a thimble at a time. The Court in the doll's house keeps order, after a fashion, and mints buttons. The Readers read. The Keys play. The Post enters everybody.' She shrugs. 'It's a life. It was cold. Three hundred years cold, and dim, and quiet, and we didn't know any better.' She looks at the warm wall. 'Now it's warm, and we're dying of it.'".
+  }
+
+  // ── The Bell Walk; Kit and Nan ────────────────────────────────────────────────────────────────────────────────────
+  // The servants' bells: a wire runs from every bell-pull in the house through the walls to the bell-board in the
+  // kitchen. The wires carry notes. Kit Lacey of the Small House and Nan Collier of the Hearth have courted along them
+  // for two years, and have never been in a room together.
+  Observe bellwalk_scene at bell_walk when true "Inside the wall, a narrow walk along a run of iron wires, each as thick as a finger, going away into the dark on pulleys: the bell-wires, one from every room in the house to the board in the kitchen. They are labelled, where they pass, in faded giant's paint: DRAWING ROOM. NURSERY. MISS E.'S ROOM. Little scraps of paper are tied to the wires here and there, like leaves.".
+  Observe bellwalk_note at bell_walk as feature when hearthBurned(hollins) and not noteRead(party) "On the NURSERY wire, just where it crosses the DRAWING ROOM wire on a pulley, a folded note is tied with blue thread.".
+  Relation noteRead(group).
+  Action read_note(actor: group, site: place) "Untie the note on the Nursery wire and read it" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, bell_walk) and hearthBurned(hollins) and not noteRead(party).
+    Time 0.
+    On success { Assert noteRead(party). Assert knows(actor, kit_nan). }
+    Result "It is written in a careful, schooled hand, on paper cut from a giant's laundry list: N. — The fire was lit at nine. They say the Hearth is burned out. I have pulled the wire every hour since and you do not pull back. If you are alive, pull twice. If you are not, I shall know, and I shall come down, whatever my aunt says. — K. And under it, in pencil, in another hand, very large, as if written in a hurry or in the dark: TWICE. You tie it back.".
+  }
+  Discovery kit_nan "Kit Lacey of the Small House and Nan Collier of the Hearth write to each other along the servants' bell-wires inside the walls, and have never met.".
+  Topic mab_kit with mab "Ask Mab Tenter about Kit Lacey and Nan Collier" when knows(actor, kit_nan) once {
+    Says "Mab almost smiles. 'Everybody knows but Dame Honor,' she says. 'Two years, along the wires. The Lacey heir and a collier's girl from the grate. They've never been in a room. Nan's never been up the Stair, and Kit's never been allowed down it.' She wipes the table. 'Bet Collier would skin her. Dame Honor would lock him in the doll's house attic. It's the only nice thing that's happened in this house in my lifetime, and nobody's allowed to know about it.'".
+    On discuss { Assert knows(actor, kit_nan_secret). }
+  }
+  Discovery kit_nan_secret "Everyone in the Wainscot knows about Kit Lacey and Nan Collier except Dame Honor, who would lock him up, and Bet Collier, who would skin her.".
+}

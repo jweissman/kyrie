@@ -1,0 +1,178 @@
+Module hollins "Behind the Wainscot" {
+  // ── Bootscrape ────────────────────────────────────────────────────────────────────────────────────────────────────
+  // A village of salvagers and carters built under the iron boot-scraper on the doorstep of Hollins. It lives by what
+  // comes out of the letterbox: a pin is a spear-shaft of good steel, a button a millstone of horn, a dropped nail a
+  // bar of iron. It knows where these things come from, and has never said so to anyone from outside.
+  Place mat_inn "the Mat" is building within bootscrape.
+  Place arkle_house "Widow Arkle's chandlery" is building within bootscrape.
+  Place saltash_house "Mr Saltash's office" is building within bootscrape.
+
+  Place march_road "the moor road above Bootscrape" is room within bootscrape at 0, 0.
+  Place bs_street "Bootscrape street" is room within bootscrape at 1, 0.
+  Place mat_tap "the Mat's taproom" is room within mat_inn at 1, 1.
+  Place tallis_yard "Ludd's yard, under the scraper" is room within bootscrape at 2, 0.
+  Place arkle_shop "Widow Arkle's chandlery" is room within arkle_house at 0, 1.
+  Place saltash_office "Mr Saltash's office" is room within saltash_house at 2, 1.
+  Place waiting_stone "the Waiting Stone" is room within moor at 0, 0.
+  Place nowhere "nowhere" is room within moor at 9, 9.
+
+  Passage moor_way "the moor road" is road between march_road and bs_street taking 10 minutes.
+  Passage mat_door "the Mat's door" is door between bs_street and mat_tap.
+  Passage yard_way "under the scraper" is arch between bs_street and tallis_yard.
+  Passage arkle_door "the chandlery door" is door between bs_street and arkle_shop.
+  Passage saltash_door "Mr Saltash's door" is door between bs_street and saltash_office.
+  Passage stone_path "the path up onto the moor" is path between march_road and waiting_stone taking 1 hour.
+
+  Observe march_scene at march_road when true "The moor road comes over the last of the heather and there it is, and for a moment you take it for a hill: a grey slope of stone with a roof on it, going up and up, and windows in it, each window as tall as a church. Smoke goes up from one chimney, thick and new. Below it, at its foot, a village of thirty roofs crowds against something you cannot at first make sense of, a long dark ledge of dressed stone as high as a house, which is a doorstep.".
+  Observe march_smoke at march_road as feature when not ladyDead(lady) "The smoke from the chimney leans east in the wind. A carter going by on the road stops his horse to look at it, the way people look at a thing they were told about as children.".
+  Observe street_scene at bs_street when not dark() "Bootscrape street runs along the foot of the doorstep, under the scraper: an iron arch thirty feet high, rusted to the colour of a fox, with a forge built into one leg of it and washing hung from the crossbar. The houses are built of the ordinary stone of the hills, and roofed, a good many of them, with things that are not slates: a sheet of blackened brass, half a horn button the size of a millwheel, a shard of green glass that throws a green light into somebody's kitchen. A rope ladder hangs down the face of the step to the lip, sixty feet up, where the brass of the letterbox shines.".
+  Observe street_night at bs_street when dark() "Bootscrape at night: the forge glowing in the scraper's leg, a lamp in the Mat's window, and high over everything a lit window in the house, as tall as a church, and a shadow crossing it slowly, the size of a cloud.".
+  Observe street_notice at bs_street as feature when not hiredBy(party, pye) and dayN(hollins) <= 3 "On the Mat's door a notice in a clear, pinched hand: WANTED, A RATCATCHER, FOR HOLLINS, THE HOUSE BEING OVERRUN. TWO CROWNS THE DAY, AND TWOPENCE THE TAIL. APPLY WITHIN, TEN UNTIL TWO. D. PYECROFT. Somebody has drawn a very small face in the corner of it, with its finger to its lips.".
+
+  // ── The Mat ───────────────────────────────────────────────────────────────────────────────────────────────────────
+  Observe mat_scene at mat_tap when true "The Mat is called after the thing it stands on, or stood on once: its floor is an edge of the giant's doormat, coir as thick as a man's wrist, grown over with moss and beaten flat by three centuries of boots. A fire, settles, the smell of beer and wet dog. Over the fireplace, framed, hangs a giant's playing card, the six of cups, as big as a door.".
+  Observe mat_pye at mat_tap as sign when at(pye, mat_tap) and interviewing() "At the corner table, with her back to the wall and a ledger open in front of her, sits a small upright woman in black with a pen behind her ear. A little line of men waits on the settle with sacks and terriers: ratcatchers, come down off the moor for two crowns a day. None of them looks as if he means to take it.".
+  Person jory "Jory Mudge" at mat_tap {
+    Role "who keeps the Mat". Profession innkeeper. Ancestry human. Peaceable. Pronouns he. Manner jovial.
+    Likeness "innkeeper".
+    Greets "A big soft man with flour on his forearms looks up from the bread. 'Come in off the moor. You'll have seen it, then,' he says, and nods at the wall, meaning what is beyond it. 'Everybody stops on the road the first time. Sit down. Ale's a penny and the bread's my own.'".
+    Greets again "'Back again,' says Jory Mudge, and looks at your boots, which is where Bootscrape looks first: for the white dust of the house.".
+    Sells rations for 2 coin from 10.
+    Sells torch for 1 coin from 6.
+  }
+  Topic jory_house with jory "Ask Jory Mudge about the house" when true once {
+    Says "'Hollins,' says Jory. 'The Whitlocks built it. Tall folk, giant gentry, the last of them west of the march, and the last of the last went away when my great-great-grandad's grandad was a boy, and it's stood shut since.' He wipes his hands. 'We live off its doorstep. Off what falls out of it, you might say.' He does not say how a shut house lets things fall out of it. 'And now she's come home. Miss Whitlock. Four days back, in a wagon you could have put this inn in, with a cat on the seat beside her the size of a bull. Walked up the step, put a key the length of my arm in the door, and went in. The chimney's smoked since.' He looks at the wall again. 'First smoke in three hundred years. You'd think we'd be glad.'".
+    On discuss { Assert knows(actor, lady_home). }
+  }
+  Discovery lady_home "Miss Whitlock, the last of the giant Whitlocks of Hollins, came home four days before you did, after three hundred years, with a cat the size of a bull. The house is twelve times the size of a house.".
+  Topic jory_glad with jory "Ask Jory Mudge why Bootscrape is not glad" when knows(actor, lady_home) once {
+    Says "Jory Mudge looks at you a long moment, deciding something. Then he leans on the bread. 'You're going in,' he says. 'Everybody who stops on the road goes in, sooner or later. So I'll tell you what we tell nobody, and you'll keep it like we keep it.' He lowers his voice, though there is nobody near. 'There's folk in there. Our size. Living in it. Six hundred, they say. In the walls, and the grate, and the doll's house in the nursery. Came in by the letterbox, starving, three hundred years of them. We trade with them, out of the Slot: their pins and buttons for our bread and needles.' He straightens up. 'And now she's home, and she's lit the fire, and her woman wants a ratcatcher.'".
+    On discuss { Assert knows(actor, wainscot_told). }
+  }
+  Discovery wainscot_told "There are people of our own size living inside Hollins, some six hundred, in the walls, the cold grate and the doll's house: three hundred years of the hungry and the hunted, who came in by the letterbox. Bootscrape trades with them through the Slot, and tells nobody.".
+  Topic jory_pye with jory "Ask Jory Mudge about Mrs Pyecroft" when true once {
+    Says "'Her companion,' says Jory. 'Our size, mark you. Rides about in the Lady's pocket and does her letters for her, the Lady's eyes being gone. Comes down the ladder of a morning like any of us.' He considers. 'Sharp. Not unkind, exactly. She's seen droppings and gnawed candle-ends and a doll's bed slept in, and she says rats, and she's right in the way that people are right who've never been poor.' He shrugs. 'Eight men have sat on that settle since yesterday and not one's taken it. They know what's in there. She doesn't.'".
+    On discuss { Assert knows(actor, pye_heard). }
+  }
+  Discovery pye_heard "Mrs Pyecroft, the Lady's companion, is of our size, writes the Lady's letters, and believes the house is overrun with rats. She is hiring a ratcatcher at the Mat.".
+  Topic jory_stone with jory "Ask Jory Mudge about the stone on the moor" when true once {
+    Says "'The Waiting Stone,' says Jory. 'Up on the moor, an hour's walk. Stands on its own. Looks like a man sitting with his elbows on his knees, if you squint, and at dusk, if you're daft, it's got a face.' He smiles. 'My gran said it was a giant who sat down to wait for somebody and never got up again, and the moss grew on him. Gran said a lot of things.'".
+    On discuss { Assert knows(actor, stone_told). }
+  }
+  Discovery stone_told "On the moor above Bootscrape stands the Waiting Stone, like a man sitting with his elbows on his knees. Bootscrape grandmothers say it is a giant who sat down to wait for somebody and never got up.".
+  Topic jory_shelter with jory "Ask Jory Mudge whether Bootscrape would take them in, if they had to come out" when knows(actor, wainscot_told) once {
+    Says "Jory puts the bread down. He looks at the door, and the wall, and the door. 'Come out,' he says. 'Down the ladder. Six hundred.' He is quiet a long time. 'Three hundred years we've bought their pins and sold them bread and never once asked them in to sit down.' Then: 'There's lofts in Bootscrape, and barns, and the Mat's got a cellar. We'd manage. We'd have to.' He picks the bread back up, and his hands are not steady. 'Tell them that. From Jory Mudge. If it comes to it, we'd take them in.'".
+    On discuss { Assert knows(actor, bootscrape_shelter). }
+  }
+  Discovery bootscrape_shelter "Jory Mudge says Bootscrape will take the people of the Wainscot in, in its lofts and barns and the Mat's cellar, if they come down the ladder.".
+
+  // ── Mrs Pyecroft's interviews ──────────────────────────────────────────────────────────────────────────────────────────
+  Topic pye_position with pye "Ask Mrs Pyecroft about the position" when interviewing() and at(pye, mat_tap) once {
+    Says "Mrs Pyecroft looks you over, all of you, boots to hat, as if she were pricing you. 'Hollins is infested,' she says. 'I have found droppings on the stair, candle-ends gnawed, and in the nursery a doll's bed that has been slept in, which, if you have ever kept house, you will know means rats, and bold ones.' She taps the ledger. 'Two crowns a day, and found, and twopence a tail, which I shall count. I want the pantry cleared and the skirtings, and I want to know where they nest. Miss Whitlock is not well. She hears them in the walls at night, and she thinks,' and here Mrs Pyecroft stops, and goes on in a different voice, 'she thinks it is her mind. It is not her mind. It is rats. I want it to be rats.'".
+    On discuss { Assert knows(actor, position_heard). }
+  }
+  Discovery position_heard "Mrs Pyecroft will pay a ratcatcher two crowns a day and twopence a tail to clear the pantry and the skirtings of Hollins, and more to know where the vermin nest. The Lady hears them in the walls at night, and is afraid it is her mind.".
+  Topic pye_hire with pye "Take Mrs Pyecroft's position as ratcatcher of Hollins" when interviewing() and at(pye, mat_tap) and knows(actor, position_heard) once {
+    Says "'Good,' says Mrs Pyecroft, and writes your name in the ledger, spelt as she hears it. She pushes a canvas bag across the table: two spring-traps, a tin of paste, a pair of gauntlets. 'The traps go where they run. The paste goes on bread. Don't eat the bread.' She counts four coins onto the table. 'Two days in hand. I shall want tails, and I shall want the nest.' She closes the ledger. 'You come in by the Slot, like everybody. I'll tell the Lady there's a ratcatcher in the house, so she does not tread on you.'".
+    On discuss { Assert hiredBy(actor, pye). Increase quantity(actor, gold) by 4. Give rat_traps to actor. Give arsenic to actor. }
+  }
+  Kind trap_kind "a pair of spring-traps" is gear worth 1 weighing 2 described "Two iron spring-traps with toothed jaws, rat-sized, which is to say big enough to break a man's hand. Mrs Pyecroft's, out of a carton from a town ironmonger.".
+  Kind arsenic_kind "a tin of arsenic paste" is gear worth 1 weighing 0 described "A flat tin of grey paste that smells of almonds and lard, with a skull scratched on the lid by somebody conscientious.".
+  Item rat_traps "a pair of spring-traps" is trap_kind at nowhere.
+  Item arsenic "a tin of arsenic paste" is arsenic_kind at nowhere.
+  Kind tail_kind "a string of rat-tails" is gear worth 1 weighing 0 described "A dozen rat-tails threaded on a string by their roots, like a bunch of grey dried grass.".
+  Topic pye_tails_how with pye "Ask Mrs Pyecroft how she pays for tails" when hiredBy(actor, pye) once {
+    Says "'Twopence a tail, by the dozen, on the string,' says Mrs Pyecroft. 'Three coin a string. I have been cheated in four counties, so I shall count them.'".
+  }
+
+  // ── Hob Ludd, salvager ──────────────────────────────────────────────────────────────────────────────────────────
+  Observe yard_scene at tallis_yard when true "Under the leg of the scraper, where the iron goes into the ground, a salvager's yard: a steel pin as long as a pike leaning on a rack with a dozen more, a horn button as wide as a cart wheel being sawn into combs, a copper rivet in a vice, and in a barrel by the gate, standing upright like arrows in a quiver, a great many rat-tails on strings.".
+  Person hob "Hob Ludd" at tallis_yard {
+    Role "salvager under the scraper". Ancestry human. Peaceable. Pronouns he. Manner acerbic.
+    Likeness "merchant".
+    Greets "A wiry man with a jeweller's glass screwed into one eye is filing a pin. 'Buying or selling? Or neither, which is the commonest,' he says, without looking up. 'Everything in this yard came out of the Slot, honest, for good bread and better needles.'".
+    Greets again "Hob Ludd takes his glass out, which he only does for people he expects to make money from.".
+    Sells tail_kind for 1 coin from 6.
+    Sells rope for 2 coin from 4.
+    Sells pin_spear_kind for 3 coin from 2.
+  }
+  Kind pin_spear_kind "a giant's pin, for a spear" like spear described "A steel dressmaker's pin out of Hollins, filed to a new point and bound with leather at the head end for a grip: eight feet of the best steel in the hills.".
+  Topic hob_tails with hob "Ask Hob Ludd about the rat-tails in the barrel" when true once {
+    Says "Hob grins. 'Every ratcatcher that ever came to Bootscrape has been paid by the tail,' he says, 'and every one of them came to me for tails, because the rats in there are the Jarmen's, and the Jarmen take a dim view.' He pulls a string out of the barrel and shakes it. 'Some of these I've sold six times. One coin the string. Your Mrs Pyecroft pays three. It's not dishonest. It's tradition.'".
+    On discuss { Assert knows(actor, tails_trade). }
+  }
+  Discovery tails_trade "Hob Ludd sells old rat-tails by the string, one coin each, to every ratcatcher paid by the tail; some strings have been sold six times.".
+  Topic hob_ways with hob "Ask Hob Ludd how to get into the house" when true once {
+    Says "'By the Slot, like an honest body,' says Hob. 'Up the ladder, through the letterbox, and the Post'll have you down the other side. The ladder's mine and it's a penny.' He considers you. 'Or round the north side to the kitchen garden, and down the coal-hole, if you don't want the Post to know you've come. It comes out in the cellars, in the dark.' He goes back to his pin. 'I wouldn't, myself. There's people in the cellars that don't come up.'".
+    On discuss { Assert knows(actor, coal_hole_known). }
+  }
+  Discovery coal_hole_known "Round the north side of Hollins, in the kitchen garden, the old coal-hole goes down into the cellars: a way in that the Post does not see.".
+  Topic hob_sovereign with hob "Ask Hob Ludd what he would buy, if he could get it" when true once {
+    Says "Hob takes the glass out of his eye. 'A Whitlock sovereign,' he says. 'Out of her purse. Gold, a foot across, with old Lord Whitlock on it. There's not been one through the Slot in three hundred years; she took them all with her.' He wets his lips. 'She'll have a purse on her dressing table, or by the bed. Old women do. Bring me one and I'll give you thirty coin and not ask how.' He puts the glass back. 'She'd never miss one. She can't see.'".
+    On discuss { Assert knows(actor, sovereign_wanted). }
+  }
+  Discovery sovereign_wanted "Hob Ludd will give thirty coin for one gold Whitlock sovereign out of the Lady's purse, which he supposes lies on her bedside table.".
+  Kind sovereign_kind "a Whitlock sovereign" is treasure worth 30 weighing 6 described "A gold coin a foot across and as thick as a finger, with a bearded giant in profile on one face and on the other a tower on a hill and the words HOLLINS · WHITLOCK. It is the heaviest single thing you have ever picked up that was not a stone.".
+  Item sovereign "a Whitlock sovereign" is sovereign_kind in lady_purse.
+  Action sell_sovereign(actor: group, site: place) "Sell Hob Ludd the Whitlock sovereign" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(hob, site) and carries(actor, sovereign).
+    On success { Spend sovereign from actor. Increase quantity(actor, gold) by 30. Assert sovereignSold(party). }
+    Result "Hob weighs it on both hands, and bites the rim, and then just looks at it, for longer than a man looks at money. 'Thirty,' he says at last, and counts it out, and puts the sovereign under a sack without letting go of it until the sack is over it.".
+  }
+  Relation sovereignSold(group).
+
+  // ── Widow Arkle, chandler ─────────────────────────────────────────────────────────────────────────────────────────
+  Observe arkle_scene at arkle_shop when true "A chandler's: candles in bunches, rope, lamp oil, tallow in crocks, and along the top shelf, behind glass, a row of fat yellow candles with a skull stamped on each, for fumigating cellars. A giant's thimble, upturned, serves as the counter, and the widow keeps her change in a dent in it.".
+  Person arkle "Widow Arkle" at arkle_shop {
+    Role "the chandler of Bootscrape". Ancestry dwarf. Peaceable. Pronouns she. Manner stoic.
+    Likeness "merchant".
+    Greets "A broad grey dwarf-woman behind the thimble looks up. 'Candles, rope, oil, tallow,' she says. 'And if you're here for the yellow ones, I'll want to know what for.'".
+    Greets again "Widow Arkle nods to you over the thimble.".
+    Sells candle for 1 coin from 12.
+    Sells lamp_oil for 1 coin from 6.
+    Sells lantern for 3 coin from 2.
+    Sells rope for 2 coin from 4.
+  }
+  Kind sulphur_kind "the sulphur candles" is gear worth 2 weighing 1 described "Three fat candles of yellow sulphur, stamped with a skull, for smoking out a cellar. Lit in a shut house the smoke goes down, not up, and fills whatever is low.".
+  Item sulphur_stock "the sulphur candles" is sulphur_kind at nowhere.
+  Relation sulphurBought(group). Relation arkleRefuses(group).
+  Topic arkle_yellow with arkle "Ask Widow Arkle about the yellow candles" when true once {
+    Says "'Sulphur,' says the widow. 'For smoking a cellar of rats, or a granary of weevils. Light them, shut the doors, and in a night there's nothing left alive under the height of your knee.' She looks at the shelf. 'I've three. Nobody's bought one in years. Six coin the three.'".
+    On discuss { Assert knows(actor, sulphur_seen). }
+  }
+  Discovery sulphur_seen "Widow Arkle in Bootscrape keeps three sulphur candles for smoking out cellars: lit in a shut house, they kill everything low.".
+  Action buy_sulphur(actor: group, site: place) "Buy Widow Arkle's three sulphur candles, for six coin" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(arkle, site) and knows(actor, sulphur_seen) and not sulphurBought(party) and not pyeOrdered(pye) and quantity(actor, gold) >= 6.
+    On success { Decrease quantity(actor, gold) by 6. Increase quantity(arkle, gold) by 6. Assert sulphurBought(party). Give sulphur_stock to actor. }
+    Result "The widow reaches them down and wraps them in brown paper without a word, and looks at you while she ties the string. 'Whatever you mean to smoke,' she says, 'mind you're not under the smoke.'".
+  }
+  Topic arkle_warned with arkle "Tell Widow Arkle what Mrs Pyecroft will want the yellow candles for" when knows(actor, sulphur_seen) and knows(actor, wainscot_told) and not pyeOrdered(pye) and not sulphurBought(party) once {
+    Says "The widow's face shuts like a box. 'In there,' she says. 'In the walls.' She takes the three candles down off the shelf and puts them under the counter, behind the thimble, where nobody could see them. 'Then I've none. Sold out. Years ago.' She looks at you. 'She'll send to Wendle for them, mind. The carrier goes Tuesdays. It'll not stop her; it'll slow her.'".
+    On discuss { Assert arkleRefuses(arkle). }
+  }
+
+  // ── Mr Saltash, notary and carrier ────────────────────────────────────────────────────────────────────────────────
+  Observe saltash_scene at saltash_office when true "A narrow office with a high desk, a strongbox, pigeonholes full of folded paper, and a sign in the window: SALTASH. CONVEYANCES, WILLS, LETTERS CARRIED TO WENDLE AND THE COUNTY. On the wall, as a curiosity, a giant's envelope, unopened, the size of a bedsheet, addressed to somebody three hundred years dead.".
+  Person saltash "Mr Saltash" at saltash_office {
+    Role "the notary and carrier of Bootscrape". Ancestry human. Peaceable. Pronouns he. Manner stoic.
+    Likeness "scholar".
+    Greets "A thin man in black sleeves rises from the high desk. 'Saltash. Conveyances, wills, letters. Sit, if it is business; stand, if it is gossip, and be brief.'".
+    Greets again "Mr Saltash takes his pen from behind his ear, which is his greeting.".
+  }
+  Topic saltash_will with saltash "Ask Mr Saltash what a giant's will would need, to stand" when true once {
+    Says "Mr Saltash puts his fingertips together. 'A will is a will,' he says. 'Her hand, or a hand she owns as hers, two witnesses who are not to inherit, and lodged with a notary, which is to say with me, in that box.' He considers the wall, and what is beyond it. 'And if she meant to leave the house to anyone, the deed should lie with it, or the Hollins Stone Concern will say she had no house to leave. They have been writing to Mrs Pyecroft.' He says the name with care. 'I should come myself, to witness. I have always wanted to see the inside.'".
+    On discuss { Assert knows(actor, will_needs). }
+  }
+  Discovery will_needs "Mr Saltash says a will must be in the Lady's hand or one she owns, witnessed by two who do not inherit, and lodged with him; and the house's deed should lie with it, or the Hollins Stone Concern will dispute it. He would come into the house to witness it.".
+  Topic saltash_concern with saltash "Ask Mr Saltash about the Hollins Stone Concern" when true once {
+    Says "'A Wendle company,' says Saltash. 'Quarrymen. They would take a giant's house down for its stone and sell it by the cartload; there's dressed granite enough in Hollins to build a town.' He opens a pigeonhole, then shuts it again, as if he had remembered something about confidences. 'Their surveyor, a Mr Overy, has taken a room at the Mat from the fifth. I gather Mrs Pyecroft holds the Lady's affairs. I gather there is a paper. I gather nothing else.'".
+    On discuss { Assert knows(actor, concern_heard). }
+  }
+  Discovery concern_heard "The Hollins Stone Concern of Wendle would take the house down for its stone. Its surveyor, Mr Overy, comes to the Mat on the fifth day; Mrs Pyecroft holds the Lady's affairs, and there is a paper.".
+
+  // ── The Waiting Stone ─────────────────────────────────────────────────────────────────────────────────────────────
+  Observe stone_scene at waiting_stone when true "On the top of the moor, alone in the heather, a grey stone the height of a church tower, leaning forward a little, with two great humps at its base like knees. Lichen grows on it in rings. From here you can see the whole of Hollins below, roof and chimneys and windows, and its doorstep, and the village like crumbs along it.".
+  Observe stone_dusk at waiting_stone as feature when hour(clock) >= 18 and hour(clock) < 21 "In the low light the lichen and the cracks on the stone's upper face make, if you let them, a face: a long nose, a mouth, two hollows that look down the moor at the house, and have looked down at it, it seems, for a very long time.".
+  Observe stone_reply at waiting_stone as feature when replyLaid(party) "In the heather at the stone's foot, weighted with a flint, a sheet of paper the size of a sail, folded and folded again, addressed in an enormous careful hand.".
+  Observe stone_turned at waiting_stone as feature when replyLaid(party) and stoneTurned(party) "The paper is gone from the heather. The stone is as it was, of course. Only the lichen on the side toward the house is broken in a long fresh line, as if the stone had moved, a little, to see better; and on the turf at its foot, where the flint was, the flint is lying on a single dried flower.".
+}

@@ -1,0 +1,35 @@
+Module hollins "Behind the Wainscot" {
+  // ── The chapters ──────────────────────────────────────────────────────────────────────────────────────────────────
+  // Bootscrape; I, the Ratcatcher, from the first step inside; Ten Past Four, when the Clock strikes; II, the Thaw,
+  // from the morning the fire is lit; III, the Smoking, from the day the sulphur is in the house or the seventh day;
+  // the Last Night, the tenth.
+  Relation bootRoom(place).
+  Initially Assert bootRoom(march_road). Initially Assert bootRoom(bs_street). Initially Assert bootRoom(mat_tap).
+  Initially Assert bootRoom(tallis_yard). Initially Assert bootRoom(arkle_shop). Initially Assert bootRoom(saltash_office).
+  Chapter ch_bootscrape "Bootscrape" when at(party, ?p) and bootRoom(?p) and not within(party, house) "Bootscrape lives on a giant's doorstep and makes a living from what falls out of the letterbox. It has done so for three hundred years without once telling anyone from outside what it knows. Four days ago a wagon the size of an inn came over the moor, and a woman as tall as a church tower got down from it and walked up the step and put a key in the door, and since then the village has been very quiet, and has watched the chimney.".
+  Chapter ch_ratcatcher "I. The Ratcatcher" when within(party, house) "Inside, the house is a country. It is cold, as it has been cold for three hundred years, except where she has lit fires, and dim, except where she has opened shutters; and everywhere, in the walls, in the grate, on the shelves, the people who came in by the letterbox are going about their lives without a sound, listening, as they have listened every day since Thursday, for the floor to shake.".
+  // The first dusk: the Lady winds the Clock, and it strikes, for the first time since the Going.
+  Rule lady_winds_clock when at(lady, clock_foot) and state(long_clock, stopped) and hour(clock) >= 18 { Assert state(long_clock, going). }
+  Rule lady_rewinds when at(lady, clock_foot) and state(long_clock, jammed) and clockTrapped(pye) and dayN(hollins) >= 5 and trapsLifted(lady) { Assert state(long_clock, going). }
+  Chapter ch_tenpast "Ten Past Four" when state(long_clock, going) and within(party, hollins_country) "At six o'clock on the first evening the Lady came down the Stair, slowly, a step at a time, with Mrs Pyecroft on her shoulder and a candle in her hand like a burning tree, and the whole Hall went still. She crossed the flagstones to the Long Clock, opened its trunk, felt inside for the key, and wound it, forty turns, each turn a groan of brass through the house. Then she set the hands by her watch, and shut the trunk, and stood back; and the Clock struck six. It had not struck since the Going. The sound went into every wall in the house, and the Wainscot stood in its doorways and counted the strokes, six, and then stood there after, in the silence, as if waiting for a seventh.".
+  Chapter ch_thaw "II. The Thaw" when hearthBurned(hollins) and within(party, hollins_country) "The fire was lit in the drawing room at nine on the second morning. By noon the warmth had gone into the walls, and the cress on the sill had turned to face the glass, and in the Skirting people were taking off coats that their grandparents had put on. The Hearth was gone. It is the warmest the house has been in three hundred years, and the most frightened.".
+  Chapter ch_smoking "III. The Smoking" when (pyeHasSulphur(pye) or dayN(hollins) >= 7) and not ladyDead(lady) and within(party, hollins_country) "Now the house is warm all through, and the Lady sleeps more and works less, and Mrs Pyecroft goes about with her lips pressed together. In the Wainscot people have begun to pack, without saying so: a bundle by the door, a child's shoes laced together. Everyone can feel that something is coming to an end, and nobody can say what.".
+  Chapter ch_last "The Last Night" when day10() and hour(clock) >= 18 and not ladyDead(lady) and within(party, hollins_country) "On the tenth evening the Lady did not ring for her supper, and Mrs Pyecroft came down the ribbon from her hatbox and sat on the counterpane by her hand, and did not go back up. The house knows. The Clock goes on. The fire in her room has been let burn low.".
+
+  // ── Her death ─────────────────────────────────────────────────────────────────────────────────────────────────────
+  Rule lady_dies when day10() and hour(clock) >= 23 and not ladyDead(lady) { Assert ladyDead(lady). }
+  Relation satWith(group).
+  Action sit_with_lady(actor: group, site: place) "Sit with her on the counterpane, by her hand, until the end" {
+    Description "She will not see the morning.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, counterpane) and day10() and hour(clock) >= 18 and not ladyDead(lady) and ladyKnows(lady) and not satWith(party).
+    Time 6.
+    On success { Assert satWith(party). }
+    Result "You sit on the counterpane by her hand, which is as big as a boat and as light on the linen as a leaf. She talks for a while, not much, in a voice you have to lean close to: about a coast in the north where the cliffs are white and the sea comes in green; about Honor Lacey, who could whistle through her teeth; about her mother. Then she asks you to stand where she can see you, in the candle, and you do; and she looks at you a long time, exactly, the way she looked at every coast in Imbar. 'There,' she says. 'Drawn.' And she closes her eyes.".
+  }
+  Rule wainscot_gathers at counterpane when day10() and hour(clock) >= 21 and ladyKnows(lady) and not ladyDead(lady) and at(party, counterpane) and not gathered(hollins)
+    says "They come up the Stair in the dark, all of them who will: the Court in its good gloves, the colliers, the Readers, the Keys, Faith Penny in her green cap, the Winders with a candle each, Ma Riser carrying the old ones up her ladders one by one. They stand on the floor of the room, and on the bedside table, and along the foot of the bed, very quiet, six hundred people the size of the Lady's thumb. She cannot see them. She can hear them breathing. 'Oh,' she says. 'All of you.'" { Assert gathered(hollins). }
+  Relation gathered(place).
+  Rule concert_last at counterpane when day10() and hour(clock) >= 22 and gathered(hollins) and concertPlayed(party) and not lastAir(hollins)
+    says "And from downstairs, through the floor, slow as weather, a note; and a minute's silence; and another. The Keys have gone down to the piano without being asked. The Lady smiles, and says the words under her breath with them, a beat ahead, as she must have said them in the nursery to a family in a doll's house, three hundred and twelve years ago: the Little Ship." { Assert lastAir(hollins). }
+  Relation lastAir(place).
+}

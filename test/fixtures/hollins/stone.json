@@ -1,0 +1,33 @@
+{
+ "in": [
+  "To Bootscrape street",
+  "To the top of the doorstep",
+  "by the Slot",
+  "To the Letterdrift",
+  "Talk to Faith",
+  "Ask Faith Penny what the Post",
+  "Ask Faith Penny whether",
+  "Offer to deliver",
+  "Take your leave",
+  "To the Hall floor",
+  "To the Library floor",
+  "To the chart table",
+  "Lay the letter with the black seal on her chart",
+  "To the Library floor"
+ ],
+ "reply": [
+  "=day 3 13:00",
+  "To the chart table",
+  "Lady's reply: Take",
+  "To the Library floor",
+  "To the Hall floor",
+  "To the Letterdrift",
+  "To the inside of the Slot",
+  "To the top of the doorstep",
+  "To Bootscrape street",
+  "To the moor road",
+  "To the Waiting Stone",
+  "Lay the Lady's reply",
+  "=day 4 19:00"
+ ]
+}

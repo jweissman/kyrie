@@ -1,0 +1,7 @@
+{
+  "version": 1,
+  "name": "Behind the Wainscot (thief)",
+  "calendar": { "year": 1312, "month": 10, "day": 28 },
+  "modules": [ { "id": "hollins", "bundle": "../../../data/adventures/hollins/module.json" } ],
+  "party": [ { "name": "Tamsin", "raceId": "human", "classId": "thief" } ]
+}

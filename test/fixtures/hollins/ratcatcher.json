@@ -1,0 +1,54 @@
+{
+ "hired": [
+  "To Bootscrape street",
+  "Into the Mat",
+  "Talk to Jory",
+  "Ask Jory Mudge about the house",
+  "Ask Jory Mudge why",
+  "Take your leave",
+  "=10:10",
+  "Talk to Mrs Pyecroft",
+  "Ask Mrs Pyecroft about the position",
+  "Take Mrs",
+  "Ask Mrs Pyecroft about the drawing-room fire",
+  "Tell Mrs Pyecroft where the vermin nest",
+  "Take your leave"
+ ],
+ "in": [
+  "Out to Bootscrape street",
+  "To the top of the doorstep",
+  "by the Slot",
+  "Letterdrift",
+  "Skirting",
+  "To the Hearth",
+  "Talk to Bet",
+  "Warn Bet",
+  "Take your leave",
+  "To the Skirting",
+  "To the Button Market",
+  "To the Nail",
+  "Talk to Mab",
+  "Take a bed"
+ ],
+ "wat": [
+  "=day 2 07:40",
+  "To the Button Market",
+  "To the Skirting",
+  "To the Hall floor",
+  "To the kitchen floor",
+  "To the Pantry door",
+  "Tell the pin-men",
+  "To the Jarl's hall",
+  "=day 2 08:10",
+  "Spring the trap",
+  "To the Pantry door",
+  "To the kitchen floor",
+  "To the Hall floor",
+  "To the Skirting",
+  "To the Button Market",
+  "To the Nail"
+ ],
+ "wait": [
+  "=day 11 08:00"
+ ]
+}

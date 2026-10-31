@@ -1,0 +1,165 @@
+Module hollins "Behind the Wainscot" {
+  // ── The kitchen ───────────────────────────────────────────────────────────────────────────────────────────────────
+  // Through the green baize door off the Hall: the kitchen, with the cold range, the stone sink under its dripping tap,
+  // the pantry door (the Jarmen's gate), the cellar steps, and the dumbwaiter in its shaft to the floor above.
+  Place kitchen_floor "the kitchen floor" is room within ground_floor at 3, 3.
+  Place sink "the stone sink" is room within ground_floor at 3, 4.
+  Place pantry_gate "the Pantry door" is room within ground_floor at 4, 4.
+  Place pantry "the Jarl's hall in the Pantry" is room within ground_floor at 5, 4.
+  Place pantry_back "the back of the Pantry" is room within ground_floor at 6, 4.
+  Place kitchen_garden "the kitchen garden" is room within grounds at 0, 0.
+
+  Passage baize_door "the baize door to the kitchen" is passage between hall_flags and kitchen_floor taking 10 minutes.
+  Passage kitchen_wallway "the wall-way to the kitchen" is passage between bell_walk and kitchen_floor taking 10 minutes.
+  Passage sink_rope "the rope up to the Sink" is steps between kitchen_floor and sink taking 5 minutes.
+  Passage pantry_way "the way to the Pantry door" is passage between kitchen_floor and pantry_gate taking 5 minutes.
+  Passage pantry_in "the Pantry door" is doorway between pantry_gate and pantry.
+  Passage pantry_run "the run between the sacks" is passage between pantry and pantry_back taking 5 minutes.
+  Passage dumbwaiter "the dumbwaiter" is shaft between kitchen_floor and landing taking 10 minutes.
+  Thing dumbwaiter_box "the dumbwaiter" on dumbwaiter {
+    State worked blocking "The dumbwaiter's box hangs in its shaft on ropes as thick as your arm. The Jarmen work the ropes from the kitchen end, and nobody rides it but by their leave.".
+    State free "The dumbwaiter's box waits at the bottom of its shaft, and the Jarman on the rope nods you in.".
+    Change haul "Haul yourself up the dumbwaiter's ropes, hand over hand" from worked to free needing brawn.
+  }
+  Rule dumbwaiter_friend when haspFriend(hasp) and state(dumbwaiter_box, worked) { Assert state(dumbwaiter_box, free). }
+  Passage garden_lane "the lane round the north side of the house" is path between bs_street and kitchen_garden taking 30 minutes.
+
+  Observe kitchen_scene at kitchen_floor when true "The kitchen of Hollins is a stone barn of a room, flagged, with a range along one wall like the front of a foundry, black and cold, its oven doors big enough to drive a cart into. A table runs down the middle that a village could shelter under, and does: there are tents under it. Along the far wall, the stone sink, high up, with a brass tap over it, and from the tap a drop forms, slowly, and falls, and forms. By the door a box of wood hangs in a shaft in the wall, on ropes: the dumbwaiter. Somebody has chalked on the flagstones, in a fair round hand: KEEP OFF THE OPEN AFTER NINE.".
+  Observe kitchen_lady at kitchen_floor as ambience when at(lady, kitchen_floor) "The Lady sits at the great table eating bread and butter off a plate, very slowly, and from under the table the tents have emptied and nobody breathes.".
+  Observe kitchen_cat at kitchen_floor as sign when at(bishop, kitchen_floor) and prowling() "Something grey comes round the end of the range in the dark, low and slow, and stops, with its tail twitching; and its eyes catch what light there is, two lamps the size of cartwheels, a long way up.".
+
+  // ── The Sink and the Drip ─────────────────────────────────────────────────────────────────────────────────────────
+  Relation sinkWarned(group). Relation sinkFlooded(place). Relation refugeesWatered(place).
+  Observe sink_scene at sink when not sinkFlooded(hollins) "The Sink is a stone trough as big as a mill-pond, dry but for a pool at the plug-hole end where the drip falls. The drip is the only running water in the house. Round the pool a little town of buckets and gutters and wooden channels catches every drop, and a woman in an oilskin sits on a stool at the end of a plank under the tap, with a slate, and makes a mark each time it falls.".
+  Observe sink_flooded at sink when sinkFlooded(hollins) "The Sink is full of water, still and grey and a fathom deep, with buckets floating in it, and planks, and a stool. The town round the drip is gone under. On the draining board, wet to the skin, the Tapwarden sits with her slate, making marks on it out of habit.".
+  Person drewe "Tapwarden Drewe" at sink {
+    Role "the Tapwarden of the Sink". Ancestry human. Peaceable. Pronouns she. Manner stoic.
+    Likeness "official".
+    Greets "The woman in the oilskin does not look up from her slate. 'Ninety-one,' she says, as a drop falls. 'Water's by the thimble, a thimble a soul a day, entered against your name. If you've no name in the Post's register you've no thimble.' Another drop. 'Ninety-two.'".
+    Greets again "'Ninety-whatever,' says Tapwarden Drewe, not looking up.".
+  }
+  Topic drewe_drip with drewe "Ask Tapwarden Drewe about the Drip" when true once {
+    Says "'One drop a slow breath,' says Drewe. 'A barrel an hour, near enough. Six hundred souls on it.' She makes a mark. 'Three hundred years the Tapwardens have counted. My mother's mother's mother. We know what the Wainscot drinks to a thimble, and we keep it fair, and nobody's died of thirst since the Drought of Ninety-eight, when the washer perished in the tap and it stopped for a week.' Another mark. 'Fair is the whole of it. Everybody a thimble. No more for the Court, no less for the grate.'".
+  }
+  Topic drewe_colliers with drewe "Ask Tapwarden Drewe to give the burned-out colliers water" when hearthBurned(hollins) and not refugeesWatered(hollins) once {
+    Says "'They've names in the register?' says Drewe. 'Then they've thimbles.' She looks at her slate. 'They want more. Burns want water. Eighty souls on the Skirting wanting four thimbles each.' She makes a mark, and her hand is not steady. 'If I give them four, I give the Nail three, and the Nail never forgives. That's how the Drought started. That's how it always starts.' She looks at you, for the first time. 'Give me a reason to be unfair that'll hold.'".
+    On discuss { Assert knows(actor, drewe_reason). }
+  }
+  Discovery drewe_reason "Tapwarden Drewe will give the burned colliers more than their thimble only for a reason to be unfair that will hold.".
+  Topic drewe_flood with drewe "Tell Tapwarden Drewe the Lady will be running the tap" when knows(actor, drewe_reason) and not refugeesWatered(hollins) and not sinkFlooded(hollins) once {
+    Says "Drewe stops with the chalk lifted. 'Running it,' she says. 'Her. The tap.' She looks up at the brass spout over her head, which is the size of a drainpipe, as though she had never considered that it was anything but the sky. 'She'll have the whole Sink full in a minute. A barrel a breath.' And then, slowly, she begins to laugh, and wipes the slate clean with her sleeve. 'Then there's no ration. There's no Drip. There's water.' She stands up. 'Give the colliers what they want. Give them all what they want. And get the Sink off the plug-hole end before she comes, every bucket.'".
+    On discuss { Assert refugeesWatered(hollins). Assert sinkWarned(party). }
+  }
+  Rule tap_runs when day4() and hour(clock) >= 12 and at(lady, kitchen_floor) and not sinkFlooded(hollins) { Assert sinkFlooded(hollins). }
+  Event tap_told within house when sinkFlooded(hollins) and sinkWarned(party) "At noon the Lady, at the kitchen table, gets up and goes to the sink and turns the tap; and the water comes down out of the brass like a river out of a cliff, white, roaring, and fills the Sink in the time it takes to say so. The Sink-folk, warned, are on the draining board with every bucket they own, and they stand there soaked in the spray, cheering, which nobody has ever heard the Sink-folk do.".
+  Event tap_told_cold within house when sinkFlooded(hollins) and not sinkWarned(party) "At noon the Lady, at the kitchen table, gets up and goes to the sink and turns the tap; and the water comes down out of the brass like a river out of a cliff, white, roaring, and fills the Sink in the time it takes to say so. When she has gone back to her bread the Sink-folk come up out of it onto the draining board, coughing, and count each other, and come out two short.".
+
+  // ── The Pantry and the Jarmen ─────────────────────────────────────────────────────────────────────────────────────
+  // The Jarmen came in a hundred and forty years ago, a gang of carters and their families who had robbed a toll-house,
+  // and took the Pantry, which is the Wainscot's larder: honey and dried fruit and salt and flour that have kept three
+  // centuries in their crocks. They hold the pincushion too, and so the pins. Their Jarl is Hasp Tallowby.
+  Observe gate_scene at pantry_gate when true "The pantry door stands an inch ajar, which is a passage a cart could go through, and across the gap the Jarmen have built a gate out of a giant's comb set on its back, its teeth for bars. Behind it, men with pins for spears.".
+  Person pinmen "the Jarl's pin-men" at pantry_gate {
+    Role "Jarmen, with giant's pins for spears". Ancestry human. Calling warrior. Level 2. Numbers 4. Pronouns they.
+    Temperament territorial.
+    Greets "The biggest of the pin-men leans on his pin. 'Well?'".
+    Lair pantry_gate.
+    Guards pantry_in.
+    Warns "Four men behind the comb-gate bring their pins down level, eight feet of steel apiece. 'Pantry's the Jarl's,' says the biggest. 'You've business with him, say so. Or you've honey to buy, there's a hatch. Otherwise go back the way you came, and quick.'".
+    Comes "The pin-men come through the comb-gate at you, pins first.".
+    Pleads "'Enough,' says the biggest of them, on his knees, with his pin a yard away. 'Enough. Go on in. He'll see you. God help you.'".
+  }
+  Thing comb_gate "the comb-gate" on pantry_in {
+    State gate_shut blocking "The comb-gate is shut across the pantry door.".
+    State gate_open "The comb-gate stands open.".
+  }
+  Rule gate_opens when tolerates(pinmen, party) and state(comb_gate, gate_shut) { Assert state(comb_gate, gate_open). }
+  Rule gate_opens_routed when (routed(pinmen) or dead(pinmen)) and state(comb_gate, gate_shut) { Assert state(comb_gate, gate_open). }
+  Action ask_jarl(actor: group, site: place) "Tell the pin-men you have business with the Jarl" {
+    Speaker pinmen.
+    Requires able(actor) and company(actor) and at(actor, site) and at(pinmen, site) and not tolerates(pinmen, actor) and not hostile(pinmen, actor) and not toldPinmen(party).
+    Time 0.
+    On success { Assert toldPinmen(party). Assert tolerates(pinmen, actor). Retract warned(pinmen, actor). }
+    Result "The biggest of them looks you over, and jerks his head. 'He'll see you. He sees everyone this week. Mind his boy.'".
+  }
+  Relation toldPinmen(group).
+
+  Observe pantry_scene at pantry when true "The Pantry is a cave of shelves going up into the dark, and on them the stores of Hollins, three hundred years old: crocks of honey as big as wine-vats, with doors cut in their sides; sacks of flour like grey hills; a ham hanging from a hook, black and hard as wood; jars of salt; a cheese that has turned to stone and been carved into a throne. The Jarmen live on the lowest shelf, among the jars, in rooms cut into the honey-crocks, and the whole place smells of honey, and mice, and men.".
+  Observe pantry_poison at pantry as feature when poisonPotFull(pantry) "On a shelf behind the Jarl's throne stands a little pot with a skull scratched on its lid, the kind of skull somebody conscientious scratches, and the paste in it smells of almonds and lard.".
+  Person hasp "Hasp Tallowby" at pantry {
+    Role "the Jarl of the Jars". Ancestry human. Calling warrior. Level 4. Peaceable. Pronouns he. Manner grim.
+    Seen when not at(pye, pantry).
+    Likeness "noble".
+    Greets "On the cheese throne sits a heavy man with grey stubble and a pin across his knees, eating honey off a knife. 'Ratcatcher,' he says, before you can open your mouth, so that you know he knows. 'Or not. Sit down. The rats are in the back. We've had rats in the back for a hundred years, and we've had ratcatchers for a hundred years, and none of them caught a rat.'".
+    Greets again "Hasp Tallowby lifts his knife an inch off the honey, which is his greeting.".
+    Sells honey_kind for 1 coin from 10.
+  }
+  Person wat "Wat Tallowby" at pantry {
+    Role "the Jarl's son". Ancestry human. Peaceable. Pronouns he. Manner cheerful.
+    Seen when not at(pye, pantry).
+    Likeness "child".
+    Greets "A boy of eleven or so with his father's jaw is whittling a pin into a whistle. 'I go in the back,' he tells you, as if you had asked. 'Every morning before light, to look at the honey-crocks for mice. Da says I'm the best. I'm the quietest.'".
+    Greets again "'I'm the quietest,' says Wat Tallowby, quietly.".
+  }
+  Topic hasp_lady with hasp "Ask Hasp Tallowby what he thinks of the Lady" when true once {
+    Says "Hasp licks the knife. 'It's her honey,' he says. 'Her flour, her salt, her shelves. I know that. My grandad's grandad knew it when he broke in. We've eaten her pantry a hundred and forty years and she never missed it.' He points the knife at the ceiling. 'Now she's back, and she's lit the fire, and her woman's putting traps in my back pantry. Rat-traps. Jaws that'd take a child's leg off at the knee.' He sticks the knife in the cheese. 'We'll see.'".
+    On discuss { Assert knows(actor, hasp_angry). }
+  }
+  Discovery hasp_angry "Hasp Tallowby, Jarl of the Jars, knows the Pantry is the Lady's, and hates her for the traps her woman sets in it.".
+  Topic hasp_rats with hasp "Ask Hasp Tallowby whether he would pay to have the back pantry ratted" when true once {
+    Says "Hasp laughs. 'Pyecroft pays you twopence a tail,' he says. 'I'll pay you three coin and all the honey you can carry for the back pantry clear, and you can sell her the tails besides.' He looks at you sideways. 'There's eight or nine of them back there, big as dogs some of them, and they bite. That's why none of your sort ever came back with a real tail.'".
+    On discuss { Assert knows(actor, rats_job). }
+  }
+  Discovery rats_job "Hasp Tallowby will pay three coin and honey to have the rats in the back of the Pantry killed; there are eight or nine, some as big as dogs.".
+
+  // ── The back of the Pantry: rats, and Mrs Pyecroft's trap ──────────────────────────────────────────────────────────────
+  Observe back_scene at pantry_back when true "The back of the Pantry is dark: sacks gnawed open and bled out into dunes of meal, crocks with their lids off, and the droppings of rats everywhere, each as big as a plum stone, which for a rat is what they are. The honey-crocks the Jarmen live by stand along the back wall, and something has been at the nearest one.".
+  Species pantry_rat "a pantry rat" like cave_hound temperament ambush described "A brown rat of the back pantry, fat on three hundred years of a giant's stores: as big as a terrier, yellow-toothed, red-eyed, fearless of anything its own size.".
+  Person rats "rats" at pantry_back {
+    Role "brown, as big as terriers, with eyes red in the dark". Species pantry_rat. Level 1. Numbers 2. Pronouns they.
+    Temperament ambush.
+    Lair pantry_back.
+  }
+  Relation ratted(group). Relation ratsPaid(group). Relation tailsCut(group).
+  Rule rats_cleared when (dead(rats) or routed(rats)) and not ratted(party) { Assert ratted(party). }
+  Action cut_tails(actor: group, site: place) "Cut the tails off the dead rats" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, pantry_back) and ratted(party) and not tailsCut(party).
+    On success { Assert tailsCut(party). Give real_tails to actor. }
+    Result "It is not pleasant work, and you do it properly, a dozen tails on a string, the way Mrs Pyecroft will want them.".
+  }
+  Item real_tails "a string of rat-tails" is tail_kind at nowhere.
+  Topic hasp_paid with hasp "Tell Hasp Tallowby the back pantry is clear of rats" when ratted(party) and not ratsPaid(party) once {
+    Says "Hasp gets off his throne and goes and looks, himself, with a lantern, and comes back and stands in front of you a long moment. 'A real one,' he says. 'A real ratcatcher.' He counts three coin into your hand, and a pot of honey, and then, gruffly: 'The dumbwaiter's yours whenever you want it. Tell the boys I said.'".
+    On discuss { Assert ratsPaid(party). Increase quantity(actor, gold) by 3. Give paid_honey to actor. Assert haspFriend(hasp). }
+  }
+  Item paid_honey "a pot of Whitlock honey" is honey_kind at nowhere.
+  Relation haspFriend(group).
+
+  // Mrs Pyecroft sets her trap on the run into the back pantry at seven on the second morning. Wat goes in before light.
+  Relation watDead(group). Relation pyeSuspects(group).
+  Hazard snap_trap "A spring-trap's jaws" means "Deal (2d8) physical damage to ally unless dexterity save against (13).".
+  Thing pye_trap "Mrs Pyecroft's trap" on pantry_run {
+    State unset "Nothing on the run between the sacks but meal and droppings.".
+    State set dangerous "On the run between the sacks lies a spring-trap, its toothed jaws open as wide as a doorway, with a crust of cheese on the plate.".
+    State sprung "On the run between the sacks lies a spring-trap with its jaws shut, on nothing.".
+    State bloodied "On the run between the sacks lies a spring-trap with its jaws shut. Somebody has covered it with a sack. Under the sack it is dark and wet.".
+    Hurts with snap_trap when set then sprung.
+    Change spring "Spring the trap with a pin-shaft" from set to sprung.
+    Change disarm "Ease the trap's spring and take its teeth out" from set to sprung needing trapwork.
+  }
+  Observe pantry_pye at pantry as sign when at(pye, pantry) "Every Jarman has vanished into the crocks. Mrs Pyecroft walks along the shelf with a lantern and her skirts held up out of the meal, looking at her trap, looking at the droppings, looking at nothing else.".
+  Rule trap_seen_sprung when state(pye_trap, sprung) and changedBy(pye_trap, party) and at(pye, pantry) and at(party, pantry) and not pyeSuspects(pye)
+    says "Mrs Pyecroft has seen. She stands with her lantern up and looks at the shut jaws, and then at you. 'That,' she says, 'was my trap.' She writes something in a little book from her pocket, without taking her eyes off you." { Assert pyeSuspects(pye). }
+  Rule trap_laid when dayN(hollins) >= 2 and hour(clock) >= 7 and state(pye_trap, unset) and not pyeTurned(pye) and not pyeGone(pye) { Assert state(pye_trap, set). }
+  Rule trap_takes_wat when day2() and hour(clock) == 5 and state(pye_trap, set) and not watDead(wat) { Assert state(pye_trap, bloodied). Assert watDead(wat). Assert at(wat, nowhere). }
+  Rule trap_reset when dayN(hollins) >= 3 and hour(clock) == 7 and state(pye_trap, sprung) and not pyeTurned(pye) and not pyeGone(pye) and not trapGivenUp(pye) { Assert state(pye_trap, set). Assert pyeSuspects(pye). }
+  Relation trapGivenUp(group).
+  Rule trap_given_up when pyeSuspects(pye) and dayN(hollins) >= 5 and not trapGivenUp(pye) { Assert trapGivenUp(pye). }
+  Event wat_told within house when watDead(wat) "Before light on the third morning a scream goes through the walls of the house, high and thin, from somewhere at the back of the kitchen, and stops; and then a man's voice, roaring, which does not stop for a long time.".
+  Observe pantry_mourning at pantry as sign when watDead(wat) "The Jarmen sit on the lowest shelf in silence, round something laid on a board under a sack. Hasp Tallowby sits on his cheese throne with his pin across his knees, not eating, looking at nothing.".
+  Topic hasp_wat with hasp "Speak to Hasp Tallowby about his son" when watDead(wat) once {
+    Says "Hasp does not look at you. 'Her trap,' he says. 'On my run. Her woman put it there and her woman goes about in her pocket.' He turns the pin over on his knees. 'She can't see. She doesn't know. I know. Everyone says it.' He looks up then, and his eyes are dry and terrible. 'She sat at her table, warm, eating cake, while my boy was in her trap. I can't hurt the woman; she's too high. I can't hurt the cat.' He stands. 'Get out of my Pantry.'".
+    On discuss { Assert knows(actor, hasp_vengeance). }
+  }
+  Discovery hasp_vengeance "Hasp Tallowby blames the Lady for his son's death in her companion's trap, and means her harm.".
+}

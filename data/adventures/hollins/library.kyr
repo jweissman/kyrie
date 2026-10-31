@@ -1,0 +1,175 @@
+Module hollins "Behind the Wainscot" {
+  // ── The Library ───────────────────────────────────────────────────────────────────────────────────────────────────
+  // Off the Hall to the south. The Readers live on the bottom shelf of the west case, among the folios, and read a
+  // giant's books by walking along the lines. The Lady's chart table stands in the south window, where the light is;
+  // on the sill outside the glass, in the window-boxes, the Pennocks grow cress, and this week, for the first time in
+  // three hundred years, lettuces.
+  Place library_floor "the Library floor" is room within ground_floor at 1, 3.
+  Place readers_shelf "the Readers' shelf" is room within ground_floor at 0, 3.
+  Place chart_table "the chart table" is room within ground_floor at 1, 4.
+  Place sill "the Library windowsill" is room within ground_floor at 2, 4.
+
+  Passage library_door "the Library door" is passage between hall_flags and library_floor taking 10 minutes.
+  Passage library_wallway "the wall-way to the Library" is passage between skirting and readers_shelf taking 20 minutes.
+  Passage shelf_ladder "the Readers' ladder" is steps between library_floor and readers_shelf.
+  Passage table_rope "the knotted rope up the chart table" is steps between library_floor and chart_table taking 10 minutes.
+  Passage sill_way "the sash-cord up to the sill" is steps between chart_table and sill taking 5 minutes.
+
+  Observe library_scene at library_floor when true "The Library: cases of books going up into the dark on every side like the walls of a gorge, their spines lettered in gold you could stand inside. One book has fallen, long ago, and lies open on the floor like a field ploughed in black furrows; children are playing on it, hopping from word to word. In the south window, in a long slant of daylight, stands a table as tall as a barn, with a rope knotted up one leg.".
+  Observe readers_scene at readers_shelf when true "The bottom shelf of the west case is a street of books, folios as tall as houses standing shoulder to shoulder, and the Readers live between them. Lanterns hang from the bookmarks. A ladder leans against an open volume on a lectern made of a giant's book-rest, and on its page, far up, a woman with a lantern walks slowly along a line of print, stops, writes in a ledger, walks on. A painted board says VOLUME M. MAGIC TO MANDRAKE. DAY 14,402.".
+  Observe chart_scene at chart_table when true "The top of the chart table: a plain of green baize, and spread across most of it, held down at the corners with books, a sheet of paper as big as a field: a chart, in ink, of a house. You can walk on it. Its walls are lines as wide as your hand, drawn with a ruler, measured to a hair, with figures written along them in a big fine hand; its rooms are labelled HALL, DRAWING ROOM, LIBRARY. In the corner, a compass rose like a cartwheel, and the words HOLLINS, FROM MEMORY AND MEASUREMENT, E. W. An inkwell stands by it the size of a cistern, and a pen as long as a mast.".
+  Observe chart_lady at chart_table as ambience when at(lady, chart_table) "The Lady sits over the chart with a glass as big as a millpond held up to one eye, and the light comes through it and moves on the paper like a sun. She draws a line, slowly, with the mast of a pen, and stops, and sits a long time without drawing anything. Her breath goes over the table like a wind.".
+  Observe sill_scene at sill when true "Outside the glass, on the stone sill of the Library window, the window-boxes: long troughs of earth the size of fields, and in them, in rows, cress, and radishes, and peas up string. A family of dwarves with their sleeves rolled is working along them. Beyond the sill there is nothing but a drop and the whole of the Hollins country, moor and village and sky.".
+  Observe sill_thaw at sill as feature when dayN(hollins) >= 3 "In the end box, where the sun is warmest off the glass, lettuces have come up, pale green and enormous, and the Pennocks keep stopping to look at them.".
+
+  // ── The Readers ───────────────────────────────────────────────────────────────────────────────────────────────────
+  Person gideon "Gideon Lamb" at readers_shelf {
+    Role "the Master of the Readers". Ancestry human. Peaceable. Pronouns he. Manner stoic.
+    Likeness "scholar".
+    Greets "A small grey man in spectacles mended with thread looks up from a ledger. 'Quietly,' he says. 'Mistress Haddow is on Mandragora, and she has been on it a week.' He takes the spectacles off. 'You'll be wanting the Child's book. Everybody wants the Child's book this week.'".
+    Greets again "Gideon Lamb puts a finger on his place in the ledger before he looks up.".
+  }
+  Topic gideon_reading with gideon "Ask Gideon Lamb how the Readers read" when true once {
+    Says "'On foot,' says Gideon. 'A giant's line of print is forty yards. We walk it, with a lantern, and copy it fair, a line at a time, into our own hand, and bind it.' He pats the ledger. 'The Readers have copied fourteen volumes of the Whitlock Encyclopaedia in a hundred and sixty years. We are on M. It has been M for forty years.' He sighs. 'MAGIC, as you'd expect, was long. MAN was very long.'".
+  }
+  Topic gideon_book with gideon "Ask Gideon Lamb about the Child's book" when true once {
+    Says "'Her diary,' says Gideon. 'A child's commonplace book, found in the doll's house attic when my great-grandfather was a boy. Hers. The winter she hid the Laceys.' He takes a thin bound copy from a shelf. 'The original is a block of paper the size of a hayrick, and lives in the Small House, and Dame Honor will not have it moved. This is our fair copy. Read it here, if you like; it doesn't leave the shelf.' He hesitates. 'It is short. The last page is the shortest.'".
+    On discuss { Assert knows(actor, copy_offered). }
+  }
+  Discovery copy_offered "The Readers keep a fair copy of the Child's diary, from the winter she hid the Laceys, and will let it be read on their shelf.".
+  Action read_copy(actor: group, site: place) "Read the Readers' fair copy of the Child's diary" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, readers_shelf) and knows(actor, copy_offered) and not readCopy(party).
+    Time 3.
+    On success { Assert readCopy(party). Assert knows(actor, diary_laceys). Assert knows(actor, diary_clock). }
+    Result "It is a child's book, copied fair in a careful grown-up hand that keeps the child's spelling. Most of it is about ponies and an aunt. Then, in the winter: I have found some little people in the coal-hole. They are called the Laceys, a father, a mother, Honor who is nine, and two small ones. They were starving. I have put them in my dolls house which is EXACTLY their size, Mama would say that is a coincidence but I think it was meant. Then weeks of them: what they eat (a crumb is a loaf), the song she taught them, Honor who is her best friend, Ned the father who mended the dolls house clock. Then: Mama has found the bed. Mama says there are no little people and I am a liar or ill, and Doctor Hume says ill. They are sending me to Aunt Sabine. I have told Honor to hide in the walls till I come home. And the last page, in bigger letters, pressed hard: I have stopped the hall clock with my finger so that it will still be today when I come home.".
+  }
+  Relation readCopy(group).
+  Discovery diary_laceys "In her diary the Child wrote that she found the Laceys starving in the coal-hole and hid them in her doll's house, which was exactly their size; that Honor Lacey, who was nine, was her best friend; that she taught them a song; and that when her mother found the doll's bed, Doctor Hume said she was ill, and she was sent to her Aunt Sabine.".
+  Discovery diary_clock "The last page of the Child's diary says: I have stopped the hall clock with my finger so that it will still be today when I come home.".
+
+  // ── Sorrel Haddow ───────────────────────────────────────────────────────────────────────────────────────────────────
+  // A young Reader who has taught herself to write a giant's hand, at a giant's size, with a broom and a bucket of
+  // ink on the Library floor at night. She wants to speak to the Lady more than she has ever wanted anything.
+  Person sorrel "Sorrel Haddow" at readers_shelf {
+    Role "a Reader of the Library". Ancestry half_elf. Calling bard. Level 2. Peaceable. Pronouns she. Manner cheerful.
+    Likeness "scholar".
+    Greets "A young woman comes down the ladder off the open volume two rungs at a time with ink up to her elbows and a lantern in her teeth, which she takes out to say: 'You came in by the Slot. This week. You're from outside.' She looks at you as if you were a page. 'Have you seen her? Close? Have you heard her talk?'".
+    Greets again "Sorrel Haddow comes down the ladder at once, wiping ink off her hands onto her skirt.".
+    Joins "Sorrel Haddow takes a broom out from behind a folio, and a bucket, and a lantern, and stands with all three as if she had been waiting a long time to be told she could go.".
+    Remarks at chart_table "Sorrel kneels on the chart and runs her hand along one of its lines, very lightly, the way you would touch the face of somebody asleep. 'Look how straight,' she says. 'She can barely see, and look how straight.'".
+    Remarks at small_house_hall "Sorrel stares at the front hall of the Small House, its chandelier and its painted stair. 'She made all this,' she says. 'For them. When she was eight.'".
+  }
+  Topic sorrel_want with sorrel "Ask Sorrel Haddow what she wants" when true once {
+    Says "Sorrel sits down on the bottom rung. 'To talk to her,' she says. 'That's all. That's everything. I've read her books since I was six. I've read her encyclopaedia and her mother's recipes and her father's sermons and her diary, and every one of them was written by somebody who could never hear me answer.' She shows you her hands, black with ink. 'I've taught myself her hand. Big. With a broom, on the floor, at night, so it's a hand she could read without her glass. I've written the alphabet across the Library floor four hundred times.' She looks at you. 'Gideon says the Readers read. They don't write back. I want to write back.'".
+    On discuss { Assert knows(actor, sorrel_writes). }
+  }
+  Discovery sorrel_writes "Sorrel Haddow, a young Reader, has taught herself to write the Lady's hand at the Lady's size, with a broom and a bucket of ink, so that the Lady could read it without her glass. She wants to write back.".
+  Topic sorrel_chart with sorrel "Tell Sorrel Haddow about the Lady's chart" when knows(actor, chart_known) and knows(actor, sorrel_writes) once {
+    Says "Sorrel goes very still. 'A chart,' she says. 'Of the house. With the walls drawn single.' She stands up. 'She doesn't know there's anything inside them. She doesn't know about the Skirting, or the Nail, or the Hearth, or the Small House. She's drawing her home and leaving us out.' Her face changes. 'Then we draw ourselves in. At night, while she's abed. In her hand, on her chart, so she finds it at nine. That's not shouting at her. That's,' she searches for it, 'that's a correction. She's a mapmaker. She'll have to look at a correction.'".
+    On discuss { Assert knows(actor, chart_plan). Assert willing(sorrel, actor). }
+  }
+  Discovery chart_plan "Sorrel Haddow would draw the Wainscot into the Lady's chart at night, in the Lady's hand, so that she finds it in the morning: a mapmaker must look at a correction.".
+  Discovery chart_known "The Lady is drawing a chart of Hollins from memory and measurement, at the table in the Library window, every morning: walls drawn single, with nothing inside them.".
+  Observe chart_teaches at chart_table as feature when state(lady_chart, blank) and not knows(party, chart_known) "She is mapping her own house, from memory, and it is unfinished." teaches chart_known.
+
+  // ── The chart, corrected ──────────────────────────────────────────────────────────────────────────────────────────
+  // To draw the Wainscot in, the company must know it as a surveyor knows a place (paced, with its turns and lengths),
+  // and must write it in a hand she can read: Sorrel's, or its own if it has the learning.
+  Thing lady_chart "the Lady's chart of Hollins" at chart_table is scenery {
+    State blank "The walls are drawn as single lines, as a giant would see them, and there is nothing inside them: behind the skirting of the Hall, where the Wainscot is, only a thin ruled line, and the word SKIRTING.".
+    State corrected "Across the chart, in a big black hand that is not the Lady's but has studied hers, the space behind the Hall skirting has been drawn in: a lane, a market, an inn round a nail, stairs, the Hearth in the grate, the Small House in the nursery, each with its name. In the margin, three words: WE LIVE HERE.".
+    State questioned "In the margin of the chart, under WE LIVE HERE, the Lady has written in her own hand, very large, the letters shaking: WHO ARE YOU?".
+    State answered "Under her question, in the big black hand: THE LACEYS' PEOPLE, AND ALL WHO CAME AFTER. WE ARE STILL HERE. And under that, in hers, nothing yet.".
+  }
+  Relation surveyed(group). Relation chartWritten(group).
+  Action survey_wainscot(actor: group, site: place) "Pace out the Wainscot as a surveyor would, every lane and turn" {
+    Description "Lengths, turns and landmarks, written down: the Skirting, Lath Lane, the Nail, the wall-ways to the grate and the Library.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, skirting) and not surveyed(party).
+    Time 6.
+    Resolve check(actor, wayfinding, dc_fair).
+    On success { Assert surveyed(party). Assert knows(actor, wainscot_paced). }
+    Result "It takes an hour, with a knotted string and Faith Penny's register for the names, and the Wainscot follows you about asking what you are doing. By the end you have it on a sheet: every lane and turn, in paces, the way the Lady would have it.".
+    Otherwise "You lose count in the turns behind the drawing room, and again on the stair down to the Nail, and come out with a sheet of figures that would put the Nail in the cellar. It will need doing again.".
+  }
+  Discovery wainscot_paced "You have paced out the Wainscot as a surveyor would, every lane and turn, in figures the Lady could use.".
+  Topic sorrel_survey with sorrel "Ask Sorrel Haddow whether the Readers have a plan of the Wainscot" when knows(actor, chart_plan) and not surveyed(party) once {
+    Says "'Not one she'd trust,' says Sorrel. 'Ours are drawn the way people draw where they live: big where they matter, small where they don't. The Nail's as big as the Hall on Gideon's.' She frowns. 'She measures. Every line she draws has a figure on it. If we put the Nail in the wrong place she'll know we're guessing, and she'll think it's her eyes again.' She hands you a knotted string. 'Somebody has to pace it.'".
+  }
+  Relation inkGot(group).
+  Topic gideon_ink with gideon "Ask Gideon Lamb for a bucket of the Readers' ink" when knows(actor, chart_plan) and not inkGot(party) once {
+    Says "Gideon Lamb looks at you over his mended spectacles for a long time. 'For Mistress Haddow's broom,' he says. 'For writing on Her chart.' He takes them off. 'The Readers read. It is what we are. We have never once in a hundred and sixty years written in one of Her books.' He puts the spectacles on again. 'Second bucket on the left, by Mandragora. Don't tell me which night.'".
+    On discuss { Assert inkGot(party). }
+  }
+  Action correct_chart(actor: group, site: place) "Draw the Wainscot into the Lady's chart, in her hand, while she sleeps" {
+    Description "A night's work with a broom and a bucket of ink, walking the chart: every lane and room behind her walls, and in the margin, WE LIVE HERE.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, chart_table) and state(lady_chart, blank) and surveyed(party) and inkGot(party) and night() and not ladyDead(lady) and travelsWith(sorrel, actor).
+    Time 6.
+    On success { Assert state(lady_chart, corrected). Assert chartWritten(party). Assert at(actor, library_floor). }
+    Result "Sorrel does the writing. You carry the bucket and call out the figures from the sheet, and she walks the chart with the broom, fast and sure, laying down lines as wide as her hand beside the Lady's lines, and the names in letters a yard high: THE SKIRTING. LATH LANE. THE NAIL. THE HEARTH. THE SMALL HOUSE. Her hand never shakes until the end, in the margin, where she writes WE LIVE HERE, and then has to stop and sit down on the compass rose and put her head between her knees. When the ink is dry you go down the rope in the dark.".
+  }
+  Action correct_chart_alone(actor: group, site: place) "Draw the Wainscot into the Lady's chart yourself, as near her hand as you can" {
+    Description "A night's work with a broom and a bucket of ink, walking the chart; and it must look like a hand she will read without her glass.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, chart_table) and state(lady_chart, blank) and surveyed(party) and inkGot(party) and night() and not ladyDead(lady) and not travelsWith(sorrel, actor) and not chartBotched(party).
+    Time 6.
+    Resolve check(actor, lore, dc_hard).
+    On success { Assert state(lady_chart, corrected). Assert chartWritten(party). Assert at(actor, library_floor). }
+    On failure { Assert chartBotched(party). }
+    Result "It is the hardest writing you have ever done: with a broom, walking backwards, in letters a yard high, copying the slant of hers from the words HALL and LIBRARY. But by the small hours the Wainscot is on her chart, every lane in its place, and in the margin, WE LIVE HERE. You go down the rope in the dark.".
+    Otherwise "The lines go where they should, but the letters will not: they come out lumpy and childish, a yard high, and a mapmaker would take them for a smear. You stop before you spoil the chart, and blot what you can. Somebody who writes her hand should do this.".
+  }
+  Relation chartBotched(group).
+  Rule chart_unbotch when chartBotched(party) and travelsWith(sorrel, party) { Retract chartBotched(party). }
+  // At nine she finds it.
+  Relation chartSeen(group). Measure seenOn(entity). Measure knewOn(entity).
+  Rule lady_finds_chart when state(lady_chart, corrected) and at(lady, chart_table) and not chartSeen(lady) {
+    Assert chartSeen(lady). Increase primed(lady) by 1. Set seenOn(lady_chart) to dayN(hollins).
+  }
+  Event chart_found_told when chartSeen(lady) and seenOn(lady_chart) == dayN(hollins) and at(lady, chart_table) and (at(party, chart_table) or at(party, sill)) "The Lady comes to the table and sits, and reaches for her glass, and stops with it half lifted. She sits very still. Then she bends close over the chart, closer than you have seen her bend over anything, until her breath is a gale across the paper, and moves the glass slowly along the Skirting, the Nail, the Hearth, and stops at the margin. WE LIVE HERE. A long while. Mrs Pyecroft says, from somewhere, 'Miss Whitlock?' and the Lady says, quite calmly, 'Go and see if the post has come, Dorothea,' and when Pyecroft has gone, she dips the pen.".
+  Rule lady_asks_chart when chartSeen(lady) and state(lady_chart, corrected) and hour(clock) >= 11 { Assert state(lady_chart, questioned). }
+  Action answer_chart(actor: group, site: place) "Answer her question on the chart, in her hand, while she sleeps" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, chart_table) and state(lady_chart, questioned) and inkGot(party) and night() and not ladyDead(lady) and travelsWith(sorrel, actor).
+    Time 3.
+    On success { Assert state(lady_chart, answered). }
+    Result "Sorrel stands a long time over WHO ARE YOU?, with the broom dripping. Then she writes, without stopping, as if she had always known what she would write: THE LACEYS' PEOPLE, AND ALL WHO CAME AFTER. WE ARE STILL HERE.".
+  }
+  Action answer_chart_alone(actor: group, site: place) "Answer her question on the chart yourself, as near her hand as you can" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, chart_table) and state(lady_chart, questioned) and inkGot(party) and night() and not ladyDead(lady) and not travelsWith(sorrel, actor) and not answerBotched(party).
+    Time 3.
+    Resolve check(actor, lore, dc_fair).
+    On success { Assert state(lady_chart, answered). }
+    On failure { Assert answerBotched(party). }
+    Result "You stand a long time over WHO ARE YOU?, with the broom dripping. Then you write, as large and as plain as you can: THE LACEYS' PEOPLE, AND ALL WHO CAME AFTER. WE ARE STILL HERE.".
+    Otherwise "The words come out crooked, a yard high, and you blot them before they can frighten her. Tomorrow night, steadier.".
+  }
+  Relation answerBotched(group).
+  Rule answer_unbotch when answerBotched(party) and hour(clock) == 12 { Retract answerBotched(party). }
+  Rule chart_retry when chartBotched(party) and hour(clock) == 12 and not travelsWith(sorrel, party) { Retract chartBotched(party). }
+  Rule lady_reads_answer when state(lady_chart, answered) and at(lady, chart_table) and not chartKnows(lady) { Assert chartKnows(lady). Assert ladyKnows(lady). Set knewOn(lady_chart) to dayN(hollins). }
+  Relation chartKnows(group).
+  Event chart_answer_told when chartKnows(lady) and knewOn(lady_chart) == dayN(hollins) and at(lady, chart_table) and (at(party, chart_table) or at(party, sill)) "She reads it with the glass, and then without, and then she says, aloud, in a voice that fills the Library: 'The Laceys.' She puts the glass down. 'Honor,' she says. 'Oh, Honor. I told them. I told them and told them.' And then, gathering herself, the voice of a woman who has given orders to harbour-masters: 'Whoever you are. I can't see you. I shall be at this table tomorrow at nine, and I shall sit very still, and I shall not let Dorothea near it. Come and be seen.'".
+
+  // ── The Sill ──────────────────────────────────────────────────────────────────────────────────────────────────────
+  Person pennock "Granny Pennock" at sill {
+    Role "who keeps the window-boxes". Ancestry dwarf. Peaceable. Pronouns she. Manner cheerful.
+    Likeness "farmer".
+    Greets "An old dwarf-woman in a straw hat the size of a cartwheel, which on her looks enormous and on the Lady would be a button, sits back on her heels in the cress. 'Hands,' she says. 'Have you got hands? Then you can pick.'".
+    Greets again "'Hands,' says Granny Pennock, and points at a basket.".
+    Sells rations for 1 coin from 10.
+  }
+  Topic pennock_thaw with pennock "Ask Granny Pennock about the warm" when true once {
+    Says "'The glass is warm,' says Granny Pennock, and lays her palm on it, flat, like a child on a window. 'Three hundred years it was cold. We grew cress, because cress'll grow in anything, and radishes, and that's what the Wainscot's eaten, cress and radishes and her honey.' She points down the trough at the lettuces, pale and wide as umbrellas. 'Lettuce. Real lettuce. My gran had seeds from outside she'd never got to come. I planted them Friday for a joke.' She laughs. 'Whatever else she does, she's warmed the glass.'".
+  }
+  Relation pickedToday(group).
+  Action pick_sill(actor: group, site: place) "Work a morning in the window-boxes for Granny Pennock" {
+    Description "Weeding, picking and carrying, in the first sun the sill has had in three hundred years.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, sill) and at(pennock, sill) and hour(clock) >= 7 and hour(clock) < 12 and not pickedToday(party).
+    Time 18.
+    On success { Assert pickedToday(party). Increase quantity(actor, gold) by 2. Increase quantity(actor, rations) by 1. }
+    Result "Three hours on your knees in the cress with the Pennocks, sun on your back through the glass, the whole moor below and the smoke going up from Bootscrape. Nobody talks much. Granny Pennock sings under her breath, something with no tune at all. At noon she pays you two coin and a bundle of radishes and a lettuce leaf like a tablecloth. 'Come back,' she says. 'There's always weeds.'".
+  }
+  Rule picked_resets when hour(clock) == 0 and pickedToday(party) { Retract pickedToday(party). }
+  Topic pennock_lady with pennock "Ask Granny Pennock about watching the Lady at her chart" when true once {
+    Says "'Every morning,' says Granny Pennock. 'Right there through the glass, nine till twelve, with her glass up to her eye like a pond, drawing.' She shades her eyes and looks through the pane at the table. 'She draws a line and stops and stares, and draws another. A whole house, from memory. You could see it was her house, from the way she draws it. You don't draw a stranger's house that slow.' She goes back to her weeding. 'There's nothing inside her walls. I noticed that. Just the walls.'".
+    On discuss { Assert knows(actor, chart_known). }
+  }
+}

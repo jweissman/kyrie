@@ -343,6 +343,34 @@
         "talk": "The talk from over the east march is that something has changed in the Lull, and the carters of Sixways cannot agree whether for better.",
         "told": "{keeper} hears you out about the Lull, the stone and the bridge and the Watching, and is quiet a while. 'One day in seven,' {keeper} says at last. 'I've often thought I could do with that.' Then, after a moment: 'Or maybe not. Maybe I'd mean too little of it.'"
       }
+    },
+    {
+      "id": "hollins",
+      "bundle": "hollins/placed.json",
+      "entry": "march_road",
+      "marker": "step_top",
+      "side": "north",
+      "beside": [
+        "mountain",
+        "forest",
+        "frost"
+      ],
+      "name": "the Hollins country",
+      "topic": "the house on the hill at Hollins, over the march",
+      "terrain": "hills",
+      "rumour": "'North over the march, in the hills, there's a village called Bootscrape,' says {keeper}, 'built on a doorstep. A giant's doorstep: the house it belongs to is as big as a hill, and stood shut three hundred years. The giantess has come home to it, they say, to die, and her woman wants a ratcatcher. Two crowns a day.' {keeper} lowers their voice. 'The carters say there's more than rats in the walls.'",
+      "heard": "North over the march, in the hills, the village of Bootscrape is built on the doorstep of Hollins, a giant's house as big as a hill, shut three hundred years. The giantess has come home to die, and her companion is hiring a ratcatcher; the carters say there is more than rats in the walls.",
+      "skyline": "a grey hill with a roof on it, and windows in its side as tall as churches",
+      "far": "a giantess has come home to die in a house as big as a hill, and there are people living in its walls",
+      "notice": {
+        "name": "a notice from Hollins",
+        "text": "A notice in a clear, pinched hand, carried down by a carter and nailed up where travellers will see it: WANTED, A RATCATCHER, FOR HOLLINS, THE HOUSE BEING OVERRUN. TWO CROWNS THE DAY, AND TWOPENCE THE TAIL. APPLY AT THE MAT, BOOTSCRAPE, TEN UNTIL TWO. D. PYECROFT. Under it, in pencil, someone has written: north over the march, and mind the cat.",
+        "talk": "A notice from Hollins is nailed up where travellers will see it, wanting a ratcatcher at two crowns a day, and the talk is of how big the rats must be in a house that size."
+      },
+      "after": {
+        "talk": "The notice from Hollins still hangs where travellers will see it, curling at the corners; the carters say the giantess at Bootscrape is dead, and nobody wants a ratcatcher there now.",
+        "told": "{keeper} hears you out about Hollins: the Slot, the Wainscot, the Lady and her chart. 'People living in a giant's walls,' {keeper} says at last. 'And she never knew.' A pause. 'Or did she, by the end?' You tell them. {keeper} takes the notice down from the wall, and folds it, and puts it in a drawer instead of the fire."
+      }
     }
   ]
 }

@@ -1,0 +1,240 @@
+Module hollins "Behind the Wainscot" {
+  // ── The Smoking ───────────────────────────────────────────────────────────────────────────────────────────────────
+  // On the fourth afternoon Mrs Pyecroft goes down to Bootscrape for Widow Arkle's sulphur candles; if there are none to be
+  // had, she sends to Wendle by the carrier, and has them on the seventh. She means to smoke the house on the eighth
+  // night, with the Lady asleep upstairs and the doors shut: sooner if she has been told where they nest, or if the
+  // Lady has begged her; later if she had to send. It can be stopped by taking her candles, by her own change of
+  // mind, or by the Lady's word; and it can be outlived by going upstairs, or down the ladder.
+  Relation pyeOrdered(group). Relation smoked(place). Relation smokingOver(place). Relation evacuated(place). Relation evacPlanned(place).
+  Measure smokeNight(place).
+  Initially Set smokeNight(hollins) to 8.
+  Query pyeWilling() means not pyeTurned(pye) and not pyeCowed(pye) and not pyeWaits(pye) and not pyeGone(pye) and not ladyForbids(lady) and not ladyDead(lady).
+  Rule pye_buys when day4() and hour(clock) >= 15 and at(pye, bs_street) and pyeWilling() and not pyeOrdered(pye) and not sulphurBought(party) and not arkleRefuses(arkle) {
+    Assert pyeOrdered(pye). Assert pyeHasSulphur(pye).
+  }
+  Rule pye_sends when day4() and hour(clock) >= 15 and at(pye, bs_street) and pyeWilling() and not pyeOrdered(pye) and (sulphurBought(party) or arkleRefuses(arkle)) {
+    Assert pyeOrdered(pye). Increase smokeNight(hollins) by 1.
+  }
+  Rule wendle_carrier when pyeOrdered(pye) and not pyeHasSulphur(pye) and dayN(hollins) >= 7 and hour(clock) >= 15 and pyeWilling() { Assert pyeHasSulphur(pye). }
+  Rule pye_hastens when fright(lady) >= 2 and not hastened(pye) and smokeNight(hollins) > 7 { Assert hastened(pye). Decrease smokeNight(hollins) by 1. }
+  Relation hastened(group).
+  Rule pye_hastens_nest when soldOut(party) and pyeHasSulphur(pye) and smokeNight(hollins) > dayN(hollins) and smokeNight(hollins) > 5 and not hastenedNest(pye) { Assert hastenedNest(pye). Set smokeNight(hollins) to dayN(hollins). }
+  Relation hastenedNest(group).
+  Query smokeTonight() means dayN(hollins) == smokeNight(hollins) and hour(clock) >= 20.
+  Event arkle_tells at arkle_shop when pyeHasSulphur(pye) and pyeOrdered(pye) and at(party, arkle_shop) and not sulphurBought(party) and not arkleRefuses(arkle) "Widow Arkle does not look up from the thimble. 'Your Mrs Pyecroft was in,' she says. 'Bought my three yellow ones. Said it was for the cellars.' She looks up then. 'There's no cellars I know of that want three.'" teaches smoking_planned.
+  Topic pye_tells_smoke with pye "Ask Mrs Pyecroft what she will want of you next" when hiredBy(actor, pye) and pyeHasSulphur(pye) and pyeWilling() and not smokingOver(hollins) once {
+    Says "'The night of the {smokeNight(hollins)}th,' says Mrs Pyecroft. 'When she has had her drops and is asleep. I have sulphur. I shall light it in the Hall, the drawing room and the kitchen, and shut the doors, and the smoke will go down into every crack in this house where they breed.' She nods, briskly. 'I shall want you to help with the doors. They are heavy.'".
+    On discuss { Assert knows(actor, smoking_planned). }
+  }
+  Rule smoke_lit when smokeTonight() and hour(clock) >= 22 and pyeHasSulphur(pye) and not candlesGone(pye) and pyeWilling() and not smokingOver(hollins) { Assert smoked(hollins). Assert smokingOver(hollins). Set smokedAt(hollins) to watch(clock). }
+  Hazard sulphur_smoke "Sulphur smoke, sinking" means "Deal (3d6) physical damage to ally unless constitution save against (14).".
+  Rule smoke_chokes when smoked(hollins) and (within(party, ground_floor) or within(party, cellars)) and watch(clock) > smokedAt(hollins) and watch(clock) <= smokedAt(hollins) + 12 and not choked(party)
+    says "The smoke finds you too. It comes along the floor yellow and slow, and where it touches it burns, eyes, throat, lungs; you are on your knees before you know it, and the way up is a long way off." { Assert choked(party). Assert strikes(sulphur_smoke, party). }
+  Relation choked(group). Measure smokedAt(place).
+  Rule smoke_foiled when dayN(hollins) > smokeNight(hollins) and not smokingOver(hollins) and hour(clock) >= 6 { Assert smokingOver(hollins). }
+  Rule smoke_evacuates when smokeTonight() and evacPlanned(hollins) and not evacuated(hollins) and pyeHasSulphur(pye) and pyeWilling() and not candlesGone(pye) { Assert evacuated(hollins). }
+  Event smoke_told within house when smoked(hollins) and not evacuated(hollins) "At ten o'clock Mrs Pyecroft goes down the Hall in her nightcap with a taper, and lights three fat yellow candles on three saucers, in the Hall, in the drawing room, in the kitchen, and goes out, and shuts the doors, which close like the end of the world. The smoke goes down. It goes down the way water goes down: along the flagstones, under the skirting, into the cracks, the grate, the pantry, the Nail. For a while there is coughing in the walls of the house, everywhere, all at once. Then there is less.".
+  Event smoke_told_out within house when smoked(hollins) and evacuated(hollins) "At ten o'clock Mrs Pyecroft goes down the Hall in her nightcap with a taper and lights her yellow candles and shuts the doors, and the smoke goes down into the walls like water; and finds them empty. The Wainscot is out: up the Stair to the Nursery in a long line, or down the rope ladder from the Slot to Bootscrape, where every loft and barn has its doors open and its lamps lit, and Jory Mudge is ladling broth in the street.".
+  Action raise_wainscot(actor: group, site: place) "Raise the Wainscot: up the Stair, and out by the Slot, before the smoke" {
+    Description "Go along the Skirting door to door with the word, and get six hundred people moving in the dark.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, skirting) and knows(actor, smoking_planned) and dayN(hollins) == smokeNight(hollins) and hour(clock) >= 18 and not evacuated(hollins) and not smokingOver(hollins).
+    Time 6.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert evacuated(hollins). }
+    Result "You go down the Skirting banging on doors, and at first nobody believes you, and then Mab Tenter does, and then everybody does at once. By ten the Skirting is a river of people going one way, carrying children and bedding and pots, up the Risers' ladders in the dark or up into the Slot and down the rope to the village, and the Post is entering them as they go, out of habit, until Faith Penny throws the pen down and carries a child herself.".
+    Otherwise "You go down the Skirting banging on doors and shouting, and they look at you out of their doorways, at the stranger, the ratcatcher some say, and close their doors. A few go. Most do not.".
+  }
+  Action douse_candles(actor: group, site: place) "Pinch out the sulphur candle on the Hall floor" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hall_flags) and smokeTonight() and hour(clock) >= 22 and pyeHasSulphur(pye) and not smokingOver(hollins).
+    Time 1.
+    On success { Assert candlesGone(pye). }
+    Result "You find it by its light: a yellow candle on a saucer, as big as you, guttering, with a coil of evil smoke going up off it and falling back and spreading along the floor. You hold your breath and push it over and smother the flame in your coat, and do the same in the drawing room, and the kitchen, choking, your eyes streaming.".
+  }
+
+  // ── The Hollins Stone Concern ─────────────────────────────────────────────────────────────────────────────────────
+  Person overy "Mr Overy" at nowhere {
+    Role "the surveyor of the Hollins Stone Concern". Ancestry human. Peaceable. Pronouns he. Manner jovial.
+    Likeness "merchant".
+    Greets "A pleasant man in a good grey coat, with a measuring-chain coiled on the table by his beer, rises and offers his hand. 'Overy, of the Concern. You'll have come out of the house. Remarkable, isn't it? Six thousand tons of dressed granite, I make it, and the slates, and the lead.' He beams. 'A town's worth of stone, standing idle.'".
+    Greets again "Mr Overy lifts his beer to you.".
+  }
+  Rule overy_comes when dayN(hollins) >= 5 and hour(clock) >= 10 and at(overy, nowhere) and not deedLodged(party) and not saleRevoked(lady) { Assert at(overy, mat_tap). }
+  Topic overy_stone with overy "Ask Mr Overy what the Concern means to do with Hollins" when true once {
+    Says "'Take it down,' says Mr Overy, as you might say a man means to have his hair cut. 'Carefully, mind. Course by course from the chimneys. Wendle wants a corn exchange and a gaol, and there's not a quarry in the county with granite like hers.' He considers his beer. 'It's a quarry that happens to be standing up. Nobody's lived in it for three hundred years.' He looks at you. 'Have they?'".
+  }
+  Topic overy_paper with overy "Ask Mr Overy what papers the Concern holds" when true once {
+    Says "'A conveyance,' says Overy, 'signed by the Lady in the spring, to take effect on her decease, Mrs Pyecroft acting for her. All proper.' He taps his nose. 'Only the deed's not been found. Without the deed her cousin's lawyers'll have us in court for ten years. Mrs Pyecroft's been looking.' He smiles. 'I'd pay for it. Fifteen coin to anybody who brought me the deed of Hollins. No questions.'".
+    On discuss { Assert knows(actor, overy_pays). }
+  }
+  Discovery overy_pays "Mr Overy of the Hollins Stone Concern holds a conveyance the Lady signed in the spring, to take effect on her death, but needs the deed; he will pay fifteen coin for it.".
+  Relation deedSold(group).
+  Action sell_deed(actor: group, site: place) "Sell Mr Overy the deed of Hollins, for fifteen coin" {
+    Grave "With the deed and the conveyance together, the Concern can take the house down when she dies.".
+    Speaker overy.
+    Requires able(actor) and company(actor) and at(actor, site) and at(overy, site) and carries(actor, deed) and not deedSold(party).
+    On success { Spend deed from actor. Assert deedSold(party). Increase quantity(actor, gold) by 15. }
+    Result "Mr Overy takes the roll in both arms and sits down under it, beaming, and unties the ribbon enough to read the first line, and ties it again. 'Fifteen,' he says, and counts it out. 'You've done Wendle a good turn. A corn exchange. A gaol.' He pats the deed. 'Nobody lives there, after all.'".
+  }
+  Rule overy_leaves when (deedLodged(party) or saleRevoked(lady)) and at(overy, mat_tap) { Assert at(overy, nowhere). }
+  Event overy_gone at mat_tap when deedLodged(party) and at(party, mat_tap) "Mr Overy's table by the fire is empty, his chain gone. Jory Mudge, wiping it, says: 'Gone back to Wendle on the carrier. Said Saltash had a deed in his box and a will beside it, and he'd sooner argue with God than with Saltash.'".
+
+  // ── The Jarl's poison ─────────────────────────────────────────────────────────────────────────────────────────────
+  // Mrs Pyecroft lays poisoned bread along the Hall skirting on the third morning. If the Jarl has a death to answer (his
+  // son in her trap, or the colliers in her fire), the Jarmen gather it into a pot; and on the sixth afternoon, while
+  // she naps before tea, his man climbs the table leg and puts it in her sugar.
+  Relation poisonLaid(place). Relation poisonPotFull(place). Relation haspPlots(group). Relation haspStands(group).
+  Relation poisonInSugar(group). Relation sugarSpilled(group). Relation potEmptied(group).
+  Rule pye_poisons when day3() and hour(clock) >= 7 and pyeWilling() and not poisonLaid(skirting) { Assert poisonLaid(skirting). }
+  Rule hasp_resolves when (watDead(wat) or ladyCursed(hollins)) and poisonLaid(skirting) and not haspPlots(hasp) and not haspStands(hasp) and dayN(hollins) >= 3 { Assert haspPlots(hasp). Assert poisonPotFull(pantry). }
+  Rule hasp_relents when haspStands(hasp) and poisonPotFull(pantry) { Retract poisonPotFull(pantry). Retract haspPlots(hasp). }
+  Discovery poison_plan "The Jarmen have gathered Mrs Pyecroft's poisoned bread into a pot. On the sixth afternoon, while the Lady naps before tea, the Jarl's man will climb the tea table and put it in her sugar.".
+  Topic mab_whisper with mab "Ask Mab Tenter what the Wainscot is saying about the Jarmen" when haspPlots(hasp) and not haspStands(hasp) and dayN(hollins) >= 4 once {
+    Says "Mab looks round the Nail before she answers, which she has never done before. 'That they've been along the Skirting with a sack, picking up Pyecroft's bread. All of it. Every crust.' She ladles. 'That Hasp sits on his throne with a pot on the shelf behind him and won't eat. That Dunstan Gall's been practising on the table leg in the drawing room at night, up and down, up and down.' She puts the ladle in the pot. 'Sixth day, they're saying. At her tea. In the sugar.' She looks at you. 'And I'm saying nothing. I want it to stop. I told you.'".
+    On discuss { Assert knows(actor, poison_plan). }
+  }
+  Topic nan_whisper with nan "Ask Nan Collier what the colliers are saying" when haspPlots(hasp) and collierDead(hollins) and not haspStands(hasp) once {
+    Says "Nan does not look at you. 'The Jarl came to the Skirting,' she says. 'Asked for strong arms to steady a rope up the tea-table leg on the sixth day. For her sugar.' She turns her pencil over. 'Some said yes. For Mam.' A long breath. 'I said no. I don't know why. I hate her. I said no.'".
+    On discuss { Assert knows(actor, poison_plan). }
+  }
+  Action steal_pot(actor: group, site: place) "Take the poison pot from behind the Jarl's throne" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, pantry) and poisonPotFull(pantry) and not potEmptied(party) and not stealTried(party).
+    Resolve check(actor, stealth, dc_fair).
+    On success { Assert potEmptied(party). Retract poisonPotFull(pantry). }
+    On failure { Assert stealTried(party). Retract tolerates(pinmen, actor). Assert hostile(pinmen, actor). Assert assails(pinmen, actor). Assert at(pinmen, pantry). }
+    Result "You wait until the Jarl goes to the back to look at the crocks, as he does every hour now, as if Wat might be there; and take the pot off the shelf, and are out through the comb-gate with it under your arm before anyone looks round. In the kitchen you empty it down the Sink's drain, and the drip washes it away.".
+    Otherwise "Your hand is on the pot when a pin-man turns round. 'Jarl!' he shouts, and the Pantry is full of steel.".
+  }
+  Relation stealTried(group).
+  Action stay_hasp(actor: group, site: place) "Tell Hasp Tallowby that if she dies the quarrymen come, and the Pantry with the rest" {
+    Speaker hasp.
+    Requires able(actor) and company(actor) and at(actor, site) and at(hasp, site) and haspPlots(hasp) and not haspStands(hasp) and knows(actor, concern_heard) and not stayedHasp(party).
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert haspStands(hasp). }
+    On failure { Assert stayedHasp(party). }
+    Result "Hasp hears you out about the Concern, and the paper Pyecroft made her sign, and the cartloads of stone going down to Wendle for a corn exchange. He sits very still. 'So she dies,' he says, 'and they pull my Pantry down round my ears, and my boy's dead for nothing, and his da's a murderer for nothing.' He reaches behind him without looking and takes the pot down off the shelf, and holds it on his knee, and looks at it. 'Get it out of my sight,' he says, and gives it to you, and then puts his face in his hands.".
+    Otherwise "'Let them come,' says Hasp. 'Let them pull it down. She'll be dead first.' He does not look at you again.".
+  }
+  Relation stayedHasp(group).
+  Topic hasp_summoned with hasp "Tell Hasp Tallowby the Lady asks to see him, and will sit as still as she can" when ladyKnows(lady) and trapsLifted(lady) and watDead(wat) and not haspStands(hasp) once {
+    Says "Hasp looks at you a long time. 'She asks,' he says. 'Her.' He gets up off the cheese, slowly, like an old man, and stands with his pin in his hand, and then leans it against the throne and leaves it there. He goes. He is gone an hour. When he comes back his face is not changed, exactly, but something in the way he holds it is. 'She knew his name,' he says. 'She'd asked it. She said it to me. She said, I lit fires and laid traps in my own house because I would not believe what I saw, and your son is dead of it, and I have nothing to give you that is worth anything.' He sits down. 'She cried. She's as big as a hill and she cried.' He looks at the pot on the shelf. 'Throw that down the drain,' he says, to nobody, and a pin-man does.".
+    On discuss { Assert haspStands(hasp). }
+  }
+  Person brack "Dunstan Gall" at nowhere {
+    Role "the Jarl's man". Ancestry human. Calling thief. Level 3. Peaceable. Pronouns he. Manner grim.
+    Greets "A lean man with a coil of rope over his shoulder and a pot under his arm stops dead on the cloth and looks at you. 'Out of the way,' he says. 'This is the Jarl's.'".
+  }
+  Rule brack_climbs when day6() and hour(clock) >= 15 and hour(clock) < 16 and poisonPotFull(pantry) and haspPlots(hasp) and not haspStands(hasp) and at(brack, nowhere) and not poisonInSugar(hasp) and not brackStopped(brack) { Assert at(brack, tea_table). Set brackAt(brack) to watch(clock). }
+  Rule brack_doses when at(brack, tea_table) and day6() and hour(clock) >= 15 and not brackStopped(brack) and not poisonInSugar(hasp) and watch(clock) >= brackAt(brack) + 3 { Assert poisonInSugar(hasp). Assert at(brack, nowhere). }
+  Measure brackAt(group).
+  Relation brackStopped(group).
+  Action stop_brack(actor: group, site: place) "Stand between Dunstan Gall and the sugar bowl" {
+    Speaker brack.
+    Requires able(actor) and company(actor) and at(actor, site) and at(brack, site) and not brackStopped(brack).
+    Resolve check(actor, intimidation, dc_fair).
+    On success { Assert brackStopped(brack). Assert at(brack, nowhere). Retract poisonPotFull(pantry). }
+    On failure { Retract peaceable(brack). Assert assails(brack, actor). }
+    Result "You stand in front of the sugar bowl and do not move. Brack looks at you, and at the drop, and at the pot under his arm, and something in him is very tired. 'He'll ask why,' he says. 'Tell him somebody stood in the way.' He goes over the edge on his rope, and halfway down, you hear the pot smash on the Carpet.".
+    Otherwise "'Then fight me for it,' says Brack, and puts the pot down, and draws a knife made from a needle.".
+  }
+  Rule brack_beaten when (dead(brack) or routed(brack)) and not brackStopped(brack) { Assert brackStopped(brack). Retract poisonPotFull(pantry). Assert at(brack, nowhere). }
+  Action spill_sugar(actor: group, site: place) "Heave the sugar bowl over the edge of the table" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, tea_table) and poisonInSugar(hasp) and not sugarSpilled(party) and not poisoned(lady).
+    Resolve check(actor, brawn, dc_fair).
+    Time 1.
+    On success { Assert sugarSpilled(party). }
+    Result "It is like trying to move a cask. You put your shoulder to the round china tower and push, and rock it, and push, and it goes, slowly, over the lip of the table, and falls for a long time, and bursts on the Carpet like a bomb of snow. When the Lady comes to tea she feels for the bowl and finds nothing and says, 'Dorothea, where is the sugar?' and has her tea without.".
+    Otherwise "It will not move. It is a china tower full of sugar and it will not move for you.".
+  }
+  Topic pye_sugar with pye "Tell Mrs Pyecroft the sugar on the tea table is poisoned" when knows(actor, poison_plan) and (poisonInSugar(hasp) or poisonPotFull(pantry)) and not sugarSpilled(party) and not poisoned(lady) once {
+    Says "Mrs Pyecroft stares at you. 'Poisoned,' she says. 'By rats.' And then, slowly, her face changing: 'Not rats.' She does not ask anything else. She goes straight to the sugar bowl, and has the Lady's tea made without it, and the sugar thrown on the fire; and then she sits down on the edge of the saucer, and shakes, and you see that she is very frightened, and that she has been frightened, perhaps, for some days.".
+    On discuss { Assert sugarSpilled(party). Retract poisonPotFull(pantry). Assert pyeSuspects(pye). }
+  }
+  Rule lady_drinks when day6() and hour(clock) >= 16 and poisonInSugar(hasp) and not sugarSpilled(party) and at(lady, tea_table) and not poisoned(lady) { Assert poisoned(lady). }
+  Event poison_told within house when poisoned(lady) "At ten past four the Lady takes her tea, with sugar, two spoons. At half past she says the cake tastes of almonds. At five she tries to stand, and cannot, and Mrs Pyecroft's voice goes up and up, calling for somebody, for anybody, in a house where nobody of her size has ever answered.".
+  Rule poison_kills when poisoned(lady) and hour(clock) >= 23 and not ladyDead(lady) { Assert ladyDead(lady). }
+
+  // ── The Moot ──────────────────────────────────────────────────────────────────────────────────────────────────────
+  // At two on the third day the Court sits in the parlour of the Small House with whoever of the Wainscot will come.
+  // Three matters: the Hearth, the Lady, the cat. Whoever someone of the Wainscot vouches for may speak.
+  Relation mootDecided(entity). Relation mootApproach(place). Relation bellVolunteer(group).
+  Query vouched() means (hearthWarned(hollins) or kitNanMet(kit) or travelsWith(sorrel, party) or ratsPaid(party) or underfolkEntered(annet) or countersign(party)) and not soldOut(party).
+  Rule moot_gathers when day3() and hour(clock) >= 13 and not occasionBegun(moot) { Assert at(honor, small_house_parlour). Assert at(kit, small_house_parlour). }
+  Rule moot_hasp when day3() and hour(clock) >= 13 and not occasionBegun(moot) and not at(hasp, small_house_parlour) and not haspStands(hasp) { Assert at(hasp, small_house_parlour). }
+  Rule moot_hasp_home when (occasionOver(moot) or dayN(hollins) >= 4) and at(hasp, small_house_parlour) { Assert at(hasp, pantry). }
+  Rule moot_bet when day3() and hour(clock) >= 13 and not occasionBegun(moot) and hearthWarned(hollins) and not at(bet, small_house_parlour) { Assert at(bet, small_house_parlour). }
+  Rule moot_bet_home when occasionOver(moot) and at(bet, small_house_parlour) and not refugeesHoused(hollins) { Assert at(bet, skirting). }
+  Rule moot_bet_up when occasionOver(moot) and at(bet, small_house_parlour) and refugeesHoused(hollins) { Assert at(bet, nursery_floor). }
+  Observe moot_scene at small_house_parlour when occasionBegun(moot) and not occasionOver(moot) "The parlour of the Small House is packed to the walls: Laceys in their good chairs round the table, and behind them, standing, on the stair, in the hall, in the doorways, the Wainscot: colliers black from the Hearth, Readers with ink on their cuffs, Jarmen with pins, the Post in green caps, a Winder in black. Dame Honor sits at the head with her chain of buttons. Mr Ambry stands behind her with the Forms under his arm, all nine volumes, in case.".
+  Occasion moot "the Moot" at small_house_parlour when day3() and hour(clock) >= 14 {
+    Matter m_hearth "Dame Honor raps the table with a thimble. 'The first matter: the Hearth. Eighty souls on the Skirting with what they could carry. They cannot go back into the grate while she burns it. Where are they to go?' A Lacey cousin says the Hall is very large. Somebody laughs, not kindly." for 40 minutes until mootDecided(m_hearth).
+    Matter m_lady "'The second matter,' says Dame Honor, and the parlour goes quiet, 'is Her. What the Wainscot is to do. Hide, as we have always hidden; or go, while there is a ladder; or,' and she stops, and goes on, 'or make ourselves known.'" for 40 minutes until mootDecided(m_lady).
+    Matter m_cat "'The last matter,' says Dame Honor, and sighs, 'is the cat.' There is a murmur of the deepest feeling. 'It has been proposed,' she reads from a paper, 'by the Nail, and seconded by the Risers, that the cat be belled, so that it may be heard coming.' A roar of agreement. 'Carried,' says Dame Honor. 'Who will bell it?' And the parlour, all at once, finds the carpet very interesting." for 40 minutes until mootDecided(m_cat).
+    Closes "Dame Honor raps the thimble on the table, and the Moot is over, and the Wainscot goes out of the Small House and down the Stair in silence, past the dappled flank of the rocking horse, which creaks.".
+  }
+  Rule moot_mute at small_house_parlour when occasionBegun(moot) and not occasionOver(moot) and at(party, small_house_parlour) and not vouched() and not mootMuteSaid(party)
+    says "When you open your mouth Mr Ambry is at your elbow at once. 'The outsider has no voice in the Moot,' he says, not unkindly, 'unless someone of the Wainscot speaks for them. That is the Form.' Nobody here speaks for you." { Assert mootMuteSaid(party). }
+  Relation mootMuteSaid(group).
+  Measure mootOpenedAt(entity).
+  Rule moot_opened when matterOpen(?m) and mootOpenedAt(?m) == 0 { Set mootOpenedAt(?m) to watch(clock) + 3. }
+  Query mootHeard(m: entity) means matterOpen(m) and mootOpenedAt(m) > 0 and watch(clock) >= mootOpenedAt(m).
+  // The Hearth.
+  Action speak_hearth(actor: group, site: place) "Speak for taking the colliers into the Small House and up into the Nursery" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, small_house_parlour) and matterOpen(m_hearth) and vouched() and not kitNanMet(kit) and not mootDecided(m_hearth).
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert refugeesHoused(hollins). Assert mootDecided(m_hearth). }
+    On failure { Assert mootDecided(m_hearth). }
+    Result "You tell them what the Skirting looks like tonight, and how many children, and that the Nursery is the one floor in the house she has not lit a fire on. The Laceys look at each other. Then Dame Honor says, very drily, 'The Small House has four attics and a nursery floor as wide as a moor, and it has been empty of anyone but Laceys for three hundred years. I find I am tired of it.' She raps the thimble. 'The colliers come up.'".
+    Otherwise "You speak, and they listen politely, and at the end a Lacey uncle says that the Small House is the Child's gift and not a lodging-house, and enough of the table murmur to carry it. Dame Honor does not look at you. The colliers stay on the Skirting.".
+  }
+  Rule moot_kit at small_house_parlour when matterOpen(m_hearth) and kitNanMet(kit) and not mootDecided(m_hearth) and at(nan, small_house_hall)
+    says "Kit Lacey stands up at the foot of the table before anyone else can, which he has never done in his life. 'The colliers come up,' he says. 'Into the Small House. All of them.' His aunt looks at him. 'Nan Collier is one of them,' he says, 'and I am going to marry her, and so I am not having my wife's people sleep in a gap in the skirting while there's four empty attics over my head.' The parlour is absolutely silent. Then Dame Honor says, 'I see,' and raps the thimble. 'Carried.'" { Assert refugeesHoused(hollins). Assert mootDecided(m_hearth). }
+  Rule moot_hearth_lapses at small_house_parlour when mootHeard(m_hearth) and not mootDecided(m_hearth) and not kitNanMet(kit)
+    says "Nobody stands. After a while a Lacey uncle says that the Small House is the Child's gift and not a lodging-house, and enough of the table murmur to carry it. The colliers stay on the Skirting." { Assert mootDecided(m_hearth). }
+  Rule refugees_up when refugeesHoused(hollins) and at(bet, skirting) { Assert at(bet, nursery_floor). }
+  Rule refugees_up_nan when refugeesHoused(hollins) and at(nan, skirting) { Assert at(nan, nursery_floor). }
+  // The Lady.
+  Rule moot_jarl at small_house_parlour when matterOpen(m_lady) and at(hasp, small_house_parlour) and haspPlots(hasp) and not jarlSpoke(hasp)
+    says "Hasp Tallowby stands up at the back with his pin. 'Make ourselves known,' he says. 'To her. My boy made himself known to her trap.' The parlour goes cold. 'She's old and she's blind and she's dying. Let her die quicker. Then the house is ours, as it always was.' Nobody answers him. Dame Honor looks at her hands." { Assert jarlSpoke(hasp). }
+  Relation jarlSpoke(group).
+  Action answer_jarl(actor: group, site: place) "Answer the Jarl before the Moot" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, small_house_parlour) and matterOpen(m_lady) and jarlSpoke(hasp) and vouched() and not haspStands(hasp) and not answeredJarl(party).
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert haspStands(hasp). Assert answeredJarl(party). }
+    On failure { Assert answeredJarl(party). }
+    Result "You answer him, in front of all of them: that she did not lay the trap and does not know his son's name; that the house is not theirs and never was, and would be less theirs, not more, with her dead and her cousin's lawyers on the doorstep. And then, because it is true, that you are sorry about Wat. Hasp looks at you for a long time across the parlour. Then he sits down, heavily, and puts his pin across his knees, and does not say anything else; and the Jarmen round him look at each other.".
+    Otherwise "You answer him, and he hears you out, and says, 'You're not from here,' and sits down; and you can see that it has made no difference at all.".
+  }
+  Relation answeredJarl(group).
+  Action speak_ladder(actor: group, site: place) "Tell the Moot that Bootscrape will take them in, if they must go down the ladder" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, small_house_parlour) and matterOpen(m_lady) and vouched() and knows(actor, bootscrape_shelter) and not evacPlanned(hollins).
+    Time 1.
+    On success { Assert evacPlanned(hollins). }
+    Result "You give them Jory Mudge's words. The lofts and the barns and the Mat's cellar. The parlour stirs: nobody in the Wainscot has ever been offered anything by the outside, except bread for pins. Faith Penny says, 'The Post will keep a list of who goes,' and Ma Riser says, 'The ladders'll take them down free,' and Dame Honor, after a long moment, says: 'Then if it comes to it, we go. The Court will give the word.'".
+  }
+  Action speak_known(actor: group, site: place) "Urge the Moot to make itself known to her" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, small_house_parlour) and matterOpen(m_lady) and vouched() and (knows(actor, diary_laceys) or primed(lady) >= 1) and not mootApproach(hollins).
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert mootApproach(hollins). Assert mootDecided(m_lady). }
+    On failure { Assert mootDecided(m_lady). }
+    Result "You tell them what the diary says, or what the chart said back, or both: that she was a child who was told she was lying, and believed it, and has come home not knowing. That the Wainscot is not hiding from a monster but from someone who once put the Laceys in her own house with her own hands. Dame Honor is very still. At the end she says, to the table, not to you: 'Three hundred years we have said she would come back for us. It seems she has, and does not know it.' She raps the thimble. 'The Court will make itself known, when the way is found.'".
+    Otherwise "You tell them, and they hear you, and it is too strange and too late. 'We hide,' says Dame Honor at last, 'as we have always hidden. It has kept us alive.' The thimble comes down.".
+  }
+  Rule moot_lady_lapses at small_house_parlour when mootHeard(m_lady) and not mootDecided(m_lady) 
+    says "In the end Dame Honor raps the thimble. 'We hide,' she says, 'as we have always hidden. It has kept us alive.'" { Assert mootDecided(m_lady). }
+  // The cat.
+  Action volunteer_bell(actor: group, site: place) "Say that you will bell the cat" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, small_house_parlour) and matterOpen(m_cat) and not belled(bishop) and not bellVolunteer(party).
+    Time 0.
+    On success { Assert bellVolunteer(party). Assert mootDecided(m_cat). }
+    Result "Every head in the parlour turns. There is a long silence, of the kind that happens in a room where everyone has been let off something. Then Mab Tenter, at the back, begins to clap, slowly, and then the colliers, and then everyone; and Mr Ambry, deeply moved, writes your name in the margin of the ninth volume of the Forms, under CAT, BELLING OF. 'There is a sleigh bell in the toy box,' says Dame Honor. 'It was hers. It will do.'".
+  }
+  Rule moot_cat_belled at small_house_parlour when matterOpen(m_cat) and belled(bishop) and not mootDecided(m_cat)
+    says "Before anyone can fail to answer, Mab Tenter says from the back: 'It's belled. I heard it this morning, ringing on the Stair like a sleigh. She put it on him herself.' A long silence. 'Minuted,' says Dame Honor faintly, and Mr Ambry, who had been turning to CAT, BELLING OF in the ninth volume of the Forms, closes it with a sound of real grief." { Assert mootDecided(m_cat). }
+  Rule moot_cat_lapses at small_house_parlour when mootHeard(m_cat) and not mootDecided(m_cat)
+    says "Nobody speaks. Somebody coughs. 'It is minuted,' says Dame Honor at last, without expression, 'that the cat is to be belled.' Mr Ambry writes it down." { Assert mootDecided(m_cat). }
+  Relation bellRewarded(group).
+  Topic honor_bell_done with honor "Tell Dame Honor Lacey the cat is belled" when belled(bishop) and bellVolunteer(party) and not bellRewarded(party) once {
+    Says "Dame Honor looks at you for a long moment as if she were adjusting something in her estimate. 'Mr Ambry,' she says, and he comes in with a little purse of horn buttons, which he counts into your hands one by one: six, the Court's minting, good in every shop in the Wainscot, and at Ottoline Fogg's for coin. 'The Court is obliged,' says Dame Honor. 'The Nail will tell its children about you for a hundred years, which is a responsibility. Try to deserve it.'".
+    On discuss { Assert bellRewarded(party). Increase quantity(actor, gold) by 6. }
+  }
+}

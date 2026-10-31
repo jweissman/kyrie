@@ -1,0 +1,206 @@
+Module hollins "Behind the Wainscot" {
+  // ── The doorstep and the Slot ─────────────────────────────────────────────────────────────────────────────────────
+  // Hob's rope ladder goes up the face of the step from the street; at the top, the letterbox, whose brass flap is
+  // propped open with a wedge, and a rope ladder down the inside into the drift of three centuries of letters.
+  Place step_top "the top of the doorstep" is room within hollins at 0, 1 outdoors.
+  Place slot_inside "the inside of the Slot" is room within ground_floor at 0, 0.
+  Place letterdrift "the Letterdrift" is room within ground_floor at 1, 0.
+  Place hall_flags "the Hall floor" is room within ground_floor at 2, 1.
+  Place clock_foot "the foot of the Long Clock" is room within ground_floor at 3, 1.
+  Place clock_case "inside the Long Clock" is room within ground_floor at 3, 0.
+  Place clock_hood "the works of the Long Clock" is room within ground_floor at 4, 0.
+  Place stair_foot "the foot of the Stair" is room within ground_floor at 2, 2.
+
+  Passage step_ladder "Hob's ladder up the doorstep" is ladder between bs_street and step_top taking 10 minutes.
+  Passage the_slot "the Slot" is crawl between step_top and slot_inside taking 2 minutes.
+  Passage drift_ladder "the rope ladder down into the drift" is steps between slot_inside and letterdrift.
+  Passage drift_path "the path down off the drift" is passage between letterdrift and hall_flags taking 10 minutes.
+  Passage clock_path "the way across the flagstones to the clock" is passage between hall_flags and clock_foot taking 10 minutes.
+  Passage clock_crack "the crack in the clock's plinth" is crawl between clock_foot and clock_case.
+  Passage weight_chain "the weight-chain" is steps between clock_case and clock_hood taking 10 minutes.
+  Passage stair_path "the way across the flagstones to the Stair" is passage between hall_flags and stair_foot taking 10 minutes.
+
+  Observe step_scene at step_top when true "The top of the doorstep is a plain of grey stone sixty feet above Bootscrape, worn into a hollow in the middle by the feet of giants. The door rises out of it, black oak, studded, going up into the sky; the keyhole above you is a cave. At the height of your head is the letterbox, a brass mouth a yard long with its flap wedged open by a chunk of wood, and a smell coming out of it of paper, dust and candles.".
+  Observe slot_scene at slot_inside when true "Inside the brass mouth of the letterbox, a ledge, and a rope ladder going down into a dimness that smells of old paper. Somebody has painted on the brass, small and neat, POST OFFICE OF THE WAINSCOT. ALL COMERS TO REPORT. And under it, smaller: MIND THE DROP.".
+  Observe drift_scene at letterdrift when true "Below the letterbox lies the Letterdrift: three hundred years of letters, fallen through the slot onto the hall floor and never picked up, heaped into a dune as high as a barn and as long as a street. The letters are a giant's letters, each the size of a bedsheet, folded; their seals are cartwheels of red wax. Paths go over and into the drift, and in it people have dug rooms, roofed with envelopes, lit by candle-ends, with addresses for walls: MISS E. WHITLOCK, HOLLINS; THE LADY WHITLOCK, BY HAND; and a great many bills.".
+  Observe drift_post at letterdrift as feature when true "In the face of the drift a counter has been built out of a giant's postcard on trestles. Pigeonholes are cut into the paper behind it, labelled in a clear hand: NEWS, OLD; NEWS, OLDER; LOVE; MONEY; DEATHS; ILLEGIBLE.".
+  Observe hall_scene at hall_flags when not dark() "The Hall of Hollins. The floor is flagstones of grey stone, each as wide as a threshing-floor, with grass-wide cracks between them where people have planted cress. The far wall is so far off it is blue. Up it climbs the Stair, a flight of cliffs going up into the dimness, and against the east wall stands a tall clock-case like a tower, its face high up, its hands stopped at a little after four. Along the foot of every wall runs the skirting, a moulded board as high as a cottage, with doors cut in it.".
+  Observe hall_night at hall_flags when dark() "The Hall at night is a dark plain under a dark sky that is a ceiling. Here and there along the skirting a little light shows, where the Wainscot has its doors. Somewhere out on the flagstones, a long way off, there is a sound like a sack being dragged.".
+  Observe hall_lit at hall_flags as feature when hearthBurned(hollins) and not fireOut(hollins) and not ladyDead(lady) and not dark() "Warm air moves across the flagstones from the drawing-room door, where a fire has been lit; and the cress in the cracks has turned toward it, all of it, overnight.".
+  Observe hall_still at hall_flags as ambience when at(lady, hall_flags) "The floor is shaking. Everywhere on the flagstones people have stopped exactly where they are, mid-step, mid-word, a child with one foot raised; and above them, filling the Hall, the Lady goes by.".
+
+  // ── The Post of the Wainscot ──────────────────────────────────────────────────────────────────────────────────────
+  Person faith "Faith Penny" at letterdrift {
+    Role "the Postmistress of the Wainscot". Ancestry halfling. Peaceable. Pronouns she. Manner stoic.
+    Likeness "scholar".
+    Greets "A halfling woman in a green cap with POST on it in brass letters looks up from a register the size of a cottage door, laid flat on trestles. 'Name, place of origin, purpose of visit,' she says, and dips a pen. 'Everyone who comes in by the Slot is entered. We have entered everyone for two hundred and ninety years.' She waits. 'And you've no letters for anyone, I suppose. Nobody ever has letters.'".
+    Greets again "Faith Penny looks up from the register and, without asking, turns to your entry.".
+  }
+  Topic faith_post with faith "Ask Faith Penny what the Post does" when true once {
+    Says "'We keep the drift,' says Faith Penny. 'Everything that ever came through the Slot. We read it, for the news, because three-hundred-year-old news is the only kind that comes in; it's how we know there was a war in the east and a king called Aldo who died. We enter every soul that comes in.' She sets the pen down. 'And we deliver. When the person a letter is for comes home, we deliver it. That's the oath of the Post. Nobody ever came home.' She looks at the pigeonholes. 'Until Thursday.'".
+    On discuss { Assert knows(actor, post_oath). }
+  }
+  Discovery post_oath "The Post of the Wainscot keeps the Letterdrift, reads it for news, and is sworn to deliver each letter when the person it is for comes home. Nobody ever came home, until the Lady.".
+  Topic faith_letter with faith "Ask Faith Penny whether there are letters for the Lady" when knows(actor, post_oath) once {
+    Says "Faith Penny's mouth goes thin. 'Four hundred and twelve,' she says, 'addressed to Miss E. Whitlock. Bills, mostly. Condolences on her mother. A school.' She stops. 'And one.' She goes into the back of the drift and comes out with something the size of a door, and lays it on the counter as if it might break: a giant's letter, folded small, the paper gone the colour of tea, its seal a black disc with a C on it. Under the address someone has written, in a hand that shook: TO BE GIVEN HER WHEN SHE COMES HOME. 'It came the week she went,' says Faith. 'Two hundred and ninety-one years under a bell-jar in the back.' She puts both hands flat on it. 'I swore to deliver it. I took the oath on it. And I cannot go out there and walk up to her. I've tried. I get as far as the drawing-room door and my legs stop.'".
+    On discuss { Assert knows(actor, letter_kept). }
+  }
+  Discovery letter_kept "In the Letterdrift, under a bell-jar, the Post has kept a letter to Miss Whitlock with a black C on its seal, which came the week she went away, marked TO BE GIVEN HER WHEN SHE COMES HOME. Faith Penny is sworn to deliver it, and cannot make herself go near the Lady.".
+  Topic faith_give_letter with faith "Offer to deliver the Lady's letter for the Post" when knows(actor, letter_kept) and not letterDelivered(party) once {
+    Says "Faith Penny looks at you for a long time. Then she takes off her green cap, and puts it on the counter, and then puts it back on, because it is not a thing she can give. 'Not on the floor,' she says. 'Where she'll find it. Her table in the Library, where she works of a morning; or by her bed.' She pushes the letter across the counter with both hands, and you have to brace to take the weight. 'The Post is obliged to you,' she says, and enters it in the register, and her pen shakes. 'Delivered by hand.'".
+    On discuss { Give c_letter to actor. }
+  }
+  Kind c_letter_kind "the letter with the black seal" is gear worth 0 weighing 3 described "A giant's letter folded to the size of a door, the paper brown with age, sealed with a black wax disc a foot across stamped with a C. The address is in a big slanting hand that leaned on the pen: Miss Ermengarde Whitlock, Hollins. Under it, in another, shakier hand: TO BE GIVEN HER WHEN SHE COMES HOME.".
+  Item c_letter "the letter with the black seal" is c_letter_kind at nowhere.
+  Relation letterDelivered(group).
+  // The lost page of the Keys' score: posted to himself by the Guild's founder ninety years ago, for safe keeping, and
+  // never collected, because the postage was not paid.
+  Topic faith_page with faith "Ask Faith Penny about the Keys' lost page" when knows(actor, page_lost) and not pageGot(party) once {
+    Says "Faith Penny turns the register back a long way, licks her finger, turns some more. 'Here,' she says. 'Ninety-one years ago. One sheet, folded, from Master Anselm Flatt of the Keys, to Master Anselm Flatt of the Keys, care of the Post. Postage due, three coin. Not paid.' She looks up. 'It's in NEWS, OLDER. The Keys have asked for it every year since he died, and every year I tell them the same thing.' She closes the register. 'Three coin. The Post is not a cupboard.'".
+    On discuss { Assert knows(actor, page_held). }
+  }
+  Discovery page_held "The lost last page of the Keys' score is in the Letterdrift: the Guild's founder posted it to himself ninety-one years ago and never paid the postage. Faith Penny will give it up for three coin postage due.".
+  Action pay_postage(actor: group, site: place) "Pay Faith Penny three coin postage due on the Keys' page" {
+    Speaker faith.
+    Requires able(actor) and company(actor) and at(actor, site) and at(faith, site) and knows(actor, page_held) and not pageGot(party) and quantity(actor, gold) >= 3.
+    On success { Decrease quantity(actor, gold) by 3. Increase quantity(faith, gold) by 3. Assert pageGot(party). Give score_page to actor. }
+    Result "Faith Penny counts the coins twice, enters them, and stamps the register with a stamp cut from a cork. Then she goes into NEWS, OLDER and comes back with a folded sheet of ordinary paper, ordinary-sized, which looks absurd in the drift, like a moth in a barn. 'Postage paid,' she says, with enormous satisfaction. 'Tell Ludovic Flatt the Post has been waiting ninety-one years for him to grow up.'".
+  }
+  Action plead_postage(actor: group, site: place) "Argue to Faith Penny that a letter to oneself was never posted" {
+    Speaker faith.
+    Requires able(actor) and company(actor) and at(actor, site) and at(faith, site) and knows(actor, page_held) and not pageGot(party) and not pleadedPage(party).
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert pageGot(party). Give score_page to actor. }
+    On failure { Assert pleadedPage(party). }
+    Result "Faith Penny opens her mouth, and shuts it, and looks at the register for a long time. 'It was addressed,' she says. 'But it was not sent anywhere. It went from him to him. It was never in the post. It was in a cupboard that happened to be the post.' She takes off her cap and rubs her forehead. 'Ninety-one years.' She goes and gets it. 'Don't tell anyone,' she says. 'Especially not Ludovic.'".
+    Otherwise "'Postage,' says Faith Penny, 'is due on what is posted. It was posted. It went through my hands. The Post does not do philosophy.' She goes back to her register.".
+  }
+  Relation pleadedPage(group). Relation pageGot(group).
+  Kind page_kind "the Keys' lost page" is gear worth 0 weighing 0 described "One sheet of ordinary paper, folded in four, with a staff of music ruled on it by hand and eleven notes, and under them in an old man's writing: THE LAST OF THE FIRST AIR, AS SHE SANG IT. A. F.".
+  Item score_page "the Keys' lost page" is page_kind at nowhere.
+
+  // ── The Long Clock and the Winders ────────────────────────────────────────────────────────────────────────────────
+  // The clock was stopped at ten past four by a child's finger, three hundred and twelve years ago. The heretic Absalom
+  // Hale came in by the Slot two hundred years since and taught that it held the Day of the Going suspended: so long as
+  // it stood, the Child was still on her way home. His Winders oil it and do not wind it. The Lady winds it at dusk on
+  // the first evening, and it strikes; whether it goes on striking is the Winders' quarrel.
+  Thing long_clock "the Long Clock" at clock_foot is scenery {
+    State stopped "High overhead the clock's face is a white moon with black hands, stopped at ten past four.".
+    State going "High overhead the clock's face is a white moon, and its hands are moving. From inside the case, slow and enormous, comes the tock of the pendulum, like a door closing in another house, again, and again.".
+    State jammed "High overhead the clock's hands have stopped again at a few minutes past some hour, and the case is silent.".
+  }
+  Observe foot_scene at clock_foot when true "At the foot of the Long Clock the plinth rises like the wall of a fort, carved with acanthus leaves each as big as a cart. At the base, where the wood has shrunk from the floor, a crack the height of a door has been widened and hung with a curtain of red velvet, and over it, painted on the wood: THE WINDERS. IT IS STILL THE DAY.".
+  Observe case_scene at clock_case when true "Inside the Long Clock the dark goes up and up, a wooden tower, smelling of oil. Two weights hang in it on chains as thick as your leg, each weight a brass barrel the size of a hut; between them the pendulum's bob, a brass sun as tall as two men. Benches face it. Candles burn along a ledge. On the back of the case people have painted, very small and very many, the hands of the clock at ten past four, over and over, like a prayer.".
+  Observe case_going at clock_case as feature when state(long_clock, going) "The pendulum swings. The brass sun goes out of the candlelight into the dark, and comes back out of the dark into the candlelight, and the benches are empty but for a few who sit with their faces wet, watching it.".
+  Observe hood_scene at clock_hood when true "At the top of the weight-chain, the works: a city of brass wheels with teeth like ploughshares, pinions, a great wheel for the strike with a hammer poised over a bell as big as a room. Everything here is oiled, and has been oiled, every week, for two hundred years, by people who believed it must never move.".
+  Observe hood_jammed at clock_hood as feature when state(long_clock, jammed) "A pin, a giant's dressmaker's pin, has been driven between two teeth of the strike train, and everything has stopped against it.".
+  Person tobit "Prior Tobit Hale" at clock_case {
+    Role "the Prior of the Winders". Ancestry human. Peaceable. Pronouns he. Manner compassionate.
+    Likeness "priest".
+    Greets "An old man in a black gown oiled at the cuffs gets up from a bench beneath the hanging weights. 'Peace, and the Day,' he says, the Winders' greeting. 'You have come in the strangest week since the Going. Sit, if you like. Most people come here to sit.'".
+    Greets again "'Peace, and the Day,' says Prior Tobit Hale.".
+  }
+  Topic tobit_day with tobit "Ask Prior Tobit Hale what the Day is" when true once {
+    Says "'The Day of the Going,' says the Prior. 'The Child went away at ten past four on a winter afternoon. Absalom Hale, who founded us, taught that she stopped the clock as she went, with her own finger, so that it should be the same day when she came back.' He looks up into the dark of the case. 'So it has been the same day for three hundred and twelve years. We oil the works, and never wind them. While the clock stands, the Child is coming home.'".
+    On discuss { Assert knows(actor, the_day). }
+  }
+  Discovery the_day "The Winders teach that the Child stopped the Long Clock with her finger at ten past four, as she was sent away, so that it would be the same day when she came home; they oil it and never wind it.".
+  Topic tobit_struck with tobit "Ask Prior Tobit Hale what it means, that the Clock has struck" when state(long_clock, going) once {
+    Says "The old man's face is wet and he does not wipe it. 'She came to the clock,' he says. 'She stood there at dusk, so close I could see the threads in her sleeve, and she opened the trunk and wound it with a key like a ship's wheel, and set the hands by her watch, and it struck six.' He takes your hand. 'It means the Day is over. It means she has come home. We were right. Two hundred years, and we were right.' He holds on. 'Sister Verity says the opposite. Sister Verity says if the Day is over she can never come. Go and talk to her, if you can bear to; I can't.'".
+    On discuss { Assert knows(actor, winders_split). }
+  }
+  Discovery winders_split "The Winders are split by the Clock's striking: Prior Tobit Hale says the Day is over because the Child is home; Sister Verity Cogg says if the Day is over the Child can never come.".
+  Topic tobit_serve with tobit "Ask Prior Tobit Hale what the Winders want now" when knows(actor, winders_split) once {
+    Says "'To serve her,' says the Prior simply. 'We kept her clock. Two hundred years we kept her clock clean against the day she came. I want to tell her so. I want her to know someone kept faith.' He smiles, and it is a young man's smile on an old face. 'I don't need her to thank us. I'd only like her to know.'".
+    On discuss { Assert knows(actor, tobit_wants). }
+  }
+  Discovery tobit_wants "Prior Tobit Hale wants only that the Lady should know the Winders kept her clock clean for two hundred years.".
+
+  Person verity "Sister Verity Cogg" at clock_hood {
+    Role "a Winder, of the old observance". Ancestry gnome. Peaceable. Pronouns she. Manner grim.
+    Likeness "priest".
+    Greets "Up among the wheels a small gnome-woman with an oil-can on a strap turns round fast, as if you had caught her at something. 'Nobody comes up here,' she says. 'Nobody but me. Go down.'".
+    Greets again "Sister Verity Cogg does not turn round. 'Still here,' she says.".
+  }
+  Topic verity_day with verity "Ask Sister Verity Cogg why the Clock must not strike" when knows(actor, the_day) once {
+    Says "She grips the oil-can. 'Because while it stood, she was coming,' she says. 'Every day. Every single morning of my life I woke and it was still the Day, and she was still on the road, and every knock at the Slot might be her.' Her voice is shaking. 'That old woman upstairs is not the Child. That is a stranger with a cat who sets traps for us. The Child loved us. The Child is still coming, and she cannot come if the Day is over, and the Day is over if it strikes.' She looks at the strike wheel. 'So it will not strike.'".
+    On discuss { Assert knows(actor, verity_plans). }
+  }
+  Discovery verity_plans "Sister Verity Cogg means to stop the Long Clock striking, because she believes that the old woman upstairs is not the Child, and that the Child can never come home if the Day of the Going is over.".
+  // She jams the strike train on the third night, unless she has been talked out of it, or is watched.
+  Relation verityRelents(group). Relation verityCaught(group).
+  Rule verity_jams when state(long_clock, going) and dayN(hollins) >= 3 and hour(clock) >= 23 and not verityRelents(verity) and not verityCaught(verity) and not at(party, clock_hood) {
+    Assert state(long_clock, jammed).
+  }
+  Rule verity_watched at clock_hood when state(long_clock, going) and dayN(hollins) >= 3 and hour(clock) >= 23 and at(party, clock_hood) and not verityRelents(verity) and not verityCaught(verity)
+    says "Sister Verity comes up the chain in the dark with a giant's pin over her shoulder like a lance, and stops when she sees you, and stands a long time with it there. Then she lets it down, very carefully, against the wheels. 'You'd tell,' she says. 'You'd tell the Prior.' She sits down on a spoke of the strike wheel with her face in her hands." { Assert verityCaught(verity). }
+  Topic verity_diary with verity "Read Sister Verity Cogg what the Child wrote about the clock" when knows(actor, diary_clock) and not verityRelents(verity) once {
+    Says "You read it to her from the diary's copy: I have stopped the hall clock with my finger so that it will still be today when I come home. Sister Verity does not move. Then she puts down the oil-can, and takes the giant's pin out from where she had hidden it behind the bell, and lays it on the floor of the works. 'When I come home,' she says. 'She wrote that. She meant to come home.' She looks up at the wheels, which are turning. 'Then it's today,' she says. 'It's today. She came.' And she laughs, a small helpless sound, and goes on laughing, and cannot stop.".
+    On discuss { Assert verityRelents(verity). }
+  }
+  Action argue_verity(actor: group, site: place) "Ask Sister Verity Cogg what the Child would want with a stopped clock now" {
+    Speaker verity.
+    Requires able(actor) and company(actor) and at(actor, site) and at(verity, site) and knows(actor, verity_plans) and not verityRelents(verity) and not arguedVerity(party).
+    Resolve check(actor, insight, dc_hard).
+    On success { Assert verityRelents(verity). }
+    On failure { Assert arguedVerity(party). }
+    Result "She stares at you. 'The Child stopped it to keep a day from ending,' you say. 'So that it would be the same day. What day is it now?' Sister Verity opens her mouth, and closes it. She looks down through the wheels to the case below, where the pendulum is swinging. 'The day she came home,' she says at last, as if somebody else had said it. She puts the oil-can down. 'I'll oil it,' she says. 'Somebody must. It's going, now. It'll want oiling.'".
+    Otherwise "'You don't know what it is to wait,' says Sister Verity. 'Go down.'".
+  }
+  Relation arguedVerity(group).
+  // A jammed clock can be freed by someone who knows works.
+  Action free_clock(actor: group, site: place) "Work the pin out of the strike train" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, clock_hood) and state(long_clock, jammed).
+    Resolve check(actor, mending, dc_fair).
+    Time 3.
+    On success { Assert state(long_clock, going). }
+    Result "It takes leverage and patience and a good deal of oil. The pin comes out of the teeth with a shriek, and slides, and drops away into the dark of the case, and somewhere below it rings on a brass weight like a gong. The great wheels shiver, and take up their load, and turn.".
+    Otherwise "The pin is wedged hard between two teeth like ploughshares, and will not move for anything you can do.".
+  }
+  // Whoever winds a stopped clock and finds it stopped asks why; and Mrs Pyecroft has an answer.
+  Relation clockTrapped(group).
+  Rule lady_finds_jammed at clock_foot when state(long_clock, jammed) and at(lady, clock_foot) and hour(clock) >= 18 and not clockTrapped(pye) and not pyeTurned(pye) and not pyeGone(pye)
+    says "The Lady stops at the clock with the key in her hand, and stands, and listens. 'Dorothea, it has stopped.' A small dry voice from her shoulder: 'Mice in the works, I expect, Miss Whitlock. I shall see to it.'" { Assert clockTrapped(pye). }
+  Relation priorHurt(group).
+  Rule clock_trap_springs when clockTrapped(pye) and dayN(hollins) >= 5 and not priorHurt(tobit) and not trapsCleared(clock_case)
+    { Assert priorHurt(tobit). }
+  Observe case_hurt at clock_case as sign when priorHurt(tobit) "Somebody has put a spring-trap inside the plinth, in the dark at the foot of the weights, and it has gone off; there is blood on the boards, and the benches have been pushed back, and nobody is sitting on them.".
+  Relation trapsCleared(place).
+  Action clear_clock_trap(actor: group, site: place) "Spring Mrs Pyecroft's trap inside the clock with a candle-end on a stick" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, clock_case) and clockTrapped(pye) and not priorHurt(tobit) and not trapsCleared(clock_case).
+    On success { Assert trapsCleared(clock_case). }
+    Result "You find it by feel, in the dark under the weights where the Prior sets his candles: iron jaws, open, with a crust of cheese on the plate. You touch the plate with a candle-end on a stick, and the jaws come together with a crack like a shot that brings the Winders up off their benches, and take the candle-end in half.".
+  }
+
+  // ── The Stair ─────────────────────────────────────────────────────────────────────────────────────────────────────
+  Observe stair_scene at stair_foot when true "The foot of the Stair: the first step is a cliff of polished oak eight feet high, and the next one above it, and the next, going up into the dimness in a flight of twenty-two. Against the first, a ladder; at its foot, a shed made of a giant's slipper-box, a brazier, and a hand-painted sign, RISER LADDERS: UP, A PENNY. DOWN, FREE. MIND THE CAT.".
+  Person riser "Ma Riser" at stair_foot {
+    Role "who keeps the ladders on the Stair". Ancestry human. Peaceable. Pronouns she. Manner grim.
+    Likeness "farmer".
+    Greets "A big woman with arms like a bargee's, sitting on a coil of rope by the brazier, puts out her hand without getting up. 'Penny up, free down. Twenty-two ladders, twenty-two families, and every one of them'll want to know your business, so you may as well tell me first and save your breath.'".
+    Greets again "Ma Riser puts out her hand. 'Penny.'".
+  }
+  Thing riser_ladders "the Riser ladders" on stair_way {
+    State tolled blocking "The Riser ladders go up the Stair, a ladder to a step, and a Riser at the top of each who will want to see you have paid Ma Riser.".
+    State paid "The Risers wave you up, step by step, and their children race you.".
+  }
+  Passage stair_way "the Riser ladders up the Stair" is ladder between stair_foot and landing taking 30 minutes one way.
+  Passage stair_down "the Riser ladders down the Stair" is ladder between landing and stair_foot taking 20 minutes one way.
+  Action pay_riser(actor: group, site: place) "Pay Ma Riser a penny for the ladders" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(riser, site) and state(riser_ladders, tolled) and quantity(actor, gold) >= 1.
+    On success { Decrease quantity(actor, gold) by 1. Increase quantity(riser, gold) by 1. Assert state(riser_ladders, paid). }
+    Result "Ma Riser bites the coin, which is a custom, not a doubt, and bellows up the Stair: 'One up, paid!' The cry goes up the cliffs from family to family and comes back down, faint, from the top: 'One up, paid!'".
+  }
+  Rule ladders_retoll when hour(clock) == 0 and state(riser_ladders, paid) and not freeLadders(party) { Assert state(riser_ladders, tolled). }
+  Relation freeLadders(group).
+  Topic riser_cat with riser "Ask Ma Riser about the cat" when true once {
+    Says "Ma Riser spits in the brazier. 'The Bishop,' she says. 'Hers. Grey, long in the coat, eighteen foot nose to tail, and a mouth on it you could drive a cart into. Sleeps on her bed all day like a lord. Hunts the ground floor all night like a devil. The Hall first, then the carpet in the drawing room, then the kitchen, till first light.' She pokes the fire. 'Took Ezra Tenter's lad off the flagstones the first night, before anybody knew. Didn't eat him. Played with him. That's cats.' She looks at you. 'Nobody crosses the open after nine now. You'd be wise to learn the same.'".
+    On discuss { Assert knows(actor, cat_hunts). }
+  }
+  Discovery cat_hunts "The Lady's cat, the Bishop, eighteen feet long, sleeps on her bed by day and hunts the ground floor by night: the Hall from nine, the drawing-room Carpet from midnight, the kitchen from three, until first light. Nobody crosses the open after nine.".
+  Topic riser_comings with riser "Ask Ma Riser who goes up and down" when true once {
+    Says "'Everybody, through my hands,' says Ma Riser. 'Readers to the Library, Court folk to the Nursery, the Keys to their piano. Pyecroft goes up in the Lady's pocket and doesn't pay, and won't, and I've told her.' She counts on her fingers. 'And the dumbwaiter in the kitchen goes up to the landing, if you want to save a penny and risk your neck. It's on a rope. The Jarmen work it. They'll want more than a penny.'".
+    On discuss { Assert knows(actor, dumbwaiter_known). }
+  }
+  Discovery dumbwaiter_known "In the kitchen a dumbwaiter, a box on a rope, goes up from the kitchen to the first-floor landing; the Jarmen work it.".
+}
