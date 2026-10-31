@@ -91,13 +91,21 @@ export class Affordances {
       ...Object.fromEntries(needs.map(n => [n.why, n.note])) },
     ...answer?.command ? { command: answer.command } : {} })];
   }
-  // What someone here offers that the company needs now: a bed at night in a settlement, healing for one hurt.
+  // What someone here offers that the company needs now: a bed at night in a settlement, healing for one hurt; and
+  // what it has won, put to use: a treasure it carries bought, a lesson or a spell it can pay for (a company back in
+  // town was shown nothing to do with what it had won: the owner, 31 October).
   private static served(leaves: Choice[], r: Reading): { why: Why; note: string }[] {
-    const bed = r.needs.night && r.needs.settled
-      && leaves.find(c => ['take_lodging', 'take_lodging_guest'].includes(r.schema.get(c.command!) ?? ''));
-    const cure = r.needs.hurt.size > 0 && leaves.find(c => r.schema.get(c.command!) === 'take_healing');
+    const bed = r.needs.night && r.needs.settled && this.offered(leaves, r, ['take_lodging', 'take_lodging_guest']);
+    const cure = r.needs.hurt.size > 0 && this.offered(leaves, r, ['take_healing']);
+    const sale = this.offered(leaves, r, ['sell_valuable']), lesson = this.offered(leaves, r, ['train_member', 'learn_spell']);
     return [...bed ? [{ why: 'night' as const, note: `for the night: ${this.priced(bed)}` }] : [],
-      ...cure ? [{ why: 'hurt' as const, note: this.priced(cure) }] : []];
+      ...cure ? [{ why: 'hurt' as const, note: this.priced(cure) }] : [],
+      ...sale ? [{ why: 'spoils' as const, note: this.priced(sale) }] : [],
+      ...lesson ? [{ why: 'means' as const, note: `a lesson in ${lesson.label.replace(/^Train (\S+ )?(in )?| — .+$/g, '')}` }]
+        : []];
+  }
+  private static offered(leaves: Choice[], r: Reading, schemas: string[]): Choice | undefined {
+    return leaves.find(c => schemas.includes(r.schema.get(c.command!) ?? ''));
   }
   private static priced(c: Choice): string {
     const fee = c.note?.split(' · ')[0];
