@@ -1,0 +1,43 @@
+Module larum "The Quiet in the Sky" {
+  // ── The Oven ──────────────────────────────────────────────────────────────────────────────────────────────────────
+  // A war-mantlet set on its end and roofed with shields, round an oven Grimbold built out of a bell he found in the
+  // snow and broke up, and siege-stones. The only warm room in Halt, and the only place on the Field that smells of
+  // anything.
+  Relation breadRisen(group). Relation crockTaken(group). Measure crockDay(group).
+  Initially Assert restful(oven).
+  Observe oven_scene at oven when not breadRisen(grimbold) "Inside the mantlet it is warm, and you could weep for it. An oven of siege-stones and broken bell-bronze glows at the back, and in front of it a board as long as a table, and on the board, in rows, loaves: flat, grey, hard as tiles, every one of them. A sack of Larum flour sags against the wall. A mountain of a man in an apron stands over the board with his great arms folded, looking at the loaves the way a man looks at a field after hail.".
+  Observe oven_risen at oven when breadRisen(grimbold) "Inside the mantlet it is warm, and it smells of bread: real bread, brown and sour and risen, so that your mouth runs. The loaves stand on the long board in rows, round as helms, split across the top where they have opened in the heat. Dead people keep putting their heads in at the mouth of the Oven just to smell it, and going away again with their eyes shut.".
+
+  Person grimbold "Grimbold Ure" at oven {
+    Role "a berserker of Morrowhall, who bakes". Ancestry human. Calling warrior. Level 7. Peaceable. Pronouns he. Manner compassionate.
+    Likeness "baker".
+    Wants mother_kind.
+    Greets "The mountain of a man looks round from his flat loaves, and sees your breath, and his face goes soft all over, like dough. 'Oh,' he says. 'You're warm. Come in by the oven, then, you'll want it more than any of us.' He holds out a hand the size of a spade, covered in flour. 'Grimbold Ure. I was a berserker. I'm trying to be a baker. It isn't going well.'".
+    Greets again "Grimbold Ure lifts a floury hand. 'In by the oven,' he says. 'You're blue.'".
+  }
+  Topic grimbold_bread with grimbold "Ask Grimbold Ure what is wrong with the bread" when not breadRisen(grimbold) once {
+    Says "Grimbold picks up a loaf and taps it on the board. It sounds like a roof-slate. 'Flour from Larum,' he says. 'The Runners trade for it, a sack at a time. Water from the snow. Salt. And a cup of the old dough from yesterday's, to start it, the way my father did.' He puts it down. 'It won't rise. Forty mornings. I knead it, I set it by the oven, I wait, and it lies there like a dead thing.' He looks at his hands. 'They say up here nothing rises but the dead. I never thought that was a saying about bread.'".
+    On discuss { Assert knows(actor, grimbold_flat). }
+  }
+  Discovery grimbold_flat "Grimbold Ure's bread will not rise: forty mornings of flat loaves, started from yesterday's dough as his father did. On the Field they say nothing rises but the dead.".
+  Topic grimbold_past with grimbold "Ask Grimbold Ure how a berserker comes to bake" when true once {
+    Says "Grimbold sits down on a sack of flour, which groans. 'My father had a bakehouse in Ostry,' he says. 'Five hundred years gone. I was in it from when I could stand. Up at three, the oven, the smell.' He smiles at nothing. 'The Margrave's men came through when I was fifteen and took every lad who could lift a sack, and gave us axes, and found I went mad in a fight, and was good at it. I died at twenty at the Morning of Ashes with my teeth in a man's neck.' He looks at his flat loaves. 'I've not touched dough in five hundred years. I don't believe it'll work. I do it every morning anyway.' He shrugs, enormously. 'Somebody has to try first.'".
+  }
+  Topic grimbold_why with grimbold "Tell Grimbold Ure why his bread will not rise" when knows(actor, mother_alive) and knows(actor, grimbold_flat) and not breadRisen(grimbold) and not crockTaken(grimbold) once {
+    Says "Grimbold listens, very still, with his hands on his knees. 'Alive,' he says. 'The thing in the dough that does it. And nothing alive keeps up here.' He looks at the old dough in its bowl, grey and quiet. 'So I've been starting every loaf with a dead one.' He laughs, a big helpless laugh, and wipes his eyes with a floury wrist. 'Forty mornings. Of course. Of course it is.' Then he looks at you, and at your breath going up white, and slowly his face changes. 'Unless it came up with something warm.'".
+  }
+  Event grimbold_takes near grimbold when keeps(grimbold, ?m) and itemKind(?m, mother_kind) and not motherDied(larum_country) and not crockTaken(grimbold) "Grimbold takes the little crock in both hands as if it were a bird, and holds it to his ear, and his whole face opens. 'It's working,' he whispers. 'Listen. It's working.' He mixes it into the flour himself, slowly, talking to it under his breath, the way his father talked to the oven, and shapes the loaves, and sets them on the board by the warm stones under a cloth, and sits down on the sack beside them to wait, like a man sitting up with someone sick. 'In the morning,' he says. 'If it's going to, it'll be by the morning.'" then { Assert crockTaken(grimbold). Set crockDay(grimbold) to day(clock). }
+  Event grimbold_dead_crock near grimbold when keeps(grimbold, ?m) and itemKind(?m, mother_kind) and motherDied(larum_country) and not crockTaken(grimbold) "Grimbold lifts the cloth and looks at the grey skin on the Mother for a long time, and sniffs it, and puts it down. 'Dead,' he says gently, as if telling you about a dog. 'The cold got it on the way up.' He gives it you back. 'Take it down to her, and say sorry. And carry the next one closer.'" then { Give mother_crock to party. }
+  Rule bread_rises when crockTaken(grimbold) and day(clock) > crockDay(grimbold) and hour(clock) >= 6 and not breadRisen(grimbold) { Assert breadRisen(grimbold). }
+  Rule bread_seen at oven when breadRisen(grimbold) and at(party, oven) and not spoke(bread_told)
+    says "When you put your head in at the Oven's mouth Grimbold is standing at the long board with a cloth in his hands, not moving. Under the cloth the loaves have risen. They have risen like hills; they have pushed the cloth up off the board; they sit there round and pale and breathing a little, and when he slides the first one into the oven and brings it out brown, and breaks it, steam comes out of it, steam, in Ysgard, and the smell goes out of the mouth of the Oven and down the lanes of Halt, and people come. They come out of the tents and up the Row and stand outside the Oven in the snow, a hundred of them, two hundred, in mail and leather and bronze, not saying anything, smelling it. Grimbold gives them the first loaf in pieces, a piece each, until it is gone, and then the next. He is crying into his beard. 'Nothing rises in Ysgard but the dead,' he says to you, 'and Grimbold's bread.'" { Assert spoke(bread_told). }
+  Entity bread_told: fact "the bread rising".
+  // The Oven feeds the living, who need it.
+  Relation fedAtOven(group).
+  Topic grimbold_feeds with grimbold "Ask Grimbold Ure for something to eat" when not fedAtOven(actor) {
+    Says "Grimbold gives you what he has, and stands over you while you eat it, and asks you what it tastes like. He wants to know very much what it tastes like.".
+    On discuss { Increase quantity(actor, rations) by 2. Assert fedAtOven(actor). }
+  }
+  Rule oven_feeds_daily when hour(clock) == 0 and fedAtOven(?g) { Retract fedAtOven(?g). }
+  Observe halt_smells at halt_cross as ambience when breadRisen(grimbold) and haltStands() "Over everything in Halt, over the cold iron smell of the Field, there is a smell of bread.".
+}

@@ -1,0 +1,69 @@
+Module larum "The Quiet in the Sky" {
+  // ── The days the story keeps ─────────────────────────────────────────────────────────────────────────────────────
+  // Nothing on the Field waits for a company that has not come up: the story is counted from the first time the
+  // company stands in Ysgard (cameUp). At the first Hour after that, Torold Hame names the Testing for the fourth morning
+  // (testDay). Larum, below, keeps no story clock; it keeps a bell.
+  Relation cameUp(group). Measure upDay(clock). Measure testDay(clock). Relation testingNamed(place).
+  Relation ysgardRoom(place).
+  Query inYsgard(g: group) means at(g, ?p) and ysgardRoom(?p).
+  Rule came_up when inYsgard(party) and not cameUp(party) { Assert cameUp(party). Set upDay(clock) to day(clock). }
+  // The Hour: dusk in Ysgard, six in the evening, when the light goes blue and what was done to the dead is undone.
+  Query theHour() means hour(clock) == 18.
+  Query afterHour() means hour(clock) >= 18.
+  Rule testing_named when cameUp(party) and hour(clock) >= 18 and not testingNamed(field_country) { Assert testingNamed(field_country). Set testDay(clock) to day(clock) + 4. }
+  // The day of the Testing, the day after it, and whether it is behind us.
+  Query testingDay() means testingNamed(field_country) and day(clock) == testDay(clock).
+  Query testingUnder() means testingDay() and hour(clock) >= 7 and hour(clock) < 18.
+  Query afterTesting() means testingNamed(field_country) and (day(clock) > testDay(clock) or day(clock) == testDay(clock) and hour(clock) >= 18).
+  Query morningAfter() means testingNamed(field_country) and day(clock) > testDay(clock).
+  Query beforeTesting() means not afterTesting().
+  // How many mornings until the Testing, said in words.
+  Measure morningsLeft(clock).
+  Rule mornings_count when testingNamed(field_country) and morningsLeft(clock) != testDay(clock) - day(clock) { Set morningsLeft(clock) to testDay(clock) - day(clock). }
+
+  Initially Assert ysgardRoom(snow_gate). Initially Assert ysgardRoom(cleeve_booth).
+  Initially Assert ysgardRoom(field_south). Initially Assert ysgardRoom(lathe_ford). Initially Assert ysgardRoom(the_clear).
+  Initially Assert ysgardRoom(east_slope). Initially Assert ysgardRoom(west_slope). Initially Assert ysgardRoom(field_north).
+  Initially Assert ysgardRoom(halt_cross). Initially Assert ysgardRoom(the_ring). Initially Assert ysgardRoom(banner_lanes).
+  Initially Assert ysgardRoom(oven). Initially Assert ysgardRoom(truce).
+  Initially Assert ysgardRoom(morrow_yard). Initially Assert ysgardRoom(morrow_hall). Initially Assert ysgardRoom(marshal_room).
+  Initially Assert ysgardRoom(even_court). Initially Assert ysgardRoom(even_hall). Initially Assert ysgardRoom(forge).
+  Initially Assert ysgardRoom(scrapes_mouth). Initially Assert ysgardRoom(warren). Initially Assert ysgardRoom(edith_nook).
+  Initially Assert ysgardRoom(ice_foot). Initially Assert ysgardRoom(ice_stair). Initially Assert ysgardRoom(sitters_cave).
+  Initially Assert ysgardRoom(teeth_path). Initially Assert ysgardRoom(wolf_ledge). Initially Assert ysgardRoom(high_cairn).
+
+  // A place the company has left and come back to is told shortly (after the Liberty of the Ice's clock).
+  Relation visitedNow(place). Relation visitedBefore(place).
+  Rule arrives_at when at(party, ?p) and not visitedNow(?p) { Assert visitedNow(?p). }
+  Rule leaves_from when visitedNow(?p) and not at(party, ?p) { Retract visitedNow(?p). Assert visitedBefore(?p). }
+
+  // ── The cold ──────────────────────────────────────────────────────────────────────────────────────────────────────
+  // The dead do not feel it. The living do: every watch out of doors in Ysgard, or up in the White, is a watch of cold
+  // (chill), and the warm places take it off again: the Oven, the halls' fires, the Scrapes' fat-lamps, Cleeve's
+  // brazier, and anywhere in Larum. A sheepskin from Larum keeps it off twice as long. Past what a body can stand, the
+  // cold bites once an hour.
+  Measure chill(group). Measure chilledAt(group). Measure bittenAt(group).
+  Relation warm(place). Relation bitter(place).
+  Initially Assert warm(oven). Initially Assert warm(morrow_hall). Initially Assert warm(marshal_room).
+  Initially Assert warm(even_hall). Initially Assert warm(forge). Initially Assert warm(warren). Initially Assert warm(edith_nook).
+  Initially Assert warm(cleeve_booth). Initially Assert warm(sitters_cave).
+  Initially Assert bitter(the_white).
+  Query coldHere(g: group) means at(g, ?p) and (ysgardRoom(?p) and not warm(?p) or bitter(?p)).
+  Query wrapped(g: group) means holding(g, sheepskin_kind).
+  Query numbAt(g: group) means not wrapped(g) and chill(g) >= 18 or wrapped(g) and chill(g) >= 36.
+  Query frozenAt(g: group) means not wrapped(g) and chill(g) >= 30 or wrapped(g) and chill(g) >= 60.
+  Rule chill_rises when company(?c) and coldHere(?c) and watch(clock) > chilledAt(?c) { Increase chill(?c) by 1. Set chilledAt(?c) to watch(clock). }
+  Rule chill_bites when company(?c) and at(?c, ?p) and bitter(?p) and watch(clock) > chilledAt(?c) { Increase chill(?c) by 2. Set chilledAt(?c) to watch(clock). }
+  Rule chill_eases when company(?c) and not coldHere(?c) and chill(?c) > 0 and watch(clock) > chilledAt(?c) { Decrease chill(?c) by 4 or to nothing. Set chilledAt(?c) to watch(clock). }
+  Rule chill_settles when company(?c) and not coldHere(?c) and chill(?c) == 0 and watch(clock) > chilledAt(?c) { Set chilledAt(?c) to watch(clock). }
+  Hazard frostbite "the cold of Ysgard, in the fingers and the face" means "Deal (1d4) cold damage to ally unless constitution save against (12).".
+  Rule frost_bites when company(?c) and coldHere(?c) and frozenAt(?c) and watch(clock) >= bittenAt(?c) + 6 { Assert strikes(frostbite, ?c). Set bittenAt(?c) to watch(clock). }
+  Observe numb_tell near party as feature when coldHere(party) and numbAt(party) and not frozenAt(party) "Your fingers have gone stupid and white at the tips, and your face is stiff. The cold here is not weather. It is a place where warmth is not kept.".
+  Observe frozen_tell near party as feature when coldHere(party) and frozenAt(party) "You cannot feel your feet. Your breath has frozen in your collar. If you do not get somewhere warm, the cold will start taking pieces.".
+
+  // ── The breath ────────────────────────────────────────────────────────────────────────────────────────────────────
+  // In Ysgard the dead do not steam when they breathe. The living do, and every dead face turns to look.
+  Discovery breath_sign "On the Field the dead do not steam when they breathe; in that cold only the living do, and anyone can see it across a lane.".
+  Rule breath_seen when inYsgard(party) and not at(party, snow_gate) and not at(party, cleeve_booth) and not knows(party, breath_sign)
+    says "Your breath goes up white in front of you and hangs. Nobody else's does. A man going past with a spear on his shoulder stops dead and stares at the little cloud as if you had taken out a knife." teaches breath_sign { }
+}

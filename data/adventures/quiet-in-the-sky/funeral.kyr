@@ -1,0 +1,46 @@
+Module larum "The Quiet in the Sky" {
+  // ── A grave for Halvard ───────────────────────────────────────────────────────────────────────────────────────────
+  // Nobody on the Field knows what to do with a dead man. There has been one grave in Ysgard, in the Old Ice. And below
+  // the Pass there is a churchyard, and a bell. Torold consents once he knows Halvard will not rise, or has come to
+  // trust the company and is ready, and once there is somewhere to take him.
+  Query graveKnown() means knows(party, ice_burial) or knows(party, bell_heard).
+  Topic offer_grave with torold "Offer to help Torold Hame bury Halvard" when state(halvard, lying) and graveKnown() and (toroldKnows(torold) or toroldReady(torold) or toroldTrust(torold) >= 3) and not toroldConsents(torold) once {
+    Says "Torold looks at you as if you had spoken in a language he once knew. 'Bury him,' he says. 'Up here.' He looks at the face under the frost. 'There's no burying up here. There's never been anything to bury.' Then, slowly, the words coming out of him like stones out of a field: 'He's lain on these shields forty days. I've stood here forty days. Every Hour I watch his face for it, the blue coming over, and it never comes.' He takes his hands off the sword. 'Where would we take him?'".
+    On discuss { Assert toroldConsents(torold). }
+  }
+  Topic grave_ice with torold "Tell Torold Hame of the grave the Sitters cut in the Old Ice" answering offer_grave when knows(actor, ice_burial) {
+    Says "'In the ice,' says Torold. 'There's a grave in the ice.' He looks north, at the blue wall on the far side of the Field. 'All this time.' He nods slowly. 'Up here, then, among his own. Where I can go and stand.' He calls the watch with a jerk of his head. 'We'll carry him.'".
+    On discuss { Assert iceChosen(torold). }
+  }
+  Topic grave_larum with torold "Tell Torold Hame of Larum churchyard below the Pass, and its bell" answering offer_grave when knows(actor, bell_heard) {
+    Says "Torold is quiet a long while. 'Down there,' he says. 'In the ground. Where he came from.' He looks south, toward the Coming-in and the white beyond it. 'I can't go down. None of us can. We lie down in the white.' He swallows. 'I'd carry him as far as the snow, and you'd take him on. And I'd stand at the top and hear the bell.' He looks at the face under the frost. 'He'd be where Wendmere is. Under the same sky.' He nods, once. 'Yes. Down.'".
+    On discuss { Assert larumChosen(torold). }
+  }
+  Relation iceChosen(group). Relation larumChosen(group).
+  Relation buriedIce(group). Relation buriedLarum(group).
+  // The carrying: up the Field to the Old Ice, Torold and the watch on the bier-poles and the company beside it.
+  Action bury_ice(actor: group, site: place) "Carry Halvard Eld to the Old Ice with Torold and the watch, and bury him there" {
+    Description "Up the length of the Field to the stair, and a grave cut in the blue: most of a day.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, the_ring) and iceChosen(torold) and state(halvard, lying) and not testingUnder().
+    Time 24.
+    Grave "Once he is under the ice, Torold's Testing has nothing to wait for.".
+    On success { Assert state(halvard, gone_ice). Assert buriedIce(torold). Assert toroldMourned(torold). Assert at(actor, ice_foot). Assert at(torold, ice_foot). Assert at(even_watch, the_ring). }
+    Result "Torold and the watch lift the bier of shields on spear-shafts and carry it out of the ring and up the length of Halt, and the lanes empty to watch it go, and then follow it, Morrow and Even and Runner, not in any order, out across the Field and up the long white swells to the north. Nobody says anything. At the foot of the Old Ice, by the little cairn, the Sitters are waiting, nine of them and Aulus, who has brought his own pick. They cut the grave into the blue beside the old one, the way they did three hundred years ago, and lay him in it with his hands on his chest and his eyes shut, and Torold puts his sword in with him, and they fill it with ice chips and pour meltwater over, and it freezes clear, so that he lies there under the ice like a man under deep water, looking up. At the Hour the light comes blue over him, and he does not move, and Torold stands with his hand flat on the ice above his face, and it is the first time anyone on the Field has seen Torold Hame weep.".
+  }
+  Rule ice_mended at ice_foot when buriedIce(torold) and at(torold, ice_foot) and hour(clock) >= 21 { Assert at(torold, the_ring). }
+  // The carrying down: Torold to the edge of the white; Jory and the company on through it, if Jory has been told.
+  Action bury_larum(actor: group, site: place) "Carry Halvard Eld to the Coming-in with Torold, and down through the White to Larum churchyard" {
+    Description "Torold and the watch as far as the white; after that it is you, and whoever will help you, through the cairns and down: most of a day.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, the_ring) and larumChosen(torold) and state(halvard, lying) and knows(actor, white_known) and (joryTold(jory) or capable(actor, brawn)) and not testingUnder().
+    Time 30.
+    Grave "Once he is in the ground below the Pass, Torold's Testing has nothing to wait for.".
+    On success { Assert state(halvard, gone_larum). Assert buriedLarum(torold). Assert toroldMourned(torold). Assert at(actor, larum_chapel). }
+    Result "Torold and the watch carry the bier out of the ring and down the length of Halt, and the dead come out of the lanes and follow, all the way across the Field and up the track to the Coming-in, and stand there at the edge of the snow-curtain, hundreds of them, as far as they can come. Cleeve takes off his hat. Torold puts his hand on Halvard's chest once, and then gives the poles into your hands. You go down into the white with him on a Runners' sledge, Jory Whitlock on the front trace if he is with you, through the cairns one after another, and the dead man's frost does not melt the whole way down. In Larum the parson will not have him, and Bet Garside tells the parson what she thinks of that in front of the whole street, and they dig him a grave in the corner of the churchyard by the wall. At the Hour the parson rings the Mending Bell, three times, for him, and it goes up the Pass into the cloud; and somewhere at the top, at the edge of the snow, a man in blackened mail who cannot come down is listening.".
+  }
+  Observe larum_grave at larum_chapel as feature when buriedLarum(torold) "Through the chapel's little window you can see the new grave in the corner of the yard by the wall, with no name on it yet, and frost on it that does not melt.".
+  Observe ice_grave at ice_foot as feature when buriedIce(torold) "Beside the little cairn, under clear new ice, Halvard Eld lies with his eyes shut and his sword on his chest, like a man under deep water.".
+  // Torold, afterwards.
+  Topic torold_after_grave with torold "Ask Torold Hame how he does" when toroldMourned(torold) once {
+    Says "Torold is sitting on the empty bier, which nobody has taken away, with his hands hanging between his knees. 'I don't know,' he says. 'I've never done this.' He looks at the spears. 'None of us has. Two hundred years I've watched men go down, and got up beside them at the Hour.' He is quiet. 'Is this what it's like for you? Down there? All the time?' You tell him yes. He nods slowly. 'Then I don't know how you stand it,' he says. 'Or how you'd stand it any other way.'".
+  }
+}

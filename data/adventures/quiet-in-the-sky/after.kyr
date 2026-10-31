@@ -1,0 +1,36 @@
+Module larum "The Quiet in the Sky" {
+  // ── Afterwards: the Field and Larum, come back to ─────────────────────────────────────────────────────────────────
+  // The chapter closes on the Morning After; the Field goes on as it was left, and Larum with it.
+  Query afterAll() means outcomeDecided(field_country) and morningAfter().
+  Relation cameBackUp(group). Relation cameBackLarum(group).
+  Rule went_down when afterAll() and not inYsgard(party) and not cameBackLarum(party) and at(party, larum_street) { Assert cameBackLarum(party). }
+  Chapter ch_back_halt "Halt, Afterwards" when afterAll() and haltStands() and at(party, snow_gate) and visitedBefore(halt_cross) and cameBackLarum(party) "The Coming-in again, and the curtain of snow, and Cleeve; and below, in the middle of the Field, more smoke than there was, going straight up.".
+  Chapter ch_back_daily "The Field, Afterwards" when afterAll() and outcomeDaily(field_country) and at(party, snow_gate) and cameBackLarum(party) "The Coming-in again. From the Field below comes the roar of the Daily, and in the middle of it, where Halt was, nothing.".
+
+  Observe gate_halt_column at cleeve_booth as feature when afterAll() and haltStands() "Cleeve's ledger lies open on the desk, and down the page, beside EAST and WEST, there is a third column ruled in fresh ink, HALT, with a few names in it already.".
+  Topic cleeve_after with cleeve "Ask Cleeve about the new column in his ledger" when afterAll() and haltStands() once {
+    Says "Cleeve looks at it as if it might bite him. 'Halt,' he says. 'For the ones that come in at noon. And the ones that come in and look down at the Field and ask what the town is, and I tell them, and they ask can they go there instead.' He smooths the page. 'Nine hundred years of east and west. It was never a law.' He looks up. 'Nobody ever said it was a law.'".
+  }
+  // Where people are afterwards.
+  Rule after_daily_folk when afterAll() and outcomeDaily(field_country) and at(halt_folk, halt_cross) { Assert at(halt_folk, limbo). Assert at(saltash, limbo). Assert at(grimbold, morrow_hall). Assert at(wystan, even_hall). Assert at(hild, marshal_room). }
+  Rule after_daily_lovers when afterAll() and outcomeDaily(field_country) and wedded(mab) and not at(mab, sitters_cave) { Assert at(mab, sitters_cave). Assert at(ansel, sitters_cave). }
+  Rule after_daily_ned when afterAll() and outcomeDaily(field_country) and nedCame(ned) and not at(ned, warren) and not following(ned, party) { Assert at(ned, warren). }
+  Rule after_halt_ned when afterAll() and haltStands() and nedCame(ned) and not nedHome(ned) and not following(ned, party) and at(ned, snow_gate) { Assert nedHome(ned). Assert at(ned, oven). }
+  Rule after_torold_larum when afterAll() and buriedLarum(torold) and not at(torold, snow_gate) and hour(clock) >= 17 and hour(clock) < 19 { Assert at(torold, snow_gate). }
+  Rule after_torold_home when afterAll() and buriedLarum(torold) and at(torold, snow_gate) and (hour(clock) >= 19 or hour(clock) < 17) { Assert at(torold, the_ring). }
+  Observe torold_at_gate at snow_gate as sign when at(torold, snow_gate) and afterAll() "Torold Hame stands at the very edge of the snow-curtain with his hands empty, facing it, listening.".
+  Rule edith_hall_after when edithDead(edith) and afterAll() and not at(edith, even_hall) { Assert at(edith, even_hall). }
+  Observe edith_in_hall at even_hall as sign when at(edith, even_hall) and edithDead(edith) "At the very end of the lowest bench in Evenhall a woman in three Runners' smocks sits with a cup, not drinking, looking at the column of names painted up the wall to the roof. Her breath does not steam.".
+
+  // Larum afterwards.
+  Topic bet_after_quiet with bet "Tell Bet Garside what became of the Field" when afterAll() and not skyLoud() once {
+    Says "Bet hears you out with her chin on her fist and the two pans on the nail behind her. When you have done she is quiet a while. 'So they'll not start again,' she says. 'Not ever, maybe.' She looks at the pans. 'I'll get used to it. You get used to anything.' Then, after a moment: 'I'll tell old Habakkuk at the press. There'll be a ballad.' She shakes her head. 'I don't know what you'd rhyme with bread.'".
+  }
+  Topic bet_after_loud with bet "Tell Bet Garside what became of the Field" when afterAll() and skyLoud() once {
+    Says "Bet listens, and outside the window, far off up the Pass, the iron noise goes on and on. 'I slept,' she says, when you've done, a little guiltily. 'Last night. Ten hours.' She looks at the window. 'A town, you say. With a baker.' She is quiet. 'I'll not say I'm sorry it's loud again. I'll say I'm sorry about the baker.'".
+  }
+  Topic jory_after_field with jory "Ask Jory Whitlock whether he will go on taking the living up" when afterAll() and joryMet(jory) once {
+    Says "'Every week,' says Jory. 'Whether or no.' He coils a rope. 'They come up and look at the Field, the collectors, and buy iron off the Runners, and come down. They never go and sit with anybody.' He hangs the rope on its peg. 'I tell them now: go and sit with somebody. Ask them their name. Half of them have not been asked their name in a hundred years.'".
+  }
+  Observe chapel_after at larum_chapel as feature when afterAll() and knows(party, ithel_told) "Under I. S. MADE THIS BELL, somebody has cut, newer and smaller: FOR THE ONES THAT DO NOT GET UP.".
+}

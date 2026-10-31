@@ -1,0 +1,122 @@
+Module larum "The Quiet in the Sky" {
+  // ── The Old Ice ───────────────────────────────────────────────────────────────────────────────────────────────────
+  // North, where the Field rises into a glacier, a stair cut by nobody knows whom goes up to a cave in the blue ice, and
+  // in the cave sit the Sitters: ten of the oldest dead in Ysgard, from before the halls, who refused the Daily seven
+  // hundred years ago and have played a game of stones ever since, forgotten. Their bear wanders the stair.
+  Observe north_scene at field_north when true "The northern Field rises in long white swells toward a wall of ice that fills the north from side to side: the Old Ice, blue-green, cracked into towers, very slow. There is less iron here. The battle-lines never came this far. The snow is unmarked except for a line of very big footprints going up toward the ice, each one a yard across.".
+  Observe ice_foot_scene at ice_foot when true "At the foot of the Old Ice the cold comes off the glacier like a draught from a door. Steps go up it, cut into the blue, old, worn hollow in the middle by feet. Beside the bottom step somebody has built a little cairn of stones, which is the only cairn on the Field, and on the top stone is cut a word in letters you cannot read.".
+  Observe ice_stair_scene at ice_stair when true "Halfway up the ice the steps come out on a shelf, wide as a room, with the whole Field below you, the two halls tiny at its ends, Halt's smoke in the middle. Behind you the blue ice goes up into towers. The shelf is trodden all over by the same huge prints, and smells, faintly, of animal.".
+  Observe cave_known_tell at ice_stair as feature when knows(party, sitters_known) "At the back of the shelf, where the ice is darkest, there is a low mouth, and from it, very faint, comes the click of stones on a board.".
+  Discovery sitters_known "At the back of the shelf on the Old Ice's stair there is a mouth into the ice, and in it, the Runners say, old men who never come down.".
+  Discovery sitters_rumour "The Runners say there are old ones under the Old Ice who never come down, who would know things.".
+  Topic cuddy_sitters with cuddy "Ask Cuddy Wardle about the old ones under the ice" when (knows(actor, sitters_rumour) or cuddyTrust(cuddy) >= 2) and not knows(actor, sitters_known) once {
+    Says "'The Sitters,' says Cuddy. 'Runners know. Nobody else. Up the steps on the Old Ice, there's a cave, and in it there's ten old men from before there were halls, playing stones. They stopped fighting before anyone can remember. Everyone forgot them.' She grins. 'We take them up honey and they tell us the old stories wrong on purpose to see if we notice. Mind the bear.'".
+    On discuss { Assert knows(actor, sitters_known). Assert knows(actor, sitters_rumour). }
+  }
+  Relation searchedStair(group).
+  Action search_stair(actor: group, site: place) "Search the back of the ice shelf" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, ice_stair) and not knows(actor, sitters_known) and not searchedStair(actor).
+    Time 2.
+    Resolve check(actor, insight, dc_fair).
+    On success { Assert knows(actor, sitters_known). }
+    On failure { Assert searchedStair(actor). }
+    Result "At the back of the shelf, where the ice goes darkest, you find a low mouth in the blue, and stop, because from somewhere inside it comes a small dry sound, over and over: click. Click. Stones on a board.".
+    Otherwise "You go along the back of the shelf, and find nothing but ice, and the bear's prints going everywhere.".
+  }
+
+  // ── The bear ──────────────────────────────────────────────────────────────────────────────────────────────────────
+  // A war-bear of a dwarven host, dead nine hundred years, who mends at the Hour like anyone. It is the Sitters', and
+  // likes honey and roast ox, and does not like strangers on its stair.
+  Person bear "a great white bear" at ice_stair {
+    Role "who keeps the Sitters' stair". Species bear. Level 7. Temperament territorial.
+    Lair ice_stair.
+    Warns "On the shelf a white shape that you had taken for a heap of snow gets up, and goes on getting up, until it is twice the height of a man, a bear, white as the ice, with the rags of an iron harness still on its shoulders and its breath not steaming. It looks at you with small black eyes and opens its mouth and makes a sound like a door the size of a hall. It will not have you on its stair. A slab of something to eat would not come amiss; nor would going round it, if you are a climber.".
+    Comes "The bear comes at you across the shelf faster than anything that big should move.".
+    Pleads "The bear sits down suddenly in the snow, heavily, like a tired old dog, and licks its paw, and looks away from you. It is done.".
+  }
+  Relation bearKilled(group).
+  Action feed_bear(actor: group, site: place) "Throw the bear the slab of roast Brindle" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(bear, site) and able(bear) and holding(actor, brindle_kind) and not tolerates(bear, actor).
+    Time 1 minute.
+    On success { Spend brindle_slab from actor. Assert tolerates(bear, actor). Retract warned(bear, actor). }
+    Result "The slab of ox lands in the snow at its feet. The bear looks at it, and at you, and puts its great head down and sniffs it, and then lies down on the shelf with the meat between its paws and eats it slowly, with its eyes half shut, and does not look at you again.".
+  }
+  Action climb_round_bear(actor: group, site: place) "Climb round the bear by the ice towers to the back of the shelf" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(bear, site) and able(bear) and not tolerates(bear, actor) and not fellFromIce(actor).
+    Time 1.
+    Resolve check(actor, climbing, dc_hard).
+    On success { Assert tolerates(bear, actor). Retract warned(bear, actor). }
+    On failure { Assert fellFromIce(actor). Assert strikes(ice_fall, actor). Assert at(actor, ice_foot). }
+    Result "You go up into the ice towers at the edge of the shelf, handhold by handhold in the blue, and along, and down again behind the bear, which turns its head and looks at you there, and seems to decide you are not worth turning the rest of itself round for.".
+    Otherwise "A hold comes away in your hand, and you go down the face of the ice in a rush of blue chips, and fetch up at the foot of the steps in a heap.".
+  }
+  Relation fellFromIce(group).
+  Rule fell_clears when fellFromIce(?c) and hour(clock) == 0 { Retract fellFromIce(?c). }
+  Hazard ice_fall "a fall down the face of the Old Ice" means "Deal (2d4) bludgeoning damage to ally unless dexterity save against (12).".
+  Rule bear_dies when dead(bear) and not bearKilled(bear) { Assert bearKilled(bear). }
+  Rule bear_stays_dead near bear when bearKilled(bear) and theHour() and not spoke(bear_dead_told)
+    says "The Hour comes over the Old Ice, blue, and the bear does not get up. It lies on the shelf in its rags of harness, white on the white, with its small eyes open. From the back of the shelf, from the mouth in the ice, somebody old is crying out in a language you do not know, the same word over and over." { Assert spoke(bear_dead_told). }
+  Entity bear_dead_told: fact "the bear".
+
+  // ── The Sitters ───────────────────────────────────────────────────────────────────────────────────────────────────
+  Observe cave_scene at sitters_cave when true "A cave in the blue ice, lit by the ice itself, a cold green underwater light. Round a low table of a single stone sit ten old men and women on stools of stone, in harness older than anything you have seen on the Field: bronze scale, leather, a cuirass of linen glued in layers. On the table is a board scratched into the stone, and on the board, stones, black and white. One of them is moving a stone. The others are watching as if it were the most important thing in the world. Nobody looks up.".
+  Person sitters "the Sitters" at sitters_cave {
+    Role "the oldest dead in Ysgard, round a board of stones". Ancestry human. Numbers 9. Peaceable.
+    Greets "Nine very old faces turn to you, slowly, the way old trees would turn if they could, and look at your breath, and turn back to the board.".
+  }
+  Person aulus "Aulus" at sitters_cave {
+    Role "eldest of the Sitters". Ancestry human. Calling warrior. Level 9. Peaceable. Pronouns he. Manner acerbic.
+    Likeness "philosopher".
+    Greets "The old man moving the stone finishes moving it, with enormous care, and sits back, and only then looks up. He has a face like a walnut and a legionary's bronze cuirass gone green, and his eyes are very bright and very malicious. He says something in a tongue that has been dead a thousand years, and then, in a strange heavy old Common, 'A breather. Ha. The last breather on this stair was Ithel, and he would not play either.' He gestures at the board. 'Do you play Tabula? You do not. Nobody plays Tabula now. Sit. Lose. I will tell you things while you lose.'".
+    Greets again "Aulus looks up from the board. 'Again? Good. Sit.'".
+  }
+  Measure tabulaLost(group). Relation tabulaWon(group).
+  Discovery ithel_told "Three hundred years ago Ithel the Smith, a living man from Larum, came up looking for his son among the dead, quarrelled with a man of Even and killed him with a hammer, and the Even man never rose at the Hour. The Sitters buried him in the Old Ice. A living hand ends what it strikes in Ysgard. Ithel went home, made a bell, and died of grief.".
+  Discovery living_kills "In Ysgard a wound given by a living hand does not mend at the Hour: the living kill truly here, and nothing else does. Death has not come back to the Field. It came up the Pass.".
+  Discovery ice_burial "The Sitters know the only burial there has ever been in Ysgard: a grave cut into the Old Ice, where the man Ithel killed lies with his eyes shut, under the little cairn at the foot of the steps.".
+  Discovery quarrel_known "The Sitters say the war began over a game of Tabula: whether a man who came in at noon should play first or last. Nobody has asked them in seven hundred years.".
+  Action play_tabula(actor: group, site: place) "Play Aulus a game of Tabula" {
+    Description "Stones and a board, a game of the Aenean world. He talks while he plays.".
+    Speaker aulus.
+    Requires able(actor) and company(actor) and at(actor, site) and at(aulus, site) and not tabulaWon(actor) and tabulaLost(actor) < 3.
+    Time 3.
+    Resolve check(actor, lore, dc_hard).
+    On success { Assert tabulaWon(actor). Assert knows(actor, quarrel_known). Assert knows(actor, ithel_told). Assert knows(actor, living_kills). Assert knows(actor, ice_burial). }
+    On failure { Increase tabulaLost(actor) by 1. Assert knows(actor, quarrel_known). }
+    Result "You know the shape of the game from somewhere, a running game, stones racing round the board, and you play it carefully, and Aulus talks, and talks, and goes on talking more and more slowly as your stones come home, until he stops altogether and stares at the board. Then he laughs, a great cracked delighted bark that makes the other nine look up. 'Ithel,' he says. 'You play like Ithel. Ithel would not play, but he played like that in his head.' And because you have beaten him he tells you properly, without any of the lies: the smith from Larum who came up the stair three hundred years ago looking for his son, and found him in Morrow, and quarrelled at the ford with a man of Even over the son, and struck him with his hammer; and at the Hour the Even man lay in the snow and did not get up, and the smith stood over him breathing white. 'A living hand,' says Aulus. 'It ends what it strikes, up here. Nothing else does.' The Sitters carried the dead man up and cut a grave for him in the Old Ice, the only grave in Ysgard, and built the cairn at the bottom of the steps; and Ithel went home down the Pass and never came up again. 'He made a bell, we heard,' says Aulus. 'For the Hour. Is it still rung?'".
+    Otherwise "Aulus plays fast and dirty and talks all the time, mostly about a quarrel seven hundred years ago over this very game, over whether a man who came in at noon should move first or last, which he still thinks he was right about and which is, he says, how the whole war started, ha, the halls do not know that, nobody has asked the Sitters anything in seven hundred years. Your stones are still on the board when his are home. 'Again,' he says, sweeping them up. 'You are learning. Slowly.'".
+  }
+  // Losing, he tells it anyway, sideways, gloating.
+  Rule aulus_gossips near aulus when tabulaLost(party) >= 2 and not knows(party, ithel_told) and at(party, sitters_cave)
+    says "Sweeping the stones up after his second win, Aulus says, as if it did not matter: 'You breathers. The last one was Ithel, the smith. Killed an Even man at the ford three hundred years ago over his son, with a hammer, and the Even man never got up. Never. We buried him in the ice.' He sets the stones out again. 'A living hand ends what it strikes up here, did you not know? Nobody knows anything any more. Again?'" teaches ithel_told { }
+  Rule ithel_teaches_law when knows(party, ithel_told) and not knows(party, living_kills)
+    says "A living man struck a dead one on the Field with a hammer three hundred years ago, and the dead man never rose. Halvard Eld was killed by a short blade from behind, and has not risen. It was not the Field that would not mend them." teaches living_kills { }
+  Rule ithel_teaches_burial when knows(party, ithel_told) and not knows(party, ice_burial)
+    says "There is one grave in Ysgard: the Sitters cut it in the Old Ice for the man Ithel killed, under the little cairn at the foot of the steps." teaches ice_burial { }
+  Topic aulus_who with aulus "Ask Aulus who the Sitters are" when true once {
+    Says "'The First Host,' says Aulus. 'Before the halls. When the snow first let us in, there were few of us, and we built a fire and sat round it, and played.' He moves a stone. 'Then there were more, and the dawn-comers and the dusk-comers quarrelled over the board, and went off to build their halls at each end of the Field and fight about it, every day, forever.' He snorts. 'We sat. We are still sitting. They forgot us in a hundred years. It was very restful.'".
+    On discuss { Assert knows(actor, quarrel_known). }
+  }
+  Topic aulus_why with aulus "Ask Aulus why the Sitters never fought" when knows(actor, quarrel_known) once {
+    Says "Aulus stops with a stone in his fingers. For a moment the malice goes out of his face and he looks only very old. 'I was a soldier for twenty-six years,' he says, 'in the legions of a world that is under the sea now. I died on a wall. When I came in out of the snow I looked at the Field and I thought: no. Not forever. A man is entitled to stop.' He puts the stone down. 'They thought we were cowards. We let them. You cannot explain a thing like that to people who have just found out they cannot die.'".
+    On discuss { Increase aulusTrust(aulus) by 1. }
+  }
+  Measure aulusTrust(group).
+  Topic aulus_bronze with aulus "Show Aulus the bronze blade from the bottom of the Clear" when holding(actor, bronze_find) once {
+    Says "Aulus takes the green blade in both hands and turns it over, and the other nine Sitters stand up off their stools, all at once, with a scrape of stone. 'Cassian's,' says Aulus. His voice has gone strange. 'That is Cassian's. He threw it at me across the board, at the Quarrel, when I said noon moves last, and it went into the snow, and we never found it.' He hands it back, quickly, as though it were hot. 'He is in Morrow, Cassian. Seven hundred years. I wonder if he still thinks he was right.' Then, almost shy: 'Does Morrow still eat that ox?'".
+    On discuss { Increase aulusTrust(aulus) by 1. Assert knows(actor, cassian_known). }
+  }
+  Discovery cassian_known "The bronze blade from the bottom of the Clear was Cassian's, who threw it at Aulus across the board at the Quarrel that started the war; Cassian is in Morrow still.".
+  // Brought down: for a burial, or because there is somewhere now worth coming down to.
+  Relation sittersDown(group).
+  Topic aulus_down with aulus "Ask Aulus whether the Sitters would come down to Halt" when (knows(actor, ithel_told) and aulusTrust(aulus) >= 1 or toroldMourned(torold) and state(halvard, gone_ice)) and haltStands() and not sittersDown(aulus) and not bearKilled(bear) once {
+    Says "Aulus looks at the board for a long time. Then he looks round at the nine, and they look back at him. 'A town,' he says. 'On the Field. With no fighting in it.' He picks up a stone and puts it down. 'Seven hundred years we have sat here waiting for them to get bored.' He stands up, slowly, all of him creaking like a ship. 'Very well. We will come down and look. If it is no good we will come back up. Somebody bring the board.'".
+    On discuss { Assert sittersDown(aulus). Assert at(aulus, truce). Assert at(sitters, truce). }
+  }
+  Observe sitters_in_truce at truce as sign when sittersDown(aulus) and at(aulus, truce) "In the middle of the Truce ten very old people in bronze and leather sit round a board on the floor, playing stones, surrounded by a ring of the dead of both halls who have never seen anyone play anything and are arguing about the rules. Aulus is winning, and saying so.".
+  Topic aulus_speak with aulus "Ask Aulus to tell Halt at the ring of spears what a living hand does here" when sittersDown(aulus) and knows(actor, ithel_told) and not truthSpoken(field_country) and beforeTesting() once {
+    Grave "Once Halt knows that only a living hand kills here, it cannot be made not to know.".
+    Says "Aulus considers it, with a stone in his fingers. 'They will not like it,' he says. 'They will find out nothing came back but what came up the Pass. Then they must decide whether they want their war, with nothing to be afraid of.' He puts the stone down. 'Good. It is time they decided something.' He goes to the ring of spears with the nine behind him, and tells the whole of Halt, in his heavy old Common, about Ithel the Smith; and at the end he points at the cairn of shields where Halvard lies and says: 'A living hand. Not death. Death did not come back. It came up the stair.'".
+    On discuss { Assert truthSpoken(field_country). Assert toroldKnows(torold). Assert hildKnows(hild). }
+  }
+}

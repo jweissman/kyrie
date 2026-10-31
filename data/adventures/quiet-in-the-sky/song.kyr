@@ -1,0 +1,76 @@
+Module larum "The Quiet in the Sky" {
+  // ── The Truce ─────────────────────────────────────────────────────────────────────────────────────────────────────
+  // A siege-tower lying on its side in the middle of Halt, with a door cut in its floor and benches nailed to its walls:
+  // the alehouse, where they drink a mead whose honey the Runners trade for at the pass.
+  Observe truce_scene at truce when true "You crawl in through the hatch and are inside a siege-tower lying on its side: its floors are walls now, and its walls are floor and ceiling, and benches have been nailed to what used to be the floor of the second storey. There is no fire. Lamps of ox-fat. A barrel of mead on a trestle, and dead men and women sitting on the benches with horn cups, talking low. In the far corner, alone, a little old man in a skald's blue coat sits with three empty cups in front of him and a full one in his hand, glaring at nothing.".
+  Observe truce_singing at truce as sign when songMade(wystan) "Somebody at the far end is humming the new song. Somebody else joins in, and gets the words wrong, and is corrected by half the room.".
+
+  Person wystan "Wystan Hollins" at truce {
+    Role "the skald of Evenhall". Ancestry human. Calling bard. Level 6. Peaceable. Pronouns he. Manner acerbic.
+    Likeness "minstrel".
+    Greets "The little old man in the blue coat looks up at you, and at your breath, and curls his lip. 'Oh, marvellous,' he says. 'A breather. Come to ask the skald for a song? Everybody wants a song. A song for the peace, Wystan. Something cheerful, Wystan.' He drinks. 'Eight hundred years I've made the Tally-songs of Evenhall. Every champion, every rout, every great death, I made it rhyme. I am the best there has ever been at what I do.' He bangs the cup down. 'And what I do is killing.'".
+    Greets again "Wystan Hollins looks up, sees who it is, and drinks.".
+  }
+  Measure wystanTrust(group). Measure verses(group).
+  Relation songMade(group). Relation elegyMade(group). Relation songPromised(group). Measure songDay(group).
+  Topic wystan_why with wystan "Ask Wystan Hollins why he cannot make the song" when not songMade(wystan) and not elegyMade(wystan) once {
+    Says "'Because I don't know what anything's for,' says Wystan, 'except fighting.' He leans across the table and his breath does not steam. 'You want a song for the peace. What's in it? A song is things. A battle-song is a ford and a horn and a man going down and the name of the man who put him there. I have the words for those. Eight hundred years of them.' He sits back. 'What's a peace made of? Tell me that. I have been sitting here forty days trying to remember what a market sounds like, or what children are for, or a field when it's got something growing in it. I can't. I've been dead too long.' He looks into the cup. 'Tell me, breather. You've been alive more recently.'".
+    On discuss { Increase wystanTrust(wystan) by 1. Assert knows(actor, wystan_asks). }
+  }
+  Discovery wystan_asks "Wystan Hollins cannot make a song for the peace because he does not remember what anything is for but fighting. A song is things, he says: he asks to be told what a peace is made of, by someone alive more recently.".
+  Topic wystan_other with wystan "Ask Wystan Hollins whether he ever made a song that was not about killing" when wystanTrust(wystan) >= 2 and not knows(actor, lullaby_known) once {
+    Says "Wystan goes very still, and red, and for a moment you think he will throw the cup at you. Then he looks at the lamp. 'One,' he says. 'Before. When I was alive, in a hut, in the winter. My sister had a child and couldn't settle it, and I made it a song about a sheep that went over the hill to see what was there and came back and said, grass. That's all. Grass. It worked.' He drinks. 'I've never sung it up here. A thing like that. In Evenhall.' He looks at you sidelong, savage and ashamed. 'Don't you dare laugh.'".
+    On discuss { Assert knows(actor, lullaby_known). Increase wystanTrust(wystan) by 1. }
+  }
+  Discovery lullaby_known "Wystan Hollins once made a song that was not about killing, alive, for his sister's child: a sheep that went over the hill to see what was there, and came back and said, grass. He has never sung it in Ysgard.".
+  // What the company tells him is what goes into the song.
+  Relation toldBell(group). Relation toldBread(group). Relation toldBoy(group). Relation toldFord(group). Relation toldSpoon(group). Relation toldClear(group).
+  Topic verse_bell with wystan "Tell Wystan Hollins about Larum's bell at dusk" when knows(actor, wystan_asks) and knows(actor, bell_heard) and not toldBell(wystan) and not elegyMade(wystan) and not songMade(wystan) once {
+    Says "You tell him: the hamlet under the Pass, and the bell rung at dusk, the Hour, for nine hundred years, for nobody anyone remembers, and rung still in the quiet, to nothing. Wystan listens with his eyes shut, his lips moving. 'For nobody,' he says. 'Every night.' He writes something with his finger on the table in the spilt mead.".
+    On discuss { Assert toldBell(wystan). Increase verses(wystan) by 1. Increase wystanTrust(wystan) by 1. }
+  }
+  Topic verse_bread with wystan "Tell Wystan Hollins about Grimbold's bread rising" when knows(actor, wystan_asks) and breadRisen(grimbold) and not toldBread(wystan) and not elegyMade(wystan) and not songMade(wystan) once {
+    Says "'I smelt it,' says Wystan roughly. 'The whole of Halt smelt it. I sat here and smelt it and didn't go.' You tell him: the crock against your ribs all the way up through the White, and the loaves pushing the cloth off the board, and the steam. He is quiet. 'Steam,' he says. 'In Ysgard.' His finger moves in the mead.".
+    On discuss { Assert toldBread(wystan). Increase verses(wystan) by 1. Increase wystanTrust(wystan) by 1. }
+  }
+  Topic verse_boy with wystan "Tell Wystan Hollins about the boy who came in at noon, and his father" when knows(actor, wystan_asks) and knows(actor, ned_dead) and not toldBoy(wystan) and not elegyMade(wystan) and not songMade(wystan) once {
+    Says "You tell him about Ned, and the blackthorn, and the second cup; and Jory in his good coat going up into the white. Wystan does not write anything this time. He sits with his hand flat on the table. 'Noon,' he says at last. 'Neither one nor the other.' Then, almost to himself: 'Nobody ever came up here to see any of us. Not in eight hundred years.'".
+    On discuss { Assert toldBoy(wystan). Increase verses(wystan) by 1. Increase wystanTrust(wystan) by 1. }
+  }
+  Topic verse_ford with wystan "Tell Wystan Hollins about Mab Treloar and Ansel Haverlock at the ford" when knows(actor, wystan_asks) and paired(mab) and not toldFord(wystan) and not elegyMade(wystan) and not songMade(wystan) once {
+    Says "Wystan snorts. 'Treloar and Haverlock. I made a song of them a hundred years back. Three verses of who stuck who.' You tell him about the ice of the ford at noon, and the hands with nothing in them, and Mab reaching for his sleeve as if it might go off. Wystan laughs, short, and then does not laugh. 'Like a weapon she was afraid of,' he says. 'Yes.' The finger moves.".
+    On discuss { Assert toldFord(wystan). Increase verses(wystan) by 1. Increase wystanTrust(wystan) by 1. }
+  }
+  Topic verse_spoon with wystan "Tell Wystan Hollins about the crossbowwoman's spoon" when knows(actor, wystan_asks) and knows(actor, makings_last) and not toldSpoon(wystan) and not elegyMade(wystan) and not songMade(wystan) once {
+    Says "You tell him about the spoon cut out of a shield-board, and still there in the morning, and kept inside her jack. Wystan looks at his own hands, which have made eight hundred years of songs and nothing else. 'Still there in the morning,' he says.".
+    On discuss { Assert toldSpoon(wystan). Increase verses(wystan) by 1. Increase wystanTrust(wystan) by 1. }
+  }
+  Topic verse_clear with wystan "Tell Wystan Hollins about looking down through the Clear" when knows(actor, wystan_asks) and visitedBefore(the_clear) and not toldClear(wystan) and not elegyMade(wystan) and not songMade(wystan) once {
+    Says "'The Clear,' says Wystan. 'I've walked over it ten thousand times on the way to the ford.' You tell him what is down there, layer under layer, and the green shapes at the bottom nobody can name. He shakes his head. 'Nine hundred years of swords,' he says, 'and every one of them dropped by a man who got up.' His finger stops. 'That's not a peace song. That's the other kind.' But he writes it down.".
+    On discuss { Assert toldClear(wystan). Increase verses(wystan) by 1. }
+  }
+  // Two things told, and the lullaby: he can make it, and sings it at the Hour the next day.
+  Topic wystan_make with wystan "Ask Wystan Hollins whether that is enough to make a song of" when knows(actor, lullaby_known) and verses(wystan) >= 2 and not songPromised(wystan) and not elegyMade(wystan) once {
+    Says "Wystan looks at the table, where the mead has dried in streaks of your words, a bell, a loaf, whatever you told him. He is quiet a long time. 'A sheep went over the hill,' he says under his breath, 'to see what was there.' He looks up. 'Tomorrow. At the Hour. Here. If it's any good I'll sing it and if it isn't I'll break the cup over your head.' He drinks off the cup. 'Go away. I'm working.'".
+    On discuss { Assert songPromised(wystan). Set songDay(wystan) to day(clock). }
+  }
+  Rule song_made when songPromised(wystan) and day(clock) > songDay(wystan) and hour(clock) >= 18 and not songMade(wystan) { Assert songMade(wystan). }
+  Rule song_sung at truce when songMade(wystan) and at(party, truce) and theHour() and not spoke(song_told)
+    says "At the Hour Wystan Hollins climbs onto the mead-trestle with a cup in his fist, and the Truce goes quiet, because he has not sung in forty days. He does not sing the Tally of anyone. He sings about a sheep that went over the hill to see what was there." { Assert spoke(song_told). }
+  Entity song_told: fact "the song".
+  Rule song_bell at truce when songMade(wystan) and toldBell(wystan) and at(party, truce) and theHour() and not spoke(song_bell_told) says "The second verse is a bell rung at dusk in a hamlet under the snow, for nobody, every night, in case." { Assert spoke(song_bell_told). }
+  Rule song_bread at truce when songMade(wystan) and toldBread(wystan) and at(party, truce) and theHour() and not spoke(song_bread_told) says "There is a verse about a loaf that pushed its cloth off the board, and the room laughs, and stops laughing, because of the line about the steam." { Assert spoke(song_bread_told). }
+  Rule song_boy at truce when songMade(wystan) and toldBoy(wystan) and at(party, truce) and theHour() and not spoke(song_boy_told) says "There is a verse about a boy who came in at noon, neither one thing nor the other, and a man who climbed up into the white in his good coat to tell him things. Nobody in the Truce looks at anybody else during that verse." { Assert spoke(song_boy_told). }
+  Rule song_ford at truce when songMade(wystan) and toldFord(wystan) and at(party, truce) and theHour() and not spoke(song_ford_told) says "There is a verse about two people on the ice of a ford with nothing in their hands, and one of them reaching out the way you reach for a weapon you are afraid of." { Assert spoke(song_ford_told). }
+  Rule song_spoon at truce when songMade(wystan) and toldSpoon(wystan) and at(party, truce) and theHour() and not spoke(song_spoon_told) says "There is a verse about a spoon, still there in the morning." { Assert spoke(song_spoon_told). }
+  Rule song_end at truce when songMade(wystan) and at(party, truce) and theHour() and spoke(song_told) and not spoke(song_end_told) says "And the sheep came back over the hill, and they asked it what was there, and it said: grass. Wystan stops. He gets down off the trestle without a word and sits in his corner with his back to everybody. Nobody claps. After a while somebody at the far end starts humming it, and gets it wrong, and is corrected." { Assert spoke(song_end_told). }
+  Entity song_bell_told: fact "the bell verse". Entity song_bread_told: fact "the bread verse". Entity song_boy_told: fact "the boy verse".
+  Entity song_ford_told: fact "the ford verse". Entity song_spoon_told: fact "the spoon verse". Entity song_end_told: fact "the song's end".
+  // Or the other song: told how Halvard died, he makes the great elegy, and Even will go down to the Testing singing it.
+  Topic verse_halvard with wystan "Tell Wystan Hollins how Halvard Eld died" when knows(actor, wystan_asks) and knows(actor, halvard_wound) and not songPromised(wystan) and not elegyMade(wystan) once {
+    Grave "He will make a song of it, and it will be the best thing he ever made, and it will be the kind he knows.".
+    Says "You tell him: the knife at the nape, from behind, the only mark on a man who fought every day for twelve years. Wystan sits up. His eyes are suddenly bright, and he is not drunk at all. 'From behind,' he says. 'The greatest of them all. And at the Hour the light went blue over him and he lay there.' He is already writing in the mead, fast, both hands. 'Oh, that is a song. That is the song. They will sing that going down to the ford until the stars go out.' He does not look up as you leave.".
+    On discuss { Assert elegyMade(wystan). }
+  }
+  Observe truce_elegy at truce as sign when elegyMade(wystan) and beforeTesting() "In the corner Wystan Hollins is teaching three men of Even a song, beating time on the bench with his cup. It is in the old Tally-metre, and every verse ends with a name: Halvard. Halvard. The men's faces as they sing it are like the faces of men sharpening something.".
+}

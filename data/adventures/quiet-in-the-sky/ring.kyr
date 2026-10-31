@@ -1,0 +1,74 @@
+Module larum "The Quiet in the Sky" {
+  // ── The ring of spears ────────────────────────────────────────────────────────────────────────────────────────────
+  // Halvard Eld lies where he fell, on a bier of shields, under a frost that does not melt; four of Even stand over him
+  // day and night, and Torold Hame, his sworn brother, has not left the ring in forty days.
+  Observe ring_scene at the_ring when state(halvard, lying) "In the middle of Halt a ring of spears stands planted butt-down in the snow, shoulder to shoulder, and inside it, on a bier of shields, a man is lying on his back with his hands on his chest and his eyes shut. He is very big. His hair is red, and frost has grown over it, and over his eyebrows and his beard, white and fine as fur, and does not melt. Four of Evenhall stand at the corners of the bier with their backs to him. People going past the ring lower their voices, the way people do going past a church.".
+  Observe ring_empty at the_ring when not state(halvard, lying) "The ring of spears stands in the middle of Halt as it did, but the bier of shields inside it is empty, and the snow on it is going over smooth. Somebody has hung a red-haired doll on one of the spears.".
+  Thing halvard "Halvard Eld, on his bier" at the_ring {
+    State lying "Halvard Eld lies on his bier under his frost.".
+    State gone_ice "Halvard Eld lies in the Old Ice.".
+    State gone_larum "Halvard Eld lies in Larum churchyard.".
+  }
+  Initially Assert state(halvard, lying).
+  Observe halvard_looked near halvard when tried(halvard, looking) and state(halvard, lying) and not knows(party, halvard_wound) "From outside the spears you can see his face, quiet under the frost, and the place on his chest where his hands are folded over a hole in his jack. You cannot see more from here without going in, and the four of Even are watching you go round.".
+
+  Person even_watch "the watch on Halvard" at the_ring {
+    Role "four of Evenhall, standing over their champion". Ancestry human. Calling warrior. Level 5. Numbers 4. Peaceable. Pronouns they.
+    Greets "The nearest of the four looks at your breath, and at you, and moves his hand to where his sword is, and leaves it there. 'Stand back from the spears, breather.'".
+  }
+  Person torold "Torold Hame" at the_ring {
+    Role "the Warden of Evenhall, Halvard's sworn brother". Ancestry human. Calling warrior. Level 8. Trait brave. Peaceable. Pronouns he. Manner grim.
+    Likeness "knight".
+    Greets "A big grey-bearded man in old blackened mail stands at the head of the bier with his hands folded on the pommel of a sword stood point-down in the snow, and does not look round when you come. When he does, it is at your breath, and for a moment something moves in his face, and then it is gone. 'You're the breather Cleeve sent down,' he says. 'Stand where you like. Don't touch him.'".
+    Greets again "Torold Hame looks at you, and back at the bier.".
+  }
+  Measure toroldTrust(group).
+  Relation toroldLeave(group). Relation toroldKnows(group). Relation toroldConsents(group). Relation toroldMourned(group).
+  Topic torold_who with torold "Ask Torold Hame who lies on the shields" when state(halvard, lying) once {
+    Says "'Halvard Eld,' says Torold. 'Champion of Evenhall. My brother, by oath.' He looks at the face under the frost. 'He came in out of the snow twelve years ago, at four in the afternoon, with nine men's blood on him, laughing. I took him into Even. He was champion in five years. There's never been anyone like him on the Field.' He is quiet. 'He'll get up,' he says. 'When the Daily comes back, he'll get up. You'll see.'".
+    On discuss { Assert knows(actor, halvard_fell). Increase toroldTrust(torold) by 1. }
+  }
+  Topic torold_why with torold "Ask Torold Hame why he wants the Testing" when testingNamed(field_country) and state(halvard, lying) once {
+    Says "Torold looks at you a long time, as if deciding whether you are worth an answer. 'The Mending came with the Daily,' he says. 'Nine hundred years: every day we fought, and every dusk the light came blue and we got up. Then Hild blew her call over his body, and we stopped, and he stayed down.' He turns the sword's pommel under his hands. 'We broke it. We stopped fighting and the Mending stopped for him. Start the Daily, and the Hour will come blue over the Field again, and he'll get up off those shields and laugh at me.' His jaw works. 'They think I want the war. I don't want the war. I want to stop standing here.'".
+    On discuss { Assert knows(actor, torold_theory). Increase toroldTrust(torold) by 1. }
+  }
+  Discovery torold_theory "Torold Hame believes the Mending came with the Daily, and stopped for Halvard when the fighting stopped; start the Daily again and Halvard will rise at the Hour. He does not want the war. He wants his friend back.".
+  Topic torold_what with torold "Ask Torold Hame what Halvard was" when toroldTrust(torold) >= 2 and state(halvard, lying) once {
+    Says "'You've read the ballad,' says Torold. 'Everyone has. Larum makes it rhyme.' He does not look at you. 'I know what he was alive. He told me himself, the first night, laughing: Wendmere. The fullers. The vats.' He is silent so long that the watch shift their feet. 'Up here it didn't matter. That's what I told myself. Up here nothing you do to a man stays done. You kill him and he gets up. You could be anything you liked, up here, and the next morning it was gone.' He looks down at the frost on Halvard's face. 'He was good to me. He was the best friend I had in two hundred years. And he burned children.' Then, very low: 'And now it's stayed done. The one thing.'".
+    On discuss { Assert knows(actor, torold_knows_what). Increase toroldTrust(torold) by 1. }
+  }
+  Discovery torold_knows_what "Torold Hame knows what Halvard was in life, from Halvard's own mouth: the burner of Wendmere. Up here, he told himself, nothing done stayed done. Halvard was his best friend in two hundred years, and burned children.".
+  Topic torold_leave with torold "Ask Torold Hame's leave to look closely at the wound" when state(halvard, lying) and toroldTrust(torold) >= 1 and not toroldLeave(torold) once {
+    Says "Torold considers you. 'You've a breather's eyes,' he says. 'Maybe you see different.' He jerks his head, and the watch step back from the bier. 'Look, then. Don't touch him.'".
+    On discuss { Assert toroldLeave(torold). }
+  }
+  Action look_wound(actor: group, site: place) "Look closely at the wound that killed Halvard Eld" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, the_ring) and toroldLeave(torold) and state(halvard, lying) and not lookedWound(actor).
+    Time 1.
+    On success { Assert lookedWound(actor). Assert knows(actor, halvard_wound). }
+    Result "You go in among the spears. Close to, under the frost, his skin is smooth as a boy's: no scar anywhere on the face or the great forearms, though Torold says he fought every day for twelve years. The hole in his jack over the chest is only a tear, and there is nothing under it. Torold turns the head, gently, for you to see. At the back of the neck, at the top of the spine, there is a small wound, no wider than your thumb, clean, and its edges are exactly as they were the moment it was made. It is the only mark on him.".
+  }
+  Relation lookedWound(group).
+  Discovery halvard_wound "Halvard Eld has no scar on him from twelve years of the Daily: every wound mended. The only mark on him is a small wound at the nape, no wider than a thumb, made by a short blade from behind, its edges exactly as they were the moment it was made.".
+  Action read_wound(actor: group, site: place) "Read the wound as the dead are read" {
+    Description "What made it, and how, and what it did.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, the_ring) and lookedWound(actor) and not knows(actor, wound_read) and state(halvard, lying).
+    Time 1.
+    Resolve check(actor, rites, dc_fair).
+    On success { Assert knows(actor, wound_read). }
+    Result "You know wounds. This one was made by a fuller's knife, or something like one, short and broad and very sharp, held low and driven up from behind by somebody small, somebody who stood close and waited for the moment; and he never saw it. And it is not like the others. Every other wound this man ever took up here has gone; this one has not even begun to close. It was not the Field that would not mend it. It was the hand.".
+    Otherwise "You look a long time. A small blade, from behind, close. Beyond that it will not tell you anything.".
+  }
+  Discovery wound_read "The wound that killed Halvard was made by a short broad blade like a fuller's knife, driven up from behind by someone small who stood close and waited; and it has not begun to close, as though it were not the Field that would not mend it, but the hand.".
+  // Slipping in at night, past the watch.
+  Action creep_to_bier(actor: group, site: place) "Slip in among the spears in the dark, past the watch, and look at the body" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, the_ring) and dark() and state(halvard, lying) and not lookedWound(actor) and not toroldLeave(torold) and not caughtAtBier(actor).
+    Time 1.
+    Resolve check(actor, stealth, dc_hard).
+    On success { Assert lookedWound(actor). Assert knows(actor, halvard_wound). }
+    On failure { Assert caughtAtBier(actor). Decrease toroldTrust(torold) by 1 or to nothing. }
+    Result "You go in low between two spears while the watch at the near corner looks at the stars. Torold is asleep on his feet, leaning on his sword. Close to, Halvard's skin is smooth: no scar anywhere, though he fought every day for twelve years. At the nape of his neck, when you ease the frozen hair aside, there is a small clean wound no wider than your thumb, its edges exactly as they were when it was made. It is the only mark on him. You are out between the spears again before anyone turns.".
+    Otherwise "You are halfway between the spears when a hand takes you by the collar and lifts you off your feet and sets you down outside the ring. Torold Hame looks at you over the hand. 'I said don't touch him,' he says, and lets go.".
+  }
+  Relation caughtAtBier(group).
+}

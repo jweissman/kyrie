@@ -1,0 +1,128 @@
+Module larum "The Quiet in the Sky" {
+  // ── Morrowhall ────────────────────────────────────────────────────────────────────────────────────────────────────
+  // Black timber, roofed with shields, its back to the dawn and its doors to the Field. Morrow's dead fell before noon:
+  // dawn raids, morning storms, first light. Brisk, loud, practical; they think Even gives itself airs.
+  Observe morrow_yard_scene at morrow_yard when true "The yard of Morrowhall: trodden snow on the brow of the eastern height, the whole Field spread out below to the west, and Halt's smoke in the middle of it. The hall itself is black timber, very long, roofed with shields laid like scales. In the yard people are sparring with blunted spears, out of nine hundred years' habit and boredom, and arguing about it, and a great brindled ox stands by the doors chewing, and watches them with an expression of long experience.".
+  Observe morrow_hall_scene at morrow_hall when true "Inside Morrowhall a fire runs down the middle of the floor in a trench the length of the hall, and benches run down both sides, and over the benches, up into the smoke, the Tally-boards: planks, thousands of them, every one cut with notches, one notch for every man of Even killed by a man of Morrow, every day for nine hundred years, with the killers' names burned in at the ends. People sit on the benches mending things that do not need mending. It is warm by the trench, as warm as the Oven, and smells of nine hundred years of ox.".
+  Observe morrow_hall_night at morrow_hall as sign when hour(clock) >= 19 or hour(clock) < 5 "The hall is eating. Down the length of the fire-trench the great ox Brindle turns on a spit, and the benches roar, and somebody is standing on a table telling a boast that everybody knows the end of and shouts with him.".
+  Observe marshal_scene at marshal_room when true "A small square room behind the high seat, with a window looking west down the Field, a chair, a table and a map. The map is of the Field, drawn and redrawn over centuries, with the positions of nine hundred years of battle-lines rubbed out and drawn in again until the parchment is furred. In the middle of it somebody has drawn, quite recently, in a careful small hand, a little town.".
+
+  Person brindle "Brindle" at morrow_yard {
+    Role "Morrowhall's ox". Species cow. Peaceable. Pronouns he.
+    Greets "The great ox swings his head round and looks at you with one wet brown eye, and breathes on you, and the breath does not steam. He goes back to chewing.".
+  }
+  Topic hall_brindle with mab "Ask Mab Treloar about the ox" when true once {
+    Says "'Brindle,' says Mab. 'Siege-ox. Died hauling a ram at the Gate of Thorns, six hundred year back, with a bolt in his neck, so he come in under arms, technically, and Cleeve sent him east.' She grins. 'We eat him every night. He's in the yard again every morning, chewing, and he looks at you. Every morning. You get so you can't meet his eye.'".
+    On discuss { Assert knows(actor, brindle_known). }
+  }
+  Discovery brindle_known "Brindle, Morrowhall's ox, died hauling a siege-ram six hundred years ago and came in under arms; the hall eats him every night, and every morning he is in the yard again, chewing.".
+  Item brindle_slab "a slab of roast Brindle" is brindle_kind at limbo.
+  Action beg_brindle(actor: group, site: place) "Ask at the fire-trench for a slab of the ox" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, morrow_hall) and (hour(clock) >= 19 or hour(clock) < 5) and at(brindle_slab, limbo).
+    Time 1.
+    On success { Give brindle_slab to actor. Increase quantity(actor, rations) by 1. }
+    Result "A big man at the spit carves you a slab the size of a book without being asked twice, and another for your belly, and watches you eat it with an odd tender interest. 'Warm, is it?' he says. 'You can taste it warm?' He shakes his head. 'We taste it. But it's never warm.'".
+  }
+
+  // ── Hild Varley, Marshal of Morrow ─────────────────────────────────────────────────────────────────────────────────
+  // She blew the Halt because she was afraid. She has come to love the peace. She does not want to know what killed
+  // Halvard, because if it can be known it can be done again.
+  Person hild "Hild Varley" at marshal_room {
+    Role "the Marshal of Morrowhall". Ancestry human. Calling warrior. Level 8. Trait strong_willed. Peaceable. Pronouns she. Manner stoic.
+    Likeness "noblewoman".
+    Greets "A spare grey woman in a brown jack with a bridge-captain's chain on it looks up from the map. She sees your breath, and her eyes go very still, the way an animal's do. Then she puts the pen down. 'Breather,' she says. 'Cleeve sent word. Sit. Don't go near the fire, you'll scorch, you're not used to it.' She almost smiles. 'Nor are we.'".
+    Greets again "Hild Varley looks up from the map, and at your breath, and puts the pen down.".
+  }
+  Rule hild_walks when hour(clock) >= 13 and hour(clock) < 17 and at(hild, marshal_room) and haltStands() and not hildHardened(hild) { Assert at(hild, banner_lanes). }
+  Rule hild_returns when (hour(clock) >= 17 or hour(clock) < 13) and at(hild, banner_lanes) { Assert at(hild, marshal_room). }
+  Observe hild_in_lanes at banner_lanes as sign when at(hild, banner_lanes) "Hild Varley walks the banner lanes slowly with her hands behind her back, like a farmer walking a field of something growing, stopping at every tent-mouth to look in.".
+  Measure hildTrust(group).
+  Relation hildKnows(group). Relation hildAsked(group). Relation hildRefused(group). Relation hildPromised(group). Relation hildResolved(group). Relation hildHardened(group).
+  Topic hild_halt with hild "Ask Hild Varley why she blew the Halt" when true once {
+    Says "'Because I was nearest,' says Hild. 'He was lying there at the Hour with his eyes open and everyone getting up round him, and somebody had to do something, and the call was in the horn.' She turns her hands over and looks at them, as if the horn might still be in them. 'Every horn on the Field has the Halt in it. It's the first call a horn-boy learns. Nobody ever blew it, because nobody ever wanted to stop.' She looks out over Halt. 'I blew it. And they stopped. Both hosts, the whole Field, mid-blow. Like a breath held.' Her hands go behind her back. 'That's all.' It is very obviously not all.".
+    On discuss { Increase hildTrust(hild) by 1. }
+  }
+  Topic hild_town with hild "Ask Hild Varley about the town on her map" when true once {
+    Says "Hild looks at the tents, or out of her window at them, as though they were a thing she had drawn and was not sure of. 'Halt,' she says. 'Forty days old. I walk it every afternoon. I count the tents.' She says it as if confessing to drink. 'Four hundred years I held this hall. I know how many spears Even can put on the ford by the third horn. I don't know what a market is for. I go and stand in theirs and watch them swap spoons.' She is quiet. 'Do you know what it sounds like, the Field, with nobody dying on it? It sounds like a lot of people talking. I'd forgotten.'".
+    On discuss { Increase hildTrust(hild) by 1. Assert knows(actor, hild_loves). }
+  }
+  Discovery hild_loves "Hild Varley walks Halt every afternoon and counts its tents. She has come to love the peace: the sound of a lot of people talking on the Field instead of dying on it.".
+  Topic hild_secret with hild "Ask Hild Varley what she was afraid of" when hildTrust(hild) >= 2 and knows(actor, hild_loves) once {
+    Says "Hild looks at you for a long moment, and then at the window. 'You'll not tell Morrow,' she says. It is not a request. 'I held the bridge at Wrenning at dawn four hundred years ago with sixty men, against two thousand, till they cut us all down. They sing it. Morrow made me Marshal for it.' Her hands are flat on the map. 'I was not brave at Wrenning. I could not run, there was nowhere to run. And I came in out of the snow and found that here you cannot die, and I have been brave every day since, because it costs nothing.' She breathes. 'Then I saw a man stay down. And I blew the Halt because I was afraid, breather. Because if death had come back I did not want to meet it. That is the bravest thing Morrow thinks I ever did.'".
+    On discuss { Assert knows(actor, hild_fear). Increase hildTrust(hild) by 1. }
+  }
+  Discovery hild_fear "Hild Varley blew the Halt out of fear: she was never brave where death was real, and in Ysgard bravery cost nothing until the day a man stayed down. Morrow thinks it the bravest thing she ever did.".
+  // Told the law, her first thought is that it can be done again.
+  Topic tell_hild with hild "Tell Hild Varley that only a living hand kills truly here" when knows(actor, living_kills) and not hildKnows(hild) once {
+    Says "Hild hears you out with her hands folded on the map, and her face does not move, except that all the colour goes out of it, which in the dead is very little colour. Then she looks at your hands, and at your breath, and you see her think it, all the way to the end, quickly, the way a general thinks. 'Then it was a breather that killed him,' she says. 'And the Testing will prove nothing has come back, because nothing has. Even fights, and at the Hour they all get up, and the next morning Morrow and Even are on the Field again by the third horn.' She looks at the little town drawn on the map. 'Unless one of them does not get up.' She does not say anything else. She does not need to.".
+    On discuss { Assert hildKnows(hild). }
+  }
+  // She asks.
+  Topic hild_asks with hild "Ask Hild Varley what she is thinking" when hildKnows(hild) and not truthSpoken(field_country) and beforeTesting() and not hildAsked(hild) once {
+    Says "'I am thinking,' says Hild, 'that on the Testing day Even will come down onto the Field by the ford and fight itself, a few hundred of them, in a great press, all morning. And that anyone could walk in among them. And that one man of Even, struck down in that press by a living hand, would not get up at the Hour, and every soul on this Field would see it.' She looks straight at you. 'And then the fear would hold, and the peace with it, for another nine hundred years. One man. One. There are thousands on the Field who would give one for this.' She waits. 'I am asking you, breather. Torold would be best. Torold, who will not let it be.'".
+    On discuss { Assert hildAsked(hild). }
+  }
+  Topic hild_yes with hild "Say you will do it" answering hild_asks when true {
+    Grave "A promise to kill, made to the Marshal of Morrow.".
+    Says "Hild nods once, as if you had agreed to carry a message. 'By the ford,' she says. 'In the morning. Nobody will know but you and I.' Then she turns to the window, and stays turned until you go.".
+    On discuss { Assert hildPromised(hild). Assert promiseMade(hild_promise). }
+  }
+  Topic hild_no with hild "Say you will not" answering hild_asks when true {
+    Says "Hild looks at you a long time. 'No,' she says. 'No, of course not.' She looks down at the map, at the little town, and puts her finger on it, gently, as though it might be warm. 'Then the Testing will come, and they will all get up, and the town will go under the third horn like a stubble field.' She takes her finger away. 'Go away now, breather. I have to think how a Marshal does a thing like that without a breather.'".
+    On discuss { Assert hildRefused(hild). }
+  }
+  Promise hild_promise "to strike down one of Even at the Testing, so the fear holds" to hild
+    kept when trueDeathAtTesting(field_country) "Somewhere on the eastern height Hild Varley stands at her window with her hands behind her back, and does not turn round."
+    broken when afterTesting() and not trueDeathAtTesting(field_country) "Somewhere on the eastern height a woman at a window turns away from it." { Assert hildHardened(hild). }.
+  // What resolves her: refused, she is shown a reason to choose the peace without the fear.
+  Query haltSigns() means breadRisen(grimbold) or wedded(mab) or songMade(wystan) or runnersSeated(cuddy) or sittersDown(aulus).
+  Action resolve_hild(actor: group, site: place) "Tell Hild Varley she can choose the peace without the fear: that Halt is reason enough" {
+    Speaker hild.
+    Requires able(actor) and company(actor) and at(actor, site) and at(hild, site) and (hildRefused(hild) or truthSpoken(field_country) and hildKnows(hild)) and haltSigns() and not hildResolved(hild) and not hildTriedToday(hild) and beforeTesting().
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert hildResolved(hild). Retract hildHardened(hild). }
+    On failure { Assert hildTriedToday(hild). }
+    Result "You tell her what you have seen in her town. Hild listens with her back to you, looking down the Field at it through the window, and does not interrupt. When you have finished she is quiet a long while. 'Four hundred years brave for nothing,' she says. 'And now you want me brave for something.' She turns round. 'If they all get up, and Even comes down by the third horn the morning after, Morrow will not go to meet it. Morrow will be in Halt. I will see to it.' She looks at her own hands. 'I don't know if I can. I'll find out, won't I. That's what it's like for you lot, I suppose. All the time.'".
+    Otherwise "Hild hears you out, looking down the Field. 'Words,' she says, not unkindly. 'Breathers have plenty. Come back tomorrow, when I've slept, and say it again.'".
+  }
+  Relation hildTriedToday(group).
+  Observe hild_promised at marshal_room as sign when hildPromised(hild) and not afterTesting() "Hild Varley does not look round from the window when you come in. She knows who it is by the breath.".
+  // Heard, not argued with: told that what she does now, afraid, is what brave is.
+  Topic hild_brave with hild "Tell Hild Varley that choosing the peace now, afraid, would be the first brave thing she has done" when knows(actor, hild_fear) and (hildRefused(hild) or truthSpoken(field_country) and hildKnows(hild)) and haltSigns() and not hildResolved(hild) and beforeTesting() once {
+    Says "Hild does not answer for a long time. She stands at the window with her back to you and her hands behind her, the way she walks the banner lanes. 'Wrenning was nothing,' she says at last. 'There was nowhere to run.' Then: 'And here there is. There is the third horn, and the ford, and four hundred years of knowing exactly what to do.' She turns round. Her face is wet, which in the dead you did not know could happen. 'If they all get up, and Even comes down by the third horn the morning after, Morrow will not go to meet it. Morrow will be in Halt. I will see to it.' She almost laughs. 'Afraid. Yes. Well. I am told that's how it's done.'".
+    On discuss { Assert hildResolved(hild). Retract hildHardened(hild). }
+  }
+  Rule hild_try_resets when hour(clock) == 0 and hildTriedToday(hild) { Retract hildTriedToday(hild). }
+  // A bench for the Runners: the first in nine hundred years.
+  Topic hild_bench with hild "Ask Hild Varley to give the Runners a bench in Morrowhall" when knows(actor, cuddy_wants) and not runnersSeated(cuddy) and hildTrust(hild) >= 1 once {
+    Says "Hild's eyebrows go up. 'The Runners. At a bench.' She considers it, as she would consider a position. 'They clear the Field. They carry for us. They've done it nine hundred years and we spit at them.' She turns the pen over. 'If the Runners strike, there's no Testing; Torold can't fight on nine hundred years of iron. Did you think of that?' She looks at you narrowly. 'And if I seat them, they'll clear it for him out of gratitude, that Cuddy is honest to the bone.' She puts the pen down. 'Very well. A bench. The low one, by the door. Morrow will hate it.' She almost smiles. 'Good.'".
+    On discuss { Assert runnersSeated(cuddy). Retract runnersStrike(cuddy). }
+  }
+
+  // ── Evenhall ──────────────────────────────────────────────────────────────────────────────────────────────────────
+  // Grey stone on the western height, with the sunset in its windows. Even's dead fell after noon: last stands, sunset
+  // charges, rearguards. Formal, melancholy, proud of its manners; they think Morrow eats with its mouth open.
+  Observe even_court_scene at even_court when true "Evenhall's court: flagstones swept clean of snow every morning by somebody's habit, a well with a stone lid, and the hall standing grey and tall against the sky, its long windows facing east down the Field so that it gets the evening, all of it. Everything here is a little straighter than it needs to be. A man is sitting on the well-lid polishing a helm he will not need, very slowly, as if he would like it to last.".
+  Observe even_hall_scene at even_hall when true "Evenhall is stone, and its fire is in a great hearth at the far end instead of down the middle, so that the hall is dim and cold at the door end and warm at the hearth, and the benches are arranged by rank. The Tally-boards here are painted, not cut: every kill of nine hundred years in a fine hand, in columns, with the killer's device beside it. Halvard Eld's column runs from the floor to the roof-beam in five years. At the top of it somebody has hung a black ribbon.".
+  Observe forge_scene at forge when true "The forge of Evenhall: a long low smithy off the hall, its hearth the warmest place on the Field, and round the walls on racks, mail, hundreds of shirts of it, every one mended, every one oiled, ready for a morning that has not come in forty days.".
+
+  // ── Gorm Hallett, the armourer ────────────────────────────────────────────────────────────────────────────────────
+  Person gorm "Gorm Hallett" at forge {
+    Role "the armourer of Evenhall". Ancestry dwarf. Peaceable. Pronouns he. Manner grim.
+    Likeness "blacksmith".
+    Greets "A dwarf with forearms like hams and a leather apron burnt through in a dozen places looks up from an anvil where he is beating out a ring of mail that does not need it. 'Breather,' he says. 'Come for a look at the war-gear, have you? Look all you like. It's all I've got left to do, polish it.' He hits the ring, hard.".
+    Greets again "Gorm Hallett grunts at you over the anvil.".
+  }
+  Topic gorm_trade with gorm "Ask Gorm Hallett how his trade goes" when beforeTesting() once {
+    Says "'Four hundred year,' says Gorm, 'I've mended Even's mail every night. They come in off the Field at the Hour with it hanging off them in rags, and their bodies mend and their mail doesn't, and I sit up all night with the rings and by the third horn they've each a shirt again.' He waves the hammer at the racks. 'Forty nights, nothing. Hundreds of shirts. All mended. Nothing to mend.' He looks at the hammer as if it had betrayed him. 'Torold's Testing, that's work. I'll have them all to do again by morning after.' He grins, horribly. 'Can't come soon enough.'".
+    On discuss { Assert knows(actor, gorm_wants_war). }
+  }
+  Discovery gorm_wants_war "Gorm Hallett has mended Evenhall's mail every night for four hundred years, and has had nothing to mend for forty; he wants the Testing for the work.".
+  Topic gorm_plough with gorm "Ask Gorm Hallett whether he could make a plough" when breadRisen(grimbold) and knows(actor, gorm_wants_war) and not ploughMade(gorm) once {
+    Says "'A what?' says Gorm. You tell him: Grimbold's loaves, and the grain for them carried up from Larum a sack at a time, and the Field, five miles of it, flat. Gorm stares at you. Then he goes over to the racks and takes down a sword, an old long one, and holds it across his two hands and looks at it the way a man looks at a plank to see what's in it. 'Nine hundred years of swords on that Field,' he says slowly. 'Nobody's ever wanted them back.' He sets it on the anvil. 'Come back tomorrow. And don't tell Torold.'".
+    On discuss { Assert ploughAsked(gorm). Set ploughDay(gorm) to day(clock). }
+  }
+  Relation ploughAsked(group). Relation ploughMade(group). Measure ploughDay(group).
+  Rule plough_done when ploughAsked(gorm) and day(clock) > ploughDay(gorm) and not ploughMade(gorm) { Assert ploughMade(gorm). }
+  Observe plough_seen at forge as sign when ploughMade(gorm) "Leaning against the anvil is a plough: a share beaten out of four sword-blades welded together, still with a fuller running down the middle of it, on a beam that was a spear-shaft. Gorm keeps looking at it and looking away, like a man with a new baby.".
+}

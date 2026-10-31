@@ -1,0 +1,131 @@
+Module larum "The Quiet in the Sky" {
+  // ── The Scrapes ───────────────────────────────────────────────────────────────────────────────────────────────────
+  // Under the Field's southern lip, where the ice overhangs, the Runners have built a warren out of nine centuries of
+  // what the Field leaves: shields for walls, banners for doors, a siege-ladder for a stair. Those who died running live
+  // here, wear no arms, sit at no bench, and are owed nothing. They clear the broken off the battle-line every night so
+  // the next day has footing; they keep the Picking, the trade with Larum.
+  Observe mouth_scene at scrapes_mouth when true "Under the southern lip of the Field the ice overhangs like a wave about to break, green and blue, and under the wave, in its shadow, a wall of shields stuck edge to edge with a gap in it hung with a banner. Sledges stand outside piled with broken iron. A dead girl sits on one in a smock with no device on it, mending a sledge-trace with her teeth.".
+  Observe warren_scene at warren when true "The warren: low rooms opening into lower rooms, walled with shields and roofed with the ice itself, lit with fat-lamps that make it, against all sense, warm. Banners hang for doors. Everything here is something the Field threw away: a table that was a cart's tailboard, chairs that were saddles, a cradle that was a helm, though there are no children. Dead men and women in plain smocks, no device on any of them, look up as you come in, and look at your breath, and look at each other.".
+  Observe nook_scene at edith_nook when at(edith, edith_nook) "Behind the banners a nook no bigger than a cupboard, with a heap of sacking for a bed, a fat-lamp, a tin cup, and a woman sitting on the sacking with her knees drawn up, wrapped in three Runners' smocks one over the other, shivering. Her breath goes up white in the lamplight.".
+  Observe nook_empty at edith_nook when not at(edith, edith_nook) "A nook behind the banners: sacking, a fat-lamp gone out, a tin cup. Nobody.".
+  // Seen from the warren, by one who knows what a breath means here.
+  Observe edith_breath at warren as sign when at(edith, edith_nook) and knows(party, breath_sign) and not knows(party, nook_known) "Far back in the warren, behind a hanging banner, a little white breath goes up in the lamplight, and stops, as if whoever it belongs to has seen you, and is holding it." teaches nook_known.
+  Discovery nook_known "Behind a hanging banner far back in the Runners' warren there is a nook, and somebody in it who breathes white.".
+
+  Person runners "the Runners" at warren {
+    Role "the dead who died running, in smocks with no device". Ancestry human. Numbers 4. Peaceable.
+    Greets "Nobody gets up. A man with a long scarred face says, not unkindly, 'Breather. You're in the wrong place. The halls are up the hill. This is where the Field puts what it doesn't want.'".
+  }
+  Topic runners_life with runners "Ask the Runners what they do" when true once {
+    Says "'Carry,' says the scarred man. 'Every night, after the Hour, when they've all got up and gone home to their oxen, we go out on the Field with the sledges and drag off what's broken, so they've footing in the morning. Swords, shields, carts, a tower once.' He shrugs. 'Nine hundred years. They don't see us. You can walk through Morrow's yard with a sledge of their own broken spears and they'll look through you like a window.' A woman beside him says, 'We died running. That's all they need to know.'".
+    On discuss { Assert knows(actor, runners_clear). }
+  }
+  Discovery runners_clear "The Runners, the dead who died fleeing, clear the broken off the battle-line every night so that the halls have footing in the morning. Nobody sees them. They died running; that is all the halls need to know.".
+
+  // ── Cuddy Wardle, foreman of the Runners ────────────────────────────────────────────────────────────────────────────
+  Person cuddy "Cuddy Wardle" at scrapes_mouth {
+    Role "foreman of the Runners". Ancestry human. Calling thief. Level 4. Peaceable. Pronouns she. Manner acerbic.
+    Likeness "urchin".
+    Wants tobacco_kind.
+    Greets "A thin sharp girl of sixteen or so, with a face that has been sixteen for a hundred and fifty years, looks you up and down from the sledge she is checking. 'Breather,' she says. 'You'll be wanting something. They always want something, the ones that come up. Iron for Larum, or the way to somewhere, or a look at the poor dead Runners.' She spits. 'What've you got?'".
+    Greets again "Cuddy Wardle looks up from a sledge. 'You again.' It is not entirely unfriendly.".
+  }
+  Measure cuddyTrust(group).
+  Relation runnersStrike(group). Relation runnersSeated(group). Relation edithShown(group).
+  Event cuddy_leaf near cuddy when keeps(cuddy, ?t) and itemKind(?t, tobacco_kind) and cuddyTrust(cuddy) < 1 "Cuddy turns the twist over, and smells it, and puts it away inside her smock very fast. 'Larum leaf,' she says. 'Well.' For a moment she looks exactly sixteen. 'Nobody gives a Runner anything. They trade.' She looks at you differently. 'Sit, then, if you want. Ask.'" then { Increase cuddyTrust(cuddy) by 1. }
+  Topic cuddy_self with cuddy "Ask Cuddy Wardle how she died" when true once {
+    Says "'Running,' says Cuddy. 'Battle of Sallow Lane, a hundred and fifty year back. I was a drummer-girl, sixteen, I'd been hired the week before because I could keep time. First volley I dropped the drum and ran. Ball in the back.' She shrugs. 'Cleeve asked me the hour and I told him, and he looked at the hole, and wrote RUNNER, and that was that. No hall. No bench. Just the sledges.' She tugs a trace tight. 'I'm good at the sledges. I'm foreman. Nobody up the hill knows my name.'".
+    On discuss { Increase cuddyTrust(cuddy) by 1. }
+  }
+  Topic cuddy_want with cuddy "Ask Cuddy Wardle what she wants" when cuddyTrust(cuddy) >= 1 once {
+    Says "Cuddy laughs. Then she stops. 'A bench,' she says. 'In one of the halls. Not a good one. The low one by the door that the dogs sleep under, in the stories.' She is not looking at you. 'Just to sit at it, once, with a cup, while they eat their ox. Just to see what it's like, to sit at a bench.' She kicks the sledge. 'Stupid. Forget it.'".
+    On discuss { Assert knows(actor, cuddy_wants). Increase cuddyTrust(cuddy) by 1. }
+  }
+  Discovery cuddy_wants "Cuddy Wardle, foreman of the Runners, wants a bench in one of the halls: the low one by the door, just to sit at once, with a cup, while they eat.".
+  // The lever: nobody has cleared the Field in forty days; a Testing on nine hundred years of iron cannot be fought.
+  Topic cuddy_field with cuddy "Ask Cuddy Wardle who will clear the Field for the Testing" when testingNamed(field_country) and knows(actor, runners_clear) and beforeTesting() once {
+    Says "Cuddy opens her mouth to say Runners, of course, and shuts it. 'Nobody's cleared it since the Halt,' she says slowly. 'Forty days. There's been nothing to clear. But the last day they fought, they fought to the Hour, and nobody went out after. It's all still there under the snow by the ford: the whole of that day's iron.' She looks at you, and you watch her see it. 'Torold can't fight on that. You can't hold a line on a floor of swords. They'll need us out there the night before, all night, with the sledges.' A slow grin. 'Nobody's asked us. They'll just expect it.'".
+    On discuss { Assert knows(actor, field_uncleared). Increase cuddyTrust(cuddy) by 1. }
+  }
+  Discovery field_uncleared "Nobody has cleared the Field since the Halt: the whole last day's iron lies under the snow by the ford, and Torold's Testing cannot be fought on it. The Runners will be expected to clear it the night before. Nobody has asked them.".
+  Topic cuddy_strike with cuddy "Put it to Cuddy Wardle that the Runners need not clear the Field" when knows(actor, field_uncleared) and not runnersStrike(cuddy) and not runnersSeated(cuddy) and beforeTesting() and cuddyTrust(cuddy) >= 2 once {
+    Says "Cuddy looks at you for a long time. 'Not clear it,' she says. 'Just. Not go out.' She looks back into the warren, at the dead in their smocks round the lamps. 'They'd come down here. Torold's men. They'd drag us out.' Then: 'And make us do what? We're dead. They can kill us all day, we get up at the Hour.' She starts to laugh, softly. 'Nine hundred years, and we never thought of it. Because nobody ever thought we could say no.' She gets up. 'I'll put it to them. They'll do it. They'll do it for the look on Torold's face.'".
+    On discuss { Assert runnersStrike(cuddy). }
+  }
+  Topic cuddy_seated with cuddy "Tell Cuddy Wardle that Morrowhall will give the Runners a bench" when runnersSeated(cuddy) and not spoke(cuddy_bench_told) once {
+    Says "Cuddy does not say anything for a long time. Then she wipes her nose on her sleeve, hard. 'The low one,' she says. 'By the door.' You nod. 'Well,' says Cuddy. 'Well.' She looks out of the mouth of the Scrapes, up the long white slope to the eastern height. 'Then we'll clear the Field for Torold, if he wants it. A bargain's a bargain. Somebody up there's treated us straight, and we'll not be the ones that don't.'".
+    On discuss { Assert spoke(cuddy_bench_told). }
+  }
+  Entity cuddy_bench_told: fact "the bench".
+  Observe runners_bench at morrow_hall as sign when runnersSeated(cuddy) and (hour(clock) >= 19 or hour(clock) < 5) "At the low bench by the door, where the dogs sleep in the stories, a row of Runners in plain smocks sit with horn cups, very upright, not eating, looking at everything. Cuddy Wardle is at the end, swinging her legs.".
+
+  // ── Edith Marl ────────────────────────────────────────────────────────────────────────────────────────────────────
+  // Living, a fuller's widow from Wendmere, whose husband and daughter Halvard Eld's company burned in life. She came up
+  // with the Runners' sledges dressed as a picker, and killed him in the Daily with a fuller's knife. Cuddy hides her,
+  // because she is the first person in Ysgard who ever did a Runner's work and then did something else.
+  Person edith "a woman wrapped in Runners' smocks" at edith_nook {
+    Role "who breathes white". Ancestry human. Calling commoner. Peaceable. Pronouns she. Manner stoic.
+    Likeness "widow".
+    Known as "a woman wrapped in Runners' smocks" when not knows(party, edith_named).
+    Greets "The woman on the sacking looks up at you, and at your breath, white like hers in the lamplight, and something goes out of her shoulders that has been holding them up for a long time. 'Oh,' she says. 'You're alive.' She does not get up. 'Have you come to take me to Torold Hame?'".
+    Greets again "Edith Marl looks up from her sacking, and pulls the smocks closer.".
+    Remarks at the_ring "Edith stands outside the spears and looks at the man on the bier for a long time, and her face does nothing at all.".
+    Remarks at larum_street "Edith stops in Larum street and stands with her face up to the warm air coming out of the bakehouse door, with her eyes shut, breathing it.".
+  }
+  Measure edithTrust(group).
+  Relation edithHome(group). Relation edithGivenUp(group). Relation edithConfessed(group). Relation edithDead(group). Relation edithSpared(group).
+  Discovery edith_named "The woman hiding in the Scrapes is Edith Marl, a fuller's widow of Wendmere, living.".
+  Topic edith_who with edith "Ask the woman who she is" when not knows(actor, edith_named) once {
+    Says "'Edith Marl,' she says. 'Of Wendmere, that was.' She watches you to see if the name means anything. 'You'll have read the ballad. Everybody's read the ballad.' Her hands are red and cracked, a fuller's hands, wrapped round the tin cup. 'I killed him,' she says, quite flatly, as you might say you had shut a gate. 'Halvard Eld. With my fulling-knife, in the back of the neck, in the press by the ford. I'd been waiting a week for him to come near enough.'".
+    On discuss { Assert knows(actor, edith_named). Assert knows(actor, edith_did_it). Increase edithTrust(edith) by 1. }
+  }
+  Discovery edith_did_it "Edith Marl killed Halvard Eld with her fulling-knife, in the back of the neck, in the press by the ford, having waited a week for him to come near enough.".
+  Topic edith_why with edith "Ask Edith Marl why" when knows(actor, edith_did_it) once {
+    Says "Edith looks at the lamp. 'Tom,' she says. 'My husband. And Alys, she was four. The Free Company of the Hook came through Wendmere the summer of the bad wool, twenty year back, and they wanted the fullers' silver and we hadn't any, and Halvard Eld laughed and fired the vats.' She is quite steady. 'I was at my sister's in Hob. I came home to the smoke.' She turns the cup. 'Twelve years ago he died in a siege. I thought that was the end of it. And then a chapman came through with a penny ballad, and they were singing it in the inn: Halvard Eld, champion of Evenhall, fighting on in glory till the stars go out.' Her voice does not change. 'Till the stars go out. Every day. Laughing. And getting up.'".
+    On discuss { Assert knows(actor, edith_why_known). Increase edithTrust(edith) by 1. }
+  }
+  Discovery edith_why_known "Halvard Eld's Free Company burned Edith Marl's husband Tom and her four-year-old daughter Alys in the fullers' vats at Wendmere twenty years ago. When the ballad told her he was fighting on in glory in Ysgard, getting up every day, she came up the Pass to kill him.".
+  Topic edith_knew with edith "Ask Edith Marl whether she knew a living hand would kill him for good" when knows(actor, edith_did_it) once {
+    Says "'No,' says Edith. 'I thought he'd get up. I thought I'd do it and he'd get up at dusk and I'd have done it anyway, once, to his face, so he'd know somebody remembered.' She looks at her red hands. 'I wanted him to know. That was all I wanted. And he went down in the snow, and at dusk the blue came over, and they all got up, all round me, thousands of them, and he didn't.' She is silent. 'I stood there. I was the only one standing there breathing. And a girl in a smock took my arm and said, quiet, come on, and brought me here.' She pulls the smocks tighter. 'A living hand. That's what it is. Cuddy says the old ones under the ice would know.'".
+    On discuss { Assert knows(actor, living_kills). Assert knows(actor, sitters_rumour). Increase edithTrust(edith) by 1. }
+  }
+  Topic edith_sorry with edith "Ask Edith Marl whether she is sorry" when knows(actor, edith_why_known) and edithTrust(edith) >= 2 once {
+    Says "Edith thinks about it properly, which is worse than if she had answered at once. 'No,' she says. 'I've tried. I lie here and try.' She looks at you. 'I'm sorry he's the only one up here it stays done to. I'm sorry about Torold Hame; Cuddy says he stands there all day. I'm sorry the peace is made of me.' She pulls a smock up round her chin. 'But Tom's in the ground and Alys is in the ground and he was up here laughing. I'm not sorry about that.' Then, very low: 'I'd like to go home. I can't find the way down. I came up with the sledges, I never learned the cairns.'".
+    On discuss { Assert acceptsEscort(edith, actor). Increase edithTrust(edith) by 1. }
+  }
+  Topic edith_cairn with edith "Tell Edith Marl that Halvard cut the name of Wendmere into the cairn on the highest Tooth" when knows(actor, halvard_cut) and knows(actor, edith_named) once {
+    Says "Edith goes very still. 'Wendmere,' she says. You tell her: the cairn on the Tooth, from which the lowland can be seen, and the name cut fresh among the old ones, and Torold saying he went up there every week. Edith puts her cup down. Her hands are shaking for the first time, and not with cold. 'I cut it in the beam,' she says. 'At the Hark. Every night, over again.' She stares at the lamp. 'He remembered it.' She says it as if it were the worst thing you could have told her. 'I didn't want him to have remembered it. I don't want him to have been sorry. Then what was I—' She stops, and puts her face in her knees, and does not cry, and you sit with her a while.".
+    On discuss { Increase edithTrust(edith) by 1. Assert edithShaken(edith). }
+  }
+  Relation edithShaken(group).
+  // Cuddy shows the nook to one she trusts.
+  Topic cuddy_edith with cuddy "Ask Cuddy Wardle about the breather in the Scrapes" when (knows(actor, widow_heard) or knows(actor, wound_read) or knows(actor, breath_sign)) and cuddyTrust(cuddy) >= 3 and not knows(actor, nook_known) once {
+    Says "Cuddy looks at you a long time, chewing her lip. Then she jerks her head. 'Come on,' she says. 'She's the first one ever did a Runner's work up here and then did something else. If you hurt her, I'll know.' She takes you into the warren and holds a banner aside.".
+    On discuss { Assert knows(actor, nook_known). }
+  }
+  // Given up to Even, without being brought: Even goes down into the Scrapes, and she is killed, and comes in out of the
+  // snow at the hour she died, and Cleeve sends her west, into Evenhall, forever.
+  Topic give_up_edith with torold "Tell Torold Hame where Halvard's killer is hiding" when knows(actor, edith_did_it) and at(edith, edith_nook) and state(halvard, lying) and not edithGivenUp(edith) once {
+    Grave "Torold will go down into the Scrapes, and she is living.".
+    Says "Torold hears you without a word. When you are done he takes his sword up out of the snow, and looks at it, and calls two of the watch with a jerk of his head, and goes, walking, not hurrying, south toward the lip of the Field. He does not look back at you or the bier.".
+    On discuss { Assert edithGivenUp(edith). Set givenUpAt(edith) to watch(clock). Assert toroldKnows(torold). }
+  }
+  Measure givenUpAt(group).
+  Rule edith_taken when edithGivenUp(edith) and watch(clock) >= givenUpAt(edith) + 6 and not edithDead(edith) { Assert edithDead(edith). Assert at(edith, limbo). Set givenUpAt(edith) to watch(clock). }
+  Rule edith_comes_in when edithDead(edith) and at(edith, limbo) and watch(clock) >= givenUpAt(edith) + 1 { Assert at(edith, snow_gate). }
+  Rule edith_comes_in_seen at snow_gate when edithDead(edith) and at(edith, snow_gate) and at(party, snow_gate) and not spoke(edith_in_told)
+    says "Out of the curtain of snow a woman walks, in three Runners' smocks one over the other, with red cracked hands. She is not shivering. Her breath does not steam. She looks down at the Field, and at the hall on its western height, where the low sun is, and her face does nothing at all. 'Hour?' says Cleeve gently, coming out with the ledger. 'Afternoon,' says Edith Marl. Cleeve writes, and points west. She goes, down toward Evenhall, where Halvard Eld's name is painted on the Tally from the floor to the roof." { Assert spoke(edith_in_told). }
+  Entity edith_in_told: fact "Edith coming in".
+  Rule edith_to_evenhall when edithDead(edith) and at(edith, snow_gate) and not at(party, snow_gate) { Assert at(edith, even_hall). }
+  // Brought to the ring, she confesses before Torold.
+  Rule edith_at_ring at the_ring when following(edith, party) and at(party, the_ring) and at(torold, the_ring) and state(halvard, lying) and not edithConfessed(edith)
+    says "Edith stops outside the spears. Torold Hame sees her breath, white, and her red hands, and lifts his head. For a long moment nobody moves. Then Edith goes in between the spears, past the watch, who do not stop her because they do not understand what they are seeing, and stands at the foot of the bier, and says, loud enough for the whole of Halt that is in earshot: 'I am Edith Marl of Wendmere. I killed him. With my fulling-knife. Because he burned my husband and my child in the vats, and laughed, and you made a song of him.' The lane goes silent from end to end." { Assert edithConfessed(edith). Assert truthSpoken(field_country). Assert toroldKnows(torold). }
+  Rule torold_spares at the_ring when edithConfessed(edith) and following(edith, party) and at(party, the_ring) and (toroldTrust(torold) >= 2 or knows(party, torold_knows_what)) and not edithSpared(edith) and not edithDead(edith)
+    says "Torold Hame looks at her for so long that the watch begin to shift. His hands are on the pommel of the sword stood in the snow, and they tighten, and loosen. 'I know what he was,' he says at last, to her, not loud. 'He told me. The first night.' He looks down at the frost on Halvard's face. 'I'll not take it from you. You've carried it twenty years. It's yours.' He turns his back on her, which in Even is the gravest courtesy there is. 'Go home, Edith Marl. Before the cold has you.'" { Assert edithSpared(edith). }
+  Rule torold_kills at the_ring when edithConfessed(edith) and following(edith, party) and at(party, the_ring) and toroldTrust(torold) < 2 and not knows(party, torold_knows_what) and not edithSpared(edith) and not edithDead(edith)
+    says "Torold Hame lifts the sword out of the snow. Nobody stops him. It is very quick. Edith Marl does not try to get out of the way. She lies in the snow at the foot of Halvard's bier with her breath going up white, once, twice, and then not. Torold stands over her with the sword, and looks at it, and at her, and at the bier, and puts his hand over his eyes." { Assert edithDead(edith). Retract following(edith, party). Assert at(edith, limbo). Set givenUpAt(edith) to watch(clock). Assert toroldKilledEdith(torold). }
+  Relation toroldKilledEdith(group).
+  // Brought down to Larum, she goes home.
+  Rule edith_goes_home at larum_street when following(edith, party) and at(party, larum_street) and not edithHome(edith)
+    says "In Larum street Edith Marl stands still a long while in the warmth coming out of the bakehouse door, with her eyes shut. Then she unwinds the three Runners' smocks one after another and folds them over her arm, and stands in her own widow's coat. Bet Garside has come out of the Hark and is looking at her. 'You'll want your rent back,' says Bet. 'No,' says Edith. 'Keep it. I'll want the road.' She looks at you once, and nods, the way you nod to someone across a market, and goes off down the valley road on foot, toward the lowlands and the town that is not there, not hurrying." { Assert edithHome(edith). Retract following(edith, party). Assert at(edith, limbo). }
+}

@@ -1,0 +1,59 @@
+Module larum "The Quiet in the Sky" {
+  // ── The Pass and the White ────────────────────────────────────────────────────────────────────────────────────────
+  // The way through the White is a line of old cairns, each out of sight of the last in the cloud. Jory Whitlock knows
+  // it and will take the living through for six coin; a wayfinder can find the cairns alone; anyone else wanders in the
+  // white until the cold sends them down.
+  Observe pass_foot_scene at pass_foot when true "Above the last wall of the last field the path goes up between two shoulders of black rock, steep, through snow that is trodden in a line by sledge-runners. A little way above you it goes into the cloud, and the cloud is not grey, as cloud is, but white, bright, as if lit from inside. It does not move. A post stands at the edge of it with a bell on top and a board: LIVING, GO NO FURTHER WITHOUT THE GUIDE.".
+  Observe white_scene at the_white when not knows(party, white_known) "White. White underfoot and white overhead and white in front of your face, so that you cannot tell how far off your own hand is. The cold has a smell, like iron. There is no sound at all. Somewhere there is a line of cairns, Jory says, each out of sight of the last. You cannot see a cairn. You cannot see anything.".
+  Observe white_known_scene at the_white when knows(party, white_known) "White, and in the white, if you look for it, a darker shape a dozen yards on: a cairn, rimed thick, with a ram's skull on top. And beyond it, when you get there, the next.".
+  Observe white_sound at the_white as sound when skyLoud() "Somewhere above you in the white, iron on iron, a long way off and all around.".
+
+  Discovery white_known "The way through the White is a line of old cairns, each with a ram's skull on top and each out of sight of the last: keep the last at your back and walk until the next comes out of the white.".
+  Action find_cairns(actor: group, site: place) "Search the White for the line of cairns" {
+    Description "Alone in the white, by the feel of the ground and the set of the snow.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, the_white) and not knows(actor, white_known) and not lostInWhite(actor).
+    Time 3.
+    Resolve check(actor, wayfinding, dc_hard).
+    On success { Assert knows(actor, white_known). }
+    On failure { Assert lostInWhite(actor). Assert strikes(frostbite, actor). }
+    Result "You go slowly, keeping the slope of the ground under your left foot, and after a long time a darker shape comes out of the white: a cairn, with a ram's skull on it. You stand with your back to it and walk, and the next comes.".
+    Otherwise "You walk, and the white walks with you, and after a long time your own footprints come out of the white in front of you, going the other way. Your hands have stopped hurting, which is worse. You had better go down and warm them and try again.".
+  }
+  Relation lostInWhite(group).
+  Rule lost_clears when lostInWhite(?c) and not at(?c, the_white) { Retract lostInWhite(?c). }
+
+  // ── Jory Whitlock, the guide ──────────────────────────────────────────────────────────────────────────────────────
+  Observe guide_house_scene at guide_house when true "A bare clean room. Ropes coiled on pegs, ice-poles in a rack, a row of sheepskin coats hanging like a row of tired men. A table with two places laid at it, and two cups, and only one of them used.".
+  Person jory "Jory Whitlock" at guide_house {
+    Role "the guide, who takes the living up through the White". Ancestry human. Calling ranger. Level 4. Peaceable. Pronouns he. Manner stoic.
+    Likeness "shepherd".
+    Uses go. Plans 20 steps.
+    Sells sheepskin_kind for 4 coin from 4.
+    Greets "A lean grey man in a sheepskin coat looks up from mending a rope, and looks at you the way he would look at the weather on the Pass. 'Going up,' he says. It is not a question. 'Six coin to the Coming-in. I'll not set foot on the Field. Nobody living should. And you'll want a coat; you'll not like the cold up there. It's not weather. It's a place that doesn't keep heat.'".
+    Greets again "Jory Whitlock looks up from his rope and nods, once.".
+  }
+  Topic jory_field with jory "Ask Jory Whitlock what is up there" when true once {
+    Says "Jory goes on with his rope. 'The dead,' he says. 'Soldiers. Every soldier that ever died holding something, some of them. They come in out of the snow at the Coming-in and Cleeve sends them east or west by what hour they died, and they go to the halls and fight every day on the Field, and at dusk whatever was done to them mends and they get up.' He pulls a knot tight. 'Nine hundred years. And now they don't. I took a collector up a fortnight back. They were sitting about on the Field in the snow like men after a harvest, talking, and building a town out of their shields.' He looks at the rope. 'I've seen them a hundred times. They're people. That's the worst of it.'".
+    On discuss { Assert knows(actor, quiet_heard). Assert knows(actor, halt_heard). }
+  }
+  Discovery halt_heard "Since the quiet, the dead in Ysgard sit about on the Field building a town out of their shields, Jory Whitlock says.".
+  Topic jory_ned with jory "Ask Jory Whitlock about his son" when knows(actor, ned_overdue) and not knows(actor, ned_dead) once {
+    Says "Jory looks at the second cup on the table, and away. 'Ned took the mule to Wendham,' he says. 'Fleeces. Four days. Three to there and back, and a day for a lass, I'd say, he's sixteen.' He puts the rope down. 'The road's been bad by the Hob Bridge this spring. Men off the fells.' He picks the rope up again. 'He'll have stopped for a lass.'".
+  }
+  Action hire_jory(actor: group, site: place) "Pay Jory Whitlock six coin to take you up through the White" {
+    Description "To the Coming-in, at the head of the Pass on the far side: about three hours, mostly in the white.".
+    Speaker jory.
+    Requires able(actor) and company(actor) and at(actor, site) and at(jory, site) and quantity(actor, gold) >= 6 and not joryGrieving(jory).
+    Time 16.
+    On success { Decrease quantity(actor, gold) by 6. Increase quantity(jory, gold) by 6. Assert knows(actor, white_known). Assert at(actor, snow_gate). }
+    Result "Jory takes a pole from the rack and a coil of rope, and you go up the street and up the path between the black shoulders, and into the white. He walks a yard ahead with the rope between you, and does not talk, and every so often he stops and puts his hand flat on a cairn with a ram's skull on top, the way a man touches a doorpost. 'Keep the last at your back,' he says, once, 'and walk till the next comes.' Then the white thins, and goes blue, and you are standing on a height in a light like the inside of a knife, and the cold has teeth. Jory looks out over it for a moment. Then he turns round without a word and goes back down into the white, and is gone.".
+  }
+  // Afterwards he will take you up again whenever you ask, for nothing, if you have brought him word.
+  Action jory_again(actor: group, site: place) "Ask Jory Whitlock to see you up through the White again" {
+    Speaker jory.
+    Requires able(actor) and company(actor) and at(actor, site) and at(jory, site) and joryTold(jory) and not joryGrieving(jory).
+    Time 16.
+    On success { Assert at(actor, snow_gate). }
+    Result "Jory takes the pole and the rope without a word and you go up through the white together. At the top he does not turn back at once, this time. He stands looking down at the Field for a long while. Then he goes.".
+  }
+}

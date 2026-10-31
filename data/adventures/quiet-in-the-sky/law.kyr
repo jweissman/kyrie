@@ -1,0 +1,38 @@
+Module larum "The Quiet in the Sky" {
+  // ── The law of the living hand ────────────────────────────────────────────────────────────────────────────────────
+  // What the company can learn by three roads: by what it does (Mab's lip), by what it reads (the wound, and Ithel), or
+  // from Edith. And what Halt knows once someone says it at the ring of spears, with proof.
+  Relation truthSpoken(place). Relation deathCarrier(group).
+  // A short broad blade from behind, by someone small; a fuller's widow who asked the way up dressed as a picker.
+  Discovery widow_suspected "The wound that killed Halvard was made by a short broad blade like a fuller's knife, from behind; the fuller's widow from Wendmere who stayed at the Hark asked how to get up the Pass dressed as a picker, with the Runners' sledges. The Runners would know where she went.".
+  Rule widow_inferred when knows(party, widow_heard) and (knows(party, wound_read) or knows(party, halvard_wound)) and not knows(party, widow_suspected) and not knows(party, edith_named)
+    says "A short blade from behind, close, by someone small who waited. A fuller's widow with red hands who read the ballad every night and asked the way up dressed as a picker. The Runners bring the sledges down to the Coming-in." teaches widow_suspected { }
+  Discovery runner_girl "On the day Halvard fell, the Runners say, a new picker came out with the sledges whom nobody knew, a woman, and she did not come back to the Scrapes with the others at the Hour; or so they say to strangers.".
+  Topic runners_newcomer with runners "Ask the Runners whether anyone new came out with the sledges the day Halvard fell" when (knows(actor, widow_suspected) or knows(actor, halvard_fell)) and not knows(actor, runner_girl) once {
+    Says "The Runners look at each other. 'New?' says the scarred man. 'Nobody new.' A woman beside him says, too quickly, 'Nobody,' and the scarred man looks at her, and she looks at the lamp. 'There was a picker that day,' says a boy at the back, 'that didn't come back at the Hour with—' and somebody kicks him. 'Nobody new,' says the scarred man again, and gets up and goes out, and the warren is very quiet.".
+    On discuss { Assert knows(actor, runner_girl). }
+  }
+  // Told privately, with proof, Torold knows his friend will not get up.
+  Query proofHeld() means mabScarred(mab) and knows(party, living_kills) or knows(party, edith_did_it) or knows(party, ithel_told).
+  Topic tell_torold with torold "Tell Torold Hame that a living hand killed Halvard, and that he will not get up" when knows(actor, living_kills) and proofHeld() and not toroldKnows(torold) and state(halvard, lying) once {
+    Grave "There is no Testing that can give Halvard back after this, and he will know it.".
+    Says "You tell him, all of it, and what you know it by. Torold listens with his hands on the pommel of the sword stood in the snow, and his eyes on the frost on Halvard's face, and he does not interrupt, and he does not look at you. When you have finished he stands there a long time. The watch at the corners of the bier have heard; they are looking at each other. 'Not the Field,' says Torold at last. 'Not us stopping.' His voice is quite level. 'A breather's hand. And no Daily in the world will bring him up.' He takes his hands off the sword. It stays standing in the snow. He looks at his empty hands as if he does not know what they are for. 'Then I've been standing here forty days for nothing,' he says. 'Waiting for the blue.'".
+    On discuss { Assert toroldKnows(torold). }
+  }
+  // Said to all Halt at the ring by the company itself: the dead are slow to believe a breather.
+  Action declare_truth(actor: group, site: place) "Tell all Halt, at the ring of spears, what killed Halvard Eld" {
+    Description "That nothing has come back to the Field but what came up the Pass. A breather saying it is not to be believed for the asking.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, the_ring) and knows(actor, living_kills) and proofHeld() and not truthSpoken(field_country) and beforeTesting() and not declaredToday(actor).
+    Grave "Once Halt knows that only the living kill here, it cannot be made not to know.".
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert truthSpoken(field_country). Assert toroldKnows(torold). Assert hildKnows(hild). }
+    On failure { Assert declaredToday(actor). }
+    Result "You get up on a barrel by the ring of spears and tell them. A crowd comes, slowly, then all at once, as crowds do when a breather is shouting about Halvard. You tell them about the wound that has not begun to close, and the hand that made it, and Ithel the Smith, and you tell them nothing has come back to the Field. At first they jeer. Then they stop. A man in bronze scale at the front looks at his own forearm, at the place where a sword took his hand off yesterday nine hundred years ago, smooth and whole. 'Nothing,' he says. 'Nothing's come back.' The crowd goes quiet, and stays quiet, and one by one they turn and look north, and east, and west, at the Field, as though seeing it for the first time.".
+    Otherwise "You get up on a barrel by the ring of spears and tell them, and a crowd comes, and listens, and jeers, and a man throws a frozen glove at you. 'A breather,' somebody says, 'telling us what's alive and what's dead.' They go back to their swapping. Tomorrow, perhaps, with more to show them.".
+  }
+  Relation declaredToday(group).
+  Rule declared_resets when hour(clock) == 0 and declaredToday(?g) { Retract declaredToday(?g). }
+  Observe truth_known at halt_cross as ambience when truthSpoken(field_country) and haltStands() and beforeTesting() "Everyone in Halt has heard. You can see it in the way they stand: not frightened any more, and not easy either; like people who have been told the river can be crossed, and are looking at it.".
+  // Hild, told it by all Halt, thinks what she would have thought.
+  Rule truth_reaches_hild when truthSpoken(field_country) and not hildKnows(hild) { Assert hildKnows(hild). }
+}
