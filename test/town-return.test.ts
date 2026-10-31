@@ -34,4 +34,17 @@ describe('back in town with what was won', () => {
     expect((await Back.at('region__s1_drill', { gold: 80, experience: 60 }))[0]).toBe('means: Talk to Saer — a lesson in Dirty Trick');
     expect((await Back.at('region__s1_drill', { gold: 5, experience: 60 })).some(a => a.startsWith('means'))).toBe(false);
   }, 180000);
+  // Told where something is, the company is led toward it: an aim names a work's rooms, not the place it is set out
+  // for by, and nothing had led toward Lunalac once the factor named its reading-glass (OWN-56).
+  it('leads toward a work once an aim names what is in it', async () => {
+    const { WorldAssembler } = await import('../src/world/world-assembler');
+    const { NodeBundleSource } = await import('../src/campaign/node-bundle-source');
+    const { PlaySession: Session } = await import('../src/session/play-session');
+    const { PlayerView } = await import('../src/presentation/player-view');
+    const w = await WorldAssembler.assemble('kite', NodeBundleSource.shared,
+      { party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
+    const s = await Session.start(w.path, 'kite', w.source);
+    await s.perform(PlayerView.choices(s.campaign).find(x => /^Ask .*old cisterns/.test(x.choice.name))!.choice.id);
+    expect(Glanced.of(s).glance.acts[0]).toMatchObject({ label: 'Set out for Lunalac', why: 'named' });
+  }, 120000);
 });

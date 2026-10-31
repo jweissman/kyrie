@@ -104,6 +104,9 @@ export class Affordances {
       ...lesson ? [{ why: 'means' as const, note: `a lesson in ${lesson.label.replace(/^Train (\S+ )?(in )?| — .+$/g, '')}` }]
         : []];
   }
+  private static within(id: string, named: Set<string>): boolean {
+    return named.has(id) || [...named].some(n => n.startsWith(`${id}_`));
+  }
   private static offered(leaves: Choice[], r: Reading, schemas: string[]): Choice | undefined {
     return leaves.find(c => schemas.includes(r.schema.get(c.command!) ?? ''));
   }
@@ -150,7 +153,9 @@ export class Affordances {
   // between the edges of two wild countries (REV-08).
   private static journeys(screen: Screen, r: Reading): Candidate[] {
     const near = new Set((screen.around ?? []).map(d => d.id)), here = screen.place.name.toLowerCase();
-    return (screen.destinations ?? []).filter(d => !near.has(d.id) && r.named.has(d.id)
+    // Named by the aim is named in anything in it: an aim names a work's rooms and its site, never the place it is
+    // set out for by (Lunalac's reading-glass named every room of it, and nothing led toward it: OWN-56).
+    return (screen.destinations ?? []).filter(d => !near.has(d.id) && this.within(d.id, r.named)
       && d.toward?.toLowerCase() !== here).map(d => ({ choice: `travel:${d.id}`, command: `travel:${d.id}`,
       kind: 'travel' as const, order: 0, label: `Set out ${d.toward ? 'toward' : 'for'} ${d.name}`, minutes: d.minutes,
       marks: Marks.journey(screen.elapsed, d.minutes) ? [Marks.dusk] : [], whys: ['named' as const],
