@@ -1,0 +1,42 @@
+{
+ "up": [
+  "^To Larum street",
+  "Into the guide's house",
+  "Buy a sheepskin coat",
+  "Pay Jory Whitlock six coin",
+  "To the southern Field",
+  "To Trophy Row",
+  "To the banner lanes",
+  "To the foot of the Morrow height",
+  "To Morrowhall's yard",
+  "Into Morrowhall",
+  "Ask at the fire-trench|Wait \u203a An hour",
+  "=21:00",
+  "?Ask at the fire-trench",
+  "?Rest six hours",
+  "=day 2 07:30",
+  "Out to Morrowhall's yard",
+  "Spar with Mab",
+  "Into Morrowhall",
+  "=18:10",
+  "To the Marshal's room",
+  "Tell Hild Varley that only a living hand",
+  "Ask Hild Varley what she is thinking",
+  "Say you will do it"
+ ],
+ "testing": [
+  "To Morrowhall",
+  "Rest six hours",
+  "=day 5 05:00",
+  "Out to Morrowhall's yard",
+  "To the foot of the Morrow height",
+  "To the Clear",
+  "To the ford of the Lathe",
+  "=07:10",
+  "Go in among the press",
+  "To Trophy Row",
+  "Into the Oven",
+  "=18:10",
+  "=day 6 07:30"
+ ]
+}

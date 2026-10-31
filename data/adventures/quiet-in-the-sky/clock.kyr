@@ -58,8 +58,10 @@ Module larum "The Quiet in the Sky" {
   Rule chill_settles when company(?c) and not coldHere(?c) and chill(?c) == 0 and watch(clock) > chilledAt(?c) { Set chilledAt(?c) to watch(clock). }
   Hazard frostbite "the cold of Ysgard, in the fingers and the face" means "Deal (1d4) cold damage to ally unless constitution save against (12).".
   Rule frost_bites when company(?c) and coldHere(?c) and frozenAt(?c) and watch(clock) >= bittenAt(?c) + 6 { Assert strikes(frostbite, ?c). Set bittenAt(?c) to watch(clock). }
-  Observe numb_tell near party as feature when coldHere(party) and numbAt(party) and not frozenAt(party) "Your fingers have gone stupid and white at the tips, and your face is stiff. The cold here is not weather. It is a place where warmth is not kept.".
-  Observe frozen_tell near party as feature when coldHere(party) and frozenAt(party) "You cannot feel your feet. Your breath has frozen in your collar. If you do not get somewhere warm, the cold will start taking pieces.".
+  Relation numbWarned(group). Relation frozenWarned(group).
+  Rule numb_warns when company(?c) and coldHere(?c) and numbAt(?c) and not frozenAt(?c) and not numbWarned(?c) says "Your fingers have gone stupid and white at the tips. The cold up here does not wear off; it adds up. Somewhere warm, soon: the Oven in Halt, a hall's fire, the Runners' warren, the Teller's brazier." { Assert numbWarned(?c). }
+  Rule frozen_warns when company(?c) and coldHere(?c) and frozenAt(?c) and not frozenWarned(?c) says "You cannot feel your feet. Your breath has frozen in your collar. If you stay out in this, the cold will start taking pieces of you." { Assert frozenWarned(?c). }
+  Rule cold_warnings_reset when company(?c) and chill(?c) == 0 and (numbWarned(?c) or frozenWarned(?c)) { Retract numbWarned(?c). Retract frozenWarned(?c). }
 
   // ── The breath ────────────────────────────────────────────────────────────────────────────────────────────────────
   // In Ysgard the dead do not steam when they breathe. The living do, and every dead face turns to look.

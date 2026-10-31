@@ -7,6 +7,8 @@ Module larum "The Quiet in the Sky" {
   Observe morrow_hall_night at morrow_hall as sign when hour(clock) >= 19 or hour(clock) < 5 "The hall is eating. Down the length of the fire-trench the great ox Brindle turns on a spit, and the benches roar, and somebody is standing on a table telling a boast that everybody knows the end of and shouts with him.".
   Observe marshal_scene at marshal_room when true "A small square room behind the high seat, with a window looking west down the Field, a chair, a table and a map. The map is of the Field, drawn and redrawn over centuries, with the positions of nine hundred years of battle-lines rubbed out and drawn in again until the parchment is furred. In the middle of it somebody has drawn, quite recently, in a careful small hand, a little town.".
 
+  // The halls let a breather sleep by their fires.
+  Initially Assert restful(morrow_hall). Initially Assert restful(even_hall). Initially Assert restful(warren).
   Person brindle "Brindle" at morrow_yard {
     Role "Morrowhall's ox". Species cow. Peaceable. Pronouns he.
     Greets "The great ox swings his head round and looks at you with one wet brown eye, and breathes on you, and the breath does not steam. He goes back to chewing.".
@@ -64,7 +66,7 @@ Module larum "The Quiet in the Sky" {
   }
   Topic hild_yes with hild "Say you will do it" answering hild_asks when true {
     Grave "A promise to kill, made to the Marshal of Morrow.".
-    Says "Hild nods once, as if you had agreed to carry a message. 'By the ford,' she says. 'In the morning. Nobody will know but you and I.' Then she turns to the window, and stays turned until you go.".
+    Says "Hild nods once, as if you had agreed to carry a message. 'By the ford,' she says. 'On the Testing morning. Nobody will know but you and I.' Then she turns to the window, and stays turned until you go.".
     On discuss { Assert hildPromised(hild). Assert promiseMade(hild_promise). }
   }
   Topic hild_no with hild "Say you will not" answering hild_asks when true {
@@ -86,7 +88,7 @@ Module larum "The Quiet in the Sky" {
     Otherwise "Hild hears you out, looking down the Field. 'Words,' she says, not unkindly. 'Breathers have plenty. Come back tomorrow, when I've slept, and say it again.'".
   }
   Relation hildTriedToday(group).
-  Observe hild_promised at marshal_room as sign when hildPromised(hild) and not afterTesting() "Hild Varley does not look round from the window when you come in. She knows who it is by the breath.".
+  Observe hild_promised at marshal_room as sign when hildPromised(hild) and not afterTesting() "Hild Varley stands at the window with her back to the room, and does not turn round. She knows who it is by the breath.".
   // Heard, not argued with: told that what she does now, afraid, is what brave is.
   Topic hild_brave with hild "Tell Hild Varley that choosing the peace now, afraid, would be the first brave thing she has done" when knows(actor, hild_fear) and (hildRefused(hild) or truthSpoken(field_country) and hildKnows(hild)) and haltSigns() and not hildResolved(hild) and beforeTesting() once {
     Says "Hild does not answer for a long time. She stands at the window with her back to you and her hands behind her, the way she walks the banner lanes. 'Wrenning was nothing,' she says at last. 'There was nowhere to run.' Then: 'And here there is. There is the third horn, and the ford, and four hundred years of knowing exactly what to do.' She turns round. Her face is wet, which in the dead you did not know could happen. 'If they all get up, and Even comes down by the third horn the morning after, Morrow will not go to meet it. Morrow will be in Halt. I will see to it.' She almost laughs. 'Afraid. Yes. Well. I am told that's how it's done.'".

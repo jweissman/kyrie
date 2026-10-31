@@ -57,7 +57,7 @@ Module larum "The Quiet in the Sky" {
     Resolve check(actor, stealth, dc_fair).
     On success { Assert trueDeathAtTesting(field_country). Assert deathCarrier(actor). Assert tolerates(testing_press, actor). Retract warned(testing_press, actor). }
     On failure { Assert struckAtPress(actor). Assert strikes(press_blades, actor). }
-    Result "You go in at the edge of the press, low, in the roar, where nobody is looking at anybody but the man in front of them, and a man of Even with his back to you lifts his sword over his head, laughing, and you strike, once, the way Edith Marl struck, and he goes down onto the ice in the stamping feet, and nobody notices. Nobody notices. You are out on the bank again in a moment, with your breath going up white, and your hands are shaking.".
+    Result "You go in at the edge of the press, low, in the roar, where nobody is looking at anybody but the man in front of them, and a man of Even with his back to you lifts his sword over his head, laughing, and you strike, once, the way whoever killed Halvard struck, and he goes down onto the ice in the stamping feet, and nobody notices. Nobody notices. You are out on the bank again in a moment, with your breath going up white, and your hands are shaking.".
     Otherwise "You go in at the edge of the press, and it closes round you like water, and a blade you never see opens your arm, and another, and you are thrown back out onto the bank by the sheer weight of men, bleeding, and they laugh and turn away.".
   }
   Relation struckAtPress(group).

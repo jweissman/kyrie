@@ -24,7 +24,7 @@ Module larum "The Quiet in the Sky" {
   Rule mab_to_ford when hour(clock) >= 12 and hour(clock) < 17 and at(mab, morrow_yard) and paired(mab) and not wedded(mab) and not testingUnder() { Assert at(mab, lathe_ford). }
   Rule mab_evening when hour(clock) >= 18 and (at(mab, halt_cross) or at(mab, lathe_ford)) and not wedded(mab) { Assert at(mab, morrow_hall). }
   Rule mab_morning when hour(clock) >= 7 and hour(clock) < 12 and at(mab, morrow_hall) and not wedded(mab) { Assert at(mab, morrow_yard). }
-  Rule ansel_afternoon when hour(clock) >= 12 and hour(clock) < 17 and at(ansel, even_hall) and haltStands() and not wedded(mab) { Assert at(ansel, lathe_ford). }
+  Rule ansel_afternoon when hour(clock) >= 12 and hour(clock) < 17 and at(ansel, even_hall) and haltStands() and not wedded(mab) and not testingUnder() { Assert at(ansel, lathe_ford). }
   Rule ansel_evening when hour(clock) >= 17 and at(ansel, lathe_ford) and not wedded(mab) { Assert at(ansel, even_hall). }
   // Married, they keep a tent in the banner lanes.
   Rule wedded_home when wedded(mab) and not at(mab, banner_lanes) and not testingUnder() { Assert at(mab, banner_lanes). Assert at(ansel, banner_lanes). }
