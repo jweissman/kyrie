@@ -5,7 +5,7 @@ Module larum "The Quiet in the Sky" {
   // here, wear no arms, sit at no bench, and are owed nothing. They clear the broken off the battle-line every night so
   // the next day has footing; they keep the Picking, the trade with Larum.
   Observe mouth_scene at scrapes_mouth when true "Under the southern lip of the Field the ice overhangs like a wave about to break, green and blue, and under the wave, in its shadow, a wall of shields stuck edge to edge with a gap in it hung with a banner. Sledges stand outside piled with broken iron. A dead girl sits on one in a smock with no device on it, mending a sledge-trace with her teeth.".
-  Observe warren_scene at warren when true "The Runners' warren: low rooms walled with shields and roofed with the ice itself, lit with fat-lamps that make it, against all sense, warm, and dead men and women in plain smocks looking up at your breath. Banners hang for doors. Everything here is something the Field threw away: a table that was a cart's tailboard, chairs that were saddles, a cradle that was a helm, though there are no children. Dead men and women in plain smocks, no device on any of them, look up as you come in, and look at your breath, and look at each other.".
+  Observe warren_scene at warren when true "The Runners' warren: low rooms walled with shields and roofed with the ice itself, lit with fat-lamps that make it, against all sense, warm, and dead men and women in plain smocks looking up at your breath. Banners hang for doors. Everything here is something the Field threw away: a table that was a cart's tailboard, chairs that were saddles, a cradle that was a helm, though there are no children. No smock has a device on it.".
   Observe nook_scene at edith_nook when at(edith, edith_nook) "Behind the banners a nook no bigger than a cupboard, with a heap of sacking for a bed, a fat-lamp, a tin cup, and a woman sitting on the sacking with her knees drawn up, wrapped in three Runners' smocks one over the other, shivering. Her breath goes up white in the lamplight.".
   Observe nook_empty at edith_nook when not at(edith, edith_nook) "A nook behind the banners: sacking, a fat-lamp gone out, a tin cup. Nobody.".
   // Seen from the warren, by one who knows what a breath means here.
@@ -106,15 +106,15 @@ Module larum "The Quiet in the Sky" {
   Topic give_up_edith with torold "Tell Torold Hame where Halvard's killer is hiding" when knows(actor, edith_did_it) and at(edith, edith_nook) and state(halvard, lying) and not edithGivenUp(edith) once {
     Grave "Torold will go down into the Scrapes, and she is living.".
     Says "Torold hears you without a word. When you are done he takes his sword up out of the snow, and looks at it, and calls two of the watch with a jerk of his head, and goes, walking, not hurrying, south toward the lip of the Field. He does not look back at you or the bier.".
-    On discuss { Assert edithGivenUp(edith). Set givenUpAt(edith) to watch(clock). Assert toroldKnows(torold). }
+    On discuss { Assert edithGivenUp(edith). Set givenUpAt(edith) to watch(clock). Assert toroldKnows(torold). Assert at(torold, warren). }
   }
   Measure givenUpAt(group).
-  Rule edith_taken when edithGivenUp(edith) and watch(clock) >= givenUpAt(edith) + 6 and not edithDead(edith) { Assert edithDead(edith). Assert at(edith, limbo). Set givenUpAt(edith) to watch(clock). }
+  Rule edith_taken when edithGivenUp(edith) and watch(clock) >= givenUpAt(edith) + 6 and not edithDead(edith) { Assert edithDead(edith). Assert at(edith, limbo). Set givenUpAt(edith) to watch(clock). Assert at(torold, the_ring). }
   Rule edith_comes_in when edithDead(edith) and at(edith, limbo) and watch(clock) >= givenUpAt(edith) + 1 { Assert at(edith, snow_gate). }
   Rule edith_comes_in_seen at snow_gate when edithDead(edith) and at(edith, snow_gate) and at(party, snow_gate) and not spoke(edith_in_told)
     says "Out of the curtain of snow a woman walks, in three Runners' smocks one over the other, with red cracked hands. She is not shivering. Her breath does not steam. She looks down at the Field, and at the hall on its western height, where the low sun is, and her face does nothing at all. 'Hour?' says Cleeve gently, coming out with the ledger. 'Afternoon,' says Edith Marl. Cleeve writes, and points west. She goes, down toward Evenhall, where Halvard Eld's name is painted on the Tally from the floor to the roof." { Assert spoke(edith_in_told). }
   Entity edith_in_told: fact "Edith coming in".
-  Rule edith_to_evenhall when edithDead(edith) and at(edith, snow_gate) and not at(party, snow_gate) { Assert at(edith, even_hall). }
+  Rule edith_to_evenhall when edithDead(edith) and at(edith, snow_gate) and not at(party, snow_gate) and (spoke(edith_in_told) or watch(clock) >= givenUpAt(edith) + 144) { Assert at(edith, even_hall). }
   // Brought to the ring, she confesses before Torold.
   Action bring_edith(actor: group, site: place) "Bring Edith Marl in among the spears, before Torold Hame" {
     Description "She will say what she did, aloud, to him and to all Halt. What he does then is his.".

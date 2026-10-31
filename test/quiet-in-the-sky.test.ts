@@ -107,6 +107,18 @@ describe('The Quiet in the Sky', () => {
     expect(g.page).toMatch(/it said: grass|horn the Truce/);
   }, 900000);
 
+  it('Edith given up: Torold goes down into the Scrapes, she comes in out of the snow and is sent west; the Runners get their bench', async () => {
+    const g = await Larum.start();
+    await g.fixture('betrayal');
+    expect(g.holds('edithGivenUp', 'edith')).toBe(true);
+    expect(g.holds('edithDead', 'edith')).toBe(true);
+    expect(g.page).toMatch(/'Afternoon,' says Edith Marl|‘Afternoon,’ says Edith Marl/);
+    expect(g.holds('runnersSeated', 'cuddy')).toBe(true);
+    expect(g.holds('testingOff', 'field_country')).toBe(true);
+    expect(g.ending()).toEqual([k('ending_quiet')]);
+    expect(g.page).toMatch(/Torold Hame brings her a cup of mead/);
+  }, 900000);
+
   it('the Daily: gone up once and left alone, the Testing is fought, everyone gets up, and Larum hears the sky again', async () => {
     const g = await Larum.start();
     await g.fixture('daily');
