@@ -164,7 +164,9 @@ describe('an origin', () => {
     // (the M16 free play read "a man under it", and "Kildrak knelt by the cart" under what it knew).
     const told = Narrator.leaf(s.campaign, ScreenModel.build(s.campaign),
       { event: found, feedback: ActionFeedbackView.read(s.campaign, found, before), moved: false }).exchange!;
-    expect(told.lines.map(l => l.text).slice(-2).map(t => t.split('.')[0]))
+    // (What is seen of the ruts then is told in the same moment, after: GTR-23, what is learned answered at once.)
+    const said = told.lines.map(l => l.text.split('.')[0]), at = said.indexOf('It is your father');
+    expect(said.slice(at, at + 2))
       .toEqual(['It is your father', `${name} goes down the bank to the cart before anyone can stop him, and kneels there a long time`]);
     expect(told.notes.some(n => /knelt|father/.test(n))).toBe(false);
     expect(s.campaign.world.test(ModuleWriter.call('knows', 'party', 'drover__son_knelt'))).toBe(true);

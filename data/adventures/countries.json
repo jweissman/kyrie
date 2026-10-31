@@ -24,7 +24,7 @@
    "far": "a giant king is buried under a long ridge, and something tall walks its crest at night",
    "notice": {
     "name": "a notice from Merrowdale",
-    "text": "A notice in a clerk's hand, carried down from Merrowdale and nailed up where travellers will see it: WHOEVER LAYS THE MOWER THAT WALKS THE LONG MAN SHALL HAVE FORTY CROWNS OF THE STEWARD. A. VENN, FOR THE LORD. Under it someone has written: up the north road, over the march, three days at most.",
+    "text": "A notice in a clerk's hand, carried down from Merrowdale and nailed up where travellers will see it: WHOEVER LAYS THE MOWER THAT WALKS THE LONG MAN SHALL HAVE FORTY CROWNS OF THE STEWARD. A. VENN, FOR THE LORD. Under it someone has written: up the north road, three days at most.",
     "talk": "A notice from Merrowdale is nailed up where travellers will see it, and half the talk is of the forty crowns it offers and the other half of why nobody has gone."
    },
    "after": {
@@ -45,11 +45,11 @@
     "forest"
    ],
    "name": "Thrume",
-   "topic": "Saltgrave, over the march",
+   "topic": "Saltgrave, in the east of the country",
    "terrain": "mountain",
    "among": "independent",
-   "rumour": "'East over the march, under the fells, there is a salt town, Saltgrave,' says {keeper}. 'People pay to sleep there, and some of them do not come home. And the giants have come down off the mountain, they say, for the first time anyone remembers.'",
-   "heard": "East over the march lies Saltgrave, a salt town under the fells, where people pay to sleep and some do not come home, and the giants have come down off the mountain.",
+   "rumour": "'Away in the east of the country, under the fells, there is a salt town, Saltgrave,' says {keeper}. 'People pay to sleep there, and some of them do not come home. And the giants have come down off the mountain, they say, for the first time anyone remembers.'",
+   "heard": "Away in the east of the country lies Saltgrave, a salt town under the fells, where people pay to sleep and some do not come home, and the giants have come down off the mountain.",
    "skyline": "smoke going up from salt-pans under the fells",
    "far": "people pay to sleep in a salt town under the fells, and some of them do not come home"
   },
@@ -95,7 +95,7 @@
    "terrain": "mountain",
    "among": "independent",
    "rumour": "'West of here is the Corrow,' says {keeper}. 'There is a mountain hangs over it in the sky, on a chain, and they say it is drifting. And there is a well there nobody has been to the bottom of.'",
-   "heard": "West over the march lies the Corrow, where a mountain hangs in the sky on a chain, drifting, over a well nobody has been to the bottom of.",
+   "heard": "Away in the west of the country lies the Corrow, where a mountain hangs in the sky on a chain, drifting, over a well nobody has been to the bottom of.",
    "skyline": "a mountain hanging in the sky, with nothing under it but air",
    "far": "a mountain hangs in the sky on a chain, drifting, over a well nobody has been to the bottom of"
   },
@@ -116,7 +116,7 @@
    "terrain": "mountain",
    "among": "independent",
    "rumour": "'West, up on the Ghessil Uplands,' says {keeper}, 'there is a light lies on the glass that slows whatever drinks it. There are people standing in it, they say, that went in last autumn and are standing there yet, alive.'",
-   "heard": "West over the march lie the Ghessil Uplands, where a light on the glass slows whatever drinks it, and people stand in it alive since last autumn.",
+   "heard": "Away in the west of the country lie the Ghessil Uplands, where a light on the glass slows whatever drinks it, and people stand in it alive since last autumn.",
    "skyline": "a light lying on the uplands that does not move when the clouds do",
    "far": "a light lies on the glass that slows whatever drinks it, and people stand in it alive"
   },
@@ -136,8 +136,8 @@
    "topic": "the falling water at Ammerlin",
    "terrain": "hills",
    "among": "independent",
-   "rumour": "'South over the march there's a city down the inside of a crater, Ammerlin,' says {keeper}. 'Their lake's been going down three years, and nobody there will believe anybody else about why. So they've sent out for someone from outside to measure it, and put their name to the answer. The Office of Measures pays, if you can count.'",
-   "heard": "South over the march lies the Bowl of Ammerlin, a city down the inside of a crater, whose lake has been falling for three years; its Office of Measures wants someone from outside to measure it and say why.",
+   "rumour": "'Away in the south of the country there's a city down the inside of a crater, Ammerlin,' says {keeper}. 'Their lake's been going down three years, and nobody there will believe anybody else about why. So they've sent out for someone from outside to measure it, and put their name to the answer. The Office of Measures pays, if you can count.'",
+   "heard": "Away in the south of the country lies the Bowl of Ammerlin, a city down the inside of a crater, whose lake has been falling for three years; its Office of Measures wants someone from outside to measure it and say why.",
    "skyline": "the rim of a great crater, with smoke going up out of it",
    "far": "a city down the inside of a crater is losing its lake, and nobody there believes anybody else about why"
   },
@@ -154,7 +154,7 @@
    "name": "the Ossel delta",
    "terrain": "marsh",
    "rumour": "'Down the east road, where the marsh meets the sea, there's Tessary on the Ossel,' says {keeper}. 'Their legions came home from the war a week back, and they say some of the soldiers are getting up in the night and walking into the sea. Barefoot, in step, eyes open. An eel-wife there has put up a notice: she'll give her savings to anyone who can tell her where her boy went.'",
-   "heard": "East over the march lies Tessary on the Ossel, where the legions have come home from the war and some of the soldiers walk into the sea at night; an eel-wife there offers her savings for news of her son.",
+   "heard": "Away in the east of the country lies Tessary on the Ossel, where the legions have come home from the war and some of the soldiers walk into the sea at night; an eel-wife there offers her savings for news of her son.",
    "skyline": "the smoke of a town where the marsh meets the sea",
    "far": "the legions have come home from the war, and some of the soldiers walk into the sea at night"
   },
@@ -172,7 +172,7 @@
    "topic": "the bridge at Wrayford",
    "terrain": "hills",
    "rumour": "'Down the south road, where the drove roads come down off the fells, there's Wrayford, on the Wray,' says {keeper}, and lowers their voice. 'The carters rose against the bridge toll there a few nights back, and the lord's riders hanged three of them off the gatehouse on the bridge, and they're hanging there yet. The reeve says they stay till the lord's captain comes. Drovers coming through say the whole town goes and stands under them, and nobody will say a word.'",
-   "heard": "South over the march lies Wrayford, the bridge-city on the Wray, where the lord's riders hanged three carters from the gatehouse on the bridge after a rising against the toll, and the reeve keeps them hanging until the lord's captain comes.",
+   "heard": "Away in the south of the country lies Wrayford, the bridge-city on the Wray, where the lord's riders hanged three carters from the gatehouse on the bridge after a rising against the toll, and the reeve keeps them hanging until the lord's captain comes.",
    "skyline": "a town at a bridge, far down where the drove roads come off the fells",
    "far": "the lord's riders hanged three carters from the gatehouse on the bridge, and they hang there yet"
   },
@@ -189,8 +189,8 @@
    "name": "Calamy",
    "topic": "the city of paper at the mouth of the Calam",
    "terrain": "marsh",
-   "rumour": "'East over the march, where the cold country comes down to the sea and the river runs out through miles of reeds, there is Calamy, at the mouth of the Calam,' says {keeper}. 'A city of paper: tide-mills and binders and printers, and every house there keeps a book that knows it. They say the books have started to talk. And they burn their old almanacks at the Kindling, which is near, and this year nobody can say whether they ought.'",
-   "heard": "East over the march lies Calamy, at the mouth of the Calam, where every house keeps a book that knows it, and the books have begun to talk, and the Kindling is near.",
+   "rumour": "'Away in the east of the country, where the cold country comes down to the sea and the river runs out through miles of reeds, there is Calamy, at the mouth of the Calam,' says {keeper}. 'A city of paper: tide-mills and binders and printers, and every house there keeps a book that knows it. They say the books have started to talk. And they burn their old almanacks at the Kindling, which is near, and this year nobody can say whether they ought.'",
+   "heard": "Away in the east of the country lies Calamy, at the mouth of the Calam, where every house keeps a book that knows it, and the books have begun to talk, and the Kindling is near.",
    "skyline": "the sails of tide-mills turning along a coast of reeds",
    "far": "the books of a city of paper have begun to talk, and the Kindling is near",
    "among": "independent"
@@ -208,13 +208,13 @@
    "name": "the vale of the Arle",
    "topic": "the Trial of the Wheel at Pentrice",
    "terrain": "hills",
-   "rumour": "'West over the march, where the Ise falls into the Arle, there's Pentrice,' says {keeper}. 'A minster town, very grand, where they license every word said on a stage and fine you for the rest. This week it's their Trial of the Wheel: three companies of players, three nights in a round playhouse over the river, and the best of them given a house of its own for ever.' {keeper} grins. 'They say old Absalom Gosse is going back for it, after forty years. They banned him from every stage inside the walls the last time. He started a riot.'",
+   "rumour": "'Away in the west of the country, where the Ise falls into the Arle, there's Pentrice,' says {keeper}. 'A minster town, very grand, where they license every word said on a stage and fine you for the rest. This week it's their Trial of the Wheel: three companies of players, three nights in a round playhouse over the river, and the best of them given a house of its own for ever.' {keeper} grins. 'They say old Absalom Gosse is going back for it, after forty years. They banned him from every stage inside the walls the last time. He started a riot.'",
    "skyline": "a minster tower over a river town, where one river falls into another",
    "far": "a minster town licenses every word said on a stage, and holds its Trial of the Wheel",
-   "heard": "West over the march lies Pentrice, a minster town that licenses every word said on a stage; this week it holds its Trial of the Wheel, three companies of players for three nights, and Absalom Gosse's company is going back after forty years' banishment.",
+   "heard": "Away in the west of the country lies Pentrice, a minster town that licenses every word said on a stage; this week it holds its Trial of the Wheel, three companies of players for three nights, and Absalom Gosse's company is going back after forty years' banishment.",
    "notice": {
     "name": "a playbill of the Trial of the Wheel",
-    "text": "A bill in red and black, much handled and rained on: THE TRIAL OF THE WHEEL AT PENTRICE. THREE COMPANIES OF PLAYERS. THREE NIGHTS. THE PATENT OF THE WHEEL TO BE GIVEN BY THE BENCH. BY LEAVE OF THE OFFICE OF PLAIN SPEECH. Under it someone has written in pencil: west road, over the march, a day; and drawn a bear.",
+    "text": "A bill in red and black, much handled and rained on: THE TRIAL OF THE WHEEL AT PENTRICE. THREE COMPANIES OF PLAYERS. THREE NIGHTS. THE PATENT OF THE WHEEL TO BE GIVEN BY THE BENCH. BY LEAVE OF THE OFFICE OF PLAIN SPEECH. Under it someone has written in pencil: west road, a day; and drawn a bear.",
     "talk": "A playbill of the Trial of the Wheel at Pentrice is nailed up where travellers will see it, and half the talk is of who will win the Patent and the other half of whether old Gosse will be let play at all."
    },
    "after": {
@@ -245,8 +245,8 @@
    "name": "Pellam on the Lisk",
    "topic": "the Frost Fair at Pellam",
    "terrain": "hills",
-   "rumour": "'West, over the march, where the North Road comes down to the Lisk, there's Pellam, the wool city,' says {keeper}. 'The river's frozen there for the first time in thirty-one winters, they say, bank to bank, and they're holding a Frost Fair on it: booths and a gin-tent and an ox roasting on the ice. And the ice has its own law while it lasts. A lie's no crime on it, and a handshake's the Court's.' {keeper} laughs. 'Half the rogues in the country will be there by now. The other half are on the way.'",
-   "heard": "West over the march lies Pellam on the Lisk, a wool city whose river has frozen for the first time in thirty-one winters; they are holding a Frost Fair on the ice, under the ice's own law: a lie is no crime on it, and a handshake is the Court's.",
+   "rumour": "'West, up the country, where the North Road comes down to the Lisk, there's Pellam, the wool city,' says {keeper}. 'The river's frozen there for the first time in thirty-one winters, they say, bank to bank, and they're holding a Frost Fair on it: booths and a gin-tent and an ox roasting on the ice. And the ice has its own law while it lasts. A lie's no crime on it, and a handshake's the Court's.' {keeper} laughs. 'Half the rogues in the country will be there by now. The other half are on the way.'",
+   "heard": "Away in the west of the country lies Pellam on the Lisk, a wool city whose river has frozen for the first time in thirty-one winters; they are holding a Frost Fair on the ice, under the ice's own law: a lie is no crime on it, and a handshake is the Court's.",
    "skyline": "a city on a river white with ice from bank to bank",
    "far": "a river has frozen bank to bank under a wool city, and they hold a fair on it where a lie is no crime and a handshake is the law"
   },
@@ -265,8 +265,8 @@
    "name": "the Lim valley",
    "topic": "the Season at Hessel",
    "terrain": "hills",
-   "rumour": "'North over the march, down in the Lim valley, there's Hessel,' says {keeper}, 'where the water comes up out of the hill hot, and the old go to be mended and the young to be married. It's the end of their Season. They say there's a rich old woman there who cooked for the navvies, buying husbands for all her family before she dies, and a house in the best street that's kept its shutters closed nine years, with the fires lit, in the warm.'",
-   "heard": "North over the march lies Hessel in the Lim valley, a spa where the water comes up hot and the old go to be mended and the young to be married; its Season is ending, a rich old woman there is buying husbands for her family before she dies, and a house in its best street has kept its shutters closed nine years.",
+   "rumour": "'Up in the north of the country, down in the Lim valley, there's Hessel,' says {keeper}, 'where the water comes up out of the hill hot, and the old go to be mended and the young to be married. It's the end of their Season. They say there's a rich old woman there who cooked for the navvies, buying husbands for all her family before she dies, and a house in the best street that's kept its shutters closed nine years, with the fires lit, in the warm.'",
+   "heard": "Up in the north of the country lies Hessel in the Lim valley, a spa where the water comes up hot and the old go to be mended and the young to be married; its Season is ending, a rich old woman there is buying husbands for her family before she dies, and a house in its best street has kept its shutters closed nine years.",
    "skyline": "steam going up out of a green valley, where the water comes up out of the hill hot",
    "far": "the water comes up out of a hill hot, and the old go there to be mended and the young to be married"
   },
@@ -284,8 +284,8 @@
    "name": "the Levels of Gaunt",
    "topic": "the fell road to Gaunt",
    "terrain": "frost",
-   "rumour": "'North over the march the fell road goes up over Carth Fell and down to Gaunt,' says {keeper}, 'the city of the Minster, on the Levels, where they'll sell you somebody else's penance by the day. There's a heretic to be tried there on Ash Day, a barefoot man who used to do penance for half the Guildhall. They say a beadle went down the march road to fetch him, and has not come back up it.'",
-   "heard": "North over the march the fell road climbs over Carth Fell and comes down to Gaunt, a walled city on the Levels where penance is bought and sold by the day, and a barefoot heretic is to be tried on Ash Day.",
+   "rumour": "'Up in the north of the country the fell road goes up over Carth Fell and down to Gaunt,' says {keeper}, 'the city of the Minster, on the Levels, where they'll sell you somebody else's penance by the day. There's a heretic to be tried there on Ash Day, a barefoot man who used to do penance for half the Guildhall. They say a beadle went down the march road to fetch him, and has not come back up it.'",
+   "heard": "Up in the north of the country the fell road climbs over Carth Fell and comes down to Gaunt, a walled city on the Levels where penance is bought and sold by the day, and a barefoot heretic is to be tried on Ash Day.",
    "skyline": "a walled city on a white plain, with a great church in it that has one tower and the stump of another",
    "far": "penance is bought and sold by the day, and a barefoot heretic is to be tried at the Minster on Ash Day"
   },
@@ -304,8 +304,8 @@
    "name": "the Gannet Reach",
    "topic": "the wreck on the Gannet Reach",
    "terrain": "marsh",
-   "rumour": "'North, over the march, the coast road goes down to the Gannet Reach,' says {keeper}, 'where the sea goes out twice a day and leaves nine miles of sand. There's a town on it called Skeel that lives off wrecks, and a big ship went onto the sands there a few nights back in fair weather, which ships don't. They're stripping her now. The Wreck Court sits on her in two days, and if nothing came ashore of her alive, she's theirs. They say there's a dog.'",
-   "heard": "North over the march the coast road goes down to the Gannet Reach, a tidal sea of sands and islands where the wrecking town of Skeel is stripping a merchantman that went onto the sands in fair weather; its Wreck Court sits in two days, and she is the town's only if nothing came ashore of her alive.",
+   "rumour": "'North, up the country, the coast road goes down to the Gannet Reach,' says {keeper}, 'where the sea goes out twice a day and leaves nine miles of sand. There's a town on it called Skeel that lives off wrecks, and a big ship went onto the sands there a few nights back in fair weather, which ships don't. They're stripping her now. The Wreck Court sits on her in two days, and if nothing came ashore of her alive, she's theirs. They say there's a dog.'",
+   "heard": "Up in the north of the country the coast road goes down to the Gannet Reach, a tidal sea of sands and islands where the wrecking town of Skeel is stripping a merchantman that went onto the sands in fair weather; its Wreck Court sits in two days, and she is the town's only if nothing came ashore of her alive.",
    "skyline": "a great flat shining to the west, sand or sea, with islands standing in it and a tower on one of them",
    "far": "a ship went onto the sands of a tidal reach in fair weather, and the wrecking town there will have her if nothing came ashore alive",
    "after": {
@@ -327,7 +327,7 @@
    "topic": "the Wold of Hume, and its bees",
    "terrain": "hills",
    "rumour": "'South, up on the Wold of Hume, past the mountains, there's a town lives inside a honeycomb under a cliff,' says {keeper}. 'Bees as big as hounds, and they'll sting a stranger dead unless he smells right. The candles come from there, the ones that burn three nights. And the word down the drove road is that their old queen's going to swarm, and half the town will walk off after her and never come back. They want hands to help them look for where.'",
-   "heard": "South over the march, past the mountains, lies the Wold of Hume, where a town lives inside a honeycomb under a cliff among bees as big as hounds; their old queen is about to swarm, half the town will walk after her, and their Searchers want hands to find where.",
+   "heard": "Away in the south of the country, past the mountains, lies the Wold of Hume, where a town lives inside a honeycomb under a cliff among bees as big as hounds; their old queen is about to swarm, half the town will walk after her, and their Searchers want hands to find where.",
    "skyline": "a long grey brow of rock on the hills, and under it a glow like a lamp behind a curtain",
    "far": "a town lives inside a honeycomb under a cliff, and half of it is about to walk away after a swarm",
    "after": {
@@ -348,14 +348,14 @@
     "marsh"
    ],
    "name": "the Lull",
-   "topic": "the Lull, over the march",
+   "topic": "the Lull, in the north of the country",
    "terrain": "forest",
-   "rumour": "'North over the march there's a hamlet called Sixways,' says {keeper}, 'and above it a stone, and past the stone a valley you can only walk into one day in seven. The other six the road goes round a hill and back. The Lull, they call it. They don't work in there: whatever's done there without meaning it comes apart at sunset, bread and money and all. And if you sleep a night in it, you lose a week out here.'",
-   "heard": "North over the march, above the hamlet of Sixways, a road goes down from a standing stone one day in seven into the Lull, a valley where whatever is done without meaning it comes apart at sunset, and a night slept is a week gone outside.",
+   "rumour": "'Up in the north of the country there's a hamlet called Sixways,' says {keeper}, 'and above it a stone, and past the stone a valley you can only walk into one day in seven. The other six the road goes round a hill and back. The Lull, they call it. They don't work in there: whatever's done there without meaning it comes apart at sunset, bread and money and all. And if you sleep a night in it, you lose a week out here.'",
+   "heard": "Up in the north of the country, above the hamlet of Sixways, a road goes down from a standing stone one day in seven into the Lull, a valley where whatever is done without meaning it comes apart at sunset, and a night slept is a week gone outside.",
    "skyline": "a bare green hill with a standing stone on it, and a road that goes round the hill and comes back",
    "far": "there is a valley you can only walk into one day in seven, where nothing done without meaning it lasts the day",
    "after": {
-    "talk": "The talk from over the east march is that something has changed in the Lull, and the carters of Sixways cannot agree whether for better.",
+    "talk": "The talk from the north of the country is that something has changed in the Lull, and the carters of Sixways cannot agree whether for better.",
     "told": "{keeper} hears you out about the Lull, the stone and the bridge and the Watching, and is quiet a while. 'One day in seven,' {keeper} says at last. 'I've often thought I could do with that.' Then, after a moment: 'Or maybe not. Maybe I'd mean too little of it.'"
    }
   },
@@ -374,8 +374,8 @@
    "name": "Larum and the Pass",
    "topic": "the quiet over the Larum Pass",
    "terrain": "mountain",
-   "rumour": "'West, over the march, at the head of a long valley, there's a hamlet called Larum under a high pass,' says {keeper}. 'For nine hundred years, on a still day, you could hear the dead fighting up there in the snow: like a smithy the size of the sky, faint, all day, and stopping at dusk. Larum sold their ballads. Forty days ago it stopped. The carters say Larum can't sleep for the quiet.'",
-   "heard": "West over the march, at the head of a long valley, lies Larum, under a high pass where for nine hundred years the warrior dead could be heard fighting in the snow, and stopped forty days ago; the carters say Larum cannot sleep for the quiet.",
+   "rumour": "'West, up the country, at the head of a long valley, there's a hamlet called Larum under a high pass,' says {keeper}. 'For nine hundred years, on a still day, you could hear the dead fighting up there in the snow: like a smithy the size of the sky, faint, all day, and stopping at dusk. Larum sold their ballads. Forty days ago it stopped. The carters say Larum can't sleep for the quiet.'",
+   "heard": "Away in the west of the country, at the head of a long valley, lies Larum, under a high pass where for nine hundred years the warrior dead could be heard fighting in the snow, and stopped forty days ago; the carters say Larum cannot sleep for the quiet.",
    "skyline": "a high pass full of a white cloud that never moves, between two shoulders of black rock",
    "far": "the dead who fought every day in the snow above a mountain hamlet have stopped, and nobody knows why",
    "after": {

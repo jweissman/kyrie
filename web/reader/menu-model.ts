@@ -85,8 +85,8 @@ export class MenuModel {
     // In a town or a site of a drawn country the page keeps to its own ways and those a step away; the journeys
     // across the country are the map's, gone out to by one way (the owner, 31 October: "move all cross-hex travel
     // out of the play environment").
-    const overland = inside ? kept.far.filter(c => !c.local) : [];
-    const scene = inside ? { ...kept, far: kept.far.filter(c => c.local) } : kept;
+    const overland = inside ? kept.far.filter(c => !MenuModel.stays(c, screen, aimed)) : [];
+    const scene = inside ? { ...kept, far: kept.far.filter(c => MenuModel.stays(c, screen, aimed)) } : kept;
     const going = inside ? [] : journeys, country = overland.length || (inside && journeys.length)
       ? MenuModel.country : undefined;
     const about = [...this.around(screen), ...country ? [country] : []];
@@ -106,6 +106,14 @@ export class MenuModel {
   private static found(choices: Choice[], id: string, overland: Set<string>): Choice | undefined {
     return choices.find(c => c.id === id)
       ?? (overland.has(id) ? choices.find(c => c.id === MenuModel.country.id) : undefined);
+  }
+  // A way out of a town that stays on its page: one about the town itself; the way toward the aim (the bridge your
+  // father went out by, a step out of the town: the next step of what the company is about is not a detour through
+  // the map); and the town's roads, walked as roads (their rooms are named for them, RegionRoads: "…_way"). What goes
+  // to the map is the open country, the wild and the marches.
+  private static stays(c: Choice, screen: Frame['screen'], aimed: string[] = []): boolean {
+    const exit = screen.exits.find(e => e.id === c.id);
+    return !!c.local || aimed.includes(c.id) || /_way$/.test(exit?.destination.id ?? '');
   }
   // Going out of a town or a site into the country: the map, where the country is crossed.
   static readonly country: Choice = { id: 'view:map', label: 'Out to the country', tone: 'way', command: 'view:map' };
