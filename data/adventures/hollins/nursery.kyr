@@ -121,6 +121,9 @@ Module hollins "Behind the Wainscot" {
     Says "'Today,' says Fennick. 'The Colonel's word. It will still be today when I come home.' He ticks. 'Say it to the Captain and they'll know you for a little person and not one of Mother's.'".
     On discuss { Assert countersign(actor). }
   }
+  Topic fennick_after with fennick "Ask Fennick what he will do, now the war is over" when standDown(regiment) once {
+    Says "Fennick reads the paper on the gate twice, with his head on one side, ticking. THE WAR IS OVER. YOU MAY REST. 'Rest,' he says. He looks at the Regiment sitting in its rows. 'I never thought of that. I thought there was winding, and not winding.' He is quiet a long time. 'I should like to see the sea,' he says. 'The Colonel drew it for us once, on the nursery floor, in chalk. Then I'll sit down with the others.' He holds out his key to you. 'Wind me as far as the sea, if you're going that way. Not further.'".
+  }
   Measure spring(group).
   Initially Set spring(fennick) to 24.
   Rule fennick_ticks when travelsWith(fennick, party) and hour(clock) != lastTick(fennick) and spring(fennick) > 0 { Decrease spring(fennick) by 1. Set lastTick(fennick) to hour(clock). }

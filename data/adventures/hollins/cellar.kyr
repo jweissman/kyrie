@@ -94,6 +94,7 @@ Module hollins "Behind the Wainscot" {
     State open "The strongbox stands open, its lid propped on its own great hinge. You had to go inside the lock to do it, among iron bars as thick as your arm, and heave, and the whole box rang like a bell when it gave.".
     Change pick "Climb into the lock and lift the tumblers" from locked to open needing lockwork.
     Change heave "Climb into the lock and heave the tumblers up by main strength" from locked to open needing brawn.
+    Change lever "Lever the tumblers up with a giant's pin, from inside the lock" from locked to open needing pin_spear_kind.
   }
   Kind deed_kind "the deed of Hollins" is gear worth 0 weighing 4 described "A roll of parchment as thick as a man and as long as two, tied with a ribbon the colour of old blood, sealed with the arms of the Whitlocks: a tower on a hill. Spread out, it would cover a floor. CONVEYANCE OF THE HOUSE AND LANDS OF HOLLINS, in letters you can read from across a room.".
   Item deed "the deed of Hollins" is deed_kind in strongbox.

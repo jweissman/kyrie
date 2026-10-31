@@ -48,10 +48,12 @@ describe('Behind the Wainscot', () => {
     expect(g.holds('motherDelivered', 'lady')).toBe(true);
     expect(g.holds('willLodged', 'lady')).toBe(true);
     expect(g.holds('ladyForbids', 'lady')).toBe(true);
+    expect(g.holds('sorrelStays', 'sorrel')).toBe(true);
     await g.fixture('freehold', 'end');
     expect(g.holds('smoked', 'hollins')).toBe(false);
     expect(g.ending()).toEqual([k('freehold')]);
     expect(g.page).toMatch(/SO YOU DO/);
+    expect(g.page).toMatch(/first book in Hollins written by anyone who lived in its walls/);
   }, 600000);
 
   it('the Smoking: the poison forestalled by saving the boy and the colliers, but nothing done about the sulphur', async () => {
@@ -115,7 +117,8 @@ describe('Behind the Wainscot', () => {
     expect(g.holds('belled', 'bishop')).toBe(true);
     expect(g.holds('honorMet', 'honor')).toBe(true);
     expect(g.holds('ladyKnows', 'lady')).toBe(true);
-    expect(g.page).toMatch(/We kept it ready/);
+    expect(g.holds('smallHouseLit', 'lady')).toBe(true);
+    expect(g.page).toMatch(/We have mended everything/);
   }, 600000);
 
   it('a mage: the Wainscot paced out and drawn into the chart without Sorrel, in a hand learned from the Lady\'s own', async () => {
@@ -173,4 +176,20 @@ describe('Behind the Wainscot', () => {
     expect(g.holds('stoneTurned', 'party')).toBe(true);
     expect(g.page).toMatch(/single dried flower/);
   }, 300000);
+
+  it('a ranger: in by the coal-hole, the strongbox levered with a giant\'s pin from Hob\'s yard, and the cat drawn off with catmint', async () => {
+    const g = await Hollins.start('test/fixtures/hollins/ranger.campaign.json');
+    await g.fixture('ranger');
+    expect(g.holds('deedTaken', 'party')).toBe(true);
+    expect(g.holds('catAway', 'bishop')).toBe(true);
+    expect(g.page).toMatch(/rolling, kneading the air/);
+  }, 300000);
+
+  it('the Jarl\'s poison, learned of at the Nail and told to Mrs Pyecroft: the sugar goes on the fire', async () => {
+    const g = await Hollins.start();
+    await g.fixture('poison');
+    expect(g.holds('haspPlots', 'hasp')).toBe(true);
+    expect(g.holds('sugarSpilled', 'party')).toBe(true);
+    expect(g.holds('poisoned', 'lady')).toBe(false);
+  }, 600000);
 });

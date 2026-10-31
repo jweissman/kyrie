@@ -119,6 +119,9 @@ Module hollins "Behind the Wainscot" {
     Says "'To serve her,' says the Prior simply. 'We kept her clock. Two hundred years we kept her clock clean against the day she came. I want to tell her so. I want her to know someone kept faith.' He smiles, and it is a young man's smile on an old face. 'I don't need her to thank us. I'd only like her to know.'".
     On discuss { Assert knows(actor, tobit_wants). }
   }
+  Topic tobit_told with tobit "Tell Prior Tobit what the Lady said about her clock" when tobitHonored(tobit) once {
+    Says "The Prior listens with his eyes shut. It is today. When you have finished he sits for a long while on his bench under the swinging brass sun. 'Two hundred years,' he says, 'we said it was still the day. And she says it is today.' He opens his eyes. 'That is not the same thing, you know. It is better.' He gets up, stiffly, and takes a coil of rope from under the bench, which you realise is for the weights. 'Every Sunday,' he says. 'Forty turns. I shall need a team.'".
+  }
   Discovery tobit_wants "Prior Tobit Hale wants only that the Lady should know the Winders kept her clock clean for two hundred years.".
 
   Person verity "Sister Verity Cogg" at clock_hood {

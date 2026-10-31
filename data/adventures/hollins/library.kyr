@@ -72,6 +72,15 @@ Module hollins "Behind the Wainscot" {
   Discovery chart_known "The Lady is drawing a chart of Hollins from memory and measurement, at the table in the Library window, every morning: walls drawn single, with nothing inside them.".
   Observe chart_teaches at chart_table as feature when state(lady_chart, blank) and not knows(party, chart_known) "She is mapping her own house, from memory, and it is unfinished." teaches chart_known.
 
+  Relation sorrelSpoke(group). Relation sorrelStays(group).
+  Topic sorrel_lady with lady "Stand aside, and let Sorrel Haddow speak to the Lady" when ladyKnows(lady) and travelsWith(sorrel, actor) and not sorrelSpoke(sorrel) once {
+    Says "Sorrel steps out into the light with ink to her elbows and her broom in her hand like a crozier, and opens her mouth, and nothing comes out. Twenty years of reading; nothing. The Lady bends down, peering. 'You are the one who writes my hand,' she says. 'I can tell. You lean on the downstrokes as I did at your age.' And Sorrel, who had meant to ask her about the founding of Hollins and her mother's sermons and the Whitlock charts, says, in a small voice: 'What comes after Mandragora?' The Lady stares at her. Then she laughs, enormously, so that the inkwell rings. 'Mandrake,' she says. 'Then Manners. The article on Manners is very long and entirely wrong. Shall I tell you why?' And she does, and Sorrel sits down on the compass rose to listen, and you understand, watching her face, that she is not coming back to the Readers' shelf, or not soon.".
+    On discuss { Assert sorrelSpoke(sorrel). }
+  }
+  Topic sorrel_stay with sorrel "Ask Sorrel Haddow whether she will stay with the Lady" when sorrelSpoke(sorrel) and travelsWith(sorrel, actor) and not sorrelStays(sorrel) once {
+    Says "Sorrel looks up at the Lady, and back at you. 'She can't see to write,' she says. 'And Mrs Pyecroft writes small.' She wipes her hands on her skirt, which only moves the ink about. 'Somebody should write it all down. What she says. The Readers read; somebody should write.' She hugs you, hard, and leaves ink on you. 'Come and see me. I'll be at the table. I'll be the one with the broom.'".
+    On discuss { Assert sorrelStays(sorrel). Retract travelsWith(sorrel, actor). Assert at(sorrel, chart_table). }
+  }
   // ── The chart, corrected ──────────────────────────────────────────────────────────────────────────────────────────
   // To draw the Wainscot in, the company must know it as a surveyor knows a place (paced, with its turns and lengths),
   // and must write it in a hand she can read: Sorrel's, or its own if it has the learning.
