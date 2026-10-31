@@ -232,10 +232,15 @@ Module belongings "What the company carries" {
     On success { Assert at(cargo, site). }
     Result "{carrier} sets {cargo} down.".
   }
+  // A lesson, for the proof of what the student has done (experience) and, where the mentor asks one, a fee: the
+  // capability market's mentors teach for coin (REV-04); an adventure's own may teach for nothing.
+  Measure lessonFee(group).
   Action train_member(actor: group, mentor: group, student: member, lesson: ability, site: place) "Train {student} in {lesson}" {
     Requires able(actor) and able(mentor) and distinct(actor, mentor) and at(actor, site) and at(mentor, site)
-      and memberOf(student, actor) and awake(student) and teaches(mentor, lesson) and canTrain(student, lesson).
+      and memberOf(student, actor) and awake(student) and teaches(mentor, lesson) and canTrain(student, lesson)
+      and quantity(actor, gold) >= lessonFee(mentor).
     Resolve train(lesson, student).
+    On success { Decrease quantity(actor, gold) by lessonFee(mentor). Increase quantity(mentor, gold) by lessonFee(mentor). }
     Time 6.
     Result "{mentor} spends an hour drilling {student} in {lesson}.".
   }

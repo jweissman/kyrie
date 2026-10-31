@@ -4,6 +4,7 @@ import type { Entry, Placement, ScenarioManifest } from './world-assembler';
 import type { Region } from './region-writer';
 import { Outfitters } from './outfitters';
 import { RegionShops } from './region-shops';
+import { RegionMarket } from './region-market';
 import { RegionTraffic } from './region-traffic';
 import { RegionPeoples } from './region-peoples';
 
@@ -46,7 +47,8 @@ export class StoryPeople {
   // chandlers, its shopkeepers, the travellers on its roads, who spend their nights at its inns, and its stories'.
   static country(region: Region): string[] {
     const settled = Outfitters.everyone(region), reserved = region.reserved ?? [];
-    return [...new Set([...settled, ...RegionShops.keepers(region), ...RegionTraffic.names(region), ...reserved])];
+    return [...new Set([...settled, ...RegionShops.keepers(region), ...RegionMarket.keepers(region),
+      ...RegionTraffic.names(region), ...reserved])];
   }
   // Someone with a name of their own ("Odile", "Absalom Gosse"), not what they are ("the brood-mother", "The sick
   // child's mother", whom generation names).

@@ -3,6 +3,7 @@ import { GenerationSetting } from '../generation-setting';
 import { Communities } from './community/community';
 import { CommunityWriter } from './community/community-writer';
 import { RegionShops } from './region-shops';
+import { RegionMarket } from './region-market';
 import type { Region, Settlement } from './region-writer';
 import folk from '../../data/generation/scenes/folk.json';
 import outfit from '../../data/generation/scenes/outfit.json';
@@ -36,7 +37,8 @@ export class Outfitters {
     const memo = this.named.get(region);
     if (memo) { return memo; }
     const out = new Map<string, { name: string; pronoun: string }>();
-    const taken = new Set([...Communities.everyone(region), ...RegionShops.keepers(region)]);
+    const taken = new Set([...Communities.everyone(region), ...RegionShops.keepers(region),
+      ...RegionMarket.keepers(region)]);
     const given = folk.given as unknown as Record<string, Record<string, string[]>>;
     for (const s of region.settlements.filter(t => this.needed(t))) {
       const draw = new Draw(`${region.name}:${s.id}:chandler`), ancestry = s.folk ?? region.ancestry;

@@ -50,7 +50,10 @@ describe('a price on a power', () => {
       party: [{ name: 'Aud', raceId: 'elf', classId: 'ranger' }] });
     const s = await PlaySession.start(w.path, 'ember', w.source), c = s.campaign;
     await GeneratedWorld.travel(s, 's5_green');
-    const ask = PlayerView.choices(c).find(x => /^Ask Maud about the country off the road/.test(x.choice.name))!;
-    expect((await s.perform(ask.choice.id)).response).toContain('Fyrsteport, a toll-house by the water in Thornholt');
+    // Whichever traveller the country draws (their names change as the country's people do), one of them tells it.
+    const asks = PlayerView.choices(c).filter(x => /^Ask \S+ about the country off the road/.test(x.choice.name));
+    const told: string[] = [];
+    for (const ask of asks) { told.push((await s.perform(ask.choice.id)).response ?? ''); }
+    expect(told.join(' ')).toContain('Fyrsteport, a toll-house by the water in Thornholt');
   }, 120000);
 });

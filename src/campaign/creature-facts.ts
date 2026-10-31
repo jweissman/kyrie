@@ -188,8 +188,11 @@ export class CreatureFacts {
     }
     const learned = [...c.base.abilities, ...c.state.learnedAbilities];
     if (has.has('canTrain')) {
+      // A spell only by one who casts spells of its tradition: a ranger is not taught a wizard's bolt.
+      const tradition = Advancement.specialist(c)?.spellAccess?.tradition;
       changes.push(...this.set(scope, 'canTrain', reference, ready && c.state.experience >= 20
-        ? scope.declared.filter(a => !learned.includes(a.id)).map(a => a.id) : []));
+        ? scope.declared.filter(a => !learned.includes(a.id) && (!a.spell || a.spell.tradition === tradition))
+          .map(a => a.id) : []));
     }
     for (const item of c.state.inventory ?? []) { ItemCatalog.get(item.definition); }
     // What they carry against what they can (see Burden).

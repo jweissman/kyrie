@@ -7,6 +7,7 @@ import { Communities } from './community/community';
 import { CommunityWriter } from './community/community-writer';
 import { Foundings, type Founding } from './founding';
 import { RegionShops } from './region-shops';
+import { RegionMarket } from './region-market';
 import { Outfitters } from './outfitters';
 import type { Region, Settlement } from './region-writer';
 
@@ -66,6 +67,8 @@ export class SettlementWriter {
       // A chandlery, where the merchant is not a chandler (see Outfitters); the shops a town keeps besides.
       ...Outfitters.lines(region, s),
       ...RegionShops.lines(region, i),
+      // What a company comes back to a town for besides selling: lessons, and a back room found by asking.
+      ...RegionMarket.lines(region, i),
       // The people who live there, at their work and about the place, and its animals (see Communities).
       ...CommunityWriter.lines(region, Communities.plan(region, s, this.trade(s).stock.map(([what]) => what))),
     ];
