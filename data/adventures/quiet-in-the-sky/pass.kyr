@@ -23,10 +23,10 @@ Module larum "The Quiet in the Sky" {
   Rule lost_clears when lostInWhite(?c) and not at(?c, the_white) { Retract lostInWhite(?c). }
 
   // ── Jory Whitlock, the guide ──────────────────────────────────────────────────────────────────────────────────────
-  Observe guide_house_scene at guide_house when true "A bare clean room. Ropes coiled on pegs, ice-poles in a rack, a row of sheepskin coats hanging like a row of tired men. A table with two places laid at it, and two cups, and only one of them used.".
+  Observe guide_house_scene at guide_house when true "A bare clean room with a table laid for two, and two cups on it, and only one of them used. Ropes coiled on pegs, ice-poles in a rack, a row of sheepskin coats hanging like a row of tired men.".
   Person jory "Jory Whitlock" at guide_house {
     Role "the guide, who takes the living up through the White". Ancestry human. Calling ranger. Level 4. Peaceable. Pronouns he. Manner stoic.
-    Likeness "shepherd".
+    Likeness "guide".
     Uses go. Plans 20 steps.
     Sells sheepskin_kind for 4 coin from 4.
     Greets "A lean grey man in a sheepskin coat looks up from mending a rope, and looks at you the way he would look at the weather on the Pass. 'Going up,' he says. It is not a question. 'Six coin to the Coming-in. I'll not set foot on the Field. Nobody living should. And you'll want a coat; you'll not like the cold up there. It's not weather. It's a place that doesn't keep heat.'".

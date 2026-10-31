@@ -5,12 +5,12 @@ Module larum "The Quiet in the Sky" {
   // anything.
   Relation breadRisen(group). Relation crockTaken(group). Measure crockDay(group).
   Initially Assert restful(oven).
-  Observe oven_scene at oven when not breadRisen(grimbold) "Inside the mantlet it is warm, and you could weep for it. An oven of siege-stones and broken bell-bronze glows at the back, and in front of it a board as long as a table, and on the board, in rows, loaves: flat, grey, hard as tiles, every one of them. A sack of Larum flour sags against the wall. A mountain of a man in an apron stands over the board with his great arms folded, looking at the loaves the way a man looks at a field after hail.".
-  Observe oven_risen at oven when breadRisen(grimbold) "Inside the mantlet it is warm, and it smells of bread: real bread, brown and sour and risen, so that your mouth runs. The loaves stand on the long board in rows, round as helms, split across the top where they have opened in the heat. Dead people keep putting their heads in at the mouth of the Oven just to smell it, and going away again with their eyes shut.".
+  Observe oven_scene at oven when not breadRisen(grimbold) "Inside the war-mantlet it is warm, and you could weep for it: an oven of siege-stones and broken bell-bronze, a long board of loaves flat and grey and hard as tiles, and a mountain of a man in an apron looking at them. A sack of Larum flour sags against the wall. The man stands over the board with his great arms folded, looking at the loaves the way a man looks at a field after hail.".
+  Observe oven_risen at oven when breadRisen(grimbold) "Inside the war-mantlet it is warm, and it smells of bread: real bread, brown and sour and risen, so that your mouth runs. The loaves stand on the long board in rows, round as helms, split across the top where they have opened in the heat. Dead people keep putting their heads in at the mouth of the Oven just to smell it, and going away again with their eyes shut.".
 
   Person grimbold "Grimbold Ure" at oven {
     Role "a berserker of Morrowhall, who bakes". Ancestry human. Calling warrior. Level 7. Peaceable. Pronouns he. Manner compassionate.
-    Likeness "baker".
+    Likeness "berserker".
     Wants mother_kind.
     Greets "The mountain of a man looks round from his flat loaves, and sees your breath, and his face goes soft all over, like dough. 'Oh,' he says. 'You're warm. Come in by the oven, then, you'll want it more than any of us.' He holds out a hand the size of a spade, covered in flour. 'Grimbold Ure. I was a berserker. I'm trying to be a baker. It isn't going well.'".
     Greets again "Grimbold Ure lifts a floury hand. 'In by the oven,' he says. 'You're blue.'".

@@ -6,14 +6,14 @@ Module larum "The Quiet in the Sky" {
   // meeting.
   Person mab "Mab Treloar" at morrow_yard {
     Role "pikewoman of Morrowhall". Ancestry human. Calling warrior. Level 6. Peaceable. Pronouns she. Manner jovial.
-    Likeness "soldier".
+    Likeness "heroine".
     Greets "A broad freckled woman with a pike-butt in her fists and her sleeves rolled up over arms like a smith's looks round from the sparring and sees your breath, and her face splits into a grin. 'A breather!' she says. 'Well, there's something new, and Brindle be praised, because nothing else is. Mab Treloar, Morrow foot, two hundred and eleven years on the Field and bored to my back teeth.' She spins the pike. 'Can you fight? You've the look of somebody who's been taught.'".
     Greets again "Mab Treloar looks round at you, and the pike stops spinning.".
     Wants challenge_kind. Wants plain_kind.
   }
   Person ansel "Ansel Haverlock" at even_hall {
     Role "a knight of Evenhall". Ancestry human. Calling warrior. Level 6. Trait knight. Peaceable. Pronouns he. Manner proud.
-    Likeness "knight".
+    Likeness "squire".
     Greets "A slender dark man in a surcoat so old its device has worn away rises from a bench as you come near, and bows, exactly as far as courtesy requires toward a stranger of unknown degree. 'Ansel Haverlock,' he says, 'of the household of Evenhall. You are the living guest. You are welcome to this hall.' He does not look at your breath. He is too well brought up.".
     Greets again "Ansel Haverlock rises and bows, a little less far than the first time, which in him is warmth.".
   }

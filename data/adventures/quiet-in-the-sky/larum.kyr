@@ -1,9 +1,9 @@
 Module larum "The Quiet in the Sky" {
   // ── The valley road and the hamlet ────────────────────────────────────────────────────────────────────────────────
   Query skyLoud() means outcomeDaily(field_country) or outcomeHalf(field_country).
-  Observe march_scene at march_road when not visitedBefore(march_road) "The road comes up a long bare valley between fells, with a beck beside it going white over stones, and stops being a road at a hamlet of turf-roofed houses that sits at the valley head as if the road had set it down there and gone back. Above the roofs two shoulders of black rock stand up into a cloud that does not move, and between them a snowfield goes up into the cloud and does not come out of it. Sheep. A chapel tower. Smoke going straight up. It is very quiet.".
+  Observe march_scene at march_road when not visitedBefore(march_road) "At the head of a long bare valley, a hamlet of turf-roofed houses, and above it a high pass full of a white cloud that does not move. It is very quiet. The road comes up beside a beck going white over stones and stops being a road at the first wall, as if it had set the hamlet down there and gone back. Above the roofs two shoulders of black rock stand up into the cloud, and between them a snowfield goes up into it and does not come out. Sheep. A chapel tower. Smoke going straight up.".
   Observe march_again at march_road when visitedBefore(march_road) "The valley road below Larum, the beck beside it, the turf roofs ahead, and above them the Pass going up into its standing cloud.".
-  Observe street_scene at larum_street when true "Larum's one street: stone houses with turf on their roofs and their backs to the weather, a squat chapel tower, an inn with a sign of a hand cupped to an ear, a bakehouse with its door open and its warmth coming out into the cold, and at the top of the street a house with a coil of rope and a long pole hung by the door, which is the guide's. Above everything, the Pass.".
+  Observe street_scene at larum_street when true "Larum's one street, under the Pass: an inn with a hand cupped to an ear on its sign, a bakehouse breathing warmth out of its door, a squat chapel, and at the top a house with a rope and a long pole hung by the door, which is the guide's. The houses are stone, turf-roofed, with their backs to the weather. Above everything, the Pass goes up into its cloud.".
   Observe street_quiet at larum_street as ambience when not skyLoud() and not dark() "Everyone in Larum, sooner or later, stops in the street and looks up at the Pass and listens. There is nothing to hear. People stand like that for a while with their heads on one side, and then go on.".
   Observe street_loud at larum_street as ambience when skyLoud() and not dark() "Down off the Pass, faint as bells three valleys off, comes the clangour: iron on iron, thousands of it, like a smithy the size of the sky. Nobody in the street looks up. A woman beating a rug on a wall is beating it in time.".
   Observe street_pans at larum_street as ambience when dark() and not skyLoud() "From an upper window of the Hark comes a slow steady clanging, two pans struck together and struck together again. Bet Garside, who has not slept properly in forty nights, is trying to.".
@@ -20,12 +20,12 @@ Module larum "The Quiet in the Sky" {
   Discovery quiet_heard "For nine hundred years Larum heard the warrior dead fighting in the snow over the Pass, on still days, like a far smithy; forty days ago the noise stopped, and has not started since. Jory Whitlock, the guide, has been up and seen them.".
 
   // ── The Hark ──────────────────────────────────────────────────────────────────────────────────────────────────────
-  Observe hark_scene at hark when true "A low taproom with a peat fire and a ceiling you can touch, black with smoke. Pinned along the beams, curling, a hundred penny ballads, woodcuts of armoured men with their names in big letters underneath: BRAND OF THE RED HAND. MAB TRELOAR AND THE SIX FROM EVEN. And over the fire, the newest and biggest, a man with a sword in each fist and a burning town behind him: THE BALLAD OF HALVARD ELD, CHAMPION OF EVENHALL. A shelf of old iron by the door, ticketed for sale. Two pans hang by the stair with their bottoms dented.".
+  Observe hark_scene at hark when true "A low smoky taproom with a peat fire, and over the fire, newest and biggest of a hundred penny ballads pinned to the beams, a woodcut of a man with a sword in each fist and a town burning behind him: THE BALLAD OF HALVARD ELD, CHAMPION OF EVENHALL. The others curl along the beams, armoured men with their names in big letters underneath: BRAND OF THE RED HAND. MAB TRELOAR AND THE SIX FROM EVEN. A shelf of old iron by the door, ticketed for sale. Two pans hang by the stair with their bottoms dented.".
   Observe loft_scene at hark_loft when true "A loft under the turf with a bed, a stool, a window the size of a book looking at the Pass. On the beam over the bed somebody has cut a word, carefully, with a small knife, and gone over it more than once: WENDMERE.".
 
   Person bet "Bet Garside" at hark {
     Role "who keeps the Hark". Ancestry human. Profession innkeeper. Peaceable. Pronouns she. Manner cheerful.
-    Likeness "innkeeper".
+    Likeness "laundress".
     Sells rations for 1 coin from 20. Sells halvard_ballad_kind for 1 coin from 6.
     Greets "A big fair woman with grey under her eyes looks up from the fire. 'Come in and shut that, the cold's not paying.' She looks at you properly. 'You're not a collector. You've not got the hands. You've come about the quiet, or you've come to go up.' She yawns enormously and is not sorry. 'Either way, you'll want feeding first.'".
     Greets again "Bet Garside looks up from the fire with her chin on her fist. 'Back down,' she says. 'Sit by the fire. You've got that blue look.'".
@@ -69,7 +69,7 @@ Module larum "The Quiet in the Sky" {
   // ── Ambler, who buys the Field's iron ─────────────────────────────────────────────────────────────────────────────
   Person ambler "Master Ambler" at hark {
     Role "a collector of heaven-iron, from the lowlands". Ancestry human. Peaceable. Pronouns he. Manner jovial.
-    Likeness "merchant".
+    Likeness "collector".
     Buys crossbow_find for 6 coin. Buys mail_find for 8 coin. Buys horn_find for 10 coin. Buys banner_find for 5 coin. Buys bronze_find for 30 coin.
     Greets "A round pink man in a good coat with a lens on a ribbon round his neck is turning a rusted helm over in his hands by the fire. 'Heaven-iron,' he says, without looking up. 'From the Field. Every dent in this was put there by a man who got up afterwards. Do you know what a duke pays for that?' He looks up. 'Have you been up? Are you going? Bring me anything. I buy anything.'".
     Greets again "Master Ambler puts his lens in his eye and looks hopefully at your pack.".
@@ -81,10 +81,10 @@ Module larum "The Quiet in the Sky" {
   Discovery clear_heard "Under the Field in Ysgard there is clear ice, the Clear, through which you can look down at nine centuries of broken arms in layers; at the bottom, the pickers say, there is bronze, and Master Ambler would give thirty coin for a piece.".
 
   // ── Nance Pellett's bakehouse ─────────────────────────────────────────────────────────────────────────────────────
-  Observe bakehouse_scene at bakehouse when true "A low hot room that smells of bread and woodsmoke, the oven's mouth glowing at the back. Loaves on boards. On a shelf above the oven, wrapped in a shawl like an infant, a brown crock with a plate on top.".
+  Observe bakehouse_scene at bakehouse when true "A low hot room that smells of bread, and on a shelf above the glowing oven, wrapped in a shawl like an infant, a brown crock with a plate on top. Loaves on boards. Woodsmoke.".
   Person nance "Nance Pellett" at bakehouse {
     Role "Larum's baker". Ancestry human. Peaceable. Pronouns she. Manner cheerful.
-    Likeness "baker".
+    Likeness "kitchenmaid".
     Sells rations for 1 coin from 30.
     Greets "A small woman with flour to the elbows and a face red from the oven looks round. 'Shut the door, you'll chill the Mother.' She nods at the crock on the shelf, wrapped in its shawl. 'Two hundred years she's been going, that one. My great-great-grandmother's. Bread?'".
     Greets again "Nance Pellett waves a floury hand without turning from the oven.".
@@ -116,7 +116,7 @@ Module larum "The Quiet in the Sky" {
   }
 
   // ── Larum chapel and the Mending Bell ─────────────────────────────────────────────────────────────────────────────
-  Observe chapel_scene at larum_chapel when true "A whitewashed chapel, cold, with a stone floor worn into hollows and a bell-rope hanging down through a hole in the ceiling to a knot by the door. On the frame of the door, cut deep and old: I. S. MADE THIS BELL. Under it, newer, on a board in a parson's hand: THE BELL TO BE RUNG AT DUSK WHEN THE NOISE FROM THE PASS STOPS FOR THE DAY. FOUNDER'S WILL. NO QUESTIONS.".
+  Observe chapel_scene at larum_chapel when true "A cold whitewashed chapel with a bell-rope hanging down through a hole in the ceiling, and on the door-frame, cut deep and old: I. S. MADE THIS BELL. The stone floor is worn into hollows. Under it, newer, on a board in a parson's hand: THE BELL TO BE RUNG AT DUSK WHEN THE NOISE FROM THE PASS STOPS FOR THE DAY. FOUNDER'S WILL. NO QUESTIONS.".
   Observe chapel_known at larum_chapel as feature when knows(party, ithel_told) "I. S.: Ithel the Smith. He made the bell for the man he killed on the Field, and for his son, and asked Larum to ring it at the Hour, when the dead get up. Larum did, for three hundred years, without knowing for whom.".
   Relation rangToday(place).
   Action ring_bell(actor: group, site: place) "Ring the Mending Bell" {

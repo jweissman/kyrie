@@ -2,12 +2,12 @@ Module larum "The Quiet in the Sky" {
   // ── The Truce ─────────────────────────────────────────────────────────────────────────────────────────────────────
   // A siege-tower lying on its side in the middle of Halt, with a door cut in its floor and benches nailed to its walls:
   // the alehouse, where they drink a mead whose honey the Runners trade for at the pass.
-  Observe truce_scene at truce when true "You crawl in through the hatch and are inside a siege-tower lying on its side: its floors are walls now, and its walls are floor and ceiling, and benches have been nailed to what used to be the floor of the second storey. There is no fire. Lamps of ox-fat. A barrel of mead on a trestle, and dead men and women sitting on the benches with horn cups, talking low. In the far corner, alone, a little old man in a skald's blue coat sits with three empty cups in front of him and a full one in his hand, glaring at nothing.".
+  Observe truce_scene at truce when true "An alehouse inside a siege-tower lying on its side, its floors become walls, lit by ox-fat lamps, with a barrel of mead on a trestle and a little old skald in a blue coat glaring at nothing in the far corner. Benches have been nailed to what used to be the floor of the second storey. There is no fire. Dead men and women sit on the benches with horn cups, talking low. The skald has three empty cups in front of him and a full one in his hand.".
   Observe truce_singing at truce as sign when songMade(wystan) and spoke(song_end_told) and not theHour() "Somebody at the far end is humming the new song. Somebody else joins in, and gets the words wrong, and is corrected by half the room.".
 
   Person wystan "Wystan Hollins" at truce {
     Role "the skald of Evenhall". Ancestry human. Calling bard. Level 6. Peaceable. Pronouns he. Manner acerbic.
-    Likeness "minstrel".
+    Likeness "skald".
     Greets "The little old man in the blue coat looks up at you, and at your breath, and curls his lip. 'Oh, marvellous,' he says. 'A breather. Come to ask the skald for a song? Everybody wants a song. A song for the peace, Wystan. Something cheerful, Wystan.' He drinks. 'Eight hundred years I've made the Tally-songs of Evenhall. Every champion, every rout, every great death, I made it rhyme. I am the best there has ever been at what I do.' He bangs the cup down. 'And what I do is killing.'".
     Greets again "Wystan Hollins looks up, sees who it is, and drinks.".
   }

@@ -2,7 +2,7 @@ Module larum "The Quiet in the Sky" {
   // ── The ring of spears ────────────────────────────────────────────────────────────────────────────────────────────
   // Halvard Eld lies where he fell, on a bier of shields, under a frost that does not melt; four of Even stand over him
   // day and night, and Torold Hame, his sworn brother, has not left the ring in forty days.
-  Observe ring_scene at the_ring when state(halvard, lying) "In the middle of Halt a ring of spears stands planted butt-down in the snow, shoulder to shoulder, and inside it, on a bier of shields, a man is lying on his back with his hands on his chest and his eyes shut. He is very big. His hair is red, and frost has grown over it, and over his eyebrows and his beard, white and fine as fur, and does not melt. Four of Evenhall stand at the corners of the bier with their backs to him. People going past the ring lower their voices, the way people do going past a church.".
+  Observe ring_scene at the_ring when state(halvard, lying) "In the middle of Halt, inside a ring of planted spears, a big red-haired man lies on a bier of shields under a frost that does not melt, and four of Evenhall stand over him with their backs to him. He lies on his back with his hands on his chest and his eyes shut. The frost has grown over his red hair and his eyebrows and his beard, white and fine as fur. People going past the ring lower their voices, the way people do going past a church.".
   Observe ring_empty at the_ring when not state(halvard, lying) "The ring of spears stands in the middle of Halt as it did, but the bier of shields inside it is empty, and the snow on it is going over smooth. Somebody has hung a red-haired doll on one of the spears.".
   Thing halvard "Halvard Eld, on his bier" at the_ring {
     State lying "Halvard Eld lies on his bier under his frost.".
@@ -18,7 +18,7 @@ Module larum "The Quiet in the Sky" {
   }
   Person torold "Torold Hame" at the_ring {
     Role "the Warden of Evenhall, Halvard's sworn brother". Ancestry human. Calling warrior. Level 8. Trait brave. Peaceable. Pronouns he. Manner grim.
-    Likeness "knight".
+    Likeness "crusader".
     Greets "A big grey-bearded man in old blackened mail stands at the head of the bier with his hands folded on the pommel of a sword stood point-down in the snow, and does not look round when you come. When he does, it is at your breath, and for a moment something moves in his face, and then it is gone. 'You're the breather Cleeve sent down,' he says. 'Stand where you like. Don't touch him.'".
     Greets again "Torold Hame looks at you, and back at the bier.".
   }

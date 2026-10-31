@@ -3,7 +3,7 @@ Module larum "The Quiet in the Sky" {
   // Black timber, roofed with shields, its back to the dawn and its doors to the Field. Morrow's dead fell before noon:
   // dawn raids, morning storms, first light. Brisk, loud, practical; they think Even gives itself airs.
   Observe morrow_yard_scene at morrow_yard when true "The yard of Morrowhall: trodden snow on the brow of the eastern height, the whole Field spread out below to the west, and Halt's smoke in the middle of it. The hall itself is black timber, very long, roofed with shields laid like scales. In the yard people are sparring with blunted spears, out of nine hundred years' habit and boredom, and arguing about it, and a great brindled ox stands by the doors chewing, and watches them with an expression of long experience.".
-  Observe morrow_hall_scene at morrow_hall when true "Inside Morrowhall a fire runs down the middle of the floor in a trench the length of the hall, and benches run down both sides, and over the benches, up into the smoke, the Tally-boards: planks, thousands of them, every one cut with notches, one notch for every man of Even killed by a man of Morrow, every day for nine hundred years, with the killers' names burned in at the ends. People sit on the benches mending things that do not need mending. It is warm by the trench, as warm as the Oven, and smells of nine hundred years of ox.".
+  Observe morrow_hall_scene at morrow_hall when true "Inside Morrowhall a fire runs the length of the hall in a trench, warm as the Oven, and over the benches, up into the smoke, hang the Tally-boards: planks, thousands of them, every one cut with notches, one notch for every man of Even killed by a man of Morrow, every day for nine hundred years, with the killers' names burned in at the ends. People sit on the benches mending things that do not need mending. It is warm by the trench, as warm as the Oven, and smells of nine hundred years of ox.".
   Observe morrow_hall_night at morrow_hall as sign when hour(clock) >= 19 or hour(clock) < 5 "The hall is eating. Down the length of the fire-trench the great ox Brindle turns on a spit, and the benches roar, and somebody is standing on a table telling a boast that everybody knows the end of and shouts with him.".
   Observe marshal_scene at marshal_room when true "A small square room behind the high seat, with a window looking west down the Field, a chair, a table and a map. The map is of the Field, drawn and redrawn over centuries, with the positions of nine hundred years of battle-lines rubbed out and drawn in again until the parchment is furred. In the middle of it somebody has drawn, quite recently, in a careful small hand, a little town.".
 
@@ -40,7 +40,7 @@ Module larum "The Quiet in the Sky" {
   // Halvard, because if it can be known it can be done again.
   Person hild "Hild Varley" at marshal_room {
     Role "the Marshal of Morrowhall". Ancestry human. Calling warrior. Level 8. Trait strong_willed. Peaceable. Pronouns she. Manner stoic.
-    Likeness "noblewoman".
+    Likeness "prioress".
     Greets "A spare grey woman in a brown jack with a bridge-captain's chain on it looks up from the map. She sees your breath, and her eyes go very still, the way an animal's do. Then she puts the pen down. 'Breather,' she says. 'Cleeve sent word. Sit. Don't go near the fire, you'll scorch, you're not used to it.' She almost smiles. 'Nor are we.'".
     Greets again "Hild Varley looks up from the map, and at your breath, and puts the pen down.".
   }

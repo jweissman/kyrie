@@ -5,7 +5,7 @@ Module larum "The Quiet in the Sky" {
   // here, wear no arms, sit at no bench, and are owed nothing. They clear the broken off the battle-line every night so
   // the next day has footing; they keep the Picking, the trade with Larum.
   Observe mouth_scene at scrapes_mouth when true "Under the southern lip of the Field the ice overhangs like a wave about to break, green and blue, and under the wave, in its shadow, a wall of shields stuck edge to edge with a gap in it hung with a banner. Sledges stand outside piled with broken iron. A dead girl sits on one in a smock with no device on it, mending a sledge-trace with her teeth.".
-  Observe warren_scene at warren when true "The warren: low rooms opening into lower rooms, walled with shields and roofed with the ice itself, lit with fat-lamps that make it, against all sense, warm. Banners hang for doors. Everything here is something the Field threw away: a table that was a cart's tailboard, chairs that were saddles, a cradle that was a helm, though there are no children. Dead men and women in plain smocks, no device on any of them, look up as you come in, and look at your breath, and look at each other.".
+  Observe warren_scene at warren when true "The Runners' warren: low rooms walled with shields and roofed with the ice itself, lit with fat-lamps that make it, against all sense, warm, and dead men and women in plain smocks looking up at your breath. Banners hang for doors. Everything here is something the Field threw away: a table that was a cart's tailboard, chairs that were saddles, a cradle that was a helm, though there are no children. Dead men and women in plain smocks, no device on any of them, look up as you come in, and look at your breath, and look at each other.".
   Observe nook_scene at edith_nook when at(edith, edith_nook) "Behind the banners a nook no bigger than a cupboard, with a heap of sacking for a bed, a fat-lamp, a tin cup, and a woman sitting on the sacking with her knees drawn up, wrapped in three Runners' smocks one over the other, shivering. Her breath goes up white in the lamplight.".
   Observe nook_empty at edith_nook when not at(edith, edith_nook) "A nook behind the banners: sacking, a fat-lamp gone out, a tin cup. Nobody.".
   // Seen from the warren, by one who knows what a breath means here.
@@ -25,7 +25,7 @@ Module larum "The Quiet in the Sky" {
   // ── Cuddy Wardle, foreman of the Runners ────────────────────────────────────────────────────────────────────────────
   Person cuddy "Cuddy Wardle" at scrapes_mouth {
     Role "the foreman of the Runners". Ancestry human. Calling thief. Level 4. Peaceable. Pronouns she. Manner acerbic.
-    Likeness "urchin".
+    Likeness "goose-girl".
     Wants tobacco_kind.
     Greets "A thin sharp girl of sixteen or so, with a face that has been sixteen for a hundred and fifty years, looks you up and down from the sledge she is checking. 'Breather,' she says. 'You'll be wanting something. They always want something, the ones that come up. Iron for Larum, or the way to somewhere, or a look at the poor dead Runners.' She spits. 'What've you got?'".
     Greets again "Cuddy Wardle looks up from a sledge. 'You again.' It is not entirely unfriendly.".
@@ -65,7 +65,7 @@ Module larum "The Quiet in the Sky" {
   // because she is the first person in Ysgard who ever did a Runner's work and then did something else.
   Person edith "Edith Marl" at edith_nook {
     Role "who breathes white". Ancestry human. Calling commoner. Peaceable. Pronouns she. Manner stoic.
-    Likeness "widow".
+    Likeness "seamstress".
     Known as "a woman wrapped in Runners' smocks" when not knows(party, edith_named).
     Greets "The woman on the sacking looks up at you, and at your breath, white like hers in the lamplight, and something goes out of her shoulders that has been holding them up for a long time. 'Oh,' she says. 'You're alive.' She does not get up. 'Have you come to take me to Torold Hame?'".
     Greets again "Edith Marl looks up from her sacking, and pulls the smocks closer.".

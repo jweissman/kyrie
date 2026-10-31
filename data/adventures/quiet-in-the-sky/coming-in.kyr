@@ -2,14 +2,14 @@ Module larum "The Quiet in the Sky" {
   // ── The Coming-in ─────────────────────────────────────────────────────────────────────────────────────────────────
   // Where the White gives out on the Ysgard side, the snow comes down in a curtain, and the new dead walk out of it at
   // the hour they died. Cleeve the Teller asks each the hour and sends them east to Morrow or west to Even.
-  Observe gate_scene at snow_gate when not visitedBefore(snow_gate) "The white thins, goes blue, and lets you go, and you are standing on a height under a sky the colour of a knife-blade, with a low white sun in it that does not seem to move. The cold goes into your teeth. Below you a plain goes away five miles to two dark heights, one at each end, with a hall on each; and the whole plain is white, and the whole of it, as far as you can see, is strewn with things: spears standing up, shields, the ribs of a cart, a siege-tower with snow on its top. In the middle of it smoke goes up from a huddle of coloured tents. Behind you, the snow comes down out of a clear sky in a curtain, and does not come any further.".
+  Observe gate_scene at snow_gate when not visitedBefore(snow_gate) "You come out of the white onto a height over a white plain five miles across, strewn as far as you can see with nine hundred years of broken arms, between two halls on two dark heights; and the cold goes into your teeth. The sky is the colour of a knife-blade, with a low white sun in it that does not seem to move. Below you the plain is strewn with things: spears standing up, shields, the ribs of a cart, a siege-tower with snow on its top. In the middle of it smoke goes up from a huddle of coloured tents. Behind you, the snow comes down out of a clear sky in a curtain, and does not come any further.".
   Observe gate_again at snow_gate when visitedBefore(snow_gate) "The Coming-in: the height over the Field, the curtain of snow behind you coming down out of a clear sky and stopping, and Cleeve's booth of planks and banners with its brazier smoking. Far off below, Halt's smoke.".
   Observe gate_daily at snow_gate as sound when skyLoud() and hour(clock) >= 7 and hour(clock) < 18 "Up from the Field comes the noise of the Daily: thousands of men at it, iron on iron, a roar like surf with screaming in it.".
   Observe booth_scene at cleeve_booth when true "A booth of planks and old banners, out of the wind. A brazier full of red coals, which nobody here needs, and which Cleeve keeps for the pickers from Larum, he says, and for the look of the thing. A rack of hourglasses, every size, all running. A tall desk, and on it a ledger as thick as a doorstep, open, in a fine black hand: a name, an hour, EAST or WEST, a name, an hour, EAST or WEST, down every page.".
 
   Person cleeve "Cleeve" at cleeve_booth {
     Role "the Teller at the Coming-in". Ancestry human. Peaceable. Pronouns he. Manner acerbic.
-    Likeness "clerk".
+    Likeness "herald".
     Greets "A thin old man in a herald's tabard faded to no colour looks up from a ledger with a pen in his hand. 'Name, and hour of death,' he says. Then he sees your breath, smoking in the cold, and puts the pen down very carefully. 'Oh dear,' he says. 'You're one of those.'".
     Greets again "Cleeve looks up, sees your breath, and sighs. 'Still breathing,' he says. 'Well. Sit by the brazier.'".
   }

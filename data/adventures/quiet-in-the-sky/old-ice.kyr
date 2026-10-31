@@ -59,14 +59,14 @@ Module larum "The Quiet in the Sky" {
   Entity bear_dead_told: fact "the bear".
 
   // ── The Sitters ───────────────────────────────────────────────────────────────────────────────────────────────────
-  Observe cave_scene at sitters_cave when true "A cave in the blue ice, lit by the ice itself, a cold green underwater light. Round a low table of a single stone sit ten old men and women on stools of stone, in harness older than anything you have seen on the Field: bronze scale, leather, a cuirass of linen glued in layers. On the table is a board scratched into the stone, and on the board, stones, black and white. One of them is moving a stone. The others are watching as if it were the most important thing in the world. Nobody looks up.".
+  Observe cave_scene at sitters_cave when true "In a cave of blue ice, in a cold green underwater light, ten very old men and women sit round a board of stones, in harness older than anything on the Field. They sit on stools of stone round a low table, in harness older than anything you have seen on the Field: bronze scale, leather, a cuirass of linen glued in layers. On the table is a board scratched into the stone, and on the board, stones, black and white. One of them is moving a stone. The others are watching as if it were the most important thing in the world. Nobody looks up.".
   Person sitters "the Sitters" at sitters_cave {
     Role "the oldest dead in Ysgard, round a board of stones". Ancestry human. Numbers 9. Peaceable.
     Greets "Nine very old faces turn to you, slowly, the way old trees would turn if they could, and look at your breath, and turn back to the board.".
   }
   Person aulus "Aulus" at sitters_cave {
     Role "the eldest of the Sitters". Ancestry human. Calling warrior. Level 9. Peaceable. Pronouns he. Manner acerbic.
-    Likeness "philosopher".
+    Likeness "sage".
     Greets "The old man moving the stone finishes moving it, with enormous care, and sits back, and only then looks up. He has a face like a walnut and a legionary's bronze cuirass gone green, and his eyes are very bright and very malicious. He says something in a tongue that has been dead a thousand years, and then, in a strange heavy old Common, 'A breather. Ha. The last breather on this stair was Ithel, and he would not play either.' He gestures at the board. 'Do you play Tabula? You do not. Nobody plays Tabula now. Sit. Lose. I will tell you things while you lose.'".
     Greets again "Aulus looks up from the board. 'Again? Good. Sit.'".
   }
