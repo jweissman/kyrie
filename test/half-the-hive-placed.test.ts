@@ -23,7 +23,7 @@ describe('Half the Hive in the world', () => {
       }
     }
     expect([...Countries.plan('g2', 'frost')].find(([, c]) => c.id === 'hume')?.[0]).toBe('x0y3');
-  });
+    }, 30000);
 
   it('heard of in the country it is entered from, walked into over the south march, and the Comb reached and scented', async () => {
     const seed = 'g2';

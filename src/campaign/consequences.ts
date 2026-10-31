@@ -48,17 +48,23 @@ export class Consequences {
         : Items.take(creatures, taker, { id: item, definition: kind, label }));
       changes.push(...[...world.related('at', item), ...world.related('inside', item)].map(r => this.retract(r)));
     }
-    for (const [group, kind] of spent.map(r => r.args as [string, string])) {
-      const members = definition.actors.find(a => a.id === group)?.members ?? [];
-      const carrier = members.map(id => creatures.get(id))
-        .find(c => c.state.inventory?.some(i => i.definition === kind));
-      const kept = carrier?.state.inventory?.filter(i => i.definition === kind) ?? [];
-      const thing = kept.find(i => !i.equipped) ?? kept[0];
+    for (const [group, what] of spent.map(r => r.args as [string, string])) {
+      const carriers = (definition.actors.find(a => a.id === group)?.members ?? []).map(id => creatures.get(id));
+      const [carrier, thing] = this.spendable(carriers, what, 'id') ?? this.spendable(carriers, what, 'definition') ?? [];
       if (carrier && thing) { Items.drop(creatures, carrier.id, thing.id); }
     }
     host.commitWorld(world.apply(changes));
     host.refreshProjection();
     return true;
+  }
+  // The thing a company gives up: the one of that name (a particular ribbon, not any of its kind: LUL-04), or one of
+  // a kind, unworn before worn, from the first of it who carries one.
+  private static spendable(carriers: Creature[], what: string, by: 'id' | 'definition'): [Creature, { id: string }] | undefined {
+    for (const c of carriers) {
+      const kept = c.state.inventory?.filter(i => i[by] === what) ?? [], thing = kept.find(i => !i.equipped) ?? kept[0];
+      if (thing) { return [c, thing]; }
+    }
+    return undefined;
   }
   private static up(c: Creature): boolean {
     return c.state.hp > 0 && !c.state.conditions.some(s => Effects.skips(s.id));

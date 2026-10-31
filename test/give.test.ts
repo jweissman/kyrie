@@ -41,6 +41,12 @@ describe('giving and spending', () => {
     expect(stones()).toBe(0);
     expect(j.offers('Set a weight-stone')).toBe(false);
   }, 60000);
+  // Two of one kind, and the particular one spent by name, not whichever comes first (the Lull's friction F5).
+  it('spends a particular thing by its own name, not another of its kind', async () => {
+    const j = await Journey.start('test/fixtures/probes/give/probe.campaign.json', 'k');
+    await j.play('a weight-stone: Take', 'a pair of bronze hands: Take', 'Pawn the bronze hands with Nan');
+    expect(j.screen().items.map(i => i.name).filter(n => /weight-stone|bronze hands/.test(n))).toEqual(['a weight-stone']);
+  }, 60000);
   // "Anywhere in Mrs Cherrett's lodgings" was written room by room (the Banns at Hessel's friction 13).
   it('asks whether the company is anywhere within an area, however deep', async () => {
     const j = await Journey.start('test/fixtures/probes/give/probe.campaign.json', 'k');

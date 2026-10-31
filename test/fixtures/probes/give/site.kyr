@@ -24,6 +24,12 @@ Module give "A coat held out, a weight-stone paid, and a fire to sit by" {
     On success { Spend weight_stone from actor. Increase weighed(site) by 1. }
     Result "The pan goes down.".
   }
+  Action pawn(actor: group, site: place) "Pawn the bronze hands with Nan" {
+    Time 1 minute.
+    Requires able(actor) and at(actor, site) and at(nan, site) and carries(actor, weight_b).
+    On success { Spend weight_b from actor. }
+    Result "Nan weighs the hands in her palm and puts them away.".
+  }
   Action sit(actor: group, site: place) "Sit by Nan's fire" {
     Time 1 minute.
     Requires able(actor) and at(actor, site) and within(actor, house).

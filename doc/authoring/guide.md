@@ -393,7 +393,8 @@ coat to the first of the company who is up, out of whoever had it or from wherev
 Davy's red coat." Nothing need be set on the floor to be taken (What Tessary Owes' W3, the Banns at Hessel's 14).
 `Spend weight_stone from actor.` gives up one thing of that kind, whichever of the company carries it, and
 `holding(actor, weight_stone)` in a requirement says it has one to give (Low Water's 6, which had a pan and a rule on
-what was put in it):
+what was put in it). Named by its own id, `Spend nan_ribbon from party.` gives up that particular thing and no other of
+its kind (the Lull's F5, which needed a kind for each ribbon that had to go):
 
 ```text
   Topic coat_given with nan "Ask Nan about Davy's coat" when toldNan(actor) once {

@@ -30,7 +30,7 @@ independent ones batched.
 | The cold review, section H | 0 | 1 | 5 | 0 | 0 | 0 | 6 |
 | Fair Weather's author | 0 | 1 | 14 | 0 | 0 | 0 | 15 |
 | Half the Hive's author | 0 | 0 | 13 | 0 | 0 | 0 | 13 |
-| The Lull's author | 1 | 0 | 11 | 0 | 0 | 0 | 12 |
+| The Lull's author | 2 | 0 | 10 | 0 | 0 | 0 | 12 |
 | The IF review (holistic) | 0 | 0 | 10 | 0 | 0 | 0 | 10 |
 
 | By gate | A | B | C | D | E | F |
@@ -497,7 +497,7 @@ by OWN-31; F6 and F15 are as they should be; F18 was met again on merging (Penha
 | LUL-01 | No effect restores a creature (hit points, conditions, `dead` cleared): resurrection, regeneration and "harm heals at sunset" cannot be written | D | P2 | Open | A `Restore x` effect for rules |
 | LUL-02 | Rules run at every watch of a long action (a night's sleep), and nothing says the company is in one: a midnight rule told on waking | D | P1 | Open | `performing(actor, action)` kept by the engine; `Meanwhile` effects |
 | LUL-03 | A rule reading the computed `within` is not re-run when the company moves (`Reads` does not see it depend on `at`): silent | D | P0 | Fixed | a rule asking `within` counts as reading `at` (src/lang/reads.ts; test/world-reads.test.ts); `distinct` reads nothing that changes |
-| LUL-04 | `Spend` takes a kind, not an item: two ribbons of one kind, and the wrong one ravels | D | P2 | Open | `Spend item from group` (the converse of HTH-05) |
+| LUL-04 | `Spend` takes a kind, not an item: two ribbons of one kind, and the wrong one ravels | D | P2 | Fixed | `Spend <item> from group` gives up that thing (usesUp takes any entity; Consequences.spendable by id, then kind); test/give.test.ts; the guide |
 | LUL-05 | The lead action is offered as "Ask them to come with you" to a man whose pronouns are he | A | P2 | Open | The person's pronouns in the lead's words |
 | LUL-06 | A role beginning with a preposition gets an article ("an of the Old Shift") and lint says nothing | D | P3 | Open | Lint the role; or no article before a preposition |
 | LUL-07 | Scenery cannot be examined, even when it is the place's chief object | D | P3 | Open | A lint advice for scenery named in the place's first sentence |
