@@ -23,6 +23,10 @@ export class BoardLabels {
   private readonly w = new Vector3();
   private you?: { el: HTMLElement; at: Vector3; cell: number };
   private walking?: { way: Vector3[]; from: number; ms: number };
+  // How much was known of each place of each country the last time its map was open; and the places found, or come
+  // to be known better, since: each pulses once in gold as its country arrives (REV-06's discovery pulse).
+  private static readonly last = new Map<string, Map<string, string>>();
+  private fresh = new Set<string>();
   // What is told of a label's hex: that it has the keys' focus (to be drawn toward), or has lost it; and how far the
   // hex stands below where it belongs, and whether what is on it is shown yet.
   constructor(host: HTMLElement, private readonly hooks: BoardHooks, private readonly heed: (cell?: number) => void,
@@ -42,6 +46,13 @@ export class BoardLabels {
     el.innerHTML = told ? '<i></i>' : `<i>${BoardGlyphs.svg(m.state === 'unknown' ? 'unknown' : m.kind)}</i>`;
     name.className = 'name'; name.textContent = m.name.replace(/^the /, ''); name.hidden = !told; el.appendChild(name);
     this.add({ el, at, cell: m.cell, id: m.id, town: false, w: 0, h: 0, name, afar: BoardLabels.afar(m), told });
+  }
+  remember(key: string, marks: BoardMark[]): void {
+    const before = BoardLabels.last.get(key), rank = ['unknown', 'heard', 'seen', 'visited'];
+    BoardLabels.last.set(key, new Map(marks.map(m => [m.id, m.state])));
+    if (!before) { return; }
+    this.fresh = new Set(marks.filter(m => !before.has(m.id)
+      || rank.indexOf(m.state) > rank.indexOf(before.get(m.id)!)).map(m => m.id));
   }
   static afar(m: BoardMark): boolean { return m.state === 'heard' || m.state === 'unknown'; }
   // You, as a mark that says so: a plate over everything else on the map, the same size however near the view, a
@@ -88,8 +99,8 @@ export class BoardLabels {
   // Each kept over its place on the land (moved as a picture already drawn, its shadows not drawn again at every step
   // of the view), rising with its hex as it comes to be known; a name only when its place is pointed at, chosen, bound
   // for or has the keys' focus. You first, and nothing else over you; then towns' names, given up where they would
-  // cover one another, or what is over the map; a sign given up where it would cover a town's name, or what is over
-  // the map. What is chosen, bound for or has the keys' focus is never given up.
+  // cover one another, or what is over the map; a sign's told name given up where it would cover another label, and
+  // the sign itself where even its plate would. What is chosen, bound for or has the keys' focus is never given up.
   place(camera: Camera, size: [number, number], [chosen, pointed, bound]: (string | number | undefined)[]): void {
     const taken: DOMRect[] = [...document.querySelectorAll('.field-head, .field-tools, .field-map .plan, .field-shut')]
       .map(e => e.getBoundingClientRect());
@@ -105,11 +116,18 @@ export class BoardLabels {
       if (l.name) { l.name.hidden = !on && l.cell !== pointed && !l.told; }
       l.el.style.transform = `translate(${l.town ? '-50%, -100%' : `-${half}px, -50%`}) `
         + `translate3d(${p[0].toFixed(1)}px, ${p[1].toFixed(1)}px, 0)`;
-      const r = l.town ? new DOMRect(box.left + p[0] - l.w / 2 - 3, box.top + p[1] - l.h - 2, l.w + 6, l.h + 4)
+      let r = l.town ? new DOMRect(box.left + p[0] - l.w / 2 - 3, box.top + p[1] - l.h - 2, l.w + 6, l.h + 4)
         : new DOMRect(box.left + p[0] - half, box.top + p[1] - l.h / 2, l.w, l.h);
-      const clash = taken.some(t => r.x < t.right && r.right > t.x && r.y < t.bottom && r.bottom > t.y);
-      l.el.classList.toggle('away', clash && !on); if (!clash && l.town || on) { taken.push(r); }
+      let clash = BoardLabels.clash(r, taken);
+      // A told name that would cover another label gives way, its plate kept where there is room for that.
+      if (clash && !on && l.name && !l.name.hidden) {
+        l.name.hidden = true; r = new DOMRect(r.x, r.y, l.h, l.h); clash = BoardLabels.clash(r, taken);
+      }
+      l.el.classList.toggle('away', clash && !on); if (!clash || on) { taken.push(r); }
     }
+  }
+  private static clash(r: DOMRect, taken: DOMRect[]): boolean {
+    return taken.some(t => r.x < t.right && r.right > t.x && r.y < t.bottom && r.bottom > t.y);
   }
   // Your mark over the ground where you are, and the room it takes kept from everything else.
   private placeYou(camera: Camera, size: [number, number], box: DOMRect, taken: DOMRect[]): void {
@@ -150,6 +168,7 @@ export class BoardLabels {
     return el;
   }
   private add(l: Label): void {
+    if (l.id && this.fresh.has(l.id)) { l.el.classList.add('found'); }
     this.layer.appendChild(l.el); l.w = l.el.offsetWidth; l.h = l.el.offsetHeight; this.labels.push(l);
   }
 }

@@ -121,7 +121,7 @@ export class Board implements BoardApi {
   }
   private furnish(towns: BoardTowns): void {
     for (const [c, gs] of towns.groups) { for (const g of gs) { this.stand(c, g); } }
-    this.scatters.push(...towns.scatters);
+    this.scatters.push(...towns.scatters); this.labels.remember(this.land.key, this.land.marks);
     for (const m of this.land.marks) {
       // A town or a place on land not known stands over the mist, at no height of the land it stands on.
       const p = this.grid.centres[m.cell]!, low = !this.knowing.will(m.cell),
