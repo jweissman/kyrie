@@ -19,20 +19,22 @@ Module toll_customs "Customs-men on the road" {
   Initially Assert tolls(keepers, post).
   Initially Set quantity(chief, rations) to 4.
 
-  // The toll: three coin, by right, written in the ledger. Running it is breaking the lord's law.
-  Relation stopped(group). Relation stoppedFrom(group, passage).
+  // The toll: three coin, by right, written in the ledger, and a tally cut for it that is good on this road, both
+  // ways, for a week (the owner, 31 October: roads were too dear to use, every passing paid again). Running it is
+  // breaking the lord's law.
+  Relation stopped(group). Relation stoppedFrom(group, passage). Measure paidAt(group).
   Rule stops when at(party, post) and tolls(keepers, post) and able(keepers) and not tolerates(keepers, party)
     and not stopped(party) and not hostile(chief, party)
     says "The bar stays down. 'The lord's toll,' says the reeve, dipping his pen. 'Three coin. Names?' To go on along the road without paying is to run the lord's toll, and his men will know you again." {
     Assert stopped(party).
   }
   Action pay_toll(actor: group, site: place) "Pay the lord's toll, three coin" {
-    Description "Three coin, written in the ledger. The bar goes up.".
+    Description "Three coin, written in the ledger, and a tally cut for you: good on this road, both ways, for a week.".
     Requires able(actor) and company(actor) and at(actor, site) and tolls(keepers, site) and at(keepers, site)
       and able(keepers) and not tolerates(keepers, actor) and quantity(actor, gold) >= 3.
     On success { Decrease quantity(actor, gold) by 3. Increase quantity(chief, gold) by 3. Assert tolerates(keepers, actor).
-      Assert tolerates(chief, actor). }
-    Result "The reeve writes you down, sands the ink, and nods to Fenn, who lifts the bar.".
+      Assert tolerates(chief, actor). Set paidAt(actor) to watch(clock). }
+    Result "The reeve writes you down, sands the ink, cuts a notch in a hazel tally and splits it, and hands you your half. 'Good both ways till this day next week.' Fenn lifts the bar.".
   }
   // Talking the toll down: on the lord's own business, a company goes by for nothing, if the reeve believes it; one he
   // does not is not heard again until it comes back (PT-14).
@@ -69,7 +71,8 @@ Module toll_customs "Customs-men on the road" {
   Rule forgot_way when stoppedFrom(party, ?w) and not stopped(party) and tookWay(party, ?gone) and roadway(?gone) {
     Retract stoppedFrom(party, ?w).
   }
-  Rule paid_once when tolerates(keepers, party) and not at(party, post) {
+  Rule passed when stopped(party) and tolerates(keepers, party) and not at(party, post) { Retract stopped(party). }
+  Rule paid_once when tolerates(keepers, party) and not at(party, post) and watch(clock) >= paidAt(party) + 1008 {
     Retract tolerates(keepers, party). Retract tolerates(chief, party). Retract stopped(party).
   }
   Rule outlawed when (routed(chief) or not able(chief) or routed(keepers)) and not refusesService(provider, party)

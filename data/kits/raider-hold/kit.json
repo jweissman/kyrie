@@ -27,6 +27,8 @@
       "is": "waypoint(?road) and onRoad(?road)",
       "requires": [
         "free(?road)",
+        "not tolls(?other, ?road)",
+        "not ambushes(?other, ?road)",
         "hours(?road, ?approach) >= 1",
         "hours(?road, ?approach) <= 6"
       ],

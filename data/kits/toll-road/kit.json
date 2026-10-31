@@ -7,7 +7,9 @@
     "post": {
       "is": "waypoint(?post) and onRoad(?post)",
       "requires": [
-        "free(?post)"
+        "free(?post)",
+        "not tolls(?other, ?post)",
+        "not ambushes(?other, ?post)"
       ],
       "prefers": [
         {

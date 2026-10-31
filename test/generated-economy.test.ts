@@ -71,7 +71,7 @@ describe('generated campaigns', () => {
     expect(Economy.num(s, 'goodsPrice', `region__${toll.elsewhere}_innkeeper`, 'rations')).toBe(base);
     Economy.put(s, `region__${from}_green`);
     const stopped = await s.perform(`go(region__road_${from}_${to},${way})`);
-    expect((stopped.perceptions ?? []).map(p => p.text).join(' ')).toContain('Six coin, the lot of you');
+    expect((stopped.perceptions ?? []).map(p => p.text).join(' ')).toContain('Four coin, the lot of you');
     expect(Economy.legal(s)).toContain(`tollKeepers__pay_toll(party,${way})`);
     // Walking on without paying: the deserters remember, and set on the company when it comes back.
     await s.perform(`go(region__road_${from}_${to}_on,region__${to}_green)`);

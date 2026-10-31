@@ -49,6 +49,22 @@ describe('the lord\'s toll at the bridge', () => {
       expect([on, Toll.outlawed(s)]).toEqual([on, outlawed]);
     }
   }, 120000);
+  // Paid once, the tally is good both ways for a week: the company goes on, and comes back, and goes again, and the bar
+  // goes up each time (every passing paid again had made the roads too dear to use: the owner, 31 October).
+  it('lets a company that paid by, both ways, for a week', async () => {
+    const s = await Toll.start(), purse = () => s.campaign.readout.creatures
+      .find(c => c.id === s.campaign.state.partyIds[0])!.state.gold ?? 0;
+    const pay = s.campaign.module.actions!.find(a => /^Pay the lord's toll/.test(a.name))!;
+    const paid = (await s.perform(`${pay.id}(party,region__s2_s3_way)`)).response ?? '';
+    expect(paid).toContain('Good both ways till this day next week');
+    const left = purse();
+    for (const on of ['region__road_s2_s3,region__s2_green', 'region__road_s2_s3,region__s2_s3_way',
+      'region__road_s2_s3_on,region__s3_green', 'region__road_s2_s3_on,region__s2_s3_way']) {
+      await s.perform(`go(${on})`);
+    }
+    await s.perform('go(region__road_s2_s3,region__s2_green)');
+    expect([Toll.outlawed(s), purse()]).toEqual([false, left]);
+  }, 120000);
   it('is run by going on along the road without paying', async () => {
     const s = await Toll.start();
     await s.perform('go(region__road_s2_s3,region__s2_green)');

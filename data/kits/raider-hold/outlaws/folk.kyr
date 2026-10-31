@@ -73,17 +73,20 @@ Module outlaw_folk "Outlaws" {
   Action pay_road_money(actor: group, site: place) "Pay Sir Hamo's road-money, five coin" {
     Requires able(actor) and at(actor, site) and at(band, site) and demanding(band) and quantity(actor, gold) >= 5.
     On success { Decrease quantity(actor, gold) by 5. Retract demanding(band). Retract impatient(band). Assert tolerates(band, actor).
-      Assert paidUp(actor). }
-    Result "Long Peter weighs the coins in his palm, bows like a courtier, and the men melt back into the trees.".
+      Assert paidUp(actor). Set paidAt(actor) to watch(clock). }
+    Result "Long Peter weighs the coins in his palm, bows like a courtier, and the men melt back into the trees. 'We'll know you again,' he calls after you. 'Paid is paid, for a week.'".
   }
   Action show_empty_purse(actor: group, site: place) "Turn out your empty purse" {
     Requires able(actor) and at(actor, site) and at(band, site) and demanding(band) and quantity(actor, gold) <= 4.
-    On success { Retract demanding(band). Retract impatient(band). Assert tolerates(band, actor). Assert paidUp(actor). }
+    On success { Retract demanding(band). Retract impatient(band). Assert tolerates(band, actor). Assert paidUp(actor).
+      Set paidAt(actor) to watch(clock). }
     Result "They look at the purse, and at you, and Ada Marl laughs so hard she has to sit down. 'Go on,' says Long Peter. 'Sir Hamo doesn't rob the poor. Much.'".
   }
   Rule band_home when able(band) and at(band, road) and not together(band, party) and not demanding(band) { Assert at(band, yard). }
-  Relation paidUp(group).
-  Rule toll_paid_once when paidUp(party) and not at(party, road) { Retract paidUp(party). Retract tolerates(band, party). }
+  // Paid once, the band knows the company for a week, and lets it by on the road both ways (every passing robbed
+  // again had made the road too dear to use: the owner, 31 October).
+  Relation paidUp(group). Measure paidAt(group).
+  Rule toll_paid_once when paidUp(party) and not at(party, road) and watch(clock) >= paidAt(party) + 1008 { Retract paidUp(party). Retract tolerates(band, party). }
   // The market: when they are short, they ride in at noon and take a tithe.
   Rule tithe when untilLight(clock) == 40 and dice(clock) <= 20 and able(band) and at(band, yard) and not quiet(band)
     and not ended(band) { Increase losses(town) by 1. }
