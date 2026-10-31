@@ -18,6 +18,7 @@ import { WorkPlans } from './history/work-plans';
 import { RegionGeography } from './region-geography';
 import { RegionSites } from './region-sites';
 import { RegionRenewal } from './region-renewal';
+import { RegionStock } from './region-stock';
 import { RegionMarvels } from './region-marvels';
 import { RegionRiddles } from './region-riddles';
 import { Draw } from './land/draw';
@@ -49,6 +50,7 @@ export class RegionWorks {
         .filter(s => s.group === 'outside' || !taken[site.id]);
       const written = sections.flatMap(s => WorkPlans.fill(s.lines, values));
       return [...written, ...taken[site.id] ? [] : [...RegionRenewal.work(region, site, { plan, sections, values }),
+        ...RegionStock.work(region, site, { great: !!plan.great, written, values }),
         ...RegionMarvels.work(region, site, work.plan, written), ...RegionRiddles.work(region, site, written)]];
     })];
   }
@@ -119,7 +121,10 @@ export class RegionWorks {
       ?? { common: ['simple_ring'], rich: ['moonstone'] };
     const draw = new Draw(`${work.id}:${work.old.name}:treasure`);
     const common = draw.pick(lists.common), rich = draw.pick(lists.rich), great = lists.great?.[0] ?? rich;
+    // A cache someone put by in it later, found by searching (see RegionStock): another of the common things.
+    const cache = draw.pick(lists.common.length > 1 ? lists.common.filter(c => c !== common) : lists.common);
     return { common, commonname: this.called(common), rich, richname: this.called(rich), great,
+      cache, cachename: this.called(cache),
       greatname: this.called(great),
       premium: String(2 * this.worth(common)), richpremium: String(Math.round(1.5 * this.worth(rich))) };
   }

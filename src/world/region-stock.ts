@@ -1,0 +1,41 @@
+import { Draw } from './land/draw';
+import { RegionEcology } from './region-ecology';
+import type { Region, Site } from './region-writer';
+
+// What a makers' work holds besides what its plan wrote: its rooms had been bare but for one keeper and two
+// treasures, five to nine rooms with nothing in them (the owner, 31 October: interiors thin, secrets and treasure too
+// few). Of the rooms no one lives in, past the way in, one is a den of the beasts of its country, and another
+// holds what someone put by there later, found only by searching it. Drawn by the work, so the same world holds the
+// same.
+export class RegionStock {
+  static work(region: Region, site: Site, at: { great: boolean; written: string[]; values: Record<string, string> }):
+    string[] {
+    if (at.great) { return []; }
+    const rooms = this.bare(at.written), draw = new Draw(`${region.name}:${site.id}:stock`);
+    if (rooms.length < 2) { return []; }
+    const [den, cache] = draw.shuffle(rooms.slice(1));
+    return [...this.den(region, site, den!), ...cache ? this.cache(site, cache, at.values) : []];
+  }
+  // The rooms no one lives in, in the order the plan wrote them (a room with a thing of its own in it is still one a
+  // beast may den in, or something be put by in).
+  private static bare(written: string[]): string[] {
+    const text = written.join('\n');
+    return [...text.matchAll(/Place (\w+) "[^"]*" is room/g)].map(m => m[1]!)
+      .filter(r => !new RegExp(`Person \\w+ [^\\n]* at ${r}\\b|Lair ${r}\\b`).test(text));
+  }
+  private static den(region: Region, site: Site, room: string): string[] {
+    const habitat = RegionEcology.habitat(region, site), beast = RegionEcology.den(region, habitat);
+    if (!beast) { return []; }
+    const q = JSON.stringify, count = Math.max(1, Math.ceil(beast.count / 2));
+    return [`  Person ${site.id}_denned ${q(beast.label)} at ${room} {`,
+      `    Role ${q(`${beast.role}, denned in a room of ${site.name}`)}. Species ${beast.species}. Numbers ${count}. Level 1. Temperament territorial. Lair ${room}.`,
+      '  }'];
+  }
+  private static cache(site: Site, room: string, values: Record<string, string>): string[] {
+    if (!values.cache) { return []; }
+    const q = JSON.stringify, found = `${site.id}_cache_found`;
+    return [`  Discovery ${found} ${q(`Behind a loose stone low in the wall, someone long after the makers put by ${values.cachename}, wrapped in rotten cloth.`)} {`,
+      `    Found by searching ${room} ${q('A stone low in the wall is loose; behind it, wrapped in rotten cloth, something put by.')}.`, '  }',
+      `  Item ${site.id}_cache ${q(values.cachename!)} is ${values.cache} at ${room} hidden until ${found}.`];
+  }
+}
