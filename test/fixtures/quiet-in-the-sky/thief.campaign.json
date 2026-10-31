@@ -1,0 +1,6 @@
+{
+  "version": 1,
+  "name": "The Quiet in the Sky (a thief)",
+  "modules": [ { "id": "larum", "bundle": "../../../data/adventures/quiet-in-the-sky/module.json" } ],
+  "party": [ { "name": "Sefa", "raceId": "human", "classId": "thief" } ]
+}

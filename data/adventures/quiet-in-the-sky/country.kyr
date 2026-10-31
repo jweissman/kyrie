@@ -1,0 +1,134 @@
+Module larum "The Quiet in the Sky" {
+  Description "Larum, a hamlet under a high pass that for nine hundred years has heard the warrior dead fighting in the snow above it, and has not heard them for forty days; and over the pass, in Ysgard, the Field where they fought, and Halt, the town of shields they have built in the quiet around the one of them who did not get up.".
+
+  // ── The two countries ─────────────────────────────────────────────────────────────────────────────────────────────
+  // Larum lies in Imbar, in no plane, as the generated countries do: the valley road comes up from the march into the
+  // hamlet, and above it the Pass goes up into the White. Over the White is Ysgard, Orsino's frigid outer plane: its
+  // Field runs five miles east to west between Morrowhall and Evenhall, with Halt in the middle of it, the Scrapes under
+  // its southern lip, the Old Ice to the north and the Teeth to the south-west. The Coming-in stands where the White
+  // gives out, on the Field's southern rim.
+  Place larum_country "Larum and the Pass" is region.
+  Place valley "the Larum valley" is wilderness within larum_country at 0, 2.
+  Place larum "Larum" is settlement within larum_country at 1, 2.
+  Place pass "the Larum Pass" is wilderness within larum_country at 2, 1.
+  Initially Assert terrain(larum_country, mountain).
+
+  Place ysgard "Ysgard" is plane.
+  Place field_country "the Field" is region within ysgard.
+  Initially Assert terrain(field_country, frost).
+  Entity plane_ysgard: law "the law of Ysgard".
+  Initially Assert law(field_country, plane_ysgard).
+  Place coming_in_site "the Coming-in" is site within field_country at 3, 4.
+  Place field "the Field" is wilderness within field_country at 3, 3.
+  Place halt "Halt" is settlement within field_country at 3, 2.
+  Place morrow_height "the Morrow height" is site within field_country at 5, 2.
+  Place even_height "the Even height" is site within field_country at 1, 2.
+  Place scrapes "the Scrapes" is site within field_country at 4, 4.
+  Place old_ice "the Old Ice" is wilderness within field_country at 3, 0.
+  Place teeth "the Teeth" is wilderness within field_country at 1, 4.
+
+  // ── Larum ─────────────────────────────────────────────────────────────────────────────────────────────────────────
+  Place hark_house "the Hark" is building within larum.
+  Place hark_upper "the rooms over the Hark" is level within hark_house.
+  Place bakehouse_b "Nance Pellett's bakehouse" is building within larum.
+  Place guide_house_b "the guide's house" is building within larum.
+  Place larum_chapel_b "Larum chapel" is building within larum.
+
+  Place march_road "the valley road below Larum" is room within valley at 0, 0 outdoors.
+  Place larum_street "Larum street" is room within larum at 1, 1 outdoors.
+  Place hark "the Hark's taproom" is room within hark_house at 1, 0.
+  Place hark_loft "the loft over the Hark" is room within hark_upper at 1, 0.
+  Place bakehouse "Nance Pellett's bakehouse" is room within bakehouse_b at 2, 1.
+  Place guide_house "the guide's house" is room within guide_house_b at 0, 1.
+  Place larum_chapel "Larum chapel" is room within larum_chapel_b at 1, 2.
+  Place pass_foot "the foot of the Pass" is room within pass at 0, 1 outdoors.
+  Place the_white "the White" is room within pass at 1, 0 outdoors.
+  Place limbo "nowhere" is room within valley at 9, 9.
+
+  Passage valley_road "the valley road" is road between march_road and larum_street taking 30 minutes.
+  Passage hark_door "the Hark's door" is door between larum_street and hark.
+  Passage hark_stair "the stair to the loft" is stair between hark and hark_loft.
+  Passage bake_door "the bakehouse door" is door between larum_street and bakehouse.
+  Passage guide_door "Jory Whitlock's door" is door between larum_street and guide_house.
+  Passage chapel_door_l "the chapel door" is door between larum_street and larum_chapel.
+  Passage pass_path "the path up to the Pass" is path between larum_street and pass_foot taking 40 minutes.
+  Passage white_path "the way up into the White" is path between pass_foot and the_white taking 1 hour.
+
+  // ── Ysgard: the Coming-in ─────────────────────────────────────────────────────────────────────────────────────────
+  Place cleeve_booth_b "the Teller's booth" is building within coming_in_site.
+  Place snow_gate "the Coming-in" is room within coming_in_site at 0, 0 outdoors.
+  Place cleeve_booth "the Teller's booth" is room within cleeve_booth_b at 1, 0.
+  // The way through the White is a line of cairns that is only a way to those who can find it.
+  Passage cairn_way "the cairns through the White" is path between the_white and snow_gate taking 1 hour hidden until white_known.
+  Passage booth_flap "the booth's flap" is doorway between snow_gate and cleeve_booth.
+
+  // ── Ysgard: the Field ─────────────────────────────────────────────────────────────────────────────────────────────
+  Place field_south "the southern Field" is room within field at 1, 2 outdoors.
+  Place lathe_ford "the ford of the Lathe" is room within field at 1, 1 outdoors.
+  Place the_clear "the Clear" is room within field at 2, 1 outdoors.
+  Place east_slope "the foot of the Morrow height" is room within field at 3, 1 outdoors.
+  Place west_slope "the foot of the Even height" is room within field at 0, 1 outdoors.
+  Place field_north "the northern Field" is room within field at 2, 0 outdoors.
+  Passage down_from_gate "the track down from the Coming-in" is track between snow_gate and field_south taking 30 minutes.
+  Passage lathe_way "the way to the Lathe" is path between lathe_ford and the_clear taking 20 minutes.
+  Passage clear_north "the long slope north" is path between the_clear and field_north taking 40 minutes.
+  Passage east_way "the battle-line east" is path between the_clear and east_slope taking 30 minutes.
+  Passage west_way "the battle-line west" is path between lathe_ford and west_slope taking 30 minutes.
+
+  // ── Ysgard: Halt ──────────────────────────────────────────────────────────────────────────────────────────────────
+  Place oven_b "the Oven" is building within halt.
+  Place truce_b "the Truce" is building within halt.
+  Place halt_cross "Trophy Row" is room within halt at 1, 1 outdoors.
+  Place the_ring "the ring of spears" is room within halt at 1, 0 outdoors.
+  Place banner_lanes "the banner lanes" is room within halt at 2, 1 outdoors.
+  Place oven "the Oven" is room within oven_b at 0, 1.
+  Place truce "the Truce" is room within truce_b at 1, 2.
+  Passage south_lane "the lane in from the south" is path between field_south and halt_cross taking 30 minutes.
+  Passage ford_lane "the lane down to the Lathe" is path between halt_cross and lathe_ford taking 20 minutes.
+  Passage ring_lane "the way to the ring" is path between halt_cross and the_ring taking 2 minutes.
+  Passage banner_way "the banner lanes" is path between halt_cross and banner_lanes taking 3 minutes.
+  Passage oven_mouth "the Oven's mouth" is doorway between halt_cross and oven.
+  Passage truce_hatch "the Truce's hatch" is crawl between halt_cross and truce.
+  Passage halt_east "the road east out of Halt" is path between banner_lanes and east_slope taking 40 minutes.
+
+  // ── Ysgard: the halls ─────────────────────────────────────────────────────────────────────────────────────────────
+  Place morrowhall_b "Morrowhall" is building within morrow_height.
+  Place evenhall_b "Evenhall" is building within even_height.
+  Place morrow_yard "Morrowhall's yard" is room within morrow_height at 0, 0 outdoors.
+  Place morrow_hall "Morrowhall" is room within morrowhall_b at 1, 0.
+  Place marshal_room "the Marshal's room" is room within morrowhall_b at 2, 0.
+  Place even_court "Evenhall's court" is room within even_height at 1, 0 outdoors.
+  Place even_hall "Evenhall" is room within evenhall_b at 0, 0.
+  Place forge "the forge of Evenhall" is room within evenhall_b at 0, 1.
+  Passage morrow_climb "the road up the Morrow height" is road between east_slope and morrow_yard taking 30 minutes.
+  Passage morrow_doors "Morrowhall's doors" is door between morrow_yard and morrow_hall.
+  Passage marshal_door "the door behind the high seat" is door between morrow_hall and marshal_room.
+  Passage even_climb "the road up the Even height" is road between west_slope and even_court taking 30 minutes.
+  Passage even_doors "Evenhall's doors" is door between even_court and even_hall.
+  Passage forge_arch "the arch to the forge" is arch between even_hall and forge.
+
+  // ── Ysgard: the Scrapes ───────────────────────────────────────────────────────────────────────────────────────────
+  Place scrapes_mouth "the mouth of the Scrapes" is room within scrapes at 0, 0 outdoors.
+  Place warren "the warren" is room within scrapes at 1, 0 underground.
+  Place edith_nook "a nook behind the banners" is room within scrapes at 2, 0 underground.
+  Passage scrapes_path "the path along the ice-lip" is path between field_south and scrapes_mouth taking 15 minutes.
+  Passage warren_crawl "the crawl into the warren" is crawl between scrapes_mouth and warren.
+  Passage nook_way "a gap behind the banners" is crawl between warren and edith_nook hidden until nook_known.
+
+  // ── Ysgard: the Old Ice ───────────────────────────────────────────────────────────────────────────────────────────
+  Place ice_foot "the foot of the Old Ice" is room within old_ice at 0, 1 outdoors.
+  Place ice_stair "the ice stair" is room within old_ice at 1, 1 outdoors.
+  Place sitters_cave "the Sitters' cave" is room within old_ice at 1, 0 underground.
+  Passage ice_approach "the way onto the Old Ice" is path between field_north and ice_foot taking 30 minutes.
+  Passage ice_steps "the steps cut in the ice" is steps between ice_foot and ice_stair taking 30 minutes.
+  Passage cave_mouth "a mouth in the blue ice" is tunnel between ice_stair and sitters_cave hidden until sitters_known.
+
+  // ── Ysgard: the Teeth ─────────────────────────────────────────────────────────────────────────────────────────────
+  Place teeth_path "the path under the Teeth" is room within teeth at 0, 1 outdoors.
+  Place wolf_ledge "the wolves' ledge" is room within teeth at 0, 0 outdoors.
+  Place high_cairn "the cairn on the highest Tooth" is room within teeth at 1, 0 outdoors.
+  Passage teeth_track "the track to the Teeth" is track between field_south and teeth_path taking 1 hour.
+  Passage ledge_climb "the scramble up to the ledge" is path between teeth_path and wolf_ledge taking 20 minutes.
+  Passage tooth_climb "the climb to the highest Tooth" is path between wolf_ledge and high_cairn taking 30 minutes
+    opening when not at(wolves, wolf_ledge) or not able(wolves) or tolerates(wolves, party) "Three white wolves stand across the foot of the climb with their heads low.".
+}

@@ -1,0 +1,7 @@
+Module larum "The Quiet in the Sky" {
+  // The country beyond a march of a generated world: the company that comes up the valley road is the world's own.
+  Entity party: group "Your company".
+  // What is said of Larum in the country behind it: once the Morning After has come, it is old news there.
+  Entity word: fact "What is said of Larum and the quiet in the country behind it.".
+  Rule word_old when outcomeDecided(field_country) and morningAfter() and not stale(word) { Assert stale(word). }
+}

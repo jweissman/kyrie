@@ -1,0 +1,6 @@
+{
+  "version": 1,
+  "name": "The Quiet in the Sky (a cleric)",
+  "modules": [ { "id": "larum", "bundle": "../../../data/adventures/quiet-in-the-sky/module.json" } ],
+  "party": [ { "name": "Maren", "raceId": "dwarf", "classId": "cleric" } ]
+}

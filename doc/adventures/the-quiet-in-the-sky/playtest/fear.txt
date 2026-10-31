@@ -1,0 +1,111 @@
+[To Larum street] You leave the valley road below Larum with the sun low behind you and the dew still on the grass. Larum’s one street, under the Pass: an inn with a hand cupped to an ear on its sign, a bakehouse breathing warmth out of its door, a squat chapel, and at the top a house with a rope and a long pole hung by the door, which is the guide’s. The houses are stone, turf-roofed, with their backs to the weather. Above everything, the Pass goes up into its cloud. Everyone in Larum, sooner or later, stops in the street and looks up at the Pass and listens. There is nothing to hear. People stand like that for a while with their heads on one side, and then go on. The folk of Larum, shepherds and their wives, standing in the street, are here.
+
+[Into the guide's house] A bare clean room with a table laid for two, and two cups on it, and only one of them used. Ropes coiled on pegs, ice-poles in a rack, a row of sheepskin coats hanging like a row of tired men. Jory Whitlock, the guide, who takes the living up through the White, is here.
+
+[Buy a sheepskin coat] You pay Jory Whitlock, and take a sheepskin coat.
+
+[Pay Jory Whitlock six coin to take you up through the White] Jory takes a pole from the rack and a coil of rope, and you go up the street and up the path between the black shoulders, and into the white. He walks a yard ahead with the rope between you, and does not talk, and every so often he stops and puts his hand flat on a cairn with a ram’s skull on top, the way a man touches a doorpost. ‘Keep the last at your back,’ he says, once, ‘and walk till the next comes.’ Then the white thins, and goes blue, and you are standing on a height in a light like the inside of a knife, and the cold has teeth. Jory looks out over it for a moment. Then he turns round without a word and goes back down into the white, and is gone. From the booth by the curtain a thin old man in a faded tabard comes out with a ledger under his arm and a pen behind his ear. ‘Name and hour of death,’ he says briskly, and then sees your breath go up white in the cold, and stops. ‘Ah,’ he says. ‘Breathing.’ He looks at the ledger as if it had let him down. ‘There is no column for breathing. The pickers from Larum come up as far as the booth, and the guide, but they never stay.’ He looks down at the Field, and back at you. ‘If you’re going down there, go carefully. They’ve not seen a breather close in a long time, and they’re frightened enough as it is.’ Sefa gains 100 experience: found the cairns through the White. Sefa gains 100 experience: stood on the Field alive. You come out of the white onto a height over a white plain five miles across, strewn as far as you can see with nine hundred years of broken arms, between two halls on two dark heights; and the cold goes into your teeth. The sky is the colour of a knife-blade, with a low white sun in it that does not seem to move. Below you the plain is strewn with things: spears standing up, shields, the ribs of a cart, a siege-tower with snow on its top. In the middle of it smoke goes up from a huddle of coloured tents. Behind you, the snow comes down out of a clear sky in a curtain, and does not come any further.
+
+[To the southern Field] You leave the Coming-in in the full of the morning, with the sun climbing and the path dry underfoot. Your breath goes up white in front of you and hangs. Nobody else’s does. A man going past with a spear on his shoulder stops dead and stares at the little cloud as if you had taken out a knife. The southern Field: snow, wind-scoured in long ripples, and out of it, everywhere, things. A sword standing up on its point. A shield-boss like a little iron hill. A gauntlet, palm up, with snow in it. The Field goes away north to Halt’s smoke, and east and west to the two heights. To the south the ice of the Field’s edge overhangs a long shadow where the Runners live; to the south-west, the black crags of the Teeth.
+
+[To Trophy Row] Between walls of shields stuck rim-down in the snow, hundreds of the dead, in every harness there has ever been, are standing about in the lanes in their shirtsleeves in the cold, talking. The shields are painted with every device there is: suns, wolves, hands, towers, a woman’s face, a fish. Behind them, tents of banners on spear-poles, faded, frozen stiff, of wars nobody remembers. And people. Dead people, hundreds, in every harness there has ever been: mail and leather and plate and quilted linen and bronze, standing about in the lanes in the cold in their shirtsleeves, talking. Talking. Somebody is laughing. Somebody is carrying a chair. Nobody has a weapon in their hand, and they keep putting their hands where a hilt would be, and taking them away again. Here are the dead of Halt, warriors of every century, in their shirtsleeves in the snow; Old Saltash, who swaps on Trophy Row; and Mab Treloar, a pikewoman of Morrowhall.
+
+[To the banner lanes] The banner lanes: tents of banners on spear-poles in crooked rows, a hundred dead wars’ colours faded to the same tired pink and blue. Through a gap you see a dead woman sitting on a camp-stool in a tent-mouth, sewing two banners together, frowning, as if nobody had ever shown her how. Somebody has made a chair out of shields and is sitting in it with enormous pride.
+
+[To the foot of the Morrow height] You set out from Halt in the full of the afternoon, the path pale with dust. The foot of the Morrow height, where the eastern host came down every morning: the snow trodden into a broad road going up, and at the top, black against the dawn side of the sky, Morrowhall. Along the road at intervals stand spears planted upright with rags of red on them, where somebody marked a line once, and nobody took them up.
+
+[To Morrowhall's yard] The great ox swings his head round and looks at you with one wet brown eye, and breathes on you, and the breath does not steam. He goes back to chewing. The yard of Morrowhall: trodden snow on the brow of the eastern height, the whole Field spread out below to the west, and Halt’s smoke in the middle of it. The hall itself is black timber, very long, roofed with shields laid like scales. In the yard people are sparring with blunted spears, out of nine hundred years’ habit and boredom, and arguing about it, and a great brindled ox stands by the doors chewing, and watches them with an expression of long experience.
+
+[Into Morrowhall] Inside Morrowhall a fire runs the length of the hall in a trench, warm as the Oven, and over the benches, up into the smoke, hang the Tally-boards: planks, thousands of them, every one cut with notches, one notch for every man of Even killed by a man of Morrow, every day for nine hundred years, with the killers’ names burned in at the ends. People sit on the benches mending things that do not need mending. It smells of nine hundred years of ox.
+
+[… waited 4 times …]
+
+[Wait › An hour] Word goes over the Field from mouth to mouth, faster than anyone could walk it: at the Hour, at the ring, Torold Hame named a Testing. On the fourth morning Evenhall goes down to the ford and fights itself, and if every man of them gets up at the Hour, death has not come back to Ysgard, and the Daily begins again.
+
+[Wait › An hour] The hall is eating. Down the length of the fire-trench the great ox Brindle turns on a spit, and the benches roar, and somebody is standing on a table telling a boast that everybody knows the end of and shouts with him. An hour passes.
+
+[… waited 2 times …]
+
+[Eat at the fire-trench with Morrow] A big man at the spit carves you a slab the size of a book without being asked twice, and another for your pack, and watches you eat with an odd tender interest. ‘Warm, is it?’ he says. ‘You can taste it warm?’ He shakes his head. ‘We taste it. But it’s never warm.’
+
+[Rest six hours] You eat, bind your hurts and sleep for six hours.
+
+[… waited 6 times …]
+
+[Out to Morrowhall's yard] The yard of Morrowhall: trodden snow on the brow of the eastern height, the whole Field spread out below to the west, and Halt’s smoke in the middle of it. Mab Treloar, a pikewoman of Morrowhall, is here.
+
+[Spar with Mab Treloar, with blunted pikes · an even chance · one try] She is very good, and very fast, and two hundred years bored, and for a while you only stay out of her way. Then she overreaches, laughing, and you get inside the pike and bring your own butt round, and it catches her across the mouth, hard, and she sits down in the snow with her lip split open. The yard cheers. Mab spits blood and grins up at you with red teeth. ‘That’s one,’ she says. ‘It’ll mend at the Hour. Again?’ Sefa makes the tumbling check (d20 13 + dexterity 4 = 17 against 16).
+
+[Into Morrowhall] Inside Morrowhall a fire runs the length of the hall in a trench, warm as the Oven, and over the benches, up into the smoke, hang the Tally-boards: planks, thousands of them, every one cut with notches, one notch for every man of Even killed by a man of Morrow, every day for nine hundred years, with the killers’ names burned in at the ends.
+
+[… waited 9 times …]
+
+[Wait › An hour] Mab Treloar’s lip is scabbed where you split it, and she keeps touching it with her tongue, the way you touch a tooth that has gone. The Hour comes over the Field: the light goes blue all at once, as if a glass had been put over the sun, and for a moment everyone near you stops what they are doing and closes their eyes, out of nine hundred years’ habit. Mab Treloar opens hers and puts her fingers to her mouth, and takes them away, and looks at them. There is blood on them. Her lip is still split, exactly as you split it. She touches it again. All round her the dead are looking at her mouth, and then, one by one, at you.
+
+[Wait › A while] Sefa gains 300 experience: learned what a living hand does in Ysgard.
+
+[To the Marshal's room] A small square room behind the high seat, with a window looking west down the Field, a chair, a table and a map. The map is of the Field, drawn and redrawn over centuries, with the positions of nine hundred years of battle-lines rubbed out and drawn in again until the parchment is furred. In the middle of it somebody has drawn, quite recently, in a careful small hand, a little town. Hild Varley, the Marshal of Morrowhall, is here.
+
+[Tell Hild Varley that only a living hand kills truly here] Hild hears you out with her hands folded on the map, and her face does not move, except that all the colour goes out of it, which in the dead is very little colour. Then she looks at your hands, and at your breath, and you see her think it, all the way to the end, quickly, the way a general thinks. ‘Then it was a breather that killed him,’ she says. ‘And the Testing will prove nothing has come back, because nothing has. Even fights, and at the Hour they all get up, and the next morning Morrow and Even are on the Field again by the third horn.’ She looks at the little town drawn on the map. ‘Unless one of them does not get up.’ She does not say anything else. She does not need to.
+
+[Ask Hild Varley what she is thinking] ‘I am thinking,’ says Hild, ‘that on the Testing day Even will come down onto the Field by the ford and fight itself, a few hundred of them, in a great press, all morning. And that anyone could walk in among them. And that one man of Even, struck down in that press by a living hand, would not get up at the Hour, and every soul on this Field would see it.’ She looks straight at you. ‘And then the fear would hold, and the peace with it, for another nine hundred years. One man. One. There are thousands on the Field who would give one for this.’ She waits. ‘I am asking you, breather. Torold would be best. Torold, who will not let it be.’
+
+! asked first: A promise to kill, made to the Marshal of Morrow.
+
+[Say you will do it] Hild nods once, as if you had agreed to carry a message. ‘By the ford,’ she says. ‘On the Testing morning. Nobody will know but you and I.’ Then she turns to the window, and stays turned until you go. Hild Varley stands at the window with her back to the room, and does not turn round. She knows who it is by the breath.
+
+[To Morrowhall] Inside Morrowhall a fire runs the length of the hall in a trench, warm as the Oven, and over the benches, up into the smoke, hang the Tally-boards: planks, thousands of them, every one cut with notches, one notch for every man of Even killed by a man of Morrow, every day for nine hundred years, with the killers’ names burned in at the ends. Mab Treloar’s lip is scabbed where you split it, and she keeps touching it with her tongue, the way you touch a tooth that has gone.
+
+[Rest six hours] You eat, bind your hurts and sleep for six hours. The hall is eating. Down the length of the fire-trench the great ox Brindle turns on a spit, and the benches roar, and somebody is standing on a table telling a boast that everybody knows the end of and shouts with him.
+
+[… waited 17 times …]
+
+[Wait › An hour] Mab Treloar’s lip is scabbed where you split it, and she keeps touching it with her tongue, the way you touch a tooth that has gone. An hour passes. It is a long time since you slept. You are weary, and will fight the worse for it until you sleep.
+
+[Wait › An hour] The hall is eating. Down the length of the fire-trench the great ox Brindle turns on a spit, and the benches roar, and somebody is standing on a table telling a boast that everybody knows the end of and shouts with him. An hour passes.
+
+[… waited 22 times …]
+
+[Wait › An hour] Mab Treloar’s lip is scabbed where you split it, and she keeps touching it with her tongue, the way you touch a tooth that has gone. An hour passes.
+
+[Wait › An hour] The hall is eating. Down the length of the fire-trench the great ox Brindle turns on a spit, and the benches roar, and somebody is standing on a table telling a boast that everybody knows the end of and shouts with him. An hour passes.
+
+[… waited 14 times …]
+
+[Out to Morrowhall's yard] The yard of Morrowhall: trodden snow on the brow of the eastern height, the whole Field spread out below to the west, and Halt’s smoke in the middle of it.
+
+[To the foot of the Morrow height] You set out from Morrowhall’s yard early, with your shadow long in front of you on the road. The foot of the Morrow height, where the eastern host came down every morning: the snow trodden into a broad road going up, and at the top, black against the dawn side of the sky, Morrowhall.
+
+[To the Clear] Here the Field is clear ice, and you look down into it as into deep still water at nine hundred years of dropped arms, layer under layer, with bronze at the bottom. There is no bottom you can see: only things, hanging. Near the top, crossbow-bolts and pikes and a helmet with a plume frozen upright. Lower, mail, long-hafted axes, a horse’s skull in a chanfron. Lower still, bronze: round shields, leaf-shaped blades, gone green. And lower than that, so deep they are only shadows in the green, shapes nobody could name. It is like looking down through history. Nobody is under the ice: only what they dropped. Everyone who dropped it got up.
+
+[To the ford of the Lathe] The ford of the Lathe, where for nine hundred years the Daily began, both hosts racing for it by the third horn: a frozen river crossing the Field between low banks, its ice grey and scarred and gouged. The banks are trodden into terraces. The banks have been cleared overnight, scraped down to the ice: long sledge-tracks go away south toward the Scrapes.
+
+[… waited 3 times …]
+
+[Wait › A while] The fourth morning. The sky over the Field is the colour it always is, and the sun is where it always is, low in the white, and the whole of Halt is awake before it and standing in the lanes looking west, at Evenhall, to see whether the doors will open. Time passes. From the west comes a sound nobody on the Field has heard in forty-four days: Evenhall’s horns, all of them, the long falling call that means the hall is coming down. Then, from the ford, the noise of it: iron, and roaring, and under the roaring a sort of happiness. All over Halt people have stopped what they are doing. In the banner lanes a man has his hands over his ears. Grimbold Ure stands at the mouth of the Oven with dough on his arms and does not go back in. Down the stone stair from the western height comes Evenhall, all of it, in mail Gorm mended for nobody, and spreads across the ice of the ford, and at a horn it turns on itself and begins.
+
+[Wait › A while] The ford is a single heaving press of Even, hundreds of them, fighting each other, mail and blades and roaring, the old professional slaughter of nine hundred years; and those nearest the bank see your breath and turn toward you with their swords up, and grin, because it is the first new thing they have seen in forty days. If you stay, they will have you; and you will not get up. The men of Even on the ford will wait 7 minutes more, no longer.
+
+! asked first: A man ended who would have got up every evening until the stars go out.
+
+[Go in among the press and strike down one man of Even, as only a living hand can · likely · one try] You go in at the edge of the press, low, in the roar, where nobody is looking at anybody but the man in front of them, and a man of Even with his back to you lifts his sword over his head, laughing, and you strike, once, the way whoever killed Halvard struck, and he goes down onto the ice in the stamping feet, and nobody notices. Nobody notices. You are out on the bank again in a moment, with your breath going up white, and your hands are shaking. Sefa makes the stealth check (d20 17 + dexterity 4 + stealth 2 = 23 against 13).
+
+[To Trophy Row] Here are the dead of Halt, warriors of every century, in their shirtsleeves in the snow; and Old Saltash, who swaps on Trophy Row. Trophy Row, where Halt’s two lanes cross: dead men and women from every century squatting by blankets laid out on the snow, swapping what they carried. Nothing can be bought, because nothing they have is worth anything; so everything is swapped: a helm for a song, a ring for a story, a dagger for a go on somebody’s chair. The Oven’s mouth glows on one side of the crossing; on the other, the Truce lies on its side, a siege-tower with a door cut in its floor.
+
+[Into the Oven] Inside the war-mantlet it is warm, and you could weep for it: an oven of siege-stones and broken bell-bronze, a long board of loaves flat and grey and hard as tiles, and a mountain of a man in an apron looking at them. A sack of Larum flour sags against the wall. The man stands over the board with his great arms folded, looking at the loaves the way a man looks at a field after hail. Grimbold Ure, a berserker of Morrowhall, who bakes, is here.
+
+[… waited 11 times …]
+
+[Wait › A while] Time passes. At the Hour the light goes blue over the ford, and the fallen of Even get up off the ice, all over the ford, feeling their throats; all but one. He lies on his back among the broken mail with his eyes open, and does not get up, and they stand round him in a ring, hundreds of them, the way they stood round Halvard, and the roaring stops as if a door had been shut on it. Nobody touches him. After a long time somebody says, very low, ‘It’s true, then. It’s come back.’ On the eastern height a woman at a window turns away from it. And on the bank, with your breath going up white in the blue light, you stand among them, and nobody looks at you at all.
+
+[… waited 6 times …]
+
+[Wait › An hour] Ned Whitlock is at the long board in an apron that goes round him twice, up to the elbows in dough, being told by Grimbold that he is doing it wrong, and doing it wrong anyway, with his tongue between his teeth. An hour passes. Sefa gains 150 experience: found Ned Whitlock a place at the Oven.
+
+[… waited 5 times …]
+
+[Wait › An hour] First light on the Field. Everyone on it, the living and the dead, is listening for the same thing.
+
+[Wait › An hour] The third horn does not sound. Nor the first. The sun stands low in the white where it always stands, and the Field lies under it with nobody on it but a few Runners with a sledge, and in Halt the smoke goes up from the Oven, and somebody is laughing in the banner lanes. They saw a man of Even lie on the ford at the Hour and not get up, and they know now that death has come back to Ysgard, and the horns will never sound again. Halt will grow into a city. They will make bread and songs and marriages in it, and teach their children, if the dead ever have children, that the Field is death. It is a good peace, and it will last. You are the only person in either world who knows what it is made of. When you go down through the White your breath goes up in front of you, and you watch it, and do not look back. Somewhere on the eastern height Hild Varley stands at her window with her hands behind her back, and does not turn round.
+
+-- watch 714, at larum__oven

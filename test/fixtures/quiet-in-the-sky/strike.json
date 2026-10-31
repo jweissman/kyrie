@@ -1,0 +1,7 @@
+{
+  "larum": ["^To Larum street", "Into the Hark", "Ask Bet Garside about the chapel bell", "Ask Bet Garside for a twist of tobacco", "Ask Master Ambler about the trade", "Out to Larum street", "Into the guide's house", "Pay Jory Whitlock six coin"],
+  "truce": ["To the southern Field", "To Trophy Row", "Ask the dead of Halt what they do", "Give a twist of Larum leaf", "Into the Truce", "Ask Wystan Hollins why", "Tell Wystan Hollins about Larum's bell", "Ask Wystan Hollins whether he ever made", "Tell Wystan Hollins about the crossbowwoman's spoon", "Ask Wystan Hollins whether that is enough"],
+  "scrapes": ["Out to Trophy Row", "To the southern Field", "To the mouth of the Scrapes", "Give a twist of Larum leaf", "Ask Cuddy Wardle how she died", "To the warren", "Ask the Runners what they do", "To the mouth of the Scrapes", "=18:30", "Ask Cuddy Wardle who will clear", "Put it to Cuddy Wardle", "To the warren", "Rest six hours"],
+  "song": ["=day 2 08:00", "To the mouth of the Scrapes", "To the southern Field", "To Trophy Row", "To the ford of the Lathe", "Pick over the banks", "To the Clear", "?Cut down through the Clear", "To the ford of the Lathe", "To Trophy Row", "Into the Truce", "=17:50", "=18:10"],
+  "end": ["Out to Trophy Row", "Into the Oven", "Ask Grimbold Ure for something", "Rest six hours", "=day 6 07:30"]
+}

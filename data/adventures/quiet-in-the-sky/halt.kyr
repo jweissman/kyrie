@@ -1,0 +1,45 @@
+Module larum "The Quiet in the Sky" {
+  // ── Halt ──────────────────────────────────────────────────────────────────────────────────────────────────────────
+  // A town forty days old in the middle of the Field, where Halvard Eld fell: walls of shields stuck rim-down in the
+  // snow, tents of the banners of a hundred dead wars, an alehouse in a siege-tower on its side, a bakehouse in a
+  // war-mantlet, and in the middle the ring of spears.
+  Query haltStands() means not outcomeDaily(field_country).
+  Observe cross_first at halt_cross when not visitedBefore(halt_cross) and haltStands() "Between walls of shields stuck rim-down in the snow, hundreds of the dead, in every harness there has ever been, are standing about in the lanes in their shirtsleeves in the cold, talking. The shields are painted with every device there is: suns, wolves, hands, towers, a woman's face, a fish. Behind them, tents of banners on spear-poles, faded, frozen stiff, of wars nobody remembers. And people. Dead people, hundreds, in every harness there has ever been: mail and leather and plate and quilted linen and bronze, standing about in the lanes in the cold in their shirtsleeves, talking. Talking. Somebody is laughing. Somebody is carrying a chair. Nobody has a weapon in their hand, and they keep putting their hands where a hilt would be, and taking them away again.".
+  Observe cross_scene at halt_cross when visitedBefore(halt_cross) and haltStands() "Trophy Row, where Halt's two lanes cross: dead men and women from every century squatting by blankets laid out on the snow, swapping what they carried. Nothing can be bought, because nothing they have is worth anything; so everything is swapped: a helm for a song, a ring for a story, a dagger for a go on somebody's chair. The Oven's mouth glows on one side of the crossing; on the other, the Truce lies on its side, a siege-tower with a door cut in its floor.".
+  Observe cross_trampled at halt_cross when outcomeDaily(field_country) "Trophy Row is churned snow, and shields lying flat, and banners trodden into the ice. The Oven's mantlet is on its side with the oven cold in it. The Truce has been dragged off somewhere for timber. Nobody is here.".
+  Observe cross_daily_sound at halt_cross as sound when outcomeDaily(field_country) and hour(clock) >= 7 and hour(clock) < 18 "The Daily goes on all round: iron on iron, and shouting, and the long noise of a great many people doing the only thing they know.".
+  Observe lanes_scene at banner_lanes when haltStands() "The banner lanes: tents of banners on spear-poles in crooked rows, a hundred dead wars' colours faded to the same tired pink and blue. Through a gap you see a dead woman sitting on a camp-stool in a tent-mouth, sewing two banners together, frowning, as if nobody had ever shown her how. Somebody has made a chair out of shields and is sitting in it with enormous pride.".
+  Observe lanes_trampled at banner_lanes when outcomeDaily(field_country) "The banner lanes, trampled flat, a field of rags in the snow.".
+
+  Person halt_folk "the dead of Halt" at halt_cross {
+    Role "warriors of every century, in their shirtsleeves in the snow". Ancestry human. Numbers 6. Peaceable.
+    Greets "A dozen dead faces turn to you, and to the white of your breath, and the talk along the Row stops. A woman in bronze scale with a hole in her throat that has long since closed says, carefully, 'Breather.' Then a man in a quilted jack spits, and somebody laughs, and the talk starts again, a little louder than before.".
+  }
+  Topic folk_what with halt_folk "Ask the dead of Halt what they do all day" when haltStands() once {
+    Says "They think about it. 'Talk,' says one. 'Swap.' 'Sit.' 'Sleep, I've slept,' says a man in a mailed hood, with wonder, 'I'd forgot sleep.' A woman with a crossbowman's shoulders says, 'I made a spoon.' She shows you. It is a bad spoon, cut out of a shield-board with a dagger. 'It's still there in the morning,' she says. 'Everything we make is. Nine hundred years and I never made anything.' She puts it away inside her jack, next to her skin, as if it might get cold.".
+    On discuss { Assert knows(actor, makings_last). }
+  }
+  Discovery makings_last "On the Field what is done to a body is mended at dusk, but what is made is not: a spoon, a chair, a broken sword. The dead of Halt have started making things, badly, because the things stay.".
+  Topic folk_halvard with halt_folk "Ask the dead of Halt about the man in the ring" when haltStands() once {
+    Says "Voices drop. 'Halvard Eld,' says the man in the mailed hood. 'Even's champion. Fell in the Daily forty-one days back, up by the ford, and at the Hour he didn't get up. Everyone else did. He just lay there.' 'With his eyes open,' says the crossbowwoman. 'Hild Varley of Morrow was nearest, and she put the horn to her mouth and blew a call nobody'd ever heard, and everybody stopped.' 'The Halt,' says somebody. 'It was in the horns all along. Nobody'd ever blown it.' They look at each other. 'Death's come back,' says the man in the hood, very low. 'That's what they say. It's come back to Ysgard, for all of us.'".
+    On discuss { Assert knows(actor, halvard_fell). }
+  }
+  Discovery halvard_fell "Forty-one days ago Halvard Eld, Evenhall's champion, fell in the Daily near the ford and did not get up at the Hour when everyone else did. Hild Varley of Morrow blew the Halt, a horn-call nobody had ever sounded, and the Daily stopped. Halt says death has come back to Ysgard.".
+
+  // Trophy Row's swapper takes Larum tobacco, which is the only thing up here worth anything.
+  Person saltash "Old Saltash" at halt_cross {
+    Role "who swaps on Trophy Row". Ancestry dwarf. Peaceable. Pronouns he. Manner jovial.
+    Likeness "trader".
+    Wants tobacco_kind.
+    Greets "A dwarf in a coat of rings so old they have gone black sits behind a blanket covered in things: buckles, a horn, a helm with a swan on it, a crossbow with no string. 'Swap?' he says. 'Not coin, coin's for the living. Have you any Larum leaf? A twist of leaf and you can have the horn, and I'll throw in what it's seen.'".
+    Greets again "Old Saltash pats his blanket. 'Leaf?' he says hopefully.".
+  }
+  Event saltash_swaps near saltash when keeps(saltash, ?t) and itemKind(?t, tobacco_kind) "Old Saltash puts the twist to his nose with his eyes shut and breathes it in, the way a man smells a woman's hair. Then he pushes the horn across the blanket at you. 'Blown at the Rout of Anvers, two hundred year back, to call the Morrow foot off the bridge, and they never came, and the man who blew it went on blowing till they killed him. He told me so. He's in Even now, he can't stand the sound of it.'" then { Give horn_found to party. }
+  Item horn_found "a dented war-horn" is horn_find at limbo.
+  Topic bet_tobacco with bet "Ask Bet Garside for a twist of tobacco" when true once {
+    Says "'Leaf? For the Field?' Bet reaches behind the bar without looking. 'The Runners'll trade a helm for a twist. Here. Two for a penny, and if you're giving it to a dead man, tell him it's from Larum.'".
+    On discuss { Give tobacco_one to actor. Give tobacco_two to actor. Decrease quantity(actor, gold) by 1 or to nothing. }
+  }
+  Item tobacco_one "a twist of Larum leaf" is tobacco_kind at limbo.
+  Item tobacco_two "a twist of Larum leaf" is tobacco_kind at limbo.
+}

@@ -1,0 +1,29 @@
+Module larum "The Quiet in the Sky" {
+  // ── What a company grows by here ──────────────────────────────────────────────────────────────────────────────────
+  // Experience for what is made, carried, learned and decided; not for what is killed. Killing is cheap up here.
+  Milestone m_white "found the cairns through the White" worth 100 when knows(party, white_known).
+  Milestone m_up "stood on the Field alive" worth 100 when cameUp(party).
+  Milestone m_bread "carried the Mother up through the White, and made Grimbold's bread rise" worth 300 when breadRisen(grimbold).
+  Milestone m_ford "brought Mab Treloar and Ansel Haverlock to the ford with nothing in their hands" worth 250 when paired(mab).
+  Milestone m_wedding "saw the first marriage in Ysgard" worth 250 when wedded(mab).
+  Milestone m_song "gave Wystan Hollins a peace to sing" worth 300 when songMade(wystan).
+  Milestone m_runners "won the Runners a bench" worth 250 when runnersSeated(cuddy).
+  Milestone m_strike "showed the Runners they could say no" worth 200 when runnersStrike(cuddy).
+  Milestone m_sitters "found the Sitters under the Old Ice" worth 150 when knows(party, sitters_known) and visitedBefore(sitters_cave).
+  Milestone m_tabula "beat Aulus at Tabula" worth 200 when tabulaWon(party).
+  Milestone m_sitters_down "brought the Sitters down to Halt" worth 250 when sittersDown(aulus).
+  Milestone m_law "learned what a living hand does in Ysgard" worth 300 when knows(party, living_kills).
+  Milestone m_wound "read the wound that killed Halvard Eld" worth 150 when knows(party, wound_read).
+  Milestone m_edith "found Edith Marl" worth 200 when knows(party, edith_named).
+  Milestone m_edith_home "took Edith Marl home down the Pass" worth 250 when edithHome(edith).
+  Milestone m_jory "told Jory Whitlock" worth 300 when joryTold(jory).
+  Milestone m_jory_met "brought Jory Whitlock up to his son" worth 200 when joryMet(jory).
+  Milestone m_ned_home "found Ned Whitlock a place at the Oven" worth 150 when nedHome(ned).
+  Milestone m_grave "gave Halvard Eld a grave" worth 400 when toroldMourned(torold).
+  Milestone m_cairn "read the name on the highest Tooth" worth 150 when knows(party, halvard_cut).
+  Milestone m_truth "told the Field the truth" worth 300 when truthSpoken(field_country).
+  Milestone m_hild "gave Hild Varley a reason to be brave" worth 300 when hildResolved(hild).
+  Milestone m_bronze "brought up bronze from the bottom of the Clear" worth 150 when knows(party, cassian_known) or holding(party, bronze_find).
+  Milestone m_plough "set Gorm Hallett making a plough" worth 150 when ploughMade(gorm).
+  Milestone m_halt "saw Halt chosen" worth 600 when outcomeHalt(field_country).
+}

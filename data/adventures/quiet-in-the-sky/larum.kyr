@@ -1,0 +1,133 @@
+Module larum "The Quiet in the Sky" {
+  // ── The valley road and the hamlet ────────────────────────────────────────────────────────────────────────────────
+  Query skyLoud() means outcomeDaily(field_country) or outcomeHalf(field_country).
+  Observe march_scene at march_road when not visitedBefore(march_road) "At the head of a long bare valley, a hamlet of turf-roofed houses, and above it a high pass full of a white cloud that does not move. It is very quiet. The road comes up beside a beck going white over stones and stops being a road at the first wall, as if it had set the hamlet down there and gone back. Above the roofs two shoulders of black rock stand up into the cloud, and between them a snowfield goes up into it and does not come out. Sheep. A chapel tower. Smoke going straight up.".
+  Observe march_again at march_road when visitedBefore(march_road) "The valley road below Larum, the beck beside it, the turf roofs ahead, and above them the Pass going up into its standing cloud.".
+  Observe street_scene at larum_street when true "Larum's one street, under the Pass: an inn with a hand cupped to an ear on its sign, a bakehouse breathing warmth out of its door, a squat chapel, and at the top a house with a rope and a long pole hung by the door, which is the guide's. The houses are stone, turf-roofed, with their backs to the weather. Above everything, the Pass goes up into its cloud.".
+  Observe street_quiet at larum_street as ambience when not skyLoud() and not dark() "Everyone in Larum, sooner or later, stops in the street and looks up at the Pass and listens. There is nothing to hear. People stand like that for a while with their heads on one side, and then go on.".
+  Observe street_loud at larum_street as ambience when skyLoud() and not dark() "Down off the Pass, faint as bells three valleys off, comes the clangour: iron on iron, thousands of it, like a smithy the size of the sky. Nobody in the street looks up. A woman beating a rug on a wall is beating it in time.".
+  Observe street_pans at larum_street as ambience when dark() and not skyLoud() "From an upper window of the Hark comes a slow steady clanging, two pans struck together and struck together again. Bet Garside, who has not slept properly in forty nights, is trying to.".
+  Observe street_sleep at larum_street as ambience when dark() and skyLoud() "Larum is asleep. Down off the Pass in the dark comes the far iron noise of the Field, and the hamlet sleeps to it like a child to rain on a roof.".
+
+  Person larum_folk "the folk of Larum" at larum_street {
+    Role "shepherds and their wives, standing in the street". Ancestry human. Numbers 3. Peaceable.
+    Greets "A shepherd with a crook and a face like a walnut nods to you. 'You'll have come about the quiet,' he says, as if it were a sick cow. 'Everyone does, now.'".
+  }
+  Topic folk_quiet with larum_folk "Ask the folk of Larum about the quiet" when not skyLoud() once {
+    Says "'Nine hundred year,' says the shepherd, 'that noise has come down off the Pass, on still days. My granddad said it was the dead fighting in the snow, and his granddad said it, and it's true, Jory Whitlock's been up and seen them. You get so you don't hear it. Then forty days ago it stopped.' He looks up at the cloud. 'The ewes won't settle. Bet at the Hark bangs pans all night. The parson says it's a judgement. I don't know what on.'".
+    On discuss { Assert knows(actor, quiet_heard). }
+  }
+  Discovery quiet_heard "For nine hundred years Larum heard the warrior dead fighting in the snow over the Pass, on still days, like a far smithy; forty days ago the noise stopped, and has not started since. Jory Whitlock, the guide, has been up and seen them.".
+
+  // ── The Hark ──────────────────────────────────────────────────────────────────────────────────────────────────────
+  Observe hark_scene at hark when true "A low smoky taproom with a peat fire, and over the fire, newest and biggest of a hundred penny ballads pinned to the beams, a woodcut of a man with a sword in each fist and a town burning behind him: THE BALLAD OF HALVARD ELD, CHAMPION OF EVENHALL. The others curl along the beams, armoured men with their names in big letters underneath: BRAND OF THE RED HAND. MAB TRELOAR AND THE SIX FROM EVEN. A shelf of old iron by the door, ticketed for sale. Two pans hang by the stair with their bottoms dented.".
+  Observe loft_scene at hark_loft when true "A loft under the turf with a bed, a stool, a window the size of a book looking at the Pass. On the beam over the bed somebody has cut a word, carefully, with a small knife, and gone over it more than once: WENDMERE.".
+
+  Person bet "Bet Garside" at hark {
+    Role "who keeps the Hark". Ancestry human. Profession innkeeper. Peaceable. Pronouns she. Manner cheerful.
+    Likeness "laundress".
+    Sells rations for 1 coin from 20. Sells halvard_ballad_kind for 1 coin from 6.
+    Greets "A big fair woman with grey under her eyes looks up from the fire. 'Come in and shut that, the cold's not paying.' She looks at you properly. 'You're not a collector. You've not got the hands. You've come about the quiet, or you've come to go up.' She yawns enormously and is not sorry. 'Either way, you'll want feeding first.'".
+    Greets again "Bet Garside looks up from the fire with her chin on her fist. 'Back down,' she says. 'Sit by the fire. You've got that blue look.'".
+  }
+  Topic bet_quiet with bet "Ask Bet Garside why she cannot sleep" when not skyLoud() once {
+    Says "'Forty years I slept to it,' says Bet. 'Came up here a bride and lay awake the first month for the noise, and then never heard it again, the way you don't hear your own heart. And now it's stopped and I can hear everything. The beck. The sheep. The parson snoring two doors down. Myself.' She picks up a pan from the hearth and looks at it. 'I bang these. It doesn't help. It's not the noise I miss, it's that it was always going on, up there, and now I lie and wonder what they're doing instead.'".
+    On discuss { Assert knows(actor, quiet_heard). Increase betTrust(bet) by 1. }
+  }
+  Measure betTrust(group).
+  Topic bet_ballads with bet "Ask Bet Garside about the ballads on the beams" when true once {
+    Says "'Larum's trade,' says Bet, and is proud of it. 'The pickers bring the news down from the Field, who's champion, who killed who how many times, and old Habakkuk at the press in the back makes it rhyme, and the chapmen carry it all over three countries at a penny a sheet. That's Brand, he was champion when I was a girl. That's Mab Treloar of Morrow, she's a favourite.' She jerks her chin at the fire. 'That's Halvard Eld. Twelve years dead and champion of Evenhall in five, the fastest there's ever been. That one's sold more than all the rest together.' She sells you a copy, if you like, for a penny. 'Lovely fighter,' she says. 'Horrible man, alive. It's in the song. They like that, down in the towns.'".
+    On discuss { Assert knows(actor, halvard_heard). }
+  }
+  Discovery halvard_heard "Halvard Eld was champion of Evenhall in Ysgard, the fastest champion there has ever been; Larum's ballad of him has sold more than all the others together.".
+  Topic bet_woman with bet "Ask Bet Garside about the word cut in the loft beam" when visitedBefore(hark_loft) or knows(actor, halvard_heard) and betTrust(bet) >= 1 once {
+    Says "Bet is quiet a moment. 'Two months back,' she says, 'a woman came up the valley on foot, with a fuller's hands, red and cracked, a widow by her coat. Stayed in the loft a week. Bought a ballad of Halvard Eld, first thing, and read it at that table every night, and never sang it.' She rubs her eyes. 'She asked me how a body gets up the Pass without Jory, and I told her: you go up with the Runners' sledges when they come to trade, and dress like a picker. And one morning she'd gone, and left her rent on the bed.' Bet looks at the fire. 'Wendmere's the town in the ballad. The one he burned. I looked it up after.'".
+    On discuss { Assert knows(actor, widow_heard). }
+  }
+  Discovery widow_heard "Two months ago a fuller's widow stayed a week in the Hark's loft, read the ballad of Halvard Eld every night, cut WENDMERE into the beam (the town Halvard burned, in the ballad), asked how to get up the Pass dressed as a picker with the Runners' sledges, and was gone.".
+  Topic bet_jory with bet "Ask Bet Garside about the guide" when true once {
+    Says "'Jory Whitlock,' says Bet. 'Top of the street, the house with the pole. He's the only one takes the living up through the White, and he'll not set foot on the Field himself, never has. Six coin and he'll see you to the Coming-in.' She lowers her voice. 'He's out of sorts. His lad Ned took the mule down to Wendham market four days back and should've been home Thursday. Jory says he'll have stopped for a girl.' She does not look as if she thinks so.".
+    On discuss { Assert knows(actor, ned_overdue). }
+  }
+  Discovery ned_overdue "Jory Whitlock's son Ned took the mule down to Wendham market four days ago and is overdue; Jory says he will have stopped for a girl.".
+  Topic bet_bell with bet "Ask Bet Garside about the chapel bell at dusk" when true once {
+    Says "'The Mending Bell,' says Bet. 'Rung at dusk, when the noise stops for the day. Always has been. Parson says it was the founder's will and nobody's to ask. Since the quiet, he rings it anyway, at dusk, to nothing, and it's the worst sound in Larum.' She shivers. 'Like ringing for someone who isn't coming.'".
+    On discuss { Assert knows(actor, bell_heard). }
+  }
+  Discovery bell_heard "Larum chapel rings the Mending Bell at dusk, when the noise from the Pass stops for the day; nobody remembers why. Since the quiet the parson rings it anyway.".
+
+  // The ballad of Halvard Eld.
+  Item ballad "the Ballad of Halvard Eld" is halvard_ballad_kind at limbo.
+  Action read_ballad(actor: group, site: place) "Read the Ballad of Halvard Eld" {
+    Requires able(actor) and company(actor) and at(actor, site) and holding(actor, halvard_ballad_kind) and not knows(actor, ballad_read).
+    Time 1.
+    On success { Assert knows(actor, ballad_read). Assert knows(actor, halvard_heard). }
+    Result "You read it through. It jogs along cheerfully: Wendmere of the fullers put to the torch, man, wife and child, and Halvard laughing, and the fullers' vats boiling over red. Then Coldharbour, nine men round him, and the snow, and glory. It is a good tune. It is a very bad thing to have a good tune.".
+  }
+  Discovery ballad_read "In the ballad, Halvard Eld in life was captain of the Free Company of the Hook, who burned Wendmere of the fullers, man, wife and child, and laughed; he died at the siege of Coldharbour twelve years ago and went to glory in Evenhall.".
+
+  // ── Ambler, who buys the Field's iron ─────────────────────────────────────────────────────────────────────────────
+  Person ambler "Master Ambler" at hark {
+    Role "a collector of heaven-iron, from the lowlands". Ancestry human. Peaceable. Pronouns he. Manner jovial.
+    Likeness "collector".
+    Buys crossbow_find for 6 coin. Buys mail_find for 8 coin. Buys horn_find for 10 coin. Buys banner_find for 5 coin. Buys bronze_find for 30 coin.
+    Greets "A round pink man in a good coat with a lens on a ribbon round his neck is turning a rusted helm over in his hands by the fire. 'Heaven-iron,' he says, without looking up. 'From the Field. Every dent in this was put there by a man who got up afterwards. Do you know what a duke pays for that?' He looks up. 'Have you been up? Are you going? Bring me anything. I buy anything.'".
+    Greets again "Master Ambler puts his lens in his eye and looks hopefully at your pack.".
+  }
+  Topic ambler_trade with ambler "Ask Master Ambler about the trade in heaven-iron" when true once {
+    Says "'The Runners pick it,' says Ambler, 'the ones up there who died running away; they clear the Field every night and bring the broken down to the Coming-in, and trade it to Larum for needles and salt and tobacco, and Larum sells it to me.' He polishes the helm on his sleeve. 'Nine hundred years of it. A crossbow of the last century, six coin. Mail, eight. A war-horn, ten, if it still sounds. But what I want,' and his voice changes, 'is bronze. Under the Field there is clear ice, the pickers say, and you can look down through it to the bottom of history, and at the bottom there is bronze. Nobody has ever brought me a piece. I would give thirty coin.'".
+    On discuss { Assert knows(actor, clear_heard). }
+  }
+  Discovery clear_heard "Under the Field in Ysgard there is clear ice, the Clear, through which you can look down at nine centuries of broken arms in layers; at the bottom, the pickers say, there is bronze, and Master Ambler would give thirty coin for a piece.".
+
+  // ── Nance Pellett's bakehouse ─────────────────────────────────────────────────────────────────────────────────────
+  Observe bakehouse_scene at bakehouse when true "A low hot room that smells of bread, and on a shelf above the glowing oven, wrapped in a shawl like an infant, a brown crock with a plate on top. Loaves on boards. Woodsmoke.".
+  Person nance "Nance Pellett" at bakehouse {
+    Role "Larum's baker". Ancestry human. Peaceable. Pronouns she. Manner cheerful.
+    Likeness "kitchenmaid".
+    Sells rations for 1 coin from 30.
+    Greets "A small woman with flour to the elbows and a face red from the oven looks round. 'Shut the door, you'll chill the Mother.' She nods at the crock on the shelf, wrapped in its shawl. 'Two hundred years she's been going, that one. My great-great-grandmother's. Bread?'".
+    Greets again "Nance Pellett waves a floury hand without turning from the oven.".
+  }
+  Topic nance_mother with nance "Ask Nance Pellett about the crock in the shawl" when true once {
+    Says "'The Mother,' says Nance. 'Sourdough. Flour and water and the air of this kitchen, kept going two hundred years: you feed her every day and take a cup out for the bread and she makes it rise. She's alive, you see. That's what rises a loaf, something alive in it, working.' She touches the shawl. 'Let her get cold and she dies, and then your bread's a brick. In a hard winter my gran used to sleep with her in the bed.'".
+    On discuss { Assert knows(actor, mother_alive). }
+  }
+  Discovery mother_alive "Nance Pellett's sourdough Mother is alive: it is what makes bread rise. Let it get cold and it dies, and the bread is a brick; in a hard winter Nance's grandmother slept with it in the bed.".
+  Topic nance_grimbold with nance "Tell Nance Pellett about a baker on the Field whose bread will not rise" when knows(actor, grimbold_flat) and not crockGiven(nance) once {
+    Says "Nance stares at you. Then she laughs, a great surprised bark, and puts her hands on her hips and leaves two white prints. 'Bread,' she says. 'Up there. The dead making bread.' She stops laughing. 'Of course it won't rise. Nothing alive lasts five minutes in that cold, Jory says. His yeast's dead before it's in the bowl.' She looks up at the crock for a long time, and then she takes it down, and spoons a great grey dollop of the Mother into a little crock of its own, and ties a cloth over it, and gives it you. 'Inside your shirt,' she says, 'against your skin, the whole way up, like a lamb. You're the only warm thing he's got.' She wipes her hands. 'Tell him: feed her every morning. Tell him she's two hundred years old and he's to be civil to her.'".
+    On discuss { Give mother_crock to actor. Assert crockGiven(nance). Assert knows(actor, mother_alive). }
+  }
+  Relation crockGiven(group).
+  Item mother_crock "a little crock of Nance's Mother" is mother_kind at limbo.
+  // Carried against the skin, it lives through the White; carried in a pack, it dies.
+  Relation nursed(group). Relation motherDied(place).
+  Action nurse_mother(actor: group, site: place) "Put the crock of the Mother inside your shirt, against your skin" {
+    Requires able(actor) and company(actor) and at(actor, site) and holding(actor, mother_kind) and not nursed(actor) and not motherDied(larum_country).
+    Time 2 minutes.
+    On success { Assert nursed(actor). }
+    Result "You put the little crock inside your shirt, against your ribs, and button your coat over it. It is cold for a moment, and then it is not, and every so often, when you are still, you feel it sigh.".
+  }
+  Rule mother_dies when holding(party, mother_kind) and not nursed(party) and coldHere(party) and not motherDied(larum_country) and not breadRisen(grimbold)
+    says "The little crock in your pack has gone cold as a stone. When you lift the cloth the Mother has sunk into a grey skin, and does not sigh any more." { Assert motherDied(larum_country). }
+  Topic nance_again with nance "Ask Nance Pellett for another cup of the Mother" when motherDied(larum_country) and not breadRisen(grimbold) and crockGiven(nance) {
+    Says "Nance looks at the dead crock you bring her, and sighs, and fills it again. 'Against your skin,' she says. 'I did say.'".
+    On discuss { Retract motherDied(larum_country). }
+  }
+
+  // ── Larum chapel and the Mending Bell ─────────────────────────────────────────────────────────────────────────────
+  Observe chapel_scene at larum_chapel when true "A cold whitewashed chapel with a bell-rope hanging down through a hole in the ceiling, and on the door-frame, cut deep and old: I. S. MADE THIS BELL. The stone floor is worn into hollows. Under it, newer, on a board in a parson's hand: THE BELL TO BE RUNG AT DUSK WHEN THE NOISE FROM THE PASS STOPS FOR THE DAY. FOUNDER'S WILL. NO QUESTIONS.".
+  Observe chapel_known at larum_chapel as feature when knows(party, ithel_told) "I. S.: Ithel the Smith. He made the bell for the man he killed on the Field, and for his son, and asked Larum to ring it at the Hour, when the dead get up. Larum did, for three hundred years, without knowing for whom.".
+  Relation rangToday(place).
+  Action ring_bell(actor: group, site: place) "Ring the Mending Bell" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, larum_chapel) and hour(clock) >= 17 and hour(clock) < 20 and not rangToday(larum_chapel).
+    Time 2 minutes.
+    On success { Assert rangToday(larum_chapel). }
+    Result "You haul on the rope and the bell speaks over Larum, three times, a big plain iron note that goes up the Pass and into the cloud. In the street people stop with their heads on one side, the way they do. Nothing answers.".
+  }
+  Rule bell_unrung when hour(clock) == 0 and rangToday(larum_chapel) { Retract rangToday(larum_chapel). }
+  // At the Hour, up at the Coming-in, Larum's bell can be heard, very faint.
+  Rule bell_heard_up at snow_gate when theHour() and at(party, snow_gate) and not heardBellUp(party)
+    says "From somewhere behind you, down in the White, very faint and very far, a bell strikes three times. Cleeve, in his booth, takes his hat off, and puts it on again." { Assert heardBellUp(party). }
+  Relation heardBellUp(group).
+}

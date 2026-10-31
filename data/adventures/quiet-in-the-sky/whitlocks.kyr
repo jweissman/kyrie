@@ -1,0 +1,47 @@
+Module larum "The Quiet in the Sky" {
+  // ── Telling Jory ──────────────────────────────────────────────────────────────────────────────────────────────────
+  // Nobody else will. A carter would, in a week, with the mule. The company can carry it down.
+  Relation joryTold(group). Relation joryGrieving(group). Relation joryGoing(group). Relation joryMet(group). Measure joryToldDay(group).
+  Topic tell_jory with jory "Tell Jory Whitlock that you have seen his son, on the Field" when knows(actor, ned_dead) and not joryTold(jory) once {
+    Grave "There is no taking it back once he has heard it.".
+    Says "Jory listens with the rope in his hands. He does not stop you, or ask anything, all the way to the end. Then he puts the rope down on the table, very neatly, beside the second cup. He sits a long while. 'Noon,' he says at last. 'He never could be on time for anything.' Outside a sheep calls, and another. 'Did he say anything.' It is not quite a question.".
+    On discuss { Assert joryTold(jory). Assert joryGrieving(jory). Set joryToldDay(jory) to day(clock). }
+  }
+  Topic jory_message with jory "Give Jory his son's message" when joryTold(jory) and knows(actor, ned_message) and not joryHeardMessage(jory) once {
+    Says "You tell him: the mule ran. He hit one. He's sorry about the second cup. Jory nods at the first two, as though they were weather. At the third he puts his hand over his mouth. 'His mother,' he says through his fingers. 'She always laid a cup for him when he was late. Out at night, with lasses. So he'd feel bad. He always felt bad.' He takes the hand away. 'The mule came home yesterday. On its own. I didn't let myself think.' He looks up at the Pass through the little window. 'In the morning,' he says, 'I'm going up. Don't come. Not this once.'".
+    On discuss { Assert joryHeardMessage(jory). Assert joryGoing(jory). }
+  }
+  Relation joryHeardMessage(group).
+  // Told without the message, he goes up all the same, a day later, when he can.
+  Rule jory_resolves when joryTold(jory) and not joryGoing(jory) and day(clock) > joryToldDay(jory) and hour(clock) >= 6 { Assert joryGoing(jory). }
+  Observe guide_grief at guide_house as sign when joryGrieving(jory) and at(jory, guide_house) "Jory Whitlock sits at the table with his hands flat on it, beside the second cup, and does not look up.".
+  // The morning after, at seven, he goes up; in Larum the street sees him go. He has never set foot on the Field: for
+  // his son, he goes down to wherever the boy is.
+  Measure joryLeft(group). Relation joryOnPass(group).
+  Rule jory_goes_up when joryGoing(jory) and at(jory, guide_house) and hour(clock) >= 7 and hour(clock) < 9 and not joryMet(jory) and not joryOnPass(jory) and day(clock) > joryToldDay(jory) { Assert at(jory, pass_foot). Assert joryOnPass(jory). Set joryLeft(jory) to watch(clock). Retract joryGrieving(jory). }
+  Rule jory_reaches_top when joryOnPass(jory) and at(jory, pass_foot) and watch(clock) >= joryLeft(jory) + 16 { Assert at(jory, snow_gate). }
+  Rule jory_seen_going at larum_street when joryGoing(jory) and at(party, larum_street) and hour(clock) >= 7 and hour(clock) < 8 and not joryMet(jory) and day(clock) > joryToldDay(jory) and not spoke(jory_went)
+    says "Jory Whitlock goes up the street with a pole and his good coat on, past the Hark, past the chapel, and up the path between the black shoulders, and does not look back. Bet Garside comes out of the Hark and stands in the street with a pan in her hand and watches him until he is in the white." { Assert spoke(jory_went). }
+  Entity jory_went: fact "Jory going up".
+  Relation spoke(fact).
+  Rule jory_to_oven when at(jory, snow_gate) and at(ned, oven) and not joryMet(jory) and watch(clock) >= joryLeft(jory) + 22 { Assert at(jory, oven). }
+  Rule jory_to_lanes when at(jory, snow_gate) and at(ned, banner_lanes) and not joryMet(jory) and watch(clock) >= joryLeft(jory) + 22 { Assert at(jory, banner_lanes). }
+  Rule jory_meets near jory when together(jory, ned) and not joryMet(jory)
+    says "Jory Whitlock stands a few yards off, in his good coat, with the pole in his hand and his breath going up white, and Ned sees him, and gets up, and neither of them moves. The dead nearby stop what they are doing. 'The mule ran, Dad,' says Ned. 'It came home,' says Jory. Ned nods. Then he says, 'I hit one,' and his face breaks, and Jory drops the pole and crosses the snow, and holds his son, who is cold all the way through and does not steam when he breathes, and holds him, and does not say anything at all. After a long while he says, into the boy's hair, 'Your mother's cup.' And Ned says, 'I know. I know.'" { Assert joryMet(jory). }
+  Observe jory_with_ned near jory as sign when joryMet(jory) and together(jory, ned) and hour(clock) < 16 "Jory Whitlock sits with his son, both of them on one bench, not talking much. Now and then Jory puts his hand on the back of the boy's neck, the way you would with a dog, or a child, and leaves it there.".
+  // The living go down before the cold takes them; he goes home at four, and the boy stays.
+  Rule jory_goes_down when joryMet(jory) and hour(clock) >= 16 and not at(jory, guide_house) and not travelsWith(jory, party) { Assert at(jory, guide_house). Retract joryGoing(jory). Retract joryOnPass(jory). }
+  Topic jory_after with jory "Ask Jory Whitlock how he found his son" when joryMet(jory) once {
+    Says "Jory is mending the same rope. 'Cold,' he says. 'He was so cold. And he looked at my breath like it was a fire he couldn't get near.' He pulls a knot tight, and holds it. 'Ithel the Smith went up looking for his son, they say, the man that made the bell. Three hundred year back. And came down and never went up again, and died of it.' He sets the rope down. 'I'll go up. I'll go up every week. He's sixteen. Somebody's got to tell him things.'".
+    On discuss { Assert knows(actor, ithel_rumour). }
+  }
+  Discovery ithel_rumour "Larum has a tale that Ithel the Smith, who made the chapel bell, went up the Pass three hundred years ago looking for his son among the dead, came down, never went up again, and died of it.".
+
+  // ── Where Ned can be at home ──────────────────────────────────────────────────────────────────────────────────────
+  // At the Oven there is warmth, and a baker who likes a boy about the place.
+  Topic ned_to_oven with grimbold "Ask Grimbold whether Ned could stay at the Oven" when following(ned, actor) and not nedHome(ned) once {
+    Says "Grimbold looks down at the boy, a long way down, and Ned looks up. 'Noon,' says Grimbold. 'I heard.' He wipes his hands, which makes them no cleaner. 'I was conscripted at fifteen, out of my father's bakehouse, and died at twenty, and never went home either.' He puts a floury paw on Ned's shoulder, very gently, as if it might come off. 'Can you knead?' 'No.' 'Good. Nobody can, up here. We'll learn together.'".
+    On discuss { Assert nedHome(ned). Retract following(ned, actor). Assert at(ned, oven). }
+  }
+  Observe ned_at_oven at oven as sign when at(ned, oven) and nedHome(ned) "Ned Whitlock is at the long board in an apron that goes round him twice, up to the elbows in dough, being told by Grimbold that he is doing it wrong, and doing it wrong anyway, with his tongue between his teeth.".
+}

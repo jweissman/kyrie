@@ -1,0 +1,81 @@
+Module larum "The Quiet in the Sky" {
+  // ── The Field ─────────────────────────────────────────────────────────────────────────────────────────────────────
+  Observe south_scene at field_south when haltStands() "The southern Field: snow, wind-scoured in long ripples, and out of it, everywhere, things. A sword standing up on its point. A shield-boss like a little iron hill. A gauntlet, palm up, with snow in it. The Field goes away north to Halt's smoke, and east and west to the two heights. To the south the ice of the Field's edge overhangs a long shadow where the Runners live; to the south-west, the black crags of the Teeth.".
+  Observe south_daily at field_south when outcomeDaily(field_country) "The southern Field, and the Daily far off to the north of it, by the ford: a great dark smudge of people on the white, moving, and a noise like surf.".
+  Observe ford_scene at lathe_ford when true "The ford of the Lathe, where for nine hundred years the Daily began, both hosts racing for it by the third horn: a frozen river crossing the Field between low banks, its ice grey and scarred and gouged. The banks are trodden into terraces.".
+  Observe ford_uncleared at lathe_ford as feature when not fordCleared() "On both banks, in the snow, iron: the whole last day's worth of it, broken and frozen in where it fell. Nobody has cleared it.".
+  Query fordCleared() means not runnersStrike(cuddy) and testingNamed(field_country) and day(clock) >= testDay(clock).
+  Observe ford_iron at lathe_ford as feature when fordCleared() "The banks have been cleared overnight, scraped down to the ice: long sledge-tracks go away south toward the Scrapes.".
+  Observe clear_scene at the_clear when true "Here the Field is clear ice, and you look down into it as into deep still water at nine hundred years of dropped arms, layer under layer, with bronze at the bottom. There is no bottom you can see: only things, hanging. Near the top, crossbow-bolts and pikes and a helmet with a plume frozen upright. Lower, mail, long-hafted axes, a horse's skull in a chanfron. Lower still, bronze: round shields, leaf-shaped blades, gone green. And lower than that, so deep they are only shadows in the green, shapes nobody could name. It is like looking down through history. Nobody is under the ice: only what they dropped. Everyone who dropped it got up.".
+  Observe east_slope_scene at east_slope when true "The foot of the Morrow height, where the eastern host came down every morning: the snow trodden into a broad road going up, and at the top, black against the dawn side of the sky, Morrowhall. Along the road at intervals stand spears planted upright with rags of red on them, where somebody marked a line once, and nobody took them up.".
+  Observe west_slope_scene at west_slope when true "The foot of the Even height, where the western host came down: a stair of flat stones laid in the snow by somebody's long patience, going up to Evenhall, grey against the sunset side of the sky. At the foot of the stair a great slab of stone is painted with a list of names in faded red that goes on down out of sight under the snow.".
+
+  // ── Picking ───────────────────────────────────────────────────────────────────────────────────────────────────────
+  // Heaven-iron for Master Ambler: what a day's picking turns up on the battle-line, and, under the Clear, the bronze.
+  Item crossbow_one "a crossbow of the last century" is crossbow_find at limbo.
+  Item mail_one "a shirt of rusted mail" is mail_find at limbo.
+  Item banner_one "a frozen banner" is banner_find at limbo.
+  Item bronze_one "a bronze blade from the bottom of the Clear" is bronze_find at limbo.
+  Relation pickedSouth(group). Relation pickedFord(group). Relation pickedEast(group).
+  Action pick_south(actor: group, site: place) "Pick over the southern Field for heaven-iron" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, field_south) and not pickedSouth(actor) and at(crossbow_one, limbo).
+    Time 3.
+    On success { Assert pickedSouth(actor). Give crossbow_one to actor. }
+    Result "You go along the ripples of snow kicking at things, and most of it is junk, rust and splinters, but under a drift there is a crossbow with a running fox carved on the stock and a row of notches, and you dig it out with numb fingers.".
+  }
+  Action pick_ford(actor: group, site: place) "Pick over the banks of the ford for heaven-iron" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lathe_ford) and not pickedFord(actor) and at(mail_one, limbo).
+    Time 3.
+    On success { Assert pickedFord(actor). Give mail_one to actor. }
+    Result "The banks of the ford are thick with the last day's iron, frozen in. You lever out a shirt of mail rusted into one stiff sheet, and stand holding it, and realise the last man who wore it took it off at the Hour and walked away.".
+  }
+  Action pick_east(actor: group, site: place) "Pick along the marked line under the Morrow height" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, east_slope) and not pickedEast(actor) and at(banner_one, limbo).
+    Time 3.
+    On success { Assert pickedEast(actor). Give banner_one to actor. }
+    Result "By one of the rag-hung spears you find a banner trodden into the snow, and pull it out stiff as a board: a black bird on what was once gold.".
+  }
+  Action cut_clear(actor: group, site: place) "Cut down through the Clear to the bronze" {
+    Description "A long day's work with whatever you have, down through the clear ice to the nearest green.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, the_clear) and at(bronze_one, limbo) and not cutToday(actor).
+    Time 12.
+    Resolve check(actor, digging, dc_hard).
+    On success { Give bronze_one to actor. }
+    On failure { Assert cutToday(actor). }
+    Result "You cut, and cut, and the chips fly blue and the hole goes down and the cold comes up out of it, and the green shape below you grows slowly from a shadow into a thing, until at last, lying on your belly with your arm down the shaft to the shoulder, you close numb fingers on a hilt bound in leather a thousand years old and draw up a sword of bronze, green as a leaf.".
+    Otherwise "You cut until your arms will not lift, and the hole is a yard deep and the green shape at the bottom is as far off as ever. The ice is very old, and very hard, and does not care.".
+  }
+  Relation cutToday(group).
+  Rule cut_resets when hour(clock) == 0 and cutToday(?g) { Retract cutToday(?g). }
+  // What the finds have seen: told by the dead who were there.
+  Topic saltash_crossbow with saltash "Show Old Saltash the crossbow with the running fox" when holding(actor, crossbow_find) once {
+    Says "Saltash takes it and runs his thumb down the notches. 'Fox of Harrowby,' he says. 'Even's crossbows, a hundred year back. That's Wat Fenner's, I'd know it anywhere: forty-one notches and every one of them got up and came after him the next morning.' He hands it back. 'He's in the Truce most nights. Show him. He'll cry.'".
+  }
+
+  // ── The Teeth ─────────────────────────────────────────────────────────────────────────────────────────────────────
+  Observe teeth_path_scene at teeth_path when true "Under the Teeth the snow is deep and soft and there is no iron in it at all: nobody fought here. The crags go up black above you, sharp as their name, and between two of them a scramble of broken rock goes up to a ledge. Wolf-tracks go up it.".
+  Observe ledge_scene at wolf_ledge when true "A ledge under the black crags, littered with bones: old bones, ox and horse and something bigger, gnawed white. From it a last climb goes up to the highest Tooth, where a cairn stands against the sky.".
+  Observe cairn_scene at high_cairn when true "On the highest Tooth a cairn cut all over with names, and past it, impossibly far down, as through glass, the living world. There is nothing else up here but the wind. Past the cairn, past the edge of the Field and the edge of Ysgard, impossibly far down and far off, as if through a thickness of glass, there is a green country with rivers in it, small and clear as a map: Imbar, the living world, with its roads and its smoke. The dead who come up here, Cleeve says, come to look at it. The cairn's stones are cut all over with names, hundreds of them, and some with a word or two after: a town, a woman's name, a child's.".
+  Observe cairn_fresh at high_cairn as feature when not knows(party, halvard_cut) "On a stone near the top, newer than the rest, two letters, H. E., and after them a word cut deep and gone over more than once.".
+  Discovery halvard_cut "On the cairn on the highest Tooth, where the dead come to look down at the living world, Halvard Eld cut his letters, H. E., and after them a word, deep, gone over more than once: WENDMERE.".
+  Action read_cairn(actor: group, site: place) "Read the newest name on the cairn" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, high_cairn) and not knows(actor, halvard_cut).
+    Time 1 minute.
+    On success { Assert knows(actor, halvard_cut). }
+    Result "You brush the rime off with your sleeve. H. E., it says, and after it, cut deep with a knife and gone over again and again until the letters are worn into grooves: WENDMERE.".
+  }
+  Topic torold_cairn with torold "Tell Torold Hame what Halvard cut into the cairn on the highest Tooth" when knows(actor, halvard_cut) and state(halvard, lying) once {
+    Says "Torold's face does not change. 'He went up the Tooth,' he says. 'Every week, on the rest-day after the Hour. I asked him once what for, and he laughed and said for the view.' He is silent a long time. 'Wendmere.' His hands tighten on the pommel. 'He never said it again after the first night. Not once in twelve years. I thought he'd—' He stops. He looks down at the face under the frost as if it belonged to somebody he had never met. 'You'd not think a man could go up a hill every week for twelve years to look at a thing and never say,' he says. 'And I stood beside him at the Hour every night, and never knew.' He breathes out. 'I'd like to bury him,' he says. 'Somewhere he can't see it.'".
+    On discuss { Increase toroldTrust(torold) by 2. Assert toroldReady(torold). }
+  }
+  Relation toroldReady(group).
+  // The wolves of the Teeth: dead wolves, who mend like anything else; they fear flame.
+  Person wolves "the frost wolves" at wolf_ledge {
+    Role "a pack of dead white wolves". Species frost_wolf. Numbers 3. Temperament territorial.
+    Lair wolf_ledge. Fears flame.
+    Warns "Three white wolves come out from among the crags onto the ledge, lean, silent, their breath not steaming, and stand between you and the climb with their heads low. They have been dead a long time, and have nothing to lose. A brand held up would drive them back; so would going back down.".
+    Comes "The wolves come at you all together, low and silent, the way wolves do.".
+    Flinches "The wolves shy from the fire, and slink back in among the crags, and watch you from there with their eyes like pale coins.".
+    Refuge limbo.
+  }
+}

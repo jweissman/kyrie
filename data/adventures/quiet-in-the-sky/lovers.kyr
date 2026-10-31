@@ -1,0 +1,143 @@
+Module larum "The Quiet in the Sky" {
+  // ── Mab Treloar and Ansel Haverlock ─────────────────────────────────────────────────────────────────────────────────
+  // A pikewoman of Morrow, two hundred years dead, and a knight of Even, six hundred: old partners, the halls say, who
+  // always found each other on the Field. They have killed each other something like three thousand times. In the Truce
+  // they cannot be in the same lane. Each believes the other wants the war back, because it was the only way they had of
+  // meeting.
+  Person mab "Mab Treloar" at morrow_yard {
+    Role "pikewoman of Morrowhall". Ancestry human. Calling warrior. Level 6. Peaceable. Pronouns she. Manner jovial.
+    Likeness "heroine".
+    Greets "A broad freckled woman with a pike-butt in her fists and her sleeves rolled up over arms like a smith's looks round from the sparring and sees your breath, and her face splits into a grin. 'A breather!' she says. 'Well, there's something new, and Brindle be praised, because nothing else is. Mab Treloar, Morrow foot, two hundred and eleven years on the Field and bored to my back teeth.' She spins the pike. 'Can you fight? You've the look of somebody who's been taught.'".
+    Greets again "Mab Treloar looks round at you, and the pike stops spinning.".
+    Wants challenge_kind. Wants plain_kind.
+  }
+  Person ansel "Ansel Haverlock" at even_hall {
+    Role "a knight of Evenhall". Ancestry human. Calling warrior. Level 6. Trait knight. Peaceable. Pronouns he. Manner proud.
+    Likeness "squire".
+    Greets "A slender dark man in a surcoat so old its device has worn away rises from a bench as you come near, and bows, exactly as far as courtesy requires toward a stranger of unknown degree. 'Ansel Haverlock,' he says, 'of the household of Evenhall. You are the living guest. You are welcome to this hall.' He does not look at your breath. He is too well brought up.".
+    Greets again "Ansel Haverlock rises and bows, a little less far than the first time, which in him is warmth.".
+  }
+  // Their days: Mab spars in Morrow's yard of a morning and haunts Trophy Row of an afternoon; Ansel keeps Even's hall of
+  // a morning and walks down to the ford of the Lathe in the afternoon, where Morrow and Even always met.
+  Relation paired(group). Relation wedded(group).
+  Rule mab_afternoon when hour(clock) >= 12 and hour(clock) < 18 and at(mab, morrow_yard) and haltStands() and not wedded(mab) and not paired(mab) { Assert at(mab, halt_cross). }
+  Rule mab_to_ford when hour(clock) >= 12 and hour(clock) < 17 and at(mab, morrow_yard) and paired(mab) and not wedded(mab) and not testingUnder() { Assert at(mab, lathe_ford). }
+  Rule mab_evening when hour(clock) >= 18 and (at(mab, halt_cross) or at(mab, lathe_ford)) and not wedded(mab) { Assert at(mab, morrow_hall). }
+  Rule mab_morning when hour(clock) >= 7 and hour(clock) < 12 and at(mab, morrow_hall) and not wedded(mab) { Assert at(mab, morrow_yard). }
+  Rule ansel_afternoon when hour(clock) >= 12 and hour(clock) < 17 and at(ansel, even_hall) and haltStands() and not wedded(mab) and not testingUnder() { Assert at(ansel, lathe_ford). }
+  Rule ansel_evening when hour(clock) >= 17 and at(ansel, lathe_ford) and not wedded(mab) { Assert at(ansel, even_hall). }
+  // Married, they keep a tent in the banner lanes.
+  Rule wedded_home when wedded(mab) and not at(mab, banner_lanes) and not testingUnder() { Assert at(mab, banner_lanes). Assert at(ansel, banner_lanes). }
+  Observe ansel_at_ford at lathe_ford as sign when at(ansel, lathe_ford) and not paired(mab) "On the far bank of the frozen Lathe, where the ford is, a slender man in an old surcoat stands looking across the ice at the empty eastern bank, with his hands clasped behind him, very still, like a heron.".
+
+  Topic mab_daily with mab "Ask Mab Treloar what she misses about the Daily" when beforeTesting() once {
+    Says "Mab leans on the pike. 'Miss it? It was a job,' she says. 'You get up, you eat Brindle, you go down by the third horn, you kill some Even, they kill you, you get up. Two hundred year.' She looks down the Field, toward the ford. 'You get so you know them. The ones you always meet. Like the faces at market.' She spins the pike butt in the snow, a little circle. 'I don't miss it,' she says. 'I miss—' and stops. 'Nothing. Spar with me, breather, I'm going mad.'".
+    On discuss { Increase mabTrust(mab) by 1. Assert knows(actor, mab_misses). }
+  }
+  Measure mabTrust(group).
+  Discovery mab_misses "Mab Treloar does not miss the Daily, she says; she misses the ones you always meet on the Field, like faces at market. Something particular she does not say.".
+  Topic folk_partners with halt_folk "Ask the dead of Halt who Mab Treloar always met on the Field" when knows(actor, mab_misses) once {
+    Says "The crossbowwoman snorts. 'Ansel Haverlock,' she says, and three people round her laugh. 'Old partners, them two. Two hundred year, every day, they'd find each other in the press, if they had to go through fifty of us to do it. Mab and the knight. Larum did a ballad.' 'Three thousand times,' says somebody. 'More,' says somebody else. 'And now they won't stand in the same lane,' says the crossbowwoman. 'Mab goes left at the Row if she sees his colours. He walks down to the ford every afternoon and stands looking at our bank.' She shrugs. 'Pair of fools.'".
+    On discuss { Assert knows(actor, old_partners). }
+  }
+  Discovery old_partners "Mab Treloar of Morrow and Ansel Haverlock of Even are old partners: for two hundred years they found each other in the press every day and killed each other, some three thousand times. Now they will not stand in the same lane; he walks down to the ford every afternoon and looks at Morrow's bank.".
+  Topic mab_ansel with mab "Ask Mab Treloar about Ansel Haverlock" when knows(actor, old_partners) and mabTrust(mab) >= 1 once {
+    Says "Mab's face shuts like a door. 'That Even prig,' she says. Then she looks at the pike in her hands for a while. 'Three thousand one hundred and six,' she says. 'I counted. His and mine together. He's got the better of it by forty, the prig, he's quick.' She is not looking at you. 'He used to bow. Before. Every morning, across the ford, before the horn: a little bow, like that, like we was at a dance. And I'd spit. And then we'd go at it.' She swallows. 'He'll want the war back. Course he will. It's all he had of me. It's all I had of him.'".
+    On discuss { Increase mabTrust(mab) by 1. Assert knows(actor, mab_loves). }
+  }
+  Discovery mab_loves "Mab Treloar counted: three thousand one hundred and six times, his and hers together. Ansel used to bow to her across the ford every morning before the horn. She thinks he wants the war back, because it was all he had of her.".
+  Topic ansel_mab with ansel "Ask Ansel Haverlock about Mab Treloar" when knows(actor, old_partners) once {
+    Says "Ansel goes still. 'Mistress Treloar,' he says, 'is the finest pike in the Morrow foot. I have had the honour of her acquaintance on the Field for two hundred and eleven years.' He looks at his hands. 'I have not had the honour of a word with her in forty days. She avoids my colours.' He straightens. 'Which is her right. In the Truce we are nothing to one another; there is no form for it.' Then, lower, as if it were dragged out of him: 'I have been composing a challenge.'".
+    On discuss { Assert knows(actor, ansel_challenge_heard). }
+  }
+  Discovery ansel_challenge_heard "Ansel Haverlock has been composing a challenge to Mab Treloar.".
+  Topic ansel_challenge with ansel "Ask Ansel Haverlock what kind of challenge" when knows(actor, ansel_challenge_heard) and not challengeGiven(ansel) once {
+    Says "'A formal challenge,' says Ansel, colouring, 'to meet at the ford of the Lathe, at noon, without arms, in the presence of witnesses. In my century, when a knight wished to—' He stops. 'It is the only form I know. I was eighteen when I died. I had been taught the forms for everything except this.' He takes a folded paper from his surcoat, much handled. 'Would you carry it to her? I cannot go into Morrow's lanes. It would be taken as an act of war.' He holds it out, and his hand is not quite steady. 'Without arms,' he says. 'You will tell her, without arms.'".
+    On discuss { Give challenge to actor. Assert challengeGiven(ansel). Assert knows(actor, ansel_means). }
+  }
+  Relation challengeGiven(group).
+  Discovery ansel_means "Ansel Haverlock's challenge to Mab Treloar, to meet at the ford at noon without arms before witnesses, is the only form he knows for what he means: in his century it was how a knight asked.".
+  Item challenge "Ansel Haverlock's challenge" is challenge_kind at limbo.
+  // Ansel can be talked into saying it plainly, first.
+  Action plain_ansel(actor: group, site: place) "Tell Ansel Haverlock to throw the challenge on the fire and write to her plainly" {
+    Speaker ansel.
+    Requires able(actor) and company(actor) and at(actor, site) and at(ansel, site) and challengeGiven(ansel) and not plainWritten(ansel) and not mabInsulted(mab) and holding(actor, challenge_kind) and not anselBalked(ansel).
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert plainWritten(ansel). Spend challenge from actor. Give plain_letter to actor. }
+    On failure { Assert anselBalked(ansel). }
+    Result "Ansel looks at you as if you had suggested he go into battle naked. Then he looks at the challenge in your hand for a long time, and takes it, and holds it over Evenhall's hearth until the corner catches, and lets it go. He sits down at the end of a bench with a scrap of lining and a stub of charcoal, and writes, with his tongue between his teeth like a schoolboy, and crosses out, and writes. When he gives it you he will not meet your eye.".
+    Otherwise "'Plainly,' says Ansel, as though you had said barefoot. 'There is no plainly. There is the form, or there is nothing.' He turns away. 'Carry the challenge, if you will. Or don't.'".
+  }
+  Relation plainWritten(group). Relation anselBalked(group). Relation mabInsulted(group). Relation mabGoes(group). Measure mabGoesDay(group).
+  Item plain_letter "Ansel Haverlock's letter" is plain_kind at limbo.
+  Event mab_takes_challenge near mab when keeps(mab, challenge) and not mabInsulted(mab) and not mabGoes(mab) "Mab sees the folded lining in your hand, and the old upright writing on it, and goes white under her freckles. She takes it and reads it, and reads it again. 'A challenge,' she says. 'Without arms, before witnesses.' She crumples it in her fist. 'So that's it. He wants it back. Can't bear it, can he, forty days without his Morrow pike to stick. Wants to meet at the ford and start it all again.' Her voice cracks. 'Tell him no. Tell him if he wants Mab Treloar he can wait for the third horn like everybody else.' She turns her back." then { Assert mabInsulted(mab). }
+  Event mab_takes_letter near mab when keeps(mab, plain_letter) and not mabGoes(mab) "Mab takes the scrap of lining as if it might go off in her hand. She reads it. Her lips move. She reads it again, and her face does something you have never seen a dead face do, which is go red. 'With nothing in his hands,' she says. 'The prig. The great courtly fool.' She folds it very small and puts it inside her jack against her skin, where the crossbowwoman keeps her spoon. 'Noon,' she says. 'Tomorrow.' And then, ferociously: 'Don't you dare come and watch.'" then { Assert mabGoes(mab). Set mabGoesDay(mab) to day(clock). }
+  Topic mab_explain with mab "Tell Mab Treloar what Ansel's challenge means in his century" when mabInsulted(mab) and knows(actor, ansel_means) and not mabGoes(mab) once {
+    Says "Mab stares at you. 'A what?' You tell her again: the form; eighteen when he died; the only form he knows; how a knight asked. Mab sits down on the snow, hard, with the pike across her knees, and laughs until she has to put her face in her hands, and you cannot tell after a while whether she is still laughing. 'Six hundred year,' she says into her hands. 'Six hundred year dead and he's still eighteen.' She wipes her face with her sleeve. 'Noon, it said. The ford.' She gets up. 'Tomorrow, then. And don't you dare come and watch.'".
+    On discuss { Assert mabGoes(mab). Set mabGoesDay(mab) to day(clock). }
+  }
+  // The meeting at the ford, at noon of the next day.
+  Rule lovers_meet when mabGoes(mab) and day(clock) > mabGoesDay(mab) and hour(clock) >= 12 and not paired(mab) and beforeTesting() { Assert at(mab, lathe_ford). Assert at(ansel, lathe_ford). Assert paired(mab). }
+  Rule lovers_seen at lathe_ford when paired(mab) and at(party, lathe_ford) and not spoke(lovers_told)
+    says "On the ice of the ford, halfway between the banks where for two hundred years the hosts met by the third horn, Mab Treloar and Ansel Haverlock are standing a yard apart with nothing in their hands. Neither of them knows what to do with the hands. Ansel bows, the little bow. Mab does not spit. She says something, and he says something, and then she reaches out, very slowly, the way you would reach for a weapon you were afraid of, and takes hold of his sleeve. On both banks, at a distance, a little crowd of the dead has come to watch, Morrow on the east and Even on the west, and nobody is saying anything at all." { Assert spoke(lovers_told). }
+  Entity lovers_told: fact "the meeting at the ford".
+  Topic mab_paired with mab "Ask Mab Treloar how it went at the ford" when paired(mab) and not wedded(mab) once {
+    Says "Mab looks at the ground. 'We talked,' she says. 'Two hundred year, and we talked. He's got a dog's name for his horse. He's afraid of moths. He was eighteen.' She grins suddenly. 'He says he always let me have the better of the first blow. Lying prig.' Then the grin goes. 'He wants to marry. Properly. Nobody's ever married up here, there's no form, and the halls'll have us for deserters, and who'd stand up for us?' She kicks the snow. 'Morrow and Even don't stand up together. Not for anything.'".
+    On discuss { Assert knows(actor, lovers_wish). }
+  }
+  Discovery lovers_wish "Mab Treloar and Ansel Haverlock want to marry, the first marriage there has ever been on the Field; but there is no form for it, the halls will call it desertion, and nobody from Morrow and Even will stand up together for anything.".
+  // A witness who stands for both halls: Grimbold, who bakes for everyone.
+  Topic grimbold_witness with grimbold "Ask Grimbold Ure whether he would stand witness for Mab Treloar and Ansel Haverlock" when knows(actor, lovers_wish) and not weddingSet(mab) once {
+    Says "Grimbold stops kneading. He looks at you, and down at his great hands in the dough, and his face goes slowly crimson from the beard up. 'Me,' he says. 'A Morrow man. For an Even knight.' He thinks about it with his whole body, like a hill thinking. 'I bake for Even. I baked for Even yesterday. They come to the Oven same as anyone.' He wipes his hands on his apron. 'Tomorrow at the Hour, in the banner lanes. I'll bring bread, if there's bread.' His eyes are wet. 'Nobody's ever asked me to stand for anything but the third horn.'".
+    On discuss { Assert weddingSet(mab). Set weddingDay(mab) to day(clock). }
+  }
+  Relation weddingSet(group). Measure weddingDay(group).
+  Rule wedding_happens when weddingSet(mab) and day(clock) > weddingDay(mab) and hour(clock) >= 18 and not wedded(mab) and haltStands() { Assert wedded(mab). Assert at(mab, banner_lanes). Assert at(ansel, banner_lanes). Assert at(grimbold, banner_lanes). }
+  Rule wedding_seen at banner_lanes when wedded(mab) and at(party, banner_lanes) and theHour() and not spoke(wedding_told)
+    says "At the Hour, when the light goes blue over the Field, they are married in the banner lanes, in front of half of Halt and a fair number of both halls who have come to look disapproving and stayed. Nobody knows how it is done, so they make it up. Grimbold stands between them with flour on his beard and says, 'Well,' and then, 'well,' and then nothing for so long that someone laughs, and then he takes Mab's hand and Ansel's hand and puts one in the other and holds them there in both of his, like a loaf. That is the wedding. Mab is crying. Ansel bows to her, the little bow, and she does not spit." { Assert spoke(wedding_told). }
+  Entity wedding_told: fact "the wedding".
+  Rule wedding_bread at banner_lanes when wedded(mab) and breadRisen(grimbold) and at(party, banner_lanes) and theHour() and not spoke(wedding_bread_told)
+    says "Then Grimbold's loaves go round, risen and brown, the first wedding bread in Ysgard, and four hundred of the dead break it and smell it and do not know what to do with their faces." { Assert spoke(wedding_bread_told). }
+  Entity wedding_bread_told: fact "the wedding bread".
+  Rule wedding_song at banner_lanes when wedded(mab) and songMade(wystan) and at(party, banner_lanes) and theHour() and not spoke(wedding_song_told)
+    says "And Wystan Hollins, drunk and furious, stands on a barrel and sings the new song, the one that is not about killing anybody, and gets halfway through the second verse before his voice goes, and the whole lane finishes it for him." { Assert spoke(wedding_song_told). }
+  Entity wedding_song_told: fact "the wedding song".
+  Topic hild_bless with hild "Ask Hild Varley to let Mab Treloar keep her bench, married to Even" when knows(actor, lovers_wish) and not hildBlessed(hild) and hildTrust(hild) >= 1 once {
+    Says "Hild looks at you over the map. 'Mab Treloar,' she says, 'and the Haverlock boy.' She is quiet. 'There is no rule against it, because nobody ever thought of it.' She picks up the pen. 'She keeps her bench. If Torold takes the boy's from him, he can sit at hers.' She writes something on the edge of the map, small. 'Tell her I said so. Tell her not to make a fuss about it.'".
+    On discuss { Assert hildBlessed(hild). Increase hildTrust(hild) by 1. }
+  }
+  Relation hildBlessed(group).
+
+  // ── Sparring in Morrow's yard ─────────────────────────────────────────────────────────────────────────────────────
+  // Morrow spars all day, out of habit. It asks the breather in. A cut a living hand gives here does not close at the
+  // Hour; Mab carries the first scar in Ysgard, and the company learns what it is by what it has done.
+  Relation mabCut(group). Relation mabScarred(group).
+  Action spar_mab(actor: group, site: place) "Spar with Mab Treloar, with blunted pikes" {
+    Description "Morrow spars all day. Blunted, it hurts and that is all; whatever it does mends at the Hour.".
+    Speaker mab.
+    Requires able(actor) and company(actor) and at(actor, site) and at(mab, site) and at(actor, morrow_yard) and not mabCut(mab) and beforeTesting().
+    Time 3.
+    Resolve check(actor, tumbling, dc_hard).
+    On success { Assert mabCut(mab). Increase mabTrust(mab) by 1. }
+    On failure { Assert mabCut(mab). Assert strikes(pike_butt, actor). Increase mabTrust(mab) by 1. }
+    Result "She is very good, and very fast, and two hundred years bored, and for a while you only stay out of her way. Then she overreaches, laughing, and you get inside the pike and bring your own butt round, and it catches her across the mouth, hard, and she sits down in the snow with her lip split open. The yard cheers. Mab spits blood and grins up at you with red teeth. 'That's one,' she says. 'It'll mend at the Hour. Again?'".
+    Otherwise "She puts you on your back in the snow three times in as many breaths, and the yard laughs, and the fourth time, flailing, the end of your staff catches her across the mouth, more by luck than anything, and splits her lip. She sits back on her heels and spits blood and laughs. 'Got one in,' she says. 'Lucky. It'll mend at the Hour.'".
+  }
+  Hazard pike_butt "a blunted pike-butt in the ribs" means "Deal (1d4) bludgeoning damage to ally.".
+  Rule mab_scar near mab when mabCut(mab) and theHour() and not mabScarred(mab)
+    says "The Hour comes over the Field: the light goes blue all at once, as if a glass had been put over the sun, and for a moment everyone near you stops what they are doing and closes their eyes, out of nine hundred years' habit. Mab Treloar opens hers and puts her fingers to her mouth, and takes them away, and looks at them. There is blood on them. Her lip is still split, exactly as you split it. She touches it again. All round her the dead are looking at her mouth, and then, one by one, at you." teaches living_kills { Assert mabScarred(mab). }
+  // Not there at the Hour, the company finds it out from her.
+  Rule mab_scar_unseen when mabCut(mab) and afterHour() and not mabScarred(mab) and not theHour() { Assert mabScarred(mab). }
+  Topic mab_lip with mab "Ask Mab Treloar about her lip" when mabScarred(mab) and not knows(actor, living_kills) once {
+    Says "Mab touches the split in her lip. It has scabbed, the way a living wound scabs. 'It didn't mend,' she says. 'At the Hour. Everything mends at the Hour. Two hundred years, I've had my head off, and it mended.' She looks at you, not angry, only very puzzled and a little frightened. 'You did that. With a blunt stick.' She swallows. 'What are you, breather?'".
+    On discuss { Assert knows(actor, living_kills). }
+  }
+  Observe mab_lip_seen near mab as sign when mabScarred(mab) "Mab Treloar's lip is scabbed where you split it, and she keeps touching it with her tongue, the way you touch a tooth that has gone.".
+  // She carries it to her Marshal that night.
+  Rule mab_tells_hild when mabScarred(mab) and hour(clock) >= 20 and not hildKnows(hild) { Assert hildKnows(hild). }
+  Topic mab_show with mab "Ask Mab Treloar to show her lip at the ring of spears, to all Halt" when mabScarred(mab) and knows(actor, living_kills) and not truthSpoken(field_country) and beforeTesting() once {
+    Grave "Once Halt knows that a living hand ends what it strikes here, it cannot be made not to know.".
+    Says "Mab is quiet a long while. 'If I show them,' she says, 'they'll know nothing's come back. Not for us. Only for what you lot do.' She touches her lip. 'And then there's nothing stopping the Daily but whether we want it.' She looks down the Field to Halt, and the ford beyond it. 'All right,' she says. 'Let them want it or not, then, knowing. I'm sick of being afraid of a thing that isn't there.' She goes down to the ring of spears in the middle of Halt and stands on a barrel and shows them all her mouth, and tells them how she got it, and who from, and by the time she is done there is nobody in Halt who does not know.".
+    On discuss { Assert truthSpoken(field_country). Assert toroldKnows(torold). Assert hildKnows(hild). }
+  }
+}

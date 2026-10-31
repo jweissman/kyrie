@@ -1,0 +1,45 @@
+Module larum "The Quiet in the Sky" {
+  // ── Halt from day to day ──────────────────────────────────────────────────────────────────────────────────────────
+  // The town is forty days old and grows while the company is elsewhere; it answers what happens in it. Each line is a
+  // sign of Trophy Row or the banner lanes, told while it holds.
+  Query upFor(n: entity) means cameUp(party) and day(clock) - upDay(clock) >= dayCount(n).
+  Measure dayCount(entity).
+  Entity second_day: fact "the second day up". Entity third_day: fact "the third day up".
+  Initially Set dayCount(second_day) to 1. Initially Set dayCount(third_day) to 2.
+  Observe halt_grows_one at banner_lanes as sign when upFor(second_day) and not upFor(third_day) and haltStands() and beforeTesting() "There is a new lane since yesterday, at the north end, eleven tents long, and a dead man is going along it with a bucket of meltwater and a brush, painting a name on a shield and planting it at the end, as a street-sign. The name is WEDNESDAY. Nobody knows what it means; he says he remembered it.".
+  Observe halt_grows_two at banner_lanes as sign when upFor(third_day) and haltStands() and beforeTesting() "The lanes have spread out past the shield-wall on the east side overnight, and somebody has started a second wall outside the first, as if the town meant to go on. On a pole at the crossing a list of names has been nailed up, in many hands, under a heading scratched with a knife: WHO HAS MADE WHAT. A spoon. A chair. A doll. A song, half. Bread, in another hand, with a question mark.".
+  Observe halt_named at halt_cross as ambience when testingNamed(field_country) and beforeTesting() and not testingDay() and haltStands() and not truthSpoken(field_country) "Since Torold named the Testing, people on Trophy Row keep looking west at Evenhall in the middle of a sentence, and losing the end of it.".
+  Observe halt_queue at halt_cross as sign when breadRisen(grimbold) and haltStands() and hour(clock) < 12 "A queue goes back from the Oven's mouth along the shield-wall, Morrow and Even and Runner in no order, a hundred long, waiting for bread, and nobody in it is pushing.".
+  Observe halt_ribbons at banner_lanes as sign when wedded(mab) and haltStands() "Somebody has tied strips of red and white banner across the lane outside Mab Treloar and Ansel Haverlock's tent, Morrow's red and Even's white, plaited together. Half the lane has done the same since, without anyone saying why.".
+  Observe halt_humming at halt_cross as ambience when songMade(wystan) and haltStands() "Somewhere along the Row someone is singing about a sheep, badly.".
+  Observe halt_knows at banner_lanes as ambience when truthSpoken(field_country) and haltStands() and beforeTesting() "In the lanes people stand in twos and threes and talk low, the way people do after a death in a village: about what it means, and whether anything is different, and what they will do on the fourth morning, now they know they can.".
+  Observe halt_sitters at halt_cross as sign when sittersDown(aulus) and haltStands() "Two very old men in bronze are going down the Row arm in arm, stopping at every blanket to tell its owner that whatever he has is wrong for the period.".
+  Observe halt_buried at the_ring as sign when toroldMourned(torold) and haltStands() "People still lower their voices going past the ring, though there is nobody in it now; and they have started leaving things on the empty bier: a spoon, a crust, a ribbon, a little bronze pin.".
+
+  // ── Ned, afterwards ───────────────────────────────────────────────────────────────────────────────────────────────
+  Topic ned_father with ned "Ask Ned how it was, seeing his father" when joryMet(jory) once {
+    Says "Ned is quiet for so long that you think he will not answer. 'He brought my cap,' he says at last. 'I left it on the peg. He brought it all the way up through the white in his coat so it'd be warm.' He touches it; he is wearing it. 'It isn't warm now.' He looks at the floor. 'He asked was I hungry. I said no. Then I said yes, so he'd have something to do, and he went and asked Grimbold for bread, and stood over me while I ate it, like you do with a calf.' He swallows. 'He's coming every week. He said. I said he doesn't have to. He said, I know I don't.'".
+  }
+  Topic ned_noon with ned "Ask Ned whether he minds being neither one thing nor the other" when knows(actor, ned_dead) and nedHome(ned) once {
+    Says "Ned thinks about it while he kneads, which he is getting better at. 'Cleeve says at noon the sun's not going up nor down,' he says. 'It's just there. Like it's thinking.' He slaps the dough over. 'I don't want to go to a hall and fight every day. I'd be rubbish. I'd be dead the first morning and get up and be dead again, and they'd all laugh.' He grins, suddenly sixteen. 'I'm a baker now. Grimbold says I'm the worst baker in two worlds. He says that's a start.'".
+  }
+
+  // ── Ansel ─────────────────────────────────────────────────────────────────────────────────────────────────────────
+  Topic ansel_death with ansel "Ask Ansel Haverlock how he died" when true once {
+    Says "'In the rearguard at Haverlock Water,' says Ansel, 'which was my father's ford, in the evening, holding it while the household got away.' He says it lightly, as an old story. 'I was eighteen. I had been knighted that morning, in a hurry, in the rain, because there was nobody older left.' He looks at his hands. 'I held it until the sun was in my eyes, and then I didn't. Cleeve said west, and I came here, and I have held fords ever since. It is the only thing I was ever taught to do well.' A pause. 'And sing, a little. My mother taught me the forms of courtesy and a great many songs, and I was killed before I could use either on anybody.'".
+    On discuss { Assert knows(actor, ansel_young). }
+  }
+  Discovery ansel_young "Ansel Haverlock died at eighteen in the evening rearguard at his father's ford, knighted that morning in the rain because there was nobody older left. He was taught courtesy and songs, and killed before he could use either on anybody.".
+  Topic ansel_after with ansel "Ask Ansel Haverlock whether he is happy" when wedded(mab) once {
+    Says "Ansel considers the question with great seriousness, as if it were a point of courtesy he had not been taught. 'I think so,' he says. 'I do not know the form.' He watches Mab across the lane arguing with a crossbowwoman about a spoon. 'She snores,' he says, wonderingly. 'Nobody told me that people snore. We never slept, on the Field; we got up.' He bows slightly to nobody, out of habit. 'I am going to have to learn everything,' he says, 'from the beginning,' and he does not sound sorry about it at all.".
+  }
+
+  Topic mab_ansel_young with mab "Tell Mab Treloar how Ansel Haverlock died" when knows(actor, ansel_young) and paired(mab) once {
+    Says "Mab listens with her arms folded. 'Knighted that morning,' she says. 'In the rain.' She snorts, and then does not. 'Two hundred year I've been sticking a boy.' She looks away down the lane to where he is, bowing to somebody who has not noticed. 'Well,' she says. 'He's not getting any older. Somebody'll have to teach him.'".
+  }
+
+  // ── Torold, after Edith ───────────────────────────────────────────────────────────────────────────────────────────
+  Topic torold_edith_after with torold "Ask Torold Hame why he let Edith Marl go" when edithSpared(edith) once {
+    Says "Torold is a long time answering. 'Because he laughed,' he says. 'The first night. Telling me. He laughed about the vats.' He looks at the frost on his friend's face. 'Up here I could forget that, because up here nothing stayed. You kill a man and he gets up and you drink with him that night.' He shakes his head slowly. 'She's carried it twenty years. Down there, where things stay. I'd no right to take it from her. And I'd have been doing it for him.' He breathes out. 'He'd have laughed at that too.'".
+  }
+}

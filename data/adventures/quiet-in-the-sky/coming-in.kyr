@@ -1,0 +1,83 @@
+Module larum "The Quiet in the Sky" {
+  // ── The Coming-in ─────────────────────────────────────────────────────────────────────────────────────────────────
+  // Where the White gives out on the Ysgard side, the snow comes down in a curtain, and the new dead walk out of it at
+  // the hour they died. Cleeve the Teller asks each the hour and sends them east to Morrow or west to Even.
+  Observe gate_scene at snow_gate when not visitedBefore(snow_gate) "You come out of the white onto a height over a white plain five miles across, strewn as far as you can see with nine hundred years of broken arms, between two halls on two dark heights; and the cold goes into your teeth. The sky is the colour of a knife-blade, with a low white sun in it that does not seem to move. Below you the plain is strewn with things: spears standing up, shields, the ribs of a cart, a siege-tower with snow on its top. In the middle of it smoke goes up from a huddle of coloured tents. Behind you, the snow comes down out of a clear sky in a curtain, and does not come any further.".
+  Observe gate_again at snow_gate when visitedBefore(snow_gate) "The Coming-in: the height over the Field, the curtain of snow behind you coming down out of a clear sky and stopping, and Cleeve's booth of planks and banners with its brazier smoking. Far off below, Halt's smoke.".
+  Observe gate_daily at snow_gate as sound when skyLoud() and hour(clock) >= 7 and hour(clock) < 18 "Up from the Field comes the noise of the Daily: thousands of men at it, iron on iron, a roar like surf with screaming in it.".
+  Observe booth_scene at cleeve_booth when true "A booth of planks and old banners, out of the wind. A brazier full of red coals, which nobody here needs, and which Cleeve keeps for the pickers from Larum, he says, and for the look of the thing. A rack of hourglasses, every size, all running. A tall desk, and on it a ledger as thick as a doorstep, open, in a fine black hand: a name, an hour, EAST or WEST, a name, an hour, EAST or WEST, down every page.".
+
+  Person cleeve "Cleeve" at cleeve_booth {
+    Role "the Teller at the Coming-in". Ancestry human. Peaceable. Pronouns he. Manner acerbic.
+    Likeness "herald".
+    Greets "A thin old man in a herald's tabard faded to no colour looks up from a ledger with a pen in his hand. 'Name, and hour of death,' he says. Then he sees your breath, smoking in the cold, and puts the pen down very carefully. 'Oh dear,' he says. 'You're one of those.'".
+    Greets again "Cleeve looks up, sees your breath, and sighs. 'Still breathing,' he says. 'Well. Sit by the brazier.'".
+  }
+  // Each time the company comes up through the White, Cleeve asks its hour, and each time it has none.
+  Measure cleeveAsked(group). Relation askedThisVisit(group).
+  Rule cleeve_asks_first at snow_gate when at(party, snow_gate) and not askedThisVisit(party) and cleeveAsked(party) == 0
+    says "From the booth by the curtain a thin old man in a faded tabard comes out with a ledger under his arm and a pen behind his ear. 'Name and hour of death,' he says briskly, and then sees your breath go up white in the cold, and stops. 'Ah,' he says. 'Breathing.' He looks at the ledger as if it had let him down. 'There is no column for breathing. The pickers from Larum come up as far as the booth, and the guide, but they never stay.' He looks down at the Field, and back at you. 'If you're going down there, go carefully. They've not seen a breather close in a long time, and they're frightened enough as it is.'" { Assert askedThisVisit(party). Increase cleeveAsked(party) by 1. }
+  Rule cleeve_asks_second at snow_gate when at(party, snow_gate) and not askedThisVisit(party) and cleeveAsked(party) == 1
+    says "Cleeve comes out of his booth with the ledger, and opens it, and dips his pen. 'Name and hour of—' He sees your breath. 'Oh, it's you,' he says. He shuts the ledger." { Assert askedThisVisit(party). Increase cleeveAsked(party) by 1. }
+  Rule cleeve_asks_third at snow_gate when at(party, snow_gate) and not askedThisVisit(party) and cleeveAsked(party) == 2
+    says "'Hour of—' says Cleeve, coming out with the ledger, out of nine hundred years of habit, and then he sees you and stops, and closes his eyes, and stands there a moment with his lips moving, like a man counting to ten." { Assert askedThisVisit(party). Increase cleeveAsked(party) by 1. }
+  Rule cleeve_asks_more at snow_gate when at(party, snow_gate) and not askedThisVisit(party) and cleeveAsked(party) >= 3
+    says "Cleeve looks out of his booth, sees your breath, and does not come out. 'You'll be wanting the brazier,' he says." { Assert askedThisVisit(party). Increase cleeveAsked(party) by 1. }
+  Observe cleeve_knows at snow_gate as sign when deathCarrier(party) "Cleeve sees you, and goes back into his booth, and does not come out.".
+  Rule cleeve_resets when askedThisVisit(party) and not inYsgard(party) { Retract askedThisVisit(party). }
+
+  Topic cleeve_sorting with cleeve "Ask Cleeve how he sorts the dead" when true once {
+    Says "'By the hour,' says Cleeve, and taps the rack of hourglasses. 'They come in out of the snow at the hour they died, and I ask, and they tell me, mostly; and before noon is east, to Morrowhall, and after noon is west, to Evenhall. Dawn raids and morning storms go to Morrow. Last stands and sunset charges go to Even.' He turns a page. 'Brothers come in an hour apart, sometimes, from the one field. One goes east and one goes west, and they've fought each other every day since. Hour-kin, the halls call it.' He looks at you over the ledger. 'It is not a law. Nobody ever said it was a law. It is only how it has always been done.'".
+    On discuss { Assert knows(actor, sorting_known). }
+  }
+  Discovery sorting_known "Cleeve sorts the dead who come in out of the snow by the hour they died: before noon to Morrowhall, after noon to Evenhall. It is not a law, only how it has always been done; brothers who died an hour apart have fought each other every day since, and the halls call them hour-kin.".
+  Topic cleeve_ledger with cleeve "Ask Cleeve how far back his ledger goes" when knows(actor, sorting_known) once {
+    Says "Cleeve turns the great ledger back, and back, and the hand changes, and changes again, and the ink goes brown, and then there is a page whose first line begins in the middle of a sentence: *—and so the dawn shall go to the east.* 'That is the first page there is,' says Cleeve. 'Whatever was before it, somebody tore out.' He smooths it. 'The halls each tell you why the war began. Morrow says Even refused the dawn its due. Even says Morrow struck first, at dawn, as it always does. They have had nine hundred years to get their stories straight and they have not managed it.'".
+    On discuss { Assert knows(actor, war_origin_disputed). }
+  }
+  Discovery war_origin_disputed "Cleeve's ledger begins in the middle of a sentence: '—and so the dawn shall go to the east.' Morrow says the war began when Even refused the dawn its due; Even says Morrow struck first, at dawn.".
+  Topic cleeve_quiet with cleeve "Ask Cleeve about the quiet" when beforeTesting() once {
+    Says "'They still come in,' says Cleeve. 'One or two an hour, the way they always have, still bloody, still shouting the battle they died in. And I tell them east or west, and they run down the hill to their hall with their swords out, and find a town.' He shakes his head. 'Forty days. I keep thinking I should tell them something else. But I only know the one thing to say.'".
+  }
+  // Now and then, while the company is there, someone comes in.
+  Observe newcomer_morning at snow_gate as sign when hour(clock) >= 6 and hour(clock) < 12 and dice(clock) <= 40 "Out of the curtain of snow behind you a man walks, in a leather jack with an arrow through the shoulder of it, his mouth open. Cleeve is out of the booth before he has taken three steps. 'Hour?' 'Morning. The ford. We had the ford at first light, we—' 'East,' says Cleeve, kindly, and points. The man looks down at the Field, and the hall on its eastern height, and goes, slowly, the arrow still in him.".
+  Observe newcomer_evening at snow_gate as sign when hour(clock) >= 12 and hour(clock) < 21 and dice(clock) <= 40 "Out of the curtain a woman walks, very young, in a bright surcoat cut half away, holding the stump of a lance. 'Hour?' says Cleeve. She says something about the sun being in their eyes. 'West,' says Cleeve, and points to the hall at the far end of the Field, where the low sun is. She goes down toward it, running.".
+
+  // ── Ned Whitlock, who came in at noon ─────────────────────────────────────────────────────────────────────────────
+  // Jory's son, killed by robbers at the Hob Bridge below the valley with his father's blackthorn in his hand, comes in
+  // out of the snow at noon of the company's first day up: neither before noon nor after, and so neither east nor west.
+  Person ned "Ned Whitlock" at limbo {
+    Role "who came in at noon". Ancestry human. Calling commoner. Peaceable. Pronouns he. Manner compassionate.
+    Likeness "apprentice".
+    Known as "a boy in a carter's smock" when not knows(party, ned_dead).
+    Greets "A boy of sixteen or so is sitting on the edge of Cleeve's booth with a blackthorn stick across his knees, in a carter's smock with a dark stain down one side of it from the hair on that side of his head. He looks up at you, and sees your breath, and his face goes wild with hope. 'You're alive,' he says. 'Are you— is this— am I—' He stops. 'I am, aren't I,' he says. 'Dead.'".
+    Greets again "Ned looks up, quick, and sees it is you, and something in his shoulders lets go.".
+    Joins "'I'll come,' says Ned, and gets up with his father's stick. 'I'd rather. They keep looking at me down there like I'm a sum that won't come out.'".
+    Remarks at the_ring "Ned stops at the ring of spears and looks at the dead man on the shields for a long time. 'He's like me,' he says. 'Isn't he. He's the only one here that's like me. Dead, I mean. Properly.' He swallows. 'Except I'm walking about.'".
+    Remarks at oven "Ned stands in the Oven's warmth with his eyes shut. 'It smells like Nance's,' he says. 'Almost.'".
+    Remarks at the_clear "Ned lies flat on the ice with his face to it like a boy at a pond, looking down at the swords. 'Dad'd give his eyes for this,' he says, and then remembers, and gets up.".
+    Remarks at high_cairn "Ned looks out over the edge, at the lowland lying under glass a long way off, small and green. He looks for a long time. 'I can't see Larum,' he says. 'It'd be behind the fells. I can't see it.'".
+  }
+  Rule ned_comes at snow_gate when cameUp(party) and (day(clock) > upDay(clock) or hour(clock) >= 12) and at(ned, limbo) and not nedCame(ned)
+    says "Out of the curtain of snow behind you, at noon by Cleeve's glasses, a boy walks, sixteen or so, in a carter's smock, with a blackthorn stick in his fist and blood all down one side of his head. He looks round at the sky and the snow and the Field below as if somebody had played a trick on him. Cleeve comes out with the ledger. 'Hour?' 'I don't know. Noon? The chapel at Hob was ringing noon when they—' He stops. Cleeve looks at his glasses, and at the boy, and at the ledger. 'Noon,' he says. 'Exactly noon.' He turns a page, and turns it back. 'There is no— before noon is east, and after noon is west, and at noon—' He looks up, helplessly, and the boy looks back at him, and neither of them knows what to do." { Assert at(ned, snow_gate). Assert nedCame(ned). }
+  Relation nedCame(group).
+  Discovery ned_dead "The boy who came in at noon is Ned Whitlock, Jory the guide's son, from Larum: robbers set on him on the road at the Hob Bridge and he hit one with his father's blackthorn before they killed him. Cleeve cannot sort him, and he cannot go home.".
+  Topic ned_who with ned "Ask the boy who he is" when not knows(actor, ned_dead) once {
+    Says "'Ned,' says the boy. 'Ned Whitlock. From Larum.' He says it the way you say the name of your village to a stranger, not expecting them to know it, and then sees your face. 'You know it? You've come up from Larum? Then you'll know my dad, Jory, he's the guide.' He grips the stick. 'He'll be waiting for me. I was to be home Thursday with the mule.'".
+    On discuss { Assert knows(actor, ned_dead). Assert acceptsEscort(ned, actor). }
+  }
+  Topic ned_how with ned "Ask Ned how he died" when knows(actor, ned_dead) once {
+    Says "'At the Hob Bridge,' says Ned. 'Three men off the fells. They wanted the fleece money and the mule, and I'd Dad's stick, he always makes me take it, and I hit one, I hit him hard, I felt it go in his teeth.' He looks at the stick. 'Then the other one. I don't remember. And then I was walking in snow.' He looks up at you. 'Cleeve says it counts. Having the stick. Under arms, he says. Like a soldier.' He laughs, horribly. 'I'm a soldier.'".
+  }
+  Topic ned_wants with ned "Ask Ned what you can do for him" when knows(actor, ned_dead) once {
+    Says "Ned thinks about it, with his whole face, the way boys do. 'Tell Dad,' he says. 'Somebody's got to. Better you than some carter.' He picks at the stick. 'Tell him the mule ran. It'll have gone home, it always goes home. Tell him I hit one.' He looks away. 'Tell him I'm sorry about the second cup. He'll know.'".
+    On discuss { Assert knows(actor, ned_message). }
+  }
+  Discovery ned_message "Ned asks you to tell his father: that the mule ran and will have gone home, that he hit one of them, and that he is sorry about the second cup. Jory will know what that means.".
+  // The dead cannot go down into the White: they lie down in it.
+  Rule ned_stops at snow_gate when following(ned, party) and at(party, the_white)
+    says "At the edge of the curtain Ned stops, as if he had walked into a wall. 'I can't,' he says. He tries again, and his knees go, and he sits down in the snow. 'My legs won't. It's like stairs in a dream.' He gets up and backs away from the white. 'I'll be here,' he says. 'I'll wait by Cleeve's fire. Tell him. Tell him.'" { Retract following(ned, party). Assert at(ned, snow_gate). }
+  // Left on the Field he goes back to the Coming-in, until somewhere else will have him.
+  Rule ned_home_gate when at(ned, ?p) and not following(ned, party) and not at(ned, snow_gate) and not at(ned, limbo) and not nedHome(ned) and not at(ned, oven) and hour(clock) >= 21 { Assert at(ned, snow_gate). }
+  Relation nedHome(group).
+}
