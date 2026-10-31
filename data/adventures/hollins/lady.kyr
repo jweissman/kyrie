@@ -111,16 +111,24 @@ Module hollins "Behind the Wainscot" {
   }
   Relation ladyToldAll(group).
   Observe chart_drawing at chart_table as feature when ladyToldAll(lady) and not ladyDead(lady) "Along the Skirting on her chart, beside the big black lines of the Wainscot, there are new figures in her own fine hand: widths, depths, the height of the Nail. She has been measuring what she was told.".
-  Topic lady_hearth with lady "Tell the Lady what her fire did to the Hearth" when ladyKnows(lady) and hearthBurned(hollins) and not hearthAtoned(lady) once {
-    Says "The Lady hears it with her hand over her mouth. If anyone died in it she asks their names, and you tell her, and she repeats each one, carefully, as if she were writing it on a chart. 'Then the fire goes out,' she says. 'Dorothea will let it go out. I have a shawl.' She looks at the grate across the house, as if she could see it through the walls. 'They may have the grate back, and the coal, all of it. And when I am gone they may light it themselves, at whatever size they like.'".
+  Topic lady_hearth with lady "Tell the Lady what her fire did to the Hearth" when ladyKnows(lady) and hearthBurned(hollins) and not collierDead(hollins) and not hearthAtoned(lady) once {
+    Says "The Lady hears it with her hand over her mouth: a town in her grate, eighty-three people, out of it by a quarter to nine because somebody told them. 'By a quarter of an hour,' she says. 'I measured my whole life by less.' She looks at the grate across the house, as if she could see it through the walls. 'Then the fire goes out. Dorothea will let it go out; I have a shawl. They may have the grate back, and the coal, all of it. And when I am gone they may light it themselves, at whatever size they like.'".
+    On discuss { Assert hearthAtoned(lady). Retract ladyCursed(hollins). }
+  }
+  Topic lady_hearth_dead with lady "Tell the Lady what her fire did to the Hearth" when ladyKnows(lady) and collierDead(hollins) and not hearthAtoned(lady) once {
+    Says "The Lady hears it with her hand over her mouth. Then she asks their names. You tell her what is written on the brick, and she says each one after you, slowly, carefully, as if she were lettering it on a chart: and when you come to BET COLLIER, FOREWOMAN, she stops, and asks what she was like, and you tell her, and she says the name again. 'Then the fire goes out,' she says at last. 'Dorothea will let it go out. I have a shawl.' She does not look at the grate. 'They may have it back, and the coal, all of it. It is not a thing I can give. It is only a thing I can stop taking.'".
     On discuss { Assert hearthAtoned(lady). Retract ladyCursed(hollins). }
   }
   Relation hearthAtoned(group).
   Rule hearth_let_out when hearthAtoned(lady) and hearthBurned(hollins) and state(fire, blazing) { Assert state(fire, banked). }
   Rule hearth_stays_out when hearthAtoned(lady) and hearthBurned(hollins) and not fireOut(hollins) { Assert fireOut(hollins). }
   Relation fireOut(place).
-  Topic lady_traps with lady "Tell the Lady about Mrs Pyecroft's traps" when ladyKnows(lady) and not trapsLifted(lady) once {
-    Says "'Traps,' says the Lady. 'Dorothea's rat-traps.' If you tell her about Wat Tallowby, she does not say anything at all for a long while, and then she says, 'Eleven,' and then, 'Bring me his father, if he will come. I cannot go to him. Tell him I will sit as still as I can.' Then she raises her voice, the voice of a woman who has given orders to harbour-masters: 'Dorothea. Every trap in this house. Today.'".
+  Topic lady_traps with lady "Tell the Lady about Mrs Pyecroft's traps" when ladyKnows(lady) and not watDead(wat) and not trapsLifted(lady) once {
+    Says "'Traps,' says the Lady. 'Dorothea's rat-traps. On the pantry run.' You tell her who goes in that way every morning before light, and what a rat-trap does to a hand. She is quiet. Then she raises her voice, the voice of a woman who has given orders to harbour-masters: 'Dorothea. Every trap in this house. Today.'".
+    On discuss { Assert trapsLifted(lady). Assert trapGivenUp(pye). }
+  }
+  Topic lady_traps_wat with lady "Tell the Lady about Mrs Pyecroft's traps, and Wat Tallowby" when ladyKnows(lady) and watDead(wat) and not trapsLifted(lady) once {
+    Says "'Traps,' says the Lady. 'Dorothea's rat-traps.' You tell her about Wat Tallowby: eleven, the quietest, the honey-crocks before light. She does not say anything at all for a long while. Then she says, 'Eleven,' and then, 'Bring me his father, if he will come. I cannot go to him. Tell him I will sit as still as I can.' And then, in the voice she has used to harbour-masters: 'Dorothea. Every trap in this house. Today.'".
     On discuss { Assert trapsLifted(lady). Assert trapGivenUp(pye). }
   }
   Relation trapsLifted(group).

@@ -99,11 +99,14 @@ Module hollins "Behind the Wainscot" {
     Says "Nan puts her hand over the paper. Then, because you are a stranger and will be gone, and because she has wanted to tell somebody for two years: 'A letter. Along the wires.' She points up at the iron wire that runs out of the wall above the grate, as thick as a finger, going away into the dark on a pulley. 'The bell-wires go through every wall in the house. You tie a note on, and pull, and it goes.' She goes red under the soot. 'There's somebody at the other end. Up the Stair. I've never seen him.' She folds the paper very small. 'Don't tell Mam.'".
     On discuss { Assert knows(actor, kit_nan). }
   }
-  Topic nan_hearth with nan "Ask Nan Collier about the Hearth" when hearthBurned(hollins) once {
-    Says "Nan looks at her hands. 'It burned,' she says. 'Nine o'clock. Like a door opening onto the sun.' If you warned them she says, 'We got everybody. Mam carried the Lightfoot twins. We've nothing, but we've everybody,' and if you did not, she does not say anything for a long time, and then: 'Mam went back for the pit boys.'".
+  Topic nan_hearth with nan "Ask Nan Collier about the Hearth" when hearthBurned(hollins) and hearthWarned(hollins) once {
+    Says "Nan looks at her hands. 'It burned,' she says. 'Nine o'clock. Like a door opening onto the sun.' Then she looks up, and nearly smiles. 'We got everybody. Mam carried the Lightfoot twins up the wall-way one under each arm. We've nothing, but we've everybody.'".
   }
-  Topic nan_kit with nan "Ask Nan Collier about Kit Lacey" when knows(actor, kit_nan) once {
-    Says "Nan goes red under the soot, all the way up. 'Who told you?' And then, because she has wanted to tell somebody for two years: 'Along the wires. He tied a note on the Nursery wire for a dare, two winters back: is anybody there? And I was mending the Drawing Room wire where they cross, and I wrote back: yes.' She turns the pencil over. 'He writes like a book. I write like a collier. He's never seen me. I've never been up the Stair.' She looks at you. 'He'll be ashamed. When he sees. A collier, with a burned house.'".
+  Topic nan_hearth_lost with nan "Ask Nan Collier about the Hearth" when hearthBurned(hollins) and collierDead(hollins) once {
+    Says "Nan looks at her hands for a long time. 'It burned,' she says. 'Nine o'clock. Like a door opening onto the sun.' She does not say anything else for a while. Then: 'Mam went back for the pit boys. She'd got them as far as the fender.' She turns the pencil over in her fingers, and over. 'They've written her name on the brick. Someone has. I can't go and look.'".
+  }
+  Topic nan_kit with nan "Ask Nan Collier about Kit Lacey" when knows(actor, kit_nan) and hearthBurned(hollins) once {
+    Says "Nan takes a scrap of paper out of her pocket and shows you: TWICE, in her own big pencil, and above it, in a careful schooled hand, a whole letter she has read so often it is coming apart at the folds. 'Kit Lacey,' she says. 'Up the Stair. Dame Honor's nephew, the heir of the Small House.' She folds it up again. 'He writes like a book. I write like a collier. He's never seen me, and I've never been up the Stair.' She looks at the burned grate. 'He'll be ashamed. When he sees. A collier, with a burned house.'".
     On discuss { Assert knows(actor, nan_fears). }
   }
   Discovery nan_fears "Nan Collier fears that Kit Lacey, who has only ever read her letters, will be ashamed of her when he sees her: a collier with a burned house.".
