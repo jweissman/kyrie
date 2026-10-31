@@ -13,8 +13,8 @@ Module larum "The Quiet in the Sky" {
   Place pass "the Larum Pass" is wilderness within larum_country at 2, 1.
   Initially Assert terrain(larum_country, mountain).
 
-  Place ysgard "Ysgard" is plane.
-  Place field_country "the Field" is region within ysgard.
+  // Ysgard is the world's, one plane for every author (data/imbar): the Field is a region of this work's own within it.
+  Place field_country "the Field" is region within outer_ysgard.
   Initially Assert terrain(field_country, frost).
   Entity plane_ysgard: law "the law of Ysgard".
   Initially Assert law(field_country, plane_ysgard).
