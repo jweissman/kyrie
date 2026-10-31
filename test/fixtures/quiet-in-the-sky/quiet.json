@@ -1,0 +1,48 @@
+{
+ "larum": [
+  "^To Larum street",
+  "Into the Hark",
+  "Ask Bet Garside about the chapel bell",
+  "Out to Larum street",
+  "Into the guide's house",
+  "Buy a sheepskin coat",
+  "Pay Jory Whitlock six coin"
+ ],
+ "halt": [
+  "To the southern Field",
+  "To Trophy Row",
+  "To the ring of spears",
+  "Ask Torold Hame who lies",
+  "=17:50",
+  "=18:10",
+  "Ask Torold Hame why he wants",
+  "To Trophy Row",
+  "Into the Oven",
+  "Ask Grimbold Ure for something",
+  "Rest six hours"
+ ],
+ "teeth": [
+  "=day 2 07:00",
+  "Out to Trophy Row",
+  "To the southern Field",
+  "To the path under the Teeth",
+  "Pack \u203a A torch \u203a Light",
+  "To the wolves' ledge",
+  "To the cairn on the highest Tooth",
+  "Read the newest name",
+  "To the wolves' ledge",
+  "To the path under the Teeth",
+  "To the southern Field",
+  "To Trophy Row",
+  "To the ring of spears",
+  "Tell Torold Hame what Halvard cut",
+  "Offer to help Torold Hame bury",
+  "Tell Torold Hame of Larum churchyard",
+  "Carry Halvard Eld to the Coming-in"
+ ],
+ "after": [
+  "Out to Larum street",
+  "Into the Hark",
+  "=day 6 07:30"
+ ]
+}

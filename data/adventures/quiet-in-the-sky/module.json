@@ -1,0 +1,8 @@
+{
+  "version": 1,
+  "source": ["kinds.kyr","clock.kyr","country.kyr","larum.kyr","pass.kyr","whitlocks.kyr","coming-in.kyr","halt.kyr","ring.kyr","oven.kyr","song.kyr","halls.kyr","lovers.kyr","scrapes.kyr","old-ice.kyr","field.kyr","funeral.kyr","law.kyr","testing.kyr","days.kyr","endings.kyr","after.kyr","growth.kyr","company.kyr"],
+  "rules": ["world"],
+  "globals": ["party"],
+  "exports": { "party": "party", "region": "larum_country", "road": "march_road" },
+  "experience": 1000
+}

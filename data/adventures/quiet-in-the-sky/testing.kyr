@@ -1,0 +1,85 @@
+Module larum "The Quiet in the Sky" {
+  // ── The naming, at the first Hour ─────────────────────────────────────────────────────────────────────────────────
+  Discovery testing_known "At the first Hour after you came up, Torold Hame named the Testing: on the fourth morning, Evenhall goes down onto the Field by the ford and fights itself, and if every man gets up at the Hour, death has not come back, and the Daily begins again.".
+  Rule naming_seen at the_ring when testingNamed(field_country) and at(party, the_ring) and theHour() and not spoke(naming_told)
+    says "The Hour comes over Halt: the light goes blue all at once, as if a glass had been put over the sun, and all down the lanes people stop and shut their eyes, out of nine hundred years of habit, and open them. Inside the ring of spears the frost on Halvard's face does not change. Torold Hame watches it, as he has watched it at forty Hours. Then he lifts the sword out of the snow and holds it up by the blade, so that the hilt is a cross over his head, and says, not loud, so that the whole of Halt goes quiet to hear him: 'On the fourth morning from this, Evenhall goes down to the ford, and fights itself, as the Field was made for. If death has come back, let it come for me first. And if it hasn't, he'll get up.' He sets the sword back in the snow. Nobody says anything at all." teaches testing_known { Assert spoke(naming_told). }
+  Rule naming_heard within field_country when testingNamed(field_country) and not spoke(naming_told) and not at(party, the_ring)
+    says "Word goes over the Field from mouth to mouth, faster than anyone could walk it: at the Hour, at the ring, Torold Hame named a Testing. On the fourth morning Evenhall goes down to the ford and fights itself, and if every man of them gets up at the Hour, death has not come back to Ysgard, and the Daily begins again." teaches testing_known { Assert spoke(naming_told). }
+  Entity naming_told: fact "the Testing named".
+  // Every Hour, wherever the company is on the Field.
+  Relation hourToday(place).
+  Rule hour_comes within field_country when theHour() and not hourToday(field_country) and not testingDay() and not mabCut(mab) and spoke(naming_told) and day(clock) > testDay(clock) - 4
+    says "The Hour comes. The light goes blue all at once, as if a glass had been put over the sun, and everyone you can see stops what they are doing and shuts their eyes for a moment, and opens them. Nothing mends that needed mending. Nobody has been hurt in forty days." { Assert hourToday(field_country). }
+  Rule hour_resets when hour(clock) == 0 and hourToday(field_country) { Retract hourToday(field_country). }
+
+  // ── The Testing ───────────────────────────────────────────────────────────────────────────────────────────────────
+  // At seven on the fourth morning after he names it, Evenhall goes down onto the Field by the ford and fights itself,
+  // unless Torold has stood down (Halvard buried, or the truth known to him), or the Field cannot be fought on (the
+  // Runners would not clear it). At the Hour every man of Even gets up, unless a living hand struck one down.
+  Relation testingHeld(place). Relation testingOff(place). Relation testingBlocked(place). Relation testingDecided(place).
+  Relation trueDeathAtTesting(place).
+  Query toroldStoodDown() means toroldMourned(torold) or toroldKnows(torold).
+  Rule testing_stood_down when testingDay() and hour(clock) >= 7 and not testingDecided(field_country) and toroldStoodDown() { Assert testingDecided(field_country). Assert testingOff(field_country). }
+  Rule testing_blocked when testingDay() and hour(clock) >= 7 and not testingDecided(field_country) and not toroldStoodDown() and runnersStrike(cuddy) { Assert testingDecided(field_country). Assert testingBlocked(field_country). }
+  Rule testing_held when testingDay() and hour(clock) >= 7 and not testingDecided(field_country) and not toroldStoodDown() and not runnersStrike(cuddy) { Assert testingDecided(field_country). Assert testingHeld(field_country). Assert at(testing_press, lathe_ford). Retract peaceable(testing_press). }
+  Chapter ch_testing "The Testing" when testingDay() and hour(clock) >= 7 and inYsgard(party) "The fourth morning. The sky over the Field is the colour it always is, and the sun is where it always is, low in the white, and the whole of Halt is awake before it and standing in the lanes looking west, at Evenhall, to see whether the doors will open.".
+
+  Person testing_press "the men of Even on the ford" at limbo {
+    Role "hundreds of them, fighting each other on the ice". Ancestry human. Calling warrior. Level 5. Numbers 6. Peaceable. Pronouns they.
+    Temperament territorial.
+    Lair lathe_ford.
+    Arrives "Down the stone stair from the western height comes Evenhall, all of it, in mail Gorm mended for nobody, and spreads across the ice of the ford, and at a horn it turns on itself and begins.".
+    Warns "The ford is a single heaving press of Even, hundreds of them, fighting each other, mail and blades and roaring, the old professional slaughter of nine hundred years; and those nearest the bank see your breath and turn toward you with their swords up, and grin, because it is the first new thing they have seen in forty days. If you stay, they will have you; and you will not get up.".
+    Comes "The edge of the press comes up the bank at you, laughing, the way they have come at everyone for nine hundred years.".
+  }
+  Rule press_leaves when at(testing_press, lathe_ford) and (hour(clock) >= 18 or not testingDay()) { Assert at(testing_press, limbo). Assert peaceable(testing_press). }
+  Rule press_died when dead(testing_press) and testingHeld(field_country) and not trueDeathAtTesting(field_country) { Assert trueDeathAtTesting(field_country). Assert deathCarrier(party). }
+
+  // What the Field hears of it, wherever the company is on it.
+  Rule testing_heard_held within field_country when testingHeld(field_country) and testingUnder() and not spoke(held_told)
+    says "From the west comes a sound nobody on the Field has heard in forty-four days: Evenhall's horns, all of them, the long falling call that means the hall is coming down. Then, from the ford, the noise of it: iron, and roaring, and under the roaring a sort of happiness. All over Halt people have stopped what they are doing. In the banner lanes a man has his hands over his ears. Grimbold Ure stands at the mouth of the Oven with dough on his arms and does not go back in." { Assert spoke(held_told). }
+  Entity held_told: fact "the Testing heard".
+  Rule testing_elegy within field_country when testingHeld(field_country) and testingUnder() and elegyMade(wystan) and spoke(held_told) and not spoke(elegy_sung_told)
+    says "They are singing as they go down, all of Evenhall, in the old Tally-metre: Wystan Hollins's elegy, every verse ending on a name. Halvard. Halvard. You can hear it from anywhere on the Field. It is the best thing he ever made, and it is very hard to listen to, and very hard to stop listening to." { Assert spoke(elegy_sung_told). }
+  Entity elegy_sung_told: fact "the elegy sung".
+  Rule testing_heard_off within field_country when testingOff(field_country) and testingDay() and hour(clock) >= 7 and not state(halvard, lying) and not spoke(off_told)
+    says "The doors of Evenhall do not open. At seven the horns do not sound. At eight a single man comes down the stone stair from the western height alone, in blackened mail, without a sword, and walks across the Field to Halt, and the lanes fall silent as he passes. It is Torold Hame. He goes into the ring of spears and sits down on the empty bier, and stays there, and that is the Testing." { Assert spoke(off_told). }
+  Rule testing_heard_off_lying within field_country when testingOff(field_country) and testingDay() and hour(clock) >= 7 and state(halvard, lying) and not spoke(off_told)
+    says "The doors of Evenhall do not open. At seven the horns do not sound. In the ring of spears in the middle of Halt, Torold Hame stands where he has stood for forty-four days, at the head of the bier, with his hands empty and the sword lying in the snow at his feet, and when men of Even come down the stone stair in ones and twos to ask him whether there is to be a Testing, he does not answer them, and after a while they stop asking, and stand with him. That is the Testing." { Assert spoke(off_told). }
+  Entity off_told: fact "the Testing called off".
+  Rule testing_heard_blocked within field_country when testingBlocked(field_country) and testingDay() and hour(clock) >= 7 and not spoke(blocked_told)
+    says "Evenhall's horns sound at seven, and Even comes down the stone stair to the ford in its mended mail, hundreds of them, and stops on the bank. The ford is a floor of iron: the whole last day's broken arms frozen into the snow, swords and spear-heads and shields edge-up, nothing cleared. Nobody can hold a line on it. Torold Hame stands at the head of his hall looking at it for a long time. Then he turns and looks south, toward the Scrapes, where at the mouth of the warren a thin girl is sitting on a sledge with her arms folded. 'Clear it,' he says, across half a mile of snow, not loud, and everybody hears him. 'No,' says Cuddy Wardle. And Evenhall stands on the bank all morning, and at noon goes home." { Assert spoke(blocked_told). }
+  Entity blocked_told: fact "the Testing blocked".
+
+  // A living hand in the press, as Hild asked: one man of Even who will not get up.
+  Action strike_in_press(actor: group, site: place) "Go in among the press and strike down one man of Even, as only a living hand can" {
+    Description "In that crowd nobody will see whose hand it was. He will not get up at the Hour; and every soul on the Field will see that he does not.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lathe_ford) and testingHeld(field_country) and testingUnder() and knows(actor, living_kills) and not trueDeathAtTesting(field_country) and not struckAtPress(actor).
+    Grave "A man ended who would have got up every evening until the stars go out.".
+    Time 1.
+    Resolve check(actor, stealth, dc_fair).
+    On success { Assert trueDeathAtTesting(field_country). Assert deathCarrier(actor). Assert tolerates(testing_press, actor). Retract warned(testing_press, actor). }
+    On failure { Assert struckAtPress(actor). Assert strikes(press_blades, actor). }
+    Result "You go in at the edge of the press, low, in the roar, where nobody is looking at anybody but the man in front of them, and a man of Even with his back to you lifts his sword over his head, laughing, and you strike, once, the way whoever killed Halvard struck, and he goes down onto the ice in the stamping feet, and nobody notices. Nobody notices. You are out on the bank again in a moment, with your breath going up white, and your hands are shaking.".
+    Otherwise "You go in at the edge of the press, and it closes round you like water, and a blade you never see opens your arm, and another, and you are thrown back out onto the bank by the sheer weight of men, bleeding, and they laugh and turn away.".
+  }
+  Relation struckAtPress(group).
+  Hazard press_blades "the edge of Even's press" means "Deal (2d6) slashing damage to ally unless dexterity save against (13).".
+
+  // ── The Hour of the Testing day ───────────────────────────────────────────────────────────────────────────────────
+  Relation outcomeFear(place). Relation outcomeDaily(place). Relation outcomeHalf(place). Relation outcomeHalt(place). Relation outcomeQuiet(place).
+  Relation halfByEven(place). Relation halfByMorrow(place). Relation outcomeDecided(place).
+  Rule out_fear when testingDay() and hour(clock) >= 18 and not outcomeDecided(field_country) and testingHeld(field_country) and trueDeathAtTesting(field_country) { Assert outcomeDecided(field_country). Assert outcomeFear(field_country). }
+  Rule out_daily when testingDay() and hour(clock) >= 18 and not outcomeDecided(field_country) and testingHeld(field_country) and not trueDeathAtTesting(field_country) and not hildResolved(hild) { Assert outcomeDecided(field_country). Assert outcomeDaily(field_country). }
+  Rule out_half_even when testingDay() and hour(clock) >= 18 and not outcomeDecided(field_country) and testingHeld(field_country) and not trueDeathAtTesting(field_country) and hildResolved(hild) { Assert outcomeDecided(field_country). Assert outcomeHalf(field_country). Assert halfByEven(field_country). }
+  Rule out_halt when testingDay() and hour(clock) >= 18 and not outcomeDecided(field_country) and not testingHeld(field_country) and truthSpoken(field_country) and hildResolved(hild) { Assert outcomeDecided(field_country). Assert outcomeHalt(field_country). }
+  Rule out_half_morrow when testingDay() and hour(clock) >= 18 and not outcomeDecided(field_country) and not testingHeld(field_country) and truthSpoken(field_country) and not hildResolved(hild) { Assert outcomeDecided(field_country). Assert outcomeHalf(field_country). Assert halfByMorrow(field_country). }
+  Rule out_quiet when testingDay() and hour(clock) >= 18 and not outcomeDecided(field_country) and not testingHeld(field_country) and not truthSpoken(field_country) { Assert outcomeDecided(field_country). Assert outcomeQuiet(field_country). }
+
+  Rule hour_all_rise within field_country when testingHeld(field_country) and not trueDeathAtTesting(field_country) and outcomeDecided(field_country) and testingDay() and not spoke(rise_told)
+    says "At the Hour the light goes blue over the ford, all at once, as if a glass had been put over the sun; and on the ice of the Lathe, among the broken mail, the fallen of Even get up. All of them. They get up and feel their throats and their bellies and look at each other, and somebody laughs, and then the whole ford is laughing, a great roar of it, and beating sword on shield, because nothing has come back, nothing, they are what they always were. On the bank Torold Hame stands alone and does not laugh. He is looking north, toward Halt, toward the ring of spears, where a man on a bier of shields has not got up." { Assert spoke(rise_told). }
+  Entity rise_told: fact "all rise".
+  Rule hour_one_stays within field_country when testingHeld(field_country) and trueDeathAtTesting(field_country) and outcomeDecided(field_country) and testingDay() and not spoke(stays_told)
+    says "At the Hour the light goes blue over the ford, and the fallen of Even get up off the ice, all over the ford, feeling their throats; all but one. He lies on his back among the broken mail with his eyes open, and does not get up, and they stand round him in a ring, hundreds of them, the way they stood round Halvard, and the roaring stops as if a door had been shut on it. Nobody touches him. After a long time somebody says, very low, 'It's true, then. It's come back.' On the eastern height a woman at a window turns away from it. And on the bank, with your breath going up white in the blue light, you stand among them, and nobody looks at you at all." { Assert spoke(stays_told). }
+  Entity stays_told: fact "one stays down".
+}

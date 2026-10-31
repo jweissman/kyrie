@@ -1,0 +1,62 @@
+{
+ "larum": [
+  "^To Larum street",
+  "Into the Hark",
+  "Ask Bet Garside why she cannot sleep",
+  "Ask Bet Garside about the ballads",
+  "Ask Bet Garside about the word cut",
+  "Ask Bet Garside for a twist of tobacco",
+  "Out to Larum street",
+  "Into the guide's house",
+  "Buy a sheepskin coat",
+  "Pay Jory Whitlock six coin"
+ ],
+ "halt": [
+  "To the southern Field",
+  "To Trophy Row",
+  "To the banner lanes",
+  "=13:10",
+  "Ask Hild Varley why she blew",
+  "To Trophy Row",
+  "To the ring of spears",
+  "Ask Torold Hame who lies",
+  "Ask Torold Hame's leave",
+  "Look closely at the wound",
+  "To Trophy Row",
+  "To the southern Field",
+  "To the mouth of the Scrapes",
+  "Give a twist of Larum leaf",
+  "Ask Cuddy Wardle how she died",
+  "Ask Cuddy Wardle what she wants",
+  "Ask Cuddy Wardle about the breather",
+  "To a nook behind the banners",
+  "Ask the woman who she is"
+ ],
+ "betray": [
+  "To the warren",
+  "To the mouth of the Scrapes",
+  "To the southern Field",
+  "To Trophy Row",
+  "To the ring of spears",
+  "Tell Torold Hame where Halvard's killer is hiding",
+  "=+8",
+  "To Trophy Row",
+  "To the southern Field",
+  "To the Coming-in",
+  "=+3"
+ ],
+ "bench": [
+  "To the southern Field",
+  "To Trophy Row",
+  "To the banner lanes",
+  "To the foot of the Morrow height",
+  "To Morrowhall's yard",
+  "Into Morrowhall",
+  "To the Marshal's room",
+  "Ask Hild Varley to give the Runners a bench",
+  "To Morrowhall",
+  "Eat at the fire-trench",
+  "Rest six hours",
+  "=day 6 07:30"
+ ]
+}

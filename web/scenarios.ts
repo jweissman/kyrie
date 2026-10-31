@@ -69,6 +69,11 @@ export class Scenarios {
     { manifest: 'data/campaigns/the-lull.campaign.json', title: 'The Lull', seed: 'lull',
       note: 'Above the hamlet of Sixways a road goes down from a standing stone, one day in seven, into a valley that has kept only its holy day for fifty-seven years. Whatever is done there without meaning it comes apart at sunset; a night slept there is a week gone outside. The young of Linger mean to work.',
       detail: 'A hamlet that waits, a valley that rests, a mill that works in the dark, and three Lulldays' },
+    // An independent adventure: a hamlet under a pass, and over it the Field of Ysgard in its first quiet
+    // (doc/adventures/the-quiet-in-the-sky).
+    { manifest: 'data/campaigns/the-quiet-in-the-sky.campaign.json', title: 'The Quiet in the Sky', seed: 'larum',
+      note: 'For nine hundred years the hamlet of Larum has heard the warrior dead fighting in the snow above its pass, on still days, like a smithy the size of the sky. Forty days ago the noise stopped. Larum cannot sleep for the quiet; and over the pass, in Ysgard, one of the dead did not get up.',
+      detail: 'A hamlet under a pass, a field of the dead between two halls, a town of shields, and four mornings to the Testing' },
   ];
   static source(): MemoryBundleSource { return new MemoryBundleSource(Scenarios.files); }
 }

@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "name": "The Quiet in the Sky",
+  "calendar": { "year": 1312, "month": 11, "day": 2 },
+  "pitch": {
+    "heading": "The Quiet in the Sky",
+    "text": "For nine hundred years the hamlet of Larum, under a high pass, has heard the warrior dead fighting in the snow above it: on still days, faint, like a smithy the size of the sky. Forty days ago the noise stopped. Larum cannot sleep for the quiet."
+  },
+  "modules": [ { "id": "larum", "bundle": "../adventures/quiet-in-the-sky/module.json" } ],
+  "party": [ { "name": "Wren", "raceId": "human", "classId": "warrior" } ]
+}
