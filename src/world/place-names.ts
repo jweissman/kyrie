@@ -49,7 +49,8 @@ export class PlaceNames {
       ? this.common(named, i, { ...at, seed, founding: kinds?.[i] }) : this.distinct(s, said[i]!, at) }));
     // A work keeps the name the folk wore it down to (see Histories); any other site is named here.
     taken.push(...region.sites.filter(s => s.work).map(s => s.name));
-    const sites = region.sites.map(s => s.work ? s : this.site(s, { region: named, tongue, taken, parts, rng }));
+    const own = this.landTongue(region);
+    const sites = region.sites.map(s => s.work ? s : this.site(s, { region: named, tongue: own, taken, parts, rng }));
     return { ...named, settlements, sites, land: region.atlas ? this.landmarks(region)
       : RegionLand.shape(region.terrain, tongue, `${seed}:land`, taken) };
   }
@@ -70,7 +71,7 @@ export class PlaceNames {
     const taken = [region.name, ...region.settlements.map(s => s.name), ...region.sites.map(s => s.name),
       ...(region.land ?? []).map(l => l.name)];
     const parts = new Set(region.sites.flatMap(s => [`site:${s.affix}`, `site:of:${s.feature}`]));
-    return this.site(site, { region, tongue: this.tongues[region.ancestry] ?? 'westron', taken, parts,
+    return this.site(site, { region, tongue: this.landTongue(region), taken, parts,
       rng: new Expressions(`${seed}:names`) });
   }
   private static site(s: Site, at: { region: Region; tongue: string; taken: string[]; parts: Set<string>;
@@ -109,10 +110,10 @@ export class PlaceNames {
   // site) already says: no two "dales", no two "Wet" anythings. Else the first of its terrain's other features and
   // affixes that does neither, in the folk's tongue when it has the words and as Deem would say it when not.
   private static distinct<T extends Named>(place: T, tongue: string, at: Distinction): Partial<Named> {
-    const own = { ...place, ...this.named(place, tongue) };
+    const own = { ...place, ...this.named(place, tongue, !!at.kind) };
     return this.take(this.free(own, at) ? own : RegionLand.order(at.features, at.rng)
       .flatMap(f => RegionLand.order(at.affixes, at.rng).map(a => ({ feature: f, affix: a })))
-      .map(c => ({ ...c, name: at.english(c.feature, c.affix), ...this.named(c, tongue) }))
+      .map(c => ({ ...c, name: at.english(c.feature, c.affix), ...this.named(c, tongue, !!at.kind) }))
       .find(c => this.free(c, at)) ?? own, at);
   }
   // The name chosen, taken: no later place may be named like it or say what it says.
@@ -134,14 +135,22 @@ export class PlaceNames {
   static regionName(region: Region): string {
     return this.named(region, this.tongues[region.ancestry] ?? 'westron').name ?? region.name;
   }
-  private static named(place: { feature?: string; affix?: string }, tongue: string): Partial<Named> {
+  // In Common a site's words stand apart (the Cold Barrow), and the name needs no meaning told.
+  private static named(place: { feature?: string; affix?: string }, tongue: string, apart = false): Partial<Named> {
     // A part drawn twice ("fen" and "fen") is said once.
     const parts = [...new Set([place.feature, place.affix])];
     if (parts.some(p => !p)) { return {}; }
     const dictionary = tongues.getDictionary(tongue);
+    if (tongue === 'common') {
+      const name = apart ? parts.map(p => this.say(dictionary, [p!])).join(' ') : this.say(dictionary, parts as string[]);
+      return { name, feature: parts[0], affix: parts.at(-1) };
+    }
     try {
-      return { name: dictionary.translate(...parts as Parameters<typeof dictionary.translate>).trim(),
+      return { name: this.say(dictionary, parts as string[]),
         gloss: parts.join(' '), tongue: dictionary.name, feature: parts[0], affix: parts.at(-1) };
     } catch { return {}; }
+  }
+  private static say(dictionary: ReturnType<typeof tongues.getDictionary>, parts: string[]): string {
+    return dictionary.translate(...parts as Parameters<typeof dictionary.translate>).trim();
   }
 }

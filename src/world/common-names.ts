@@ -1,3 +1,4 @@
+import tongues from 'languages';
 import data from '../../data/generation/scenes/common-names.json';
 import { Draw } from './land/draw';
 import { Terrain } from './land/terrain';
@@ -97,12 +98,14 @@ export class CommonNames {
   }
   // Two words made one name the way such names are made: no word twice (Fenfen), no vowel run on from a final "e"
   // (Stoneedge), one "h" where "sh" meets another (Ashurst, Rushurst), and no letter doubled where the words meet
-  // otherwise (Newworth, Elmmere, Highholm, Birchholt).
+  // otherwise (Newworth, Elmmere, Highholm, Birchholt). Which words, and whether they may be joined, is Kyrie's; the
+  // name is said by the languages library's Common, as every tongue's names are (the owner, 31 October: OWN-51).
+  static readonly tongue = tongues.getDictionary('common');
   private static joined(q: string, w: string): Common[] {
     if (q.startsWith(w) || w.startsWith(q) || (q.endsWith('e') && /^[aeiou]/.test(w))) { return []; }
     const merged = q.endsWith('sh') && w.startsWith('h');
     if (q.at(-1) === w[0] && !merged) { return []; }
-    const name = `${q}${merged ? w.slice(1) : w}`;
-    return [{ name: `${name[0]!.toUpperCase()}${name.slice(1)}`, feature: q, affix: w }];
+    const name = this.tongue.translate(...[q, merged ? w.slice(1) : w] as Parameters<typeof this.tongue.translate>);
+    return [{ name, feature: q, affix: w }];
   }
 }

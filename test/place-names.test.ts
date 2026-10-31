@@ -33,10 +33,11 @@ describe('generated places are named in their folk\'s tongue', () => {
     expect(human.settlements[0]).not.toHaveProperty('tongue');
     expect(dwarf.settlements[0]).toMatchObject({ gloss: 'cold hill', tongue: 'Khuzdul' });
     expect(dwarf.settlements[0]!.name).not.toBe('Eagleby');
-    // A name with a part the language has no word for ("wold") stays as Deem said it; the region and its sites are
-    // named as they were.
+    // A name with a part the language has no word for ("wold") stays as Deem said it; the region is named as it was,
+    // and its sites in Common, said by the languages library, its words apart (OWN-51).
     expect(human.name).toBe('Frostwold');
-    expect(human.sites[0]).toMatchObject({ gloss: 'fern cave', tongue: 'Westron' });
+    expect(human.sites[0]).toMatchObject({ name: 'Fern Cave', feature: 'fern', affix: 'cave' });
+    expect(human.sites[0]!.gloss).toBeUndefined();
     // A Common name needs no meaning told: nothing says what one is "Common for", in a place or on the chart, where
     // only the works' old names are glossed.
     const laid = PlaceNames.render(WorldAssembler.lay(Regions.make('human'), 'frostwold'));
