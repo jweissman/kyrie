@@ -83,7 +83,7 @@ Module toll_customs "Customs-men on the road" {
     says "'Outlaws!' The customs-men draw their swords." {
     Assert assails(keepers, party).
   }
-  Observe outlawed_at_inn at market when refusesService(provider, party) "The door of the inn is barred against you, and someone inside says the lord's name loudly.".
+  Observe outlawed_at_inn at market when refusesService(provider, party) "Doors are barred against you as you come, and someone behind one says the lord's name loudly.".
 
   // And the lord answers. Riders go out to the settlement his toll answers to and wait there for whoever did it. They
   // say what they want (the lord's fine, or you) and they mean it: pay, go with them, or fight three armed men. They

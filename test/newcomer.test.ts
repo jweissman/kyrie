@@ -29,10 +29,11 @@ class Newcomer {
     const known = Itineraries.destinations(c).filter(d => (this.tries.get(d.id) ?? 0) < 3);
     const ready = known.filter(d => !this.offered.has(d.id) || (d.id === this.stopped?.to && this.since > 0));
     for (const d of known) { this.offered.add(d.id); }
-    const edge = ready.find(d => /^region__edge_/.test(d.id));
+    const edge = ready.find(d => /^region__(edge|gate)_/.test(d.id));
     if (edge) { this.lead ??= this.commands; }
     this.commands += 1;
-    const pick = this.rest(offered) ?? this.reading(offered) ?? (edge ?? ready[0] ? undefined : this.next(offered));
+    const pick = this.rest(offered) ?? this.toll(offered) ?? this.reading(offered)
+      ?? (edge ?? ready[0] ? undefined : this.next(offered));
     const to = pick ? undefined : edge ?? ready[0] ?? known.find(d => !this.been.has(d.id)) ?? known[0];
     // Nowhere further to set out for: back the way they came.
     const back = pick ?? (to ? undefined : offered.find(o => /^go\(/.test(o.id)));
@@ -47,7 +48,7 @@ class Newcomer {
       }
       this.stopped = done.arrived ? undefined : { to: to.id, why: done.stopped ?? '' };
       if (done.arrived) { this.been.add(to.id); }
-      return done.arrived && /^region__edge_/.test(to.id);
+      return done.arrived && /^region__(edge|gate)_/.test(to.id);
     }
     if (!back) { throw new Error(`Nothing new to do at ${c.world.one('at', c.playerActor!)}`); }
     this.since += 1;
@@ -59,6 +60,11 @@ class Newcomer {
     if (!/^(Night has come on|You are weary)/.test(this.stopped?.why ?? '') || this.since > 0) { return undefined; }
     return offered.find(o => /^Rest and recover/.test(o.name)) ?? offered.find(o => /^Make camp/.test(o.name))
       ?? offered.find(o => /^Wait until first light/.test(o.name));
+  }
+  // Stopped at a bar across the road, what the page leads with: paying (a journey set out again from the bar ran the
+  // toll, and the company was taken to the lord's lockup).
+  private toll(offered: { id: string; name: string }[]) {
+    return offered.find(o => /^Pay .*(toll|road-money)/i.test(o.name));
   }
   private reading(offered: { id: string; name: string }[]) {
     const read = offered.find(o => /^Read /.test(o.name) && !this.read.has(o.name));
@@ -76,7 +82,7 @@ class Newcomer {
 
 describe('a newcomer who sees only the page', () => {
   for (const [seed, origin] of [['thorn', 'order'], ['mere', 'kin']] as const) {
-    it(`finds the way to an adventure in ${seed}, and stands at its march-stone soon after`, async () => {
+    it(`finds the way to an adventure in ${seed}, and stands at its way in soon after`, async () => {
       const w = await WorldAssembler.assemble(seed, NodeBundleSource.shared, { origin,
         party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
       const newcomer = new Newcomer(await PlaySession.start(w.path, seed, w.source));

@@ -108,6 +108,10 @@ describe('a way across country, told as it goes', () => {
     const go = async (re: RegExp) =>
       s.perform(PlayerView.choices(s.campaign).find(c => re.test(c.choice.name) || re.test(c.choice.id))!.choice.id);
     await go(/_green\)$/);
+    // No bar across the road: this is the telling of the way, not a toll on it.
+    const c = s.campaign as unknown as { world: { apply(c: unknown[]): unknown }; commit(w: unknown): void };
+    c.commit(c.world.apply(s.campaign.world.related('tolls')
+      .map(r => ({ kind: 'retract', call: { kind: 'call', name: 'tolls', args: r.args } }))));
     const out = await go(/^Take the road to the road between/);
     const kinds = (out.voiced ?? []).map(v => v.kind);
     expect(kinds).toContain('journey-depart');

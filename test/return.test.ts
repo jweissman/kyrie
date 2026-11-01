@@ -21,8 +21,8 @@ describe('coming back from Merrowdale', () => {
     const word = 'region__gate_longman_beyond';
     await GeneratedWorld.travel(s, 'gate_longman');
     await new Frontier('thorn', NodeBundleSource.shared).expand(c);
-    for (const re of [/road on into|road_end|the road's end/i, /Merrow green/, /Hall yard/, /Untie the tarpaulin/, /^Take .*bell-teeth/,
-      /to the crest/i]) { await choose(re); }
+    for (const re of [/road on into|road_end|the road's end/i, /Merrow green/, /Hall yard/, /Untie the tarpaulin/,
+      /^Take .*bell-teeth/, /to the crest/i]) { await choose(re); }
     expect(c.world.test(ModuleWriter.call('stale', word))).toBe(false);
     await choose(/Give a sack of bell-teeth to the Mower/);
     expect(c.world.test(ModuleWriter.call('stale', word))).toBe(true);
