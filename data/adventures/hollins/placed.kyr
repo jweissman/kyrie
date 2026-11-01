@@ -1,0 +1,7 @@
+Module hollins "Behind the Wainscot" {
+  // The country beyond a march of a generated world: the company that comes in by the moor road is the world's own.
+  Entity party: group "Your company".
+  // What is said of Hollins in the country behind it: once the Lady is dead, the notice there is old news.
+  Entity word: fact "What is said of Hollins in the country behind it.".
+  Rule word_old when ladyDead(lady) and not stale(word) { Assert stale(word). }
+}

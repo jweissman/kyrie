@@ -1,0 +1,4 @@
+Module hollins "Behind the Wainscot" {
+  Company party "Your company" of 1 at march_road.
+  Initially Set quantity(party, gold) to 12. Initially Set quantity(party, rations) to 2.
+}

@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "name": "Behind the Wainscot",
+  "calendar": {
+    "year": 1312,
+    "month": 10,
+    "day": 28
+  },
+  "pitch": {
+    "heading": "Behind the Wainscot",
+    "text": "In the western hills there is a house twelve times the size of a house, shut three hundred years; people of your own size have lived in its walls all that time, having come in by the letterbox. Four days ago the giantess who owns it came home to die. Her companion has put up a notice in the village on the doorstep: WANTED, A RATCATCHER."
+  },
+  "modules": [
+    {
+      "id": "hollins",
+      "bundle": "../adventures/hollins/module.json"
+    }
+  ],
+  "party": [
+    {
+      "name": "Wren",
+      "raceId": "human",
+      "classId": "warrior"
+    }
+  ]
+}

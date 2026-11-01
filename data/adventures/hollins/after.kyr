@@ -1,0 +1,20 @@
+Module hollins "Behind the Wainscot" {
+  // ── Afterwards: Hollins, come back to ─────────────────────────────────────────────────────────────────────────────
+  // In a world the book does not close on her death; a company that comes back finds the house as it was left.
+  Query freeheld() means reached(freehold).
+  Query sold() means reached(sold) or reached(last_game_sold).
+  Query emptied() means reached(smoking) or reached(downladder).
+  Query known() means reached(last_game) or reached(freehold) or reached(last_game_sold).
+  Chapter ch_after_free "Hollins, Freehold" when freeheld() and within(party, hollins_country) and dayN(hollins) >= 11 "Hollins stands on its hill with its shutters open and smoke going up from four chimneys, none of them very large. A notice on the Mat's door says, in Faith Penny's hand: HOLLINS. VISITORS BY THE SLOT. PLEASE ENTER YOUR NAME. NO RATCATCHERS.".
+  Chapter ch_after_sold "Hollins, Coming Down" when sold() and within(party, hollins_country) and dayN(hollins) >= 11 "Scaffolding stands up the face of Hollins like a cage, and men are on the roof, small as ants, taking the slates off one by one and sending them down on ropes. Bootscrape is full of strangers' carts, and of people who are not strangers at all, living in lofts.".
+  Chapter ch_after_empty "Hollins, Empty" when emptied() and within(party, hollins_country) and dayN(hollins) >= 11 "Hollins stands on its hill with its windows dark. Nobody goes in by the Slot now. The flap has been let fall shut, and somebody has nailed it.".
+  Chapter ch_after_cold "Hollins, Cold" when (reached(cold) or reached(tea) or reached(ratcatcher)) and within(party, hollins_country) and dayN(hollins) >= 11 "Hollins stands on its hill as it stood for three hundred years, shut, its chimneys cold. People still go in and out of the letterbox, quietly, as they always did.".
+  Observe street_free at bs_street as feature when freeheld() and not dark() "A second rope ladder hangs beside Hob's now, painted green, with a sign at its foot: THE WAINSCOT. FREE. And at the top of the step the letterbox flap stands open on its own, unwedged, with a bell on a string inside it.".
+  Observe hall_free at hall_flags as feature when freeheld() and not dark() "People are crossing the flagstones in daylight, unhurried, carrying baskets; a child is running. On the east wall, beside the Long Clock, hangs the Lady's chart of Hollins, framed, as big as a field, with the Wainscot drawn into it in a big black hand, and in the margin, in hers: SO YOU DO. E. W.".
+  Observe hall_sold at hall_flags as feature when sold() "The Hall is full of the noise of hammers somewhere overhead, and dust comes down through the light in slow sheets. The Skirting doors stand open on empty rooms. Someone has chalked on the flagstones, in a fair round hand: GONE TO BOOTSCRAPE. ASK AT THE MAT.".
+  Observe hall_empty at hall_flags as feature when emptied() "Along the skirting, at the height of your knee, a yellow stain runs the length of the Hall, like a tidemark.".
+  Observe nursery_free at small_house_hall as feature when freeheld() "Under the framed WELCOME someone has pinned a sheet of the Lady's own paper, folded small: a page in her huge slanting hand, beginning MY DEAR HONOR, which the Court reads aloud on the first of every month.".
+  Topic jory_after with jory "Ask Jory Mudge how things go up at the house" when known() once {
+    Says "Jory Mudge leans on the bread. 'You'd not credit it,' he says. 'The Court sends down to the Mat for a barrel every Saturday and pays in coin. The Keys play on Midwinter night and you can hear it in the street, slow as a funeral and sweet as a wedding. The Readers have started on N.' He grins. 'Bootscrape's never been so respectable. We hate it.'".
+  }
+}

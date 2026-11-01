@@ -1,0 +1,111 @@
+Module hollins "Behind the Wainscot" {
+  // ── The Lady's room ───────────────────────────────────────────────────────────────────────────────────────────────
+  // Along the landing, the room she was born in: the bed, the bedside table with her glass and her medicine and her
+  // purse, and the dressing table, on which Mrs Pyecroft lives in a hatbox. The Bishop sleeps on the counterpane by day.
+  Place bedroom_floor "the floor of the Lady's room" is room within first_floor at 2, 1.
+  Place bedside "the bedside table" is room within first_floor at 3, 1.
+  Place counterpane "the counterpane" is room within first_floor at 3, 0.
+  Place hatbox "Mrs Pyecroft's hatbox" is room within first_floor at 2, 0.
+
+  Passage bedroom_door "the door of the Lady's room" is passage between landing and bedroom_floor taking 10 minutes.
+  Passage bedside_leg "the bedside table's leg" is steps between bedroom_floor and bedside taking 10 minutes.
+  Passage bed_valance "the valance, up onto the bed" is steps between bedroom_floor and counterpane taking 10 minutes.
+  Passage bedside_step "the step from the table to the pillow" is passage between bedside and counterpane taking 5 minutes.
+  Passage hatbox_ribbon "the ribbon ladder up the dressing table" is steps between bedroom_floor and hatbox taking 10 minutes.
+
+  Observe bedroom_scene at bedroom_floor when true "The Lady's room. A fire burns in the grate, and has burned since she came; it has been the warmest room in Hollins since she came, and the warmth is extraordinary after the Hall, like walking into a loaf. The bed is a hill of white linen under a canopy, the bedside table beside it on tall legs, and on the dressing table a hatbox stands with a little door cut in its side and a curtain at a window. Along the mantel, in frames, maps: coasts, harbours, a whole sea, drawn so finely that the waves are lines of figures.".
+  Observe bedroom_lady at bedroom_floor as ambience when at(lady, bedroom_floor) "The Lady is dressing, slowly, by the window, with her back to the room; every movement of her arms is a weather in the air.".
+  Observe bedside_scene at bedside when true "The top of the bedside table: a candlestick like a column, a glass as round as a millpond on a handle, a medicine bottle as tall as a chimney with FOXGLOVE: TEN DROPS IN WATER on its label, a framed miniature of a tall woman in grey, and a purse of green silk lying open, with gold in it.".
+  Observe counterpane_scene at counterpane when true "The counterpane is a white country of quilted hills and valleys, warm, smelling of lavender and old woman. At its head the pillows rise like snowfields.".
+  Observe counterpane_lady at counterpane as ambience when at(lady, counterpane) and not ladyDead(lady) "Under the counterpane the Lady sleeps, a range of hills that rises and falls; her breath goes over you slow and warm and with a catch in it, every so often, like a door that sticks. Her face on the pillow is the size of a cottage, and very old, and in sleep it looks frightened.".
+  Observe counterpane_cat at counterpane as sign when at(bishop, counterpane) and asleep(bishop) and not belled(bishop) "Across the foot of the bed, in a heap of grey fur as big as a haystack, the Bishop is asleep: eighteen feet of cat, his flank going up and down, one ear twitching at nothing, his paws, each as big as a cart-wheel, folded under his chest. Round his neck is a collar of red leather with a silver ring on it, and nothing hanging from the ring.".
+  Observe counterpane_belled at counterpane as sign when belled(bishop) and at(bishop, counterpane) "Across the foot of the bed, in a heap of grey fur as big as a haystack, the Bishop lies curled: eighteen feet of cat, his flank going up and down. A silver bell hangs from his collar now, and rings, faintly, whenever he breathes.".
+
+  // ── The Bishop ────────────────────────────────────────────────────────────────────────────────────────────────────
+  Species bishop_kind "a giant's cat" like behemoth temperament territorial described "A long-haired grey cat of the tall folk's breeding: eighteen feet from nose to tail, with eyes as big as cartwheels, whiskers like ropes, and a purr you feel in your teeth. He is not cruel. He is a cat.".
+  Person bishop "the Bishop" at counterpane {
+    Role "the Lady's cat, eighteen feet long". Species bishop_kind. Level 6. Pronouns he.
+    Warns "Out in the dark, low down, two lamps open, each the size of a cartwheel, green; and a sound like a sack being dragged stops. The Bishop has seen you. He is settling on his haunches, the way cats do, with his hind end working. You have a moment, no more.".
+    Comes "Out of the dark something huge and grey comes at you, silent, low, fast as a dropped stone.".
+    Flinches "The Bishop's ears go back at the smell of the catmint, and then forward, and he goes after it, rolling, forgetting you entirely.".
+  }
+  Relation belled(group). Relation bellTried(group).
+  Kind sleigh_bell_kind "the sleigh bell" is gear worth 1 weighing 3 described "A giant child's silver sleigh bell, as big as a bucket, on a red silk ribbon as wide as a sash. It rings if you breathe on it, so you carry it with your hand over the clapper.".
+  Item sleigh_bell "the sleigh bell" is sleigh_bell_kind at toy_box.
+  Action bell_cat(actor: group, site: place) "Tie the sleigh bell to the Bishop's collar while he sleeps" {
+    Grave "If he wakes, he wakes with you on his neck.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, counterpane) and at(bishop, counterpane) and asleep(bishop) and carries(actor, sleigh_bell) and not belled(bishop) and not bellTried(party).
+    Time 2.
+    Resolve check(actor, stealth, dc_hard).
+    On success { Assert belled(bishop). Spend sleigh_bell from actor. }
+    On failure { Assert bellTried(party). Assert strikes(cat_paw, actor). Assert at(actor, bedroom_floor). }
+    Result "You go up the grey slope of him on your hands and knees, through fur as deep as standing corn, with the bell held against your chest and your hand over the clapper. His flank lifts you and lets you down. At the collar you have to lie flat along his neck, in the heat of him, with his pulse under you like someone knocking on a door, and thread the ribbon through the ring, and knot it, and knot it again, with your fingers shaking. Then you take your hand off the clapper. The bell rings, once, very softly. An ear turns. The great eye nearest you opens, a slit of green the size of a window, and looks at nothing, and closes. You slide down his shoulder into the counterpane and lie there for a long time before you can move.".
+    Otherwise "His fur moves under your hand the wrong way; a muscle jumps; the bell rings, loud, against his throat. And the Bishop is awake, all at once, the way cats are. He does not get up. He does not need to. A paw the size of a cartwheel comes round, lazily, claws half out, and bats you across the counterpane like a cork, and again, and then off the edge of the bed altogether; and you fall a long way, through the valance, onto the floor, and lie there, and hear him above you settle, and begin, enormously, to purr.".
+  }
+  Hazard cat_paw "A cat's paw, playing" means "Deal (1d6) physical damage to ally unless dexterity save against (12).".
+  Observe bell_heard near bishop when belled(bishop) and prowling() "Somewhere in the dark the Bishop's bell rings, softly, every time he moves; and all along the skirting, at the sound, people step back into their doorways and wait for it to go by, and then go on.".
+  Rule bell_tried_resets when bellTried(party) and hour(clock) == 7 { Retract bellTried(party). }
+  Rule catmint_scattered when carries(party, catmint) and at(party, ?p) and at(bishop, ?p) and prowling() and not catAway(bishop)
+    says "You fling the armful of catmint down on the floor in front of him. The Bishop stops. His nostrils widen. Then he is down on his back in it, rolling, kneading the air, making a sound like a cart going over cobbles; and when he gets up he goes off after the smell of it on the draught, out through the dark toward the kitchen and the garden door, and does not look back." { Spend catmint from party. Assert catAway(bishop). Retract assails(bishop, party). }
+
+  // ── The bedside: the purse, the glass, the medicine ───────────────────────────────────────────────────────────────
+  Thing lady_purse "the Lady's purse" at bedside {
+    Holds.
+    State open "A purse of green silk lies open on the table, as big as a tent, with gold coins in it each a foot across.".
+  }
+  Relation sovereignMissed(group).
+  Rule sovereign_missed when sovereignSold(party) and dayN(hollins) >= 2 and not sovereignMissed(lady) and not ladyKnows(lady) { Assert sovereignMissed(lady). Assert poisonLaid(skirting). }
+  Event sovereign_told within house when sovereignMissed(lady) "Word goes along the Skirting by noon, from the Court's maids who heard it through the floor: the Lady has counted her purse, and is one sovereign short, and said, quite quietly, 'Then they are real, Dorothea, and they are thieves'; and Mrs Pyecroft has gone down to the village for more poison.".
+  Action lay_letter_bedside(actor: group, site: place) "Lay the letter with the black seal against her candlestick, where she will see it" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, bedside) and carries(actor, c_letter) and not letterDelivered(party).
+    On success { Spend c_letter from actor. Assert letterDelivered(party). Assert letterAt(bedside). }
+    Result "You prop it against the foot of the candlestick, black seal outward, where she cannot reach for her glass without touching it. It stands there like a door. You think of Faith Penny's oath, and that it is kept.".
+  }
+  Action lay_letter_chart(actor: group, site: place) "Lay the letter with the black seal on her chart, where she will find it at nine" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, chart_table) and carries(actor, c_letter) and not letterDelivered(party).
+    On success { Spend c_letter from actor. Assert letterDelivered(party). Assert letterAt(chart_table). }
+    Result "You lay it in the middle of the chart, on the Hall, black seal up. It covers most of the drawing room.".
+  }
+  Relation letterAt(place). Relation letterRead(group). Measure letterReadOn(entity).
+  Rule letter_read_bed when letterAt(bedside) and at(lady, counterpane) and hour(clock) >= 21 and not letterRead(lady) and not ladyDead(lady) { Assert letterRead(lady). Increase primed(lady) by 1. Set letterReadOn(lady) to dayN(hollins). }
+  Rule letter_read_chart when letterAt(chart_table) and at(lady, chart_table) and not letterRead(lady) and not ladyDead(lady) { Assert letterRead(lady). Increase primed(lady) by 1. Set letterReadOn(lady) to dayN(hollins). }
+  Event letter_read_told when letterRead(lady) and letterReadOn(lady) == dayN(hollins) and (at(party, bedside) or at(party, counterpane) or at(party, bedroom_floor) or at(party, chart_table) or at(party, sill)) "She finds it. She holds it close to her eye, and sees the seal, and her hand stops. Then she breaks the seal with her thumbnail, slowly, and unfolds it, and reads, with the glass, a long time; and puts the glass down, and reads it again without, as if she knew it already. 'Corwen,' she says. 'Oh, Corwen. You fool.' And then, sharply, to the room, to nobody: 'Who brought this?'".
+  // She writes a reply, and leaves it where the letter came, for whoever brings her letters.
+  Kind reply_kind "the Lady's reply" is gear worth 0 weighing 3 described "A sheet of a giant's paper folded small, which is to say as big as a door, sealed with a plain wafer. On the outside, in her big fine slanting hand: To Corwen Ashgrove, at the stone on the moor. And under it, smaller: To whoever brought my letter: I cannot carry this. Would you?".
+  Item reply "the Lady's reply" is reply_kind at nowhere.
+  Relation replyWritten(group). Relation replyLaid(group). Relation stoneTurned(group). Measure laidOn(entity).
+  Rule reply_written when letterRead(lady) and dayN(hollins) > letterReadOn(lady) and not replyWritten(lady) and not ladyDead(lady) { Assert replyWritten(lady). Assert at(reply, chart_table). }
+  Observe reply_seen at chart_table as feature when at(reply, chart_table) "On the corner of the chart, held down by her glass, a folded sheet with a wafer seal, addressed in her hand.".
+  Action lay_reply(actor: group, site: place) "Lay the Lady's reply in the heather at the foot of the Waiting Stone" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, waiting_stone) and carries(actor, reply) and not replyLaid(party).
+    On success { Spend reply from actor. Assert replyLaid(party). Set laidOn(reply_kind) to dayN(hollins). }
+    Result "You lay it in the heather at the stone's knees, and put a flint on it against the wind, and step back. Nothing happens. It is a stone. The wind goes over the moor and the paper lifts at its corners under the flint and settles. You stand a while anyway.".
+  }
+  Rule stone_turns when replyLaid(party) and dayN(hollins) > laidOn(reply_kind) and hour(clock) >= 18 and not stoneTurned(party) { Assert stoneTurned(party). }
+  Action open_c_letter(actor: group, site: place) "Break the black seal and read the letter yourself" {
+    Grave "It is hers, and the Post's oath was to deliver it whole.".
+    Requires able(actor) and company(actor) and at(actor, site) and carries(actor, c_letter) and not letterOpened(party).
+    Time 2.
+    On success { Assert letterOpened(party). Assert knows(actor, corwen_letter). }
+    Result "The wax cracks like a plate. The sheet is the size of a sail and you have to walk it: E. They tell me you are sent away tomorrow, to the sea. I will wait for you at the stone on the moor where we said, every evening, until you come home. However long. Don't laugh. You know I am slow. C.".
+  }
+  Relation letterOpened(group).
+  Discovery corwen_letter "The letter with the black seal is from Corwen, who swore to wait for Ermengarde at the stone on the moor every evening until she came home, however long.".
+  Observe faith_broken at letterdrift as sign when letterOpened(party) and letterDelivered(party) "Faith Penny has struck a line through an entry in the register, and written beside it in red: DELIVERED, OPENED. She does not look up when you come in.".
+
+  // ── Mrs Pyecroft's hatbox ──────────────────────────────────────────────────────────────────────────────────────────────
+  Observe hatbox_scene at hatbox when true "Inside the hatbox, a room: our size, plainly furnished from a town shop, a narrow bed, a washstand, a writing desk with a ledger on it, a chair, a little stove. On the wall a sampler: GOD BLESS OUR HOME, worked in black thread. Through the curtained window the Lady's room goes away enormous, and the bed, and the fire.".
+  Observe hatbox_sulphur at hatbox as feature when pyeHasSulphur(pye) and not candlesGone(pye) and not smokingOver(hollins) "Under the bed, wrapped in brown paper, three fat yellow candles stamped with skulls.".
+  Discovery pye_ledger "Mrs Pyecroft's ledger: she has had no wages from the Lady in eleven years, and is owed four hundred and forty crowns. The Hollins Stone Concern will pay her one part in ten of the price of the house's stone, upon the Lady's death, if the deed is found. The Lady signed a conveyance to the Concern in the spring, which Pyecroft read to her as a letter to her bank." {
+    Source pye_book "Mrs Pyecroft's ledger" at hatbox readable by party.
+  }
+  Discovery smoking_planned "Mrs Pyecroft means to smoke the house with sulphur candles from the drawing room to the kitchen, on a night when the Lady is abed upstairs: lit in a shut house, the smoke sinks, and fills the walls.".
+  Relation pyeHasSulphur(group). Relation candlesGone(group).
+  Action take_sulphur(actor: group, site: place) "Take the sulphur candles from under Mrs Pyecroft's bed" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hatbox) and pyeHasSulphur(pye) and not candlesGone(pye) and not smokingOver(hollins) and not perceives(pye, actor).
+    On success { Assert candlesGone(pye). Give pye_sulphur to actor. }
+    Result "They are heavier than they look, and smell of matches. You go out with them under your coat and down the ribbon, and nobody sees.".
+  }
+  Item pye_sulphur "Mrs Pyecroft's sulphur candles" is sulphur_kind at nowhere.
+  Rule sulphur_shows when pyeHasSulphur(pye) and at(party, hatbox) and not knows(party, smoking_planned) says "Somebody has written on the brown paper, in the pinched hand of the notice on the Mat's door: FOR THE NIGHT. ALL DOORS SHUT. HALL, DRAWING ROOM, KITCHEN." teaches smoking_planned { }
+}

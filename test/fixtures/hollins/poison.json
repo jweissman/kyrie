@@ -1,0 +1,38 @@
+{
+ "in": [
+  "To Bootscrape street",
+  "Into the Mat",
+  "=10:10",
+  "Talk to Mrs Pyecroft",
+  "Ask Mrs Pyecroft about the position",
+  "Take Mrs",
+  "Take your leave",
+  "Out to Bootscrape street",
+  "To the top of the doorstep",
+  "by the Slot",
+  "To the Letterdrift",
+  "To the Skirting",
+  "To the Button Market",
+  "To the Nail",
+  "Talk to Mab",
+  "Take a bed"
+ ],
+ "whisper": [
+  "=day 5 08:00",
+  "Ask Mab Tenter what the Wainscot",
+  "Take your leave"
+ ],
+ "tea": [
+  "=day 6 13:30",
+  "To the Button Market",
+  "To the Skirting",
+  "To the Hall floor",
+  "To the Carpet",
+  "?Keep still",
+  "Talk to Mrs Pyecroft",
+  "Tell Mrs Pyecroft the sugar",
+  "Take your leave",
+  "To the Hall floor",
+  "=day 7 08:00"
+ ]
+}
