@@ -5,6 +5,7 @@ import { RegionPeoples } from './region-peoples';
 import { RegionSites } from './region-sites';
 import { RegionWeather } from './region-weather';
 import { RegionRoads } from './region-roads';
+import { RegionUndertown } from './region-undertown';
 import { RegionZones } from './region-zones';
 import { RegionSights } from './region-sights';
 import { RegionBorders } from './region-borders';
@@ -174,6 +175,10 @@ export class RegionWriter {
         `  Passage ${a.settlement}_approach_way ${q(a.way)} is road between ${a.settlement}_approach and ${a.settlement}_green taking 10 minutes.`,
         ...a.now ? [`  Observe ${a.settlement}_approach_life at ${a.settlement}_approach as ambience when not dark() ${q(a.now)}.`] : []);
     }
+    // Under the town the company begins in, an adventure a step from its door (see RegionUndertown).
+    const home = region.settlements.find(t => t.id === (a?.settlement ?? /^(s\d+)_/.exec(company.start?.place ?? '')?.[1]))
+      ?? region.settlements[0]!;
+    lines.push(...RegionUndertown.lines(region, home));
     lines.push(`  Company party ${q(company.size > 1 ? 'Your company' : 'You')} of ${company.size} at ${company.start?.place ?? `${region.settlements[0]!.id}_green`}.`,
       `  Initially Set quantity(party, gold) to ${company.coin ?? 12}. Initially Set quantity(party, rations) to 2.`, '  Goal false.');
     return lines;
