@@ -116,7 +116,7 @@ export class MenuModel {
     return !!c.local || aimed.includes(c.id) || /_way$/.test(exit?.destination.id ?? '');
   }
   // Going out of a town or a site into the country: the map, where the country is crossed.
-  static readonly country: Choice = { id: 'view:map', label: 'Out to the country', tone: 'way', command: 'view:map' };
+  static readonly country: Choice = { id: 'view:map', label: 'Open the world map', tone: 'way', command: 'view:map' };
   // Whether the company is in a town or a site of a drawn country, whose land is in hexes (and not on a road or out
   // in the country): an authored country's ways out of a town are its author's own walks (the Strand at Skeel, the
   // gorge path out of the Comb), and its pages keep them.

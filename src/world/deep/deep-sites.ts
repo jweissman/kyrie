@@ -45,13 +45,15 @@ export class DeepSites {
       ...this.land(purpose, layout)];
   }
   // The levels and their rooms, each with how it looks; every room below the mouth is dark, and underground (the
-  // galleries told themselves "outdoors", from the wild country the workings are in).
+  // galleries told themselves "outdoors", from the wild country the workings are in). A drowned level's rooms look as
+  // they do once the water is down, and only then: the foot of a flooded stair had said "a floor of grey silt, ridged
+  // where the water went out of it" under the black water, and a company took it for drained (the cold review's P0).
   private static places(layout: DeepLayout): string[] {
     const q = this.q, site = layout.site;
     return layout.levels.flatMap(level => [`  Place ${level.id} ${q(level.name)} is level within ${site}_site.`,
       ...level.rooms.flatMap(r => [`  Place ${r.id} ${q(r.name)} is room within ${level.id} at ${r.x}, ${r.y}`
         + `${r.open ? ' outdoors' : ' underground'}.`,
-        `  Observe ${r.id}_scene at ${r.id} when true ${q(r.scene)}.`,
+        `  Observe ${r.id}_scene at ${r.id} when ${level.flooded ? `deepWater(${level.id}) == 0` : 'true'} ${q(r.scene)}.`,
         ...r.lit ? [] : [`  Initially Assert unlit(${r.id}).`]])]);
   }
   // The ways the mechanisms do not write themselves: the mouth, the galleries, the ladders, the ore pass.
