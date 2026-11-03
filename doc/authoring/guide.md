@@ -494,6 +494,9 @@ world turns the hazard on one member. From `test/fixtures/strongroom`:
 
 ### Chance, weather and the dark
 
+A campaign that keeps a calendar (`"calendar": { "year": 1312, "month": 11, "day": 3 }`) counts Imbar's twelve months
+of thirty days and its sennight of seven, Sunday to Saturday, running on across the months; the page says the day as
+"Monday, the 3rd of Deepwinter…", so a prose that names weekdays agrees with it (the Lull's 11).
 `season(clock)` is the season by the campaign's calendar, when it keeps one (1 spring, 2 summer, 3 autumn, 4 winter;
 0 with none: Gosse's Company's 7), and `been(party, place)` holds of every place the company has stood in, from the
 first time (Quiet in the Sky's 6: for "come back to", ask `been` and that the company was elsewhere since, as a

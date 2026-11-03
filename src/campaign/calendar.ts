@@ -24,10 +24,18 @@ export class Calendar {
     const d = this.date(start, tick);
     return `${d.day} ${d.name}`;
   }
-  // "the 20th of Leaffall, in the 1312th year of the Sun and Moon; autumn", for whoever looks closer.
+  // "Monday, the 20th of Leaffall, in the 1312th year of the Sun and Moon; autumn", for whoever looks closer.
   static long(start: CalendarStart, tick: number): string {
     const d = this.date(start, tick);
-    return `the ${this.ordinal(d.day)} of ${d.name}, in the ${this.ordinal(d.year)} year of the Sun and Moon; ${d.season}`;
+    return `${this.weekday(d)}, the ${this.ordinal(d.day)} of ${d.name}, in the ${this.ordinal(d.year)} year of the Sun `
+      + `and Moon; ${d.season}`;
+  }
+  // Imbar keeps a week of seven days, the sennight, in the names the Common tongue gives them, running on across the
+  // months (the Lull's friction 11, LUL-11: the Banns at Hessel named weekdays and the Lull kept a sennight, and the
+  // calendar had none). The first day of the first year of the Sun and Moon was a Sunday.
+  static readonly weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  static weekday(d: { year: number; month: number; day: number }): string {
+    return this.weekdays[((d.year - 1) * 360 + (d.month - 1) * 30 + d.day - 1) % 7]!;
   }
   static ordinal(n: number): string {
     const tens = n % 100, ones = n % 10;
