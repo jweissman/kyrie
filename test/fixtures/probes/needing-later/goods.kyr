@@ -1,0 +1,4 @@
+Module needing_later_goods "A kind used in the first file, declared in the last" {
+  Relation netted(group).
+  Kind creel "a creel" like sack worth 2 weighing 1 described "A wicker basket for fish.".
+}

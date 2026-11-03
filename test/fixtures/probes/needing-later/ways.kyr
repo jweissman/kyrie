@@ -1,0 +1,11 @@
+Module needing_later "A way that needs a skill declared in a file after it" {
+  Place town "the town" is settlement.
+  Place quay "the quay" is room within town at 0, 0 outdoors.
+  Place well "the drowned well" is room within town at 1, 0.
+  Passage down "the drowned stair" is stair between quay and well needing breath.
+  Company party "You" of 1 at quay.
+  Item basket "a creel of eels" is creel at quay.
+  Person ferrel "Ferrel" at quay { Role "a fisher". Peaceable. Sells creel for 3 coin from 2. }
+  Rule hauled when at(party, quay) and not netted(party) says "Ferrel hauls a creel up." { Assert netted(party). }
+  Observe quay_scene at quay when true "A quay, and a stair going down into the water.".
+}

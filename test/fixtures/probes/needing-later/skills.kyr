@@ -1,0 +1,3 @@
+Module needing_later_skills "Its skill" {
+  Entity breath: capability "Breath under water".
+}
