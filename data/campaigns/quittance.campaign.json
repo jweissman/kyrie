@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "name": "Quittance",
+  "pitch": {
+    "heading": "Quittance",
+    "text": "What the company is asked to do, and why it matters. Choose three companions."
+  },
+  "modules": [
+    {
+      "id": "quittance",
+      "bundle": "../adventures/quittance/module.json"
+    }
+  ],
+  "party": [
+    {
+      "name": "Elen",
+      "raceId": "elf",
+      "classId": "ranger",
+      "backgroundId": "hunter"
+    },
+    {
+      "name": "Bran",
+      "raceId": "human",
+      "classId": "warrior",
+      "backgroundId": "locksmith"
+    },
+    {
+      "name": "Dori",
+      "raceId": "dwarf",
+      "classId": "cleric",
+      "backgroundId": "medic"
+    }
+  ]
+}

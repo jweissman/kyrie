@@ -1,0 +1,102 @@
+Module quittance "Quittance" {
+  Description "What every part of Quittance shares: the Offices and what they think of the company, the arcs of its principal people, what the company can come to know, and what a Lent coal is.".
+
+  // ══ THE KERNEL CONTRACT ═════════════════════════════════════════════════════════════════════════════════════
+  // Every small adventure (q_*.kyr) is written against the names below and no others of the spine's. A quest may
+  // declare as many names of its own as it wants, each beginning with its prefix; it may read any name here; it
+  // may only WRITE the ones the contract says it writes.
+
+  // ── The Offices, and what they think of the company ─────────────────────────────────────────────────────
+  // regard(x): how well the company stands with x. Starts at 0; a good turn is +1 or +2, a betrayal -1 or -2. The
+  // Hearing counts them (hearing.kyr), a quest may spend them.
+  Entity phoenix: group "the Phoenix Fire Office". Entity lamprey: group "the Lamprey & River Office".
+  Entity sovereign: group "the Sovereign Mutual". Entity providence: group "the Providence". Entity residuary: group "the Residuary Office".
+  Entity gasco: group "the Gas Company". Entity wardsfolk: group "the people of the Bare Wards". Entity brigades: group "the brigades".
+  Entity city: group "Quittance".
+  Measure regard(group).
+
+  // ── How far a principal figure has come ─────────────────────────────────────────────────────────────────
+  // arc(x): 0 where they begin. A figure moves one stage at a time, by a lever that suits them (02-review R4), and
+  // the world remembers the stage, not a flag.
+  //   Prewitt   0 hard . 1 shaken . 2 open . 3 turned          (and 4: hardened, the other way)
+  //   Garrity   0 rival . 1 asked . 2 partner
+  //   Dree      0 rival . 1 out-bargained . 2 willing
+  //   Ianthe    0 deferring . 1 decided
+  //   Pettifer     0 silent . 1 speaks
+  //   Cray      0 bonus-minded . 1 remembers his mother . 2 an ally
+  //   Gaunt     0 pompous . 1 flattered . 2 bought in
+  //   Hearn     0 lost . 1 lucid for a time . 2 lucid
+  Measure arc(group).
+
+  // ── What the company comes to know ──────────────────────────────────────────────────────────────────────
+  // A quest teaches these (Assert knows(actor, d_...)) when its play has earned it, never otherwise. The spine reads
+  // them. Each is a fact a person could say in a sentence, and none is the whole truth.
+  Discovery d_tables_paradox "The Tables are wrong: the unmarked Bare Wards, which should burn worst, burn least, and the marked Brickfields have been burning more every year since the Smokeless Ordinance.".
+  Discovery d_appointed_notice "Rent-collectors in the Bare Wards give notice early, in a few blocks a year, a week before each is burned. The notice is stamped by someone with an Office's seal.".
+  Discovery d_list_exists "There is a list. Certain blocks in the Bare Wards are chosen, and chosen from above, before they burn.".
+  Discovery d_prewitt_appoints "The list is Sedley Prewitt's, kept by Mr Skelter of the rent-office in the Bare Wards.".
+  Discovery d_pilots_step "The gas pilot-lights of the Glass Quarter go out and come back in step, as if one thing were breathing through all of them.".
+  Discovery d_lent_coal "In the Bare Wards some households keep a coal that is never allowed to go out, and say it was lent. It is passed down, and it is called a Lent coal.".
+  Discovery d_oven_coal "The oven in Tolliver's bakehouse keeps a Lent coal, and has since before the Burning; its draw is not the flue's.".
+  Discovery d_wording_style "The Founders' papers are drafted in an exact and generous style: the wording does what it says, and says what it means, and leaves room for the poor.".
+  Discovery d_unpaid_ledger "The dead of the Burning have a ledger of unpaid claims, eleven hundred of them, kept by a clerk in the Exchange cellars.".
+  Discovery d_tithe_debt "The Founders' Policy was never a policy of insurance: it is a debt of hospitality, owed to someone who is not dead.".
+  Discovery d_way_teague "A cellar-diver named Ambrose Teague knew a way down to the old city that is not by the Exchange stair.".
+  Discovery d_decline_roll "The Surveyors' Roll has the Cinder Ward marked Declined: unfit for cover, and unfit to stand, as of the Reckoning.".
+  Discovery d_marks_work "Forged fire-marks, nailed up by the poor, are respected by the brigades more often than they should be.".
+  Discovery d_cold_lamp_bound "The cold-lamps do not give light by themselves: each holds a spark of something that is held there, against its will, in glass.".
+  Discovery d_barge_girl "A girl was smuggled out of the Bare Wards on the Prudent Margaret before an Appointed block burned: someone had warned her, and then was bought off.".
+  Discovery d_receipt_pale "The Receipt on the Hall of the Five is the Founders' Policy's quittance, and it is nearly blank.".
+  Discovery d_treaty_text "The Founders' Policy, read whole, names a party who is not an Office, a city, or a person: 'the Guest of the Hearth'.".
+  Discovery d_fire_is_real "Something lives under the Exchange, and has been waiting ninety-four years to be paid.".
+  Discovery d_return "There is a form of words, the Return, by which the Lent coals are carried home at Reckoning. Auberon Hearn used to say it, and cannot say it alone.".
+  Discovery d_skelter_book "Skelter's rent-book records the notices in advance, with the sum paid for each, and who signed.".
+
+  // ── Witnesses: who will say it at the Hearing ───────────────────────────────────────────────────────────
+  // A quest that wins a person's willingness to testify asserts witness(person). The Hearing reads the count.
+  Relation witness(group).
+  Measure witnessCount(group).
+  Relation witnessCounted(group).
+  Rule witness_counted when witness(?w) and not witnessCounted(?w) { Assert witnessCounted(?w). Increase witnessCount(city) by 1. }
+
+  // ── Wards, coals, hearths ───────────────────────────────────────────────────────────────────────────────
+  // The six wards are the settlements brick, reach, glass, hill, mort and wards. A ward is LIT on the Night when a
+  // Lent coal is laid in one of its hearths (hearthAt), and somebody there will keep it (keeper(ward)). A coal is
+  // carried as a good; it gutters a day after it is taken. A quest that gives a ward its keeper writes
+  // keeper(ward); a quest that gives a coal writes quantity(party, coal) (via source_coal below).
+  Entity coal: good "Lent coal".
+  Relation keeper(place). Relation hearthAt(place, place). Relation coaled(place). Relation counted(place).
+  Measure wardsLit(group). Measure coalExpires(group).
+  Initially Assert hearthAt(tolliver_shop, brick). Initially Assert hearthAt(sluice_room, reach).
+  Initially Assert hearthAt(lamplighters_hall, glass). Initially Assert hearthAt(hearn_hearth, hill).
+  Initially Assert hearthAt(alms_room, mort). Initially Assert hearthAt(penny_hall, wards).
+  Rule ward_counted when coaled(?w) and keeper(?w) and not counted(?w) { Assert counted(?w). Increase wardsLit(city) by 1. }
+  Rule coal_gutters when quantity(party, coal) > 0 and watch(clock) >= coalExpires(party) says "The Lent coal in its tin has shrunk to a red thread, and then to ash. You were too slow with it." {
+    Set quantity(party, coal) to 0. }
+  Action take_coal_from_hearth(actor: group, site: place) "Take a Lent coal from the hearth here, in a tin" {
+    Requires able(actor) and company(actor) and at(actor, site) and coalSource(site) and quantity(actor, coal) < 2 and day(clock) >= 6.
+    Time 5 minutes.
+    On success { Increase quantity(actor, coal) by 1. Set coalExpires(actor) to watch(clock) + 144. Assert coalTaken(site). }
+    Result "You scoop a live coal into a tin and shut the lid. It is warm through the metal, and it ticks.".
+  }
+  Relation coalSource(place). Relation coalTaken(place).
+  Action lay_coal(actor: group, site: place, dist: place) "Lay a Lent coal in the hearth here" {
+    Requires able(actor) and company(actor) and at(actor, site) and hearthAt(site, dist) and quantity(actor, coal) >= 1 and not coaled(dist) and day(clock) >= 6.
+    Time 10 minutes.
+    On success { Decrease quantity(actor, coal) by 1. Assert coaled(dist). }
+    Result "You rake the hearth, lay the coal on the grate, and breathe it up. It takes slowly and then all at once, and the room, for a moment, seems to lean toward it.".
+  }
+
+  // ── The clock of the Night ──────────────────────────────────────────────────────────────────────────────
+  // Day 0 is the first morning; Reckoning is the night of day 8. The days are named by the Slate.
+  Entity reckoning: group "Reckoning".
+  Relation reckoned(group).
+  Relation lapsed(group).
+
+  // ── The adjuster's licence, and what a company may certify ─────────────────────────────────────────────
+  Kind adjuster_licence "an adjuster's licence of the Bell & Slip" is treasure worth 0 weighing 0 described "A card of buff pasteboard, signed by the Bell & Slip's Master of the Slate: the bearer is permitted to take claims, enter premises named in them, and certify a mark.".
+  Kind policy_of_passage "a Policy of Passage" is treasure worth 0 weighing 0 described "A stamped slip from the Declaration Arch. For nine days, the Office named on it will bury you, fish you out or put you out, as the case may be.".
+
+  // ── Ordinary things sold in Quittance ───────────────────────────────────────────────────────────────────
+  Kind chandlers_candle "a mark-insured candle" is gear worth 1 weighing 0 described "A tallow candle with a tiny Phoenix stamped in the base, guaranteeing it against its own flame.".
+}
