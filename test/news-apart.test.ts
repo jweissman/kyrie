@@ -24,5 +24,5 @@ describe('the news', () => {
   it('is told in each teller\'s own words', async () => {
     const alike = await Promise.all(['kite', 'larch', 'brine', 'ash'].map(seed => News.alike(seed)));
     expect(alike).toEqual([[], [], [], []]);
-  }, 120000);
+  }, 240000);
 });

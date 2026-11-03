@@ -1,7 +1,11 @@
 import text from '../../data/generation/town/undertown.kyrt' with { type: 'text' };
 import { KyrTemplates } from './kyr-template';
 import { SettlementWriter } from './settlement-writer';
-import type { Region, Settlement } from './region-writer';
+import { DeepPurposes } from './deep/deep-purposes';
+import { DeepSites } from './deep/deep-sites';
+import { Foundings } from './founding';
+import { RegionMarket } from './region-market';
+import type { Region, Settlement, Site } from './region-writer';
 
 // What lies under the town the company begins in: an adventure a step from its door, with no journey to make first
 // (the owner, 1 November: "we shouldn't have to explore to start an adventuring loop"). What it is, the rooms, the
@@ -20,7 +24,8 @@ export class RegionUndertown {
     const open = troubles.map(x => `able(${t}_u_${x.option})`).join(' or ');
     const said = KyrTemplates.fill([`A notice on the post by the well, in ${troubles.length === 3 ? 'three' : 'several'}`
       + ` hands. ${troubles.flatMap(x => x.said).join(' ')}`], values)[0]!;
-    return [...sections.flatMap(x => KyrTemplates.fill(x.lines, values)),
+    return [...sections.flatMap(x => KyrTemplates.fill(x.lines, values)), ...this.catacombs(region, s),
+      ...RegionMarket.home(region, s),
       ...open ? [`  Entity ${notice}: fact ${q(said)}.`,
         `  Observe ${notice}_up at ${t}_green when (${open}) and not knows(party, ${notice})`
           + ` ${q('A notice is nailed to the post by the well, in more than one hand.')}.`,
@@ -28,5 +33,36 @@ export class RegionUndertown {
         `    Requires able(actor) and at(actor, site) and at(actor, ${t}_green) and not knows(actor, ${notice})`
           + ` and (${open}).`,
         '    Time 1.', `    On success { Assert knows(actor, ${notice}). }`, `    Result ${q(said)}.`, '  }'] : []];
+  }
+  // Under the vault, behind its keeper's chair, a stair down into what the town was built over: the barrow of the
+  // country's first dead, three levels more (the passage-grave, the halls of the dead, the king's grave), written by
+  // the deep sites' own generator from what they were for (data/generation/deep/barrow.json), with its keeper, its
+  // dead, its treasure and its way out (the owner, 2 November: the catacombs beneath the church at least four levels
+  // deep, more fights and treasure than can be carried out in one go).
+  private static catacombs(region: Region, s: Settlement): string[] {
+    // The barrow's purpose, or, where the country's own deep work is a barrow, the next of the deep purposes it is not.
+    const taken = region.sites.find(x => x.work?.deep)?.work?.art;
+    const art = ['bone', ...DeepPurposes.order].find(a => a !== taken)!, purpose = DeepPurposes.of(art);
+    const history = region.history;
+    if (!purpose || !history) { return []; }
+    const t = s.id, w = `${t}_ud`, makers = history.makers.find(m => m.art === art) ?? history.makers[0]!;
+    const old = makers.self.name ?? makers.epithet, k = history.successors;
+    const site: Site = { id: w, kind: 'barrow', name: `the old dead under ${s.name}`, hours: 0 };
+    const values = { w, name: site.name, old, oldup: old.toUpperCase(), land: 'region', x: '1', y: '8', kingdom: k.name,
+      kingdomup: k.name.toUpperCase(), kingdomkind: k.kind, fallen: k.fallen, fate: makers.fate, town: t,
+      townname: s.name,
+      keeper: `${t}_innkeeper`, priest: `${t}_priest`, merchant: `${t}_merchant`, holy: Foundings.holyPlace(region, s),
+      where: `under ${s.name}` };
+    // What a site placed in the country has from being placed (see RegionSites): that it is named, and found. Its
+    // levels lie in the country under the town, not among the town's own places (its dead are not townsfolk).
+    const q = JSON.stringify;
+    return [`  Entity ${w}_named: fact ${q(`Below the vault under ${s.name} a stair goes on down, into ${site.name}.`)}.`,
+      `  Entity ${w}_found: fact ${q(`The way down into ${site.name} is behind the keeper's chair in the vault.`)}.`,
+      `  Place ${w} "the stair below the vault" is room within ${t} at 1, 7 underground.`,
+      `  Initially Assert unlit(${w}).`,
+      `  Passage ${t}_u_deeper "a narrow stair behind the keeper's chair" is stair between ${t}_u_vault and ${w}.`,
+      // The measures every deep site declares are the country's already when it has one of its own.
+      ...DeepSites.lines(region, site, { purpose, values, rivals: false })
+        .filter(l => !(taken && /^\s*Measure deepWater/.test(l)))];
   }
 }

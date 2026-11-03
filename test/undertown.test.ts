@@ -54,4 +54,17 @@ describe('under the town the company begins in', () => {
     await Town.take(s, /^Light a torch/, /^Search the undercroft/);
     expect(shown().some(n => /stair under the lettered flag/.test(n))).toBe(true);
   }, 120000);
+  // Below the vault, behind its keeper's chair, it goes on: the country's first dead under the town, three levels more,
+  // more of them and more treasure than one company carries out at a go (the owner, 2 November).
+  it('goes on below the vault, at least three levels more, with its own dead and treasure', async () => {
+    const s = await Town.start(), m = s.campaign.module, W = s.campaign.world;
+    expect(W.related('connects').some(r => r.args[1] === 'region__s1_u_vault' && r.args[2] === 'region__s1_ud')).toBe(true);
+    const levels = m.entities.filter(e => e.space?.kind === 'level' && e.id.startsWith('region__s1_ud'));
+    expect(levels.length).toBeGreaterThanOrEqual(3);
+    const rooms = new Set(m.entities.filter(e => e.space?.kind === 'room' && e.id.startsWith('region__s1_ud')).map(e => e.id));
+    const foes = m.entities.filter(e => e.type === 'group' && rooms.has(W.one('at', e.id) ?? ''));
+    const goods = m.entities.filter(e => e.type === 'item' && rooms.has(W.one('at', e.id) ?? ''));
+    expect(foes.length).toBeGreaterThanOrEqual(6);
+    expect(goods.length).toBeGreaterThanOrEqual(8);
+  }, 120000);
 });

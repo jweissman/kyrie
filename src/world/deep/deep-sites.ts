@@ -19,7 +19,10 @@ import type { Region, Site } from '../region-writer';
 // and found as the makers' other works are (Histories, RegionSites); the rumours of it are its own.
 export class DeepSites {
   static readonly q = JSON.stringify;
-  static lines(region: Region, site: Site, at: { purpose: DeepPurpose; values: Record<string, string> }): string[] {
+  // rivals: whether another company races this one to it (a country's own deep work); not the catacombs under the
+  // town the company begins in, which a country's one rival expedition does not go down (see RegionUndertown).
+  static lines(region: Region, site: Site,
+    at: { purpose: DeepPurpose; values: Record<string, string>; rivals?: boolean }): string[] {
     const { purpose, values } = at, key = `${region.name}:${site.id}:deep`;
     const layout = DeepLayouts.make(purpose, site.id, key), content = DeepPacing.plan(purpose, layout, key);
     const handled = this.handled(layout);
@@ -41,7 +44,8 @@ export class DeepSites {
       ...DeepTime.lines(purpose, layout, content, key), ...DeepHistory.lines(layout, after, values),
       ...this.keeper(purpose, layout),
       ...this.bane(purpose, layout), ...this.raised(purpose, layout, values), ...this.hooks(purpose, values),
-      ...DeepArgument.lines(layout, values, purpose), ...DeepRivals.lines(region, site, { layout, purpose, values }),
+      ...DeepArgument.lines(layout, values, purpose),
+      ...at.rivals === false ? [] : DeepRivals.lines(region, site, { layout, purpose, values }),
       ...this.land(purpose, layout)];
   }
   // The levels and their rooms, each with how it looks; every room below the mouth is dark, and underground (the

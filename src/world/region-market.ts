@@ -28,6 +28,12 @@ export class RegionMarket {
     const market = Foundings.of(region, i).kind === 'market';
     return [...this.yard(region, s), ...market ? this.scrivener(region, s) : []];
   }
+  // The town the company begins in has both, whatever its size: the first place it comes back to with what it won
+  // (the owner, 2 November: the town's economy with deep sinks, training, better weapons, new verbs).
+  static home(region: Region, s: Settlement): string[] {
+    const i = region.settlements.indexOf(s), market = Foundings.of(region, i).kind === 'market';
+    return [...s.size === 'town' ? [] : this.yard(region, s), ...s.size === 'town' && market ? [] : this.scrivener(region, s)];
+  }
   // Everyone who teaches in the country, by name, so that no one else is given theirs.
   static keepers(region: Region): string[] {
     return region.settlements.flatMap((s, i) => s.size !== 'town' ? []
