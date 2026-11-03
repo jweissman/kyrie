@@ -1,3 +1,354 @@
 Module quittance "Quittance" {
-  Description "q_wake (stub).".
+  Description "Mr Teague's wake on Lantern Hill: two Rosalinds, four hundred from the Providence, a cold ham, and a parrot who says what he heard in the order he heard it.".
+
+  // ══ Mr Teague's Wake (prefix wk_) ═══════════════════════════════════════════════════════════════════════════
+  // The Providence pays at four on the afternoon of the third day (watch 336), or the sum goes to the Residuary Office.
+  // Fusby, the parrot, has a repertoire he says in the order he heard it (wk_pos 0..7). He speaks when he is fed and
+  // easy and the whim takes him, or when he is coaxed. The words that go into Mr Fettiplace's ears decide who is paid.
+  //   slot 0 the Admiral (the wife) . 1 "Ros, hold the line" (the lodger) . 2 four hundred, and the Fish . 3 "Rosalind,
+  //   the tea" (the wife, or the lodger) . 4 the Fire, lit below . 5 the last words (the hatch) . 6 what was planted.
+  // Writes: d_way_teague, teagueCombination, witness(wk_fusby), keeper(hill), regard(providence), regard(lamprey).
+  // Reads: holding(actor, adjuster_licence) (a shorter road to Mr Fettiplace), day(clock), hour(clock).
+
+  Place wk_kitchen "the Teagues' kitchen" is room within teague_b at 2, 2.
+  Place wk_landing "the lodger's landing" is room within teague_b at 1, 3.
+  Passage wk_kitchen_door "the kitchen door" is door between teague_front and wk_kitchen.
+  Passage wk_stair "the back stair to the landing" is passage between teague_front and wk_landing.
+
+  Species wk_parrot "a grey parrot" like hen tame.
+  Measure wk_pos(group). Measure wk_mood(group). Measure wk_cue(group). Measure wk_run(group). Measure wk_asleep(group).
+  Measure wk_just(group). Measure wk_attend_until(group).
+  Relation wk_heardL(group). Relation wk_heardW(group). Relation wk_heardC(group). Relation wk_heardPL(group).
+  Relation wk_heardPW(group). Relation wk_heardX(group). Relation wk_plantL(group). Relation wk_plantW(group).
+  Relation wk_exposed(group). Relation wk_suspicious(group). Relation wk_closed(group). Relation wk_settled(group).
+  Relation wk_paid_wife(group). Relation wk_paid_lodger(group). Relation wk_paid_none(group). Relation wk_fraud(group).
+  Relation wk_wifeAgrees(group). Relation wk_lodgerAgrees(group). Relation wk_sat(group). Relation wk_friend_wife(group).
+  Relation wk_friend_lodger(group). Relation wk_testified(group). Relation wk_slighted_providence(group).
+  Relation wk_slighted_lamprey(group). Relation wk_argued(group). Relation wk_fee_taken(group). Relation wk_hall_set(group).
+
+  Discovery wk_claim "The late Ambrose Teague, cellar-diver, died insured with the Providence for four hundred, 'to my beloved Rosalind'. There are two Rosalinds in his house. The Providence pays on the afternoon of the third day, or the Residuary Office has it.".
+  Discovery wk_two "Mr Teague left a wife named Rosalind and a lodger named Rosalind, and the policy does not say which.".
+  Discovery wk_order "Fusby says what he heard in the order he heard it, beginning with the Admiral; and whatever he has said, he does not say again until he has slept on it under the cloth.".
+  Discovery wk_last "Fusby's last words, which were Mr Teague's: 'Fish, fish, fish-bone, three turns left.'".
+  Discovery wk_tea "Two cups stand in the Teagues' kitchen. One has been washed and hung up. The other is full, and has been cold since Tuesday.".
+  Discovery wk_trunk "The lodger's trunk is packed and corded on her landing. She does not expect to be kept.".
+  Discovery wk_hands "The lodger's hands are rope-burned across both palms: she worked Mr Teague's line.".
+  Discovery wk_meant "Mr Teague meant the lodger: his wife has a house and a sister's money, and the lodger has a trunk. He called her Ros; he called his wife the Admiral.".
+
+  // ── The house ──────────────────────────────────────────────────────────────────────────────────────────────
+  Person wk_rosalind "Rosalind Teague" at teague_front {
+    Role "the widow of the house". Ancestry human. Calling warrior. Level 1. Peaceable. Manner stoic. Pronouns she.
+    Greets "A broad woman in new black, with jet at her throat that is still creased from the box, receives you on the carpet as one receives the water-rate. 'Rosalind Teague,' she says. 'Mrs. You will find the ham on the sideboard. You will not find the Providence in a hurry.'".
+    Greets again "'You again,' says Mrs Teague, not unkindly. 'The ham is lower.'".
+  }
+  Person wk_lodger "Rosalind Harbottle" at teague_front {
+    Role "the lodger, in borrowed black". Ancestry human. Calling thief. Level 2. Peaceable. Manner grim. Pronouns she.
+    Greets "A woman of thirty, in a black dress that has been let down at the hem and is still short, sits by the coffin with her hands in her lap, palms up, as though she had been told to keep them clean. 'Rosalind Harbottle,' she says. 'Miss. I lodge here. Lodged.'".
+    Greets again "'Oh,' says Miss Harbottle. 'Hello.'".
+  }
+  Person wk_keeper "Tabitha Ormerod" at teague_front {
+    Role "the Teagues' maid-of-all-work, and Fusby's keeper". Ancestry human. Calling bard. Level 1. Peaceable. Manner cheerful. Pronouns she.
+    Greets "A girl of fifteen, with a tray of sherry and a parrot's seed-husks in her hair, stops in front of you. 'Don't say anything near the cage,' she says. 'He keeps it all. Will you have sherry?'".
+    Greets again "'Mind the cage,' says Tabitha Ormerod.".
+  }
+  Person wk_mourners "the mourners" at teague_front {
+    Role "five neighbours at the ham". Ancestry human. Peaceable. Numbers 5. Manner jovial. Pronouns they.
+    Greets "Five neighbours stand round the sideboard in a ring, eating with the grave appetites of the bereaved. One of them says, mouth full, 'Poor Ambrose,' and the other four say it after him.".
+  }
+  Person wk_fusby "Fusby" at teague_front {
+    Role "Mr Teague's grey parrot". Species wk_parrot. Peaceable. Pronouns he.
+    Greets "In the cage on its stand a grey parrot with a red tail hunches on the perch and regards you with one pale eye, in the way of a creditor who has been in the house longer than you have.".
+  }
+  Person wk_fettiplace "Mr Fettiplace" at provid_counter {
+    Role "loss-adjuster of the Providence". Ancestry human. Calling bard. Level 2. Peaceable. Manner jovial. Pronouns he.
+    Plans 14 steps. Uses go.
+    Greets "A round pink man with a pencil behind each ear and a notebook with a ribbon in it rises with his hand out. 'Fettiplace,' he says. 'Of the Providence. Accident, illness, plate-glass, the loss of a limb. I am here about a death, which is none of those, but we are broad.'".
+    Greets again "'Ah,' says Mr Fettiplace. 'Mind the crumbs. They are evidence.'".
+  }
+  Person wk_undertaker "Mr Skillicorn" at hill_street {
+    Role "undertaker, with a hearse". Ancestry human. Calling cleric. Level 1. Peaceable. Manner grim. Pronouns he.
+    Greets "A tall man in a hat-band as long as a flag stands at the horse's head, looking at the Teagues' door with the expression of a man who has not yet been paid. 'Skillicorn,' he says. 'Funerals. Mr Teague is the third this month who would not go in the ordinary box.'".
+    Greets again "'Still unburied,' says Mr Skillicorn, with feeling.".
+  }
+  Pursuit wk_to_wake for wk_fettiplace "going up to the wake for the widows' statements" priority 10 when watch(clock) >= 162 and watch(clock) < 336 seeks at(wk_fettiplace, teague_front).
+  Pursuit wk_to_row for wk_fettiplace "going home to write it up" priority 10 when watch(clock) >= 336 seeks at(wk_fettiplace, provid_counter).
+
+  Thing wk_cage "Fusby's cage" at teague_front {
+    State covered "The cage on its stand has a green baize cloth over it, and under the cloth something is cracking seeds with deliberation.".
+    State open "The cage on its stand stands bare, and Fusby sits in it.".
+    Change uncover "Take the cloth off Fusby's cage" from covered to open.
+    Change cover "Put the cloth back over Fusby's cage" from open to covered.
+  }
+  Initially Set wk_mood(wk_fusby) to 0.
+
+  Observe wk_front_scene at teague_front when watch(clock) < 204 "A heavy coffin lies on trestles between the windows with its lid beside it, because Mr Teague asked to go in with his boots on and the undertaker is not yet satisfied about the boots. A cold ham stands on the sideboard with a knife in it. Both Rosalinds are in the room, as far apart as the furniture allows.".
+  Observe wk_front_after at teague_front when watch(clock) >= 204 "The trestles have been folded against the wall and the coffin has gone, boots and all. The ham is a bone with a knife in it. The crape is still on the clock, the mirror and the cat. Both Rosalinds are in the room, and have each taken a chair, and the chairs are as far apart as the room allows.".
+  Observe wk_kitchen_scene at wk_kitchen when true "A cold range, a scrubbed table, and a tea-tray with two cups on it, set for two and not for the mourners. The cat, in a bow of black crape, sleeps on the warm end of nothing.".
+  Observe wk_tea_seen at wk_kitchen when true "One cup has been washed and hung on its hook, as a cup is hung that someone means to use again. The other is full to the brim and the tea has a skin on it that has begun to wrinkle. Nobody has moved it since Tuesday." teaches wk_tea.
+  Observe wk_landing_scene at wk_landing when true "A narrow landing under the roof, a door with a card pinned to it (R. QUENNELL, LODGER), and beside it a small trunk corded shut, with a pair of boots set on top of it side by side." teaches wk_trunk.
+  Observe wk_bill at hill_street when day(clock) >= 1 and day(clock) <= 3 "A bill is pasted over the Teagues' door: AUCTION OF THE EFFECTS OF THE LATE A. TEAGUE, CELLAR-DIVER, POSTPONED PENDING THE PROVIDENCE. Someone has written under it in pencil, 'Which Rosalind?'." teaches wk_claim.
+  Observe wk_slate at slip_room when day(clock) >= 1 and day(clock) <= 3 "CLAIMS OPEN: Providence v. a parrot. TEAGUE, A., deceased, four hundred, to my beloved Rosalind; two claimants; payable the third day at four, failing which to the Residuary. A third of the saving to the adjuster who settles it.".
+  Observe wk_slate_k at slip_room when day(clock) >= 1 and day(clock) <= 3 "Under the Teague claim a hand has chalked: it is a mercy the policy is not on the parrot." teaches wk_claim.
+  Observe wk_fusby_asleep at teague_front when state(wk_cage, covered) and wk_asleep(wk_fusby) > 0 "The cloth rises and falls a little, regularly.".
+
+  Objective wk_obj when knows(party, wk_claim) and not wk_settled(party) "Settle Mr Teague's four hundred before four on the third day: two Rosalinds, a parrot, and the Providence's pencil.".
+  Objective wk_obj_hatch when knows(party, wk_last) and not knows(party, d_way_teague) "Make sense of Mr Teague's last words, which are not about Rosalind.".
+
+  // ── What people say ──────────────────────────────────────────────────────────────────────────────────────
+  Topic wk_u_wake with wk_undertaker "Ask Mr Skillicorn who is waking whom" when true once {
+    Says "'Ambrose Teague,' says Mr Skillicorn. 'Cellar-diver. Four hundred from the Providence, to a Rosalind, and the house has two. The lid goes on at six this second evening, with the boots in, and not an hour after. After that I am obliged to send the bill to the Residuary.'".
+    On discuss { Assert knows(actor, wk_claim). }
+  }
+  Topic wk_u_boots with wk_undertaker "Ask why the boots" when true once {
+    Says "'Lead-soled,' says Mr Skillicorn. 'Diver's boots. He said he had been down in them so long he did not trust himself to go up in anything else. The widow, the elder one, says it is the first sensible thing he said in thirty years. The younger one just looked at the boots.'".
+  }
+  Topic wk_m_ham with wk_mourners "Ask the mourners about the ham" when true once {
+    Says "'Mrs Teague carved it herself,' says a woman with a plate. 'She said a man should be buried on his own ham. Of course, there are two of them, you know, and one of them is Rosalind and the other, I think, is also.'".
+    On discuss { Assert knows(actor, wk_two). }
+  }
+  Topic wk_m_cat with wk_mourners "Ask why the cat is in crape" when true once {
+    Says "'Ambrose was very fond of the cat,' says a man. 'The cat is quite indifferent,' says his wife.".
+  }
+  Topic wk_f_policy with wk_fettiplace "Ask Mr Fettiplace what the Providence is waiting for" when true once {
+    Says "'A name,' says Mr Fettiplace, delighted. 'The policy says, to my beloved Rosalind, and I have two beloved Rosalinds, each of whom is wearing black. I am a reasonable man. I will pay the one he meant, on the afternoon of the third day, at four, and if I cannot tell, the Residuary will have it, with my regrets, and the cat. I take the words of the dead very seriously. They are all I am given.'".
+    On discuss { Assert knows(actor, wk_claim). Assert knows(actor, wk_two). }
+  }
+  Topic wk_f_proof with wk_fettiplace "Ask Mr Fettiplace what he will take as proof" when knows(party, wk_two) once {
+    Says "'The deceased's own words,' says Mr Fettiplace. 'In his own voice, or, failing that, in a voice that had it from him. I have the widows' statements, which agree with each other and with nothing else. A letter would do. A parrot would do, God help us, if it said the right thing in my hearing, with a pencil in my hand. I am not allowed to take notice of what I have not heard.'".
+  }
+  Topic wk_w_admiral with wk_rosalind "Ask Mrs Teague what her husband called her" when true once {
+    Says "'The Admiral,' says Mrs Teague. 'He called me the Admiral. I have been forty years in the house and it is the only name of mine that he ever used. I did not mind it. I had the house.'".
+    On discuss { Assert knows(actor, wk_two). }
+  }
+  Topic wk_w_sister with wk_rosalind "Ask Mrs Teague how she is placed" when true once {
+    Says "'My sister Clemency left me this house,' says Mrs Teague, 'freehold, in the spring. I tell you so that you do not make a mistake about me. I would like the four hundred. I should like a great many things.'".
+  }
+  Topic wk_w_cheat with wk_rosalind "Ask Mrs Teague where he went in the Lamprey's bell" when wk_sat(party) once {
+    Says "'Down,' says Mrs Teague, at four in the morning, with the candle between you. 'Down to where he was not meant to be, for what he had no right to, and the Office paid him for the wreck and he paid nobody for the rest. In his sleep he said it. Fish, fish, fish-bone. Three turns left. I always thought it was a lodging-house.'".
+  }
+  Topic wk_l_hands with wk_lodger "Ask Miss Harbottle what she did for Mr Teague" when true once {
+    Says "'The line,' says Miss Harbottle, and turns her hands over without being asked: both palms are ridged white and red from wrist to finger. 'I tended him. In the bell, on the stair, on the pump. Nine years. The Admiral did the house.'".
+    On discuss { Assert knows(actor, wk_hands). }
+  }
+  Topic wk_l_trunk with wk_lodger "Ask Miss Harbottle about the trunk on the landing" when true once {
+    Says "'It is only that I shall not be wanted,' says Miss Harbottle. 'It is nothing. It is what one does.'".
+    On discuss { Assert knows(actor, wk_trunk). }
+  }
+  Topic wk_k_diet with wk_keeper "Ask Tabitha Ormerod what Fusby eats" when true once {
+    Says "'Walnuts,' says Tabitha. 'In the dish on the mantel. He won't have almonds and he'll have a finger if you offer him ham. Don't uncover him if you want to be quiet. Don't leave him covered if you want to be told anything.'".
+  }
+
+  // ── Fusby ────────────────────────────────────────────────────────────────────────────────────────────────
+  Action wk_feed(actor: group, site: place) "Give Fusby a walnut from the dish on the mantel" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(wk_fusby, site) and state(wk_cage, open) and wk_mood(wk_fusby) < 2.
+    Time 5 minutes.
+    On success { Increase wk_mood(wk_fusby) by 1. }
+    Result "Fusby takes the walnut through the bars in a claw, turns it over twice as a man reads a bill, and cracks it. He looks, afterwards, rather more like a bird who is prepared to be talked to.".
+  }
+  Action wk_ham(actor: group, site: place) "Offer Fusby a bit of the cold ham" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(wk_fusby, site) and state(wk_cage, open) and wk_mood(wk_fusby) > 0.
+    Time 2 minutes.
+    On success { Decrease wk_mood(wk_fusby) by 1 or to nothing. }
+    Result "Fusby takes the ham and a little of your patience and puts both on the floor of the cage. He turns his back.".
+  }
+  Action wk_coax(actor: group, site: place) "Sing to Fusby, so that he will think he is accompanying you" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(wk_fusby, site) and state(wk_cage, open) and wk_mood(wk_fusby) >= 1 and wk_mood(wk_fusby) <= 2 and wk_run(wk_fusby) == 0 and wk_pos(wk_fusby) < 7.
+    Time 10 minutes.
+    Resolve check(actor, performance, dc_fair).
+    On success { Increase wk_cue(wk_fusby) by 1. }
+    On failure { Decrease wk_mood(wk_fusby) by 1 or to nothing. }
+    Result "You give him a verse. He listens with his head on one side, and then, as a parrot who has been waiting for his cue, he comes in on the second line.".
+    Otherwise "Fusby gives a cruel and exact impression of you, in your own voice, including the breath, and turns his back for the rest of the afternoon.".
+  }
+  Action wk_encore(actor: group, site: place) "Give Fusby a whole ballad, with a chorus and a bow, and let him have the room" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(wk_fusby, site) and state(wk_cage, open) and wk_mood(wk_fusby) == 2 and wk_run(wk_fusby) == 0 and wk_pos(wk_fusby) < 6.
+    Time 20 minutes.
+    Resolve check(actor, performance, dc_hard).
+    On success { Set wk_mood(wk_fusby) to 3. Set wk_run(wk_fusby) to 3. }
+    On failure { Set wk_mood(wk_fusby) to 0. }
+    Result "By the third verse the mourners have stopped eating. By the chorus Fusby has begun to bob. When you bow, he bows, and is, from that moment, a bird at the height of his powers, with nothing to hold him but the order of his own memory.".
+    Otherwise "The ballad does not take. Fusby watches you to the end with an expression of professional distaste and then sulks so thoroughly that the cloth has to go back on.".
+  }
+  Action wk_whistle(actor: group, site: place) "Pay Tabitha four coin to whistle Fusby back to the beginning" {
+    Speaker wk_keeper.
+    Requires able(actor) and company(actor) and at(actor, site) and at(wk_keeper, site) and state(wk_cage, open) and quantity(actor, gold) >= 4 and wk_pos(wk_fusby) > 0.
+    Time 10 minutes.
+    On success { Decrease quantity(actor, gold) by 4. Set wk_pos(wk_fusby) to 0. Set wk_cue(wk_fusby) to 0. Assert knows(actor, wk_order). }
+    Result "Tabitha counts the coin into her apron and whistles three notes through her teeth, Mr Teague's whistle for the dog he did not have. Fusby shivers, and sits taller. 'He thinks it's morning,' she says. 'He goes in his own order. The Admiral, then the line, then the money, then the tea, then the other things, and last of all the thing he said at the end. He doesn't say any of it twice until he's slept on it.'".
+  }
+  Action wk_tell_order(actor: group, site: place) "Press three coin on Tabitha and ask what order Fusby goes in" {
+    Speaker wk_keeper.
+    Requires able(actor) and company(actor) and at(actor, site) and at(wk_keeper, site) and quantity(actor, gold) >= 3 and not knows(actor, wk_order).
+    Time 5 minutes.
+    On success { Decrease quantity(actor, gold) by 3. Assert knows(actor, wk_order). }
+    Result "'In the order he heard it,' says Tabitha, counting. 'The Admiral first, because that's the oldest, then Ros and the line, then the money, then the tea, then some things about a fire down below that I don't like, and the end. The end last. He does the same every morning if he's slept, and nothing twice else. It is the only fair thing about him.'".
+  }
+  Action wk_plant_lodger(actor: group, site: place) "Teach Fusby a sentence for the adjuster: 'To Ros, the lodger, all of it, Ros'" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(wk_fusby, site) and state(wk_cage, open) and wk_pos(wk_fusby) >= 6 and wk_mood(wk_fusby) >= 2 and not wk_plantL(actor) and not wk_plantW(actor) and not wk_exposed(actor).
+    Time 20 minutes.
+    Resolve check(actor, deception, dc_hard).
+    On success { Assert wk_plantL(actor). Assert wk_fraud(actor). }
+    On failure { Assert wk_exposed(actor). }
+    Result "You say it to him eleven times in a dead man's gruff patience, with the cloth half down, and on the twelfth he says it back, word-perfect, in a voice that Mr Teague would have owned. He looks pleased with himself.".
+    Otherwise "You say it eleven times and on the twelfth Fusby says it back in your voice. It is quite unmistakably your voice. He is delighted with it.".
+  }
+  Action wk_plant_wife(actor: group, site: place) "Teach Fusby a sentence for the adjuster: 'To the Admiral, all of it, Rosalind'" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(wk_fusby, site) and state(wk_cage, open) and wk_pos(wk_fusby) >= 6 and wk_mood(wk_fusby) >= 2 and not wk_plantL(actor) and not wk_plantW(actor) and not wk_exposed(actor).
+    Time 20 minutes.
+    Resolve check(actor, deception, dc_hard).
+    On success { Assert wk_plantW(actor). Assert wk_fraud(actor). }
+    On failure { Assert wk_exposed(actor). }
+    Result "You say it to him eleven times, with feeling, and on the twelfth he says it back in Mr Teague's own breathy bass. It would not stand up in a court. It will stand up in a front room.".
+    Otherwise "You say it eleven times and on the twelfth Fusby says it back in your voice. It is quite unmistakably your voice. He is delighted with it.".
+  }
+
+  // The whim: easy, uncovered, in company, Fusby may speak of his own accord; coaxed, he speaks at once; showy, he runs.
+  Rule wk_whim when at(party, teague_front) and state(wk_cage, open) and wk_mood(wk_fusby) >= 2 and wk_pos(wk_fusby) < 7 and wk_cue(wk_fusby) == 0 and dice(clock) <= 22 { Increase wk_cue(wk_fusby) by 1. }
+  Rule wk_showy_runs when at(party, teague_front) and state(wk_cage, open) and wk_mood(wk_fusby) == 3 and wk_run(wk_fusby) > 0 and wk_cue(wk_fusby) == 0 and wk_pos(wk_fusby) < 7 { Increase wk_cue(wk_fusby) by 1. Decrease wk_run(wk_fusby) by 1 or to nothing. }
+  Rule wk_spent when wk_mood(wk_fusby) == 3 and wk_cue(wk_fusby) == 0 and (wk_run(wk_fusby) == 0 or wk_pos(wk_fusby) >= 7) says "Fusby has done, and puts his head under his wing like a man who has been out and was not appreciated." { Set wk_mood(wk_fusby) to 1. Set wk_run(wk_fusby) to 0. }
+  Rule wk_dozes when state(wk_cage, covered) and wk_pos(wk_fusby) > 0 { Increase wk_asleep(wk_fusby) by 1. }
+  Rule wk_wakes_fresh when state(wk_cage, covered) and wk_asleep(wk_fusby) >= 36 { Set wk_pos(wk_fusby) to 0. Set wk_asleep(wk_fusby) to 0. Set wk_mood(wk_fusby) to 1. Set wk_run(wk_fusby) to 0. Set wk_cue(wk_fusby) to 0. }
+  Rule wk_stirs when state(wk_cage, open) and wk_asleep(wk_fusby) > 0 { Set wk_asleep(wk_fusby) to 0. }
+
+  Rule wk_say0 at teague_front when at(party, teague_front) and state(wk_cage, open) and wk_cue(wk_fusby) >= 1 and wk_pos(wk_fusby) == 0 says "'Admiral on deck,' says Fusby, in a man's voice, with a cough. And then, in the same voice, a good deal quieter: 'Admiral off deck.' Mrs Teague, at the ham, does not look round." { Increase wk_pos(wk_fusby) by 1. Set wk_cue(wk_fusby) to 0. Set wk_just(wk_fusby) to 1. }
+  Rule wk_say1 at teague_front when at(party, teague_front) and state(wk_cage, open) and wk_cue(wk_fusby) >= 1 and wk_pos(wk_fusby) == 1 says "'Ros!' says Fusby, in a diver's shout across water. 'Hold the line, Ros! The other hand! The OTHER hand!' By the coffin, Miss Harbottle's palms close slowly on nothing." { Increase wk_pos(wk_fusby) by 1. Set wk_cue(wk_fusby) to 0. Set wk_just(wk_fusby) to 2. }
+  Rule wk_say2 at teague_front when at(party, teague_front) and state(wk_cage, open) and wk_cue(wk_fusby) >= 1 and wk_pos(wk_fusby) == 2 says "'Four hundred at the Providence, Ros,' says Fusby, rubbing his hands, which he has not got. 'Four hundred, and not a farthing to the Fish. Ha.'" { Increase wk_pos(wk_fusby) by 1. Set wk_cue(wk_fusby) to 0. Set wk_just(wk_fusby) to 3. }
+  Rule wk_say3 at teague_front when at(party, teague_front) and state(wk_cage, open) and wk_cue(wk_fusby) >= 1 and wk_pos(wk_fusby) == 3 says "A wet cough, exactly Mr Teague's. 'Rosalind,' says Fusby, in a voice of enormous want. 'Rosalind. The tea.' There is a very faint clink, of a cup in a saucer, which comes from nowhere in the room." { Increase wk_pos(wk_fusby) by 1. Set wk_cue(wk_fusby) to 0. Set wk_just(wk_fusby) to 4. }
+  Rule wk_say4 at teague_front when at(party, teague_front) and state(wk_cage, open) and wk_cue(wk_fusby) >= 1 and wk_pos(wk_fusby) == 4 says "'It's lit down there,' says Fusby, low and confidential. 'It's lit, Ros. I saw. Somebody's feeding it.' The ring of mourners at the ham falls quiet for a moment and then all begin, at once, to talk about the weather." { Increase wk_pos(wk_fusby) by 1. Set wk_cue(wk_fusby) to 0. Set wk_just(wk_fusby) to 5. }
+  Rule wk_say5 at teague_front when at(party, teague_front) and state(wk_cage, open) and wk_cue(wk_fusby) >= 1 and wk_pos(wk_fusby) == 5 says "Fusby draws himself up, and what comes out of him is a man dying, with no breath to spare and no more patience for the form of it: 'Ros. Rosalind. Fish, fish, fish-bone. Three turns left.' And then, after a pause that is not the parrot's at all, 'Mind the stair.'" teaches wk_last { Increase wk_pos(wk_fusby) by 1. Set wk_cue(wk_fusby) to 0. Set wk_just(wk_fusby) to 6. }
+  Rule wk_say6a at teague_front when at(party, teague_front) and state(wk_cage, open) and wk_cue(wk_fusby) >= 1 and wk_pos(wk_fusby) == 6 and wk_plantL(party) and not wk_exposed(party) says "'To Ros,' says Fusby, 'all of it, Ros,' in a dead man's gruff patience. Mr Teague would have owned it. It is what he would have said, if he had thought of it." { Increase wk_pos(wk_fusby) by 1. Set wk_cue(wk_fusby) to 0. Set wk_just(wk_fusby) to 7. }
+  Rule wk_say6b at teague_front when at(party, teague_front) and state(wk_cage, open) and wk_cue(wk_fusby) >= 1 and wk_pos(wk_fusby) == 6 and wk_plantW(party) and not wk_exposed(party) says "'To the Admiral,' says Fusby, 'all of it, Rosalind,' in Mr Teague's own breathy bass. By the ham Mrs Teague puts down her knife." { Increase wk_pos(wk_fusby) by 1. Set wk_cue(wk_fusby) to 0. Set wk_just(wk_fusby) to 8. }
+  Rule wk_say6c at teague_front when at(party, teague_front) and state(wk_cage, open) and wk_cue(wk_fusby) >= 1 and wk_pos(wk_fusby) == 6 and wk_exposed(party) says "Fusby clears his throat and says, in the voice of whoever it was that taught him, 'To the lodger, all of it, no questions,' in an accent that is unmistakably not Mr Teague's. It is yours. Everybody in the room looks at the company." { Increase wk_pos(wk_fusby) by 1. Set wk_cue(wk_fusby) to 0. Set wk_just(wk_fusby) to 9. }
+  Rule wk_say6d at teague_front when at(party, teague_front) and state(wk_cage, open) and wk_cue(wk_fusby) >= 1 and wk_pos(wk_fusby) == 6 and not wk_plantL(party) and not wk_plantW(party) and not wk_exposed(party) says "Fusby has said it all. He sits and looks at the room with a sort of grey satisfaction, and then he says 'Pieces of eight', which no one in the house has ever understood." { Set wk_cue(wk_fusby) to 0. }
+
+  // What reached Mr Fettiplace's ears: only what Fusby said while the adjuster was sitting by the cage.
+  Rule wk_hears_L when wk_just(wk_fusby) == 2 and watch(clock) < wk_attend_until(wk_fettiplace) and at(wk_fettiplace, teague_front) { Assert wk_heardL(party). }
+  Rule wk_hears_W when wk_just(wk_fusby) == 4 and watch(clock) < wk_attend_until(wk_fettiplace) and at(wk_fettiplace, teague_front) { Assert wk_heardW(party). }
+  Rule wk_hears_C when wk_just(wk_fusby) == 6 and watch(clock) < wk_attend_until(wk_fettiplace) and at(wk_fettiplace, teague_front) says "Mr Fettiplace's pencil stops. He writes down 'fish, fish, fish-bone' with some care, and underlines it, and looks at the cage for a long time." { Assert wk_heardC(party). Assert wk_slighted_lamprey(party). Decrease regard(lamprey) by 1 or to nothing. }
+  Rule wk_hears_PL when wk_just(wk_fusby) == 7 and watch(clock) < wk_attend_until(wk_fettiplace) and at(wk_fettiplace, teague_front) { Assert wk_heardPL(party). }
+  Rule wk_hears_PW when wk_just(wk_fusby) == 8 and watch(clock) < wk_attend_until(wk_fettiplace) and at(wk_fettiplace, teague_front) { Assert wk_heardPW(party). }
+  Rule wk_hears_X when wk_just(wk_fusby) == 9 and watch(clock) < wk_attend_until(wk_fettiplace) and at(wk_fettiplace, teague_front) { Assert wk_heardX(party). }
+  Rule wk_just_clear when wk_just(wk_fusby) > 0 { Set wk_just(wk_fusby) to 0. }
+
+  Action wk_attend(actor: group, site: place) "Ask Mr Fettiplace to take a chair beside the cage for a quarter of an hour" {
+    Speaker wk_fettiplace.
+    Requires able(actor) and company(actor) and at(actor, site) and at(wk_fettiplace, site) and not wk_closed(actor).
+    Time 5 minutes.
+    On success { Set wk_attend_until(wk_fettiplace) to watch(clock) + 9. }
+    Result "'A parrot,' says Mr Fettiplace, sitting, and taking a pencil from behind the left ear. 'I have been shown a good many worse witnesses.' He opens the notebook at the ribbon, and looks at the cage with the patient face of a man being offered a hymn.".
+  }
+
+  // Arguing, reading, and the settlement
+  Action wk_read_widows(actor: group, site: place) "Watch the two Rosalinds receive the mourners, and the mourners receive them" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(wk_rosalind, site) and at(wk_lodger, site) and not knows(actor, wk_meant).
+    Time 20 minutes.
+    Resolve check(actor, insight, dc_fair).
+    On success { Assert knows(actor, wk_hands). Assert knows(actor, wk_trunk). Assert knows(actor, wk_tea). }
+    Result "You watch for twenty minutes. The Admiral takes condolences like a bill of lading: signed, and stowed. Miss Harbottle takes them with her hands in her lap, palms up, and is touched by none of them. The one has a house. The other has a trunk, a hundred yards behind her eyes.".
+    Otherwise "You watch for twenty minutes. Two women in black accept sympathy and sherry. You could not swear to a thing.".
+  }
+  Rule wk_put_together when knows(party, wk_tea) and knows(party, wk_trunk) and knows(party, wk_hands) and not knows(party, wk_meant) says "The tea nobody drank, the trunk nobody unpacked, and the hands: put together, they say the same thing, and it is not what the sherry says. He meant the lodger." teaches wk_meant { }
+
+  Action wk_argue_lodger(actor: group, site: place) "Put it to Mr Fettiplace that Mr Teague meant the lodger, and why" {
+    Speaker wk_fettiplace.
+    Requires able(actor) and company(actor) and at(actor, site) and at(wk_fettiplace, site) and knows(actor, wk_meant) and not wk_closed(actor) and not wk_argued(actor).
+    Time 15 minutes.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert wk_heardL(actor). Assert wk_argued(actor). }
+    On failure { Assert wk_argued(actor). Assert wk_suspicious(wk_fettiplace). }
+    Result "'The tea, the trunk and the hands,' says Mr Fettiplace slowly, writing each of them. 'It is a very good deal of nothing, set out beautifully.' He draws a line under it. 'But it all points the same way, and I distrust evidence that does not.'".
+    Otherwise "'That is the sort of thing,' says Mr Fettiplace, 'that is said to me by the interested.' He closes the notebook on his finger. 'I shall be wanting to hear it from a witness who is not.'".
+  }
+  Action wk_split(actor: group, site: place) "Propose to Mr Fettiplace that the four hundred be divided, and pay the Providence's fee for a compromise (12 coin)" {
+    Speaker wk_fettiplace.
+    Requires able(actor) and company(actor) and at(actor, site) and at(wk_fettiplace, site) and wk_wifeAgrees(actor) and wk_lodgerAgrees(actor) and quantity(actor, gold) >= 12 and not wk_closed(actor).
+    Time 20 minutes.
+    On success { Decrease quantity(actor, gold) by 12. Assert wk_closed(actor). Assert wk_settled(actor). Assert wk_paid_wife(actor). Assert wk_paid_lodger(actor). Assert wk_friend_wife(actor). Assert wk_friend_lodger(actor). Increase regard(providence) by 1. }
+    Result "'Two hundred and two hundred,' says Mr Fettiplace, 'on a signed release from each, and a fee to the Office for the trouble of agreeing, which is twelve.' He takes the twelve, the releases, and the two widows' signatures, in which both Rosalinds have been rather exact about the R. 'It is the first time,' he says, 'that I have seen two women of one name sign beside each other without being asked to.'".
+  }
+  Topic wk_w_split with wk_rosalind "Put it to Mrs Teague that half of four hundred is better than the Residuary's all of it" when knows(party, wk_two) and not wk_wifeAgrees(party) once {
+    Says "'Two hundred,' says Mrs Teague. 'Of what is mine by thirty years.' She considers the ham. 'I should like it understood that I do not like it. Put me down.' She does not look at the lodger, who does not look at her.".
+    On discuss { Assert wk_wifeAgrees(actor). }
+  }
+  Topic wk_l_split with wk_lodger "Put it to Miss Harbottle that half would take her to the next lodging" when knows(party, wk_two) and not wk_lodgerAgrees(party) once {
+    Says "'Half,' says Miss Harbottle. 'He did say a Rosalind.' She looks at her hands. 'I was never going to have more than half of anything. Put me down.'".
+    On discuss { Assert wk_lodgerAgrees(actor). }
+  }
+  Action wk_let_it_go(actor: group, site: place) "Tell Mr Fettiplace that the Providence had better keep it (and collect the Office's third, fifteen coin)" {
+    Speaker wk_fettiplace.
+    Requires able(actor) and company(actor) and at(actor, site) and at(wk_fettiplace, site) and not wk_closed(actor).
+    Time 10 minutes.
+    On success { Increase quantity(actor, gold) by 15. Assert wk_fee_taken(actor). Assert wk_closed(actor). Assert wk_slighted_providence(actor). }
+    Result "'Oh,' says Mr Fettiplace. 'Oh, well.' He is delighted, and ashamed to be delighted. 'The Residuary will have four hundred and the Providence will save the third of it. I shall have to tell the widows you have been very helpful to the Office.' He counts fifteen into your hand. It is the cheerful Office, and cheerful money.".
+  }
+  Action wk_close_book(actor: group, site: place) "Ask Mr Fettiplace to write his report now, on what he has heard" {
+    Speaker wk_fettiplace.
+    Requires able(actor) and company(actor) and at(actor, site) and at(wk_fettiplace, site) and not wk_closed(actor).
+    Time 5 minutes.
+    On success { Assert wk_closed(actor). }
+    Result "'Now?' says Mr Fettiplace. 'Very well.' He licks the pencil, and the room, which was talking, stops.".
+  }
+  Rule wk_deadline when watch(clock) >= 336 and not wk_closed(party) { Assert wk_closed(party). }
+
+  // The verdicts, in order of precedence; each writes once.
+  Rule wk_v_exposed when wk_closed(party) and not wk_settled(party) and wk_heardX(party) says "Mr Fettiplace looks at the cage, and at you, and at the cage. 'That,' he says, 'is a very good imitation of the Teague voice, and a very bad one of yours.' The claim is struck. The money goes to the Residuary Office, and the Providence is not at home to you." { Assert wk_settled(party). Assert wk_paid_none(party). Assert wk_slighted_providence(party). Decrease regard(providence) by 2 or to nothing. }
+  Rule wk_v_plant_l when wk_closed(party) and not wk_settled(party) and wk_heardPL(party) says "Mr Fettiplace writes it down, nodding, and underlines it. The lodger is paid four hundred, on the strength of a thing that Mr Teague never said." { Assert wk_settled(party). Assert wk_paid_lodger(party). Assert wk_friend_lodger(party). Increase regard(providence) by 1. }
+  Rule wk_v_plant_w when wk_closed(party) and not wk_settled(party) and wk_heardPW(party) says "Mr Fettiplace writes it down, nodding, and underlines it. The widow is paid four hundred, on the strength of a thing that Mr Teague never said." { Assert wk_settled(party). Assert wk_paid_wife(party). Assert wk_friend_wife(party). Increase regard(providence) by 1. }
+  Rule wk_v_both when wk_closed(party) and not wk_settled(party) and wk_heardL(party) and wk_heardW(party) and not wk_suspicious(wk_fettiplace) says "'He said both,' says Mr Fettiplace sadly. 'In the same breath, almost. The Providence in such a case, by a rule of Mr Gillam's nine years back, pays half of each claimant.' Four hundred is cut in two without a quarrel, and each Rosalind signs for her hundred and seventy." { Assert wk_settled(party). Assert wk_paid_wife(party). Assert wk_paid_lodger(party). Assert wk_friend_wife(party). Assert wk_friend_lodger(party). }
+  Rule wk_v_lodger when wk_closed(party) and not wk_settled(party) and wk_heardL(party) says "'The deceased,' says Mr Fettiplace, reading it back, 'in his own voice. The lodger.' He signs. Miss Harbottle is paid four hundred, and does not cry, and then does." { Assert wk_settled(party). Assert wk_paid_lodger(party). Assert wk_friend_lodger(party). Increase regard(providence) by 1. }
+  Rule wk_v_wife when wk_closed(party) and not wk_settled(party) and wk_heardW(party) says "'The deceased,' says Mr Fettiplace, reading it back, 'asking for his tea. The wife.' He signs. Mrs Teague is paid four hundred, and puts it away with the air of one who was always going to be." { Assert wk_settled(party). Assert wk_paid_wife(party). Assert wk_friend_wife(party). }
+  Rule wk_v_none when wk_closed(party) and not wk_settled(party) says "Mr Fettiplace closes his book. 'Nothing I can take down,' he says. 'I am so sorry. The sum goes to the Residuary Office, which is mourning, I believe, at some length.' The widows do not look at each other, and then do." { Assert wk_settled(party). Assert wk_paid_none(party). }
+
+  // ── What Mr Teague said ──────────────────────────────────────────────────────────────────────────────────
+  Action wk_work_out(actor: group, site: place) "Work out what Mr Teague's last words are directions to" {
+    Requires able(actor) and company(actor) and at(actor, site) and knows(actor, wk_last) and not knows(actor, d_way_teague).
+    Time 15 minutes.
+    Resolve check(actor, lore, dc_fair).
+    On success { Assert knows(actor, d_way_teague). Assert teagueCombination(actor). }
+    Result "Fish, fish, fish-bone. A wheel, and three turns to the left. A Lamprey hatch, on a diving-bell that is for the Lamprey's use only, provided you bring a witness. It was never a lodging-house. A cellar-diver found a way down that the Lamprey's lock was set to keep, and cheated the Office by the length of a bell-rope for nine years. You write it down where Fusby cannot read it.".
+    Otherwise "You turn the words over, and they stay a rhyme. A man's last breath, a phrase for a child's game. You will have to ask someone who heard them mean something.".
+  }
+  Action wk_lodger_says(actor: group, site: place) "Ask Miss Harbottle, quietly, what Mr Teague's last words mean" {
+    Speaker wk_lodger.
+    Requires able(actor) and company(actor) and at(actor, site) and at(wk_lodger, site) and knows(actor, wk_last) and not knows(actor, d_way_teague) and (wk_friend_lodger(actor) or wk_sat(actor)).
+    Time 10 minutes.
+    On success { Assert knows(actor, d_way_teague). Assert teagueCombination(actor). }
+    Result "'The hatch,' says Miss Harbottle, very low, with the mourners behind you. 'The Lamprey's. The wheel is on the inside of the lid. Fish for the fin, fish for the tail, fish-bone for the spine, and three turns left, and it lets you into the part of the cellars that the Office swears is flooded. He found it nine years ago. I worked the pump while he went in. I never asked what he was bringing out.' She turns her palms over in her lap. 'You may have it. It has done what it was going to do.'".
+  }
+  Action wk_sit(actor: group, site: place) "Sit the wake through the night with the two Rosalinds" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(wk_lodger, site) and at(wk_rosalind, site) and dark() and watch(clock) < 204 and not wk_sat(actor) and not wk_closed(actor).
+    Time 36.
+    On success { Assert wk_sat(actor). }
+    Result "You sit the long hours with the candle and the coffin. The mourners go, one by one. At two the Admiral opens a bottle that has been in the sideboard since the year of the Ordinance, and pours three glasses, and puts one by the coffin. At four the lodger is asleep with her head against the wall, and Mrs Teague has put her own shawl over her, without remark. Nobody asks you to go.".
+  }
+  Action wk_hearth_lodger(actor: group, site: place) "Ask Miss Harbottle whether the lamp by the coffin might be kept lit on the Night, and the range lit under it" {
+    Speaker wk_lodger.
+    Requires able(actor) and company(actor) and at(actor, site) and at(wk_lodger, site) and wk_sat(actor) and wk_friend_lodger(actor) and not keeper(hill).
+    Time 10 minutes.
+    On success { Assert keeper(hill). }
+    Result "'A wake keeps a light,' says Miss Harbottle. 'It is only we have not got a corpse for it now.' She looks at the candle. 'The Admiral will say a stove is a wicked extravagance, and then she will light it. We'll keep the range going for the Night. Tell whoever it is.'".
+  }
+  Action wk_hearth_wife(actor: group, site: place) "Ask Mrs Teague whether the range might be kept alight in the house on the Night" {
+    Speaker wk_rosalind.
+    Requires able(actor) and company(actor) and at(actor, site) and at(wk_rosalind, site) and wk_sat(actor) and wk_friend_wife(actor) and not keeper(hill).
+    Time 10 minutes.
+    On success { Assert keeper(hill). }
+    Result "'On the Hill?' says Mrs Teague. 'Against the Ordinance, with the neighbours?' She is silent a while. 'My sister Clemency had a hearth in the front kitchen till the day she died, and we all pretended it was the dog's. I shall light it. Say nothing to the Hill.'".
+  }
+  Action wk_lend_fusby(actor: group, site: place) "Ask Tabitha whether Fusby might be carried to the Hall of the Five to give his evidence" {
+    Speaker wk_keeper.
+    Requires able(actor) and company(actor) and at(actor, site) and at(wk_keeper, site) and wk_settled(actor) and not witness(wk_fusby) and (wk_friend_wife(actor) or wk_friend_lodger(actor)).
+    Time 10 minutes.
+    Grave "Fusby repeats everything he has heard, in the order he heard it, in front of whoever is there. The fish, the stair and the coin go in with the rest.".
+    On success { Assert witness(wk_fusby). }
+    Result "'Him?' says Tabitha. 'In a hall? With the great people?' She looks at the cage. 'He'll say what he heard. I can't stop him, and neither can you. That's the only thing he's good for.' She whistles the three notes through her teeth, softly, and Fusby, under his cloth, mutters, 'Admiral on deck.'".
+  }
+
+  // ── Afterward ─────────────────────────────────────────────────────────────────────────────────────────────
+  Observe wk_afterglow_w at teague_front when wk_friend_wife(party) "On the sideboard stands a bottle with three glasses beside it, and the ham, wrapped in cloth, has the company's initial pencilled on the corner.".
+  Observe wk_afterglow_l at teague_front when wk_friend_lodger(party) and not wk_friend_wife(party) "Miss Harbottle's trunk is gone from the landing and her boots are on the hearth-rug. She is, apparently, staying.".
+  Observe wk_fusby_fates at teague_front when wk_settled(party) and not witness(wk_fusby) "Fusby has been given the tall perch by the window. He says nothing today to anybody, which Tabitha says is a sign.".
+  Rule wk_fusby_to_hall when day(clock) >= 7 and witness(wk_fusby) and at(wk_fusby, teague_front) { Retract at(wk_fusby, teague_front). Assert at(wk_fusby, hall_five). }
+  Rule wk_testifies at hall_five when at(party, hall_five) and at(wk_fusby, hall_five) and witness(wk_fusby) and not wk_testified(party) and not wk_fraud(party) says "Tabitha sets the cage on the bare dais among the five chairs and takes off the cloth. Fusby looks at the Five. He says, in a dead cellar-diver's voice, 'Ros! Hold the line!', and then, with great sweetness, 'It's lit down there. Somebody's feeding it.' And then, 'Fish, fish, fish-bone.' The Lamprey's chair is the first to move. He cannot be bribed, and cannot be asked a question; he can only be heard." { Assert wk_testified(party). Assert wk_slighted_lamprey(party). Decrease regard(lamprey) by 1 or to nothing. }
+  Rule wk_testifies_fraud at hall_five when at(party, hall_five) and at(wk_fusby, hall_five) and witness(wk_fusby) and not wk_testified(party) and wk_fraud(party) says "Tabitha sets the cage on the bare dais among the five chairs and takes off the cloth. Fusby looks at the Five. He says, in a dead cellar-diver's voice, 'Ros! Hold the line!', and 'It's lit down there. Somebody's feeding it.' And 'Fish, fish, fish-bone.' And then, in the voice of the company's own liar, 'To the lodger, all of it, no questions,' which is the one thing in his repertoire that Mr Teague never said. The Providence's chair turns slowly to look at you." { Assert wk_testified(party). Assert wk_slighted_lamprey(party). Assert wk_slighted_providence(party). Decrease regard(lamprey) by 1 or to nothing. Decrease regard(providence) by 2 or to nothing. }
 }
