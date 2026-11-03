@@ -97,7 +97,7 @@ describe('Quittance: the Lamplighter\'s Round', () => {
       expect(City.state(j, 'll_lamp_t', 'ready')).toBe(true);
     }, 120000);
     it('Stokers\' Steps: for the widow, for the pawnbroker, or two lamps at five coin', async () => {
-      for (const [label, rel] of [['Swing the Steps lamp to light the stair', 'll_sideSteps'], ['Swing the Steps lamp to light the pawnbroker', 'll_sideShop'], ['Pay the Company for a second bracket', 'll_sideBoth']]) {
+      for (const [label, rel] of [['Swing the Steps lamp to light the stair', 'll_sideSteps'], ['Swing the Steps lamp to light the pawnbroker', 'll_sideShop'], ['Pay the Company for a second bracket', 'll_sideBoth']] as [string, string][]) {
         const j = await City.start();
         await j.play(...row, '>quittance__round_steps', 'Talk to Mrs Strood', 'what the quarrel is', '?Take your leave', 'Talk to Mr Beadle', 'what the quarrel is', '?Take your leave');
         const gold = City.gold(j), gasco = City.regard(j, 'gasco');

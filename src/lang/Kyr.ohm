@@ -57,7 +57,8 @@ Kyr {
   Chapter = "Chapter" ident string EndingWhen
   Promise = "Promise" PromiseHead PromiseKept PromiseBroken
   PromiseHead = ident string "to" ident
-  PromiseKept = "kept" PromiseClose? PromiseWhen string?
+  PromiseKept = "kept" PromiseClose? PromiseWhen PromiseKeptTail
+  PromiseKeptTail = string? PromiseEffects?
   PromiseClose = "at" "the" "close"
   PromiseWhen = "when" Predicate
   PromiseBroken = "broken" "when" Predicate PromiseTail

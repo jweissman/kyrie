@@ -16,12 +16,29 @@ export class Diagnostics {
     const others = names.length ? this.clashes(authored, shared).filter(c => !names.some(n => c.startsWith(`'${n}'`))) : [];
     return new Error([`${here ? `${here}: ` : ''}${message}`, ...new Set([...also, ...others])].join('\n  '));
   }
-  // A parse error in one file, said with that file's path.
+  // A parse error in one file, said with that file's path, and in the words of what was being written: not every
+  // keyword of the language after a stop that ended a declaration too soon (Quittance's 20 and A05: `Observe … "…".
+  // teaches x.` was told the thirty declarations that could come next).
   static parse(error: unknown, path: string): Error {
-    const message = error instanceof Error ? error.message : String(error);
+    const message = this.said(error instanceof Error ? error.message : String(error));
     const at = /Line (\d+), col (\d+)(: )?/.exec(message);
     const file = this.short(path), bare = at?.[3] ? message.replace(at[0], '') : message;
     return new Error(at ? `${file}:${at[1]}:${at[2]}: ${bare}` : `${file}: ${message}`);
+  }
+  private static said(message: string): string {
+    const pointed = /^> *\d+ \| (.*)$/m.exec(message)?.[1], col = Number(/col (\d+)/.exec(message)?.[1] ?? 0);
+    const expected = /^Expected (.*)$/m.exec(message)?.[1] ?? '';
+    if (!pointed || !col) { return message; }
+    const kind = /^\s*([A-Z]\w+)/.exec(pointed)?.[1] ?? 'declaration', next = /^\w+/.exec(pointed.slice(col - 1))?.[0];
+    const instead = (expected.match(/"[A-Z]\w+"/g) ?? []).length >= 8
+      ? next && /^[a-z]/.test(next) ? `the ${kind} ended at the stop before "${next}": "${next}" goes before its final "."`
+        : `the ${kind} is finished; a new declaration (Place, Person, Rule, …) or "}" comes next`
+      : kind === 'Rule' && expected === '"{"' ? 'a Rule ends with its changes in braces, "{ }" if it only says something'
+        : undefined;
+    if (!instead) { return message; }
+    const line = expected.length > 60 ? `${instead.charAt(0).toUpperCase()}${instead.slice(1)}`
+      : `Expected ${expected}: ${instead}`;
+    return message.replace(/^Expected .*$/m, line);
   }
   // The names an error is about: "Duplicate entity a, b", "Parameter shadows entity x", "Invalid argument x in …",
   // "Text names unknown entity {x}", "Unknown predicate x".

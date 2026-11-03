@@ -450,8 +450,11 @@ world turns the hazard on one member. From `test/fixtures/strongroom`:
 
 ### Chance, weather and the dark
 
-`dice(clock)` is a die from 1 to 100 thrown every watch from the campaign's seed; a rule that reads it is how a
-world leaves something to chance (a band on the road at night, the weather turning). Weather is a `scenery` entity
+`season(clock)` is the season by the campaign's calendar, when it keeps one (1 spring, 2 summer, 3 autumn, 4 winter;
+0 with none: Gosse's Company's 7), and `been(party, place)` holds of every place the company has stood in, from the
+first time (Quiet in the Sky's 6: for "come back to", ask `been` and that the company was elsewhere since, as a
+relation of the module's own). `dice(clock)` is a die from 1 to 100 thrown every watch from the campaign's seed; a rule
+that reads it is how a world leaves something to chance (a band on the road at night, the weather turning). Weather is a `scenery` entity
 whose state other things follow by rules; scenery has states and descriptions but is not offered to be tried. A
 thing on a way the company does not know of is not noticed, so it does not give the way away. From the Varrow, a
 region since retired (it is in the history before commit e4b485b):
@@ -620,6 +623,11 @@ ledger. The Heron sells a night's sleep, Osk sells rope and salve, and every hou
 river rising.
 
 ## 9. Check it
+
+Before naming things: `bin/kyrie names Pargeter Tench` says whether each surname is free or whose it is, and
+`bin/kyrie lint --inventory` lists every relation and measure the modules declare, with what the engine keeps (the
+clock, its records, what it reads off bodies, who holds what, what is known), which a module reads and never writes;
+a load that writes one says which action or rule does (Quittance's 1 and 2).
 
 To begin an adventure with everything this section uses:
 
@@ -1085,13 +1093,14 @@ it has opened.
 
 A promise the company makes to someone is a `Promise`: made by an action or a topic that asserts `promiseMade(id)`, an
 aim while it stands ("Keep your promise to Comptroller Vane: …"), kept the first time its kept condition holds, and
-broken the first time its broken condition does, with what breaking it brings (`test/fixtures/probes/promise`; What
+broken the first time its broken condition does, with what keeping or breaking it brings, each in a block after its
+words (`test/fixtures/probes/promise`; Quittance's 14; What
 Tessary Owes' 5: every promise was a relation, a deadline rule, a kept rule, a broken rule and a consequence, by hand).
 `promiseKept(id)` and `promiseBroken(id)` say how it went.
 
 ```text
   Promise letter_promise "to bring him the Factor's letter by nightfall" to comptroller
-    kept when keeps(comptroller, letter) "The Comptroller draws a line through the promise, neatly."
+    kept when keeps(comptroller, letter) "The Comptroller draws a line through the promise, neatly." { Assert trusted(party). }
     broken when hour(clock) >= 18 "Somewhere a line is drawn through a promise you made." { Assert forsworn(party). }.
 ```
 
