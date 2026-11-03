@@ -21,6 +21,8 @@ export interface ThingSpec {
 }
 export interface PassageSpec {
   id: string; name: string; sides: [string, string]; oneWay: boolean; hidden?: string; needs?: string[];
+  // Needed only going one way: into the place `to`, or out of the place `id` (Anchor's from).
+  into?: { needs: string[]; to?: string; kind?: string; id?: string };
   kind?: string; ticks?: number; minutes?: number;
   // Crossed only while this holds, and how the way looks while it does not.
   openings?: { when: Predicate; shut?: string }[];
@@ -47,6 +49,7 @@ export class WorldConstructs {
     if (!p.oneWay) { this.assert(module, 'connects', p.id, p.sides[1], p.sides[0]); }
     if (p.hidden) { this.assert(module, 'revealedBy', p.id, p.hidden); }
     for (const need of p.needs ?? []) { this.assert(module, 'needs', p.id, need); }
+    if (p.into) { this.into(module, p, p.into); }
     const kind = p.kind ?? 'passage';
     if (!this.wayKinds.includes(kind)) { throw new Error(`Unknown passage kind ${kind} for ${p.id}`); }
     this.entity(module, `way_${kind}`, 'waykind', kind);
@@ -61,6 +64,16 @@ export class WorldConstructs {
         value: { kind: 'number', value: minutes } });
     }
     if (p.openings?.length) { this.opening(module, p.id, p.openings, p); }
+  }
+  // A way that needs something going one way only: the stairs down into the Whelm need breath, and a company whose
+  // breath had run out could still climb back up. Each such way had been two one-way passages and a rule to lift a
+  // drowning company (the Grand Tour's W2, GTR-X08). The need is asked of a company going to that end (equippedInto).
+  private static into(module: Module, p: PassageSpec, into: NonNullable<PassageSpec['into']>) {
+    const end = into.to ?? p.sides.find(s => s !== into.id);
+    if (!end || !p.sides.includes(into.to ?? into.id!)) {
+      throw new Error(`Passage ${p.id} needs something going to or from ${into.to ?? into.id}, which is neither end`);
+    }
+    for (const need of into.needs) { this.assert(module, 'needsInto', p.id, end, need); }
   }
   // A way that opens only while something holds is unopened until the world's rules find that it does, and again
   // whenever it stops holding; while unopened, it is not passable, and looks as the author says, to a company that

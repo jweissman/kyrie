@@ -39,6 +39,10 @@ Module world_passages "Passages, obstacles and the condition of things" {
   Query meets(a: group, n: entity) means capable(a, n) or holding(a, n) or carries(a, n)
     or (following(a, ?l) and holding(?l, n)).
   Query equippedFor(a: group, x: entity) means not needs(x, ?n) or (needs(x, ?n) and meets(a, ?n)).
+  // What a way needs going to one of its ends only (Passage … needing breath going to whelm): GTR-X08.
+  Relation needsInto(passage, place, entity).
+  Query equippedInto(a: group, w: passage, d: place) means not needsInto(w, d, ?n)
+    or (needsInto(w, d, ?n) and meets(a, ?n)).
   Query informedFor(a: group, c: change) means not changeKnows(c, ?f) or (changeKnows(c, ?f) and knows(a, ?f)).
   Query visibleTo(w: passage, a: group) means not revealedBy(w, ?f) or (revealedBy(w, ?f) and knows(a, ?f))
     or (revealedBy(w, ?g) and following(a, ?l) and knows(?l, ?g)).
@@ -77,7 +81,7 @@ Module world_passages "Passages, obstacles and the condition of things" {
 
   Action go(actor: group, way: passage, origin: place, destination: place) "Take {way} to {destination}" {
     Requires able(actor) and at(actor, origin) and connects(way, origin, destination) and passable(way, actor)
-      and mobile(actor).
+      and equippedInto(actor, way, destination) and mobile(actor).
     Time travelTime(way).
     On success { Assert at(actor, destination). Assert tookWay(actor, way). }
     Seen "{actor} takes {way} toward {destination}.".
@@ -88,7 +92,8 @@ Module world_passages "Passages, obstacles and the condition of things" {
       and able(gatekeeper) and state(gatekeeper, ?t) and blocksWhen(gatekeeper, ?t) and not tolerates(gatekeeper, actor)
       and (at(gatekeeper, origin) or at(gatekeeper, destination))
       and capable(actor, stealth)
-      and visibleTo(way, actor) and not barred(way) and not hazardous(way) and equippedFor(actor, way) and mobile(actor).
+      and visibleTo(way, actor) and not barred(way) and not hazardous(way) and equippedFor(actor, way) and mobile(actor)
+      and equippedInto(actor, way, destination).
     Time travelTime(way).
     On success { Assert at(actor, destination). Assert tookWay(actor, way). }
     Result "One at a time, keeping low and downwind, you slip past {gatekeeper}.".
@@ -97,7 +102,7 @@ Module world_passages "Passages, obstacles and the condition of things" {
     Requires able(actor) and at(actor, origin) and connects(way, origin, destination) and on(trap, way)
       and state(trap, ?s) and harmsWhen(trap, ?s) and hurtsWith(trap, blow) and hurtsInto(trap, after)
       and memberOf(victim, actor) and awake(victim) and visibleTo(way, actor) and not obstructed(way)
-      and equippedFor(actor, way) and mobile(actor).
+      and equippedFor(actor, way) and equippedInto(actor, way, destination) and mobile(actor).
     Resolve expose(blow, victim).
     Time travelTime(way).
     On success { Assert state(trap, after). Assert at(actor, destination). Assert tookWay(actor, way). }

@@ -308,7 +308,7 @@ export class Journey {
     for (const queue = [start]; queue.length && !came.has(target);) {
       const here = queue.shift()!;
       for (const l of links.filter(r => r.args[1] === here && !came.has(r.args[2]!)
-        && Journey.usable(world, r.args[0]!, company))) {
+        && Journey.usable(world, r.args[0]!, company, r.args[2]!))) {
         came.set(l.args[2]!, [here, l.args[0]!]); queue.push(l.args[2]!);
       }
     }
@@ -317,9 +317,9 @@ export class Journey {
     for (let at = target; at !== start; at = came.get(at)![0]) { steps.unshift([came.get(at)![1], at]); }
     return steps;
   }
-  private static usable(world: World, way: string, company: string): boolean {
-    const call = ModuleWriter.call;
-    return world.test(call('equippedFor', company, way)) && world.test(call('visibleTo', way, company))
+  private static usable(world: World, way: string, company: string, to: string): boolean {
+    const call = ModuleWriter.call, into = !world.declares('equippedInto') || world.test(call('equippedInto', company, way, to));
+    return into && world.test(call('equippedFor', company, way)) && world.test(call('visibleTo', way, company))
       && !world.test(call('barredFor', way, company)) && !world.test(call('unopened', way))
       && !world.test(call('watchedAgainst', way, company));
   }

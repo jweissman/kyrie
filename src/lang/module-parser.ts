@@ -24,7 +24,8 @@ export class ModuleParser {
     PlaceAlias: ModuleParser.PlaceAlias, PlaceShelter: ModuleParser.text, ObservationAspect: ModuleParser.Second,
     ObservationBy: ModuleParser.Third, ObservationInstead: ModuleParser.Third, TopicAnswering: ModuleParser.Second,
     Passage: ModuleParser.Passage, PassagePart_oneway: ModuleParser.OneWay, PassagePart_hidden: ModuleParser.Hidden,
-    PassagePart_needs: ModuleParser.Needs, Thing: ModuleParser.Thing, ThingSite_in: ObjectParser.In,
+    PassagePart_needs: ModuleParser.Needs, NeedsEnd_to: ModuleParser.NeedsTo, NeedsEnd_from: ModuleParser.Anchor,
+    Thing: ModuleParser.Thing, ThingSite_in: ObjectParser.In,
     HoldsPart: ObjectParser.HoldsPart, Concealed: ObjectParser.Concealed, ItemPlace_at: ObjectParser.At,
     ItemPlace_in: ObjectParser.In, FoundBy: ModuleParser.FoundBy, FoundWith: ObjectParser.FoundWith,
     ThingSite_at: ModuleParser.Site, ThingSite_on: ObjectParser.SiteOn, WayEnd: ObjectParser.WayEnd,
@@ -182,10 +183,12 @@ export class ModuleParser {
       ...shut.children.length ? { shut: ModuleParser.ast(shut.children[0]!) as string } : {} }] };
   }
   static Hidden(_hidden: Node, _until: Node, fact: Node) { return { hidden: fact.sourceString }; }
-  // "needing rope or climbing": any one of them will do.
-  static Needs(_needing: Node, kind: Node, _ors: Node, more: Node) {
-    return { needs: [kind.sourceString, ...more.children.map(n => n.sourceString)] };
+  // "needing rope or climbing": any one of them will do; "… going to whelm" or "… from whelm", that way only.
+  static Needs(_needing: Node, kind: Node, _ors: Node, more: Node, end: Node) {
+    const needs = [kind.sourceString, ...more.children.map(n => n.sourceString)];
+    return end.children.length ? { into: { needs, ...ModuleParser.ast(end.children[0]!) as object } } : { needs };
   }
+  static NeedsTo(_going: Node, _to: Node, place: Node) { return { to: place.sourceString }; }
   static ChangeNeeds(_needing: Node, kind: Node, _ors: Node, more: Node) {
     return [kind.sourceString, ...more.children.map(n => n.sourceString)];
   }

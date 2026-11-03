@@ -1,0 +1,12 @@
+Module onewayneed "Stairs down into the Whelm, and up out of it" {
+  Place bay "the bay" is settlement.
+  Place brink "the brink of the stairs" is room within bay at 0, 0 outdoors.
+  Place whelm "the Whelm" is room within bay at 0, 1 underground.
+  Company party "You" of 1 at whelm.
+  // A rope is needed going down only: whoever has come up without one can climb up still (GTR-X08).
+  Passage whelm_stairs "the slick stairs" is stair between brink and whelm needing rope going to whelm.
+  Item line "a coil of line" is rope at brink.
+  Observe brink_scene at brink when true "Wet steps go down into the dark.".
+  Observe whelm_scene at whelm when true "Green water stands at the foot of the stairs.".
+  Goal false.
+}

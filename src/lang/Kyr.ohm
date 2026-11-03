@@ -17,9 +17,12 @@ Kyr {
   PassageKind = "is" ident
   PassagePart = "one" "way" -- oneway
               | "hidden" "until" ident -- hidden
-              | "needing" ident ("or" ident)* -- needs
+              | "needing" ident ("or" ident)* NeedsEnd? -- needs
               | "taking" integer timeUnit -- taking
               | "opening" "when" Predicate string? -- opening
+  // Needed only going one way: into a place, or out from it (GTR-X08).
+  NeedsEnd = "going" "to" ident -- to
+           | "from" ident -- from
   timeUnit = "minutes" | "minute" | "hours" | "hour" | "days" | "day"
   Thing = "Thing" ident string ThingSite ThingKind? Concealed? "{" ThingPart* "}"
   // One end of a way: a thing on the way, or a line beside it, told only to a company at that end (GTR-08).

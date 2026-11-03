@@ -62,7 +62,10 @@ physically. The kinds are `passage`, `door`, `doorway`, `arch`, `gate`, `stair`,
 duration says how long it takes to cross: a minute through a door, doorway, arch or gate, two on a stair, steps or a
 ladder, ten minutes for anything else, unless you write `taking 3 minutes`, `taking 30 minutes` or `taking 2 hours`. A
 passage can be `hidden until` a fact is known, or `needing` a skill or an item kind (a Change too, and either of two:
-`needing crowbar or lockwork`).
+`needing crowbar or lockwork`). A way can need something going one way only, to one of its ends (`needing rope going
+to whelm`) or from it (`needing rope from brink`): a company comes up the stairs out of the Whelm without what it needed
+to go down them, and the map draws one way (`test/fixtures/probes/one-way-need`; the Grand Tour's W2 wrote each such
+way as two one-way passages, and a rule to lift a company that could not climb out).
 
 ```kyr
   Passage heron_door "the Heron's door" is door between taproom and green.
