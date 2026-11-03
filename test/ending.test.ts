@@ -19,3 +19,12 @@ describe('an ending', () => {
     expect([kept.running, Endings.reached(kept.world)?.title]).toEqual([false, 'The Gate Opens']);
   }, 60000);
 });
+// The Quiet in the Sky's 21 (QIS-05): a company killed by the cold after the watch's rules had run was never read for
+// the module's own ending on dead(party), and the page closed on the shared words.
+describe('an ending on the company dead', () => {
+  it('is reached when the company falls, before the shared words', async () => {
+    const j = await Journey.start('test/fixtures/probes/fallen/probe.campaign.json', 'fallen');
+    await j.play('Lie down in the snow');
+    expect([j.campaign.running, Endings.reached(j.campaign.world)?.title]).toEqual([false, 'The Hour']);
+  }, 60000);
+});

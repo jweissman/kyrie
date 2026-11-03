@@ -9,6 +9,7 @@ import type { Operator } from '../lang/module';
 import type { World } from '../lang/world';
 import type { CombatEvent } from '../model';
 
+interface Passing { before: World; combat: CombatEvent[]; journey?: { leg: Leg; arrive: () => void } }
 // What the campaign gives the loop: one watch's bookkeeping before the world moves and after it has.
 export interface WatchHost extends TickHost {
   readonly persistent: boolean;
@@ -24,9 +25,20 @@ export class WatchLoop {
     current.minutes = spent % 10;
     return Math.floor(spent / 10);
   }
+  // A company fallen as the time passed is read for the endings once more, so that a module can say what comes after
+  // (see CampaignTick.endings).
+  static pass(host: WatchHost, action: Operator, at: Passing) {
+    const passed = this.watches(host, action, at);
+    if (host.persistent && this.fallen(host)) { CampaignTick.endings(host, passed.happenings); }
+    return passed;
+  }
+  private static fallen(host: WatchHost): boolean {
+    const { definition, creatures } = host.tickState;
+    const members = definition.actors.find(a => a.id === host.playerActor)?.members ?? [];
+    return members.length > 0 && members.every(id => creatures.peek(id).state.hp <= 0);
+  }
   // On a journey, every watch but the last is spent on the way; the company arrives for the last.
-  static pass(host: WatchHost, action: Operator,
-    { before, combat, journey }: { before: World; combat: CombatEvent[]; journey?: { leg: Leg; arrive: () => void } }) {
+  private static watches(host: WatchHost, action: Operator, { before, combat, journey }: Passing) {
     const npc: TickDecision[] = [], happenings: Happening[] = [];
     const player = host.playerActor, watches = WatchLoop.spend(host, ActionTime.minutes(action, before));
     const watch = Interruption.begin(host.world, action, player, host.tickState.current.elapsed);

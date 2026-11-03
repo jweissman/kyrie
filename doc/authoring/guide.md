@@ -1167,6 +1167,10 @@ Company's friction; `test/fixtures/probes/never-there`):
   Ending opened "The Gate Opens" when state(lever, up) "The gate grinds open on the valley beyond, and the pass is yours.".
 ```
 
+A module can say what comes after the company dies: an ending on `dead(party)` is read once more after the company
+falls, by a fight, a hazard or a rule's blow, and the page closes on it rather than on the shared words (the Quiet in
+the Sky's 21: the dead walk in out of the snow; `probes/fallen`).
+
 `reached(opened)` says which ending a game came to, in a kept game as in play. Endings are tried in the order they
 are written, so the more particular comes first: the lint says when one asks all that an earlier one asks, and so can
 never be reached.
@@ -1276,6 +1280,10 @@ opening when not showing(top) "The flap is laced: the show is on."`).
 It is read again once every rule of the moment has run, so a gate declared before the rule that lets the company
 through is open as soon as that rule has (`probes/admitted`; Low Water's Assayers' gate, What Tessary Owes' black
 wall).
+A way does not shut under a company crossing it: the sea that comes over the sands while the company is half across
+keeps it going to the far side, and the way shuts once it is off (Fair Weather's 2; `probes/crossing`). A way that
+should turn back whoever is on it is barred by a thing's state instead (`blocking`), as the tide over the ford-road's
+causeway is.
 
 ### Kin, companions and animals
 

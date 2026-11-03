@@ -126,6 +126,17 @@ export class CampaignTick {
     for (const rule of rules) { if (!rule.late) { this.fire(host, rule, happenings, { began }); } }
     for (const rule of rules) { if (rule.upkeep || rule.late) { this.fire(host, rule, happenings, { began }); } }
   }
+  // The endings alone, read once more after the company has fallen: the cold that killed it struck after the watch's
+  // rules had run, and no pass came after, so a module's own ending on dead(party), the dead walking in out of the
+  // snow, was never reached and the page closed on the shared words (The Quiet in the Sky's 21, QIS-05).
+  static endings(host: TickHost, happenings: Happening[]) {
+    const began = host.world;
+    for (const rule of host.module.rules ?? []) {
+      if (rule.effects.some(c => c.kind === 'assert' && c.call.name === 'reached')) {
+        this.fire(host, rule, happenings, { began });
+      }
+    }
+  }
   // What is read again once the rules of the moment have run, read once as a game begins, before anyone acts: a way
   // open by day, or a change made only while nobody watches, is so from the first, not from the first watch (GTR-07:
   // the bureau no one stood over could not be eased open until the company had done something else first).
