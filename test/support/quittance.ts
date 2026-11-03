@@ -26,5 +26,5 @@ export const Paths = {
   toPhoenix: [...City.honest, '^To the Brokers', '^To Policy Row', '^Into Phoenix House'],
   toTables: [...City.honest, '^To the Brokers', '^To Policy Row', '^Into Phoenix House', '^To the Tables Room'],
   toHearth: [...City.honest, '^To the Brokers', '^To Policy Row', '^To Surety Hill', '^Into Hearn', '^To the hearth-room'],
-  buy: (what: string, who = 'Elen') => [`^Into the Policy Booths`, `Buy.*${what}.*for ${who}`, '^Out to Gate Plaza'],
+  buy: (what: string) => [`^Into the Policy Booths`, `Buy.*${what}`, '^Out to Gate Plaza'],
 };

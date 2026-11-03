@@ -235,7 +235,7 @@ describe('The Penny Mutual', () => {
   it('a stranger who knows the date of a fire is the one who set it, until the fund is home', async () => {
     const j = await City.start('hat');
     await j.play(...City.honest, '>' + Q('night_market'), '=17:00');
-    await j.play('Talk to Hannah Pennifold', 'Buy a stolen clerk.s hat.*for Elen', '^To Salt Lane');
+    await j.play('Talk to Hannah Pennifold', 'Buy a stolen clerk.s hat', '^To Salt Lane');
     await j.play('>' + Q('penny_hall'), 'Talk to Keturah', 'what became of the treasurer', 'Take your leave', '^Out to Salt Lane', 'Put on the stolen clerk', 'Hold the stamped notice');
     expect(City.regard(j, 'wardsfolk')).toBe(0);
     await j.play('^Into the Penny Mutual', 'Talk to Keturah', 'Tell Mrs Trendle that Candlewick');
@@ -289,7 +289,7 @@ describe('The Penny Mutual', () => {
   it("the clerk's hat gets the sealed form out of the deputy: the stamp seen without meeting the treasurer", async () => {
     const j = await City.start('hat');
     await j.play(...City.honest, '>' + Q('night_market'), '=17:00');
-    await j.play('Talk to Hannah Pennifold', 'Buy a stolen clerk.s hat.*for Elen', '^To Salt Lane');
+    await j.play('Talk to Hannah Pennifold', 'Buy a stolen clerk.s hat', '^To Salt Lane');
     await j.play('>' + Q('penny_hall'), 'Talk to Keturah', 'what became of the treasurer', 'Take your leave', '^Out to Salt Lane');
     expect(j.offers('Put on the stolen clerk')).toBe(true);
     await j.play('Put on the stolen clerk');

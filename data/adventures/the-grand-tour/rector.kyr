@@ -12,11 +12,11 @@ Module sennet "The Grand Tour" {
   Query rectorAll() means rectorThree() and rectorHas(air_petal).
   // ── The divers ────────────────────────────────────────────────────────────────────────────────────────────────────
   Rule divers_ordered when day(clock) >= 4 and rectorFree() and not petalTaken(water_petal) and not divers(quance) { Assert divers(quance). }
-  Topic pargeter_trade with pargeter "Ask Mr. Pargeter how trade is, with the Tour on" when divers(quance) once {
+  Topic pargeter_trade with pargeter "Ask Mr. Ollerenshaw how trade is, with the Tour on" when divers(quance) once {
     Says "'Marvellous! The House bought six brine-glass helms yesterday, on the Rector's own account.' He rubs his hands. 'And six harpoons. Whaling, I said to the clerk, ha ha.' He stops rubbing them. 'He didn't laugh. Nobody in the House laughs, this week.' He looks at you over his spectacles. 'What does a college want with harpoons, under the water? There's nothing down there but the sea-folk.'".
     On discuss { Assert knows(actor, rector_divers). }
   }
-  Discovery rector_divers "On the fourth day the House of Doors bought six brine-glass helms and six harpoons from Pargeter's, on the Rector's own account. There is nothing under the bay to use them on but the merfolk.".
+  Discovery rector_divers "On the fourth day the House of Doors bought six brine-glass helms and six harpoons from Ollerenshaw's, on the Rector's own account. There is nothing under the bay to use them on but the merfolk.".
   Topic warn_admittance with admittance "Warn No Admittance that dry men are coming down with harpoons for the Water petal" when knows(actor, rector_divers) and not whelmWarned(admittance) and not raided(quance) once {
     Says "She does not ask how you know. 'Harpoons.' She looks at her people at their supper, the children, the old man in the drowned armchair. 'In my Guildhall.' Her hand goes up to the crown. 'We have never been hunted. We came through the Door to a town already drowned; nobody was left to hunt us.' She stands up out of the mayor's chair. 'Then we will be awake.' She gives orders, in bubbles, low and quick, and the merfolk get up from the table and go, and you hear, through the water, all down Chandlers' Row, doors being shut.".
     On discuss { Assert whelmWarned(admittance). }

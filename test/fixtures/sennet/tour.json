@@ -15,7 +15,7 @@
   ">sennet__glasshouse",
   "Buy.*hand-mirror",
   ">sennet__hall_of_doors",
-  "Talk to.*Tench",
+  "Talk to.*Threlkeld",
   "fire-cloak out of",
   ">sennet__ash_market",
   "Talk to.*hawker",
@@ -115,7 +115,7 @@
   "Go down in the basket",
   ">sennet__outfitter",
   "Buy › An empty wind-jar",
-  "Ask Mr. Pargeter what a Tourist needs"
+  "Ask Mr. Ollerenshaw what a Tourist needs"
  ],
  "air": [
   "=day 3 11:00",
