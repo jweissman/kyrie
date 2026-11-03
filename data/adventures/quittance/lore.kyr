@@ -1,0 +1,98 @@
+Module quittance "Quittance" {
+  Description "What Quittance remembers and does not say: the Receipt that fades by the day, Dame Honora's small hand, the Burning in the glass, the children's counting-rhyme, the Reckoning pageant, and a hundred small things with a history behind them. Nothing here is needed; everything here is a rumour of the thing under the Exchange.".
+
+  // ══ THE RECEIPT, DAY BY DAY ═════════════════════════════════════════════════════════════════════════════
+  // The Receipt on the front of the Hall of the Five is written in fire gone to white. It is read from the court of the
+  // Exchange, and every morning there is less of it. (Foreshadowing for the whole book, and a clock a player can read.)
+  Observe receipt_1 at exchange_court when day(clock) <= 3 "The Receipt on the Hall's front is still legible if you stand where the clerks stand. RECEIVED OF THE CITY OF QUITTANCE, THE SUM OF ITS PREMIUM, IN FULL. The last three words have gone the colour of old teeth; the rest is white.".
+  Observe receipt_2 at exchange_court when day(clock) >= 4 and day(clock) <= 6 "The Receipt has lost its last words since you came. RECEIVED OF THE CITY OF QUITTANCE, THE SUM OF ITS. Where PREMIUM was, the plaster shows through a pale smear, like a word breathed on a window.".
+  Observe receipt_3 at exchange_court when day(clock) >= 7 "The Receipt has dwindled to RECEIVED OF THE CITY, and under it a long faint stroke, such as a clerk makes with the side of the pen before he has decided what to write. The clerks pass it with their eyes down.".
+  Observe receipt_candle at exchange_court when burned(candlewick) and day(clock) >= 3 "Since the night of the fire in the Wards another letter has gone from the Receipt, and the clerks, who are exact, have written the date of its going in chalk on the step.".
+  Observe receipt_warm at exchange_court when wardsLit(city) >= 3 "The Receipt is brighter. Someone has noticed; there is a small crowd at the rail, and a clerk who has been told not to stand on the step is standing on it.".
+
+  // ══ DAME HONORA ════════════════════════════════════════════════════════════════════════════════════════
+  Thing honora_statue "the statue of Dame Honora Hearn" at exchange_court {
+    Tries looking.
+    State standing "A bronze notary stands on a granite plinth in the middle of the court, a quill in her left hand and a sheaf under her arm. Her right hand is held out, palm up, a little cupped, as if to receive something small. No bird has ever settled in it.".
+  }
+  Observe honora_plinth near honora_statue when tried(honora_statue, looking) "The plinth says: DAME HONORA HEARN, NOTARY. SHE READ THE TERMS. Under it, on the lower course, in a different and later chisel: AND SIGNED. Under that, scratched with a nail by someone with a great deal of time: and was kind.".
+  // Her handwriting, small and upright and in pencil, in the margin of everything she touched. Five places have it; the
+  // sixth is in the Strongroom.
+  Thing slip_first_slate "the first Slate, framed over the mantel" at slip_room {
+    Tries looking.
+    State framed "Over the mantel of the Bell & Slip, behind glass, hangs the first Slate ever chalked in Quittance, on a door taken off its hinges in the year of the Burning. It lists eleven claims. Nine are marked PAID. Two are marked, in pencil, in a small upright hand, HELD OVER, and against the second someone has written: until the claimant is able to attend.".
+  }
+  Thing mort_gate_plaque "the plaque on the Mortmain lodge-gate" at mort_lodge {
+    Tries looking.
+    State plaque "A brass plaque on the gatepost, worn nearly smooth by a century of widows: THE SOVEREIGN MUTUAL UNDERTAKES TO PAY WHILE THE LIFE SHALL LAST. Below it, a line engraved in a smaller hand than the rest, in very small capitals, as though it had been added after the plate was approved: A LIFE IS WHAT IT IS CALLED.".
+  }
+  Observe vault_margin at vault when knows(party, d_bell_rule) "In the margin of the closing clause, in pencil, in the same small upright hand as the Rules of the Bell at the Arch, someone has written: sufficient, my dear, to the guest. And beneath that, in a fainter hand that cannot be hers: she did not say whose.".
+  Observe vault_margin_plain at vault when not knows(party, d_bell_rule) "There is a pencil note in the margin of the closing clause, in a small upright hand, nearly gone. You can make out only: sufficient to the.".
+
+  // ══ THE BURNING, IN THE GLASS ══════════════════════════════════════════════════════════════════════════
+  Thing founders_glass "the Founders' Glass" at exchange_court {
+    Tries looking.
+    State wall "On the south side of the court a wall of fused black glass, ten feet high, is all that is left of the Exchange's great window. In the day it shows your own face, a little darker than it is.".
+  }
+  Observe glass_dusk near founders_glass when tried(founders_glass, looking) and hour(clock) >= 17 and hour(clock) < 20 "At dusk the glass changes. Behind your reflection, very small, a street runs in a long curve with its houses open like books, and every window is a colour you have no name for. A woman is walking down the middle of it. She carries a flat case under one arm and she is writing as she walks, without looking at the page, and the street is closing behind her like a mouth. She is not hurrying. She turns her head once, toward the glass, and you have the impression of a very tired person who has seen a thing she means to be civil to. Then the dusk goes, and there is only the court.".
+  Observe glass_day near founders_glass when tried(founders_glass, looking) and (hour(clock) < 17 or hour(clock) >= 20) "In the glass there is your own face, and behind it the court, and a little lower than your shoulder, for an instant, a window of orange light that is not in the court. The clerks do not look at the wall. They have learned the hours when it is worth looking.".
+  Observe court_warm at exchange_court when day(clock) >= 5 "The black glass paving is warm to the hand. Not hot: warm, as a stone is warm that a cat has just left. On the steps of the Hall the snow has melted in a clean shape like a footprint with no foot.".
+
+  // ══ THINGS WITH A HISTORY ══════════════════════════════════════════════════════════════════════════════
+  Thing assize_placard "the Assize of Marks" at gate_plaza {
+    Tries looking.
+    State placard "A tarnished placard on the Arch wall, framed against pigeons: THE ASSIZE OF MARKS, YEAR THREE. A MARK IS THE POLICY. NO MARK, NO RESCUE. ORDERED AFTER BREWERS' ROW, WHERE BOTH BRIGADES ARRIVED AT ONE FIRE AND EACH WAITED FOR THE OTHER TO PASS ITS HOSE. THE LOSS WAS TWENTY-SIX HOUSES AND A BREWERY. THE BREWERY WAS INSURED.".
+  }
+  Thing loss_bell "the Loss-Bell" at slip_room {
+    Tries looking.
+    State hung "A small bell with a worn rope hangs by the Slate, struck once for each ship lost in the Reach, and not struck for houses. Underneath, a card says: BY CUSTOM OF THE HOUSE THE WAITER MAY BE ASKED TO STRIKE IT FOR A SUM, WHERE THE LOSS IS A PRIVATE ONE. There is a brass plate on the rope, rubbed to a shine at the height of a hand: the plate is the Founders' own mark, a coal in a nest, and the nest has been polished until it is almost a bird.".
+  }
+  Thing mean_obelisk "the obelisk of mean expectation" at annuity_row {
+    Tries looking.
+    State obelisk "At the head of Annuitants' Row stands a small obelisk of white stone, cut in rows: MEAN EXPECTATION OF LIFE, BY PARISH AND YEAR. Hands have been at it. Beside the Mortmain figure someone has scratched a tally of a hundred and three, and under it, fainter, as if ashamed: but not the Oakeses.".
+  }
+  Thing pattern_book "the pattern board of marks" at brick_lane {
+    Tries looking.
+    State board "A glazed board fixed to a wall at the corner of Brick Lane shows every mark a man might nail to his door, in colour: the Phoenix's gilt bird, the black fish, the sun, the open hand, the eye. At the bottom, a sixth, oldest, drawn in a different red and not described: a little nest of lines, and in it a point, as of a coal. The caption says: CEASED, 1224. NOT TO BE REISSUED.".
+  }
+  Thing ordinance_board "the board of the Smokeless Ordinance" at foundry_row {
+    Tries looking.
+    State ordinance "A board of black enamel on the end of the Row, in white: BY ORDINANCE OF THE OFFICES, THE LIGHTING OR KEEPING OF AN OPEN FIRE WITHIN THE INNER WARDS IS A NUISANCE. SECOND OFFENCE: THE FIRE TO BE EXTINGUISHED AT THE OFFENDER'S COST. THIRD: THE PREMISES DECLINED. Someone has chalked beneath it the number of premises declined so far this year, and then, in another hand, the number of fires.".
+  }
+  Thing hall_patch "the smooth patch where a hearth was" at hall_five {
+    Tries looking.
+    State patch "On the bare wall behind the dais, a hearth-shaped patch of plaster has been smoothed and lime-washed a shade whiter than the rest. It was done carefully, by a person who did not want the work noticed.".
+  }
+  Observe patch_warm near hall_patch when tried(hall_patch, looking) and day(clock) >= 5 "You lay a hand on the plaster. It is warm. Behind it, very faintly, like a pulse felt through a pillow, something ticks.".
+  Observe patch_cold near hall_patch when tried(hall_patch, looking) and day(clock) < 5 "You lay a hand on the plaster. It is cool, and smooth, and slightly damp, like the wall of a cellar. You are not certain why you expected anything else.".
+  Observe patch_red at hall_five when day(clock) >= 8 "Along the foot of the smooth patch, where the lime-wash meets the floor, there is a thin line of red light, steady, such as a door lets under it when there is a lamp lit in the next room.".
+
+  // ══ THE CHILDREN'S RHYME ═══════════════════════════════════════════════════════════════════════════════
+  // The children of the Brickfields skip to a rhyme that counts the days to Reckoning, and none of them knows what it
+  // is counting. Whoever stands in Brick Lane in the day hears the line that belongs to the day.
+  Observe rhyme_1 at brick_lane when day(clock) == 1 and hour(clock) >= 9 and hour(clock) < 18 "Two girls turn a rope across the Lane and a third skips in it, chanting: 'Nine for the Offices, nine for the door, / eight for the brigades that quarrel for more.'".
+  Observe rhyme_2 at brick_lane when day(clock) == 2 and hour(clock) >= 9 and hour(clock) < 18 "The rope is turning again, and the girl in it chants: 'Seven for the Tables that never are wrong, / six for the fire that's a hundred years long.'".
+  Observe rhyme_3 at brick_lane when day(clock) == 3 and hour(clock) >= 9 and hour(clock) < 18 "The children are skipping. 'Five for the premium paid in the hand, / four for the coal that was lent to the land.' The smallest stops to ask what a premium is, and is told by the others to jump.".
+  Observe rhyme_4 at brick_lane when day(clock) == 4 and hour(clock) >= 9 and hour(clock) < 18 "'Three for the Receipt that goes white as a sheet,' the skipper chants, 'two for the guest that has nothing to eat.' Nobody has ever been able to tell her what guest.".
+  Observe rhyme_5 at brick_lane when day(clock) >= 5 and day(clock) <= 8 and hour(clock) >= 9 and hour(clock) < 18 "The rope turns, slower than it did. 'One for the Reckoning, who'll be the next? / Quit, and welcome, and out goes the—' and the girl in the middle misses her footing, on purpose, as the rhyme requires, and all the children shout.".
+
+  // ══ THE RECKONING PAGEANT ══════════════════════════════════════════════════════════════════════════════
+  // Each Reckoning Day the Offices stage the Burning, in paper, for the children of the city, at the Exchange. It is the
+  // most popular entertainment in Quittance.
+  Observe pageant_row at row_street when day(clock) == 9 and hour(clock) >= 9 and hour(clock) < 14 "The Reckoning pageant is coming down Policy Row, and the whole street is let out to see it. Five floats, one to an Office: the Phoenix's a gilt bird on wheels, flapping; the Lamprey's a fish of papier-mâché with a boy in its mouth; the Sovereign's a sun carried by eight mourners in white; the Providence's an enormous open hand in which a very small girl sits and waves; and the Residuary's a cart containing a desk, and at the desk, with a pen, a little bald man who does not look up.".
+  Observe pageant_court at exchange_court when day(clock) == 9 and hour(clock) >= 11 and hour(clock) < 14 "In the court a tank has been set out on trestles, and in it, on a scale of one to forty, stands a paper city. A cadet of the Phoenix in a gilt helmet reads the Burning from a scroll — 'and the fire took the Glassmakers' Row, and the Exchange, and the Hall of Weights' — and at each name a boy with a taper sets a paper house alight. The children are not allowed to clap until the end. At the end, when the tank is a bed of ash, a girl in a notary's gown is led out and made to stand in it, and the children cheer; she is Honora, and she has been told to hold up her hand.".
+  Observe pageant_plaza at gate_plaza when day(clock) == 9 and hour(clock) >= 9 and hour(clock) < 18 "Paper birds hang from every doorway in Gate Plaza, gilt, blue and black, and the brokers have put down their trays to sell them. A man is selling a paper coal, a red twist of tissue in a nest of straw, at a farthing, and has sold forty; nobody can tell him why they buy it.".
+
+  // ══ SOUNDS, SMELLS, HOURS ══════════════════════════════════════════════════════════════════════════════
+  Observe amb_road at arch_road as ambience when true "Carts creak in the queue behind you. Someone is selling pies from a tray with a small gilt bird stamped on every crust.".
+  Observe amb_plaza at gate_plaza as sound when hour(clock) >= 8 and hour(clock) < 18 "'Rates! Rates! Fire at ninepence, water at a groat!' The brokers cry them in a chant as old as the Arch, and no one is listening and everyone is.".
+  Observe amb_row at row_street as sound when hour(clock) >= 18 or hour(clock) < 8 "Policy Row at night is the quietest street in Quittance. A single clerk is going down it with a lantern and a ladder, snuffing the Offices' lamps, one to a door, in an order that has not changed in a hundred years.".
+  Observe amb_brick at brick_lane as sound when hour(clock) >= 5 and hour(clock) < 8 "From the fire-house yards comes the dawn drill: forty buckets passed hand to hand along a whitewashed line, to a sergeant's count, and the sound of boots, and under it, steady, the brigades not looking at each other.".
+  Observe amb_wharf at mere_wharf as sound when true "Winches, gulls, the tide-gun at the Lamprey's roof, and from somewhere under the planking the hollow knocking of the river against a hull that is not there.".
+  Observe amb_foundry at foundry_row as ambience when true "The Row smells of hot brick and cold iron and, beneath it, faintly, of bread, for no reason that any baker in the Glass Quarter can give.".
+  Observe amb_hill at hill_street as sound when true "Surety Hill is silent in the way a church is silent: a cart a long way off, a bell in the Row, and all about you a hush made of lawns and money.".
+  Observe amb_salt at salt_lane as ambience when hour(clock) >= 17 or hour(clock) < 5 "Eel-pie, tallow, hot oil, wet wool, smoke from a hundred real hearths, and over it all a fiddle being played by someone with more love than skill.".
+  Observe amb_mort at mort_lodge as sound when true "Rooks in the yews, gravel under the porter's boots, and from the almshouse, very faint, a kettle that has been on the boil since breakfast.".
+  Observe amb_cellar at cellar_foot as sound when true "The draught in the cellars makes a sound, down the arcade, like someone breathing in to speak and then thinking better of it.".
+  Observe amb_gulls at round_furnace as sound when true "The gulls along the wall do not cry. They sit with their feet to the warm bricks, facing the river, which is the wrong way to face if you are a gull.".
+}

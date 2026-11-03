@@ -55,8 +55,10 @@ Module quittance "Quittance" {
   // ── The Great Tithe ─────────────────────────────────────────────────────────────────────────────────────
   Relation tithePrepared(group). Relation titheBurned(group).
   Rule tithe_prepared when watch(clock) >= 1230 and not appointedHalted(city) and not fireTerms(party) and not tithePrepared(city) says "Down in the Cinder Ward a handcart goes by in the dark with its wheels bound in rag." { Assert tithePrepared(city). }
-  Rule tithe_burns when watch(clock) >= 1248 and tithePrepared(city) and not appointedHalted(city) and not fireTerms(party) and wardsLit(city) < 4 and not titheBurned(city) {
-    Assert titheBurned(city). Assert burned(cinder_ward). Increase casualties(city) by 400. }
+  Rule tithe_burns when watch(clock) >= 1248 and tithePrepared(city) and not appointedHalted(city) and not fireTerms(party) and wardsLit(city) < 4 and not titheStopped(city) and not titheBurned(city) {
+    Assert titheBurned(city). Assert burned(cinder_ward). }
+  Rule tithe_burns_dead when titheBurned(city) and not titheEvacuated(party) and not titheCounted(city) { Increase casualties(city) by 400. Assert titheCounted(city). }
+  Relation titheCounted(group).
 
   // ── Skelter's rent-office ───────────────────────────────────────────────────────────────────────────────
   // Skelter keeps the list. By day he is in his office from nine until noon and from two until six; from noon until two

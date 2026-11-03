@@ -1,0 +1,82 @@
+Module quittance "Quittance" {
+  Description "The Great Tithe: the Cinder Ward on Reckoning night, six men with oil and a cart, and five ways the night can go that are not the fire. And the Phoenix's wardens, who come for a company that has made an enemy of the Chief Underwriter.".
+
+  Relation titheStopped(group). Relation titheEvacuated(group). Relation tithePaused(group). Relation wardensSent(group). Relation wardensPaid(group).
+
+  // ── The burners ─────────────────────────────────────────────────────────────────────────────────────────
+  Person tithe_burners "the Tithe men" at skelter_room {
+    Role "six men with oil-cans, a handcart and a foreman who has done this before". Ancestry human. Calling warrior. Level 3. Numbers 6. Pronouns they.
+    Temperament territorial.
+    Warns "The handcart stops at the mouth of the lane. The foreman looks at you, and at the lit windows behind you, and at his men, and for a moment you can see him arithmetic: six against whatever you are. 'Condemned,' he says, without hope. 'By order. We're to abate it by midnight. You're in the way of an abatement.'".
+    Comes "The foreman puts down his can and picks up a billet of ash. 'Right,' he says. 'All of you, then,' and the six come at you across the black ground with their oil swinging.".
+    Flinches "The Tithe men give ground, and then give more; the handcart goes over on its side, and the oil spreads on the stones in a long slow fan that nobody dares to strike a light near.".
+    Pleads "'It's not the money,' says the foreman, flat on his back with a hand held up. 'It's that they know where I live.'".
+    Refuge skelter_room.
+    Lair cinder_ward.
+  }
+  Rule tithe_men_come when watch(clock) >= 1236 and tithePrepared(city) and not titheStopped(city) and not at(tithe_burners, cinder_ward) { Assert at(tithe_burners, cinder_ward). }
+  Rule tithe_men_beaten when (routed(tithe_burners) or dead(tithe_burners)) and not titheStopped(city) { Assert titheStopped(city). }
+  Observe tithe_men_seen at cinder_ward when at(tithe_burners, cinder_ward) and not titheStopped(city) and not burned(cinder_ward) "A handcart stands at the foot of the black chimney with six men round it in the dark, waiting for a clock. The oil-cans are the sort that are sold for lamps, and there are a great many of them. All round the Ward the windows are lit, and nobody has gone to bed.".
+  Observe tithe_stopped_scene at cinder_ward when titheStopped(city) and not burned(cinder_ward) "The Ward is lit and standing. A handcart lies on its side in a pool of lamp-oil that a boy is carefully, one handful at a time, fencing off with ash.".
+  // The Great Tithe stopped, by whichever hand, is one the burn does not happen to.
+  Rule tithe_burn_checks when watch(clock) >= 1248 and titheStopped(city) and not tithePaused(city) { Assert tithePaused(city). }
+
+  // ── Five ways round it ──────────────────────────────────────────────────────────────────────────────────
+  Action evacuate_ward(actor: group, site: place) "Call the Ward out of its houses, street by street, and stand it on the Cinderwall" {
+    Requires able(actor) and company(actor) and at(actor, cinder_ward) and tithePrepared(city) and not titheEvacuated(actor) and not burned(cinder_ward)
+      and (regard(wardsfolk) >= 2 or entered_gap(actor) or keeper(wards) or pm_court_warned(actor)).
+    Time 60 minutes.
+    On success { Assert titheEvacuated(actor). }
+    Result "It takes an hour, and nobody asks you why. The Wards know a knock at a door in the night: they come down in their nightclothes with their grandmothers on their arms and the clocks under their coats, street by street, to the Cinderwall, and sit along it in rows with the lamps behind them. A woman counts them twice. Nobody is left in the Ward but the cats, and the cats have been asked and have declined.".
+  }
+  Action brigades_in_one_line(actor: group, site: place) "Bring both brigades to the lane in one line, with the pumps primed" {
+    Requires able(actor) and company(actor) and at(actor, cinder_ward) and tithePrepared(city) and not titheStopped(city) and arc(garrity) >= 1 and (arc(dree) >= 1 or regard(lamprey) >= 2).
+    Time 45 minutes.
+    On success { Assert titheStopped(city). }
+    Result "They come up Salt Lane at the double, blue and black, side by side, for the first time in the history of the city on the same side of the whitewash. Garrity has the pump; Dree has the hose; neither of them is looking at the other. They draw up across the mouth of the lane with the nozzles up, and the Tithe men look at the plates over the doors, and at the two captains, and at the arithmetic, and set down the cans.".
+  }
+  Action read_the_second_column(actor: group, site: place) "Read the second column of Skelter's book aloud to the Ward and the Tithe men, name by name" {
+    Requires able(actor) and company(actor) and at(actor, cinder_ward) and tithePrepared(city) and not titheStopped(city) and holding(actor, skelter_book) and regard(wardsfolk) >= 1.
+    Time 30 minutes.
+    On success { Assert titheStopped(city). Increase argued(city) by 1. }
+    Result "You begin with Candlewick Court and the date. You say the nineteen names, which Skelter has written down. The Ward comes out of its doors to listen, one house at a time, until the whole of the black ground is full, and at the thirty-first name a man in the crowd says, quite quietly, 'That's my brother,' and the foreman puts down his can. 'I never knew the names,' he says. 'He said they were empty.'".
+  }
+  Action turn_the_foreman(actor: group, site: place) "Take the foreman aside, and ask him what his own hearth is" {
+    Speaker tithe_burners.
+    Requires able(actor) and company(actor) and at(actor, site) and at(tithe_burners, site) and tithePrepared(city) and not titheStopped(city).
+    Time 15 minutes.
+    Resolve check(actor, insight, dc_hard).
+    On success { Assert titheStopped(city). }
+    Result "He is quiet for a long time. 'A stove,' he says. 'Iron. With a door. My mother had a coal in a tin and the Ordinance took it off her the winter she died, and I held the shovel.' He does not say anything more; he turns the handcart round, and the others, after a moment, push.".
+    Otherwise "'You've a good voice,' says the foreman, not unkindly. 'I've heard it before. It's the voice of someone who doesn't live here.'".
+  }
+
+  // ── The Phoenix's wardens ───────────────────────────────────────────────────────────────────────────────
+  // A company that has made an enemy of the Chief Underwriter is looked for. Three wardens of the Phoenix, blue-coated,
+  // courteous and armed, are sent for it when the threat has been made.
+  Person wardens "three wardens of the Phoenix" at phoenix_floor {
+    Role "three wardens with staves and a warrant". Ancestry human. Calling warrior. Level 3. Numbers 3. Pronouns they.
+    Temperament territorial.
+    Warns "Three men in the Phoenix's blue come through the crowd with their staves held crossways, politely, as one carries a rail. 'You'll be the adjusters,' says the sergeant. 'We've a paper that says you're no longer. It's the Chief Underwriter's. You're to come and discuss it.'".
+    Comes "The sergeant sighs, and the staves come down. 'Don't make us explain it to the Chief,' he says.".
+    Flinches "The wardens withdraw down the Row with dignity, taking their warrant with them, and their sergeant's hat is left behind on the cobbles.".
+    Pleads "'You'll not tell Ottoline,' says the sergeant, sitting down on the kerb. 'She taught my daughter to read.'".
+    Refuge phoenix_floor.
+    Lair row_street.
+  }
+  Rule wardens_sent when prewittHardened(party) and not wardensSent(party) and hour(clock) >= 8 and hour(clock) < 18 { Assert wardensSent(party). Assert at(wardens, row_street). }
+  Action pay_the_wardens(actor: group, site: place) "Pay the wardens' fee for the warrant's inconvenience, and ask them to lose it (12 coin)" {
+    Speaker wardens.
+    Requires able(actor) and company(actor) and at(actor, site) and at(wardens, site) and quantity(actor, gold) >= 12 and not wardensPaid(actor).
+    Time 10 minutes.
+    On success { Decrease quantity(actor, gold) by 12. Assert wardensPaid(actor). Assert tolerates(wardens, actor). Assert at(wardens, phoenix_floor). }
+    Result "The sergeant counts it with his thumb in the palm of his hand. 'The warrant,' he says, 'is a very delicate paper. It has a way of going missing in a wet coat.' He tips his hat, and they go.".
+  }
+  Action ottoline_calls_them_off(actor: group, site: place) "Ask Ottoline to tell the sergeant the warrant is hers to withdraw" {
+    Speaker wardens.
+    Requires able(actor) and company(actor) and at(actor, site) and at(wardens, site) and travelsWith(ottoline, actor) and not wardensPaid(actor).
+    Time 5 minutes.
+    On success { Assert wardensPaid(actor). Assert tolerates(wardens, actor). Assert at(wardens, phoenix_floor). }
+    Result "Ottoline Prewitt steps between you and the staves with her pencil behind her ear and says, in an even voice, 'Sergeant. Whose daughter do you think taught yours her letters?' The staves go up. 'It's not for me to say, miss,' says the sergeant. 'No,' says Ottoline. 'It's for me.' They go back down the Row at a march, not looking round.".
+  }
+}
