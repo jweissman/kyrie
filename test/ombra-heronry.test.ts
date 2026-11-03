@@ -2,7 +2,7 @@ import { describe, expect, it } from 'bun:test';
 import { Ombra, home } from './support/ombra';
 
 // The Heronry and the Post's loft (data/adventures/book-of-faces/heronry.kyr): the Writ, the old heron, Mr Halloran's
-// survey and the Ninth Bell on the eighth day; Old Garrity's pigeons and the falcon on his roof. The Writ is tried at
+// survey and the Ninth Bell on the eighth day; Old Gorrell's pigeons and the falcon on his roof. The Writ is tried at
 // the Ninth Bell on the eighth day (watch 1080); a company that did nothing sees the first Weight sunk.
 const campaign = process.env.OMBRA_CAMPAIGN ?? home;
 const to = (room: string) => `>ombra__${room}`;
@@ -105,7 +105,7 @@ describe('The pigeon strike', () => {
     const o = await start();
     await o.play(to('loft_roof'), '=day 2 07:00');
     expect(o.knows('hr_hawk_known')).toBe(true);
-    await o.play(to('loft_floor'), '=day 2 21:00', 'Ask Old Garrity why the birds', 'Tell Garrity what is on his roof');
+    await o.play(to('loft_floor'), '=day 2 21:00', 'Ask Old Gorrell why the birds', 'Tell Gorrell what is on his roof');
     expect(o.holds('hr_birds_fly', 'party')).toBe(true);
     expect(o.holds('hr_flight_timed', 'party')).toBe(true);
     expect(o.at('hr_hawk')).toBe('ombra__loft_roof');
@@ -137,19 +137,19 @@ describe('The pigeon strike', () => {
     expect(o.at('hr_hawk')).toBe('ombra__offstage');
   }, 240000);
 
-  it('left alone, Garrity sits with his pigeons through the Novena', async () => {
+  it('left alone, Gorrell sits with his pigeons through the Novena', async () => {
     const o = await start();
     await o.play('=day 9 23:30');
     expect(o.holds('hr_birds_fly', 'party')).toBe(false);
-    expect(o.page).toContain('Of Old Garrity: his pigeons did not fly');
+    expect(o.page).toContain('Of Old Gorrell: his pigeons did not fly');
   }, 180000);
 
   it('by day a bare company is turned away by the good ear; at the loft by night he talks of the boy who came at dawn', async () => {
     const o = await start();
-    await o.play(to('loft_floor'), 'Speak to Old Garrity');
+    await o.play(to('loft_floor'), 'Speak to Old Gorrell');
     expect(o.page).toMatch(/Can.t hear a thing/);
     const night = await start();
-    await night.play(to('loft_floor'), '=day 1 21:00', 'Ask Old Garrity why the birds', 'Ask Old Garrity if a boy came');
+    await night.play(to('loft_floor'), '=day 1 21:00', 'Ask Old Gorrell why the birds', 'Ask Old Gorrell if a boy came');
     expect(night.knows('pip_saw')).toBe(true);
   }, 180000);
 });

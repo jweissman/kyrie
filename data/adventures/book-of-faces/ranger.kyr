@@ -122,12 +122,12 @@ Module ombra "The Book of Faces" {
     Result "You stand where the reeds meet the water, on the one dry hummock, and do nothing, and then do nothing better, as the afternoon goes by on the pool like a slow barge. The heron does not look at you. At some point {reader} stops waiting for something to happen, and is, simply, in the light on the water, and a good deal later is surprised to find that the Ninth Bell has gone, and that Mistress Withy, on the hummock behind, has not said a word in six hours, and is nodding.".
   }
 
-  // ── Garrity's bird ────────────────────────────────────────────────────────────────────────────────────────────────
-  Kind rg_pigeon_kind "Tally, a homing pigeon of the Post" is gear worth 4 weighing 0 described "A grey Post pigeon, ringed on the left leg, with an eye like a drop of tea. Garrity says she has never in her life flown to the wrong roof, which is the same as saying she has never been told one.".
+  // ── Gorrell's bird ────────────────────────────────────────────────────────────────────────────────────────────────
+  Kind rg_pigeon_kind "Tally, a homing pigeon of the Post" is gear worth 4 weighing 0 described "A grey Post pigeon, ringed on the left leg, with an eye like a drop of tea. Gorrell says she has never in her life flown to the wrong roof, which is the same as saying she has never been told one.".
   Item rg_pigeon "Tally, a homing pigeon of the Post" is rg_pigeon_kind at offstage.
   Relation rg_pigeon_given(group). Relation rg_pigeon_sent(group).
-  Topic rg_garrity_bird with garrity "Take the grey pigeon Old Garrity offers you, for the road" when hr_birds_fly(actor) and rg_ranger(actor) and not rg_pigeon_given(actor) and (privateHours() or masked(actor)) once {
-    Says "'You've the look,' says Garrity, to the point six inches to your right. 'Of a person who's got a dozen places to be and nobody to tell them.' He reaches into the nearest box, with the unerring delicacy of long habit, and comes out with a grey bird, which sits on his wrist as one who knows her duty. 'Tally. Never wrong. You put a word on her leg, you let her go, and she'll be at the Post before you've shut the door.' He puts her in your hands. 'Don't send her anywhere near a falcon. Not that there's one. Eh? What?'".
+  Topic rg_garrity_bird with garrity "Take the grey pigeon Old Gorrell offers you, for the road" when hr_birds_fly(actor) and rg_ranger(actor) and not rg_pigeon_given(actor) and (privateHours() or masked(actor)) once {
+    Says "'You've the look,' says Gorrell, to the point six inches to your right. 'Of a person who's got a dozen places to be and nobody to tell them.' He reaches into the nearest box, with the unerring delicacy of long habit, and comes out with a grey bird, which sits on his wrist as one who knows her duty. 'Tally. Never wrong. You put a word on her leg, you let her go, and she'll be at the Post before you've shut the door.' He puts her in your hands. 'Don't send her anywhere near a falcon. Not that there's one. Eh? What?'".
     On discuss { Give rg_pigeon to actor. Assert rg_pigeon_given(actor). }
   }
   Action rg_send_bird(actor: group, site: place) "Send Tally to the Gate with a word for the Watch" {

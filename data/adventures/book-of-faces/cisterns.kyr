@@ -525,7 +525,7 @@ Module ombra "The Book of Faces" {
     On success { Decrease quantity(actor, gold) by 6. Increase quantity(steward, gold) by 6. Assert ci_pip_settled(actor). Assert ci_pip_stays(actor). Assert roundDone(actor, r_pip). }
     Result "You put six coin on the kettle's lid, for the steward, with a message that the three boys in the cistern are a charge on the Owls' account and are not to be counted in anything at all. Pip looks at it, and at you, and at his candle. 'You can't do that,' he says. 'There ain't a way.' And then, to the candle, wonderingly, 'There's a *way*.' Nell says nothing, and comes and stands by his shoulder, and for the first time since you came down, puts the knife away.".
   }
-  Action ci_pip_goes(actor: group, site: place) "Ask him if he would come up to the pigeon-loft at the Post, to Old Garrity" {
+  Action ci_pip_goes(actor: group, site: place) "Ask him if he would come up to the pigeon-loft at the Post, to Old Gorrell" {
     Speaker pip.
     Description "He is nine, and has not been in the daylight since the night she died. By day the Drip is masked, and he has a cut-down Owl to go in. The loft is on the far side of the city.".
     Requires able(actor) and company(actor) and at(actor, site) and at(pip, site) and ci_where_asked(actor) and ci_candle(actor) and not ci_pip_settled(actor) and not following(pip, actor) and not ci_pip_taken(actor).
@@ -538,7 +538,7 @@ Module ombra "The Book of Faces" {
   }
 
   Topic ci_pip_loft_t with pip "Ask Pip how he finds the loft" when ci_pip_garrity(actor) and (privateHours() or masked(actor)) {
-    Says "'They sit on me,' says Pip, with dignity. 'The white ones. Garrity says it's a sign of respect, and I say it's because I've bread in my hat.' He considers. 'He talks all the time. He never asks me nothing. He just says *which one*, and I *say*.' He is rather pink. 'I've still got the candle. He put it on the shelf by the corn. It's not counted. I checked.'".
+    Says "'They sit on me,' says Pip, with dignity. 'The white ones. Gorrell says it's a sign of respect, and I say it's because I've bread in my hat.' He considers. 'He talks all the time. He never asks me nothing. He just says *which one*, and I *say*.' He is rather pink. 'I've still got the candle. He put it on the shelf by the corn. It's not counted. I checked.'".
   }
 
   // ── The Flood sends the boys up, if nobody has ───────────────────────────────────────────────────────────────────

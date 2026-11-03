@@ -143,7 +143,7 @@ describe('The short pound (Round 5)', () => {
 });
 
 describe('The Lock-tax (Round 6)', () => {
-  it('Teague, by an hour waited: the key and the testimony, no book; the strongroom opened at noon and the ledger read', async () => {
+  it('Ashlin, by an hour waited: the key and the testimony, no book; the strongroom opened at noon and the ledger read', async () => {
     const g = await warrior();
     await fennTrust(g);
     expect(g.holds('ct_fenn_trust', 'fenn')).toBe(true);
@@ -153,14 +153,14 @@ describe('The Lock-tax (Round 6)', () => {
     await g.play('Ask about the key to the strongroom');
     expect(g.carries('ct_strong_key')).toBe(true);
     const night = Math.floor(g.watch / 144) + 1;
-    await g.play(`=day ${night + 1} 12:00`, '>ombra__locks_office', "unlock the strongroom with Teague's key", '>ombra__locks_strongroom');
+    await g.play(`=day ${night + 1} 12:00`, '>ombra__locks_office', "unlock the strongroom with Ashlin's key", '>ombra__locks_strongroom');
     expect(g.at('party')).toBe('ombra__locks_strongroom');
     await press(g, 'Read the Lock-tax book', () => g.knows('ct_ledger_false'));
     expect(g.page).toMatch(/A half is a custom/);
     expect(g.measure('heat', 'party')).toBe(0);
   }, 300000);
 
-  it('Teague, by a form of words: a reckoning has no face; she gives the book, and is not broken in giving it', async () => {
+  it('Ashlin, by a form of words: a reckoning has no face; she gives the book, and is not broken in giving it', async () => {
     const g = await warrior();
     await copies(g);
     await g.play('>ombra__coffee_room', 'Ask what a tallyman may say about a short till');
@@ -178,7 +178,7 @@ describe('The Lock-tax (Round 6)', () => {
     expect(g.page).toMatch(/A sum has no face/);
   }, 300000);
 
-  it('Teague, frightened with the Warrant: she either gives the book and leaves Ombra, or runs to her sister for two days', async () => {
+  it('Ashlin, frightened with the Warrant: she either gives the book and leaves Ombra, or runs to her sister for two days', async () => {
     const g = await warrior();
     await warranted(g);
     await copies(g);

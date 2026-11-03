@@ -118,9 +118,9 @@ describe('The ranger: the Drawing', () => {
 });
 
 describe('The ranger: rewards and invariants', () => {
-  it('a bird from Garrity for a ranger when the Post flies, and it goes to the Watch with a word and cools the count', async () => {
+  it('a bird from Gorrell for a ranger when the Post flies, and it goes to the Watch with a word and cools the count', async () => {
     const o = await start('ombra', ranger());
-    await o.play(to('loft_roof'), '=day 2 07:00', to('loft_floor'), '=day 2 21:00', 'Ask Old Garrity why the birds', 'Tell Garrity what is on his roof', 'Take the grey pigeon');
+    await o.play(to('loft_roof'), '=day 2 07:00', to('loft_floor'), '=day 2 21:00', 'Ask Old Gorrell why the birds', 'Tell Gorrell what is on his roof', 'Take the grey pigeon');
     expect(o.holds('rg_pigeon_given', 'party')).toBe(true);
     expect(o.carries('rg_pigeon')).toBe(true);
   }, 240000);

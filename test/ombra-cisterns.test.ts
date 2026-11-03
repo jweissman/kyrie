@@ -96,7 +96,7 @@ describe('The cisterns: Pip', () => {
     expect(o.holds('roundDone', 'party', 'r_pip')).toBe(false);
   }, 120000);
 
-  it('a stay is paid for and settles the Round; a loft is asked for and Garrity takes the boy who says there', async () => {
+  it('a stay is paid for and settles the Round; a loft is asked for and Gorrell takes the boy who says there', async () => {
     const stay = await start();
     await stay.play(to('cistern_head'), to('lamp_boys_den'), ...den, 'Ask him what he wants', 'Give him a candle', 'Ask what he saw', 'Ask who else came', 'Sit by his candle', 'Ask about the other one', 'Ask him where he would be', 'Tell him he may stay');
     expect(stay.holds('roundDone', 'party', 'r_pip')).toBe(true);
