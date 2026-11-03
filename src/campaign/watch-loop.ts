@@ -27,10 +27,18 @@ export class WatchLoop {
   }
   // A company fallen as the time passed is read for the endings once more, so that a module can say what comes after
   // (see CampaignTick.endings).
+  // What an act says holds while it runs (Meanwhile) holds for its watches, and not after (LUL-02).
   static pass(host: WatchHost, action: Operator, at: Passing) {
+    this.meanwhile(host, action, 'assert');
     const passed = this.watches(host, action, at);
+    this.meanwhile(host, action, 'retract');
     if (host.persistent && this.fallen(host)) { CampaignTick.endings(host, passed.happenings); }
     return passed;
+  }
+  private static meanwhile(host: WatchHost, action: Operator, kind: 'assert' | 'retract') {
+    if (action.meanwhile?.length && host.persistent) {
+      host.commitWorld(host.world.apply(action.meanwhile.map(call => ({ kind, call }))));
+    }
   }
   private static fallen(host: WatchHost): boolean {
     const { definition, creatures } = host.tickState;

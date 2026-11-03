@@ -134,6 +134,7 @@ export class ModuleCompiler {
     });
     this.predicate(module, action.requires, bindings);
     if (action.interrupt) { this.predicate(module, action.interrupt, bindings); }
+    for (const call of action.meanwhile ?? []) { this.predicate(module, call, bindings); }
     [...action.success, ...action.failure].forEach(change => this.change(module, change, bindings));
     if (action.speaker && !module.entities.some(e => e.id === action.speaker && e.type === 'group')) {
       throw new Error(`Unknown topic speaker ${action.speaker}`);

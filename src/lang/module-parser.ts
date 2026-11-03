@@ -41,7 +41,7 @@ export class ModuleParser {
     TopicTravelling: PersonParser.TopicOnce, RuleOnce: PersonParser.TopicOnce, PersonAgain: PersonParser.PersonAgain,
     Company: ModuleParser.Company, ItemDecl: ModuleParser.ItemDecl, PassageKind: ModuleParser.ThingKind,
     PassagePart_taking: ModuleParser.Taking, PassagePart_opening: ModuleParser.Opening,
-    PersonProfession: PersonParser.PersonProfession,
+    PersonProfession: PersonParser.PersonProfession, Meanwhile: StatementParser.Meanwhile,
     PersonBackground: PersonParser.PersonBackground, OffersPart: ModuleParser.OffersPart,
     SellsPart: ModuleParser.SellsPart, BuysPart: ModuleParser.BuysPart, Time_fixed: StatementParser.Time,
     Time_minutes: StatementParser.Minutes, Time_measured: StatementParser.Duration,

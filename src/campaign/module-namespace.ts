@@ -70,6 +70,7 @@ export class ModuleNamespace {
       ...(action.movement ? { movement: Spatial.scope(action.movement, id => this.entities[id] ?? id) } : {}),
       ...(parameters ? { parameters } : {}), requires: this.predicate(action.requires, bound),
       ...(action.interrupt ? { interrupt: this.predicate(action.interrupt, bound) } : {}),
+      ...(action.meanwhile ? { meanwhile: action.meanwhile.map(c => this.call(c, bound)) } : {}),
       success: action.success.map(c => this.change(c, bound)), failure: action.failure.map(c => this.change(c, bound)),
       ...(action.resolve ? { resolve: this.call(action.resolve, bound) } : {}),
       ...(action.duration ? { duration: this.call(action.duration, bound) } : {}) };

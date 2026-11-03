@@ -196,8 +196,10 @@ Kyr {
   Action = "Action" ident ActionParameters? string "{" ActionPart* "}"
   ActionParameters = "(" ListOf<Parameter, ","> ")"
   ActionPart = Requires | Success | Failure | Cost | Time | Resolve | Description | Result | Otherwise | Speaker | Seen | Grave
-    | Interruption | Watchful
+    | Interruption | Watchful | Meanwhile
   Interruption = "Interrupted" "when" Predicate "."
+  // What holds while its time passes, and not after (LUL-02): Meanwhile asleep(actor).
+  Meanwhile = "Meanwhile" NonemptyListOf<Call, ","> "."
   Watchful = "Watchful" "."
   Seen = "Seen" string "."
   Requires = "Requires" Predicate "."

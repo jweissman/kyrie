@@ -907,6 +907,11 @@ the clock; while asleep a body can do nothing but lie as it is. `asleep(x)` and 
 and `perceives(watcher, place)` is whether someone awake and able is there to see: a sleeping owner does not see her
 cup taken (`probes/sleep-hours`, `probes/owner-asleep`).
 
+Every rule runs at every watch of a long act. What the act says holds while it runs, `Meanwhile`, holds for its
+watches and not after: a night slept through is `Meanwhile asleep(actor).`, and a rule for a company awake at
+midnight asks `alert(party)`, so it neither happens in the sleep nor is told on waking (The Lull's F2;
+`probes/meanwhile`). A fact of the module's own may be held so too (`Meanwhile asleep(actor), dreaming(actor).`).
+
 ### Chance for each thing, and acts that take no time
 
 `dice(clock)` is the watch's die for the whole world. `dice(?room)` is each thing's own die for the watch, so two
