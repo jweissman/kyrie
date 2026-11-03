@@ -18,7 +18,7 @@ Module sennet "The Grand Tour" {
   Place harbour_office "the Harbourmaster's office" is building within sennet_town.
   Place glasshouse_b "Prue Quickly's glass-house" is building within sennet_town.
   Place murreys "Murrey's" is building within sennet_town.
-  Place pargeters "Pargeter's" is building within sennet_town.
+  Place pargeters "Ollerenshaw's" is building within sennet_town.
   Place sennet_house "the House of Doors" is building within sennet_town.
   // The canon's House of Doors (the College of Dun Rì's restricted precinct), built here (OWN-33).
   Initially Assert seatOf(house_of_doors, sennet_house).
@@ -37,7 +37,7 @@ Module sennet "The Grand Tour" {
   Place lamp_street "Lamp Street" is room within sennet_town at 3, 1 outdoors.
   Place glasshouse "Prue Quickly's glass-house" is room within glasshouse_b at 4, 1 indoors.
   Place murrey_shop "Murrey's" is room within murreys at 3, 2 indoors.
-  Place outfitter "Pargeter's" is room within pargeters at 3, 0 indoors.
+  Place outfitter "Ollerenshaw's" is room within pargeters at 3, 0 indoors.
   Place college_gate "the gate of the House of Doors" is room within sennet_town at 4, 0 outdoors.
   Place quad "the Quad" is room within sennet_house at 5, 0 outdoors.
   Place hall_of_doors "the Hall of Doors" is room within sennet_house at 5, 1 indoors.
@@ -116,7 +116,7 @@ Module sennet "The Grand Tour" {
   Passage lamp_way "Lamp Street" is path between glass_market and lamp_street taking 5 minutes.
   Passage glass_door "the glass-house door" is door between lamp_street and glasshouse.
   Passage murrey_door "Murrey's door" is door between lamp_street and murrey_shop.
-  Passage pargeter_door "Pargeter's door" is door between lamp_street and outfitter.
+  Passage pargeter_door "Ollerenshaw's door" is door between lamp_street and outfitter.
   Passage headland_steps "the Headland Steps" is steps between lamp_street and college_gate.
   Passage college_arch "the gate of the House of Doors" is gate between college_gate and quad.
   Passage hall_door "the doors of the Hall" is door between quad and hall_of_doors.

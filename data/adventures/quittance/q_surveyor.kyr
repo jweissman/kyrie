@@ -1,0 +1,303 @@
+Module quittance "Quittance" {
+  Description "The Surveyor's Daughter: Ianthe Corbett of the Lamprey's friends has measured the Pargeters' house in Dyers' Alley twice and has not written the Decline. Tobias Pargeter of the Phoenix's brigade has not been told. Three assignations are to be contrived, and a rule to be bent or kept.".
+
+  // ══ The Surveyor's Daughter (prefix sd_) ═════════════════════════════════════════════════════════════════════
+  // The Corbetts are the Lamprey's friends (a fish over their door); the Pargeters are the Phoenix's (nine of them in blue).
+  // Ianthe has measured 4 Dyers' Alley: the flue has cracked in the party wall it shares with the die-works. The Rule says
+  // Decline; Declined, the Pargeters lose their cover, and a fireman whose own house is uninsured is struck off.
+  // Ianthe and Tobias keep hours (rules below). Three assignations each warm her by one:
+  //   1 the lantern gallery at dusk (a ladder, or a climber) . 2 the Guild's model by day (a fireman is not admitted)
+  //   3 the householders' drill on the third day at ten (a ladder pin slipped, or a pump-handle wrenched).
+  // How she comes to decide (arc(ianthe) 0 -> 1): an example (the Hargreave Rider), or Tobias's honesty on the roof, or time
+  // (the Guild's list closes at noon on the fifth day and she writes the Decline alone). Never pressure.
+  // Writes: arc(ianthe), d_decline_roll, roll_extract (Give), witness(ianthe), tobiasWilling(party), keeper(hill),
+  //   regard(brigades), regard(city) (down on a forgery).
+  // Names for the Hearing: sd_end_honest, sd_end_declined, sd_end_exiled, sd_end_forged, sd_end_apart, sd_slighted_guild.
+  // Needs (asked of the lead): `Uses go. Plans 14 steps.` on ianthe and tobias in people.kyr, so that these hours can be
+  // Pursuits that the company meets on the road; as it stands they are rules (friction/sd.md).
+
+  Place sd_lantern "the lantern gallery" is room within hill at 0, 0 outdoors.
+  Place sd_roof "the Corbetts' roof" is room within hill at 3, 1 outdoors.
+  Kind sd_ladder_k "a surveyor's folding ladder" is gear worth 3 weighing 2 described "Twelve feet of ash, on hinges, with the Guild's stamp on the stile and a card tied to the top: NOT TO BE USED FOR LOVE.".
+  Item sd_ladder "the Guild's folding ladder" is sd_ladder_k at nowhere.
+  Item sd_extract "an extract of the Surveyors' Roll" is roll_extract at nowhere.
+  Thing sd_rungs "the way up to the lantern gallery" at belvedere {
+    State drawn_up "A drainpipe, a ledge, and above them the lantern gallery with its rail, ten feet over the parapet. There are no rungs on the pipe.".
+    State set "A ladder stands against the lantern gallery's rail.".
+    Change climb "Go up the drainpipe to the lantern gallery and let a line down" from drawn_up to set needing climbing.
+    Change ladder "Set the Guild's ladder against the lantern gallery" from drawn_up to set needing sd_ladder_k.
+  }
+  Passage sd_up "the way up to the lantern gallery" is steps between belvedere and sd_lantern opening when state(sd_rungs, set) "The lantern gallery is ten feet over the parapet and nothing reaches it.".
+  Passage sd_drill_ladder "the drill ladder against the Corbetts' roof" is steps between hill_street and sd_roof opening when sd_drill() "The Corbetts' roof is a long way up." opening when not sd_stranded(party) "The drill ladder has gone down in the street, and is not going up again.".
+  Thing sd_pin "the drill ladder's foot-pin" at hill_street {
+    State fast "A long drill ladder lies along the Corbetts' railing, its foot pinned to an iron shoe with a pin no thicker than a cork.".
+    State slipped "The ladder has been taken from its shoe: the pin lies in the gutter where it was dropped.".
+    Change slip "Draw the pin from the drill ladder's shoe, while the sergeant looks at the sky" from fast to slipped needing stealth.
+  }
+  Thing sd_pump "the drill engine's pump-handle" at hill_street {
+    State steady "The Phoenix pump stands at the kerb with its handle chained to a stanchion, and a hose, as thick as a man's leg, coiled at its foot. A notice on the Corbetts' railing: HOUSEHOLDERS' DRILL, THE THIRD DAY, AT TEN. NOT TO BE TOUCHED.".
+    State burst "The hose has split from end to end, and the street is wet to the Corbetts' step.".
+    Change wrench "Throw your weight on the pump-handle against the sergeant's count" from steady to burst needing brawn.
+  }
+  Thing sd_flue "the Pargeters' flue" at dyers_alley {
+    State cracked "Along the party wall of 4 Dyers' Alley, where the die-works fire-pot stands against it, the brick has cracked from cornice to coping, and a pencil line has been run alongside it by someone who has measured it twice.".
+    State mended "The Pargeters' flue has been relined in firebrick, with new mortar still green. A pencilled date has been added by the old line: MENDED.".
+    Change rebuild "Take down the cracked course of the party wall and rebuild it in firebrick" from cracked to mended needing brawn.
+    Change reline "Re-line the flue with a sleeve of sheet iron and lute it with clay" from cracked to mended needing trapwork.
+  }
+  Thing sd_survey "the Pargeters' survey" at corbett_study {
+    State blank "On the plan-chest lies the survey of 4 Dyers' Alley, in a clean hand, measured twice, with one line in the verdict left blank, and a pencil laid across it.".
+    State declined "The Pargeters' survey lies on the plan-chest, the verdict written: DECLINED, and signed.".
+    State rider "The Pargeters' survey lies on the plan-chest: PASSED, subject to repair, on the Hargreave Rider, and signed.".
+    State forged "The Pargeters' survey lies on the plan-chest: PASSED, in a hand that is very nearly hers.".
+  }
+
+  Measure sd_warmth(group). Relation sd_beat1(group). Relation sd_beat2(group). Relation sd_beat3(group). Relation sd_cleared(group).
+  Relation sd_t_invited(group). Relation sd_t_out(group). Relation sd_tobias_knows(group). Relation sd_stranded(group).
+  Relation sd_public(group). Relation sd_rider_offered(group). Relation sd_elope_plan(group). Relation sd_gone(group).
+  Relation sd_caught(group). Relation sd_end_honest(group). Relation sd_end_declined(group). Relation sd_end_exiled(group).
+  Relation sd_end_forged(group). Relation sd_end_apart(group). Relation sd_slighted_guild(group). Relation sd_pargeters_uncovered(group).
+  Relation sd_roof_honest(group). Relation sd_ladder_lent(group). Relation sd_sent_on(group).
+  Query sd_drill_morning() means day(clock) == 3 and hour(clock) >= 9 and hour(clock) < 12.
+  Query sd_drill() means day(clock) == 3 and hour(clock) >= 10 and hour(clock) < 12 and not at(ianthe, bakehouse).
+  Query sd_tobias_at(p: place) means at(tobias, p) or (travelsWith(tobias, party) and at(party, p)).
+  Query sd_decided() means arc(ianthe) >= 1.
+
+  Discovery sd_claim "The Surveyors' Guild has a survey outstanding on 4 Dyers' Alley, a flue, and its surveyor has not been to the Guild with it for nine days.".
+  Discovery sd_unwritten "Ianthe Corbett has measured the Pargeters' house twice and left the verdict blank. The Rule says Decline. A Declined house is uninsured, and a fireman with an uninsured house is struck off.".
+  Discovery sd_flue_seen "The Pargeters' flue is cracked along the party wall with the die-works. It could be rebuilt.".
+  Discovery sd_example "Surveyor Hargreave, in 1307, passed the Candlewick pump-house against the Rule, subject to repair within thirty days. It was repaired. It stands. The Guild keeps the form: the Hargreave Rider.".
+  Discovery sd_loves "Tobias Pargeter and Ianthe Corbett have been writing to each other, through a loose brick in the Guild's garden wall, for a year and a half, and neither has said a word aloud.".
+
+  // ── The people ───────────────────────────────────────────────────────────────────────────────────────────
+  Person sd_clerk "Mr Tinniswood" at guild_hall {
+    Role "clerk of the Surveyors' Guild". Ancestry human. Calling bard. Level 2. Peaceable. Manner acerbic. Pronouns he.
+    Greets "A small man with a full moustache and a very empty desk looks up. 'Tinniswood,' he says. 'Clerk. The Guild is open to the public, and the model is closed to everyone. The two statements are not in conflict.'".
+    Greets again "'The model,' says Mr Tinniswood, 'is still closed.'".
+  }
+  Person sd_father "Septimus Corbett" at corbett_study {
+    Role "Ianthe's father, a retired ship's surveyor of the Lamprey's friends". Ancestry human. Calling warrior. Level 2. Peaceable. Manner proud. Pronouns he.
+    Greets "A heavy old man with a wooden leg sits by the plan-chest with a glass of rum and a pipe he is not allowed to light. 'Corbett,' he says. 'Septimus. Forty years in the Lamprey's good opinion. You'll excuse me getting up.'".
+    Greets again "'Ah,' says Septimus Corbett. 'The adjusters.'".
+  }
+  Person sd_mother "Lettice Corbett" at corbett_study {
+    Role "Ianthe's mother". Ancestry human. Calling cleric. Level 1. Peaceable. Manner compassionate. Pronouns she.
+    Greets "A small woman with the family's grey eyes is sewing a button on a rope-coat that is not hers. 'Lettice Corbett,' she says. 'Ianthe's mother. I'd offer you tea, but she is not here and she makes the tea.'".
+    Greets again "'Hello again,' says Lettice Corbett. 'Do sit. She'll want to see you.'".
+  }
+  Person sd_pargeter "Nathaniel Pargeter" at drill_yard {
+    Role "Tobias's father, a veteran engineer of the Phoenix brigade". Ancestry human. Calling warrior. Level 3. Trait toughness. Peaceable. Manner proud. Pronouns he. Plans 14 steps. Uses go.
+    Greets "A square grey man in the Phoenix's blue, with a helmet under his arm and the bark of someone who has been shouting over steam for thirty years, looks you over. 'Pargeter,' he says. 'Nathaniel. Engineer. Whoever you are, you are standing on my hose.'".
+    Greets again "'You,' says Nathaniel Pargeter. 'Mind the hose.'".
+  }
+  Person sd_pargeter_m "Hephzibah Pargeter" at drill_yard {
+    Role "Tobias's mother". Ancestry human. Calling cleric. Level 2. Peaceable. Manner stoic. Pronouns she. Plans 14 steps. Uses go.
+    Greets "A stout woman in an apron stamped with a gilt bird has a tin of sandwiches under one arm for nine men. 'Mrs Pargeter,' she says. 'Hephzibah. If you are from the Guild, I know what you've come for and I'd rather have it told me to my face.'".
+    Greets again "'Tea?' says Mrs Pargeter, with a sandwich already in her hand.".
+  }
+
+  // ── Their hours ───────────────────────────────────────────────────────────────────────────────────────────
+  // Ianthe surveys at the Guild by day, goes up to the lantern gallery at dusk to take the roofs, and is at home in the night.
+  Rule sd_i_to_guild at corbett_study when hour(clock) >= 9 and hour(clock) < 17 and not sd_drill() and not at(ianthe, guild_hall) and not at(ianthe, bakehouse) and not sd_gone(party) says "Ianthe takes her rope off the hook, kisses her mother on the way out without stopping, and goes." { Retract at(ianthe, corbett_study). Assert at(ianthe, guild_hall). }
+  Rule sd_i_to_guild_b when hour(clock) >= 9 and hour(clock) < 17 and not sd_drill() and not at(ianthe, bakehouse) and not at(ianthe, guild_hall) and not at(ianthe, corbett_study) and not sd_gone(party) { Retract at(ianthe, sd_lantern). Retract at(ianthe, sd_roof). Retract at(ianthe, belvedere). Assert at(ianthe, guild_hall). }
+  Rule sd_i_to_lantern when hour(clock) >= 17 and hour(clock) < 19 and not at(ianthe, sd_lantern) and not sd_gone(party) and not sd_end_forged(party) { Retract at(ianthe, guild_hall). Retract at(ianthe, corbett_study). Assert at(ianthe, sd_lantern). }
+  Rule sd_i_home when (hour(clock) >= 19 or hour(clock) < 9) and not at(ianthe, corbett_study) and not sd_gone(party) { Retract at(ianthe, guild_hall). Retract at(ianthe, sd_lantern). Retract at(ianthe, sd_roof). Assert at(ianthe, corbett_study). Assert state(sd_rungs, drawn_up). }
+  Rule sd_i_drill when sd_drill() and not at(ianthe, sd_roof) and not sd_gone(party) { Retract at(ianthe, guild_hall). Retract at(ianthe, corbett_study). Assert at(ianthe, sd_roof). }
+  Observe sd_gallery_light at belvedere when hour(clock) >= 17 and hour(clock) < 19 and not state(sd_rungs, set) and not sd_gone(party) "Overhead on the lantern gallery a woman's boots hang over the rail, and she is eating an apple, and noting something in a book on her knee. She does not look down.".
+  Observe sd_gallery_here at sd_lantern when true "A ring of iron rail around the great lantern of the Hill, forty feet above the street. The whole city lies spread out: the Row, the Reach, the Bare Wards' rim and the faint wobble of heat over the Exchange. A pencilled grid has been drawn on the stone, with a number in every square: the roofs of Quittance, one by one.".
+  Observe sd_roof_here at sd_roof when true "The Corbetts' roof is a low pitch of slate with a chimney, a view of the drill below, and an air of being, for once, the wrong way up.".
+
+  // The Pargeters come up the Brickfields stair for the drill, and go home to dinner.
+  Pursuit sd_p_up for sd_pargeter "going up the Hill to see the drill" priority 20 when sd_drill_morning() seeks at(sd_pargeter, hill_street).
+  Pursuit sd_pm_up for sd_pargeter_m "going up the Hill with the sandwiches" priority 20 when sd_drill_morning() seeks at(sd_pargeter_m, hill_street).
+  Pursuit sd_p_down for sd_pargeter "going home to dinner" priority 10 when not sd_drill_morning() seeks at(sd_pargeter, drill_yard).
+  Pursuit sd_pm_down for sd_pargeter_m "going home to dinner" priority 10 when not sd_drill_morning() seeks at(sd_pargeter_m, drill_yard).
+
+  // Tobias goes where he is told Ianthe is, when he has been told, if he is not with the company: the Guild by day, the
+  // Belvedere at dusk, and home after.
+  Rule sd_t_to_guild when sd_t_invited(party) and not travelsWith(tobias, party) and not sd_beat2(party) and day(clock) >= 1 and hour(clock) >= 10 and hour(clock) < 16 and not sd_drill() and not at(tobias, hill_street) and not at(tobias, guild_hall) { Retract at(tobias, pargeter_front). Retract at(tobias, drill_yard). Assert at(tobias, hill_street). Assert sd_t_out(party). }
+  Rule sd_t_into_guild when sd_t_invited(party) and sd_cleared(party) and not travelsWith(tobias, party) and not sd_beat2(party) and at(tobias, hill_street) and hour(clock) >= 10 and hour(clock) < 16 and not sd_drill() { Retract at(tobias, hill_street). Assert at(tobias, guild_hall). }
+  Rule sd_t_to_belvedere when sd_t_invited(party) and not travelsWith(tobias, party) and not sd_beat1(party) and hour(clock) >= 17 and hour(clock) < 19 and not at(tobias, belvedere) and not at(tobias, sd_lantern) { Retract at(tobias, pargeter_front). Retract at(tobias, hill_street). Retract at(tobias, guild_hall). Assert at(tobias, belvedere). Assert sd_t_out(party). }
+  Rule sd_t_climbs when not travelsWith(tobias, party) and at(tobias, belvedere) and state(sd_rungs, set) { Retract at(tobias, belvedere). Assert at(tobias, sd_lantern). }
+  Rule sd_t_drill when sd_drill() and not travelsWith(tobias, party) and not at(tobias, hill_street) and not sd_gone(party) { Retract at(tobias, pargeter_front). Retract at(tobias, guild_hall). Retract at(tobias, belvedere). Retract at(tobias, sd_lantern). Assert at(tobias, hill_street). Assert sd_t_out(party). }
+  Rule sd_t_home when sd_t_out(party) and not travelsWith(tobias, party) and not sd_gone(party) and not sd_drill() and (hour(clock) >= 19 or hour(clock) < 10) { Retract at(tobias, hill_street). Retract at(tobias, guild_hall). Retract at(tobias, belvedere). Retract at(tobias, sd_lantern). Assert at(tobias, pargeter_front). Retract sd_t_out(party). }
+  Rule sd_t_turned_away at hill_street when sd_t_invited(party) and not sd_cleared(party) and not sd_beat2(party) and at(tobias, hill_street) and hour(clock) >= 10 and hour(clock) < 16 and not sd_drill() says "Tobias stands at the Guild's door in his blue coat, and Mr Tinniswood stands in it. 'Phoenix men,' says the clerk, 'are not admitted to the model. On account of the pins.' Tobias takes it with a face of great seriousness and stays exactly where he is." { }
+
+  // ── The three assignations ───────────────────────────────────────────────────────────────────────────────
+  Rule sd_beat_1 when at(ianthe, sd_lantern) and sd_tobias_at(sd_lantern) and not sd_beat1(party) { Assert sd_beat1(party). Increase sd_warmth(ianthe) by 1. }
+  Rule sd_beat_1_told at belvedere when sd_beat1(party) and day(clock) >= 1 and hour(clock) >= 17 and hour(clock) < 19 once says "Overhead there is a silence of the kind that is carefully not being listened to. Then Ianthe's voice, saying 'You came up a drainpipe,' and Tobias's, saying 'Ladders are for people who've been told they can.' A boot swings. Another boot swings next to it. After a while, one of them laughs." { }
+  Rule sd_beat_2 at guild_hall when at(ianthe, guild_hall) and sd_tobias_at(guild_hall) and not sd_beat2(party) says "Ianthe lifts the glass from the model and takes out one small red cube, and sets it in Tobias's palm. 'That's yours,' she says. 'Four Dyers' Alley. I have measured it twice.' Tobias, who has put out four hundred fires and does not know what to do with a cube, closes his hand round it as if it were hot. Mr Tinniswood becomes interested in a ledger." { Assert sd_beat2(party). Increase sd_warmth(ianthe) by 1. }
+  Rule sd_drill_wrong at hill_street when sd_drill() and sd_tobias_at(hill_street) and (state(sd_pin, slipped) or state(sd_pump, burst)) and not sd_stranded(party) says "The sergeant bawls 'Heave!' and the ladder goes out from under its own foot, and the pump coughs and lets go of its hose. In the street there is a noise like a cathedral being dropped. Tobias looks at the ladder, and at the roof, and goes up the Corbetts' gutter-pipe like a man going up a ladder that has not fallen. Behind him the whole brigade is shouting. Nobody can reach either of them for an hour." { Assert sd_stranded(party). }
+  Rule sd_roof_beat when sd_stranded(party) and not sd_beat3(party) and (not sd_tobias_knows(party) or arc(ianthe) >= 1) { Assert sd_beat3(party). Increase sd_warmth(ianthe) by 1. }
+  Rule sd_roof_beat_told at hill_street when sd_beat3(party) and not sd_roof_honest(party) and day(clock) == 3 and hour(clock) >= 10 and hour(clock) < 14 once says "Tobias, on the roof, sits down beside Ianthe against the chimney, and they say nothing for such a long time that the sergeant gives up shouting. 'Is it very bad?' she says at last, meaning the street. 'It's fine,' he says. 'It's fine.' It is not the only thing they do not say." { }
+  Rule sd_roof_truth when sd_stranded(party) and not sd_beat3(party) and sd_tobias_knows(party) and arc(ianthe) == 0 { Assert sd_beat3(party). Increase sd_warmth(ianthe) by 1. Assert sd_roof_honest(party). Set arc(ianthe) to 1. Assert state(sd_survey, declined). Assert sd_end_declined(party). Assert sd_pargeters_uncovered(party). Assert tobiasWilling(party). }
+  Rule sd_roof_truth_told at hill_street when sd_roof_honest(party) and day(clock) == 3 and hour(clock) >= 10 and hour(clock) < 14 once says "Tobias sits down beside Ianthe against the chimney. 'I'm told you've not written it,' he says. 'The Dyers' Alley. I'd as soon you did.' She does not look at him. 'I'd as soon be told it was safe,' he says, 'than be told it was kind. My mother says the crack in that wall is the width of her thumb now. She won't have it said. It's not a thing I want to be loved for, Ianthe.' The chimney, which has been there for a hundred years, does not move. After a while she takes a pencil from behind her ear and writes something on her knee, and does not show him." { }
+  Rule sd_drill_right when sd_drill() and hour(clock) >= 11 and not sd_stranded(party) and not sd_public(party) { Assert sd_public(party). }
+  Rule sd_drill_right_told at hill_street when sd_public(party) and day(clock) == 3 and hour(clock) >= 11 and hour(clock) < 14 once says "The sergeant bawls 'Heave!' and the ladder goes up as it should, and Tobias goes up it as he should, and comes down with a surveyor over his shoulder in a perfectly regulation carry, to applause. In the crowd Septimus Corbett's face goes through three colours. Mrs Pargeter's sandwich stops halfway. Nobody else sees anything but a drill." { }
+  Rule sd_repin when hour(clock) < 7 and state(sd_pin, slipped) { Assert state(sd_pin, fast). }
+  Rule sd_repump when hour(clock) < 7 and state(sd_pump, burst) { Assert state(sd_pump, steady). }
+  Rule sd_drill_over when day(clock) == 3 and hour(clock) >= 12 and state(sd_pump, burst) { Assert state(sd_pump, steady). }
+  Rule sd_drill_over_b when day(clock) == 3 and hour(clock) >= 12 and state(sd_pin, slipped) { Assert state(sd_pin, fast). }
+
+  // The Guild's list closes at noon on the fifth day. If she has not decided, she writes it alone.
+  Rule sd_time when day(clock) >= 5 and hour(clock) >= 12 and arc(ianthe) == 0 and not sd_gone(party) and not sd_end_forged(party) says "At the Guild's noon bell Ianthe Corbett, who has been measuring a flue for twelve days, writes DECLINED on a clean sheet in a clear unhesitating hand, signs it, blots it and takes it across the hall to Mr Tinniswood without having consulted anyone. It is the first thing she has done all week with her whole attention." { Set arc(ianthe) to 1. Assert state(sd_survey, declined). Assert sd_end_apart(party). Assert sd_pargeters_uncovered(party). }
+
+  // ── In-world doors and the Slate ─────────────────────────────────────────────────────────────────────────
+  Observe sd_slate at slip_room when day(clock) >= 1 and day(clock) <= 5 "SURVEYS OVERDUE, the Guild begs to advise: 4 Dyers' Alley, a flue. The surveyor has not attended in nine days. A flat fee to any licensed adjuster who will certify it, and a note: 'The surveyor is perfectly well.'" teaches sd_claim.
+  Observe sd_board at guild_hall when true "On the Guild's board, against CORBETT, I., the last house on the list has a street and a date and nothing else: 4 Dyers' Alley, under measurement since the third. All of the others have a verdict." teaches sd_unwritten.
+  Observe sd_study_scene at corbett_study when true "Across the plan-chest, under a pencil, one sheet has been measured twice and has one line left blank." teaches sd_unwritten.
+  Observe sd_met at corbett_study when at(ianthe, corbett_study) "Ianthe Corbett has hung her coat on its hook and is sitting where the plans are." teaches d_ianthe_met.
+  Observe sd_flue_look at dyers_alley when true "Along the front of 4 Dyers' Alley, at the height of a man's chest, someone has pencilled a line beside a crack in the party wall, and dated it, and dated it again." teaches sd_flue_seen.
+  Objective sd_obj when knows(party, sd_claim) and not sd_decided() and not sd_gone(party) "The Pargeters' flue in Dyers' Alley is overdue for a verdict: and the surveyor has not written it. The Guild's list closes at noon on the fifth day.".
+  Objective sd_obj_tobias when knows(party, sd_unwritten) and not sd_beat3(party) and not sd_decided() "Ianthe Corbett and Tobias Pargeter have never said a word aloud to each other. Contrive it.".
+
+  // ── What people say ──────────────────────────────────────────────────────────────────────────────────────
+  Topic sd_c_tinn with sd_clerk "Ask Mr Tinniswood about the Pargeters' survey" when knows(party, sd_claim) or knows(party, sd_unwritten) once {
+    Says "'Four Dyers' Alley,' says Mr Tinniswood. 'The surveyor has the sheet. She has had it since the third. She is perfectly well. She climbs things.' He lowers his voice a little. 'The Rule gives a Guild surveyor ten days. After the fifth day the list closes and the Guild writes a verdict itself, from the plan, and the Guild has no feelings and no ladder.'".
+    On discuss { Assert knows(actor, sd_unwritten). }
+  }
+  Topic sd_c_example with sd_clerk "Ask whether a surveyor has ever passed what the Rule says to Decline" when knows(party, sd_unwritten) once {
+    Says "'Once,' says Mr Tinniswood. 'Hargreave. Candlewick pump-house, 1307, contrary to Rule Nine, on a form of his own that the Guild afterwards adopted, which says: Passed, subject to repair within thirty days. It was repaired. It stands to this day, and nobody on the Hill will say his name.' He sniffs. 'The form is called the Rider. It is in the left-hand drawer, and there is nothing in the Rule to prevent its being used. There is a good deal in the Rule to prevent anyone's thinking of it.'".
+    On discuss { Assert knows(actor, sd_example). }
+  }
+  Topic sd_c_loose with sd_clerk "Ask Mr Tinniswood about the loose brick in the garden wall" when knows(party, sd_unwritten) once {
+    Says "'There is no loose brick,' says Mr Tinniswood. 'I have looked. I have looked on a good many Thursdays. If you were to find a letter in it I should be obliged if you would not tell me.'".
+    On discuss { Assert knows(actor, sd_loves). }
+  }
+  Action sd_lend_ladder(actor: group, site: place) "Ask Mr Tinniswood to lend the Guild's folding ladder (two coin deposit)" {
+    Speaker sd_clerk.
+    Requires able(actor) and company(actor) and at(actor, site) and at(sd_clerk, site) and quantity(actor, gold) >= 2 and not holding(actor, sd_ladder_k) and not sd_ladder_lent(actor).
+    Time 5 minutes.
+    On success { Decrease quantity(actor, gold) by 2. Assert sd_ladder_lent(actor). Give sd_ladder to actor. }
+    Result "'It is to be returned,' says Mr Tinniswood, 'in the condition in which it is not used for love.' He reads the card tied to the top, and puts a finger on it. 'That is not my card.'".
+  }
+  Action sd_clear_licence(actor: group, site: place) "Show Mr Tinniswood your adjuster's licence, and bring a fireman as your witness to the model" {
+    Speaker sd_clerk.
+    Requires able(actor) and company(actor) and at(actor, site) and at(sd_clerk, site) and holding(actor, adjuster_licence) and not sd_cleared(actor).
+    Time 5 minutes.
+    On success { Assert sd_cleared(actor). }
+    Result "'A witness to a certification,' says Mr Tinniswood heavily, reading the card. 'Is permitted to view the plan of the premises certified. Not to touch the pins. I shall be watching the pins.' He settles on his stool to watch the pins.".
+  }
+  Action sd_clear_coin(actor: group, site: place) "Press five coin into Mr Tinniswood's hand and ask him to find the model needs dusting" {
+    Speaker sd_clerk.
+    Requires able(actor) and company(actor) and at(actor, site) and at(sd_clerk, site) and quantity(actor, gold) >= 5 and not sd_cleared(actor).
+    Time 5 minutes.
+    On success { Decrease quantity(actor, gold) by 5. Assert sd_cleared(actor). }
+    Result "'The model,' says Mr Tinniswood, closing his hand over nothing at all, 'does want dusting. It will take a while. I shall be in the back.' He goes into the back.".
+  }
+  Action sd_clear_talk(actor: group, site: place) "Put it to Mr Tinniswood that a Guild with no feelings should have no objection to a fireman" {
+    Speaker sd_clerk.
+    Requires able(actor) and company(actor) and at(actor, site) and at(sd_clerk, site) and not sd_cleared(actor) and not sd_caught(actor).
+    Time 10 minutes.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert sd_cleared(actor). }
+    On failure { Assert sd_caught(actor). }
+    Result "Mr Tinniswood opens his mouth and finds, to his visible distress, that you are right. 'Without feelings,' he says. 'Without. Yes.' He takes out a handkerchief and cleans the glass himself, with his back turned.".
+    Otherwise "'The Guild,' says Mr Tinniswood, 'has no feelings. I have enough for both.'".
+  }
+  Action sd_show_roll(actor: group, site: place) "Ask Mr Tinniswood, as a licensed adjuster, to show you the Roll's page on the Cinder Ward" {
+    Speaker sd_clerk.
+    Requires able(actor) and company(actor) and at(actor, site) and at(sd_clerk, site) and holding(actor, adjuster_licence) and not knows(actor, d_decline_roll).
+    Time 10 minutes.
+    On success { Assert knows(actor, d_decline_roll). }
+    Result "Mr Tinniswood takes a ledger as long as a coffin from the shelf, opens it to a page, and does not look at it. 'Cinder Ward,' he says. 'Surveyed in the spring. Declined as of Reckoning, by order of the Guild's committee, which sits on the Hill and does not visit.' He closes it. 'You have not seen it. I should be obliged if you would not ask who asked for it.'".
+  }
+  Topic sd_t_ask with tobias "Ask Tobias who has been writing to him through the Guild garden wall" when knows(party, sd_loves) once {
+    Says "'Nobody,' says Tobias, scarlet. Then: 'It's a very good wall.' Then, with great difficulty: 'She climbs. I don't know what she writes about. It's surveys. It's about wind on a Tuesday. I write her back about my mother's sandwiches. I don't think either of us has said a thing.'".
+  }
+  Topic sd_t_invite with tobias "Tell Tobias where Ianthe Corbett sits at dusk, and when the Guild shows its model" when knows(party, sd_loves) and not sd_t_invited(party) once {
+    Says "Tobias reads the sentence off your face twice, and puts on his helmet, takes it off, and puts it back. 'The lantern gallery,' he says. 'At dusk.' He looks at his boots. 'And the model by day, at ten. I'd have to be let in. I don't know how one would be let in. I should like it understood that I haven't agreed to anything.'".
+    On discuss { Assert sd_t_invited(actor). }
+  }
+  Topic sd_t_truth with tobias "Tell Tobias that Ianthe has measured his mother's house twice and has not written the Decline" when knows(party, sd_unwritten) and not sd_tobias_knows(party) once {
+    Grave "He will not keep it from her. He does not know how to keep anything from anybody.".
+    Says "Tobias stands very still. 'The Decline,' he says. 'Of ours.' He looks at the carpet, which is bad, and the clock, which is good, and the portrait of nine Pargeters. 'She's not written it,' he says, 'because of me.' He takes a long breath. 'My mother says that wall is the width of her thumb. I'd as soon you hadn't told me. I should like you to know I'm glad you did.'".
+    On discuss { Assert sd_tobias_knows(actor). }
+  }
+  Topic sd_i_roofs with ianthe "Ask Ianthe about the roofs" when true once {
+    Says "'You can read a city from the top,' says Ianthe. 'Every roof is a sentence the builder meant. The flues are the verbs. The bad ones all say the same thing, which is: it will be all right.'".
+  }
+  Topic sd_i_survey with ianthe "Ask Ianthe about the Pargeters' flue" when knows(party, sd_unwritten) once {
+    Says "'I'm not deferring,' says Ianthe, 'I'm checking.' She takes a bite of her apple. 'I have measured it twice. The third time I will find a reason that it is sound, because I want it to be, and then I shall have lied to myself, and I will not do that. So I have stopped measuring. It is a most uncomfortable thing, to stop.'".
+  }
+  Topic sd_i_cold with ianthe "Show Ianthe the Hargreave Rider" when knows(party, sd_example) and sd_warmth(ianthe) == 0 and not sd_rider_offered(party) once {
+    Says "'Hargreave is dead,' says Ianthe, 'and the Rider is a trick for people who want to be kind in the margin.' She hands it back. 'Why are you showing me this?' She is watching your face, and you have nothing to say that will not sound like a reason.".
+  }
+  Topic sd_i_example with ianthe "Show Ianthe the Hargreave Rider, and the pump-house that is still standing" when knows(party, sd_example) and sd_warmth(ianthe) >= 1 and not sd_rider_offered(party) and arc(ianthe) == 0 once {
+    Says "Ianthe reads it standing, twice, and puts the apple down. 'Passed, subject to repair,' she says. 'It was always there. I had the Rule by heart and I had not read the drawer.' She turns the form over. 'It is not kind. It is the opposite: it puts the flue in the verdict. If the flue is mended, I will sign it. If it is not, I will Decline, and it will be Declined on a day when I could have said otherwise.' She looks at you. 'Mend it. Then ask me.'".
+    On discuss { Assert sd_rider_offered(actor). }
+  }
+  Action sd_i_sign(actor: group, site: place) "Tell Ianthe the flue is rebuilt, and ask her to climb up and look at it" {
+    Speaker ianthe.
+    Requires able(actor) and company(actor) and at(actor, site) and at(ianthe, site) and sd_rider_offered(actor) and state(sd_flue, mended) and arc(ianthe) == 0.
+    Time 20 minutes.
+    On success { Set arc(ianthe) to 1. Assert state(sd_survey, rider). Assert sd_end_honest(actor). Increase regard(brigades) by 1. Assert tobiasWilling(actor). }
+    Result "She goes up to look at it, and comes down with brick-dust in her hair, and signs the Rider on the plan-chest with her whole name. 'Passed,' she says, 'subject to repair, which has been done. I don't think I have ever been so frightened.' She sits on the desk with her boots on the plan. 'You may tell him,' she says, 'that I'll be on the lantern gallery at dusk, and that nothing is wrong.'".
+  }
+  Topic sd_i_roll with ianthe "Ask Ianthe, who has the Roll's keys, what it says of the Cinder Ward" when arc(ianthe) >= 1 and (sd_end_honest(party) or sd_end_declined(party)) and not knows(party, d_decline_roll) once {
+    Says "She does not answer for some time. 'Declined,' says Ianthe. 'As of Reckoning. I found it in the spring, when I was copying; it is in the committee's hand. I haven't said so to anyone, because I did not know what it would be used for.' She takes a clean sheet and copies the page in a few minutes, in a hand that is exactly the Roll's own, and stamps it with the Guild's seal. 'I am not saying I know. I am saying I would rather be asked than not.'".
+    On discuss { Assert knows(actor, d_decline_roll). Give sd_extract to actor. }
+  }
+  Topic sd_i_roll_again with ianthe "Ask Ianthe whether she would copy the page from the Roll for you" when arc(ianthe) >= 1 and (sd_end_honest(party) or sd_end_declined(party)) and knows(party, d_decline_roll) and not holding(party, roll_extract) and not sd_sent_on(party) once {
+    Says "Ianthe copies the page in a few minutes, in a hand that is exactly the Roll's own, and stamps it with the Guild's seal. 'That's the third time anybody has asked me for it,' she says. 'It does get easier.'".
+    On discuss { Give sd_extract to actor. }
+  }
+  Topic sd_i_stand with ianthe "Ask whether Ianthe would stand in the Hall of the Five and say what the Roll says" when arc(ianthe) >= 1 and (sd_end_honest(party) or sd_end_declined(party)) and sd_warmth(ianthe) >= 2 and not witness(ianthe) once {
+    Says "'In the Hall,' says Ianthe. 'In a good coat.' She looks at the rope on the hook. 'I have written one thing in my life that someone else wanted me not to, and I did not die of it. Yes. On the day. Tell me the hour.'".
+    On discuss { Assert witness(ianthe). }
+  }
+  Topic sd_i_elope with ianthe "Offer, quietly, to help Ianthe and Tobias leave the city together" when sd_warmth(ianthe) >= 2 and arc(ianthe) == 0 and not sd_elope_plan(party) and not sd_caught(party) once {
+    Grave "She will give up the Guild and her name on the Hill, for ever.".
+    Says "'Leave,' says Ianthe. 'Together.' She takes the rope from the hook and looks at it. 'I'd be a surveyor of nothing, in a place with no roofs. I'd be a Corbett who ran away, and he'd be a Pargeter who did.' A pause. 'It would be a very good thing for him. I shall never write the Decline, then, and that will be all I have to say.' She looks up. 'A lighter, at dusk, at the Water-Stair, and nobody told.'".
+    On discuss { Assert sd_elope_plan(actor). }
+  }
+  Action sd_hire_lighter(actor: group) "Hire a lighterman at the Water-Stair to take two passengers down the river at dusk (8 coin)" {
+    Requires able(actor) and company(actor) and at(actor, lighter_stairs) and sd_elope_plan(actor) and hour(clock) >= 17 and hour(clock) < 20 and quantity(actor, gold) >= 8 and not sd_gone(actor).
+    Time 30 minutes.
+    On success { Decrease quantity(actor, gold) by 8. Assert sd_gone(actor). Assert sd_end_exiled(actor). Set arc(ianthe) to 1. Retract at(ianthe, corbett_study). Retract at(ianthe, sd_lantern). Retract at(ianthe, guild_hall). Assert at(ianthe, nowhere). Retract at(tobias, pargeter_front). Retract at(tobias, hill_street). Retract at(tobias, belvedere). Retract at(tobias, sd_lantern). Assert at(tobias, nowhere). Give sd_extract to actor. }
+    Result "They come down the Water-Stair at the end of the light, he with a bag and she with a rope-coat that is not hers, and neither with anything to say. The lighterman takes the lines in. 'Mind the tide,' says Ianthe, to nobody, and then, to you, and quickly, as the lighter swings out, 'It's in the left pocket.' It is: a clean copy of a page of the Roll, with the Guild's stamp. The lighter goes down the brown river toward a bend it will take twenty minutes to reach. On the top step you are left with a stamped sheet, and a coat that was your own.".
+  }
+  Action sd_forge(actor: group) "Add one word to the Pargeters' survey, in Ianthe's hand: PASSED" {
+    Requires able(actor) and company(actor) and at(actor, corbett_study) and state(sd_survey, blank) and knows(actor, sd_unwritten) and not sd_caught(actor).
+    Time 20 minutes.
+    Resolve check(actor, deception, dc_hard).
+    On success { Assert state(sd_survey, forged). Assert sd_end_forged(actor). Assert sd_slighted_guild(actor). Decrease regard(city) by 1 or to nothing. Assert tobiasWilling(actor). }
+    On failure { Assert sd_caught(actor). Assert sd_slighted_guild(actor). }
+    Result "You copy her P from the plan beside it, and her S, and the flourish under the D that is not a D. The word looks back at you from the page in a hand so like hers that you check it for her ink. It is very quiet in the study, and Septimus Corbett is asleep with the pipe in his mouth. In the morning she will read what she has written.".
+    Otherwise "A wooden leg thumps twice on the boards behind you. 'That,' says Septimus Corbett, quite gently, 'is not my daughter's P.' He does not raise his voice. He rings the bell for his wife, and she comes, and looks at the sheet, and then at you, and then she goes to find her daughter.".
+  }
+  Rule sd_forged_found when state(sd_survey, forged) and hour(clock) >= 8 and day(clock) >= 1 and not sd_end_apart(party) and arc(ianthe) == 0 says "In the morning Ianthe sits down at the plan-chest with a cup of tea and finds the word. She reads it for a long time. Then she picks up the pencil, and initials it, in the margin, once, and puts the pencil down, and goes out and does not come back to the study till night. It is the worst thing that has ever happened to her, and she has made it her own." { Assert sd_end_forged(party). }
+  Rule sd_caught_cold when sd_caught(party) and sd_warmth(ianthe) > 0 { Set sd_warmth(ianthe) to 0. }
+
+  // The families
+  Topic sd_corbett_f with sd_father "Ask Septimus Corbett about the Pargeters" when true once {
+    Says "'Phoenix,' says Septimus Corbett, as another man might say pox. 'Blue coats. They put out a fire in a house with a fish over it in '19 and sent us the bill. I have nothing against the young man. I have something against nine of them in a portrait.'".
+  }
+  Topic sd_corbett_m with sd_mother "Ask Mrs Corbett how Ianthe is" when true once {
+    Says "'She's up and down the gutters like a cat,' says Lettice Corbett. 'She has not eaten properly since the third. I don't ask. She'll come to it.' She bites a thread. 'I was a Lamprey girl and I married a Lamprey man, and I'd have married the Phoenix for a good laugh if anybody had offered.'".
+  }
+  Action sd_hearth_corbett(actor: group, site: place) "Ask Mrs Corbett whether the study's grate might be lit on the Night, against the Ordinance" {
+    Speaker sd_mother.
+    Requires able(actor) and company(actor) and at(actor, site) and at(sd_mother, site) and (sd_end_honest(actor) or sd_end_declined(actor)) and sd_warmth(ianthe) >= 2 and not keeper(hill).
+    Time 10 minutes.
+    On success { Assert keeper(hill). }
+    Result "'The Ordinance,' says Lettice Corbett, 'says a house may not have an open fire, and says nothing about a grate that has never been used, in a study, for a hobby.' She looks at the cold iron. 'I shall light it at dusk on the Night and I shall keep it in. Ianthe can carry the coals.' She looks down at her button. 'It's been a long time since there was anything in this house worth burning for.'".
+  }
+  Topic sd_parg_f with sd_pargeter "Ask Nathaniel Pargeter about the Guild's survey of his house" when knows(party, sd_unwritten) once {
+    Says "'The wall's cracked,' says Nathaniel Pargeter. 'I know it's cracked. I put my thumb in it. I've said nothing to the wife.' He looks at the pump. 'A man who has pulled children out of a bad flue is not going to stand in front of an adjuster and say the flue is sound. If it's Declined it's Declined. I would only ask it be done to my face.'".
+  }
+  Topic sd_parg_m with sd_pargeter_m "Ask Mrs Pargeter about the house in Dyers' Alley" when true once {
+    Says "'Nine Pargeters have lived in it,' says Hephzibah Pargeter, 'and the nine of them have had the same opinion of that wall, which is that it has never given anyone cause.' She looks at the tin of sandwiches. 'If it was Declined I should have to take the sign down, and I do not know what I should do with my hands.'".
+  }
+
+  // ── What follows ─────────────────────────────────────────────────────────────────────────────────────────
+  Rule sd_forged_tobias when sd_end_forged(party) { Assert tobiasWilling(party). }
+  Observe sd_after_honest at corbett_study when sd_end_honest(party) "The Pargeters' survey lies on the plan-chest with a Rider on it, and a pressed flower, newly added by someone who did not think anyone would look, in the corner.".
+  Observe sd_after_declined at corbett_study when sd_end_declined(party) "The Pargeters' survey lies on the plan-chest, DECLINED, and signed, and beside it a slate pencil worn to an inch, as if somebody had written something in a hurry.".
+  Observe sd_after_apart at corbett_study when sd_end_apart(party) "On the plan-chest the Pargeters' survey lies signed, DECLINED, in a clear hand, and Septimus Corbett's pipe has been laid across it, unlit, to stop it blowing away.".
+  Observe sd_after_forged at corbett_study when sd_end_forged(party) "The Pargeters' survey lies on the plan-chest, PASSED, with an initial in the margin like a thumbprint. Ianthe's rope has gone from its hook.".
+  Observe sd_after_exiled at corbett_study when sd_end_exiled(party) "The rope is gone from its hook. A note is pinned in its place, in a clear hand, to two parents: GONE TO LOOK AT SOME ROOFS. Lettice Corbett has read it a great many times.".
+  Observe sd_parg_honest at pargeter_front when sd_end_honest(party) "The sideboard has a fresh piece of green mortar on the corner where somebody's thumb has been, and a Guild stamp on the Rider, framed beside the portrait of the nine.".
+  Observe sd_parg_declined at pargeter_front when sd_pargeters_uncovered(party) and not sd_end_forged(party) "The gilt bird has been taken down from over the Pargeters' door, and the pale square it leaves is cleaner than the rest.".
+  Observe sd_parg_exiled at pargeter_front when sd_end_exiled(party) "The nine Pargeters in blue look down on the room, and a space is left on the end of the row for a tenth that has not been painted.".
+}

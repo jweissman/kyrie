@@ -1,0 +1,246 @@
+Module quittance "Quittance" {
+  Description "The Queue: the dead of the Burning, in line in the Exchange cellars to file claims ninety-four years late, the junior clerk who takes them down in secret, and the slag stair that every way down but the Flue must pass.".
+
+  // qu_way: how the Queue was got by. 0 not yet . 1 a penny paid . 2 claims adjusted . 3 the office said (the dead sent home)
+  // 4 a ticket and a wait . 5 pushed through.
+  Measure qu_way(group). Measure qu_nerve(group). Measure qu_fairs(group). Measure qu_regard(group). Measure qu_called(group).
+  Relation qu_ticket(group). Relation qu_pushed(group). Relation qu_released(group). Relation qu_hidden(group).
+  Relation qu_ledger_stolen(group). Relation qu_register_given(group). Relation qu_rolled(group).
+  Relation qu_asked(group). Relation qu_done(group). Relation qu_fair(group). Relation qu_fire_read(group).
+  Relation qu_fire_receipted(group). Relation qu_slighted_fire(group). Relation qu_slighted_dead(group).
+  Relation qu_penny(group).
+
+  Discovery qu_claim "The dead of the Burning are queueing in the Exchange cellars to file claims, and a junior clerk is taking them down. A clerk is wanted who is not afraid of being thanked.".
+  Discovery qu_descendant "Lettice Gorringe, a widow of the Burning, has a descendant: Mother Mawdsley, of the Mortmain almshouse.".
+
+  Item qu_ledger "the Ledger of the Unpaid" is tench_ledger at nowhere.
+
+  // ── The gate: the slag stair ────────────────────────────────────────────────────────────────────────────
+  Thing qu_line "the Queue on the slag stair" on down_glass {
+    State closed blocking "The dead stand on the head of the slag stair three abreast, politely, to the full width of it, and each holds out a scrap of paper. There is no pushing past them that does not go through someone.".
+    State open "The dead have drawn aside to the walls of the stair, as people do for a funeral, and a gap runs down the middle of them to the glass.".
+  }
+  Rule qu_line_opens when queueOpen(party) and state(qu_line, closed) { Assert state(qu_line, open). }
+
+  Observe qu_slate at slip_room when day(clock) <= 6 and not queueOpen(party) "CLAIMS OPEN: Exchange cellars. Persons unknown, in some numbers, standing. A clerk wanted who is not afraid of being thanked. The Exchange regrets that it has no record." teaches qu_claim.
+  Objective qu_obj when knows(party, qu_claim) and not queueOpen(party) "The dead of the Burning are queueing in the Exchange cellars. Nobody goes down past them without answering them.".
+  Objective an_obj when knows(party, an_claim) and an_status(party) < 2 "The Sovereign means to stop Mrs Oakes's annuity on Monday at noon, and seven people in the almshouse live on it.".
+  Observe qu_arcade_note at cellar_arcade when not queueOpen(party) "Past the pillars the arch to the Queue's hall is open, and from it comes a sound you take for the draught, and which turns out, when you stop, to be several hundred people not coughing.".
+  Observe qu_pushed_scene at queue_hall when qu_pushed(party) "The Queue has closed up behind you into a silence like a held breath. They are not hurt. They are offended, which is a great deal quieter.".
+  Observe qu_released_scene at queue_hall when qu_released(party) "The hall is empty to the walls, and swept, as a church is after a funeral. The scraps of paper lie in a neat pile by the clerk's desk, tied, and a smell of candle-smoke goes slowly out through the arch.".
+  Observe qu_settled_scene at queue_hall when qu_way(party) == 2 "The line is thinner than it was. The settled stand in a ring along the wall, tidy, in the manner of people who have had their affairs put in order and are not yet certain what to do with their hands.".
+  Observe qu_desk at queue_hall when qu_nerve(party) >= 2 "The clerk's chair at the far end is not empty. Dobbin Tench sits in it, upright, with the ledger open, and a pen that he is no longer apologising with.".
+
+  // ── Dobbin Tench, who grows a spine ─────────────────────────────────────────────────────────────────────
+  // qu_nerve: 0 apologetic . 1 asked, and answered . 2 sits in the chair, and will stand up in a Hall.
+  Rule qu_tench_comes when qu_nerve(party) >= 1 and at(tench, cellar_arcade) { Assert at(tench, queue_hall). Retract at(tench, cellar_arcade). }
+  Rule qu_register_nerve when qu_register_given(party) and qu_nerve(party) == 0 { Set qu_nerve(party) to 1. }
+
+  Topic qu_tench_writing with tench "Ask Dobbin Tench what he is writing" when true once {
+    Says "'Oh,' says Dobbin Tench, and puts a hand over the page, and then, seeing that this is the gesture of a man hiding something, takes it off again. 'Sums. A letter. It's nothing the Exchange would want to see, and I am sorry, I know that's the same as saying it is.' Behind him, in the hall beyond the arch, someone coughs politely, and several hundred people say 'Sh.'".
+  }
+  Topic qu_tench_cold with tench "Ask Tench whether he will speak to you" when qu_pushed(party) once {
+    Says "'You went through them,' says Dobbin Tench, not looking up. 'I heard it from here. They said sorry, you know, all the way. They said sorry to you.' His pen goes on. 'I think you had better go on down. I don't think I can help you.'".
+  }
+  Topic qu_gor_cold with qu_gorringe "Ask Mrs Gorringe whether she holds the Queue's offence against you" when qu_pushed(party) once {
+    Says "'I do not hold it,' says Mrs Gorringe. 'I have been holding things for ninety-four years; I have the habit. It is merely that I shall not now be able to say that the Phoenix's people were civil.' She does not look at you again.".
+  }
+  Action qu_tench_gently(actor: group, site: place) "Ask Tench, gently, what the book is that he keeps under his sleeve" {
+    Speaker tench.
+    Requires able(actor) and company(actor) and at(actor, site) and at(tench, site) and not knows(actor, d_unpaid_ledger) and not qu_hidden(actor) and not qu_pushed(actor).
+    Time 10 minutes.
+    Resolve check(actor, insight, dc_fair).
+    On success { Assert knows(actor, d_unpaid_ledger). }
+    On failure { Assert qu_hidden(actor). }
+    Result "Tench's shoulders come down by an inch. 'It's a ledger,' he says. 'It's the claims. They come to the desk when I'm at it and they say, would I mind, and I never have, and there are eleven hundred of them, and nobody has been paid. I put the date of the Burning against each one, and I leave the column that says PAID.' He turns the book so you can see it. 'It's empty. It's been empty the whole time.'".
+    Otherwise "Tench goes pink, and tucks the book further up his sleeve, and says that it is nothing and that he is sorry, and you can see that he will go on saying so until you go away.".
+  }
+  Topic qu_tench_roll with tench "Ask Tench to call the roll aloud, as the first clerk of the Exchange would have" when knows(actor, d_unpaid_ledger) and qu_nerve(party) == 0 and not qu_pushed(party) and not qu_ledger_stolen(party) once {
+    Says "'I couldn't,' says Tench. 'I'm only a junior.' He looks at you; you wait. He goes to the arch, and takes the book from his sleeve, and stands there with it for a time that is rather longer than you had expected. 'Abbott, Thomas,' he calls, in a small clear voice. 'Abbott, Mary. Abbott, Samuel.' And from the hall beyond, from eleven hundred throats, one after another, patient, a little hoarse with disuse, each in turn: 'Present.' It goes on for a long time. At the end of it Tench is standing a little straighter than at the start, though not, perhaps, as much as he thinks.".
+    On discuss { Set qu_nerve(party) to 1. Assert qu_rolled(actor). }
+  }
+  Topic qu_tench_register with tench "Give Tench the sexton's register of the unclaimed" when holding(actor, an_register_k) once {
+    Says "Tench opens the sexton's register on the desk and turns the pages with one finger. 'Forty-one,' he says. 'Forty-one with nobody to call them.' He gets out the ledger and, below the last name in it, he writes: And of the Unclaimed. 'Thank you,' he says. 'I'm sorry. I mean it. Nobody has ever brought me a name.' Then he writes a mark against each, for the sexton.".
+    On discuss { Spend an_register from actor. Assert qu_register_given(actor). }
+  }
+  Action qu_tench_lift(actor: group) "Lift the book out of Tench's sleeve while he is writing" {
+    Requires able(actor) and company(actor) and at(actor, cellar_arcade) and at(tench, cellar_arcade) and not qu_hidden(actor) and not qu_ledger_stolen(actor) and qu_nerve(party) == 0 and not holding(actor, tench_ledger).
+    Time 5 minutes.
+    Resolve check(actor, stealth, dc_fair).
+    On success { Give qu_ledger to actor. Assert qu_ledger_stolen(actor). }
+    On failure { Assert qu_hidden(actor). }
+    Result "He is leaning to the next line with his tongue between his teeth. You have the ledger out of his sleeve like a letter out of a post-box. It is the weight of a short Bible. Tench does not look up until you are beyond the pillars, and then he does, and his hand goes slowly to the empty sleeve, and the whole of his face with it.".
+    Otherwise "Tench turns at the wrong moment and puts his arm across the sleeve, in a movement so unlike him that he seems as startled as you are. 'No,' he says. 'No, I'm sorry. I don't think I can let you.' He sits with his back to you, and the ledger is not seen again.".
+  }
+  Topic qu_tench_ledger with tench "Ask Tench to let you carry the Ledger of the Unpaid up into the light" when qu_nerve(party) >= 2 and not holding(actor, tench_ledger) once {
+    Says "Tench shuts the book. For a moment he holds it as if the answer were in it, and then he gets up from the chair, which he has not done in front of the Queue in ninety-four years, and holds it out. 'Take it,' he says. 'Eleven hundred. They are all in there, and some of them are children, and somebody ought to read it in a room where people can't say it's none of their business.' He draws a breath. 'I'll come. If it's a Hall, I'll stand up in it. I've had the practice.'".
+    On discuss { Give qu_ledger to actor. Assert witness(tench). Assert knows(actor, d_unpaid_ledger). }
+  }
+
+  // ── The ways through ────────────────────────────────────────────────────────────────────────────────────
+  Action qu_penny(actor: group) "Lay three coin on the nearest claim, a penny a head, and ask to be let by" {
+    Requires able(actor) and company(actor) and at(actor, queue_hall) and not queueOpen(actor) and quantity(actor, gold) >= 3.
+    Time 10 minutes.
+    On success { Decrease quantity(actor, gold) by 3. Assert queueOpen(actor). Set qu_way(actor) to 1. Assert qu_penny(actor). }
+    Result "A woman in a Sunday bonnet looks at the three coins on her claim, and at you, and at the coins. 'Well,' she says, 'it is a penny.' There is a long, civil pause. 'Let them by, Mr Tench would say,' she says to the line, and the line, with great reluctance and perfect manners, draws in its skirts.".
+  }
+  Action qu_rite_known(actor: group) "Say the office for the dead over the Queue, and tell it that it has been heard, and may go home" {
+    Requires able(actor) and company(actor) and at(actor, queue_hall) and not queueOpen(actor) and capable(actor, rites) and knows(actor, d_unpaid_ledger).
+    Time 30 minutes.
+    Resolve check(actor, rites, dc_fair).
+    On success { Assert queueOpen(actor). Set qu_way(actor) to 3. Assert qu_released(actor). Increase qu_regard(actor) by 1. Assert at(qu_gorringe, nowhere). Assert at(qu_ned, nowhere). Assert at(qu_fluellen, nowhere). }
+    Result "You say it, and you say that the claims are in a book, and that a clerk has them, and that it has been heard. The Queue listens with the deep attention of people who have been waiting for exactly this and cannot quite believe it is not a form. One by one, from the front, they say 'Thank you,' and put their scraps down at the clerk's desk, and are not there.".
+    Otherwise "The Queue hears you out with great courtesy. 'That was very nice,' says a tall man at the front. 'Thank you. Will it be long?'".
+  }
+  Action qu_rite_blind(actor: group) "Say the office for the dead over the Queue, not knowing what it is waiting for" {
+    Requires able(actor) and company(actor) and at(actor, queue_hall) and not queueOpen(actor) and capable(actor, rites) and not knows(actor, d_unpaid_ledger).
+    Time 30 minutes.
+    Resolve check(actor, rites, dc_hard).
+    On success { Assert queueOpen(actor). Set qu_way(actor) to 3. Assert qu_released(actor). Assert at(qu_gorringe, nowhere). Assert at(qu_ned, nowhere). Assert at(qu_fluellen, nowhere). }
+    Result "You say it without knowing what they are waiting for, and it is enough, narrowly. The Queue lets out a breath that is not a breath, and puts its scraps down in a heap. 'We were only waiting to be said to,' a small girl explains. The hall is empty.".
+    Otherwise "The Queue says 'Amen' in a ragged mutter, the way people do who are polite to clergy, and does not move. 'We have a claim,' someone says, kindly, from the back. 'Is it that?'".
+  }
+  Action qu_ticket(actor: group) "Take a numbered ticket from the spike on the clerk's desk, and wait your turn" {
+    Requires able(actor) and company(actor) and at(actor, queue_hall) and not queueOpen(actor) and not qu_ticket(actor).
+    Time 5 minutes.
+    On success { Assert qu_ticket(actor). Set qu_called(actor) to watch(clock) + 144. }
+    Result "The ticket is number 1,104 in a hand like a child's. 'Oh, you're very sensible,' says the man in front of you, who is 1,103. 'They'll call you in a day, or thereabouts. They always call, in the end.'".
+  }
+  Rule qu_called_rule when qu_ticket(party) and watch(clock) >= qu_called(party) and not queueOpen(party) says "At the far end of the hall, where the chair is empty, a voice that is nobody's calls: 'Eleven hundred and four.' The line parts as for a bride, and the dead, who have nothing in the world to do but wait, look at you with real affection." {
+    Assert queueOpen(party). Set qu_way(party) to 4. Retract qu_ticket(party). }
+  Action qu_push(actor: group) "Put your shoulder to the Queue, and go through it to the slag stair" {
+    Requires able(actor) and company(actor) and at(actor, queue_hall) and not queueOpen(actor).
+    Grave "The dead are not hurt by it. They are offended, and they will remember, and so will whoever is waiting for them below.".
+    Time 10 minutes.
+    On success { Assert queueOpen(actor). Set qu_way(actor) to 5. Assert qu_pushed(actor). Assert qu_slighted_dead(actor). Assert qu_slighted_fire(actor). Decrease qu_regard(actor) by 2 or to nothing. }
+    Result "You go through them. It is like walking into a cold wet sheet hung to dry, and a cold wet sheet that says 'Oh,' and 'I beg your pardon,' and 'There is a queue,' in small hurt voices, one after another, all the way to the stair. At the end you look back. Nobody has moved. They are all looking at you with the terrible patience of the wronged.".
+  }
+  Rule qu_adjusted when qu_fairs(party) >= 4 and qu_way(party) == 0 and not queueOpen(party) says "The line gives a sound like a page turning. 'Mr Tench,' says Mrs Gorringe, 'they have done it properly.' At the foot of the slag stair the dead step back to the wall." {
+    Assert queueOpen(party). Set qu_way(party) to 2. Increase regard(sovereign) by 1. }
+
+  // ── The claimants ───────────────────────────────────────────────────────────────────────────────────────
+  Person qu_gorringe "Mrs Gorringe" at queue_hall {
+    Role "a widow of the Burning, with a claim for furniture". Ancestry human. Peaceable. Manner stoic. Pronouns she.
+    Greets "A woman in black bombazine, quite upright, holds out a long claim in a hand that does not shake because it has nothing in it to shake with. 'Gorringe,' she says. 'Lettice, relict of Josiah. Furniture. I have been waiting since the fourth of October.'".
+    Greets again "'Still here,' says Mrs Gorringe, with some dignity.".
+  }
+  Person qu_ned "Ned Pounceby" at queue_hall {
+    Role "a boy of seven, with a claim for boots". Ancestry human. Peaceable. Manner cheerful. Pronouns he.
+    Greets "A very small boy at the front of the line looks at you with enormous interest and holds up a piece of paper by one corner. 'I'm Ned,' he says. 'My mother says I'm to wait for the Phoenix. It's about my boots.'".
+    Greets again "'Hello,' says Ned.".
+  }
+  Person qu_fluellen "Mr Fluellen" at queue_hall {
+    Role "a claimant for a house". Ancestry human. Peaceable. Manner proud. Pronouns he.
+    Greets "A broad man in a velvet collar says, without being asked, 'Fluellen. Freeholder. Number nine, Cutler's Row. I shall want the Phoenix's man, or the Phoenix's man's superior. Is that you?'".
+    Greets again "'You again,' says Mr Fluellen. 'Have you the Phoenix's man?'".
+  }
+  Person qu_crumpe "Mr Crumpe" at queue_hall {
+    Role "a claimant for his own death, in good health". Ancestry human. Peaceable. Manner acerbic. Pronouns he.
+    Greets "A thin, vigorous old man in a very good muffler is stamping his feet to keep warm. This is an eccentric thing to do in a line of the dead, and his breath is showing, which theirs does not. 'Crumpe,' he says. 'Policy forty-four seventeen. Death benefit. You'll be the Sovereign, I hope.'".
+    Greets again "'Ah,' says Mr Crumpe. 'The Sovereign, at last?'".
+  }
+  Person qu_creditor "the Creditor" at queue_hall {
+    Role "a claimant from further down, who is last in the line". Ancestry human. Peaceable. Manner stoic. Pronouns it.
+    Seen when knows(viewer, d_unpaid_ledger).
+    Greets "At the very end of the line, after the last of the dead, there is a figure that is not the colour of candle-smoke. It is the colour of the inside of a stove. It holds out a claim, with the same patience as the rest, and the paper in its hand is faintly brown at the corners.".
+    Greets again "The figure at the end of the line holds out the claim again, with the same patience.".
+  }
+
+  // Mrs Gorringe, widow: the claim is for furniture, the grievance is for the name on the policy.
+  Topic qu_gor_ask with qu_gorringe "Ask Mrs Gorringe what she is claiming" when true once {
+    Says "'Forty pounds,' says Mrs Gorringe. 'A sideboard, six chairs, a clock, the table where I laid out my own dead.' She considers. 'I do not want the sideboard. It was my mother's and it was ugly. The policy was in Josiah's name, and when they came to pay, the Phoenix paid his brother, who had not sat at that table in ten years. I should like it written that it was my house.' She says it lightly, as one says the thing one has been practising for ninety-four years.".
+    On discuss { Assert qu_asked(qu_gorringe). Assert knows(actor, d_unpaid_ledger). }
+  }
+  Topic qu_gor_full with qu_gorringe "Allow the claim in full: forty pounds, for the furniture" when qu_asked(qu_gorringe) and not qu_done(qu_gorringe) once {
+    Says "'Forty pounds,' says Mrs Gorringe, in a voice of ice. 'For a sideboard I called ugly. I do not wish to be bought a sideboard. I wished to be believed about a table.' She withdraws the claim and folds it small. The line behind her says nothing, with great conviction.".
+    On discuss { Assert qu_done(qu_gorringe). Assert qu_slighted_dead(actor). Decrease qu_regard(actor) by 1 or to nothing. }
+  }
+  Topic qu_gor_valued with qu_gorringe "Allow the furniture at the valuer's twelve pounds" when qu_asked(qu_gorringe) and not qu_done(qu_gorringe) once {
+    Says "'The valuer,' says Mrs Gorringe, 'was a Phoenix man. I am happy to be told it is twelve pounds. I am not happy to be told by him.' She looks at you without expression. 'You have settled a claim, I see. It is the one I do not have.'".
+    On discuss { Assert qu_done(qu_gorringe). Assert qu_slighted_dead(actor). Decrease qu_regard(actor) by 1 or to nothing. }
+  }
+  Topic qu_gor_name with qu_gorringe "Enter her as the householder of record, and allow the claim in her own name" when qu_asked(qu_gorringe) and not qu_done(qu_gorringe) once {
+    Says "You write it, in the margin of her claim, in your own hand: LETTICE GORRINGE, HOUSEHOLDER. The ink takes. 'Ah,' says Mrs Gorringe. Her mouth moves, once, as a mouth does that has been shut on a word for a long time. 'I shall not want the forty pounds,' she says. 'A shilling for the table, if you would. For the principle.' You pay it, and she folds the claim into her glove with a look of rather terrible satisfaction.".
+    On discuss { Assert qu_done(qu_gorringe). Assert qu_fair(qu_gorringe). Increase qu_fairs(actor) by 1. Increase qu_regard(actor) by 1. }
+  }
+  Topic qu_gor_kin with qu_gorringe "Tell Mrs Gorringe that her great-granddaughter, Mother Mawdsley, keeps the almshouse day-room at Mortmain, and has not forgotten her" when knows(actor, qu_descendant) and not qu_done(qu_gorringe) once {
+    Says "'Mawdsley,' says Mrs Gorringe. 'Which Mawdsley? Ah.' She sits down on nothing, in the way of the dead, with a movement that has a good deal of the ordinary in it. 'And she has a stove, and a day-room, and she tells people about me.' The claim comes out of her glove and is held a little away. 'Then it is paid,' she says. 'I wished to be told that I was somebody's. I have been told.'".
+    On discuss { Assert qu_done(qu_gorringe). Assert qu_fair(qu_gorringe). Increase qu_fairs(actor) by 1. Increase qu_regard(actor) by 1. }
+  }
+  Topic qu_gor_tench with qu_gorringe "Ask Tench to settle Mrs Gorringe's claim himself" when qu_nerve(party) == 1 and not qu_done(qu_gorringe) and not qu_pushed(party) once {
+    Says "Tench takes the claim in both hands. 'I couldn't,' he says. 'I'm only a junior.' Nobody tells him he isn't. He goes up the hall, past eleven hundred of the dead, and sits down in the clerk's chair at the far end, which has been empty since the fire, and picks up a pen. 'Mrs Gorringe,' he says, 'I have your claim. I find that the policy was in your husband's name, and that the house was yours.' His voice shakes on the last word and then does not. 'Lettice Gorringe, householder. It is allowed.' It goes through the Queue like a thaw.".
+    On discuss { Assert qu_done(qu_gorringe). Assert qu_fair(qu_gorringe). Increase qu_fairs(actor) by 1. Increase qu_regard(actor) by 1. Set qu_nerve(party) to 2. }
+  }
+
+  // Ned Pounceby, seven, boots.
+  Topic qu_ned_ask with qu_ned "Ask Ned about his boots" when true once {
+    Says "'They were new,' says Ned. 'I had them on on the Saturday, for the first time, and my mother said not to go out in them, and I did, and then the fire came.' He looks down at his feet. They are bare, and the colour of candle-smoke. 'The Phoenix is going to give me some more. I've got a paper.' He holds it up by its corner. It has a number on it and a drawing of a boot.".
+    On discuss { Assert qu_asked(qu_ned). Assert knows(actor, d_unpaid_ledger). }
+  }
+  Topic qu_ned_away with qu_ned "Tell him a claim is no matter for a child, and send him back to his mother" when qu_asked(qu_ned) and not qu_done(qu_ned) once {
+    Says "'She's behind the lady in the green,' says Ned. 'She said I'm not to move.' He looks at the paper, and then at you, and goes back to the line with it folded very small, and his shoulders go in the way of a child who has been told that this is not a place for him.".
+    On discuss { Assert qu_done(qu_ned). Assert qu_slighted_dead(actor). Decrease qu_regard(actor) by 1 or to nothing. }
+  }
+  Topic qu_ned_schedule with qu_ned "Allow the claim at the Phoenix's schedule for juvenile footwear, twelve shillings, to be paid to his mother" when qu_asked(qu_ned) and not qu_done(qu_ned) once {
+    Says "'Twelve shillings,' says Ned, who does not know what they are. 'I don't want shillings. I want boots.' Behind the lady in the green, a woman's voice, thin with the effort of not interrupting, says, 'Ned, mind your manners,' and he says 'Thank you,' to you, and goes quiet.".
+    On discuss { Assert qu_done(qu_ned). Assert qu_slighted_dead(actor). Decrease qu_regard(actor) by 1 or to nothing. }
+  }
+  Topic qu_ned_boots with qu_ned "Pay a coin for the boots, and set the pair down at his feet" when qu_asked(qu_ned) and not qu_done(qu_ned) and quantity(actor, gold) >= 1 once {
+    Says "You put the coin on his paper, and say that it is for the boots, and the paper fills, quietly, with the drawing of a boot. And there they are on the floor: small, brown, a little scuffed at the toes, with the laces already done up. 'Oh,' says Ned. He sits down on the stone and puts them on, one at a time, with the concentration of a child, and stands up in them and stamps. 'They fit,' he says. Behind the lady in the green a woman is crying, slowly, in the manner of someone who has been waiting to.".
+    On discuss { Decrease quantity(actor, gold) by 1. Assert qu_done(qu_ned). Assert qu_fair(qu_ned). Increase qu_fairs(actor) by 1. Increase qu_regard(actor) by 1. }
+  }
+
+  // Mr Fluellen, who claims a house that was never his.
+  Topic qu_flu_ask with qu_fluellen "Ask Mr Fluellen what he is claiming" when true once {
+    Says "'Number nine, Cutler's Row,' says Mr Fluellen, 'freehold, four hundred pounds, with a view.' From further down the line, at about the volume of a remark not meant to be overheard, a stout woman in curl-papers says, 'He was my lodger.' 'The first floor,' Fluellen says, without turning, 'was in my keeping.' 'A pound a quarter,' the woman says. 'And a clock that was mine.'".
+    On discuss { Assert qu_asked(qu_fluellen). Assert knows(actor, d_unpaid_ledger). }
+  }
+  Topic qu_flu_full with qu_fluellen "Allow the house at four hundred pounds, and let the landlady make what she can of it" when qu_asked(qu_fluellen) and not qu_done(qu_fluellen) once {
+    Says "'Four hundred,' says Mr Fluellen, and takes a step back, and looks at the stout woman, who has stopped speaking. A sound goes through the line like a rustle in a hedge. 'I do not think,' he says, after a time, very quietly, 'that I could take that.' He leaves the claim on the floor, and walks to the wall, and stands there with his collar up.".
+    On discuss { Assert qu_done(qu_fluellen). Assert qu_slighted_dead(actor). Decrease qu_regard(actor) by 1 or to nothing. }
+  }
+  Topic qu_flu_refuse with qu_fluellen "Refuse the claim, and tell him he is not the householder" when qu_asked(qu_fluellen) and not qu_done(qu_fluellen) once {
+    Says "'I see,' says Mr Fluellen, and his chin goes up, and he looks past you at the arch, with the particular expression of a man who has lost a house for the second time. 'I had expected rather more of the Phoenix.'".
+    On discuss { Assert qu_done(qu_fluellen). Assert qu_slighted_dead(actor). Decrease qu_regard(actor) by 1 or to nothing. }
+  }
+  Topic qu_flu_lease with qu_fluellen "Allow him the tenant's interest: a quarter's rent and the cost of removing a clock" when qu_asked(qu_fluellen) and not qu_done(qu_fluellen) once {
+    Says "You write: FLUELLEN, O., TENANT OF THE FIRST FLOOR, ONE QUARTER, ONE CLOCK. Mr Fluellen reads it three times, with his lips moving. 'It was a good first floor,' he says at last. 'It had a view.' He folds the claim. 'I shall tell people that I had the freehold,' he says, 'in the proper place.' The stout woman, nine places down, says 'He was always a gentleman, mind,' with great warmth. 'The clock was a good clock.'".
+    On discuss { Assert qu_done(qu_fluellen). Assert qu_fair(qu_fluellen). Increase qu_fairs(actor) by 1. Increase qu_regard(actor) by 1. }
+  }
+
+  // Mr Crumpe, who is not dead.
+  Topic qu_cru_ask with qu_crumpe "Ask Mr Crumpe what he is claiming" when true once {
+    Says "'Death benefit,' says Mr Crumpe. 'Policy forty-four seventeen, the Sovereign Mutual. I have paid the premium on the quarter-day since the year of the Jubilee. I came to the Exchange to inquire about the cover, and was told there was a queue, and joined it, and I will say this for the dead: they are the most civil people I have ever stood in a line with. No one has called my number.' He stops stamping. 'I believe,' he says, 'that I have a pulse.'".
+    On discuss { Assert qu_asked(qu_crumpe). Assert knows(actor, d_unpaid_ledger). }
+  }
+  Topic qu_cru_pay with qu_crumpe "Allow the death benefit, and pay it" when qu_asked(qu_crumpe) and not qu_done(qu_crumpe) once {
+    Says "'In the event of my decease,' reads Mr Crumpe, slowly. He looks at the sum. He looks at his hands, which are shaking with cold. The Queue behind him makes a sound like a pew full of people not saying anything. 'I do not think I can take it,' he says, 'while I am still using it.' He gives the claim back and goes to stand against the wall, with the air of a man who has been offered his own funeral.".
+    On discuss { Assert qu_done(qu_crumpe). Assert qu_slighted_dead(actor). Decrease qu_regard(actor) by 1 or to nothing. }
+  }
+  Topic qu_cru_wait with qu_crumpe "Take his number from him, and tell him his turn will come" when qu_asked(qu_crumpe) and not qu_done(qu_crumpe) once {
+    Says "'It has been forty years,' says Mr Crumpe, with great restraint, 'and my turn has not come, and I do not think it will, and I think you know that.' He gives you the number. It is still warm from his hand.".
+    On discuss { Assert qu_done(qu_crumpe). Assert qu_slighted_dead(actor). Decrease qu_regard(actor) by 1 or to nothing. }
+  }
+  Topic qu_cru_home with qu_crumpe "Tell Mr Crumpe he is not dead, and show him the stair" when qu_asked(qu_crumpe) and not qu_done(qu_crumpe) once {
+    Says "'Not,' says Mr Crumpe. He sits down. The Queue, to a man, has taken a half-step toward him, and the lady beside him puts a hand that is not there on his sleeve. 'Forty years,' he says. 'I have been thinking I was a very patient man.' He stands, and shakes your hand, and the dead shake it after him, one by one, some of them twice. 'I shall go to Mortmain,' says Mr Crumpe at the arch, 'and ask a Mr Cray what a living man is owed, on policy forty-four seventeen. I believe I shall enjoy it.'".
+    On discuss { Assert qu_done(qu_crumpe). Assert qu_fair(qu_crumpe). Increase qu_fairs(actor) by 1. Increase qu_regard(actor) by 1. Assert at(qu_crumpe, cellar_arcade). }
+  }
+
+  // The Creditor: the Fire files a claim, as a creditor, for hospitality given and not repaid.
+  Topic qu_fire_read with qu_creditor "Take the claim the Creditor holds out, and read it" when knows(actor, d_unpaid_ledger) once {
+    Says "The paper is warm, and the hand is a clerk's hand, round and wasting nothing. FOR HOSPITALITY GIVEN AND NOT REPAID: ONE HEARTH, THROUGH NINETY-FOUR WINTERS; TO THE HOUSE OF THE FOUNDERS, AND THE CITY THAT WAS BUILT ON IT, AND THE POLICY THAT SAYS SO. THE SUM IS LEFT TO THE DEBTOR. A hot thumb-print, as for a seal, sits at the foot of it. It is a policy, you see now, in reverse: not what is owed to the burned, but by whom. The Founders' Policy was not insurance. It was a receipt for a debt of hospitality, and the debt has not been paid.".
+    On discuss { Assert qu_fire_read(actor). Assert knows(actor, d_tithe_debt). }
+  }
+  Topic qu_fire_refuse with qu_creditor "Refuse the claim as ninety-four years out of time" when qu_fire_read(actor) and not qu_done(qu_creditor) once {
+    Says "The Creditor takes the claim back. It does not argue. Where its thumb was, the paper has curled and blackened, and a smell of singed cloth goes down the line to the stair, and all the dead turn their heads, once, in the direction of the floor.".
+    On discuss { Assert qu_done(qu_creditor). Assert qu_slighted_fire(actor). }
+  }
+  Topic qu_fire_penny with qu_creditor "Offer a penny on the claim, to be going on with" when qu_fire_read(actor) and not qu_done(qu_creditor) and quantity(actor, gold) >= 1 once {
+    Says "The Creditor looks at the coin, and then at you, and there is a long moment during which the nearest of the dead take a step back. The penny, when you look, has run flat on the stone, and is red, and cooling. 'It is noted,' says a voice from a long way under the floor, mildly. It does not sound pleased.".
+    On discuss { Decrease quantity(actor, gold) by 1. Assert qu_done(qu_creditor). Assert qu_slighted_fire(actor). }
+  }
+  Topic qu_fire_receipt with qu_creditor "Write a receipt: 'Received of the Hearth, one claim for hospitality; not refused; to be answered at the Night'" when qu_fire_read(actor) and not qu_done(qu_creditor) once {
+    Says "You write it, and sign it, and the Creditor reads it with its head on one side. It is the first receipt anyone has given it. It folds the paper and holds it against its chest, and for a moment the whole hall is warm, and the dead, who have not felt the heat of anything in ninety-four years, make a sound like people who have just been let into the kitchen. 'It will be answered,' the Creditor says, in a voice like an oven door. It goes down the slag stair ahead of you, and its footprints, in the glass, are faintly lit.".
+    On discuss { Assert qu_done(qu_creditor). Assert qu_fair(qu_creditor). Assert qu_fire_receipted(actor). Increase qu_fairs(actor) by 1. Increase qu_regard(actor) by 1. }
+  }
+}

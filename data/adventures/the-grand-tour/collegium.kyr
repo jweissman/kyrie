@@ -163,13 +163,13 @@ Module sennet "The Grand Tour" {
   }
   Discovery rector_refuses_ember "The Rector will not let the ember go home: if the Museum gives back one thing, every court of every plane will want its things back.".
 
-  // ── Mr. Tench, the Doorwarden ─────────────────────────────────────────────────────────────────────────────────────
-  Person tench "Mr. Tench" at hall_of_doors {
+  // ── Mr. Threlkeld, the Doorwarden ─────────────────────────────────────────────────────────────────────────────────────
+  Person tench "Mr. Threlkeld" at hall_of_doors {
     Role "the Doorwarden, at a desk between the doors with a ledger". Ancestry halfling. Peaceable. Pronouns he. Manner stoic.
-    State on_duty blocking "Mr. Tench keeps the Fire Door and the Earth Door with his ledger open, and nobody goes through either without his say.".
+    State on_duty blocking "Mr. Threlkeld keeps the Fire Door and the Earth Door with his ledger open, and nobody goes through either without his say.".
     Guards fire_door. Guards earth_door.
-    Greets "The little man at the desk looks up over half-spectacles. 'Tench. Doorwarden. Name, licence, and are you sure.' He dips his pen. 'Everybody's sure. Then they come back through the Fire one with their eyebrows off.'".
-    Greets again "'Name, licence, and are you sure,' says Mr. Tench, without looking up.".
+    Greets "The little man at the desk looks up over half-spectacles. 'Threlkeld. Doorwarden. Name, licence, and are you sure.' He dips his pen. 'Everybody's sure. Then they come back through the Fire one with their eyebrows off.'".
+    Greets again "'Name, licence, and are you sure,' says Mr. Threlkeld, without looking up.".
   }
   Rule tench_licensed when holding(party, tour_licence_kind) and not tolerates(tench, party) { Assert tolerates(tench, party). }
   Rule tench_lets_out when within(party, fire_land) and not tolerates(tench, party) { Assert tolerates(tench, party). }
@@ -195,7 +195,7 @@ Module sennet "The Grand Tour" {
   Rule thursday_hall when hour(clock) >= 8 and hour(clock) < 12 and not following(thursday, party) and not at(thursday, hall_of_doors) { Assert at(thursday, hall_of_doors). }
   Rule thursday_stair when hour(clock) >= 12 and hour(clock) < 16 and not following(thursday, party) and not at(thursday, tower_stair) { Assert at(thursday, tower_stair). }
   Rule thursday_quad when (hour(clock) >= 16 or hour(clock) < 8) and not following(thursday, party) and not at(thursday, quad) { Assert at(thursday, quad). }
-  Observe thursday_fire at hall_of_doors when at(thursday, hall_of_doors) and hour(clock) == 10 "The Fire Door opens a crack on its own, and a large grey cat walks out of it with a mouse made of cinders in his mouth, still glowing, and lays it at the Doorwarden's feet, and walks off. Mr. Tench writes something in the ledger.".
+  Observe thursday_fire at hall_of_doors when at(thursday, hall_of_doors) and hour(clock) == 10 "The Fire Door opens a crack on its own, and a large grey cat walks out of it with a mouse made of cinders in his mouth, still glowing, and lays it at the Doorwarden's feet, and walks off. Mr. Threlkeld writes something in the ledger.".
   Observe thursday_flap at tower_stair when at(thursday, tower_stair) "The grey cat is sitting at the top of the tower stair washing his face. While you watch he gets up, stretches, and goes through the cat-flap in the tower door as if it were any door in the world, and the flap swings, and is still.".
 
   // ── Veyra's chapel ────────────────────────────────────────────────────────────────────────────────────────────────

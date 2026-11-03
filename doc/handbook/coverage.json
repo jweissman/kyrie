@@ -1010,7 +1010,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 230,
+      "kyr": 229,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -1036,7 +1036,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 20,
+      "kyr": 21,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -14383,13 +14383,6 @@
    "section": "world-rules/rules-inhabitants"
   },
   {
-   "id": "rule:inhabitants.temper_keeps_post",
-   "title": "temper_keeps_post",
-   "status": "kyr",
-   "book": "dmg",
-   "section": "world-rules/rules-inhabitants"
-  },
-  {
    "id": "rule:inhabitants.temper_cornered",
    "title": "temper_cornered",
    "status": "kyr",
@@ -14994,6 +14987,13 @@
   {
    "id": "campaign:parliament-of-books",
    "title": "A Parliament of Books",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "campaigns"
+  },
+  {
+   "id": "campaign:quittance",
+   "title": "Quittance",
    "status": "kyr",
    "book": "dmg",
    "section": "campaigns"

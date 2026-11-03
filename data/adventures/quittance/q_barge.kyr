@@ -1,0 +1,530 @@
+Module quittance "Quittance" {
+  Description "The Scuttled Barge: the Prudent Margaret sunk at the Mere Wharf, two salvor crews, a calm owner, an adjuster who has been paid, a girl in a cellar; and the hatch of the diving-bell, the Reach's way down to the Sunk City.".
+
+  // ══ THE SCUTTLED BARGE (prefix bg_) ═════════════════════════════════════════════════════════════════════
+  // Truth: the Margaret was holed from inside by her owner to hide a passenger, Kitty Spratling of the Bare Wards,
+  // a girl of twelve sent out of the Wards in the hold the week before an Appointed block burned. Mr Orpwood of the
+  // Lamprey, who had seen the Phoenix's stamped notice cross his counter and had told the girl's mother, was then
+  // given a consideration to call the loss total and ask nothing. Josiah Skell dived the wreck by night and has
+  // eighty-nine jars under a tarpaulin. The call is Orpwood's, at noon on day 2; the cargo is auctioned at noon on
+  // day 4; Kitty is shipped to an aunt on the night of day 3. The company can change what is called until the bell.
+  //   bg_ruling(lamprey):  0 not yet called . 1 Total Loss . 2 Salvage . 3 As agreed . 4 Fraud handed in . 5 General Average
+
+  Measure bg_ruling(group).
+
+  // ── Places of my own ────────────────────────────────────────────────────────────────────────────────────
+  Place skell_loft "Skell's bunkhouse" is room within reach at 3, 2.
+  Place bg_cellar "the Sluice-tap's cellar" is room within sluice_b at 0, 2 underground.
+  Passage bg_loft_door "the bunkhouse door" is door between skell_yard and skell_loft.
+  Passage bg_trap "the trap under the sluice-wheel" is crawl between sluice_room and bg_cellar hidden until bg_cellar_known.
+
+  // ── The tide ────────────────────────────────────────────────────────────────────────────────────────────
+  // The Reach keeps its low water at five and at five, morning and evening: a bad tide-table and a good clock.
+  Query bg_lowwater() means (hour(clock) >= 5 and hour(clock) < 8) or (hour(clock) >= 17 and hour(clock) < 20).
+  Observe bg_tide_out at mere_wharf when bg_lowwater() "The tide is out. The Margaret's after-deck stands clear of the brown water, and her hatch-coamings show a hand's breadth above it.".
+  Observe bg_tide_in at mere_wharf when not bg_lowwater() "The tide is in. Nothing of the Margaret shows but the top of her mast and a ring of oily bubbles where she breathes.".
+  Observe bg_gauge at lighter_stairs when true "The tide-board painted by the Stair reads, in a lighterman's hand under the official figures, LOW WATER 5 AND 5. THE REST IS RIVER.".
+  Observe bg_bell_dry at cradle when not bg_lowwater() "The diving-bell hangs dry in its gantry. A lighterman sitting under it says that nobody goes down to the Margaret except at low water, when her hatch is a fathom up and the bell can find it.".
+  Observe bg_bell_ruined at cradle when state(bg_hatch, wrecked) "The diving-bell lies on its side on the quay in the wreck of its gantry, its chain parted a fathom above the ring. A lighterman is using it as a seat. He says the Lamprey has been told, and that the Lamprey has said nothing, which is worse.".
+  Observe bg_bell_wet at cradle when bg_lowwater() and not state(bg_hatch, wrecked) "The tide is out, and the diving-bell hangs over the water with its crank slack. Below it, a long way down, is the Margaret's hatch, a fathom under.".
+
+  // ── What the company can know ───────────────────────────────────────────────────────────────────────────
+  Discovery bg_claim "The Slate asks an adjuster to settle the Prudent Margaret: Total Loss or Salvage, the Lamprey & River to pay.".
+  Discovery bg_manifest_read "The Prudent Margaret's manifest enters four hundred sealed jars of cold-lamps.".
+  Discovery bg_counted "There are three hundred and eleven jars in the Margaret's hold, and a clear berth in the straw.".
+  Discovery bg_tally_read "The Stairs tally-board chalked the Margaret past the Stair with three hundred and eleven jars.".
+  Discovery bg_count_short "The Margaret's manifest enters eighty-nine more jars than she ever carried, or than lie in her hold.".
+  Discovery bg_holed "The Margaret was holed from inside, with augers, and not by her anchor.".
+  Discovery bg_berth "Somebody lay in the Margaret's hold in a berth made up in the straw: a child, by the length of it.".
+  Discovery bg_skell_dived "Josiah Skell has eighty-nine of the Margaret's jars under a tarpaulin, wet: his crew dived her before anyone had claimed her.".
+  Discovery bg_bought "Mr Orpwood of the Lamprey was given a sum to call the Margaret a Total Loss and ask nothing.".
+  Discovery bg_owner_afraid "Mistress Veasey is not calm, but afraid for someone small.".
+  Discovery bg_tariff_known "The Salvors' tariff board has a third clause nobody posts: AS AGREED is settled between the crews, the owner and the adjuster, and the Lamprey's captain must sign it.".
+  Discovery bg_average_known "A hull given up to save a life is no one's loss but everyone's: the Lamprey calls it General Average and the owner, the insurer and the salvors bear it together, without naming whose life.".
+  Discovery bg_cellar_known "Under the sluice-wheel in the Sluice-tap there is a trap, and a cellar below it with a child in it." {
+    Found by searching sluice_room "Under the wheel, in the wet plank, a trap-ring with the rust worn off it by use. The trap is no bigger than a tea-tray. Below it somebody has set a candle on a barrel, and somebody has been sitting very still beside the candle.".
+  }
+
+  // ── The people ──────────────────────────────────────────────────────────────────────────────────────────
+  Person bg_orpwood "Mr Orpwood" at lamprey_floor {
+    Role "adjuster of the Lamprey & River". Ancestry human. Calling bard. Level 2. Peaceable. Manner stoic. Pronouns he.
+    Greets "A man in oilskin cuffs is writing at a high desk, and finishes his sentence before he looks up. 'Orpwood,' he says. 'Adjuster. If it is the Margaret, the answer is Total Loss, and I sign on the second day at noon. If it is anything else, it will keep.'".
+    Greets again "'The Margaret,' says Mr Orpwood, without looking up. 'Still a Total Loss.'".
+  }
+  Person bg_veasey "Mistress Honor Veasey" at mere_wharf {
+    Role "who owns the Prudent Margaret". Ancestry human. Calling cleric. Level 2. Peaceable. Manner stoic. Pronouns she.
+    Greets "A woman in good grey wool sits on a folding stool at the wharf's edge with her back to the wind, knitting, and looking at her sunk barge as one looks at a kettle one has no reason to expect to boil. 'Veasey,' she says. 'Her owner. Yes, it is a pity. I am insured.'".
+    Greets again "'Still there,' says Mistress Veasey, of the barge, and counts a row.".
+  }
+  Person bg_skell "Josiah Skell" at skell_yard {
+    Role "who runs Skell & Sons, salvors". Ancestry human. Calling thief. Level 2. Peaceable. Manner jovial. Pronouns he.
+    Greets "A large man with a small hat is sitting on the hatch among his crew, dealing, and does not stop dealing. 'Skell,' he says. 'Skell and Sons. The sons are the ones who are winning.' He looks you over. 'If you are the Salvors' Yard's, you are lost. If you are the Lamprey's, you are late.'".
+    Greets again "'Dealt you in,' says Josiah Skell, 'if you want.'".
+  }
+  Person bg_sons "Skell's sons" at skell_yard {
+    Role "three of Skell's crew, not all of them his sons". Ancestry human. Calling warrior. Level 1. Numbers 3. Temperament territorial. Pronouns they.
+    Warns "A bucket goes over with a sound like a bell, and the bunkhouse door opens. The cards stop. Three men are standing on the quay with boat-hooks and the slow, unhurried look of people who have been woken for the right reason. 'That is a private tarpaulin,' says the largest. 'Say a good reason before the watch is out, or say good night.'".
+    Comes "'Over the side with them,' says the largest, and Skell's sons come at you across the yard with their boat-hooks low.".
+    Pleads "The largest of Skell's sons lets his hook go on the stones. 'Enough,' he says. 'Enough. Take your jars. Take your look. Skell can pay for his own tarpaulin.'".
+    Refuge skell_loft.
+  }
+  Person bg_grindle "Hester Grindle" at salvor_yard {
+    Role "who keeps the Salvors' Yard". Ancestry human. Calling warrior. Level 3. Peaceable. Manner grim. Pronouns she.
+    Greets "A woman built like a bollard is mending a block-and-tackle with a marlinspike, and has the air of someone who has been right in public for thirty years. 'Grindle,' she says. 'Master of the Yard. You are here about the Margaret. Everybody is. Stand there; that is where they stand.'".
+    Greets again "'The Margaret,' says Hester Grindle. 'Still ours.'".
+  }
+  Person bg_jessop "Cob Jessop" at sluice_room {
+    Role "who keeps the Sluice-tap, and was a lighterman". Ancestry human. Calling warrior. Level 2. Peaceable. Manner grim. Pronouns he.
+    Greets "A man with forearms like mooring-posts is drawing a pot of brown beer with great care, as if it were a pot of something else. 'Jessop,' he says. 'The Sluice is mine. The beer is the river's. If you are the Lamprey's, you can stand; if you are anyone else, you can sit and be quiet.'".
+    Greets again "'Brown or brown,' says Cob Jessop.".
+  }
+  Person bg_girl "Kitty Spratling" at bg_cellar {
+    Role "a girl of twelve, in a lighterman's coat". Ancestry human. Peaceable. Manner proud. Pronouns she.
+    Greets "A girl is sitting on an upturned bucket by a candle, in a coat that has been cut down from a bigger one, with her feet off the floor so that she does not have to feel the damp. She looks at the trap, and at you, and at the trap again. 'Cob said nobody comes down,' she says. 'So you are either nobody, or Cob said it wrong.'".
+    Greets again "'Oh,' says Kitty Spratling. 'You.'".
+  }
+
+  // ── The Slate: the claim, and other doors in ────────────────────────────────────────────────────────────
+  Observe bg_slate at slip_room when day(clock) <= 3 and not bg_settled() "CLAIMS OPEN: THE PRUDENT MARGARET, barge, sunk at the Mere Wharf with a cargo of cold-lamps. Total Loss or Salvage; two crews, one owner. The Lamprey & River will pay a fee of twelve coin to whoever settles it before the cargo is sold. TAKEN: no one."
+    teaches bg_claim.
+  Objective obj_bg when knows(party, bg_claim) and not bg_settled() and watch(clock) < 600 "The Prudent Margaret lies at the Mere Wharf, and Mr Orpwood of the Lamprey will call her a Total Loss at noon on the second day; the cargo is sold at noon on the fourth.".
+
+  // ── The Water-Stair and the Wharf: what the lightermen think, before and after ─────────────────────────────
+  Observe bg_wharf_crowd at mere_wharf when day(clock) <= 1 and bg_ruling(lamprey) == 0 "A crowd stands along the edge, divided by a rope into the Salvors' Yard on the left and Skell & Sons on the right, each telling the other which of them is going to be paid.".
+  Observe bg_wharf_called at mere_wharf when bg_ruling(lamprey) == 1 and watch(clock) < 600 "A paper is nailed to the bollard nearest the wreck: TOTAL LOSS. Beneath it, in a smaller hand, THE CARGO IS TO BE SOLD ON THE FOURTH DAY, NOON.".
+
+  // ── The Salvors' Yard ───────────────────────────────────────────────────────────────────────────────────
+  Thing bg_board "the tariff board" at salvor_yard {
+    State chalked "The tariff board hangs by the gate: ONE THIRD, ONE HALF, AS AGREED. Somebody has underlined the third clause twice, and somebody else has scratched the underlining out.".
+  }
+  Observe bg_board_read at salvor_yard when tried(bg_board, looking) and capable(party, lore) and not knows(party, bg_tariff_known) "You read the board as a clerk would, not as a salvor. The third clause is not a price. It is a procedure: where the crews, the owner and the adjuster agree, the Lamprey's captain signs, and the one third and the one half are whatever they have agreed. Nobody has ever posted what that has been."
+    teaches bg_tariff_known.
+  Observe bg_board_plain at salvor_yard when tried(bg_board, looking) and not capable(party, lore) "The board is clear about the first two clauses and says of the third only AS AGREED, in the voice of a clause that does not want to be asked.".
+  Topic bg_grindle_claim with bg_grindle "Ask Hester Grindle for the Yard's claim to the Margaret" when true once {
+    Says "'We had a line on her within the hour,' says Hester Grindle. 'First on the wreck, first with a grapple, first at the Lamprey's door. A salvage, one half, to the Yard. If she is called a Total Loss, the Yard gets a third of nothing, because there is nothing to raise.' She takes a pull on her marlinspike, as other people take on a pipe. 'It is not a Total Loss. A Total Loss does not float her bow up at the turn of the tide.'".
+  }
+  Topic bg_grindle_skell with bg_grindle "Ask Grindle why Skell's crew sleeps by day" when true once {
+    Says "'Because they work by night,' says Hester Grindle. 'Nobody sleeps like a man who has been under a barge. They think I do not hear the pump. I hear the pump.' She hammers the pin home. 'If you want to know what he has, ask it at night. If you want to ask it politely, bring a good reason.'".
+  }
+  Topic bg_grindle_after with bg_grindle "Ask Hester Grindle how the Yard is faring" when bg_settled() once {
+    Says "'The Yard,' says Hester Grindle, and considers. 'Is paid as the Lamprey called it. I have asked the lightermen what they say. They say what lightermen say.' It is not clear that she is displeased.".
+  }
+
+  // ── Skell's yard, and the fight ─────────────────────────────────────────────────────────────────────────
+  Initially Assert tolerates(bg_sons, party).
+  Rule bg_sons_bunk when dark() and at(bg_sons, skell_yard) and not routed(bg_sons) and tolerates(bg_sons, party) {
+    Retract at(bg_sons, skell_yard). Assert at(bg_sons, skell_loft). }
+  Rule bg_sons_up when not dark() and at(bg_sons, skell_loft) and not routed(bg_sons) and tolerates(bg_sons, party) {
+    Retract at(bg_sons, skell_loft). Assert at(bg_sons, skell_yard). }
+  Observe bg_tarp at skell_yard when not knows(party, bg_skell_dived) "Something under the tarpaulin in the corner of the yard is dripping steadily into a bucket that has been emptied recently, and a fish has not been the cause.".
+  Observe bg_yard_night at skell_yard when dark() "The yard is shut for the night. The crew has gone into the bunkhouse, and the cards lie where they were left, under a lantern turned low. The tarpaulin drips.".
+  Observe bg_bunk_snore at skell_yard as sound when dark() "Behind the bunkhouse door, a good many men are asleep in a good many keys.".
+  Kind bg_jar "a wet cold-lamp jar" like lantern described "A sealed glass jar the size of a loaf, ringed with weed and still wet to the bottom. A small light burns in it, a long way off.".
+  Item bg_jar_one "a wet cold-lamp jar" is bg_jar at nowhere.
+  Relation bg_searched(group). Relation bg_shown(group).
+  Action bg_search_yard(actor: group) "Slip into Skell's yard after dark and lift the corner of the tarpaulin" {
+    Requires able(actor) and company(actor) and at(actor, skell_yard) and dark() and not bg_searched(actor) and at(bg_sons, skell_loft) and tolerates(bg_sons, actor).
+    Time 4 minutes.
+    Resolve check(actor, stealth, dc_fair).
+    On success { Assert bg_searched(actor). Assert knows(actor, bg_skell_dived). Give bg_jar_one to actor. }
+    On failure { Retract tolerates(bg_sons, actor). Retract at(bg_sons, skell_loft). Assert at(bg_sons, skell_yard). }
+    Result "You lift the corner of the tarpaulin a hand's breadth and let it fall. Under it is a stack of cold-lamp jars, wet from the river, each with the black mark of the Margaret's lading burned in the straw it came out of: eighty-nine, by the stack. You take one, because a thing in the hand is what a Lamprey adjuster believes.".
+    Otherwise "Your foot finds the bucket you had not seen.".
+  }
+  Action bg_pay_sons(actor: group) "Pay Skell's sons six coin to have been asleep" {
+    Requires able(actor) and company(actor) and at(actor, skell_yard) and warned(bg_sons, actor) and able(bg_sons) and not tolerates(bg_sons, actor) and quantity(actor, gold) >= 6.
+    Time 2 minutes.
+    On success { Decrease quantity(actor, gold) by 6. Assert tolerates(bg_sons, actor). Retract warned(bg_sons, actor). Retract halts(bg_sons, actor). }
+    Result "The largest of Skell's sons weighs the coin in his palm, and then the company, and then the hour. 'We were asleep,' he says. 'Weren't we?' Three others agree that they were. The cards are picked up in a clatter.".
+  }
+  Action bg_show_licence(actor: group) "Show Skell's sons the Lamprey's licence, and say you are on the claim" {
+    Requires able(actor) and company(actor) and at(actor, skell_yard) and warned(bg_sons, actor) and able(bg_sons) and not tolerates(bg_sons, actor) and holding(actor, adjuster_licence) and not bg_shown(actor).
+    Time 2 minutes.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert tolerates(bg_sons, actor). Retract warned(bg_sons, actor). Retract halts(bg_sons, actor). }
+    On failure { Assert bg_shown(actor). }
+    Result "You hold out the buff card and say, in the voice of a clerk, that premises named in a claim are open to the adjuster. The largest of Skell's sons reads the card twice, and then reads the claim, which is on the Slate and not in his hand. 'Named,' he says. 'Well. Named is named.' He steps back. The tarpaulin is not mentioned.".
+    Otherwise "The largest of Skell's sons reads the card, and then reads it again to someone behind him. 'It says adjuster,' he says. 'It does not say at night.'".
+  }
+  Action bg_name_dree(actor: group) "Tell Skell's sons that Captain Dree knows where you are" {
+    Requires able(actor) and company(actor) and at(actor, skell_yard) and warned(bg_sons, actor) and able(bg_sons) and not tolerates(bg_sons, actor) and arc(dree) >= 1.
+    Time 2 minutes.
+    On success { Assert tolerates(bg_sons, actor). Retract warned(bg_sons, actor). Retract halts(bg_sons, actor). }
+    Result "The name goes down the line of boat-hooks like a draught. 'Dree,' says the largest, and the hooks come down. 'He's a man who writes things in books.' Nobody wants to be in this one.".
+  }
+  // A fight won is a fight that kills: three of Skell's crew fall in the yard, and the Reach hears of it.
+  Relation bg_killed_sons(group).
+  Rule bg_sons_fallen when dead(bg_sons) and not bg_killed_sons(party)
+    says "It is all along the Reach by the next tide that three of Skell's crew went down in his yard to a company with a licence to do no such thing. The Lamprey brigade is made to write it up." {
+    Assert bg_killed_sons(party). Assert bg_skell_out(bg_skell). Decrease regard(lamprey) by 1 or to nothing. Assert bg_slighted_dree(party). }
+  Observe bg_yard_fallen at skell_yard when dead(bg_sons) "The cards are where they were left. Josiah Skell sits on the hatch among his remaining crew with his small hat in his hands, and does not look up when you come.".
+  Topic bg_skell_claim with bg_skell "Ask Josiah Skell about his claim to the Margaret" when true once {
+    Says "'A Total Loss,' says Josiah Skell, 'and a third to the first crew with the nerve. That is us. We raised nine crates before the Yard had finished its coffee. Ask anybody on the quay.' He deals a card face up. 'They won't know. But ask.'".
+  }
+  Topic bg_skell_tarp with bg_skell "Ask Skell what is under the tarpaulin" when true once {
+    Says "'Rain,' says Josiah Skell. 'Wet rain. We keep it for the Yard.'".
+  }
+  Topic bg_skell_jars with bg_skell "Tell Skell you have seen what is under his tarpaulin, and counted it" when knows(actor, bg_skell_dived) and not bg_skell_out(bg_skell) once {
+    Says "Josiah Skell puts down the deck. For some time he does not say anything, and the sons, behind him, find things to look at. 'Eighty-nine,' he says at last, in a different voice. 'It is eighty-nine. I will tell you what I did not do. I did not sink her.' He takes his small hat off. 'The Yard can have the claim. I will have my jars, and you will have the sense to leave Skell and Sons out of the Lamprey's book. My boys will not put a hook near you again.'".
+    On discuss { Assert bg_skell_out(bg_skell). Assert tolerates(bg_sons, actor). }
+  }
+  Relation bg_skell_out(group).
+  Topic bg_skell_after with bg_skell "Ask Skell how Skell and Sons are faring" when bg_settled() once {
+    Says "'Faring,' says Josiah Skell. 'We are faring as a firm that has been seen to fare.' He deals. 'I do not complain. A man who complains is a man who has jars.'".
+  }
+
+  // ── The Mere Wharf: Mistress Veasey ─────────────────────────────────────────────────────────────────────
+  Relation bg_veasey_cold(group). Relation bg_veasey_yielded(group). Relation bg_veasey_consents(group). Relation bg_veasey_read(group).
+  Topic bg_veasey_ask with bg_veasey "Ask Mistress Veasey about the Margaret" when true once {
+    Says "'She was a good barge,' says Mistress Veasey. 'Eleven years. A sound hull, a sound master, a sound cargo. Nothing in her was not sound.' The needles continue. 'She went down at her moorings on a still night, which is what barges do. I am insured. I am told it is in hand.'".
+  }
+  Topic bg_veasey_papers with bg_veasey "Lay the manifest and the count before Mistress Veasey" when knows(actor, bg_count_short) once {
+    Says "Mistress Veasey looks at the figures as one looks at weather. 'I do not doubt your arithmetic,' she says. 'I have kept barges for twenty years. I know what is in my hold.' She counts a row. 'I do not understand why you have brought me numbers. Numbers are Mr Orpwood's.'".
+  }
+  Action bg_veasey_hands(actor: group) "Watch Mistress Veasey's needles while you ask who lay in the hold" {
+    Speaker bg_veasey.
+    Requires able(actor) and company(actor) and at(actor, mere_wharf) and at(bg_veasey, mere_wharf) and not bg_veasey_read(actor) and not bg_veasey_cold(actor).
+    Time 3 minutes.
+    Resolve check(actor, insight, dc_fair).
+    On success { Assert bg_veasey_read(actor). Assert knows(actor, bg_owner_afraid). }
+    On failure { Assert bg_veasey_cold(actor). }
+    Result "The needles do not stop; the wool does. For a count of four the working end hangs in the air, and then goes on, and the row is shorter than the last by one stitch. Mistress Veasey is not calm. She is holding herself very exactly still, as one does with a full cup. It is not her barge she is afraid for. It is somebody small.".
+    Otherwise "Mistress Veasey looks at you over the wool. 'Who lay where?' she says, pleasantly, and the stool is a little further from you than it was. 'I think we have discussed the Margaret.'".
+  }
+  Action bg_veasey_press(actor: group) "Tell Mistress Veasey you know whose child it was, and that you will keep her out of every book" {
+    Speaker bg_veasey.
+    Requires able(actor) and company(actor) and at(actor, mere_wharf) and at(bg_veasey, mere_wharf) and bg_veasey_read(actor) and not bg_veasey_yielded(actor) and not bg_veasey_cold(actor).
+    Time 6 minutes.
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert bg_veasey_yielded(actor). Assert knows(actor, d_barge_girl). Assert knows(actor, d_list_exists). Assert knows(actor, bg_bought). Assert bg_veasey_word(actor). }
+    On failure { Assert bg_veasey_cold(actor). }
+    Result "Mistress Veasey puts the knitting in her lap. 'Annis Spratling washed my linen for nine years,' she says, 'and she came to me one night in a state I had not seen her in, and said that a man from the Lamprey had told her a thing, and that it was true, because he had a cuff with the Lamprey's fish on it and no reason to tell it. A notice had come, a week before the fact, on the Phoenix's paper with the bird on it. Their block was to burn on the Saturday. So I took the child out in my hold, and I put my own anchor through my own bottom, because a barge that is lost is a barge that has never carried anyone.' She does not look up. 'I paid Mr Orpwood to be of the opinion that a Total Loss is total. It is an expensive opinion.'".
+    Otherwise "Mistress Veasey does not look up. 'I have no idea,' she says, 'what you mean.' She is still knitting. She will say it to the Lamprey exactly as she has said it to you.".
+  }
+  Relation bg_veasey_word(group).
+  Topic bg_veasey_safe with bg_veasey "Tell Mistress Veasey that Kitty is alive, dry and has asked after her" when bg_girl_met(party) and not bg_veasey_yielded(party) once {
+    Says "The needles stop and do not start. Mistress Veasey puts the knitting down on the stool, and the stool on the wharf, and herself on the stool. 'Dry,' she says. 'Is she dry.' It takes her some time. 'The notice,' she says at last, 'had the Phoenix's bird on it, on good paper, with a date in a clerk's hand and the word APPOINTED across the top. Annis could not read it. She did not need to. A paper that nobody sends you is a paper somebody has sent. So I took the child out, and I put my anchor through my own bottom, and I paid Mr Orpwood to be of the opinion that a Total Loss is total.' She looks at you for the first time. 'Whatever you want, you may have. Whatever it is. Is she dry?'".
+    On discuss { Assert bg_veasey_yielded(actor). Assert bg_veasey_word(actor). Assert knows(actor, d_barge_girl). Assert knows(actor, d_list_exists). Assert knows(actor, bg_bought). }
+  }
+  Topic bg_veasey_jettison with bg_veasey "Ask Mistress Veasey to let the Margaret be called a jettison, made to save a life" when bg_veasey_yielded(actor) and knows(actor, bg_average_known) and not bg_veasey_consents(actor) once {
+    Says "'A jettison,' says Mistress Veasey. She says it as if it were a word in another tongue and the right one. 'A barge given up for a child. In the Lamprey's book, in the Lamprey's hand.' The knitting goes to a bag. 'I will sign it. I will sign it whatever it costs me and whoever I must pay.'".
+    On discuss { Assert bg_veasey_consents(actor). }
+  }
+  Topic bg_veasey_after with bg_veasey "Ask Mistress Veasey how she stands now" when bg_settled() once {
+    Says "'I stand,' says Mistress Veasey. She has taken up the knitting again, and the stitches, for the first time, are even. 'A person may be said to stand, I find, at several prices.'".
+  }
+
+  // ── The Lamprey's counting-floor: Orpwood, the manifest, the table of Averages ─────────────────────────────
+  Thing bg_manifest "the Margaret's manifest" at lamprey_floor {
+    State filed "The Margaret's manifest is pinned to the claims-rail in a clerk's copperplate: a barge, a master, and a cargo of COLD-LAMPS, SEALED, 400 JARS.".
+  }
+  Observe bg_manifest_seen at lamprey_floor when tried(bg_manifest, looking) and not knows(party, bg_manifest_read) "You read it down. The master is Absalom Tuck, a name nobody on the floor is able to place. The cargo is entered at four hundred jars, in nine crates. The draught is entered at three feet four."
+    teaches bg_manifest_read.
+  Thing bg_tally "the Stairs tally-board" at lighter_stairs {
+    State chalked "A tally-board hangs by the Stair, chalked with every barge that has come up past it this month and what each said she carried.".
+  }
+  Observe bg_tally_seen at lighter_stairs when tried(bg_tally, looking) and not knows(party, bg_tally_read) "Against the Margaret, eleven days back, in the lighterman's own hand: three hundred and eleven jars, nine crates. Beside it, in another hand, somebody has written a small neat question mark and then rubbed it out."
+    teaches bg_tally_read.
+  Relation bg_compared(group).
+  Action bg_compare(actor: group) "Set the Margaret's manifest against the count of her jars" {
+    Requires able(actor) and company(actor) and at(actor, lamprey_floor) and knows(actor, bg_manifest_read) and (knows(actor, bg_counted) or knows(actor, bg_tally_read)) and not bg_compared(actor).
+    Time 3.
+    Resolve check(actor, lore, dc_fair).
+    On success { Assert bg_compared(actor). Assert knows(actor, bg_count_short). }
+    On failure { Assert bg_compared(actor). }
+    Result "You lay one figure under the other and go down the column. Four hundred entered; three hundred and eleven counted. The draught is entered for a full lading, and a full lading would have sunk her a hand deeper than she sank. Eighty-nine jars, and a barge lightened to carry something else. The loss is not total. It is arranged.".
+    Otherwise "You go down the column twice and come to a different figure each time. It is possible that this is a clerk's error. It is possible that it is something else. You are not able to say which, and a Lamprey clerk looks at you, helpfully, and does not.".
+  }
+  Thing bg_averages "the Lamprey's table of Averages" at lamprey_floor {
+    State hung "A framed table of Averages hangs by the stair: PARTICULAR AVERAGE, GENERAL AVERAGE, JETTISON. The glass is spotted, and the frame is the only part that has been cleaned.".
+  }
+  Relation bg_table_read(group).
+  Action bg_read_averages(actor: group) "Read the Lamprey's table of Averages for a hull given up on purpose" {
+    Requires able(actor) and company(actor) and at(actor, lamprey_floor) and not knows(actor, bg_average_known) and not bg_table_read(actor).
+    Time 3.
+    Resolve check(actor, lore, dc_fair).
+    On success { Assert bg_table_read(actor). Assert knows(actor, bg_average_known). }
+    On failure { Assert bg_table_read(actor). }
+    Result "The third head is the one that matters. GENERAL AVERAGE: where a hull or a cargo is sacrificed to save life or common property, the loss is the common loss of owner, insurer and salvors, in their proportions; and the cause need not be entered, only the saving. It was written for sailors who had thrown the cargo overboard in a gale. Nothing in it says the gale must be weather.".
+    Otherwise "You read the three heads and take them all to mean that somebody has lost something. The glass reflects a woman of no great learning reading a table.".
+  }
+  Relation bg_orp_open(group). Relation bg_orp_set(group).
+  Topic bg_orp_call with bg_orpwood "Ask Mr Orpwood how he will call the Margaret" when true once {
+    Says "'A Total Loss,' says Mr Orpwood. 'Holed from within by her own anchor. Not an uncommon accident. The owner is a woman of unblemished record, and she has sat on that wharf for two days looking at her loss, which in my experience is what the unblemished do.' He dips a pen. 'I sign at noon on the second day. Before that it would be a guess, and after the fourth day, it is a sale.'".
+  }
+  Topic bg_orp_confide with bg_orpwood "Ask Mr Orpwood, as a colleague, what he would call a barge holed to save a child" when (knows(actor, bg_berth) or knows(actor, d_barge_girl)) and not bg_orp_open(party) once {
+    Says "Mr Orpwood puts down the pen. It takes him some time. 'I have a cuff,' he says, 'with a fish on it. A woman came to my counter, once, to ask a thing of the Lamprey that had nothing to do with fish, and I saw a paper cross the floor with a bird on it that I was not meant to see. I said what I said to her. I did not say it to anyone else. And then someone was kind to me, in a way I could not afterwards explain.' He does not look up. 'General Average,' he says. 'If the master and the captain would sign it. The master is a woman who would, I think. The captain is Captain Dree, who would not unless he had been asked correctly. You ask me as a colleague. I have not been asked as a colleague since I took the cuffs.'".
+    On discuss { Assert bg_orp_open(actor). Assert knows(actor, d_barge_girl). Assert knows(actor, bg_bought). Assert knows(actor, bg_average_known). }
+  }
+  Topic bg_orp_after with bg_orpwood "Ask Mr Orpwood how the Margaret stands" when bg_settled() once {
+    Says "'As called,' says Mr Orpwood. He looks, for once, like a man whose handwriting has been the same size all day. 'I find it makes a difference, when it is the right size.'".
+  }
+
+  // The call itself. Each is said to Mr Orpwood, and each is done before the bell, or not at all.
+  Query bg_open() means bg_ruling(lamprey) <= 1 and watch(clock) < 600.
+  Rule bg_default_call when watch(clock) >= 312 and bg_ruling(lamprey) == 0 says "At noon on the second day Mr Orpwood signs a Total Loss on the Prudent Margaret, and the lightermen along the Reach read it from a distance and agree that it is a pity." { Set bg_ruling(lamprey) to 1. }
+  Action bg_call_salvage(actor: group) "Put it to Mr Orpwood that she was not lost but laid down, and call her a Salvage" {
+    Speaker bg_orpwood.
+    Requires able(actor) and company(actor) and at(actor, lamprey_floor) and at(bg_orpwood, lamprey_floor) and bg_open() and not bg_orp_set(actor)
+      and (knows(actor, bg_count_short) or knows(actor, bg_berth) or knows(actor, bg_holed) or knows(actor, bg_skell_dived)).
+    Time 6 minutes.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Set bg_ruling(lamprey) to 2. Increase regard(lamprey) by 1. Increase quantity(actor, gold) by 12. Assert bg_veasey_ruined(party). }
+    On failure { Assert bg_orp_set(actor). }
+    Result "Mr Orpwood goes down your figures with a ruler and gets to the bottom more slowly than he got to the top. 'A salvage,' he says. 'One half to the Yard. The owner to bear the hull. I shall want it in writing that I did not say why.' He crosses out a word and writes another above it. 'The Lamprey is obliged to you,' he says, in the voice of a man being obliged. You are paid the Slate's twelve coin.".
+    Otherwise "Mr Orpwood hears you out and signs nothing. 'Total Loss,' he says. 'I have the owner's good name on one side and your arithmetic on the other, and a man with a cuff is paid to prefer the first.' He will not hear the same figures again from you; you will have to bring him something that is not a figure.".
+  }
+  Relation bg_veasey_ruined(group).
+  Action bg_call_fraud(actor: group) "Lay the scuttling before Mr Orpwood as a fraud on the Lamprey" {
+    Speaker bg_orpwood.
+    Requires able(actor) and company(actor) and at(actor, lamprey_floor) and at(bg_orpwood, lamprey_floor) and bg_open()
+      and (knows(actor, bg_count_short) or knows(actor, bg_berth) or knows(actor, bg_holed) or knows(actor, bg_skell_dived) or knows(actor, d_barge_girl)).
+    Time 6 minutes.
+    Grave "A fraud handed to the Lamprey is a fraud entered in the Lamprey's book, with the berth in it. The Lamprey sends its books to the Phoenix, and there is a list.".
+    On success { Set bg_ruling(lamprey) to 4. Increase regard(lamprey) by 2. Increase quantity(actor, gold) by 12. Assert bg_girl_listed(bg_girl). Decrease regard(wardsfolk) by 2 or to nothing. Assert bg_gave_up_girl(party). }
+    Result "Mr Orpwood writes it down without a word, and then writes it down again for the file. 'Fraud on the Lamprey,' he says. 'A barge holed from within, a berth made up in the hold, a passenger.' He does not ask who. He does not need to; the berth has a length. 'The Lamprey is grateful,' he says, 'and the Lamprey sends its books to the Phoenix every evening.' You are paid the Slate's twelve coin. It feels exactly like twelve coin.".
+  }
+  Relation bg_girl_listed(group). Relation bg_gave_up_girl(group).
+  Action bg_call_average(actor: group) "Put it to Mr Orpwood that the Margaret is a General Average, given up to save a life, with the owner's and Captain Dree's names to it" {
+    Speaker bg_orpwood.
+    Requires able(actor) and company(actor) and at(actor, lamprey_floor) and at(bg_orpwood, lamprey_floor) and bg_open()
+      and knows(actor, bg_average_known) and bg_veasey_consents(actor) and arc(dree) >= 1.
+    Time 10 minutes.
+    On success { Set bg_ruling(lamprey) to 5. Increase regard(lamprey) by 2. Increase quantity(actor, gold) by 10. Assert bg_staying(bg_girl). }
+    Result "Mr Orpwood reads Mistress Veasey's mark, and Captain Dree's, which is a capital D like a man standing on one leg. He does not ask who. 'General Average,' he says, 'on account of the saving of life. Owner, insurer and salvors in their proportions.' He blots it. 'It is the only entry in this book I have made in eleven years,' he says, 'that I would show my mother.' The Yard has half of what it would have had and Skell and Sons nothing, and the owner pays for her barge and is still, in some sense, her own person. You are paid ten coin. The Lamprey writes you down as a friend.".
+  }
+  Relation bg_staying(group).
+
+  // ── Captain Dree: out-bargained, and named generous ─────────────────────────────────────────────────────
+  Relation bg_dree_stiff(group). Relation bg_bell_ok(group). Relation bg_dree_gave(group).
+  Topic bg_dree_bell with dree "Ask Captain Dree for the use of the diving-bell" when true once {
+    Says "'The bell,' says Captain Dree, and the whittling slows. 'Is for the use of the Lamprey and River Office. You are not the Office. You may be the Office's friends, in which case it is twelve coin a dive, a witness at the crank, and a letter from the board, which I will write if I am in the mood.' He looks at the bung. 'I am seldom in the mood. I am in a mood about the Margaret.'".
+  }
+  Action bg_dree_hire(actor: group) "Pay Captain Dree the twelve coin for a dive" {
+    Speaker dree.
+    Requires able(actor) and company(actor) and at(actor, dree_room) and at(dree, dree_room) and not bg_bell_ok(actor) and quantity(actor, gold) >= 12.
+    Time 5 minutes.
+    On success { Decrease quantity(actor, gold) by 12. Assert bg_bell_ok(actor). }
+    Result "Captain Dree counts the coin, twice, into a drawer. 'The bell is yours,' he says, 'for any dive that comes back up. I will write the letter.' He does, in the hand of a man who dislikes every word.".
+  }
+  Action bg_dree_haggle_hard(actor: group) "Bargain Captain Dree down on the bell's hire" {
+    Speaker dree.
+    Requires able(actor) and company(actor) and at(actor, dree_room) and at(dree, dree_room) and arc(dree) == 0 and not bg_dree_stiff(actor) and not knows(actor, bg_tariff_known).
+    Time 8 minutes.
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Increase arc(dree) by 1. Assert bg_bell_ok(actor). }
+    On failure { Assert bg_dree_stiff(actor). }
+    Result "You put to Captain Dree that the bell is idle on four days in five, that a dive that finds nothing earns him nothing, and that a dive that finds something earns the Lamprey a witness it did not buy. He stops whittling at the third point and does not start again. 'Sixpence a dive,' he says, 'and my name to the board.' He looks at you with something near respect. 'Nobody has done that since my wife.' The bell is yours.".
+    Otherwise "Captain Dree lets you finish, which is the worst of it. 'Twelve coin,' he says. 'You have the look of people who intend to be argued with, and I do not believe you will find it.'".
+  }
+  Action bg_dree_haggle_tariff(actor: group) "Bargain Captain Dree down with the third clause of the tariff in your hand" {
+    Speaker dree.
+    Requires able(actor) and company(actor) and at(actor, dree_room) and at(dree, dree_room) and arc(dree) == 0 and not bg_dree_stiff(actor) and knows(actor, bg_tariff_known).
+    Time 8 minutes.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Increase arc(dree) by 1. Assert bg_bell_ok(actor). }
+    On failure { Assert bg_dree_stiff(actor). }
+    Result "You tell Captain Dree that AS AGREED wants his name at the foot of it, and that a Captain whose name is at the foot of nothing is a Captain who has not been asked. He sets the bung down. 'Sixpence,' he says, 'and I will see my name on something at last.' It is not clear whether he is more pleased at the price or the clause. The bell is yours.".
+    Otherwise "Captain Dree listens, nods at the clause, and says, 'Twelve coin.' It seems the clause was known to him, and he thought less of it than you did.".
+  }
+  Rule bg_dree_leaves when arc(dree) >= 1 and not dree_leave(party) { Assert dree_leave(party). }
+  Rule bg_dree_leaves_quest when bg_ruling(lamprey) >= 2 and bg_ruling(lamprey) != 4 and not dree_leave(party) { Assert dree_leave(party). }
+  Action bg_dree_deal(actor: group) "Strike a bargain with Captain Dree: the Margaret to be called as agreed, the brigade to take the lamps" {
+    Speaker dree.
+    Requires able(actor) and company(actor) and at(actor, dree_room) and at(dree, dree_room) and arc(dree) >= 1 and bg_open()
+      and (knows(actor, bg_count_short) or knows(actor, bg_berth) or knows(actor, bg_holed) or knows(actor, bg_skell_dived) or knows(actor, d_barge_girl)).
+    Time 15 minutes.
+    On success { Set bg_ruling(lamprey) to 3. Increase quantity(actor, gold) by 8. Assert bg_dree_lamps(dree). Assert bg_staying(bg_girl). }
+    Result "'As agreed,' says Captain Dree. He likes the sound of it. 'The Yard and Skell shall have a flat sum each, which they will hate equally, and the owner shall be paid as a Total Loss, and the brigade shall have the lamps for the fire-house, which have been wanted since the last Ordinance. Mr Orpwood will call it, and I shall countersign, and nobody shall be asked anything, because it is a case one does not ask about.' He signs, in the manner of a man who has never been so reasonable. You are paid eight coin from the Slate, and the Lamprey, which has not been told anything, pays out as it would have.".
+  }
+  Relation bg_dree_lamps(group).
+  Topic bg_dree_slate with dree "Tell Captain Dree the Slate would name him generous if the brigade's lamps lit the Sluice-tap's grate" when arc(dree) == 1 and bg_ruling(lamprey) >= 2 and bg_ruling(lamprey) != 4 and not bg_dree_gave(party) once {
+    Says "'Generous,' says Captain Dree, as one tries a word on a coat. 'On the Slate.' He is silent. 'My brigade is not loved, you know. We are the Lamprey, and we come after the Phoenix with the bucket.' He turns the bung. 'Chalk it,' he says. 'And I shall send round the lamps, and nobody is to say how they came to be mine.'".
+    On discuss { Assert bg_dree_gave(actor). }
+  }
+  Topic bg_chalk_dree with chalk_boy "Ask the chalk boy to chalk Captain Dree of the Lamprey as generous, for a coin" when bg_dree_gave(actor) and arc(dree) == 1 and quantity(actor, gold) >= 1 once {
+    Says "'Generous,' says the chalk boy, and goes up the ladder with his tongue between his teeth. In a column headed PREMIUMS he writes CAPT. DREE (LAMPREY): GENEROUS, and underlines it, and gets down to look. The room reads it, one at a time, and moves its lips.".
+    On discuss { Decrease quantity(actor, gold) by 1. Increase arc(dree) by 1. }
+  }
+  Observe bg_dree_changed near dree when arc(dree) >= 2 "The chair is still screwed to the floor, but the bung has been put away, and somebody has hung a chalked scrap of the Slate on the porthole, as one frames a letter.".
+  Observe bg_dree_lamps_seen near dree when bg_dree_lamps(dree) and arc(dree) < 2 "A crate of wet cold-lamp jars stands in the corner of the room under a sheet, with the air of a crate that has been explained to nobody.".
+  Observe bg_dree_writ near dree when bg_writ_caught(party) "On the desk, flattened under a bung, is a sheet of Lamprey foolscap with a fish on it that has never met a river. Captain Dree does not mention it. He moves the bung a little, so that you can see.".
+  Observe bg_dree_bargained near dree when arc(dree) == 1 and not bg_dree_gave(party) "Captain Dree is whittling a bung down to nothing, with the air of a man who has been caught out once and means to enjoy it.".
+
+  // ── The Sluice-tap: Jessop, Kitty, and the hearth ───────────────────────────────────────────────────────
+  Relation bg_jessop_vouches(group). Relation bg_jessop_cold(group). Relation bg_girl_met(group).
+  Topic bg_jessop_tam with bg_jessop "Tell Cob Jessop that Tam Ridd let you up the Stair" when entered_water(actor) and knows(actor, bg_cellar_known) and not bg_jessop_vouches(actor) once {
+    Says "Cob Jessop puts the pot down. 'Tam,' he says. 'Tam does not let people up. Tam takes four coin or a winch-handle.' He looks you over for what was in the winch-handle. 'Went up, did you. Carried the Stair. Lamprey men don't pay handling.' He lifts the flap in the counter and does not say anything more, which is, among lightermen, a long speech. 'The trap's yours,' he says. 'She's twelve. Mind the third rung.'".
+    On discuss { Assert bg_jessop_vouches(actor). }
+  }
+  Action bg_jessop_persuade(actor: group) "Tell Cob Jessop you mean the child no harm, and ask him to let you down" {
+    Speaker bg_jessop.
+    Requires able(actor) and company(actor) and at(actor, sluice_room) and at(bg_jessop, sluice_room) and knows(actor, bg_cellar_known) and not entered_water(actor)
+      and not bg_jessop_vouches(actor) and not bg_jessop_cold(actor) and not bg_veasey_word(actor).
+    Time 6 minutes.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert bg_jessop_vouches(actor). }
+    On failure { Assert bg_jessop_cold(actor). }
+    Result "Cob Jessop listens with his arms folded, which on him is a kind of architecture. 'I do not know you,' he says. 'But you came to me, and not to the Lamprey, and a man who has come to me with that on his face has not come for the money.' He lifts the flap. 'Mind the third rung. She bites.'".
+    Otherwise "'No,' says Cob Jessop, quite mildly. 'No, I do not think I know you well enough.' He goes back to the pot. If there is another way down than through him, it will be someone else who gives it.".
+  }
+  Topic bg_jessop_word with bg_jessop "Show Cob Jessop Mistress Veasey's word" when bg_veasey_word(actor) and knows(actor, bg_cellar_known) and not bg_jessop_vouches(actor) once {
+    Says "'Honor Veasey,' says Cob Jessop, and rubs the back of his neck. 'She has not said a word to me in two days. I should have known the knitting was a signal.' He lifts the flap. 'The trap's yours.'".
+    On discuss { Assert bg_jessop_vouches(actor). }
+  }
+  Observe bg_cellar_scene at bg_cellar when true "A brick cellar under the taproom, wet at the foot and dry at the head, with barrels and a candle on a barrel. The sluice-wheel can be heard turning overhead, slowly, like a very large animal turning over in its sleep.".
+  Topic bg_kitty_story with bg_girl "Ask Kitty how she came to be in the Margaret's hold" when bg_jessop_vouches(actor) and not bg_girl_met(actor) once {
+    Says "Kitty Spratling looks at the trap, and at the ladder, and makes up her mind. 'Mam got a paper told her,' she says. 'Not a paper. A man with a fish on his sleeve came to her at the wash-house and said the block was to burn a week Saturday, and that it was on a list, and he'd seen the paper with the bird on it, the Phoenix's bird, with APPOINTED across it in black, that nobody gets sent unless somebody has sent it. And Mam believed him because who would say it that wasn't true. So Mistress Veasey took me in the Margaret, in the straw, with a candle and a heel of bread. And in the night she put a hole in it. I was out by the cuddy before it was properly under. Cob had a boat.' She picks at the bucket. 'Our block burned. I know it did. Nobody says.'".
+    On discuss { Assert bg_girl_met(actor). Assert knows(actor, d_barge_girl). Assert knows(actor, d_list_exists). Assert knows(actor, bg_berth). }
+  }
+  Topic bg_kitty_promise with bg_girl "Promise Kitty that no book of the Lamprey's will have her name" when bg_girl_met(actor) and not promiseMade(bg_kitty) and not bg_girl_listed(bg_girl) once {
+    Grave "A promise to a girl in a cellar: if you give her to the Lamprey, you broke it.".
+    Says "Kitty looks at you for a long time. 'You'd say that,' she says. 'Anybody would say that.' She puts her feet down on the floor, one at a time, as if testing it. 'All right,' she says. 'Mistress Veasey would want me to. Tell her I'm dry. Tell her the scullery was an accident.'".
+    On discuss { Assert promiseMade(bg_kitty). }
+  }
+  Promise bg_kitty "to keep Kitty Spratling's name out of the Lamprey's books" to bg_girl
+    kept when bg_settled() and not bg_girl_listed(bg_girl) "Mr Orpwood's book is closed, and Kitty Spratling is not in it."
+    broken when bg_girl_listed(bg_girl) "Kitty Spratling is in a book at last, with a length and a block and a date. You promised." { Assert bg_broke_kitty(party). }.
+  Relation bg_broke_kitty(group).
+  Topic bg_kitty_stay with bg_jessop "Ask Cob Jessop to keep Kitty in his cellar after the third night" when bg_girl_met(actor) and bg_jessop_vouches(actor) and not bg_staying(bg_girl) and not bg_girl_listed(bg_girl) once {
+    Says "'After the third night,' says Cob Jessop. He weighs the pot. 'Mistress Veasey was going to put her on a lighter to her aunt's at Greenhithe, that night. A lighter is a lighter. A cellar is a cellar.' He sets the pot down. 'She can have the cellar. She'll earn it. She can turn the wheel-pins.'".
+    On discuss { Assert bg_staying(bg_girl). }
+  }
+  Topic bg_jessop_fire with bg_jessop "Ask Cob Jessop whether the Sluice will keep a fire lit on the Night" when bg_staying(bg_girl) and not keeper(reach) once {
+    Says "'A fire,' says Cob Jessop. 'In this taproom. We have not had a grate lit in the Sluice since the Ordinance. A lighterman does not need a fire; he has the river.' He wipes the counter, which is clean. 'I owe somebody a fire. Fine. It will be lit, and I will keep it, and if anyone from a gas-office wants it out, they can come and put it out themselves.'".
+    On discuss { Assert keeper(reach). }
+  }
+  Topic bg_jessop_after with bg_jessop "Ask Cob Jessop what the Sluice says of the Margaret" when bg_ruling(lamprey) >= 1 and not bg_staying(bg_girl) once {
+    Says "'It says what it says,' says Cob Jessop. 'Brown or brown.'".
+  }
+
+  // ── Consequences the world carries ──────────────────────────────────────────────────────────────────────
+  Rule bg_girl_moved when watch(clock) >= 516 and at(bg_girl, bg_cellar) and not bg_staying(bg_girl) and not bg_girl_listed(bg_girl)
+    says "On the night of the third day a lighter drops down the river with a shawled child in the stern and a lighterman at the sweep, and the Reach, which sees everything, sees nothing." {
+    Retract at(bg_girl, bg_cellar). Assert bg_girl_gone(bg_girl). }
+  Relation bg_girl_gone(group).
+  Observe bg_cellar_gone at sluice_room when bg_girl_gone(bg_girl) "The trap under the wheel has been nailed down, and a small candle-end stands on the barrel beside it, burned to nothing.".
+  Rule bg_pellow_dismissed when bg_veasey_ruined(party) and knows(party, d_barge_girl) and not bg_pellow_told(party)
+    says "It goes round the Wards by the washing-lines: Annis Spratling has lost her place, and the lady who gave it her is said to have lost her barge for a reason nobody can explain." { Assert bg_pellow_told(party). Decrease regard(wardsfolk) by 1 or to nothing. }
+  Relation bg_pellow_told(group).
+  Rule bg_girl_taken when bg_girl_listed(bg_girl) and at(bg_girl, bg_cellar)
+    says "Before the next morning's tide two men in good coats come up the Water-Stair, one with a rent-book, and go into the Sluice-tap, and come out of it with a small figure in a cut-down lighterman's coat between them. Nobody on the Stair looks round." {
+    Retract at(bg_girl, bg_cellar). }
+  Rule bg_girl_witness when bg_staying(bg_girl) and bg_girl_met(party) and (bg_ruling(lamprey) == 3 or bg_ruling(lamprey) == 5) and not witness(bg_girl) {
+    Assert witness(bg_girl). }
+  Rule bg_auction_total when watch(clock) >= 600 and bg_ruling(lamprey) == 1 and not bg_auctioned(lamprey)
+    says "At noon on the fourth day a bell is rung on the Mere Wharf and the Margaret's cold-lamps are sold in lots to the trade. Skell and Sons buy most of them, cheap, and are seen to be pleased." { Assert bg_auctioned(lamprey). }
+  Rule bg_auction_other when watch(clock) >= 600 and bg_ruling(lamprey) >= 2 and not bg_auctioned(lamprey)
+    says "At noon on the fourth day a bell is rung on the Mere Wharf, and the Margaret's lamps are sold or shared as the Lamprey called them. The lightermen, who have been told something, are less loud about it than usual." { Assert bg_auctioned(lamprey). }
+  Relation bg_auctioned(group).
+  Query bg_settled() means bg_ruling(lamprey) >= 2.
+  Observe bg_wharf_total at mere_wharf when bg_auctioned(lamprey) and bg_ruling(lamprey) == 1 "Skell and Sons' sign has been repainted a size larger. The Margaret lies where she sank, with a notice on her mast: SOLD.".
+  Observe bg_wharf_salvage at mere_wharf when bg_ruling(lamprey) == 2 "The Salvors' Yard crew is raising the Margaret with a good deal of noise and very little concealment. Mistress Veasey's stool is gone from the wharf.".
+  Observe bg_wharf_agreed at mere_wharf when bg_ruling(lamprey) == 3 "Both crews are working the Margaret, one on each side, in a state of rigid mutual dislike. A pair of Lamprey brigade men are carrying jars towards the fire-house.".
+  Observe bg_wharf_fraud at mere_wharf when bg_ruling(lamprey) == 4 "The Margaret has a Lamprey officer's board on her mast, and the quay has the look of a quay that knows what happened to the child. Nobody on it will meet your eye.".
+  Observe bg_wharf_average at mere_wharf when bg_ruling(lamprey) == 5 "The Margaret is being raised by everyone at once, in turns, and with an honesty that surprises them. Mistress Veasey has brought her stool back, and is knitting, and is smiling at the water.".
+  Observe bg_stairs_fraud at lighter_stairs when bg_ruling(lamprey) == 4 "The lightermen at the head of the Stair look past you at the river. One of them spits, not at you, but not far from you either.".
+  Observe bg_stairs_friends at lighter_stairs when (bg_ruling(lamprey) == 3 or bg_ruling(lamprey) == 5) "A lighterman nods to you as you pass, and then, after a moment, a second does. It is not much. It is the Reach's whole vocabulary of thanks.".
+  Observe bg_sluice_fire at sluice_room when keeper(reach) "A fire has been laid in the Sluice's long-unlit grate, and a pot hangs over it that nobody has been permitted to ask about. The lightermen sit nearer the wall than the wheel.".
+  Rule bg_tam_comes when bg_ruling(lamprey) >= 2 and bg_ruling(lamprey) != 4 and at(ridd, towpath) { Retract at(ridd, towpath). Assert at(ridd, lighter_stairs). }
+  Topic bg_tam_after with ridd "Ask Tam Ridd how the Stair takes the Margaret" when bg_settled() and entered_water(actor) once {
+    Says "'You,' says Tam Ridd. He has moved from the bollard to the head of the Stair, and his boathook is on his shoulder instead of across the way. 'The ones who carried the winch. I said to Cob, Lamprey men don't pay handling, and then I find you've been at the Lamprey's business all week.' He considers. 'No handling,' he says. 'Not on you. I do not say it twice.'".
+  }
+  Topic bg_tam_other with ridd "Ask Tam Ridd how the Stair takes the Margaret" when bg_settled() and not entered_water(actor) once {
+    Says "'Takes it,' says Tam Ridd. 'The Stair takes everything. It did not take to being asked.' He looks at the water, which is the nearest thing to an opinion he has.".
+  }
+
+  // ══ THE DIVING-BELL (the Reach's way down) ══════════════════════════════════════════════════════════════
+  // The bell goes two places: down onto the Margaret's hatch (workable at low water, brawn on the crank or coin to the
+  // lightermen who turn it, and Captain Dree's blessing or none), and down the shaft to the foot of the Sunk City, behind
+  // the hatch on the passage. The hatch has four ways open: Dree's leave, a forged writ, the Teague combination, and force.
+  // The first crossing of the opened shaft is bad air: it hurts, drives the company back to the cradle, and airs the shaft;
+  // after that the way is twenty minutes of ladder (a plain cost; the Descent may read the state of bg_hatch).
+  Hazard bg_foul "the foul air of the diving shaft" means "Deal (1d4) physical damage to ally unless constitution save against (11).".
+  Thing bg_hatch "the bell's hatch" on bell_shaft_way {
+    State shut blocking "The bell's hatch is dogged shut at the bottom of the cradle's well, a round plate of black iron with the Lamprey's fish riveted on it and a number-plate below, six dials that do not belong to any clock.".
+    State open dangerous "The hatch stands open on a round dark shaft, and the air that comes up it smells like a cellar that has been shut a hundred years and has just remembered you.".
+    State aired "The shaft has been aired by the first of you down it, and the air that comes up it now is only cold. A hundred rungs of ladder go down into the dark.".
+    State wrecked blocking "The bell's hatch hangs by one dog, its plate buckled, the chain that held the bell snapped off short. Nothing will come up this shaft, and nothing will go down it.".
+    Hurts with bg_foul when open then aired.
+  }
+  Action bg_hatch_leave(actor: group) "Show the bellman Captain Dree's leave and have the hatch dogged back" {
+    Requires able(actor) and company(actor) and at(actor, cradle) and state(bg_hatch, shut) and dree_leave(actor).
+    Time 4.
+    On success { Assert state(bg_hatch, open). }
+    Result "The bellman reads the chit and puts it in his hat. 'Captain's mark,' he says. 'Mind the air on the way, and the way up, if you come up.' The dogs come back, one at a time, and the hatch falls open on the dark.".
+  }
+  Action bg_hatch_writ(actor: group) "Show the bellman a writ of the Lamprey & River, not quite" {
+    Requires able(actor) and company(actor) and at(actor, cradle) and state(bg_hatch, shut) and holding(actor, forged_writ).
+    Time 3.
+    Resolve check(actor, deception, dc_fair).
+    On success { Spend forged_writ from actor. Assert state(bg_hatch, open). }
+    On failure { Spend forged_writ from actor. Decrease regard(lamprey) by 1 or to nothing. Assert bg_writ_caught(party). }
+    Result "The bellman holds the writ to the light and turns it over. 'Wet,' he says, doubtfully. 'Everything's wet.' He puts the paper in his hat as if it had been the real one and swings the dogs. The paper is not seen again.".
+    Otherwise "The bellman holds the writ to the light, and then to a lamp, and then he goes very quiet. 'A fish,' he says, 'that has never met a river.' The writ goes into his hat and, presumably, up the stairs to Captain Dree. The dogs stay as they were.".
+  }
+  Relation bg_writ_caught(group).
+  Action bg_hatch_combination(actor: group) "Set the six dials of the hatch to the Teague combination" {
+    Requires able(actor) and company(actor) and at(actor, cradle) and state(bg_hatch, shut) and teagueCombination(actor).
+    Time 2.
+    On success { Assert state(bg_hatch, open). }
+    Result "Six dials, none of them a number you would have put there, and the plate sighs and comes up on its hinge. Ambrose Teague knew a way, and had the manners not to change the lock.".
+  }
+  Action bg_hatch_force(actor: group) "Break the hatch with the bell's own chain, and go down it hand over hand" {
+    Requires able(actor) and company(actor) and at(actor, cradle) and state(bg_hatch, shut) and capable(actor, brawn).
+    Time 18.
+    Grave "Three hours of chain, and at the end of it the bell is wrecked and the hatch is a ruin: you go down, and nothing comes up that way again. Captain Dree will hear of it.".
+    Resolve check(actor, brawn, dc_fair).
+    On success { Assert state(bg_hatch, wrecked). Assert at(actor, bell_foot). Decrease regard(lamprey) by 1 or to nothing. Assert bg_slighted_dree(party). Assert bg_bell_wrecked(party). }
+    Result "You put the bell's own chain through the hatch-dogs and take the strain, one at a time, and the dogs go with a noise like a very old tooth. The hatch comes down the shaft with a crack. The chain goes after it, and then so do you, hand over hand, three hours of black cold and bad air. The bell hangs above you, empty and broken, and it is the last time it will go anywhere.".
+    Otherwise "The chain runs through your hands and takes the skin with it, and the dogs hold. It is an hour before you can close a fist.".
+  }
+  Relation bg_slighted_dree(group). Relation bg_bell_wrecked(group).
+  Observe bg_shaft_up at bell_foot when state(bg_hatch, open) or state(bg_hatch, aired) "The ladder rises into the dark shaft, a hundred rungs, to a hatch you cannot see. A little bad air comes down it in breaths.".
+  Observe bg_shaft_wrecked at bell_foot when state(bg_hatch, wrecked) "The shaft above is choked with the buckled plate of the hatch and a coil of snapped chain. The way you came is no way at all.".
+
+  // The Margaret, and the way down to her.
+  Relation bg_dived(group).
+  Action bg_dive_crank(actor: group) "Crank the diving-bell down over the Margaret's hatch yourselves" {
+    Requires able(actor) and company(actor) and at(actor, cradle) and bg_lowwater() and not state(bg_hatch, wrecked) and capable(actor, brawn).
+    Time 3.
+    Resolve check(actor, brawn, dc_fair).
+    On success { Assert at(actor, margaret_hold). Assert bg_dived(actor). }
+    Result "The crank is a wheel the height of a man and it wants three. You take it on your own: the bell comes off its pawls, swings, and goes down over the quay's edge with a sound like a church dropping its voice. The water takes the glass and goes black, and then green. The Margaret's hatch comes up to meet the bell's lip, and the bell fits it as a cup does a saucer.".
+    Otherwise "The pawls slip. The bell drops a yard, hangs, and goes up again on a shout from the gantry. You lose the tide and your temper.".
+  }
+  Action bg_dive_hired(actor: group) "Pay the lightermen six coin to turn the crank, and go down in the bell" {
+    Requires able(actor) and company(actor) and at(actor, cradle) and bg_lowwater() and not state(bg_hatch, wrecked) and quantity(actor, gold) >= 6.
+    Time 3.
+    On success { Decrease quantity(actor, gold) by 6. Assert at(actor, margaret_hold). Assert bg_dived(actor). }
+    Result "Three lightermen take the crank without having to be told twice, and a fourth keeps the time. The bell goes down with you in it, sitting very still on the bench, and settles over the Margaret's hatch like a hand over a candle.".
+  }
+  Action bg_surface(actor: group) "Rap on the bell for the lightermen to wind you up" {
+    Requires able(actor) and company(actor) and at(actor, margaret_hold).
+    Time 2.
+    On success { Assert at(actor, cradle). }
+    Result "Three raps on the bell's iron, and a pause, and the crank takes up. You rise through the green and the black and into the afternoon with your ears ringing.".
+  }
+  Rule bg_hold_floods when at(party, margaret_hold) and not bg_lowwater()
+    says "The tide has turned. Water comes in round the bell's lip in a grey sheet, and the lightermen up top, who have been counting, haul without being asked." {
+    Assert at(party, cradle). }
+  Rule bg_slight_charged when bg_dived(party) and not bg_bell_ok(party) and not bg_slighted_dree(party)
+    says "Word of a company that took the Lamprey's bell down without so much as a chit goes up Policy Row with the morning rolls." {
+    Assert bg_slighted_dree(party). Decrease regard(lamprey) by 1 or to nothing. }
+  Observe bg_hold_light at margaret_hold when true "The jars that are still alight make a green dusk the size of a room. Their glow does not so much lighten the water as agree with it.".
+  Thing bg_crates "the cold-lamp crates" at margaret_hold {
+    State stowed "Nine crates are stacked in the waist, two of them burst and drifting, the rest tumbled against each other in their straw, each jar sealed with wax and a little stamp.".
+  }
+  Observe bg_crates_counted at margaret_hold when tried(bg_crates, looking) "You count them off by their own light, crate by crate: three hundred and eleven jars. The upper tiers of the straw are bone dry, where the crates have been moved, and then moved back by someone who was quick."
+    teaches bg_counted.
+  Thing bg_bunk "the berth in the straw" at margaret_hold {
+    State made "In the lee of the cuddy bulkhead a berth has been made in the straw, lengthways, the length of a child: a blanket, a heel of bread gone to paste, and a candle-end in a saucer.".
+  }
+  Observe bg_berth_seen at margaret_hold when tried(bg_bunk, looking) "The blanket has been folded with a mother's corners. Near the saucer, scratched on a cask-end with a nail, are four tally-marks, a row of crooked letters that spell KITTY, and, underneath, a small drawing of a fish with legs."
+    teaches bg_berth.
+  Thing bg_hull "the Margaret's planking" at margaret_hold {
+    State holed "The planking of the waist is split in a star, low on the starboard side, and the water comes through it in a slow brown braid.".
+  }
+  Observe bg_hull_seen at margaret_hold when tried(bg_hull, looking) "You put your lamp to the split. The planks are driven outwards, not in: the splinters stand away from the hull like the petals of a flower. A pair of ship's augers lies in the bilge below it, bright where the rust has been rubbed off by a hand."
+    teaches bg_holed.
+}

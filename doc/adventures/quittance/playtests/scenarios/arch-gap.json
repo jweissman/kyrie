@@ -1,0 +1,5 @@
+{ "title": "Into Quittance: through the gap in the Cinderwall",
+  "note": "The same company, declaring nothing: along the outer wall, a copper to the gap boys, and into the Bare Wards without a name on any Roll.",
+  "seed": "arch-gap",
+  "steps": ["^To the foot of the outer wall", "Pay the gap boys a copper", "^To Salt Lane"],
+  "probes": ["quittance__inCity party", "quittance__onTheRoll party", "quittance__entered_gap party", "#quittance__regard quittance__wardsfolk"] }

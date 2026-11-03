@@ -1,0 +1,14 @@
+Module quittance "Quittance" {
+  Description "The Hearth Night: what a lit ward looks like from the street, and the city on the nights it is allowed to be warm.".
+
+  Observe lit_brick at brick_lane when coaled(brick) and keeper(brick) "A thread of smoke goes straight up from the bakery chimney, and another from the fire-house, and nobody has called the brigade. Along the terrace one window after another is yellow.".
+  Observe lit_brick_lone at brick_lane when coaled(brick) and not keeper(brick) "A thread of smoke goes up from a chimney in the Brickfields, thin and alone, and every curtain on the street is twitching.".
+  Observe lit_reach at mere_wharf when coaled(reach) and keeper(reach) "On every barge at the Mere Wharf somebody has a pan on, and the smell of frying drifts along the quay. The lightermen sing, badly, in rounds.".
+  Observe lit_glass at foundry_row when coaled(glass) and keeper(glass) "Foundry Row is warm underfoot, and the stokers' wives have opened their windows. A line of lamps down the Row burns low and yellow, and from the shuttered furnaces comes a ticking, like a cooling kettle.".
+  Observe lit_hill at hill_street when coaled(hill) and keeper(hill) "Up on Surety Hill a footman has come out on a step with a candle, not mark-insured, and is staring at it as at a cat that has done something clever.".
+  Observe lit_mort at annuity_row when coaled(mort) and keeper(mort) "A small light burns in every cottage on Annuitants' Row. The old are sitting up to see it.".
+  Observe lit_wards at salt_lane when coaled(wards) and keeper(wards) "Salt Lane is lit from end to end, every window, every grate, and the sound that comes down it is not quite singing. Someone is selling pie at midnight as if it were noon.".
+  Observe city_warm at gate_plaza when wardsLit(city) >= 3 and hour(clock) >= 18 "The air in Gate Plaza is warmer than it was in the afternoon, and smells of woodsmoke. The brokers on the Stair have taken their hats off, though nobody seems to have told them to.".
+  Observe city_warm_all at gate_plaza when wardsLit(city) >= 5 and hour(clock) >= 18 "All Quittance is warm. The Honest Bell, under the Arch, is humming very slightly, like a cat.".
+  Observe arch_hum at arch_hall when wardsLit(city) >= 5 "The Honest Bell is humming. Mr Prest has stopped writing in the Roll and is looking up at it with his pen in the air.".
+}

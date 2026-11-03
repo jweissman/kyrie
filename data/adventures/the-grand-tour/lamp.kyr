@@ -77,7 +77,7 @@ Module sennet "The Grand Tour" {
     On discuss { Assert knows(actor, made_possible). }
   }
   Discovery made_possible "Prue Quickly says that, given a jar of the Air plane's own wind, a real petal of the Rose to copy for an hour, her furnace's heat and a night, she could make a petal of the Rose that does what a real one does.".
-  Kind wind_jar_kind "an empty wind-jar" is gear worth 2 weighing 1 described "A stoppered jar of thick green glass, Pargeter's best, sold to Tourists for bringing home a breath of the Plane of Air. It is empty, which is to say full of Sennet.".
+  Kind wind_jar_kind "an empty wind-jar" is gear worth 2 weighing 1 described "A stoppered jar of thick green glass, Ollerenshaw's best, sold to Tourists for bringing home a breath of the Plane of Air. It is empty, which is to say full of Sennet.".
   Kind north_wind_kind "a jar of the North Wind" is gear worth 0 weighing -1 described "A stoppered jar of green glass, very cold to hold, that pulls a little upward out of your hand. Inside, something moves that is not anything; frost is growing on the inside of the glass in ferns.".
   Kind made_petal_kind "the petal Prue Quickly made" is treasure worth 0 weighing -6 described "A petal of clear glass the length of your hand, made in Lamp Street, with a fern of frost inside it that never melts, that pulls upward out of your fingers like a kite on a string. On the back, very small, Prue has stamped: A PRESENT FROM SENNET.".
   Item made_petal "the made petal" is made_petal_kind at offstage.
@@ -99,11 +99,11 @@ Module sennet "The Grand Tour" {
     On discuss { Give made_petal to actor. }
   }
 
-  // ── Pargeter's, outfitters to the Grand Tour ──────────────────────────────────────────────────────────────────────
-  Kind fire_cloak_kind "a fire-cloak" like cloak worth 6 weighing 2 described "A long hooded cloak of grey stuff woven with asbestos and soaked in alum, very stiff, smelling of a blacksmith's apron: Pargeter's patent, for the Plane of Fire. In it the heat of the Fire is only very hot.".
-  Kind brine_helm_kind "a brine-glass helm" is gear worth 12 weighing 3 described "A bowl of thick glass for the head, with a collar of oiled leather and a bladder on the back that hisses. Pargeter's patent, for the Whelm. Inside it you breathe, of a kind, with your ears full of your own heart.".
-  Observe outfitter_scene at outfitter when true "Pargeter's: a long shop like a ship's chandlery for a voyage to nowhere, hung from the beams with fire-cloaks stiff as boards, glass helms in rows on wooden heads, coils of rope, lamps, and green wind-jars in pyramids. Everything has a ticket, and every ticket has been crossed out and written again higher.".
-  Person pargeter "Mr. Pargeter" at outfitter {
+  // ── Ollerenshaw's, outfitters to the Grand Tour ──────────────────────────────────────────────────────────────────────
+  Kind fire_cloak_kind "a fire-cloak" like cloak worth 6 weighing 2 described "A long hooded cloak of grey stuff woven with asbestos and soaked in alum, very stiff, smelling of a blacksmith's apron: Ollerenshaw's patent, for the Plane of Fire. In it the heat of the Fire is only very hot.".
+  Kind brine_helm_kind "a brine-glass helm" is gear worth 12 weighing 3 described "A bowl of thick glass for the head, with a collar of oiled leather and a bladder on the back that hisses. Ollerenshaw's patent, for the Whelm. Inside it you breathe, of a kind, with your ears full of your own heart.".
+  Observe outfitter_scene at outfitter when true "Ollerenshaw's: a long shop like a ship's chandlery for a voyage to nowhere, hung from the beams with fire-cloaks stiff as boards, glass helms in rows on wooden heads, coils of rope, lamps, and green wind-jars in pyramids. Everything has a ticket, and every ticket has been crossed out and written again higher.".
+  Person pargeter "Mr. Ollerenshaw" at outfitter {
     Role "an outfitter to the Grand Tour, in a waistcoat of many pockets". Ancestry human. Peaceable. Pronouns he. Manner jovial.
     Sells fire_cloak_kind for 6 coin from 4.
     Sells brine_helm_kind for 12 coin from 2.
@@ -112,21 +112,21 @@ Module sennet "The Grand Tour" {
     Sells lantern for 7 coin from 3.
     Sells lamp_oil for 1 coin from 8.
     Greets "'Ah!' A thin man in a waistcoat of a great many pockets comes round the counter with both hands out. 'A Tourist! I can always tell. The look of a person who has not yet been anywhere.' He sweeps an arm. 'Fire-cloaks, brine-glass helms, wind-jars, a Tourist's complete necessaire in a calf case at eleven guineas, which I do not recommend to you, as you are clearly a person of sense.'".
-    Greets again "'Back!' says Mr. Pargeter, delighted. 'They always come back.'".
+    Greets again "'Back!' says Mr. Ollerenshaw, delighted. 'They always come back.'".
   }
   Rule pargeter_hours when openHours() and not at(pargeter, outfitter) { Assert at(pargeter, outfitter). }
   Rule pargeter_home when not openHours() and not at(pargeter, offstage) { Assert at(pargeter, offstage). }
   // The Dowager was born over this shop; he is her brother's son. She has been in it once since she married.
-  Topic pargeter_imogen with pargeter "Ask Mr. Pargeter whether he has ever sold to Halyard House" when met(imogen) once {
-    Says "'Once.' He straightens a helm on its wooden head that does not need straightening. 'Her Ladyship came in herself, last spring, for a fire-cloak for Mr. Perrin, the best I had. Paid the ticket without looking at it. Didn't look at me, either.' He moves the helm back. 'She was born upstairs. Imogen Pargeter. My father's sister. She went up the chain at nineteen to be a lady's maid, and came down a Halyard, and has not come down since.' He smiles at you with all his teeth. 'I keep her room as it was. In case. You never know, with the Tour, who'll want outfitting.'".
+  Topic pargeter_imogen with pargeter "Ask Mr. Ollerenshaw whether he has ever sold to Halyard House" when met(imogen) once {
+    Says "'Once.' He straightens a helm on its wooden head that does not need straightening. 'Her Ladyship came in herself, last spring, for a fire-cloak for Mr. Perrin, the best I had. Paid the ticket without looking at it. Didn't look at me, either.' He moves the helm back. 'She was born upstairs. Imogen Ollerenshaw. My father's sister. She went up the chain at nineteen to be a lady's maid, and came down a Halyard, and has not come down since.' He smiles at you with all his teeth. 'I keep her room as it was. In case. You never know, with the Tour, who'll want outfitting.'".
     On discuss { Assert knows(actor, imogen_pargeter). }
   }
-  Discovery imogen_pargeter "Lady Imogen Halyard was born Imogen Pargeter, over the outfitter's shop in Lamp Street; she went up the chain at nineteen as a lady's maid and married the heir. Mr. Pargeter is her nephew, and keeps her room as it was.".
-  Topic pargeter_advice with pargeter "Ask Mr. Pargeter what a Tourist needs" when true once {
+  Discovery imogen_pargeter "Lady Imogen Halyard was born Imogen Ollerenshaw, over the outfitter's shop in Lamp Street; she went up the chain at nineteen as a lady's maid and married the heir. Mr. Ollerenshaw is her nephew, and keeps her room as it was.".
+  Topic pargeter_advice with pargeter "Ask Mr. Ollerenshaw what a Tourist needs" when true once {
     Says "'For the Fire, a cloak. Without one you will be cooked in an hour, a little at a time, like a ham.' He shows you one. 'For the Whelm, a helm, unless you can get one of the sea-folk to kiss you, which I am told lasts three hours and costs nothing, but I could not say, not having been asked.' He sniffs. 'For the Earth, a lamp: it is dark in there, and slow. For the Air, nothing: the sylphs will hold you up out of politeness, but they will talk about you after.' He taps a green jar. 'And a wind-jar, to bring home a breath of it. Very popular with aunts.'".
     On discuss { Assert knows(actor, tour_needs). }
   }
-  Discovery tour_needs "What a Tourist needs, by Mr. Pargeter: a fire-cloak for the Plane of Fire, or be cooked; a brine-glass helm for the Whelm, or a merfolk kiss, which lasts three hours; a lamp for the Plane of Earth, which is dark; nothing for the Plane of Air. And a wind-jar, to bring home a breath of the Air.".
+  Discovery tour_needs "What a Tourist needs, by Mr. Ollerenshaw: a fire-cloak for the Plane of Fire, or be cooked; a brine-glass helm for the Whelm, or a merfolk kiss, which lasts three hours; a lamp for the Plane of Earth, which is dark; nothing for the Plane of Air. And a wind-jar, to bring home a breath of the Air.".
   // What is worn: a helm while it is held gives breath, a cloak proof against the Fire (W1 of 02-adaptation.md: an
   // item of the module's own cannot yet grant a capability of the module's own).
   Entity heatproof: capability "Proof against the heat of the Fire".

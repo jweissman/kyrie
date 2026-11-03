@@ -1298,13 +1298,13 @@ Also kept, without comment: arrival, plea, greeting, greeted, petted, warned, yi
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 1 | 24 | 2 | 1 | 19 | 5 |
+| 1 | 24 | 2 | 1 | 18 | 5 |
 
 #### temperament
 
 *Kyr · kind* · `rule:inhabitants.temperament`
 
-A creature's temperament says how it meets a company that comes where it lives. A territorial one warns, then falls on whoever stays; a defensive one warns, and fights only for its lair; a proud one names a price; a savage one falls on you at once; one that lies in ambush strikes unless keen eyes spot it first; an obedient one keeps its post and nothing else; a wary one slinks away, and fights only when cornered in its refuge; a seizing one (bailiffs, the Weights) warns, and then takes whoever stays, with no fight: what follows is the module's (captured). A group of one species takes its species' temperament; a place may give any group one (temper_savage, temper_proud…).
+A creature's temperament says how it meets a company that comes where it lives. A territorial one warns, then falls on whoever stays; a defensive one warns, and fights only for its lair; a proud one names a price; a savage one falls on you at once; one that lies in ambush strikes unless keen eyes spot it first; an obedient one warns, then keeps its post and nothing else; a wary one slinks away, and fights only when cornered in its refuge; a seizing one (bailiffs, the Weights) warns, and then takes whoever stays, with no fight: what follows is the module's (captured). A group of one species takes its species' temperament; a place may give any group one (temper_savage, temper_proud…).
 
 #### temperament
 
@@ -1464,6 +1464,8 @@ Says: "{?w}"
 
 *Kyr · rule* · `rule:inhabitants.temper_falls_on`
 
+A keeper of its post bars the way and says so before it strikes: a company that has only just come is not fallen on before it can do anything (Gosse's Company's 14, Low Water's 2).
+
 Says: "{?o}"
 
 > When: temperament(?g, temper_savage); company(?c); confronts(?g, ?c); onslaught(?g, ?o)
@@ -1501,16 +1503,6 @@ Says: "{?w}"
 > When: temperament(?g, temper_ambush); company(?c); confronts(?g, ?c); capable(?c, perception); not (warned(?g, ?c)); warning(?g, ?w)
 
 > Then: Assert warned(?g, ?c). Assert halts(?g, ?c). Set patience(?g) to (watch(clock) + 1).
-
-#### temper_keeps_post
-
-*Kyr · rule* · `rule:inhabitants.temper_keeps_post`
-
-Says: "{?o}"
-
-> When: temperament(?g, temper_obedient); company(?c); confronts(?g, ?c); lair(?g, ?p); at(?g, ?p); onslaught(?g, ?o)
-
-> Then: Assert assails(?g, ?c).
 
 #### temper_cornered
 
@@ -2375,6 +2367,15 @@ The worlds that ship with the game.
 - Kits placed: —
 
 > Calamy is a city of paper at the mouth of the Calam, where the tide turns the mills twice a day and every household keeps a book that knows it. Its books are entangled with its money, its law, its prayers and its quarrels, and lately some of them have begun to talk. In nine days it is the Kindling, when the city burns last year's almanacks to light the new year in.
+
+### Quittance
+
+*Kyr* · `campaign:quittance`
+
+- Regions and sites: quittance
+- Kits placed: —
+
+> Quittance burned to the ground ninety-four years ago and was rebuilt on credit, and now every house in it wears a plate over the door to say which Office of Assurance will put it out. The Offices need adjusters, because the Tables say the fires are falling, and the Receipt that renews the city's Founding Policy, hung on the Cinderwall every Reckoning, was the colour of milk last year. Reckoning is in nine days. You have a little money, and nothing that has been insured.
 
 ### Fair Weather
 

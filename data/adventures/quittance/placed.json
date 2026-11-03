@@ -1,0 +1,61 @@
+{
+  "version": 1,
+  "source": [
+    "city.kyr",
+    "scenes.kyr",
+    "kernel.kyr",
+    "arch.kyr",
+    "slate.kyr",
+    "people.kyr",
+    "spine.kyr",
+    "spine_people.kyr",
+    "spine_hearn.kyr",
+    "q_markstreet.kyr",
+    "q_bakery.kyr",
+    "q_forger.kyr",
+    "q_barge.kyr",
+    "q_lamplighter.kyr",
+    "q_coldlamp.kyr",
+    "q_annuitant.kyr",
+    "q_queue.kyr",
+    "q_pennymutual.kyr",
+    "q_pip.kyr",
+    "q_wake.kyr",
+    "q_surveyor.kyr",
+    "descent.kyr",
+    "hearing.kyr",
+    "hearth.kyr",
+    "afterwords.kyr",
+    "tithe.kyr",
+    "lore.kyr",
+    "endings.kyr",
+    "placed.kyr"
+  ],
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "canon": [
+    "imbar"
+  ],
+  "exports": {
+    "party": "party",
+    "region": "qcountry",
+    "arch_road": "arch_road",
+    "entry": "arch_road"
+  },
+  "imports": [
+    "party",
+    "word"
+  ],
+  "roles": {
+    "party": {
+      "type": "group"
+    }
+  },
+  "optional": [
+    "word"
+  ]
+}

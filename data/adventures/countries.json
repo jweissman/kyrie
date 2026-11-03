@@ -448,6 +448,36 @@
     "fen",
     "heath"
    ]
+  },
+  {
+   "id": "quittance",
+   "province": true,
+   "bundle": "quittance/placed.json",
+   "entry": "arch_road",
+   "marker": "reckoning",
+   "side": "north",
+   "beside": [
+    "hills",
+    "forest",
+    "marsh",
+    "desert"
+   ],
+   "name": "Quittance",
+   "topic": "the Assured City of Quittance",
+   "terrain": "marsh",
+   "among": "independent",
+   "rumour": "'Up the north road there is Quittance,' says {keeper}. 'A river-port, eighty thousand souls, burned to the ground in my grandmother's time and built again on credit. Every house wears a plate over the door to say which Office will put it out. The brigades argue about whose door it is while it burns. They say the thing under the Exchange has not been paid, and that this year's Receipt is blank. The Offices take adjusters on, if you can add. I should insure your hat before you go in.'",
+   "heard": "Up the north road lies Quittance, a river-port that burned once and was rebuilt on credit, where every house wears the mark of the Office that will save it; and Reckoning is near, and the Receipt is said to be blank.",
+   "skyline": "smoke from a hundred chimneys, and not one of them rising straight",
+   "far": "a city insured house by house sits on something that has not been paid, and Reckoning is near",
+   "covers": [
+    "meadow",
+    "fen"
+   ],
+   "after": {
+    "talk": "There is a plate over the inn door now, a little crooked, that was not there before, and the landlord will not say what it is for. They say Quittance has come through its Reckoning, one way or another; the travellers who come down the north road have stopped asking after their hats.",
+    "told": "{keeper} hears you out with a cloth in one hand and a pot in the other, and the pot does not move for a long time. 'Well,' {keeper} says at last. 'I always said it was a lot to put on one bell.' And sets the pot down, and pours you the first, and will not take your coin."
+   }
   }
  ]
 }

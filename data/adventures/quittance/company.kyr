@@ -1,0 +1,4 @@
+Module quittance "Quittance" {
+  Company party "Your company" of 3 at arch_road.
+  Initially Set quantity(party, gold) to 18. Initially Set quantity(party, rations) to 3.
+}

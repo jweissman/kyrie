@@ -1,0 +1,179 @@
+Module quittance "Quittance" {
+  Description "Ma Gedge's back-shop in Dyers' Alley: counterfeit Phoenix plates for the unmarked poor, a mark-hunter with a sister, and the reason the plates work.".
+
+  // ══ The hunt, and who is behind which plate ═══════════════════════════════════════════════════════════════
+  // The Phoenix's hunter, Mr Dabney, finds the shop on the evening of the second day (watch 336) unless the company
+  // has done something about him or her. Everything the company writes about it is by name for the Hearing and the
+  // endings: fg_network (a web of marked doors in the Wards, fg_doors of them), fg_informed (reported), fg_turned
+  // (the hunter turned), fg_extorted.
+  Entity fg_shop: group "Ma Gedge's back-shop".
+  Measure fg_doors(group).
+  Relation fg_network(group). Relation fg_better(group). Relation fg_informed(group). Relation fg_turned(group).
+  Relation fg_extorted(group). Relation fg_trusted(group). Relation fg_warned(group). Relation fg_bailed(group).
+  Relation fg_raided(group). Relation fg_raid_done(group). Relation fg_protected(group). Relation fg_hostile(group).
+  Relation fg_plate_taken(group). Relation fg_sister_asked(group). Relation fg_read_dabney(group).
+
+  Discovery fg_claim "The Slate has a claim chalked on it: the Phoenix wants the founder of false plates.".
+  Discovery fg_plates "False Phoenix plates, nailed up by the unmarked, are going up on doors in the Bare Wards, and a Phoenix hunter is looking for who casts them.".
+  Discovery fg_forger "The plates are cast by Ma Gedge, in the back-shop in Dyers' Alley, who was die-sinker to the Phoenix itself for thirty-one years.".
+  Discovery fg_sister "Mr Dabney, the Phoenix's hunter, has a sister in Salt Lane, and she has a bird over her door that Ma Gedge cast.".
+  Discovery fg_hunter_known "A man called Dabney is hunting the founder of the false plates, and he is nearer than the founder knows.".
+
+  Kind fg_plate_kind "a plate of Ma Gedge's" is treasure worth 2 weighing 0 described "A gilt bird on an iron backing with a nail-hole at each corner, correct to the last feather. It is not quite round. It looks, you think, very slightly more tired than the real ones.".
+  Item fg_plate "a plate of Ma Gedge's" is fg_plate_kind at nowhere.
+  Item fg_writ "a writ of the Lamprey & River Office, not quite" is forged_writ at nowhere.
+
+  Thing fg_dies "the master dies" at gedge_back {
+    State fg_dies_out "On the bench, wrapped in a chamois, lie three master dies, bird, fish and hand, each the size of a child's palm. They are the best-made things in Quittance.".
+    State fg_dies_hidden "The bench is bare except for a tin of rivets and a half-made door-knocker, in the shape of a hand.".
+  }
+  Initially Assert state(fg_dies, fg_dies_out).
+
+  // ── The people ──────────────────────────────────────────────────────────────────────────────────────────
+  Person fg_gedge "Ma Gedgewick" at gedge_back {
+    Role "die-sinker, retired by the Phoenix". Ancestry human. Calling thief. Level 3. Peaceable. Manner acerbic. Pronouns she.
+    Greets "A broad old woman in a leather apron looks up from a tray of sand with a face like a clenched fist that has been told a joke. She has a file in one hand and she does not put it down. 'Gedgewick,' she says. 'Nobody has called me that since the Works. It's Ma Gedge in the alley. The door's for customers, which you aren't. I make door-knockers.' A cough takes her, and she waits for it as for a tradesman. 'And the hundred on the wall are for the collection of a gentleman who has not yet been born.'".
+    Greets again "'Door-knockers,' says Ma Gedge, to you, in the tone of a woman handing in her notice.".
+  }
+  Person fg_dabney "Mr Dabney" at dyers_alley {
+    Role "mark-hunter, hired by the Phoenix". Ancestry human. Calling ranger. Level 3. Peaceable. Manner grim. Pronouns he.
+    Greets "A lean man in a brown coat is standing at the mouth of the alley with a plate in one hand and a magnifying glass in the other, examining the plate as though it had been rude. He has a very tidy beard and the stoop of a person who has spent a great many years looking at the bottoms of doors. 'Dabney,' he says. 'Mark Office. I am retained to find who is casting these.' He turns the plate. 'Do not trouble to say you have seen nothing. Nobody sees anything in the Wards, and the Wards are where they all are.'".
+    Greets again "'Ah,' says Mr Dabney, putting the glass in his pocket. 'The adjusters.'".
+  }
+
+  // ── The first sign, and the second ──────────────────────────────────────────────────────────────────────
+  Observe fg_notice at brick_lane when watch(clock) < 384 "A new notice is pasted over the old ones at the Lane's mouth: THE PHOENIX MARK OFFICE WILL PAY TWELVE COIN FOR THE NAME OF ANY PERSON CASTING OR SELLING FALSE PLATES. The word FALSE has been scratched out by someone and written in again by someone else." teaches fg_plates.
+  Observe fg_slate at slip_room when watch(clock) < 384 and not fg_raided(fg_shop) "CLAIMS OPEN: PHOENIX MARK OFFICE. A plate cast in no foundry of the Office's has been seen nailed up in the Bare Wards, correct to the last feather. The Office will pay twelve coin to any adjuster who can name the founder." teaches fg_claim.
+  Observe fg_wards_plate at salt_lane when true "Beside a doorway on the Lane a gilt bird is nailed up over a hearth-stone, and a small boy is polishing it with his sleeve. It is a very good bird. It is not quite round." teaches fg_plates.
+  Observe fg_shop_scene at gedge_back when true "The bench is covered with moulds and sand and file-dust, and a fire-pot ticks at the back with the sound of a clock in a coffin. A tray of fresh-cast birds cools on a rack. One of them, you notice, is still wet." teaches fg_forger.
+  Observe fg_network_scene at salt_lane when fg_network(party) "Over every fourth door in Salt Lane, now, a bird; over every fifth a hand. The woman at the pump touches two fingers to her forehead as you pass. Nobody says anything. It is a very quiet city.".
+  Observe fg_dabney_after near fg_dabney when fg_turned(party) "Mr Dabney tips his hat to you and goes on turning the plate over and over, with his glass in his pocket.".
+  Observe fg_shop_raided at gedge_back when fg_raided(fg_shop) and at(fg_gedge, engine_room) "The back-shop has been turned over by men with their boots on. The bench is bare, the rack is gone, and a Phoenix seal is pasted across the fire-pot.".
+
+  // ── Ma Gedge ────────────────────────────────────────────────────────────────────────────────────────────
+  Topic fg_g_wall with fg_gedge "Ask Ma Gedge about the plates on her wall" when true once {
+    Says "'Samples,' says Ma Gedge. 'From my days.' She does not say which days. 'Thirty-one years I was die-sinker to the Mark Works. I cut the master of that bird, with my own hands, from a drawing by a man who had never seen a feather. Then they put in a steam press and a contractor, and I was told that a person of no registered mark can't draw a pension.' She files a rivet. 'So I make door-knockers.'".
+  }
+  Topic fg_g_hunter with fg_gedge "Warn Ma Gedge that a Phoenix hunter in Dyers' Alley is looking for her plates" when knows(actor, fg_hunter_known) and not fg_warned(party) and not fg_hostile(party) and not fg_raided(fg_shop) once {
+    Says "Ma Gedge sets the file down. It is the first time, you think, in some while. 'Dabney,' she says. 'The one with the glass.' She looks at the rack, the bench, the dies, and then at you with an expression of intense, unwilling calculation. 'You could've had twelve coin from him this morning,' she says. 'Why didn't you?' When you do not answer she wraps the three dies in their chamois, one by one, and goes out with them through the back, and comes in again without. 'Sit down,' she says. 'There's tea. It's terrible.'".
+    On discuss { Assert fg_warned(party). Assert fg_trusted(party). Assert state(fg_dies, fg_dies_hidden). }
+  }
+  Topic fg_g_past with fg_gedge "Ask Ma Gedge how she came to cast for the Wards" when fg_trusted(party) once {
+    Says "'The Wards bought my doors,' says Ma Gedge. 'The Mark Works never did. Three winters ago a boy came to me with a tin of his mother's pewter. His house had burned the week before and the Phoenix had stood in the road and watched it, because it had no plate. I made him a bird. I thought: it's tin, and a nail. A bird's a bird.' She looks at her hands. 'He nailed it up, and the next fire in his street, the lads came.'".
+  }
+  Topic fg_g_why with fg_gedge "Ask Ma Gedge why a plate nobody cast should keep a house" when fg_trusted(party) once {
+    Says "'Because of who's looking,' says Ma Gedge. 'Nine in ten of the lads in the Phoenix's blue were born within a mile of Salt Lane. They know what a bird is and what it isn't. A man in a Phoenix coat looks at a tin bird nailed up over a poor man's door and thinks: Mum's got one of those. He can't do much, you see. He's not allowed to put water on an unmarked house. But he's allowed to read a plate.' She wipes her face with a sooty wrist. 'Not every time. Not when a captain is by. But some. Enough that I keep working.'".
+    On discuss { Assert knows(actor, d_marks_work). }
+  }
+  Topic fg_g_ledger with fg_gedge "Ask Ma Gedge who her best customers are" when fg_trusted(party) and not fg_sister_asked(party) once {
+    Says "'There's a book,' says Ma Gedge, 'and nobody's to have it.' She opens it to the Ds. 'A Cissie Dabney, in Salt Lane. Four birds in a year; a girl who wanted the biggest bird I had. She said she had a brother in the Office, who'd never look at the bottom of a door he hadn't been told about.' Ma Gedge looks up. 'I thought it was funny.'".
+    On discuss { Assert knows(actor, fg_sister). Assert fg_sister_asked(party). }
+  }
+  Action fg_join(actor: group) "Ask Ma Gedge to show you how a plate is cast, and how a writ is sealed" {
+    Speaker fg_gedge.
+    Requires able(actor) and company(actor) and at(actor, gedge_back) and at(fg_gedge, gedge_back) and fg_trusted(party) and not fg_network(party) and not fg_raided(fg_shop) and not fg_hostile(party).
+    Time 3.
+    On success { Assert fg_network(party). Increase fg_doors(party) by 12. Give fg_writ to actor. Assert knows(actor, d_marks_work). }
+    Result "Ma Gedge shows you the sand, the sprue, the pour and the file, in the order, she says, that they bite you. By dusk you can cast a bird that no one would call round. She takes a sheet of Lamprey foolscap from under the bench, signs a captain's name across it without looking, drops a blot on the corner and blots the blot, and slides it over. 'For the diving-bell,' she says. 'Dree's men never read what they sign. Don't use it on the Wharf, use it on the bell. And you don't know me.' It is, she explains, her pension.".
+  }
+  Action fg_buy_plate(actor: group) "Buy a finished bird from Ma Gedge's rack (3 coin)" {
+    Speaker fg_gedge.
+    Requires able(actor) and company(actor) and at(actor, gedge_back) and at(fg_gedge, gedge_back) and fg_trusted(party) and not fg_plate_taken(party) and quantity(actor, gold) >= 3.
+    Time 5 minutes.
+    On success { Decrease quantity(actor, gold) by 3. Give fg_plate to actor. Assert fg_plate_taken(party). }
+    Result "'For the tin,' says Ma Gedge, and gives you a bird with the wet still a little in the feathers. 'Nail it up. Don't polish it, they like it duller.'".
+  }
+  Action fg_improve_lore(actor: group) "Show Ma Gedge what is wrong with her feathers, from the true bird on the fire-house wall" {
+    Speaker fg_gedge.
+    Requires able(actor) and company(actor) and at(actor, gedge_back) and at(fg_gedge, gedge_back) and fg_trusted(party) and not fg_better(party) and not fg_hostile(party) and capable(actor, lore).
+    Time 2.
+    Resolve check(actor, lore, dc_hard).
+    On success { Assert fg_better(party). Increase fg_doors(party) by 8. }
+    Result "You tell her, from the fire-house wall and your memory of the plate over Mark Street, that the true bird has seven tail-feathers and that she has cast eight, because the man who drew the original had never seen a bird. Ma Gedge says nothing for a full minute. Then she takes down the master, turns it in the light, and says a word that she does not repeat in front of company. 'Thirty-one years,' she says. 'Nobody told me.' The next tray comes out with seven.".
+    Otherwise "You say that the feathers are wrong and cannot say how. Ma Gedge looks at you with great patience. 'Some of them,' she says. 'Do go on.'".
+  }
+  Action fg_improve_mend(actor: group) "Take the file from Ma Gedge and put right the crooked bevel on the master bird" {
+    Speaker fg_gedge.
+    Requires able(actor) and company(actor) and at(actor, gedge_back) and at(fg_gedge, gedge_back) and fg_trusted(party) and not fg_better(party) and not fg_hostile(party) and capable(actor, mending).
+    Time 3.
+    Resolve check(actor, mending, dc_fair).
+    On success { Assert fg_better(party). Increase fg_doors(party) by 8. }
+    Result "You take a quarter-inch off the left shoulder of the bird with a file the shape of a tongue, and the plate that comes out of the next pour sits flat against the wall for the first time in its life. Ma Gedge holds it to the lamp. 'I'd know that a mile off,' she says. 'It's better.' She does not sound entirely pleased.".
+    Otherwise "The file skates and you take a corner off the mould. Ma Gedge looks at the corner and at you. 'It'll cast,' she says, 'with an air.'".
+  }
+  Action fg_extort(actor: group) "Tell Ma Gedge that Mr Dabney would pay twelve coin for her address, and that you could be talked out of it" {
+    Speaker fg_gedge.
+    Requires able(actor) and company(actor) and at(actor, gedge_back) and at(fg_gedge, gedge_back) and not fg_extorted(party) and not fg_trusted(party) and not fg_raided(fg_shop) and capable(actor, intimidation).
+    Time 5 minutes.
+    Resolve check(actor, intimidation, dc_fair).
+    On success { Assert fg_extorted(party). Assert fg_hostile(party). Increase quantity(actor, gold) by 15. Decrease regard(wardsfolk) by 1 or to nothing. }
+    On failure { Assert fg_hostile(party). }
+    Result "Ma Gedge listens, as she listens to a tradesman with a bill, and counts fifteen coin out of a tin on the shelf, slowly, onto the sand. She does not say anything. 'This is for knowing the shop,' she says finally, 'not for keeping the secret. I won't be using you again.' The coins are quite warm.".
+    Otherwise "'Twelve coin,' says Ma Gedge. 'You'd get a better price for your boots.' She turns her back, and the file in her hand begins to move again, steadily, a quarter-inch from the table. 'Door-knockers,' she says. 'Next.'".
+  }
+  Topic fg_g_after with fg_gedge "Ask Ma Gedge how her pension is coming on" when fg_network(party) once {
+    Says "'Forty-one doors by the end of next week,' says Ma Gedge, 'if nobody burns before then.' She nods, once, at the rack. 'There's a woman in Candlewick Court who's paid in advance for her fourth. I told her the lads would come. She said it's not the lads she's paying for. It's the nail.'".
+  }
+  Topic fg_g_paid with fg_gedge "Ask Ma Gedge what it was like in the fire-house cell" when fg_bailed(party) once {
+    Says "'Quiet,' says Ma Gedge. 'They gave me a blanket with a mark on it. I looked at it a good while. It was a very bad bird.' She wipes her hands on her apron. 'I owe you ten coin and the use of my bench. Come when you need it.'".
+  }
+  Action fg_bail(actor: group) "Pay Ma Gedge's fine at the fire-house desk (10 coin)" {
+    Speaker fg_gedge.
+    Requires able(actor) and company(actor) and at(actor, engine_room) and at(fg_gedge, engine_room) and fg_raided(fg_shop) and quantity(actor, gold) >= 10.
+    Time 10 minutes.
+    On success { Decrease quantity(actor, gold) by 10. Assert at(fg_gedge, gedge_back). Assert fg_bailed(party). Assert fg_trusted(party). Retract fg_raided(fg_shop). Assert state(fg_dies, fg_dies_hidden). }
+    Result "The desk-sergeant, a Pargeter by the look of the chin, writes the sum in a book, rubs it out, and writes it again. 'Fined for a nuisance,' he says. 'Door-knockers.' Ma Gedge comes out of the back with her apron over her arm, and does not look at you until the street, where she says, with a rough, incomplete courtesy, 'I'll want my dies.'".
+  }
+
+  // ── Mr Dabney ───────────────────────────────────────────────────────────────────────────────────────────
+  Topic fg_d_hunt with fg_dabney "Ask Mr Dabney what he is hunting" when true once {
+    Says "'Plates,' says Mr Dabney. 'A bird with eight tail-feathers, where the Office's has seven, and a fish with a crooked eye. The same hand every time. I have forty-one in a drawer.' He turns the plate over. 'The Office pays me a farthing a door, and a bounty at the founder. I am told she is a woman.' He looks, briefly, down Dyers' Alley, at a hundred and fifty years of die-works. 'I expect to know by Wednesday.'".
+    On discuss { Assert knows(actor, fg_hunter_known). Assert knows(actor, fg_plates). }
+  }
+  Topic fg_d_why with fg_dabney "Ask Mr Dabney why the Office minds, if nobody is hurt" when knows(actor, fg_plates) once {
+    Says "'Because a plate is a promise,' says Mr Dabney, 'and the Office does not honour promises made by people it did not make them to. If a house with a false plate burns and the brigade turns out, the Office has been defrauded of a hose.' He pauses. 'Though I have never in my career seen the brigade refuse.'".
+  }
+  Action fg_read_dabney(actor: group, site: place) "Watch Mr Dabney's face while he talks about the Wards, and see what he is not saying" {
+    Speaker fg_dabney.
+    Requires able(actor) and company(actor) and at(actor, site) and at(fg_dabney, site) and not knows(actor, fg_sister) and not fg_read_dabney(party) and knows(actor, fg_hunter_known).
+    Time 10 minutes.
+    Resolve check(actor, insight, dc_fair).
+    On success { Assert knows(actor, fg_sister). Assert fg_read_dabney(party). }
+    On failure { Assert fg_read_dabney(party). }
+    Result "He talks about the Wards the way a man talks about a country he left: very exactly. And when he reaches Salt Lane, he stops, and looks at his own thumb for a moment, and goes on; and you understand that somebody lives in Salt Lane, and that it matters what is nailed over her door.".
+    Otherwise "Mr Dabney talks for ten minutes about plates and mouldings, and gives away precisely as much as a closed door.".
+  }
+  Action fg_report(actor: group, site: place) "Tell Mr Dabney where the plates are cast, and take the Office's twelve coin" {
+    Speaker fg_dabney.
+    Requires able(actor) and company(actor) and at(actor, site) and at(fg_dabney, site) and knows(actor, fg_forger) and not fg_informed(party) and not fg_turned(party) and not fg_raid_done(fg_shop).
+    Time 5 minutes.
+    On success {
+      Assert fg_informed(party). Assert fg_raided(fg_shop). Assert fg_raid_done(fg_shop). Assert at(fg_gedge, engine_room).
+      Increase quantity(actor, gold) by 12. Increase regard(phoenix) by 1. Decrease regard(wardsfolk) by 1 or to nothing. Assert at(fg_dabney, phoenix_floor).
+    }
+    Result "Mr Dabney writes the name in the small book. He does not look pleased. 'Gedge,' he says. 'Dyers' Alley. A woman I should think I walked past forty times.' He takes twelve coin out of an envelope and counts it into your palm like a man paying for something he has already eaten. By nightfall, the shop is shut, and a long row of Phoenix seals is across its door.".
+  }
+  Topic fg_d_sister with fg_dabney "Ask Mr Dabney whether the door of his sister's house in Salt Lane has a bird on it, and whose" when knows(actor, fg_sister) and not fg_turned(party) and not fg_informed(party) once {
+    Says "Mr Dabney has stopped turning the plate. For some time he does not seem to be anywhere. 'Cissie,' he says. 'She put it up in the spring. She said it was a present.' His thumb moves over the eighth feather of the plate he has been holding for a month, and then, slowly, his glass goes into his pocket. 'I shall report,' says Mr Dabney, 'that the founder is a tinsmith, deceased. It's a very common trade. It has a very large list of deceased.' He puts the plate in his coat. 'I did not,' he says, 'ask who looked.'".
+    On discuss { Assert fg_turned(party). Assert fg_protected(fg_shop). Assert witness(fg_dabney). }
+  }
+  Topic fg_d_after with fg_dabney "Ask Mr Dabney how the hunt is going" when fg_turned(party) once {
+    Says "'Wednesday,' says Mr Dabney, 'has been postponed.' He considers. 'Indefinitely. I have found three new tinsmiths.'".
+  }
+
+  // ── The complication: why the marks work ───────────────────────────────────────────────────────────────
+  Topic fg_tob_plates with tobias "Ask Tobias Pargeter whether he has ever turned out for a plate he knew was false" when knows(actor, fg_plates) once {
+    Says "Tobias Pargeter takes a long time to answer. 'Not knew,' he says. 'Wondered.' He looks at the black fish nailed backwards on his sideboard. 'There's a bird up in Candlewick that hasn't got the right feathers. We turned out for the house two years ago. Captain Garrity said nothing at all about it. She stood beside the pump and looked at the plate, and I thought, she knows, she knows, she's going to say it. And she said, Water.' He sets the fish straight, and then back. 'Half the lads are from the Wards. We don't look hard. It's a thing you can not-see, if you're brought up to it. You'd be surprised how often.'".
+    On discuss { Assert knows(actor, d_marks_work). }
+  }
+
+  // ── The hunt's clock ────────────────────────────────────────────────────────────────────────────────────
+  Rule fg_raid_empty when watch(clock) >= 336 and fg_warned(party) and not fg_protected(fg_shop) and not fg_raid_done(fg_shop) says "At four on the second afternoon Mr Dabney goes down Dyers' Alley with two men in blue and a warrant and comes out of the die-works twenty minutes later with a door-knocker, in the shape of a hand, and a face that suggests that he has been given something to think about." {
+    Assert fg_raid_done(fg_shop).
+  }
+  Rule fg_raid_full when watch(clock) >= 336 and not fg_protected(fg_shop) and not fg_raid_done(fg_shop) says "At four on the second afternoon Mr Dabney goes down Dyers' Alley with two men in blue and a warrant. By five the shop is shut, the fire-pot has a seal on it, and an old woman in a leather apron is being walked up Brick Lane to the fire-house, still holding her file." {
+    Assert fg_raid_done(fg_shop). Assert fg_raided(fg_shop). Assert at(fg_gedge, engine_room). Assert at(fg_dabney, phoenix_floor).
+  }
+  Objective fg_obj when (knows(party, fg_claim) or knows(party, fg_plates)) and not fg_raid_done(fg_shop) "Someone is casting false Phoenix plates for the doors of the Bare Wards, and a mark-hunter will have the founder by the evening of the second day.".
+  Objective fg_obj_after when fg_raided(fg_shop) and not fg_bailed(party) and at(fg_gedge, engine_room) "Ma Gedge is in the fire-house cell for a nuisance, with her dies in a drawer. The fine is ten coin.".
+}
