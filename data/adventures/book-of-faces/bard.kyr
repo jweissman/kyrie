@@ -1,2 +1,1058 @@
 Module ombra "The Book of Faces" {
+  // ── The Wet Stage ─────────────────────────────────────────────────────────────────────────────────────────────────
+  // A playhouse built into the hull of a salt-barge on piles, so that the Cuff slaps under the boards in every quiet
+  // moment and the Moths have learned to play to it. It is licensed, under the Seventh Codicil, for the satire of
+  // Offices, so long as the satire is masked and the Warden of Locks, at his pleasure, has not withdrawn the licence.
+  // Three threads run through it: the Licence (whether the house stays open), the Lampoon (what the bard makes of the
+  // city's small stories, and plays), and the Censor's Cue (the Reader, who cuts every joke and keeps every one).
+  //
+  // The Stage's own people: Madame Orme (the manager), Master Ludd (the Reader, the Warden's censor), Pantaloon Tarrow
+  // (the clown), Ambrose Finch (the poet in residence), Tobiah Venable (the Moths' mimic). The rooms the spine gave it are
+  // the pit, the green room and the flies; the stage itself and the prompt-corner are added here.
+
+  Place bd_stage "the stage of the Wet Stage" is room within wet_stage at 4, 1 indoors.
+  Place bd_prompt "the prompt-corner" is room within wet_stage at 4, 2 indoors.
+  Passage bd_boards_way "the proscenium steps" is steps between stage_pit and bd_stage.
+  Passage bd_prompt_way "the prompt-corner curtain" is doorway between bd_stage and bd_prompt.
+
+  // ── The house, by the hour ────────────────────────────────────────────────────────────────────────────────────────
+  Relation bd_revoked(place). Relation bd_restored(place).
+  Query bd_closed() means bd_revoked(wet_stage) and not bd_restored(wet_stage).
+  Query bd_open() means not bd_closed().
+  Query bd_evening_house() means hour(clock) >= 18 and hour(clock) < 20.
+
+  Observe bd_pit_scene at stage_pit when true "The Wet Stage is a salt-barge with a theatre in it. The benches are tarred sailcloth on trestles, the ceiling is hull-ribs hung with lamps, and the proscenium is cardboard marble painted by someone who had seen marble described. Under the boards the Cuff laps at the piles, and the whole house, every few seconds, breathes out.".
+  Observe bd_pit_morning at stage_pit when bd_open() and hour(clock) >= 8 and hour(clock) < 18 "It is rehearsal. At the front the Moths are blocking a chase in half-masks and their own shoes; the house is cold, and smells of wet wool, tallow and the inside of other people's hats. Somebody has put a bucket in the aisle under the one drip that has never been mended, and the drip, on the beat, is keeping time.".
+  Observe bd_pit_evening at stage_pit when bd_open() and bd_evening_house() "The house is filling: tallymen's clerks in Magpie dominoes, bakers' wives in Cockles, a dozen Gulls off the late ferry, all of them wet, all of them settling into the benches with the contentment of people who have paid to be somewhere dry-ish. In the box above the door, kept for the Warden of Locks by long custom, a chair with a key carved on its back stands empty, and a clerk's notebook lies on it.".
+  Observe bd_pit_night at stage_pit when bd_open() and privateHours() "The pit at night, with the lamps out: black benches, a smell of tallow going cold, and the Cuff talking to itself under the floor. Somebody has left a half-mask on every fourth seat, as one lays a place for the audience that did not come.".
+  Observe bd_pit_dark at stage_pit when bd_closed() "A notice in the Warden's hand is nailed over the door: THIS HOUSE IS SHUT AT THE WARDEN'S PLEASURE. The benches are stacked and the lamps are out, and the Moths have gone out of it as water goes out of a basin. The drip, with nobody to keep time for, goes on.".
+
+  Observe bd_stage_scene at bd_stage when true "The boards of the Wet Stage, a little tilted, as the barge is. A painted street hangs at the back, canted, with a painted door in it that has been opened and shut so often that the paint on the handle has gone to wood. In front, the pit; in the wings, ropes, hampers and a smell of lamp-black.".
+  Observe bd_stage_empty at bd_stage when privateHours() "By night the stage is a floor with the world taken off it. The painted door stands in its painted street and the dark in the pit leans toward you like an audience. When you speak the house answers a half-beat late, and kindly.".
+  Observe bd_prompt_scene at bd_prompt when true "The prompt-corner is a cupboard with a stool in it, a shelf of prompt-books tied with tape, and a slit in the canvas through which the whole stage may be watched and nothing at all seen. Every prompt-book has a margin, and every margin, in a very small hand, is full.".
+
+  Observe bd_green_scene at stage_green_room when true "A long low room hung with half-masks on nails, a stove of tarred tin, a table of cold tea and a looking-glass with no silvering at the corners. Over the mantel, framed in black, hangs the licence of the Wet Stage, with a wax seal as big as a saucer and print below it too small for anyone to read who has not wanted to for a long time.".
+  Observe bd_green_day at stage_green_room when publicHours() "Through the door comes the noise of the rehearsal, falling off and starting again. Somebody's costume is steaming on the stove.".
+  Observe bd_green_night at stage_green_room when privateHours() "The Moths have gone home and left the room to its manager. A single lamp, a pot of tea gone black, the accounts in a heap, and the half-masks on their nails like a row of the audience.".
+
+  Observe bd_flies_scene at stage_flies when true "The flies are a loft of ropes and counterweights under the barge's old deck. Somebody lives here: a cot, a table made of a flat, a stack of foolscap. A leak in the deck comes through in a long grey thread and falls on the foolscap, and a series of buckets has been arranged to catch it, in a pattern that was once a defence and is now a sort of music.".
+  Observe bd_flies_mended at stage_flies when bd_flies_dry() "The leak is mended: a patch of tarred sailcloth lashed over the seam, and the buckets stand empty in a row, like men who have been told to go home and do not know how.".
+  Relation bd_flies_mended_rel(place).
+  Query bd_flies_dry() means bd_flies_mended_rel(stage_flies).
+
+  // ── Madame Orme ───────────────────────────────────────────────────────────────────────────────────────────────────
+  // Fifty-five, an ex-player, the manager. Twelve years ago the Stage was shut for nine months after a farce drew an
+  // Assessor so exactly that a woman in the third row stood up in the Masked Hours and said his name; two players died
+  // that winter in the Drip, and the Stage has played nothing sharper than a pun ever since. Madame Orme tells this as
+  // the fault of Venable's father, who played the Assessor. The line that did it was hers.
+  Person orme "Madame Orme" at stage_pit {
+    Role "the manager of the Wet Stage". Ancestry human. Peaceable. Pronouns she. Manner acerbic.
+    Known as "a woman in a Moth half-mask and a pearl choker" when not knows(party, bd_orme_name).
+    Greets "She stands at the front of her house the way a heron stands in a ditch: at ease, and ready. A grey Moth half-mask sits on her face, the wings of it over the brow, and at her throat is a pearl choker of which every fourth pearl is paste. 'You are standing in my light,' she says, not unkindly, and moves it.".
+    Greets again "Madame Orme does not look round from what she is doing; it is not rudeness, it is how she watches the house.".
+  }
+  Discovery bd_orme_name "The manager of the Wet Stage, in the grey Moth half-mask and the pearl choker, is Madame Orme, who was its first lady for twenty years." { Known by orme. }
+  Rule bd_orme_day when publicHours() and bd_open() and not at(orme, stage_pit) { Assert at(orme, stage_pit). }
+  Rule bd_orme_dark when publicHours() and bd_closed() and not at(orme, stage_green_room) { Assert at(orme, stage_green_room). }
+  Rule bd_orme_night when privateHours() and not at(orme, stage_green_room) { Assert at(orme, stage_green_room). }
+
+  // ── Master Ludd ───────────────────────────────────────────────────────────────────────────────────────────────────
+  // The Warden's Reader: he reads every play before the Moths may speak it and strikes what offends the Seventh Codicil.
+  // He prefers Reader to censor. He has been the Reader for twenty-two years, and he has kept every joke he cut, in
+  // the margins of the prompt-books and in a chest, and he writes small plays of his own in the margins which he plays,
+  // at night, to the empty house, unmasked, both parts.
+  Person ludd "Master Ludd" at stage_pit {
+    Role "the Warden's Reader, who passes the plays of the Wet Stage". Ancestry human. Peaceable. Pronouns he. Manner stoic.
+    Known as "a thin man with a red pencil behind each ear" when not knows(party, bd_ludd_name).
+    Greets "A long thin man, a red pencil behind each ear and a third in his hand, holds a prompt-book against his chest like a shield. By day a Crow's domino hides his face; by night it hangs on a nail, and the face under it is a schoolmaster's, kind and tired, and has not been used to hide anything for years. He is listening, with his mouth a little open, as a man listens at a wall. Every so often the pencil goes down on the page, once, like a small door closing.".
+    Greets again "Ludd looks up from the page the way a man comes up from under water, and goes back down.".
+  }
+  Discovery bd_ludd_name "The Warden's Reader, the man in the Crow's domino with the red pencils, is Master Ludd, who has passed the plays of the Wet Stage for twenty-two years." { Known by ludd. }
+  Rule bd_ludd_day when hour(clock) >= 9 and hour(clock) < 20 and not at(ludd, stage_pit) { Assert at(ludd, stage_pit). }
+  // At night he lets himself in by the stage door with his own key, unmasked, and the house is his: he stands on the
+  // boards from ten until one, and the company that wants him finds him there.
+  Rule bd_ludd_walks when (hour(clock) >= 22 or hour(clock) < 1) and not at(ludd, bd_stage) { Assert at(ludd, bd_stage). }
+  Rule bd_ludd_home when ((hour(clock) >= 1 and hour(clock) < 9) or (hour(clock) >= 20 and hour(clock) < 22)) and not at(ludd, offstage) { Assert at(ludd, offstage). }
+
+  // ── Pantaloon Tarrow ───────────────────────────────────────────────────────────────────────────────────────────────
+  Person bd_quist "Pantaloon Tarrow" at stage_pit {
+    Role "the Wet Stage's clown". Ancestry human. Peaceable. Pronouns he. Manner jovial.
+    Known as "an old clown in a Pantaloon's half-mask and a paper nose" when not knows(party, bd_quist_name).
+    Greets "An old man in a Pantaloon's half-mask, with a nose of papier-mâché pushed up on his forehead, is practising falling down. He does it with care, on a folded mat, and he gets up with less, and he looks, when he is up, at the empty benches, as a man looks to see who saw.".
+    Greets again "Tarrow falls down, gets up, and says 'Better?' to nobody in particular.".
+  }
+  Discovery bd_quist_name "The clown of the Wet Stage, the old Pantaloon with the paper nose, is called Tarrow; he has fallen down those two stairs, by his own count, forty thousand times." { Known by bd_quist. }
+  Rule bd_quist_day when publicHours() and bd_open() and not at(bd_quist, stage_pit) { Assert at(bd_quist, stage_pit). }
+  Rule bd_quist_green when ((privateHours()) or bd_closed()) and not at(bd_quist, stage_green_room) { Assert at(bd_quist, stage_green_room). }
+
+  // ── Ambrose Finch ─────────────────────────────────────────────────────────────────────────────────────────────────
+  // The poet in residence, by the bequest of the late Abelard Tenn: forty coin a year and a bed in the flies, "that a
+  // poet may be in residence". It has been read to mean that he must be seen to be in it, from the Third Bell to the
+  // Ninth, on pain of the forfeit of the bequest, and he has not been out by day in nine years. He has not written in
+  // a year. His people were at Cullet Reach.
+  Person bd_finch "Ambrose Finch" at stage_flies {
+    Role "the Wet Stage's poet in residence". Ancestry human. Peaceable. Pronouns he. Manner compassionate.
+    Known as "a stooped man in a Moth half-mask with ink on its chin" when not knows(party, bd_finch_name).
+    Greets "He sits at a table made of a flat with a stack of foolscap in front of him, and a bucket at his elbow in which the drip keeps time. The foolscap is white. It is the whitest paper you have ever seen: it has been looked at for a year.".
+    Greets again "Finch lifts his head, and the bucket rings.".
+  }
+  Discovery bd_finch_name "The poet in the flies of the Wet Stage is Ambrose Finch, kept in residence by Abelard Tenn's bequest; he has not written a line in a year." { Known by bd_finch. }
+
+  // ── Tobiah Venable ──────────────────────────────────────────────────────────────────────────────────────────────────
+  Person bd_crake "Tobiah Venable" at stage_pit {
+    Role "the Moths' mimic". Ancestry human. Peaceable. Pronouns he. Manner cheerful.
+    Known as "a broad young man in a Moth half-mask" when not knows(party, bd_crake_name).
+    Greets "A broad young man in a grey half-mask is crossing the boards in the walk of the Warden of Locks, which is to say as if every door in the city were his and the keys had been mislaid. He stops when he sees you watching, and the walk goes out of him like air from a bag, and he is just a young man with large hands.".
+    Greets again "Venable lets you see him not doing the walk.".
+  }
+  Discovery bd_crake_name "The Moths' mimic, who does the Warden's walk, is Tobiah Venable, whose father played the Assessor in the farce that shut the house." { Known by bd_crake. }
+  Rule bd_crake_day when publicHours() and bd_open() and not at(bd_crake, stage_pit) { Assert at(bd_crake, stage_pit). }
+  Rule bd_crake_off when (privateHours() or bd_closed()) and not at(bd_crake, offstage) { Assert at(bd_crake, offstage). }
+
+  // ── The licence, and what keeps it ────────────────────────────────────────────────────────────────────────────────
+  // The Wet Stage may satirise Offices only while the Warden of Locks leaves its licence standing. On the fourth day,
+  // at noon, his clerk comes to the green room to renew it, and renews it for one of three reasons: the Reader has sealed
+  // the season's play (Ludd), or the Codicil's footnote has been put to the Reader and he has conceded it (lore), or the
+  // fee has been paid (twelve coin). With none of these, the licence is withdrawn and the house goes dark: the Moths
+  // scatter, and the only stage left to a Lampoon is the Drawing. A Reader who is the company's friend can still ask the
+  // Warden for it back, and a payer can pay it twice over.
+  Relation bd_sealed(place). Relation bd_codicil(place). Relation bd_fee_paid(place). Relation bd_kept(place).
+  Query bd_secure() means bd_sealed(wet_stage) or bd_codicil(wet_stage) or bd_fee_paid(wet_stage).
+  Discovery bd_licence_known "The Wet Stage satirises Offices by the Warden's pleasure alone: on the fourth day at noon his clerk comes to renew its licence, and it is renewed if the Reader has sealed the season's play, or the fee of twelve coin is paid; otherwise the house is shut." { Known by orme. }
+  Discovery bd_footnote "Under the licence's seal, in print for a glass: 'In the Novena, when the city's hands are full, the pleasure of the Warden in respect of licensed houses is stayed: no house shall be shut for a play it has not yet played, nor for one it has, until the Nine Days are out. The Reader to be the judge of what is a play.'".
+  Rule bd_clerk_seal when day(clock) == 4 and hour(clock) >= 12 and bd_sealed(wet_stage) and not bd_kept(wet_stage) once
+    says "At noon on the fourth day the Warden's clerk climbs the steps of the Wet Stage with his notebook under his arm, finds the season's play lying on the Reader's seal like a hen on an egg, makes a mark and goes away again. Nobody in Maskers' Lane is told. Nobody in the Lane needs to be." { Assert bd_kept(wet_stage). }
+  Rule bd_clerk_codicil when day(clock) == 4 and hour(clock) >= 12 and bd_codicil(wet_stage) and not bd_sealed(wet_stage) and not bd_kept(wet_stage) once
+    says "At noon on the fourth day the Warden's clerk arrives to withdraw the licence of the Wet Stage and is met, in the green room, by a Reader with the Seventh Codicil open on his knee. The clerk is a man who has never lost an argument, having never had one. He reads the footnote twice, says 'It has always said that?', and goes to ask somebody." { Assert bd_kept(wet_stage). }
+  Rule bd_clerk_fee when day(clock) == 4 and hour(clock) >= 12 and bd_fee_paid(wet_stage) and not bd_sealed(wet_stage) and not bd_codicil(wet_stage) and not bd_kept(wet_stage) once
+    says "At noon on the fourth day the Warden's clerk comes for the licence and goes away with twelve coin in an envelope and a receipt for three hundred and sixty-five. The licence is renewed, as the licences of the Wet Stage have been for as long as anyone has had the twelve coin." { Assert bd_kept(wet_stage). }
+  Rule bd_clerk_withdraws when day(clock) == 4 and hour(clock) >= 12 and not bd_secure() and not bd_revoked(wet_stage) once
+    says "At noon on the fourth day the Warden's clerk climbs the steps of the Wet Stage, reads out the Warden's pleasure to the empty pit in the voice of a man reading a bill of lading, and nails it over the door. By one o'clock every Moth in Maskers' Lane has heard it, and by two the Wet Stage is a salt-barge with a bucket in it." { Assert bd_revoked(wet_stage). }
+  Rule bd_ludd_petitions when bd_revoked(wet_stage) and not bd_restored(wet_stage) and bd_ludd_regard(party) >= 3 and day(clock) >= 5 and hour(clock) >= 12 once
+    says "Master Ludd, in his own face, in his own coat, walks to the Warden's house at noon with the Wet Stage's season under his arm and the Seventh Codicil open at its footnote. He is gone an hour. He comes back to the green room, hangs up the licence on its nail, and says, to the wall, 'He did not like it. I have explained it to him as one would to a child. It is the first time in twenty-two years I have been rude to a Warden, and I find it very bracing.'" { Assert bd_restored(wet_stage). }
+  Action bd_pay_fee(actor: group, site: place) "Give her the licence-fee, twelve coin, for the Warden's clerk" {
+    Speaker orme. Time 5 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(orme, site) and knows(actor, bd_licence_known) and bd_open() and not bd_secure() and not bd_kept(wet_stage)
+      and quantity(actor, gold) >= 12.
+    On success { Decrease quantity(actor, gold) by 12. Increase quantity(orme, gold) by 12. Assert bd_fee_paid(wet_stage). }
+    Result "Madame Orme counts it twice, as people count who have been counted out of money before, and puts it in an envelope, and the envelope in her bosom. 'The Wet Stage owes you a seat,' she says. 'It will be the one with the nail in it.'".
+  }
+  Action bd_pay_fee_late(actor: group, site: place) "Give her the licence-fee twice over, twenty-four coin, to buy the Wet Stage back" {
+    Speaker orme. Time 5 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(orme, site) and bd_closed() and quantity(actor, gold) >= 24.
+    On success { Decrease quantity(actor, gold) by 24. Increase quantity(orme, gold) by 24. Assert bd_restored(wet_stage). Assert bd_fee_paid(wet_stage). }
+    Result "Madame Orme takes the coin to the Warden's house herself, in her own face, which she has not worn into the Row in twelve years, and comes back with the licence in one hand and her hat in the other. 'Double,' she says, 'for impertinence. I told him it was the only kind I had.'".
+  }
+  Action bd_read_footnote(actor: group, site: place) "Read the print under the licence's seal" {
+    Time 20 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, stage_green_room) and not knows(actor, bd_footnote).
+    Resolve check(actor, lore, dc_fair).
+    On success { Assert knows(actor, bd_footnote). }
+    Result "The print is Aenean law-hand, the letters tied to each other like a string of washing, and you read it down with a finger. 'In the Novena, when the city's hands are full, the pleasure of the Warden is stayed.' It says more than that, and it is a good deal more particular. A house may not be shut for a play it has not yet played, nor for one it has, until the Nine Days are out. And the last line: the Reader to be the judge of what is a play.".
+    Otherwise "You read it until your eyes water and the words begin to move about on their own. It is law, and it is in a hand that was not meant to be read by anyone who was not already a lawyer.".
+  }
+
+  // ── Madame Orme: what she will say to whom ────────────────────────────────────────────────────────────────────────
+  // By day she is the manager and speaks to the face: a Moth is a player, anything else is a customer, and a bare face
+  // is not there. By night the half-mask comes off, and a bare knock at the green-room door is a visitor.
+  Measure bd_orme_warm(group).
+  Relation bd_admitted(group). Relation bd_commissioned(group). Relation bd_orme_plays(group). Relation bd_orme_sat(group). Relation bd_orme_pressed(group). Relation bd_auditioned(group).
+  Topic bd_orme_cold with orme "Speak to her" when not masked(actor) and publicHours() {
+    Says "Madame Orme looks at your bare face for the length of time it takes to read a poster for a play that has closed. 'The house is shut to the Bare till six,' she says, to a point beyond your shoulder. 'At six anyone with two coin has a face.' She turns a page of the accounts, and the pearls at her throat click.".
+  }
+  Topic bd_orme_customer with orme "Ask her what is playing" when masked(actor) and not wears(actor, face_moth) and publicHours() {
+    Says "'The Weights and Measures of Master Dibble,' says Madame Orme, 'two acts and a jig, as passed by the Reader. Two coin the benches, four the boxes, and the boxes are taken.' She looks at you over the choker, which is a thing the choker allows. 'If it is satire you want, the Seventh Codicil licenses it, masked, at the Warden's pleasure. You will find our pleasure is very small, and his is very large.'".
+  }
+  Topic bd_orme_moth with orme "Tell her you are of the profession" when wears(actor, face_moth) and publicHours() and not bd_admitted(actor) once {
+    Says "'A Moth.' She does not smile; the half-mask does not let her. 'I have twelve Moths and a bucket, and I could do with a thirteenth Moth more than I could do with the bucket. Say me something. Anything you have in a pocket.'".
+    On discuss { Assert bd_hinted(actor). }
+  }
+  Relation bd_hinted(group).
+  Action bd_audition(actor: group, site: place) "Give her a speech out of your pocket" {
+    Speaker orme. Time 10 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(orme, site) and wears(actor, face_moth) and publicHours() and bd_hinted(actor) and not bd_auditioned(actor) and bd_open().
+    Resolve check(actor, performance, dc_fair).
+    On success { Assert bd_auditioned(actor). Assert bd_admitted(actor). Increase bd_orme_warm(actor) by 1. Increase goodwill(face_moth) by 1. }
+    On failure { Assert bd_auditioned(actor). Assert bd_admitted(actor). }
+    Result "You give her the speech every player carries, the one you do when the lamps are out and nobody is asking. She listens as a heron listens to a pond. 'Hm,' says Madame Orme, which in the Wet Stage is a standing ovation. 'You'll do. Sides at nine, house at six; keep out of the Reader's way and out of Tarrow's way when he falls.'".
+    Otherwise "You give her the speech and it comes out like a bill of sale. She lets you finish. 'You may carry a spear,' she says. 'Spears are not a lesser thing. Spears have the best view.'".
+  }
+  Topic bd_orme_night with orme "Ask her why the manager is up so late" when not masked(actor) and privateHours() once {
+    Says "'Because the Warden's clerk comes on the fourth day for the licence, and I have nine coin and a bucket.' She taps the accounts. 'Twelve coin for the quarter, or the Reader's seal on the season's play, which he has not given in eleven years without cutting it to a ribbon. Or' (a small movement of the mouth) 'there is a footnote. It hangs over my own mantel and I have never read it. My mother hung it. She said it was luck to leave the small print alone.'".
+    On discuss { Assert knows(actor, bd_licence_known). }
+  }
+  Topic bd_orme_licence_again with orme "Ask her again about the licence" when knows(actor, bd_licence_known) and not masked(actor) and privateHours() {
+    Says "'Twelve coin, the Reader's seal, or a footnote nobody reads,' says Madame Orme, without looking up from the figures. 'Choose one. And choose it before noon on the fourth day, for after that the Warden's pleasure is a notice on my door and I am a woman with a hull.'".
+  }
+  // She tells the Dark Year only to a company that has sat up with her: warmth of an hour, or a roof, or a speech.
+  Topic bd_orme_dark with orme "Ask her about the year the house was shut" when not masked(actor) and privateHours() and bd_orme_warm(actor) >= 1 and not knows(actor, bd_dark_year) once {
+    Says "'Twelve years. We did a farce about the Assessor of Weights, the old Assessor, and Venable's father played him. Played him so well that in the second act a woman in the third row got to her feet in the Masked Hours and said the man's name. Aloud, in my house. He was ruined by dark: his debts, a duel he did not have the legs for, an old woman's grudge.' She turns a pearl between two fingers. 'The Warden shut us nine months. Two of mine died in the Drip that winter of what the Drip does in winter. It was Venable's father's walk, and I had told him. I had told him.'".
+    On discuss { Assert knows(actor, bd_dark_year). }
+  }
+  Discovery bd_dark_year "Twelve years ago the Wet Stage was shut for nine months, and two of its players died that winter in the Drip, after a farce drew the Assessor of Weights so exactly that a woman in the pit said his name aloud. Madame Orme blames the walk of Venable's father, who played him." { Known by orme. }
+  Action bd_orme_sit(actor: group, site: place) "Hold the lamp for her while she does the accounts" {
+    Speaker orme. Time 6.
+    Requires able(actor) and company(actor) and at(actor, site) and at(orme, site) and not masked(actor) and privateHours() and not bd_orme_sat(actor).
+    On success { Assert bd_orme_sat(actor). Increase bd_orme_warm(actor) by 1. }
+    Result "You say nothing. You hold the lamp where she points, and she adds, and the figures do not come right, and the Cuff goes on talking under the boards. At the half hour she puts the pen down without being asked. 'Everyone wants a reason for a thing,' she says. 'There is generally only the hour.' She tells you the tea is black, and pours it. It is.".
+  }
+  Action bd_orme_read(actor: group, site: place) "Watch her hands while she tells you the Assessor's year again" {
+    Speaker orme. Time 20 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(orme, site) and not masked(actor) and privateHours() and knows(actor, bd_dark_year) and not knows(actor, bd_line_known).
+    Resolve check(actor, insight, dc_fair).
+    On success { Assert knows(actor, bd_line_known). Increase bd_orme_warm(actor) by 1. }
+    Result "She tells it again, in order, and the left hand goes to the pearls on the word 'walk' and counts them, as a nun counts. You wait, and she hears you waiting. 'The walk was a good walk,' she says. 'The line was better. I wrote it in the wings in the second interval, against the Reader's pencil. It was only a line. It was a very good line.' She is not crying. She does not do that. 'Nine months, and Venable's father in the Drip. And I have let that boy think it was a gait.'".
+    Otherwise "She tells it again, and it is smooth, and it does not give. It has been told so often that there is no place left on it for a hand.".
+  }
+  Discovery bd_line_known "The line that named the Assessor in the farce that shut the Wet Stage was Madame Orme's own, written in the wings against the Reader's cut; Venable's father took the blame, and she has let his son believe it was his father's walk." { Known by orme. }
+  Action bd_orme_press(actor: group, site: place) "Ask her to put a satire on this season, done carefully, so that it falls on no one's head" {
+    Speaker orme. Time 20 minutes.
+    Grave "One try: if she says no to this she will not be asked it again by anyone she has not first been kind to.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(orme, site) and not masked(actor) and privateHours() and knows(actor, bd_dark_year) and not bd_orme_pressed(actor) and not bd_commissioned(actor).
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Increase bd_orme_warm(actor) by 1. }
+    On failure { Assert bd_orme_pressed(actor). }
+    Result "'Carefully,' says Madame Orme. 'Yes.' She says it as one tries a stair in the dark. 'There is a way of doing it that falls on an Office and not on a man. I forgot it, once. I have been forgetting it on purpose.' She looks at the green-room door as if the house were behind it, breathing. 'Bring me something I can bear to say.'".
+    Otherwise "'No,' says Madame Orme, gently, which is worse. 'You are very good at this, and I am very tired, and the Wet Stage plays Master Dibble.'".
+  }
+  Topic bd_orme_pump with bd_quist "Ask him what the manager used to play" when bd_orme_warm(actor) >= 1 and not knows(actor, bd_pump_known) once {
+    Says "'Spigot,' says Tarrow, and for once he is not doing anything with his face. 'In the Pump scene, for eleven years. The Quarrel at the Pump: two women and a pail, and a joke that has been in the Wet Stage since before the barge was a barge. She gave it up the winter of the Dark Year. She will not play it, and you cannot ask her to. But if you were to give the other woman's cue, from the prompt-stool by the stove, with the pail line.' He raises a finger as if to feel the weather. 'I never took your pail. Say that, when she is not expecting it, and watch what she does.'".
+    On discuss { Assert knows(actor, bd_pump_known). }
+  }
+  Discovery bd_pump_known "Madame Orme played Mistress Spigot in the Quarrel at the Pump for eleven years and gave it up in the Dark Year; the other woman's cue is 'I never took your pail'." { Known by bd_quist. }
+  Action bd_orme_cue(actor: group, site: place) "Give her her cue, from the prompt-stool by the stove: 'I never took your pail'" {
+    Speaker orme. Time 20 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(orme, site) and not masked(actor) and privateHours() and knows(actor, bd_pump_known) and not bd_orme_plays(actor).
+    Resolve check(actor, performance, dc_hard).
+    On success { Assert bd_orme_plays(actor). Increase bd_orme_warm(actor) by 2. }
+    Result "You say it, flat and grey and a little insulted, the way the other woman says it. There is a long silence in the green room. Then Madame Orme draws breath and is Mistress Spigot: forty years younger and half a yard taller, with a pail that is not there, and a voice that fills the barge from keel to bunting. It lasts three minutes. At the end she is laughing and crying, in about equal parts, and she takes off the pearl choker and sets it on the shelf as if it were a thing to be rested. 'Well,' she says. 'Well, there was a player. Where did she go?'".
+    Otherwise "You say it. She waits a moment, giving you every chance, and then she says, kindly, 'No, dear. You are on the wrong side of the pail.' The cue wants more rain in it than you gave.".
+  }
+  Topic bd_orme_commission with orme "Tell her you mean to give her a play" when bd_orme_warm(actor) >= 2 and not bd_commissioned(actor) and not masked(actor) once {
+    Says "She puts the accounts down. 'Not a farce about a man in a hat. I will not play one man; I will play an Office, as the Codicil likes it. The Pound, the Key, the Serene. Never the man in the Pound.' She takes a prompt-book bound in black oilcloth from the shelf over the stove and holds it a moment before she gives it up. 'It was mine. The margins are Ludd's. Don't let him know I gave it you. And it goes past the Reader, whole, and it is on my boards by the seventh, or it is not on them.'".
+    On discuss { Assert bd_commissioned(actor). Give bd_prompt_book to actor. }
+  }
+
+  // ── The Censor's Cue: Master Ludd ─────────────────────────────────────────────────────────────────────────────────
+  // By day he is the Reader, masked as a Crow, and answers the face: a customer is a stranger he may put a joke to, a
+  // Moth is a player with sides to learn, a Crow is a colleague. By night, in his shirt-sleeves, he plays to the empty
+  // house two small plays he has written in the margins, both parts. He is moved, in the end, by being read. What he
+  // is moved to depends on what he is shown: friendship, a place in the play, a threat, or a betrayal. Each changes
+  // the Lampoon: he passes it, he writes into it, he lets it pass out of fear, or he is gone and it is not cut at all.
+  Measure bd_ludd_regard(group).
+  Relation bd_ludd_wheedled(group). Relation bd_tested(group). Relation bd_test_done(group). Relation bd_ludd_sour(group).
+  Relation bd_ludd_heard(group). Relation bd_ludd_trusts(group). Relation bd_written_in(group). Relation bd_ludd_leashed(group). Relation bd_ludd_exposed(group).
+  Relation bd_ludd_gone(group). Relation bd_ludd_told(group). Relation bd_ludd_seen(group).
+  Discovery bd_cuts_seen "Master Ludd strikes jokes under three heads: the first, a joke that names an Office; the second, one that names an Office by implication; the third, one that is funnier than the reason he would have to give for striking it.".
+  Discovery bd_margins_known "Master Ludd writes his reason for every cut in the margin of the prompt-book, as the Codicil requires, and the reasons are jokes, and better than the jokes they cut." { Known by ludd. }
+  Discovery bd_cuts_known "Master Ludd has kept every joke he has cut in twenty-two years, in the margins and in a chest: the whole repertory the Wet Stage was never let to play." { Known by ludd. }
+  Discovery bd_ludd_scene "Master Ludd writes small plays in the margins and plays them, at night, unmasked, to the empty house, both parts. One is the Joke at the Door: a joke, cut that morning, comes to the Reader's door and asks what happens to it now." { Known by ludd. }
+
+  Topic bd_ludd_cold with ludd "Speak to him" when not masked(actor) and publicHours() {
+    Says "Ludd looks up, sees no mask, and looks down: a clerk who has found in a margin a word he does not recognise. The pencil does not stop. 'Reading,' he says, to the page, which is not an answer to anything you asked, and is, you understand, an answer to your face.".
+  }
+  Topic bd_ludd_customer with ludd "Ask him what he is cutting" when masked(actor) and not wears(actor, face_moth) and not wears(actor, face_crow) and publicHours() {
+    Says "'The season's play, for the Warden, under the Seventh Codicil,' says the man in the Crow's domino, not looking up. 'Under the first head, a joke may not name an Office. Under the second, it may not name an Office by implication. Under the third.' He strikes something out with a small click. 'Under the third I give no reasons. It is the head for jokes that are better than the reasons for striking them.'".
+    On discuss { Assert knows(actor, bd_cuts_seen). }
+  }
+  Topic bd_ludd_player with ludd "Tell him you are one of the Moths" when wears(actor, face_moth) and publicHours() {
+    Says "'Sides at nine,' says Ludd. 'Lines as written. A Moth who improvises is a Moth I have to write down in a book, and I have only one book.' He hands you a page without looking up. 'You will find I have left the best line in each scene. It is the one nobody laughs at. Say it well.'".
+  }
+  Topic bd_ludd_crow with ludd "Show him the Crow you are wearing, paper to paper" when wears(actor, face_crow) and publicHours() and not knows(actor, bd_margins_known) once {
+    Says "He looks at your domino, and for the first time at you: a long look, as at a colleague's hand. 'A Crow. The post. The people who keep the things that are not said.' He turns the prompt-book round. Every cut has a reason beside it in a very small hand, as the Codicil requires, and the reasons are not what you expected. Beside a struck joke about a key: Cut: it was better than the one that follows, and the house cannot be trusted with both. Beside another: Cut under the second head. Also because I laughed. 'The Codicil says the Reader shall give his reason,' says Ludd. 'It does not say the reason shall be dull.'".
+    On discuss { Assert knows(actor, bd_margins_known). Assert knows(actor, bd_cuts_seen). Increase bd_ludd_regard(actor) by 1. }
+  }
+  Action bd_ludd_wheedle(actor: group, site: place) "Beg him to leave one joke standing" {
+    Speaker ludd. Time 10 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(ludd, site) and masked(actor) and publicHours() and not bd_ludd_wheedled(actor) and not wears(actor, face_moth).
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert bd_ludd_wheedled(actor). Increase bd_ludd_regard(actor) by 1. }
+    On failure { Assert bd_ludd_wheedled(actor). }
+    Result "'One,' says Ludd. 'One. I will choose it, and you will not be able to tell which, and neither will the Warden.' The pencil hovers, and passes over a line in the second act, and does not come down. He seems surprised at himself, as a man is who finds his own hand in his own pocket.".
+    Otherwise "'No,' says Ludd. 'It is not that I do not love them. I do. That is why I cannot leave them where they will be hurt.' He says it to the page, and then looks as if he had not meant to say it aloud.".
+  }
+  Action bd_ludd_cite(actor: group, site: place) "Put the Codicil's footnote to him, the one about the Novena" {
+    Speaker ludd. Time 20 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(ludd, site) and masked(actor) and publicHours() and knows(actor, bd_footnote) and bd_open() and not bd_secure() and not bd_kept(wet_stage).
+    Resolve check(actor, lore, dc_hard).
+    On success { Assert bd_codicil(wet_stage). Assert bd_ludd_sour(actor). }
+    Result "'The Seventh Codicil, the eleventh note,' says Ludd, after a long pause. 'You have read the footnote.' He says it as another man might say You have seen my wife. 'In the Novena the Warden's pleasure is stayed, and the Reader is the judge of what is a play. I am the Reader.' His eyes are alive for the first time. 'And so I am the judge. Nobody has put the Reader's own jurisdiction to him in twenty-two years. It is not a pleasant sensation. It is rather like being cast.' He takes out a pencil and, in the margin of the licence's copy, writes a note that he will have to sign. 'I judge that the season of the Wet Stage is a play, and not yet played. I shall inform the clerk. I shall be recorded as having done so, in my own hand, which is a thing I do not do lightly or kindly.'".
+    Otherwise "'The ninth sentence,' says Ludd, 'not the eighth. You have the sense and not the sentence. It is law-hand, not a feeling.' He corrects you in the margin with the pencil, which is very satisfying for him.".
+  }
+  // The third head: a joke put to three strangers, to see if two of them can say whom it is about. A masked customer is a
+  // stranger; a bare face is nobody; a Moth is of the house. The Reader has been asking the doorman for nineteen years.
+  Topic bd_ludd_test with ludd "Let him put three jokes to you, as a stranger" when masked(actor) and not wears(actor, face_moth) and publicHours() and knows(actor, bd_cuts_seen) and not bd_tested(actor) once {
+    Says "'Under the third head the Codicil allows me, in doubt, to put a joke to three strangers: persons of the city, of neither the Stage nor the Row, who are asked whom it is about. If two of three can say, it is struck.' He looks you over with the first interest he has shown. 'You are a stranger. You are, if I may say so, a rather exemplary stranger. I have been asking the doorman for nineteen years, and he now guesses everything.' He lifts the book. 'Three lines. Whom are they about?'".
+    On discuss { Assert bd_tested(actor). }
+  }
+  Action bd_test_innocent(actor: group, site: place) "Tell him you cannot tell whom the three jokes are about" {
+    Speaker ludd. Time 10 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(ludd, site) and bd_tested(actor) and not bd_test_done(actor) and not knows(actor, lacke_taxed).
+    On success { Assert bd_test_done(actor). Assert knows(actor, bd_cuts_known). Increase bd_ludd_regard(actor) by 1. }
+    Result "You do not know, and you say so, and you mean it. The first is about a locksmith; the second about a great deal of bread; the third about a rather grand sort of cat. Ludd closes the book very gently. 'Passed,' he says. 'Passed, passed, and passed.' For a moment he looks almost bereft. 'Nobody ever fails to know. I had begun to think it was only the doorman.' You have heard three jokes, and you will not forget them.".
+  }
+  Action bd_test_honest(actor: group, site: place) "Tell him truthfully whom the three jokes are about" {
+    Speaker ludd. Time 10 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(ludd, site) and bd_tested(actor) and not bd_test_done(actor) and knows(actor, lacke_taxed).
+    On success { Assert bd_test_done(actor). Assert knows(actor, bd_cuts_known). Increase bd_ludd_regard(actor) by 1. }
+    Result "'The Warden,' you say. 'All three. The first about his keys, the second about the tax, and the third is a joke about a joke, and I think it is about you.' Ludd sits quite still. 'Two of three strikes it,' he says. 'You have said three of three.' He writes it down. He does not strike it, yet. 'It is a long while since anyone told me the truth in this chair,' he says. 'It is very restful. I do not recommend it.'".
+  }
+  Action bd_test_lie(actor: group, site: place) "Tell him the three jokes are about a locksmith, bread and nothing" {
+    Speaker ludd. Time 10 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(ludd, site) and bd_tested(actor) and not bd_test_done(actor) and knows(actor, lacke_taxed).
+    Resolve check(actor, deception, dc_hard).
+    On success { Assert bd_test_done(actor). Assert knows(actor, bd_cuts_known). }
+    On failure { Assert bd_test_done(actor). Assert bd_ludd_sour(actor). }
+    Result "You say a locksmith, you say bread, and you say that the third is about nothing at all, in the voice of a person who has never heard of a tax. Ludd listens with his head on one side. 'A locksmith,' he says. 'Bread.' He shuts the book. 'A fine report. The Warden will be pleased to hear that the Wet Stage's jokes have no object.' He lets all three stand. You are left with three jokes you were not meant to know, and a Reader who has been told what he wanted to hear, and knows it.".
+    Otherwise "'Bread,' says Ludd. 'No stranger on earth has ever said bread.' He looks at you with the sudden coldness of a man lied to by an amateur. 'The Warden has a key for every door and a door for every key. You knew it, and you knew it for a reason. Thank you. I shall remember the shape of that mask.'".
+  }
+  Topic bd_ludd_seal with ludd "Ask him to seal the season's play before the fourth day" when bd_ludd_regard(actor) >= 2 and bd_open() and not bd_sealed(wet_stage) and not bd_ludd_exposed(actor) and ((masked(actor) and publicHours()) or (not masked(actor) and privateHours())) once {
+    Says "'I have not sealed it in eleven years without cutting it to a ribbon,' says Ludd. 'It is a rule I made myself, for the Warden's benefit. I find I should like to break it once, for mine.' He takes a lump of wax from his pocket, where he has carried it always, and presses the Reader's oval on the title page. 'There. The Weights and Measures of Master Dibble has been read, and found to be, on the whole, about weights.'".
+    On discuss { Assert bd_sealed(wet_stage). }
+  }
+
+  // ── Ludd by night ─────────────────────────────────────────────────────────────────────────────────────────────────
+  // From ten until one he is on the boards, unmasked and alone. A company in the prompt-corner before he comes can watch
+  // through the slit and he will never know it, and the company that walks on to the boards finds him in his shirt-sleeves
+  // with the Crow hung on a nail like a bat.
+  Observe bd_ludd_playing at bd_stage when at(ludd, bd_stage) and not bd_ludd_seen(party) "A man in his shirt-sleeves stands in the middle of the empty stage with a prompt-book in one hand and the other held out, palm up, to nobody. A Crow's domino hangs from a nail in the painted door. He has not seen you; he is in the middle of a sentence.".
+  Topic bd_ludd_night with ludd "Speak to him on his stage" when not masked(actor) and privateHours() and at(ludd, bd_stage) once {
+    Says "'The house is shut,' he says, and turns very fast, like a man whose hand has been seen in a pocket. Without the domino he has a long, kind, schoolmasterly face, which has not been used to hide anything for years. 'It is a rehearsal. A private one. Of a matter of the Warden's.' It is the worst lie you have ever heard, and he knows it, and he stands there letting you know he knows it.".
+    On discuss { Assert knows(actor, bd_ludd_name). Assert bd_ludd_seen(actor). }
+  }
+  Action bd_ludd_see(actor: group, site: place) "Watch him while he tells you it is a matter of the Warden's" {
+    Speaker ludd. Time 10 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(ludd, site) and not masked(actor) and privateHours() and bd_ludd_seen(actor) and not knows(actor, bd_ludd_scene).
+    Resolve check(actor, insight, dc_fair).
+    On success { Assert knows(actor, bd_ludd_scene). }
+    Result "You look at his free hand. It is held a little out from his side, palm up, at the height of a small person's head. The Warden's matters do not require that. 'It is a rehearsal,' says Master Ludd, and his other hand, the one with the book, closes on a page on which, in the margin, you can see the words THE JOKE, and a stage direction: (wet; at the door). You have it. He is playing both parts.".
+    Otherwise "He tells you it is a matter of the Warden's, and he is such a bad liar that you cannot see past the lie to anything at all.".
+  }
+  Action bd_ludd_listen(actor: group, site: place) "Wait behind the slit in the prompt-corner, in the dark, and see who comes" {
+    Time 6.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, bd_prompt) and privateHours() and at(ludd, bd_stage) and not knows(actor, bd_ludd_scene) and not masked(actor).
+    On success { Assert knows(actor, bd_ludd_scene). Assert bd_ludd_heard(actor). }
+    Result "He comes on at ten, takes the domino off, hangs it on a nail, and puts the prompt-book on a stool. He plays two parts, turning on the heel between them. The Joke is small and wet and standing at a door. 'I was cut at eleven this morning.' The Reader says: 'Under the second head. Offices not to be named by implication.' The Joke: 'I named nobody. I said a man had a key for every door and a door for every key.' The Reader: 'That is why.' The Joke: 'Everyone in the pit knew whom I meant.' The Reader: 'Then it was a good joke. Sit down. You are dripping on my law.' The Joke: 'What happens to me now?' The Reader: 'You are struck. There is a form.' And then the Reader puts his hand flat on the empty air, and says, very quietly: 'After the form, in the margin, in a small hand, at the foot of the page where no one looks, there is a place for you. It is a very small place. I have a great many of you there. You are not cold. I keep it warm.' You do not breathe until he has put the Crow back on.".
+  }
+  Topic bd_ludd_tell with ludd "Tell him you know about the Joke at the door" when not masked(actor) and privateHours() and at(ludd, bd_stage) and knows(actor, bd_ludd_scene) and not bd_ludd_told(actor) once {
+    Says "He does not say anything for a long time. Then he sits down on the edge of the stage with his hands between his knees, like a boy who has been caught with a thing he made. 'Twenty-two years,' he says. 'Nobody has been in the house. It is the whole of the point of a house at night.' He looks at his hands. 'You will want to know what I mean to do about you. I find I want to know what you mean to do about me.'".
+    On discuss { Assert bd_ludd_told(actor). Assert knows(actor, bd_cuts_known). }
+  }
+  Action bd_ludd_keep(actor: group, site: place) "Promise him that you will tell no one, and mean it" {
+    Speaker ludd. Time 10 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(ludd, site) and bd_ludd_told(actor) and not bd_ludd_trusts(actor) and not bd_written_in(actor) and not bd_ludd_leashed(actor) and not bd_ludd_exposed(actor).
+    On success { Assert bd_ludd_trusts(actor). Increase bd_ludd_regard(actor) by 3. }
+    Result "'Thank you,' says Ludd, as one does for a thing one expected to have to pay for. He looks at you for a long time. 'I should like you to see the chest,' he says. 'Not the plays. The chest.' He takes you into the prompt-corner, and under the bottom shelf, in a sea-chest with a broken lock, are twenty-two years of every joke the Wet Stage was not let to speak, each on its own slip, each in his hand, and each slip, you notice, folded once, as one folds a thing for a pocket.".
+  }
+  Action bd_ludd_read(actor: group, site: place) "Ask to read the Joke's part opposite him, cold, from the page" {
+    Speaker ludd. Time 6.
+    Requires able(actor) and company(actor) and at(actor, site) and at(ludd, site) and bd_ludd_told(actor) and not bd_written_in(actor) and not bd_ludd_leashed(actor) and not bd_ludd_exposed(actor).
+    Resolve check(actor, performance, dc_hard).
+    On success { Assert bd_written_in(actor). Increase bd_ludd_regard(actor) by 3. }
+    Result "He gives you the page as if it were a thing that might go off. You take it, and you stand where the door is, and you are wet, and small, and have been cut. 'I was cut at eleven this morning.' He answers, and for a moment he forgets to look at the page. It goes through the whole of it, and when you get to 'I keep it warm,' it is his line and he says it, and the house, the empty dark house, gives it back to him a half-beat late. 'There,' says Master Ludd, when it is over. He has to stop and begin again. 'There. That is what it is for.' And then, since he is who he is: 'The Joke would not have said ‘dripping’ in the second speech, it would have said ‘dribbling’, but I let it go.'".
+    Otherwise "You read the Joke's part as if it were a bill of lading. He takes the page back, with great courtesy, and thanks you, and says that it is not the sort of part that can be got by reading. He means it kindly. It is not the sort of kindness a player can bear.".
+  }
+  Action bd_ludd_leash(actor: group, site: place) "Tell him that the Warden would like to hear about the Joke at the door" {
+    Speaker ludd. Time 10 minutes.
+    Grave "It cannot be taken back. He will pass whatever you give him, and he will not forgive it.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(ludd, site) and bd_ludd_told(actor) and not bd_ludd_trusts(actor) and not bd_written_in(actor) and not bd_ludd_leashed(actor) and not bd_ludd_exposed(actor).
+    Resolve check(actor, intimidation, dc_fair).
+    On success { Assert bd_ludd_leashed(actor). Assert bd_sealed(wet_stage). Assert bd_ludd_sour(actor). }
+    On failure { Assert bd_ludd_sour(actor). Increase heat(actor) by 1. }
+    Result "He goes grey, quite slowly, from the collar up, like a lamp turned down. 'Of course,' he says. 'Of course. The Warden has always said that a man who writes in margins is a man who has something to hide.' He takes the wax out of his pocket and seals, there on the boards, in the light of one lamp, whatever you hand him; and he does not look at you again. He puts the domino on and goes out by the painted door like a man leaving a house that is on fire.".
+    Otherwise "'The Warden,' says Ludd, 'has read every report I have made for twenty-two years, and has never once noticed that they were funny. I do not think you will find that he reads them any better for a cue.' He stands. His voice shakes. He goes out, and in the morning the Warden's clerk has been told to expect the shape of your mask.".
+  }
+  Action bd_ludd_expose(actor: group, site: place) "Tell her about the Reader's plays, and the chest, and the cut jokes" {
+    Speaker orme. Time 20 minutes.
+    Grave "Master Ludd will lose his post by morning. The Moths will have the Joke at the door in their mouths by noon.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(orme, site) and knows(actor, bd_ludd_scene) and not bd_ludd_trusts(actor) and not bd_written_in(actor) and not bd_ludd_exposed(actor) and not bd_ludd_gone(actor).
+    On success { Assert bd_ludd_exposed(actor). Assert knows(actor, bd_cuts_known). }
+    Result "Madame Orme listens with the pearls in her fist. She laughs at the Joke, helplessly, and then at the chest, and then she has to stop, because she is not laughing at the thing you meant. 'Twenty-two years,' she says. 'Under my own boards.' She is thinking, you can see, like a manager: what could be done with it, who could be told, what a Reader is worth who has no one to be Reader to. 'Poor Ludd,' she says, and means it, and is already reaching for the bell.".
+  }
+  // The morning after: the Moths have the Joke, the Warden has a clerk, and the Reader has a hat.
+  Rule bd_ludd_resigns when bd_ludd_exposed(party) and not bd_ludd_gone(party) and hour(clock) >= 8 and hour(clock) < 20 once
+    says "By the second bell the Moths are doing the Joke at the door in the wings, with a pail for the door. Master Ludd comes in under the proscenium, hears himself said by a boy of nineteen, goes quite still, and then, with great dignity, lays his red pencils on the prompt-corner shelf in a row, takes the Crow's domino off its nail and puts it in his pocket. 'The Warden will want a letter,' he says, and goes out by the stage door. Nobody laughs after that. It is the worst silence the Wet Stage has ever kept." { Assert bd_ludd_gone(party). }
+
+  // ── The leak in the flies ─────────────────────────────────────────────────────────────────────────────────────────
+  // The poet cannot write because the page will not stay dry; the manager will say yes to a dry stage sooner than to a
+  // good argument. Mended by hand (mending) or paid for (four coin to a rigger who drinks at the Weights quay).
+  Action bd_patch_flies(actor: group, site: place) "Patch the leak in the flies with a lashed square of tarred sailcloth" {
+    Time 6.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, stage_flies) and not bd_flies_dry().
+    Resolve check(actor, mending, dc_fair).
+    On success { Assert bd_flies_mended_rel(stage_flies). Increase bd_orme_warm(actor) by 1. }
+    Result "It takes an hour, a ladder and a good deal of bad language to the barge, which has heard worse. You cut the cloth to the seam, tar it, lash it, and stand back. The long grey thread stops. Under the deck, for the first time in nine winters, the flies are dry. Nobody tells Madame Orme. By morning she has moved a bucket.".
+    Otherwise "You lash the cloth over the seam, and it holds until the first long gust, and then the barge settles a quarter-inch, and the thread of water comes back in a different place, as if it had been consulted.".
+  }
+  Action bd_patch_pay(actor: group, site: place) "Hire the rigger from the Weights quay to patch the leak in the flies, four coin" {
+    Time 12.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, stage_flies) and not bd_flies_dry() and quantity(actor, gold) >= 4.
+    On success { Decrease quantity(actor, gold) by 4. Assert bd_flies_mended_rel(stage_flies). Increase bd_orme_warm(actor) by 1. }
+    Result "The rigger comes in two hours with a ladder and a bucket of tar, and does it in an hour with an air of having done it in every playhouse in the Delta. 'Leaks are cheap,' he says. 'It is the buckets people can't give up.' You pay him; he spits on the coin, which is, you gather, the quay's receipt. By morning Madame Orme has moved a bucket.".
+  }
+
+  // ── Pantaloon Tarrow ───────────────────────────────────────────────────────────────────────────────────────────────
+  // The Wet Stage's clown: thirty-eight years the man who gets hit. He teaches the craft of a joke to a player and the
+  // fall to a bard; he wants, once more, to hear the house forget itself. He keeps everything in his hat.
+  Relation bd_quist_beats(group). Relation bd_quist_happy(group). Relation bd_scraps_got(group). Relation bd_pratfall_given(group).
+  Topic bd_quist_cold with bd_quist "Speak to him" when not masked(actor) and publicHours() {
+    Says "The old clown sees your face and, with enormous courtesy, falls down. He gets up. He does not look at you. It was not for you.".
+  }
+  Topic bd_quist_customer with bd_quist "Ask him what he does" when masked(actor) and not wears(actor, face_moth) and publicHours() {
+    Says "'Falls,' says the old man, and lifts the paper nose to be heard. 'Pantaloon: the man who gets hit. The Codicil allows a Pantaloon three blows of the slapstick in any scene, no more, and the Reader counts them. There were years I would have taken twenty.' He considers the stairs. 'Three is a very fine number. It is the number of a joke.'".
+  }
+  Topic bd_quist_beats_topic with bd_quist "Ask him how a joke is made" when wears(actor, face_moth) and publicHours() and not bd_quist_beats(actor) once {
+    Says "'Three beats,' says Tarrow. 'The set-up, which is true. The doubt, which is where the house leans in and the amateur runs on. And the knife.' He pulls the paper nose down over his own. 'Nobody laughs at the knife. They laugh at the doubt, once the knife is in. Don't rush the doubt, and don't lie in the set-up, because you can lie in the knife but not before it.' He thinks. 'A good lie is only a truth that has been given a better coat.'".
+    On discuss { Assert bd_quist_beats(actor). Increase bd_craft(actor) by 1. }
+  }
+  Topic bd_quist_night with bd_quist "Sit with him in the green room, in the dark" when not masked(actor) and privateHours() and at(bd_quist, stage_green_room) once {
+    Says "He has taken the nose off, and without it he is only an old man with a large face that has been told what to do for a very long time. 'Thirty-eight years,' he says. 'I fall, I get up, they clap. Since the Dark Year they clap. They do not laugh; they clap, like people at a funeral for somebody they didn't know. I should like.' He looks at the stove. 'I should like to hear the house forget itself once more, before I can't get up. Only once. I know the Walnut. I have the Walnut. I haven't a house.'".
+    On discuss { Assert knows(actor, bd_quist_name). }
+  }
+  Action bd_quist_audience(actor: group, site: place) "Be his house for an hour, in the dark, while he does the Walnut" {
+    Speaker bd_quist. Time 6.
+    Requires able(actor) and company(actor) and at(actor, site) and at(bd_quist, site) and not masked(actor) and privateHours() and knows(actor, bd_quist_name) and not bd_quist_happy(actor).
+    On success { Assert bd_quist_happy(actor). Assert knows(actor, bd_stock_known). }
+    Result "The Walnut is the oldest thing the Wet Stage does: a walnut, a table, and a man who will crack it. He tries his hand, his shoe, a mallet, the Warden's Key from the prop-box, a very small sermon. The walnut is not cracked. It is never cracked. In the end he sits on it. It is nothing. It is an old man and a nut in the dark; and at the end of it you are laughing so that you have to hold the bench, and he is standing on the boards in the one lamp with his large face gone quite still. 'There,' says Pantaloon Tarrow. 'I'd forgotten it did that.'".
+  }
+  Discovery bd_stock_known "Tarrow's Walnut, the oldest thing the Wet Stage does, is a joke about a man who will try everything but the obvious; a house will forget itself for it, and has not in twelve years." { Known by bd_quist. }
+  Action bd_quist_lesson(actor: group, learner: member, site: place) "Have him teach {learner} to fall" {
+    Speaker bd_quist. Time 6.
+    Requires able(actor) and company(actor) and at(actor, site) and at(bd_quist, site) and memberOf(learner, actor) and awake(learner) and bd_quist_happy(actor) and not bd_pratfall_given(actor).
+    Resolve endow(learner, dexterity, by_one).
+    On success { Assert bd_pratfall_given(actor). }
+    Result "He teaches you the one thing a clown knows that a warrior does not: that you do not fall down, you fall toward something. 'Go down as the blow comes. It lands on nothing, and you are up again behind it.' He shows you forty times. You learn it in about a dozen, and the bruises last a week.".
+  }
+  Topic bd_quist_scraps with bd_quist "Ask him about the paper in his hat" when knows(actor, bd_finch_block) and not bd_scraps_got(actor) once {
+    Says "He takes off the hat, which is a Pantaloon's and has a lining like a magpie's nest, and tips it. 'He threw it in the bucket, a year ago, in forty pieces,' says Tarrow. 'In the middle of the night, with the water coming down. A clown is a man who is used to having things thrown at him. I fished them out.' He tips out a tangle of foolscap, damp and curling, covered in a fine hand. 'Don't give them back. Give him something to put them to.'".
+    On discuss { Assert bd_scraps_got(actor). Give bd_scraps to actor. }
+  }
+
+  // ── Ambrose Finch ─────────────────────────────────────────────────────────────────────────────────────────────────
+  // The elegy he wrote a year ago for the six hundred of the Cullet Reach, where his mother and his sister were, and
+  // which the Reader struck (it named the Serene of that year, by implication, as the one who stood in the gallery and
+  // said nothing). He tore it in forty pieces, and has not written since. He is moved by being read: his own first
+  // stanza, put together from Tarrow's hat and given back to him; or left on his table, an hour, by someone who goes.
+  // What he writes then is the bard's to choose the ending of: the Serene (which is cruelty), the girl who was Treasurer
+  // (which is truth, and costs the dead), or the water (which is kind, and says nothing).
+  Relation bd_scraps_fit(group). Relation bd_finch_moved(group). Relation bd_finch_alone(group). Relation bd_elegy_ended(group).
+  Relation bd_elegy_serene(group). Relation bd_elegy_girl(group). Relation bd_elegy_water(group).
+  Discovery bd_finch_block "Ambrose Finch has not written a line in a year, since the Reader struck the elegy he wrote for the six hundred of Cullet Reach, where his mother and sister drowned; he tore it into forty pieces and Tarrow kept them." { Known by bd_finch, bd_quist. }
+  Topic bd_finch_cold with bd_finch "Speak to him" when not masked(actor) and publicHours() {
+    Says "Finch does not look round. 'Nobody here,' he says, mildly, to the ceiling, 'is at home.'".
+  }
+  Topic bd_finch_customer with bd_finch "Ask him what he is doing in the flies" when masked(actor) and not wears(actor, face_moth) and publicHours() {
+    Says "'I am in residence,' says the thin man. 'By the bequest of the late Abelard Tenn, forty coin a year and a bed in the flies, that a poet may be in residence. It has been read to mean that I must be seen to be in it, between the Third Bell and the Ninth, on pain of forfeit; and so I am seen. By the buckets, mostly.' The half-mask smiles for him. 'It is a very fine poem, that bequest. It is the only one I have been able to finish.'".
+    On discuss { Assert knows(actor, bd_finch_name). }
+  }
+  Topic bd_finch_moth with bd_finch "Ask him what he is writing" when wears(actor, face_moth) and publicHours() and not knows(actor, bd_finch_block) {
+    Says "'Nothing,' says Finch. 'I do not mean badly; I mean nothing. The page and I have not been introduced for a year.' He turns the white foolscap a quarter turn, as if it might look better from the side. 'Come at night, if you want a poet. By day I am only residence.'".
+  }
+  Topic bd_finch_reach with bd_finch "Ask him what happened a year ago" when not masked(actor) and privateHours() and not knows(actor, bd_finch_block) once {
+    Says "'The Rain-Wives asked me for something for the thirtieth year of the Sluice. I wrote it in a month. It was the only thing I have written that was true.' He turns a page that has nothing on it. 'The Reader struck it under the second head. It named the Serene of that year, by implication, as the one who stood in the gallery in white and gold and said nothing. That is the only thing it says about anyone: that he said nothing.' He stops. 'My mother was at Cullet Reach. My sister. So I tore it into forty pieces, and found that there was no reason to write anything else.'".
+    On discuss { Assert knows(actor, bd_finch_block). }
+  }
+  Action bd_fit_scraps(actor: group, site: place) "Lay Tarrow's forty scraps out on the table and fit them together" {
+    Time 6.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, stage_flies) and bd_scraps_got(actor) and not bd_scraps_fit(actor) and carries(actor, bd_scraps).
+    Resolve check(actor, lore, dc_fair).
+    On success { Assert bd_scraps_fit(actor). Assert knows(actor, bd_stanza_known). }
+    Result "You lay them out on the dry foolscap like a game. It is a matter of the grain of the paper and the lie of a hand, and of verse, which is a kind of grain too. At the end of the hour you have the first stanza whole: 'They said the water would be kind to us / for the first time, as to the others. / The lamps were lit in the low islands / and the mothers counted the lamps.' Nothing after. The rest is the part he would have to write.".
+    Otherwise "The pieces will not agree. You get four lines that scan, and three that do not, and a word that appears to be his own name, and the foolscap curls.".
+  }
+  Discovery bd_stanza_known "The first stanza of Finch's elegy, pieced from the scraps: 'They said the water would be kind to us / for the first time, as to the others. / The lamps were lit in the low islands / and the mothers counted the lamps.'".
+  Kind bd_scraps_kind "a tangle of damp foolscap" is gear worth 0 weighing 0 described "Forty scraps of foolscap, damp and curled, covered in a fine small hand: a year old and kept in a clown's hat.".
+  Item bd_scraps "Finch's forty scraps" is bd_scraps_kind at offstage.
+  Action bd_finch_read(actor: group, site: place) "Read him his own first stanza, aloud, in the dry flies" {
+    Speaker bd_finch. Time 20 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(bd_finch, site) and not masked(actor) and privateHours() and knows(actor, bd_stanza_known) and not bd_finch_moved(actor).
+    Resolve check(actor, performance, dc_fair).
+    On success { Assert bd_finch_moved(actor). }
+    Result "You read it the way it was written, which is to say as if nothing were being asked of the listener, and the water coming down into the bucket keeps time. When you come to 'counted the lamps' Finch has his hand over his mouth. 'Who gave you that,' he says; and then, because he knows, 'Of course he did. He fishes. He fishes everything.' He takes the pen out of the bucket where it has lived for a year and looks at it, and wipes it on his sleeve. 'Go away,' he says, kindly. 'It's coming.'".
+    Otherwise "You read it too well, which is to say as a performance, and he sits through it with his chin on his chest, politely, like a man at his own recital. 'Yes,' he says. 'That's it. That's what it was.' But it has been a performance, and he cannot write to a performance.".
+  }
+  // For a company that cannot read a hand: the scraps, laid out on a dry table, an hour left alone with them.
+  Action bd_finch_scraps_leave(actor: group, site: place) "Lay Tarrow's scraps on his dry table, as they are, and leave him an hour with them" {
+    Speaker bd_finch. Time 6.
+    Requires able(actor) and company(actor) and at(actor, site) and at(bd_finch, site) and not masked(actor) and privateHours() and carries(actor, bd_scraps) and bd_flies_dry() and not bd_finch_moved(actor).
+    On success { Assert bd_finch_moved(actor). Assert bd_finch_alone(actor). Spend bd_scraps from actor. }
+    Result "You tip the forty pieces out on the dry foolscap in the lamplight, face up, unmatched, and sit down against the cot. He looks at them for a long time as at a dead animal. Then, with one finger, he turns a piece over, and another, and does not say anything. You wait. At the end of the hour he is on his knees at the table, fitting them like a man at a puzzle, with the pen in his teeth. He does not look up. You let yourself out by the ladder, and you hear him begin to read aloud, under his breath, a line at a time.".
+  }
+  Action bd_finch_leave(actor: group, site: place) "Pin the stanza over his table, leave the dry foolscap beside it, and go" {
+    Speaker bd_finch. Time 6.
+    Requires able(actor) and company(actor) and at(actor, site) and at(bd_finch, site) and not masked(actor) and privateHours() and knows(actor, bd_stanza_known) and bd_flies_dry() and not bd_finch_moved(actor).
+    On success { Assert bd_finch_moved(actor). Assert bd_finch_alone(actor). }
+    Result "You pin the first stanza over the table, and put the clean foolscap where the drip used to fall, and the pen by it. You sit with him for an hour, saying nothing, as he does not look at the page. At the end of the hour you stand, and go, and at the ladder you hear the pen go down on the paper like a foot on a stair. He does not say thank you. He is not thinking about you at all, which is the best that could have been done for him.".
+  }
+  Action bd_elegy_serene_end(actor: group, site: place) "Let the elegy end on the Serene who stood in the gallery and said nothing" {
+    Speaker bd_finch. Time 20 minutes.
+    Grave "It is a true line, and a cruel one. The man it names is alive.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(bd_finch, site) and bd_finch_moved(actor) and not bd_elegy_ended(actor).
+    On success { Assert bd_elegy_ended(actor). Assert bd_elegy_serene(actor). Assert knows(actor, bd_elegy_made). }
+    Result "'It ends as it began,' says Finch. 'With a man who stood in a gallery.' He writes it down and reads it back, and you both hear that it is a good last line, and that there is a person at the end of it. It is the best poem he has ever written. It will hurt someone.".
+  }
+  Action bd_elegy_girl_end(actor: group, site: place) "Tell him who the Treasurer was, and let the elegy end on a girl of nineteen" {
+    Speaker bd_finch. Time 20 minutes.
+    Grave "It is the truth, and it is of a woman who is dead, and who spent thirty-one years paying for it. It cannot be unsaid.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(bd_finch, site) and bd_finch_moved(actor) and not bd_elegy_ended(actor) and knows(actor, marrick_was_treasurer).
+    On success { Assert bd_elegy_ended(actor). Assert bd_elegy_girl(actor). Assert knows(actor, bd_elegy_made). }
+    Result "He listens with the pen not moving. 'A girl,' he says. 'A lamp-trimmer's daughter, nineteen, with a key she could not carry.' He puts his face in his hands, and takes it out again. 'It was the Urn. It was the lot. It was nobody's fault and everybody's, and I have been hating a man in a gallery for thirty years.' He writes. It is a different poem, much slower, and when he reads it back the last line is addressed to nobody at all, and is the most terrible thing you have heard in the flies.".
+  }
+  Action bd_elegy_water_end(actor: group, site: place) "Let the elegy end on the water, and name no one" {
+    Speaker bd_finch. Time 20 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(bd_finch, site) and bd_finch_moved(actor) and not bd_elegy_ended(actor).
+    On success { Assert bd_elegy_ended(actor). Assert bd_elegy_water(actor). Assert knows(actor, bd_elegy_made). }
+    Result "'The water,' says Finch. 'Only the water. It would not be a lie, exactly. It would be an elegy for weather.' He writes it, and the last stanza lets the six hundred go, one lamp at a time, without blame and without explaining anything, and it is very beautiful, and it excuses everybody. 'I shall not be able to read it to anyone who knew,' he says. 'But it will make them cry in the right place.'".
+  }
+  Discovery bd_elegy_made "Finch has written the elegy of Cullet Reach, and is willing to see it played.".
+  Topic bd_finch_candid with bd_finch "Ask him what the Candid's Reading-room is saying" when bd_finch_moved(actor) and not knows(actor, bd_candid_known) once {
+    Says "'They push the tracts under the flies door, between the Third Bell and the Ninth. It is the only post I get.' He reads one aloud with great gravity. '“A Citizen has the right to know whose hand is on the lock. A Citizen who is not told is a Subject; a Subject who is told is a Citizen. Therefore all Subjects must be told. Therefore the hand on the lock of the Reading-room, which is the Candid's own, is a hand to be told of. It is not told. The door is locked, for the safety of the truth.”' He lowers the tract. 'It is the best satire in the Delta, and she does not know she has written it.'".
+    On discuss { Assert knows(actor, bd_candid_known). }
+  }
+  Discovery bd_candid_known "The Candid's tracts demand that every hand on every lock be told, and are pushed under the door of the Wet Stage's flies; the door of the Candid's own Reading-room is locked, for the safety of the truth." { Known by bd_finch. }
+
+  // ── Tobiah Venable ──────────────────────────────────────────────────────────────────────────────────────────────────
+  // The mimic who can do the Warden's walk, and has not done the Assessor's in twelve years. His father took the blame
+  // for a line that was not his; whether he is told is the bard's.
+  Relation bd_cast_moths(group). Relation bd_crake_knows(group). Relation bd_echo_given(group).
+  Topic bd_crake_cold with bd_crake "Speak to him" when not masked(actor) and publicHours() {
+    Says "Venable's walk takes him in a wide curve round the place where you stand, as round a puddle.".
+  }
+  Topic bd_crake_customer with bd_crake "Ask him to do the Warden's walk" when masked(actor) and not wears(actor, face_moth) and publicHours() {
+    Says "'The Office,' says Venable, 'not the man. There is a difference of about eleven degrees at the left hip, and the Codicil rests on it.' He does the Office, a gait of such general and spacious proprietorship that three people in the pit look at their pockets. 'See? Nobody.'".
+    On discuss { Assert knows(actor, bd_crake_name). }
+  }
+  Topic bd_crake_father with bd_crake "Ask him why he does the Warden's walk and not the Assessor's" when wears(actor, face_moth) and publicHours() and not knows(actor, bd_crake_dad) once {
+    Says "'My father did the Assessor.' Venable says it to the boards. 'He did him in the farce that shut us, and he did the walk, and a woman in the third row said the man's name, and that was the Dark Year, and my father went to the Drip and did not come back from it.' He lets the walk go out of him. 'He said it was his walk. He said it so often I believe it. I have never done an Assessor since. I do the Warden's, because the Warden does not walk like anybody I love.'".
+    On discuss { Assert knows(actor, bd_crake_dad). }
+  }
+  Discovery bd_crake_dad "Venable's father played the Assessor in the farce that shut the Wet Stage, said it was his walk that did it, and died in the Drip; Venable has never done an Assessor since." { Known by bd_crake, orme. }
+  Action bd_tell_crake(actor: group, site: place) "Tell him whose line it was that named the Assessor" {
+    Speaker bd_crake. Time 20 minutes.
+    Grave "It cannot be untold. It may cost Madame Orme her house, or her Moth, or both.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(bd_crake, site) and publicHours() and knows(actor, bd_line_known) and knows(actor, bd_crake_dad) and not bd_crake_knows(actor).
+    On success { Assert bd_crake_knows(actor). }
+    Result "He listens with his big hands hanging, and when you have finished he does not say anything for so long that the drip in the aisle counts it. 'A line,' says Venable. 'Hers. In the wings.' He turns his head, slowly, towards the green-room door. 'He knew,' he says. 'That is the thing. He knew, and he said it was the walk, and he let me think it, so that I should not have to hate her, because there was nowhere else for us to be.' He stands very still. 'Don't tell me she's sorry. I should rather not be told.'".
+  }
+  Action bd_cast_moths_free(actor: group, site: place) "Ask him if the Moths will carry the Lampoon, on the manager's word" {
+    Speaker bd_crake. Time 10 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(bd_crake, site) and publicHours() and bd_commissioned(actor) and not bd_cast_moths(actor) and bd_open().
+    On success { Assert bd_cast_moths(actor). Increase bd_craft(actor) by 1. }
+    Result "'Her word?' says Venable. 'Then it is a play. Then it is mine to be frightened about, not hers.' He claps his hands once, and in the wings twelve Moths straighten, as flowers do when the water comes.".
+  }
+  Action bd_cast_moths_ask(actor: group, site: place) "Ask him if the Moths will carry a satire, without Madame Orme's word" {
+    Speaker bd_crake. Time 10 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(bd_crake, site) and publicHours() and not bd_commissioned(actor) and not bd_cast_moths(actor) and bd_open() and bd_admitted(actor).
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert bd_cast_moths(actor). Increase bd_craft(actor) by 1. }
+    Result "'Without her?' says Venable. He looks at the wings, where the Moths are pretending not to listen. 'The Dark Year,' he says. 'You know what you are asking.' And then, because they have been waiting twelve years to be asked: 'We carry it. On our own heads. It is a thing we owe a house.'".
+    Otherwise "'Not without her,' says Venable. 'Not after the last time. Bring me her word and I will bring you the Moths.' He is polite about it, and so are the Moths, who are not looking at you.".
+  }
+  // What the Moths know that the Codicil does not license: a likeness made of lamp, sheet and lamp-black, in the air
+  // above the boards. Given to the company that made them laugh, once, at a Warden. (The shared catalog's reward
+  // spells are too few to teach it as a spell: friction, see the note.)
+  Kind bd_likeness_kind "the Moths' likeness-kit" is gear worth 0 weighing 1 granting deception described "A pot of lamp-black, a sheet gone grey with use and a dark-lantern with a tin hood cut to a shape: all that is wanted to stand a man in the air above the boards who is not there. Whoever carries it learns to wear someone else's bearing for as long as a lie requires, and not a moment longer.".
+  Item bd_likeness "the Moths' likeness-kit" is bd_likeness_kind at offstage.
+  Action bd_echo_lesson(actor: group, site: place) "Ask him for the Moths' likeness-kit, and the trick of it" {
+    Speaker bd_crake. Time 6.
+    Requires able(actor) and company(actor) and at(actor, site) and at(bd_crake, site) and bd_farce_great(actor) and not bd_echo_given(actor).
+    On success { Assert bd_echo_given(actor). Give bd_likeness to actor. }
+    Result "'It is a thing I do and cannot teach,' says Venable, and teaches it, in an hour, with a lamp, a sheet and a pot of black. You do not mimic; you make the air stand up in a shape, and hold it there while somebody looks. 'That is the Warden's walk,' he says, at the end, as the sheet sways between you with nobody in it. 'It is also how you win an argument. I would use it sparingly. It is unkind.' He gives you the kit, which was his father's.".
+  }
+
+  // ── The Lampoon: what it is made of ───────────────────────────────────────────────────────────────────────────────
+  // The bard composes from the city's small stories. Each tale the company has learned may be set down on a leaf of the
+  // prompt-book (five leaves, no more) and brings a measure of laughter, of grief and of anger. What the Lampoon is
+  // *for* is decided leaf by leaf: a tale may be sharpened with a line that cannot be proved (more laughter, and a lie),
+  // softened (less anger, more grief, and someone is let off), or used with or without its keeper's leave. Then a target
+  // is chosen, and a form, and a cast, and the Moths rehearse it, and it is played: on the Wet Stage in the last three
+  // nights of the season if the house is open, or at the Drawing, to the Hall.
+  Kind bd_tale. Kind bd_mark. Kind bd_shape.
+  Entity bd_t_tax: bd_tale "the Warden's Lock-tax".
+  Entity bd_t_unfaced: bd_tale "the Warden's call on the dying Registrar".
+  Entity bd_t_pound: bd_tale "the Short Pound".
+  Entity bd_t_ferry: bd_tale "Rill's boat, sinking by inches".
+  Entity bd_t_sluice: bd_tale "the year of the Sluice".
+  Entity bd_t_girl: bd_tale "the girl who was drawn Treasurer".
+  Entity bd_t_lovers: bd_tale "the Heron and the Lamp".
+  Entity bd_t_dusting: bd_tale "the retainer dusting for no one".
+  Entity bd_t_stair: bd_tale "the stair nobody has used in three hundred years".
+  Entity bd_t_tally: bd_tale "the Rain-Wives' tally".
+  Entity bd_t_hollow: bd_tale "the empty Urn".
+  Entity bd_t_cuts: bd_tale "the Reader's chest of cut jokes".
+  Entity bd_t_cutscene: bd_tale "the Reader and the Joke at his door".
+  Entity bd_t_stock: bd_tale "Tarrow's Walnut".
+  Entity bd_t_candid: bd_tale "the Candid's tracts".
+  Entity bd_t_dark: bd_tale "the Dark Year of the Wet Stage".
+  Entity bd_t_elegy_s: bd_tale "Finch's elegy of Cullet Reach, ending on the Serene".
+  Entity bd_t_elegy_g: bd_tale "Finch's elegy of Cullet Reach, ending on the girl".
+  Entity bd_t_elegy_w: bd_tale "Finch's elegy of Cullet Reach, ending on the water".
+  Entity bd_m_lacke: bd_mark "the Warden of Locks".
+  Entity bd_m_candid: bd_mark "the Candid".
+  Entity bd_m_contessa: bd_mark "the Contessa and the Old Names".
+  Entity bd_m_urn: bd_mark "the Urn".
+  Entity bd_f_farce: bd_shape "a farce".
+  Entity bd_f_elegy: bd_shape "an elegy".
+  Entity bd_f_ballad: bd_shape "a ballad".
+
+  // What each tale is worth: laughter, grief, anger.
+  Measure bd_funny(bd_tale). Measure bd_grief(bd_tale). Measure bd_anger(bd_tale).
+  Initially Set bd_funny(bd_t_tax) to 2. Initially Set bd_anger(bd_t_tax) to 2.
+  Initially Set bd_grief(bd_t_unfaced) to 2. Initially Set bd_anger(bd_t_unfaced) to 2.
+  Initially Set bd_funny(bd_t_pound) to 3. Initially Set bd_anger(bd_t_pound) to 1.
+  Initially Set bd_funny(bd_t_ferry) to 1. Initially Set bd_grief(bd_t_ferry) to 2.
+  Initially Set bd_grief(bd_t_sluice) to 3. Initially Set bd_anger(bd_t_sluice) to 2.
+  Initially Set bd_grief(bd_t_girl) to 2. Initially Set bd_anger(bd_t_girl) to 1.
+  Initially Set bd_funny(bd_t_lovers) to 2. Initially Set bd_grief(bd_t_lovers) to 1.
+  Initially Set bd_funny(bd_t_dusting) to 1. Initially Set bd_grief(bd_t_dusting) to 3.
+  Initially Set bd_funny(bd_t_stair) to 2. Initially Set bd_anger(bd_t_stair) to 1.
+  Initially Set bd_funny(bd_t_tally) to 2. Initially Set bd_anger(bd_t_tally) to 1.
+  Initially Set bd_funny(bd_t_hollow) to 3. Initially Set bd_grief(bd_t_hollow) to 1. Initially Set bd_anger(bd_t_hollow) to 3.
+  Initially Set bd_funny(bd_t_cuts) to 3.
+  Initially Set bd_funny(bd_t_cutscene) to 2. Initially Set bd_grief(bd_t_cutscene) to 2.
+  Initially Set bd_funny(bd_t_stock) to 2.
+  Initially Set bd_funny(bd_t_candid) to 3.
+  Initially Set bd_grief(bd_t_dark) to 2. Initially Set bd_anger(bd_t_dark) to 1.
+  Initially Set bd_grief(bd_t_elegy_s) to 2. Initially Set bd_anger(bd_t_elegy_s) to 3.
+  Initially Set bd_grief(bd_t_elegy_g) to 3. Initially Set bd_anger(bd_t_elegy_g) to 1.
+  Initially Set bd_grief(bd_t_elegy_w) to 3.
+
+  // The tales the company has learned, from the city's own facts and rounds and from the Stage's people.
+  Relation bd_has(bd_tale). Relation bd_set(bd_tale). Relation bd_sharp(bd_tale). Relation bd_soft(bd_tale). Relation bd_leave(bd_tale).
+  Rule bd_has_tax when knows(party, lacke_taxed) and not bd_has(bd_t_tax) { Assert bd_has(bd_t_tax). }
+  Rule bd_has_unfaced when knows(party, lacke_unfaced) and not bd_has(bd_t_unfaced) { Assert bd_has(bd_t_unfaced). }
+  Rule bd_has_pound when roundDone(party, r_pound) and not bd_has(bd_t_pound) { Assert bd_has(bd_t_pound). }
+  Rule bd_has_ferry when roundDone(party, r_ferry) and not bd_has(bd_t_ferry) { Assert bd_has(bd_t_ferry). }
+  Rule bd_has_sluice when knows(party, sluice_known) and not bd_has(bd_t_sluice) { Assert bd_has(bd_t_sluice). }
+  Rule bd_has_girl when knows(party, marrick_was_treasurer) and not bd_has(bd_t_girl) { Assert bd_has(bd_t_girl). }
+  Rule bd_has_lovers when loversMet(party) and not bd_has(bd_t_lovers) { Assert bd_has(bd_t_lovers). }
+  Rule bd_has_dusting when roundDone(party, r_gaspar) and not bd_has(bd_t_dusting) { Assert bd_has(bd_t_dusting). }
+  Rule bd_has_stair when knows(party, private_stair_known) and not bd_has(bd_t_stair) { Assert bd_has(bd_t_stair). }
+  Rule bd_has_tally when knows(party, lie_tally) and not bd_has(bd_t_tally) { Assert bd_has(bd_t_tally). }
+  Rule bd_has_hollow when knows(party, urn_hollow) and not bd_has(bd_t_hollow) { Assert bd_has(bd_t_hollow). }
+  Rule bd_has_cuts when knows(party, bd_cuts_known) and not bd_has(bd_t_cuts) { Assert bd_has(bd_t_cuts). }
+  Rule bd_has_cutscene when knows(party, bd_ludd_scene) and not bd_has(bd_t_cutscene) { Assert bd_has(bd_t_cutscene). }
+  Rule bd_has_stock when knows(party, bd_stock_known) and not bd_has(bd_t_stock) { Assert bd_has(bd_t_stock). }
+  Rule bd_has_candid when knows(party, bd_candid_known) and not bd_has(bd_t_candid) { Assert bd_has(bd_t_candid). }
+  Rule bd_has_dark when knows(party, bd_dark_year) and not bd_has(bd_t_dark) { Assert bd_has(bd_t_dark). }
+  Rule bd_has_elegy_s when bd_elegy_serene(party) and not bd_has(bd_t_elegy_s) { Assert bd_has(bd_t_elegy_s). }
+  Rule bd_has_elegy_g when bd_elegy_girl(party) and not bd_has(bd_t_elegy_g) { Assert bd_has(bd_t_elegy_g). }
+  Rule bd_has_elegy_w when bd_elegy_water(party) and not bd_has(bd_t_elegy_w) { Assert bd_has(bd_t_elegy_w). }
+
+  // Which targets a Lampoon can be aimed at: one must have something set down about it.
+  Relation bd_apt(bd_mark).
+  Rule bd_apt_lacke when (bd_set(bd_t_tax) or bd_set(bd_t_unfaced)) and not bd_apt(bd_m_lacke) { Assert bd_apt(bd_m_lacke). }
+  Rule bd_apt_candid when bd_set(bd_t_candid) and not bd_apt(bd_m_candid) { Assert bd_apt(bd_m_candid). }
+  Rule bd_apt_contessa when (bd_set(bd_t_dusting) or bd_set(bd_t_stair)) and not bd_apt(bd_m_contessa) { Assert bd_apt(bd_m_contessa). }
+  Rule bd_apt_urn when (bd_set(bd_t_sluice) or bd_set(bd_t_hollow) or bd_set(bd_t_tally) or bd_set(bd_t_girl) or bd_set(bd_t_elegy_s) or bd_set(bd_t_elegy_g) or bd_set(bd_t_elegy_w)) and not bd_apt(bd_m_urn) { Assert bd_apt(bd_m_urn). }
+
+  // The prompt-book itself: Madame Orme's black oilcloth one, or (if she is not asked) a blank quarto from Finch.
+  Kind bd_book_kind "the Wet Stage's prompt-book" is gear worth 0 weighing 1 described "A prompt-book bound in black oilcloth gone green at the corners, with a blue tape. The pages are ruled in two columns; the left is for the play. The right is the margin, and the margin is full, in a very small hand, of other people's jokes.".
+  Item bd_prompt_book "the prompt-book" is bd_book_kind at offstage.
+  Relation bd_desk(place).
+  Initially Assert bd_desk(stage_green_room). Initially Assert bd_desk(bd_prompt). Initially Assert bd_desk(stage_flies).
+  Measure bd_jest(group). Measure bd_sorrow(group). Measure bd_ire(group). Measure bd_craft(group). Measure bd_lies(group). Measure bd_leaves(group). Measure bd_rehearsed(group).
+  Topic bd_finch_book with bd_finch "Ask him if he has a book you could write in" when not masked(actor) and privateHours() and not carries(actor, bd_prompt_book) and not bd_commissioned(actor) and not bd_book_given(actor) once {
+    Says "'A book.' He looks at the white foolscap and then at you. 'I have a quarto. It was bound for the elegy; I had it done at the Weights quay by a man who could not read. It is quite empty. I do not think it minds.' He gives it you out of the bottom of the table, with its blue tape still on. 'Don't put anything in it that you could not stand to see struck. Ludd strikes the true ones first.'".
+    On discuss { Assert bd_book_given(actor). Give bd_prompt_book to actor. }
+  }
+  Relation bd_book_given(group).
+
+  Action bd_set_down(actor: group, tale: bd_tale, site: place) "Set down {tale} in the prompt-book" {
+    Time 20 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and bd_desk(site) and carries(actor, bd_prompt_book) and bd_has(tale) and not bd_set(tale) and bd_leaves(actor) < 5.
+    On success { Assert bd_set(tale). Increase bd_leaves(actor) by 1. Increase bd_jest(actor) by bd_funny(tale). Increase bd_sorrow(actor) by bd_grief(tale). Increase bd_ire(actor) by bd_anger(tale). }
+    Result "You turn to a clean leaf and set it down: the beats, the turn, the line at which a house will lean in. It is not a thing yet, only a shape in the left-hand column. In the margin, in somebody else's very small hand, there is already a note about how it might be cut.".
+  }
+  Action bd_sharpen(actor: group, tale: bd_tale, site: place) "Sharpen {tale} with a line you cannot prove" {
+    Time 10 minutes.
+    Grave "The line will get the laugh. It will not be true. A thing said on a stage about a person who is not there is believed.".
+    Requires able(actor) and company(actor) and at(actor, site) and bd_desk(site) and carries(actor, bd_prompt_book) and bd_set(tale) and not bd_sharp(tale) and not bd_soft(tale).
+    On success { Assert bd_sharp(tale). Increase bd_jest(actor) by 2. Increase bd_lies(actor) by 1. }
+    Result "You write the line. It is a good line. It is the kind of thing that would have been true if the world had had a little more taste. You read it back in your head in three voices and it gets a laugh in each, and you leave it in, and do not look at it again.".
+  }
+  Action bd_soften(actor: group, tale: bd_tale, site: place) "Leave out of {tale} the person it would hurt" {
+    Time 10 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and bd_desk(site) and carries(actor, bd_prompt_book) and bd_set(tale) and not bd_sharp(tale) and not bd_soft(tale) and bd_anger(tale) >= 1.
+    On success { Assert bd_soft(tale). Decrease bd_ire(actor) by 1 or to nothing. Increase bd_sorrow(actor) by 1. }
+    Result "You strike the name, and then the shape of the name, and then the pause after where the name would have gone. It is a gentler thing. It is also, you notice, a little more sad, as a room is when someone has stopped being angry in it.".
+  }
+  Observe bd_book_empty at stage_green_room when carries(party, bd_prompt_book) and bd_leaves(party) == 0 "The prompt-book lies open on your knee at a clean leaf. A year of other men's margins looks over its edge.".
+  Observe bd_book_jest at stage_green_room when carries(party, bd_prompt_book) and bd_leaves(party) >= 2 and bd_jest(party) > bd_sorrow(party) + bd_ire(party) "The prompt-book, as it stands, is a funny one. It is all turns and doors; you can hear where the house would go off.".
+  Observe bd_book_grief at stage_green_room when carries(party, bd_prompt_book) and bd_leaves(party) >= 2 and bd_sorrow(party) > bd_jest(party) and bd_sorrow(party) >= bd_ire(party) "The prompt-book, as it stands, is a quiet one. It wants a very still house, and a single lamp.".
+  Observe bd_book_ire at stage_green_room when carries(party, bd_prompt_book) and bd_leaves(party) >= 2 and bd_ire(party) > bd_sorrow(party) and bd_ire(party) >= bd_jest(party) "The prompt-book, as it stands, is an angry one. It is going to want a tune.".
+  Observe bd_book_full at stage_green_room when carries(party, bd_prompt_book) and bd_leaves(party) >= 5 "Every leaf is written. A sixth thing could go in only by putting a fifth out, and a play is a poor sort of thing that has not already left something out.".
+
+  // The keepers of a tale: a thing used with leave is a thing lent; used without, a thing taken.
+  Action bd_leave_peck(actor: group, site: place) "Ask him for leave to sing the year of the Sluice" {
+    Speaker peck. Time 20 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(peck, site) and bd_has(bd_t_sluice) and not bd_leave(bd_t_sluice).
+    On success { Assert bd_leave(bd_t_sluice). }
+    Result "Absalom Peck is a long time answering, and when he does it is to the cup in his hands. 'Sing it,' he says. 'I have been the only verse of it for thirty years, and I never cared for the tune.' He looks up. 'Sing it so they know the water had a name too. I should be obliged to be a verse in the right company.'".
+  }
+  Action bd_leave_rill(actor: group, site: place) "Ask her if her boat may go into the Lampoon" {
+    Speaker rill. Time 20 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(rill, site) and bd_has(bd_t_ferry) and not bd_leave(bd_t_ferry).
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert bd_leave(bd_t_ferry). }
+    Result "'My boat,' says Rill Ketch, and looks along the gunwale she has been bailing for nine years. 'In a play.' She thinks it over like a woman pricing a fare. 'Put her in. She has been in worse company. But she is not to be funnier than she is, and she is not to sink. I will not have her drowned for a laugh.'".
+    Otherwise "'No,' says Rill. 'She is not a story. She is a boat.' She puts her back to you and the bailing-can goes down, over and over, as a drum would.".
+  }
+
+  // ── What the Lampoon is for: target, form and cast ────────────────────────────────────────────────────────────────
+  Relation bd_target(group, bd_mark) exclusive. Relation bd_form(group, bd_shape) exclusive. Relation bd_aimed(group). Relation bd_shaped(group).
+  Action bd_aim(actor: group, mark: bd_mark, site: place) "Aim the Lampoon at {mark}" {
+    Time 10 minutes.
+    Grave "Once the Moths have blocked it, it is aimed. You cannot turn a play on a new man in the wings.".
+    Requires able(actor) and company(actor) and at(actor, site) and bd_desk(site) and carries(actor, bd_prompt_book) and bd_apt(mark) and not bd_aimed(actor).
+    On success { Assert bd_target(actor, mark). Assert bd_aimed(actor). }
+    Result "You write the name at the head of the first leaf, and under it, in the margin, an old hand has already written Under the first head.".
+  }
+  Action bd_shape(actor: group, form: bd_shape, site: place) "Cast the Lampoon as {form}" {
+    Time 10 minutes.
+    Grave "A farce cannot be turned into an elegy in the wings. It is the form you will rehearse, and the form the house will hear.".
+    Requires able(actor) and company(actor) and at(actor, site) and bd_desk(site) and carries(actor, bd_prompt_book) and bd_aimed(actor) and not bd_shaped(actor).
+    On success { Assert bd_form(actor, form). Assert bd_shaped(actor). }
+    Result "You write the form at the head of the page and it is, at once, a little more like a play and a little less like what you meant. Forms do that.".
+  }
+  Relation bd_cast_orme(group). Relation bd_cast_quist(group). Relation bd_cast_self(group).
+  Action bd_cast_orme_act(actor: group, site: place) "Ask her to play the principal part" {
+    Speaker orme. Time 10 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(orme, site) and bd_orme_plays(actor) and not bd_cast_orme(actor) and bd_open().
+    On success { Assert bd_cast_orme(actor). Increase bd_craft(actor) by 2. }
+    Result "'The pearls come off,' says Madame Orme. 'The mask stays on. I shall be a woman in a half-mask, and a half-mask is a thing nobody has ever been able to name.' She holds out her hand for the book. 'I shall want my own cue. I shall want a pail.'".
+  }
+  Action bd_cast_quist_act(actor: group, site: place) "Ask him to play the Pantaloon" {
+    Speaker bd_quist. Time 10 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(bd_quist, site) and bd_quist_happy(actor) and not bd_cast_quist(actor).
+    On success { Assert bd_cast_quist(actor). Increase bd_craft(actor) by 1. }
+    Result "'Three blows,' says Tarrow, 'no more,' and puts the paper nose down over his own, which is the answer.".
+  }
+  Action bd_cast_self_act(actor: group, site: place) "Take the principal part yourself" {
+    Time 10 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and bd_desk(site) and carries(actor, bd_prompt_book) and not bd_cast_self(actor).
+    On success { Assert bd_cast_self(actor). Increase bd_craft(actor) by 1. }
+    Result "You write your own name against the principal part, in pencil, which is how players have always done it, so that it may be crossed out.".
+  }
+  Query bd_cast_any() means bd_cast_moths(party) or bd_cast_orme(party) or bd_cast_quist(party) or bd_cast_self(party).
+
+  // ── The Reader's pencil, and rehearsal ────────────────────────────────────────────────────────────────────────────
+  // A Lampoon goes past the Reader whole, or it is cut. A Reader who is the company's friend, or its fool, or in its
+  // pocket, or gone, does not cut it; one who is none of these takes two off its craft; and one who is passed the sides
+  // under another name does not know what he has passed.
+  Relation bd_passed(group). Relation bd_freed_paid(group). Relation bd_g_trust(group). Relation bd_g_read(group). Relation bd_g_gone(group).
+  Query bd_freed() means bd_ludd_trusts(party) or bd_written_in(party) or bd_ludd_leashed(party) or bd_ludd_gone(party) or bd_passed(party).
+  Rule bd_free_gain when bd_freed() and not bd_freed_paid(party) { Increase bd_craft(party) by 2. Assert bd_freed_paid(party). }
+  Rule bd_trust_gain when bd_ludd_trusts(party) and not bd_g_trust(party) { Increase bd_craft(party) by 1. Assert bd_g_trust(party). }
+  Rule bd_read_gain when bd_written_in(party) and not bd_g_read(party) { Increase bd_craft(party) by 2. Assert bd_g_read(party). }
+  Rule bd_gone_gain when bd_ludd_gone(party) and not bd_g_gone(party) { Increase bd_craft(party) by 1. Assert bd_g_gone(party). }
+  Relation bd_reh_a(group). Relation bd_reh_b(group). Relation bd_reh_c(group).
+  Action bd_reh_block(actor: group, site: place) "Block the Lampoon on the boards with Venable and the Moths" {
+    Speaker bd_crake. Time 12.
+    Requires able(actor) and company(actor) and at(actor, site) and at(bd_crake, site) and bd_shaped(actor) and bd_cast_moths(actor) and not bd_reh_a(actor) and publicHours() and bd_open().
+    Resolve check(actor, performance, dc_fair).
+    On success { Assert bd_reh_a(actor). Increase bd_rehearsed(actor) by 1. Increase bd_craft(actor) by 1. }
+    Result "Two hours with twelve Moths, a chair for the Warden's box and a mop for the Urn. You block the entrances so that nobody falls over anybody, you find the one turn in the second scene where the house will want to breathe, and when the Moths have gone to their dinner it is, for the first time, a thing that can be played.".
+    Otherwise "Two hours, and the chase runs into the chair, and the Moths are patient with you in the way of people who have watched a lot of directors. It will do; it will not do well.".
+  }
+  Action bd_reh_form(actor: group, site: place) "Put the Lampoon in the old form with him, as the Codicil licenses it" {
+    Speaker bd_quist. Time 6.
+    Requires able(actor) and company(actor) and at(actor, site) and at(bd_quist, site) and bd_shaped(actor) and not bd_reh_b(actor) and publicHours() and bd_open().
+    Resolve check(actor, lore, dc_fair).
+    On success { Assert bd_reh_b(actor). Increase bd_rehearsed(actor) by 1. Increase bd_craft(actor) by 1. }
+    Result "The Codicil licenses three forms and says what each one must have: the farce its Five Turns, the elegy its Three Silences, the ballad its Burden at every fourth verse. Tarrow knows them as a man knows his own stairs. You lay the Lampoon on the old frame, and where it was loose it tightens, and where it was clever it is made to wait.".
+    Otherwise "You have the forms wrong in a way Tarrow is too polite to correct, and the Lampoon comes out on the frame like a coat on the wrong peg.".
+  }
+  Action bd_reh_cut(actor: group, site: place) "Hand him the Lampoon's sides under the name of Master Dibble" {
+    Speaker ludd. Time 20 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(ludd, site) and bd_shaped(actor) and masked(actor) and publicHours() and not bd_reh_c(actor) and not bd_freed() and not wears(actor, face_moth).
+    Resolve check(actor, deception, dc_hard).
+    On success { Assert bd_reh_c(actor). Assert bd_passed(actor). Increase bd_rehearsed(actor) by 1. }
+    On failure { Assert bd_reh_c(actor). Assert bd_ludd_sour(actor). }
+    Result "You hand him the sides with the title page turned: THE WEIGHTS AND MEASURES OF MASTER DIBBLE, a second act. He reads it as he reads everything, with his mouth a little open. He cuts a comma. He cuts a second comma. He gives it back with the Reader's oval on it and a note in the margin: Rather better than the first. Do not let them improvise.".
+    Otherwise "He reads the first leaf, and the second, and looks at you with great sadness. 'Master Dibble,' he says, 'has never in his life been a man who might be known by his hip.' He strikes it, whole, in three long red strokes. It will not be possible to unstrike it. It will have to be done from memory.".
+  }
+
+  // ── The Lampoon: ready, played, received ──────────────────────────────────────────────────────────────────────────
+  // Ready when three leaves are written, aimed and cast, and rehearsed once. Played once on the Wet Stage on the last
+  // three nights of the season (days six to eight, between the sixth bell and the eighth) if the house is open, or at
+  // the Drawing, in the Hall, before the Urn: and a Lampoon that flopped on the Stage may be played again at the Drawing.
+  // The house takes it by what it is (a farce, an elegy, a ballad), what it is aimed at, and how well it was made.
+  Relation bd_lampoon_ready(group). Relation bd_played(group). Relation bd_reacted(group). Relation bd_flopped(group). Relation bd_venue_told(group).
+  Relation bd_great_night(group). Relation bd_farce_great(group). Relation bd_drip_sings(group). Relation bd_flagged(group). Relation bd_morning_told(group).
+  Measure bd_venue(group). Measure bd_mood(group). Measure bd_when(group).
+  Rule bd_ready when bd_leaves(party) >= 3 and bd_aimed(party) and bd_shaped(party) and bd_cast_any() and bd_rehearsed(party) >= 1 and not bd_lampoon_ready(party)
+    says "It is a play now. Not a good one yet, or a bad one, but a thing with a first scene and a last, in somebody's hand, with a cast who know their entrances and a Reader who has not yet been asked. It could be put on a stage tomorrow, or in the Hall of the Urn on the ninth night. Nothing is left to settle except how, and nothing has ever been settled until the lamps go down." {
+    Assert bd_lampoon_ready(party). Assert handReady(party, hand_lampoon). Assert arcBegun(party, hand_lampoon). }
+  Query bd_stage_night() means day(clock) >= 6 and day(clock) <= 8 and hour(clock) >= 18 and hour(clock) < 20.
+  Query bd_fair() means (bd_form(party, bd_f_farce) and bd_jest(party) + bd_craft(party) >= 14) or (bd_form(party, bd_f_elegy) and bd_sorrow(party) + bd_craft(party) >= 13)
+    or (bd_form(party, bd_f_ballad) and bd_ire(party) + bd_sorrow(party) + bd_craft(party) >= 18).
+  Query bd_great() means (bd_form(party, bd_f_farce) and bd_jest(party) + bd_craft(party) >= 20) or (bd_form(party, bd_f_elegy) and bd_sorrow(party) + bd_craft(party) >= 19)
+    or (bd_form(party, bd_f_ballad) and bd_ire(party) + bd_sorrow(party) + bd_craft(party) >= 24).
+
+  Action bd_play_stage(actor: group, site: place) "Go on: play the Lampoon to the house" {
+    Time 6.
+    Grave "It is played once on this stage. Whatever the house makes of it, it has made of it.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, bd_stage) and bd_lampoon_ready(actor) and not bd_played(actor) and bd_open() and bd_stage_night() and not bd_cast_self(actor).
+    On success { Assert bd_played(actor). Set bd_venue(actor) to 1. Set bd_when(actor) to watch(clock). }
+    Result "The lamps go down, a lamp at a time, and the Moths go on.".
+  }
+  Action bd_play_stage_self(actor: group, site: place) "Go on yourself, in the principal part, and play the Lampoon to the house" {
+    Time 6.
+    Grave "It is played once on this stage. Whatever the house makes of it, it has made of it.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, bd_stage) and bd_lampoon_ready(actor) and not bd_played(actor) and bd_open() and bd_stage_night() and bd_cast_self(actor).
+    Resolve check(actor, performance, dc_fair).
+    On success { Assert bd_played(actor). Set bd_venue(actor) to 1. Set bd_when(actor) to watch(clock). Increase bd_craft(actor) by 2. Assert bd_nerve_good(actor). }
+    On failure { Assert bd_played(actor). Set bd_venue(actor) to 1. Set bd_when(actor) to watch(clock). Decrease bd_craft(actor) by 2 or to nothing. Assert bd_nerve_bad(actor). }
+    Result "You tie the half-mask on, and the lamps go down.".
+    Otherwise "You tie the half-mask on, and the lamps go down.".
+  }
+  Action bd_play_hall(actor: group, site: place) "Play the Lampoon to the Hall, before the Urn" {
+    Time 6.
+    Grave "The Hall is the whole city, and it will not be asked twice.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, urn_hall) and drawingNight() and bd_lampoon_ready(actor) and (not bd_played(actor) or bd_flopped(actor)) and not bd_cast_self(actor).
+    On success { Assert bd_played(actor). Set bd_venue(actor) to 2. Set bd_when(actor) to watch(clock). Retract bd_reacted(actor). Retract bd_flopped(actor). Retract bd_venue_told(actor). Assert handPlayed(party, hand_lampoon). Increase heat(actor) by 1. }
+    Result "A Moth sets a lantern on the floor in front of the bronze jar, and the Hall, which was talking, finds that it has stopped.".
+  }
+  Action bd_play_hall_self(actor: group, site: place) "Go on yourself before the Urn, and play the Lampoon to the Hall" {
+    Time 6.
+    Grave "The Hall is the whole city, and it will not be asked twice.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, urn_hall) and drawingNight() and bd_lampoon_ready(actor) and (not bd_played(actor) or bd_flopped(actor)) and bd_cast_self(actor).
+    Resolve check(actor, performance, dc_hard).
+    On success { Assert bd_played(actor). Set bd_venue(actor) to 2. Set bd_when(actor) to watch(clock). Retract bd_reacted(actor). Retract bd_flopped(actor). Retract bd_venue_told(actor). Retract bd_nerve_told(actor). Retract bd_nerve_bad(actor).
+      Assert handPlayed(party, hand_lampoon). Increase heat(actor) by 1. Increase bd_craft(actor) by 2. Assert bd_nerve_good(actor). }
+    On failure { Assert bd_played(actor). Set bd_venue(actor) to 2. Set bd_when(actor) to watch(clock). Retract bd_reacted(actor). Retract bd_flopped(actor). Retract bd_venue_told(actor). Retract bd_nerve_told(actor). Retract bd_nerve_good(actor).
+      Assert handPlayed(party, hand_lampoon). Increase heat(actor) by 1. Decrease bd_craft(actor) by 2 or to nothing. Assert bd_nerve_bad(actor). }
+    Result "You step into the chalk line with the Hall at your back and the jar at your front, and the lantern is set down at your feet.".
+    Otherwise "You step into the chalk line with the Hall at your back and the jar at your front, and the lantern is set down at your feet.".
+  }
+  Relation bd_nerve_good(group). Relation bd_nerve_bad(group). Relation bd_nerve_told(group).
+
+  Rule bd_venue_stage when bd_played(party) and bd_venue(party) == 1 and not bd_venue_told(party) and not bd_ludd_gone(party) and not bd_written_in(party)
+    says "The house is full to the sailcloth. In the Warden's box, in his master's chair with the carved key, sits the Reader in his Crow, a pencil in each hand and the third behind his ear. Below him, in the wings, Madame Orme is a grey shape with a prompt-book against her chest. The lamps go down, a lamp at a time, and the Cuff takes up its half-beat under the floor. And the Moths go on." { Assert bd_venue_told(party). }
+  Rule bd_venue_stage_read when bd_played(party) and bd_venue(party) == 1 and not bd_venue_told(party) and bd_written_in(party)
+    says "The house is full to the sailcloth. In the Warden's box, in his master's chair, sits the Reader in his Crow with the prompt-book shut on his knee and his lips moving. Below him, in the wings, Madame Orme is a grey shape with her fist at her throat. The lamps go down, a lamp at a time. The Moths go on, and somewhere in the second scene a man in the Warden's box begins to say a part under his breath, and stops, and is very still." { Assert bd_venue_told(party). }
+  Rule bd_venue_stage_gone when bd_played(party) and bd_venue(party) == 1 and not bd_venue_told(party) and bd_ludd_gone(party) and not bd_written_in(party)
+    says "The house is full to the sailcloth, and the Warden's box has in it a new man with a notebook and no pencil, who looks about him in the manner of someone who has been sent to read a thing he has not been taught to. Below him, in the wings, Madame Orme is a grey shape with a prompt-book against her chest. The lamps go down. The Moths go on." { Assert bd_venue_told(party). }
+  Rule bd_venue_hall when bd_played(party) and bd_venue(party) == 2 and not bd_venue_told(party)
+    says "It is the biggest house the Moths have ever played, and it is not a house at all: it is a city standing in its wet wool between nineteen chairs. They have cleared a space before the bronze jar. It is thirty feet, a chalk line, and no proscenium. The Moths go on in the light of a single lantern, and the Hall, which has come to see a Drawing, is made to wait." { Assert bd_venue_told(party). }
+
+  // How the player's own turn goes is told after the house has been, as a house is told by the one on the boards.
+  Rule bd_nerve_good_says when bd_venue_told(party) and bd_nerve_good(party) and not bd_nerve_told(party)
+    says "And you go on. The part is a coat that fits. You stop being afraid at about the second line, which is the only place anyone ever does." { Assert bd_nerve_told(party). }
+  Rule bd_nerve_bad_says when bd_venue_told(party) and bd_nerve_bad(party) and not bd_nerve_told(party)
+    says "And you go on, and for the first minute you are somebody else's idea of a player, and the house is kind about it. You find the part by the second scene. The first is gone." { Assert bd_nerve_told(party). }
+
+  // A Lampoon that is not good enough does not offend anybody. It is only a play.
+  Rule bd_flop_farce when bd_venue_told(party) and not bd_reacted(party) and bd_form(party, bd_f_farce) and not bd_fair()
+    says "The first laugh does not come. The Moths hold for it, as players do, with that faint nasal brightness, and it arrives at last from a Cockle in the third row, alone, and dies of loneliness. The second act goes by like a cart in a quiet street. It is not a disgrace. It is only a play. In the lobby, afterwards, nobody says anything, in a number of masks." { Assert bd_reacted(party). Assert bd_flopped(party). Set bd_mood(party) to 0. }
+  Rule bd_flop_elegy when bd_venue_told(party) and not bd_reacted(party) and bd_form(party, bd_f_elegy) and not bd_fair()
+    says "The elegy asks for silence and receives it, which is a different thing from being heard. The house sits through it as a house sits through a sermon on a subject it has already agreed with. Somebody coughs. Somebody laughs, at the wrong place, helplessly, and is hushed. It is not bad. It is only that nothing in it is yet true enough to hurt." { Assert bd_reacted(party). Assert bd_flopped(party). Set bd_mood(party) to 0. }
+  Rule bd_flop_ballad when bd_venue_told(party) and not bd_reacted(party) and bd_form(party, bd_f_ballad) and not bd_fair()
+    says "The ballad has too many verses and a tune nobody can sing. The Gulls try; the Magpies try; the house, sportingly, hums. By the ninth verse the Moths are singing to themselves, and the Cuff is singing under them in the piles, a little flat, and kinder." { Assert bd_reacted(party). Assert bd_flopped(party). Set bd_mood(party) to 0. }
+
+  // Twelve ways it can be received, by what it is aimed at and what it is. Fair or great.
+  Rule bd_lacke_farce when bd_venue_told(party) and not bd_reacted(party) and bd_fair() and bd_target(party, bd_m_lacke) and bd_form(party, bd_f_farce)
+    says "The Moths give the Warden of Locks a key for every door and a door for none, and by the second act he is locked out of his own house by a cat. The tallymen's clerks in the Magpie dominoes know exactly what a Lock-tax is, and they are the first to go: the laughter starts there and goes through the room like a draught through a lit church. Nobody says a name. A great deal of the evening is spent not saying it, loudly." {
+    Assert bd_reacted(party). Assert bd_lacke_stung(party). Set bd_mood(party) to 1. Set handWay(hand_lampoon) to 1. }
+  Rule bd_lacke_elegy when bd_venue_told(party) and not bd_reacted(party) and bd_fair() and bd_target(party, bd_m_lacke) and bd_form(party, bd_f_elegy)
+    says "It is an elegy for a man still living: for the Warden of Locks, who counted every key in Ombra and was never once asked to dinner. The Moths play it slowly, in the grey light of a single lamp, and the room does what rooms never do for a Warden: it listens. At the last line, about a man who locked up a city and could not remember, at the end, what he had been afraid of, someone in the dark says 'Ah,' as if a bone had been set." {
+    Assert bd_reacted(party). Assert bd_lacke_spent(party). Set bd_mood(party) to 2. Set handWay(hand_lampoon) to 2. }
+  Rule bd_lacke_ballad when bd_venue_told(party) and not bd_reacted(party) and bd_fair() and bd_target(party, bd_m_lacke) and bd_form(party, bd_f_ballad)
+    says "A ballad of the Lock-tax, to a ferrymen's tune any child in the Drip can sing, in sixteen verses, each ending on the price of a door. By the fourth verse the Gulls at the end of the benches have it, and by the eighth the whole room is singing the price of a door in the Warden's own voice, which is a bad tune to be sung to a man, and a worse one to sing in a crowd. When they have done, nobody goes home." {
+    Assert bd_reacted(party). Assert bd_lacke_stung(party). Assert bd_room_angry(party). Set bd_mood(party) to 3. Set handWay(hand_lampoon) to 3. }
+  Rule bd_candid_farce when bd_venue_told(party) and not bd_reacted(party) and bd_fair() and bd_target(party, bd_m_candid) and bd_form(party, bd_f_farce)
+    says "The Candid enters, in a mask of no mask, and announces that everything shall be known. The Moths pass her a locked door, which she informs, at some length, ought to be open; she explains this to the door. It goes on; it has the grace of something that is true. The Reading-room's regulars laugh hardest, and a little late, as people do who have just found the pamphlet in their own pocket." {
+    Assert bd_reacted(party). Assert bd_candid_weak(party). Set bd_mood(party) to 1. Set handWay(hand_lampoon) to 1. }
+  Rule bd_candid_elegy when bd_venue_told(party) and not bd_reacted(party) and bd_fair() and bd_target(party, bd_m_candid) and bd_form(party, bd_f_elegy)
+    says "A lament for the Book of Faces, which is not here: played as a loss, in a bare light, by Moths with their half-masks off one after another, not saying who they are. It is not a satire. It is the Candid's own cause told to her as grief, and the room, which had come to jeer, remembers what it was to have a name. Somebody at the back begins to cry, and does not stop." {
+    Assert bd_reacted(party). Assert bd_candid_strong(party). Set bd_mood(party) to 2. Set handWay(hand_lampoon) to 2. }
+  Rule bd_candid_ballad when bd_venue_told(party) and not bd_reacted(party) and bd_fair() and bd_target(party, bd_m_candid) and bd_form(party, bd_f_ballad)
+    says "A ballad of the Open Book, fifty verses, every one of them beginning 'Who wore the Key?' The Moths sing it as a march. It is the Candid's own song, given back with the tune put right, and the room, which was at best amused by her, has it by the third verse and is tramping on the benches by the sixth. It is a very good song. It is very much the song she would have wanted, and not at all the one she would have written." {
+    Assert bd_reacted(party). Assert bd_candid_strong(party). Assert bd_room_angry(party). Set bd_mood(party) to 3. Set handWay(hand_lampoon) to 3. }
+  Rule bd_contessa_farce when bd_venue_told(party) and not bd_reacted(party) and bd_fair() and bd_target(party, bd_m_contessa) and bd_form(party, bd_f_farce)
+    says "A great house of nine hundred rooms and one servant, who is dusting. The Moths play the Fourteen Palaces as fourteen very old people sitting down to a dinner for forty, each politely waiting for the others to die. The Hill's retainers in the back rows laugh until they have to hold the benches, and then look about to see whether anyone saw." {
+    Assert bd_reacted(party). Assert bd_hill_stung(party). Set bd_mood(party) to 1. Set handWay(hand_lampoon) to 1. }
+  Rule bd_contessa_elegy when bd_venue_told(party) and not bd_reacted(party) and bd_fair() and bd_target(party, bd_m_contessa) and bd_form(party, bd_f_elegy)
+    says "An old servant with a feather duster goes through an empty palace room by room, dusting for a family that has gone to live in the Drip and sew hems. He dusts a portrait, and a chair, and a place laid at table for forty. When it is over a number of the Hill's retainers, in the good Magpie dominoes they have brought for the occasion, sit very still and do not applaud. It is the greatest compliment the Stage has ever been paid." {
+    Assert bd_reacted(party). Assert bd_hill_moved(party). Set bd_mood(party) to 2. Set handWay(hand_lampoon) to 2. }
+  Rule bd_contessa_ballad when bd_venue_told(party) and not bd_reacted(party) and bd_fair() and bd_target(party, bd_m_contessa) and bd_form(party, bd_f_ballad)
+    says "'The Song of the Fourteen' is a rousing thing, and an unkind one: a catalogue of palaces, each with its debt, its duel and its portrait, to the tune of a funeral march that speeds up. The Drip knows the tune. By the end the room is stamping, and the Hill's few retainers in the boxes are very upright, as men are who are listening to a hundred years go out through a door." {
+    Assert bd_reacted(party). Assert bd_hill_stung(party). Assert bd_room_angry(party). Set bd_mood(party) to 3. Set handWay(hand_lampoon) to 3. }
+  Rule bd_urn_farce when bd_venue_told(party) and not bd_reacted(party) and bd_fair() and bd_target(party, bd_m_urn) and bd_form(party, bd_f_farce)
+    says "The Urn is played by Tarrow, if there is a Tarrow, or else by a Moth in a barrel with a slot. Every year a man puts a tessera into the slot. Every year somebody draws out a name. The joke is in the draw: the Pantaloon, with a face of enormous gravity, reaches into himself and brings out the name of whoever is in the best coat. It is the funniest thing the Wet Stage has done in twelve years. Several people in the room have stopped laughing, one at a time, and are looking at their neighbours." {
+    Assert bd_reacted(party). Assert bd_urn_laughed(party). Set bd_mood(party) to 1. Set handWay(hand_lampoon) to 1. }
+  Rule bd_urn_elegy when bd_venue_told(party) and not bd_reacted(party) and bd_fair() and bd_target(party, bd_m_urn) and bd_form(party, bd_f_elegy)
+    says "An elegy for the Urn: a requiem in two voices for a jar that has been shaken in public every year for three hundred years and has given the city, every year, exactly the people it needed. The Moths play it without irony, which is the most dangerous way. The room hears, under the grief, something worse than grief: the sound of a thing being forgiven in advance." {
+    Assert bd_reacted(party). Assert bd_urn_mourned(party). Set bd_mood(party) to 2. Set handWay(hand_lampoon) to 2. }
+  Rule bd_urn_ballad when bd_venue_told(party) and not bd_reacted(party) and bd_fair() and bd_target(party, bd_m_urn) and bd_form(party, bd_f_ballad)
+    says "A ballad of the Sluice, to the lamp-trimmers' tune. It is about water, and six hundred, and a man in a gallery who said nothing; and about a jar at the end with a slot in it, into which the singer drops, one at a time, the names of the dead. The room does not like it. The room has not been asked to like it. By the last verse it is on its feet, and very angry, and it is not entirely clear at whom." {
+    Assert bd_reacted(party). Assert bd_urn_angry(party). Assert bd_room_angry(party). Set bd_mood(party) to 3. Set handWay(hand_lampoon) to 3. }
+  Relation bd_lacke_laughed(group). Relation bd_lacke_stung(group). Relation bd_lacke_spent(group). Relation bd_lacke_mobbed(group). Relation bd_candid_weak(group). Relation bd_candid_strong(group).
+  Relation bd_hill_stung(group). Relation bd_hill_moved(group). Relation bd_urn_laughed(group). Relation bd_urn_mourned(group). Relation bd_urn_angry(group). Relation bd_urn_told(group). Relation bd_room_angry(group).
+
+  // When the Urn is known to be empty and the Lampoon is aimed at it, somebody says so, in the middle, without any
+  // change of voice.
+  Rule bd_reveal when bd_reacted(party) and not bd_flopped(party) and bd_target(party, bd_m_urn) and bd_set(bd_t_hollow) and not bd_urn_told(party)
+    says "And somewhere in the second movement, without any change of voice, the Pantaloon says that the Urn is empty. It goes into the room like a stone into a well, and the room does not make a sound for the whole time it takes to land. Then, in the third row, a Cockle laughs once, very loud, as a person does who has been afraid for some time of exactly that, and the room goes on from there." { Assert bd_urn_told(party). }
+
+  // The great night: it does not stop when the lamps come up. And what it does to the man it was aimed at.
+  Rule bd_great_farce when bd_reacted(party) and not bd_flopped(party) and bd_form(party, bd_f_farce) and bd_great() and not bd_great_night(party)
+    says "It is the sort of night the Stage dreams of: the laugh that does not stop at the end of the line but goes on after it, going round the room by itself, as water finds its level. When the Moths take their call the pit is on its feet. A man in the Magpie dominoes has to be helped out. They will have the best of it by heart in the Row by morning." { Assert bd_great_night(party). Assert bd_farce_great(party). }
+  Rule bd_great_elegy when bd_reacted(party) and not bd_flopped(party) and bd_form(party, bd_f_elegy) and bd_great() and not bd_great_night(party)
+    says "At the end there is no applause, and it is not that kind of silence. Nobody moves. A Gull in the front row is holding the hand of a person she has not met. The lamps are brought up a lamp at a time, and in the whole house nobody wants to be the first to be seen." { Assert bd_great_night(party). }
+  Rule bd_great_ballad when bd_reacted(party) and not bd_flopped(party) and bd_form(party, bd_f_ballad) and bd_great() and not bd_great_night(party)
+    says "The Burden comes round for the fourth time and the whole house has it, from the Gulls at the back to the Magpies in the boxes, in a rough ragged chorus like the sea coming in. When the Moths stop, the house does not. They sing it out of the door and across the Mask bridge, and the sound of it goes on down Maskers' Lane for an hour, getting smaller, like a boat going out." { Assert bd_great_night(party). Assert bd_drip_sings(party). }
+  Rule bd_ballad_drip when bd_reacted(party) and not bd_flopped(party) and bd_form(party, bd_f_ballad) and not bd_drip_sings(party) { Assert bd_drip_sings(party). }
+  Rule bd_topple when bd_great_night(party) and bd_farce_great(party) and bd_target(party, bd_m_lacke) and not bd_lacke_laughed(party)
+    says "By morning the Row has it. In the Tally Coffee-house a man in a Magpie domino says the word 'cat', and four tallymen put their cups down." { Assert bd_lacke_laughed(party). }
+  Rule bd_mobbed when bd_great_night(party) and bd_form(party, bd_f_ballad) and bd_target(party, bd_m_lacke) and not bd_lacke_mobbed(party)
+    says "In the small hours a crowd goes down the Row singing the price of a door, and stops outside the Warden's house. Nobody breaks anything. A great many people, in a great many wet coats, stand in the street and sing at a lit window until it goes out." { Assert bd_lacke_mobbed(party). Increase heat(party) by 1. }
+  Rule bd_morning_after_song when bd_reacted(party) and not bd_flopped(party) and not bd_morning_told(party) and bd_mood(party) == 3 and watch(clock) >= bd_when(party) + 50 and hour(clock) >= 8 and hour(clock) < 20
+    says "By the morning the Lampoon is in the streets. Nobody has written it down, and everybody has it. In the Masked Hours, where nothing is said, a woman in a Cockle is humming the Burden under her breath at the baker's, and the baker, in his own Cockle, is humming it back." { Assert bd_morning_told(party). }
+  Rule bd_morning_after when bd_reacted(party) and not bd_flopped(party) and not bd_morning_told(party) and watch(clock) >= bd_when(party) + 50 and hour(clock) >= 8 and hour(clock) < 20
+    says "The Wet Stage has been talked about. Not in the Masked Hours, where nothing is, but in the voice a city uses for what it has said and cannot take back." { Assert bd_morning_told(party). }
+  Observe bd_prompt_heard at bd_prompt when bd_ludd_heard(party) "The slit in the canvas, through which you watched a man play a joke to the dark, looks smaller by day, and a good deal more like a thing that was not meant to be looked through.".
+
+  // ── What the Stage gives the company that played it ───────────────────────────────────────────────────────────────
+  Kind bd_tongue_kind "the Moth's tongue" is gear worth 0 weighing 0 granting performance described "A thin silver tongue no longer than a finger-joint, pierced for a ribbon: the Moth's tongue, which every player of the Wet Stage is given the night she is first applauded, and which she wears behind the half-mask, against the teeth. It is said to put a word where the next one ought to be. It is certainly very cold.".
+  Item bd_tongue "the Moth's tongue" is bd_tongue_kind at offstage.
+  Relation bd_tongue_given(group). Relation bd_lesson_taken(group).
+  Topic bd_orme_after with orme "Ask her how the house took it" when bd_reacted(actor) and not bd_flopped(actor) and not bd_tongue_given(actor) once {
+    Says "'How it took it,' says Madame Orme. She is in the wings still, in the half-mask, with the prompt-book against her chest; she has not taken off the choker. 'They took it as they take rain. They stood in it.' She goes to the shelf over the stove and comes back with a thing in her palm. 'Every Moth has one on the night she is first applauded. I was given mine at nineteen, and pawned it at thirty, and bought it back at forty-three. It is nothing. It is a little cold. Put it behind your teeth and say a line.'".
+    On discuss { Assert bd_tongue_given(actor). Give bd_tongue to actor. }
+  }
+  Topic bd_orme_after_flop with orme "Ask her how the house took it" when bd_reacted(actor) and bd_flopped(actor) and not bd_orme_after_told(actor) once {
+    Says "'They took it as a play,' says Madame Orme. 'That is no insult. A play is a thing that can be played again.' She does not look at you; she looks at the stage, which she has looked at every night for thirty-seven years. 'You wanted it to be a stone, and it was a pebble. There are nights for stones. This was not one.'".
+    On discuss { Assert bd_orme_after_told(actor). }
+  }
+  Relation bd_orme_after_told(group).
+  Action bd_orme_lesson(actor: group, reader: member, site: place) "Sit for her lesson in how to hold a room" {
+    Speaker orme. Time 12.
+    Requires able(actor) and company(actor) and at(actor, site) and at(orme, site) and memberOf(reader, actor) and awake(reader) and bd_reacted(actor) and not bd_flopped(actor) and not bd_lesson_taken(actor).
+    Resolve endow(reader, charisma, by_one).
+    On success { Assert bd_lesson_taken(actor). }
+    Result "She gives it you without a gesture, in the empty pit, standing at the back with her hands behind her: how to arrive in a room as if the room had been waiting; how to wait for the doubt; how to stop. 'You do not hold a house,' says Madame Orme. 'You let it hold you, and then you do not drop it.' It takes two hours. It is the best two hours of teaching you have had, and she does not once say that it is.".
+  }
+
+  // A mask that did a mask's kind of good is remembered on the mask.
+  Relation bd_gw_paid(group).
+  Rule bd_goodwill_moth when bd_reacted(party) and not bd_flopped(party) and wears(party, face_moth) and not bd_gw_paid(party) { Increase goodwill(face_moth) by 1. Assert bd_gw_paid(party). }
+  // How the company comes to the Wet Stage at all: the Annex rents the players' mask, and Moll has seen who wears it.
+  Discovery bd_stage_hint "The Wardrobe Annex rents the Moth, the players' half-mask, to anyone with three coin; the Wet Stage in Maskers' Lane takes whoever wears it for one of its own, for as long as the face lasts, and its manager is short of players." { Known by moll. }
+  Topic bd_moll_moth with moll "Ask which face a person wears to be taken for a player" when not knows(actor, bd_stage_hint) once {
+    Says "Moll considers the pegs. 'The Moth,' he says. 'Grey, with the wings. They rent it to the Wet Stage by the dozen when theirs are wet, which is always, and the Wet Stage's manager looks at any Moth who walks in and wonders whether it can say a line.' A pause. 'It generally cannot. But she looks. Maskers' Lane, past the Mask bridge, the barge with a roof like a bad tooth.'".
+    On discuss { Assert knows(actor, bd_stage_hint). }
+  }
+
+  // The song the Drip sings, and who hums it.
+  Observe bd_drip_ballad at bread_market when bd_drip_sings(party) and bd_form(party, bd_f_ballad) "From somewhere in the bread-market comes a man's voice, humming the tune of the Lampoon, and a baker's boy, correcting him, has the second verse. They are not a very good duet. It is, you suppose, what it is for.".
+  Observe bd_drip_other at bread_market when bd_drip_sings(party) and not bd_form(party, bd_f_ballad) "In the bread-market somebody is telling the best of the Wet Stage's night to somebody who was not there, doing the voices; and the somebody who was not there is laughing, with the face of a person who will be able to say, afterwards, that he knew it.".
+  Observe bd_moll_hums near moll when bd_drip_sings(party) "Ferris Moll, who does not look up, is humming something under his breath as he writes your coin in the book: three bars of it, and again. He does not seem to know he is doing it.".
+
+  // ── Milestones ────────────────────────────────────────────────────────────────────────────────────────────────────
+  Query bd_ludd_done() means bd_written_in(party) or bd_ludd_trusts(party) or bd_ludd_leashed(party) or bd_ludd_gone(party) or bd_codicil(wet_stage) or bd_passed(party) or bd_sealed(wet_stage).
+  Milestone bd_ms_licence "The Wet Stage keeps its licence" worth 25 when bd_kept(wet_stage) or bd_restored(wet_stage).
+  Milestone bd_ms_ludd "The Reader is dealt with" worth 50 when bd_ludd_done().
+  Milestone bd_ms_finch "Finch writes again" worth 25 when bd_finch_moved(party).
+  Milestone bd_ms_orme "Madame Orme gives you her book" worth 25 when bd_commissioned(party) or bd_orme_plays(party).
+  Milestone bd_ms_quist "Tarrow's house forgets itself" worth 25 when bd_quist_happy(party).
+  Milestone bd_ms_lampoon "The Lampoon is played" worth 75 when bd_reacted(party) and not bd_flopped(party).
+  Milestone bd_ms_great "The house forgets itself" worth 50 when bd_great_night(party).
+  Milestone bd_ms_drip "A song the Drip sings" worth 25 when bd_drip_sings(party).
+
+  // ── The Lampoon at the Drawing, when it has been played already ───────────────────────────────────────────────────
+  // A Lampoon that went well on the Wet Stage has been talked of; at the Drawing it is carried into the Hall by whoever
+  // heard it, and counts as played without the Moths going on again.
+  Rule bd_echo_farce when drawingNight() and at(party, urn_hall) and bd_reacted(party) and not bd_flopped(party) and bd_venue(party) == 1 and not handPlayed(party, hand_lampoon) and bd_form(party, bd_f_farce)
+    says "In the Hall of the Urn, among the nineteen chairs, somebody at the back says a word softly to somebody else, and by the time it has been passed to the front there is a laugh in it. The Wet Stage got here before the Moths." { Assert handPlayed(party, hand_lampoon). Set handWay(hand_lampoon) to 1. }
+  Rule bd_echo_elegy when drawingNight() and at(party, urn_hall) and bd_reacted(party) and not bd_flopped(party) and bd_venue(party) == 1 and not handPlayed(party, hand_lampoon) and bd_form(party, bd_f_elegy)
+    says "Somebody in the Hall is humming, very low, the burden of the elegy, and the Drip around her is going quiet in the way people do when they find that they are all holding the same hand." { Assert handPlayed(party, hand_lampoon). Set handWay(hand_lampoon) to 2. }
+  Rule bd_echo_ballad when drawingNight() and at(party, urn_hall) and bd_reacted(party) and not bd_flopped(party) and bd_venue(party) == 1 and not handPlayed(party, hand_lampoon) and bd_form(party, bd_f_ballad)
+    says "From the back of the Hall, from the Drip's benches, a voice begins the Burden; and by the second line it is the Hall's." { Assert handPlayed(party, hand_lampoon). Set handWay(hand_lampoon) to 3. }
+
+  // ── Fates: what became of the Wet Stage and its people ────────────────────────────────────────────────────────────
+  // Told in the last hour before the book closes. The Lampoon's own account comes last.
+  Relation bd_fate_done(group). Relation bd_fate_stage(place). Relation bd_fate_lampoon(group).
+  Rule bd_fate_orme_played when newsHour() and bd_cast_orme(party) and bd_reacted(party) and not bd_flopped(party) and not bd_fate_done(orme) once
+    says "Of Madame Orme: She played the principal part of the Lampoon in a half-mask and without the pearls, and nobody in the third row said a name that night, or any night. In the spring the choker came back from the pawnshop at the Weights quay, a pearl at a time, in the order they had gone. She wears it with every fourth pearl paste, to remember which." { Assert bd_fate_done(orme). }
+  Rule bd_fate_orme_crake when newsHour() and bd_crake_knows(party) and not bd_fate_done(orme) once
+    says "Of Madame Orme: Tobiah Venable told her, on the morning after, that he had always known whose line it was; she sat down on a hamper and did not speak. A week later, in the empty pit, they did the Pump together, the Assessor's year inside the Pump's three minutes. The Moths who watched say that nobody has ever been so exactly said, or so forgiven." { Assert bd_fate_done(orme). }
+  Rule bd_fate_orme_dark when newsHour() and bd_revoked(wet_stage) and not bd_restored(wet_stage) and not bd_fate_done(orme) once
+    says "Of Madame Orme: The Wet Stage was dark for the rest of the Novena, and she sat in the green room with the accounts and the pearls and played the Pump to the bucket. On the tenth morning, whoever the Warden then was, his clerk came for the licence. She asked him to wait, and finished the figures." { Assert bd_fate_done(orme). }
+  Rule bd_fate_orme_flop when newsHour() and bd_played(party) and bd_flopped(party) and not bd_fate_done(orme) once
+    says "Of Madame Orme: She kept your prompt-book on the shelf over the stove, with the blue tape on it, next to her own. 'A play,' she says, to anyone who asks. 'It is a play that has not been played properly yet. There is a great deal to be said for being a play that has not been played.'" { Assert bd_fate_done(orme). }
+  Rule bd_fate_orme_watched when newsHour() and bd_reacted(party) and not bd_flopped(party) and not bd_fate_done(orme) once
+    says "Of Madame Orme: She watched the Lampoon from the wings with the prompt-book against her chest, and did not once look at the stage; she watched the house. 'There,' she said, at the end, in the dark. 'That is what it was like.' She has not said what it was like. Master Dibble has come off the board, and the Pump is on it for the spring." { Assert bd_fate_done(orme). }
+  Rule bd_fate_orme_default when newsHour() and not bd_fate_done(orme) once
+    says "Of Madame Orme: The Wet Stage played Master Dibble to the end of its season, to a house that clapped, and she kept the pearl choker on and the accounts in the heap. On wet nights she is said to be heard in the empty pit giving the Pump, both parts, to the drip." { Assert bd_fate_done(orme). }
+
+  Rule bd_fate_ludd_read when newsHour() and bd_written_in(party) and not bd_fate_done(ludd) once
+    says "Of Master Ludd: He sat in the Warden's box on the last night with the prompt-book shut on his knee, and when the Joke came on he said the Reader's lines under his breath along with the Moth, a half-beat late, like the house. His report to the Warden was one line: A revival of Master Dibble. Passed. He plays one cut joke a night now, from the chest, before the farce, and calls it the Reader's Cue." { Assert bd_fate_done(ludd). }
+  Rule bd_fate_ludd_friend when newsHour() and bd_ludd_trusts(party) and not bd_fate_done(ludd) once
+    says "Of Master Ludd: He sealed the season and went on sealing it, and cut rather less than he had. The chest is under the prompt-corner shelf still, and somebody has been adding to it in a hand that is not his: one slip a night, folded once." { Assert bd_fate_done(ludd). }
+  Rule bd_fate_ludd_leash when newsHour() and bd_ludd_leashed(party) and not bd_fate_done(ludd) once
+    says "Of Master Ludd: He passed what he was given and did not look up, and gave notice on the tenth morning, in a very neat letter. He sits in the pit of the Wet Stage on the nights it plays, in the third row, in the Crow, alone, with a pencil in his hand, striking nothing." { Assert bd_fate_done(ludd). }
+  Rule bd_fate_ludd_gone when newsHour() and bd_ludd_gone(party) and not bd_fate_done(ludd) once
+    says "Of Master Ludd: He was dismissed by the Warden's clerk on the morning after the Moths found his plays. They have the Joke at the door by heart, and nobody says it where he can hear. He walks the aisles of the Wet Stage at night, unmasked, and the Moths leave the stage door on the latch." { Assert bd_fate_done(ludd). }
+  Rule bd_fate_ludd_sour when newsHour() and (bd_codicil(wet_stage) or bd_ludd_sour(party)) and not bd_fate_done(ludd) once
+    says "Of Master Ludd: He is the Reader still. His note is in the margin of the licence in his own hand, signed, and it is the thing of his life he is proudest of and does not forgive you for. He cuts, now, with a certain exactness; and the reasons, in the margins, are shorter." { Assert bd_fate_done(ludd). }
+  Rule bd_fate_ludd_default when newsHour() and not bd_fate_done(ludd) once
+    says "Of Master Ludd: He reads the plays of the Wet Stage for the Warden, and cuts them, and keeps what he cuts. The chest is under the prompt-corner shelf, and by now it is a good deal larger than the repertory." { Assert bd_fate_done(ludd). }
+
+  Rule bd_fate_quist_cast when newsHour() and bd_cast_quist(party) and bd_reacted(party) and not bd_flopped(party) and not bd_fate_done(bd_quist) once
+    says "Of Pantaloon Tarrow: He played the Pantaloon in the Lampoon, and took his three blows of the slapstick, and fell down his two stairs for the forty-thousand-and-first time; and the house forgot itself. He got up. He says it is the last time. He says it every night." { Assert bd_fate_done(bd_quist). }
+  Rule bd_fate_quist_happy when newsHour() and bd_quist_happy(party) and not bd_fate_done(bd_quist) once
+    says "Of Pantaloon Tarrow: He did the Walnut, once, for a house of one, in the dark, and it is the best house he has ever had. He tells it to the Moths with the voices. They have learned to say that they remember it." { Assert bd_fate_done(bd_quist). }
+  Rule bd_fate_quist_default when newsHour() and not bd_fate_done(bd_quist) once
+    says "Of Pantaloon Tarrow: He falls down his two stairs, and the house claps. He has stopped looking up to see who saw." { Assert bd_fate_done(bd_quist). }
+
+  Rule bd_fate_finch_serene when newsHour() and bd_elegy_serene(party) and not bd_fate_done(bd_finch) once
+    says "Of Ambrose Finch: He finished the elegy of Cullet Reach, and it ends on a man in a gallery who said nothing. It is the best poem in the Delta and it has a living man in it. It was cried in the Drip in a week, and in a month an old man in the Hospice was seen to put his hands over his ears." { Assert bd_fate_done(bd_finch). }
+  Rule bd_fate_finch_girl when newsHour() and bd_elegy_girl(party) and not bd_fate_done(bd_finch) once
+    says "Of Ambrose Finch: He finished the elegy of Cullet Reach, and it ends on a girl of nineteen with a key she could not carry. It was read at the Reach on the thirty-first year, in the rain, to the families of the low islands. Many wept. None, so far as is known, was angry. One old woman said a name, and was told to hush, and did." { Assert bd_fate_done(bd_finch). }
+  Rule bd_fate_finch_water when newsHour() and bd_elegy_water(party) and not bd_fate_done(bd_finch) once
+    says "Of Ambrose Finch: He finished the elegy of Cullet Reach, and it ends on the water and blames nobody. It makes people cry in the right place and go home. He is not sure whether it was a kindness, and sits with that in the flies, with a dry foolscap and a new pen." { Assert bd_fate_done(bd_finch). }
+  Rule bd_fate_finch_alone when newsHour() and bd_finch_alone(party) and not bd_fate_done(bd_finch) once
+    says "Of Ambrose Finch: He wrote, in the end, because somebody pinned a stanza over his table and went away, and he does not know who; he has asked Tarrow, who says it was the drip. He writes every day now, and tears up about half of it, which he says is the proper proportion." { Assert bd_fate_done(bd_finch). }
+  Rule bd_fate_finch_moved when newsHour() and bd_finch_moved(party) and not bd_fate_done(bd_finch) once
+    says "Of Ambrose Finch: He writes every day now, and tears up about half of it, which he says is the proper proportion." { Assert bd_fate_done(bd_finch). }
+  Rule bd_fate_finch_default when newsHour() and not bd_fate_done(bd_finch) once
+    says "Of Ambrose Finch: He is in residence, by the bequest of the late Abelard Tenn, and is seen to be. The foolscap is white. It has been looked at for another season." { Assert bd_fate_done(bd_finch). }
+
+  Rule bd_fate_stage_dark when newsHour() and bd_revoked(wet_stage) and not bd_restored(wet_stage) and not bd_fate_stage(wet_stage) once
+    says "Of the Wet Stage: It was a salt-barge with a bucket in it from the fourth day, and the Moths sang for coin in the Drip, in half-masks, on the landings. When the book closed, nobody knew what would become of the house. The nail in the door has the Warden's notice on it still, and, under it, in chalk, somebody has written: INTERVAL." { Assert bd_fate_stage(wet_stage). }
+  Rule bd_fate_stage_shut when newsHour() and bd_played(party) and bd_venue(party) == 1 and bd_target(party, bd_m_lacke) and not bd_written_in(party) and not bd_ludd_trusts(party) and not bd_fate_stage(wet_stage) once
+    says "Of the Wet Stage: The Warden of Locks, as the Lampoon had him, signed the closing of the house on the morning after, in the hand he had left; it was the last paper he signed with the Key on. The Moths are in the Drip for the winter, singing it for coin. The house is a hull with a bucket in it. It is very much talked of." { Assert bd_fate_stage(wet_stage). }
+  Rule bd_fate_stage_played when newsHour() and bd_reacted(party) and not bd_flopped(party) and not bd_fate_stage(wet_stage) once
+    says "Of the Wet Stage: It is the busiest house in the Delta. The benches are full of people who have heard of it, and the Moths have found that a play, once it has been talked about, can be played every night and not run out. Madame Orme has bought a tarpaulin for the flies, and would like it known that she did not need to." { Assert bd_fate_stage(wet_stage). }
+  Rule bd_fate_stage_default when newsHour() and not bd_fate_stage(wet_stage) once
+    says "Of the Wet Stage: It plays Master Dibble to a house that claps. The licence is renewed each quarter on the day, and nobody can remember whether anything was ever to be said in it." { Assert bd_fate_stage(wet_stage). }
+
+  Rule bd_fate_lampoon_lie when newsHour() and bd_lies(party) >= 1 and bd_lacke_laughed(party) and not bd_fate_lampoon(party) once
+    says "Of the Lampoon: The Warden of Locks was unseated by a joke that was not true. He was guilty of everything else; but it was not for that they laughed." { Assert bd_fate_lampoon(party). }
+  Rule bd_fate_lampoon_urn when newsHour() and bd_urn_told(party) and not bd_fate_lampoon(party) once
+    says "Of the Lampoon: The city knows that the Urn is empty because a clown said so, in the middle of a farce, and cannot make up its mind whether to believe a clown." { Assert bd_fate_lampoon(party). }
+  Rule bd_fate_lampoon_lie_other when newsHour() and bd_lies(party) >= 1 and bd_reacted(party) and not bd_fate_lampoon(party) once
+    says "Of the Lampoon: In the Row they quote the line you made up as if it were history. It is on a ballad-sheet now, with a name in it; it will be there when the facts are not." { Assert bd_fate_lampoon(party). }
+  Rule bd_fate_lampoon_stung when newsHour() and bd_lacke_stung(party) and not bd_lacke_laughed(party) and not bd_fate_lampoon(party) once
+    says "Of the Lampoon: The Warden of Locks heard it, or was told, and laughed it off in the Tally Coffee-house where it could be seen to be laughed. He has been seen, since, to try each of his doors twice." { Assert bd_fate_lampoon(party). }
+  Rule bd_fate_lampoon_urn_funny when newsHour() and bd_urn_laughed(party) and not bd_fate_lampoon(party) once
+    says "Of the Lampoon: They laughed at the Urn. It is a harder thing to do again with a straight face, in the Masked Hours, on the Chapel steps; the Chaplain has remarked on it, mildly, to the damp." { Assert bd_fate_lampoon(party). }
+  Rule bd_fate_lampoon_urn_angry when newsHour() and bd_urn_angry(party) and not bd_fate_lampoon(party) once
+    says "Of the Lampoon: The ballad of the Sluice is sung in the Drip now, at weddings, which is not what it was for; the last verse is said to be the one that makes the old men leave the table." { Assert bd_fate_lampoon(party). }
+  Rule bd_fate_lampoon_candid when newsHour() and bd_candid_weak(party) and not bd_fate_lampoon(party) once
+    says "Of the Lampoon: It was a farce of the Candid, and it was true, and it was funny, and a good many people who had been going to the Reading-room stopped. She was right about nearly everything. It is a thing to have made funnier than her." { Assert bd_fate_lampoon(party). }
+  Rule bd_fate_lampoon_hill when newsHour() and bd_hill_stung(party) and not bd_fate_lampoon(party) once
+    says "Of the Lampoon: The Hill has not forgiven it. The shutters on the Terrace stay down; a Second in a good Magpie domino was heard, in the Row, to ask whether it were true that servants dusted, and was answered by a laugh, and went home early." { Assert bd_fate_lampoon(party). }
+  Rule bd_fate_lampoon_angry when newsHour() and bd_room_angry(party) and bd_reacted(party) and not bd_flopped(party) and not bd_fate_lampoon(party) once
+    says "Of the Lampoon: It was a song, and the room that sang it did not go home. For a week there was a crowd in one square or another, singing a verse at a lit window; and the Watch, which was told to stop it, asked what, precisely, the offence was, and was told it was the tune." { Assert bd_fate_lampoon(party). }
+  Rule bd_fate_lampoon_kind when newsHour() and bd_reacted(party) and not bd_flopped(party) and (bd_lacke_spent(party) or bd_hill_moved(party) or bd_urn_mourned(party) or bd_candid_strong(party)) and not bd_fate_lampoon(party) once
+    says "Of the Lampoon: It was a kind thing, and it was well done, and it is remembered as one: as the night the Wet Stage did not hurt anybody. Nobody has yet worked out what, if anything, it cost the people it spared." { Assert bd_fate_lampoon(party). }
+  Rule bd_fate_lampoon_played when newsHour() and bd_reacted(party) and not bd_flopped(party) and not bd_fate_lampoon(party) once
+    says "Of the Lampoon: It was played, and the house took it, and the tune or the line of it is in the city now, with the weather and the price of eels." { Assert bd_fate_lampoon(party). }
+  Rule bd_fate_lampoon_unplayed when newsHour() and bd_lampoon_ready(party) and not bd_played(party) and not bd_fate_lampoon(party) once
+    says "Of the Lampoon: It lies in a prompt-book on a shelf over a stove, ready, with a blue tape on it. It was never played. There is a good deal to be said for a joke that has not been told; and nothing, Tarrow says, that it can be said for." { Assert bd_fate_lampoon(party). }
+
+  // @@END
 }
