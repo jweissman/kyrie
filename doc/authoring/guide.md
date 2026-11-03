@@ -692,6 +692,11 @@ duplicate passages, passage kinds that contradict their ends, rooms the company 
 possible target, items of unknown kinds, and prose that explains the implementation. A recommended world has no
 findings.
 
+A long module gathers its author's own habits ("for a long time" fifteen times, "purring like a millstone" twice:
+Wapshott's Circus's 25). `bin/kyrie voice repeats data/adventures/<yours>` lists the phrases of three to six words its
+texts say more than once, most often first, each with its files and lines; a name, written in capitals or one of the
+module's own, is left out (`test/voice-repeats.test.ts`).
+
 A module that does not load says where, and what else has the name:
 
 ```text

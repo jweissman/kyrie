@@ -44,7 +44,7 @@ export class KyrieCli {
     '           bin/kyrie reach <campaign.json> [--seed s] [--steps n] | --all [--detail] (what a curious player reaches)',
     '           bin/kyrie transcripts <campaign.json> --out <dir> [--seed s] <steps.json>... (journeys as the page told them)',
     '           bin/kyrie prose <campaign.json>          (a campaign\'s own words, each under its id)',
-    '           bin/kyrie voice show|moments|coverage|review|orsino | handbook [--html <dir>]',
+    '           bin/kyrie voice show|moments|coverage|review|orsino | voice repeats <module dir> | handbook [--html <dir>]',
     'Check:     bin/kyrie test [bun test arguments] | verify <adventure> | validate',
     '           bin/kyrie orsino check|report|generate|catalog|world|inventory',
     'Look up:   bin/kyrie ancestries | species | classes | abilities | batch [count]'].join('\n');

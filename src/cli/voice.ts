@@ -4,11 +4,13 @@
 //   bin/kyrie voice moments <kind> k=v…  which lines a moment would choose among, best fit first, and how it reads
 //   bin/kyrie voice coverage             each kind's contexts: which have lines of their own and which fall back
 //   bin/kyrie voice review [kind]        each line as it reads of he, she, they and it, with what reads wrong marked
+//   bin/kyrie voice repeats <module>     a module's own phrases said again and again, with where (see Repeats)
 import { readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { Voice, type VoiceLine, type VoiceTable } from '../narrative/voice';
 import { VoiceCoverage } from '../narrative/voice-coverage';
 import { VoiceReview } from '../narrative/voice-review';
+import { Repeats } from './repeats';
 
 export class VoiceTool {
   static readonly root = resolve(import.meta.dir, '../..');
@@ -76,6 +78,7 @@ export class VoiceTool {
   }
   static main(args: string[]): number {
     const [command = 'show', ...rest] = args;
+    if (command === 'repeats') { return Repeats.main(rest); }
     if (command === 'orsino') { this.orsino(); }
     else if (command === 'moments') { this.moments(rest[0]!, rest.slice(1)); }
     else if (command === 'coverage') { this.coverage(); }
