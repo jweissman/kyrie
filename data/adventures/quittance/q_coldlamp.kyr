@@ -1,3 +1,329 @@
 Module quittance "Quittance" {
-  Description "q_coldlamp (stub).".
+  Description "The Cold-Lamp Demonstration: Perpetua Wynne's lamps are to be shown to the Offices on the fourth day at three, each holds a spark that must be vented nightly, and the Gas Company needs them to fail.".
+
+  // ── The clock of the Quarter: six and six ───────────────────────────────────────────────────────────────
+  // The Gasworks changes shift at the whistle at six in the morning and at six at night, and the two shifts
+  // hand over in the yard for the hour before it: the retort-house stands empty then. The day foreman keeps
+  // the yard by day; the steward lives on the Stokers' Steps, and on the fourth afternoon he is at the Gasworks
+  // arguing the Company out of docking his men.
+  Query cl_h_day() means hour(clock) >= 6 and hour(clock) < 17.
+  Query cl_h_foreman() means hour(clock) >= 6 and hour(clock) < 18.
+  Query cl_h_swap() means hour(clock) == 17 or hour(clock) == 5.
+  Query cl_h_night() means hour(clock) >= 18 or hour(clock) < 5.
+  Query cl_afternoon_four() means day(clock) == 4 and hour(clock) >= 13 and hour(clock) < 17.
+  // The demonstration is at three on the fourth day, in the demonstration hall.
+  Query cl_demo_due() means day(clock) == 4 and hour(clock) >= 16.
+
+  Discovery cl_claim "On the Slate: the Philosophical Lamp-house shows its cold-lamps to the Offices on the fourth day at three, and has asked for steady hands.".
+  Discovery cl_sickening "The cold-lamps in the demonstration hall are yellow and whining: they have not been vented for a week, and tomorrow night they will be sick.".
+  Discovery cl_shed_shown "A free spark can stay of its own will where it is kept like a guest: there is one doing it in a glaziers' shed.".
+
+  // ── People ──────────────────────────────────────────────────────────────────────────────────────────────
+  Person wynne "Perpetua Wynne" at wynne_lab {
+    Role "inventor of the cold-lamp". Ancestry human. Calling mage. Level 3. Trait evoker. Peaceable. Manner stoic. Pronouns she.
+    Known as "a woman asleep on a stool" when not knows(party, cl_wynne_met).
+    Greets "A woman in a canvas apron is asleep on a stool with her cheek on a notebook and a pencil still in her fist. She wakes the moment you come in, the way a woman wakes who has been sleeping with one eye on a door. 'Wynne,' she says. 'Perpetua. The Lamp-house. I was not asleep.' She looks at the shelf of jars. 'Nine days,' she says. 'It is nine days since I slept in a bed.'".
+    Greets again "'You,' says Perpetua Wynne, and rubs her eyes. 'Good. I was just about to forget something.'".
+  }
+  Discovery cl_wynne_met "You have met Perpetua Wynne, who built the cold-lamp and has not slept properly since.".
+  Person quarrell "Lemuel Quarrell" at lamp_front {
+    Role "apprentice at the Lamp-house". Ancestry human. Peaceable. Manner cheerful. Pronouns he.
+    Greets "A young man is dusting a shelf of globes with a feather duster and an expression of ghastly cheerfulness. 'Mind the green ones,' says Lemuel Quarrell. 'They're the dear ones. The white ones are only expensive.'".
+    Greets again "'Back!' says Lemuel Quarrell. 'Do mind the green ones.'".
+  }
+  Person threlfall "Amos Threlfall" at round_steps {
+    Role "steward of the Gasworks stokers". Ancestry human. Calling warrior. Level 2. Peaceable. Manner grim. Pronouns he.
+    Greets "A stoker with arms like banisters is sitting on a step with a ledger on his knee, not reading it. 'Threlfall,' he says. 'I speak for the day men and the night men, which is to say for the half of them who are awake at any hour. If you've come to be kind, don't. If you've come to be of use, sit down.'".
+    Greets again "'Ah,' says Amos Threlfall. 'The useful ones.'".
+  }
+  Person mallow "Ned Mallow" at retort_house {
+    Role "stoker of the Gasworks". Ancestry human. Peaceable. Manner stoic. Pronouns he.
+    Greets "A stoker leans on a shovel in front of the great boiler, black to the elbow, with the face of a man who has been paid to watch a thing that has never once done anything. 'Mallow,' he says. 'Days. If it goes up, I go up. If it doesn't, nobody remembers my name.'".
+    Greets again "'Mallow,' says Ned Mallow, as if you might have forgotten.".
+  }
+  Person hesketh "Old Hesketh" at nowhere {
+    Role "stoker of the Gasworks". Ancestry human. Peaceable. Manner stoic. Pronouns he.
+    Greets "An old man with a lamp on his hat is sitting on an upturned bucket by the boiler, eating bread and dripping off a shovel. 'Hesketh,' he says. 'Nights. Mind the damper, the damper is a liar.'".
+    Greets again "'Hesketh,' says Old Hesketh.".
+  }
+
+  // The day foreman minds the yard by day; the stokers go where the whistle puts them.
+  Rule cl_gudgeon_in when cl_h_foreman() and at(gudgeon, ?p) and distinct(?p, gas_yard) { Retract at(gudgeon, ?p). Assert at(gudgeon, gas_yard). }
+  Rule cl_gudgeon_out when not cl_h_foreman() and at(gudgeon, gas_yard) { Retract at(gudgeon, gas_yard). Assert at(gudgeon, nowhere). }
+  Rule cl_mallow_in when cl_h_day() and at(mallow, ?p) and distinct(?p, retort_house) { Retract at(mallow, ?p). Assert at(mallow, retort_house). }
+  Rule cl_mallow_swap when cl_h_swap() and at(mallow, ?p) and distinct(?p, gas_yard) { Retract at(mallow, ?p). Assert at(mallow, gas_yard). }
+  Rule cl_mallow_off when cl_h_night() and at(mallow, ?p) and distinct(?p, nowhere) { Retract at(mallow, ?p). Assert at(mallow, nowhere). }
+  Rule cl_dace_in when cl_h_night() and at(hesketh, ?p) and distinct(?p, retort_house) { Retract at(hesketh, ?p). Assert at(hesketh, retort_house). }
+  Rule cl_dace_swap when cl_h_swap() and at(hesketh, ?p) and distinct(?p, gas_yard) { Retract at(hesketh, ?p). Assert at(hesketh, gas_yard). }
+  Rule cl_dace_off when cl_h_day() and at(hesketh, ?p) and distinct(?p, nowhere) { Retract at(hesketh, ?p). Assert at(hesketh, nowhere). }
+  Rule cl_threlfall_board when cl_afternoon_four() and at(threlfall, ?p) and distinct(?p, board_room) { Retract at(threlfall, ?p). Assert at(threlfall, board_room). }
+  Rule cl_threlfall_steps when cl_h_day() and not cl_afternoon_four() and at(threlfall, ?p) and distinct(?p, round_steps) { Retract at(threlfall, ?p). Assert at(threlfall, round_steps). }
+  Rule cl_threlfall_home when not cl_h_day() and hour(clock) != 17 and at(threlfall, ?p) and distinct(?p, nowhere) { Retract at(threlfall, ?p). Assert at(threlfall, nowhere). }
+  Observe cl_whistle at gas_yard when cl_h_swap() "The shifts are handing over in the yard: two lots of men, one black from the day and one clean from the street, standing in lines passing a pot of tea between them, not speaking, and a long hand-bell is rung once on the gasometer stair. The retort-house doors have been left on the latch.".
+
+  // ── The Slate, and the shopfront ────────────────────────────────────────────────────────────────────────
+  Observe cl_slate at slip_room when day(clock) >= 1 and day(clock) <= 4 "Chalked in a neat copper-plate by a clerk who did not enjoy it: THE PHILOSOPHICAL LAMP-HOUSE WILL SHEW ITS COLD-LAMPS TO THE OFFICES, FOURTH DAY, THREE O'CLOCK, DEMONSTRATION HALL, FOUNDRY ROW. THE GAS COMPANY WILL ATTEND. STEADY HANDS WANTED, AND A STRONG STOMACH FOR SPEECHES." teaches cl_claim.
+  Objective cl_obj_demo when knows(party, cl_claim) and not cl_demoDone(wynne) "The Cold-Lamp Demonstration, the fourth day at three: see which of the Gas Company, the Phoenix and the inventor gets what it wants.".
+  Relation cl_demoDone(group). Relation cl_crateGiven(group). Relation cl_jarred(group). Relation cl_boiled(group). Relation cl_freed(group).
+  Relation cl_stewardSide(group). Relation cl_noticeUp(group). Relation cl_exposed(group). Relation cl_walkingWynne(group).
+  Relation cl_adopted(group). Relation cl_adoptedOpen(group). Relation cl_gaswon(group). Relation cl_refused(group). Relation cl_confessed(group). Relation cl_ruined(group).
+  Relation cl_ordinanceTight(group). Relation cl_lanternGiven(group). Relation cl_coalGiven(group). Relation cl_flattered(group). Relation cl_profitTried(group). Relation cl_keyBought(group).
+  Relation cl_slighted_gasco(group). Relation cl_slighted_wynne(group). Relation cl_slighted_phoenix(group). Relation cl_tipTried(group). Relation cl_flatterTried1(group). Relation cl_flatterTried2(group).
+  Measure cl_stage(group). Measure cl_ventedAt(group).
+  Query cl_involved() means knows(party, cl_wynne_met) or arc(gaunt) > 0 or cl_boiled(wynne) or cl_freed(wynne) or cl_stewardSide(wynne) or cl_exposed(wynne).
+  Query cl_stopped() means arc(gaunt) >= 2 or cl_boiled(wynne) or cl_stewardSide(wynne).
+
+  Topic cl_t_quarrell with quarrell "Ask Lemuel Quarrell what the Lamp-house is showing, and to whom" when not knows(party, cl_claim) once {
+    Says "'The cold-lamps,' says Lemuel Quarrell, 'to the Offices, in the hall behind me, the fourth day at three. A hundred of them, hung up on wires. Miss Wynne has not been to bed. She says it is the venting; I don't ask. I am only the apprentice and I am only to say that the Lamp-house is delighted.' He dusts a globe that did not need it. 'It is not delighted. She has not vented since Tuesday week. The lamps have gone a sort of colour.'".
+    On discuss { Assert knows(actor, cl_claim). }
+  }
+  Topic cl_t_quarrell2 with quarrell "Ask Lemuel Quarrell what 'venting' is" when knows(party, cl_claim) once {
+    Says "'Every night,' says Lemuel Quarrell, 'the glass has to be let off. There is something in each lamp, a sort of a spark, that sits there for the light, and it has to be let out into a jar for an hour and then taken back, or it sulks, or the lamp does. Dim, then yellow, then sick. Miss Wynne does it herself; she has never let me see. I am forbidden from the jars.' He lowers his voice. 'I am forbidden from them because I once said good night to one.'".
+  }
+
+  // ── The Demonstration Hall: the lamps themselves ────────────────────────────────────────────────────────
+  Thing cl_rack "the hundred cold-lamps" at demo_hall {
+    State sickening "A hundred cold-lamps hang from the ceiling on wires. They are lit, if that is the word: a thick yellow light that comes and goes, and under it a whine at the edge of hearing like a kettle thinking. Two in the front row have gone out.".
+    State bright "A hundred cold-lamps hang from the ceiling on wires, lit white and perfectly still, with a hum like a hive that has been told good news.".
+    State empty "A hundred cold-lamps hang from the ceiling on wires, dark. They are glass and nothing else: when you put your hand near one it is the temperature of the room.".
+  }
+  Initially Assert state(cl_rack, sickening).
+  Rule cl_dim when state(cl_rack, bright) and watch(clock) >= cl_ventedAt(wynne) + 156 { Assert state(cl_rack, sickening). }
+  Observe cl_rack_sign at demo_hall when state(cl_rack, sickening) and not knows(party, cl_sickening) "Along the front row a lamp gutters, brightens, and goes out. The next one does the same, a little later, as if the dark were being passed down a line." teaches cl_sickening.
+  Item cl_crate "a crate of empty catch-jars" is cl_crate_empty at nowhere.
+  Item cl_full "a crate of catch-jars, each lit from within" is cl_crate_full at nowhere.
+  Kind cl_crate_empty "a crate of empty catch-jars" is gear worth 0 weighing 1 described "A wooden crate of stoppered glass jars, each labelled NIGHT and a number in a quick, tired hand.".
+  Kind cl_crate_full "a crate of catch-jars, each lit from within" is gear worth 0 weighing 1 described "A wooden crate of stoppered glass jars. In each a spark the colour of a bruise-yellow ember turns on its own axis and puts its face, if it has one, against the side facing you.".
+  Item cl_lantern "a salamander-glass lantern" is salamander_lantern at nowhere.
+
+  // ── Perpetua Wynne ──────────────────────────────────────────────────────────────────────────────────────
+  Topic cl_w_show with wynne "Ask Wynne about the demonstration" when not cl_demoDone(wynne) once {
+    Says "'The fourth day, at three,' says Wynne. 'The Offices will sit on the benches and I will light a hundred lamps at one word, and they will look at the ceiling the way people look at a thing they would like to own and be told is cheap. The Phoenix wants fewer fires. The Gas Company wants me poor.' She pushes the notebook an inch away. 'Each lamp has to be vented. Every night. I can do it in six hours with the whole rack. I have not done it since Tuesday week, because I have been writing the speech.' She looks at the shelf. 'I am aware of what that means.'".
+    On discuss { Assert knows(actor, cl_wynne_met). }
+  }
+  Topic cl_w_offer with wynne "Offer to vent the lamps for her, tonight, while she sleeps" when state(cl_rack, sickening) and not cl_crateGiven(wynne) and not cl_demoDone(wynne) {
+    Says "Wynne looks at you for a long moment. 'It is six hours,' she says. 'You open each cock a quarter-turn, you catch what comes in the jar, you set the jar on the bench for an hour, you put it back. It is not skilled. It is only... You do not have to look at them.' She takes the crate down. 'I will not watch. I have found I cannot. Do not tell me how it goes.'".
+    On discuss { Assert cl_crateGiven(wynne). Give cl_crate to actor. }
+  }
+  Topic cl_w_sparks with wynne "Ask Wynne where the sparks come from" when knows(party, cl_wynne_met) once {
+    Says "'The furnaces,' says Wynne. 'The Foundry's own, when the Company bricked them. They came out of the chimneys in the first spring, small, like pollen. I caught them in jars. I thought they were a vapour.' A pause. 'I thought a good many things.'".
+  }
+  Topic cl_w_tell with wynne "Tell Wynne what the sparks did when you let them out" when knows(party, d_cold_lamp_bound) and cl_stage(wynne) == 0 and not cl_demoDone(wynne) {
+    Says "You say it as plainly as you can: that when the cocks were opened they came out into the jars and turned, all together, and looked at you, and that when the stoppers were put in they did not look away. Wynne sits down on the stool. 'Of course they did,' she says, in a voice you would not like to be responsible for. 'Of course. I have written NIGHT FORTY-ONE on a jar. Forty-one nights.' She is silent. 'If there is another way to make light, I will not keep them. I will not. Show me another way and I will do it with my hands. I cannot do it with my reasons.'".
+    On discuss { Set cl_stage(wynne) to 1. }
+  }
+  Topic cl_w_come with wynne "Ask Wynne to come and look at a flame in a glaziers' shed" when cl_stage(wynne) == 1 and not cl_walkingWynne(wynne) {
+    Says "'A flame in a shed,' says Wynne. 'On what?' You tell her: on nothing; on a bench. She takes off her apron.".
+    On discuss { Assert cl_walkingWynne(wynne). Assert following(wynne, actor). }
+  }
+  Action cl_show_shed(actor: group, site: place) "Show Wynne the flame that stays in the glaziers' shed" {
+    Speaker wynne.
+    Requires able(actor) and company(actor) and at(actor, site) and at(wynne, site) and at(ll_shed, site) and cl_walkingWynne(wynne) and cl_stage(wynne) == 1.
+    Time 20 minutes.
+    On success { Set cl_stage(wynne) to 2. Retract following(wynne, actor). Retract cl_walkingWynne(wynne). Assert at(wynne, wynne_lab). Assert knows(actor, cl_shed_shown). }
+    Result "Wynne stands in the shed door for a long time. The flame on the bench between the stacks of glass leans a very little toward her, as it leans toward anything that is not going to put a lid on it. 'It is not in anything,' she says. 'Nothing is holding it. It has a door, the whole of the passage is a door, and it stays.' Master Hune says it likes the cullet. 'It likes being fed,' says Wynne. 'It likes being asked.' She is gone before you notice, back up the Row at a trot, with the apron over her arm. When you reach the laboratory she is drawing a lamp with a hinged door in the side of it.".
+  }
+  Topic cl_w_lantern with wynne "Ask Wynne about the lamp with a door" when cl_stage(wynne) == 2 and not cl_lanternGiven(wynne) once {
+    Says "'It is not a lamp,' says Wynne, 'it is a room. The glass is salamander-glass, the old Foundry kind, and the door is in the base. It has been out three times now, and come back three times. I have not caught it. It stays because the room is warm.' She puts it in your hands. It is warm like something asleep. 'Keep it lit. Open the door if it asks. It will ask.'".
+    On discuss { Assert cl_lanternGiven(wynne). Give cl_lantern to actor. }
+  }
+  Topic cl_w_told_freed with wynne "Tell Wynne you let the sparks go, on the bricks of the Furnace Wharf" when cl_freed(wynne) and cl_stage(wynne) >= 1 and not cl_coalGiven(wynne) once {
+    Says "Wynne does not move for some time. 'Where did they go?' she says. You tell her: into the warm bricks, the old furnace-mouths, one after another, like swallows into a barn. 'Home,' says Wynne, and takes off her glasses, and that is all she says for a minute. Then: 'One of them stayed. It is in the back jar, on the left. I did not put it there. It came out of the wall of the lab, and sat down.'".
+    On discuss { Assert cl_coalPending(wynne). }
+  }
+  Relation cl_coalPending(group).
+  Action cl_coal(actor: group, site: place) "Ask Wynne for the spark that stayed, lit" {
+    Speaker wynne.
+    Requires able(actor) and company(actor) and at(actor, site) and at(wynne, site) and cl_coalPending(wynne) and not cl_coalGiven(wynne) and day(clock) >= 6 and quantity(actor, coal) < 2.
+    Time 10 minutes.
+    On success { Increase quantity(actor, coal) by 1. Set coalExpires(actor) to watch(clock) + 144. Assert cl_coalGiven(wynne). }
+    Result "Wynne lifts the back jar down and unstoppers it. The spark comes out on to her palm, sits for a moment, and then climbs on to the ember she has banked in a tin, which takes it without remark. 'It is a coal,' she says. 'It is lit. It was lit when it came. Don't thank me, it did it on its own.' The tin is warm through your coat, and ticks.".
+  }
+
+  // What Wynne says afterwards: the world remembers how the afternoon went.
+  Topic cl_a_ruined with wynne "Ask Wynne what she will do now" when cl_ruined(wynne) {
+    Says "'Go back to my sister in the country,' says Wynne, folding a cloth over a jar, 'and light a candle. It will be very strange to have something burn that doesn't know me.'".
+  }
+  Topic cl_a_adopted with wynne "Ask Wynne how the order stands" when cl_adopted(wynne) and not cl_adoptedOpen(wynne) {
+    Says "'Three hundred,' says Wynne. 'By Michaelmas. I have been told that it is a triumph. I have been awake for it.' She looks at the shelf of jars, and does not say what she is thinking, and neither do you.".
+  }
+  Topic cl_a_open with wynne "Ask Wynne how the order stands" when cl_adoptedOpen(wynne) {
+    Says "'Three hundred, with doors,' says Wynne. 'The Phoenix wrote it into the order in its own hand, and then sent a man to ask what a door was.' She is very nearly smiling. 'I have told him it is a thing you can leave by.'".
+  }
+  Topic cl_a_refused with wynne "Ask Wynne how she feels about not showing them" when cl_refused(wynne) {
+    Says "'The Gas Company showed them a chandelier,' says Wynne. 'It was a perfectly good chandelier.' She turns a jar to the wall. 'I am not sorry. I am only unemployed. Find me a way, if there is one, and I will make you something that does not need a lid.'".
+  }
+  Topic cl_a_confessed with wynne "Ask Wynne how the Offices took it" when cl_confessed(wynne) {
+    Says "'Politely,' says Wynne. 'Ottoline Prewitt took notes. The Chairman asked whether they would be available in a smaller size.' She takes her glasses off. 'I do not know what I am now. I know I am not a keeper.'".
+  }
+  Topic cl_a_gaunt with gaunt "Ask Lord Gaunt-Halloran how the Company finds the cold-lamp business" when arc(gaunt) >= 2 and cl_demoDone(wynne) {
+    Says "'A licence,' says Lord Gaunt-Halloran, 'is a lamp that burns for ever in a ledger.' He is looking at the chandelier without malice. 'One must move with the age. One has always said so, in the age before.'".
+  }
+
+  // ── The venting, and where the night's spark goes ───────────────────────────────────────────────────────
+  Action cl_vent(actor: group, site: place) "Vent the hundred lamps into the catch-jars, a row at a time, through the night" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(cl_rack, site) and holding(actor, cl_crate_empty) and not cl_demoDone(wynne) and not state(cl_rack, empty).
+    Time 36.
+    On success { Spend cl_crate_empty from actor. Give cl_full to actor. Assert state(cl_rack, bright). Set cl_ventedAt(wynne) to watch(clock). Assert knows(actor, d_cold_lamp_bound). }
+    Result "You open the cocks a quarter-turn each, and set a jar to every one, and wait. They come out slowly, one spark to a lamp, and you move along the row. Somewhere about the thirtieth they all turn together to look at you. It is not an expression. It is only that a hundred small lights, which had been turning as lights turn, all stop turning. When you stopper the last jar the lamps overhead glare white and settle, and the jars in the crate go on watching you. The hall hums like a hive that has been told good news.".
+  }
+  Action cl_return_jars(actor: group, site: place) "Carry the catch-jars back to Wynne's shelf" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(wynne, site) and holding(actor, cl_crate_full).
+    Time 5 minutes.
+    On success { Spend cl_crate_full from actor. Assert cl_jarred(wynne). }
+    Result "You set the jars on the shelf where they were, by their numbers, and they turn to face the wall.".
+  }
+  Thing cl_firedoor "the boiler's fire-door" at retort_house {
+    State chained "The great boiler's fire-door is chained shut with a company padlock, and a card tied to the chain says TO BE OPENED BY THE STOKER ON DUTY ONLY.".
+    State open "The fire-door hangs open on the great boiler's white heart.".
+  }
+  Action cl_tip_pick(actor: group, site: place) "Slip the padlock on the boiler fire-door while the retort-house is empty, and tip the catch-jars in" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(cl_firedoor, site) and holding(actor, cl_crate_full) and not at(mallow, site) and not at(hesketh, site) and not cl_tipTried(wynne).
+    Time 10 minutes.
+    Resolve check(actor, lockwork, dc_fair).
+    On success { Spend cl_crate_full from actor. Assert cl_boiled(wynne). Assert state(cl_firedoor, open). }
+    On failure { Assert cl_tipTried(wynne). }
+    Result "The padlock is the Company's best, and not good enough. You pour the jars through the door one at a time. The sparks go in like children into the sea, with a sound like a small crowd drawing breath, and the boiler's white heart goes blue, and a long way off in the yard a gauge begins to climb.".
+    Otherwise "The padlock is the Company's best. It bites a thumb and holds, and somewhere in the yard a boot turns toward the door. You go out the way you came with the crate and the jars watching you.".
+  }
+  Action cl_tip_bribe(actor: group, site: place) "Give the stoker on duty five coin to look at his dinner while the catch-jars go into the boiler" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(cl_firedoor, site) and holding(actor, cl_crate_full) and (at(mallow, site) or at(hesketh, site)) and quantity(actor, gold) >= 5.
+    Time 10 minutes.
+    On success { Decrease quantity(actor, gold) by 5. Spend cl_crate_full from actor. Assert cl_boiled(wynne). Assert state(cl_firedoor, open). }
+    Result "The stoker takes the coin, sits down on the coal-bin with his back to you and his dinner on his knee, and eats it with great attention. The sparks go in like children into the sea. The boiler's white heart goes blue. He does not look up even when the gauge starts to climb. 'Nobody ever remembers the stoker,' he says, with his mouth full. 'It's the principle of the thing.'".
+  }
+  Action cl_tip_steward(actor: group, site: place) "Ask Threlfall's men to turn their backs while the catch-jars go into the boiler" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(cl_firedoor, site) and holding(actor, cl_crate_full) and cl_stewardSide(wynne) and (at(mallow, site) or at(hesketh, site) or hour(clock) == 17 or hour(clock) == 5).
+    Time 10 minutes.
+    On success { Spend cl_crate_full from actor. Assert cl_boiled(wynne). Assert state(cl_firedoor, open). }
+    Result "The stoker on duty has his instructions from his steward: for the next quarter of an hour he is a man with an excellent view of the coal-bin. The sparks go in like children into the sea. The boiler's white heart goes blue.".
+  }
+  Rule cl_boiler_roars when cl_boiled(wynne) and not cl_roared(wynne) says "A long way across the Gasworks yard the gasometer rides up its guides as if it had been given a key. The Company's engineer opens the relief, and a flame twenty feet high stands on the relief-stack for a quarter of an hour, with no smoke at all. Every pilot-light in the Quarter, for a moment, leans toward the retort-house." {
+    Assert cl_roared(wynne). Assert cl_slighted_gasco(party). Decrease regard(gasco) by 1 or to nothing.
+  }
+  Relation cl_roared(group).
+  Action cl_free(actor: group, site: place) "Open the catch-jars to the warm bricks of the old furnace-mouths, and let the sparks go" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(ll_lamp_f, site) and holding(actor, cl_crate_full) and knows(actor, d_cold_lamp_bound).
+    Time 15 minutes.
+    Grave "Sparks let go do not come back to the lamps. A hundred cold-lamps will be glass.".
+    On success { Spend cl_crate_full from actor. Assert cl_freed(wynne). Assert state(cl_rack, empty). }
+    Result "You unstopper the jars one at a time and hold each to a crack in the bricks. They go in, one by one, the way water goes into sand, and the bricks that were warm are for a moment hot. A flicker runs along the bricked mouths of the furnaces, forty furnaces, forty bricks, and goes out. In the lamp-house above you, on the Wharf, the gulls stand up, and sit down again, and face the wall.".
+  }
+  Observe cl_wharf_freed at round_furnace when cl_freed(wynne) "The warm bricks of the furnace-mouths are warmer than they were, and one of them has a shine on it, like a chestnut.".
+
+  // ── The Gas Company, and what moves it ──────────────────────────────────────────────────────────────────
+  Rule cl_notice_up when day(clock) == 4 and hour(clock) >= 12 and not cl_noticeUp(wynne) and not cl_stopped() says "At noon a stoker in a Company cap nails a notice to the door of the demonstration hall: CLOSED PENDING EXAMINATION OF VAPOURS, BY ORDER OF THE GAS COMPANY'S INSPECTORATE. The stoker does not look at anyone while he does it." {
+    Assert cl_noticeUp(wynne).
+  }
+  Topic cl_g_wynne with gaunt "Ask Lord Gaunt-Halloran what the Company thinks of the Lamp-house's demonstration" when not cl_demoDone(wynne) once {
+    Says "'A toy,' says Lord Gaunt-Halloran. 'A very pretty toy. It makes no heat and no smoke and no revenue, which is, I need hardly say, three defects. We shall of course sit through it. We shall be very courteous.' He looks at the chandelier. 'The Inspectorate has been told to take an interest in the vapours.'".
+  }
+  Action cl_flatter1(actor: group, site: place) "Admire the gasometer to Lord Gaunt-Halloran, at some length, from the window" {
+    Speaker gaunt.
+    Requires able(actor) and company(actor) and at(actor, site) and at(gaunt, site) and arc(gaunt) == 0 and not cl_flatterTried1(gaunt).
+    Time 15 minutes.
+    Resolve check(actor, performance, dc_fair).
+    On success { Set arc(gaunt) to 1. Assert cl_flatterTried1(gaunt). }
+    On failure { Assert cl_flatterTried1(gaunt). }
+    Result "You describe the gasometer as the lung of a city, and then as its conscience, and then, for variety, as its mother. Lord Gaunt-Halloran, who has been looking at it for thirty years, turns from the window with wet eyes. 'You see it,' he says. 'You are the first who has said it without a figure.'".
+    Otherwise "'Quite,' says Lord Gaunt-Halloran, who has been admired by experts.".
+  }
+  Action cl_flatter2(actor: group, site: place) "Notice aloud that the chandelier hisses in tune" {
+    Speaker gaunt.
+    Requires able(actor) and company(actor) and at(actor, site) and at(gaunt, site) and arc(gaunt) == 0 and not cl_flatterTried2(gaunt).
+    Time 10 minutes.
+    Resolve check(actor, insight, dc_fair).
+    On success { Set arc(gaunt) to 1. Assert cl_flatterTried2(gaunt). }
+    On failure { Assert cl_flatterTried2(gaunt). }
+    Result "It does: a thin steady A, a little flat. Lord Gaunt-Halloran has had it tuned, he confesses, at some expense, by a man who tunes organs, and in nine years nobody has noticed. He puts a hand on your arm.".
+    Otherwise "You say it hisses nicely. He says it ought to, for what it costs.".
+  }
+  Action cl_profit(actor: group, site: place) "Put it to Lord Gaunt-Halloran that the Company could hold the licence for the cold-lamps, and meter them" {
+    Speaker gaunt.
+    Requires able(actor) and company(actor) and at(actor, site) and at(gaunt, site) and arc(gaunt) == 1 and not cl_profitTried(gaunt).
+    Time 20 minutes.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Set arc(gaunt) to 2. Assert cl_profitTried(gaunt). }
+    On failure { Assert cl_profitTried(gaunt). }
+    Result "A lamp that makes no gas, you say, still wants a company to lay its wire and read its dial and send its quarterly bill. 'A meter,' says Lord Gaunt-Halloran slowly, as men say 'a daughter.' 'On a lamp that cannot be seen to burn.' By the end of the quarter-hour he is drafting terms for the inventor on the back of a gas-bill. The Inspectorate, he adds, will be told to lose interest in vapours.".
+    Otherwise "'The Company,' says Lord Gaunt-Halloran, 'sells light by the foot. A lamp without a foot...' He makes a gesture of the hand that dismisses a river.".
+  }
+  Action cl_buy_key(actor: group, site: place) "Have a gilt first-lamp key struck at the Booths, for the Chairman to open the demonstration with (5 coin)" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(booth_clerk, site) and quantity(actor, gold) >= 5 and not cl_keyBought(gaunt).
+    Time 30 minutes.
+    On success { Decrease quantity(actor, gold) by 5. Assert cl_keyBought(gaunt). }
+    Result "A booth clerk in a paper cap will strike you a gilt key in an hour: THE FIRST LIGHT, with a ribbon. 'It is only brass, of course,' she says brightly. 'But it is insured for gold.'".
+  }
+  Action cl_role(actor: group, site: place) "Offer Lord Gaunt-Halloran the honour of opening the demonstration with the first-lamp key" {
+    Speaker gaunt.
+    Requires able(actor) and company(actor) and at(actor, site) and at(gaunt, site) and arc(gaunt) == 1 and cl_keyBought(gaunt).
+    Time 10 minutes.
+    On success { Set arc(gaunt) to 2. }
+    Result "You lay the gilt key on the table. Lord Gaunt-Halloran does not touch it. He stands and looks at it as a man looks at his own name carved in a door. 'The Chairman of the Gas Company,' he says, 'turning the first light of the age.' He puts it in his waistcoat. 'It is a beginning. One begins. One has always said so.' The Inspectorate, he adds, will be asked to take an interest in the ceremony and no longer in the vapours.".
+  }
+  Topic cl_g_poor with gaunt "Mention the stokers' docked half-days to Lord Gaunt-Halloran" when arc(gaunt) >= 0 and not cl_demoDone(wynne) once {
+    Says "'The men,' says Lord Gaunt-Halloran, 'are a matter for Mr Gudgeon.' He turns the page of nothing. 'We were speaking of the future.'".
+  }
+
+  // ── The steward ─────────────────────────────────────────────────────────────────────────────────────────
+  Topic cl_t_grievance with threlfall "Ask Threlfall what ails the stokers" when not cl_stewardSide(wynne) once {
+    Says "'Half a day,' says Threlfall. 'Docked. Every time a pilot goes out on a man's shift, it goes down against him: pilot-neglect. The Company reckons six a month. They go out, you see. All the lamps go out. The gasometer pilot, the yard pilots, the street pilots, all in one breath, and they come back in the next, and the man who was minding them is down for neglect because there has to be a man.' He taps the ledger. 'Six half-days a month, a man. That is the practical difficulty. I'll not make a speech about it. I'd want it put right by someone who could prove the thing wasn't us.'".
+  }
+  Topic cl_t_side with threlfall "Tell Threlfall the pilots go out in step across the whole Quarter, and you have seen it" when knows(party, d_pilots_step) and not cl_stewardSide(wynne) {
+    Says "Threlfall lays down the ledger. 'The whole Quarter,' he says. 'Not the yard alone.' You tell him: the lamps on the Row, the Wharf, the Steps, every one, in one instant. 'Then it isn't a man's shift,' says Threlfall slowly. 'It can't be. I've a hundred and eleven men on the books who are not in a hundred and eleven places.' He gets up. 'I'll have that read into the Company's own minutes. And the Company can have an afternoon of its own stokers at its own door, and a notice that gets lost, because someone will carry the notice and I'm the one who tells them where the post is.'".
+    On discuss { Assert cl_stewardSide(wynne). }
+  }
+  Topic cl_t_afternoon with threlfall "Ask Threlfall why he is up at the Gasworks this afternoon" when cl_afternoon_four() once {
+    Says "'The hours,' says Threlfall. 'There is a meeting with the Chairman at two about the new rota, and it is the Chairman, so it will go on till four. I've told my men to say nothing to anyone and to stand where they're put.'".
+  }
+
+  // ── Exposing the flaw ───────────────────────────────────────────────────────────────────────────────────
+  Action cl_expose(actor: group, site: place) "Show Ottoline Prewitt a sickened lamp, and tell her what is in it, for the Phoenix to decide" {
+    Speaker ottoline.
+    Requires able(actor) and company(actor) and at(actor, site) and at(ottoline, site) and knows(actor, d_cold_lamp_bound) and not cl_demoDone(wynne) and not cl_exposed(wynne).
+    Time 20 minutes.
+    Grave "The Phoenix will ask the Lamp-house for its books; and the Lamp-house is one inventor and a boy with a duster.".
+    On success { Assert cl_exposed(wynne). Assert cl_regarded(wynne). Assert cl_slighted_wynne(party). Decrease regard(phoenix) by 1 or to nothing. Assert cl_slighted_phoenix(party). Increase regard(gasco) by 1. }
+    Result "Ottoline Prewitt hears you out with the pencil behind her ear quite still. 'In glass,' she says. 'Against their will.' She writes it down. 'I will take it to my father,' she says, 'because I must. I am so sorry. I wish you had told me before you were sure.' By evening the Offices have asked the Lamp-house for its books.".
+  }
+
+  // ── The demonstration ───────────────────────────────────────────────────────────────────────────────────
+  Rule cl_d_exposed when cl_demo_due() and not cl_demoDone(wynne) and cl_exposed(wynne) says "At three o'clock the Offices send word that they will not be attending. The hall is empty. The Gas Company, which does attend, is gracious about it. The Lamp-house's books are sealed; Perpetua Wynne is seen going out of the front door with a canvas apron over her arm." {
+    Assert cl_demoDone(wynne). Assert cl_gaswon(wynne). Assert cl_ruined(wynne).
+  }
+  Rule cl_d_confess when cl_demo_due() and not cl_demoDone(wynne) and cl_freed(wynne) and cl_stage(wynne) >= 1 says "At three o'clock the Offices sit on the benches, and Perpetua Wynne walks to the platform and does not light a lamp. 'These are glass,' she says. 'They were lit by something I kept in a jar. It is not in them now. I will not light them again, and I will tell you what it was.' She tells them. Mr Prewitt's daughter, in the second row, writes it all down. The Gas Company's Chairman, who has been looking forward to this afternoon for a month, finds that he has no appetite for it. The Smokeless Ordinance is referred to a committee." {
+    Assert cl_demoDone(wynne). Assert cl_confessed(wynne).
+  }
+  Rule cl_d_dark when cl_demo_due() and not cl_demoDone(wynne) and cl_freed(wynne) says "At three o'clock the Offices sit on the benches and Perpetua Wynne throws the word, and a hundred lamps do nothing at all. She looks at the ceiling for a long time. 'Someone has been in,' she says. The Gas Company sends her a basket of fruit." {
+    Assert cl_demoDone(wynne). Assert cl_gaswon(wynne). Assert cl_ruined(wynne). Assert cl_slighted_wynne(party).
+  }
+  Rule cl_d_refuse when cl_demo_due() and not cl_demoDone(wynne) and cl_stage(wynne) == 1 says "At three o'clock the Offices sit on the benches, and Perpetua Wynne comes out on to the platform, and says that she is very sorry, and that she will not light them. She does not say why. She goes back to the laboratory and shuts the door, and the Gas Company, with great delicacy, shows the Offices a gas chandelier it happens to have brought." {
+    Assert cl_demoDone(wynne). Assert cl_refused(wynne). 
+  }
+  Rule cl_d_blocked when cl_demo_due() and not cl_demoDone(wynne) and cl_noticeUp(wynne) and not cl_stopped() says "At three o'clock the Offices stand on the step reading a notice, and the Gas Company's Inspectorate regrets that the hall cannot be opened until the vapours have been examined, which will be some weeks. Lord Gaunt-Halloran, who has come in his best coat, is very sorry. Perpetua Wynne, behind the door, does not come out." {
+    Assert cl_demoDone(wynne). Assert cl_gaswon(wynne). Assert cl_ruined(wynne). 
+  }
+  Rule cl_d_sick when cl_demo_due() and not cl_demoDone(wynne) and not state(cl_rack, bright) says "At three o'clock the Offices sit on the benches and Perpetua Wynne throws the word, and a hundred lamps come up the colour of weak tea, whine, and begin to go out along the front row, one after another, as if the dark were being passed down a line. The Gas Company applauds. It is a very short ovation, and perfectly sincere." {
+    Assert cl_demoDone(wynne). Assert cl_gaswon(wynne). Assert cl_ruined(wynne). 
+  }
+  Rule cl_d_open when cl_demo_due() and not cl_demoDone(wynne) and cl_stage(wynne) == 2 says "At three o'clock Perpetua Wynne throws the word, and a hundred lamps come up white and still. The Offices applaud. 'These are the last I shall make like this,' says Wynne, over it. 'The next will have a door.' She holds up a drawing. The Phoenix's Chief Underwriter, in the front row, who has not smiled in six years, writes something and underlines it. The Smokeless Ordinance is read a fourth time, with a rider for the lamps." {
+    Assert cl_demoDone(wynne). Assert cl_adopted(wynne). Assert cl_adoptedOpen(wynne). Assert cl_ordinanceTight(wynne).
+  }
+  Rule cl_d_adopt when cl_demo_due() and not cl_demoDone(wynne) says "At three o'clock Perpetua Wynne throws the word, and a hundred lamps come up white and still, and the Offices applaud as one applauds a thing that will save money. The Phoenix orders three hundred. The Smokeless Ordinance is read a fourth time, with a rider for the lamps. Perpetua Wynne, on the platform, takes her bow without looking at the ceiling." {
+    Assert cl_demoDone(wynne). Assert cl_adopted(wynne). Assert cl_ordinanceTight(wynne).
+  }
+
+  // The Offices and the Gas Company think well or ill of a company that took a hand, not of one that was never there.
+  Relation cl_regarded(group).
+  Rule cl_regard_won when cl_adopted(wynne) and cl_involved() and not cl_regarded(wynne) { Assert cl_regarded(wynne). Increase regard(phoenix) by 2. Decrease regard(gasco) by 1 or to nothing. }
+  Rule cl_regard_lost when (cl_gaswon(wynne) or cl_refused(wynne)) and cl_involved() and not cl_regarded(wynne) { Assert cl_regarded(wynne). Increase regard(gasco) by 1. Decrease regard(phoenix) by 1 or to nothing. }
+  Rule cl_regard_confessed when cl_confessed(wynne) and cl_involved() and not cl_regarded(wynne) { Assert cl_regarded(wynne). Decrease regard(phoenix) by 1 or to nothing. }
+
+  // ── What the demonstration leaves ───────────────────────────────────────────────────────────────────────
+  Observe cl_notice_door at lamp_front when cl_noticeUp(wynne) and not cl_demoDone(wynne) "A printed notice is nailed to the demonstration hall door: CLOSED PENDING EXAMINATION OF VAPOURS.".
+  Observe cl_lab_ruined at wynne_lab when cl_ruined(wynne) "Perpetua Wynne is packing: the notebooks in one crate, the jars in another, with a cloth between them. She does not look up. 'The landlord,' she says, 'has been very understanding.'".
+  Observe cl_lab_adopted at wynne_lab when cl_adopted(wynne) "The laboratory has been given an extra bench and two assistants and a case of Phoenix stationery, and Perpetua Wynne sits at the end of it with her chin on her hand, designing a door.".
+  Observe cl_lab_refused at wynne_lab when cl_refused(wynne) "Perpetua Wynne sits with her back to the shelf of jars, which she has turned to face the wall, and her chin on her fists.".
+  Observe cl_slate_tight at slip_room when cl_ordinanceTight(wynne) "On the Slate, under PREMIUMS, in a fresh hand: the Smokeless Ordinance read a fourth time. An amended clause: cold-lamps recommended in all inner wards, and open hearths in them to be struck from the Roll after Reckoning.".
+  Observe cl_hall_after at demo_hall when cl_demoDone(wynne) and not state(cl_rack, empty) "The benches have been put back and a boy is sweeping up programmes.".
 }
