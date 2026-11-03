@@ -4,14 +4,15 @@ import { Discovery, type DiscoveryDefinition } from '../information/discovery';
 import * as ohm from 'ohm-js';
 import source from './Kyr.ohm' with { type: 'text' };
 import type { Change, Module, Operator, Predicate } from './module';
-import type { PassageSpec, ThingSpec } from './world-constructs';
+import type { PassageSpec } from './world-constructs';
 import { PersonParser } from './person-parser';
 import { StatementParser } from './statement-parser';
 import { ObjectParser } from './object-parser';
 import { CatalogParser } from './catalog-parser'; import { Milestones } from './milestones'; import { ParseCache } from './parse-cache';
 import { InformationParser } from './information-parser'; import { Endings } from './endings';
 import { LocalKinds } from '../canon/local-catalog';
-import { ModuleDeclarations } from './module-declarations';
+import { ModuleDeclarations } from './module-declarations'; import { ActionParts } from './action-parts';
+import { Superseded } from './superseded';
 
 type Node = ohm.Node;
 type AstNode = ohm.Node & { ast(): unknown };
@@ -21,9 +22,10 @@ export class ModuleParser {
   private static readonly semantics = ModuleParser.grammar.createSemantics().addOperation<unknown>('ast', {
     Place: ModuleParser.Place, PlaceParent: ModuleParser.PlaceParent, PlaceGrid: ModuleParser.PlaceGrid,
     PlaceAlias: ModuleParser.PlaceAlias, PlaceShelter: ModuleParser.text, ObservationAspect: ModuleParser.Second,
-    ObservationBy: ModuleParser.Third, TopicAnswering: ModuleParser.Second,
+    ObservationBy: ModuleParser.Third, ObservationInstead: ModuleParser.Third, TopicAnswering: ModuleParser.Second,
     Passage: ModuleParser.Passage, PassagePart_oneway: ModuleParser.OneWay, PassagePart_hidden: ModuleParser.Hidden,
-    PassagePart_needs: ModuleParser.Needs, Thing: ModuleParser.Thing, ThingSite_in: ObjectParser.In,
+    PassagePart_needs: ModuleParser.Needs, NeedsEnd_to: ModuleParser.NeedsTo, NeedsEnd_from: ModuleParser.Anchor,
+    Thing: ModuleParser.Thing, ThingSite_in: ObjectParser.In,
     HoldsPart: ObjectParser.HoldsPart, Concealed: ObjectParser.Concealed, ItemPlace_at: ObjectParser.At,
     ItemPlace_in: ObjectParser.In, FoundBy: ModuleParser.FoundBy, FoundWith: ObjectParser.FoundWith,
     ThingSite_at: ModuleParser.Site, ThingSite_on: ObjectParser.SiteOn, WayEnd: ObjectParser.WayEnd,
@@ -52,9 +54,9 @@ export class ModuleParser {
     PersonCreature: PersonParser.PersonCreature, PersonCount: PersonParser.PersonCount,
     PersonTrait: PersonParser.PersonTrait, PersonCarries: PersonParser.PersonCarries,
     HazardDecl: ModuleParser.HazardDecl, PersonUses: PersonParser.PersonUses, PersonWants: PersonParser.PersonWants,
-    Topic: ModuleParser.Topic, TopicEffects: ModuleParser.TopicEffects, Result: ModuleParser.Result,
-    Otherwise: ModuleParser.Otherwise, Lessen: StatementParser.Lessen, ToNothing: StatementParser.ToNothing,
-    Information_parts: ModuleParser.Information, InformationSource: ModuleParser.InformationSource,
+    Topic: ModuleParser.Topic, TopicEffects: ModuleParser.TopicEffects, Lessen: StatementParser.Lessen,
+    ToNothing: StatementParser.ToNothing, Information_parts: ModuleParser.Information,
+    InformationSource: ModuleParser.InformationSource,
     ChangeAt: ModuleParser.Second, ItemOwner: ModuleParser.Third,
     PersonTemperament: PersonParser.PersonTemperament, PersonWords: PersonParser.PersonWords,
     PersonManner: PersonParser.PersonManner, PersonPronouns: PersonParser.PersonPronouns,
@@ -77,7 +79,8 @@ export class ModuleParser {
     Comparison: StatementParser.Comparison, Call: StatementParser.Call,
     Value: StatementParser.Value, expression: StatementParser.Expression, integer: StatementParser.Integer,
     string: StatementParser.String, Product: StatementParser.Value, Operand_group: StatementParser.Group,
-    Operand_extreme: StatementParser.Extreme, ExtremeArgs: StatementParser.ExtremeArgs,
+    Operand_extreme: StatementParser.Extreme, ExtremeArgs: StatementParser.ExtremeArgs, ...ActionParts.actions,
+    Operand_given: StatementParser.Given, Restore: StatementParser.Restore, Operand_count: StatementParser.Count,
     ...CatalogParser.actions, ...InformationParser.actions, ...Endings.actions, ...Milestones.actions,
   });
   // A text parsed before comes back as it was, and declares its own kinds again, as its parse did: a start meanwhile
@@ -132,6 +135,7 @@ export class ModuleParser {
     module.entities.push(...expanded.entities); module.initial.push(...expanded.initial);
     if (expanded.observations.length) { (module.observations ??= []).push(...expanded.observations); }
     Spatial.addEscorts(module); Spatial.addSearches(module); Endings.rank(module, fields);
+    Superseded.lower(module, false);
     // A module that never says what would end it goes on: Goal false is the default, and one file of a module in
     // several files says it for all of them.
     return module;
@@ -179,10 +183,12 @@ export class ModuleParser {
       ...shut.children.length ? { shut: ModuleParser.ast(shut.children[0]!) as string } : {} }] };
   }
   static Hidden(_hidden: Node, _until: Node, fact: Node) { return { hidden: fact.sourceString }; }
-  // "needing rope or climbing": any one of them will do.
-  static Needs(_needing: Node, kind: Node, _ors: Node, more: Node) {
-    return { needs: [kind.sourceString, ...more.children.map(n => n.sourceString)] };
+  // "needing rope or climbing": any one of them will do; "… going to whelm" or "… from whelm", that way only.
+  static Needs(_needing: Node, kind: Node, _ors: Node, more: Node, end: Node) {
+    const needs = [kind.sourceString, ...more.children.map(n => n.sourceString)];
+    return end.children.length ? { into: { needs, ...ModuleParser.ast(end.children[0]!) as object } } : { needs };
   }
+  static NeedsTo(_going: Node, _to: Node, place: Node) { return { to: place.sourceString }; }
   static ChangeNeeds(_needing: Node, kind: Node, _ors: Node, more: Node) {
     return [kind.sourceString, ...more.children.map(n => n.sourceString)];
   }
@@ -198,14 +204,6 @@ export class ModuleParser {
   static FoundBy(_found: Node, _by: Node, _searching: Node, place: Node, skill: Node, text: Node, _dot: Node) {
     return ObjectParser.found(place, skill, text);
   }
-  static thingPart(spec: ThingSpec, part: Field) {
-    if (part.field === 'state') { spec.states.push(part.value as ThingSpec['states'][number]); }
-    else if (part.field === 'change') { spec.changes.push(part.value as ThingSpec['changes'][number]); }
-    else if (part.field === 'hurts') { spec.hurts = part.value as ThingSpec['hurts']; }
-    else if (part.field === 'guards') { (spec.guards ??= []).push(part.value as string); }
-    else if (part.field === 'holds') { spec.holds = true; }
-    else if (part.field === 'tries') { spec.tries = [...spec.tries ?? [], ...part.value as string[]]; }
-  }
   static Site(word: Node, id: Node) { return { anchor: word.sourceString, id: id.sourceString }; }
   static ThingKind(_is: Node, kind: Node) { return kind.sourceString; }
   static StatePart(_s: Node, id: Node, flags: Node, text: Node, _dot: Node): Field {
@@ -213,13 +211,13 @@ export class ModuleParser {
       text: ModuleParser.ast(text) } };
   }
   static ChangePart(_c: Node, id: Node, label: Node, _from: Node, from: Node, _to: Node, to: Node, needs: Node,
-    after: Node, consumes: Node, at: Node, _dot: Node): Field {
+    after: Node, consumes: Node, at: Node, when: Node, _dot: Node): Field {
     const [a, c, p] = [after, consumes, at].map(node => node.children.length ?
       ModuleParser.ast(node.children[0]!) as string : undefined);
     const n = needs.children.length ? ModuleParser.ast(needs.children[0]!) as unknown as string[] : undefined;
     return { field: 'change', value: { id: id.sourceString, label: ModuleParser.ast(label), from: from.sourceString,
       to: to.sourceString, ...(n ? { needs: n } : {}), ...(a ? { after: a } : {}), ...(c ? { consumes: c } : {}),
-      ...(p ? { at: p } : {}) } };
+      ...(p ? { at: p } : {}), ...when.children.length ? ObjectParser.withheld(when.children[0]!) : {} } };
   }
   static Second(_word: Node, value: Node) { return value.ctorName === 'string' ? ModuleParser.ast(value) : value.sourceString; }
   static Third(_a: Node, _b: Node, value: Node) { return value.sourceString; }
@@ -259,21 +257,18 @@ export class ModuleParser {
     parseAbility(id.sourceString, ModuleParser.ast(name) as string, text);
     return { field: 'hazard', value: { id: id.sourceString, type: 'hazard', name: ModuleParser.ast(name), effect: text } };
   }
-  static Company(_c: Node, id: Node, name: Node, _of: Node, size: Node, _at: Node, place: Node, _dot: Node): Field {
+  static Company(_c: Node, id: Node, name: Node, _of: Node, size: Node, most: Node, _at: Node, place: Node,
+    _dot: Node): Field {
+    const upto = most.children.length ? Number(most.children[0]!.children[1]!.sourceString) : undefined;
+    if (upto !== undefined && upto < Number(size.sourceString)) { throw new Error(`A company of ${size.sourceString} to ${upto}?`); }
     return { field: 'company', value: { id: id.sourceString, name: ModuleParser.ast(name), size: Number(size.sourceString),
-      place: place.sourceString } };
+      place: place.sourceString, ...upto !== undefined ? { most: upto } : {} } };
   }
   // A way under ten minutes is walked in minutes (they add up to watches); a longer one in whole watches.
   static Taking(_t: Node, amount: Node, unit: Node) {
     const n = Number(amount.sourceString), u = unit.sourceString;
     return { ticks: Math.max(1, u.startsWith('minute') ? Math.ceil(n / 10) : u.startsWith('hour') ? n * 6 : n * 144),
       ...u.startsWith('minute') && n < 10 ? { minutes: n } : {} };
-  }
-  static Result(_r: Node, text: Node, _dot: Node): Field {
-    return { field: 'report', value: ModuleParser.ast(text) };
-  }
-  static Otherwise(_o: Node, text: Node, _dot: Node): Field {
-    return { field: 'otherwise', value: ModuleParser.ast(text) };
   }
   static TopicEffects(_on: Node, _discuss: Node, _open: Node, changes: Node, _close: Node): Change[] {
     return ModuleParser.list(changes) as Change[];
@@ -296,16 +291,9 @@ export class ModuleParser {
       topic: true, report: ModuleParser.ast(response), ...PersonParser.topic(once, [before, after], answering),
       parameters: [{ name: 'actor', type: 'group' }, { name: 'site', type: 'place' }],
       requires: { kind: 'and', left: ModuleParser.predicate(text), right: ModuleParser.ast(condition) },
-      success: ModuleParser.told(effects.children.length ? ModuleParser.ast(effects.children[0]!) as Change[] : [],
+      success: PersonParser.told(effects.children.length ? ModuleParser.ast(effects.children[0]!) as Change[] : [],
         who),
       failure: [], cost: 1, time: 0 } };
-  }
-  // What a topic teaches the company it learns from the speaker: each fact it comes to know is also told by them.
-  static told(changes: Change[], speaker: string): Change[] {
-    return changes.flatMap(c => c.kind === 'assert' && c.call.name === 'knows' && c.call.args[0] === 'actor'
-      ? [c, { kind: 'assert' as const,
-        call: { kind: 'call' as const, name: 'toldBy', args: ['actor', speaker, c.call.args[1]!] } }]
-      : [c]);
   }
   // A discovery with nothing to say of where it is learnt: something people know, or a scene teaches.
   static Information(_discovery: Node, id: Node, text: Node, _open: Node, parts: Node, _close: Node): Field {
@@ -352,14 +340,15 @@ export class ModuleParser {
   }
   // An observation may teach a fact: what the company sees here, it knows from then on. One "of" an entity is not
   // perceived while the company has not noticed that entity.
-  static Observation(_observe: Node, id: Node, anchor: Node, about: Node, aspect: Node, by: Node, _when: Node,
-    predicate: Node, text: Node, teaches: Node, _dot: Node): Field {
+  static Observation(_observe: Node, id: Node, anchor: Node, instead: Node, about: Node, aspect: Node, by: Node,
+    _when: Node, predicate: Node, text: Node, teaches: Node, _dot: Node): Field {
     const where = ModuleParser.ast(anchor) as { kind: string; id: string; from?: string };
     return { field: 'observation', value: { id: id.sourceString, place: where.id, ...where.from ? { from: where.from } : {},
       ...(where.kind === 'at' ? {} : { anchor: where.kind }), when: ModuleParser.ast(predicate), text: ModuleParser.ast(text),
       ...(about.children.length ? { about: about.children[0]!.children[1]!.sourceString } : {}),
       ...(aspect.children.length ? { aspect: ModuleParser.ast(aspect.children[0]!) } : {}),
       ...(by.children.length ? { by: ModuleParser.ast(by.children[0]!) } : {}),
+      ...(instead.children.length ? { instead: ModuleParser.ast(instead.children[0]!) } : {}),
       ...(teaches.children.length ? { teaches: teaches.children[0]!.children[1]!.sourceString } : {}) } };
   }
   static Relation(_relation: Node, name: Node, _open: Node, types: Node,
@@ -390,6 +379,8 @@ export class ModuleParser {
     const seen = new Set<string>();
     for (const child of parts.children) {
       const { field, value } = ModuleParser.ast(child) as Field;
+      // Words for a moment may be several, each with its own condition (see ActionParts.told).
+      if (field === 'told') { (action.told ??= []).push(value as NonNullable<Operator['told']>[number]); continue; }
       if (seen.has(field)) { throw new Error(`Duplicate ${field} in action ${action.id}`); }
       seen.add(field);
       Object.assign(action, { [field]: value });

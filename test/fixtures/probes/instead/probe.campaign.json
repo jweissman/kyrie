@@ -1,0 +1,1 @@
+{ "version": 1, "name": "Probe: a line told instead of another", "modules": [ { "id": "p", "bundle": "module.json" } ], "party": [ { "name": "Ama", "raceId": "human", "classId": "warrior" } ] }

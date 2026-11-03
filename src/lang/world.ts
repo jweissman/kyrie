@@ -49,9 +49,7 @@ export class World {
     next.byName = new Map(from.byName); next.measuresByName = new Map(from.measuresByName);
     next.owned = new Set(); next.ownedMeasures = new Set();
     next.count = from.count; next.measureCount = from.measureCount;
-    next.stamps = new Map(from.stamps);
-    next.sums = [...from.sums];
-    next.lineage = from.lineage;
+    next.stamps = new Map(from.stamps); next.sums = [...from.sums]; next.lineage = from.lineage;
     return next;
   }
   private static copy(call: Call): Call { return { ...call, args: [...call.args] }; }
@@ -152,6 +150,8 @@ export class World {
       const left = this.number(value.left, bindings, counts), right = this.number(value.right, bindings, counts);
       return Arithmetic.of(value.op, left, right);
     }
+    if (value.kind === 'count') { return Arithmetic.count(this.solve(value.of, bindings)); }
+    if (value.name === Arithmetic.given) { return Arithmetic.number(World.value(value.args[0]!, bindings)); }
     if (!World.index(this.module).measures.has(value.name)) { throw new Error(`Unknown measure ${value.name}`); }
     const call = this.bind(value, bindings), changed = counts?.now(World.key(call));
     if (changed !== undefined) { return changed; }
@@ -343,8 +343,8 @@ export class World {
       } else if (!named.size) { this.byName.delete(change.call.name); this.owned.delete(change.call.name); }
       return;
     }
-    const amount = change.value.kind === 'call' || change.value.kind === 'arith' ? this.number(change.value)
-      : World.literal(change.value);
+    const amount = change.value.kind === 'number' || change.value.kind === 'deem' ? World.literal(change.value)
+      : this.number(change.value);
     // A count is what the list does to it in all, stopped at nothing; a quantity set outright may be less (Counts).
     const value = Math.min(counts.next(key, change.kind, amount, () => this.number(change.call)),
       World.index(this.module).measures.get(change.call.name) ?? Number.MAX_SAFE_INTEGER);

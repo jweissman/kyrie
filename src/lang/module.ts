@@ -1,6 +1,9 @@
 export interface Call { kind: 'call'; name: string; args: string[] }
 export type NumberValue = { kind: 'number'; value: number } | { kind: 'deem'; expression: string };
-export type Value = NumberValue | Call | Arithmetic;
+export type Value = NumberValue | Call | Arithmetic | Count;
+// How many ways a condition holds as it is read: count(memberOf(?m, party)) (HTH-06). Its variables are its own, but
+// for any bound around it.
+export interface Count { kind: 'count'; of: Predicate }
 // A sum, difference or product of values, worked out when it is read.
 export interface Arithmetic { kind: 'arith'; op: '+' | '-' | '*' | '/' | 'min' | 'max'; left: Value; right: Value }
 export type Predicate = Call | { kind: 'boolean'; value: boolean }
@@ -48,6 +51,10 @@ export interface Operator {
   success: Change[]; failure: Change[]; cost: number; time: number; duration?: Call; resolve?: Call;
   // Less than a watch, in minutes (Time 2 minutes): minutes add up, and every ten of them is a watch passed.
   minutes?: number;
+  // Until an hour of the clock, the next time it comes round or on a day (Time until day 2 hour 6): see ActionTime.
+  until?: { hour: number; day?: number };
+  // Words told in place of its Result (or, failed, its Otherwise) while something holds: the first that does.
+  told?: { text: string; when: Predicate; failed?: boolean }[];
   // An activity that something can interrupt: its time passes a watch at a time, and it stops when this comes to
   // hold (having not held when it began) or something happens where the company is. Its success changes apply only
   // if it runs its course; if it is interrupted, its failure changes apply instead.
@@ -92,6 +99,8 @@ export interface Observation {
   aspect?: Aspect;
   // A capability someone in the company must bring to notice it at all (lore, stonework, woodcraft).
   by?: string;
+  // Another observation it is told in place of, while it holds (see Superseded): lowered as the module is joined.
+  instead?: string;
 }
 export interface Objective { id: string; when: Predicate; text: string }
 // A role while something holds; whole, what they are called instead of their name and role ("Known as").
@@ -110,7 +119,8 @@ export interface Person { role?: string; roles?: { role: string; when: Predicate
   offers?: { kind: string; text: string; fee: number }[]; sells?: { what: string; fee: number; stock: number }[];
   // What the person will pay for each kind of thing brought to them.
   buys?: { what: string; fee: number }[] }
-export interface CompanyDeclaration { id: string; name: string; size: number; place: string }
+// most: of as many as are chosen for it, from size to most (Company party "You" of 1 to 3): see ModuleBundle.sized.
+export interface CompanyDeclaration { id: string; name: string; size: number; place: string; most?: number }
 export interface Module {
   people?: Person[];
   observations?: Observation[];

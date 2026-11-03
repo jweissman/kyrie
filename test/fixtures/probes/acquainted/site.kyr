@@ -1,0 +1,14 @@
+Module acquainted "A ferryman, who is a stranger until he has spoken" {
+  Place hall "the Hall of Waters" is settlement.
+  Place landing "the landing" is room within hall at 0, 0.
+  Company party "You" of 1 at landing.
+  Entity hob_name: fact "The old man with the pole is Hob, the ferryman.".
+  // A stranger until spoken to, or told of by name, whichever comes first (QTC-A24).
+  Person hob "Hob" at landing {
+    Role "the ferryman". Peaceable. Pronouns he.
+    Known as "an old man with a pole" when not acquainted(hob, party) and not knows(party, hob_name).
+    Greets "The old man looks up from his pole. 'Hob,' he says. 'Ferryman. Where to?'".
+  }
+  Observe landing_scene at landing when true "Black water, and a landing of tarred planks.".
+  Goal false.
+}

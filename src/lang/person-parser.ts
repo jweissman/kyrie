@@ -3,7 +3,8 @@ import { ModuleParser } from './module-parser';
 import { WorldConstructs, type ThingSpec } from './world-constructs';
 import { ItemCatalog } from '../item-catalog';
 import { ModuleWriter } from './module-writer';
-import type { Module, Person, Predicate } from './module';
+import type { Change, Module, Person, Predicate } from './module';
+import { ObjectParser } from './object-parser';
 
 type Node = ohm.Node;
 type Field = { field: string; value: unknown };
@@ -34,7 +35,7 @@ export class PersonParser {
     const seen = new Set<string>(), authored: string[] = [], manner: Manner[] = [];
     for (const node of parts.children) {
       const part = ModuleParser.ast(node) as Field;
-      if (['state', 'change', 'hurts', 'guards'].includes(part.field)) { ModuleParser.thingPart(spec, part); continue; }
+      if (['state', 'change', 'hurts', 'guards'].includes(part.field)) { ObjectParser.thingPart(spec, part); continue; }
       if (part.field === 'offers' || part.field === 'sells' || part.field === 'buys') {
         ((p as unknown as Record<string, unknown[]>)[part.field] ??= []).push(part.value); continue;
       }
@@ -252,5 +253,12 @@ export class PersonParser {
     module.company = c;
     module.entities.push({ id: c.id, type: 'group', name: c.name });
     module.initial.push({ kind: 'assert', call: { kind: 'call', name: 'at', args: [c.id, c.place] } });
+  }
+  // What a topic teaches the company it learns from the speaker: each fact it comes to know is also told by them.
+  static told(changes: Change[], speaker: string): Change[] {
+    return changes.flatMap(c => c.kind === 'assert' && c.call.name === 'knows' && c.call.args[0] === 'actor'
+      ? [c, { kind: 'assert' as const,
+        call: { kind: 'call' as const, name: 'toldBy', args: ['actor', speaker, c.call.args[1]!] } }]
+      : [c]);
   }
 }

@@ -6,7 +6,9 @@ Kyr {
   PlaceParent = "within" ident
   PlaceGrid = "at" integer "," integer
   PlaceAlias = "seen" "as" string "until" ident
-  Company = "Company" ident string "of" integer "at" ident "."
+  Company = "Company" ident string "of" integer CompanyMost? "at" ident "."
+  // Of as many as are chosen for it, from the first to the second (LUL-09).
+  CompanyMost = "to" integer
   ItemDecl = "Item" ident string? "is" ident ItemPlace Concealed? ItemOwner? "."
   ItemPlace = "at" ident -- at
             | kwIn ident -- in
@@ -17,9 +19,12 @@ Kyr {
   PassageKind = "is" ident
   PassagePart = "one" "way" -- oneway
               | "hidden" "until" ident -- hidden
-              | "needing" ident ("or" ident)* -- needs
+              | "needing" ident ("or" ident)* NeedsEnd? -- needs
               | "taking" integer timeUnit -- taking
               | "opening" "when" Predicate string? -- opening
+  // Needed only going one way: into a place, or out from it (GTR-X08).
+  NeedsEnd = "going" "to" ident -- to
+           | "from" ident -- from
   timeUnit = "minutes" | "minute" | "hours" | "hour" | "days" | "day"
   Thing = "Thing" ident string ThingSite ThingKind? Concealed? "{" ThingPart* "}"
   // One end of a way: a thing on the way, or a line beside it, told only to a company at that end (GTR-08).
@@ -33,7 +38,9 @@ Kyr {
   TriesPart = "Tries" ident ("," ident)* "."
   StatePart = "State" ident StateFlag* string "."
   StateFlag = "blocking" | "dangerous" | "closed"
-  ChangePart = "Change" ident string "from" ident "to" ident ChangeNeeds? ChangeAfter? ChangeConsumes? ChangeAt? "."
+  ChangePart = "Change" ident string "from" ident "to" ident ChangeNeeds? ChangeAfter? ChangeConsumes? ChangeAt? ChangeWhen? "."
+  // Made only while something holds, and why not while it does not (GTR-07).
+  ChangeWhen = "when" Predicate string?
   ChangeNeeds = "needing" ident ("or" ident)*
   ChangeAfter = "after" "learning" ident
   ChangeConsumes = "consuming" ident
@@ -121,8 +128,9 @@ Kyr {
   TopicEffects = "On" "discuss" "{" ChangeStatement* "}"
   Speaker = "Speaker" ident "."
   Grave = "Grave" string "."
-  Result = "Result" string "."
-  Otherwise = "Otherwise" string "."
+  Result = "Result" string TextWhen? "."
+  Otherwise = "Otherwise" string TextWhen? "."
+  TextWhen = "when" Predicate
   Information = "Discovery" ident string "{" InformationPart* "}" -- parts
               | "Discovery" ident string "." -- plain
   InformationPart = KnownBy | DeniedBy | InformationSource | FoundBy
@@ -140,7 +148,9 @@ Kyr {
   RuleSays = "says" string RuleAgain?
   RuleAgain = "again" string
   RuleTeaches = "teaches" ident
-  Observation = "Observe" ident Anchor ObservationAbout? ObservationAspect? ObservationBy? "when" Predicate string ObservationTeaches? "."
+  Observation = "Observe" ident Anchor ObservationInstead? ObservationAbout? ObservationAspect? ObservationBy? "when" Predicate string ObservationTeaches? "."
+  // Told in place of another while it holds (QTC-A25).
+  ObservationInstead = "instead" "of" ident
   ObservationAbout = "of" term
   ObservationAspect = "as" ident
   ObservationBy = "noticed" "by" ident
@@ -184,11 +194,18 @@ Kyr {
   Failure = "On" "failure" "{" ChangeStatement* "}"
   Cost = "Cost" integer "."
   Time = "Time" integer ("minutes" | "minute") "." -- minutes
+       | "Time" integer ("hours" | "hour") "." -- hours
+       | "Time" "until" TimeUntil "." -- until
        | "Time" integer "." -- fixed
        | "Time" Call "." -- measured
+  // Until an hour of the clock, or of a day: "Time until hour 19.", "Time until day 2 hour 6." (WPC-10).
+  TimeUntil = TimeDay? "hour" integer
+  TimeDay = "day" integer
   Resolve = "Resolve" Call "."
   ChangeStatement = Change "."
-  Change = Assert | Retract | Set | Increase | Lessen | Decrease | Give | Spend
+  Change = Assert | Retract | Set | Increase | Lessen | Decrease | Give | Spend | Restore
+  // Whole again: every hit point, no condition, risen if fallen or dead (LUL-01).
+  Restore = "Restore" term
   Assert = "Assert" Call
   Give = "Give" GiveWhat "to" term
   // How many of a kind (Give 2 lamp_oil to actor), or one thing or one of a kind.
@@ -221,12 +238,16 @@ Kyr {
   ProductTail = ("*" | "/") Operand
   Operand = "(" Value ")" -- group
           | ("min" | "max") "(" ExtremeArgs ")" -- extreme
+          | "count" "(" Predicate ")" -- count
           | Call
           | NumberValue
+          | ident -- given
   ExtremeArgs = Value "," Value
   sumOp = "+" | "-"
   NumberValue = expression | integer
-  Call = ident "(" ListOf<term, ","> ")"
+  // A query's number is given to it as a figure: speaking(actor, 3) (GOS-12).
+  Call = ident "(" ListOf<argument, ","> ")"
+  argument = term | digit+
   term = variable | ident
   variable = "?" ident
   comparator = ">=" | "<=" | "==" | "!=" | ">" | "<"

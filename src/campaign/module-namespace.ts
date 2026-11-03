@@ -61,6 +61,8 @@ export class ModuleNamespace {
       name: this.text(action.name, bound),
       ...(action.report ? { report: this.text(action.report, bound) } : {}),
       ...(action.otherwise ? { otherwise: this.text(action.otherwise, bound) } : {}),
+      ...(action.told ? { told: action.told.map(t => ({ ...t, text: this.text(t.text, bound),
+        when: this.predicate(t.when, bound) })) } : {}),
       ...(action.seen ? { seen: this.text(action.seen, bound) } : {}),
       ...(action.speaker ? { speaker: this.entities[action.speaker] } : {}),
       ...(action.answers ? { answers: `${this.bindings.id}__${action.answers}` } : {}),

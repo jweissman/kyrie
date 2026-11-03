@@ -1,6 +1,7 @@
 import type * as ohm from 'ohm-js';
 import { ModuleParser } from './module-parser';
 import { KyrText } from './kyr-text';
+import { Arithmetic } from './arithmetic';
 
 type Node = ohm.Node;
 type Field = { field: string; value: unknown };
@@ -46,6 +47,10 @@ export class StatementParser {
   static Spend(_spend: Node, kind: Node, _from: Node, group: Node) {
     return { kind: 'assert', call: { kind: 'call', name: 'usesUp', args: [group.sourceString, kind.sourceString] } };
   }
+  // "Restore ?g.": whoever it names whole again, risen if they had died (see Consequences.restore).
+  static Restore(_restore: Node, group: Node) {
+    return { kind: 'assert', call: { kind: 'call', name: 'madeWhole', args: [group.sourceString] } };
+  }
   static Set(_set: Node, call: Node, _to: Node, value: Node) {
     return { kind: 'set', call: ModuleParser.ast(call), value: ModuleParser.ast(value) };
   }
@@ -75,6 +80,10 @@ export class StatementParser {
     const [left, right] = ModuleParser.ast(args) as [unknown, unknown];
     return { kind: 'arith', op: word.sourceString, left, right };
   }
+  // count(…): how many ways a condition holds (see World.number).
+  static Count(_count: Node, _open: Node, of: Node, _close: Node) { return { kind: 'count', of: ModuleParser.ast(of) }; }
+  // A name standing alone as a value: the number its query is given (see Arithmetic.given).
+  static Given(name: Node) { return { kind: 'call', name: Arithmetic.given, args: [name.sourceString] }; }
   static ExtremeArgs(left: Node, _comma: Node, right: Node) {
     return [ModuleParser.ast(left), ModuleParser.ast(right)];
   }

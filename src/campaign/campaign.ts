@@ -2,7 +2,7 @@ import { RandomStreams } from '../random-streams';
 import { CommandResolutions } from './command-resolution';
 import { Aftermath } from './aftermath'; import { FieldUse } from './field-use';
 import { FieldResolver } from './field-resolver';
-import { ObservationText } from '../lang/observation-text'; import { Operators } from './operators';
+import { ActionParts } from '../lang/action-parts'; import { Operators } from './operators';
 import { CompanyChoices } from './company-choices';
 import { Perceptions } from './perceptions';
 import { ModuleBundle, type BundleRequest } from './module-bundle';
@@ -78,7 +78,7 @@ export class Campaign implements WatchHost {
     // The clock reads the hour from the start: how long until dark, until first light, until the day turns.
     this.commit(this.world.apply(CampaignTick.clock(this.world, this.current)));
     CreatureFacts.initialize(this.world, this.definition.actors, this.creatures);
-    this.refresh(); this.observe(); this.updateOutcome();
+    this.refresh(); CampaignTick.settle(this); this.observe(); this.updateOutcome();
   }
   // Loading is deterministic in (source, path, seed, party), so later loads fork the first, with its own kinds.
   private static loads = new LoadCache<Campaign>();
@@ -113,7 +113,8 @@ export class Campaign implements WatchHost {
     // Each module is checked as it is compiled; the joined whole, once, when the last is in.
     for (const request of manifest.modules) {
       if (campaign) { await campaign.install(request, source, false); continue; }
-      const draft = await ModuleBundle.load(request, { seed, installed: canon?.campaign.installations }, source);
+      const draft = await ModuleBundle.load(request, { seed, installed: canon?.campaign.installations,
+        party: party?.length }, source);
       if (party) { CompanyChoices.apply(draft, party); }
       Overlays.declareGear(draft.instance); Overlays.declareWorth(draft.instance);
       const first = ModuleInstallations.prepare(canon, draft, 0, false);
@@ -141,7 +142,7 @@ export class Campaign implements WatchHost {
     this.compiled = next.module; this.definition = next.campaign; this.creatures = store;
     this.commit(world); this.current.deadline = next.budget;
     for (const actor of actors) { this.current.inhabitants[actor.id] = [...actor.members]; }
-    this.updateOutcome();
+    CampaignTick.settle(this); this.updateOutcome();
   }
   private installBoundary() {
     if (this.executing || this.creatures.hasActiveLeases) { throw new Error('Install only between commands'); }
@@ -297,8 +298,7 @@ export class Campaign implements WatchHost {
     if (this.definition) { this.refresh(); }
     this.commit(Aftermath.record(before, this.world, action, combat));
     this.resolutions(combat, true);
-    const told = success ? action.report : action.otherwise;
-    let response = told ? ObservationText.render(told, this.world) : undefined;
+    let response = ActionParts.told(action, success, this.world);
     if (!success && action.resolve?.name === 'expose' && !action.otherwise) { response = CommandResolutions.downed(action, this.world); }
     const pass = WatchLoop.pass(this, action,
       { before, combat, ...leg ? { journey: { leg, arrive: Journey.arrive.bind(Journey, this, action, leg) } } : {} });

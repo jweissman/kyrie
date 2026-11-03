@@ -56,6 +56,14 @@ export class FictionalTime {
     const minutes = (8 * 60 + tick * this.minutesPerTick) % 1440;
     return Math.ceil((night.falls * 60 - minutes) / this.minutesPerTick);
   }
+  // Watches until an hour of the clock: the next time it comes round, or that hour of a day (day 1 the first), and at
+  // least one (WPC-10's `Time until hour 19`).
+  static untilHour(tick: number, at: { hour: number; day?: number }): number {
+    const now = 8 * 60 + tick * this.minutesPerTick;
+    let then = at.day ? (at.day - 1) * 1440 + at.hour * 60 : Math.floor(now / 1440) * 1440 + at.hour * 60;
+    if (!at.day && then <= now) { then += 1440; }
+    return Math.max(1, Math.ceil((then - now) / this.minutesPerTick));
+  }
   // Watches until the day next turns: first light, midday, evening or dark (six, twelve, six and nine o'clock).
   static untilTurn(tick: number): number {
     const minutes = (8 * 60 + tick * this.minutesPerTick) % 1440;

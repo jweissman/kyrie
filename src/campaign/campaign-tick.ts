@@ -125,6 +125,13 @@ export class CampaignTick {
     for (const rule of rules) { this.fire(host, rule, happenings, { began }); }
     for (const rule of rules) { if (rule.upkeep) { this.fire(host, rule, happenings, { began }); } }
   }
+  // What is read again once the rules of the moment have run, read once as a game begins, before anyone acts: a way
+  // open by day, or a change made only while nobody watches, is so from the first, not from the first watch (GTR-07:
+  // the bureau no one stood over could not be eased open until the company had done something else first).
+  static settle(host: TickHost) {
+    const began = host.world;
+    for (const rule of host.module.rules ?? []) { if (rule.upkeep) { this.fire(host, rule, [], { began }); } }
+  }
   // The world's rules once more, as the company learns something by seeing, reading or hearing it (see
   // Perceptions.settle); since is the world before it was learned. A rule is asked again only if something it reads
   // has changed since then, and fires only where it holds now and did not then: what was learned is answered in the

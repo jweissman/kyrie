@@ -1,6 +1,7 @@
 import type * as ohm from 'ohm-js';
 import { ModuleParser } from './module-parser';
 import type { ThingSpec } from './world-constructs';
+import type { Predicate } from './module';
 
 type Node = ohm.Node;
 type Field = { field: string; value: unknown };
@@ -25,8 +26,23 @@ export class ObjectParser {
       type: kind.children.length ? ModuleParser.ast(kind.children[0]!) as string : 'thing',
       site: ModuleParser.ast(site) as ThingSpec['site'], states: [], changes: [],
       ...(concealed.children.length ? { hidden: ModuleParser.ast(concealed.children[0]!) as string } : {}) };
-    for (const part of parts.children) { ModuleParser.thingPart(spec, ModuleParser.ast(part) as Field); }
+    for (const part of parts.children) { ObjectParser.thingPart(spec, ModuleParser.ast(part) as Field); }
     return { field: 'thing', value: spec };
+  }
+  // One part of a thing (or of a person, who has states and changes too), joined to it.
+  static thingPart(spec: ThingSpec, part: Field) {
+    if (part.field === 'state') { spec.states.push(part.value as ThingSpec['states'][number]); }
+    else if (part.field === 'change') { spec.changes.push(part.value as ThingSpec['changes'][number]); }
+    else if (part.field === 'hurts') { spec.hurts = part.value as ThingSpec['hurts']; }
+    else if (part.field === 'guards') { (spec.guards ??= []).push(part.value as string); }
+    else if (part.field === 'holds') { spec.holds = true; }
+    else if (part.field === 'tries') { spec.tries = [...spec.tries ?? [], ...part.value as string[]]; }
+  }
+  // ChangeWhen = "when" Predicate string?: made only while that holds, and what is said of it while it does not.
+  static withheld(when: Node): { when: Predicate; why?: string } {
+    const [, condition, why] = when.children as [Node, Node, Node];
+    return { when: ModuleParser.ast(condition) as Predicate,
+      ...why.children.length ? { why: ModuleParser.ast(why.children[0]!) as string } : {} };
   }
   static HoldsPart(_holds: Node, _dot: Node): Field { return { field: 'holds', value: true }; }
   // FoundBy = "Found" "by" "searching" ident FoundWith? string? "."

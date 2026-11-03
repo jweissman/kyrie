@@ -1,0 +1,18 @@
+Module madewhole "Hired harm, healed at sunset" {
+  Place lull "the Lull" is settlement.
+  Place sett "the Old Brock's sett" is room within lull at 0, 0 outdoors.
+  Company party "You" of 1 at sett.
+  Hazard bramble "the bramble" means "Deal (5) slashing damage to ally unless dexterity save against (90).".
+  Relation torn(group).
+  Action push_through(actor: group, site: place) "Push through the bramble" {
+    Requires able(actor) and at(actor, site) and not torn(actor).
+    Time 0.
+    On success { Assert strikes(bramble, actor). Assert torn(actor). }
+  }
+  // In the Lull harm done by someone who does not mean it heals at sunset (LUL-01).
+  Rule sunset_heals when torn(?c) and hour(clock) >= 18 says "The sun goes down, and what the bramble did is undone." {
+    Restore ?c. Retract torn(?c).
+  }
+  Observe sett_scene at sett when true "Brambles over the sett.".
+  Goal false.
+}

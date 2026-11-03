@@ -6,6 +6,7 @@ import { Expressions } from '../expressions';
 import type { Aspect, Call, Change, Instance, Module, NumberValue, Predicate, Signature, Value } from './module';
 import { World } from './world';
 import { EngineOwned } from './engine-owned';
+import { Arithmetic } from './arithmetic';
 
 // Name lookups for one validation pass; validation reads every action, so linear scans make it quadratic.
 interface Lookup { types: Map<string, string>; relations: Signature[]; predicates: Signature[] }
@@ -58,7 +59,7 @@ export class ModuleCompiler {
     for (const query of module.queries) {
       ModuleCompiler.unique(query.parameters.map(p => p.name), 'query parameter');
       const bindings = Object.fromEntries(query.parameters.map(p => [p.name, p.type]));
-      query.parameters.forEach(p => this.kind(module, p.type));
+      query.parameters.forEach(p => p.type === 'number' || this.kind(module, p.type));
       this.predicate(module, query.body, bindings);
       this.acyclic(module, query.name, []);
     }
@@ -140,6 +141,9 @@ export class ModuleCompiler {
     this.text(module, action.report ?? '', bindings);
     this.text(module, action.otherwise ?? '', bindings);
     this.text(module, action.seen ?? '', bindings);
+    for (const t of action.told ?? []) {
+      this.predicate(module, t.when, bindings); this.text(module, t.text, bindings);
+    }
     if (action.resolve) { this.call(module, action.resolve, this.capabilities, bindings); }
     if (action.duration) { this.call(module, action.duration, module.measures, bindings); }
   }
@@ -165,13 +169,14 @@ export class ModuleCompiler {
     for (const action of module.actions) {
       action.requires = this.resolvePredicate(action.requires, expressions);
       if (action.interrupt) { action.interrupt = this.resolvePredicate(action.interrupt, expressions); }
+      for (const t of action.told ?? []) { t.when = this.resolvePredicate(t.when, expressions); }
     }
     const world = new World(module).apply(module.initial);
     return { module, world: world.snapshot, budget: World.literal(module.budget) };
   }
   // A value with its dice rolled once, for the module: what is left to the world is its measures.
   private static settle(expressions: Expressions, value: Value): Value {
-    if (value.kind === 'call') { return value; }
+    if (value.kind === 'call' || value.kind === 'count') { return value; }
     if (value.kind === 'arith') { return { ...value, left: this.settle(expressions, value.left),
       right: this.settle(expressions, value.right) }; }
     return this.resolve(expressions, value);
@@ -225,7 +230,9 @@ export class ModuleCompiler {
     const signature = index.get(call.name);
     if (!signature || signature.types.length !== call.args.length) { throw new Error(`Unknown function or arity: ${World.format(call)}`); }
     call.args.forEach((arg, i) => {
-      if (arg.startsWith('?')) { return; }
+      if (arg.startsWith('?') || (signature.types[i] === 'number' && (/^\d+$/.test(arg) || bindings[arg] === 'number'))) {
+        return;
+      }
       const type = bindings[arg] ?? this.type(module, arg);
       const expected = signature.types[i];
       if (!type || (expected !== 'entity' && type !== 'entity' && type !== expected)) {
@@ -252,8 +259,11 @@ export class ModuleCompiler {
     }
   }
   private value(module: Module, value: Value, bindings: Record<string, string>) {
-    if (value.kind === 'call') { this.call(module, value, module.measures, bindings); }
+    if (value.kind === 'call' && value.name === Arithmetic.given) {
+      if (bindings[value.args[0]!] !== 'number') { throw new Error(`${value.args[0]} is no number its query is given`); }
+    } else if (value.kind === 'call') { this.call(module, value, module.measures, bindings); }
     else if (value.kind === 'arith') { this.value(module, value.left, bindings); this.value(module, value.right, bindings); }
+    else if (value.kind === 'count') { this.predicate(module, value.of, bindings); }
     else { this.number(value); }
   }
   private number(value: NumberValue) {
@@ -280,10 +290,15 @@ export class ModuleCompiler {
   // architecture review's A9: `Assert marked(?t)` under `at(ann, hall)`, or under `not lit(?t)`, kept marked(?t)).
   private static writes(id: string, when: Predicate, effects: Change[]) {
     const bound = this.binds(when);
-    const written = effects.flatMap(c => JSON.stringify(c).match(/"\?[A-Za-z0-9_]+"/g) ?? []).map(v => v.slice(1, -1));
+    const written = effects.flatMap(c => JSON.stringify(c, ModuleCompiler.uncounted).match(/"\?[A-Za-z0-9_]+"/g) ?? [])
+      .map(v => v.slice(1, -1));
     for (const v of written) {
       if (!bound.has(v)) { throw new Error(`${id} writes ${v}, which its condition does not bind`); }
     }
+  }
+  // What a count names is its own to find (count(…)), and not written: read past, as JSON is written.
+  private static uncounted(this: void, _key: string, value: unknown): unknown {
+    return (value as { kind?: string } | null)?.kind === 'count' ? 0 : value;
   }
   // The variables a condition binds wherever it holds: of an `or`, only those both sides bind.
   private static binds(p: Predicate): Set<string> {

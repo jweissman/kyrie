@@ -11,6 +11,7 @@ import { ModuleNamespace, type ModuleDraft } from './module-namespace';
 import type { InstalledModule } from './definition';
 import type { BundleSource } from './bundle-source';
 import type { Entity, Module } from '../lang/module';
+import { Superseded } from '../lang/superseded';
 import { ModuleShadow } from './module-shadow';
 import { ModuleCanon } from './module-canon';
 import { FictionalTime } from './fictional-time';
@@ -149,14 +150,15 @@ export class ModuleBundle {
     // The goal is whichever file declares one (The Long Man's is in its second file, and was lost as false).
     const goals = modules.map(m => m.goal).filter(g => !(g.kind === 'boolean' && g.value === false));
     if (goals.length > 1) { throw new Error('A module declares its Goal once, in one of its files'); }
-    return { ...modules[0]!, ...goals[0] ? { goal: goals[0] } : {}, ...company ? { company } : {}, entities,
+    return Superseded.lower({ ...modules[0]!, ...goals[0] ? { goal: goals[0] } : {}, ...company ? { company } : {},
+      entities,
       kinds: [...new Set(modules.flatMap(m => m.kinds))],
       relations: ModuleBundle.once(modules.flatMap(m => m.relations)), measures: modules.flatMap(m => m.measures),
       queries: modules.flatMap(m => m.queries), initial: modules.flatMap(m => m.initial),
       actions: modules.flatMap(m => m.actions), people: modules.flatMap(m => m.people ?? []),
       pursuits: modules.flatMap(m => m.pursuits ?? []), rules: modules.flatMap(m => m.rules ?? []),
       observations: modules.flatMap(m => m.observations ?? []), objectives: modules.flatMap(m => m.objectives ?? []),
-      ...LocalKinds.merge(...modules.map(m => m.catalog)) };
+      ...LocalKinds.merge(...modules.map(m => m.catalog)) });
   }
   // A relation declared alike in two files is one relation: what an Ending declares for itself in each file it is in
   // (concluded) was declared twice, and a module with endings in two files would not load (the review's A16).
@@ -276,7 +278,7 @@ export class ModuleBundle {
   // people: who is in the world already, whose names a story's generated people are drawn apart from as the country's
   // folk's are (two stories in b2 each gave one of their people Rurik).
   static async load(request: BundleRequest, options: {
-    seed: string; installed?: InstalledModule[]; elapsed?: number; people?: readonly Entity[];
+    seed: string; installed?: InstalledModule[]; elapsed?: number; people?: readonly Entity[]; party?: number;
   }, source: BundleSource): Promise<ModuleDraft> {
     if (!/^[A-Za-z][A-Za-z0-9-]*$/.test(request.id)) { throw new Error('Invalid module installation ID'); }
     const path = source.resolve(request.bundle);
@@ -305,6 +307,7 @@ export class ModuleBundle {
     const composed = ModuleShadow.apart(shadowed.functions.length
       ? this.merge(own.map(f => this.parsed({ ...f, text: ModuleShadow.text(f.text, shadowed) }, true))) : parsed,
     shadowed);
+    ModuleBundle.sized(composed, options.party);
     // What it names of the canon is given it, and bound as the world's own (see ModuleCanon).
     const given = ModuleCanon.give(composed, manifest.canon ?? [], canon, path);
     const bound = given.length ? { ...manifest, globals: [...manifest.globals ?? [], ...given] } : manifest;
@@ -327,6 +330,15 @@ export class ModuleBundle {
     if (manifest.experience) { draft.experience = manifest.experience; }
     if (request.chapter) { draft.chapter = true; }
     return draft;
+  }
+  // A company of one to three is of as many as are chosen for it, within those: a campaign of three had been refused
+  // a module written for one ("Choose 1 companions"), and the Lull kept a copy of its company for its tests (its F12,
+  // LUL-09). Chosen by no one, it is of the fewest.
+  private static sized(module: Module, chosen?: number) {
+    const c = module.company;
+    if (!c?.most || chosen === undefined) { return; }
+    if (chosen < c.size || chosen > c.most) { throw new Error(`Choose ${c.size} to ${c.most} companions`); }
+    c.size = chosen;
   }
   // Sets a province's own country inside a host place: the region its manifest exports as its region, or, if it
   // names none, each region it sets in Imbar or in no plane. Never a region elsewhere (Parliament's Commonplace, which

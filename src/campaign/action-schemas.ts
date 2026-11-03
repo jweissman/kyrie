@@ -91,6 +91,8 @@ export class ActionSchemas {
       ...(action.interrupt ? { interrupt: this.predicate(action.interrupt, bindings) } : {}),
       ...(action.report ? { report: this.text(action.report, bindings) } : {}),
       ...(action.otherwise ? { otherwise: this.text(action.otherwise, bindings) } : {}),
+      ...(action.told ? { told: action.told.map(t => ({ ...t, text: this.text(t.text, bindings),
+        when: this.predicate(t.when, bindings) })) } : {}),
       ...(action.seen ? { seen: this.text(action.seen, bindings) } : {}),
       success: action.success.map(c => this.change(c, bindings)),
       failure: action.failure.map(c => this.change(c, bindings)),

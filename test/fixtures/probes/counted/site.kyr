@@ -1,0 +1,19 @@
+Module counted "Lamps in a house, counted and not tallied" {
+  Place house "the house" is settlement.
+  Place hall "the hall" is room within house at 0, 0.
+  Place parlour "the parlour" is room within house at 1, 0.
+  Passage parlour_door "the parlour door" is door between hall and parlour.
+  Company party "You" of 1 at hall.
+  Relation lit(place). Measure lamps().
+  Action light(actor: group, site: place) "Light a lamp here" {
+    Requires able(actor) and at(actor, site) and not lit(site) and count(lit(?p)) < 2.
+    Time 0.
+    On success { Assert lit(site). }
+  }
+  // A count of what holds, read as it is asked (HTH-06), not a tally kept at every change.
+  Rule lamps_counted when lamps() != count(lit(?p)) { Set lamps() to count(lit(?p)). }
+  Query lamplit(n: number) means count(lit(?p)) >= n.
+  Observe two_lamps at hall when lamplit(2) "Two lamps burn in the house.".
+  Observe hall_scene at hall when true "A cold hall.".
+  Goal false.
+}

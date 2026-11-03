@@ -1,9 +1,11 @@
 import type { Call, Change, Module, NumberValue, Operator, Person, Predicate, Value } from './module';
 import { World } from './world';
+import { Arithmetic } from './arithmetic';
 
 export class ModuleWriter {
   static value(value: Value): string {
-    if (value.kind === 'call') { return World.format(value); }
+    if (value.kind === 'call') { return value.name === Arithmetic.given ? value.args[0]! : World.format(value); }
+    if (value.kind === 'count') { return `count(${ModuleWriter.predicate(value.of)})`; }
     if (value.kind === 'arith' && (value.op === 'min' || value.op === 'max')) {
       return `${value.op}(${ModuleWriter.value(value.left)}, ${ModuleWriter.value(value.right)})`;
     }
@@ -102,6 +104,10 @@ export class ModuleWriter {
       `    Cost ${action.cost}. Time ${action.duration ? World.format(action.duration) : action.time}.`];
     if (action.report) { lines.push(`    Result ${JSON.stringify(action.report)}.`); }
     if (action.otherwise) { lines.push(`    Otherwise ${JSON.stringify(action.otherwise)}.`); }
+    for (const t of action.told ?? []) {
+      lines.push(`    ${t.failed ? 'Otherwise' : 'Result'} ${JSON.stringify(t.text)} when ${ModuleWriter.predicate(t.when)}.`);
+    }
+    if (action.until) { lines.push(`    Time until ${action.until.day ? `day ${action.until.day} ` : ''}hour ${action.until.hour}.`); }
     if (action.seen) { lines.push(`    Seen ${JSON.stringify(action.seen)}.`); }
     if (action.speaker) { lines.push(`    Speaker ${action.speaker}.`); }
     if (action.grave) { lines.push(`    Grave ${JSON.stringify(action.grave)}.`); }
@@ -139,6 +145,7 @@ export class ModuleWriter {
   static calls(value: Value, f: (call: Call) => Call): Value {
     if (value.kind === 'call') { return f(value); }
     if (value.kind === 'arith') { return { ...value, left: this.calls(value.left, f), right: this.calls(value.right, f) }; }
+    if (value.kind === 'count') { return { ...value, of: this.conditionCalls(value.of, f) }; }
     return { ...value };
   }
   // The same for a condition: each call in it, and in what it compares.

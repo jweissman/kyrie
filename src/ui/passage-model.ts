@@ -108,9 +108,12 @@ export class PassageModel {
       const h = hazard['?h']!;
       return { ...base, status: 'hazard', via: this.label(h), reason: this.describe(h) ?? `${this.label(h)} is dangerous.` };
     }
-    // A way that needs something is open to a company with any one of what it needs (climbing, or a rope).
-    const needs = this.world.related('needs').filter(r => r.args[0] === passage).map(r => r.args[1]!);
-    if (needs.length && !needs.some(k => this.world.test(this.call('meets', this.actor, k)))) {
+    // A way that needs something is open to a company with any one of what it needs (climbing, or a rope), and one
+    // that needs something going to this end only, so too (GTR-X08).
+    const needs = [this.world.related('needs').filter(r => r.args[0] === passage).map(r => r.args[1]!),
+      this.world.related('needsInto').filter(r => r.args[0] === passage && r.args[1] === to).map(r => r.args[2]!)]
+      .find(n => n.length && !n.some(k => this.world.test(this.call('meets', this.actor, k))));
+    if (needs) {
       // A skill by its name (climbing); a kind of thing as one of it (a coil of rope).
       const named = needs.map(k => this.entities.get(k)?.type === 'capability' ? this.label(k).toLowerCase()
         : ItemNames.called(this.label(k)));

@@ -1,0 +1,25 @@
+Module scalar "A ruling, kept as a number of the quest's own" {
+  Place court "the court" is settlement.
+  Place bench "the bench" is room within court at 0, 0.
+  Company party "You" of 1 at bench.
+  // A measure of nothing at all: the quest's own number, hung on no office (QTC-A12).
+  Measure ruling().
+  Initially Set ruling() to 1.
+  Action plead(actor: group, site: place) "Plead before the bench" {
+    Requires able(actor) and at(actor, site) and ruling() < 3.
+    Time 1.
+    On success { Increase ruling() by 1. }
+    Result "The bench rules again: {ruling()} in your favour.".
+  }
+  // A query compared against its own number (GOS-12): ruled(3), not the comparison written out at every use.
+  Query ruled(n: number) means ruling() >= n.
+  Query ruledFor(a: group, n: number) means at(a, bench) and ruled(n).
+  Action thank(actor: group, site: place) "Thank the bench" {
+    Requires able(actor) and at(actor, site) and ruledFor(actor, 2) and not ruled(3).
+    Time 0.
+    Result "The bench nods.".
+  }
+  Observe bench_scene at bench when true "A bench of three.".
+  Observe won at bench when ruled(3) "The ruling stands.".
+  Goal false.
+}

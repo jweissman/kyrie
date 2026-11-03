@@ -20,6 +20,9 @@ Module care "Rest, mending and lessons" {
   Relation fieldUsable(ability).
   // One who falls lies senseless (fallen) until a rest, when they come round or die where they fell (slain).
   Relation awake(member). Relation fallen(member). Relation slain(member). Relation needsCare(member). Relation canCast(member, ability). Relation treatable(member, ability).
+  // Whoever a rule or an act makes whole (Restore x): every hit point, no condition, risen if fallen or dead; the
+  // engine does it and forgets that it was asked to (Consequences.restore).
+  Relation madeWhole(group).
   Relation restful(place). Relation offeredAt(reward, place). Relation giftEffect(reward, ability).
   Relation rewardFor(reward, fact). Relation claimed(reward).
   Goal false.

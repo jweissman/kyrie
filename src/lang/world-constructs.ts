@@ -7,6 +7,8 @@ export interface ChangeSpec {
   id: string; label: string; from: string; to: string; needs?: string[]; after?: string; consumes?: string;
   // Where the change can be made from, when only one side reaches it (a bar on the cellar side of a door).
   at?: string;
+  // Made only while this holds, and what is said beside the thing while it does not (see WorldConstructs.withheld).
+  when?: Predicate; why?: string;
 }
 export interface ThingSpec {
   id: string; name: string; type: string; site?: { anchor: 'at' | 'on' | 'inside'; id: string; from?: string };
@@ -19,6 +21,8 @@ export interface ThingSpec {
 }
 export interface PassageSpec {
   id: string; name: string; sides: [string, string]; oneWay: boolean; hidden?: string; needs?: string[];
+  // Needed only going one way: into the place `to`, or out of the place `id` (Anchor's from).
+  into?: { needs: string[]; to?: string; kind?: string; id?: string };
   kind?: string; ticks?: number; minutes?: number;
   // Crossed only while this holds, and how the way looks while it does not.
   openings?: { when: Predicate; shut?: string }[];
@@ -57,6 +61,7 @@ export class WorldConstructs {
     if (!p.oneWay) { this.assert(module, 'connects', p.id, p.sides[1], p.sides[0]); }
     if (p.hidden) { this.assert(module, 'revealedBy', p.id, p.hidden); }
     for (const need of p.needs ?? []) { this.assert(module, 'needs', p.id, need); }
+    if (p.into) { this.into(module, p, p.into); }
     const kind = p.kind ?? 'passage';
     if (!this.wayKinds.includes(kind)) { throw new Error(`Unknown passage kind ${kind} for ${p.id}`); }
     this.entity(module, `way_${kind}`, 'waykind', kind);
@@ -71,6 +76,16 @@ export class WorldConstructs {
         value: { kind: 'number', value: minutes } });
     }
     if (p.openings?.length) { this.opening(module, p.id, p.openings, p); }
+  }
+  // A way that needs something going one way only: the stairs down into the Whelm need breath, and a company whose
+  // breath had run out could still climb back up. Each such way had been two one-way passages and a rule to lift a
+  // drowning company (the Grand Tour's W2, GTR-X08). The need is asked of a company going to that end (equippedInto).
+  private static into(module: Module, p: PassageSpec, into: NonNullable<PassageSpec['into']>) {
+    const end = into.to ?? p.sides.find(s => s !== into.id);
+    if (!end || !p.sides.includes(into.to ?? into.id!)) {
+      throw new Error(`Passage ${p.id} needs something going to or from ${into.to ?? into.id}, which is neither end`);
+    }
+    for (const need of into.needs) { this.assert(module, 'needsInto', p.id, end, need); }
   }
   // A way that opens only while something holds is unopened until the world's rules find that it does, and again
   // whenever it stops holding; while unopened, it is not passable, and looks as the author says, to a company that
@@ -211,6 +226,7 @@ export class WorldConstructs {
       for (const need of c.needs ?? []) { this.assert(module, 'needs', id, need); }
       if (c.after) { this.assert(module, 'changeKnows', id, c.after); }
       if (c.at) { this.assert(module, 'changeAt', id, c.at); }
+      if (c.when) { this.withheld(module, t, id, c); }
       // Consuming a good spends some of the company's stock; consuming a kind of item uses one up.
       const spent = c.consumes ? ItemCatalog.definitions[c.consumes]?.name : undefined;
       if (spent) { this.entity(module, c.consumes!, 'itemkind', spent); this.assert(module, 'spends', id, c.consumes!); }
@@ -222,6 +238,23 @@ export class WorldConstructs {
       this.assert(module, 'hurtsInto', t.id, t.hurts.then);
     }
     for (const way of t.guards ?? []) { this.assert(module, 'guards', t.id, way); }
+  }
+  // A change made only while something holds is withheld until the world's rules find that it does, and again
+  // whenever it stops, read once the rules of the moment have run (as a way's opening is); while withheld, the shared
+  // changes are not offered, and what its author says of it is told beside the thing, in the state it would be changed
+  // from. The escritoire's lock was offered with the footman standing over it (the Grand Tour's friction 7, GTR-07).
+  private static withheld(module: Module, t: ThingSpec, id: string, c: ChangeSpec) {
+    const withheld = this.call('withheld', id), when = c.when!, allowed: Predicate = { kind: 'not', value: withheld };
+    this.assert(module, 'withheld', id);
+    (module.rules ??= []).push(
+      { id: `${id}__allowed`, when: { kind: 'and', left: when, right: withheld },
+        effects: [{ kind: 'retract', call: withheld }], upkeep: true },
+      { id: `${id}__withheld`, when: { kind: 'and', left: { kind: 'not', value: when }, right: allowed },
+        effects: [{ kind: 'assert', call: withheld }], upkeep: true });
+    if (c.why) {
+      (module.observations ??= []).push({ id: `${id}__why`, place: t.id, anchor: 'near', about: t.id, aspect: 'feature',
+        when: { kind: 'and', left: withheld, right: this.call('state', t.id, c.from) }, text: c.why });
+    }
   }
   static thing(module: Module, t: ThingSpec) {
     module.entities.push({ id: t.id, type: t.type, name: t.name });

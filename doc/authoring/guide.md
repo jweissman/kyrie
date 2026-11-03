@@ -62,7 +62,10 @@ physically. The kinds are `passage`, `door`, `doorway`, `arch`, `gate`, `stair`,
 duration says how long it takes to cross: a minute through a door, doorway, arch or gate, two on a stair, steps or a
 ladder, ten minutes for anything else, unless you write `taking 3 minutes`, `taking 30 minutes` or `taking 2 hours`. A
 passage can be `hidden until` a fact is known, or `needing` a skill or an item kind (a Change too, and either of two:
-`needing crowbar or lockwork`).
+`needing crowbar or lockwork`). A way can need something going one way only, to one of its ends (`needing rope going
+to whelm`) or from it (`needing rope from brink`): a company comes up the stairs out of the Whelm without what it needed
+to go down them, and the map draws one way (`test/fixtures/probes/one-way-need`; the Grand Tour's W2 wrote each such
+way as two one-way passages, and a rule to lift a company that could not climb out).
 
 ```kyr
   Passage heron_door "the Heron's door" is door between taproom and green.
@@ -90,6 +93,10 @@ packs.
   Company party "Your company" of 3 at green.
   Initially Set quantity(party, gold) to 8. Initially Set quantity(party, rations) to 1.
 ```
+
+A company may be of as many as are chosen for it, within bounds: `Company party "Your company" of 1 to 3 at green.` is
+of one, two or three, and of one when nobody chooses (`test/fixtures/probes/company-range`; the Lull's F12 kept a copy
+of its module for a campaign of three).
 
 A person has a place and whatever you choose to fix about them: `Ancestry`, `Calling` (class), `Level`, a
 `Profession`, a `Background`. Anything you leave open is filled by generation, if the campaign generates people, or
@@ -239,7 +246,9 @@ there, in the plain words of its temperament unless it has words of its own.
 
 Someone can be called something else until they are known, or while something holds: `Known as "a woman in a grey
 shawl" when not knows(party, her_name).` Until it is false the page calls them that, in place of their name and role
-(a mask, a hood, a face not yet put to a name).
+(a mask, a hood, a face not yet put to a name). Whoever the company has spoken with it is `acquainted` with, for good:
+`Known as "an old man with a pole" when not acquainted(hob, party).` is Hob from his greeting on, whichever way the
+company came to him (`test/fixtures/probes/acquainted`; Quittance's ll 17, where only one topic taught his name).
 
 ## 4. Things with states
 
@@ -250,6 +259,11 @@ moves the thing from one state to another. It can need a skill, an item kind or 
 good, and `at` a place it can be made from there alone. You never write a separate scene line saying the gate is
 open: the gate's state says it. `changedBy(thing, who)` says who last changed a thing by one of its changes, so a rule
 can ask who opened the lockbox, not only that it is open (What Tessary Owes' W15; `test/fixtures/probes/changed-by`).
+A change can be made only while something holds, and say why not while it does not, beside the thing: `Change pick
+"Pick the escritoire's lock" from locked to open when not at(footman, drawing) "Pargeter stands over the escritoire."`
+(`test/fixtures/probes/withheld`; the Grand Tour's 7 offered the lock with the footman standing over it). `kyrie
+inspect` names the condition it waits on.
+
 A thing on a way is told at both its ends; one seen from one end only says so (`Thing step "the deep step" on ford from
 far_bank`), and so may a line beside a way (`Observe post beside ford from near_bank when true "…"`).
 
@@ -342,7 +356,8 @@ topics as topics).
 Talking someone round, lying to them, asking what they may refuse: an action with a `Speaker` is said to them, and
 stands in the talk with them among what can be asked, not among the place's actions. It may roll, and the page says
 the odds; their answer is its `Result` or its `Otherwise` (`test/fixtures/probes/spoken-roll`; A Winter in Carth's
-10, whose persuasions sat among the actions).
+10, whose persuasions sat among the actions). It is the topic that rolls: a word that may not come off is written so,
+not as a `Topic` (Fair Weather's 16).
 
 ```text
   Action ask_will(actor: group, site: place) "Ask Will to light the hearth himself, for the child" {
@@ -404,7 +419,9 @@ way `needing crypt_key` opens to it, so a job's key can be given with the job (t
 `Spend weight_stone from actor.` gives up one thing of that kind, whichever of the company carries it, and
 `holding(actor, weight_stone)` in a requirement says it has one to give (Low Water's 6, which had a pan and a rule on
 what was put in it). Named by its own id, `Spend nan_ribbon from party.` gives up that particular thing and no other of
-its kind (the Lull's F5, which needed a kind for each ribbon that had to go):
+its kind (the Lull's F5, which needed a kind for each ribbon that had to go). `Restore ?c.`, in what a rule or an act
+does, makes whoever it names whole: every hit point, no condition, risen if they had fallen or died; so a law that harm
+heals at sunset, a raising, a regeneration is written (`test/fixtures/probes/made-whole`; the Lull's F1):
 
 ```text
   Topic coat_given with nan "Ask Nan about Davy's coat" when toldNan(actor) once {
@@ -570,6 +587,11 @@ the Banns at Hessel's 24).
   Observe nave_scene at nave when true "Tablets line the nave. One tablet only says, HE CAME TOO LATE.".
   Observe tablet_newer at nave when state(tablets, newer) "Under the west window one tablet is newer and whiter than the rest.".
 ```
+
+A line that is to replace another while something holds is written `instead of` it, in any of the module's files, and
+the other is not told meanwhile: `Observe oven_cold at bakehouse instead of bakehouse_scene when coalDead(bakehouse)
+"The oven is cold…".` (`test/fixtures/probes/instead`; Quittance's ms 4 could only add the cold oven below "banked and
+breathing").
 
 The page at a glance gives a place's first two sentences, with its people and its signs; the rest is under Look
 about, and a place come back to is recalled by its first sentence. So a place leads with what matters most in it
@@ -863,6 +885,13 @@ parentheses or out, is worked out each time it is read. A quotient is rounded do
 and `max(…, …)` give the less and the greater of two. A measure may say the most it can be, and nothing takes it past
 it (`Measure fondness(group) at most 10.`); nothing takes a count below nothing either (`Decrease … by … or to
 nothing`).
+
+A number of the quest's own is a measure of nothing at all, hung on no one: `Measure ruling().`, `Set ruling() to 1.`,
+`ruling() >= 3` (Quittance's bg 15 hung one on an office). A query can be given a number, and compare against it:
+`Query ruled(n: number) means ruling() >= n.`, asked `ruled(3)` (`test/fixtures/probes/scalar`; Gosse's supper wrote
+`supperBeat(pentrice) == 3` out twenty-two times for want of it). How many ways something holds is counted as it is
+read, not kept as a tally at every change: `count(lit(?p)) >= 2`, `Set lamps() to count(memberOf(?m, party)).`; its
+variables are its own, but for any bound around it (`test/fixtures/probes/counted`; the House That Grows' 6).
 
 Two names are of different things where `distinct(a, b)` holds: "a place other than the Ranks" is
 `at(?p, …) and distinct(?p, ranks)` (What Tessary Owes' W5). It tests what is bound and binds nothing, so what it
@@ -1161,6 +1190,17 @@ company can do in a matter asks `matterOpen(herring)`; `matterDone`, `occasionBe
   }
 ```
 
+### Words for the moment
+
+An action's `Result` (or its `Otherwise`) can have others for a moment, each `when` something holds as it is done; the
+first that holds is told, and the plain one otherwise. The basket's ride told of a fine afternoon at ten at night (the
+Grand Tour's 6; `test/fixtures/probes/the-hour`):
+
+```text
+    Result "Up into the sun: the middle of a fine afternoon.".
+    Result "Up through the cloud into the dark, and the stars over it." when dark().
+```
+
 ### Numbers in what is said
 
 Any text (an observation, a result, what someone says) can say a measure as it stands when it is told:
@@ -1220,8 +1260,11 @@ declared another module's private relation, and written it).
 
 ### The order things happen in
 
-A command takes minutes (`Time 2 minutes.`) or watches (`Time 1.`, ten minutes each); minutes add up, and every ten of
-them is a watch passed. A command's time passes a watch at a time. In each watch: the clock moves (`watch`, `dark()`,
+A command takes minutes (`Time 2 minutes.`), watches (`Time 1.`, ten minutes each) or hours (`Time 3 hours.`, as a
+passage is `taking 3 hours`: Quittance's bg 16); minutes add up, and every ten of them is a watch passed. One that
+waits for an hour takes until it comes round, or until that hour of a day, reckoned from the clock as the hours until
+dark are: `Time until hour 19.`, `Time until day 2 hour 6.` (`test/fixtures/probes/the-hour`; the circus's 10 kept a
+measure of its own, set by a rule every watch, to wait for the show). A command's time passes a watch at a time. In each watch: the clock moves (`watch`, `dark()`,
 `hour(clock)`, `day(clock)`, `nightCount(clock)`, `dice(clock)`) and conditions on bodies run down; every other power
 and person acts, in the order the campaign lists them; then every rule is tried once, the shared rules first, then each
 module in the order the campaign installs it, each in the order its rules are written (its files in the order its
@@ -1233,6 +1276,10 @@ Hive's 13). A rule whose condition still holds fires again next watch, so a rule
 (`Rule bell when watch(clock) >= 1 once says "A bell rings." { … }`), changes what it tests (`Assert sung(party)` beside
 `not sung(party)`, for once per one of many), or is an `Event`, which happens once. An action that passes no watch (one
 that takes no time, or a few minutes) is followed by one pass of the rules and whatever a hazard strikes, and no clock.
+
+What happens after a while at a place, not at an hour, asks how long the company has stood there: `lingered(party)`
+is the watches since it came (since the first, where it began), so `when at(party, platform) and lingered(party) >= 3
+once` is half an hour under the rail (`test/fixtures/probes/lingering`; the Third Night's 15).
 
 The day turns at midnight, and a night keeps its small hours: `nightCount(clock)` is the night that falls on a
 day, from noon that day until noon the next, so the second night's small hours are `nightCount(clock) == 2
