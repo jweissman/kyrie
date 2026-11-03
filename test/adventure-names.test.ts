@@ -38,4 +38,11 @@ describe('the names of the adventures one world holds', () => {
     }
     expect([...by].filter(([, where]) => where.size > 1).map(([k, where]) => `${k}: ${[...where].join(', ')}`)).toEqual([]);
   });
+  // `kyrie names` says before a page is written whether a surname is free (Quittance's friction 1).
+  it('says whether a name is free, or which adventure has it', () => {
+    const said: string[] = [], log = console.log;
+    console.log = (line: string) => { said.push(line); };
+    try { expect([AdventureNames.main(['Coyle']), AdventureNames.main(['Zzyzwick'])]).toEqual([1, 0]); } finally { console.log = log; }
+    expect(said).toEqual(['Coyle: taken by Bram Coyle (let-one-remember)', 'Zzyzwick: free']);
+  });
 });

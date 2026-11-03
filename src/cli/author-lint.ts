@@ -7,7 +7,7 @@ import type { CampaignLint } from './campaign-lint';
 export class AuthorLint {
   // What a whole adventure, one with an ending, should have: a first place said, and something to grow by.
   static run(lint: CampaignLint) {
-    this.greetings(lint); this.lowered(lint);
+    this.greetings(lint); this.lowered(lint); this.walkers(lint); this.placesAt(lint);
     if (lint.module.entities.some(e => e.type === 'ending')) { this.opening(lint); this.growth(lint); }
   }
   // An act that lowers a measure, not a price, with nothing that asks how much there is: below nothing, it is not
@@ -21,6 +21,33 @@ export class AuthorLint {
         if (asked.includes(`"name":"${c.call.name}"`) || JSON.stringify(c.value) === '{"kind":"number","value":0}') { continue; }
         lint.add('advice', 'lowered', `Action ${a.id} lowers ${c.call.name} without asking how much there is: below `
           + 'nothing it is not offered at all; write `Decrease … by … or to nothing`, or ask for enough in its condition');
+      }
+    }
+  }
+  // A pursuit that seeks somewhere for someone who cannot go: never taken up, and nothing says so (Quittance's friction
+  // 5: two authors wrote schedules as rules that moved people instead).
+  static walkers(lint: CampaignLint) {
+    const can = new Map(lint.session.campaign.actors.map(a => [a.id, a.actions]));
+    // (Not a profession's routine, the cast's own, which keeps one at their post: Cast.professions.)
+    for (const p of (lint.module.pursuits ?? []).filter(x => JSON.stringify(x.target).includes('"name":"at"')
+      && !(x.id.endsWith('_routine') && x.actor.endsWith(x.id.slice(0, -'_routine'.length))))) {
+      const actions = can.get(p.actor);
+      if (actions && !actions.some(a => a === 'go' || a.endsWith('__go'))) {
+        lint.add('warning', 'pursuit', `${p.id} seeks somewhere for ${p.actor}, who cannot go there: give them \`Uses go.\``);
+      }
+    }
+  }
+  // at(<a place>, …) asks whether a place stands at another, which is never so (Quittance's friction 6): where the
+  // company is, is at(actor, the_place).
+  static placesAt(lint: CampaignLint) {
+    const places = new Set(lint.module.entities.filter(e => e.type === 'place').map(e => e.id));
+    const asked = [...lint.module.actions.map(a => [a.schema ?? a.id, a.requires] as const),
+      ...(lint.module.rules ?? []).map(r => [r.id, r.when] as const)];
+    for (const [id, when] of asked) {
+      for (const m of JSON.stringify(when ?? null).matchAll(/"name":"at","args":\["([^"]+)"/g)) {
+        if (!places.has(m[1]!)) { continue; }
+        lint.add('warning', 'at', `${id} asks at(${m[1]}, …), which is never so: a place is not at anything; `
+          + `ask at(actor, ${m[1]})`);
       }
     }
   }

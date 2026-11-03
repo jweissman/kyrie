@@ -816,12 +816,13 @@ tests is bound by something before it; one asked of nothing bound is refused as 
 
 ### Your adventure in a generated world
 
-A generated world can hold an authored country beyond one of its marches: the folk of the first region speak of it
-by name, and the road across the march comes into it ([data/adventures/countries.json](../../data/adventures/countries.json),
-`src/world/frontier.ts`). Authored countries lie beyond the first country's marches, where its folk name them. The
-Long Man is held wherever it fits; of Thrume, The House That Grows, The Road the Star Came Down and The Patient Star
-(`"among": "independent"`), a world holds the one its seed chooses of those that fit its first country, so that its
-own countries go on beyond the rest. To offer yours:
+Every authored adventure is a province of a generated world's first country (`"province": true` in
+[data/adventures/countries.json](../../data/adventures/countries.json); Mission 18's Gate B): its way in stands a little
+in from the side of the country its entry names (`side`), on the land it `covers` (or its terrain's kinds of land), with
+a road to it from the nearest town, and the folk of every town speak of it by name (`src/world/provinces.ts`). Of a
+province, `beside` and `among` are not read (Quittance's friction 25); they place only a country that lies beyond a
+march instead (one without `"province"`), beside the terrains named, and of those `"among": "independent"` a world
+holds the one its seed chooses (`src/world/frontier.ts`). `bin/kyrie countries` says where each lies. To offer yours:
 
 - keep its company in a file of its own (`company.kyr`), so that a second bundle, `placed.json`, can leave it out and
   say instead, in `placed.kyr`, `Entity party: group "Your company".`, with `"imports": ["party"]` and
@@ -840,7 +841,8 @@ side, and the terrain of the country it is entered from); run it before and afte
 
 Its clock runs from the first morning after it is reached: its own `watch(clock)` is 0 at eight that morning, and below
 nothing until then (a rule at `watch(clock) >= 216` waits 216 watches from that morning); its `day(clock)` and
-`nightCount(clock)` are counted from that morning too, and `hour(clock)` is the world's. A country reached in the
+`nightCount(clock)` are counted from that morning too, `day(clock)` being 1 on that first morning, 2 on the next
+(Quittance's friction 3), and `hour(clock)` is the world's. A country reached in the
 evening has its first day still to come, so a rule for that day's afternoon asks `watch(clock) >= 0` as well, or fires
 that evening (the Liberty of the Ice's 7). What it says of the company that comes in is said by names of its own
 (`Initially Set breath(party) to 12`).
@@ -1115,8 +1117,12 @@ wall).
 
 ### Kin, companions and animals
 
-Someone the company is kin to (`kin(party, brother)`) and willing (`willing(brother, party)`) can be asked to come
-along; they join as themselves, keep what they could be asked at home, and can be sent home again. A dog is
+Anyone willing (`willing(hessa, party)`) can be asked to join the company, for their hire (`Set hire(hessa) to 20`, in
+gold, paid as they join; 0 for one who comes for the cause): a talk that ends `On discuss { Assert willing(hessa,
+actor). Set hire(hessa) to 0. }` is how one is won over (`bin/kyrie new character --companion` writes one; Quittance's
+friction 27). Once with the company they travel with it (`travelsWith(hessa, party)`), and are no longer `at` anywhere
+of their own: a rule that asks where they are asks `travelsWith` as well (its 19). Someone the company is kin to
+(`kin(party, brother)`) and willing (`willing(brother, party)`) can be asked to come along; they join as themselves, keep what they could be asked at home, and can be sent home again. A dog is
 `Species dog`: tame animals keep the peace, greet whom they know, and can be made much of (`test/fixtures/household`).
 
 Someone who follows the company (`following(callow, party)`: led, in custody, a child brought home) goes where it

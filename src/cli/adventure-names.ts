@@ -41,6 +41,17 @@ export class AdventureNames {
     }
     return names;
   }
+  // `kyrie names Pargeter Tench …`: whether each name is free, or which adventure has it, before a page is written with
+  // it (Quittance's friction 1: nine of the first twenty surnames were taken, found one at a time by the lint).
+  static main(words: string[]): number {
+    const names = [...this.read()], lines = words.map(w => {
+      const by = names.filter(([n]) => n.replace(/^\w+: /, '').toLowerCase() === w.toLowerCase())
+        .flatMap(([, m]) => [...m].map(([a, said]) => `${said} (${a})`));
+      return `${w}: ${by.length ? `taken by ${by.join(', ')}` : 'free'}`;
+    });
+    console.log(lines.join('\n'));
+    return lines.some(l => l.includes(': taken by ')) ? 1 : 0;
+  }
   // "Person: Coyle: Agnes Coyle (low-water), Dennet Coyle (the-patient-star)".
   static clashes(root?: string): string[] {
     return [...this.read(root)].filter(([n, by]) => by.size > 1 && !this.shared.has(n.replace(/^\w+: /, '')))

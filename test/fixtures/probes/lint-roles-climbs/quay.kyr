@@ -13,4 +13,12 @@ Module p "A quay, a warehouse, and a lady" {
   // A role that names its person again: a finding.
   Person wenlock "Wenlock" at quay { Role "Lady Wenlock of the quay". Peaceable. }
   Person tansy "Tansy Hobb" at quay { Role "Master Harker's clerk". Peaceable. }
+  // One who says whose they are is saying who they are (Quittance's friction 15): no finding.
+  Person crane "Crane" at quay { Role "the last of Crane's line, mending nets". Peaceable. }
+  // A pursuit for one who cannot go, and a place asked to be at another, are never so (its 5 and 6): findings.
+  Person pim "Pim Dorrow" at quay { Role "a porter with a barrow". Peaceable. }
+  Pursuit to_loft for pim "going up to the loft" priority 5 when true seeks at(pim, loft).
+  Rule floor_creaks when at(floor, warehouse) says "The floor creaks." { }
+  // A word of the trade, not of the engine (its 16): no finding.
+  Observe stack at quay when true "Beyond the warehouse stands the engine-house, its stack smoking.".
 }
