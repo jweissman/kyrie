@@ -2,8 +2,8 @@ import { describe, expect, it } from 'bun:test';
 import { City, Q } from './support/quittance';
 import type { Journey } from '../src/session/journey';
 
-// Pip's Tin (pt_): a coal in a tin, going out by the end of the third day; to sit with it, to say the words, to carry it
-// where a fire will love it (with the child's leave, or without), and the name it is to be given. Every resolution.
+// Pip's Tin (pt_): a coal in a tin, going out by the end of the third day; to sit with it, to say the words, to carry
+// it where a fire will love it (with the child's leave, or without), and the name it is to be given. Every resolution.
 const gap = ['^To the foot of the outer wall', 'Pay the gap boys', '^To Salt Lane'];
 const stair = [...gap, '^Into the tenement'];
 const learn = ['Talk to Pip', 'Take your leave', 'the tin: Examine', 'Talk to Hester', 'why she calls it a lent coal', 'how long the coal has',
@@ -103,7 +103,9 @@ describe("Pip's Tin", () => {
     expect(j.holds(Q('coalNamedNone'), 'party')).toBe(true);
     expect(has(j, 'pt_trusted')).toBe(false);                            // and a coal lost earns no trust
   }, 120000);
+});
 
+describe("Pip's Tin: carrying it", () => {
   // ── Carrying it ────────────────────────────────────────────────────────────────────────────────────────
   const talked = (seed: string) => async () => {
     const j = await City.start(seed);
@@ -219,7 +221,9 @@ describe("Pip's Tin", () => {
     expect(has(j, 'pt_saved')).toBe(true);
     expect(has(j, 'pt_trusted')).toBe(false);
   }, 120000);
+});
 
+describe("Pip's Tin: the Night", () => {
   // ── The Night: her coal, or her word, and not both ─────────────────────────────────────────────────────
   const trusted = async () => {
     const j = await City.start();

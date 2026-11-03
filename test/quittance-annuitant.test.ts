@@ -121,7 +121,9 @@ describe('The Annuitant', () => {
     expect(status(j)).toBe(4);
     expect(City.has(j, 'an_slighted_cray', 'party')).toBe(true);
   }, 120000);
+});
 
+describe('The Annuitant, continued', () => {
   it('buys a quarter with a bonus larger than the denial, and gets a Cray who cannot be asked to tea', async () => {
     const j = await City.start('an-bonus', plain);
     await j.play(...row);

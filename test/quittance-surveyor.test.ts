@@ -2,8 +2,8 @@ import { describe, expect, it } from 'bun:test';
 import type { Journey } from '../src/session/journey';
 import { City, Q } from './support/quittance';
 
-// The Surveyor's Daughter (q_surveyor.kyr, prefix sd_). days are the clock's own: the first morning is day 1; the drill is
-// the third day at ten, and the Guild's list closes at noon on the fifth.
+// The Surveyor's Daughter (q_surveyor.kyr, prefix sd_). days are the clock's own: the first morning is day 1; the drill
+// is the third day at ten, and the Guild's list closes at noon on the fifth.
 const P = (...c: string[]) => ({ party: c.map((classId, i) => ({ name: `M${i}`, raceId: 'human', classId })) });
 const begin = async (seed = 'b', ...classes: string[]) => {
   const j = await City.start(seed, P(...(classes.length ? classes : ['bard', 'warrior', 'cleric']))); await j.play(...City.honest); return j;
@@ -11,7 +11,8 @@ const begin = async (seed = 'b', ...classes: string[]) => {
 const warmth = (j: Journey) => j.measure(Q('sd_warmth'), Q('ianthe'));
 const rel = (j: Journey, r: string) => City.has(j, r, 'party');
 const held = (j: Journey) => j.choices().some(c => /roll extract|extract of the Surveyors/i.test(c.label));
-// The Guild by day: learn she has not written it, learn of the Rider, learn of the garden wall, then tell Tobias where she sits.
+// The Guild by day: learn she has not written it, learn of the Rider, learn of the garden wall, then tell Tobias where
+// she sits.
 const learn = ['=day 2 10:00', '>quittance__guild_hall', 'Ask Mr Tinniswood about the Pargeters', 'Ask whether a surveyor has ever passed',
   'Ask Mr Tinniswood about the loose brick'];
 const invite = ['>quittance__pargeter_front', 'Tell Tobias where Ianthe'];
@@ -133,7 +134,9 @@ describe("The Surveyor's Daughter", () => {
     expect(rel(j, 'sd_rider_offered')).toBe(false);
     expect(City.pages(j, j.taken.length - 1)).toContain('Hargreave is dead');
   }, 200000);
+});
 
+describe("The Surveyor's Daughter, continued", () => {
   it('an unwritten Decline written by time alone: the lovers apart, the Pargeters uncovered', async () => {
     const j = await begin();
     await j.play('=day 5 11:00');

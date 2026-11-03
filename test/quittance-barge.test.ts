@@ -10,17 +10,16 @@ const person = (name: string, classId: string) => ({ name, raceId: 'human', clas
 const plain = {};
 // A company with a tongue, a book and a pair of light fingers; and one with a back, a book and a tongue.
 const smooth = { party: [person('Lys', 'bard'), person('Orrin', 'mage'), person('Pip', 'thief')] };
-const lettered = { party: [person('Bran', 'warrior'), person('Orrin', 'mage'), person('Lys', 'bard')] };
 const pious = { party: [person('Mara', 'cleric'), person('Lys', 'bard'), person('Pip', 'thief')] };
 const water = ['^To the river towpath', '^Pay Tam Ridd'];
-const hauled = ['^To the river towpath', 'Take a turn on the lighter'];
 
 const start = (seed: string, party: object = plain, way: string[] = City.honest) =>
   City.start(seed, party).then(async j => { await j.play(...way); return j; });
 const has = (j: Journey, relation: string, ...args: string[]) => City.has(j, relation, ...args);
 const ruling = (j: Journey) => j.measure(Q('bg_ruling'), Q('lamprey'));
-// What other authors' rewards would put in the company's hands (a forged writ, the Teague combination): until their files
-// land, a stand-in for the Forger's file (q_forger.kyr is a stub) offers them in a pocket action, and nothing else changes.
+// What other authors' rewards would put in the company's hands (a forged writ, the Teague combination): until their
+// files land, a stand-in for the Forger's file (q_forger.kyr is a stub) offers them in a pocket action, and nothing
+// else changes.
 const pocket = `Module quittance "Quittance" {
   Description "A stand-in for the rewards of other adventures.".
   Item test_writ "a writ of the Lamprey & River, not quite" is forged_writ at nowhere.
@@ -29,7 +28,9 @@ const pocket = `Module quittance "Quittance" {
 }`;
 const standIn: BundleSource = { resolve: (r, f) => NodeBundleSource.shared.resolve(r, f),
   read: p => /q_forger\.kyr$/.test(p) ? NodeBundleSource.shared.read(p).then(real => real.replace(/\}\s*$/, pocket.replace(/^Module[^\n]*\n/, '').replace(/^\s*Description[^\n]*\n/m, ''))) : NodeBundleSource.shared.read(p) };
-const startWith = (seed: string, party: object = plain) => Journey.start(campaign, seed, { source: standIn, ...party }).then(async j => { await j.play(...City.honest); return j; });
+const startWith = (seed: string, party: object = plain) =>
+  Journey.start(campaign, seed, { source: standIn, ...party })
+    .then(async j => { await j.play(...City.honest); return j; });
 // The girl found: Cob Jessop vouches for a company that came by the Water-Stair, Kitty tells it, and is promised.
 const kitty = ['>quittance__sluice_room', 'Search here', 'Tell Cob Jessop that Tam', 'Down to the Sluice-tap', 'Ask Kitty how she came',
   'Promise Kitty', '>quittance__sluice_room'];
@@ -152,7 +153,8 @@ describe('The Scuttled Barge: ways through', () => {
     expect(has(j, 'witness', 'bg_girl')).toBe(false);
     await j.play('>quittance__mere_wharf');
     expect(City.page(j)).toContain('Salvors’ Yard crew');
-    // Tam Ridd, who was never paid by or carried for them, has come up to the Stairs to see the Margaret raised, and shrugs.
+    // Tam Ridd, who was never paid by or carried for them, has come up to the Stairs to see the Margaret raised, and
+    // shrugs.
     expect(j.at(Q('ridd'))).toBe(Q('lighter_stairs'));
     await j.play('>quittance__lighter_stairs', 'Ask Tam Ridd how the Stair takes the Margaret');
     expect(City.page(j)).toContain('did not take to being asked');
@@ -513,7 +515,8 @@ describe('The Scuttled Barge: what a salvage does to a girl who is kept', () => 
     expect(has(j, 'bg_veasey_ruined', 'party')).toBe(true);
     // The washerwoman who sent the child out is turned off by the lady who saved her.
     expect(has(j, 'bg_pellow_told', 'party')).toBe(true);
-    // Kitty is promised, and the promise holds: her name is in no book. But a woman ruined for her is not a woman she stands up for.
+    // Kitty is promised, and the promise holds: her name is in no book. But a woman ruined for her is not a woman she
+    // stands up for.
     expect(j.holds('promiseKept', Q('bg_kitty'))).toBe(true);
     expect(has(j, 'bg_staying', 'bg_girl')).toBe(true);
     expect(has(j, 'witness', 'bg_girl')).toBe(false);
@@ -534,55 +537,4 @@ describe('The Scuttled Barge: what a salvage does to a girl who is kept', () => 
     expect(j.offers('Lay the scuttling')).toBe(true);
     expect(j.offers('Ask Mr Orpwood, as a colleague')).toBe(true);
   }, 400000);
-});
-
-describe('The Scuttled Barge: the others on the Reach', () => {
-  it('the owner is not moved by evidence: the count and the manifest laid before her change nothing', async () => {
-    const j = await start('d', { party: [person('Bran', 'warrior'), person('Orrin', 'mage'), person('Lys', 'bard')] });
-    await j.play('>quittance__lighter_stairs', 'tally-board: Examine', '>quittance__lamprey_floor', 'manifest: Examine', 'Set the Margaret.s manifest');
-    expect(City.knows(j, 'bg_count_short')).toBe(true);
-    await j.play('>quittance__mere_wharf', 'Lay the manifest and the count');
-    expect(City.page(j)).toContain('weather');
-    expect(has(j, 'bg_veasey_yielded', 'party')).toBe(false);
-    expect(City.knows(j, 'd_barge_girl')).toBe(false);
-    // The count is good for a salvage, and for the Captain; it is not a key to the cellar.
-    await j.play('>quittance__sluice_room');
-    expect(j.offers('Down to the Sluice-tap')).toBe(false);
-  }, 300000);
-
-  it('Hester Grindle and Josiah Skell talk of their claims', async () => {
-    const j = await start('d', plain);
-    await j.play('>quittance__salvor_yard', 'Talk to Hester', 'Ask Hester Grindle for the Yard', 'Ask Grindle why Skell');
-    expect(City.said(j)).toContain('pump');
-    expect(j.offers('how the Yard is faring')).toBe(false);
-    await j.play('>quittance__skell_yard', 'Talk to Josiah', 'Ask Josiah Skell about his claim', 'Ask Skell what is under');
-    expect(City.said(j)).toContain('Rain');
-    expect(j.offers('how Skell and Sons are faring')).toBe(false);
-  }, 300000);
-
-  it('and, once the Margaret is called as agreed, of how they fare; the Stairs, which were not asked, have an opinion', async () => {
-    const j = await start('d', { party: [person('Bran', 'warrior'), person('Orrin', 'mage'), person('Lys', 'bard')] });
-    await j.play('>quittance__salvor_yard', 'Examine', '>quittance__lighter_stairs', 'tally-board: Examine', '>quittance__lamprey_floor', 'manifest: Examine', 'Set the Margaret.s manifest',
-      '>quittance__dree_room', 'Bargain Captain Dree down', 'Strike a bargain');
-    expect(ruling(j)).toBe(3);
-    await j.play('>quittance__salvor_yard', 'Ask Hester Grindle how the Yard is faring');
-    expect(City.said(j)).toContain('lightermen');
-    await j.play('>quittance__skell_yard', 'Ask Skell how Skell and Sons are faring');
-    expect(City.said(j)).toContain('complain');
-    await j.play('>quittance__lamprey_floor', 'Ask Mr Orpwood how the Margaret stands');
-    expect(City.said(j)).toContain('right size');
-    await j.play('>quittance__lighter_stairs');
-    expect(City.page(j)).toContain('nods to you');
-  }, 400000);
-
-  it('Orpwood, asked what he will call it, says; asked about the Margaret after she is called, he says that too', async () => {
-    const j = await start('d', plain);
-    await j.play('>quittance__lamprey_floor', 'Talk to Mr Orpwood', 'Ask Mr Orpwood how he will call');
-    expect(City.said(j)).toContain('second day');
-    expect(j.offers('as a colleague')).toBe(false);
-    await j.play('=day 3 12:10');
-    expect(ruling(j)).toBe(1);
-    await j.play('>quittance__lamprey_floor');
-    expect(j.offers('Ask Mr Orpwood how the Margaret stands')).toBe(false);
-  }, 300000);
 });

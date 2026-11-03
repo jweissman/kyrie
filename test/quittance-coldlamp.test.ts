@@ -140,7 +140,9 @@ describe('Quittance: the Cold-Lamp Demonstration', () => {
       expect((City.regard(j, 'phoenix') - 1)).toBe(-1);
     }, 400000);
   });
+});
 
+describe('Quittance: the Cold-Lamp Demonstration, continued', () => {
   describe('the boiler', () => {
     it('costs the company the goodwill it had with the Gas Company, and the Gas Company knows whose jars these were', async () => {
       const j = await City.start();
@@ -186,7 +188,9 @@ describe('Quittance: the Cold-Lamp Demonstration', () => {
       expect(await where('06:00', 4)).toEqual(['retort_house', 'nowhere', 'gas_yard']);
     }, 300000);
   });
+});
 
+describe('Quittance: the Cold-Lamp Demonstration, concluded', () => {
   describe('Perpetua Wynne', () => {
     it('realises what her lamps are when told, and will not demonstrate them', async () => {
       const j = await City.start();

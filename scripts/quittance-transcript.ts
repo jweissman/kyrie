@@ -4,10 +4,13 @@ import { campaign } from '../test/support/quittance';
 
 // Plays a scenario by the labels a player sees and writes what the page told, step by step, with the facts asked of the
 // world at the end. Usage: bun scripts/quittance-transcript.ts <scenario.json> <out.md>
-// A scenario: { title, seed, party?, steps: string[], probes?: string[] (e.g. "quittance__aliased party", "#quittance__regard quittance__lamprey") }
+// A scenario: { title, seed, party?, steps: string[], probes?: string[]
+// (e.g. "quittance__aliased party", "#quittance__regard quittance__lamprey") }
 const [file, out] = process.argv.slice(2);
 if (!file || !out) { console.error('usage: scenario.json out.md'); process.exit(2); }
-const sc = JSON.parse(await Bun.file(file).text()) as { title: string; note?: string; seed: string; party?: any[]; steps: string[]; probes?: string[] };
+const sc = JSON.parse(await Bun.file(file).text()) as {
+  title: string; note?: string; seed: string; party?: any[]; steps: string[]; probes?: string[];
+};
 const j = await Journey.start(campaign, sc.seed, sc.party ? { party: sc.party } : {});
 const lines = [`# ${sc.title}`, '', sc.note ?? '', '', `Seed \`${sc.seed}\`. Played by the labels a player sees; each block is the page's telling of the step.`, ''];
 let n = 0;
