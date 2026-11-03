@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { City, Q } from './support/quittance';
+import { City } from './support/quittance';
 
 // The Lamplighter's Round (doc/adventures/quittance/quests/lamplighter.md): Hob Tansy's last dusk in the Glass
 // Quarter, four lamps each dark for a different reason, five ways to retire an old man, and the pilot-flames.
@@ -155,7 +155,9 @@ describe('Quittance: the Lamplighter\'s Round', () => {
       expect(j.find('Light the Tinkers')).toBeUndefined();
     }, 120000);
   });
+});
 
+describe("Quittance: the Lamplighter's Round, continued", () => {
   describe('how an old man is retired', () => {
     const lit = async () => {
       const j = await City.start();

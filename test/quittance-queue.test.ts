@@ -142,7 +142,9 @@ describe('The Queue', () => {
     await j.play(to('glass_street'), to('queue_hall'));
     expect(j.holds('at', Q('tench'), Q('queue_hall'))).toBe(true);
   }, 180000);
+});
 
+describe('The Queue, continued', () => {
   it('spoils a claim that is settled badly, and is not opened by three good ones', async () => {
     const j = await City.start('queue-wrong', plain);
     await j.play(...hall, 'Ask Mrs Gorringe what she is claiming', 'Allow the claim in full: forty pounds');

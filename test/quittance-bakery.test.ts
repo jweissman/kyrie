@@ -8,8 +8,6 @@ type J = Awaited<ReturnType<typeof City.start>>;
 const bakehouse = [...City.honest, '^To Brick Lane', '^Into Tolliver', '^To Tolliver.s bakehouse'];
 const has = (j: J, r: string, ...a: string[]) => City.has(j, r, ...a);
 const bk = (j: J, r: string) => has(j, r, 'bk_bakery');
-const gudgeonDay = ['=306'];
-const toPhoenix = ['^To the shop', '^Out to Brick Lane', '^To Gate Plaza', '^To the Brokers', '^To Policy Row', '^Into Phoenix House'];
 
 describe('The Bakery Inspection', () => {
   it('is found in the lane by its smell, in the shop by its notice, and on the Slate by its claim', async () => {
@@ -130,7 +128,9 @@ describe('The Bakery Inspection', () => {
     await j.play('^To Tolliver.s shop', '^To Tolliver.s bakehouse');
     expect(City.page(j)).toContain('YOURS');
   }, 90000);
+});
 
+describe('The Bakery Inspection, continued', () => {
   it('told without having helped, Gwen asks what the company wants for it, and nothing is lit for the Night', async () => {
     const j = await City.start('quittance', { party: party('mage') });
     await j.play(...bakehouse, 'Wipe the soot from the line', 'Tell Gwen Tolliver what the line over her oven says');

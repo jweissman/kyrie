@@ -1,5 +1,4 @@
 import { describe, expect, it } from 'bun:test';
-import { Journey } from '../src/session/journey';
 import { KyrLint } from '../src/cli/kyr-lint';
 import { City, Q, campaign } from './support/quittance';
 
@@ -25,7 +24,6 @@ describe('Quittance: the ways in', () => {
 
   it('will not let the company through the Arch undeclared', async () => {
     const j = await City.start();
-    const g0 = City.gold(j);
     await j.play('^To the Declarations Hall');
     expect(j.matches('^Out to Gate Plaza')).toEqual([]);
   }, 120000);
@@ -89,7 +87,6 @@ describe('Quittance: the ways in', () => {
 
   it('rides up in the hearse, to Mortmain', async () => {
     const j = await City.start();
-    const g0 = City.gold(j);
     await j.play('^To the Mortmain road', 'Ride up in the hearse');
     expect(j.holds(Q('entered_hearse'), 'party')).toBe(true);
     expect(j.at('party')).toBe(Q('mort_lodge'));
@@ -98,7 +95,6 @@ describe('Quittance: the ways in', () => {
 
   it('goes through the gap in the Cinderwall, remembered by the gap boys', async () => {
     const j = await City.start();
-    const g0 = City.gold(j);
     await j.play('^To the foot of the outer wall', 'Pay the gap boys a copper');
     expect(j.holds(Q('entered_gap'), 'party')).toBe(true);
     expect(j.at('party')).toBe(Q('wards_gate'));
@@ -107,7 +103,6 @@ describe('Quittance: the ways in', () => {
 
   it('may leave by the Arch and come back without declaring again, once in', async () => {
     const j = await City.start();
-    const g0 = City.gold(j);
     await j.play('^To the Declarations Hall', 'Declare yourselves truthfully', '^Out to Gate Plaza', '^Into the Declaration Arch');
     expect(j.at('party')).toBe(Q('arch_hall'));
     await j.play('^To the Declaration Road');

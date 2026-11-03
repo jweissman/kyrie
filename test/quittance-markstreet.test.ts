@@ -132,7 +132,8 @@ describe('Mark Street', () => {
     expect(City.regard(j, 'lamprey')).toBe(1);
     expect(City.regard(j, 'brigades')).toBe(2);
     expect(City.has(j, 'tobiasWilling', 'party')).toBe(true);
-    // The consequence stays: the family is home, the Captain greets with two fingers to her helmet, and asked to be a witness
+    // The consequence stays: the family is home, the Captain greets with two fingers to her helmet, and asked to be a
+    // witness
     await j.play('^Into Number Nine', '^To the kitchen of Number Nine', 'Ask Mrs Peascod whether she would say', '^To the front room', '^Out to Mark Street');
     expect(City.has(j, 'witness', 'ms_mrs')).toBe(true);
     await j.play('^To Brick Lane', '^To the fire-house yard');
@@ -140,7 +141,9 @@ describe('Mark Street', () => {
     await j.play('Ask Captain Garrity what the Office makes of the certification');
     expect(City.said(j)).toContain('Mark Street Rule');
   }, 90000);
+});
 
+describe('Mark Street, continued', () => {
   it('certifying the mark false (no ask): the Lamprey wins, Garrity is shamed, and she cannot be asked after', async () => {
     const j = await City.start();
     await j.play(...licensed, 'Elen goes first', 'Take the Peascods. policy-book', '^Out to Mark Street', 'Read the Peascods');

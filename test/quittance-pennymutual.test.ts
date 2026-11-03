@@ -163,7 +163,9 @@ describe('The Penny Mutual', () => {
     expect(warned.holds(Q('pm_deputy_warned'), 'party')).toBe(true);
     expect(warned.offers('Press five coin')).toBe(true);                  // the other door is still open
   }, 120000);
+});
 
+describe('The Penny Mutual, continued', () => {
   // ── The treasurer, by force, by stealth, or not at all ────────────────────────────────────────────────
   const garret = [...gap, ...hall.slice(0, 3), '^Out to Salt Lane', 'Press five coin', '^To the garret'];
   it('stands over her until she hands it over: the fund comes home, but the club is told nothing and she is not a witness', async () => {
@@ -223,7 +225,7 @@ describe('The Penny Mutual', () => {
     await j.play('Put fourteen coin into the empty box');
     expect(dying(j)).toBe(8);
     await j.play('=day 7 09:00');
-    expect(dying(j)).toBe(8);                                             // the physic-man has been; nobody else on the board went
+    expect(dying(j)).toBe(8);                                  // the physic-man has been; nobody else on the board went
     expect(has(j, 'pm_neglected')).toBe(false);
     const late = await City.start();
     await late.play(...gap, '=day 7 09:00');

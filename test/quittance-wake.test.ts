@@ -15,9 +15,11 @@ const mood = (j: Journey) => j.measure(Q('wk_mood'), Q('wk_fusby'));
 const rel = (j: Journey, r: string) => City.has(j, r, 'party');
 // Let Fusby speak of his own accord until he has said n phrases (the cage open and the bird easy).
 const runTo = async (j: Journey, n: number) => { for (let i = 0; i < 120 && pos(j) < n; i++) { await j.play('=+2'); } };
-// The cloth off, Fusby easy (two walnuts), and left to say his whole repertoire to an empty room, adjuster not listening.
+// The cloth off, Fusby easy (two walnuts), and left to say his whole repertoire to an empty room, adjuster not
+// listening.
 const exhaust = async (j: Journey) => { await j.play(...house, 'Take the cloth off', 'Give Fusby a walnut', 'Give Fusby a walnut'); await runTo(j, 6); };
-// Until Fusby has said n phrases with the adjuster by the cage: sing when he will take it, or wait, and ask the adjuster to sit again.
+// Until Fusby has said n phrases with the adjuster by the cage: sing when he will take it, or wait, and ask the
+// adjuster to sit again.
 const said = async (j: Journey, n: number) => {
   for (let i = 0; i < 40 && pos(j) < n; i++) {
     if (j.matches('Ask Mr Fettiplace to take a chair').length && !rel(j, 'wk_closed')) { await j.play('Ask Mr Fettiplace to take a chair'); }
@@ -155,7 +157,9 @@ describe('Mr Teague wake', () => {
     expect(rel(j, 'wk_fraud')).toBe(true);
     expect(City.regard(j, 'providence')).toBe(1);
   }, 400000);
+});
 
+describe('Mr Teague wake, continued', () => {
   it('a bungled plant comes back in the company voice and the claim is struck', async () => {
     const j = await start('c', 'thief', 'bard', 'cleric');
     await exhaust(j);
