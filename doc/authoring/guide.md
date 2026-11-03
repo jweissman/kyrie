@@ -1323,6 +1323,12 @@ following(rupert, party)` (the Banns at Hessel's 5); and a rule that carries the
 takes them too (its 6). What someone with the company says on coming somewhere that matters to them is said once,
 when they come there with it: `Remarks at fold "…".` in their declaration (A Winter in Carth's 21).
 
+Someone comes along one of two ways. `Initially Assert acceptsEscort(rupert, party).` offers the company's own "Ask
+Rupert to come with you" and "Let Rupert make their own way"; or a topic or an action asserts it outright, for one
+who comes because of what was said (`On discuss { Assert following(hob, actor). }`), and retracting it lets them go
+(Quittance's ll 8, whose lamplighter was taken along so; `probes/follow`). Either way their routine leaves them be
+while they follow.
+
 ### A law of a module's own
 
 A module may write its law in a file apart and name it among its rules: `"rules": ["world", "../law/law.kyr"]`
