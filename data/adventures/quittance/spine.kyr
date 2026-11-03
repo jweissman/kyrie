@@ -54,8 +54,8 @@ Module quittance "Quittance" {
 
   // ── The Great Tithe ─────────────────────────────────────────────────────────────────────────────────────
   Relation tithePrepared(group). Relation titheBurned(group).
-  Rule tithe_prepared when watch(clock) >= 1230 and not appointedHalted(city) and not tithePrepared(city) says "Down in the Cinder Ward a handcart goes by in the dark with its wheels bound in rag." { Assert tithePrepared(city). }
-  Rule tithe_burns when watch(clock) >= 1248 and tithePrepared(city) and not appointedHalted(city) and not titheBurned(city) {
+  Rule tithe_prepared when watch(clock) >= 1230 and not appointedHalted(city) and not fireTerms(party) and not tithePrepared(city) says "Down in the Cinder Ward a handcart goes by in the dark with its wheels bound in rag." { Assert tithePrepared(city). }
+  Rule tithe_burns when watch(clock) >= 1248 and tithePrepared(city) and not appointedHalted(city) and not fireTerms(party) and wardsLit(city) < 4 and not titheBurned(city) {
     Assert titheBurned(city). Assert burned(cinder_ward). Increase casualties(city) by 400. }
 
   // ── Skelter's rent-office ───────────────────────────────────────────────────────────────────────────────

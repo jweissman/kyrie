@@ -1,3 +1,116 @@
 Module quittance "Quittance" {
-  Description "hearing (stub).".
+  Description "The Hearing of the Five, at two on Reckoning day: the Tables, the Ordinance, the Appointed Losses and the motion; how each Office votes, and what carries it.".
+
+  // The Five sit on Reckoning, day 8, at two (watch 1188). Four matters, a half-hour each. The company may take part
+  // from the floor of the Hall; or be elsewhere, and the Hearing goes on without it and decides on what the Offices
+  // already think of the company. Votes are decided by regard and by arcs, never by a document alone (02-review R4).
+  Measure argued(group). Measure ayes(group). Relation decided(matter).
+  Relation voted(group). Relation aye(group). Relation motionCarried(group). Relation motionLost(group).
+  Relation aliasAmended(group). Relation prestTestified(group). Relation confessed(group). Relation bellRung(group).
+  Relation gauntSwayed(group). Relation bookLaid(group). Relation witnessesCalled(group). Relation tablesRead(group).
+
+  Person chairmen "the Chairmen" at hall_five {
+    Role "one to each Office, on the dais". Ancestry human. Peaceable. Numbers 5. Pronouns they.
+    Greets "Five chairs stand on the dais and five people sit in them, in the attitudes of a family that has been told it has to talk about money. The Phoenix's is empty, with a clerk's stool beside it; the Lamprey's is a wet-coated man looking at his hands; the Sovereign's is a sleepy figure in a black sun; the Providence's is plump, rosy and cheerful as a hot-water bottle; the Residuary's is a small bald gentleman who has brought sandwiches.".
+    Greets again "The Five look up and then, with some relief, down again.".
+  }
+  Rule hall_gathers when watch(clock) >= 1182 and not at(prewitt, hall_five) and not appointedHalted(city) and arc(prewitt) < 3 { Assert at(prewitt, hall_five). Assert at(gaunt, hall_five). }
+  Rule hall_gathers_turned when watch(clock) >= 1182 and arc(prewitt) >= 3 and not at(prewitt, hall_five) { Assert at(prewitt, hall_five). Assert at(gaunt, hall_five). }
+
+  Occasion hearing "the Hearing of the Five" at hall_five when watch(clock) >= 1188 {
+    Matter h_tables "The Tables are laid on the table, and the Keeper of the Tables is not in the Hall." for 30 minutes until decided(h_tables).
+    Matter h_ordinance "Lord Gaunt-Halloran rises to speak to the Smokeless Ordinance." for 30 minutes until decided(h_ordinance).
+    Matter h_losses "The Chairman of the Residuary reads, from a slip, a matter 'touching certain losses in the Wards'." for 30 minutes until decided(h_losses).
+    Matter h_motion "The Five proceed to the motion: that the Ordinance be suspended for the Night, the Appointed Losses ended, and the City be called to its hearths." for 30 minutes until decided(h_motion).
+    Closes "The Five rise. Chairs are pushed back. A clerk begins to blow out the candles on the dais, one at a time, and is told to stop.".
+  }
+  Rule hearing_over when occasionOver(hearing) and not hearingOver(city) { Assert hearingOver(city). }
+  Rule hearing_over_unseen when watch(clock) >= 1230 and not hearingOver(city) { Assert hearingOver(city). Assert decided(h_motion). }
+
+  // ── The Tables ──────────────────────────────────────────────────────────────────────────────────────────
+  Action stand_with_pettifer(actor: group, site: place) "Stand beside Cornelia Pettifer while she says the numbers" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hall_five) and matterOpen(h_tables) and travelsWith(pettifer, actor) and arc(pettifer) >= 1 and not pettiferSpoke(city).
+    Time 20 minutes.
+    On success { Assert pettiferSpoke(city). Increase argued(city) by 2. Assert decided(h_tables). }
+    Result "She has the page in both hands and it is shaking, and then she looks at the Phoenix's empty chair and, perhaps because it is empty, begins. 'Ninety-four years,' says Cornelia Pettifer. 'Four hundred and two fires in the marked wards in the last twelve. Eleven in the Bare Wards. The Wards are tinder and they burn eleven.' Her voice rises, and steadies, because it is only a number. She says them all. When she has said them she stops, and finds she is still standing, and that you are beside her, and that nobody has interrupted. 'That is all,' she says. 'Thank you.' The Chairman of the Providence begins, with great enthusiasm, to applaud, and is stopped.".
+  }
+  Action read_the_curves(actor: group, site: place) "Read the two curves from the Tables yourself, as well as you can" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hall_five) and matterOpen(h_tables) and knows(actor, d_tables_paradox) and not tablesRead(city) and not pettiferSpoke(city).
+    Time 20 minutes.
+    Resolve check(actor, lore, dc_hard).
+    On success { Assert tablesRead(city). Increase argued(city) by 1. Assert decided(h_tables). }
+    On failure { Assert tablesRead(city). Assert decided(h_tables). }
+    Result "You do your best with someone else's pencil marks. The Chairman of the Sovereign wakes up enough to say 'Hear, hear,' and falls asleep again, but the small bald gentleman of the Residuary has taken out a pencil of his own.".
+    Otherwise "You read it to the Five with every confidence. After a while the Chairman of the Providence asks, kindly, whether you might perhaps start again with the labels.".
+  }
+
+  // ── The Ordinance ───────────────────────────────────────────────────────────────────────────────────────
+  Observe gaunt_speaks at hall_five when matterOpen(h_ordinance) and arc(gaunt) == 0 "Lord Gaunt-Halloran is on his feet, and so is his chandelier. 'The future is a gas,' he is saying, 'and a gas does not go out.' He pauses for the cheering, which does not come.".
+  Observe gaunt_speaks_bought at hall_five when matterOpen(h_ordinance) and arc(gaunt) >= 1 "Lord Gaunt-Halloran is on his feet, and in a quite different voice than he began with. 'The Company,' he is saying, 'has always been sensible of the public interest, and it may be that the public interest is, on the night in question, a warm one.' He looks, over the top of the paper, at you.".
+  Action flatter_gaunt(actor: group, site: place) "Rise from the floor and propose that the Gas Company light the first hearth on Policy Row, in the Company's name" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hall_five) and matterOpen(h_ordinance) and not gauntSwayed(city) and arc(gaunt) < 2.
+    Time 10 minutes.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert gauntSwayed(city). Increase arc(gaunt) by 1. Assert decided(h_ordinance). }
+    On failure { Assert gauntSwayed(city). Assert decided(h_ordinance). }
+    Result "Lord Gaunt-Halloran stops mid-sentence. 'The first hearth,' he says. 'In the Company's name.' His eye goes distant. 'On Policy Row.' It is as if someone had offered him a statue. 'I confess,' he says, 'that I had not thought the Ordinance admitted of ceremony.' He sits, with a look of enormous private satisfaction.".
+    Otherwise "'The Company,' says Lord Gaunt-Halloran, 'takes the suggestion as a kindness, and declines it as a precedent.' He sits down. He has a look of someone who has been right on principle and wrong on the facts.".
+  }
+  Action leave_ordinance(actor: group, site: place) "Let the Ordinance pass without a word from you" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hall_five) and matterOpen(h_ordinance).
+    Time 1.
+    On success { Assert decided(h_ordinance). }
+    Result "You let him finish. It does not take long, in the end; the chandelier has the best of it.".
+  }
+
+  // ── The Appointed Losses ────────────────────────────────────────────────────────────────────────────────
+  Observe prest_enters at hall_five when matterOpen(h_losses) and aliased(party) and not aliasAmended(party) "At the back of the Hall, in a dark coat, a clerk has appeared from the Arch with the Roll of Entrances under his arm. It is Mr Prest, and he is looking at the company with an expression of the deepest regret.".
+  Rule prest_testifies when matterOpen(h_losses) and aliased(party) and not aliasAmended(party) and not prestTestified(city)
+    says "'I am obliged to report,' says Mr Prest, to the Hall, 'that the persons addressing the Five are entered in the Roll as wool-factors, come to buy fleeces. The Bell was silent at the time. I draw no conclusion; the Bell is not to be reasoned with.' He sits down. The Chairman of the Providence has stopped smiling." {
+    Assert prestTestified(city). Decrease argued(city) by 1 or to nothing. }
+  Rule prewitt_confesses when matterOpen(h_losses) and prewittTurned(party) and not confessed(city)
+    says "Sedley Prewitt rises before the Residuary can finish. 'There is a list,' he says, 'and it is mine. Six years of it. The Bare Wards, one block a year, at the Appointed Night. I have the dates. I have the sums. I have not, until this week, had the nerve to say what they were for.' He lays a thin ledger on the dais. 'Four hundred a year, I told myself, against eighty thousand.' He takes off his spectacles. 'I should like the Hall to know that I was wrong, and that I am quite certain that I was right.' And out in the city, a mile away, under the Arch, the Honest Bell tolls once, softly, like a sigh." {
+    Assert confessed(city). Increase argued(city) by 4. Assert decided(h_losses). }
+  Rule prewitt_denies when matterOpen(h_losses) and not prewittTurned(party) and not confessed(city) and not bellRung(city)
+    says "'There is no such list,' says Sedley Prewitt, evenly. 'There is a prudent reserve against a catastrophe, of which the Five have been aware for six years and which I have audited myself.' And a mile away, under the Arch, the Honest Bell tolls once. Every head in the Hall turns toward the windows. The small bald gentleman of the Residuary writes something down. 'The Chairman asks,' he says mildly, 'whether the Bell may be entered as testimony.' 'The Bell,' says the Chairman of the Sovereign, waking, 'is not to be reasoned with.' 'No,' says the Residuary. 'But it is, I think, to be noted.'" {
+    Assert bellRung(city). Increase argued(city) by 1. }
+  Action lay_the_book(actor: group, site: place) "Lay Skelter's rent-book before the Five" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hall_five) and matterOpen(h_losses) and holding(actor, skelter_book) and not bookLaid(city).
+    Time 10 minutes.
+    On success { Assert bookLaid(city). Increase argued(city) by 2. }
+    Result "You put the oilcloth book on the dais. The small bald gentleman of the Residuary turns it round, finds the margin, turns two pages, and puts on a second pair of spectacles. 'It is a fine thing,' he murmurs, 'a second column.' The Chairman of the Lamprey reads over his shoulder and is seen to go the colour of a boiled fish.".
+  }
+  Action call_witnesses(actor: group, site: place) "Call everyone who will say what they saw" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hall_five) and matterOpen(h_losses) and witnessCount(city) >= 1 and not witnessesCalled(city).
+    Time 30 minutes.
+    On success { Assert witnessesCalled(city). Increase argued(city) by witnessCount(city). Assert decided(h_losses). }
+    Result "They come in by ones and twos and are asked to stand at a rail, and they do. Nobody has told them what to say. A clerk who has been taking things down for twenty years stops writing for the first time; a woman says the name of a street; a child says nothing at all, with great force. By the time the last has sat down, the Hall has the look of a room in which a number has been said aloud and cannot be unsaid.".
+  }
+  Action rest_the_case(actor: group, site: place) "Rest your case" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hall_five) and matterOpen(h_losses).
+    Time 1.
+    On success { Assert decided(h_losses). }
+    Result "'That is the case,' you say. The Chairman of the Residuary nods and writes it down.".
+  }
+
+  // ── The motion ──────────────────────────────────────────────────────────────────────────────────────────
+  Rule vote_phoenix when matterOpen(h_motion) and not voted(phoenix) says "The Phoenix's clerk, standing in for an empty chair, looks at the door of the Chief Underwriter's room and then at the floor." {
+    Assert voted(phoenix). }
+  Rule phoenix_aye when voted(phoenix) and not aye(phoenix) and (prewittTurned(party) or (arc(prewitt) >= 2 and not prewittHardened(party))) { Assert aye(phoenix). Increase ayes(city) by 1. }
+  Rule vote_lamprey when matterOpen(h_motion) and not voted(lamprey) { Assert voted(lamprey). }
+  Rule lamprey_aye when voted(lamprey) and not aye(lamprey) and (arc(dree) >= 1 or regard(lamprey) >= 2) { Assert aye(lamprey). Increase ayes(city) by 1. }
+  Rule vote_sovereign when matterOpen(h_motion) and not voted(sovereign) { Assert voted(sovereign). }
+  Rule sovereign_aye when voted(sovereign) and not aye(sovereign) and (arc(cray) >= 1 or regard(sovereign) >= 2) { Assert aye(sovereign). Increase ayes(city) by 1. }
+  Rule vote_providence when matterOpen(h_motion) and not voted(providence) { Assert voted(providence). }
+  Rule providence_aye when voted(providence) and not aye(providence) and (regard(providence) >= 1 or argued(city) >= 3) and not (prewittHardened(party) and regard(providence) < 2) { Assert aye(providence). Increase ayes(city) by 1. }
+  Rule vote_residuary when matterOpen(h_motion) and not voted(residuary) { Assert voted(residuary). }
+  Rule residuary_aye when voted(residuary) and not aye(residuary) and (witnessCount(city) >= 3 or argued(city) >= 4) { Assert aye(residuary). Increase ayes(city) by 1. }
+  Rule motion_carried when voted(residuary) and voted(providence) and voted(sovereign) and voted(lamprey) and voted(phoenix) and not motionCarried(city) and not motionLost(city) and ((arc(gaunt) == 0 and ayes(city) >= 4) or (arc(gaunt) >= 1 and ayes(city) >= 3))
+    says "The Chairman of the Residuary counts aloud, with a pencil, and reaches the number. 'Carried,' he says, rather surprised. 'I believe that is the first time.' The Hall has not yet decided whether to cheer. The Chairman of the Providence has, and does." {
+    Assert motionCarried(city). Assert decided(h_motion). }
+  Rule motion_lost when voted(residuary) and voted(providence) and voted(sovereign) and voted(lamprey) and voted(phoenix) and not motionCarried(city) and not motionLost(city) and ((arc(gaunt) == 0 and ayes(city) < 4) or (arc(gaunt) >= 1 and ayes(city) < 3))
+    says "The Chairman of the Residuary counts, and counts again, and sets down his pencil. 'Lost,' he says. The Hall is quiet. 'The Five regret that the matter is not within the Five's competence.' Somebody laughs, once, without any amusement at all." {
+    Assert motionLost(city). Assert decided(h_motion). }
+  Observe hall_aftermath at hall_five when motionCarried(city) "The Hall empties slowly, in knots of clerks arguing about where to find a coal.".
+  Observe hall_aftermath_lost at hall_five when motionLost(city) "The Hall empties quickly. Nobody is saying anything that could be quoted.".
 }
