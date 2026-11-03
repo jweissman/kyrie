@@ -99,4 +99,33 @@ Module quittance "Quittance" {
 
   // ── Ordinary things sold in Quittance ───────────────────────────────────────────────────────────────────
   Kind chandlers_candle "a mark-insured candle" is gear worth 1 weighing 0 described "A tallow candle with a tiny Phoenix stamped in the base, guaranteeing it against its own flame.".
+
+  // ── Things that pass between small adventures ───────────────────────────────────────────────────────────
+  // The kinds are declared here so that the adventure that gives one and the adventure that asks for it can be written
+  // apart. The adventure that gives a thing declares its Item (at nowhere) and Gives it; the one that asks for it asks
+  // holding(actor, kind).
+  Kind forged_writ "a writ of the Lamprey & River Office, not quite" is treasure worth 0 weighing 0 described "A sheet of Lamprey & River foolscap, correctly watermarked with a fish, correctly signed by a captain who did not sign it. The seal is excellent. The paper is very slightly the wrong shade of wet.".
+  Kind tench_ledger "the Ledger of the Unpaid" is treasure worth 0 weighing 1 described "A long narrow account-book in a boy's careful hand: eleven hundred names, each with the date of the Burning against it and a sum claimed, and a column headed PAID that is empty from top to bottom.".
+  Kind roll_extract "an extract of the Surveyors' Roll" is treasure worth 0 weighing 0 described "A clean copy of one page of the Roll, with the Guild's stamp: the Cinder Ward, and against it, in the Roll's own hand, DECLINED. Beneath it is the date, which is Reckoning.".
+  Kind cellar_key "the Exchange cellar key" like cell_key described "A black iron key with a stamped bird for a bow. It is warm to the hand, and does not seem to cool.".
+  Kind skelter_book "Skelter's rent-book" is treasure worth 0 weighing 1 described "A thick rent-book bound in oilcloth. Down the margin of its pages, in a different ink from the rents, runs a second column of dates, each a week before a fire.".
+  Kind salamander_lantern "a salamander-glass lantern" like lantern described "A lantern of dark green glass in which a small steady light burns without oil. It does not flicker, and it does not go out. It is warm to the hand like something asleep.".
+  Kind phoenix_writ "a writ of the Phoenix" is treasure worth 0 weighing 0 described "A sheet of Phoenix foolscap with a gilt bird, signed in a clear unhesitating hand: the bearer may enter any Phoenix premises, and certify any Phoenix mark, in the Office's name.".
+
+  // ── Ways between the surface and the Sunk City ──────────────────────────────────────────────────────────
+  // Each way down is gated by a Thing on its passage, owned by one file:
+  //   cellar_stair (the Exchange)      descent.kyr         key (cellar_key), lockwork, or leave from Prewitt/Pettifer
+  //   catacomb_stair (Mortmain)        q_annuitant.kyr     the rite (rites), the sexton's leave, or the Oakes name
+  //   bell_shaft_way (the Reach)       q_barge.kyr         Dree's leave, a forged_writ, the Teague combination, or force
+  //   flue_up (the Cinder Ward)        descent.kyr         opened from below by the Fire only
+  // The Queue (q_queue.kyr) stands on down_glass: every way down but the Flue meets it.
+  Relation dree_leave(group). Relation queueOpen(group). Relation teagueCombination(group).
+  Relation sextonLeave(group). Relation cellarLeave(group).
+
+  // ── What the Descent hands the endings ──────────────────────────────────────────────────────────────────
+  // descent.kyr writes these; endings.kyr reads them.
+  Relation fireHeard(group). Relation fireFed(group). Relation fireTerms(group). Relation fireTermKeeper(group).
+  Relation fireTermNight(group). Relation fireTermAverage(group). Relation fireSlain(group). Relation fireWrathful(group).
+  Relation coalNamedGran(group). Relation coalNamedPip(group). Relation coalNamedNone(group).
+  Relation tobiasWilling(group).
 }
