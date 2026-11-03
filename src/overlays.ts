@@ -120,7 +120,11 @@ export class Overlays {
       if (item?.category !== 'treasure' || !item.value) { continue; }
       module.initial.push({ kind: 'set', call: { kind: 'call', name: 'worth', args: [e.id] },
         value: { kind: 'number', value: item.value } },
-      { kind: 'assert', call: { kind: 'call', name: 'valuable', args: [e.id] } });
+      { kind: 'assert', call: { kind: 'call', name: 'valuable', args: [e.id] } },
+      // What a dealer pays: half its worth, at least one.
+      ...module.measures.some(m => m.name === 'dealerPays') ? [{ kind: 'set' as const,
+        call: { kind: 'call' as const, name: 'dealerPays', args: [e.id] },
+        value: { kind: 'number' as const, value: Math.max(1, Math.floor(item.value / 2)) } }] : []);
     }
   }
   static declareGear(instance: Instance) {

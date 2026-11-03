@@ -26,9 +26,12 @@ export class Attending {
     }
     if (['person', 'companion'].includes(s.kind) && s.choices.length) {
       const talk = this.all(s.choices).find(c => this.talking.test(c.command ?? ''));
-      const rest = this.replies(s.choices);
+      // What is done about them, not said to them, stands beside talking to them (Behind the Wainscot's F3).
+      const deeds = s.choices.filter(c => c.deed && !c.children);
+      const rest = this.replies(s.choices.filter(c => !deeds.includes(c)));
+      if (!rest.length && !talk && deeds.length) { return { ...s, choices: deeds }; }
       return { ...s, choices: [{ id: `${s.id}#talk`, label: `Talk to ${this.called(s)}`, tone: 'person',
-        ...talk?.command ? { command: talk.command } : {}, children: rest.length ? rest : [] }] };
+        ...talk?.command ? { command: talk.command } : {}, children: rest.length ? rest : [] }, ...deeds] };
     }
     if (s.kind === 'thing' && s.choices.length) {
       return { ...s, choices: [{ id: `${s.id}#look`, label: s.name, tone: 'thing', children: s.choices }] };

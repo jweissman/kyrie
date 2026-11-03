@@ -28,6 +28,9 @@ export interface Act {
   light?: boolean;
   // One of the place's own, an adventure's or a country's (the swing-boat, a penny a stair), not one done anywhere.
   own?: boolean;
+  // One of those own that is done, not said to anyone (no speaker): kept beside a person, not folded into talking to
+  // them ("Keep still, as the Wainscot does" had become "Talk to the Lady": Behind the Wainscot's F3).
+  deed?: boolean;
   // A fight it begins (a challenge to single combat), weighed up before it is chosen, as an attack is.
   reckoned?: { danger: Danger; text: string };
 }

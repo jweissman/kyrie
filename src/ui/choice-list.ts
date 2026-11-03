@@ -18,8 +18,8 @@ export interface Choice {
   grave?: string;
   // An answer to the question just put (see Act).
   answer?: boolean;
-  // One of the place's own (see Act).
-  own?: boolean;
+  // One of the place's own (see Act), and one done, not said (see Act).
+  own?: boolean; deed?: boolean;
   // What it risks, said on it before it is chosen (see Marks).
   marks?: Mark[];
 }
@@ -253,7 +253,8 @@ export class ChoiceList {
     return { id, label, tone, ...(a.command ? { command: a.command } : {}), ...(note ? { note } : {}),
       ...(a.minutes ? { minutes: a.minutes } : {}), ...(about ? { about } : {}),
       ...(a.risk ? { risk: true } : {}), ...(a.disabled ? { disabled: a.disabled } : {}),
-      ...(a.grave ? { grave: a.grave } : {}), ...(a.answer ? { answer: true } : {}), ...(a.own ? { own: true } : {}) };
+      ...(a.grave ? { grave: a.grave } : {}), ...(a.answer ? { answer: true } : {}), ...(a.own ? { own: true } : {}),
+      ...(a.deed ? { deed: true } : {}) };
   }
   // The pack: each companion's things, and what each can do with them.
   static pack(screen: Screen): Section[] {

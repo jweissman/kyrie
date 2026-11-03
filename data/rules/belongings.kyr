@@ -18,9 +18,11 @@ Module belongings "What the company carries" {
   Relation proficient(member, itemkind).
   Relation wants(group, itemkind). Measure pays(group, itemkind).
   // What a kind of thing is worth (its catalog value), and those who deal in valuables: a merchant who buys any
-  // treasure brought in, at its worth, if they have the coin (as Orsino's shops buy junk). Treasure brought home and
-  // sold is the company's experience, the first time it is sold: its worth, to each who brought it.
-  Measure worth(itemkind). Relation buysValuables(group). Relation realized(item). Relation valuable(itemkind).
+  // treasure brought in, at half its worth (what a dealer pays), if they have the coin. A treasure found is the
+  // company's experience, the first time it is taken up (see FieldResolver.take); sold, it is coin and no more (the
+  // cold review of 1 November: a sale paid coin and experience at once, and one delve made money meaningless).
+  Measure worth(itemkind). Measure dealerPays(itemkind). Relation buysValuables(group). Relation realized(item).
+  Relation valuable(itemkind). Relation recovered(item).
   // What a kind of thing weighs, where it says (a module's own kind, "weighing 2"); selm weighs less than nothing.
   Measure mass(itemkind).
   // What each member carries, and can carry (see Burden): a company with anyone carrying more is laden, and goes
@@ -76,7 +78,7 @@ Module belongings "What the company carries" {
     Requires able(actor) and at(actor, site) and at(find, site) and not forSale(find) and not benighted(actor)
       and itemKind(find, form) and memberOf(recipient, actor) and awake(recipient) and noticed(find, actor).
     Resolve acquire(find, form, recipient).
-    On success { Retract at(find, site). }
+    On success { Retract at(find, site). Assert recovered(find). }
     Result "{recipient} takes {find}.".
   }
   Action take_out(actor: group, find: item, form: itemkind, box: thing, recipient: member, site: place) "Take {find} out of {box} for {recipient}" {
@@ -85,7 +87,7 @@ Module belongings "What the company carries" {
       and noticed(box, actor) and noticed(find, actor) and not benighted(actor)
       and itemKind(find, form) and memberOf(recipient, actor) and awake(recipient).
     Resolve acquire(find, form, recipient).
-    On success { Retract inside(find, box). }
+    On success { Retract inside(find, box). Assert recovered(find). }
     Result "{recipient} takes {find} from {box}.".
   }
   Action put_in(actor: group, cargo: item, carrier: member, box: thing, site: place) "Put {cargo} in {box}" {
@@ -193,14 +195,14 @@ Module belongings "What the company carries" {
   }
   Action sell_valuable(actor: group, ware: item, form: itemkind, carrier: member, buyer: group, site: place) "Sell {ware} to {buyer}" {
     Time 3 minutes.
-    Description "Someone who deals in valuables pays what a thing is worth, if they have the coin. The first time a treasure is sold, what it is worth is experience for each of the company.".
+    Description "Someone who deals in valuables pays half what a thing is worth, if they have the coin.".
     Requires able(actor) and at(actor, site) and able(buyer) and at(buyer, site) and distinct(actor, buyer)
       and memberOf(carrier, actor) and awake(carrier) and ownedItem(ware, carrier) and itemKind(ware, form)
-      and buysValuables(buyer) and valuable(form) and worth(form) >= 1 and pays(buyer, form) < 1
-      and quantity(buyer, gold) >= worth(form) and not refusesService(buyer, actor).
+      and buysValuables(buyer) and valuable(form) and dealerPays(form) >= 1 and pays(buyer, form) < 1
+      and quantity(buyer, gold) >= dealerPays(form) and not refusesService(buyer, actor).
     Resolve realize(ware, carrier, actor).
-    On success { Assert keeps(buyer, ware). Assert realized(ware). Decrease quantity(buyer, gold) by worth(form).
-      Increase quantity(actor, gold) by worth(form). }
+    On success { Assert keeps(buyer, ware). Assert realized(ware). Decrease quantity(buyer, gold) by dealerPays(form).
+      Increase quantity(actor, gold) by dealerPays(form). }
     Result "{buyer} turns {ware} over in the light, names a price, and counts out the coin.".
   }
   // A dealer without the coin for a treasure still says what it is worth, and whether to wait or go elsewhere.

@@ -586,7 +586,7 @@ is above). A row "with" another is answered by that row.
 
 | ID | Finding | Source | Gate | Pri | Now | Note |
 |---|---|---|---|---|---|---|
-| BTW-01 | The browser turns anyone an action is about into a conversation: "Keep still" and "Step out into the light" became "Talk to the Lady" (Attending.opener, ChoiceGrouping.fallback) | Behind the Wainscot friction F3 | A | P1 | Open | Act choices about a person kept as acts, not folded into talk |
+| BTW-01 | The browser turns anyone an action is about into a conversation: "Keep still" and "Step out into the light" became "Talk to the Lady" (Attending.opener, ChoiceGrouping.fallback) | Behind the Wainscot friction F3 | A | P1 | Fixed | An authored act with no speaker is a deed (Act.deed), kept beside "Talk to …" rather than folded into it; the glance finds the talk opener by its id |
 | BTW-02 | The glance shows one sentence of a place until Look about | Behind the Wainscot friction F4 | A | P1 | Open | With the arrival-weight defect (closure report) |
 | BTW-03 | World events are not canonical: the Freehold is an outcome other modules should be able to read | Behind the Wainscot friction F10 | B | P2 | Open | With OWN-35 |
 | BTW-04 | Passage kinds and the lint assume human scale (a ladder up a table leg "does not change level") | Behind the Wainscot friction F1 | D | P3 | Open |  |
@@ -693,7 +693,7 @@ is above). A row "with" another is answered by that row.
 | ID | Finding | Source | Gate | Pri | Now | Note |
 |---|---|---|---|---|---|---|
 | REV-11 | The field economy collapses after one delve: 191 coin makes every field cost trivial | The cold review of 1 November, Economy | C | P1 | Open | Closure report: economy |
-| REV-12 | Selling loot awards coin and experience at once | The cold review, Economy | C | P1 | Open | Proposed: experience for recovery, coin for sale |
+| REV-12 | Selling loot awards coin and experience at once | The cold review, Economy | C | P1 | Fixed | A treasure is a quarter of its worth in experience for each the first time it is taken up (FieldResolver.take, `recovered`); a dealer pays half its worth in coin and no experience (`dealerPays`), and the sale is labelled with what it pays. test/treasure.test.ts, test/march-journey.test.ts |
 | REV-13 | No economic tiers: field, expedition, domain | The cold review, Economy | C | P2 | Open |  |
 | REV-14 | Rest and food are interesting but opaque; money alternatives become flavour | The cold review, Economy | C | P2 | Open |  |
 | REV-15 | Search functions as an interface tax | The cold review, Boredom | C | P1 | Open | With REV-02 |

@@ -79,17 +79,11 @@ export class FieldResolver {
     }
     throw new Error(`Unsupported resolver ${call.name}`);
   }
-  // A treasure handed over for its worth: the first time it is sold, half what it is worth is experience for each of
-  // the company who brought it home (all of it made selling the quickest way to a level: the play-structure
-  // investigation's PT-02).
+  // A treasure handed over: coin, and no more (experience is for finding it: see take). A sale had paid coin and
+  // experience at once, so one delve made money meaningless (the cold review of 1 November).
   private static realize(call: Call, host: FieldHost): CombatEvent[] {
-    const [item, carrier, group] = call.args as [string, string, string], world = host.world;
-    const events = Items.drop(host.creatures, carrier, item);
-    if (world.test(ModuleWriter.call('realized', item))) { return events; }
-    const kind = world.one('itemKind', item), worth = kind ? world.number(ModuleWriter.call('worth', kind)) : 0;
-    const members = host.actors.find(a => a.id === group)?.members ?? [];
-    FieldUse.grant(host.creatures, members, Math.floor(worth / 2), events);
-    return events;
+    const [item, carrier] = call.args as [string, string, string];
+    return Items.drop(host.creatures, carrier, item);
   }
   // The buyer's members pay the price between them, and the seller is paid it.
   private static purchase(call: Call, host: FieldHost) {
@@ -108,8 +102,19 @@ export class FieldResolver {
       lease.commit(lease.creatures);
     } finally { lease.release(); }
   }
+  // Something taken up; a treasure, the first time, is a quarter of its worth in experience for each of the company
+  // (finding is the deed; selling is only coin).
   private static take(call: Call, host: FieldHost): CombatEvent[] {
-    const [id, definition, owner] = call.args as [string, string, string];
-    return Items.take(host.creatures, owner, { id, definition, label: ObservationText.label(host.world, id) });
+    const [id, definition, owner] = call.args as [string, string, string], world = host.world;
+    const label = ObservationText.label(world, id);
+    const events = Items.take(host.creatures, owner, { id, definition, label });
+    const found = world.relates('valuable') && world.test(ModuleWriter.call('valuable', definition))
+      && !(world.relates('recovered') && world.test(ModuleWriter.call('recovered', id)));
+    if (!found) { return events; }
+    const worth = world.number(ModuleWriter.call('worth', definition)), from = events.length;
+    FieldUse.grant(host.creatures, host.actors.find(a => a.members.includes(owner))?.members ?? [owner],
+      Math.floor(worth / 4), events);
+    for (const e of events.slice(from)) { if (e.type === 'gain') { e.detail = `experience: found ${label}`; } }
+    return events;
   }
 }

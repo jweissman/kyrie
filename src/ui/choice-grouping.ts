@@ -224,6 +224,10 @@ export class ChoiceGrouping {
     return new Set(rows.filter(r => !this.rules[r.action.schema ?? r.action.id] && this.hurts(r.action)).flatMap(r =>
       Object.entries(r.action.bindings ?? {}).filter(([k]) => k !== 'actor' && k !== 'site').map(([, v]) => v)));
   }
+  // One of the place's own (an authored act), and whether it is done rather than said to someone.
+  private static owned(action: Operator): { own?: boolean; deed?: boolean } {
+    return /^\w+__\w/.test(action.id) ? { own: true, ...action.speaker ? {} : { deed: true } } : {};
+  }
   // A sleep that lasts until morning says when it will end: at seven, or eight hours on, by day.
   // The hour only, or with "tomorrow" if it ends on the next day ("3:00 p.m. on day 2" was said of a camp made in the
   // morning: play 11).
@@ -243,7 +247,7 @@ export class ChoiceGrouping {
       ...(action.description ? { about: action.description } : {}),
       ...(row.by?.length && !context.solo ? { by: row.by } : {}),
       ...(bound.length ? { bound } : {}), ...(action.grave ? { grave: action.grave } : {}),
-      ...(action.answers ? { answer: true } : {}), ...(/^\w+__\w/.test(action.id) ? { own: true } : {}) };
+      ...(action.answers ? { answer: true } : {}), ...ChoiceGrouping.owned(action) };
     const schema = action.schema ?? action.id, b = action.bindings ?? {};
     ChoiceGrouping.warn(leaf, action, context);
     if (action.movement) {

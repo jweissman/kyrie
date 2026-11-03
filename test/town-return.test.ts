@@ -28,7 +28,7 @@ class Back {
 
 describe('back in town with what was won', () => {
   it('leads with whoever buys a treasure the company carries, and what it fetches', async () => {
-    expect((await Back.at('region__s1_shop', { rings: true }))[0]).toBe('spoils: Talk to Falkor — sell a cord of grave rings, 15 coin');
+    expect((await Back.at('region__s1_shop', { rings: true }))[0]).toBe('spoils: Talk to Falkor — sell a cord of grave rings, 7 coin');
   }, 120000);
   it('leads with a lesson the company has earned and can pay for, and not one it cannot', async () => {
     expect((await Back.at('region__s1_drill', { gold: 80, experience: 60 }))[0]).toBe('means: Talk to Saer — a lesson in Dirty Trick');

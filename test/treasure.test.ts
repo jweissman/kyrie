@@ -32,24 +32,27 @@ class Hoard {
 }
 
 describe('treasure', () => {
-  it('is bought by a merchant at its worth, and half of it is experience the first time it is sold', async () => {
+  // Found, a quarter of its worth is experience for each, the first time it is taken up; sold, it is coin and no more,
+  // half its worth (the cold review of 1 November: a sale had paid its worth in coin and half again in experience).
+  it('is experience when it is found, and coin at half its worth when a merchant buys it', async () => {
     const { w, s } = await Hoard.start(), region = w.report.region;
     const barrow = region.sites.find(x => x.work?.plan === 'barrow')!;
     GeneratedWorld.put(s, `${barrow.id}_right`);
     await s.perform('wait');
     const goods = s.campaign.world.one('itemKind', `region__${barrow.id}_goods`)!.replace(/^.*__/, '');
     expect(Canon.items[goods]!.category).toBe('treasure');
-    const worth = Canon.items[goods]!.value!;
+    const worth = Canon.items[goods]!.value!, xp = () => s.campaign.state.party.map(m => m.experience);
     // The chamber is dark: the warrior's torch first.
     await Hoard.choose(s, /^Light a torch$/);
+    const before = xp();
     await Hoard.choose(s, /^Collect .* for Elen$/);
+    expect(xp()).toEqual(before.map(x => x + Math.floor(worth / 4)));
     GeneratedWorld.put(s, `${region.settlements[0]!.id}_shop`);
     await s.perform('wait');
-    const [gold, experience] = [s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold')),
-      s.campaign.state.party.map(m => m.experience)];
+    const [gold, experience] = [s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold')), xp()];
     await Hoard.choose(s, /^Sell .* to /);
-    expect(s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold'))).toBe(gold + worth);
-    expect(s.campaign.state.party.map(m => m.experience)).toEqual(experience.map(x => x + Math.floor(worth / 2)));
+    expect(s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold'))).toBe(gold + Math.floor(worth / 2));
+    expect(xp()).toEqual(experience);
     expect(s.campaign.world.test(ModuleWriter.call('realized', `region__${barrow.id}_goods`))).toBe(true);
   }, 60000);
   it('is worth coming back for in the morning, when a dealer has not the coin today', async () => {

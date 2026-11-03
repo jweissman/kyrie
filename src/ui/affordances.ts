@@ -47,8 +47,8 @@ export class Affordances {
   private static subject(s: SceneSubject, screen: Screen, r: Reading): Candidate[] {
     if (s.kind === 'companion' || s.state) { return []; }
     if (SceneModel.threat(s)) { return this.threat(s, r); }
-    const only = s.choices.length === 1 ? s.choices[0]! : undefined;
-    const opener = only && [`${s.id}#talk`, `${s.id}#look`].includes(only.id) ? only : undefined;
+    // Talking to them, or looking at it, is one choice; what is done about them stands beside it (see Attending).
+    const opener = s.choices.find(c => [`${s.id}#talk`, `${s.id}#look`].includes(c.id));
     if (opener) { return this.opened(s, opener, screen, r); }
     // An animal, or a creature of no danger: its first gentle act, for what is new about it.
     const gentle = this.gentle(s.choices, r);
