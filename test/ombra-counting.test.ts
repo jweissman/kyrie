@@ -20,6 +20,9 @@ async function press(g: Ombra, label: string, done: () => boolean, tries = 10) {
 async function face(g: Ombra, name = 'Heron') {
   await g.play('>ombra__annex_counter', `Rent the ${name}`, `Put on the ${name}`);
 }
+// The Warrant, taken from the Sergeant at the Customs Steps before anything else is done (the real campaign does not
+// begin with it held; the author's stub did).
+const warranted = async (g: Ombra) => { await g.play('>ombra__gate_square', 'Talk to', 'Ask what use the Watch has', 'Take the Stranger'); expect(g.holds('warrantHeld', 'party')).toBe(true); };
 const done = (g: Ombra, round: string) => g.holds('roundDone', 'party', round);
 const bard = (seed = 'a') => Ombra.start(campaign, seed, Ombra.one('bard', undefined, 'human', 'Lyle'));
 
@@ -177,6 +180,7 @@ describe('The Lock-tax (Round 6)', () => {
 
   it('Teague, frightened with the Warrant: she either gives the book and leaves Ombra, or runs to her sister for two days', async () => {
     const g = await warrior();
+    await warranted(g);
     await copies(g);
     const night = Math.floor(g.watch / 144) + 1;
     await g.play(`=day ${night} 21:00`, '>ombra__ct_fenn_room', 'Tell her you know she copies');
@@ -259,6 +263,7 @@ describe('The Lock-tax (Round 6)', () => {
 
   it('Lacke, threatened: he is either gone before light or has shouted for the Watch; and left alone, he burns his ledger on the sixth day', async () => {
     const g = await warrior();
+    await warranted(g);
     await fennTrust(g);
     const day = Math.floor(g.watch / 144) + 1;
     await g.play(`=day ${day + 1} 21:00`, '>ombra__ct_locks_parlour', 'Ask him about the clocks');

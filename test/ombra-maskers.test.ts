@@ -241,7 +241,7 @@ describe('The mask that fits nobody', () => {
   it('is claimed by Peck, who writes that he is not known and then that he is', async () => {
     const g = await start();
     if (!present(g, 'peck')) { return; }
-    await g.play(...sitWithDov, 'Ask Dov to let you take the mask', '>ombra__hospice_hall', 'Show Peck the mask');
+    await g.play(...sitWithDov, 'Ask Dov to let you take the mask', '>ombra__hospice_dorm', 'Show Peck the mask');
     expect(g.holds('mk_peck_claimed', 'party')).toBe(true);
     expect(g.carries('mk_drowned_mask')).toBe(false);
   });
@@ -250,7 +250,7 @@ describe('The mask that fits nobody', () => {
     const g = await start();
     if (!present(g, 'peck') || !present(g, 'tibb') || !present(g, 'rainmother')) { return; }
     const purse = g.gold();
-    await g.play(...sitWithDov, 'Ask Dov to let you take the mask', 'Put on the Drowned', '>ombra__hospice_hall', 'Let Peck see', 'Let Mother Tibb see');
+    await g.play(...sitWithDov, 'Ask Dov to let you take the mask', 'Put on the Drowned', '>ombra__hospice_dorm', 'Let Peck see', 'Let Mother Tibb see');
     expect(g.measure('mk_hold', 'party')).toBe(2);
     expect(g.page).toContain('lose the edges of what you meant to say');
     await g.play('>ombra__rain_hall_floor', 'Let the Rain-Wife see');
@@ -273,7 +273,7 @@ describe('The mask that fits nobody', () => {
   it('is cut off by the Fitter too, with a remark', async () => {
     const g = await start();
     if (!present(g, 'peck') || !present(g, 'tibb') || !present(g, 'rainmother')) { return; }
-    await g.play(...sitWithDov, 'Ask Dov to let you take the mask', 'Put on the Drowned', '>ombra__hospice_hall', 'Let Peck see', 'Let Mother Tibb see',
+    await g.play(...sitWithDov, 'Ask Dov to let you take the mask', 'Put on the Drowned', '>ombra__hospice_dorm', 'Let Peck see', 'Let Mother Tibb see',
       '>ombra__rain_hall_floor', 'Let the Rain-Wife see', '>ombra__pavane_parlour', 'Ask the Fitter to take the Drowned Face off you');
     expect(g.holds('masked', 'party')).toBe(false);
     expect(g.page).toContain('He will want it back');
