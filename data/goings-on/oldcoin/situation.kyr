@@ -16,13 +16,39 @@ Module oldcoin "The stranger who pays in old coin" {
     Says "'Old as the stones,' says {scholar}. 'It still buys a bed. I came to read the names cut on the old places, before the frost has them. I want to go to {ruin}, and I would rather not go alone. Ten of these when we get there.' They push a coin across the table: it is stamped with a crown and a single word in the old script.".
     On discuss { Assert asked(scholar). }
   }
+  // Someone else wants to know where the scholar is going: a dealer of old things, who pays to be told, and goes ahead
+  // by night with a hammer. Kept faith with, the scholar reads the stones whole, and they say where the old kingdom
+  // kept its tithe; sold, the stones are broken before you come (the owner, 3 November: deeper than one errand).
+  Relation offeredDealer(group). Relation sold(group). Relation refused(group).
+  Person dealer "A man in a good coat" at taproom { Role "a dealer of old things, who sits where he can see the scholar". Ancestry human. Peaceable. Pronouns he. }
+  Observe watching at taproom when at(dealer, taproom) and asked(scholar) and not sold(dealer) and not refused(dealer) "{dealer} has not taken his eyes off {scholar} since you sat down with them.".
+  Topic dealer_asks with dealer "Ask the man in the good coat what he wants with {scholar}" when asked(scholar) and not offeredDealer(actor) once {
+    Says "He smiles as if you had paid him a compliment. 'Only to know where our friend is going,' he says. 'Old stones are my trade, and the scholar reads them before I can buy them. Eight coin, now, to be told which.'".
+    On discuss { Assert offeredDealer(actor). }
+  }
+  Topic dealer_sold with dealer "Tell the man in the good coat that {scholar} is going to {ruin}, for eight coin" when offeredDealer(actor) and not sold(dealer) and not refused(dealer) and not read(scholar) once {
+    Says "He counts out the eight coin without looking at them, thanks you, and is gone from the taproom before you have put them away.".
+    On discuss { Increase quantity(actor, gold) by 8. Assert sold(dealer). Retract at(dealer, taproom). }
+  }
+  Topic dealer_refused with dealer "Tell the man in the good coat that it is none of his business" when offeredDealer(actor) and not sold(dealer) and not refused(dealer) once {
+    Says "'Everything is my business, in the end,' he says, but he gets up, and does not follow.".
+    On discuss { Assert refused(dealer). }
+  }
   // Brought to the old place, the scholar reads what is cut there: its name, and what it was.
   Discovery history "What the old place was: built by the old kingdom, whose coin still turns up in the plough, and named in its tongue; left empty when the kingdom fell.".
-  Topic scholar_reads with scholar "Ask {scholar} to read the stones" when cameHome(scholar) and not read(scholar) once {
-    Says "{scholar} goes straight to the cut stones and reads them aloud, slowly, a finger under each letter. 'The old kingdom built this,' they say. 'Look: the same crown as the coin. There are more of these,' they say, looking round at the country. 'I could keep reading with you, if you are going on. No hire: I have the coin.'".
-    On discuss { Assert read(scholar). Assert knows(actor, named). Assert knows(actor, history). Assert willing(scholar, actor). }
+  Entity tithe_told: fact "The stones of the old place say that the old kingdom's tithe was kept under its threshold.".
+  Kind old_tithe "a jar of old coin" is treasure worth 30 weighing 2 described "A lidded jar of green-glazed clay, packed with thin old coins stamped with the same crown as the scholar's.".
+  Item tithe "a jar of old coin" is old_tithe at ruin hidden until tithe_told.
+  Observe broken at ruin when sold(dealer) and cameHome(scholar) "The cut stones by the door have been broken with a hammer, and the chips lie fresh and white in the grass: someone came here before you, by night.".
+  Topic scholar_reads with scholar "Ask {scholar} to read the stones" when cameHome(scholar) and not read(scholar) and not sold(dealer) once {
+    Says "{scholar} goes straight to the cut stones and reads them aloud, slowly, a finger under each letter. 'The old kingdom built this,' they say. 'Look: the same crown as the coin. And here: the tithe of the valley, kept under the threshold.' They look at the doorstone, and then at you. 'There are more of these,' they say, looking round at the country. 'I could read them all, with company.'".
+    On discuss { Assert read(scholar). Assert knows(actor, named). Assert knows(actor, history). Assert knows(actor, tithe_told). Assert willing(scholar, actor). }
   }
-
+  Topic scholar_reads_broken with scholar "Ask {scholar} to read the stones" when cameHome(scholar) and not read(scholar) and sold(dealer) once {
+    Says "{scholar} kneels among the white chips and turns them over, one by one, for a long time. 'Somebody knew we were coming,' they say at last, not looking up. There is enough left of the name over the door to read it, and no more.".
+    On discuss { Assert read(scholar). Assert knows(actor, named). }
+  }
   Objective escort when asked(scholar) and not read(scholar) "{scholar} wants to be taken to {ruin}.".
+  Objective tithe when knows(party, tithe_told) and not holding(party, old_tithe) "The stones at {ruin} say the old kingdom's tithe was kept under its threshold.".
   Goal read(scholar).
 }

@@ -13,7 +13,8 @@ import { CommitmentLint } from './commitment-lint';
 
 // One campaign's findings, gathered by named checks over its loaded world.
 export class CampaignLint {
-  static readonly implementationWords = new RegExp('\\b(flags?|teleports?|persists?|persistent|generated|canonical'
+  // (Not "flags", which are flagstones as often as not: the Third Night's "small, but often".)
+  static readonly implementationWords = new RegExp('\\b(flag|teleports?|persists?|persistent|generated|canonical'
     + '|the engine(?!-)|remains available|does not reset|state flag)\\b', 'i');
   readonly findings: Finding[] = [];
   readonly entities: Map<string, Entity>;

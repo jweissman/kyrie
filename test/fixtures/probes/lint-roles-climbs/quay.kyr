@@ -28,4 +28,6 @@ Module p "A quay, a warehouse, and a lady" {
   Observe stack at quay when true "Beyond the warehouse stands the engine-house, its stack smoking.".
   // Scenery the place's first sentence is about, with nothing to look at it by (the Lull's 7): a finding.
   Thing engine_house "the engine-house" at quay is scenery { State smoking "Its stack smokes.". }
+  // A rule waiting on a try the thing is never offered (Quittance's A11): a finding.
+  Rule pried when tried(engine_house, prying) says "Nothing gives." { }
 }

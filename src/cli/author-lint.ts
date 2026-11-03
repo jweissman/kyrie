@@ -9,7 +9,7 @@ export class AuthorLint {
   // What a whole adventure, one with an ending, should have: a first place said, and something to grow by.
   static run(lint: CampaignLint) {
     this.greetings(lint); this.lowered(lint); this.walkers(lint); this.placesAt(lint); this.aliases(lint);
-    this.goods(lint); this.unbound(lint); this.scenery(lint);
+    this.goods(lint); this.unbound(lint); this.scenery(lint); this.untried(lint);
     if (lint.module.entities.some(e => e.type === 'ending')) { this.opening(lint); this.growth(lint); }
   }
   // An act that lowers a measure, not a price, with nothing that asks how much there is: below nothing, it is not
@@ -93,6 +93,20 @@ export class AuthorLint {
       if (noun && Sentences.first(first).toLowerCase().includes(noun)) {
         lint.add('advice', 'scenery', `${e.id} is what ${at}'s first sentence is about, and cannot be looked at: `
           + 'give it `Tries looking.`');
+      }
+    }
+  }
+  // A rule or line that waits on a try the thing is never offered (Quittance's bg 12, QTC-A11: tried(x, prying) of a
+  // thing with no `Tries prying`, which no one can ever do).
+  static untried(lint: CampaignLint) {
+    const suits = new Set(lint.relations('suits').map(r => `${r.args[0]}\u0000${r.args[1]}`));
+    const waits = [...(lint.module.rules ?? []).map(r => [r.id, r.when] as const),
+      ...(lint.module.observations ?? []).map(o => [o.id, o.when] as const)];
+    for (const [id, when] of waits.filter(([w]) => w.includes('__'))) {
+      for (const m of JSON.stringify(when ?? null).matchAll(/"name":"tried","args":\["([^"?]+)","([^"?]+)"\]/g)) {
+        if (suits.has(`${m[1]}\u0000${m[2]}`)) { continue; }
+        lint.add('warning', 'tried', `${id} waits on tried(${m[1]}, ${m[2]}), a try ${m[1]} is never offered: `
+          + `give it \`Tries ${m[2]}.\``);
       }
     }
   }

@@ -184,6 +184,8 @@ describe('a stranger who pays in old coin', () => {
     expect(Town.said(await Town.act(s, /to read the stones$/))).toContain('The old kingdom built this');
     expect(s.campaign.world.test(ModuleWriter.call('knows', 'party', 'oldcoin__history'))).toBe(true);
     expect(PlayerView.choices(s.campaign).some(c => / to join the company$/.test(c.choice.name))).toBe(true);
+    // Kept faith with, the stones say where the old kingdom's tithe was kept, and it is there to take.
+    expect(PlayerView.choices(s.campaign).some(c => /jar of old coin/.test(c.choice.name))).toBe(true);
   }, 60000);
 });
 
