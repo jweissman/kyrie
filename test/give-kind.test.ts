@@ -11,7 +11,8 @@ describe('giving a kind of thing', () => {
       'gk/site.kyr': `Module gk "Gift" { Place field "Field" is wilderness.
         Place yard "the yard" is room within field at 0, 0. Company party "You" of 1 at yard.
         Kind keepsake_kind "a carved keepsake" is gear worth 1 weighing 0 described "A little carved bird.".
-        Action thank(actor: group, site: place) "Be thanked" { Requires at(actor, site). On success { Give keepsake_kind to actor. } } }`,
+        Action thank(actor: group, site: place) "Be thanked" { Requires at(actor, site). On success { Give keepsake_kind to actor. } }
+        Action stock(actor: group, site: place) "Be stocked" { Requires at(actor, site). On success { Give 3 torch to actor. } } }`,
       'gk/module.json': JSON.stringify({ version: 1, source: 'site.kyr', rules: ['world'], globals: ['party'],
         exports: { party: 'party' } }),
       'gk.campaign.json': JSON.stringify({ version: 1, name: 'gk', modules: [{ id: 'p', bundle: 'gk/module.json' }],
@@ -21,5 +22,8 @@ describe('giving a kind of thing', () => {
     await s.perform('p__thank(party,p__yard)');
     const kept = s.campaign.readout.creatures[0]!.state.inventory!.filter(i => /keepsake/.test(i.definition));
     expect(kept.length).toBe(2);
+    // As many as are given at once, of a kind of the catalog too (a priest's two draughts had been one).
+    await s.perform('p__stock(party,p__yard)');
+    expect(s.campaign.readout.creatures[0]!.state.inventory!.filter(i => i.definition === 'torch').length).toBe(4);
   }, 60000);
 });

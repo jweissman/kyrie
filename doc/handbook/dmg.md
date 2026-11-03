@@ -92,7 +92,7 @@ Also kept, without comment: itemKind, ownedItem, wearing, forSale, soldBy, weara
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 2 | 28 | 11 | 2 | 9 | 19 |
+| 2 | 28 | 12 | 2 | 9 | 19 |
 
 #### relieves
 
@@ -111,6 +111,12 @@ What is used by lighting it, on whoever carries it (a torch, a candle); what bur
 *Kyr · relation(entity, group); relation(group, entity)* · `rule:belongings.handed`
 
 A thing handed to a company ("Give coat to party." in what a topic or an action does: a coat held out, a letter out of a lockbox, a casket put in your arms), which the engine puts in the hands of the first of the company who is up, from wherever it lay or whoever had it; and one of a kind the company gives up ("Spend weight_stone from actor."), from whichever of it carries one, or a particular thing it gives up by its own name ("Spend nan_ribbon from party.": the Lull's friction F5). Each is done once, and forgotten.
+
+#### gifts
+
+*Kyr · measure(entity, group)* · `rule:belongings.gifts`
+
+As many of a kind given at once (Give 2 lamp_oil to actor): counted, and made, and the count cleared.
 
 #### worth, dealerPays, buysValuables, realized
 

@@ -27,20 +27,47 @@ class Town {
 }
 
 describe('under the town the company begins in', () => {
-  it('is posted on the green, and the rats under the corn-store are paid for once they are dealt with', async () => {
+  // Each trouble is the job of whoever is troubled by it, whose key opens the way down; under it is the cause as well
+  // as the trouble; and what is said on coming back names what was done, and is paid for in what a company going down
+  // needs (the owner, 3 November: done without a word to anyone, "it is done", one fight, coin).
+  it('is posted on the green; the rats are the merchant\'s, behind a locked door, and come up a run to be stopped', async () => {
     const s = await Town.start(), c = s.campaign;
-    // Nailed up on the green: read, the three troubles are aims, each saying who pays.
     await Town.take(s, /^Read the notice on the well-post/);
-    expect(ScreenModel.build(c).objectives.join(' ')).toContain('Clear the rats out from under the old corn-store');
-    expect(ScreenModel.build(c).objectives.join(' ')).toContain('will give fifteen coin');
+    const aims = () => ScreenModel.build(c).objectives.join(' ');
+    expect(aims()).toContain('Ask Falkor about the rats in the corn-store at Newmeet: the corn-store is locked');
+    // Locked until asked.
+    expect(PlayerView.choices(c).some(x => /^Take the corn-store door/.test(x.choice.name))).toBe(false);
     await Town.take(s, /^Take Falkor's door/, /^Ask .* about the rats/);
     await Town.take(s, /^Take Falkor's door/, /^Take the corn-store door/, /^Take the trapdoor/, /^Light a torch/,
       /^Take a hole gnawed/, /^Attack the rats/);
     expect(c.world.test(ModuleWriter.call('able', 'region__s1_u_rats'))).toBe(false);
+    expect(aims()).toContain('Stop the rats\' run from the drain');
+    await Town.take(s, /^Pack the rats' run/);
     const before = ScreenModel.build(c).purse.coin;
     await Town.take(s, /^Take a hole gnawed/, /^Take the trapdoor/, /^Take the corn-store door/, /^Take Falkor's door/);
-    expect(await Town.take(s, /^Tell .* it is done/)).toContain('counts out 10 coin');
+    expect(await Town.take(s, /^Tell Falkor the rats under the corn-store are dead, and their run/))
+      .toContain('a lantern and two flasks of oil');
     expect(ScreenModel.build(c).purse.coin).toBe(before + 10);
+    const kit = c.readout.creatures[0]!.state.inventory!.map(i => i.definition);
+    expect([kit.filter(k => k === 'lantern').length, kit.filter(k => k === 'lamp_oil').length]).toEqual([1, 2]);
+  }, 120000);
+  it('has the dead raised by someone, found out by the opened graves and the chalk, and laid by the candle', async () => {
+    const s = await Town.start(), c = s.campaign;
+    await Town.take(s, /^Take the shrine porch/, /^Ask .* about the noises/, /^Take the shrine porch/,
+      /^Take the lych-gate/);
+    expect(c.world.test(ModuleWriter.call('knows', 'party', 'region__s1_u_dead_robbed'))).toBe(true);
+    await Town.take(s, /^Take the stone stair/, /^Light a torch/, /^Take an arch stacked/);
+    expect(c.world.test(ModuleWriter.call('knows', 'party', 'region__s1_u_dead_raised'))).toBe(true);
+    // His dead stand by while he does; he fought and fallen, they would turn on the living, and the candle lays them.
+    await Town.take(s, /^Attack the man with the black candle/);
+    await Town.take(s, /^Pinch out the black candle/);
+    const aims = ScreenModel.build(c).objectives.join(' ');
+    expect(aims).toContain('Tell Carmine the dead are laid and who raised them');
+    await Town.take(s, /^Take an arch stacked/, /^Take the stone stair/, /^Take the lych-gate/, /^Take the shrine porch/);
+    expect(await Town.take(s, /^Tell Carmine the dead under the churchyard are laid, and who raised them/))
+      .toContain('a charm of ashwood');
+    const kit = c.readout.creatures[0]!.state.inventory!.map(i => i.definition);
+    expect([kit.includes('ashwood_charm'), kit.filter(k => k === 'healingdraught').length]).toEqual([true, 2]);
   }, 120000);
   it('joins its three ways down in an undercroft, under which only a search finds the stair to the sealed vault', async () => {
     const s = await Town.start(), c = s.campaign;

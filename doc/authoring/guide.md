@@ -397,7 +397,9 @@ What a topic or an action puts in the company's hands is given in so many words:
 coat to the first of the company who is up, out of whoever had it or from wherever it lay, and the page says "You take
 Davy's red coat." Nothing need be set on the floor to be taken (What Tessary Owes' W3, the Banns at Hessel's 14).
 A kind given (`Give keepsake_kind to actor.`) is a new one of that kind, each time: a gift, a playbill, a loaf, with
-nothing parked in a room to be found first.
+nothing parked in a room to be found first; any kind of the catalog too (`Give lantern to actor.`), and as many as
+are said (`Give 2 healingdraught to actor.`). What is given is held: `holding(actor, crypt_key)` holds of it, and a
+way `needing crypt_key` opens to it, so a job's key can be given with the job (the town's troubles).
 `Spend weight_stone from actor.` gives up one thing of that kind, whichever of the company carries it, and
 `holding(actor, weight_stone)` in a requirement says it has one to give (Low Water's 6, which had a pan and a rule on
 what was put in it). Named by its own id, `Spend nan_ribbon from party.` gives up that particular thing and no other of

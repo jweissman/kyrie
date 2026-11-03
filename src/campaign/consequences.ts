@@ -37,13 +37,18 @@ export class Consequences {
   // Water's pan took a weight-stone only by a container and a rule on what was put in it.
   static hand(host: TickHost, combat: CombatEvent[]): boolean {
     const world = host.world, handed = world.related('handed'), spent = world.related('usesUp');
-    if (!handed.length && !spent.length) { return false; }
+    const counted = world.module.measures.some(m => m.name === 'gifts')
+      ? world.measured('gifts').filter(m => m.value > 0) : [];
+    if (!handed.length && !spent.length && !counted.length) { return false; }
     const { definition, creatures } = host.tickState, changes = [...handed, ...spent].map(r => this.retract(r));
-    for (const [given, group] of handed.map(r => r.args as [string, string])) {
+    changes.push(...counted.map(m => ({ kind: 'set' as const, call: m.call, value: ModuleWriter.number(0) })));
+    const gifts = [...handed.map(r => r.args as [string, string]),
+      ...counted.flatMap(m => Array.from({ length: m.value }, () => m.call.args as [string, string]))];
+    for (const [given, group] of gifts) {
       const members = definition.actors.find(a => a.id === group)?.members ?? [];
       // A kind given is a new one of it (Give wonders_list_kind to actor: the circus's friction 13, Half the Hive's 5,
       // the Third Night's 16), with nothing to park in a room first.
-      const made = this.made(world, given, creatures), item = made?.id ?? given;
+      const made = this.made(world, given, creatures, changes), item = made?.id ?? given;
       const kind = made?.kind ?? world.one('itemKind', item), taker = members.find(id => this.up(creatures.get(id)));
       const owner = creatures.snapshot.find(c => c.state.inventory?.some(i => i.id === item))?.id;
       if (!kind || !taker || (owner && members.includes(owner))) { continue; }
@@ -51,6 +56,9 @@ export class Consequences {
         : ObservationText.label(world, item);
       combat.push(...owner ? Items.transfer(creatures, { id: item, label }, owner, taker)
         : Items.take(creatures, taker, { id: item, definition: kind, label }));
+      // A thing made as it is given is a thing of the world as a kit's is, of its kind: held, it opens what needs its
+      // kind (a key given with a job had opened nothing: the owner's town quests, 3 November).
+      if (made) { this.make(world, made.id, label); changes.push(this.fact('itemKind', made.id, kind)); }
       changes.push(...[...world.related('at', item), ...world.related('inside', item)].map(r => this.retract(r)));
     }
     for (const [group, what] of spent.map(r => r.args as [string, string])) {
@@ -62,10 +70,19 @@ export class Consequences {
     host.refreshProjection();
     return true;
   }
+  private static make(world: World, id: string, name: string) {
+    if (!world.module.entities.some(e => e.id === id)) { world.module.entities.push({ id, type: 'item', name }); }
+  }
+  private static fact(name: string, ...args: string[]): Change {
+    return { kind: 'assert', call: ModuleWriter.call(name, ...args) };
+  }
   // A new one of a kind given, named for its kind, with an id of its own.
-  private static made(world: World, given: string, creatures: { snapshot: Creature[] }) {
+  // Two of a kind given at once are two (a priest's two draughts had been one): the ids made already in this giving,
+  // whose kinds are among its changes, are taken too.
+  private static made(world: World, given: string, creatures: { snapshot: Creature[] }, changes: Change[]) {
     if (world.module.entities.find(e => e.id === given)?.type !== 'itemkind') { return undefined; }
-    const ids = new Set(creatures.snapshot.flatMap(c => (c.state.inventory ?? []).map(i => i.id)));
+    const ids = new Set([...creatures.snapshot.flatMap(c => (c.state.inventory ?? []).map(i => i.id)),
+      ...changes.filter(c => c.kind === 'assert' && c.call.name === 'itemKind').map(c => c.call.args[0]!)]);
     let n = 1;
     while (ids.has(`${given}_given${n}`)) { n++; }
     return { id: `${given}_given${n}`, kind: given };

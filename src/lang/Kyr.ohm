@@ -189,7 +189,9 @@ Kyr {
   ChangeStatement = Change "."
   Change = Assert | Retract | Set | Increase | Lessen | Decrease | Give | Spend
   Assert = "Assert" Call
-  Give = "Give" term "to" term
+  Give = "Give" GiveWhat "to" term
+  // How many of a kind (Give 2 lamp_oil to actor), or one thing or one of a kind.
+  GiveWhat = integer? term
   Spend = "Spend" term "from" term
   Retract = "Retract" Call
   Set = "Set" Call "to" Value

@@ -36,6 +36,18 @@ export class WorldConstructs {
   private static entity(module: Module, id: string, type: string, name: string) {
     if (!module.entities.some(e => e.id === id)) { module.entities.push({ id, type, name }); }
   }
+  // A kind of the catalog a module gives or spends (`Give lantern to actor.`) is a kind it names, as an Item of it
+  // would name it: given by kind, it had been no entity of the module's, and refused (the owner's town quests,
+  // 3 November, paying in lanterns and draughts).
+  static given(module: Module) {
+    const changes = [...module.initial, ...module.actions.flatMap(a => [...a.success, ...a.failure]),
+      ...(module.rules ?? []).flatMap(r => r.effects)];
+    for (const c of changes.filter(x => ['assert', 'increase'].includes(x.kind)
+      && ['handed', 'usesUp', 'gifts'].includes(x.call.name))) {
+      const kind = c.call.args[c.call.name === 'usesUp' ? 1 : 0]!, known = ItemCatalog.definitions[kind]?.name;
+      if (known && !module.entities.some(e => e.id === kind)) { this.entity(module, kind, 'itemkind', known); }
+    }
+  }
   static readonly quick: Record<string, number> = { door: 1, doorway: 1, arch: 1, gate: 1, stair: 2, steps: 2,
     ladder: 2 };
   static passage(module: Module, p: PassageSpec) {

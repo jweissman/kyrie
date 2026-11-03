@@ -14,6 +14,8 @@ Module belongings "What the company carries" {
   // actor."), from whichever of it carries one, or a particular thing it gives up by its own name ("Spend nan_ribbon
   // from party.": the Lull's friction F5). Each is done once, and forgotten.
   Relation handed(entity, group). Relation usesUp(group, entity).
+  // As many of a kind given at once (Give 2 lamp_oil to actor): counted, and made, and the count cleared.
+  Measure gifts(entity, group).
   Relation canTrain(member, ability). Relation teaches(group, ability).
   Relation proficient(member, itemkind).
   Relation wants(group, itemkind). Measure pays(group, itemkind).

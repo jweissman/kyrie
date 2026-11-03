@@ -32,8 +32,16 @@ export class StatementParser {
   static Retract(_retract: Node, call: Node) { return { kind: 'retract', call: ModuleParser.ast(call) }; }
   // "Give coat to party.": a thing put in the company's hands, by whoever has it, and "Spend weight_stone from actor.":
   // one of a kind it carries, given up. The engine does both (Consequences.hand), and forgets that it was asked to.
-  static Give(_give: Node, item: Node, _to: Node, group: Node) {
-    return { kind: 'assert', call: { kind: 'call', name: 'handed', args: [item.sourceString, group.sourceString] } };
+  // "Give 2 lamp_oil to actor.": as many of a kind, counted in gifts, since a fact asserted twice is one (a priest's
+  // two draughts had been one).
+  static Give(_give: Node, what: Node, _to: Node, group: Node) {
+    const { count, item } = ModuleParser.ast(what) as { count: number; item: string };
+    return count > 1 ? { kind: 'increase', call: { kind: 'call', name: 'gifts', args: [item, group.sourceString] },
+      value: { kind: 'number', value: count } }
+      : { kind: 'assert', call: { kind: 'call', name: 'handed', args: [item, group.sourceString] } };
+  }
+  static GiveWhat(count: Node, item: Node) {
+    return { count: count.children.length ? Number(count.sourceString) : 1, item: item.sourceString };
   }
   static Spend(_spend: Node, kind: Node, _from: Node, group: Node) {
     return { kind: 'assert', call: { kind: 'call', name: 'usesUp', args: [group.sourceString, kind.sourceString] } };

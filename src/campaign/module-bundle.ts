@@ -1,5 +1,6 @@
 import type { DeemValue } from 'deem';
 import { RoleRequirements, type RoleContract } from './role-requirements';
+import { WorldConstructs } from '../lang/world-constructs';
 import { LocalKinds } from '../canon/local-catalog';
 import { RandomStreams } from '../random-streams';
 import { Content } from '../content';
@@ -136,6 +137,11 @@ export class ModuleBundle {
   // for itself as it is read (a way's kind, a thing's state) is declared once; anything else declared twice is still
   // an error.
   private static merge(modules: Module[]): Module {
+    const merged = this.joined(modules);
+    WorldConstructs.given(merged);
+    return merged;
+  }
+  private static joined(modules: Module[]): Module {
     const seen = new Set<string>(), entities = modules.flatMap(m => m.entities)
       .filter(e => seen.size < seen.add(`${e.id}\u0000${JSON.stringify(e)}`).size);
     const company = modules.find(m => m.company)?.company;

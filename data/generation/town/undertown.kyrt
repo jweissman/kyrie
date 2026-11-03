@@ -6,9 +6,14 @@
 // lines are what is said of it on the notice on the green. Add an option to add a trouble; nothing in the engine
 // needs to change.
 --- base
-  Relation {t}_u_paid(entity).
+  Relation {t}_u_paid(entity). Relation {t}_u_done(entity). Relation {t}_u_given(entity).
   Place {t}_u_store "the old corn-store" is room within {t} at 0, 1 indoors.
-  Passage {t}_u_store_door "the corn-store door" is door between {t}_green and {t}_u_store.
+  // Each way down is locked or barred by whoever is troubled by what is under it, and given by them with the job: the
+  // troubles had been done without a word to anyone, and paid for after (the owner, 3 November).
+  Kind corn_store_key "the corn-store key" like cell_key described "A heavy iron key on a loop of string, with the corn-store's mark burned into its wooden tag.".
+  Kind crypt_key "the crypt key" like cell_key described "A long black key, worn smooth, for the stone door into the catacombs under the churchyard.".
+  Kind quarry_key "the key to the quarry gate" like cell_key described "A small brass padlock key, for the gate the inn put across the old quarry's adit.".
+  Passage {t}_u_store_door "the corn-store door" is door between {t}_green and {t}_u_store needing corn_store_key.
   Place {t}_u_yard "the churchyard" is room within {t} at 1, 2 outdoors.
   Passage {t}_u_yard_gate "the lych-gate" is gate between {t}_green and {t}_u_yard.
   Place {t}_u_pit "the old quarry pit" is room within {t} at 2, 2 outdoors.
@@ -18,69 +23,160 @@
   Place {t}_u_warren "the rat-runs" is room within {t} at 0, 4 underground.
   Passage {t}_u_runs "a hole gnawed through the cellar wall" is crawl between {t}_u_cellar and {t}_u_warren.
   Place {t}_u_crypt "the crypt" is room within {t} at 1, 3 underground.
-  Passage {t}_u_crypt_stair "the stone stair under the churchyard" is stair between {t}_u_yard and {t}_u_crypt.
+  Passage {t}_u_crypt_stair "the stone stair under the churchyard" is stair between {t}_u_yard and {t}_u_crypt needing crypt_key.
   Place {t}_u_ossuary "the ossuary" is room within {t} at 1, 4 underground.
   Passage {t}_u_bone_arch "an arch stacked round with skulls" is arch between {t}_u_crypt and {t}_u_ossuary.
   Place {t}_u_adit "the quarry adit" is room within {t} at 2, 3 underground.
-  Passage {t}_u_adit_mouth "the roped adit" is passage between {t}_u_pit and {t}_u_adit.
+  Passage {t}_u_adit_mouth "the gated adit" is passage between {t}_u_pit and {t}_u_adit needing quarry_key.
   Place {t}_u_gallery "the cut gallery" is room within {t} at 2, 4 underground.
   Passage {t}_u_gallery_way "the old cutting" is passage between {t}_u_adit and {t}_u_gallery.
   Initially Assert unlit({t}_u_cellar). Initially Assert unlit({t}_u_warren). Initially Assert unlit({t}_u_crypt).
   Initially Assert unlit({t}_u_ossuary). Initially Assert unlit({t}_u_adit). Initially Assert unlit({t}_u_gallery).
 --- store rats
+  // The rats: the corn-store is locked and its key is the merchant's, given with the job; under it they come up by a
+  // run from the old drain, which stopped keeps them out for good; told it, the merchant pays in what a company going
+  // down needs as well as coin (the owner, 3 November: deeper than one fight and "it is done").
   Observe {t}_u_store_scene at {t}_u_store as fixture when true "Sacks stacked to the rafters, and the smell of mice; a trapdoor in the floor with a sack of grain weighting it down, and gnawed holes along the foot of every wall.".
   Person {t}_u_rats "the rats under the corn-store" at {t}_u_warren {
     Role "rats as big as cats, that have eaten their way into the corn-store from below". Species rat. Numbers 4. Level 1. Temperament territorial. Lair {t}_u_warren.
   }
   Initially Set encounterXp({t}_u_rats) to 15.
   Entity {t}_u_rats_job: fact "Clear the rats out from under the old corn-store at {town}.".
-  Topic {t}_u_rats_job_ask with {t}_merchant "Ask {{t}_merchant} about the rats in the corn-store" when able({t}_u_rats) once {
-    Says "'They've got into the old corn-store from underneath,' says {{t}_merchant}. 'Rats the size of cats. I've lost a third of the grain. Ten coin to whoever clears them out: there's a trapdoor in the floor.'".
-    On discuss { Assert knows(actor, {t}_u_rats_job). }
+  Entity {t}_u_rats_source: fact "The rats come up into the cellar by a run of their own from the old drain below.".
+  Topic {t}_u_rats_job_ask with {t}_merchant "Ask {{t}_merchant} about the rats in the corn-store" when not {t}_u_given({t}_u_rats_job) once {
+    Says "'They've got into the old corn-store from underneath,' says {{t}_merchant}. 'Rats the size of cats. I've lost a third of the grain.' A key comes off a nail behind the counter. 'There's a trapdoor in the floor. Kill them, and find where they're getting in, or they'll be back by harvest. Ten coin, and I'll see you right for a lantern besides.'".
+    On discuss { Assert knows(actor, {t}_u_rats_job). Assert {t}_u_given({t}_u_rats_job). Give corn_store_key to actor. }
   }
-  Objective {t}_u_rats_job_aim when (knows(party, {t}_u_rats_job) or knows(party, {t}_u_notice)) and able({t}_u_rats) "Clear the rats out from under {{t}_u_store} at {town}; {{t}_merchant} will pay ten coin.".
-  Topic {t}_u_rats_job_paid with {t}_merchant "Tell {{t}_merchant} it is done" when (knows(actor, {t}_u_rats_job) or knows(actor, {t}_u_notice)) and not able({t}_u_rats) once {
-    Says "{{t}_merchant} counts out 10 coin into your hand. 'I did not think anyone would. Thank you.'".
-    On discuss { Increase quantity(actor, gold) by 10. Assert {t}_u_paid({t}_u_rats_job). }
+  Observe {t}_u_rats_run_seen at {t}_u_warren as sign when not knows(party, {t}_u_rats_source) "Along the back wall of the runs the rats have worn a path to a hole in older brickwork, and out of it comes the smell of the drain." teaches {t}_u_rats_source.
+  Thing {t}_u_rats_run "the rats' run from the drain" at {t}_u_warren {
+    State open "A hole in the old brickwork, worn smooth by the rats' coming and going, breathes the smell of the drain.".
+    State stopped "The rats' run is packed with broken brick and rubble, wedged hard.".
+    Change stop "Pack the rats' run with brick and rubble" from open to stopped.
   }
-  Objective {t}_u_rats_job_owed when (knows(party, {t}_u_rats_job) or knows(party, {t}_u_notice)) and not able({t}_u_rats) and not {t}_u_paid({t}_u_rats_job) "It is done; {{t}_merchant} will pay ten coin for it, at {{merchantat}}.".
->> 'RATS in the old corn-store, as big as cats. Ten coin. Ask {{t}_merchant}.'
+  Rule {t}_u_rats_cleared when not able({t}_u_rats) and not {t}_u_done({t}_u_rats_job) { Assert {t}_u_done({t}_u_rats_job). }
+  Objective {t}_u_rats_job_sought when knows(party, {t}_u_notice) and not {t}_u_given({t}_u_rats_job) "Ask {{t}_merchant} about the rats in the corn-store at {town}: the corn-store is locked.".
+  Objective {t}_u_rats_job_aim when {t}_u_given({t}_u_rats_job) and not {t}_u_done({t}_u_rats_job) "Clear the rats out from under {{t}_u_store} at {town}, and find where they get in.".
+  Objective {t}_u_rats_job_run when {t}_u_done({t}_u_rats_job) and state({t}_u_rats_run, open) and knows(party, {t}_u_rats_source) and not {t}_u_paid({t}_u_rats_job) "Stop the rats' run from the drain, under {{t}_u_store}, or they will be back.".
+  Topic {t}_u_rats_job_paid with {t}_merchant "Tell {{t}_merchant} the rats under the corn-store are dead, and their run from the drain stopped" when {t}_u_done({t}_u_rats_job) and state({t}_u_rats_run, stopped) and not {t}_u_paid({t}_u_rats_job) once {
+    Says "{{t}_merchant} goes down to look, and comes back up with dust on both knees and a different face. Ten coin are counted out, and a lantern and two flasks of oil set on the counter beside them. 'You'll want light where you're going,' says {{t}_merchant}. 'Anyone who goes down there does.'".
+    On discuss { Increase quantity(actor, gold) by 10. Give lantern to actor. Give 2 lamp_oil to actor. Assert {t}_u_paid({t}_u_rats_job). }
+  }
+  Topic {t}_u_rats_job_half with {t}_merchant "Tell {{t}_merchant} the rats under the corn-store are dead" when {t}_u_done({t}_u_rats_job) and state({t}_u_rats_run, open) and not {t}_u_paid({t}_u_rats_job) once {
+    Says "'Dead,' says {{t}_merchant}, 'and the rest of them coming up the same way they came, I don't doubt.' Six coin are counted out. 'Find where they get in and stop it, and you'll have the other four, and the lantern.'".
+    On discuss { Increase quantity(actor, gold) by 6. }
+  }
+  Objective {t}_u_rats_job_owed when {t}_u_done({t}_u_rats_job) and state({t}_u_rats_run, stopped) and not {t}_u_paid({t}_u_rats_job) "Tell {{t}_merchant} the rats are dead and their run stopped, at {{merchantat}}: ten coin and a lantern.".
+>> 'RATS in the old corn-store, as big as cats. Ten coin, and a lantern. Ask {{t}_merchant} for the key.'
 --- yard dead
+  // The dead: they have not come up of themselves. Someone has been opening graves by night and raising what was in
+  // them with a black candle in the ossuary; the churchyard, the crypt and the lodger at the inn say so to whoever
+  // looks, and the dead lie down again when the candle is out, by a fight or by words (the owner, 3 November: the
+  // dead had come with no hint of why, and nothing to find out).
   Observe {t}_u_yard_scene at {t}_u_yard as fixture when true "Old stones leaning in the grass, and in the corner by the wall a low stone door into the ground, its iron ring bright where someone has pulled at it lately.".
+  Entity {t}_u_dead_robbed: fact "Someone has been opening graves in the churchyard by night, and going down into the catacombs.".
+  Entity {t}_u_dead_raised: fact "The dead under the churchyard have been raised: a ring of chalk, and the ends of black candles, are on the crypt floor.".
+  Entity {t}_u_dead_lodger: fact "A man lodging at the inn goes out after dark, and comes back before light with grave-dirt on his boots.".
+  Observe {t}_u_yard_graves at {t}_u_yard as sign when not knows(party, {t}_u_dead_robbed) "Three graves by the wall have been dug into and filled again badly, and the grass is trodden flat from them to the stone door." teaches {t}_u_dead_robbed.
+  Observe {t}_u_crypt_circle at {t}_u_crypt as sign when not knows(party, {t}_u_dead_raised) "On the crypt floor is a ring of chalk with marks round it, and inside it the ends of black candles, burned to the floor." teaches {t}_u_dead_raised.
   Person {t}_u_dead "the hungry dead of the ossuary" at {t}_u_ossuary {
-    Role "dead things that have come up out of the bone-heaps hungry". Species ghoul. Numbers 2. Level 1. Lair {t}_u_ossuary.
+    Role "dead things raised out of the bone-heaps, hungry". Species ghoul. Numbers 2. Level 1. Temperament territorial. Lair {t}_u_ossuary.
   }
+  Initially Assert tolerates({t}_u_dead, party).
   Initially Set encounterXp({t}_u_dead) to 25.
+  Person {t}_u_raiser "the man with the black candle" at {t}_u_ossuary {
+    Role "a grave-robber who has read a book he should not have, and is trying what it says". Ancestry human. Calling mage. Level 3. Temperament defensive. Lair {t}_u_ossuary. Pronouns he.
+    Warns "A man in a muddy coat stands up behind a burning black candle, among the bones. 'Go back up,' he says. 'This is not yours.'".
+  }
+  Initially Set encounterXp({t}_u_raiser) to 30.
+  Thing {t}_u_candle "the black candle" at {t}_u_ossuary {
+    State alight "A black candle burns on a skull in the middle of the bone-heaps, with a flame that does not move.".
+    State snuffed "The black candle is out, and smells of something worse than tallow.".
+    Change pinch "Pinch out the black candle" from alight to snuffed.
+  }
   Entity {t}_u_dead_job: fact "Lay whatever has come up in the catacombs under the churchyard at {town}.".
-  Topic {t}_u_dead_job_ask with {t}_priest "Ask {{t}_priest} about the noises under the churchyard" when able({t}_u_dead) once {
-    Says "{{t}_priest} looks at the floor. 'The catacombs. Something has come up out of the bone-heaps, and the old stair is the only way down. I cannot ask anyone to go. I will give fifteen coin to anyone who does.'".
-    On discuss { Assert knows(actor, {t}_u_dead_job). }
+  Topic {t}_u_dead_job_ask with {t}_priest "Ask {{t}_priest} about the noises under the churchyard" when not {t}_u_given({t}_u_dead_job) once {
+    Says "{{t}_priest} looks at the floor. 'The catacombs. Something has come up out of the bone-heaps, and there have been lights in the churchyard at night that were not mine.' The crypt key is unhooked from a belt. 'I cannot ask anyone to go. If you will, lay them, and find out who is doing it. Fifteen coin, and what the shrine can give besides.'".
+    On discuss { Assert knows(actor, {t}_u_dead_job). Assert {t}_u_given({t}_u_dead_job). Give crypt_key to actor. }
   }
-  Objective {t}_u_dead_job_aim when (knows(party, {t}_u_dead_job) or knows(party, {t}_u_notice)) and able({t}_u_dead) "Lay whatever has come up in the catacombs under {{t}_u_yard} at {town}; {{t}_priest} will give fifteen coin.".
-  Topic {t}_u_dead_job_paid with {t}_priest "Tell {{t}_priest} it is done" when (knows(actor, {t}_u_dead_job) or knows(actor, {t}_u_notice)) and not able({t}_u_dead) once {
-    Says "{{t}_priest} counts out 15 coin into your hand. 'I did not think anyone would. Thank you.'".
-    On discuss { Increase quantity(actor, gold) by 15. Assert {t}_u_paid({t}_u_dead_job). }
+  Topic {t}_u_dead_lodger_ask with {t}_innkeeper "Ask {{t}_innkeeper} who goes out at night" when knows(actor, {t}_u_dead_robbed) and not knows(actor, {t}_u_dead_lodger) once {
+    Says "{{t}_innkeeper} wipes the same place on the counter twice. 'There's a man in the back room, been here a fortnight, pays in old coin. Goes out after dark and comes in before light, and there's grave-dirt on his boots that I scrub off the step.'".
+    On discuss { Assert knows(actor, {t}_u_dead_lodger). }
   }
-  Objective {t}_u_dead_job_owed when (knows(party, {t}_u_dead_job) or knows(party, {t}_u_notice)) and not able({t}_u_dead) and not {t}_u_paid({t}_u_dead_job) "It is done; {{t}_priest} will pay fifteen coin for it, at {{priestat}}.".
->> 'Whoever will go down into the catacombs under the churchyard, where something has come up: fifteen coin. Ask {{t}_priest}.'
+  Action {t}_u_raiser_talked(actor: group, site: place) "Tell the man with the black candle the town knows what he has done, and that it ends now" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {t}_u_ossuary) and at({t}_u_raiser, {t}_u_ossuary) and able({t}_u_raiser) and knows(actor, {t}_u_dead_raised) and state({t}_u_candle, alight).
+    Time 0.
+    Resolve check(actor, intimidation, dc_fair).
+    On success { Assert state({t}_u_candle, snuffed). Retract state({t}_u_candle, alight). Retract at({t}_u_raiser, {t}_u_ossuary). Assert {t}_u_done({t}_u_raiser). }
+    Result "He looks at you a long time over the flame, and then at the dead. Then he wets his fingers and pinches the candle out, and goes past you up the stair without a word, and out of {town} before morning. The book he leaves on the bones.".
+    Otherwise "'They'll hang me whether I stop or not,' he says, and lifts the candle higher. The dead turn their heads.".
+  }
+  // His while he stands, and only bones once the candle is out: with him gone and it still burning they are no one's,
+  // and turn on the living, warning first, so there is a moment to pinch it out.
+  Rule {t}_u_dead_masterless when not at({t}_u_raiser, {t}_u_ossuary) and state({t}_u_candle, alight) and tolerates({t}_u_dead, party) says "With no one to hold them, the dead turn their heads toward the living." { Retract tolerates({t}_u_dead, party). }
+  Rule {t}_u_dead_masterless_fallen when not able({t}_u_raiser) and state({t}_u_candle, alight) and tolerates({t}_u_dead, party) says "With no one to hold them, the dead turn their heads toward the living." { Retract tolerates({t}_u_dead, party). }
+  Rule {t}_u_dead_lie when state({t}_u_candle, snuffed) and at({t}_u_dead, {t}_u_ossuary) and able({t}_u_dead) says "With the candle out, the dead fold down into the bone-heaps like coats let fall, and are only bones again." { Retract at({t}_u_dead, {t}_u_ossuary). Assert {t}_u_done({t}_u_dead_job). }
+  Rule {t}_u_dead_cleared when not able({t}_u_dead) and not {t}_u_done({t}_u_dead_job) { Assert {t}_u_done({t}_u_dead_job). }
+  Rule {t}_u_raiser_ended when not able({t}_u_raiser) and not {t}_u_done({t}_u_raiser) { Assert {t}_u_done({t}_u_raiser). }
+  Objective {t}_u_dead_job_sought when knows(party, {t}_u_notice) and not {t}_u_given({t}_u_dead_job) "Ask {{t}_priest} about what has come up under the churchyard at {town}: the crypt is locked.".
+  Objective {t}_u_dead_job_aim when {t}_u_given({t}_u_dead_job) and not {t}_u_done({t}_u_dead_job) "Lay the dead under {{t}_u_yard} at {town}, and find out who raised them.".
+  Topic {t}_u_dead_job_paid with {t}_priest "Tell {{t}_priest} the dead under the churchyard are laid, and who raised them" when {t}_u_done({t}_u_dead_job) and {t}_u_done({t}_u_raiser) and not {t}_u_paid({t}_u_dead_job) once {
+    Says "{{t}_priest} hears it all with eyes shut, and at the end says the names of the three in the opened graves, one after another. Then 15 coin, and from the shrine's own chest a charm of ashwood and bronze wire, and two small stoppered bottles. 'The charm was made for those who go among the dead,' {{t}_priest} says. 'The bottles are for after.'".
+    On discuss { Increase quantity(actor, gold) by 15. Give ashwood_charm to actor. Give 2 healingdraught to actor. Assert {t}_u_paid({t}_u_dead_job). }
+  }
+  Topic {t}_u_dead_job_half with {t}_priest "Tell {{t}_priest} the dead under the churchyard are laid" when {t}_u_done({t}_u_dead_job) and not {t}_u_done({t}_u_raiser) and not {t}_u_paid({t}_u_dead_job) once {
+    Says "'Laid,' says {{t}_priest}, 'until whoever raised them comes back with another candle.' Ten coin. 'Find who it is, and the rest is yours, and more.'".
+    On discuss { Increase quantity(actor, gold) by 10. }
+  }
+  Objective {t}_u_dead_job_owed when {t}_u_done({t}_u_dead_job) and {t}_u_done({t}_u_raiser) and not {t}_u_paid({t}_u_dead_job) "Tell {{t}_priest} the dead are laid and who raised them, at {{priestat}}: fifteen coin, and what the shrine can give.".
+>> 'Whoever will go down into the catacombs under the churchyard, where something has come up: fifteen coin, and the shrine's thanks. Ask {{t}_priest}.'
 --- pit spiders
-  Observe {t}_u_pit_scene at {t}_u_pit as fixture when true "A bowl of grey stone cut out of the hill long ago, ivy over its faces; at the bottom, a square adit goes back into the rock, roped across, and a board on the rope says KEEP OUT in three hands.".
+  // The spiders: the quarry's gate is the inn's, given with the job; the Hobb boy who went in after his ferret saw the
+  // mother at the back and dropped his father's knife; the spiders dead and their egg-sacs burned, the inn pays in what
+  // a company going on needs, and the knife given back is the Hobbs' to repay.
+  Observe {t}_u_pit_scene at {t}_u_pit as fixture when true "A bowl of grey stone cut out of the hill long ago, ivy over its faces; at the bottom, a square adit goes back into the rock behind a barred gate, and a board on the gate says KEEP OUT in three hands.".
   Person {t}_u_spiders "the spiders in the old workings" at {t}_u_gallery {
-    Role "cave spiders the size of dogs, that have strung the old workings with web". Species cave_spider. Numbers 2. Level 1. Lair {t}_u_gallery.
+    Role "cave spiders the size of dogs, that have strung the old workings with web". Species cave_spider. Numbers 2. Level 1. Temperament territorial. Lair {t}_u_gallery.
   }
   Initially Set encounterXp({t}_u_spiders) to 20.
+  Person {t}_u_hobb "Dannel Hobb" at {innkeeperat} { Role "a boy of ten with a white streak in his hair, kept indoors". Ancestry human. Peaceable. Pronouns he. }
   Entity {t}_u_spiders_job: fact "Burn the spiders out of the old quarry's workings at {town}.".
-  Topic {t}_u_spiders_job_ask with {t}_innkeeper "Ask {{t}_innkeeper} about the old quarry" when able({t}_u_spiders) once {
-    Says "'Nobody goes in the old quarry now,' says {{t}_innkeeper}. 'There's webs across the adit thick as sailcloth, and the Hobb boy went in after a ferret and came out white. Twelve coin from the house to whoever burns them out.'".
-    On discuss { Assert knows(actor, {t}_u_spiders_job). }
+  Entity {t}_u_spiders_eggs: fact "At the back of the old workings the spiders' mother has hung her eggs: the spiders will come again unless they are burned.".
+  Kind hobb_knife "a bone-handled knife" like dagger worth 2 weighing 1 described "A working man's knife with a bone handle, H burned into it.".
+  Topic {t}_u_spiders_job_ask with {t}_innkeeper "Ask {{t}_innkeeper} about the old quarry" when not {t}_u_given({t}_u_spiders_job) once {
+    Says "'Nobody goes in the old quarry now,' says {{t}_innkeeper}. 'There's webs across the adit thick as sailcloth, and the Hobb boy went in after a ferret and came out white. We put a gate on it.' A small key, put down on the counter. 'Twelve coin from the house to whoever burns them out, and a pot of the salve the firemen use. Talk to the boy first. He saw more than he says.'".
+    On discuss { Assert knows(actor, {t}_u_spiders_job). Assert {t}_u_given({t}_u_spiders_job). Give quarry_key to actor. }
   }
-  Objective {t}_u_spiders_job_aim when (knows(party, {t}_u_spiders_job) or knows(party, {t}_u_notice)) and able({t}_u_spiders) "Burn the spiders out of the workings under {{t}_u_pit} at {town}; {{t}_innkeeper} will pay twelve coin.".
-  Topic {t}_u_spiders_job_paid with {t}_innkeeper "Tell {{t}_innkeeper} it is done" when (knows(actor, {t}_u_spiders_job) or knows(actor, {t}_u_notice)) and not able({t}_u_spiders) once {
-    Says "{{t}_innkeeper} counts out 12 coin into your hand. 'I did not think anyone would. Thank you.'".
-    On discuss { Increase quantity(actor, gold) by 12. Assert {t}_u_paid({t}_u_spiders_job). }
+  Topic {t}_u_hobb_told with {t}_u_hobb "Ask Dannel Hobb what he saw in the old quarry" when knows(actor, {t}_u_spiders_job) and not knows(actor, {t}_u_spiders_eggs) once {
+    Says "The boy looks at the door before he answers. 'There's a big one at the back,' he says. 'Bigger than a dog. And bags. Hanging up, white, like puddings. They was moving.' He swallows. 'I dropped Dad's knife. Don't tell him.'".
+    On discuss { Assert knows(actor, {t}_u_spiders_eggs). }
   }
-  Objective {t}_u_spiders_job_owed when (knows(party, {t}_u_spiders_job) or knows(party, {t}_u_notice)) and not able({t}_u_spiders) and not {t}_u_paid({t}_u_spiders_job) "It is done; {{t}_innkeeper} will pay twelve coin for it, at {{innkeeperat}}.".
->> 'SPIDERS in the old quarry. Twelve coin from the house. Ask {{t}_innkeeper}.'
+  Discovery {t}_u_knife_found "Under the web at the gallery's mouth, a bone-handled knife with an H burned into the handle." {
+    Found by searching {t}_u_gallery "Something under the web at the gallery's mouth catches the light.".
+  }
+  Item {t}_u_knife "a bone-handled knife" is hobb_knife at {t}_u_gallery hidden until {t}_u_knife_found.
+  Thing {t}_u_eggs "the spiders' egg-sacs" at {t}_u_gallery {
+    State hanging "At the back of the gallery white sacs the size of loaves hang from the roof in a cluster, and something in them moves.".
+    State burnt "Where the egg-sacs hung there is a black stain on the roof and a smell of burnt hair.".
+    Change burn "Burn the egg-sacs" from hanging to burnt needing flame.
+  }
+  Rule {t}_u_spiders_cleared when not able({t}_u_spiders) and not {t}_u_done({t}_u_spiders_job) { Assert {t}_u_done({t}_u_spiders_job). }
+  Objective {t}_u_spiders_job_sought when knows(party, {t}_u_notice) and not {t}_u_given({t}_u_spiders_job) "Ask {{t}_innkeeper} about the old quarry at {town}: its gate is locked.".
+  Objective {t}_u_spiders_job_aim when {t}_u_given({t}_u_spiders_job) and not {t}_u_done({t}_u_spiders_job) "Burn the spiders out of the workings under {{t}_u_pit} at {town}.".
+  Objective {t}_u_spiders_job_eggs when {t}_u_done({t}_u_spiders_job) and knows(party, {t}_u_spiders_eggs) and state({t}_u_eggs, hanging) "Burn the egg-sacs at the back of the quarry's gallery, or the spiders will come again.".
+  Topic {t}_u_spiders_job_paid with {t}_innkeeper "Tell {{t}_innkeeper} the spiders in the old quarry are dead, and their eggs burned" when {t}_u_done({t}_u_spiders_job) and state({t}_u_eggs, burnt) and not {t}_u_paid({t}_u_spiders_job) once {
+    Says "{{t}_innkeeper} counts out 12 coin, and sets a clay pot and a coil of good rope beside it. 'Fireman's salve, and the rope from the gate, which we'll not want now,' {{t}_innkeeper} says.".
+    On discuss { Increase quantity(actor, gold) by 12. Give fireproof_salve to actor. Give rope to actor. Assert {t}_u_paid({t}_u_spiders_job). }
+  }
+  Topic {t}_u_spiders_job_half with {t}_innkeeper "Tell {{t}_innkeeper} the spiders in the old quarry are dead" when {t}_u_done({t}_u_spiders_job) and state({t}_u_eggs, hanging) and not {t}_u_paid({t}_u_spiders_job) once {
+    Says "'And the eggs?' says {{t}_innkeeper}, and sees your face. 'Then they'll be back by spring.' Seven coin. 'Burn them and the rest is yours.'".
+    On discuss { Increase quantity(actor, gold) by 7. }
+  }
+  Topic {t}_u_hobb_knife with {t}_u_hobb "Give Dannel Hobb his father's knife back" when holding(actor, hobb_knife) once {
+    Says "The boy takes it in both hands. That evening his mother comes to find you, with a bottle wrapped in a cloth. 'From the boy,' she says. 'It's what I had by me.'".
+    On discuss { Spend hobb_knife from actor. Give healingdraught to actor. }
+  }
+  Objective {t}_u_spiders_job_owed when {t}_u_done({t}_u_spiders_job) and state({t}_u_eggs, burnt) and not {t}_u_paid({t}_u_spiders_job) "Tell {{t}_innkeeper} the spiders are dead and their eggs burned, at {{innkeeperat}}: twelve coin, salve and rope.".
+>> 'SPIDERS in the old quarry. Twelve coin from the house. Ask {{t}_innkeeper} for the gate key.'
 --- below
   Place {t}_u_drain "the old drain" is room within {t} at 0, 5 underground.
   Passage {t}_u_drain_way "a culvert going down" is crawl between {t}_u_warren and {t}_u_drain.
