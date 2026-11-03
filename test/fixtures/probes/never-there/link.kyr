@@ -1,0 +1,6 @@
+Module link "The road across the march" {
+  Place here "Where the road leaves" is room.
+  Place there "Where the road comes in" is room.
+  Passage march "the road across the march" is road between here and there taking 1 hour.
+  Goal false.
+}

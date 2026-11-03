@@ -1,0 +1,5 @@
+{ "version": 1, "name": "Probe: never there",
+  "modules": [ { "id": "home", "bundle": "home.json" },
+    { "id": "city", "bundle": "city.json", "imports": { "party": "home.party" } },
+    { "id": "link", "bundle": "link.json", "imports": { "here": "home.road_out", "there": "city.road_end" } } ],
+  "party": [ { "name": "Ama", "raceId": "human", "classId": "warrior" } ] }

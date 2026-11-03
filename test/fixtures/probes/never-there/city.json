@@ -1,0 +1,1 @@
+{ "version": 1, "source": "city.kyr", "rules": ["world"], "imports": ["party"], "roles": { "party": { "type": "group" } }, "exports": { "road_end": "road_end" } }

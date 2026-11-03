@@ -1,0 +1,8 @@
+Module home "Wending, where the company waits" {
+  Place town "Wending" is settlement.
+  Place green "the green" is room within town at 0, 0 outdoors.
+  Place road_out "the west road out" is room within town at 1, 0 outdoors.
+  Passage lane "the lane west" between green and road_out.
+  Company party "You" of 1 at green.
+  Observe green_scene at green when true "A green with a chained wagon.".
+}

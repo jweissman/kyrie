@@ -1049,7 +1049,12 @@ An ending closes the book. The first whose condition holds is reached once: its 
 stops, and the page closes on its title and epilogue, as it does when no one is left standing
 (`test/fixtures/probes/ending`). That is so of an adventure played on its own; placed in a generated world (as every
 adventure is, a province of the first country) its ending closes its chapter only, and the world goes on: what its
-folk say after (`after` in countries.json) and its aftermath's rules are its dénouement (Fair Weather's 6):
+folk say after (`after` in countries.json) and its aftermath's rules are its dénouement (Fair Weather's 6). What they
+say can follow which way it went: `after.by` gives each way its own `talk` or `told`, told once the module marks that
+way's word stale as well as its `word` (`word_loud`, declared, imported and optional like `word`: Larum's sky loud
+again; the Quiet in the Sky's 4). An ending is reached only by a company that has stood in one of its module's places,
+its own or one it imports: a city's verdict does not end the game of a company that never came to the city (Gosse's
+Company's friction; `test/fixtures/probes/never-there`):
 
 ```text
   Ending opened "The Gate Opens" when state(lever, up) "The gate grinds open on the valley beyond, and the pass is yours.".
