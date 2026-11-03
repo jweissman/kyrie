@@ -1,7 +1,7 @@
 import { Spatial } from '../spatial';
 import { ObservationText } from '../lang/observation-text';
 import type { BoundRole } from './role-requirements';
-import type { Call, Change, Instance, Module, Operator, Predicate, Value } from '../lang/module';
+import type { Call, Change, Instance, Module, Operator, Predicate, Value, WorldRule } from '../lang/module';
 import { ModuleWriter } from '../lang/module-writer';
 import type { CampaignDefinition, InstalledModule } from './definition';
 
@@ -70,6 +70,7 @@ export class ModuleNamespace {
       ...(action.movement ? { movement: Spatial.scope(action.movement, id => this.entities[id] ?? id) } : {}),
       ...(parameters ? { parameters } : {}), requires: this.predicate(action.requires, bound),
       ...(action.interrupt ? { interrupt: this.predicate(action.interrupt, bound) } : {}),
+      ...(action.meanwhile ? { meanwhile: action.meanwhile.map(c => this.call(c, bound)) } : {}),
       success: action.success.map(c => this.change(c, bound)), failure: action.failure.map(c => this.change(c, bound)),
       ...(action.resolve ? { resolve: this.call(action.resolve, bound) } : {}),
       ...(action.duration ? { duration: this.call(action.duration, bound) } : {}) };
@@ -104,7 +105,7 @@ export class ModuleNamespace {
       rules: original.rules?.map(r => ({ ...r, id: this.rules.rules?.some(s => s.id === r.id) ? r.id : `${this.bindings.id}__${r.id}`,
         when: this.predicate(r.when), effects: r.effects.map(c => this.change(c)),
         ...(r.place ? { place: this.entities[r.place] ?? r.place } : {}),
-        ...(r.say ? { say: this.text(r.say) } : {}), ...(r.again ? { again: this.text(r.again) } : {}),
+        ...this.words(r),
         ...(r.teaches ? { teaches: this.entities[r.teaches]! } : {}) })),
       objectives: original.objectives?.map(o => ({ ...o, id: `${this.bindings.id}__${o.id}`,
         when: this.predicate(o.when), text: this.text(o.text) })),
@@ -115,7 +116,7 @@ export class ModuleNamespace {
         ...(o.about ? { about: this.entities[o.about] ?? o.about } : {}) })),
       initial: original.initial.map(c => this.change(c)), goal: this.predicate(original.goal),
       actions: definition.schemas!.map(a => this.action(a)) };
-    const extensions = definition.extensions?.map(e => ({ actor: this.entities[e.actor]!,
+    const extensions = definition.extensions?.map(e => ({ ...e, actor: this.entities[e.actor]!,
       actions: e.actions.map(id => this.rules.actions.some(a => a.id === id) ? id : `${this.bindings.id}__${id}`),
       goals: e.goals.map(g => ({ ...g, id: `${this.bindings.id}.${g.id}`, when: this.predicate(g.when),
         target: this.predicate(g.target) })) }));
@@ -135,6 +136,11 @@ export class ModuleNamespace {
         })) };
   }
   // An entity under its installation's names: its id, its kind, what its name and alias name, where it lies.
+  // What a rule says, its again and its lines in turn after that (QTC-A35), in the installation's words.
+  private words(r: WorldRule): Pick<WorldRule, 'say' | 'again' | 'then'> {
+    return { ...(r.say ? { say: this.text(r.say) } : {}), ...(r.again ? { again: this.text(r.again) } : {}),
+      ...(r.then ? { then: r.then.map(t => this.text(t)) } : {}) };
+  }
   private entity(e: Module['entities'][number]): Module['entities'][number] {
     return { ...e, id: this.entities[e.id]!, type: this.kinds[e.type] ?? e.type,
       ...(e.name.includes('{') ? { name: this.text(e.name) } : {}),

@@ -1,0 +1,24 @@
+Module crossing "Ways being crossed" {
+  // Fair Weather's 2 and 3 (FWR-02, FWR-03): a way over the sands, open only while the sea is out, which the sea
+  // covers while the company is on it; and an edge where the wind always gusts, risked.
+  Place shore "the shore" is wilderness.
+  Place slip "the slip" is room within shore at 0, 0 outdoors.
+  Place holm "the holm" is room within shore at 1, 0 outdoors.
+  Place pulpit "the pulpit" is room within shore at 0, 1 outdoors.
+  Relation flood().
+  Passage sands "the sands" is path between slip and holm taking 1 hour
+    opening when not flood() "The sea is over the sands.".
+  Rule sea_comes when enRoute(party, sands) and not flood() { Assert flood(). }
+  Passage edge "the cliff edge" is path between slip and pulpit taking 30 minutes.
+  Hazard gust "the wind" means "Deal (1d2) bludgeoning damage to ally unless dexterity save against (5).".
+  Thing wind "the wind on the edge" on edge is scenery {
+    State gusting dangerous "The wind comes up the face in gusts.".
+    Hurts with gust when gusting then gusting.
+  }
+  Initially Assert state(wind, gusting).
+  Company party "You" of 1 at slip.
+  Observe slip_scene at slip when true "A stone slip, and the sands beyond.".
+  Observe holm_scene at holm when true "The holm, a rock with grass on it.".
+  Observe pulpit_scene at pulpit when true "A shelf of rock over the sea.".
+  Goal false.
+}

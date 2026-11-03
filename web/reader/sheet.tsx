@@ -115,6 +115,13 @@ export class Sheet {
       </article>
     );
   }
+  // When the company next eats, or that it is hungry: the ration clock had to be found out by resting and waiting
+  // (the cold review's "rest and food are interesting but opaque", REV-14).
+  static fed(screen: Screen): string | undefined {
+    const e = screen.expedition;
+    if (e.hungry) { return 'Hungry: a ration is eaten as soon as there is one.'; }
+    return e.nextMeal ? `Fed until ${e.nextMeal}, when a ration is eaten, or at a rest that comes before.` : undefined;
+  }
   // What each of you carries, and what can be done with each thing.
   private static pack(app: ReaderApp, screen: Screen) {
     const menu = app.menu, draw = Act.draw(app);
@@ -127,6 +134,7 @@ export class Sheet {
         </section>) : <p className="none">You carry nothing.</p>}
         <p className="how">{screen.purse.coin} coin · {screen.purse.rations} {screen.purse.rations === 1 ? 'ration' : 'rations'}
           {screen.purse.other.length > 0 && ` · ${screen.purse.other.join(', ')}`}</p>
+        {Sheet.fed(screen) && <p className="how" data-id="fed">{Sheet.fed(screen)}</p>}
       </article>
     );
   }

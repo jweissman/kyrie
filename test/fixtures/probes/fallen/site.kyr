@@ -1,0 +1,16 @@
+Module fallen "Where the dead walk in" {
+  // The Quiet in the Sky's 21 (QIS-05): a company killed here walks in out of the snow, by this place's law; the
+  // module, not the shared page, says what comes after. The cold kills as the company lies down in the snow.
+  Place field "the field" is wilderness.
+  Place height "the height" is room within field at 0, 0 outdoors.
+  Company party "You" of 1 at height.
+  Hazard white_cold "the cold of the height" means "Deal (40d10) cold damage to ally.".
+  Action lie_down(actor: group) "Lie down in the snow" {
+    Requires able(actor) and company(actor) and at(actor, height).
+    Time 1 minute.
+    On success { Assert strikes(white_cold, actor). }
+    Result "You lie down in the snow.".
+  }
+  Observe height_scene at height when true "A white height over a white plain.".
+  Ending walked_in "The Hour" when dead(party) and at(party, ?p) "And then you are walking in snow, and your breath does not steam.".
+}

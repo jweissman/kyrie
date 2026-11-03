@@ -25,7 +25,7 @@ export class ModuleParser {
     ObservationBy: ModuleParser.Third, ObservationInstead: ModuleParser.Third, TopicAnswering: ModuleParser.Second,
     Passage: ModuleParser.Passage, PassagePart_oneway: ModuleParser.OneWay, PassagePart_hidden: ModuleParser.Hidden,
     PassagePart_needs: ModuleParser.Needs, NeedsEnd_to: ModuleParser.NeedsTo, NeedsEnd_from: ModuleParser.Anchor,
-    Thing: ModuleParser.Thing, ThingSite_in: ObjectParser.In,
+    Thing: ModuleParser.Thing, ThingSite_in: ObjectParser.In, ItemEnd_parts: ObjectParser.ItemParts,
     HoldsPart: ObjectParser.HoldsPart, Concealed: ObjectParser.Concealed, ItemPlace_at: ObjectParser.At,
     ItemPlace_in: ObjectParser.In, FoundBy: ModuleParser.FoundBy, FoundWith: ObjectParser.FoundWith,
     ThingSite_at: ModuleParser.Site, ThingSite_on: ObjectParser.SiteOn, WayEnd: ObjectParser.WayEnd,
@@ -41,7 +41,7 @@ export class ModuleParser {
     TopicTravelling: PersonParser.TopicOnce, RuleOnce: PersonParser.TopicOnce, PersonAgain: PersonParser.PersonAgain,
     Company: ModuleParser.Company, ItemDecl: ModuleParser.ItemDecl, PassageKind: ModuleParser.ThingKind,
     PassagePart_taking: ModuleParser.Taking, PassagePart_opening: ModuleParser.Opening,
-    PersonProfession: PersonParser.PersonProfession,
+    PersonProfession: PersonParser.PersonProfession, Meanwhile: StatementParser.Meanwhile,
     PersonBackground: PersonParser.PersonBackground, OffersPart: ModuleParser.OffersPart,
     SellsPart: ModuleParser.SellsPart, BuysPart: ModuleParser.BuysPart, Time_fixed: StatementParser.Time,
     Time_minutes: StatementParser.Minutes, Time_measured: StatementParser.Duration,
@@ -194,8 +194,8 @@ export class ModuleParser {
   }
   // Ohm calls an action with one node per element of its rule; these take the elements that matter to ObjectParser.
   static ItemDecl(_i: Node, id: Node, name: Node, _is: Node, kind: Node, place: Node, concealed: Node, owner: Node,
-    _dot: Node) {
-    return ObjectParser.item(id, name, kind, { place, concealed, owner });
+    end: Node) {
+    return ObjectParser.item(id, name, kind, { place, concealed, owner, end });
   }
   static Thing(_t: Node, id: Node, name: Node, site: Node, kind: Node, concealed: Node, _open: Node, parts: Node,
     _close: Node) {
@@ -326,9 +326,9 @@ export class ModuleParser {
     return { field: 'pursuit', value: { id: id.sourceString, actor: actor.sourceString,
       ...(label.children.length ? { label: ModuleParser.ast(label.children[0]!) } : {}),
       priority: Number(priority.sourceString), when: ModuleParser.ast(when), target: ModuleParser.ast(target),
-      ...(using.children.length ? { using: ModuleParser.ast(using.children[0]!) } : {}) } };
+      ...(using.children.length ? ModuleParser.ast(using.children[0]!) as object : {}) } };
   }
-  static PursuitUsing(_using: Node, ids: Node) { return ids.asIteration().children.map(ModuleParser.text); }
+  static PursuitUsing(_using: Node, ids: Node, plan: Node) { return PersonParser.using(ids, plan); }
   static WorldRule(_rule: Node, id: Node, anchor: Node, _when: Node, predicate: Node, once: Node, says: Node,
     teaches: Node, _open: Node, changes: Node, _close: Node): Field {
     const where = anchor.children.length ?

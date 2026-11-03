@@ -48,3 +48,15 @@ describe('what the engine writes', () => {
     expect(impossible.some(m => /gloat/.test(m))).toBe(true);
   }, 60000);
 });
+
+// Where the company has stood, the engine writes as it comes to stand there (the Grand Tour's 13, GTR-13): the door
+// that opens on anywhere the company has stood knew neither where it set out nor where it had been put.
+describe('where the company has stood', () => {
+  it('is written from where it starts, and wherever it goes', async () => {
+    const s = await PlaySession.start('test/fixtures/ford-road/campaign.json', 'been', NodeBundleSource.shared);
+    const been = () => s.campaign.world.related('been').filter(r => r.args[0] === 'party').map(r => r.args[1]);
+    expect(been()).toEqual(['world__green']);
+    await s.perform('go(world__lane,world__copse)');
+    expect(been()).toEqual(['world__green', 'world__copse']);
+  }, 60000);
+});

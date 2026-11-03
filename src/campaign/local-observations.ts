@@ -13,7 +13,8 @@ export class LocalObservations {
   static perceives(world: World, actor: string, place: string, anchor: Anchor = 'at'): boolean {
     if (anchor === 'at') { return world.test(ModuleWriter.call('at', actor, place)); }
     if (anchor === 'within') { return this.inArea(world, actor, place); }
-    const relations = `${world.relates('guards')}${world.relates('inside')}${world.relates('travelsWith')}`;
+    const relations = `${world.relates('guards')}${world.relates('inside')}${world.relates('travelsWith')}`
+      + `${world.relates('ownedItem') && world.relates('memberOf')}`;
     return world.test(KeptPredicates.of(`perceives:${actor}:${place}:${anchor}:${relations}`, () => {
       const here: Predicate = ModuleWriter.call('at', actor, '?here');
       const there: Predicate = anchor === 'near' ? this.near(world, place)
@@ -39,6 +40,12 @@ export class LocalObservations {
       near = { kind: 'or', left: near, right: { kind: 'and', left: ModuleWriter.call('guards', entity, '?way'),
         right: { kind: 'and', left: ModuleWriter.call('connects', '?way', '?here', '?there'),
           right: ModuleWriter.call('at', entity, '?there') } } };
+    }
+    // Carried by one of a company, where the company is: a lantern's little door, open in the hand (QTC-A23).
+    if (world.relates('ownedItem') && world.relates('memberOf')) {
+      near = { kind: 'or', left: near, right: { kind: 'and', left: ModuleWriter.call('ownedItem', entity, '?bearer'),
+        right: { kind: 'and', left: ModuleWriter.call('memberOf', '?bearer', '?company'),
+          right: ModuleWriter.call('at', '?company', '?here') } } };
     }
     if (world.module.relations.some(r => r.name === 'inside')) {
       near = { kind: 'or', left: near, right: { kind: 'and', left: ModuleWriter.call('inside', entity, '?box'),

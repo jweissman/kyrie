@@ -89,6 +89,7 @@ export class ActionSchemas {
           (_, name: string) => labels.get(bindings[name] ?? name) ?? bindings[name] ?? name) : `${action.name} (${this.named(action, bindings, labels)})`,
       requires: this.predicate(action.requires, bindings),
       ...(action.interrupt ? { interrupt: this.predicate(action.interrupt, bindings) } : {}),
+      ...(action.meanwhile ? { meanwhile: action.meanwhile.map(c => this.call(c, bindings)) } : {}),
       ...(action.report ? { report: this.text(action.report, bindings) } : {}),
       ...(action.otherwise ? { otherwise: this.text(action.otherwise, bindings) } : {}),
       ...(action.told ? { told: action.told.map(t => ({ ...t, text: this.text(t.text, bindings),

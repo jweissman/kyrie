@@ -1,0 +1,20 @@
+Module reader "Teshen reads the old script" {
+  // Let One Remember's F7 (LOR-12): one companion who can read link-script, everywhere. What she brings is a
+  // capability, granted by what she carries, and every carving that needs it is read by the company while she is
+  // with it: no action of its own for each ("Ask Teshen to read …").
+  Place halls "the halls" is wilderness.
+  Place fork "the fork" is room within halls at 0, 0.
+  Company party "You" of 1 at fork.
+  Entity link_script: capability "Reading link-script".
+  Kind script_primer "a primer of link-script" is document granting link_script described "Teshen's own primer, thumbed soft.".
+  Person teshen "Teshen" at fork { Role "a reader of the old script". Ancestry human. Peaceable. Pronouns she.
+    Carries script_primer. }
+  Initially Assert willing(teshen, party). Initially Set hire(teshen) to 0.
+  Thing carving "a carving over the left-hand way" at fork {
+    State unread "Marks cut over the left-hand way, in a script you do not know.".
+    State read "Over the left-hand way: KEPT. NOT AUN.".
+    Change decipher "Read what is cut over the left-hand way" from unread to read needing link_script.
+  }
+  Observe fork_scene at fork when true "Two ways, and marks over one.".
+  Goal false.
+}

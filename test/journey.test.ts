@@ -3,6 +3,7 @@ import { PlaySession } from '../src/session/play-session';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { ModuleWriter } from '../src/lang/module-writer';
 import { Journey } from '../src/session/journey';
+import { PlayerView } from '../src/presentation/player-view';
 
 // A journey's time passes on the way, not at the far end. The company sets out at once; whoever is where it is going
 // meets it as it arrives, for the journey's last watch; and a way that stops being open while the company is on it
@@ -69,5 +70,17 @@ describe('journeys', () => {
     expect(climb.response ?? '').not.toContain('no longer open');
     expect([Ford.at(s), s.campaign.state.elapsed, climb.result]).toEqual(['p__ledge', 72, 'success']);
     expect(Ford.holds(s, 'state', 'p__ice', 'p__broken')).toBe(true);
+  });
+  // Fair Weather's 2 and 3 (FWR-02, FWR-03): the sea covering the sands while the company was half across them sent it
+  // back onto the flooding sand; and a way whose wind always gusts, risked, is crossed and not turned back.
+  it('keeps a way open under whoever is crossing it, and lets a way always dangerous be risked', async () => {
+    const s = await PlaySession.start('test/fixtures/probes/crossing/probe.campaign.json', 'cross', NodeBundleSource.shared);
+    const choice = (name: RegExp) => PlayerView.choices(s.campaign).find(c => name.test(c.choice.name))!.choice.id;
+    const over = await s.perform(choice(/^Take the sands/));
+    expect([Ford.at(s), over.result, Ford.holds(s, 'unopened', 'p__sands')]).toEqual(['p__holm', 'success', true]);
+    const t = await PlaySession.start('test/fixtures/probes/crossing/probe.campaign.json', 'edge', NodeBundleSource.shared);
+    const risk = PlayerView.choices(t.campaign).find(c => /^Risk the wind/.test(c.choice.name))!;
+    const edge = await t.perform(risk.choice.id);
+    expect([Ford.at(t), edge.result, Ford.holds(t, 'state', 'p__wind', 'p__gusting')]).toEqual(['p__pulpit', 'success', true]);
   });
 });

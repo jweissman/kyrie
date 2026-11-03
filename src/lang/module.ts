@@ -65,11 +65,16 @@ export interface Operator {
   interrupt?: Predicate;
   // A watchful activity also stops when anyone comes or goes where the company is, or what it sees there changes.
   watchful?: boolean;
+  // What holds while its time passes, and not after: a night's sleep is asleep(actor) while it lasts, so a rule for a
+  // company awake at midnight does not fire in it and is not told on waking (The Lull's F2, LUL-02).
+  meanwhile?: Call[];
 }
 export interface Pursuit {
   id: string; actor: string; label?: string; priority: number; when: Predicate; target: Predicate;
   // The actions the actor may use in this pursuit, beyond those its own declaration gives it.
   using?: string[];
+  // How many ways ahead they plan for it, where their own declaration says fewer (QTC-A31).
+  planning?: number;
 }
 // within: anywhere inside an area (a city, a country), for what is said there (a Rule or an Event), which waits for
 // the company to be there.
@@ -78,6 +83,8 @@ export interface WorldRule {
   id: string; when: Predicate; effects: Change[]; say?: string; place?: string; anchor?: Anchor;
   // What it says each time after the first the company hears it (see CampaignTick.fire).
   again?: string;
+  // What it says each time after that, in turn, and then from its again round once more (QTC-A35).
+  then?: string[];
   // A fact its words teach whoever hears them: known, as witnessed, when the company perceives them.
   teaches?: string;
   // Read again once the rules of the moment have run: a way's opening (see WorldConstructs.opening).

@@ -1,0 +1,13 @@
+Module calledband "Skell's sons, by name" {
+  // Gosse's Company's second pass (GOS-15): `Called` names the members of a band of people as of beasts, and a
+  // proud band's price is asked of it as of many.
+  Place wharf "the wharf" is settlement.
+  Place shed "the net shed" is room within wharf at 0, 0.
+  Company party "You" of 1 at shed.
+  Person sons "Skell's sons" at shed { Role "three brothers at dice". Ancestry human. Numbers 3.
+    Called "Abel", "Cain", "Seth". Temperament proud.
+    Warns "'Toll's five,' says Abel, and the other two stand up.". }
+  Initially Set tribute(sons) to 5. Initially Set quantity(party, gold) to 10.
+  Observe shed_scene at shed when true "Nets, and three men at dice on an upturned crate.".
+  Goal false.
+}

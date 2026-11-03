@@ -69,6 +69,12 @@ to whelm`) or from it (`needing rope from brink`): a company comes up the stairs
 to go down them, and the map draws one way (`test/fixtures/probes/one-way-need`; the Grand Tour's W2 wrote each such
 way as two one-way passages, and a rule to lift a company that could not climb out).
 
+A way is offered by where it goes ("To the Kept Hall"), which gives a decoy away. One the module marks
+`Initially Assert unmarked(left_way).` is offered by its own name, "By the left-hand passage", until the company has
+been where it goes, or a rule retracts `unmarked(left_way)` (the script over it read): Let One Remember's F6, which
+had renamed each room until reached (`probes/unmarked`). So a journey's steps name a way by where it goes ("To the
+weir stones"), and a path split in two at a new room is walked by new steps (Gosse's Company's second pass).
+
 ```kyr
   Passage heron_door "the Heron's door" is door between taproom and green.
   Passage chandlery_door "the chandlery door" is door between counter and green.
@@ -236,6 +242,12 @@ An action that puts the company where a band is races the band's warning: the sh
 before a rule of the module's own can say how the company came there. Settle it in the action's own effects (the
 watermen's sledges, which bring the company down onto the sledge road, assert that the wolves tolerate it, and a rule
 says how they were outrun: the Liberty of the Ice's 24).
+
+A crew that lets the company be (`tolerates`) is turned on it by retracting that, in the act or rule that turns it: a
+stealthy act gone wrong says `On failure { Retract tolerates(sons, actor). }`, and the page tells the act's
+`Otherwise`, then the crew's own `Warns`, and it comes on in its `Comes` when its patience is spent. Do not assert
+`warned`, `halts` or a `patience` by hand: they are the shared rules' reckoning of a warning, and set by hand they
+silence the crew's words and the act's (Quittance's bg 9; `probes/turned`).
 
 A danger with ways round it (a weight held out, a quiet slip along the pool) is territorial or defensive, with a
 `Warns` in its own manner that says what the ways round are (What Tessary Owes' Forsworn, W14). Each thing done while
@@ -501,7 +513,8 @@ of thirty days and its sennight of seven, Sunday to Saturday, running on across 
 "Monday, the 3rd of Deepwinter…", so a prose that names weekdays agrees with it (the Lull's 11).
 `season(clock)` is the season by the campaign's calendar, when it keeps one (1 spring, 2 summer, 3 autumn, 4 winter;
 0 with none: Gosse's Company's 7), and `been(party, place)` holds of every place the company has stood in, from the
-first time (Quiet in the Sky's 6: for "come back to", ask `been` and that the company was elsewhere since, as a
+first time, the engine's own record: where it began, and wherever it came to stand, by a way, a rule or a journey
+(the Grand Tour's 13) (Quiet in the Sky's 6: for "come back to", ask `been` and that the company was elsewhere since, as a
 relation of the module's own). `dice(clock)` is a die from 1 to 100 thrown every watch from the campaign's seed; a rule
 that reads it is how a world leaves something to chance (a band on the road at night, the weather turning). Weather is a `scenery` entity
 whose state other things follow by rules; scenery has states and descriptions but is not offered to be tried. A
@@ -581,6 +594,24 @@ the counting-house fixture:
     Result "Pim looks at the coins, and at the door, and puts the key on his desk and goes out for some air.".
   }
 ```
+
+An item may have states and changes as a thing has, in a block after it: they are seen near it, lying somewhere or
+carried, and made by whoever reaches it, the company that carries it among them (Quittance's ll 13, whose lantern's
+little door could not be opened; `probes/item-state`):
+
+```text
+  Item salamander "the Salamander lantern" is lantern at lamp_room {
+    State latched "The lantern's little door is latched; something moves behind the horn.".
+    State open "The lantern's little door stands open, and a spark sits in it, looking out.".
+    Change unlatch "Open the lantern's little door" from latched to open.
+  }
+```
+
+An item lying in a room (`Item ladder "the Guild's ladder" is folding_ladder at yard owned by clerk.`) is offered as
+"Take" under its name to a company that has noticed it: one `hidden until` a fact is taken once the fact is known.
+One `at nowhere` is nowhere to be taken, and comes only by being given. A topic that lends it (`On discuss { Assert
+lends(clerk, ladder, actor). }`) lets the company take it up in front of its owner (Quittance's sd 6 and wk 8;
+`probes/lent-ladder`).
 
 A servant bought off stops serving: in *The Long Man*, paying Dunnet's wages retracts `serves(dunnet, venn)`. One who
 `Resents "…"` says that on seeing what is theirs in the company's hands, and is not made its enemy by it: they can
@@ -689,6 +720,14 @@ Before naming things: `bin/kyrie names Pargeter Tench` says whether each surname
 `bin/kyrie lint --inventory` lists every relation and measure the modules declare, with what the engine keeps (the
 clock, its records, what it reads off bodies, who holds what, what is known), which a module reads and never writes;
 a load that writes one says which action or rule does (Quittance's 1 and 2).
+
+A hostile's weight cannot be read from its kind's name: two owlbears of level 2 kill a company of level one, and a
+cat's paw meant as play (2d6) killed a protagonist of six hit points (Behind the Wainscot's F9). `bin/kyrie forecast
+<campaign.json>` reckons each band that could be fought, as the page reckons a fight before it is joined, against
+novices of each calling (as many as the campaign's company): `slight`, `fair`, `hard`, `grave` or `deadly`, and a
+mark on any a novice of some calling could well not survive. It is a forecast, not a finding: a proud band deadly to
+fight may be meant to be paid, a warden meant to be slipped past. What it should prompt is a way round for a novice,
+or a warning on the way in, or a lighter kind.
 
 To begin an adventure with everything this section uses:
 
@@ -899,6 +938,11 @@ the clock; while asleep a body can do nothing but lie as it is. `asleep(x)` and 
 and `perceives(watcher, place)` is whether someone awake and able is there to see: a sleeping owner does not see her
 cup taken (`probes/sleep-hours`, `probes/owner-asleep`).
 
+Every rule runs at every watch of a long act. What the act says holds while it runs, `Meanwhile`, holds for its
+watches and not after: a night slept through is `Meanwhile asleep(actor).`, and a rule for a company awake at
+midnight asks `alert(party)`, so it neither happens in the sleep nor is told on waking (The Lull's F2;
+`probes/meanwhile`). A fact of the module's own may be held so too (`Meanwhile asleep(actor), dreaming(actor).`).
+
 ### Chance for each thing, and acts that take no time
 
 `dice(clock)` is the watch's die for the whole world. `dice(?room)` is each thing's own die for the watch, so two
@@ -993,6 +1037,11 @@ someone back from an errand done. One who does not `Uses go` goes nowhere, and t
   Pursuit to_keld for webb "walking to Keld" priority 5 when day(clock) >= 18 seeks at(webb, keld).
 ```
 
+Someone declared in a file you may not touch, or in another module, is given what they go by and how far ahead they
+plan with the errand itself: `… seeks at(ianthe, guild_hall) using go planning 14 steps.` (Quittance's sd 1, whose
+lovers' schedules had been teleporting rules; `probes/errand-elsewhere`). Without `planning`, someone looks four
+ways ahead, and an errand further off is never begun.
+
 A Peaceable person goes about their errands and comes at nobody, whatever their kind's temper; one who is to turn (the
 young bloods, once the hold is roused) stops being peaceable when a rule retracts `peaceable(bloods)` (Thrume's F2).
 
@@ -1058,6 +1107,15 @@ show told in full every night, unless its author kept a fact of having seen it a
   Rule show at ring when hour(clock) >= 20 and not shown(party)
     says "The lamps go up, {barker} cries the bill, and the horses come in at a gallop, plumed, round and round the ring."
     again "The horses come in again, and {barker} cries the bill." { Assert shown(party). }
+```
+
+Lines written after the again with `then` are said each in its turn, one each time the company hears the rule, and
+round again from the again: a talking creature's repertoire, a ghost's, a clock's, in one rule (Quittance's wk 2,
+whose parrot took twenty rules; `probes/repertoire`). What sets it off, a cue, a mood, is its condition:
+
+```text
+  Rule speaks near fusby when fluffed(fusby) says "'Pieces of eight!' says {fusby}."
+    again "'Who's a pretty boy, then?'" then "'Mind the step!'" { Retract fluffed(fusby). }
 ```
 
 A count taken below nothing stops at nothing: `Decrease dose(?m) by 8` leaves a dose of five at none. An action that
@@ -1172,6 +1230,10 @@ Company's friction; `test/fixtures/probes/never-there`):
   Ending opened "The Gate Opens" when state(lever, up) "The gate grinds open on the valley beyond, and the pass is yours.".
 ```
 
+A module can say what comes after the company dies: an ending on `dead(party)` is read once more after the company
+falls, by a fight, a hazard or a rule's blow, and the page closes on it rather than on the shared words (the Quiet in
+the Sky's 21: the dead walk in out of the snow; `probes/fallen`).
+
 `reached(opened)` says which ending a game came to, in a kept game as in play. Endings are tried in the order they
 are written, so the more particular comes first: the lint says when one asks all that an earlier one asks, and so can
 never be reached.
@@ -1281,6 +1343,10 @@ opening when not showing(top) "The flap is laced: the show is on."`).
 It is read again once every rule of the moment has run, so a gate declared before the rule that lets the company
 through is open as soon as that rule has (`probes/admitted`; Low Water's Assayers' gate, What Tessary Owes' black
 wall).
+A way does not shut under a company crossing it: the sea that comes over the sands while the company is half across
+keeps it going to the far side, and the way shuts once it is off (Fair Weather's 2; `probes/crossing`). A way that
+should turn back whoever is on it is barred by a thing's state instead (`blocking`), as the tide over the ford-road's
+causeway is.
 
 ### Kin, companions and animals
 
@@ -1298,6 +1364,18 @@ that does not ask who follows whom does not move them elsewhere, so an hour's ro
 following(rupert, party)` (the Banns at Hessel's 5); and a rule that carries the company off (a chair to the downs)
 takes them too (its 6). What someone with the company says on coming somewhere that matters to them is said once,
 when they come there with it: `Remarks at fold "…".` in their declaration (A Winter in Carth's 21).
+
+What a companion can do is a capability they bring, not an action of its own for each place it is wanted: a
+reader of an old script carries a kind `granting link_script` (`Entity link_script: capability "…".`, `Kind
+script_primer "…" is document granting link_script`, `Carries script_primer.`), and every change `needing
+link_script` is the company's while she is with it (Let One Remember's F7, which wrote eight "Ask Teshen to read …";
+`probes/reader`).
+
+Someone comes along one of two ways. `Initially Assert acceptsEscort(rupert, party).` offers the company's own "Ask
+Rupert to come with you" and "Let Rupert make their own way"; or a topic or an action asserts it outright, for one
+who comes because of what was said (`On discuss { Assert following(hob, actor). }`), and retracting it lets them go
+(Quittance's ll 8, whose lamplighter was taken along so; `probes/follow`). Either way their routine leaves them be
+while they follow.
 
 ### A law of a module's own
 

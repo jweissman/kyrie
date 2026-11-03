@@ -1,0 +1,23 @@
+Module turned "Skell's sons, at their dice" {
+  // Quittance's bg 9 (QTC-A09): a crew that lets the company be turns on it when a stealthy act fails, in its own
+  // words, and the act's Otherwise is told as well.
+  Place wharf "the wharf" is settlement.
+  Place shed "the net shed" is room within wharf at 0, 0.
+  Company party "You" of 1 at shed.
+  Person sons "Skell's sons" at shed { Role "three brothers at dice". Ancestry human. Numbers 3. Temperament territorial.
+    Warns "Skell's sons are on their feet, and the dice are in a pocket.".
+    Comes "Skell's sons come at you over the nets.". }
+  Initially Assert tolerates(sons, party).
+  Relation lifted(group).
+  Action lift_bucket(actor: group, site: place) "Lift the bucket from under their noses" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(sons, site) and not lifted(actor).
+    Time 1 minute.
+    Resolve check(actor, stealth, dc_fair).
+    On success { Assert lifted(actor). }
+    On failure { Assert lifted(actor). Retract tolerates(sons, actor). }
+    Result "The bucket comes away in your hand, and nobody looks up.".
+    Otherwise "The bucket's handle clanks against its rim.".
+  }
+  Observe shed_scene at shed when true "Nets, and three men at dice on an upturned crate.".
+  Goal false.
+}

@@ -13,6 +13,12 @@ Module follow "A man asked to come, his afternoon at the baths, and a chair to t
   Topic rupert_mother with rupert "Ask Rupert about his mother" when true {
     Says "'She'll be at the Pump Room,' says Rupert. 'She always is.'".
   }
+  // A lamplighter taken along by a word in talk, not by asking him to come (Quittance's ll 8, QTC-A19).
+  Person hob "Hob" at lane { Role "a lamplighter with his pole". Ancestry human. Peaceable. Pronouns he. }
+  Topic hob_light with hob "Ask Hob to light your way" when not following(hob, actor) once {
+    Says "'Mind the step,' says Hob, and shoulders his pole.".
+    On discuss { Assert following(hob, actor). }
+  }
   // His afternoon: when the bath bell goes, to the baths, whatever he has agreed to.
   Relation rung(place). Relation bathed(group).
   Action ring(actor: group, site: place) "Ring the bath bell" {

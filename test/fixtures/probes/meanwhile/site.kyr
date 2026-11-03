@@ -1,0 +1,19 @@
+Module meanwhile "The night the stars went out" {
+  // The Lull's F2 (LUL-02): a night slept through is asleep(actor) while it lasts, so what happens at midnight to a
+  // company awake does not happen to one asleep, nor is it told on waking.
+  Place vale "the vale" is wilderness.
+  Place green "the green" is room within vale at 0, 0 outdoors.
+  Company party "You" of 1 at green.
+  Relation sawStars(group).
+  Action sleep_out(actor: group, site: place) "Lie down on the green and sleep till morning" {
+    Requires able(actor) and company(actor) and at(actor, site).
+    Time 8 hours.
+    Meanwhile asleep(actor).
+    Result "You wake in the grey, wet with dew.".
+  }
+  Rule stars_out when hour(clock) == 0 and alert(party) and not sawStars(party) says "The stars go out, all at once." {
+    Assert sawStars(party).
+  }
+  Observe green_scene at green when true "A green under the stars.".
+  Goal false.
+}

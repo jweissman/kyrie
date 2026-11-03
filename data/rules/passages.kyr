@@ -9,6 +9,9 @@ Module world_passages "Passages, obstacles and the condition of things" {
   Measure travelMinutes(passage).
   // A way that opens only while something holds (Passage … opening when …), while it does not.
   Relation unopened(passage).
+  // A way that does not say where it goes, until the company has been there: the decoy of two, said by its own
+  // name, "By the left-hand way", not by the room it leads to (Let One Remember's F6, LOR-11).
+  Relation unmarked(passage).
   Relation connects(passage, place, place).
   Relation on(entity, passage).
   Relation guards(group, passage).
@@ -76,7 +79,7 @@ Module world_passages "Passages, obstacles and the condition of things" {
   Query reaches(a: group, t: entity) means noticed(t, a) and ((at(a, ?p) and at(t, ?p))
     or (at(a, ?q) and on(t, ?w) and connects(?w, ?q, ?r))
     or (at(a, ?q) and guards(t, ?w) and connects(?w, ?q, ?r) and at(t, ?r))
-    or (at(a, ?h) and inside(t, ?c) and at(?c, ?h) and not shut(?c))).
+    or (at(a, ?h) and inside(t, ?c) and at(?c, ?h) and not shut(?c)) or carries(a, t)).
   Query passable(w: passage, a: group) means visibleTo(w, a) and not barredFor(w, a) and not watchedAgainst(w, a)
     and not hazardous(w) and not unopened(w)
     and equippedFor(a, w).

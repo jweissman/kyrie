@@ -130,7 +130,7 @@ export class ChoiceList {
     // arrive; a way into one that other ways lead into from elsewhere, by its own name (What Tessary Owes' two ways
     // into the Strongrooms, W16).
     const twice = this.alike(labels);
-    const told = exits.map((e, i) => twice.has(labels[i]!)
+    const told = exits.map((e, i) => twice.has(labels[i]!) && !e.unmarked
       ? `${labels[i]!.split(' ')[0]} ${this.inline(e.destination.name)}` : labels[i]!);
     // Ways that read alike still, to places of one name (from a road, its ways off into the stretches of one wood it
     // crosses, each "among the trees of Beorquudu": NAV-04), are each told by their own way.
@@ -196,6 +196,7 @@ export class ChoiceList {
   }
   private static moves(a: Act): boolean { return a.label === 'Go' || a.label === 'Walk'; }
   static wayLabel(e: ExitRow): string {
+    if (e.unmarked && e.way) { return `By ${this.inline(e.way)}`; }
     const room = this.inline(e.destination.name);
     if (e.bearing) { return `${e.bearing.charAt(0).toUpperCase()}${e.bearing.slice(1)}: ${room}`; }
     switch (e.transition) {
@@ -208,7 +209,9 @@ export class ChoiceList {
     }
   }
   private static wayAbout(e: ExitRow): string {
-    const room = e.destination.name, minutes = this.longest(e.acts);
+    const minutes = this.longest(e.acts);
+    if (e.unmarked && e.way) { return `${this.upper(e.way)}: where it goes, nothing here says.`; }
+    const room = e.destination.name;
     const span = minutes > 10 ? `, ${this.span(minutes)} away` : ', a few steps away';
     const how = e.way ? ` by ${e.way}` : '';
     // Inside another building or level, the room is named with it when the two names differ.

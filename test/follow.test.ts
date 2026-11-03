@@ -47,4 +47,10 @@ describe('one who follows the company', () => {
     await alone.play('To the square', 'To the King\'s Bath');
     expect(alone.taken.at(-1)!.page).not.toContain('She used to bring me here');
   }, 60000);
+  // Quittance's ll 8 (QTC-A19): one taken along by a word in talk follows as one asked to come does.
+  it('is taken along by what is said in talk', async () => {
+    const j = await Journey.start('test/fixtures/probes/follow/probe.campaign.json', 'k');
+    await j.play('Talk to Hob', 'Ask Hob to light your way', '?Take your leave', 'To the square');
+    expect(j.at('p__hob')).toBe('p__square');
+  }, 60000);
 });

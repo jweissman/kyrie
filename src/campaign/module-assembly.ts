@@ -197,6 +197,7 @@ export class ModuleAssembly {
       if (actor.goals.some(g => g.id === p.id)) { throw new Error(`Invalid pursuit controller ${p.actor}`); }
       actor.goals.push({ id: p.id, priority: p.priority, when: p.when, target: p.target });
       actor.actions.push(...(p.using ?? []).filter(id => !actor.actions.includes(id)));
+      actor.horizon = Math.max(actor.horizon, p.planning ?? 0);
     }
     return actors;
   }
@@ -212,6 +213,7 @@ export class ModuleAssembly {
       if (!extension) { extension = { actor: p.actor, goals: [], actions: [] }; out.push(extension); }
       extension.goals.push({ id: p.id, priority: p.priority, when: p.when, target: p.target });
       extension.actions.push(...(p.using ?? []).filter(id => !extension.actions.includes(id)));
+      if (p.planning) { extension.horizon = Math.max(extension.horizon ?? 0, p.planning); }
     }
     return out;
   }

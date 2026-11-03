@@ -21,6 +21,7 @@ import { VerifyTool } from './verify-tool';
 import { NewTool } from './new-tool';
 import { CountriesTool } from './countries-tool';
 import { ReachTool } from './reach-tool';
+import { ForecastTool } from './forecast-tool';
 import { TranscriptsTool } from './transcripts-tool';
 import { ProseTool } from './prose-tool';
 import { Terminal } from './terminal';
@@ -42,6 +43,7 @@ export class KyrieCli {
     '           bin/kyrie keep <transcript.json> <name> (a game saved from the browser, kept as a test)',
     '           bin/kyrie countries [--diff [before.json]] [seed ...] (where each authored country lies; what a change moves)',
     '           bin/kyrie reach <campaign.json> [--seed s] [--steps n] | --all [--detail] (what a curious player reaches)',
+    '           bin/kyrie forecast <campaign.json> [--callings warrior,mage] (each band against novices of each calling)',
     '           bin/kyrie transcripts <campaign.json> --out <dir> [--seed s] <steps.json>... (journeys as the page told them)',
     '           bin/kyrie prose <campaign.json>          (a campaign\'s own words, each under its id)',
     '           bin/kyrie voice show|moments|coverage|review|orsino | voice repeats <module dir> | handbook [--html <dir>]',
@@ -68,6 +70,7 @@ export class KyrieCli {
       case 'new': return NewTool.main(rest);
       case 'countries': return CountriesTool.main(rest);
       case 'reach': return ReachTool.main(rest);
+      case 'forecast': return ForecastTool.main(rest);
       case 'transcripts': return TranscriptsTool.main(rest);
       case 'prose': return ProseTool.main(rest);
       case 'campaign': await Terminal.play(await Campaign.load(path, argument ?? 'campaign', NodeBundleSource.shared)); return 0;

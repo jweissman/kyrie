@@ -1764,7 +1764,7 @@ Also kept, without comment: passageKind, connects, on, guards, state, blocksWhen
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 8 | 35 | 2 | 24 | 0 | 6 |
+| 8 | 36 | 2 | 24 | 0 | 6 |
 
 #### scenery
 
@@ -1789,6 +1789,12 @@ A way walked in less than a watch: how many minutes (see ActionTime.minutes).
 *Kyr · relation(passage)* · `rule:world_passages.unopened`
 
 A way that opens only while something holds (Passage … opening when …), while it does not.
+
+#### unmarked
+
+*Kyr · relation(passage)* · `rule:world_passages.unmarked`
+
+A way that does not say where it goes, until the company has been there: the decoy of two, said by its own name, "By the left-hand way", not by the room it leads to (Let One Remember's F6, LOR-11).
 
 #### inside, receptacle, closesWhen
 

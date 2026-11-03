@@ -113,9 +113,13 @@ export class PersonParser {
   // What a rule says, and what it says each time after the first the company hears it, where that is shorter: a
   // nightly show told in full every night unless the author kept a fact of having seen it, and two rules (Wapshott's
   // Circus friction 26, WPC-26).
-  static RuleSays(_says: Node, text: Node, again: Node): { say: string; again?: string } {
+  // Each written after `then` is said in its turn after that, and round again (a parrot's repertoire, said in order:
+  // Quittance's wk 2, QTC-A35, whose parrot took twenty rules and six measures).
+  static RuleSays(_says: Node, text: Node, again: Node): { say: string; again?: string; then?: string[] } {
+    const after = again.children[0];
+    const then = after?.children[2]?.children.map(t => ModuleParser.ast(t.children[1]!) as string);
     return { say: ModuleParser.ast(text) as string,
-      ...again.children.length ? { again: ModuleParser.ast(again.children[0]!.children[1]!) as string } : {} };
+      ...after ? { again: ModuleParser.ast(after.children[1]!) as string } : {}, ...then?.length ? { then } : {} };
   }
   // What someone with the company says on coming somewhere that matters to them, once (A Winter in Carth's friction
   // 21: Hern came into the fold his whole story points at, and the page said only that he was there).
@@ -255,6 +259,13 @@ export class PersonParser {
   // SellsPart = "Sells" ident "for" integer "coin" "from" integer "."
   static sells(what: Node, fee: Node, stock: Node): Field {
     return { field: 'sells', value: { what: what.sourceString, fee: Number(fee.sourceString), stock: Number(stock.sourceString) } };
+  }
+  // What a pursuit's actor goes by, and how far ahead they plan, written with the errand for someone declared in a file
+  // another author keeps (Quittance's sd 1, QTC-A31: `Uses go. Plans 14 steps.` could be written only in the person's
+  // own declaration, and the lovers' schedules became teleporting rules).
+  static using(ids: Node, plan: Node): { using: string[]; planning?: number } {
+    const steps = plan.children[0]?.children[1]?.sourceString;
+    return { using: ids.asIteration().children.map(ModuleParser.text), ...steps ? { planning: Number(steps) } : {} };
   }
   static PersonUses(_u: Node, ids: Node, _dot: Node): Field {
     return { field: 'actions', value: ids.asIteration().children.map(ModuleParser.text) };

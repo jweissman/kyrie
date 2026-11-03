@@ -1,0 +1,19 @@
+Module repertoire "A parrot with something to say" {
+  // Quittance's wk 2 (QTC-A35): a talking bird's repertoire, said in order and round again, in one rule.
+  Place shop "the shop" is wilderness.
+  Place counter "the counter" is room within shop at 0, 0.
+  Company party "You" of 1 at counter.
+  Species grey_parrot "a grey parrot" like hen temperament tame described "A grey parrot with a red tail.".
+  Person fusby "Fusby" at counter { Role "the shop's parrot". Species grey_parrot. Peaceable. Pronouns he. }
+  Relation fluffed(group).
+  Action scratch(actor: group, site: place) "Scratch Fusby's head" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(fusby, site) and not fluffed(fusby).
+    Time 1 minute.
+    On success { Assert fluffed(fusby). }
+    Result "Fusby leans into your finger.".
+  }
+  Rule speaks near fusby when fluffed(fusby) says "'Pieces of eight!' says {fusby}."
+    again "'Who's a pretty boy, then?'" then "'Mind the step!'" { Retract fluffed(fusby). }
+  Observe counter_scene at counter when true "A counter, and a perch.".
+  Goal false.
+}

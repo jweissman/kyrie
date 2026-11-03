@@ -126,10 +126,23 @@ export class CampaignTick {
     for (const rule of rules) { if (!rule.late) { this.fire(host, rule, happenings, { began }); } }
     for (const rule of rules) { if (rule.upkeep || rule.late) { this.fire(host, rule, happenings, { began }); } }
   }
+  // The endings alone, read once more after the company has fallen: the cold that killed it struck after the watch's
+  // rules had run, and no pass came after, so a module's own ending on dead(party), the dead walking in out of the
+  // snow, was never reached and the page closed on the shared words (The Quiet in the Sky's 21, QIS-05).
+  static endings(host: TickHost, happenings: Happening[]) {
+    const began = host.world;
+    for (const rule of host.module.rules ?? []) {
+      if (rule.effects.some(c => c.kind === 'assert' && c.call.name === 'reached')) {
+        this.fire(host, rule, happenings, { began });
+      }
+    }
+  }
   // What is read again once the rules of the moment have run, read once as a game begins, before anyone acts: a way
   // open by day, or a change made only while nobody watches, is so from the first, not from the first watch (GTR-07:
   // the bureau no one stood over could not be eased open until the company had done something else first).
   static settle(host: TickHost) {
+    // Committed once as it begins, so that where the company starts is a place it has stood (see CommittedWorld).
+    host.commitWorld(host.world);
     const began = host.world;
     for (const rule of host.module.rules ?? []) { if (rule.upkeep) { this.fire(host, rule, [], { began }); } }
   }
@@ -192,12 +205,14 @@ export class CampaignTick {
   // What a rule says the first time the company hears it (of each it fires for), and after that its words again, where
   // it has them: a nightly show is told in full once (Wapshott's Circus friction 26, WPC-26). Which it has heard is
   // kept with the game, and saved with it.
+  // One with lines in turn after its again (`then`) is kept as heard each time, and says the next (QTC-A35).
   private static telling(host: TickHost, rule: WorldRule, instance: string): string {
     if (!rule.again) { return rule.say!; }
-    const current = host.tickState.current;
-    if (current.told?.includes(instance)) { return rule.again; }
+    const current = host.tickState.current, heard = current.told?.filter(t => t === instance).length ?? 0;
+    if (heard && !rule.then) { return rule.again; }
     (current.told ??= []).push(instance);
-    return rule.say!;
+    const turns = [rule.again, ...rule.then ?? []];
+    return heard ? turns[(heard - 1) % turns.length]! : rule.say!;
   }
   // Whether the company hears what a rule says, as a witness would: it can when the rule has done, and it perceived
   // the rule's anchor as the watch began, or just before the rule's effects, or just after them (the test seen applies

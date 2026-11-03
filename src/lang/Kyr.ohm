@@ -9,7 +9,10 @@ Kyr {
   Company = "Company" ident string "of" integer CompanyMost? "at" ident "."
   // Of as many as are chosen for it, from the first to the second (LUL-09).
   CompanyMost = "to" integer
-  ItemDecl = "Item" ident string? "is" ident ItemPlace Concealed? ItemOwner? "."
+  ItemDecl = "Item" ident string? "is" ident ItemPlace Concealed? ItemOwner? ItemEnd
+  // A thing of its own, with states and changes, carried as well as lying somewhere (QTC-A23).
+  ItemEnd = "." -- plain
+          | "{" ThingPart* "}" -- parts
   ItemPlace = "at" ident -- at
             | kwIn ident -- in
   Concealed = "hidden" "until" ident
@@ -148,11 +151,15 @@ Kyr {
   Speakers = "spoken" "by" NonemptyListOf<ident, ",">
   Destructible = "destructible"
   Pursuit = "Pursuit" ident "for" ident string? "priority" integer "when" Predicate "seeks" Predicate PursuitUsing? "."
-  PursuitUsing = "using" NonemptyListOf<ident, ",">
+  PursuitUsing = "using" NonemptyListOf<ident, ","> PursuitPlanning?
+  // How many ways ahead they look, for someone another file declares (QTC-A31).
+  PursuitPlanning = "planning" integer "steps"
   WorldRule = "Rule" ident Anchor? "when" Predicate RuleOnce? RuleSays? RuleTeaches? "{" ChangeStatement* "}"
   RuleOnce = "once"
   RuleSays = "says" string RuleAgain?
-  RuleAgain = "again" string
+  // And after that each in turn, round again: a parrot's repertoire (QTC-A35).
+  RuleAgain = "again" string RuleThen*
+  RuleThen = "then" string
   RuleTeaches = "teaches" ident
   Observation = "Observe" ident Anchor ObservationInstead? ObservationAbout? ObservationAspect? ObservationBy? "when" Predicate string ObservationTeaches? "."
   // Told in place of another while it holds (QTC-A25).
@@ -192,8 +199,10 @@ Kyr {
   Action = "Action" ident ActionParameters? string "{" ActionPart* "}"
   ActionParameters = "(" ListOf<Parameter, ","> ")"
   ActionPart = Requires | Success | Failure | Cost | Time | Resolve | Description | Result | Otherwise | Speaker | Seen | Grave
-    | Interruption | Watchful
+    | Interruption | Watchful | Meanwhile
   Interruption = "Interrupted" "when" Predicate "."
+  // What holds while its time passes, and not after (LUL-02): Meanwhile asleep(actor).
+  Meanwhile = "Meanwhile" NonemptyListOf<Call, ","> "."
   Watchful = "Watchful" "."
   Seen = "Seen" string "."
   Requires = "Requires" Predicate "."

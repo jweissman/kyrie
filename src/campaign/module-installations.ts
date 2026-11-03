@@ -28,6 +28,7 @@ export class ModuleInstallations {
       if (e.goals.some(g => actor.goals.some(o => o.id === g.id))) { throw new Error(`Duplicate pursuit for ${e.actor}`); }
       actor.goals.push(...structuredClone(e.goals));
       actor.actions.push(...e.actions.filter(id => !actor.actions.includes(id)));
+      actor.horizon = Math.max(actor.horizon, e.horizon ?? 0);
     }
     return out;
   }

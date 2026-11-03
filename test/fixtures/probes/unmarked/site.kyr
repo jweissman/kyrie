@@ -1,0 +1,22 @@
+Module unmarked "The fork under the Root" {
+  // Let One Remember's F6 (LOR-11): two ways from the fork, one kept and one a decoy, said by their own names until
+  // the company has been where they go, or has read what is cut over them.
+  Place halls "the halls" is wilderness.
+  Place fork "the fork" is room within halls at 0, 0.
+  Place kept "the Kept Hall" is room within halls at 0, 1.
+  Place aun "the Aun pit" is room within halls at 1, 1.
+  Passage left_way "the left-hand passage" is passage between fork and kept.
+  Passage right_way "the right-hand passage" is passage between fork and aun.
+  Initially Assert unmarked(left_way). Initially Assert unmarked(right_way).
+  Company party "You" of 1 at fork.
+  Thing carving "a carving over the left-hand passage" at fork {
+    State unread "Marks cut over the left-hand passage.".
+    State read "Over the left-hand passage: KEPT.".
+    Change decipher "Make out what is cut over the left-hand passage" from unread to read.
+  }
+  Rule kept_known when state(carving, read) and unmarked(left_way) { Retract unmarked(left_way). }
+  Observe fork_scene at fork when true "Two passages, and marks over one.".
+  Observe kept_scene at kept when true "A hall, dry and kept.".
+  Observe aun_scene at aun when true "A pit.".
+  Goal false.
+}
