@@ -235,6 +235,12 @@ before a rule of the module's own can say how the company came there. Settle it 
 watermen's sledges, which bring the company down onto the sledge road, assert that the wolves tolerate it, and a rule
 says how they were outrun: the Liberty of the Ice's 24).
 
+A crew that lets the company be (`tolerates`) is turned on it by retracting that, in the act or rule that turns it: a
+stealthy act gone wrong says `On failure { Retract tolerates(sons, actor). }`, and the page tells the act's
+`Otherwise`, then the crew's own `Warns`, and it comes on in its `Comes` when its patience is spent. Do not assert
+`warned`, `halts` or a `patience` by hand: they are the shared rules' reckoning of a warning, and set by hand they
+silence the crew's words and the act's (Quittance's bg 9; `probes/turned`).
+
 A danger with ways round it (a weight held out, a quiet slip along the pool) is territorial or defensive, with a
 `Warns` in its own manner that says what the ways round are (What Tessary Owes' Forsworn, W14). Each thing done while
 warned spends its patience, so the warning should name its price and the alternative (Bettany Slake's "Five coin for

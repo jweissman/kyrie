@@ -40,3 +40,17 @@ describe('a thing on the floor', () => {
   }, 60000);
 });
 
+// Quittance's bg 9 (QTC-A09): a crew that let the company be, turned on it by a stealthy act gone wrong, by retracting
+// its tolerance: it warns in its own words, and the act's Otherwise is told as well.
+describe('a quiet crew turned', () => {
+  it('warns in its own words, after what the act said', async () => {
+    const j = await Journey.start('test/fixtures/probes/turned/probe.campaign.json');
+    j.roll('fail');
+    await j.play('Lift the bucket');
+    const page = j.taken.at(-1)!.page;
+    expect(page.indexOf('handle clanks')).toBeLessThan(page.indexOf('are on their feet'));
+    expect(page.indexOf('handle clanks')).toBeGreaterThan(-1);
+    expect([j.holds('warned', 'p__sons', 'party'), j.holds('tolerates', 'p__sons', 'party')]).toEqual([true, false]);
+  }, 60000);
+});
+
