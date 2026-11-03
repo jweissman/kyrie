@@ -20,3 +20,11 @@ export class City {
   // Straight to the Bell & Slip with a licence, for adventures that begin there.
   static readonly slip = [...City.honest, '^To the Brokers', '^To Policy Row', "^Into the Bell & Slip", '?Take out an adjuster'];
 }
+
+export const Paths = {
+  toRow: [...City.honest, '^To the Brokers', '^To Policy Row'],
+  toPhoenix: [...City.honest, '^To the Brokers', '^To Policy Row', '^Into Phoenix House'],
+  toTables: [...City.honest, '^To the Brokers', '^To Policy Row', '^Into Phoenix House', '^To the Tables Room'],
+  toHearth: [...City.honest, '^To the Brokers', '^To Policy Row', '^To Surety Hill', '^Into Hearn', '^To the hearth-room'],
+  buy: (what: string, who = 'Wynn') => [`^Into the Policy Booths`, `Buy.*${what}.*for ${who}`, '^Out to Gate Plaza'],
+};
