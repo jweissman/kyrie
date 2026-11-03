@@ -67,23 +67,28 @@ export class Occasions {
     const rules: WorldRule[] = [{ id: `${o.id}_begins`, ...place, say: first.text,
       when: { kind: 'and', left: o.when, right: { kind: 'not', value: call('occasionBegun', o.id) } },
       effects: [{ kind: 'assert', call: call('occasionBegun', o.id) }, ...Occasions.open(first.id)] }];
-    o.matters.forEach((m, i) => rules.push(Occasions.closing(o, m, o.matters[i + 1], place)));
+    o.matters.forEach((m, i) => rules.push(...Occasions.closing(o, m, o.matters[i + 1], place)));
     (module.rules ??= []).push(...rules);
   }
-  // A matter closed, by its own condition or its time, and the next taken up, or the occasion over.
+  // A matter closed, by its own condition or its time; and then, once whatever the module says comes of it has been
+  // said (late), the next taken up, or the occasion over. A matter decided by a rule as its time ran out had been
+  // told after the next was called: "No living thing came ashore of her" after "The second matter" (Fair Weather's
+  // friction 7, FWR-07).
   private static closing(o: OccasionSpec, m: MatterSpec, next: MatterSpec | undefined,
-    place: { place?: string; anchor?: 'at' }): WorldRule {
+    place: { place?: string; anchor?: 'at' }): WorldRule[] {
     const call = Occasions.call;
     const since: Value = { kind: 'arith', op: '+', left: call('matterSince', m.id),
       right: { kind: 'number', value: m.watches } };
     const up: Predicate = { kind: 'compare', operator: '>=', left: call('watch', 'clock'), right: since };
     const done: Change[] = [{ kind: 'retract', call: call('matterOpen', m.id) },
       { kind: 'assert', call: call('matterDone', m.id) }];
-    const say = next ? next.text : o.closes;
-    return { id: `${m.id}_closes`, ...place, ...say ? { say } : {},
-      when: { kind: 'and', left: call('matterOpen', m.id),
-        right: m.until ? { kind: 'or', left: m.until, right: up } : up },
-      effects: [...done, ...next ? Occasions.open(next.id) : [{ kind: 'assert' as const, call: call('occasionOver', o.id) }]] };
+    const say = next ? next.text : o.closes, after = next ? call('matterDone', next.id) : call('occasionOver', o.id);
+    const taken: Predicate = next ? { kind: 'or', left: call('matterOpen', next.id), right: after } : after;
+    return [{ id: `${m.id}_closes`, when: { kind: 'and', left: call('matterOpen', m.id),
+      right: m.until ? { kind: 'or', left: m.until, right: up } : up }, effects: done },
+    { id: `${m.id}_then`, ...place, ...say ? { say } : {}, late: true,
+      when: { kind: 'and', left: call('matterDone', m.id), right: { kind: 'not', value: taken } },
+      effects: next ? Occasions.open(next.id) : [{ kind: 'assert' as const, call: call('occasionOver', o.id) }] }];
   }
   private static open(matter: string): Change[] {
     return [{ kind: 'assert', call: Occasions.call('matterOpen', matter) },
