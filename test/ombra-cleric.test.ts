@@ -115,7 +115,7 @@ describe('The Confessional: the seal', () => {
     if (g.at('vail') !== g.at('party')) { await g.play('?^Into the Gatehouse'); }
     for (let i = 0; i < 24 && g.at('vail') !== g.at('party'); i += 1) { await g.play('Wait › An hour'); }
     if (g.at('vail') !== g.at('party')) { return; } // the sergeant is the integrator's: wherever she keeps
-    await g.play('Talk to Ottoline Vail', 'Tell Sergeant Vail what the Warden confessed');
+    await g.play('Talk to a sergeant of the Masked Watch', 'Tell Sergeant Vail what the Warden confessed');
     expect(g.holds('cl_seal_broken', 'party')).toBe(true);
     expect(g.knows('lacke_unfaced')).toBe(true);
     expect(g.page).toMatch(/You are aware what you have just done/);
