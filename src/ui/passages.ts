@@ -20,7 +20,8 @@ export class Passages {
   private relations(name: string) { return this.world.related(name); }
   place(id: string): PlaceRef {
     const e = this.entities.get(id);
-    return { id, name: e?.name ?? id, kind: e?.space?.kind ?? 'place' };
+    return { id, name: e?.name ?? id, kind: e?.space?.kind ?? 'place',
+      ...e?.space?.shelter === 'underground' ? { underground: true } : {} };
   }
   path(id: string): PlaceRef[] {
     return Spatial.ancestry(this.entities, id).reverse().map(e => ({ id: e.id, name: e.name, kind: e.space!.kind }));

@@ -41,8 +41,9 @@ describe('kite at a glance', () => {
     expect(glance.acts.map(a => [a.choice, a.why, a.note])).toEqual([
       ['drover__son#talk', 'kin', 'your brother'],
       ['exit:region__s5_s2_way', 'named', 'your aim'],
-      // The grey dog that holds one forefoot off the ground is a sign, and Wynn the carter, a fourth, is not led with.
-      ['drover__dog/0:Make much of the grey dog', 'sign', undefined]]);
+      // The notice of what is under the town, the town's own (OWN-57), before the grey dog's sign; Wynn the carter,
+      // a fourth, is not led with.
+      ['company/2:Read the notice on the well-post', 'own', undefined]]);
     expect(glance.acts[1]!.facets).toEqual(['here', 'aimed']);
     // The taproom the dog lies at the door of is named: first of the ways rowed.
     expect(glance.ways[0]).toBe('exit:region__s2_taproom');

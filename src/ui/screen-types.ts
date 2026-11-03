@@ -31,7 +31,8 @@ export interface Act {
   // A fight it begins (a challenge to single combat), weighed up before it is chosen, as an attack is.
   reckoned?: { danger: Danger; text: string };
 }
-export interface PlaceRef { id: string; name: string; kind: string }
+// underground: below the ground (a cellar, a crypt, a mine), where the town's walks and the map are not to hand.
+export interface PlaceRef { id: string; name: string; kind: string; underground?: boolean }
 export interface ExitRow {
   id: string; kind: 'exit'; name: string; destination: PlaceRef; transition: Transition; passage: Passage;
   scope?: string; via?: string; blocked?: string; visited: boolean; acts: Act[]; way?: string; hazard?: string;

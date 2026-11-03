@@ -27,12 +27,13 @@ class Town {
 }
 
 describe('under the town the company begins in', () => {
-  it('is talked of on the green, and the rats under the corn-store are paid for once they are dealt with', async () => {
+  it('is posted on the green, and the rats under the corn-store are paid for once they are dealt with', async () => {
     const s = await Town.start(), c = s.campaign;
-    expect(PlayerView.observe(c).observations.some(o => /Talk on the green is of what is under the town/.test(o.text)))
-      .toBe(true);
-    await Town.take(s, /^Take Falkor's door/, /^Ask .* about the rats/);
+    // Nailed up on the green: read, the three troubles are aims, each saying who pays.
+    await Town.take(s, /^Read the notice on the well-post/);
     expect(ScreenModel.build(c).objectives.join(' ')).toContain('Clear the rats out from under the old corn-store');
+    expect(ScreenModel.build(c).objectives.join(' ')).toContain('will give fifteen coin');
+    await Town.take(s, /^Take Falkor's door/, /^Ask .* about the rats/);
     await Town.take(s, /^Take Falkor's door/, /^Take the corn-store door/, /^Take the trapdoor/, /^Light a torch/,
       /^Take a hole gnawed/, /^Attack the rats/);
     expect(c.world.test(ModuleWriter.call('able', 'region__s1_u_rats'))).toBe(false);

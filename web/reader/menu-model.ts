@@ -87,8 +87,9 @@ export class MenuModel {
     // out of the play environment").
     const overland = inside ? kept.far.filter(c => !MenuModel.stays(c, screen, aimed)) : [];
     const scene = inside ? { ...kept, far: kept.far.filter(c => MenuModel.stays(c, screen, aimed)) } : kept;
-    const going = inside ? [] : journeys, country = overland.length || (inside && journeys.length)
-      ? MenuModel.country : undefined;
+    // Underground, the world map is not a way out (a cellar under a corn-store had offered it beside the rat-runs).
+    const going = inside ? [] : journeys, country = !screen.place.underground
+      && (overland.length || (inside && journeys.length)) ? MenuModel.country : undefined;
     const about = [...this.around(screen), ...country ? [country] : []];
     const subjects = scene.subjects.flatMap(s => s.choices);
     const ways = [...scene.near, ...about, ...scene.far, ...going];

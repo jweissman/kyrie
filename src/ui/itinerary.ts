@@ -197,9 +197,11 @@ export class Itineraries {
     const here = campaign.world.one('at', campaign.playerActor!);
     const byId = this.byId(campaign);
     const town = here && Spatial.ancestry(byId, here).find(e => e.space?.kind === 'settlement');
-    if (!town) { return []; }
+    // Not underground, nor to anywhere underground: a cellar under the corn-store had offered the inn's taproom,
+    // thirty minutes off, and the town's walks had offered the ossuary (OWN-57's play).
+    if (!town || byId.get(here)?.space?.shelter === 'underground') { return []; }
     return campaign.module.entities.filter(e => e.type === 'place' && e.space?.kind === 'room' && e.id !== here
-      && Spatial.ancestry(byId, e.id).some(a => a.id === town.id))
+      && e.space.shelter !== 'underground' && Spatial.ancestry(byId, e.id).some(a => a.id === town.id))
       .flatMap(r => { const p = this.route(campaign, r.id, true); return p && p.legs.length > 1 ? [p] : []; })
       .sort((a, b) => a.minutes - b.minutes);
   }

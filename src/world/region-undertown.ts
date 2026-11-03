@@ -22,6 +22,10 @@ export class RegionUndertown {
       `  Observe ${t}_u_yard_scene at ${t}_u_yard as fixture when true ${q(`Old stones leaning in the grass, and in the corner by the wall a low stone door into the ground, its iron ring bright where someone has pulled at it lately.`)}.`,
       `  Observe ${t}_u_pit_scene at ${t}_u_pit as fixture when true ${q(`A bowl of grey stone cut out of the hill long ago, ivy over its faces; at the bottom, a square adit goes back into the rock, roped across, and a board on the rope says KEEP OUT in three hands.`)}.`,
       ...this.down(t), ...this.below(t), ...this.vault(t), ...this.errands(region, s),
+      // What each is worth, said, not reckoned from how many there are: four rats had been worth 112 experience to a
+      // lone warrior, more than a level, by the square of their number (OWN-57's play).
+      ...([['rats', 15], ['dead', 25], ['spiders', 20], ['crawler', 20], ['keeper', 60]] as const)
+        .map(([who, xp]) => `  Initially Set encounterXp(${t}_u_${who}) to ${xp}.`),
     ];
   }
   // The three sections, a stair or adit apiece, two rooms each, each with its own trouble.
@@ -99,18 +103,25 @@ export class RegionUndertown {
       ['dead', 'priest', 'the noises under the churchyard', `{${t}_priest} looks at the floor. 'The catacombs. Something has come up out of the bone-heaps, and the old stair is the only way down. I cannot ask anyone to go. I will give fifteen coin to anyone who does.'`, `Lay whatever has come up in the catacombs under the churchyard at ${town}; {${t}_priest} will give fifteen coin.`, 15],
       ['spiders', 'innkeeper', 'the old quarry', `'Nobody goes in the old quarry now,' says {${t}_innkeeper}. 'There's webs across the adit thick as sailcloth, and the Hobb boy went in after a ferret and came out white. Twelve coin from the house to whoever burns them out.'`, `Burn the spiders out of the old quarry's workings at ${town}; {${t}_innkeeper} will pay twelve coin.`, 12],
     ];
-    // What the green talks of, while any of it is still to do: where to ask (a company come to town had been shown
-    // nothing to do but a road out of it).
-    const open = jobs.map(([who]) => `able(${t}_u_${who})`).join(' or ');
-    const talk = `Talk on the green is of what is under the town: rats in the old corn-store (ask {${t}_merchant}), something come up in the catacombs (ask {${t}_priest}), and webs across the old quarry's adit (ask {${t}_innkeeper}). Nobody has gone down.`;
-    return [`  Observe ${t}_u_under_talk at ${t}_green as ambience when ${open} ${q(talk)}.`,
+    // Nailed up on the green, while any of it is still to do: what is under the town, who pays, and where to ask; read,
+    // each is an aim (a company come to town had been shown nothing to do but a road out of it, and the talk of it on
+    // the green was lost under an arrival's news).
+    const open = jobs.map(([who]) => `able(${t}_u_${who})`).join(' or '), notice = `${t}_u_notice`;
+    const text = `A notice on the post by the well, in three hands. 'RATS in the old corn-store, as big as cats. Ten coin. Ask {${t}_merchant}.' 'Whoever will go down into the catacombs under the churchyard, where something has come up: fifteen coin. Ask {${t}_priest}.' 'SPIDERS in the old quarry. Twelve coin from the house. Ask {${t}_innkeeper}.'`;
+    return [`  Entity ${notice}: fact ${q(text)}.`,
+      `  Observe ${notice}_up at ${t}_green when ${open} and not knows(party, ${notice}) ${q('A notice is nailed to the post by the well, in three different hands.')}.`,
+      `  Action ${notice}_read(actor: group, site: place) "Read the notice on the well-post" {`,
+      `    Requires able(actor) and at(actor, site) and at(actor, ${t}_green) and not knows(actor, ${notice}) and (${open}).`,
+      '    Time 1.', `    On success { Assert knows(actor, ${notice}). }`, `    Result ${q(text)}.`, '  }',
       ...jobs.flatMap(([who, giver, topic, says, aim, coin]) => {
       const fact = `${t}_u_${who}_job`, g = `${t}_${giver}`;
       return [`  Entity ${fact}: fact ${q(aim.replace(/; .*$/, '.'))}.`,
         `  Topic ${fact}_ask with ${g} ${q(`Ask {${g}} about ${topic}`)} when able(${t}_u_${who}) once {`,
         `    Says ${q(says)}.`, `    On discuss { Assert knows(actor, ${fact}). }`, '  }',
-        `  Objective ${fact}_aim when knows(party, ${fact}) and able(${t}_u_${who}) ${q(aim)}.`,
-        `  Topic ${fact}_paid with ${g} ${q(`Tell {${g}} it is done`)} when knows(actor, ${fact}) and not able(${t}_u_${who}) once {`,
+        `  Objective ${fact}_aim when (knows(party, ${fact}) or knows(party, ${t}_u_notice)) and able(${t}_u_${who})`
+          + ` ${q(aim)}.`,
+        `  Topic ${fact}_paid with ${g} ${q(`Tell {${g}} it is done`)} when (knows(actor, ${fact}) or knows(actor, ${t}_u_notice))`
+          + ` and not able(${t}_u_${who}) once {`,
         `    Says ${q(`{${g}} counts out ${coin} coin into your hand. 'I did not think anyone would. Thank you.'`)}.`,
         `    On discuss { Increase quantity(actor, gold) by ${coin}. }`, '  }'];
       })];

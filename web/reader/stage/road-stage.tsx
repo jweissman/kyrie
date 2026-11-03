@@ -84,11 +84,25 @@ export class RoadStage {
             {b.to - b.from > 0.12 && <em>{b.label}</em>}</span>)}
           <span className="you" style={{ left: '50%' }} aria-label="You are here" />
         </div>
-        {route.branches.length > 0 && <ul className="branches">{route.branches.flatMap(e => RoadStage.choices(ways, e)
-          .slice(0, 1).map(c => <li key={c.id}><Act.View choice={c} draw={draw} className="branch">
-            ↗ {Typography.curl(e.destination.name)}{c.note && <span className="note">{c.note}</span>}</Act.View></li>))}</ul>}
+        {route.branches.length > 0 && <ul className="branches">{RoadStage.apart(route.branches).flatMap(([e, said]) =>
+          RoadStage.choices(ways, e).slice(0, 1).map(c => <li key={c.id}><Act.View choice={c} draw={draw} className="branch">
+            ↗ {Typography.curl(said)}{c.note && <span className="note">{c.note}</span>}</Act.View></li>))}</ul>}
       </figure>
     );
+  }
+  // The tracks off the road, each said apart: where several go into one wood, by which way each goes, or the wood
+  // once (five chips had all said "the woods of Birchwood": the review's duplicate labels, OWN-57's play).
+  static apart(branches: ExitRow[]): [ExitRow, string][] {
+    const named = (e: ExitRow) => e.destination.name, count = new Map<string, number>();
+    for (const e of branches) { count.set(named(e), (count.get(named(e)) ?? 0) + 1); }
+    const seen = new Set<string>();
+    return branches.flatMap(e => {
+      if ((count.get(named(e)) ?? 0) < 2) { return [[e, named(e)] as [ExitRow, string]]; }
+      if (e.bearing) { return [[e, `${named(e)}, ${e.bearing}`] as [ExitRow, string]]; }
+      if (seen.has(named(e))) { return []; }
+      seen.add(named(e));
+      return [[e, named(e)] as [ExitRow, string]];
+    });
   }
   static End({ choices, exit, draw, back }: { choices: Choice[]; exit: ExitRow; draw: Draw; back?: boolean }) {
     const [go, ...rest] = choices;

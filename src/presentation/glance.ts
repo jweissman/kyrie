@@ -79,8 +79,10 @@ export class Glance {
     const last = travel.legs.at(-1);
     if (!last) { return glance; }
     const via = [...new Set(travel.legs.slice(0, -1).map(l => l.place))].slice(-2);
-    const came = travel.arrived ? `${via.length ? `By ${via.join(' and ')}, to` : 'To'} ${travel.to}: ${last.at}.`
-      : travel.stopped ?? `On the way to ${travel.to}: ${last.at}.`;
+    // The hour ends with its own stop ("1:32 p.m."), and is not given a second ("1:32 p.m..").
+    const at = last.at.replace(/\.$/, '');
+    const came = travel.arrived ? `${via.length ? `By ${via.join(' and ')}, to` : 'To'} ${travel.to}: ${at}.`
+      : travel.stopped ?? `On the way to ${travel.to}: ${at}.`;
     return { ...glance, came };
   }
   // The company's state, said only when something is wrong.
