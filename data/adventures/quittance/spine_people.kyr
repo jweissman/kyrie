@@ -175,4 +175,11 @@ Module quittance "Quittance" {
   Topic dolly_notice with dolly "Ask Dolly about the notice on the well" when true once {
     Says "'Nobody reads,' says Dolly. 'The clerk who pasted it said it was for the sanitary inspector, and we've no sanitary inspector, so we took it as a compliment.'".
   }
+
+  // ── A kindness, so that a turn is a return (second review C5) ───────────────────────────────────────────
+  Relation prewittBed(group).
+  Topic prewitt_bed with prewitt "Ask whether the Phoenix keeps a bed for the adjusters it sends for" when knows(actor, d_prewitt_met) and not prewittBed(actor) once {
+    Says "Prewitt looks at you for rather a long time. 'It does not,' he says. 'It ought. A guest is owed a bed; it is the oldest rule of the trade, older than the marks.' He takes eight coin from a drawer, counts it twice, and pushes it across the desk with one finger, as if it might be hot. 'Mrs Pudsey at the Hen will not ask you for a reference. Do not tell Ottoline I did this. She would think I was ill.'".
+    On discuss { Assert prewittBed(actor). Increase quantity(actor, gold) by 8. }
+  }
 }

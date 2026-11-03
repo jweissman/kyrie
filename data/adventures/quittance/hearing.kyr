@@ -122,4 +122,15 @@ Module quittance "Quittance" {
   Rule forged_doors_cited when matterOpen(h_losses) and fg_network(party) and not marksCited(city)
     says "The Chairman of the Providence has been handed a plate. It is a gilt bird, correct to the feather and not quite round. 'There are a dozen doors in the Wards,' he says, 'with one of these on them, and the brigades have been putting them out for a month. I cannot find that anybody has been defrauded.' He turns it over. 'I find that it is a rather good plate.'" {
     Assert marksCited(city). Increase argued(city) by 1. }
+
+  // ── The Chairmen, a face each ───────────────────────────────────────────────────────────────────────────
+  Topic chair_residuary with chairmen "Ask the Chairman of the Residuary what the sixth stool is for" when true once {
+    Says "The small bald gentleman puts down his sandwich. 'The Residuary,' he says, 'is the Office for what the others will not cover. It was a joke. We have had it a hundred years.' He looks at the stool. 'Dame Honora left a seat for the Guest. We dust it on Thursdays. I am afraid it is the only part of my duties that I have ever understood.'".
+  }
+  Topic chair_lamprey with chairmen "Ask the Chairman of the Lamprey how his fish is" when true once {
+    Says "The wet-coated man looks up from his hands. 'Dree says it is the best brigade in the city,' he says. 'Dree is wrong. It is the second best. The best is whichever one is not the Phoenix. I have found that this is a very restful thing to have decided.'".
+  }
+  Topic chair_providence with chairmen "Ask the Chairman of the Providence whether he is ever frightened" when true once {
+    Says "The plump rosy Chairman beams. 'I insure against falling off ladders,' he says. 'Every day. For people who then do not fall off them, because they are insured, and are careful, because they have paid.' The beam falters for a moment. 'It is the great secret of my Office that nobody has ever been able to tell whether it works.'".
+  }
 }

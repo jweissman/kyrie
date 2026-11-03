@@ -51,7 +51,7 @@ Module quittance "Quittance" {
   // ── The Bare Wards ──────────────────────────────────────────────────────────────────────────────────────
   Person skelter "Mr Skelter" at skelter_room {
     Role "rent-collector for the Bare Wards". Ancestry human. Calling thief. Level 3. Peaceable. Manner grim. Pronouns he.
-    Greets "A thin man behind a grating, whose pen has not stopped moving since you came in, says without looking up, 'Rent?' It is not a question. When you do not answer he glances at you over the pen, and then at the door, and then back at the book. 'Nobody who has business with me,' says Mr Skelter, 'ever comes by the front.'".
+    Greets "The grating has a candle behind it, lit, which is against the Ordinance, and a man behind the candle who writes with his left hand and holds a cooling dumpling in his right. He looks at you as one looks at a stain that has not decided whether to spread. 'Rent,' says Mr Skelter. It is not a question. His eyes go to the door you came by, and then, quickly, to a book on the shelf that is no different from the others. 'Nobody with business with me,' he says, 'ever comes by the front.'".
     Greets again "'Rent,' says Mr Skelter, and turns a page.".
   }
 

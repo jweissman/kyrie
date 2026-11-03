@@ -101,4 +101,5 @@ Module quittance "Quittance" {
   Observe amb_mort at mort_lodge as sound when true "Rooks in the yews, gravel under the porter's boots, and from the almshouse, very faint, a kettle that has been on the boil since breakfast.".
   Observe amb_cellar at cellar_foot as sound when true "The draught in the cellars makes a sound, down the arcade, like someone breathing in to speak and then thinking better of it.".
   Observe amb_gulls at round_furnace as sound when true "The gulls along the wall do not cry. They sit with their feet to the warm bricks, facing the river, which is the wrong way to face if you are a gull.".
+  Observe amb_stoves at brick_lane as ambience when day(clock) >= 4 and hour(clock) >= 6 and hour(clock) < 20 "A kettle boils over on a sill two doors down before the woman has put it on the hob, and she stands and looks at it with her hand on her hip. Along the terrace a stove-door ticks, and ticks, like a thing cooling that has not been lit.".
 }
