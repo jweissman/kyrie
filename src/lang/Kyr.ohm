@@ -117,7 +117,8 @@ Kyr {
   Topic = "Topic" ident "with" ident TopicTravelling? string TopicAnswering? "when" Predicate TopicOnce? "{" Grave? "Says" string "." Grave? TopicEffects? "}"
   TopicAnswering = "answering" ident
   TopicTravelling = "travelling"
-  TopicOnce = "once"
+  TopicOnce = "once" TopicOnly?
+  TopicOnly = "only"
   TopicEffects = "On" "discuss" "{" ChangeStatement* "}"
   Speaker = "Speaker" ident "."
   Grave = "Grave" string "."

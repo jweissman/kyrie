@@ -80,9 +80,10 @@ export class ModuleDeclarations {
       case 'entity': module.entities.push(value as Module['entities'][number]); break;
       case 'initial': module.initial.push(value as Change); break;
       case 'action': {
-        const { once, ...action } = value as Operator & { once?: boolean }, topic = action.topic;
-        // A question put once can be put again, for the same answer and nothing more (M16: topics vanished once asked).
-        const again = once && topic ? WorldConstructs.recall(action) : [];
+        const { once, only, ...action } = value as Operator & { once?: boolean; only?: boolean }, topic = action.topic;
+        // A question put once can be put again, for the same answer and nothing more (M16: topics vanished once asked);
+        // one put once only cannot (The Third Night's friction 6).
+        const again = once && topic && !only ? WorldConstructs.recall(action) : [];
         if (once) { WorldConstructs.once(module, action); }
         if (action.answers) { WorldConstructs.answer(module, action, action.answers); }
         if (action.speaker && !topic) { ModuleDeclarations.spoken(action, action.speaker); }
