@@ -4,11 +4,17 @@ Module quittance "Quittance" {
   // ══ THE RECEIPT, DAY BY DAY ═════════════════════════════════════════════════════════════════════════════
   // The Receipt on the front of the Hall of the Five is written in fire gone to white. It is read from the court of the
   // Exchange, and every morning there is less of it. (Foreshadowing for the whole book, and a clock a player can read.)
-  Observe receipt_1 at exchange_court when day(clock) <= 3 "The Receipt on the Hall's front is still legible if you stand where the clerks stand. RECEIVED OF THE CITY OF QUITTANCE, THE SUM OF ITS PREMIUM, IN FULL. The last three words have gone the colour of old teeth; the rest is white.".
-  Observe receipt_2 at exchange_court when day(clock) >= 4 and day(clock) <= 6 "The Receipt has lost its last words since you came. RECEIVED OF THE CITY OF QUITTANCE, THE SUM OF ITS. Where PREMIUM was, the plaster shows through a pale smear, like a word breathed on a window.".
-  Observe receipt_3 at exchange_court when day(clock) >= 7 "The Receipt has dwindled to RECEIVED OF THE CITY, and under it a long faint stroke, such as a clerk makes with the side of the pen before he has decided what to write. The clerks pass it with their eyes down.".
+  Thing receipt "the Receipt on the Hall's front" at exchange_court {
+    Tries looking.
+    State full "The Receipt on the Hall's front is still legible if you stand where the clerks stand. RECEIVED OF THE CITY OF QUITTANCE, THE SUM OF ITS PREMIUM, IN FULL. The last three words have gone the colour of old teeth; the rest is white.".
+    State fading "The Receipt has lost its last words since you came. RECEIVED OF THE CITY OF QUITTANCE, THE SUM OF ITS. Where PREMIUM was, the plaster shows through a pale smear, like a word breathed on a window.".
+    State faint "The Receipt has dwindled to RECEIVED OF THE CITY, and under it a long faint stroke, such as a clerk makes with the side of the pen before he has decided what to write. The clerks pass it with their eyes down.".
+    State bright "The Receipt is brighter. RECEIVED OF THE CITY OF QUITTANCE, and a word has come back that nobody has been able to read. There is a small crowd at the rail, and a clerk who has been told not to stand on the step is standing on it.".
+  }
+  Rule receipt_fades_a when day(clock) >= 4 and state(receipt, full) { Assert state(receipt, fading). }
+  Rule receipt_fades_b when day(clock) >= 7 and state(receipt, fading) { Assert state(receipt, faint). }
+  Rule receipt_brightens when wardsLit(city) >= 3 and not state(receipt, bright) { Assert state(receipt, bright). }
   Observe receipt_candle at exchange_court when burned(candlewick) and day(clock) >= 3 "Since the night of the fire in the Wards another letter has gone from the Receipt, and the clerks, who are exact, have written the date of its going in chalk on the step.".
-  Observe receipt_warm at exchange_court when wardsLit(city) >= 3 "The Receipt is brighter. Someone has noticed; there is a small crowd at the rail, and a clerk who has been told not to stand on the step is standing on it.".
 
   // ══ DAME HONORA ════════════════════════════════════════════════════════════════════════════════════════
   Thing honora_statue "the statue of Dame Honora Hearn" at exchange_court {

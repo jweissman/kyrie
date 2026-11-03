@@ -14,6 +14,7 @@ Module quittance "Quittance" {
     Refuge skelter_room.
     Lair cinder_ward.
   }
+  Initially Assert tolerates(tithe_burners, party).
   Rule tithe_men_come when watch(clock) >= 1236 and tithePrepared(city) and not titheStopped(city) and not at(tithe_burners, cinder_ward) { Assert at(tithe_burners, cinder_ward). }
   Rule tithe_men_beaten when (routed(tithe_burners) or dead(tithe_burners)) and not titheStopped(city) { Assert titheStopped(city). }
   Observe tithe_men_seen at cinder_ward when at(tithe_burners, cinder_ward) and not titheStopped(city) and not burned(cinder_ward) "A handcart stands at the foot of the black chimney with six men round it in the dark, waiting for a clock. The oil-cans are the sort that are sold for lamps, and there are a great many of them. All round the Ward the windows are lit, and nobody has gone to bed.".
@@ -47,6 +48,7 @@ Module quittance "Quittance" {
     Time 15 minutes.
     Resolve check(actor, insight, dc_hard).
     On success { Assert titheStopped(city). }
+    On failure { Retract tolerates(tithe_burners, actor). }
     Result "He is quiet for a long time. 'A stove,' he says. 'Iron. With a door. My mother had a coal in a tin and the Ordinance took it off her the winter she died, and I held the shovel.' He does not say anything more; he turns the handcart round, and the others, after a moment, push.".
     Otherwise "'You've a good voice,' says the foreman, not unkindly. 'I've heard it before. It's the voice of someone who doesn't live here.'".
   }
