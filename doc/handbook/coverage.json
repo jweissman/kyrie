@@ -997,7 +997,7 @@
     "faithful": 220,
     "adapted": 25,
     "represented": 49,
-    "kyr": 270,
+    "kyr": 271,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 198
@@ -1036,7 +1036,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 21,
+      "kyr": 22,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -15113,6 +15113,13 @@
   {
    "id": "campaign:skeel",
    "title": "Fair Weather",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "campaigns"
+  },
+  {
+   "id": "campaign:the-book-of-faces",
+   "title": "The Book of Faces",
    "status": "kyr",
    "book": "dmg",
    "section": "campaigns"
