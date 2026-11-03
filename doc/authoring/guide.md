@@ -1136,6 +1136,10 @@ Any text (an observation, a result, what someone says) can say a measure as it s
 whoever the condition finds first. A measure is said as a figure, as a reading is ("The dial reads {dial(clock)}.");
 said `in words`, a small one is a word, as speech would have it: `"'I've lost {lost(garth) in words} to them so
 far,' says {garth}."` says "one", not "1" (play 9).
+A phrase agrees with its count when both its forms follow it: `"{left(rose) in words|petal is|petals are} still to
+set."` says "One petal is still to set." and, with three left, "Three petals are". A measure kept of the watch is said
+as the time of day it was, `as time`: after `Set loosedAt(lanterns) to watch(clock)`, `"The lanterns went up at
+{loosedAt(lanterns) as time}."` says "at 9:30 p.m." (the Grand Tour's 09 and 11; `test/counts-told.test.ts`).
 
 ### A way that opens only sometimes
 
