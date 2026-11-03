@@ -33,7 +33,9 @@ Kyr {
   TriesPart = "Tries" ident ("," ident)* "."
   StatePart = "State" ident StateFlag* string "."
   StateFlag = "blocking" | "dangerous" | "closed"
-  ChangePart = "Change" ident string "from" ident "to" ident ChangeNeeds? ChangeAfter? ChangeConsumes? ChangeAt? "."
+  ChangePart = "Change" ident string "from" ident "to" ident ChangeNeeds? ChangeAfter? ChangeConsumes? ChangeAt? ChangeWhen? "."
+  // Made only while something holds, and why not while it does not (GTR-07).
+  ChangeWhen = "when" Predicate string?
   ChangeNeeds = "needing" ident ("or" ident)*
   ChangeAfter = "after" "learning" ident
   ChangeConsumes = "consuming" ident

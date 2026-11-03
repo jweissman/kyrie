@@ -140,12 +140,18 @@ export class InspectTool {
   }
   // What holds instead of a fact that fails (the company is somewhere else), and what a query that fails means.
   private static instead(world: World, p: Predicate): string {
-    if (p.kind === 'not') { return ', which holds'; }
+    if (p.kind === 'not') { return `, which holds${this.until(world, p.value)}`; }
     if (p.kind !== 'call') { return ''; }
     const query = world.module.queries.find(q => q.name === p.name);
     if (query) { return this.meant(world, query, p); }
     const facts = world.relates(p.name) ? world.related(p.name, p.args[0]).slice(0, 3) : [];
     return facts.length ? `; instead ${facts.map(f => World.format(f)).join(', ')}` : '';
+  }
+  // A change withheld until its author's condition holds (Change … when …: GTR-07) is said with that condition.
+  private static until(world: World, p: Predicate): string {
+    const rule = p.kind === 'call' && p.name === 'withheld'
+      ? world.module.rules?.find(r => r.id === `${p.args[0]}__allowed`) : undefined;
+    return rule?.when.kind === 'and' ? ` until ${ModuleWriter.predicate(rule.when.left)}` : '';
   }
   // What a query means, which of its conditions fail with its arguments put in, and the facts its open ones find.
   private static meant(world: World, query: Query, p: Extract<Predicate, { kind: 'call' }>): string {

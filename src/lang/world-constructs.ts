@@ -7,6 +7,8 @@ export interface ChangeSpec {
   id: string; label: string; from: string; to: string; needs?: string[]; after?: string; consumes?: string;
   // Where the change can be made from, when only one side reaches it (a bar on the cellar side of a door).
   at?: string;
+  // Made only while this holds, and what is said beside the thing while it does not (see WorldConstructs.withheld).
+  when?: Predicate; why?: string;
 }
 export interface ThingSpec {
   id: string; name: string; type: string; site?: { anchor: 'at' | 'on' | 'inside'; id: string; from?: string };
@@ -199,6 +201,7 @@ export class WorldConstructs {
       for (const need of c.needs ?? []) { this.assert(module, 'needs', id, need); }
       if (c.after) { this.assert(module, 'changeKnows', id, c.after); }
       if (c.at) { this.assert(module, 'changeAt', id, c.at); }
+      if (c.when) { this.withheld(module, t, id, c); }
       // Consuming a good spends some of the company's stock; consuming a kind of item uses one up.
       const spent = c.consumes ? ItemCatalog.definitions[c.consumes]?.name : undefined;
       if (spent) { this.entity(module, c.consumes!, 'itemkind', spent); this.assert(module, 'spends', id, c.consumes!); }
@@ -210,6 +213,23 @@ export class WorldConstructs {
       this.assert(module, 'hurtsInto', t.id, t.hurts.then);
     }
     for (const way of t.guards ?? []) { this.assert(module, 'guards', t.id, way); }
+  }
+  // A change made only while something holds is withheld until the world's rules find that it does, and again
+  // whenever it stops, read once the rules of the moment have run (as a way's opening is); while withheld, the shared
+  // changes are not offered, and what its author says of it is told beside the thing, in the state it would be changed
+  // from. The escritoire's lock was offered with the footman standing over it (the Grand Tour's friction 7, GTR-07).
+  private static withheld(module: Module, t: ThingSpec, id: string, c: ChangeSpec) {
+    const withheld = this.call('withheld', id), when = c.when!, allowed: Predicate = { kind: 'not', value: withheld };
+    this.assert(module, 'withheld', id);
+    (module.rules ??= []).push(
+      { id: `${id}__allowed`, when: { kind: 'and', left: when, right: withheld },
+        effects: [{ kind: 'retract', call: withheld }], upkeep: true },
+      { id: `${id}__withheld`, when: { kind: 'and', left: { kind: 'not', value: when }, right: allowed },
+        effects: [{ kind: 'assert', call: withheld }], upkeep: true });
+    if (c.why) {
+      (module.observations ??= []).push({ id: `${id}__why`, place: t.id, anchor: 'near', about: t.id, aspect: 'feature',
+        when: { kind: 'and', left: withheld, right: this.call('state', t.id, c.from) }, text: c.why });
+    }
   }
   static thing(module: Module, t: ThingSpec) {
     module.entities.push({ id: t.id, type: t.type, name: t.name });

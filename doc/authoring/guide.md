@@ -249,6 +249,11 @@ moves the thing from one state to another. It can need a skill, an item kind or 
 good, and `at` a place it can be made from there alone. You never write a separate scene line saying the gate is
 open: the gate's state says it. `changedBy(thing, who)` says who last changed a thing by one of its changes, so a rule
 can ask who opened the lockbox, not only that it is open (What Tessary Owes' W15; `test/fixtures/probes/changed-by`).
+A change can be made only while something holds, and say why not while it does not, beside the thing: `Change pick
+"Pick the escritoire's lock" from locked to open when not at(footman, drawing) "Pargeter stands over the escritoire."`
+(`test/fixtures/probes/withheld`; the Grand Tour's 7 offered the lock with the footman standing over it). `kyrie
+inspect` names the condition it waits on.
+
 A thing on a way is told at both its ends; one seen from one end only says so (`Thing step "the deep step" on ford from
 far_bank`), and so may a line beside a way (`Observe post beside ford from near_bank when true "…"`).
 

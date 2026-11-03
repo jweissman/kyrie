@@ -1,0 +1,29 @@
+Module withheld "An escritoire, and a footman standing over it" {
+  Place arden "Arden House" is settlement.
+  Place drawing "the drawing room" is room within arden at 0, 0.
+  Place hall "the hall" is room within arden at 1, 0.
+  Passage drawing_door "the drawing-room door" is door between drawing and hall.
+  Company party "You" of 1 at drawing.
+  Person footman "Pargeter" at drawing { Role "the footman". Peaceable. Pronouns he. }
+  Action send_off(actor: group, site: place) "Send Pargeter for tea" {
+    Requires able(actor) and at(actor, site) and at(footman, site).
+    Time 0.
+    On success { Retract at(footman, site). Assert at(footman, hall). }
+    Result "Pargeter goes for tea.".
+  }
+  // Picked only while nobody stands over it (GTR-07).
+  Thing escritoire "the escritoire" at drawing {
+    State locked closed "The escritoire is locked.".
+    State open "The escritoire stands open.".
+    Change pick "Pick the escritoire's lock" from locked to open when not at(footman, drawing)
+      "Pargeter stands over the escritoire, and watches your hands.".
+  }
+  // Open from the first, while he is not in the hall; shut once he is.
+  Thing bureau "the bureau" at drawing {
+    State shut closed "The bureau is shut.".
+    State ajar "The bureau is ajar.".
+    Change ease "Ease the bureau open" from shut to ajar when not at(footman, hall).
+  }
+  Observe drawing_scene at drawing when true "A drawing room of green silk.".
+  Goal false.
+}

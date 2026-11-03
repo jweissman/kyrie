@@ -77,7 +77,7 @@ export class Campaign implements WatchHost {
     // The clock reads the hour from the start: how long until dark, until first light, until the day turns.
     this.commit(this.world.apply(CampaignTick.clock(this.world, this.current)));
     CreatureFacts.initialize(this.world, this.definition.actors, this.creatures);
-    this.refresh(); this.observe(); this.updateOutcome();
+    this.refresh(); CampaignTick.settle(this); this.observe(); this.updateOutcome();
   }
   // Loading is deterministic in (source, path, seed, party), so later loads fork the first, with its own kinds.
   private static loads = new LoadCache<Campaign>();
@@ -140,7 +140,7 @@ export class Campaign implements WatchHost {
     this.compiled = next.module; this.definition = next.campaign; this.creatures = store;
     this.commit(world); this.current.deadline = next.budget;
     for (const actor of actors) { this.current.inhabitants[actor.id] = [...actor.members]; }
-    this.updateOutcome();
+    CampaignTick.settle(this); this.updateOutcome();
   }
   private installBoundary() {
     if (this.executing || this.creatures.hasActiveLeases) { throw new Error('Install only between commands'); }

@@ -208,13 +208,13 @@ export class ModuleParser {
       text: ModuleParser.ast(text) } };
   }
   static ChangePart(_c: Node, id: Node, label: Node, _from: Node, from: Node, _to: Node, to: Node, needs: Node,
-    after: Node, consumes: Node, at: Node, _dot: Node): Field {
+    after: Node, consumes: Node, at: Node, when: Node, _dot: Node): Field {
     const [a, c, p] = [after, consumes, at].map(node => node.children.length ?
       ModuleParser.ast(node.children[0]!) as string : undefined);
     const n = needs.children.length ? ModuleParser.ast(needs.children[0]!) as unknown as string[] : undefined;
     return { field: 'change', value: { id: id.sourceString, label: ModuleParser.ast(label), from: from.sourceString,
       to: to.sourceString, ...(n ? { needs: n } : {}), ...(a ? { after: a } : {}), ...(c ? { consumes: c } : {}),
-      ...(p ? { at: p } : {}) } };
+      ...(p ? { at: p } : {}), ...when.children.length ? ObjectParser.withheld(when.children[0]!) : {} } };
   }
   static Second(_word: Node, value: Node) { return value.ctorName === 'string' ? ModuleParser.ast(value) : value.sourceString; }
   static Third(_a: Node, _b: Node, value: Node) { return value.sourceString; }
