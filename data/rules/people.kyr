@@ -68,12 +68,16 @@ Module world_people "Company and intention" {
   // person (not an animal or a beast) talks, and anyone with something to be asked (Topic) does. Speaking to them
   // takes no time; they answer it (a greeting, from the voice tables), and what can be put to them is put in it.
   Relation talks(group). Relation addressed(group, group).
+  // Whoever the company has spoken with, for good: someone called a stranger's name until then (Known as "an old man
+  // with a pole" when not acquainted(hob, party)) is themselves from the first word and their greeting, whichever way
+  // the company came to them (Quittance's ll 17, QTC-A24: one topic taught his name, and a Greets could not).
+  Relation acquainted(group, group).
   Action talk_to(actor: group, person: group, site: place) "Talk to {person}" {
     Description "Go over and speak to them.".
     Requires able(actor) and company(actor) and at(actor, site) and at(person, site) and talks(person) and able(person)
       and not asleep(person) and not hostile(person, actor) and not addressed(person, actor) and distinct(actor, person).
     Time 0.
-    On success { Assert addressed(person, actor). }
+    On success { Assert addressed(person, actor). Assert acquainted(person, actor). }
   }
   Action take_leave(actor: group, person: group, site: place) "Take your leave of {person}" {
     Requires able(actor) and at(actor, site) and addressed(person, actor).

@@ -245,7 +245,9 @@ there, in the plain words of its temperament unless it has words of its own.
 
 Someone can be called something else until they are known, or while something holds: `Known as "a woman in a grey
 shawl" when not knows(party, her_name).` Until it is false the page calls them that, in place of their name and role
-(a mask, a hood, a face not yet put to a name).
+(a mask, a hood, a face not yet put to a name). Whoever the company has spoken with it is `acquainted` with, for good:
+`Known as "an old man with a pole" when not acquainted(hob, party).` is Hob from his greeting on, whichever way the
+company came to him (`test/fixtures/probes/acquainted`; Quittance's ll 17, where only one topic taught his name).
 
 ## 4. Things with states
 
