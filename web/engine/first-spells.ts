@@ -37,6 +37,13 @@ export class FirstSpells {
     SpellSelection.validate(plan, out, id);
     return out;
   }
+  // The first-level spells a specialist chooses among (the owner, 3 November: a way of choosing spells): how many,
+  // those of the school or domain one of them must be, and every one open to it that the calling does not teach.
+  static first(id: string, own: string[]): { count: number; school: string[]; open: FirstSpell[] } | undefined {
+    const l = SpellSelection.plan(this.trait(id)).levels.find(x => x.level === 1);
+    if (!l?.count) { return undefined; }
+    return { count: l.count, school: l.restricted, open: l.open.filter(p => !own.includes(p)).map(p => this.spell(p)) };
+  }
   // The spells shown for a specialization, in the order known: cantrips, the calling's own, then the picks by level.
   static shown(id: string, own: string[], picks: string[]): FirstSpell[] {
     const cantrips = SpellSelection.plan(this.trait(id)).cantrips;

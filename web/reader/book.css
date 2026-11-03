@@ -248,3 +248,23 @@
   background: linear-gradient(var(--ivory), rgba(236, 230, 217, .35)); }
 .board-you .you-shadow { position: absolute; left: 22%; bottom: 0; width: 56%; height: calc(var(--you) * .22); border-radius: 50%;
   background: radial-gradient(rgba(242, 189, 76, .9) 0 18%, rgba(0, 0, 0, .7) 30%, rgba(0, 0, 0, 0) 70%); }
+
+/* ---- The plan of where you are, inside somewhere (PlanView): the rooms known on this level, the ways between them,
+   the ways out as arrows, you ringed in gold. ---- */
+.plan { display: flex; flex-direction: column; gap: 10px; color: var(--ivory); }
+.plan .where { margin: 0; font: 500 11px/1.4 var(--do); letter-spacing: .22em; text-transform: uppercase; color: var(--dim); }
+.plan .levels { margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 4px 14px;
+  font: 400 13px/1.4 var(--do); color: var(--dim); }
+.plan .levels li[aria-current] { color: var(--gold); }
+.plan .key { margin: 0; font: 400 12px/1.5 var(--do); color: var(--dim); max-width: 60ch; }
+.plan-drawn { width: 100%; height: auto; max-height: 60vh; overflow: visible; }
+.plan-drawn .trail { fill: none; stroke: var(--ivory); stroke-opacity: .55; stroke-width: 1.6; }
+.plan-drawn .trail.unexplored { stroke-dasharray: 4 5; stroke-opacity: .35; }
+.plan-drawn .trail.blocked, .plan-drawn .trail.guarded { stroke: var(--ember); }
+.plan-drawn .spot circle { fill: var(--ivory); stroke: var(--ivory); stroke-width: 1.4; }
+.plan-drawn .spot:not(.been) circle { fill: transparent; }
+.plan-drawn .spot.here circle { fill: var(--gold); stroke: var(--gold); }
+.plan-drawn .spot .ring { fill: none; stroke: var(--gold); stroke-width: 1.4; }
+.plan-drawn .spot.out path { fill: none; stroke: var(--ivory); stroke-opacity: .7; stroke-width: 1.6; }
+.plan-drawn text { fill: var(--ivory); font: 400 13px/1 var(--do); }
+.plan-drawn .spot:not(.been) text { fill: var(--dim); }

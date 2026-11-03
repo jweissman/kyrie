@@ -75,6 +75,14 @@ export class ReaderOpening {
     if (field !== 'name') { void this.preview(party); }
     this.readySoon();
   }
+  // The spells chosen for a member at first level (see SpellChoice), as they are to be set out with.
+  spells(index: number, ids: string[]) {
+    const party = structuredClone(this.app.state.party), member = party[index];
+    if (!member) { return; }
+    member.spells = ids;
+    this.app.setState({ party });
+    void this.preview(party);
+  }
   private change(member: Member, field: string, value: string) {
     const catalog = this.app.state.catalog, was = member.classId;
     (member as unknown as Record<string, string>)[field] = value;

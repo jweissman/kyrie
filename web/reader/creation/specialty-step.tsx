@@ -4,6 +4,7 @@ import type { Catalog } from '../../engine/protocol';
 import { Words } from '../words';
 import { Card } from './card';
 import { SpellStrip } from './spell-strip';
+import { SpellChoice } from './spell-choice';
 import { PeopleStep } from './people-step';
 
 type Calling = Catalog['callings'][number];
@@ -23,13 +24,21 @@ export class SpecialtyStep {
     const people = catalog.ancestries.find(a => a.id === m.raceId), who = calling.name.toLowerCase();
     return (
       <Card.Deck kind="specialties" onward={onward} details={mine && SpecialtyStep.details(mine, who)}
-        after={mine?.spells && <SpellStrip.View spells={mine.spells} calling={who} />}>
+        after={mine?.spells && <><SpellStrip.View spells={SpecialtyStep.known(mine, m.spells)} calling={who} />
+          <SpellChoice.View app={app} way={mine} /></>}>
         {calling.specializations.map(t => <Card.View key={t.id} name={t.name} line={t.line} glyph={t.id}
           text={SpecialtyStep.sentence(t)} chosen={m.traits?.[0] === t.id} data={{ choice: `specialization:${t.id}` }}
           shut={people?.forbids.includes(t.id) ? `Not for ${PeopleStep.plural(people)}` : undefined}
           onChoose={() => app.opening.edit(0, 'specialization', t.id)} />)}
       </Card.Deck>
     );
+  }
+  // The spells shown as known: the way's, with the first-level spells chosen in place of its own picks.
+  private static known(t: Way, chosen?: string[]) {
+    const first = new Map((t.first?.open ?? []).map(s => [s.id, s])), shown = t.spells ?? [];
+    if (!chosen || !t.first) { return shown; }
+    return [...shown.filter(s => !first.has(s.id) || s.own), ...chosen.flatMap(id => first.get(id) ?? [])]
+      .filter((s, i, all) => all.findIndex(x => x.id === s.id) === i);
   }
   // Who takes a way, said of them: "You are a conduit of divine life energy" is "A vitalist is a conduit of divine
   // life energy"; "You embody…", "A cherubist embodies…".

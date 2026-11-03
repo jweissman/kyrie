@@ -6,6 +6,7 @@ import { CallingStep } from './calling-step';
 import { SpecialtyStep } from './specialty-step';
 import { OriginStep } from './origin-step';
 import { NameStep } from './name-step';
+import { BeforeStep } from './before-step';
 
 type Step = { id: string; ask: string; View: (p: { app: ReaderApp; onward?: ReactNode }) => ReactNode };
 
@@ -23,6 +24,7 @@ export class CreationPage {
       { id: 'you', ask: 'Choose your ancestry', View: PeopleStep.View },
       { id: 'calling', ask: 'Choose your calling', View: CallingStep.View },
       ...calling?.specializations.length ? [{ id: 'specialty', ask: SpecialtyStep.ask(calling), View: SpecialtyStep.View }] : [],
+      { id: 'before', ask: BeforeStep.ask, View: BeforeStep.View },
       { id: 'name', ask: 'Choose your name', View: NameStep.View }];
   }
   static View({ app }: { app: ReaderApp }) {

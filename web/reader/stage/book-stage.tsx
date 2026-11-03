@@ -1,6 +1,7 @@
 import type { ReaderApp } from '../reader-app';
 import { Sheet } from '../sheet';
 import { MapView } from '../map-view';
+import { PlanView } from '../plan-view';
 import { Typography } from '../../../src/presentation/typography';
 import { Stage } from './stage';
 import { Act } from './act';
@@ -20,7 +21,8 @@ export class BookStage {
         </header>
         <div className="book">
           <div className="book-page">
-            {app.state.view === 'map' ? <MapView.View app={app} screen={frame.screen} /> : <Sheet.View app={app} />}
+            {app.state.view !== 'map' ? <Sheet.View app={app} /> : PlanView.inside(frame.screen)
+              ? <PlanView.View screen={frame.screen} /> : <MapView.View app={app} screen={frame.screen} />}
           </div>
         </div>
       </div>

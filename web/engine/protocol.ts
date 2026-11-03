@@ -57,7 +57,9 @@ export interface Catalog {
   // trade one who comes with only their trade has, until they choose another.
   callings: { id: string; name: string; text: string; line: string; trade?: string;
     specializations: { id: string; name: string; title?: string; who?: string; text?: string; line?: string;
-      of?: string; rules?: string[]; spells?: FirstSpell[]; picks?: string[] }[];
+      of?: string; rules?: string[]; spells?: FirstSpell[]; picks?: string[];
+      // The first-level spells chosen among: how many, those of the way one must be, and all that are open.
+      first?: { count: number; school: string[]; open: FirstSpell[] } }[];
     qualities: Record<string, number>;
     // Its hit die, the armour it may wear and the skills it brings, in words; the quality its spells rest on, if it
     // casts; and whether it can brace a weapon against a charge (Set Spear).

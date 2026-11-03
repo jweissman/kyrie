@@ -85,7 +85,8 @@ export class Creation {
     const who = domain ? { title: named, who: `${callingName} of ${domain}` }
       : access ? { title: Creation.upper(id), who: id }
         : { who: `${callingName}, ${CardLines.manners[id] ?? named.toLowerCase()}` };
-    return { id, ...way, ...who, ...access ? { picks, spells: FirstSpells.shown(id, own, picks) } : {} };
+    return { id, ...way, ...who, ...access ? { picks, spells: FirstSpells.shown(id, own, picks),
+      first: FirstSpells.first(id, own) } : {} };
   }
   private static upper(s: string): string { return s.charAt(0).toUpperCase() + s.slice(1); }
   // The weapons a protagonist of a calling may set out with: its own, and every ordinary weapon of the kinds and

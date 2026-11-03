@@ -5,6 +5,23 @@
 // with its rune, a summoning circle, a retort, a keystone, a thorn.
 export class Emblems {
   static readonly paths: Record<string, string> = {
+    // The fourteen kinds of life a trade is of (BeforeStep): a pine, a road and its stones, a key, a mask, a mortar,
+    // a candle, a book, a pick, a shield, the waves, a curtain, scales, a crown, a beggar's bowl.
+    life_wild: 'M24 6L12 24h7L10 36h28L29 24h7zM24 36v6',
+    life_roads: 'M8 42L20 8M40 42L28 8M24 40v-4M24 30v-4M24 20v-4M24 12v-2',
+    life_mechanisms: 'M16 10a7 7 0 1 0 .01 0zM21 22l17 17M33 34l-4 4M38 39l-4 4',
+    life_shadows: 'M8 18c10-4 22-4 32 0-1 9-6 14-16 14S9 27 8 18zM15 21c2-1.5 5-1.5 7 0M26 21c2-1.5 5-1.5 7 0',
+    life_healing: 'M8 24h32c0 10-7 16-16 16S8 34 8 24zM28 22l10-16M18 42h12',
+    life_faith: 'M20 18h8v24h-8zM24 18v-4M24 5c3 3 3 6 0 8-3-2-3-5 0-8zM15 42h18',
+    life_learning: 'M24 12c-5-3-11-3-16-1v28c5-2 11-2 16 1 5-3 11-3 16-1V11c-5-2-11-2-16 1zM24 12v28',
+    life_earth: 'M8 18c10-9 22-9 32 0M25 11l-6 31M17 42h5',
+    life_arms: 'M10 8h28v14c0 10-6 16-14 20-8-4-14-10-14-20zM24 8v34M10 20h28',
+    life_water: 'M6 18c4-4 8-4 12 0s8 4 12 0 8-4 12 0M6 28c4-4 8-4 12 0s8 4 12 0 8-4 12 0'
+      + 'M6 38c4-4 8-4 12 0s8 4 12 0 8-4 12 0',
+    life_stage: 'M6 8h36M8 8c0 14 4 26 10 32M40 8c0 14-4 26-10 32M18 40h12M14 8c2 6 5 10 10 12 5-2 8-6 10-12',
+    life_trade: 'M24 6v34M16 40h16M10 12h28M10 12l-5 12h10zM38 12l-5 12h10z',
+    life_court: 'M8 36L6 14l10 9 8-13 8 13 10-9-2 22zM8 41h32',
+    life_margins: 'M10 26h28c0 8-6 14-14 14S10 34 10 26zM31 22l7-15M17 8c2 4 2 8 0 12',
     // The eight schools.
     abjurer: 'M24 5l16 6v12c0 10-7 17-16 21-9-4-16-11-16-21V11zM24 37V15M24 25l-6-6M24 25l6-6',
     conjurer: 'M5 37a19 6.5 0 1 0 38 0a19 6.5 0 1 0-38 0zM12 37a12 3.5 0 1 0 24 0a12 3.5 0 1 0-24 0z'

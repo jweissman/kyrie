@@ -14,11 +14,25 @@ export class CreationDefaults {
     const way = open.find(t => t.id === member.traits?.[0]) ?? open[0];
     if (way) { member.traits = [way.id]; } else { delete member.traits; }
     // A protagonist begun above first level has learnt more since, as its own draw has it.
-    if (way?.picks && (member.level ?? 1) === 1) { member.spells = [...way.picks]; } else { delete member.spells; }
+    // The spells chosen are kept while they are a choice the way allows; otherwise the card's.
+    if (way?.picks && (member.level ?? 1) === 1) {
+      if (!CreationDefaults.allowed(member.spells, way)) { member.spells = [...way.picks]; }
+    } else { delete member.spells; }
     const before = catalog.callings.find(c => c.id === at.was)?.trade;
     if (at.trade && calling.trade && (!member.backgroundId || member.backgroundId === before)) {
       member.backgroundId = calling.trade;
     }
+  }
+  // Whether spells chosen are a choice the way allows: its picks with first-level spells chosen in place of its own,
+  // as many, one of them the way's own (see SpellSelection.validate).
+  static allowed(spells: string[] | undefined, way: Catalog['callings'][number]['specializations'][number]): boolean {
+    const first = way.first, picks = way.picks ?? [];
+    if (!spells || !first) { return false; }
+    const open = new Set(first.open.map(s => s.id)), chosen = spells.filter(id => open.has(id));
+    const rest = picks.filter(id => !open.has(id));
+    return chosen.length === first.count && new Set(chosen).size === chosen.length
+      && chosen.some(id => first.school.includes(id)) && spells.length === chosen.length + rest.length
+      && rest.every(id => spells.includes(id));
   }
   // The name a protagonist sets out with: as written, without what a name in the world's text cannot hold (braces,
   // quotes, a backslash), or, if nothing is left, the first of their people's names here for how they present (never

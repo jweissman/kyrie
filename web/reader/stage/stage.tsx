@@ -5,6 +5,7 @@ import { Routes } from '../../../src/ui/route';
 import { FictionalTime } from '../../../src/campaign/fictional-time';
 import { Typography } from '../../../src/presentation/typography';
 import { Words } from '../words';
+import { PlanView } from '../plan-view';
 import { PlaceStage } from './place-stage';
 import { TalkStage } from './talk-stage';
 import { ThingStage } from './thing-stage';
@@ -60,7 +61,8 @@ export class Stage {
   // Whether the map is open over everything (not a fight, or the end, come over it): then the keys are the map's, and
   // what would be said over the page is said over the map.
   static mapped(app: ReaderApp): boolean {
-    return app.state.view === 'map' && !!app.state.frame && Stage.mode(app) === 'book';
+    return app.state.view === 'map' && !!app.state.frame && Stage.mode(app) === 'book'
+      && !PlanView.inside(app.state.frame.screen);
   }
   // What automation knows the stage as: the place and the road are both exploring; a book is what it holds.
   private static inspected(app: ReaderApp, mode: Mode): string {

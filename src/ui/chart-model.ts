@@ -102,8 +102,11 @@ export class ChartModel {
     if (!this.world.module.relations.some(r => r.name === 'connects')) { return {}; }
     const ways = this.ways(visited), home = this.floor(here);
     const known = new Set([...visited, ...ways.map(w => w.to), ...ways.map(w => w.from)]);
+    // Below ground in no level of a site (a cellar, a crypt under a town), the plan is of what is below: the ways up
+    // are ways out of it (the owner's checklist, interior orientation and a route to safety).
+    const below = this.under(here) && home?.space?.kind !== 'level';
     const local = [...known].map(id => this.entities.get(id)!)
-      .filter(e => e?.space?.grid && this.floor(e.id)?.id === home?.id);
+      .filter(e => e?.space?.grid && this.floor(e.id)?.id === home?.id && (!below || this.under(e.id)));
     const places: Chart['places'] = local.map(e => ({ id: e.id, name: e.name, x: e.space!.grid![0], y: e.space!.grid![1],
       visited: visited.has(e.id), here: e.id === here, area: this.entities.get(e.space!.parent ?? '')?.name ?? '' }));
     const edges: Chart['edges'] = [], seen = new Set<string>();
@@ -116,13 +119,14 @@ export class ChartModel {
       const inside = (a ?? b)!, outside = a ? w.to : w.from, there = this.floor(outside);
       const id = `beyond:${outside}`;
       if (!places.some(p => p.id === id)) {
-        const [dx, dy] = this.direction(home, there);
+        const up = below && !this.under(outside), [dx, dy] = up ? [0, -1] : this.direction(home, there);
         let step = 1;
         while (places.some(p => p.x === inside.x + dx * step && p.y === inside.y + dy * step)) { step++; }
         // A way out to a settlement is named for it; one out into open country or into a site, for the place it
         // reaches (the crypt, the bailey), since a site has more than one door.
         const open = !there || ['wilderness', 'region', 'site', 'level'].includes(there.space?.kind ?? '');
-        const name = (open ? this.entities.get(outside)?.name : there.name) ?? outside, rise = this.rise(home, there);
+        const name = (open || up ? this.entities.get(outside)?.name : there.name) ?? outside;
+        const rise = up ? 'up' as const : this.rise(home, there);
         places.push({ id, name, x: inside.x + dx * step,
           y: inside.y + dy * step, visited: false, here: false, area: '', external: true, ...rise ? { rise } : {} });
       }
@@ -131,6 +135,7 @@ export class ChartModel {
     const level = home?.space?.kind === 'level' ? { level: home.name, levels: this.levels(home, visited) } : {};
     return { ...(places.length ? { chart: { places, edges, ...level } } : {}), ...this.region(ways, visited, here) };
   }
+  private under(id: string): boolean { return this.entities.get(id)?.space?.shelter === 'underground'; }
   // A site's levels, top to bottom, as the company knows them: each it has stood on.
   private levels(home: Entity, visited: Set<string>): NonNullable<Chart['levels']> {
     const on = new Set([...visited].map(id => this.floor(id)?.id));
