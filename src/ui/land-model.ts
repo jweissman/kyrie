@@ -90,12 +90,13 @@ export class LandModel {
       glosses: Object.fromEntries(Object.entries(chart.glosses ?? {}).filter(([id]) => named.has(id))),
       ...chart.blocks ? { blocks: chart.blocks } : {}, ...this.tracts() };
   }
-  // The land about a place been to: a settlement's country, a road's or a wild country's either side of it, an
-  // authored area's own stretch.
+  // The land about a place been to: the six stretches about a settlement, a road's or a wild country's either side
+  // of it, an authored area's own stretch. One ring, not three: the rest is found by going there or looking out from
+  // somewhere high (the owner, 1 November: "only illuminate the surrounding six hexes from where you start").
   private about(id: string, known: Set<number>): void {
     const chart = this.chart, area = this.marked(id), at = this.cell(id);
-    for (const c of chart.parts[id] ?? chart.roads[id] ?? []) { this.reveal(c, 2, known); }
-    if (at !== undefined) { this.reveal(at, area?.space?.kind === 'settlement' ? 3 : 2, known); }
+    for (const c of chart.parts[id] ?? chart.roads[id] ?? []) { this.reveal(c, 1, known); }
+    if (at !== undefined) { this.reveal(at, 1, known); }
     for (const c of (area && chart.blocks?.[area.id]) ?? []) { this.reveal(c, 1, known); }
   }
   // The stretches of open country known by exploring: each walked, with those about it; about each looked out from,

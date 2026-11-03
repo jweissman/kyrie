@@ -157,6 +157,10 @@ export class RegionWriter {
       ...RegionBorders.lines(region), ...RegionGates.lines(region),
       ...RegionSites.lines(region, taken),
       ...RegionWorks.lines(region, taken), ...RegionFellows.lines(region), ...RegionTraffic.lines(region),
+      // Finding a place is its own reward, once: a makers' work more than a cave (the owner, 1 November: hex
+      // crawling encouraged, exploration rewarded).
+      ...region.sites.map(w => `  Milestone ${w.id}_reached ${JSON.stringify(`found ${w.name}`)} worth ${w.work ? 20 : 10}`
+        + ` when been(party, ${w.id}).`),
       ...region.calendar ? RegionWeather.lines(region, region.calendar) : [], ...RegionTracts.lines(region));
     region.settlements.forEach(s => lines.push(...this.economy(s, region)));
     return lines;

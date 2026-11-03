@@ -87,6 +87,7 @@ export class RegionUndertown {
       '  }',
       `  Item ${t}_u_vault_rings "a cord of old rings" is grave_rings at ${t}_u_vault.`,
       `  Item ${t}_u_vault_stone "a moonstone the size of a thumb" is moonstone at ${t}_u_vault.`,
+      `  Milestone ${t}_u_vault_reached "found the sealed vault under the undercroft" worth 25 when been(party, ${t}_u_vault).`,
       `  Objective ${t}_u_vault_sought when knows(party, ${t}_u_vault_found) and able(${t}_u_keeper) "Something keeps the sealed vault under the undercroft.".`,
     ];
   }

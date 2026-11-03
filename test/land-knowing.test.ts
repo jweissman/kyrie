@@ -90,7 +90,8 @@ describe('what the map knows of a place', () => {
     const told = Knowing.of(s), tower = told.land.marks.find(m => m.id === 'region__w9')!;
     Knowing.kept(start, told);
     expect(tower).toMatchObject({ name: 'a lone tower', state: 'heard', kind: 'place' });
-    expect([questions.includes(tower.cell), told.land.known.includes(tower.cell)]).toEqual([true, true]);
+    // (Further off than the one ring known about a town at first, it was no question mark before it was told of.)
+    expect([questions.includes(tower.cell), told.land.known.includes(tower.cell)]).toEqual([false, true]);
     expect(told.land.known.length).toBeGreaterThan(start.land.known.length);
     Knowing.unmade(told.land);
     // From the top of the shrine's tower, a ruin in the wood is seen: by its look, its name not yet said, on its own

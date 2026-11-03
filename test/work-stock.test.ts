@@ -30,4 +30,21 @@ describe('a makers\' work, stocked', () => {
     expect(said + JSON.stringify(PlayerView.observe(c))).toMatch(/loose/);
     expect(takes().length).toBeGreaterThan(0);
   }, 120000);
+  // Finding a place is its own reward, once (the owner, 1 November: exploration rewarded).
+  it('is worth experience the first time the company comes to it, and not again', async () => {
+    const { GeneratedWorld } = await import('./support/generated');
+    const w = await WorldAssembler.assemble('wren', NodeBundleSource.shared,
+      { party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
+    const s = await PlaySession.start(w.path, 'wren', w.source);
+    const xp = () => s.campaign.readout.creatures.find(x => s.campaign.state.partyIds.includes(x.id))!.state.experience;
+    const site = w.report.region.sites.find(x => x.work)!;
+    const before = xp();
+    await GeneratedWorld.travel(s, site.id);
+    const after = xp();
+    expect(after - before).toBeGreaterThanOrEqual(20);
+    await s.perform('wait');
+    await GeneratedWorld.travel(s, w.report.region.settlements[0]!.id + '_green');
+    await GeneratedWorld.travel(s, site.id);
+    expect(xp()).toBe(after);
+  }, 180000);
 });
