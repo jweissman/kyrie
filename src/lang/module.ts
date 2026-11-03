@@ -78,6 +78,8 @@ export interface WorldRule {
   id: string; when: Predicate; effects: Change[]; say?: string; place?: string; anchor?: Anchor;
   // What it says each time after the first the company hears it (see CampaignTick.fire).
   again?: string;
+  // What it says each time after that, in turn, and then from its again round once more (QTC-A35).
+  then?: string[];
   // A fact its words teach whoever hears them: known, as witnessed, when the company perceives them.
   teaches?: string;
   // Read again once the rules of the moment have run: a way's opening (see WorldConstructs.opening).

@@ -23,3 +23,21 @@ describe('a rule told again', () => {
     expect(ModuleWriter.write(m)).toContain('says "In full." again "Again."');
   });
 });
+
+// A talking creature's repertoire, said in order and round again (Quittance's wk 2, QTC-A35: a parrot that took twenty
+// rules and six measures): what follows its again in turn, each `then`.
+describe('a repertoire', () => {
+  it('is said a line at a time, in order, and round again from its again', async () => {
+    const j = await Journey.start('test/fixtures/probes/repertoire/probe.campaign.json', 'r');
+    const said: string[] = [];
+    for (let i = 0; i < 4; i++) { await j.play('Scratch Fusby'); said.push(j.latest.split('finger. ')[1]!.slice(0, 12)); }
+    expect(said).toEqual(['‘Pieces of e', '‘Who’s a pre', '‘Mind the st', '‘Who’s a pre']);
+  }, 60000);
+  it('is written as it was read', () => {
+    const m = ModuleParser.parse('Module m "M" { Relation shown(). Rule show when not shown() says "One." '
+      + 'again "Two." then "Three." then "Four." { Assert shown(). } Goal false. }');
+    expect(m.rules?.[0]).toMatchObject({ say: 'One.', again: 'Two.', then: ['Three.', 'Four.'] });
+    expect(ModuleWriter.write(m)).toContain('says "One." again "Two." then "Three." then "Four."');
+  });
+});
+

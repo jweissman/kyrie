@@ -205,12 +205,14 @@ export class CampaignTick {
   // What a rule says the first time the company hears it (of each it fires for), and after that its words again, where
   // it has them: a nightly show is told in full once (Wapshott's Circus friction 26, WPC-26). Which it has heard is
   // kept with the game, and saved with it.
+  // One with lines in turn after its again (`then`) is kept as heard each time, and says the next (QTC-A35).
   private static telling(host: TickHost, rule: WorldRule, instance: string): string {
     if (!rule.again) { return rule.say!; }
-    const current = host.tickState.current;
-    if (current.told?.includes(instance)) { return rule.again; }
+    const current = host.tickState.current, heard = current.told?.filter(t => t === instance).length ?? 0;
+    if (heard && !rule.then) { return rule.again; }
     (current.told ??= []).push(instance);
-    return rule.say!;
+    const turns = [rule.again, ...rule.then ?? []];
+    return heard ? turns[(heard - 1) % turns.length]! : rule.say!;
   }
   // Whether the company hears what a rule says, as a witness would: it can when the rule has done, and it perceived
   // the rule's anchor as the watch began, or just before the rule's effects, or just after them (the test seen applies

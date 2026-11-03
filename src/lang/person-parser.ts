@@ -113,9 +113,13 @@ export class PersonParser {
   // What a rule says, and what it says each time after the first the company hears it, where that is shorter: a
   // nightly show told in full every night unless the author kept a fact of having seen it, and two rules (Wapshott's
   // Circus friction 26, WPC-26).
-  static RuleSays(_says: Node, text: Node, again: Node): { say: string; again?: string } {
+  // Each written after `then` is said in its turn after that, and round again (a parrot's repertoire, said in order:
+  // Quittance's wk 2, QTC-A35, whose parrot took twenty rules and six measures).
+  static RuleSays(_says: Node, text: Node, again: Node): { say: string; again?: string; then?: string[] } {
+    const after = again.children[0];
+    const then = after?.children[2]?.children.map(t => ModuleParser.ast(t.children[1]!) as string);
     return { say: ModuleParser.ast(text) as string,
-      ...again.children.length ? { again: ModuleParser.ast(again.children[0]!.children[1]!) as string } : {} };
+      ...after ? { again: ModuleParser.ast(after.children[1]!) as string } : {}, ...then?.length ? { then } : {} };
   }
   // What someone with the company says on coming somewhere that matters to them, once (A Winter in Carth's friction
   // 21: Hern came into the fold his whole story points at, and the page said only that he was there).

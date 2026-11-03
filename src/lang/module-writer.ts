@@ -58,7 +58,7 @@ export class ModuleWriter {
     }
     for (const rule of module.rules ?? []) {
       const anchor = rule.place ? ` ${rule.anchor ?? 'at'} ${rule.place}` : '';
-      lines.push(`  Rule ${rule.id}${anchor} when ${ModuleWriter.predicate(rule.when)}${rule.say ? ` says ${JSON.stringify(rule.say)}` : ''}${rule.again ? ` again ${JSON.stringify(rule.again)}` : ''}${rule.teaches ? ` teaches ${rule.teaches}` : ''} {`);
+      lines.push(`  Rule ${rule.id}${anchor} when ${ModuleWriter.predicate(rule.when)}${rule.say ? ` says ${JSON.stringify(rule.say)}` : ''}${rule.again ? ` again ${JSON.stringify(rule.again)}` : ''}${(rule.then ?? []).map(t => ` then ${JSON.stringify(t)}`).join('')}${rule.teaches ? ` teaches ${rule.teaches}` : ''} {`);
       rule.effects.forEach(c => lines.push(`    ${ModuleWriter.change(c)}`));
       lines.push('  }');
     }

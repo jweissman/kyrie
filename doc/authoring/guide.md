@@ -1056,6 +1056,15 @@ show told in full every night, unless its author kept a fact of having seen it a
     again "The horses come in again, and {barker} cries the bill." { Assert shown(party). }
 ```
 
+Lines written after the again with `then` are said each in its turn, one each time the company hears the rule, and
+round again from the again: a talking creature's repertoire, a ghost's, a clock's, in one rule (Quittance's wk 2,
+whose parrot took twenty rules; `probes/repertoire`). What sets it off, a cue, a mood, is its condition:
+
+```text
+  Rule speaks near fusby when fluffed(fusby) says "'Pieces of eight!' says {fusby}."
+    again "'Who's a pretty boy, then?'" then "'Mind the step!'" { Retract fluffed(fusby). }
+```
+
 A count taken below nothing stops at nothing: `Decrease dose(?m) by 8` leaves a dose of five at none. An action that
 would take one past nothing is not offered, since what cannot be paid for is not bought; where that is backwards (a
 company owing one pain kneels a night "for six of your pains"), the action says so: `Decrease pains(actor) by 6 or to

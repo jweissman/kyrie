@@ -1,7 +1,7 @@
 import { Spatial } from '../spatial';
 import { ObservationText } from '../lang/observation-text';
 import type { BoundRole } from './role-requirements';
-import type { Call, Change, Instance, Module, Operator, Predicate, Value } from '../lang/module';
+import type { Call, Change, Instance, Module, Operator, Predicate, Value, WorldRule } from '../lang/module';
 import { ModuleWriter } from '../lang/module-writer';
 import type { CampaignDefinition, InstalledModule } from './definition';
 
@@ -104,7 +104,7 @@ export class ModuleNamespace {
       rules: original.rules?.map(r => ({ ...r, id: this.rules.rules?.some(s => s.id === r.id) ? r.id : `${this.bindings.id}__${r.id}`,
         when: this.predicate(r.when), effects: r.effects.map(c => this.change(c)),
         ...(r.place ? { place: this.entities[r.place] ?? r.place } : {}),
-        ...(r.say ? { say: this.text(r.say) } : {}), ...(r.again ? { again: this.text(r.again) } : {}),
+        ...this.words(r),
         ...(r.teaches ? { teaches: this.entities[r.teaches]! } : {}) })),
       objectives: original.objectives?.map(o => ({ ...o, id: `${this.bindings.id}__${o.id}`,
         when: this.predicate(o.when), text: this.text(o.text) })),
@@ -135,6 +135,11 @@ export class ModuleNamespace {
         })) };
   }
   // An entity under its installation's names: its id, its kind, what its name and alias name, where it lies.
+  // What a rule says, its again and its lines in turn after that (QTC-A35), in the installation's words.
+  private words(r: WorldRule): Pick<WorldRule, 'say' | 'again' | 'then'> {
+    return { ...(r.say ? { say: this.text(r.say) } : {}), ...(r.again ? { again: this.text(r.again) } : {}),
+      ...(r.then ? { then: r.then.map(t => this.text(t)) } : {}) };
+  }
   private entity(e: Module['entities'][number]): Module['entities'][number] {
     return { ...e, id: this.entities[e.id]!, type: this.kinds[e.type] ?? e.type,
       ...(e.name.includes('{') ? { name: this.text(e.name) } : {}),

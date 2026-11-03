@@ -152,7 +152,9 @@ Kyr {
   WorldRule = "Rule" ident Anchor? "when" Predicate RuleOnce? RuleSays? RuleTeaches? "{" ChangeStatement* "}"
   RuleOnce = "once"
   RuleSays = "says" string RuleAgain?
-  RuleAgain = "again" string
+  // And after that each in turn, round again: a parrot's repertoire (QTC-A35).
+  RuleAgain = "again" string RuleThen*
+  RuleThen = "then" string
   RuleTeaches = "teaches" ident
   Observation = "Observe" ident Anchor ObservationInstead? ObservationAbout? ObservationAspect? ObservationBy? "when" Predicate string ObservationTeaches? "."
   // Told in place of another while it holds (QTC-A25).
