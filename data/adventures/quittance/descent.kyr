@@ -116,7 +116,7 @@ Module quittance "Quittance" {
     State ds_empty "The glass lamp is empty.".
     Change ds_lift "Lift the coal out of the clerk's lamp with the tongs" from ds_lit to ds_empty.
   }
-  Rule ds_lamp_wakes when day(clock) >= 6 and state(ds_lamp, ds_asleep) { Assert state(ds_lamp, ds_lit). }
+  Rule ds_lamp_wakes when day(clock) >= 7 and state(ds_lamp, ds_asleep) { Assert state(ds_lamp, ds_lit). }
   Rule ds_lamp_gives when state(ds_lamp, ds_empty) and not ds_lamp_taken(party) says "The coal comes out of the glass warm and heavy and docile, as a thing does that has been waiting to be asked." {
     Assert ds_lamp_taken(party). Increase quantity(party, coal) by 1. Set coalExpires(party) to watch(clock) + 144. }
 
@@ -508,7 +508,7 @@ Module quittance "Quittance" {
   }
   Action ds_ask_coals(actor: group, site: place) "Ask the Fire for coals to carry home to the hearths" {
     Speaker ds_fire.
-    Requires able(actor) and company(actor) and at(actor, site) and at(ds_fire, site) and fireHeard(actor) and not fireWrathful(actor) and day(clock) >= 6
+    Requires able(actor) and company(actor) and at(actor, site) and at(ds_fire, site) and fireHeard(actor) and not fireWrathful(actor) and day(clock) >= 7
       and (fireTerms(actor) or fireFed(actor)) and not ds_coals_given(actor).
     Time 5 minutes.
     On success { Assert ds_coals_given(actor). Increase quantity(actor, coal) by 2. Set coalExpires(actor) to watch(clock) + 144. }

@@ -199,13 +199,13 @@ Module quittance "Quittance" {
 
   // The Night: Pip's coal, offered, or her word, offered, and not both. A child's hearth is bare after the one;
   // a child's day is gone after the other.
-  Topic pip_gift_q with pt_pip "Ask Pip whether she would give her coal to the Return, if it is asked of her" when pt_trusted(party) and state(pt_tin, steady) and day(clock) >= 6 and not pt_gift_asked(actor) and not pt_witnessing(actor) once {
+  Topic pip_gift_q with pt_pip "Ask Pip whether she would give her coal to the Return, if it is asked of her" when pt_trusted(party) and state(pt_tin, steady) and day(clock) >= 7 and not pt_gift_asked(actor) and not pt_witnessing(actor) once {
     Says "Pip thinks about it with her whole face. 'If I give it,' she says, 'I haven't got one. Gran says a house with no coal is a house with a door that anyone can open. And it doesn't come back; it goes home, with the rest.' She looks at her grandmother, who looks at the ceiling. 'But it asked for a name, and you gave it one. So it's yours a bit, as well.' She pulls the lid off. 'You can have it. But I'll have a cold hearth till it's back, and you're to say thank you properly.'".
     On discuss { Assert pt_gift_asked(actor). }
   }
   Action pt_accept_gift(actor: group, site: place) "Accept Pip's coal for the Night, and thank her properly" {
     Speaker pt_pip.
-    Requires able(actor) and company(actor) and at(actor, site) and at(pt_pip, site) and at(actor, pip_stair) and pt_gift_asked(actor) and not pt_gifted(actor) and not pt_witnessing(actor) and quantity(actor, coal) < 2 and day(clock) >= 6.
+    Requires able(actor) and company(actor) and at(actor, site) and at(pt_pip, site) and at(actor, pip_stair) and pt_gift_asked(actor) and not pt_gifted(actor) and not pt_witnessing(actor) and quantity(actor, coal) < 2 and day(clock) >= 7.
     Time 10 minutes.
     On success { Increase quantity(actor, coal) by 1. Set coalExpires(actor) to watch(clock) + 144. Assert pt_gifted(actor). Assert state(pt_tin, out). Increase regard(wardsfolk) by 1. }
     Result "You thank her, as you were told to, standing, with your hat in your hand, and you take the coal out of the tin into one of your own. She watches it go. The tin, with only ash in it, goes cold in her lap, and she holds it anyway. 'Say it's from me,' says Pip, 'when they ask.'".

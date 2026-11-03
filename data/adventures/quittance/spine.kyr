@@ -124,15 +124,15 @@ Module quittance "Quittance" {
   }
 
   // ── The acts ────────────────────────────────────────────────────────────────────────────────────────────
-  Chapter act_one "Assessment" when day(clock) == 0 and hour(clock) >= 8 "The city is already awake, and you are standing at its edge with a little money and nothing insured. In nine days it will be Reckoning.".
-  Chapter act_two "Adjustment" when day(clock) == 3 and hour(clock) >= 6 "By morning the Slate has a new column, and the new column is mostly zeros. The Offices are very calm about it.".
-  Chapter act_three "Settlement" when day(clock) == 6 and hour(clock) >= 6 "The Hall of the Five is being swept. A man on a ladder is taking down last year's bunting. In three days the city is to hang its Receipt, and the Receipt, which you have seen, is the colour of milk.".
-  Chapter act_four "Reckoning" when day(clock) == 8 and hour(clock) >= 6 "The bells of the Exchange ring for the last time before the Reckoning. Every window in Policy Row has a candle in it, mark-insured, and not one of them is lit.".
+  Chapter act_one "Assessment" when day(clock) == 1 and hour(clock) >= 8 "The city is already awake, and you are standing at its edge with a little money and nothing insured. In nine days it will be Reckoning.".
+  Chapter act_two "Adjustment" when day(clock) == 4 and hour(clock) >= 6 "By morning the Slate has a new column, and the new column is mostly zeros. The Offices are very calm about it.".
+  Chapter act_three "Settlement" when day(clock) == 7 and hour(clock) >= 6 "The Hall of the Five is being swept. A man on a ladder is taking down last year's bunting. In three days the city is to hang its Receipt, and the Receipt, which you have seen, is the colour of milk.".
+  Chapter act_four "Reckoning" when day(clock) == 9 and hour(clock) >= 6 "The bells of the Exchange ring for the last time before the Reckoning. Every window in Policy Row has a candle in it, mark-insured, and not one of them is lit.".
 
   // ── The Slate's news ───────────────────────────────────────────────────────────────────────────────────
-  Observe slate_candle_burnt at slip_room when burned(candlewick) and day(clock) >= 3 "TOTAL LOSSES: Candlewick Court, Bare Wards; uninsured; the Phoenix regrets. Nineteen persons are unaccounted for. The Provident Mutual of the Bare Wards (Penny) has chalked its own column beneath, in a different hand, which the boy on the ladder has been asked not to rub out.".
-  Observe slate_candle_empty at slip_room when burned(candlewick) and candlewickWarned(party) and day(clock) >= 3 "TOTAL LOSSES: Candlewick Court, Bare Wards; uninsured; the Phoenix regrets. No persons are reported lost; the Court was, it appears, evacuated beforehand, an irregularity which the Phoenix has noted.".
-  Observe slate_candle_saved at slip_room when candlewickSaved(party) and day(clock) >= 3 "FIXTURES: an attempted abatement in the Bare Wards, abandoned. The Phoenix has no comment. The boy on the ladder has written it very small.".
-  Observe slate_gasket_burnt at slip_room when burned(gasket_yard) and day(clock) >= 6 "TOTAL LOSSES: Gasket Yard, Bare Wards; uninsured; thirty-one persons unaccounted for. The Phoenix regrets.".
+  Observe slate_candle_burnt at slip_room when burned(candlewick) and day(clock) >= 4 "TOTAL LOSSES: Candlewick Court, Bare Wards; uninsured; the Phoenix regrets. Nineteen persons are unaccounted for. The Provident Mutual of the Bare Wards (Penny) has chalked its own column beneath, in a different hand, which the boy on the ladder has been asked not to rub out.".
+  Observe slate_candle_empty at slip_room when burned(candlewick) and candlewickWarned(party) and day(clock) >= 4 "TOTAL LOSSES: Candlewick Court, Bare Wards; uninsured; the Phoenix regrets. No persons are reported lost; the Court was, it appears, evacuated beforehand, an irregularity which the Phoenix has noted.".
+  Observe slate_candle_saved at slip_room when candlewickSaved(party) and day(clock) >= 4 "FIXTURES: an attempted abatement in the Bare Wards, abandoned. The Phoenix has no comment. The boy on the ladder has written it very small.".
+  Observe slate_gasket_burnt at slip_room when burned(gasket_yard) and day(clock) >= 7 "TOTAL LOSSES: Gasket Yard, Bare Wards; uninsured; thirty-one persons unaccounted for. The Phoenix regrets.".
   Observe slate_tithe at slip_room when burned(cinder_ward) "The Slate is blank. Someone has written across it, in a very large hand, QUITTANCE, and nobody will say who.".
 }

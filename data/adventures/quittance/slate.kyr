@@ -41,13 +41,13 @@ Module quittance "Quittance" {
   // The Slate is rewritten each morning. Its general news is here; each small adventure chalks its own claim in its own
   // file, at slip_room, with the days it is open.
   Observe slate_head at slip_room when true "Over the fireplace the Slate is divided into columns, in chalk: CLAIMS OPEN, CLAIMS TAKEN, TOTAL LOSSES, FIXTURES, PREMIUMS.".
-  Observe slate_day0 at slip_room when day(clock) == 0 "TOTAL LOSSES (today): a hat; a ewe; a principle. FIXTURES: Phoenix v. Lamprey, buckets, the fire-house yard, dawn. PREMIUMS: moved up a farthing.".
-  Observe slate_day1 at slip_room when day(clock) == 1 "TOTAL LOSSES: a barn, a marriage, a lease. FIXTURES: the Providence bowls the Sovereign at skittles, noon. PREMIUMS: moved up a farthing, then down, then up.".
-  Observe slate_day2 at slip_room when day(clock) == 2 "TOTAL LOSSES: a chimney. FIXTURES: an auction of the late Teague's effects, postponed. PREMIUMS: reviewed.".
-  Observe slate_day4 at slip_room when day(clock) == 4 "TOTAL LOSSES: a chimney, a hat-shop, a reputation. FIXTURES: the Smokeless Ordinance is read a third time, and a fourth. PREMIUMS: firm.".
-  Observe slate_day6 at slip_room when day(clock) == 6 "TOTAL LOSSES: a kitchen, a library, a good name. FIXTURES: the Hall of the Five sits on Reckoning, at two; the public is advised that it is not invited. PREMIUMS: nervous.".
-  Observe slate_day7 at slip_room when day(clock) == 7 "RECKONING EVE. Brigades stood to. The Gas Company asks the public to remain indoors. The public, as ever, is advised that it is insured.".
-  Observe slate_day8 at slip_room when day(clock) == 8 "RECKONING. The Receipt will be hung at midnight on the Cinderwall. The Offices will meet in the Hall. Premiums are not quoted today, which has never happened.".
+  Observe slate_day0 at slip_room when day(clock) == 1 "TOTAL LOSSES (today): a hat; a ewe; a principle. FIXTURES: Phoenix v. Lamprey, buckets, the fire-house yard, dawn. PREMIUMS: moved up a farthing.".
+  Observe slate_day1 at slip_room when day(clock) == 2 "TOTAL LOSSES: a barn, a marriage, a lease. FIXTURES: the Providence bowls the Sovereign at skittles, noon. PREMIUMS: moved up a farthing, then down, then up.".
+  Observe slate_day2 at slip_room when day(clock) == 3 "TOTAL LOSSES: a chimney. FIXTURES: an auction of the late Teague's effects, postponed. PREMIUMS: reviewed.".
+  Observe slate_day4 at slip_room when day(clock) == 5 "TOTAL LOSSES: a chimney, a hat-shop, a reputation. FIXTURES: the Smokeless Ordinance is read a third time, and a fourth. PREMIUMS: firm.".
+  Observe slate_day6 at slip_room when day(clock) == 7 "TOTAL LOSSES: a kitchen, a library, a good name. FIXTURES: the Hall of the Five sits on Reckoning, at two; the public is advised that it is not invited. PREMIUMS: nervous.".
+  Observe slate_day7 at slip_room when day(clock) == 8 "RECKONING EVE. Brigades stood to. The Gas Company asks the public to remain indoors. The public, as ever, is advised that it is insured.".
+  Observe slate_day8 at slip_room when day(clock) == 9 "RECKONING. The Receipt will be hung at midnight on the Cinderwall. The Offices will meet in the Hall. Premiums are not quoted today, which has never happened.".
 
   // ── The Wayward Hen ─────────────────────────────────────────────────────────────────────────────────────
   Person pudsey "Mrs Pudsey" at hen_taproom {

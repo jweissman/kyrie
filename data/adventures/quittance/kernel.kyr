@@ -76,14 +76,14 @@ Module quittance "Quittance" {
   Rule coal_gutters when quantity(party, coal) > 0 and watch(clock) >= coalExpires(party) says "The Lent coal in its tin has shrunk to a red thread, and then to ash. You were too slow with it." {
     Set quantity(party, coal) to 0. }
   Action take_coal_from_hearth(actor: group, site: place) "Take a Lent coal from the hearth here, in a tin" {
-    Requires able(actor) and company(actor) and at(actor, site) and coalSource(site) and quantity(actor, coal) < 2 and day(clock) >= 6.
+    Requires able(actor) and company(actor) and at(actor, site) and coalSource(site) and quantity(actor, coal) < 2 and day(clock) >= 7.
     Time 5 minutes.
     On success { Increase quantity(actor, coal) by 1. Set coalExpires(actor) to watch(clock) + 144. Assert coalTaken(site). }
     Result "You scoop a live coal into a tin and shut the lid. It is warm through the metal, and it ticks.".
   }
   Relation coalSource(place). Relation coalTaken(place).
   Action lay_coal(actor: group, site: place, dist: place) "Lay a Lent coal in the hearth here" {
-    Requires able(actor) and company(actor) and at(actor, site) and hearthAt(site, dist) and quantity(actor, coal) >= 1 and not coaled(dist) and day(clock) >= 6.
+    Requires able(actor) and company(actor) and at(actor, site) and hearthAt(site, dist) and quantity(actor, coal) >= 1 and not coaled(dist) and day(clock) >= 7.
     Time 10 minutes.
     On success { Decrease quantity(actor, coal) by 1. Assert coaled(dist). }
     Result "You rake the hearth, lay the coal on the grate, and breathe it up. It takes slowly and then all at once, and the room, for a moment, seems to lean toward it.".

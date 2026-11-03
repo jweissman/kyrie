@@ -60,14 +60,14 @@ Module quittance "Quittance" {
   }
   Action hearn_coal_one(actor: group, site: place) "Ask Auberon Hearn for a coal to carry, for the Night" {
     Speaker auberon.
-    Requires able(actor) and company(actor) and at(actor, site) and at(auberon, site) and watch(clock) < lucidUntil(auberon) and day(clock) >= 6 and not hearnCoalOne(actor) and quantity(actor, coal) < 2.
+    Requires able(actor) and company(actor) and at(actor, site) and at(auberon, site) and watch(clock) < lucidUntil(auberon) and day(clock) >= 7 and not hearnCoalOne(actor) and quantity(actor, coal) < 2.
     Time 10 minutes.
     On success { Assert hearnCoalOne(actor). Increase quantity(actor, coal) by 1. Set coalExpires(actor) to watch(clock) + 144. }
     Result "He takes the tongs himself, with a hand that trembles only at the start, and lifts a living coal out of the grate into your tin. It is the colour of the inside of a plum. 'One for every house that will have it,' he says. 'You must choose. I never could.'".
   }
   Action hearn_coal_two(actor: group, site: place) "Ask Auberon Hearn for a second coal" {
     Speaker auberon.
-    Requires able(actor) and company(actor) and at(actor, site) and at(auberon, site) and watch(clock) < lucidUntil(auberon) and day(clock) >= 6 and hearnCoalOne(actor) and not hearnCoalTwo(actor) and quantity(actor, coal) < 2 and arc(auberon) >= 2.
+    Requires able(actor) and company(actor) and at(actor, site) and at(auberon, site) and watch(clock) < lucidUntil(auberon) and day(clock) >= 7 and hearnCoalOne(actor) and not hearnCoalTwo(actor) and quantity(actor, coal) < 2 and arc(auberon) >= 2.
     Time 10 minutes.
     On success { Assert hearnCoalTwo(actor). Increase quantity(actor, coal) by 1. Set coalExpires(actor) to watch(clock) + 144. }
     Result "'Another,' says Auberon. 'Yes. If it is for the right sort of house.' His hand is steadier this time. 'I have not given two in my life.'".
