@@ -761,14 +761,22 @@ A journey test plays the same steps with `Journey` (`src/session/journey.ts`), a
 event said (the action's Result, and what rules said with it) as the module wrote it; its `page` is the page's
 telling, set as a book is, its quotes curled. A step that matches choices doing different things takes the first and
 is kept in `ambiguous`; a journey started `{ strict: true }`, or run with `JOURNEY_STRICT=1`, fails there instead, and
-names them (`test/journey-driver.test.ts`).
+names them (`test/journey-driver.test.ts`). Two people asked of the same thing are told apart by who is asked:
+`Kerensa: the night of the wreck` takes what Kerensa is asked of it, not Jinny (Fair Weather's 15). `j.page` is every
+step's telling, and a long wait keeps every hour's; `j.latest` is the telling of the last `play` only, so a match after a
+wait does not find text from days before (Quittance's ll 11). A module installed as the company went (a province, a
+country beyond a march) counts its own days from the first morning after it is reached, and a step waits by them when
+it names it: `=sennet day 3 21:00` is nine at night on Sennet's third day, whatever day of the world's that is (the
+Grand Tour's 20; `test/journey-test-aids.test.ts`).
 
 A test asks of the world by the names its module gives (`j.holds('complete', 'reckoner')`, `j.measure('trust',
 'pettifer')`, the installed module's prefix found as `=until` finds it), and is told when nothing is called that.
 What the steps to it would only repeat, it may make so: `j.assert('knows', 'party', 'map_read')`, `j.put('tobias',
 'cellar')`, `j.give('forged_writ')` (into the hands of the first of the company who is up); and `>place` goes to a
 place of the region or of an installed module by its own id (`test/journey-helpers.test.ts`; Quittance's friction 8
-and 9).
+and 9). A check's die is drawn from the seed and the moment, so a test of one that fails would be a search over seeds:
+`j.roll('fail')` has every check from then on come out so (a natural one), `j.roll('pass')` a twenty, and `j.roll()`
+lets the die fall again; `kyrie play --roll fail` does the same from the terminal (Quittance's 7).
 
 ## 10. What else a module can say
 

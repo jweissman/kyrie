@@ -49,12 +49,19 @@ export class Checks {
     const chance = (21 + add - difficulty) / 20;
     return chance >= 0.65 ? 'likely' : chance >= 0.4 ? 'even' : 'unlikely';
   }
-  // The roll turns on who makes it and on what is tried (asking the goblins is not asking their chief).
-  static make(creatures: Creature[], at: { skill: string; difficulty: string; seed: string; about?: string }):
-    CombatEvent[] {
+  // The roll turns on who makes it and on what is tried (asking the goblins is not asking their chief). A test may
+  // have it come out as it asks (forced: a natural twenty, or a one), whatever the odds: a test of a failed check had
+  // been a search over seeds, pinned to the steps before it (Quittance's friction 7, QTC-07).
+  static make(creatures: Creature[], at: { skill: string; difficulty: string; seed: string; about?: string;
+    forced?: 'pass' | 'fail' }): CombatEvent[] {
     const skill = this.skill(at.skill), difficulty = this.difficulty(at.difficulty), c = this.maker(creatures, skill);
     if (!c) { return [{ type: 'check', turn: 0, actor: '', skill, rolled: 0, difficulty, success: false }]; }
     const b = this.bonus(c, skill), add = b.modifier + b.trained;
+    if (at.forced) {
+      const die = at.forced === 'pass' ? 20 : 1;
+      return [{ type: 'check', turn: 0, actor: c.id, skill, rolled: die + add, die, difficulty,
+        success: at.forced === 'pass', stat: b.stat, modifier: b.modifier, trained: b.trained }];
+    }
     const sure = 1 + add >= difficulty, beyond = 20 + add < difficulty;
     if (sure || beyond) {
       return [{ type: 'check', turn: 0, actor: c.id, skill, rolled: sure ? 1 + add : 20 + add, difficulty,

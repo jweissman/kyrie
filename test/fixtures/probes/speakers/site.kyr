@@ -1,0 +1,16 @@
+Module speakers "Two on the quay, and a bell" {
+  Place quay "the quay" is room.
+  Company party "You" of 1 at quay.
+  Relation rung(group).
+  Person kerensa "Kerensa" at quay { Role "a net-mender". Peaceable. Pronouns she. }
+  Person jinny "Jinny" at quay { Role "a fishwife". Peaceable. Pronouns she. }
+  Topic jinny_wreck with jinny "Ask Jinny about the night of the wreck" when true once {
+    Says "'I slept through it,' says Jinny.".
+  }
+  Topic kerensa_wreck with kerensa "Ask Kerensa about the night of the wreck" when true once {
+    Says "'I saw the lantern go out,' says Kerensa.".
+  }
+  Rule bell when watch(clock) >= 3 and not rung(party) says "The harbour bell rings once." { Assert rung(party). }
+  Observe quay_scene at quay when true "A wet stone quay, and nets drying on it.".
+  Goal false.
+}
