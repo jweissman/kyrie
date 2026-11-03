@@ -237,6 +237,20 @@ a module's own answer to a warning (a name given, a letter shown) is an action t
 `tolerates` within it (the Banns at Hessel's 23). Warned off, one with a `Refuge` gives ground and goes
 there, in the plain words of its temperament unless it has words of its own.
 
+Someone not yet in the story, or gone from it, is `nowhere` in place of `at` a place: they cannot be met, spoken to or
+seen from the road, and warn no one (Wapshott's Circus's 4: a fortune-teller parked in a hedge was met there before
+her entrance; Quittance's 29: wardens sat in their house warned every company from the first minute). They come into
+it when something holds, `Arrives at house when hour(clock) >= 17.`, once, and are said to come by their own
+`Arrives "…"`; a rule that retracts `at(sallow, ?p)` sends someone out of it again (`test/fixtures/probes/offstage`):
+
+```text
+  Person wardens "three wardens of the Phoenix" nowhere {
+    Role "the Phoenix's wardens". Ancestry human. Numbers 3. Temperament territorial.
+    Arrives at house when watch(clock) >= 6.
+    Arrives "Three wardens in brass helmets come in from the yard and stand across the hall.".
+  }
+```
+
 Someone can be called something else until they are known, or while something holds: `Known as "a woman in a grey
 shawl" when not knows(party, her_name).` Until it is false the page calls them that, in place of their name and role
 (a mask, a hood, a face not yet put to a name).

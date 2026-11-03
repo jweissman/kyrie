@@ -56,7 +56,6 @@ export class ModuleParser {
     Otherwise: ModuleParser.Otherwise, Lessen: StatementParser.Lessen, ToNothing: StatementParser.ToNothing,
     Information_parts: ModuleParser.Information, InformationSource: ModuleParser.InformationSource,
     ChangeAt: ModuleParser.Second, ItemOwner: ModuleParser.Third,
-    PersonTemperament: PersonParser.PersonTemperament, PersonWords: PersonParser.PersonWords,
     PersonManner: PersonParser.PersonManner, PersonPronouns: PersonParser.PersonPronouns,
     PersonHaunt: PersonParser.PersonHaunt, Grave: PersonParser.Grave,
     Module: ModuleParser.Module, Observation: ModuleParser.Observation, Speaker: PersonParser.Speaker,
@@ -79,6 +78,7 @@ export class ModuleParser {
     string: StatementParser.String, Product: StatementParser.Value, Operand_group: StatementParser.Group,
     Operand_extreme: StatementParser.Extreme, ExtremeArgs: StatementParser.ExtremeArgs,
     ...CatalogParser.actions, ...InformationParser.actions, ...Endings.actions, ...Milestones.actions,
+    ...PersonParser.actions,
   });
   // A text parsed before comes back as it was, and declares its own kinds again, as its parse did: a start meanwhile
   // may have put other kinds in their place, and the files read after it place things of these kinds.
@@ -104,8 +104,8 @@ export class ModuleParser {
     return values;
   }
   // Ohm calls an action with one node per element of its rule; these take the elements that matter to PersonParser.
-  static Person(_p: Node, id: Node, name: Node, _at: Node, place: Node, _open: Node, parts: Node, _close: Node) {
-    return PersonParser.person(id, name, place, parts);
+  static Person(_p: Node, id: Node, name: Node, where: Node, _open: Node, parts: Node, _close: Node) {
+    return PersonParser.person(id, name, where, parts);
   }
   static OffersPart(_o: Node, kind: Node, text: Node, _for: Node, fee: Node, _coin: Node, _dot: Node) {
     return PersonParser.offers(kind, text, fee);

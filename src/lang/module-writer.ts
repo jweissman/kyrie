@@ -48,7 +48,7 @@ export class ModuleWriter {
       const c = module.company;
       lines.push(`  Company ${c.id} ${JSON.stringify(c.name)} of ${c.size} at ${c.place}.`);
     }
-    for (const p of module.people ?? []) { lines.push(`  Person ${p.id} ${JSON.stringify(p.name)} at ${p.place} { ${ModuleWriter.person(p)} }`); }
+    for (const p of module.people ?? []) { lines.push(`  Person ${p.id} ${JSON.stringify(p.name)} ${p.place ? `at ${p.place}` : 'nowhere'} { ${ModuleWriter.person(p)} }`); }
     const declared = new Set([...(module.people ?? []).map(p => p.id), module.company?.id]);
     for (const entity of module.entities.filter(e => !declared.has(e.id))) { lines.push(ModuleWriter.entity(entity)); }
     for (const p of module.pursuits ?? []) {

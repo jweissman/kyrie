@@ -26,9 +26,15 @@ export class PersonParser {
     const answers = answering.children.map(a => ModuleParser.ast(a) as string)[0];
     return { ...once.children.length ? { once: true } : {}, ...grave ? { grave } : {}, ...answers ? { answers } : {} };
   }
-  // Person = "Person" ident string "at" ident "{" PersonPart* "}"
-  static person(id: Node, name: Node, place: Node, parts: Node): Field {
-    const p: Person = { id: id.sourceString, name: ModuleParser.ast(name) as string, place: place.sourceString,
+  static readonly actions = {
+    PersonTemperament: PersonParser.PersonTemperament, PersonWords: PersonParser.PersonWords,
+    PersonWhere_at: PersonParser.PersonAt, PersonWhere_nowhere: PersonParser.PersonNowhere,
+    PersonArrival: PersonParser.PersonArrival, ArrivalAt: PersonParser.PersonAt,
+  };
+  // Person = "Person" ident string PersonWhere "{" PersonPart* "}"
+  static person(id: Node, name: Node, where: Node, parts: Node): Field {
+    const place = ModuleParser.ast(where) as string | undefined;
+    const p: Person = { id: id.sourceString, name: ModuleParser.ast(name) as string, ...place ? { place } : {},
       raceId: 'human', classId: 'commoner', level: 1, actions: [] };
     const spec: ThingSpec = { id: p.id, name: p.name, type: 'group', states: [], changes: [] };
     const seen = new Set<string>(), authored: string[] = [], manner: Manner[] = [];
@@ -41,6 +47,7 @@ export class PersonParser {
       if (part.field === 'wants') { (p.wants ??= []).push(part.value as string); continue; }
       if (part.field === 'roles') { (p.roles ??= []).push(part.value as NonNullable<Person['roles']>[number]); continue; }
       if (part.field === 'words' || part.field === 'haunt') { manner.push(part.value as Manner); continue; }
+      if (part.field === 'arrival') { p.arrives = part.value as NonNullable<Person['arrives']>; continue; }
       if (part.field === 'traits' || part.field === 'gear') {
         const list = ((p as unknown as Record<string, string[]>)[part.field] ??= []);
         list.push(part.value as string);
@@ -72,6 +79,15 @@ export class PersonParser {
   // How a creature meets a company, said with it: its temperament, its words (a warning, an onslaught, a flinch, a
   // plea, and what it says on seeing what is its own, or its master's, in the company's hands) and its haunts (where
   // its lair and refuge are, what it fears), for the inhabitants and belongings rules.
+  static PersonAt(_at: Node, place: Node): string { return place.sourceString; }
+  // Nowhere: not yet come into the story, or gone from it. Not at any place, they cannot be met, spoken to or seen
+  // from the road (Madame Sallow had stood in a hedge before her entrance: Wapshott's Circus's 4, WPC-04).
+  static PersonNowhere(_nowhere: Node): undefined { return undefined; }
+  // Where and when they come into the story (`Arrives at phoenix_house when hour(clock) >= 17.`): until then nowhere,
+  // and warning no one (the Phoenix's wardens, sat in their house from the first minute: Quittance's 29, QTC-29).
+  static PersonArrival(_a: Node, at: Node, when: Node, _dot: Node): Field {
+    return { field: 'arrival', value: { place: ModuleParser.ast(at) as string, when: ModuleParser.ast(when) as Predicate } };
+  }
   static PersonTemperament(_t: Node, id: Node, _dot: Node): Field { return { field: 'temperament', value: id.sourceString }; }
   // How they carry themselves (proud, grim, cheerful…), and the words they are spoken of in (he, she, they, it).
   static PersonManner(_m: Node, id: Node, _dot: Node): Field {
@@ -144,6 +160,18 @@ export class PersonParser {
     when: ModuleParser.predicate(`${been}() and company(?c) and at(${id}, ?p) and not travelsWith(${id}, ?c)`
       + ` and not following(${id}, ?c)${when ? ` and ${when}` : ''}`) });
   }
+  // Their coming, once, when its condition first holds: from wherever they were, or from nowhere, but not from among
+  // the company. The shared rules say it as they come, in their own words, if the company is there (Arrives "…").
+  private static arrives(module: Module, id: string, arrival: NonNullable<Person['arrives']>) {
+    const latch = `${id}_arrived`, call = ModuleWriter.call, when = arrival.when;
+    module.relations.push({ name: latch, types: [], exclusive: false });
+    const come = [{ kind: 'assert' as const, call: call(latch) }, { kind: 'assert' as const, call: call('at', id, arrival.place) }];
+    (module.rules ??= []).push({ id: `${id}_arrives`, effects: [come[0]!, { kind: 'retract', call: call('at', id, '?p') }, come[1]!],
+      when: PersonParser.and(when, ModuleParser.predicate(`at(${id}, ?p) and not ${latch}()`)) },
+    { id: `${id}_arrives_from_nowhere`, effects: come, when: PersonParser.and(when, ModuleParser.predicate(`not at(${id}, ?q)`
+      + ` and not ${latch}() and not travelsWith(${id}, ?c) and not following(${id}, ?c)`)) });
+  }
+  private static and(left: Predicate, right: Predicate): Predicate { return { kind: 'and', left, right }; }
   // Said when the company comes to the place with them, travelling with it or following it, once.
   private static remark(module: Module, id: string, m: Manner) {
     const latch = `${id}_remarks_${m.place}`;
@@ -231,7 +259,9 @@ export class PersonParser {
       manner: Manner[]; temperament?: string };
     (module.people ??= []).push(p);
     PersonParser.manner(module, p.id, temperament, manner);
-    WorldConstructs.offers(module, p, kind => ItemCatalog.definitions[kind]?.name);
+    // One nowhere who comes somewhere sets out their stock where they come.
+    WorldConstructs.offers(module, { ...p, place: p.place ?? p.arrives?.place },
+      kind => ItemCatalog.definitions[kind]?.name);
     // A person's role follows their name ("Garth, shepherd"), unless it only repeats it, or it is what each
     // of a numbered group is ("a cave spider") rather than the group ("a sow bear and her grown cub").
     const each = (p.count ?? 1) > 1 && !/ and |,/.test(p.role ?? '');
@@ -240,7 +270,8 @@ export class PersonParser {
     const roles = p.roles?.toSorted((a, b) => Number(!!b.whole) - Number(!!a.whole));
     module.entities.push({ id: p.id, name: named, type: 'group',
       ...roles ? { roles: roles.map(r => ({ name: r.whole ? r.role : `${p.name}, ${r.role}`, when: r.when })) } : {} });
-    module.initial.push({ kind: 'assert', call: { kind: 'call', name: 'at', args: [p.id, p.place] } });
+    if (p.place) { module.initial.push({ kind: 'assert', call: { kind: 'call', name: 'at', args: [p.id, p.place] } }); }
+    if (p.arrives) { PersonParser.arrives(module, p.id, p.arrives); }
     if (peaceable) { module.initial.push({ kind: 'assert', call: { kind: 'call', name: 'peaceable', args: [p.id] } }); }
     for (const kind of p.wants ?? []) {
       module.initial.push({ kind: 'assert', call: { kind: 'call', name: 'wants', args: [p.id, kind] } });

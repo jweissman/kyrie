@@ -115,7 +115,7 @@ export class WorldConstructs {
     if (i.owner) { this.assert(module, 'owns', i.owner, i.id); }
   }
   // A person's offers and wares: services with fees, counted goods, or item instances of catalog kinds for sale.
-  static offers(module: Module, p: { id: string; place: string; offers?: { kind: string; text: string; fee: number }[];
+  static offers(module: Module, p: { id: string; place?: string; offers?: { kind: string; text: string; fee: number }[];
     sells?: { what: string; fee: number; stock: number }[]; buys?: { what: string; fee: number }[] },
   catalog?: (kind: string) => string | undefined) {
     // What a person will pay for a kind of thing the company brings them, and coin to pay with: ten times the most they
@@ -150,11 +150,14 @@ export class WorldConstructs {
       }
       this.entity(module, s.what, 'itemkind', kindName);
       module.initial.push({ kind: 'set', call: { kind: 'call', name: 'shelf', args: [p.id, s.what] }, value: { kind: 'number', value: s.stock } });
-      if (ItemCatalog.definitions[s.what]?.use) { this.restock(module, p, s.what, s.stock); }
+      if (ItemCatalog.definitions[s.what]?.use && p.place) {
+        this.restock(module, { id: p.id, place: p.place }, s.what, s.stock);
+      }
       for (let n = 1; n <= s.stock; n++) {
         const id = `${p.id}_${s.what}_${n}`;
         module.entities.push({ id, type: 'item', name: ItemNames.called(kindName) });
-        this.assert(module, 'itemKind', id, s.what); this.assert(module, 'at', id, p.place);
+        // The stock of one who is nowhere is nowhere with them (WPC-04).
+        this.assert(module, 'itemKind', id, s.what); if (p.place) { this.assert(module, 'at', id, p.place); }
         this.assert(module, 'forSale', id); this.assert(module, 'soldBy', id, p.id);
         module.initial.push({ kind: 'set', call: { kind: 'call', name: 'price', args: [id] }, value: { kind: 'number', value: s.fee } });
       }

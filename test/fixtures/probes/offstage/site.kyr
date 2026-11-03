@@ -1,0 +1,22 @@
+Module offstage "Nowhere until they come" {
+  // Wapshott's Circus's 4 (WPC-04): those not yet in the story stood in a real room, and were met there. Quittance's
+  // 29 (QTC-29): a hostile band declared at its house warned everyone from the first minute. One declared nowhere is
+  // nowhere until they come (Arrives at … when …), or for good.
+  Place town "the town" is settlement.
+  Place lane "the lane" is room within town at 0, 0 outdoors.
+  Place house "Phoenix House" is room within town at 1, 0 indoors.
+  Passage door "the door of Phoenix House" is door between lane and house.
+  Company party "You" of 2 at lane.
+  Person wardens "three wardens of the Phoenix" nowhere {
+    Role "the Phoenix's wardens, in brass helmets". Ancestry human. Calling warrior. Numbers 3. Temperament territorial.
+    Arrives at house when watch(clock) >= 6.
+    Arrives "Three wardens in brass helmets come in from the yard and stand across the hall.".
+  }
+  Person sallow "Madame Sallow" nowhere { Role "a fortune-teller". Ancestry human. Peaceable.
+    Arrives at lane when watch(clock) >= 3.
+    Arrives "A woman in a shawl of black sequins comes down the lane, and stops, and looks at you.". }
+  Person ghost "the one who left" nowhere { Role "a man gone out of the story". Ancestry human. Peaceable. }
+  Observe lane_scene at lane when true "A lane of shut doors.".
+  Observe house_scene at house when true "The hall of Phoenix House, all brass.".
+  Goal false.
+}
