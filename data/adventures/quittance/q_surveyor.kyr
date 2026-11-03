@@ -59,7 +59,7 @@ Module quittance "Quittance" {
   Relation sd_end_forged(group). Relation sd_end_apart(group). Relation sd_slighted_guild(group). Relation sd_pargeters_uncovered(group).
   Relation sd_roof_honest(group). Relation sd_ladder_lent(group). Relation sd_sent_on(group).
   Query sd_drill_morning() means day(clock) == 3 and hour(clock) >= 9 and hour(clock) < 12.
-  Query sd_drill() means day(clock) == 3 and hour(clock) >= 10 and hour(clock) < 12.
+  Query sd_drill() means day(clock) == 3 and hour(clock) >= 10 and hour(clock) < 11.
   Query sd_tobias_at(p: place) means at(tobias, p) or (travelsWith(tobias, party) and at(party, p)).
   Query sd_decided() means arc(ianthe) >= 1.
 
@@ -98,8 +98,8 @@ Module quittance "Quittance" {
 
   // ── Their hours ───────────────────────────────────────────────────────────────────────────────────────────
   // Ianthe surveys at the Guild by day, goes up to the lantern gallery at dusk to take the roofs, and is at home in the night.
-  Rule sd_i_to_guild at corbett_study when hour(clock) >= 9 and hour(clock) < 17 and not sd_drill() and not at(ianthe, guild_hall) and not sd_gone(party) says "Ianthe takes her rope off the hook, kisses her mother on the way out without stopping, and goes." { Retract at(ianthe, corbett_study). Assert at(ianthe, guild_hall). }
-  Rule sd_i_to_guild_b when hour(clock) >= 9 and hour(clock) < 17 and not sd_drill() and not at(ianthe, guild_hall) and not at(ianthe, corbett_study) and not sd_gone(party) { Retract at(ianthe, sd_lantern). Retract at(ianthe, sd_roof). Retract at(ianthe, belvedere). Assert at(ianthe, guild_hall). }
+  Rule sd_i_to_guild at corbett_study when hour(clock) >= 9 and hour(clock) < 17 and not sd_drill() and not at(ianthe, guild_hall) and not at(ianthe, bakehouse) and not sd_gone(party) says "Ianthe takes her rope off the hook, kisses her mother on the way out without stopping, and goes." { Retract at(ianthe, corbett_study). Assert at(ianthe, guild_hall). }
+  Rule sd_i_to_guild_b when hour(clock) >= 9 and hour(clock) < 17 and not sd_drill() and not at(ianthe, bakehouse) and not at(ianthe, guild_hall) and not at(ianthe, corbett_study) and not sd_gone(party) { Retract at(ianthe, sd_lantern). Retract at(ianthe, sd_roof). Retract at(ianthe, belvedere). Assert at(ianthe, guild_hall). }
   Rule sd_i_to_lantern when hour(clock) >= 17 and hour(clock) < 19 and not at(ianthe, sd_lantern) and not sd_gone(party) and not sd_end_forged(party) { Retract at(ianthe, guild_hall). Retract at(ianthe, corbett_study). Assert at(ianthe, sd_lantern). }
   Rule sd_i_home when (hour(clock) >= 19 or hour(clock) < 9) and not at(ianthe, corbett_study) and not sd_gone(party) { Retract at(ianthe, guild_hall). Retract at(ianthe, sd_lantern). Retract at(ianthe, sd_roof). Assert at(ianthe, corbett_study). Assert state(sd_rungs, drawn_up). }
   Rule sd_i_drill when sd_drill() and not at(ianthe, sd_roof) and not sd_gone(party) { Retract at(ianthe, guild_hall). Retract at(ianthe, corbett_study). Assert at(ianthe, sd_roof). }

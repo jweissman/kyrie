@@ -231,7 +231,7 @@ describe("Pip's Tin", () => {
     expect(has(j, 'pt_trusted')).toBe(true);
     await j.play('=day 5 12:00');
     expect(j.offers('Ask Pip whether she would give her coal')).toBe(false);   // not before the sixth day
-    await j.play('=day 6 09:00', 'Talk to Pip', 'Ask Pip whether she would give her coal');
+    await j.play('=day 7 09:00', 'Talk to Pip', 'Ask Pip whether she would give her coal');
     expect(j.offers('Accept Pip')).toBe(true);
     const regard = City.regard(j, 'wardsfolk');
     await j.play('Accept Pip');
@@ -244,7 +244,7 @@ describe("Pip's Tin", () => {
 
   it('or the company says keep it, and she is the first to have been told so', async () => {
     const j = await trusted();
-    await j.play('=day 6 09:00', 'Talk to Pip', 'Ask Pip whether she would give her coal', 'Tell Pip to keep her coal');
+    await j.play('=day 7 09:00', 'Talk to Pip', 'Ask Pip whether she would give her coal', 'Tell Pip to keep her coal');
     expect(has(j, 'pt_gift_refused')).toBe(true);
     expect(coals(j)).toBe(0);
     expect(tin(j, 'steady')).toBe(true);
@@ -258,7 +258,7 @@ describe("Pip's Tin", () => {
     await j.play('Ask Pip whether she would tell the Five', 'Ask Pip to say before the Five');
     expect(j.holds(Q('witness'), Q('pt_pip'))).toBe(true);
     expect(has(j, 'pt_witnessing')).toBe(true);
-    await j.play('=day 6 09:00');
+    await j.play('=day 7 09:00');
     expect(j.offers('Ask Pip whether she would give her coal')).toBe(false);   // her coal or her word, never both
     expect(coals(j)).toBe(0);
   }, 180000);

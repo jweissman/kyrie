@@ -152,7 +152,7 @@ describe('The Bakery Inspection', () => {
     expect(has(j, 'bk_by_ianthe', 'party')).toBe(true);
     expect(bk(j, 'bk_coal_dead')).toBe(false);
     await j.play('=330');
-    expect(j.at(Q('ianthe'))).toBe(Q('corbett_study'));
+    expect(j.at(Q('ianthe'))).toBe(Q('guild_hall')); // back at her post: the Surveyor's hours take her from the bakehouse to the Guild
   }, 90000);
 
   it('twelve coin in the margin passes it too, and Mr Gudgeon writes the sum down', async () => {

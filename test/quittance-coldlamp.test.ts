@@ -260,7 +260,7 @@ describe('Quittance: the Cold-Lamp Demonstration', () => {
       await j.play(...freed(), '>quittance__wynne_lab', 'Talk to Perpetua Wynne', 'Tell Wynne you let the sparks go', '?Take your leave');
       await j.play(demoAt);
       expect(j.find('Ask Wynne for the spark that stayed')).toBeUndefined();
-      await j.play('=day 6 10:00', '>quittance__wynne_lab', 'Talk to Perpetua Wynne');
+      await j.play('=day 7 10:00', '>quittance__wynne_lab', 'Talk to Perpetua Wynne');
       const coal = () => j.measure('quantity', 'party', 'coal');
       expect(coal()).toBe(0);
       await j.play('Ask Wynne for the spark that stayed');
