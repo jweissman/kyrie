@@ -4,8 +4,10 @@ import { City, Q } from './support/quittance';
 // The Queue (data/adventures/quittance/q_queue.kyr). The dead of the Burning stand on the slag stair; every way down
 // but the First Flue passes them. Each way past is played here by the labels the page offers.
 const to = (place: string) => `>quittance__${place}`;
-const arcade = [...City.honest, to('cellar_arcade')];
-const hall = [...City.honest, to('queue_hall')];
+// The cellar door is the Descent's: a picked lock, a shoulder, or a key (here, whichever the company has).
+const door = [to('exchange_court'), '?^To the foot of the Exchange stair — (unlock|work|put your)'];
+const arcade = [...City.honest, ...door, to('cellar_arcade')];
+const hall = [...City.honest, ...door, to('queue_hall')];
 type J = Awaited<ReturnType<typeof City.start>>;
 const way = (j: J) => j.measure(Q('qu_way'), 'party');
 const nerve = (j: J) => j.measure(Q('qu_nerve'), 'party');
@@ -13,7 +15,7 @@ const fairs = (j: J) => j.measure(Q('qu_fairs'), 'party');
 const dead = (j: J) => j.measure(Q('qu_regard'), 'party');
 const carries = (j: J, what: RegExp) => j.choices().some(c => /^Pack/.test(c.full) && what.test(c.full));
 const offered = (j: J, what: RegExp) => j.choices().some(c => what.test(c.label));
-const rich = { party: [{ name: 'Vane', raceId: 'human', classId: 'bard' }, { name: 'Ibb', raceId: 'human', classId: 'mage' },
+const rich = { party: [{ name: 'Vane', raceId: 'human', classId: 'bard' }, { name: 'Ibb', raceId: 'human', classId: 'thief' },
   { name: 'Sorrel', raceId: 'human', classId: 'cleric' }] };
 const thieves = { party: [{ name: 'Wick', raceId: 'human', classId: 'thief' }, { name: 'Tam', raceId: 'human', classId: 'warrior' },
   { name: 'Rook', raceId: 'human', classId: 'warrior' }] };
