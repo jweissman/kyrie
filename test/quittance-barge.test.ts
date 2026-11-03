@@ -28,7 +28,7 @@ const pocket = `Module quittance "Quittance" {
   Action test_pocket_combination(actor: group) "Recall the combination" { Requires able(actor) and company(actor). Time 0. On success { Assert teagueCombination(actor). } }
 }`;
 const standIn: BundleSource = { resolve: (r, f) => NodeBundleSource.shared.resolve(r, f),
-  read: p => /q_forger\.kyr$/.test(p) ? Promise.resolve(pocket) : NodeBundleSource.shared.read(p) };
+  read: p => /q_forger\.kyr$/.test(p) ? NodeBundleSource.shared.read(p).then(real => real.replace(/\}\s*$/, pocket.replace(/^Module[^\n]*\n/, '').replace(/^\s*Description[^\n]*\n/m, ''))) : NodeBundleSource.shared.read(p) };
 const startWith = (seed: string, party: object = plain) => Journey.start(campaign, seed, { source: standIn, ...party }).then(async j => { await j.play(...City.honest); return j; });
 // The girl found: Cob Jessop vouches for a company that came by the Water-Stair, Kitty tells it, and is promised.
 const kitty = ['>quittance__sluice_room', 'Search here', 'Tell Cob Jessop that Tam', 'Down to the Sluice-tap', 'Ask Kitty how she came',
@@ -493,8 +493,9 @@ describe('The Scuttled Barge: the bell\'s hatch', () => {
 
   it('a wrecked bell is no bell: the long way round, up the Exchange stair, the cradle has nothing to dive with', async () => {
     const j = await start('a', { party: [person('Bran', 'warrior'), { name: 'Bor', raceId: 'dwarf', classId: 'warrior' }, person('Pip', 'thief')] });
-    await j.play(...hatch, 'Break the hatch with the bell', '>quittance__cradle');
-    expect(City.page(j)).toContain('chain parted');
+    await j.play(...hatch, 'Break the hatch with the bell');
+    await j.play('>quittance__cellar_foot', '?— (unlock|work|put your)', '>quittance__cradle');
+    expect(City.pages(j)).toContain('chain parted');
     await j.play('=day 2 17:00');
     expect(j.at('party')).toBe(Q('cradle'));
     expect(j.offers('Crank the diving-bell')).toBe(false);
