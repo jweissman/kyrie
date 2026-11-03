@@ -48,13 +48,13 @@ export class RegionUndertown {
     const t = s.id, w = `${t}_ud`, makers = history.makers.find(m => m.art === art) ?? history.makers[0]!;
     const old = makers.self.name ?? makers.epithet, k = history.successors;
     const site: Site = { id: w, kind: 'barrow', name: `the old dead under ${s.name}`, hours: 0 };
-    const values = { w, name: site.name, old, oldup: old.toUpperCase(), land: 'region', x: '1', y: '8', kingdom: k.name,
+    const values = { w, name: site.name, old, oldup: old.toUpperCase(), land: t, x: '1', y: '8', kingdom: k.name,
       kingdomup: k.name.toUpperCase(), kingdomkind: k.kind, fallen: k.fallen, fate: makers.fate, town: t,
       townname: s.name,
       keeper: `${t}_innkeeper`, priest: `${t}_priest`, merchant: `${t}_merchant`, holy: Foundings.holyPlace(region, s),
       where: `under ${s.name}` };
-    // What a site placed in the country has from being placed (see RegionSites): that it is named, and found. Its
-    // levels lie in the country under the town, not among the town's own places (its dead are not townsfolk).
+    // What a site placed in the country has from being placed (see RegionSites): that it is named, and found. It
+    // lies within the town, under it, so that going down into it is going in, not a journey across the country.
     const q = JSON.stringify;
     return [`  Entity ${w}_named: fact ${q(`Below the vault under ${s.name} a stair goes on down, into ${site.name}.`)}.`,
       `  Entity ${w}_found: fact ${q(`The way down into ${site.name} is behind the keeper's chair in the vault.`)}.`,
@@ -62,7 +62,7 @@ export class RegionUndertown {
       `  Initially Assert unlit(${w}).`,
       `  Passage ${t}_u_deeper "a narrow stair behind the keeper's chair" is stair between ${t}_u_vault and ${w}.`,
       // The measures every deep site declares are the country's already when it has one of its own.
-      ...DeepSites.lines(region, site, { purpose, values, rivals: false })
+      ...DeepSites.lines(region, site, { purpose, values, rivals: false, buried: s.name })
         .filter(l => !(taken && /^\s*Measure deepWater/.test(l)))];
   }
 }
