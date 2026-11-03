@@ -46,7 +46,7 @@ export class ModuleAssembly {
     const module = this.joined(situation, rules, manifest);
     Spatial.addEscorts(module); Spatial.addSearches(module);
     Spatial.placeFacts(module); Cast.itemKinds(module); Cast.professions(module, situation.people ?? []);
-    this.talkers(module, manifest.imports ?? []);
+    this.talkers(module, manifest.imports ?? []); this.unheld(module);
     const { cast, conflicts, company, people } = this.people(module, situation.people ?? [], manifest);
     const seen = (situation.people ?? []).filter(p => p.seen);
     if (seen.length) { module.seen = Object.fromEntries(seen.map(p => [p.id, p.seen!])); }
@@ -236,6 +236,18 @@ export class ModuleAssembly {
       .map(p => p.id), ...module.actions.flatMap(a => a.topic && a.speaker && !imported.includes(a.speaker)
       ? [a.speaker] : [])]);
     for (const id of ids) { module.initial.push({ kind: 'assert', call: ModuleWriter.call('talks', id) }); }
+  }
+  // A particular thing to be had by an action (a pledge redeemed, a parcel handed over) cannot be had while anyone
+  // holds it: the Third Night's pledges, picked up off the pawnbroker's floor, then paid for, threw "Item already
+  // owned" out of the paying (its friction 9, TTN-09). The action is simply not offered.
+  private static unheld(module: Module) {
+    if (!module.relations.some(r => r.name === 'ownedItem')) { return; }
+    for (const action of module.actions.filter(a => ['acquire', 'purchase'].includes(a.resolve?.name ?? ''))) {
+      const item = action.resolve!.args[0]!;
+      if (action.parameters?.some(p => p.name === item)) { continue; }
+      action.requires = { kind: 'and', left: action.requires,
+        right: { kind: 'not', value: ModuleWriter.call('ownedItem', item, '?holder') } };
+    }
   }
   private static references(module: Module, cast: SituationManifest['creatures']) {
     if (module.relations.some(r => r.name === 'fieldUsable')) {
