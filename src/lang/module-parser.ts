@@ -25,7 +25,7 @@ export class ModuleParser {
     ObservationBy: ModuleParser.Third, ObservationInstead: ModuleParser.Third, TopicAnswering: ModuleParser.Second,
     Passage: ModuleParser.Passage, PassagePart_oneway: ModuleParser.OneWay, PassagePart_hidden: ModuleParser.Hidden,
     PassagePart_needs: ModuleParser.Needs, NeedsEnd_to: ModuleParser.NeedsTo, NeedsEnd_from: ModuleParser.Anchor,
-    Thing: ModuleParser.Thing, ThingSite_in: ObjectParser.In,
+    Thing: ModuleParser.Thing, ThingSite_in: ObjectParser.In, ItemEnd_parts: ObjectParser.ItemParts,
     HoldsPart: ObjectParser.HoldsPart, Concealed: ObjectParser.Concealed, ItemPlace_at: ObjectParser.At,
     ItemPlace_in: ObjectParser.In, FoundBy: ModuleParser.FoundBy, FoundWith: ObjectParser.FoundWith,
     ThingSite_at: ModuleParser.Site, ThingSite_on: ObjectParser.SiteOn, WayEnd: ObjectParser.WayEnd,
@@ -194,8 +194,8 @@ export class ModuleParser {
   }
   // Ohm calls an action with one node per element of its rule; these take the elements that matter to ObjectParser.
   static ItemDecl(_i: Node, id: Node, name: Node, _is: Node, kind: Node, place: Node, concealed: Node, owner: Node,
-    _dot: Node) {
-    return ObjectParser.item(id, name, kind, { place, concealed, owner });
+    end: Node) {
+    return ObjectParser.item(id, name, kind, { place, concealed, owner, end });
   }
   static Thing(_t: Node, id: Node, name: Node, site: Node, kind: Node, concealed: Node, _open: Node, parts: Node,
     _close: Node) {

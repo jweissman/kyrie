@@ -123,9 +123,14 @@ export class WorldConstructs {
     'portal', 'overland'];
   // An item instance with one name: the authored one, or its catalog kind's name.
   static item(module: Module, i: { id: string; name?: string; kind: string; place: string; inside?: boolean;
-    hidden?: string; owner?: string }, kindName?: string) {
+    hidden?: string; owner?: string } & Partial<Pick<ThingSpec, 'states' | 'changes'>>, kindName?: string) {
     if (!kindName) { throw new Error(`Item ${i.id} names a kind missing from the item catalog: ${i.kind}`); }
     module.entities.push({ id: i.id, type: 'item', name: i.name ?? ItemNames.called(kindName) });
+    // Its states are seen near it, lying somewhere or carried, and its changes made by whoever reaches it (QTC-A23).
+    if (i.states?.length) {
+      this.states(module, { id: i.id, name: i.name ?? kindName, type: 'item', states: i.states, changes: i.changes ?? [] },
+        { kind: 'near', id: i.id });
+    }
     this.entity(module, i.kind, 'itemkind', kindName);
     this.assert(module, 'itemKind', i.id, i.kind);
     this.assert(module, i.inside ? 'inside' : 'at', i.id, i.place);

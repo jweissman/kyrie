@@ -9,13 +9,20 @@ type Field = { field: string; value: unknown };
 // perhaps hidden until something is known; a receptacle; a discovery found by searching a place.
 export class ObjectParser {
   // ItemDecl = "Item" ident string? "is" ident ItemPlace Concealed? "."
-  static item(id: Node, name: Node, kind: Node, where: { place: Node; concealed: Node; owner: Node }): Field {
-    const { place, concealed, owner } = where, site = ModuleParser.ast(place) as { anchor: string; id: string };
-    return { field: 'item', value: { id: id.sourceString, kind: kind.sourceString, place: site.id,
+  static item(id: Node, name: Node, kind: Node, where: Record<'place' | 'concealed' | 'owner' | 'end', Node>): Field {
+    const { place, concealed, owner, end } = where, site = ModuleParser.ast(place) as { anchor: string; id: string };
+    const parts = end.sourceString === '.' ? undefined : ModuleParser.ast(end) as Pick<ThingSpec, 'states' | 'changes'>;
+    return { field: 'item', value: { id: id.sourceString, kind: kind.sourceString, place: site.id, ...parts,
       ...(site.anchor === 'inside' ? { inside: true } : {}),
       ...(concealed.children.length ? { hidden: ModuleParser.ast(concealed.children[0]!) } : {}),
       ...(owner.children.length ? { owner: ModuleParser.ast(owner.children[0]!) } : {}),
       ...(name.children.length ? { name: ModuleParser.ast(name.children[0]!) } : {}) } };
+  }
+  // An item's own states and changes, as a thing's (QTC-A23: a lantern whose little door opens, carried).
+  static ItemParts(_open: Node, parts: Node, _close: Node): Pick<ThingSpec, 'states' | 'changes'> {
+    const spec = { id: '', name: '', type: 'item', states: [], changes: [] } as ThingSpec;
+    for (const part of parts.children) { ObjectParser.thingPart(spec, ModuleParser.ast(part) as Field); }
+    return { states: spec.states, changes: spec.changes };
   }
   static At(_at: Node, id: Node) { return { anchor: 'at', id: id.sourceString }; }
   static In(_in: Node, id: Node) { return { anchor: 'inside', id: id.sourceString }; }

@@ -1,0 +1,17 @@
+Module itemstate "The Salamander lantern" {
+  // Quittance's ll 13 (QTC-A23): a lantern with a little door, carried, whose door the player opens when the spark
+  // asks: an item with states and changes of its own, as a thing has.
+  Place yard "the yard" is settlement.
+  Place lamp_room "the lamp room" is room within yard at 0, 0.
+  Place lane "the lane" is room within yard at 1, 0 outdoors.
+  Passage room_door "the lamp-room door" is door between lamp_room and lane.
+  Company party "You" of 1 at lamp_room.
+  Item salamander "the Salamander lantern" is lantern at lamp_room {
+    State latched "The Salamander lantern's little door is latched; something moves behind the horn.".
+    State open "The Salamander lantern's little door stands open, and a spark sits in it, looking out.".
+    Change unlatch "Open the lantern's little door" from latched to open.
+  }
+  Observe room_scene at lamp_room when true "Shelves of lamps.".
+  Observe lane_scene at lane when true "A lane.".
+  Goal false.
+}

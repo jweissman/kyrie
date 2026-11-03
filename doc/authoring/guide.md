@@ -590,6 +590,18 @@ the counting-house fixture:
   }
 ```
 
+An item may have states and changes as a thing has, in a block after it: they are seen near it, lying somewhere or
+carried, and made by whoever reaches it, the company that carries it among them (Quittance's ll 13, whose lantern's
+little door could not be opened; `probes/item-state`):
+
+```text
+  Item salamander "the Salamander lantern" is lantern at lamp_room {
+    State latched "The lantern's little door is latched; something moves behind the horn.".
+    State open "The lantern's little door stands open, and a spark sits in it, looking out.".
+    Change unlatch "Open the lantern's little door" from latched to open.
+  }
+```
+
 An item lying in a room (`Item ladder "the Guild's ladder" is folding_ladder at yard owned by clerk.`) is offered as
 "Take" under its name to a company that has noticed it: one `hidden until` a fact is taken once the fact is known.
 One `at nowhere` is nowhere to be taken, and comes only by being given. A topic that lends it (`On discuss { Assert
