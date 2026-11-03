@@ -1,6 +1,7 @@
 import { Canon } from './canon';
 import type { Modifiers } from './schema';
 import { ModifierSet } from '../rules/modifiers';
+import { LocalKinds } from './local-catalog';
 
 // Category and reference checks over the canonical catalogs. A creature species cannot be a class, a natural attack
 // cannot be a class technique, a specialization must belong to a real class and open a real school or domain, a
@@ -12,7 +13,8 @@ export class CanonValidation {
     'necromancy', 'transmutation'];
   static readonly traitCategories = ['lineage', 'nature', 'affinity', 'character', 'feat', 'party', 'specialization',
     'calling'];
-  static readonly itemCategories = ['weapon', 'armor', 'tool', 'gear', 'consumable', 'equipment', 'treasure'];
+  static readonly itemCategories = ['weapon', 'armor', 'tool', 'gear', 'consumable', 'equipment', 'treasure',
+    'document'];
   private problems: string[] = [];
   static problems(): string[] {
     const v = new CanonValidation();
@@ -168,7 +170,10 @@ export class CanonValidation {
       const where = `item ${id}`;
       if (!CanonValidation.itemCategories.includes(i.category)) { this.fail(where, `unknown category ${i.category}`); }
       if (i.grants?.ability) { this.ability(where, i.grants.ability, ['technique', 'spell']); }
-      if (i.grants?.skill && !Canon.skills[i.grants.skill]) { this.fail(where, `grants unknown skill ${i.grants.skill}`); }
+      // A module's own kind may grant a capability of the module's own, checked as the module was read (GTR-09).
+      if (i.grants?.skill && !Canon.skills[i.grants.skill] && !LocalKinds.local(id)) {
+        this.fail(where, `grants unknown skill ${i.grants.skill}`);
+      }
       if (i.category === 'consumable' && !i.use) { this.fail(where, 'a consumable needs a use'); }
       if (i.fuel && !Canon.items[i.fuel]?.use) { this.fail(where, `burns ${i.fuel}, which gives no light`); }
       if (i.weapon && !i.unsupported && !Canon.rules.damageTypes.includes(i.weapon.type)) {

@@ -80,10 +80,11 @@ export class Cast {
       const offers = (o.offers ?? []).filter(x => !own.has(x.kind)
         && !module.entities.some(e => e.id === `${p.id}_${x.kind}` && e.type === 'service'));
       if (offers.length && module.relations.some(r => r.name === 'offers')) {
-        WorldConstructs.offers(module, { id: p.id, place: p.place, offers },
+        WorldConstructs.offers(module, { id: p.id, ...p.place ? { place: p.place } : {}, offers },
           kind => ItemCatalog.definitions[kind]?.name);
       }
-      if (o.routine && !module.pursuits?.some(x => x.actor === p.id && x.id === `${p.id}_routine`)) {
+      // One who is nowhere keeps no hours anywhere (WPC-04).
+      if (o.routine && p.place && !module.pursuits?.some(x => x.actor === p.id && x.id === `${p.id}_routine`)) {
         (module.pursuits ??= []).push({ id: `${p.id}_routine`, actor: p.id, label: o.routine, priority: 1,
           when: { kind: 'boolean', value: true }, target: ModuleWriter.call('at', p.id, p.place) });
       }

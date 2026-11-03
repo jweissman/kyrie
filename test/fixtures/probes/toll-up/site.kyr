@@ -1,0 +1,17 @@
+Module tollup "A toll on the way up, and down free" {
+  // Behind the Wainscot's F5 (BTW-06): Ma Riser's sign says DOWN, FREE. A thing on a way from one end bars it from
+  // that end only.
+  Place wall "the wall" is site.
+  Place top "the top of the wainscot" is room within wall at 0, 0 indoors.
+  Place foot "the foot of the ladder" is room within wall at 0, 1 indoors.
+  Passage ladder "the string ladder" is ladder between top and foot.
+  Company party "You" of 2 at top.
+  Thing toll "Ma Riser's toll-bar" on ladder from foot {
+    State down blocking "A bar across the foot of the ladder, and a sign: UP, ONE CRUMB. DOWN, FREE.".
+    State up "The toll-bar is lifted.".
+    Change pay "Pay Ma Riser a crumb" from down to up.
+  }
+  Observe top_scene at top when true "The top of the wainscot, dusty and warm.".
+  Observe foot_scene at foot when true "The foot of the ladder, by the skirting.".
+  Goal false.
+}

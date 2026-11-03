@@ -137,6 +137,7 @@ export class ChoiceGrouping {
     open: { slot: 'target', param: 'device', path: ['Open'] },
     use_item: { slot: 'item', param: 'dose', path: ['Use on', '{recipient}'] },
     light_item: { slot: 'item', param: 'dose', path: ['Light'] },
+    read_item: { slot: 'item', param: 'page', path: ['Read'] },
     equip_item: { slot: 'item', param: 'tool', path: ['Equip'] },
     transfer_item: { slot: 'item', param: 'cargo', path: ['Give to', '{recipient}'] },
     put_item: { slot: 'item', param: 'cargo', path: ['Set down here'] },

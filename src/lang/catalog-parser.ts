@@ -2,7 +2,7 @@ import type * as ohm from 'ohm-js';
 import { ModuleParser } from './module-parser';
 import { LocalKinds, type LocalCatalog, type LocalKindSpec, type LocalSpeciesSpec } from '../canon/local-catalog';
 import type { ItemKind } from '../canon/schema';
-import type { Module } from './module';
+import type { Entity, Module } from './module';
 
 type Node = ohm.Node;
 type Field = { field: string; value: unknown };
@@ -27,6 +27,9 @@ export class CatalogParser {
   static Weighing(_w: Node, n: Node) { return { mass: Number(n.sourceString) }; }
   static Described(_d: Node, text: Node) { return { description: ModuleParser.ast(text) as string }; }
   static Granting(_g: Node, skill: Node) { return { grants: skill.sourceString }; }
+  // What reading one teaches (`Kind playbill "a playbill" is document teaching bill_read`): an item read where it is
+  // carried, not an action offered everywhere (Quittance's pm 10, QTC-A26).
+  static Teaching(_t: Node, fact: Node) { return { teaches: fact.sourceString }; }
   static LocalSpecies(_s: Node, id: Node, name: Node, body: Node): Field {
     return { field: 'localspecies', value: { id: id.sourceString, name: ModuleParser.ast(name) as string,
       ...ModuleParser.ast(body) as object } as LocalSpeciesSpec };
@@ -45,17 +48,20 @@ export class CatalogParser {
     KindBase_is: CatalogParser.KindIs, KindBase_like: CatalogParser.KindLike,
     KindPart_worth: CatalogParser.Worth, KindPart_weighing: CatalogParser.Weighing,
     KindPart_described: CatalogParser.Described, KindPart_granting: CatalogParser.Granting,
-    LocalSpecies: CatalogParser.LocalSpecies,
+    KindPart_teaching: CatalogParser.Teaching, LocalSpecies: CatalogParser.LocalSpecies,
     SpeciesPart_tame: CatalogParser.Tame, SpeciesPart_temperament: CatalogParser.Temperament,
     SpeciesPart_described: CatalogParser.Described, SpeciesPart_living: CatalogParser.Living,
   };
   // The module's own kinds, made and joined to the catalogs, from the declarations that make them.
   static declare(module: Module, fields: Field[], located: (i: number, run: () => void) => void) {
-    const catalog: LocalCatalog = {};
+    const catalog: LocalCatalog = {}, taught: [string, string][] = [];
+    const capabilities = new Set(fields.filter(f => f.field === 'entity' && (f.value as Entity).type === 'capability')
+      .map(f => (f.value as Entity).id));
     fields.forEach(({ field, value }, i) => located(i, () => {
       if (field === 'localkind') {
         const spec = value as LocalKindSpec;
-        (catalog.items ??= {})[spec.id] = LocalKinds.item(module.id, spec);
+        (catalog.items ??= {})[spec.id] = LocalKinds.item(module.id, spec, capabilities);
+        if (spec.teaches) { taught.push([spec.id, spec.teaches]); }
       } else if (field === 'localspecies') {
         const spec = value as LocalSpeciesSpec;
         (catalog.species ??= {})[spec.id] = LocalKinds.species(module.id, spec);
@@ -72,6 +78,9 @@ export class CatalogParser {
         module.initial.push({ kind: 'set', call: { kind: 'call', name: 'mass', args: [id] },
           value: { kind: 'number', value: item.mass } });
       }
+    }
+    for (const [kind, fact] of taught) {
+      module.initial.push({ kind: 'assert', call: { kind: 'call', name: 'kindTeaches', args: [kind, fact] } });
     }
   }
 }

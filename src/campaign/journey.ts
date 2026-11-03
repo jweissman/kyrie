@@ -4,8 +4,9 @@ import type { Change, Operator } from '../lang/module';
 import type { World } from '../lang/world';
 
 // effects: what the command does besides moving the company (the ice a risk breaks), by which the way is judged.
+// risked: what a risk taken on the way dared, which does not turn back the company that dared it.
 export interface Leg { actor: string; origin: string; destination: string; way?: string; followers: string[];
-  effects: Change[] }
+  effects: Change[]; risked?: string }
 // What a journey needs of the campaign it is made in.
 export interface JourneyHost {
   readonly world: World;
@@ -32,7 +33,9 @@ export class Journey {
     const followers = world.related('following').filter(r => r.args[1] === player && !moved.has(r.args[0]!)
       && world.related('at', r.args[0]).some(a => a.args[1] === origin)).map(r => r.args[0]!);
     const effects = action.success.filter(c => (c.kind === 'assert' || c.kind === 'retract') && c.call.name !== 'at');
-    return { actor: player, origin, destination, ...way ? { way } : {}, followers, effects };
+    const risked = action.schema === 'risk' ? action.bindings?.trap : undefined;
+    return { actor: player, origin, destination, ...way ? { way } : {}, followers, effects,
+      ...risked ? { risked } : {} };
   }
   // A move too short to be a journey still takes along whoever is following the company from where it stood, and
   // follows it still (not the bear put back in her pen as the company is thrown out into the lane: Gosse's Company).
@@ -53,10 +56,13 @@ export class Journey {
       ...this.travelling(world, leg, 'assert')]);
   }
   // Whether the way is still passable for the company, were it back where it set out and had done what it set out
-  // to do to the way.
+  // to do to the way. What it risked does not turn it back, though it stays as dangerous as it was: foul air in a
+  // shaft, met on every crossing, had turned back every company that braved it (Quittance's bg 7, QTC-A08).
   static open(world: World, leg: Leg): boolean {
     if (!leg.way || !world.module.queries.some(q => q.name === 'passable')) { return true; }
-    return world.apply([this.at('assert', leg.actor, leg.origin), ...leg.effects])
+    const dared = leg.risked ? world.related('harmsWhen', leg.risked).map(r => ({ kind: 'retract' as const,
+      call: ModuleWriter.call('harmsWhen', ...r.args) })) : [];
+    return world.apply([this.at('assert', leg.actor, leg.origin), ...leg.effects, ...dared])
       .test(ModuleWriter.call('passable', leg.way, leg.actor));
   }
   static back(world: World, leg: Leg): World {

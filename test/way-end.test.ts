@@ -3,6 +3,7 @@ import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { OverlayBundleSource } from '../src/campaign/overlay-bundle-source';
 import { LocalObservations } from '../src/campaign/local-observations';
 import { PlaySession } from '../src/session/play-session';
+import { Journey } from '../src/session/journey';
 
 // A thing on a way, or a line beside it, told only at the end it is seen from (the Grand Tour's friction 8, the Third
 // Night's 18, Behind the Wainscot's F5: a guard's line, and the deep step on the ford, told on both banks).
@@ -25,5 +26,14 @@ describe('one end of a way', () => {
     await s.perform('go(p__ford,p__far)');
     expect(told()).toContain('deep step');
     expect(told()).not.toContain('FORD');
+  }, 60000);
+  // Behind the Wainscot's F5 (BTW-06): a toll whose sign says DOWN, FREE had to be two one-way ladders.
+  it('bars a way from the end it stands at, and not from the other', async () => {
+    const j = await Journey.start('test/fixtures/probes/toll-up/probe.campaign.json');
+    await j.play('^To the foot of the ladder$');
+    expect(j.at('party')).toBe('p__foot');
+    expect(j.choices().map(c => c.label)).not.toContain('To the top of the wainscot');
+    await j.play('Pay Ma Riser a crumb', '^To the top of the wainscot$');
+    expect(j.at('party')).toBe('p__top');
   }, 60000);
 });

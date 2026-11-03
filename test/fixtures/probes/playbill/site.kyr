@@ -1,0 +1,19 @@
+Module playbill "A playbill, and a helm to breathe in" {
+  // Wapshott's Circus's 12 (WPC-12): a paper of the module's own is a document, carried and read, never equipped.
+  // Quittance's pm 10 (QTC-A26): what it says is read where it is carried. The Grand Tour's 9 (GTR-09): a kind
+  // grants a capability the module declares for itself.
+  Place tober "the tober" is wilderness.
+  Place yard "the circus yard" is room within tober at 0, 0 outdoors.
+  Place pool "the bottom of the tank" is room within tober at 1, 0 outdoors.
+  Entity breath: capability "Breath under water".
+  Kind bill_kind "a playbill" is document teaching bill_read described "A playbill, printed red and black.".
+  Kind helm_kind "a brine-glass helm" is gear granting breath described "A helm of thick glass, full of brine.".
+  Discovery bill_read "The playbill says the Strong Woman will lift a horse tonight, and the tank is open at noon.".
+  Passage tank "the glass tank" is passage between yard and pool needing breath.
+  Company party "You" of 2 at yard.
+  Item bill "a playbill" is bill_kind at yard.
+  Item helm "the brine-glass helm" is helm_kind at yard.
+  Observe yard_scene at yard when true "Wagons in a ring, and a great glass tank.".
+  Observe pool_scene at pool when true "Green light, and the bottom of the tank.".
+  Goal false.
+}

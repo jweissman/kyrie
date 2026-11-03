@@ -86,8 +86,13 @@ Kyr {
   Exit = "Exit" ident string "from" ident "to" ident "by" ident ExitDoor? ExitKnowledge? "."
   ExitDoor = "through" ident
   ExitKnowledge = "known" "by" ident
-  Person = "Person" ident string "at" ident "{" PersonPart* "}"
-  PersonPart = PersonRole | PersonKnown | PersonRace | PersonSpecies | PersonVariant | PersonSeen | PersonCreature | PersonCount | PersonCalled | PersonWants | PersonTrait | PersonCarries | PersonClass | PersonLevel | PersonUses | PersonHorizon | StatePart | ChangePart | GuardsPart | PersonPeaceable | PersonProfession | PersonBackground | OffersPart | SellsPart | BuysPart | PersonTemperament | PersonManner | PersonPronouns | PersonAgain | PersonLeavesTo | PersonWords | PersonHaunt | PersonRemarks
+  Person = "Person" ident string PersonWhere "{" PersonPart* "}"
+  // Where someone is to begin with; nowhere, for one not yet in the story or gone from it (WPC-04, QTC-29).
+  PersonWhere = "at" ident -- at
+              | "nowhere" -- nowhere
+  PersonArrival = "Arrives" ArrivalAt RoleWhen "."
+  ArrivalAt = "at" ident
+  PersonPart = PersonArrival | PersonRole | PersonKnown | PersonRace | PersonSpecies | PersonVariant | PersonSeen | PersonCreature | PersonCount | PersonCalled | PersonWants | PersonTrait | PersonCarries | PersonClass | PersonLevel | PersonUses | PersonHorizon | StatePart | ChangePart | GuardsPart | PersonPeaceable | PersonProfession | PersonBackground | OffersPart | SellsPart | BuysPart | PersonTemperament | PersonManner | PersonPronouns | PersonAgain | PersonLeavesTo | PersonWords | PersonHaunt | PersonRemarks
   PersonTemperament = "Temperament" ident "."
   PersonManner = "Manner" ident "."
   PersonPronouns = "Pronouns" ident "."
@@ -165,6 +170,7 @@ Kyr {
            | "weighing" signed -- weighing
            | "described" string -- described
            | "granting" ident -- granting
+           | "teaching" ident -- teaching
   LocalSpecies = "Species" ident string SpeciesBody
   SpeciesBody = "like" ident SpeciesPart* "."
   SpeciesPart = "tame" -- tame

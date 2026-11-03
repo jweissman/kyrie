@@ -244,6 +244,20 @@ a module's own answer to a warning (a name given, a letter shown) is an action t
 `tolerates` within it (the Banns at Hessel's 23). Warned off, one with a `Refuge` gives ground and goes
 there, in the plain words of its temperament unless it has words of its own.
 
+Someone not yet in the story, or gone from it, is `nowhere` in place of `at` a place: they cannot be met, spoken to or
+seen from the road, and warn no one (Wapshott's Circus's 4: a fortune-teller parked in a hedge was met there before
+her entrance; Quittance's 29: wardens sat in their house warned every company from the first minute). They come into
+it when something holds, `Arrives at house when hour(clock) >= 17.`, once, and are said to come by their own
+`Arrives "…"`; a rule that retracts `at(sallow, ?p)` sends someone out of it again (`test/fixtures/probes/offstage`):
+
+```text
+  Person wardens "three wardens of the Phoenix" nowhere {
+    Role "the Phoenix's wardens". Ancestry human. Numbers 3. Temperament territorial.
+    Arrives at house when watch(clock) >= 6.
+    Arrives "Three wardens in brass helmets come in from the yard and stand across the hall.".
+  }
+```
+
 Someone can be called something else until they are known, or while something holds: `Known as "a woman in a grey
 shawl" when not knows(party, her_name).` Until it is false the page calls them that, in place of their name and role
 (a mask, a hood, a face not yet put to a name). Whoever the company has spoken with it is `acquainted` with, for good:
@@ -265,7 +279,10 @@ A change can be made only while something holds, and say why not while it does n
 inspect` names the condition it waits on.
 
 A thing on a way is told at both its ends; one seen from one end only says so (`Thing step "the deep step" on ford from
-far_bank`), and so may a line beside a way (`Observe post beside ford from near_bank when true "…"`).
+far_bank`), and so may a line beside a way (`Observe post beside ford from near_bank when true "…"`). A thing on a way
+from one end that bars it, bars it from that end only: `Thing toll "Ma Riser's toll-bar" on ladder from foot` with a
+`blocking` state stops a company going up, and lets one come down free (`test/fixtures/probes/toll-up`; Behind the
+Wainscot's F5, whose toll had been two one-way ladders).
 
 ```kyr
   Thing grille "the rusted grille" on ossuary_arch {
@@ -306,6 +323,10 @@ module alone; no other world sees it. A thing hurts whoever crosses it while it 
     Hurts with bone_slide when loose then settled.
   }
 ```
+
+What it hurts with, it hurts once, and then is as its `then` says. A danger met on every crossing (foul air in a shaft)
+is one that stays as it was, `Hurts with foul_air when foul then foul.`: each crossing is a risk, and the company that
+takes it goes over (`test/fixtures/probes/foul-air`; Quittance's bg 7, whose company had been turned back each time).
 
 ## 5. Knowledge
 
@@ -848,6 +869,22 @@ glossary's reading of the old script:
 
 ```text
   Kind wardens_oath "the Wardens' oath-tablet" like old_glossary granting oath described "A slate tablet…".
+```
+
+What it grants may be a skill of the catalog's or a capability the module declares itself (`Entity breath: capability
+"Breath under water".`; the Grand Tour's 9, which had written a rule on `holding` for its helm). A kind with nothing to
+wear it by (`is gear`, `is document`) brings what it grants to whoever carries it; one like a thing worn, while it is
+worn.
+
+A paper of the module's own (a list, a playbill, a letter) `is document`: carried, never equipped, and granting
+nothing unless it says so (Wapshott's Circus's 12: one like the glossary was offered "Equip", and taught the old
+script). What reading it teaches is `teaching` a discovery: the company reads it where it carries it ("Pack › A
+playbill › Read"), and knows it (`test/fixtures/probes/playbill`; Quittance's pm 10, whose stamp was read by an action
+offered in every room):
+
+```text
+  Kind bill_kind "a playbill" is document teaching bill_read described "A playbill, printed red and black.".
+  Discovery bill_read "The playbill says the Strong Woman will lift a horse tonight.".
 ```
 
 ### Asleep, awake, and who sees

@@ -113,7 +113,9 @@ export interface Objective { id: string; when: Predicate; text: string }
 // A role while something holds; whole, what they are called instead of their name and role ("Known as").
 export interface Person { role?: string; roles?: { role: string; when: Predicate; whole?: boolean }[];
   id: string; name: string;
-  place: string; raceId?: string; classId?: string;
+  place?: string; raceId?: string; classId?: string;
+  // Where and when one declared nowhere comes into the story (Arrives at … when …).
+  arrives?: { place: string; when: Predicate };
   level: number; actions: string[]; horizon?: number;
   // creature: constraints for the Deem creature generator; count: how many creatures the group has (default 1);
   // names: what each of them is called, in order.

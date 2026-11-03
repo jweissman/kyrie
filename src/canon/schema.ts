@@ -143,7 +143,7 @@ export interface WeaponStats {
 }
 export interface ArmorStats { ac: number; weight: string; type: string }
 export interface ItemKind {
-  name: string; category: 'weapon' | 'armor' | 'tool' | 'gear' | 'consumable' | 'equipment' | 'treasure';
+  name: string; category: 'weapon' | 'armor' | 'tool' | 'gear' | 'consumable' | 'equipment' | 'treasure' | 'document';
   description: string; value?: number; slot?: string; use?: string; modifiers?: Modifiers;
   weapon?: WeaponStats; armor?: ArmorStats; hooks?: Hooks;
   // What it burns, lit (a lantern burns lamp oil): an item kind whose use is the light it gives.

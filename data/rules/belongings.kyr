@@ -118,6 +118,15 @@ Module belongings "What the company carries" {
     Resolve equip(tool, wearer).
     Result "{wearer} readies {tool}.".
   }
+  // What reading a kind of thing teaches (Kind … is document teaching bill_read): read where it is carried, once, by a
+  // company with light to read by (Quittance's pm 10: a stamp read by an action offered in every room).
+  Relation kindTeaches(itemkind, fact).
+  Action read_item(actor: group, page: item, form: itemkind, carrier: member, statement: fact) "Read {page}" {
+    Time 2 minutes.
+    Requires able(actor) and memberOf(carrier, actor) and awake(carrier) and ownedItem(page, carrier)
+      and itemKind(page, form) and kindTeaches(form, statement) and not knows(actor, statement) and not benighted(actor).
+    On success { Assert knows(actor, statement). }
+  }
   Action use_item(actor: group, dose: item, form: itemkind, carrier: member, recipient: member) "Use {dose} on {recipient}" {
     Time 2 minutes.
     Requires able(actor) and memberOf(carrier, actor) and memberOf(recipient, actor) and awake(carrier)

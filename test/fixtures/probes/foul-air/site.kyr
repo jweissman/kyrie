@@ -1,0 +1,17 @@
+Module foulair "Foul air in the shaft, every time" {
+  // Quittance's bg 7 (QTC-A08): a danger met on every crossing, not once. A thing that hurts and stays as it was
+  // lets the company over, and hurts it again the next time.
+  Place pit "the pit" is site.
+  Place cradle "the cradle" is room within pit at 0, 0 underground.
+  Place sump "the sump" is room within pit at 1, 0 underground.
+  Passage shaft "the diving shaft" is shaft between cradle and sump taking 30 minutes.
+  Company party "You" of 2 at cradle.
+  Hazard bg_foul "the foul air" means "Deal (1d2) poison damage to ally unless constitution save against (11).".
+  Thing air "foul air" on shaft {
+    State foul dangerous "Foul air hangs in the shaft.".
+    Hurts with bg_foul when foul then foul.
+  }
+  Observe cradle_scene at cradle when true "A cradle of planks over the shaft.".
+  Observe sump_scene at sump when true "Black water at the bottom of the shaft.".
+  Goal false.
+}
