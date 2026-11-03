@@ -1,2 +1,48 @@
 Module ombra "The Book of Faces" {
+  // ── The Rounds ────────────────────────────────────────────────────────────────────────────────────────────────────
+  // The Registrar's own ledger: nine entries, initials and a street each, left in the Watch's keeping for whoever took
+  // the Warrant. Each entry names the opening of a small story; the Round is done when that story ends in a way its
+  // person can live with (state.kyr counts the Marks). Behind the last page, a sealed letter.
+  Kind rounds_kind "the Registrar's Rounds" is gear worth 0 weighing 0 described "A narrow ledger bound in black oilcloth, the corners soft with handling and the spine mended with lamp-wick. Nine pages, each headed with the initials of a person and the name of a street; under each, one line in a small upright hand. On the last page there is no entry, only a flap of wax.".
+  Item rounds_ledger "the Registrar's Rounds" is rounds_kind at offstage.
+  Kind marrick_letter_kind "the Registrar's sealed letter" is gear worth 0 weighing 0 described "A single sheet folded in three and sealed with a bare oval in white wax. Across the fold, in the small upright hand of the ledger: NOT BEFORE THE NINTH DAY. ON THE NINTH, AT NOON, OPEN IT IN THE CHAPEL, AND DO NOT HURRY.".
+  Item marrick_letter "the Registrar's sealed letter" is marrick_letter_kind at offstage.
+  Relation ledgerHeld(group).
+
+  Discovery round_ferry_known "Round 1 in the Registrar's ledger: R. K., the Gull, on the Drip ferry. 'Boat sinking by inches. Will not take a gift. Find the way she will.'".
+  Discovery round_lovers_known "Round 2: C. D., the Heron, at the Weights. 'Writes every night to a Lamp. The Lamp writes back. Neither has asked who the other is. Leave it, or end it kindly; I could not decide.'".
+  Discovery round_peck_known "Round 3: A. P., at the Hospice. 'A bed that is not the Hospice's. His name said once, not cried. He is dying and has been for some time. He will not ask.'".
+  Discovery round_soup_known "Round 4: Sister N., the Anonymous Saint's kitchen. 'I have kept the pot. I shall not be able to. Someone must. She must not be told the donor.'".
+  Discovery round_pound_known "Round 5: the short pound, at the bread-market. 'An ounce light, for ten years, and nobody has asked the Assessor. She cannot say a name. Someone must weigh it for her.'".
+  Discovery round_lacke_known "Round 6: C. L., Counting Row. 'The Lock-tax. I have the arithmetic. I have not the nerve, or rather I have the nerve and not the years.'".
+  Discovery round_pip_known "Round 7: P. T., in the cisterns. 'A lamp-boy. I saw him go down the steps and did not follow. I should have followed. He is nine.'".
+  Discovery round_heronry_known "Round 8: the Heronry. 'The writ says a heron. The surveyors say the writ is old. Both are right, and the reeds are older than either.'".
+  Discovery round_gaspar_known "Round 9: Gaspar, on Quiet Hill. 'He has been dusting a house for twenty-six years for a family that does not know it exists. I found her. I did not tell either. It was not mine to.'".
+  Action read_ledger(actor: group, site: place) "Read the Registrar's Rounds" {
+    Requires able(actor) and company(actor) and at(actor, site) and ledgerHeld(actor) and not knows(actor, rounds_known).
+    Time 20.
+    On success { Assert knows(actor, rounds_known). Assert knows(actor, round_ferry_known). Assert knows(actor, round_lovers_known). Assert knows(actor, round_peck_known).
+      Assert knows(actor, round_soup_known). Assert knows(actor, round_pound_known). Assert knows(actor, round_lacke_known). Assert knows(actor, round_pip_known).
+      Assert knows(actor, round_heronry_known). Assert knows(actor, round_gaspar_known). }
+    Result "Nine pages in one small upright hand, each a person and a street and a line: not a list of offences or of debts but of things that wanted mending. At the end the oilcloth has been rubbed paler by a thumb. She read this a great deal. Whoever she was, she did not think of it as a duty; she thought of it, you suspect, as the only reading she liked.".
+  }
+  // After two Rounds are done the ledger reads differently: they are a selection.
+  Rule rounds_selection when knows(party, rounds_known) and marks(party) >= 2 and not knows(party, lie_rounds) says "You take out the ledger again, with two of its pages done, and read the initials as you would read a roll: a ferrywoman, a clerk, a lamp-boy, a cook. Every one of them has something mended and is trusted by a street. They are not a list of the city's troubles. They are a list of the city's best." teaches lie_rounds { }
+
+  // The sealed letter. Opened early, it is the secret told; kept till the ninth noon, it is a dead woman's patience.
+  Discovery letter_read "The Registrar's sealed letter says, in her own hand: that she was Treasurer in the Year of the Cullet Sluice and six hundred drowned of it; that she has chosen the Offices by hand for thirty-one years, and the Urn is empty; that she means to leave the choice of what comes next to a Bare, since a Bare is the only person in Ombra she is allowed to tell; and that she is sorry about the Rounds, which she left in such a hurry.".
+  Action break_seal(actor: group, site: place) "Break the Registrar's seal before the Ninth Day" {
+    Requires able(actor) and company(actor) and at(actor, site) and holding(actor, marrick_letter_kind) and not knows(actor, letter_read) and not (day(clock) == 9 and hour(clock) >= 12).
+    Time 5.
+    On success { Assert knows(actor, letter_read). Assert knows(actor, urn_hollow). Assert knows(actor, marrick_was_treasurer). Assert sealBroken(actor). }
+    Result "The wax is a bare oval and it comes away clean, which is a very polite thing for wax to do. You read it standing up, in the wet, with the ink beginning to run from your own thumbs, and when you have done you read it again, slower, and then you fold it as it was and put it away; and the city, when you look up, has a different shape.".
+  }
+  Relation sealBroken(group).
+  Action open_seal_at_noon(actor: group, site: place) "Open the Registrar's letter, as she asked, in the Chapel on the Ninth Day at noon" {
+    Requires able(actor) and company(actor) and at(actor, site) and within(actor, chapel) and holding(actor, marrick_letter_kind) and not knows(actor, letter_read) and day(clock) == 9 and hour(clock) >= 12.
+    Time 10.
+    On success { Assert knows(actor, letter_read). Assert knows(actor, urn_hollow). Assert knows(actor, marrick_was_treasurer). Assert sealWaited(actor). }
+    Result "You open it in the nave at noon, with the rain on the Chapel's roof like a very large audience clearing its throat, and read it at the pace she asked. It is shorter than you feared. It does not accuse anyone, and it does not apologise for the one thing it should; and at the foot of it, in smaller writing, it says: I have kept the pot.".
+  }
+  Relation sealWaited(group).
 }

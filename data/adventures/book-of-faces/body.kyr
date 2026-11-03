@@ -1,2 +1,53 @@
 Module ombra "The Book of Faces" {
+  // ── The Registrar's body ──────────────────────────────────────────────────────────────────────────────────────────
+  // She lies in the bier-room in the white mask of her office. The Warrant lets a Bare lift it, which is the whole reason
+  // the Warrant exists; and what the face and the mask say, once lifted, is the first real evidence of the book: that she
+  // died of her heart, in her sleep as it were, with her hands folded by someone else; that her mask was put back on
+  // by a frightened person who knew what it was; and that under the white mask the skin carries the pale band of an
+  // older Office than hers.
+  Observe bier_scene at bier_room when true "A cold small room off the lamp-room with a stone bier in it and a white sheet to the chin. A candle burns at the head and another at the foot, and between them, on the face, is the white mask of the Registrar: a plain bare oval with two slits and no mouth. The mask has been wiped. There is no other mark of the building on her at all.".
+  Observe bier_night at bier_room when privateHours() "At night the candles are the only thing in the bier-room that moves, and they move very little. The rain on the lamp-room roof is next door, and rather far.".
+  Thing bier "the Registrar's body" at bier_room {
+    State masked "The Registrar lies in her white mask on the bier.".
+    State bared "The Registrar lies on the bier with her white mask lifted and set beside her.".
+    Change lift "Lift the Registrar's white mask, by the Warrant" from masked to bared.
+  }
+  Relation maskLifted(group).
+  Rule lifted_by_warrant when state(bier, bared) and warrantHeld(party) and not maskLifted(party) says "You lift it by the rim, as the Warrant says you may, and set it down beside her. The face under it is a small, old, composed face with the look people have when they have stopped being interrupted. A narrow face, a lamp-trimmer's daughter's. It is exactly as if nothing had ever happened to it, and you notice you are holding your own breath, as one is meant not to." { Assert maskLifted(party). }
+
+  Discovery marrick_natural "The Registrar died of her heart, quietly, without a mark on her; her hands were folded afterwards by someone else.".
+  Discovery mask_reset "The white mask was put back on the Registrar after her death, by a frightened hand that knew what it was and wanted it straight: the tie is knotted twice, and the left slit is a fraction high.".
+  Discovery old_band "Under the pale band the white mask leaves, there is another, older and fainter: the mark of a different Office worn once for a year, a long time ago, and a different shape.".
+  Action examine_death(actor: group, site: place) "Examine the Registrar's body for the manner of her death" {
+    Requires able(actor) and company(actor) and at(actor, site) and maskLifted(actor) and not knows(actor, marrick_natural).
+    Time 20.
+    Resolve check(actor, mending, dc_fair).
+    On success { Assert knows(actor, marrick_natural). }
+    Result "Nothing is broken, nothing is cut, nothing is in the lips. The nails are clean; the colour is the colour of a heart that gave out quite politely. The hands, which someone has folded, are folded by someone who had not folded a dead woman's hands before. She was not killed, so far as a body can say. That is going to be very awkward for the people who say she was.".
+    Otherwise "You look for an hour at a small old woman and learn only that you do not know what you are looking for.".
+  }
+  Action examine_mask(actor: group, site: place) "Look at how the white mask was put on" {
+    Requires able(actor) and company(actor) and at(actor, site) and maskLifted(actor) and not knows(actor, mask_reset).
+    Time 10.
+    Resolve check(actor, insight, dc_fair).
+    On success { Assert knows(actor, mask_reset). }
+    Result "You turn it over. The knot of the tie is a clerk's knot, tied twice, the way a person ties a thing they are afraid will come off. The left slit sits a fraction high on the face, as if the hand that put it there was shaking. Whoever did it was not hiding a crime. They were making a thing right that they could not bear to see wrong.".
+    Otherwise "It is a mask, and it has been tied on. You cannot make it tell you more.".
+  }
+  Action examine_bands(actor: group, site: place) "Look at the marks a mask leaves on the Registrar's face" {
+    Requires able(actor) and company(actor) and at(actor, site) and maskLifted(actor) and not knows(actor, old_band).
+    Time 10.
+    Resolve check(actor, lore, dc_hard).
+    On success { Assert knows(actor, old_band). }
+    Result "A mask worn a year leaves a band of pale skin the width of its rim, and a mask worn thirty years leaves a different one. Over the white mask's there is another, fainter, a hand's breadth wider at the temple, that has all but healed: an Office she held once, long ago, for exactly one year. A broad Office. A heavy one. It sat low on her cheeks, the way the Treasurer's does.".
+    Otherwise "A band of pale skin. You have a notion there is another, and you have no notion what a Fitter would see.".
+  }
+  // The same is found by anyone who simply sits with her, no skill: it takes the night.
+  Action sit_with_body(actor: group, site: place) "Sit with the Registrar until the candle burns down" {
+    Requires able(actor) and company(actor) and at(actor, site) and maskLifted(actor) and privateHours() and not knows(actor, mask_reset) and not sat_vigil(actor).
+    Time 60.
+    On success { Assert sat_vigil(actor). Assert knows(actor, mask_reset). }
+    Result "You sit as you would sit with anybody. Near the end of the hour you notice that the tie of the mask is knotted twice and the left slit sits a little high; and that whoever put it back did not do it quickly. It is the only thing in the room that is not quiet.".
+  }
+  Relation sat_vigil(group).
 }

@@ -20,8 +20,11 @@ Module ombra "The Book of Faces" {
   Query drawingDay() means day(clock) == 9.
   Query drawingNight() means day(clock) == 9 and hour(clock) >= 18.
   // The book closes at midnight on the ninth night; what became of everyone is told in the hour before it.
-  Query newsHour() means day(clock) == 9 and hour(clock) >= 23.
-  Query closing() means day(clock) >= 10.
+  // The Drawing is held between eight and ten on the ninth night, by one of the ways drawing.kyr gives; the book closes
+  // an hour after it, or at midnight with the Offices dissolved if none was taken.
+  Query drawingWindow() means day(clock) == 9 and hour(clock) >= 20 and hour(clock) < 22.
+  Query closing() means day(clock) >= 10 or (drawingHeld(party) and day(clock) == 9 and hour(clock) >= 23 and (faceTaken(party) or faceDeclined(party))).
+  Query newsHour() means day(clock) == 9 and hour(clock) >= 22 and not closing().
 
   Chapter day_one "The Gate of Strangers" when begun() and day(clock) == 1 "The Third Bell rings across the water as you come down the last of the delta road, and all along the Customs Steps people are putting their faces on.".
   Chapter day_two "The Fitting" when day(clock) == 2 and hour(clock) >= 6 "The second morning of the Novena. The rain has settled in the way a tenant does.".
