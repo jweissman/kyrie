@@ -26,12 +26,13 @@ import { ProseTool } from './prose-tool';
 import { Terminal } from './terminal';
 import { Frontier } from '../world/frontier';
 import { DrawnWorld } from '../world/drawn-world';
+import { AdventureNames } from './adventure-names';
 
 export class KyrieCli {
   static readonly usage = [
     'Play:      bin/kyrie campaign <campaign.json> [seed] | resume <save.json> | replay <transcript.json>',
     'Author:    bin/kyrie new <id> ["Title"] | new scene|item|chapter|character <id> --in <adventure> | new site <id>',
-    '           bin/kyrie lint [campaign.json] [--inventory] | compile <module.kyr>',
+    '           bin/kyrie lint [campaign.json] [--inventory] | compile <module.kyr> | names <surname ...>',
     '           bin/kyrie preview <campaign.json> [--port 8080]',
     '           bin/kyrie world <seed> [--terrain forest|marsh|mountain|frost] [--json] | playtext <seed> [steps]',
     '           bin/kyrie play <campaign.json> [--seed s] [--steps steps.json] [--probe "fact args"|"#measure args"] [step ...]',
@@ -51,6 +52,7 @@ export class KyrieCli {
     const [mode = 'help', path = '', argument] = args, rest = args.slice(1);
     switch (mode) {
       case 'lint': return KyrLint.main(rest);
+      case 'names': return AdventureNames.main(rest);
       case 'compile': return this.compile(path);
       case 'test': return this.test(rest);
       case 'preview': await Preview.main(rest); return 0;

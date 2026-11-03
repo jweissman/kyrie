@@ -14,7 +14,7 @@ import { CommitmentLint } from './commitment-lint';
 // One campaign's findings, gathered by named checks over its loaded world.
 export class CampaignLint {
   static readonly implementationWords = new RegExp('\\b(flags?|teleports?|persists?|persistent|generated|canonical'
-    + '|the engine|remains available|does not reset|state flag)\\b', 'i');
+    + '|the engine(?!-)|remains available|does not reset|state flag)\\b', 'i');
   readonly findings: Finding[] = [];
   readonly entities: Map<string, Entity>;
   constructor(readonly path: string, readonly session: PlaySession) {
@@ -268,11 +268,13 @@ export class CampaignLint {
     }
   }
   // A role that names its person again ("Lady Wenlock, a Lady Wenlock": Hessel friction 10) is said once on the page;
-  // the lint says it so the role can say who they are instead.
+  // the lint says it so the role can say who they are instead. Not one that says whom they are of ("one of the Five",
+  // "sisters of the Open Hand": Quittance's friction 15), which is who they are.
   roles() {
     for (const e of this.module.entities.filter(x => x.type === 'group' && x.name.includes(', '))) {
       const [name, ...rest] = e.name.split(', '), role = rest.join(', ');
-      if (name && role.toLowerCase().includes(name.toLowerCase())) {
+      const again = name && new RegExp(`(?<!\\bof )\\b${name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i');
+      if (again && again.test(role)) {
         this.add('warning', 'role', `${e.id}: the role "${role}" names ${name} again; say who they are instead`);
       }
     }
