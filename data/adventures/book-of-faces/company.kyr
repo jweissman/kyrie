@@ -1,0 +1,6 @@
+Module ombra "The Book of Faces" {
+  // The campaign played alone: a stranger with a little money at the end of the delta road on the first morning of the
+  // Novena. (placed.kyr is the world's own company, come in by the same road.)
+  Company party "You" of 1 at road_end.
+  Initially Set quantity(party, gold) to 14. Initially Set quantity(party, rations) to 2.
+}

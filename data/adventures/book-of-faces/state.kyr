@@ -1,0 +1,113 @@
+Module ombra "The Book of Faces" {
+  // ── What every part of the city reads ─────────────────────────────────────────────────────────────────────────────
+  // The Warrant, the face the company wears, the Watch's patience (heat), what the city thinks of each mask
+  // (goodwill), the Registrar's Rounds and the Marks they leave, and the Book of Faces itself.
+
+  // The Warrant (warrant.kyr). Held from the first morning by a company that took it; suspended while heat is three
+  // or more; withdrawn when the Gate shuts.
+  Relation warrantHeld(group). Relation faceOffered(group). Relation faceTaken(group). Relation gateShut(group).
+  // The Watch's patience: heat on the company, up to six (see faces.kyr). Three suspends the Warrant, six shuts the Gate.
+  Measure heat(group).
+  Query warrantLive() means warrantHeld(party) and heat(party) < 3 and not gateShut(party).
+
+  // ── Faces ─────────────────────────────────────────────────────────────────────────────────────────────────────────
+  // A face is a trade's mask or an Office's. The company is Bare, or wears one face (wears(party, f)); a face it may
+  // wear it holds (holdsFace), by rent, gift, theft or right. What a mask has earned is goodwill on the mask and not on
+  // whoever wore it; what it has done is heat on the mask as well.
+  Kind face.
+  Entity face_gull: face "the Gull, the ferrymen's domino".
+  Entity face_owl: face "the Owl, the lamp-trimmers' domino".
+  Entity face_cockle: face "the Cockle, the bakers' and chandlers' domino".
+  Entity face_heron: face "the Heron, the Weights clerks' cowl".
+  Entity face_magpie: face "the Magpie, the tallymen's domino".
+  Entity face_moth: face "the Moth, the players' half-mask".
+  Entity face_crow: face "the Crow, the letter-writers' and post-clerks' domino".
+  Entity face_key: face "the Key, the Warden of Locks' Office-mask".
+  Entity face_pound: face "the Pound, the Assessor of Weights' Office-mask".
+  Entity face_serene: face "the Serene Mask".
+  Entity face_white: face "the White Face, the Registrar's".
+  Relation holdsFace(group, face). Relation wears(group, face) exclusive. Relation masked(group).
+  Relation rented(group, face). Measure rentEnds(group).
+  Measure goodwill(face). Measure faceHeat(face).
+  // A face is fitted to someone, or to no one: a mask sits properly only on the face it was cut for (faces.kyr).
+  Relation fitted(group, face).
+
+  // ── Rounds and Marks ──────────────────────────────────────────────────────────────────────────────────────────────
+  // The Registrar's ledger has nine errands. A Round is done when its story is brought to an end its person can live
+  // with; each one done leaves a Mark, and the Marks are the franchise of the Qualified Draw.
+  Kind round.
+  Entity r_ferry: round "Round 1: R. K., the Gull".
+  Entity r_lovers: round "Round 2: C. D., the Heron".
+  Entity r_peck: round "Round 3: A. P., at the Hospice".
+  Entity r_soup: round "Round 4: Sister N.".
+  Entity r_pound: round "Round 5: the short pound".
+  Entity r_lacke: round "Round 6: Weights Row, C. L.".
+  Entity r_pip: round "Round 7: P. T., in the cisterns".
+  Entity r_heronry: round "Round 8: the heron-writ".
+  Entity r_gaspar: round "Round 9: Gaspar".
+  Relation roundDone(group, round). Relation marked(round). Measure marks(group).
+  Rule round_marked when roundDone(party, ?r) and not marked(?r) { Assert marked(?r). Increase marks(party) by 1. }
+
+  // ── The case ──────────────────────────────────────────────────────────────────────────────────────────────────────
+  // The four hands on the Registrar's last evening and what the city is made of. Every file may teach these.
+  Discovery marrick_dead "The Registrar of Ombra lay dead in the Chapel's lamp-room on the eve of the Novena, in the white mask of her office, and the Book of Faces is gone from its lectern.".
+  Discovery rounds_known "The Registrar kept a ledger of nine Rounds for the nine nights: initials and a street each, errands of the kind she had been doing by night in the white mask.".
+  Discovery pell_hid_book "Tomas Pell, the Registrar's Clerk of the Book, found her dead, put her mask straight, and posted the Book to Nobody at the Dead Letter Office, which burns its Nobodies at noon on the ninth day.".
+  Discovery serene_saw "The Serene came to the Registrar's lamp-room the night she died, and ran; he has not taken the Mask off since.".
+  Discovery lacke_unfaced "Ser Corvin Lacke, the Warden of Locks, called on the Registrar in the Chapel an hour before she died, threatened her, and said her name aloud: Unfacing, the one crime the Concord can prosecute in the case.".
+  Discovery lacke_taxed "The Warden of Locks has been skimming the Lock-tax for years; the Registrar's Rounds were closing on him.".
+  Discovery pip_saw "A lamp-boy named Pip Tolliver, nine, was under the lamp-table and saw the Registrar bare, and saw the clerk, the cooper and the Warden come and go; he is hiding in the cisterns under the Drip.".
+  Discovery marrick_was_treasurer "The Registrar, Ysolde Marrick, was drawn Treasurer at nineteen in the Year of the Cullet Sluice, in which the Sluice failed and six hundred drowned; the Serene of that year took the blame.".
+  Discovery sluice_known "In the Year of the Cullet Sluice the Sluice failed in the Rains and six hundred in the low islands drowned. The Serene of that year, Absalom Peck, was Named for it and has lived Bare since.".
+  // The Lie: the Urn is a sealed bronze jar with nothing in it, and for thirty-one years the Registrars have chosen the
+  // Offices by hand. Five places show it; any three give it away (the Drawing Table).
+  Discovery lie_tally "The Rain-Wives' tally of thirty years of draws: the Offices go, year after year, to the best bakers, ferrymen and clerks in the city, with a regularity no lot would give.".
+  Discovery lie_wall "On the Wall of Faces the nineteen Offices of the last thirty years stand on the shelf of Menders: those whom their streets trust.".
+  Discovery lie_peck "Absalom Peck says the Treasurer of the Sluice year was drawn by the Urn at nineteen; and that after it, the drawing was never the same.".
+  Discovery lie_urn "The Urn in the Urn Hall does not rattle when shaken: it is a sealed bronze jar with a slot, and the weight in it is its own.".
+  Discovery lie_rounds "The Registrar's Rounds are a selection: errands in streets, each a person tried.".
+  Discovery urn_hollow "The Urn is empty. For thirty-one years, since the Sluice, the Registrars of Ombra have chosen the Offices by hand and read them from a palm-card, and let the city believe in chance.".
+  Measure lieClues(group).
+  Relation counted(fact).
+  Rule count_tally when knows(party, lie_tally) and not counted(lie_tally) { Assert counted(lie_tally). Increase lieClues(party) by 1. }
+  Rule count_wall when knows(party, lie_wall) and not counted(lie_wall) { Assert counted(lie_wall). Increase lieClues(party) by 1. }
+  Rule count_peck when knows(party, lie_peck) and not counted(lie_peck) { Assert counted(lie_peck). Increase lieClues(party) by 1. }
+  Rule count_urn when knows(party, lie_urn) and not counted(lie_urn) { Assert counted(lie_urn). Increase lieClues(party) by 1. }
+  Rule count_rounds when knows(party, lie_rounds) and not counted(lie_rounds) { Assert counted(lie_rounds). Increase lieClues(party) by 1. }
+  Rule urn_deduced when lieClues(party) >= 3 and not knows(party, urn_hollow) says "You lay three of them side by side, as you would lay out stitches: the tally, the shelf, the jar that does not rattle, the street each errand was in. They make one shape. The Urn does not draw. Somebody has been drawing for it, by hand, for thirty years, and has been good at it." teaches urn_hollow {
+    Assert deduced(party). }
+  Relation deduced(group).
+
+  // ── The Book of Faces ─────────────────────────────────────────────────────────────────────────────────────────────
+  // The Book is a thing the company may hold (post.kyr hides it in the Dead Letter Office); what it says is read at
+  // the Registry (registry.kyr).
+  Kind book_of_faces_kind "the Book of Faces" is gear worth 0 weighing 2 described "A ledger bound in white vellum gone grey at the corners, clasped with a brass lock that has been forced, and under the lock the seal of the Registrar, a bare oval with nothing in it. Inside, in ninety years of one hand after another, the names that wore the masks.".
+  Item book_of_faces "the Book of Faces" is book_of_faces_kind at offstage.
+  Relation bookRead(group). Relation drawingOver(place).
+
+  // ── Hands at the Drawing ──────────────────────────────────────────────────────────────────────────────────────────
+  // Each calling's arc ends in an act the company may do on the ninth night (drawing.kyr reads these).
+  Kind hand.
+  Entity hand_stair: hand "the Stair held".
+  Entity hand_likeness: hand "the Likeness cast".
+  Entity hand_cast: hand "the casts of the Wall".
+  Entity hand_blessing: hand "the Draw blessed, or refused".
+  Entity hand_lampoon: hand "the Lampoon played".
+  Entity hand_heron: hand "the heron flown".
+  Entity hand_door: hand "the Door held".
+  Entity hand_procession: hand "the Trades' procession".
+  // An arc asserts handReady when its finale is available and handPlayed when the company has used it at the Drawing,
+  // with a handWay saying how (each arc's own entities: its relations are its own).
+  Relation handReady(group, hand). Relation handPlayed(group, hand). Measure handWay(hand).
+  // How the arcs are doing, for the closing news.
+  Relation arcBegun(group, hand). Relation arcDone(group, hand).
+
+  // ── Other things the city shares ──────────────────────────────────────────────────────────────────────────────────
+  Relation privateStairOpen(group). Discovery private_stair_known "The Palazzo Tarn keeps a private stair from the Contessa's study to the Chapel's vestry, shut three hundred years.".
+  // The lovers (post.kyr, drip.kyr): the Heron and the Lamp.
+  Relation loversMet(group). Relation loversRevealed(group). Relation loversTogether(group).
+  // Who has been Named, in a square, aloud.
+  Relation named(group).
+  // The Wall of Faces has a cast of the company's own face.
+  Relation castTaken(group).
+}

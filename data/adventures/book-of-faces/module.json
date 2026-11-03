@@ -1,0 +1,51 @@
+{
+  "version": 1,
+  "source": [
+    "clock.kyr",
+    "city.kyr",
+    "state.kyr",
+    "faces.kyr",
+    "warrant.kyr",
+    "rounds.kyr",
+    "body.kyr",
+    "hearing.kyr",
+    "registry.kyr",
+    "serene.kyr",
+    "vane.kyr",
+    "drawing.kyr",
+    "endings.kyr",
+    "aftermath.kyr",
+    "growth.kyr",
+    "gate.kyr",
+    "maskers.kyr",
+    "thief.kyr",
+    "counting.kyr",
+    "mage.kyr",
+    "post.kyr",
+    "drip.kyr",
+    "local.kyr",
+    "commoner.kyr",
+    "hill.kyr",
+    "warrior.kyr",
+    "chapel.kyr",
+    "cleric.kyr",
+    "monk.kyr",
+    "cisterns.kyr",
+    "heronry.kyr",
+    "ranger.kyr",
+    "bard.kyr",
+    "company.kyr"
+  ],
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "exports": {
+    "party": "party",
+    "region": "ombra_delta",
+    "delta_road": "road_end"
+  },
+  "experience": 1000
+}
