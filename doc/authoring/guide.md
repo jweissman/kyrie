@@ -698,6 +698,14 @@ Before naming things: `bin/kyrie names Pargeter Tench` says whether each surname
 clock, its records, what it reads off bodies, who holds what, what is known), which a module reads and never writes;
 a load that writes one says which action or rule does (Quittance's 1 and 2).
 
+A hostile's weight cannot be read from its kind's name: two owlbears of level 2 kill a company of level one, and a
+cat's paw meant as play (2d6) killed a protagonist of six hit points (Behind the Wainscot's F9). `bin/kyrie forecast
+<campaign.json>` reckons each band that could be fought, as the page reckons a fight before it is joined, against
+novices of each calling (as many as the campaign's company): `slight`, `fair`, `hard`, `grave` or `deadly`, and a
+mark on any a novice of some calling could well not survive. It is a forecast, not a finding: a proud band deadly to
+fight may be meant to be paid, a warden meant to be slipped past. What it should prompt is a way round for a novice,
+or a warning on the way in, or a lighter kind.
+
 To begin an adventure with everything this section uses:
 
 ```
