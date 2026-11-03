@@ -1,0 +1,17 @@
+Module lentladder "The Guild's ladder" {
+  // Quittance's sd 6 and wk 8 (QTC-A32): a ladder lying in a room, the Guild's, lent by its clerk in talk; and a
+  // lantern on the floor that is nobody's. Each is taken from where it lies.
+  Place guild "the Guild" is settlement.
+  Place yard "the Guild yard" is room within guild at 0, 0 outdoors.
+  Company party "You" of 1 at yard.
+  Person clerk "the clerk" at yard { Role "the Guild's clerk". Peaceable. Pronouns he. }
+  Kind folding_ladder "a folding ladder" is gear worth 3 weighing 2 described "Twelve feet of ash, on hinges.".
+  Item ladder "the Guild's ladder" is folding_ladder at yard owned by clerk.
+  Item lamp "a lantern" is lantern at yard.
+  Topic borrow with clerk "Ask the clerk for the loan of the ladder" when true once {
+    Says "'Bring it back,' says the clerk.".
+    On discuss { Assert lends(clerk, ladder, actor). }
+  }
+  Observe yard_scene at yard when true "A yard, and a ladder against the wall.".
+  Goal false.
+}

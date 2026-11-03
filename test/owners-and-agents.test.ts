@@ -27,3 +27,16 @@ describe('owners, agents and guards', () => {
     expect(j.at('party')).toBe('p__drain');
   }, 30000);
 });
+
+// Quittance's sd 6 and wk 8 (QTC-A32): a thing lying in a room is taken where it lies ("Take", under its name), and
+// one of someone's lent in talk is taken in front of them; nobody's lantern needs no loan.
+describe('a thing on the floor', () => {
+  it('is taken where it lies, and one lent is taken in front of its owner', async () => {
+    const j = await Journey.start('test/fixtures/probes/lent-ladder/probe.campaign.json');
+    expect(await j.play('a lantern: Take')).toContain('takes a lantern.');
+    await j.play('Ask the clerk for the loan');
+    expect(await j.play("the Guild's ladder: Take", 'Wait › A while')).not.toContain('That is mine');
+    expect(j.holds('objected', 'p__clerk', 'p__ladder')).toBe(false);
+  }, 60000);
+});
+

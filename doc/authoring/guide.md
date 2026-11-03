@@ -578,6 +578,12 @@ the counting-house fixture:
   }
 ```
 
+An item lying in a room (`Item ladder "the Guild's ladder" is folding_ladder at yard owned by clerk.`) is offered as
+"Take" under its name to a company that has noticed it: one `hidden until` a fact is taken once the fact is known.
+One `at nowhere` is nowhere to be taken, and comes only by being given. A topic that lends it (`On discuss { Assert
+lends(clerk, ladder, actor). }`) lets the company take it up in front of its owner (Quittance's sd 6 and wk 8;
+`probes/lent-ladder`).
+
 A servant bought off stops serving: in *The Long Man*, paying Dunnet's wages retracts `serves(dunnet, venn)`. One who
 `Resents "…"` says that on seeing what is theirs in the company's hands, and is not made its enemy by it: they can
 still be talked to (What Tessary Owes' W8; `test/fixtures/probes/resents`).
