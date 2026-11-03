@@ -876,7 +876,9 @@ holds the one its seed chooses (`src/world/frontier.ts`). `bin/kyrie countries` 
 Where a country lies depends on every other's `beside`: one offered beside a new terrain can take a place another had.
 `bin/kyrie countries [seed ...]` says where each authored country lies in the worlds the tests draw (its cell, its
 side, and the terrain of the country it is entered from); run it before and after changing a `beside`, and compare
-(A Winter in Carth's 16).
+(A Winter in Carth's 16). Each province's way in is placed in the order `countries.json` lists them, clear of those
+before it, so adding one can move others; `bin/kyrie countries --diff` compares the file with as it was committed (or
+`--diff before.json`) and names each country the change moves, in which seed (Fair Weather's 1).
 
 Its clock runs from the first morning after it is reached: its own `watch(clock)` is 0 at eight that morning, and below
 nothing until then (a rule at `watch(clock) >= 216` waits 216 watches from that morning); its `day(clock)` and

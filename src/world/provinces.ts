@@ -16,14 +16,14 @@ export class Provinces {
   // The land each kind of country is found on, where its own entry does not say.
   static readonly lands: Record<string, Cover[]> = { mountain: ['fell', 'peak', 'heath'], hills: ['heath', 'meadow', 'fell'],
     marsh: ['fen', 'meadow'], frost: ['heath', 'fell'], forest: ['wood'], desert: ['heath', 'meadow'] };
-  static situate(region: Region): Province[] {
+  // provinces: those of countries.json, or of another list of countries (as it was before a change: see CountriesTool).
+  static situate(region: Region, provinces: Country[] = Countries.provinces): Province[] {
     const atlas = RegionGeography.atlas(region), built = new Set(atlas.ways.flatMap(w => w.cells));
     const taken = [...atlas.borders.map(b => b.cell),
       ...region.sites.flatMap(w => w.cell === undefined ? [] : [w.cell])];
-    const wanted = Countries.provinces.map(c => ({ id: c.id, side: c.side,
-      covers: c.covers ?? this.lands[c.terrain] ?? [] }));
+    const wanted = provinces.map(c => ({ id: c.id, side: c.side, covers: c.covers ?? this.lands[c.terrain] ?? [] }));
     return Gates.make(atlas.land, { seats: atlas.seats, built, taken }, wanted)
-      .map(gate => ({ country: gate.id, name: this.country(gate.id).name, gate }));
+      .map(gate => ({ country: gate.id, name: provinces.find(c => c.id === gate.id)!.name, gate }));
   }
   static country(id: string): Country { return Countries.provinces.find(c => c.id === id)!; }
   // Each province's own region as it will be installed, read from its module's manifest (what it exports as region).
