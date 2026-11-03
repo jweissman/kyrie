@@ -37,8 +37,10 @@ describe('a generated world\'s stories', () => {
     const c = s.campaign as unknown as { world: { apply(c: unknown[]): unknown }; commit(w: unknown): void };
     const herbs = s.campaign.world.related('itemKind').filter(r => ['herbs', 'willow_bark', 'feverwort'].includes(r.args[1]!));
     c.commit(c.world.apply(herbs.map(r => ({ kind: 'retract', call: ModuleWriter.call('itemKind', ...r.args) }))));
-    expect(WorldAudit.audit(s.campaign, w.report.placements)).toEqual([expect.objectContaining({ kind: 'resource',
-      subject: 'fever__mother' })]);
+    // (And any healer of the town's own wanting herbs too, as one of the kinds of life may: only resources are lost.)
+    const found = WorldAudit.audit(s.campaign, w.report.placements);
+    expect(found).toContainEqual(expect.objectContaining({ kind: 'resource', subject: 'fever__mother' }));
+    expect(found.filter(f => f.kind !== 'resource')).toEqual([]);
   }, 60000);
   it('catches a hold no word leads to: the hobs\' at Gaudumport in kite, the hall they hold out in', async () => {
     const { w, s, sites } = await Audited.world('kite');

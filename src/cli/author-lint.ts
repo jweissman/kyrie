@@ -103,8 +103,9 @@ export class AuthorLint {
     const waits = [...(lint.module.rules ?? []).map(r => [r.id, r.when] as const),
       ...(lint.module.observations ?? []).map(o => [o.id, o.when] as const)];
     for (const [id, when] of waits.filter(([w]) => w.includes('__'))) {
-      for (const m of JSON.stringify(when ?? null).matchAll(/"name":"tried","args":\["([^"?]+)","([^"?]+)"\]/g)) {
-        if (suits.has(`${m[1]}\u0000${m[2]}`)) { continue; }
+      const asked = [...JSON.stringify(when ?? null).matchAll(/"name":"tried","args":\["([^"?]+)","([^"?]+)"\]/g)];
+      // (One of several tries of a thing offered is enough: prodded or pried or pushed, Half the Hive's heart.)
+      for (const m of asked.filter(x => !asked.some(y => y[1] === x[1] && suits.has(`${y[1]}\u0000${y[2]}`)))) {
         lint.add('warning', 'tried', `${id} waits on tried(${m[1]}, ${m[2]}), a try ${m[1]} is never offered: `
           + `give it \`Tries ${m[2]}.\``);
       }
