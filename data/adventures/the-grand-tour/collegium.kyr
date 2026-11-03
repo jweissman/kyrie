@@ -25,7 +25,7 @@ Module sennet "The Grand Tour" {
     Role "the Rector of the House of Doors, in a gown of four colours and a chain of keys" when not rectorExposed(quance).
     Role "the Rector of the House of Doors, found out" when rectorExposed(quance).
     Ancestry human. Calling mage. Trait enchanter. Level 9. Peaceable. Pronouns she. Manner jovial.
-    Wants fire_petal_kind. Wants earth_petal_kind. Wants water_petal_kind. Wants air_petal_kind. Wants notebook_kind.
+    Wants fire_petal_kind. Wants earth_petal_kind. Wants water_petal_kind. Wants air_petal_kind. Wants perrin_notebook_kind.
     Greets "A tall woman of sixty in a gown sewn in four colours gets up from behind a desk the size of a boat, scattering books, and comes round it with both hands out. On her chain of office a ring of old keys clinks. 'A Tourist! A real one, from over the hill. Do sit. Throw those on the floor, they've been there for years.' She looks at you with enormous interest, as if you were the only interesting thing to have happened to her all week. 'Isadora Quance. I run this place, or it runs me. You've come about the Grand Tour. Everybody has. Most of them are idiots. Are you?'".
     Greets again "'You!' says the Rector, delighted, and clinks.".
   }
@@ -51,8 +51,8 @@ Module sennet "The Grand Tour" {
   }
   Discovery rector_on_perrin "The Rector says Perrin Halyard was the best student she had in thirty years, that he and his brother had been drinking and fighting, and that he went to the Balustrade to cool off and the fog came up. She says she would give the whole Tour to have him back.".
   // Entering the Tour: ten coin; or a favour for her; or as second bear-leader to a Mottram (rivals.kyr).
-  Kind licence_kind "a Tourist's licence of the Grand Tour" is gear worth 0 weighing 0 described "A card the size of your hand, printed in four colours, with the Rector's signature across it in violet ink the size of a fist: THE BEARER IS ENTERED FOR THE GRAND TOUR AND IS TO BE GIVEN EVERY CIVILITY THROUGH THE DOORS OF THE HOUSE. On the back, smaller: THE HOUSE ACCEPTS NO RESPONSIBILITY.".
-  Item licence "a Tourist's licence" is licence_kind at offstage.
+  Kind tour_licence_kind "a Tourist's licence of the Grand Tour" is gear worth 0 weighing 0 described "A card the size of your hand, printed in four colours, with the Rector's signature across it in violet ink the size of a fist: THE BEARER IS ENTERED FOR THE GRAND TOUR AND IS TO BE GIVEN EVERY CIVILITY THROUGH THE DOORS OF THE HOUSE. On the back, smaller: THE HOUSE ACCEPTS NO RESPONSIBILITY.".
+  Item licence "a Tourist's licence" is tour_licence_kind at offstage.
   Topic quance_enter with quance "Ask the Rector to enter you for the Grand Tour" when not enrolled(actor) once {
     Says "'Of course.' She is already writing on a card in violet ink. 'The fee's ten coin, I'm afraid. The Bursar insists. It keeps out the riff-raff and lets in the rich, which is the opposite of what one wants, but there.' She looks up at you over the pen. 'Unless.' She taps her teeth with it. 'There is a thing you could do for me, instead. If you go down into the Whelm, for the Water petal. Perrin's things went into the bay with him. His notebook. It was the House's, and it was the last thing he wrote, and I'd like it back.' Her voice is quite steady. 'Find me that, and you're entered for nothing. I'll lend you a helm.'".
     On discuss { Assert knows(actor, tour_fee). }
@@ -171,7 +171,7 @@ Module sennet "The Grand Tour" {
     Greets "The little man at the desk looks up over half-spectacles. 'Tench. Doorwarden. Name, licence, and are you sure.' He dips his pen. 'Everybody's sure. Then they come back through the Fire one with their eyebrows off.'".
     Greets again "'Name, licence, and are you sure,' says Mr. Tench, without looking up.".
   }
-  Rule tench_licensed when holding(party, licence_kind) and not tolerates(tench, party) { Assert tolerates(tench, party). }
+  Rule tench_licensed when holding(party, tour_licence_kind) and not tolerates(tench, party) { Assert tolerates(tench, party). }
   Rule tench_lets_out when within(party, fire_land) and not tolerates(tench, party) { Assert tolerates(tench, party). }
   Rule tench_lets_out_earth when within(party, earth_land) and not tolerates(tench, party) { Assert tolerates(tench, party). }
   Action tip_tench(actor: group, site: place) "Give the Doorwarden the customary shilling, and three more" {
@@ -182,7 +182,7 @@ Module sennet "The Grand Tour" {
     Result "He writes something in the ledger that is not your name. 'Student,' he says. 'Visiting. Mind the heat.'".
   }
   Item tench_cloak "the House's fire-cloak" is fire_cloak_kind at offstage.
-  Topic tench_cloak_lend with tench "Ask the Doorwarden for a fire-cloak out of the House's press" when holding(actor, licence_kind) and at(tench_cloak, offstage) once {
+  Topic tench_cloak_lend with tench "Ask the Doorwarden for a fire-cloak out of the House's press" when holding(actor, tour_licence_kind) and at(tench_cloak, offstage) once {
     Says "He gets down off his stool, and unlocks a press, and gives you a grey cloak that stands up by itself. 'The House's. Bring it back. If you come back without it, I'll know what happened.' He climbs back on the stool. 'Cooked.'".
     On discuss { Give tench_cloak to actor. Assert lends(tench, tench_cloak, actor). }
   }

@@ -167,7 +167,7 @@ Module sennet "The Grand Tour" {
   Rule jem_potman when jemFree(jem) and hour(clock) >= 10 and hour(clock) < 23 and not at(jem, taproom) { Assert at(jem, taproom). }
   Rule jem_bed_below when jemFree(jem) and (hour(clock) >= 23 or hour(clock) < 10) and not at(jem, offstage) { Assert at(jem, offstage). }
   // Let in: as gentlefolk, as an entered Tourist with the Rector's card, or with the heir.
-  Rule jem_admits when (craft(party, craft_court) or holding(party, licence_kind) or travelsWith(aubrey, party) or following(aubrey, party)) and not tolerates(jem, party) { Assert tolerates(jem, party). }
+  Rule jem_admits when (craft(party, craft_court) or holding(party, tour_licence_kind) or travelsWith(aubrey, party) or following(aubrey, party)) and not tolerates(jem, party) { Assert tolerates(jem, party). }
   Topic jem_edge with jem "Ask the footman why he keeps away from the windows" when true once {
     Says "He goes red. 'Heights, sir. Madam.' He swallows. 'I come up at fourteen from Fish Street. Her Ladyship took me on for my legs. I've not been down since. She doesn't let us down, the servants: they don't come back, she says.' He looks at the window, and away. 'Eleven years I've been up here, and every morning I wake up and think about the edge. There's nothing on the other side of those windows, and everyone up here walks about as if there was.' He straightens his coat. 'I'd go down tomorrow if I'd a place to go to. I'd go down on my hands and knees.'".
     On discuss { Assert jemWants(jem). Assert knows(actor, jem_wish). }

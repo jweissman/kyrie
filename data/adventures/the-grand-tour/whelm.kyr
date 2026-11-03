@@ -192,8 +192,8 @@ Module sennet "The Grand Tour" {
   }
   Discovery keel_petal "The Air petal of the Rose is not in the Plane of Air. The North Wind gave it to Ysabeau Halyard for love; she set it in the keel of Halyard Hill and lifted it into the sky. It is still there, in the keel under the cellars of Halyard House, holding Cloudgate up. Taken out, Cloudgate would fall.".
   Discovery perrin_told_rector "Perrin Halyard told the Rector what holds Cloudgate up, before anyone else, the week before the Grand Tour was proclaimed; he told her the Air should have its petal back, and she said she would think about what to do.".
-  Kind notebook_kind "Perrin's notebook" is gear worth 0 weighing 0 described "A red notebook with the key of the House of Doors stamped on the cover, swollen with salt: Perrin Halyard's. Pages of Aenean, copied off plaques and drowned books; a drawing of a great wheel. The last pages are dated after the night he fell.".
-  Item perrin_notebook "Perrin's notebook" is notebook_kind at air_bell owned by perrin.
+  Kind perrin_notebook_kind "Perrin's notebook" is gear worth 0 weighing 0 described "A red notebook with the key of the House of Doors stamped on the cover, swollen with salt: Perrin Halyard's. Pages of Aenean, copied off plaques and drowned books; a drawing of a great wheel. The last pages are dated after the night he fell.".
+  Item perrin_notebook "Perrin's notebook" is perrin_notebook_kind at air_bell owned by perrin.
   Topic perrin_notebook_asked with perrin "Ask Perrin Halyard for his notebook, which the Rector wants" when commissioned(actor) and not carries(actor, perrin_notebook) once {
     Says "'Isadora wants it?' He looks pleased, and then puzzled. 'It's only the Aenean. And the wheel. Nothing she couldn't read off the plaque herself.' He hands it over. 'Tell her I'm sorry about the coffin.' Then he stops, with his hand still out. 'No. Don't tell her anything. Don't tell anybody I'm here. Will you promise me?'".
     On discuss { Give perrin_notebook to actor. Assert lends(perrin, perrin_notebook, actor). }
