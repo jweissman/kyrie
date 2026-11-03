@@ -29,7 +29,7 @@ Two more ways in: the cistern hatch (the Ninefold Drain, days 1 to 5) and the Co
 | Mage | The Fit (Form/Measure/Cost) | Lore: the Rain-Wives' cloth, Thole's slate, the Standard Room, the Codicil's footnote |
 | Thief | The Cast-Room (5 stages) | Lockwork: the strongroom, the Registry, the Standard Room; stealth: the Pound swap, the sack from the Exchange |
 | Cleric | The Confessional (the seal) | Rites: the Stranger's burial; mending: the body; the Choir |
-| Bard | The Lampoon | Performance: the Hour... the Hall's benefit, Orme's cue, the Trial's verdict |
+| Bard | The Lampoon | Performance: the Saint's benefit, Orme's cue, the Trial's verdict |
 | Ranger | The Heronry (urban tracking) | Woodcraft: Pip, the heron, the peregrine, the green planks |
 | Monk | The Nine Quiets | Climbing: the bell; insight: Amery's hands; stillness as a Drawing hand |
 | Commoner | A Trade of One's Own | The richest coin and friends of any build: three guilds and their faces; no combat required anywhere |
