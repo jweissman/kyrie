@@ -45,7 +45,12 @@ export interface Fighter {
 // certain (PT-10): seen as it began, the company acts first; sprung on it from hiding, the other side does, and the
 // company's turn after is its moment.
 export type Moment = 'seen' | 'sprung';
-export interface Scenario { id: string; combatants: Fighter[]; abilities: ArenaAbility[]; moment?: Moment }
+export interface Scenario {
+  id: string; combatants: Fighter[]; abilities: ArenaAbility[]; moment?: Moment; terms?: Terms;
+}
+// What a fight is for, when it is not lives, as the world says of the band fought (core.kyr): a bout to yielding, over
+// at the first fall and killing nobody (yields); a band that breaks and runs when half of it is down (breaks).
+export interface Terms { yields?: boolean; breaks?: boolean }
 export interface Command { actor: string; ability: string; target: string }
 export type Outcome = Team | 'draw' | 'escaped';
 export type CombatEvent = (
@@ -76,7 +81,7 @@ export type CombatEvent = (
   | { type: 'status' | 'remove' | 'revive' | 'gain' | 'learn' | 'summon' | 'dismiss' | 'travel' | 'expire';
     turn: number; actor: string; target: string; detail: string; amount?: number;
     clock?: 'owner-turn' | 'world-time' | 'until-removed' }
-  | { type: 'end'; turn: number; outcome: Outcome; reason: 'elimination' | 'turn-limit' | 'retreat';
+  | { type: 'end'; turn: number; outcome: Outcome; reason: 'elimination' | 'turn-limit' | 'retreat' | 'yielded' | 'routed';
     fled?: { actor: string; team: Team } }) & { visibility?: 'private' };
 export interface BattleState {
   combatants: Fighter[]; turn: number; actor: string; outcome: Outcome | null;

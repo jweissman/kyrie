@@ -80,8 +80,9 @@ Module inhabitants "How creatures that live somewhere answer those who come into
   // The watch it waits until, once it has warned, before it comes at whoever stays: the rest of this one, however
   // many small things are done in it.
   Measure patience(group).
+  // A company that yielded to it in a bout (see yields) is not set upon again by it.
   Query confronts(g: group, c: group) means together(g, c) and company(c) and able(g) and not routed(g)
-    and not tolerates(g, c) and not assails(g, c) and not captured(g, c).
+    and not tolerates(g, c) and not assails(g, c) and not captured(g, c) and not yielded(c, g).
 
   // Fear comes first: whatever it fears, brought into its presence, drives it back to its refuge.
   Rule temper_shies when fears(?g, ?k) and company(?c) and together(?g, ?c) and capable(?c, ?k) and able(?g)

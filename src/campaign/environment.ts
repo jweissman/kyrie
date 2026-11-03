@@ -1,18 +1,27 @@
 import type { World } from '../lang/world';
 import type { Entity } from '../lang/module';
+import type { Terms } from '../model';
+import { ModuleWriter } from '../lang/module-writer';
 
 // Orsino's environment for a combatant (a dungeon's terrain: urban, forest, cave, desert), read from where it stands:
 // in a settlement, urban; in an unlit place, a cave; otherwise the terrain of the region it is in, if the region says.
 // Every creature's facts are projected with it on every watch, so it reads the world by its indexes, never by going
 // through every fact (Mission 15's profile found the scans a sixth of a long journey's time).
 export class Environment {
-  // What a fight where an actor stands is fought under: the ground (Orsino's environment), the place's laws, and
-  // whether the members fighting are weary, or ready for what they fight.
+  // What a fight where an actor stands is fought under: the ground (Orsino's environment), the place's laws,
+  // whether the members fighting are weary, or ready for what they fight, and what it is for (see Terms).
   static encounter(world: World, actor: string | undefined, members: string[] = [], against?: string):
-    { environment?: string; laws: string[]; weary?: string[]; ready?: string[] } {
-    const environment = Environment.of(world, actor);
+    { environment?: string; laws: string[]; weary?: string[]; ready?: string[]; terms?: Terms } {
+    const environment = Environment.of(world, actor), terms = Environment.terms(world, against);
     return { ...environment ? { environment } : {}, laws: Environment.laws(world, actor),
-      ...Environment.weary(world, actor, members), ...Environment.ready(world, { actor, against }, members) };
+      ...Environment.weary(world, actor, members), ...Environment.ready(world, { actor, against }, members),
+      ...terms ? { terms } : {} };
+  }
+  // A band its author says yields, or breaks (core.kyr), fights so; any other to the death, as it always has.
+  static terms(world: World, against?: string): Terms | undefined {
+    const yields = !!against && world.relates('yields') && world.test(ModuleWriter.call('yields', against));
+    const breaks = !!against && world.relates('breaks') && world.test(ModuleWriter.call('breaks', against));
+    return yields || breaks ? { ...yields ? { yields } : {}, ...breaks ? { breaks } : {} } : undefined;
   }
   // A company that drew out what it fights, and waited for it (inhabitants.kyr): its members meet it ready.
   static ready(world: World, at: { actor?: string; against?: string }, members: string[]): { ready?: string[] } {
