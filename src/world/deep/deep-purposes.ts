@@ -11,6 +11,8 @@ import type { WorkPlan } from '../history/work-plans';
 // of it ({sound} in {room}).
 export interface DeepRole {
   names: string[]; scenes: string[]; lit?: boolean; open?: boolean; hears?: DeepHearing;
+  // How an open room looks where the work lies buried under a town ({town}), not in the open (see RegionUndertown).
+  buried?: string[];
   // What a scene promises (a bead or two among the bones), found by searching a room drawn with that scene: its cue
   // in the scene, what searching finds, and the site's valuable it is.
   finds?: DeepFind[];

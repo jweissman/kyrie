@@ -38,11 +38,27 @@ export class Passages {
     if (this.plane(origin) !== this.plane(destination)) { return 'cross_plane'; }
     if (kinds.slice(1).some(k => this.within(origin, k)?.id !== this.within(destination, k)?.id)) { return 'travel'; }
     const from = this.within(origin, 'level'), to = this.within(destination, 'level');
-    if (from && to && from.id !== to.id) { return 'level'; }
+    if (from && to && from.id !== to.id) { return this.deeper(from, to); }
+    // Out of the light and into the ground, and back: down into the cellar, up into the corn-store (NVR-18).
+    const [over, under] = [this.under(origin), this.under(destination)];
+    if (over !== under) { return under ? 'descend' : 'ascend'; }
     const a = this.enclosures(origin), b = this.enclosures(destination);
     if (b.some(id => !a.includes(id))) { return 'enter'; }
     if (a.some(id => !b.includes(id))) { return 'leave'; }
     return 'walk';
+  }
+  // Below ground, a later level of a site is deeper: down to it, or up from it; elsewhere (a tower's floors, an
+  // authored house) a level is only another (NVR-18, NVR-20).
+  private deeper(from: Entity, to: Entity): Transition {
+    if (!this.under(from.id, true) || !this.under(to.id, true) || from.space?.parent !== to.space?.parent) { return 'level'; }
+    const levels = [...this.entities.values()].filter(e => e.space?.kind === 'level' && e.space.parent === from.space?.parent);
+    const [a, b] = [levels.indexOf(from), levels.indexOf(to)];
+    return a < 0 || b < 0 ? 'level' : b > a ? 'descend' : 'ascend';
+  }
+  // Whether a place is underground: a room by its shelter, a level by its rooms.
+  private under(id: string, level = false): boolean {
+    if (!level) { return this.entities.get(id)?.space?.shelter === 'underground'; }
+    return [...this.entities.values()].some(e => e.space?.parent === id && e.space.shelter === 'underground');
   }
   // What a way goes into or out of: a building, a site, a floor of one; not a terrace of a town, walked onto.
   private enclosures(id: string): string[] {

@@ -52,7 +52,9 @@ class Census {
     const people = c.module.entities.filter(e => e.type === 'group' && e.id !== 'party')
       .map(e => ({ id: e.id, name: this.name(e.name), at: c.world.one('at', e.id) ?? '' }))
       .filter(p => p.at && p.at !== 'region__elsewhere');
-    const town = (at: string) => Spatial.ancestry(entities, at).find(e => e.space?.kind === 'settlement')?.id;
+    // A settlement's own people: not the dead of a site under it (the barrow beneath the first town's vault).
+    const town = (at: string) => Spatial.ancestry(entities, at).some(e => e.space?.kind === 'site') ? undefined
+      : Spatial.ancestry(entities, at).find(e => e.space?.kind === 'settlement')?.id;
     const settled = people.filter(p => town(p.at));
     const twice = settled.filter(p => settled.some(q => q.id < p.id && q.name === p.name && town(q.at) === town(p.at)));
     // A story's person with a name of their own (Odile, not "the brood-mother") whom one of the country's has.

@@ -71,8 +71,12 @@ export class Stage {
     return mode;
   }
   // "Hillfells · Gothgiba" and "Morning · snowy · 4 Wolfmoon": where, and when.
+  // On a level of a site, the level first, then the site: "The long halls, the old dead under Brightbridge" (the
+  // heading had never said which level the company was on: NVR-17).
   static where(frame: Frame): string[] {
-    const named = frame.screen.path.filter(p => ['settlement', 'site', 'wilderness'].includes(p.kind)).map(p => p.name);
+    const path = frame.screen.path, level = path.findLast(p => p.kind === 'level');
+    if (level) { return [level.name, path.findLast(p => p.kind === 'site' || p.kind === 'building')?.name ?? frame.title]; }
+    const named = path.filter(p => ['settlement', 'site', 'wilderness'].includes(p.kind)).map(p => p.name);
     return [frame.title, ...named.filter(n => n !== frame.title)].slice(0, 3);
   }
   static when(frame: Frame): string[] {

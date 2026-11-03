@@ -1,6 +1,6 @@
 import { Canon } from '../../canon/canon';
 import { ItemNames } from '../../item-names';
-import { DeepLayouts, type DeepLayout, type DeepLink } from './deep-layout';
+import { DeepLayouts, type DeepLayout, type DeepLink, type DeepRoom } from './deep-layout';
 import { DeepMechanisms } from './deep-mechanisms';
 import { DeepPacing, type DeepContent } from './deep-pacing';
 import { DeepRooms } from './deep-rooms';
@@ -22,7 +22,7 @@ export class DeepSites {
   // rivals: whether another company races this one to it (a country's own deep work); not the catacombs under the
   // town the company begins in, which a country's one rival expedition does not go down (see RegionUndertown).
   static lines(region: Region, site: Site,
-    at: { purpose: DeepPurpose; values: Record<string, string>; rivals?: boolean }): string[] {
+    at: { purpose: DeepPurpose; values: Record<string, string>; rivals?: boolean; buried?: string }): string[] {
     const { purpose, values } = at, key = `${region.name}:${site.id}:deep`;
     const layout = DeepLayouts.make(purpose, site.id, key), content = DeepPacing.plan(purpose, layout, key);
     const handled = this.handled(layout);
@@ -32,7 +32,7 @@ export class DeepSites {
       `  Place ${site.id}_site ${this.q(values.name!)} is site within ${values.land} at ${values.x}, ${values.y}.`,
       `  Observe ${site.id}_outside at ${site.id} when true ${this.q(purpose.outside.replaceAll('{oldup}', values.oldup!))}`
         + ` teaches ${site.id}_named.`,
-      ...this.places(layout), ...this.ways(layout, handled),
+      ...this.places(layout, at.buried ? { purpose, town: at.buried } : undefined), ...this.ways(layout, handled),
       ...DeepMechanisms.lines(layout, { fate: values.fate!, oldup: values.oldup!,
         ...purpose.bane ? { bane: purpose.bane.cut, taught: `${site.id}_bane` } : {} }, purpose.mechanisms),
       // The earlier party's first camp is found first, from the top; those further down are the same party's again.
@@ -52,13 +52,20 @@ export class DeepSites {
   // galleries told themselves "outdoors", from the wild country the workings are in). A drowned level's rooms look as
   // they do once the water is down, and only then: the foot of a flooded stair had said "a floor of grey silt, ridged
   // where the water went out of it" under the black water, and a company took it for drained (the cold review's P0).
-  private static places(layout: DeepLayout): string[] {
+  private static places(layout: DeepLayout, buried?: { purpose: DeepPurpose; town: string }): string[] {
     const q = this.q, site = layout.site;
     return layout.levels.flatMap(level => [`  Place ${level.id} ${q(level.name)} is level within ${site}_site.`,
       ...level.rooms.flatMap(r => [`  Place ${r.id} ${q(r.name)} is room within ${level.id} at ${r.x}, ${r.y}`
-        + `${r.open ? ' outdoors' : ' underground'}.`,
-        `  Observe ${r.id}_scene at ${r.id} when ${level.flooded ? `deepWater(${level.id}) == 0` : 'true'} ${q(r.scene)}.`,
+        + `${r.open && !buried ? ' outdoors' : ' underground'}.`,
+        `  Observe ${r.id}_scene at ${r.id} when ${level.flooded ? `deepWater(${level.id}) == 0` : 'true'}`
+          + ` ${q(this.scene(r, buried))}.`,
         ...r.lit ? [] : [`  Initially Assert unlit(${r.id}).`]])]);
+  }
+  // A room as it looks: in the open as it was made, or buried under a town, as its purpose says it then (a barrow's
+  // forecourt had faced "the sunrise" from under Brightbridge).
+  private static scene(r: DeepRoom, buried?: { purpose: DeepPurpose; town: string }): string {
+    const under = r.open && buried?.purpose.roles[r.role]?.buried?.[0];
+    return under ? under.replaceAll('{town}', buried!.town) : r.scene;
   }
   // The ways the mechanisms do not write themselves: the mouth, the galleries, the ladders, the ore pass.
   private static ways(layout: DeepLayout, handled: Set<string>): string[] {
