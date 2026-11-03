@@ -133,18 +133,52 @@ The register is current. The owner's evaluation and an independent player's hour
 
 ## The reviews' and authors' feedback
 
-| Source | Rows | Closed or merged | Open, in the main |
-|---|---:|---:|---|
-| The owner (OWN) | 62 | 50 | Wilderness worth exploring; the Grand Tour's outcomes and demonstrations; Common as a tongue; terrain variety |
-| Cold and systemic reviews (REV, SYS, IND) | 39 | 7 | An expedition contract; a decision frame; morale; economic tiers; acceptance tests |
-| Navigation review (NVR) | 22 | 3 | Ways into other countries from the map; interior grids and ordering |
-| The Grand Tour, Wapshott's Circus (GTR, WPC) | 94 | 45 | Portable places; people offstage; module-scoped kinds; once-and-later texts; tool gaps |
-| The other authors (TTN, LOR, LWR, HTH, FWR, LUL, QIS, BTW, GOS) | 130 | 35 | Language forms (computed measures, cycles, temperature); non-lethal bouts; farewells |
-| The IF review (IFR) | 10 | 0 | A causal trace ("why is this not offered"); typed transformations; one knowledge model |
+| Source | Rows | Fixed | Partial | Open | Open, in the main |
+|---|---:|---:|---:|---:|---|
+| The owner (OWN) | 71 | 59 | 10 | 2 | Wilderness worth exploring (OWN-27); success judged by ordinary play (OWN-55) |
+| Cold and systemic reviews (REV, SYS, IND) | 39 | 7 | 20 | 12 | A decision frame; morale; economic tiers; acceptance tests |
+| Navigation review (NVR) | 22 | 11 | 6 | 5 | Ways ranked by the way, not the ring; interiors' grids and ordering |
+| The Grand Tour, Wapshott's Circus (GTR, WPC) | 94 | 31 | 14 | 49 | Portable places; people offstage; module-scoped kinds; once-and-later texts; 27 still to reproduce |
+| The other authors (TTN, LOR, LWR, HTH, FWR, LUL, QIS, BTW, GOS) | 130 | 62 | 29 | 39 | Computed measures, cycles, temperature; non-lethal bouts; a foe's weight for authors |
+| The IF review (IFR) | 10 | 0 | 6 | 4 | A causal trace; one knowledge model; observations that afford |
+| Quittance (QTC, merged 3 November) | 64 | 28 | 10 | 26 | Seeded checks in tests; Arrives when; exports; a Change's own condition |
+
+The whole register, 488 rows: 215 fixed (one superseded, one not reproduced), 129 partial, 144 open.
 
 The authors' rows are mostly language and tooling. A third were found already answered by the work of Missions 15 to
 17, cited in the code under the adventures' earlier names (Let One Remember as "The Road the Star Came Down"), and are
 now closed with that evidence.
+
+## After the report: the afternoon of 3 November
+
+The owner's notes of the morning (the map revealed, travel off the map, repeated remarks in the journal, the chosen
+trade lost, people behind Look about, no quest to follow) and the two adventures landed on branches were taken up the
+same day.
+
+- **The owner's notes (OWN-63 to 71), fixed** (ba5784bf): the map knows only the roads from where the company has been
+  (and, with wayfinding, the country as from a map); in a drawn country travel beyond the place is the map's alone; a
+  remark said again is kept once; the trade chosen at creation is the one set out with; a place's people and its
+  sellers are on the page without Look about; an aim can be followed, said on every page and opened on by the map;
+  five hundred and ninety-eight kinds of life to choose from, each seen at work in the towns.
+- **Quittance merged** (c288b7da, from adventure/quittance-grand-tour): a province of the first country, its
+  surnames its own (the Grand Tour's outfitter and doorwarden renamed), its tests buying for the company. Its friction
+  is in the register: the lead's 29 (QTC-01 on) and 35 more from the eight authors' own files (QTC-A01 on). Behind the
+  Wainscot was already in (as Hollins), its friction BTW-01 to 14.
+- **Authorability, from Quittance's list:** `kyrie names`; the inventory lists what the engine keeps; parse errors say
+  what was being written; read-only errors name the writer; the lint warns of a pursuit for one who cannot go, a place
+  asked to be at another, a parameter nothing binds, a good held, an alias that never changes, and no longer of a role
+  that says whose one is or of the engine-house; a kept promise brings effects; a thing on a way is told from its own
+  end; journeys name as modules do and can assert, put and give, and take a step's words as written; the guide on
+  provinces, the first day's number, hiring, tries, guards, bands, pursuits, sightings, endings placed, the order of a
+  watch, the season and where the company has been.
+- **The expedition contract** (REV-01, Partial): the nine links read off the world for every placed site; lead, aim,
+  place and threshold held for every site of two seeds; the rest reported.
+- **Tried and taken out:** a band that breaks when half down (REV-16). Authored fights wait on a band's fall (the rats
+  paid for once not able; Skell's sons fallen), and a band fled stays able, where it was. Routed must count as dealt
+  with, and leave, before a band can break.
+- **The register checked against the code:** every open row was read against the code by two independent passes; 19
+  rows found already answered (the navigation review's fixes of 30 October among them) are closed with their
+  evidence, and 41 more are marked Partial with what remains.
 
 ## What is carried into Mission 19, and why
 
@@ -155,7 +189,8 @@ Each of these needs more than a closure pass: a design decision, a measurement o
    [novice-viability-closure.md](novice-viability-closure.md)).
 2. **The wilderness and the wider country** (OWN-27, REV-03, REV-08, NVR-01 and NVR-06): exploration that uncovers
    destinations of its own; the map taking you to other countries.
-3. **Combat that ends when decided** (REV-16) and non-lethal bouts (FWR-17, QIS-04).
+3. **Combat that ends when decided** (REV-16) and non-lethal bouts (FWR-17, QIS-04): a band that breaks was tried and
+   taken out (above); routed must first count as dealt with.
 4. **The Grand Tour's outcomes as canon** (OWN-36 to 38), and two adventures sharing a town (B1, COR-05).
 5. **Authorability**:
    - the 22 generators into data templates;
