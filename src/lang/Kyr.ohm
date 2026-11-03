@@ -148,7 +148,9 @@ Kyr {
   Speakers = "spoken" "by" NonemptyListOf<ident, ",">
   Destructible = "destructible"
   Pursuit = "Pursuit" ident "for" ident string? "priority" integer "when" Predicate "seeks" Predicate PursuitUsing? "."
-  PursuitUsing = "using" NonemptyListOf<ident, ",">
+  PursuitUsing = "using" NonemptyListOf<ident, ","> PursuitPlanning?
+  // How many ways ahead they look, for someone another file declares (QTC-A31).
+  PursuitPlanning = "planning" integer "steps"
   WorldRule = "Rule" ident Anchor? "when" Predicate RuleOnce? RuleSays? RuleTeaches? "{" ChangeStatement* "}"
   RuleOnce = "once"
   RuleSays = "says" string RuleAgain?

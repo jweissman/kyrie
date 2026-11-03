@@ -260,6 +260,13 @@ export class PersonParser {
   static sells(what: Node, fee: Node, stock: Node): Field {
     return { field: 'sells', value: { what: what.sourceString, fee: Number(fee.sourceString), stock: Number(stock.sourceString) } };
   }
+  // What a pursuit's actor goes by, and how far ahead they plan, written with the errand for someone declared in a file
+  // another author keeps (Quittance's sd 1, QTC-A31: `Uses go. Plans 14 steps.` could be written only in the person's
+  // own declaration, and the lovers' schedules became teleporting rules).
+  static using(ids: Node, plan: Node): { using: string[]; planning?: number } {
+    const steps = plan.children[0]?.children[1]?.sourceString;
+    return { using: ids.asIteration().children.map(ModuleParser.text), ...steps ? { planning: Number(steps) } : {} };
+  }
   static PersonUses(_u: Node, ids: Node, _dot: Node): Field {
     return { field: 'actions', value: ids.asIteration().children.map(ModuleParser.text) };
   }

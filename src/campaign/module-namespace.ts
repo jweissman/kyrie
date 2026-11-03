@@ -115,7 +115,7 @@ export class ModuleNamespace {
         ...(o.about ? { about: this.entities[o.about] ?? o.about } : {}) })),
       initial: original.initial.map(c => this.change(c)), goal: this.predicate(original.goal),
       actions: definition.schemas!.map(a => this.action(a)) };
-    const extensions = definition.extensions?.map(e => ({ actor: this.entities[e.actor]!,
+    const extensions = definition.extensions?.map(e => ({ ...e, actor: this.entities[e.actor]!,
       actions: e.actions.map(id => this.rules.actions.some(a => a.id === id) ? id : `${this.bindings.id}__${id}`),
       goals: e.goals.map(g => ({ ...g, id: `${this.bindings.id}.${g.id}`, when: this.predicate(g.when),
         target: this.predicate(g.target) })) }));

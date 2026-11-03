@@ -989,6 +989,11 @@ someone back from an errand done. One who does not `Uses go` goes nowhere, and t
   Pursuit to_keld for webb "walking to Keld" priority 5 when day(clock) >= 18 seeks at(webb, keld).
 ```
 
+Someone declared in a file you may not touch, or in another module, is given what they go by and how far ahead they
+plan with the errand itself: `… seeks at(ianthe, guild_hall) using go planning 14 steps.` (Quittance's sd 1, whose
+lovers' schedules had been teleporting rules; `probes/errand-elsewhere`). Without `planning`, someone looks four
+ways ahead, and an errand further off is never begun.
+
 A Peaceable person goes about their errands and comes at nobody, whatever their kind's temper; one who is to turn (the
 young bloods, once the hold is roused) stops being peaceable when a rule retracts `peaceable(bloods)` (Thrume's F2).
 

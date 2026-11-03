@@ -70,6 +70,8 @@ export interface Pursuit {
   id: string; actor: string; label?: string; priority: number; when: Predicate; target: Predicate;
   // The actions the actor may use in this pursuit, beyond those its own declaration gives it.
   using?: string[];
+  // How many ways ahead they plan for it, where their own declaration says fewer (QTC-A31).
+  planning?: number;
 }
 // within: anywhere inside an area (a city, a country), for what is said there (a Rule or an Event), which waits for
 // the company to be there.

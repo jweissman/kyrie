@@ -26,7 +26,7 @@ export interface CampaignDefinition {
   // Names a module declared that the shared rules have too, which in that module are its own (see ModuleShadow).
   shadows?: string[];
   // Pursuits (and the actions for them) given to an actor another installation declared.
-  extensions?: { actor: string; goals: CampaignGoal[]; actions: string[] }[];
+  extensions?: { actor: string; goals: CampaignGoal[]; actions: string[]; horizon?: number }[];
   outcomes: { id: string; predicate: Predicate }[];
   pressures: { id: string; at: number; measure: { kind: 'call'; name: string; args: string[] }; required: number }[];
 }

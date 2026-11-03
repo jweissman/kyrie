@@ -326,9 +326,9 @@ export class ModuleParser {
     return { field: 'pursuit', value: { id: id.sourceString, actor: actor.sourceString,
       ...(label.children.length ? { label: ModuleParser.ast(label.children[0]!) } : {}),
       priority: Number(priority.sourceString), when: ModuleParser.ast(when), target: ModuleParser.ast(target),
-      ...(using.children.length ? { using: ModuleParser.ast(using.children[0]!) } : {}) } };
+      ...(using.children.length ? ModuleParser.ast(using.children[0]!) as object : {}) } };
   }
-  static PursuitUsing(_using: Node, ids: Node) { return ids.asIteration().children.map(ModuleParser.text); }
+  static PursuitUsing(_using: Node, ids: Node, plan: Node) { return PersonParser.using(ids, plan); }
   static WorldRule(_rule: Node, id: Node, anchor: Node, _when: Node, predicate: Node, once: Node, says: Node,
     teaches: Node, _open: Node, changes: Node, _close: Node): Field {
     const where = anchor.children.length ?

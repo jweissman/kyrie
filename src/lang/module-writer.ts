@@ -54,7 +54,7 @@ export class ModuleWriter {
     const declared = new Set([...(module.people ?? []).map(p => p.id), module.company?.id]);
     for (const entity of module.entities.filter(e => !declared.has(e.id))) { lines.push(ModuleWriter.entity(entity)); }
     for (const p of module.pursuits ?? []) {
-      lines.push(`  Pursuit ${p.id} for ${p.actor}${p.label ? ` ${JSON.stringify(p.label)}` : ''} priority ${p.priority} when ${ModuleWriter.predicate(p.when)} seeks ${ModuleWriter.predicate(p.target)}${p.using?.length ? ` using ${p.using.join(', ')}` : ''}.`);
+      lines.push(`  Pursuit ${p.id} for ${p.actor}${p.label ? ` ${JSON.stringify(p.label)}` : ''} priority ${p.priority} when ${ModuleWriter.predicate(p.when)} seeks ${ModuleWriter.predicate(p.target)}${p.using?.length ? ` using ${p.using.join(', ')}${p.planning ? ` planning ${p.planning} steps` : ''}` : ''}.`);
     }
     for (const rule of module.rules ?? []) {
       const anchor = rule.place ? ` ${rule.anchor ?? 'at'} ${rule.place}` : '';

@@ -1,0 +1,23 @@
+Module elsewhere "Ianthe walks to the Guild" {
+  // Quittance's sd 1 and 8 (QTC-A31): Ianthe is declared in a file another author keeps, without `Uses go`; her
+  // errand, written here, says what she goes by and how far ahead she plans, six ways off.
+  Place town "the town" is settlement.
+  Place study "the study" is room within town at 0, 0.
+  Place hall "the hall" is room within town at 1, 0.
+  Place steps "the steps" is room within town at 2, 0 outdoors.
+  Place street "the street" is room within town at 3, 0 outdoors.
+  Place square "the square" is room within town at 4, 0 outdoors.
+  Place porch "the Guild porch" is room within town at 5, 0 outdoors.
+  Place guild "the Guild hall" is room within town at 6, 0.
+  Passage w1 "the study door" is door between study and hall.
+  Passage w2 "the front door" is door between hall and steps.
+  Passage w3 "the steps down" is path between steps and street.
+  Passage w4 "the street" is path between street and square.
+  Passage w5 "the far side of the square" is path between square and porch.
+  Passage w6 "the Guild door" is door between porch and guild.
+  Company party "You" of 1 at square.
+  Person ianthe "Ianthe" at study { Role "a surveyor's daughter". Peaceable. Pronouns she. }
+  Pursuit to_guild for ianthe "going to the Guild" priority 5 when watch(clock) >= 1 seeks at(ianthe, guild) using go planning 14 steps.
+  Observe square_scene at square when true "A square.".
+  Goal false.
+}
