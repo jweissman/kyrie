@@ -7,7 +7,7 @@ import { EntityIndex } from '../lang/entity-index';
 import { ItemNames } from '../item-names';
 import { MechanicsText } from '../presentation/mechanics-text';
 import { AbilityRows } from './ability-rows';
-import { Portraits } from './portraits';
+import { Portraits } from './portraits'; import { Treasure } from './treasure';
 import { ConditionSense } from '../presentation/condition-sense';
 import { Advancement } from '../rules/advancement';
 import { Canon } from '../canon/canon'; import { Content } from '../content';
@@ -327,8 +327,10 @@ export class ScreenModel {
     const note = p.condition && p.type !== 'scenery' ? p.condition : p.within ? `in ${p.within}` : forSale ? 'for sale' : p.type === 'source' ? (p.intact === false ? 'destroyed' : acts.length ? 'can be read' : 'already read')
       : coin ? `${coin} coin` : food ? `${food} ration${food === 1 ? '' : 's'} left` : p.type === 'mechanism' ? 'mechanism' : undefined;
     const look = p.type === 'item' ? this.described(w, p.id, p.name) : undefined;
+    // A treasure lying here, not for sale: what a delve is for, and led with (see Affordances).
     return { id: p.id, kind: ['mechanism', 'door'].includes(p.type) ? 'feature' : 'thing', name: p.name,
-      ...(note ? { note } : {}), ...(look ? { look } : {}), acts };
+      ...(note ? { note } : {}), ...(look ? { look } : {}),
+      ...(p.type === 'item' && !forSale && Treasure.valuable(w, p.id) ? { valuable: true } : {}), acts };
   }
   // A thing to be had, seen for what it is in its kind's own words (the follow-up review found a singer's token that
   // offered nothing but Take, though its kind is described); none where those words are only its name.

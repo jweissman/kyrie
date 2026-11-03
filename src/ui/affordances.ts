@@ -80,7 +80,11 @@ export class Affordances {
     const answer = leaves.find(c => c.answer), kin = s.stake && (!talked || fresh.some(c => !r.done.has(c.command!)));
     const word = s.note?.split(' · ')[0], feature = screen.things.find(t => t.id === s.id)?.kind === 'feature';
     const looked = leaves.find(c => r.schema.get(c.command!) === 'look_closely' && !r.done.has(c.command!));
-    const whys: Why[] = [...answer ? ['answer' as const] : [], ...kin ? ['kin' as const] : [],
+    // A treasure lying here is what the delve was for: taken up, led with (the vault's rings and moonstone had been
+    // under Look about once its keeper fell: OWN-57's play).
+    const spoils = screen.things.find(t => t.id === s.id)?.valuable
+      && leaves.some(c => /^(take_item|take_out)\(/.test(c.command!));
+    const whys: Why[] = [...answer ? ['answer' as const] : [], ...kin ? ['kin' as const] : [], ...spoils ? ['spoils' as const] : [],
       ...this.about(fresh, r) ? ['about' as const] : [], ...person && r.life === s.id && !talked ? ['life' as const] : [],
       ...this.ownWhy(leaves, r), ...r.signs.has(s.id) ? ['sign' as const] : [],
       ...person && s.asked && !talked ? ['asked' as const] : [], ...feature && looked ? ['unlooked' as const] : []];
@@ -107,6 +111,12 @@ export class Affordances {
   private static within(id: string, named: Set<string>): boolean {
     return named.has(id) || [...named].some(n => n.startsWith(`${id}_`));
   }
+  // Whether a way on from here is still not taken (not the road out): searching where the aim is comes after going
+  // on, at the churchyard the aim names, before the stair down to the crypt it is about (the cold review: search as
+  // an interface tax; OWN-57's play).
+  private static onward(screen: Screen): boolean {
+    return screen.exits.some(e => !e.visited && e.local && !e.blocked);
+  }
   private static offered(leaves: Choice[], r: Reading, schemas: string[]): Choice | undefined {
     return leaves.find(c => schemas.includes(r.schema.get(c.command!) ?? ''));
   }
@@ -121,7 +131,11 @@ export class Affordances {
     if (!exit) { return []; }
     const dest = exit.destination.id, tried = c.id !== exit.id && !!exit.blocked;
     const first = tried && this.firstTry(c, exit);
-    const toward = r.toward.get(exit.id);
+    // A way not yet taken from a place an aim names is the way on into what it is about (the stair down from the
+    // churchyard, to the crypt the priest's trouble is in), when no known way is pointed off elsewhere.
+    const on = exit.local && !exit.visited && !exit.blocked && dest !== r.back
+      && (r.named.has(r.here) ? 'toward' as const : r.held.has(r.here) ? 'held' as const : undefined);
+    const toward = r.toward.get(exit.id) ?? (on || undefined);
     // A way about the place not yet taken is worth taking by day; at night, the way to a bed.
     const whys: Why[] = [...at.back && dest === r.back && !c.disabled ? ['retreat' as const] : [],
       ...r.named.has(dest) ? ['named' as const] : [], ...toward ? [toward] : [],
@@ -174,7 +188,8 @@ export class Affordances {
       ...kind === 'camp' && ((n.night && !n.settled) || n.weary) ? ['exposed' as const] : [],
       ...kind === 'rest' && n.hurt.size > 0 && !at.threat ? ['hurt' as const] : [],
       ...kind === 'search' && r.signs.has('') ? ['sign' as const] : [],
-      ...kind === 'search' && r.named.has(r.here) && !r.done.has(c.command ?? '') ? ['named' as const] : [],
+      ...kind === 'search' && r.named.has(r.here) && !r.done.has(c.command ?? '') && !this.onward(screen)
+        ? ['named' as const] : [],
       ...this.ownWhy([c], r)];
     return [this.candidate(c, { kind, whys, r, notes: { dark: lit ? 'until first light' : 'in the dark',
       hungry: 'you are hungry', exposed: n.weary ? 'you are weary' : 'night in the open', named: 'where your aim is',

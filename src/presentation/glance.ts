@@ -14,7 +14,7 @@ import type { Act, Screen } from '../ui/screen-types';
 import { Stakes } from '../ui/stakes';
 import { CompanyRecall } from './company-recall';
 import { GlanceLines } from './glance-lines';
-import type { Arrival, Glance as View, Promoted, Why } from './glance-types';
+import type { Arrival, Glance as View, Promoted } from './glance-types';
 import { PlayerView } from './player-view';
 import type { Told } from './narrator';
 
@@ -42,10 +42,16 @@ export class Glance {
     const s: Situation = { threat: scene.subjects.some(x => SceneModel.threat(x)), warned: !!screen.warned,
       dark: !!screen.dark, settled: reading.needs.settled, open: reading.needs.open };
     const cands = Affordances.of(scene, screen, reading), acts = Promotion.pick(cands, s);
-    const aim = screen.objectives[0];
+    // The aim this place is about, if one is (the priest's trouble in the crypt, not the father's errand); said on
+    // coming somewhere new, at the opening and on resuming, and when the aims have changed, not on every page that
+    // has nothing to do with it (the owner, OWN-53: restrained, and only what is truly held).
     const turned = !!told?.feedback.aims?.length || !!told?.feedback.amended?.length;
-    const said = aim && !(arrival === 'opening' && telling.opened)
-      && (['opening', 'first', 'resume'].includes(arrival) || turned || !acts.some(a => this.serves(a.why)));
+    // A new aim just taken up is the one said (the vault under the undercroft, found, not the father's errand again).
+    const local = Stakes.here(campaign, PlayerView.observe(campaign).objectives ?? [], here)[0]?.text;
+    const aim = told?.feedback.aims?.at(-1) ?? local ?? screen.objectives[0];
+    // Not again beneath "A new aim" that has just said it.
+    const said = aim && !(arrival === 'opening' && telling.opened) && !told?.feedback.aims?.includes(aim)
+      && (['opening', 'first', 'resume'].includes(arrival) || turned);
     const need = this.need(screen);
     return { arrival, ...lines.sight ? { sight: lines.sight } : {}, ...lines.life ? { life: lines.life } : {},
       changed: lines.changed, acts, ways: Promotion.ways(cands, acts, s), aimed: this.aimed(screen, reading),
@@ -53,8 +59,6 @@ export class Glance {
   }
   // What an author writes to be done with a thing (Change … from … to …), by the rules' kinds of it.
   static readonly changes = ['change_thing', 'change_thing_paying', 'change_thing_spending'];
-  // Whether a reason serves the aim shown (not another aim held).
-  private static serves(why: Why): boolean { return ['bound', 'kin', 'about', 'named', 'toward'].includes(why); }
   // The host's part: the journey set out on and not yet come to the end of is gone on with first of what the aims ask
   // ("Go on to Gaudumport"), and the game taken up again opens as a return.
   static held(glance: View, host: Host): View {

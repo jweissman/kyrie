@@ -121,7 +121,8 @@ export class Told {
   // happened, and what it came to know or spent.
   static Happened({ exchange, said, ready, app }: { exchange: Exchange; said?: boolean; ready?: string; app?: ReaderApp }) {
     const echo = said && exchange.said ? Words.echo(Words.lastSaid(exchange.said)) : undefined;
-    const { plain, rest, sights, ended, levels } = Moments.of(exchange.lines), notes = Panorama.unsaid(exchange.notes, sights);
+    const { plain, rest, sights, ended, levels } = Moments.of(exchange.lines);
+    const notes = Told.few(Panorama.unsaid(exchange.notes, sights));
     return (
       <section className={`happened tone-${exchange.tone}`} data-id="response" aria-live="polite">
         {echo && !Words.restates(echo, exchange.lines[0]?.text) && <p className="you">{Typography.curl(echo)}</p>}
@@ -141,6 +142,13 @@ export class Told {
             : Typography.curl(n)}</li>)}</ul>}
       </section>
     );
+  }
+  // What came to be known, few enough to read before the choices: every new aim, first, then two things learned, and
+  // how many more the Book holds (an arrival had stacked five notes over the choices, pushing them off the screen).
+  static few(notes: string[]): string[] {
+    const aims = notes.filter(n => /^Aim( now)?: /.test(n)), rest = notes.filter(n => !aims.includes(n));
+    const more = rest.length - 2;
+    return [...aims, ...rest.slice(0, 2), ...more > 0 ? [`And ${more === 1 ? 'one thing more' : `${more} things more`}, in the Book.`] : []];
   }
   // Something under way: said at once, in the player's words; a journey says where it goes and how long it is.
   static Working({ pending }: { pending: { said: string; travel?: Travel; stage?: string } }) {

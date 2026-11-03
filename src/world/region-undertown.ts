@@ -1,5 +1,6 @@
 import text from '../../data/generation/town/undertown.kyrt' with { type: 'text' };
 import { KyrTemplates } from './kyr-template';
+import { SettlementWriter } from './settlement-writer';
 import type { Region, Settlement } from './region-writer';
 
 // What lies under the town the company begins in: an adventure a step from its door, with no journey to make first
@@ -10,7 +11,10 @@ import type { Region, Settlement } from './region-writer';
 export class RegionUndertown {
   static readonly template = KyrTemplates.parse(text);
   static lines(region: Region, s: Settlement): string[] {
-    const t = s.id, q = JSON.stringify, values = { t, town: s.name };
+    // Where each who pays is to be found (their own room, or the green), for the aim that says what is owed.
+    const t = s.id, q = JSON.stringify, values = { t, town: s.name,
+      ...Object.fromEntries((['merchant', 'priest', 'innkeeper'] as const)
+        .map(role => [`${role}at`, SettlementWriter.standing(region, s, role)])) };
     const sections = KyrTemplates.choose(this.template, `${region.name}:${t}:undertown`);
     const troubles = sections.filter(x => x.said.length), notice = `${t}_u_notice`;
     const open = troubles.map(x => `able(${t}_u_${x.option})`).join(' or ');

@@ -6,6 +6,7 @@
 // lines are what is said of it on the notice on the green. Add an option to add a trouble; nothing in the engine
 // needs to change.
 --- base
+  Relation {t}_u_paid(entity).
   Place {t}_u_store "the old corn-store" is room within {t} at 0, 1 indoors.
   Passage {t}_u_store_door "the corn-store door" is door between {t}_green and {t}_u_store.
   Place {t}_u_yard "the churchyard" is room within {t} at 1, 2 outdoors.
@@ -37,11 +38,12 @@
     Says "'They've got into the old corn-store from underneath,' says {{t}_merchant}. 'Rats the size of cats. I've lost a third of the grain. Ten coin to whoever clears them out: there's a trapdoor in the floor.'".
     On discuss { Assert knows(actor, {t}_u_rats_job). }
   }
-  Objective {t}_u_rats_job_aim when (knows(party, {t}_u_rats_job) or knows(party, {t}_u_notice)) and able({t}_u_rats) "Clear the rats out from under the old corn-store at {town}; {{t}_merchant} will pay ten coin.".
+  Objective {t}_u_rats_job_aim when (knows(party, {t}_u_rats_job) or knows(party, {t}_u_notice)) and able({t}_u_rats) "Clear the rats out from under {{t}_u_store} at {town}; {{t}_merchant} will pay ten coin.".
   Topic {t}_u_rats_job_paid with {t}_merchant "Tell {{t}_merchant} it is done" when (knows(actor, {t}_u_rats_job) or knows(actor, {t}_u_notice)) and not able({t}_u_rats) once {
     Says "{{t}_merchant} counts out 10 coin into your hand. 'I did not think anyone would. Thank you.'".
-    On discuss { Increase quantity(actor, gold) by 10. }
+    On discuss { Increase quantity(actor, gold) by 10. Assert {t}_u_paid({t}_u_rats_job). }
   }
+  Objective {t}_u_rats_job_owed when (knows(party, {t}_u_rats_job) or knows(party, {t}_u_notice)) and not able({t}_u_rats) and not {t}_u_paid({t}_u_rats_job) "It is done; {{t}_merchant} will pay ten coin for it, at {{merchantat}}.".
 >> 'RATS in the old corn-store, as big as cats. Ten coin. Ask {{t}_merchant}.'
 --- yard dead
   Observe {t}_u_yard_scene at {t}_u_yard as fixture when true "Old stones leaning in the grass, and in the corner by the wall a low stone door into the ground, its iron ring bright where someone has pulled at it lately.".
@@ -54,11 +56,12 @@
     Says "{{t}_priest} looks at the floor. 'The catacombs. Something has come up out of the bone-heaps, and the old stair is the only way down. I cannot ask anyone to go. I will give fifteen coin to anyone who does.'".
     On discuss { Assert knows(actor, {t}_u_dead_job). }
   }
-  Objective {t}_u_dead_job_aim when (knows(party, {t}_u_dead_job) or knows(party, {t}_u_notice)) and able({t}_u_dead) "Lay whatever has come up in the catacombs under the churchyard at {town}; {{t}_priest} will give fifteen coin.".
+  Objective {t}_u_dead_job_aim when (knows(party, {t}_u_dead_job) or knows(party, {t}_u_notice)) and able({t}_u_dead) "Lay whatever has come up in the catacombs under {{t}_u_yard} at {town}; {{t}_priest} will give fifteen coin.".
   Topic {t}_u_dead_job_paid with {t}_priest "Tell {{t}_priest} it is done" when (knows(actor, {t}_u_dead_job) or knows(actor, {t}_u_notice)) and not able({t}_u_dead) once {
     Says "{{t}_priest} counts out 15 coin into your hand. 'I did not think anyone would. Thank you.'".
-    On discuss { Increase quantity(actor, gold) by 15. }
+    On discuss { Increase quantity(actor, gold) by 15. Assert {t}_u_paid({t}_u_dead_job). }
   }
+  Objective {t}_u_dead_job_owed when (knows(party, {t}_u_dead_job) or knows(party, {t}_u_notice)) and not able({t}_u_dead) and not {t}_u_paid({t}_u_dead_job) "It is done; {{t}_priest} will pay fifteen coin for it, at {{priestat}}.".
 >> 'Whoever will go down into the catacombs under the churchyard, where something has come up: fifteen coin. Ask {{t}_priest}.'
 --- pit spiders
   Observe {t}_u_pit_scene at {t}_u_pit as fixture when true "A bowl of grey stone cut out of the hill long ago, ivy over its faces; at the bottom, a square adit goes back into the rock, roped across, and a board on the rope says KEEP OUT in three hands.".
@@ -71,11 +74,12 @@
     Says "'Nobody goes in the old quarry now,' says {{t}_innkeeper}. 'There's webs across the adit thick as sailcloth, and the Hobb boy went in after a ferret and came out white. Twelve coin from the house to whoever burns them out.'".
     On discuss { Assert knows(actor, {t}_u_spiders_job). }
   }
-  Objective {t}_u_spiders_job_aim when (knows(party, {t}_u_spiders_job) or knows(party, {t}_u_notice)) and able({t}_u_spiders) "Burn the spiders out of the old quarry's workings at {town}; {{t}_innkeeper} will pay twelve coin.".
+  Objective {t}_u_spiders_job_aim when (knows(party, {t}_u_spiders_job) or knows(party, {t}_u_notice)) and able({t}_u_spiders) "Burn the spiders out of the workings under {{t}_u_pit} at {town}; {{t}_innkeeper} will pay twelve coin.".
   Topic {t}_u_spiders_job_paid with {t}_innkeeper "Tell {{t}_innkeeper} it is done" when (knows(actor, {t}_u_spiders_job) or knows(actor, {t}_u_notice)) and not able({t}_u_spiders) once {
     Says "{{t}_innkeeper} counts out 12 coin into your hand. 'I did not think anyone would. Thank you.'".
-    On discuss { Increase quantity(actor, gold) by 12. }
+    On discuss { Increase quantity(actor, gold) by 12. Assert {t}_u_paid({t}_u_spiders_job). }
   }
+  Objective {t}_u_spiders_job_owed when (knows(party, {t}_u_spiders_job) or knows(party, {t}_u_notice)) and not able({t}_u_spiders) and not {t}_u_paid({t}_u_spiders_job) "It is done; {{t}_innkeeper} will pay twelve coin for it, at {{innkeeperat}}.".
 >> 'SPIDERS in the old quarry. Twelve coin from the house. Ask {{t}_innkeeper}.'
 --- below
   Place {t}_u_drain "the old drain" is room within {t} at 0, 5 underground.
@@ -85,7 +89,9 @@
   Passage {t}_u_ossuary_steps "steps down behind the bone-heaps" is steps between {t}_u_ossuary and {t}_u_undercroft.
   Passage {t}_u_gallery_breach "a breach in the gallery floor" is crawl between {t}_u_gallery and {t}_u_undercroft.
   Initially Assert unlit({t}_u_drain). Initially Assert unlit({t}_u_undercroft).
-  Observe {t}_u_undercroft_scene at {t}_u_undercroft as fixture when true "A long room of round pillars, older than anything above it: the corn-store, the church and the quarry were all dug down into it, from three sides, by people who did not know it was here. The floor is flagged, and one flag in the middle is cut with a ring of letters nobody here can read.".
+  Observe {t}_u_undercroft_scene at {t}_u_undercroft as fixture when true "A long room of round pillars, older than anything above it: the corn-store, the church and the quarry were all dug down into it, from three sides, by people who did not know it was here.".
+  // The flag is a sign of its own, so the page says it apart and searching is the act it leads with.
+  Observe {t}_u_undercroft_flag at {t}_u_undercroft as sign when not knows(party, {t}_u_vault_found) "One flag in the middle of the floor is cut with a ring of letters nobody here can read, and it does not sit quite level with the rest".
   Person {t}_u_crawler "a great centipede" at {t}_u_drain {
     Role "a centipede as long as a man, living in the old drain". Species great_centipede. Numbers 1. Level 2. Lair {t}_u_drain.
   }
@@ -109,4 +115,4 @@
   Item {t}_u_vault_rings "a cord of old rings" is grave_rings at {t}_u_vault.
   Item {t}_u_vault_stone "a moonstone the size of a thumb" is moonstone at {t}_u_vault.
   Milestone {t}_u_vault_reached "found the sealed vault under the undercroft" worth 25 when been(party, {t}_u_vault).
-  Objective {t}_u_vault_sought when knows(party, {t}_u_vault_found) and able({t}_u_keeper) "Something keeps the sealed vault under the undercroft.".
+  Objective {t}_u_vault_sought when knows(party, {t}_u_vault_found) and able({t}_u_keeper) "Something keeps {{t}_u_vault} under the undercroft.".

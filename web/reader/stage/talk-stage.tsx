@@ -62,7 +62,8 @@ export class TalkStage {
       <div className={`sitter${portrait ? '' : ' unpainted'}`}>
         {portrait && <img src={portrait.large} alt="" decoding="async" onError={() => fail(portrait.large)}
           style={{ objectPosition: `50% ${portrait.focus}%` }} />}
-        {portrait && <p className="credit">{portrait.credit ?? 'Painter unrecorded'}</p>}
+        {/* Credited where the painter is known; nothing said where not ("Painter unrecorded" read as a defect). */}
+        {portrait?.credit && <p className="credit">{portrait.credit}</p>}
         <div className="cap"><h1 className="n">{Typography.curl(name)}</h1>{role && <p className="r">{Typography.curl(role)}</p>}
           {children}</div>
       </div>
