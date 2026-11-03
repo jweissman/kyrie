@@ -1,0 +1,9 @@
+Module quittance "Quittance" {
+  // The Assured City as a country beyond a march: the company that comes down the north road to the Declaration Arch is
+  // the world's own.
+  Entity party: group "Your company".
+  // What the country below says of the city (its keepers' rumour of the blank Receipt): once Reckoning has come, one way
+  // or another, it is old news there, and they say so to whoever comes back down the north road.
+  Entity word: fact "What is said of Quittance in the country below.".
+  Rule word_old when (reached(end_burning) or reached(end_slaying) or reached(general_average) or reached(hospitality) or reached(quittance_best) or reached(quittance_contested) or reached(controlled_loss) or reached(evacuated_loss) or reached(end_lapse)) and not stale(word) { Assert stale(word). }
+}

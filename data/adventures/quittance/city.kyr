@@ -1,0 +1,269 @@
+Module quittance "Quittance" {
+  Description "Quittance, a river-port metropolis that burned ninety-four years ago and was rebuilt on credit: eight districts and the burned city under them, a Honest Bell at the gate, and nine days to Reckoning.".
+
+  // ── The country ─────────────────────────────────────────────────────────────────────────────────────────
+  // One city on the south bank of a tidal river. The road comes in from the north to the Declaration Arch; the
+  // districts lie in two ranks behind it, and the Bare Wards outside the Cinderwall to the south-west. Under the
+  // Exchange lies the old city, fused.
+  Place qcountry "the country of Quittance" is region within imbar.
+  Initially Assert terrain(qcountry, marsh).
+  Place approach "the approaches to Quittance" is wilderness within qcountry at 1, 0.
+  Place gate_q "the Gate Quarter" is settlement within qcountry at 1, 1.
+  Place row "Policy Row" is settlement within qcountry at 2, 1.
+  Place brick "the Brickfields" is settlement within qcountry at 0, 1.
+  Place hill "Lantern Hill" is settlement within qcountry at 3, 1.
+  Place glass "the Glass Quarter" is settlement within qcountry at 0, 2.
+  Place reach "the Lightering Reach" is settlement within qcountry at 1, 2.
+  Place mort "Mortmain" is settlement within qcountry at 3, 2.
+  Place wards "the Bare Wards" is settlement within qcountry at 0, 3.
+  Place sunk "the Sunk City" is site within qcountry at 2, 2.
+  Place sunk_cellars "the Exchange cellars" is level within sunk.
+  Place sunk_glass "the Glass City" is level within sunk.
+  Place sunk_deep "the Hearth Below" is level within sunk.
+
+  // ── Buildings ───────────────────────────────────────────────────────────────────────────────────────────
+  Place arch_b "the Declaration Arch" is building within gate_q.
+  Place hen_b "the Wayward Hen" is building within gate_q.
+  Place booths_b "the Policy Booths" is building within gate_q.
+  Place slip_b "the Bell & Slip" is building within row.
+  Place phoenix_b "Phoenix House" is building within row.
+  Place hall_b "the Hall of the Five" is building within row.
+  Place provid_b "Providence House" is building within row.
+  Place engine_b "the Phoenix fire-house" is building within brick.
+  Place bakery_b "Tolliver's bakery" is building within brick.
+  Place forge_b "the die-works in Dyers' Alley" is building within brick.
+  Place pargeter_b "the Pargeter house" is building within brick.
+  Place sluice_b "the Sluice-tap tavern" is building within reach.
+  Place lamprey_b "Lamprey & River House" is building within reach.
+  Place gasworks_b "the Gas Company's offices" is building within glass.
+  Place retort_b "the retort-house" is building within glass.
+  Place lamp_b "the Philosophical Lamp-house" is building within glass.
+  Place lamplight_b "the Lamplighters' Hall" is building within glass.
+  Place hearn_b "Hearn House" is building within hill.
+  Place guild_b "the Surveyors' Guild" is building within hill.
+  Place teague_b "the Teague house" is building within hill.
+  Place corbett_b "the Corbett house" is building within hill.
+  Place penny_b "the Penny Mutual" is building within wards.
+  Place skelter_b "Skelter's rent-office" is building within wards.
+  Place pip_b "the tenement on Pip's stair" is building within wards.
+  Place alms_b "the Mortmain almshouse" is building within mort.
+  Place oakes_b "the Oakes cottage" is building within mort.
+  Place sov_b "the Sovereign Mutual's life-office" is building within mort.
+
+  // ── The approaches ──────────────────────────────────────────────────────────────────────────────────────
+  Place arch_road "the Declaration Road" is room within approach at 1, 0 outdoors.
+  Place towpath "the river towpath" is room within approach at 2, 0 outdoors.
+  Place gap_path "the foot of the outer wall" is room within approach at 0, 0 outdoors.
+  Place mort_road "the Mortmain road" is room within approach at 3, 0 outdoors.
+
+  // ── The Gate Quarter ────────────────────────────────────────────────────────────────────────────────────
+  Place arch_hall "the Declarations Hall" is room within arch_b at 1, 0.
+  Place gate_plaza "Gate Plaza" is room within gate_q at 1, 1 outdoors.
+  Place hen_taproom "the Wayward Hen's taproom" is room within hen_b at 0, 1.
+  Place booths "the Policy Booths" is room within booths_b at 2, 1.
+  Place brokers_stair "the Brokers' Stair" is room within gate_q at 2, 2 outdoors.
+
+  // ── Policy Row and the Exchange ─────────────────────────────────────────────────────────────────────────
+  Place row_street "Policy Row" is room within row at 1, 1 outdoors.
+  Place exchange_court "the court of the Old Exchange" is room within row at 1, 0 outdoors.
+  Place slip_room "the Bell & Slip" is room within slip_b at 0, 1.
+  Place phoenix_floor "the counting-floor of Phoenix House" is room within phoenix_b at 2, 1.
+  Place prewitt_room "the Chief Underwriter's room" is room within phoenix_b at 2, 0.
+  Place tables_room "the Tables Room" is room within phoenix_b at 3, 0.
+  Place hall_five "the Hall of the Five" is room within hall_b at 0, 0.
+  Place provid_counter "the Providence counter" is room within provid_b at 1, 2.
+
+  // ── The Brickfields ─────────────────────────────────────────────────────────────────────────────────────
+  Place brick_lane "Brick Lane" is room within brick at 1, 1 outdoors.
+  Place mark_street "Mark Street" is room within brick at 1, 0 outdoors.
+  Place nine_yard "the yard behind Number Nine" is room within brick at 0, 0 outdoors.
+  Place drill_yard "the fire-house yard" is room within brick at 2, 1 outdoors.
+  Place engine_room "the Phoenix fire-house" is room within engine_b at 3, 1.
+  Place tolliver_shop "Tolliver's shop" is room within bakery_b at 0, 2.
+  Place bakehouse "Tolliver's bakehouse" is room within bakery_b at 0, 3.
+  Place dyers_alley "Dyers' Alley" is room within brick at 2, 2 outdoors.
+  Place gedge_back "Ma Gedge's back-shop" is room within forge_b at 2, 3.
+  Place pargeter_front "the Pargeters' front room" is room within pargeter_b at 3, 2.
+
+  // ── The Lightering Reach ────────────────────────────────────────────────────────────────────────────────
+  Place lighter_stairs "the Lightermen's Stairs" is room within reach at 1, 0 outdoors.
+  Place mere_wharf "the Mere Wharf" is room within reach at 1, 1 outdoors.
+  Place salvor_yard "the Salvors' Yard" is room within reach at 2, 1 outdoors.
+  Place skell_yard "Skell's yard" is room within reach at 3, 1 outdoors.
+  Place cradle "the diving-bell cradle" is room within reach at 2, 2 outdoors.
+  Place sluice_room "the Sluice-tap taproom" is room within sluice_b at 0, 1.
+  Place lamprey_floor "the counting-floor of Lamprey & River House" is room within lamprey_b at 1, 2.
+  Place dree_room "Captain Dree's room" is room within lamprey_b at 1, 3.
+  Place margaret_hold "the hold of the Prudent Margaret" is room within reach at 2, 3 underground.
+
+  // ── The Glass Quarter ───────────────────────────────────────────────────────────────────────────────────
+  Place foundry_row "Foundry Row" is room within glass at 1, 1 outdoors.
+  Place gas_gate "the Gasworks gate" is room within glass at 2, 1 outdoors.
+  Place gas_yard "the Gasworks yard" is room within glass at 2, 2 outdoors.
+  Place retort_house "the retort-house" is room within retort_b at 3, 2.
+  Place board_room "the Gas Company boardroom" is room within gasworks_b at 3, 1.
+  Place lamp_front "the Lamp-house shopfront" is room within lamp_b at 0, 1.
+  Place wynne_lab "Perpetua Wynne's laboratory" is room within lamp_b at 0, 0.
+  Place demo_hall "the Lamp-house demonstration hall" is room within lamp_b at 0, 2.
+  Place lamplighters_hall "the Lamplighters' Hall" is room within lamplight_b at 1, 0.
+  Place round_tinkers "Tinkers' Court" is room within glass at 1, 2 outdoors.
+  Place round_steps "the Stokers' Steps" is room within glass at 1, 3 outdoors.
+  Place round_glaziers "the Glaziers' Passage" is room within glass at 0, 3 outdoors.
+  Place round_furnace "the Furnace Wharf" is room within glass at 2, 3 outdoors.
+
+  // ── Lantern Hill ────────────────────────────────────────────────────────────────────────────────────────
+  Place hill_street "Surety Hill" is room within hill at 1, 1 outdoors.
+  Place belvedere "the Belvedere" is room within hill at 1, 0 outdoors.
+  Place hearn_parlour "Hearn House parlour" is room within hearn_b at 2, 0.
+  Place hearn_hearth "the hearth-room at Hearn House" is room within hearn_b at 3, 0.
+  Place guild_hall "the Surveyors' Guild hall" is room within guild_b at 0, 1.
+  Place teague_front "the Teagues' front room" is room within teague_b at 1, 2.
+  Place corbett_study "the Corbetts' study" is room within corbett_b at 0, 2.
+
+  // ── The Bare Wards ──────────────────────────────────────────────────────────────────────────────────────
+  Place wards_gate "the Cinderwall gate" is room within wards at 1, 0 outdoors.
+  Place salt_lane "Salt Lane" is room within wards at 1, 1 outdoors.
+  Place penny_hall "the Penny Mutual's hall" is room within penny_b at 0, 1.
+  Place night_market "the Night Market" is room within wards at 2, 1 outdoors.
+  Place pip_stair "Pip's stair" is room within pip_b at 1, 2.
+  Place candlewick "Candlewick Court" is room within wards at 0, 2 outdoors.
+  Place skelter_room "Skelter's rent-office" is room within skelter_b at 2, 2.
+  Place cinder_ward "the Cinder Ward" is room within wards at 1, 3 outdoors.
+  Place first_flue "the First Flue" is room within wards at 1, 4 outdoors.
+  Place gasket_yard "Gasket Yard" is room within wards at 2, 3 outdoors.
+
+  // ── Mortmain ────────────────────────────────────────────────────────────────────────────────────────────
+  Place mort_lodge "the Mortmain lodge-gate" is room within mort at 1, 0 outdoors.
+  Place annuity_row "Annuitants' Row" is room within mort at 1, 1 outdoors.
+  Place alms_room "the almshouse day-room" is room within alms_b at 0, 1.
+  Place oakes_room "Mrs Oakes's parlour" is room within oakes_b at 2, 1.
+  Place sov_floor "the Sovereign Mutual's counting-floor" is room within sov_b at 1, 2.
+  Place catacomb_head "the head of the catacomb stair" is room within mort at 2, 2 outdoors.
+
+  // ── The Sunk City ───────────────────────────────────────────────────────────────────────────────────────
+  Place cellar_foot "the foot of the Exchange stair" is room within sunk_cellars at 0, 0 underground.
+  Place cellar_arcade "the cellar arcade" is room within sunk_cellars at 1, 0 underground.
+  Place queue_hall "the Queue" is room within sunk_cellars at 2, 0 underground.
+  Place bell_foot "the foot of the diving shaft" is room within sunk_cellars at 3, 0 underground.
+  Place catacomb_foot "the foot of the catacomb stair" is room within sunk_cellars at 2, 1 underground.
+  Place glass_street "the Glass Street" is room within sunk_glass at 0, 0 underground.
+  Place slag_a "the first slag gallery" is room within sunk_glass at 1, 0 underground.
+  Place slag_b "the second slag gallery" is room within sunk_glass at 2, 0 underground.
+  Place furnace_row "Furnace Row, burned" is room within sunk_glass at 0, 1 underground.
+  Place vault_door "the Strongroom door" is room within sunk_glass at 1, 1 underground.
+  Place vault "the Strongroom" is room within sunk_glass at 2, 1 underground.
+  Place flue_foot "the foot of the First Flue" is room within sunk_glass at 3, 1 underground.
+  Place hearth_below "the Hearth Below" is room within sunk_deep at 0, 0 underground.
+
+  // ── Ways: the Gate Quarter ──────────────────────────────────────────────────────────────────────────────
+  Passage road_to_arch "the Declaration Arch" is arch between arch_road and arch_hall.
+  Passage hall_to_plaza "the Arch's inner mouth" is arch between arch_hall and gate_plaza opening when inCity(party) "The Arch's inner mouth is barred by a brass rail, and the Collector has not passed you through it.".
+  Passage hen_door "the Hen's door" is door between gate_plaza and hen_taproom.
+  Passage booths_door "the Booths' arcade" is doorway between gate_plaza and booths.
+  Passage broker_steps "the Brokers' Stair" is steps between gate_plaza and brokers_stair taking 3 minutes.
+  Passage plaza_row "the Exchange Road" is road between brokers_stair and row_street taking 10 minutes.
+  Passage plaza_brick "Brick Lane gate" is road between gate_plaza and brick_lane taking 10 minutes.
+  Passage plaza_reach "the Reach road" is road between gate_plaza and mere_wharf taking 15 minutes.
+
+  // ── Ways: the approaches (the other ways in) ────────────────────────────────────────────────────────────
+  Passage road_to_towpath "the field path to the towpath" is path between arch_road and towpath taking 10 minutes.
+  Passage road_to_gap "the track along the outer wall" is track between arch_road and gap_path taking 20 minutes.
+  Passage road_to_mortroad "the cemetery road" is road between arch_road and mort_road taking 15 minutes.
+  Passage towpath_stairs "the Water-Stair" is steps between towpath and lighter_stairs taking 5 minutes.
+  Passage gap_gate "the gap in the Cinderwall" is gate between gap_path and wards_gate taking 5 minutes.
+  Passage mortroad_lodge "the Mortmain lodge road" is road between mort_road and mort_lodge taking 10 minutes.
+
+  // ── Ways: Policy Row ────────────────────────────────────────────────────────────────────────────────────
+  Passage row_court "the Exchange court" is passage between row_street and exchange_court taking 2 minutes.
+  Passage slip_door "the Bell & Slip's door" is door between row_street and slip_room.
+  Passage phoenix_door "the Phoenix doors" is doorway between row_street and phoenix_floor.
+  Passage prewitt_door "the Chief Underwriter's door" is door between phoenix_floor and prewitt_room.
+  Passage tables_door "the Tables Room door" is door between phoenix_floor and tables_room.
+  Passage hall_door "the Hall's bronze doors" is doorway between exchange_court and hall_five.
+  Passage provid_door "the Providence counter" is doorway between row_street and provid_counter.
+  Passage row_hill "the Lantern Hill road" is road between row_street and hill_street taking 15 minutes.
+  Passage row_mort "the Mortmain road" is road between row_street and mort_lodge taking 20 minutes.
+
+  // ── Ways: the Brickfields ───────────────────────────────────────────────────────────────────────────────
+  Passage lane_mark "Mark Street" is road between brick_lane and mark_street taking 4 minutes.
+  Passage mark_yard "the passage behind Number Nine" is passage between mark_street and nine_yard taking 2 minutes.
+  Passage lane_drill "the fire-house arch" is arch between brick_lane and drill_yard.
+  Passage drill_engine "the fire-house doors" is doorway between drill_yard and engine_room.
+  Passage lane_bakery "Tolliver's door" is door between brick_lane and tolliver_shop.
+  Passage bakery_back "the bakehouse door" is door between tolliver_shop and bakehouse.
+  Passage lane_dyers "Dyers' Alley" is road between brick_lane and dyers_alley taking 5 minutes.
+  Passage dyers_gedge "the die-works door" is door between dyers_alley and gedge_back.
+  Passage dyers_pargeter "the Pargeters' door" is door between dyers_alley and pargeter_front.
+  Passage brick_glass "the Glass Quarter road" is road between brick_lane and foundry_row taking 15 minutes.
+
+  // ── Ways: the Lightering Reach ──────────────────────────────────────────────────────────────────────────
+  Passage stairs_wharf "the head of the Stairs" is steps between lighter_stairs and mere_wharf taking 3 minutes.
+  Passage wharf_salvor "the Salvors' gate" is gate between mere_wharf and salvor_yard.
+  Passage salvor_skell "the broken fence" is path between salvor_yard and skell_yard taking 4 minutes.
+  Passage salvor_cradle "the cradle quay" is path between salvor_yard and cradle taking 3 minutes.
+  Passage wharf_sluice "the Sluice's door" is door between mere_wharf and sluice_room.
+  Passage wharf_lamprey "the Lamprey doors" is doorway between mere_wharf and lamprey_floor.
+  Passage lamprey_dree "Captain Dree's door" is door between lamprey_floor and dree_room.
+  Passage reach_glass "the foundry road" is road between mere_wharf and foundry_row taking 15 minutes.
+
+  // ── Ways: the Glass Quarter ─────────────────────────────────────────────────────────────────────────────
+  Passage foundry_gas "the Gasworks road" is road between foundry_row and gas_gate taking 3 minutes.
+  Passage gate_yard "the Gasworks gate" is gate between gas_gate and gas_yard.
+  Passage yard_retort "the retort-house doors" is doorway between gas_yard and retort_house.
+  Passage yard_board "the board-room stair" is stair between gas_yard and board_room.
+  Passage foundry_lamp "the Lamp-house door" is door between foundry_row and lamp_front.
+  Passage lamp_lab "the laboratory door" is door between lamp_front and wynne_lab.
+  Passage lamp_demo "the demonstration hall doors" is doorway between lamp_front and demo_hall.
+  Passage foundry_hall "the Lamplighters' door" is door between foundry_row and lamplighters_hall.
+  Passage foundry_tinkers "Tinkers' Court" is passage between foundry_row and round_tinkers taking 3 minutes.
+  Passage tinkers_steps "the Stokers' Steps" is steps between round_tinkers and round_steps taking 3 minutes.
+  Passage steps_glaziers "the Glaziers' Passage" is passage between round_steps and round_glaziers taking 3 minutes.
+  Passage steps_furnace "the way to the Furnace Wharf" is passage between round_steps and round_furnace taking 3 minutes.
+  Passage glass_wards "the Cinderwall road" is road between round_glaziers and wards_gate taking 15 minutes.
+
+  // ── Ways: Lantern Hill ──────────────────────────────────────────────────────────────────────────────────
+  Passage hill_belvedere "the stair to the Belvedere" is steps between hill_street and belvedere.
+  Passage hill_hearn "Hearn House door" is door between hill_street and hearn_parlour.
+  Passage hearn_hearthway "the hearth-room door" is door between hearn_parlour and hearn_hearth.
+  Passage hill_guild "the Guild door" is door between hill_street and guild_hall.
+  Passage hill_teague "the Teagues' door" is door between hill_street and teague_front.
+  Passage hill_corbett "the Corbetts' door" is door between hill_street and corbett_study.
+  Passage hill_brick "the Brickfields stair" is stair between hill_street and drill_yard taking 10 minutes.
+
+  // ── Ways: the Bare Wards ────────────────────────────────────────────────────────────────────────────────
+  Passage wards_salt "Salt Lane" is road between wards_gate and salt_lane taking 3 minutes.
+  Passage salt_penny "the Penny Mutual's door" is door between salt_lane and penny_hall.
+  Passage salt_market "the Market passage" is passage between salt_lane and night_market taking 3 minutes.
+  Passage salt_pip "Pip's stair" is stair between salt_lane and pip_stair.
+  Passage salt_candle "the Candlewick lane" is path between salt_lane and candlewick taking 4 minutes.
+  Passage market_skelter "Skelter's door" is door between night_market and skelter_room.
+  Passage salt_cinder "the lane to the Cinder Ward" is path between salt_lane and cinder_ward taking 5 minutes.
+  Passage cinder_flue "the way to the First Flue" is path between cinder_ward and first_flue taking 5 minutes.
+  Passage cinder_gasket "the lane to Gasket Yard" is path between cinder_ward and gasket_yard taking 4 minutes.
+
+  // ── Ways: Mortmain ──────────────────────────────────────────────────────────────────────────────────────
+  Passage lodge_row "the cemetery drive" is road between mort_lodge and annuity_row taking 3 minutes.
+  Passage row_alms "the almshouse door" is door between annuity_row and alms_room.
+  Passage row_oakes "Mrs Oakes's gate" is gate between annuity_row and oakes_room.
+  Passage row_sov "the Sovereign's doors" is doorway between annuity_row and sov_floor.
+  Passage row_catacomb "the path to the catacombs" is path between annuity_row and catacomb_head taking 4 minutes.
+
+  // ── Ways: down into the Sunk City ───────────────────────────────────────────────────────────────────────
+  Passage cellar_stair "the Exchange cellar stair" is stair between exchange_court and cellar_foot.
+  Passage cellar_a "the arcade arch" is arch between cellar_foot and cellar_arcade.
+  Passage arcade_queue "the Queue's hall" is arch between cellar_arcade and queue_hall.
+  Passage arcade_bell "the sump passage" is tunnel between cellar_arcade and bell_foot taking 8 minutes.
+  Passage catacomb_stair "the catacomb stair" is stair between catacomb_head and catacomb_foot taking 5 minutes.
+  Passage catacomb_link "the bone passage" is tunnel between catacomb_foot and queue_hall taking 10 minutes.
+  Passage bell_shaft_way "the diving shaft" is shaft between cradle and bell_foot taking 20 minutes.
+  Passage down_glass "the slag stair" is stair between queue_hall and glass_street taking 4 minutes.
+  Passage glass_slag_a "the glass causeway" is passage between glass_street and slag_a taking 6 minutes.
+  Passage slag_slag "the fused arcade" is passage between slag_a and slag_b taking 8 minutes.
+  Passage glass_furnace "Furnace Row" is passage between glass_street and furnace_row taking 5 minutes.
+  Passage slag_vaultdoor "the Strongroom approach" is passage between slag_a and vault_door taking 6 minutes.
+  Passage vault_in "the Strongroom door" is door between vault_door and vault.
+  Passage slag_flue "the flue gallery" is passage between slag_b and flue_foot taking 6 minutes.
+  Passage flue_up "the First Flue" is shaft between flue_foot and first_flue taking 25 minutes.
+  Passage furnace_hearth "the last stair" is stair between furnace_row and hearth_below taking 10 minutes.
+  Passage vault_hearth "the Treaty stair" is stair between vault and hearth_below taking 10 minutes.
+}

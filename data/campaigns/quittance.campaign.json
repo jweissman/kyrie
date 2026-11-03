@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "name": "Quittance",
+  "pitch": {
+    "heading": "A company for Quittance",
+    "text": "Quittance burned to the ground ninety-four years ago and was rebuilt on credit, and now every house in it wears a plate over the door to say which Office of Assurance will put it out. The Offices need adjusters, because the Tables say the fires are falling, and the Receipt that renews the city's Founding Policy, hung on the Cinderwall every Reckoning, was the colour of milk last year. Reckoning is in nine days. You have a little money, and nothing that has been insured."
+  },
+  "modules": [
+    {
+      "id": "quittance",
+      "bundle": "../adventures/quittance/module.json"
+    }
+  ],
+  "party": [
+    {
+      "name": "Elen",
+      "raceId": "elf",
+      "classId": "ranger",
+      "backgroundId": "hunter"
+    },
+    {
+      "name": "Bran",
+      "raceId": "human",
+      "classId": "warrior",
+      "backgroundId": "locksmith"
+    },
+    {
+      "name": "Dori",
+      "raceId": "dwarf",
+      "classId": "cleric",
+      "backgroundId": "medic",
+      "traits": [
+        "vitalist"
+      ]
+    }
+  ],
+  "calendar": {
+    "year": 1314,
+    "month": 9,
+    "day": 20
+  }
+}

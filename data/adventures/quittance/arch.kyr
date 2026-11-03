@@ -1,0 +1,175 @@
+Module quittance "Quittance" {
+  Description "The Declaration Arch and the other ways into Quittance: what the company declares, what the Honest Bell makes of it, and the water-stair, the hearse and the Cinderwall gap.".
+
+  // ── Where rewards wait until they are given ─────────────────────────────────────────────────────────────
+  Place beyond_map "beyond the map" is wilderness within qcountry at 9, 9.
+  Place nowhere "nowhere" is room within beyond_map at 0, 0.
+  Item pass_slip "a Policy of Passage" is policy_of_passage at nowhere.
+
+  // ── How the company came in ─────────────────────────────────────────────────────────────────────────────
+  // inCity(party) is true once the company has entered by any way; it opens the Arch's inner mouth (to leave and to
+  // come back). Exactly one of the entered_* relations says how the company first came; the Slate, the spine and the
+  // Hearing read them.
+  Relation inCity(group). Relation admitted(group). Relation onTheRoll(group). Relation aliased(group). Relation ringed(group).
+  Relation entered_honest(group). Relation entered_false(group). Relation entered_plain(group).
+  Relation entered_water(group). Relation entered_hearse(group). Relation entered_gap(group).
+  Discovery d_bell_rule "The Honest Bell rings for a false declaration. It does not ring for an incomplete one.".
+
+  // ── The Declaration Arch ────────────────────────────────────────────────────────────────────────────────
+  Person prest "Mr Prest" at arch_hall {
+    Role "the Collector of Declarations". Ancestry human. Calling bard. Level 2. Peaceable. Manner acerbic. Pronouns he.
+    Greets "A clerk with a face like a closed ledger looks up from the nearest counter. 'Declarations,' says Mr Prest, 'are taken at this desk. Goods first, then purpose, then intentions, if any. The Bell is listening. It has always been listening. It is quite reliable.'".
+    Greets again "'Ah,' says Mr Prest. 'The Bell remembers you.'".
+  }
+  Thing bell "the Honest Bell" at arch_hall {
+    State hung "The Honest Bell hangs in the vault of the Arch, plain and dull and larger than a cart-wheel.".
+    State tolled "The Honest Bell is still shivering; the note is going out of the stones.".
+  }
+  Observe notice_scene at arch_hall when true "On a board by the Collector's desk: RULES OF THE BELL. 1. Goods shall be declared. 2. Purpose shall be declared. 3. A declaration shall be true. 4. The Bell is not to be reasoned with. 5. A declaration is not required to be complete, but must be sufficient. 6. The Collector is paid by the declaration and not by the fine.".
+  Observe notice_taught at arch_hall when true "Rule five has been underlined by someone, in pencil, and a small hand has written beside it: 'sufficient to what?'." teaches d_bell_rule.
+
+  Topic prest_bell with prest "Ask Mr Prest how the Bell knows" when true once {
+    Says "'It is a bell,' says Mr Prest, 'which hangs under an arch. A man says a thing and the air in the arch has it, and the bell hears the air. I have never found a better explanation and I have looked.'".
+  }
+  Topic prest_record with prest "Ask what becomes of a declaration" when true once {
+    Says "'It is written in the Roll of Entrances,' says Mr Prest, 'and the Roll goes to the Phoenix, and the Phoenix reads it, because the Phoenix reads everything. A true declaration is therefore also a rather public one.'".
+  }
+  Topic prest_other with prest "Ask whether there are other ways in" when true once {
+    Says "'There are,' says Mr Prest, with the weariness of long experience. 'The Water-Stair, which I do not know about. The Mortmain road, where the dead are not required to declare. And the gap in the Cinderwall, which is not an entrance, being a hole.' He pauses. 'I should of course discourage all three.'".
+  }
+
+  Action declare_true(actor: group, site: place) "Declare yourselves truthfully, and take out a Policy of Passage (3 coin)" {
+    Speaker prest.
+    Requires able(actor) and company(actor) and at(actor, site) and at(prest, site) and not inCity(actor) and quantity(actor, gold) >= 3.
+    Time 12 minutes.
+    On success { Decrease quantity(actor, gold) by 3. Assert inCity(actor). Assert admitted(actor). Assert onTheRoll(actor). Assert entered_honest(actor). Give pass_slip to actor. Increase regard(phoenix) by 1. }
+    Result "You declare your goods, which are few, your purpose, which you find is harder to put in a sentence than you expected, and your intentions, such as they are. The Honest Bell hangs in the vault above and says nothing at all. Mr Prest writes in the Roll of Entrances, blots it, and hands you a Policy of Passage. 'Welcome to Quittance,' he says. 'For nine days you are insured.'".
+  }
+  Action declare_false(actor: group, site: place) "Declare yourselves wool-factors, come to buy fleeces" {
+    Speaker prest.
+    Requires able(actor) and company(actor) and at(actor, site) and at(prest, site) and not inCity(actor) and not ringed(actor).
+    Time 12 minutes.
+    Resolve check(actor, deception, dc_hard).
+    On success { Assert inCity(actor). Assert admitted(actor). Assert aliased(actor). Assert entered_false(actor). }
+    On failure { Assert ringed(actor). Decrease quantity(actor, gold) by 5. Assert state(bell, tolled). }
+    Result "'Wool-factors,' says Mr Prest. 'From?' You say. 'To buy?' You say. The Honest Bell hangs over the hall and does not make a sound. He stamps your hands, one by one, without looking up. 'Welcome to Quittance,' he says, in the voice of someone who has never in his life believed a thing a wool-factor said, and is not obliged to.".
+    Otherwise "The Bell rings. It is not a loud note, but the whole Arch has it in an instant, and every clerk in the hall puts down his pen. 'Five coin,' says Mr Prest, 'for the Bell. It is the Bell's fine, not mine. I am paid by the declaration.' He turns the page. 'You may of course declare again, truthfully, at the usual rate.'".
+  }
+  Action declare_plain_lore(actor: group, site: place) "Declare your goods and your purpose, 'to look about', and decline to declare intentions, citing Rule Five" {
+    Speaker prest.
+    Requires able(actor) and company(actor) and at(actor, site) and at(prest, site) and not inCity(actor) and knows(actor, d_bell_rule).
+    Time 15 minutes.
+    Resolve check(actor, lore, dc_fair).
+    On success { Assert inCity(actor). Assert admitted(actor). Assert entered_plain(actor). Increase regard(phoenix) by 0. }
+    Result "'Sufficient,' says Mr Prest, slowly, as the Bell hangs in the vault above and declines to comment. 'Rule Five. Yes. Quite sufficient.' He writes in the Roll, in a very small hand, and for a moment looks almost pleased. 'You are the fourth this year,' he says. 'Do go in.'".
+    Otherwise "Mr Prest reads Rule Five aloud, back to you, in a tone of gentle regret. 'Sufficient to the Bell,' he says, 'and to the Collector. I am afraid that I am not satisfied.'".
+  }
+  Action declare_plain_talk(actor: group, site: place) "Declare your goods and your purpose, 'to look about', and put it to Mr Prest that nothing more is required" {
+    Speaker prest.
+    Requires able(actor) and company(actor) and at(actor, site) and at(prest, site) and not inCity(actor) and knows(actor, d_bell_rule).
+    Time 15 minutes.
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert inCity(actor). Assert admitted(actor). Assert entered_plain(actor). }
+    Result "Mr Prest listens to you with his pen lifted. 'It is not,' he says at last, 'the way it is generally done.' The Bell, overhead, is as silent as a stone. 'Very well.' The pen comes down.".
+    Otherwise "'No,' says Mr Prest, with some regret. 'I think not.'".
+  }
+
+
+  // ── The Water-Stair ─────────────────────────────────────────────────────────────────────────────────────
+  // A customs-man at the top of the stair. Three ways past him; each leaves the company a different thing.
+  Person ridd "Tam Ridd" at towpath {
+    Role "lighterman, customs-man by courtesy". Ancestry human. Calling warrior. Level 2. Peaceable. Manner acerbic. Pronouns he.
+    Greets "A lighterman with a boathook sits on a bollard at the foot of the Water-Stair, between you and it. 'Handling,' says Tam Ridd, without getting up. 'Everything that comes off the river pays handling. You are not off the river, which is a pity for you. Your best course is to be.'".
+    Greets again "'Still not off the river,' says Tam Ridd.".
+  }
+  Thing stair_rope "the customs-man's rope" on towpath_stairs {
+    State roped blocking "Tam Ridd's rope is stretched across the foot of the Water-Stair, hitched to a bollard. It is a good rope.".
+    State dropped "The customs-man's rope lies coiled on the bollard.".
+  }
+  Action pay_handling(actor: group, site: place) "Pay Tam Ridd four coin 'handling', and be a parcel" {
+    Speaker ridd.
+    Requires able(actor) and company(actor) and at(actor, site) and at(ridd, site) and state(stair_rope, roped) and quantity(actor, gold) >= 4.
+    Time 3 minutes.
+    On success { Decrease quantity(actor, gold) by 4. Assert state(stair_rope, dropped). Assert inCity(actor). Assert entered_water(actor). Assert at(actor, lighter_stairs). }
+    Result "Tam Ridd takes the coins without counting, knocks twice on the bollard with his hook, and lifts the rope. 'Parcels,' he says to the air. 'Three. Unremarkable.' You go up the Water-Stair in the character of freight, past a clerk who has been told to look at the river.".
+  }
+  Action haul_for_stair(actor: group, site: place) "Take a turn on the lighter's winch until the load is off" {
+    Speaker ridd.
+    Requires able(actor) and company(actor) and at(actor, site) and at(ridd, site) and state(stair_rope, roped) and capable(actor, brawn).
+    Time 4.
+    On success { Assert state(stair_rope, dropped). Assert inCity(actor). Assert entered_water(actor). Increase regard(lamprey) by 1. Assert at(actor, lighter_stairs). }
+    Result "A barge has come in with a load nobody wants to be the one to lift. You put your back to the winch with three lightermen and a boy, and the load, in the end, comes. Tam Ridd watches without comment and lifts the rope. 'Lamprey men,' he tells the Stairs, 'don't pay handling.' By the time you have your breath you are at the top, with a black fish chalked on your sleeve.".
+  }
+  Action slip_the_stair(actor: group, site: place) "Wait for the tide to turn and slip up the stair behind a barge" {
+    Requires able(actor) and company(actor) and at(actor, towpath) and state(stair_rope, roped) and capable(actor, stealth).
+    Time 3.
+    Resolve check(actor, stealth, dc_fair).
+    On success { Assert state(stair_rope, dropped). Assert inCity(actor). Assert entered_water(actor). Assert at(actor, lighter_stairs). }
+    Result "The tide turns, the barge swings, and for the space of four breaths the whole of the Stair's attention is on a rope. You are at the top by the time anyone looks round.".
+    Otherwise "Tam Ridd's boathook comes down across the stair, light as a bar of soap, and stays there. 'Not,' he says, 'that way.' You do not try it again today.".
+  }
+
+  // ── The Mortmain road ───────────────────────────────────────────────────────────────────────────────────
+  Person grieve "Obadiah Grieve" at mort_road {
+    Role "hearse-driver, with an onion". Ancestry human. Calling warrior. Level 1. Peaceable. Manner cheerful. Pronouns he.
+    Greets "The hearse-driver finishes his onion and wipes his hands on his black coat. 'Going up to Mortmain, are you? Dead or alive, it's two coin and I don't ask. The dead go in free. They don't get the box, though, it's mine.'".
+    Greets again "'Ah,' says Obadiah Grieve. 'Still above ground.'".
+  }
+  Action ride_hearse(actor: group, site: place) "Ride up in the hearse (two coin; a different companion lies in the box on each trip)" {
+    Speaker grieve.
+    Requires able(actor) and company(actor) and at(actor, site) and at(grieve, site) and quantity(actor, gold) >= 2 and not inCity(actor).
+    Time 20 minutes.
+    On success { Decrease quantity(actor, gold) by 2. Assert inCity(actor). Assert entered_hearse(actor). Assert at(actor, mort_lodge). Increase regard(sovereign) by 1. }
+    Result "You ride up between the yews with the blinds down, two of you in the hearse and one, with a good deal of dignity, in the box. At the lodge-gate the porter doffs his hat to the cortege and does not ask to see a certificate. 'You'll be needing the almshouse,' Grieve says, handing the box down, 'if you want somewhere to sit. Nobody asks questions of the very old.'".
+  }
+  Action mourn_in(actor: group, site: place) "Fall in at the tail of a funeral and walk through the lodge-gate as mourners" {
+    Requires able(actor) and company(actor) and at(actor, mort_road) and not inCity(actor) and capable(actor, performance).
+    Time 20 minutes.
+    Resolve check(actor, performance, dc_fair).
+    On success { Assert inCity(actor). Assert entered_hearse(actor). Assert at(actor, mort_lodge). }
+    Result "There is a funeral going up the drive, with a large family and a larger number of acquaintances; you fall in at the back with your faces arranged. At the gate a widow takes your arm and says that it is wonderful that you came, and you say that it was the least you could do, which is true.".
+    Otherwise "A woman at the end of the cortege looks at you for a long moment and says, 'And how did you know Albert?' You cannot, on the instant, produce an Albert.".
+  }
+  Action pick_wicket(actor: group, site: place) "Pick the lock of the gardeners' wicket in the cemetery wall" {
+    Requires able(actor) and company(actor) and at(actor, mort_road) and not inCity(actor) and capable(actor, lockwork).
+    Time 6.
+    On success { Assert inCity(actor). Assert entered_hearse(actor). Assert at(actor, mort_lodge). }
+    Result "The wicket in the cemetery wall has a lock designed to keep out the dead, which are not good at locks. You are in among the yews before the clock has struck the quarter.".
+  }
+
+  // ── The gap in the Cinderwall ───────────────────────────────────────────────────────────────────────────
+  Person gap_boys "the gap boys" at gap_path {
+    Role "three children with a rope". Ancestry human. Peaceable. Numbers 3. Manner proud. Pronouns they.
+    Greets "Three children are sitting on the wall beside the gap with a rope across their knees. The eldest looks you up and down with great seriousness. 'A copper each to go through,' she says, 'and a copper to be remembered. We don't ask who you are. We're the Cinderwall Mutual.'".
+    Greets again "'Still here,' says the eldest. 'Good for you.'".
+  }
+  Thing gap_rope "the gap boys' rope" on gap_gate {
+    State held blocking "A rope hitched between two nails bars the gap in the Cinderwall, at about the height of a child's idea of dignity.".
+    State lowered "The rope lies on the ground across the gap, in a loop.".
+  }
+  Action pay_gap(actor: group, site: place) "Pay the gap boys a copper a head, to be remembered" {
+    Speaker gap_boys.
+    Requires able(actor) and company(actor) and at(actor, site) and at(gap_boys, site) and state(gap_rope, held) and quantity(actor, gold) >= 1.
+    Time 2 minutes.
+    On success { Decrease quantity(actor, gold) by 1. Assert state(gap_rope, lowered). Assert inCity(actor). Assert entered_gap(actor). Increase regard(wardsfolk) by 1. Assert at(actor, wards_gate). }
+    Result "The eldest drops the rope, solemnly, and writes something with a nail on the wall. 'That's you remembered,' she says. 'Down Salt Lane for the pie, and don't give anyone your real name before the second night.'".
+  }
+  Action charm_gap(actor: group, site: place) "Talk the gap boys round" {
+    Speaker gap_boys.
+    Requires able(actor) and company(actor) and at(actor, site) and at(gap_boys, site) and state(gap_rope, held).
+    Time 6 minutes.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert state(gap_rope, lowered). Assert inCity(actor). Assert entered_gap(actor). Increase regard(wardsfolk) by 1. Assert at(actor, wards_gate). }
+    Result "The eldest listens to you, her head on one side, with the air of a magistrate. 'You'll do,' she says. 'But you owe us. Not a copper. A favour.' She pulls the rope aside as if she were drawing a curtain.".
+    Otherwise "The eldest hears you out. 'That's the worst I've heard this week,' she says, not unkindly. 'A copper, then.'".
+  }
+  Action climb_gap_wall(actor: group, site: place) "Go over the old wall instead, out of sight of the boys" {
+    Requires able(actor) and company(actor) and at(actor, gap_path) and state(gap_rope, held) and capable(actor, climbing).
+    Time 5.
+    On success { Assert inCity(actor). Assert entered_gap(actor). Assert at(actor, wards_gate). }
+    Result "The Cinderwall is glass and slag, and the handholds are fused in. You go over in the grey of the light and drop into a lane of timber houses with a hundred fires glowing in the windows. Nobody has seen you, which is slightly depressing.".
+  }
+
+  // ── The inner mouth of the Arch ─────────────────────────────────────────────────────────────────────────
+  Observe passed_wall near prest when entered_gap(party) and at(party, arch_hall) "Mr Prest looks up. 'You are a good deal wetter than your declaration,' he says, 'and your declaration was nothing.'".
+}

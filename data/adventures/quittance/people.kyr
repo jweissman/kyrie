@@ -1,0 +1,83 @@
+Module quittance "Quittance" {
+  Description "The people the spine and more than one small adventure share. Each is declared here, once; the adventures that need them add Topics, Actions and Observations of their own beside the person, and never redeclare them.".
+
+  // ── The Phoenix ─────────────────────────────────────────────────────────────────────────────────────────
+  Person prewitt "Sedley Prewitt" at prewitt_room {
+    Role "Chief Underwriter of the Phoenix". Ancestry human. Calling mage. Level 4. Trait evoker. Peaceable. Manner stoic. Pronouns he.
+    Known as "a grey man behind a desk" when not knows(party, d_prewitt_met).
+    Greets "A grey man rises from behind the desk as you come in, and does not offer his hand. He is neither tall nor short, neither old nor young; he has the stillness of a clock that has been wound for the last time. 'Sedley Prewitt,' he says. 'You are the people the Arch sent up. Do sit. The chair on the left is mine.'".
+    Greets again "'Ah,' says Sedley Prewitt. 'The adjusters.'".
+  }
+  Discovery d_prewitt_met "You have met Sedley Prewitt, the Chief Underwriter of the Phoenix.".
+  Person ottoline "Ottoline Prewitt" at phoenix_floor {
+    Role "loss-adjuster of the Phoenix". Ancestry human. Calling ranger. Level 3. Peaceable. Manner cheerful. Pronouns she.
+    Greets "A young woman in a plain brown coat looks up from a ledger with a pencil behind her ear and another in her hair. 'You'll be the new adjusters,' says Ottoline Prewitt. 'Thank goodness. The Slate has been jammed for a week and I am, regrettably, the Phoenix's entire response to it.'".
+    Greets again "'Oh good,' says Ottoline. 'Alive.'".
+  }
+  Person pettifer "Cornelia Pettifer" at tables_room {
+    Role "Keeper of the Tables". Ancestry human. Calling mage. Level 3. Trait evoker. Peaceable. Manner stoic. Pronouns she.
+    Greets "A small woman at the far end of the room does not look up. She goes on writing, her lips moving, until she reaches the bottom of a column, and then she lifts her head and sees you with the expression of someone who has been surprised by a door. 'Oh,' says Cornelia Pettifer. 'You are not a clerk.'".
+    Greets again "Cornelia Pettifer looks up and says, 'Four hundred and two,' and then, with some alarm, 'I beg your pardon. Hello.'".
+    Joins "'I will come,' says Cornelia Pettifer, and then, as if someone had said it for her, 'Yes. Good. I will need my pencils.'".
+    Leaves "'I think I had better,' says Cornelia Pettifer, 'be somewhere there are numbers.'".
+  }
+  Person garrity "Captain Garrity" at drill_yard {
+    Role "captain of the Phoenix brigade". Ancestry human. Calling warrior. Level 4. Trait toughness. Peaceable. Manner proud. Pronouns she.
+    Greets "A broad woman in a blue coat the colour of a bruise is standing in the middle of the yard with a leather helmet under one arm and her hair tied up in a brass-buttoned ribbon. 'Garrity,' she says. 'Captain. If you've come about a mark, it's not mine. If you've come about the Lamprey, it's worse than you think.'".
+    Greets again "'You,' says Captain Garrity. It is not clear whether it is a greeting.".
+  }
+  Person tobias "Tobias Pargeter" at pargeter_front {
+    Role "young fireman of the Phoenix". Ancestry human. Calling warrior. Level 2. Trait brave. Uses go. Plans 14 steps. Peaceable. Manner cheerful. Pronouns he.
+    Greets "A young man in a blue coat is standing at the sideboard, looking at a mark nailed on it upside down, with great seriousness. 'I know what it looks like,' says Tobias Pargeter. 'It was meant as a joke.'".
+    Greets again "'You again,' says Tobias, brightening.".
+    Joins "'Right,' says Tobias, and takes his helmet down from its peg. 'I haven't been told not to.'".
+    Leaves "'I'd better go home,' says Tobias. 'My mother will have insured the dinner.'".
+  }
+
+  // ── The Lamprey ─────────────────────────────────────────────────────────────────────────────────────────
+  Person dree "Captain Dree" at dree_room {
+    Role "captain of the Lamprey brigade". Ancestry human. Calling warrior. Level 4. Trait toughness. Peaceable. Manner acerbic. Pronouns he.
+    Greets "A small, spare, weathered man in an oilskin coat sits in a chair that is screwed to the floor, whittling a bung. 'Dree,' he says. 'Ezra Dree. Captain of the Lamprey and River brigade. I know what you've heard about me and it is all true except the parts about the dog.'".
+    Greets again "'Well,' says Captain Dree. 'You haven't drowned.'".
+  }
+
+  // ── The Gas Company ─────────────────────────────────────────────────────────────────────────────────────
+  Person gaunt "Lord Gaunt-Halloran" at board_room {
+    Role "Chairman of the Gas Company". Ancestry human. Calling bard. Level 3. Peaceable. Manner jovial. Pronouns he.
+    Greets "A very large man in a very large coat stands in front of the map of the city with his hands behind him, looking at it as a farmer looks at a field in June. 'Gaunt-Halloran,' he says, in a voice that has been trained to fill a hall. 'Of the Gas Company. We are the future. Do sit down. Do not touch the chandelier.'".
+    Greets again "'Splendid,' says Lord Gaunt-Halloran, and means it, for the moment.".
+  }
+
+  // ── The Bare Wards ──────────────────────────────────────────────────────────────────────────────────────
+  Person skelter "Mr Skelter" at skelter_room {
+    Role "rent-collector for the Bare Wards". Ancestry human. Calling thief. Level 3. Peaceable. Manner grim. Pronouns he.
+    Greets "The grating has a candle behind it, lit, which is against the Ordinance, and a man behind the candle who writes with his left hand and holds a cooling dumpling in his right. He looks at you as one looks at a stain that has not decided whether to spread. 'Rent,' says Mr Skelter. It is not a question. His eyes go to the door you came by, and then, quickly, to a book on the shelf that is no different from the others. 'Nobody with business with me,' he says, 'ever comes by the front.'".
+    Greets again "'Rent,' says Mr Skelter, and turns a page.".
+  }
+
+  // ── Mortmain and the cellars ────────────────────────────────────────────────────────────────────────────
+  Person cray "Pennington Cray" at sov_floor {
+    Role "loss-adjuster of the Sovereign Mutual". Ancestry human. Calling thief. Level 3. Peaceable. Manner acerbic. Pronouns he.
+    Greets "A neat man in a black coat is standing at a counter, tearing a form in two, with great precision, along its fold. 'Cray,' he says. 'Of the Sovereign. Adjuster of annuities. I find that nine in ten are not as alive as claimed. The tenth is usually worse.'".
+    Greets again "'You are still here,' says Pennington Cray. 'I find that restful.'".
+  }
+  Person tench "Dobbin Tench" at cellar_arcade {
+    Role "junior clerk of the Old Exchange". Ancestry human. Calling bard. Level 2. Peaceable. Manner compassionate. Pronouns he.
+    Greets "A young man in sleeve-guards has set up a small desk between two melted pillars and is writing something down with a quick, apologetic scratch of the pen. 'Don't tread on the queue,' says Dobbin Tench, 'please. I mean, you can't; they're not quite there. But they do notice.'".
+    Greets again "'Oh good,' says Dobbin Tench. 'Someone who can see them.'".
+  }
+
+  // ── The hill ────────────────────────────────────────────────────────────────────────────────────────────
+  Person auberon "Auberon Hearn" at hearn_hearth {
+    Role "last Hearthkeeper of Quittance". Ancestry human. Calling cleric. Level 4. Trait vitalist. Peaceable. Manner compassionate. Pronouns he.
+    Greets "An old man sits close by the little hearth in a chair padded with cushions and old coats. He has his hands to the coal. At the sound of the door he looks round with a brilliant, vague, welcoming smile. 'Honora?' he says. 'No. No, of course. How very good of you to come. Are you the coal-men?'".
+    Greets again "'Oh,' says Auberon Hearn, 'you've come back. How kind. I think we've met.'".
+  }
+  Person ianthe "Ianthe Corbett" at corbett_study {
+    Role "surveyor of the Guild". Ancestry human. Calling ranger. Level 3. Uses go. Plans 14 steps. Peaceable. Manner cheerful. Pronouns she.
+    Known as "a woman with a rope on her shoulder" when not knows(party, d_ianthe_met).
+    Greets "A woman is sitting on the desk with her boots on a plan, eating an apple and examining the ceiling with the intensity of someone assessing a dead man's stairs. 'Ianthe Corbett,' she says. 'Surveyor. If it's about a mark, I'll say now that I don't do favours. If it's about a roof, I'll do it for nothing.'".
+    Greets again "'Hello again,' says Ianthe Corbett. 'Have you brought me a roof?'".
+  }
+  Discovery d_ianthe_met "You have met Ianthe Corbett, who surveys the roofs of Quittance.".
+}

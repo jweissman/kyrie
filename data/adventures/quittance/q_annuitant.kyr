@@ -1,0 +1,316 @@
+Module quittance "Quittance" {
+  Description "The Annuitant: Mortmain, an annuity paid for ninety-four years to a woman of a hundred and thirty-one, the adjuster who will stop it on Monday, the almshouse that lives on it, and the grate on the catacomb stair.".
+
+  // ── What the matter is, as a number ─────────────────────────────────────────────────────────────────────
+  // an_status: 0 pending . 1 held (Cray sits on the stop) . 2 secured . 3 deferred (bought, shamed or forged: it
+  // comes undone) . 4 stopped . 5 restored after the stop . 6 exposed (stopped for good).
+  // The stop falls on Monday, day 2, at noon (watch 312). Cray reads it to the seven in the day-room from nine.
+  Measure an_status(group).
+  Relation an_win(group). Relation an_fed(group). Relation an_giving(group). Relation an_trust(group).
+  Relation an_bought(group). Relation an_shamed(group). Relation an_forged(group). Relation an_exposed(group).
+  Relation an_asked_badly(group). Relation an_shame_failed(group). Relation an_read_failed(group).
+  Relation an_policy_had(group). Relation an_lawful(group). Relation an_grate_forced(group).
+  Relation an_slighted_cray(group). Relation an_slighted_sovereign(group). Relation an_wragg_cross(group).
+  Relation an_tea_taken(group).
+
+  Discovery an_claim "The Sovereign Mutual means to stop Mrs Jessamy Oakes's annuity on Monday, at noon: a hundred and thirty-one is not an age, and seven people in the almshouse live on what she is paid.".
+  Discovery an_truth "'Mrs Oakes' is a succession of women of one family. Each takes the name when the last has died, and the present one is nineteen.".
+  Discovery an_wording "The policy pays 'so long as Jessamy Oakes shall be living in her name'. The family has kept it to the letter.".
+  Discovery an_cray_mother "Pennington Cray's mother did the almshouse linen, and lies on the third terrace of Mortmain under a stone with no brass plate.".
+  Discovery an_quill_annuity "The Sovereign's Life Office pays a second annuity, quarterly since the Burning, to 'the household of Honora Quill', on a named life that is left blank.".
+
+  // ── The places I add ────────────────────────────────────────────────────────────────────────────────────
+  Place an_terrace "the third terrace" is room within mort at 0, 2 outdoors.
+  Passage an_row_terrace "the lawn steps" is path between annuity_row and an_terrace taking 3 minutes.
+  Observe an_terrace_scene at an_terrace when true "A lawn of old graves, all of them with their brass plates; the Sovereign's sun, the year and a number. Under a yew one stone has none. The sun on it has been scratched in with a nail, by someone small, and gone over with a nail since, now and then, by someone larger.".
+  Observe an_terrace_grave at an_terrace when true "A pressed bunch of rosemary lies on the stone with no plate. It is not the season for rosemary. Somebody keeps it here, and somebody changes it." teaches an_cray_mother.
+
+  // ── Things that pass ────────────────────────────────────────────────────────────────────────────────────
+  Kind an_policy_k "the Oakes policy" is treasure worth 0 weighing 0 described "A sheet gone the colour of weak tea, in a round clerk's hand that wastes no word and grudges none. The Sovereign's sun is at the head. The sum is to be paid 'to Jessamy Oakes, widow, and to no other, so long as Jessamy Oakes shall be living in her name; and the Mutual shall not ask of her what the poor are not asked, which is proof'.".
+  Item an_policy "the Oakes policy" is an_policy_k at nowhere.
+  Kind an_register_k "the sexton's register of the unclaimed" is treasure worth 0 weighing 0 described "A narrow book of ruled paper, ninety-four years of Wragg's predecessors and Wragg, the names of the dead below the catacomb stair who were never called for. Each has a year, and a line left blank for the day somebody comes.".
+  Item an_register "the sexton's register" is an_register_k at nowhere.
+  Kind an_key_k "the Oakes vault key" like cell_key described "A small brass key on a black ribbon, worn smooth by women's thumbs. It is for the Oakes vault, and the vault is under the catacomb stair.".
+  Item an_oakes_key "the Oakes vault key" is an_key_k at nowhere.
+
+  // ── The Slate, and the lodge ────────────────────────────────────────────────────────────────────────────
+  Observe an_slate at slip_room when day(clock) <= 2 and an_status(party) < 4 "CLAIMS OPEN: Sovereign Mutual v. a hundred and thirty-one years. Adjuster wanted to certify an annuitant at Mortmain before the stop on Monday. The fee is a third of nothing, and the hearse is on the Mutual." teaches an_claim.
+  Observe an_slate_late at slip_room when an_status(party) >= 4 "TOTAL LOSSES: an annuity, stopped at Mortmain. The Sovereign regrets.".
+  Observe an_notice at annuity_row when an_status(party) < 4 "A printed notice is pinned to the gate of the Oakes cottage with a drawing-pin through the Sovereign's sun: ANNUITY OF MRS J. OAKES, AGED 131, WILL BE REVIEWED ON MONDAY AT NOON. THE SOVEREIGN MUTUAL PAYS." teaches an_claim.
+  Observe an_row_stopped at annuity_row when an_status(party) == 4 or an_status(party) == 6 "The shutters on the Oakes cottage are closed. The notice on the gate has been replaced by another, with the same sun: ANNUITY CEASED.".
+  Observe an_alms_cold at alms_room when an_status(party) == 4 or an_status(party) == 6 "The stove has not been lit. Seven shawls sit in seven chairs with the particular patience of people who have been told to expect nothing in writing.".
+  Observe an_alms_warm at alms_room when an_status(party) == 2 or an_status(party) == 5 "The stove is lit, and the kettle is on it, and on the wall beside the leaflets somebody has pinned a drawing of a coal.".
+
+  // ── The clock ───────────────────────────────────────────────────────────────────────────────────────────
+  Rule an_cray_visits when watch(clock) >= 294 and watch(clock) < 312 and an_status(party) == 0 and at(cray, sov_floor) { Assert at(cray, alms_room). }
+  Rule an_cray_back when watch(clock) >= 312 and (at(cray, alms_room) or at(cray, oakes_room)) { Assert at(cray, sov_floor). }
+  Rule an_monday when watch(clock) >= 312 and an_status(party) == 0 says "Somewhere in Mortmain a clerk's pen goes down on a form for the last time, and the Sovereign's sun is struck through." {
+    Set an_status(party) to 4. }
+  Rule an_relents when watch(clock) >= 744 and an_status(party) == 1 says "Pennington Cray signs the stop at last, with a hand that was not steady, and takes it to the Board himself." { Set an_status(party) to 4. }
+  Rule an_undone when watch(clock) >= 864 and an_status(party) == 3 says "The deferment lapses at midnight, as deferments do. The Sovereign's sun is struck through at Mortmain." { Set an_status(party) to 4. }
+  Rule an_forgery_found when watch(clock) >= 864 and an_status(party) == 4 and an_forged(party) and not an_slighted_sovereign(party) {
+    Assert an_slighted_sovereign(party). Decrease regard(sovereign) by 2 or to nothing. }
+  // Cray, remembering, sits on the stop; if it was already struck he reopens the file while the week is young.
+  Rule an_held when arc(cray) >= 1 and an_status(party) == 0 and not an_bought(party) { Set an_status(party) to 1. }
+  Rule an_reopened when arc(cray) >= 1 and an_status(party) == 4 and not an_bought(party) and not an_forged(party) and watch(clock) < 744 {
+    Set an_status(party) to 1. }
+  // A win: the stop is taken off (or put back to rights).
+  Rule an_win_early when an_win(party) and an_status(party) < 4 { Set an_status(party) to 2. Retract an_win(party). }
+  Rule an_win_late when an_win(party) and an_status(party) == 4 { Set an_status(party) to 5. Retract an_win(party). }
+
+  Observe an_cray_ally at sov_floor when arc(cray) >= 2 "Pennington Cray is at his counter, tearing a form with no particular precision, and has put a second cup, which is chipped, on the sill for visitors.".
+  Observe an_cray_held at sov_floor when arc(cray) == 1 and not an_bought(party) "Pennington Cray is at his counter with the Oakes file in front of him, closed, and a hand flat on it, as if it might get up.".
+
+  // ── Pennington Cray, who is paid by the denied claim ───────────────────────────────────────────────────
+  Topic an_cray_what with cray "Ask Cray what he makes of the Oakes annuity" when not an_shamed(party) once {
+    Says "'A hundred and thirty-one,' says Pennington Cray, and tears a form in half along its fold. 'The oldest recorded Englishwoman was a hundred and sixty-nine, and she was a Welshwoman, and wrong. I am paid, you understand, by the denial. It is a cleaner arrangement than you would think. I intend to correct Mrs Oakes on Monday at noon, and I shall do it very gently, in the day-room, so that the seven can hear it at the same time.'".
+    On discuss { Assert knows(actor, an_claim). }
+  }
+  Topic an_cray_knows with cray "Ask Cray whether he believes in Mrs Oakes" when knows(actor, an_claim) and not an_shamed(party) once {
+    Says "'I believe,' says Cray, 'that someone is drinking her tea. I find that the proof of life is a second cup.' He looks at the form in his hand as if it had said it. 'No. You will not move me with evidence. I know what is in that cottage. I have known since my first quarter. The Sovereign does not pay me to know.'".
+  }
+  Action an_cray_ask(actor: group, site: place) "Ask Cray, quietly, with the form put down between you, where his mother is buried" {
+    Speaker cray.
+    Requires able(actor) and company(actor) and at(actor, site) and at(cray, site) and knows(actor, an_cray_mother) and arc(cray) == 0 and not an_asked_badly(actor) and not an_shamed(actor) and an_status(party) < 6.
+    Time 5 minutes.
+    Resolve check(actor, insight, dc_fair).
+    On success { Set arc(cray) to 1. }
+    On failure { Assert an_asked_badly(actor). }
+    Result "Cray puts the form down. He does not do it as a man puts down a form; he does it as a man puts down a child. 'The third terrace,' he says. 'Under the yew. They would not give her a plate, because she was linen and not an annuitant, and so I scratched the sun myself, with a nail, when I was nine, and I have gone over it since.' He looks at the form. 'I have been stopping other people's mothers for twenty-two years,' says Cray. 'It is not that I did not notice.'".
+    Otherwise "Cray looks at you, and at the form, and picks the form up again. 'Ah,' he says. 'You have been to the third terrace.' It is said in the voice he uses to read a stop. 'Good day to you.' He does not tear anything; this is worse.".
+  }
+
+  // The kindness, witnessed: Cray reads the stop in the day-room on Monday morning. Rations given out while he is
+  // there move him a step; the same rations given on another day only warm the seven.
+  Action an_share(actor: group) "Share your rations out among the seven, there in the day-room" {
+    Requires able(actor) and company(actor) and at(actor, alms_room) and quantity(actor, rations) >= 1 and an_status(party) < 6.
+    Time 10 minutes.
+    On success { Decrease quantity(actor, rations) by 1. Assert an_fed(actor). Assert an_giving(actor). }
+    Result "There is no more than a day's bread between you, and you cut it into seven, which is not as easy as it sounds. Nobody thanks you. Seven people accept it at once and with great dignity, as though it had been owing, and Mr Tarbuck says 'WHAT?' and is told, and says 'GOOD', and eats his with his eyes shut.".
+  }
+  Rule an_kind_seen when an_giving(party) and at(party, alms_room) and at(cray, alms_room) and arc(cray) == 0 and not an_shamed(party)
+    says "Pennington Cray watches the bread go round with the form held at his side. When it comes to the chair by the window, where the smallest of the seven has been given the larger half, he looks away at the leaflets on the wall, and says, to nobody, 'My mother cut it like that.' He does not read the stop." {
+    Set arc(cray) to 1. }
+  Rule an_giving_done when an_giving(party) { Retract an_giving(party). }
+
+  // A better bonus: Cray is paid by the denial, and will take a larger one for a smaller trouble.
+  Action an_bonus(actor: group, site: place) "Offer Cray ten coin, as a bonus in place of the denial, to leave the Oakes file shut for a quarter" {
+    Speaker cray.
+    Requires able(actor) and company(actor) and at(actor, site) and at(cray, site) and quantity(actor, gold) >= 10 and arc(cray) == 0 and an_status(party) < 4 and not an_shamed(actor).
+    Time 5 minutes.
+    On success { Decrease quantity(actor, gold) by 10. Assert an_bought(actor). Set arc(cray) to 1. Set an_status(party) to 3. Assert an_slighted_sovereign(actor). Decrease regard(sovereign) by 1 or to nothing. }
+    Result "Cray counts it with his thumb, the way a man counts who was taught by a nun. 'It is not a bribe,' he says. 'It is a bonus in a different currency. I am bound to take whichever is larger.' The ten coin goes into the black coat. 'A quarter,' he says. 'I shall be thinking of what to say to the Board at Michaelmas. You will think of something better. I find that restful.'".
+  }
+
+  // Shaming him: only on Monday morning, in the day-room, in front of the seven.
+  Action an_shame(actor: group) "Ask Cray to read the stop aloud to the seven, one at a time, by name, and look at each" {
+    Speaker cray.
+    Requires able(actor) and company(actor) and at(actor, alms_room) and at(cray, alms_room) and arc(cray) == 0 and an_status(party) == 0 and not an_shame_failed(actor).
+    Time 15 minutes.
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert an_shamed(actor). Set an_status(party) to 3. Assert an_slighted_cray(actor). }
+    On failure { Assert an_shame_failed(actor). }
+    Result "Cray reads. He reads the first name, and the first shawl turns, and he reads the second, and the second shawl turns, and at the fourth, which is Mr Tarbuck, who cannot hear it, and looks up at him anyway with the trust of the deaf, he stops. 'I shall leave it with the Board,' he says, in a voice like a closing drawer, and folds the form and goes, and does not look at you, and will not look at you again.".
+    Otherwise "Cray reads all seven, by name, and looks at each; he has done it before. When he reaches the end he turns the page, and the seven, who have been looked at by a good many men with forms, look at you, rather than him, as the cause.".
+  }
+  // A shamed Cray has no more to say to the company, and will not be asked.
+  Observe an_cray_cold at sov_floor when an_shamed(party) "Pennington Cray is at his counter, tearing a form into very small pieces. He does not look up.".
+
+  // The forged testimonial: the Sovereign asks each year for a physician's certificate that its annuitant is living.
+  Action an_forge(actor: group) "Fill in a spoiled certificate of life for Mrs Oakes, in Dr Ibbotson's hand, and put it on the file" {
+    Requires able(actor) and company(actor) and at(actor, sov_floor) and an_status(party) < 4 and not an_forged(actor) and not an_shamed(actor).
+    Time 20 minutes.
+    Resolve check(actor, deception, dc_hard).
+    On success { Assert an_forged(actor). Set an_status(party) to 3. }
+    On failure { Assert an_forged(actor). Assert an_slighted_cray(actor). Set an_status(party) to 4. Decrease regard(sovereign) by 1 or to nothing. }
+    Result "There is a stack of spoiled certificates under the counter, because the Sovereign's physicians cannot keep from beginning with 'I hereby'. You choose one, and a pen, and the hand of a man who has been signing the same form since the Burning, and put it on the Oakes file where a clerk will find it in the morning. It is a good hand. It is very slightly the wrong shade of doctor.".
+    Otherwise "You have the certificate on the file for as long as it takes Cray to come back from the stairs. He reads it in the doorway without coming in. 'Dr Ibbotson,' he says, 'has been dead for four years. He does not sign with a flourish on the L.' He tears it along its fold, with great precision, and strikes the Oakes line through. 'Monday has been brought forward.'".
+  }
+  Rule an_forged_with_cray when an_forged(party) and an_status(party) == 3 and arc(cray) >= 1 and not an_bought(party) { Set an_status(party) to 2. }
+
+  // The wording, read and laid before him.
+  Action an_press_open(actor: group) "Look for the Oakes policy among the Life Office's deeds" {
+    Requires able(actor) and company(actor) and at(actor, sov_floor) and not an_policy_had(actor) and (holding(actor, adjuster_licence) or arc(cray) >= 1 or capable(actor, lockwork)).
+    Time 20 minutes.
+    On success { Give an_policy to actor. Assert an_policy_had(actor). }
+    Result "The deeds are kept in a press with a lock the size of a snuff-box. You come at it as the company is able: by the licence that entitles you to see a policy you are certifying, or by a word from Cray, or by the thin wire. The Oakes policy is the fourth sheet, and is the only one in the press that has been unfolded in the last year.".
+  }
+  Action an_policy_ask(actor: group, site: place) "Ask Mrs Oakes, as one who has promised to keep her secret, for the family's copy of the policy" {
+    Speaker an_oakes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(an_oakes, site) and an_trust(actor) and not an_policy_had(actor).
+    Time 5 minutes.
+    On success { Give an_policy to actor. Assert an_policy_had(actor). }
+    Result "'It is in the Bible-box,' says Mrs Oakes, in a voice that has not been through an ear-trumpet in its life. 'The Sovereign has one in the press, but this is the one that was read aloud to each of us. You may keep it a day. It is not to go in the fire. Mother put it in the fire once, by mistake, and it came out of the kettle.'".
+  }
+  Action an_read(actor: group) "Read the Oakes policy through, clause by clause, on the bench by the rose" {
+    Requires able(actor) and company(actor) and at(actor, annuity_row) and holding(actor, an_policy_k) and not knows(actor, an_wording) and not an_read_failed(actor).
+    Time 20 minutes.
+    Resolve check(actor, lore, dc_fair).
+    On success { Assert knows(actor, an_wording). Assert knows(actor, d_wording_style). }
+    On failure { Assert an_read_failed(actor). }
+    Result "You read it through, and it will not be a fraud however you look at it. It says what it means. It says it twice, once for the Sovereign and once for the woman, and the second time it says a little more than the first. 'So long as Jessamy Oakes shall be living in her name' means exactly what the family has taken it to mean, and could not have been written by anyone who did not intend it to. It is the most generous sentence you have read in this city, and it is in a clerk's hand.".
+    Otherwise "You read it three times. It is a perfectly good annuity, in a perfectly good hand, and you can see that there is something in the sixth line and you cannot see what.".
+  }
+  Action an_wording_show(actor: group, site: place) "Lay the Oakes policy before Cray, and put your finger on 'in her name'" {
+    Speaker cray.
+    Requires able(actor) and company(actor) and at(actor, site) and at(cray, site) and knows(actor, an_wording) and holding(actor, an_policy_k) and an_status(party) != 2 and an_status(party) != 5 and an_status(party) != 6 and not an_shamed(actor).
+    Time 15 minutes.
+    On success { Assert an_win(actor). Increase regard(sovereign) by 1. }
+    Result "Cray reads it standing. He reads it again, with his lips moving, which nobody has seen. 'In her name,' he says. 'It is a very handsome clause. I could not have drafted it better, and I am paid to dislike drafting.' He puts the form he was holding into the stove. 'On my reading the instrument is satisfied. On the Board's reading it will be satisfied by Friday, once I have explained what satisfied means.' He gives the policy back by its corners. 'I should like to know,' he says, 'who wrote it. It has the air of someone who was not afraid of being taken advantage of.'".
+  }
+  Topic an_tarbuck_read with an_tarbuck "Hand Mr Tarbuck the policy, and ask whether he can make anything of the sixth line" when holding(actor, an_policy_k) and an_read_failed(actor) and not knows(actor, an_wording) once {
+    Says "Mr Tarbuck holds it at arm's length, and then very close. 'IN HER NAME,' he says, to the room, which jumps. 'It's not a hundred and thirty-one, you fool, it's a NAME. My sister had a name for forty years and no one asked HER how old she was.' He hands it back, delighted. 'That's Miss Quill's writing, that is. She never wrote a sentence that wanted to catch you out.'".
+    On discuss { Assert knows(actor, an_wording). Assert knows(actor, d_wording_style). }
+  }
+
+  // The proof, given to the man who does not need it.
+  Action an_expose(actor: group, site: place) "Give Cray the proof he has been waiting for: the present Mrs Oakes is nineteen" {
+    Speaker cray.
+    Requires able(actor) and company(actor) and at(actor, site) and at(cray, site) and knows(actor, an_truth) and an_status(party) < 6 and an_status(party) != 2 and an_status(party) != 5.
+    Time 10 minutes.
+    Grave "Told to Cray, it is told to the Sovereign; there is no taking it back, and the seven live on that annuity.".
+    On success { Set an_status(party) to 6. Assert an_exposed(actor). Increase regard(sovereign) by 1. Retract an_trust(actor). Assert an_wragg_cross(actor). }
+    Result "'Nineteen,' says Cray. He writes it on the form, which is a new one, and there is the particular silence of a man who has been handed what he already had. 'It is very kind. It makes the file shorter.' He seems about to say something else and does not. 'The stop will be effective from the quarter-day. I shall see that the girl is not prosecuted. I do not promise the rest.'".
+  }
+  Topic an_cray_books with cray "Ask Cray what the Life Office's books say of the Quills" when arc(cray) >= 2 once {
+    Says "'You are not asking as the Sovereign's adjuster,' says Cray. 'I am not answering as one.' He takes you to a press that is not the one with the deeds, and turns the key with his back to the door. 'A second annuity. Quarterly, since the Burning, to the household of Honora Quill. The life named on it is blank. The sum is called for by a boy from the hill, who signs with a drawing of a coal.' He closes it. 'I have never been asked why we pay it. It is paid. I find that, on the whole, I like the Sovereign for it.'".
+    On discuss { Assert knows(actor, an_quill_annuity). }
+  }
+
+  // The tea: Cray comes to the parlour, and the girl takes off the shawls.
+  Action an_bring_cray(actor: group, site: place) "Ask Cray if he will take tea with Mrs Oakes, as an annuitant's guest and not the Sovereign's man" {
+    Speaker cray.
+    Requires able(actor) and company(actor) and at(actor, site) and at(cray, site) and arc(cray) == 1 and not an_bought(actor) and an_trust(actor) and an_status(party) != 6 and not an_tea_taken(actor).
+    Time 20 minutes.
+    On success { Assert at(cray, oakes_room). Retract at(cray, site). }
+    Result "'Tea,' says Cray. 'I have been in that parlour fifty times and I have never once been offered the tea.' He puts his hat on, and takes it off again, and carries it in his hand the whole length of the Row.".
+  }
+  Topic an_shawls_off with an_oakes "Ask Mrs Oakes to put the ear-trumpet down, with Cray there to see" when at(cray, oakes_room) and arc(cray) == 1 and an_trust(actor) once {
+    Says "Mrs Oakes puts down the ear-trumpet. She takes off the cap, and the first shawl, and the second, and the third, and she is nineteen, with a long plait and an expression of enormous steadiness. 'I am the sixth,' says Tamsin Oakes. 'I am sorry about the trumpet. It was my great-aunt's.' Cray looks at her for a long time. Then he sits down in the chair that is not the great chair, and she pours him tea in the second cup, which is the one that has always been poured for whoever came before. 'Miss Oakes,' he says, 'the policy says living in her name.' 'Yes,' says Tamsin. 'We read it every quarter-day.' 'Then I do not see,' says Pennington Cray, 'that there is anything whatever to stop.'".
+    On discuss { Set arc(cray) to 2. Assert an_win(actor). Assert witness(cray). Assert an_tea_taken(actor). Increase regard(sovereign) by 2. }
+  }
+
+  // ── Mrs Oakes, the sixth, who is nineteen ──────────────────────────────────────────────────────────────
+  Person an_oakes "Mrs Jessamy Oakes" at oakes_room {
+    Role "annuitant of the Sovereign Mutual, aged 131 on the policy". Ancestry human. Calling bard. Level 1. Peaceable. Manner cheerful. Pronouns she.
+    Greets "An ear-trumpet rises out of the shawls, followed by a cap, and then, at some interval, by a voice that has been practised. 'EH?' says Mrs Jessamy Oakes. 'WHO IS IT? IS IT THE VICAR? I HAVE BEEN WAITING FOR THE VICAR SINCE THE REFORM BILL.'".
+    Greets again "'EH?' says Mrs Oakes, and the second cup, at her elbow, rattles in its saucer.".
+  }
+  Topic an_shout with an_oakes "Shout a greeting into the ear-trumpet" when not an_trust(actor) once {
+    Says "'THE EARL OF CHESTERFIELD DIED OF IT,' says Mrs Oakes, with great satisfaction, to a question you did not put. 'MY FATHER SAID SO. MY FATHER WAS A CHANDLER. I HAD HIM IN THE FIRE.' A pause. 'I MEAN THE FIRE HAD HIM. I AM VERY OLD.' This is delivered a little too quickly, as one says a line learnt.".
+  }
+  Topic an_cup with an_oakes "Ask whom the second cup is for" when not an_trust(actor) once {
+    Says "'THE VICAR,' says Mrs Oakes. She moves the tray, a little, so that the cup is behind the teapot. It is not the movement of a woman of a hundred and thirty-one; it is the movement of a girl moving a cup.".
+  }
+  Action an_see(actor: group, site: place) "Look past the shawls at Mrs Oakes's hands, and at how the second cup is poured" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(an_oakes, site) and not knows(actor, an_truth).
+    Time 10 minutes.
+    Resolve check(actor, insight, dc_fair).
+    On success { Assert knows(actor, an_truth). }
+    Result "The hands in the mittens are not a hundred and thirty-one. They are nineteen, and bitten at the nail. The second cup has been poured, as a cup is poured for a guest, and set a little to the side, with its handle turned toward the chair that nobody is in. You understand that you are being given tea by a girl in a cap, and that the second cup is for the one who had the name before her.".
+    Otherwise "A very old lady looks at you out of her shawls with eyes that may be a little brighter than they ought to be. There is nothing you can put your finger on. She nods, deafly, to a question you did not ask.".
+  }
+  Topic an_tell_girl with an_oakes "Tell her you know, and that you mean her family no harm" when knows(actor, an_truth) and not an_trust(actor) and an_status(party) != 6 once {
+    Says "The ear-trumpet goes down in her lap. 'Oh, thank God,' says the girl, in an entirely different voice, and rubs her back with both hands. 'Tamsin. Tamsin Oakes. I am the sixth. My great-aunt was the fifth, and she died in March, and Mother says that nobody in the Mutual has seen Mrs Oakes since the Jubilee but the doctor, and the doctor is a Quill's cousin.' She looks at the second cup. 'It is the policy. It says in her name. Mrs Oakes is a name, and we keep it. The Mutual pays the seven because we cannot eat a hundred and thirty-one years of it ourselves.'".
+    On discuss { Assert an_trust(actor). }
+  }
+  Topic an_why_oakes with an_oakes "Ask Tamsin why the family did not simply say so" when an_trust(actor) once {
+    Says "'And be asked for proof,' says Tamsin. 'It is a policy for a widow, whom the Mutual shall not ask for proof. I should be asked for proof of a thing I cannot prove. I would be a girl of nineteen asking for eleven pounds a quarter.' She takes the cap from the arm of the chair and puts it on, without looking, as one puts on a face. 'I am a very good Mrs Oakes. I have been practising since I was nine.'".
+  }
+  Topic an_key_ask with an_oakes "Ask whether the Oakes vault under the catacomb stair might be visited" when an_trust(actor) and not holding(actor, an_key_k) once {
+    Says "'Mother and the aunts are down there,' says Tamsin. 'The five, and the first, who was the real one.' She gets up and goes to the Bible-box, and comes back with a brass key on a ribbon. 'It opens the grating, from the top, for the family. You will bring it back. Say my name, if you meet anyone, and tell them it is for the sixth Mrs Oakes, who sends her respects to the first.'".
+    On discuss { Give an_oakes_key to actor. }
+  }
+
+  // ── The almshouse's seven ───────────────────────────────────────────────────────────────────────────────
+  Person an_mawdsley "Mother Mawdsley" at alms_room {
+    Role "eldest of the seven". Ancestry human. Calling cleric. Level 1. Peaceable. Manner stoic. Pronouns she.
+    Greets "A woman in the chair nearest the stove does not get up. 'You'll be wanting the Row,' says Mother Mawdsley. 'We don't get visitors, in the day-room, unless they've come with a form. Have you come with a form?'".
+    Greets again "'Ah,' says Mother Mawdsley. 'You haven't a form. Sit.'".
+  }
+  Person an_tarbuck "Mr Tarbuck" at alms_room {
+    Role "the deafest of the seven". Ancestry human. Peaceable. Manner jovial. Pronouns he.
+    Greets "A very old man with an ear-trumpet of his own, rather larger than anybody's, turns it toward you like a gun. 'WHAT?' says Mr Tarbuck.".
+    Greets again "'WHAT?' says Mr Tarbuck, and beams.".
+  }
+  Topic an_mawd_seven with an_mawdsley "Ask Mother Mawdsley how the seven live" when true once {
+    Says "'On Mrs Oakes,' says Mother Mawdsley. 'The Mutual pays the almshouse by way of her. She brings it in a pudding-basin, quarter-day, and we take it out with a spoon. It is not a thing we say. Where would we go? The Sovereign owns the roof.' She looks at the stove. 'Monday, they tell us. At noon. They have always been very punctual about the end of things.'".
+    On discuss { Assert knows(actor, an_claim). }
+  }
+  Topic an_mawd_cup with an_mawdsley "Ask Mother Mawdsley who looks after Mrs Oakes, and for whom the second cup is" when an_fed(actor) and not knows(actor, an_truth) once {
+    Says "She looks at the bread, and at the door, and then at you. 'You have been fair,' she says. 'It's the girl. It has always been a girl. When one dies the next one is told, and she puts on the cap, and the cup is for the one that went. Tamsin is the sixth.' She takes your wrist for a moment, with a hand like a clothes-peg. 'It's a name, you see. It's only ever been a name. They have been very careful of it.'".
+    On discuss { Assert knows(actor, an_truth). }
+  }
+  Topic an_tarbuck_cray with an_tarbuck "Ask Mr Tarbuck about the neat man in black who reads the stop" when true once {
+    Says "'WHAT?' says Mr Tarbuck. You ask again. 'THAT'S LITTLE PEN CRAY,' he says. 'HIS MOTHER DID THE LINEN. SHE'S ON THE THIRD TERRACE, UNDER THE YEW, AND THEY WOULDN'T GIVE HER A PLATE.' He taps his chest. 'I CARRIED HER.'".
+    On discuss { Assert knows(actor, an_cray_mother). }
+  }
+  Topic an_mawd_kin with an_mawdsley "Ask Mother Mawdsley if any of her people were in the Burning" when true once {
+    Says "'My mother's mother's mother,' says Mother Mawdsley. 'Lettice Gorringe, a widow, who had a sideboard. She stood in a queue at the Exchange to be told what she was owed, and the Exchange fell on the queue. We never had a grave to take her to.' A pause. 'I believe the family has been waiting to be told what she was owed for rather longer than the Sovereign has been waiting to stop Mrs Oakes.'".
+    On discuss { Assert knows(actor, qu_descendant). }
+  }
+  Topic an_mawd_hearth with an_mawdsley "Ask Mother Mawdsley whether the almshouse would keep a hearth lit for the Night" when an_status(party) == 2 or an_status(party) == 5 once {
+    Says "'We have a coal,' says Mother Mawdsley, 'in the stove, which has not been let out since the Burning, and nobody has ever said so, because the Sovereign would say it was a fire risk.' She looks round at the six. 'There's none of us can carry it far. But there's seven of us here, and we can keep a stove. Send us a coal on the night and we shall sit by it until it's done.'".
+    On discuss { Assert keeper(mort). }
+  }
+  Topic an_mawd_refuse with an_mawdsley "Ask Mother Mawdsley whether the almshouse would keep a hearth lit for the Night" when an_status(party) != 2 and an_status(party) != 5 once {
+    Says "'There'll be no hearth in this house,' says Mother Mawdsley, 'while we are waiting to be put out of it. Come and ask when you have done what you can.'".
+  }
+
+  // ── The sexton, and the grate on the catacomb stair ────────────────────────────────────────────────────
+  Person an_wragg "Josiah Wragg" at catacomb_head {
+    Role "sexton of Mortmain". Ancestry human. Calling warrior. Level 2. Peaceable. Manner grim. Pronouns he.
+    Greets "A man in a clean smock is sitting on an upturned barrow by the grating, shelling peas into his hat. 'Wragg,' he says. 'Sexton. You'll be lost. Nobody comes down this end but the family, and they've a key.'".
+    Greets again "'Still lost,' says Josiah Wragg, not unkindly.".
+  }
+  Topic an_wragg_stair with an_wragg "Ask the sexton about the stair" when true once {
+    Says "'It goes where the unclaimed go,' says Wragg. 'Under the stair, there's a vault, and the vault's full of the Burning's dead that nobody called for, stacked by year. Ninety-four years, and every label says UNCLAIMED. I take them flowers on the day.' He looks at the grating. 'I'd sooner it stayed shut. I'd sooner still it was visited by somebody who'd say their names. There's a clerk at the bottom, so they tell me, with a book. I have a register. Nobody has ever taken it to him.'".
+  }
+  Topic an_wragg_register with an_wragg "Promise Wragg you will carry his register of the unclaimed to the clerk below, and bring it back marked" when not an_wragg_cross(actor) and not promiseMade(an_wragg_promise) once {
+    Says "Wragg wipes his hands on his smock, and reaches into the barrow, and brings out a narrow book wrapped in a Sovereign leaflet. 'Forty-one names with no claimant,' he says. 'He'll know them or he won't. Bring it back with a mark against the ones he knows. And mind the grating; it's older than the stair.' He turns the key on his belt in the lock, and does not look to see if you have gone down.".
+    On discuss { Give an_register to actor. Assert promiseMade(an_wragg_promise). Assert sextonLeave(actor). }
+  }
+  Topic an_wragg_friend with an_wragg "Remind Wragg what you did for the seven" when (an_status(party) == 2 or an_status(party) == 5) and not sextonLeave(actor) and not an_wragg_cross(actor) once {
+    Says "'The almshouse has been telling me,' says Wragg. 'Mother Mawdsley says there was a neat man in black who didn't stop it.' He stands up, and the peas go down in a hat. 'The stair is not mine to give, but the key is. Go down. Mind your lamp.'".
+    On discuss { Assert sextonLeave(actor). }
+  }
+  Promise an_wragg_promise "to carry the sexton's register to the clerk below and bring it back marked" to an_wragg
+    kept when qu_register_given(party) "Wragg has the register back across his knee, and turns the pages, and does not say anything for some time."
+    broken when day(clock) >= 8 and not qu_register_given(party) "Somewhere in Mortmain a sexton looks at an empty barrow, and goes on shelling peas." { Assert an_wragg_cross(party). Retract sextonLeave(party). }.
+
+  Rule an_register_thanks when qu_register_given(party) and not an_register_thanked(party) { Assert an_register_thanked(party). Increase regard(sovereign) by 1. }
+  Relation an_register_thanked(group).
+
+  Thing an_grate "the grating over the catacomb stair" on catacomb_stair {
+    State locked blocking "A low iron grating shuts the stair under the worn sun, with a padlock that has been oiled and a hasp that has not.".
+    State open "The grating stands open on its hinge, and the cold comes up out of the stair like a held breath.".
+    Change pick "Pick the padlock" from locked to open needing lockwork at catacomb_head.
+    Change wrench "Wrench the grating off its staples" from locked to open needing brawn at catacomb_head.
+    Change family "Unlock the grating with the Oakes vault key" from locked to open needing an_oakes_key at catacomb_head.
+  }
+  Action an_rite(actor: group) "Say the burial office over the worn sun, and let the grating be a door" {
+    Requires able(actor) and company(actor) and at(actor, catacomb_head) and state(an_grate, locked) and capable(actor, rites).
+    Time 15 minutes.
+    Resolve check(actor, rites, dc_fair).
+    On success { Assert state(an_grate, open). Assert an_lawful(actor). }
+    Result "The sun over the grating is a funeral seal under the wear: the Sovereign buried its dead under it, and the office still answers. You say the words you would say over any of the unclaimed. The padlock opens, as though a hand on the other side had been waiting for the last word.".
+    Otherwise "You say the office, and mean it, and the sun does not stir. A wren looks down at you from the wall.".
+  }
+  Action an_sexton_opens(actor: group, site: place) "Ask Wragg to unlock the grating for you" {
+    Speaker an_wragg.
+    Requires able(actor) and company(actor) and at(actor, site) and at(an_wragg, site) and state(an_grate, locked) and sextonLeave(actor).
+    Time 5 minutes.
+    On success { Assert state(an_grate, open). Assert an_lawful(actor). }
+    Result "Wragg unlocks the padlock and hangs it on the hasp, for show. 'It makes it a visit,' he says, 'and not a trespass.'".
+  }
+  Action an_key_lawful(actor: group) "Say the sixth Mrs Oakes's name at the grating, and unlock it" {
+    Requires able(actor) and company(actor) and at(actor, catacomb_head) and state(an_grate, locked) and holding(actor, an_key_k).
+    Time 5 minutes.
+    On success { Assert state(an_grate, open). Assert an_lawful(actor). }
+    Result "'For the sixth Mrs Oakes,' you say, to the grating, 'who sends her respects to the first.' The key turns on its own warmth. It seems that is what the lock was waiting to be told.".
+  }
+  Rule an_grate_damage when state(an_grate, open) and not an_lawful(party) and not an_grate_forced(party) says "Behind you, as the grating gives, a man sets down a hat of peas." {
+    Assert an_grate_forced(party). Assert an_wragg_cross(party). Assert an_slighted_sovereign(party). Decrease regard(sovereign) by 1 or to nothing. }
+  Observe an_grate_scene at catacomb_head when true "The worn sun over the grating is a funeral seal, you can see now, under the wear: the Mutual put its dead under it, and a rim of lettering round it says IN LIFE AND AFTER.".
+  Observe an_foot_scene at catacomb_foot when true "Against the wall by the slot a bronze plate has been set, so old it has gone to the colour of the bones: OAKES, with a row of five names under it, and above them, in a plainer hand, the first.".
+}

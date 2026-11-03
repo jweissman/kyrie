@@ -1,0 +1,185 @@
+Module quittance "Quittance" {
+  Description "Prewitt, Ottoline and Miss Pettifer, and the people of Candlewick Court and Gasket Yard: the levers on a man who wrote the Tables, the clerk who found the paradox, and the people to be warned.".
+
+  Relation employed(group). Relation kinUsed(group). Relation witnessUsed(group). Relation sumUsed(group). Relation lampUsed(group).
+  Relation ottolineSees(group). Relation shawlAsked(group). Relation prewittTurned(group). Relation prewittHardened(group).
+  Measure ottolineTrust(group). Measure pettiferTrust(group).
+
+  // ── Ottoline Prewitt ────────────────────────────────────────────────────────────────────────────────────
+  Topic ottoline_work with ottoline "Ask Ottoline what the Phoenix wants of an adjuster" when true once {
+    Says "'Everything,' says Ottoline Prewitt, 'and nothing it can say aloud.' She pushes a ledger across. 'Mark Street, this morning, is the sort of thing the Phoenix can't help being late for: two brigades and a plate. And my father would like someone from outside to look at our losses. He says that a pair of fresh eyes is cheaper than a pair of tired ones. He does not say why.'".
+    On discuss { Increase ottolineTrust(ottoline) by 1. }
+  }
+  Topic ottoline_employ with ottoline "Accept the Phoenix's commission" when not employed(actor) and ottolineTrust(ottoline) >= 1 once {
+    Says "'There,' says Ottoline, and opens a drawer, and writes. 'Twenty coin on account, a writ you can show to anyone in a blue coat, and my father's undying indifference.' She blots it. 'I should say that it makes you the Phoenix's. People in the Wards will notice. I haven't thought of a way to stop them.'".
+    On discuss { Assert employed(actor). Give writ_item to actor. Increase quantity(actor, gold) by 20. Increase regard(phoenix) by 1. Increase ottolineTrust(ottoline) by 1. }
+  }
+  Item writ_item "a writ of the Phoenix" is phoenix_writ at nowhere.
+  Topic ottoline_father with ottoline "Ask Ottoline about her father" when ottolineTrust(ottoline) >= 1 once {
+    Says "'He is the most honest man I know,' says Ottoline. 'I mean that as an accusation. He has never in his life told a lie, which is why nobody has ever caught him in anything.' She laughs, and stops. 'My mother died in a fire. Mark Street. Nobody's allowed to say her name at the Phoenix, which I think is a kind of mourning.'".
+    On discuss { Increase ottolineTrust(ottoline) by 1. }
+  }
+  Topic ottoline_tables with ottoline "Ask Ottoline about the Tables" when true once {
+    Says "'The Tables are ninety-four years of the city's fires, column on column,' says Ottoline. 'Cornelia Ashby keeps them—' she stops, as at a fence, '—Pettifer. Cornelia Pettifer. Ashby was her mother's name; the clerks call her Ashby because she's from the Ashby side. Don't ask me. Go and see her. She doesn't like to be asked about her columns; she likes to be asked about her pencils.'".
+  }
+  Topic ottoline_come with ottoline "Ask Ottoline to come with you, as the Phoenix's adjuster" when employed(actor) and ottolineTrust(ottoline) >= 3 once {
+    Says "Ottoline thinks about it for exactly as long as it takes to put her pencil behind her ear. 'My father will say I'm being mistaken for a member of the public,' she says. 'Good.'".
+    On discuss { Assert willing(ottoline, actor). Set hire(ottoline) to 0. }
+  }
+  Topic ottoline_show with ottoline "Show Ottoline Skelter's rent-book" when knows(actor, d_skelter_book) and holding(actor, skelter_book) once {
+    Says "Ottoline reads the margin. She reads it again. Her pencil goes back behind her ear and then, absently, into her hair. 'That's his hand,' she says. 'I'd know it on a tombstone.' She closes the book carefully, like a person closing a door on a sleeping child. 'I want to see it,' she says. 'Not a column. The place.'".
+    On discuss { Increase ottolineTrust(ottoline) by 1. }
+  }
+  Rule ottoline_sees_ruin when travelsWith(ottoline, party) and ((at(party, candlewick) and burned(candlewick)) or (at(party, gasket_yard) and burned(gasket_yard)) or (at(party, cinder_ward) and burned(cinder_ward))) and not ottolineSees(party)
+    says "Ottoline stops at the mouth of the lane. She does not say anything. After a time she takes off her glove, and then, as though it had been quite another thing she meant to do, puts it back on." { Assert ottolineSees(party). }
+  Action ottoline_speaks(actor: group, site: place) "Ask Ottoline to speak to her father" {
+    Speaker ottoline.
+    Requires able(actor) and company(actor) and at(actor, site) and at(ottoline, site) and ottolineSees(actor) and not kinUsed(actor) and arc(prewitt) < 3 and not prewittHardened(actor).
+    Time 1.
+    On success { Assert kinUsed(actor). Increase arc(prewitt) by 1. }
+    Result "'Not tonight,' says Ottoline, 'and not here.' She goes up the stair to the Chief Underwriter's room with a ledger under her arm, as she has gone every morning for four years. The door closes. You wait on the counting-floor among the hundred clerks, who go on writing. Some while later the door opens, and she comes out, and her face is quite blank and her eyes are quite wet, and she does not say what he said, only: 'He asked whether I'd eaten.' Then she sits down at her desk and begins, very quietly, to work.".
+  }
+
+  // ── Sedley Prewitt ──────────────────────────────────────────────────────────────────────────────────────
+  Topic prewitt_hello with prewitt "Give your names, and say who sent you" when true once {
+    Says "'The Arch sent you,' says Prewitt, 'and Ottoline wrote to me. It comes to the same thing.' He looks at each of you in turn, without hurry, and you have the feeling of being quietly priced. 'I do not need an explanation of why you are here. I should like to know whether you are the sort of person who answers questions that were not asked.'".
+    On discuss { Assert knows(actor, d_prewitt_met). }
+  }
+  Topic prewitt_work with prewitt "Ask what the Phoenix needs" when knows(actor, d_prewitt_met) once {
+    Says "'A little attention,' says Prewitt. 'The Phoenix has paid out fewer claims every year for forty years and it finds it cannot enjoy it. The Tables are in order. The city is in order. I should like someone to tell me whether the Tables are lying, or whether the city is. Ottoline will give you a writ.'".
+  }
+  Topic prewitt_tables with prewitt "Ask whether the Tables could be wrong" when knows(actor, d_prewitt_met) and not knows(actor, d_tables_paradox) once {
+    Says "'They are ninety-four years of arithmetic,' says Prewitt. 'Arithmetic is the one thing I have never found to be wrong. It has been, on occasion, unwelcome.'".
+  }
+  Topic prewitt_tables_paradox with prewitt "Put the paradox to him: the Wards, unmarked, burn least" when knows(actor, d_tables_paradox) once {
+    Says "For the first time, Prewitt looks away: at the lamp, at the window, at the shawl on the chair. 'Yes,' he says. 'You have found the one curve in the Tables I have never been able to explain to a Board.' He is quiet. 'I should be very grateful if you would stop looking.'".
+  }
+  Action ask_shawl(actor: group, site: place) "Ask whose shawl it is, on the other chair" {
+    Speaker prewitt.
+    Requires able(actor) and company(actor) and at(actor, site) and at(prewitt, site) and not shawlAsked(actor).
+    Time 5 minutes.
+    Resolve check(actor, insight, dc_fair).
+    On success { Assert shawlAsked(actor). }
+    On failure { Assert shawlAsked(actor). }
+    Result "'My wife's,' says Prewitt. 'Margery.' He does not move his eyes from the window. 'She kept a coal in the kitchen. A mere habit of her mother's; she lit the range from it every morning, and was rather ashamed of it, because the Ordinance had come in. She let it out the winter I became Chief Underwriter. I told her it was only prudent. In March the kitchen burned.' He stops. 'I tell you this because it is in the Phoenix's records, and you will read it. That is the whole of the matter.' He is quite steady. You think he might be, in some fashion, grateful to have been asked.".
+    Otherwise "'It is a shawl,' says Prewitt. 'It belongs to someone who is not here.' He turns a page. He does not say anything more about it, and the room goes on being as cold as it was.".
+  }
+  Action lamp_for_margery(actor: group, site: place) "Light the cold lamp on his desk with a Lent coal, for Margery" {
+    Speaker prewitt.
+    Requires able(actor) and company(actor) and at(actor, site) and at(prewitt, site) and quantity(actor, coal) >= 1 and shawlAsked(actor) and not lampUsed(actor) and arc(prewitt) < 3 and not prewittHardened(actor).
+    Time 5 minutes.
+    Grave "A coal given here is a coal not laid in a ward. It will not come back.".
+    On success { Decrease quantity(actor, coal) by 1. Assert lampUsed(actor). Increase arc(prewitt) by 1. }
+    Result "You open the tin on his desk. The coal ticks; the room smells of ash and bread. Prewitt watches you take the glass chimney off the lamp and set the coal to the wick, and says nothing, and does not stop you, and does not help. The wick takes. A small yellow flame stands up in the cold lamp, gently, like someone getting to their feet, and he lets out a breath he must have been holding for six years. 'Thank you,' he says, in a voice quite unlike the one before. He does not put the lamp out.".
+  }
+  Action put_the_sum(actor: group, site: place) "Put Miss Pettifer's General Average to him: the Offices shall share a loss, in daylight, and no one in it" {
+    Speaker prewitt.
+    Requires able(actor) and company(actor) and at(actor, site) and at(prewitt, site) and knows(actor, d_tables_paradox) and arc(pettifer) >= 1 and not sumUsed(actor) and arc(prewitt) < 3 and not prewittHardened(actor).
+    Time 20 minutes.
+    On success { Assert sumUsed(actor). Increase arc(prewitt) by 1. }
+    Result "It is one sheet in Cornelia Pettifer's small hand, with a column of the Offices down the left side. Prewitt reads it standing up. When he comes to the foot of it he sits down, and reads it again, from the top, with his pencil. 'It is,' he says at last, 'a better sum.' He sounds, for the first time, faintly aggrieved. 'The Cinder Ward evacuated, burned in daylight, the loss shared by all five Offices pro rata. Nobody dies. The Fire is paid.' He taps the page. 'This is cheaper. I would have found it in three years if I had not been so certain.'".
+  }
+  Action threaten_prewitt(actor: group, site: place) "Tell Prewitt you will put his list on the Slate" {
+    Speaker prewitt.
+    Requires able(actor) and company(actor) and at(actor, site) and at(prewitt, site) and knows(actor, d_prewitt_appoints) and arc(prewitt) < 3 and not prewittHardened(actor).
+    Time 5 minutes.
+    Grave "A man told he will be exposed does not become kinder.".
+    On success { Assert prewittHardened(actor). Decrease regard(phoenix) by 2 or to nothing. }
+    Result "'Do,' says Prewitt. The word comes out with no weight at all. 'Chalk it on the Slate. Take it to the Five. They will ask you to produce the man who wrote it, and the man who wrote it will be myself, and I shall say that it was a prudent reserve against a catastrophe. They will believe me. They always believe the Tables.' He rises. He looks old, suddenly, and hard. 'I think you had better go. I shall send someone to see that you do.'".
+  }
+  Rule prewitt_turns when arc(prewitt) >= 3 and not prewittTurned(party)
+    says "Sedley Prewitt takes a pen. The nib scratches. He signs, and blots, and rings for a clerk, and says in an unhurried voice, 'The Appointed Losses are suspended. All of them. By my authority.' The clerk stares. 'Is that all, sir?' 'No,' says Prewitt. 'Fetch my hat.'" {
+    Assert prewittTurned(party). Assert appointedHalted(city). Assert witness(prewitt). }
+  Rule prewitt_watches_gasket when watch(clock) >= 810 and watch(clock) < 840 and not appointedHalted(city) and not at(prewitt, gasket_yard) and arc(prewitt) < 3 { Assert at(prewitt, gasket_yard). }
+  Rule prewitt_home when watch(clock) >= 840 and at(prewitt, gasket_yard) { Assert at(prewitt, prewitt_room). }
+  Rule prewitt_watches_cinder when watch(clock) >= 1236 and not appointedHalted(city) and not at(prewitt, cinder_ward) { Assert at(prewitt, cinder_ward). }
+  Observe prewitt_in_yard at gasket_yard when at(prewitt, gasket_yard) and not burned(gasket_yard) "A man in a long grey coat stands at the mouth of the lane in the dark, quite still, with his hands behind him. He is not hiding. It is only that nobody here has ever seen him, and the Wards do not know his face.".
+  Observe prewitt_in_yard_burning at gasket_yard when at(prewitt, gasket_yard) and burned(gasket_yard) "The man in the grey coat has not moved. The light of the burning Yard is on his face, and he watches it exactly as he would watch a column of figures being added.".
+  Action prewitt_witness(actor: group, site: place) "Ask the man in the grey coat to stay, and watch the people on the street" {
+    Speaker prewitt.
+    Requires able(actor) and company(actor) and at(actor, site) and at(prewitt, site) and burned(gasket_yard) and gasketWarned(actor) and not witnessUsed(actor) and arc(prewitt) < 3 and not prewittHardened(actor).
+    Time 20 minutes.
+    On success { Assert witnessUsed(actor). Increase arc(prewitt) by 1. Assert knows(actor, d_prewitt_met). }
+    Result "'You know me,' says Prewitt. 'Yes.' He does not turn. You do not argue. You go and stand beside him, and after a while you say, only, 'Look at them.' There are three hundred people in the lane in their nightclothes, counted twice, standing in the light of their own houses, with their cats, with their clocks. Nobody is screaming. Someone is passing round a heel of bread. He looks for a very long time. 'I had thought they would be fewer,' says Prewitt, in a low voice. 'On paper, they are always fewer.'".
+  }
+
+  // ── Cornelia Pettifer ───────────────────────────────────────────────────────────────────────────────────
+  Topic pettifer_pencils with pettifer "Ask Miss Pettifer what she is drawing" when true once {
+    Says "'Nothing.' Cornelia Pettifer puts her hand over it. 'It is a— a curve. Two. One is the city. One is the other. It is not a thing one shows.' She looks up, anxious. 'I have only the one pencil, and it is nearly gone, which is why they are so faint.'".
+  }
+  Action count_with_pettifer(actor: group, site: place) "Sit down and check her figures with her, column by column" {
+    Speaker pettifer.
+    Requires able(actor) and company(actor) and at(actor, site) and at(pettifer, site) and not knows(actor, d_tables_paradox) and not countedWith(actor).
+    Time 40 minutes.
+    Resolve check(actor, lore, dc_fair).
+    On success { Assert knows(actor, d_tables_paradox). Assert countedWith(actor). Increase pettiferTrust(pettifer) by 1. }
+    On failure { Assert countedWith(actor). }
+    Result "You pull up a stool. She doesn't look at you; she moves the page a little so that you can see it. At first it is only columns. Then you see what she has seen, because she has made it very plain: the Brickfields, marked and mended and watched, burning a little more each year; the Bare Wards, tinder, unwatched, hung with fires, and the line there as flat as a table. She says nothing. She has the look of someone who has put down a heavy thing in front of a stranger and is waiting to be told it is not heavy.".
+    Otherwise "You take her figures one at a time, and every time you reach for a conclusion she is already there, a column ahead, gently waiting. After an hour you have only established that you are not as quick as she is. 'It's quite all right,' she says, with great kindness. 'Nobody is.'".
+  }
+  Relation countedWith(group).
+  Topic pettifer_pencil_gift with pettifer "Give Miss Pettifer a new steel pencil" when holding(actor, steel_pencil) once {
+    Says "Cornelia Pettifer holds the pencil without speaking, turning it over, as one holds an animal that has come to the hand. 'It is a very good pencil,' she says at last, in a smaller voice than before. 'Nobody has ever— The Phoenix issues them in blunt. I shall have to be careful not to use it up.' She draws a line, once, to try it, and the line is exactly as thin as she meant. Then, without being asked, she turns the page round.".
+    On discuss { Spend steel_pencil from actor. Increase pettiferTrust(pettifer) by 2. Assert knows(actor, d_tables_paradox). }
+  }
+  Topic pettifer_ashby with pettifer "Ask why the clerks call her Ashby" when true once {
+    Says "'My mother was an Ashby,' says Cornelia Pettifer. 'The Pettifers are the sort who wouldn't have been counted at all. It's easier to be an Ashby in a clerks' room. It's a little like being a ghost: you get the quiet, and nobody asks you to speak.'".
+  }
+  Topic pettifer_promise_topic with pettifer "Promise to stand beside her when the Five sit" when knows(actor, d_tables_paradox) and pettiferTrust(pettifer) >= 1 once {
+    Says "She goes the colour of the page. 'In the Hall?' she says. 'In front of— with the Chairmen?' She puts both hands flat on the desk, as though the floor had moved. 'If you stood beside me,' she says. 'Not in front. Beside. I could say the numbers. I can say numbers to anyone.'".
+    On discuss { Assert promiseMade(pettifer_stand). Increase arc(pettifer) by 1. Assert willing(pettifer, actor). Set hire(pettifer) to 0. Assert witness(pettifer). }
+  }
+  Promise pettifer_stand "to stand beside Miss Pettifer when the Five sit" to pettifer
+    kept when pettiferSpoke(city) "Cornelia Pettifer, in the Hall, in front of the Five, with the paper trembling in her hand, says the numbers; and does not once look round to see whether you are there, because she knows."
+    broken when hearingOver(city) and not pettiferSpoke(city) "Somewhere in the Exchange, in a low room lit by cold-lamps, a woman puts down a very good pencil and does not pick it up again." { Assert pettiferBroken(party). }.
+  Relation pettiferSpoke(group). Relation hearingOver(group). Relation pettiferBroken(group).
+
+  // ── Candlewick Court and Gasket Yard ────────────────────────────────────────────────────────────────────
+  Person wickersham "Nell Wickersham" at candlewick {
+    Role "washerwoman, keeper of the pump". Ancestry human. Peaceable. Manner stoic. Pronouns she.
+    Greets "A woman is scrubbing a sheet on the rim of the pump with the concentrated hatred of someone who has to get it clean by dark. 'The Court's paid up,' says Nell Wickersham, 'if you're the collector. If you're not, you can hold the other end.'".
+    Greets again "'Hold the other end,' says Nell Wickersham.".
+  }
+  Topic wickersham_chalk with wickersham "Ask what the number on the pump means" when true once {
+    Says "'A man chalked it on Tuesday,' says Nell. 'Not our man. A clerk-sort, with a stamp. I scrubbed it off and it was back in the morning. It's a date, I think. I never was good with dates.'".
+  }
+  Action warn_candlewick(actor: group, site: place) "Tell Nell the Court will burn on the second night, and to get everyone out of it" {
+    Speaker wickersham.
+    Requires able(actor) and company(actor) and at(actor, site) and at(wickersham, site) and knows(actor, d_candlewick_next) and not candlewickWarned(actor) and not burned(candlewick) and (measureRegardWards(actor) or entered_gap(actor)).
+    Time 15 minutes.
+    On success { Assert candlewickWarned(actor). }
+    Result "Nell listens with the sheet dripping in her hands. Then she wrings it out in one long twist, hangs it on the pump, and goes to the nearest door. 'Right,' she says, over her shoulder. 'Everybody up. We're having a party in the lane.' By dusk every bed in Candlewick Court is stripped, and every pot, and the cat is in a basket. Nobody will say how they were persuaded; the Court only knows that you did not lie.".
+  }
+  Query measureRegardWards(g: group) means regard(wardsfolk) >= 1.
+  Action warn_candlewick_talk(actor: group, site: place) "Tell Nell the Court will burn, and talk her into believing a stranger" {
+    Speaker wickersham.
+    Requires able(actor) and company(actor) and at(actor, site) and at(wickersham, site) and knows(actor, d_candlewick_next) and not candlewickWarned(actor) and not burned(candlewick) and not measureRegardWards(actor) and not entered_gap(actor).
+    Time 30 minutes.
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert candlewickWarned(actor). }
+    Result "'I've heard the Phoenix say a lot of things,' says Nell. 'You've got the wrong coat for it. Fine.' She goes round the Court with her arms folded, knocking on doors, and by dusk it is empty.".
+    Otherwise "'A stranger comes to the Court and says it'll burn,' says Nell. 'A stranger. I've had that before, and it was a man selling insurance.'".
+  }
+  Person dolly "Dolly Orrimer" at gasket_yard {
+    Role "pump-woman of Gasket Yard". Ancestry human. Peaceable. Manner proud. Pronouns she.
+    Greets "A big woman with her hair in a rag is working the handle of the dry well as if it might still give. 'It hasn't had water since the autumn,' says Dolly Orrimer. 'I pump it anyway. It's the principle.'".
+    Greets again "'Nothing yet,' says Dolly Orrimer. 'Same as ever.'".
+  }
+  Action warn_gasket(actor: group, site: place) "Tell Dolly the Yard will burn on the sixth night, and to get everyone out of it" {
+    Speaker dolly.
+    Requires able(actor) and company(actor) and at(actor, site) and at(dolly, site) and knows(actor, d_gasket_next) and not gasketWarned(actor) and not burned(gasket_yard) and (measureRegardWards(actor) or entered_gap(actor) or knows(actor, d_appointed_notice)).
+    Time 15 minutes.
+    On success { Assert gasketWarned(actor). }
+    Result "Dolly reads the notice on the well-head again, aloud, which nobody has done. 'Declared a hazard,' she says. 'Abated.' She drops the pump handle. 'I'm a hazard, am I.' By nightfall the Yard has put its bedding on the cobbles and set out its chairs in rings, and a boy is chalking, on the notice, in large letters, MOVED.".
+  }
+  Topic dolly_notice with dolly "Ask Dolly about the notice on the well" when true once {
+    Says "'Nobody reads,' says Dolly. 'The clerk who pasted it said it was for the sanitary inspector, and we've no sanitary inspector, so we took it as a compliment.'".
+  }
+
+  // ── A kindness, so that a turn is a return (second review C5) ───────────────────────────────────────────
+  Relation prewittBed(group).
+  Topic prewitt_bed with prewitt "Ask whether the Phoenix keeps a bed for the adjusters it sends for" when knows(actor, d_prewitt_met) and not prewittBed(actor) once {
+    Says "Prewitt looks at you for rather a long time. 'It does not,' he says. 'It ought. A guest is owed a bed; it is the oldest rule of the trade, older than the marks.' He takes eight coin from a drawer, counts it twice, and pushes it across the desk with one finger, as if it might be hot. 'Mrs Pudsey at the Hen will not ask you for a reference. Do not tell Ottoline I did this. She would think I was ill.'".
+    On discuss { Assert prewittBed(actor). Increase quantity(actor, gold) by 8. }
+  }
+}

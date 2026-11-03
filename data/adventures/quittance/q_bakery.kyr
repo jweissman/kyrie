@@ -1,0 +1,237 @@
+Module quittance "Quittance" {
+  Description "Tolliver's bakery: an oven that fails the Smokeless Ordinance because it draws, and the reason it draws.".
+
+  // ══ The survey, and the cover ═════════════════════════════════════════════════════════════════════════════
+  // The Phoenix's Inspector of Flues surveys Tolliver's oven at noon on the second day (watch 312). The cover lapses
+  // at midnight the day after (watch 384) unless something has been satisfied. The oven keeps a Lent coal, and the
+  // flue is not what draws it: fix the flue and the coal goes out.
+  Entity bk_bakery: group "Tolliver's bakery".
+  Relation bk_pass(group). Relation bk_judged(group). Relation bk_failed(group). Relation bk_lapsed(group).
+  Relation bk_coal_dead(group). Relation bk_helped(group). Relation bk_bread(group). Relation bk_reprieved(group).
+  Relation bk_flue_wrecked(group). Relation bk_ianthe_there(group). Relation bk_flash_told(group).
+  // What the company did, said by name for the Hearing to read.
+  Relation bk_flue_fixed(group). Relation bk_bribed_gudgeon(group). Relation bk_exempt(group). Relation bk_registered(group).
+  Relation bk_trusted(group). Relation bk_by_bread(group). Relation bk_by_ianthe(group). Relation bk_own_mark(group).
+  Relation bk_ianthe(group). Relation bk_g_asked(group). Relation bk_gwen_told(group). Relation bk_coal_known_dead(group).
+  Query bk_lives() means not bk_coal_dead(bk_bakery).
+
+  Discovery bk_survey "Tolliver's oven is to be surveyed under the Smokeless Ordinance at noon on the second day, and the bakery's cover lapses the day after unless it passes.".
+  Discovery bk_claim "The Slate has a claim chalked on it: a bakery in Brick Lane, an oven, an Inspector, and a Monday.".
+  Discovery bk_bread_hint "Mr Gudgeon of the Phoenix has not eaten a decent loaf since his mother died, and writes FAIL where he is hungry.".
+  Discovery bk_clause "The Smokeless Ordinance has a clause for ancient hearths, number forty-four, by application to the Committee of Exceptions, with evidence of antiquity.".
+
+  Thing bk_oven "Tolliver's oven" at bakehouse {
+    State bk_breathing "The oven sits in the back wall with its mouth banked, a low red light under a skin of ash, drawing steadily through a flue that goes up behind the wall to a chimney which nobody has swept in living memory and which has never smoked.".
+    State bk_cold "The oven sits in the back wall with its door shut. It draws exactly as the Ordinance requires, and it is warm, as an oven is warm that has been lit and not lived in. The red light under the ash is gone.".
+  }
+  Initially Assert state(bk_oven, bk_breathing).
+
+  // ── The people ──────────────────────────────────────────────────────────────────────────────────────────
+  Person bk_gwen "Gwen Tolliver" at bakehouse {
+    Role "baker, widow of Hal Tolliver". Ancestry human. Calling monk. Level 2. Peaceable. Manner stoic. Pronouns she.
+    Greets "A tall woman in a floury apron is turning loaves out of the peel onto a rack with the speed of habit. She has a Brick Lane voice laid carefully over something older, and it slips on the vowels when she is tired. 'Gwen Tolliver,' she says, not stopping. 'If you're from the Phoenix the flue is in the back. If you're from the Lamprey, I haven't any ships.'".
+    Greets again "'Mind the peel,' says Gwen Tolliver, and moves a tray out of your way without looking.".
+  }
+  Person bk_granny "Old Mother Tolliver" at bakehouse {
+    Role "Hal Tolliver's mother, in the chimney-corner". Ancestry human. Calling cleric. Level 1. Peaceable. Manner compassionate. Pronouns she.
+    Greets "In the chimney-corner beside the oven sits a very small old woman in four shawls, with her hands held out to the brick, as to a person. 'Mind,' she says, quite loud. 'It's resting.' Then, to the oven, 'They're nobody. They'll go.'".
+    Greets again "'It's resting,' says Old Mother Tolliver, to you, not unkindly.".
+  }
+  Person bk_gudgeon "Mr Gudgeon" at phoenix_floor {
+    Role "Inspector of Flues for the Phoenix". Ancestry human. Calling thief. Level 1. Peaceable. Manner acerbic. Pronouns he.
+    Greets "A small round man with a ten-foot rule under one arm, a ledger under the other and a candle in his hat is writing something in the margin of a form with the gravity of a man signing a treaty. 'Gudgeon,' he says. 'Flues. Chimneys also, but flues chiefly. I have been in four hundred and eleven kitchens this year, and I have not been offered a seat in one.'".
+    Greets again "'You,' says Mr Gudgeon, in a voice from which hope has been removed by degrees.".
+  }
+  Person bk_brundle "Mr Brundle" at phoenix_floor {
+    Role "Secretary of the Committee of Exceptions". Ancestry human. Calling bard. Level 2. Peaceable. Manner stoic. Pronouns he.
+    Greets "A very neat clerk at a small desk, under a brass plate that says EXCEPTIONS, has before him a form, a blotter and a single dried pea. 'Brundle,' he says. 'Secretary. The Committee sits on the last Thursday of each month, and has not sat since the Ordinance. I do, however, receive applications. It is the pleasure of my life.'".
+    Greets again "'Ah,' says Mr Brundle, and squares the pea.".
+  }
+
+  // ── What can be seen, said, and read ────────────────────────────────────────────────────────────────────
+  Observe bk_smell at brick_lane when true "Under the smell of polish and coal-smoke, the warm bread smell of a real oven comes up Brick Lane from a shop with a bow window, and has done so since five.".
+  Observe bk_shop_notice at tolliver_shop when true "A printed notice is pinned to the end of the counter with a hat-pin: THE SMOKELESS ORDINANCE. THESE PREMISES WILL BE SURVEYED, THE SECOND DAY, AT NOON. IN DEFAULT OF A SATISFACTORY FLUE THE COVER LAPSES AT MIDNIGHT THE DAY FOLLOWING. By order. An apprentice at the till, who is about eleven, tells you without being asked that Mrs Tolliver is in the back and that it is very bad." teaches bk_survey.
+  Observe bk_bakehouse_cold at bakehouse when bk_coal_dead(bk_bakery) "The bakehouse is warm and quiet and has an air of being on its best behaviour. The loaves are good. Gwen Tolliver does not hum.".
+  Observe bk_bakehouse_wrecked at bakehouse when bk_flue_wrecked(bk_bakery) "A drift of soot lies across the floor from the flue-door, and a brick has been laid out on the peel as if for burial.".
+  Observe bk_slate at slip_room when watch(clock) < 312 "CLAIMS OPEN: TOLLIVER'S, Brick Lane. A survey: oven, flue, the Smokeless Ordinance. Noon, the second day. The client says it draws; the Inspector says it cannot. Fee: a loaf a week, and the thanks of the lane. An adjuster is wanted who is good with a flue or with a surveyor." teaches bk_claim.
+  Observe bk_slate_lapsed at slip_room when bk_lapsed(bk_bakery) "PREMIUMS: the Phoenix withdraws its mark from a bakery in Brick Lane. FIXTURES: unscrewing, a.m.".
+  Observe bk_door_lapsed at tolliver_shop when bk_lapsed(bk_bakery) and not bk_own_mark(party) "Over Tolliver's door there is a pale square where the Phoenix's bird was, and two screw-holes. The apprentice has stuck a paper bird in the window, which fools nobody and gives satisfaction.".
+  Observe bk_door_own at tolliver_shop when bk_lapsed(bk_bakery) and bk_own_mark(party) "Over Tolliver's door a bird is nailed where the Phoenix's was, a little too high, a little too gilt, and correct to the last feather.".
+  Observe bk_door_stands at brick_lane when bk_lapsed(bk_bakery) and bk_lives() "Tolliver's has no mark over its door, and its bow window is bright and its chimney is drawing, and every other house in the lane has glanced at it once and then not.".
+  Observe bk_flash_scene at bakehouse when bk_flash_told(bk_bakery) "The ceiling above the flue is scorched in a long black tongue. A Phoenix certificate has been pinned beside it, clean and new: DAMAGE ASSESSED, PAID.".
+  Observe bk_granny_dead near bk_granny when bk_coal_dead(bk_bakery) "Old Mother Tolliver has turned her chair to the wall.".
+  Observe bk_gwen_dead near bk_gwen when bk_coal_dead(bk_bakery) "Gwen Tolliver stands with her hand flat on the oven door, as if listening for something that used to answer.".
+  Observe bk_gwen_lives near bk_gwen when bk_trusted(party) and bk_lives() "Gwen Tolliver has put a loaf aside on the rack with a bit of paper on it. The paper says YOURS in a hand that is learning to be easy.".
+
+  Action bk_read_lore(actor: group) "Wipe the soot from the line cut over the oven mouth, and read it" {
+    Requires able(actor) and company(actor) and at(actor, bakehouse) and not knows(actor, d_oven_coal) and capable(actor, lore).
+    Time 15 minutes.
+    Resolve check(actor, lore, dc_fair).
+    On success { Assert knows(actor, d_oven_coal). Assert knows(actor, d_lent_coal). }
+    Result "The line is cut in the old square hand, worn to a groove, and with the soot off it you can read it by touch: LENT, NOT GIVEN; KEEP IT AND IT KEEPS THE HOUSE. Under it, smaller, in a different chisel: THE FOUNDING HEARTH. HAL'S GRANDFATHER'S GRANDFATHER BANKED HERE. You look at the oven. The oven is looking, you feel, at you.".
+    Otherwise "You get as far as LENT, and a thing that might be a hearth, and the rest of it is a groove with a bird's nest of soot in it. The oven ticks, once, behind its ash.".
+  }
+  Action bk_read_rites(actor: group) "Lay a hand on the stone under the line over the oven mouth, and say what it says" {
+    Requires able(actor) and company(actor) and at(actor, bakehouse) and not knows(actor, d_oven_coal) and capable(actor, rites).
+    Time 15 minutes.
+    Resolve check(actor, rites, dc_fair).
+    On success { Assert knows(actor, d_oven_coal). Assert knows(actor, d_lent_coal). }
+    Result "It is not a line to be read, you find; it is a line to be said, and the stone gives the words to the mouth: lent, not given; keep it and it keeps the house. The oven answers with a small settling in the ash, like a guest accepting a chair.".
+    Otherwise "You say what you think it says. The ash does not settle, and Old Mother Tolliver says, from her corner, quite loud, 'No.'".
+  }
+
+  // ── Gwen, and the old woman ─────────────────────────────────────────────────────────────────────────────
+  Topic bk_g_trouble with bk_gwen "Ask Gwen Tolliver what the matter is" when true once {
+    Says "'The Ordinance,' says Gwen Tolliver, sliding a tray into the rack. 'No open flue within the marked wards that isn't fitted to the pattern, and mine isn't. Hal had the inspector in in nineteen and nobody's been since, which is why the certificate says what it says, I put the date right myself. The man comes the second day at noon, and if he says it doesn't pass I'm uncovered the day after, and a bakery with a fire in it and no mark on the door is not a thing anyone in this lane would stand next to.' She straightens. 'It draws, you see. That's what he'll say is wrong. It draws too well.'".
+    On discuss { Assert knows(actor, bk_survey). }
+  }
+  Topic bk_g_draws with bk_gwen "Ask Gwen Tolliver why the oven draws so well" when knows(actor, bk_survey) once {
+    Says "'It was never taken out,' says Gwen Tolliver. 'That's the only answer I've had. Hal's gran said you don't take that oven out, the way you don't take a tooth out of a living mouth, and nobody ever has. I bank it at night. I don't rake it. My mother always banked hers, and I've never been able to do otherwise.'".
+  }
+  Topic bk_g_mother with bk_gwen "Ask Gwen Tolliver where she learned to bank a fire like that" when bk_helped(party) and not bk_g_asked(party) once {
+    Says "Gwen Tolliver is quiet a moment. 'Salt Lane,' she says, in the older voice. 'In the Wards. We had a tin on the hearth, my mother and me, and I was told what was in it and I thought it was a story. She used to say it had been lent. Nobody in the Wards says anyone owns it.' She looks at the oven. 'I came up to the Brickfields at seventeen with a clean apron and my mouth shut. I don't tell the lane. The tin went out the winter she died, and I never found out what it was that went out of the room.'".
+    On discuss { Assert knows(actor, d_lent_coal). Assert bk_g_asked(party). }
+  }
+  Topic bk_g_tell with bk_gwen "Tell Gwen Tolliver what the line over her oven says" when knows(actor, d_oven_coal) and bk_lives() and bk_helped(party) and not bk_gwen_told(party) once {
+    Says "Gwen Tolliver listens with her hands in the flour. 'Lent,' she says, and then again, as if it were a word in a language she had been told she didn't speak. 'It's lent. It's not my oven. It's a guest.' She takes her hands out of the flour and wipes them, one at a time, slowly. 'Well. I knew that, didn't I,' she says. 'I knew. I didn't know I knew.' She turns the rack so a loaf faces you. 'If anyone wants it lit for them, on a night, they'd better ask me. I'd as soon not be the last person to be asked.'".
+    On discuss { Assert bk_gwen_told(party). Assert bk_trusted(party). Assert coalSource(bakehouse). Assert keeper(brick). }
+  }
+  Topic bk_g_tell_cold with bk_gwen "Tell Gwen Tolliver what the line over her oven says" when knows(actor, d_oven_coal) and bk_lives() and not bk_helped(party) and not bk_gwen_told(party) once {
+    Says "Gwen Tolliver looks at you for a long moment over the peel. 'Is that what it says,' she says. 'And what is it you'd like for telling me?' It is not a question she expects to be answered with a clear conscience, and you find you cannot supply one yet.".
+  }
+  Topic bk_g_tell_dead with bk_gwen "Tell Gwen Tolliver what the line over her oven says" when knows(actor, d_oven_coal) and bk_coal_dead(bk_bakery) and not bk_coal_known_dead(party) once {
+    Says "Gwen Tolliver stands with the peel across her knees. She does not shout. 'Lent,' she says. 'It was lent.' She sits down on the flour-bin, which she has never done in front of anyone. 'And I let a man put a plate in it,' she says. 'For a certificate.' She looks at the oven. It is a good oven. It draws exactly as it should. 'Go on,' she says, gently. 'There's bread for you in the front.'".
+    On discuss { Assert bk_coal_known_dead(party). }
+  }
+  Topic bk_g_cold with bk_gwen "Ask Gwen Tolliver how the oven is" when bk_coal_dead(bk_bakery) and watch(clock) >= 240 once {
+    Says "'It draws,' says Gwen Tolliver, 'by the pattern. The Inspector sent a card. The bread's good. It's been good. I don't know that I can say what's different.' She presses her hand to the brick. 'It doesn't hold the night. I come down at four, and it's gone out, and I light it, and it takes the way a stove takes. I used to come down and it was waiting.'".
+  }
+  Topic bk_g_bread with bk_gwen "Ask Gwen Tolliver what the Inspector is like" when knows(actor, bk_survey) once {
+    Says "'Small,' says Gwen Tolliver. 'Round. He's been in the lane twice this month and he's looked at the loaves the way a man looks at a house he can't afford. He asked my neighbour what she put in her crust. I think he's hungry.'".
+    On discuss { Assert knows(actor, bk_bread_hint). }
+  }
+  Topic bk_gr_share with bk_granny "Share a ration with Old Mother Tolliver in the chimney-corner" when quantity(actor, rations) >= 1 and not knows(actor, d_oven_coal) once {
+    Says "You break a ration in half, and the old woman takes her half with both hands and eats it as slowly as a child. 'Not from here,' she says, 'the bread you've got. Sit.' You sit. For some time nothing is said. Then Old Mother Tolliver says, to the oven, in the sing-song of a lesson learned before reading: 'Lent, not given. Keep it, and it keeps the house. Who banks it eats; who rakes it, doesn't.' She looks at you. 'That's all it says, over the door. People always want it to say more.'".
+    On discuss { Decrease quantity(actor, rations) by 1. Assert knows(actor, d_oven_coal). Assert knows(actor, d_lent_coal). Assert bk_helped(party). }
+  }
+  Topic bk_gr_dead with bk_granny "Ask Old Mother Tolliver what is wrong with the oven" when bk_coal_dead(bk_bakery) once {
+    Says "'It's been told to go,' says Old Mother Tolliver, 'and it went. It's polite. They are.' She does not say who. 'My Hal would have known what to do. He never took anything out of that oven but bread.'".
+  }
+
+  // ── Mr Gudgeon, and the Committee ───────────────────────────────────────────────────────────────────────
+  Topic bk_gud_loaf with bk_gudgeon "Ask Mr Gudgeon what he has had for his breakfast" when true once {
+    Says "'A roll,' says Mr Gudgeon. 'From the Hen. It is grey, and it is damp, and it has a hole in it that goes all the way through. My mother baked on Thursdays. It was always a Thursday, in my recollection; I believe that she baked on other days but I was not there to see.' He writes something in his ledger. 'I do not wish to be understood to complain.'".
+    On discuss { Assert knows(actor, bk_bread_hint). }
+  }
+  Topic bk_gud_clause with bk_gudgeon "Ask Mr Gudgeon whether the Ordinance excepts old hearths" when knows(actor, bk_survey) once {
+    Says "'Clause forty-four,' says Mr Gudgeon, immediately and with great reluctance. 'Hearths of ancient standing. By application to the Committee of Exceptions, with evidence of antiquity. I have seen four hundred and eleven kitchens this year and not one application.' He looks unhappy. 'A person would have to know what the evidence was.'".
+    On discuss { Assert knows(actor, bk_clause). }
+  }
+  Topic bk_gud_bread with bk_gudgeon "Hand Mr Gudgeon a hot loaf from the morning's baking" when bk_bread(party) and not bk_pass(bk_bakery) and not bk_lapsed(bk_bakery) once {
+    Says "Mr Gudgeon holds the loaf for some time. He does not eat it. He looks at it as a man looks at a letter he has been expecting from a place he does not go. Then he breaks the end off and eats it, standing, with his ledger under his arm and his ten-foot rule forgotten against his knee; and when it is gone he says, 'I have been over the flue in my mind. I find that the matter of the draw is a matter of the oven's age, and not of the flue's design, and the Ordinance is silent upon ages.' He writes. 'Pass,' he says, in the voice of a man who has been given leave. 'With a loaf a week, in kind, for the Office's convenience.'".
+    On discuss { Assert bk_pass(bk_bakery). Assert bk_by_bread(party). Assert bk_helped(party). }
+  }
+  Action bk_gud_bribe(actor: group, site: place) "Slip Mr Gudgeon twelve coin in the margin of his ledger" {
+    Speaker bk_gudgeon.
+    Requires able(actor) and company(actor) and at(actor, site) and at(bk_gudgeon, site) and not bk_pass(bk_bakery) and not bk_lapsed(bk_bakery) and quantity(actor, gold) >= 12.
+    Time 5 minutes.
+    On success { Decrease quantity(actor, gold) by 12. Assert bk_pass(bk_bakery). Assert bk_bribed_gudgeon(party). }
+    Result "Mr Gudgeon looks at the coin and then at you with an expression of hurt professional surprise. He writes the sum, and the date, and your names, neatly, in the margin of a different page. 'For the record,' he says. 'In case I should ever be asked.' It passes. It passes in the way a thing does that will be remembered.".
+  }
+  Action bk_committee(actor: group, site: place) "Lodge Form 44-B for an ancient hearth, with the line and the morning's loaf as evidence" {
+    Speaker bk_brundle.
+    Requires able(actor) and company(actor) and at(actor, site) and at(bk_brundle, site) and holding(actor, adjuster_licence) and knows(actor, d_oven_coal) and bk_bread(party) and not bk_pass(bk_bakery) and not bk_lapsed(bk_bakery).
+    Time 20 minutes.
+    On success { Assert bk_pass(bk_bakery). Assert bk_exempt(party). Assert bk_registered(party). Assert bk_helped(party). Increase regard(phoenix) by 1. }
+    Result "Mr Brundle takes Form 44-B, reads each line, and, when he reaches EVIDENCE OF ANTIQUITY, takes the loaf, turns it over, smells it, and enters it as an exhibit. 'Sufficient,' he says, with a catch in his voice. 'Quite sufficient. The oven will be entered in the Register of Excepted Hearths, which is a book I have been keeping for eleven years and have not been allowed to open.' He rubber-stamps something. The stamp is the colour of a good wine. 'It is a pleasure,' says Mr Brundle, 'to be of use.'".
+  }
+  Topic bk_brundle_register with bk_brundle "Ask Mr Brundle who reads the Register of Excepted Hearths" when bk_registered(party) once {
+    Says "'The Chief Underwriter,' says Mr Brundle, 'has a copy sent up annually. He has not yet acknowledged it.' He squares the pea. 'He is, I think, a reader of lists.'".
+  }
+  Topic bk_ianthe_ask with ianthe "Ask Ianthe Corbett to look at the flue on a bakehouse roof, as a favour" when knows(actor, bk_survey) and not bk_ianthe(party) and watch(clock) < 312 once {
+    Says "'A flue?' says Ianthe Corbett, dropping her boots off the plan. 'On a roof? Is it high?' She hears you out, eating the rest of her apple. 'The Guild's word beats an Inspector's, you know. It always has; nobody thinks of it. If it draws and the Ordinance can't say why, a Guild surveyor can put her name to why, if she's seen it, and she can't have seen it unless she's been up. I'll be there at eleven on the day. Don't tell the Inspector. He's very good at looking down.'".
+    On discuss { Assert bk_ianthe(party). }
+  }
+
+  // ── Fixing the flue: the cost is hidden until the line is read ──────────────────────────────────────────
+  Action bk_fix_trap(actor: group) "Take out the old damper and bring the flue to the Ordinance's pattern" {
+    Requires able(actor) and company(actor) and at(actor, bakehouse) and capable(actor, trapwork) and not knows(actor, d_oven_coal) and not bk_pass(bk_bakery) and not bk_flue_wrecked(bk_bakery) and watch(clock) < 384.
+    Time 120 minutes.
+    Resolve check(actor, trapwork, dc_fair).
+    On success { Assert bk_pass(bk_bakery). Assert bk_coal_dead(bk_bakery). Assert bk_flue_fixed(party). Assert state(bk_oven, bk_cold). }
+    On failure { Assert bk_flue_wrecked(bk_bakery). }
+    Result "You draw the old damper, a plate of black iron older than the street, and fit a new one to the pattern in the Ordinance, with a throat and a baffle and a little door that opens one way. The oven goes quiet. It is a small thing, the quiet; you think about it later. Gwen Tolliver, standing at the bakehouse door, looks pleased, and then, somehow, less so.".
+    Otherwise "A brick comes out of the throat that was holding three others. There is a moment of attentive stillness, and then soot. You spend the rest of the morning shovelling it out of the bakehouse, and the oven draws as it did before, which is to say perfectly and against the Ordinance.".
+  }
+  Action bk_fix_trap_k(actor: group) "Take out the old damper and bring the flue to the Ordinance's pattern, though the line says LENT" {
+    Grave "The line over the oven says it is lent and not given. A new damper puts the Ordinance's draw in, and the old guest out, and what has gone from the oven will not be lit again.".
+    Requires able(actor) and company(actor) and at(actor, bakehouse) and capable(actor, trapwork) and knows(actor, d_oven_coal) and not bk_pass(bk_bakery) and not bk_flue_wrecked(bk_bakery) and watch(clock) < 384.
+    Time 120 minutes.
+    Resolve check(actor, trapwork, dc_fair).
+    On success { Assert bk_pass(bk_bakery). Assert bk_coal_dead(bk_bakery). Assert bk_flue_fixed(party). Assert state(bk_oven, bk_cold). }
+    On failure { Assert bk_flue_wrecked(bk_bakery). }
+    Result "You draw the old damper and fit a new one to the pattern. The oven goes quiet, and Old Mother Tolliver, without a word, gets up out of her corner and goes into the shop.".
+    Otherwise "A brick comes out of the throat that was holding three others, and there is soot. Perhaps, you think, it is as well.".
+  }
+  Action bk_fix_brawn(actor: group) "Break out the old throat with a sledge and lay the flue again to the Ordinance's pattern" {
+    Requires able(actor) and company(actor) and at(actor, bakehouse) and capable(actor, brawn) and not knows(actor, d_oven_coal) and not bk_pass(bk_bakery) and not bk_flue_wrecked(bk_bakery) and watch(clock) < 384.
+    Time 120 minutes.
+    Resolve check(actor, brawn, dc_fair).
+    On success { Assert bk_pass(bk_bakery). Assert bk_coal_dead(bk_bakery). Assert bk_flue_fixed(party). Assert state(bk_oven, bk_cold). }
+    On failure { Assert bk_flue_wrecked(bk_bakery). }
+    Result "The old throat comes out in four swings, a hundred years of black brick in a drift on the floor, and you lay the new one to the pattern in the afternoon. The oven goes quiet. It is a small thing, the quiet; you think about it later.".
+    Otherwise "The sledge rings off a stone that was set by someone who meant it. You take half a brick off your own boot, and the oven, behind its ash, draws as it did before.".
+  }
+  Action bk_fix_brawn_k(actor: group) "Break out the old throat with a sledge and lay the flue to the pattern, though the line says LENT" {
+    Grave "The line over the oven says it is lent and not given. A new throat puts the Ordinance's draw in, and the old guest out, and what has gone from the oven will not be lit again.".
+    Requires able(actor) and company(actor) and at(actor, bakehouse) and capable(actor, brawn) and knows(actor, d_oven_coal) and not bk_pass(bk_bakery) and not bk_flue_wrecked(bk_bakery) and watch(clock) < 384.
+    Time 120 minutes.
+    Resolve check(actor, brawn, dc_fair).
+    On success { Assert bk_pass(bk_bakery). Assert bk_coal_dead(bk_bakery). Assert bk_flue_fixed(party). Assert state(bk_oven, bk_cold). }
+    On failure { Assert bk_flue_wrecked(bk_bakery). }
+    Result "The old throat comes out in four swings, and you lay the new one to the pattern. The oven goes quiet, and the old woman in the corner puts her face in her shawls.".
+    Otherwise "The sledge rings off a stone that was set by someone who meant it.".
+  }
+
+  // ── Cooking for the Inspector ───────────────────────────────────────────────────────────────────────────
+  Action bk_bake(actor: group) "Spend the morning at the ovens with Gwen Tolliver, baking, and pay for the flour (3 coin)" {
+    Requires able(actor) and company(actor) and at(actor, bakehouse) and watch(clock) < 312 and not bk_bread(party) and quantity(actor, gold) >= 3.
+    Time 180 minutes.
+    On success { Decrease quantity(actor, gold) by 3. Assert bk_bread(party). Assert bk_helped(party). }
+    Result "You are given an apron and a bowl, and a place at the board where the floor is worn to the shape of a boot. You knead until you stop thinking about the kneading. The first batch comes out of the oven with the crust crackling and Gwen Tolliver, after a moment, tears a heel off one and gives it to you without a word. 'That,' she says, 'is what he wants. He doesn't know it. I'll tell you what I tell the lane: if you can't taste it, you can't mark it.' There are twelve loaves under a cloth, still warm, and you may carry one wherever it is needed.".
+  }
+
+  // ── The mark of one's own ───────────────────────────────────────────────────────────────────────────────
+  Action bk_nail_plate(actor: group) "Nail one of Ma Gedge's plates over Tolliver's door, where the Phoenix's was" {
+    Requires able(actor) and company(actor) and at(actor, tolliver_shop) and bk_lapsed(bk_bakery) and not bk_own_mark(party) and holding(actor, fg_plate_kind).
+    Time 10 minutes.
+    On success { Spend fg_plate_kind from actor. Assert bk_own_mark(party). Assert bk_helped(party). }
+    Result "You nail it up with the apprentice holding the ladder. It is a Phoenix bird, correct to the last feather, and the whole of Brick Lane is looking out of its windows and not looking at it. Gwen Tolliver, in the doorway, says 'It's lovely' in a voice that has not decided what it means.".
+  }
+
+  // ── The clock of the survey ─────────────────────────────────────────────────────────────────────────────
+  Event bk_gud_arrives when watch(clock) >= 306 and not bk_judged(bk_bakery) "At eleven on the second day Mr Gudgeon of the Phoenix goes into Tolliver's with a ten-foot rule, a ledger and a lit candle in his hat, and the bow window is, for a moment, entirely full of apprentice." then {
+    Assert at(bk_gudgeon, bakehouse).
+  }
+  Rule bk_ianthe_stamps when watch(clock) >= 306 and watch(clock) < 384 and bk_ianthe(party) and not bk_ianthe_there(bk_bakery) and not bk_lapsed(bk_bakery) says "A shape comes over the roof opposite the bakehouse and down a rope, and a woman in a roped coat swings in at the flue-door with her boots first, eating an apple. 'Corbett,' says Ianthe, upside down, to the Inspector. 'Guild. Don't stop on my account.' She goes up the flue with a candle and comes back with soot to the elbow and the look of a person who has found something she hopes to be allowed to say. 'It draws by a cause outside the flue,' she announces. 'The Guild so certifies. The Ordinance is silent.' Mr Gudgeon, white as the loaf, writes it down." {
+    Assert at(ianthe, bakehouse). Assert bk_ianthe_there(bk_bakery). Assert bk_pass(bk_bakery). Assert bk_by_ianthe(party). Assert bk_helped(party).
+  }
+  Rule bk_ianthe_home when bk_ianthe_there(bk_bakery) and watch(clock) >= 324 and at(ianthe, bakehouse) { Assert at(ianthe, corbett_study). }
+  Rule bk_noon_pass when watch(clock) >= 312 and not bk_judged(bk_bakery) and bk_pass(bk_bakery) and at(bk_gudgeon, bakehouse) says "Mr Gudgeon closes his ledger, and stamps the cover with the Phoenix's bird, and says to the oven, in the sombre voice of a man making a note for posterity, 'Sufficient.' He goes out into Brick Lane and looks for a moment at the sky." {
+    Assert bk_judged(bk_bakery). Assert at(bk_gudgeon, phoenix_floor).
+  }
+  Rule bk_noon_fail when watch(clock) >= 312 and not bk_judged(bk_bakery) and not bk_pass(bk_bakery) and at(bk_gudgeon, bakehouse) says "Mr Gudgeon holds a candle up the flue and watches the flame lean, steadily, toward the oven as though drawn by the sleeve. 'It draws,' he says, with satisfaction, 'in the face of the Ordinance.' He writes a word in the margin of the form, in capitals, and Gwen Tolliver closes her eyes. 'The cover lapses,' says Mr Gudgeon, 'the day after tomorrow, at midnight. Good day.' At the door, he looks over his shoulder at the loaves, and appears to find something there to forgive. He does not, however, forgive it." {
+    Assert bk_judged(bk_bakery). Assert bk_failed(bk_bakery). Assert at(bk_gudgeon, phoenix_floor).
+  }
+  Rule bk_reprieve when bk_failed(bk_bakery) and bk_pass(bk_bakery) and not bk_reprieved(bk_bakery) and not bk_lapsed(bk_bakery) says "A boy from Phoenix House runs into Tolliver's with a slip for Gwen Tolliver, who reads it twice and puts it behind the till without a word, and then, to the apprentice's alarm, takes it out and kisses it." {
+    Assert bk_reprieved(bk_bakery).
+  }
+  Rule bk_lapse when watch(clock) >= 384 and not bk_pass(bk_bakery) and not bk_lapsed(bk_bakery) says "Two men in blue come to Tolliver's at first light on the third day with a ladder and a screwdriver, and take the bird down from over the door, with great politeness, and leave." {
+    Assert bk_lapsed(bk_bakery).
+  }
+  Rule bk_flash when watch(clock) >= 564 and bk_coal_dead(bk_bakery) and not bk_flash_told(bk_bakery) says "At six on the fourth morning a chimney goes up in Brick Lane: Tolliver's. The Phoenix comes with its engine, the crew sing out the street, and in twenty minutes the bakehouse is a black wet room and the loaves are in the road. The Office pays, with a cheque for the ceiling, and the Inspector of Flues, who is made to attend, writes in his ledger the single word UNAVOIDABLE." {
+    Assert bk_flash_told(bk_bakery).
+  }
+  Objective bk_obj when (knows(party, bk_claim) or knows(party, bk_survey)) and watch(clock) < 312 and not bk_pass(bk_bakery) "Tolliver's oven is surveyed under the Smokeless Ordinance at noon on the second day; unless it passes, the bakery's cover lapses at midnight after. Its flue draws, and Gwen Tolliver does not know why.".
+  Objective bk_obj_late when bk_failed(bk_bakery) and not bk_pass(bk_bakery) and not bk_lapsed(bk_bakery) "The oven failed its survey. The cover lapses at midnight on the third day unless it can still be satisfied.".
+}

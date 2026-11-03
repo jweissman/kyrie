@@ -1,0 +1,80 @@
+Module quittance "Quittance" {
+  Description "The Bell & Slip and the Wayward Hen: the Slate, the adjuster's licence, a bed, and what the Booths sell.".
+
+  // ── The Bell & Slip ─────────────────────────────────────────────────────────────────────────────────────
+  Item licence_card "an adjuster's licence" is adjuster_licence at nowhere.
+  Person sprack "Master Sprack" at slip_room {
+    Role "Master of the Slate". Ancestry human. Calling bard. Level 3. Peaceable. Manner acerbic. Pronouns he.
+    Greets "A very tall, very thin man in a green eyeshade looks down at you over a counter of polished mahogany with a bell on it. 'You are new,' says Master Sprack. 'You are standing in the way of the Slate. Everyone who comes to the Bell & Slip is standing in the way of the Slate; the art is in being somewhere else when it is rewritten.'".
+    Greets again "'Ah,' says Master Sprack. 'The Slate has been asking after you.'".
+  }
+  Person chalk_boy "the chalk boy" at slip_room {
+    Role "boy on the ladder". Ancestry human. Peaceable. Manner cheerful. Pronouns he.
+    Greets "The boy on the ladder holds up a lump of chalk, with enormous pride. 'I do the *Total Losses*,' he says.".
+    Greets again "'Total loss!' the chalk boy cries, to no-one.".
+  }
+  Topic sprack_slate with sprack "Ask Master Sprack how the Slate works" when true once {
+    Says "'Claims,' says Master Sprack. 'Somebody loses a thing, an Office is asked to pay for it, and the Office, which would rather not, hangs the claim on the Slate for any adjuster to take. We pay by the settlement: a third of what the Office saves by your report, or a flat fee in the poorer cases. You are free to take any claim; you are free to be wrong about it. You are not free to be dishonest, which is a privilege of the Offices.'".
+  }
+  Topic sprack_licence with sprack "Ask about a licence" when not holding(actor, adjuster_licence) once {
+    Says "'A licence is six coin, or three if the Arch has your name in its Roll,' says Master Sprack. 'It lets you take claims, enter the premises named in them, and certify a mark. It does not let you do anything else. It is the only thing in the city that is exactly what it says it is.'".
+  }
+  Topic sprack_nolicence with sprack "Ask whether a claim can be taken without a licence" when not holding(actor, adjuster_licence) once {
+    Says "'Of course,' says Master Sprack. 'But nobody will believe you. A licence is a thing that makes people believe you for six coin.'".
+  }
+  Action buy_licence(actor: group, site: place) "Take out an adjuster's licence (6 coin)" {
+    Speaker sprack.
+    Requires able(actor) and company(actor) and at(actor, site) and at(sprack, site) and not holding(actor, adjuster_licence) and not onTheRoll(actor) and quantity(actor, gold) >= 6.
+    Time 10 minutes.
+    On success { Decrease quantity(actor, gold) by 6. Give licence_card to actor. }
+    Result "Master Sprack writes your names on a card in a hand like a row of railings, blots it with a motion like a priest's, and slides it across. 'Do not lose it,' he says. 'You will be amazed how quickly the Slate stops believing in you.'".
+  }
+  Action buy_licence_cheap(actor: group, site: place) "Take out an adjuster's licence (3 coin; the Arch has your name)" {
+    Speaker sprack.
+    Requires able(actor) and company(actor) and at(actor, site) and at(sprack, site) and not holding(actor, adjuster_licence) and onTheRoll(actor) and quantity(actor, gold) >= 3.
+    Time 10 minutes.
+    On success { Decrease quantity(actor, gold) by 3. Give licence_card to actor. }
+    Result "'The Roll of Entrances,' says Master Sprack, 'is a very useful document. It tells me that you are who you said you were. I find that restful.' He writes the card.".
+  }
+
+  // ── The Slate ───────────────────────────────────────────────────────────────────────────────────────────
+  // The Slate is rewritten each morning. Its general news is here; each small adventure chalks its own claim in its own
+  // file, at slip_room, with the days it is open.
+  Observe slate_head at slip_room when true "Over the fireplace the Slate is divided into columns, in chalk: CLAIMS OPEN, CLAIMS TAKEN, TOTAL LOSSES, FIXTURES, PREMIUMS.".
+  Observe slate_day0 at slip_room when day(clock) == 1 "TOTAL LOSSES (today): a hat; a ewe; a principle. FIXTURES: Phoenix v. Lamprey, buckets, the fire-house yard, dawn. PREMIUMS: moved up a farthing.".
+  Observe slate_day1 at slip_room when day(clock) == 2 "TOTAL LOSSES: a barn, a marriage, a lease. FIXTURES: the Providence bowls the Sovereign at skittles, noon. PREMIUMS: moved up a farthing, then down, then up.".
+  Observe slate_day2 at slip_room when day(clock) == 3 "TOTAL LOSSES: a chimney. FIXTURES: an auction of the late Teague's effects, postponed. PREMIUMS: reviewed.".
+  Observe slate_day4 at slip_room when day(clock) == 5 "TOTAL LOSSES: a chimney, a hat-shop, a reputation. FIXTURES: the Smokeless Ordinance is read a third time, and a fourth. PREMIUMS: firm.".
+  Observe slate_day6 at slip_room when day(clock) == 7 "TOTAL LOSSES: a kitchen, a library, a good name. FIXTURES: the Hall of the Five sits on Reckoning, at two; the public is advised that it is not invited. PREMIUMS: nervous.".
+  Observe slate_day7 at slip_room when day(clock) == 8 "RECKONING EVE. Brigades stood to. The Gas Company asks the public to remain indoors. The public, as ever, is advised that it is insured.".
+  Observe slate_day8 at slip_room when day(clock) == 9 "RECKONING. The Receipt will be hung at midnight on the Cinderwall. The Offices will meet in the Hall. Premiums are not quoted today, which has never happened.".
+
+  // ── The Wayward Hen ─────────────────────────────────────────────────────────────────────────────────────
+  Person pudsey "Mrs Pudsey" at hen_taproom {
+    Role "landlady of the Wayward Hen". Ancestry human. Profession innkeeper. Peaceable. Manner jovial. Pronouns she.
+    Greets "A broad woman in an apron stamped with a small gilt bird looks up from a ledger and calls, to the room at large, 'New policy-holders!' A pewter pot is on the bar before you have sat down. 'A bed's four coin, a night, with breakfast,' says Mrs Pudsey. 'It is also fully insured. I mention it because I have never been paid out on a bed, and would be most interested to see it done.'".
+    Greets again "'Still alive,' Mrs Pudsey says. 'I do like to see that.'".
+    Sells rations for 2 coin from 8.
+  }
+  Topic pudsey_hen with pudsey "Ask Mrs Pudsey about the Hen's three burnt policies" when true once {
+    Says "'The first was an accident,' says Mrs Pudsey. 'The second was my husband. The third is on the wall because it is the only one I have ever been sorry about. I have been insured by the Phoenix, the Lamprey and the Providence in my time, and I will tell you what I tell everyone: they are all the same Office, in different hats.'".
+  }
+  Topic pudsey_gossip with pudsey "Ask what the city is saying" when true once {
+    Says "'What it always says,' says Mrs Pudsey. 'That the premiums are too high. That the fires are too few. That's a new one. Last year they said the fires were too many. Everyone's agreed it was better when it was worse.'".
+  }
+
+  Kind steel_pencil "a steel pencil" is gear worth 1 weighing 0 described "A pencil with a steel point that does not break, which will draw a line exactly as fine as you mean it to. The Booths sell them to clerks who have been told that they will not need another.".
+
+  // ── The Policy Booths ───────────────────────────────────────────────────────────────────────────────────
+  Person booth_clerk "the booth clerk" at booths {
+    Role "clerk at the Booths". Ancestry human. Peaceable. Manner cheerful. Pronouns she.
+    Greets "A girl in a paper cap beams at you from a booth hung with rate cards. 'First night in the city!' she says. 'Insure your luggage, your lodging, your nerves?'".
+    Greets again "'Welcome back!' says the booth clerk. 'Have you considered insuring against our being glad to see you?'".
+    Sells torch for 1 coin from 8.
+    Sells rope for 1 coin from 4.
+    Sells bandages for 1 coin from 6.
+    Sells chandlers_candle for 1 coin from 12.
+    Sells steel_pencil for 1 coin from 6.
+    Sells hearn_kindling for 1 coin from 6.
+  }
+}

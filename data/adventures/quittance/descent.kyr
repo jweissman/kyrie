@@ -1,0 +1,521 @@
+Module quittance "Quittance" {
+  Description "The Descent: the cellar stair and the flue, the heat of the Glass City, the glass men who audit, the Strongroom and the Founders' Policy, and the Fire at the Hearth Below.".
+
+  // ══ THE DESCENT (prefix ds_) ═══════════════════════════════════════════════════════════════════════════════
+  // Writes: fireHeard fireFed fireTerms fireTermKeeper fireTermNight fireTermAverage fireSlain fireWrathful.
+  // Declares: returnSaid(party) (the lead's Auberon asserts it). Reads: cellarLeave queueOpen coalNamed* witnessCount.
+
+  Relation returnSaid(group).
+  Relation ds_leave(group). Relation ds_alarm(group). Relation ds_apologist(group). Relation ds_apologised(group).
+  Relation ds_stays(group). Relation ds_night_witnessed(group). Relation ds_termsAsked(group). Relation ds_returned(group).
+  Relation ds_gallery(place). Relation ds_seal_read(group). Relation ds_searched(group). Relation ds_lamp_taken(group).
+  Relation ds_coal_fed(group). Relation ds_read_a(group). Relation ds_read_b(group). Relation ds_coals_given(group).
+  Relation ds_flue_asked(group).
+
+  // ── What the company carries out of it ──────────────────────────────────────────────────────────────────
+  Item ds_key "the Exchange cellar key" is cellar_key at nowhere.
+  Kind ds_cuffs "an auditor's cuffs of heat-glass" is treasure worth 3 weighing 0 described "Two cuffs of smoky glass, still warm, such as the glass clerks wear against their own heat. Worn, they keep the worst of a gallery off the wrist and the blood.".
+  Item ds_cuffs_item "an auditor's cuffs of heat-glass" is ds_cuffs at nowhere.
+
+  // ── The Slate ───────────────────────────────────────────────────────────────────────────────────────────
+  Discovery ds_claim "The Slate carries an old claim, in no one's hand and with no date, on the cellars of the Old Exchange: an account unpaid, claimant 'the occupier'.".
+  Observe ds_slate_claim at slip_room when true "At the bottom of CLAIMS OPEN, below a rust-coloured stain that has been wiped many times, a line has been chalked so long that the chalk has become part of the slate: EXCHANGE CELLARS. AN ACCOUNT, UNPAID. CLAIMANT: THE OCCUPIER. REWARD: TO BE AGREED." teaches ds_claim.
+  Objective ds_obj_claim when knows(party, ds_claim) and not knows(party, d_fire_is_real) "The Slate has an undated claim on the Exchange cellars, filed by 'the occupier'. The cellar door is in the Exchange court.".
+  Objective ds_obj_speak when knows(party, d_fire_is_real) and not fireHeard(party) "Something under the Exchange has been waiting ninety-four years to be paid. The Glass City lies below the Queue, and the Hearth Below at the end of it.".
+  Objective ds_obj_terms when fireHeard(party) and not fireTerms(party) and not fireWrathful(party) and not fireSlain(party) "The Fire has been spoken to. What it counts as payment, and what it would take instead of the Burning, remains to be learned.".
+
+  // ══ THE FIRST WAY DOWN: the Exchange cellar stair ═══════════════════════════════════════════════════════
+  Hazard ds_splinter "the bar of the cellar door, coming apart" means "Deal (1d6) physical damage to ally unless dexterity save against (12).".
+  Thing ds_cellar_gate "the cellar door" on cellar_stair {
+    State ds_locked blocking "At the head of the cellar stair a black iron door is shut, with a bird for a keyhole. It is warm to the hand, and a very little air leans on it from below.".
+    State ds_unlocked "The cellar door stands open on a warm dark, and the stair goes down.".
+    State ds_splintered "The cellar door hangs off one hinge, its bar in pieces on the steps.".
+    Change ds_unlock "Unlock the cellar door with the black key" from ds_locked to ds_unlocked needing cellar_key.
+    Change ds_pick "Work the cellar door's lock with picks" from ds_locked to ds_unlocked needing lockwork.
+    Change ds_force "Put your shoulders to the cellar door until the bar goes" from ds_locked to ds_splintered needing brawn.
+  }
+  Rule ds_leave_opens when cellarLeave(party) and state(ds_cellar_gate, ds_locked) says "Someone at the Exchange has left word with the porter, and the cellar door has been unbarred for you." {
+    Assert state(ds_cellar_gate, ds_unlocked). }
+  Event ds_gate_alarm when state(ds_cellar_gate, ds_splintered) and not ds_alarm(party) "The bar goes with a crack that runs down the whole stair. Far below, in the dark, something in glass turns its head." then {
+    Assert ds_alarm(party). Assert strikes(ds_splinter, party). }
+  Observe ds_gate_looked near cellar_stair when tried(ds_cellar_gate, looking) and state(ds_cellar_gate, ds_locked) "The keyhole is a stamped bird, wings out, the key's bow the exact twin of it. The bar behind the door is oak the colour of iron, and has been oiled this year by someone."  .
+
+  // ══ HEAT ═══════════════════════════════════════════════════════════════════════════════════════════════
+  // The company's heat, 0 to 12, in the galleries. It rises for every watch spent in a hot place at that place's rate,
+  // and falls in the shade rooms and with water. At nine, it scalds. The salamander-glass lantern, the Fire's leave
+  // and the auditors' cuffs keep it off; a ward-focus of copper halves it.
+  Measure ds_heat(group). Measure ds_stamp(group). Measure ds_hurt(group). Measure ds_skins(group).
+  Measure ds_warm(place). Measure ds_cool(place).
+  Hazard ds_scalding "the heat of the Glass City" means "Deal (1d6) fire damage to ally unless constitution save against (12).".
+  Query ds_proofed() means ds_leave(party) or holding(party, salamander_lantern).
+  Query ds_warded() means holding(party, warding_focus) or holding(party, ds_cuffs).
+  Initially Assert ds_gallery(glass_street). Initially Assert ds_gallery(slag_a). Initially Assert ds_gallery(slag_b).
+  Initially Assert ds_gallery(furnace_row). Initially Assert ds_gallery(vault_door). Initially Assert ds_gallery(flue_foot).
+  Initially Assert ds_gallery(vault).
+  Initially Set ds_warm(slag_a) to 1. Initially Set ds_warm(slag_b) to 2. Initially Set ds_warm(furnace_row) to 1.
+  Initially Set ds_warm(vault_door) to 1. Initially Set ds_warm(flue_foot) to 2.
+  Initially Set ds_cool(glass_street) to 1. Initially Set ds_cool(vault) to 1.
+  Rule ds_heats when at(party, ?p) and ds_warm(?p) > 0 and watch(clock) > ds_stamp(party) and not ds_proofed() and not ds_warded() {
+    Increase ds_heat(party) by (watch(clock) - ds_stamp(party)) * ds_warm(?p). }
+  Rule ds_heats_warded when at(party, ?p) and ds_warm(?p) > 1 and watch(clock) > ds_stamp(party) and ds_warded() and not ds_proofed() {
+    Increase ds_heat(party) by (watch(clock) - ds_stamp(party)) * (ds_warm(?p) - 1). }
+  Rule ds_hearth_heats when at(party, hearth_below) and watch(clock) > ds_stamp(party) and not ds_proofed() and not ds_warded()
+    and (state(ds_mood, ds_owed) or state(ds_mood, ds_wary)) {
+    Increase ds_heat(party) by watch(clock) - ds_stamp(party). }
+  Rule ds_cools when at(party, ?p) and ds_cool(?p) > 0 and ds_heat(party) > 0 and watch(clock) > ds_stamp(party) {
+    Decrease ds_heat(party) by (watch(clock) - ds_stamp(party)) * ds_cool(?p) or to nothing. }
+  Rule ds_heat_cap when ds_heat(party) > 12 { Set ds_heat(party) to 12. }
+  Rule ds_scalds when at(party, ?p) and ds_gallery(?p) and ds_heat(party) >= 9 and ds_hurt(party) != watch(clock) {
+    Assert strikes(ds_scalding, party). Set ds_hurt(party) to watch(clock). }
+  Rule ds_stamp_set when watch(clock) > ds_stamp(party) { Set ds_stamp(party) to watch(clock). }
+  Observe ds_heat_warm near party when at(party, ?p) and ds_gallery(?p) and ds_heat(party) >= 4 and ds_heat(party) < 7 "The air has begun to sit on your shoulders. Your sleeves are wet, and the glass underfoot is not cool any more.".
+  Observe ds_heat_hot near party when at(party, ?p) and ds_gallery(?p) and ds_heat(party) >= 7 and ds_heat(party) < 9 "You are breathing through your teeth. The edges of things have begun to shimmer, and a buckle at your belt is too warm to touch.".
+  Observe ds_heat_scald near party when at(party, ?p) and ds_gallery(?p) and ds_heat(party) >= 9 "The heat comes through your boots. Your hair smells of singeing, and every breath is a mouthful of brass.".
+  Action ds_fill(actor: group) "Fill every skin, and soak every hat, at the Exchange's fire-cistern" {
+    Requires able(actor) and company(actor) and at(actor, glass_street) and ds_skins(actor) < 3.
+    Time 10 minutes.
+    On success { Set ds_skins(actor) to 3. }
+    Result "A cistern of black glass stands in the wall of the street, with BREAK IN CASE OF FIRE cut over it and the water still sweet. You fill what holds water, and wet what does not.".
+  }
+  Action ds_douse(actor: group, site: place) "Pour water over your heads and down your collars" {
+    Requires able(actor) and company(actor) and at(actor, site) and ds_gallery(site) and ds_skins(actor) >= 1 and ds_heat(actor) >= 3.
+    Time 2 minutes.
+    On success { Decrease ds_skins(actor) by 1. Decrease ds_heat(actor) by 4 or to nothing. }
+    Result "The water goes over you and turns to steam where it lands. For a few minutes, you can think.".
+  }
+
+  // ══ THE GLASS CITY ═════════════════════════════════════════════════════════════════════════════════════
+  Thing ds_table "the glass table" at glass_street {
+    State ds_laid "A table of glass is laid in a window for four: four plates, four glasses, a tureen with its lid on, all of glass, all fused to the cloth, which is also glass. One chair is pushed back.".
+  }
+  Observe ds_table_looked near ds_table when tried(ds_table, looking) "Under the lid of the tureen there is nothing, but the nothing is steaming. The pushed-back chair is a child's. On the fourth plate, under the glass of the glass, someone has set a coal-shaped smear, as one sets out a place for a guest.".
+  Thing ds_cat "the glass cat" at glass_street {
+    State ds_sat "A cat of clear glass sits in the road with her tail round her feet, looking at the stair you came down.".
+    Tries pushing. Tries listening.
+  }
+  Observe ds_cat_pushed near ds_cat when tried(ds_cat, pushing) "She rings, very sweetly, under your hand, like a finger round a wine glass, and all down the street, one after another, small things in the windows answer. Nothing else moves. You decide not to do that again.".
+  Observe ds_cat_listened near ds_cat when tried(ds_cat, listening) "Inside the glass there is a purr, or a draught.".
+  Discovery ds_note "A clerk of the Old Exchange left a last note on his desk: the Founders' door does not ask for a password. It asks for the last line of the whole thing, said as the notary said it: so long as a coal is kept." {
+    Source ds_note_thing "the clerk's last note" at furnace_row readable by party.
+  }
+  Thing ds_desk "a melted desk" at furnace_row {
+    State ds_melted "One desk has stayed standing in the Row, its legs run down into the floor like candle-wax. A sheet of paper is sealed under its glass top, perfectly legible.".
+  }
+  Observe ds_desk_looked near ds_desk when tried(ds_desk, looking) "The hand is a clerk's, very steady. 'Third day. It does not eat us. It asks. I have been through the door to the Strongroom with Dame Quill: it does not want a password, only the last line of the whole, said as she said it. Quit, and welcome. Mr Aubrey has gone up the flue. I am staying to finish the book.'" teaches ds_note.
+  Thing ds_figures "the figures in the glass" at slag_b {
+    State ds_set "Along the second gallery people are set in the glass, in the attitude of running: clerks, a woman with a child under her coat, two porters with a chest between them. Every one of them has its face to the far end, toward the flue.".
+    Tries listening.
+  }
+  Discovery ds_hand_known "One of the figures in the second gallery has its hand out of the glass, closed on something copper.".
+  Item ds_focus "a copper warding focus" is warding_focus at slag_b hidden until ds_hand_known.
+  Observe ds_figures_looked near ds_figures when tried(ds_figures, looking) "They were not running down, to the Fire. They were running up the flue, away from it, and they ran out of flue. The porters' chest is full of the Exchange's coal-chits, stamped PAID. One woman's hand has come out of the glass at the wrist, closed on something copper." teaches ds_hand_known.
+  Observe ds_figures_listened near ds_figures when tried(ds_figures, listening) "Behind the glass, at the very edge of hearing, a bell is ringing the quarter, as it did on the last day.".
+  Thing ds_lamp "a clerk's glass lamp" at furnace_row {
+    State ds_asleep "On the dead clerk's desk stands a lamp of thick glass, with a grey lump in the bowl where the oil was. It is cold.".
+    State ds_lit "In the bowl of the clerk's glass lamp the grey lump has gone red at the heart, and a thread of light runs through it: a coal, kept in the glass for ninety-four years.".
+    State ds_empty "The glass lamp is empty.".
+    Change ds_lift "Lift the coal out of the clerk's lamp with the tongs" from ds_lit to ds_empty.
+  }
+  Rule ds_lamp_wakes when day(clock) >= 7 and state(ds_lamp, ds_asleep) { Assert state(ds_lamp, ds_lit). }
+  Rule ds_lamp_gives when state(ds_lamp, ds_empty) and not ds_lamp_taken(party) says "The coal comes out of the glass warm and heavy and docile, as a thing does that has been waiting to be asked." {
+    Assert ds_lamp_taken(party). Increase quantity(party, coal) by 1. Set coalExpires(party) to watch(clock) + 144. }
+
+  // ══ THE GLASS MEN ══════════════════════════════════════════════════════════════════════════════════════
+  // Clerical constructs: they audit the Last Stair. They want papers, or their fee; they are fought if nothing else
+  // will do, and slipped past if the company is quiet.
+  Species ds_glassman "a glass man" like golem temperament proud described "A man of dark glass in a clerk's coat, his cuffs smoking, a ledger of glass under one arm and a pen of glass in the other hand. He has no face but the shine on it.".
+  Person ds_glassmen "the glass men" at furnace_row {
+    Role "auditors of the Last Stair". Species ds_glassman. Level 3. Numbers 3.
+    State ds_auditing blocking "At the head of the Last Stair three glass men stand between the furnaces, with their ledgers open.".
+    Guards furnace_hearth.
+    Temperament proud.
+    Warns "The three glass men turn together, with a sound like a drawer of cutlery. The first of them holds out a glass hand, palm up. 'Papers,' it says, in the voice of someone who has been saying it for ninety-four years. 'Or the fee. Six. Or the audit.'".
+    Comes "The glass men close their ledgers, all together, with a sound like three doors. 'Audit,' they say, and come down the Row.".
+  }
+  Initially Set tribute(ds_glassmen) to 6.
+  Initially Assert ds_apologist(ottoline). Initially Assert ds_apologist(garrity).
+  Rule ds_alarm_price when ds_alarm(party) and tribute(ds_glassmen) < 12 { Set tribute(ds_glassmen) to 12. }
+  Action ds_show_licence(actor: group, site: place) "Show the glass men an adjuster's licence" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(ds_glassmen, site) and able(ds_glassmen) and not tolerates(ds_glassmen, actor)
+      and holding(actor, adjuster_licence) and not ds_alarm(actor).
+    Time 2 minutes.
+    On success { Assert tolerates(ds_glassmen, actor). Retract warned(ds_glassmen, actor). }
+    Result "The glass men read the card from corner to corner, and stamp it, in the air, with a pen that leaves nothing. 'Licensed to adjust,' says the first. 'Not licensed to proceed. But you are not carrying anything we can find.' They stand aside, in order.".
+  }
+  Action ds_show_passage(actor: group, site: place) "Show the glass men a Policy of Passage" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(ds_glassmen, site) and able(ds_glassmen) and not tolerates(ds_glassmen, actor)
+      and holding(actor, policy_of_passage).
+    Time 2 minutes.
+    On success { Assert tolerates(ds_glassmen, actor). Retract warned(ds_glassmen, actor). }
+    Result "'Nine days,' reads the second glass man. 'Buried, fished out or put out.' It looks, for a moment, almost wistful. 'Proceed. The Office regrets.'".
+  }
+  Action ds_show_writ(actor: group, site: place) "Show the glass men a writ of the Phoenix" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(ds_glassmen, site) and able(ds_glassmen) and not tolerates(ds_glassmen, actor)
+      and holding(actor, phoenix_writ).
+    Time 2 minutes.
+    On success { Assert tolerates(ds_glassmen, actor). Retract warned(ds_glassmen, actor). }
+    Result "The glass men bow, all three, from the waist, with a noise of fine crockery. A writ of the Phoenix is an audit that has been done by someone else.".
+  }
+  Action ds_show_ledger(actor: group, site: place) "Hand the glass men the Ledger of the Unpaid, for their books" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(ds_glassmen, site) and able(ds_glassmen) and not tolerates(ds_glassmen, actor)
+      and holding(actor, tench_ledger).
+    Time 10 minutes.
+    On success { Assert tolerates(ds_glassmen, actor). Retract warned(ds_glassmen, actor). }
+    Result "They pass it down the line, turning the pages with their pens, and when it has been round the third time the first of them says, with the first emotion you have heard in it: 'Eleven hundred. We had eleven hundred and four.' It hands the book back. 'You are in order.'".
+  }
+  Action ds_show_forged(actor: group, site: place) "Show the glass men a writ of the Lamprey & River Office, a little damp" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(ds_glassmen, site) and able(ds_glassmen) and not tolerates(ds_glassmen, actor)
+      and holding(actor, forged_writ).
+    Time 2 minutes.
+    Resolve check(actor, deception, dc_hard).
+    On success { Assert tolerates(ds_glassmen, actor). Retract warned(ds_glassmen, actor). }
+    On failure { Assert assails(ds_glassmen, actor). }
+    Result "The glass men hold the writ against their own bright faces, and cannot see the damp, which is the one thing a glass man cannot see. 'In order,' they say.".
+    Otherwise "The first glass man puts the writ against its cheek. 'Wet,' it says. 'Audit.'".
+  }
+  Action ds_search_men(actor: group) "Go through the fallen glass men's coats" {
+    Requires able(actor) and company(actor) and at(actor, furnace_row) and dead(ds_glassmen) and not ds_searched(actor).
+    Time 5 minutes.
+    On success { Assert ds_searched(actor). Give ds_cuffs_item to actor. }
+    Result "Under the smoking cuffs of the one who spoke, the glass is double: a second skin, cut thin as a bubble. You take the cuffs off it. They are still warm.".
+  }
+  Observe ds_men_dead near ds_glassmen when dead(ds_glassmen) "The glass men lie in the Row in heaps of bright gravel, their ledgers open under them. Whatever they were auditing, they have finished.".
+
+  // ══ THE STRONGROOM AND THE FOUNDERS' POLICY ═══════════════════════════════════════════════════════════
+  Thing ds_vault_lock "the notarial lock" on vault_in {
+    State ds_sealed blocking "The Strongroom door is shut under a notary's seal. Beneath it is a slot, at the height of a mouth, and the door is listening.".
+    State ds_spoken "The Strongroom door has taken the words, and stands open, and the seal on it is cracked like an egg.".
+    State ds_picked "The Strongroom door stands open, its lock dissolved in its own seal, which has run down it like candle-wax.".
+    State ds_deaf blocking "The Strongroom door is shut, and the slot beneath the seal is cold. It has stopped listening.".
+    Change ds_work "Work the notarial lock with picks, against the seal's heat" from ds_sealed to ds_picked needing lockwork.
+    Change ds_work_deaf "Work the deafened lock with picks, against the seal's heat" from ds_deaf to ds_picked needing lockwork.
+  }
+  Measure ds_wrong(group).
+  Action ds_read_seal(actor: group) "Read the notary's seal by lamplight" {
+    Requires able(actor) and company(actor) and at(actor, vault_door) and capable(actor, lore) and not ds_seal_read(actor).
+    Time 10 minutes.
+    On success { Assert ds_seal_read(actor). }
+    Result "It is cut in a tiny exact hand round the rim: DAME HONORA QUILL, NOTARY. WHAT THE WHOLE WAS FOR SHALL OPEN IT. And, in the middle, where the slot ends, a single worn word where other seals have a motto: WELCOME.".
+  }
+  Action ds_say_right(actor: group) "Say to the door: 'Quit, and welcome.'" {
+    Requires able(actor) and company(actor) and at(actor, vault_door) and state(ds_vault_lock, ds_sealed)
+      and (knows(actor, d_wording_style) or knows(actor, ds_note) or ds_seal_read(actor)).
+    Time 2 minutes.
+    On success { Assert state(ds_vault_lock, ds_spoken). }
+    Result "The slot takes the sentence and holds it a moment, as a mouth holds a sweet. Then something in the door sighs, and lets go.".
+  }
+  Action ds_say_perpetuity(actor: group) "Say to the door: 'In perpetuity, to the Offices and their successors.'" {
+    Requires able(actor) and company(actor) and at(actor, vault_door) and state(ds_vault_lock, ds_sealed).
+    Time 2 minutes.
+    On success { Increase ds_wrong(actor) by 1. }
+    Result "The slot takes it, and the seal goes dull for a moment. A paper-warm breath comes back. It is not the answer, and the door has noted that it was not.".
+  }
+  Action ds_say_paid(actor: group) "Say to the door: 'Paid in full.'" {
+    Requires able(actor) and company(actor) and at(actor, vault_door) and state(ds_vault_lock, ds_sealed).
+    Time 2 minutes.
+    On success { Increase ds_wrong(actor) by 1. }
+    Result "The slot is silent for so long that you think it has gone. Then it exhales, very slightly, through its seams. It was not offended. It was disappointed.".
+  }
+  Action ds_say_guess(actor: group) "Say to the door the words you suppose a notary would have written there" {
+    Requires able(actor) and company(actor) and at(actor, vault_door) and state(ds_vault_lock, ds_sealed) and capable(actor, lore)
+      and not knows(actor, d_wording_style) and not knows(actor, ds_note) and not ds_seal_read(actor).
+    Time 2 minutes.
+    Resolve check(actor, lore, dc_hard).
+    On success { Assert state(ds_vault_lock, ds_spoken). }
+    On failure { Increase ds_wrong(actor) by 1. }
+    Result "You say what a notary would say, if she had been generous: and the slot opens under it like a hand.".
+    Otherwise "You say what a notary would say, if she had been paid by the line, and the slot cools a degree.".
+  }
+  Rule ds_lock_deafens when ds_wrong(party) >= 3 and state(ds_vault_lock, ds_sealed) says "At the third wrong sentence the seal's glow goes out, all at once. The door has stopped listening; it will not be argued with now." {
+    Assert state(ds_vault_lock, ds_deaf). }
+
+  // The Policy: five clauses on the table, read one at a time in any order. Together they teach the company what the
+  // city has forgotten; none of them says it all.
+  Discovery ds_clause_1 "The first clause of the Founders' Policy sets out its parties: Honora Quill, notary, for the City; and, for the other part, 'the Guest of the Hearth'.".
+  Discovery ds_clause_2 "The second clause names the Guest: that which came up from the Exchange cellars on the second night, and was found in the Strongroom, and spoke.".
+  Discovery ds_clause_3 "The third clause lends every hearth that keeps a coal the Guest's protection, and appoints a Return: the coals to be carried home each year, in the form of words 'let it be home, as it was lent'.".
+  Discovery ds_clause_4 "The fourth clause makes what is not given in company owed in kind: 'a hearth for every hearth let out'.".
+  Discovery d_return_3 "The third line of the Return, from the Founders' own paper: 'Quit, and welcome.'".
+  Discovery ds_clause_5 "The fifth clause provides a Receipt, 'a leaf of white fire, so long as the account is square', and where it is not square, the Guest to take its own.".
+  Thing ds_policy "the Founders' Policy" at vault is scenery {
+    State ds_unrolled "On the table the Policy lies unrolled under four weights of black glass: five clauses in a notary's hand, the last of them a little less steady.".
+    State ds_scorched "On the table the Policy lies unrolled under four weights of black glass. The seal's heat has been at it: the middle of the roll is brown and curling, and the last clause is gone to a scorch.".
+  }
+  Rule ds_policy_scorched when state(ds_vault_lock, ds_picked) and state(ds_policy, ds_unrolled) { Assert state(ds_policy, ds_scorched). }
+  Action ds_read_1(actor: group) "Read the clause that names the parties to the Policy" {
+    Requires able(actor) and company(actor) and at(actor, vault) and not knows(actor, ds_clause_1).
+    Time 5 minutes.
+    On success { Assert knows(actor, ds_clause_1). }
+    Result "'Between Honora Quill, Notary, in the name and for the use of the City, and the Guest of the Hearth, in its own name.' There is no Office anywhere in it. Not the Phoenix, not the Sovereign: the Offices are not parties. They are not even mentioned. They are, you realise, the carriers.".
+  }
+  Action ds_read_2(actor: group) "Read the clause that says who the Guest is" {
+    Requires able(actor) and company(actor) and at(actor, vault) and not knows(actor, ds_clause_2).
+    Time 5 minutes.
+    On success { Assert knows(actor, ds_clause_2). }
+    Result "'The Guest being that which came up from the cellars on the second night, and was found by the Notary in this room, and spoke.' Below that, in the same hand, smaller: 'It asked first.'".
+  }
+  Action ds_read_3(actor: group) "Read the clause that lends the hearths their coals" {
+    Requires able(actor) and company(actor) and at(actor, vault) and not knows(actor, ds_clause_3).
+    Time 5 minutes.
+    On success { Assert knows(actor, ds_clause_3). }
+    Result "'Every hearth that keeps a coal of the Founding Hearth shall be the Guest's house, and the Guest shall not burn its own house. At the year's end the coals shall be carried home, and given back lit, with the Return: Let it be home, as it was lent.' The last sentence has a mark in the margin, as for something to be said aloud.".
+  }
+  Action ds_read_4(actor: group) "Read the clause that says what is owed if the hearths go out" {
+    Requires able(actor) and company(actor) and at(actor, vault) and not knows(actor, ds_clause_4).
+    Time 5 minutes.
+    On success { Assert knows(actor, ds_clause_4). }
+    Result "'What is not given in company shall be owed in kind: a hearth for every hearth let out.' It is the only clause with no adjective in it. Nobody has ever called it a tithe. It is a bill.".
+  }
+  Action ds_read_5(actor: group) "Read the clause that promises the Receipt" {
+    Requires able(actor) and company(actor) and at(actor, vault) and not knows(actor, ds_clause_5) and state(ds_policy, ds_unrolled).
+    Time 5 minutes.
+    On success { Assert knows(actor, ds_clause_5). }
+    Result "'The Guest shall give a Receipt, being a leaf of white fire, so long as the account is square. And where it is not square, the Guest shall take its own, and shall be held to have given notice.' A note in the margin, in a different ink, says only: she cannot have thought they would stop.".
+  }
+  Action ds_read_close(actor: group) "Read the closing words cut over the signatures" {
+    Requires able(actor) and company(actor) and at(actor, vault) and not knows(actor, d_return_3).
+    Time 5 minutes.
+    On success { Assert knows(actor, d_return_3). }
+    Result "Over the three signatures, the Notary's, the City's, and a mark that is not a signature but a small burn, in letters larger than the rest, are the closing words: QUIT, AND WELCOME. It is not how a policy ends. It is how a host ends a visit.".
+  }
+  Rule ds_policy_treaty when knows(party, ds_clause_1) and not knows(party, d_treaty_text)
+    says "You have read the Policy's first line three times. The Guest of the Hearth is a party, and not a figure of speech." teaches d_treaty_text { }
+  Rule ds_policy_fire when knows(party, ds_clause_2) and not knows(party, d_fire_is_real)
+    says "It is written down by a notary, as a fact. Something lives under the Exchange." teaches d_fire_is_real { }
+  Rule ds_policy_return when knows(party, ds_clause_3) and not knows(party, d_return)
+    says "A form of words, marked for saying aloud: the Return." teaches d_return { }
+  Rule ds_policy_debt when knows(party, ds_clause_4) and not knows(party, d_tithe_debt)
+    says "It is not a premium. It is a debt of hospitality, owed to someone who is not dead." teaches d_tithe_debt { }
+
+  // ══ THE FIRST FLUE ══════════════════════════════════════════════════════════════════════════════════════
+  Thing ds_flue_gate "the damper of the First Flue" on flue_up {
+    State ds_damper blocking "A great iron damper, rusted into its frame, stops the flue a man's height above the glass. It is stuck from below as well as above; and it is warm, as the inside of a bell is warm.".
+    State ds_drawn "The damper of the First Flue has drawn back on its own, like a lid lifted off a pot, and the flue stands open above: a ladder of glass cogs, and a pinpoint of light.".
+  }
+
+  // ══ THE FIRE ═══════════════════════════════════════════════════════════════════════════════════════════
+  // A courteous creditor, as precise as a bailiff. Its mood is the game: attended, it warms; slighted, it counts.
+  Species ds_fire_kind "the Fire" like red_dragon temperament defensive described "A fire that has outlived its landlords: a red coal in a bed of white ash, and around it, a shape that is only the way the heat stands.".
+  Person ds_fire "the Fire" at hearth_below {
+    Role "the Name Beneath". Species ds_fire_kind. Level 6. Manner stoic. Pronouns it.
+    Lair hearth_below.
+    Greets "The ash stirs. Something in it is as courteous as a bailiff at a door. 'You are late,' says the Fire.".
+    Greets again "'You,' says the Fire. 'Again. Sit, or speak.'".
+  }
+  Initially Assert tolerates(ds_fire, party).
+  Observe ds_fire_sight at hearth_below when true "The coal in the ash is looking at you. It has no eyes, and it is the most attentive thing you have ever stood in front of." teaches d_fire_is_real.
+  Thing ds_mood "the Fire's temper" at hearth_below is scenery {
+    State ds_owed "The Fire holds still, as a creditor does who has opened his book on the table. The heat in the hall is the heat of a sum.".
+    State ds_lonely "The coal has drawn in, and the heat with it. The Fire is not weighing you now; it is listening, and it has not done that in a long time.".
+    State ds_tender "The ash is soft and low and the coal is rosy, like a hearth at the end of a night with company. The Fire has put its ledger away.".
+    State ds_wary "The Fire has stopped looking at your faces. It is looking at the walls, and the doors, and the stair you came by, and the heat has begun to climb.".
+    State ds_wrathful "The white ash is lifting off the floor of the hall. The Fire has stood up.".
+  }
+  Measure ds_accord(group). Measure ds_slight(group). Measure ds_sat(group). Measure ds_satcounted(group). Measure ds_read(group).
+
+  // The parley: what is said to it, and what is laid before it.
+  Topic ds_t_speak with ds_fire "Tell the Fire that you have come to speak with it" when not fireWrathful(party) once {
+    Says "'Who keeps you?' says the Fire. It is not a pleasantry. It is the first line of a form.".
+    On discuss { Assert fireHeard(actor). }
+  }
+  Topic ds_t_owed with ds_fire "Ask the Fire what it is owed" when fireHeard(party) and not fireWrathful(party) once {
+    Says "'Company,' says the Fire. 'It was agreed. A coal in every house, and one night in the year when the houses come to me. I was given a plate on the door, and then the doors were walled.' The coal brightens, and settles. 'I do not complain. I count.'".
+  }
+  Topic ds_t_terms with ds_fire "Ask the Fire what it would take, instead of the Burning" when fireHeard(party) and ds_accord(party) >= 3 and not fireWrathful(party) once {
+    Says "'Instead,' says the Fire. It tastes the word. 'Instead is a thing that is offered. I will hear it.'".
+    On discuss { Assert ds_termsAsked(actor). }
+  }
+  Action ds_sit(actor: group, site: place) "Sit down in the ash with the Fire for an hour, and say nothing" {
+    Speaker ds_fire.
+    Requires able(actor) and company(actor) and at(actor, site) and at(ds_fire, site) and fireHeard(actor) and not fireWrathful(actor).
+    Time 60 minutes.
+    On success { Increase ds_sat(actor) by 1. Decrease ds_slight(actor) by 1 or to nothing. }
+    Result "You sit. The Fire does not speak. After a while the heat settles on you not as an attack, but as a hand on the back, and you understand that you are being counted, one by one, as present.".
+  }
+  Rule ds_sit_counts when ds_sat(party) > ds_satcounted(party) and ds_satcounted(party) < 3 { Increase ds_accord(party) by 1. Increase ds_satcounted(party) by 1. }
+  Rule ds_sit_fed when ds_sat(party) >= 3 and not fireFed(party) says "'Three hours,' says the Fire, to itself. 'Present for three hours.' It writes it down somewhere, and you cannot see where." { Assert fireFed(party). }
+  Action ds_say_return(actor: group, site: place) "Say the Return, over the ash: let it be home, as it was lent" {
+    Speaker ds_fire.
+    Requires able(actor) and company(actor) and at(actor, site) and at(ds_fire, site) and fireHeard(actor) and not fireWrathful(actor) and not ds_returned(actor)
+      and ((capable(actor, rites) and knows(actor, d_return) and knows(actor, d_return_3)) or returnSaid(actor)).
+    Time 10 minutes.
+    On success { Assert ds_returned(actor). Increase ds_accord(actor) by 3. Assert fireFed(actor). }
+    Result "The words are older than the room. When they are said, the coal rises a hand's breadth out of the ash, and every glass thing in the hall rings once, and is still. 'Home,' says the Fire, very quietly, and that is the first thing it has said that was not a demand.".
+  }
+  Action ds_lay_gran(actor: group, site: place) "Lay the Lent coal in the ash, and say whose it was: Pip's grandmother's" {
+    Speaker ds_fire.
+    Requires able(actor) and company(actor) and at(actor, site) and at(ds_fire, site) and fireHeard(actor) and not fireWrathful(actor) and quantity(actor, coal) >= 1 and coalNamedGran(actor).
+    Time 5 minutes.
+    On success { Decrease quantity(actor, coal) by 1. Increase ds_accord(actor) by 3. Assert fireFed(actor). Assert ds_coal_fed(actor). }
+    Result "The Fire takes the coal into itself the way the sea takes a river. 'Hannah,' it says. 'I knew her mother. She never let it out, not once, in the worst winter.' It adds the coal to a column somewhere. 'Tell the child it was received.'".
+  }
+  Action ds_lay_pip(actor: group, site: place) "Lay the Lent coal in the ash, and say whose child keeps it: Pip's" {
+    Speaker ds_fire.
+    Requires able(actor) and company(actor) and at(actor, site) and at(ds_fire, site) and fireHeard(actor) and not fireWrathful(actor) and quantity(actor, coal) >= 1 and coalNamedPip(actor) and not coalNamedGran(actor).
+    Time 5 minutes.
+    On success { Decrease quantity(actor, coal) by 1. Increase ds_accord(actor) by 2. Assert fireFed(actor). Assert ds_coal_fed(actor). }
+    Result "'A child's name,' says the Fire. 'I have not had one of those in a hundred years.' The coal goes into the ash and does not go out. It is a loan returned with a name on it, and it counts.".
+  }
+  Action ds_lay_plain(actor: group, site: place) "Lay the Lent coal in the ash, with nothing said over it" {
+    Speaker ds_fire.
+    Requires able(actor) and company(actor) and at(actor, site) and at(ds_fire, site) and fireHeard(actor) and not fireWrathful(actor) and quantity(actor, coal) >= 1 and not coalNamedPip(actor) and not coalNamedGran(actor).
+    Time 5 minutes.
+    On success { Decrease quantity(actor, coal) by 1. Increase ds_accord(actor) by 1. Assert fireFed(actor). Assert ds_coal_fed(actor). }
+    Result "'Whose?' says the Fire. You do not know. 'A coal with no name is a coal,' it says, after a time. 'A coal with a name is a guest.' It takes it, all the same.".
+  }
+  Action ds_read_names(actor: group, site: place) "Read the Fire the names of the burned from the Ledger, an hour of them" {
+    Speaker ds_fire.
+    Requires able(actor) and company(actor) and at(actor, site) and at(ds_fire, site) and fireHeard(actor) and not fireWrathful(actor)
+      and holding(actor, tench_ledger) and ds_read(actor) < 11.
+    Time 60 minutes.
+    On success { Increase ds_read(actor) by 1. }
+    Result "You read a hundred names, and the date against each. The Fire does not stir, but at every name, the coal, very faintly, ticks.".
+  }
+  Rule ds_read_a_counts when ds_read(party) >= 4 and not ds_read_a(party)
+    says "'Four hundred,' says the Fire. 'I knew the Aldens. I had not known they were four.'" { Assert ds_read_a(party). Increase ds_accord(party) by 2. Assert fireFed(party). }
+  Rule ds_read_b_counts when ds_read(party) >= 11 and not ds_read_b(party)
+    says "The last name is read. The Fire is quiet for as long as it takes a candle to burn down. 'Eleven hundred and four,' it says. 'You have missed one. It is the clerk. He is behind you.'" { Assert ds_read_b(party). Increase ds_accord(party) by 3. }
+  Rule ds_m_wrath when ds_slight(party) >= 3 and not fireWrathful(party)
+    says "'Enough,' says the Fire. It does not raise its voice. The ash goes up in a column to the roof, and the hall is full of the light of a city burning. The Burning has begun." {
+    Assert fireWrathful(party). Assert state(ds_mood, ds_wrathful). Retract tolerates(ds_fire, party). Assert assails(ds_fire, party). }
+  Rule ds_m_wary when ds_slight(party) >= 1 and ds_slight(party) < 3 and not fireWrathful(party) and not state(ds_mood, ds_wary) { Assert state(ds_mood, ds_wary). }
+  Rule ds_m_tender when ds_slight(party) == 0 and ds_accord(party) >= 5 and not fireWrathful(party) and not state(ds_mood, ds_tender) { Assert state(ds_mood, ds_tender). }
+  Rule ds_m_lonely when ds_slight(party) == 0 and ds_accord(party) >= 2 and ds_accord(party) < 5 and not fireWrathful(party) and not state(ds_mood, ds_lonely) { Assert state(ds_mood, ds_lonely). }
+  Rule ds_m_owed when ds_slight(party) == 0 and ds_accord(party) < 2 and not fireWrathful(party) and not state(ds_mood, ds_owed) { Assert state(ds_mood, ds_owed). }
+  Rule ds_accord_cap when ds_accord(party) > 10 { Set ds_accord(party) to 10. }
+  Observe ds_slight_one near ds_fire when ds_slight(party) == 1 and not fireWrathful(party) "'Careful,' says the Fire.".
+  Observe ds_slight_two near ds_fire when ds_slight(party) == 2 and not fireWrathful(party) "'I am counting,' says the Fire. The hall is hot enough to hurt.".
+
+  Action ds_apology_prewitt(actor: group, site: place) "Let Sedley Prewitt say what he has done in the Fire's name" {
+    Speaker ds_fire.
+    Requires able(actor) and company(actor) and at(actor, site) and at(ds_fire, site) and fireHeard(actor) and not fireWrathful(actor) and following(prewitt, actor) and not ds_apologised(prewitt).
+    Time 10 minutes.
+    On success { Assert ds_apologised(prewitt). Increase ds_accord(actor) by 3. Assert fireFed(actor). }
+    Result "Prewitt stands in the ash with his hat in his hands. 'Six years of blocks,' he says. 'I put them in a table. I called it mercy. They were your hosts.' He does not ask to be forgiven. 'It is an apology,' he says, 'from the one who owes it.' The Fire looks at him for a long time. 'Yes,' it says. 'That is the right man.'".
+  }
+  Action ds_apology_tobias(actor: group, site: place) "Let Tobias Pargeter say what the brigade has done to the Fire" {
+    Speaker ds_fire.
+    Requires able(actor) and company(actor) and at(actor, site) and at(ds_fire, site) and fireHeard(actor) and not fireWrathful(actor)
+      and (following(tobias, actor) or travelsWith(tobias, actor)) and not ds_apologised(tobias).
+    Time 5 minutes.
+    On success { Assert ds_apologised(tobias). Increase ds_accord(actor) by 1. Assert fireFed(actor). }
+    Result "'I put out your fires,' says Tobias, to the coal. 'In houses where you were a guest. I didn't know. I'm sorry.' The Fire says nothing for a time. 'You were told it was your trade,' it says. 'Come back when it is not.'".
+  }
+  Action ds_apology_other(actor: group, who: group, site: place) "Let {who} say what they owe the Fire" {
+    Speaker ds_fire.
+    Requires able(actor) and company(actor) and at(actor, site) and at(who, site) and at(ds_fire, site) and fireHeard(actor) and not fireWrathful(actor)
+      and ds_apologist(who) and following(who, actor) and distinct(who, prewitt) and distinct(who, tobias) and not ds_apologised(who).
+    Time 5 minutes.
+    On success { Assert ds_apologised(who). Increase ds_accord(actor) by 2. Assert fireFed(actor). }
+    Result "{who} says what they owe, and it is not a long speech. The Fire counts it as it was meant.".
+  }
+  Action ds_apology_company(actor: group, site: place) "Say, for the company, that you have worn the Offices' licence and taken their pay" {
+    Speaker ds_fire.
+    Requires able(actor) and company(actor) and at(actor, site) and at(ds_fire, site) and fireHeard(actor) and not fireWrathful(actor)
+      and holding(actor, adjuster_licence) and not ds_apologised(actor).
+    Time 5 minutes.
+    On success { Assert ds_apologised(actor). Increase ds_accord(actor) by 1. }
+    Result "'You owe me a little,' says the Fire. 'You wear their card. You did not make the Ordinance.' It considers. 'It is something. It is the cheapest apology I have been offered, and it is true.'".
+  }
+  Action ds_bribe(actor: group, site: place) "Offer the Fire coin to let the matter drop" {
+    Grave "The Fire is not a clerk. Offered a price for its patience, it will take the offer as the price of its patience.".
+    Speaker ds_fire.
+    Requires able(actor) and company(actor) and at(actor, site) and at(ds_fire, site) and fireHeard(actor) and not fireWrathful(actor) and quantity(actor, gold) >= 1.
+    Time 2 minutes.
+    On success { Increase ds_slight(actor) by 1. }
+    Result "The coin goes into the ash, and does not melt. It lies there, bright and a little ridiculous. 'You have mistaken me,' says the Fire, 'for a trade.'".
+  }
+  Action ds_threaten(actor: group, site: place) "Tell the Fire what the company will do to it if it does not stand down" {
+    Grave "A threat to the Fire is not forgotten as a clerk forgets one.".
+    Speaker ds_fire.
+    Requires able(actor) and company(actor) and at(actor, site) and at(ds_fire, site) and fireHeard(actor) and not fireWrathful(actor).
+    Time 2 minutes.
+    On success { Increase ds_slight(actor) by 1. }
+    Result "The Fire hears you out. It has, you realise, heard this before, from better armed. 'You have a great deal to say,' it says, 'about an account that is not yours.'".
+  }
+
+  // Terms.
+  Action ds_term_night(actor: group, site: place) "Promise the Fire a Night: once every year, the city to come to it, and bring its coals" {
+    Grave "A promise made to the Fire is a debt to it. It will be collected from whoever lives in the city.".
+    Speaker ds_fire.
+    Requires able(actor) and company(actor) and at(actor, site) and at(ds_fire, site) and fireHeard(actor) and not fireWrathful(actor)
+      and ds_termsAsked(actor) and ds_accord(actor) >= 5 and not fireTermNight(actor) and witnessCount(city) < 2.
+    Time 10 minutes.
+    On success { Assert fireTermNight(actor). Assert fireTerms(actor). }
+    Result "'Every year,' says the Fire. 'The city to come to me, and bring its coals, and sit.' It looks at the three of you. 'On your word. It is what I was given the last time, and I am a patient creditor.'".
+  }
+  Action ds_term_night_witnessed(actor: group, site: place) "Promise the Fire a Night, and give it the names of those who have said they will keep it" {
+    Grave "A promise made to the Fire is a debt to it. It will be collected from whoever lives in the city.".
+    Speaker ds_fire.
+    Requires able(actor) and company(actor) and at(actor, site) and at(ds_fire, site) and fireHeard(actor) and not fireWrathful(actor)
+      and ds_termsAsked(actor) and ds_accord(actor) >= 5 and not fireTermNight(actor) and witnessCount(city) >= 2.
+    Time 10 minutes.
+    On success { Assert fireTermNight(actor). Assert fireTerms(actor). Assert ds_night_witnessed(actor). }
+    Result "'Names,' says the Fire. It takes them in, one by one, and you can see it turn them over. 'These I will remember. It is a great deal better than a word.'".
+  }
+  Action ds_term_average(actor: group, site: place) "Tell the Fire the Cinder Ward will be emptied, and burned by daylight, and the Offices will pay" {
+    Grave "What the Fire is promised here, it will take whether or not the Offices have agreed.".
+    Speaker ds_fire.
+    Requires able(actor) and company(actor) and at(actor, site) and at(ds_fire, site) and fireHeard(actor) and not fireWrathful(actor)
+      and ds_termsAsked(actor) and ds_accord(actor) >= 7 and knows(actor, d_decline_roll) and not fireTermAverage(actor).
+    Time 10 minutes.
+    On success { Assert fireTermAverage(actor). Assert fireTerms(actor). }
+    Result "'A general average,' says the Fire, who has been reading the Offices' books since before there were Offices. 'The loss shared among all who are saved by it. It is the one thing they invented that I admire.' It considers. 'Empty. In the light. And paid for, by those who were saved. Yes.'".
+  }
+  Action ds_term_keeper_prewitt(actor: group, site: place) "Let Sedley Prewitt stay, as Hearthkeeper" {
+    Grave "Whoever stays at the Hearth Below does not come up again.".
+    Speaker ds_fire.
+    Requires able(actor) and company(actor) and at(actor, site) and at(ds_fire, site) and fireHeard(actor) and not fireWrathful(actor)
+      and ds_termsAsked(actor) and ds_accord(actor) >= 5 and following(prewitt, actor) and ds_apologised(prewitt) and not fireTermKeeper(actor).
+    Time 10 minutes.
+    On success { Assert fireTermKeeper(actor). Assert fireTerms(actor). Assert ds_stays(prewitt). Retract following(prewitt, actor). Assert at(prewitt, hearth_below). }
+    Result "'I would like to stay,' says Prewitt, as a man who has found, at the bottom of a long column, the one entry that balances. He does not look back at you. The Fire does not thank him. It makes room.".
+  }
+  Action ds_term_keeper_tobias(actor: group, site: place) "Let Tobias Pargeter stay, as Hearthkeeper" {
+    Grave "Whoever stays at the Hearth Below does not come up again.".
+    Speaker ds_fire.
+    Requires able(actor) and company(actor) and at(actor, site) and at(ds_fire, site) and fireHeard(actor) and not fireWrathful(actor)
+      and ds_termsAsked(actor) and ds_accord(actor) >= 5 and tobiasWilling(actor) and (following(tobias, actor) or travelsWith(tobias, actor)) and not fireTermKeeper(actor).
+    Time 10 minutes.
+    On success { Assert fireTermKeeper(actor). Assert fireTerms(actor). Assert ds_stays(tobias). Retract following(tobias, actor). Retract travelsWith(tobias, actor). Assert at(tobias, hearth_below). }
+    Result "'Somebody has to hold the poker,' says Tobias, and tries to grin. The Fire looks at him, and its heat drops away from him in a ring. 'Brave,' it says. 'Foolish. I will keep him warm.'".
+  }
+  Action ds_term_keeper_auberon(actor: group, site: place) "Let old Auberon Hearn stay, as Hearthkeeper, as he has always meant to" {
+    Grave "Whoever stays at the Hearth Below does not come up again.".
+    Speaker ds_fire.
+    Requires able(actor) and company(actor) and at(actor, site) and at(ds_fire, site) and fireHeard(actor) and not fireWrathful(actor)
+      and ds_termsAsked(actor) and ds_accord(actor) >= 5 and following(auberon, actor) and not fireTermKeeper(actor).
+    Time 10 minutes.
+    On success { Assert fireTermKeeper(actor). Assert fireTerms(actor). Assert ds_stays(auberon). Retract following(auberon, actor). Assert at(auberon, hearth_below). }
+    Result "'Honora?' says Auberon, and then, with the clarity that comes to him for a moment at a time, 'No. It is not Honora. It is the other one.' He sits down by the coal, and puts his hands to it. 'Here you are,' he says. 'I am so sorry we were so long.'".
+  }
+  // What the Fire gives, and lets.
+  Action ds_ask_leave(actor: group, site: place) "Ask the Fire for leave to go through its house unburned" {
+    Speaker ds_fire.
+    Requires able(actor) and company(actor) and at(actor, site) and at(ds_fire, site) and fireHeard(actor) and not fireWrathful(actor)
+      and ds_accord(actor) >= 3 and not ds_leave(actor).
+    Time 2 minutes.
+    On success { Assert ds_leave(actor). }
+    Result "'You have sat in my house,' says the Fire. 'A guest does not burn in it.' The heat goes off your skin as though a door had been shut. It will not hurt you in the Glass City now.".
+  }
+  Action ds_ask_flue(actor: group, site: place) "Ask the Fire to let you climb the First Flue" {
+    Speaker ds_fire.
+    Requires able(actor) and company(actor) and at(actor, site) and at(ds_fire, site) and fireHeard(actor) and not fireWrathful(actor)
+      and ds_accord(actor) >= 2 and not ds_flue_asked(actor).
+    Time 2 minutes.
+    On success { Assert ds_flue_asked(actor). Assert state(ds_flue_gate, ds_drawn). }
+    Result "'Go up,' says the Fire. 'It is my flue. It was the way my guests came and went.' High above, in the flue, an iron damper that has been shut for ninety-four years draws back with a sound like a long breath let out.".
+  }
+  Action ds_ask_coals(actor: group, site: place) "Ask the Fire for coals to carry home to the hearths" {
+    Speaker ds_fire.
+    Requires able(actor) and company(actor) and at(actor, site) and at(ds_fire, site) and fireHeard(actor) and not fireWrathful(actor) and day(clock) >= 7
+      and (fireTerms(actor) or fireFed(actor)) and not ds_coals_given(actor).
+    Time 5 minutes.
+    On success { Assert ds_coals_given(actor). Increase quantity(actor, coal) by 2. Set coalExpires(actor) to watch(clock) + 144. }
+    Result "The Fire draws two coals out of itself like a man taking coins from a purse. 'Lent,' it says. 'To be returned. Do not let them out. It will know, and it will mind.'".
+  }
+  Rule ds_slain when dead(ds_fire) and not fireSlain(party)
+    says "The Fire goes out. It goes out as a hearth does at the end of a long day, patiently, the last coal last: and all through the city, in a thousand grates, a red eye closes." {
+    Assert fireSlain(party). }
+  Goal false.
+}
