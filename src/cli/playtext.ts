@@ -9,6 +9,7 @@ import { PlayerView } from '../presentation/player-view';
 import { ScreenModel } from '../ui/screen-model';
 import { ActionFeedbackView } from '../presentation/action-feedback';
 import { Narrator, type Leaf } from '../presentation/narrator';
+import { Narration } from '../presentation/narration';
 import { Expressions } from '../expressions';
 
 export class Playtext {
@@ -20,16 +21,18 @@ export class Playtext {
     return i >= 0 ? args[i + 1] ?? fallback : fallback;
   }
   static page(leaf: Leaf, place: string, when: string, glance = false): string[] {
-    const out: string[] = [];
+    const out: string[] = [], happened: string[] = [], seen: string[] = [];
     if (leaf.journey?.length) { out.push(...leaf.journey.map(l => `> ${l}`), ''); }
-    for (const l of leaf.exchange?.lines ?? []) { out.push(l.kind === 'speech' ? `> ${l.text}` : l.text, ''); }
-    if (leaf.exchange?.notes.length) { out.push(`*${leaf.exchange.notes.join(' · ')}*`, ''); }
-    if (glance && leaf.glance) { return [...out, ...this.glanced(leaf.glance, place, when)]; }
+    for (const l of leaf.exchange?.lines ?? []) { happened.push(l.kind === 'speech' ? `> ${l.text}` : l.text, ''); }
+    if (leaf.exchange?.notes.length) { happened.push(`*${leaf.exchange.notes.join(' · ')}*`, ''); }
+    if (glance && leaf.glance) { return [...out, ...happened, ...this.glanced(leaf.glance, place, when)]; }
     if (leaf.moved || !leaf.exchange) {
-      out.push(`### ${place.charAt(0).toUpperCase()}${place.slice(1)} — ${when}`, '', ...leaf.situation.map(p => `${p}\n`),
+      seen.push(`### ${place.charAt(0).toUpperCase()}${place.slice(1)} — ${when}`, '', ...leaf.situation.map(p => `${p}\n`),
         ...leaf.presence.map(p => `${p}\n`));
     }
-    return out;
+    // Come somewhere, the place before what happened in it, as the stage sets it (see Narration.placeFirst).
+    const first = Narration.placeFirst(leaf.moved, leaf.exchange?.lines ?? []);
+    return [...out, ...first ? [...seen, ...happened] : [...happened, ...seen]];
   }
   // The place as the glance has it: what it is (when come to), its life, what has changed, the aim when said, and
   // what is led with, each with why and what it risks.

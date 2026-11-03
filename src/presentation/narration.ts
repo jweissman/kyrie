@@ -1,6 +1,14 @@
 // Turning the lines a command produced into what a player reads: sentences start with a capital, one fight is told
 // by its turning points rather than every blow, and what everyone gained is said once.
 export class Narration {
+  // Hurt on the way in (a trap's blade), what happened comes before the place, whose telling says what it left (play
+  // 9 read "The hidden switch has gone off, and is spent." before "A scything blade swings through the air.").
+  static readonly harm = /\btakes? \d+ [a-z]+ damage\b/;
+  // Coming somewhere, the place is told first and then what happened in it, as the stage sets it; the journeys had
+  // told a rule's remark on the handprints before the place that showed them (Half the Hive's friction 16, HTH-16).
+  static placeFirst(moved: boolean | undefined, lines: { text: string }[]): boolean {
+    return !!moved && !lines.some(l => this.harm.test(l.text));
+  }
   static tidy(lines: string[], blows = 0): string[] {
     let clean = lines.map(l => this.sentence(l.replace(/ \((\d+) HP; [^)]*\)/, ' ($1 HP left)')
       .replace(/(passes|fails) the (\w+) save \([^)]*\)/, (_m, verb: string, stat: string) =>

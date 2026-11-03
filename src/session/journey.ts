@@ -12,6 +12,7 @@ import type { Predicate } from '../lang/module';
 import { ChoiceList, type Choice } from '../ui/choice-list';
 import { PlayerView } from '../presentation/player-view';
 import { Narrator } from '../presentation/narrator';
+import { Narration } from '../presentation/narration';
 import { ActionFeedbackView } from '../presentation/action-feedback';
 import { EndingOrder } from '../lang/ending-order';
 import { Consequences } from '../campaign/consequences';
@@ -176,9 +177,13 @@ export class Journey {
     const leaf = Narrator.leaf(this.campaign, this.screen(),
       { event, feedback: ActionFeedbackView.read(this.campaign, event, before), said: label, moved });
     const told = ' ' + [...(event.perceptions ?? []).map(p => p.text), event.response ?? ''].join(' ');
-    // What the page says: the way there, the exchange, the place if the company moved, what has changed.
-    const page = [...(leaf.journey ?? []), ...(leaf.exchange?.lines ?? []).map(l => l.text),
-      ...(moved ? [...leaf.situation, ...leaf.presence] : []), ...leaf.changed].join(' ');
+    // What the page says: the way there, a chapter opened, then as the stage sets it: coming somewhere, the place
+    // and what has changed in it and then what happened there; staying, what happened (see Narration.placeFirst).
+    const lines = leaf.exchange?.lines ?? [], opening = lines.filter(l => l.kind === 'opening').map(l => l.text);
+    const happened = lines.filter(l => l.kind !== 'opening').map(l => l.text);
+    const place = [...(moved ? [...leaf.situation, ...leaf.presence] : []), ...leaf.changed];
+    const page = [...(leaf.journey ?? []), ...opening,
+      ...Narration.placeFirst(moved, lines) ? [...place, ...happened] : [...happened, ...place]].join(' ');
     const chapter = leaf.heading?.kind === 'chapter' ? leaf.heading.title : undefined;
     this.taken.push({ label, command, told, page, event, ...grave ? { grave } : {}, ...chapter ? { chapter } : {} });
     if (process.env.JOURNEY_TRACE) { console.log(`[${label}] ${page}`); }

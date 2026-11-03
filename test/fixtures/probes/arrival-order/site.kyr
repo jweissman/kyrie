@@ -1,0 +1,17 @@
+Module arrival "A hollow come to, a remark made in it, and a chair the Watching ravels" {
+  Place moor "the moor" is wilderness.
+  Place brow "the brow" is room within moor at 0, 0 outdoors.
+  Place hollow "the hollow" is room within moor at 1, 0 outdoors.
+  Passage path "the path" between brow and hollow.
+  Company party "You" of 1 at brow.
+  Thing chair "a chair" at hollow {
+    State whole "A chair stands at the back, whole.".
+    State ravelled "The chair at the back has ravelled into loose threads.".
+  }
+  Relation remarked(group).
+  Observe hollow_scene at hollow when true "Under the brow it is dry. At the back there are handprints in the wax.".
+  Rule remark when at(party, hollow) and not remarked(party)
+    says "Ivo kneels by the handprints and puts his hand over one." { Assert remarked(party). }
+  Rule watching when at(party, hollow) and state(chair, whole)
+    says "The Watching passes over the hollow, and what it touches comes undone." { Assert state(chair, ravelled). }
+}
