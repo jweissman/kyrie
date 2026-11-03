@@ -74,8 +74,8 @@ bun run web:build                     # after any .kyr or data change: the brows
 
 ```sh
 bun run check            # lint (zero warnings), typecheck, then the full suite
-bun run test:changed     # tests affected by uncommitted changes
-bun run test:fast        # everything but the long Deem choice-space proof
+bun run test:quick       # the specs that take under two seconds each: about half a minute
+bun run test:changed     # the specs a change touches, by its code and by the data it names
 KYRIE_BROWSER=1 bun test ./test/caught-below-browser.test.ts   # real-browser journeys (Playwright Chromium)
 ```
 

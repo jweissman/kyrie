@@ -9,12 +9,12 @@ the suite's again on 2026-10-27, nothing else running.
 | tier | what | command | time |
 |---|---|---|---|
 | 1. one spec | the spec next to what you changed | `bun test test/world-reads.test.ts` | under a second to a few seconds |
-| 1. changed | specs touching files changed since the last commit | `bun run test:changed` | as much as changed |
+| 1. changed | specs whose imports reach code changed since the last commit, and specs that name a changed data file's adventure, module or fixture (`bun run test:changed [since]`); a change to `data/rules` moves every adventure, and is CI's to judge | `bun run test:changed` | as much as changed |
 | 2. types, style | the whole tree | `bun run typecheck`; `bun run lint` | 18 s; 14 s |
 | 3. same game | a 335-choice journey through the browser's engine, whose hashes must not move for a change meant to change nothing (see [mission-15/performance.md](mission-15/performance.md)) | `bun scripts/journey-profile.ts wren --every 400` | about 40 s |
 | 3. by layer | the simulation alone and the headless session, by kind of command | `bun scripts/sim-bench.ts wren` | about 30 s |
 | 3. from the middle | a slow stretch replayed from a profile's own checkpoint (`--checkpoint-every`, `--out`) | `bun scripts/journey-profile.ts <seed> --resume ck.json --replay steps.jsonl` | seconds |
-| 4. quick | every spec file that took under twenty seconds when the timings were kept (167 of 264): the ordinary specs, without the journeys through whole adventures | `bun run test:quick` | about 90 s |
+| 2. quick | the spec files that took under two seconds each when the timings were kept (about 330): the ordinary units, the same set every time, on six workers; a spec not yet timed is left out, and said to be | `bun run test:quick` | about 30 s |
 | 4. the suite | every spec but the long and the browser ones, the slowest files started first | `bun run test` | 12 minutes (130 test-minutes) |
 | 4. long | four deep sites played to their hearts | `KYRIE_LONG=1 bun test test/descent.test.ts` | 40 s to 2 minutes |
 | 5. browser | the built page, played by keys in Chromium | `KYRIE_BROWSER=1 bun test $(ls test/*-browser.test.ts)` | 1 minute |
@@ -26,8 +26,13 @@ installed (`sudo apt-get install libnss3`), `apt-get download libnss3 libnspr4`,
 them with Chromium.
 
 `test/timings.json` keeps how long each spec file took, and the suite reads it: `--parallel` starts the slowest files
-first, and `--shard` balances shards by it. `bun run test:timings` runs the suite and keeps the times again; do so
-when files are added, split or much changed in length.
+first, `--shard` balances shards by it, and the quick suite is chosen by it. `bun run test:timings` runs the suite and
+keeps the times again; do so when files are added, split or much changed in length (on 3 November 268 specs had gone
+untimed, and the old quick suite, which ran every untimed spec, had come to twenty minutes).
+
+Run one heavy thing at a time on a machine like this one: the whole suite, a browser spec or a full `kyrie lint` beside
+another (or beside tests in another worktree) runs WSL out of memory. The local habit is types, lint on what changed,
+`bun run test:quick` and `bun run test:changed`; the rest is CI's.
 
 ## What CI runs
 

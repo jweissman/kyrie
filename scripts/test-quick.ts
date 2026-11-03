@@ -1,17 +1,26 @@
 #!/usr/bin/env bun
-// The quick suite: every spec file that took under twenty seconds when the suite's timings were last kept
-// (test/timings.json, kept by `bun run test:timings`), run in parallel. These are the ordinary specs, without the
-// journeys through whole adventures; a file the timings do not know yet is new, and is run. About a minute and a half
-// on sixteen cores, where the whole suite takes twelve.
-//   bun scripts/test-quick.ts [seconds]
+// The quick suite: the spec files that took under two seconds each when the suite's timings were last kept
+// (test/timings.json, kept by `bun run test:timings`), on six workers. Truly quick, and the same set every time: the
+// ordinary units, not the journeys through whole adventures. A spec the timings do not know is left out and said to
+// be, so that a slow new spec cannot make the quick suite slow (it had come to twenty minutes, with 268 specs
+// untimed); keep the timings again when specs are added. What a change touches is `bun run test:changed`; everything
+// is CI's.
+//   bun scripts/test-quick.ts [seconds=2] [--workers=6]
 import { Glob } from 'bun';
 import { readFileSync } from 'node:fs';
 
-const limit = Number(process.argv[2] ?? 20) * 1000;
-const kept = (JSON.parse(readFileSync('test/timings.json', 'utf8')) as { files: Record<string, number> }).files;
-const files = [...new Glob('test/**/*.test.ts').scanSync('.')].sort()
-  .filter(file => (kept[file] ?? 0) < limit).map(file => `./${file}`);
-console.log(`${files.length} files under ${limit / 1000} s each`);
-const run = Bun.spawnSync(['bun', 'test', '--parallel', '--timings=test/timings.json', ...files],
-  { stdout: 'inherit', stderr: 'inherit' });
-process.exit(run.exitCode ?? 1);
+class QuickSuite {
+  static run(args: string[]): number {
+    const limit = Number(args.find(a => !a.startsWith('--')) ?? 2) * 1000;
+    const workers = /^--workers=(\d+)$/.exec(args.find(a => a.startsWith('--workers=')) ?? '')?.[1] ?? '6';
+    const kept = (JSON.parse(readFileSync('test/timings.json', 'utf8')) as { files: Record<string, number> }).files;
+    const specs = [...new Glob('test/**/*.test.ts').scanSync('.')].sort();
+    const quick = specs.filter(s => kept[s] !== undefined && kept[s] < limit).map(s => `./${s}`);
+    const untimed = specs.filter(s => kept[s] === undefined).length;
+    console.log(`${quick.length} spec files under ${limit / 1000} s each`
+      + (untimed ? `; ${untimed} not yet timed, left out (bun run test:timings keeps them)` : ''));
+    return Bun.spawnSync(['bun', 'test', `--parallel=${workers}`, ...quick],
+      { stdout: 'inherit', stderr: 'inherit' }).exitCode ?? 1;
+  }
+}
+process.exit(QuickSuite.run(process.argv.slice(2)));

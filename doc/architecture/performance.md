@@ -8,7 +8,7 @@ work, before any change below). Reproduce with `bun scripts/bench.ts` and per-fi
 | Command | What | Wall time |
 |---|---|---|
 | `bun run test:changed` | files affected by uncommitted changes (Bun's git-aware selection) | seconds |
-| `bun run test:fast` | everything except the 608-call public-CLI proof | **18 s** |
+| `bun run test:quick` | the specs that take under two seconds each (test/timings.json), on six workers | about 30 s |
 | `bun run test` | full suite, `--parallel` | **35–39 s** |
 | `KYRIE_BROWSER=1 bun test test/*-browser.test.ts` | opt-in real-browser journeys | — |
 
