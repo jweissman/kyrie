@@ -52,6 +52,9 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the map and the notes, to plan with
     const { page, errors, driver } = await MonoBrowser.page(browser, { width: 1440, height: 900 },
       { site, pointer: false, query: '?world=kite' });
     await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
+    // One come in debt, who knows the country's roads as a trader does: a march-stone is on the map only once heard of,
+    // or so known (the owner, 3 November: the map had begun with the whole country on it).
+    await page.click('[data-action="origin"][data-id="debt"]');
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
     await driver.mode('m');

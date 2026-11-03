@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'bun:test';
+import { TownProfessions } from '../src/world/community/town-professions';
 import { WorldAssembler } from '../src/world/world-assembler';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { PlaySession } from '../src/session/play-session';
@@ -48,7 +49,8 @@ describe('a settlement is the people who live in it', () => {
   it('lives by its trade: its people work at it, each where the work is done', async () => {
     const { w } = await Settled.start(), region = Settled.region(w), s = region.settlements[0]!;
     const c = Communities.plan(region, s);
-    expect(c.residents.length).toBe(Communities.sizes[s.size]!);
+    // Its own people, and a few of the portraits' professions besides (TownProfessions).
+    expect(c.residents.length).toBe(Communities.sizes[s.size]! + (TownProfessions.extra[s.size] ?? 1));
     expect(c.residents.some(r => r.work.trades?.includes(s.trade))).toBe(true);
     expect(new Set(c.residents.map(r => r.name)).size).toBe(c.residents.length);
     for (const r of c.residents.filter(x => x.workplace)) {

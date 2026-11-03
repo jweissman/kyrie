@@ -192,8 +192,10 @@ export class Communities {
     const pool = (names[pronoun] ?? names.she!).filter(n => !used.has(n));
     const given = this.pick(pool, draw, at.reserved) ?? draw.pick(names[pronoun] ?? names.she!);
     const families = this.folk.family[ancestry] ?? this.folk.family.human!, family = draw.pick(families);
-    // When the country's names of a people have all been given, a name given again is said with the family's.
-    const name = pool.length ? given : `${given} ${family}`;
+    // When the country's names of a people have all been given, a name given again is said with the family's, one
+    // no one has yet (two Harbek Dankils in one town of b2, once its trades had more people).
+    const first = pool.length ? given : `${given} ${family}`;
+    const name = !used.has(first) ? first : families.map(f => `${given} ${f}`).find(n => !used.has(n)) ?? first;
     used.add(name);
     return { id: `${s.id}_r${i + 1}`, name, family, pronoun, ancestry, occupation: key, work,
       household: `${s.id}_h${i + 1}`, manner: draw.pick(this.manners), seen: draw.pick(work.seen), talk: draw.pick(work.talk),

@@ -2,7 +2,7 @@
 ^Take the door of the Laughing Flame
 ^Ask Cyril about the old cisterns
 ^Ask Arlen whether
-^Ask Piers for news
+^Ask \w+ for news
 ^Take the door of the Laughing Flame to the landing
 ^Take Hallon's door
 ^Ask Hallon what is down in the cisterns
@@ -61,10 +61,10 @@
 ^Buy one ration from Hallon
 ^Buy a torch for Arlen
 ^Take Hallon's door
-^Take Lambert's door
+^Take \w+'s door to \w+'s apothecary
 ^Buy a dandelion for Wenna
 ^Buy comfrey for Arlen
-^Take Lambert's door
+^Take \w+'s door to the landing
 ^Take the path into Asholt to the edge
 ^Take a holloway between banks of root to the old bank
 ^Take the track to Albuslac

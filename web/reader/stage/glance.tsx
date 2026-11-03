@@ -47,7 +47,7 @@ export class GlanceStage {
         {!s.pending && told && !stayed && !struck && <Told.Happened exchange={told} ready={ready} app={app} />}
         <GlanceStage.Aim app={app} said={g.aim} />
         <GlanceStage.Acts app={app} draw={draw} acts={g.acts} />
-        <GlanceStage.People app={app} draw={draw} />
+        <GlanceStage.People app={app} draw={draw} led={new Set(g.acts.map(a => GlanceStage.choice(app, a.choice)?.id))} />
         <GlanceStage.Row app={app} draw={draw} glance={g} />
         {g.need && <p className="need" data-id="need">{g.need.map(n => <span key={n}>{Typography.curl(n)}</span>)}</p>}
         <GlanceStage.Keys app={app} />
@@ -57,9 +57,12 @@ export class GlanceStage {
   // Who is here, in sight without Look about (the owner, 3 November: whoever keeps a shop, and the people of a place,
   // had been a deliberate look away): those the company has a stake in, then whoever sells, then whoever has something
   // to be asked, the rest after; a few at most, the others under Look about, which is for a crowd.
-  static People({ app, draw }: { app: ReaderApp; draw: Draw }) {
+  // A choice the glance leads with already (Talk to Falkor) is not drawn again on their plate: one choice is one
+  // button on the page, and the keys and a browser's driver find it once.
+  static People({ app, draw, led }: { app: ReaderApp; draw: Draw; led: Set<string | undefined> }) {
     const scene = app.menu.scene;
-    const people = (scene?.subjects ?? []).filter(x => x.kind === 'person' && !x.danger);
+    const people = (scene?.subjects ?? []).filter(x => x.kind === 'person' && !x.danger)
+      .map(x => ({ ...x, choices: x.choices.filter(c => !led.has(c.id)) }));
     if (!people.length) { return null; }
     const rank = (x: SceneSubject) => (x.stake ? 0 : GlanceStage.sells(x.choices) ? 1 : x.asked ? 2 : 3);
     const shown = [...people].sort((a, b) => rank(a) - rank(b)).slice(0, GlanceStage.most), more = people.length - shown.length;

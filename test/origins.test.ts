@@ -61,7 +61,9 @@ describe('an origin', () => {
     const home = w.report.region.settlements.find(t => t.id === w.report.placements.find(p => p.scenario === 'drover')!.bindings.town)!;
     expect(offered[0]!.choice).toContain(`Your father, a drover of ${home.name}`);
   }, 60000);
-  it('makes the protagonist what its story says they are; one over the hills keeps the trade they chose', async () => {
+  // The trade chosen at creation is the one set out with, whatever the origin (the owner, 3 November: an aphorist
+  // chosen had set out a trader); an origin's own is its default, for a protagonist who chose none.
+  it('makes the protagonist what its story says they are, but for the trade they chose, which they keep', async () => {
     const w = await WorldAssembler.assemble('a1', NodeBundleSource.shared);
     const offered = Origins.choices(await Origins.load(NodeBundleSource.shared), w.report.region, w.report.placements);
     expect(Object.fromEntries(offered.map(o => [o.id, o.background]))).toEqual(
@@ -70,7 +72,7 @@ describe('an origin', () => {
       const s = await PlaySession.start(...await Opening.world(origin, 'mercenary'));
       return s.campaign.readout.creatures.find(c => s.campaign.readout.partyIds.includes(c.id))!.backgroundId;
     };
-    expect([await as('order'), await as('wanderer')]).toEqual(['scribe', 'mercenary']);
+    expect([await as('order'), await as('wanderer')]).toEqual(['mercenary', 'mercenary']);
   }, 60000);
   it('over the hills, arrives as the town\'s own trouble is happening, and so knows of it', async () => {
     const s = await Opening.start('wanderer', 'wren'), first = PlayerView.observe(s.campaign).observations.map(o => o.text);

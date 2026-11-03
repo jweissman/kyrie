@@ -39,10 +39,11 @@ describe('as the company would tell it', () => {
   it('has a traveller resting at an inn tell of where they came from', async () => {
     const s = await Thorn.start();
     Thorn.put(s, 's1_taproom');
-    expect(Thorn.names(s)).toContain('Ask Piers for news of Merscstede');
-    expect(Thorn.names(s)).not.toContain('Ask Piers for news of Misthythe');
+    // (Whoever the traveller is drawn as: the town's people are many, and the names drawn shift with them.)
+    expect(Thorn.names(s).some(n => /^Ask \w+ for news of Merscstede$/.test(n))).toBe(true);
+    expect(Thorn.names(s).some(n => /^Ask \w+ for news of Misthythe$/.test(n))).toBe(false);
     // Eight in the morning is not the night: he is making ready for the road, at the inn, where he is.
-    expect(Thorn.seen(s)).toContain('Piers the drover is at the window, counting the cattle in the pens before the road');
+    expect(Thorn.seen(s)).toMatch(/\w+ the drover is at the window, counting the cattle in the pens before the road/);
     expect(Thorn.seen(s)).not.toContain('penned for the night');
   }, 60000);
   // In wren's mine (thorn's cisterns have nothing lying in wait since the ooze went down to the deepest level).
@@ -64,9 +65,12 @@ describe('as the company would tell it', () => {
     Thorn.put(s, 'w8_gatehouse_gate_hall');
     await s.perform(PlayerView.choices(s.campaign).find(c => c.choice.name === 'Gather up the coins')!.choice.id);
     expect(Thorn.names(s)).not.toContain('Look closely at scattered coins');
-    Thorn.put(s, 's1_s2_way');
-    expect(Thorn.names(s).some(n => /^Ask Gruff to come with you/.test(n))).toBe(true);
-    expect(Thorn.names(s).some(n => /^Tell Gruff not to wait/.test(n))).toBe(false);
+    // A goat on a road, whoever's and wherever the country's people put it.
+    const goat = s.campaign.module.entities.find(e => /_goat$/.test(e.id) && e.type === 'group')!;
+    Thorn.put(s, s.campaign.world.one('at', goat.id)!.replace(/^region__/, ''));
+    const name = goat.name.split(', ')[0]!;
+    expect(Thorn.names(s).some(n => n.startsWith(`Ask ${name} to come with you`))).toBe(true);
+    expect(Thorn.names(s).some(n => n.startsWith(`Tell ${name} not to wait`))).toBe(false);
   }, 60000);
   it('does not look again at a notebook read, nor call anything wildtype', async () => {
     const s = await Thorn.start();
