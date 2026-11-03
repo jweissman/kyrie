@@ -158,12 +158,19 @@ export class Glance {
     const held = aims.named.has(here) ? [] : [...aims.held];
     const places = [...[...aims.named].map(id => [id, 'toward'] as const), ...held.map(id => [id, 'held'] as const)]
       .filter(([id]) => byId.get(id)?.space && !around.has(id) && !screen.exits.some(e => e.destination.id === id))
+      // A room to stand in before the area round it: an aim at Gaudumport's far end names the site too, and the way
+      // in, once the speaking door was open, had not been led with (OWN-57's play).
+      .sort((a, b) => Number(byId.get(b[0])?.space?.kind === 'room') - Number(byId.get(a[0])?.space?.kind === 'room'))
       .slice(0, 2);
     const graph = places.length ? Itineraries.graph(campaign) : new Map<string, WayInfo[]>();
     for (const [id, why] of places) {
       const near = !!area && Spatial.ancestry(byId, id).some(e => e.id === area);
       const first = this.leading(graph, { here, id, byId, ...near ? { area } : {} });
-      const exit = first && screen.exits.find(e => e.destination.id === first);
+      // No known way to it, but a way from here into the site it is in: that (the far end of a hold not yet walked,
+      // through its door just opened).
+      const site = Spatial.ancestry(byId, id).find(e => e.space?.kind === 'site')?.id;
+      const exit = first ? screen.exits.find(e => e.destination.id === first) : site ? screen.exits.find(e =>
+        Spatial.ancestry(byId, e.destination.id).some(a => a.id === site) && !e.blocked) : undefined;
       if (exit && !out.has(exit.id)) { out.set(exit.id, why); }
     }
     return out;

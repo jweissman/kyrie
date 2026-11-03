@@ -344,9 +344,12 @@ export class ScreenModel {
     return new Map(campaign.module.entities.map(e =>
       [e.id, (e.creatureId && byId.get(e.creatureId)?.name) || ObservationText.label(world, e.id)]));
   }
-  // A group the company could attack is weighed up before it does.
+  // A group the company could attack is weighed up before it does; not one that has let it be (the hobs at the gate,
+  // parleyed with and asking it in, had been led with as a danger to attack, "easily won": OWN-57's play).
   private static reckoning(campaign: Campaign, id: string, grouped: Grouped): Pick<TargetRow, 'reckoning'> {
     if (!(grouped.targets.get(id) ?? []).some(a => a.label === 'Attack')) { return {}; }
+    const world = campaign.world, company = campaign.playerActor;
+    if (company && world.relates('tolerates') && world.test(ModuleWriter.call('tolerates', id, company))) { return {}; }
     const reckoning = DangerSense.reckon(campaign, id);
     return reckoning ? { reckoning } : {};
   }

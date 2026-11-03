@@ -66,6 +66,8 @@ export class Promotion {
     at: { taken: { ways: number; own: number; by: Map<string, number> }; s: Situation; lone: boolean }): boolean {
     const c = x.c, subject = c.subject ?? c.choice;
     if (picked.some(p => p.choice === c.choice)) { return false; }
+    // One for each way: not going into Gaudumport and looking closer at its door, open now, both (OWN-57's play).
+    if (c.exit && picked.some(p => p.exit === c.exit)) { return false; }
     const most = (at.s.threat && x.best === 'danger') || at.lone ? 2 : 1;
     if ((at.taken.by.get(subject) ?? 0) >= most) { return false; }
     if (this.way(c) && x.best !== 'retreat' && at.taken.ways >= 2) { return false; }
