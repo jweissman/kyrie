@@ -13,22 +13,19 @@
   ],
   "party": [
     {
-      "name": "Wynn",
+      "name": "Elen",
+      "raceId": "elf",
+      "classId": "ranger",
+      "backgroundId": "hunter"
+    },
+    {
+      "name": "Bran",
       "raceId": "human",
       "classId": "warrior",
-      "backgroundId": "locksmith",
-      "traits": [
-        "toughness"
-      ]
+      "backgroundId": "locksmith"
     },
     {
-      "name": "Sabra",
-      "raceId": "elf",
-      "classId": "thief",
-      "backgroundId": "criminal"
-    },
-    {
-      "name": "Orla",
+      "name": "Dori",
       "raceId": "dwarf",
       "classId": "cleric",
       "backgroundId": "medic",
