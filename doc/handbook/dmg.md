@@ -550,7 +550,7 @@ Also kept, without comment: swappable, improvable, learnable, skillOpen, featOpe
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 7 | 19 | 2 | 0 | 2 | 10 |
+| 7 | 20 | 2 | 0 | 2 | 10 |
 
 #### levelOf
 
@@ -569,6 +569,12 @@ How much a work that reads its reader back (a Manual) raises a quality, outside 
 *Kyr · relation(member); relation(member); relation(member); relation(member); relation(member, ability); relation(member, ability)* · `rule:care.awake`
 
 One who falls lies senseless (fallen) until a rest, when they come round or die where they fell (slain).
+
+#### madeWhole
+
+*Kyr · relation(group)* · `rule:care.madeWhole`
+
+Whoever a rule or an act makes whole (Restore x): every hit point, no condition, risen if fallen or dead; the engine does it and forgets that it was asked to (Consequences.restore).
 
 #### field spell
 
@@ -740,7 +746,7 @@ Also kept, without comment: matterOpen, matterDone, at, able, dead, distinct, cl
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 19 | 44 | 15 | 5 | 2 | 8 |
+| 19 | 45 | 17 | 5 | 5 | 8 |
 
 #### ending, reached
 
@@ -829,6 +835,38 @@ Where a company has been: once it has stood somewhere, it knows the place and ca
 > When: company(?c); at(?c, ?p); not (been(?c, ?p))
 
 > Then: Assert been(?c, ?p).
+
+#### stoodAt, arrivedAt, lingered
+
+*Kyr · relation(group, place); measure(group); measure(group)* · `rule:world_core.stoodAt`
+
+How long the company has stood where it is, in watches since it came (lingered(party) >= 2: twenty minutes and more): a creature that strikes if it lingers, a crowd that notices it under the rail, a door that opens to whoever waits. The Third Night could say none of them without keeping when it came by hand (its friction 15, TTN-15).
+
+#### stood_first
+
+*Kyr · rule* · `rule:world_core.stood_first`
+
+Where it stood as the world began, it has stood since the first watch; anywhere else, since it came.
+
+> When: company(?c); at(?c, ?p); not (stoodAt(?c, ?q))
+
+> Then: Assert stoodAt(?c, ?p).
+
+#### came_here
+
+*Kyr · rule* · `rule:world_core.came_here`
+
+> When: company(?c); at(?c, ?p); stoodAt(?c, ?q); distinct(?p, ?q)
+
+> Then: Assert stoodAt(?c, ?p). Set arrivedAt(?c) to watch(clock).
+
+#### lingers
+
+*Kyr · rule* · `rule:world_core.lingers`
+
+> When: company(?c); stoodAt(?c, ?p); lingered(?c) != (watch(clock) - arrivedAt(?c))
+
+> Then: Set lingered(?c) to (watch(clock) - arrivedAt(?c)).
 
 #### law, law
 
@@ -1696,7 +1734,7 @@ Also kept, without comment: passageKind, connects, on, guards, state, blocksWhen
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 8 | 32 | 2 | 23 | 0 | 6 |
+| 8 | 34 | 2 | 24 | 0 | 6 |
 
 #### scenery
 
@@ -1746,6 +1784,12 @@ What can be tried on a thing (looked over closely, prodded, pried at...), and wh
 
 A change only one side reaches (the bar on the cellar side of a door) is made from that place.
 
+#### withheld
+
+*Kyr · relation(change)* · `rule:world_passages.withheld`
+
+A change made only while something holds (Change … when …), while it does not (GTR-07).
+
 #### carries
 
 *Kyr · query(a: group, i: entity)* · `rule:world_passages.carries`
@@ -1757,6 +1801,12 @@ Carrying a particular thing: this key, not any key.
 *Kyr · query(a: group, n: entity)* · `rule:world_passages.meets`
 
 What a way or a change needs: a skill, a kind of thing, or one particular thing.
+
+#### needsInto
+
+*Kyr · relation(passage, place, entity)* · `rule:world_passages.needsInto`
+
+What a way needs going to one of its ends only (Passage … needing breath going to whelm): GTR-X08.
 
 #### keyholder
 
@@ -1790,7 +1840,7 @@ A thing hidden until something is known is not there, for a company that does no
 - Takes: the travelTime of the way
 - Costs: 1
 
-> Needs: able(actor); at(actor, origin); connects(way, origin, destination); passable(way, actor); mobile(actor)
+> Needs: able(actor); at(actor, origin); connects(way, origin, destination); passable(way, actor); equippedInto(actor, way, destination); mobile(actor)
 
 > Then: Assert at(actor, destination). Assert tookWay(actor, way).
 
@@ -1804,7 +1854,7 @@ A thing hidden until something is known is not there, for a company that does no
 
 Someone who moves quietly takes the company past a watcher without a fight or a bargain. The watcher stays where it is, and will be there on the way back.
 
-> Needs: able(actor); at(actor, origin); connects(way, origin, destination); guards(gatekeeper, way); able(gatekeeper); state(gatekeeper, ?t); blocksWhen(gatekeeper, ?t); not (tolerates(gatekeeper, actor)); at(gatekeeper, origin)) or (at(gatekeeper, destination); capable(actor, stealth); visibleTo(way, actor); not (barred(way)); not (hazardous(way)); equippedFor(actor, way); mobile(actor)
+> Needs: able(actor); at(actor, origin); connects(way, origin, destination); guards(gatekeeper, way); able(gatekeeper); state(gatekeeper, ?t); blocksWhen(gatekeeper, ?t); not (tolerates(gatekeeper, actor)); at(gatekeeper, origin)) or (at(gatekeeper, destination); capable(actor, stealth); visibleTo(way, actor); not (barred(way)); not (hazardous(way)); equippedFor(actor, way); mobile(actor); equippedInto(actor, way, destination)
 
 > Then: Assert at(actor, destination). Assert tookWay(actor, way).
 
@@ -1816,7 +1866,7 @@ Someone who moves quietly takes the company past a watcher without a fight or a 
 - Takes: the travelTime of the way
 - Costs: 1
 
-> Needs: able(actor); at(actor, origin); connects(way, origin, destination); on(trap, way); state(trap, ?s); harmsWhen(trap, ?s); hurtsWith(trap, blow); hurtsInto(trap, after); memberOf(victim, actor); awake(victim); visibleTo(way, actor); not (obstructed(way)); equippedFor(actor, way); mobile(actor)
+> Needs: able(actor); at(actor, origin); connects(way, origin, destination); on(trap, way); state(trap, ?s); harmsWhen(trap, ?s); hurtsWith(trap, blow); hurtsInto(trap, after); memberOf(victim, actor); awake(victim); visibleTo(way, actor); not (obstructed(way)); equippedFor(actor, way); equippedInto(actor, way, destination); mobile(actor)
 
 > Then: Assert state(trap, after). Assert at(actor, destination). Assert tookWay(actor, way).
 
@@ -1834,7 +1884,7 @@ Who last changed a thing by one of its own changes, so that a rule can ask who d
 - Takes: 10 minutes
 - Costs: 1
 
-> Needs: able(actor); changeOf(how, thing); changeFrom(how, origin); changeTo(how, result); state(thing, origin); reaches(actor, thing); equippedFor(actor, how); informedFor(actor, how); placedFor(actor, how); not (dead(thing)); not (benighted(actor)); not (consumes(how, ?g)); not (spends(how, ?k))
+> Needs: able(actor); changeOf(how, thing); changeFrom(how, origin); changeTo(how, result); state(thing, origin); reaches(actor, thing); equippedFor(actor, how); informedFor(actor, how); placedFor(actor, how); not (withheld(how)); not (dead(thing)); not (benighted(actor)); not (consumes(how, ?g)); not (spends(how, ?k))
 
 > Then: Assert state(thing, result). Assert changedBy(thing, actor).
 
@@ -1848,7 +1898,7 @@ Who last changed a thing by one of its own changes, so that a rule can ask who d
 
 What it takes is used up doing it.
 
-> Needs: able(actor); changeOf(how, thing); changeFrom(how, origin); changeTo(how, result); state(thing, origin); reaches(actor, thing); equippedFor(actor, how); informedFor(actor, how); placedFor(actor, how); not (dead(thing)); not (benighted(actor)); spends(how, form); memberOf(carrier, actor); awake(carrier); ownedItem(spent, carrier); itemKind(spent, form)
+> Needs: able(actor); changeOf(how, thing); changeFrom(how, origin); changeTo(how, result); state(thing, origin); reaches(actor, thing); equippedFor(actor, how); informedFor(actor, how); placedFor(actor, how); not (withheld(how)); not (dead(thing)); not (benighted(actor)); spends(how, form); memberOf(carrier, actor); awake(carrier); ownedItem(spent, carrier); itemKind(spent, form)
 
 > Then: Assert state(thing, result). Assert changedBy(thing, actor).
 
@@ -1862,7 +1912,7 @@ What it takes is used up doing it.
 
 Said by the thing's own name ("the Abbess's Eye is used up", not "Elen's the Abbess's Eye").
 
-> Needs: able(actor); changeOf(how, thing); changeFrom(how, origin); changeTo(how, result); state(thing, origin); reaches(actor, thing); equippedFor(actor, how); informedFor(actor, how); placedFor(actor, how); not (dead(thing)); not (benighted(actor)); consumes(how, spent); quantity(actor, spent) >= 1
+> Needs: able(actor); changeOf(how, thing); changeFrom(how, origin); changeTo(how, result); state(thing, origin); reaches(actor, thing); equippedFor(actor, how); informedFor(actor, how); placedFor(actor, how); not (withheld(how)); not (dead(thing)); not (benighted(actor)); consumes(how, spent); quantity(actor, spent) >= 1
 
 > Then: Assert state(thing, result). Assert changedBy(thing, actor). Decrease quantity(actor, spent) by 1.
 
@@ -1872,7 +1922,7 @@ Also kept, without comment: acceptsEscort, dismissed, thanks.
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 0 | 22 | 3 | 0 | 5 | 6 |
+| 0 | 23 | 3 | 0 | 5 | 6 |
 
 #### freedBy, home, cameHome, grateful
 
@@ -2002,6 +2052,12 @@ Someone who would come with you, if you led them, can be told not to wait: they 
 
 Talking to someone: the company's attention on one person, until it takes its leave or goes. Anyone who is a person (not an animal or a beast) talks, and anyone with something to be asked (Topic) does. Speaking to them takes no time; they answer it (a greeting, from the voice tables), and what can be put to them is put in it.
 
+#### acquainted
+
+*Kyr · relation(group, group)* · `rule:world_people.acquainted`
+
+Whoever the company has spoken with, for good: someone called a stranger's name until then (Known as "an old man with a pole" when not acquainted(hob, party)) is themselves from the first word and their greeting, whichever way the company came to them (Quittance's ll 17, QTC-A24: one topic taught his name, and a Greets could not).
+
 #### talk to
 
 *Kyr · action (group, group, place)* · `rule:world_people.talk_to`
@@ -2014,7 +2070,7 @@ Go over and speak to them.
 
 > Needs: able(actor); company(actor); at(actor, site); at(person, site); talks(person); able(person); not (asleep(person)); not (hostile(person, actor)); not (addressed(person, actor)); distinct(actor, person)
 
-> Then: Assert addressed(person, actor).
+> Then: Assert addressed(person, actor). Assert acquainted(person, actor).
 
 #### take leave
 

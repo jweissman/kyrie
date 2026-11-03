@@ -997,7 +997,7 @@
     "faithful": 220,
     "adapted": 25,
     "represented": 49,
-    "kyr": 257,
+    "kyr": 265,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 198
@@ -1010,7 +1010,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 232,
+      "kyr": 240,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -13697,6 +13697,13 @@
    "section": "world-rules/rules-care"
   },
   {
+   "id": "rule:care.madeWhole",
+   "title": "madeWhole",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-care"
+  },
+  {
    "id": "rule:care.field_spell",
    "title": "field spell",
    "status": "kyr",
@@ -13881,6 +13888,34 @@
   {
    "id": "rule:world_core.been_there",
    "title": "been_there",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-core"
+  },
+  {
+   "id": "rule:world_core.stoodAt",
+   "title": "stoodAt, arrivedAt, lingered",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-core"
+  },
+  {
+   "id": "rule:world_core.stood_first",
+   "title": "stood_first",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-core"
+  },
+  {
+   "id": "rule:world_core.came_here",
+   "title": "came_here",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-core"
+  },
+  {
+   "id": "rule:world_core.lingers",
+   "title": "lingers",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-core"
@@ -14565,6 +14600,13 @@
    "section": "world-rules/rules-passages"
   },
   {
+   "id": "rule:world_passages.withheld",
+   "title": "withheld",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-passages"
+  },
+  {
    "id": "rule:world_passages.carries",
    "title": "carries",
    "status": "kyr",
@@ -14574,6 +14616,13 @@
   {
    "id": "rule:world_passages.meets",
    "title": "meets",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-passages"
+  },
+  {
+   "id": "rule:world_passages.needsInto",
+   "title": "needsInto",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-passages"
@@ -14763,6 +14812,13 @@
   {
    "id": "rule:world_people.talks",
    "title": "talks, addressed",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-people"
+  },
+  {
+   "id": "rule:world_people.acquainted",
+   "title": "acquainted",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-people"
