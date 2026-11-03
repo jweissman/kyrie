@@ -9,6 +9,9 @@ Module world_passages "Passages, obstacles and the condition of things" {
   Measure travelMinutes(passage).
   // A way that opens only while something holds (Passage … opening when …), while it does not.
   Relation unopened(passage).
+  // A way that does not say where it goes, until the company has been there: the decoy of two, said by its own
+  // name, "By the left-hand way", not by the room it leads to (Let One Remember's F6, LOR-11).
+  Relation unmarked(passage).
   Relation connects(passage, place, place).
   Relation on(entity, passage).
   Relation guards(group, passage).
