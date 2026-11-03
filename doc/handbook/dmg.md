@@ -2504,6 +2504,15 @@ The worlds that ship with the game.
 
 > You have walked the coast road for a week with a little money and no reason to stop. This morning it comes over the shoulder of a down, and below you is the Gannet Reach: nine miles of shining sand, or of shining sea, depending on the hour, with islands in it, and a town of grey roofs on the near headland, and out on the sands a ship lying on her side.
 
+### The Book of Faces
+
+*Kyr* · `campaign:the-book-of-faces`
+
+- Regions and sites: ombra
+- Kits placed: —
+
+> Ombra is a city of masks. Between the Third Bell and the Ninth nobody in it is anybody: bakers are Cockles, ferrywomen Gulls, and to say aloud who is under a mask is the one crime the city will not forgive. The Registrar, who kept the Book of Faces, lies dead in her chapel in her white mask, and the Book is gone, and in nine days, if the Drawing is not held, every Office in Ombra dissolves at midnight. The law has one lawful move left: to hire a Bare, a stranger who is no one, to look at what no one may. You have fourteen coin, and the delta road under your feet.
+
 ### The Grand Tour
 
 *Kyr* · `campaign:the-grand-tour`

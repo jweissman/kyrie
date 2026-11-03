@@ -1,0 +1,88 @@
+Module ombra "The Book of Faces" {
+  // ── The Stranger's Warrant ────────────────────────────────────────────────────────────────────────────────────────
+  // The Concord's seventy-first article: when the city is at an impasse it forbids itself to resolve, it may hire a
+  // Bare to see what no mask may see. Sergeant Vail of the Masked Watch has it in her glove. She meets the Bare in
+  // Strangers' Square on the first morning, and from the first sentence she will not say her own name.
+  Kind warrant_kind "the Stranger's Warrant" is gear worth 0 weighing 0 described "A strip of grey paper with a bare oval stamped on it in white wax, and under the oval, in a clerk's round hand, the seventy-first article of the Concord: THE CONCORD MAY HIRE A STRANGER TO LOOK. It does not say what the stranger is to say.".
+  Item warrant_paper "the Stranger's Warrant" is warrant_kind at offstage.
+  Discovery warrant_terms "The Stranger's Warrant lets a Bare look at what no mask may: a masked body, a sealed room, a face under a mask. It does not make anyone speak, and it is suspended when the Watch's patience (three marks of heat) runs out.".
+  Discovery vail_name "The sergeant of the Masked Watch who hired you is Ottoline Vail.".
+
+  Person vail "a sergeant of the Masked Watch" at gate_square {
+    Role "a sergeant of the Masked Watch, in the black hound-domino" when not knows(party, vail_name).
+    Role "Sergeant Ottoline Vail of the Masked Watch" when knows(party, vail_name).
+    Known as "a sergeant of the Masked Watch" when not knows(party, vail_name).
+    Ancestry human. Calling warrior. Level 4. Peaceable. Pronouns she. Manner stoic.
+    Greets "A woman in the black hound-domino of the Masked Watch stands on the wet flags at the head of the Customs Steps with her hands behind her, as the Watch does, and does not look at you as the others come up past her. The rain makes a small music on her mask. When the last of the Bare has gone by she turns and looks at you, and only you. 'You,' she says. 'Bare. Fair-sized, no mask, no name the city can hear. Good.' It does not sound like a compliment. 'I am the Watch. I will not tell you what else I am. The Watch has a use for a stranger, if you have a minute and no opinion of us.'".
+    Greets again "'Bare,' says the Watch, and nods, which from the Watch is a sentence.".
+  }
+  // By day the sergeant is at the Square till she has her stranger; after, at the Gatehouse by day and in the Chapel at
+  // dusk, and where she is by night is her own business (but she opens the door of the Gatehouse to a bare knock).
+  Rule vail_square when begun() and not warrantHeld(party) and not warrantRefused(party) and not at(vail, gate_square) { Assert at(vail, gate_square). }
+  Rule vail_hall when (warrantHeld(party) or warrantRefused(party)) and publicHours() and not at(vail, gate_hall) { Assert at(vail, gate_hall). }
+  Rule vail_night when (warrantHeld(party) or warrantRefused(party)) and privateHours() and not at(vail, gate_hall) { Assert at(vail, gate_hall). }
+  Relation warrantRefused(group).
+  Measure vailTrust(group).
+
+  // The first speeches. Each teaches a rule of the city by showing it.
+  Topic vail_use with vail "Ask what use the Watch has for a stranger" when not warrantHeld(actor) and not warrantRefused(actor) once {
+    Says "'The Registrar of Ombra is dead,' says the Watch, 'in the bier-room of the Chapel of the Bare Face, in the white mask of her office, and the Book of Faces is not on its lectern.' She says it without any weight at all, the way a clerk reads out a bridge toll. 'A Registrar's mask may be lifted by her successor-designate and nobody else, and the successor-designate is in the Book. So nobody may lawfully say who is dead. Nobody may say the Office is vacant. In nine days the Drawing must be read by a Registrar, and if it is not, every Office in this city dissolves at midnight, being only masks.' She turns her head very slightly. 'The seventy-first article says the Concord may hire a stranger to look. Look.'".
+    On discuss { Assert knows(actor, marrick_dead). Assert knows(actor, warrant_terms). }
+  }
+  Topic vail_pay with vail "Ask what the Warrant pays" when not warrantHeld(actor) and not warrantRefused(actor) once {
+    Says "'Nine days' lodging at the Hospice, under Mother Tibb, God help you. Five coin now.' She pauses. 'And at the end of it, if there is an end, the Concord offers the Bare who served a face of their own. A trade, or a place in the next Urn. A name nobody may say.' She might be reading it off the inside of her mask. 'Nobody has taken it in sixty-two years. The last one went home.'".
+    On discuss { Assert faceOffered(actor). }
+  }
+  Topic vail_why with vail "Ask why a Bare, and why you" when not warrantHeld(actor) and not warrantRefused(actor) once {
+    Says "'Why a Bare: because every other face in this city is a person who might be Named for what they saw.' The rain ticks on the hound's black brow. 'Why you: I was told to take the first who came off the road after the Third Bell and could stand up.' A very small pause. 'I was told it would not matter who.' You have the distinct impression that she was told a great deal more than that, and does not agree with it.".
+  }
+  Action take_warrant(actor: group, site: place) "Take the Stranger's Warrant" {
+    Speaker vail.
+    Requires able(actor) and company(actor) and at(actor, site) and at(vail, site) and not warrantHeld(actor) and knows(actor, marrick_dead).
+    Time 2 minutes.
+    On success { Assert warrantHeld(actor). Assert knows(actor, warrant_terms). Give warrant_paper to actor. Give rounds_ledger to actor. Give marrick_letter to actor. Assert ledgerHeld(actor). Increase quantity(actor, gold) by 5. Assert met(vail). }
+    Result "She puts a strip of grey paper into your hand, with five coin under it, and a sealed packet under that, and closes your fingers over the lot. 'The Warrant. You are the Concord's eyes. You are not its mouth. If it comes to saying, I will say for you, or the Chaplain will.' She takes her hand away. 'Do not lift a mask in the street. There is a bier-room for that.'".
+  }
+  Action refuse_warrant(actor: group, site: place) "Tell the sergeant that you will not be the Concord's eyes" {
+    Speaker vail.
+    Requires able(actor) and company(actor) and at(actor, site) and at(vail, site) and not warrantHeld(actor) and not warrantRefused(actor).
+    Time 1 minute.
+    On success { Assert warrantRefused(actor). }
+    Result "'Then you are only a Bare,' says the Watch, without any heat at all, 'and the Hospice has nine beds.' She turns her face back to the road. 'The Warrant stays where I put it, in my glove, until the third day. It is a very long way to Chapel Island if one has to go without it.'".
+  }
+  // A refusal can be mended for two days.
+  Action take_warrant_late(actor: group, site: place) "Ask the sergeant for the Warrant after all" {
+    Speaker vail.
+    Requires able(actor) and company(actor) and at(actor, site) and at(vail, site) and warrantRefused(actor) and not warrantHeld(actor) and day(clock) <= 3.
+    Time 1 minute.
+    On success { Retract warrantRefused(actor). Assert warrantHeld(actor). Give warrant_paper to actor. Give rounds_ledger to actor. Give marrick_letter to actor. Assert ledgerHeld(actor). Assert knows(actor, warrant_terms). }
+    Result "'Third day,' says the Watch, and gives it to you, with no comment, and no five coin.".
+  }
+
+  // After the Warrant. Her trust is a measure: the Watch's help is bought with candour, not with coin.
+  Topic vail_ledger with vail "Ask about the sealed packet" when warrantHeld(actor) and not knows(actor, rounds_known) once {
+    Says "'I have not read it.' It is the first thing she has said that sounds like hers. 'Her instruction was the Watch should give it to the Bare who took the Warrant, and nobody else, and not open it. I have a hand and a Warrant of my own, and I have done as the instruction said.' A beat. 'She was a person who left good instructions.'".
+  }
+  Topic vail_name_ask with vail "Ask her what she is called" when warrantHeld(actor) and not knows(actor, vail_name) and privateHours() and vailTrust(actor) >= 2 once {
+    Says "She has taken the hound-domino off, at last, in the Gatehouse after the Ninth Bell, and put it on the table, and it looks smaller there. A square, closed face, fortyish, a scar through one eyebrow. 'Vail,' she says. 'Ottoline. It is a very long time since I have said it to someone who could not repeat it.' She looks at you, and then, with a difficulty you can see, away. 'You may be the only person in Ombra I can say it to.'".
+    On discuss { Assert knows(actor, vail_name). Increase vailTrust(actor) by 1. }
+  }
+  Topic vail_candour with vail "Tell the Watch honestly what you have found, and what you have not" when warrantHeld(actor) and (knows(actor, pip_saw) or knows(actor, lacke_taxed) or knows(actor, pell_hid_book) or knows(actor, serene_saw)) and not vailTold(actor) once {
+    Says "She listens in the Gatehouse with her mask in her lap, which is how you know it is serious. When you have done she does not say anything for a long moment. 'If I take that to the Watch-house they will say I asked a Bare to Unface a Warden,' she says. 'So I have not heard it.' She puts the mask back on. 'But I know where to stand on the ninth night, now. That is not nothing.'".
+    On discuss { Assert vailTold(actor). Increase vailTrust(actor) by 1. }
+  }
+  Relation vailTold(group).
+  Action vail_confide(actor: group, site: place) "Sit with the sergeant in the Gatehouse after the Ninth Bell, and say nothing in particular" {
+    Speaker vail.
+    Requires able(actor) and company(actor) and at(actor, site) and at(vail, site) and warrantHeld(actor) and privateHours() and not vailSat(actor).
+    Time 60.
+    On success { Assert vailSat(actor). Increase vailTrust(actor) by 1. }
+    Result "She does not take the mask off and you do not ask her to. At the Tenth Bell she says that the Hospice kettle is better than the Watch-house one, and you drink from it in silence, and when you go she says, to the door, 'Thank you for not being clever.'".
+  }
+  Relation vailSat(group).
+  Observe gate_hall_scene at gate_hall when publicHours() "A long low hall with a counter down one side and a stove at the end, smelling of wet wool, lamp-oil and the paper of a very great many forms. On the wall behind the counter is a board of pegs and on each peg a black hound-domino, one for each of the Watch's twenty, and nineteen of them are always out in the rain. A grille at the end of the counter says BARE: PLEASE WAIT.".
+  Observe gate_hall_night at gate_hall when privateHours() "The Gatehouse at night is a stove and a lamp and the pegs of hound-dominoes, all but one empty. The rain has stopped talking on the roof and gone to muttering. Somebody has left a kettle on the stove that is not quite boiling.".
+
+  // A Bare at the Gate with no Warrant has nothing in particular to do there but wait: the Watch, being the Watch, notes it.
+  Observe vail_waiting at gate_square when begun() and not warrantHeld(party) and not warrantRefused(party) and at(vail, gate_square) "At the head of the Customs Steps the sergeant of the Watch is still standing with her hands behind her, as the rain runs off the brim of the hound's brow, waiting for you to finish looking at the city.".
+}

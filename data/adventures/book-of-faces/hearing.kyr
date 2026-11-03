@@ -1,0 +1,103 @@
+Module ombra "The Book of Faces" {
+  // ── The Hearing of the Unseen ─────────────────────────────────────────────────────────────────────────────────────
+  // The Warrant's way to the Registry. A Hearing is the one proceeding in Ombra at which masks may speak to a Bare as
+  // persons, and it may be called from the sixth day on, in the nave, before the Chaplain, if the three Guilds
+  // concur: the Watch, the Exchange and the Maskers. Each concurrence is a negotiation with a person who has their own
+  // reasons; each has an easy way, earned by something done, and a hard one, by argument. When the Hearing sits, the
+  // Registry is opened by right, and the Bare lays the case: whom to Name, whom to spare.
+  Kind guild.
+  Entity g_watch: guild "the Masked Watch".
+  Entity g_exchange: guild "the Exchange".
+  Entity g_maskers: guild "the Guild of Maskers".
+  Relation concurs(guild). Relation hearingCalled(group). Relation hearingHeld(group). Relation lackeNamedAtHearing(group). Relation lackeSparedAtHearing(group).
+  Relation lackeSpentAtHearing(group). Relation hearingLaid(group).
+  Query allConcur() means concurs(g_watch) and concurs(g_exchange) and concurs(g_maskers).
+
+  // The Watch: Vail concurs for a Bare who has been straight with her.
+  Action watch_concurs(actor: group, site: place) "Ask Sergeant Vail for the Watch's concurrence, as one who has told her the truth" {
+    Speaker vail.
+    Requires able(actor) and company(actor) and at(actor, site) and at(vail, site) and warrantLive() and vailTrust(actor) >= 2 and not concurs(g_watch).
+    Time 10.
+    On success { Assert concurs(g_watch). }
+    Result "'The Watch concurs,' she says, and the black hound-domino looks very slightly less like armour. 'In writing, the Watch concurs with whoever is the Warrant, on the ground that the Warrant has not once lied to it.' She writes it on the grey paper and stamps it, with a stamp that is also a bare oval. 'I shall have to explain it to the Captain. I hope to be able to.'".
+  }
+  Action watch_pleaded(actor: group, site: place) "Ask Sergeant Vail for the Watch's concurrence, on the Warrant's word alone" {
+    Speaker vail.
+    Requires able(actor) and company(actor) and at(actor, site) and at(vail, site) and warrantLive() and vailTrust(actor) < 2 and not concurs(g_watch).
+    Time 10.
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert concurs(g_watch). }
+    Result "'I know no reason I should,' she says, and then a long silence, 'and I know no reason I should not. The Watch concurs.' She does not look happy. She looks as if she has had a thing taken from her that she was quite attached to refusing.".
+    Otherwise "'The Watch does not concur,' says the sergeant, 'with a stranger it does not know. I am sorry. Know it first.'".
+  }
+  // The Exchange: the Assessor of the Pound signs for it, if the short pound is mended; else she must be argued.
+  Action exchange_concurs(actor: group, site: place) "Ask the Assessor of the Pound for the Exchange's concurrence, as one who put the true Pound back" {
+    Speaker assessor.
+    Requires able(actor) and company(actor) and at(actor, site) and at(assessor, site) and warrantLive() and marked(r_pound) and not concurs(g_exchange).
+    Time 10.
+    On success { Assert concurs(g_exchange). }
+    Result "She does not say anything for a time, and then she signs the paper with a pen she has plainly used for forty years to sign things that were true. 'Somebody weighed the pound,' she says. 'I could not. It is not allowed, you see, to say who has been cheated.' She blots it. 'The Exchange concurs. It will not have been the Exchange that thought of it.'".
+  }
+  Action exchange_pleaded(actor: group, site: place) "Ask the Assessor of the Pound for the Exchange's concurrence, by argument" {
+    Speaker assessor.
+    Requires able(actor) and company(actor) and at(actor, site) and at(assessor, site) and warrantLive() and not marked(r_pound) and not concurs(g_exchange).
+    Time 10.
+    Resolve check(actor, lore, dc_hard).
+    On success { Assert concurs(g_exchange). }
+    Result "You lay the case as you would lay a table of weights: first the thing, then the measure, then the ounce that is not there. She watches your hands. 'A Hearing costs the Exchange a day,' she says. 'It will cost it less than the Drawing not being held. The Exchange concurs, God help it.'".
+    Otherwise "'The Exchange does not move for an argument, however well weighed,' says the Assessor. 'It moves for a deed. Do us one, and ask again.'".
+  }
+  // The Maskers: Pavane concurs for a face she has seen: one she cast, or one she was asked to cut for no one.
+  Action maskers_concurs(actor: group, site: place) "Ask Madame Pavane for the Maskers' concurrence, as one whose face is on her Wall" {
+    Speaker pavane.
+    Requires able(actor) and company(actor) and at(actor, site) and at(pavane, site) and warrantLive() and castTaken(actor) and not concurs(g_maskers).
+    Time 10.
+    On success { Assert concurs(g_maskers). }
+    Result "'I have your face,' says the Fitter, 'which is not a thing I say lightly.' She is not unkind. 'A woman should be willing to sign for a person whose face she holds. The Maskers concur. I shall want it on the record that I did not make you a mask for it.'".
+  }
+  Action maskers_pleaded(actor: group, site: place) "Ask Madame Pavane for the Maskers' concurrence, and argue it" {
+    Speaker pavane.
+    Requires able(actor) and company(actor) and at(actor, site) and at(pavane, site) and warrantLive() and not castTaken(actor) and not concurs(g_maskers).
+    Time 10.
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert concurs(g_maskers). }
+    Result "'The Maskers do not concur with a thing they have not made,' says Pavane, 'but I take it that is a rule for a better kind of Hearing.' She signs. 'A face nobody wants. That is the work of the Wall: it is the only thing in Ombra that says every face is worth having.'".
+    Otherwise "'A Bare who will not be cast,' says Madame Pavane, 'has not yet decided what a face is for.'".
+  }
+
+  // The calling and the sitting.
+  Action call_hearing(actor: group, site: place) "Call the Hearing of the Unseen" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(chaplain, site) and warrantLive() and day(clock) >= 6 and allConcur() and not hearingHeld(actor).
+    Time 120.
+    On success { Assert hearingHeld(actor). Assert registryOpened(actor). }
+    Result "At the Third Bell of the afternoon the Chapel's doors are left open on the rain and the nave fills with faces: the Watch's hounds against one wall, the Exchange's herons and magpies against the other, and between them the Maskers in their grey half-masks, three hundred strong. Father Ansel stands before the lectern. 'The Hearing of the Unseen,' he says, 'is called by the Warrant. It has been sixty-two years. Let it be heard.' And they look at you. They are all looking at you, and it is the oddest thing: it is the first time since you came down the road that a room full of Ombra has looked at you as at a person. The Registry door swings open behind you without a hand on it.".
+  }
+  Topic ansel_hearing with chaplain "Ask Father Ansel what a Hearing is for" when warrantHeld(actor) once {
+    Says "'It is for saying a thing in front of those it concerns,' says the Chaplain. 'In Ombra, nothing may be said in front of those it concerns. That is what a mask is.' He looks tired. 'So the Concord, who are not fools, kept one room in the city where it can be. It has been used four times. It is the closest thing we have to an honest house.' A pause. 'Three Guilds must stand behind whoever calls it. It stops the Hearing being used by one party against another. It also, I will admit, makes it nearly impossible to call.'".
+  }
+  // Laying the case: whom to Name. A Bare is not bound by Unfacing, and a Named man is Peck.
+  Action hearing_name_lacke(actor: group, site: place) "Lay the case against the Warden of Locks, and Name him" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(chaplain, site) and hearingHeld(actor) and not hearingLaid(actor) and knows(actor, lacke_unfaced) and knows(actor, lacke_taxed).
+    Time 30.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert hearingLaid(actor). Assert lackeNamedAtHearing(actor). Assert named(lacke). Assert roundDone(actor, r_lacke). }
+    On failure { Assert hearingLaid(actor). Assert lackeSparedAtHearing(actor). }
+    Result "You say it. You say who was in the lamp-room, and what he said there, and whose name he said, and what he has been taking from the locks of Ombra for eleven years, and then you say his name, which a Bare may do. The nave makes a sound like a great many people breathing out. In the Drip by dusk they will be crying it, and every grudge of a decade will go looking for the house of Corvin Lacke. You have done to him what was once done to a man in the Hospice. It is not clear to you that it is not just.".
+    Otherwise "You say it in the wrong order, or with the wrong word, or the proofs are not enough; and the Chaplain, who must be fair, says that the Hearing cannot hold a man on a Bare's say-so alone. Lacke is not Named. The Key will walk out of the Chapel on its own two legs, in daylight, in the face of a hundred people, and nobody will be able to say why.".
+  }
+  Action hearing_spend_lacke(actor: group, site: place) "Lay the case, and offer the Warden of Locks a graceful Spending" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(chaplain, site) and hearingHeld(actor) and not hearingLaid(actor) and knows(actor, lacke_unfaced) and knows(actor, lacke_taxed).
+    Time 30.
+    Resolve check(actor, insight, dc_fair).
+    On success { Assert hearingLaid(actor). Assert lackeSpentAtHearing(actor). Assert roundDone(actor, r_lacke). }
+    On failure { Assert hearingLaid(actor). Assert lackeSparedAtHearing(actor). }
+    Result "You lay the case, but not the name. You say the Key is to be Spent, this night, with his mask in the Urn Hall and the Lock-tax paid back out of his own purse; that nothing else be said by anybody in this room; and that he walk out of the Chapel a cooper, or a clock-mender, with a face and a name nobody may say. You see his hands, in the herons' benches, stop moving. It is not mercy. It is the only thing in the whole city that costs him more than being Named: it takes the thing he had that was his own.".
+    Otherwise "He sees you coming, and speaks first, and the Hearing, which loves a man who speaks first, is on his side before you have drawn a breath.".
+  }
+  Action hearing_spare_lacke(actor: group, site: place) "Say nothing of the Warden of Locks, and lay only the Registrar's death" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(chaplain, site) and hearingHeld(actor) and not hearingLaid(actor).
+    Time 20.
+    On success { Assert hearingLaid(actor). Assert lackeSparedAtHearing(actor). }
+    Result "You tell the Hearing only what is certain: that the Registrar died of her heart, and that her mask was put straight by a frightened hand. It is all quite true. It is received with the relief of a very large room that has been told it may go home. Somewhere on the Warden's bench a pen is put down. You can hear it.".
+  }
+}

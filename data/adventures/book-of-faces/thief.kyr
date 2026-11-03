@@ -1,0 +1,583 @@
+Module ombra "The Book of Faces" {
+  // ── The Cast-Room ─────────────────────────────────────────────────────────────────────────────────────────────────
+  // The thief's own: a heist in five stages on the Wall of Faces under Madame Pavane's house (maskers.kyr). Anyone may
+  // do it; a company with lockwork, stealth and climbing does it cheaply; a company with none may do it by the apprentice
+  // (a favour taken from a boy), by the Many Hands (a price in coin and in squeezes), or as the Fitter's guest (a trust
+  // taken from a woman). The stages: (1) casing, (2) a crew, (3) a way in, (4) the take, (5) the fence; and at the Drawing
+  // the hand_cast, in the Urn Hall. A thief takes what is owed, what is valuable, or what is hidden:
+  //   owed      Absalom Peck's cast, turned to the wall among the Named, and one's own cast, if one sat for it;
+  //   valuable  the Offices' casts, the faces the Offices are cut to (th_keys);
+  //   hidden    the Menders' row and the Registrar's cast, the proof of the Lie (th_proof).
+  // What it leaves: heat, the Fitter, a boy who is turned out unless the company goes back, the Hands' squeezes.
+  //
+  // For the other files: handReady/handPlayed (hand_cast) and arcBegun; th_cast_vane, th_cast_lacke, th_cast_broken,
+  // th_cast_back (what became of the casts: relations on the party); th_proof_*, th_keys_* the same per kind.
+
+  // ── Obadiah Slee, of the Many Hands ───────────────────────────────────────────────────────────────────────────────
+  // The Many Hands are the pickpockets' guild; they have worn the Magpie's domino four hundred years and been taken for
+  // tallymen. Slee is their fence, and sells silence by weight: a secret is priced at what it would cost the person it
+  // is kept from, and weighed on a brass scale with a sworn weight in the other pan. He wants one thing of the cellar,
+  // which is a squeeze of the Warden of Locks' face, because the Warden taxes their locks.
+  Person th_slee "Obadiah Slee" at maskers_lane {
+    Role "the fence of the Many Hands". Ancestry halfling. Pronouns he. Manner acerbic.
+    Known as "a small man in a Magpie's domino beside a barrow and a brass scale" when publicHours() and not knows(party, th_slee_name).
+    Known as "a small man in his shirtsleeves with a brass scale at his knee" when privateHours() and not knows(party, th_slee_name).
+    Greets "A small man with very clean hands has not looked up from the scale since you came near, and it has told him, you suspect, everything he needs. 'Weight of a coat,' he says, to nobody. 'Weight of a cough. Weight of a thing you'd as soon was not said.' He sets a brass weight on one pan and watches the other rise. 'Good day to you. I sell faces, nearly. Sometimes I sell the other thing.'".
+    Greets again "'Weight of the day,' says Slee, and does not look up.".
+  }
+  Discovery th_slee_name "The Many Hands' fence is Obadiah Slee, who sells silence by weight from a barrow in Maskers' Lane by day and from the drying-loft over the Cockle and Heron by night.".
+  Discovery th_slee_terms "Slee of the Many Hands will give a company a roof and a muffled bell-line and weigh the silence afterward, for fourteen coin and a cut: the Hands take a squeeze of whatever comes out of the Wall.".
+  Discovery th_slee_wants "What Slee wants of the Wall is not coin: it is a squeeze of the Warden of Locks' face, since the Warden taxes the Hands' locks, and a Key-mask that fitted would open every one of the Warden's doors.".
+  Rule th_slee_barrow when hour(clock) >= 11 and hour(clock) < 17 and not at(th_slee, maskers_lane) { Assert at(th_slee, maskers_lane). }
+  Rule th_slee_loft when (hour(clock) >= 20 or hour(clock) < 3) and not at(th_slee, mk_loft) { Assert at(th_slee, mk_loft). }
+  Rule th_slee_bed when ((hour(clock) >= 3 and hour(clock) < 11) or (hour(clock) >= 17 and hour(clock) < 20)) and not at(th_slee, offstage) { Assert at(th_slee, offstage). }
+  Observe th_slee_loft_scene at mk_loft when at(th_slee, mk_loft) "At the end of the loft, among the masks on their lines, a man sits on a crate in his shirtsleeves with a brass scale between his feet. Beside it, in a row, are the weights: little brass things, in sizes, each with a word stamped on it in a language that is only letters.".
+
+  Topic th_slee_cold with th_slee "Say good day to the man with the scale" when not masked(actor) and publicHours() {
+    Says "The scale does not move. 'Not at home to the Bare, by day,' says Slee, pleasantly. 'By day I am a Magpie with a barrow. At night I am at home to everyone with nothing to lose.' His eyes, which are very mild, go once up and down you like a thumb along a blade. 'It is an hour after the Ninth Bell. Mind the ladder; the Heron drips.'".
+  }
+  Topic th_slee_day with th_slee "Ask the hawker what he is weighing" when masked(actor) and publicHours() once {
+    Says "'Faces,' says Slee. 'Second-hand ones, mostly; the best faces have been worn.' He sets a Gull on one pan and a brass weight on the other, and the Gull goes up. 'I weigh other things, if the face is right: a thing you would rather not have said, say, or not have seen. Silence is sold by weight in this lane. A pound of it costs about what the thing costs.' Under the Magpie's domino his eyes weigh you without the scale. 'Come when the Lane has gone home, if you have such a thing.'".
+    On discuss { Assert knows(actor, th_slee_name). }
+  }
+  Topic th_slee_hello with th_slee "Climb the ladder to the loft, bare, and say you were told to come" when not masked(actor) and privateHours() and at(th_slee, mk_loft) once {
+    Says "'Faces off at the stair,' says Slee. 'You've done that. Good. A masked man in my loft at night is a burglar, and I am a respectable house of crime.' He taps the scale. 'Obadiah Slee, of the Hands. You have a thing in the Fitter's cellar, I think. You look it. Everyone who comes up that ladder after dark has a thing in somebody's cellar.' He moves a weight a quarter inch. 'Sit. Mind the Heron on your left. He drips.'".
+    On discuss { Assert knows(actor, th_slee_name). }
+  }
+  Topic th_slee_terms_ask with th_slee "Ask what the Hands would do for a share" when not masked(actor) and privateHours() and knows(actor, th_slee_name) and at(th_slee, mk_loft) once {
+    Says "'A hand on the roof, a muffle for the bell-line, a silence afterward, weighed honest.' He ticks them off without raising his hands. 'The roof is on me; the bells are a child called Tick, who is eleven and could go through a keyhole; the silence is by weight, and I weigh fair. Fourteen coin, the lot. And a cut. The Hands take a squeeze of anything that comes out of that cellar. It is not mine to waive; I am a clerk of it.' He does not smile. 'You can say no. They generally come back.'".
+    On discuss { Assert knows(actor, th_slee_terms). }
+  }
+  Measure th_fee(group).
+  Initially Set th_fee(party) to 14.
+  Relation th_read_slee(group). Relation th_haggled(group). Relation th_bluffed(group). Relation th_waive_tried(group). Relation th_cut_waived(group).
+  Relation th_slee_paid(group). Relation th_parcel_done(group). Relation th_slee_secret_given(group).
+  // First check: a man who sells silence by weight tells you what he wants by what he leaves on the scale.
+  Action th_slee_read(actor: group, site: place) "Watch what Slee does with his hands when you say the word cellar, and say what you think he wants" {
+    Speaker th_slee.
+    Requires able(actor) and company(actor) and at(actor, site) and at(th_slee, site) and privateHours() and not masked(actor) and knows(actor, th_slee_terms) and not th_read_slee(actor).
+    Time 10 minutes.
+    Resolve check(actor, insight, dc_fair).
+    On success { Assert th_read_slee(actor). Assert knows(actor, th_slee_wants). }
+    On failure { Assert th_read_slee(actor). }
+    Result "When you say the word cellar his left hand goes still on the scale, and his right goes on moving the weights: that is the hand that does not care. You say it is not the casts. You say it is one cast; you say it is a man who taxes locks. For a very long moment Slee looks at the scale as at a witness. 'The Warden of Locks,' he says. 'Corvin. Two coin on every lock the Hands have ever opened, and a Key-mask that fitted would open every door he owns. Yes.' He weighs it, and finds that he does not mind that you know. 'I like to be read. It happens so seldom.'".
+    Otherwise "You say you think he wants coin, and a great deal of it, and he agrees with you gently, in the manner of a man agreeing that it is raining. His left hand did something when you said cellar. You did not see what.".
+  }
+  // Second: the price. One try. A failed haggle is a dearer bargain.
+  Action th_slee_haggle(actor: group, site: place) "Haggle with Slee over the fourteen coin" {
+    Speaker th_slee.
+    Requires able(actor) and company(actor) and at(actor, site) and at(th_slee, site) and privateHours() and not masked(actor) and knows(actor, th_slee_terms) and not th_haggled(actor) and not th_slee_paid(actor).
+    Time 10 minutes.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert th_haggled(actor). Decrease th_fee(actor) by 5 or to nothing. }
+    On failure { Assert th_haggled(actor). Increase th_fee(actor) by 2. }
+    Result "You do not argue the price; you argue the weight, which is the Hands' only philosophy: that a silence kept for a child of eleven, over a roof, in the rain, is lighter than a silence kept in a room with a stove. He weighs it. He is a man who loves to be beaten fairly. 'Nine,' he says. 'And I shall tell the Hands I was robbed.'".
+    Otherwise "He lets you talk. When you have finished he puts a very small brass weight on the pan, and the pan does not move. 'Sixteen,' says Slee, with immense regret. 'The silence has got heavier while you were speaking. That is how it is with silence.'".
+  }
+  // Third: the Hands' own name, borrowed. A lie told to a man whose trade is lies has to be a particular kind of lie.
+  Action th_slee_bluff(actor: group, site: place) "Let Slee think that a Magpie of the Hands gave you the way up the ladder" {
+    Speaker th_slee.
+    Requires able(actor) and company(actor) and at(actor, site) and at(th_slee, site) and privateHours() and not masked(actor) and knows(actor, th_slee_terms) and not th_bluffed(actor) and not th_slee_paid(actor).
+    Time 5 minutes.
+    Resolve check(actor, deception, dc_fair).
+    On success { Assert th_bluffed(actor). Decrease th_fee(actor) by 4 or to nothing. }
+    On failure { Assert th_bluffed(actor). Increase th_fee(actor) by 4. }
+    Result "You say that a woman in a Magpie's domino at the Row quay, with one boot, told you. You do not say her name; you say her boot. It is the right detail: there is a Magpie with one boot, and Slee's face does a small, brief thing around the eyes, and he says that Wick has a mouth like a drain and a heart like a church. 'Ten,' he says. 'For a friend of Wick's. Do not tell her I said friend.'".
+    Otherwise "'There is no Magpie with one boot,' says Slee, kindly, putting down a weight. 'There is a Magpie with two, and he has not told anyone the way up my ladder, because he does not know it.' He looks at you a while. 'Eighteen. For the lie. It was a good lie; it just was not true.'".
+  }
+  // Fourth: to be let off the cut. Slee will not, for argument; for something he wants more than he wants squeezes, perhaps.
+  Action th_slee_waive(actor: group, site: place) "Ask Slee to let the Hands forgo their squeeze" {
+    Speaker th_slee.
+    Requires able(actor) and company(actor) and at(actor, site) and at(th_slee, site) and privateHours() and not masked(actor) and knows(actor, th_slee_terms) and not th_cut_waived(actor) and not th_waive_tried(actor) and not th_slee_paid(actor) and not th_read_slee(actor).
+    Time 10 minutes.
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert th_waive_tried(actor). Assert th_cut_waived(actor). }
+    On failure { Assert th_waive_tried(actor). }
+    Result "You say that a squeeze is a Hand in the Wall's pocket for as long as there are Walls, and that the thing you want is for the Wall to have no pockets. You say it as if it were a principle. It is, a little. Slee looks at you for a while with his head on one side. 'The Hands do not have principles,' he says, 'but we are famously fond of people who have.' He moves a weight off the scale. 'No cut. I shall tell them I was moved. They will say I am growing soft. I am.'".
+    Otherwise "'A squeeze is a squeeze,' says Slee, and the voice is the voice of a man reading from a book of rules, which he is. 'It is not a thing I can waive. It is a thing I can be sorry about.' He is, a little.".
+  }
+  Action th_slee_waive_read(actor: group, site: place) "Ask Slee to let the Hands forgo their squeeze, for the sake of what he wants" {
+    Speaker th_slee.
+    Requires able(actor) and company(actor) and at(actor, site) and at(th_slee, site) and privateHours() and not masked(actor) and knows(actor, th_slee_wants) and not th_cut_waived(actor) and not th_waive_tried(actor) and not th_slee_paid(actor).
+    Time 10 minutes.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert th_waive_tried(actor). Assert th_cut_waived(actor). }
+    On failure { Assert th_waive_tried(actor). }
+    Result "You say you will bring him the Warden's face, or the next best thing, if the Hands forgo the rest. It is a promise only of a kind, and he knows it. 'A man who taxes locks,' says Slee, slowly, 'and a Key-mask that would not fit.' He puts a hand flat over the scale, which is the Hands' way of closing a matter. 'No cut. Bring me the Warden, and we are paid.'".
+    Otherwise "He listens with the whole of his face, and shakes his head, and the voice in which he says no is a wistful one. 'I should like to,' says Slee. 'I should like it very much. But the cut is the Hands'. It is only the Warden that is mine.'".
+  }
+  // Fifth: a thing carried, which asks neither wit nor skill: an errand the Hands cannot send their own on.
+  Kind th_parcel_kind "Slee's parcel" is gear worth 0 weighing 1 described "A parcel in greasy sacking the size of two fists, tied with a bit of ribbon that has been tied and untied a great many times. It is heavy for its size, and it ticks, very faintly, as a clock does that has not been told it is not wanted.".
+  Item th_parcel "Slee's parcel" is th_parcel_kind at offstage.
+  Topic th_slee_parcel with th_slee "Ask what the Hands would have you carry, in place of coin" when not masked(actor) and privateHours() and knows(actor, th_slee_terms) and not th_parcel_done(actor) and not carries(actor, th_parcel) and not th_slee_paid(actor) once {
+    Says "'Carry.' He looks, for the first time, quite pleased. 'There is a parcel. It goes to the end of the Row quay, where a boy with one boot will take it. You do not open it and you do not ask. If the Watch stops you, it is an eel. I should hold it a little away from you.' He puts it on the crate between you. 'Four off the fee. And my good opinion, which is not for sale, so you may as well have it for nothing.'".
+    On discuss { Give th_parcel to actor. }
+  }
+  Action th_deliver_parcel(actor: group, site: place) "Leave the parcel at the end of the Row quay for the boy with one boot" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, row_quay) and carries(actor, th_parcel).
+    Time 15 minutes.
+    On success { Spend th_parcel from actor. Assert th_parcel_done(actor). Decrease th_fee(actor) by 4 or to nothing. }
+    Result "The boy with one boot is there, in the rain, at the end of the quay, as if he had been put there by the quay. He takes the parcel in both hands, does not say a word, and weighs it with his arms; then he is gone along the edge of the water faster than a boy with one boot should be. It stopped ticking when he took it. You will never know what it was.".
+  }
+  // Sixth: a secret for a secret. What the Hands were never able to prove about the Warden of Locks is worth more than coin.
+  Action th_slee_secret(actor: group, site: place) "Tell Slee, as a thing weighed, that the Warden of Locks has been skimming the Lock-tax" {
+    Speaker th_slee.
+    Requires able(actor) and company(actor) and at(actor, site) and at(th_slee, site) and privateHours() and not masked(actor) and knows(actor, th_slee_terms) and knows(actor, lacke_taxed) and not th_slee_secret_given(actor) and not th_slee_paid(actor).
+    Time 5 minutes.
+    On success { Assert th_slee_secret_given(actor). Assert th_cut_waived(actor). Set th_fee(actor) to 0. }
+    Result "He does not write it down. A man who writes down what he is told ends in the Cuff. He puts a brass weight on the pan, a heavy one, and looks at it for a time without breathing. 'Skimming,' says Slee. 'For years. And I have been paying him the tax.' The look on his face is the look of a man whose scale has at last been used. 'This is worth more than fourteen coin. It is worth more than the cut. Go up the roof, and I shall see that the bell is muffled, and nothing is owed. You have given me a thing I can weigh. It is the only currency I trust.'".
+  }
+  Action th_slee_deal(actor: group, site: place) "Strike the bargain with Slee: a roof, a muffled bell-line, a weighed silence" {
+    Speaker th_slee.
+    Requires able(actor) and company(actor) and at(actor, site) and at(th_slee, site) and privateHours() and hour(clock) >= 20 and hour(clock) < 23 and not masked(actor) and knows(actor, th_slee_terms) and not th_slee_paid(actor) and not th_crew_dov(actor) and not th_crew_alone(actor) and quantity(actor, gold) >= th_fee(actor).
+    Time 10 minutes.
+    On success { Decrease quantity(actor, gold) by th_fee(actor). Increase quantity(th_slee, gold) by th_fee(actor). Assert th_slee_paid(actor). Assert th_crew_slee(actor). Assert th_bells_off(actor). Assert knows(actor, th_routine). Assert knows(actor, th_bells). Assert knows(actor, th_roof_way). }
+    Result "You put the coin on the crate, and he does not count it; he weighs it, on the scale, against a word. 'Tonight, at eleven, the skylight bolt is off, and a child called Tick has been along the roof with a plank,' he says. 'The Fitter is at her stove until one, and abed after, with the cellar key on a chain at her neck, and a line of tin bells from her bed to the stair-head. Tick will be at the bell. You go in after one. You go down. You come out. You come back to me, with what you have, and I weigh it.' He puts a finger on the scale. 'Not before one. She is a light sleeper until one.'".
+  }
+  // The Hands' silence, afterward, by weight: a coin for each thing taken, and six beyond the lot.
+  Measure th_loot(group).
+  Action th_slee_silence(actor: group, site: place) "Have Slee weigh the silence over what has come out of the cellar" {
+    Speaker th_slee.
+    Requires able(actor) and company(actor) and at(actor, site) and at(th_slee, site) and th_crew_slee(actor) and th_took_any(actor) and not th_silenced(actor) and quantity(actor, gold) >= th_loot(actor) * 4 + 6.
+    Time 10 minutes.
+    On success { Decrease quantity(actor, gold) by th_loot(actor) * 4 + 6. Increase quantity(th_slee, gold) by th_loot(actor) * 4 + 6. Assert th_silenced(actor). }
+    Result "He weighs what you took, on the scale, in his hands, with his eyes shut, as a priest weighs a sin; then the price of the silence, in coin, against a word you cannot read. 'Heavy,' he says. 'Plaster is. It is a pound of plaster for a pound of trouble.' He takes the coin, and the lane's gossip of tomorrow will not have your shape in it. Whoever speaks of the cellar will be wrong in a way that is useful.".
+  }
+  Relation th_silenced(group).
+  Action th_slee_squeezes(actor: group, site: place) "Buy back the Hands' squeezes of the casts you took, thirty coin" {
+    Speaker th_slee.
+    Requires able(actor) and company(actor) and at(actor, site) and at(th_slee, site) and th_hands_squeezed(actor) and not th_squeezes_back(actor) and quantity(actor, gold) >= 30.
+    Time 10 minutes.
+    On success { Decrease quantity(actor, gold) by 30. Increase quantity(th_slee, gold) by 30. Assert th_squeezes_back(actor). }
+    Result "'Thirty,' says Slee, with the sorrow of a man selling a favourite horse, and takes a flat parcel out of the lining of the crate, and a second, and a third; and the plaster faces on them are very fine, and very thin, and look like what they are, which is a coat the Hands had been going to wear. 'I should say they were burnt. But I do not lie to people who have paid.' He gives them to you. 'You will want to burn them. Not in my stove.'".
+  }
+  Relation th_squeezes_back(group). Relation th_hands_squeezed(group).
+  Action th_slee_hand_name(actor: group, site: place) "Show Slee what you carried out of the Fitter's house, and ask whether it is a name" {
+    Speaker th_slee.
+    Requires able(actor) and company(actor) and at(actor, site) and at(th_slee, site) and th_took_any(actor) and not th_hands_name(actor) and not th_seen(actor) and (th_crew_slee(actor) or th_crew_alone(actor)).
+    Time 10 minutes.
+    On success { Assert th_hands_name(actor). }
+    Result "He looks at what you have, and at you, and for the first time he takes his hand off the scale. 'In by the roof, down by the wall, out by the same, and not a bell,' says Slee. 'In forty years I've had it done twice.' He gets up, which he does not do, and puts out a very clean hand. 'You are a Hand,' he says. 'The name is Pale Sparrow, and it is yours, and you may say it in any pocket in Ombra, and it will be known. You may not say it to the Watch.' It is the first time anyone in Ombra has given you a name that is not a mask.".
+  }
+  Relation th_hands_name(group).
+  Action th_slee_lesson(actor: group, who: member, site: place) "Have {who} shown the Hands' third trick by Slee" {
+    Speaker th_slee.
+    Requires able(actor) and company(actor) and at(actor, site) and at(th_slee, site) and memberOf(who, actor) and th_hands_name(actor) and not th_lesson_given(actor).
+    Time 3.
+    Resolve endow(who, dexterity, by_one).
+    On success { Assert th_lesson_given(actor). }
+    Result "It is a trick with the thumb and the third finger and a coin that is not there. He shows it eleven times, slowly, then once at the speed of a thought, and you cannot see where the coin went; and then the Pale Sparrow takes it out of your own sleeve. 'It is not for the Fitter's lock,' he says. 'It is for the day somebody asks to see your hands.'".
+  }
+  Relation th_lesson_given(group).
+
+  // ── Stage one: casing ─────────────────────────────────────────────────────────────────────────────────────────────
+  // The Fitter's night, the bell-line, the roof, the key. Three ways to learn it: watch, ask the boy, buy it from Slee.
+  Discovery th_routine "Madame Pavane is at her stove until one in the morning and abed after, with the cellar key on a chain about her neck; a Fitter's house keeps no dog, only habit.".
+  Discovery th_bells "A line of tin bells runs from the Fitter's bed to the head of the cellar stair, strung a hand above the third step; whoever goes down must step along the wall or cut the cord.".
+  Discovery th_dov_key "Dov Ashe sweeps the Wall and keeps a copy of the cellar key on a cord inside his shirt.".
+  Discovery th_roof_way "The slates over the Fitter's parlour are loose at the north end and the skylight's bolt is a thin hook on the inside, which a blade slid between frame and sash will lift.".
+  Query th_cased(a: group) means knows(a, th_routine) and knows(a, th_bells).
+  Relation th_alerted(group). Relation th_watched(group).
+  Action th_watch_house(actor: group, site: place) "Watch Madame Pavane's house from the lane, through a night, for the way it keeps itself" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, maskers_lane) and privateHours() and hour(clock) >= 20 and hour(clock) < 23 and not masked(actor) and not th_cased(actor) and not th_watched(actor).
+    Time 6.
+    Resolve check(actor, stealth, dc_fair).
+    On success { Assert th_watched(actor). Assert knows(actor, th_routine). Assert knows(actor, th_bells). Assert knows(actor, th_roof_way). }
+    On failure { Assert th_watched(actor). Assert th_alerted(actor). Increase heat(actor) by 1. }
+    Result "You find the doorway of the shut mask-shop opposite, and you wait in it, and the lane goes by you in its night: the Fitter's lamp, the Fitter's shadow on the ground glass, the boy going up the roof ladder with a bundle at eight and coming down again at midnight. At one the lamp goes out. A second light, small, moves through the house and stops at the head of a stair and a window you cannot see; and then there is a line of little notes in the air, like a spoon on a glass, as if somebody were testing something. A string of tin bells. At one in the morning the Fitter goes to bed with her key about her neck. The slates over the parlour are a different grey at the north end, where a tile is out.".
+    Otherwise "You find the doorway opposite, and wait in it, and it is a very long and very wet hour. Somebody at the Cockle and Heron's shutter sees a shape where there should not be one, and says so, loudly, in the way the Lane says things: to nobody, at the top of its voice. A lamp comes on at the Fitter's. You go home, and the Fitter, in her dressing-gown, comes out on the step to look at the rain for a good while.".
+  }
+  Topic th_dov_idle with dov "Ask Dov, idly, how the Fitter's house keeps itself at night" when not masked(actor) and at(dov, maskers_roof) and mk_dov_trusts(actor) and not th_dov_asked(actor) once {
+    Says "'Keeps itself?' He laughs, being sixteen and fond of being asked anything. 'She goes to bed at one. Always. There's a bell-line from her bed to the cellar stair, since the year somebody lifted a Mender's cast; you go along the wall, on the left, and it does not ring. The roof bolt's a hook. I'm the only one who knows.' He pats his shirt. 'And the key, the spare, I had made, so as not to wake her for the sweeping. Why?' He looks at you, and the laugh goes out, and does not quite leave. 'Why do you want to know?'".
+    On discuss { Assert th_dov_asked(actor). Assert knows(actor, th_routine). Assert knows(actor, th_bells). Assert knows(actor, th_dov_key). Assert knows(actor, th_roof_way). }
+  }
+  Relation th_dov_asked(group).
+
+  // ── Stage two: a crew ─────────────────────────────────────────────────────────────────────────────────────────────
+  // Alone; the apprentice (the inside man, and what it costs him); the Hands (coin, and a cut). One only.
+  Relation th_crew_alone(group). Relation th_crew_dov(group). Relation th_crew_slee(group).
+  Action th_decide_alone(actor: group, site: place) "Resolve to do it with nobody's help and nobody's name" {
+    Requires able(actor) and company(actor) and at(actor, site) and th_cased(actor) and not th_crew_alone(actor) and not th_crew_dov(actor) and not th_crew_slee(actor).
+    Time 0.
+    On success { Assert th_crew_alone(actor). }
+    Result "You will do it alone: the roof, the bolt, the key, the line of bells, the dark, and afterward nobody to say it was you. It is the most expensive way, and the only one with nobody to blame.".
+  }
+  Promise th_dov_promise "to keep Dov Ashe out of it" to dov
+    kept at the close when th_crew_dov(party) and not th_dov_failed(party) "Dov Ashe was kept out of it, as you said."
+    broken when th_dov_failed(party) "The Fitter has put Dov Ashe out of her house for a key that was used, and you said he would not be blamed." { }.
+  Relation th_dov_failed(group).
+  Action th_dov_recruit(actor: group, site: place) "Ask Dov, as you would ask a journeyman, to be your inside man" {
+    Speaker dov.
+    Requires able(actor) and company(actor) and at(actor, site) and at(dov, site) and at(dov, maskers_roof) and not masked(actor) and mk_dov_trusts(actor) and th_dov_asked(actor) and not th_crew_dov(actor) and not th_crew_alone(actor) and not th_crew_slee(actor) and not th_dov_refused(actor).
+    Time 10 minutes.
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert th_crew_dov(actor). Assert th_have_key(actor). Assert th_bells_off(actor). Assert promiseMade(th_dov_promise). }
+    On failure { Assert th_dov_refused(actor). Assert th_alerted(actor). }
+    Result "You ask him as you would ask a journeyman, and he has never been asked: you can see it arrive, like a coin dropped down a well. 'It's the Wall,' he says. 'It's the faces. Not her. The faces.' He takes the cord from inside his shirt, with the little key on it, and holds it a while, and does not give it. 'If she finds it,' he says, 'it'll be me. It's only me that has one.' You say it will not be him. You say it in so many words. He gives you the key as one gives away the last of something. 'Go along the wall on the left,' he says. 'Not the right. Not ever the right.'".
+    Otherwise "He goes quite still, and then he is up and has put the width of the ridge between you. 'No,' he says. 'No. It's the Wall.' He is too frightened to be angry, and it makes him sound like his mother. 'I'll not say. I'll not say anything. But I shall have to tell her somebody was asking after the cellar, because they were.' He is gone down the ladder, and the lamp in the Fitter's window goes on.".
+  }
+  Relation th_dov_refused(group).
+  // The same key, by the other way: not asked of him but taken from a gratitude. It costs nothing to the company, and costs him.
+  Topic th_dov_favour with dov "Ask Dov for the spare key, as the favour he owes you" when not masked(actor) and at(dov, maskers_roof) and mk_dov_trusts(actor) and mk_dov_free(actor) and th_dov_asked(actor) and not th_crew_dov(actor) and not th_crew_alone(actor) and not th_crew_slee(actor) once {
+    Says "He gives it as if you had asked him for a glass of water. 'Of course,' says Dov, and takes the cord off over his head, and puts it in your hand, and does not ask what it is for, because you are the person who sat on a wet roof with him for an hour and asked him nothing, and because the world has only recently begun to be kind to him, and he has not yet learned that kindness has a price. 'Along the wall on the left,' he says. 'The right rings.'".
+    On discuss { Assert th_crew_dov(actor). Assert th_have_key(actor). Assert th_bells_off(actor). Assert promiseMade(th_dov_promise). Assert th_dov_used(actor). }
+  }
+  Relation th_dov_used(group).
+
+  // ── Stage three: the way in ───────────────────────────────────────────────────────────────────────────────────────
+  // The roof, by the parlour skylight; the front, as a customer who does not leave; the guest, who is received.
+  Relation th_was_guest(group). Relation th_on_slates(group). Relation th_have_key(group). Relation th_bells_off(group). Relation th_intruder(group). Relation th_via_guest(group).
+  Relation th_seen(group). Relation th_heat_paid(group). Relation th_hidden(group).
+  Thing th_skylight "the parlour skylight" on roof_parlour {
+    State bolted blocking "The parlour skylight is a small hinged window set in the pitch, bolted on the inside; through the glass, far below, a stove-glow and the edge of a table.".
+    State unbolted blocking "The skylight stands unbolted, a hand's breadth ajar, and the warm air coming up through it smells of plaster and kettle. The drop is the height of a tall man.".
+  }
+  Rule th_skylight_crewed when (th_crew_dov(party) or th_crew_slee(party)) and state(th_skylight, bolted) and (hour(clock) >= 23 or hour(clock) < 5) { Retract state(th_skylight, bolted). Assert state(th_skylight, unbolted). Assert th_on_slates(party). }
+  Rule th_rebolt when state(th_skylight, unbolted) and hour(clock) >= 7 and hour(clock) < 12 and not at(party, pavane_parlour) { Retract state(th_skylight, unbolted). Assert state(th_skylight, bolted). Retract th_on_slates(party). }
+  Rule th_guest_ends when th_via_guest(party) and hour(clock) >= 7 and hour(clock) < 12 { Retract th_via_guest(party). }
+  Action th_cross_slates(actor: group, site: place) "Cross the wet slates to the Fitter's skylight, by the north end" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, maskers_roof) and privateHours() and not masked(actor) and knows(actor, th_roof_way) and not th_on_slates(actor) and not th_crew_dov(actor) and not th_crew_slee(actor).
+    Time 20 minutes.
+    Resolve check(actor, climbing, dc_fair).
+    On success { Assert th_on_slates(actor). }
+    On failure { Assert th_seen(actor). Assert th_alerted(actor). }
+    Result "The slates are slick and the gutters are loud, and at the north end of the pitch, where the tile is out, you go on your belly like a lizard, and the whole of the Lane is under you, all its shutters, all its faces, going on being nobody. You do not look down. You reach the skylight with your cheek against the wet glass and the stove-glow in it, and you lie there, listening, and nothing in the house has heard.".
+    Otherwise "A tile goes. You hear it go the way you hear a word you cannot take back: down the pitch, over the gutter, in a long singing fall to the lane. It lands in the lamp from the Fitter's sill in a spray of white. Somewhere, a shutter. A man shouts, in the manner of the Lane, at nobody. You are lying quite flat on a roof, and every light in the lane has come on.".
+  }
+  Action th_lift_bolt(actor: group, site: place) "Slide a blade between sash and frame and lift the bolt-hook" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, maskers_roof) and th_on_slates(actor) and state(th_skylight, bolted).
+    Time 10 minutes.
+    Resolve check(actor, lockwork, dc_fair).
+    On success { Retract state(th_skylight, bolted). Assert state(th_skylight, unbolted). }
+    On failure { Assert th_seen(actor). Assert th_alerted(actor). }
+    Result "It is not a lock; it is an idea of a lock, a hook in an eye, and the blade lifts it with the sound of a sigh. The skylight comes up a hand's breadth on its own weight. The room under it is warm.".
+    Otherwise "The blade skids, and rings on the hook, once. It is a very small sound in a very large rain. You lie with the knife in your hand and count; at fifty, a window in the house below opens, and a head looks out, at the sky, and shuts it.".
+  }
+  Action th_drop_in(actor: group, site: place) "Let yourself down through the skylight into the Fitter's parlour" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, maskers_roof) and state(th_skylight, unbolted) and not masked(actor).
+    Time 3 minutes.
+    On success { Assert at(actor, pavane_parlour). Assert th_intruder(actor). }
+    Result "You hang by your hands from the frame and drop. The table takes your hip. The stove is a coal in the dark, and the unfinished mask on its stand has no face to look at you with. The cellar door is in the corner, with its good lock.".
+  }
+  // The front: the customer who stays. Faces leave a trail: the mask worn to the booking is remembered.
+  Action th_stay_behind(actor: group, mask: face, site: place) "Stay behind in the fitting-room's cupboard of blocks when the Fitter shuts for the day" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, fitting_room) and wears(actor, mask) and masked(actor) and publicHours() and hour(clock) >= 17 and knows(actor, th_routine) and not th_hidden(actor) and quantity(actor, gold) >= 6.
+    Time 20 minutes.
+    Resolve check(actor, stealth, dc_fair).
+    On success { Assert th_hidden(actor). Assert th_intruder(actor). Decrease quantity(actor, gold) by 6. Increase faceHeat(mask) by 2. }
+    On failure { Assert th_alerted(actor). Increase faceHeat(mask) by 2. Assert at(actor, maskers_lane). }
+    Result "You pay six coin for a fitting you will not attend, and say you will wait in the cupboard where the blocks are, to see which suits. She says that is irregular. She says it is, in thirty-nine years, the first time anyone has asked to wait among the faces. You stand behind a hundred plaster brows in the dark, with one of them against your cheek, and when the Fitter has put the sheet over them and put out the lamp and gone through to her stove, you are in the house, and you were never there.".
+    Otherwise "She finds you in the cupboard in a minute and a half, as one finds a coat in a closet, and does not say anything at all; she puts a finger on your brow, the way one puts a finger on a place in a book, and walks you to the door. The mask you wore is, you notice, being looked at very closely. 'A rented face,' she says. 'Hask's pegs. The Annex keeps a ledger.'".
+  }
+  // The guest: received, bare, at her stove; and the thing taken is the thing she has given.
+  Action th_guest_wait(actor: group, site: place) "Stay at the Fitter's stove past midnight, and keep her cup full" {
+    Speaker pavane.
+    Requires able(actor) and company(actor) and at(actor, site) and at(pavane, site) and at(pavane, pavane_parlour) and privateHours() and hour(clock) >= 21 and hour(clock) < 23 and not masked(actor) and mk_pavane_trust(actor) and knows(actor, th_routine) and not th_via_guest(actor).
+    Time 120 minutes.
+    On success { Assert th_via_guest(actor). Assert th_was_guest(actor). Assert th_bells_off(actor). }
+    Result "She talks, tonight, as she has not in a long while: about her master, who cut the first Treasurer's mask she ever saw; about the winter she nearly went home. You put more in her cup than she asks. By midnight her words have slowed, and her head goes down by degrees onto her hand, as a lamp goes down when the oil is low. She is asleep in her chair with the stove ticking and the kettle on the hob. It is a quarter past twelve. There is a chain about her neck, and something small and brass on it, and her breathing is the breathing of a woman who trusts the room.".
+  }
+  Action th_lift_key(actor: group, site: place) "Lift the cellar key from the chain about her sleeping neck" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(pavane, site) and th_via_guest(actor) and not th_have_key(actor).
+    Time 3 minutes.
+    Resolve check(actor, stealth, dc_fair).
+    On success { Assert th_have_key(actor). }
+    On failure { Retract mk_pavane_trust(actor). Assert mk_pavane_cold(actor). Increase heat(actor) by 1. Assert th_alerted(actor). Retract th_via_guest(actor). }
+    Result "The clasp is a hook and an eye, made by someone who did not expect to be robbed in her own chair. You lift the chain with two fingers, a link at a time, over her cheek; she stirs, and murmurs a word in a language you do not know. Then the key is in your palm, warm from her throat. You do not feel clever. You feel like a person who has taken something out of a hand that was open.".
+    Otherwise "Her eyes are open. She has not moved, and her hand is on the chain, over yours. She looks at you for what seems like a long time, with no anger at all. 'Go home,' says Madame Pavane. 'You may let yourself out. I do not think I shall be at home to you again, and I should rather not be told why.' Her voice is perfectly even. The cup beside her has been drunk, and it was not drugged, and neither of you says that this is the worst of it.".
+  }
+  // Inside, the lock, and the bells.
+  Action th_open_cellar_key(actor: group, site: place) "Unlock the cellar door with the key" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, pavane_parlour) and th_have_key(actor) and state(mk_cellar_lock, locked) and not mk_guiding(pavane).
+    Time 2 minutes.
+    On success { Retract state(mk_cellar_lock, locked). Assert state(mk_cellar_lock, open). Assert mk_picked_open(actor). }
+    Result "It turns without a sound, the oil of thirty-nine years of Dov's care in it, and the door swings in on a stair going down into a dim and level lamplight.".
+  }
+  Action th_pick_cellar(actor: group, site: place) "Pick the cellar door's lock" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, pavane_parlour) and not th_have_key(actor) and state(mk_cellar_lock, locked) and not mk_guiding(pavane) and not th_alerted(actor).
+    Time 15 minutes.
+    Resolve check(actor, lockwork, dc_fair).
+    On success { Retract state(mk_cellar_lock, locked). Assert state(mk_cellar_lock, open). Assert mk_picked_open(actor). }
+    On failure { Assert th_seen(actor). }
+    Result "A Fitter's lock is a Fitter's trade: dull, handsome, and good. It takes you a quarter of an hour, with the stove ticking at your back and the unfinished mask watching over your shoulder, and then the last pin gives and the bolt goes back, and a cold air comes up out of the dark smelling of plaster, and oil, and a great many faces.".
+    Otherwise "The pin sets, and slips, and the pick rings in the lock. In the house, somewhere above you, a board moves. A voice that is perfectly awake and perfectly calm says, 'I should be much obliged if you would go away.' You go. You do not go quickly enough to be unseen.".
+  }
+  Action th_pick_cellar_hard(actor: group, site: place) "Pick the cellar door's lock, which has been changed since you were watched" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, pavane_parlour) and not th_have_key(actor) and state(mk_cellar_lock, locked) and not mk_guiding(pavane) and th_alerted(actor).
+    Time 20 minutes.
+    Resolve check(actor, lockwork, dc_hard).
+    On success { Retract state(mk_cellar_lock, locked). Assert state(mk_cellar_lock, open). Assert mk_picked_open(actor). }
+    On failure { Assert th_seen(actor). }
+    Result "She has put a second pin in it, since the night of the tile. You find the new one by feel, like a stone in a pear. The bolt goes back with a groan of a good lock that has been woken.".
+    Otherwise "The new pin sets against you, and the pick breaks in the lock with a sound like a very small neck. Upstairs a voice, perfectly calm: 'Ah.'".
+  }
+  Observe th_bells_seen at pavane_parlour when state(mk_cellar_lock, open) and not th_bells_off(party) and not mk_guiding(pavane) "Across the head of the cellar stair, a hand above the third step, runs a line of cord, and on the cord, at intervals, little tin bells the size of thimbles. They are quite still. A cord goes up from the line to the dark of the ceiling and away toward the bedroom, which is the other side of the wall.".
+  Action th_step_wall(actor: group, site: place) "Go down the stair along the wall, on the left, where the bell-line does not reach" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, pavane_parlour) and state(mk_cellar_lock, open) and not th_bells_off(actor) and not mk_guiding(pavane) and th_intruder(actor).
+    Time 5 minutes.
+    Resolve check(actor, stealth, dc_fair).
+    On success { Assert th_bells_off(actor). }
+    On failure { Assert th_seen(actor). Assert th_bells_off(actor). }
+    Result "You go down with your shoulder to the wall and your breath held, and the cord passes a hand above your hair, and the little bells hang in it like drops on a web, and not one of them moves. At the bottom you let the breath out, and it comes out as a sound.".
+    Otherwise "Your sleeve touches the cord. It is the lightest touch of your life, and every bell on it speaks at once, a silver, rippling, enormous ring, and upstairs a bed creaks. You go down the rest of the stair like a thrown thing. You have perhaps a minute.".
+  }
+  Action th_cut_bells(actor: group, site: place) "Cut the bell-cord where it goes up into the ceiling, and take the bells down in your hand" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, pavane_parlour) and state(mk_cellar_lock, open) and not th_bells_off(actor) and not mk_guiding(pavane) and th_intruder(actor).
+    Time 10 minutes.
+    Resolve check(actor, trapwork, dc_fair).
+    On success { Assert th_bells_off(actor). }
+    On failure { Assert th_seen(actor). Assert th_bells_off(actor). }
+    Result "You follow the cord up to where it enters the plaster, and you find, as any trap-finder knows, that the part of a trap that can be defeated is the part that is not meant to be touched. You pinch the cord between two fingers, lift the weight off the bells, and cut. They come down in your hand with a whisper, all together, and give nothing away.".
+    Otherwise "The cord is stretched tighter than you thought. When it parts, it parts upward, and the whole line sings.".
+  }
+  Rule th_bells_ring when at(party, cast_cellar) and th_intruder(party) and not th_bells_off(party) and not th_bell_said(party) once says "The bells at the stair-head speak as you go down, all together, a little silver peal, and you hear the bed above you creak, and a bare foot find the floor." { Assert th_bell_said(party). Assert th_seen(party). Assert th_bells_off(party). }
+  Relation th_bell_said(group).
+  // The Fitter wakes at five and sleeps lightly: nobody who stays is unseen.
+  Rule th_caught_early when th_intruder(party) and at(party, pavane_parlour) and at(pavane, pavane_parlour) and not th_via_guest(party) and not th_caught_said(party) once says "The parlour is not empty. A woman in a quilted gown is at the stove with a poker in one hand, and has been for some time, and says, quite mildly, 'I have been expecting you since half past nine. You are not good at roofs.' You are in the lane before you know that you moved." { Assert th_caught_said(party). Assert th_seen(party). Assert th_alerted(party). Assert at(party, maskers_lane). Retract th_intruder(party). }
+  Rule th_caught_late when th_intruder(party) and hour(clock) == 6 and (at(party, pavane_parlour) or at(party, cast_cellar) or at(party, fitting_room)) and not th_caught_said(party) once says "The Fitter is up with the grey light, as she has been up with it thirty-nine years, and the parlour is not empty. She stands in the doorway with a lamp and looks at you for a long time, with the look of a woman measuring a face against a face she remembers. 'I think,' she says, 'you had better be in the lane.'" { Assert th_caught_said(party). Assert th_seen(party). Assert at(party, maskers_lane). Retract th_intruder(party). }
+  Relation th_caught_said(group).
+  Rule th_clear_intruder when th_intruder(party) and at(party, maskers_lane) { Retract th_intruder(party). }
+  // The lock is the Fitter's: it is shut again, with a new pin if the company was seen, in the morning.
+  Rule th_relock when mk_picked_open(party) and hour(clock) >= 7 and hour(clock) < 12 and not at(party, cast_cellar) { Retract mk_picked_open(party). Retract state(mk_cellar_lock, open). Assert state(mk_cellar_lock, locked). }
+  // A burglary seen is two heat on the face and the Watch's patience.
+  Rule th_seen_heat when th_seen(party) and not th_heat_paid(party) says "By morning the Lane is saying it, at the top of its voice, to nobody: that somebody was in the Fitter's house in the night. The Watch hears it by the Third Bell." { Assert th_heat_paid(party). Increase heat(party) by 2. }
+
+  // ── Stage four: the take ──────────────────────────────────────────────────────────────────────────────────────────
+  Kind th_proof_kind "the Menders' row and the Registrar's cast" is gear worth 0 weighing 8 described "A sailcloth sack, heavy as a child, full of faces: nineteen casts of the Menders' shelf with their year-chalks, and, wrapped in black wool, a girl's face with a lamp-trimmer's jaw. Together they say what the city has not been told for thirty-one years.".
+  Kind th_keys_kind "the Offices' casts" is gear worth 0 weighing 6 described "A crate of four plaster faces on straw, each with a brass tag still tied to its brow: KEY. POUND. SERENE. WHITE. They are the faces the Offices are cut to this year, and the faces of the people who wear them; a Fitter with one of these and a week could cut a mask to fit anyone's, or anyone to fit a mask.".
+  Kind th_owed_kind "Absalom Peck's cast, turned to the wall" is gear worth 0 weighing 2 described "A plaster face of a boy of sixteen with a broad forehead and a mouth ready to laugh, the plate under it reading A. PECK, and under that, in a heavy chalk, SERENE, and under that a line in a harder hand: NAMED.".
+  Item th_proof "the Menders' row and the Registrar's cast" is th_proof_kind at offstage.
+  Item th_keys "the Offices' casts" is th_keys_kind at offstage.
+  Item th_owed_cast "Absalom Peck's cast" is th_owed_kind at offstage.
+  Relation th_took_proof(group). Relation th_took_keys(group). Relation th_took_owed(group). Relation th_took_own(group). Relation th_took_any(group).
+  Relation th_blanks(group). Measure th_taken_day(group).
+  Observe th_rack at cast_cellar when not th_took_keys(party) "By the stair foot, on a rack of its own like a gunsmith's, nineteen casts stand with a mask-blank on each brow, ready for the spring; the first four have brass tags on string: KEY. POUND. SERENE. WHITE.".
+  Observe th_named at cast_cellar when not th_took_owed(party) "Low by the stair a short shelf has been set apart, whose casts are turned face to the wall, which is the Fitter's courtesy to the Named. There are eleven. A plate on the end one can be read from the side: A. PECK. SERENE.".
+  Observe th_bench at cast_cellar when not carries(party, mk_fitters_picks) "On the Fitter's bench by the lamp, in a saucer, a ring of steel picks lies beside a stub of chalk and a spoon.".
+  Observe th_gap_proof at cast_cellar when th_took_proof(party) "On the Menders' shelf there is a gap, a hand's width and then a row of plaster blanks, grey and rough, standing in the faces' places like teeth in a mouth that has been struck.".
+  Observe th_gap_keys at cast_cellar when th_took_keys(party) "On the Offices' rack four hooks hang bare, and the fifteen casts that are left look at nothing, like people who have been told to wait.".
+  Action th_take_proof(actor: group, site: place) "Take the Menders' row and the Registrar's cast down from the shelves: what is hidden" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, cast_cellar) and not th_took_proof(actor) and not mk_guiding(pavane) and (th_intruder(actor) or th_via_guest(actor)).
+    Time 20 minutes.
+    On success { Give th_proof to actor. Assert th_took_proof(actor). Assert th_took_any(actor). Increase th_loot(actor) by 1. Set th_taken_day(actor) to day(clock). Assert knows(actor, lie_wall). Assert knows(actor, marrick_was_treasurer). }
+    Result "You lift the faces off the shelf one at a time, the nineteen of the Menders' row, and swaddle each in a rag from your pocket, and the plaster is cool and absolutely quiet. The last is under black wool, a girl's: Y. MARRICK, T for the Sluice year, and R. Together they weigh like a man. You have in the sack what the city has not been told in thirty-one years, and it is not heavy at all; it is only plaster.".
+  }
+  Action th_take_keys(actor: group, site: place) "Take the four Offices' casts from the rack: what is valuable" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, cast_cellar) and not th_took_keys(actor) and not mk_guiding(pavane) and (th_intruder(actor) or th_via_guest(actor)).
+    Time 20 minutes.
+    On success { Give th_keys to actor. Assert th_took_keys(actor). Assert th_took_any(actor). Increase th_loot(actor) by 1. Set th_taken_day(actor) to day(clock). }
+    Result "The four on the rack come off their hooks in their straw, KEY and POUND and SERENE and WHITE, each with a brass tag, each with the shut, listening face of somebody who will be told in the morning what has happened to them. You do not look at the faces. They look as faces look on a rack: pleased to have been asked.".
+  }
+  Action th_take_owed(actor: group, site: place) "Take Absalom Peck's cast from the shelf of the Named, turned to the wall: what is owed" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, cast_cellar) and not th_took_owed(actor) and not mk_guiding(pavane) and (th_intruder(actor) or th_via_guest(actor)).
+    Time 10 minutes.
+    On success { Give th_owed_cast to actor. Assert th_took_owed(actor). Assert th_took_any(actor). Increase th_loot(actor) by 1. Set th_taken_day(actor) to day(clock). }
+    Result "You turn it round, which nobody has done in thirty-one years. A boy of sixteen with a broad forehead, ready to laugh, a face no Naming has been able to reach, and in the heavy chalk under it, SERENE, and NAMED. It does not look like a man who is dying. It looks like a man who has not yet been told.".
+  }
+  Action th_take_own(actor: group, site: place) "Take your own cast back, which was cast at your own asking" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, cast_cellar) and castTaken(actor) and not th_took_own(actor) and not mk_guiding(pavane) and (th_intruder(actor) or th_via_guest(actor)).
+    Time 5 minutes.
+    On success { Retract castTaken(actor). Assert th_took_own(actor). Assert th_took_any(actor). Set th_taken_day(actor) to day(clock). }
+    Result "It is on the shelf of your trade, which you have not got, so under STRANGERS, in the Fitter's hand, and it is a very ordinary face. You carry it to the stair-foot and set it on the lowest step and stamp on it, once, quite lightly, the way you break a thin ice. There is no cast of you in Ombra. It is the only thing you have taken from the Wall that you had any right to.".
+  }
+  Action th_take_picks(actor: group, site: place) "Take the Fitter's spare picks from the saucer on her bench" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, cast_cellar) and not carries(actor, mk_fitters_picks) and not mk_guiding(pavane) and (th_intruder(actor) or th_via_guest(actor)).
+    Time 2 minutes.
+    On success { Give mk_fitters_picks to actor. }
+    Result "A ring of steel picks, worn bright at the shank by one hand. They are not worth the trouble of the stair; they are the one thing in the room that is for stealing.".
+  }
+  Action th_pour_blanks(actor: group, site: place) "Pour plaster blanks to stand in the faces' places, as Dov showed you" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, cast_cellar) and th_crew_dov(actor) and th_took_any(actor) and not th_blanks(actor) and not mk_guiding(pavane).
+    Time 60 minutes.
+    On success { Assert th_blanks(actor). }
+    Result "You mix the quick-plaster in the Fitter's own bowl, and pour it into the little moulds, and set the blanks on the shelves where the faces were, and chalk the plates in an imitation of her hand. They are rough and grey, and they will look like what they are to a woman who has looked at forty thousand faces. It might be a week before she looks. It might be three days.".
+  }
+
+  // ── Consequences: she finds out ───────────────────────────────────────────────────────────────────────────────────
+  // At seven she wakes. Unless something stands in the faces' places, or something was bought, she finds the gaps.
+  Rule th_morning_found when th_took_any(party) and hour(clock) >= 9 and hour(clock) < 14 and not th_blanks(party) and not th_silenced(party) and not th_cast_back(party) and not th_was_guest(party) and not th_found(party) and not th_heat_paid(party) once says "In Maskers' Lane, at seven, a woman in a quilted gown goes down a cellar stair with a lamp, and does not come up for a long time. By eight the lamp in the Fitter's window is out, and a boy has been sent to the Watch-house with a note. The note, they say, was not polite." { Assert th_found(party). Increase heat(party) by 2. }
+  Rule th_morning_found_seen when th_took_any(party) and hour(clock) >= 9 and hour(clock) < 14 and not th_blanks(party) and not th_silenced(party) and not th_cast_back(party) and not th_was_guest(party) and not th_found(party) and th_heat_paid(party) once says "In Maskers' Lane, at seven, a woman in a quilted gown goes down a cellar stair with a lamp. She does not take long. By eight a boy has been sent to the Watch-house with a note, and the note names no one; it does not need to." { Assert th_found(party). Increase heat(party) by 1. }
+  Rule th_late_found when th_took_any(party) and th_blanks(party) and not th_cast_back(party) and not th_found(party) and day(clock) >= th_taken_day(party) + 3 and hour(clock) >= 9 once says "On the third morning after, in Maskers' Lane, the Fitter takes a lamp down to the Wall, and stands before the Menders' shelf for an hour, and then, very gently, picks up one of the blanks, and holds it up to the light and breaks it in two. 'Dov,' she says, to the empty cellar. 'Dov.'" { Assert th_found(party). Increase heat(party) by 2. }
+  Rule th_dov_blamed when th_found(party) and th_crew_dov(party) and not th_dov_clear(party) and not mk_dov_dismissed(party) once says "The Fitter has put Dov Ashe out of her house with his things in a pillowcase. It was his key. There is only one other. She said nothing about it; she did not need to. She only looked at him, and he knew she knew, and she did not tell him that she was sorry." { Assert mk_dov_dismissed(party). Assert th_dov_failed(party). }
+  Rule th_guest_found when th_took_any(party) and th_was_guest(party) and hour(clock) >= 9 and hour(clock) < 14 and not th_cast_back(party) and not th_found(party) once says "She knows by the chain. The key was on her neck all night, and it was warm when she woke, and the cup beside her chair was empty, and there was somebody who stayed. She does not send a boy to the Watch about that. She shuts the shutters instead, and puts out the lamp, and sits in the dark of her parlour with the stove ticking, and does not put on her mask for three days." { Assert th_found(party). Assert th_pavane_hurt(party). Retract mk_pavane_trust(party). Assert mk_pavane_cold(party). }
+  Relation th_found(group). Relation th_pavane_hurt(group). Relation th_dov_clear(group). Relation th_confessed(group).
+  // The conscience: go back. It costs heat, and the casts (or not), and saves a boy.
+  Action th_confess(actor: group, site: place) "Tell Madame Pavane it was you, and not the boy" {
+    Speaker pavane.
+    Requires able(actor) and company(actor) and at(actor, site) and at(pavane, site) and th_took_any(actor) and th_crew_dov(actor) and not th_dov_clear(actor) and not named(pavane).
+    Time 10 minutes.
+    On success { Assert th_dov_clear(actor). Assert th_confessed(actor). Increase heat(actor) by 1. Retract mk_dov_dismissed(actor). }
+    Result "She hears it out, with her hands flat on the table, and her face does not change at all; it is the face she keeps for fittings, and she is looking through it at something a long way off. 'It was always going to be somebody,' says Madame Pavane. 'I had hoped it would be someone I had not been kind to.' She does not say whether she will tell the Watch; she says that the boy may come back when he likes, and that there is a ledger, and your face is in it.".
+  }
+  Action th_hand_back_proof(actor: group, site: place) "Hand the Menders' row and the Registrar's cast back to Madame Pavane, whole" {
+    Speaker pavane.
+    Requires able(actor) and company(actor) and at(actor, site) and at(pavane, site) and carries(actor, th_proof) and not named(pavane).
+    Time 15 minutes.
+    On success { Spend th_proof from actor. Assert th_cast_back(actor). Assert th_confessed(actor). Assert th_dov_clear(actor). Retract th_took_any(actor). Retract mk_dov_dismissed(actor). }
+    Result "She takes them one at a time, in her own hands, and puts each in a rag on the table without a word. When it is done she sits quite still. 'I shall put them back at night,' she says. 'And I shall not tell the Watch, because the Watch has never in its life asked me anything but my price. And I shall not tell the boy. And you will not tell anyone you were in my cellar, and I will not tell anyone what you saw.' She puts out a hand and, very briefly, touches your face, as she would a cast. 'It is the second time a stranger has been in my house and done something I did not understand. The first time I was the stranger.'".
+  }
+  Action th_hand_back_keys(actor: group, site: place) "Hand the four Offices' casts back to Madame Pavane, whole" {
+    Speaker pavane.
+    Requires able(actor) and company(actor) and at(actor, site) and at(pavane, site) and carries(actor, th_keys) and not named(pavane).
+    Time 15 minutes.
+    On success { Spend th_keys from actor. Assert th_cast_back(actor). Assert th_confessed(actor). Assert th_dov_clear(actor). Retract th_took_any(actor). Retract mk_dov_dismissed(actor). }
+    Result "She counts them, KEY and POUND and SERENE and WHITE, each by its brass tag, as a woman counts a family. 'You did not break one,' she says. 'Nobody has ever brought me back a thing whole.' She puts them in their straw. 'I shall not ask who you meant them for. I shall put them back tonight, and I shall hang a bell on the rack that I have never hung, and I shall be careful for the rest of my life. You have taught me that. I am very angry. I hope that you can bear it.'".
+  }
+  Action th_hand_back_owed(actor: group, site: place) "Hand Peck's cast back to Madame Pavane, to be turned to the wall again" {
+    Speaker pavane.
+    Requires able(actor) and company(actor) and at(actor, site) and at(pavane, site) and carries(actor, th_owed_cast) and not named(pavane).
+    Time 5 minutes.
+    On success { Spend th_owed_cast from actor. Assert th_cast_back(actor). Retract th_took_owed(actor). }
+    Result "She looks at the boy of sixteen with the broad forehead for a long moment. 'It is the custom,' says Madame Pavane. 'The Named are turned to the wall, so that they will not have to see it.' She does not say whom it is for. 'I shall turn it again tomorrow. I shall not turn it all the way.'".
+  }
+  Relation th_cast_back(group).
+
+  // ── Stage five: the fence ─────────────────────────────────────────────────────────────────────────────────────────
+  // Four ends for each kind of casts: the Candid (who will publish), the Warden (who will use), the Cuff (the end of the
+  // Wall), the shelf (put back). Not for Peck's cast: that is for Peck, and the company's own is already gone.
+  Relation th_proof_vane(group). Relation th_keys_vane(group). Relation th_cast_vane(group).
+  Relation th_proof_lacke(group). Relation th_keys_lacke(group). Relation th_cast_lacke(group).
+  Relation th_proof_broken(group). Relation th_keys_broken(group). Relation th_cast_broken(group).
+  Relation th_peck_cast(group).
+  Action th_vane_proof(actor: group, site: place) "Give the Menders' row and the Registrar's cast to the Candid" {
+    Speaker vane.
+    Requires able(actor) and company(actor) and at(actor, site) and at(vane, site) and carries(actor, th_proof).
+    Time 10 minutes.
+    On success { Spend th_proof from actor. Assert th_proof_vane(actor). Assert th_cast_vane(actor). }
+    Result "She takes the sack as one takes a sleeping child, and looks into it, and is quiet for a moment. 'The Menders,' says Orsolya Hart. 'Of course. The nineteen, and the year-chalks.' She runs a finger along a row without touching. 'I shall not ask how. I shall publish it the day before the Drawing, in the Reading-room, on a long table, every face with its chalk. And the Registrar. Poor girl.' She looks up. 'You understand what this does. It does not give the city its Offices. It tells the city it never had any. They will not forgive that for a generation.' She does not say she will not do it.".
+  }
+  Action th_vane_keys(actor: group, site: place) "Give the four Offices' casts to the Candid" {
+    Speaker vane.
+    Requires able(actor) and company(actor) and at(actor, site) and at(vane, site) and carries(actor, th_keys).
+    Time 10 minutes.
+    On success { Spend th_keys from actor. Assert th_keys_vane(actor). Assert th_cast_vane(actor). }
+    Result "'The faces of the Offices,' says Hart, and her voice goes, for an instant, very small. 'Of the people who are the Offices. It is the thing I have wanted all my life. And I do not want it.' She lifts KEY out of its straw and looks at the face of the Warden of Locks, asleep, sixteen, and sets it back. 'I will put them on the table. Every face in Ombra will go past, and nobody will be allowed to say anyone's name, and everyone will know. That is publicity. I have never been sure that it is not simply the Concord, in a different coat.'".
+  }
+  Action th_lacke_proof(actor: group, site: place) "Sell the Menders' row and the Registrar's cast to the Warden of Locks, thirty coin" {
+    Speaker lacke.
+    Requires able(actor) and company(actor) and at(actor, site) and at(lacke, site) and carries(actor, th_proof).
+    Time 10 minutes.
+    On success { Spend th_proof from actor. Increase quantity(actor, gold) by 30. Assert th_proof_lacke(actor). Assert th_cast_lacke(actor). Decrease heat(actor) by 1 or to nothing. }
+    Result "He does not open the sack. He weighs it on his palm, as a man does who has been sold things before. 'Ah,' says Ser Corvin Lacke. 'The Mender-shelf.' He gives the word a faint distaste. 'I have been wondering how many nights it would be before somebody came to me with this. I can use it; one can always use a shelf of faces that one need not explain.' He counts out thirty. 'The Watch will be rather less interested in you by Thursday. I am a very discreet buyer. It is the whole of my trade.' The hold of a man who can be thanked is, you notice, a hold.".
+  }
+  Action th_lacke_keys(actor: group, site: place) "Sell the four Offices' casts to the Warden of Locks, forty coin" {
+    Speaker lacke.
+    Requires able(actor) and company(actor) and at(actor, site) and at(lacke, site) and carries(actor, th_keys).
+    Time 10 minutes.
+    On success { Spend th_keys from actor. Increase quantity(actor, gold) by 40. Assert th_keys_lacke(actor). Assert th_cast_lacke(actor). Decrease heat(actor) by 1 or to nothing. }
+    Result "He lifts the first of them out of the straw, KEY, with his own face on it, sixteen and asleep, and looks at it for some time with a curious composure. 'I was a rather good-looking boy,' he says. 'One forgets.' He puts it back. 'Forty. And you will forgive me if I observe that this makes you the second most dangerous person in Ombra, and I the first.' He smiles. 'The Watch will be rather less interested in you by Thursday. I should not be seen to have been of service, if I were you.'".
+  }
+  Action th_break_proof(actor: group, site: place) "Break the Menders' row and the Registrar's cast, and tip them into the Cuff" {
+    Grave "Broken, the proof of what the Wall shows cannot be put back, and cannot be shown to anyone ever again.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, row_quay) and carries(actor, th_proof).
+    Time 30 minutes.
+    On success { Spend th_proof from actor. Assert th_proof_broken(actor). Assert th_cast_broken(actor). }
+    Result "You break them on the edge of the quay one by one with the heel of a hammer, nineteen Menders and a girl in black wool, and the plaster goes into the Cuff in a long white slick that the current takes down toward the low islands. Nobody will ever know what was on the shelf. In an hour it will look like any other flood.".
+  }
+  Action th_break_keys(actor: group, site: place) "Break the four Offices' casts, and tip them into the Cuff" {
+    Grave "Broken, the faces the Offices are cut to are gone, and with them the means to fit any other mask.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, row_quay) and carries(actor, th_keys).
+    Time 20 minutes.
+    On success { Spend th_keys from actor. Assert th_keys_broken(actor). Assert th_cast_broken(actor). }
+    Result "KEY goes first, since it is on top. Then POUND, which is stolid; SERENE, which does not seem to mind; and WHITE, which you hold a moment longer than the others, and then do not. The Cuff is a milky brown by the end of it. Four people in Ombra will have a very quiet night, and will not know why.".
+  }
+  Action th_back_proof(actor: group, site: place) "Put the Menders' row and the Registrar's cast back on their shelves" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, cast_cellar) and carries(actor, th_proof) and not mk_guiding(pavane) and (th_intruder(actor) or th_via_guest(actor)).
+    Time 20 minutes.
+    On success { Spend th_proof from actor. Retract th_took_proof(actor). Assert th_cast_back(actor). Retract th_took_any(actor). }
+    Result "You put them back in their places, a face at a time, in the order they came. The last is the girl in black wool. You do not tie the cloth. It is not the sort of thing one pins, as it was; it is something one lays.".
+  }
+  Action th_back_keys(actor: group, site: place) "Put the four Offices' casts back on their rack" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, cast_cellar) and carries(actor, th_keys) and not mk_guiding(pavane) and (th_intruder(actor) or th_via_guest(actor)).
+    Time 10 minutes.
+    On success { Spend th_keys from actor. Retract th_took_keys(actor). Assert th_cast_back(actor). Retract th_took_any(actor). }
+    Result "KEY, POUND, SERENE, WHITE, back on their hooks with their brass tags. They look exactly as they did. That is the particular quality of a thing that has been stolen and put back: it looks as if nothing has been done to it.".
+  }
+  Topic th_peck_give with peck "Give Peck his own cast, from the shelf of the Named" when carries(actor, th_owed_cast) and not th_peck_cast(actor) once {
+    Says "He does not take it. He looks at it in your hands for a long time, a boy of sixteen with a mouth ready to laugh, and his own mouth does something very slowly. 'I have not seen him,' says Absalom Peck, 'in thirty-one years. They don't let you. They turn it to the wall.' He puts out one finger, and touches the cheekbone, as one touches the face of a sleeping child. 'He was a good boy. He didn't know. Nobody had told him what the white and gold would do. I've been very angry with him.' He takes it, at last, in both hands, and holds it in his lap with the wet face down against his coat. 'There,' he says to it. 'There, there. It's all right. I'm here.'".
+    On discuss { Spend th_owed_cast from actor. Assert th_peck_cast(actor). }
+  }
+
+  // ── Ombra's own end of it: what the Warden does, and what the Hands do ──────────────────────────────────────────────
+  Rule th_squeezes_taken when th_took_any(party) and th_crew_slee(party) and not th_cut_waived(party) and not th_hands_squeezed(party) { Assert th_hands_squeezed(party). }
+  Rule th_hands_swap when th_hands_squeezed(party) and not th_squeezes_back(party) and swapNight() and not th_swap_said(party) once says "On the night of the Swap, in four squares, a Warden of Locks in a rented Key buys drinks for a whole tavern with the Watch's own purse, and an Assessor of Weights is seen to give away a pound of bread, free, in the rain. Somebody has been wearing faces that fit rather too well. By midnight the Key's name in the Row is a thing the Row will not say." { Assert th_swap_said(party). Increase faceHeat(face_key) by 2. Increase faceHeat(face_pound) by 2. }
+  Relation th_swap_said(group).
+  Rule th_lacke_betrays when named(lacke) and (th_proof_lacke(party) or th_keys_lacke(party)) and not th_betrayed(party) once says "The Warden's clerk has put the Fitter's cellar on a paper in the Watch-house, with a description. It is very exact. It has your nose." { Assert th_betrayed(party). Increase heat(party) by 3. }
+  Relation th_betrayed(group).
+
+  // ── At the Drawing: the casts to the room, or the fire ────────────────────────────────────────────────────────────
+  Query th_loot_held(a: group) means carries(a, th_proof) or carries(a, th_keys).
+  Rule th_hand_ready when th_took_any(party) and (th_loot_held(party) or th_cast_vane(party) or th_cast_lacke(party)) and not handReady(party, hand_cast) { Assert handReady(party, hand_cast). }
+  Rule th_hand_gone when handReady(party, hand_cast) and not handPlayed(party, hand_cast) and not th_loot_held(party) and not th_cast_vane(party) and not th_cast_lacke(party) { Retract handReady(party, hand_cast). }
+  Rule th_arc_begun when (th_cased(party) or th_crew_slee(party) or th_crew_dov(party) or th_crew_alone(party)) and not arcBegun(party, hand_cast) { Assert arcBegun(party, hand_cast). }
+  Relation th_cast_room(group). Relation th_cast_fire(group). Relation th_lacke_used(group). Relation th_vane_read(group).
+  Action th_draw_room_proof(actor: group, site: place) "Set the Menders' row and the Registrar's cast down before the room" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, urn_hall) and drawingNight() and carries(actor, th_proof).
+    Time 5 minutes.
+    On success { Spend th_proof from actor. Assert th_cast_room(actor). Assert handPlayed(actor, hand_cast). }
+    Result "You put the sack on the Urn Hall's floor in the light of the braziers, and lift the faces out one at a time, and stand them on the stones in a row. Somebody in the crowd says, 'That is Mender Wickes of Lamp Street,' and somebody else, 'And that is the Treasurer, I danced with her at a wedding,' and then the hall begins to understand that it is looking at its own shelf. There is no sound at all; and then there is one.".
+  }
+  Action th_draw_room_keys(actor: group, site: place) "Set the four Offices' casts down before the room" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, urn_hall) and drawingNight() and carries(actor, th_keys).
+    Time 5 minutes.
+    On success { Spend th_keys from actor. Assert th_cast_room(actor). Assert handPlayed(actor, hand_cast). }
+    Result "KEY, POUND, SERENE, WHITE, in their straw, set down in the light of the braziers on the Urn Hall floor, four people asleep. Somebody in the crowd has the sense not to say a name. Everybody is looking at four faces that they have each of them stood next to, in the street, at the baker's, in the ferry, for a year. The faces are not looking at anyone. That is the horror of them; they are only young.".
+  }
+  Action th_draw_fire_proof(actor: group, site: place) "Put the Menders' row and the Registrar's cast into the Urn Hall's brazier" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, urn_hall) and drawingNight() and carries(actor, th_proof).
+    Time 5 minutes.
+    On success { Spend th_proof from actor. Assert th_cast_fire(actor). Assert handPlayed(actor, hand_cast). }
+    Result "Plaster does not burn; it calcines. It goes in the brazier one face at a time and sits in the coals for a long moment, quite unchanged, and then the water in it goes out with a hiss and it falls to a white dust, the Menders and the Registrar together, with a sound like a clearing of the throat. Somebody in the crowd, who has no idea what they are seeing, takes off their mask to wipe their eyes.".
+  }
+  Action th_draw_fire_keys(actor: group, site: place) "Put the four Offices' casts into the Urn Hall's brazier" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, urn_hall) and drawingNight() and carries(actor, th_keys).
+    Time 5 minutes.
+    On success { Spend th_keys from actor. Assert th_cast_fire(actor). Assert handPlayed(actor, hand_cast). }
+    Result "They go in one at a time, KEY, POUND, SERENE, WHITE, and sit in the coals, and the water in them goes out with a long dry hiss, and they fall to dust. Nobody in the hall knows what was burnt. Four people in it, among the masks, put their hands to their faces at the same moment, and do not know why.".
+  }
+  Action th_draw_vane(actor: group, site: place) "Stand beside the Candid while she opens the sack" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, urn_hall) and drawingNight() and th_cast_vane(actor) and not th_vane_read(actor).
+    Time 5 minutes.
+    On success { Assert th_vane_read(actor). Assert handPlayed(actor, hand_cast). }
+    Result "She is at the foot of the Urn with the sack and a lamp, in a plain brown coat, and she does not make a speech. She opens it, and lays the faces out on the Urn Hall steps in the order of their years, and says, to nobody and everybody: 'These are the faces you have been governed by.' She does not say a name. She does not need to. A woman in the front row has put her hand over her mouth.".
+  }
+  Action th_draw_lacke(actor: group, site: place) "Stand by while the Warden's clerks hand round the Offices' faces" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, urn_hall) and drawingNight() and th_cast_lacke(actor) and not th_lacke_used(actor).
+    Time 5 minutes.
+    On success { Assert th_lacke_used(actor). Assert handPlayed(actor, hand_cast). }
+    Result "You are standing at the edge of the light when the lots are read, and you hear, and so do a good many others, the name of the Treasurer, and the Warden of Locks' own, and the Assessor's, in the voice of the Registrar's palm-card, and you notice what nobody else does, that each of the four people drawn is a face a Fitter in Maskers' Lane would have cut a mask to this morning. Ser Lacke, across the hall, in the Key, does not look at you. He is smiling at the ceiling.".
+  }
+
+  // ── Milestones ────────────────────────────────────────────────────────────────────────────────────────────────────
+  Milestone th_m_cased "cased the Fitter's house" worth 25 when th_cased(party).
+  Milestone th_m_crew "chose who would stand in the cellar with you" worth 25 when th_crew_dov(party) or th_crew_slee(party) or th_crew_alone(party).
+  Milestone th_m_took "took from the Wall of Faces" worth 75 when th_took_any(party).
+  Milestone th_m_clean "came out of the Fitter's house unseen" worth 50 when th_took_any(party) and not th_seen(party) and not th_intruder(party) and not at(party, cast_cellar) and not at(party, pavane_parlour).
+  Milestone th_m_hands "was given a name in the Many Hands" worth 50 when th_hands_name(party).
+  Milestone th_m_fence "put the casts of the Wall where they would be used" worth 75 when th_cast_vane(party) or th_cast_lacke(party) or th_cast_broken(party) or th_peck_cast(party).
+  Milestone th_m_back "went back to the Fitter" worth 50 when th_confessed(party).
+  Milestone th_m_hand "played the casts of the Wall at the Drawing" worth 100 when handPlayed(party, hand_cast).
+
+  // ── The news ──────────────────────────────────────────────────────────────────────────────────────────────────────
+  Rule th_fate_slee_paid when newsHour() and th_crew_slee(party) and th_hands_name(party) once says "Of Obadiah Slee: he has been seen at the Row quay in a clean Magpie's domino, weighing nothing, which is as near as he comes to happiness. The Hands say a Pale Sparrow flew over the Fitter's roof in the Novena and left no feather. Nobody has told the Watch, as you were not to." { }
+  Rule th_fate_slee_squeezed when newsHour() and th_hands_squeezed(party) and not th_squeezes_back(party) once says "Of the Many Hands: they hold, in a flat parcel in the lining of a crate, the faces of the Offices, in squeezes, and are in no hurry. A Key-mask that fits has been seen, on the Row, once, at midnight, opening a door that was the Warden's own. Slee says he did not see it. He is a very honest liar." { }
+  Rule th_fate_slee_secret when newsHour() and th_slee_secret_given(party) once says "Of Obadiah Slee: he has stopped paying the Warden of Locks his two coin on every lock, on the ground that a man who skims has no standing to tax. The Hands have been told why. They have not been told by whom. It has been a very good week for the Row's locksmiths." { }
+  Rule th_fate_slee_nothing when newsHour() and not th_crew_slee(party) and knows(party, th_slee_name) once says "Of Obadiah Slee: he is at his barrow in Maskers' Lane, with his scale, weighing a Gull against a brass weight, and the Gull goes up." { }
+  Rule th_fate_dov_used when newsHour() and th_dov_failed(party) and th_dov_used(party) and not mk_maule_took_dov(party) and not th_confessed(party) once says "Of Dov Ashe: he gave the key as one gives a glass of water, and asked no questions, and was put out of the Fitter's house for it with his things in a pillowcase. He has never been told why the person he was kind to was not a friend. He has gone to his mother's, in the Drip, with his hands in his pockets, and has not, they say, been up on a roof since." { }
+  Rule th_fate_dov_blamed when newsHour() and th_dov_failed(party) and not th_dov_used(party) and not mk_maule_took_dov(party) and not th_confessed(party) once says "Of Dov Ashe: he said nothing, for four days, about the key. On the fifth, somebody in the Lane remarked that a boy who has been put out of a Fitter's house for the loss of a key is a boy who has been told what he is. He has gone to his mother's, in the Drip, with his hands in his pockets." { }
+  Rule th_fate_dov_clear when newsHour() and th_confessed(party) and th_crew_dov(party) once says "Of Dov Ashe: he is at his broom in the Fitter's fitting-room, and has been told, in the Fitter's kindest voice, that a boy who lends a key to a person who is not a thief is a boy who does not yet know whom to trust. It is a learning. It is the beginning of one." { }
+  Rule th_fate_wall_back when newsHour() and th_cast_back(party) once says "Of the Wall of Faces: it stands where it stood. Somebody has been at the Menders' shelf; the Fitter says nothing of it, and the Watch has not been told, and the black wool has been laid, not pinned, over the face on the shelf of Lamps." { }
+  Rule th_fate_wall_vane when newsHour() and th_proof_vane(party) and not th_cast_back(party) once says "Of the Wall of Faces: its Menders are on a long table in the Candid Reading-room, with the year-chalks showing, and the Reading-room has not closed since the Novena. The Fitter has put up her shutters. The Wall's gaps are filled with grey blanks, which the Lane says look like teeth." { }
+  Rule th_fate_wall_vane_keys when newsHour() and th_keys_vane(party) and not th_cast_back(party) once says "Of the Offices' casts: four faces lie in straw in the Candid Reading-room, with their brass tags, and the people of Ombra go past them in a line, in their masks, with their eyes carefully down. Nobody has said a name. It is generally agreed that it was the quietest thing the Candid has ever done." { }
+  Rule th_fate_wall_lacke when newsHour() and th_cast_lacke(party) and not th_cast_back(party) once says "Of the Wall of Faces: the Warden of Locks has a cellar of his own now, which was not in the plans, and a Fitter he is on very good terms with, in the Lane, whose name nobody will say. The Wall has gaps. Nobody has been told." { }
+  Rule th_fate_wall_broken when newsHour() and th_proof_broken(party) and not th_cast_back(party) and not th_hands_squeezed(party) once says "Of the Wall of Faces: the shelf of Menders is a row of grey blanks, and the Fitter has not replaced the faces, since it is a thing one cannot do. Nobody in Ombra can now say, with plaster, who it was that was trusted with the Offices. Some people are quite relieved." { }
+  Rule th_fate_keys_broken when newsHour() and th_keys_broken(party) and not th_cast_back(party) once says "Of the Offices' casts: they are in the Cuff, off the low islands, in a white slick that has long since spread. The Fitter will cut the Offices for the Drawing to measure, as she has always done; the faces she measures them to are no longer anywhere but on the faces." { }
+  Rule th_fate_wall_room when newsHour() and th_cast_room(party) once says "Of the Wall of Faces: for one night its faces stood on the floor of the Urn Hall, and Ombra read them. It has not spoken of it since, as is its way; but every shutter in the Lane is down by the Ninth Bell, and the Fitter has been seen at the mouth of the cellar stair, with a lamp, standing as a woman stands who is waiting to be asked a question." { }
+  Rule th_fate_wall_fire when newsHour() and th_cast_fire(party) once says "Of the Wall of Faces: some of it went into the Urn Hall's brazier on the ninth night, and rose as white dust, and nobody in the hall knew what they had been watching. The Fitter, who did, has begun a new Wall, a face at a time, by hand, from nothing; it will take her thirty years, and she says she does not mind." { }
+  Rule th_fate_vane_read when newsHour() and th_vane_read(party) once says "Of Orsolya Hart: she opened the sack at the foot of the Urn in a plain brown coat and said nine words, and has not said a tenth. The faces she showed were, by morning, the only thing in Ombra that anyone could think about, and none of them were named." { }
+  Rule th_fate_lacke_used when newsHour() and th_lacke_used(party) once says "Of the Offices drawn: the Treasurer, the Warden, the Assessor and the Serene are four people whom a Fitter would have cut a mask to this morning. The Warden of Locks has been seen to smile at a ceiling." { }
+  Rule th_fate_wall_untouched when newsHour() and not th_took_any(party) and not th_cast_back(party) and knows(party, th_routine) once says "Of the Wall of Faces: nobody has been at it. A Fitter's lock was looked at, once, in the Novena, by somebody, and left alone." { }
+  Rule th_fate_peck when newsHour() and th_peck_cast(party) once says "Of Absalom Peck: he has a face on his blanket, a boy's, sixteen, ready to laugh, and sits with it most evenings. He says it is not the same as being forgiven. It is, he says, a thing he can look at." { }
+  Rule th_fate_pavane_found when newsHour() and th_found(party) and not th_confessed(party) and not th_pavane_hurt(party) once says "Of Madame Pavane: she knows that there was a thief, and not who, and has added a second lock, and a second bell-line, and a very large dog, which is a thing the Fitter's house has never kept. She cuts the Offices without a word, and in the evening she sits with the Wall, in the lamp, among the gaps." { }
+  Rule th_fate_pavane_guest when newsHour() and th_pavane_hurt(party) once says "Of Madame Pavane: she has not been seen at her stove at night since the Novena, and the lamp on the sill of the fitting-room is not lit. The Lane say she has taken to bolting the door at the Ninth Bell, as a householder does. She has been in the Lane a long time, and had thought, once, that she was not a householder." { }
+}

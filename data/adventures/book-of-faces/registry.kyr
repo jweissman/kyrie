@@ -1,0 +1,93 @@
+Module ombra "The Book of Faces" {
+  // ── The Registry and the Urn Hall ─────────────────────────────────────────────────────────────────────────────────
+  // Off the nave, behind a door the Doorward keeps, the Registry: a lectern where the Book of Faces stood, shelves of
+  // ninety years of Books before it, and a stair down to the Urn Hall, where the Drawing is held. Five ways in. The
+  // Warrant's (the Hearing opens it by right, hearing.kyr); the Face (a mask the Doorward must take for the Office it is);
+  // the Cisterns (the cellar under the Urn Hall, cisterns.kyr); the Stair (the Contessa's key, once her private stair is
+  // lent); and the lock itself, which a thief can pick, and which rings a bell in the vestry when it is.
+  Observe nave_door_note at nave when not registryOpened(party) "On the east wall of the nave a plain oak door has a bare oval carved in it at the height of a face, and under the oval a lock of the old square kind. A lay-brother's stool stands beside it, empty at the moment, with a rush mat and a flask.".
+  Observe registry_scene at registry when true "A high narrow room all of paper. Ninety years of Books of Faces stand on the walls in white vellum, spine after spine, each with a year in black on it and no name anywhere. In the middle, on a lectern with a brass rail, there is a clean oblong in the dust where the current Book lay, with the sheen of a hand on the wood beside it. At the far end a stair goes down.".
+  Observe urn_hall_scene at urn_hall when not drawingNight() "A long vault with a barrel ceiling, under the Chapel, lit by oil in niches. Nine rows of benches face a dais, and on the dais, alone, on a stone plinth the height of a man's waist, stands the Urn: a bronze jar as wide as a cart-wheel, green at the seams, sealed with a bare oval of white wax. Everything in the hall is arranged to look at it. The benches are empty. The Urn is not.".
+  Observe urn_hall_drawing at urn_hall when drawingNight() "The Urn Hall is full. A thousand people sit on nine rows of benches in their faces, in the oil-light, and not one of them is speaking. Somewhere behind you the doors have been left open on the rain. On the dais the Urn waits on its plinth with the white wax on its seams, and in front of it is an empty chair.".
+
+  // ── The door ──
+  Person doorward "Brother Alder" at nave {
+    Role "the Chapel's Doorward, an old lay-brother in a grey cowl with a ring of keys".
+    Ancestry human. Peaceable. Pronouns he. Manner grim.
+    Greets "A very old man in a grey cowl is sitting on the stool by the oak door with his hands on his knees, doing nothing, in the way of a person who has been doing it for sixty years. 'The Registry is shut,' he says, before you have said anything. 'The Registrar's dead. It is shut till there is a Registrar. If you are an Office, I will know you by the Fit; if you are not, I will know you by the rest of you.'".
+    Greets again "'Shut,' says Brother Alder, and moves a hand on his knee to say it is not personal.".
+  }
+  Relation officeFace(face).
+  Initially Assert officeFace(face_key). Initially Assert officeFace(face_pound). Initially Assert officeFace(face_serene).
+  Relation registryOpened(group). Relation registryAlarmed(group). Relation registryKeyed(group). Relation registryByFace(group).
+  Thing registry_lock "the Registry's lock" on registry_door {
+    State barred blocking "The Registry door is locked, and the Doorward sits beside it.".
+    State open "The Registry door stands open on a room of white spines.".
+    Change pick "Pick the Registry's lock" from barred to open needing lockwork.
+    Change unlock "Unlock the Registry door with the Contessa's old key" from barred to open needing registry_key_kind.
+  }
+  Kind registry_key_kind "the Contessa's old key" is gear worth 0 weighing 0 described "A black iron key as long as a hand, with a bare oval for a bow. The Contessa Tarn's family has kept it for three hundred years against the day it was wanted, and it is cold, as old keys are.".
+  Item registry_key "the Contessa's old key" is registry_key_kind at offstage.
+  Rule registry_by_right when registryOpened(party) and state(registry_lock, barred) { Assert state(registry_lock, open). }
+  // At the Ninth Bell of the ninth night the Chapel opens the Registry and the Urn Hall to the city, as it always has: the
+  // ways above are for those who must be there before.
+  Rule registry_opens_for_drawing when drawingNight() and state(registry_lock, barred) { Assert state(registry_lock, open). }
+  // A lock picked is heard in the vestry; the Warrant is not made for it.
+  Rule lock_alarm when state(registry_lock, open) and not drawingNight() and not registryOpened(party) and not registryByFace(party) and not registryKeyed(party) and not registryAlarmed(party) says "Somewhere on the other side of the nave a small bell begins, once, and a lay-brother's voice says, mildly, 'Brother Alder?'" {
+    Assert registryAlarmed(party). Increase heat(party) by 2. }
+
+  // The Face: an Office is shown to the Doorward, who judges the Fit.
+  Action show_fitted_face(actor: group, mask: face, site: place) "Show Brother Alder {mask}, which was cut for you" {
+    Speaker doorward.
+    Requires able(actor) and company(actor) and at(actor, site) and at(doorward, site) and officeFace(mask) and wears(actor, mask) and fitted(actor, mask) and publicHours() and not registryByFace(actor) and state(registry_lock, barred).
+    Time 5.
+    On success { Assert registryByFace(actor). Assert state(registry_lock, open). }
+    Result "The old man looks at the mask for a long time, as at a coat he has brushed for sixty years. 'It sits,' he says at last. 'It is a very good Fit.' He gets up, which takes some time, and takes a key from the ring, and says to the door, 'The Office goes in. The Office will be quick.' It is quite untrue that nobody notices a person being let in; but it is true that nobody will ever say so.".
+  }
+  Action show_unfitted_face(actor: group, mask: face, site: place) "Show Brother Alder {mask}, and hope the Fit will be forgiven" {
+    Speaker doorward.
+    Requires able(actor) and company(actor) and at(actor, site) and at(doorward, site) and officeFace(mask) and wears(actor, mask) and not fitted(actor, mask) and publicHours() and not registryByFace(actor) and state(registry_lock, barred).
+    Time 5.
+    Resolve check(actor, deception, dc_hard).
+    On success { Assert registryByFace(actor). Assert state(registry_lock, open). }
+    On failure { Increase heat(actor) by 1. }
+    Result "He turns it a quarter-turn on your face with two old fingers, and you hold still, and he turns it back. 'It does not sit,' he says. 'But it has been a very wet nine days and everybody's face is a little wrong.' He gets up and takes the key.".
+    Otherwise "'That is not a Fit,' says Brother Alder, with no unkindness. 'That is a mask on a person.' He sits down. A little later a hound-domino passes the end of the nave, and does not look, and you understand you have been entered in a book.".
+  }
+  // The Stair's way: the Contessa lends the key when her private stair is yours (hill.kyr's price).
+  Action tarn_gives_key(actor: group, site: place) "Ask the Contessa for the old key to the Registry" {
+    Speaker tarn.
+    Requires able(actor) and company(actor) and at(actor, site) and at(tarn, site) and privateStairOpen(actor) and not registryKeyed(actor).
+    Time 5.
+    On success { Assert registryKeyed(actor). Give registry_key to actor. }
+    Result "'It has not been used since my great-grandmother's time,' says the Contessa, and takes it off a hook in the wall behind a very old shawl. 'She said it would be wanted by someone who could not be trusted with it.' She looks at you for a long moment. 'I find I am not at all sure which of us she meant.'".
+  }
+
+  // ── The lectern and the Book ──
+  Discovery book_columns "In the Book of Faces, in the Registrar's hand for the last thirty-one years, beside every name drawn there is a second column headed WALKED, with a street, a date and one word: MENDS, MENDS, MENDS. The Offices were not drawn; they were chosen, and she walked every street to choose them.".
+  Action read_book(actor: group, site: place) "Read the Book of Faces at the lectern" {
+    Requires able(actor) and company(actor) and at(actor, site) and (at(actor, registry) or at(actor, candid_room)) and carries(actor, book_of_faces) and not bookRead(actor).
+    Time 60.
+    On success { Assert bookRead(actor). Assert knows(actor, book_columns). Assert knows(actor, urn_hollow). Assert knows(actor, marrick_was_treasurer). }
+    Result "Ninety years of one hand after another, and then, the last thirty-one, hers. Beside each name a street, a date and the word MENDS. Nineteen Offices a year, and every one of them somebody a street had been glad of. You turn back and back, and in the Year of the Cullet Sluice, in a hand that is nineteen years old and cannot spell Treasurer, a lamp-trimmer's daughter wrote her own name in the column headed DRAWN. The next year there is no column of that name at all.".
+  }
+  // The Urn: shaken, it does not rattle.
+  Thing urn "the Urn" at urn_hall {
+    State sealed "The Urn stands on its plinth, sealed with a bare oval of white wax.".
+    State filled "The Urn stands on its plinth, its wax broken, filled to the throat with clay tesserae.".
+    Change fill "Fill the Urn with tesserae from the Registry's shelves" from sealed to filled at urn_hall.
+  }
+  Action shake_urn(actor: group, site: place) "Take the Urn by its handles and shake it" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, urn_hall) and state(urn, sealed) and not knows(actor, lie_urn).
+    Time 2 minutes.
+    On success { Assert knows(actor, lie_urn). Increase heat(actor) by 1. }
+    Result "It does not rattle. It does not shift. It is a bronze jar the weight of a bronze jar, and a very old stillness comes up through your wrists. Forty thousand tesserae, the Concord says: one for every citizen. There is not one of them in it.".
+  }
+  Action fill_urn(actor: group, site: place) "Carry tesserae from the Registry's shelves to the Urn, and fill it" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, urn_hall) and knows(actor, urn_hollow) and state(urn, sealed) and drawingDay().
+    Time 120.
+    On success { Assert state(urn, filled). Assert urnFilled(actor). }
+    Result "Forty thousand clay tesserae are kept in sacks in the Registry's lowest shelf, each pressed with a name, and have been since the Concord, against the day they were wanted. It takes two hours and a barrow. When it is done the Urn is as heavy as it has always pretended to be.".
+  }
+  Relation urnFilled(group).
+}

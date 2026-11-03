@@ -1,0 +1,108 @@
+Module ombra "The Book of Faces" {
+  // ── The Drawing ───────────────────────────────────────────────────────────────────────────────────────────────────
+  // At the Ninth Bell on the ninth night the Urn Hall opens, and between eight and ten somebody must draw the nineteen
+  // Offices, or at midnight the Offices dissolve, being only masks. There are seven ways the Drawing can be held, and
+  // each is a *position*, not a prize: the Lie kept; the Book read; the Urn honestly filled; the Offices given to those who
+  // mended something; the Offices not drawn at all; the Old Names come down; a Bare in the Serene's mask. Each calling's
+  // arc leaves its own hand to play at the Drawing (the Hands: state.kyr), and what the hands do is the temper of the
+  // room; the way chosen is the ending, and the temper is how the night goes.
+  Relation wayQuiet(group). Relation wayOpenBook(group). Relation wayHonest(group). Relation wayQualified(group). Relation wayNobody(group).
+  Relation wayOldNames(group). Relation wayStranger(group). Relation openBookConsent(group).
+  // Whether anyone is in the Urn Hall to call the Urn at all: the Serene, or whoever holds the Serene's mask.
+  Query urnCalled() means hobbComes(party) or hobbGaveMask(party).
+  Query bookToHand() means carries(party, book_of_faces) or vaneHolds(party).
+  Measure order(group).
+
+  // 1. The Quiet Hand: the Lie, kept, by a hand that now knows it.
+  Action way_quiet_hand(actor: group, site: place) "Read the Registrar's last palm-card, as she would have, and let the Offices go where she meant them" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, urn_hall) and drawingWindow() and not drawingHeld(actor) and knows(actor, urn_hollow) and carries(actor, book_of_faces) and urnCalled().
+    Time 45.
+    On success { Assert drawingHeld(actor). Assert wayQuiet(actor). }
+    Result "At the back of the Book, in a small upright hand, the palm-card: nineteen names, nineteen streets, nineteen words. MENDS, MENDS, MENDS. The Serene calls the Urn in a voice that shakes only on the last syllable. You take a lot out of the bronze jar, which is empty, with your hand that is not; and read it. The room breathes in, as it has breathed in thirty-one times. Nineteen times it breathes out. You are, from this hour, the third thing in Ombra that is not what it seems.".
+  }
+  // 2. The Open Book: the Book read aloud (by you, or by the Candid, who holds it).
+  Action way_open_book(actor: group, site: place) "Read the Book of Faces aloud to the Urn Hall, every name of every year" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, urn_hall) and drawingWindow() and not drawingHeld(actor) and bookToHand() and urnCalled().
+    Time 60.
+    On success { Assert drawingHeld(actor). Assert wayOpenBook(actor). }
+    Result "You begin with the first year of the Concord and the first Treasurer, and you read them as the Book gives them, name and street and mask. At the fourth year somebody laughs. At the ninth somebody gets up and goes out, and the doors let in the rain. By the fortieth the hall has gone entirely still, because the people on the benches have realised that every name you read is somebody who is sitting behind them. By the end of the century they are listening, very hard, for their own.".
+  }
+  Action way_open_book_consent(actor: group, site: place) "Let Orsolya Hart read only the names of those who consent" {
+    Speaker vane.
+    Requires able(actor) and company(actor) and at(actor, site) and at(vane, site) and at(actor, urn_hall) and drawingWindow() and not drawingHeld(actor) and vaneHolds(actor) and vane_consents(actor) and urnCalled().
+    Time 60.
+    On success { Assert drawingHeld(actor). Assert wayOpenBook(actor). Assert openBookConsent(actor). }
+    Result "She stands at the lectern with her bare face lit from underneath and reads out a name, and then waits. A man in a baker's cockle gets up from the fourth row and takes it off, and says, 'That is me.' She reads another. A woman gets up. Nobody is pulled. Fifty-one get up, of nineteen years' Offices and all the Spent, in the oil-light, in the silence, one at a time; and each is cheered, not by the whole hall, but by the one next to them. It takes a very long time. It is the longest the Urn Hall has ever sat.".
+  }
+  // 3. The Honest Urn: the Urn is filled and drawn by chance, in public.
+  Action way_honest_urn(actor: group, site: place) "Let the Serene draw from the filled Urn, honestly, in public" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, urn_hall) and drawingWindow() and not drawingHeld(actor) and urnFilled(actor) and urnCalled().
+    Time 45.
+    On success { Assert drawingHeld(actor). Assert wayHonest(actor). }
+    Result "The Serene puts his hand into the Urn. It is a very ordinary hand. It comes out with a clay tessera, and he reads a name off it, and nobody in the Urn Hall has ever in their lives heard a name read by chance. Nineteen times. The first Office goes to a girl of seventeen who had come in out of the rain. She does not know what to do with her hands.".
+  }
+  // 4. The Qualified Draw: the Offices to those who mended something, the Marks as franchise.
+  Action way_qualified(actor: group, site: place) "Draw the Offices from among those the Rounds mended" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, urn_hall) and drawingWindow() and not drawingHeld(actor) and marks(actor) >= 4 and urnCalled().
+    Time 45.
+    On success { Assert drawingHeld(actor). Assert wayQualified(actor). }
+    Result "'It is not chance,' you say, to a room that has never been told so, 'and it is not blood, and it is not a Registrar.' You put your hand on the Urn. 'The Offices go by lot, out of those whom the city has already said it trusts. Anybody may be named to the list. Everybody in this room knows a name.' You read them: a ferrywoman, a clerk, a cook, an umbrella-mender, a lamp-boy's friend. They are not the nineteen the Registrar would have named. About eight of them are. The rest are people the Registrar never walked past.".
+  }
+  // 5. The Year of Nobody: no Offices drawn; the city unmasked and unruled for a year of carnival.
+  Action way_nobody(actor: group, site: place) "Hang the Serene's mask on the Urn and let the Offices dissolve into the Novena" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, urn_hall) and drawingWindow() and not drawingHeld(actor) and urnCalled() and (handPlayed(actor, hand_lampoon) or handPlayed(actor, hand_procession)).
+    Time 60.
+    On success { Assert drawingHeld(actor). Assert wayNobody(actor). }
+    Result "The Serene takes his mask off in the Urn Hall, in front of everyone, a big tired man, and hangs it on the Urn by its ribbon. 'I am nobody,' he says. 'So is everybody. For a year, let it be known.' The laughter that goes round the benches is not the laughter of a crowd that has been told a joke. It is the laughter of a crowd that has been let off. By midnight half the hall has taken its mask off and is wearing somebody else's.".
+  }
+  // 6. The Old Names: the Contessa's day.
+  Action way_old_names(actor: group, site: place) "Open the Urn Hall's side door, and let the Contessa Tarn read the Offices from the old stair" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, urn_hall) and drawingWindow() and not drawingHeld(actor) and privateStairOpen(actor) and registryKeyed(actor).
+    Time 45.
+    On success { Assert drawingHeld(actor). Assert wayOldNames(actor). }
+    Result "A narrow door in the Urn Hall's east wall, which nobody has opened in three hundred years, opens, and in it stands a very small, very old woman in black silk with no mask at all and fourteen others behind her. 'My name is Ismene Tarn,' she says, to the largest room in Ombra, 'and I am not at all ashamed of it.' She reads the Offices herself, from a list, in a voice that has not been raised in a century, and the Seconds stand along the walls with their blades sheathed, and nobody in the Urn Hall can say that it is not the best-ordered Drawing they have seen.".
+  }
+  // 7. The Stranger's Face: you, in the Serene's mask.
+  Action way_stranger(actor: group, site: place) "Put on the Serene's mask yourself, and call the Urn" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, urn_hall) and drawingWindow() and not drawingHeld(actor) and holdsFace(actor, face_serene) and hobbGaveMask(actor).
+    Time 60.
+    On success { Assert drawingHeld(actor). Assert wayStranger(actor). Assert wears(actor, face_serene). Assert masked(actor). }
+    Result "You put it on. It is warm, and wet on the inside, and the Urn Hall, which had been a great number of separate faces, is for the first time a single one. 'The Serene hears,' you say, in the voice somebody has told you that you have. It is a very odd thing to be, in the end: no one, in particular, for a whole year, with every eye in the city on you, and the one pair of eyes you could have borne gone out of the world.".
+  }
+
+  // What the night does, whichever way: the room's temper (order) is the Hands played and the city kept in light.
+  Rule order_stair when handPlayed(party, hand_stair) and not ordered(hand_stair) { Assert ordered(hand_stair). Increase order(party) by 1. }
+  Rule order_door when handPlayed(party, hand_door) and not ordered(hand_door) { Assert ordered(hand_door). Increase order(party) by 1. }
+  Rule order_lampoon when handPlayed(party, hand_lampoon) and not ordered(hand_lampoon) { Assert ordered(hand_lampoon). Increase order(party) by 1. }
+  Rule order_blessing when handPlayed(party, hand_blessing) and not ordered(hand_blessing) { Assert ordered(hand_blessing). Increase order(party) by 1. }
+  Rule order_procession when handPlayed(party, hand_procession) and not ordered(hand_procession) { Assert ordered(hand_procession). Increase order(party) by 1. }
+  Rule order_heron when handPlayed(party, hand_heron) and not ordered(hand_heron) { Assert ordered(hand_heron). Increase order(party) by 1. }
+  Rule order_likeness when handPlayed(party, hand_likeness) and not ordered(hand_likeness) { Assert ordered(hand_likeness). Increase order(party) by 1. }
+  Rule order_cast when handPlayed(party, hand_cast) and not ordered(hand_cast) { Assert ordered(hand_cast). Increase order(party) by 1. }
+  Rule order_vail when vailTrust(party) >= 3 and not ordered(g_watch) { Assert ordered(g_watch). Increase order(party) by 1. }
+  Rule order_hearing when hearingHeld(party) and not ordered(g_exchange) { Assert ordered(g_exchange). Increase order(party) by 1. }
+  // What the city did before the night: the Drip's dark and march, steel on the Stair, a room made angry, a Door that held.
+  Rule order_dark when dr_dark(party) and not ordered(o_dark) { Assert ordered(o_dark). Decrease order(party) by 2. }
+  Rule order_march when dr_marchers(party) and not ordered(o_march) { Assert ordered(o_march). Decrease order(party) by 1. }
+  Rule order_procession_walks when dr_strike_settled(party) and not ordered(o_strike) { Assert ordered(o_strike). Increase order(party) by 1. }
+  Rule order_steel when handPlayed(party, hand_stair) and handWay(hand_stair) == 2 and not ordered(o_steel) { Assert ordered(o_steel). Decrease order(party) by 2. }
+  Rule order_door_holds when handPlayed(party, hand_door) and moDoor(party) >= 2 and not ordered(o_door) { Assert ordered(o_door). Increase order(party) by 1. }
+  Rule order_angry when bd_room_angry(party) and not ordered(o_angry) { Assert ordered(o_angry). Decrease order(party) by 1. }
+  Rule order_lacke_used when th_lacke_used(party) and not ordered(o_lacke_used) { Assert ordered(o_lacke_used). Decrease order(party) by 1. }
+  Rule order_lacke_loose when not marked(r_lacke) and drawingHeld(party) and not ordered(o_lacke_loose) { Assert ordered(o_lacke_loose). Decrease order(party) by 1. }
+  Rule order_hall_wet when ci_hall_wet(party) and not ordered(o_wet) { Assert ordered(o_wet). Decrease order(party) by 1. }
+  Kind omen.
+  Entity o_dark: omen "o_dark".
+  Entity o_march: omen "o_march".
+  Entity o_strike: omen "o_strike".
+  Entity o_steel: omen "o_steel".
+  Entity o_door: omen "o_door".
+  Entity o_angry: omen "o_angry".
+  Entity o_lacke_used: omen "o_lacke_used".
+  Entity o_lacke_loose: omen "o_lacke_loose".
+  Entity o_wet: omen "o_wet".
+  Relation ordered(entity).
+  Query calm() means order(party) >= 3.
+  Query uneasy() means order(party) >= 1 and order(party) < 3.
+  Query riotous() means order(party) < 1.
+}

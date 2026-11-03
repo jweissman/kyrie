@@ -1,0 +1,90 @@
+Module ombra "The Book of Faces" {
+  // ── Hobb, the Serene ──────────────────────────────────────────────────────────────────────────────────────────────
+  // This year's Serene is a cooper named Hobb, whom the Registrar chose for his dullness. The night she died he went to
+  // the lamp-room to beg to be let off the Mask, and saw her, and ran home to his cooperage in the Drip, where he has
+  // sat in the white-and-gold for nine days, making barrels, unable to take it off for fear that without it he would be
+  // asked what he saw. He is needed at the Drawing, because the Serene calls the Urn. He is moved neither by proof nor by
+  // argument but by seeing someone sit bare in front of him and be all right.
+  Observe cooperage_scene at cooperage_floor when publicHours() "A long low shed of staves and shavings, smelling of oak and boiled water and, very faintly, of something that is nearly fear. Hoops are stacked to the roof on one side and, on the other, barrels in the middle of becoming barrels. At a bench under the one window a broad man in a white-and-gold mask sits adzing a stave, and does not stop when you come in.".
+  Observe cooperage_night at cooperage_floor when privateHours() "The cooperage at night is oak-dark and rain-loud. A single lamp burns on the bench. The man in the white-and-gold mask has not taken it off.".
+  Person hobb "the Serene" at cooperage_floor {
+    Role "a cooper in the white-and-gold mask of the Serene, sitting very still" when not knows(party, hobb_name).
+    Role "Hobb the cooper, in the Serene's mask" when knows(party, hobb_name).
+    Known as "a broad man in a white-and-gold mask" when not knows(party, hobb_name).
+    Ancestry human. Peaceable. Pronouns he. Manner stoic.
+    Greets "The man at the bench says, without looking up, in a voice that has been rehearsed in a mirror, 'The Serene hears.' The adze goes on. It is a very good voice and it is not the voice of the hand on the adze, which is shaking.".
+    Greets again "'The Serene hears,' says the cooper, to the stave.".
+  }
+  Discovery hobb_name "The Serene Mask is worn this year by a cooper named Hobb, in the Drip, who has not taken it off since the Registrar died.".
+  Relation hobbOpen(group). Relation hobbMoved(group). Relation hobbComes(group). Relation hobbGaveMask(group). Relation hobbHelped(group).
+  // Public register: the Serene speaks as an Office. A bare company is told nothing at all.
+  Topic hobb_bare_cold with hobb "Speak to the cooper" when publicHours() and not masked(actor) and not hobbOpen(actor) once {
+    Says "'The Serene hears,' says the cooper, and the adze goes on, and goes on, and does not at any point stop for you. After a while you understand that you are being heard in the way a wall hears a draught.".
+  }
+  Topic hobb_masked with hobb "Speak to the cooper as a face" when publicHours() and masked(actor) and not hobbOpen(actor) once {
+    Says "'The Serene hears every trade in Ombra,' says the cooper. 'The Serene has heard the Gulls, and the Cockles, and the Owls. The Serene has nothing to say to any of them that is not in the Concord.' He adzes. 'The Serene is not accepting petitions.' He has said it so often that you realise he has been waiting for somebody to say something that is not a petition.".
+  }
+  // The night knock: a bare knock is let in.
+  Topic hobb_knock with hobb "Knock at the cooperage and say you are Bare" when privateHours() and not masked(actor) and not hobbOpen(actor) once {
+    Says "The adze stops. It stops with a small hard sound, like a decision. 'Come in,' says the Serene's voice, and then a very different voice, lower, from the same throat: 'There is no one else. Close the door.' He has not turned. His shoulders under the white-and-gold are the shoulders of a man who has been holding up a ceiling. 'You are not from the Watch. The Watch sends a hound. You are not a Warden.' A pause. 'Are you a Bare?'".
+    On discuss { Assert hobbOpen(actor). Assert knows(actor, hobb_name). }
+  }
+  Action read_hobb(actor: group, site: place) "Look at how he sits in the mask, and what he is not doing" {
+    Speaker hobb.
+    Requires able(actor) and company(actor) and at(actor, site) and at(hobb, site) and hobbOpen(actor) and not knows(actor, hobb_afraid).
+    Time 5.
+    Resolve check(actor, insight, dc_fair).
+    On success { Assert knows(actor, hobb_afraid). }
+    Result "He has not turned his head for the whole of the time you have been in the room: not to look at the door, not at the lamp, not at you. A man who will not turn his head is a man who knows precisely what he would see.".
+    Otherwise "He is a broad man in a mask and he is very quiet. You do not know what the quiet is made of.".
+  }
+  Discovery hobb_afraid "The Serene is afraid, not of the Warden or the Watch, but of the face under the mask: he saw the Registrar in the lamp-room, and fears that without the Mask on he will be asked what he saw.".
+  // Three ways in, and one needs no tongue at all: help him at the bench.
+  Action help_cooper(actor: group, site: place) "Take the other end of the stave and help him bend the hoop" {
+    Speaker hobb.
+    Requires able(actor) and company(actor) and at(actor, site) and at(hobb, site) and hobbOpen(actor) and not hobbHelped(actor).
+    Time 120.
+    Resolve check(actor, brawn, dc_fair).
+    On success { Assert hobbHelped(actor). Assert knows(actor, serene_saw). }
+    On failure { Assert hobbHelped(actor). }
+    Result "A cask is one of the few things in the world that does not mind a stranger. You hold the hoop and he drives it, and neither of you speaks, and after the third barrel he says, to the stave, in the low voice: 'I came in the first night to ask her to take me off. I thought she might say no and that I would be able to bear it. She was at the table. She was not saying anything, and I knew before I got to the door she was not going to.' The adze rests. 'I ran. I never ran in my life.'".
+    Otherwise "You hold the hoop and he drives it and it springs off the stave and cuts your hand. He looks at the blood and, for the first time, at you, and says nothing, and wraps it in a clean shaving. You learn nothing; but he has looked at you.".
+  }
+  Action coax_hobb(actor: group, site: place) "Tell the Serene that the city needs him at the Drawing, and that he is allowed to be afraid" {
+    Speaker hobb.
+    Requires able(actor) and company(actor) and at(actor, site) and at(hobb, site) and hobbOpen(actor) and knows(actor, hobb_afraid) and not hobbMoved(actor).
+    Time 10.
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert hobbMoved(actor). }
+    Result "'Allowed,' says the cooper, as if it were a word in a foreign tongue. He is silent for the length of a barrel-stave. 'No one has ever said that to the Serene. It is not in the Concord.' He turns a little in his seat, which is a very great deal. 'Ask me again when I am not in it.'".
+    Otherwise "'The Serene cannot be afraid,' says the cooper. 'It is a rule.' His shoulders say it is not a rule that holds.".
+  }
+  // The thing that moves him: someone sitting bare, who is all right.
+  Action sit_bare(actor: group, site: place) "Sit down on a barrel across from him, bare-faced, and say nothing" {
+    Speaker hobb.
+    Requires able(actor) and company(actor) and at(actor, site) and at(hobb, site) and hobbOpen(actor) and not masked(actor) and privateHours() and not hobbMoved(actor).
+    Time 60.
+    On success { Assert hobbMoved(actor). }
+    Result "You sit. The rain talks on the roof. The lamp makes the shavings gold. He sees, in the course of an hour, that you have no mask, and no Office, and no name the city can say, and that you are eating a ship's biscuit with an expression of mild interest; that nobody has come, and nothing has happened to you. About the end of the hour he says, 'May I?' and puts his hands up. 'I have not had it off in nine days.'".
+  }
+  Topic hobb_off with hobb "Ask him what he will do with the Mask" when hobbMoved(actor) and not hobbComes(actor) and not hobbGaveMask(actor) once {
+    Says "The Serene's mask is on the bench, white-and-gold, and under it is a big, tired, entirely ordinary face with the red line of the rim across the forehead. He looks at the Mask, and at you, and at the Mask. 'There is nobody inside it,' he says, and laughs, and it is a terrible laugh. 'I thought there would have to be. I thought it was somebody.' He wipes his face. 'I can put it on and go and call the Urn, and be the Serene till midnight, and be a cooper again. Or you can have it. It is the only Office in Ombra that does not ask for a name. I shall not mind.' He breathes. 'I should like to be told which.'".
+  }
+  Action hobb_goes(actor: group, site: place) "Tell him to wear it to the Drawing, and call the Urn himself" {
+    Speaker hobb.
+    Requires able(actor) and company(actor) and at(actor, site) and at(hobb, site) and hobbMoved(actor) and not hobbComes(actor) and not hobbGaveMask(actor).
+    Time 2 minutes.
+    On success { Assert hobbComes(actor). Assert knows(actor, hobb_name). }
+    Result "'Right,' says the cooper. He puts it on, slowly, as you would put on an old coat that has become heavier. 'I shall be at the Urn Hall at the Ninth Bell. I shall be very much afraid.' He takes up the adze. 'I should like that on record.'".
+  }
+  Action hobb_gives(actor: group, site: place) "Take the Serene's mask from him, for the Drawing" {
+    Speaker hobb.
+    Requires able(actor) and company(actor) and at(actor, site) and at(hobb, site) and hobbMoved(actor) and not hobbComes(actor) and not hobbGaveMask(actor).
+    Time 2 minutes.
+    On success { Assert hobbGaveMask(actor). Assert holdsFace(actor, face_serene). Assert knows(actor, hobb_name). }
+    Result "It is heavier than it looks, as a great many things in this city are. He puts it into your two hands with a visible effort not to put it on again, and flexes his face, and says, 'I have always wanted to be a cooper in a quiet street.' You hold the Serene Mask. It has the faint animal warmth of a face and, inside the rim, a ring of the man's sweat and a thumbprint of the Registrar's white wax.".
+  }
+  // If nobody comes, he does not go, and the Drawing has no one to call it.
+  Rule hobb_urn when hobbComes(party) and drawingNight() and hour(clock) >= 20 and not at(hobb, urn_hall) { Assert at(hobb, urn_hall). }
+  Rule hobb_home when not (drawingNight() and hour(clock) >= 20) and not at(hobb, cooperage_floor) { Assert at(hobb, cooperage_floor). }
+}

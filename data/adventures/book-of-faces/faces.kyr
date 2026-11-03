@@ -1,0 +1,74 @@
+Module ombra "The Book of Faces" {
+  // ── Wearing a face ────────────────────────────────────────────────────────────────────────────────────────────────
+  // By day nobody in Ombra answers a bare face, and everybody answers a masked one as the mask. A trade's face may be
+  // rented at the Wardrobe Annex for the Masked Hours; an Office's is borrowed, stolen, or made to fit. Whoever wears
+  // a face is that face's person to the city: its goodwill, its heat and its manners are theirs.
+  Relation rentable(face).
+  Initially Assert rentable(face_gull). Initially Assert rentable(face_owl). Initially Assert rentable(face_cockle).
+  Initially Assert rentable(face_heron). Initially Assert rentable(face_magpie). Initially Assert rentable(face_moth).
+  Initially Assert rentable(face_crow).
+
+  Person moll "Ferris Moll" at annex_counter {
+    Role "the Wardrobe Annex's clerk, behind a counter of pegs". Ancestry human. Peaceable. Pronouns he. Manner stoic.
+    Greets "A long young man with ink on his cuffs stands among ten thousand pegs, and on each peg a domino, and he does not look up. 'Faces by the day,' he says to the counter, in the tone of someone who has been told that he should look at people and finds it hard. 'Three coin, back at the Ninth Bell. Not the Offices; the Offices are not rented. A face of one's own is another matter and not mine.' Now he looks up, briefly, at the place where your mask would be. 'You are Bare. Sorry. It is only that I have to say it.'".
+    Greets again "'Faces by the day,' says Ferris Moll, to the pegs.".
+  }
+  Action rent_face(actor: group, mask: face, site: place) "Rent {mask} from the Annex, three coin" {
+    Speaker moll.
+    Requires able(actor) and company(actor) and at(actor, site) and at(moll, site) and rentable(mask) and not holdsFace(actor, mask)
+      and quantity(actor, gold) >= 3.
+    Time 2 minutes.
+    On success { Decrease quantity(actor, gold) by 3. Increase quantity(moll, gold) by 3. Assert holdsFace(actor, mask). Assert rented(actor, mask).
+      Set rentEnds(actor) to watch(clock) + 72. }
+    Result "Moll takes it down off its peg without looking at it, and writes your three coin in a book, and under it, in a smaller hand, a description of how you hold your head. The face is yours until the Ninth Bell.".
+  }
+  Action don_face(actor: group, mask: face, site: place) "Put on {mask}" {
+    Requires able(actor) and company(actor) and at(actor, site) and holdsFace(actor, mask) and not wears(actor, mask).
+    Time 1 minute.
+    On success { Assert wears(actor, mask). Assert masked(actor). }
+    Result "You tie it on. The rain on your cheeks stops, and with it the sense of being looked through.".
+  }
+  Action doff_face(actor: group, site: place) "Take your face off" {
+    Requires able(actor) and company(actor) and at(actor, site) and masked(actor).
+    Time 1 minute.
+    On success { Retract masked(actor). }
+    Result "You take it off. The air on your face is cold, and the street, for a moment, has no idea who you are.".
+  }
+  Rule face_off when not masked(party) and wears(party, ?f) { Retract wears(party, ?f). }
+  // A rented face goes back at the Ninth Bell, wherever the company is.
+  Rule face_returned when rented(party, ?f) and rentEnds(party) >= 1 and watch(clock) >= rentEnds(party) {
+    Retract rented(party, ?f). Retract holdsFace(party, ?f). Retract wears(party, ?f). Retract masked(party). Set rentEnds(party) to 0. }
+
+  // ── The Watch's count ─────────────────────────────────────────────────────────────────────────────────────────────
+  // Naming a masked person aloud, lifting a mask, a burglary seen: each is heat, the Masked Watch's patience with a
+  // Bare. It cools by one each morning. At three the Warrant is suspended; at six the Gate shuts.
+  Measure heatDay(group).
+  Rule heat_cools when hour(clock) >= 6 and heatDay(party) < day(clock) { Set heatDay(party) to day(clock). Decrease heat(party) by 1 or to nothing. }
+  Rule gate_shuts when heat(party) >= 6 and not gateShut(party) { Assert gateShut(party). }
+
+  // Unfacing: who a masked person is can be learned by lifting the mask, with or without the Warrant's leave, or said
+  // aloud, which is Naming. A person's file says what lifting their mask teaches (unmaskTeaches) and what being
+  // Named does to them.
+  Relation unmaskTeaches(group, fact). Relation lifted(group).
+  Action lift_mask_warranted(actor: group, who: group, truth: fact, site: place) "Lift {who}'s mask, by the Warrant" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(who, site) and unmaskTeaches(who, truth) and warrantLive()
+      and not lifted(who) and not knows(actor, truth).
+    Time 1 minute.
+    On success { Assert lifted(who). Assert knows(actor, truth). Increase heat(actor) by 1. }
+    Result "You put two fingers under the edge of the mask, as the Warrant allows, and lift. It is not nearly as dramatic as it sounds. It is a face. The face knows what it has just been; it does not forgive you.".
+  }
+  Action lift_mask_bold(actor: group, who: group, truth: fact, site: place) "Lift {who}'s mask, with no leave" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(who, site) and unmaskTeaches(who, truth) and not warrantLive()
+      and not lifted(who) and not knows(actor, truth).
+    Time 1 minute.
+    On success { Assert lifted(who). Assert knows(actor, truth). Increase heat(actor) by 3. }
+    Result "You lift it. Somebody in the street has seen you do it, and in the way of the city has seen nothing, and will say so to the first Watch domino they meet.".
+  }
+  Action name_aloud(actor: group, who: group, truth: fact, site: place) "Name {who} aloud, in the street" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(who, site) and unmaskTeaches(who, truth) and knows(actor, truth)
+      and publicHours() and not named(who).
+    Time 1 minute.
+    On success { Assert named(who). Increase heat(actor) by 2. }
+    Result "You say it. The name goes out across the square like a coin dropped into a well, and every masked head in the square turns, and every one of them is somebody who has heard it. By dusk it will be in every Sleeve.".
+  }
+}
