@@ -92,7 +92,7 @@ Also kept, without comment: itemKind, ownedItem, wearing, forSale, soldBy, weara
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 2 | 28 | 12 | 2 | 9 | 19 |
+| 2 | 29 | 12 | 2 | 9 | 20 |
 
 #### relieves
 
@@ -315,6 +315,24 @@ Set it in, on or into the thing, where it stays until someone takes it out.
 > Needs: able(actor); memberOf(wearer, actor); awake(wearer); ownedItem(tool, wearer); itemKind(tool, form); wearable(form); proficient(wearer, form); not (wearing(tool, wearer))
 
 > Then: nothing changes
+
+#### kindTeaches
+
+*Kyr · relation(itemkind, fact)* · `rule:belongings.kindTeaches`
+
+What reading a kind of thing teaches (Kind … is document teaching bill_read): read where it is carried, once, by a company with light to read by (Quittance's pm 10: a stamp read by an action offered in every room).
+
+#### read item
+
+*Kyr · action (group, item, itemkind, member, fact)* · `rule:belongings.read_item`
+
+- Shown as: Read {page}
+- Takes: 10 minutes
+- Costs: 1
+
+> Needs: able(actor); memberOf(carrier, actor); awake(carrier); ownedItem(page, carrier); itemKind(page, form); kindTeaches(form, statement); not (knows(actor, statement)); not (benighted(actor))
+
+> Then: Assert knows(actor, statement).
 
 #### use item
 

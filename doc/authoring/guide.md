@@ -832,6 +832,22 @@ glossary's reading of the old script:
   Kind wardens_oath "the Wardens' oath-tablet" like old_glossary granting oath described "A slate tablet…".
 ```
 
+What it grants may be a skill of the catalog's or a capability the module declares itself (`Entity breath: capability
+"Breath under water".`; the Grand Tour's 9, which had written a rule on `holding` for its helm). A kind with nothing to
+wear it by (`is gear`, `is document`) brings what it grants to whoever carries it; one like a thing worn, while it is
+worn.
+
+A paper of the module's own (a list, a playbill, a letter) `is document`: carried, never equipped, and granting
+nothing unless it says so (Wapshott's Circus's 12: one like the glossary was offered "Equip", and taught the old
+script). What reading it teaches is `teaching` a discovery: the company reads it where it carries it ("Pack › A
+playbill › Read"), and knows it (`test/fixtures/probes/playbill`; Quittance's pm 10, whose stamp was read by an action
+offered in every room):
+
+```text
+  Kind bill_kind "a playbill" is document teaching bill_read described "A playbill, printed red and black.".
+  Discovery bill_read "The playbill says the Strong Woman will lift a horse tonight.".
+```
+
 ### Asleep, awake, and who sees
 
 A condition laid on someone outside a fight for hours (`Apply asleep to ally for 1 hour`) takes, and wears off with

@@ -997,7 +997,7 @@
     "faithful": 220,
     "adapted": 25,
     "represented": 49,
-    "kyr": 257,
+    "kyr": 259,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 198
@@ -1010,7 +1010,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 232,
+      "kyr": 234,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -13538,6 +13538,20 @@
   {
    "id": "rule:belongings.equip_item",
    "title": "equip item",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-belongings"
+  },
+  {
+   "id": "rule:belongings.kindTeaches",
+   "title": "kindTeaches",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-belongings"
+  },
+  {
+   "id": "rule:belongings.read_item",
+   "title": "read item",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-belongings"

@@ -15,19 +15,24 @@ export interface LocalCatalog {
 type Declared = { source?: object };
 export interface LocalKindSpec {
   id: string; name: string; base: { category?: ItemKind['category']; like?: string }; worth?: number; mass?: number;
-  description?: string; grants?: string;
+  description?: string; grants?: string; teaches?: string;
 }
 export interface LocalSpeciesSpec {
   id: string; name: string; like: string; temperament?: string; description?: string; habitats?: string[];
 }
 
 export class LocalKinds {
+  // A document (a list, a playbill) is carried and read, never worn, and brings nothing unless it says it does: one
+  // declared like the glossary of the old script had taken its book slot and its lore (Wapshott's Circus's 12, WPC-12).
   static readonly categories: ItemKind['category'][] = ['weapon', 'armor', 'tool', 'gear', 'consumable', 'equipment',
-    'treasure'];
+    'treasure', 'document'];
   // A kind of thing: of a category ("is treasure"), or like a kind the catalog has ("like dagger"), with what it is
   // worth and what it weighs, and what it brings whoever carries it equipped in place of what its like brings
   // ("granting oath": the Wardens' oath-tablet is carried as a book is, and brings the oath, not a glossary's lore).
-  static item(module: string, spec: LocalKindSpec): ItemKind & { mass?: number } {
+  // What it grants is a skill of the catalog's or a capability the module declares for itself (breath under the sea,
+  // proof against the Fire: the Grand Tour's 9, GTR-09).
+  static item(module: string, spec: LocalKindSpec, capabilities: ReadonlySet<string> = new Set()):
+    ItemKind & { mass?: number } {
     const like = spec.base.like ? Canon.items[Canon.resolve('items', spec.base.like)] : undefined;
     if (spec.base.like && !like) { throw new Error(`Kind ${spec.id} is like ${spec.base.like}, which is no kind of item`); }
     const category = spec.base.category ?? like?.category;
@@ -35,8 +40,8 @@ export class LocalKinds {
       const kinds = this.categories.join(', ');
       throw new Error(`Kind ${spec.id} is ${spec.base.category ?? '?'}: a kind of item is one of ${kinds}`);
     }
-    if (spec.grants && !Canon.skills[spec.grants]) {
-      throw new Error(`Kind ${spec.id} is granting ${spec.grants}, which is no skill`);
+    if (spec.grants && !Canon.skills[spec.grants] && !capabilities.has(spec.grants)) {
+      throw new Error(`Kind ${spec.id} is granting ${spec.grants}, which is no skill nor a capability of the module's`);
     }
     const inherited: Partial<ItemKind> = { ...like, ...spec.grants ? { grants: { skill: spec.grants } } : {} };
     delete inherited.source;
@@ -76,6 +81,8 @@ export class LocalKinds {
   }
   // What modules have added to the catalogs, so that it can be taken out again.
   private static readonly installed = new Set<string>();
+  // Whether a kind of item is a module's own, put in the catalog as the module was read.
+  static local(id: string): boolean { return this.installed.has(`item:${id}`); }
   // Which kinds modules have put in the catalogs now: what a reading of a module could have turned on.
   static fingerprint(): string { return [...this.installed].sort().join(' '); }
   // Takes every module's own kinds back out of the catalogs: a new campaign begins with the catalogs as they are.

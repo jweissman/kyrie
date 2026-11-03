@@ -154,6 +154,7 @@ Kyr {
            | "weighing" signed -- weighing
            | "described" string -- described
            | "granting" ident -- granting
+           | "teaching" ident -- teaching
   LocalSpecies = "Species" ident string SpeciesBody
   SpeciesBody = "like" ident SpeciesPart* "."
   SpeciesPart = "tame" -- tame
