@@ -130,7 +130,11 @@ describe('The Book of Faces: the umbrella war', () => {
   }, 120000);
 });
 
+// The Warrant, taken for real from the sergeant who stands in Strangers' Square till she has her Bare (warrant.kyr); once it
+// is held she stands in the Gatehouse.
+const warrant = ['^To the Customs Steps', '>ombra__gate_square', 'Talk to a sergeant', 'Ask what use the Watch', 'Take the Stranger', '?Take your leave'];
 const lost = ['^To the Customs Steps', '>ombra__eel_pond', '=day 3 20:30'];
+const lostWarranted = [...warrant, '>ombra__eel_pond', '=day 3 20:30'];
 describe('The Book of Faces: Barnaby Sweet\'s wager', () => {
   it('a Bare who reads the Ninth Usage saves the face before the race; the Magpie goes home on its own head', async () => {
     const o = await start('a');
@@ -189,7 +193,7 @@ describe('The Book of Faces: Barnaby Sweet\'s wager', () => {
 
   it('the Warrant lets a Bare tally in his place, and the Watch counts it', async () => {
     const o = await start('a');
-    await o.play(...lost, '>ombra__coffee_room');
+    await o.play(...lostWarranted, '>ombra__coffee_room');
     const heat = o.measure('heat', 'party');
     await o.play('?Tally at the Coffee-house');
     expect(o.holds('lcSweetTallied', 'party')).toBe(true);
@@ -213,6 +217,7 @@ describe('The Book of Faces: Barnaby Sweet\'s wager', () => {
 });
 
 // Night four, in the booth: Hester Lyle is open to the company that sat with her.
+const boothAt = (start: string[]) => [...start, '>ombra__arcade', '=day 4 11:00', '=day 4 21:00', '>ombra__lc_booth', 'Ask Hester Lyle whether she has a moment', 'Sit in the booth'];
 const booth = ['^To the Customs Steps', '>ombra__arcade', '=day 4 11:00', '=day 4 21:00', '>ombra__lc_booth', 'Ask Hester Lyle whether she has a moment', 'Sit in the booth'];
 describe('The Book of Faces: Hester Lyle and the Book of Hands', () => {
   it('left alone, she gives the book up at the Ninth Bell of the sixth day, and the arcade shuts its board to the wall', async () => {
@@ -249,7 +254,7 @@ describe('The Book of Faces: Hester Lyle and the Book of Hands', () => {
 
   it('the Warrant keeps the book unread; a company that reads it learns the clerk who wrote about the Lock-tax and the Lamp, and breaks her promise', async () => {
     const o = await start('a');
-    await o.play(...booth, '>ombra__gate_hall', 'Ask Sergeant Vail whether the Watch will protect');
+    await o.play(...boothAt(warrant), '>ombra__gate_hall', 'Ask Sergeant Vail whether the Watch will protect');
     expect(o.knows('lc_custody_known')).toBe(true);
     await o.play('>ombra__lc_booth', '=day 4 22:00', 'Take the Book of Hands into the Warrant');
     expect(o.holds('lcSealed', 'party')).toBe(true);
@@ -267,7 +272,7 @@ describe('The Book of Faces: Hester Lyle and the Book of Hands', () => {
 
   it('sealed and not read, the promise is kept at the end', async () => {
     const o = await start('a');
-    await o.play(...booth, '>ombra__gate_hall', 'Ask Sergeant Vail whether the Watch will protect', '>ombra__lc_booth', '=day 4 22:00', 'Take the Book of Hands into the Warrant');
+    await o.play(...boothAt(warrant), '>ombra__gate_hall', 'Ask Sergeant Vail whether the Watch will protect', '>ombra__lc_booth', '=day 4 22:00', 'Take the Book of Hands into the Warrant');
     expect(o.holds('lcSealed', 'party')).toBe(true);
     await o.until(1440 / 10 * 9 - 20);
     expect(o.holds('promiseKept', 'lc_unread')).toBe(true);
