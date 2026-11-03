@@ -80,7 +80,7 @@ export class ModuleDeclarations {
       case 'entity': module.entities.push(value as Module['entities'][number]); break;
       case 'initial': module.initial.push(value as Change); break;
       case 'action': {
-        const { once, topic, ...action } = value as Operator & { once?: boolean; topic?: boolean };
+        const { once, ...action } = value as Operator & { once?: boolean }, topic = action.topic;
         // A question put once can be put again, for the same answer and nothing more (M16: topics vanished once asked).
         const again = once && topic ? WorldConstructs.recall(action) : [];
         if (once) { WorldConstructs.once(module, action); }

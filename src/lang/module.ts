@@ -36,6 +36,10 @@ export interface Query { name: string; parameters: { name: string; type: string 
 export interface Operator {
   searchPlace?: string;
   report?: string; seen?: string; speaker?: string; movement?: ExitDefinition;
+  // Written as a Topic: something to be asked of its speaker, who is someone to talk to for it. An action merely
+  // spoken by someone (Speaker) does not make them so: a dog run down had become "Talk to Admiral" (Fair Weather's
+  // friction 14, FWR-14).
+  topic?: boolean;
   // What is told when it does not come off (a check failed): Otherwise "The goblins laugh at you.".
   otherwise?: string;
   // What cannot be undone by it, said before it is done: the page asks first (Grave "…").

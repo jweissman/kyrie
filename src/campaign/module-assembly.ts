@@ -227,12 +227,14 @@ export class ModuleAssembly {
       module.initial.push({ kind: 'assert', call: ModuleWriter.call('itemKind', id, kind) });
     }
   }
-  // Who can be talked to: a person of an ancestry (not a beast of a species), and anyone with something to be asked.
-  // Someone a module borrows from another (an imported innkeeper) is said to talk by the module that has them.
+  // Who can be talked to: a person of an ancestry (not a beast of a species), and anyone with something to be asked
+  // (a Topic), not anyone an action is spoken by (Fair Weather's friction 14). Someone a module borrows from another
+  // (an imported innkeeper) is said to talk by the module that has them.
   private static talkers(module: Module, imported: string[]) {
     if (!module.relations.some(r => r.name === 'talks')) { return; }
     const ids = new Set([...(module.people ?? []).filter(p => !p.creature && !(p.raceId && Canon.isSpecies(p.raceId)))
-      .map(p => p.id), ...module.actions.flatMap(a => a.speaker && !imported.includes(a.speaker) ? [a.speaker] : [])]);
+      .map(p => p.id), ...module.actions.flatMap(a => a.topic && a.speaker && !imported.includes(a.speaker)
+      ? [a.speaker] : [])]);
     for (const id of ids) { module.initial.push({ kind: 'assert', call: ModuleWriter.call('talks', id) }); }
   }
   private static references(module: Module, cast: SituationManifest['creatures']) {
