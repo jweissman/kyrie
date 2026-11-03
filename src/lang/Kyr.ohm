@@ -202,7 +202,9 @@ Kyr {
   TimeDay = "day" integer
   Resolve = "Resolve" Call "."
   ChangeStatement = Change "."
-  Change = Assert | Retract | Set | Increase | Lessen | Decrease | Give | Spend
+  Change = Assert | Retract | Set | Increase | Lessen | Decrease | Give | Spend | Restore
+  // Whole again: every hit point, no condition, risen if fallen or dead (LUL-01).
+  Restore = "Restore" term
   Assert = "Assert" Call
   Give = "Give" term "to" term
   Spend = "Spend" term "from" term

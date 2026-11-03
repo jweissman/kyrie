@@ -39,6 +39,10 @@ export class StatementParser {
   static Spend(_spend: Node, kind: Node, _from: Node, group: Node) {
     return { kind: 'assert', call: { kind: 'call', name: 'usesUp', args: [group.sourceString, kind.sourceString] } };
   }
+  // "Restore ?g.": whoever it names whole again, risen if they had died (see Consequences.restore).
+  static Restore(_restore: Node, group: Node) {
+    return { kind: 'assert', call: { kind: 'call', name: 'madeWhole', args: [group.sourceString] } };
+  }
   static Set(_set: Node, call: Node, _to: Node, value: Node) {
     return { kind: 'set', call: ModuleParser.ast(call), value: ModuleParser.ast(value) };
   }

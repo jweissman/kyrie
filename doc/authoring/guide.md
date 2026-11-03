@@ -413,7 +413,9 @@ nothing parked in a room to be found first.
 `Spend weight_stone from actor.` gives up one thing of that kind, whichever of the company carries it, and
 `holding(actor, weight_stone)` in a requirement says it has one to give (Low Water's 6, which had a pan and a rule on
 what was put in it). Named by its own id, `Spend nan_ribbon from party.` gives up that particular thing and no other of
-its kind (the Lull's F5, which needed a kind for each ribbon that had to go):
+its kind (the Lull's F5, which needed a kind for each ribbon that had to go). `Restore ?c.`, in what a rule or an act
+does, makes whoever it names whole: every hit point, no condition, risen if they had fallen or died; so a law that harm
+heals at sunset, a raising, a regeneration is written (`test/fixtures/probes/made-whole`; the Lull's F1):
 
 ```text
   Topic coat_given with nan "Ask Nan about Davy's coat" when toldNan(actor) once {

@@ -31,6 +31,23 @@ export class Consequences {
     host.refreshProjection();
     return true;
   }
+  // Whoever a rule or an act makes whole ("Restore ?g." in what it does) is whole again: every hit point, no
+  // condition, risen if they had fallen or died; and the fact is forgotten. The Lull's law that hired harm heals at
+  // sunset could not be written, nor a raising or a regeneration of a module's own (its F1, LUL-01).
+  static restore(host: TickHost): boolean {
+    const whole = host.world.related('madeWhole');
+    if (!whole.length) { return false; }
+    const { definition, creatures } = host.tickState;
+    const ids = [...new Set(whole.flatMap(r => definition.actors.find(a => a.id === r.args[0])?.members ?? []))];
+    const lease = creatures.acquire(ids);
+    try {
+      for (const c of lease.creatures) { c.state.hp = c.base.maxHp; c.state.conditions = []; }
+      lease.commit(lease.creatures);
+    } finally { lease.release(); }
+    host.commitWorld(host.world.apply(whole.map(r => this.retract(r))));
+    host.refreshProjection();
+    return true;
+  }
   // A thing handed to a company ("Give coat to party.") goes to the first of it who is up, out of whoever's hands
   // held it or from wherever it lay; one of a kind a company spends ("Spend weight_stone from actor.") is given up by
   // the first of it who carries one, and is gone. Tessary's Nan had to set Davy's coat down to be taken, and Low
