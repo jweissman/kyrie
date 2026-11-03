@@ -1,2 +1,1059 @@
 Module ombra "The Book of Faces" {
+  // ── The Wet Post ──────────────────────────────────────────────────────────────────────────────────────────────────
+  // The Dead Letter Office, where Ombra's bureaucracy is at its kindest: a mountain of what was never delivered, forty
+  // sacks of it, filed by a nursery rhyme, and burnt in the Office's own furnace at noon on the ninth day by the
+  // Postmaster, by a Rule older than the Concord. Pell posted the Book of Faces to Nobody on the first night and it is in
+  // one of the sacks. Three threads: the Burning (the book's set-piece, and its clock); the Clerk Who Reads (Mabel Vickery
+  // delivers by night what the Office cannot, which is a kindness and also Unfacing); and a Delivery to a Mask (a parcel
+  // for whoever wore the Cockle at the fifth bell on a Michaelmas Eve, in a city that does not say who wore what).
+
+  // ── Buildings and rooms of my own ─────────────────────────────────────────────────────────────────────────────────
+  Place ps_lodgings "the Post-lodgings" is building within post_sleeve.
+  Place ps_bakehouse "the Wet Post bakehouse" is building within post_sleeve.
+  Place dlo_office "the Postmaster's room" is room within post_office at 3, 1 indoors.
+  Place dlo_roof "the Dead Letter Office's roof" is room within post_roofs at 2, 0 outdoors.
+  Place ps_stair "the Post-lodgings stair" is room within ps_lodgings at 0, 0 indoors.
+  Place ps_bake_floor "the bakehouse floor" is room within ps_bakehouse at 0, 0 indoors.
+  Passage ps_office_door "the Postmaster's door" is doorway between dlo_counter and dlo_office.
+  Passage ps_roof_way "the sweeps' ladder" is ladder between post_street and dlo_roof.
+  Passage ps_stair_door "the lodgings door" is door between post_street and ps_stair.
+  Passage ps_bake_door "the bakehouse door" is door between post_street and ps_bake_floor.
+
+  // ── What the Office keeps ─────────────────────────────────────────────────────────────────────────────────────────
+  // Forty sacks in eight lines of five. The Office sorts by a rhyme: each line of the first verse is a way of being
+  // undeliverable, and the second verse says which sack of the line a thing goes into by what it is. The Book is a parcel
+  // posted "To Nobody, Nowhere", and a parcel with no name and no door goes into Wanting: the third sack of the seventh line.
+  Kind ps_rack.
+  Entity ps_rack_water: ps_rack "'Gone to the water, gone to the wall'".
+  Entity ps_rack_hill: ps_rack "'Gone up the Hill where nobody calls'".
+  Entity ps_rack_drip: ps_rack "'Gone down the Drip and the lamps are out'".
+  Entity ps_rack_sea: ps_rack "'Gone to sea and who's to say'".
+  Entity ps_rack_haste: ps_rack "'Written in haste and never signed'".
+  Entity ps_rack_sealed: ps_rack "'Sealed, and sorry, and none to find'".
+  Entity ps_rack_wanting: ps_rack "'Wanting a name and wanting a door'".
+  Entity ps_rack_nobody: ps_rack "'And Nobody's own on the bottom floor'".
+  Measure ps_dug(ps_rack). Relation ps_pdone(ps_rack). Relation ps_book_in(ps_rack).
+  Initially Assert ps_book_in(ps_rack_wanting).
+  // Where the sacks are: the sorting-hall all year, the burning-room from ten on the ninth morning.
+  Relation ps_sacks_at(place).
+  Initially Assert ps_sacks_at(dlo_sorting).
+
+  Discovery ps_pell_is_pell "The Crow at the Dead Letter Office's counter, who gives his name as Dacre, is Tomas Pell, the Registrar's Clerk of the Book, who has not been seen on Chapel Island since the night she died.".
+  Discovery ps_mabel_is_strake "The young Crow with her sleeves pinned, in the sorting-hall, is Mabel Vickery, a clerk of the Dead Letter Office.".
+  Discovery ps_rule_read "The Rule of the Nobodies: what is posted to Nobody belongs to Nobody; on the ninth day, at noon, the Postmaster burns it in a dry furnace, by her own hand; if the furnace be wet she waits on it and does not hurry; and no piece is kept back unless some person redeems it before the stroke by paying its carriage and putting a name to it.".
+  Discovery ps_dry_clause "By the Rule the Nobodies are burnt in a dry furnace and not otherwise: if the furnace will not draw the Postmaster waits for it, and the Burning is not done until it does.".
+  Discovery ps_redeem_clause "By the Rule any person may keep a Nobody from the fire before noon on the ninth day by paying its carriage and putting a name to it; and a face is a name, to the Office.".
+  Discovery ps_rhyme_heard "The clerks of the sorting-hall file to a rhyme: 'Gone to the water, gone to the wall, gone up the Hill where nobody calls', and so on down eight lines, and a second verse that counts to five.".
+  Discovery ps_filing "The Office files by its rhyme: eight lines for eight kinds of undeliverable, five sacks to a line, and in each line one for a letter, two for a card, three for a parcel, four for a bundle, five for a bale; 'Nobody's own' holds what is addressed to Nobody at some door, and 'Wanting a name and wanting a door' what has neither.".
+  Discovery ps_rack_told "The Book of Faces went into the sorting-hall as a parcel directed To Nobody, Nowhere: the third sack of the seventh line, 'Wanting a name and wanting a door'.".
+  Discovery ps_nobodies "The Dead Letter Office keeps eleven thousand pieces a year in forty sacks, and on the ninth day of the Novena, at noon, its Postmaster burns them all, as the Office has done since before the Concord.".
+  Discovery ps_thanks_known "In 'Nobody's own' hundreds of letters thank Nobody for soup, boots and being found, in the careful hands of the poor of the Drip, and the Office has never been able to deliver one, because the Rule says Nobody is not a person.".
+
+  Relation ps_sacks_looked(group). Relation ps_boy_paid(group). Relation ps_mabel_leave(group).
+  Relation ps_book_found(group). Relation ps_book_burned(group). Relation ps_burned_by_choice(group). Relation ps_redeemed(group).
+  Relation ps_snatched(group). Relation ps_pell_free(group). Relation ps_pell_admits(group). Relation ps_pell_robbed(group).
+  Relation ps_pell_moved_it(group). Relation ps_pell_chapel(group). Relation ps_pell_fled(group). Relation ps_pell_wary(group).
+  Relation ps_flue_wet(group). Relation ps_flue_choked(group). Relation ps_burning_begun(place). Relation ps_burnt(place).
+  Relation ps_drawer_open(group). Relation ps_boy_dismissed(group). Relation ps_own_up(group).
+  Measure ps_tryDay(group).
+
+  // Who may be in the sorting-hall. By day the hall is the Office's: a Crow is one of its own and walks through, as does
+  // whoever the boy, Mabel or Pell has let by. By night the way to it runs past whoever keeps the counter lamp, and whoever
+  // sits in the hall, so a stranger is let through only when Pell is away at the Chapel or has been brought to admit it.
+  Query ps_may_search(a: group) means ps_lawful_hour() and (ps_pell_free(a) or ps_mabel_leave(a)
+    or (publicHours() and (wears(a, face_crow) or ps_boy_paid(a) or ps_dunnage_favour(a)))
+    or (ps_sacksMoved() and masked(a))
+    or (privateHours() and (ps_pell_admits(a) or (not at(pell, dlo_sorting) and not at(pell, dlo_counter))))).
+  Query ps_speaks(a: group) means (masked(a) and publicHours()) or (not masked(a) and privateHours()).
+  Query ps_cold_day(a: group) means not masked(a) and publicHours().
+  Query ps_cold_night(a: group) means masked(a) and privateHours().
+  Query ps_burnDay() means day(clock) == 9.
+  Query ps_sacksMoved() means day(clock) == 9 and hour(clock) >= 10.
+  // The furnace is laid on the ninth morning and the Postmaster lights it at noon, if it will draw; the Burning is an hour
+  // and a half, and the last sack is in the fire at the end of it.
+  Measure ps_burnStart(place).
+  Query ps_burning() means ps_burning_begun(post_office) and not ps_burnt(post_office).
+  Query ps_burn_done() means ps_burnt(post_office).
+  Query ps_lawful_hour() means day(clock) < 9 or (day(clock) == 9 and hour(clock) < 12).
+
+  // ── Scenes: the Wet Post ──────────────────────────────────────────────────────────────────────────────────────────
+  Observe ps_street_day at post_street when publicHours() "The Wet Post is the street the rain was invented for. Pigeon-lofts lean out over the water on stilts, and under them the Crows run: post-clerks and runners in the black domino with the notched beak, each with paper under oilcloth, none looking at anyone. Over the Dead Letter Office's door, in gilt gone green, RETURN TO NOBODY, and under it, in a child's chalk, TRY AGAIN.".
+  Observe ps_street_bare at post_street when not masked(party) and publicHours() "A Crow with a bundle steps round you without breaking stride, the way water goes round a post. Nobody on the Wet Post has ever been late for anything, and nobody here has ever been addressed.".
+  Observe ps_street_night at post_street when privateHours() "At night the Wet Post belongs to the pigeons and the damp. Every shutter is closed but the Dead Letter Office's, where a lamp burns behind a pane of oiled paper: the Rule requires a light in the Office from the first morning to the ninth noon, and the Postmaster has never let it out. Under the lofts the birds mutter in their sleep like clerks.".
+  Observe ps_street_pell at post_street when hour(clock) == 2 and not ps_pell_chapel(party) and not ps_pell_fled(party) and day(clock) < 9 "A man in a clerk's coat comes out of the Office with no mask and no lantern, and shuts the door as softly as a man leaving a sickroom. He goes away over the Candle bridge toward the Chapel, bare-faced in the dark, walking as if he were counting his steps.".
+  Observe ps_street_ninth at post_street when day(clock) == 9 and hour(clock) >= 9 and hour(clock) < 20 and not ps_burn_done() "The Office chimney is smoking, thin and straight, and the Crows of the Wet Post have stopped running. They stand in the rain in their ranks under the lofts, masked, silent, each with a letter that has been delivered, watching the smoke the way a street watches a funeral it was not asked to.".
+  Observe ps_street_after at post_street when ps_burn_done() "The smoke from the Office is gone, and the street smells of hot iron and wet ash. A grey flake the size of a thumbnail comes down on your sleeve out of the rain: it has a line of someone's handwriting on it.".
+
+  Observe ps_counter_day at dlo_counter when publicHours() and not ps_sacksMoved() "The Dead Letter Office's counter is a long mahogany rail worn to the grain by forty years of elbows, and behind it a wall of pigeonholes labelled with the names of things that are not there: DECEASED, REMOVED, NO SUCH HOUSE, NOT KNOWN, UNKNOWN, and in the lowest and largest, NOBODY. A brass plate on the rail says T. DACRE, COUNTER. To the left the Postmaster's door; ahead, the sorting-hall, and the smell of it: wet wool, oilcloth, old glue, and paper that has been waiting.".
+  Observe ps_counter_night at dlo_counter when privateHours() and not ps_sacksMoved() "By night the counter is a stool, a stove with a kettle on it and a lamp on a chain, and the pigeonholes go up into the dark like the cells of something enormous and asleep. The brass plate says T. DACRE. Somebody has been sitting on the stool for a long time, and the stool has taken a shape.".
+  Observe ps_shelf at dlo_counter when not ps_parcel_given(party) and not ps_sacksMoved() "Over the pigeonholes, on a shelf under a card that says UNCLAIMED, a parcel in brown paper has been leaning for the best part of a year. Somebody has dusted it.".
+  Observe ps_counter_ninth at dlo_counter when ps_sacksMoved() and not ps_burn_done() "The pigeonholes are empty and the Unclaimed shelf is bare; the Office has swept itself into the sacks, as it does once a year, and the counter has nobody behind it. The sorting-hall door stands open on a hall of empty hooks, and beyond it you can hear the furnace drawing.".
+  Observe ps_counter_gone at dlo_counter when ps_pell_fled(pell) and publicHours() and not ps_sacksMoved() "The stool behind the rail is empty. The brass plate still says T. DACRE, COUNTER, and somebody has propped a card against it, in the boy's round hand: GONE OUT. Dickon is minding the shelf, and the forms, which are not square.".
+  Observe ps_counter_after at dlo_counter when ps_burn_done() "The counter is clean. It has been wiped down with a wet cloth, the way you wipe a table after a wake.".
+
+  Observe ps_office_scene at dlo_office when true "The Postmaster's room is a desk, a clock that has been four minutes slow since before the Concord, a taper-stand with one taper missing (she carries it), and on the wall a framed list of every Postmaster the Office has had, forty-one names, none with a face. In the desk, a drawer with a brass lock.".
+
+  Observe ps_hall_day at dlo_sorting when publicHours() and not ps_sacksMoved() "A long cold hall under black beams, and from the beams on iron hooks, forty sacks of grey sailcloth in eight lines of five, each with a tin tag stamped with a number and nothing else. Down the middle run the sorting-tables, and at them the Office's clerks, in their Crows, file the morning's returns into the sacks with a flick of the wrist and a chant under their breath that is half a nursery rhyme and half a tally. A stove nobody has lit since the Concord. The smell is boiled glue.".
+  Observe ps_hall_chant at dlo_sorting when publicHours() and not ps_sacksMoved() "The clerks' chant, when you stand still long enough to make it out, is a rhyme, sung flat, the way you sing a thing you have sung every day since you were seven: 'Gone to the water, gone to the wall, gone up the Hill where nobody calls, gone down the Drip and the lamps are out, gone to sea and who's to say', and on, and a second verse that only counts." teaches ps_rhyme_heard.
+  Observe ps_hall_night at dlo_sorting when privateHours() and not ps_sacksMoved() "By night the sorting-hall is one lamp on a chain and forty sacks turning very slightly on their hooks in the draught from the furnace flue, as if each were being weighed. The tables are cleared. Somebody has left a stool in the aisle, between the seventh line and the eighth, with a coat folded on it.".
+  Observe ps_hall_ninth at dlo_sorting when ps_sacksMoved() "The hooks are empty. Forty iron hooks, and on the whitewash under them the ghost of forty sacks, and on the floor one tin tag that has fallen off, 21. The tables have been pushed to the walls. Beyond the door you can hear the furnace and the clerks, and nothing else.".
+  Observe ps_hall_water at dlo_sorting when ps_sacks_at(dlo_sorting) and ps_dug(ps_rack_water) >= 1 "On the table by the door lie the contents of the first sack of the first line: letters to the drowned, tied in tens with string. One is to a lamp-boy, in a mother's hand, from the hills, and it asks whether he is eating.".
+  Observe ps_hall_hill at dlo_sorting when ps_sacks_at(dlo_sorting) and ps_dug(ps_rack_hill) >= 1 "Letters that went up the Hill and were not taken in are stacked in a heap by the stove, every one stamped in the same blue ink, REFUSED AT THE GATE; a Hill porter has a stamp for it and, you gather, a great deal of leisure.".
+  Observe ps_hall_drip at dlo_sorting when ps_sacks_at(dlo_sorting) and ps_dug(ps_rack_drip) >= 1 "The Drip's sack was wet before it was hung. Its letters have run into each other, so that a promise of marriage has taken on a recipe for eel pie, and the addresses have gone to blue weather.".
+  Observe ps_hall_sea at dlo_sorting when ps_sacks_at(dlo_sorting) and ps_dug(ps_rack_sea) >= 1 "Letters to sailors, most of them thick with what the writers wanted to say and could not, tied to the ends of voyages that went on without them. Somebody has cut one open and sewn it up again; you see the stitches.".
+  Observe ps_hall_haste at dlo_sorting when ps_sacks_at(dlo_sorting) and ps_dug(ps_rack_haste) >= 1 "The letters of the unsigned: threats, offers, apologies and, in a bundle with a ribbon, forty-one love-letters in one hand to nobody who ever answered. The ribbon has been retied by someone who is not the sender.".
+  Observe ps_hall_sealed at dlo_sorting when ps_sacks_at(dlo_sorting) and ps_dug(ps_rack_sealed) >= 1 "Letters that were sent, found, and refused. Each one has been opened by the person it was for and shut again, and marked on the back in a different hand, NOT KNOWN AT THIS ADDRESS, in the tone of a person closing a door.".
+  Observe ps_hall_wanting at dlo_sorting when ps_sacks_at(dlo_sorting) and ps_dug(ps_rack_wanting) >= 1 "The letters of nobody to nobody, with no name and no door: a lock of hair, a child's drawing of a boat, a page of a hymnal, a key. They are the Office's saddest sack, and its clerks sort them in silence.".
+  Observe ps_hall_nobody at dlo_sorting when ps_sacks_at(dlo_sorting) and ps_dug(ps_rack_nobody) >= 1 "'Nobody's own' is the heaviest line, and it is full of thanks: for soup, for boots, for a night's bed, for a name not asked, hundreds of them in the careful hands of the poor of the Drip, addressed To Nobody, at the Kitchen. The Office has never been able to deliver one. By the Rule, Nobody is not a person, and a person is what a letter needs." teaches ps_thanks_known.
+
+  Observe ps_furnace_scene at dlo_furnace when not ps_sacksMoved() "The burning-room is whitewashed brick with a floor of iron plates, and in the end wall the furnace: a black mouth wide enough to take a sack and a clerk's arm to the shoulder, with a brass damper on a chain, and a brick chimney going up through the roof. Over the mouth, cut in a slate in a law-hand so old the s's are f's, THE RULE. It has not been lit since last year. It still smells of it, of a hot, sweet smell like sugar scorching, which is what burning paper smells like when there is enough of it.".
+  Observe ps_furnace_ninth at dlo_furnace when ps_sacksMoved() and not ps_burning() and not ps_burn_done() and not ps_flue_wet(party) and not ps_flue_choked(party) "Forty grey sacks lie in a line along the iron floor in the order of the rhyme, tags outward, and at the back of the room the furnace stands laid and waiting: a bed of old envelopes and broken pigeon-boxes in its black throat, the brass damper open on its chain, and a cold breath coming down the flue that the clerks have all arranged to stand out of. The taper-holder on the lintel is empty. She carries it.".
+  Observe ps_furnace_burning at dlo_furnace when ps_burning() and not ps_flue_wet(party) "The furnace door is open and the room is a held breath of heat. The Postmaster feeds it in her own hand, a sack at a time, tipping the paper into the fire so that it falls in a slow grey cascade, and the Office's clerks stand in a line along the wall in their Crows and say, at each sack, the number of it. The paper does not burn so much as depart.".
+  Observe ps_pell_at_fire at dlo_furnace when at(pell, dlo_furnace) and ps_sacksMoved() and not ps_burn_done() "Tomas Pell stands at the Postmaster's elbow, as the Rule requires the counter's clerk to stand, with his hands at his sides and the Crow on. He is looking at the wall. He is not looking at the third sack of the seventh line, which stands at the end of the row, tags out, nearest the fire.".
+  Observe ps_furnace_wet at dlo_furnace when ps_flue_wet(party) and not ps_burn_done() "Water is coming down the inside of the flue in a thin continuous thread and hissing on the grate. The fire will not draw. The room is full of the smell of wet soot, and the Office's clerks have stopped, as people do at a funeral when the hearse will not start.".
+  Observe ps_furnace_choked at dlo_furnace when ps_flue_choked(party) and not ps_burn_done() "The flue is choked with sodden sacking from the damper up; whatever you do to it a draught will not come down this chimney before a sweep does. The smoke has come back into the room in a low brown layer, and the clerks are crouching in it with wet cloths over their faces.".
+  Observe ps_furnace_after at dlo_furnace when ps_burn_done() and ps_burnt(post_office) "The furnace is dark, and the iron floor under it is warm. A hundredweight of fine grey ash lies in the pan, and in it, here and there, a curl of vellum or a corner of a stamp that has not entirely given in.".
+
+  Observe ps_roof_scene at dlo_roof when true "The Dead Letter Office's roof is a shallow valley of black slate between two chimneys, one for the stove and one for the furnace, a squat brick stack with an iron cowl like a bishop's hat. Pigeons walk about on it as if they owned the lease. The rain runs off in a hundred directions, and a good part of it, you notice, runs straight down the furnace stack.".
+  Observe ps_roof_cowl at dlo_roof when ps_flue_wet(party) "The cowl has been turned on its pivot to face the weather. Rain is running into the stack as if into a funnel.".
+
+  Observe ps_stair_day at ps_stair when publicHours() "The Post-lodgings stair: four floors of narrow steps in the dark and, on the landings, four doors, each with a card in a clerk's hand: BRANDT, WICK, ROKE, and at the top, under the slates, FENWICK. By day it is empty and smells of damp stairwell and other people's breakfasts, and of aniseed from the bakehouse across the way.".
+  Observe ps_stair_night at ps_stair when privateHours() "The Post-lodgings stair by night is a ladder of lamps under doors. Behind BRANDT someone is practising a speech; behind ROKE, a kettle. The smell of aniseed comes in under the street door, and somewhere above you a cradle is being rocked by a person with no baby.".
+
+  Observe ps_bake_day at ps_bake_floor when publicHours() "The Wet Post bakehouse: low, white, hot, and smelling of aniseed and burnt sugar. Four ovens in the wall, a trough, a table the colour of flour, and the post's bakers in the Cockle, the humblest face in Ombra, a plain half-mask of undyed linen, bent over their dough. Nobody here looks up for a Crow. They would not look up for a bishop.".
+  Observe ps_bake_night at ps_bake_floor when privateHours() "The bakehouse is dark and warm, the ovens banked, the trough covered with a cloth. On the table, a row of loaves rises for morning under towels like a row of sleeping heads.".
+
+  // ── The people ────────────────────────────────────────────────────────────────────────────────────────────────────
+  // Pell, Dunnage and Mabel have two registers: by day, masked, they are the Office, and a Crow is a colleague and
+  // anyone else a customer; by night, bare, at the counter lamp or on the Chapel steps, they are what they are. A bare
+  // company by day, or a masked one at night, is told one cold thing and no more.
+  Person pell "Tomas Pell" at dlo_counter {
+    Role "the Dead Letter Office's counter clerk" when not knows(party, ps_pell_is_pell).
+    Role "the Registrar's Clerk of the Book, hiding behind a counter" when knows(party, ps_pell_is_pell).
+    Known as "a Crow clerk at the counter" when not knows(party, ps_pell_is_pell) and publicHours().
+    Known as "a grey, bare-faced clerk on a stool" when not knows(party, ps_pell_is_pell) and privateHours().
+    Ancestry human. Peaceable. Pronouns he. Manner stoic.
+    Greets "A grey man in a clerk's coat stands at the counter squaring a stack of forms that is already square. He does not look up until you are directly in front of him, and then he says 'Yes,' as if answering a question you had not asked, and goes on squaring.".
+    Greets again "'Yes,' says the clerk at the counter, to the forms.".
+  }
+  Initially Assert unmaskTeaches(pell, ps_pell_is_pell).
+
+  Person dunnage "Mistress Dunnage" at dlo_office {
+    Role "the Postmaster of the Dead Letter Office, who burns what is not claimed".
+    Ancestry human. Peaceable. Pronouns she. Manner proud.
+    Greets "A tall woman, grey to the roots, with her sleeves tied back and an unlit taper in her hand, stands up from the desk and looks at you the way a ledger looks at a figure that does not agree. 'The Office is open,' she says. 'State your business in one piece. Pieces are what we have too many of.'".
+    Greets again "'State it in one piece,' says the Postmaster.".
+  }
+
+  Person strake "Mabel Vickery" at dlo_sorting {
+    Role "a clerk of the sorting-hall, with her sleeves pinned back".
+    Known as "a young Crow with ink to the elbow" when not knows(party, ps_mabel_is_strake) and publicHours().
+    Known as "a bare-faced young woman with ink to the elbow" when not knows(party, ps_mabel_is_strake) and privateHours().
+    Ancestry human. Peaceable. Pronouns she. Manner compassionate.
+    Greets "A young clerk with her sleeves pinned to the elbow looks up with a letter in each hand and puts both behind her back at once, in the manner of a person who has practised it. 'Sorting,' she says brightly. 'Nothing to see. It is all only paper.'".
+    Greets again "'Sorting,' says the young clerk, and puts something face down.".
+  }
+  Initially Assert unmaskTeaches(strake, ps_mabel_is_strake).
+
+  Person ps_corbin "Dickon" at dlo_sorting {
+    Role "the Office's boy sorter, in a Crow's domino made for a man" when not ps_boy_dismissed(ps_corbin).
+    Ancestry human. Peaceable. Pronouns he. Manner cheerful.
+    Greets "A boy of twelve in a Crow made for a grown man comes out from under a sorting-table with a sack-hook, and looks at your belt, because that is as high as the domino lets him see. 'Staff only,' he says, with a conscience. 'Mostly.'".
+    Greets again "'Staff only,' says the boy. 'Mostly.'".
+  }
+
+  // The bakehouse's four Cockles. The Cockle is the humblest face and two hundred wear it; these four are the ones on the
+  // Wet Post bakehouse's floor, and one of them wore it at the fifth bell on a Michaelmas Eve (the third thread).
+  Discovery ps_odile_is_she "The Cockle with the neat blue thread in her mask-string is Odile Ollerton, a baker's hand, who lodges in the garret of the Post-lodgings.".
+  Discovery ps_wick_is_he "The tall Cockle with the string mended in black is Teodor Wick, a baker, who lodges on the second landing of the Post-lodgings and owes money.".
+  Discovery ps_wynne_is_she "The Cockle in the mask a size too big is Wynne, the bakehouse's apprentice, fifteen.".
+  Discovery ps_bram_is_he "The young Cockle with the string knotted in blue wool is Bram Cutter, a baker's journeyman.".
+  Person ps_wick "Teodor Wick" at ps_bake_floor {
+    Role "a baker of the Wet Post bakehouse".
+    Known as "a tall Cockle whose mask-string is mended in black" when not knows(party, ps_wick_is_he) and publicHours().
+    Known as "a big man in his shirt, with a candle" when not knows(party, ps_wick_is_he) and privateHours().
+    Ancestry human. Peaceable. Pronouns he. Manner jovial.
+    Greets "A tall man with a baker's forearms and the face of one who has had a good deal of bad news looks up from what he is doing. 'Mind yourself,' he says, and then, lower, as if it were a confidence, 'I owe for most things. Do not mind that.'".
+    Greets again "'Mind yourself,' says the tall man.".
+  }
+  Initially Assert unmaskTeaches(ps_wick, ps_wick_is_he).
+  Person ps_odile "Odile Ollerton" at ps_bake_floor {
+    Role "a baker's hand of the Wet Post bakehouse".
+    Known as "a Cockle whose mask-string is mended in a neat blue thread" when not knows(party, ps_odile_is_she) and publicHours().
+    Known as "a woman with her hair down, bare-faced, on the garret landing" when not knows(party, ps_odile_is_she) and privateHours().
+    Ancestry human. Peaceable. Pronouns she. Manner stoic.
+    Greets "A woman with flour in the creases of her knuckles and a left hand that never quite stops moving looks at you with the patience of someone who has been looked at by strangers for a long time. 'Bread is not till ten,' she says. 'Unless you want yesterday's, which is cheaper and the same.'".
+    Greets again "'Not till ten,' says the woman, and her left hand goes on.".
+  }
+  Initially Assert unmaskTeaches(ps_odile, ps_odile_is_she).
+  Person ps_wynne "Wynne" at ps_bake_floor {
+    Role "the Wet Post bakehouse's apprentice".
+    Known as "a Cockle in a mask a size too big, with a blue ribbon in her hair" when not knows(party, ps_wynne_is_she).
+    Ancestry human. Peaceable. Pronouns she. Manner cheerful.
+    Greets "A girl of fifteen with flour in her eyebrows, in a Cockle that was cut for somebody larger, is humming a rhyme about a spoon. 'Mind the aniseed,' she says. 'It gets in everything. It gets in Wick.'".
+    Greets again "'Mind the aniseed,' says the girl in the big mask.".
+  }
+  Initially Assert unmaskTeaches(ps_wynne, ps_wynne_is_she).
+  Person ps_bram "Bram Cutter" at ps_bake_floor {
+    Role "a journeyman of the Wet Post bakehouse".
+    Known as "a young Cockle whose string is knotted in blue wool" when not knows(party, ps_bram_is_he).
+    Ancestry human. Peaceable. Pronouns he. Manner acerbic.
+    Greets "A young man in the Cockle, in a hurry, with one side of his mask-string knotted together in blue wool as a boy knots a bootlace, shoves a tray of rolls past you with his right hand. 'Counter is through there,' he says. 'If you are not buying you are standing in the way of the buns.'".
+    Greets again "'In the way of the buns,' says the young Cockle.".
+  }
+  Initially Assert unmaskTeaches(ps_bram, ps_bram_is_he).
+
+  // ── Where they are ────────────────────────────────────────────────────────────────────────────────────────────────
+  // Pell sits at the counter by day; at night he keeps the counter lamp until eleven, then sits in the hall beside the
+  // seventh line until two, when he walks to the Chapel and stands on its steps for two hours, and then opens the Office
+  // at four. Once he has left the Office for the Chapel (given up, or Named, or dismissed) he is on the steps for good.
+  Query ps_pell_home() means not ps_pell_chapel(pell) and not ps_pell_fled(pell).
+  Query ps_at_fire() means day(clock) == 9 and watch(clock) >= 1167 and watch(clock) < 1224 and not ps_burnt(post_office).
+  Query ps_witnessing() means day(clock) == 9 and watch(clock) >= 1164 and watch(clock) < 1224 and not ps_burnt(post_office).
+  Rule ps_pell_to_chapel when ps_pell_chapel(pell) and not at(pell, chapel_steps) { Assert at(pell, chapel_steps). }
+  Rule ps_pell_to_nowhere when ps_pell_fled(pell) and not at(pell, offstage) { Assert at(pell, offstage). }
+  Rule ps_pell_counter when ps_pell_home() and hour(clock) >= 4 and hour(clock) < 23 and not ps_witnessing() and not at(pell, dlo_counter) { Assert at(pell, dlo_counter). }
+  Rule ps_pell_hall when ps_pell_home() and (hour(clock) >= 23 or hour(clock) < 2) and not at(pell, dlo_sorting) { Assert at(pell, dlo_sorting). }
+  Rule ps_pell_vigil when ps_pell_home() and hour(clock) >= 2 and hour(clock) < 4 and not at(pell, chapel_steps) { Assert at(pell, chapel_steps). }
+  Rule ps_pell_furnace when ps_pell_home() and ps_witnessing() and not at(pell, dlo_furnace) { Assert at(pell, dlo_furnace). }
+
+  // Mistress Dunnage keeps her room by day, takes her dinner at the counter at noon, and sits on in it, bare, until eleven. On
+  // the ninth day she is at the furnace from half past ten until the Burning is done.
+  Rule ps_dunnage_office when publicHours() and hour(clock) != 12 and not ps_at_fire() and not at(dunnage, dlo_office) { Assert at(dunnage, dlo_office). }
+  Rule ps_dunnage_dinner when publicHours() and hour(clock) == 12 and not ps_at_fire() and not at(dunnage, dlo_counter) { Assert at(dunnage, dlo_counter). }
+  Rule ps_dunnage_fire when ps_at_fire() and not at(dunnage, dlo_furnace) { Assert at(dunnage, dlo_furnace). }
+  Rule ps_dunnage_evening when hour(clock) >= 20 and hour(clock) < 23 and not at(dunnage, dlo_office) { Assert at(dunnage, dlo_office). }
+  Rule ps_dunnage_home when (hour(clock) >= 23 or hour(clock) < 8) and not at(dunnage, offstage) { Assert at(dunnage, offstage). }
+
+  // Mabel sorts by day, reads by the Office's lamp until ten, takes the night's letters round until two and sleeps.
+  // If she has been turned off she sits on the lodgings stair, with her satchel, and waits for something to happen.
+  Relation ps_mabel_dismissed(group).
+  Rule ps_mabel_day when publicHours() and not ps_mabel_dismissed(strake) and not ps_at_fire() and not at(strake, dlo_sorting) { Assert at(strake, dlo_sorting). }
+  Rule ps_mabel_fire when ps_at_fire() and not ps_mabel_dismissed(strake) and not at(strake, dlo_furnace) { Assert at(strake, dlo_furnace). }
+  Rule ps_mabel_reads when hour(clock) >= 20 and hour(clock) < 22 and not ps_mabel_dismissed(strake) and not at(strake, dlo_sorting) { Assert at(strake, dlo_sorting). }
+  Rule ps_mabel_rounds when (hour(clock) >= 22 or hour(clock) < 2) and not at(strake, ps_stair) { Assert at(strake, ps_stair). }
+  Rule ps_mabel_bed when hour(clock) >= 2 and hour(clock) < 8 and not ps_mabel_dismissed(strake) and not at(strake, offstage) { Assert at(strake, offstage). }
+  Rule ps_mabel_idle when ps_mabel_dismissed(strake) and not at(strake, ps_stair) { Assert at(strake, ps_stair). }
+
+  Rule ps_corbin_day when publicHours() and not ps_at_fire() and not ps_boy_dismissed(ps_corbin) and not at(ps_corbin, dlo_counter) { Assert at(ps_corbin, dlo_counter). }
+  Rule ps_corbin_fire when ps_at_fire() and not ps_boy_dismissed(ps_corbin) and not at(ps_corbin, dlo_furnace) { Assert at(ps_corbin, dlo_furnace). }
+  Rule ps_corbin_home when privateHours() and not at(ps_corbin, offstage) { Assert at(ps_corbin, offstage). }
+
+  // The bakehouse's hands: all four by day; two of them lodge over the road and are home by night.
+  Rule ps_bakers_day when publicHours() and not at(ps_wick, ps_bake_floor) { Assert at(ps_wick, ps_bake_floor). }
+  Rule ps_bakers_day2 when publicHours() and not at(ps_odile, ps_bake_floor) { Assert at(ps_odile, ps_bake_floor). }
+  Rule ps_bakers_day3 when publicHours() and not at(ps_wynne, ps_bake_floor) { Assert at(ps_wynne, ps_bake_floor). }
+  Rule ps_bakers_day4 when publicHours() and not at(ps_bram, ps_bake_floor) { Assert at(ps_bram, ps_bake_floor). }
+  Rule ps_wick_night when privateHours() and not at(ps_wick, ps_stair) { Assert at(ps_wick, ps_stair). }
+  Rule ps_odile_night when privateHours() and not at(ps_odile, ps_stair) { Assert at(ps_odile, ps_stair). }
+  Rule ps_wynne_night when privateHours() and not at(ps_wynne, offstage) { Assert at(ps_wynne, offstage). }
+  Rule ps_bram_night when privateHours() and not at(ps_bram, offstage) { Assert at(ps_bram, offstage). }
+
+  // ══ THE BURNING OF THE NOBODIES ═══════════════════════════════════════════════════════════════════════════════════
+  // The clock: until ten on the ninth morning the forty sacks hang in the sorting-hall; at ten the clerks carry them to the
+  // burning-room and line them up in the order of the rhyme; at noon the Postmaster lights the fire from her taper and
+  // feeds it a sack at a time for an hour and a half. Up to the stroke of noon any person may redeem a piece by paying its
+  // carriage and putting a name to it (to the Office, a face is a name). After it, nobody may touch a Nobody. A wet
+  // furnace puts the Burning off (the Rule's own dry clause); a choked one stops it for the book. What is in the sacks
+  // at the end is ash, the Book included.
+
+  Measure ps_rhymeDay(group). Measure ps_pellDay(group). Measure ps_stealDay(group). Measure ps_roofDay(group). Measure ps_chokeAt(group).
+  Relation ps_held(group). Relation ps_mabel_trusts(group). Relation ps_pell_evidenced(group). Relation ps_pell_child_asked(group).
+  Relation ps_pell_lied_to(group). Relation ps_pell_threatened(group). Relation ps_parcel_given(group). Relation ps_vigil_kept(group).
+  Relation ps_rack_known(group). Relation ps_wet_done(group).
+  Discovery ps_book_located "The Book of Faces lies in the sorting-hall of the Dead Letter Office, in a sack among the Nobodies, and will be burnt with them at noon on the ninth day unless somebody takes it out.".
+  Discovery ps_drawer_known "The Postmaster keeps the Filing, the card that says how the Office's rhyme sorts its sacks, in the locked drawer of her desk, and nowhere else, because a rhyme learned from a card is learned wrong.".
+  Discovery ps_pell_suspect "The counter clerk who gives his name as Dacre came to the Office on the first morning, a few hours after a grey parcel with the Registrar's seal came in by the night-box, and spends his nights beside the seventh line of sacks.".
+  Discovery ps_parcel_known "The Dead Letter Office has a parcel on its Unclaimed shelf directed to whoever wore the Cockle at the fifth bell on Michaelmas Eve; nobody has ever been able to say who that was.".
+
+  // ── The Postmaster ────────────────────────────────────────────────────────────────────────────────────────────────
+  Topic ps_dun_cold with dunnage "Speak to the Postmaster" when ps_cold_day(actor) {
+    Says "'Bare,' says the Postmaster, to a point a little above your head, 'is a condition and not an address. Come back with something I can write on an envelope.'".
+  }
+  Topic ps_dun_cold_night with dunnage "Speak to the Postmaster" when ps_cold_night(actor) {
+    Says "'The Office is shut,' says Mistress Dunnage, from the other side of a door that is open a hand's breadth, and does not open further. 'I do not receive a mask in my own room. Take it off, and come in, or go away.'".
+  }
+  Topic ps_dun_night with dunnage "Speak to the Postmaster in her room, bare, at night" when not masked(actor) and privateHours() and at(dunnage, dlo_office) {
+    Says "Without the Office on her face she is a plain, tired woman of sixty with a good deal of grey hair, and the taper lies on the blotter where she has put it down like a thing she does not need until the morning. 'Forty-one Postmasters,' she says, 'and not one of us has been asked what she thought of it.' She does not wait to be asked now. 'I do not enjoy the Burning. I do it. I have come to think that that may be the whole of being a Postmaster: to do a thing well which is not to be enjoyed, and which has not been asked for by anyone alive.'".
+  }
+  Topic ps_dun_night_reader with dunnage "Ask her, bare, whether she knows who opens the dead letters" when not masked(actor) and privateHours() and at(dunnage, dlo_office) and day(clock) >= 3 {
+    Says "'Yes,' says Mistress Dunnage, 'and I have not decided to know.' She puts the taper straight on the blotter. 'It is in the evenings that I am a coward. By day I am the Rule, and the Rule is not a coward; it is something much worse, which is consistent. I have given her until the seventh day. That is a kindness. It is also a deadline, and the Rule, I find, will take no more of it than that.'".
+    On discuss { Assert knows(actor, ps_dunnage_asked_known). }
+  }
+  Topic ps_dun_fire with dunnage "Ask the Postmaster, at the furnace, whether she will do it" when ps_speaks(actor) and ps_sacksMoved() and not ps_burn_done() and at(dunnage, dlo_furnace) {
+    Says "'Dry, at noon, by my own hand, before the Office,' says the Postmaster, not turning her head. 'That is all it says. It has never said whether the Postmaster is to be glad.' She weighs the taper in her palm. 'Eleven thousand pieces. I know the weight of every sack. I have never once been told what was in them.' It occurs to you that she is the only person in the room who has not wanted to look.".
+  }
+  Topic ps_dun_burning with dunnage "Ask the Postmaster what the Office does with what it cannot deliver" when ps_speaks(actor) {
+    Says "'Keeps it for a year,' says Mistress Dunnage. 'Forty sacks. Eleven thousand pieces by the last count, and the last count was mine. On the ninth day of the Novena, at noon, in this Office's own furnace, I burn them.' She turns the unlit taper once in her fingers. 'It was done before the Concord. The Concord copied it; and then, I notice, forgot what for.'".
+    On discuss { Assert knows(actor, ps_nobodies). }
+  }
+  Topic ps_dun_rule with dunnage "Ask the Postmaster to read you the Rule of the Nobodies" when ps_speaks(actor) and knows(actor, ps_nobodies) {
+    Says "She does not fetch it. 'What is posted to Nobody belongs to Nobody,' says the Postmaster, to the middle of the room, 'and Nobody is not to be found. Therefore on the ninth day, at noon, the Postmaster shall burn it, in a dry furnace, by her own hand, before the Office; and if the furnace be wet she shall wait on it and not hurry; and no piece shall be kept back, save such as be redeemed before the stroke by any person that will pay its carriage and put a name to it.' She stops, because it has stopped. 'Six coin the stone.'".
+    On discuss { Assert knows(actor, ps_rule_read). Assert knows(actor, ps_dry_clause). Assert knows(actor, ps_redeem_clause). }
+  }
+  Topic ps_dun_filing with dunnage "Ask the Postmaster how the Office sorts" when wears(actor, face_crow) and publicHours() {
+    Says "'By the Filing,' says Mistress Dunnage, with the faint pleasure of someone asked about her own handwriting. 'You will have it by heart in a week, if you are in the Office. You are not. It is kept in my desk and in the clerks' mouths, and nowhere else, because a rhyme learned off a card is learned wrong.'".
+    On discuss { Assert knows(actor, ps_drawer_known). }
+  }
+  Topic ps_dun_reader with dunnage "Ask the Postmaster if there is trouble in the sorting-hall" when wears(actor, face_crow) and publicHours() and day(clock) >= 3 {
+    Says "'Somebody,' says the Postmaster, 'opens what is not theirs to open.' She does not raise her voice; it is not a voice that rises. 'Four letters in a month came back to my counter from the other side of the Cuff with a word written on them in a hand that was not the sender's. Thanks. The Office does not receive thanks. The Office has not delivered.' She puts the taper down. 'I shall know by the seventh day.'".
+    On discuss { Assert knows(actor, ps_dunnage_asked_known). }
+  }
+  Discovery ps_dunnage_asked_known "Mistress Dunnage knows that someone in the sorting-hall opens the dead letters and delivers some of them by hand, and says she will have found out who by the seventh day.".
+  Action ps_ask_hold(actor: group, site: place) "Ask the Postmaster to put the Burning off a day, on account of the Drawing" {
+    Speaker dunnage.
+    Requires able(actor) and company(actor) and at(actor, site) and at(dunnage, site) and masked(actor) and publicHours() and ps_lawful_hour()
+      and not ps_held(actor) and ps_tryDay(actor) < day(clock).
+    Time 3 minutes.
+    Resolve check(actor, persuasion, dc_formidable).
+    On success { Assert ps_held(actor). Assert ps_dunnage_yielded(actor). }
+    On failure { Set ps_tryDay(actor) to day(clock). }
+    Result "Mistress Dunnage listens to all of it, the Drawing and the city and what a day's delay would be to people who have waited all year, and when you have done she says, 'I have never been asked that.' She sets her taper on the desk. 'The Rule does not mention the Drawing. It does not mention the day after. I have wondered, before now, why it was so exact about the one and silent about the other.' She is silent herself for a long moment. 'The Burning will be on the tenth. Not for you. For the Rule, which I find has been waiting to be asked.'".
+    Otherwise "'The Rule,' says the Postmaster, with enormous gentleness, 'does not mention the Drawing.' It is the kindest refusal you have ever had, and it does not move at all.".
+  }
+  Relation ps_dunnage_yielded(group).
+
+  // Redeeming a piece: the lawful way. The Postmaster does not ask what a piece is; the Rule does not.
+  Action ps_redeem(actor: group, site: place) "Redeem the parcel from the Nobodies: twelve coin by weight, in the name of your face" {
+    Speaker dunnage.
+    Requires able(actor) and company(actor) and at(actor, site) and at(dunnage, site) and masked(actor) and publicHours() and ps_lawful_hour()
+      and ps_book_found(actor) and not carries(actor, book_of_faces) and not ps_book_burned(actor) and quantity(actor, gold) >= 12.
+    Time 10 minutes.
+    On success { Decrease quantity(actor, gold) by 12. Increase quantity(dunnage, gold) by 12. Give book_of_faces to actor. Assert ps_redeemed(actor). }
+    Result "You put the parcel on her desk. She looks at the seal, a bare oval with nothing in it, and at the grey vellum under the oilcloth, and you see her know exactly what it is, and decide that the Rule does not ask. 'Carriage,' she says. 'By weight. Two stone.' You pay it. She writes in the Redemptions: one parcel, grey, directed To Nobody, Nowhere, redeemed before the stroke by the face that was wearing a mask this morning, and blots it, and pushes the book across for your face's signature. 'The Office thanks you,' she says. It has never, you suspect, said it before.".
+  }
+
+  // ── The boy ───────────────────────────────────────────────────────────────────────────────────────────────────────
+  // Dickon minds the Unclaimed shelf and runs between the counter and the hall, and he filed the grey parcel that came in
+  // by the night-box on the first night. He is twelve and nobody has asked him what he thinks since he was hired.
+  Topic ps_corbin_cold with ps_corbin "Speak to the boy" when ps_cold_day(actor) {
+    Says "The boy looks at your belt, at your boots, at anything but the place where a mask would be. 'I'm not allowed,' he says, in a whisper, and goes red under the Crow. 'Sorry. It's only that I'm not.'".
+  }
+  Action ps_pay_boy(actor: group, site: place) "Give the boy two coin to look the other way when you go through to the sorting-hall" {
+    Speaker ps_corbin.
+    Requires able(actor) and company(actor) and at(actor, site) and at(ps_corbin, site) and masked(actor) and publicHours() and not ps_boy_paid(actor) and not wears(actor, face_crow)
+      and quantity(actor, gold) >= 2 and not ps_sacksMoved().
+    Time 1 minute.
+    On success { Decrease quantity(actor, gold) by 2. Increase quantity(ps_corbin, gold) by 2. Assert ps_boy_paid(actor). }
+    Result "The boy takes the coin as a thing he has been told about and never seen. 'I never saw you,' he says, with a conscience. 'I'm not sure what I'm not seeing. But I'm not.'".
+  }
+  Action ps_corbin_ask(actor: group, site: place) "Ask Dickon, as if his opinion mattered, what came in by the night-box on the first night" {
+    Speaker ps_corbin.
+    Requires able(actor) and company(actor) and at(actor, site) and at(ps_corbin, site) and ps_speaks(actor) and not ps_rack_known(actor) and ps_corbinDay(actor) < day(clock).
+    Time 5 minutes.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert knows(actor, ps_rack_told). Assert ps_rack_known(actor). Assert knows(actor, ps_pell_suspect). }
+    On failure { Set ps_corbinDay(actor) to day(clock). }
+    Result "He thinks very hard, being asked. 'A big grey one,' he says. 'Heavy as a baby. Directed in a clerk's hand, To Nobody, Nowhere. It had a seal on it like a bare oval.' He draws one in the air. 'Nobody is not a name, Mistress Dunnage says, it is a lack of one, and Nowhere is not a door. So that is Wanting, the seventh line. Parcels are the third sack.' He is proud of it. 'Mr. Dacre came in the same morning for the lowest post in the Office, and he sits by that line all night. I think he likes the rhyme.'".
+    Otherwise "The boy goes red under the Crow. 'It is not my place,' he says, which is what he has been told, and he goes back to the shelf and straightens a parcel that does not need it. Nobody, you gather, has ever asked him anything he was not told to know.".
+  }
+  Action ps_corbin_pay(actor: group, site: place) "Give Dickon five coin and ask what came in by the night-box on the first night" {
+    Speaker ps_corbin.
+    Requires able(actor) and company(actor) and at(actor, site) and at(ps_corbin, site) and ps_speaks(actor) and not ps_rack_known(actor) and quantity(actor, gold) >= 5.
+    Time 3 minutes.
+    On success { Decrease quantity(actor, gold) by 5. Increase quantity(ps_corbin, gold) by 5. Assert knows(actor, ps_rack_told). Assert ps_rack_known(actor). Assert knows(actor, ps_pell_suspect). }
+    Result "The boy looks at five coin as at a sum he has been waiting years to be asked to carry. 'A big grey one,' he says, very fast. 'To Nobody, Nowhere, with a seal like a bare oval. Nobody is not a name and Nowhere is not a door, so that is Wanting, the seventh line, and a parcel is the third sack.' He pockets the coin. 'Mr. Dacre came the same morning and sits by that line all night,' he adds, because he is honest, 'and I do not know why, and I did not tell you.'".
+  }
+  Measure ps_corbinDay(group).
+  Measure ps_shifts(group). Measure ps_shiftDay(group).
+  // The Office pays a Crow by the shift to sort, and a Crow who sorts two shifts has the rhyme in her hands.
+  Action ps_work_shift(actor: group, site: place) "Take a shift at the sorting-tables, for the Office's four coin" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, dlo_sorting) and ps_sacks_at(dlo_sorting) and wears(actor, face_crow) and publicHours() and ps_shiftDay(actor) < day(clock).
+    Time 24.
+    On success { Set ps_shiftDay(actor) to day(clock). Increase ps_shifts(actor) by 1. Increase quantity(actor, gold) by 4. Increase goodwill(face_crow) by 1. }
+    Result "Four hours at a sorting-table in a Crow, among Crows, who do not talk. A clerk puts a stack in front of you and you do what they do: read the direction, find the line, flick. The Office does not ask who you are; it asks only that you are not slow. By the end the rhyme is going in your head to the movement of your wrist, and you are paid four coin out of a tin, in pennies, by a hand that does not look up.".
+  }
+  Rule ps_shifts_teach when ps_shifts(party) >= 2 and not knows(party, ps_filing) says "By the second shift you are not reading the rhyme any more. Your hand knows it: a drowned man's letter goes to the first line, a Hill crest to the second, and the third sack of any line is where a parcel goes. It is simply how the Office is made." teaches ps_filing { }
+
+  // ── The sacks ─────────────────────────────────────────────────────────────────────────────────────────────────────
+  // The search, an hour a sack. Going through a line sack by sack, you meet the Book at the third; going straight to the
+  // parcels' sack of a line takes the Filing, and knowing the line takes a person who filed it or hid it or read the
+  // drawer. Mabel's help halves the time. Any of it can be done in the burning-room until noon on the ninth.
+  Action ps_dig(actor: group, rack: ps_rack, site: place) "Go through the next sack of {rack}" {
+    Requires able(actor) and company(actor) and at(actor, site) and ps_sacks_at(site) and ps_may_search(actor) and ps_dug(rack) < 5
+      and not ps_book_found(actor).
+    Time 6.
+    On success { Increase ps_dug(rack) by 1. }
+    Result "You take a sack down off its hook, or stand it up off the iron floor, tip it on a table and go through it a piece at a time, as the Office does, reading directions and not letters. It takes an hour. The paper is damp, and gives off the smell of every house it ever went to.".
+  }
+  Action ps_dig_with(actor: group, rack: ps_rack, site: place) "Go through the next sack of {rack} with Mabel's quick hands" {
+    Speaker strake.
+    Requires able(actor) and company(actor) and at(actor, site) and at(strake, site) and ps_mabel_trusts(actor) and ps_sacks_at(site) and ps_may_search(actor)
+      and ps_dug(rack) < 5 and not ps_book_found(actor).
+    Time 3.
+    On success { Increase ps_dug(rack) by 1. }
+    Result "Mabel takes the other end of the table. She reads directions at a speed you would not have believed, and passes you what you ought to be looking at, and puts back what you ought not, and does it without ever looking as if she were doing anything. It takes half an hour. 'Practice,' she says.".
+  }
+  Action ps_open_parcels(actor: group, rack: ps_rack, site: place) "Open the parcels' sack of {rack} directly" {
+    Requires able(actor) and company(actor) and at(actor, site) and ps_sacks_at(site) and ps_may_search(actor) and (knows(actor, ps_filing) or ps_rack_known(actor)) and not ps_pdone(rack)
+      and not ps_book_found(actor).
+    Time 6.
+    On success { Assert ps_pdone(rack). Increase ps_dug(rack) by 1. }
+    Result "You go straight to the third sack of the line, as the second verse says, three for a parcel, and tip it out. It takes the hour it takes. The thing about knowing the Office's rhyme is that it is a great deal shorter than the Office.".
+  }
+  // The Book turns up when its sack is gone through. It is in the third sack of whatever line it is in.
+  Rule ps_book_turns_up within post_office when ps_book_in(?r) and (ps_dug(?r) >= 3 or ps_pdone(?r)) and not ps_book_found(party) and not ps_book_burned(party) and not carries(party, book_of_faces) says "The sack gives up a parcel the size of a breadboard, wrapped in oilcloth, tied with the tape the Registry uses, and in the corner of the wrapper, in a clerk's hand that has spent thirty years being careful: TO NOBODY, NOWHERE. Under the oilcloth, a ledger in white vellum gone grey at the corners, a brass lock that has been forced, and over the lock the Registrar's seal: a bare oval, with nothing in it. The Book of Faces has been lying in a sack among eleven thousand other pieces of paper, and nobody has looked." teaches ps_book_located {
+    Assert ps_book_found(party). }
+  Observe ps_book_wrapper at dlo_sorting when ps_book_found(party) and knows(party, ps_pell_is_pell) and not carries(party, book_of_faces) "The tape on the wrapper is tied in a clerk's knot, a Chapel knot, the kind the Clerk of the Book ties on a lectern's ribbon, and you know whose fingers it was. Somebody has tried, more than once, to untie it, and stopped.".
+  Rule ps_wrapper_teaches within post_office when ps_book_found(party) and knows(party, ps_pell_is_pell) and not knows(party, pell_hid_book) says "You put the Chapel knot together with the Crow at the counter who squares forms that are square, and the parcel that came in the night the Registrar died, and it makes a single shape. Tomas Pell did not carry the Book out of the Chapel. He posted it, to the one address in Ombra that has never been delivered to, and went to work for the Post." teaches pell_hid_book { }
+  Observe ps_hall_disturbed at dlo_sorting when ps_pell_moved_it(party) and ps_sacks_at(dlo_sorting) and (ps_dug(ps_rack_wanting) >= 3 or ps_pdone(ps_rack_wanting)) and not ps_book_found(party) "The third sack of the seventh line has been opened and retied since the first night. The knot is a Chapel knot, and the sack is lighter than it should be. Whoever sat beside it put something in another sack, and somebody has taken it for a place to hide.".
+
+  // Reading the rhyme: heard from the clerks, understood by lore or insight, or read from the card in the drawer, or told by Mabel.
+  Action ps_read_rhyme(actor: group, site: place) "Work out what the clerks' rhyme is sorting by" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, dlo_sorting) and ps_sacks_at(dlo_sorting) and knows(actor, ps_rhyme_heard) and not knows(actor, ps_filing)
+      and ps_rhymeDay(actor) < day(clock) and ps_may_search(actor).
+    Time 3.
+    Resolve check(actor, lore, dc_fair).
+    On success { Assert knows(actor, ps_filing). }
+    On failure { Set ps_rhymeDay(actor) to day(clock). }
+    Result "You stand in the aisle with your eyes on the sacks and your ears on the clerks, and it comes apart in your hands as a good riddle does: eight lines for eight ways of being lost, five sacks to a line, and a second verse that tells the clerk which sack by what the thing is. One for a letter, two for a card, three for a parcel. 'Nobody's own' is the last line because it is the bottom of the rhyme, and also, by the Office's lights, the bottom of the world.".
+    Otherwise "You listen until the rhyme goes round and round in your head and means nothing but its own tune, as a nursery rhyme does. The hall has not told you what it is sorting by.".
+  }
+  Action ps_read_rhyme_wit(actor: group, site: place) "Follow the clerks' hands, not the clerks' words, to see where each piece goes" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, dlo_sorting) and ps_sacks_at(dlo_sorting) and knows(actor, ps_rhyme_heard) and not knows(actor, ps_filing)
+      and ps_rhymeDay(actor) < day(clock) and ps_may_search(actor).
+    Time 6.
+    Resolve check(actor, insight, dc_hard).
+    On success { Assert knows(actor, ps_filing). }
+    On failure { Set ps_rhymeDay(actor) to day(clock). }
+    Result "You give up the rhyme and watch the hands. A letter to a drowned man goes to the first line; a card with a Hill crest goes to the second; the clerk's wrist turns for a thing of a certain weight and the sack she takes is always the third on its hook. It is a system for hands, and the words are only how they hold it in their heads.".
+    Otherwise "An hour of watching the clerks' wrists, and you are sure of one thing: they are very fast, and they are not thinking.".
+  }
+  Action ps_pick_drawer(actor: group, site: place) "Pick the lock of the Postmaster's drawer" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, dlo_office) and not at(dunnage, dlo_office) and not ps_drawer_open(actor) and knows(actor, ps_drawer_known).
+    Time 12.
+    Resolve check(actor, lockwork, dc_fair).
+    On success { Assert ps_drawer_open(actor). }
+    Result "It is a good lock for its age, and an honest one: it expects to be asked politely. A little oil from the taper-stand and twenty minutes of patience, and the drawer comes out on its runners with the sound of a deep breath.".
+    Otherwise "The lock keeps its own counsel. It has been picked by experts, you gather, and has outlasted them.".
+  }
+  Action ps_read_card(actor: group, site: place) "Read the Filing, on its card in the Postmaster's drawer" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, dlo_office) and ps_drawer_open(actor) and not knows(actor, ps_filing).
+    Time 3 minutes.
+    On success { Assert knows(actor, ps_filing). }
+    Result "A card in the Postmaster's own hand, with the rhyme on it, a line to a line, and by every line, in a smaller hand, what it means: THE DROWNED AND THE DEAD. REFUSED BY THE HILL. NO NUMBER IN THE DRIP. SHIPPED. UNSIGNED. RETURNED UNCLAIMED. NO NAME AND NO DOOR. NOBODY AT A DOOR. Below it, the second verse, and at the foot, in a clerk's hand, much older than hers: Do not put it on a card. A rhyme learned off a card is learned wrong.".
+  }
+  Topic ps_mabel_files with strake "Ask Mabel how the Office files what it cannot deliver" when ps_speaks(actor) and ps_mabel_trusts(actor) and not knows(actor, ps_filing) {
+    Says "'It is a rhyme,' says Mabel, and sings it very quietly, with her finger tapping the table. 'Gone to the water, gone to the wall; and so on to the eighth. Eight lines, and five sacks to each line, and the second verse says which sack by what a thing is. Letter, card, parcel, bundle, bale. A parcel is always the third.' She looks pleased. 'You are not the first person who has asked me and had to be told it was a joke.'".
+    On discuss { Assert knows(actor, ps_filing). Assert knows(actor, ps_rhyme_heard). }
+  }
+
+  // Getting in. A Crow is one of the Office's own, and walks through; anyone else is stopped at the hall door by whoever
+  // is nearest. By night the hall is Pell's, and he turns a stranger out as gently as he would turn a cat.
+  Rule ps_hall_challenged at dlo_sorting when at(party, dlo_sorting) and publicHours() and not ps_sacksMoved() and not ps_may_search(party)
+    says "'Staff only,' says a Crow with a sack-hook, politely, and then four more say it, in the same voice, from the tables; and you are walked to the counter with the manners of an Office that has never once had to raise its voice." { Assert at(party, dlo_counter). }
+  Rule ps_hall_challenged_night at dlo_sorting when at(party, dlo_sorting) and privateHours() and not ps_sacksMoved() and not ps_may_search(party)
+    says "A lamp comes into the hall behind you. 'Go out, please,' says a man's voice, quite gently, from behind it; he does not say who he is, and does not need to. You go, and he goes with you, with the lamp, as far as the counter, and stands there until you are out of the door of the Office." { Assert at(party, dlo_counter). }
+  Rule ps_furnace_cleared at dlo_furnace when at(party, dlo_furnace) and ps_sacksMoved() and not masked(party) and publicHours() and not ps_burn_done()
+    says "The Office's clerks are in two lines along the wall, and a bare face is not a person, and at a Burning there is no room for something that is not. A Crow takes you by the elbow and walks you out to the counter, apologizing all the way." { Assert at(party, dlo_counter). }
+
+  // The sacks are carried at ten on the ninth morning.
+  Rule ps_sacks_carried at dlo_sorting when ps_sacksMoved() and ps_sacks_at(dlo_sorting)
+    says "At ten the Office's clerks come into the hall in a line, eight of them, and take down the sacks without a word, two to a sack, and carry them out through the furnace door; and Mistress Dunnage stands at the head of the hall with her unlit taper and counts them out, forty, and the hooks swing a little, empty, as the last of them goes." { Retract ps_sacks_at(dlo_sorting). Assert ps_sacks_at(dlo_furnace). }
+
+  // The Burning proper.
+  Rule ps_burning_begins at dlo_furnace when ps_sacksMoved() and hour(clock) >= 12 and not ps_burning_begun(post_office) and not ps_flue_wet(party) and not ps_held(party) and not ps_flue_choked(party)
+    says "The Postmaster takes down her taper. She has carried it unlit for a year. She lights it at the lamp on the lintel, once, and touches it to the kindling, and every Crow in the room takes one step back, all together, as if the room had breathed in. 'Noon,' says Mistress Dunnage, in the voice of a woman reading a will. The furnace takes. She picks up the first sack." { Assert ps_burning_begun(post_office). Set ps_burnStart(post_office) to watch(clock). }
+  Rule ps_burning_wet at dlo_furnace when ps_sacksMoved() and hour(clock) >= 12 and not ps_burning_begun(post_office) and ps_flue_wet(party) and not ps_flue_choked(party) once
+    says "The Postmaster touches the taper to the kindling, and the kindling hisses, and does not take. 'Wet,' says Mistress Dunnage, and for a moment she looks very old. She does not stamp or curse; she puts the taper back in its holder, and the clerks, who have seen her do it before and not for this reason, look at each other. 'The Rule says dry. We wait.'" { }
+  Rule ps_burning_ends when ps_burning_begun(post_office) and not ps_burnt(post_office) and watch(clock) >= ps_burnStart(post_office) + 9 { Assert ps_burnt(post_office). }
+  Rule ps_book_burns when ps_burnt(post_office) and not carries(party, book_of_faces) and not ps_book_burned(party) { Assert ps_book_burned(party). }
+  Rule ps_book_burns_told at dlo_furnace when ps_burnt(post_office) and ps_book_burned(party) and not ps_burned_by_choice(party) and watch(clock) <= ps_burnStart(post_office) + 11 once
+    says "The last sack goes into the fire, and the clerks say its number, forty, and the Postmaster shuts the furnace door on eleven thousand pieces of paper, one of which was the Book of Faces. The fire goes up the flue, and the Wet Post, for a moment, has the smell of every house in Ombra." { }
+  Rule ps_burning_ends_told at dlo_furnace when ps_burnt(post_office) and carries(party, book_of_faces) once
+    says "The last sack goes into the fire, and the clerks say its number, forty, and the Postmaster shuts the furnace door on eleven thousand pieces of paper. The Book of Faces is not among them: it is under your coat, and heavy, and slightly warm from the room." { }
+  Rule ps_flue_dries when day(clock) == 9 and hour(clock) >= 17 and ps_flue_wet(party) and not ps_flue_choked(party) and not ps_burnt(post_office) { Retract ps_flue_wet(party). }
+  Rule ps_flue_dried_told at dlo_furnace when day(clock) == 9 and hour(clock) == 17 and ps_wet_done(party) and not ps_flue_wet(party) and not ps_flue_choked(party) and not ps_burnt(post_office) once
+    says "At five the boy comes in with a brazier on a pole, and stands it under the damper, and the Postmaster has the room cleared of everyone who is not a clerk. By six the flue has dried to a crackle. The Rule says dry, and the Rule says the Postmaster shall not hurry, and she has not hurried: she has only been very, very thorough." { }
+
+  // ── Stopping the fire: a wet furnace, a choked one ────────────────────────────────────────────────────────────────
+  Action ps_turn_cowl(actor: group, site: place) "Turn the cowl of the furnace stack into the wind, so that the rain goes down it" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, dlo_roof) and day(clock) == 9 and hour(clock) < 12 and not ps_flue_wet(actor) and ps_roofDay(actor) < day(clock).
+    Time 12.
+    Resolve check(actor, climbing, dc_fair).
+    On success { Assert ps_flue_wet(actor). Assert ps_wet_done(actor). }
+    On failure { Set ps_roofDay(actor) to day(clock). Increase heat(actor) by 1. }
+    Result "The cowl is iron, rusted on its pivot, and it takes both hands and your whole back to turn it a quarter, with the slates sliding and the pigeons going up round you in a clatter. It turns. The rain, which has been going past the stack all week, finds the open throat of it and goes in.".
+    Otherwise "A slate goes out from under your boot and down the roof and off the edge and into the Cuff with a sound like a plate, and from the Post bridge a Crow stops, looks up at a bare face on the Office roof, and walks on very fast to find a Watch domino.".
+  }
+  Action ps_choke_flue(actor: group, site: place) "Ram the sweeps' wet sacking down the furnace stack with their long brush" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, dlo_roof) and day(clock) == 9 and hour(clock) < 12 and not ps_flue_choked(actor).
+    Time 12.
+    Resolve check(actor, trapwork, dc_hard).
+    On success { Assert ps_flue_choked(actor). Assert ps_held(actor). Set ps_chokeAt(actor) to watch(clock). }
+    On failure { Increase heat(actor) by 1. }
+    Result "The sweeps leave their sacking and their long brush in the lee of the stack, and the rain has done the soaking for you. You take the cowl off the pivot, and feed the wet sacking into the throat of the chimney a fathom at a time, and ram it down with the brush until it will not go further and the draught coming up thins to a whisper and stops. It will be Mr. Penn the sweep, on the tenth, with his rods. Nobody is going to burn anything today.".
+    Otherwise "The brush catches in the cowl's iron and jars out of your hands, and goes down the stack end-first with a noise like a bell. From the Post bridge a Crow stops, looks up at a bare face on the Office roof, and goes very fast to find a Watch domino.".
+  }
+  Rule ps_corbin_blamed at dlo_furnace when ps_flue_choked(party) and not ps_boy_dismissed(ps_corbin) and not ps_own_up(party) and watch(clock) >= ps_chokeAt(party) + 6
+    says "Mistress Dunnage says nothing to the furnace. She says nothing to the line. She turns to the boy, who had the key to the roof and the poker, and says, in a voice with no edge in it at all, 'The Office has no use for a hand that cannot answer for a wet flue.' The boy takes off his Crow, which is too big, and puts it on the nearest sack, and goes out, and nobody stops him." { Assert ps_boy_dismissed(ps_corbin). Assert at(ps_corbin, offstage). }
+  Action ps_own_up_act(actor: group, site: place) "Tell the Postmaster the flue was no work of the boy's" {
+    Speaker dunnage.
+    Requires able(actor) and company(actor) and at(actor, site) and at(dunnage, site) and ps_flue_choked(actor) and not ps_boy_dismissed(ps_corbin) and not ps_own_up(actor).
+    Time 2 minutes.
+    On success { Assert ps_own_up(actor). Increase heat(actor) by 1. }
+    Result "Mistress Dunnage looks at you for a long time. 'The Rule,' she says at last, 'does not say who may be wrong.' She does not tell you to leave; she does not need to. 'The boy keeps his place,' she says. 'You will not come into this Office again with that face.' It is, you gather, as near to a courtesy as the Postmaster has.".
+  }
+
+  // ── Taking the Book: stealing, snatching, burning ─────────────────────────────────────────────────────────────────
+  Action ps_take_night(actor: group, site: place) "Lift the Book out of its sack, and go" {
+    Requires able(actor) and company(actor) and at(actor, site) and ps_sacks_at(site) and ps_book_found(actor) and privateHours() and not at(pell, site)
+      and not carries(actor, book_of_faces) and not ps_book_burned(actor).
+    Time 3 minutes.
+    On success { Give book_of_faces to actor. Assert ps_pell_robbed(actor). }
+    Result "You take it out of the oilcloth, which you leave in the sack for the next man to find, and fold your coat over it. It is heavier than a book has any right to be; ninety years of other people's lives. The sack is lighter by two pounds, and in a sack of eleven thousand pieces nobody will weigh it. Somebody will notice, in the end. He keeps the lamp.".
+  }
+  Action ps_take_day(actor: group, site: place) "Lift the Book out of its sack under your Crow's cloak, with the clerks about" {
+    Requires able(actor) and company(actor) and at(actor, site) and ps_sacks_at(site) and ps_book_found(actor) and publicHours() and ps_lawful_hour() and ps_stealDay(actor) < day(clock)
+      and not carries(actor, book_of_faces) and not ps_book_burned(actor) and ps_may_search(actor).
+    Time 3 minutes.
+    Resolve check(actor, stealth, dc_fair).
+    On success { Give book_of_faces to actor. Assert ps_pell_robbed(actor). }
+    On failure { Set ps_stealDay(actor) to day(clock). Increase heat(actor) by 1. Assert at(actor, dlo_counter). }
+    Result "A Crow is passing a sack across the table to the next Crow; you are at the end of the line with your back to the room, and for the length of the sack's journey nobody is looking at you. It is a very long journey. When it is over the Book is under your cloak and the hall has not noticed.".
+    Otherwise "A hand comes down on the sack as you lift the oilcloth, and a voice says, 'We do not take from the Nobodies.' You are walked out through the counter with the Book left in its sack and a Crow's hand under each elbow, and the Wet Post sees you go.".
+  }
+  Action ps_burn_book(actor: group, site: place) "Put the Book into the furnace yourself" {
+    Grave "The fire does not give things back. Whoever the Book has been kept for, it is gone when it is gone.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, dlo_furnace) and carries(actor, book_of_faces) and ps_sacksMoved() and not ps_burnt(post_office) and not ps_flue_wet(actor)
+      and not ps_flue_choked(actor) and not ps_book_burned(actor).
+    Time 2 minutes.
+    On success { Spend book_of_faces from actor. Assert ps_book_burned(actor). Assert ps_burned_by_choice(actor). }
+    Result "You open the furnace door, and the heat takes the skin of your face like a hand. The Book goes in without a sound. The vellum curls first, then lifts, then goes up the flue as a bright fold that you watch until it is only air. Ninety years of who wore what, and the Lie that was kept by hand, and the proof of it: gone, as everything else posted to Nobody has gone. The Postmaster, who has seen you do it, does not say a word. It is not hers to say.".
+  }
+  Action ps_snatch_brawn(actor: group, site: place) "Wrest the third sack of the seventh line from the line as it is carried to the fire" {
+    Grave "A sack taken from the Burning is not a Nobody's any more. If it goes wrong, the sack goes in with the Book in it.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, dlo_furnace) and ps_burning() and (ps_rack_known(actor) or ps_book_found(actor)) and not carries(actor, book_of_faces)
+      and not ps_book_burned(actor) and masked(actor).
+    Time 2 minutes.
+    Resolve check(actor, brawn, dc_hard).
+    On success { Give book_of_faces to actor. Assert ps_snatched(actor). Assert ps_pell_robbed(actor). Increase heat(actor) by 2. }
+    On failure { Assert ps_book_burned(actor). Increase heat(actor) by 1. }
+    Result "You go in between the Postmaster and the fire with a sack on your shoulder, and the Crows along the wall do not move, because the Rule does not tell them what to do about this. You tear the oilcloth open on the iron floor and the Book is in your arms, and somebody says, in a voice that is nothing to do with the Office, 'Thief,' and somebody else, 'It is not a Nobody's; it was only ever posted to one,' and you are through the door.".
+    Otherwise "The sack is heavier than it looks and the Crow who has it does not let go; there is a brief and entirely silent tug of war, which the Rule wins. The sack goes into the fire in the Crow's hands, and the Book goes up with it, and Mistress Dunnage says its number, as she has said all the others.".
+  }
+  Action ps_snatch_slip(actor: group, site: place) "Slip the third sack of the seventh line out of the line while Mabel spills a table of letters" {
+    Grave "A sack taken from the Burning is not a Nobody's any more. If it goes wrong, the sack goes in with the Book in it.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, dlo_furnace) and at(strake, dlo_furnace) and ps_mabel_trusts(actor) and ps_burning() and (ps_rack_known(actor) or ps_book_found(actor))
+      and not carries(actor, book_of_faces) and not ps_book_burned(actor) and masked(actor).
+    Time 2 minutes.
+    Resolve check(actor, stealth, dc_fair).
+    On success { Give book_of_faces to actor. Assert ps_snatched(actor). Assert ps_pell_robbed(actor). Increase heat(actor) by 1. }
+    On failure { Assert ps_book_burned(actor). Increase heat(actor) by 1. }
+    Result "Mabel knocks a whole table of the morning's returns on the floor, with a cry of such perfect, practised clerkly dismay that every Crow in the room turns to look at it, including the Postmaster. You are on your knees among the letters in the one place in the room where nobody is looking. When you stand up you have a parcel the size of a breadboard under your cloak, and Mabel has not looked at you once.".
+    Otherwise "Mabel drops the table, and the clerks turn, and Pell, at the Postmaster's elbow, does not: he is looking at you. He does not say anything. The Crow with the sack takes it to the fire before you can reach it, and Mabel sinks to her knees among the letters, and does not look at you.".
+  }
+  Rule ps_pell_saw_it within post_office when ps_snatched(party) and not ps_pell_robbed_told(party) says "Tomas Pell, at the Postmaster's elbow, closes his eyes as you go, the way a man does when someone has lifted a weight off his back and he has not yet found out whether he can stand." { Assert ps_pell_robbed_told(party). }
+  Relation ps_pell_robbed_told(group).
+
+  // ══ TOMAS PELL ════════════════════════════════════════════════════════════════════════════════════════════════════
+  // The Clerk of the Book, hiding at the Office's counter in a Crow and a false name. He will not give the Book up to
+  // evidence, because he has no doubt of what it proves; he is a man who cannot take a thing out of a sack because then it
+  // would be he that had done it. What moves him is not an argument: being forgiven (by Pip, who saw), being asked as a
+  // penitent, or the Registrar's own hand. Short of those, he can be watched, pressed, lied to, frightened or sat with, and
+  // each gets a different Pell.
+  Topic ps_pell_cold_day with pell "Speak to the clerk" when ps_cold_day(actor) and ps_pell_home() {
+    Says "'The counter serves faces,' says the Crow, to the rail, and squares a form that is already square. He has said it so often that it has worn smooth, like the rail.".
+  }
+  Topic ps_pell_cold_night with pell "Speak to the man on the stool" when ps_cold_night(actor) and ps_pell_home() {
+    Says "'Not with that on,' says the man on the stool, very quietly, not looking up. 'At night the Office answers a face it can see. I will not talk to a mask in my own lamp.'".
+  }
+  Topic ps_pell_office with pell "Ask the clerk what the Office does with what it cannot deliver" when ps_speaks(actor) and ps_pell_home() {
+    Says "'Keeps it,' says the clerk. 'A year. Forty sacks, and eleven thousand pieces by the last count; I counted twice. Then on the ninth day, at noon, Mistress Dunnage burns it.' He squares a form. 'It is the one day in Ombra when something is allowed to be finished.'".
+    On discuss { Assert knows(actor, ps_nobodies). }
+  }
+  Topic ps_pell_crow with pell "Speak to him as one Crow to another" when wears(actor, face_crow) and publicHours() and ps_pell_home() and not ps_sacksMoved() once {
+    Says "'Colleague,' he says, and for the first time he looks at the beak of your mask and not at the middle of the counter. 'There is a shelf behind my head. Unclaimed. A parcel, nearly a year, directed to whoever wore the Cockle at the fifth bell on Michaelmas Eve. Every Cockle on the Wet Post has held it and put it down. A kind Crow might take it round.' He looks at the forms. 'I find that I cannot. I do not go round.'".
+    On discuss { Assert knows(actor, ps_parcel_known). }
+  }
+  Topic ps_pell_parcel with pell "Take the parcel off the Unclaimed shelf" when ps_speaks(actor) and knows(actor, ps_parcel_known) and not ps_parcel_given(actor) and not ps_sacksMoved() and ps_pell_home() once {
+    Says "'Sign for it,' says Pell, and pushes the book across. You sign. He does not read what you have signed; it is perhaps the only thing in the Office he has not read. 'It is the lightest thing we have,' he says. 'Not by weight.'".
+    On discuss { Give ps_parcel to actor. Assert ps_parcel_given(actor). }
+  }
+
+  // Seeing who he is. The Clerk of the Book has ink on the wrong finger and a Chapel knot in his mask-string.
+  Action ps_pell_watch(actor: group, site: place) "Watch the clerk's hands while you ask him about the Registrar" {
+    Speaker pell.
+    Requires able(actor) and company(actor) and at(actor, site) and at(pell, site) and ps_speaks(actor) and not knows(actor, ps_pell_is_pell) and ps_pellDay(actor) < day(clock).
+    Time 4 minutes.
+    Resolve check(actor, insight, dc_fair).
+    On success { Assert knows(actor, ps_pell_is_pell). }
+    On failure { Set ps_pellDay(actor) to day(clock). }
+    Result "'The Registrar,' you say, as if idly. The hands go on squaring the forms; it is the little finger that gives him away, the one that stops, in the middle of a stroke, and stays stopped. It is the ink-callus of a man who has written one hand for thirty years, and the knot in the string of his domino is no post-clerk's knot: it is the one they tie on a lectern's ribbon. You know who he is before he has finished not looking at you.".
+    Otherwise "'The Registrar,' you say. The clerk squares a form. 'Is dead,' he says. 'It was in the Sleeves.' He goes on squaring, and you have nothing to show for it but a clerk who has noticed that you were looking.".
+  }
+  Action ps_pell_press(actor: group, site: place) "Tell him you know whose clerk he was, and ask what he did with the Book" {
+    Speaker pell.
+    Requires able(actor) and company(actor) and at(actor, site) and at(pell, site) and ps_speaks(actor) and knows(actor, ps_pell_is_pell) and not ps_pell_admits(actor) and ps_pellDay(actor) < day(clock).
+    Time 6 minutes.
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert ps_pell_admits(actor). Assert knows(actor, pell_hid_book). Assert knows(actor, ps_rack_told). Assert ps_rack_known(actor). }
+    On failure { Set ps_pellDay(actor) to day(clock). }
+    Result "You say it quietly, as one would to someone on a ledge. The clerk's hands stop. He does not deny it; he looks at them, at the ink on the wrong finger, as at something that has been betraying him for a week. 'It is in the Wanting,' he says. 'The third sack of the seventh line. I did not put it in Nobody's own, because that would have been a joke, and she would not have had it joked about.' He takes a breath that seems to go a long way down. 'I will not take it out. I have told you where it is. I would be glad,' he says, 'if you would not ask me to do more.'".
+    Otherwise "'There is no Pell in the Office,' says the clerk, and for a moment he looks at you with his whole face, and you see that it is the face of a man who would very much like to be believed. 'There is a Dacre. He is at the counter. If you would like to post something, Dacre will see it posted.' He has said it very steadily, and you have not moved him an inch.".
+  }
+  Action ps_pell_lie(actor: group, site: place) "Tell him the Chaplain has sent you for the Book, as the Registrar's executor" {
+    Speaker pell.
+    Requires able(actor) and company(actor) and at(actor, site) and at(pell, site) and ps_speaks(actor) and knows(actor, ps_pell_is_pell) and not ps_pell_admits(actor) and ps_pellDay(actor) < day(clock).
+    Time 4 minutes.
+    Resolve check(actor, deception, dc_hard).
+    On success { Assert ps_pell_admits(actor). Assert knows(actor, pell_hid_book). Assert knows(actor, ps_rack_told). Assert ps_rack_known(actor). Assert ps_pell_lied_to(actor). }
+    On failure { Set ps_pellDay(actor) to day(clock). }
+    Result "The clerk looks at you for a long time, and you watch him decide to believe it, which is a different thing from believing it. 'Father Ansel would have written,' he says. 'He writes to everyone.' But he has put the forms down. 'The third sack of the seventh line. If the Chaplain wants it, the Chaplain may come and take it out of the sack himself, and I will stand beside him.' It is a sentence he has been waiting a week to be asked to say, and you have taken it with a lie.".
+    Otherwise "'The Chaplain,' says the clerk, 'does not send people to a counter.' He says it with real regret, as a man tells a boy that the trick is not going to work. 'Good day.'".
+  }
+  Action ps_pell_threaten(actor: group, site: place) "Tell him you will say his name aloud in the Wet Post, at noon, from the bridge" {
+    Speaker pell.
+    Requires able(actor) and company(actor) and at(actor, site) and at(pell, site) and ps_speaks(actor) and knows(actor, ps_pell_is_pell) and not ps_pell_admits(actor) and not ps_pell_threatened(actor).
+    Time 3 minutes.
+    Resolve check(actor, intimidation, dc_hard).
+    On success { Assert ps_pell_admits(actor). Assert knows(actor, pell_hid_book). Assert knows(actor, ps_rack_told). Assert ps_rack_known(actor). Assert ps_pell_threatened(actor). Assert ps_pell_fled(pell). }
+    On failure { Assert ps_pell_threatened(actor). Assert ps_pell_moved_it(actor). Retract ps_book_in(ps_rack_wanting). Assert ps_book_in(ps_rack_water). }
+    Result "It is a terrible thing to see. He does not shout or beg; he goes the colour of paper and says, 'Third sack, seventh line,' in a voice with nothing left in it, and takes off the Crow, and puts his coat on over his clerk's coat, and walks out of the Office into the rain, bare-faced, by day. It is the first time in thirty years that he has done anything at all without being told. Nobody at the Wet Post will see him again.".
+    Otherwise "'Name me,' says the clerk, very softly. 'Please.' He has gone white and quite calm, and you see that you have made a mistake: you have threatened a man with the one thing that he has already been through, in his own head, a thousand times. When you come back to the Office after dark the third sack of the seventh line has been opened and retied, and he is sitting by it with his hands in his lap.".
+  }
+
+  // The talk when he has admitted it: the hardest and the best of the Office. Evidence does not move him.
+  Topic ps_pell_why with pell "Ask him why he did not simply take it out of the sack" when ps_pell_admits(actor) and ps_speaks(actor) and ps_pell_home() once {
+    Says "'Because I should have carried it,' says Pell. 'Do you see? If I leave it in the Office the Rule burns it, and the Rule is nobody's fault. If I take it out of the sack I am the man who took it out.' He lays both hands flat. 'She put it in my hands thirty years ago and said, Tomas, you will know when. I did not know when. I knew the Office had a box for people who did not know.' He looks at the wall as if it were glass. 'It is called the night-box.'".
+    On discuss { Assert knows(actor, pell_hid_book). }
+  }
+  Topic ps_pell_evidence with pell "Tell him what the Book will prove, and to whom" when ps_pell_admits(actor) and ps_speaks(actor) and ps_pell_home() and not ps_pell_evidenced(actor) once {
+    Says "'I know what it proves,' says Pell. He has not raised his voice. 'I have known what it proves since the night. That is not the difficulty. Show me something I do not know and I will think again.' You show him several things. He nods at each, as one nods at weather. 'Yes,' he says. 'Yes. And?' You find you have run out of what you know, and he has not changed at all.".
+    On discuss { Assert ps_pell_evidenced(actor). }
+  }
+  Topic ps_pell_child with pell "Ask him about the boy under the lamp-table" when ps_pell_admits(actor) and knows(actor, pip_saw) and ps_speaks(actor) and ps_pell_home() once {
+    Says "Pell takes a long time. 'I saw his boots,' he says. 'Under the table. Nine years old and in boots too big, as the lamp-boys have them. I was straightening her mask and I saw the boots, and I told myself I had not, because then there would be somebody who had seen me do it.' He lays the form down. 'I have wondered every night where he sleeps. Nobody has told me whether he is cold.'".
+    On discuss { Assert ps_pell_child_asked(actor). }
+  }
+  // The three things that move him. Each is a different kind of thing, and none is an argument.
+  Topic ps_pell_y_pip with pell "Tell him that Pip Tolliver has forgiven him" when ci_pip_forgave(actor) and knows(actor, ps_pell_is_pell) and not ps_pell_free(actor) and not carries(actor, book_of_faces) and not ps_book_burned(actor) and ps_pell_home() once {
+    Says "Pell does not move. Then he takes off the Crow, which he has not done in daylight since he came, and holds it in both hands like a basin. 'He said so himself,' he says. 'In words.' You tell him the words. When you have done he is looking at the sacks through the wall again, but as a man looks at a door he has decided to go through. 'Third sack,' he says. 'Left of the lamp. I will carry it. I think I should like to be the one.' He is a long while gone. When he comes back he has a parcel the size of a breadboard in both hands, and he gives it to you without a word, and is not holding anything.".
+    On discuss { Give book_of_faces to actor. Assert ps_pell_free(actor). Assert ps_pell_admits(actor). Assert ps_book_found(actor). Assert knows(actor, pell_hid_book). Assert ps_pell_chapel(pell). }
+  }
+  Topic ps_pell_y_penitent with pell "Ask him, as the Chapel asks a penitent, to put it down" when cl_pell_penitent(actor) and knows(actor, ps_pell_is_pell) and not ps_pell_free(actor) and not carries(actor, book_of_faces) and not ps_book_burned(actor) and ps_pell_home() once {
+    Says "'As a penitent,' says Pell. The word goes into him a long way. You have not asked him as the Concord asks anything, with a name; you have asked him as the Chapel asks, with none, and with a place on a bench in the dark where he is not a Clerk and nothing is a Book. 'I did not know it could be put down,' he says. 'I thought you carried a thing until someone took it from you.' He goes into the hall and comes back with a parcel the size of a breadboard, and holds it a moment, and gives it to you with both hands.".
+    On discuss { Give book_of_faces to actor. Assert ps_pell_free(actor). Assert ps_pell_admits(actor). Assert ps_book_found(actor). Assert knows(actor, pell_hid_book). Assert ps_pell_chapel(pell). }
+  }
+  Topic ps_pell_y_page with pell "Show him the last page of the Registrar's ledger" when carries(actor, rounds_ledger) and knows(actor, ps_pell_is_pell) and not ps_pell_free(actor) and not carries(actor, book_of_faces) and not ps_book_burned(actor) and ps_pell_home() once {
+    Says "You lay the ledger on the counter and open it at the last page. Pell does not read the words; he reads the hand, as a man knows the sound of one person's step on a stair. His mouth moves, once, as if he had been called by name. 'She dotted her i's like that when she was tired,' he says. 'Like a woman sticking pins in a cushion.' He closes the ledger very gently. He goes into the hall, and comes back with a parcel the size of a breadboard. 'She would want it said that I was late,' he says. 'Take it.'".
+    On discuss { Give book_of_faces to actor. Assert ps_pell_free(actor). Assert ps_pell_admits(actor). Assert ps_book_found(actor). Assert knows(actor, pell_hid_book). Assert ps_pell_chapel(pell). }
+  }
+  // If the Book has been taken from under him first, what he is owed is not the Book.
+  Topic ps_pell_released with pell "Tell him the Book is safe, and that what he has been carrying is not his to carry" when carries(actor, book_of_faces) and ps_pell_robbed(actor) and (ci_pip_forgave(actor) or cl_pell_penitent(actor) or carries(actor, rounds_ledger)) and knows(actor, ps_pell_is_pell) and not ps_pell_free(actor) and ps_pell_home() once {
+    Says "'Safe,' says Pell. He has not heard a word since you began; he has heard the one. 'I thought it would be a relief to be robbed,' he says, 'and it was; and then I found I had no one to be forgiven by.' You tell him, then, what you have been given to tell him. He takes a long time to sit down. 'It was lighter than I had thought,' he says. 'All that time, and I could have put it down in an hour.'".
+    On discuss { Assert ps_pell_free(actor). Assert ps_pell_admits(actor). Assert ps_pell_chapel(pell). }
+  }
+  Topic ps_pell_after with pell "Speak to Tomas Pell on the Chapel steps" when ps_pell_chapel(pell) and not named(pell) {
+    Says "He is sitting on the Chapel steps in the wet, in a clerk's coat, with the Crow beside him on the stone like a bird he has stopped keeping. He does not stand. 'I am to go in presently,' he says. 'The Chaplain says there is a bench.' He turns the Crow over. 'It is strange, to have nothing to hand in.'".
+  }
+  // Sitting up with him: the one thing that needs nothing but an unmasked face and two hours. At two he walks to the Chapel
+  // and stands on its steps, and the stranger who sits down on the step beside him is the first person to have done it.
+  Action ps_sit_vigil(actor: group, site: place) "Sit down on the step beside him, and say nothing" {
+    Speaker pell.
+    Requires able(actor) and company(actor) and at(actor, site) and at(pell, site) and at(actor, chapel_steps) and not masked(actor) and privateHours() and not ps_vigil_kept(actor) and ps_pell_home().
+    Time 12.
+    On success { Assert ps_vigil_kept(actor). Assert ps_pell_admits(actor). Assert knows(actor, pell_hid_book). Assert knows(actor, ps_pell_is_pell). }
+    Result "You sit. The step is wet, and the Chapel is a black shape above you with one lamp in the lamp-room window, the Registrar's, which the Chaplain keeps. He does not look at you. After a long time, long enough for the lamp to want trimming, he says, 'I put her mask straight.' And after another long time he tells you the rest: the lamp-room, the Book in his lap, the Office, the night-box. He does not ask you what to do. He tells it as a man tells it who has been saying it to the wall of the sorting-hall for a week, and when he has finished he gets up, and bows to you, quite formally, and goes back across the Candle bridge to the counter and the lamp.".
+  }
+
+  // Named, he is ruined; ruined, he is free of the thing he was keeping, and not of the thing it was for.
+  Rule ps_pell_named when named(pell) and not ps_pell_chapel(pell) and not ps_pell_fled(pell)
+    says "By the Third Bell's end the name is in every Sleeve of Ombra: Tomas Pell, Clerk of the Book, who has been behind the Dead Letter Office's rail for a week under another man's name. Mistress Dunnage reads it from the counter's own register of persons, to herself, and writes in the Office's book a single line, in her own hand: DACRE, DISMISSED. The man himself, they say, left by the door without his coat. It is said too, in the way of the city, that he posted something to Nobody on the night the Registrar died." teaches pell_hid_book { Assert ps_pell_chapel(pell). Assert ps_pell_admits(party). }
+  // Whoever has the Book at the ninth night, and whoever has not: the fates are with the closing news (below).
+
+  // ══ THE CLERK WHO READS ═══════════════════════════════════════════════════════════════════════════════════════════
+  // Mabel Vickery reads the dead letters the Rule leaves to burn and takes the ones that matter round by night, by hand,
+  // to doors on the Post-lodgings stair: a kindness, and Unfacing too, since to deliver a letter you must know whose
+  // street it is. Mistress Dunnage has found that somebody does it, and will have found who by noon on the seventh day.
+  // She keeps three in her satchel. A company may carry them, read them, decide which not to deliver; may tell Dunnage,
+  // stop Mabel, or argue her case in the Office's own words; and each of these leaves a woman in or out of a place.
+  Discovery ps_mabel_reads "Mabel Vickery, a clerk of the Dead Letter Office's sorting-hall, reads the dead letters that matter and takes them round by night, by hand, to doors she could only know by reading them; Mistress Dunnage will have found her out by noon on the seventh day.".
+  Discovery ps_l1_text "A letter from Piers Roke, now master of a ferry at Valmere, to his sister Aveline at the Wet Post: nine years since their father's funeral and the quarrel over the boat; he has kept the boat, and a place at his table, and writes that a loaf sent by anyone would do for an answer.".
+  Discovery ps_l2_text "A letter from the late Master Corley, a chandler, to Teodor Wick, a baker: the forty crowns Wick owed him are written off in the book, he was sorry for what he said at the christening, and Wick is to buy the boy boots.".
+  Discovery ps_l3_text "A letter from Hal Corry to Lucia Brandt on the Post-lodgings stair: if she marries Gerrit Hale on the eighth, he will stand on the Post bridge at the Fifth Bell and say her name aloud, both of them, the one she wears on Tuesdays and the one she was christened with.".
+  Kind ps_roke_kind "a letter to Aveline Roke" is gear worth 0 weighing 0 described "A letter in a sailor's square hand, sealed with a ferryman's thumb, directed to the third door on the Post-lodgings stair and gone through the Office with only 'the Wet Post' on it.".
+  Kind ps_wick_kind "a letter to Teodor Wick" is gear worth 0 weighing 0 described "A chandler's letter on tallow-stained paper, in a hand that shook, directed to a baker of the Wet Post and never delivered, because the baker had asked the post to take nothing from that shop.".
+  Kind ps_brandt_kind "a letter to Lucia Brandt" is gear worth 0 weighing 0 described "A letter on good paper, heavily blotted, in a hand pressed so hard that it has come through on the back. It is directed to the first door on the Post-lodgings stair.".
+  Item ps_letter_roke "a letter to Aveline Roke" is ps_roke_kind at offstage.
+  Item ps_letter_wick "a letter to Teodor Wick" is ps_wick_kind at offstage.
+  Item ps_letter_brandt "a letter to Lucia Brandt" is ps_brandt_kind at offstage.
+  Relation ps_mabel_confided(group). Relation ps_mabel_shown(group). Relation ps_mabel_stopped(group). Relation ps_mabel_kept(group). Relation ps_mabel_redeems(group).
+  Relation ps_mabel_warranted(group). Relation ps_told_dunnage(group). Relation ps_dunnage_favour(group).
+  Relation ps_roke_delivered(group). Relation ps_wick_delivered(group). Relation ps_brandt_delivered(group). Relation ps_brandt_withheld(group). Relation ps_hal_named(group).
+  Measure ps_noticeDay(group). Measure ps_pleadDay(group).
+
+  Topic ps_mabel_cold_day with strake "Speak to the young Crow" when ps_cold_day(actor) {
+    Says "'Staff only,' says the young Crow, to a place beside your ear, and turns a letter face down with her left hand while her right points to the counter. It is a very quick turn. It is not her first.".
+  }
+  Topic ps_mabel_cold_night with strake "Speak to the young woman with the satchel" when ps_cold_night(actor) {
+    Says "'No,' says the woman with the satchel, quite kindly, on a landing, to the beak of your mask. 'Not in a mask, not at night. I will have my own face at my own door, thank you, and so will whoever you are.'".
+  }
+  Topic ps_mabel_work with strake "Ask the young Crow what she does here" when ps_speaks(actor) and publicHours() {
+    Says "'Sorting,' says the young Crow, with a smile that shows how often she has said it. 'The rhyme, the sacks, the stamp. If a thing cannot be delivered it comes to us, and we see that it is not delivered correctly.' She reaches for a letter and, without looking, turns it to the table. 'Is there something you would like to post?'".
+  }
+  Action ps_mabel_notice(actor: group, site: place) "Watch which letters she turns face down when you come near" {
+    Speaker strake.
+    Requires able(actor) and company(actor) and at(actor, site) and at(strake, site) and ps_speaks(actor) and not knows(actor, ps_mabel_reads) and ps_noticeDay(actor) < day(clock).
+    Time 6 minutes.
+    Resolve check(actor, insight, dc_fair).
+    On success { Assert knows(actor, ps_mabel_reads). }
+    On failure { Set ps_noticeDay(actor) to day(clock). }
+    Result "You stand at the table and talk about nothing, and you watch her hands. She does not turn them all face down: she turns down the ones with a sealed edge, a child's writing, a stain, a lock of hair; and she puts a few of them, not many, into the satchel under the table with a little tuck of the shoulder, quite lightly, the way you pocket a sweet. She is choosing. She is somebody who reads every letter that comes through the Office and has an opinion about which of them is cruelty to leave in a sack.".
+    Otherwise "She turns two letters down, quite naturally, and puts a third in the satchel; you see it, and cannot tell whether you saw a clerk or a thief. She sees you see. 'Is there something?' she says, brightly. There is not, now.".
+  }
+  Observe ps_mabel_on_stair at ps_stair when at(strake, ps_stair) and not ps_mabel_dismissed(strake) and privateHours() and not masked(party) "A young woman with a satchel is kneeling at one of the doors with a letter in her hand, bare-faced in the stair-lamp, ink up to her elbows; you know the hand that turned letters face down in the sorting-hall. She slides it under the door, stands up, and sees you. She does not run, and she does not speak." teaches ps_mabel_reads.
+  Topic ps_mabel_confides with strake "Ask her what she does with the letters at night" when not masked(actor) and privateHours() and knows(actor, ps_mabel_reads) and not ps_mabel_dismissed(strake) once {
+    Says "She looks at you for a while on the landing, a plain young woman with ink to the elbow and her face quite bare, as it is at night. 'I read them,' she says. 'Not the love-letters, mostly. The ones with an address that nearly works. I read a thing to learn whose it is, and then I take it where it is going, and nobody is any the wiser, except the person who gets it.' She says it all in one breath. 'It is Unfacing. I know. I know whose door it is, because I read it. That is the crime. That is the whole of the crime. I would do it again by morning.'".
+    On discuss { Assert ps_mabel_confided(actor). }
+  }
+  Topic ps_mabel_shows with strake "Ask to see what is in the satchel tonight" when ps_mabel_confided(actor) and not masked(actor) and privateHours() and not ps_mabel_dismissed(strake) once {
+    Says "'Three,' she says, and lays them on the stair-rail one beside the other. 'Aveline Roke has a brother who has kept her boat nine years and wants to be forgiven for the oars. Master Corley, who is dead, wrote off Wick the baker's debt and told him to buy the boy boots. And this.' She does not touch the third. 'This one I have not been able to carry. It is Lucia Brandt's, on the first landing, and it is a promise to say her name in the street. I do not know whether it should arrive.'".
+    On discuss { Assert knows(actor, ps_l1_text). Assert knows(actor, ps_l2_text). Assert knows(actor, ps_l3_text). Assert ps_mabel_shown(actor). }
+  }
+  Topic ps_mabel_carry with strake "Offer to carry them for her: you have no place to lose" when ps_mabel_shown(actor) and not masked(actor) and privateHours() and not ps_mabel_dismissed(strake) and not ps_mabel_stopped(actor) once {
+    Says "'You are bare,' says Mabel, slowly, as if it had just occurred to her to be glad of it. 'Nobody in the Office can ask a Bare what he was doing on a stair. Nobody can dismiss you.' She takes up the three, and then, after a long pause, gives you all three, the third last, with her fingers on it a moment longer than on the others. 'You are to read them first. I mean that. I was never able to carry a thing I had not read. And tell me,' she says, 'what you do with the third.'".
+    On discuss { Give ps_letter_roke to actor. Give ps_letter_wick to actor. Give ps_letter_brandt to actor. Assert ps_mabel_trusts(actor). Assert ps_mabel_leave(actor). }
+  }
+  Action ps_mabel_stop(actor: group, site: place) "Ask her to stop, for her own sake, and give you the satchel" {
+    Speaker strake.
+    Requires able(actor) and company(actor) and at(actor, site) and at(strake, site) and ps_mabel_confided(actor) and not masked(actor) and privateHours() and not ps_mabel_dismissed(strake) and not ps_mabel_stopped(actor)
+      and not ps_mabel_trusts(actor) and ps_pleadDay(actor) < day(clock).
+    Time 12 minutes.
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Give ps_letter_roke to actor. Give ps_letter_wick to actor. Give ps_letter_brandt to actor. Assert ps_mabel_stopped(actor). Assert ps_mabel_kept(actor). Assert ps_mabel_trusts(actor). Assert ps_mabel_leave(actor). }
+    On failure { Set ps_pleadDay(actor) to day(clock). }
+    Result "'You are right,' says Mabel, after a long time. 'And I am right. That is what is so tiresome about it.' She lays the satchel across your hands like a cloth. 'I will stop. Mistress Dunnage will find nothing on the seventh day. She will find a clerk who sorts, and a hall that is perfectly orderly, and I shall go on being a person who knows that eleven thousand pieces are going to burn, and does nothing, in her own hand.' She does not look up. 'Carry them. And tell me what comes of it, if you are ever on this stair again.'".
+    Otherwise "'No,' says Mabel, and there is nothing unkind in it at all. 'If I stopped, who would? The Rule? I have read what the Rule does with them.' She shuts the satchel. 'Ask me another night. I will not have changed, but you may have.'".
+  }
+
+  // The Postmaster: told, argued with, covered for.
+  Action ps_tell_dunnage(actor: group, site: place) "Tell the Postmaster who is opening the dead letters" {
+    Speaker dunnage.
+    Requires able(actor) and company(actor) and at(actor, site) and at(dunnage, site) and ps_speaks(actor) and knows(actor, ps_mabel_reads) and not ps_told_dunnage(actor)
+      and not ps_mabel_kept(actor) and not ps_mabel_dismissed(strake).
+    Time 3 minutes.
+    On success { Assert ps_told_dunnage(actor). Assert ps_mabel_dismissed(strake). Assert ps_dunnage_favour(actor). Assert knows(actor, ps_filing). Assert knows(actor, ps_drawer_known). }
+    Result "Mistress Dunnage hears it without a movement. 'Vickery,' she says; 'Mabel Vickery. She sorts a hundred and ten pieces an hour.' She writes the name on a slip. 'The Rule is a thing a person does not choose, Madam, nor, I find, Sir; I have found it has been choosing me for twenty-six years.' She has the girl sent for. You do not stay for it. When you are at the door she says, without turning, 'The Office does not forget a service. Whatever you wish to see in the hall, you may see. The Filing is in this drawer; I give it to you to read.' She opens it. It is the worst kind of gift: one you have paid for with somebody else's place.".
+  }
+  Action ps_plead_clause(actor: group, site: place) "Show the Postmaster that the Rule's own clause lets a clerk redeem a letter for its addressee, for a penny" {
+    Speaker dunnage.
+    Requires able(actor) and company(actor) and at(actor, site) and at(dunnage, site) and wears(actor, face_crow) and publicHours() and knows(actor, ps_redeem_clause) and knows(actor, ps_mabel_reads)
+      and not ps_mabel_kept(actor) and not ps_mabel_dismissed(strake) and ps_pleadDay(actor) < day(clock).
+    Time 10 minutes.
+    Resolve check(actor, lore, dc_fair).
+    On success { Assert ps_mabel_kept(actor). Assert ps_mabel_redeems(actor). Assert ps_mabel_trusts(actor). Assert ps_mabel_leave(actor). Increase goodwill(face_crow) by 1. }
+    On failure { Set ps_pleadDay(actor) to day(clock). }
+    Result "You do it as a colleague, in the Office's own words. No piece shall be kept back, you say, save such as be redeemed before the stroke by any person that will pay its carriage and put a name to it; the Rule does not say what the person redeems it for; it says only that she pays. 'A clerk who pays a penny and puts the name of the addressee to a letter is redeeming it,' you say, 'and the Rule says no piece shall be kept back from her.' Mistress Dunnage's face does something that is very rare for it. 'Twenty-six years,' she says, 'I have read that clause for the money in it.' She takes the taper from its stand and puts it in again. 'Vickery will pay a penny a piece, and sign the Redemptions. In the day. In the Office. As an agent.' It is, you see, the first time in forty-one Postmasters that the Rule has been used to deliver anything.".
+    Otherwise "You say it, and mean it, and the Postmaster hears it out, and says, 'That is not what the clause is for.' She does not say what it is for. 'I should be glad to be shown,' she says, which is, from her, an invitation to a better argument than yours.".
+  }
+  Action ps_plead_proof(actor: group, site: place) "Tell the Postmaster that people have been thanked for being found, and ask her what the Rule is for" {
+    Speaker dunnage.
+    Requires able(actor) and company(actor) and at(actor, site) and at(dunnage, site) and wears(actor, face_crow) and publicHours() and knows(actor, ps_mabel_reads) and (ps_roke_delivered(actor) or ps_wick_delivered(actor))
+      and not ps_mabel_kept(actor) and not ps_mabel_dismissed(strake) and ps_pleadDay(actor) < day(clock).
+    Time 10 minutes.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert ps_mabel_kept(actor). Assert ps_mabel_trusts(actor). Assert ps_mabel_leave(actor). Increase goodwill(face_crow) by 1. }
+    On failure { Set ps_pleadDay(actor) to day(clock). }
+    Result "You put on the counter between you the two cards that came back through the slot in the night, with no stamp: Thank you, whoever you are. She reads them as she reads everything, in full. 'I have been very angry,' says Mistress Dunnage, 'for a long time, at somebody who had found a use for the Office.' She sets the cards in the Redemptions, between the pages, as one files an exhibit. 'The Rule burns what is not claimed. It says nothing against a claim made by the wrong person for the right one. Vickery will stay. She will stop doing it in the dark.'".
+    Otherwise "'Cards,' says the Postmaster, looking at them, and then at you. 'Anyone can write a card.' She does not push them back across the counter; she leaves them where they are, as if she might want them later.".
+  }
+  Action ps_plead_plain(actor: group, site: place) "Ask the Postmaster, as one of the Office, to let a clerk's kindness stand" {
+    Speaker dunnage.
+    Requires able(actor) and company(actor) and at(actor, site) and at(dunnage, site) and wears(actor, face_crow) and publicHours() and knows(actor, ps_mabel_reads)
+      and not ps_mabel_kept(actor) and not ps_mabel_dismissed(strake) and ps_pleadDay(actor) < day(clock).
+    Time 10 minutes.
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert ps_mabel_kept(actor). Assert ps_mabel_trusts(actor). Assert ps_mabel_leave(actor). }
+    On failure { Set ps_pleadDay(actor) to day(clock). }
+    Result "You ask it as one Crow of another. She hears you through, in the end, as a person listens who has lost an argument with the thing the argument was about. 'I do not like the Rule when it does this,' she says. 'But I have never found the place where it gives.' She is silent. 'She may stay till the Burning. After the Burning,' she says, 'we shall see what the Office is for.'".
+    Otherwise "'A kindness,' says Mistress Dunnage, 'is a Nobody. Nobody asked for it, and nobody can be found to have been given it.' She is not unkind. 'Ask me a better thing.'".
+  }
+  Action ps_cover_warrant(actor: group, site: place) "Tell the Postmaster the Stranger's Warrant has asked the clerk to read what the Office burns" {
+    Speaker dunnage.
+    Requires able(actor) and company(actor) and at(actor, site) and at(dunnage, site) and masked(actor) and publicHours() and warrantLive() and knows(actor, ps_mabel_reads)
+      and not ps_mabel_kept(actor) and not ps_mabel_dismissed(strake).
+    Time 5 minutes.
+    On success { Assert ps_mabel_kept(actor). Assert ps_mabel_warranted(actor). Assert ps_mabel_trusts(actor). Assert ps_mabel_leave(actor). Increase heat(actor) by 1. }
+    Result "The Postmaster reads the Warrant, which is the first piece of paper in a long time that she has not been able to find a clause in. 'A letter opened under Warrant,' she says, slowly, 'is not opened. It is read.' She writes it in the Office's book, in her own hand, in the margin of the Redemptions: Vickery, M., reading under the Warrant of the Watch. 'It lasts as long as the Warrant,' she says. 'I expect you know that. I expect the Watch will want to know why a Bare has been asking for a clerk's good name.' You do not know either, at that moment.".
+  }
+
+  // Delivered, by night, on the stair, with a bare face and a bare knock.
+  Action ps_deliver_roke(actor: group, site: place) "Take the letter to the third door on the stair" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, ps_stair) and carries(actor, ps_letter_roke) and not masked(actor) and privateHours().
+    Time 6 minutes.
+    On success { Spend ps_letter_roke from actor. Assert ps_roke_delivered(actor). }
+    Result "You knock three times on the third door, as a person knocks who has a thing to put in a hand. A woman of fifty opens it in a nightgown and a shawl with a kettle in her other hand, bare-faced, not at all surprised, because at night a knock is only a knock. You give her the letter. She reads it on her threshold in the lamp from the stair, and you watch her do the sum of nine years: the funeral, the boat, the quarrel about the oars. She does not cry. She says, to the letter, 'He kept the boat.' Then she says, to you, 'Whoever you are, come in and have the tea. I shall not be able to sit still.' You do not stay. When you go down she is reading it again.".
+  }
+  Action ps_deliver_wick(actor: group, site: place) "Take the letter to the second door, where the baker lodges" {
+    Speaker ps_wick.
+    Requires able(actor) and company(actor) and at(actor, site) and at(ps_wick, site) and at(actor, ps_stair) and carries(actor, ps_letter_wick) and not masked(actor) and privateHours().
+    Time 6 minutes.
+    On success { Spend ps_letter_wick from actor. Assert ps_wick_delivered(actor). }
+    Result "Wick opens the second door in his shirt, with a candle, bare-faced and larger than he looks by day, and sees nothing he knows. You tell him the letter is for him, from the late Master Corley, and he takes it as a man takes a summons. He reads it with his lips moving. There is a long silence on the stair. 'Written off,' he says. 'He said at the christening that it was forgotten. He said it in front of everybody, and I took it for a thing to be remembered. I have gone round the Wet Post by the canal for three years to keep out of sight of his shop.' He turns the page. 'Boots,' he says, in a different voice. 'He remembered the boy.' You leave him sitting on his own threshold with the candle burning down.".
+  }
+  Action ps_deliver_brandt(actor: group, site: place) "Slide the third letter under the door on the first landing" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, ps_stair) and carries(actor, ps_letter_brandt) and not masked(actor) and privateHours() and not ps_brandt_withheld(actor).
+    Time 4 minutes.
+    On success { Spend ps_letter_brandt from actor. Assert ps_brandt_delivered(actor). Increase heat(actor) by 1. }
+    Result "You slide it under the first door and knock twice and step back. The speech behind the door stops. It opens by the width of a chain, and a woman's eye looks at you and at the letter on the mat, and she picks it up. You go down a step. Behind you the chain comes off, and you hear her read it, and stop, and read it again, and say, quietly, with no one to say it to, 'He means it.' She does not thank you. She shuts the door; you hear the bolt, and a chair dragged against it, and then her feet crossing and recrossing the floor, which is the sound of a person making a plan.".
+  }
+  Action ps_withhold_brandt(actor: group, site: place) "Tear up the third letter and give it to the Cuff" {
+    Grave "A letter not delivered is a thing not known. Whoever it threatens will not be warned, and whoever wrote it will wait for an answer.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, post_street) and carries(actor, ps_letter_brandt) and not ps_brandt_delivered(actor) and not ps_brandt_withheld(actor).
+    Time 2 minutes.
+    On success { Spend ps_letter_brandt from actor. Assert ps_brandt_withheld(actor). }
+    Result "You tear it across, and across again, and the Cuff takes the pieces and the rain does the rest. It said a thing you were not asked to carry, and you have not carried it. Somewhere in Ombra a man will wait for an answer that will not come, and you do not know what he will do about it.".
+  }
+  // Left to herself Mabel carries the first two on the third night and keeps the third: she cannot make up her mind whether it should arrive.
+  Rule ps_mabel_own_rounds when day(clock) == 3 and hour(clock) >= 23 and not ps_mabel_trusts(party) and not ps_mabel_dismissed(strake) and not ps_roke_delivered(party) and not ps_mabel_alone(party) { Assert ps_mabel_alone(party). }
+  Relation ps_mabel_alone(group).
+  Query ps_roke_done() means ps_roke_delivered(party) or ps_mabel_alone(party).
+  Query ps_wick_done() means ps_wick_delivered(party) or ps_mabel_alone(party).
+  Query ps_brandt_done() means ps_brandt_delivered(party).
+  // What the stair says in the days after.
+  Observe ps_stair_roke at ps_stair when ps_roke_done() and publicHours() "Under the card on the third door, ROKE, somebody has pinned a second card in a ferryman's hand: GONE TO THE FAIR. BACK WHEN THE BOAT IS PAID FOR.".
+  Observe ps_stair_wick at ps_stair when ps_wick_done() and publicHours() "On the second landing, outside WICK, a pair of very small boots has been put out to be blacked, new, with the tissue still in the toes.".
+  Observe ps_stair_brandt at ps_stair when ps_brandt_delivered(party) and publicHours() "A Watch domino sits on the first landing on a kitchen chair, very upright, with his back to the door that says BRANDT, as if he had been told to look at the stairs and had been given no further reasons.".
+  Observe ps_card_at_counter at dlo_counter when (ps_roke_delivered(party) or ps_wick_delivered(party)) and publicHours() and not ps_sacksMoved() and not ps_mabel_alone(party) "On the counter, pushed through the letter-slot in the night with no stamp, a card in a woman's hand: Thank you, whoever you are. A. R. The Postmaster has not moved it; she has not thrown it away.".
+  Rule ps_hal_names when day(clock) == 8 and hour(clock) >= 12 and not ps_brandt_delivered(party) and not ps_hal_named(party) { Assert ps_hal_named(party). }
+  Rule ps_hal_told at post_street when day(clock) == 8 and hour(clock) >= 12 and hour(clock) < 14 and ps_hal_named(party) once
+    says "At noon, the Fifth Bell, a man in a Moth's half-mask gets up on the parapet of the Post bridge, and says a name aloud, twice, and a second name, and a street. The Crows of the Wet Post do not stir. It is the only time you have seen them hold perfectly still. A shutter closes on the first landing of the Post-lodgings. By the time the Watch comes the man has gone, and it is too late to be a crime in anyone's mind but hers." { }
+  Rule ps_mabel_dismissed_clock at dlo_sorting when day(clock) == 7 and hour(clock) >= 12 and not ps_mabel_kept(party) and not ps_mabel_dismissed(strake) once
+    says "At noon on the seventh day Mistress Dunnage sends for Mabel Vickery, and the whole sorting-hall hears the door shut; and nine minutes later Mabel comes out, with her satchel, and her Crow in her hand, and her face bare in the middle of the working day, and walks down the length of the hall between the tables without anybody looking up. At the door she turns. 'The rhyme,' she says, to nobody, 'is an eight-line rhyme.'" { Assert ps_mabel_dismissed(strake). }
+  // Turned off, whoever's doing it, she sits on the stair; and has still to give the letters to someone.
+  Topic ps_mabel_after_told with strake "Speak to Mabel Vickery on the stair" when ps_mabel_dismissed(strake) and ps_told_dunnage(actor) {
+    Says "She does not look at you. 'You were quite right,' says Mabel Vickery, to the step. 'It is a thing that should be told. I only wish that it had not been you.' She turns a letter over in her hands, and you see it is one of the three, the Roke one, and that she is going to take it herself in the morning, in a borrowed shawl, with nothing left to lose.".
+  }
+  Topic ps_mabel_after_clock with strake "Speak to Mabel Vickery on the stair" when ps_mabel_dismissed(strake) and not ps_told_dunnage(actor) and not ps_mabel_trusts(actor) {
+    Says "She is sitting on the stair with her Crow in her lap and the satchel on the step above, and she looks up with a face that has had the day and is not going to cry in front of a Bare. 'Seven years,' she says. 'And I was never once late.' She pushes the satchel an inch toward you with her foot. 'I have three that did not go. I should like them to go. I do not think I can be seen going.'".
+    On discuss { Give ps_letter_roke to actor. Give ps_letter_wick to actor. Give ps_letter_brandt to actor. Assert ps_mabel_trusts(actor). }
+  }
+
+  // ══ DELIVERY TO A MASK ════════════════════════════════════════════════════════════════════════════════════════════
+  // On the Unclaimed shelf a parcel has waited nearly a year, directed to whoever wore the Cockle at the fifth bell on
+  // Michaelmas Eve. The Office delivers to faces, not to hours, and two hundred wear the Cockle; and to ask who wore it
+  // is to Name. A sailor's mother sewed a wedding-dress to the look of a woman at a bakehouse counter, whose name he
+  // never learned. Four Cockles work the Wet Post bakehouse. The recipient may be deduced, asked for (as a Cockle, when
+  // the trade has been worked beside), guessed, or Named; handed the parcel by day in the street, or by night on her
+  // own stair; and the parcel is burnt with the Nobodies at noon on the ninth if nobody takes it.
+  Kind ps_parcel_kind "a brown-paper parcel" is gear worth 0 weighing 1 described "A parcel in brown paper tied with kitchen string, soft in the middle, smelling of cedar. The direction is in block capitals: TO WHOEVER WORE THE COCKLE AT THE FIFTH BELL ON MICHAELMAS EVE, AT THE BAKEHOUSE ON THE WET POST. It has been dusted.".
+  Item ps_parcel "a brown-paper parcel" is ps_parcel_kind at offstage.
+  Discovery ps_note_text "The parcel holds a wedding-dress of cream wool, cut short in the hem to keep out of the flour, and a note: from a sailor, who met a Cockle at the bakehouse at the fifth bell on Michaelmas Eve, bought bread, was promised she would wait, and has not been able to come back; he says to burn it if she has married, and to find him at the ferry-stairs at Valmere if she has not.".
+  Discovery ps_clue_left "The Cockle at the bakehouse counter on Michaelmas Eve gave the sailor his change with her left hand.".
+  Discovery ps_clue_blue "The Cockle's mask-string had broken, and was mended with a blue thread.".
+  Discovery ps_clue_bread "The Cockle told the sailor that bread is a promise kept warm.".
+  Relation ps_parcel_read(group). Relation ps_parcel_delivered(group). Relation ps_odile_night(group). Relation ps_wrong_handed(group). Relation ps_kneaded(group). Relation ps_odile_ruined(group).
+
+  Action ps_open_parcel(actor: group, site: place) "Open the parcel" {
+    Requires able(actor) and company(actor) and at(actor, site) and carries(actor, ps_parcel) and not ps_parcel_read(actor).
+    Time 5 minutes.
+    On success { Assert ps_parcel_read(actor). Assert knows(actor, ps_note_text). Assert knows(actor, ps_clue_left). Assert knows(actor, ps_clue_blue). Assert knows(actor, ps_clue_bread). }
+    Result "Under the brown paper, cedar shavings; in the shavings, folded in tissue gone soft, a wedding-dress of cream wool: not silk, a dress for a woman who works, high at the neck, and cut a little short in the hem so as not to trail in the flour. A paper is pinned to the bodice. 'To whoever wore the Cockle at the fifth bell on Michaelmas Eve at the bakehouse on the Wet Post. I do not know your name; you do not know mine; that was the beauty of it. You gave me my change in your left hand and said bread was a promise kept warm, and when I laughed you said it was not mine to laugh at. You had a blue thread in your mask-string where it had broken and flour to the elbows. I said I would come back in the spring and you said you would wait. The ship is held. My mother sewed this to the look of you. I was a fool to think a man could marry a mask. If you have married, burn it and be happy. If not, I am at the ferry-stairs at Valmere. J.'".
+  }
+
+  // The bakehouse's people: by day, masked, a question about bread; and one of them says it.
+  Topic ps_odile_cold_day with ps_odile "Speak to the Cockle at the dough" when ps_cold_day(actor) {
+    Says "'Counter is through there,' says the Cockle, to the dough, in the tone of one who cannot afford to have noticed. Her left hand goes on folding. It does not hurry and it does not stop.".
+  }
+  Topic ps_odile_cold_night with ps_odile "Speak to the woman on the stair" when ps_cold_night(actor) {
+    Says "'Not in a mask,' says the woman on the garret landing, and the door closes, quite gently, with the weight of a person's whole day behind it.".
+  }
+  Topic ps_wick_cold_day with ps_wick "Speak to the tall Cockle" when ps_cold_day(actor) {
+    Says "The tall Cockle looks at the tray and at the oven and at the peel, and says, to all three, 'I am not to talk to anyone who is not somebody. It is not unkindness. I owe a great deal, and I should hate to be asked it by a stranger.'".
+  }
+  Topic ps_wick_cold_night with ps_wick "Speak to the man in the shirt" when ps_cold_night(actor) {
+    Says "'Take it off,' says the big man on the second landing, not unkindly, over the edge of a candle. 'I do not answer a mask at night. It is as much as my place is worth, and I have not got many places left.'".
+  }
+  Topic ps_wynne_cold_day with ps_wynne "Speak to the apprentice" when ps_cold_day(actor) {
+    Says "The girl in the large mask looks at you with enormous curiosity through the eyeholes, which are too far apart, and then at the tall Cockle, who shakes his head very slightly. 'I am not to,' she says, with real regret, and goes back to humming.".
+  }
+  Topic ps_bram_cold_day with ps_bram "Speak to the young journeyman" when ps_cold_day(actor) {
+    Says "'You are in the way of the buns,' says the young Cockle, to the middle of the air, and goes round you with the tray in his right hand, quite fast, as one goes round a puddle.".
+  }
+  Topic ps_odile_bread with ps_odile "Ask the Cockle at the dough what a baker thinks bread is" when masked(actor) and publicHours() {
+    Says "'Bread is a promise kept warm,' says the woman, and stops, quite suddenly, with her left hand in the dough; and you see that she has said it before, to someone, and has not said it since. 'It is only what my mother used to say,' she says, and goes on folding. 'It is a thing you say to children.'".
+  }
+  Topic ps_wick_bread with ps_wick "Ask the tall Cockle what a baker thinks bread is" when masked(actor) and publicHours() {
+    Says "'Bread is what I owe for,' says Wick, and laughs, and then does not. 'It is dough and aniseed and a bad winter. I should like it to be more than that. I have been told it is.'".
+  }
+  Topic ps_wynne_bread with ps_wynne "Ask the apprentice what bread is" when masked(actor) and publicHours() {
+    Says "'Bread is bread,' says the girl. She thinks about it. 'It is what you eat when there is no cake, and it is cake when there is no bread.' She is very pleased with it. 'I made that up.'".
+  }
+  Topic ps_bram_bread with ps_bram "Ask the young journeyman what bread is" when masked(actor) and publicHours() {
+    Says "'Bread,' says Bram Cutter, 'is the thing standing between a man and being late.' He slides a tray. 'And I am late.'".
+  }
+  // Seen near them, with no one saying anything.
+  Observe ps_odile_hand near ps_odile when publicHours() "She folds with her left hand. The mask-string behind her ear is mended with a single neat stitch of blue thread, so small that you would not see it unless you were looking for a string.".
+  Observe ps_wick_hand near ps_wick when publicHours() "He has a baker's forearms and a right-handed way with the peel. The string of his mask is mended in black, with a fisherman's knot.".
+  Observe ps_wynne_hand near ps_wynne when publicHours() "She is right-handed, and has a blue ribbon pinned in her hair; the string of her mask is whole, and new, and too long.".
+  Observe ps_bram_hand near ps_bram when publicHours() "The left side of his mask-string is knotted together in blue wool, hastily and often, as a boy knots a bootlace. He is right-handed to the point of rudeness.".
+  Observe ps_odile_nail near ps_odile when privateHours() "On a nail beside the garret door hangs a Cockle, undyed linen gone soft with wear, and the string of it, where it passes behind the ear, has been mended with a single neat stitch of blue thread. It is hung where she will see it first thing in the morning.".
+  Observe ps_odile_flinch near ps_odile when ps_wrong_handed(party) and not ps_parcel_delivered(party) "While the others look at the parcel in your hands, one of them does not. The woman at the dough has stopped, her left hand flat on the board, and then the hand goes up and touches the mask-string behind her ear, where a thread has been mended in blue. She has not looked at the parcel. She has looked at the floor in front of it." teaches ps_odile_is_she.
+
+  // The wrong ones: each declines in his own way, and the declining is a clue of its own.
+  Action ps_give_wick(actor: group, site: place) "Hand the parcel to the tall Cockle with the black string" {
+    Speaker ps_wick.
+    Requires able(actor) and company(actor) and at(actor, site) and at(ps_wick, site) and carries(actor, ps_parcel) and ps_speaks(actor) and not ps_parcel_delivered(actor).
+    Time 2 minutes.
+    On success { Assert ps_wrong_handed(actor). }
+    Result "Wick reads the direction with his lips, and shakes his head and gives it back, with the peel over his shoulder. 'Not me,' he says. 'I am the one who owes. It is the other, the right one, the wrong way round.' He looks at the parcel a little longer than he need. 'Somebody is going to be glad of it,' he says, and slides the next tray.".
+  }
+  Action ps_give_wynne(actor: group, site: place) "Hand the parcel to the apprentice in the large mask" {
+    Speaker ps_wynne.
+    Requires able(actor) and company(actor) and at(actor, site) and at(ps_wynne, site) and carries(actor, ps_parcel) and ps_speaks(actor) and not ps_parcel_delivered(actor).
+    Time 2 minutes.
+    On success { Assert ps_wrong_handed(actor). }
+    Result "The girl takes it in both hands, quite carefully, and reads it, and her mask turns up toward you, and she says, gravely, 'It is not me. I was fourteen at Michaelmas, and the Cockle at the counter was never me, I was only allowed to sweep.' She gives it back like something that might spill. 'I would have liked it to be me,' she says.".
+  }
+  Action ps_give_bram(actor: group, site: place) "Hand the parcel to the young journeyman with the blue wool" {
+    Speaker ps_bram.
+    Requires able(actor) and company(actor) and at(actor, site) and at(ps_bram, site) and carries(actor, ps_parcel) and ps_speaks(actor) and not ps_parcel_delivered(actor).
+    Time 2 minutes.
+    On success { Assert ps_wrong_handed(actor). }
+    Result "'Me,' says Bram Cutter, 'in a wedding-dress.' He laughs, which is a surprise. 'I wear the blue because I cannot knot a string. It is not a clue; it is a failure of the fingers.' He pushes the parcel back across the table with a floury hand. 'Try Odile,' he says, and then, quickly: 'I did not say it. I was talking about the buns.'".
+  }
+  // The right one, by day in the open bakehouse: taken as the Cockle's, said nothing about, and opened somewhere else.
+  Action ps_give_odile_day(actor: group, site: place) "Hand the parcel to the Cockle with the blue thread, across the table" {
+    Speaker ps_odile.
+    Requires able(actor) and company(actor) and at(actor, site) and at(ps_odile, site) and carries(actor, ps_parcel) and masked(actor) and publicHours() and not ps_parcel_delivered(actor).
+    Time 2 minutes.
+    On success { Spend ps_parcel from actor. Assert ps_parcel_delivered(actor). }
+    Result "She wipes her hands on her apron one at a time, left and then right, and takes it as one takes a thing that has not been asked for and has been expected. She does not read the direction. She holds it flat against her apron and looks at the oven. 'It is for the Cockle,' she says, in a voice that has no weather in it. 'That is not a person. Nobody will say who it was for, and nobody is going to ask.' She puts it under the table with the flour. At the Ninth Bell it will go home under her coat. You are, for the first time since you came to the bakehouse, quite sure that you have done a thing right and have not been thanked for it, and that she will think of you, if at all, as a Crow.".
+  }
+  // By night, on her own stair, with a bare face, it is a different delivery.
+  Action ps_give_odile_night(actor: group, site: place) "Knock at the garret, bare-faced, and give her the parcel" {
+    Speaker ps_odile.
+    Requires able(actor) and company(actor) and at(actor, site) and at(ps_odile, site) and at(actor, ps_stair) and carries(actor, ps_parcel) and not masked(actor) and privateHours() and not ps_parcel_delivered(actor)
+      and (knows(actor, ps_odile_is_she) or ps_parcel_read(actor)).
+    Time 15 minutes.
+    On success { Spend ps_parcel from actor. Assert ps_parcel_delivered(actor). Assert ps_odile_night(actor). }
+    Result "She opens the garret with her hair down and the mask hung on its nail, bare-faced, smaller than by day, and sees a stranger on her landing with something in brown paper. 'Michaelmas Eve,' you say. 'The Cockle, at the fifth bell.' She puts a hand on the doorframe. She opens it there, under the stair-lamp, the cedar and the tissue and the wool, and she reads the note, which does not take long, and stands. 'I married Hobart Ollerton at the Annunciation,' she says. 'He is a chandler and he is kind and he does not know that anything was ever said.' She holds the dress against her nightgown in the lamp, and it is short in the hem, so as to keep out of the flour. 'It fits,' she says. 'He took it by looking.' She does not cry. 'I waited as long as the Post would let me. Tell nobody. No: tell nobody who is not him.' She folds it away into the tissue. 'It is nobody's fault,' she says, 'which is the worst sort.'".
+  }
+  Topic ps_wick_tells with ps_wick "Ask Wick, who has had a letter from you, who wore the Cockle that Michaelmas Eve" when ps_wick_delivered(actor) and ps_speaks(actor) and knows(actor, ps_clue_blue) once {
+    Says "He looks at you for a long time, the way a man looks at a person to whom he owes forty crowns that have been forgiven. 'A blue thread, a left hand,' he says. 'That is Odile. Over my head, on the garret. She does not say it and I have not said it, and what you heard was a man blowing his nose.' He puts a hot roll in your hand, and looks at it, and at you. 'I owed for that, as well,' he says. 'Take it.'".
+    On discuss { Assert knows(actor, ps_odile_is_she). }
+  }
+  // Working a morning beside the trade, as a Cockle, and being told by the Cockles what the Cockles know.
+  Action ps_knead(actor: group, site: place) "Take a turn at the trough for the morning's dough" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, ps_bake_floor) and wears(actor, face_cockle) and publicHours() and not ps_kneaded(actor).
+    Time 12.
+    On success { Assert ps_kneaded(actor). Increase goodwill(face_cockle) by 1. }
+    Result "Nobody says a word. A journeyman moves down the bench to make room, and the apprentice puts a scraper by your hand, and for two hours you push your arms into a trough of warm dough in a long silence broken only by the oven door. It is a good silence. It is the kind that is the whole of what a trade gives you, and by the end of it the Cockles of the Wet Post have decided something about you without anyone saying it.".
+  }
+  Topic ps_bram_cockle with ps_bram "Ask the floor, Cockle to Cockle, whose string was mended in blue the Michaelmas before this" when wears(actor, face_cockle) and ps_kneaded(actor) and knows(actor, ps_clue_blue) once {
+    Says "'Cockle to Cockle,' says Bram Cutter, wiping his hands, as one says grace. 'A left hand and a thread of blue silk. Everybody on the floor knows it and nobody will say it, which is the whole of being a Cockle.' He lowers his voice. 'Odile. The garret, over the road. She had the string mended that very week. She has not changed it since. I think,' he says, with unusual care, 'that she does not want to be somebody who changed it.'".
+    On discuss { Assert knows(actor, ps_odile_is_she). }
+  }
+  // Named, in a public square, she is what the Concord says she is.
+  Rule ps_odile_named when named(ps_odile) and not ps_odile_ruined(party)
+    says "By the Ninth Bell the name is in the Sleeves: Odile Ollerton, who lodges in the garret over the Post bakehouse, and what she said to a stranger over a counter on Michaelmas Eve, and what was sent after her. Nobody is unkind about it, which is the cruelty. Hobart Ollerton the chandler hears it from a customer, and shuts his shop for the day, and does not say where he has gone." { Assert ps_odile_ruined(party). }
+
+  // ══ THE THANKS TO NOBODY ══════════════════════════════════════════════════════════════════════════════════════════
+  // In "Nobody's own" are the letters of the poor of the Drip, addressed To Nobody at the Kitchen, which the Rule has never
+  // let be delivered because Nobody is not a person. The company may carry them to the one place they were meant for.
+  Kind ps_thanks_kind "a bundle of thanks" is gear worth 0 weighing 1 described "A hundred and some letters tied in tens with string, in the careful hands of the poor of the Drip, each directed To Nobody, at the Kitchen. They say thank you for soup, for boots, for a night's bed, for a name not asked. They smell of eel and woodsmoke.".
+  Item ps_thanks "a bundle of thanks" is ps_thanks_kind at offstage.
+  Relation ps_thanks_taken(group). Relation ps_thanks_delivered(group).
+  Action ps_take_thanks(actor: group, site: place) "Take the bundle of thanks addressed To Nobody out of the sack" {
+    Requires able(actor) and company(actor) and at(actor, site) and ps_sacks_at(site) and ps_may_search(actor) and ps_dug(ps_rack_nobody) >= 1 and not ps_thanks_taken(actor) and ps_lawful_hour().
+    Time 3 minutes.
+    On success { Give ps_thanks to actor. Assert ps_thanks_taken(actor). }
+    Result "By the Rule a Nobody is nobody's, and nobody is going to miss a bundle of thanks. You tie the nearest hundred and some in their string and put them inside your coat, where they sit against your ribs like a small warm animal.".
+  }
+  Topic ps_nobody_thanks with nobody "Give Sister Nobody the bundle of thanks the Post could not deliver" when carries(actor, ps_thanks) once {
+    Says "She does not take them. She looks at the bundle and at the hand that holds it, and then she puts her own hands behind her back like a child at a shop. 'They are not for me,' she says. 'There is nobody here to thank.' She is silent. 'Leave them on the shelf by the ladle. If anybody should ever read them, it would be an accident.'".
+    On discuss { Spend ps_thanks from actor. Assert ps_thanks_delivered(actor). }
+  }
+
+  // ── What the Office does to those who have lost the Book from it ──────────────────────────────────────────────────
+  Observe ps_pell_robbed_day at dlo_counter when ps_pell_robbed(party) and ps_pell_home() and not ps_pell_free(party) and publicHours() "The forms on the rail are not square. For the first time since you came, one of them has been left crooked, and the clerk has not noticed. He is looking at the sorting-hall door.".
+  Observe ps_pell_robbed_night at dlo_sorting when ps_pell_robbed(party) and ps_pell_home() and not ps_pell_free(party) and privateHours() and not ps_sacksMoved() "The stool in the aisle between the seventh line and the eighth has been pushed back against the wall, and the coat that was on it is gone. The sack you took the Book from has been hung straight, and tied, with a clerk's knot, by someone who knew that it was light.".
+
+  // ── Milestones ────────────────────────────────────────────────────────────────────────────────────────────────────
+  Milestone ps_m_rhyme "learned the Office's rhyme" worth 25 when knows(party, ps_filing).
+  Milestone ps_m_found "found the Book of Faces among the Nobodies" worth 75 when ps_book_found(party).
+  Milestone ps_m_vigil "sat up with Tomas Pell on the Chapel steps" worth 25 when ps_vigil_kept(party).
+  Milestone ps_m_pell "had Tomas Pell put the Book down himself" worth 75 when ps_pell_free(party).
+  Milestone ps_m_fire "kept the Nobodies from the fire at noon" worth 50 when ps_wet_done(party) or ps_held(party).
+  Milestone ps_m_mabel "kept Mabel Vickery her place in the Office" worth 50 when ps_mabel_kept(party).
+  Milestone ps_m_letter "put a dead letter in a living hand" worth 25 when ps_roke_delivered(party) or ps_wick_delivered(party) or ps_brandt_delivered(party).
+  Milestone ps_m_cockle "found whom the wedding-dress was for" worth 50 when ps_parcel_delivered(party).
+  Milestone ps_m_thanks "carried the Drip's thanks to Nobody" worth 25 when ps_thanks_delivered(party).
+
+  // ── The closing news ──────────────────────────────────────────────────────────────────────────────────────────────
+  // Pell: who he was to the Book at the end of the ninth night.
+  Rule ps_news_pell_free when newsHour() and ps_pell_free(party) and not ps_book_burned(party) once
+    says "Of Tomas Pell: he sat on the Chapel steps until Father Ansel came out with a lamp and a bench, and he has taken off the Crow and has not put it on again. He is said to be teaching the novices to square their forms, and to have been seen laughing once, at something the Chaplain said about the Rule." { }
+  Rule ps_news_pell_free_burned when newsHour() and ps_pell_free(party) and ps_book_burned(party) once
+    says "Of Tomas Pell: he was told that the Book had gone into the fire after all, by the hand that had carried it out of his. He said that it was the first thing that had come right since the night, and would not say what he meant. He has taken a room over the Candle bridge and keeps the Registrar's lamp trimmed." { }
+  Rule ps_news_pell_boy when newsHour() and ps_pell_free(party) and ps_pell_child_asked(party) once
+    says "Of Tomas Pell, also: he has sent a pair of boots down to the cisterns, by the lamp-boys' ladder, a size too large, with no note. A boy grows into them." { }
+  Rule ps_news_pell_lied when newsHour() and ps_pell_lied_to(party) once
+    says "Of Tomas Pell, and the Chaplain: Father Ansel has had it from him that a stranger once said the Chaplain had sent them, and that he had known it was not so, and had chosen to believe it. The Chaplain, who had sent nobody, said that it was a very good lie and that he would have believed it himself. Pell says he is not angry. He mentions it only to people who might have done it." { }
+  Rule ps_news_pell_robbed when newsHour() and ps_pell_robbed(party) and not ps_snatched(party) and not ps_pell_free(party) and not ps_pell_chapel(pell) and not ps_pell_fled(pell) once
+    says "Of Tomas Pell: he is at the counter of the Dead Letter Office still, under another man's name, with the forms squared, and the third sack of the seventh line hung straight. He has not asked who took it. He is observed, now and then, to look at the hall door as a man looks at a window he has left open for somebody." { }
+  Rule ps_news_pell_stayed when newsHour() and ps_burnt(post_office) and ps_book_burned(party) and not ps_pell_free(party) and not ps_burned_by_choice(party) and not ps_pell_fled(pell) and not ps_pell_chapel(pell) once
+    says "Of Tomas Pell: at noon on the ninth day he stood at Mistress Dunnage's elbow with the Crow on, and watched the third sack of the seventh line go into the fire, and said its number with the clerks. He has not been seen at the counter since. It is said that a man sits under the lamp-room window of the Chapel at night, and that nobody has gone out to ask him in." { }
+  Rule ps_news_pell_held when newsHour() and (ps_held(party) or ps_flue_choked(party)) and not ps_burnt(post_office) and not carries(party, book_of_faces) and not ps_pell_free(party) and not ps_pell_fled(pell) and not ps_pell_chapel(pell) and not ps_pell_robbed(party) once
+    says "Of Tomas Pell: the Burning did not come. He stood at Mistress Dunnage's elbow in front of a furnace that would not be lit, with the Crow on, and was seen, for the first time since he came, to smile, as a man does who has been reprieved from a thing he had arranged for himself. He is going to have to decide, now, and has not yet understood that it was only a day's delay he was given, and not the answer." { }
+  Rule ps_news_pell_snatched when newsHour() and ps_snatched(party) and not ps_pell_free(party) once
+    says "Of Tomas Pell: he watched it lifted out of the line at the fire by a masked stranger, and closed his eyes, and did not cry out. At the Chapel they say that a man in a clerk's coat came to the steps on the ninth night and asked to be heard, and was told that there was a bench." { }
+  Rule ps_news_pell_chose when newsHour() and ps_burned_by_choice(party) and not ps_pell_free(party) and not ps_pell_fled(pell) and not ps_pell_chapel(pell) once
+    says "Of Tomas Pell: he was told that the Book had gone into the furnace by a hand that was not the Rule's. He has not said whether it is better. He is at the counter, under another man's name, and his forms are square again, with the care of someone who has been spared a decision and does not know whether to be grateful." { }
+  Rule ps_news_pell_fled when newsHour() and ps_pell_fled(pell) once
+    says "Of Tomas Pell: he walked out of the Dead Letter Office on the day he was frightened, bare-faced, in the rain, and nobody on the Wet Post has seen him since. A man in a clerk's coat was taken across the Cuff on the Gull's ferry that evening, who paid in pennies, and would not say where to." { }
+  Rule ps_news_pell_named when newsHour() and named(pell) once
+    says "Of Tomas Pell: the Office has dismissed him, as Dacre, and the Chapel has taken him in, as Pell. He sits in the cloister with his name on him like a coat that does not fit, and is brought his dinner, and is not spoken to by the Bare Brothers, who have taken a vow, but is passed the salt." { }
+  Rule ps_news_book_redeemed when newsHour() and ps_redeemed(party) and not ps_pell_free(party) once
+    says "Of the Redemptions of the Dead Letter Office: the book for the year has one line in it, in the Postmaster's hand, which she shows to nobody. A parcel, grey, directed To Nobody, Nowhere. Redeemed. Pell, they say, was at the counter that morning and did not look up when it was done; and put his forms straight, for the first time in some days, as the Rule had put the thing straight for him." { }
+  // Dunnage and the Burning.
+  Rule ps_news_fire_done when newsHour() and ps_burnt(post_office) and not ps_held(party) and not ps_wet_done(party) once
+    says "Of Mistress Dunnage: she burned the Nobodies at noon on the ninth day, or as near as the furnace would let her, by her own hand, in a dry furnace, and the Rule was kept. She went home at the Ninth Bell and sat in the dark with her taper, which she lit for the first time in a year, at the wrong fire, to see what it was like." { }
+  Rule ps_news_fire_late when newsHour() and ps_burnt(post_office) and ps_wet_done(party) and not ps_held(party) once
+    says "Of the Dead Letter Office's chimney: it drew at last, at six in the evening, after a brazier and a boy and a great deal of Mistress Dunnage's patience, and she burned the Nobodies by the Rule's own clause and not a minute before. It is the first time in forty-one Postmasters that the Burning has been late, and it is entered in the Office's book as 'by the Rule'." { }
+  Rule ps_news_fire_stopped when newsHour() and ps_held(party) and not ps_dunnage_yielded(party) once
+    says "Of the Nobodies: they stand in the burning-room still, forty sacks in the order of the rhyme, with a hundredweight of wet sacking in the flue above them, and Mr. Penn the sweep is to come on the tenth with his brushes. Mistress Dunnage has said nothing to anyone. She has been seen to stand in front of the furnace with her taper for a quarter of an hour, not using it." { }
+  Rule ps_news_fire_asked when newsHour() and ps_dunnage_yielded(party) once
+    says "Of the Nobodies: the Burning has been put off to the tenth, by the Postmaster's own hand, on a request she says she has never had. She has entered it in the Office's book in the margin, with a mark that the clerks cannot read and that is, Mabel Vickery thinks, a question." { }
+  Rule ps_news_boy when newsHour() and ps_boy_dismissed(ps_corbin) once
+    says "Of Dickon, the Office's boy sorter: he has been let go for a wet flue, and has been taken on by the bakehouse across the way, where he cannot read the sacks and is excellent with the buns. He says that Wick has promised to teach him the knot." { }
+  Rule ps_news_boy_kept when newsHour() and ps_own_up(party) and not ps_boy_dismissed(ps_corbin) once
+    says "Of Dickon: he keeps his place, and does not know why. He has asked Mr. Dacre, who has told him that sometimes the Rule does not say who may be wrong. He has written that on the inside of his Crow." { }
+  // Mabel and the stair.
+  Rule ps_news_mabel_redeems when newsHour() and ps_mabel_redeems(party) once
+    says "Of the Dead Letter Office: the Redemptions has a new column. Mabel Vickery pays a penny a piece in the day, in the Office, as an agent, and signs; and the letters that mean something go out in the morning under the Postmaster's own seal, which has a crow on it. Mistress Dunnage has had the clause cut on a slate and hung it over the sorting-hall door." { }
+  Rule ps_news_mabel_warrant when newsHour() and ps_mabel_warranted(party) once
+    says "Of Mabel Vickery: she reads the Office's dead letters under the Warrant of the Watch, in the open, and has delivered eleven. The Warrant lapses with the Drawing. Mistress Dunnage has said that she will think of something by then, and has been seen to take down the Rule and read it standing up." { }
+  Rule ps_news_mabel_kept when newsHour() and ps_mabel_kept(party) and not ps_mabel_redeems(party) and not ps_mabel_stopped(party) and not ps_mabel_warranted(party) once
+    says "Of Mabel Vickery: she keeps her place, and has stopped doing it in the dark, mostly. The letters that mean something go into the satchel in the day now, under the nose of the Postmaster, who has learned to look the other way at the right moment. It is, Mabel says, the same crime done by a better-behaved criminal." { }
+  Rule ps_news_mabel_stopped when newsHour() and ps_mabel_stopped(party) once
+    says "Of Mabel Vickery: she sorts a hundred and ten pieces an hour and does not open any of them, and the Office has never been so quiet. She is reading, on her own time, a very long novel, and has been seen to cry at it. She has asked after the stair." { }
+  Rule ps_news_mabel_told when newsHour() and ps_told_dunnage(party) once
+    says "Of Mabel Vickery: she was dismissed on the seventh day, on the word of a stranger, and has taken a room over the road, and does not say whose word it was. She is taking in letters-to-be-written at the arcade, three a day, and reading all of them." { }
+  Rule ps_news_mabel_clock when newsHour() and ps_mabel_dismissed(strake) and not ps_told_dunnage(party) and not ps_mabel_kept(party) once
+    says "Of Mabel Vickery: she was dismissed on the seventh day, and has since been found by three households in the Drip, who say that a young woman with ink on her sleeves called at their doors with a letter and nothing to lose, and that they would like her to do it again." { }
+  Rule ps_news_roke when newsHour() and ps_roke_done() once
+    says "Of Aveline Roke: she has taken the ferry to Valmere to see whether the boat has been kept. It has. The oars are another matter, and are being discussed." { }
+  Rule ps_news_roke_not when newsHour() and not ps_roke_done() and not ps_burn_done() once
+    says "Of Aveline Roke: she keeps a kettle on the third landing, and does not know that there is a letter in a sack at the Dead Letter Office with her name on it, which will be ash by noon." { }
+  Rule ps_news_roke_burnt when newsHour() and not ps_roke_done() and ps_burn_done() once
+    says "Of Aveline Roke: there was a letter from her brother, in a sack of the Nobodies, which went in with the rest. She does not know. She sets two cups on the table in the evenings, out of a habit she cannot account for." { }
+  Rule ps_news_wick when newsHour() and ps_wick_done() once
+    says "Of Teodor Wick: he goes up the Wet Post by the front way now, past the late Master Corley's shop, and takes his hat off. He has bought the boy a pair of boots, and has been seen to put them on the boy's feet in the street, in public, in the rain." { }
+  Rule ps_news_brandt_delivered when newsHour() and ps_brandt_delivered(party) once
+    says "Of Lucia Brandt: she married Gerrit Hale at the Chapel on the eighth with a Watch domino in the front pew, and Hal Corry stood on the Post bridge at the Fifth Bell for an hour with his mouth open and said nothing to anybody. She is said to have sent him a loaf, by the common post, with no note. He has not been seen since." { }
+  Rule ps_news_brandt_named when newsHour() and ps_hal_named(party) once
+    says "Of Lucia Brandt: she was Named on the Post bridge on the eighth day, by a man in a Moth's half-mask whose letter nobody delivered, and married Gerrit Hale anyway, bare-faced, at the Chapel, with the whole of the Wet Post watching, and the Wet Post was not unkind. It is never unkind, about what it has already been told." { }
+  // The Cockle's parcel and the Michaelmas bride.
+  Rule ps_news_odile_night when newsHour() and ps_odile_night(party) once
+    says "Of Odile Ollerton: she has not worn the dress, and has not burnt it. It lies in its tissue in a drawer over the bakehouse. On the ninth night she walked as far as the Post bridge in her Cockle with a loaf under her arm, and stood there until the Ninth Bell, for nobody, and Hobart Ollerton came out of the chandler's with a lamp and stood beside her, and did not ask." { }
+  Rule ps_news_odile_day when newsHour() and ps_parcel_delivered(party) and not ps_odile_night(party) once
+    says "Of the Cockle at the bakehouse with the left hand: a parcel has gone home under her coat. She has told nobody, and the bakehouse has asked nobody. Bram Cutter says she has been folding dough more slowly, and that he does not mind." { }
+  Rule ps_news_odile_burnt when newsHour() and not ps_parcel_delivered(party) and ps_burn_done() and not ps_parcel_given(party) once
+    says "Of the parcel on the Unclaimed shelf: it went into the furnace with the rest, with its direction to whoever wore the Cockle, and the clerk who fed it in said that it smelt of cedar. Nobody on the Wet Post knows that anything was sent." { }
+  Rule ps_news_odile_named when newsHour() and ps_odile_ruined(party) once
+    says "Of Odile Ollerton: Named, and nobody unkind about it. Hobart Ollerton opened the chandler's again on the third day. They are seen walking, in their Cockles, a foot apart, on the Wet Post, at the hour when nobody is looking." { }
+  Rule ps_news_thanks when newsHour() and ps_thanks_delivered(party) once
+    says "Of the letters to Nobody: they stand on a shelf in the Anonymous Saint's kitchen, by the ladle, a hundred and some, tied in tens, and nobody has been seen to read them. The soup is, by common consent, a little better." { }
 }
