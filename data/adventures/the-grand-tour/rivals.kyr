@@ -1,0 +1,99 @@
+Module sennet "The Grand Tour" {
+  // ── Florian Mottram and Miss Sone ─────────────────────────────────────────────────────────────────────────────────
+  // The Honourable Florian Mottram, nineteen, of Cloudgate, has bought everything, read nothing, and is an idiot of
+  // great sweetness. His bear-leader, Miss Agatha Sone, a retired sergeant of fifty, has done the Tour eleven times
+  // with eleven idiots and would like to do something else before she dies. She is competent: left alone they take
+  // the Fire petal at noon on the second day, and the Earth petal on the fourth morning (Florian, being incapable of
+  // patience, digs), and give each to the Rector at five the same evening. They cannot get into the Whelm: Florian
+  // called the merfolk at the third step "fish", and the whole Whelm heard.
+  Person florian "the Honourable Florian Mottram" at glass_market {
+    Role "a Tourist from Cloudgate, in a coat the colour of a sunset" when not florianChanged(florian).
+    Role "a traveller from Cloudgate, in a coat the colour of a sunset, rather singed" when florianChanged(florian).
+    Ancestry human. Calling warrior. Level 1. Peaceable. Pronouns he. Manner cheerful.
+    Greets "A young man in a coat the colour of a sunset, with a parcel under each arm and another on his head, beams at you. 'Florian Mottram,' he says. 'I'd shake hands, but. Are you on the Tour? Isn't it marvellous? I've bought a fire-cloak, a brine-helm, two wind-jars, and a stuffed salamander, though Sone says that's cheating.' He lowers his voice. 'Sone's my bear-leader. She's been eleven times. She knows everything. It's frightfully restful.'".
+    Greets again "'Hullo!' says Florian Mottram, and drops a parcel.".
+  }
+  Person sone "Miss Agatha Sone" at glass_market {
+    Role "a bear-leader, square and grey, with a sergeant's moustache of eyebrow". Ancestry human. Calling warrior. Trait strong_willed. Level 5. Peaceable. Pronouns she. Manner stoic.
+    Greets "A square grey woman with an umbrella like a pike looks at you, and at Florian, and back, with the expression of a sheepdog that has been asked to mind a swan. 'Sone,' she says. 'Bear-leader. If he asks you to hold anything, don't.'".
+    Greets again "Miss Sone nods to you, once, like a sergeant to another sergeant.".
+  }
+  Initially Assert passesTo(florian, quance).
+  Relation florianChanged(group). Relation soneAsked(group). Relation soneWithholds(group). Relation soneKnows(group).
+  Relation florianReclaims(group). Relation florianConfessed(group). Relation florianStopped(group).
+  // ── Where they are ────────────────────────────────────────────────────────────────────────────────────────────────
+  Query rivalsFree() means not florianChanged(florian) or not soneWithholds(sone).
+  Query rivalsFire() means day(clock) == 2 and hour(clock) >= 10 and hour(clock) < 13.
+  Query rivalsEarth() means day(clock) == 4 and hour(clock) >= 8 and hour(clock) < 11.
+  Rule rivals_market when day(clock) == 1 and hour(clock) >= 9 and hour(clock) < 15 and not at(florian, glass_market) { Assert at(florian, glass_market). Assert at(sone, glass_market). }
+  Rule rivals_murreys when florianInShop() and not at(florian, murrey_shop) { Assert at(florian, murrey_shop). Assert at(sone, murrey_shop). }
+  Rule rivals_quad when ((day(clock) == 1 and hour(clock) >= 16 and hour(clock) < 19) or (hour(clock) >= 14 and hour(clock) < 19 and day(clock) >= 2 and not funeralHour())) and not at(florian, quad) { Assert at(florian, quad). Assert at(sone, quad). }
+  Rule rivals_fire when rivalsFire() and not at(florian, hour_court) { Assert at(florian, hour_court). Assert at(sone, hour_court). }
+  Rule rivals_earth when rivalsEarth() and not at(florian, assembly) { Assert at(florian, assembly). Assert at(sone, assembly). }
+  Rule rivals_funeral when funeralHour() and not at(florian, balustrade) { Assert at(florian, balustrade). Assert at(sone, balustrade). }
+  Rule rivals_morning when hour(clock) >= 9 and hour(clock) < 14 and day(clock) >= 2 and not rivalsFire() and not rivalsEarth() and not funeralHour() and not at(florian, glass_market) { Assert at(florian, glass_market). Assert at(sone, glass_market). }
+  Rule rivals_evening when hour(clock) >= 19 and not at(florian, promenade) { Assert at(florian, promenade). Assert at(sone, promenade). }
+  Rule rivals_night when (hour(clock) < 9 and not rivalsEarth()) and not at(florian, offstage) { Assert at(florian, offstage). Assert at(sone, offstage). }
+
+  // ── The Fire, at noon on the second day ───────────────────────────────────────────────────────────────────────────
+  // Miss Sone brings a block of Cloudgate ice up from the Halyards' ice-house in a box of sawdust, which is four.
+  Rule florian_crowned at hour_court when day(clock) == 2 and hour(clock) >= 12 and not petalTaken(fire_petal) and not crowned(party) and not emberCrowned(fire_land) and reign(fire_land) < 4 and not florianStopped(florian)
+    says "Miss Sone opens a box of sawdust and lifts out of it a block of ice from the Halyards' ice-house, clear as glass, sweating. The Hour Court has never seen cold that you can hold. It crowns Florian Mottram, who is so pleased he takes his hat off, and his hair catches fire, and Miss Sone puts it out with her hand. Florian decrees that the petal is his, being a quick study, and an ifrit gives it him." {
+    Assert rivalHas(fire_petal). Assert petalTaken(fire_petal). Assert rivalCrowned(fire_land). Assert keeps(florian, fire_petal). }
+  // ── The Earth, on the fourth morning: Florian cannot bear the Assembly either ─────────────────────────────────────
+  Event florian_digs at assembly when day(clock) == 4 and hour(clock) >= 10 and not petalTaken(earth_petal) and not florianStopped(florian) and at(party, assembly) "Florian Mottram comes down the long tunnel with a lamp in one hand and a pick in the other, saying 'Sorry, sorry, frightfully sorry,' to the Assembly, which does not hear him, and kneels by the petal in the chamber floor and starts to dig. Miss Sone, behind him, looks at the ceiling." then { Assert florianDigging(florian). }
+  Relation florianDigging(group).
+  Topic florian_vote with florian "Tell Florian Mottram that the Assembly is two words from granting the petal, and he is digging up a vote" when florianDigging(florian) and at(party, assembly) and sat(actor) and not florianStopped(florian) once {
+    Says "Florian stops, with the pick in the air. He looks round at the Assembly, at the hundred still shapes on their tiers, at the Speaker, all of them listening to a word you can feel in the floor. 'Oh,' he says. 'Oh, I say. Is it a vote? In the middle of a vote?' He puts the pick down, very carefully, as if it might go off. 'One doesn't,' he says, going red. 'Papa would. One doesn't.' Behind him Miss Sone looks at him, for a moment, as if she had never seen him before.".
+    On discuss { Assert florianStopped(florian). }
+  }
+  Rule florian_digs_out when day(clock) == 4 and hour(clock) >= 11 and not petalTaken(earth_petal) and not florianStopped(florian) {
+    Assert rivalHas(earth_petal). Assert petalTaken(earth_petal). Assert keeps(florian, earth_petal). Retract florianDigging(florian). }
+  // At five on the evening of a win, Florian takes it up the headland to the Rector, unless Miss Sone will not let him.
+  Rule rivals_deliver when rivalHas(?p) and keeps(florian, ?p) and hour(clock) >= 17 and not soneWithholds(sone) and rectorFree() {
+    Retract rivalHas(?p). Retract keeps(florian, ?p). Assert keeps(quance, ?p). Assert rectorHas(?p). Increase rectorPetals(sennet_bay) by 1. }
+  Observe florian_petal near florian when rivalHas(fire_petal) and keeps(florian, fire_petal) "Florian Mottram has a petal of red glass in his breast pocket, warm, with the light moving in it, and keeps taking it out to look at it.".
+
+  // ── Talking with them ─────────────────────────────────────────────────────────────────────────────────────────────
+  Topic sone_opinion with sone "Ask Miss Sone what she thinks of the Grand Tour" when true once {
+    Says "She looks at you for a long time, as if nobody had asked her that in twenty years, which, you gather, nobody has. 'I think it's a Rector wanting her name over a door,' she says. 'I think the courts gave those petals to keep, and every boy with a Papa now wants to bring one home and put it on the mantelpiece.' She looks at Florian, who is buying a glass float. 'I think I've done eleven Tours with eleven boys, and brought eleven boys home, and not one of them has ever looked at anything but the label.' She folds her hands on her umbrella. 'Since you ask.'".
+    On discuss { Assert soneAsked(sone). }
+  }
+  // An entered Tourist on Miss Sone's account, as her assistant, for nothing.
+  Topic sone_assistant with sone "Ask Miss Sone whether she could put you down as her assistant, for the Tour" when soneAsked(sone) and not enrolled(actor) once {
+    Says "'Assistant bear-leader.' She almost smiles. 'The Mottrams will pay for it without noticing. They pay for everything without noticing.' She takes a card from her reticule and writes on it in a square hand, and gives it you, and it is a licence of the Grand Tour with the Rector's violet signature already on it, the bottom half blank. 'I keep a few,' says Miss Sone. 'In case of idiots. You're not one. Go through the doors. Look at something.'".
+    On discuss { Assert enrolled(actor). Give licence to actor. }
+  }
+  Topic florian_collection with florian "Ask Florian Mottram what he means to bring home from the Tour" when true once {
+    Says "'Oh, everything!' He beams. 'I've a cabinet. Papa's got two. Great-grandpapa had a whole room, he brought home an ember from the Fire that's still burning, it's in the Museum with his name on it, Hon. Thos. Mottram, I go and look at it on Sundays.' He stops beaming, a little. 'It's only, you know. Sone says I look at the labels.' He looks at a parcel. 'I'd like to bring home something I'd actually, you know. Seen. Once. Myself.' He laughs. 'Silly.'".
+    On discuss { Assert knows(actor, florian_wish). }
+  }
+  Discovery florian_wish "Florian Mottram's great-grandfather brought home the ember in Cabinet Fourteen; Florian goes to look at it on Sundays. He would like, once, to bring home something he had actually seen himself.".
+  Topic florian_ember with florian "Tell Florian Mottram that his great-grandfather's ember is alive, and asks to go home, and that a Mottram could take it back" when knows(actor, ember_alive) and knows(actor, florian_wish) and not emberFreed(museum) and not florianReclaims(florian) once {
+    Says "He goes white, and then red. 'Alive?' He looks at the headland, toward the Museum. 'I've been going to look at it. On Sundays. For years. It does sparks when I talk to it.' He swallows. 'I thought that was. I thought it liked me.' He stands up, and drops all his parcels, and does not pick them up. 'A Mottram could take it back? It's ours? Then I'm taking it back.' He looks at Miss Sone. Miss Sone looks at him. 'Sone,' he says. 'Sone, I'm going to take it home. Myself. Through the door. Will you come?' 'Yes,' says Miss Sone.".
+    On discuss { Assert florianReclaims(florian). }
+  }
+  // He goes to the Museum and reclaims it, and gives it to the company to carry, being afraid he will drop it.
+  Rule florian_reclaims when florianReclaims(florian) and not emberFreed(museum) and openHours() and not carries(party, ember)
+    says "Word comes along Lamp Street, by way of several students, that the Honourable Florian Mottram has walked into the Museum of the Tour and asked Dr. Cole, as a Mottram, for his great-grandfather's ember back, and that Dr. Cole sat down on the floor." {
+    Assert emberFreed(museum). Assert florianChanged(florian). Give ember to party. }
+  Topic florian_bassett with florian "Ask Florian Mottram to tell Sergeant Bassett it was his own mistake about the glass petal" when knows(actor, prue_complaint) and prueTrouble(prue) and not prueSaved(prue) and not florianConfessed(florian) once {
+    Says "'The petal! The Rector's desk!' He claps his hand to his forehead. 'I didn't turn it over. Who turns things over? It said Genuine on the card.' He looks stricken. 'Has she got into trouble? Prue? The glass woman with no eyebrows? She gave me a float for nothing.' He is already putting on his hat. 'I'll go and tell the sergeant. I'll tell him I'm an ass. Sone, I'm going to go and tell a sergeant I'm an ass.' Miss Sone says that it will be a novelty for the sergeant.".
+    On discuss { Assert florianConfessed(florian). Assert prueSaved(prue). }
+  }
+  // Told what the Rector did, Miss Sone will not carry another petal up the headland.
+  Topic sone_told with sone "Tell Miss Sone who pushed Perrin Halyard, and what the Rector means to do with the petals" when knows(actor, quance_pushed) and soneAsked(sone) and not soneWithholds(sone) once {
+    Says "She hears you out with her face like a wall. When you have finished she is quiet a moment. 'I carried a boy home from the Tour once with his neck broken,' she says. 'Fell off a stair in the Air, showing off. I carried him home to his mother.' She looks at Florian. 'Nothing more goes up that headland in my charge,' she says. 'Not one petal. If you want what we have, ask me for it.'".
+    On discuss { Assert soneWithholds(sone). Assert soneKnows(sone). }
+  }
+  Topic sone_petals with sone "Ask Miss Sone for the petals she is keeping back from the Rector" when soneWithholds(sone) and (keeps(florian, fire_petal) or keeps(florian, earth_petal)) once {
+    Says "She takes them out of Florian's breast pocket herself, while he watches, and gives them you. 'There,' she says. 'Do something with them a Rector wouldn't.'".
+    On discuss { Retract rivalHas(fire_petal). Retract rivalHas(earth_petal). Give fire_petal to actor. Give earth_petal to actor. }
+  }
+  // Florian trades a petal, once, for a thing he has never seen and nobody else has.
+  Topic florian_trade with florian "Offer Florian Mottram the geode from the Minutes, which nobody in Cloudgate has, for the petal in his pocket" when rivalHas(fire_petal) and keeps(florian, fire_petal) and holding(actor, geode_kind) once {
+    Says "You crack it open for him. His eyes go perfectly round at the purple inside. 'Oh,' he says. 'Oh. Nobody's got one of those. Papa hasn't got one of those.' He looks at the petal in his hand, warm, with its light moving, and at the thing in yours. He is not a clever young man; but he is, you discover, an honest one, and he does not haggle. 'Done,' he says, and gives you the petal, and holds the two halves of the stone against his chest. 'Done. Sone, look. A million years. I've got a million years.'".
+    On discuss { Retract rivalHas(fire_petal). Retract keeps(florian, fire_petal). Spend geode_kind from actor. Give fire_petal to actor. Assert florianTraded(florian). Assert florianChanged(florian). }
+  }
+  Relation florianTraded(group).
+}

@@ -2302,6 +2302,15 @@ The worlds that ship with the game.
 
 > Calamy is a city of paper at the mouth of the Calam, where the tide turns the mills twice a day and every household keeps a book that knows it. Its books are entangled with its money, its law, its prayers and its quarrels, and lately some of them have begun to talk. In nine days it is the Kindling, when the city burns last year's almanacks to light the new year in.
 
+### The Grand Tour
+
+*Kyr* · `campaign:the-grand-tour`
+
+- Regions and sites: sennet
+- Kits placed: —
+
+> Sennet is a port city in three storeys. On the bay, the quays and glass-houses, and on the headland the House of Doors, whose doors open on the elemental planes. Over the cloud-line above it, Cloudgate, a hill of the old city lifted into the sky two hundred years ago, where it is always a fine afternoon. Under the bay, the Whelm, the lower town the sea came into when the hill went up, where the merfolk live now among the drowned shop-signs. Twelve days ago the Rector of the House of Doors proclaimed the first Grand Tour in two hundred years: whoever brings her the four petals of the Rose of the Winds will be first through the Door of Doors. The same night a young man went over the balustrade of Cloudgate in the fog. You have eighteen coin, and the coast road under your feet.
+
 ### The House That Grows
 
 *Kyr* · `campaign:the-house-that-grows`

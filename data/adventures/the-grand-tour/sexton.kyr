@@ -1,0 +1,86 @@
+Module sennet "The Grand Tour" {
+  // ── The Sexton ────────────────────────────────────────────────────────────────────────────────────────────────────
+  // The harbour says the drowned sexton of Lir's has been at his rope two hundred years. The Whelm says the Sexton is
+  // the conger that has lived in the belfry since the water came in, grown on two centuries of what the bay lets fall,
+  // and that the bell rung at the turn of the tide is what keeps it up there: it hates the noise, and lies in the
+  // hollow of the beam with its head under its tail until it stops. The grandmothers knew. The children ring it for
+  // the joy of the noise, and have forgotten why; that is what keeping becomes. Stop the bell for Old Bethan's sake,
+  // or muffle it, and at the next turn the Sexton comes down into Chandlers' Row.
+  Query bellSilent() means bellStopped(sennet_bay) or bellMuffled(sennet_bay).
+  Species conger_kind "a conger of the old harbour" like great_pike temperament ambush described "A conger eel as long as a fishing boat and as thick as a man, grey-black, with a head like a shut fist and a mouth that does not quite close on its teeth. Its skin is scarred white where two hundred years of the bay's leavings have gone down it the wrong way: anchors, a mooring chain, a bishop's crozier, they say on the Quay, though nobody on the Quay has seen it.".
+  Person sexton "the Sexton" at belfry {
+    Role "a conger as long as a boat, coiled round the bell-beam" when at(sexton, belfry).
+    Role "a conger as long as a boat, loose in the drowned street" when not at(sexton, belfry).
+    Species conger_kind. Level 5. Pronouns it.
+  }
+  Relation sextonCowed(group). Relation sextonFed(group). Relation sextonDown(group). Relation sextonKilled(group).
+  Discovery sexton_known "The bell under the bay is not rung only for the noise. At the turn of the tide it keeps the Sexton, a conger as long as a boat, coiled in the belfry of Lir's church; stop the bell, and the Sexton comes down into Chandlers' Row. The grandmothers knew. The children have forgotten.".
+  Observe belfry_scene at belfry when at(sexton, belfry) "The belfry of Lir's church: a square stone room at the top of the drowned tower, its louvres long gone, green light coming in sideways. The bell hangs on its beam in the middle, as big as a cart, and round the beam, round and round, so that at first you take it for the beam's own shadow, lies something grey-black and thick as a man, with a head like a shut fist, resting on the lip of the bell.".
+  Observe belfry_empty at belfry when not at(sexton, belfry) "The belfry of Lir's church: the bell on its beam, and the beam rubbed smooth and pale all the way round, as a rope rubs a bollard.".
+  Observe tower_rubbed at drowned_church when true "Inside the tower, where the floors fell in, the stone has been rubbed smooth from the inside in a long slow spiral going up into the dark, as if something very large went round and round it, often.".
+
+  // While it rings, at the turn, the Sexton lies still: the safe hour to be in the belfry. Fed, it lets you be.
+  Rule sexton_cowed when tideTurn() and not bellSilent() and at(sexton, belfry) and not sextonCowed(party) { Assert sextonCowed(party). Assert tolerates(sexton, party). }
+  Rule sexton_rouses when sextonCowed(party) and not tideTurn() { Retract sextonCowed(party). }
+  Rule sexton_angry when not sextonCowed(party) and not sextonFed(party) and tolerates(sexton, party) { Retract tolerates(sexton, party). }
+  Observe sexton_still at belfry when sextonCowed(party) and at(sexton, belfry) "The bell is ringing. You feel it in your teeth and your ribs and the roots of your hair, and on the beam the great grey shape has drawn itself in tight, head under its tail, and lies like a coil of hawser, shuddering at every stroke.".
+  Action feed_sexton(actor: group, site: place) "Tip Old Bethan's eels into the water for the Sexton" {
+    Description "It has eaten what fell for two hundred years. Nobody has ever given it anything.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(sexton, site) and holding(actor, eel_basket_kind) and not sextonFed(actor) and able(sexton).
+    Time 1.
+    On success { Spend eel_basket_kind from actor. Assert sextonFed(actor). Assert tolerates(sexton, actor). }
+    Result "You pull the sack off the creel and the eels go out into the green in a long bright rope, and the Sexton's head comes round faster than anything that size should move, and takes them, the whole rope, in three bites, and swallows; and then it lies looking at you with one round eye the size of a plate, as a dog looks at whoever has fed it, and does not move again while you are there.".
+  }
+
+  // Ha'penny knows the rule, though not the reason; her grandmother knows both.
+  Topic hapenny_why_turn with hapenny "Ask Ha'penny why the children ring the bell at the turn, and never between" when knows(actor, bell_ringers) once {
+    Says "She frowns, as if you had asked why the sea is wet. 'Because you do. At the turn.' She thinks. 'Gran says if you don't, the Sexton comes down.' She says it in a voice that does not believe in the Sexton, and then she looks down the stairs into the green and her gills shut. 'Shutters's grandad has one arm,' she says. 'He says it was a shark.'".
+    On discuss { Assert knows(actor, sexton_hint). }
+  }
+  Discovery sexton_hint "The merfolk children ring the bell at the turn of the tide because their grandmothers told them to, or 'the Sexton comes down'. They think it is a story.".
+  Topic admittance_sexton with admittance "Ask No Admittance what the Sexton is" when knows(actor, sexton_hint) or knows(actor, bell_ringers) once {
+    Says "'Keeping.' She says it as if it were the answer to everything, and for her it is. 'When we came through, there was a thing in the tower already. Old. It had eaten the sexton, and his bell-ropes, and anything that came down. Our grandmothers rang the bell at the turn, and it went up into the beam and stayed. Two lifetimes.' She turns the crown in her hands. 'The children ring it now for the noise. They do not know. That is what keeping is, when it works: nobody knows what it is for.' She looks at you. 'Do not stop the bell, dry one. Whoever asks you to.'".
+    On discuss { Assert knows(actor, sexton_known). }
+  }
+
+  // What Bethan comes to, told: it was never ringing for Ned.
+  Topic bethan_why with bethan "Tell Old Bethan why the merfolk ring the bell at the turn of the tide" when (knows(actor, sexton_known) or knows(actor, sexton_hint)) and knows(actor, bell_grief) and not bethanAtPeace(bethan) and not bellSilent() once {
+    Says "She listens with the knife in her hand and an eel in the other, and does not kill it. 'A thing in the tower,' she says. 'And their bairns ringing it down, twice a day, so it won't come out and take the rest of them.' She puts the eel back in the barrow, alive, which you have not seen her do. 'Then it was never ringing for Ned.' She is quiet. 'It's ringing so nobody else's goes.' She covers the barrow with the wet sack. 'He'd want it rung. He threw them his crusts.' And at the next turn of the tide, they tell you on the Quay, Old Bethan slept through it.".
+    On discuss { Assert bethanAtPeace(bethan). Assert bethanFriend(bethan). }
+  }
+
+  // Silenced, it comes down at the next turn into Chandlers' Row, and the Whelm shuts its doors.
+  Rule sexton_descends when bellSilent() and tideTurn() and at(sexton, belfry) and not sextonFed(party) and able(sexton) {
+    Retract at(sexton, belfry). Assert at(sexton, drowned_street). Assert sextonDown(party). }
+  Rule sexton_descends_told within whelm when sextonDown(party) and at(sexton, drowned_street) and not sextonDownTold(party)
+    says "The merfolk tell it you in the Guildhall's voice, low: at the turn of the tide there was no bell. There was a silence where the bell should be, and the whole Whelm heard it; and in the silence something came down out of the tower of Lir's church, slowly, the way a rope pays out, and into Chandlers' Row. Every door in the Row was shut on it. A child was calling a name, and stopped." { Assert sextonDownTold(party). }
+  Relation sextonDownTold(group).
+  Rule sexton_descends_heard within sennet_town when sextonDown(party) and at(sexton, drowned_street) and not sextonDownHeard(party) and tideTurn()
+    says "At the turn of the tide the bell under the bay does not ring. On the Quay the harbour, which has always said it hated that bell, stands and listens to it not ringing, and nobody goes home." { Assert sextonDownHeard(party). }
+  Relation sextonDownHeard(group).
+  Observe row_shut at drowned_street when at(sexton, drowned_street) "Chandlers' Row is shut: every door, every shutter of every drowned shop pulled to, and the white lamps out in half the windows. Nobody is in the street. Something is: it lies along the middle of the Row from CASH ONLY to the Guildhall steps, grey-black, thick as a man, its head lifted a little off the cobbles, waiting.".
+  // Rung again, it goes back up at the turn: by Ha'penny, if she is asked, or by the company cutting its own muffle.
+  Topic hapenny_ring_again with hapenny "Ask Ha'penny and the others to ring the bell again at the turn, the way their grandmothers did" when bellSilent() and knows(actor, sexton_hint) and not bellMuffled(sennet_bay) and able(sexton) once {
+    Says "'Again?' She looks at you, and you see her decide not to ask why; she has heard the silence too. 'At the turn. All of us. Cash Only can hang on my tail.' She is gone down the stairs before you have finished.".
+    On discuss { Retract bellStopped(sennet_bay). }
+  }
+  Action cut_muffle(actor: group, site: place) "Cut the rope off the bell's clapper" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, belfry) and bellMuffled(sennet_bay).
+    Time 1.
+    On success { Retract bellMuffled(sennet_bay). }
+    Result "You saw through your own knots with a knife, and the clapper swings free, and touches the bell, very lightly; and the whole tower hums.".
+  }
+  Rule sexton_returns when not bellSilent() and tideTurn() and at(sexton, drowned_street) and able(sexton) {
+    Retract at(sexton, drowned_street). Assert at(sexton, belfry). Retract sextonDown(party).  Assert sextonWentUp(party). }
+  Relation sextonWentUp(group).
+  Rule sexton_returns_told within whelm when sextonWentUp(party) and not sextonUpTold(party)
+    says "Chandlers' Row is open again, and the merfolk tell you how it went, all talking at once: at the turn the bell rang, and the great grey shape in the Row lifted its head as if it had been struck, and went back up the street and into the church and up the tower the way it came, paying itself out backward into the dark." { Assert sextonUpTold(party). }
+  Relation sextonUpTold(group).
+
+  // Killed: the Whelm is safe, and the bell is only a bell; the children lose their reason and keep the noise.
+  Rule sexton_slain when not able(sexton) and not sextonKilled(party)
+    says "The Sexton goes slack all at once, two hundred years of it, and lies along the cobbles; and after a while the doors of Chandlers' Row open, one, and then another, and the merfolk come out and stand round it, not close, the way the harbour stands round a wreck. No Admittance comes down the Guildhall steps and looks at it a long while. 'It was old,' she says. 'It kept the tower. We kept it.' She touches its scarred head with her foot. 'Now nobody keeps anything.'" {
+    Assert sextonKilled(party). Retract sextonDown(party). }
+  // With it dead, the bell may stop for Bethan and nothing will come of it.
+  Observe church_after at drowned_church when sextonKilled(party) "The tower is empty. Up in the belfry the bell hangs on its pale-rubbed beam with nothing round it.".
+}

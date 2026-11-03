@@ -1,0 +1,43 @@
+Module sennet "The Grand Tour" {
+  // ── Two editions ──────────────────────────────────────────────────────────────────────────────────────────────────
+  // The sixth edition of Murrey's Handbook says what Dame Philippa thought forty years ago, of a city and planes she
+  // went through nine times and never once asked anybody about. Carried, it speaks at the places it has an opinion on.
+  // The seventh is Fabian's, written as he goes, and is read out to the company the first time he is anywhere with it.
+  Query handbook() means holding(party, handbook_kind) or holding(party, philippa_kind).
+  Observe hb_coast at coast_road as sign when handbook() and not visitedBefore(coast_road) "Murrey's Handbook, sixth edition: 'SENNET. A port of the second class, with a House of Doors of the first. The traveller is advised to arrive by day, to engage a bear-leader at the Landward Gate, and on no account to drink the water.'".
+  Observe hb_market at glass_market as sign when handbook() and not visitedBefore(glass_market) "Murrey's Handbook, sixth edition: 'The Glass Market is noisome and should be passed through briskly. The night-lights offered by hawkers hold an hour of the Fire Door's heat and should not be carried in the breast pocket.'".
+  Observe hb_quay at quay as sign when handbook() and not visitedBefore(quay) "Murrey's Handbook, sixth edition: 'From the Quay the traveller may watch the merfolk at their barter on the Fish Stairs, a spectacle of some charm. They are entirely harmless, and should not be fed.'".
+  Observe hb_stairs at fish_stairs as sign when handbook() and not visitedBefore(fish_stairs) "Murrey's Handbook, sixth edition: 'The merfolk do not come above the third step, by an excellent bylaw. The traveller who wishes to visit the Whelm should not.'".
+  Observe hb_line at taproom as sign when handbook() and not visitedBefore(taproom) "Murrey's Handbook, sixth edition: 'Not recommended.'".
+  Observe hb_lamp at lamp_street as sign when handbook() and not visitedBefore(lamp_street) "Murrey's Handbook, sixth edition: 'The glass-houses of Lamp Street may be visited for a small consideration. Messrs. Pargeter, outfitters, are reliable, and moderate.' The second adjective has been crossed out in green ink.".
+  Observe hb_quad at quad as sign when handbook() and not visitedBefore(quad) "Murrey's Handbook, sixth edition: 'THE HOUSE OF DOORS. Founded in the reign of the Aeneans, rebuilt after, and kept since by the Collegium of Veyra. The Rector receives Tourists of good family on Tuesdays.'".
+  Observe hb_hall at hall_of_doors as sign when handbook() and not visitedBefore(hall_of_doors) "Murrey's Handbook, sixth edition: 'The Hall of Doors. A Doorward will see the Tourist through either door for a crown; it is customary to give him a shilling more on returning, and a crown more on not.'".
+  Observe hb_museum at museum as sign when handbook() and not visitedBefore(museum) "Murrey's Handbook, sixth edition: 'The Museum of the Tour, the finest of its kind, is the fruit of two centuries of enterprise by Tourists of good family. Cabinet Fourteen, an Ember of the Hour Court still burning, should not be missed.'".
+  Observe hb_stage at landing_stage as sign when handbook() and not visitedBefore(landing_stage) "Murrey's Handbook, sixth edition: 'CLOUDGATE. The traveller fortunate enough to obtain an introduction will find society here the most agreeable in the world, and the air incomparable. It is always afternoon.'".
+  Observe hb_balustrade at balustrade as sign when handbook() and not visitedBefore(balustrade) "Murrey's Handbook, sixth edition: 'The prospect from the Balustrade at sunset is justly celebrated. The traveller is advised not to lean.'".
+  Observe hb_court at wind_court as sign when handbook() and not visitedBefore(wind_court) "Murrey's Handbook, sixth edition: 'The Air Door is kept by the family of Halyard, to whom application should be made in writing, and in good time.'".
+  Observe hb_keel at keel as sign when handbook() and not visitedBefore(keel) "Murrey's Handbook, sixth edition: 'The keel of Cloudgate is solid rock, and of no interest.'".
+  Observe hb_whelm at drowned_street as sign when handbook() and not visitedBefore(drowned_street) "Murrey's Handbook, sixth edition, its pages wet through: 'The lower town, drowned in the regrettable events of the year 1090, is of no interest to the general traveller.'".
+  Observe hb_fire at hour_court as sign when handbook() and not visitedBefore(hour_court) "Murrey's Handbook, sixth edition, its pages curling in the heat: 'THE PLANE OF FIRE. The Hour Court cannot be missed. It is vulgar. Nothing said there is remembered, which is a comfort to the traveller.'".
+  Observe hb_earth at assembly as sign when handbook() and not visitedBefore(assembly) "Murrey's Handbook, sixth edition, which you read by lamplight: 'THE PLANE OF EARTH. The Slow Assembly may be observed from the gallery. A visit of less than a week is pointless, and of more than a week, dull.'".
+  Observe hb_air at gallery as sign when handbook() and not visitedBefore(gallery) "Murrey's Handbook, sixth edition, its pages riffling in the wind: 'THE PLANE OF AIR. The sylphs are charming, and a pack of fishwives. Do not tell them anything.'".
+  Observe hb_eyrie at eyrie as sign when handbook() and not visitedBefore(eyrie) "Murrey's Handbook, sixth edition: 'The North Wind does not receive.'".
+
+  // ── The seventh, as he writes it ──────────────────────────────────────────────────────────────────────────────────
+  Relation writing(place). Relation wrote(place). Relation entry(place).
+  Initially Assert entry(fish_stairs). Initially Assert entry(hour_court). Initially Assert entry(assembly).
+  Initially Assert entry(gallery). Initially Assert entry(drowned_street). Initially Assert entry(keel).
+  Initially Assert entry(promenade). Initially Assert entry(museum). Initially Assert entry(guildhall).
+  Rule begins_writing when travelsWith(fabian, party) and at(party, ?p) and entry(?p) and not writing(?p) and not wrote(?p) { Assert writing(?p). }
+  Rule done_writing when writing(?p) and not at(party, ?p) { Retract writing(?p). Assert wrote(?p). }
+  Observe s7_stairs at fish_stairs as sound when writing(fish_stairs) and hapennyShopped(hapenny) "Fabian writes in his notebook, and reads it you, frowning: 'The merfolk come up the Fish Stairs as far as they are let. Ask one of the children what the Glass Market is for. You will not have thought of it that way.'".
+  Observe s7_stairs_plain at fish_stairs as sound when writing(fish_stairs) and not hapennyShopped(hapenny) "Fabian writes in his notebook, and reads it you: 'The merfolk come up the Fish Stairs to a brass plate, and no further. Nobody in Sennet could tell me why, except that it was written down.'".
+  Observe s7_fire at hour_court as sound when writing(hour_court) "Fabian writes in his notebook with the pencil smoking, and reads it you, shouting over the roar: 'Nothing in the Fire lasts an hour. Bring something old. Bring something you will miss.'".
+  Observe s7_earth at assembly as sound when writing(assembly) "Fabian writes in his notebook by your light, and reads it you in a whisper: 'The Assembly is slow because it is careful. The youngest of them is six hundred and forty, and I liked him best.'".
+  Observe s7_air at gallery as sound when writing(gallery) "Fabian writes in his notebook with one arm round it against the wind, and reads it you: 'They will tell you everything. Tell them one true thing about yourself, and listen to what comes back.'".
+  Observe s7_whelm at drowned_street as sound when writing(drowned_street) "Fabian writes in his notebook through the glass of his helm, or tries, and holds it up to show you, the pencil marks running: 'The Whelm should be visited.'".
+  Observe s7_guildhall at guildhall as sound when writing(guildhall) "Fabian has got the notebook out, wet, and is writing in it with a stick of the merfolk's chalk: 'Eat what you are given.'".
+  Observe s7_keel at keel as sound when writing(keel) "Fabian, flat on his face on the rock with one arm round the ladder, writes in his notebook without looking at it: 'The keel of Cloudgate is not solid rock, and is of interest.'".
+  Observe s7_promenade at promenade as sound when writing(promenade) "Fabian writes in his notebook, and reads it you, under his breath: 'It is always afternoon in Cloudgate. Nobody there has ever had to wait for the morning.'".
+  Observe s7_museum at museum as sound when writing(museum) "Fabian writes in his notebook, looking at the cabinets, and does not read it to you. When you look, it says: 'Everything in this room was somebody's.'".
+}

@@ -1,0 +1,45 @@
+Module sennet "The Grand Tour" {
+  // ── The Sennet Courant, and the crier's board ─────────────────────────────────────────────────────────────────────
+  // The race is told as the city tells it: the crier's board in the Glass Market each morning, and the Courant on
+  // the bar of the Sounding Line, which prints the Rector's memoirs, Thresholds, a chapter a day through the Tour
+  // (Tolley takes them down; collegium.kyr). The chapters are the Rector's history in her own voice, and the third of
+  // them, printed on the morning of the funeral, is the fourth draft of the night Perrin fell: a lie a reader can
+  // set beside what the winch-gang remembers.
+
+  // The board, as the Tour goes (each line is chalked up under the proclamation, and stays).
+  Observe board_fire_rival at glass_market as sign when rivalCrowned(fire_land) "Chalked under the proclamation: MR. F. MOTTRAM OF CLOUDGATE CROWNED IN THE HOUR COURT. THE FIRE PETAL TAKEN. Somebody has drawn a crown, and under it a small fire on a man's head.".
+  Observe board_fire_you at glass_market as sign when everCrowned(party) "Chalked under the proclamation: A TOURIST CROWNED IN THE FIRE, NAME NOT KNOWN. A crowd is arguing about who.".
+  Observe board_earth_rival at glass_market as sign when rivalHas(earth_petal) "Chalked under the proclamation: THE EARTH PETAL TO MR. MOTTRAM (DUG).".
+  Observe board_divers at glass_market as sign when divers(quance) and not raided(quance) "A new bill on the board, printed: THE HOUSE OF DOORS REQUIRES DIVERS. TWO SHILLINGS A DAY AND THE HOUSE'S HELM. APPLY THE BURSAR. Under it, in chalk, in a different hand: WHAT FOR.".
+  Observe board_raid at glass_market as sign when whelmRaided(admittance) "Chalked on the board: THE WATER PETAL RECOVERED FOR THE HOUSE. Under it, in another hand: FROM WHO.".
+  Observe board_repulsed at glass_market as sign when raidRepulsed(quance) "Chalked on the board: THE HOUSE'S DIVERS RETURN. And under it, smaller, with a great deal of satisfaction: WET.".
+  Observe board_strike at glass_market as sign when strike(sennet_bay) and not strikeOver(sennet_bay) "Chalked on the board, in capitals a foot high: THE GANG HAS SAT DOWN.".
+  Observe board_desk_fire at glass_market as sign when rectorHas(fire_petal) "A card in the House's violet ink, pinned at the foot of the board: RECEIVED AT THE RECTOR'S DOOR, THE FIRE.".
+  Observe board_desk_earth at glass_market as sign when rectorHas(earth_petal) "Another violet card: RECEIVED, THE EARTH.".
+  Observe board_desk_water at glass_market as sign when rectorHas(water_petal) "Another violet card: RECEIVED, THE WATER. Somebody has pinned a dead fish beside it.".
+  Observe board_funeral at glass_market as sign when day(clock) == 3 and hour(clock) < 12 "Across the top of the board, in black: PERRIN HALYARD LET DOWN TODAY AT NOON. HATS OFF ON THE QUAY.".
+
+  // Thresholds, a chapter a morning, on the bar of the Sounding Line.
+  Observe courant_29 at taproom as sign when day(clock) == 1 and hour(clock) >= 8 "On the bar, the Sennet Courant, with this week's part of the Rector's memoirs. THRESHOLDS, by Magistra I. Quance. Chapter the Twenty-Ninth: Under the Plate. 'I was born in a room on Fish Street that the spring tides came into, and my mother sold eels on the Quay from the barrow beside the steps. On Ascension night I sat on the third step from the bottom, on the brass plate that says how high the sea may come, and watched the lanterns go up from a hill I would never be let up; and it seemed to me that the plate had been put there for me as much as for the sea.'" teaches thresholds_plate.
+  Discovery thresholds_plate "The Rector was born on Fish Street, the daughter of an eel-wife on the Quay, and as a girl sat on the brass plate on the third step to watch Cloudgate's lanterns go up; so she writes in Thresholds.".
+  Observe courant_30 at taproom as sign when day(clock) == 2 and hour(clock) >= 8 "The Courant on the bar. THRESHOLDS, Chapter the Thirtieth: Second. 'I went through my first door at fourteen, as a scullion, with a bucket of the Hall's ashes, because the Doorward's boy was sick. I have been second through every door since. The second Doorward of my year, after a Mottram. The second woman to be Rector, after a Halyard. I shall be second through the Door of Doors, after whoever wins the Tour, which is only right: it will be the first door anyone ever asked me to go through.'" teaches thresholds_second.
+  Discovery thresholds_second "In Thresholds the Rector writes that she has been second through every door of her life, after a Mottram, after a Halyard, and that she will be second through the Door of Doors.".
+  Observe courant_31 at taproom as sign when day(clock) == 3 and hour(clock) >= 8 and rectorFree() "The Courant on the bar, with a black border for the funeral. THRESHOLDS, Chapter the Thirty-First: The Halyards' Reception. 'I left the Halyards' at nine, with the rest of the House, and came down on the nine o'clock basket, and was in my bed by ten, and knew nothing of what happened on the Balustrade until Tolley woke me in the morning. I have not slept properly since. Perrin was the best of us.'" teaches thresholds_nine.
+  Discovery thresholds_nine "Thresholds, as printed on the morning of the funeral, says the Rector came down from Cloudgate on the nine o'clock basket with the rest of the House and was in bed by ten on the night Perrin fell.".
+  Observe courant_32 at taproom as sign when day(clock) == 4 and hour(clock) >= 8 and rectorFree() "The Courant on the bar. THRESHOLDS, Chapter the Thirty-Second: Lanterns. 'The first time the Halyards asked me up for the Lanterns I was fifty-one and Rector of the House. I let my lantern go off the rim with the rest of Cloudgate, and watched it go up, and found that I did not want to be up there at all. I wanted to be someone who could have refused.'" teaches thresholds_refused.
+  Discovery thresholds_refused "In Thresholds the Rector writes that when Cloudgate at last asked her up, she found she wanted only to have been able to refuse.".
+  Observe courant_33 at taproom as sign when day(clock) >= 5 and hour(clock) >= 8 and rectorFree() and not doorOpen(sennet_bay) "The Courant on the bar. THRESHOLDS, Chapter the Thirty-Third: The Door. 'Every door is a promise to someone on the other side of it. I have kept every promise I ever made to a door.'".
+  Observe courant_stopped at taproom as sign when hour(clock) >= 8 and rectorTaken(quance) "The Courant on the bar has a blank column where THRESHOLDS should be, and a line at the foot: The editor regrets.".
+
+  // The printed lie, set beside what the winch-gang remembers, is a witness of its own.
+  Rule printed_lie when knows(party, late_basket) and knows(party, thresholds_nine) and not knows(party, quance_pushed)
+    says "You put the two side by side: the Rector says in print that she came down on the nine o'clock basket with the House, and Mother Kittiwake says she came down alone on the eleven o'clock, after the fall, and dropped the coin. One of them is lying in the Courant." teaches quance_pushed { }
+
+  // The eel-wife on the next barrow: Old Bethan knew her mother.
+  Topic bethan_isa with bethan "Ask Old Bethan whether she knew the Rector when she was a girl on Fish Street" when knows(actor, thresholds_plate) or knows(actor, thresholds_second) once {
+    Says "'Isa Quance.' She says it the way you say a name off a gravestone. 'Her mother had the barrow next to mine forty years. Good eels. Clever girl, Isa. Too clever for the Quay, and knew it, and so did the Quay.' She kills an eel. 'She used to stand in the Ascent yard with her arms round the chain and her eyes shut, to feel it hum. Never went up it. Never asked. Then one day she went up the Headland Steps with a bucket, and that was Isa gone.' She wipes the knife. 'She comes down, Ascension Eve, every year. In that gown. Sits on my crate an hour and says nothing, and goes up to the Lanterns.' A pause. 'Brings me nothing. I'd not take it.'".
+    On discuss { Assert knows(actor, isa_quance). }
+  }
+  Discovery isa_quance "Old Bethan knew the Rector as Isa Quance, the clever daughter of the eel-wife on the next barrow, who used to hold the anchor chain with her eyes shut to feel it hum and never went up it; she still comes and sits on Bethan's crate an hour every Ascension Eve, and says nothing.".
+  Observe isa_visit at quay when isaEve() and at(quance, quay) and at(bethan, quay) "Behind Old Bethan's barrow, on an upturned crate, a tall woman in a gown of four colours is sitting with her hands in her lap, looking at the Fish Stairs. Neither of them is saying anything. After a while the woman gets up, and touches the old one's shoulder, and goes off toward the Ascent.".
+}

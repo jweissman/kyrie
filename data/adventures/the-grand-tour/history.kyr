@@ -1,0 +1,43 @@
+Module sennet "The Grand Tour" {
+  // ── What Sennet remembers, and what it has painted over ───────────────────────────────────────────────────────────
+  // The Roll of the Grand Tour in the Hall of Doors; the labels of the Museum; the register on the lectern of the
+  // drowned church; where the merfolk got their English; why there is no weather on Cloudgate; the Rector's keys.
+  // None of it is needed. All of it is true, and some of it is the story told early by people who did not know they
+  // were telling it.
+
+  // The Roll: five Tours in three hundred years, and the last one was Ysabeau's.
+  Observe roll_board at hall_of_doors as sign when not knows(party, roll_known) "Between the two doors, above Mr. Tench's desk, a board painted black, with names in gilt: THE ROLL OF THE GRAND TOUR. 1012, proclaimed by Rector Aenhild Brack: WON, by Odo Sare, Doorward, who went through first and came back and would not say where. 1047: NOT WON. 1088: NOT WON. Under 1088, in smaller gilt, the entered Tourists, and among them: Ysabeau Halyard, aged seventeen, through the Air Door, DECLARED NOTHING. And under that, in different gilt, much newer: the Court of the Air reports its petal lost, the same year. Then two hundred years of black board, and at the bottom, still tacky: 1290, proclaimed by Rector I. Quance." teaches roll_known.
+  Discovery roll_known "The Roll of the Grand Tour says the last Tour, in 1088, was not won; Ysabeau Halyard went through the Air Door in it, at seventeen, and declared nothing; and the Court of the Air reported its petal lost that year.".
+  Observe roll_again at hall_of_doors as sign when knows(party, roll_known) "Between the doors, the Roll of the Grand Tour: 1088, Ysabeau Halyard, DECLARED NOTHING.".
+
+  // The Museum's labels, read along the cabinets.
+  Observe museum_labels at museum as sign when not visitedBefore(museum) "The labels, in a dozen hands over two hundred years. CABINET ONE: the cast skin of a salamander, brought home by the first Tourist, 1012. CABINET SIX: A SIGH OF THE AIR, IN A STOPPERED BOTTLE. DO NOT UNSTOP. CABINET NINE: a minute of the Slow Assembly, a slab of banded stone, translated underneath: RESOLVED, THAT THE ASSEMBLY IS AWARE (1146). CABINET TWELVE: Dame P. Murrey's snowball jar, empty, MELTED, 1231. CABINET THIRTEEN: a comb of green shell, A PERSON OF THE SEA'S, TAKEN ON THE FISH STAIRS, MCCXI. Nobody has written down from whom, or why.".
+  Observe museum_comb at museum as sign when visitedBefore(museum) and knows(party, plate_known) "In Cabinet Thirteen, the green shell comb: TAKEN ON THE FISH STAIRS, MCCXI. The year on the brass plate.".
+  Entity plate_known: fact "The brass plate on the third step of the Fish Stairs is dated MCCXI.".
+  Observe plate_seen at fish_stairs when not knows(party, plate_known) "The plate is brass, green at the screws; its letters have been polished smooth by eighty years of people sitting on them." teaches plate_known.
+
+  // Lir's church: the sexton's register, and the last name in it.
+  Observe church_register at drowned_church when not knows(party, register_known) "On the lectern, chained, a book swollen to three times its size, its pages fused into a block except the last, which the current lifts and lets fall. On it, in a hand that gets worse down the page, a column of names without dates: the sexton's list of who was in the church when the water came up the nave, written as it came. Forty-one names. The last, in letters the size of a child's, is JINNY SALTASH." teaches register_known.
+  Discovery register_known "The register on the lectern of the drowned church lists forty-one people who were in Lir's when the water came, the night Cloudgate was lifted; the last of them is Jinny Saltash.".
+  Topic bethan_register with bethan "Tell Old Bethan about the names in the register on the drowned lectern" when knows(actor, register_known) and bethanFriend(bethan) once {
+    Says "'Forty-one.' She does not ask whether Jinny is among them. 'Saltash is Ned's name. They say there was a Saltash in the church that night, and that's why we've always been on the water and never up the chain, any of us.' She is quiet. 'They put a plaque up in Cloudgate for the Lifting. To the Glory of God and the House of Halyard. Nobody put one up for the church.'".
+  }
+
+  // Where the merfolk got their English: off the drowned shop-signs, and Lir's hymn-books.
+  Topic perrin_signs with perrin "Ask Perrin Halyard where the merfolk learned to speak Common" when true once {
+    Says "'Off the signs!' He is delighted to be asked. 'They came through the Water Door two lifetimes after the Whelming and found a town with its signs still up and nobody to read them. So the old woman is No Admittance, and the boys are Cash Only and Shutters, and Ha'penny's mother is called Rooms To Let.' He grins. 'They got the rest out of the hymn-books in Lir's. So they all talk like the Book of Common Prayer in a hurry. Listen to the old woman some time. Keeping is the whole of it. That's a collect, very nearly.'".
+  }
+
+  // Why there is never any weather on Cloudgate.
+  Observe no_weather at balustrade when aloft() and not dark() and not knows(party, keel_petal) "There is never any weather on Cloudgate. The wind that should come in off the sea parts round the hill like water round a stone, and goes on, and the cloud lies under the rail like a floor. In Cloudgate they say it is breeding. Down on the Quay they say it is not natural, and spit.".
+
+  // The Rector's keys: heard before they mean anything, and listened to after.
+  Observe keys_first at rector_study as sound when at(quance, rector_study) and not visitedBefore(rector_study) "Whenever the Rector moves, the keys on her chain of office chime, a small bright sound, like a purse shaken.".
+  Observe keys_eulogy at balustrade as sound when matterOpen(eulogy) "When the Rector puts her hand on the rail to speak, the keys on her chain chime against the stone.".
+  Observe keys_after near quance as sound when knows(party, keys_heard) and rectorFree() and not knows(party, quance_pushed) "The Rector's keys chime when she moves. You find that you are listening to them.".
+
+  // The Nexus floor: a square of black metal nobody has opened (the top of the Aenean shaft; undertow.kyr).
+  Observe nexus_hatch at nexus when not openedBelow(sennet_bay) "Set into the boards beside the Door of Doors is a square of black metal the size of a trapdoor, flush with the floor, with no handle and no hinge. It is cold, and if you lay your hand on it, very faintly, it hums, the way the chain hums in the Ascent yard.".
+  // The cold in the cellar, before anyone tells you why.
+  Observe cellar_cold at wine_cellar when not knows(party, keel_petal) and not knows(party, keel_ladder_known) "The bottles nearest the end of the racks are frosted, in June. A draught comes from somewhere behind them that smells, for no reason anyone has given, of snow.".
+}

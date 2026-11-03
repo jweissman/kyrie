@@ -1,0 +1,64 @@
+{
+  "version": 1,
+  "canon": [
+    "inner_fire",
+    "inner_earth",
+    "inner_air",
+    "house_of_doors",
+    "plane_fire",
+    "plane_air"
+  ],
+  "source": [
+    "clock.kyr",
+    "city.kyr",
+    "state.kyr",
+    "harbour.kyr",
+    "lamp.kyr",
+    "murrey.kyr",
+    "handbook.kyr",
+    "ascent.kyr",
+    "collegium.kyr",
+    "cloudgate.kyr",
+    "whelm.kyr",
+    "sexton.kyr",
+    "fire.kyr",
+    "earth.kyr",
+    "air.kyr",
+    "rivals.kyr",
+    "courant.kyr",
+    "door.kyr",
+    "rector.kyr",
+    "lanterns.kyr",
+    "fall.kyr",
+    "undertow.kyr",
+    "endings.kyr",
+    "aftermath.kyr",
+    "history.kyr",
+    "growth.kyr",
+    "placed.kyr"
+  ],
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "exports": {
+    "party": "party",
+    "region": "sennet_bay",
+    "coast_road": "coast_road"
+  },
+  "experience": 1000,
+  "imports": [
+    "party",
+    "word"
+  ],
+  "roles": {
+    "party": {
+      "type": "group"
+    }
+  },
+  "optional": [
+    "word"
+  ]
+}

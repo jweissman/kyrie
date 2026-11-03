@@ -1,0 +1,7 @@
+Module sennet "The Grand Tour" {
+  // The campaign played alone: a traveller with a little money, coming down the coast road to Sennet on the
+  // thirteenth day after the Rector proclaimed the Grand Tour. (placed.kyr is the world's own company, come in by the
+  // same road.)
+  Company party "You" of 1 at coast_road.
+  Initially Set quantity(party, gold) to 18. Initially Set quantity(party, rations) to 2.
+}

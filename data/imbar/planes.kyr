@@ -9,7 +9,9 @@ Module canon "Imbar and the planes" {
   // ── The inner planes ──────────────────────────────────────────────────────────────────────────────────────────────
   // Each plane is one region and, in it, a threshold, where doors from elsewhere arrive and an author's own places
   // join it. Its courts, cities and wastes are whatever authors set in it, each a region of its own within the plane.
-  // The elemental planes carry no law of their own yet: one written for a plane is written here, for every author.
+  // The elemental planes' laws, written here for every author (the Grand Tour's first: its court of the Fire, where
+  // nothing lasts more than an hour, and its Gallery of the Air).
+  Entity plane_fire: law "the law of the Fire". Entity plane_air: law "the law of the Air".
   Place inner_fire "the Plane of Fire" is plane.
   Place inner_fire_region "the Plane of Fire" is region within inner_fire elsewhere.
   Place inner_fire_land "the threshold of Fire" is wilderness within inner_fire_region at 0, 0 elsewhere.
