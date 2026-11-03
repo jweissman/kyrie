@@ -59,7 +59,7 @@ Module quittance "Quittance" {
   Relation sd_end_forged(group). Relation sd_end_apart(group). Relation sd_slighted_guild(group). Relation sd_pargeters_uncovered(group).
   Relation sd_roof_honest(group). Relation sd_ladder_lent(group). Relation sd_sent_on(group).
   Query sd_drill_morning() means day(clock) == 3 and hour(clock) >= 9 and hour(clock) < 12.
-  Query sd_drill() means day(clock) == 3 and hour(clock) >= 10 and hour(clock) < 11.
+  Query sd_drill() means day(clock) == 3 and hour(clock) >= 10 and hour(clock) < 12 and not at(ianthe, bakehouse).
   Query sd_tobias_at(p: place) means at(tobias, p) or (travelsWith(tobias, party) and at(party, p)).
   Query sd_decided() means arc(ianthe) >= 1.
 
