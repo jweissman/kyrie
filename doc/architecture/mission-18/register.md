@@ -653,7 +653,7 @@ is above). A row "with" another is answered by that row.
 | TTN-14 | There are no chapters | The Third Night friction 14 | D | P2 | Fixed | `Kind chapter` and chapter installs (Frontier.province) |
 | TTN-15 | Nothing can be said "after a while" at a place | The Third Night friction 15 | D | P3 | Fixed | 3 November: `lingered(group)`, the watches stood at the present place, with stoodAt and arrivedAt (core.kyr; probes/lingering; test/lingering.test.ts; 041445f6) |
 | TTN-16 | Gifts have no identity | The Third Night friction 16 | D | P3 | Fixed | 3 November: a gift is a thing of its own kind, given each time (Give keepsake_kind to actor); ba5784bf |
-| TTN-17 | Greetings and descriptions do not know where they are said | The Third Night friction 17 | D | P3 | Fixed | 3 November: Greets, Farewell and Role take when (RoleWhen: 269d1a3c); Remarks at a place |
+| TTN-17 | Greetings and descriptions do not know where they are said | The Third Night friction 17 | D | P3 | Partial | 3 November: Greets, Farewell and Role take when (RoleWhen: 269d1a3c); Remarks at a place; 3 November (the Book of Faces): Greets takes when, but a second Greets is still a duplicate entity (BOF-03) |
 | TTN-18 | Things on passages show at both ends | The Third Night friction 18 | D | P2 | Fixed | With GTR-08; 3 November: with GTR-08: `on X from end` (WayEnd; test/way-end.test.ts) |
 | TTN-19 | The test helper has to be told which names are shared | The Third Night friction 19 | D | P3 | Fixed | 3 November: Journey.holds, measure and named find shared and module names (test/journey-helpers.test.ts) |
 | TTN-20 | The prose extractor is a regular expression | The Third Night friction 20 | D | P3 | Fixed | With the authorability audit; 3 November: bin/kyrie prose <campaign>: every observation, rule line, topic, act's result and ending of the campaign's own modules under its id (src/cli/prose-tool.ts) |
@@ -837,6 +837,56 @@ authors' files also support the lead's: 1 (ll, ms, pm, wk), 3 (six authors), 6 (
 | QTC-A33 | A Change cannot be `needing X or Y` (sd 7) | Quittance friction/ (per author) | D | P3 | Fixed | Kyr.ohm's ChangeNeeds has taken `or` since before Quittance; the guide to show it |
 | QTC-A34 | Check difficulty is a fixed ladder with no modifier from what the company knows (sd 9) | Quittance friction/ (per author) | C | P3 | Fixed | 3 November: the guide shows `needing crowbar or lockwork`; 8f51cc49 |
 | QTC-A35 | No `Repertoire`/`Says in order` for a talking creature: the parrot took twenty rules (wk 2) | Quittance friction/ (per author) | D | P3 | Open |  |
+
+### The Book of Faces' friction (adventure/book-of-faces, merged 3 November)
+
+From doc/adventures/the-book-of-faces: the status and critique's section 5 (06), the adaptation (02) and the authors'
+notes (notes-*.md), read against the code on 3 November. Already answered by today's work, and so not rows: a Result
+that varies (GTR-06), bouts that end at yielding (FWR-17), a forced die (QTC-07), Time in hours (QTC-A13), probes by
+module name (QTC-09), people fetched and sent (Arrives, LOR-14), site == room (QTC-06), unbound parameters (HTH-10),
+a company of 1 to 3 (LUL-09), a module's own capability granted (GTR-09). TTN-17 is open again: a second Greets is
+still a duplicate.
+
+| ID | Finding | Source | Gate | Pri | Now | Note |
+|---|---|---|---|---|---|---|
+| BOF-01 | `Known as` is ignored by generated labels (Talk to X, Lift X's mask, Name X aloud), headings and `{id}` placeholders, so a masked name leaks | The Book of Faces, 06 5.3; drip, bard, post, local, gate, chapel | D | P1 | Open | with WPC-11: every label and placeholder through the presented name |
+| BOF-02 | A `Known as` with a comma in it is split into a name and a role | The Book of Faces, maskers 2, local 2 | A | P2 | Open | the name and the role kept apart by the declaration, not by splitting at a comma |
+| BOF-03 | One `Greets` per person: a second is a duplicate entity, so there are no day and night greetings | The Book of Faces, 06 5.5; bard, hill, post, counting | D | P1 | Open | with TTN-17, wrongly closed: several Greets, each with its when |
+| BOF-04 | A module cannot teach a catalog spell: `Resolve reward` and `learn_reward` fail at play, there is no Lesson, and a spell taught at level 2 cannot be prepared | The Book of Faces, 06 5.1; counting, chapel, bard | E | P1 | Open | a module's teaching of a spell or technique as a form, prepared as the company's own |
+| BOF-05 | An ability the engine does not support (true sight, Orsino's minor image) fails with 'Invalid argument', and no lint says why | The Book of Faces, counting 4, bard 4 | D | P2 | Open | the lint names an unsupported ability where it is used |
+| BOF-06 | A state or change named as the shared rules name something clashes only in the placed install, which the campaign's lint misses | The Book of Faces, 06 5.7; cisterns 3 | D | P1 | Open | with AUT-07: the lint reads the placed bundle as well |
+| BOF-07 | A rule anchored at a place fires everywhere and is told only there: done everywhere, told here, late, takes two rules and a latch | The Book of Faces, 06 5.8; drip, hill, cisterns, post, local, gate | D | P1 | Open | with QTC-A18, GTR-22: a form for effect everywhere, words where heard |
+| BOF-08 | A rule's words come a pass after the action's Result, and a fact a later rule sets is read the next watch | The Book of Faces, 06 5.4; bard 6, local 11 | D | P2 | Open | with QTC-22, IFR-05 |
+| BOF-09 | A failed check costs nothing, so every author built a one try per hour or day by hand | The Book of Faces, 06 5.9; gate, counting, hill, maskers | D | P2 | Open | a check's own retry: once a while, said on the choice |
+| BOF-10 | A check's difficulty is a constant and cannot read a measure (trust) | The Book of Faces, chapel 3 | D | P2 | Open | a difficulty from a measure |
+| BOF-11 | A file cannot add a condition to another file's declaration, and nothing says a company came by a passage | The Book of Faces, 06 5.10; maskers, post | D | P2 | Partial | Change … when landed (GTR-07); came by a way still to do |
+| BOF-12 | `opening when` is the same both ways: a door shut by day traps a company inside | The Book of Faces, counting 5 | D | P2 | Open | with BTW-06's from: an opening from one end |
+| BOF-13 | No `calling(member, class)` and no `knowsSpell`: authors used capable and canTrain | The Book of Faces, gate 6, hill 3, counting 3 | E | P2 | Open | the calling and spells a member has, as relations a rule can read |
+| BOF-14 | The lint takes 30 to 120 seconds, times out without saying so, and has no errors-only mode | The Book of Faces, 06 5.12; maskers 8 | D | P2 | Open | with QTC-26: an errors-only mode and a said time-out |
+| BOF-15 | A refused service cannot say why: the choice just goes | The Book of Faces, gate 4 | D | P2 | Open | with IFR-01: why not offered, said on the page |
+| BOF-16 | Two files placing one person at the same hour fight every pass, and no lint catches it | The Book of Faces, 02 W6 | D | P2 | Open | a lint of a person's place set by two rules at once |
+| BOF-17 | `holding(actor, candle)` is refused unless the module declares an item of that kind | The Book of Faces, cisterns 2 | D | P2 | Open | to probe: a catalog kind named in holding made an entity, as Give does now (WorldConstructs.given) |
+| BOF-18 | A rule's line said in a command that moved the company is in told, not on the page | The Book of Faces, hill 12 | A | P2 | Open | to probe |
+| BOF-19 | A string cannot hold a newline, and the guide never says a quote is written \" | The Book of Faces, drip 7, bard 5 | D | P3 | Partial | the escape parses; the guide to say so |
+| BOF-20 | The prose lint still takes the singular flag and the engine for the implementation's | The Book of Faces, gate 9, counting 9 | D | P3 | Partial | flags no longer; flag and the engine as words of the world to be told apart |
+| BOF-21 | `travelTime` counts watches, and the guide's example gives no unit | The Book of Faces, drip 5 | D | P3 | Open | the guide to say ten minutes a watch there |
+| BOF-22 | `teaches` goes after the words in an Observe and before the braces in a Rule | The Book of Faces, drip 8 | D | P3 | Partial | parse errors name the construct; one place for teaches still to choose |
+| BOF-23 | An Observe on tried(…) is told on every view; there is no Observe once | The Book of Faces, chapel 6 | D | P3 | Open | with WPC-26: once and again on Observe |
+| BOF-24 | A topic is one turn; there is no talk of several exchanges | The Book of Faces, hill 6 | D | P3 | Open | a topic's follow-ups as a form |
+| BOF-25 | `dead` is the engine's, so a module cannot make someone dead in the story | The Book of Faces, hill 8 | D | P3 | Open | a slaying a module can bring about, through the engine |
+| BOF-26 | `Observe near` a thing on a passage does nothing, and nothing says so | The Book of Faces, cisterns 5 | D | P3 | Partial | the guide shows beside … from; the lint still silent |
+| BOF-27 | A teaching rule latched once is lost if the company is elsewhere, and no lint says so | The Book of Faces, cisterns 10 | D | P3 | Open | the lint advises of it |
+| BOF-28 | Put out spends the light without saying so | The Book of Faces, cisterns 11 | A | P3 | Open | with LOR-04: the label says what it costs |
+| BOF-29 | `kyrie play --steps` runs before the command line's steps | The Book of Faces, cisterns 14 | F | P3 | Open | the order said, or the file's steps after |
+| BOF-30 | Several authors' tests cannot load until the others' people exist; everyone kept stub campaigns uncommitted | The Book of Faces, cisterns 15; drip, gate, post, counting | F | P3 | Open | a module's contract of imports a test can stand in for |
+| BOF-31 | Journey idioms surprise: a Grave step taken at once, Take your leave gone after a Speaker action or a topic outside a talk | The Book of Faces, gate 8; bard, chapel, local | F | P3 | Open | with WPC-21, QTC-A21: the guide's driver section to say so |
+| BOF-32 | There is no person kind: `Relation named(person)` fails at load | The Book of Faces, 02 W2 | D | P3 | Open | the guide says group is the type of a person |
+| BOF-33 | A per-entity table of measures needs a line each, and an entity cannot be offered on a condition | The Book of Faces, bard 7 | D | P3 | Open | with AUT-25 |
+| BOF-34 | No hour-by-hour search of a container | The Book of Faces, post 7 | C | P3 | Open | with REV-02 |
+| BOF-35 | `Greets again` leaves `{id}` unfilled | The Book of Faces, local 3 | D | P3 | Open | to probe |
+| BOF-36 | A way's label doubles itself (Into the Duelling Stair by the first flight of the Stair) and cannot be said otherwise | The Book of Faces, hill 9 | A | P3 | Open | to probe; a way's own words |
+| BOF-37 | `strikes(hazard, group)` lands on whichever member | The Book of Faces, counting 2 | D | P3 | Open | to probe |
+| BOF-38 | Setting the company's coin in a test does nothing; no coin aid | The Book of Faces, drip 3 | F | P3 | Open | j.give for coin, or the measure through Journey.assert |
 
 ## Appendix: Mission 17's evidence, as it stood at 28b306c
 
