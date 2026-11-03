@@ -28,16 +28,36 @@ async function theory(g: Ombra) {
 // The three understandings, in the places they are got: the Wall, the Standard Pound, the drowned mask's maker.
 async function sources(g: Ombra) {
   await theory(g);
-  await g.play('>ombra__cast_cellar');
+  await intoWall(g);
   await press(g, 'Read the casts', () => g.knows('mg_form'));
   await g.play('>ombra__standard_room');
   await press(g, 'Stand before the Standard Pound', () => g.knows('mg_measure'));
-  await g.play('>ombra__pavane_parlour');
+  await costFromDov(g);
+}
+// The next time the clock shows hh:mm (8 to 23), today or tomorrow: the day begins at eight and has a hundred and forty-four
+// watches; a clock already past it is taken on to the next day.
+async function at(g: Ombra, hhmm: string) {
+  const [h, m] = hhmm.split(':').map(Number) as [number, number];
+  const mark = (h - 8) * 6 + m / 10, day = Math.floor(g.watch / 144) + 1;
+  await g.play(`=day ${g.watch % 144 > mark ? day + 1 : day} ${hhmm}`);
+}
+// The Wall of Faces is Madame Pavane's and the cellar door is locked: a bare face is cast in her chair by day (six coin),
+// and then she takes the company down.
+async function intoWall(g: Ombra) {
+  await at(g, '10:00');
+  await g.play('>ombra__fitting_room', "Sit in the Fitter's chair", 'Ask Madame Pavane to take you down');
+  expect(g.j.campaign.world.related('at', 'party')[0]!.args[1]).toBe('ombra__cast_cellar');
+}
+// The drowned mask's maker is on the Fitter's roof after the Ninth Bell, and tells what the mask cost only to a company he
+// has let try it on; by day he is a broom in the fitting-room, and says nothing.
+async function costFromDov(g: Ombra) {
+  await at(g, '20:30');
+  await g.play('>ombra__maskers_roof', 'Say you only came up for the air', 'Sit by Dov on the ridge', 'Ask Dov if you may try the mask on');
   await press(g, 'Ask Dov to put the drowned mask', () => g.knows('mg_cost'));
 }
 // The Row's own source of cost: the Warden of Locks at his night-table, once warmed by a clock he is right about.
 async function costFromLacke(g: Ombra) {
-  for (let n = 1; n <= 5 && !g.knows('mg_cost'); n++) {
+  for (let n = Math.floor(g.watch / 144) + 1; n <= 8 && !g.knows('mg_cost'); n++) {
     await g.play(`=day ${n} 21:00`, '>ombra__ct_locks_parlour', '?Ask him about the clocks');
     await press(g, 'Name the maker of the long-case clock', () => g.holds('ct_lacke_warm', 'lacke'));
     await g.play('?Ask the Warden what the Key has cost him');
@@ -136,7 +156,7 @@ describe('The Fit', () => {
   it('Cost, by the Warden of Locks as the source and a lent mask as the way to the Master; the cast takes the caster\'s own face', async () => {
     const g = await mage();
     await theory(g);
-    await g.play('>ombra__cast_cellar');
+    await intoWall(g);
     await press(g, 'Read the casts', () => g.knows('mg_form'));
     await g.play('>ombra__standard_room');
     await press(g, 'Stand before the Standard Pound', () => g.knows('mg_measure'));
@@ -171,8 +191,7 @@ describe('The Fit', () => {
     expect(g.knows('mg_form_deep')).toBe(false);
     await g.play('>ombra__standard_room');
     await press(g, 'Stand before the Standard Pound', () => g.knows('mg_measure'));
-    await g.play('>ombra__pavane_parlour');
-    await press(g, 'Ask Dov to put the drowned mask', () => g.knows('mg_cost'));
+    await costFromDov(g);
     await g.play('>ombra__collegium_study', 'Follow Form', 'Talk to Dr Aurelian Thole', 'Ask him to explain what a face is', 'Train');
     expect(g.holds('mg_taught', 'party')).toBe(true);
     await drawing(g);

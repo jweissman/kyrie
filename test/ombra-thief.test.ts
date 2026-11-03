@@ -260,7 +260,7 @@ describe('The Cast-Room: the take, and the fence', () => {
     const g = await loot();
     if (!present(g, 'lacke')) { return; }
     const purse = g.gold();
-    await g.play('>ombra__locks_office', "Sell the Menders' row", 'Sell the four Offices');
+    await g.play('>ombra__ct_locks_parlour', "Sell the Menders' row", 'Sell the four Offices');
     expect(g.gold()).toBe(purse + 70);
     expect(g.holds('th_cast_lacke', 'party')).toBe(true);
     expect(g.carries('th_proof') || g.carries('th_keys')).toBe(false);
@@ -328,7 +328,7 @@ describe('The Cast-Room: the take, and the fence', () => {
   it('is given to Peck, whose own face it is, if he is there to be given it', async () => {
     const g = await loot();
     if (!present(g, 'peck')) { return; }
-    await g.play('>ombra__hospice_hall', 'Give Peck his own cast');
+    await g.play('>ombra__hospice_dorm', 'Give Peck his own cast');
     expect(g.holds('th_peck_cast', 'party')).toBe(true);
     expect(g.carries('th_owed_cast')).toBe(false);
   });
