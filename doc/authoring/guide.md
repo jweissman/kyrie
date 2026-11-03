@@ -1342,6 +1342,12 @@ following(rupert, party)` (the Banns at Hessel's 5); and a rule that carries the
 takes them too (its 6). What someone with the company says on coming somewhere that matters to them is said once,
 when they come there with it: `Remarks at fold "…".` in their declaration (A Winter in Carth's 21).
 
+What a companion can do is a capability they bring, not an action of its own for each place it is wanted: a
+reader of an old script carries a kind `granting link_script` (`Entity link_script: capability "…".`, `Kind
+script_primer "…" is document granting link_script`, `Carries script_primer.`), and every change `needing
+link_script` is the company's while she is with it (Let One Remember's F7, which wrote eight "Ask Teshen to read …";
+`probes/reader`).
+
 Someone comes along one of two ways. `Initially Assert acceptsEscort(rupert, party).` offers the company's own "Ask
 Rupert to come with you" and "Let Rupert make their own way"; or a topic or an action asserts it outright, for one
 who comes because of what was said (`On discuss { Assert following(hob, actor). }`), and retracting it lets them go
