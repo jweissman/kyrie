@@ -92,7 +92,7 @@ Also kept, without comment: itemKind, ownedItem, wearing, forSale, soldBy, weara
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 2 | 28 | 12 | 2 | 9 | 19 |
+| 2 | 29 | 12 | 2 | 9 | 20 |
 
 #### relieves
 
@@ -315,6 +315,24 @@ Set it in, on or into the thing, where it stays until someone takes it out.
 > Needs: able(actor); memberOf(wearer, actor); awake(wearer); ownedItem(tool, wearer); itemKind(tool, form); wearable(form); proficient(wearer, form); not (wearing(tool, wearer))
 
 > Then: nothing changes
+
+#### kindTeaches
+
+*Kyr · relation(itemkind, fact)* · `rule:belongings.kindTeaches`
+
+What reading a kind of thing teaches (Kind … is document teaching bill_read): read where it is carried, once, by a company with light to read by (Quittance's pm 10: a stamp read by an action offered in every room).
+
+#### read item
+
+*Kyr · action (group, item, itemkind, member, fact)* · `rule:belongings.read_item`
+
+- Shown as: Read {page}
+- Takes: 10 minutes
+- Costs: 1
+
+> Needs: able(actor); memberOf(carrier, actor); awake(carrier); ownedItem(page, carrier); itemKind(page, form); kindTeaches(form, statement); not (knows(actor, statement)); not (benighted(actor))
+
+> Then: Assert knows(actor, statement).
 
 #### use item
 
@@ -746,7 +764,7 @@ Also kept, without comment: matterOpen, matterDone, at, able, dead, distinct, cl
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 19 | 45 | 17 | 5 | 5 | 8 |
+| 19 | 47 | 17 | 5 | 5 | 8 |
 
 #### ending, reached
 
@@ -807,6 +825,12 @@ How big a settlement is: what can be seen of it from the road, and what it can s
 *Kyr · relation(entity, place)* · `rule:world_core.within`
 
 Someone or something in a place of an area, however deep ("within(party, cherrett_lodging)": the parlour, the stair or her room). Computed, as distinct is, of what is bound: never asserted.
+
+#### yields, breaks
+
+*Kyr · relation(group); relation(group)* · `rule:world_core.yields`
+
+A fight with a band its author says yields (Initially Assert yields(lads).) is a bout, not a killing: it is over at the first fall, and whoever fell gets up. Beaten, the band is routed; the company beaten is yielded to it. A band that breaks runs once half of it is down, and is routed. An author whose fight waits on the band's fall reads routed (the band stays able), and gives it a refuge to go to (Fair Weather's FWR-17, the Quiet in the Sky's QIS-04, the cold review's REV-16). Any other band fights to the death.
 
 #### granted, grantedUntil
 
@@ -1398,6 +1422,12 @@ What drives it off (sunlight, flame), and the price a proud one names.
 
 Plain words for a creature whose place gives it none, by temperament: temper_words_<temperament>_<what>. The same words for a band of more than one, where they differ. And for one who is someone, not something (a robbers' captain): not "it", and no he or she. The watch it waits until, once it has warned, before it comes at whoever stays: the rest of this one, however many small things are done in it.
 
+#### confronts
+
+*Kyr · query(g: group, c: group)* · `rule:inhabitants.confronts`
+
+A company that yielded to it in a bout (see yields) is not set upon again by it.
+
 #### temper_shies
 
 *Kyr · rule* · `rule:inhabitants.temper_shies`
@@ -1734,7 +1764,7 @@ Also kept, without comment: passageKind, connects, on, guards, state, blocksWhen
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 8 | 34 | 2 | 24 | 0 | 6 |
+| 8 | 35 | 2 | 24 | 0 | 6 |
 
 #### scenery
 
@@ -1808,11 +1838,11 @@ What a way or a change needs: a skill, a kind of thing, or one particular thing.
 
 What a way needs going to one of its ends only (Passage … needing breath going to whelm): GTR-X08.
 
-#### keyholder
+#### keyholder, barsFrom
 
-*Kyr · relation(group, entity)* · `rule:world_passages.keyholder`
+*Kyr · relation(group, entity); relation(entity, place)* · `rule:world_passages.keyholder`
 
-Who holds the key to what bars a way, and those who serve them, go through it as if it were open.
+Who holds the key to what bars a way, and those who serve them, go through it as if it were open; and so does a company at the other end of a way barred from one end only (`Thing toll … on ladder from foot`: down is free, and only the way up pays; Behind the Wainscot's F5).
 
 #### harmless
 

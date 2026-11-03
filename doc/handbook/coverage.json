@@ -997,7 +997,7 @@
     "faithful": 220,
     "adapted": 25,
     "represented": 49,
-    "kyr": 265,
+    "kyr": 269,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 198
@@ -1010,7 +1010,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 240,
+      "kyr": 244,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -13543,6 +13543,20 @@
    "section": "world-rules/rules-belongings"
   },
   {
+   "id": "rule:belongings.kindTeaches",
+   "title": "kindTeaches",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-belongings"
+  },
+  {
+   "id": "rule:belongings.read_item",
+   "title": "read item",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-belongings"
+  },
+  {
    "id": "rule:belongings.use_item",
    "title": "use item",
    "status": "kyr",
@@ -13860,6 +13874,13 @@
   {
    "id": "rule:world_core.within",
    "title": "within",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-core"
+  },
+  {
+   "id": "rule:world_core.yields",
+   "title": "yields, breaks",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-core"
@@ -14327,6 +14348,13 @@
    "section": "world-rules/rules-inhabitants"
   },
   {
+   "id": "rule:inhabitants.confronts",
+   "title": "confronts",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-inhabitants"
+  },
+  {
    "id": "rule:inhabitants.temper_shies",
    "title": "temper_shies",
    "status": "kyr",
@@ -14629,7 +14657,7 @@
   },
   {
    "id": "rule:world_passages.keyholder",
-   "title": "keyholder",
+   "title": "keyholder, barsFrom",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-passages"
