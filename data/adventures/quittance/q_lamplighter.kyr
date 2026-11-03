@@ -1,3 +1,372 @@
 Module quittance "Quittance" {
-  Description "q_lamplighter (stub).".
+  Description "The Lamplighter's Round: Hob Tansy's last dusk in the Glass Quarter, four lamps each dark for a different reason, a way to retire an old man, and the pilot-flames that go out and come back together.".
+
+  // ── Clocks ──────────────────────────────────────────────────────────────────────────────────────────────
+  // The lamps are lit from five until nine. The gas-lamps of the Foundry come out of Hob's hands on the night of the fifth day,
+  // whatever the Offices think of cold-lamps: the Gas Company's lease on the Row's brackets runs out, and the
+  // brackets go to the mains. If the company is not there, Hob walks the Round alone, and the Stokers' Steps are
+  // fifty steps long.
+  Query ll_dusk() means hour(clock) >= 17 and hour(clock) < 21.
+  Query ll_lastNight() means (day(clock) == 5 and hour(clock) >= 21) or day(clock) >= 6.
+
+  Discovery ll_claim "On the Slate: the Lamplighters' Hall asks for hands to walk the Foundry Round with Hob Tansy, who is retired when the cold-lamps come in.".
+  Discovery ll_nan_hid "A child is hiding in the lamp-house on the Furnace Wharf: there is a boot-toe under its door.".
+  Discovery ll_glow_seen "In a glaziers' shed off the Glaziers' Passage a flame stands on a slab with nothing to burn, and the lamp over the corner is out.".
+
+  // ── People ──────────────────────────────────────────────────────────────────────────────────────────────
+  Person hob "Hob Tansy" at lamplighters_hall {
+    Role "lamplighter of the Foundry Round". Ancestry human. Calling ranger. Level 2. Peaceable. Manner stoic. Pronouns he.
+    Known as "an old man with a pole on his shoulder" when not knows(party, ll_hob_met).
+    Greets "An old man is coming down Foundry Row at the pace of his own pole, a brass-tipped thing twice his height, and he is looking at the lamps he passes as one looks at the faces of the dead. His eyes are the white of boiled eggs. 'Tansy,' he says, to the air a little to your left. 'Hob. Forty-one years the Row's. You'll be the adjusters. I can hear a licence.'".
+    Greets again "'Ah,' says Hob Tansy, to your left. 'I know that boot.'".
+  }
+  Discovery ll_hob_met "You have met Hob Tansy, who has lit the lamps of Foundry Row for forty-one years.".
+  Person quoyle "Warden Quoyle" at lamplighters_hall {
+    Role "Warden of the Lamplighters' Hall". Ancestry human. Calling cleric. Level 2. Peaceable. Manner grim. Pronouns she.
+    Greets "A tall woman is polishing a tinder-box with the cuff of her sleeve, which has been polishing tinder-boxes for some time. 'Quoyle,' she says. 'Warden. The Hall is open to any lamplighter and to anyone who has come about one. There is a book by the door. It is not for signing.'".
+    Greets again "'You again,' says Warden Quoyle, and goes on polishing.".
+  }
+  Person gudgeon "Foreman Gudgeon" at gas_yard {
+    Role "day foreman of the Gasworks". Ancestry human. Calling warrior. Level 2. Peaceable. Manner acerbic. Pronouns he.
+    Greets "A man with a notice in one hand and a pencil in the other looks up from reading it. 'Gudgeon,' he says. 'Foreman. Days. If it's the stokers, the steward is Threlfall. If it's the Company, the Company is upstairs and does not come down.'".
+    Greets again "'Still here,' says Foreman Gudgeon, without surprise.".
+  }
+  Person oddy "Mrs Oddy" at round_tinkers {
+    Role "widow of a tinker, who sells what her husband did not". Ancestry human. Peaceable. Manner cheerful. Pronouns she.
+    Greets "A woman leans out of a shuttered shop-front, over a tray of small white bags like the fingers of gloves. 'Mantles,' says Mrs Oddy. 'Incandescent. Two coin, and I will tell you which of my husband's lamps they do not fit, which is all of them.'".
+    Greets again "'Mantles,' says Mrs Oddy, in welcome.".
+    Sells ll_mantle for 2 coin from 6.
+  }
+  Person strood "Mrs Strood" at round_steps {
+    Role "a stoker's widow, who lives at the top of the Steps". Ancestry human. Peaceable. Manner grim. Pronouns she.
+    Greets "A woman in a shawl stands on the top step with her arms folded and her back to a shop. 'If you've come to take his side,' says Mrs Strood, 'you may say so now and save the stairs.'".
+    Greets again "'Well,' says Mrs Strood.".
+  }
+  Person beadle "Mr Beadle" at round_steps {
+    Role "a pawnbroker, who lives at the foot of the Steps". Ancestry human. Peaceable. Manner acerbic. Pronouns he.
+    Greets "A round man in a waistcoat is standing in a shop doorway at the foot of the Steps with a ring of keys, looking up at the top of the stairs as at a bad debt. 'Beadle,' he says. 'Pawnbroker. Whatever she has said of me is true in the particular and false in the whole.'".
+    Greets again "'Ah,' says Mr Beadle. 'Witnesses.'".
+  }
+  Person nan "Nan Rudge" at round_furnace {
+    Role "the stoker Rudge's daughter, aged eight". Ancestry human. Peaceable. Manner stoic. Pronouns she.
+    Seen when knows(viewer, ll_nan_hid).
+    Greets "A very small voice, from above and behind the glass of the lamp, says, 'He can't light it if I'm in it. It's the rule.'".
+    Greets again "'I'm not coming down,' says Nan Rudge.".
+  }
+  Person hune "Master Hune" at round_glaziers {
+    Role "glazier". Ancestry human. Peaceable. Manner stoic. Pronouns he.
+    Greets "A man with a glazier's diamond on a string round his neck is eating his dinner off a window-sill. 'The lamp's out,' says Master Hune, before you can ask. 'Went out in the spring. We don't relight it. Not that it can't be.'".
+    Greets again "'Still out,' says Master Hune, comfortably.".
+  }
+
+  // ── The Slate, and the way Hob is met ───────────────────────────────────────────────────────────────────
+  Observe ll_slate at slip_room when day(clock) >= 1 and day(clock) <= 5 "Chalked low on the Slate, in a hand that is not the boy's: WANTED, TWO PAIRS OF EYES FOR AN OLD LAMPLIGHTER. LAST ROUND, FIFTH NIGHT, DUSK. APPLY LAMPLIGHTERS' HALL, FOUNDRY ROW. NO FEE; THE ROUND IS ITS OWN." teaches ll_claim.
+  Objective ll_obj_round when knows(party, ll_claim) and not ll_ended(hob) "Walk Hob Tansy's last round with him at dusk: four lamps in the Glass Quarter, and then decide how an old lamplighter is to be retired.".
+  Relation ll_walking(group). Relation ll_everWalked(group). Relation ll_handed(group). Relation ll_trusts(group). Relation ll_told(group). Relation ll_moved(group).
+  Relation ll_ended(group). Relation ll_hurt(group). Relation ll_bitter(group). Relation ll_roundDone(group). Relation ll_breathing(group). Relation ll_breathed(group).
+  Relation ll_pensionOffer(group). Relation ll_placeOffer(group). Relation ll_flueClear(group). Relation ll_hallClosed(group).
+  Relation ll_howPension(group). Relation ll_howPlace(group). Relation ll_howFinish(group). Relation ll_howPlain(group). Relation ll_howHearth(group). Relation ll_howFell(group).
+  Relation ll_sideSteps(group). Relation ll_sideShop(group). Relation ll_sideBoth(group). Relation ll_mantled(group). Relation ll_slighted_gasco(group). Relation ll_shedTaper(group).
+  Measure ll_lit(group). Measure ll_breathAt(group).
+
+  // Hob is on Foundry Row from five to eight, the rest of the day in the Hall; ended, in the Hall at all times but
+  // for the one night, and not at all on a night the company has him by the arm.
+  Rule ll_hob_to_row when ll_dusk() and at(hob, lamplighters_hall) and not ll_ended(hob) and not ll_hurt(hob) { Retract at(hob, lamplighters_hall). Assert at(hob, foundry_row). }
+  Rule ll_hob_to_hall when not ll_dusk() and at(hob, foundry_row) and not following(hob, party) { Retract at(hob, foundry_row). Assert at(hob, lamplighters_hall). }
+  Observe ll_hob_row at foundry_row when at(hob, foundry_row) and not ll_ended(hob) "The lamps along the Row are dark, and an old man stands at the corner with his pole upright in both hands, his face turned up toward each bracket in turn, as if reading.".
+
+  // ── Hob's talk ──────────────────────────────────────────────────────────────────────────────────────────
+  Topic ll_t_met with hob "Ask Hob what he is doing with that pole" when not ll_ended(hob) once {
+    Says "'Lighting,' says Hob. 'Forty-one years at it. Tinkers' Court, the Stokers' Steps, the Glaziers' Passage, the Furnace Wharf. Four, at the end; there were thirty when I started and I knew them by their smell.' He lowers the pole. 'Friday the Company turns them off at the main, and puts a cold thing on the bracket, or a tap, or nothing. I don't ask which. I've the one more round.'".
+    On discuss { Assert knows(actor, ll_hob_met). Assert knows(actor, ll_claim). }
+  }
+  Topic ll_t_eyes with hob "Ask Hob about the four lamps" when knows(party, ll_hob_met) and not ll_ended(hob) once {
+    Says "'The ones I can't see,' says Hob, simply. 'Tinkers' lamp wants a mantle and I can't find the bracket to put it on. The Steps are a quarrel, and I can't see who is standing where. The Wharf lamp has a child in it, I should say, or something with a child's breath. And the Passage lamp has been out since spring and I do not go in, because there is something in the shed that I do not care to be lit by.' He turns his face to you. 'Walk it with me. I would like to do the last one right, and I would like to be told where I am.'".
+  }
+  Topic ll_t_walk with hob "Offer to walk Hob's last round with him, tonight" when ll_dusk() and knows(party, ll_hob_met) and not ll_walking(hob) and not ll_ended(hob) and not ll_roundDone(hob) {
+    Says "'Good,' says Hob. 'Take my elbow. Not that one. You'll find I steer.' He gives you the taper and the brass tinder-box, and keeps the pole.".
+    On discuss { Assert ll_walking(hob). Assert ll_everWalked(hob). Assert following(hob, actor). Assert knows(actor, ll_hob_met). }
+  }
+  Topic ll_t_leave with hob "Tell Hob you'll bring the lamps back to the Round, and meet him again at dusk" when ll_walking(hob) and not ll_roundDone(hob) and not ll_ended(hob) {
+    Says "'Tomorrow, then,' says Hob. 'If there is one,' and he takes his pole and goes up the Row with the sound of a man counting.".
+    On discuss { Retract ll_walking(hob). Retract following(hob, actor). }
+  }
+  Topic ll_t_pilots_early with hob "Ask Hob whether the lamps ever do anything odd" when not ll_trusts(hob) and not ll_ended(hob) once {
+    Says "'Lamps do what lamps do,' says Hob, too quickly. 'They hiss, they gutter, they go out in a wind. Ask me something about the poles.'".
+  }
+  Topic ll_t_pilots with hob "Ask Hob what it is he hasn't said about the pilot-flames" when ll_trusts(hob) and not ll_told(hob) {
+    Says "Hob is quiet so long that you think he has not heard. 'Nobody asked,' he says. 'Forty-one years, nobody asked. They go out. All of them. The Gasworks pilots and the street pilots and the pilot in the bakehouse oven at the foot of the Brickfields, I'm told, in the one breath, and they come back in the next. Not a wind. A wind comes from somewhere. This comes from everywhere. Since the spring, twice a week; since the Ordinance's second reading, every night at the same minute.' He turns his white eyes to the Row. 'I've got it written down in the Hall: the nights. After the lamps are all lit, stand in the Quarter and wait for it. I'd as soon not be told what it is.'".
+    On discuss { Assert ll_told(hob). }
+  }
+  Topic ll_t_after with hob "Tell Hob what you saw the lamps do" when knows(party, d_pilots_step) and ll_told(hob) and not ll_moved(hob) {
+    Says "'There,' says Hob. 'I thought I'd imagined it. A man's eyes go and then he doesn't trust what's left.' He is not weeping, because he doesn't, but he finds his sleeve. 'It was something,' he says. 'Wasn't it. I wasn't lighting nothing, all those years.'".
+    On discuss { Assert ll_moved(hob). }
+  }
+  Topic ll_t_witness with hob "Ask Hob whether he would say what he knows to the Five, in the Hall" when ll_moved(hob) and not witness(hob) {
+    Says "'To the Five,' says Hob. 'With my eyes.' He considers it. 'I can say what I heard. I can say it in forty-one years of dusks. They can look at me and decide what that's worth.'".
+    On discuss { Assert witness(hob). }
+  }
+
+  // ── What Hob says afterwards (the world remembers how he was retired) ───────────────────────────────────
+  Topic ll_a_pension with hob "Ask Hob how he does" when ll_howPension(hob) {
+    Says "'The time,' says Hob. 'What's the time?' You tell him. 'Ah,' he says, and nods, as if the answer had been a favour done him, and he does not ask again for a quarter of an hour.".
+  }
+  Topic ll_a_place with hob "Ask Hob how he does in the chair" when ll_howPlace(hob) {
+    Says "'It's a good chair,' says Hob. 'The window does what a window can.' He passes a thumb along the brass of the pole. 'Keeper of the Tinder-boxes. Not one of them has been struck since Michaelmas.'".
+  }
+  Topic ll_a_finish with hob "Ask Hob how the wrist is" when ll_howFinish(hob) {
+    Says "'It aches, as it ought,' says Hob. 'It was fifty steps, I was told, and I'd have said forty-nine. You get a thing wrong after forty-one years, you ought to know which thing.' He seems very pleased with himself.".
+  }
+  Topic ll_a_plain with hob "Ask Hob how it is to be told" when ll_howPlain(hob) {
+    Says "'Cold,' says Hob. 'And I would not have had it any other way. Do you know I had been told for a year by people who meant well that I was only tired?'".
+  }
+  Topic ll_a_hearth with hob "Ask Hob how the hearth draws" when ll_howHearth(hob) {
+    Says "'Like a good dog,' says Hob. 'Don't ask me what I do with it. I put on coke at six and I take off the ash at six. The Warden says it is a post. I say it is a lamp, with the pole shorter.'".
+  }
+  Topic ll_a_fell with hob "Ask Hob how he comes to be here" when ll_howFell(hob) {
+    Says "'I fell off the Steps,' says Hob, 'and the lamp was lit, so I'll not be apologising to anybody.' He turns his white eyes to the door. 'Next time, I'd want somebody to tell me where the fiftieth step was. That is all a man wants.'".
+  }
+  Topic ll_a_drift with hob "Ask Hob what became of the Round" when ll_howDrift(hob) {
+    Says "'The Company turned them off at the main on Friday,' says Hob, 'and I was told afterward, by a boy.' He thinks about it. 'It was a decent Round.'".
+  }
+
+  // ── The Warden, the foreman, the offers ─────────────────────────────────────────────────────────────────
+  Topic ll_t_hall with quoyle "Ask Warden Quoyle what the Hall will do for Hob when the Round ends" when knows(party, ll_hob_met) and not ll_placeOffer(hob) once {
+    Says "'We will give him a chair,' says Warden Quoyle. 'By the window. A title: Keeper of the Tinder-boxes. He will be asked to show new men how to hold a pole, and there will be no new men, because there will be no poles.' She polishes. 'He will hate it. I would, in his place. I should add that I am very sorry.'".
+    On discuss { Assert ll_placeOffer(hob). }
+  }
+  Topic ll_t_hearth with quoyle "Ask the Warden whether the Hall could keep its old hearth for the Night" when knows(party, ll_hob_met) and not ll_flueClear(hob) {
+    Says "'There is a hearth,' says Warden Quoyle. 'The Hall's, the Founders' own, in the corner behind the ladders. Not lit since the Ordinance. Bricked at the chimney-throat by the Company, which put a stopper in it as a courtesy. A hearth cannot be kept lit that cannot draw. I would not stop anyone sweeping it. I would not help them, either; the Gasworks inspector counts chimneys.'".
+  }
+  Topic ll_t_hearth2 with quoyle "Tell the Warden the flue is clear, and Hob would keep the hearth" when ll_flueClear(hob) and ll_moved(hob) and not keeper(glass) {
+    Says "Warden Quoyle puts down the tinder-box. 'Then it is not charity,' she says. 'It is a post. A Keeper of the Hearth is in the Hall's founding rules, line three, and no one has held it in sixty years.' She writes his name in the book by the door, which, you learn, is for signing after all.".
+    On discuss { Assert ll_hearthWarden(hob). }
+  }
+  Relation ll_hearthWarden(group).
+  Topic ll_t_pension with gudgeon "Ask Foreman Gudgeon whether the Company pays a lamplighter anything when he is turned off" when knows(party, ll_hob_met) and not ll_pensionOffer(hob) once {
+    Says "'The Benevolent,' says Gudgeon. 'Six coin a quarter, to a man with forty years in the Company's books, on his own signature. Tansy's name is in them. I've sent the form to the Hall twice.' He looks at his pencil. 'He tore the second. He's a man who would rather be hungry in his own way.'".
+    On discuss { Assert ll_pensionOffer(hob). }
+  }
+
+  // ── The four lamps ──────────────────────────────────────────────────────────────────────────────────────
+  Kind ll_mantle "a gas mantle" is gear worth 2 weighing 0 described "A little white bag of knitted ash, knotted at the neck, that glows when you put a flame to it and crumbles when you look at it hard.".
+  Relation ll_lamp(thing).
+  Thing ll_lamp_t "the Tinkers' Court lamp" at round_tinkers {
+    State dead "The lamp on its bracket has no mantle; the ring where it should sit is a burnt ring, and the glass is clouded with soot.".
+    State fitted "The lamp on its bracket has a new mantle, white as a clean glove, and is ready for the taper.".
+    State lit "The lamp burns steady and white; the court looks, for the first time in a year, like a place where tinkers might have lived.".
+    State breath "The lamp stands cold; its mantle still glows from within, with no flame to account for it.".
+    Change fit "Knot a new mantle on the Tinkers' Court lamp" from dead to fitted consuming ll_mantle at round_tinkers.
+  }
+  Thing ll_lamp_s "the Stokers' Steps lamp" at round_steps {
+    State quarrel "A lamp-arm juts from the middle of the stair wall, on a swivel, and it points at neither house. Two people are sure which it is for.".
+    State ready "The lamp-arm is fixed and trimmed, its glass wiped, ready for the taper.".
+    State lit "The lamp on the Steps burns steady, and shows every one of the fifty steps.".
+    State breath "The lamp on the Steps stands cold; the mantle glows by itself.".
+  }
+  Thing ll_lamp_g "the Glaziers' Passage lamp" at round_glaziers {
+    State out "The lamp on the corner is out. It has been out so long that the pigeons have given up on its ledge.".
+    State ready "The lamp on the corner has a flame in its mantle, small and still, that was not lit by any taper, and it is waiting for the others.".
+    State lit "The corner lamp burns clear; the passage is a long street of stacked windows, each with a lamp in it.".
+    State breath "The lamp stands cold, and every pane in the passage has a light in it which is not a reflection.".
+  }
+  Thing ll_lamp_f "the Furnace Wharf lamp" at round_furnace {
+    State occupied "An iron lamp-house stands at the head of the wharf, the size of a sentry-box, with a ladder bolted to it and a glazed lantern on top. There is a boot-toe under its door.".
+    State ready "The Wharf's lamp-house stands empty and open, its lantern trimmed.".
+    State lit "The Furnace Wharf lamp is lit; on the bricks below it the gulls have turned, all together, to face it.".
+    State breath "The lamp-house stands cold. On the wall the gulls have all stood up.".
+  }
+  Initially Assert ll_lamp(ll_lamp_t). Initially Assert ll_lamp(ll_lamp_s). Initially Assert ll_lamp(ll_lamp_g). Initially Assert ll_lamp(ll_lamp_f).
+  // The lamps are put out at dawn, as Hob always did.
+  Rule ll_dawn when hour(clock) >= 6 and hour(clock) < 17 and ll_lamp(?l) and state(?l, lit) { Assert state(?l, ready). Decrease ll_lit(hob) by 1 or to nothing. }
+  Rule ll_late when not ll_dusk() and ll_lit(hob) < 4 and ll_walking(hob) and not ll_roundDone(hob) and not ll_ended(hob) says "The dusk is gone and the lamps that are lit will stand till morning. 'Tomorrow, then,' says Hob, and takes his pole back from you, and goes up the Row toward the Hall by the wall." { Retract ll_walking(hob). Retract following(hob, party). Assert at(hob, lamplighters_hall). }
+
+  // Tinkers' Court: the mantle, bought from Mrs Oddy, or got from the Hall's locker, which is locked.
+  Thing ll_locker "the lamplighters' locker" at lamplighters_hall {
+    Holds.
+    State locked closed "A tall locker of black tin, labelled in gold LAMPLIGHTERS' STORES, is locked.".
+    State open "The locker stands open; the shelves are empty but for dust and a single tin.".
+    Change pick "Pick the stores locker's lock" from locked to open needing lockwork.
+  }
+  Item ll_spare "a spare mantle" is ll_mantle in ll_locker.
+  Observe ll_mantle_hint at round_tinkers when state(ll_lamp_t, dead) and not holding(party, ll_mantle) "From the shuttered shop-front opposite, a hand shakes out a tray of white bags like gloves and draws them in again.".
+
+  // The Stokers' Steps: whose is the lamp?
+  Topic ll_t_strood with strood "Ask Mrs Strood what the quarrel is" when state(ll_lamp_s, quarrel) once {
+    Says "'My Joe went down these steps at six in the morning in the dark,' says Mrs Strood, 'because the lamp was swung to light that man's window, and he is on the cemetery side of Foundry Row now, and I have to climb them every day to look at him. Fifty steps. Turn it to the Steps. A lamp is for the street.'".
+  }
+  Topic ll_t_beadle with beadle "Ask Mr Beadle what the quarrel is" when state(ll_lamp_s, quarrel) once {
+    Says "'I have had my window broken twice in a year,' says Mr Beadle, 'and the second time the thief stood under the lamp that she has turned to the Steps and was not seen, and I have eleven unredeemed fiddles in there that I am answerable for. A lamp is for the property. And I would add, madam, that I sympathise.'".
+  }
+  Action ll_swing_steps(actor: group, site: place) "Swing the Steps lamp to light the stair, for Mrs Strood" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(ll_lamp_s, site) and state(ll_lamp_s, quarrel).
+    Time 10 minutes.
+    On success { Assert state(ll_lamp_s, ready). Assert ll_sideSteps(hob). }
+    Result "You set the lamp-arm square to the stair. Mrs Strood unfolds her arms, one at a time. Mr Beadle takes out a pocket-book and writes in it, which is how he cries.".
+  }
+  Action ll_swing_shop(actor: group, site: place) "Swing the Steps lamp to light the pawnbroker's window, for Mr Beadle" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(ll_lamp_s, site) and state(ll_lamp_s, quarrel).
+    Time 10 minutes.
+    On success { Assert state(ll_lamp_s, ready). Assert ll_sideShop(hob). }
+    Result "You set the lamp-arm to the shop window. Mr Beadle shakes your hand with both of his. At the top of the stair Mrs Strood turns and goes in, and her door is not slammed, which is worse.".
+  }
+  Action ll_second(actor: group, site: place) "Pay the Company for a second bracket on the Steps (5 coin), so both may have a lamp" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(ll_lamp_s, site) and state(ll_lamp_s, quarrel) and quantity(actor, gold) >= 5.
+    Time 20 minutes.
+    On success { Decrease quantity(actor, gold) by 5. Assert state(ll_lamp_s, ready). Assert ll_sideBoth(hob). Increase regard(gasco) by 1. }
+    Result "Foreman Gudgeon's man comes down with a bracket under his arm and a receipt. The lamp-rate for a second arm is paid in advance to the Gas Company, which is delighted. The quarrel does not stop; it relocates, and is about whose bracket is the second.".
+  }
+  Action ll_share(actor: group, site: place) "Talk both of them into sharing the lamp-rate and the arm, turn and turn about" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(ll_lamp_s, site) and state(ll_lamp_s, quarrel) and not ll_shareTried(hob).
+    Time 20 minutes.
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert state(ll_lamp_s, ready). Assert ll_sideBoth(hob). Assert ll_shareTried(hob). }
+    On failure { Assert ll_shareTried(hob). }
+    Result "You put it to them as a pair of creditors: the lamp is owed one night to the stair and the next to the window, and the Company is owed the rate between them. Mr Beadle says 'Mondays.' Mrs Strood says 'Mondays is mine.' It takes the better part of the hour, and at the end of it they are speaking to each other in the tone of people who will be disappointed in each other for decades.".
+    Otherwise "They agree on one thing: that you are a stranger, and that it is none of your business. It is a sound agreement and they leave it there.".
+  }
+  Relation ll_shareTried(group).
+
+  // The Glaziers' Passage: the shed, and what is in it.
+  Thing ll_shed "the glaziers' shed" at round_glaziers {
+    State glowing "A tarred shed with a ventilator in its roof. Through the ventilator comes the light of a flame the size of a thumbnail, standing on a bench between stacks of window-glass, with nothing under it.".
+    State given "The shed is dim; a flame the size of a thumbnail stands on its bench, as before, and leans a very little toward the lamp on the corner.".
+  }
+  Observe ll_glow at round_glaziers when state(ll_shed, glowing) "A glow of some sort shows inside one of the sheds. It does not flicker." teaches ll_glow_seen.
+  Action ll_taper(actor: group, site: place) "Hold Hob's taper to the flame in the glaziers' shed, and carry what it gives to the corner lamp" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(ll_lamp_g, site) and state(ll_lamp_g, out) and state(ll_shed, glowing) and (ll_walking(hob) or ll_handed(hob)).
+    Time 15 minutes.
+    On success { Assert state(ll_lamp_g, ready). Assert state(ll_shed, given). Assert ll_shedTaper(hob). }
+    Result "You hold the taper to the flame, and the flame, which has stood on its bench for five months, leans into it like a cat. It does not burn the wick. It takes the taper as one takes a hand. You carry the little light across the passage in your cupped palm, and the corner lamp's mantle, which was not touched by any other, takes it without a sound. Master Hune stops chewing.".
+  }
+  Action ll_glaze_tinder(actor: group, site: place) "Light the corner lamp from the tinder-box, and leave the shed alone" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(ll_lamp_g, site) and state(ll_lamp_g, out) and (ll_walking(hob) or ll_handed(hob)).
+    Time 5 minutes.
+    On success { Assert ll_tinderTried(hob). }
+    Result "You strike the tinder-box and hold the flame to the mantle. It takes, glows, and goes out, three times, and the third time the glow in the shed brightens for a moment, as if looking up. The lamp does not light.".
+  }
+  Relation ll_tinderTried(group).
+
+  // The Furnace Wharf: the child in the lamp.
+  Observe ll_nan_sign at round_furnace when state(ll_lamp_f, occupied) and not knows(party, ll_nan_hid) "From the lamp-house comes the sound of someone breathing very carefully, and then of someone not breathing at all." teaches ll_nan_hid.
+  Topic ll_t_nan with nan "Ask Nan why she is in the lamp" when state(ll_lamp_f, occupied) once {
+    Says "'Mr Tansy said it's the last one,' says Nan. 'He told my father. If I'm in it he can't, and then it isn't. It's not a rule. It's just what happens.' She is silent for a moment. 'He taught me to hold the pole.'".
+  }
+  Action ll_coax(actor: group, site: place) "Coax Nan down with a story about a lamp that was not lit" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(ll_lamp_f, site) and state(ll_lamp_f, occupied) and knows(actor, ll_nan_hid) and not ll_coaxTried(hob).
+    Time 20 minutes.
+    Resolve check(actor, performance, dc_fair).
+    On success { Assert state(ll_lamp_f, ready). Assert ll_childOut(hob). }
+    On failure { Assert ll_coaxTried(hob). }
+    Result "You tell her about a lamp that was never lit and a lamplighter who walked past it for forty years because he knew exactly what it was thinking. Nan comes down the ladder at the part about the cat, and sits on the bottom rung with her boots in her hands, and is not at all sorry.".
+    Otherwise "Nan listens to the whole of it from the dark, and says, kindly, that she has heard better ones, and that they were all about lamps that were lit.".
+  }
+  Action ll_climb(actor: group, site: place) "Climb the ladder and lift Nan out of the lamp-house" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(ll_lamp_f, site) and state(ll_lamp_f, occupied) and knows(actor, ll_nan_hid) and not ll_climbTried(hob).
+    Time 10 minutes.
+    Resolve check(actor, climbing, dc_fair).
+    On success { Assert state(ll_lamp_f, ready). Assert ll_childOut(hob). }
+    On failure { Assert ll_climbTried(hob). }
+    Result "The ladder is wet and the lantern-top is round, but you have her by the back of the coat before she has finished deciding. She says nothing at all all the way down, with great dignity, and then, 'You could have asked.'".
+    Otherwise "A rung goes. You hang for a moment by one arm over the Furnace Wharf, and Nan, from inside, says 'Mind the gulls,' and that is all the help she gives.".
+  }
+  Action ll_wait(actor: group, site: place) "Sit by the lamp-house door with Nan until she is ready to come out" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(ll_lamp_f, site) and state(ll_lamp_f, occupied) and knows(actor, ll_nan_hid).
+    Time 6.
+    On success { Assert state(ll_lamp_f, ready). Assert ll_childOut(hob). }
+    Result "You sit with your back to the iron and say nothing for an hour, which is a kind of rudeness she respects. At some point the gulls go quiet. At some point a boot-toe comes out from under the door, and then a boot, and Nan sits down beside you without a word and falls asleep on your arm.".
+  }
+  Action ll_hob_speaks(actor: group, site: place) "Ask Hob to tell Nan, himself, that it is over" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(hob, site) and at(ll_lamp_f, site) and state(ll_lamp_f, occupied) and knows(actor, ll_nan_hid) and ll_walking(hob) and ll_trusts(hob).
+    Time 10 minutes.
+    On success { Assert state(ll_lamp_f, ready). Assert ll_childOut(hob). Assert ll_moved(hob). }
+    Result "Hob puts his face against the iron, where she is, and tells her in his flat voice that it is over, and that it is over whether she is in it or not, and that a lamplighter who has been prevented from lighting a lamp by a child has been paid the highest wage there is. A bolt slides. Nan comes out and takes the pole from him, and holds it, and he lets her.".
+  }
+  Relation ll_childOut(group). Relation ll_coaxTried(group). Relation ll_climbTried(group).
+
+  // ── The lighting ────────────────────────────────────────────────────────────────────────────────────────
+  Rule ll_trust when ll_lit(hob) >= 2 and not ll_trusts(hob) { Assert ll_trusts(hob). }
+  Action ll_light(actor: group, site: place, lamp: thing) "Light {lamp} with Hob's taper" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(lamp, site) and ll_lamp(lamp) and state(lamp, ready)
+      and ll_dusk() and (ll_walking(hob) or ll_handed(hob)).
+    Time 3 minutes.
+    On success { Assert state(lamp, lit). Increase ll_lit(hob) by 1. }
+    Result "The mantle takes, flares white, and settles. Hob, at your elbow, turns his face to it, and says 'There,' as one says it to a horse.".
+  }
+  Rule ll_tinkers_ready when state(ll_lamp_t, fitted) { Assert state(ll_lamp_t, ready). }
+  Rule ll_round_done when ll_lit(hob) >= 4 and not ll_roundDone(hob) says "Behind you, at the end of the Row, the fourth lamp of the Round comes up white. Hob stops. 'That's the four,' he says. 'Stay where you are, if you want to see something.'" { Assert ll_roundDone(hob). Assert ll_breathing(hob). Set ll_breathAt(hob) to watch(clock) + 2. }
+
+  // The Pilots' Breath: the watched event. Everything lit goes out together, and comes back together.
+  Rule ll_breath_out when ll_breathing(hob) and not ll_breathed(hob) and watch(clock) >= ll_breathAt(hob) and within(party, glass)
+    says "Every lamp in the Quarter goes out in the same instant. Not the flames; the glow in the mantles stays. The gulls on the Furnace Wharf stand up. In the Gasworks yard the gasometer, which was rising, stops. Nobody speaks. It is perfectly silent, and you have the impression of a very large thing taking a very large breath."
+    { Assert ll_breathed(hob). Set ll_breathAt(hob) to watch(clock) + 1. Assert state(ll_lamp_t, breath). Assert state(ll_lamp_s, breath). Assert state(ll_lamp_g, breath). Assert state(ll_lamp_f, breath). }
+  Rule ll_breath_in when ll_breathed(hob) and ll_breathing(hob) and watch(clock) >= ll_breathAt(hob) and within(party, glass)
+    says "And all of them are lit again, together, as if nothing had happened. The gulls sit down. The gasometer, which has been waiting, rises. Hob, beside you, lets out a long breath that he seems to have held for forty years."
+    teaches d_pilots_step
+    { Retract ll_breathing(hob). Assert state(ll_lamp_t, lit). Assert state(ll_lamp_s, lit). Assert state(ll_lamp_g, lit). Assert state(ll_lamp_f, lit). }
+
+  // ── How the old man is retired ──────────────────────────────────────────────────────────────────────────
+  Action ll_r_pension(actor: group, site: place) "Put the Gas Company's pension papers into Hob's hands" {
+    Speaker hob.
+    Requires able(actor) and company(actor) and at(actor, site) and at(hob, site) and ll_pensionOffer(hob) and not ll_ended(hob) and (ll_roundDone(hob) or ll_lastNight()).
+    Time 10 minutes.
+    On success { Assert ll_ended(hob). Assert ll_howPension(hob). Retract following(hob, actor). Retract ll_walking(hob). Assert ll_bitter(hob). Increase regard(gasco) by 1. }
+    Result "Hob feels the paper, with his thumbs, as a man reads a coin. 'The Benevolent,' he says. 'Six coin a quarter. For being turned off.' He folds it small. 'I'll keep it,' he says, 'as a thing that was offered,' and puts it in the tinder-box where the spare tapers go. The Company will pay him until he dies. He does not speak to you again except to ask the time.".
+  }
+  Action ll_r_place(actor: group, site: place) "Ask the Warden to give Hob the chair by the Hall window and the title" {
+    Speaker quoyle.
+    Requires able(actor) and company(actor) and at(actor, site) and at(quoyle, site) and ll_placeOffer(hob) and not ll_ended(hob) and (ll_roundDone(hob) or ll_lastNight()).
+    Time 10 minutes.
+    On success { Assert ll_ended(hob). Assert ll_howPlace(hob). Retract following(hob, actor). Retract ll_walking(hob). Assert ll_bitter(hob). }
+    Result "Hob is shown to the chair by the window and sits in it, because he has been taught to, with the pole across his knees like a man on a bench at a station. Warden Quoyle reads out the title. 'Keeper of the Tinder-boxes,' says Hob, to the dark where the window is. 'That's a good title.' He does not say the rest of it, and neither does anyone.".
+  }
+  Action ll_r_finish(actor: group, site: place) "Give Hob the taper, step back, and let him finish the Round himself" {
+    Speaker hob.
+    Requires able(actor) and company(actor) and at(actor, site) and at(hob, site) and ll_walking(hob) and not ll_roundDone(hob) and not ll_ended(hob) and ll_dusk() and ll_lit(hob) >= 1.
+    Time 60 minutes.
+    Grave "Hob will try the lamps that are left alone, by touch, in the dusk. He is not likely to find the Steps.".
+    On success { Assert ll_ended(hob). Assert ll_howFinish(hob). Assert ll_hurt(hob). Assert ll_moved(hob). Retract ll_walking(hob). Retract following(hob, actor). Assert at(hob, lamplighters_hall). }
+    Result "You stand back at the foot of the Steps and say nothing. Hob goes up them one at a time, his hand on the wall and the pole in the other, naming each step as he comes to it; he lights the lamp by smell, and lights it right. On the fortieth he puts his foot where the fiftieth should be. The sound he makes is not a cry. You carry him to the Hall between you, and he does not say thank you, and he does not ask you to put him down. 'That was the Round,' he says on the way. 'That was it, wasn't it? All of it.' He has broken his wrist, and finished.".
+  }
+  Action ll_r_plain(actor: group, site: place) "Tell Hob plainly that it is his eyes that have retired him, and give him the choice of the Round" {
+    Speaker hob.
+    Requires able(actor) and company(actor) and at(actor, site) and at(hob, site) and not ll_ended(hob) and not ll_handed(hob) and knows(actor, ll_hob_met).
+    Time 10 minutes.
+    Grave "Told plainly, it cannot be untold; the Warden, who does not like the word, will hear that it was you.".
+    On success { Assert ll_handed(hob). Assert ll_howPlain(hob). Assert ll_hallClosed(hob). Assert ll_told(hob). Assert ll_trusts(hob). Retract ll_walking(hob). Retract following(hob, actor). Assert ll_slighted_gasco(party). }
+    Result "'Your eyes have retired you, Mr Tansy,' you say, 'and not the Company. You can't see the mantle.' There is a long silence. 'No,' says Hob. 'I can't.' He puts the tinder-box in your hand and closes your fingers on it, one at a time. 'Then you'll do it,' he says, 'and I'll stand where I'm told. I would sooner be told that than carried.' He tells you, then, more than he meant to. At the Hall the Warden hears of it before you have got your boots off, and does not say a word, and puts the book away.".
+  }
+  Action ll_r_hearth(actor: group, site: place) "Ask Hob to light the Hall's old hearth, with the Warden watching, and keep it" {
+    Speaker hob.
+    Requires able(actor) and company(actor) and at(actor, site) and at(hob, site) and at(quoyle, site) and ll_flueClear(hob) and ll_moved(hob) and ll_hearthWarden(hob) and ll_roundDone(hob) and not ll_ended(hob) and not ll_hallClosed(hob).
+    Time 20 minutes.
+    On success { Assert ll_ended(hob). Assert ll_howHearth(hob). Retract following(hob, actor). Retract ll_walking(hob). Assert keeper(glass). Assert witness(hob). }
+    Result "Hob kneels at the old grate with the tinder-box, and strikes it once, and it lights; he has lit nothing so well. The flue draws with a sigh like a man putting down a bag. Warden Quoyle stands with her hands behind her. 'Keeper,' she says, and her voice goes in the middle. 'Of the Hearth of the Lamplighters. For the Night, and for any other.' Hob lays the pole across the fender. 'I never could keep a thing alight,' he says, 'that wasn't on a pole.' He is lying; he does not stop kneeling.".
+  }
+  Action ll_sweep(actor: group, site: place) "Sweep the Lamplighters' Hall's old flue and unbrick the throat" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(ll_locker, site) and not ll_flueClear(hob).
+    Time 36.
+    Resolve check(actor, brawn, dc_easy).
+    On success { Assert ll_flueClear(hob). }
+    Result "You take down a century of soot, and forty years of ladders, and a Gas Company stopper stamped OUR COMFORT IS GUARANTEED, which you leave on the mantel. The hearth behind the ladders is a plain brick one with an iron fender. It draws. The sooty light that comes down the flue is, you notice, the first daylight to have reached that grate since the Ordinance.".
+    Otherwise "The brick is the Company's, and the Company is thorough. You get an hour of soot and one stopper out and no further.".
+  }
+  Rule ll_broken when ll_lastNight() and ll_everWalked(hob) and not ll_roundDone(hob) and not ll_ended(hob) says "The night is gone and the Round is not done. At the Gasworks the lamp-rate is a day in arrears, and Foreman Gudgeon has a list of what is dark." {
+    Decrease regard(gasco) by 1 or to nothing. Assert ll_slighted_gasco(party).
+  }
+  Rule ll_fell when ll_lastNight() and not ll_roundDone(hob) and not ll_ended(hob) says "In the Stokers' Steps, in the dark, an old man misses the fiftieth step. By the morning it is all over the Foundry: Hob Tansy lit his last lamp, and fell off the world with the pole in his hand. He is in the Hall with his wrist in a splint and nobody who was with him." {
+    Assert ll_ended(hob). Assert ll_howFell(hob). Assert ll_hurt(hob). Assert at(hob, lamplighters_hall). Retract following(hob, party). Retract ll_walking(hob).
+  }
+  Rule ll_drift when ll_lastNight() and ll_roundDone(hob) and not ll_ended(hob) says "The Gas Company's notice runs out at the hour, with nobody to receive it. Hob Tansy hangs up the pole in the Hall, himself, and sits where the Warden puts him." { Assert ll_ended(hob). Assert ll_howDrift(hob). Assert ll_bitter(hob). Assert at(hob, lamplighters_hall). Retract following(hob, party). Retract ll_walking(hob). }
+  Relation ll_howDrift(group).
+
+  // ── What the Round leaves behind ────────────────────────────────────────────────────────────────────────
+  Observe ll_hall_bitter at lamplighters_hall when ll_bitter(hob) "Hob Tansy sits in the chair by the window, with his white eyes toward it, and does not move his head when you come in.".
+  Observe ll_hall_hurt at lamplighters_hall when ll_hurt(hob) and not ll_bitter(hob) "Hob Tansy sits in the chair by the window, his arm splinted across his chest, with the brass pole upright against his shoulder, and a look on his face like a man who has stopped being afraid of something.".
+  Observe ll_hall_hearth at lamplighters_hall when keeper(glass) "A hearth burns in the corner behind the ladders, and an old man sits by it with his hands out, his face turned a little to the heat.".
+  Observe ll_hall_cold at lamplighters_hall when ll_hallClosed(hob) "Warden Quoyle has taken the book from beside the door, and put a small card there: THE HALL IS NOT OPEN TO VISITORS TONIGHT.".
+  Observe ll_steps_after at round_steps when ll_sideSteps(hob) "A woman is sitting on the top step with her shawl off, in the light of the lamp, shelling peas.".
+  Observe ll_steps_after2 at round_steps when ll_sideShop(hob) "The lamp lights the pawnbroker's window, and a row of fiddles hangs in it like hanged men.".
+  Observe ll_steps_after3 at round_steps when ll_sideBoth(hob) "Two lamps on the Steps; two people on the Steps, not speaking, each in a separate light.".
+  Observe ll_nan_after at round_furnace when ll_childOut(hob) "A very small girl sits on the bottom rung of the lamp-house ladder, being a child who is not in it.".
 }
