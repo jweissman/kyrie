@@ -1,0 +1,51 @@
+{
+ "title": "The Descent: three fighters, no charm, and a Fire that wants company",
+ "note": "A company of warriors with no licence, no key and no friends in the city goes down by the Exchange cellar stair, pays the Queue a penny a head, pays the glass men their fee, and sits with the Fire.",
+ "seed": "descent-sit",
+ "party": [
+  {
+   "name": "Orm",
+   "raceId": "human",
+   "classId": "warrior"
+  },
+  {
+   "name": "Pike",
+   "raceId": "human",
+   "classId": "warrior"
+  },
+  {
+   "name": "Bas",
+   "raceId": "human",
+   "classId": "warrior"
+  }
+ ],
+ "steps": [
+  "^To the Declarations Hall",
+  "Declare yourselves truthfully",
+  "^Out to Gate Plaza",
+  ">quittance__exchange_court",
+  "^To the foot of the Exchange stair \u2014 put your",
+  ">quittance__queue_hall",
+  "Lay three coin",
+  ">quittance__furnace_row",
+  "Show the glass men a Policy of Passage",
+  ">quittance__hearth_below",
+  "Talk to the Fire",
+  "Tell the Fire that you have come",
+  "Ask the Fire what it is owed",
+  "Sit down in the ash with the Fire",
+  "Sit down in the ash with the Fire",
+  "Sit down in the ash with the Fire",
+  "Ask the Fire what it would take",
+  "?Promise the Fire a Night",
+  "=day 9 23:58",
+  "=+4"
+ ],
+ "probes": [
+  "#quittance__ds_heat party",
+  "#quittance__ds_accord party",
+  "quittance__fireTerms party",
+  "quittance__fireTermNight party",
+  "quittance__fireHeard party"
+ ]
+}

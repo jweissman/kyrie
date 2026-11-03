@@ -33,6 +33,7 @@ for (let w = 0; w < walks; w++) {
   for (let i = 0; i < steps && !ended; i++) {
     let offered;
     try { offered = j.choices().filter(c => !skip.some(s => s.test(c.full))); } catch (e) { console.log(`walk ${w} step ${i}: choices threw: ${e}\n  ${trail.join('\n  ')}`); failures++; break; }
+    if (offered.length === 0 && !j.holds('able', 'party')) { console.log(`walk ${w} step ${i}: the company fell at ${j.at('party')} (a fight chosen at random; the world goes on without it)`); break; }
     if (offered.length === 0) { console.log(`walk ${w} step ${i}: nothing offered at ${j.at('party')} (watch ${j.watch()})\n  ${trail.slice(-8).join('\n  ')}`); failures++; break; }
     // Prefer the story to the weather: waits are picked a tenth of the time.
     const doing = offered.filter(c => !/Wait ›|Make camp|Search here/.test(c.full));
