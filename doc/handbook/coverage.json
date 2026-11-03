@@ -14580,7 +14580,7 @@
   },
   {
    "id": "rule:world_passages.keyholder",
-   "title": "keyholder",
+   "title": "keyholder, barsFrom",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-passages"

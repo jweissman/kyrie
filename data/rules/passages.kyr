@@ -41,9 +41,12 @@ Module world_passages "Passages, obstacles and the condition of things" {
   Query visibleTo(w: passage, a: group) means not revealedBy(w, ?f) or (revealedBy(w, ?f) and knows(a, ?f))
     or (revealedBy(w, ?g) and following(a, ?l) and knows(?l, ?g)).
   Query barred(w: passage) means (on(?o, w) and state(?o, ?s) and blocksWhen(?o, ?s)) or unopened(w).
-  // Who holds the key to what bars a way, and those who serve them, go through it as if it were open.
-  Relation keyholder(group, entity).
-  Query opens(a: group, o: entity) means keyholder(a, o) or (serves(a, ?m) and keyholder(?m, o)).
+  // Who holds the key to what bars a way, and those who serve them, go through it as if it were open; and so does a
+  // company at the other end of a way barred from one end only (`Thing toll … on ladder from foot`: down is free, and
+  // only the way up pays; Behind the Wainscot's F5).
+  Relation keyholder(group, entity). Relation barsFrom(entity, place).
+  Query opens(a: group, o: entity) means keyholder(a, o) or (serves(a, ?m) and keyholder(?m, o))
+    or (barsFrom(o, ?e) and not at(a, ?e)).
   Query barredFor(w: passage, a: group) means on(?o, w) and state(?o, ?s) and blocksWhen(?o, ?s) and not opens(a, ?o).
   Query watched(w: passage) means guards(?g, w) and able(?g) and state(?g, ?t) and blocksWhen(?g, ?t)
     and at(?g, ?p) and connects(w, ?p, ?q).

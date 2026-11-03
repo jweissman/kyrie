@@ -1696,7 +1696,7 @@ Also kept, without comment: passageKind, connects, on, guards, state, blocksWhen
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 8 | 32 | 2 | 23 | 0 | 6 |
+| 8 | 33 | 2 | 23 | 0 | 6 |
 
 #### scenery
 
@@ -1758,11 +1758,11 @@ Carrying a particular thing: this key, not any key.
 
 What a way or a change needs: a skill, a kind of thing, or one particular thing.
 
-#### keyholder
+#### keyholder, barsFrom
 
-*Kyr · relation(group, entity)* · `rule:world_passages.keyholder`
+*Kyr · relation(group, entity); relation(entity, place)* · `rule:world_passages.keyholder`
 
-Who holds the key to what bars a way, and those who serve them, go through it as if it were open.
+Who holds the key to what bars a way, and those who serve them, go through it as if it were open; and so does a company at the other end of a way barred from one end only (`Thing toll … on ladder from foot`: down is free, and only the way up pays; Behind the Wainscot's F5).
 
 #### harmless
 

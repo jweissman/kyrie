@@ -251,7 +251,10 @@ good, and `at` a place it can be made from there alone. You never write a separa
 open: the gate's state says it. `changedBy(thing, who)` says who last changed a thing by one of its changes, so a rule
 can ask who opened the lockbox, not only that it is open (What Tessary Owes' W15; `test/fixtures/probes/changed-by`).
 A thing on a way is told at both its ends; one seen from one end only says so (`Thing step "the deep step" on ford from
-far_bank`), and so may a line beside a way (`Observe post beside ford from near_bank when true "…"`).
+far_bank`), and so may a line beside a way (`Observe post beside ford from near_bank when true "…"`). A thing on a way
+from one end that bars it, bars it from that end only: `Thing toll "Ma Riser's toll-bar" on ladder from foot` with a
+`blocking` state stops a company going up, and lets one come down free (`test/fixtures/probes/toll-up`; Behind the
+Wainscot's F5, whose toll had been two one-way ladders).
 
 ```kyr
   Thing grille "the rusted grille" on ossuary_arch {

@@ -227,6 +227,9 @@ export class WorldConstructs {
     module.entities.push({ id: t.id, type: t.type, name: t.name });
     if (!t.site) { throw new Error(`Thing ${t.id} needs a place or passage`); }
     this.assert(module, t.site.anchor, t.id, t.site.id);
+    // One seen from one end of its way bars it from that end only: a toll at the foot of a ladder, and down is free
+    // (Behind the Wainscot's F5, BTW-06).
+    if (t.site.anchor === 'on' && t.site.from) { this.assert(module, 'barsFrom', t.id, t.site.from); }
     if (t.hidden) { this.assert(module, 'revealedBy', t.id, t.hidden); }
     if (t.holds) { this.assert(module, 'receptacle', t.id); }
     // Anything a company can handle can be tried, in the ways that suit it; scenery only in the ways its author
