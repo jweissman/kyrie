@@ -1,0 +1,13 @@
+Module lingering "Standing under the rail too long" {
+  Place city "the city" is settlement.
+  Place street "Rail Street" is room within city at 0, 0 outdoors.
+  Place platform "the platform under the rail" is room within city at 1, 0 outdoors.
+  Passage steps "the platform steps" is steps between street and platform.
+  Company party "You" of 1 at street.
+  // After a while at a place, not at an hour (TTN-15).
+  Rule noticed at platform when at(party, platform) and lingered(party) >= 3 once
+    says "A man on the rail looks down at you, and then away." { }
+  Observe street_scene at street when true "Rail Street, under the rail.".
+  Observe platform_scene at platform when true "A platform of wet planks.".
+  Goal false.
+}

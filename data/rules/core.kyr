@@ -66,6 +66,18 @@ Module world_core "Bodies, places, time and the shared catalog" {
   // Where a company has been: once it has stood somewhere, it knows the place and can find it again.
   Relation been(group, place).
   Rule been_there when company(?c) and at(?c, ?p) and not been(?c, ?p) { Assert been(?c, ?p). }
+  // How long the company has stood where it is, in watches since it came (lingered(party) >= 2: twenty minutes and
+  // more): a creature that strikes if it lingers, a crowd that notices it under the rail, a door that opens to whoever
+  // waits. The Third Night could say none of them without keeping when it came by hand (its friction 15, TTN-15).
+  Relation stoodAt(group, place) exclusive. Measure arrivedAt(group). Measure lingered(group).
+  // Where it stood as the world began, it has stood since the first watch; anywhere else, since it came.
+  Rule stood_first when company(?c) and at(?c, ?p) and not stoodAt(?c, ?q) { Assert stoodAt(?c, ?p). }
+  Rule came_here when company(?c) and at(?c, ?p) and stoodAt(?c, ?q) and distinct(?p, ?q) {
+    Assert stoodAt(?c, ?p). Set arrivedAt(?c) to watch(clock).
+  }
+  Rule lingers when company(?c) and stoodAt(?c, ?p) and lingered(?c) != watch(clock) - arrivedAt(?c) {
+    Set lingered(?c) to watch(clock) - arrivedAt(?c).
+  }
   // A place's law: everyone in it, or anywhere within it, fights under that condition (a plane where fire burns
   // small, a temple where no blade is drawn). The law names a catalog condition.
   Kind law. Relation law(place, law).

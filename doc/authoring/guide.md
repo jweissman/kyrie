@@ -1227,6 +1227,10 @@ Hive's 13). A rule whose condition still holds fires again next watch, so a rule
 `not sung(party)`, for once per one of many), or is an `Event`, which happens once. An action that passes no watch (one
 that takes no time, or a few minutes) is followed by one pass of the rules and whatever a hazard strikes, and no clock.
 
+What happens after a while at a place, not at an hour, asks how long the company has stood there: `lingered(party)`
+is the watches since it came (since the first, where it began), so `when at(party, platform) and lingered(party) >= 3
+once` is half an hour under the rail (`test/fixtures/probes/lingering`; the Third Night's 15).
+
 The day turns at midnight, and a night keeps its small hours: `nightCount(clock)` is the night that falls on a
 day, from noon that day until noon the next, so the second night's small hours are `nightCount(clock) == 2
 and hour(clock) < 6`, on the third day by `day(clock)` (`test/fixtures/probes/nights`; the Liberty of the Ice's 6).
