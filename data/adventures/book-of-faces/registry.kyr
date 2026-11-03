@@ -29,8 +29,11 @@ Module ombra "The Book of Faces" {
   Kind registry_key_kind "the Contessa's old key" is gear worth 0 weighing 0 described "A black iron key as long as a hand, with a bare oval for a bow. The Contessa Tarn's family has kept it for three hundred years against the day it was wanted, and it is cold, as old keys are.".
   Item registry_key "the Contessa's old key" is registry_key_kind at offstage.
   Rule registry_by_right when registryOpened(party) and state(registry_lock, barred) { Assert state(registry_lock, open). }
+  // At the Ninth Bell of the ninth night the Chapel opens the Registry and the Urn Hall to the city, as it always has: the
+  // ways above are for those who must be there before.
+  Rule registry_opens_for_drawing when drawingNight() and state(registry_lock, barred) { Assert state(registry_lock, open). }
   // A lock picked is heard in the vestry; the Warrant is not made for it.
-  Rule lock_alarm when state(registry_lock, open) and not registryOpened(party) and not registryByFace(party) and not registryKeyed(party) and not registryAlarmed(party) says "Somewhere on the other side of the nave a small bell begins, once, and a lay-brother's voice says, mildly, 'Brother Alder?'" {
+  Rule lock_alarm when state(registry_lock, open) and not drawingNight() and not registryOpened(party) and not registryByFace(party) and not registryKeyed(party) and not registryAlarmed(party) says "Somewhere on the other side of the nave a small bell begins, once, and a lay-brother's voice says, mildly, 'Brother Alder?'" {
     Assert registryAlarmed(party). Increase heat(party) by 2. }
 
   // The Face: an Office is shown to the Doorward, who judges the Fit.
