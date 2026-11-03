@@ -257,9 +257,12 @@ export class ModuleParser {
     parseAbility(id.sourceString, ModuleParser.ast(name) as string, text);
     return { field: 'hazard', value: { id: id.sourceString, type: 'hazard', name: ModuleParser.ast(name), effect: text } };
   }
-  static Company(_c: Node, id: Node, name: Node, _of: Node, size: Node, _at: Node, place: Node, _dot: Node): Field {
+  static Company(_c: Node, id: Node, name: Node, _of: Node, size: Node, most: Node, _at: Node, place: Node,
+    _dot: Node): Field {
+    const upto = most.children.length ? Number(most.children[0]!.children[1]!.sourceString) : undefined;
+    if (upto !== undefined && upto < Number(size.sourceString)) { throw new Error(`A company of ${size.sourceString} to ${upto}?`); }
     return { field: 'company', value: { id: id.sourceString, name: ModuleParser.ast(name), size: Number(size.sourceString),
-      place: place.sourceString } };
+      place: place.sourceString, ...upto !== undefined ? { most: upto } : {} } };
   }
   // A way under ten minutes is walked in minutes (they add up to watches); a longer one in whole watches.
   static Taking(_t: Node, amount: Node, unit: Node) {

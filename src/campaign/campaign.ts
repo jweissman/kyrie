@@ -112,7 +112,8 @@ export class Campaign implements WatchHost {
     // Each module is checked as it is compiled; the joined whole, once, when the last is in.
     for (const request of manifest.modules) {
       if (campaign) { await campaign.install(request, source, false); continue; }
-      const draft = await ModuleBundle.load(request, { seed, installed: canon?.campaign.installations }, source);
+      const draft = await ModuleBundle.load(request, { seed, installed: canon?.campaign.installations,
+        party: party?.length }, source);
       if (party) { CompanyChoices.apply(draft, party); }
       Overlays.declareGear(draft.instance); Overlays.declareWorth(draft.instance);
       const first = ModuleInstallations.prepare(canon, draft, 0, false);

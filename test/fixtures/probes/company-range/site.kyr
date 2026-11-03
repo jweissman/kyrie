@@ -1,0 +1,8 @@
+Module companyrange "A company of one to three" {
+  Place lull "the Lull" is settlement.
+  Place green "the green" is room within lull at 0, 0 outdoors.
+  // Of as many as are chosen for it, from one to three (LUL-09).
+  Company party "Your company" of 1 to 3 at green.
+  Observe green_scene at green when true "A green, and the hills round it.".
+  Goal false.
+}

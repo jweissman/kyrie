@@ -271,7 +271,7 @@ export class ModuleBundle {
   // people: who is in the world already, whose names a story's generated people are drawn apart from as the country's
   // folk's are (two stories in b2 each gave one of their people Rurik).
   static async load(request: BundleRequest, options: {
-    seed: string; installed?: InstalledModule[]; elapsed?: number; people?: readonly Entity[];
+    seed: string; installed?: InstalledModule[]; elapsed?: number; people?: readonly Entity[]; party?: number;
   }, source: BundleSource): Promise<ModuleDraft> {
     if (!/^[A-Za-z][A-Za-z0-9-]*$/.test(request.id)) { throw new Error('Invalid module installation ID'); }
     const path = source.resolve(request.bundle);
@@ -300,6 +300,7 @@ export class ModuleBundle {
     const composed = ModuleShadow.apart(shadowed.functions.length
       ? this.merge(own.map(f => this.parsed({ ...f, text: ModuleShadow.text(f.text, shadowed) }, true))) : parsed,
     shadowed);
+    ModuleBundle.sized(composed, options.party);
     // What it names of the canon is given it, and bound as the world's own (see ModuleCanon).
     const given = ModuleCanon.give(composed, manifest.canon ?? [], canon, path);
     const bound = given.length ? { ...manifest, globals: [...manifest.globals ?? [], ...given] } : manifest;
@@ -322,6 +323,15 @@ export class ModuleBundle {
     if (manifest.experience) { draft.experience = manifest.experience; }
     if (request.chapter) { draft.chapter = true; }
     return draft;
+  }
+  // A company of one to three is of as many as are chosen for it, within those: a campaign of three had been refused
+  // a module written for one ("Choose 1 companions"), and the Lull kept a copy of its company for its tests (its F12,
+  // LUL-09). Chosen by no one, it is of the fewest.
+  private static sized(module: Module, chosen?: number) {
+    const c = module.company;
+    if (!c?.most || chosen === undefined) { return; }
+    if (chosen < c.size || chosen > c.most) { throw new Error(`Choose ${c.size} to ${c.most} companions`); }
+    c.size = chosen;
   }
   // Sets a province's own country inside a host place: the region its manifest exports as its region, or, if it
   // names none, each region it sets in Imbar or in no plane. Never a region elsewhere (Parliament's Commonplace, which

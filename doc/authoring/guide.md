@@ -93,6 +93,10 @@ packs.
   Initially Set quantity(party, gold) to 8. Initially Set quantity(party, rations) to 1.
 ```
 
+A company may be of as many as are chosen for it, within bounds: `Company party "Your company" of 1 to 3 at green.` is
+of one, two or three, and of one when nobody chooses (`test/fixtures/probes/company-range`; the Lull's F12 kept a copy
+of its module for a campaign of three).
+
 A person has a place and whatever you choose to fix about them: `Ancestry`, `Calling` (class), `Level`, a
 `Profession`, a `Background`. Anything you leave open is filled by generation, if the campaign generates people, or
 by a default. **What you write always wins.** If a generator suggests a different ancestry, it is ignored and the

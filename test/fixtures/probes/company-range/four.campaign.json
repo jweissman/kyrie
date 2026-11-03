@@ -1,0 +1,1 @@
+{"version": 1, "name": "Probe: a company of four", "modules": [{"id": "p", "bundle": "module.json"}], "party": [{"name": "Ama", "raceId": "human", "classId": "warrior"}, {"name": "Bel", "raceId": "human", "classId": "warrior"}, {"name": "Cai", "raceId": "human", "classId": "warrior"}, {"name": "Dov", "raceId": "human", "classId": "warrior"}]}

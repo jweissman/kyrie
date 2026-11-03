@@ -114,7 +114,8 @@ export interface Person { role?: string; roles?: { role: string; when: Predicate
   offers?: { kind: string; text: string; fee: number }[]; sells?: { what: string; fee: number; stock: number }[];
   // What the person will pay for each kind of thing brought to them.
   buys?: { what: string; fee: number }[] }
-export interface CompanyDeclaration { id: string; name: string; size: number; place: string }
+// most: of as many as are chosen for it, from size to most (Company party "You" of 1 to 3): see ModuleBundle.sized.
+export interface CompanyDeclaration { id: string; name: string; size: number; place: string; most?: number }
 export interface Module {
   people?: Person[];
   observations?: Observation[];
