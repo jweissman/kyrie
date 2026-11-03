@@ -18,7 +18,7 @@ async function onSeed(run: (g: Ombra) => Promise<boolean>, party?: ReturnType<ty
     const g = await start(seed, party);
     try { if (await run(g)) { return g; } } catch (e) { last = e; }
   }
-  throw new Error(`no seed let the checks go the way the test needs: ${last}`);
+  throw new Error(`no seed let the checks go the way the test needs: ${String(last)}`);
 }
 const at = (g: Ombra) => g.j.campaign.world.related('at', 'party')[0]!.args[1];
 const heat = (g: Ombra) => g.measure('heat', 'party');
@@ -75,7 +75,8 @@ describe('The Cast-Room: the Hands', () => {
 
   it('offers a company with only a purse the whole table, and takes its fourteen coin and the Hands\' squeeze', async () => {
     const g = await start();
-    // The Warden's secret, which pays the whole fee and the cut, is a fact the counting-house's file teaches: it is offered only to those who have it.
+    // The Warden's secret, which pays the whole fee and the cut, is a fact the counting-house's file teaches: it is
+    // offered only to those who have it.
     await g.play('=21:00', '>ombra__mk_loft', 'Climb the ladder', 'Ask what the Hands would do');
     expect(g.j.offers('Tell Slee, as a thing weighed')).toBe(false);
     expect(g.j.offers('Watch what Slee does with his hands')).toBe(true);
@@ -156,7 +157,8 @@ describe('The Cast-Room: the boy', () => {
     await g.play('=20:30', '>ombra__maskers_roof', 'Say you only came up for the air', 'Sit by Dov on the ridge', 'Ask Dov if you may try the mask on', 'Ask Dov, idly');
     expect(g.knows('th_routine') && g.knows('th_bells') && g.knows('th_dov_key') && g.knows('th_roof_way')).toBe(true);
     expect(g.holds('th_dov_asked', 'party')).toBe(true);
-    // Without a favour owed, only the asking is left, as a journeyman is asked; and it may be refused, at the cost of the Fitter being told.
+    // Without a favour owed, only the asking is left, as a journeyman is asked; and it may be refused, at the cost of
+    // the Fitter being told.
     expect(g.j.offers('Ask Dov for the spare key')).toBe(false);
     const refused = await onSeed(async s => {
       await s.play('=20:30', '>ombra__maskers_roof', 'Say you only came up for the air', 'Sit by Dov on the ridge', 'Ask Dov if you may try the mask on', 'Ask Dov, idly', '?Ask Dov, as you would ask a journeyman');

@@ -1,11 +1,11 @@
 import { describe, expect, it } from 'bun:test';
 import { Ombra, home } from './support/ombra';
 
-// The Gauntlet (data/adventures/book-of-faces/warrior.kyr): the Duelling Stair of Quiet Hill, nine landings and a Second
-// on each, what a company answers to them, the Captain's question, the Contessa's killing, and the Stair held at the
-// Drawing. A climb here is a plan (what is answered at each landing) walked by a player who retries a roll, is carried
-// down at the third fall, sits on the surgeon's bench and comes again; the seeds are pinned, and the odds of a level-one
-// climb are in the notes.
+// The Gauntlet (data/adventures/book-of-faces/warrior.kyr): the Duelling Stair of Quiet Hill, nine landings and a
+// Second on each, what a company answers to them, the Captain's question, the Contessa's killing, and the Stair held at
+// the Drawing. A climb here is a plan (what is answered at each landing) walked by a player who retries a roll, is
+// carried down at the third fall, sits on the surgeon's bench and comes again; the seeds are pinned, and the odds of a
+// level-one climb are in the notes.
 const sam = (level: number, cls = 'warrior') => [{ name: 'Sam', raceId: 'human', classId: cls, level } as never];
 const start = (seed = 'ombra', level = 10, cls = 'warrior') => Ombra.start(home, seed, sam(level, cls));
 const up = (to: string) => `To the landing of the ${to}`;
@@ -102,8 +102,8 @@ describe('the nine landings', () => {
 });
 
 describe('a level-one climb', () => {
-  // A careful hand answers by the rolls, is carried down at the third fall, sits on the surgeon's bench, and comes again.
-  // The climb is fair: forty seeds of this player were all sworn, none dead, 1.4 carry-downs each.
+  // A careful hand answers by the rolls, is carried down at the third fall, sits on the surgeon's bench, and comes
+  // again. The climb is fair: forty seeds of this player were all sworn, none dead, 1.4 carry-downs each.
   it('gets a level-one warrior to the oath, with the bench between falls and nobody dead', async () => {
     const o = await start('c1', 1);
     await walk(o, defender);
@@ -136,7 +136,8 @@ describe('steel on the Stair', () => {
       await o.play('?Lay your steel on the rack');
       if (o.holds('tolerates', 'wr_marl', 'party')) { break; }
     }
-    // either the third fall came (and the count was called) or the roll was won first; the count never stands at more than two
+    // either the third fall came (and the count was called) or the roll was won first; the count never stands at more
+    // than two
     expect(o.measure('wr_falls', 'party')).toBeLessThan(3);
   }, 120_000);
 
@@ -243,7 +244,8 @@ describe('exploring', () => {
     await o.play('>ombra__hill_foot');
     let n = 0;
     for (let i = 0; i < 200; i++) {
-      const offered = o.j.choices().filter(c => !/^(Pack|a |an |the |some )/i.test(c.full) && !/Set down/.test(c.label) && !/^Wait/.test(c.label));
+      const offered = o.j.choices()
+        .filter(c => !/^(Pack|a |an |the |some )/i.test(c.full) && !/Set down/.test(c.label) && !/^Wait/.test(c.label));
       if (!offered.length || i % 9 === 8) { await o.play('Wait › An hour'); continue; }
       const c = offered[(i * 11 + 3) % offered.length]!;
       try { await o.play(c.label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')); n++; } catch (e) { if (!o.running) { break; } throw e; }

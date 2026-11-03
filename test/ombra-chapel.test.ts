@@ -19,7 +19,8 @@ describe('Chapel Island: the lamp-room', () => {
     await g.play(...toChapel, '^Into the Chapel of', '^To the lamp-room');
     expect(g.knows('marrick_dead')).toBe(true);
     await g.play(looks[0]!);
-    // Three stubs and nothing else: the last visitor killed her. A half-truth, and a lead to the clerk who has the Book.
+    // Three stubs and nothing else: the last visitor killed her. A half-truth, and a lead to the clerk who has the
+    // Book.
     expect(g.knows('ch_quick_reading')).toBe(true);
     expect(g.page).toMatch(/is the man who killed her, or the man who most wanted it hid/);
     expect(g.knows('ch_evening')).toBe(false);
@@ -182,7 +183,8 @@ describe('Chapel Island: nothing in the Chapel is in two places, or known that c
     const persons = ['chaplain', 'ch_verger', 'ch_corrow', 'ch_choir'].map(o);
     const before = g.j.taken.length;
     for (let i = 0; i < 200 && g.running; i += 1) {
-      const options = g.j.choices().filter(c => !/^Wait|prepare|Prepare|Set down|Pack|Take your leave|^Light/.test(c.label));
+      const options = g.j.choices()
+        .filter(c => !/^Wait|prepare|Prepare|Set down|Pack|Take your leave|^Light/.test(c.label));
       const choice = options[i % Math.max(1, Math.min(options.length, 3))];
       if (!choice) { await g.play('Wait › An hour'); continue; }
       await g.play(`@${choice.command}`);

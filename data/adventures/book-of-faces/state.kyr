@@ -7,7 +7,7 @@ Module ombra "The Book of Faces" {
   // or more; withdrawn when the Gate shuts.
   Relation warrantHeld(group). Relation faceOffered(group). Relation faceTaken(group). Relation faceDeclined(group). Relation gateShut(group).
   // The Watch's patience: heat on the company, up to six (see faces.kyr). Three suspends the Warrant, six shuts the Gate.
-  Measure heat(group).
+  Measure heat(group) at most 6.
   Query warrantLive() means warrantHeld(party) and heat(party) < 3 and not gateShut(party).
 
   // ── Faces ─────────────────────────────────────────────────────────────────────────────────────────────────────────

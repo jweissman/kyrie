@@ -3,12 +3,14 @@ import { Ombra } from './support/ombra';
 import { ModuleWriter } from '../src/lang/module-writer';
 import type { Change } from '../src/lang/module';
 
-// A Trade of One's Own (data/adventures/book-of-faces/commoner.kyr): the Ferry, the Lamp and the Chandler's stall, three
-// beats each and a mask; then the Trades' procession at the Drawing. A check's die depends on seed and history, so a step
-// that may go either way is tried again after a little while (`attempt`).
+// A Trade of One's Own (data/adventures/book-of-faces/commoner.kyr): the Ferry, the Lamp and the Chandler's stall,
+// three beats each and a mask; then the Trades' procession at the Drawing. A check's die depends on seed and history,
+// so a step that may go either way is tried again after a little while (`attempt`).
 const campaign = process.env.OMBRA_CAMPAIGN ?? 'data/campaigns/the-book-of-faces.campaign.json';
 const start = (calling = 'monk', seed = 'commoner') => Ombra.start(campaign, seed, Ombra.one(calling, undefined, 'human', 'Wren'));
-type Store = { acquire(ids: string[]): { creatures: { state: { gold: number } }[]; commit(c: unknown): void; release(): void } };
+type Store = {
+  acquire(ids: string[]): { creatures: { state: { gold: number } }[]; commit(c: unknown): void; release(): void };
+};
 const give = (g: Ombra, coin: number) => {
   const store = (g.j.campaign as unknown as { creatures: Store }).creatures;
   const lease = store.acquire(g.j.campaign.state.partyIds);
@@ -21,7 +23,7 @@ const set = (g: Ombra, name: string, ...args: string[]) => {
   const c = g.j.campaign as unknown as Camp;
   c.commit(c.world.apply([{ kind: 'assert', call: ModuleWriter.call(`ombra__${name}`, ...args.map(a => (a === 'party' ? a : `ombra__${a}`))) }]));
 };
-const attempt = async (g: Ombra, step: string, done: () => boolean, tries = 10, wait = 'Wait › A while') => {
+const attempt = async (g: Ombra, step: string, done: () => boolean, { tries = 10, wait = 'Wait › A while' } = {}) => {
   for (let i = 0; i < tries && !done(); i += 1) { await g.play(`?${step}`); if (!done()) { await g.play(wait); } }
   expect(done()).toBe(true);
 };
@@ -104,7 +106,7 @@ describe('A Trade of One\'s Own: the Lamp', () => {
     expect(g.holds('dr_jory_trusts', 'party')).toBe(true);
     // the next morning, in a face rented afresh
     await g.play('=day 7 08:30', '>ombra__annex_counter', 'Rent the Owl', 'Put on the Owl', '>ombra__lamp_yard');
-    await attempt(g, 'Mend the lamp-yard\'s oil-pump', () => g.holds('cm_tested', 'party', 'cm_t_lamp'), 12, 'Wait › An hour');
+    await attempt(g, 'Mend the lamp-yard\'s oil-pump', () => g.holds('cm_tested', 'party', 'cm_t_lamp'), { tries: 12, wait: 'Wait › An hour' });
     const purse = g.gold();
     await g.play('Fill the lamps full, and buy the lamp-boys');
     expect(g.holds('cm_oil_paid', 'party')).toBe(true);
@@ -132,7 +134,7 @@ describe('A Trade of One\'s Own: the Chandler\'s stall, and the Procession', () 
     const g = await start('mage'); give(g, 30);
     await face(g, 'Cockle');
     await g.play('>ombra__bread_market', 'Ask Mistress Crumb whether the stall wants');
-    await attempt(g, 'Tally the stall', () => g.holds('cm_began', 'party', 'cm_t_chandler'), 8, 'Wait › A while');
+    await attempt(g, 'Tally the stall', () => g.holds('cm_began', 'party', 'cm_t_chandler'), { tries: 8, wait: 'Wait › A while' });
     await g.play('=11:30');
     expect(g.at('cm_teale')).toBe('ombra__bread_market');
     await g.play('?Watch the customer at the wicks');
@@ -188,16 +190,19 @@ describe('A Trade of One\'s Own: the Chandler\'s stall, and the Procession', () 
 });
 
 describe('The Drip and the Trades: the world never enters an invalid state', () => {
-  // From the Drip, in a rented face, takes one of the offered things two hundred times over (a pseudo-random pick, the same
-  // each run), and asks that no person be in two places, that nothing be both done and undone, and that the shared facts
-  // the other files read stay consistent.
+  // From the Drip, in a rented face, takes one of the offered things two hundred times over (a pseudo-random pick, the
+  // same each run), and asks that no person be in two places, that nothing be both done and undone, and that the shared
+  // facts the other files read stay consistent.
   it('walks the offered actions with no person in two places', async () => {
     const g = await start('bard'); give(g, 80);
     await face(g, 'Gull');
     await g.play('>ombra__drip_landing');
     const people = ['rill', 'nobody', 'rainmother', 'steward', 'dr_brine', 'dr_ley', 'dr_hal', 'dr_gammon', 'dr_tansy', 'cm_crumb', 'cm_dill', 'cm_teale'];
-    const never = /Take your face off|Set down|Pack ›|Name .* aloud|Lift .*mask|Buy the Patience|Make camp|Search here|prepare spells|Light$|Put out|Grave/;
-    const wanted = /^(To the (Drip|Lamp|Rain|kitchen|Anonymous|cistern|bread|eel|Row quay)|Ask|Speak|Say|Buy|Leave|Take|Put|Tell|Watch|Mend|Fill|Light the|Read|Knock|Go along|Count|Pay|Sell|Carry|Weigh|Tally|Learn|Stand|Sit|Offer|Play|Reckon|Wait › An hour)/;
+    const never = new RegExp('Take your face off|Set down|Pack ›|Name .* aloud|Lift .*mask|Buy the Patience|Make camp|'
+      + 'Search here|prepare spells|Light$|Put out|Grave');
+    const wanted = new RegExp('^(To the (Drip|Lamp|Rain|kitchen|Anonymous|cistern|bread|eel|Row quay)|'
+      + 'Ask|Speak|Say|Buy|Leave|Take|Put|Tell|Watch|Mend|Fill|Light the|Read|Knock|Go along|Count|Pay|Sell|Carry|'
+      + 'Weigh|Tally|Learn|Stand|Sit|Offer|Play|Reckon|Wait › An hour)');
     const seen = new Set<string>();
     let seed = 7;
     for (let i = 0; i < 200 && g.running; i += 1) {

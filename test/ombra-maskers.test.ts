@@ -17,7 +17,7 @@ async function onSeed(run: (g: Ombra) => Promise<boolean>): Promise<Ombra> {
     const g = await start(seed);
     try { if (await run(g)) { return g; } } catch (e) { last = e; }
   }
-  throw new Error(`no seed let the check go the way the test needs: ${last}`);
+  throw new Error(`no seed let the check go the way the test needs: ${String(last)}`);
 }
 // After the Ninth Bell, on the roof with the boy: he tells his name, and what he holds.
 const toDov = ['=20:30', '>ombra__maskers_roof', 'Say you only came up for the air'];
@@ -213,7 +213,8 @@ describe('The mask that fits nobody', () => {
     await g.play('=09:30');
     expect(g.holds('mk_drowned_pavane', 'party')).toBe(true);
     expect(g.holds('mk_dov_free', 'party')).toBe(true);
-    // She was not moved, so it is a bad Fit made on purpose, and the Guild is to decide: it vouches for him on the ninth.
+    // She was not moved, so it is a bad Fit made on purpose, and the Guild is to decide: it vouches for him on the
+    // ninth.
     expect(g.holds('mk_dov_journeyman', 'party')).toBe(false);
     await g.play('=day 9 15:00');
     expect(g.holds('mk_dov_journeyman', 'party')).toBe(true);

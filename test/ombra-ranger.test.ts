@@ -2,8 +2,8 @@ import { describe, expect, it } from 'bun:test';
 import { Ombra, home } from './support/ombra';
 
 // The ranger's arc (data/adventures/book-of-faces/ranger.kyr): tracking a boy through a city the rain has washed, the
-// question Mistress Withy asks, the feather, the vigil, and two ways at the Drawing. The checks are rolled; a company of
-// the sixth level whose qualities are twenty-five cannot fail one, so a test can take the branch it means to.
+// question Mistress Withy asks, the feather, the vigil, and two ways at the Drawing. The checks are rolled; a company
+// of the sixth level whose qualities are twenty-five cannot fail one, so a test can take the branch it means to.
 const campaign = process.env.OMBRA_CAMPAIGN ?? home;
 const to = (room: string) => `>ombra__${room}`;
 const start = (seed = 'ombra', party?: Parameters<typeof Ombra.start>[2]) => Ombra.start(campaign, seed, party);
@@ -12,8 +12,8 @@ const nurse = [to('heronry_edge'), 'Ask Mistress Withy what the notice', 'Ask wh
   'Fetch Mistress Withy', 'Offer the heron'];
 // Nine at night on the ninth day, the Hall's light-well: the Drawing's Hall is the Chapel's depths.
 const drawing = '=day 9 18:30';
-// A reading is a check; one that fails is tried again when the half-day's blindness is over (the ranger of the thirteenth level
-// fails one in four).
+// A reading is a check; one that fails is tried again when the half-day's blindness is over (the ranger of the
+// thirteenth level fails one in four).
 const read = async (o: Ombra, label: string, fact: string) => {
   for (let i = 0; i < 5 && !o.knows(fact); i++) { await o.play(`?${label}`); if (!o.knows(fact)) { await o.play('=+40'); } }
 };
@@ -39,7 +39,8 @@ describe('The ranger: reading a city', () => {
   }, 180000);
 
   it('a company with no knack for it can fail to read the grating and is blind to it for half a day', async () => {
-    // A mage of the first level reads a grating against a fair difficulty with a modifier near nothing: of a few seeds, one fails.
+    // A mage of the first level reads a grating against a fair difficulty with a modifier near nothing: of a few seeds,
+    // one fails.
     let o = await start('t0', [{ name: 'Sam', raceId: 'human', classId: 'mage', level: 1 } as never]);
     for (const seed of ['t0', 't1', 't2', 't3', 't4', 't5', 't6', 't7']) {
       o = await start(seed, [{ name: 'Sam', raceId: 'human', classId: 'mage', level: 1 } as never]);
@@ -135,7 +136,8 @@ describe('The ranger: rewards and invariants', () => {
     const o = await start('explore', ranger());
     await o.play(...nurse, '=+40');
     for (let i = 0; i < 200 && o.running; i++) {
-      const choices = o.j.choices().filter(c => !/^(Wait|Make camp|Take your face off|Rest|Try to rest)/.test(c.label) && !/Attack|Let go|Tell her the Writ|Rent|Take$/.test(c.label));
+      const choices = o.j.choices().filter(c => !/^(Wait|Make camp|Take your face off|Rest|Try to rest)/.test(c.label)
+        && !/Attack|Let go|Tell her the Writ|Rent|Take$/.test(c.label));
       if (!choices.length) { break; }
       const pick = choices[i % choices.length]!;
       try { await o.j.step(`^${pick.label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`); } catch { continue; }

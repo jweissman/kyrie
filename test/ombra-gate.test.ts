@@ -8,18 +8,19 @@ import { Invariants, type Violation } from '../src/autoplay/invariants';
 import type { CreatureGenerationContext } from '../src/content';
 import { Ombra, home } from './support/ombra';
 
-// The Gate of Strangers (gate.kyr): Mother Tibb's Three Questions and the Almanack, the Hospice's other Bare, Ferris Moll
-// and the letter in the Gull's lining, and Absalom Peck, who was the Serene: Round 3, five kindnesses, four checks, a
-// betrayal, and a death on the seventh night. The campaign is the real one unless OMBRA_CAMPAIGN says otherwise: the
-// foreign persons these journeys meet (Vail, Pavane, Hobb, Rill, Cosimo) are the other authors', and these steps were
-// played against a campaign whose module added stubs for them at the Gatehouse, the parlour, the cooperage, the Drip
-// landing and the Row (data/campaigns/zz.campaign.json, uncommitted).
+// The Gate of Strangers (gate.kyr): Mother Tibb's Three Questions and the Almanack, the Hospice's other Bare, Ferris
+// Moll and the letter in the Gull's lining, and Absalom Peck, who was the Serene: Round 3, five kindnesses, four
+// checks, a betrayal, and a death on the seventh night. The campaign is the real one unless OMBRA_CAMPAIGN says
+// otherwise: the foreign persons these journeys meet (Vail, Pavane, Hobb, Rill, Cosimo) are the other authors', and
+// these steps were played against a campaign whose module added stubs for them at the Gatehouse, the parlour, the
+// cooperage, the Drip landing and the Row (data/campaigns/zz.campaign.json, uncommitted).
 setDefaultTimeout(180000);
 const campaign = process.env.OMBRA_CAMPAIGN ?? home;
 const begin = (seed = 'gate', party?: CreatureGenerationContext[]) => Ombra.start(campaign, seed, party);
 const toHospice = ['^To the Customs Steps', '^To Strangers', '^Into the Hospice'];
-// The Warrant, taken for real from the sergeant who stands in Strangers' Square till she has her Bare (warrant.kyr): once
-// it is held she stands in the Gatehouse, by day and by night, and is "a sergeant of the Masked Watch" until she is named.
+// The Warrant, taken for real from the sergeant who stands in Strangers' Square till she has her Bare (warrant.kyr):
+// once it is held she stands in the Gatehouse, by day and by night, and is "a sergeant of the Masked Watch" until she
+// is named.
 const takeWarrant = ['Talk to a sergeant', 'Ask what use the Watch', 'Take the Stranger', '?Take your leave'];
 const takeWarrantAtSquare = ['^To the Customs Steps', '^To Strangers', ...takeWarrant];
 const warranted = ['^To the Customs Steps', '^To Strangers', ...takeWarrant, '^Into the Hospice'];
@@ -280,8 +281,8 @@ describe('The Gate of Strangers: the letter in the Gull\'s lining', () => {
     expect(g.holds('gt_letter_cosimo', 'party')).toBe(true);
     expect(g.carries('gt_letter')).toBe(false);
     expect(g.holds('gt_moll_trust', 'party')).toBe(true);
-    // Cosimo is at home at night (local.kyr) and in the Hall of Weights by day, so the Heron is given his letter next morning.
-    // Moll's trust: a face for the day, for nothing, once.
+    // Cosimo is at home at night (local.kyr) and in the Hall of Weights by day, so the Heron is given his letter next
+    // morning. Moll's trust: a face for the day, for nothing, once.
     await g.play('^Out to Counting Row', '^To Strangers', '^Into the Wardrobe Annex', 'Talk to Ferris');
     const before = g.gold();
     await g.play('Ask Moll to lend you the Gull');

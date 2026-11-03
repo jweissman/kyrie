@@ -6,10 +6,10 @@ import { AutoPlayer } from '../src/autoplay/player';
 import { Draw } from '../src/autoplay/draw';
 import { Invariants, type Violation } from '../src/autoplay/invariants';
 
-// The Wet Stage (data/adventures/book-of-faces/bard.kyr): the Licence, the Censor's Cue and the Lampoon. The module names
-// persons that other authors own (Peck, Rill, the Warden), so on a branch that has not been merged with theirs the campaign
-// does not load; OMBRA_CAMPAIGN names a campaign with stubs for them. The tests skip, loudly, where the module cannot be
-// loaded for that reason, and nowhere else.
+// The Wet Stage (data/adventures/book-of-faces/bard.kyr): the Licence, the Censor's Cue and the Lampoon. The module
+// names persons that other authors own (Peck, Rill, the Warden), so on a branch that has not been merged with theirs
+// the campaign does not load; OMBRA_CAMPAIGN names a campaign with stubs for them. The tests skip, loudly, where the
+// module cannot be loaded for that reason, and nowhere else.
 const campaign = process.env.OMBRA_CAMPAIGN ?? home;
 const loads = await (async () => {
   try { await Ombra.start(campaign, 'probe', Ombra.one('bard')); return true; } catch (e) {
@@ -153,7 +153,8 @@ describe('The Wet Stage: the Censor\'s Cue', () => {
     expect(o.holds('bd_ludd_trusts', 'party')).toBe(true);
     expect(o.knows('bd_cuts_known')).toBe(true);
     expect(o.page).toContain('every joke the Wet Stage was not let to speak');
-    // The Lampoon is the better for a Reader who is on the company's side: the cut is lifted, and a friend's advice is given.
+    // The Lampoon is the better for a Reader who is on the company's side: the cut is lifted, and a friend's advice is
+    // given.
     expect(o.measure('bd_craft', 'party')).toBe(3);
     await o.play('Ask him to seal the season');
     expect(o.holds('bd_sealed', 'wet_stage')).toBe(true);
@@ -275,11 +276,14 @@ describe('The Wet Stage: Finch and Tarrow', () => {
   });
 });
 
-// ── The Lampoon ────────────────────────────────────────────────────────────────────────────────────────────────────────
-// What the Wet Stage's own people teach, used as material: the Candid's tracts (Finch), Tarrow's Walnut, the Reader's chest
-// and the Joke at his door. The city's tales (the Warden's Lock-tax and the rest) come from other authors' threads; the last
-// test tries them where the campaign has a way to learn them at once.
-type Plan = { tales: string[]; aim: string; form: string; sharpen?: string[]; casts?: string[]; rehearse?: string[]; befriend?: boolean; quist?: boolean };
+// ── The Lampoon ──────────────────────────────────────────────────────────────────────────────────────────────────────
+// What the Wet Stage's own people teach, used as material: the Candid's tracts (Finch), Tarrow's Walnut, the Reader's
+// chest and the Joke at his door. The city's tales (the Warden's Lock-tax and the rest) come from other authors'
+// threads; the last test tries them where the campaign has a way to learn them at once.
+type Plan = {
+  tales: string[]; aim: string; form: string; sharpen?: string[]; casts?: string[]; rehearse?: string[];
+  befriend?: boolean; quist?: boolean;
+};
 async function compose(o: Ombra, plan: Plan) {
   // Day one, by day: the Moth, and Tarrow's three beats.
   await o.play(...wear('Moth'), '>ombra__stage_pit', ...talk('Pantaloon Tarrow', 'Ask him how a joke is made'));
@@ -335,7 +339,8 @@ describe('The Wet Stage: the Lampoon', () => {
     await o.play('Sit for her lesson');
     expect(o.holds('bd_lesson_taken', 'party')).toBe(true);
     expect(o.j.offers('Sit for her lesson')).toBe(false);
-    // At the Drawing the Hall has already heard it: the Lampoon counts as played, and costs the Watch's patience nothing.
+    // At the Drawing the Hall has already heard it: the Lampoon counts as played, and costs the Watch's patience
+    // nothing.
     await o.play('?^Take your leave', '=day 9 19:00', '>ombra__urn_hall', '=+3');
     expect(o.holds('handPlayed', 'party', 'hand_lampoon')).toBe(true);
     expect(o.measure('handWay', 'hand_lampoon')).toBe(1);
@@ -417,9 +422,10 @@ describe('The Wet Stage: the Lampoon', () => {
 });
 
 describe('The Wet Stage: explored by a player who takes whatever is offered', () => {
-  // A company at the Stage on the first night, with the licence's fee, the lamp, the book and the Reader's confidence, set down
-  // before the autoplay laboratory is let to wander through whatever the page then offers: no state it finds may be invalid.
-  for (const [seed, policy] of [['pit', 'explore'], ['boards', 'mixed']] as const) {
+  // A company at the Stage on the first night, with the licence's fee, the lamp, the book and the Reader's confidence,
+  // set down before the autoplay laboratory is let to wander through whatever the page then offers: no state it finds
+  // may be invalid.
+  for (const [seed, policy] of [['pit', 'wander'], ['boards', 'mixed']] as const) {
     t(`stays sound under a ${policy} player, over two hundred offered commands`, async () => {
       const o = await start(`wander-${seed}`);
       await o.play('=day 1 21:00', '>ombra__stage_green_room', ...talk('Madame Orme', 'Hold the lamp'));
@@ -430,7 +436,9 @@ describe('The Wet Stage: explored by a player who takes whatever is offered', ()
         const move = player.next(AutoplayRun.situation(session, step));
         if (!move) { failures.push(`softlock at ${step}`); break; }
         try { await AutoplayRun.apply(session, move, player, metrics); } catch (e) { failures.push(`step ${step} ${JSON.stringify(move)}: ${(e as Error).message}`); break; }
-        const violations: Violation[] = [...Invariants.creatures(session), ...Invariants.offered(session), ...Invariants.party(session)];
+        const violations: Violation[] = [
+          ...Invariants.creatures(session), ...Invariants.offered(session), ...Invariants.party(session),
+        ];
         if (violations.length) { failures.push(`step ${step}: ${violations[0]!.kind} ${violations[0]!.message}`); break; }
       }
       expect(failures).toEqual([]);

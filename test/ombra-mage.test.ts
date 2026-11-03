@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'bun:test';
 import { Ombra } from './support/ombra';
 
-// The Fit (data/adventures/book-of-faces/mage.kyr): the mage's research of Likeness, played by the labels a player sees.
-// OMBRA_CAMPAIGN points the run at a campaign that carries stubs for the persons other authors own (pavane, dov);
+// The Fit (data/adventures/book-of-faces/mage.kyr): the mage's research of Likeness, played by the labels a player
+// sees. OMBRA_CAMPAIGN points the run at a campaign that carries stubs for the persons other authors own (pavane, dov);
 // it defaults to the real one.
 const campaign = process.env.OMBRA_CAMPAIGN ?? 'data/campaigns/the-book-of-faces.campaign.json';
 const mage = (seed = 'a') => Ombra.start(campaign, seed, Ombra.one('mage', undefined, 'human', 'Ilse'));
@@ -34,22 +34,22 @@ async function sources(g: Ombra) {
   await press(g, 'Stand before the Standard Pound', () => g.knows('mg_measure'));
   await costFromDov(g);
 }
-// The next time the clock shows hh:mm (8 to 23), today or tomorrow: the day begins at eight and has a hundred and forty-four
-// watches; a clock already past it is taken on to the next day.
+// The next time the clock shows hh:mm (8 to 23), today or tomorrow: the day begins at eight and has a hundred and
+// forty-four watches; a clock already past it is taken on to the next day.
 async function at(g: Ombra, hhmm: string) {
   const [h, m] = hhmm.split(':').map(Number) as [number, number];
   const mark = (h - 8) * 6 + m / 10, day = Math.floor(g.watch / 144) + 1;
   await g.play(`=day ${g.watch % 144 > mark ? day + 1 : day} ${hhmm}`);
 }
-// The Wall of Faces is Madame Pavane's and the cellar door is locked: a bare face is cast in her chair by day (six coin),
-// and then she takes the company down.
+// The Wall of Faces is Madame Pavane's and the cellar door is locked: a bare face is cast in her chair by day (six
+// coin), and then she takes the company down.
 async function intoWall(g: Ombra) {
   await at(g, '10:00');
   await g.play('>ombra__fitting_room', "Sit in the Fitter's chair", 'Ask Madame Pavane to take you down');
   expect(g.j.campaign.world.related('at', 'party')[0]!.args[1]).toBe('ombra__cast_cellar');
 }
-// The drowned mask's maker is on the Fitter's roof after the Ninth Bell, and tells what the mask cost only to a company he
-// has let try it on; by day he is a broom in the fitting-room, and says nothing.
+// The drowned mask's maker is on the Fitter's roof after the Ninth Bell, and tells what the mask cost only to a company
+// he has let try it on; by day he is a broom in the fitting-room, and says nothing.
 async function costFromDov(g: Ombra) {
   await at(g, '20:30');
   await g.play('>ombra__maskers_roof', 'Say you only came up for the air', 'Sit by Dov on the ridge', 'Ask Dov if you may try the mask on');
@@ -128,8 +128,8 @@ describe('The Fit', () => {
     expect(g.holds('mg_thole_agrees', 'party')).toBe(true);
     expect(g.knows('mg_held_by_whom')).toBe(true);
     expect(g.page).toMatch(/HELD BY WHOM/);
-    // The lessons are Thole's to teach: a first-level one that is new to this mage is prepared at once; the second-level
-    // one is learned and waits for slots the company will not have.
+    // The lessons are Thole's to teach: a first-level one that is new to this mage is prepared at once; the
+    // second-level one is learned and waits for slots the company will not have.
     const lessons = g.j.choices().filter(c => /Train/.test(c.label));
     expect(lessons.length).toBeGreaterThan(0);
     const before = g.gold();
@@ -236,7 +236,9 @@ describe('The Collegium, walked at random', () => {
     const rand = (n: number) => { seed = (seed * 1103515245 + 12345) % 2147483648; return seed % n; };
     await g.play('>ombra__collegium_hall');
     for (let i = 0; i < 300 && g.running; i++) {
-      const offered = g.j.choices().filter(c => !/^Pack|Set down|Light|Lift .* mask|Name .* aloud|prepare/.test(c.full) && !/Take your leave/.test(c.label));
+      const offered = g.j.choices()
+        .filter(c => !/^Pack|Set down|Light|Lift .* mask|Name .* aloud|prepare/.test(c.full))
+        .filter(c => !/Take your leave/.test(c.label));
       if (!offered.length) { break; }
       const pick = offered[rand(offered.length)]!;
       try { await g.j.step(`@${pick.command}`); } catch { /* an act that cannot be done now is not offered next time */ }

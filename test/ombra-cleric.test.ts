@@ -112,7 +112,8 @@ describe('The Confessional: the seal', () => {
     expect(g.knows('lacke_unfaced')).toBe(false);
     // Vail is at the Gate: the Chapel bridge, the Gate bridge.
     await g.play('^To the nave', '^Out to the Chapel steps', '^To Counting Row', '^To Strangers');
-    // Nobody has taken her Warrant, so the sergeant (warrant.kyr) is still at Strangers' Square, "a sergeant of the Masked Watch".
+    // Nobody has taken her Warrant, so the sergeant (warrant.kyr) is still at Strangers' Square, "a sergeant of the
+    // Masked Watch".
     expect(g.at('vail')).toBe(g.at('party'));
     await g.play('Talk to a sergeant', 'Tell Sergeant Vail what the Warden confessed');
     expect(g.holds('cl_seal_broken', 'party')).toBe(true);
@@ -130,7 +131,8 @@ describe('The Confessional: the seal', () => {
     expect(g.knows('ch_glove')).toBe(true);
     await g.play('^To the nave', '^To the vestry', '=day 1 21:00', 'Talk to Father Ansel');
     for (let i = 0; i < 2 && !g.knows('ch_threat'); i += 1) { await g.play('?Ask Father Ansel, with your whole attention'); }
-    // One try, by insight; a company that failed it has the other ways (the burial; the whole reading) and the test stops here.
+    // One try, by insight; a company that failed it has the other ways (the burial; the whole reading) and the test
+    // stops here.
     if (g.knows('ch_threat')) {
       expect(g.knows('lacke_unfaced')).toBe(true);
       expect(g.holds('cl_seal_broken', 'party')).toBe(false);
@@ -205,7 +207,9 @@ describe('The Confessional: what is done stays done, and nothing is in two place
     const persons = ['cl_cooper', 'cl_warden', 'cl_clerk', 'chaplain'].map(o);
     const start = g.j.taken.length;
     for (let i = 0; i < 200 && g.running; i += 1) {
-      const options = g.j.choices().filter(c => !/^Wait|prepare|Prepare|Set down|Pack|Take your leave|^Light|Take your face|nave of the Chapel/.test(c.label));
+      const options = g.j.choices()
+        .filter(c => !/^Wait|prepare|Prepare|Set down|Pack|Take your leave|^Light/.test(c.label))
+        .filter(c => !/Take your face|nave of the Chapel/.test(c.label));
       const choice = options[0];
       if (!choice) { await g.play('Wait › An hour'); continue; }
       await g.play(`@${choice.command}`);

@@ -9,7 +9,8 @@ import { Ombra, home } from './support/ombra';
 const campaign = process.env.OMBRA_CAMPAIGN ?? home;
 const to = (room: string) => `>ombra__${room}`;
 const start = (seed = 'ombra', party?: Parameters<typeof Ombra.start>[2]) => Ombra.start(campaign, seed, party);
-// A company of the thirteenth level (a check is a die: its odds are the best a test can ask, and a test that needs the branch tries a few seeds).
+// A company of the thirteenth level (a check is a die: its odds are the best a test can ask, and a test that needs the
+// branch tries a few seeds).
 const sure = (classId: string, background?: string) => [{ name: 'Rook', raceId: 'human', classId, level: 13, ...background ? { backgroundId: background } : {} } as never];
 // Down to the den, food left, and the Ninth Bell waited out: Pip's talk by night.
 const den = ['Leave a ration', '=21:00'];
@@ -55,8 +56,8 @@ describe('The cisterns: Pip', () => {
     await o.play(to('cistern_head'), 'light a candle', to('lamp_boys_den'));
     for (let i = 0; i < 4 && !o.knows('ci_boys_found'); i++) { await o.play('?Read the den'); if (!o.knows('ci_boys_found')) { await o.play('=+80'); } }
     expect(o.knows('ci_boys_found')).toBe(true);
-    // A company that cannot read a floor frightens them: of a handful of seeds, one at least goes wrong (a d20 against 13, with a
-    // modifier of minus four), and the boys are gone half a day.
+    // A company that cannot read a floor frightens them: of a handful of seeds, one at least goes wrong (a d20 against
+    // 13, with a modifier of minus four), and the boys are gone half a day.
     let clumsy = await start('t0', [{ name: 'Sam', raceId: 'human', classId: 'mage', level: 1, wisdom: 3 } as never]);
     for (const seed of ['t0', 't1', 't2', 't3', 't4', 't5', 't6', 't7', 't8']) {
       clumsy = await start(seed, [{ name: 'Sam', raceId: 'human', classId: 'mage', level: 1, wisdom: 3 } as never]);
@@ -120,8 +121,8 @@ describe('The cisterns: Pip', () => {
 });
 
 describe('The cisterns: the Ninefold Drain', () => {
-  // By torch to the weir (the rats go from a flame), the torch put out before the gallery (a light there goes off like a
-  // bell), the eel's toll thrown, a candle lit in the run, the slab prodded from the stair-head with the pole.
+  // By torch to the weir (the rats go from a flame), the torch put out before the gallery (a light there goes off like
+  // a bell), the eel's toll thrown, a candle lit in the run, the slab prodded from the stair-head with the pole.
   const toThePump = [to('cistern_head'), 'light a torch', to('cistern_hall'), 'Fill a flask', to('ci_weir'), 'rope: Take', 'Put out', to('ci_slick'),
     to('ci_eelrun'), 'Throw the Warden', 'light a candle', to('ci_aenean'), 'Prod it with the pole', to('pump_chamber')];
   it('can be walked to the cellar and the hatch on the first day, and the Urn rings hollow from below', async () => {
@@ -198,7 +199,8 @@ describe('The cisterns: the Ninefold Drain', () => {
   }, 120000);
 
   it('the eel is a fair fight: the warrior of the third level wins more often than not, the thief of the first mostly loses', async () => {
-    // Through the dark (no light carried into the gallery), to the eel's room (the slip in the oil is a die of its own).
+    // Through the dark (no light carried into the gallery), to the eel's room (the slip in the oil is a die of its
+    // own).
     const results = async (classId: string, level: number) => {
       let won = 0;
       for (let i = 0; i < 4; i++) {
@@ -220,7 +222,8 @@ describe('The cisterns: invariants', () => {
     await o.play(to('cistern_head'), to('lamp_boys_den'), ...den);
     const people = ['pip', 'ci_nell', 'ci_tobit', 'ci_eel', 'ci_rats'];
     for (let i = 0; i < 200 && o.running; i++) {
-      const choices = o.j.choices().filter(c => !/^(Wait|Make camp|Take your face off|Rest|Try to rest)/.test(c.label) && !/Attack|Hold out three coin|Tell Sergeant Vail|Touch a flame|Rent/.test(c.label));
+      const choices = o.j.choices().filter(c => !/^(Wait|Make camp|Take your face off|Rest|Try to rest)/.test(c.label)
+        && !/Attack|Hold out three coin|Tell Sergeant Vail|Touch a flame|Rent/.test(c.label));
       if (!choices.length) { break; }
       const pick = choices[i % choices.length]!;
       try { await o.j.step(`^${pick.label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`); } catch { continue; }

@@ -2,10 +2,11 @@ import { describe, expect, it } from 'bun:test';
 import { Ombra } from './support/ombra';
 
 // The Book of Faces, local.kyr: the Heron and the Lamp, Hester Lyle's Book of Hands, the umbrella war and Barnaby
-// Sweet's wager. A check's die depends on the seed and on what was done before it, so the steps that may fail are written
-// with `?`, each journey is played on a seed found for it, and a build that is good at the check is chosen (a bard for
-// persuasion and performance, a thief for stealth, a warrior for brawn); the failure branches are proved on seeds that fail.
-// The campaign is the integrated one, and OMBRA_CAMPAIGN names another (the author's, with the other files' people stubbed).
+// Sweet's wager. A check's die depends on the seed and on what was done before it, so the steps that may fail are
+// written with `?`, each journey is played on a seed found for it, and a build that is good at the check is chosen (a
+// bard for persuasion and performance, a thief for stealth, a warrior for brawn); the failure branches are proved on
+// seeds that fail. The campaign is the integrated one, and OMBRA_CAMPAIGN names another (the author's, with the other
+// files' people stubbed).
 const campaign = process.env.OMBRA_CAMPAIGN ?? 'data/campaigns/the-book-of-faces.campaign.json';
 const as = (cls: string) => Ombra.one(cls, undefined, 'human', 'Lyra');
 const start = (seed: string, cls = 'bard') => Ombra.start(campaign, seed, as(cls));
@@ -130,8 +131,8 @@ describe('The Book of Faces: the umbrella war', () => {
   }, 120000);
 });
 
-// The Warrant, taken for real from the sergeant who stands in Strangers' Square till she has her Bare (warrant.kyr); once it
-// is held she stands in the Gatehouse.
+// The Warrant, taken for real from the sergeant who stands in Strangers' Square till she has her Bare (warrant.kyr);
+// once it is held she stands in the Gatehouse.
 const warrant = ['^To the Customs Steps', '>ombra__gate_square', 'Talk to a sergeant', 'Ask what use the Watch', 'Take the Stranger', '?Take your leave'];
 const lost = ['^To the Customs Steps', '>ombra__eel_pond', '=day 3 20:30'];
 const lostWarranted = [...warrant, '>ombra__eel_pond', '=day 3 20:30'];
@@ -315,9 +316,10 @@ describe('The Book of Faces: Hester Lyle and the Book of Hands', () => {
   }, 120000);
 });
 
-// The Heron and the Lamp. Night one, with no check at all: Moll tells the company what the Swap is; Lyle is sat with and says what the
-// baskets are; Cosimo is sat with and brought to think of the Swap as a form; Rill is told she may send the company away, and
-// is sat with. Then the fifth day: he is early, the ferrywoman's first fare is the Pair, and a Witness holds the lantern.
+// The Heron and the Lamp. Night one, with no check at all: Moll tells the company what the Swap is; Lyle is sat with
+// and says what the baskets are; Cosimo is sat with and brought to think of the Swap as a form; Rill is told she may
+// send the company away, and is sat with. Then the fifth day: he is early, the ferrywoman's first fare is the Pair, and
+// a Witness holds the lantern.
 const moll = ['^To the Customs Steps', '>ombra__annex_counter', 'Ask Ferris Moll what the Swap is'];
 const lyle = ['>ombra__lc_booth', '=21:00', 'Ask Hester Lyle whether she has a moment', 'Sit in the booth', 'Ask Hester Lyle about the two baskets', 'Ask Hester Lyle why she has said nothing', 'Ask Hester Lyle what the Swap is'];
 const cosimo = ['>ombra__lc_dray_room', 'Sit with him', 'Ask him about the Lamp', 'Ask him what he is afraid', 'Say that the Swap might be a form'];
@@ -413,7 +415,8 @@ describe('The Book of Faces: the Heron and the Lamp', () => {
   }, 180000);
 });
 
-// Every person is in one place; every end of a thread implies what it should; the page names no ids and no unfilled slots.
+// Every person is in one place; every end of a thread implies what it should; the page names no ids and no unfilled
+// slots.
 const random = (seed: string) => {
   let h = 2166136261;
   for (const ch of seed) { h = Math.imul(h ^ ch.charCodeAt(0), 16777619); }
@@ -443,12 +446,15 @@ const invariants = (o: Ombra) => {
 const wander = async (o: Ombra, seed: string, steps: number) => {
   const next = random(seed);
   for (let i = 0; i < steps && o.running; i++) {
-    const offered = o.j.choices().filter(c => !/Set down here|Give to|Make camp|prepare spells|Prepare spells|Drop|Take$/.test(c.label));
+    const offered = o.j.choices()
+      .filter(c => !/Set down here|Give to|Make camp|prepare spells|Prepare spells|Drop|Take$/.test(c.label));
     if (!offered.length) { break; }
     const waits = offered.filter(c => /Wait › (An hour|Until)/.test(c.label));
     const pool = waits.length && next() < 0.15 ? waits : offered.filter(c => !/^Wait/.test(c.label));
     const c = (pool.length ? pool : offered)[Math.floor(next() * (pool.length || offered.length))]!;
-    try { await o.j.perform(c.command, c.label, c.grave); } catch (e) { if (o.running) { throw new Error(`${seed} step ${i} ${c.label}: ${e}`); } }
+    try { await o.j.perform(c.command, c.label, c.grave); } catch (e) {
+      if (o.running) { throw new Error(`${seed} step ${i} ${c.label}: ${String(e)}`); }
+    }
     invariants(o);
   }
 };

@@ -8,11 +8,11 @@ import { Invariants, type Violation } from '../src/autoplay/invariants';
 import type { CreatureGenerationContext } from '../src/content';
 import { Ombra, home } from './support/ombra';
 
-// The Nine Quiets (monk.kyr): the Bare Brothers' cloister, Brother Amery, and the nine temptations the city sets a guest
-// of the Order, one a day: the Mouth, the Name, the Hand, the Back, the Step, the Hoard, the Tongue, the Face and the
-// Crown. Each is kept, broken or missed; the Door at the Drawing depends on how many were kept and how. The campaign is
-// the real one unless OMBRA_CAMPAIGN says otherwise (the steps were played against a module with stubs for the other
-// authors' persons: data/campaigns/zz.campaign.json, uncommitted).
+// The Nine Quiets (monk.kyr): the Bare Brothers' cloister, Brother Amery, and the nine temptations the city sets a
+// guest of the Order, one a day: the Mouth, the Name, the Hand, the Back, the Step, the Hoard, the Tongue, the Face and
+// the Crown. Each is kept, broken or missed; the Door at the Drawing depends on how many were kept and how. The
+// campaign is the real one unless OMBRA_CAMPAIGN says otherwise (the steps were played against a module with stubs for
+// the other authors' persons: data/campaigns/zz.campaign.json, uncommitted).
 setDefaultTimeout(240000);
 const campaign = process.env.OMBRA_CAMPAIGN ?? home;
 const monk = () => Ombra.one('monk', 'miner', 'human', 'Ines');
@@ -153,7 +153,8 @@ describe('The Nine Quiets: broken, missed, and answered', () => {
     expect(g.measure('moMercy', 'party')).toBe(1);
     expect(g.measure('heat', 'party')).toBe(1);
     expect(g.page).toMatch(/You said a word to nobody, and have been counted for it/);
-    // The Name: said aloud in the Annex, to every square by dusk: two heat, and a man ruined; the whisper would have cost none.
+    // The Name: said aloud in the Annex, to every square by dusk: two heat, and a man ruined; the whisper would have
+    // cost none.
     await g.play('=day 2 12:00', '^Into the Wardrobe Annex', 'Name Orrin Gadd aloud');
     expect(g.holds('named', 'mo_inspector')).toBe(true);
     expect(g.holds('moBroke', 'party', 'mo_q2')).toBe(true);
@@ -170,7 +171,8 @@ describe('The Nine Quiets: broken, missed, and answered', () => {
     // The Back, by coin: the courtesy that lets a person be left.
     await g.play('^Out to Strangers', '=day 4 12:00', '^To the Customs Steps', 'Give her four coin');
     expect(g.holds('moBroke', 'party', 'mo_q4')).toBe(true);
-    // The Hoard, for the ninth night's sake (broken, with mercy); the Tongue, kindly (broken, with mercy); the Face, for pride.
+    // The Hoard, for the ninth night's sake (broken, with mercy); the Tongue, kindly (broken, with mercy); the Face,
+    // for pride.
     await g.play(...toGarthFromSteps, '=day 6 12:00', "^To the Brothers' refectory", 'Keep your rations, and keep the store shut');
     expect(g.measure('moMercy', 'party')).toBe(1);
     await g.play('^To the cloister garth', '^Out to the Chapel steps', '^To Counting Row', '^To Strangers', '^Into the Hospice', '=day 7 20:30',

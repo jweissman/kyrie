@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'bun:test';
 import { Ombra } from './support/ombra';
 
-// Counting Row (data/adventures/book-of-faces/counting.kyr): the short pound (Round 5) and the Lock-tax (Round 6), played
-// by the labels a player sees. OMBRA_CAMPAIGN points the run at a campaign that carries stubs for the persons other
-// authors own; it defaults to the real one.
+// Counting Row (data/adventures/book-of-faces/counting.kyr): the short pound (Round 5) and the Lock-tax (Round 6),
+// played by the labels a player sees. OMBRA_CAMPAIGN points the run at a campaign that carries stubs for the persons
+// other authors own; it defaults to the real one.
 const campaign = process.env.OMBRA_CAMPAIGN ?? 'data/campaigns/the-book-of-faces.campaign.json';
 const warrior = (seed = 'a') => Ombra.start(campaign, seed);
 const thief = (seed = 'a') => Ombra.start(campaign, seed, Ombra.one('thief', 'criminal', 'human', 'Wren'));
@@ -130,7 +130,8 @@ describe('The short pound (Round 5)', () => {
     await g.play('Ask what a tallyman may say about a short till');
     expect(g.knows('ct_reckoning')).toBe(true);
     expect(g.page).toMatch(/A sum has no face/);
-    // He is bluffed once: either the hook is seen to by morning, or the lie has a flaw in it and he is too gracious to say.
+    // He is bluffed once: either the hook is seen to by morning, or the lie has a flaw in it and he is too gracious to
+    // say.
     await g.play('=10:00');
     await g.play('?Tell him the Assessor weighs the Drip.s bread');
     if (g.holds('ct_marl_bluff_won', 'party')) {
@@ -311,7 +312,9 @@ describe('Counting Row, walked at random', () => {
     const people = ['lacke', 'fenn', 'assessor', 'thole', 'ct_cob', 'ct_tally', 'ct_marl', 'ct_hawker'];
     await g.play('>ombra__row_street');
     for (let i = 0; i < 300 && g.running; i++) {
-      const offered = g.j.choices().filter(c => !/^Pack|Set down|Light|Lift .* mask|Name .* aloud|prepare/.test(c.full) && !/Take your leave/.test(c.label));
+      const offered = g.j.choices()
+        .filter(c => !/^Pack|Set down|Light|Lift .* mask|Name .* aloud|prepare/.test(c.full))
+        .filter(c => !/Take your leave/.test(c.label));
       if (!offered.length) { break; }
       const pick = offered[rand(offered.length)]!;
       try { await g.j.step(`@${pick.command}`); } catch { /* an act that cannot be done now is not offered next time */ }

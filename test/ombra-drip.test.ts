@@ -1,16 +1,17 @@
 import { describe, expect, it } from 'bun:test';
-import { Ombra, o } from './support/ombra';
-import type { CreatureGenerationContext } from '../src/content';
+import { Ombra } from './support/ombra';
 
 // The Drip (data/adventures/book-of-faces/drip.kyr): Rill Ketch's ferry, the Anonymous Saint's pot, the Rain-Wives'
-// Petition and the Lamp-Trimmers' strike. A check's die depends on seed and history, so a step that may go either way is
-// tried again after an hour (`attempt`), and the failure branches are proved by a company that cannot succeed.
+// Petition and the Lamp-Trimmers' strike. A check's die depends on seed and history, so a step that may go either way
+// is tried again after an hour (`attempt`), and the failure branches are proved by a company that cannot succeed.
 const campaign = process.env.OMBRA_CAMPAIGN ?? 'data/campaigns/the-book-of-faces.campaign.json';
 // One person alone (the campaign's company is of one), of the calling whose hands the scene needs: a cleric's wisdom
 // for mending and insight, a ranger's for woodcraft, a mage's mind for lore, a bard's tongue, a warrior's arm.
 const start = (calling = 'cleric', seed = 'drip') => Ombra.start(campaign, seed, Ombra.one(calling, undefined, 'human', 'Wren'));
 // Coin into the company's purses (the shared measure is read from them).
-type Store = { acquire(ids: string[]): { creatures: { state: { gold: number } }[]; commit(c: unknown): void; release(): void } };
+type Store = {
+  acquire(ids: string[]): { creatures: { state: { gold: number } }[]; commit(c: unknown): void; release(): void };
+};
 const give = (g: Ombra, coin: number) => {
   const store = (g.j.campaign as unknown as { creatures: Store }).creatures;
   const lease = store.acquire(g.j.campaign.state.partyIds);
@@ -18,7 +19,7 @@ const give = (g: Ombra, coin: number) => {
   g.j.campaign.refreshProjection();
 };
 // Tries a chancy step until `done` holds, waiting an hour between tries (the die changes with the watch).
-const attempt = async (g: Ombra, step: string, done: () => boolean, tries = 12, wait = 'Wait › An hour') => {
+const attempt = async (g: Ombra, step: string, done: () => boolean, { tries = 12, wait = 'Wait › An hour' } = {}) => {
   for (let i = 0; i < tries && !done(); i += 1) { await g.play(`?${step}`); if (!done()) { await g.play(wait); } }
   expect(done()).toBe(true);
 };
@@ -37,7 +38,8 @@ describe('The Drip: Rill Ketch\'s ferry', () => {
     expect(g.holds('roundDone', 'party', 'r_ferry')).toBe(true);
     expect(g.measure('goodwill', 'face_gull')).toBeGreaterThanOrEqual(1);
     expect(g.measure('marks', 'party')).toBe(1);
-    // persistence: a day, a night and a rest later it is still done, and Rill carries the company faster than the Row's ordinary two
+    // persistence: a day, a night and a rest later it is still done, and Rill carries the company faster than the Row's
+    // ordinary two
     expect(g.j.measure('travelTime', 'ombra__ferry_row_drip')).toBe(1);
     await g.play('=day 3 10:00');
     expect(g.holds('dr_boat_sound', 'party')).toBe(true);
@@ -111,17 +113,17 @@ describe('The Drip: Rill Ketch\'s ferry', () => {
   it('the Guild\'s loan: Rill is persuaded to put her mark to it, and owes a farthing in the penny for a sound boat', async () => {
     const g = await start('bard'); give(g, 20);
     await g.play('>ombra__drip_landing', 'Wait › Until dark', 'Say you are bare');
-    await attempt(g, 'Take the cup, and bail', () => g.holds('dr_rill_open', 'party'), 12, 'Wait › A while');
-    await attempt(g, 'Ask Rill Ketch to let the Guild', () => g.holds('dr_rill_guild_ok', 'party') || g.holds('dr_rill_cool', 'party'), 1);
+    await attempt(g, 'Take the cup, and bail', () => g.holds('dr_rill_open', 'party'), { tries: 12, wait: 'Wait › A while' });
+    await attempt(g, 'Ask Rill Ketch to let the Guild', () => g.holds('dr_rill_guild_ok', 'party') || g.holds('dr_rill_cool', 'party'), { tries: 1 });
     if (!g.holds('dr_rill_guild_ok', 'party')) {
       // a failed asking is not a refusal for good: she will not be asked again that night, and is asked again the next
       expect(g.holds('dr_rill_cool', 'party')).toBe(true);
       await g.play('=day 2 07:00');
-      await attempt(g, 'Ask Rill Ketch to let the Guild', () => g.holds('dr_rill_guild_ok', 'party'), 6, '=+144');
+      await attempt(g, 'Ask Rill Ketch to let the Guild', () => g.holds('dr_rill_guild_ok', 'party'), { tries: 6, wait: '=+144' });
     }
     await g.play('=day 2 10:00', '>ombra__annex_counter', 'Rent the Gull', 'Put on the Gull', '>ombra__drip_landing', 'Ask the steward about a Guild loan');
     expect(g.knows('dr_loans')).toBe(true);
-    await attempt(g, 'Put Rill\'s mark to the steward\'s table', () => g.holds('dr_boat_sound', 'party'), 4, 'Wait › A while');
+    await attempt(g, 'Put Rill\'s mark to the steward\'s table', () => g.holds('dr_boat_sound', 'party'), { tries: 4, wait: 'Wait › A while' });
     expect(g.holds('dr_boat_how_guild', 'party')).toBe(true);
     expect(g.holds('dr_rill_indebted', 'party')).toBe(true);
     expect(g.holds('roundDone', 'party', 'r_ferry')).toBe(true);
@@ -177,7 +179,7 @@ describe('The Drip: the Anonymous Saint', () => {
   it('made to laugh once, with the Pound: a bard can do it, and rations make up the rest of the pot', async () => {
     const g = await start('bard'); give(g, 20);
     await g.play('>ombra__soup_room', 'Wait › Until dark', 'Knock at the kitchen');
-    await attempt(g, 'Tell the Saint, quite gravely', () => g.holds('dr_nobody_moved', 'party'), 12, 'Wait › An hour');
+    await attempt(g, 'Tell the Saint, quite gravely', () => g.holds('dr_nobody_moved', 'party'), { tries: 12, wait: 'Wait › An hour' });
     expect(g.holds('dr_nobody_laughed', 'party')).toBe(true);
     await g.play('>ombra__bread_market');
     // eight rations at two coin: the dearer way round, but no one is asked for a name
@@ -202,8 +204,8 @@ describe('The Drip: the Anonymous Saint', () => {
   it('Named aloud in the market, she leaves the kitchen for the Hospice, bare', async () => {
     const g = await start('mage'); give(g, 5);
     await g.play('>ombra__annex_counter', 'Rent the Gull', 'Put on the Gull', '>ombra__soup_room', 'Ask the Saint about the pot');
-    await attempt(g, 'Watch the Saint', () => g.knows('dr_nobody_counts'), 14, 'Wait › A while');
-    await attempt(g, 'Reckon up the Physicians-General', () => g.knows('dr_nobody_spent'), 14, 'Wait › A while');
+    await attempt(g, 'Watch the Saint', () => g.knows('dr_nobody_counts'), { tries: 14, wait: 'Wait › A while' });
+    await attempt(g, 'Reckon up the Physicians-General', () => g.knows('dr_nobody_spent'), { tries: 14, wait: 'Wait › A while' });
     await g.play('Name .* aloud');
     expect(g.holds('named', 'nobody')).toBe(true);
     await g.play('Wait › An hour');
@@ -293,10 +295,10 @@ describe('The Drip: the Rain-Wives\' Petition', () => {
   it('read by the colours, not counted: a mage can; and the Wives take on the Saint\'s pot once the petition is answered', async () => {
     const g = await start('mage'); give(g, 20);
     await g.play('=day 4 09:00', '>ombra__annex_counter', 'Rent the Gull', 'Put on the Gull', '>ombra__rain_hall_floor', 'Ask Goody Pallet why the lamp');
-    await attempt(g, 'Read the Tally-cloth', () => g.knows('lie_tally'), 10, 'Wait › A while');
+    await attempt(g, 'Read the Tally-cloth', () => g.knows('lie_tally'), { tries: 10, wait: 'Wait › A while' });
     await g.play('Ask Goody Pallet about the one pink knot');
     expect(g.knows('dr_hesper_known')).toBe(true);
-    await attempt(g, 'Ask the Rain-Wives to wait', () => g.holds('dr_petition_answered', 'party'), 3, 'Wait › A while');
+    await attempt(g, 'Ask the Rain-Wives to wait', () => g.holds('dr_petition_answered', 'party'), { tries: 3, wait: 'Wait › A while' });
     if (g.holds('dr_deferred', 'party')) {
       await g.play('Ask whether the Rain-Wives could take on the Saint');
       expect(g.measure('dr_supply', 'party')).toBe(4);
@@ -364,8 +366,8 @@ describe('The Drip: the Lamp-Trimmers\' strike', () => {
   it('Hal Dunne\'s cask: found by night, brought back unnamed, and the twenty-two made up', async () => {
     const g = await start('thief'); give(g, 40);
     await g.play('>ombra__lamp_yard', 'Wait › Until dark', 'Sit down by Hal Dunne');
-    await attempt(g, 'Watch Hal Dunne', () => g.knows('dr_box_taken'), 8, '=+144');
-    await attempt(g, 'While Hal sleeps it off', () => g.holds('dr_box_found', 'party'), 6, '=+144');
+    await attempt(g, 'Watch Hal Dunne', () => g.knows('dr_box_taken'), { tries: 8, wait: '=+144' });
+    await attempt(g, 'While Hal sleeps it off', () => g.holds('dr_box_found', 'party'), { tries: 6, wait: '=+144' });
     expect(g.knows('dr_cask_known')).toBe(true);
     await g.play('Wait › Until first light');
     await g.play('Put the canvas bag');
@@ -387,7 +389,7 @@ describe('The Drip: the Lamp-Trimmers\' strike', () => {
     expect(g.holds('dr_lodgers_lent', 'party')).toBe(true);
     await g.play('>ombra__lamp_yard', '=day 8 17:30');
     expect(g.holds('dr_strike_on', 'party')).toBe(true);
-    await attempt(g, 'Light the Drip\'s lamps in the Owl', () => g.holds('dr_strike_broken', 'party'), 2, 'Wait › A while');
+    await attempt(g, 'Light the Drip\'s lamps in the Owl', () => g.holds('dr_strike_broken', 'party'), { tries: 2, wait: 'Wait › A while' });
     if (g.holds('dr_strike_broken', 'party')) {
       expect(g.holds('dr_strike_on', 'party')).toBe(false);
       await g.play('=day 9 09:00');

@@ -44,12 +44,14 @@ describe('The Heronry Writ', () => {
     const o = await start('ombra', sure('mage'));
     await o.play(to('heron_pool'), 'Look closely');
     expect(o.knows('hr_writ_wording')).toBe(true);
-    // He is at the Exchange till the eighth morning: a bare company is answered there at night, by a man with his cowl off.
+    // He is at the Exchange till the eighth morning: a bare company is answered there at night, by a man with his cowl
+    // off.
     expect(o.at('halloran')).toBe('ombra__exchange_floor');
     await o.play('=day 6 21:00', to('exchange_floor'), '?Put the stone.s wording to Mr Halloran: a heron, not the heron');
     const pressed = o.holds('hr_wording_pressed', 'party');
     await o.play('=day 8 20:30');
-    // A young bird holds the Writ if it was pressed; if not, the Weight is sunk: the matter is decided with the company's hand in it.
+    // A young bird holds the Writ if it was pressed; if not, the Weight is sunk: the matter is decided with the
+    // company's hand in it.
     expect(o.holds('hr_writ_held', 'party')).toBe(pressed);
     expect(o.holds('hr_weights_sunk', 'party')).toBe(!pressed);
     expect(o.holds('roundDone', 'party', 'r_heronry')).toBe(true);
@@ -122,8 +124,8 @@ describe('The pigeon strike', () => {
   }, 180000);
 
   it('netted by one who knows traps: twelve coin from the falconer, and she is not wild again', async () => {
-    // A check is a die; a test that wants the branch takes the first of a few seeds on which it comes off (a thief of the thirteenth
-    // level, trapwork against a fair difficulty: four in five).
+    // A check is a die; a test that wants the branch takes the first of a few seeds on which it comes off (a thief of
+    // the thirteenth level, trapwork against a fair difficulty: four in five).
     let o = await start('a', sure('thief'));
     for (const seed of ['a', 'b', 'c', 'd', 'e', 'f']) {
       o = await start(seed, sure('thief'));
@@ -159,7 +161,8 @@ describe('The Heronry: invariants', () => {
     const o = await start('explore');
     await o.play(...nurse);
     for (let i = 0; i < 200 && o.running; i++) {
-      const choices = o.j.choices().filter(c => !/^(Wait|Make camp|Take your face off|Rest|Try to rest)/.test(c.label) && !/Attack|Let go|Tell her the Writ|Rent/.test(c.label));
+      const choices = o.j.choices().filter(c => !/^(Wait|Make camp|Take your face off|Rest|Try to rest)/.test(c.label)
+        && !/Attack|Let go|Tell her the Writ|Rent/.test(c.label));
       if (!choices.length) { break; }
       const pick = choices[i % choices.length]!;
       try { await o.j.step(`^${pick.label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`); } catch { continue; }
