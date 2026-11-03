@@ -1,3 +1,311 @@
 Module quittance "Quittance" {
-  Description "q_pennymutual (stub).".
+  Description "The Bare Wards: the Penny Mutual's empty box and its forgiven treasurer, the stamped notice she was paid to keep quiet about, and the Night Market, which sells second-hand marks, eel-pie and other people's hats, and says what it thinks of the Offices.".
+
+  // ── What is mine ────────────────────────────────────────────────────────────────────────────────────────
+  // wards_gate, salt_lane, penny_hall, night_market, pip_stair (Pip's file) and one garret of my own. The fund is
+  // fourteen coin. The nine names on the NEXT board die slowly, three at a time (days 3, 5 and 7), until the fund is
+  // home. The treasurer takes the night boat at eight on the evening of day 2 (watch 216; day(clock) is 1 on the first morning, so
+  // the fire of the second night is in the small hours of day 3, watch 240 to 300) unless she has been found.
+  Place pm_garret "the garret over the oven-yard" is room within wards at 2, 0.
+  Passage pm_garret_way "the oven-yard stair" is passage between salt_lane and pm_garret hidden until pm_garret_known.
+
+  Measure pm_dying(group).
+  Initially Set pm_dying(wardsfolk) to 9.
+  Relation pm_fund_home(group). Relation pm_proud(group). Relation pm_ashamed(group). Relation pm_loan(group).
+  Relation pm_found(group). Relation pm_purse(group). Relation pm_told_club(group). Relation pm_court_warned(group).
+  Relation pm_disbelieved(group). Relation pm_resolved(group). Relation pm_neglected(group). Relation pm_rent_strike(group).
+  Relation pm_gone(group). Relation pm_cowed(group). Relation pm_robbed(group). Relation pm_stamp_seen(group).
+  Relation pm_garrowby_for(group). Relation pm_refused_loan(group). Relation pm_trail_cold(group). Relation pm_pie(group).
+  Relation pm_deputy_warned(group). Relation pm_slighted_wards(group). Relation pm_keeper_asked(group). Relation pm_ouseley_speaks(group).
+
+  Discovery pm_claim "The Penny Mutual of Salt Lane has lost its treasurer and its fund, and nine of its members are on the NEXT board.".
+  Discovery pm_vote "The Penny Mutual has voted, forty-one to one, to forgive the treasurer who ran with its fund.".
+  Discovery pm_garret_known "Prudence Ouseley, the Mutual's treasurer, is lodging as Mrs Ames in a garret over the oven-yard, off Salt Lane.".
+  Discovery pm_bribed "Prudence Ouseley was paid by the rent-collector's man to say nothing of a notice, and ran when she understood what the notice was for.".
+
+  Kind pm_paper "a stamped notice" is treasure worth 0 weighing 0 described "A half-sheet of good grey paper, printed NOTICE TO QUIT, with a block of blanks filled in a clerk's hand and a red seal in the corner: a bird, or a very good case of one, with the beak turned the wrong way. It is dated, and it gives the second night.".
+  Kind pm_hat "a stolen clerk's hat" is gear worth 3 weighing 0 described "A black hat with the Phoenix's gilt bird in its band and somebody else's hair-oil in its crown. It makes whoever wears it look as if they had come about the books.".
+  Kind pm_old_mark "a second-hand fire-mark" is treasure worth 2 weighing 1 described "A cast plate with a nail-hole at each corner, in the shape of a bird, or a fish, or a hand. It has been up on a good many doors and has come down off most of them in a hurry.".
+  Item pm_notice "the stamped notice" is pm_paper at nowhere.
+  Item pm_form "a sealed duplicate of a notice" is pm_paper at nowhere.
+
+  // ── The hall ────────────────────────────────────────────────────────────────────────────────────────────
+  Person pm_trendle "Keturah Trendle" at penny_hall {
+    Role "chair of the Penny Mutual, a laundress". Ancestry human. Peaceable. Manner proud. Pronouns she.
+    Greets "A broad woman with red forearms is standing at the long table with the club's ledger open in front of her, going down a column with a wet thumb. 'Trendle,' she says. 'Chair. If you've come about the box, it is empty; if you've come to be sorry, we've had our fill; if you've come to say we are a fine thing, sit down, because we are.'".
+    Greets again "'Ah,' says Keturah Trendle, and turns the ledger a quarter-turn toward you, which is as much as she gives anyone.".
+  }
+  Person pm_garrowby "Josiah Garrowby" at penny_hall {
+    Role "a cooper of seventy, whose name is on the NEXT board". Ancestry human. Peaceable. Manner jovial. Pronouns he.
+    Greets "A very thin old man is propped on a bench by the hearth with his boots off and a shawl to his chin. 'Garrowby,' he says, with the pleasure of a man who has stopped minding. 'Top of the board, third name, which I take as a compliment. I'm a cooper. I've made forty of the coffins on that other board and I've not the least idea what mine will be.'".
+    Greets again "'Still here,' says Josiah Garrowby. 'Ask me again tomorrow.'".
+  }
+  Thing pm_box "the Mutual's box" at penny_hall {
+    State empty "A box of black oak on the long table, bound in iron, with three locks of three different makes, each with its own key on a different chain. The lid stands open. Inside is a ring of damp where the money sat, and a button.".
+  }
+  Observe pm_box_look near pm_box when tried(pm_box, looking) "You look into the box. The ring of damp is the size of a purse. The button is horn, from a woman's boot. In the corner of the lid someone has scratched a tally in a small hand, over and over, to nine, and then thought better of it.".
+  Observe pm_boards at penny_hall when pm_dying(wardsfolk) < 9 and not pm_fund_home(party) "The NEXT board has been wiped. There are {pm_dying(wardsfolk) in words} names on it now; the others have been written on the other board, in the same hand, with the sum paid. Nobody has put a sum beside the last names.".
+  Observe pm_boards_saved at penny_hall when pm_fund_home(party) and pm_dying(wardsfolk) > 0 "The NEXT board has a cloth over it. Under the cloth, you gather, the names are still there, but nobody has to look at them. The club's physic-man has been in, and gone out again with a bag.".
+  Observe pm_hall_proud at penny_hall when pm_proud(party) and pm_fund_home(party) "A new line has been chalked above the long table, in Keturah Trendle's hand: THE MUTUAL KEPT ITS OWN.".
+  Observe pm_hall_ashamed at penny_hall when pm_ashamed(party) "The box on the table has a new lock on it, and a cloth over the lid. The members who look at you look at the floor, as people do at a debt they cannot find the name of.".
+  Observe pm_hall_awake at penny_hall when pm_told_club(party) "The club is not sitting in its places. Half of it is standing, and talking, and no one is chairing. Somebody has taken down the board that says WE DO NOT ASK, and turned it to the wall.".
+
+  Rule pm_deaths_a at penny_hall when day(clock) >= 3 and pm_dying(wardsfolk) == 9 and not pm_fund_home(party) says "A name has been wiped from the NEXT board, and chalked up on the other." { Set pm_dying(wardsfolk) to 8. }
+  Rule pm_deaths_b at penny_hall when day(clock) >= 5 and pm_dying(wardsfolk) == 8 and not pm_fund_home(party) says "Two more names have gone from the NEXT board, in the night." { Set pm_dying(wardsfolk) to 6. }
+  Rule pm_deaths_c at penny_hall when day(clock) >= 7 and pm_dying(wardsfolk) == 6 and not pm_fund_home(party) says "The NEXT board has four names left on it, and the chalk is worn at the bottom, where the new ones go." { Set pm_dying(wardsfolk) to 4. }
+  Rule pm_neglect when pm_dying(wardsfolk) <= 4 and not pm_fund_home(party) and not pm_neglected(party) { Assert pm_neglected(party). }
+
+  Observe pm_slate at slip_room when day(clock) <= 4 and not pm_resolved(party) "CLAIMS OPEN: the Penny Mutual of Salt Lane asks an adjuster to find the whereabouts of its treasurer. Reward: the Mutual's gratitude, which is to say its pie. Underneath, in the chalk boy's hand: 'Nine.'" teaches pm_claim.
+  Objective pm_find_obj when knows(party, pm_claim) and not pm_fund_home(party) "The Penny Mutual of Salt Lane has lost its fund to a treasurer it has voted to forgive. Nine members are on the NEXT board, and no one will be buried or physicked until the fund is home.".
+  Objective pm_warn_obj when knows(party, d_candlewick_next) and not pm_court_warned(party) "Candlewick Court is stamped for the second night. Someone in the Wards must believe the warning before then.".
+
+  Topic trendle_club with pm_trendle "Ask Mrs Trendle what the Penny Mutual is" when true once {
+    Says "'A penny a week, a farthing for the children,' says Keturah Trendle, 'and when one of us dies the club buries them decent, with a coffin, a cloth, a pie for the wake and a priest who has been paid, and when one of us is ill it pays the physic-man. In the rest of the city you can be insured against your house burning. Here you can be insured against being thrown in a pit.' She sniffs. 'It is the same thing, but nobody has put a bird on it.'".
+  }
+  Topic trendle_treasurer with pm_trendle "Ask Mrs Trendle what became of the treasurer" when true once {
+    Says "'Prudence Ouseley,' says Mrs Trendle, and her mouth shuts, and opens. 'She had the box for eleven years. Nine nights back there was fourteen coin in it, and then there was not, and she was not. The club met. It voted. Forty-one to one that she be forgiven, if she comes home.' She does not look at the old man by the hearth. 'It is a club. We do not ask where a thing went. We ask that it come back.'".
+    On discuss { Assert knows(actor, pm_vote). Assert knows(actor, pm_claim). }
+  }
+  Topic trendle_board with pm_trendle "Ask Mrs Trendle about the nine names on the NEXT board" when knows(actor, pm_vote) once {
+    Says "'The chest, the dropsy, the stone, the liver,' says Keturah Trendle, going down the board with her thumb, 'and Josiah, who is merely seventy. The fund pays the physic-man a shilling a week a head, and he will not come for less. There is a cart on Thursday to take them to the pit at Marrow Lane, where no one is anything. I will not have it.'".
+  }
+  Topic garrowby_vote with pm_garrowby "Ask Josiah Garrowby why one voted against forgiving her" when knows(actor, pm_vote) once {
+    Says "'That was me,' says Josiah Garrowby, cheerfully. 'Not from spite. I think she was frightened, and the frightened ought to be asked what of, and the club doesn't ask. I said so. They looked at me as if I'd made a noise in church.' He coughs for a while. 'Forty-one to one. It's a fine club. It would forgive the Devil if he came back with the pie.'".
+  }
+  Topic garrowby_afraid with pm_garrowby "Ask Josiah what Prudence Ouseley was afraid of" when knows(actor, pm_vote) and not knows(actor, pm_garret_known) once {
+    Says "'A man in a good coat who came twice to the oven-yard,' says Garrowby, 'and she went white both times and bought a new kettle. I've seen it before. A body gets a kettle, and then gets a fright.' He tilts his head toward Salt Lane. 'The oven-yard's by the gate. If it were me, I'd smell the pies.'".
+  }
+  Action pm_pie_for_garrowby(actor: group, site: place) "Give Josiah Garrowby a ration to eat by the fire, and sit with him a while" {
+    Speaker pm_garrowby.
+    Requires able(actor) and company(actor) and at(actor, site) and at(pm_garrowby, site) and quantity(actor, rations) >= 1 and not pm_garrowby_for(actor).
+    Time 20 minutes.
+    On success { Decrease quantity(actor, rations) by 1. Assert pm_garrowby_for(actor). }
+    Result "He eats it slowly, all of it, as if he were being timed, and tells you about the coffin he made for the Mutual's first chair, in which, it turned out, the man did not fit. 'Tell Keturah,' says Josiah Garrowby, 'that I said take it. She'll take it from me. She won't from you.'".
+  }
+
+  // ── Paying it yourself ──────────────────────────────────────────────────────────────────────────────────
+  Action pm_lend_easy(actor: group, site: place) "Offer the Mutual fourteen coin as a loan, to be repaid with a fire kept for the Night" {
+    Speaker pm_trendle.
+    Requires able(actor) and company(actor) and at(actor, site) and at(pm_trendle, site) and at(actor, penny_hall) and quantity(actor, gold) >= 14 and not pm_fund_home(actor) and (entered_gap(actor) or pm_garrowby_for(actor) or regard(wardsfolk) >= 2).
+    Time 20 minutes.
+    On success { Decrease quantity(actor, gold) by 14. Assert pm_fund_home(actor). Assert pm_loan(actor). Assert pm_proud(actor). Assert pm_resolved(actor). Increase regard(wardsfolk) by 2. }
+    Result "Keturah Trendle listens to the offer with her arms folded. 'Not a gift,' she says. 'A debt, written in the ledger, in my hand, and the Mutual will repay it with a fire kept lit on the Night, in Salt Lane, by the hearth in this room, for as long as there is a Night.' She takes the coin in both hands and counts it out on the table. 'It's the Cinderwall Mutual that said you could be trusted,' she says. 'It was right about the pie, so I assume it's right about this.'".
+  }
+  Action pm_lend_talk(actor: group, site: place) "Argue to Mrs Trendle that fourteen coin lent to the Mutual is no insult to it" {
+    Speaker pm_trendle.
+    Requires able(actor) and company(actor) and at(actor, site) and at(pm_trendle, site) and at(actor, penny_hall) and quantity(actor, gold) >= 14 and not pm_fund_home(actor) and not pm_refused_loan(actor) and not entered_gap(actor) and not pm_garrowby_for(actor) and regard(wardsfolk) < 2.
+    Time 20 minutes.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Decrease quantity(actor, gold) by 14. Assert pm_fund_home(actor). Assert pm_loan(actor). Assert pm_proud(actor). Assert pm_resolved(actor). Increase regard(wardsfolk) by 1. }
+    On failure { Assert pm_refused_loan(actor). }
+    Result "Keturah Trendle hears you out. 'A debt,' she says. 'Written. With a fire to be kept for the Night.' She considers it as she considers a shirt for stains, and finds none. 'Well. Strangers do not usually say it so that I can take it.' She counts the coin out on the table.".
+    Otherwise "'The Mutual does not borrow from people it has not met,' says Keturah Trendle. 'It has a ledger, and the ledger is not for sale.' It is not unkind. It is not open to argument.".
+  }
+  Action pm_leave_coin(actor: group, site: place) "Put fourteen coin into the empty box when no one is looking, and say nothing" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, penny_hall) and quantity(actor, gold) >= 14 and not pm_fund_home(actor).
+    Time 6 minutes.
+    On success { Decrease quantity(actor, gold) by 14. Assert pm_fund_home(actor). Assert pm_ashamed(actor). Assert pm_resolved(actor). Increase regard(wardsfolk) by 1. }
+    Result "Mrs Trendle is looking at the ledger, and old Garrowby, who is not, is looking at you. You lift the lid of the box, and put the coin in a neat pile in the damp ring, and put the lid down. Nobody says anything. In the evening the physic-man comes, and does not ask, and by night the club has had the box open, and shut, and has not looked at you once, with great politeness. A club that has been given something is not quite a club.".
+  }
+  Topic trendle_keeper with pm_trendle "Ask the Mutual to keep its hearth lit through the Night" when pm_fund_home(actor) and (pm_loan(actor) or pm_proud(actor) or pm_told_club(actor)) and not pm_keeper_asked(actor) once {
+    Says "'We would have done,' says Keturah Trendle. 'Without being asked. It's what the hearth is for.' She puts her hand on the mantel, flat, as on the back of a horse. 'There will be someone sitting up in this room from dusk on the night of Reckoning to the following dusk, with the door open and the fire lit and a pie in the oven. Write that I said so.'".
+    On discuss { Assert keeper(wards). Assert pm_keeper_asked(actor). }
+  }
+  Topic trendle_keeper_ashamed with pm_trendle "Ask the Mutual to keep its hearth lit through the Night" when pm_ashamed(actor) and not pm_keeper_asked(actor) once {
+    Says "Keturah Trendle looks at the cloth on the box. 'We are not in a position,' she says, 'to be asked for things.' It is not a refusal. It is the shape of one that has not been made yet.".
+  }
+
+  // ── The trail, and the other ways to her ────────────────────────────────────────────────────────────────
+  Action pm_follow_trail(actor: group, site: place) "Follow the cart-grease and shoe-nail marks from the Mutual's door through Salt Lane" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, salt_lane) and knows(actor, pm_claim) and not knows(actor, pm_garret_known) and not pm_trail_cold(actor) and capable(actor, woodcraft).
+    Time 30 minutes.
+    Resolve check(actor, woodcraft, dc_fair).
+    On success { Assert knows(actor, pm_garret_known). }
+    On failure { Assert pm_trail_cold(actor). }
+    Result "The lane has been trodden by four hundred feet since the night she went, but a woman with a bag walks differently from the rest, heavier on the left, and a nail has come out of her right heel. You follow the nail down the lane to a wall, and over the wall into a yard that smells of baking, and up a stair that has been scrubbed within the week.".
+    Otherwise "The marks go down Salt Lane, and are good for forty yards, and then go under the feet of a market that has not been told to walk round them. Somewhere in the crowd you lose a nail. Somewhere in the market, someone will know the rest.".
+  }
+  Person pm_larkworth "Fenwick Larkworth" at salt_lane {
+    Role "deputy to the Wards' rent-collector". Ancestry human. Calling thief. Level 2. Peaceable. Manner acerbic. Pronouns he.
+    Greets "A young man in a bad hat is standing in the middle of Salt Lane with a ledger under his arm, being walked round by everyone. He has the look of someone who has been told that a person who is hated is a person who is working. 'Larkworth,' he says. 'Deputy. I collect for Mr Skelter. If it's rent, give it to me; if it's a complaint, give it to the lane. It's quicker.'".
+    Greets again "'Rent?' says Larkworth, hopefully.".
+  }
+  Topic larkworth_ouseley with pm_larkworth "Ask Mr Larkworth where Mrs Ouseley of the Mutual has gone" when knows(actor, pm_vote) once {
+    Says "'Who?' says Larkworth. He has overdone it. 'Mutual. Burial club. No. She doesn't owe me anything, that I know of.' His hand goes to the ledger and stays there. It is not clear what he thinks the company will do about it.".
+  }
+  Action pm_bribe_deputy(actor: group, site: place) "Press five coin on Mr Larkworth for the rent he forgot Mrs Ouseley owes, and wait" {
+    Speaker pm_larkworth.
+    Requires able(actor) and company(actor) and at(actor, site) and at(pm_larkworth, site) and knows(actor, pm_claim) and quantity(actor, gold) >= 5 and not knows(actor, pm_garret_known).
+    Time 5 minutes.
+    On success { Decrease quantity(actor, gold) by 5. Increase quantity(pm_larkworth, gold) by 5. Assert knows(actor, pm_garret_known). }
+    Result "He takes the coin the way a man takes a handrail on a stair. 'There is a Mrs Ames,' he says to the middle distance, 'over the oven-yard, up the stair, who pays rather more than a widow should, and I'd not be the sort to say where she came from.' He licks a thumb and turns a page. 'I never said that.'".
+  }
+  Action pm_lean_deputy(actor: group, site: place) "Take Mr Larkworth aside by his collar and remind him where Mrs Ouseley is" {
+    Speaker pm_larkworth.
+    Requires able(actor) and company(actor) and at(actor, site) and at(pm_larkworth, site) and knows(actor, pm_claim) and not knows(actor, pm_garret_known) and capable(actor, intimidation).
+    Time 5 minutes.
+    Resolve check(actor, intimidation, dc_fair).
+    On success { Assert knows(actor, pm_garret_known). }
+    On failure { Assert pm_deputy_warned(actor). }
+    Result "Larkworth's ledger comes up between you like a shield and finds itself pinned to a wall. 'The oven-yard!' he says. 'Mrs Ames. Up the stair!' The lane watches this with great interest, and does not intervene, and somebody at a window applauds.".
+    Otherwise "Larkworth wriggles out of it with the dignity of a man used to being held by his collar by tenants. 'Mr Skelter,' he says, at a distance, 'will be told.' He goes off down the lane with his hat in his hand and a number of people looking at him with satisfaction.".
+  }
+  Action pm_licence_deputy(actor: group, site: place) "Show Mr Larkworth an adjuster's licence, and name Mrs Ouseley's rent as a claim" {
+    Speaker pm_larkworth.
+    Requires able(actor) and company(actor) and at(actor, site) and at(pm_larkworth, site) and holding(actor, adjuster_licence) and knows(actor, pm_claim) and not knows(actor, pm_garret_known).
+    Time 8 minutes.
+    On success { Assert knows(actor, pm_garret_known). }
+    Result "Larkworth reads the card twice, once for the signature, and once for what he is afraid it means. 'An adjuster may read the rent-book,' you say, 'for any block named in a claim.' It is not entirely true. It is not entirely false, either. His eyes go to the ledger. 'The oven-yard,' he says. 'Mrs Ames. I'll thank you not to have got it from me.'".
+  }
+  Action pm_clerk_hat(actor: group, site: place) "Put on the stolen clerk's hat and ask Mr Larkworth, as a clerk, for the Phoenix's copy of the notice" {
+    Speaker pm_larkworth.
+    Requires able(actor) and company(actor) and at(actor, site) and at(pm_larkworth, site) and holding(actor, pm_hat) and not holding(actor, pm_paper) and not pm_stamp_seen(actor).
+    Time 8 minutes.
+    Resolve check(actor, deception, dc_easy).
+    On success { Give pm_form to actor. Assert knows(actor, pm_garret_known). }
+    Result "'From the counting-floor,' you say, putting on the hat. 'Mr Skelter's duplicates. The Chief Underwriter wants them reconciled.' Larkworth, who has not seen a clerk in his life that was not a hat, goes pale, and gives you a sealed duplicate out of the back of the ledger, to be reconciled. 'The Court's,' he says. 'Candlewick. Not delivered, it goes round Thursday, I mean the usual day.' He stops. 'Mrs Ames,' he adds, wildly, to change the subject. 'If you want her. Over the oven-yard.'".
+    Otherwise "Larkworth looks at the hat, and then at you, and then at the hat. 'The Phoenix don't send clerks,' he says. 'They send boys.'".
+  }
+  Action pm_read_stamp(actor: group, site: place) "Hold the stamped notice to the light and read the seal and the date" {
+    Requires able(actor) and company(actor) and at(actor, site) and holding(actor, pm_paper) and not pm_stamp_seen(actor).
+    Time 3 minutes.
+    On success { Assert pm_stamp_seen(actor). Assert knows(actor, d_appointed_notice). Assert knows(actor, d_candlewick_next). }
+    Result "It is a notice to quit. The block is Candlewick Court, in the Bare Wards, seven houses round a pump, 'to be vacated by the tenants on the second night, the Receiver having no further interest.' It gives the date. The seal is the Phoenix's bird, or a good case of one, with the beak turned the wrong way. It is dated a week before the night it names. Nobody gives notice a week early in this city, except the Offices, to those they have not insured.".
+  }
+
+  // ── The Night Market ────────────────────────────────────────────────────────────────────────────────────
+  Observe pm_gap_trusted at wards_gate when entered_gap(party) "The woman at the first brazier lifts her chin at you. 'Remembered,' she says to the lane at large. A boy runs ahead of you down Salt Lane crying something that sounds like 'Mutual's own!', and doors open a hand's breadth as you pass, and are not closed.".
+  Observe pm_wards_nodded at salt_lane when regard(wardsfolk) >= 2 "People in the lane nod to you, which is not a thing they do. A woman at a window hands out a pie on a hook, with an air of having been about to do so anyway.".
+  Observe pm_wards_cold at salt_lane when pm_slighted_wards(party) "Salt Lane goes on, as it does; but the conversations at the doors stop as you pass and start again behind. Someone has chalked a small fish on a wall at the height of a child's hand, and then, thinking better of it, rubbed it out.".
+  Observe pm_market_gas at night_market when hour(clock) >= 17 or hour(clock) < 5 "Two men in Gas Company grey are carrying an open oil-lamp across the square at arm's length, with the expression of men who have been told to confiscate it, while the stall-keeper they have confiscated it from is already selling it, at a small discount, from the back of the next stall to a third man in grey.".
+  Observe pm_market_hats at night_market when hour(clock) >= 17 or hour(clock) < 5 "A man goes by with six hats on his head, one on top of the other, each a different Office's, and a long face. He does not appear to be selling them. He appears to be wearing them until someone claims one.".
+
+  Person pm_gammidge "Mother Gammidge" at night_market {
+    Role "who sells eel-pie from a brazier". Ancestry human. Peaceable. Manner jovial. Pronouns she.
+    Seen when hour(clock) >= 17 or hour(clock) < 5.
+    Greets "A stout woman behind a brazier on trestles turns pies with her bare fingers. 'Eel,' says Mother Gammidge. 'There is nothing else. There is eel, and there is eel with a bit of onion, and there is the last thing, which is what the Offices call a meat pie. A penny, or a story, and I prefer the story.'".
+    Greets again "'Back for another,' says Mother Gammidge, with satisfaction.".
+    Sells rations for 1 coin from 20.
+  }
+  Action pm_buy_pie(actor: group, site: place) "Buy an eel-pie from Mother Gammidge, and stay to hear what her stall hears (1 coin)" {
+    Speaker pm_gammidge.
+    Requires able(actor) and company(actor) and at(actor, site) and at(pm_gammidge, site) and quantity(actor, gold) >= 1 and not pm_pie(actor).
+    Time 15 minutes.
+    On success { Decrease quantity(actor, gold) by 1. Increase quantity(actor, rations) by 1. Assert pm_pie(actor). }
+    Result "The pie is hot, brown and, in some respects, eel. Mother Gammidge watches you eat it with her arms folded and a face that says that a person who has finished a pie is a person who can be told things.".
+  }
+  Topic gammidge_treasurer with pm_gammidge "Ask Mother Gammidge about the Penny Mutual's treasurer" when knows(actor, pm_vote) and (entered_gap(actor) or pm_pie(actor)) and not knows(actor, pm_garret_known) once {
+    Says "'Prudence,' says Mother Gammidge. 'She had the cleanest hands in Salt Lane and a heart like a ledger. She bought ten pies off me on the night she ran and ate none of them. She's Mrs Ames now, over the oven-yard, on the stair behind the gate. Everyone knows. Nobody's told the Mutual, because the Mutual's not asked.' She flips a pie. 'You'll be kind. She's been bought. You can see it on her; it makes people thin.'".
+    On discuss { Assert knows(actor, pm_garret_known). }
+  }
+  Topic gammidge_captains with pm_gammidge "Ask Mother Gammidge what the Wards think of the captains" when (entered_gap(actor) or pm_pie(actor)) once {
+    Says "'Garrity of the Phoenix eats here in a hat,' says Mother Gammidge, 'and never pays, and her dog has the crusts. She cries at the Mutual's burials, in the back, as if the Phoenix did not know. Dree of the Lamprey pays in coin that is always wet and counts the change twice, which I find hurts. She is the one with a crew and he is the one with a ship, and neither of them has ever done a thing for the Wards, and I'd still sooner have either at my brazier than the man from the Gas.' She leans. 'Ask Garrity about her crew. Ask Dree about a bargain. That's all the advice I'm giving. It's free.'".
+  }
+  Topic gammidge_pip with pm_gammidge "Ask Mother Gammidge about the child with the tin on the stair" when (entered_gap(actor) or pm_pie(actor)) and not knows(actor, pt_claim) once {
+    Says "'Pip,' says Mother Gammidge. 'Nine. Fierce. She'll have told you to say please. Her gran's got a coal in a tin that came down from the Burning, and the child sits with it as if it were the last cat in the world. It's low. I can tell by the way she's stopped coming to the stall. Go up, if you've the manners.' She considers. 'It'll want carrying, my dear. Or it'll want company. I never knew which.'".
+    On discuss { Assert knows(actor, pt_claim). }
+  }
+
+  Person pm_ferrule "Old Ferrule" at night_market {
+    Role "who sells second-hand fire-marks off a tray". Ancestry human. Peaceable. Manner acerbic. Pronouns he.
+    Seen when hour(clock) >= 17 or hour(clock) < 5.
+    Greets "A bent old man behind a tray of cast plates, each tied to its neighbour by a string, looks up with a face like a nut. 'Marks,' says Old Ferrule. 'Bird, fish, hand, sun. Slightly used, none stolen. All of them have been on a door, and some of them have saved one.'".
+    Greets again "'Marks,' says Old Ferrule, comfortably.".
+    Sells pm_old_mark for 2 coin from 6.
+  }
+  Topic ferrule_marks with pm_ferrule "Ask Old Ferrule where the marks come from" when true once {
+    Says "'Off burnt houses, off houses that got a better plate, off houses where the family moved,' says Old Ferrule. 'The Office never takes its own mark back. It would have to admit the fire. So the plates lie in the ashes till somebody with a barrow comes by, and then they hang in the Wards, where there's no Office to ask for them back.' He holds up a bird, the beak down. 'A Phoenix. The brigade will look at it, I find. About one time in three.'".
+  }
+  Topic ferrule_gas with pm_ferrule "Ask Old Ferrule about the Gas Company's men in the square" when true once {
+    Says "'Lord Gaunt-Halloran,' says Old Ferrule, with the reverence of a man describing weather, 'has forbidden the open flame in the inner wards for the safety of the public. His men confiscate the lamps. They bring them here to be sold again, for a commission, to the people they were confiscated from. I know. I'm the commission.' He polishes a hand-shaped plate with his sleeve. 'He doesn't know. He's a fool, but he's an honest one, and it is amazing how little that helps.'".
+  }
+
+  Person pm_pennifold "Hannah Pennifold" at night_market {
+    Role "who sells other people's hats". Ancestry human. Peaceable. Manner cheerful. Pronouns she.
+    Seen when hour(clock) >= 17 or hour(clock) < 5.
+    Greets "A girl of sixteen, wearing three hats, stands behind a clothes-line hung with forty. 'Hats,' says Hannah Pennifold. 'Bowlers, caps, a bishop's. A clerk's, a captain's, a mourner's. If you want to be somebody for an evening I can have you somebody in a minute. If you want to be nobody, I'm afraid that's cheaper.'".
+    Greets again "'Hats,' says Hannah Pennifold. 'Hello again.'".
+    Sells pm_hat for 3 coin from 4.
+  }
+  Topic pennifold_hats with pm_pennifold "Ask Hannah Pennifold where she gets the hats" when true once {
+    Says "'From the Hill, mostly,' says Hannah Pennifold. 'Gentlemen leave them in cabs. The Phoenix clerks are the best; they have a gilt bird in the band, and a man in a hat with a gilt bird in the band can walk in anywhere in the Wards and ask for any book, and nobody asks him for his name.' She straightens a bishop's. 'I only sell the hats. I don't say what they're for.'".
+  }
+  Topic pennifold_dree with pm_pennifold "Ask Hannah Pennifold which captains' hats she has had" when true once {
+    Says "'Captain Dree's, four times,' says Hannah Pennifold. 'Somebody takes it off the peg in the Lamprey House and brings it here, and Mrs Dree buys it back the next day. I think it's a game. I think they're both rather proud of it.' She lowers her voice. 'Cray of the Sovereign tears up forms in a good coat and buys a new one when he's done. I've never seen his hat. I have a feeling that it's his mother's.'".
+  }
+
+  // ── The garret ──────────────────────────────────────────────────────────────────────────────────────────
+  Observe pm_garret_scene at pm_garret when true "A slope-ceilinged room over a yard, warm from the oven below, with a bed made tight, a kettle that is much too new and a carpet-bag packed and standing by the door like a dog that has been told to wait. On the back of the door, at eye level, someone has pinned a half-sheet of grey paper, face in.".
+  Person pm_ouseley "Prudence Ouseley" at pm_garret {
+    Role "treasurer of the Penny Mutual, lodging as Mrs Ames". Ancestry human. Peaceable. Manner stoic. Pronouns she.
+    Greets "A thin woman in a good grey dress is sitting upright on the end of the bed with her hands in her lap, as if she were waiting for a verdict. 'You'll be the Mutual,' says Prudence Ouseley. 'Or the Office. I'd rather you were the Mutual. I've a boat on the evening of the second day and I've packed.' She does not look at the bag. 'I'd as soon be told I was a thief by someone who loved me.'".
+    Greets again "'You,' says Prudence Ouseley. 'Please sit.'".
+  }
+  Topic ouseley_why with pm_ouseley "Ask Prudence Ouseley why she ran" when true once {
+    Says "'Because I was paid five coin to say nothing,' says Prudence Ouseley, 'by Mr Larkworth, on behalf of someone who signs with a bird. I was shown a paper. It was a notice, for a block in this ward, for the second night. I know what a notice is. They come a week early, and the block burns.' She looks at the wall. 'The Mutual would have buried them. I thought: if I take the box, I'll be gone, and Keturah will say I stole, and nobody will ask me about the paper. I thought I could buy a passage for Seth and me.' She laughs, shortly. 'And I find that I can't be bought with five coin. It's only that I can't be believed for less.'".
+    On discuss { Assert knows(actor, pm_bribed). }
+  }
+  Action pm_ouseley_home(actor: group, site: place) "Tell Prudence Ouseley that the club has voted to forgive her, and ask her to come home" {
+    Speaker pm_ouseley.
+    Requires able(actor) and company(actor) and at(actor, site) and at(pm_ouseley, site) and knows(actor, pm_vote) and not pm_found(actor) and not pm_purse(actor).
+    Time 20 minutes.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert pm_found(actor). Give pm_notice to actor. Retract at(pm_ouseley, pm_garret). Assert at(pm_ouseley, penny_hall). }
+    Result "She does not believe you. You tell her again, and name the number, and tell her who voted the one, and why; and her face does what a face does that has not been forgiven in eleven years. 'Forty-one,' she says. 'And one.' She stands, and takes the grey paper from the back of the door, and puts it into your hand with the purse. 'I'll come,' says Prudence Ouseley. 'But I'll walk in front, and you'll not hold my arm.'".
+    Otherwise "'A club can vote anything,' says Prudence Ouseley. 'It's a club.' She turns her face to the wall. 'Go away, please. You are being kind and it is making it worse.'".
+  }
+  Action pm_ouseley_press(actor: group, site: place) "Stand over Prudence Ouseley until she hands over the purse and the paper" {
+    Speaker pm_ouseley.
+    Requires able(actor) and company(actor) and at(actor, site) and at(pm_ouseley, site) and not pm_found(actor) and not pm_purse(actor) and capable(actor, intimidation).
+    Time 10 minutes.
+    Resolve check(actor, intimidation, dc_fair).
+    On success { Assert pm_purse(actor). Assert pm_cowed(actor). Give pm_notice to actor. }
+    Result "She is not a woman who is easily frightened, but she has been frightened for a week, and that has taken the practice out of it. The purse comes out of the bag. The grey paper comes off the back of the door. 'There,' says Prudence Ouseley, and does not look at you, and does not say anything else, and for a long time afterward does not look at the door.".
+    Otherwise "'You do not frighten me,' says Prudence Ouseley. 'I have been frightened by experts.' She does not move from the bed. You find that you have been, in some way you cannot place, rather rude.".
+  }
+  Action pm_ouseley_lift(actor: group, site: place) "While she is out on the stair with the kettle, take the purse and the paper" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, pm_garret) and at(pm_ouseley, pm_garret) and not pm_found(actor) and not pm_purse(actor) and capable(actor, stealth).
+    Time 5 minutes.
+    Resolve check(actor, stealth, dc_hard).
+    On success { Assert pm_purse(actor). Assert pm_robbed(actor). Give pm_notice to actor. }
+    On failure { Assert pm_gone(actor). Retract at(pm_ouseley, pm_garret). Assert pm_cowed(actor). }
+    Result "She goes down the stair with the kettle. You have, by the length of a shuffle and a pour, the time it takes to say a prayer. The purse is in the bag, the paper is on the door, face in. You are on the oven-yard stair before the kettle is full.".
+    Otherwise "A board speaks. 'Fine,' says Prudence Ouseley, from the stair, without turning round. 'Fine. Take it, then.' By the time you have the bag open, she has gone down the stair, and out through the yard, and into the lane, at a pace that suggests that she is leaving more than a garret. It is a very good bag. It is empty.".
+  }
+  Action pm_lay_purse(actor: group, site: place) "Lay the recovered purse on the Mutual's table, and say a collector's man left it" {
+    Speaker pm_trendle.
+    Requires able(actor) and company(actor) and at(actor, site) and at(pm_trendle, site) and at(actor, penny_hall) and pm_purse(actor) and not pm_fund_home(actor).
+    Time 8 minutes.
+    On success { Assert pm_fund_home(actor). Assert pm_proud(actor). Assert pm_resolved(actor). Increase regard(wardsfolk) by 1. }
+    Result "Keturah Trendle weighs the purse in her hand, and lays it in the box, and counts it, which takes some time. 'Fourteen,' she says. 'Less nothing.' She locks the three locks, one after the other, with three keys from three chains, and looks at you. 'A collector's man,' she says. 'Well. I have never heard that a collector's man left anything anywhere. But I am not going to ask, because we are a club.' She does not meet Garrowby's eye. 'Will you take a pie?'".
+  }
+
+  Rule pm_boat at pm_garret when watch(clock) >= 216 and at(pm_ouseley, pm_garret) says "The garret over the oven-yard is empty. The bed is stripped, the kettle gone, and the stair scrubbed within the hour. Down at the river a boat that was to go at eight has gone." { Retract at(pm_ouseley, pm_garret). Assert pm_gone(party). }
+
+  // ── Home, and what is told ──────────────────────────────────────────────────────────────────────────────
+  Topic trendle_ouseley_q with pm_trendle "Tell Mrs Trendle that Prudence Ouseley is at the door, with what she carried off" when pm_found(party) and at(pm_ouseley, penny_hall) and not pm_resolved(party) once {
+    Says "Prudence Ouseley has come in at the door behind you and stood just inside it, in her good grey dress, with her hands folded, like a woman at her own trial. The club has stopped. 'Prudence,' says Keturah Trendle. 'It is fourteen coin.' 'It is,' says Prudence Ouseley. 'Fourteen. I have not spent a farthing.' There is a pause. 'The club has forgiven you,' Mrs Trendle says. 'Forty-one to one. Is there something that the club does not know?'".
+  }
+  Topic trendle_tell with pm_trendle "Tell the club what she was paid to keep quiet about, and by whom, and put the notice on the table" answering trendle_ouseley_q when pm_stamp_seen(actor) and holding(actor, pm_paper) {
+    Says "You lay the grey paper on the long table, under the lamp, with the seal to the room. Nobody in the Penny Mutual has ever seen a Phoenix seal on a notice to quit in the Wards, and a number of them read, with their lips moving, the name of a court that most of them have cousins in. Garrowby says 'Told you,' and no one hushes him. Mrs Trendle looks at the paper, and at Prudence Ouseley, who is white to the lips, and says, 'You were paid to say nothing of this.' 'Yes,' says Prudence. 'And you took the box.' 'Yes. To go. To not be asked.' A silence. 'Well,' says Keturah Trendle, and her voice has changed, 'that is not a club that does not ask any more.' She takes down the board that says WE DO NOT ASK, and turns it to the wall.".
+    On discuss { Assert pm_told_club(actor). Assert pm_fund_home(actor). Assert pm_resolved(actor). Assert pm_rent_strike(wardsfolk). Increase regard(wardsfolk) by 2. }
+  }
+  Topic trendle_quiet with pm_trendle "Say only that she has come home, and let the vote stand" answering trendle_ouseley_q when true {
+    Says "You say that she has come home, and with the fund, and that that is all the club asked for. Keturah Trendle looks at you for a moment, and at Prudence, and at the paper that you do not mention, and nods. 'Then that is that,' she says. She takes the purse from Prudence's hands, and puts her own hand over Prudence's for the length of a breath, and takes it away. The club sighs, and begins to breathe, and somebody puts a kettle on. It is a fine club. It does not ask.".
+    On discuss { Assert pm_fund_home(actor). Assert pm_proud(actor). Assert pm_resolved(actor). Increase regard(wardsfolk) by 1. }
+  }
+  Topic ouseley_witness with pm_ouseley "Ask Prudence Ouseley whether she will say before the Five what she was paid" when pm_told_club(actor) and at(pm_ouseley, penny_hall) and not pm_ouseley_speaks(actor) once {
+    Says "'In the Hall,' says Prudence Ouseley, 'with the five chairs.' She is quiet. Behind her the Mutual has gone silent, to a woman, and forty-one of them have looked up. 'Forty-one to one,' she says. 'I think I might.' She holds out her hands to the hall as if asking it to take them. 'But if I am to be believed by the Offices, I shall want the club in the room. And a hat of my own.'".
+    On discuss { Assert witness(pm_ouseley). Assert pm_ouseley_speaks(actor). }
+  }
+
+  // The warning. It is believed as the company is trusted. The date is the second night.
+  Topic trendle_warn_yes with pm_trendle "Tell Mrs Trendle that Candlewick Court has a stamped notice, for the second night" when knows(actor, d_candlewick_next) and not pm_court_warned(actor) and (entered_gap(actor) or pm_fund_home(actor) or regard(wardsfolk) >= 1) {
+    Says "'Candlewick,' says Keturah Trendle, and she is across the room before you have finished, with her shawl, and two of the Mutual's men behind her, who have not been asked. 'Seven houses. My sister's boy lives at Number Four.' She turns at the door. 'We have a cart, and a lane, and a blanket for every shoulder in the Mutual. We will have them out by dusk and in our own halls by midnight, and they may curse us in the morning for waking them.' She looks at you. 'It is a great thing, to be believed,' she says. 'I would not have done it for the Phoenix.'".
+    On discuss { Assert pm_court_warned(actor). Increase regard(wardsfolk) by 1. }
+  }
+  Topic trendle_warn_no with pm_trendle "Tell Mrs Trendle that Candlewick Court has a stamped notice, for the second night" when knows(actor, d_candlewick_next) and not pm_court_warned(actor) and not pm_disbelieved(actor) and not entered_gap(actor) and not pm_fund_home(actor) and regard(wardsfolk) < 1 once {
+    Says "Keturah Trendle goes still. 'You know the date,' she says. 'You know the court, and the night. I have been in the Wards for sixty years, and the people who know the date of a fire beforehand are the people who set it.' She does not shout. 'I do not say that you did. I say that I do not know you, and that is not a night on which to learn. Do something for the club. Then say it again.'".
+    On discuss { Assert pm_disbelieved(actor). }
+  }
 }
