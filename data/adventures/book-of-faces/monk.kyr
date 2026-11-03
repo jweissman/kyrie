@@ -1,2 +1,449 @@
 Module ombra "The Book of Faces" {
+  // ── The Bare Brothers and the Nine Quiets ─────────────────────────────────────────────────────────────────────────
+  // The cloister on Chapel Island: the only men in Ombra unmasked by vow, and invisible by contempt. They ring the Third
+  // and the Ninth Bells that mask and unmask the city, and never wear a face; they bury the Hospice's dead under a knot;
+  // and for ninety years, on the night of the Drawing, one of them has stood in the Chapel's door and done nothing, and
+  // the crowd has gone round. The Nine Quiets are the Order's old training for that: nine temptations to speak, name,
+  // strike, turn away, step in, hoard, comfort falsely, be seen, and be proud. A guest who takes the cord is set one a day.
+  // The city does it to him; the Order only counts. Keeping a Quiet is not always right and breaking one is not always
+  // wrong; Brother Amery, who is the Quiet, believes that stillness is refusal, and the arc argues, with the company's
+  // hands, that it is presence. What changes his mind is not evidence: a failure told him, and a night sat through.
+
+  Observe garth_scene at cloister_garth when publicHours() "The cloister garth: a square of wet grass with a well in the middle of it, and round it a covered walk of grey pillars, and in the corner, under a roof of its own, a bell on a beam. There are no masks here. A dozen men in undyed wool go about with their hoods back and their heads bare in the rain, doing small tasks with the slow exactness of men who have been told nobody is watching, and cannot be sure it is true.".
+  Observe garth_night at cloister_garth when privateHours() "The garth at night: the well, the grass, the bell on its beam in the dark. Lamps in two of the cells. The rain has found the one gutter that does not work and made a long, steady, private sound of it. Along the walk, every few paces, a stone set in the paving with a knot cut in it, and no name.".
+  Observe cells_scene at brothers_cells when publicHours() "A passage of whitewashed cells with the doors open, and in each one a pallet, a peg, a bowl and a window the size of a book. The Brothers keep nothing. A man's whole life here could be put in a hat, and the hat would still have room for the weather.".
+  Observe cells_night at brothers_cells when privateHours() "The cells at night: the doors closed, the passage lit by one candle in a niche, and from behind the doors the sound of men not speaking, which is quite different from silence, and fills the passage like a held breath. At the far end the Quiet's door has a knot hung on its latch.".
+  Observe refectory_scene at refectory when publicHours() "A long bare hall with two tables and a hatch, through which a great deal of steam and one loud voice emerge. The Brothers eat in silence, and pass the dishes by pointing, and the only sound at table is the rain, and the cook.".
+  Observe refectory_night at refectory when privateHours() "The refectory after the Ninth Bell: the tables scrubbed, one lamp lit, and at the end of the long table a man with a ledger bound in sacking and a pencil, reading aloud, in the voice of one who reads to the dead because they cannot say it is dull.".
+
+  Relation mo_vow(group). Relation mo_vow_pleaded(group). Relation mo_vow_read(group). Relation mo_vow_bell(group). Relation mo_asked(group). Relation mo_afraid(group). Relation mo_rule(group).
+  Relation mo_reading(group). Relation mo_wick_stays(group). Relation mo_wick_gone(group). Relation mo_brothers_stand(group).
+  Discovery mo_amery_afraid "Brother Amery is afraid, and not of the crowd: he counts something in his sleeve, nine times, whenever the Door is named.".
+  Discovery mo_alder "Last year's Drawing a young Brother, Alder, stood in the Chapel's door as the Rule requires, and the crowd did not go round: he was trampled. Brother Amery, the Quiet, had told him to stand, and has not told the Order he thinks it a mistake.".
+  Discovery mo_quiets_known "The Nine Quiets of the Bare Brothers are the Mouth, the Name, the Hand, the Back, the Step, the Hoard, the Tongue, the Face and the Crown: to speak, to name, to strike, to turn away, to step in, to hoard, to comfort falsely, to be seen, and to be proud.".
+
+  Person amery "Brother Amery" at cloister_garth {
+    Role "the Quiet of the Bare Brothers". Ancestry human. Peaceable. Pronouns he. Manner acerbic.
+    Greets "A Brother in undyed wool, with his hood back and his head bare, looks up from what he is doing, which is something small and exact, like a man who has been told that it is a prayer and has begun, privately, to doubt it. He is perhaps sixty. 'Brother Amery,' he says, to the nearest flat surface. 'The Quiet, which is a rank and not a temper. The Brothers do not take guests. A guest is a person. We are the other thing.'".
+    Greets again "'Ah,' says Brother Amery, and sweeps the same flagstone again, which is how he says good morning.".
+  }
+  Rule mo_amery_garth when hour(clock) >= 8 and hour(clock) < 19 and not at(amery, cloister_garth) { Assert at(amery, cloister_garth). }
+  Rule mo_amery_table when hour(clock) >= 19 and hour(clock) < 23 and not at(amery, refectory) { Assert at(amery, refectory). }
+  Rule mo_amery_cell when (hour(clock) >= 23 or hour(clock) < 8) and not at(amery, brothers_cells) { Assert at(amery, brothers_cells). }
+  Person mo_dunstan "Brother Dunstan" at refectory {
+    Role "the Brothers' cook, who is excused the Silence". Ancestry human. Peaceable. Pronouns he. Manner jovial.
+    Greets "A round man with his sleeves rolled to the elbow looks out of the hatch with a ladle held like a sceptre. 'Soup,' he says. It is the only word in the room. 'I may speak, you see, because a kitchen that cannot say hot is a kitchen that scalds. The Rule is very clear on it, and I have never once been sorry. Soup.'".
+    Greets again "'Soup,' says Brother Dunstan, comfortably.".
+  }
+  Rule mo_dunstan_day when hour(clock) >= 8 and hour(clock) < 21 and not at(mo_dunstan, refectory) { Assert at(mo_dunstan, refectory). }
+  Rule mo_dunstan_night when (hour(clock) >= 21 or hour(clock) < 8) and not at(mo_dunstan, brothers_cells) { Assert at(mo_dunstan, brothers_cells). }
+  Topic mo_dunstan_soup with mo_dunstan "Ask Brother Dunstan what the Brothers think of the Silence" when not masked(actor) once {
+    Says "He wipes the ladle on his sleeve, which does not improve either. 'The Silence is very fine for those who are good at it. I have been excused it for twenty years, and I will tell you what I have learned, which is that a man who may speak and does not is very different from a man who may not.' He lowers his voice, which is not much lower. 'They are all in there arguing. Not aloud. You can taste it in the soup. It is salty with it.'".
+  }
+  Person mo_wick "Brother Wick" at cloister_garth {
+    Role "a young Brother, with a bundle". Ancestry human. Peaceable. Pronouns he. Manner cheerful.
+    Greets "A boy of nineteen in a Brother's wool is scrubbing the well-head with a brush, hard, as if it had offended him. He looks up, and then very quickly down. 'Wick,' he says. 'I am not allowed to say more than that to a guest, and I am not a very good Brother, so you must please say nothing about it.' He scrubs. 'It is only that there is so much of the day.'".
+    Greets again "Brother Wick scrubs the well-head and does not look up.".
+  }
+  Rule mo_wick_garth when hour(clock) >= 8 and hour(clock) < 21 and not mo_wick_gone(party) and not at(mo_wick, cloister_garth) { Assert at(mo_wick, cloister_garth). }
+  Rule mo_wick_cell when (hour(clock) >= 21 or hour(clock) < 8) and not mo_wick_gone(party) and not at(mo_wick, brothers_cells) { Assert at(mo_wick, brothers_cells). }
+  Topic mo_wick_day with mo_wick "Ask Brother Wick what there is so much of" when not masked(actor) and publicHours() once {
+    Says "'The day.' He sits back on his heels. 'The Rule says there are nine hours of the Silence and nine of work and nine of sleep, and it does not say what there is when you have done all three and are still nineteen.' He looks, quickly, at the garth door and the gate beyond it. 'At the Swap, you know, the Bare may take a face from any citizen who offers one. For a night. It is the only night we could.' He scrubs. 'I only wonder what it is like to be asked for something.'".
+  }
+
+  // ── Taking the cord: three ways in, and what each leaves ────────────────────────────────────────────────────────────
+  // He will not teach the Quiets: they are happened to. The company is taken in as a guest by being heard (persuasion),
+  // by being seen (insight: no one has looked at his hands in thirty years), or by freeing the bell (a rope, a ladder,
+  // two arms: no charm at all). Each way leaves him thinking something different of the guest.
+  Kind mo_cord_kind "a guest-cord of the Bare Brothers" is gear worth 0 weighing 0 described "A length of undyed rope the width of a finger, knotted nine times: one knot for each of the Quiets, tied loose, to be tightened by whoever has kept it. It is warm from a man's hand. It is the only thing the Brothers own that they were willing to give away.".
+  Item mo_cord "a guest-cord of the Bare Brothers" is mo_cord_kind at offstage.
+  Topic mo_amery_masked with amery "Speak to Brother Amery" when masked(actor) and publicHours() {
+    Says "The Brother turns, and looks at the mask, and then very carefully at the wall behind it. 'The Brothers do not speak to masks,' he says, to the wall, 'and masks do not speak to the Brothers. It is the single article on which the Order and the city have agreed in three hundred years.' He goes back to the broom. 'I should take it as a kindness, if you would take it off before you come again. I do not say it to be answered.'".
+  }
+  Topic mo_ask_in with amery "Ask Brother Amery to take you in as a guest of the Brothers" when not masked(actor) and not mo_vow(actor) and not mo_asked(actor) once {
+    Says "'Take,' says Brother Amery. 'The Brothers do not take; we are found, like the weather. What is it you want of us? Everybody wants something of the Bare Brothers, it is the whole of our usefulness: a quiet corner, a burial, a bell.' He leans on the broom. 'Nine days. It will be nine days of being set exercises. It will not be pleasant, and at the end of it I will not be able to tell you that you passed. Convince me you are not here to be Bare in a better coat.' He does not look at the bell in the corner, which hangs fouled, and has hung so since the morning.".
+    On discuss { Assert mo_asked(actor). }
+  }
+  Action mo_plead(actor: group, site: place) "Tell Brother Amery you have come for the Quiets and will not be turned away" {
+    Speaker amery.
+    Requires able(actor) and company(actor) and at(actor, site) and at(amery, site) and mo_asked(actor) and not mo_vow(actor) and not masked(actor).
+    Time 6.
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert mo_vow(actor). Assert mo_vow_pleaded(actor). Assert arcBegun(actor, hand_door). Give mo_cord to actor. Assert knows(actor, mo_quiets_known). }
+    Result "You say it as you would say it to a magistrate, and then, because he is not one, you say it again as you would say it to a friend. He listens to the second one. 'You have a good voice,' says Brother Amery. 'It will be the first thing the Quiets take.' He goes to the well, and draws a cup, and gives it to you, which is, you gather, the rite. A length of rope with nine loose knots is in your hand, and he is sweeping again. 'Mouth, Name, Hand, Back, Step, Hoard, Tongue, Face, Crown,' he says, to the flagstone. 'In that order, one a day. Do not look for them. Do not say I told you.'".
+    Otherwise "He listens with great attention, as a man listens to rain that has begun to find a way in. 'I have heard that before,' says Brother Amery. 'It is a good voice. I have heard it from the pulpit, and it has not yet once been answered by a silence.' He sweeps.".
+  }
+  Action mo_read(actor: group, site: place) "Look at Brother Amery's hands, and not at his face, and ask what he is afraid of" {
+    Speaker amery.
+    Requires able(actor) and company(actor) and at(actor, site) and at(amery, site) and mo_asked(actor) and not mo_vow(actor) and not masked(actor).
+    Time 6.
+    Resolve check(actor, insight, dc_fair).
+    On success { Assert mo_vow(actor). Assert mo_vow_read(actor). Assert mo_afraid(actor). Assert knows(actor, mo_amery_afraid). Assert arcBegun(actor, hand_door). Give mo_cord to actor. Assert knows(actor, mo_quiets_known). }
+    Result "You watch his hands, as you were not asked to. The broom goes on, but the left hand in his sleeve is working at something: a cord, with knots in it, nine of them; and each time the Door is named, the thumb goes down the cord and stops at the ninth. 'You are afraid,' you say. 'Not of the crowd.' The broom stops. 'In thirty years,' says Brother Amery, 'nobody has looked at my hands.' He does not look at them himself. Then he takes the cord out of his sleeve, and cuts a length of it with a knife, and gives it you. 'Mouth, Name, Hand, Back, Step, Hoard, Tongue, Face, Crown,' he says. 'One a day. Do not look for them.'".
+    Otherwise "You look at his hands, and they are a sweeper's hands, and they sweep. If there is something in them it keeps its own counsel, and the Brother lets you look, with the courtesy of a man who has nothing to hide, or who is very good at it.".
+  }
+  // The bell: a rope fouled over the beam, which any strong back, or good hands, or a head for a ladder, can clear.
+  Thing mo_bell "the cloister bell" at cloister_garth {
+    State fouled "In the corner of the garth, under its own small roof, the Brothers' bell hangs from a beam with its rope fouled round the headstock; the clapper cannot swing, and the Brother whose duty it is has been standing under it since dawn, looking up.".
+    State hung "The Brothers' bell hangs clear in its corner of the garth, with a tarred rope as thick as a wrist, and its voice, when it comes, is a plain brown one.".
+    Change clear "Climb the beam and clear the bell-rope" from fouled to hung needing climbing.
+    Change splice "Splice the frayed rope from the ground, and haul it free" from fouled to hung needing mending.
+    Change heave "Heave the bell-rope free, hand over hand" from fouled to hung needing brawn.
+  }
+  Rule mo_bell_taken when state(mo_bell, hung) and changedBy(mo_bell, party) and not mo_vow(party) says "The bell speaks once, clean, and the Brother who stood under it all day sits down on the well-head and puts his face in his hands. Brother Amery has put down the broom. 'That bell,' he says, 'has been fouled since the morning of the Novena, and four of us have been up it. I cannot say no to a man who has mended my bell.' He takes a length of knotted rope from his sleeve, and puts it in your hand. 'Mouth, Name, Hand, Back, Step, Hoard, Tongue, Face, Crown. One a day. Do not look for them.'" teaches mo_quiets_known { Assert mo_vow(party). Assert mo_vow_bell(party). Assert arcBegun(party, hand_door). Give mo_cord to party. }
+
+  // ── Brother Amery by night: the Door, and what he is afraid of ───────────────────────────────────────────────────────
+  // By day he speaks in the Order's formulae; after the Ninth Bell, in the refectory, he reads aloud to the dead, and speaks
+  // like a man. The Reading is a register of the Bare buried in the garth: a day, a weather, no name. Sitting through
+  // it is the one thing nobody has done in forty years, and it is what changes his mind.
+  Topic mo_amery_door with amery "Ask Brother Amery, at the table after the Bell, about the Door" when privateHours() and not masked(actor) and mo_vow(actor) once {
+    Says "'The Door,' he says, and sets down the pencil. 'Ninety years the Brothers have stood in the Chapel's door on the night of the Drawing and done nothing. The crowd goes round us like water round a post. It is the one useful thing we do.' His left hand is in his sleeve. 'This year the Registrar is dead, and nobody may say who the Drawing is for, and nobody knows if the Urn is anything but a jar. I have told the Order that the Brothers will not stand.' He looks at the ledger. 'I should be obliged if you did not ask me why.'".
+    On discuss { Assert knows(actor, mo_amery_door_known). }
+  }
+  Discovery mo_amery_door_known "Brother Amery has told the Bare Brothers they will not stand in the Chapel's door at the Drawing this year, and will not say why.".
+  Action mo_amery_lore(actor: group, site: place) "Quote Brother Amery the Rule of the Door, as one who has read it" {
+    Speaker amery.
+    Requires able(actor) and company(actor) and at(actor, site) and at(amery, site) and privateHours() and not masked(actor) and mo_vow(actor) and knows(actor, mo_amery_door_known) and not knows(actor, mo_alder).
+    Time 6.
+    Resolve check(actor, lore, dc_fair).
+    On success { Assert knows(actor, mo_alder). Assert mo_rule(actor). }
+    Result "'The Brother at the Door does not stand against the crowd,' you say. 'He stands as a post stands, and the crowd, being water, goes round.' Brother Amery does not move. 'You have read the footnote,' he says. 'No one reads the footnote.' The footnote is one line: that the Rule has been broken once. He closes the ledger on the pencil. 'Alder,' he says. 'Nineteen, a good hand with a sick animal. Last year I told him to stand, for the Rule, and the crowd did not go round, for it was a bad year and they were frightened; and it went over him. They buried him by the well. I have not told the Order that I think the Rule is a lie. I have only told them we shall not stand.'".
+    Otherwise "You say what the Rule says, as you remember it, and Brother Amery listens with courtesy and corrects it in four places. 'No,' he says. 'You are thinking of the Rule of the Silence. It is not the same. It is a great deal worse.'".
+  }
+  Action mo_sit_reading(actor: group) "Sit with Brother Amery through the Reading of the Weather, and say nothing" {
+    Speaker amery.
+    Requires able(actor) and company(actor) and at(actor, refectory) and at(amery, refectory) and not masked(actor) and mo_vow(actor) and not mo_reading(actor) and hour(clock) >= 20 and hour(clock) < 22.
+    Time 12.
+    On success { Assert mo_reading(actor). Set conviction(amery, mo_refusal) to 1. }
+    Result "He reads. It is the register of the Bare who are buried in the garth, a line for each and no name: Tuesday. Rain. Wind from the south-west. Thursday. Fog. Thursday. Rain. He reads forty-one of them, in the voice of one reading to the dead because they cannot say it is dull. You do not speak. Somewhere in the third year he stops looking at the ledger, and by the fortieth he is reading it to you. At the end he does not say anything. He shuts the ledger. 'In forty years,' says Brother Amery, 'nobody has sat the Reading. I thought it was for me.'".
+  }
+  Entity mo_refusal: claim "Stillness is refusal: the Brothers do nothing because the city should be left to what it has made".
+  Initially Assert believes(amery, mo_refusal). Initially Set conviction(amery, mo_refusal) to 2.
+  Measure moMercy(group). Measure moAnswered(group). Measure moPresence(group).
+  Action mo_confess(actor: group, site: place) "Tell Brother Amery what you did, and why, and that you were wrong to" {
+    Speaker amery.
+    Requires able(actor) and company(actor) and at(actor, site) and at(amery, site) and privateHours() and not masked(actor) and mo_vow(actor) and moMercy(actor) >= 1.
+    Time 6.
+    On success { Decrease moMercy(actor) by 1. Increase moAnswered(actor) by 1. Increase moKept(actor) by 1. Set conviction(amery, mo_refusal) to 1. }
+    Result "You tell it badly, since it is a thing to be done well or not at all: the Quiet, the hour, what you did instead, and who it was for. He listens with his head down. 'You are telling me,' he says, 'that you broke it for another, and know that you broke it, and have not come to be told you were right.' He turns the pencil over. 'Then it is not broken. It was answered. The Rule has no word for it; I have always thought that a defect in the Rule.' He lays his hand, briefly and quite lightly, on your sleeve. 'I should be very sorry to be that sure of myself again.'".
+  }
+  Rule mo_amery_lets_go when mo_reading(party) and (moAnswered(party) >= 1 or moPresence(party) >= 3) and not mo_brothers_stand(party) and at(party, cloister_garth) and hour(clock) >= 6 and hour(clock) < 20 once says "Brother Amery is sitting in the cloister garth at dawn, with the broom across his knees, and he does not get up as you come. 'I have been wrong about it,' he says, and it is quite quietly said. 'Not about Alder. About the Door. A post is not what they need. I thought stillness was a wall. It is a thing one gives, like a hand, and it was never meant to be given alone.' The cord in his sleeve has been cut in two. 'The Brothers will stand. All of us. You will not stand alone.'" { Assert mo_brothers_stand(party). Set conviction(amery, mo_refusal) to 0. }
+  Rule mo_amery_lets_go_word when mo_reading(party) and (moAnswered(party) >= 1 or moPresence(party) >= 3) and not mo_brothers_stand(party) and not at(party, cloister_garth) and hour(clock) >= 6 and hour(clock) < 20 once says "A Brother in undyed wool has come across the water after you, bare-headed, in the rain, to say what he was sent to say, and he says it like a man reading a register: that Brother Amery sat up all night over the book, and has changed his mind about the Door; that the Brothers will stand, all of them, nine abreast; and that you are not to stand alone." { Assert mo_brothers_stand(party). Set conviction(amery, mo_refusal) to 0. }
+
+  Topic mo_amery_quiets with amery "Ask Brother Amery what the Quiets are for" when not masked(actor) and mo_vow(actor) and not knows(actor, mo_amery_for) once {
+    Says "'For?' He sweeps. 'If I were to answer you I should have to be right.' A long pause, and the broom goes round the well-head. 'The Order says: that a man who can keep silent in the face of every provocation is a man nobody can use. It is a very good answer. It is the answer I was given at your age, and I gave it to Alder.' He looks at the flagstone as if it had spoken. 'I think I should like to be wrong about it. I should be wrong in a more interesting way than most.'".
+    On discuss { Assert knows(actor, mo_amery_for). }
+  }
+  Discovery mo_amery_for "The Order teaches that a man who can keep silent in the face of every provocation is a man nobody can use. Brother Amery gave that answer to Alder, and would like, he says, to be wrong about it.".
+  Observe mo_amery_cut at cloister_garth when mo_brothers_stand(party) and at(amery, cloister_garth) "Brother Amery's broom leans against the well-head, where it has not leaned before, and the cord he kept in his sleeve has been cut through and tied to the bell-rope, in two ends, as one ties up a thing that has been let go.".
+
+  // ── The Nine Quiets: the machinery ──────────────────────────────────────────────────────────────────────────────────
+  // A Quiet opens on its day, for a guest who has taken the cord, at a place in the city, between two hours; it closes
+  // when it is met or when the window does. It is kept, or broken, or missed. Missing is neither: the thing happened and
+  // the guest was not there for it, and absence is not keeping. A Quiet broken for another's sake may be told to the Quiet
+  // by night and counted kept (answered); a Quiet kept by staying with someone is presence, and presence is what the Order
+  // did not know it was for. moQuiet(party, q) holds for a Quiet kept (or answered); moBroke for one broken; moKept is the
+  // count kept, moBroken the count broken; moPresence how many were kept by staying and not only by silence.
+  Kind mo_quiet.
+  Entity mo_q1: mo_quiet "the Quiet of the Mouth". Entity mo_q2: mo_quiet "the Quiet of the Name". Entity mo_q3: mo_quiet "the Quiet of the Hand".
+  Entity mo_q4: mo_quiet "the Quiet of the Back". Entity mo_q5: mo_quiet "the Quiet of the Step". Entity mo_q6: mo_quiet "the Quiet of the Hoard".
+  Entity mo_q7: mo_quiet "the Quiet of the Tongue". Entity mo_q8: mo_quiet "the Quiet of the Face". Entity mo_q9: mo_quiet "the Quiet of the Crown".
+  Relation moQuiet(group, mo_quiet). Relation moBroke(group, mo_quiet). Relation mo_done(group, mo_quiet). Relation mo_missed(group, mo_quiet).
+  Relation mo_open(mo_quiet). Relation mo_shut(mo_quiet). Relation mo_counted(mo_quiet). Relation mo_counted_broke(mo_quiet).
+  Measure mo_day(mo_quiet). Measure mo_to(mo_quiet). Measure moKept(group). Measure moBroken(group).
+  Initially Set mo_day(mo_q1) to 1. Initially Set mo_day(mo_q2) to 2. Initially Set mo_day(mo_q3) to 3. Initially Set mo_day(mo_q4) to 4. Initially Set mo_day(mo_q5) to 5.
+  Initially Set mo_day(mo_q6) to 6. Initially Set mo_day(mo_q7) to 7. Initially Set mo_day(mo_q8) to 8. Initially Set mo_day(mo_q9) to 9.
+  Initially Set mo_to(mo_q1) to 20. Initially Set mo_to(mo_q2) to 20. Initially Set mo_to(mo_q3) to 20. Initially Set mo_to(mo_q4) to 20. Initially Set mo_to(mo_q5) to 23.
+  Initially Set mo_to(mo_q6) to 20. Initially Set mo_to(mo_q7) to 23. Initially Set mo_to(mo_q8) to 20. Initially Set mo_to(mo_q9) to 23.
+  Rule mo_count_kept when moQuiet(party, ?q) and not mo_counted(?q) { Assert mo_counted(?q). Increase moKept(party) by 1. }
+  Rule mo_count_broke when moBroke(party, ?q) and not mo_counted_broke(?q) { Assert mo_counted_broke(?q). Increase moBroken(party) by 1. }
+  Rule mo_missed_rule when mo_open(?q) and not mo_done(party, ?q) and hour(clock) >= mo_to(?q) says "The hour of {?q} has gone by, and nothing was kept or broken in it. The thing happened, as things in the city do, with nobody of yours there to see it. The Brothers will not say you failed. They will only say that it was not kept." { Assert mo_missed(party, ?q). Assert mo_done(party, ?q). }
+  Rule mo_closes when mo_open(?q) and (mo_done(party, ?q) or day(clock) != mo_day(?q) or hour(clock) >= mo_to(?q)) { Retract mo_open(?q). Assert mo_shut(?q). }
+  // Each Quiet opens at its own place and hour for a company that has the cord, and says where to look.
+  Rule mo_open_q1 when mo_vow(party) and day(clock) == 1 and hour(clock) >= 12 and hour(clock) < 20 and not mo_open(mo_q1) and not mo_shut(mo_q1) says "The cord in your sleeve is a little warmer than it was. Across the water, at the Gate, something has begun in the square that you would be a fool not to look at." { Assert mo_open(mo_q1). }
+  Rule mo_open_q2 when mo_vow(party) and day(clock) == 2 and hour(clock) >= 12 and hour(clock) < 20 and not mo_open(mo_q2) and not mo_shut(mo_q2) says "The second knot has begun to itch. It is something at the Wardrobe Annex, you think, and you do not know why you think it." { Assert mo_open(mo_q2). }
+  Rule mo_open_q3 when mo_vow(party) and day(clock) == 3 and hour(clock) >= 12 and hour(clock) < 20 and not mo_open(mo_q3) and not mo_shut(mo_q3) says "A sudden quiet comes across the square from the Hospice, such as you have not heard in that room, and you know it for a thing you are meant to go to." { Assert mo_open(mo_q3). }
+  Rule mo_open_q4 when mo_vow(party) and day(clock) == 4 and hour(clock) >= 12 and hour(clock) < 20 and not mo_open(mo_q4) and not mo_shut(mo_q4) says "It has begun to rain harder on the Customs Steps. You do not know how you know that." { Assert mo_open(mo_q4). }
+  Rule mo_open_q5 when mo_vow(party) and day(clock) == 5 and hour(clock) >= 17 and hour(clock) < 23 and not mo_open(mo_q5) and not mo_shut(mo_q5) says "Dusk, and the Swap. In the cloister garth a Brother has been standing by the door for an hour with a bundle, and has not yet moved." { Assert mo_open(mo_q5). }
+  Rule mo_open_q6 when mo_vow(party) and day(clock) == 6 and hour(clock) >= 12 and hour(clock) < 20 and not mo_open(mo_q6) and not mo_shut(mo_q6) says "The Flood has sent the low islands up to Chapel Island, and a queue has begun at the Brothers' refectory door that goes out of the cloister and round the corner of the wall." { Assert mo_open(mo_q6). }
+  Rule mo_open_q7 when mo_vow(party) and day(clock) == 7 and hour(clock) >= 20 and hour(clock) < 23 and not mo_open(mo_q7) and not mo_shut(mo_q7) says "After the Ninth Bell the seventh knot is warm. In the Hospice, a woman is sitting up with a string." { Assert mo_open(mo_q7). }
+  Rule mo_open_q8 when mo_vow(party) and day(clock) == 8 and hour(clock) >= 12 and hour(clock) < 20 and not mo_open(mo_q8) and not mo_shut(mo_q8) says "Crowds are gathering on the steps of the Chapel, the first of the Drawing's: and for the first time in the Novena a good many of them are looking, with interest, at the Bare." { Assert mo_open(mo_q8). }
+
+  // ── 1. The Mouth: a child struck in the square ──────────────────────────────────────────────────────────────────────
+  // To speak. The alternatives: speak (a face is heard; a bare mouth is only counted), or kneel and gather the pies. The
+  // first costs heat if you are bare, and teaches the Standing in the plainest way there is: said to nobody, and charged.
+  Observe mo_q1_scene at gate_square when mo_open(mo_q1) "By the Annex window a big man in a cockle-domino has a child by the collar, with a tray-boy's tray at his feet and eel-pies all over the wet paving. The child is perhaps seven and has the look of one who has been struck before and waits, with a kind of professional interest, to see where. The square goes round them as water goes round a stone; a porter studies the sky. Nobody has said anything. It is nobody's business. That is the Concord.".
+  Relation mo_spoke1(group).
+  Action mo_q1_gather(actor: group) "Kneel in the wet and gather up the child's pies, saying nothing" {
+    Requires able(actor) and company(actor) and at(actor, gate_square) and mo_open(mo_q1) and not mo_done(actor, mo_q1).
+    Time 6.
+    On success { Assert mo_done(actor, mo_q1). Assert moQuiet(actor, mo_q1). Increase moPresence(actor) by 1. }
+    Result "You get down on the stones, which is not easy in the clothes you are wearing, and begin to pick up eel-pies one at a time. The man stands over you, waiting to be answered, with his hand still out; and nobody answers him, and there is nothing to hit; and after a while the hand finds out what it is doing, and goes into his coat. He goes. The boy takes the last pie out of your hand and looks at you, directly, which no one else in the square has done, and goes after his tray. Your own hands are shaking. That, you suppose, is the Quiet.".
+  }
+  Action mo_q1_speak(actor: group) "Tell the man to stop" {
+    Requires able(actor) and company(actor) and at(actor, gate_square) and mo_open(mo_q1) and not mo_done(actor, mo_q1) and publicHours().
+    Time 1 minute.
+    On success { Assert mo_done(actor, mo_q1). Assert moBroke(actor, mo_q1). Increase moMercy(actor) by 1. Assert mo_spoke1(actor). }
+    Result "'Stop,' you say, aloud, in the square, in daylight, to a man in a mask.".
+  }
+  Rule mo_q1_heard when mo_spoke1(party) and masked(party) once says "He turns, and finds a face to answer, which is a thing he has been trained for. One mask to another: he lets go of the collar, and says in the trade's form that he did not see your hand in the matter, and is very sorry. The boy is gone before the word is done. The man goes with some dignity, as one who has been corrected by a colleague. It has worked entirely, and for a wrong reason: nothing was said to him. It was said to your face." { }
+  Rule mo_q1_unheard when mo_spoke1(party) and not masked(party) once says "The man does not hear it. He goes on not hearing it with a thoroughness you can only admire, and in the pause the blow he had begun lands anyway, on the child, and the child cries. Three masked heads in the square have turned, as heads turn at a smell, and one grey Watch domino has stopped walking. You said a word to nobody, and have been counted for it." { Increase heat(party) by 1. }
+
+  // ── 2. The Name: the Inspector of Rented Faces ─────────────────────────────────────────────────────────────────────
+  // To name. A Bare may Name whom he likes: it is the only weapon the city lets him. The alternatives: Name him in the
+  // Annex (the generic name_aloud: heat, and a man ruined by sundown); whisper the name to him, which is the Concord's
+  // loophole and a quiet cruelty of its own; or stand there, and be thanked for not saying it.
+  Person mo_inspector "Orrin Gadd" at offstage {
+    Role "the Inspector of Rented Faces". Ancestry human. Peaceable. Pronouns he. Manner proud.
+    Known as "the Inspector of Rented Faces, in a Heron's cowl" when not knows(party, mo_pask_known).
+    Greets "A Heron's cowl turns a quarter toward you, and away, as a man turns from a draught.".
+  }
+  Discovery mo_pask_known "The Inspector of Rented Faces, who fines Moll a coin for every face returned a minute after the Ninth Bell by a clock a quarter of an hour fast, is Orrin Gadd.".
+  Initially Assert unmaskTeaches(mo_inspector, mo_pask_known).
+  Rule mo_inspector_comes when mo_open(mo_q2) and not at(mo_inspector, annex_counter) { Assert at(mo_inspector, annex_counter). }
+  Rule mo_inspector_goes when not mo_open(mo_q2) and at(mo_inspector, annex_counter) { Assert at(mo_inspector, offstage). }
+  Observe mo_q2_scene at annex_counter when mo_open(mo_q2) "A Heron's cowl stands at the counter with a ledger of its own, and before it, hands flat on the wood, Moll is counting coins out of his own purse: the Inspector of Rented Faces, fining the Annex a coin for each face returned a minute after the Ninth Bell, by a clock that is, Moll would tell you if he could, a quarter of an hour fast. By the Inspector's glove lies a chit signed in the neat hand of a man paid to be understood: O. GADD. It is the third such morning." teaches mo_pask_known.
+  Rule mo_q2_named when named(mo_inspector) and not mo_done(party, mo_q2) and not moBroke(party, mo_q2) says "The name goes across the Annex like a dropped tray, and out of the door, and across the square: Gadd. By dusk the whole Gate will have it, and every grudge that has not yet been told it: his creditors, his tailor, his wife's sister. The cowl stands quite still. Moll has gone the colour of the pegs. Nobody is fined. It is the first quiet hour the Annex has had in three mornings, and you have bought it with a man." { Assert mo_done(party, mo_q2). Assert moBroke(party, mo_q2). }
+  Action mo_q2_whisper(actor: group) "Lean across the counter and say the Inspector's name to him, very low" {
+    Requires able(actor) and company(actor) and at(actor, annex_counter) and mo_open(mo_q2) and not mo_done(actor, mo_q2) and knows(actor, mo_pask_known).
+    Time 1 minute.
+    On success { Assert mo_done(actor, mo_q2). Assert moBroke(actor, mo_q2). Increase moMercy(actor) by 1. }
+    Result "You say it so low that Moll, a yard away, does not hear it; so low it is hardly a word. 'Gadd.' The Inspector's glove stops on the counter. For a long moment the cowl does not turn, and then he lays down on the wood, one at a time, the coins he has taken, and two more for the morning, and goes out. He does not look at you. Nobody has been Named; the square has heard nothing. Behind you Moll lets out a breath he has been keeping since the Novena began.".
+  }
+  Action mo_q2_stand(actor: group) "Stand at the end of the counter and say nothing, while Moll is fined" {
+    Requires able(actor) and company(actor) and at(actor, annex_counter) and mo_open(mo_q2) and not mo_done(actor, mo_q2).
+    Time 6.
+    On success { Assert mo_done(actor, mo_q2). Assert moQuiet(actor, mo_q2). }
+    Result "You stand where a man could see you. The Inspector does not; the Bare are not there. He counts out the fine, and Moll counts it in, and the Annex clock, which is fast, strikes the quarter. When the cowl has gone Moll puts his hand on the counter beside yours, not touching, as a man rests a hand near a dog he does not know. 'Thank you for not saying anything,' he says. 'It is very rare.' He does not say what it cost him to be so thanked, and you do not ask. It cost him three coin.".
+  }
+
+  // ── 3. The Hand: a mask in the Hospice ────────────────────────────────────────────────────────────────────────────────
+  // To strike. The alternatives: hit him (heat, and a wet glad roar); stand between, saying nothing (the body as a wall);
+  // or ring Tibb's bell, and let the Hospice's own usage make him a burglar by daylight. The third is the Gate's lesson
+  // in miniature: the city's rules are weapons that nobody uses.
+  Observe mo_q3_scene at hospice_hall when mo_open(mo_q3) "A man in the Cockle's cream domino has come in off the square, which a mask may not do, and stands in the middle of the Hospice hall with Master Voss by the collar and a baker's bill in his fist. The loud room has gone quiet in a way that can be heard. The cartographer holds his drawing-board to his chest like a shield, and does not look up: he cannot, you remember, look at a face. At the long table Mother Tibb has lifted her pen, and is waiting, with the air of a woman who has been waiting nine years, to be asked.".
+  Action mo_q3_bell(actor: group) "Take up Mother Tibb's hand-bell and ring it" {
+    Requires able(actor) and company(actor) and at(actor, hospice_hall) and mo_open(mo_q3) and not mo_done(actor, mo_q3) and not masked(actor).
+    Time 1 minute.
+    On success { Assert mo_done(actor, mo_q3). Assert moQuiet(actor, mo_q3). }
+    Result "You take the bell off the table and ring it. The effect is out of all proportion. Mother Tibb lowers the pen. 'A mask,' she says, in the Hospice voice, 'in the hall after the bell. By the Usages, a burglar.' Every bare face in the room turns to look at him at once, thirty damp faces, with nothing between them and him; and the man in the cockle-domino, who has never in his life been looked at by so many faces together, lets go of the collar as if it were hot, and goes backward through the door, bill and all. 'There,' says Mother Tibb. 'It is a very good rule. I do not think it has been used in nine years.'".
+  }
+  Action mo_q3_stand(actor: group) "Stand between the man and the cartographer, and say nothing" {
+    Requires able(actor) and company(actor) and at(actor, hospice_hall) and mo_open(mo_q3) and not mo_done(actor, mo_q3) and not masked(actor).
+    Time 6.
+    On success { Assert mo_done(actor, mo_q3). Assert moQuiet(actor, mo_q3). Increase moPresence(actor) by 1. }
+    Result "You get up and stand between them, close, with your hands where he can see them. It is, in a city of masks, the single most alarming thing a Bare can do, since he cannot tell whom he is being stood in front of. He tries to go round you. You stand. After a time he lets go the collar to wave you off, and finds he has said the bill aloud, and that thirty people have heard what it was, which was four coin; and he puts it in his coat, and goes. Master Voss does not look up. His hand on the board has stopped shaking.".
+  }
+  Action mo_q3_strike(actor: group) "Strike the man" {
+    Requires able(actor) and company(actor) and at(actor, hospice_hall) and mo_open(mo_q3) and not mo_done(actor, mo_q3) and not masked(actor).
+    Time 1 minute.
+    On success { Assert mo_done(actor, mo_q3). Assert moBroke(actor, mo_q3). Increase heat(actor) by 2. }
+    Result "You hit him. It is not a good blow, but he is not expecting any; he sits down on the floor with his domino askew and the bill still in his fist, and for a moment you see the edge of a face under it: a plain frightened one, with a moustache. The hall roars, a great wet glad bare roar. He gets up and goes, and you have been, in front of thirty of the Bare and one window of the Watch, a Bare who struck a mask. Mother Tibb writes in her ledger, quite slowly. You do not know what.".
+  }
+
+  // ── 4. The Back: a woman on the Steps ────────────────────────────────────────────────────────────────────────────────
+  // To turn away. The Quiet is kept by staying; what the Order did not teach is that a coin is the most courteous way of
+  // going. The alternatives all break it: walk on, or pay and walk on. The one that keeps it costs three hours in the rain
+  // and gives her nothing at all.
+  Observe mo_q4_scene at customs_steps when mo_open(mo_q4) "On the sixth step up from the water a Bare woman sits in the rain with a child's shoe in one hand and no sheet. She has been put out of the Hospice, by the nine-day rule or the eleven-in-nine one, and has not yet found anywhere else to be. People go up and down past her with their heads a little turned. She is not asking for anything. That, you see, is what makes it difficult.".
+  Action mo_q4_sit(actor: group) "Sit down on the wet step beside her, and stay" {
+    Requires able(actor) and company(actor) and at(actor, customs_steps) and mo_open(mo_q4) and not mo_done(actor, mo_q4).
+    Time 18.
+    On success { Assert mo_done(actor, mo_q4). Assert moQuiet(actor, mo_q4). Increase moPresence(actor) by 1. }
+    Result "You sit. The stone is wet through at once. She does not look at you. After an hour she begins to talk, not to you, to the water: about a girl, and a boat that went to the Drip with a lamp and did not come back, and the shoe. You do not answer. At the end of the third hour, when the Ninth Bell is near, she says 'Thank you' to the steps, and gets up, and goes up them to find the Brothers, who will bury, if they cannot house. You have given her nothing. You stand with a numb leg and the damp sense of having been, for three hours, less alone than you had arranged to be.".
+  }
+  Action mo_q4_coin(actor: group) "Give her four coin, and go on up" {
+    Requires able(actor) and company(actor) and at(actor, customs_steps) and mo_open(mo_q4) and not mo_done(actor, mo_q4) and quantity(actor, gold) >= 4.
+    Time 1 minute.
+    On success { Decrease quantity(actor, gold) by 4. Assert mo_done(actor, mo_q4). Assert moBroke(actor, mo_q4). }
+    Result "She takes it, and says thank you, and means it, and you go up the steps lighter by four coin and the whole of your intention. It was the right amount. It was exactly the sum that lets a person be left. Behind you on the sixth step a woman with a shoe holds a coin in her other hand and has not looked up. The step is just as wet.".
+  }
+  Action mo_q4_on(actor: group) "Go on up the steps" {
+    Requires able(actor) and company(actor) and at(actor, customs_steps) and mo_open(mo_q4) and not mo_done(actor, mo_q4).
+    Time 1 minute.
+    On success { Assert mo_done(actor, mo_q4). Assert moBroke(actor, mo_q4). }
+    Result "You go on up the steps. It is perfectly easy; it is what the Bare do; the whole of Ombra goes up and down past her. You are nearly at the top when you notice that your own head has turned a little to one side, as the others' do. You are not aware of having turned it.".
+  }
+
+  // ── 5. The Step: Brother Wick and the Swap ────────────────────────────────────────────────────────────────────────────
+  // To intervene. The Brother is going, tonight, as a Bare may at the Swap, if a stranger will give him a face. The
+  // alternatives: argue him out of it (it may work, and it is not yours to do), carry his lantern while he goes (presence:
+  // the Quiet kept by taking part), or let him go alone (kept, and cold).
+  Observe mo_q5_scene at cloister_garth when mo_open(mo_q5) "Brother Wick stands by the garth door with a bundle in a cloth, and has stood there an hour, watching the rain. Tonight is the Swap, and a Bare may take a face for the night from anyone who will give it. He has not said he is going. He has not said anything. It is the Rule.".
+  Action mo_q5_lantern(actor: group) "Carry Brother Wick's lantern to the Square, and wait while he is asked" {
+    Requires able(actor) and company(actor) and at(actor, cloister_garth) and at(mo_wick, cloister_garth) and mo_open(mo_q5) and not mo_done(actor, mo_q5).
+    Time 12.
+    On success { Assert mo_done(actor, mo_q5). Assert moQuiet(actor, mo_q5). Increase moPresence(actor) by 1. Assert mo_wick_gone(actor). Assert at(mo_wick, offstage). }
+    Result "You carry the lantern. He says nothing and neither do you. In Strangers' Square, in the dusk, he stands on the paving with the bundle at his feet while the whole city goes by in its spare faces, offering them about, laughing, as at a fair; and nobody offers him anything for a long time. He stands very straight. Then a woman in a pierrot-white half-mask, who has been watching him, puts it into his hands without a word, and he takes it, and holds it, and does not put it on. He looks at you. 'It is only for the night,' he says. Then he puts it on, and is somebody, and goes into the crowd as a boy goes into a river. You are left holding the lantern. It is still lit.".
+  }
+  Action mo_q5_argue(actor: group) "Tell Brother Wick that he is a Brother and should not go" {
+    Speaker mo_wick.
+    Requires able(actor) and company(actor) and at(actor, cloister_garth) and at(mo_wick, cloister_garth) and mo_open(mo_q5) and not mo_done(actor, mo_q5) and not masked(actor).
+    Time 6.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert mo_done(actor, mo_q5). Assert moBroke(actor, mo_q5). Assert mo_wick_stays(actor). }
+    On failure { Assert mo_done(actor, mo_q5). Assert moBroke(actor, mo_q5). Assert mo_wick_gone(actor). Assert at(mo_wick, offstage). }
+    Result "He listens with the bundle in both hands. It is a good argument; you hear, as you make it, that it is nearly all your own. 'You are right,' says Brother Wick at last, in a small voice, and puts the bundle down by the well, and picks up the brush; and does not look at you again for the rest of the day.".
+    Otherwise "He hears you out with a face of stone, nineteen and obstinate, and thanks you for it, and picks up the bundle. 'You mean it well,' he says, 'and you are the second today who has.' He goes out through the garth door, quite politely, with his hood back, into the rain.".
+  }
+  Action mo_q5_letgo(actor: group) "Let him go without a word" {
+    Requires able(actor) and company(actor) and at(actor, cloister_garth) and at(mo_wick, cloister_garth) and mo_open(mo_q5) and not mo_done(actor, mo_q5).
+    Time 1 minute.
+    On success { Assert mo_done(actor, mo_q5). Assert moQuiet(actor, mo_q5). Assert mo_wick_gone(actor). Assert at(mo_wick, offstage). }
+    Result "You say nothing. He looks at you for a moment, in case. Then he picks up the bundle and goes out through the garth door with his hood back, into the rain, and the door is a long time swinging after him. Somewhere in the cloister a Brother who saw him go has begun, very softly, to sweep. It is a thing the Rule is for, you suppose. You do not feel that it was for him.".
+  }
+  Rule mo_wick_unmet when day(clock) == 5 and hour(clock) >= 23 and not mo_wick_gone(party) and not mo_wick_stays(party) says "At some hour after the Swap has begun, somebody in the cloister goes out of the garth door with a bundle, bare-headed, without being asked, and the door is a long time swinging." { Assert mo_wick_gone(party). Assert at(mo_wick, offstage). }
+
+  // ── 6. The Hoard: the Flood, and the Order's last sacks ────────────────────────────────────────────────────────────────
+  // To hoard. The Flood sends the low islands up the hill to the cloister; the Order's last store is for the ninth night,
+  // when the Brothers feed the Chapel's crowd. Giving what is yours keeps the Quiet and costs a little; opening the store
+  // keeps it and costs the Drawing a supper; holding back everything for the ninth night breaks it, for the best of reasons.
+  Relation mo_stores_given(group). Relation mo_stores_kept(group).
+  Observe mo_q6_scene at refectory when mo_open(mo_q6) "The queue for the Brothers' hatch goes out of the refectory door, round the corner of the cloister wall and into the rain: mothers with children inside their coats, a man with a clock he saved from the water, an old woman carrying a hen. Brother Dunstan is ladling as fast as a ladle will go, and the soup is thinning. In the store behind the hatch, you have been told, are the Order's last sacks: they are for the ninth night, when the Brothers feed the Chapel's crowd.".
+  Action mo_q6_give(actor: group) "Give what food and coin you can spare to the queue" {
+    Requires able(actor) and company(actor) and at(actor, refectory) and mo_open(mo_q6) and not mo_done(actor, mo_q6) and (quantity(actor, rations) >= 1 or quantity(actor, gold) >= 1).
+    Time 6.
+    On success { Decrease quantity(actor, rations) by 3 or to nothing. Decrease quantity(actor, gold) by 4 or to nothing. Assert mo_done(actor, mo_q6). Assert moQuiet(actor, mo_q6). }
+    Result "You put what you have in the cook's hands, which is not much, and he ladles it into the pot without comment, as a man puts a coin in a well. It feeds eleven. You watch eleven people who had nothing eat what you had, and go; and then you look at the queue, which has not noticeably shortened. It is a very clean feeling. It is also, you notice, far too small.".
+  }
+  Action mo_q6_ladle(actor: group) "Take a ladle beside Brother Dunstan, and serve until the soup runs out" {
+    Requires able(actor) and company(actor) and at(actor, refectory) and mo_open(mo_q6) and not mo_done(actor, mo_q6).
+    Time 18.
+    On success { Assert mo_done(actor, mo_q6). Assert moQuiet(actor, mo_q6). Increase moPresence(actor) by 1. }
+    Result "He does not say a word, which for Brother Dunstan is a remark. You stand beside him in the steam and ladle, and the faces come up to the hatch one after another, wet and polite and hungry, and each of them looks at the soup and not at you, and you find you have learned the trick of it: to hand the bowl across so that the hand is steady and the eyes are somewhere kind. After three hours the pot scrapes. 'There,' says Brother Dunstan. It is the longest speech you have heard from him. 'There. That is the Silence, if you want to know. It is for the soup.'".
+  }
+  Action mo_q6_store(actor: group) "Ask Brother Dunstan to open the Order's store for the queue" {
+    Requires able(actor) and company(actor) and at(actor, refectory) and mo_open(mo_q6) and not mo_done(actor, mo_q6).
+    Time 12.
+    On success { Assert mo_done(actor, mo_q6). Assert moQuiet(actor, mo_q6). Assert mo_stores_given(actor). }
+    Result "He looks at you for a long time over the ladle. 'It is for the ninth,' says Brother Dunstan. 'Yes,' you say. He says something under his breath that would be a prayer in anyone wearing a face. Then he unlocks the store. By dusk the queue has eaten the Order's whole reserve and gone away warm. Nobody thanks you; they do not know who you are. On the ninth night, you think, there will have to be a miracle; and you find you do not much mind.".
+  }
+  Action mo_q6_hold(actor: group) "Keep your rations, and keep the store shut for the ninth night" {
+    Requires able(actor) and company(actor) and at(actor, refectory) and mo_open(mo_q6) and not mo_done(actor, mo_q6).
+    Time 6.
+    On success { Assert mo_done(actor, mo_q6). Assert moBroke(actor, mo_q6). Increase moMercy(actor) by 1. Assert mo_stores_kept(actor). }
+    Result "You tell Brother Dunstan that the ninth night will want its soup, and that tomorrow will not be less hungry than today. He nods slowly, with the face of a man who has made the same arithmetic. It is true. Every word of it is true; and at the hatch, as you say it, a woman with a hen turns and goes out of the queue with her face quite empty. You have done something which, tomorrow, will be right.".
+  }
+
+  // ── 7. The Tongue: Mother Tibb and the eleven ────────────────────────────────────────────────────────────────────────────
+  // To comfort falsely. Tibb asks to be told that the eleven she sent out of the Gate were all right. The company knows no
+  // such thing. The alternatives: lie, which she will see through and accept; say it does not know and sit with her; or
+  // say nothing and let her go on knotting.
+  Observe mo_q7_scene near tibb when mo_open(mo_q7) "Mother Tibb sits with the string in her lap, and has not knotted anything for a quarter of an hour. She has taken off the grey half-mask, and looks, without it, as anyone does. 'You have been out in the city,' she says, to the string. 'You will have seen the Gate. Tell me about the eleven I sent out of it. You will have seen them. Tell me they were all right.'".
+  Action mo_q7_truth(actor: group, site: place) "Tell her that you do not know, and sit with her" {
+    Speaker tibb.
+    Requires able(actor) and company(actor) and at(actor, site) and at(tibb, site) and mo_open(mo_q7) and not mo_done(actor, mo_q7) and not masked(actor).
+    Time 12.
+    On success { Assert mo_done(actor, mo_q7). Assert moQuiet(actor, mo_q7). Increase moPresence(actor) by 1. }
+    Result "'I do not know,' you say. 'I have never seen them. I will sit.' She looks at you for a long moment, and then, with a small dry breath that is nearly a laugh, moves the string over so that you may hold the other end. You sit. She ties a knot that she has been putting off; it is for nobody yet; it is for the space in the ledger, and she will not say whose. At the end she says: 'It is the first true thing anyone has said to me since the Novena began, and it was no use at all.' She does not let go of her end of the string.".
+  }
+  Action mo_q7_lie(actor: group, site: place) "Tell her that they were all right" {
+    Speaker tibb.
+    Requires able(actor) and company(actor) and at(actor, site) and at(tibb, site) and mo_open(mo_q7) and not mo_done(actor, mo_q7) and not masked(actor).
+    Time 3 minutes.
+    On success { Assert mo_done(actor, mo_q7). Assert moBroke(actor, mo_q7). Increase moMercy(actor) by 1. }
+    Result "'They were all right,' you say. 'I saw them. They were well.' It is easy. It is the kindest thing you have said in nine days. Mother Tibb looks at you with an expression you cannot read, and then she nods, slowly, and thanks you; and you see that she knows precisely what you have done, and that she is going to let you have done it. 'That is very good of you,' she says. 'You will not be offended if I do not believe a word.' She goes back to the string. It is, you realise, the exact kindness she gives Peck, with the tea, and it has been returned.".
+  }
+  Action mo_q7_still(actor: group, site: place) "Say nothing, and let her go on with the string" {
+    Speaker tibb.
+    Requires able(actor) and company(actor) and at(actor, site) and at(tibb, site) and mo_open(mo_q7) and not mo_done(actor, mo_q7) and not masked(actor).
+    Time 6.
+    On success { Assert mo_done(actor, mo_q7). Assert moQuiet(actor, mo_q7). }
+    Result "You say nothing. She goes on knotting, and does not need you to do otherwise. After a time you understand that you were not asked to answer; it was only that she wished it said into the room. When she has finished she says, 'Good night, Bare,' and means it a little more than she did this morning.".
+  }
+
+  // ── 8. The Face: the Exchange offers a white domino ─────────────────────────────────────────────────────────────────────
+  // To be seen. For the Drawing the Guilds have decided to look at the Brother of the Door, and to give him a face of
+  // honour. A face makes a person, and a person can be pushed: the Door holds only as a post holds, because it is nobody.
+  Relation mo_honoured(group).
+  Observe mo_q8_scene at chapel_steps when mo_open(mo_q8) "A knot of masks at the foot of the Chapel steps has been watching the cloister door, and now a delegation comes across: three Heron-cowls and a Cockle, with a white domino of fine linen on a cushion. 'Brother,' says the eldest, to you, which nobody has said to a Bare since the Novena began, 'the Exchange and the Guilds, who do not generally see you, have for the Drawing decided that they do. It is proposed that the Brother of the Door should stand as somebody. A face of honour; white; nobody's. You would be the first Bare in three hundred years the city has been so good as to look at.'".
+  Action mo_q8_take(actor: group) "Take the white domino of honour, and put it on" {
+    Requires able(actor) and company(actor) and at(actor, chapel_steps) and mo_open(mo_q8) and not mo_done(actor, mo_q8).
+    Time 3 minutes.
+    On success { Assert mo_done(actor, mo_q8). Assert moBroke(actor, mo_q8). Assert mo_honoured(actor). }
+    Result "It is very fine linen, and it fits. They say so: three Heron-cowls and a Cockle, in a small murmur, a thing nobody has said of you in this city. For the first time since you came down the delta road the rain on your face stops. Heads turn, as to a person. A woman nods. You are looked at, and you find that it is a good deal like being warm. It is only afterwards, in the cloister, that you take it off and find the strings have printed on your cheeks, in red, the exact shape of what you wanted.".
+  }
+  Action mo_q8_refuse(actor: group) "Decline the domino, and say nothing" {
+    Requires able(actor) and company(actor) and at(actor, chapel_steps) and mo_open(mo_q8) and not mo_done(actor, mo_q8).
+    Time 1 minute.
+    On success { Assert mo_done(actor, mo_q8). Assert moQuiet(actor, mo_q8). }
+    Result "You do not take it. You look at it on its cushion, and at them, and you shake your head a very little, and the eldest Heron lowers the cushion with the air of a man who has been refused a thing he did not understand he was offering. 'As you like,' he says; and then, to the others, in the voice masks use among themselves, 'Of course. They would.' You hear in it a great relief, and a little contempt; and you cannot tell which of the two is meant for you.".
+  }
+  Action mo_q8_bow(actor: group) "Bow to them, take nothing, and go on being looked at" {
+    Requires able(actor) and company(actor) and at(actor, chapel_steps) and mo_open(mo_q8) and not mo_done(actor, mo_q8).
+    Time 6.
+    On success { Assert mo_done(actor, mo_q8). Assert moQuiet(actor, mo_q8). Increase moPresence(actor) by 1. }
+    Result "You bow, which no Bare has done to a face in three hundred years without being asked, and you do not take the domino, and you do not go. You let them look. It is a long, odd, steady minute: the Heron-cowls, the Cockle, a child on her father's shoulders, all of them looking at a man with a bare face and nothing to give them, and being, for once, not looked away from. The eldest clears his throat. 'Well,' he says, rather helplessly. 'Well. There you are.' It is, you think, as near as the city has come to saying it.".
+  }
+
+  // ── 9. The Crown: the Door ───────────────────────────────────────────────────────────────────────────────────────────────
+  // To be proud. On the ninth night the Chapel's door is held, as it has been held for ninety years, by a man standing in
+  // it and doing nothing. It is available to a company that has kept five of the Quiets. What the crowd does depends on
+  // how many were kept, whether the Brothers stand with you, and whether you stand as nobody. The alternative to standing is
+  // to speak, from the top step, what you know; and that is for the Drawing, and for the integrator, to answer.
+  Relation mo_door_stood(group). Relation mo_door_spoke(group). Relation mo_door_told(group). Measure moDoor(group).
+  Observe mo_q9_scene at chapel_steps when mo_open(mo_q9) and mo_vow(party) "The crowd of the Drawing has come over the Chapel bridge, and is still coming: all of Ombra in its Sunday faces, in the rain, with its lanterns, and the great doors of the Chapel standing open on a dark that smells of wax. They are not an angry crowd. They are only a very large one, and very tired, and nine days in the rain, and in every mouth a name that nobody has been allowed to say; and the doors are open, and at the far end of the nave, under the Urn Hall's arch, a stair goes down.".
+  Rule mo_open_q9 when mo_vow(party) and day(clock) == 9 and hour(clock) >= 18 and hour(clock) < 23 and not mo_open(mo_q9) and not mo_shut(mo_q9) says "The ninth knot is warm. At the Chapel steps the crowd has begun to gather, and you know what you are for." { Assert mo_open(mo_q9). }
+  Rule mo_door_ready when mo_vow(party) and moKept(party) >= 5 and drawingNight() and not handReady(party, hand_door) says "You have kept the five that are needed, and the cord in your sleeve is knotted tight where they were. The Door is open for you to stand in, if you choose to." { Assert handReady(party, hand_door). }
+  Action mo_door_stand(actor: group) "Stand in the Chapel's door, and do nothing" {
+    Requires able(actor) and company(actor) and at(actor, chapel_steps) and mo_open(mo_q9) and handReady(actor, hand_door) and not handPlayed(actor, hand_door) and not mo_done(actor, mo_q9).
+    Time 18.
+    On success { Assert mo_done(actor, mo_q9). Assert moQuiet(actor, mo_q9). Assert mo_door_stood(actor). Assert handPlayed(actor, hand_door). Assert arcDone(actor, hand_door). }
+    Result "You stand in the door. You do not draw anything, or say anything, or lift a hand. You stand as a post stands, with the rain going down your neck, and the whole of Ombra, who have never in their lives been looked through so patiently, come up the steps.".
+  }
+  Action mo_door_speak(actor: group) "Go up on the top step and tell the crowd what you know of the Urn" {
+    Requires able(actor) and company(actor) and at(actor, chapel_steps) and mo_open(mo_q9) and handReady(actor, hand_door) and knows(actor, urn_hollow) and not handPlayed(actor, hand_door) and not mo_done(actor, mo_q9).
+    Time 3 minutes.
+    On success { Assert mo_done(actor, mo_q9). Assert moBroke(actor, mo_q9). Assert mo_door_spoke(actor). Assert handPlayed(actor, hand_door). Assert arcDone(actor, hand_door). }
+    Result "You go up on the top step, with the door at your back, and open your mouth: and a Bare Brother speaking, in the rain, at the Drawing, is a thing that stops a crowd as a bell stops it. You tell them. You tell them in a plain, carrying, unpractised voice what you have seen of the Urn. It is quiet for as long as a held breath. And then the whole of the square is turning its head to see who has done this, and seeing a man with no face, and the thing you have said is no longer in your hands.".
+  }
+  Rule mo_door_honoured when mo_door_stood(party) and mo_honoured(party) and not mo_door_told(party) once says "They see a face. A white domino of honour in the Chapel door, somebody, and the crowd does what a crowd does with a somebody: it takes hold. You hold. You hold with the whole of your body for a long, wet, shoving hour, as a person holds, and not as a post; and there are bruises that will last, and there is a moment near the end when the door gives a hand's breadth and you give it back. It is held. It is a near thing. You are not sure it was the Quiet that held it." { Assert mo_door_told(party). Set moDoor(party) to 1. }
+  Rule mo_door_calm when mo_door_stood(party) and mo_brothers_stand(party) and moKept(party) >= 7 and not mo_door_told(party) once says "The crowd comes up the steps, and finds a man standing in the door, and on either side of him, in the rain, in undyed wool, with their hoods back and their hands in their sleeves, the Bare Brothers: all of them, nine abreast, with Brother Amery at the end. There is a moment when the whole front of the crowd wavers like a held note. Then, somewhere at the back, someone sits down on the wet steps; and then another; and by the time the lamps are lit for the Drawing there are four thousand people sitting down in the rain, very quietly, as though they had been asked, and nobody has asked." { Assert mo_door_told(party). Set moDoor(party) to 3. }
+  Rule mo_door_goes_round when mo_door_stood(party) and (moKept(party) >= 7 or mo_brothers_stand(party)) and not mo_door_told(party) once says "The crowd comes up the steps, and finds a man in the door who does not move, and goes round him like water round a post. It takes a long time, and there is a good deal of shoving, and one man spits; but the water finds its way, and after the first quarter-hour it has forgotten you are there. You are not alone, you notice, in the doorway of the Chapel of the Bare Face: there are others standing, at the edge of the steps, with their hoods back, watching. It was always meant to be done like this." { Assert mo_door_told(party). Set moDoor(party) to 2. }
+  Rule mo_door_breaks when mo_door_stood(party) and not mo_door_told(party) once says "The crowd comes up the steps, and finds a man in the door who does not move, and does not go round him. It breaks on you: it spills at the edges, it shoves, it presses a lantern into your ribs; and for a long, wet, bruising hour you stand there with the rain going down your neck, and nothing in the world but your own feet. The door is held. At the end of it, the front of the crowd has learned, from its own weight, that there is something in front of it that is not going to give; and it goes, a little ashamed, to find another way in." { Assert mo_door_told(party). Set moDoor(party) to 1. }
+  Rule mo_door_spoken when mo_door_spoke(party) and not mo_door_told(party) once says "The silence breaks at the back, first as a murmur and then as a shout; and a Brother has spoken in the open air, and whatever it was that the speech was for, it is a crowd's now, and has gone off with it into the rain, and there is nothing left in the doorway but a man with no face who has said what he knew." { Assert mo_door_told(party). Set moDoor(party) to 0. }
+
+  // ── What the guest is given ────────────────────────────────────────────────────────────────────────────────────────────
+  Kind mo_mantle_kind "the Bare Brothers' mantle" like old_glossary granting insight worth 0 weighing 1 described "A grey woollen mantle, undyed, with a hood to put back. It is the colour of the cloister walls, and warmer than it looks. A Brother in the street, in this, is not seen: not because he is hidden, but because the eye of the city slides off a thing that does not want to be looked at.".
+  Item mo_mantle "the Bare Brothers' mantle" is mo_mantle_kind at offstage.
+  Relation mo_mantled(group). Relation mo_endowed(group).
+  Topic mo_amery_mantle with amery "Ask Brother Amery whether the Order has anything for a guest who has kept five" when not masked(actor) and mo_vow(actor) and moKept(actor) >= 5 and not mo_mantled(actor) once {
+    Says "He puts down the broom, and goes into the walk, and comes out with a folded grey thing over his arm. 'It was Alder's,' says Brother Amery. 'It has been waiting.' He does not hold it out; he lays it across your arm, as one lays down something that is still warm. 'It does not make you invisible. The city does that by itself. What it does is let you look at a thing for as long as it takes, and nobody asks why.' He takes his hand away. 'He would have liked you,' he says, 'and I should not have let him.'".
+    On discuss { Give mo_mantle to actor. Assert mo_mantled(actor). }
+  }
+  Action mo_endow(actor: group, reader: member) "Have {reader} take up the last knot of the cord, and tighten it" {
+    Requires able(actor) and company(actor) and memberOf(reader, actor) and at(actor, cloister_garth) and moKept(actor) >= 5 and not mo_endowed(actor).
+    Time 12. Resolve endow(reader, wisdom, by_one).
+    On success { Assert mo_endowed(actor). }
+    Result "You sit in the garth by the well, in the rain, and work the last of the loose knots tight with your thumbs, and the nine days come down into the cord and stay there. It is a plain thing to do and takes an hour. When you are finished you find you are looking at the bell, and at the rain, and at the Brother with the broom, as if for the first time, and without wanting anything of them.".
+  }
+
+  // ── Milestones ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  Milestone mo_m_vow "was taken in by the Bare Brothers, and given the cord" worth 25 when mo_vow(party).
+  Milestone mo_m_five "kept five of the Nine Quiets" worth 75 when moKept(party) >= 5.
+  Milestone mo_m_mind "changed Brother Amery's mind about the Door" worth 50 when mo_brothers_stand(party).
+  Milestone mo_m_door "stood in the Chapel's door at the Drawing, and did nothing" worth 100 when mo_door_stood(party).
+
+  // ── What became of them ──────────────────────────────────────────────────────────────────────────────────────────────────
+  Rule mo_fate_amery_stood when newsHour() and mo_door_stood(party) and mo_brothers_stand(party) once says "Of Brother Amery: he stood at the end of the line of nine in the Chapel's door with his hands in his sleeves, and when it was over he sat down on the top step, in the rain, and laughed, which the Brothers say they had not heard in forty years, and is not in the Rule. He says that he was wrong about the Rule and right about the Door, and that the first is more use. He has had the Alder stone recut, with a name." { }
+  Rule mo_fate_amery_alone when newsHour() and mo_door_stood(party) and not mo_brothers_stand(party) once says "Of Brother Amery: he did not stand. He watched from the cloister wall, with a broom in his hands, while the company held the door alone, and at the end of the night he put the broom down, and said, to the wall, that he had been wrong about the Order's silence, and had not had the courage to be wrong in time. He has gone about since with the cord in his sleeve cut through." { }
+  Rule mo_fate_amery_unmet when newsHour() and mo_vow(party) and not mo_door_stood(party) once says "Of Brother Amery: the Chapel's door stood open on the night of the Drawing, and nobody stood in it, and the crowd went in as water goes into a house. Nobody was hurt. It was, the Brothers say, the first year in ninety that the Door was only a door, and Brother Amery has been seen, in the garth, looking at it as though it had come out wrong." { }
+  Rule mo_fate_amery_novow when newsHour() and not mo_vow(party) once says "Of Brother Amery: the Brothers did not stand in the Chapel's door at the Drawing, for the Quiet had said they would not, and the crowd went in as water goes into a house. He swept the garth the whole of the night. It is not known whom he was sweeping it for." { }
+  Rule mo_fate_wick_stays when newsHour() and mo_wick_stays(party) once says "Of Brother Wick: he is still in the cloister, scrubbing the well-head, harder than anyone has ever scrubbed a well-head. He says it is only that there is so much of the day. He has been seen, once, at the garth door, at dusk, looking at the Square; and then at you, if you were there, with a face that had decided something unfair." { }
+  Rule mo_fate_wick_gone when newsHour() and mo_wick_gone(party) once says "Of Brother Wick: a boy in a pierrot half-mask was seen in the crowd at the Drawing, bare-headed in his heart, laughing; he has taken a trade, they say, in the Drip, and a face for it, and not once in his life since has he been asked for what he was." { }
+  Rule mo_fate_dunstan_given when newsHour() and mo_stores_given(party) once says "Of Brother Dunstan: on the ninth night the Brothers had no soup for the crowd, and the crowd, which had been told for ninety years that the Bare Brothers fed the Drawing, made a sound at the hatch that was not anger. A woman with a hen went up to the Chapel's well and drew water, and the Brothers served it, hot, in the soup-bowls, and said it was soup, and Brother Dunstan has not once since been sorry." { }
+  Rule mo_fate_dunstan_kept when newsHour() and mo_stores_kept(party) once says "Of Brother Dunstan: on the ninth night the Brothers fed the Drawing's crowd, as they had for ninety years, from the store he had held shut. A great many of the crowd were fed who had been refused on the sixth. He serves them with a face that has not forgiven itself, and says the soup is very good this year, and that he does not know why." { }
+  Rule mo_fate_quiets_all when newsHour() and moKept(party) >= 9 once says "Of the Nine Quiets: all nine were kept, which the Order does not count as a success, since there is no word in the Rule for the one who keeps them all. The cord in the cloister is knotted tight. The Brothers have hung it by the bell, where it will be seen, and where no one will ever read what it is." { }
+  Rule mo_fate_quiets_most when newsHour() and moKept(party) >= 7 and moKept(party) < 9 once says "Of the Nine Quiets: most were kept, and the two that were not are in the cloister's register as broken and answered, in a hand that has begun to be less certain which is which. The cord hangs by the bell. One knot has been left loose, on purpose, by a man who says the Order has always wanted one." { }
+  Rule mo_fate_quiets_some when newsHour() and moKept(party) >= 5 and moKept(party) < 7 once says "Of the Nine Quiets: five or six were kept, which is the number, and the rest were not; the cord hangs by the bell with its loose knots like a rope of weather. Brother Amery says that is the right number, since it is the number that can say it was wrong." { }
+  Rule mo_fate_quiets_few when newsHour() and mo_vow(party) and moKept(party) < 5 and moBroken(party) >= 3 once says "Of the Nine Quiets: more were broken than kept, and the Brothers say so without reproach. The cord hangs by the bell with its knots loose, and Brother Amery says that is the rope's honest condition, and that the Order, with its nine knots all tight, has been dishonest for ninety years." { }
+  Rule mo_fate_door_calm when newsHour() and moDoor(party) >= 3 once says "Of the Chapel's door: four thousand people sat down in the rain on the Chapel steps on the night of the Drawing, and nobody has been able to explain it. The Chaplain calls it a miracle, the Watch calls it weather, and the Brothers do not call it anything." { }
+  Rule mo_fate_woman_kept when newsHour() and moQuiet(party, mo_q4) once says "Of the woman on the Customs Steps: the Brothers have put her in the cell by the garth door, with a blanket and a bowl and the shoe, where she has been for five days, speaking to nobody, and no longer, they say, alone." { }
+  Rule mo_fate_woman_not when newsHour() and moBroke(party, mo_q4) once says "Of the woman on the Customs Steps: she has not been seen since the ninth morning. The sixth step has been mopped. The Brothers have a line in their register for a Bare found at the foot of the steps at dawn, and it is the line for a Tuesday." { }
+  Topic mo_amery_after with amery "Ask Brother Amery what he will do about the Door now" when mo_rule(actor) and not mo_brothers_stand(actor) once {
+    Says "'I do not know.' He does not sweep; the broom has been put against the wall. 'I have been thinking that a post is a very bad thing to be, when the thing that goes round is a boy of nineteen. I have been thinking that I was told a Rule, and that it was a lie, and that it was a lie told to me by a man who believed it. That is the worst kind.' He looks at his hand. 'I will tell you at the Drawing. If I tell you now I shall have to be sure.'".
+  }
+  Observe mo_amery_pleaded at cloister_garth when mo_vow_pleaded(party) and at(amery, cloister_garth) and day(clock) >= 2 "Brother Amery sweeps with his back to you, in the manner of a man who is listening for a voice he is not at all sure he wishes to hear again.".
+  Observe mo_amery_read at cloister_garth when mo_vow_read(party) and at(amery, cloister_garth) and day(clock) >= 2 "Brother Amery keeps his left hand in his sleeve, and when you come near he takes it out, quite slowly, and begins to sweep with both, so that you may see them.".
+  Observe mo_amery_bell at cloister_garth when mo_vow_bell(party) and at(amery, cloister_garth) and day(clock) >= 2 "The bell speaks the hours in a plain brown voice, and each time Brother Amery looks up at it, and then at you, as at the face of a thing that does not need to be thanked.".
 }
