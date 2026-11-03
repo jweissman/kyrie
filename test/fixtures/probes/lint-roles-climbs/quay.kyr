@@ -10,6 +10,9 @@ Module p "A quay, a warehouse, and a lady" {
   // A stair between two rooms of one level of one building does not: a finding.
   Passage inner_stair "the inner stair" is stair between floor and loft.
   Passage warehouse_door "the warehouse door" is door between quay and floor.
+  // A ladder within one level, up onto the stacks (Behind the Wainscot's 4): no finding.
+  Place stacks "the top of the stacks" is room within warehouse at 0, 1.
+  Passage stack_ladder "the stack ladder" is ladder between floor and stacks.
   // A role that names its person again: a finding.
   Person wenlock "Wenlock" at quay { Role "Lady Wenlock of the quay". Peaceable. }
   Person tansy "Tansy Hobb" at quay { Role "Master Harker's clerk". Peaceable. }
@@ -23,4 +26,6 @@ Module p "A quay, a warehouse, and a lady" {
   Action count_crates(actor: group, site: place) "Count the crates" { Requires able(actor). Time 1. }
   // A word of the trade, not of the engine (its 16): no finding.
   Observe stack at quay when true "Beyond the warehouse stands the engine-house, its stack smoking.".
+  // Scenery the place's first sentence is about, with nothing to look at it by (the Lull's 7): a finding.
+  Thing engine_house "the engine-house" at quay is scenery { State smoking "Its stack smokes.". }
 }

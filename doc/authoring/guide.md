@@ -77,7 +77,8 @@ passage can be `hidden until` a fact is known, or `needing` a skill or an item k
 ```
 
 `kyrie lint` checks that the kinds make sense. A stair that does not change level, or a road that ends indoors, is
-reported.
+reported. A ladder is a climb wherever it goes: up a table leg, or into a loft over the same floor, it needs no level
+of its own (Behind the Wainscot's 4).
 
 ## 3. The company and the people
 

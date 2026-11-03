@@ -1,4 +1,5 @@
 import { LocalObservations } from '../campaign/local-observations';
+import { Sentences } from '../presentation/sentences';
 import type { CampaignLint } from './campaign-lint';
 
 // What an author would want to know of a campaign and is not told by its play (the Grand Tour's friction X06, X15 and
@@ -8,7 +9,7 @@ export class AuthorLint {
   // What a whole adventure, one with an ending, should have: a first place said, and something to grow by.
   static run(lint: CampaignLint) {
     this.greetings(lint); this.lowered(lint); this.walkers(lint); this.placesAt(lint); this.aliases(lint);
-    this.goods(lint); this.unbound(lint);
+    this.goods(lint); this.unbound(lint); this.scenery(lint);
     if (lint.module.entities.some(e => e.type === 'ending')) { this.opening(lint); this.growth(lint); }
   }
   // An act that lowers a measure, not a price, with nothing that asks how much there is: below nothing, it is not
@@ -79,6 +80,19 @@ export class AuthorLint {
       for (const p of (a.parameters ?? []).filter(x => !asked.includes(`"${x.name}"`))) {
         lint.add('warning', 'unbound', `Action ${a.id}: nothing in its condition names ${p.name}, so it is offered `
           + `once for every ${p.type} in the world; ask it (at(actor, ${p.name}), …)`);
+      }
+    }
+  }
+  // Scenery the place's own first sentence is about, that nothing offers to look at (the Lull's friction 7: the chief
+  // thing in a room could not be examined): it can be, with `Tries looking.`
+  static scenery(lint: CampaignLint) {
+    const tried = new Set(lint.relations('suits').map(r => r.args[0]!));
+    for (const e of lint.module.entities.filter(x => x.type === 'scenery' && x.id.includes('__') && !tried.has(x.id))) {
+      const at = lint.world.one('at', e.id), noun = e.name.replace(/^(the|a|an) /i, '').toLowerCase();
+      const first = (lint.module.observations ?? []).find(o => o.place === at && !o.aspect)?.text ?? '';
+      if (noun && Sentences.first(first).toLowerCase().includes(noun)) {
+        lint.add('advice', 'scenery', `${e.id} is what ${at}'s first sentence is about, and cannot be looked at: `
+          + 'give it `Tries looking.`');
       }
     }
   }
