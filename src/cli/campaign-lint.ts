@@ -174,8 +174,8 @@ export class CampaignLint {
   }
   // A passage kind promises something about its ends: stairs change level, roads stay outdoors. A climb from one
   // area to another (a ladder from the quay to a loft) changes level whatever the levels are called (Liberty of the
-  // Ice friction 17: such a climb could not be a ladder). A ladder is a climb wherever it goes, up onto a table or into
-  // a loft of the same floor (Behind the Wainscot's 4, Quittance's 17: there was no kind for a way up that is no level).
+  // Ice friction 17: such a climb could not be a ladder). A ladder is a climb wherever it goes, up onto a table or
+  // into a loft of the same floor (Behind the Wainscot's 4, Quittance's 17: no kind for a way up that is no level).
   passageKind(way: string, a: string, b: string) {
     const kind = this.relations('passageKind').find(r => r.args[0] === way)?.args[1] ?? '';
     if (['way_stair', 'way_shaft', 'way_incline'].includes(kind) && this.level(a) === this.level(b)

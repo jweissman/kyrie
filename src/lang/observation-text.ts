@@ -4,7 +4,6 @@ import { ModuleWriter } from './module-writer';
 import { World } from './world';
 import { Reads } from './reads';
 import { KyrText } from './kyr-text';
-import { FictionalTime } from '../campaign/fictional-time';
 
 // How a measure in a text asks to be said: in words ("one", not "1"), as a time of day, and with the one of two forms
 // of a phrase that agrees with it.
@@ -122,7 +121,7 @@ export class ObservationText {
     return words && Number.isInteger(n) && n > 0 && n < this.counts.length ? this.counts[n]! : String(n);
   }
   private static say(n: number, said: Said): string {
-    if (said.time) { return FictionalTime.at(n).split(', ')[1]!; }
+    if (said.time) { return ObservationText.clock(n); }
     const count = this.count(n, said.words);
     return said.forms ? `${count} ${said.forms[n === 1 ? 0 : 1]}` : count;
   }
@@ -132,5 +131,11 @@ export class ObservationText {
   static sentences(text: string): string {
     return text.replace(/(^|[.!?]\s+|\.['"’”]\s+|^['"‘“])([a-z])/g,
       (_, lead: string, letter: string) => lead + letter.toUpperCase());
+  }
+  // A watch as the hour it is: ten minutes a watch from eight on the first morning (as FictionalTime.at says it; the
+  // language says it itself, below the campaign).
+  private static clock(watch: number): string {
+    const minutes = 8 * 60 + watch * 10, hour = Math.floor(minutes / 60) % 24;
+    return `${hour % 12 || 12}:${String(minutes % 60).padStart(2, '0')} ${hour < 12 ? 'a.m.' : 'p.m.'}`;
   }
 }
