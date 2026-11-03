@@ -1,2 +1,410 @@
 Module ombra "The Book of Faces" {
+  // ── Chapel Island ─────────────────────────────────────────────────────────────────────────────────────────────────
+  // The Chapel of the Bare Face is the one house in Ombra whose door is knocked masked and answered bare. Its rooms
+  // here are the steps, the nave, the lamp-room where the Registrar died, the vestry and the confessionals; the
+  // bier-room, the Registry and the Urn Hall are the integrator's, the cloister the monk's. Three threads are told
+  // here: the lamp-room (what the evidence of an evening says, and how a quick reading is wrong), the stranger on
+  // the steps (a Bare nobody may bury), and the children who forget the Assessor of Weights. The cleric's hearing is
+  // cleric.kyr's, but it sits on Father Ansel and the lamp-room: what the cleric learns under the seal can be proved
+  // here without it.
+  //
+  // Ids of mine that other files may read: the persons `chaplain`, `ch_verger`, `ch_corrow`, `ch_choir`; the thing
+  // `lamp_table`; the facts `ch_evening` (the lamp-room fully read), `ch_stranger_name`; the relations
+  // `ch_buried(party)`, `ch_name_cried(party)`, `ch_choir_ready(party)`, `ch_ansel_trusts(party)`.
+
+  // ── The steps ─────────────────────────────────────────────────────────────────────────────────────────────────────
+  Observe ch_steps_public at chapel_steps when publicHours() "Nine broad steps climb out of the Cuff to the Chapel of the Bare Face, black with wet, and on every one a cluster of masked people waits out the rain under oiled paper without looking at one another. The Chapel bridge comes in on one side and the Candle bridge on the other, and between them the water stairs go down into the Cuff, where the ferrymen tie up to leave the dead. The door is open. Over it, worn nearly smooth by three hundred winters of hands, someone has cut HERE NOBODY IS ASKED.".
+  Observe ch_steps_private at chapel_steps when privateHours() "After the Ninth Bell the steps empty. The door is shut, with a wicket cut in it at the height of a hand, for knocking; a lamp in a glass burns above it, and the rain walks through the light in long diagonals. Across the water the Hill is dark. In the cloister a single window shows, and goes out.".
+  Observe ch_steps_cloister at chapel_steps when true "A lane of wet paving runs off round the Chapel's flank to the cloister door of the Bare Brothers, who go about it with their faces uncovered and are not looked at.".
+
+  Observe ch_nave_public at nave when publicHours() "The nave is long and bare, whitewashed to the height of a hand and then left to the damp. There are no statues. Along both walls, where saints would stand, hang rows of plain oval masks of unpainted wood, each with a ribbon, each a gift from a person who is not named, and under the rain on the high windows they look like a congregation that has come in and kept quiet. The lamp-room door is on the east side, the vestry on the west; the confessionals are in the north-west corner; the Registry doors, bronze, are at the far end and shut.".
+  Observe ch_nave_private at nave when privateHours() "The nave at night is a long dark hall with the lamps of the Novena burning at the east end, one for each night that has been, and by the ninth night, you think, it will have got very bright. The wooden masks on the walls have turned their faces to the lamps. Your footsteps come back from the Registry doors a moment late, as if they had been let in and asked their business.".
+  Observe ch_nave_lamps at nave when day(clock) >= 2 and day(clock) < 9 "The verger keeps the Novena lamps, and says that a lamp that goes out before its night is over is a thing one does not mention.".
+
+  Observe ch_vestry_scene at vestry when true "A small room with a smell of old linen and bay. Presses of grey vestments, a table with a ledger and a sand-tray, a hearth where a fire is never quite lit, and a stool worn to the shape of someone who sits with his head in his hands. On the wall a plain oval of wood, no mask at all, hangs where a crucifix would hang in another city. A door in the north wall has been papered over and painted, and a draught comes round its edge.".
+  Observe ch_vestry_stair at vestry when knows(party, private_stair_known) "The papered door in the north wall has a thin edge of old dust along its foot, as if a very long time ago a stair went up behind it.".
+  Observe ch_confessionals_public at confessionals when publicHours() "Two boxes of black oak stand side by side against the north wall, each with a curtain and a door and between them a grille of lead no wider than a hand: the Hearer's side, and the penitent's. By day nobody kneels here; a penitent masked in the Masked Hours is no penitent, the Chapel says, only a face confessing for a trade. A tin saucer of tallow stubs stands on the ledge.".
+  Observe ch_confessionals_private at confessionals when privateHours() "A taper burns in the penitent's box, on the ledge under the grille, and the curtain is drawn. The Hearer's side has a chair, a cushion and a candle in a tin shade. At night the confessionals are the one place in Ombra where a masked person walks up to a bare one on purpose, and kneels.".
+
+  // ── The people of the Chapel ──────────────────────────────────────────────────────────────────────────────────────
+  // Father Ansel keeps the Chapel and has heard its confessions for forty years behind a veil. Two days before she died
+  // the Registrar confessed to him, and he cannot say what it was; and an hour before she died he stood in the nave
+  // and heard a man in the lamp-room say her name aloud. He has said nothing since. He is kind, and afraid, and ashamed of both.
+  Person chaplain "Father Ansel" at nave {
+    Role "the Hearer of the Chapel of the Bare Face". Ancestry human. Peaceable. Pronouns he. Manner compassionate.
+    Greets "A tall stooped man of sixty-four in a grey coat looks up, with the tilt of the head of someone who has spent his life listening through a grille and has not learned to stop. He has hands like a boatman's, and the ink-stain of the Chapel's ledger up the side of one. 'The Chapel is open,' says Father Ansel. 'It is always open. I am sorry that it has not much to give, this week.'".
+    Greets again "Father Ansel looks up from the lamps, and then at the place where your face is, and then at a point slightly to the left of it, out of kindness.".
+  }
+  Person ch_verger "Jonas Heddle" at nave {
+    Role "the Chapel's verger". Ancestry human. Peaceable. Pronouns he. Manner stoic.
+    Greets "A broad man in a brown apron stands on a stool with a taper, pushing a wick up into a lamp with the care of someone forcing a cork. He does not look round. 'Mind the floor by the lamp-room door,' says Jonas Heddle. 'Father says leave it. I've swept round it nine days and I don't know what I'm sweeping round.'".
+    Greets again "Jonas Heddle, on his stool, says to the lamp, 'Mind the floor.'".
+  }
+  Person ch_corrow "Mistress Odell" at nave {
+    Role "the choir-mistress, who rehearses the Nineteen Offices". Ancestry human. Peaceable. Pronouns she. Manner acerbic.
+    Greets "A thin woman with a tuning-fork and a voice like a drawn nail stands in front of nine children in grey smocks, and does not turn. 'From the Locks,' she says to them. 'Again. From the Locks.' To you, over her shoulder, with no change of tone: 'If you are going to stand there, stand there quietly.'".
+    Greets again "'From the Locks,' says Mistress Odell, to the children, and then to you, 'Quietly.'".
+  }
+  Person ch_choir "the children of the choir" at nave {
+    Role "the nine children of the Chapel's choir, in grey smocks". Ancestry human. Numbers 9. Peaceable. Pronouns they. Manner cheerful.
+    Greets "Nine children in grey smocks stand in a row facing the Registry doors and sing, in the flat voice of children who have been told that the melody is not the point, the Nineteen Offices of Ombra. They sing the Treasurer and the Warden of Locks, the Master of Measures; and then there is a gap in the row of faces as wide as a door, and they go on, bravely, with the Physician-General.".
+    Greets again "The children look at you sideways without moving their heads.".
+  }
+
+  // The day and the night of the Chapel. Father Ansel is in the nave through the Masked Hours, in his vestry from the
+  // Ninth Bell until midnight, in his cell after; on the ninth night he is where the Drawing is. The verger keeps the
+  // lamps lit until the last of them is trimmed, and the choir sings in the afternoon, which is the only time children
+  // can be got to be quiet.
+  Rule ch_ansel_nave when hour(clock) >= 8 and hour(clock) < 20 and not drawingNight() and not at(chaplain, nave) { Assert at(chaplain, nave). }
+  Rule ch_ansel_vestry when hour(clock) >= 20 and not drawingNight() and not at(chaplain, vestry) { Assert at(chaplain, vestry). }
+  Rule ch_ansel_cell when hour(clock) < 8 and not at(chaplain, offstage) { Assert at(chaplain, offstage). }
+  Rule ch_ansel_drawing when drawingNight() and not at(chaplain, urn_hall) { Assert at(chaplain, urn_hall). }
+  Rule ch_verger_nave when hour(clock) >= 7 and hour(clock) < 21 and not at(ch_verger, nave) { Assert at(ch_verger, nave). }
+  Rule ch_verger_home when (hour(clock) >= 21 or hour(clock) < 7) and not at(ch_verger, offstage) { Assert at(ch_verger, offstage). }
+  Rule ch_choir_sings when hour(clock) >= 14 and hour(clock) < 17 and not drawingNight() and not at(ch_choir, nave) { Assert at(ch_choir, nave). Assert at(ch_corrow, nave). }
+  Rule ch_choir_home when (hour(clock) >= 17 or hour(clock) < 14) and not at(ch_choir, offstage) { Assert at(ch_choir, offstage). Assert at(ch_corrow, offstage). }
+  Observe ch_ansel_veil at nave when publicHours() and at(chaplain, nave) "Father Ansel stands among the lamps in a Hearer's veil, a square of plain grey linen hung from the brow and tied behind, which hides nothing and is understood to hide everything; he wears it as other men wear a limp.".
+  Observe ch_ansel_bare at vestry when privateHours() and at(chaplain, vestry) "Father Ansel sits on the worn stool with his veil in his lap, folded in four, and his bare face is older than his voice.".
+
+  // A Hearer met by day by someone with no face of their own says one cold thing: the Chapel is not unkind, only exact.
+  Topic ch_ansel_cold with chaplain "Speak to Father Ansel" when not masked(actor) and publicHours() {
+    Says "The veil turns a little toward the place beside your head, and stays there. 'The Chapel is open to every face,' says Father Ansel, gently, as to a draught. 'I am not able to hear one that has none. After the Ninth Bell, in the vestry, I am only a man in a room. Forgive me.'".
+  }
+  Topic ch_jonas_cold with ch_verger "Speak to the verger" when not masked(actor) and publicHours() {
+    Says "'Not paid to see you,' says Jonas Heddle, to the lamp, and gives the wick a push that settles the matter.".
+  }
+  Topic ch_corrow_cold with ch_corrow "Speak to the choir-mistress" when not masked(actor) and publicHours() {
+    Says "'Nobody is here,' says Mistress Odell, and strikes her fork on the pulpit, and nine children begin again.".
+  }
+
+  // By day, to a face: the Chapel answers as the face is met. An Owl is the lamp-trimmers' own; a Gull is the
+  // ferrymen's, who carry what is left on the water stairs.
+  Topic ch_ansel_chapel with chaplain "Ask Father Ansel about the Chapel of the Bare Face" when masked(actor) and publicHours() {
+    Says "'The oldest house in Ombra that no one owns.' He smiles under the veil. 'The Concord made a law that no one shall be known, and then had to put somewhere the people who were wounded by it. So: a house where a person may kneel as a person. The Hearer sits bare behind the grille and the penitent kneels masked and says what the mask cannot, and not even I know whose face it is. Forty years, and I have never once asked. It is the only mercy I have ever been any good at.'".
+  }
+  Topic ch_ansel_dead with chaplain "Ask Father Ansel who lies in the bier-room" when masked(actor) and publicHours() {
+    Says "'A person of the Chapel is not well.' He says it as one lays a plate down. 'No one may lawfully say who, or whether, or that there is a place that needs filling.' His hands, which have been folded, come apart. 'I should like to say it to someone. It is a thing I should like very much to be allowed to do. Go to the Gate, to the Sergeant. She holds a paper that lets me.' He looks at the lamp-room door. 'I was her Hearer. Two days before. You will not ask me what she brought, and I should be grateful if you did not think that she brought anything.'".
+    On discuss { Assert knows(actor, ch_her_hearer). }
+  }
+  Discovery ch_her_hearer "Father Ansel was the Registrar's own Hearer, and she confessed to him two days before she died; he cannot say what she told him.".
+  Topic ch_ansel_seal with chaplain "Ask Father Ansel what the Registrar confessed to him" when masked(actor) and publicHours() and knows(actor, ch_her_hearer) and not hearer(actor) {
+    Says "The veil does not move. 'No,' says Father Ansel, quite gently, and nothing else, and goes on standing there so that you will have to be the one who leaves.".
+  }
+  Topic ch_ansel_seal_hearer with chaplain "Ask Father Ansel what the Registrar confessed to him" when masked(actor) and publicHours() and knows(actor, ch_her_hearer) and hearer(actor) {
+    Says "You have your question halfway out and you hear it for what it is, and so does he; the stillness in the veil is the stillness of someone watching a colleague about to step off a quay. 'You are a Hearer,' he says. 'So you know that I could not tell you if I wished, and I do not wish it, and that if I did you would think less of me.' He lets out his breath. 'Thank you for not having asked. I should like it noted that you did not.'".
+    On discuss { Assert ch_ansel_trusts(actor). }
+  }
+  Relation ch_ansel_trusts(group).
+  // By night, in the vestry, to a bare face: he is only a man in a room, and says what he may not say in the nave.
+  Topic ch_ansel_night with chaplain "Ask Father Ansel how he is" when privateHours() and not masked(actor) and at(chaplain, vestry) once {
+    Says "He is glad to be asked, and it is clear that nobody has. 'I have not slept since,' says Father Ansel, 'and I do not mean it as a figure of speech. I lie there and I hear the lamp-room door. It makes a sound like a man clearing his throat to say something that will end a conversation.' He laughs, not well. 'You are Bare. I may say that to you. A man who says it to a Bare says it to a wall that happens to be listening. It is the one comfort the Concord ever thought of that I approve of without reservation.'".
+  }
+  Topic ch_ansel_night_dead with chaplain "Ask Father Ansel who is dead" when privateHours() and not masked(actor) and at(chaplain, vestry) once {
+    Says "'Ysolde,' he says; and stops, and puts his hand over his mouth, and takes it away. 'No. There. It is said, in a vestry, at midnight, to a stranger. If the Concord wishes to Name me for it, I am sixty-four and I should like to see it try.' His eyes are wet. 'The Registrar. Lying in the bier-room in the mask. I was her Hearer; two days before, she knelt where you will kneel, and what she brought me I carry, and I will not set it down, not for the Sergeant and not for you.'".
+    On discuss { Assert knows(actor, marrick_dead). Assert knows(actor, ch_her_hearer). }
+  }
+  Topic ch_ansel_gull with chaplain "Ask Father Ansel about the stranger on the steps" when wears(actor, face_gull) and publicHours() and not ch_buried(actor) and ch_body_here(actor) once {
+    Says "'You are the Gull. Then you will have seen what the Hospice left on my step in a sheet.' His voice goes very quiet. 'The Concord does not allow me to bury him. He is a Bare; he was nobody in life; I am not able to make him anybody in death. He has a number. Nine. Nine of them have gone into the Cuff since the Novena began, and nobody has said a word over any, because nobody was there to be said over.' He looks at the sheet. 'He has a boot,' he says. 'I did not look in it. I could not bear to be the one who knew.'".
+    On discuss { Assert knows(actor, ch_boot_hint). }
+  }
+  Discovery ch_boot_hint "A dead Bare lies in a Hospice sheet on the Chapel steps; the Concord will not let the Chaplain bury him, and Father Ansel has not been able to bear looking in his boot.".
+  Topic ch_ansel_owl with chaplain "Ask Father Ansel about the Chapel's lamps" when wears(actor, face_owl) and publicHours() once {
+    Says "'The Owls,' he says, with relief; it is a trade he can talk to. 'The Chapel's wicks are trimmed by a lamp-boy, one of your steward's, of an evening. A little thing, very quick, who will not look at the Hearer; I believe he thinks I am a ghost. He has not come since the night the Registrar,' and he stops, and starts again, 'since the night of the Hearing's postponement. Tolliver. A good name for a trimmer. If you see his mother, tell her the lamps are all right.'".
+    On discuss { Assert knows(actor, ch_boy_known). }
+  }
+  Discovery ch_boy_known "Pip Tolliver, a lamp-boy of the Owls' steward, trimmed the Chapel's wicks of an evening and has not been seen here since the night the Registrar died; his mother thinks he went down with the lamp-boys.".
+
+  // The verger has been told to leave the floor and so knows what is on it. He tells a face that does a little work.
+  Topic ch_jonas_floor with ch_verger "Ask Jonas Heddle why Father said to leave the floor" when masked(actor) and publicHours() once {
+    Says "'Because of what's on it.' He climbs down off the stool, slowly, as if a lamp might hear. 'I came back from the Row at nine, the night it was. The Registrar had sent me with a note. Father was standing at that door with his hand on the latch and he did not open it, and he did not take his hand away. I said, Father. He said, Jonas, leave it as it is.' He rubs his thumb along his apron. 'Nine nights. I'd have swept it the first morning. I have a pan of what was on the floor, because I am a verger, and I took it.' He looks at you. 'I have not told Father I took it.'".
+    On discuss { Assert knows(actor, ch_jonas_pan). }
+  }
+  Discovery ch_jonas_pan "Jonas Heddle, the verger, swept up what lay on the floor of the lamp-room doorway on the night the Registrar died, against orders, and has kept it in a pan; he has not told Father Ansel.".
+  Topic ch_jonas_floor_night with ch_verger "Ask Jonas Heddle why Father said to leave the floor" when privateHours() and not masked(actor) and at(ch_verger, nave) once {
+    Says "He is putting out the last of the lamps with a snuffer on a pole, and does not look round. 'After the Ninth Bell a bare face is only a face,' says Jonas Heddle, 'and I'll say to it what I wouldn't say to a mask. There's a thing in a pan in the lamp-cupboard that Father told me to leave on the floor. I didn't. A verger can't. I swept up what the broom could reach and I have it still.' He puts out a lamp. 'Come by in the day with a face on, and help me trim, and I'll give it you. I can't be seen giving it to a Bare. That is not the Concord; that is Mistress Odell.'".
+    On discuss { Assert knows(actor, ch_jonas_pan). }
+  }
+  Relation ch_jonas_helped(group).
+  Action ch_help_jonas(actor: group, site: place) "Help Jonas Heddle trim the Novena lamps, an hour" {
+    Speaker ch_verger.
+    Requires able(actor) and company(actor) and at(actor, site) and at(ch_verger, site) and at(actor, nave) and masked(actor) and publicHours() and knows(actor, ch_jonas_pan) and not ch_jonas_helped(actor).
+    Time 6.
+    On success { Assert ch_jonas_helped(actor). Assert knows(actor, ch_cooper). Assert knows(actor, ch_boy_known). Give ch_curls to actor. }
+    Result "You hold the ladder and pass up the wicks, and by the fourth lamp he has stopped explaining what he is doing and started explaining why. At the end of the hour he takes a pan out of the lamp-cupboard, with a tin lid on it, and puts it in your hands without a word. Oak curls, pale and sweet, and with them a smell that is not the Chapel's at all: brine, and a fire made of shavings. 'And the Tolliver boy, that trims for the Owls,' he says, to the ladder. 'He's not been in since the night. His mother says he's gone down with the lamp-boys. I should not like to be the one to say it was for something he saw.'".
+  }
+  Kind ch_curls_kind "a pan of oak shavings" is gear worth 0 weighing 1 described "Curls of white oak, an inch across and as fine as lace, with a smell of brine and charred wood. Someone has been shaving staves, and has done it for years: each curl is cut to the same bevel.".
+  Item ch_curls "a pan of oak shavings" is ch_curls_kind at offstage.
+
+  // ── The Lamp-Room ─────────────────────────────────────────────────────────────────────────────────────────────────
+  // Where Ysolde Marrick died, at her lamp-table, between one office and the next. Father Ansel has had it left as it
+  // was. The evening is in the room: three visitors, each of whom lit a taper at her candle, as the Chapel's courtesy
+  // asks of anyone who comes to the Registrar, and put it out in their own way. What each of the seven readings finds
+  // is true; none of them finds all of it. Looking closely at the three stubs and nothing else gives a story that
+  // reads cleanly and is wrong in a useful way: that the last to leave, who arranged her, is the one who killed her.
+  Observe ch_lamp_public at lamp_room when publicHours() "A narrow room under the north windows, smelling of lamp-oil, cold wax and, very faintly, of a candle that was put out in a hurry. Lamps without chimneys hang from the beams on hooks, like fruit on a wall, and wicks in boxes line one shelf. A door on the east side goes through to the bier-room, and is shut. Everything here has been left exactly as it was found, and the room knows it.".
+  Observe ch_lamp_private at lamp_room when privateHours() "At night the lamp-room has only the light you bring. The lamps hang unlit in the dark above the table and give back nothing. The rain is louder here than in the nave, because the roof is lower and the window is cracked along one pane, and somebody has pushed a rag into the crack.".
+  Observe ch_lamp_death at lamp_room when true "This is where the Registrar of Ombra died: the lamp-room of the Chapel of the Bare Face, where she sat on the nights she was not walking the streets." teaches marrick_dead.
+
+  Thing lamp_table "the lamp-table" at lamp_room {
+    State as_found "A long table of black oak for trimming wicks, scarred with the rings of cups, with a high-backed chair at its head and a plain visitor's chair pulled out in front of it, square, as for someone who was expected. Wax has run over the table's edge in long falls and set, layer on layer, like candlework on a cake.".
+  }
+  Thing ch_tapers "three candle-stubs in the visitors' holders" at lamp_room {
+    State as_found "Three iron holders stand in a row on the table's end, and in each the stub of a taper: one burned very low, one hardly at all, one halfway.".
+  }
+  Thing ch_hooks "the mask-hooks by the door" at lamp_room {
+    State as_found "Two iron hooks by the bier-room door, where a visitor might hang a mask who had been asked to be received bare. One is worn bright. On the other, a thread hangs.".
+  }
+  Thing ch_floor "the floor by the door" at lamp_room {
+    State as_found "The boards by the door are cleaner than the rest of the floor. Somebody has swept here, once, and then been stopped.".
+  }
+  Thing ch_under "the dark under the lamp-table" at lamp_room {
+    State as_found "Under the table, where the wax has run down the leg in a long fall and pooled on the boards, the dark is thicker than it need be.".
+  }
+  Thing ch_cord "a cut end of white silk cord" at lamp_room {
+    State as_found "At the foot of the high-backed chair lies a short end of white silk cord, cut clean, with a flat black knot at one end.".
+  }
+
+  Observe ch_tapers_quick at lamp_room when tried(ch_tapers, looking) and not knows(party, ch_quick_reading) and not knows(party, ch_order) "You count them again, because the number is the point. Three visitors, then, and the burn-lengths to say how long each stayed: one for an hour, one for a breath, one for the time it takes to do something with your hands. The last of them put out his light with a clean pinch and went on after the others, to judge by the wax; and on the table beside the high chair, where the Registrar sat, lies the cut end of a cord. It reads like a page: two men quarrelling at her table, a third who comes after, ties her mask straight, and goes out with the Book. Whoever came last, you think, is the man who killed her, or the man who most wanted it hid." teaches ch_quick_reading.
+  Discovery ch_quick_reading "The lamp-room's three candle-stubs say three visitors came the Registrar's last evening, and the last to leave straightened her mask and took the Book: the clerk, then, whom the others only quarrelled with, is the one to look for.".
+  Observe ch_hooks_look at lamp_room when tried(ch_hooks, looking) and not knows(party, serene_saw) "The thread on the second hook is red-gold, silk, the thickness of a hair, and looks like something torn from the edge of a ribbon. It has nothing to say that you can find.".
+  Observe ch_floor_look at lamp_room when tried(ch_floor, looking) and not knows(party, ch_cooper) "Between two boards, where the broom did not go, there is a little pale grit: wood, or what was once wood.".
+  Observe ch_under_look at lamp_room when tried(ch_under, looking) and not knows(party, ch_child) "Wax lies in a flat white pool on the boards beneath the table, and in its skin there is a mark you take at first for a dropped glove.".
+  Observe ch_table_look at lamp_room when tried(lamp_table, looking) and not knows(party, ch_glove) "Along the table's edge at the head, in the layers of old wax, there is a scratch: four small points in a row, each cut deep, close as the teeth of a comb.".
+  Observe ch_cord_look at lamp_room when tried(ch_cord, looking) and not knows(party, ch_knot) "A silk cord with a flat black clerk's tape tied round one end. It might be nothing; it is the sort of thing a room has.".
+
+  // Seven readings, each by a different skill, each needing the thing to have been looked at first. Wrong or failed, a
+  // reading is only a reading that has not come yet: it costs half an hour and may be tried again.
+  Action ch_read_tapers(actor: group, site: place) "Read the candle-stubs, and where each visitor stood" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lamp_room) and tried(ch_tapers, looking) and not knows(actor, ch_order).
+    Time 3.
+    Resolve check(actor, insight, dc_fair).
+    On success { Assert knows(actor, ch_order). }
+    Result "You stand in the room as each of them stood. The wax says it: the first fall lies thickest on the floor in front of the table, in a long line, and the man who made it paced; he could not keep still for an hour, and she did not once get up. The second visitor never came past the door-sill; his taper has hardly burned, and it was blown, not pinched, in the breath of someone who could not wait to be out. The third sat, in the visitor's chair, and the taper he lit is burned to the middle: he stayed to do something, and did it carefully. And at the head of the table, the Registrar's own candle, which she would have trimmed every quarter-hour of her life, has burned down untrimmed into its own pool from the hour the first visitor went: no hand touched it after him.".
+    Otherwise "You read the room as you would read a face and it gives you what it gives anyone: three candles, three visitors, a sense of weight. You cannot make it say which came when.".
+  }
+  Discovery ch_order "Three people came to the Registrar's lamp-room that evening, one after another: the first paced the floor for an hour while she sat; the second never came past the threshold and blew out his taper and fled; the third sat in the visitor's chair and stayed to do something with care.".
+  Action ch_read_glove(actor: group, site: place) "Read the scratch in the wax at the head of the table" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lamp_room) and tried(lamp_table, looking) and not knows(actor, ch_glove).
+    Time 3.
+    Resolve check(actor, trapwork, dc_fair).
+    On success { Assert knows(actor, ch_glove). }
+    Result "Four points in a row at a finger's span: you have seen this scratch before, or its kind, on every lock in a strongroom. It is the stud-plate of a ward-glove, the old Office pattern cut with pins to turn the wards of a lock without a key. Nobody wears it but a Warden of Locks in his Office. He laid his hand on the table, hard, at the head, where the Registrar's own hand would lie, and leaned.".
+    Otherwise "A scratch in wax. You turn your head to it from each side and it is a scratch in wax.".
+  }
+  Discovery ch_glove "A Warden of Locks' ward-glove, with a stud-plate of four pins, scored the lamp-table's edge at the head, where the Registrar's own hand would lie: the Warden of Locks stood over her and leaned on her table.".
+  Action ch_read_flake(actor: group, site: place) "Read the thread on the second mask-hook" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lamp_room) and tried(ch_hooks, looking) and not knows(actor, serene_saw).
+    Time 3.
+    Resolve check(actor, lore, dc_fair).
+    On success { Assert knows(actor, serene_saw). }
+    Result "Red-gold silk, a hair thick, with a fleck of gilt at the end of it like a scale: leaf-gold laid on lacquer, which breaks off when a mask is knocked against a post. Only one mask in Ombra is gilded, because only one is made to be looked at from across a square. The Serene's cord snapped on this hook; the Serene came into the Registrar's lamp-room that night, and did not stay to mend it.".
+    Otherwise "A thread. It is very pretty, red and gold. You know that it is from a mask, and you do not know which.".
+  }
+  Action ch_read_shavings(actor: group, site: place) "Read what the broom did not reach by the door" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lamp_room) and tried(ch_floor, looking) and not knows(actor, ch_cooper).
+    Time 3.
+    Resolve check(actor, woodcraft, dc_fair).
+    On success { Assert knows(actor, ch_cooper). }
+    Result "White oak, shaved fine, seasoned in brine and fire: the curls of a cooper's drawknife, carried on a cuff. The Chapel is not made of oak and no one in the Chapel works it. A man who makes barrels for a living stood at this door in his work-coat and did not go in.".
+    Otherwise "Wood, you decide, and then, very sure of it, that it is a different wood from the floor's; and no more.".
+  }
+  Discovery ch_cooper "White oak shavings, seasoned in brine, lay at the lamp-room door: a cooper stood there in his work-coat, and did not go in.".
+  Action ch_read_hand(actor: group, site: place) "Read the mark in the wax under the table" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lamp_room) and tried(ch_under, looking) and not knows(actor, ch_child).
+    Time 3.
+    Resolve check(actor, mending, dc_fair).
+    On success { Assert knows(actor, ch_child). }
+    Result "Not a glove. A hand, the right, pressed flat into the wax while it was soft and then held there until it cooled; the print goes down to the whorls. A child's, nine or ten years: the thumb is bitten to the quick, the palm has the small hard places a boy gets from wick-snips, and a rim of lamp-oil shines along the fingers still. Whoever it was lay under the table through all three visits, and put the hand down to keep it from shaking, and did not dare to lift it. The small bare feet went out last, toward the lamp-stair, running.".
+    Otherwise "You cannot make it more than a smear. It is warm in the room, and you are tired, and a thing under a table is only a thing under a table.".
+  }
+  Discovery ch_child "A child of nine or ten, with the hands of a wick-trimmer, lay under the lamp-table through all three visits with a hand pressed into the wax to keep it still, and ran out by the lamp-stair afterward.".
+  Action ch_read_cord(actor: group, site: place) "Read the knot on the cut cord" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lamp_room) and tried(ch_cord, looking) and not knows(actor, ch_knot).
+    Time 3.
+    Resolve check(actor, mending, dc_fair).
+    On success { Assert knows(actor, ch_knot). }
+    Result "The white silk was the cord of a mask. It was cut with a small sharp blade, close to the lacing, to take the mask off a face that was past helping; and then it was tied again with a clerk's tape, in a flat knot that will lie under a pillow, in the order a man ties a thing he cannot bear to hurt. He retied her mask, and left the cut end because he could not bring himself to burn it. He did it after she was past help. The knot has no hurry in it at all.".
+    Otherwise "A cord and a knot. A knot is a knot to you, and this one says nothing yet.".
+  }
+  Discovery ch_knot "The Registrar's mask-cord was cut and then retied with a clerk's tape in a flat, careful knot, after she was past help, by someone who did not want her seen and did not hurry.".
+
+  // The evening, assembled: what the room says when all of it is read. It replaces the quick reading: the last visitor
+  // was not a murderer but a clerk who covered a woman's face.
+  Rule ch_evening_read when knows(party, ch_order) and knows(party, ch_glove) and knows(party, serene_saw) and knows(party, ch_cooper) and knows(party, ch_child) and knows(party, ch_knot) and not knows(party, ch_evening)
+    says "You lay them in a row as you would lay out the stitches of a hem, and the evening gets up and walks. The Registrar sat in her lamp-room with the Novena three days off. The Warden of Locks came first, in his ward-glove, and for an hour he paced and she sat, and he said what he had come to say; she did not rise. The cooper came second, in the Serene's mask, and stood at the door and saw her face, and ran, and blew his taper out in terror. A child lay under the table through all of it. The clerk came last, sat in the visitor's chair, cut her mask free and retied it as kindly as a man can, and took the Book; he did not kill her; she was dead before he came. Nobody killed her. Three people were each, for an hour, the worst thing that happened to her night." teaches ch_evening { }
+  Discovery ch_evening "The Registrar's last evening, read from the lamp-room: the Warden of Locks came first and paced an hour in a ward-glove over her; the cooper in the Serene's mask came second and fled; a boy lay under the table; and the clerk came last, retied her mask with a clerk's tape and took the Book; she had been dead since the Warden went.".
+  Observe ch_evening_known at lamp_room when knows(party, ch_evening) "You know the room now. The visitor's chair is a clerk's chair, the table a Warden's, the doorway a cooper's, and the dark under the table a child's, and you cannot look at any of them without seeing the person who was there.".
+
+  // What the room proves, and what it needs to be put with: the glove and Father Ansel's ear through the door; the child
+  // and a name for the child. Neither the room nor the confessional alone makes either, but both can be had without the seal.
+  Topic ch_ansel_heard with chaplain "Ask Father Ansel what he heard through the lamp-room door" when privateHours() and not masked(actor) and at(chaplain, vestry) and (ch_ansel_trusts(actor) or knows(actor, ch_evening) or ch_buried(actor)) and not knows(actor, ch_threat) once {
+    Says "He is silent so long that you think he has gone to sleep. 'A Warden's voice,' he says. 'I know the cant: by the Key and by the Lock. I did not see him. I did not leave the nave. He said a name aloud.' He covers his mouth with his hand. 'I will not say it either, do you understand. In the Chapel. I heard him say a woman's name, slowly, like reading a price, and say that he would say it again in the Row at noon, unless the Rounds were called off. She said: Say it. And he said it again, louder, and again, and after that I did not hear her answer, and I told myself that was the rain.'".
+    On discuss { Assert knows(actor, ch_threat). }
+  }
+  Discovery ch_threat "Father Ansel heard a Warden of Locks, through the lamp-room door, say a woman's name aloud three times and threaten to cry it in the Row at noon unless the Registrar's Rounds were called off; she answered, Say it.".
+  Action ch_press_ansel(actor: group, site: place) "Ask Father Ansel, with your whole attention, what he has not been able to say" {
+    Speaker chaplain.
+    Requires able(actor) and company(actor) and at(actor, site) and at(chaplain, site) and at(actor, vestry) and privateHours() and not masked(actor) and not knows(actor, ch_threat) and not ch_pressed(actor).
+    Time 3.
+    Resolve check(actor, insight, dc_fair).
+    On success { Assert knows(actor, ch_threat). Assert ch_ansel_trusts(actor). Assert ch_pressed(actor). }
+    On failure { Assert ch_pressed(actor). }
+    Result "You do not push. You sit on the other stool and look at the fire that is not lit, and you see what is wrong with the silence: it has the shape of something he heard, and is not the shape of something he did. 'I was in the nave,' he says. 'I was not asked to hear it. I heard it. There is no seal on what a man hears with his ears,' and he tells you, with his hand over his mouth.".
+    Otherwise "He lets you wait, and takes it kindly, and says the Chapel is a quiet house and he is a quiet man. You have the sense of having stood before a door that was already ajar and pushed it shut.".
+  }
+  Relation ch_pressed(group).
+  Rule ch_warden_proved when knows(party, ch_glove) and knows(party, ch_threat) and not knows(party, lacke_unfaced)
+    says "The glove and the voice agree. The Warden of Locks stood over the Registrar in her lamp-room, in his ward-glove, and said her name aloud; the Chaplain heard it through the door. You did not hear it from anyone under a seal, and you may say it to anyone." teaches lacke_unfaced { }
+  Rule ch_boy_named when knows(party, ch_child) and (knows(party, rounds_known) or knows(party, ch_boy_known)) and not knows(party, pip_saw)
+    says "A boy of nine under the table, with a trimmer's calluses; a lamp-boy of the Owls' steward who has not been to the Chapel since; a ledger with a P. T. and a word, cisterns, beside it. It is the same child. He lay under the table, and saw all three, and has hidden since in the cisterns under the Drip." teaches pip_saw { }
+
+  // ── The stranger on the steps ─────────────────────────────────────────────────────────────────────────────────────
+  // A Bare died at the Hospice on the fifth night of nobody's attention, and by the Concord's usage the Hospice leaves its
+  // dead on the Chapel steps in a sheet to be carried to the water. The Chapel may not bury him, for he is nobody. He
+  // has a boot. If nobody does anything, the porter tips him into the Cuff on the fourth morning and nobody says a word.
+  Kind ch_body_kind "the dead stranger, in a Hospice sheet" is gear worth 0 weighing 6 described "A man of fifty or so in a grey Hospice sheet, tied at the feet and the neck with tape, a tag sewn to the corner: NINE. He is lighter than he looks, which is a thing the living do not like to learn.".
+  Item ch_body "the dead stranger" is ch_body_kind at chapel_steps.
+  Observe ch_body_laid at chapel_steps when at(ch_body, chapel_steps) and publicHours() "Under the lee of the third step, where the water stairs begin, a long shape lies in a grey Hospice sheet, tagged NINE, with the rain running off it in lines. The masked people on the steps have arranged themselves so that none of them is standing within a yard of it.".
+  Observe ch_body_night at chapel_steps when at(ch_body, chapel_steps) and privateHours() "Someone has put a saucer with a stub of tallow on the step by the sheet, and the rain has put it out.".
+  Observe ch_body_gone at chapel_steps when ch_buried(party) and not at(ch_body, chapel_steps) "The lowest step is clean, and a darker patch where the sheet lay is already going pale.".
+  Relation ch_buried(group). Relation ch_cuffed(group). Measure ch_burial_way(group).
+  // The stranger is still to be buried: on the steps, or in the company's arms.
+  Query ch_body_here(c: group) means at(ch_body, chapel_steps) or carries(c, ch_body).
+  Rule ch_porter when day(clock) == 4 and hour(clock) >= 6 and at(ch_body, chapel_steps) and not ch_buried(party) and not ch_cuffed(party)
+    says "At first light a Hospice porter in a cape comes down the Chapel steps with a hand-barrow and does what the Concord's usage asks: he tips the stranger off the bottom step into the Cuff, tag and all, as one empties a bucket, and walks away. No one on the steps looks up. Father Ansel stands in the Chapel door in his veil, and does not move, and does not speak." {
+    Retract at(ch_body, chapel_steps). Assert ch_cuffed(party). }
+  Action ch_open_boot(actor: group, site: place) "Look in the dead stranger's boot" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(ch_body, site) and not knows(actor, ch_stranger_name).
+    Time 2 minutes.
+    On success { Assert knows(actor, ch_stranger_name). }
+    Result "Folded small in the left boot, under the insole, in a waxed paper: a card, in a hand that wrote as it was taught to, and then more slowly. EDRIC SALT, CHANDLER, OF WENNICK. I WAS NINE DAYS IN THIS CITY AND NOBODY SAID MY NAME. IF I DIE HERE, CRY IT ONCE, ALOUD, IN A SQUARE, AS IF I WERE SOMEBODY. IT IS ALL I ASK. THE REST YOU MAY DO AS YOU LIKE.".
+  }
+  Discovery ch_stranger_name "The dead Bare on the Chapel steps was Edric Salt, a chandler of Wennick, who left in his boot a card asking that his name be cried once, aloud, in a square, as if he were somebody; the rest of him they might do as they liked.".
+
+  // First way: by rite. Father Ansel will lend the stole to a Hearer who asks for it, though he cannot be seen to use it.
+  Topic ch_ansel_stole with chaplain "Ask Father Ansel for the burial stole" when hearer(actor) and knows(actor, ch_stranger_name) and at(ch_body, chapel_steps) and not ch_stole(actor) once {
+    Says "He does not ask what for. He goes to the press in the vestry, and comes back with a narrow band of grey wool, worn shiny, and holds it a moment before he gives it over. 'I may not be seen to lend it,' he says. 'There is a bench at the foot of the water stairs. The Concord has nothing to say about what a stranger may do on a bench.' He puts the stole into your hands, and closes his over them. 'I shall be at my prayers. I shall be at my prayers with my back to the steps, as is my custom.'".
+    On discuss { Assert ch_stole(actor). }
+  }
+  Relation ch_stole(group).
+  Action ch_bury_rite(actor: group, site: place) "Read the office over the stranger, in Father Ansel's stole, and let him down into the water" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(ch_body, site) and at(actor, chapel_steps) and ch_stole(actor) and knows(actor, ch_stranger_name) and not ch_buried(actor).
+    Grave "A Bare is given to the Cuff; it takes him, and he is not seen again. You will have said his name over him, once, quietly, and the rite is the only thing of yours that will go down with him.".
+    Time 6.
+    Resolve check(actor, rites, dc_fair).
+    On success { Assert ch_buried(actor). Retract at(ch_body, site). Set ch_burial_way(actor) to 1. Assert ch_ansel_trusts(actor). }
+    Result "You say it at the foot of the water stairs with the stole round your neck and the rain on the page you do not need: the office for the dead who are not to be mourned, the shortest in the book, and you lengthen it with his name, Edric Salt, chandler, of Wennick, said low, once, in the voice you would use for something that might still wake. The masked people on the steps look away with their whole bodies. Behind you, in the Chapel, a Hearer is at his prayers with his back to the steps. You let him down into the Cuff, and it takes him as it takes everything, without comment.".
+    Otherwise "The words will not come in their order. The rain gets into the book, and your voice, which you wanted to be level, comes out as a clerk's reading a will. You stop before the end, because to go on would be to do it badly, and he deserves better than that, and so, God help you, does the Concord.".
+  }
+
+  // Second way: by night, in the reeds. The Chaplain looks away; the ground is the question.
+  Topic ch_ansel_prayers with chaplain "Tell Father Ansel that you mean to take the stranger to the reeds tonight" when privateHours() and not masked(actor) and at(chaplain, vestry) and knows(actor, ch_stranger_name) and ch_body_here(actor) and not ch_leave(actor) once {
+    Says "'I did not hear that.' He puts his veil over his face, as if it were a handkerchief, and takes it away again. 'I pray until the Fourth Bell, with my back to the steps, and the door is not locked, because there is nothing in this Chapel worth the locking. The reeds,' he says, 'hold nothing in the Rains. If you must go, go where a heron stands. A heron does not stand where the ground is going to go.'".
+    On discuss { Assert ch_leave(actor). Assert knows(actor, ch_heron_ground). }
+  }
+  Relation ch_leave(group).
+  Discovery ch_heron_ground "Father Ansel says the Heronry's reeds hold nothing in the Rains, and that a grave should be dug where a heron stands, since a heron does not stand where the ground will go.".
+  Relation ch_firm(group). Relation ch_floated(group).
+  Action ch_sound_ground(actor: group, site: place) "Find the firm ground in the reeds, where a heron would stand" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, reed_path) and not ch_firm(actor).
+    Time 6.
+    Resolve check(actor, woodcraft, dc_fair).
+    On success { Assert ch_firm(actor). }
+    Result "You follow the herons. Not the birds: their places, a slope of tussock a hand above the water where six or seven reeds have stood for a hundred years, and the mud under them takes the pole and holds it. It will hold the Rains. It will hold, you think, the rest of the century.".
+    Otherwise "Every tussock looks as firm as another, and each gives under the pole a little differently, and the water comes up in the hole you dig to try it. You cannot tell the ground that will hold from the ground that will not.".
+  }
+  Action ch_bury_reeds(actor: group, site: place) "Bury the stranger in the reeds by night, and say nothing about it" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, reed_path) and carries(actor, ch_body) and ch_leave(actor) and knows(actor, ch_stranger_name) and privateHours() and not ch_buried(actor).
+    Grave "A Bare in the reeds is in the Heronry's ground, and the Heronry is under a writ; whatever the reeds do with him, they will have been the ones to do it.".
+    Time 12.
+    Resolve check(actor, digging, dc_fair).
+    On success { Assert ch_buried(actor). Spend ch_body from actor. Set ch_burial_way(actor) to 2. }
+    Result "You carry him the last quarter-mile on your back, because the reed path will take no barrow, and the lantern you did not bring is a thing you are glad of. The hole takes an hour and a half. He goes in on his side with the card in his boot and the sheet over his face, and you lay the turf back as you found it and pat it, which is a foolish thing to do and which you do twice. A heron somewhere in the dark lifts one foot, and puts it down.".
+    Otherwise "The spade goes down a foot and finds water, and the water comes up to meet it. By the second hole you are knee-deep and the stranger is lying on the path in his sheet with the rain on his face; and you say a thing you will not be repeating in a Chapel.".
+  }
+  Rule ch_reeds_float when day(clock) >= 6 and ch_burial_way(party) == 2 and not ch_firm(party) and not ch_floated(party)
+    says "On the sixth day, in the Flood, a reed-cutter finds a grey sheet at the edge of the Heronry, tagged NINE, as clean as a pebble, and without a word fetches it back to the Hospice by the water-gate, on a hurdle. The Hospice porter will tip him in the Cuff tomorrow. It is not your fault, and it is." {
+    Assert ch_floated(party). }
+
+  // Third way: a ferryman carries what is left on the water stairs, for the name, and will not carry what has none.
+  Topic ch_rill_body with rill "Ask Rill to carry the stranger out on the Cuff, as a ferryman's cargo" when wears(actor, face_gull) and publicHours() and carries(actor, ch_body) and knows(actor, ch_stranger_name) and not ch_buried(actor) once {
+    Says "Rill Ketch looks at the sheet in your arms and at the Gull on your face, and at the Gull on her own, and then not at anything. 'A Gull carries what is left on the water, and doesn't say.' She is already moving the boat-hook. 'What's the name?' You tell her. 'Edric Salt,' she says, to the water, not loud. 'Wennick. There's a Wennick on the bank where the delta goes out, a stone and a post. I take them past the bar on the ebb.' She puts out a hand, not for coin. 'Give him here. And don't thank me. I'm not doing it for you. I'm doing it for the Gull.'".
+    On discuss { Assert ch_buried(actor). Spend ch_body from actor. Set ch_burial_way(actor) to 3. Increase goodwill(face_gull) by 1. Assert ch_rill_carried(actor). }
+  }
+  Relation ch_rill_carried(group).
+  Topic ch_tibb_cellar with tibb "Ask Mother Tibb to keep the dead man in the Hospice cellar until he can be buried" when knows(actor, ch_boot_hint) and not ch_buried(actor) and ch_body_here(actor) once {
+    Says "'A sheet is not a bed.' She does not raise her voice; she has never needed to. 'The Hospice has nine beds and eleven Strangers and a rule, and the rule says the dead go to the Chapel steps by the third bell after, so that the beds may be turned. If I keep him I must turn a living man out, and I will not have a living man in the rain for a dead one. He has had his bed.' A pause. 'He had it nine nights. It was the best I had.'".
+  }
+
+  // The name cried: the request in the boot, and the thing the city fears done kindly. A Bare may Name, so it costs the
+  // company nothing if it comes as nobody; a masked company that names a name aloud is Named, and the Watch counts it,
+  // since it cannot tell a dead man's name from a living one's.
+  Relation ch_name_cried(group).
+  Action ch_cry_name(actor: group, site: place) "Cry the stranger's name aloud on the Chapel steps, as he asked" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, chapel_steps) and publicHours() and knows(actor, ch_stranger_name) and not ch_name_cried(actor).
+    Time 2 minutes.
+    On success { Assert ch_name_cried(actor). Assert ch_ansel_trusts(actor). }
+    Result "You go up three steps, to where you can be seen, and say it as loud as you can: EDRIC SALT, CHANDLER, OF WENNICK. It goes out over the steps like a coin dropped in a well and every masked head turns, because every one of them has been told since birth what is done to a name in a square, and has just heard one cried for nothing. A woman in a Cockle's domino puts her hand to her mouth. A Heron-cowled clerk sits down on the step where he is. Nobody does anything. After a moment the verger, inside, rings the one small bell he rings for the Novena, once. Then everyone goes on.".
+  }
+  Rule ch_cry_heat when ch_name_cried(party) and masked(party) and not ch_heat_noted(party) says "A domino of the Watch has come up the steps, and stands looking at you, and writes something, and goes away. A name said aloud by a masked face is a name said aloud, and the Watch has no way to tell a stranger's from a neighbour's. It will count it." {
+    Increase heat(party) by 1. Assert ch_heat_noted(party). }
+  Relation ch_heat_noted(group).
+  Observe ch_candle_steps at chapel_steps when ch_name_cried(party) and privateHours() "On the lowest step, in a saucer, a taper burns for Edric Salt; and another has been lit from it beside it. Nobody is there. The rain has not got them out.".
+  Observe ch_candle_nave at nave when ch_name_cried(party) and publicHours() "Someone has hung a plain oval of unpainted wood on the wall of the nave, among the rest, with a ribbon on it, and written nothing on it at all.".
+
+  // ── The Offices the children forget ───────────────────────────────────────────────────────────────────────────────
+  // The Chapel's choir rehearses the Nineteen Offices for the ninth night. Every child forgets the Assessor of Weights,
+  // whose Office is the Pound and is addressed by it, and so has no line of its own; the litany goes from the Key to
+  // the Measures in a gap like a missing tooth. Mistress Odell has tried everything except noticing.
+  Observe ch_choir_rehearsal at nave when at(ch_choir, nave) and not ch_choir_ready(party) "The children sing the Offices in the flat voice of a drill: the Treasurer, the Warden of Locks, the Key, the Master of Measures; and in the place between the Key and the Measures, where the Assessor of Weights should be, there is a rest of exactly the length of a held breath. The smallest of them moves her lips on it, hopefully, and gives up.".
+  Observe ch_choir_ready_scene at nave when at(ch_choir, nave) and ch_choir_ready(party) "The children sing the Offices from the Treasurer to the Registrar, all nineteen, and the Pound comes in its place between the Key and the Measures, short, a quarter-beat, and the smallest of them takes it on the nose. Mistress Odell does not look up from her fork.".
+  Relation ch_choir_ready(group). Relation ch_corrow_asked(group).
+  Topic ch_corrow_gap with ch_corrow "Ask Mistress Odell why the children skip a line of the litany" when masked(actor) and publicHours() and at(ch_corrow, nave) and not ch_corrow_asked(actor) once {
+    Says "'They don't skip it.' She strikes the fork on the pulpit. 'They have never been taught it. The Assessor of Weights is the Pound. The Offices are addressed by their masks, and the Pound is a thing a child can hold in her hand and has never seen. They are asked to sing a Pound.' She stops. 'Nobody has been able to tell me what it sounds like, and I am not a woman to guess. The Drawing is in nine days. The Offices sing to the Urn; an Office that is not sung is not, I am told, strictly drawn.'".
+    On discuss { Assert ch_corrow_asked(actor). Assert knows(actor, ch_litany_gap). }
+  }
+  Discovery ch_litany_gap "The Chapel's children cannot sing the Assessor of Weights in the litany of the Nineteen Offices, because the Office is the Pound, addressed by its mask, and no one has told them what a Pound sounds like.".
+  Action ch_teach_pound(actor: group, site: place) "Tell the children what a Pound is: an ounce short, and everyone knows it" {
+    Speaker ch_corrow.
+    Requires able(actor) and company(actor) and at(actor, site) and at(ch_corrow, site) and ch_corrow_asked(actor) and not ch_choir_ready(actor).
+    Time 6.
+    Resolve check(actor, lore, dc_fair).
+    On success { Assert ch_choir_ready(actor). Assert knows(actor, ch_pound_sung). }
+    Result "You tell them what the Pound is: that it is a lump of brass in a locked room, and has been wrong, to anyone who has weighed against it, since before their grandmothers. That the bakers curse it, and love it, and it is short by a very little. 'So the Pound is a short beat,' says the smallest one, at once. 'A quarter.' Mistress Odell strikes the fork on the pulpit, and it does not make a noise she approves of, and the children sing the whole of the Offices from the Treasurer to the Registrar without a gap, and she says nothing for a long moment. 'A quarter,' she says, as though it had been her own idea.".
+    Otherwise "You explain it, and it is an explanation: weights, and measures, and a standard. The children listen with the faces of children being told how much their dinner cost. The smallest of them says, 'Is it big?', and Mistress Odell says 'From the Locks,' and they sing the gap again.".
+  }
+  Action ch_sweeten_choir(actor: group, site: place) "Promise the children honeyed almonds from the Row, if they get through the Offices once without a gap" {
+    Speaker ch_corrow.
+    Requires able(actor) and company(actor) and at(actor, site) and at(ch_corrow, site) and ch_corrow_asked(actor) and not ch_choir_ready(actor) and quantity(actor, gold) >= 2.
+    Time 3.
+    On success { Decrease quantity(actor, gold) by 2. Assert ch_choir_ready(actor). Assert knows(actor, ch_pound_sung). }
+    Result "Nine faces turn to you with a unanimity the Offices have never got from them. 'Anyone who does it without a gap,' says Mistress Odell, without waiting, 'may name what is in the bag.' They do it on the third try, with the Assessor sung as a gasp, and the smallest, who has been shown the Pound as a thing you gasp at, gasps it so hard she is sick in the font. It is not what she meant. It is correct.".
+  }
+  Discovery ch_pound_sung "The Chapel's children sing the Assessor of Weights, the Pound, as a quarter-beat short, between the Key and the Measures.".
+
+  // ── Later effects ─────────────────────────────────────────────────────────────────────────────────────────────────
+  // What the Chapel does for a company that has been kind in it, and what it learns of one that has not.
+  Observe ch_ansel_warm at nave when publicHours() and at(chaplain, nave) and ch_ansel_trusts(party) "Father Ansel, when he sees you come in under the arch, inclines his veil to you, which is an honour: he does it to the lamps.".
+  Topic ch_ansel_thanks with chaplain "Thank Father Ansel for the stole" when masked(actor) and publicHours() and ch_burial_way(actor) == 1 once {
+    Says "'There is nothing to thank.' He lowers his voice below the nave's. 'I should like it entered somewhere, in a hand that is not mine, that for one hour on the ninth day of the Novena a man called Edric Salt was buried with an office read over him by someone who knew his name. The ledger is for the Chapel's own. I shall put it in the margin, in pencil. A margin is a thing the Concord does not regulate.'".
+  }
+
+  // ── Milestones ────────────────────────────────────────────────────────────────────────────────────────────────────
+  Milestone ch_m_lamp "read the Registrar's last evening from the lamp-room" worth 50 when knows(party, ch_evening).
+  Milestone ch_m_burial "saw a stranger buried who would have gone into the Cuff unnamed" worth 50 when ch_buried(party).
+  Milestone ch_m_name "cried a dead stranger's name on the Chapel steps" worth 25 when ch_name_cried(party).
+  Milestone ch_m_choir "taught the Chapel's choir the Pound" worth 25 when ch_choir_ready(party).
+
+  // ── What became of them ───────────────────────────────────────────────────────────────────────────────────────────
+  Rule ch_fate_stranger_rite when newsHour() and ch_burial_way(party) == 1 once says "Of Edric Salt, a chandler of Wennick: he is in the Cuff off the Chapel steps, with an office read over him by someone who had his name, and the Chaplain has written it in pencil in the margin of the Chapel's ledger, where the Concord does not look." { }
+  Rule ch_fate_stranger_reeds when newsHour() and ch_burial_way(party) == 2 and not ch_floated(party) once says "Of Edric Salt, a chandler of Wennick: he lies in the Heronry on the ground a heron stands on, with a card in his boot. The reeds have come over him. The herons stand there for no reason that anyone can give." { }
+  Rule ch_fate_stranger_floated when newsHour() and ch_floated(party) once says "Of Edric Salt, a chandler of Wennick: the reeds gave him up in the Flood, and the Hospice porter tipped him into the Cuff on the seventh morning, as the usage required. Somebody had dug him a grave; and it is true that he was not nobody for a little while." { }
+  Rule ch_fate_stranger_ferry when newsHour() and ch_rill_carried(party) and ch_burial_way(party) == 3 once says "Of Edric Salt, a chandler of Wennick: Rill Ketch took him past the bar on the ebb, and the ferrymen are said to have cried his name from the Gull's stern as the boat went out, in turn, quietly. She has told nobody that she did, and the Gulls have not forgotten." { }
+  Rule ch_fate_stranger_cuffed when newsHour() and ch_cuffed(party) once says "Of the dead stranger on the Chapel steps, called Nine: the porter tipped him into the Cuff on the fourth morning, and the Chapel's door stayed open on the nave, and nobody ever learned what was in his boot." { }
+  Rule ch_fate_name when newsHour() and ch_name_cried(party) once says "Of the name cried on the Chapel steps: it is said in the Drip, by people who were not there, that on the ninth day a name was shouted in the open and nobody was Named for it, and that this is the only time anyone in Ombra has heard it." { }
+  Rule ch_fate_choir_sung when newsHour() and ch_choir_ready(party) once says "Of the children of the Chapel's choir: they sang the Nineteen Offices at the Drawing without a gap. The Pound came in a quarter-beat short, as it should, and the Assessor's mask, in the front row, was seen to flinch, and then to nod. Mistress Odell has been told by someone that it was the best she has ever done, and has said it was adequate." { }
+  Rule ch_fate_choir_gap when newsHour() and not ch_choir_ready(party) once says "Of the children of the Chapel's choir: they sang the Nineteen Offices at the Drawing with a gap between the Key and the Measures the width of a door, and the city, which had not been told, assumed it was part of the form." { }
+  Rule ch_fate_jonas when newsHour() and ch_jonas_helped(party) once says "Of Jonas Heddle, the Chapel's verger: he has swept the lamp-room floor, at last. Father Ansel stood in the door while he did it and did not say a word, and when he had finished said only, 'Thank you, Jonas.'" { }
+  Rule ch_fate_ansel_warm when newsHour() and ch_ansel_trusts(party) and not cl_seal_broken(party) once says "Of Father Ansel, Hearer of the Chapel of the Bare Face: he went into the Drawing in his veil and came out of it without, and is said to be hearing again, from the bare side of the grille, in the evening, with the door open." { }
+  Rule ch_fate_ansel_cold when newsHour() and not ch_ansel_trusts(party) and not cl_seal_broken(party) once says "Of Father Ansel, Hearer of the Chapel of the Bare Face: he is hearing again, behind the veil. The Novena lamps were kept lit by the verger, and the Chaplain lit nine candles of his own, one for each of the days, and said no prayer over them, for the first time in forty years." { }
 }
