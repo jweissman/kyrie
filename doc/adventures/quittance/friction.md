@@ -46,6 +46,8 @@ and command evidence) is in `friction/*.md`; this is the lead's list and the ran
 27. `bin/kyrie new character --companion` is the only documentation of `willing(x, actor)` + `hire(x)`.
 28. A "retry" cannot be designed (the die is fixed); failures must lead somewhere. This is a good constraint and was the single most productive one.
 
+29. A hostile Person declared `at` a real room warns everyone who enters it from the first minute; an NPC who should arrive later must be parked `at nowhere` (the Phoenix's wardens sat in Phoenix House and killed a Bakery test company; found only by the full run). There is no `Arrives when` declaration.
+
 ## E. What worked
 
 The kernel/contract split (one author's gate, another's reward) was possible *because* Kyr modules share a namespace and `Kind`s can be declared once and `Give`n by anyone. Chapters, Occasions, Promises,

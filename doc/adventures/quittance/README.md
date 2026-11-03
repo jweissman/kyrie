@@ -193,7 +193,7 @@ The test suites exercise the doors named above; `playtests/` has three full play
 `playtests/` holds transcripts written by `scripts/quittance-transcript.ts` from the scenarios in `playtests/scenarios/`:
 `arch-honest`, `arch-gap` (two of the five ways in), `descent-sit` (three fighters, no licence, no key, no friends: they force the cellar door,
 pay the Queue, show a Policy to the glass men and sit with the Fire for three hours — **and it is not enough**: accord 3 of 5, no terms, so the Great
-Tithe burns and the book ends *The Controlled Loss*). The suites: 292 tests across 18 files (see friction.md for the seed-pinning caveat).
+Tithe burns and the book ends *The Controlled Loss*). The suites: 295 tests across 18 files, each file green in the last per-file run (run files one at a time; see friction.md for the seed-pinning caveat).
 `scripts/quittance-fuzz.ts` takes random offered actions and checks invariants (arcs in range, no negative gold, ≤ 6 wards, ≤ 5 ayes, no terms and
 slaying together): findings are in 04-critique.
 

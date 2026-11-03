@@ -56,29 +56,28 @@ Module quittance "Quittance" {
   // ── The Phoenix's wardens ───────────────────────────────────────────────────────────────────────────────
   // A company that has made an enemy of the Chief Underwriter is looked for. Three wardens of the Phoenix, blue-coated,
   // courteous and armed, are sent for it when the threat has been made.
-  Person wardens "three wardens of the Phoenix" at phoenix_floor {
+  Person wardens "three wardens of the Phoenix" at nowhere {
     Role "three wardens with staves and a warrant". Ancestry human. Calling warrior. Level 3. Numbers 3. Pronouns they.
     Temperament territorial.
     Warns "Three men in the Phoenix's blue come through the crowd with their staves held crossways, politely, as one carries a rail. 'You'll be the adjusters,' says the sergeant. 'We've a paper that says you're no longer. It's the Chief Underwriter's. You're to come and discuss it.'".
     Comes "The sergeant sighs, and the staves come down. 'Don't make us explain it to the Chief,' he says.".
     Flinches "The wardens withdraw down the Row with dignity, taking their warrant with them, and their sergeant's hat is left behind on the cobbles.".
     Pleads "'You'll not tell Ottoline,' says the sergeant, sitting down on the kerb. 'She taught my daughter to read.'".
-    Refuge phoenix_floor.
-    Lair row_street.
+    Refuge nowhere.
   }
   Rule wardens_sent when prewittHardened(party) and not wardensSent(party) and hour(clock) >= 8 and hour(clock) < 18 { Assert wardensSent(party). Assert at(wardens, row_street). }
   Action pay_the_wardens(actor: group, site: place) "Pay the wardens' fee for the warrant's inconvenience, and ask them to lose it (12 coin)" {
     Speaker wardens.
     Requires able(actor) and company(actor) and at(actor, site) and at(wardens, site) and quantity(actor, gold) >= 12 and not wardensPaid(actor).
     Time 10 minutes.
-    On success { Decrease quantity(actor, gold) by 12. Assert wardensPaid(actor). Assert tolerates(wardens, actor). Assert at(wardens, phoenix_floor). }
+    On success { Decrease quantity(actor, gold) by 12. Assert wardensPaid(actor). Assert tolerates(wardens, actor). Assert at(wardens, nowhere). }
     Result "The sergeant counts it with his thumb in the palm of his hand. 'The warrant,' he says, 'is a very delicate paper. It has a way of going missing in a wet coat.' He tips his hat, and they go.".
   }
   Action ottoline_calls_them_off(actor: group, site: place) "Ask Ottoline to tell the sergeant the warrant is hers to withdraw" {
     Speaker wardens.
     Requires able(actor) and company(actor) and at(actor, site) and at(wardens, site) and travelsWith(ottoline, actor) and not wardensPaid(actor).
     Time 5 minutes.
-    On success { Assert wardensPaid(actor). Assert tolerates(wardens, actor). Assert at(wardens, phoenix_floor). }
+    On success { Assert wardensPaid(actor). Assert tolerates(wardens, actor). Assert at(wardens, nowhere). }
     Result "Ottoline Prewitt steps between you and the staves with her pencil behind her ear and says, in an even voice, 'Sergeant. Whose daughter do you think taught yours her letters?' The staves go up. 'It's not for me to say, miss,' says the sergeant. 'No,' says Ottoline. 'It's for me.' They go back down the Row at a march, not looking round.".
   }
 }
