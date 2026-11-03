@@ -131,17 +131,17 @@ describe('The Scuttled Barge: ways through', () => {
 
   it('stealth: after dark the tarpaulin gives up eighty-nine wet jars; Skell, shown them, gives up his claim and his sons', async () => {
     const j = await start('d', smooth);
-    await j.play('>quittance__skell_yard', 'Wait › Until dark', 'Slip into Skell');
+    await j.play('>quittance__skell_yard', '=21:00', 'Slip into Skell');
     expect(City.knows(j, 'bg_skell_dived')).toBe(true);
     expect(j.offers('Pack › a wet cold-lamp jar')).toBe(true);
-    await j.play('Wait › Until first light', 'Tell Skell you have seen');
+    await j.play('=day 2 06:00', 'Tell Skell you have seen');
     expect(has(j, 'bg_skell_out', 'bg_skell')).toBe(true);
     expect(j.holds('tolerates', Q('bg_sons'), 'party')).toBe(true);
   }, 240000);
 
   it('stealth, and then the call: a salvage, with the Yard paid, the owner ruined and the Lamprey a little obliged', async () => {
     const j = await start('d', smooth);
-    await j.play('>quittance__skell_yard', 'Wait › Until dark', 'Slip into Skell', 'Wait › Until first light');
+    await j.play('>quittance__skell_yard', '=21:00', 'Slip into Skell', '=day 2 06:00');
     const gold = City.gold(j);
     await j.play('>quittance__lamprey_floor', 'call her a Salvage');
     expect(ruling(j)).toBe(2);
@@ -160,7 +160,7 @@ describe('The Scuttled Barge: ways through', () => {
 });
 
 describe('The Scuttled Barge: caught in Skell\'s yard', () => {
-  const caught = ['>quittance__skell_yard', 'Wait › Until dark', 'Slip into Skell'];
+  const caught = ['>quittance__skell_yard', '=21:00', 'Slip into Skell'];
   const warriors = { party: [person('Bran', 'warrior'), { name: 'Bor', raceId: 'dwarf', classId: 'warrior' }, person('Pip', 'thief')] };
 
   it('caught, and fought, and lost: three men with boat-hooks are not a figure of speech', async () => {
