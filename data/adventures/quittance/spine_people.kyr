@@ -160,10 +160,10 @@ Module quittance "Quittance" {
     Result "'I've heard the Phoenix say a lot of things,' says Nan. 'You've got the wrong coat for it. Fine.' She goes round the Court with her arms folded, knocking on doors, and by dusk it is empty.".
     Otherwise "'A stranger comes to the Court and says it'll burn,' says Nan. 'A stranger. I've had that before, and it was a man selling insurance.'".
   }
-  Person dolly "Dolly Strake" at gasket_yard {
+  Person dolly "Dolly Orrimer" at gasket_yard {
     Role "pump-woman of Gasket Yard". Ancestry human. Peaceable. Manner proud. Pronouns she.
-    Greets "A big woman with her hair in a rag is working the handle of the dry well as if it might still give. 'It hasn't had water since the autumn,' says Dolly Strake. 'I pump it anyway. It's the principle.'".
-    Greets again "'Nothing yet,' says Dolly Strake. 'Same as ever.'".
+    Greets "A big woman with her hair in a rag is working the handle of the dry well as if it might still give. 'It hasn't had water since the autumn,' says Dolly Orrimer. 'I pump it anyway. It's the principle.'".
+    Greets again "'Nothing yet,' says Dolly Orrimer. 'Same as ever.'".
   }
   Action warn_gasket(actor: group, site: place) "Tell Dolly the Yard will burn on the sixth night, and to get everyone out of it" {
     Speaker dolly.
