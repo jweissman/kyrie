@@ -6,7 +6,7 @@ Module ombra "The Book of Faces" {
   // Three threads run through it: the Licence (whether the house stays open), the Lampoon (what the bard makes of the
   // city's small stories, and plays), and the Censor's Cue (the Reader, who cuts every joke and keeps every one).
   //
-  // The Stage's own people: Madame Orme (the manager), Master Ludd (the Reader, the Warden's censor), Pantaloon Tarrow
+  // The Stage's own people: Madame Orme (the manager), Master Orlick (the Reader, the Warden's censor), Pantaloon Tarrow
   // (the clown), Ambrose Finch (the poet in residence), Tobiah Venable (the Moths' mimic). The rooms the spine gave it are
   // the pit, the green room and the flies; the stage itself and the prompt-corner are added here.
 
@@ -56,18 +56,18 @@ Module ombra "The Book of Faces" {
   Rule bd_orme_dark when publicHours() and bd_closed() and not at(orme, stage_green_room) { Assert at(orme, stage_green_room). }
   Rule bd_orme_night when privateHours() and not at(orme, stage_green_room) { Assert at(orme, stage_green_room). }
 
-  // ── Master Ludd ───────────────────────────────────────────────────────────────────────────────────────────────────
+  // ── Master Orlick ───────────────────────────────────────────────────────────────────────────────────────────────────
   // The Warden's Reader: he reads every play before the Moths may speak it and strikes what offends the Seventh Codicil.
   // He prefers Reader to censor. He has been the Reader for twenty-two years, and he has kept every joke he cut, in
   // the margins of the prompt-books and in a chest, and he writes small plays of his own in the margins which he plays,
   // at night, to the empty house, unmasked, both parts.
-  Person ludd "Master Ludd" at stage_pit {
+  Person ludd "Master Orlick" at stage_pit {
     Role "the Warden's Reader, who passes the plays of the Wet Stage". Ancestry human. Peaceable. Pronouns he. Manner stoic.
     Known as "a thin man with a red pencil behind each ear" when not knows(party, bd_ludd_name).
     Greets "A long thin man, a red pencil behind each ear and a third in his hand, holds a prompt-book against his chest like a shield. By day a Crow's domino hides his face; by night it hangs on a nail, and the face under it is a schoolmaster's, kind and tired, and has not been used to hide anything for years. He is listening, with his mouth a little open, as a man listens at a wall. Every so often the pencil goes down on the page, once, like a small door closing.".
-    Greets again "Ludd looks up from the page the way a man comes up from under water, and goes back down.".
+    Greets again "Orlick looks up from the page the way a man comes up from under water, and goes back down.".
   }
-  Discovery bd_ludd_name "The Warden's Reader, the man in the Crow's domino with the red pencils, is Master Ludd, who has passed the plays of the Wet Stage for twenty-two years." { Known by ludd. }
+  Discovery bd_ludd_name "The Warden's Reader, the man in the Crow's domino with the red pencils, is Master Orlick, who has passed the plays of the Wet Stage for twenty-two years." { Known by ludd. }
   Rule bd_ludd_day when hour(clock) >= 9 and hour(clock) < 20 and not at(ludd, stage_pit) { Assert at(ludd, stage_pit). }
   // At night he lets himself in by the stage door with his own key, unmasked, and the house is his: he stands on the
   // boards from ten until one, and the company that wants him finds him there.
@@ -112,7 +112,7 @@ Module ombra "The Book of Faces" {
   // ── The licence, and what keeps it ────────────────────────────────────────────────────────────────────────────────
   // The Wet Stage may satirise Offices only while the Warden of Locks leaves its licence standing. On the fourth day,
   // at noon, his clerk comes to the green room to renew it, and renews it for one of three reasons: the Reader has sealed
-  // the season's play (Ludd), or the Codicil's footnote has been put to the Reader and he has conceded it (lore), or the
+  // the season's play (Orlick), or the Codicil's footnote has been put to the Reader and he has conceded it (lore), or the
   // fee has been paid (twelve coin). With none of these, the licence is withdrawn and the house goes dark: the Moths
   // scatter, and the only stage left to a Lampoon is the Drawing. A Reader who is the company's friend can still ask the
   // Warden for it back, and a payer can pay it twice over.
@@ -129,7 +129,7 @@ Module ombra "The Book of Faces" {
   Rule bd_clerk_withdraws when day(clock) == 4 and hour(clock) >= 12 and not bd_secure() and not bd_revoked(wet_stage) once
     says "At noon on the fourth day the Warden's clerk climbs the steps of the Wet Stage, reads out the Warden's pleasure to the empty pit in the voice of a man reading a bill of lading, and nails it over the door. By one o'clock every Moth in Maskers' Lane has heard it, and by two the Wet Stage is a salt-barge with a bucket in it." { Assert bd_revoked(wet_stage). }
   Rule bd_ludd_petitions when bd_revoked(wet_stage) and not bd_restored(wet_stage) and bd_ludd_regard(party) >= 3 and day(clock) >= 5 and hour(clock) >= 12 once
-    says "Master Ludd, in his own face, in his own coat, walks to the Warden's house at noon with the Wet Stage's season under his arm and the Seventh Codicil open at its footnote. He is gone an hour. He comes back to the green room, hangs up the licence on its nail, and says, to the wall, 'He did not like it. I have explained it to him as one would to a child. It is the first time in twenty-two years I have been rude to a Warden, and I find it very bracing.'" { Assert bd_restored(wet_stage). }
+    says "Master Orlick, in his own face, in his own coat, walks to the Warden's house at noon with the Wet Stage's season under his arm and the Seventh Codicil open at its footnote. He is gone an hour. He comes back to the green room, hangs up the licence on its nail, and says, to the wall, 'He did not like it. I have explained it to him as one would to a child. It is the first time in twenty-two years I have been rude to a Warden, and I find it very bracing.'" { Assert bd_restored(wet_stage). }
   Action bd_pay_fee(actor: group, site: place) "Give her the licence-fee, twelve coin, for the Warden's clerk" {
     Speaker orme. Time 5 minutes.
     Requires able(actor) and company(actor) and at(actor, site) and at(orme, site) and knows(actor, bd_licence_known) and bd_open() and not bd_secure() and not bd_kept(wet_stage)
@@ -229,11 +229,11 @@ Module ombra "The Book of Faces" {
     Otherwise "You say it. She waits a moment, giving you every chance, and then she says, kindly, 'No, dear. You are on the wrong side of the pail.' The cue wants more rain in it than you gave.".
   }
   Topic bd_orme_commission with orme "Tell her you mean to give her a play" when bd_orme_warm(actor) >= 2 and not bd_commissioned(actor) and not masked(actor) once {
-    Says "She puts the accounts down. 'Not a farce about a man in a hat. I will not play one man; I will play an Office, as the Codicil likes it. The Pound, the Key, the Serene. Never the man in the Pound.' She takes a prompt-book bound in black oilcloth from the shelf over the stove and holds it a moment before she gives it up. 'It was mine. The margins are Ludd's. Don't let him know I gave it you. And it goes past the Reader, whole, and it is on my boards by the seventh, or it is not on them.'".
+    Says "She puts the accounts down. 'Not a farce about a man in a hat. I will not play one man; I will play an Office, as the Codicil likes it. The Pound, the Key, the Serene. Never the man in the Pound.' She takes a prompt-book bound in black oilcloth from the shelf over the stove and holds it a moment before she gives it up. 'It was mine. The margins are Orlick's. Don't let him know I gave it you. And it goes past the Reader, whole, and it is on my boards by the seventh, or it is not on them.'".
     On discuss { Assert bd_commissioned(actor). Give bd_prompt_book to actor. }
   }
 
-  // ── The Censor's Cue: Master Ludd ─────────────────────────────────────────────────────────────────────────────────
+  // ── The Censor's Cue: Master Orlick ─────────────────────────────────────────────────────────────────────────────────
   // By day he is the Reader, masked as a Crow, and answers the face: a customer is a stranger he may put a joke to, a
   // Moth is a player with sides to learn, a Crow is a colleague. By night, in his shirt-sleeves, he plays to the empty
   // house two small plays he has written in the margins, both parts. He is moved, in the end, by being read. What he
@@ -243,23 +243,23 @@ Module ombra "The Book of Faces" {
   Relation bd_ludd_wheedled(group). Relation bd_tested(group). Relation bd_test_done(group). Relation bd_ludd_sour(group).
   Relation bd_ludd_heard(group). Relation bd_ludd_trusts(group). Relation bd_written_in(group). Relation bd_ludd_leashed(group). Relation bd_ludd_exposed(group).
   Relation bd_ludd_gone(group). Relation bd_ludd_told(group). Relation bd_ludd_seen(group).
-  Discovery bd_cuts_seen "Master Ludd strikes jokes under three heads: the first, a joke that names an Office; the second, one that names an Office by implication; the third, one that is funnier than the reason he would have to give for striking it.".
-  Discovery bd_margins_known "Master Ludd writes his reason for every cut in the margin of the prompt-book, as the Codicil requires, and the reasons are jokes, and better than the jokes they cut." { Known by ludd. }
-  Discovery bd_cuts_known "Master Ludd has kept every joke he has cut in twenty-two years, in the margins and in a chest: the whole repertory the Wet Stage was never let to play." { Known by ludd. }
-  Discovery bd_ludd_scene "Master Ludd writes small plays in the margins and plays them, at night, unmasked, to the empty house, both parts. One is the Joke at the Door: a joke, cut that morning, comes to the Reader's door and asks what happens to it now." { Known by ludd. }
+  Discovery bd_cuts_seen "Master Orlick strikes jokes under three heads: the first, a joke that names an Office; the second, one that names an Office by implication; the third, one that is funnier than the reason he would have to give for striking it.".
+  Discovery bd_margins_known "Master Orlick writes his reason for every cut in the margin of the prompt-book, as the Codicil requires, and the reasons are jokes, and better than the jokes they cut." { Known by ludd. }
+  Discovery bd_cuts_known "Master Orlick has kept every joke he has cut in twenty-two years, in the margins and in a chest: the whole repertory the Wet Stage was never let to play." { Known by ludd. }
+  Discovery bd_ludd_scene "Master Orlick writes small plays in the margins and plays them, at night, unmasked, to the empty house, both parts. One is the Joke at the Door: a joke, cut that morning, comes to the Reader's door and asks what happens to it now." { Known by ludd. }
 
   Topic bd_ludd_cold with ludd "Speak to him" when not masked(actor) and publicHours() {
-    Says "Ludd looks up, sees no mask, and looks down: a clerk who has found in a margin a word he does not recognise. The pencil does not stop. 'Reading,' he says, to the page, which is not an answer to anything you asked, and is, you understand, an answer to your face.".
+    Says "Orlick looks up, sees no mask, and looks down: a clerk who has found in a margin a word he does not recognise. The pencil does not stop. 'Reading,' he says, to the page, which is not an answer to anything you asked, and is, you understand, an answer to your face.".
   }
   Topic bd_ludd_customer with ludd "Ask him what he is cutting" when masked(actor) and not wears(actor, face_moth) and not wears(actor, face_crow) and publicHours() {
     Says "'The season's play, for the Warden, under the Seventh Codicil,' says the man in the Crow's domino, not looking up. 'Under the first head, a joke may not name an Office. Under the second, it may not name an Office by implication. Under the third.' He strikes something out with a small click. 'Under the third I give no reasons. It is the head for jokes that are better than the reasons for striking them.'".
     On discuss { Assert knows(actor, bd_cuts_seen). }
   }
   Topic bd_ludd_player with ludd "Tell him you are one of the Moths" when wears(actor, face_moth) and publicHours() {
-    Says "'Sides at nine,' says Ludd. 'Lines as written. A Moth who improvises is a Moth I have to write down in a book, and I have only one book.' He hands you a page without looking up. 'You will find I have left the best line in each scene. It is the one nobody laughs at. Say it well.'".
+    Says "'Sides at nine,' says Orlick. 'Lines as written. A Moth who improvises is a Moth I have to write down in a book, and I have only one book.' He hands you a page without looking up. 'You will find I have left the best line in each scene. It is the one nobody laughs at. Say it well.'".
   }
   Topic bd_ludd_crow with ludd "Show him the Crow you are wearing, paper to paper" when wears(actor, face_crow) and publicHours() and not knows(actor, bd_margins_known) once {
-    Says "He looks at your domino, and for the first time at you: a long look, as at a colleague's hand. 'A Crow. The post. The people who keep the things that are not said.' He turns the prompt-book round. Every cut has a reason beside it in a very small hand, as the Codicil requires, and the reasons are not what you expected. Beside a struck joke about a key: Cut: it was better than the one that follows, and the house cannot be trusted with both. Beside another: Cut under the second head. Also because I laughed. 'The Codicil says the Reader shall give his reason,' says Ludd. 'It does not say the reason shall be dull.'".
+    Says "He looks at your domino, and for the first time at you: a long look, as at a colleague's hand. 'A Crow. The post. The people who keep the things that are not said.' He turns the prompt-book round. Every cut has a reason beside it in a very small hand, as the Codicil requires, and the reasons are not what you expected. Beside a struck joke about a key: Cut: it was better than the one that follows, and the house cannot be trusted with both. Beside another: Cut under the second head. Also because I laughed. 'The Codicil says the Reader shall give his reason,' says Orlick. 'It does not say the reason shall be dull.'".
     On discuss { Assert knows(actor, bd_margins_known). Assert knows(actor, bd_cuts_seen). Increase bd_ludd_regard(actor) by 1. }
   }
   Action bd_ludd_wheedle(actor: group, site: place) "Beg him to leave one joke standing" {
@@ -268,16 +268,16 @@ Module ombra "The Book of Faces" {
     Resolve check(actor, persuasion, dc_hard).
     On success { Assert bd_ludd_wheedled(actor). Increase bd_ludd_regard(actor) by 1. }
     On failure { Assert bd_ludd_wheedled(actor). }
-    Result "'One,' says Ludd. 'One. I will choose it, and you will not be able to tell which, and neither will the Warden.' The pencil hovers, and passes over a line in the second act, and does not come down. He seems surprised at himself, as a man is who finds his own hand in his own pocket.".
-    Otherwise "'No,' says Ludd. 'It is not that I do not love them. I do. That is why I cannot leave them where they will be hurt.' He says it to the page, and then looks as if he had not meant to say it aloud.".
+    Result "'One,' says Orlick. 'One. I will choose it, and you will not be able to tell which, and neither will the Warden.' The pencil hovers, and passes over a line in the second act, and does not come down. He seems surprised at himself, as a man is who finds his own hand in his own pocket.".
+    Otherwise "'No,' says Orlick. 'It is not that I do not love them. I do. That is why I cannot leave them where they will be hurt.' He says it to the page, and then looks as if he had not meant to say it aloud.".
   }
   Action bd_ludd_cite(actor: group, site: place) "Put the Codicil's footnote to him, the one about the Novena" {
     Speaker ludd. Time 20 minutes.
     Requires able(actor) and company(actor) and at(actor, site) and at(ludd, site) and masked(actor) and publicHours() and knows(actor, bd_footnote) and bd_open() and not bd_secure() and not bd_kept(wet_stage).
     Resolve check(actor, lore, dc_hard).
     On success { Assert bd_codicil(wet_stage). Assert bd_ludd_sour(actor). }
-    Result "'The Seventh Codicil, the eleventh note,' says Ludd, after a long pause. 'You have read the footnote.' He says it as another man might say You have seen my wife. 'In the Novena the Warden's pleasure is stayed, and the Reader is the judge of what is a play. I am the Reader.' His eyes are alive for the first time. 'And so I am the judge. Nobody has put the Reader's own jurisdiction to him in twenty-two years. It is not a pleasant sensation. It is rather like being cast.' He takes out a pencil and, in the margin of the licence's copy, writes a note that he will have to sign. 'I judge that the season of the Wet Stage is a play, and not yet played. I shall inform the clerk. I shall be recorded as having done so, in my own hand, which is a thing I do not do lightly or kindly.'".
-    Otherwise "'The ninth sentence,' says Ludd, 'not the eighth. You have the sense and not the sentence. It is law-hand, not a feeling.' He corrects you in the margin with the pencil, which is very satisfying for him.".
+    Result "'The Seventh Codicil, the eleventh note,' says Orlick, after a long pause. 'You have read the footnote.' He says it as another man might say You have seen my wife. 'In the Novena the Warden's pleasure is stayed, and the Reader is the judge of what is a play. I am the Reader.' His eyes are alive for the first time. 'And so I am the judge. Nobody has put the Reader's own jurisdiction to him in twenty-two years. It is not a pleasant sensation. It is rather like being cast.' He takes out a pencil and, in the margin of the licence's copy, writes a note that he will have to sign. 'I judge that the season of the Wet Stage is a play, and not yet played. I shall inform the clerk. I shall be recorded as having done so, in my own hand, which is a thing I do not do lightly or kindly.'".
+    Otherwise "'The ninth sentence,' says Orlick, 'not the eighth. You have the sense and not the sentence. It is law-hand, not a feeling.' He corrects you in the margin with the pencil, which is very satisfying for him.".
   }
   // The third head: a joke put to three strangers, to see if two of them can say whom it is about. A masked customer is a
   // stranger; a bare face is nobody; a Moth is of the house. The Reader has been asking the doorman for nineteen years.
@@ -289,13 +289,13 @@ Module ombra "The Book of Faces" {
     Speaker ludd. Time 10 minutes.
     Requires able(actor) and company(actor) and at(actor, site) and at(ludd, site) and bd_tested(actor) and not bd_test_done(actor) and not knows(actor, lacke_taxed).
     On success { Assert bd_test_done(actor). Assert knows(actor, bd_cuts_known). Increase bd_ludd_regard(actor) by 1. }
-    Result "You do not know, and you say so, and you mean it. The first is about a locksmith; the second about a great deal of bread; the third about a rather grand sort of cat. Ludd closes the book very gently. 'Passed,' he says. 'Passed, passed, and passed.' For a moment he looks almost bereft. 'Nobody ever fails to know. I had begun to think it was only the doorman.' You have heard three jokes, and you will not forget them.".
+    Result "You do not know, and you say so, and you mean it. The first is about a locksmith; the second about a great deal of bread; the third about a rather grand sort of cat. Orlick closes the book very gently. 'Passed,' he says. 'Passed, passed, and passed.' For a moment he looks almost bereft. 'Nobody ever fails to know. I had begun to think it was only the doorman.' You have heard three jokes, and you will not forget them.".
   }
   Action bd_test_honest(actor: group, site: place) "Tell him truthfully whom the three jokes are about" {
     Speaker ludd. Time 10 minutes.
     Requires able(actor) and company(actor) and at(actor, site) and at(ludd, site) and bd_tested(actor) and not bd_test_done(actor) and knows(actor, lacke_taxed).
     On success { Assert bd_test_done(actor). Assert knows(actor, bd_cuts_known). Increase bd_ludd_regard(actor) by 1. }
-    Result "'The Warden,' you say. 'All three. The first about his keys, the second about the tax, and the third is a joke about a joke, and I think it is about you.' Ludd sits quite still. 'Two of three strikes it,' he says. 'You have said three of three.' He writes it down. He does not strike it, yet. 'It is a long while since anyone told me the truth in this chair,' he says. 'It is very restful. I do not recommend it.'".
+    Result "'The Warden,' you say. 'All three. The first about his keys, the second about the tax, and the third is a joke about a joke, and I think it is about you.' Orlick sits quite still. 'Two of three strikes it,' he says. 'You have said three of three.' He writes it down. He does not strike it, yet. 'It is a long while since anyone told me the truth in this chair,' he says. 'It is very restful. I do not recommend it.'".
   }
   Action bd_test_lie(actor: group, site: place) "Tell him the three jokes are about a locksmith, bread and nothing" {
     Speaker ludd. Time 10 minutes.
@@ -303,15 +303,15 @@ Module ombra "The Book of Faces" {
     Resolve check(actor, deception, dc_hard).
     On success { Assert bd_test_done(actor). Assert knows(actor, bd_cuts_known). }
     On failure { Assert bd_test_done(actor). Assert bd_ludd_sour(actor). }
-    Result "You say a locksmith, you say bread, and you say that the third is about nothing at all, in the voice of a person who has never heard of a tax. Ludd listens with his head on one side. 'A locksmith,' he says. 'Bread.' He shuts the book. 'A fine report. The Warden will be pleased to hear that the Wet Stage's jokes have no object.' He lets all three stand. You are left with three jokes you were not meant to know, and a Reader who has been told what he wanted to hear, and knows it.".
-    Otherwise "'Bread,' says Ludd. 'No stranger on earth has ever said bread.' He looks at you with the sudden coldness of a man lied to by an amateur. 'The Warden has a key for every door and a door for every key. You knew it, and you knew it for a reason. Thank you. I shall remember the shape of that mask.'".
+    Result "You say a locksmith, you say bread, and you say that the third is about nothing at all, in the voice of a person who has never heard of a tax. Orlick listens with his head on one side. 'A locksmith,' he says. 'Bread.' He shuts the book. 'A fine report. The Warden will be pleased to hear that the Wet Stage's jokes have no object.' He lets all three stand. You are left with three jokes you were not meant to know, and a Reader who has been told what he wanted to hear, and knows it.".
+    Otherwise "'Bread,' says Orlick. 'No stranger on earth has ever said bread.' He looks at you with the sudden coldness of a man lied to by an amateur. 'The Warden has a key for every door and a door for every key. You knew it, and you knew it for a reason. Thank you. I shall remember the shape of that mask.'".
   }
   Topic bd_ludd_seal with ludd "Ask him to seal the season's play before the fourth day" when bd_ludd_regard(actor) >= 2 and bd_open() and not bd_sealed(wet_stage) and not bd_ludd_exposed(actor) and ((masked(actor) and publicHours()) or (not masked(actor) and privateHours())) once {
-    Says "'I have not sealed it in eleven years without cutting it to a ribbon,' says Ludd. 'It is a rule I made myself, for the Warden's benefit. I find I should like to break it once, for mine.' He takes a lump of wax from his pocket, where he has carried it always, and presses the Reader's oval on the title page. 'There. The Weights and Measures of Master Dibble has been read, and found to be, on the whole, about weights.'".
+    Says "'I have not sealed it in eleven years without cutting it to a ribbon,' says Orlick. 'It is a rule I made myself, for the Warden's benefit. I find I should like to break it once, for mine.' He takes a lump of wax from his pocket, where he has carried it always, and presses the Reader's oval on the title page. 'There. The Weights and Measures of Master Dibble has been read, and found to be, on the whole, about weights.'".
     On discuss { Assert bd_sealed(wet_stage). }
   }
 
-  // ── Ludd by night ─────────────────────────────────────────────────────────────────────────────────────────────────
+  // ── Orlick by night ─────────────────────────────────────────────────────────────────────────────────────────────────
   // From ten until one he is on the boards, unmasked and alone. A company in the prompt-corner before he comes can watch
   // through the slit and he will never know it, and the company that walks on to the boards finds him in his shirt-sleeves
   // with the Crow hung on a nail like a bat.
@@ -325,7 +325,7 @@ Module ombra "The Book of Faces" {
     Requires able(actor) and company(actor) and at(actor, site) and at(ludd, site) and not masked(actor) and privateHours() and bd_ludd_seen(actor) and not knows(actor, bd_ludd_scene).
     Resolve check(actor, insight, dc_fair).
     On success { Assert knows(actor, bd_ludd_scene). }
-    Result "You look at his free hand. It is held a little out from his side, palm up, at the height of a small person's head. The Warden's matters do not require that. 'It is a rehearsal,' says Master Ludd, and his other hand, the one with the book, closes on a page on which, in the margin, you can see the words THE JOKE, and a stage direction: (wet; at the door). You have it. He is playing both parts.".
+    Result "You look at his free hand. It is held a little out from his side, palm up, at the height of a small person's head. The Warden's matters do not require that. 'It is a rehearsal,' says Master Orlick, and his other hand, the one with the book, closes on a page on which, in the margin, you can see the words THE JOKE, and a stage direction: (wet; at the door). You have it. He is playing both parts.".
     Otherwise "He tells you it is a matter of the Warden's, and he is such a bad liar that you cannot see past the lie to anything at all.".
   }
   Action bd_ludd_listen(actor: group, site: place) "Wait behind the slit in the prompt-corner, in the dark, and see who comes" {
@@ -342,14 +342,14 @@ Module ombra "The Book of Faces" {
     Speaker ludd. Time 10 minutes.
     Requires able(actor) and company(actor) and at(actor, site) and at(ludd, site) and bd_ludd_told(actor) and not bd_ludd_trusts(actor) and not bd_written_in(actor) and not bd_ludd_leashed(actor) and not bd_ludd_exposed(actor).
     On success { Assert bd_ludd_trusts(actor). Increase bd_ludd_regard(actor) by 3. }
-    Result "'Thank you,' says Ludd, as one does for a thing one expected to have to pay for. He looks at you for a long time. 'I should like you to see the chest,' he says. 'Not the plays. The chest.' He takes you into the prompt-corner, and under the bottom shelf, in a sea-chest with a broken lock, are twenty-two years of every joke the Wet Stage was not let to speak, each on its own slip, each in his hand, and each slip, you notice, folded once, as one folds a thing for a pocket.".
+    Result "'Thank you,' says Orlick, as one does for a thing one expected to have to pay for. He looks at you for a long time. 'I should like you to see the chest,' he says. 'Not the plays. The chest.' He takes you into the prompt-corner, and under the bottom shelf, in a sea-chest with a broken lock, are twenty-two years of every joke the Wet Stage was not let to speak, each on its own slip, each in his hand, and each slip, you notice, folded once, as one folds a thing for a pocket.".
   }
   Action bd_ludd_read(actor: group, site: place) "Ask to read the Joke's part opposite him, cold, from the page" {
     Speaker ludd. Time 6.
     Requires able(actor) and company(actor) and at(actor, site) and at(ludd, site) and bd_ludd_told(actor) and not bd_written_in(actor) and not bd_ludd_leashed(actor) and not bd_ludd_exposed(actor).
     Resolve check(actor, performance, dc_hard).
     On success { Assert bd_written_in(actor). Increase bd_ludd_regard(actor) by 3. }
-    Result "He gives you the page as if it were a thing that might go off. You take it, and you stand where the door is, and you are wet, and small, and have been cut. 'I was cut at eleven this morning.' He answers, and for a moment he forgets to look at the page. It goes through the whole of it, and when you get to 'I keep it warm,' it is his line and he says it, and the house, the empty dark house, gives it back to him a half-beat late. 'There,' says Master Ludd, when it is over. He has to stop and begin again. 'There. That is what it is for.' And then, since he is who he is: 'The Joke would not have said ‘dripping’ in the second speech, it would have said ‘dribbling’, but I let it go.'".
+    Result "He gives you the page as if it were a thing that might go off. You take it, and you stand where the door is, and you are wet, and small, and have been cut. 'I was cut at eleven this morning.' He answers, and for a moment he forgets to look at the page. It goes through the whole of it, and when you get to 'I keep it warm,' it is his line and he says it, and the house, the empty dark house, gives it back to him a half-beat late. 'There,' says Master Orlick, when it is over. He has to stop and begin again. 'There. That is what it is for.' And then, since he is who he is: 'The Joke would not have said ‘dripping’ in the second speech, it would have said ‘dribbling’, but I let it go.'".
     Otherwise "You read the Joke's part as if it were a bill of lading. He takes the page back, with great courtesy, and thanks you, and says that it is not the sort of part that can be got by reading. He means it kindly. It is not the sort of kindness a player can bear.".
   }
   Action bd_ludd_leash(actor: group, site: place) "Tell him that the Warden would like to hear about the Joke at the door" {
@@ -360,18 +360,18 @@ Module ombra "The Book of Faces" {
     On success { Assert bd_ludd_leashed(actor). Assert bd_sealed(wet_stage). Assert bd_ludd_sour(actor). }
     On failure { Assert bd_ludd_sour(actor). Increase heat(actor) by 1. }
     Result "He goes grey, quite slowly, from the collar up, like a lamp turned down. 'Of course,' he says. 'Of course. The Warden has always said that a man who writes in margins is a man who has something to hide.' He takes the wax out of his pocket and seals, there on the boards, in the light of one lamp, whatever you hand him; and he does not look at you again. He puts the domino on and goes out by the painted door like a man leaving a house that is on fire.".
-    Otherwise "'The Warden,' says Ludd, 'has read every report I have made for twenty-two years, and has never once noticed that they were funny. I do not think you will find that he reads them any better for a cue.' He stands. His voice shakes. He goes out, and in the morning the Warden's clerk has been told to expect the shape of your mask.".
+    Otherwise "'The Warden,' says Orlick, 'has read every report I have made for twenty-two years, and has never once noticed that they were funny. I do not think you will find that he reads them any better for a cue.' He stands. His voice shakes. He goes out, and in the morning the Warden's clerk has been told to expect the shape of your mask.".
   }
   Action bd_ludd_expose(actor: group, site: place) "Tell her about the Reader's plays, and the chest, and the cut jokes" {
     Speaker orme. Time 20 minutes.
-    Grave "Master Ludd will lose his post by morning. The Moths will have the Joke at the door in their mouths by noon.".
+    Grave "Master Orlick will lose his post by morning. The Moths will have the Joke at the door in their mouths by noon.".
     Requires able(actor) and company(actor) and at(actor, site) and at(orme, site) and knows(actor, bd_ludd_scene) and not bd_ludd_trusts(actor) and not bd_written_in(actor) and not bd_ludd_exposed(actor) and not bd_ludd_gone(actor).
     On success { Assert bd_ludd_exposed(actor). Assert knows(actor, bd_cuts_known). }
-    Result "Madame Orme listens with the pearls in her fist. She laughs at the Joke, helplessly, and then at the chest, and then she has to stop, because she is not laughing at the thing you meant. 'Twenty-two years,' she says. 'Under my own boards.' She is thinking, you can see, like a manager: what could be done with it, who could be told, what a Reader is worth who has no one to be Reader to. 'Poor Ludd,' she says, and means it, and is already reaching for the bell.".
+    Result "Madame Orme listens with the pearls in her fist. She laughs at the Joke, helplessly, and then at the chest, and then she has to stop, because she is not laughing at the thing you meant. 'Twenty-two years,' she says. 'Under my own boards.' She is thinking, you can see, like a manager: what could be done with it, who could be told, what a Reader is worth who has no one to be Reader to. 'Poor Orlick,' she says, and means it, and is already reaching for the bell.".
   }
   // The morning after: the Moths have the Joke, the Warden has a clerk, and the Reader has a hat.
   Rule bd_ludd_resigns when bd_ludd_exposed(party) and not bd_ludd_gone(party) and hour(clock) >= 8 and hour(clock) < 20 once
-    says "By the second bell the Moths are doing the Joke at the door in the wings, with a pail for the door. Master Ludd comes in under the proscenium, hears himself said by a boy of nineteen, goes quite still, and then, with great dignity, lays his red pencils on the prompt-corner shelf in a row, takes the Crow's domino off its nail and puts it in his pocket. 'The Warden will want a letter,' he says, and goes out by the stage door. Nobody laughs after that. It is the worst silence the Wet Stage has ever kept." { Assert bd_ludd_gone(party). }
+    says "By the second bell the Moths are doing the Joke at the door in the wings, with a pail for the door. Master Orlick comes in under the proscenium, hears himself said by a boy of nineteen, goes quite still, and then, with great dignity, lays his red pencils on the prompt-corner shelf in a row, takes the Crow's domino off its nail and puts it in his pocket. 'The Warden will want a letter,' he says, and goes out by the stage door. Nobody laughs after that. It is the worst silence the Wet Stage has ever kept." { Assert bd_ludd_gone(party). }
 
   // ── The leak in the flies ─────────────────────────────────────────────────────────────────────────────────────────
   // The poet cannot write because the page will not stay dry; the manager will say yes to a dry stage sooner than to a
@@ -653,7 +653,7 @@ Module ombra "The Book of Faces" {
   Initially Assert bd_desk(stage_green_room). Initially Assert bd_desk(bd_prompt). Initially Assert bd_desk(stage_flies).
   Measure bd_jest(group). Measure bd_sorrow(group). Measure bd_ire(group). Measure bd_craft(group). Measure bd_lies(group). Measure bd_leaves(group). Measure bd_rehearsed(group).
   Topic bd_finch_book with bd_finch "Ask him if he has a book you could write in" when not masked(actor) and privateHours() and not carries(actor, bd_prompt_book) and not bd_commissioned(actor) and not bd_book_given(actor) once {
-    Says "'A book.' He looks at the white foolscap and then at you. 'I have a quarto. It was bound for the elegy; I had it done at the Weights quay by a man who could not read. It is quite empty. I do not think it minds.' He gives it you out of the bottom of the table, with its blue tape still on. 'Don't put anything in it that you could not stand to see struck. Ludd strikes the true ones first.'".
+    Says "'A book.' He looks at the white foolscap and then at you. 'I have a quarto. It was bound for the elegy; I had it done at the Weights quay by a man who could not read. It is quite empty. I do not think it minds.' He gives it you out of the bottom of the table, with its blue tape still on. 'Don't put anything in it that you could not stand to see struck. Orlick strikes the true ones first.'".
     On discuss { Assert bd_book_given(actor). Give bd_prompt_book to actor. }
   }
   Relation bd_book_given(group).
@@ -988,17 +988,17 @@ Module ombra "The Book of Faces" {
     says "Of Madame Orme: The Wet Stage played Master Dibble to the end of its season, to a house that clapped, and she kept the pearl choker on and the accounts in the heap. On wet nights she is said to be heard in the empty pit giving the Pump, both parts, to the drip." { Assert bd_fate_done(orme). }
 
   Rule bd_fate_ludd_read when newsHour() and bd_written_in(party) and not bd_fate_done(ludd) once
-    says "Of Master Ludd: He sat in the Warden's box on the last night with the prompt-book shut on his knee, and when the Joke came on he said the Reader's lines under his breath along with the Moth, a half-beat late, like the house. His report to the Warden was one line: A revival of Master Dibble. Passed. He plays one cut joke a night now, from the chest, before the farce, and calls it the Reader's Cue." { Assert bd_fate_done(ludd). }
+    says "Of Master Orlick: He sat in the Warden's box on the last night with the prompt-book shut on his knee, and when the Joke came on he said the Reader's lines under his breath along with the Moth, a half-beat late, like the house. His report to the Warden was one line: A revival of Master Dibble. Passed. He plays one cut joke a night now, from the chest, before the farce, and calls it the Reader's Cue." { Assert bd_fate_done(ludd). }
   Rule bd_fate_ludd_friend when newsHour() and bd_ludd_trusts(party) and not bd_fate_done(ludd) once
-    says "Of Master Ludd: He sealed the season and went on sealing it, and cut rather less than he had. The chest is under the prompt-corner shelf still, and somebody has been adding to it in a hand that is not his: one slip a night, folded once." { Assert bd_fate_done(ludd). }
+    says "Of Master Orlick: He sealed the season and went on sealing it, and cut rather less than he had. The chest is under the prompt-corner shelf still, and somebody has been adding to it in a hand that is not his: one slip a night, folded once." { Assert bd_fate_done(ludd). }
   Rule bd_fate_ludd_leash when newsHour() and bd_ludd_leashed(party) and not bd_fate_done(ludd) once
-    says "Of Master Ludd: He passed what he was given and did not look up, and gave notice on the tenth morning, in a very neat letter. He sits in the pit of the Wet Stage on the nights it plays, in the third row, in the Crow, alone, with a pencil in his hand, striking nothing." { Assert bd_fate_done(ludd). }
+    says "Of Master Orlick: He passed what he was given and did not look up, and gave notice on the tenth morning, in a very neat letter. He sits in the pit of the Wet Stage on the nights it plays, in the third row, in the Crow, alone, with a pencil in his hand, striking nothing." { Assert bd_fate_done(ludd). }
   Rule bd_fate_ludd_gone when newsHour() and bd_ludd_gone(party) and not bd_fate_done(ludd) once
-    says "Of Master Ludd: He was dismissed by the Warden's clerk on the morning after the Moths found his plays. They have the Joke at the door by heart, and nobody says it where he can hear. He walks the aisles of the Wet Stage at night, unmasked, and the Moths leave the stage door on the latch." { Assert bd_fate_done(ludd). }
+    says "Of Master Orlick: He was dismissed by the Warden's clerk on the morning after the Moths found his plays. They have the Joke at the door by heart, and nobody says it where he can hear. He walks the aisles of the Wet Stage at night, unmasked, and the Moths leave the stage door on the latch." { Assert bd_fate_done(ludd). }
   Rule bd_fate_ludd_sour when newsHour() and (bd_codicil(wet_stage) or bd_ludd_sour(party)) and not bd_fate_done(ludd) once
-    says "Of Master Ludd: He is the Reader still. His note is in the margin of the licence in his own hand, signed, and it is the thing of his life he is proudest of and does not forgive you for. He cuts, now, with a certain exactness; and the reasons, in the margins, are shorter." { Assert bd_fate_done(ludd). }
+    says "Of Master Orlick: He is the Reader still. His note is in the margin of the licence in his own hand, signed, and it is the thing of his life he is proudest of and does not forgive you for. He cuts, now, with a certain exactness; and the reasons, in the margins, are shorter." { Assert bd_fate_done(ludd). }
   Rule bd_fate_ludd_default when newsHour() and not bd_fate_done(ludd) once
-    says "Of Master Ludd: He reads the plays of the Wet Stage for the Warden, and cuts them, and keeps what he cuts. The chest is under the prompt-corner shelf, and by now it is a good deal larger than the repertory." { Assert bd_fate_done(ludd). }
+    says "Of Master Orlick: He reads the plays of the Wet Stage for the Warden, and cuts them, and keeps what he cuts. The chest is under the prompt-corner shelf, and by now it is a good deal larger than the repertory." { Assert bd_fate_done(ludd). }
 
   Rule bd_fate_quist_cast when newsHour() and bd_cast_quist(party) and bd_reacted(party) and not bd_flopped(party) and not bd_fate_done(bd_quist) once
     says "Of Pantaloon Tarrow: He played the Pantaloon in the Lampoon, and took his three blows of the slapstick, and fell down his two stairs for the forty-thousand-and-first time; and the house forgot itself. He got up. He says it is the last time. He says it every night." { Assert bd_fate_done(bd_quist). }

@@ -36,7 +36,7 @@ async function until(o: Ombra, holds: () => boolean, step: string, tries = 8) {
 describe('The Wet Stage: the licence', () => {
   t('is kept by the Reader\'s seal, which a company with no charm and no learning can have: a Crow, and a stranger who does not know', async () => {
     const o = await start();
-    await o.play(...wear('Crow'), '>ombra__stage_pit', '=day 1 09:10', ...talk('Master Ludd', 'Show him the Crow', 'Let him put three jokes to you',
+    await o.play(...wear('Crow'), '>ombra__stage_pit', '=day 1 09:10', ...talk('Master Orlick', 'Show him the Crow', 'Let him put three jokes to you',
       'Tell him you cannot tell whom', 'Ask him to seal the season'));
     expect(o.holds('bd_sealed', 'wet_stage')).toBe(true);
     expect(o.measure('bd_ludd_regard', 'party')).toBe(2);
@@ -71,7 +71,7 @@ describe('The Wet Stage: the licence', () => {
     expect(o.holds('bd_kept', 'wet_stage')).toBe(true);
 
     const p = await start('petition');
-    await p.play(...slit(1), '>ombra__bd_stage', ...talk('Master Ludd', 'Tell him you know about the Joke', 'Promise him that you will tell no one'));
+    await p.play(...slit(1), '>ombra__bd_stage', ...talk('Master Orlick', 'Tell him you know about the Joke', 'Promise him that you will tell no one'));
     expect(p.measure('bd_ludd_regard', 'party')).toBe(3);
     await p.play('=day 4 13:00');
     expect(p.holds('bd_revoked', 'wet_stage')).toBe(true);
@@ -86,7 +86,7 @@ describe('The Wet Stage: the licence', () => {
     await until(o, () => o.knows('bd_footnote'), 'Read the print under the licence');
     await o.play(...wear('Cockle'), '>ombra__stage_pit', '=day 1 09:10');
     // The Reader is cold to a face that has not been to him as a stranger: the citation does not need his regard.
-    await o.play('^Talk to Master Ludd');
+    await o.play('^Talk to Master Orlick');
     await until(o, () => o.holds('bd_codicil', 'wet_stage'), 'Put the Codicil\'s footnote to him');
     await o.until(144 * 3 + 30);
     expect(o.holds('bd_kept', 'wet_stage')).toBe(true);
@@ -142,14 +142,14 @@ describe('The Wet Stage: Madame Orme', () => {
 });
 
 describe('The Wet Stage: the Censor\'s Cue', () => {
-  const toReader = (day = 1) => [...slit(day), '>ombra__bd_stage', '^Talk to Master Ludd', 'Tell him you know about the Joke'];
+  const toReader = (day = 1) => [...slit(day), '>ombra__bd_stage', '^Talk to Master Orlick', 'Tell him you know about the Joke'];
 
   t('is settled by a promise: he is heard, unseen, through the slit, and kept silent about, and he shows the chest', async () => {
     const o = await start('keep');
     await o.play(...slit(1));
     expect(o.knows('bd_ludd_scene')).toBe(true);
     expect(o.page).toContain('You are not cold. I keep it warm.');
-    await o.play('>ombra__bd_stage', '^Talk to Master Ludd', 'Tell him you know about the Joke', 'Promise him that you will tell no one');
+    await o.play('>ombra__bd_stage', '^Talk to Master Orlick', 'Tell him you know about the Joke', 'Promise him that you will tell no one');
     expect(o.holds('bd_ludd_trusts', 'party')).toBe(true);
     expect(o.knows('bd_cuts_known')).toBe(true);
     expect(o.page).toContain('every joke the Wet Stage was not let to speak');
@@ -196,7 +196,7 @@ describe('The Wet Stage: the Censor\'s Cue', () => {
 
   t('is seen through, by day, by a Crow: the margins are jokes, and the Reader gives a stranger three to read', async () => {
     const o = await start('crow');
-    await o.play(...wear('Crow'), '>ombra__stage_pit', '=day 1 09:10', '^Talk to Master Ludd', 'Show him the Crow');
+    await o.play(...wear('Crow'), '>ombra__stage_pit', '=day 1 09:10', '^Talk to Master Orlick', 'Show him the Crow');
     expect(o.knows('bd_margins_known')).toBe(true);
     expect(o.page).toContain('Also because I laughed');
     expect(o.j.offers('Tell him you cannot tell whom')).toBe(false);
@@ -208,7 +208,7 @@ describe('The Wet Stage: the Censor\'s Cue', () => {
 
   t('does not answer a bare face by day, and does not answer a masked one with a seal until he has been a stranger to it', async () => {
     const o = await start('cold');
-    await o.play('=day 1 09:10', '>ombra__stage_pit', '^Talk to Master Ludd', 'Speak to him');
+    await o.play('=day 1 09:10', '>ombra__stage_pit', '^Talk to Master Orlick', 'Speak to him');
     expect(o.page).toContain('an answer to your face');
     expect(o.j.offers('Ask him to seal')).toBe(false);
     expect(o.j.offers('Ask him what he is cutting')).toBe(false);
@@ -292,7 +292,7 @@ async function compose(o: Ombra, plan: Plan) {
   await o.play('=day 2 09:00', ...wear('Moth'), '>ombra__stage_pit', '^Talk to Tobiah Venable', 'Ask him if the Moths will carry', '^Take your leave');
   if (plan.quist !== false) { await o.play(...talk('Pantaloon Tarrow', 'Ask him to play the Pantaloon')); }
   // Day two, by night: the Reader, through the slit; then the book.
-  await o.play(...slit(2), '>ombra__bd_stage', ...talk('Master Ludd', 'Tell him you know about the Joke', 'Promise him that you will tell no one', 'Ask him to seal the season'));
+  await o.play(...slit(2), '>ombra__bd_stage', ...talk('Master Orlick', 'Tell him you know about the Joke', 'Promise him that you will tell no one', 'Ask him to seal the season'));
   await o.play('>ombra__bd_prompt');
   for (const tale of plan.tales) { await o.play(`Set down ${tale}`); }
   for (const tale of plan.sharpen ?? []) { await o.play(`Sharpen ${tale}`); }

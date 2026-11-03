@@ -15,12 +15,12 @@ Module ombra "The Book of Faces" {
   Query ctHeard(a: group) means ctDay(a) or ctNight(a).
 
   // ── Rooms of our own ──────────────────────────────────────────────────────────────────────────────────────────────
-  // The Warden lives over his office, the Assessor in the Hall's lodging, and Fenn over a chandler's: by night the
+  // The Warden lives over his office, the Assessor in the Hall's lodging, and Teague over a chandler's: by night the
   // company may knock at each, and by day the stairs are chained.
   Place ct_fenn_house "the chandler's house" is building within row_sleeve.
   Place ct_locks_parlour "the Warden's clock-room" is room within locks_house at 3, 0 indoors.
   Place ct_assessor_kitchen "the Assessor's kitchen" is room within weights_hall at 0, 0 indoors.
-  Place ct_fenn_room "Naomi Fenn's room" is room within ct_fenn_house at 0, 0 indoors.
+  Place ct_fenn_room "Naomi Teague's room" is room within ct_fenn_house at 0, 0 indoors.
   Passage ct_parlour_stair "the Warden's stair" is doorway between locks_office and ct_locks_parlour
     opening when privateHours() or at(party, ct_locks_parlour) "By day the Warden's stair is chained across, with a card on the chain: THE WARDEN'S HOUSEHOLD RECEIVES BY APPOINTMENT.".
   Passage ct_kitchen_door "the Assessor's door" is doorway between weights_floor and ct_assessor_kitchen
@@ -55,7 +55,7 @@ Module ombra "The Book of Faces" {
   // ── What the Row keeps ────────────────────────────────────────────────────────────────────────────────────────────
   Kind ct_pound_kind "a copy of the Pound" is gear worth 0 weighing 1 described "A drum of bronze with a ring on its head, the colour of strong tea; the weight of a pound, or near it. On its base the Hall's stamp, a bare oval.".
   Kind ct_loaf_kind "a penny-loaf of the Drip" is gear worth 0 weighing 1 described "A round brown loaf, warm, with a cross cut in its top and the Drip's baker's thumb in the crust. Whether it weighs what it says is a question the Hall of Weights has been asked, and has not been asked in the right way.".
-  Kind ct_book_kind "Naomi Fenn's other book" is gear worth 0 weighing 1 described "A cheap ledger bound in an old recipe-book's boards, so that on the front a faded hand says Ginger Cake for Feast Days. Inside, in a small clerk's hand, every Lock-tax quarter for eleven years, in two columns: the sum the Warden's book says, and the sum it should.".
+  Kind ct_book_kind "Naomi Teague's other book" is gear worth 0 weighing 1 described "A cheap ledger bound in an old recipe-book's boards, so that on the front a faded hand says Ginger Cake for Feast Days. Inside, in a small clerk's hand, every Lock-tax quarter for eleven years, in two columns: the sum the Warden's book says, and the sum it should.".
   Kind ct_key_kind "the strongroom key" is gear worth 0 weighing 0 described "A short iron key, filed down to be small enough to hide in a sleeve, and worn bright where a thumb has held it.".
   Kind ct_clock_kind "a travelling clock that gains" is gear worth 6 weighing 1 described "A brass carriage clock with a cracked glass and a loud, clear tick. It gains eleven minutes a day and has always gained eleven minutes a day, which makes it, a hawker would say, the only honest clock on the Row.".
 
@@ -501,28 +501,28 @@ Module ombra "The Book of Faces" {
   Rule ct_pound_slate at bread_market when day(clock) >= 4 and hour(clock) >= 9 and not ct_pound_true(party) once says "In chalk on the Rain-Wives' door, in the market, someone has written 16, and under it, smaller, 15, and nothing else. The bakers walk by it with their eyes on their feet. Nobody has rubbed it out, and nobody has dared to explain it." { }
   Rule ct_pound_rides when day(clock) >= 7 and hour(clock) >= 9 and not ct_pound_true(party) once says "The Drip's bread has been light for a year, and cheap, and the Drip has decided, on the whole, to be glad of it. A woman at the end of the Row says that it is not cheating if everyone has agreed not to look. She is, in her way, quite right; and the hook goes on swinging." { }
 
-  // ── The Lock-tax (Round 6): the strongroom, the ledger, and Naomi Fenn ─────────────────────────────────────────────────
-  // The Warden's book is kept in the strongroom, in one hand, exact. Naomi Fenn, his clerk, copies the true sums every
+  // ── The Lock-tax (Round 6): the strongroom, the ledger, and Naomi Teague ─────────────────────────────────────────────────
+  // The Warden's book is kept in the strongroom, in one hand, exact. Naomi Teague, his clerk, copies the true sums every
   // quarter into a second book she carries in her sleeve, and signs the false ones. She has been the signing hand for
   // eleven years; if it is said, the Concord will believe an Office before a Heron, and to say it she must say a person
   // aloud. What moves her is not evidence (she has the evidence) but a way to say it that is not a name: a reckoning.
   Discovery ct_noon_hint "At noon the Warden of Locks walks the floor of the Exchange, and his clerk eats at her desk alone in the office, with the strongroom's small door at her back.".
-  Discovery ct_fenn_face "The Heron clerk at the Warden's desk is Naomi Fenn, thirty-four, eleven years the Warden's clerk, unmarried, who lodges over a chandler's.".
-  Discovery ct_fenn_copies "Naomi Fenn carries a second ledger up her sleeve every day and copies into it the true sums of the Lock-tax that she is made to sign false.".
+  Discovery ct_fenn_face "The Heron clerk at the Warden's desk is Naomi Teague, thirty-four, eleven years the Warden's clerk, unmarried, who lodges over a chandler's.".
+  Discovery ct_fenn_copies "Naomi Teague carries a second ledger up her sleeve every day and copies into it the true sums of the Lock-tax that she is made to sign false.".
   Discovery ct_ledger_false "The Lock-tax book in the Warden's strongroom is in one hand with every total exact; but in every quarter after the ninth year the totals are in a smaller pen, with a stroke of the same ink that the figures lack, and no total is ever uneven.".
   Relation ct_fenn_wary(group). Relation ct_fenn_open(group). Relation ct_fenn_trust(group). Relation ct_fenn_yields(group). Relation ct_fenn_cowed(group).
   Relation ct_fenn_bolted(group). Relation ct_fenn_gave(group). Relation ct_fenn_stiff(group). Relation ct_fenn_gave_key(group).
   Measure ct_fenn_back(group).
   // She is gone from the Row when she has run, or when she has given the book she was frightened into giving.
   Query ct_fenn_leaves() means ct_fenn_bolted(fenn) or (ct_fenn_cowed(fenn) and ct_fenn_gave(fenn)).
-  Item ct_true_book "Naomi Fenn's other book" is ct_book_kind at offstage.
-  Item ct_strong_key "Fenn's strongroom key" is ct_key_kind at offstage.
-  Person fenn "Naomi Fenn" at locks_office {
+  Item ct_true_book "Naomi Teague's other book" is ct_book_kind at offstage.
+  Item ct_strong_key "Teague's strongroom key" is ct_key_kind at offstage.
+  Person fenn "Naomi Teague" at locks_office {
     Role "the Warden's clerk".
     Known as "a Heron clerk at the Warden's desk, with the cowl pulled low over her ledger" when publicHours() and not knows(party, ct_fenn_face).
     Ancestry human. Peaceable. Pronouns she. Manner stoic.
     Greets "A woman of thirty-four, narrow and exact, with ink in the creases of her hands and the manner of someone who has learned to occupy no more of a room than will still count. By day a Heron's cowl, grey and deep. At night her own plain face, which is, for the first time in the day, listening.".
-    Greets again "Naomi Fenn turns a page, or does not.".
+    Greets again "Naomi Teague turns a page, or does not.".
   }
   Initially Assert unmaskTeaches(fenn, ct_fenn_face).
   Rule ct_fenn_office when hour(clock) >= 8 and hour(clock) < 20 and not ct_fenn_leaves() and not at(fenn, locks_office) { Assert at(fenn, locks_office). }
@@ -530,7 +530,7 @@ Module ombra "The Book of Faces" {
   Rule ct_fenn_away when ct_fenn_leaves() and not at(fenn, offstage) { Assert at(fenn, offstage). }
   Rule ct_fenn_returns when ct_fenn_bolted(fenn) and day(clock) >= ct_fenn_back(fenn) and hour(clock) >= 8 { Retract ct_fenn_bolted(fenn). }
   Rule ct_calms when hour(clock) >= 8 and hour(clock) < 9 and (ct_fenn_wary(fenn) or ct_fenn_stiff(fenn) or ct_lacke_stiff(lacke)) { Retract ct_fenn_wary(fenn). Retract ct_fenn_stiff(fenn). Retract ct_lacke_stiff(lacke). }
-  Observe ct_fenn_bare near fenn when at(fenn, ct_fenn_room) and privateHours() "Without the cowl she is smaller and younger than the Heron: Naomi Fenn, thirty-four, in a shawl with a pen in her hand, who has, for the first time since the Third Bell, a face that is listening." teaches ct_fenn_face.
+  Observe ct_fenn_bare near fenn when at(fenn, ct_fenn_room) and privateHours() "Without the cowl she is smaller and younger than the Heron: Naomi Teague, thirty-four, in a shawl with a pen in her hand, who has, for the first time since the Third Bell, a face that is listening." teaches ct_fenn_face.
   Observe ct_fenn_cowl near fenn when at(fenn, locks_office) and publicHours() and at(lacke, locks_office) "The Heron clerk writes with her left hand and keeps the right in her lap, under the desk, in a fist.".
 
   // The day register: a clerk in a cowl by a Warden's chair says what the Office permits, which is nothing.
@@ -561,11 +561,11 @@ Module ombra "The Book of Faces" {
   }
 
   // The night register: a clerk at her own table, with a kettle.
-  Topic ct_fenn_polite with fenn "Ask Naomi Fenn how she comes to be up so late" when ctNight(actor) and at(fenn, ct_fenn_room) and not knows(actor, ct_fenn_copies) once {
+  Topic ct_fenn_polite with fenn "Ask Naomi Teague how she comes to be up so late" when ctNight(actor) and at(fenn, ct_fenn_room) and not knows(actor, ct_fenn_copies) once {
     Says "'Work,' she says. She has not asked you to sit. She has not, either, closed the door. 'A clerk's work is only ever caught up the night after the last.' She looks at the book open on the table, and, with a small, practised movement, closes it on her thumb, as if to keep a place. 'Is there something the Office wants, at this hour?'".
   }
   Topic ct_fenn_confront with fenn "Tell her you know she copies the book" when ctNight(actor) and at(fenn, ct_fenn_room) and knows(actor, ct_fenn_copies) and not ct_fenn_open(fenn) once {
-    Says "Her hand goes to her cuff, and then, as if it belonged to someone else, to the table. 'Yes,' says Naomi Fenn. 'Every quarter for eleven years. I sign the line he gives me, and I enter the true one here, in my mother's ginger-cake book, because I cannot bear it to be in no book at all.' She stops. 'Do you know what I am? I am the signing hand. If it comes out I am not the clerk who knew; I am the clerk who signed. He will say it, and the Concord will believe an Office over a Heron. And if I say it, I must say him, a person, aloud, under a mask; and then I am Named, and so is he, and every debt I have ever had is a thing the Sleeves can read.'".
+    Says "Her hand goes to her cuff, and then, as if it belonged to someone else, to the table. 'Yes,' says Naomi Teague. 'Every quarter for eleven years. I sign the line he gives me, and I enter the true one here, in my mother's ginger-cake book, because I cannot bear it to be in no book at all.' She stops. 'Do you know what I am? I am the signing hand. If it comes out I am not the clerk who knew; I am the clerk who signed. He will say it, and the Concord will believe an Office over a Heron. And if I say it, I must say him, a person, aloud, under a mask; and then I am Named, and so is he, and every debt I have ever had is a thing the Sleeves can read.'".
     On discuss { Assert ct_fenn_open(fenn). }
   }
   // 1. An hour waited: the only thing she has been asked for, in eleven years, is nothing.
@@ -584,7 +584,7 @@ Module ombra "The Book of Faces" {
     Resolve check(actor, insight, dc_fair).
     On success { Assert ct_fenn_yields(fenn). }
     On failure { Assert ct_fenn_stiff(fenn). }
-    Result "You wait for the minute when she has her pen in her hand and nothing to put it to. Then you say it as the tallyman said it, over your shoulder, almost lightly: that the book is, in this quarter, seventeen short, and in the last, and in the one before; that a till is a till; that a sum has no face. She goes very still. Then she laughs, once, a cracked, astonished sound, like a woman finding a door in a wall she has leant on for years. 'A reckoning,' says Naomi Fenn. 'It is only a reckoning. I can say it to anyone. I have been saying it to myself for eleven years and never put the last line on.' She puts the last line on.".
+    Result "You wait for the minute when she has her pen in her hand and nothing to put it to. Then you say it as the tallyman said it, over your shoulder, almost lightly: that the book is, in this quarter, seventeen short, and in the last, and in the one before; that a till is a till; that a sum has no face. She goes very still. Then she laughs, once, a cracked, astonished sound, like a woman finding a door in a wall she has leant on for years. 'A reckoning,' says Naomi Teague. 'It is only a reckoning. I can say it to anyone. I have been saying it to myself for eleven years and never put the last line on.' She puts the last line on.".
     Otherwise "You say it a half-second too soon, with the wrong inflection, so that it sounds like what it is, which is a clever trick; and she hears it as one. 'A sum,' she says, in a small, flat voice, 'is a sum.' She turns the ledger face down. 'You had better go.'".
   }
   // 3. The Warrant held over a frightened woman (intimidation): the book is got, and she is broken in getting it.
@@ -608,7 +608,7 @@ Module ombra "The Book of Faces" {
     On discuss { Give ct_true_book to actor. Assert ct_fenn_gave(fenn). Assert knows(actor, lacke_taxed). }
   }
   Topic ct_fenn_give_cowed with fenn "Take the book she holds out" when ctNight(actor) and at(fenn, ct_fenn_room) and ct_fenn_cowed(fenn) and not ct_fenn_gave(fenn) once {
-    Says "She holds it out without being asked a second time, at arm's length, and you take it. She does not look at you. 'Go,' says Naomi Fenn, in the voice of a woman who is already elsewhere, 'and do not say I helped.'".
+    Says "She holds it out without being asked a second time, at arm's length, and you take it. She does not look at you. 'Go,' says Naomi Teague, in the voice of a woman who is already elsewhere, 'and do not say I helped.'".
     On discuss { Give ct_true_book to actor. Assert ct_fenn_gave(fenn). Assert knows(actor, lacke_taxed). }
   }
   Topic ct_fenn_key with fenn "Ask about the key to the strongroom" when ctNight(actor) and at(fenn, ct_fenn_room) and (ct_fenn_trust(fenn) or ct_fenn_yields(fenn)) and not ct_fenn_gave_key(fenn) once {
@@ -616,13 +616,13 @@ Module ombra "The Book of Faces" {
     On discuss { Give ct_strong_key to actor. Assert ct_fenn_gave_key(fenn). }
   }
 
-  // The strongroom lock; picked, or opened with Fenn's key. By day, with the Warden in his office, it is a bad place to
+  // The strongroom lock; picked, or opened with Teague's key. By day, with the Warden in his office, it is a bad place to
   // be found.
   Thing ct_strong_lock "the strongroom lock" on strongroom_door {
     State locked blocking "The strongroom's small door is locked, a brass lock the size of a hymn-book, with the Office's seal wired across the keyhole.".
     State open "The strongroom's small door stands open.".
     Change pick "Pick the strongroom lock" from locked to open needing lockwork.
-    Change unlock "Unlock the strongroom with Fenn's key" from locked to open needing ct_strong_key.
+    Change unlock "Unlock the strongroom with Teague's key" from locked to open needing ct_strong_key.
   }
   Rule ct_caught_in_strongroom when at(party, locks_strongroom) and at(lacke, locks_office) and publicHours() and not ct_lacke_warned(lacke) once says "The small door opens behind you. 'The Office,' says the Key, in the keyhole voice, 'does not receive in its strongroom.' The brass face regards you without any expression at all, and a bell is rung, in the office, by someone who has been waiting a long time to ring it." { Increase heat(party) by 2. Assert ct_lacke_warned(lacke). }
   Action ct_read_ledger(actor: group, site: place) "Read the Lock-tax book against its receipts" {
@@ -636,14 +636,14 @@ Module ombra "The Book of Faces" {
   Observe ct_strong_burned at locks_strongroom when ct_lacke_burned(lacke) "On the shelf where the Lock-tax of the last nine years stood, there is a heap of grey flakes, and a smell of leather. Whoever did it was careful not to hurry.".
   Observe ct_office_empty at locks_office when ct_lacke_end(lacke) >= 1 and not at(lacke, locks_office) and publicHours() "The green chair is empty. On its arm the brass lock is open, and the Key hangs on its peg beside the chair, where a clerk has hung it with a duster over it, as one covers a mirror.".
 
-  // What follows from the Lock-tax's end, for Fenn and for the Office.
+  // What follows from the Lock-tax's end, for Teague and for the Office.
   Rule ct_fenn_unburdened when ct_lacke_end(lacke) >= 1 and ct_lacke_end(lacke) != 3 and ct_fenn_yields(fenn) and not ct_fenn_cowed(fenn) once says "In the Warden's office a Heron is seen to take the green chair, by right of the Board, for the length of a morning, to see how it feels; and to get up again, and take her own stool, and her own pen. It is understood that she has been offered the desk, and has said she will think." { }
 
   // ── Milestones ────────────────────────────────────────────────────────────────────────────────────────────────────────
   Milestone ct_m_ledger "learned how the Lock-tax is skimmed" worth 25 when knows(party, lacke_taxed).
   Milestone ct_m_pound "put the true Pound back on the Drip's hook" worth 50 when ct_pound_true(party).
   Milestone ct_m_fund "had the Row pay the Drip's farthing" worth 25 when ct_fund_given(party).
-  Milestone ct_m_fenn "gave Naomi Fenn a way to say it that is not a name" worth 50 when ct_fenn_yields(fenn) and not ct_fenn_cowed(fenn).
+  Milestone ct_m_fenn "gave Naomi Teague a way to say it that is not a name" worth 50 when ct_fenn_yields(fenn) and not ct_fenn_cowed(fenn).
   Milestone ct_m_lacke "stopped the Warden of Locks' hand in the Lock-tax" worth 75 when ct_lacke_end(lacke) >= 1.
 
   // ── What became of them ───────────────────────────────────────────────────────────────────────────────────────────────
@@ -653,11 +653,11 @@ Module ombra "The Book of Faces" {
   Rule ct_fate_lacke_resigned when newsHour() and ct_lacke_end(lacke) == 4 once says "Of Ser Corvin Lacke: wrote his letter to the Board on the ninth night, with a ribbon on the right thing, and made the Lock-tax good as far as his means ran. He was Spent with his face on. On the tenth morning he was seen in the Collegium, buying a clock that gains eleven minutes a day, and showing it to everyone." { }
   Rule ct_fate_lacke_key when newsHour() and ct_lacke_end(lacke) == 5 once says "Of Ser Corvin Lacke: has no Office now, and no brass to hide in, and does not appear to know what to do with his face. The Key hangs wherever the Bare keeps it. He sits among forty clocks and is, for the first time in his life, exactly the age on his forehead." { }
   Rule ct_fate_lacke_unmet when newsHour() and ct_lacke_end(lacke) == 0 once says "Of Ser Corvin Lacke: the strongroom's chimney smoked on the sixth day, and the Key sat the ninth night in its green chair, and the nineteen years went on. He is a man who has not been come to, and has gone on being himself with great punctuality." { }
-  Rule ct_fate_fenn_cowed when newsHour() and ct_fenn_cowed(fenn) once says "Of Naomi Fenn: left the Row on the day after, with one case, and her mother's ginger-cake book in no one's hands but yours. Nobody could say which coach. The Warden's office has a new Heron, who signs what she is given." { }
-  Rule ct_fate_fenn_free when newsHour() and ct_fenn_yields(fenn) and not ct_fenn_cowed(fenn) and ct_lacke_end(lacke) >= 1 once says "Of Naomi Fenn: the Board has offered her the desk, and she has said she will think. She has begun to take her cowl off at the door of her own room on her own stair, and to leave the true sums, in a clear hand, on the Warden's desk, with a note: A SUM HAS NO FACE." { }
-  Rule ct_fate_fenn_waits when newsHour() and ct_fenn_yields(fenn) and not ct_fenn_cowed(fenn) and ct_lacke_end(lacke) == 0 once says "Of Naomi Fenn: she gave the book, and the Key sat on, and she goes in every morning in the Heron, to a green chair with someone in it, and signs. It is worse than before, and also easier. She has stopped hiding the pen." { }
-  Rule ct_fate_fenn_told when newsHour() and not ct_fenn_yields(fenn) and ct_fenn_trust(fenn) once says "Of Naomi Fenn: she told you what she could, and no more, and goes on copying the true sums into her mother's book at night, a column at a time. She says it is the only form of prayer a clerk is allowed. Someone, she says, sat with her once." { }
-  Rule ct_fate_fenn_unmet when newsHour() and not ct_fenn_yields(fenn) and not ct_fenn_trust(fenn) once says "Of Naomi Fenn: still the signing hand. She copies, by night, and does not say. She will be the clerk who knew, if it is ever asked, for as long as nobody asks her." { }
+  Rule ct_fate_fenn_cowed when newsHour() and ct_fenn_cowed(fenn) once says "Of Naomi Teague: left the Row on the day after, with one case, and her mother's ginger-cake book in no one's hands but yours. Nobody could say which coach. The Warden's office has a new Heron, who signs what she is given." { }
+  Rule ct_fate_fenn_free when newsHour() and ct_fenn_yields(fenn) and not ct_fenn_cowed(fenn) and ct_lacke_end(lacke) >= 1 once says "Of Naomi Teague: the Board has offered her the desk, and she has said she will think. She has begun to take her cowl off at the door of her own room on her own stair, and to leave the true sums, in a clear hand, on the Warden's desk, with a note: A SUM HAS NO FACE." { }
+  Rule ct_fate_fenn_waits when newsHour() and ct_fenn_yields(fenn) and not ct_fenn_cowed(fenn) and ct_lacke_end(lacke) == 0 once says "Of Naomi Teague: she gave the book, and the Key sat on, and she goes in every morning in the Heron, to a green chair with someone in it, and signs. It is worse than before, and also easier. She has stopped hiding the pen." { }
+  Rule ct_fate_fenn_told when newsHour() and not ct_fenn_yields(fenn) and ct_fenn_trust(fenn) once says "Of Naomi Teague: she told you what she could, and no more, and goes on copying the true sums into her mother's book at night, a column at a time. She says it is the only form of prayer a clerk is allowed. Someone, she says, sat with her once." { }
+  Rule ct_fate_fenn_unmet when newsHour() and not ct_fenn_yields(fenn) and not ct_fenn_trust(fenn) once says "Of Naomi Teague: still the signing hand. She copies, by night, and does not say. She will be the clerk who knew, if it is ever asked, for as long as nobody asks her." { }
   Rule ct_fate_assessor_exposed when newsHour() and ct_pound_exposed(party) once says "Of Hanne Orrow: she lodged the first Complaint of Short Weight the Hall has accepted in thirty years, over a Mask's name, on a form that did not leave a space for a man. She bakes still, in her own face, at four, and weighs the Drip's bread on Thursdays on the Honest Beam, where it is, now, exact." { }
   Rule ct_fate_assessor_true when newsHour() and ct_pound_true(party) and not ct_pound_exposed(party) once says "Of Hanne Orrow: the Hall did nothing. The hook corrected itself, the way a tide does, and she wrote 'noted' on a Thursday in her flat bronze hand. She has been seen, on the Drip side of the quay, standing very still before a loaf." { }
   Rule ct_fate_assessor_untold when newsHour() and not ct_pound_true(party) once says "Of Hanne Orrow: weighs the Drip's bread by hand on Thursdays, fifteen ounces, and has told nobody. She will go on being the woman in the bronze, on a high stool, until she is Spent; and be remembered, at the end of her year, for a very clean beam." { }
