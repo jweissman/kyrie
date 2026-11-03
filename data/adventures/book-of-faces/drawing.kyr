@@ -81,6 +81,26 @@ Module ombra "The Book of Faces" {
   Rule order_cast when handPlayed(party, hand_cast) and not ordered(hand_cast) { Assert ordered(hand_cast). Increase order(party) by 1. }
   Rule order_vail when vailTrust(party) >= 3 and not ordered(g_watch) { Assert ordered(g_watch). Increase order(party) by 1. }
   Rule order_hearing when hearingHeld(party) and not ordered(g_exchange) { Assert ordered(g_exchange). Increase order(party) by 1. }
+  // What the city did before the night: the Drip's dark and march, steel on the Stair, a room made angry, a Door that held.
+  Rule order_dark when dr_dark(party) and not ordered(o_dark) { Assert ordered(o_dark). Decrease order(party) by 2. }
+  Rule order_march when dr_marchers(party) and not ordered(o_march) { Assert ordered(o_march). Decrease order(party) by 1. }
+  Rule order_procession_walks when dr_strike_settled(party) and not ordered(o_strike) { Assert ordered(o_strike). Increase order(party) by 1. }
+  Rule order_steel when handPlayed(party, hand_stair) and handWay(hand_stair) == 2 and not ordered(o_steel) { Assert ordered(o_steel). Decrease order(party) by 2. }
+  Rule order_door_holds when handPlayed(party, hand_door) and moDoor(party) >= 2 and not ordered(o_door) { Assert ordered(o_door). Increase order(party) by 1. }
+  Rule order_angry when bd_room_angry(party) and not ordered(o_angry) { Assert ordered(o_angry). Decrease order(party) by 1. }
+  Rule order_lacke_used when th_lacke_used(party) and not ordered(o_lacke_used) { Assert ordered(o_lacke_used). Decrease order(party) by 1. }
+  Rule order_lacke_loose when not marked(r_lacke) and drawingHeld(party) and not ordered(o_lacke_loose) { Assert ordered(o_lacke_loose). Decrease order(party) by 1. }
+  Rule order_hall_wet when ci_hall_wet(party) and not ordered(o_wet) { Assert ordered(o_wet). Decrease order(party) by 1. }
+  Kind omen.
+  Entity o_dark: omen "o_dark".
+  Entity o_march: omen "o_march".
+  Entity o_strike: omen "o_strike".
+  Entity o_steel: omen "o_steel".
+  Entity o_door: omen "o_door".
+  Entity o_angry: omen "o_angry".
+  Entity o_lacke_used: omen "o_lacke_used".
+  Entity o_lacke_loose: omen "o_lacke_loose".
+  Entity o_wet: omen "o_wet".
   Relation ordered(entity).
   Query calm() means order(party) >= 3.
   Query uneasy() means order(party) >= 1 and order(party) < 3.
