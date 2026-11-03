@@ -144,7 +144,8 @@ export class Stage {
         {screen.expedition.hungry && <span className="hurt">hungry</span>}
         {screen.expedition.weary && <span className="hurt">weary</span>}
         <span data-id="purse">{screen.purse.coin} coin</span>
-        <span>{screen.purse.rations} {screen.purse.rations === 1 ? 'ration' : 'rations'}</span>
+        <span title={screen.expedition.nextMeal && `Fed until ${screen.expedition.nextMeal}`}>
+          {screen.purse.rations} {screen.purse.rations === 1 ? 'ration' : 'rations'}</span>
         {screen.expedition.light && <span className="light" data-id="light">{Typography.curl(screen.expedition.light)}</span>}
       </p>
       {screen.party.filter(m => m.fallen).map(m => <p key={m.id} className="fallen" data-id="fallen">
