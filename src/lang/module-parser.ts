@@ -12,6 +12,7 @@ import { CatalogParser } from './catalog-parser'; import { Milestones } from './
 import { InformationParser } from './information-parser'; import { Endings } from './endings';
 import { LocalKinds } from '../canon/local-catalog';
 import { ModuleDeclarations } from './module-declarations'; import { ActionParts } from './action-parts';
+import { Superseded } from './superseded';
 
 type Node = ohm.Node;
 type AstNode = ohm.Node & { ast(): unknown };
@@ -21,7 +22,7 @@ export class ModuleParser {
   private static readonly semantics = ModuleParser.grammar.createSemantics().addOperation<unknown>('ast', {
     Place: ModuleParser.Place, PlaceParent: ModuleParser.PlaceParent, PlaceGrid: ModuleParser.PlaceGrid,
     PlaceAlias: ModuleParser.PlaceAlias, PlaceShelter: ModuleParser.text, ObservationAspect: ModuleParser.Second,
-    ObservationBy: ModuleParser.Third, TopicAnswering: ModuleParser.Second,
+    ObservationBy: ModuleParser.Third, ObservationInstead: ModuleParser.Third, TopicAnswering: ModuleParser.Second,
     Passage: ModuleParser.Passage, PassagePart_oneway: ModuleParser.OneWay, PassagePart_hidden: ModuleParser.Hidden,
     PassagePart_needs: ModuleParser.Needs, Thing: ModuleParser.Thing, ThingSite_in: ObjectParser.In,
     HoldsPart: ObjectParser.HoldsPart, Concealed: ObjectParser.Concealed, ItemPlace_at: ObjectParser.At,
@@ -133,6 +134,7 @@ export class ModuleParser {
     module.entities.push(...expanded.entities); module.initial.push(...expanded.initial);
     if (expanded.observations.length) { (module.observations ??= []).push(...expanded.observations); }
     Spatial.addEscorts(module); Spatial.addSearches(module); Endings.rank(module, fields);
+    Superseded.lower(module, false);
     // A module that never says what would end it goes on: Goal false is the default, and one file of a module in
     // several files says it for all of them.
     return module;
@@ -332,14 +334,15 @@ export class ModuleParser {
   }
   // An observation may teach a fact: what the company sees here, it knows from then on. One "of" an entity is not
   // perceived while the company has not noticed that entity.
-  static Observation(_observe: Node, id: Node, anchor: Node, about: Node, aspect: Node, by: Node, _when: Node,
-    predicate: Node, text: Node, teaches: Node, _dot: Node): Field {
+  static Observation(_observe: Node, id: Node, anchor: Node, instead: Node, about: Node, aspect: Node, by: Node,
+    _when: Node, predicate: Node, text: Node, teaches: Node, _dot: Node): Field {
     const where = ModuleParser.ast(anchor) as { kind: string; id: string; from?: string };
     return { field: 'observation', value: { id: id.sourceString, place: where.id, ...where.from ? { from: where.from } : {},
       ...(where.kind === 'at' ? {} : { anchor: where.kind }), when: ModuleParser.ast(predicate), text: ModuleParser.ast(text),
       ...(about.children.length ? { about: about.children[0]!.children[1]!.sourceString } : {}),
       ...(aspect.children.length ? { aspect: ModuleParser.ast(aspect.children[0]!) } : {}),
       ...(by.children.length ? { by: ModuleParser.ast(by.children[0]!) } : {}),
+      ...(instead.children.length ? { instead: ModuleParser.ast(instead.children[0]!) } : {}),
       ...(teaches.children.length ? { teaches: teaches.children[0]!.children[1]!.sourceString } : {}) } };
   }
   static Relation(_relation: Node, name: Node, _open: Node, types: Node,

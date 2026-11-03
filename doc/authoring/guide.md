@@ -568,6 +568,11 @@ the Banns at Hessel's 24).
   Observe tablet_newer at nave when state(tablets, newer) "Under the west window one tablet is newer and whiter than the rest.".
 ```
 
+A line that is to replace another while something holds is written `instead of` it, in any of the module's files, and
+the other is not told meanwhile: `Observe oven_cold at bakehouse instead of bakehouse_scene when coalDead(bakehouse)
+"The oven is cold…".` (`test/fixtures/probes/instead`; Quittance's ms 4 could only add the cold oven below "banked and
+breathing").
+
 The page at a glance gives a place's first two sentences, with its people and its signs; the rest is under Look
 about, and a place come back to is recalled by its first sentence. So a place leads with what matters most in it
 (the Lull's friction 10; the sentences split as the page splits them, not at "Mr." or "St.", GTR-17).

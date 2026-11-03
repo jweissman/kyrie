@@ -94,6 +94,8 @@ export interface Observation {
   aspect?: Aspect;
   // A capability someone in the company must bring to notice it at all (lore, stonework, woodcraft).
   by?: string;
+  // Another observation it is told in place of, while it holds (see Superseded): lowered as the module is joined.
+  instead?: string;
 }
 export interface Objective { id: string; when: Predicate; text: string }
 // A role while something holds; whole, what they are called instead of their name and role ("Known as").

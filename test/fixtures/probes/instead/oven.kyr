@@ -1,0 +1,11 @@
+Module instead "A bakehouse, and its oven gone cold" {
+  Relation coalDead(place).
+  Action rake(actor: group, site: place) "Rake out the coals" {
+    Requires able(actor) and at(actor, site) and not coalDead(site).
+    Time 1.
+    On success { Assert coalDead(site). }
+  }
+  // In another file from the line it replaces (QTC-A25).
+  Observe oven_cold at bakehouse instead of bakehouse_scene when coalDead(bakehouse)
+    "The oven is cold, and the red light under the ash is gone; the trays are out.".
+}

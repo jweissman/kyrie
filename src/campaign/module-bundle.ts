@@ -10,6 +10,7 @@ import { ModuleNamespace, type ModuleDraft } from './module-namespace';
 import type { InstalledModule } from './definition';
 import type { BundleSource } from './bundle-source';
 import type { Entity, Module } from '../lang/module';
+import { Superseded } from '../lang/superseded';
 import { ModuleShadow } from './module-shadow';
 import { ModuleCanon } from './module-canon';
 import { FictionalTime } from './fictional-time';
@@ -142,14 +143,15 @@ export class ModuleBundle {
     // The goal is whichever file declares one (The Long Man's is in its second file, and was lost as false).
     const goals = modules.map(m => m.goal).filter(g => !(g.kind === 'boolean' && g.value === false));
     if (goals.length > 1) { throw new Error('A module declares its Goal once, in one of its files'); }
-    return { ...modules[0]!, ...goals[0] ? { goal: goals[0] } : {}, ...company ? { company } : {}, entities,
+    return Superseded.lower({ ...modules[0]!, ...goals[0] ? { goal: goals[0] } : {}, ...company ? { company } : {},
+      entities,
       kinds: [...new Set(modules.flatMap(m => m.kinds))],
       relations: ModuleBundle.once(modules.flatMap(m => m.relations)), measures: modules.flatMap(m => m.measures),
       queries: modules.flatMap(m => m.queries), initial: modules.flatMap(m => m.initial),
       actions: modules.flatMap(m => m.actions), people: modules.flatMap(m => m.people ?? []),
       pursuits: modules.flatMap(m => m.pursuits ?? []), rules: modules.flatMap(m => m.rules ?? []),
       observations: modules.flatMap(m => m.observations ?? []), objectives: modules.flatMap(m => m.objectives ?? []),
-      ...LocalKinds.merge(...modules.map(m => m.catalog)) };
+      ...LocalKinds.merge(...modules.map(m => m.catalog)) });
   }
   // A relation declared alike in two files is one relation: what an Ending declares for itself in each file it is in
   // (concluded) was declared twice, and a module with endings in two files would not load (the review's A16).

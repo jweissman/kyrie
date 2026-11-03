@@ -140,7 +140,9 @@ Kyr {
   RuleOnce = "once"
   RuleSays = "says" string
   RuleTeaches = "teaches" ident
-  Observation = "Observe" ident Anchor ObservationAbout? ObservationAspect? ObservationBy? "when" Predicate string ObservationTeaches? "."
+  Observation = "Observe" ident Anchor ObservationInstead? ObservationAbout? ObservationAspect? ObservationBy? "when" Predicate string ObservationTeaches? "."
+  // Told in place of another while it holds (QTC-A25).
+  ObservationInstead = "instead" "of" ident
   ObservationAbout = "of" term
   ObservationAspect = "as" ident
   ObservationBy = "noticed" "by" ident

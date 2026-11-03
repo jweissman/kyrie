@@ -1,0 +1,7 @@
+Module instead "A bakehouse, and its oven gone cold" {
+  Place lane "Pudding Lane" is settlement.
+  Place bakehouse "the bakehouse" is room within lane at 0, 0.
+  Company party "You" of 1 at bakehouse.
+  Observe bakehouse_scene at bakehouse when true "The oven is banked and breathing; the trays are out.".
+  Goal false.
+}
