@@ -90,6 +90,9 @@ export class Journey {
       const found = all.filter(c => re.test(Journey.straight(c[key])));
       if (found.length) { return found; }
     }
+    // The label as its action has it, without the notes the page adds after it (" · an even chance": WPC-20).
+    const bare = all.filter(c => re.test(Journey.straight(c.label).replace(/ · .*$/, '')));
+    if (bare.length) { return bare; }
     return Journey.named(straight, all);
   }
   private static straight(text: string): string { return text.replace(/[‘’]/g, "'").replace(/[“”]/g, '"'); }

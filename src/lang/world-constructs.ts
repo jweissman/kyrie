@@ -21,7 +21,7 @@ export interface PassageSpec {
   id: string; name: string; sides: [string, string]; oneWay: boolean; hidden?: string; needs?: string[];
   kind?: string; ticks?: number; minutes?: number;
   // Crossed only while this holds, and how the way looks while it does not.
-  opening?: Predicate; shut?: string;
+  openings?: { when: Predicate; shut?: string }[];
 }
 export interface EventSpec {
   id: string; anchor?: { kind: Anchor; id: string }; when: Predicate; text: string; effects: Change[]; teaches?: string;
@@ -58,26 +58,33 @@ export class WorldConstructs {
       module.initial.push({ kind: 'set', call: { kind: 'call', name: 'travelMinutes', args: [p.id] },
         value: { kind: 'number', value: minutes } });
     }
-    if (p.opening) { this.opening(module, p.id, p.opening, p); }
+    if (p.openings?.length) { this.opening(module, p.id, p.openings, p); }
   }
   // A way that opens only while something holds is unopened until the world's rules find that it does, and again
   // whenever it stops holding; while unopened, it is not passable, and looks as the author says, to a company that
   // knows of it (a way hidden until a fact is known is not described shut to one that has never heard of it). Its
   // opening is read again once the rules of the moment have run, wherever they are declared (upkeep).
-  private static opening(module: Module, id: string, when: Predicate,
-    { shut, hidden }: { shut?: string; hidden?: string }) {
+  // A way open while every one of its clauses holds; shut, it is said in the words of the first that fails (the
+  // circus's flap, laced for the show, said the circus had gone on: WPC-05).
+  private static opening(module: Module, id: string, openings: { when: Predicate; shut?: string }[],
+    { hidden }: { hidden?: string }) {
     const unopened: Predicate = { kind: 'call', name: 'unopened', args: [id] };
+    const when = openings.map(o => o.when).reduce((left, right) => ({ kind: 'and', left, right }));
     this.assert(module, 'unopened', id);
     (module.rules ??= []).push(
       { id: `${id}__opens`, when: { kind: 'and', left: when, right: unopened },
         effects: [{ kind: 'retract', call: unopened }], upkeep: true },
       { id: `${id}__shuts`, when: { kind: 'and', left: { kind: 'not', value: when }, right: { kind: 'not', value: unopened } },
         effects: [{ kind: 'assert', call: unopened }], upkeep: true });
-    if (shut) {
-      const known: Predicate = { kind: 'call', name: 'knows', args: ['party', hidden ?? ''] };
-      (module.observations ??= []).push({ id: `${id}__shut`, place: id, anchor: 'beside',
-        when: hidden ? { kind: 'and', left: unopened, right: known } : unopened, text: shut, aspect: 'feature' });
-    }
+    const known: Predicate = { kind: 'call', name: 'knows', args: ['party', hidden ?? ''] };
+    openings.forEach((o, i) => {
+      if (!o.shut) { return; }
+      const first = [unopened, { kind: 'not' as const, value: o.when }, ...openings.slice(0, i).map(p => p.when),
+        ...hidden ? [known] : []].reduce((left, right) => ({ kind: 'and', left, right }));
+      (module.observations ??= []).push({ id: i ? `${id}__shut${i + 1}` : `${id}__shut`, place: id, anchor: 'beside',
+        when: openings.length > 1 ? first : hidden ? { kind: 'and', left: unopened, right: known } : unopened,
+        text: o.shut, aspect: 'feature' });
+    });
   }
   // overland: from one stretch of a country's open country into the next (see RegionTracts).
   static readonly wayKinds = ['passage', 'door', 'doorway', 'arch', 'gate', 'stair', 'steps', 'ladder', 'shaft', 'path',

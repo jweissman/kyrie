@@ -2,7 +2,8 @@
 // is "You pay Dain, and take a torch." (the shared rules tell what a member does by their name, as a company's member
 // is told; Mission 17's fresh play heard its protagonist bought for in the third person). Only a sentence that begins
 // with their name is turned, its first verb and any verb joined to it by "and" with it, and only a verb known to be
-// one: what is said of anyone else, and anything not plainly a verb ("and his son"), stands as it was.
+// one: what is said of anyone else, and anything not plainly a verb ("and his son"), stands as it was. A clause
+// "and <name> <verb>" after someone else's is theirs too: "Dain is paid, and you take a torch."
 export class SecondPerson {
   static readonly irregular: Record<string, string> = { is: 'are', has: 'have', does: 'do', goes: 'go', was: 'were' };
   static readonly verbs = new Set(['pay', 'take', 'buy', 'sell', 'give', 'put', 'ready', 'light', 'eat', 'drink',
@@ -25,6 +26,11 @@ export class SecondPerson {
     return text.split(/(?<=[.!?])\s+/).map(s => this.sentence(s, name)).join(' ');
   }
   private static sentence(s: string, name: string): string {
+    const joined = s.indexOf(`, and ${name} `);
+    if (!s.startsWith(`${name} `) && joined > 0) {
+      const turned = this.sentence(s.slice(joined + 6), name);
+      return turned.startsWith('You ') ? `${s.slice(0, joined)}, and you ${turned.slice(4)}` : s;
+    }
     if (!s.startsWith(`${name} `)) { return s; }
     const rest = s.slice(name.length + 1), first = /^(\w+)/.exec(rest)?.[1];
     const verb = first && this.base(first);

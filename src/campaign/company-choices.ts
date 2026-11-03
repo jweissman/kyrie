@@ -11,6 +11,25 @@ import { ModuleWriter } from '../lang/module-writer';
 export class CompanyChoices {
   // Three dice: from 3 to 18.
   private static die(v?: number): boolean { return Number.isInteger(v) && v! >= 3 && v! <= 18; }
+  // What of a companion cannot be played, said by name with what can (the Grand Tour's friction D1 and D2: refused,
+  // an author learned neither which ancestry nor which could be).
+  static refused(c: CreatureGenerationContext): string | undefined {
+    return this.one(c, 'ancestry', c.raceId!, Content.playableRaces)
+      ?? this.one(c, 'calling', Creation.classId(c.classId!), Content.playableClasses)
+      ?? (c.backgroundId ? this.one(c, 'background', c.backgroundId, Object.keys(Canon.backgrounds)) : undefined);
+  }
+  private static one(c: CreatureGenerationContext, what: string, id: string, ids: string[]): string | undefined {
+    return ids.includes(id) ? undefined : `${c.name}: ${id} is no playable ${what}; ${this.near(id, ids).join(', ')}?`;
+  }
+  // The ids nearest one not known: those sharing its start first, then the fewest letters apart; all, if there are few.
+  static near(id: string, ids: string[]): string[] {
+    if (ids.length <= 8) { return ids; }
+    return [...ids].sort((a, b) => this.score(id, a) - this.score(id, b)).slice(0, 3);
+  }
+  private static score(id: string, x: string): number {
+    return (x.startsWith(id.slice(0, 3)) ? 0 : 100) + [...id].filter((ch, i) => x[i] !== ch).length
+      + Math.abs(id.length - x.length);
+  }
   static apply(draft: ModuleDraft, party: CreatureGenerationContext[]) {
     const player = draft.instance.campaign!.actors.find(a => a.player)!;
     if (party.length !== player.members.length) { throw new Error(`Choose ${player.members.length} companions`); }
@@ -25,11 +44,11 @@ export class CompanyChoices {
       if (/[{}"\\]/.test(context.name ?? '')) {
         throw new Error(`A name may not have braces, quotes or a backslash in it: ${context.name}`);
       }
-      if (!context.name?.trim() || context.name.length > 40 || !context.raceId || !context.classId
-        || !Content.playableRaces.includes(context.raceId)
-        || !Content.playableClasses.includes(Creation.classId(context.classId))) {
+      if (!context.name?.trim() || context.name.length > 40 || !context.raceId || !context.classId) {
         throw new Error('Choose a name, playable ancestry and class for every companion');
       }
+      const refused = CompanyChoices.refused(context);
+      if (refused) { throw new Error(refused); }
       // An experienced company (a preset of old hands) may begin above first level, and with gear from the catalog.
       const level = context.level;
       if (level !== undefined && (!Number.isInteger(level) || level < 1 || level > 20)) {

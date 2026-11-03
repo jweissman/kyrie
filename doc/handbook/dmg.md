@@ -88,11 +88,11 @@ What one person hears is carried to another (the Liberty of the Ice's 5: a lie t
 
 ### What the company carries
 
-Also kept, without comment: itemKind, ownedItem, wearing, forSale, soldBy, wearable, consumable, canTrain, teaches, proficient, wants, weighed, objection, pays, price.
+Also kept, without comment: itemKind, ownedItem, wearing, forSale, soldBy, wearable, consumable, canTrain, teaches, proficient, wants, valuable, recovered, weighed, objection, pays, price.
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 2 | 27 | 9 | 2 | 9 | 19 |
+| 2 | 28 | 11 | 2 | 9 | 19 |
 
 #### relieves
 
@@ -108,15 +108,15 @@ What is used by lighting it, on whoever carries it (a torch, a candle); what bur
 
 #### handed, usesUp
 
-*Kyr · relation(item, group); relation(group, itemkind)* · `rule:belongings.handed`
+*Kyr · relation(item, group); relation(group, entity)* · `rule:belongings.handed`
 
-A thing handed to a company ("Give coat to party." in what a topic or an action does: a coat held out, a letter out of a lockbox, a casket put in your arms), which the engine puts in the hands of the first of the company who is up, from wherever it lay or whoever had it; and one of a kind the company gives up ("Spend weight_stone from actor."), from whichever of it carries one. Each is done once, and forgotten.
+A thing handed to a company ("Give coat to party." in what a topic or an action does: a coat held out, a letter out of a lockbox, a casket put in your arms), which the engine puts in the hands of the first of the company who is up, from wherever it lay or whoever had it; and one of a kind the company gives up ("Spend weight_stone from actor."), from whichever of it carries one, or a particular thing it gives up by its own name ("Spend nan_ribbon from party.": the Lull's friction F5). Each is done once, and forgotten.
 
-#### worth, buysValuables, realized, valuable
+#### worth, dealerPays, buysValuables, realized
 
-*Kyr · measure(itemkind); relation(group); relation(item); relation(itemkind)* · `rule:belongings.worth`
+*Kyr · measure(itemkind); measure(itemkind); relation(group); relation(item)* · `rule:belongings.worth`
 
-What a kind of thing is worth (its catalog value), and those who deal in valuables: a merchant who buys any treasure brought in, at its worth, if they have the coin (as Orsino's shops buy junk). Treasure brought home and sold is the company's experience, the first time it is sold: its worth, to each who brought it.
+What a kind of thing is worth (its catalog value), and those who deal in valuables: a merchant who buys any treasure brought in, at half its worth (what a dealer pays), if they have the coin. A treasure found is the company's experience, the first time it is taken up (see FieldResolver.take); sold, it is coin and no more (the cold review of 1 November: a sale paid coin and experience at once, and one delve made money meaningless).
 
 #### mass
 
@@ -258,7 +258,7 @@ How many of a kind a seller has out for sale. What is used up (a torch, a flask 
 
 > Needs: able(actor); at(actor, site); at(find, site); not (forSale(find)); not (benighted(actor)); itemKind(find, form); memberOf(recipient, actor); awake(recipient); noticed(find, actor)
 
-> Then: Retract at(find, site).
+> Then: Retract at(find, site). Assert recovered(find).
 
 #### take out
 
@@ -270,7 +270,7 @@ How many of a kind a seller has out for sale. What is used up (a torch, a flask 
 
 > Needs: able(actor); at(actor, site); at(box, site); inside(find, box); not (shut(box)); noticed(box, actor); noticed(find, actor); not (benighted(actor)); itemKind(find, form); memberOf(recipient, actor); awake(recipient)
 
-> Then: Retract inside(find, box).
+> Then: Retract inside(find, box). Assert recovered(find).
 
 #### put in
 
@@ -440,11 +440,11 @@ Someone who buys this kind of thing pays what they said they would, if they have
 - Takes: 10 minutes
 - Costs: 1
 
-Someone who deals in valuables pays what a thing is worth, if they have the coin. The first time a treasure is sold, what it is worth is experience for each of the company.
+Someone who deals in valuables pays half what a thing is worth, if they have the coin.
 
-> Needs: able(actor); at(actor, site); able(buyer); at(buyer, site); distinct(actor, buyer); memberOf(carrier, actor); awake(carrier); ownedItem(ware, carrier); itemKind(ware, form); buysValuables(buyer); valuable(form); worth(form) >= 1; pays(buyer, form) < 1; quantity(buyer, gold) >= worth(form); not (refusesService(buyer, actor))
+> Needs: able(actor); at(actor, site); able(buyer); at(buyer, site); distinct(actor, buyer); memberOf(carrier, actor); awake(carrier); ownedItem(ware, carrier); itemKind(ware, form); buysValuables(buyer); valuable(form); dealerPays(form) >= 1; pays(buyer, form) < 1; quantity(buyer, gold) >= dealerPays(form); not (refusesService(buyer, actor))
 
-> Then: Assert keeps(buyer, ware). Assert realized(ware). Decrease quantity(buyer, gold) by worth(form). Increase quantity(actor, gold) by worth(form).
+> Then: Assert keeps(buyer, ware). Assert realized(ware). Decrease quantity(buyer, gold) by dealerPays(form). Increase quantity(actor, gold) by dealerPays(form).
 
 #### appraise
 
@@ -488,6 +488,12 @@ Someone who deals in valuables says what a thing is worth, when it is worth more
 
 > Then: Assert at(cargo, site).
 
+#### lessonFee
+
+*Kyr · measure(group)* · `rule:belongings.lessonFee`
+
+A lesson, for the proof of what the student has done (experience) and, where the mentor asks one, a fee: the capability market's mentors teach for coin (REV-04); an adventure's own may teach for nothing.
+
 #### train member
 
 *Kyr · action (group, group, member, ability, place)* · `rule:belongings.train_member`
@@ -496,9 +502,41 @@ Someone who deals in valuables says what a thing is worth, when it is worth more
 - Takes: 60 minutes
 - Costs: 1
 
-> Needs: able(actor); able(mentor); distinct(actor, mentor); at(actor, site); at(mentor, site); memberOf(student, actor); awake(student); teaches(mentor, lesson); canTrain(student, lesson)
+> Needs: able(actor); able(mentor); distinct(actor, mentor); at(actor, site); at(mentor, site); memberOf(student, actor); awake(student); teaches(mentor, lesson); canTrain(student, lesson); quantity(actor, gold) >= lessonFee(mentor)
 
-> Then: nothing changes
+> Then: Decrease quantity(actor, gold) by lessonFee(mentor). Increase quantity(mentor, gold) by lessonFee(mentor).
+
+### What every world holds before any adventure is in it, and what can be said of it
+
+Also kept, without comment: seatOf.
+
+| Kinds | Relations | Measures | Queries | Rules | Actions |
+|---|---|---|---|---|---|
+| 1 | 5 | 0 | 0 | 0 | 0 |
+
+#### identity
+
+*Kyr · kind* · `rule:world_canon.identity`
+
+Something every author may name before anyone has built a place for it: a college, a house, a city, a key, an office. Where an adventure builds a place for one, it says so: the House of Doors is seated in its building.
+
+#### partOf, seatedIn
+
+*Kyr · relation(identity, identity); relation(identity, identity)* · `rule:world_canon.partOf`
+
+One identity of another, and where one is seated before it has a place: the House of Doors is the college's, the Rector's office the House's, and the college is seated in Dun Rì.
+
+#### holdsOffice
+
+*Kyr · relation(group, identity)* · `rule:world_canon.holdsOffice`
+
+Who holds an office (the Rector of the House of Doors).
+
+#### befell
+
+*Kyr · relation(fact)* · `rule:world_canon.befell`
+
+A world event (one of the facts of data/imbar) that has befallen: asserted in play, once, and never undone.
 
 ### Rest, mending and lessons
 
@@ -1260,7 +1298,7 @@ Also kept, without comment: arrival, plea, greeting, greeted, petted, warned, yi
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 1 | 22 | 2 | 1 | 18 | 5 |
+| 1 | 24 | 2 | 1 | 19 | 5 |
 
 #### temperament
 
@@ -1285,6 +1323,12 @@ Where it lives and what it defends; where it goes when beaten or frightened off.
 *Kyr · relation(group, entity); relation(group, entity); relation(group, entity)* · `rule:inhabitants.warning`
 
 What it does, in the place's own words: its warning, its onslaught, what makes it flinch, how it yields; and how it comes where the company is, said as it comes, before it warns (Arrives).
+
+#### sign, betrayed
+
+*Kyr · relation(group, entity); relation(group, group)* · `rule:inhabitants.sign`
+
+What gives away one that lies in wait, to a company on the way in (see temper_betrayed), and whom it has.
 
 #### withdraw, warnedOff
 
@@ -1425,6 +1469,18 @@ Says: "{?o}"
 > When: temperament(?g, temper_savage); company(?c); confronts(?g, ?c); onslaught(?g, ?o)
 
 > Then: Assert assails(?g, ?c).
+
+#### temper_betrayed
+
+*Kyr · rule* · `rule:inhabitants.temper_betrayed`
+
+One that lies in wait gives itself away to a company next door, on a way it can see, before it springs: told once, in its kind's words or its own (the novice covenant: GTR-25's "an ambusher's first page is its blow"). Going on in is the company's choice, and it springs as before on one without keen eyes.
+
+Says: "{?s}"
+
+> When: temperament(?g, temper_ambush); company(?c); able(?g); not (routed(?g)); at(?g, ?p); at(?c, ?q); connects(?w, ?q, ?p); visibleTo(?w, ?c); not (tolerates(?g, ?c)); not (betrayed(?g, ?c)); sign(?g, ?s)
+
+> Then: Assert betrayed(?g, ?c).
 
 #### temper_springs
 
@@ -2203,6 +2259,17 @@ A generated world is assembled from a region's geography and kits. A kit is a si
 
 > A settlement that a power preys on puts a price on the power's chief. It needs a power some earlier placement established, the settlement that power raids, the people the power acts through, and where it holds out (which the offer puts on the company's map); who offers the money, and what they want for it, is Deem's to propose.
 
+#### A raiders' hold
+
+*Kyr* · `kit:raider_hold`
+
+- Fills: approach (waypoint(?approach)); road (waypoint(?road) and onRoad(?road)); prey (square(?town, ?prey)); area (areaOf(?approach, ?area))
+- Draws: hold from raider_hold_shape by terrain; folk from raider_hold_folk by terrain
+- Provides: 7 facts
+- Modules: 4
+
+> A band that lives by raiding: a hold in wild country off the road, a road they lie in wait on, and a settlement they rob. Where it stands, which road and which settlement are bound to the region; who they are and the shape of their hold are Deem's to propose, and each changes what the company can do about them.
+
 #### A toll on a road
 
 *Kyr* · `kit:toll_road`
@@ -2213,17 +2280,6 @@ A generated world is assembled from a region's geography and kits. A kit is a si
 - Modules: 2
 
 > A band that has made a stretch of road between two settlements its own: it stops whoever comes and takes a toll, and buys its bread on credit at the nearest inn. While the road is tolled the settlements it joins pay more for their meal and are not restocked; an inn bought empty means the band comes for bread in the night. Where the road runs and which inn feeds it are bound to the region; who keeps the toll is Deem's to propose, and each kind is dealt with differently.
-
-#### A raiders' hold
-
-*Kyr* · `kit:raider_hold`
-
-- Fills: approach (waypoint(?approach)); road (waypoint(?road) and onRoad(?road)); prey (square(?town, ?prey))
-- Draws: hold from raider_hold_shape by terrain; folk from raider_hold_folk by terrain
-- Provides: 7 facts
-- Modules: 4
-
-> A band that lives by raiding: a hold in wild country off the road, a road they lie in wait on, and a settlement they rob. Where it stands, which road and which settlement are bound to the region; who they are and the shape of their hold are Deem's to propose, and each changes what the company can do about them.
 
 ### Frameworks
 
@@ -2257,6 +2313,15 @@ The worlds that ship with the game.
 
 > A company of travelling players is stuck on the green at Wending Cross with its wagon chained to a post, on its way west over the march to the Trial of the Wheel at Pentrice, where three companies play three nights and the best is given a house for ever. You have a little coin and no particular plans.
 
+### Half the Hive
+
+*Kyr* · `campaign:half-the-hive`
+
+- Regions and sites: hume
+- Kits placed: —
+
+> The drove road climbs out of the lowland hedges onto the Wold, where four hundred people live inside a honeycomb under a cliff and belong to bees as big as hounds by the smell of their queen. The limes are in flower. The old queen is about to swarm, and when she goes, half the town will walk out behind her and never come back. The Searchers who must find them a new home are short of hands, and have sent a notice down to Smoke End: any who can walk and look.
+
 ### The Banns at Hessel
 
 *Kyr* · `campaign:hessel`
@@ -2274,6 +2339,15 @@ The worlds that ship with the game.
 - Kits placed: —
 
 > You owe the Cutters' Mutual fourteen felt-lengths. Your uncle Garret walked into an open granary vault under the glass last autumn and has stood in its light ever since, alive. The Mutual's Master will halve your debt the day he walks into her hall on his own feet.
+
+### Behind the Wainscot
+
+*Kyr* · `campaign:hollins`
+
+- Regions and sites: hollins
+- Kits placed: —
+
+> In the western hills there is a house twelve times the size of a house, shut three hundred years; people of your own size have lived in its walls all that time, having come in by the letterbox. Four days ago the giantess who owns it came home to die. Her companion has put up a notice in the village on the doorstep: WANTED, A RATCATCHER.
 
 ### The Road the Star Came Down
 
@@ -2302,6 +2376,15 @@ The worlds that ship with the game.
 
 > Calamy is a city of paper at the mouth of the Calam, where the tide turns the mills twice a day and every household keeps a book that knows it. Its books are entangled with its money, its law, its prayers and its quarrels, and lately some of them have begun to talk. In nine days it is the Kindling, when the city burns last year's almanacks to light the new year in.
 
+### Fair Weather
+
+*Kyr* · `campaign:skeel`
+
+- Regions and sites: skeel
+- Kits placed: —
+
+> You have walked the coast road for a week with a little money and no reason to stop. This morning it comes over the shoulder of a down, and below you is the Gannet Reach: nine miles of shining sand, or of shining sea, depending on the hour, with islands in it, and a town of grey roofs on the near headland, and out on the sands a ship lying on her side.
+
 ### The House That Grows
 
 *Kyr* · `campaign:the-house-that-grows`
@@ -2329,6 +2412,15 @@ The worlds that ship with the game.
 
 > At the head of Merrowdale a long green ridge lies across the valley, and the village under it says a giant king is buried there. Something tall walks its crest at night. The steward of the Hall has posted forty crowns for whoever will lay it, and the autumn storm is three days off. Choose three companions.
 
+### The Lull
+
+*Kyr* · `campaign:the-lull`
+
+- Regions and sites: lull
+- Kits placed: —
+
+> Over the march there is a valley you can walk into one day in seven. On the other six the road goes round a bare hill and comes back to the stone. They don't work in there, they say; whatever is done there without meaning it comes apart at sunset. And a night slept there is a week gone outside.
+
 ### The Patient Star
 
 *Kyr* · `campaign:the-patient-star`
@@ -2337,6 +2429,15 @@ The worlds that ship with the game.
 - Kits placed: —
 
 > Two thousand years ago a seed fell on the Ghessil Uplands and did not go out. Its light stops time in stone and slows it in flesh. You are a cutter of Quell, in debt; your uncle has stood eleven months in an open granary vault under the glass, alive. Under the plateau a citadel is building itself downward, and above it something is coming down the light.
+
+### The Quiet in the Sky
+
+*Kyr* · `campaign:the-quiet-in-the-sky`
+
+- Regions and sites: larum
+- Kits placed: —
+
+> For nine hundred years the hamlet of Larum, under a high pass, has heard the warrior dead fighting in the snow above it: on still days, faint, like a smithy the size of the sky. Forty days ago the noise stopped. Larum cannot sleep for the quiet.
 
 ### The Third Night
 

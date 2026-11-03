@@ -90,7 +90,7 @@
   "Knock the peg",
   "Pick the lockbox",
   "letter.*Take|Take a sealed letter|Take a letter",
-  "Mistress Plum.*: Ask them to come|Mistress Plum.*come with you",
+  "Mistress Plum.*: Ask \\w+ to come|Mistress Plum.*come with you",
   "To the Street of Scales",
   "To the Drowned Forum",
   "To the Weed",

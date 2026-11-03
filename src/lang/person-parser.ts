@@ -2,6 +2,7 @@ import type * as ohm from 'ohm-js';
 import { ModuleParser } from './module-parser';
 import { WorldConstructs, type ThingSpec } from './world-constructs';
 import { ItemCatalog } from '../item-catalog';
+import { ModuleWriter } from './module-writer';
 import type { Module, Person, Predicate } from './module';
 
 type Node = ohm.Node;
@@ -92,6 +93,16 @@ export class PersonParser {
   static PersonRemarks(_r: Node, place: Node, text: Node, _dot: Node): Field {
     return { field: 'words', value: { kind: 'Remarks', place: place.sourceString, text: ModuleParser.ast(text) as string } };
   }
+  // Where someone goes on leaving the company, said with their parting (the Grand Tour's Ha'penny, "gone into the
+  // green", was still among those here: its friction X07).
+  static PersonLeavesTo(_l: Node, words: Node, when: Node, _dot: Node): Field {
+    const holds = when.children[0] ? { when: ModuleParser.ast(when.children[0]) as Predicate } : {};
+    return { field: 'words', value: { kind: 'Leaves', ...ModuleParser.ast(words) as { text: string; place: string },
+      ...holds } };
+  }
+  static LeavesTo(text: Node, _to: Node, place: Node) {
+    return { text: ModuleParser.ast(text) as string, place: place.sourceString };
+  }
   static PersonHaunt(word: Node, id: Node, _dot: Node): Field {
     return { field: 'haunt', value: { kind: word.sourceString, text: id.sourceString } };
   }
@@ -112,7 +123,19 @@ export class PersonParser {
       PersonParser.fact(module, relation, id, words);
       // Said only while it holds: a gaol door shutting on someone is no parting (A Winter in Carth's friction 8).
       if (m.when) { (module.queries ??= []).push({ name: `${words}_when`, parameters: [], body: m.when }); }
+      if (m.kind === 'Leaves' && m.place) { PersonParser.goes(module, id, m.place, m.when ? `${words}_when()` : ''); }
     }
+  }
+  // One who has been with the company, and is with it no longer, goes where their parting says.
+  private static goes(module: Module, id: string, place: string, when: string) {
+    const been = `${id}_was_with`, call = ModuleWriter.call;
+    module.relations.push({ name: been, types: [], exclusive: false });
+    (module.rules ??= []).push({ id: been, effects: [{ kind: 'assert', call: call(been) }],
+      when: ModuleParser.predicate(`company(?c) and (travelsWith(${id}, ?c) or following(${id}, ?c)) and not ${been}()`) },
+    { id: `${id}_goes`, effects: [{ kind: 'retract', call: call(been) }, { kind: 'retract', call: call('at', id, '?p') },
+      { kind: 'assert', call: call('at', id, place) }],
+    when: ModuleParser.predicate(`${been}() and company(?c) and at(${id}, ?p) and not travelsWith(${id}, ?c)`
+      + ` and not following(${id}, ?c)${when ? ` and ${when}` : ''}`) });
   }
   // Said when the company comes to the place with them, travelling with it or following it, once.
   private static remark(module: Module, id: string, m: Manner) {
@@ -120,8 +143,9 @@ export class PersonParser {
     module.relations.push({ name: `${latch}_once`, types: [], exclusive: false });
     (module.rules ??= []).push({ id: latch, say: m.text,
       effects: [{ kind: 'assert', call: { kind: 'call', name: `${latch}_once`, args: [] } }],
-      when: ModuleParser.predicate(`company(?c) and at(?c, ${m.place}) and (travelsWith(${id}, ?c) or following(${id}, ?c))`
-        + ` and able(${id}) and not ${latch}_once()`) });
+      // One who has joined is able as a member, not as their own group, which is empty (The House That Grows' 4).
+      when: ModuleParser.predicate(`company(?c) and at(?c, ${m.place}) and (travelsWith(${id}, ?c) or (following(${id}, ?c)`
+        + ` and able(${id}))) and not ${latch}_once()`) });
   }
   private static fact(module: Module, name: string, ...args: string[]) {
     module.initial.push({ kind: 'assert', call: { kind: 'call', name, args } });

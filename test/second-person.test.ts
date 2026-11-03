@@ -15,6 +15,9 @@ describe('the telling of one who has come alone', () => {
     expect(SecondPerson.turn('Ilse often waits.', 'Ilse')).toBe('Ilse often waits.');
     expect(SecondPerson.turn('Ilse carries the lamp and goes in.', 'Ilse')).toBe('You carry the lamp and go in.');
     expect(SecondPerson.turn("Ilse's dog barks.", 'Ilse')).toBe("Ilse's dog barks.");
+    // The coin is the company's: the merchant is paid, and who it was bought for takes it (GTR-19).
+    expect(SecondPerson.turn('Dain is paid, and Ilse takes a torch.', 'Ilse')).toBe('Dain is paid, and you take a torch.');
+    expect(SecondPerson.turn('Dain is paid, and Chert takes a torch.', 'Ilse')).toBe('Dain is paid, and Chert takes a torch.');
   });
 });
 describe('the country a chapter opens on', () => {

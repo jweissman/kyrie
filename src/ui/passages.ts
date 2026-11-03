@@ -39,13 +39,13 @@ export class Passages {
     if (kinds.slice(1).some(k => this.within(origin, k)?.id !== this.within(destination, k)?.id)) { return 'travel'; }
     const from = this.within(origin, 'level'), to = this.within(destination, 'level');
     if (from && to && from.id !== to.id) { return this.deeper(from, to); }
-    // Out of the light and into the ground, and back: down into the cellar, up into the corn-store (NVR-18).
-    const [over, under] = [this.under(origin), this.under(destination)];
-    if (over !== under) { return under ? 'descend' : 'ascend'; }
+    // Into somewhere of its own, by its name ("Into the Strongrooms"); within one, out of the light and into the
+    // ground, and back: down to the cellar, up to the corn-store (NVR-18).
     const a = this.enclosures(origin), b = this.enclosures(destination);
     if (b.some(id => !a.includes(id))) { return 'enter'; }
     if (a.some(id => !b.includes(id))) { return 'leave'; }
-    return 'walk';
+    const [over, under] = [this.under(origin), this.under(destination)];
+    return over === under ? 'walk' : under ? 'descend' : 'ascend';
   }
   // Below ground, a later level of a site is deeper: down to it, or up from it; elsewhere (a tower's floors, an
   // authored house) a level is only another (NVR-18, NVR-20).

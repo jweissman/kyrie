@@ -801,7 +801,7 @@
     "faithful": 753,
     "adapted": 361,
     "represented": 4,
-    "kyr": 97,
+    "kyr": 121,
     "unsupported": 99,
     "unreachable": 4,
     "data-only": 12
@@ -892,7 +892,7 @@
       "faithful": 235,
       "adapted": 72,
       "represented": 0,
-      "kyr": 32,
+      "kyr": 54,
       "unsupported": 24,
       "unreachable": 0,
       "data-only": 0
@@ -970,7 +970,7 @@
       "faithful": 123,
       "adapted": 25,
       "represented": 0,
-      "kyr": 30,
+      "kyr": 32,
       "unsupported": 24,
       "unreachable": 0,
       "data-only": 0
@@ -997,7 +997,7 @@
     "faithful": 220,
     "adapted": 25,
     "represented": 49,
-    "kyr": 241,
+    "kyr": 253,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 198
@@ -1010,7 +1010,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 223,
+      "kyr": 230,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -1036,7 +1036,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 14,
+      "kyr": 19,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -3512,6 +3512,153 @@
    "section": "equipment/weapons"
   },
   {
+   "id": "item:fine_battleaxe",
+   "title": "fine battleaxe",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/weapons"
+  },
+  {
+   "id": "item:fine_broadsword",
+   "title": "fine broadsword",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/weapons"
+  },
+  {
+   "id": "item:fine_claymore",
+   "title": "fine claymore",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/weapons"
+  },
+  {
+   "id": "item:fine_club",
+   "title": "fine club",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/weapons"
+  },
+  {
+   "id": "item:fine_cutlass",
+   "title": "fine cutlass",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/weapons"
+  },
+  {
+   "id": "item:fine_dagger",
+   "title": "fine dagger",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/weapons"
+  },
+  {
+   "id": "item:fine_dart",
+   "title": "fine dart",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/weapons"
+  },
+  {
+   "id": "item:fine_falchion",
+   "title": "fine falchion",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/weapons"
+  },
+  {
+   "id": "item:fine_greatsword",
+   "title": "fine greatsword",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/weapons"
+  },
+  {
+   "id": "item:fine_halberd",
+   "title": "fine halberd",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/weapons"
+  },
+  {
+   "id": "item:fine_handaxe",
+   "title": "fine handaxe",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/weapons"
+  },
+  {
+   "id": "item:fine_javelin",
+   "title": "fine javelin",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/weapons"
+  },
+  {
+   "id": "item:fine_longbow",
+   "title": "fine longbow",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/weapons"
+  },
+  {
+   "id": "item:fine_longsword",
+   "title": "fine longsword",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/weapons"
+  },
+  {
+   "id": "item:fine_morningstar",
+   "title": "fine morningstar",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/weapons"
+  },
+  {
+   "id": "item:fine_scimitar",
+   "title": "fine scimitar",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/weapons"
+  },
+  {
+   "id": "item:fine_shortbow",
+   "title": "fine shortbow",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/weapons"
+  },
+  {
+   "id": "item:fine_shortsword",
+   "title": "fine shortsword",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/weapons"
+  },
+  {
+   "id": "item:fine_sling",
+   "title": "fine sling",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/weapons"
+  },
+  {
+   "id": "item:fine_spear",
+   "title": "fine spear",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/weapons"
+  },
+  {
+   "id": "item:fine_staff",
+   "title": "fine staff",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/weapons"
+  },
+  {
    "id": "item:glaive",
    "title": "glaive",
    "status": "faithful",
@@ -5845,6 +5992,13 @@
   {
    "id": "item:lamp_oil",
    "title": "Flask of lamp oil",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:pack_mule",
+   "title": "Pack mule",
    "status": "kyr",
    "book": "phb",
    "section": "equipment/gear"
@@ -9728,6 +9882,20 @@
    "section": "conditions"
   },
   {
+   "id": "condition:plane_air",
+   "title": "the Air",
+   "status": "kyr",
+   "book": "phb",
+   "section": "conditions"
+  },
+  {
+   "id": "condition:plane_fire",
+   "title": "the Fire",
+   "status": "kyr",
+   "book": "phb",
+   "section": "conditions"
+  },
+  {
    "id": "condition:unlit_law",
    "title": "The Unlit's law",
    "status": "kyr",
@@ -10534,7 +10702,7 @@
   },
   {
    "id": "rule:belongings.worth",
-   "title": "worth, buysValuables, realized, valuable",
+   "title": "worth, dealerPays, buysValuables, realized",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-belongings"
@@ -10778,11 +10946,46 @@
    "section": "world-rules/rules-belongings"
   },
   {
+   "id": "rule:belongings.lessonFee",
+   "title": "lessonFee",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-belongings"
+  },
+  {
    "id": "rule:belongings.train_member",
    "title": "train member",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-belongings"
+  },
+  {
+   "id": "rule:world_canon.identity",
+   "title": "identity",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-canon"
+  },
+  {
+   "id": "rule:world_canon.partOf",
+   "title": "partOf, seatedIn",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-canon"
+  },
+  {
+   "id": "rule:world_canon.holdsOffice",
+   "title": "holdsOffice",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-canon"
+  },
+  {
+   "id": "rule:world_canon.befell",
+   "title": "befell",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-canon"
   },
   {
    "id": "rule:care.levelOf",
@@ -11366,6 +11569,13 @@
    "section": "world-rules/rules-inhabitants"
   },
   {
+   "id": "rule:inhabitants.sign",
+   "title": "sign, betrayed",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-inhabitants"
+  },
+  {
    "id": "rule:inhabitants.withdraw",
    "title": "withdraw, warnedOff",
    "status": "kyr",
@@ -11466,6 +11676,13 @@
   {
    "id": "rule:inhabitants.temper_falls_on",
    "title": "temper_falls_on",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-inhabitants"
+  },
+  {
+   "id": "rule:inhabitants.temper_betrayed",
+   "title": "temper_betrayed",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-inhabitants"
@@ -12017,15 +12234,15 @@
    "section": "making-worlds/kits"
   },
   {
-   "id": "kit:toll_road",
-   "title": "A toll on a road",
+   "id": "kit:raider_hold",
+   "title": "A raiders' hold",
    "status": "kyr",
    "book": "dmg",
    "section": "making-worlds/kits"
   },
   {
-   "id": "kit:raider_hold",
-   "title": "A raiders' hold",
+   "id": "kit:toll_road",
+   "title": "A toll on a road",
    "status": "kyr",
    "book": "dmg",
    "section": "making-worlds/kits"
@@ -12052,6 +12269,13 @@
    "section": "campaigns"
   },
   {
+   "id": "campaign:half-the-hive",
+   "title": "Half the Hive",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "campaigns"
+  },
+  {
    "id": "campaign:hessel",
    "title": "The Banns at Hessel",
    "status": "kyr",
@@ -12061,6 +12285,13 @@
   {
    "id": "campaign:hold-one-season",
    "title": "Hold One Season",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "campaigns"
+  },
+  {
+   "id": "campaign:hollins",
+   "title": "Behind the Wainscot",
    "status": "kyr",
    "book": "dmg",
    "section": "campaigns"
@@ -12087,6 +12318,13 @@
    "section": "campaigns"
   },
   {
+   "id": "campaign:skeel",
+   "title": "Fair Weather",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "campaigns"
+  },
+  {
    "id": "campaign:the-house-that-grows",
    "title": "The House That Grows",
    "status": "kyr",
@@ -12108,8 +12346,22 @@
    "section": "campaigns"
   },
   {
+   "id": "campaign:the-lull",
+   "title": "The Lull",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "campaigns"
+  },
+  {
    "id": "campaign:the-patient-star",
    "title": "The Patient Star",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "campaigns"
+  },
+  {
+   "id": "campaign:the-quiet-in-the-sky",
+   "title": "The Quiet in the Sky",
    "status": "kyr",
    "book": "dmg",
    "section": "campaigns"

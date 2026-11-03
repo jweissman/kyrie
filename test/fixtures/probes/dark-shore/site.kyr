@@ -4,7 +4,9 @@ Module darkshore "The grey shore, with every light out" {
   Company party "You" of 1 at shore.
   Initially Assert unlit(shore).
   // Heard in the dark, as seen in the light: what sounds there.
-  Observe surf at shore as sound when true "Somewhere below you the sea breaks on stones, and draws back.".
+  // What is heard teaches, in the dark as in the light (The House That Grows' 14).
+  Discovery sea_near "The sea is close below the shore.".
+  Observe surf at shore as sound when true "Somewhere below you the sea breaks on stones, and draws back." teaches sea_near.
   Observe shore_scene at shore when true "A grey shore of shingle runs off into the mist.".
   Goal false.
 }

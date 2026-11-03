@@ -39,10 +39,10 @@ describe('as the company would tell it', () => {
   it('has a traveller resting at an inn tell of where they came from', async () => {
     const s = await Thorn.start();
     Thorn.put(s, 's1_taproom');
-    expect(Thorn.names(s)).toContain('Ask Ralf for news of Merscstede');
-    expect(Thorn.names(s)).not.toContain('Ask Ralf for news of Misthythe');
+    expect(Thorn.names(s)).toContain('Ask Piers for news of Merscstede');
+    expect(Thorn.names(s)).not.toContain('Ask Piers for news of Misthythe');
     // Eight in the morning is not the night: he is making ready for the road, at the inn, where he is.
-    expect(Thorn.seen(s)).toContain('Ralf the drover is at the window, counting the cattle in the pens before the road');
+    expect(Thorn.seen(s)).toContain('Piers the drover is at the window, counting the cattle in the pens before the road');
     expect(Thorn.seen(s)).not.toContain('penned for the night');
   }, 60000);
   // In wren's mine (thorn's cisterns have nothing lying in wait since the ooze went down to the deepest level).

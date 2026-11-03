@@ -11,6 +11,8 @@ describe('the dark', () => {
     const said = () => PlayerView.observe(j.campaign).observations.map(o => o.text).join(' ');
     expect(said()).toContain('the sea breaks on stones');
     expect(said()).not.toContain('A grey shore of shingle');
+    await j.play('Wait › A while');
+    expect(j.holds('knows', 'party', 'p__sea_near')).toBe(true);
     await j.play('a torch: Light');
     expect(said()).toContain('A grey shore of shingle');
     await j.play("Put out Ama's light");

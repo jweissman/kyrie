@@ -7,7 +7,7 @@
   "Ask Sir Lionel why",
   "Ask Sir Lionel what he will do",
   "=80",
-  "Ask them to come with you",
+  "Ask \\w+ to come with you",
   "go:clink_yard",
   "coat: Take"
  ]

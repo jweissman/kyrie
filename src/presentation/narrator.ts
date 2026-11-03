@@ -251,6 +251,8 @@ export class Narrator {
   static waits(w: { by: string; left: number }): string {
     return `${this.upper(w.by)} will wait ${w.left <= 5 ? 'a few minutes' : `${w.left} minutes`} more, no longer.`;
   }
+  static readonly bare = new RegExp(`^(${['the', 'a', 'an', 'his', 'her', 'their', 'your', 'my', 'our', 'who', 'whose',
+    'of', 'in', 'at', 'on', 'from', 'with', 'by', 'under', 'out', 'off', 'back', 'home', 'newly', 'lately'].join('|')}) `, 'i');
   // "Eamon, innkeeper" is "Eamon, the innkeeper"; "Cyril, pilgrim" is "Cyril, a pilgrim".
   static who(t: Pick<TargetRow, 'name' | 'many'>): string {
     const [name, ...rest] = t.name.split(', '), role = rest.join(', ');
@@ -259,8 +261,8 @@ export class Narrator {
     if (role.toLowerCase().includes(name!.toLowerCase())) { return role; }
     // A role that already says who they are ("the smith", "who speaks for Harrehes", "Master Harker's clerk") takes no
     // article ("a Master Harker's clerk": Liberty of the Ice friction 11). Nor does one of many ("hounds of knitted
-    // bone").
-    if (/^(the|a|an|his|her|their|your|my|our|who|whose) /i.test(role) || this.owned.test(role) || t.many) {
+    // bone"), nor one that begins where they are from or what they are in ("an of the Old Shift": the Lull's 6).
+    if (this.bare.test(role) || this.owned.test(role) || t.many) {
       return `${name}, ${role}`;
     }
     return `${name}, ${this.offices.test(role) ? 'the' : /^[aeiou]/i.test(role) ? 'an' : 'a'} ${role}`;
@@ -300,9 +302,13 @@ export class Narrator {
     // by how the place has become (night on the crest) before what broke it off (the Mower come up onto it).
     const changing = /^change_thing/.test(action?.schema ?? ''), waiting = /^wait/.test(action?.schema ?? '');
     const seen = (told.moved ? [] : feedback.observations).map(text => ({ text, kind: 'change' as const }));
+    // A chapter opens the telling, of a walk or a wait; one come to by an act that passed the time follows the act (the
+    // Grand Tour's "Sennet wakes to the winch-gang's horn" was told before the night's bed and supper: GTR-X05).
+    const opened = chapter ? [{ text: chapter.text, kind: 'opening' as const }] : [], first = told.moved || waiting;
     const lines: ExchangeLine[] = [
-      ...chapter ? [{ text: chapter.text, kind: 'opening' as const }] : [],
+      ...first ? opened : [],
       ...waiting ? seen.filter(l => l.text !== feedback.result) : [], ...changing ? events : [], ...result,
+      ...first ? [] : opened,
       ...spoken.map(text => ({ text, kind: 'speech' as const })),
       ...changing || fight ? [] : events,
       ...voiced,

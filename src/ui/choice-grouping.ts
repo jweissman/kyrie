@@ -1,5 +1,6 @@
 import type { Operator, Predicate } from '../lang/module';
 import { PurchaseCompare } from './purchase-compare';
+import { PronounWords } from './pronoun-words';
 import type { World } from '../lang/world';
 import { ActionTime } from '../campaign/action-time';
 import { FictionalTime } from '../campaign/fictional-time';
@@ -61,14 +62,14 @@ export class ChoiceGrouping {
     change_thing_paying: { slot: 'target', param: 'thing', path: ['{how}'] },
     // Not "Elen's the Abbess's Eye" (Thrume's B4): a thing is said by its own name, and who carries it beside it.
     change_thing_spending: { slot: 'target', param: 'thing', path: ['{how}', 'using {spent}'], doer: 'carrier' },
-    lead: { slot: 'target', param: 'companion', path: ['Ask them to come with you'] },
+    lead: { slot: 'target', param: 'companion', path: ['Ask {them} to come with you'] },
     buy_goods: { slot: 'target', param: 'seller', path: ['Buy', 'A {goods} — {goodsfee} coin'] },
     take_lodging: { slot: 'target', param: 'host', path: ['Take {service} — {fee} coin'] },
     take_healing: { slot: 'target', param: 'healer', path: ['Ask for {service} — {fee} coin'] },
     take_raising: { slot: 'target', param: 'healer', path: ['Ask them to raise {lost} from the dead — {fee} coin'] },
     camp: { slot: 'camp', path: ['Make camp for the night'] },
-    part_ways: { slot: 'target', param: 'companion', path: ['Let them make their own way'] },
-    send_off: { slot: 'target', param: 'companion', path: ['Tell them not to wait for you'] },
+    part_ways: { slot: 'target', param: 'companion', path: ['Let {them} make {their} own way'] },
+    send_off: { slot: 'target', param: 'companion', path: ['Tell {them} not to wait for you'] },
     walk: { slot: 'exit', param: 'destination', path: ['Walk'] },
     cross: { slot: 'exit', param: 'destination', path: ['Go past {defender}'], passage: 'guarded', via: '{defender}' },
     slip_past: { slot: 'exit', param: 'destination', path: ['Slip past {gatekeeper}'], passage: 'guarded', via: '{gatekeeper}' },
@@ -336,6 +337,7 @@ export class ChoiceGrouping {
       key === 'goodsfee' ? String(data.context.fees?.get(`${data.b.seller}:${data.b.goods}`) ?? 0) :
       key === 'sellfee' ? String(data.context.fees?.get(`pays:${data.b.buyer}:${data.b.form}`) ?? 0) :
       key === 'worthfee' ? String(data.context.fees?.get(`worth:${data.b.form}`) ?? 0) :
+      key === 'them' || key === 'their' ? PronounWords.of(data.context.world, data.b.companion, key) :
       key === 'versus' ? (data.context.world ? PurchaseCompare.versus(data.context.world, data.b.form ?? '',
         data.b.recipient ?? '', data.context.names) : '') :
         data.context.names.get(data.b[key] ?? key) ?? data.b[key] ?? key);

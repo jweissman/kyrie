@@ -50,10 +50,12 @@ describe('the canon', () => {
     expect(entities.get('house_upper_threshold')?.name).toBe('the first gallery');
     expect(entities.get('outer_cthell')?.name).toBe('Cthell');
     expect(entities.get('court_of_waters')?.space?.parent).toBe('inner_water_region');
-    // Orsino's outer planes carry their laws, and the elemental planes none.
+    // Orsino's outer planes carry their laws, and of the elemental planes the Fire and the Air theirs (the Grand
+    // Tour's).
     const law = (place: string, l: string) => c.world.test(ModuleWriter.call('law', place, l));
     expect([law('outer_gehenna', 'plane_gehenna'), law('outer_cthell', 'plane_cthelll')]).toEqual([true, true]);
-    expect(c.world.related('law').filter(r => r.args[0]!.startsWith('inner_'))).toEqual([]);
+    expect(c.world.related('law').filter(r => r.args[0]!.startsWith('inner_')).map(r => r.args.join(':')))
+      .toEqual(['inner_fire:plane_fire', 'inner_air:plane_air']);
     expect(c.world.test(ModuleWriter.call('partOf', 'house_of_doors', 'mages_college'))).toBe(true);
     expect(c.world.related('befell')).toEqual([]);
   }, 120000);

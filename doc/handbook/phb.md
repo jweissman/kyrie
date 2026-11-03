@@ -1603,6 +1603,27 @@ Each thing is carried by one companion. A weapon or armour works only for a call
 | Darkwood Staff | 1d6 | equipment |  |  |  | Not playable |
 | dart | 1d3 | piercing | dart | light | missile | Faithful |
 | falchion | 2d4 | slashing | blade | medium |  | Faithful |
+| fine battleaxe | 1d8+1 | slashing | axe | heavy |  | Kyr |
+| fine broadsword | 2d4+1 | slashing | blade | medium |  | Kyr |
+| fine claymore | 2d4+1 | slashing | blade | heavy |  | Kyr |
+| fine club | 1d4+1 | bludgeoning | club | light |  | Kyr |
+| fine cutlass | 1d6+1 | slashing | blade | light |  | Kyr |
+| fine dagger | 1d4+1 | piercing | blade | light |  | Kyr |
+| fine dart | 1d3+1 | piercing | dart | light | missile | Kyr |
+| fine falchion | 2d4+1 | slashing | blade | medium |  | Kyr |
+| fine greatsword | 1d10+1 | slashing | blade | heavy |  | Kyr |
+| fine halberd | 1d10+1 | slashing | polearm | heavy |  | Kyr |
+| fine handaxe | 1d6+1 | slashing | axe | light |  | Kyr |
+| fine javelin | 1d6+1 | piercing | polearm | light | sets against a charge | Kyr |
+| fine longbow | 1d6+1 | piercing | bow | medium | missile | Kyr |
+| fine longsword | 1d8+1 | slashing | blade | medium |  | Kyr |
+| fine morningstar | 2d4+1 | piercing | morningstar | medium |  | Kyr |
+| fine scimitar | 1d8+1 | slashing | blade | medium |  | Kyr |
+| fine shortbow | 1d4+1 | piercing | bow | light | missile | Kyr |
+| fine shortsword | 1d6+1 | slashing | blade | light |  | Kyr |
+| fine sling | 1d4+1 | bludgeoning | sling | light | missile | Kyr |
+| fine spear | 1d6+1 | piercing | spear | light | sets against a charge | Kyr |
+| fine staff | 1d6+1 | bludgeoning | staff | medium |  | Kyr |
 | glaive | 1d10+1 | slashing | polearm | heavy | sets against a charge | Faithful |
 | greatclub | 1d8+2 | bludgeoning | club | heavy |  | Faithful |
 | greatsword | 1d10 | slashing | blade | heavy |  | Faithful |
@@ -4178,6 +4199,14 @@ Used: You are lamplit for 6 hours.
 
 > A stoppered flask of lamp oil: enough to keep a lantern burning six hours.
 
+#### Pack mule
+
+*Kyr · gear* · `item:pack_mule`
+
+- Worth: 30
+
+> A patient grey mule with a pair of panniers and opinions about bridges. Led by one of the company, it carries what they cannot: thirty more of weight before anyone goes slowly.
+
 #### Jar of noonlight
 
 *Kyr · equipment* · `item:noonlight`
@@ -4331,7 +4360,7 @@ Each creature has one action a turn. Haste adds one; slow takes one away, but ne
 
 Some abilities must be prepared: Charge needs a turn of preparation, after which it is the only thing the warrior may do; Backstab needs the thief hidden. Some creatures wind up a great blow a turn ahead, and the company sees it coming; a stun loses the blow.
 
-Brought to nothing, a creature saves against death (DC 25). It stays at 1 hit point if it succeeds, and falls if it does not. A companion who falls may not get up. Fleeing is the whole company's: an even chance, and the fight ends.
+Brought to nothing, a creature saves against death (DC 25). It stays at 1 hit point if it succeeds, and falls if it does not. A companion who falls may not get up. Fleeing is the whole company's, and the fight ends: 1 in 2, then 3 in 4, then sure, and sure in the moment before a fight that came at the company closes.
 
 | Level | 1 | 3 | 5 | 7 | 9 | 11 | 13 | 15 | 17 | 19 |
 |---|---|---|---|---|---|---|---|---|---|---|
@@ -6785,7 +6814,9 @@ Abilities that are not spells: a calling's, a feat's or an item's. They cost not
 
 *Faithful · technique* · `ability:arrow_volley`
 
-3d4 (3–12) piercing damage to every enemy (halved if resisted; may cause bleeding: a Constitution save against 15 avoids it). Bleeding: takes 1d2 (1–2) bleed damage each turn.
+- Again after: 3 turns
+
+3d4 (3–12) piercing damage to every enemy (halved if resisted; may cause bleeding: a Constitution save against 15 avoids it). Bleeding: takes 1d2 (1–2) bleed damage each turn. Again after 3 turns.
 
 > Shoot a volley of arrows.
 
@@ -6793,9 +6824,10 @@ Abilities that are not spells: a calling's, a feat's or an item's. They cost not
 
 *Faithful · technique* · `ability:backstab`
 
+- Again after: 3 turns
 - Needs: the holder hidden
 
-End hidden on yourself; weapon attack against one enemy; 1d6 (1–6) piercing damage to it (may cause bleeding: a Constitution save against 15 avoids it). Bleeding: takes 1d2 (1–2) bleed damage each turn.
+End hidden on yourself; weapon attack against one enemy; 1d6 (1–6) piercing damage to it (may cause bleeding: a Constitution save against 15 avoids it). Bleeding: takes 1d2 (1–2) bleed damage each turn. Again after 3 turns.
 
 > Attack an enemy from behind, dealing 1d6 extra damage on a successful hit.
 
@@ -6803,9 +6835,10 @@ End hidden on yourself; weapon attack against one enemy; 1d6 (1–6) piercing da
 
 *Faithful · technique* · `ability:black_ritual`
 
+- Again after: 3 turns
 - Not while: summoning
 
-You are summoning for 3 turns. Summoning: when it ends, Summon Lich, at no cost.
+You are summoning for 3 turns. Summoning: when it ends, Summon Lich, at no cost. Again after 3 turns.
 
 > A profane ritual summons a monstrous undead creature to serve you.
 
@@ -6813,7 +6846,9 @@ You are summoning for 3 turns. Summoning: when it ends, Summon Lich, at no cost.
 
 *Faithful · technique* · `ability:bleat`
 
-1 sonic damage to one enemy (may cause deafened: a Constitution save against 15 avoids it; may cause migraine: a Wisdom save against 15 avoids it). Deafened: −2 to hit, 2 easier to hit, −2 damage, −1 to every save, resists 50% of sonic. Migraine: takes 200% more radiant, takes 200% more sonic.
+- Again after: 3 turns
+
+1 sonic damage to one enemy (may cause deafened: a Constitution save against 15 avoids it; may cause migraine: a Wisdom save against 15 avoids it). Deafened: −2 to hit, 2 easier to hit, −2 damage, −1 to every save, resists 50% of sonic. Migraine: takes 200% more radiant, takes 200% more sonic. Again after 3 turns.
 
 > A pathetic bleat that does minimal damage.
 
@@ -6839,6 +6874,8 @@ Call the beast your people keep company with, to fight for you until the fight e
 
 *Not playable · technique* · `ability:chaos_hammer`
 
+- Again after: 3 turns
+
 > Give yourself radiant status and deal damage to two enemies.
 
 *Not playable — effect:damage: Effect target enemy is not supported.*
@@ -6847,9 +6884,10 @@ Call the beast your people keep company with, to fight for you until the fight e
 
 *Faithful · technique* · `ability:charge`
 
+- Again after: 3 turns
 - Needs: the holder preparing to charge
 
-End preparing to charge on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may cause stunned: a Constitution save against 15 avoids it). Stunned: −2 to every roll, cannot act.
+End preparing to charge on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may cause stunned: a Constitution save against 15 avoids it). Stunned: −2 to every roll, cannot act. Again after 3 turns.
 
 > Charge at an enemy, dealing 3d8+1 damage. Each level adds +1 to damage.
 
@@ -6857,7 +6895,9 @@ End preparing to charge on yourself; 3d8 + 1 + level bludgeoning damage to one e
 
 *Faithful · technique* · `ability:cleave`
 
-Weapon attack against one enemy, carrying a killing blow on to another.
+- Again after: 3 turns
+
+Weapon attack against one enemy, carrying a killing blow on to another. Again after 3 turns.
 
 > Sweeping attack strikes an adjacent enemy if lethal damage is dealt.
 
@@ -6865,7 +6905,9 @@ Weapon attack against one enemy, carrying a killing blow on to another.
 
 *Faithful · technique* · `ability:confound`
 
-One enemy is confused for 3 turns (a Wisdom save against 18 + level + bonusSpellDC avoids it). Confused: acts at random.
+- Again after: 3 turns
+
+One enemy is confused for 3 turns (a Wisdom save against 18 + level + bonusSpellDC avoids it). Confused: acts at random. Again after 3 turns.
 
 > Confuse an enemy, causing them to act erratically.
 
@@ -6873,15 +6915,18 @@ One enemy is confused for 3 turns (a Wisdom save against 18 + level + bonusSpell
 
 *Faithful · technique* · `ability:countdown`
 
+- Again after: 3 turns
 - Not while: ticking
 
-You are ticking for 3 turns. Ticking: when it ends, Detonation, at no cost.
+You are ticking for 3 turns. Ticking: when it ends, Detonation, at no cost. Again after 3 turns.
 
 > Start a countdown that will detonate after 3 rounds.
 
 ### Deactivate Device
 
 *Not playable · technique* · `ability:disable`
+
+- Again after: 3 turns
 
 > Attempt to disable a mechanical trap or device.
 
@@ -6901,6 +6946,8 @@ You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
 *Not playable · technique* · `ability:detonation`
 
+- Again after: 3 turns
+
 > A fiery explosion.
 
 *Not playable — effect:damage: Effect target enemies is not supported.*
@@ -6909,7 +6956,9 @@ You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
 *Faithful · technique* · `ability:dig_in`
 
-You gain dug in for 3 turns. Dug In: −2 to hit, 2 harder to hit, +3 to every save.
+- Again after: 3 turns
+
+You gain dug in for 3 turns. Dug In: −2 to hit, 2 harder to hit, +3 to every save. Again after 3 turns.
 
 > Brace yourself, gaining +2 AC and +2 to saving throws for 4 rounds.
 
@@ -6917,7 +6966,9 @@ You gain dug in for 3 turns. Dug In: −2 to hit, 2 harder to hit, +3 to every s
 
 *Faithful · technique* · `ability:dirty_trick`
 
-One enemy is blinded for 3 turns (a Dexterity save against 14 + level + bonusSpellDC avoids it). Blinded: −4 to hit, −10 evasion, −2 to every roll.
+- Again after: 3 turns
+
+One enemy is blinded for 3 turns (a Dexterity save against 14 + level + bonusSpellDC avoids it). Blinded: −4 to hit, −10 evasion, −2 to every roll. Again after 3 turns.
 
 > Perform a dirty trick to blind or entangle an enemy, giving them -4 to hit for 2 rounds.
 
@@ -6925,7 +6976,9 @@ One enemy is blinded for 3 turns (a Dexterity save against 14 + level + bonusSpe
 
 *Faithful · technique* · `ability:dodge`
 
-You are dodging for 3 turns. Dodging: 2 harder to hit, +5 evasion.
+- Again after: 3 turns
+
+You are dodging for 3 turns. Dodging: 2 harder to hit, +5 evasion. Again after 3 turns.
 
 > Focus on dodging attacks, granting you evasion and enhanced AC.
 
@@ -6943,7 +6996,9 @@ Every enemy is distracted for a turn (a Wisdom save against 13 avoids it). Distr
 
 *Faithful · technique* · `ability:engulf`
 
-One enemy is engulfed for 3 turns (a Constitution save against 16 + level + bonusSpellDC avoids it). Engulfed: cannot act, takes 2d6 (2–12) acid damage each turn.
+- Again after: 3 turns
+
+One enemy is engulfed for 3 turns (a Constitution save against 16 + level + bonusSpellDC avoids it). Engulfed: cannot act, takes 2d6 (2–12) acid damage each turn. Again after 3 turns.
 
 > Absorb an enemy into the ooze, dealing 6d6 acid damage over 3 rounds.
 
@@ -6951,7 +7006,9 @@ One enemy is engulfed for 3 turns (a Constitution save against 16 + level + bonu
 
 *Faithful · technique* · `ability:ensnare`
 
-One enemy is entangled for 3 turns (a Dexterity save against 12 + level + bonusSpellDC avoids it). Entangled: −2 to hit, −5 evasion, −5 initiative, Dexterity −5.
+- Again after: 3 turns
+
+One enemy is entangled for 3 turns (a Dexterity save against 12 + level + bonusSpellDC avoids it). Entangled: −2 to hit, −5 evasion, −5 initiative, Dexterity −5. Again after 3 turns.
 
 > Entangle an enemy with vines, reducing their speed and giving them -2 to hit for 3 rounds.
 
@@ -6979,7 +7036,7 @@ One ally is fireproof for 2 hours. Fireproof: resists 50% of fire.
 
 *Adapted · technique* · `ability:flee`
 
-Try to escape the fight (an even chance).
+Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 *Adapted: Orsino offers player-side combatants Flee every turn: an even chance (Math.random() < 0.5; Kyr rolls from the seeded stream) to end the fight. Kyr's company gives ground with each try that fails: three in four the second time, sure the third; and in the first round of a fight that fell on it unwarned, which it saw begin, it acts first and gets away for certain. Orsino's monster Escape skill rolls a will save that, as written for fear effects, makes a successful save fail; Kyr uses the player rule's even chance for every creature on the other side that flees.*
 
@@ -6987,7 +7044,9 @@ Try to escape the fight (an even chance).
 
 *Faithful · technique* · `ability:flurry_of_blows`
 
-Weapon attack against one enemy; weapon attack against it; weapon attack against it; weapon attack against it.
+- Again after: 3 turns
+
+Weapon attack against one enemy; weapon attack against it; weapon attack against it; weapon attack against it. Again after 3 turns.
 
 > Deliver a rapid series of powerful strikes to an enemy.
 
@@ -7003,7 +7062,9 @@ One ally is guarded for 2 turns. Guarded: someone stands in front of them and ta
 
 *Faithful · technique* · `ability:hide`
 
-You are hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion; and on attacking, it ends.
+- Again after: 3 turns
+
+You are hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion; and on attacking, it ends. Again after 3 turns.
 
 > Attempt to hide from enemies.
 
@@ -7011,7 +7072,9 @@ You are hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion; and on attacki
 
 *Faithful · technique* · `ability:hunters_mark`
 
-One enemy is marked as prey for 3 turns (a Wisdom save against 15 + level + bonusSpellDC avoids it). Marked as Prey: 2 easier to hit; and when attacked, 1d8 (1–8) true damage to whoever has it.
+- Again after: 3 turns
+
+One enemy is marked as prey for 3 turns (a Wisdom save against 15 + level + bonusSpellDC avoids it). Marked as Prey: 2 easier to hit; and when attacked, 1d8 (1–8) true damage to whoever has it. Again after 3 turns.
 
 > Mark an enemy, giving them -2 AC and +1d4 damage from all attacks for 5 rounds.
 
@@ -7019,7 +7082,9 @@ One enemy is marked as prey for 3 turns (a Wisdom save against 15 + level + bonu
 
 *Faithful · technique* · `ability:hymn_of_valor`
 
-Every ally gains heroism for 3 turns. Heroism: +2 to hit, +2 damage, +3 to every save, immune to fear.
+- Again after: 3 turns
+
+Every ally gains heroism for 3 turns. Heroism: +2 to hit, +2 damage, +3 to every save, immune to fear. Again after 3 turns.
 
 > Sing a stirring hymn that bolsters your allies' courage.
 
@@ -7027,7 +7092,9 @@ Every ally gains heroism for 3 turns. Heroism: +2 to hit, +2 damage, +3 to every
 
 *Faithful · technique* · `ability:infect`
 
-Inflict Disease, at no cost.
+- Again after: 3 turns
+
+Inflict Disease, at no cost. Again after 3 turns.
 
 > Infect an enemy with a virulent disease.
 
@@ -7071,7 +7138,9 @@ Weapon attack against one enemy.
 
 *Faithful · technique* · `ability:overwatch`
 
-You are overwatching for a turn. Overwatching: +2 damage; and against an enemy who strikes in reach, weapon attack against that enemy, and it ends.
+- Again after: 3 turns
+
+You are overwatching for a turn. Overwatching: +2 damage; and against an enemy who strikes in reach, weapon attack against that enemy, and it ends. Again after 3 turns.
 
 > Make an attack of opportunity against the first enemy that melee attacks you or an ally before your next turn.
 
@@ -7079,7 +7148,9 @@ You are overwatching for a turn. Overwatching: +2 damage; and against an enemy w
 
 *Faithful · technique* · `ability:poison_bite`
 
-1d4 (1–4) poison damage to one enemy (may cause poison: a Constitution save against 15 avoids it). Poison: takes 1d4 (1–4) true damage each turn.
+- Again after: 3 turns
+
+1d4 (1–4) poison damage to one enemy (may cause poison: a Constitution save against 15 avoids it). Poison: takes 1d4 (1–4) true damage each turn. Again after 3 turns.
 
 > Bite an enemy, dealing 1d4 damage and poisoning them.
 
@@ -7087,7 +7158,9 @@ You are overwatching for a turn. Overwatching: +2 damage; and against an enemy w
 
 *Faithful · technique* · `ability:poison_weapon`
 
-You are poisoning blade for 3 turns. poisoning blade: on landing a blow, the one struck gains poison for 3 turns (a Constitution save against 15 + level + bonusSpellDC avoids it).
+- Again after: 3 turns
+
+You are poisoning blade for 3 turns. poisoning blade: on landing a blow, the one struck gains poison for 3 turns (a Constitution save against 15 + level + bonusSpellDC avoids it). Again after 3 turns.
 
 > Coat your weapon in poison for your next 2 attacks.
 
@@ -7105,7 +7178,9 @@ You are dodging for 2 turns. Dodging: 2 harder to hit, +5 evasion. Again after 3
 
 *Faithful · technique* · `ability:prepare_charge`
 
-You are preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage; and the next turn can only be Charge, nothing else.
+- Again after: 3 turns
+
+You are preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage; and the next turn can only be Charge, nothing else. Again after 3 turns.
 
 > Prepare to charge on your next turn, gaining +2 to hit and +2 damage.
 
@@ -7113,7 +7188,9 @@ You are preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 dama
 
 *Faithful · technique* · `ability:enrage`
 
-You are raging for 3 turns. Raging: +1 to hit, 3 easier to hit, +2 damage.
+- Again after: 3 turns
+
+You are raging for 3 turns. Raging: +1 to hit, 3 easier to hit, +2 damage. Again after 3 turns.
 
 > Enter a frenzied state.
 
@@ -7129,7 +7206,9 @@ Weapon attack against one enemy.
 
 *Faithful · technique* · `ability:rapid_fire`
 
-Weapon attack against one enemy; weapon attack against it; weapon attack against it; weapon attack against it; weapon attack against it.
+- Again after: 3 turns
+
+Weapon attack against one enemy; weapon attack against it; weapon attack against it; weapon attack against it; weapon attack against it. Again after 3 turns.
 
 > Quickly fire your weapon multiple times in swift succession.
 
@@ -7137,7 +7216,9 @@ Weapon attack against one enemy; weapon attack against it; weapon attack against
 
 *Faithful · technique* · `ability:rapid_strike`
 
-Weapon attack against one enemy; weapon attack against it; weapon attack against it.
+- Again after: 3 turns
+
+Weapon attack against one enemy; weapon attack against it; weapon attack against it. Again after 3 turns.
 
 > Quickly inflict damage.
 
@@ -7145,7 +7226,9 @@ Weapon attack against one enemy; weapon attack against it; weapon attack against
 
 *Faithful · technique* · `ability:reckless_attack`
 
-Weapon attack against one enemy; weapon attack against it; you are reckless for 3 turns (a Wisdom save against 15 + level + bonusSpellDC avoids it). Reckless: −2 to hit, 2 easier to hit.
+- Again after: 3 turns
+
+Weapon attack against one enemy; weapon attack against it; you are reckless for 3 turns (a Wisdom save against 15 + level + bonusSpellDC avoids it). Reckless: −2 to hit, 2 easier to hit. Again after 3 turns.
 
 > Make a powerful double attack that deals +2 damage each, but you take -2 to hit and +2 AC for 2 rounds.
 
@@ -7173,7 +7256,9 @@ You are riposting for 3 turns. Riposting: 1 easier to hit, +3 evasion; and when 
 
 *Faithful · technique* · `ability:roundhouse`
 
-1d4 + 1 + round((level / 3)) bludgeoning damage to every enemy (may cause stunned: a Constitution save against 15 avoids it). Stunned: −2 to every roll, cannot act.
+- Again after: 3 turns
+
+1d4 + 1 + round((level / 3)) bludgeoning damage to every enemy (may cause stunned: a Constitution save against 15 avoids it). Stunned: −2 to every roll, cannot act. Again after 3 turns.
 
 > Make a powerful kick that strikes all enemies.
 
@@ -7191,7 +7276,9 @@ Every enemy is frightened for 3 turns (a Wisdom save against 12 + level + bonusS
 
 *Faithful · technique* · `ability:second_wind`
 
-Heal yourself for 1d10 + level.
+- Again after: 3 turns
+
+Heal yourself for 1d10 + level. Again after 3 turns.
 
 > Regain 1d10 + level hit points.
 
@@ -7199,9 +7286,10 @@ Heal yourself for 1d10 + level.
 
 *Faithful · technique* · `ability:set_spear`
 
+- Again after: 3 turns
 - Needs: a weapon that sets against a charge
 
-You are braced for 3 turns. Braced: against an enemy who charges, 3d8 + 1 (4–25) piercing damage to that enemy (may cause bleeding: a Constitution save against 15 avoids it).
+You are braced for 3 turns. Braced: against an enemy who charges, 3d8 + 1 (4–25) piercing damage to that enemy (may cause bleeding: a Constitution save against 15 avoids it). Again after 3 turns.
 
 > Brace your spear to intercept a charging enemy, dealing 3d8 damage and granting +4 to hit when they charge you next turn.
 
@@ -7219,7 +7307,9 @@ You are braced for 3 turns. Braced: against an enemy who charges, 3d8 + 1 (4–2
 
 *Faithful · technique* · `ability:smash`
 
-2d6 + level bludgeoning damage to one enemy (may cause stunned: a Constitution save against 15 avoids it). Stunned: −2 to every roll, cannot act.
+- Again after: 3 turns
+
+2d6 + level bludgeoning damage to one enemy (may cause stunned: a Constitution save against 15 avoids it). Stunned: −2 to every roll, cannot act. Again after 3 turns.
 
 > Unleash a powerful blow.
 
@@ -7227,7 +7317,9 @@ You are braced for 3 turns. Braced: against an enemy who charges, 3d8 + 1 (4–2
 
 *Faithful · technique* · `ability:smoke_screen`
 
-The whole company is hidden for 6 turns. Hidden: 4 harder to hit, +10 evasion; and on attacking, it ends.
+- Again after: 3 turns
+
+The whole company is hidden for 6 turns. Hidden: 4 harder to hit, +10 evasion; and on attacking, it ends. Again after 3 turns.
 
 > Create a smoke screen that grants all allies within it evasion and 4 AC for 3 rounds.
 
@@ -7235,7 +7327,9 @@ The whole company is hidden for 6 turns. Hidden: 4 harder to hit, +10 evasion; a
 
 *Faithful · technique* · `ability:snipe`
 
-Weapon attack against one enemy.
+- Again after: 3 turns
+
+Weapon attack against one enemy. Again after 3 turns.
 
 > Take careful aim to strike a vital spot.
 
@@ -7243,7 +7337,9 @@ Weapon attack against one enemy.
 
 *Faithful · technique* · `ability:spread_disease`
 
-Every enemy is diseased for 3 turns (a Constitution save against 16 + level + bonusSpellDC avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn.
+- Again after: 3 turns
+
+Every enemy is diseased for 3 turns (a Constitution save against 16 + level + bonusSpellDC avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. Again after 3 turns.
 
 > Spread a debilitating disease to all nearby enemies.
 
@@ -7251,7 +7347,9 @@ Every enemy is diseased for 3 turns (a Constitution save against 16 + level + bo
 
 *Faithful · technique* · `ability:vigor_up`
 
-You are vigorous for 5 turns. Vigorous: +1 to hit, +1 damage, +1 to every save, Constitution +2, 10 more hit points (spent first), a telling blow on 18 or more.
+- Again after: 3 turns
+
+You are vigorous for 5 turns. Vigorous: +1 to hit, +1 damage, +1 to every save, Constitution +2, 10 more hit points (spent first), a telling blow on 18 or more. Again after 3 turns.
 
 > Boost your vitality, granting +2 to all healing received for the next 5 rounds.
 
@@ -7259,7 +7357,9 @@ You are vigorous for 5 turns. Vigorous: +1 to hit, +1 damage, +1 to every save, 
 
 *Faithful · technique* · `ability:stomp`
 
-1d6 (1–6) bludgeoning damage to every enemy (may cause stunned: a Constitution save against 15 avoids it); every enemy is prone for 3 turns (a Dexterity save against 14 + level + bonusSpellDC avoids it). Stunned: −2 to every roll, cannot act. Prone: Dexterity −2, cannot act.
+- Again after: 3 turns
+
+1d6 (1–6) bludgeoning damage to every enemy (may cause stunned: a Constitution save against 15 avoids it); every enemy is prone for 3 turns (a Dexterity save against 14 + level + bonusSpellDC avoids it). Stunned: −2 to every roll, cannot act. Prone: Dexterity −2, cannot act. Again after 3 turns.
 
 > Stomp the ground, dealing 1d6 bludgeoning damage to all adjacent enemies and knocking them prone.
 
@@ -7267,7 +7367,9 @@ You are vigorous for 5 turns. Vigorous: +1 to hit, +1 damage, +1 to every save, 
 
 *Faithful · technique* · `ability:sweep`
 
-Weapon attack against one enemy; it is prone for 3 turns (a Dexterity save against 15 + level + bonusSpellDC avoids it). Prone: Dexterity −2, cannot act.
+- Again after: 3 turns
+
+Weapon attack against one enemy; it is prone for 3 turns (a Dexterity save against 15 + level + bonusSpellDC avoids it). Prone: Dexterity −2, cannot act. Again after 3 turns.
 
 > Attempt to knock an enemy prone with a wide swing of your weapon.
 
@@ -7275,7 +7377,9 @@ Weapon attack against one enemy; it is prone for 3 turns (a Dexterity save again
 
 *Faithful · technique* · `ability:taunt`
 
-One enemy is taunted for 3 turns (a Wisdom save against 18 + level + bonusSpellDC avoids it). Taunted: whoever has it can strike at nobody but whoever gave it.
+- Again after: 3 turns
+
+One enemy is taunted for 3 turns (a Wisdom save against 18 + level + bonusSpellDC avoids it). Taunted: whoever has it can strike at nobody but whoever gave it. Again after 3 turns.
 
 > Taunt an enemy, forcing them to target you on their next turn.
 
@@ -7283,7 +7387,9 @@ One enemy is taunted for 3 turns (a Wisdom save against 18 + level + bonusSpellD
 
 *Faithful · technique* · `ability:trickfire`
 
-1d3 (1–3) fire damage to every enemy (halved if resisted; may cause burning: a Constitution save against 15 avoids it); every enemy is confused for 3 turns (a Wisdom save against 15 + level + bonusSpellDC avoids it). Burning: takes 1d3 (1–3) fire damage each turn. Confused: acts at random.
+- Again after: 3 turns
+
+1d3 (1–3) fire damage to every enemy (halved if resisted; may cause burning: a Constitution save against 15 avoids it); every enemy is confused for 3 turns (a Wisdom save against 15 + level + bonusSpellDC avoids it). Burning: takes 1d3 (1–3) fire damage each turn. Confused: acts at random. Again after 3 turns.
 
 > Toss a firebomb that damages and confuses enemies.
 
@@ -7291,7 +7397,9 @@ One enemy is taunted for 3 turns (a Wisdom save against 18 + level + bonusSpellD
 
 *Faithful · technique* · `ability:vexate`
 
-Hex, at no cost.
+- Again after: 3 turns
+
+Hex, at no cost. Again after 3 turns.
 
 > Cast a minor hex that irritates and distracts an enemy.
 
@@ -9243,6 +9351,22 @@ Resists 50% of lightning.
 - Resisted by: a will save
 
 > Compelled to attack the taunter if able.
+
+### the Air
+
+*Kyr · lasts beyond a fight* · `condition:plane_air`
+
+Spells -1 harder to resist.
+
+> The law of the Plane of Air: no ground and no stillness, and every spell flung on a wind that is not the caster's.
+
+### the Fire
+
+*Kyr · lasts beyond a fight* · `condition:plane_fire`
+
+Spells -1 harder to resist.
+
+> The law of the Plane of Fire: heat that leans on every breath, and a working of the will that burns through what would hold it.
 
 ### The Unlit's law
 

@@ -59,10 +59,10 @@ describe('a first expedition, played through', () => {
     // A night at the inn is reckoned from waking: the day's eighteen hours begin now, not at bedtime.
     const world = s.campaign.world, n = (f: string, a: string) => world.number(ModuleWriter.call(f, a));
     expect(n('lastSlept', 'party')).toBe(n('watch', 'clock'));
-    // What the trip was worth to her: its fights, at half of Orsino's reward, and half what she sold was worth (a
-    // fifth of what the makers' things had been worth: the play-structure investigation's PT-02).
+    // What the trip was worth to her: its fights, at half of Orsino's reward, ten for each foe and not the square of
+    // their number (REV-22), and a quarter of the worth of what she found (the play-structure investigation's PT-02).
     const wenna = s.campaign.readout.creatures.find(c => c.name === 'Wenna')!;
-    expect(wenna.state.experience).toBeGreaterThan(150);
+    expect(wenna.state.experience).toBeGreaterThan(100);
     expect(s.campaign.readout.creatures.find(c => c.name === 'Thoradin')!.state.hp).toBeGreaterThan(0);
     const again = await Expedition.start();
     await again.replay(s.transcript.steps);

@@ -8,6 +8,8 @@ describe('a role said after a name', () => {
   it('takes the article it wants, and none it does not', () => {
     expect(Narrator.who({ name: 'Eamon, innkeeper' })).toBe('Eamon, the innkeeper');
     expect(Narrator.who({ name: 'Cyril, pilgrim' })).toBe('Cyril, a pilgrim');
+    // One that says where they are from takes no article (the Lull's 6: "an of the Old Shift").
+    expect(Narrator.who({ name: 'Teg, of the Old Shift' })).toBe('Teg, of the Old Shift');
     expect(Narrator.who({ name: 'Ida, apothecary' })).toBe('Ida, an apothecary');
     expect(Narrator.who({ name: "Silas Kemble, Master Harker's clerk, thin and ink-stained" }))
       .toBe("Silas Kemble, Master Harker's clerk, thin and ink-stained");
