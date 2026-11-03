@@ -9,6 +9,7 @@ import { Expressions } from './expressions';
 import { Effects, type EffectContext } from './effects';
 import { Targeting } from './targeting';
 import { Fighting } from './rules/fighting';
+import { Morale } from './rules/morale';
 import { Tactics } from './tactics';
 import { Quarry } from './quarry';
 import { ItemCatalog } from './item-catalog';
@@ -41,10 +42,15 @@ export class Battle {
   private readonly moment?: Moment;
   private rounds = 0;
   private held = 0;
+  // What the fight is for when it is not lives (see Morale), who stood as it began, and whether the band broke.
+  private readonly terms: NonNullable<Scenario['terms']>;
+  private readonly upright: Set<string>;
+  private broke = false;
   constructor(scenario: Scenario, seed: string, private maxTurns = 500, private lease?: CreatureLease) {
     if (!Number.isSafeInteger(maxTurns) || maxTurns < 1) { throw new Error('Invalid turn limit'); }
     this.moment = scenario.moment;
     this.fighters = structuredClone(scenario.combatants);
+    this.terms = scenario.terms ?? {}; this.upright = new Set(this.fighters.filter(f => f.hp > 0).map(f => f.id));
     // The catalog's abilities are never changed, so a fight over them reads them as they are; others are copied. What
     // the company carries to use up is fought with as abilities of this fight's own (see ItemCatalog.stock).
     const base = scenario.abilities === Content.abilities ? Content.abilities : structuredClone(scenario.abilities);
@@ -80,7 +86,7 @@ export class Battle {
   private static holding(id: string) { return { id, remaining: 1, clock: 'until-removed' as const, source: Battle.held }; }
   static encounter(store: CreatureStore, participants: Pick<EncounterParticipant, 'creatureId' | 'team'>[],
     options: { seed: string; abilities?: ArenaAbility[]; maxTurns?: number; environment?: string; laws?: string[];
-      weary?: string[]; ready?: string[]; moment?: Moment }):
+      weary?: string[]; ready?: string[]; moment?: Moment; terms?: Scenario['terms'] }):
     Battle {
     const lease = store.acquire(participants.map(p => p.creatureId));
     try {
@@ -97,7 +103,8 @@ export class Battle {
           ...options.environment ? { environment: options.environment } : {} };
       });
       return new Battle({ id: 'encounter', combatants, abilities: options.abilities ?? Content.abilities,
-        ...options.moment ? { moment: options.moment } : {} }, options.seed, options.maxTurns ?? 500, lease);
+        ...options.moment ? { moment: options.moment } : {}, ...options.terms ? { terms: options.terms } : {} },
+      options.seed, options.maxTurns ?? 500, lease);
     } catch (error) { lease.release(); throw error; }
   }
   // One in the fight as they came into it, with their pack and arms: what a reckoning from where everyone stands
@@ -348,9 +355,13 @@ export class Battle {
     this.declare();
   }
   private first(id: string): number { return Number(this.fighters.find(f => f.id === id)?.team === 'fighters'); }
-  // Combat.round: a foe that has turned to flight leaves before anyone rolls, and what it summoned goes with it.
+  // Combat.round: a foe that has turned to flight leaves before anyone rolls, and what it summoned goes with it; and
+  // a band that breaks, broken (see Morale).
   private rout() {
-    for (const f of this.fighters.filter(x => x.hp > 0 && x.team !== 'fighters' && Effects.modifiers(x).flee)) {
+    const broken = this.terms.breaks ? Morale.broken(this.fighters, this.departed) : [];
+    if (broken.length) { this.broke = true; }
+    for (const f of new Set([...this.fighters.filter(x => x.hp > 0 && x.team !== 'fighters' && Effects.modifiers(x).flee),
+      ...broken])) {
       this.depart(f);
       this.history.push({ type: 'flee', turn: this.turn, actor: f.id, success: true });
     }
@@ -419,10 +430,14 @@ export class Battle {
     return s.by === guard.id && Effects.status(s.id).guard === true;
   }
   private finishIfEliminated() {
+    if (this.outcome) { return; }
+    const yielded = this.terms.yields
+      && Morale.yielded(this.fighters, this.upright, { events: this.history, turn: this.turn });
+    if (yielded) { this.finish(yielded, 'yielded'); return; }
     const teams = new Set(this.fighters.filter(f => f.hp > 0).map(f => f.team));
-    if (teams.size < 2) { this.finish(teams.values().next().value ?? 'draw', 'elimination'); }
+    if (teams.size < 2) { this.finish(teams.values().next().value ?? 'draw', this.broke ? 'routed' : 'elimination'); }
   }
-  private finish(outcome: Outcome, reason: 'elimination' | 'turn-limit' | 'retreat', fled?: { actor: string; team: Team }) {
+  private finish(outcome: Outcome, reason: Extract<CombatEvent, { type: 'end' }>['reason'], fled?: { actor: string; team: Team }) {
     this.outcome = outcome;
     this.history.push({ type: 'end', turn: this.turn, outcome, reason, ...(fled ? { fled } : {}) });
   }

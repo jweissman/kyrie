@@ -997,7 +997,7 @@
     "faithful": 220,
     "adapted": 25,
     "represented": 49,
-    "kyr": 257,
+    "kyr": 259,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 198
@@ -1010,7 +1010,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 232,
+      "kyr": 234,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -13858,6 +13858,13 @@
    "section": "world-rules/rules-core"
   },
   {
+   "id": "rule:world_core.yields",
+   "title": "yields, breaks",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-core"
+  },
+  {
    "id": "rule:world_core.granted",
    "title": "granted, grantedUntil",
    "status": "kyr",
@@ -14287,6 +14294,13 @@
   {
    "id": "rule:inhabitants.patience",
    "title": "patience",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-inhabitants"
+  },
+  {
+   "id": "rule:inhabitants.confronts",
+   "title": "confronts",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-inhabitants"

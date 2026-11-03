@@ -48,6 +48,12 @@ Module world_core "Bodies, places, time and the shared catalog" {
   Relation within(entity, place).
   Relation closed(place). Relation indoors(place). Relation settled(place).
   Relation peaceable(group). Relation routed(group).
+  // A fight with a band its author says yields (Initially Assert yields(lads).) is a bout, not a killing: it is over at
+  // the first fall, and whoever fell gets up. Beaten, the band is routed; the company beaten is yielded to it. A band
+  // that breaks runs once half of it is down, and is routed. An author whose fight waits on the band's fall reads
+  // routed (the band stays able), and gives it a refuge to go to (Fair Weather's FWR-17, the Quiet in the Sky's
+  // QIS-04, the cold review's REV-16). Any other band fights to the death.
+  Relation yields(group). Relation breaks(group).
   Relation dark().
   Relation witnessedAttack(group, group, group).
   Relation refusesService(group, group).

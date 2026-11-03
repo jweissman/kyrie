@@ -351,7 +351,10 @@ export class Narrator {
   // the event it was); one made of several (two who each gain experience) is an event.
   private static tidy(lines: ExchangeLine[], fight: boolean): ExchangeLine[] {
     const made = lines.map(l => ({ l, text: Narration.tidy([l.text])[0] }));
-    return Narration.tidy(lines.map(l => l.text), fight ? lines.length : 0)
+    // Only the blows are condensed: what a rule said as the fight ended (a captor's, a band's plea) had been taken for
+    // a blow and dropped (Gosse's Company's GOS-13: the company thrown in the river, and never told so).
+    const kept = new Set(made.filter(m => m.l.kind !== 'fight').map(m => m.text!));
+    return Narration.tidy(lines.map(l => l.text), fight ? lines.length : 0, kept)
       .map(text => ({ ...made.find(m => m.text === text)?.l ?? { kind: 'event' as const }, text }));
   }
   // The name of one who has come alone, whose own acts are told to them (see SecondPerson); none for a company.

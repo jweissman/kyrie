@@ -740,7 +740,7 @@ Also kept, without comment: matterOpen, matterDone, at, able, dead, distinct, cl
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 19 | 44 | 15 | 5 | 2 | 8 |
+| 19 | 46 | 15 | 5 | 2 | 8 |
 
 #### ending, reached
 
@@ -801,6 +801,12 @@ How big a settlement is: what can be seen of it from the road, and what it can s
 *Kyr · relation(entity, place)* · `rule:world_core.within`
 
 Someone or something in a place of an area, however deep ("within(party, cherrett_lodging)": the parlour, the stair or her room). Computed, as distinct is, of what is bound: never asserted.
+
+#### yields, breaks
+
+*Kyr · relation(group); relation(group)* · `rule:world_core.yields`
+
+A fight with a band its author says yields (Initially Assert yields(lads).) is a bout, not a killing: it is over at the first fall, and whoever fell gets up. Beaten, the band is routed; the company beaten is yielded to it. A band that breaks runs once half of it is down, and is routed. An author whose fight waits on the band's fall reads routed (the band stays able), and gives it a refuge to go to (Fair Weather's FWR-17, the Quiet in the Sky's QIS-04, the cold review's REV-16). Any other band fights to the death.
 
 #### granted, grantedUntil
 
@@ -1359,6 +1365,12 @@ What drives it off (sunlight, flame), and the price a proud one names.
 *Kyr · measure(group)* · `rule:inhabitants.patience`
 
 Plain words for a creature whose place gives it none, by temperament: temper_words_<temperament>_<what>. The same words for a band of more than one, where they differ. And for one who is someone, not something (a robbers' captain): not "it", and no he or she. The watch it waits until, once it has warned, before it comes at whoever stays: the rest of this one, however many small things are done in it.
+
+#### confronts
+
+*Kyr · query(g: group, c: group)* · `rule:inhabitants.confronts`
+
+A company that yielded to it in a bout (see yields) is not set upon again by it.
 
 #### temper_shies
 

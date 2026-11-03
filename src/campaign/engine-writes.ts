@@ -13,5 +13,5 @@ export class EngineWrites {
   static readonly names: ReadonlySet<string> = new Set([...CreatureFacts.written, 'at', 'knows', 'established',
     'keeps', 'owns', 'state', 'cleared', 'travelsWith', 'joinedAs', 'following', 'cameHome',
     'grateful', 'willing', 'been', 'tried', 'distinct', 'within', 'dark', 'recorded', 'witnessed', 'exposedTo', 'witnessedAttack',
-    'routed', 'captured', 'toldBy', 'readIn', 'itemKind']);
+    'routed', 'captured', 'toldBy', 'readIn', 'itemKind', 'asleep', 'yielded']);
 }

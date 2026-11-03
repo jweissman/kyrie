@@ -13,15 +13,24 @@ export class Aftermath {
       action, events);
   }
   // An opponent that flees is routed: it gives up any blocking stance, so it no longer holds a passage, and what was
-  // conditioned on that stance (its description, its growl) ends with it.
+  // conditioned on that stance (its description, its growl) ends with it. So is one beaten in a bout, or broken (see
+  // Morale); a company beaten in a bout has yielded to it.
   static rout(world: World, action: Operator, events: CombatEvent[]): World {
     const opponent = action.resolve?.name === 'combat' ? action.resolve.args[0] : undefined;
-    const fled = events.some(e => e.type === 'end' && e.fled?.team === 'goblins');
-    if (!opponent || !fled || !world.module.relations.some(r => r.name === 'routed')) { return world; }
+    const end = events.find(e => e.type === 'end');
+    if (!opponent || end?.type !== 'end') { return world; }
+    if (end.reason === 'yielded' && end.outcome === 'goblins') { return this.yielded(world, action.actor, opponent); }
+    const beaten = end.fled?.team === 'goblins' || (['yielded', 'routed'].includes(end.reason) && end.outcome === 'fighters');
+    if (!beaten || !world.module.relations.some(r => r.name === 'routed')) { return world; }
     const stances = world.module.relations.some(r => r.name === 'blocksWhen')
       ? [...world.solve(ModuleWriter.call('state', opponent, '?s'), {})].map(b => b['?s']!)
         .filter(s => world.test(ModuleWriter.call('blocksWhen', opponent, s))) : [];
     return world.apply([{ kind: 'assert', call: ModuleWriter.call('routed', opponent) },
       ...stances.map(s => ({ kind: 'retract' as const, call: ModuleWriter.call('state', opponent, s) }))]);
+  }
+  private static yielded(world: World, company: string | undefined, opponent: string): World {
+    if (!company || !world.relates('yielded')) { return world; }
+    return world.apply([{ kind: 'assert', call: ModuleWriter.call('yielded', company, opponent) },
+      ...world.relates('assails') ? [{ kind: 'retract' as const, call: ModuleWriter.call('assails', opponent, company) }] : []]);
   }
 }

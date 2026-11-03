@@ -1,12 +1,13 @@
 // Turning the lines a command produced into what a player reads: sentences start with a capital, one fight is told
 // by its turning points rather than every blow, and what everyone gained is said once.
 export class Narration {
-  static tidy(lines: string[], blows = 0): string[] {
+  // A fight is told by its turning points; what is kept besides (what a rule said as it ended) is kept whole.
+  static tidy(lines: string[], blows = 0, kept: ReadonlySet<string> = new Set()): string[] {
     let clean = lines.map(l => this.sentence(l.replace(/ \((\d+) HP; [^)]*\)/, ' ($1 HP left)')
       .replace(/(passes|fails) the (\w+) save \([^)]*\)/, (_m, verb: string, stat: string) =>
         `${verb === 'passes' ? 'resists' : 'fails to resist'} (${stat})`)));
     // How the fight ended is said once, by the fight; who is down after it is still said.
-    const ends = new RegExp('^(The fight is (won|lost)|You are clear of the fight'
+    const ends = new RegExp('^(The fight is (won|lost)|You are clear of the fight|You are beaten, and yield'
       + '|The fight ends with neither side the better)\\.$');
     const end = clean.find(l => ends.test(l));
     if (end) {
@@ -28,8 +29,8 @@ export class Narration {
     // that felled each who fell, since the last of them was struck as the fight's own page closed.
     if (!blows || clean.length <= 6) { return clean; }
     const told = new RegExp('falls|fight is (won|lost)|clear of the fight|neither side|ground is yours|experience|dies'
-      + '|reaches level|flees|gets away|(is|are) down|at you');
-    return clean.filter((l, i) => told.test(l) || this.fell(clean, i + 1)
+      + '|reaches level|flees|gets away|(is|are) down|at you|yields?\\.$');
+    return clean.filter((l, i) => told.test(l) || kept.has(l) || this.fell(clean, i + 1)
       || (this.fell(clean, i + 2) && this.struck(l, clean[i + 1]))).map(l => l.replace(/ \(d20 [^)]*\)/, ''));
   }
   private static fell(lines: string[], i: number): boolean { return / falls\.$/.test(lines[i] ?? ''); }

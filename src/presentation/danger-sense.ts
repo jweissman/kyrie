@@ -33,9 +33,15 @@ export class DangerSense {
     // What each has in hand is part of it: a sword bought since is a different fight.
     const key = JSON.stringify([group, ...[...ours, ...foes].map(c => [c.id, c.state.hp, c.state.mana, c.base.level,
       c.state.conditions.map(s => s.id), (c.state.inventory ?? []).filter(i => i.equipped).map(i => i.definition)])]);
-    return this.kept(key, () => this.judge(this.play(ours, foes, key,
-      Environment.encounter(campaign.world, campaign.playerActor)), ours, foes));
+    // A bout is reckoned as it will be fought, and said to be one: the odds of a sparring bout had read as a killing
+    // (the Quiet in the Sky's QIS-04).
+    const place = Environment.encounter(campaign.world, campaign.playerActor, [], group);
+    return this.kept(key, () => {
+      const reckoning = this.judge(this.play(ours, foes, key, place), ours, foes);
+      return place.terms?.yields ? { ...reckoning, text: `${reckoning.text} ${DangerSense.bout}` } : reckoning;
+    });
   }
+  static readonly bout = 'It is a bout, to the first fall: no one will be killed.';
   // A fight already joined, as it would go from where everyone stands: what the company reckons in the moment before
   // one that came at it closes, and backs away from if it is beyond it (PT-10). The place's laws are held by the
   // fighters already. Each is built back with what they came in with: built from the fight alone, they had left

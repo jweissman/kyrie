@@ -74,8 +74,9 @@ export class CombatPresenter {
           ? `for ${FictionalTime.duration(event.amount ?? 0)}.` : `for ${event.amount ?? 0} turns.`);
       case 'remove': return `${target} loses ${event.detail}.`;
       case 'expire': return this.told(event.detail, 'ends')?.replace('{target}', target) ?? `${target}'s ${event.detail} expires.`;
+      // One beaten in a bout to yielding gets up again, beaten (see Morale).
       case 'revive': return event.detail === 'comes round' ? `${target} comes round, with ${event.amount ?? 0} HP.`
-        : `${target} returns with ${event.amount ?? 0} HP.`;
+        : event.detail === 'yields' ? `${target} is beaten, and yields.` : `${target} returns with ${event.amount ?? 0} HP.`;
       case 'gain': return event.amount === undefined ? `${target}: ${event.detail}.`
         : event.detail?.startsWith('level ') ? `${target} reaches ${event.detail} (+${event.amount} HP).`
           // One thing taken into the hands ("Ivo gains 1 the deeds of the held", "Ama gains 1 Davy's red coat") is a
@@ -89,7 +90,7 @@ export class CombatPresenter {
       case 'travel': return `${actor} travels to ${event.detail}.`;
       // In the page's words, not the engine's ("Your company withdraws from the encounter": play 7).
       case 'end': return event.outcome === 'fighters' ? 'The fight is won.' :
-        event.outcome === 'goblins' ? 'The fight is lost.' :
+        event.outcome === 'goblins' ? event.reason === 'yielded' ? 'You are beaten, and yield.' : 'The fight is lost.' :
           event.outcome !== 'escaped' ? 'The fight ends with neither side the better.'
             : event.fled?.team === 'goblins'
               ? `${state.combatants.find(f => f.id === event.fled!.actor)?.name ?? event.fled.actor} flees the fight.`

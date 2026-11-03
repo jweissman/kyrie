@@ -190,7 +190,8 @@ export class ActionFeedbackView {
     const fallen = after.party.filter(p => p.hp === 0 && before.party.some(b => b.id === p.id && b.hp > 0));
     return `${ended.outcome === 'fighters' ? 'The fight is won.' : ended.outcome === 'escaped' ? ended.fled?.team === 'goblins'
       ? 'Your opponent flees, and the ground is yours.' : 'You are clear of the fight.'
-      : ended.outcome === 'goblins' ? 'The fight is lost.' : 'The fight ends with neither side the better.'}`
+      : ended.outcome === 'goblins' ? ended.reason === 'yielded' ? 'You are beaten, and yield.' : 'The fight is lost.'
+        : 'The fight ends with neither side the better.'}`
       + `${fallen.length ? ` ${fallen.map(p => p.name).join(', ')} ${fallen.length === 1 ? 'is' : 'are'} down.` : ''}`;
   }
   // What was learned from words said in the moment (a rule that says and teaches): those words stand for it, and the

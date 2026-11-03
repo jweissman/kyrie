@@ -1,0 +1,22 @@
+Module bout "A fight that is not to the death: lads with their fists, a pit-fighter, a band of footpads that breaks" {
+  Place strand "the strand" is room at 0, 0 outdoors.
+  Place slip "the slip" is room at 1, 0 outdoors.
+  Place yard "the yard" is room at 2, 0 outdoors.
+  Place lane "the lane" is room at 3, 0 outdoors.
+  Passage up "the way up the slip" between strand and slip.
+  Passage over "the way over to the yard" between strand and yard.
+  Passage on "the way on to the lane" between strand and lane.
+  Company party "You" of 1 at strand.
+  Person lads "the Cawse lads" at strand { Role "three young men with their fists". Ancestry human. Calling commoner.
+    Level 1. Numbers 3. Pronouns they. Refuge slip.
+    Pleads "The Cawse lads back off with their hands up, bleeding, and go off up the slip.". }
+  Initially Assert yields(lads).
+  Person bruiser "the pit-fighter" at yard { Role "a pit-fighter with fists like hams". Ancestry human. Calling warrior.
+    Level 9. }
+  Initially Assert yields(bruiser).
+  Person pads "the footpads" at lane { Role "four footpads". Ancestry human. Calling commoner. Level 1. Numbers 4.
+    Pronouns they. }
+  Initially Assert breaks(pads).
+  Rule lads_bested when routed(lads) and not bested(party) says "Up on the slip somebody laughs at them." { Assert bested(party). }
+  Relation bested(group).
+}
