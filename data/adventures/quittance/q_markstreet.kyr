@@ -1,3 +1,349 @@
 Module quittance "Quittance" {
-  Description "q_markstreet (stub).".
+  Description "Mark Street: a house on fire wearing the wrong Office's plate, two brigades arguing the mark, and a family in the road.".
+
+  // ══ The fire, and what the house is worth while it burns ═══════════════════════════════════════════════════
+  // At ten on the first morning (watch 12) a chimney goes in Number Nine. The house is worth twelve watches of the
+  // dispute; it falls by one a watch, and by about noon (watch 24) there is nothing to argue about. Whatever closes
+  // the dispute sets the verdict (ms_v_*) and the house goes to "closing"; the rules below read what is left and
+  // turn it into a house saved, half saved, a shell, or a heap.
+  Entity ms_nine: group "Number Nine, Mark Street".
+  Measure ms_worth(group). Measure ms_tier(group). Measure ms_pulled_at(group).
+  Relation ms_v_buckets(group). Relation ms_v_phoenix(group). Relation ms_v_lamprey(group). Relation ms_v_third(group).
+  Relation ms_v_salvors(group). Relation ms_v_none(group). Relation ms_ended(group). Relation ms_dispersed(group).
+  Relation ms_contents(group). Relation ms_paid(group). Relation ms_book_taken(group).
+  // What the company did, said by name for the Hearing and the Slate to read.
+  Relation ms_rule(group). Relation ms_precedent_mark(group). Relation ms_slighted_lamprey(group).
+  Relation ms_slighted_phoenix(group). Relation ms_slighted_brigades(group). Relation ms_swapped(group).
+  Relation ms_garrity_shamed(group). Relation ms_caught(group). Relation ms_g_insulted(group). Relation ms_burned(group).
+  Relation ms_asked(group). Relation ms_unpaid(group).
+
+  Discovery ms_claim "The Slate has a claim chalked on it: a house on Mark Street, a mark disputed, a family in the road.".
+  Discovery ms_alarm "A house is burning on Mark Street, and the two brigades are not putting it out.".
+  Discovery ms_lamprey_cover "The Peascods' house wears the Phoenix's bird, but their cover is with the Lamprey, and the proof is in a book in their front room.".
+  Discovery ms_nailed_wrong "A surveyor nailed the wrong plate on Number Nine, on the word of a bag he had mixed up in the dark.".
+  Discovery ms_proof "You have read the Peascods' policy-book: the Lamprey & River Office, in ink, for the house at Number Nine.".
+
+  Query ms_over() means not state(ms_house, ms_whole) and not state(ms_house, ms_alight) and not state(ms_house, ms_closing).
+  Query ms_open() means state(ms_house, ms_whole) or state(ms_house, ms_alight).
+
+  // ── Places: the house itself ────────────────────────────────────────────────────────────────────────────
+  Place ms_nine_b "Number Nine, Mark Street" is building within brick.
+  Place ms_front "the front room of Number Nine" is room within ms_nine_b at 0, 0.
+  Place ms_kitchen "the kitchen of Number Nine" is room within ms_nine_b at 0, 1.
+  Passage ms_front_door "the front door of Number Nine" is door between mark_street and ms_front.
+  Passage ms_kitchen_door "the kitchen door of Number Nine" is door between nine_yard and ms_kitchen.
+  Passage ms_hall "the passage through the house" is passage between ms_kitchen and ms_front.
+
+  Hazard ms_flame "the heat in the front doorway" means "Deal (1d6) fire damage to ally unless dexterity save against (12).".
+
+  Thing ms_house "Number Nine" at mark_street {
+    State ms_whole "Number Nine is a house like its neighbours, with a bird over the door where the others have a fish.".
+    State ms_alight "Number Nine is burning at the back. Smoke the colour of a wet slate comes out of the kitchen chimney and the first-floor windows, and a long unlit hose lies across the cobbles from each side to the middle and stops, as if both had been told to.".
+    State ms_closing "Number Nine is being seen to.".
+    State ms_saved "Number Nine stands, black over the door and wet to the first floor, with its windows out and its roof on.".
+    State ms_half "Number Nine stands in front and not behind: the front wall and the first-floor rooms are whole, and where the kitchen and the yard side were there is a wet black gap with the sky in it.".
+    State ms_shell "Number Nine is a front wall with a house's idea behind it. The door still opens, onto daylight.".
+    State ms_gutted "Where Number Nine stood there is a front wall without a door, and a warm heap, and a smell. The terrace has a tooth out.".
+  }
+  Thing ms_plate "the plate over Number Nine's door" at mark_street {
+    State ms_bird "Over Number Nine's door a gilt bird is nailed, level with its neighbours' fish, and a good deal newer.".
+    State ms_bare "Over Number Nine's door a pale square marks where a plate was, with two nail-holes and a drip of rust.".
+    State ms_fish "Over Number Nine's door a black fish is nailed a little crooked, with the paint of a different door still on its tail.".
+  }
+  Thing ms_door "the front door of Number Nine" on ms_front_door {
+    State ms_shutdoor "The front door of Number Nine is shut.".
+    State ms_ablaze dangerous "The front door of Number Nine is open on a wall of heat and the front room beyond it is orange.".
+    State ms_charred "The front door of Number Nine stands open on a black passage, still ticking.".
+    Hurts with ms_flame when ms_ablaze then ms_charred.
+  }
+  Thing ms_kdoor "the kitchen door of Number Nine" on ms_kitchen_door {
+    State ms_kshut "The kitchen door of Number Nine is shut, with a boot-scraper beside it.".
+    State ms_jammed blocking "The kitchen door of Number Nine is swollen in its frame with the heat, and a thread of smoke is coming round the edge of it.".
+    State ms_unjammed "The kitchen door of Number Nine hangs open.".
+    Change ms_shoulder "Put your shoulder to the kitchen door until it gives" from ms_jammed to ms_unjammed needing brawn.
+    Change ms_slip_bolt "Slip the swollen kitchen door's bolt with a wire" from ms_jammed to ms_unjammed needing lockwork.
+  }
+
+  Initially Assert state(ms_house, ms_whole). Initially Assert state(ms_plate, ms_bird). Initially Assert state(ms_door, ms_shutdoor).
+  Initially Assert state(ms_kdoor, ms_kshut).
+
+  Kind ms_book_kind "the Peascods' policy-book" is treasure worth 0 weighing 0 described "A black oilcloth book, tied round with tape: Lamprey & River Office, Domestic and Household, Policy No. 4,117, the insured premises being No. 9, Mark Street, in the name of Aubrey Peascod, clerk. It smells of smoke and lavender.".
+  Item ms_book "the Peascods' policy-book" is ms_book_kind at nowhere.
+
+  Observe ms_front_scene at ms_front when state(ms_house, ms_whole) "A front room kept for company: a good clock, a horsehair sofa, and a bureau with a brass lock and a bird on the lid, which is the Peascods' idea of a joke on the Phoenix.".
+  Observe ms_front_burning at ms_front when state(ms_house, ms_alight) "The front room is full of orange air. The sofa is smoking at one end. The bureau stands against the far wall with its brass lock too hot to look at, and the drawer under the lid is a tin-lined drawer, which has so far kept its counsel.".
+  Observe ms_front_after at ms_front when ms_over() "What the fire left of the front room is a bureau with a tin-lined drawer, black outside, and a sofa's iron ghost.".
+  Observe ms_kitchen_scene at ms_kitchen when state(ms_house, ms_whole) "A kitchen with a range, a table scrubbed white, and a canary, who has opinions.".
+  Observe ms_kitchen_burning at ms_kitchen when state(ms_house, ms_alight) "The kitchen ceiling is alight along one beam and dropping sparks onto a scrubbed table. The range is roaring. The canary's cage is gone from its hook.".
+  Observe ms_kitchen_after at ms_kitchen when ms_over() "A wet black kitchen, with the range standing in it like a bull in a ruin.".
+
+  // ── The people in the street ────────────────────────────────────────────────────────────────────────────
+  Person ms_mrs "Hester Peascod" at ms_kitchen {
+    Role "Aubrey Peascod's wife". Ancestry human. Calling bard. Level 1. Peaceable. Manner stoic. Pronouns she.
+    Greets "A woman in an apron is wiping a table that is already clean. 'You'll be from the Offices,' says Hester Peascod. 'Everyone is. My husband is on the Wharf and has not been told, and I have been meaning to put the kettle on since seven.'".
+    Greets again "'Oh,' says Hester Peascod, putting down the cloth. 'It's you.'".
+  }
+  Person ms_kids "the Peascod children" at ms_kitchen {
+    Role "three children, one with a cat". Ancestry human. Peaceable. Numbers 3. Manner cheerful. Pronouns they.
+    Greets "Three children are at the scrubbed table with a slate between them, doing sums on it. The smallest has a cat in her lap who is doing none. 'We're insured,' says the eldest, not looking up. 'It's on the door.'".
+    Greets again "'The cat's called Premium,' says the smallest.".
+  }
+  Person ms_mate "Mate Marchbanks" at lamprey_floor {
+    Role "mate of the Lamprey & River brigade, under Captain Dree". Ancestry human. Calling warrior. Level 2. Trait toughness. Peaceable. Manner acerbic. Pronouns he.
+    Greets "A heavy man in an oilskin, with a black fish on his helmet and an expression of long unforced patience, is checking a coil of hose against a list. 'Marchbanks,' he says. 'Mate. The Captain's compliments, and he is at the Reach, and he says it is none of ours until the policy says it is, and the policy says it is, and I am not to mention it.'".
+    Greets again "'It's the adjusters,' says Mate Marchbanks, to the hose.".
+  }
+  Person ms_tapley "Mr Tapley" at hen_taproom {
+    Role "surveyor of the Guild, lately of the Brickfields marks". Ancestry human. Calling thief. Level 1. Peaceable. Manner grim. Pronouns he.
+    Greets "A man in a good coat that has been slept in has his head on the bar and a hammer by his elbow. 'The light,' says Mr Tapley, without lifting it, 'was very poor. Do not ask me about the light.'".
+    Greets again "'I have a very clear memory of it,' says Mr Tapley. 'Of the nail.'".
+  }
+  Person ms_quennell "Master Voakes" at salvor_yard {
+    Role "master of the Salvors' Yard". Ancestry human. Calling warrior. Level 3. Peaceable. Manner jovial. Pronouns he.
+    Greets "A man with a barrel chest and a boathook is directing six others in the loading of a handcart with hooks, ropes and a very large sack. 'Voakes,' he says. 'Salvage. If it is wet, burning or lost, we are already on our way to it.'".
+    Greets again "'Ah,' says Master Voakes. 'Mind the cart.'".
+  }
+
+  // ── The clock ───────────────────────────────────────────────────────────────────────────────────────────
+  Event ms_ignite when watch(clock) >= 12 and state(ms_house, ms_whole) "Somewhere to the west the Phoenix bell begins, and then, a little late and a little out of time, a deeper note that is the Lamprey's. Over the roofs of the Brickfields a brown thumb of smoke goes up. The two bells go on, not together, for some time." teaches ms_alarm then {
+    Assert state(ms_house, ms_alight). Assert state(ms_door, ms_ablaze). Assert state(ms_kdoor, ms_jammed). Set ms_worth(ms_nine) to 10.
+    Assert at(garrity, mark_street). Assert at(tobias, mark_street). Assert at(ms_mate, mark_street). Assert at(ms_tapley, mark_street).
+    Assert at(ms_mrs, mark_street). Assert at(ms_kids, mark_street).
+  }
+  Rule ms_burns when state(ms_house, ms_alight) and ms_worth(ms_nine) > 0 { Decrease ms_worth(ms_nine) by 1. }
+  Rule ms_burnt when state(ms_house, ms_alight) and ms_worth(ms_nine) <= 0 says "The roof of Number Nine goes in with a long soft sound, like a sigh let out by something that has been holding it. Both captains take their hats off. Neither takes the other's." {
+    Assert state(ms_house, ms_closing). Assert ms_v_none(ms_nine). Assert state(ms_door, ms_charred).
+  }
+  Rule ms_salvors_come when state(ms_house, ms_alight) and state(ms_plate, ms_bare) and watch(clock) >= ms_pulled_at(ms_nine) + 3 says "A handcart comes round the corner of Mark Street at a trot, with six men in leather aprons and a boathook in front. 'Unmarked!' cries Master Voakes, from a long way off, with the joy of a man who has heard a rumour confirmed. 'Salvage! Nobody touch it!' The two brigades, who have been standing at ease for some time, watch him go by with the expression of men who have been robbed of a thing they did not want." {
+    Assert state(ms_house, ms_closing). Assert ms_v_salvors(ms_nine). Increase ms_worth(ms_nine) by 2. Assert at(ms_quennell, mark_street).
+  }
+  // What is left of the house when the dispute is closed. The rules run in order: the first that fits takes the house out of "closing".
+  Rule ms_tier_saved when state(ms_house, ms_closing) and ms_worth(ms_nine) >= 8 { Set ms_tier(ms_nine) to 3. Assert state(ms_house, ms_saved). }
+  Rule ms_tier_half when state(ms_house, ms_closing) and ms_worth(ms_nine) >= 4 { Set ms_tier(ms_nine) to 2. Assert state(ms_house, ms_half). }
+  Rule ms_tier_shell when state(ms_house, ms_closing) and ms_worth(ms_nine) >= 1 { Set ms_tier(ms_nine) to 1. Assert state(ms_house, ms_shell). }
+  Rule ms_tier_gutted when state(ms_house, ms_closing) { Set ms_tier(ms_nine) to 0. Assert state(ms_house, ms_gutted). }
+
+  // The verdicts. Each says what the street makes of it, once, and writes what the Hearing and the people will read.
+  Rule ms_end_buckets when ms_over() and ms_v_buckets(ms_nine) and not ms_ended(ms_nine) says "The line breaks up in the way a line does when it is over, with men sitting on the kerb and buckets everywhere. Captain Garrity walks the length of Mark Street with her helmet under her arm, and at the end of it says, loudly enough to be heard at the Lamprey's end, 'Phoenix mark. Phoenix house. Phoenix saved.' Mate Marchbanks writes something in a small book. Mrs Peascod, who has been holding a clock throughout, puts it on the step." {
+    Assert ms_ended(ms_nine). Assert ms_precedent_mark(party). Assert ms_unpaid(party). Increase regard(phoenix) by 1. Increase regard(brigades) by 1.
+  }
+  Rule ms_end_phoenix when ms_over() and ms_v_phoenix(ms_nine) and not ms_ended(ms_nine) says "The Phoenix pump goes in with nothing across the road from it, which is what a pump is for. Captain Garrity does not ask what has become of the opposition. She puts the fire out as if it had been rude to her, and then she says, to the street at large, 'Phoenix mark. Phoenix house.' And nobody says otherwise." {
+    Assert ms_ended(ms_nine). Assert ms_precedent_mark(party). Assert ms_unpaid(party). Assert ms_slighted_lamprey(party).
+    Increase regard(phoenix) by 1. Decrease regard(lamprey) by 1 or to nothing.
+  }
+  Rule ms_end_lamprey when ms_over() and ms_v_lamprey(ms_nine) and not ms_swapped(party) and not ms_ended(ms_nine) says "Mate Marchbanks reads the number from the policy-book aloud, to the Lamprey, to the Phoenix and to Mark Street, and the Lamprey's hose goes in at the front door like a thing let off a lead. Captain Garrity stands where she is. She is looking at the plate, and then at you, and then at the ground; she says, finally, to nobody, 'It's what the Office says.' She puts her helmet on and she does not take it off again until she is back in the yard." {
+    Assert ms_ended(ms_nine). Assert ms_paid(ms_nine). Assert ms_garrity_shamed(party). Assert ms_slighted_phoenix(party).
+    Increase regard(lamprey) by 2. Decrease regard(phoenix) by 1 or to nothing.
+  }
+  Rule ms_end_swapped when ms_over() and ms_v_lamprey(ms_nine) and ms_swapped(party) and not ms_ended(ms_nine) says "Captain Garrity looks at the door a long time. 'That's a fish,' she says. There is a silence in which a good many people decide not to remember a bird. 'A mark on the door is the policy,' says Captain Garrity, heavily, 'and that is a mark.' She steps back, and the Lamprey's hose goes in under Mate Marchbanks's astonished eye. Nobody says a word about the other side of the street, where Number Ten has a pale square over its own door." {
+    Assert ms_ended(ms_nine). Assert ms_paid(ms_nine). Increase regard(lamprey) by 1.
+  }
+  Rule ms_end_third when ms_over() and ms_v_third(ms_nine) and not ms_ended(ms_nine) says "You write it out on the back of the Peascods' own policy-book, with your licence open beside it on the step: THIS HOUSE WEARS THE MARK OF THE PHOENIX AND HOLDS THE POLICY OF THE LAMPREY; THE BRIGADE OF THE MARK SHALL ATTEND, THE OFFICE OF THE POLICY SHALL PAY, AND THE SALVAGE BE SHARED. Mate Marchbanks reads it twice. Captain Garrity reads it once, holding it a little away, as a woman looks at a bill from a trade she did not know she had. Then she signs, slowly, beneath you, 'Garrity, for the mark', and Marchbanks 'Marchbanks, for the policy', and the two hoses go in together." {
+    Assert ms_ended(ms_nine). Assert ms_rule(party). Assert ms_paid(ms_nine).
+    Increase regard(phoenix) by 1. Increase regard(lamprey) by 1. Increase regard(brigades) by 2.
+  }
+  Rule ms_end_salvors when ms_over() and ms_v_salvors(ms_nine) and not ms_ended(ms_nine) says "Master Voakes sets his men at the house like a gang at a regatta and gets the better part of it out of the fire in a quarter of an hour, with a quarter of the better part going onto his cart. 'A third,' he tells Mrs Peascod, kindly, and writes it on his cuff. 'Of what is saved. Of what is not, a sixth, as agreed.' The Phoenix and the Lamprey stand side by side at the end of the street, in complete agreement, for the first time in their histories." {
+    Assert ms_ended(ms_nine). Assert ms_unpaid(party). Assert ms_slighted_brigades(party). Decrease regard(brigades) by 1 or to nothing.
+  }
+  Rule ms_end_none when ms_over() and ms_v_none(ms_nine) and not ms_ended(ms_nine) {
+    Assert ms_ended(ms_nine). Assert ms_unpaid(party). Assert ms_burned(party).
+  }
+  // Everyone goes home, one way or another.
+  Rule ms_home_saved when ms_ended(ms_nine) and not ms_dispersed(ms_nine) and ms_tier(ms_nine) >= 2 {
+    Assert ms_dispersed(ms_nine). Assert at(ms_mrs, ms_kitchen). Assert at(ms_kids, ms_kitchen). Assert at(garrity, drill_yard). Assert at(ms_mate, lamprey_floor).
+    Assert at(ms_tapley, hen_taproom). Assert at(ms_quennell, salvor_yard). Assert state(ms_door, ms_charred).
+  }
+  Rule ms_home_lost when ms_ended(ms_nine) and not ms_dispersed(ms_nine) {
+    Assert ms_dispersed(ms_nine). Assert at(ms_mrs, pargeter_front). Assert at(ms_kids, pargeter_front). Assert at(garrity, drill_yard). Assert at(ms_mate, lamprey_floor).
+    Assert at(ms_tapley, hen_taproom). Assert at(ms_quennell, salvor_yard). Assert state(ms_door, ms_charred).
+  }
+  Rule ms_tobias_home when ms_dispersed(ms_nine) and not travelsWith(tobias, party) and at(tobias, mark_street) { Assert at(tobias, pargeter_front). }
+  Rule ms_tobias_thanks when ms_ended(ms_nine) and (ms_tier(ms_nine) >= 2 or ms_contents(ms_nine)) and not ms_v_salvors(ms_nine) and not tobiasWilling(party) {
+    Assert tobiasWilling(party).
+  }
+
+  // ── The Slate, and the street's other ways of telling ───────────────────────────────────────────────────
+  Observe ms_slate_open at slip_room when watch(clock) >= 12 and ms_open() "CLAIMS OPEN, in a fresh chalk that has run in the corner: MARK STREET, No. 9. A house burning; a mark disputed between Phoenix and Lamprey; a family in the road. The Offices will pay on the report of an adjuster who can say whose house it is. Reward: a settlement, and the thanks of the street." teaches ms_claim.
+  Observe ms_slate_burned at slip_room when ms_burned(party) and watch(clock) >= 96 "TOTAL LOSSES (Brickfields): a house, Mark Street, No. 9; the dispute is adjourned.".
+  Observe ms_slate_done at slip_room when ms_ended(ms_nine) and not ms_burned(party) and watch(clock) >= 96 "CLAIMS CLOSED: Mark Street, No. 9; the Offices are in correspondence.".
+  Observe ms_boy_plaza at gate_plaza when watch(clock) >= 12 and watch(clock) < 28 and state(ms_house, ms_alight) "A boy runs across the plaza with a bucket in each hand, shouting that it is a mark and they won't, and that Mark Street is going up. A man selling polish decides to walk that way too." teaches ms_alarm.
+  Observe ms_boy_lane at brick_lane when state(ms_house, ms_alight) "Brick Lane has emptied toward Mark Street. A woman is sweeping her step as if the end of the world would at least be tidy.".
+  Observe ms_lane_after at brick_lane when ms_over() and ms_tier(ms_nine) <= 1 "At the top of Mark Street the smell of wet char hangs in the lane. Someone has propped a board against a lamp-post: SALLOWS, NO. 9, STAYING AT THE PARGETERS'.".
+  Observe ms_street_burning at mark_street when state(ms_house, ms_alight) "The two brigades stand on Mark Street with a house between them, each behind its own hose: the Phoenix in blue, with its engine at the hydrant, the Lamprey in oilskin, with a hand-pump dragged up from the Reach and a mate with a book. Captain Garrity and Mate Marchbanks are in the middle, nose to nose, and nobody is putting out the fire. A family stands in the cobbles with a clock.".
+  Observe ms_street_after_lost at mark_street when ms_over() and ms_tier(ms_nine) <= 1 "On the cobbles opposite the heap a trestle has been set up with blankets, a kettle and a tin of buns, and a young man in a blue coat is handing them out with great gentleness and no discrimination.".
+  Observe ms_street_ten at mark_street when state(ms_plate, ms_fish) "Over the door of Number Ten, where a black fish should be, there is a pale square with two nail-holes.".
+  Observe ms_garrity_after near garrity when ms_ended(ms_nine) and ms_v_buckets(ms_nine) "Captain Garrity has the look of a woman who has won something and hopes nobody checks the receipt.".
+  Observe ms_garrity_after_lamprey near garrity when ms_garrity_shamed(party) "Captain Garrity looks at a spot a little to one side of you, and goes on looking at it.".
+  Observe ms_garrity_after_swap near garrity when ms_swapped(party) "Captain Garrity watches you for a moment with deep suspicion and, you think, something not far from respect.".
+  Observe ms_garrity_after_rule near garrity when ms_rule(party) "Captain Garrity touches two fingers to her helmet when she sees you, which, from her, is a speech.".
+  Observe ms_garrity_after_burned near garrity when ms_burned(party) "Captain Garrity is oiling a hose that does not need it.".
+  Observe ms_mrs_after_paid near ms_mrs when ms_paid(ms_nine) and ms_tier(ms_nine) >= 2 "On the table in Mrs Peascod's kitchen a letter from the Lamprey lies open, flattened under the kettle, beside a slice of cake with your names on a paper pennant.".
+  Observe ms_mrs_after_unpaid near ms_mrs when ms_unpaid(party) and ms_over() and not ms_paid(ms_nine) "Mrs Peascod does not look at you; she is folding a blanket that is not hers into a square.".
+
+  // ── At the fire: what the company can ask, and who answers ──────────────────────────────────────────────
+  Topic ms_mrs_policy with ms_mrs "Ask Mrs Peascod whose cover the house is under" when ms_open() once {
+    Says "'The Lamprey's,' says Hester Peascod, not taking her eyes off the front wall. 'Aubrey's firm takes it for all the clerks, the way they take the tea. It's in the policy-book, in the bureau in the front room, in the tin drawer; I could show you the page. And it's the Phoenix has come, with a bird the Guild's man put up on Monday, and I said at the time, I said, Mr Tapley, that's a bird. And he said it was a very good fish.'".
+    On discuss { Assert knows(actor, ms_lamprey_cover). }
+  }
+  Topic ms_mrs_clock with ms_mrs "Ask Mrs Peascod why she is holding the clock" when ms_open() once {
+    Says "'Because it was the first thing to hand,' says Hester Peascod, 'and I thought if I put it down I should have to decide about the rest.'".
+  }
+  Topic ms_kids_what with ms_kids "Ask the children what they have saved" when ms_open() once {
+    Says "'Premium,' says the smallest, holding the cat up. 'And the slate. And Papa's best hat, but only the box.' The eldest shows you the slate. On it, in careful chalk: IF A HOUSE IS INSURED AND IT BURNS, WHO.".
+  }
+  Topic ms_tapley_plate with ms_tapley "Ask Mr Tapley about the plate" when ms_open() once {
+    Says "'There were two bags,' says Mr Tapley, to the cobbles. 'One of birds and one of fish. They were in the dark, by the door, and I was, I admit, a little merry. I took a bird. I took it with great confidence. Nobody has ever said that I lacked confidence.' He puts a hand to his eyes. 'The Lamprey's policy was on the schedule. I read the schedule. I simply did not let it detain me.'".
+    On discuss { Assert knows(actor, ms_nailed_wrong). }
+  }
+  Topic ms_tapley_swear with ms_tapley "Ask Mr Tapley to say so to the captains" when knows(actor, ms_nailed_wrong) and state(ms_house, ms_alight) once {
+    Says "Mr Tapley rises, with dignity, goes four steps toward the captains, hears the word 'Guild' used in the sense of a pit, and sits down. 'Not,' he says, 'for any sum.'".
+  }
+  Topic ms_ruddle_cover with ms_mate "Ask Mate Marchbanks what the Lamprey says about the mark" when ms_open() once {
+    Says "Mate Marchbanks opens his small book. 'Lamprey and River, Household, number four-one-one-seven. Peascod. No. 9. It was a fish in the schedule and it is a bird on the door, and the Captain's standing order is that we do not put the Office's water into a house that the plate says is the Phoenix's, for if the plate is right we are out the water and if the plate is wrong we are out the argument.' He looks at the house. 'I should very much like to be told I was wrong.'".
+    On discuss { Assert knows(actor, ms_lamprey_cover). }
+  }
+  Topic ms_ruddle_price with ms_mate "Ask Mate Marchbanks what would send the Lamprey home" when ms_open() once {
+    Says "'Eight coin for the hose-boys' beer,' says Mate Marchbanks, 'would have the hose-boys convinced it was a Phoenix matter, and me convinced that I had not been asked. I am not saying that. I am saying what a hose-boy might say.'".
+  }
+  Topic ms_quennell_share with ms_quennell "Ask Master Voakes what the Salvors take" when true once {
+    Says "'One third of a total loss,' says Master Voakes. 'One half of a salvage. Of a case you do not ask about, as agreed. The Reach does not hold with a house being nobody's, you understand. It is a waste of a house.'".
+  }
+  Topic ms_pudsey_fire with pudsey "Ask Mrs Pudsey if anything is happening in the Brickfields this morning" when watch(clock) < 28 once {
+    Says "'There's always something happening in the Brickfields,' says Mrs Pudsey. 'It's what they have instead of weather. Go up Brick Lane toward ten. If there's a house on fire, it'll be Mark Street, and if there's two captains, it'll be Garrity and the Lamprey's man, and if there's a family in the road, ask them about the book.'".
+  }
+
+  // ── Captain Garrity: asked, and not argued with ─────────────────────────────────────────────────────────
+  Topic ms_g_argue with garrity "Put it to Captain Garrity that a plate is only as good as the man who nailed it" when state(ms_house, ms_alight) once {
+    Says "'A plate,' says Captain Garrity, 'is a plate. If it says Phoenix then the Phoenix has the house, and if I start taking the word of a householder over the word of the door, I shall be putting out fires by appointment for the rest of my life. I hear you. I have heard you. You can say it again if you like. It is not going to be any different.'".
+  }
+  Topic ms_g_bribe with garrity "Slip Captain Garrity ten coin to let the Lamprey's hose in" when state(ms_house, ms_alight) and quantity(actor, gold) >= 10 and not ms_g_insulted(party) once {
+    Says "Captain Garrity looks at the hand and then at the coin and then at the hand. 'I have been offered money,' she says, 'by better men, and refused it at longer odds. You may take that back.' She puts it, with some precision, in the top of your coat.".
+    On discuss { Assert ms_g_insulted(party). Decrease regard(phoenix) by 1 or to nothing. }
+  }
+  Topic ms_g_sorry with garrity "Beg Captain Garrity's pardon for the ten coin" when ms_g_insulted(party) once {
+    Says "'I do not accept apologies,' says Captain Garrity, 'on duty. But I notice you have made one.'".
+    On discuss { Retract ms_g_insulted(party). }
+  }
+  Topic ms_g_ask with garrity "Tell Captain Garrity that you are not here to order her; ask her, as a favour to you, to let Mate Marchbanks's hose lie beside hers" when state(ms_house, ms_alight) and arc(garrity) == 0 and not ms_g_insulted(party) once {
+    Says "Captain Garrity opens her mouth, and shuts it. She is a woman who has been told things by a great many people in the last quarter of an hour. 'Nobody asks,' she says. 'They tell me. They send a boy, or a form.' She looks at the house. 'I'll not move my crew off the plate. A plate's a plate. But I'll let Marchbanks's hose lie alongside, and I'll not call it a trespass, and if the policy's his then I'll sign beneath whatever the Office says it is, if it's a thing a woman can sign.' She jerks her head at the Lamprey line. 'Go on, then. Do whatever you do.'".
+    On discuss { Set arc(garrity) to 1. Increase ms_worth(ms_nine) by 2. Assert ms_asked(party). }
+  }
+  Topic ms_g_late with garrity "Ask Captain Garrity, as a favour, to put her name to a certification of the Peascods' house after the fact" when ms_over() and arc(garrity) == 0 and not ms_g_insulted(party) and not ms_rule(party) once {
+    Says "Captain Garrity takes her time. 'After the fact,' she says. 'It was a house, and it's a heap, and you want me to say the heap had two owners.' She looks at the yard. 'Nobody asks, you know. I'll sign if the book's good. I'll not sign if it's only talk.'".
+    On discuss { Set arc(garrity) to 1. Assert ms_asked(party). }
+  }
+  Topic ms_g_after_won with garrity "Ask Captain Garrity how Mark Street sits with the Office" when ms_v_buckets(ms_nine) or ms_v_phoenix(ms_nine) once {
+    Says "'The Office is pleased,' says Captain Garrity. 'It says the plate held. I have been told twice. The Lamprey has not said anything, which is how I know they will.'".
+  }
+  Topic ms_g_after_lost with garrity "Ask Captain Garrity how Mark Street sits with the Office" when ms_garrity_shamed(party) once {
+    Says "'It sits,' says Captain Garrity, 'on my desk, in writing, with your name beside it. A plate is a plate. Until a man with a book says it isn't.' She turns a hose over and over. 'You were right. I should like that to be a thing I could say with pleasure.'".
+  }
+  Topic ms_g_after_both with garrity "Ask Captain Garrity what the Office makes of the certification" when ms_rule(party) once {
+    Says "'They call it the Mark Street Rule,' says Captain Garrity. 'The Lamprey say it was theirs. We say it was ours. It is on a card in both fire-houses. There's a clause I'd have put otherwise.' She does not say which.".
+  }
+
+  // ── The company's own doings at the fire ────────────────────────────────────────────────────────────────
+  Action ms_buckets(actor: group) "Form a bucket-line from the pump in the yard and pass until the fire is out" {
+    Requires able(actor) and company(actor) and at(actor, nine_yard) and state(ms_house, ms_alight) and state(ms_plate, ms_bird).
+    Time 30 minutes.
+    On success { Increase ms_worth(ms_nine) by 2. Assert state(ms_house, ms_closing). Assert ms_v_buckets(ms_nine). }
+    Result "You find the pump, a coal-hole and every pail in the Brickfields, and put your backs into a line with the Peascods' neighbours and half the lane. It is a good line, and hot work. By the time the roof stops spitting nobody remembers who stood in the middle of the street.".
+  }
+  Action ms_buckets_strong(actor: group) "Take the head of the bucket-line yourselves, and carry the water to the kitchen window" {
+    Requires able(actor) and company(actor) and at(actor, nine_yard) and state(ms_house, ms_alight) and state(ms_plate, ms_bird) and capable(actor, brawn).
+    Time 30 minutes.
+    On success { Increase ms_worth(ms_nine) by 5. Assert state(ms_house, ms_closing). Assert ms_v_buckets(ms_nine). }
+    Result "You take the head of the line, where the pails are heaviest and the heat is on your face, and a woman from number six calls the time in a voice that could stop a ship. It is the straightforward thing, and it works; you go over the sill of the kitchen window with the last pail and what is behind you is steaming, and standing.".
+  }
+  Action ms_furniture(actor: group) "Carry the Peascods' furniture out through the yard while the captains talk" {
+    Requires able(actor) and company(actor) and at(actor, nine_yard) and state(ms_house, ms_alight) and not ms_contents(ms_nine).
+    Time 30 minutes.
+    On success { Assert ms_contents(ms_nine). }
+    Result "You carry out what there is: the table, the clock's spare weights, a sideboard through a window, a bed in four parts, the canary's spare cage, the kitchen chairs one at a time, and the bureau's contents in your arms, tied up in a sheet, in the confusion. The children make a line of themselves and the cat.".
+  }
+  Action ms_front_entry(actor: group) "Take the Peascods' policy-book from the bureau in the front room" {
+    Requires able(actor) and company(actor) and at(actor, ms_front) and not ms_book_taken(ms_nine) and not holding(actor, ms_book_kind).
+    Time 4 minutes.
+    On success { Give ms_book to actor. Assert ms_book_taken(ms_nine). }
+    Result "The bureau's lid is too hot to touch, and you do not touch it; you break the brass lock with the butt of a knife and drag the tin-lined drawer out on its runners. Inside, tied in tape, lies a black oilcloth book, dry as a bone, with a fish stamped on its cover. You have it under your coat before your eyebrows have decided what to do.".
+  }
+  Action ms_read_book(actor: group) "Read the Peascods' policy-book through" {
+    Requires able(actor) and company(actor) and holding(actor, ms_book_kind) and not knows(actor, ms_proof).
+    Time 5 minutes.
+    On success { Assert knows(actor, ms_proof). Assert knows(actor, ms_lamprey_cover). }
+    Result "Policy No. 4,117, Domestic and Household: the Lamprey & River Office insures the house at No. 9, Mark Street, in the name of Aubrey Peascod, against fire, flood, and the act of an enemy. In the margin, in the Lamprey's clerk's best hand: This house to be marked with the Fish. Beneath, in a different ink: Schedule received, plate not yet fixed. The Guild's surveyor is to be informed. He was.".
+  }
+  Action ms_certify_lamprey(actor: group) "Certify the mark false, on your licence, and the policy the Lamprey's" {
+    Requires able(actor) and company(actor) and at(actor, mark_street) and state(ms_house, ms_alight) and holding(actor, adjuster_licence) and holding(actor, ms_book_kind) and knows(actor, ms_proof).
+    Time 10 minutes.
+    On success { Assert state(ms_house, ms_closing). Assert ms_v_lamprey(ms_nine). }
+    Result "You open your licence in one hand and the Peascods' book in the other and read the number out to Mark Street.".
+  }
+  Action ms_certify_third(actor: group) "Certify a third thing on your licence: the Phoenix's mark, the Lamprey's policy, one fire, two hoses" {
+    Requires able(actor) and company(actor) and at(actor, mark_street) and state(ms_house, ms_alight) and holding(actor, adjuster_licence) and holding(actor, ms_book_kind) and knows(actor, ms_proof) and arc(garrity) >= 1.
+    Time 10 minutes.
+    On success { Assert state(ms_house, ms_closing). Assert ms_v_third(ms_nine). }
+    Result "It is not in any book you have read, and you make it up in the street, with a licence and a policy-book and two captains' attention. Garrity said she would sign if it was a thing a woman could sign. It is.".
+  }
+  Action ms_certify_after(actor: group) "Certify the dead house after the fact, with the Peascods' book, and the Phoenix's name beside the Lamprey's" {
+    Requires able(actor) and company(actor) and at(actor, drill_yard) and ms_over() and not ms_rule(party) and not ms_paid(ms_nine) and holding(actor, adjuster_licence) and holding(actor, ms_book_kind) and knows(actor, ms_proof) and arc(garrity) >= 1 and at(garrity, drill_yard).
+    Time 20 minutes.
+    On success { Assert ms_rule(party). Assert ms_paid(ms_nine). Retract ms_unpaid(party). Increase regard(phoenix) by 1. Increase regard(lamprey) by 1. Increase regard(brigades) by 1. }
+    Result "You write it out on the lid of a water-butt: THE MARK WAS THE PHOENIX'S, THE POLICY WAS THE LAMPREY'S, THE LOSS IS SHARED. Garrity signs it standing, as though it were an oath. A boy takes it to the Reach at a run, and returns with a note in Dree's hand that says only, in capitals, ABOUT TIME.".
+  }
+  Action ms_pull_plate(actor: group) "Prise the gilt bird off Number Nine's door while both captains are looking at each other" {
+    Requires able(actor) and company(actor) and at(actor, mark_street) and state(ms_house, ms_alight) and state(ms_plate, ms_bird) and not ms_caught(party).
+    Time 6 minutes.
+    Resolve check(actor, stealth, dc_fair).
+    On success { Assert state(ms_plate, ms_bare). Set ms_pulled_at(ms_nine) to watch(clock). }
+    On failure { Assert ms_caught(party). Decrease ms_worth(ms_nine) by 2 or to nothing. Decrease regard(brigades) by 1 or to nothing. Assert ms_slighted_brigades(party). }
+    Result "The nails come out of the new wood like teeth out of a child. You have the bird under your coat before Captain Garrity has finished her sentence. The house is, in a moment, nobody's; and the captains, who have both been given what each wanted, are stranded in it.".
+    Otherwise "Captain Garrity's hand closes on your collar from behind. 'That,' she says, 'is the Office's bird.' For the first time that morning she and Mate Marchbanks are in complete agreement, and the thing they agree about is you.".
+  }
+  Action ms_swap_plate(actor: group) "Swap Number Ten's black fish for Number Nine's gilt bird, while both captains are looking at each other" {
+    Requires able(actor) and company(actor) and at(actor, mark_street) and state(ms_house, ms_alight) and state(ms_plate, ms_bird) and not ms_caught(party).
+    Time 6 minutes.
+    Resolve check(actor, stealth, dc_hard).
+    On success { Assert state(ms_plate, ms_fish). Assert ms_swapped(party). Assert state(ms_house, ms_closing). Assert ms_v_lamprey(ms_nine). }
+    On failure { Assert ms_caught(party). Decrease ms_worth(ms_nine) by 2 or to nothing. Decrease regard(brigades) by 1 or to nothing. Assert ms_slighted_brigades(party). }
+    Result "A fish is a good deal lighter than a bird, and Number Ten's neighbour is looking the other way. You are on the step, and off it, and a black fish is hanging a little crooked over Number Nine's door with the paint of a different house on its tail, before anyone has so much as drawn breath.".
+    Otherwise "Mate Marchbanks, who is looking at you for the first time, says in a conversational voice, 'That is the Lamprey's fish,' and Captain Garrity says, 'That is the Phoenix's bird,' and the two of them take hold of an arm each. You have lost a quarter of an hour and a good deal of Mark Street's regard.".
+  }
+  Action ms_bribe_ruddle(actor: group) "Press eight coin into Mate Marchbanks's hand for the hose-boys' beer, and let the Phoenix have the house" {
+    Speaker ms_mate.
+    Requires able(actor) and company(actor) and at(actor, mark_street) and at(ms_mate, mark_street) and state(ms_house, ms_alight) and state(ms_plate, ms_bird) and quantity(actor, gold) >= 8.
+    Time 5 minutes.
+    On success { Decrease quantity(actor, gold) by 8. Increase ms_worth(ms_nine) by 4. Assert state(ms_house, ms_closing). Assert ms_v_phoenix(ms_nine). }
+    Result "Mate Marchbanks does not look at the coin. He looks at the sky, and says to the hose-boys that the Lamprey has no standing on a Phoenix mark and that anybody who thinks otherwise can say so to Captain Dree. It is, you realise, the position he has been maintaining all morning.".
+  }
+  Action ms_scare_ruddle(actor: group) "Tell Mate Marchbanks what the Lamprey's pump will look like at the bottom of the river" {
+    Speaker ms_mate.
+    Requires able(actor) and company(actor) and at(actor, mark_street) and at(ms_mate, mark_street) and state(ms_house, ms_alight) and state(ms_plate, ms_bird) and capable(actor, intimidation).
+    Time 5 minutes.
+    Resolve check(actor, intimidation, dc_hard).
+    On success { Increase ms_worth(ms_nine) by 4. Assert state(ms_house, ms_closing). Assert ms_v_phoenix(ms_nine). }
+    On failure { Assert ms_slighted_lamprey(party). Decrease regard(lamprey) by 1 or to nothing. }
+    Result "Mate Marchbanks listens to a description of his pump and the river with the patience of a man who has been threatened by experts, and then he tells his hose-boys, quietly, to go home. You do not like how little it cost.".
+    Otherwise "'Captain Dree,' says Mate Marchbanks, in the tone of a man reading the weather, 'was threatened by a harbour-master once. The harbour-master has since retired.' He writes your description into the small book.".
+  }
+  Topic ms_tob_fetch with tobias "Ask Tobias Pargeter to run in at the front and bring out the Peascods' policy-book" when state(ms_house, ms_alight) and not ms_book_taken(ms_nine) once {
+    Says "Tobias Pargeter looks at Captain Garrity, who is not looking at him, and at the front door, which is. 'Nobody told me not to,' he says, and goes in with his coat over his head. He comes out a long minute later with his eyebrows gone and a black oilcloth book held to his chest. 'It's got a fish on it,' he says, rather surprised, and gives it to you.".
+    On discuss { Give ms_book to actor. Assert ms_book_taken(ms_nine). Decrease ms_worth(ms_nine) by 2 or to nothing. }
+  }
+  Topic ms_tob_blankets with tobias "Ask Tobias Pargeter how the Peascods are" when ms_over() and ms_tier(ms_nine) <= 1 once {
+    Says "'My mother's coming with the broth,' says Tobias Pargeter. 'They'll have our back room. Mrs Peascod won't sit down, so I put the kettle where she can see it.' He looks at the heap, and does not say anything more.".
+  }
+  Topic ms_tob_thanks with tobias "Ask Tobias Pargeter what he made of Mark Street" when tobiasWilling(actor) and not ms_burned(party) once {
+    Says "'I put out my share,' says Tobias Pargeter, 'and carried more than my share, and I'd not have had it done any other way. I think the Office had better learn what the Lamprey knew. I'd like to come with you, if you're going on with it. I've the evenings.'".
+  }
+  Topic ms_tob_join with tobias "Ask Tobias Pargeter to come along with the company" when tobiasWilling(actor) once {
+    Says "Tobias Pargeter takes his helmet off its peg, puts it on, takes it off, and hangs it up again. 'Right,' he says. 'Mother will insure the dinner.'".
+    On discuss { Assert willing(tobias, actor). Set hire(tobias) to 0. }
+  }
+  Topic ms_mrs_witness with ms_mrs "Ask Mrs Peascod whether she would say what happened before the Five" when ms_paid(ms_nine) or ms_rule(party) once {
+    Says "'I should think so,' says Hester Peascod. 'I've been waiting for someone to ask me something that was not whether I was covered.'".
+    On discuss { Assert witness(ms_mrs). }
+  }
+  Objective ms_obj_fire when (knows(party, ms_claim) or knows(party, ms_alarm)) and state(ms_house, ms_alight) "A house burns on Mark Street under the wrong Office's plate, and the two brigades will not work a mark that is not theirs. It will be gone by noon.".
+  Objective ms_obj_claim when knows(party, ms_claim) and ms_over() and ms_unpaid(party) and not ms_paid(ms_nine) "The Peascods' house is lost or saved by the wrong Office, and nobody is paying them: the policy-book is in the front room, and the Captains of both brigades are in their yards.".
 }
