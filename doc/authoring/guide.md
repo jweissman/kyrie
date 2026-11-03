@@ -70,7 +70,8 @@ way as two one-way passages, and a rule to lift a company that could not climb o
 A way is offered by where it goes ("To the Kept Hall"), which gives a decoy away. One the module marks
 `Initially Assert unmarked(left_way).` is offered by its own name, "By the left-hand passage", until the company has
 been where it goes, or a rule retracts `unmarked(left_way)` (the script over it read): Let One Remember's F6, which
-had renamed each room until reached (`probes/unmarked`).
+had renamed each room until reached (`probes/unmarked`). So a journey's steps name a way by where it goes ("To the
+weir stones"), and a path split in two at a new room is walked by new steps (Gosse's Company's second pass).
 
 ```kyr
   Passage heron_door "the Heron's door" is door between taproom and green.
