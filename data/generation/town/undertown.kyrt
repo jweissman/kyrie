@@ -1,0 +1,112 @@
+# undertown: what lies under the town the company begins in, a step from its door (the owner, 1 November 2026: "we shouldn't have to explore to start an adventuring loop").
+// A Kyr template (see src/world/kyr-template.ts). {t} is the town's id, {town} its name; "{{t}_merchant}" is
+// written "{s2_merchant}", the merchant's name when it is read. The base and below are always written; of each other
+// group one option is drawn for the town. An option of the store, the yard or the pit is a trouble: its name is the
+// id of the foe it sets there ({t}_u_<option>) and of the job of being rid of it ({t}_u_<option>_job), and its ">>"
+// lines are what is said of it on the notice on the green. Add an option to add a trouble; nothing in the engine
+// needs to change.
+--- base
+  Place {t}_u_store "the old corn-store" is room within {t} at 0, 1 indoors.
+  Passage {t}_u_store_door "the corn-store door" is door between {t}_green and {t}_u_store.
+  Place {t}_u_yard "the churchyard" is room within {t} at 1, 2 outdoors.
+  Passage {t}_u_yard_gate "the lych-gate" is gate between {t}_green and {t}_u_yard.
+  Place {t}_u_pit "the old quarry pit" is room within {t} at 2, 2 outdoors.
+  Passage {t}_u_pit_path "the path down into the old quarry" is path between {t}_green and {t}_u_pit taking 5 minutes.
+  Place {t}_u_cellar "the corn-store cellar" is room within {t} at 0, 3 underground.
+  Passage {t}_u_trap "the trapdoor" is stair between {t}_u_store and {t}_u_cellar.
+  Place {t}_u_warren "the rat-runs" is room within {t} at 0, 4 underground.
+  Passage {t}_u_runs "a hole gnawed through the cellar wall" is crawl between {t}_u_cellar and {t}_u_warren.
+  Place {t}_u_crypt "the crypt" is room within {t} at 1, 3 underground.
+  Passage {t}_u_crypt_stair "the stone stair under the churchyard" is stair between {t}_u_yard and {t}_u_crypt.
+  Place {t}_u_ossuary "the ossuary" is room within {t} at 1, 4 underground.
+  Passage {t}_u_bone_arch "an arch stacked round with skulls" is arch between {t}_u_crypt and {t}_u_ossuary.
+  Place {t}_u_adit "the quarry adit" is room within {t} at 2, 3 underground.
+  Passage {t}_u_adit_mouth "the roped adit" is passage between {t}_u_pit and {t}_u_adit.
+  Place {t}_u_gallery "the cut gallery" is room within {t} at 2, 4 underground.
+  Passage {t}_u_gallery_way "the old cutting" is passage between {t}_u_adit and {t}_u_gallery.
+  Initially Assert unlit({t}_u_cellar). Initially Assert unlit({t}_u_warren). Initially Assert unlit({t}_u_crypt).
+  Initially Assert unlit({t}_u_ossuary). Initially Assert unlit({t}_u_adit). Initially Assert unlit({t}_u_gallery).
+--- store rats
+  Observe {t}_u_store_scene at {t}_u_store as fixture when true "Sacks stacked to the rafters, and the smell of mice; a trapdoor in the floor with a sack of grain weighting it down, and gnawed holes along the foot of every wall.".
+  Person {t}_u_rats "the rats under the corn-store" at {t}_u_warren {
+    Role "rats as big as cats, that have eaten their way into the corn-store from below". Species rat. Numbers 4. Level 1. Temperament territorial. Lair {t}_u_warren.
+  }
+  Initially Set encounterXp({t}_u_rats) to 15.
+  Entity {t}_u_rats_job: fact "Clear the rats out from under the old corn-store at {town}.".
+  Topic {t}_u_rats_job_ask with {t}_merchant "Ask {{t}_merchant} about the rats in the corn-store" when able({t}_u_rats) once {
+    Says "'They've got into the old corn-store from underneath,' says {{t}_merchant}. 'Rats the size of cats. I've lost a third of the grain. Ten coin to whoever clears them out: there's a trapdoor in the floor.'".
+    On discuss { Assert knows(actor, {t}_u_rats_job). }
+  }
+  Objective {t}_u_rats_job_aim when (knows(party, {t}_u_rats_job) or knows(party, {t}_u_notice)) and able({t}_u_rats) "Clear the rats out from under the old corn-store at {town}; {{t}_merchant} will pay ten coin.".
+  Topic {t}_u_rats_job_paid with {t}_merchant "Tell {{t}_merchant} it is done" when (knows(actor, {t}_u_rats_job) or knows(actor, {t}_u_notice)) and not able({t}_u_rats) once {
+    Says "{{t}_merchant} counts out 10 coin into your hand. 'I did not think anyone would. Thank you.'".
+    On discuss { Increase quantity(actor, gold) by 10. }
+  }
+>> 'RATS in the old corn-store, as big as cats. Ten coin. Ask {{t}_merchant}.'
+--- yard dead
+  Observe {t}_u_yard_scene at {t}_u_yard as fixture when true "Old stones leaning in the grass, and in the corner by the wall a low stone door into the ground, its iron ring bright where someone has pulled at it lately.".
+  Person {t}_u_dead "the hungry dead of the ossuary" at {t}_u_ossuary {
+    Role "dead things that have come up out of the bone-heaps hungry". Species ghoul. Numbers 2. Level 1. Lair {t}_u_ossuary.
+  }
+  Initially Set encounterXp({t}_u_dead) to 25.
+  Entity {t}_u_dead_job: fact "Lay whatever has come up in the catacombs under the churchyard at {town}.".
+  Topic {t}_u_dead_job_ask with {t}_priest "Ask {{t}_priest} about the noises under the churchyard" when able({t}_u_dead) once {
+    Says "{{t}_priest} looks at the floor. 'The catacombs. Something has come up out of the bone-heaps, and the old stair is the only way down. I cannot ask anyone to go. I will give fifteen coin to anyone who does.'".
+    On discuss { Assert knows(actor, {t}_u_dead_job). }
+  }
+  Objective {t}_u_dead_job_aim when (knows(party, {t}_u_dead_job) or knows(party, {t}_u_notice)) and able({t}_u_dead) "Lay whatever has come up in the catacombs under the churchyard at {town}; {{t}_priest} will give fifteen coin.".
+  Topic {t}_u_dead_job_paid with {t}_priest "Tell {{t}_priest} it is done" when (knows(actor, {t}_u_dead_job) or knows(actor, {t}_u_notice)) and not able({t}_u_dead) once {
+    Says "{{t}_priest} counts out 15 coin into your hand. 'I did not think anyone would. Thank you.'".
+    On discuss { Increase quantity(actor, gold) by 15. }
+  }
+>> 'Whoever will go down into the catacombs under the churchyard, where something has come up: fifteen coin. Ask {{t}_priest}.'
+--- pit spiders
+  Observe {t}_u_pit_scene at {t}_u_pit as fixture when true "A bowl of grey stone cut out of the hill long ago, ivy over its faces; at the bottom, a square adit goes back into the rock, roped across, and a board on the rope says KEEP OUT in three hands.".
+  Person {t}_u_spiders "the spiders in the old workings" at {t}_u_gallery {
+    Role "cave spiders the size of dogs, that have strung the old workings with web". Species cave_spider. Numbers 2. Level 1. Lair {t}_u_gallery.
+  }
+  Initially Set encounterXp({t}_u_spiders) to 20.
+  Entity {t}_u_spiders_job: fact "Burn the spiders out of the old quarry's workings at {town}.".
+  Topic {t}_u_spiders_job_ask with {t}_innkeeper "Ask {{t}_innkeeper} about the old quarry" when able({t}_u_spiders) once {
+    Says "'Nobody goes in the old quarry now,' says {{t}_innkeeper}. 'There's webs across the adit thick as sailcloth, and the Hobb boy went in after a ferret and came out white. Twelve coin from the house to whoever burns them out.'".
+    On discuss { Assert knows(actor, {t}_u_spiders_job). }
+  }
+  Objective {t}_u_spiders_job_aim when (knows(party, {t}_u_spiders_job) or knows(party, {t}_u_notice)) and able({t}_u_spiders) "Burn the spiders out of the old quarry's workings at {town}; {{t}_innkeeper} will pay twelve coin.".
+  Topic {t}_u_spiders_job_paid with {t}_innkeeper "Tell {{t}_innkeeper} it is done" when (knows(actor, {t}_u_spiders_job) or knows(actor, {t}_u_notice)) and not able({t}_u_spiders) once {
+    Says "{{t}_innkeeper} counts out 12 coin into your hand. 'I did not think anyone would. Thank you.'".
+    On discuss { Increase quantity(actor, gold) by 12. }
+  }
+>> 'SPIDERS in the old quarry. Twelve coin from the house. Ask {{t}_innkeeper}.'
+--- below
+  Place {t}_u_drain "the old drain" is room within {t} at 0, 5 underground.
+  Passage {t}_u_drain_way "a culvert going down" is crawl between {t}_u_warren and {t}_u_drain.
+  Place {t}_u_undercroft "the undercroft" is room within {t} at 1, 5 underground.
+  Passage {t}_u_drain_mouth "the mouth of the drain" is passage between {t}_u_drain and {t}_u_undercroft.
+  Passage {t}_u_ossuary_steps "steps down behind the bone-heaps" is steps between {t}_u_ossuary and {t}_u_undercroft.
+  Passage {t}_u_gallery_breach "a breach in the gallery floor" is crawl between {t}_u_gallery and {t}_u_undercroft.
+  Initially Assert unlit({t}_u_drain). Initially Assert unlit({t}_u_undercroft).
+  Observe {t}_u_undercroft_scene at {t}_u_undercroft as fixture when true "A long room of round pillars, older than anything above it: the corn-store, the church and the quarry were all dug down into it, from three sides, by people who did not know it was here. The floor is flagged, and one flag in the middle is cut with a ring of letters nobody here can read.".
+  Person {t}_u_crawler "a great centipede" at {t}_u_drain {
+    Role "a centipede as long as a man, living in the old drain". Species great_centipede. Numbers 1. Level 2. Lair {t}_u_drain.
+  }
+  Initially Set encounterXp({t}_u_crawler) to 20.
+  Discovery {t}_u_drain_cache_found "Wedged in the drain where the water would have carried it, a purse someone dropped down a grating long ago." {
+    Found by searching {t}_u_drain "Something wedged in the drain, where the water left it.".
+  }
+  Item {t}_u_drain_purse "a mouldy purse" is steel_coin at {t}_u_drain hidden until {t}_u_drain_cache_found.
+--- vault
+  Discovery {t}_u_vault_found "The lettered flag in the undercroft floor lifts: under it, a stair going down into the dark." {
+    Found by searching {t}_u_undercroft "The flag cut with letters is not set like the others: it rocks under your foot.".
+  }
+  Place {t}_u_vault "the sealed vault" is room within {t} at 1, 6 underground.
+  Passage {t}_u_vault_stair "the stair under the lettered flag" is stair between {t}_u_undercroft and {t}_u_vault hidden until {t}_u_vault_found.
+  Initially Assert unlit({t}_u_vault).
+  Person {t}_u_keeper "the keeper of the vault" at {t}_u_vault {
+    Role "the last of whoever built the undercroft, long dead and still at its post". Species ghoul. Numbers 1. Level 3. Lair {t}_u_vault.
+    Warns "Something stands up from a stone chair at the far end of the vault, slowly, as if it had been waiting a long time.".
+  }
+  Initially Set encounterXp({t}_u_keeper) to 60.
+  Item {t}_u_vault_rings "a cord of old rings" is grave_rings at {t}_u_vault.
+  Item {t}_u_vault_stone "a moonstone the size of a thumb" is moonstone at {t}_u_vault.
+  Milestone {t}_u_vault_reached "found the sealed vault under the undercroft" worth 25 when been(party, {t}_u_vault).
+  Objective {t}_u_vault_sought when knows(party, {t}_u_vault_found) and able({t}_u_keeper) "Something keeps the sealed vault under the undercroft.".

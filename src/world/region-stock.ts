@@ -1,4 +1,5 @@
 import { Draw } from './land/draw';
+import { WrittenKyr } from './written-kyr';
 import { RegionEcology } from './region-ecology';
 import type { Region, Site } from './region-writer';
 
@@ -17,11 +18,11 @@ export class RegionStock {
     return [...this.den(region, site, den!), ...cache ? this.cache(site, cache, at.values) : []];
   }
   // The rooms no one lives in, in the order the plan wrote them (a room with a thing of its own in it is still one a
-  // beast may den in, or something be put by in).
+  // beast may den in, or something be put by in): read from the written Kyr parsed, its places and who is at or lairs
+  // in each, not by matching its text (the owner, 2 November: structure read as structure).
   private static bare(written: string[]): string[] {
-    const text = written.join('\n');
-    return [...text.matchAll(/Place (\w+) "[^"]*" is room/g)].map(m => m[1]!)
-      .filter(r => !new RegExp(`Person \\w+ [^\\n]* at ${r}\\b|Lair ${r}\\b`).test(text));
+    const kyr = WrittenKyr.of(written), lived = kyr.lived();
+    return kyr.rooms().filter(r => !lived.has(r));
   }
   private static den(region: Region, site: Site, room: string): string[] {
     const habitat = RegionEcology.habitat(region, site), beast = RegionEcology.den(region, habitat);

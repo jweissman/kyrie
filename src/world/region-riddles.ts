@@ -1,4 +1,5 @@
 import { Draw } from './land/draw';
+import { WrittenKyr } from './written-kyr';
 import world from '../../data/generation/scenes/orsino-world.json';
 import type { Region, Site } from './region-writer';
 
@@ -14,10 +15,10 @@ export class RegionRiddles {
   static readonly breath = 'Deal (1d6) cold damage to ally unless constitution save against (11).';
   static readonly answers = (world as unknown as { riddleAnswers: Record<string, string[]> }).riddleAnswers;
   static work(region: Region, site: Site, written: string[]): string[] {
-    const way = `${site.id}_in`, line = written.find(l => l.includes(`Passage ${way} `));
+    const way = `${site.id}_in`, ends = WrittenKyr.of(written).ends(way);
     const draw = new Draw(`${region.name}:${site.id}:riddle`);
-    if (!line || site.work?.great || !draw.chance(0.4)) { return []; }
-    const room = /between (\w+) and \w+/.exec(line)![1]!;
+    if (!ends || site.work?.great || !draw.chance(0.4)) { return []; }
+    const room = ends[0];
     const pool = Object.values(this.riddles).flat().filter(r => this.answers[r.kind]?.length);
     const riddle = draw.pick(pool), wrong = draw.shuffle(this.answers[riddle.kind]!
       .filter(a => a.toLowerCase() !== riddle.answer.toLowerCase())).slice(0, 3);

@@ -49,7 +49,7 @@ export class RegionWorks {
       const sections = WorkPlans.choose(plan, `${region.name}:${work.id}:${work.plan}`, values)
         .filter(s => s.group === 'outside' || !taken[site.id]);
       const written = sections.flatMap(s => WorkPlans.fill(s.lines, values));
-      return [...written, ...taken[site.id] ? [] : [...RegionRenewal.work(region, site, { plan, sections, values }),
+      return [...written, ...taken[site.id] ? [] : [...RegionRenewal.work(region, site, { plan, written, values }),
         ...RegionStock.work(region, site, { great: !!plan.great, written, values }),
         ...RegionMarvels.work(region, site, work.plan, written), ...RegionRiddles.work(region, site, written)]];
     })];

@@ -1,4 +1,5 @@
 import { Harm } from '../rules/harm';
+import { WrittenKyr } from './written-kyr';
 import { Canon } from '../canon/canon';
 import { parseAbility, type Effect } from '../lang/parse';
 import { Draw } from './land/draw';
@@ -49,9 +50,9 @@ export class RegionMarvels {
   // one, a wonder in the room beyond it, no two works of a country the same.
   static work(region: Region, site: Site, plan: string, written: string[]): string[] {
     const suffix = this.inner[plan], way = `${site.id}_${suffix}`;
-    const line = suffix && written.find(l => l.includes(`Passage ${way} `));
-    if (!line) { return []; }
-    const draw = new Draw(`${region.name}:${site.id}:within`), beyond = /between \S+ and (\w+)/.exec(line)?.[1];
+    const ends = suffix ? WrittenKyr.of(written).ends(way) : undefined;
+    if (!ends) { return []; }
+    const draw = new Draw(`${region.name}:${site.id}:within`), beyond = ends[1];
     const works = region.sites.filter(s => s.work).map(s => s.id), at = works.indexOf(site.id);
     const within = new Draw(`${region.name}:within`).shuffle(this.wonders.filter(([, w]) => w.where === 'within'));
     const wonder = beyond && draw.chance(0.5) ? within[at % within.length] : undefined;
