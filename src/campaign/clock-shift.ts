@@ -29,23 +29,33 @@ export class ClockShift {
     for (const p of (module.pursuits ?? []).filter(x => x.actor.startsWith(prefix))) { own.add(p); }
     for (const g of [...addition.actors, ...addition.extensions ?? []].flatMap(a => a.goals)) { own.add(g); }
     for (const o of addition.outcomes) { own.add(o); }
-    for (const x of own) { this.mine(x, elapsed, false); }
+    for (const x of own) { this.mine(x, elapsed, false, prefix); }
     for (const [who, when] of Object.entries(module.seen ?? {}).filter(([w]) => w.startsWith(prefix))) {
       module.seen![who] = this.local(when, elapsed, false) as Predicate;
     }
     for (const p of addition.pressures ?? []) { p.at += elapsed; }
     // What it sets at the start is set as at its start, its own watch 0 (shared rules set nothing from the clock).
-    for (const c of module.initial) { this.mine(c, elapsed, true); }
+    for (const c of module.initial) { this.mine(c, elapsed, true, prefix); }
   }
   // One declaration read with the installation's own watch, in place: the module holds it, and so may others.
-  private static mine(x: object, by: number, start: boolean) {
-    for (const [k, v] of Object.entries(x)) { (x as Record<string, unknown>)[k] = this.local(v, by, start); }
+  private static mine(x: object, by: number, start: boolean, prefix: string) {
+    for (const [k, v] of Object.entries(x)) { (x as Record<string, unknown>)[k] = this.local(v, by, start, prefix); }
+  }
+  // A change to a measure of the shared rules (unprefixed: a toll's day, a debt's due date) is written in the world's
+  // time, as the shared rules that read it read it (the Grand Tour's friction 1, GTR-01: the module's watch, counted
+  // from its first morning, had been written into the world's measures); not one of the module's own things, which it
+  // reads by its own watch (Half the Hive's matterSince(phume__call_open)), nor a measure of its own, prefixed by it.
+  private static shared(node: unknown, prefix: string): boolean {
+    const c = node as { kind?: string; call?: { name?: string; args?: unknown[] } };
+    return ['set', 'increase', 'decrease'].includes(c?.kind ?? '') && !!c.call?.name && !c.call.name.includes('__')
+      && !(c.call.args ?? []).some(a => typeof a === 'string' && a.startsWith(prefix));
   }
   // A part of a declaration with every read of the watch made the installation's own (at its start, 0); what reads it
   // not is as it was.
-  private static local(node: unknown, by: number, start: boolean): unknown {
+  private static local(node: unknown, by: number, start: boolean, prefix = ''): unknown {
+    if (prefix && this.shared(node, prefix)) { return node; }
     if (Array.isArray(node)) {
-      const out = node.map(n => this.local(n, by, start));
+      const out = node.map(n => this.local(n, by, start, prefix));
       return out.some((n, i) => n !== node[i]) ? out : node;
     }
     if (!node || typeof node !== 'object') { return node; }
@@ -58,7 +68,7 @@ export class ClockShift {
     }
     let out: Record<string, unknown> | undefined;
     for (const [k, v] of Object.entries(node)) {
-      const w = this.local(v, by, start);
+      const w = this.local(v, by, start, prefix);
       if (w !== v) { (out ??= { ...node as Record<string, unknown> })[k] = w; }
     }
     return out ?? node;

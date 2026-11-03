@@ -62,6 +62,14 @@ export class StatementParser {
     return tails.children.reduce((left, tail) => ({ kind: 'arith', op: tail.children[0]!.sourceString,
       left, right: ModuleParser.ast(tail.children[1]!) }), ModuleParser.ast(first) as object);
   }
+  // The less or the greater of two (min(fondness(fabian), 10)).
+  static Extreme(word: Node, _open: Node, args: Node, _close: Node) {
+    const [left, right] = ModuleParser.ast(args) as [unknown, unknown];
+    return { kind: 'arith', op: word.sourceString, left, right };
+  }
+  static ExtremeArgs(left: Node, _comma: Node, right: Node) {
+    return [ModuleParser.ast(left), ModuleParser.ast(right)];
+  }
   static Comparison(left: Node, operator: Node, right: Node) {
     return { kind: 'compare', left: ModuleParser.ast(left), right: ModuleParser.ast(right), operator: operator.sourceString };
   }

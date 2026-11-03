@@ -68,13 +68,9 @@ class Knowing {
 describe('what the map knows of a place', () => {
   it('shows a place heard of as a mark, a site past the known land as a question, and keeps what is learned', async () => {
     const s = await Knowing.start(), start = Knowing.of(s), W = start.land.width;
-    // Heard of: the march-stone the north road runs out to, where it is said to stand, by its name and a plain sign;
-    // not its hex, nor the land about it.
-    const stone = start.land.marks.find(m => m.id === 'region__edge_north')!;
-    // (Named for the country beyond, drawn from the seed: Merrowdale is a province of this one now, Gate B.)
-    expect(stone).toMatchObject({ name: expect.stringMatching(/^the march-stone of /), state: 'heard', kind: 'place' });
-    expect([HexLand.sign(stone), BoardField.kind(stone)]).toEqual(['place', 'place']);
-    expect(Knowing.about(start.land, stone.cell).filter(c => start.land.known.includes(c))).toEqual([]);
+    // Not on the map before it is heard of: the march-stones the roads run out to, at the far ends of the country (the
+    // owner, 3 November: the world map started mostly revealed). Only the towns down the roads from where one has been.
+    expect(start.land.marks.filter(m => /__(edge_[a-z]+|gate_\w+)$/.test(m.id))).toEqual([]);
     // The towns along the roads are names over the unknown, the roads to them drawn only as far as the land is known.
     const far = start.region.areas.filter(a => start.land.towns[a.id] === 'heard');
     expect(far.length).toBeGreaterThan(1);

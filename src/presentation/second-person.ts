@@ -1,3 +1,4 @@
+import { Sentences } from './sentences';
 // The protagonist's own acts, told to them: one who has come alone is "you", and "Ilse pays Dain, and takes a torch."
 // is "You pay Dain, and take a torch." (the shared rules tell what a member does by their name, as a company's member
 // is told; Mission 17's fresh play heard its protagonist bought for in the third person). Only a sentence that begins
@@ -23,7 +24,7 @@ export class SecondPerson {
     'shout', 'speak', 'say', 'write', 'copy', 'sign', 'seal', 'mark', 'note', 'map', 'track', 'scout', 'stalk']);
   static turn(text: string, name: string): string {
     if (!name) { return text; }
-    return text.split(/(?<=[.!?])\s+/).map(s => this.sentence(s, name)).join(' ');
+    return Sentences.split(text).map(s => this.sentence(s, name)).join(' ');
   }
   private static sentence(s: string, name: string): string {
     const joined = s.indexOf(`, and ${name} `);

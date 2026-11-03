@@ -235,8 +235,12 @@ Module circus "Wapshott's Peregrine Circus" {
     On discuss { Assert knows(actor, honoria_mumchance). }
   }
   Entity honoria_mumchance: fact "Honoria Bulstrode and Mumchance were nearly married once, at Wakeham, and somehow never got back to it.".
+  // What the larder wants is learned of her, before anyone talks a merchant down for it (the owner, 3 November: the
+  // circus's bill was haggled before anything was known of it).
+  Entity larder_known: fact "Honoria Bulstrode keeps Wapshott's larder, and pays whatever price the Colonel agreed to: somebody could talk the merchants down for her.".
   Topic hon_larder with honoria "Ask Honoria how the larder stands" when true {
     Says "'{larder(wapshotts)} days,' says Honoria, 'if nobody has seconds, and everybody has seconds.' She tips her head at the town. 'I buy what I can off {merchant_a} and the rest, at whatever price the Colonel has agreed to, which is always the first one they say. If somebody could talk them down, I'd cook them a pie in the shape of their own head.'".
+    On discuss { Assert knows(actor, larder_known). }
   }
 
   // ── Signor Fipps ─────────────────────────────────────────────────────────────────────────────────────────────

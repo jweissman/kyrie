@@ -108,7 +108,7 @@ export class PersonParser {
   }
   static readonly manners: Record<string, string> = { Warns: 'warning', Arrives: 'arrival', Comes: 'onslaught',
     Flinches: 'flinch', Pleads: 'plea', Objects: 'objection', Resents: 'resentment', Joins: 'joining',
-    Leaves: 'parting', Greets: 'greeting', GreetsAgain: 'regreeting', Likeness: 'likeness', Lair: 'lair',
+    Leaves: 'parting', Greets: 'greeting', GreetsAgain: 'regreeting', Farewell: 'farewelling', Likeness: 'likeness', Lair: 'lair',
     Refuge: 'refuge', Fears: 'fears', Manner: 'manner', Pronouns: 'pronouns' };
   private static manner(module: Module, id: string, temperament: string | undefined, manner: Manner[]) {
     if (temperament) { PersonParser.fact(module, 'temperament', id, `temper_${temperament}`); }

@@ -19,7 +19,8 @@ export class BeforeStep {
     const mine = open.find(b => b.id === m.backgroundId);
     const wants = catalog.callings.find(c => c.id === m.classId)?.qualities ?? {};
     return (
-      <Card.Deck kind="before" onward={onward} details={{ title: 'Every trade', body: <TradeStep.View app={app} /> }}>
+      <Card.Deck kind="before" onward={onward} details={{ title: 'Every trade', body: <TradeStep.View app={app} /> }}
+        after={mine && <BeforeStep.Trades app={app} trades={open.filter(b => b.kind === mine.kind)} mine={mine.id} />}>
         {catalog.kinds.filter(k => open.some(b => b.kind === k.id)).map(k => {
           const trade = mine?.kind === k.id ? mine : BeforeStep.first(open, k.id, wants);
           return <Card.View key={k.id} name={k.name} glyph={`life_${k.id}`} line={Words.upper(trade.name)}
@@ -27,6 +28,15 @@ export class BeforeStep {
             onChoose={() => app.opening.edit(0, 'backgroundId', trade.id)} />;
         })}
       </Card.Deck>
+    );
+  }
+  // Every trade of the kind chosen, each a word to choose it by (the owner, 3 November: of the hundreds of trades,
+  // the cards had reached one a kind).
+  static Trades({ app, trades, mine }: { app: ReaderApp; trades: Trade[]; mine: string }) {
+    return (
+      <div className="trades" aria-label="Trades of this kind">{trades.map(t => <button key={t.id} type="button"
+        className="trade" data-nav aria-pressed={t.id === mine} data-choice={`backgroundId:${t.id}`}
+        onClick={() => app.opening.edit(0, 'backgroundId', t.id)}>{Words.upper(t.name)}</button>)}</div>
     );
   }
   // The trade of a kind first to hand: one the calling has of its own, if there is one of that kind, else the one whose

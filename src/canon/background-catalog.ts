@@ -19,20 +19,43 @@ export interface BackgroundTables {
 export interface OrsinoBackground {
   attributes: Record<string, number>; gold: number; requiredClass?: string; gear?: string[]; source: { orsino: string };
 }
-export type CompiledBackground = Background & { kind: string; omits?: Omissions };
+export type CompiledBackground = Background & { kind: string; omits?: Omissions; painting?: string };
+// A profession the portraits show that Orsino's backgrounds do not (data/catalog/professions.json, written by
+// scripts/professions.ts): of a kind, with scores and purse derived from its kind's Orsino rows.
+export interface KyrProfession {
+  name: string; kind: string; attributes: Record<string, number>; gold: number; painting: string;
+  source: { kyr: true; notes: string };
+}
 
 // Backgrounds and professions, compiled from two sources: Orsino's backgroundModifier rows (scores, gold, class,
 // gear) and Kyr's Deem tables, which put each background in a kind and say what the kind means. Nothing is copied by
 // hand: a background differs from its kind only where an overlay says so.
 export class BackgroundCatalog {
   static compile(orsino: Record<string, OrsinoBackground>, tables: BackgroundTables,
-    has: (item: string) => boolean): Record<string, CompiledBackground> {
+    has: (item: string) => boolean, kyr: Record<string, KyrProfession> = {}): Record<string, CompiledBackground> {
     const kinds = this.kinds(orsino, tables);
     const overlays = tables.backgroundOverlay.groups;
     for (const id of Object.keys(overlays).filter(id => !kinds.has(id))) { throw new Error(`Overlay for unknown background ${id}`); }
-    return Object.fromEntries(Object.entries(orsino).map(([id, row]) => {
+    const compiled = Object.fromEntries(Object.entries(orsino).map(([id, row]) => {
       const { kind, index } = kinds.get(id)!, meaning = tables.backgroundKindMeaning.groups[kind]!;
       return [id, this.one(id, row, { kind, index, meaning, change: overlays[id] ?? {} }, has)];
+    }));
+    return { ...compiled, ...this.professions(kyr, tables, compiled, has) };
+  }
+  // The portraits' professions, each after its kind's Orsino rows: what its kind means, as an Orsino row of the kind
+  // would have it, and the likeness it was drawn from.
+  private static professions(kyr: Record<string, KyrProfession>, tables: BackgroundTables,
+    orsino: Record<string, CompiledBackground>, has: (item: string) => boolean): Record<string, CompiledBackground> {
+    const at = new Map<string, number>();
+    return Object.fromEntries(Object.entries(kyr).map(([id, p]) => {
+      if (orsino[id]) { throw new Error(`Profession ${id} is already Orsino's`); }
+      const meaning = tables.backgroundKindMeaning.groups[p.kind];
+      if (!meaning) { throw new Error(`Profession ${id} is of no kind: ${p.kind}`); }
+      const index = (tables.backgroundKind.groups[p.kind]?.length ?? 0) + (at.get(p.kind) ?? 0);
+      at.set(p.kind, (at.get(p.kind) ?? 0) + 1);
+      const one = this.one(id, { attributes: p.attributes, gold: p.gold, source: { orsino: '' } },
+        { kind: p.kind, index, meaning, change: { name: p.name } }, has);
+      return [id, { ...one, painting: p.painting, source: { kyr: true as const, notes: p.source.notes } }];
     }));
   }
   // Every Orsino background in exactly one kind, with its place in the kind's list.

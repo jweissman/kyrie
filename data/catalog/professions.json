@@ -1,0 +1,5713 @@
+{
+ "about": "The professions the portraits show beyond Orsino's backgrounds, each of a kind of life, written by scripts/professions.ts from the paintings' census (data/paintings/registry.json): its scores and purse derived from its kind's Orsino rows.",
+ "professions": {
+  "abbess": {
+   "name": "Abbess",
+   "kind": "faith",
+   "attributes": {
+    "wisdom": 3,
+    "charisma": 2
+   },
+   "gold": 45,
+   "painting": "abbess",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait abbess (Portrait of a Gentlewoman): a profession of faith, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "academician": {
+   "name": "Academician",
+   "kind": "learning",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 30,
+   "painting": "academician",
+   "station": "learned",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait academician (untitled): a profession of learning, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "accountant": {
+   "name": "Accountant",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 20,
+   "painting": "accountant",
+   "station": "middling",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait accountant (untitled): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "actress": {
+   "name": "Actress",
+   "kind": "stage",
+   "attributes": {
+    "charisma": 3,
+    "dexterity": 2
+   },
+   "gold": 45,
+   "painting": "actress",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait actress (untitled): a profession of stage, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "admiral": {
+   "name": "Admiral",
+   "kind": "court",
+   "attributes": {
+    "charisma": 4,
+    "intelligence": 2
+   },
+   "gold": 75,
+   "painting": "admiral",
+   "station": "martial",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait admiral (Admiral John Forbes, 1714-96): a profession of court, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "adventurer": {
+   "name": "Adventurer",
+   "kind": "roads",
+   "attributes": {
+    "dexterity": 2,
+    "wisdom": 1
+   },
+   "gold": 15,
+   "painting": "adventurer",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait adventurer (untitled): a profession of roads, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "advocate": {
+   "name": "Advocate",
+   "kind": "court",
+   "attributes": {
+    "charisma": 4,
+    "intelligence": 2
+   },
+   "gold": 75,
+   "painting": "advocate",
+   "station": "middling",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait advocate (untitled): a profession of court, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "aesthete": {
+   "name": "Aesthete",
+   "kind": "stage",
+   "attributes": {
+    "charisma": 3,
+    "dexterity": 2
+   },
+   "gold": 30,
+   "painting": "aesthete",
+   "station": "artist",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait aesthete (untitled): a profession of stage, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "algebraist": {
+   "name": "Algebraist",
+   "kind": "learning",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 30,
+   "painting": "algebraist",
+   "station": "learned",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait algebraist (untitled): a profession of learning, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "alienist": {
+   "name": "Alienist",
+   "kind": "healing",
+   "attributes": {
+    "intelligence": 2,
+    "dexterity": 1
+   },
+   "gold": 30,
+   "painting": "alienist",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait alienist (13SYMBOLS.AT.UA): a profession of healing, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "alnager": {
+   "name": "Alnager",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 30,
+   "painting": "alnager",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait alnager (A Man with a Quilted Sleeve): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "amanuensis": {
+   "name": "Amanuensis",
+   "kind": "learning",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 30,
+   "painting": "amanuensis",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait amanuensis (untitled): a profession of learning, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "ambassador": {
+   "name": "Ambassador",
+   "kind": "court",
+   "attributes": {
+    "charisma": 4,
+    "intelligence": 2
+   },
+   "gold": 113,
+   "painting": "ambassador",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait ambassador (untitled): a profession of court, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "ambassadress": {
+   "name": "Ambassadress",
+   "kind": "court",
+   "attributes": {
+    "charisma": 4,
+    "intelligence": 2
+   },
+   "gold": 113,
+   "painting": "ambassadress",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait ambassadress (untitled): a profession of court, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "angler": {
+   "name": "Angler",
+   "kind": "water",
+   "attributes": {
+    "charisma": 3,
+    "wisdom": 2
+   },
+   "gold": 20,
+   "painting": "angler",
+   "station": "middling",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait angler (untitled): a profession of water, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "animator": {
+   "name": "Animator",
+   "kind": "stage",
+   "attributes": {
+    "charisma": 3,
+    "dexterity": 2
+   },
+   "gold": 30,
+   "painting": "animator",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait animator (untitled): a profession of stage, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "annalist": {
+   "name": "Annalist",
+   "kind": "learning",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 30,
+   "painting": "annalist",
+   "station": "learned",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait annalist (untitled): a profession of learning, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "announcer": {
+   "name": "Announcer",
+   "kind": "stage",
+   "attributes": {
+    "charisma": 3,
+    "dexterity": 2
+   },
+   "gold": 30,
+   "painting": "announcer",
+   "station": "middling",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait announcer (untitled): a profession of stage, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "antiquarian": {
+   "name": "Antiquarian",
+   "kind": "learning",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 45,
+   "painting": "antiquarian",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait antiquarian (untitled): a profession of learning, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "aphorist": {
+   "name": "Aphorist",
+   "kind": "stage",
+   "attributes": {
+    "charisma": 3,
+    "dexterity": 2
+   },
+   "gold": 45,
+   "painting": "aphorist",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait aphorist (Elizabeth Wrottesley, Lady (Francis) Wolryche (d. between 1711 and 1713)): a profession of stage, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "apostle": {
+   "name": "Apostle",
+   "kind": "faith",
+   "attributes": {
+    "wisdom": 3,
+    "charisma": 2
+   },
+   "gold": 30,
+   "painting": "apostle",
+   "station": "religious",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait apostle (1964_45, 2/4/10, 12:34 PM,  8C, 5138x6582 (500+720), 100%, chrome 7 stops,  1/15 s, R37.3, G15.1, B27.9): a profession of faith, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "arborist": {
+   "name": "Arborist",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 20,
+   "painting": "arborist",
+   "station": "middling",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait arborist (untitled): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "archimandrite": {
+   "name": "Archimandrite",
+   "kind": "faith",
+   "attributes": {
+    "wisdom": 3,
+    "charisma": 2
+   },
+   "gold": 30,
+   "painting": "archimandrite",
+   "station": "religious",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait archimandrite (untitled): a profession of faith, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "arms_dealer": {
+   "name": "Arms dealer",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 20,
+   "painting": "arms-dealer",
+   "station": "middling",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait arms-dealer (untitled): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "arsonist": {
+   "name": "Arsonist",
+   "kind": "shadows",
+   "attributes": {
+    "dexterity": 4,
+    "intelligence": 2
+   },
+   "gold": 45,
+   "painting": "arsonist",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait arsonist (untitled): a profession of shadows, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "art_dealer": {
+   "name": "Art dealer",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 20,
+   "painting": "art-dealer",
+   "station": "middling",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait art-dealer (Jan Six (1618-1700)): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "art_thief": {
+   "name": "Art thief",
+   "kind": "shadows",
+   "attributes": {
+    "dexterity": 4,
+    "intelligence": 2
+   },
+   "gold": 45,
+   "painting": "art-thief",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait art-thief (untitled): a profession of shadows, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "assessor": {
+   "name": "Assessor",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 20,
+   "painting": "assessor",
+   "station": "middling",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait assessor (untitled): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "astrologer": {
+   "name": "Astrologer",
+   "kind": "learning",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 30,
+   "painting": "astrologer",
+   "station": "learned",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait astrologer (Prince Charles Louis of the Palatinate with his Tutor Wolrad von Plessen in Historical Dress): a profession of learning, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "atomist": {
+   "name": "Atomist",
+   "kind": "learning",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 30,
+   "painting": "atomist",
+   "station": "learned",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait atomist ((Toulouse) Démocrite (1630) - Jusepe de Ribera - Madrid, Museo Nacional del Prado): a profession of learning, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "auctioneer": {
+   "name": "Auctioneer",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 20,
+   "painting": "auctioneer",
+   "station": "middling",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait auctioneer (untitled): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "augur": {
+   "name": "Augur",
+   "kind": "faith",
+   "attributes": {
+    "wisdom": 3,
+    "charisma": 2
+   },
+   "gold": 30,
+   "painting": "augur",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait augur (untitled): a profession of faith, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "avenger": {
+   "name": "Avenger",
+   "kind": "arms",
+   "attributes": {
+    "strength": 2,
+    "constitution": 1,
+    "dexterity": 1
+   },
+   "gold": 30,
+   "painting": "avenger",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait avenger (untitled): a profession of arms, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "ballerina": {
+   "name": "Ballerina",
+   "kind": "stage",
+   "attributes": {
+    "charisma": 3,
+    "dexterity": 2
+   },
+   "gold": 45,
+   "painting": "ballerina",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait ballerina (untitled): a profession of stage, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "banker": {
+   "name": "Banker",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 20,
+   "painting": "banker",
+   "station": "middling",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait banker (Portrait of Francisco de los Cobos y Molina): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "barber": {
+   "name": "Barber",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 20,
+   "painting": "barber",
+   "station": "middling",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait barber (untitled): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "bard": {
+   "name": "Bard",
+   "kind": "stage",
+   "attributes": {
+    "charisma": 3,
+    "dexterity": 2
+   },
+   "gold": 30,
+   "painting": "bard",
+   "station": "player",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait bard (untitled): a profession of stage, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "beachcomber": {
+   "name": "Beachcomber",
+   "kind": "water",
+   "attributes": {
+    "charisma": 3,
+    "wisdom": 2
+   },
+   "gold": 30,
+   "painting": "beachcomber",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait beachcomber (untitled): a profession of water, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "believer": {
+   "name": "Believer",
+   "kind": "faith",
+   "attributes": {
+    "wisdom": 3,
+    "charisma": 2
+   },
+   "gold": 30,
+   "painting": "believer",
+   "station": "martial",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait believer (David with the Head of Goliath): a profession of faith, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "belletrist": {
+   "name": "Belletrist",
+   "kind": "stage",
+   "attributes": {
+    "charisma": 3,
+    "dexterity": 2
+   },
+   "gold": 45,
+   "painting": "belletrist",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait belletrist (untitled): a profession of stage, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "benefactor": {
+   "name": "Benefactor",
+   "kind": "court",
+   "attributes": {
+    "charisma": 4,
+    "intelligence": 2
+   },
+   "gold": 75,
+   "painting": "benefactor",
+   "station": "middling",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait benefactor (untitled): a profession of court, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "berserker": {
+   "name": "Berserker",
+   "kind": "arms",
+   "attributes": {
+    "strength": 2,
+    "constitution": 1,
+    "dexterity": 1
+   },
+   "gold": 30,
+   "painting": "berserker",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait berserker (untitled): a profession of arms, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "bibliophile": {
+   "name": "Bibliophile",
+   "kind": "learning",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 30,
+   "painting": "bibliophile",
+   "station": "learned",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait bibliophile (untitled): a profession of learning, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "biologist": {
+   "name": "Biologist",
+   "kind": "learning",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 30,
+   "painting": "biologist",
+   "station": "learned",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait biologist (untitled): a profession of learning, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "birdkeeper": {
+   "name": "Birdkeeper",
+   "kind": "wild",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 23,
+   "painting": "birdkeeper",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait birdkeeper (untitled): a profession of wild, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "bishop": {
+   "name": "Bishop",
+   "kind": "faith",
+   "attributes": {
+    "wisdom": 3,
+    "charisma": 2
+   },
+   "gold": 30,
+   "painting": "bishop",
+   "station": "religious",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait bishop (Charles de Saint-Albin, Archbishop of Cambrai): a profession of faith, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "bookie": {
+   "name": "Bookie",
+   "kind": "shadows",
+   "attributes": {
+    "dexterity": 4,
+    "intelligence": 2
+   },
+   "gold": 30,
+   "painting": "bookie",
+   "station": "middling",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait bookie (The Honourable Mrs Adams): a profession of shadows, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "bookkeeper": {
+   "name": "Bookkeeper",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 20,
+   "painting": "bookkeeper",
+   "station": "labouring",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait bookkeeper (untitled): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "brandisher": {
+   "name": "Brandisher",
+   "kind": "arms",
+   "attributes": {
+    "strength": 2,
+    "constitution": 1,
+    "dexterity": 1
+   },
+   "gold": 30,
+   "painting": "brandisher",
+   "station": "martial",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait brandisher (untitled): a profession of arms, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "breeder": {
+   "name": "Breeder",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 30,
+   "painting": "breeder",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait breeder (Retrato de una mujer con un perro): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "broker": {
+   "name": "Broker",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 20,
+   "painting": "broker",
+   "station": "middling",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait broker (untitled): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "broncobuster": {
+   "name": "Broncobuster",
+   "kind": "wild",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 15,
+   "painting": "broncobuster",
+   "station": "labouring",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait broncobuster (untitled): a profession of wild, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "buccaneer": {
+   "name": "Buccaneer",
+   "kind": "water",
+   "attributes": {
+    "charisma": 3,
+    "wisdom": 2
+   },
+   "gold": 20,
+   "painting": "buccaneer",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait buccaneer (untitled): a profession of water, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "bugler": {
+   "name": "Bugler",
+   "kind": "stage",
+   "attributes": {
+    "charisma": 3,
+    "dexterity": 2
+   },
+   "gold": 30,
+   "painting": "bugler",
+   "station": "martial",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait bugler (untitled): a profession of stage, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "builder": {
+   "name": "Builder",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 20,
+   "painting": "builder",
+   "station": "middling",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait builder (Richard Grainger (1797-1861)): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "businessman": {
+   "name": "Businessman",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 20,
+   "painting": "businessman",
+   "station": "middling",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait businessman (untitled): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "butcher": {
+   "name": "Butcher",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 20,
+   "painting": "butcher",
+   "station": "labouring",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait butcher (untitled): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "bystander": {
+   "name": "Bystander",
+   "kind": "margins",
+   "attributes": {
+    "strength": 2,
+    "constitution": 2
+   },
+   "gold": 1,
+   "painting": "bystander",
+   "station": "labouring",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait bystander (untitled): a profession of margins, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "calligrapher": {
+   "name": "Calligrapher",
+   "kind": "learning",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 30,
+   "painting": "calligrapher",
+   "station": "middling",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait calligrapher (untitled): a profession of learning, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "candlemaker": {
+   "name": "Candlemaker",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 30,
+   "painting": "candlemaker",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait candlemaker (Portrait of a Young Man in Red): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "captain": {
+   "name": "Captain",
+   "kind": "arms",
+   "attributes": {
+    "strength": 2,
+    "constitution": 1,
+    "dexterity": 1
+   },
+   "gold": 30,
+   "painting": "captain",
+   "station": "martial",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait captain (untitled): a profession of arms, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "card_player": {
+   "name": "Card player",
+   "kind": "stage",
+   "attributes": {
+    "charisma": 3,
+    "dexterity": 2
+   },
+   "gold": 30,
+   "painting": "card-player",
+   "station": "labouring",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait card-player (untitled): a profession of stage, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "cardinal": {
+   "name": "Cardinal",
+   "kind": "faith",
+   "attributes": {
+    "wisdom": 3,
+    "charisma": 2
+   },
+   "gold": 30,
+   "painting": "cardinal",
+   "station": "religious",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait cardinal (Portrait of Agostino Pallavicini): a profession of faith, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "caretaker": {
+   "name": "Caretaker",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 20,
+   "painting": "caretaker",
+   "station": "labouring",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait caretaker (untitled): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "caricaturist": {
+   "name": "Caricaturist",
+   "kind": "stage",
+   "attributes": {
+    "charisma": 3,
+    "dexterity": 2
+   },
+   "gold": 30,
+   "painting": "caricaturist",
+   "station": "artist",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait caricaturist (untitled): a profession of stage, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "carpenter": {
+   "name": "Carpenter",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 20,
+   "painting": "carpenter",
+   "station": "labouring",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait carpenter (untitled): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "carpetmonger": {
+   "name": "Carpetmonger",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 20,
+   "painting": "carpetmonger",
+   "station": "middling",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait carpetmonger (untitled): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "cartomancer": {
+   "name": "Cartomancer",
+   "kind": "learning",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 30,
+   "painting": "cartomancer",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait cartomancer (untitled): a profession of learning, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "celebrant": {
+   "name": "Celebrant",
+   "kind": "faith",
+   "attributes": {
+    "wisdom": 3,
+    "charisma": 2
+   },
+   "gold": 30,
+   "painting": "celebrant",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait celebrant (untitled): a profession of faith, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "chancellor": {
+   "name": "Chancellor",
+   "kind": "court",
+   "attributes": {
+    "charisma": 4,
+    "intelligence": 2
+   },
+   "gold": 113,
+   "painting": "chancellor",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait chancellor (untitled): a profession of court, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "character_actor": {
+   "name": "Character actor",
+   "kind": "stage",
+   "attributes": {
+    "charisma": 3,
+    "dexterity": 2
+   },
+   "gold": 45,
+   "painting": "character-actor",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait character-actor (untitled): a profession of stage, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "charioteer": {
+   "name": "Charioteer",
+   "kind": "roads",
+   "attributes": {
+    "dexterity": 2,
+    "wisdom": 1
+   },
+   "gold": 10,
+   "painting": "charioteer",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait charioteer (untitled): a profession of roads, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "charm_seller": {
+   "name": "Charm seller",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 20,
+   "painting": "charm-seller",
+   "station": "middling",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait charm-seller (untitled): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "chatterer": {
+   "name": "Chatterer",
+   "kind": "margins",
+   "attributes": {
+    "strength": 2,
+    "constitution": 2
+   },
+   "gold": 1,
+   "painting": "chatterer",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait chatterer (untitled): a profession of margins, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "chemist": {
+   "name": "Chemist",
+   "kind": "learning",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 45,
+   "painting": "chemist",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait chemist (untitled): a profession of learning, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "chocolatier": {
+   "name": "Chocolatier",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 30,
+   "painting": "chocolatier",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait chocolatier (untitled): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "classicist": {
+   "name": "Classicist",
+   "kind": "learning",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 45,
+   "painting": "classicist",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait classicist (Portrait of an Unknown Man with his Hand on a Classical Bust): a profession of learning, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "clown": {
+   "name": "Clown",
+   "kind": "stage",
+   "attributes": {
+    "charisma": 3,
+    "dexterity": 2
+   },
+   "gold": 30,
+   "painting": "clown",
+   "station": "player",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait clown (The Italian Comedians): a profession of stage, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "collector": {
+   "name": "Collector",
+   "kind": "learning",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 30,
+   "painting": "collector",
+   "station": "middling",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait collector (untitled): a profession of learning, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "collier": {
+   "name": "Collier",
+   "kind": "earth",
+   "attributes": {
+    "strength": 3,
+    "constitution": 2,
+    "dexterity": 2,
+    "intelligence": 1
+   },
+   "gold": 20,
+   "painting": "collier",
+   "station": "labouring",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait collier (untitled): a profession of earth, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "comedy": {
+   "name": "Comedy",
+   "kind": "stage",
+   "attributes": {
+    "charisma": 3,
+    "dexterity": 2
+   },
+   "gold": 30,
+   "painting": "comedy",
+   "station": "player",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait comedy (untitled): a profession of stage, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "commander": {
+   "name": "Commander",
+   "kind": "arms",
+   "attributes": {
+    "strength": 2,
+    "constitution": 1,
+    "dexterity": 1
+   },
+   "gold": 30,
+   "painting": "commander",
+   "station": "martial",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait commander (untitled): a profession of arms, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "composer": {
+   "name": "Composer",
+   "kind": "stage",
+   "attributes": {
+    "charisma": 3,
+    "dexterity": 2
+   },
+   "gold": 30,
+   "painting": "composer",
+   "station": "middling",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait composer (Portrait of a Man with a Sheet of Music): a profession of stage, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "con_artist": {
+   "name": "Con artist",
+   "kind": "stage",
+   "attributes": {
+    "charisma": 3,
+    "dexterity": 2
+   },
+   "gold": 45,
+   "painting": "con-artist",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait con-artist (untitled): a profession of stage, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "condesa": {
+   "name": "Condesa",
+   "kind": "court",
+   "attributes": {
+    "charisma": 4,
+    "intelligence": 2
+   },
+   "gold": 113,
+   "painting": "condesa",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait condesa (Plantilla prado): a profession of court, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "conductor": {
+   "name": "Conductor",
+   "kind": "stage",
+   "attributes": {
+    "charisma": 3,
+    "dexterity": 2
+   },
+   "gold": 45,
+   "painting": "conductor",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait conductor (untitled): a profession of stage, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "conjuror": {
+   "name": "Conjuror",
+   "kind": "learning",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 30,
+   "painting": "conjuror",
+   "station": "learned",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait conjuror (untitled): a profession of learning, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "conqueror": {
+   "name": "Conqueror",
+   "kind": "arms",
+   "attributes": {
+    "strength": 2,
+    "constitution": 1,
+    "dexterity": 1
+   },
+   "gold": 45,
+   "painting": "conqueror",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait conqueror (untitled): a profession of arms, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "conspirator": {
+   "name": "Conspirator",
+   "kind": "shadows",
+   "attributes": {
+    "dexterity": 4,
+    "intelligence": 2
+   },
+   "gold": 30,
+   "painting": "conspirator",
+   "station": "middling",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait conspirator (untitled): a profession of shadows, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "convalescent": {
+   "name": "Convalescent",
+   "kind": "healing",
+   "attributes": {
+    "intelligence": 2,
+    "dexterity": 1
+   },
+   "gold": 20,
+   "painting": "convalescent",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait convalescent (The Convalescent): a profession of healing, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "convert": {
+   "name": "Convert",
+   "kind": "faith",
+   "attributes": {
+    "wisdom": 3,
+    "charisma": 2
+   },
+   "gold": 30,
+   "painting": "convert",
+   "station": "religious",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait convert (untitled): a profession of faith, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "cook": {
+   "name": "Cook",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 20,
+   "painting": "cook",
+   "station": "labouring",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait cook (untitled): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "copyist": {
+   "name": "Copyist",
+   "kind": "learning",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 45,
+   "painting": "copyist",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait copyist (untitled): a profession of learning, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "corsair": {
+   "name": "Corsair",
+   "kind": "water",
+   "attributes": {
+    "charisma": 3,
+    "wisdom": 2
+   },
+   "gold": 20,
+   "painting": "corsair",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait corsair (untitled): a profession of water, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "courier": {
+   "name": "Courier",
+   "kind": "roads",
+   "attributes": {
+    "dexterity": 2,
+    "wisdom": 1
+   },
+   "gold": 10,
+   "painting": "courier",
+   "station": "labouring",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait courier (untitled): a profession of roads, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "cowherd": {
+   "name": "Cowherd",
+   "kind": "wild",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 15,
+   "painting": "cowherd",
+   "station": "labouring",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait cowherd (untitled): a profession of wild, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "crusader": {
+   "name": "Crusader",
+   "kind": "arms",
+   "attributes": {
+    "strength": 2,
+    "constitution": 1,
+    "dexterity": 1
+   },
+   "gold": 30,
+   "painting": "crusader",
+   "station": "martial",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait crusader (untitled): a profession of arms, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "dancing_master": {
+   "name": "Dancing master",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 20,
+   "painting": "dancing-master",
+   "station": "middling",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait dancing-master (untitled): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "deacon": {
+   "name": "Deacon",
+   "kind": "faith",
+   "attributes": {
+    "wisdom": 3,
+    "charisma": 2
+   },
+   "gold": 30,
+   "painting": "deacon",
+   "station": "religious",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait deacon (untitled): a profession of faith, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "defender": {
+   "name": "Defender",
+   "kind": "arms",
+   "attributes": {
+    "strength": 2,
+    "constitution": 1,
+    "dexterity": 1
+   },
+   "gold": 30,
+   "painting": "defender",
+   "station": "middling",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait defender (untitled): a profession of arms, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "degenerate": {
+   "name": "Degenerate",
+   "kind": "margins",
+   "attributes": {
+    "strength": 2,
+    "constitution": 2
+   },
+   "gold": 1,
+   "painting": "degenerate",
+   "station": "labouring",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait degenerate (The Dissolute Household (detail)): a profession of margins, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "demonologist": {
+   "name": "Demonologist",
+   "kind": "learning",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 30,
+   "painting": "demonologist",
+   "station": "learned",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait demonologist (untitled): a profession of learning, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "dialectician": {
+   "name": "Dialectician",
+   "kind": "learning",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 30,
+   "painting": "dialectician",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait dialectician (untitled): a profession of learning, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "dictator": {
+   "name": "Dictator",
+   "kind": "court",
+   "attributes": {
+    "charisma": 4,
+    "intelligence": 2
+   },
+   "gold": 75,
+   "painting": "dictator",
+   "station": "martial",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait dictator (Giovanni Battista Tiepolo (Italian, 1696-1770). 'Scipio Africanus Freeing Massiva,' 1719-1721. oil on canvas. Walters Art Museum (37.657): Acquired by Henry Walters with the Massarenti Collection, 1902.): a profession of court, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "dietitian": {
+   "name": "Dietitian",
+   "kind": "healing",
+   "attributes": {
+    "intelligence": 2,
+    "dexterity": 1
+   },
+   "gold": 30,
+   "painting": "dietitian",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait dietitian (untitled): a profession of healing, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "disciple": {
+   "name": "Disciple",
+   "kind": "faith",
+   "attributes": {
+    "wisdom": 3,
+    "charisma": 2
+   },
+   "gold": 45,
+   "painting": "disciple",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait disciple (untitled): a profession of faith, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "diviner": {
+   "name": "Diviner",
+   "kind": "learning",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 30,
+   "painting": "diviner",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait diviner (untitled): a profession of learning, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "doge": {
+   "name": "Doge",
+   "kind": "court",
+   "attributes": {
+    "charisma": 4,
+    "intelligence": 2
+   },
+   "gold": 113,
+   "painting": "doge",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait doge (untitled): a profession of court, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "draftsman": {
+   "name": "Draftsman",
+   "kind": "earth",
+   "attributes": {
+    "strength": 3,
+    "constitution": 2,
+    "dexterity": 2,
+    "intelligence": 1
+   },
+   "gold": 20,
+   "painting": "draftsman",
+   "station": "artist",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait draftsman (untitled): a profession of earth, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "dragonslayer": {
+   "name": "Dragonslayer",
+   "kind": "arms",
+   "attributes": {
+    "strength": 2,
+    "constitution": 1,
+    "dexterity": 1
+   },
+   "gold": 30,
+   "painting": "dragonslayer",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait dragonslayer (The wedding night of Sarah and Tobias, by Jan Steen): a profession of arms, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "dramaturge": {
+   "name": "Dramaturge",
+   "kind": "stage",
+   "attributes": {
+    "charisma": 3,
+    "dexterity": 2
+   },
+   "gold": 45,
+   "painting": "dramaturge",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait dramaturge (untitled): a profession of stage, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "draughtswoman": {
+   "name": "Draughtswoman",
+   "kind": "earth",
+   "attributes": {
+    "strength": 3,
+    "constitution": 2,
+    "dexterity": 2,
+    "intelligence": 1
+   },
+   "gold": 30,
+   "painting": "draughtswoman",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait draughtswoman (1974.68_1.tif): a profession of earth, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "drawing_master": {
+   "name": "Drawing master",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 20,
+   "painting": "drawing-master",
+   "station": "middling",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait drawing-master (untitled): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "dream_conductor": {
+   "name": "Dream conductor",
+   "kind": "stage",
+   "attributes": {
+    "charisma": 3,
+    "dexterity": 2
+   },
+   "gold": 45,
+   "painting": "dream-conductor",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait dream-conductor (untitled): a profession of stage, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "druid": {
+   "name": "Druid",
+   "kind": "faith",
+   "attributes": {
+    "wisdom": 3,
+    "charisma": 2
+   },
+   "gold": 30,
+   "painting": "druid",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait druid (untitled): a profession of faith, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "drummer": {
+   "name": "Drummer",
+   "kind": "stage",
+   "attributes": {
+    "charisma": 3,
+    "dexterity": 2
+   },
+   "gold": 30,
+   "painting": "drummer",
+   "station": "player",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait drummer (untitled): a profession of stage, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "drunkard": {
+   "name": "Drunkard",
+   "kind": "margins",
+   "attributes": {
+    "strength": 2,
+    "constitution": 2
+   },
+   "gold": 1,
+   "painting": "drunkard",
+   "station": "labouring",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait drunkard (untitled): a profession of margins, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "duke": {
+   "name": "Duke",
+   "kind": "court",
+   "attributes": {
+    "charisma": 4,
+    "intelligence": 2
+   },
+   "gold": 113,
+   "painting": "duke",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait duke (Portrait of Friedrich Christian, Prince of Saxony): a profession of court, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "egoist": {
+   "name": "Egoist",
+   "kind": "margins",
+   "attributes": {
+    "strength": 2,
+    "constitution": 2
+   },
+   "gold": 1,
+   "painting": "egoist",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait egoist (Largillierre, Nicolas de (1656-10-10 - 1746-03-20), Portrait de Voltaire (1694-1778) en 1718, 1718): a profession of margins, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "embroiderer": {
+   "name": "Embroiderer",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 20,
+   "painting": "embroiderer",
+   "station": "middling",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait embroiderer (untitled): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "emissary": {
+   "name": "Emissary",
+   "kind": "court",
+   "attributes": {
+    "charisma": 4,
+    "intelligence": 2
+   },
+   "gold": 113,
+   "painting": "emissary",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait emissary (untitled): a profession of court, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "emperor": {
+   "name": "Emperor",
+   "kind": "court",
+   "attributes": {
+    "charisma": 4,
+    "intelligence": 2
+   },
+   "gold": 113,
+   "painting": "emperor",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait emperor (untitled): a profession of court, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "empress": {
+   "name": "Empress",
+   "kind": "court",
+   "attributes": {
+    "charisma": 4,
+    "intelligence": 2
+   },
+   "gold": 113,
+   "painting": "empress",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait empress (untitled): a profession of court, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "enchanter": {
+   "name": "Enchanter",
+   "kind": "learning",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 30,
+   "painting": "enchanter",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait enchanter (untitled): a profession of learning, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "enchantress": {
+   "name": "Enchantress",
+   "kind": "learning",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 30,
+   "painting": "enchantress",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait enchantress (untitled): a profession of learning, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "encyclopedist": {
+   "name": "Encyclopedist",
+   "kind": "learning",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 30,
+   "painting": "encyclopedist",
+   "station": "middling",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait encyclopedist (untitled): a profession of learning, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "engraver": {
+   "name": "Engraver",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 20,
+   "painting": "engraver",
+   "station": "artist",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait engraver (Accademia - Domenico Pellegrini, ritratto dell'incisore Francesco Bartolozzi, 1794 CAT. 453): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "ensign": {
+   "name": "Ensign",
+   "kind": "arms",
+   "attributes": {
+    "strength": 2,
+    "constitution": 1,
+    "dexterity": 1
+   },
+   "gold": 30,
+   "painting": "ensign",
+   "station": "martial",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait ensign (untitled): a profession of arms, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "epic_poet": {
+   "name": "Epic poet",
+   "kind": "stage",
+   "attributes": {
+    "charisma": 3,
+    "dexterity": 2
+   },
+   "gold": 45,
+   "painting": "epic-poet",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait epic-poet (untitled): a profession of stage, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "epistler": {
+   "name": "Epistler",
+   "kind": "stage",
+   "attributes": {
+    "charisma": 3,
+    "dexterity": 2
+   },
+   "gold": 30,
+   "painting": "epistler",
+   "station": "religious",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait epistler (untitled): a profession of stage, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "epistolographer": {
+   "name": "Epistolographer",
+   "kind": "stage",
+   "attributes": {
+    "charisma": 3,
+    "dexterity": 2
+   },
+   "gold": 30,
+   "painting": "epistolographer",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait epistolographer (untitled): a profession of stage, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "equestrian": {
+   "name": "Equestrian",
+   "kind": "wild",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 23,
+   "painting": "equestrian",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait equestrian (untitled): a profession of wild, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "esotericist": {
+   "name": "Esotericist",
+   "kind": "learning",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 45,
+   "painting": "esotericist",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait esotericist (Portrait of a Woman): a profession of learning, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "ethicist": {
+   "name": "Ethicist",
+   "kind": "learning",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 30,
+   "painting": "ethicist",
+   "station": "religious",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait ethicist (untitled): a profession of learning, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "exorcist": {
+   "name": "Exorcist",
+   "kind": "faith",
+   "attributes": {
+    "wisdom": 3,
+    "charisma": 2
+   },
+   "gold": 30,
+   "painting": "exorcist",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait exorcist (untitled): a profession of faith, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "expediter": {
+   "name": "Expediter",
+   "kind": "roads",
+   "attributes": {
+    "dexterity": 2,
+    "wisdom": 1
+   },
+   "gold": 10,
+   "painting": "expediter",
+   "station": "middling",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait expediter (untitled): a profession of roads, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "falconer": {
+   "name": "Falconer",
+   "kind": "wild",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 15,
+   "painting": "falconer",
+   "station": "labouring",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait falconer (untitled): a profession of wild, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "far_shooter": {
+   "name": "Far shooter",
+   "kind": "arms",
+   "attributes": {
+    "strength": 2,
+    "constitution": 1,
+    "dexterity": 1
+   },
+   "gold": 30,
+   "painting": "far-shooter",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait far-shooter (untitled): a profession of arms, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "feller": {
+   "name": "Feller",
+   "kind": "wild",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 15,
+   "painting": "feller",
+   "station": "labouring",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait feller (untitled): a profession of wild, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "fencing_master": {
+   "name": "Fencing master",
+   "kind": "arms",
+   "attributes": {
+    "strength": 2,
+    "constitution": 1,
+    "dexterity": 1
+   },
+   "gold": 30,
+   "painting": "fencing-master",
+   "station": "middling",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait fencing-master (untitled): a profession of arms, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "fiddler": {
+   "name": "Fiddler",
+   "kind": "stage",
+   "attributes": {
+    "charisma": 3,
+    "dexterity": 2
+   },
+   "gold": 30,
+   "painting": "fiddler",
+   "station": "labouring",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait fiddler (untitled): a profession of stage, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "fifer": {
+   "name": "Fifer",
+   "kind": "stage",
+   "attributes": {
+    "charisma": 3,
+    "dexterity": 2
+   },
+   "gold": 30,
+   "painting": "fifer",
+   "station": "labouring",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait fifer (Ca' Rezzonico - Ragazzo con piffero - Domenico Maggiotto): a profession of stage, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "fighter": {
+   "name": "Fighter",
+   "kind": "arms",
+   "attributes": {
+    "strength": 2,
+    "constitution": 1,
+    "dexterity": 1
+   },
+   "gold": 30,
+   "painting": "fighter",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait fighter (untitled): a profession of arms, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "financier": {
+   "name": "Financier",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 30,
+   "painting": "financier",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait financier (untitled): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "fixer": {
+   "name": "Fixer",
+   "kind": "shadows",
+   "attributes": {
+    "dexterity": 4,
+    "intelligence": 2
+   },
+   "gold": 45,
+   "painting": "fixer",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait fixer (Portrait of Madame Brunet): a profession of shadows, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "flaneur": {
+   "name": "Flaneur",
+   "kind": "roads",
+   "attributes": {
+    "dexterity": 2,
+    "wisdom": 1
+   },
+   "gold": 15,
+   "painting": "flaneur",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait flaneur (untitled): a profession of roads, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "florist": {
+   "name": "Florist",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 20,
+   "painting": "florist",
+   "station": "labouring",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait florist (Flora): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "flying_squirrel_trainer": {
+   "name": "Flying squirrel trainer",
+   "kind": "wild",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 23,
+   "painting": "flying-squirrel-trainer",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait flying-squirrel-trainer (untitled): a profession of wild, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "fool": {
+   "name": "Fool",
+   "kind": "stage",
+   "attributes": {
+    "charisma": 3,
+    "dexterity": 2
+   },
+   "gold": 45,
+   "painting": "fool",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait fool (untitled): a profession of stage, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "forerider": {
+   "name": "Forerider",
+   "kind": "wild",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 15,
+   "painting": "forerider",
+   "station": "martial",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait forerider (untitled): a profession of wild, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "fortune_teller": {
+   "name": "Fortune teller",
+   "kind": "learning",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 30,
+   "painting": "fortune-teller",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait fortune-teller (untitled): a profession of learning, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "foundress": {
+   "name": "Foundress",
+   "kind": "court",
+   "attributes": {
+    "charisma": 4,
+    "intelligence": 2
+   },
+   "gold": 113,
+   "painting": "foundress",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait foundress (untitled): a profession of court, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "friar": {
+   "name": "Friar",
+   "kind": "faith",
+   "attributes": {
+    "wisdom": 3,
+    "charisma": 2
+   },
+   "gold": 30,
+   "painting": "friar",
+   "station": "religious",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait friar (untitled): a profession of faith, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "fruit_seller": {
+   "name": "Fruit seller",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 20,
+   "painting": "fruit-seller",
+   "station": "labouring",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait fruit-seller (untitled): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "fugitive": {
+   "name": "Fugitive",
+   "kind": "roads",
+   "attributes": {
+    "dexterity": 2,
+    "wisdom": 1
+   },
+   "gold": 10,
+   "painting": "fugitive",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait fugitive (untitled): a profession of roads, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "furrier": {
+   "name": "Furrier",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 20,
+   "painting": "furrier",
+   "station": "middling",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait furrier (untitled): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "game_warden": {
+   "name": "Game warden",
+   "kind": "arms",
+   "attributes": {
+    "strength": 2,
+    "constitution": 1,
+    "dexterity": 1
+   },
+   "gold": 30,
+   "painting": "game-warden",
+   "station": "martial",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait game-warden (untitled): a profession of arms, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "gamekeeper": {
+   "name": "Gamekeeper",
+   "kind": "wild",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 15,
+   "painting": "gamekeeper",
+   "station": "labouring",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait gamekeeper (The Dudmaston Gamekeeper, George Griffith (?)): a profession of wild, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "gamemaster": {
+   "name": "Gamemaster",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 20,
+   "painting": "gamemaster",
+   "station": "labouring",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait gamemaster (untitled): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "gatekeeper": {
+   "name": "Gatekeeper",
+   "kind": "arms",
+   "attributes": {
+    "strength": 2,
+    "constitution": 1,
+    "dexterity": 1
+   },
+   "gold": 45,
+   "painting": "gatekeeper",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait gatekeeper (untitled): a profession of arms, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "gatherer": {
+   "name": "Gatherer",
+   "kind": "wild",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 23,
+   "painting": "gatherer",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait gatherer (untitled): a profession of wild, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "general": {
+   "name": "General",
+   "kind": "arms",
+   "attributes": {
+    "strength": 2,
+    "constitution": 1,
+    "dexterity": 1
+   },
+   "gold": 30,
+   "painting": "general",
+   "station": "martial",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait general (An Old Man in Military Costume): a profession of arms, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "gentleman": {
+   "name": "Gentleman",
+   "kind": "court",
+   "attributes": {
+    "charisma": 4,
+    "intelligence": 2
+   },
+   "gold": 113,
+   "painting": "gentleman",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait gentleman (Portrait of an Unknown Gentleman in a Cartwell Collar): a profession of court, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "ghostwriter": {
+   "name": "Ghostwriter",
+   "kind": "learning",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 45,
+   "painting": "ghostwriter",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait ghostwriter (untitled): a profession of learning, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "gleaner": {
+   "name": "Gleaner",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 20,
+   "painting": "gleaner",
+   "station": "labouring",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait gleaner (untitled): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "golden_voice": {
+   "name": "Golden voice",
+   "kind": "stage",
+   "attributes": {
+    "charisma": 3,
+    "dexterity": 2
+   },
+   "gold": 30,
+   "painting": "golden-voice",
+   "station": "player",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait golden-voice (untitled): a profession of stage, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "goose_girl": {
+   "name": "Goose girl",
+   "kind": "wild",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 15,
+   "painting": "goose-girl",
+   "station": "labouring",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait goose-girl (The Goose Girl at Gruchy): a profession of wild, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "gooseherd": {
+   "name": "Gooseherd",
+   "kind": "wild",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 15,
+   "painting": "gooseherd",
+   "station": "labouring",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait gooseherd (untitled): a profession of wild, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "governess": {
+   "name": "Governess",
+   "kind": "court",
+   "attributes": {
+    "charisma": 4,
+    "intelligence": 2
+   },
+   "gold": 75,
+   "painting": "governess",
+   "station": "middling",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait governess (untitled): a profession of court, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "governor": {
+   "name": "Governor",
+   "kind": "court",
+   "attributes": {
+    "charisma": 4,
+    "intelligence": 2
+   },
+   "gold": 75,
+   "painting": "governor",
+   "station": "martial",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait governor (Portrait of Alfonso d&#39;Avalos, Marchese del Vasto, in Armor with a Page): a profession of court, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "grail_seeker": {
+   "name": "Grail seeker",
+   "kind": "roads",
+   "attributes": {
+    "dexterity": 2,
+    "wisdom": 1
+   },
+   "gold": 10,
+   "painting": "grail-seeker",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait grail-seeker (untitled): a profession of roads, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "groundskeeper": {
+   "name": "Groundskeeper",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 20,
+   "painting": "groundskeeper",
+   "station": "labouring",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait groundskeeper (untitled): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "guardian": {
+   "name": "Guardian",
+   "kind": "arms",
+   "attributes": {
+    "strength": 2,
+    "constitution": 1,
+    "dexterity": 1
+   },
+   "gold": 45,
+   "painting": "guardian",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait guardian (Portrait of Cecilia Gallerani (Lady with the Ermine), about 1488): a profession of arms, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "guide": {
+   "name": "Guide",
+   "kind": "roads",
+   "attributes": {
+    "dexterity": 2,
+    "wisdom": 1
+   },
+   "gold": 10,
+   "painting": "guide",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait guide (untitled): a profession of roads, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "guitarist": {
+   "name": "Guitarist",
+   "kind": "stage",
+   "attributes": {
+    "charisma": 3,
+    "dexterity": 2
+   },
+   "gold": 30,
+   "painting": "guitarist",
+   "station": "player",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait guitarist (untitled): a profession of stage, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "halberdier": {
+   "name": "Halberdier",
+   "kind": "arms",
+   "attributes": {
+    "strength": 2,
+    "constitution": 1,
+    "dexterity": 1
+   },
+   "gold": 30,
+   "painting": "halberdier",
+   "station": "martial",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait halberdier (Portrait of a Halberdier (Francesco Guardi?)): a profession of arms, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "harpooner": {
+   "name": "Harpooner",
+   "kind": "water",
+   "attributes": {
+    "charisma": 3,
+    "wisdom": 2
+   },
+   "gold": 20,
+   "painting": "harpooner",
+   "station": "labouring",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait harpooner (untitled): a profession of water, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "harvester": {
+   "name": "Harvester",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 20,
+   "painting": "harvester",
+   "station": "labouring",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait harvester (untitled): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "healer": {
+   "name": "Healer",
+   "kind": "healing",
+   "attributes": {
+    "intelligence": 2,
+    "dexterity": 1
+   },
+   "gold": 20,
+   "painting": "healer",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait healer (untitled): a profession of healing, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "heckler": {
+   "name": "Heckler",
+   "kind": "margins",
+   "attributes": {
+    "strength": 2,
+    "constitution": 2
+   },
+   "gold": 1,
+   "painting": "heckler",
+   "station": "labouring",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait heckler (untitled): a profession of margins, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "hermeticist": {
+   "name": "Hermeticist",
+   "kind": "learning",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 30,
+   "painting": "hermeticist",
+   "station": "learned",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait hermeticist (untitled): a profession of learning, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "hero": {
+   "name": "Hero",
+   "kind": "arms",
+   "attributes": {
+    "strength": 2,
+    "constitution": 1,
+    "dexterity": 1
+   },
+   "gold": 30,
+   "painting": "hero",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait hero (The Farewell of Telemachus and Eucharis): a profession of arms, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "heroine": {
+   "name": "Heroine",
+   "kind": "arms",
+   "attributes": {
+    "strength": 2,
+    "constitution": 1,
+    "dexterity": 1
+   },
+   "gold": 30,
+   "painting": "heroine",
+   "station": "martial",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait heroine (untitled): a profession of arms, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "hierophant": {
+   "name": "Hierophant",
+   "kind": "faith",
+   "attributes": {
+    "wisdom": 3,
+    "charisma": 2
+   },
+   "gold": 30,
+   "painting": "hierophant",
+   "station": "religious",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait hierophant (Daniel and Cyrus Before the Idol Bel): a profession of faith, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "homilist": {
+   "name": "Homilist",
+   "kind": "faith",
+   "attributes": {
+    "wisdom": 3,
+    "charisma": 2
+   },
+   "gold": 30,
+   "painting": "homilist",
+   "station": "religious",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait homilist (The Supper at Emmaus): a profession of faith, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "horticulturist": {
+   "name": "Horticulturist",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 20,
+   "painting": "horticulturist",
+   "station": "middling",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait horticulturist (untitled): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "hospitaller": {
+   "name": "Hospitaller",
+   "kind": "faith",
+   "attributes": {
+    "wisdom": 3,
+    "charisma": 2
+   },
+   "gold": 30,
+   "painting": "hospitaller",
+   "station": "martial",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait hospitaller (Krieger_2): a profession of faith, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "humanist": {
+   "name": "Humanist",
+   "kind": "learning",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 30,
+   "painting": "humanist",
+   "station": "learned",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait humanist (untitled): a profession of learning, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "huntress": {
+   "name": "Huntress",
+   "kind": "wild",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 23,
+   "painting": "huntress",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait huntress (untitled): a profession of wild, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "hymnist": {
+   "name": "Hymnist",
+   "kind": "faith",
+   "attributes": {
+    "wisdom": 3,
+    "charisma": 2
+   },
+   "gold": 30,
+   "painting": "hymnist",
+   "station": "player",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait hymnist (untitled): a profession of faith, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "ice_cutter": {
+   "name": "Ice cutter",
+   "kind": "water",
+   "attributes": {
+    "charisma": 3,
+    "wisdom": 2
+   },
+   "gold": 20,
+   "painting": "ice-cutter",
+   "station": "labouring",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait ice-cutter (untitled): a profession of water, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "illuminator": {
+   "name": "Illuminator",
+   "kind": "stage",
+   "attributes": {
+    "charisma": 3,
+    "dexterity": 2
+   },
+   "gold": 30,
+   "painting": "illuminator",
+   "station": "artist",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait illuminator (untitled): a profession of stage, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "illusionist": {
+   "name": "Illusionist",
+   "kind": "learning",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 30,
+   "painting": "illusionist",
+   "station": "artist",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait illusionist (untitled): a profession of learning, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "illustrator": {
+   "name": "Illustrator",
+   "kind": "stage",
+   "attributes": {
+    "charisma": 3,
+    "dexterity": 2
+   },
+   "gold": 30,
+   "painting": "illustrator",
+   "station": "artist",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait illustrator (untitled): a profession of stage, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "impressionist": {
+   "name": "Impressionist",
+   "kind": "stage",
+   "attributes": {
+    "charisma": 3,
+    "dexterity": 2
+   },
+   "gold": 30,
+   "painting": "impressionist",
+   "station": "artist",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait impressionist (untitled): a profession of stage, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "indolence": {
+   "name": "Indolence",
+   "kind": "margins",
+   "attributes": {
+    "strength": 2,
+    "constitution": 2
+   },
+   "gold": 1,
+   "painting": "indolence",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait indolence (\u0011spÀ): a profession of margins, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "informant": {
+   "name": "Informant",
+   "kind": "shadows",
+   "attributes": {
+    "dexterity": 4,
+    "intelligence": 2
+   },
+   "gold": 30,
+   "painting": "informant",
+   "station": "labouring",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait informant (untitled): a profession of shadows, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "jailer": {
+   "name": "Jailer",
+   "kind": "arms",
+   "attributes": {
+    "strength": 2,
+    "constitution": 1,
+    "dexterity": 1
+   },
+   "gold": 30,
+   "painting": "jailer",
+   "station": "middling",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait jailer (untitled): a profession of arms, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "jester": {
+   "name": "Jester",
+   "kind": "stage",
+   "attributes": {
+    "charisma": 3,
+    "dexterity": 2
+   },
+   "gold": 30,
+   "painting": "jester",
+   "station": "player",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait jester (untitled): a profession of stage, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "jeweler": {
+   "name": "Jeweler",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 20,
+   "painting": "jeweler",
+   "station": "artist",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait jeweler (untitled): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "jurist": {
+   "name": "Jurist",
+   "kind": "court",
+   "attributes": {
+    "charisma": 4,
+    "intelligence": 2
+   },
+   "gold": 113,
+   "painting": "jurist",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait jurist (untitled): a profession of court, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "kabbalist": {
+   "name": "Kabbalist",
+   "kind": "learning",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 30,
+   "painting": "kabbalist",
+   "station": "learned",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait kabbalist (untitled): a profession of learning, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "keymaster": {
+   "name": "Keymaster",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 20,
+   "painting": "keymaster",
+   "station": "middling",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait keymaster (Rembrandt Harmensz): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "king": {
+   "name": "King",
+   "kind": "court",
+   "attributes": {
+    "charisma": 4,
+    "intelligence": 2
+   },
+   "gold": 113,
+   "painting": "king",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait king (untitled): a profession of court, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "kitchenmaid": {
+   "name": "Kitchenmaid",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 20,
+   "painting": "kitchenmaid",
+   "station": "labouring",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait kitchenmaid (untitled): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "knight": {
+   "name": "Knight",
+   "kind": "arms",
+   "attributes": {
+    "strength": 2,
+    "constitution": 1,
+    "dexterity": 1
+   },
+   "gold": 30,
+   "painting": "knight",
+   "station": "martial",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait knight (untitled): a profession of arms, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "lady": {
+   "name": "Lady",
+   "kind": "court",
+   "attributes": {
+    "charisma": 4,
+    "intelligence": 2
+   },
+   "gold": 113,
+   "painting": "lady",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait lady (untitled): a profession of court, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "laundress": {
+   "name": "Laundress",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 20,
+   "painting": "laundress",
+   "station": "labouring",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait laundress (The Laundress (La Blanchisseuse)): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "lawgiver": {
+   "name": "Lawgiver",
+   "kind": "court",
+   "attributes": {
+    "charisma": 4,
+    "intelligence": 2
+   },
+   "gold": 113,
+   "painting": "lawgiver",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait lawgiver (untitled): a profession of court, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "lawyer": {
+   "name": "Lawyer",
+   "kind": "court",
+   "attributes": {
+    "charisma": 4,
+    "intelligence": 2
+   },
+   "gold": 75,
+   "painting": "lawyer",
+   "station": "middling",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait lawyer (untitled): a profession of court, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "lector": {
+   "name": "Lector",
+   "kind": "learning",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 30,
+   "painting": "lector",
+   "station": "learned",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait lector (Hector Treub (1856-1920)): a profession of learning, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "legate": {
+   "name": "Legate",
+   "kind": "court",
+   "attributes": {
+    "charisma": 4,
+    "intelligence": 2
+   },
+   "gold": 113,
+   "painting": "legate",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait legate (untitled): a profession of court, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "libertine": {
+   "name": "Libertine",
+   "kind": "shadows",
+   "attributes": {
+    "dexterity": 4,
+    "intelligence": 2
+   },
+   "gold": 45,
+   "painting": "libertine",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait libertine (untitled): a profession of shadows, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "lifeboatman": {
+   "name": "Lifeboatman",
+   "kind": "water",
+   "attributes": {
+    "charisma": 3,
+    "wisdom": 2
+   },
+   "gold": 20,
+   "painting": "lifeboatman",
+   "station": "labouring",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait lifeboatman (untitled): a profession of water, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "limner": {
+   "name": "Limner",
+   "kind": "stage",
+   "attributes": {
+    "charisma": 3,
+    "dexterity": 2
+   },
+   "gold": 30,
+   "painting": "limner",
+   "station": "artist",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait limner (untitled): a profession of stage, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "linguist": {
+   "name": "Linguist",
+   "kind": "learning",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 30,
+   "painting": "linguist",
+   "station": "learned",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait linguist (Jean-Jacques Rousseau (1712-1778)): a profession of learning, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "lobster_man": {
+   "name": "Lobster man",
+   "kind": "water",
+   "attributes": {
+    "charisma": 3,
+    "wisdom": 2
+   },
+   "gold": 20,
+   "painting": "lobster-man",
+   "station": "labouring",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait lobster-man (untitled): a profession of water, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "logician": {
+   "name": "Logician",
+   "kind": "learning",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 30,
+   "painting": "logician",
+   "station": "middling",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait logician (untitled): a profession of learning, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "lord": {
+   "name": "Lord",
+   "kind": "court",
+   "attributes": {
+    "charisma": 4,
+    "intelligence": 2
+   },
+   "gold": 113,
+   "painting": "lord",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait lord (untitled): a profession of court, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "lunatic": {
+   "name": "Lunatic",
+   "kind": "margins",
+   "attributes": {
+    "strength": 2,
+    "constitution": 2
+   },
+   "gold": 1,
+   "painting": "lunatic",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait lunatic (untitled): a profession of margins, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "lutenist": {
+   "name": "Lutenist",
+   "kind": "stage",
+   "attributes": {
+    "charisma": 3,
+    "dexterity": 2
+   },
+   "gold": 30,
+   "painting": "lutenist",
+   "station": "middling",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait lutenist (untitled): a profession of stage, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "luthier": {
+   "name": "Luthier",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 20,
+   "painting": "luthier",
+   "station": "player",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait luthier (untitled): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "lyricist": {
+   "name": "Lyricist",
+   "kind": "stage",
+   "attributes": {
+    "charisma": 3,
+    "dexterity": 2
+   },
+   "gold": 45,
+   "painting": "lyricist",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait lyricist (untitled): a profession of stage, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "madrileña": {
+   "name": "Madrileña",
+   "kind": "margins",
+   "attributes": {
+    "strength": 2,
+    "constitution": 2
+   },
+   "gold": 1,
+   "painting": "madrileña",
+   "station": "middling",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait madrileña (untitled): a profession of margins, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "magician": {
+   "name": "Magician",
+   "kind": "learning",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 30,
+   "painting": "magician",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait magician (untitled): a profession of learning, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "magus": {
+   "name": "Magus",
+   "kind": "learning",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 30,
+   "painting": "magus",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait magus (Study for Balthazar): a profession of learning, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "marquesa": {
+   "name": "Marquesa",
+   "kind": "court",
+   "attributes": {
+    "charisma": 4,
+    "intelligence": 2
+   },
+   "gold": 113,
+   "painting": "marquesa",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait marquesa (untitled): a profession of court, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "martyr": {
+   "name": "Martyr",
+   "kind": "faith",
+   "attributes": {
+    "wisdom": 3,
+    "charisma": 2
+   },
+   "gold": 30,
+   "painting": "martyr",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait martyr (untitled): a profession of faith, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "mason": {
+   "name": "Mason",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 20,
+   "painting": "mason",
+   "station": "labouring",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait mason (untitled): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "master": {
+   "name": "Master",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 20,
+   "painting": "master",
+   "station": "artist",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait master (Martinus Rørbye, Portræt af maleren C. A. Lorentzen, 1827): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "mathematician": {
+   "name": "Mathematician",
+   "kind": "learning",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 45,
+   "painting": "mathematician",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait mathematician (untitled): a profession of learning, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "medical_scholar": {
+   "name": "Medical scholar",
+   "kind": "learning",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 30,
+   "painting": "medical-scholar",
+   "station": "learned",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait medical-scholar (V0017691 A man of learning (Avicenna?). Oil painting by a Ne): a profession of learning, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "medium": {
+   "name": "Medium",
+   "kind": "learning",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 30,
+   "painting": "medium",
+   "station": "middling",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait medium (untitled): a profession of learning, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "memoirist": {
+   "name": "Memoirist",
+   "kind": "stage",
+   "attributes": {
+    "charisma": 3,
+    "dexterity": 2
+   },
+   "gold": 30,
+   "painting": "memoirist",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait memoirist (untitled): a profession of stage, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "metaphysician": {
+   "name": "Metaphysician",
+   "kind": "learning",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 45,
+   "painting": "metaphysician",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait metaphysician (untitled): a profession of learning, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "midwife": {
+   "name": "Midwife",
+   "kind": "healing",
+   "attributes": {
+    "intelligence": 2,
+    "dexterity": 1
+   },
+   "gold": 20,
+   "painting": "midwife",
+   "station": "middling",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait midwife (untitled): a profession of healing, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "milkmaid": {
+   "name": "Milkmaid",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 20,
+   "painting": "milkmaid",
+   "station": "labouring",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait milkmaid (untitled): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "mime": {
+   "name": "Mime",
+   "kind": "stage",
+   "attributes": {
+    "charisma": 3,
+    "dexterity": 2
+   },
+   "gold": 30,
+   "painting": "mime",
+   "station": "player",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait mime (LE MIME CHARLES DEBUREAU EN COSTUME DE PIERROT): a profession of stage, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "miniaturist": {
+   "name": "Miniaturist",
+   "kind": "stage",
+   "attributes": {
+    "charisma": 3,
+    "dexterity": 2
+   },
+   "gold": 30,
+   "painting": "miniaturist",
+   "station": "artist",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait miniaturist (untitled): a profession of stage, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "minister": {
+   "name": "Minister",
+   "kind": "court",
+   "attributes": {
+    "charisma": 4,
+    "intelligence": 2
+   },
+   "gold": 75,
+   "painting": "minister",
+   "station": "religious",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait minister (The Apostle Simon): a profession of court, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "miser": {
+   "name": "Miser",
+   "kind": "margins",
+   "attributes": {
+    "strength": 2,
+    "constitution": 2
+   },
+   "gold": 1,
+   "painting": "miser",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait miser (untitled): a profession of margins, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "money_changer": {
+   "name": "Money changer",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 20,
+   "painting": "money-changer",
+   "station": "middling",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait money-changer (untitled): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "monist": {
+   "name": "Monist",
+   "kind": "learning",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 30,
+   "painting": "monist",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait monist (untitled): a profession of learning, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "monk": {
+   "name": "Monk",
+   "kind": "faith",
+   "attributes": {
+    "wisdom": 3,
+    "charisma": 2
+   },
+   "gold": 30,
+   "painting": "monk",
+   "station": "religious",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait monk (untitled): a profession of faith, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "monkey_trainer": {
+   "name": "Monkey trainer",
+   "kind": "faith",
+   "attributes": {
+    "wisdom": 3,
+    "charisma": 2
+   },
+   "gold": 45,
+   "painting": "monkey-trainer",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait monkey-trainer (untitled): a profession of faith, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "mother_superior": {
+   "name": "Mother superior",
+   "kind": "faith",
+   "attributes": {
+    "wisdom": 3,
+    "charisma": 2
+   },
+   "gold": 45,
+   "painting": "mother-superior",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait mother-superior (Portrait of Anne of Cleves): a profession of faith, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "muralist": {
+   "name": "Muralist",
+   "kind": "stage",
+   "attributes": {
+    "charisma": 3,
+    "dexterity": 2
+   },
+   "gold": 30,
+   "painting": "muralist",
+   "station": "artist",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait muralist (untitled): a profession of stage, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "musician": {
+   "name": "Musician",
+   "kind": "stage",
+   "attributes": {
+    "charisma": 3,
+    "dexterity": 2
+   },
+   "gold": 30,
+   "painting": "musician",
+   "station": "player",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait musician (untitled): a profession of stage, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "musicologist": {
+   "name": "Musicologist",
+   "kind": "stage",
+   "attributes": {
+    "charisma": 3,
+    "dexterity": 2
+   },
+   "gold": 45,
+   "painting": "musicologist",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait musicologist ((Agen) Portrait de Madame Sophie, fille de Louis XV - François-Hubert Drouais - Musée des Beaux-Arts d'Agen): a profession of stage, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "naturalist": {
+   "name": "Naturalist",
+   "kind": "learning",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 45,
+   "painting": "naturalist",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait naturalist (Portrait of Anne, Countess of Chesterfield): a profession of learning, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "necromancer": {
+   "name": "Necromancer",
+   "kind": "learning",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 30,
+   "painting": "necromancer",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait necromancer (untitled): a profession of learning, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "needleworker": {
+   "name": "Needleworker",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 20,
+   "painting": "needleworker",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait needleworker (untitled): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "nobody": {
+   "name": "Nobody",
+   "kind": "margins",
+   "attributes": {
+    "strength": 2,
+    "constitution": 2
+   },
+   "gold": 1,
+   "painting": "nobody",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait nobody (untitled): a profession of margins, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "nourisher": {
+   "name": "Nourisher",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 20,
+   "painting": "nourisher",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait nourisher (untitled): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "novelist": {
+   "name": "Novelist",
+   "kind": "stage",
+   "attributes": {
+    "charisma": 3,
+    "dexterity": 2
+   },
+   "gold": 30,
+   "painting": "novelist",
+   "station": "middling",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait novelist (untitled): a profession of stage, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "novice": {
+   "name": "Novice",
+   "kind": "faith",
+   "attributes": {
+    "wisdom": 3,
+    "charisma": 2
+   },
+   "gold": 30,
+   "painting": "novice",
+   "station": "labouring",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait novice (untitled): a profession of faith, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "nun": {
+   "name": "Nun",
+   "kind": "faith",
+   "attributes": {
+    "wisdom": 3,
+    "charisma": 2
+   },
+   "gold": 30,
+   "painting": "nun",
+   "station": "religious",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait nun (The Virgin in Prayer): a profession of faith, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "nurseryman": {
+   "name": "Nurseryman",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 20,
+   "painting": "nurseryman",
+   "station": "labouring",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait nurseryman (untitled): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "official": {
+   "name": "Official",
+   "kind": "court",
+   "attributes": {
+    "charisma": 4,
+    "intelligence": 2
+   },
+   "gold": 75,
+   "painting": "official",
+   "station": "martial",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait official (untitled): a profession of court, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "oneiromancer": {
+   "name": "Oneiromancer",
+   "kind": "learning",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 30,
+   "painting": "oneiromancer",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait oneiromancer (untitled): a profession of learning, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "operagoer": {
+   "name": "Operagoer",
+   "kind": "stage",
+   "attributes": {
+    "charisma": 3,
+    "dexterity": 2
+   },
+   "gold": 45,
+   "painting": "operagoer",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait operagoer (untitled): a profession of stage, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "opium_eater": {
+   "name": "Opium eater",
+   "kind": "margins",
+   "attributes": {
+    "strength": 2,
+    "constitution": 2
+   },
+   "gold": 1,
+   "painting": "opium-eater",
+   "station": "middling",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait opium-eater (untitled): a profession of margins, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "oracle": {
+   "name": "Oracle",
+   "kind": "faith",
+   "attributes": {
+    "wisdom": 3,
+    "charisma": 2
+   },
+   "gold": 30,
+   "painting": "oracle",
+   "station": "religious",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait oracle (untitled): a profession of faith, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "organist": {
+   "name": "Organist",
+   "kind": "stage",
+   "attributes": {
+    "charisma": 3,
+    "dexterity": 2
+   },
+   "gold": 30,
+   "painting": "organist",
+   "station": "player",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait organist (untitled): a profession of stage, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "ornithologist": {
+   "name": "Ornithologist",
+   "kind": "learning",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 45,
+   "painting": "ornithologist",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait ornithologist (untitled): a profession of learning, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "painter": {
+   "name": "Painter",
+   "kind": "stage",
+   "attributes": {
+    "charisma": 3,
+    "dexterity": 2
+   },
+   "gold": 30,
+   "painting": "painter",
+   "station": "artist",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait painter (untitled): a profession of stage, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "painting_master": {
+   "name": "Painting master",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 20,
+   "painting": "painting-master",
+   "station": "artist",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait painting-master (untitled): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "paladin": {
+   "name": "Paladin",
+   "kind": "arms",
+   "attributes": {
+    "strength": 2,
+    "constitution": 1,
+    "dexterity": 1
+   },
+   "gold": 30,
+   "painting": "paladin",
+   "station": "martial",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait paladin (untitled): a profession of arms, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "patron": {
+   "name": "Patron",
+   "kind": "court",
+   "attributes": {
+    "charisma": 4,
+    "intelligence": 2
+   },
+   "gold": 113,
+   "painting": "patron",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait patron (untitled): a profession of court, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "pauper": {
+   "name": "Pauper",
+   "kind": "margins",
+   "attributes": {
+    "strength": 2,
+    "constitution": 2
+   },
+   "gold": 1,
+   "painting": "pauper",
+   "station": "labouring",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait pauper (untitled): a profession of margins, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "peasant": {
+   "name": "Peasant",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 20,
+   "painting": "peasant",
+   "station": "labouring",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait peasant (untitled): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "peddler": {
+   "name": "Peddler",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 20,
+   "painting": "peddler",
+   "station": "middling",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait peddler (untitled): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "penitent": {
+   "name": "Penitent",
+   "kind": "faith",
+   "attributes": {
+    "wisdom": 3,
+    "charisma": 2
+   },
+   "gold": 30,
+   "painting": "penitent",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait penitent (untitled): a profession of faith, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "philologist": {
+   "name": "Philologist",
+   "kind": "learning",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 30,
+   "painting": "philologist",
+   "station": "learned",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait philologist (untitled): a profession of learning, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "physicist": {
+   "name": "Physicist",
+   "kind": "learning",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 30,
+   "painting": "physicist",
+   "station": "learned",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait physicist (untitled): a profession of learning, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "pianist": {
+   "name": "Pianist",
+   "kind": "stage",
+   "attributes": {
+    "charisma": 3,
+    "dexterity": 2
+   },
+   "gold": 45,
+   "painting": "pianist",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait pianist (untitled): a profession of stage, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "picker": {
+   "name": "Picker",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 20,
+   "painting": "picker",
+   "station": "labouring",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait picker (untitled): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "pioneer": {
+   "name": "Pioneer",
+   "kind": "roads",
+   "attributes": {
+    "dexterity": 2,
+    "wisdom": 1
+   },
+   "gold": 10,
+   "painting": "pioneer",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait pioneer (untitled): a profession of roads, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "player": {
+   "name": "Player",
+   "kind": "stage",
+   "attributes": {
+    "charisma": 3,
+    "dexterity": 2
+   },
+   "gold": 30,
+   "painting": "player",
+   "station": "player",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait player (untitled): a profession of stage, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "poacher": {
+   "name": "Poacher",
+   "kind": "wild",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 15,
+   "painting": "poacher",
+   "station": "labouring",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait poacher (untitled): a profession of wild, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "polymath": {
+   "name": "Polymath",
+   "kind": "learning",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 30,
+   "painting": "polymath",
+   "station": "middling",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait polymath (untitled): a profession of learning, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "pope": {
+   "name": "Pope",
+   "kind": "faith",
+   "attributes": {
+    "wisdom": 3,
+    "charisma": 2
+   },
+   "gold": 30,
+   "painting": "pope",
+   "station": "religious",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait pope (Pope Gregory XV): a profession of faith, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "portraitist": {
+   "name": "Portraitist",
+   "kind": "stage",
+   "attributes": {
+    "charisma": 3,
+    "dexterity": 2
+   },
+   "gold": 30,
+   "painting": "portraitist",
+   "station": "artist",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait portraitist (untitled): a profession of stage, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "priest_king": {
+   "name": "Priest king",
+   "kind": "faith",
+   "attributes": {
+    "wisdom": 3,
+    "charisma": 2
+   },
+   "gold": 30,
+   "painting": "priest-king",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait priest-king (untitled): a profession of faith, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "priestess": {
+   "name": "Priestess",
+   "kind": "faith",
+   "attributes": {
+    "wisdom": 3,
+    "charisma": 2
+   },
+   "gold": 30,
+   "painting": "priestess",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait priestess (untitled): a profession of faith, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "prima_donna": {
+   "name": "Prima donna",
+   "kind": "stage",
+   "attributes": {
+    "charisma": 3,
+    "dexterity": 2
+   },
+   "gold": 45,
+   "painting": "prima-donna",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait prima-donna (untitled): a profession of stage, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "prince": {
+   "name": "Prince",
+   "kind": "court",
+   "attributes": {
+    "charisma": 4,
+    "intelligence": 2
+   },
+   "gold": 75,
+   "painting": "prince",
+   "station": "martial",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait prince (untitled): a profession of court, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "princess": {
+   "name": "Princess",
+   "kind": "court",
+   "attributes": {
+    "charisma": 4,
+    "intelligence": 2
+   },
+   "gold": 113,
+   "painting": "princess",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait princess (untitled): a profession of court, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "printer": {
+   "name": "Printer",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 20,
+   "painting": "printer",
+   "station": "middling",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait printer (untitled): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "printmaker": {
+   "name": "Printmaker",
+   "kind": "stage",
+   "attributes": {
+    "charisma": 3,
+    "dexterity": 2
+   },
+   "gold": 30,
+   "painting": "printmaker",
+   "station": "artist",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait printmaker (Emile Bernard): a profession of stage, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "prior": {
+   "name": "Prior",
+   "kind": "faith",
+   "attributes": {
+    "wisdom": 3,
+    "charisma": 2
+   },
+   "gold": 30,
+   "painting": "prior",
+   "station": "religious",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait prior (untitled): a profession of faith, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "prioress": {
+   "name": "Prioress",
+   "kind": "faith",
+   "attributes": {
+    "wisdom": 3,
+    "charisma": 2
+   },
+   "gold": 45,
+   "painting": "prioress",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait prioress (Portrait of a Lady in Red): a profession of faith, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "procuress": {
+   "name": "Procuress",
+   "kind": "shadows",
+   "attributes": {
+    "dexterity": 4,
+    "intelligence": 2
+   },
+   "gold": 30,
+   "painting": "procuress",
+   "station": "labouring",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait procuress (untitled): a profession of shadows, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "professor": {
+   "name": "Professor",
+   "kind": "learning",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 30,
+   "painting": "professor",
+   "station": "learned",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait professor (Professor Andrew Dalzel (1742-1806), Classical Scholar): a profession of learning, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "prophet": {
+   "name": "Prophet",
+   "kind": "faith",
+   "attributes": {
+    "wisdom": 3,
+    "charisma": 2
+   },
+   "gold": 30,
+   "painting": "prophet",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait prophet (untitled): a profession of faith, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "protector": {
+   "name": "Protector",
+   "kind": "arms",
+   "attributes": {
+    "strength": 2,
+    "constitution": 1,
+    "dexterity": 1
+   },
+   "gold": 30,
+   "painting": "protector",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait protector (Belisarius): a profession of arms, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "psalmist": {
+   "name": "Psalmist",
+   "kind": "faith",
+   "attributes": {
+    "wisdom": 3,
+    "charisma": 2
+   },
+   "gold": 30,
+   "painting": "psalmist",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait psalmist (untitled): a profession of faith, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "psychoanalyst": {
+   "name": "Psychoanalyst",
+   "kind": "healing",
+   "attributes": {
+    "intelligence": 2,
+    "dexterity": 1
+   },
+   "gold": 20,
+   "painting": "psychoanalyst",
+   "station": "middling",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait psychoanalyst (untitled): a profession of healing, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "psychologist": {
+   "name": "Psychologist",
+   "kind": "healing",
+   "attributes": {
+    "intelligence": 2,
+    "dexterity": 1
+   },
+   "gold": 20,
+   "painting": "psychologist",
+   "station": "middling",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait psychologist (Sir Horatio Bryan Donkin (1845-1927)): a profession of healing, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "purifier": {
+   "name": "Purifier",
+   "kind": "healing",
+   "attributes": {
+    "intelligence": 2,
+    "dexterity": 1
+   },
+   "gold": 20,
+   "painting": "purifier",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait purifier (untitled): a profession of healing, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "pusher": {
+   "name": "Pusher",
+   "kind": "shadows",
+   "attributes": {
+    "dexterity": 4,
+    "intelligence": 2
+   },
+   "gold": 30,
+   "painting": "pusher",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait pusher (untitled): a profession of shadows, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "pythoness": {
+   "name": "Pythoness",
+   "kind": "faith",
+   "attributes": {
+    "wisdom": 3,
+    "charisma": 2
+   },
+   "gold": 30,
+   "painting": "pythoness",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait pythoness (untitled): a profession of faith, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "quarrier": {
+   "name": "Quarrier",
+   "kind": "earth",
+   "attributes": {
+    "strength": 3,
+    "constitution": 2,
+    "dexterity": 2,
+    "intelligence": 1
+   },
+   "gold": 20,
+   "painting": "quarrier",
+   "station": "labouring",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait quarrier (untitled): a profession of earth, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "queen": {
+   "name": "Queen",
+   "kind": "court",
+   "attributes": {
+    "charisma": 4,
+    "intelligence": 2
+   },
+   "gold": 113,
+   "painting": "queen",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait queen (untitled): a profession of court, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "quester": {
+   "name": "Quester",
+   "kind": "roads",
+   "attributes": {
+    "dexterity": 2,
+    "wisdom": 1
+   },
+   "gold": 10,
+   "painting": "quester",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait quester (untitled): a profession of roads, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "ranger": {
+   "name": "Ranger",
+   "kind": "wild",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 15,
+   "painting": "ranger",
+   "station": "labouring",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait ranger (untitled): a profession of wild, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "reader": {
+   "name": "Reader",
+   "kind": "learning",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 45,
+   "painting": "reader",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait reader (untitled): a profession of learning, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "realist": {
+   "name": "Realist",
+   "kind": "stage",
+   "attributes": {
+    "charisma": 3,
+    "dexterity": 2
+   },
+   "gold": 45,
+   "painting": "realist",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait realist (Charles-François Pinceloup de la Grange): a profession of stage, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "receptary": {
+   "name": "Receptary",
+   "kind": "healing",
+   "attributes": {
+    "intelligence": 2,
+    "dexterity": 1
+   },
+   "gold": 20,
+   "painting": "receptary",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait receptary (untitled): a profession of healing, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "reckoner": {
+   "name": "Reckoner",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 20,
+   "painting": "reckoner",
+   "station": "learned",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait reckoner (untitled): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "reeve": {
+   "name": "Reeve",
+   "kind": "court",
+   "attributes": {
+    "charisma": 4,
+    "intelligence": 2
+   },
+   "gold": 75,
+   "painting": "reeve",
+   "station": "middling",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait reeve (Dirck van Os): a profession of court, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "researcher": {
+   "name": "Researcher",
+   "kind": "learning",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 30,
+   "painting": "researcher",
+   "station": "learned",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait researcher (untitled): a profession of learning, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "rhapsode": {
+   "name": "Rhapsode",
+   "kind": "stage",
+   "attributes": {
+    "charisma": 3,
+    "dexterity": 2
+   },
+   "gold": 30,
+   "painting": "rhapsode",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait rhapsode (Anonymous (Flemish) (?). 'Portrait of the Poet Homer,' 1639. oil on panel. Walters Art Museum (37.646): Acquired by Henry Walters with the Massarenti Collection, 1902.): a profession of stage, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "riddlemaster": {
+   "name": "Riddlemaster",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 20,
+   "painting": "riddlemaster",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait riddlemaster (untitled): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "robber": {
+   "name": "Robber",
+   "kind": "shadows",
+   "attributes": {
+    "dexterity": 4,
+    "intelligence": 2
+   },
+   "gold": 30,
+   "painting": "robber",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait robber (untitled): a profession of shadows, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "rogue": {
+   "name": "Rogue",
+   "kind": "shadows",
+   "attributes": {
+    "dexterity": 4,
+    "intelligence": 2
+   },
+   "gold": 30,
+   "painting": "rogue",
+   "station": "labouring",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait rogue (untitled): a profession of shadows, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "rosarian": {
+   "name": "Rosarian",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 30,
+   "painting": "rosarian",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait rosarian (untitled): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "saint": {
+   "name": "Saint",
+   "kind": "faith",
+   "attributes": {
+    "wisdom": 3,
+    "charisma": 2
+   },
+   "gold": 30,
+   "painting": "saint",
+   "station": "martial",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait saint (Saint George): a profession of faith, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "samurai": {
+   "name": "Samurai",
+   "kind": "arms",
+   "attributes": {
+    "strength": 2,
+    "constitution": 1,
+    "dexterity": 1
+   },
+   "gold": 30,
+   "painting": "samurai",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait samurai (untitled): a profession of arms, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "satirist": {
+   "name": "Satirist",
+   "kind": "stage",
+   "attributes": {
+    "charisma": 3,
+    "dexterity": 2
+   },
+   "gold": 30,
+   "painting": "satirist",
+   "station": "artist",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait satirist (29_2004_1, 12/7/09, 9:50 AM,  8C, 5752x6880 (240+312), 100%, chrome 7 stops,  1/15 s, R23.2, G0.5, B13.0): a profession of stage, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "savant": {
+   "name": "Savant",
+   "kind": "learning",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 45,
+   "painting": "savant",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait savant (untitled): a profession of learning, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "scenewright": {
+   "name": "Scenewright",
+   "kind": "stage",
+   "attributes": {
+    "charisma": 3,
+    "dexterity": 2
+   },
+   "gold": 30,
+   "painting": "scenewright",
+   "station": "artist",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait scenewright (untitled): a profession of stage, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "scenographer": {
+   "name": "Scenographer",
+   "kind": "stage",
+   "attributes": {
+    "charisma": 3,
+    "dexterity": 2
+   },
+   "gold": 45,
+   "painting": "scenographer",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait scenographer (untitled): a profession of stage, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "scholarch": {
+   "name": "Scholarch",
+   "kind": "learning",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 30,
+   "painting": "scholarch",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait scholarch (untitled): a profession of learning, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "scientist": {
+   "name": "Scientist",
+   "kind": "learning",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 30,
+   "painting": "scientist",
+   "station": "learned",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait scientist (untitled): a profession of learning, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "scrivener": {
+   "name": "Scrivener",
+   "kind": "learning",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 45,
+   "painting": "scrivener",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait scrivener (untitled): a profession of learning, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "sculptor": {
+   "name": "Sculptor",
+   "kind": "stage",
+   "attributes": {
+    "charisma": 3,
+    "dexterity": 2
+   },
+   "gold": 30,
+   "painting": "sculptor",
+   "station": "artist",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait sculptor (untitled): a profession of stage, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "seamstress": {
+   "name": "Seamstress",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 20,
+   "painting": "seamstress",
+   "station": "middling",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait seamstress (untitled): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "secretary_general": {
+   "name": "Secretary general",
+   "kind": "court",
+   "attributes": {
+    "charisma": 4,
+    "intelligence": 2
+   },
+   "gold": 113,
+   "painting": "secretary-general",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait secretary-general (untitled): a profession of court, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "secretary": {
+   "name": "Secretary",
+   "kind": "court",
+   "attributes": {
+    "charisma": 4,
+    "intelligence": 2
+   },
+   "gold": 113,
+   "painting": "secretary",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait secretary (Portrait of Isabella of Portugal): a profession of court, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "seditionist": {
+   "name": "Seditionist",
+   "kind": "shadows",
+   "attributes": {
+    "dexterity": 4,
+    "intelligence": 2
+   },
+   "gold": 30,
+   "painting": "seditionist",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait seditionist (untitled): a profession of shadows, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "seeker": {
+   "name": "Seeker",
+   "kind": "roads",
+   "attributes": {
+    "dexterity": 2,
+    "wisdom": 1
+   },
+   "gold": 10,
+   "painting": "seeker",
+   "station": "middling",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait seeker (untitled): a profession of roads, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "seer": {
+   "name": "Seer",
+   "kind": "faith",
+   "attributes": {
+    "wisdom": 3,
+    "charisma": 2
+   },
+   "gold": 30,
+   "painting": "seer",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait seer (Saint Mary Magdalene at the Sepulchre): a profession of faith, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "shepherd": {
+   "name": "Shepherd",
+   "kind": "wild",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 15,
+   "painting": "shepherd",
+   "station": "labouring",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait shepherd (Shepherd with a Flute): a profession of wild, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "shipowner": {
+   "name": "Shipowner",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 20,
+   "painting": "shipowner",
+   "station": "middling",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait shipowner (Daniel Bernard): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "shoemaker": {
+   "name": "Shoemaker",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 20,
+   "painting": "shoemaker",
+   "station": "labouring",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait shoemaker (untitled): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "shopkeeper": {
+   "name": "Shopkeeper",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 20,
+   "painting": "shopkeeper",
+   "station": "middling",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait shopkeeper (untitled): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "sibyl": {
+   "name": "Sibyl",
+   "kind": "faith",
+   "attributes": {
+    "wisdom": 3,
+    "charisma": 2
+   },
+   "gold": 45,
+   "painting": "sibyl",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait sibyl (untitled): a profession of faith, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "silversmith": {
+   "name": "Silversmith",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 20,
+   "painting": "silversmith",
+   "station": "middling",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait silversmith (Portrait of a Silversmith): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "skald": {
+   "name": "Skald",
+   "kind": "stage",
+   "attributes": {
+    "charisma": 3,
+    "dexterity": 2
+   },
+   "gold": 30,
+   "painting": "skald",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait skald (untitled): a profession of stage, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "smelter": {
+   "name": "Smelter",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 20,
+   "painting": "smelter",
+   "station": "labouring",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait smelter (untitled): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "snake_charmer": {
+   "name": "Snake charmer",
+   "kind": "wild",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 15,
+   "painting": "snake-charmer",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait snake-charmer (untitled): a profession of wild, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "songwriter": {
+   "name": "Songwriter",
+   "kind": "learning",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 30,
+   "painting": "songwriter",
+   "station": "middling",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait songwriter (untitled): a profession of learning, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "soothsayer": {
+   "name": "Soothsayer",
+   "kind": "faith",
+   "attributes": {
+    "wisdom": 3,
+    "charisma": 2
+   },
+   "gold": 30,
+   "painting": "soothsayer",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait soothsayer (Vertumnus and Pomona): a profession of faith, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "sorceress": {
+   "name": "Sorceress",
+   "kind": "learning",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 30,
+   "painting": "sorceress",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait sorceress (untitled): a profession of learning, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "sower": {
+   "name": "Sower",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 20,
+   "painting": "sower",
+   "station": "labouring",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait sower (untitled): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "spahi": {
+   "name": "Spahi",
+   "kind": "arms",
+   "attributes": {
+    "strength": 2,
+    "constitution": 1,
+    "dexterity": 1
+   },
+   "gold": 30,
+   "painting": "spahi",
+   "station": "martial",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait spahi (untitled): a profession of arms, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "speculator": {
+   "name": "Speculator",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 20,
+   "painting": "speculator",
+   "station": "middling",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait speculator (Robert Watson (1746-1838), Adventurer): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "spiritualist": {
+   "name": "Spiritualist",
+   "kind": "learning",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 30,
+   "painting": "spiritualist",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait spiritualist (untitled): a profession of learning, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "spymaster": {
+   "name": "Spymaster",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 30,
+   "painting": "spymaster",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait spymaster (untitled): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "standard_bearer": {
+   "name": "Standard bearer",
+   "kind": "arms",
+   "attributes": {
+    "strength": 2,
+    "constitution": 1,
+    "dexterity": 1
+   },
+   "gold": 30,
+   "painting": "standard-bearer",
+   "station": "martial",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait standard-bearer (The Standard Bearer (Floris Soop, 1604–1657)): a profession of arms, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "statesman": {
+   "name": "Statesman",
+   "kind": "court",
+   "attributes": {
+    "charisma": 4,
+    "intelligence": 2
+   },
+   "gold": 113,
+   "painting": "statesman",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait statesman (Portrait of Marc de Villiers): a profession of court, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "street_rat": {
+   "name": "Street rat",
+   "kind": "shadows",
+   "attributes": {
+    "dexterity": 4,
+    "intelligence": 2
+   },
+   "gold": 30,
+   "painting": "street-rat",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait street-rat (untitled): a profession of shadows, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "summoner": {
+   "name": "Summoner",
+   "kind": "learning",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 30,
+   "painting": "summoner",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait summoner (untitled): a profession of learning, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "surveyor": {
+   "name": "Surveyor",
+   "kind": "earth",
+   "attributes": {
+    "strength": 3,
+    "constitution": 2,
+    "dexterity": 2,
+    "intelligence": 1
+   },
+   "gold": 20,
+   "painting": "surveyor",
+   "station": "learned",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait surveyor (untitled): a profession of earth, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "swordsman": {
+   "name": "Swordsman",
+   "kind": "arms",
+   "attributes": {
+    "strength": 2,
+    "constitution": 1,
+    "dexterity": 1
+   },
+   "gold": 45,
+   "painting": "swordsman",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait swordsman (untitled): a profession of arms, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "tavernkeeper": {
+   "name": "Tavernkeeper",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 20,
+   "painting": "tavernkeeper",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait tavernkeeper (untitled): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "teacher": {
+   "name": "Teacher",
+   "kind": "learning",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 45,
+   "painting": "teacher",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait teacher (Portrait of a Woman with a Book of Music): a profession of learning, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "theologian": {
+   "name": "Theologian",
+   "kind": "faith",
+   "attributes": {
+    "wisdom": 3,
+    "charisma": 2
+   },
+   "gold": 30,
+   "painting": "theologian",
+   "station": "religious",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait theologian (untitled): a profession of faith, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "thespian": {
+   "name": "Thespian",
+   "kind": "stage",
+   "attributes": {
+    "charisma": 3,
+    "dexterity": 2
+   },
+   "gold": 30,
+   "painting": "thespian",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait thespian (Self portrait): a profession of stage, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "theurge": {
+   "name": "Theurge",
+   "kind": "faith",
+   "attributes": {
+    "wisdom": 3,
+    "charisma": 2
+   },
+   "gold": 30,
+   "painting": "theurge",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait theurge (untitled): a profession of faith, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "thief": {
+   "name": "Thief",
+   "kind": "shadows",
+   "attributes": {
+    "dexterity": 4,
+    "intelligence": 2
+   },
+   "gold": 45,
+   "painting": "thief",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait thief (untitled): a profession of shadows, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "thinker": {
+   "name": "Thinker",
+   "kind": "learning",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 30,
+   "painting": "thinker",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait thinker (Reverie): a profession of learning, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "traitor": {
+   "name": "Traitor",
+   "kind": "shadows",
+   "attributes": {
+    "dexterity": 4,
+    "intelligence": 2
+   },
+   "gold": 30,
+   "painting": "traitor",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait traitor ((Venice) Il Concerto - Giorgione): a profession of shadows, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "translator": {
+   "name": "Translator",
+   "kind": "learning",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 30,
+   "painting": "translator",
+   "station": "learned",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait translator (untitled): a profession of learning, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "trapper": {
+   "name": "Trapper",
+   "kind": "wild",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 15,
+   "painting": "trapper",
+   "station": "labouring",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait trapper (untitled): a profession of wild, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "trumpeter": {
+   "name": "Trumpeter",
+   "kind": "stage",
+   "attributes": {
+    "charisma": 3,
+    "dexterity": 2
+   },
+   "gold": 30,
+   "painting": "trumpeter",
+   "station": "martial",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait trumpeter (untitled): a profession of stage, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "tyrant": {
+   "name": "Tyrant",
+   "kind": "court",
+   "attributes": {
+    "charisma": 4,
+    "intelligence": 2
+   },
+   "gold": 113,
+   "painting": "tyrant",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait tyrant (untitled): a profession of court, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "vandal": {
+   "name": "Vandal",
+   "kind": "shadows",
+   "attributes": {
+    "dexterity": 4,
+    "intelligence": 2
+   },
+   "gold": 30,
+   "painting": "vandal",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait vandal (untitled): a profession of shadows, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "vedette": {
+   "name": "Vedette",
+   "kind": "roads",
+   "attributes": {
+    "dexterity": 2,
+    "wisdom": 1
+   },
+   "gold": 15,
+   "painting": "vedette",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait vedette (untitled): a profession of roads, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "vigil_keeper": {
+   "name": "Vigil keeper",
+   "kind": "faith",
+   "attributes": {
+    "wisdom": 3,
+    "charisma": 2
+   },
+   "gold": 45,
+   "painting": "vigil-keeper",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait vigil-keeper (untitled): a profession of faith, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "vintner": {
+   "name": "Vintner",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 20,
+   "painting": "vintner",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait vintner (untitled): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "viscount": {
+   "name": "Viscount",
+   "kind": "court",
+   "attributes": {
+    "charisma": 4,
+    "intelligence": 2
+   },
+   "gold": 113,
+   "painting": "viscount",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait viscount (untitled): a profession of court, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "visitor": {
+   "name": "Visitor",
+   "kind": "roads",
+   "attributes": {
+    "dexterity": 2,
+    "wisdom": 1
+   },
+   "gold": 15,
+   "painting": "visitor",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait visitor (untitled): a profession of roads, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "wanderer": {
+   "name": "Wanderer",
+   "kind": "roads",
+   "attributes": {
+    "dexterity": 2,
+    "wisdom": 1
+   },
+   "gold": 10,
+   "painting": "wanderer",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait wanderer (untitled): a profession of roads, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "warrior": {
+   "name": "Warrior",
+   "kind": "arms",
+   "attributes": {
+    "strength": 2,
+    "constitution": 1,
+    "dexterity": 1
+   },
+   "gold": 30,
+   "painting": "warrior",
+   "station": "martial",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait warrior (untitled): a profession of arms, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "whaler": {
+   "name": "Whaler",
+   "kind": "water",
+   "attributes": {
+    "charisma": 3,
+    "wisdom": 2
+   },
+   "gold": 20,
+   "painting": "whaler",
+   "station": "labouring",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait whaler (untitled): a profession of water, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "witness": {
+   "name": "Witness",
+   "kind": "margins",
+   "attributes": {
+    "strength": 2,
+    "constitution": 2
+   },
+   "gold": 1,
+   "painting": "witness",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait witness (untitled): a profession of margins, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "wizard": {
+   "name": "Wizard",
+   "kind": "learning",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 30,
+   "painting": "wizard",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait wizard (untitled): a profession of learning, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "woodsman": {
+   "name": "Woodsman",
+   "kind": "wild",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 15,
+   "painting": "woodsman",
+   "station": "labouring",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait woodsman (untitled): a profession of wild, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "wordsmith": {
+   "name": "Wordsmith",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 20,
+   "painting": "wordsmith",
+   "station": "artist",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait wordsmith (Antonio Pietro Francesco Zucchi (1726-1795)): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "writer": {
+   "name": "Writer",
+   "kind": "learning",
+   "attributes": {
+    "intelligence": 3,
+    "wisdom": 2
+   },
+   "gold": 45,
+   "painting": "writer",
+   "station": "high",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait writer (Portrait of the Sisters Zénaïde and Charlotte Bonaparte): a profession of learning, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  },
+  "writing_master": {
+   "name": "Writing master",
+   "kind": "trade",
+   "attributes": {
+    "dexterity": 3,
+    "intelligence": 1
+   },
+   "gold": 20,
+   "painting": "writing-master",
+   "station": "learned",
+   "source": {
+    "kyr": true,
+    "notes": "The portrait writing-master (untitled): a profession of trade, its scores those most of its kind's give, its purse its kind's by its station."
+   }
+  }
+ }
+}

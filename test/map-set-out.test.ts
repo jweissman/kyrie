@@ -10,8 +10,9 @@ import { MapPlay } from './support/map-play';
 // Strewnfield was offered only as "Go across country", which went to the hex beside it, or from the road into the first
 // town nowhere at all, so the country beyond was never drawn). Each is set out for by the road, and come to.
 describe('setting out from the map', () => {
+  // (With wayfinding: without it a march-stone is on the map only once heard of, the owner, 3 November.)
   it('goes by the road to each march-stone, named for the country beyond, and draws that country there', async () => {
-    const j = await MapPlay.start('kite', 'wanderer'), screen = j.screen(), land = screen.region!.land!;
+    const j = await MapPlay.start('kite', 'debt'), screen = j.screen(), land = screen.region!.land!;
     const stones = land.marks.filter(m => /__(edge_[a-z]+|gate_\w+)$/.test(m.id));
     // The four march-stones, and the way into each of the country's provinces (Gate B: every adventure in it).
     expect(stones.length).toBe(4 + Countries.provinces.length);
@@ -66,7 +67,7 @@ describe('setting out from the map', () => {
 // in it (Cobble Ring and Lowmere had been drawn by their own grid, in the north-west corner of the country).
 describe('a province on the map', () => {
   it('draws the Strewnfield\'s towns at its way in, and the company there while it is inside', async () => {
-    const j = await MapPlay.start('kite', 'wanderer');
+    const j = await MapPlay.start('kite', 'debt');
     const gate = j.screen().region!.land!.marks.find(m => m.id === 'region__gate_strewnfield')!.cell;
     expect((await MapPlay.reach(j, 'region__gate_strewnfield')).arrived).toBe(true);
     expect((await MapPlay.reach(j, 'pstrewnfield__lowmere')).arrived).toBe(true);

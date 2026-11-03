@@ -1,3 +1,4 @@
+import { Arithmetic } from './arithmetic';
 import type { Call, Change, Module, NumberValue, Predicate, Signature, Value, WorldState } from './module';
 import { ComputedRelations } from './computed-relations';
 import { RelationViews } from './relation-views';
@@ -8,7 +9,8 @@ import { Counts } from './counts';
 // Name lookups for a module's signatures. Modules are assembled before execution; a changed signature list
 // (by identity or length) rebuilds the index.
 interface Signatures {
-  relations: Map<string, Signature>; measures: Set<string>; queries: Map<string, Module['queries'][number]>;
+  // Each measure, and the most it may be where it says (Measure … at most N).
+  relations: Map<string, Signature>; measures: Map<string, number | undefined>; queries: Map<string, Module['queries'][number]>;
   source: [Signature[], Signature[], Module['queries']]; lengths: [number, number, number] }
 type Measure = { call: Call; value: number };
 
@@ -125,7 +127,8 @@ export class World {
       && cached.source[2] === module.queries && cached.lengths[0] === module.relations.length
       && cached.lengths[1] === module.measures.length && cached.lengths[2] === module.queries.length) { return cached; }
     const built: Signatures = { relations: new Map(module.relations.map(r => [r.name, r])),
-      measures: new Set(module.measures.map(m => m.name)), queries: new Map(module.queries.map(q => [q.name, q])),
+      measures: new Map(module.measures.map(m => [m.name, m.most])),
+      queries: new Map(module.queries.map(q => [q.name, q])),
       source: [module.relations, module.measures, module.queries],
       lengths: [module.relations.length, module.measures.length, module.queries.length] };
     World.signatures.set(module, built);
@@ -147,7 +150,7 @@ export class World {
     if (value.kind === 'deem') { throw new Error('Deem module values must be instantiated before execution'); }
     if (value.kind === 'arith') {
       const left = this.number(value.left, bindings, counts), right = this.number(value.right, bindings, counts);
-      return value.op === '+' ? left + right : value.op === '-' ? left - right : left * right;
+      return Arithmetic.of(value.op, left, right);
     }
     if (!World.index(this.module).measures.has(value.name)) { throw new Error(`Unknown measure ${value.name}`); }
     const call = this.bind(value, bindings), changed = counts?.now(World.key(call));
@@ -272,7 +275,8 @@ export class World {
         const amount = change.kind === 'decrease' && change.toNothing
           ? Math.min(this.number(change.value, {}, counts), Math.max(counts.now(key) ?? this.number(change.call), 0))
           : this.number(change.value, {}, counts);
-        const value = counts.next(key, change.kind, amount, () => this.number(change.call));
+        const value = Math.min(counts.next(key, change.kind, amount, () => this.number(change.call)),
+      World.index(this.module).measures.get(change.call.name) ?? Number.MAX_SAFE_INTEGER);
         if (!Number.isSafeInteger(value)) { return false; }
       } catch { return false; }
     }
@@ -342,7 +346,8 @@ export class World {
     const amount = change.value.kind === 'call' || change.value.kind === 'arith' ? this.number(change.value)
       : World.literal(change.value);
     // A count is what the list does to it in all, stopped at nothing; a quantity set outright may be less (Counts).
-    const value = counts.next(key, change.kind, amount, () => this.number(change.call));
+    const value = Math.min(counts.next(key, change.kind, amount, () => this.number(change.call)),
+      World.index(this.module).measures.get(change.call.name) ?? Number.MAX_SAFE_INTEGER);
     if (!Number.isSafeInteger(value)) {
       throw new Error(`Invalid quantity for ${World.format(change.call)}`);
     }

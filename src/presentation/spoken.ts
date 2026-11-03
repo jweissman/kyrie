@@ -1,3 +1,4 @@
+import { Sentences } from './sentences';
 import type { Campaign, CampaignEvent } from '../campaign/campaign';
 import { ObservationText } from '../lang/observation-text';
 
@@ -6,7 +7,7 @@ import { ObservationText } from '../lang/observation-text';
 // evaluation).
 export class Spoken {
   static speech(text: string, speaker: string): string {
-    const said = text.trim(), [first, ...rest] = said.split(/(?<=[.!?])\s+/);
+    const said = text.trim(), [first, ...rest] = Sentences.split(said);
     const lead = first!.replace(/\.$/, ',');
     return rest.length ? `‘${lead}’ says ${speaker}. ‘${rest.join(' ')}’` : `‘${lead}’ says ${speaker}.`;
   }

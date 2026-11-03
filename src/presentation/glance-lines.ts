@@ -1,3 +1,4 @@
+import { Sentences } from './sentences';
 import type { Campaign } from '../campaign/campaign';
 import type { Module, Observation } from '../lang/module';
 import { ModuleWriter } from '../lang/module-writer';
@@ -56,7 +57,7 @@ export class GlanceLines {
     const two = second ? `${first} ${second}` : first!;
     return second && two.split(/\s+/).length <= this.words ? two : first!;
   }
-  private static sentences(text: string): string[] { return text.split(/(?<=[.!?][’”]?)\s+(?=[A-Z‘“])/); }
+  private static sentences(text: string): string[] { return Sentences.split(text); }
   // What is alive here now, the first that holds: a danger; whoever warns the company off; someone it has a stake in;
   // someone doing something; a line that is someone's; someone with something to be asked; and the first time only,
   // the place's passing life, or an animal's. Come back to, only what is new since.

@@ -8,7 +8,7 @@ import type { PassageSpec, ThingSpec } from './world-constructs';
 import { PersonParser } from './person-parser';
 import { StatementParser } from './statement-parser';
 import { ObjectParser } from './object-parser';
-import { CatalogParser } from './catalog-parser'; import { Milestones } from './milestones';
+import { CatalogParser } from './catalog-parser'; import { Milestones } from './milestones'; import { ParseCache } from './parse-cache';
 import { InformationParser } from './information-parser'; import { Endings } from './endings';
 import { LocalKinds } from '../canon/local-catalog';
 import { ModuleDeclarations } from './module-declarations';
@@ -77,23 +77,20 @@ export class ModuleParser {
     Comparison: StatementParser.Comparison, Call: StatementParser.Call,
     Value: StatementParser.Value, expression: StatementParser.Expression, integer: StatementParser.Integer,
     string: StatementParser.String, Product: StatementParser.Value, Operand_group: StatementParser.Group,
+    Operand_extreme: StatementParser.Extreme, ExtremeArgs: StatementParser.ExtremeArgs,
     ...CatalogParser.actions, ...InformationParser.actions, ...Endings.actions, ...Milestones.actions,
   });
-  // Parsing is the costliest part of loading a campaign, and the same texts (the shared rules above all) come again
-  // and again; each caller gets its own copy of the remembered module.
-  private static readonly parsed = new Map<string, Module>();
   // A text parsed before comes back as it was, and declares its own kinds again, as its parse did: a start meanwhile
   // may have put other kinds in their place, and the files read after it place things of these kinds.
   // Kept by the text and the kinds it was read among: one read while another campaign's kinds were in the catalogs
   // (Kind figurine like dreg_ox) is not taken for one read without them (the review's H7).
   static parse(text: string): Module {
-    const key = `${LocalKinds.fingerprint()}\u0000${text}`, known = ModuleParser.parsed.get(key);
+    const key = `${LocalKinds.fingerprint()}\u0000${text}`, known = ParseCache.get(key);
     if (known) { LocalKinds.install(known.catalog); return structuredClone(known); }
     const match = ModuleParser.grammar.match(text);
     if (match.failed()) { throw new Error(`Invalid Kyr module: ${match.message}`); }
     const module = ModuleParser.semantics(match).ast() as Module;
-    if (ModuleParser.parsed.size >= 96) { ModuleParser.parsed.delete(ModuleParser.parsed.keys().next().value!); }
-    ModuleParser.parsed.set(key, structuredClone(module));
+    ParseCache.set(key, module);
     return module;
   }
   static predicate(text: string): Predicate {
@@ -370,9 +367,10 @@ export class ModuleParser {
     return { field: 'relation', value: { name: name.sourceString,
       types: types.asIteration().children.map(ModuleParser.text), exclusive: exclusive.children.length > 0 } };
   }
-  static Measure(_measure: Node, name: Node, _open: Node, types: Node, _close: Node, _dot: Node): Field {
+  static Measure(_measure: Node, name: Node, _open: Node, types: Node, _close: Node, most: Node, _dot: Node): Field {
     return { field: 'measure', value: { name: name.sourceString,
-      types: types.asIteration().children.map(ModuleParser.text), exclusive: false } };
+      types: types.asIteration().children.map(ModuleParser.text), exclusive: false,
+      ...most.children.length ? { most: Number(most.children[0]!.children[2]!.sourceString) } : {} } };
   }
   static Query(_query: Node, name: Node, _open: Node, parameters: Node, _close: Node,
     _means: Node, predicate: Node, _dot: Node): Field {

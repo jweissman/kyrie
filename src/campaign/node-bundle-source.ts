@@ -2,6 +2,11 @@ import { existsSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
 import type { BundleSource } from './bundle-source';
+import { ParseCache } from '../lang/parse-cache';
+import { ParseStore } from '../lang/parse-store';
+
+// A process that reads bundles from disk keeps what it parses there too (see ParseStore).
+ParseCache.store ??= ParseStore.open();
 
 export class NodeBundleSource implements BundleSource {
   static readonly shared = new NodeBundleSource();

@@ -167,7 +167,7 @@ export class ScreenModel {
         : k.source === 'heard' ? `${k.from ?? 'someone'}${k.from?.includes(', ') ? ',' : ''} told you` : '',
       k.at !== undefined ? FictionalTime.at(k.at) : ''].filter(Boolean).join(', '),
       kind: k.confirmed ? 'confirmed' as const : k.source === 'heard' || k.source === 'read' ? 'reported' as const
-        : k.source ? 'seen' as const : 'known' as const }));
+        : k.source ? 'seen' as const : 'known' as const })).filter((k, i, all) => all.findIndex(x => x.text === k.text) === i);
   }
   // The scene's lines: what the place is like (and what is going on in it), and what each person or thing here looks
   // like now, told with them. Lines the company has not seen before at a place it has seen before are fresh.

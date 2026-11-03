@@ -85,8 +85,8 @@ export class MenuModel {
     // In a town or a site of a drawn country the page keeps to its own ways and those a step away; the journeys
     // across the country are the map's, gone out to by one way (the owner, 31 October: "move all cross-hex travel
     // out of the play environment").
-    const overland = inside ? kept.far.filter(c => !MenuModel.stays(c, screen, aimed)) : [];
-    const scene = inside ? { ...kept, far: kept.far.filter(c => MenuModel.stays(c, screen, aimed)) } : kept;
+    const overland = inside ? kept.far.filter(c => !MenuModel.stays(c, screen)) : [];
+    const scene = inside ? { ...kept, far: kept.far.filter(c => MenuModel.stays(c, screen)) } : kept;
     // Underground, the world map is not a way out (a cellar under a corn-store had offered it beside the rat-runs).
     const going = inside ? [] : journeys, country = !screen.place.underground
       && (overland.length || (inside && journeys.length)) ? MenuModel.country : undefined;
@@ -108,22 +108,21 @@ export class MenuModel {
     return choices.find(c => c.id === id)
       ?? (overland.has(id) ? choices.find(c => c.id === MenuModel.country.id) : undefined);
   }
-  // A way out of a town that stays on its page: one about the town itself; the way toward the aim (the bridge your
-  // father went out by, a step out of the town: the next step of what the company is about is not a detour through
-  // the map); and the town's roads, walked as roads (their rooms are named for them, RegionRoads: "…_way"). What goes
-  // to the map is the open country, the wild and the marches.
-  private static stays(c: Choice, screen: Frame['screen'], aimed: string[] = []): boolean {
+  // A way that stays on the page: one within the place the company is in, or into somewhere standing there (a
+  // landmark, a site, the town on this stretch of country). What crosses into other country, the next stretch of the
+  // wild, the next hex of the road, the marches, is the map's, and only the map's (the owner, 3 November: no choice on
+  // the page goes beyond the hex the company is in; the way toward the aim had stayed, and the town's roads).
+  private static stays(c: Choice, screen: Frame['screen']): boolean {
     const exit = screen.exits.find(e => e.id === c.id);
-    return !!c.local || aimed.includes(c.id) || /_way$/.test(exit?.destination.id ?? '');
+    return !!c.local || !exit || !['travel', 'cross_plane'].includes(exit.transition);
   }
   // Going out of a town or a site into the country: the map, where the country is crossed.
   static readonly country: Choice = { id: 'view:map', label: 'Open the world map', tone: 'way', command: 'view:map' };
-  // Whether the company is in a town or a site of a drawn country, whose land is in hexes (and not on a road or out
-  // in the country): an authored country's ways out of a town are its author's own walks (the Strand at Skeel, the
-  // gorge path out of the Comb), and its pages keep them.
+  // Whether the company is anywhere in a drawn country, whose land is in hexes (a town, a site, the open country, a
+  // road): there, crossing the land is the map's. An authored country's ways out of a town are its author's own walks
+  // (the Strand at Skeel, the gorge path out of the Comb), and its pages keep them.
   static inside(screen: Frame['screen']): boolean {
-    return !!screen.region?.land?.tracts && !Routes.of(screen)
-      && screen.path.some(p => p.kind === 'settlement' || p.kind === 'site');
+    return !!screen.region?.land?.tracts;
   }
   // Every choice as drawn, what is open under its opener (and what is in a way, always: see inWay).
   private static unfolded(choices: Choice[], opened: Set<string>): Choice[] {

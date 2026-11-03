@@ -414,3 +414,11 @@ html, body { overflow: hidden; }
 .frame > .opening.loading { display: grid; place-items: center; text-align: center; }
 .loading h1 { font: 300 clamp(30px, 4vw, 48px)/1.1 var(--do); }
 .loading .stage { height: auto; color: var(--dim); font: italic 400 18px/1.5 var(--told); animation: breathe 1.6s var(--ease) infinite; }
+/* The trades of the kind chosen at "What did you do before this?" (BeforeStep.Trades): a word each, wrapping, the
+   one held in gold. */
+.creation .trades { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 8px; max-width: 64rem;
+  margin: 4px auto 10px; }
+.creation .trade { all: unset; box-sizing: border-box; cursor: pointer; padding: 5px 10px; border-radius: 2px;
+  font: 400 13px/1.3 var(--do); color: var(--dim); border: 1px solid var(--hair); transition: color var(--quick); }
+.creation .trade:hover, .creation .trade:focus-visible { color: var(--ivory); outline: none; border-color: var(--edge); }
+.creation .trade[aria-pressed="true"] { color: var(--gold); border-color: var(--gold-line); background: var(--gold-glow); }

@@ -108,7 +108,7 @@ What is used by lighting it, on whoever carries it (a torch, a candle); what bur
 
 #### handed, usesUp
 
-*Kyr · relation(item, group); relation(group, entity)* · `rule:belongings.handed`
+*Kyr · relation(entity, group); relation(group, entity)* · `rule:belongings.handed`
 
 A thing handed to a company ("Give coat to party." in what a topic or an action does: a coat held out, a letter out of a lockbox, a casket put in your arms), which the engine puts in the hands of the first of the company who is up, from wherever it lay or whoever had it; and one of a kind the company gives up ("Spend weight_stone from actor."), from whichever of it carries one, or a particular thing it gives up by its own name ("Spend nan_ribbon from party.": the Lull's friction F5). Each is done once, and forgotten.
 
@@ -1854,7 +1854,7 @@ Also kept, without comment: acceptsEscort, dismissed, thanks.
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 0 | 21 | 3 | 0 | 5 | 6 |
+| 0 | 22 | 3 | 0 | 5 | 6 |
 
 #### freedBy, home, cameHome, grateful
 
@@ -1906,9 +1906,9 @@ Who someone who has joined now is among the company's members: they answer on th
 
 A traveller of the country who has joined (a fellow, as against the one who plays): how much of their own story they have told, and whether they have told some tonight. A story is told a part a night.
 
-#### joining, parting
+#### joining, parting, farewelling
 
-*Kyr · relation(group, entity); relation(group, entity)* · `rule:world_people.joining`
+*Kyr · relation(group, entity); relation(group, entity); relation(group, entity)* · `rule:world_people.joining`
 
 What someone says on joining the company, or leaving it, in their own words (Joins, Leaves): said instead of the voice tables' (data/voice/join.json, part.json), which speak by what they are to the one who plays.
 

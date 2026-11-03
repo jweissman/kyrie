@@ -2,7 +2,7 @@ export interface Call { kind: 'call'; name: string; args: string[] }
 export type NumberValue = { kind: 'number'; value: number } | { kind: 'deem'; expression: string };
 export type Value = NumberValue | Call | Arithmetic;
 // A sum, difference or product of values, worked out when it is read.
-export interface Arithmetic { kind: 'arith'; op: '+' | '-' | '*'; left: Value; right: Value }
+export interface Arithmetic { kind: 'arith'; op: '+' | '-' | '*' | '/' | 'min' | 'max'; left: Value; right: Value }
 export type Predicate = Call | { kind: 'boolean'; value: boolean }
   | { kind: 'not'; value: Predicate }
   | { kind: 'and' | 'or'; left: Predicate; right: Predicate }
@@ -30,7 +30,8 @@ export interface Entity {
   // Who someone is while something holds, the first that does, instead of who they are otherwise.
   roles?: { name: string; when: Predicate }[];
 }
-export interface Signature { name: string; types: string[]; exclusive: boolean }
+// A measure may say the most it can be (Measure fondness(group) at most 10): a change past it stops there.
+export interface Signature { name: string; types: string[]; exclusive: boolean; most?: number }
 export interface Query { name: string; parameters: { name: string; type: string }[]; body: Predicate }
 export interface Operator {
   searchPlace?: string;

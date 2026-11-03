@@ -4,6 +4,9 @@ import { World } from './world';
 export class ModuleWriter {
   static value(value: Value): string {
     if (value.kind === 'call') { return World.format(value); }
+    if (value.kind === 'arith' && (value.op === 'min' || value.op === 'max')) {
+      return `${value.op}(${ModuleWriter.value(value.left)}, ${ModuleWriter.value(value.right)})`;
+    }
     if (value.kind === 'arith') { return `(${ModuleWriter.value(value.left)} ${value.op} ${ModuleWriter.value(value.right)})`; }
     return value.kind === 'number' ? String(value.value) : `(${value.expression})`;
   }
@@ -34,7 +37,9 @@ export class ModuleWriter {
     for (const relation of module.relations) {
       lines.push(`  Relation ${relation.name}(${relation.types.join(', ')})${relation.exclusive ? ' exclusive' : ''}.`);
     }
-    for (const measure of module.measures) { lines.push(`  Measure ${measure.name}(${measure.types.join(', ')}).`); }
+    for (const measure of module.measures) {
+      lines.push(`  Measure ${measure.name}(${measure.types.join(', ')})${measure.most !== undefined ? ` at most ${measure.most}` : ''}.`);
+    }
     for (const query of module.queries) {
       const parameters = query.parameters.map(p => `${p.name}: ${p.type}`).join(', ');
       lines.push(`  Query ${query.name}(${parameters}) means ${ModuleWriter.predicate(query.body)}.`);

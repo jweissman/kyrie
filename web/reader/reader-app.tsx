@@ -1,3 +1,4 @@
+import { Followed } from './followed';
 import { Component, type ReactNode } from 'react';
 import type { Choice } from '../../src/ui/choice-list';
 import type { Catalog, CompanyView, Entry, Frame, Member, Message, Setting } from '../engine/protocol';
@@ -37,6 +38,8 @@ export interface AppState {
   // Someone who died in this country before, whom it will remember when it is begun again.
   memorial?: import('../../src/world/memorial').Memorial;
   frame?: Frame; view: View; cursor: number; hovered?: string; member: string;
+  // The aim the player follows, chosen in the Notes (see Followed).
+  followed?: string;
   // Which beat of a new game's opening is shown, while it is, and when it came (see PrologueStage).
   prologue?: number; beat?: number;
   // Whether the company is setting out from the choice of a life: the page says only that, over the country.
@@ -255,6 +258,12 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     else if (s.view !== 'here') { this.setState({ view: 'here', cursor: 0 }); }
     else if (s.attention.kind === 'person' && this.menu.talk) { this.choose(this.menu.talk.leave); }
     else if (s.attention.kind !== 'place') { this.setState({ attention: Conversation.place, cursor: 0 }); }
+  };
+  // An aim to follow, or none: said on every page, and kept for the game in this browser (see Followed).
+  follow = (aim?: string) => {
+    const screen = this.state.frame?.screen;
+    if (screen) { Followed.keep(screen, aim); }
+    this.setState({ followed: aim });
   };
   show(view: View, who?: string) {
     if (this.state.frame?.combat && view !== 'here') { return; }

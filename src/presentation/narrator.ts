@@ -1,3 +1,4 @@
+import { Sentences } from './sentences';
 import type { Campaign, CampaignEvent } from '../campaign/campaign';
 import { SecondPerson } from './second-person';
 import type { Entity, Observation, Shelter } from '../lang/module';
@@ -117,7 +118,7 @@ export class Narrator {
     const lasting = lines.filter(l => !this.passing(Narrator.def(defs, l.id)));
     if (!lasting.length || lasting.some(l => !before.has(l.text))) { return undefined; }
     const prose = FictionalTime.prose(lasting[0]!.text);
-    return [{ ...lasting[0]!, text: /^.*?[.!?](?=\s|$)/.exec(prose)?.[0] ?? prose },
+    return [{ ...lasting[0]!, text: Sentences.first(prose) },
       ...lines.filter(l => this.passing(Narrator.def(defs, l.id)))];
   }
   private static passing(def?: Observation): boolean { return ['weather', 'ambience'].includes(def?.aspect ?? 'fixture'); }
@@ -373,7 +374,7 @@ export class Narrator {
   // What was learned, as much of it as can be acted on: its first sentence ("The way to the round tower on the
   // Sharpmunt: north from the ford, then..."), or its first part when the sentence runs long, never cut mid-thought.
   static gist(fact: string): string {
-    const sentence = fact.split(/(?<=[.!?])\s+/)[0]!.replace(/\.$/, ''), part = sentence.split(/[;:]\s/)[0]!;
+    const sentence = Sentences.first(fact).replace(/\.$/, ''), part = sentence.split(/[;:]\s/)[0]!;
     return this.words(sentence) <= 30 ? sentence : this.words(part) <= 30 ? part
       : `${sentence.split(/\s+/).slice(0, 24).join(' ')}…`;
   }

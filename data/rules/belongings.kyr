@@ -13,7 +13,7 @@ Module belongings "What the company carries" {
   // is up, from wherever it lay or whoever had it; and one of a kind the company gives up ("Spend weight_stone from
   // actor."), from whichever of it carries one, or a particular thing it gives up by its own name ("Spend nan_ribbon
   // from party.": the Lull's friction F5). Each is done once, and forgotten.
-  Relation handed(item, group). Relation usesUp(group, entity).
+  Relation handed(entity, group). Relation usesUp(group, entity).
   Relation canTrain(member, ability). Relation teaches(group, ability).
   Relation proficient(member, itemkind).
   Relation wants(group, itemkind). Measure pays(group, itemkind).

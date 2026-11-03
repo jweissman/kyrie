@@ -307,6 +307,15 @@ each a system's failure, not a case's; judged by an ordinary fresh character's j
 | OWN-60 | The owner, 3 November: centre the character-creation cards vertically, not only across | A | P3 | Fixed | The creation's content centred in the frame both ways while it fits, scrolled from its top when it does not (margin-block auto); seen at 1280×860, 3 November |
 | OWN-61 | The owner, 3 November: bring back a background or profession decision, perhaps diegetically (a talk with a traveller on the road in) | A | P2 | Partial | A step of its own after the calling, "What did you do before this?": a card for each kind of life the calling is open to, naming the trade of it held, every trade behind Details (web/reader/creation/before-step.tsx), played 3 November. Each kind has its emblem, and its first trade is the one whose qualities serve the calling. Still to do: the diegetic telling, a talk with a traveller on the road in |
 | OWN-62 | The owner, 3 November: some mechanism for choosing spells | A | P2 | Fixed | On the way's page, Choose first spells: every first-level spell of the tradition the calling does not teach, as many as the way gives and one of its own, kept while the way allows it and taken by the engine as given (SpellChoice, FirstSpells.first, CreationDefaults.allowed; test/first-spells-chosen.test.ts); played 3 November (Magic Missile given up for Thunderclap). Second- and third-level spells are still the card's |
+| OWN-63 | The owner, 3 November: most backgrounds cannot be reached at creation (one a kind); there should be hundreds, Orsino's two hundred and the portraits' hundreds more, unified, their details built out where missing, and well represented in the world | A | P1 | Open | |
+| OWN-64 | The owner, 3 November: repetition in talk: the circus can be asked about two different ways | A | P2 | Open | |
+| OWN-65 | The owner, 3 November: sequencing: the circus's bill can be haggled down before anything is known of it | A | P2 | Open | |
+| OWN-66 | The owner, 3 November: the world map should not start mostly revealed | A | P0 | Open | |
+| OWN-67 | The owner, 3 November: no choice on the page should move beyond the hex the company is in; that is the world map's | A | P0 | Open | |
+| OWN-68 | The owner, 3 November: an answer heard again (the same question asked twice) is not a second entry in the Notes | A | P2 | Open | |
+| OWN-69 | The owner, 3 November: the trade chosen at creation is not the one set out with (aphorist chosen, trader on the character sheet) | A | P1 | Open | |
+| OWN-70 | The owner, 3 November: getting around a place is awkward; whoever keeps a shop, and the people here, should be in sight without Look about, which is for a place with a great deal going on (better split into several places) | A | P1 | Open | |
+| OWN-71 | The owner, 3 November: a clearer workflow for the quest the player is following | A | P1 | Open | |
 
 ### The cold review's section H, 2026-10-30
 

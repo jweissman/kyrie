@@ -5,6 +5,8 @@ import type { ReaderApp } from '../reader-app';
 import { Attending } from '../../../src/ui/attention';
 import { Typography } from '../../../src/presentation/typography';
 import { MenuModel } from '../menu-model';
+import { Followed } from '../followed';
+import { Aims } from '../aims';
 import { Words } from '../words';
 import { Act, type Draw } from './act';
 import { Journey } from './journey';
@@ -43,13 +45,48 @@ export class GlanceStage {
         </div>}
         {/* What came of coming here (the grey dog comes over to push her nose into your hand). */}
         {!s.pending && told && !stayed && !struck && <Told.Happened exchange={told} ready={ready} app={app} />}
-        {g.aim && <p className="aim" data-id="aim"><span className="label">Your aim</span>
-          {Typography.curl(Words.upper(g.aim))}</p>}
+        <GlanceStage.Aim app={app} said={g.aim} />
         <GlanceStage.Acts app={app} draw={draw} acts={g.acts} />
+        <GlanceStage.People app={app} draw={draw} />
         <GlanceStage.Row app={app} draw={draw} glance={g} />
         {g.need && <p className="need" data-id="need">{g.need.map(n => <span key={n}>{Typography.curl(n)}</span>)}</p>}
         <GlanceStage.Keys app={app} />
       </div>
+    );
+  }
+  // Who is here, in sight without Look about (the owner, 3 November: whoever keeps a shop, and the people of a place,
+  // had been a deliberate look away): those the company has a stake in, then whoever sells, then whoever has something
+  // to be asked, the rest after; a few at most, the others under Look about, which is for a crowd.
+  static People({ app, draw }: { app: ReaderApp; draw: Draw }) {
+    const scene = app.menu.scene;
+    const people = (scene?.subjects ?? []).filter(x => x.kind === 'person' && !x.danger);
+    if (!people.length) { return null; }
+    const rank = (x: SceneSubject) => (x.stake ? 0 : GlanceStage.sells(x.choices) ? 1 : x.asked ? 2 : 3);
+    const shown = [...people].sort((a, b) => rank(a) - rank(b)).slice(0, GlanceStage.most), more = people.length - shown.length;
+    return (
+      <div className="cast glance-cast" data-line="People here">
+        <ul className="plates">{shown.map(x => <li key={x.id} data-subject={x.id} className="brief">
+          <PlaceStage.Plate subject={x} draw={draw} brief /></li>)}</ul>
+        {more > 0 && <p className="more-here">{`And ${more} more, under Look about.`}</p>}
+      </div>
+    );
+  }
+  static readonly most = 6;
+  private static sells(choices: Choice[]): boolean {
+    return choices.some(c => /^Buy\b/.test(c.label) || GlanceStage.sells(c.children ?? []));
+  }
+  // The aim followed, on every page, with the way to it where the way is known (the owner, 3 November: a clearer
+  // quest followed); with none followed, the aim this place is about, when it wants saying.
+  static Aim({ app, said }: { app: ReaderApp; said?: string }) {
+    const screen = app.state.frame!.screen, followed = Followed.of(screen, app.state.followed), aim = followed ?? said;
+    // Followed, it opens the map on itself (see MapView.aim).
+    if (!aim) { return null; }
+    const place = followed && Aims.named(screen.destinations ?? [], followed, 0);
+    return (
+      <p className={`aim${followed ? ' followed' : ''}`} data-id="aim"><span className="label">
+        {followed ? 'Following' : 'Your aim'}</span>{Typography.curl(Words.upper(aim))}
+        {place && <button type="button" className="act set-out" data-action="aim-map" data-id={place.id}
+          onClick={() => app.choose(MenuModel.country)}>{`${place.name}, on the map`}</button>}</p>
     );
   }
   // How the company came, in a line; a journey's legs, each as it went, opened from it (they are under Look about too).

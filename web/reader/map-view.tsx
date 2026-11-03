@@ -1,3 +1,5 @@
+import { Aims } from './aims';
+import { Followed } from './followed';
 import {
   memo, useCallback, useEffect, useMemo, useRef, useState, type CSSProperties, type KeyboardEvent, type PointerEvent,
   type WheelEvent,
@@ -68,6 +70,10 @@ export class MapView {
   }
   // The place the aim shown is set out for, where the way to it is known and the map has it.
   private static aim(app: ReaderApp, screen: Screen): string | undefined {
+    // The aim followed, where it names somewhere the company knows the way to; else the one the page leads toward.
+    const followed = Followed.of(screen, app.state.followed);
+    const named = followed && Aims.named(screen.destinations ?? [], followed, 0)?.id;
+    if (named && screen.region?.land && MapView.way(screen, named).go) { return named; }
     const id = app.state.frame?.leaf.glance?.aimed?.find(a => a.startsWith('travel:'))?.slice('travel:'.length);
     return id && screen.region?.land && MapView.way(screen, id).go ? id : undefined;
   }

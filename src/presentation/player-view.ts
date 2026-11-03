@@ -1,3 +1,4 @@
+import { OwnWords } from './own-words';
 import { Spatial } from '../spatial';
 import { ItemCatalog } from '../item-catalog';
 import { PartyCapabilities } from '../campaign/party-capabilities';
@@ -116,7 +117,8 @@ export class PlayerView {
     const world = campaign.world, unnamed = this.unnamed(world), actor = campaign.playerActor ?? '';
     const here = ChoiceWording.here(campaign);
     // Nothing can be done to someone the company does not see.
-    const visible = world.module.seen ? offered.filter(a => this.sees(world, actor, a)) : offered;
+    const seen = world.module.seen ? offered.filter(a => this.sees(world, actor, a)) : offered;
+    const visible = OwnWords.unasked(world.module, seen);
     const rows = ActionPresentation.choices(visible, campaign.schemaList).map(row => {
       row.choice.time = ActionTime.of(row.action, world);
       // Choices are grounded with every place's name; one the company has not learned is said as it is seen.

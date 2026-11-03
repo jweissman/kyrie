@@ -206,6 +206,7 @@ The words are:
 - `Objects`: what a person says on seeing what is theirs in the company's hands (see "Whose things are", below);
 - `Joins` and `Leaves`: what they say on joining the company and on leaving it; `Leaves "…" to <place>.` also takes
   them there as they go, so one who says they are gone is not still among those here;
+- `Farewell`: what they say when the company takes its leave of them, every time, in place of the tables' farewells;
 - `Greets`, and `Greets again`: what they say the first time the company speaks to them, and when it comes back. One
   with a `Greets` of their own and no `Greets again` says nothing on a return, rather than a line of the voice
   tables that thirty others share.
@@ -392,6 +393,8 @@ step meant to ask once comes before anything that would ask it again.
 What a topic or an action puts in the company's hands is given in so many words: `Give davy_coat to actor.` gives the
 coat to the first of the company who is up, out of whoever had it or from wherever it lay, and the page says "You take
 Davy's red coat." Nothing need be set on the floor to be taken (What Tessary Owes' W3, the Banns at Hessel's 14).
+A kind given (`Give keepsake_kind to actor.`) is a new one of that kind, each time: a gift, a playbill, a loaf, with
+nothing parked in a room to be found first.
 `Spend weight_stone from actor.` gives up one thing of that kind, whichever of the company carries it, and
 `holding(actor, weight_stone)` in a requirement says it has one to give (Low Water's 6, which had a pan and a rule on
 what was put in it). Named by its own id, `Spend nan_ribbon from party.` gives up that particular thing and no other of
@@ -802,7 +805,10 @@ did (`probes/reckoning`):
 ```
 
 A roll in parentheses is a Deem expression, `(2d6)`, rolled once when the module is installed; arithmetic, in
-parentheses or out, is worked out each time it is read.
+parentheses or out, is worked out each time it is read. A quotient is rounded down (`coin(actor) / 3`), and `min(…, …)`
+and `max(…, …)` give the less and the greater of two. A measure may say the most it can be, and nothing takes it past
+it (`Measure fondness(group) at most 10.`); nothing takes a count below nothing either (`Decrease … by … or to
+nothing`).
 
 Two names are of different things where `distinct(a, b)` holds: "a place other than the Ranks" is
 `at(?p, …) and distinct(?p, ranks)` (What Tessary Owes' W5). It tests what is bound and binds nothing, so what it

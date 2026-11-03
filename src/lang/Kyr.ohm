@@ -81,7 +81,7 @@ Kyr {
   PersonTemperament = "Temperament" ident "."
   PersonManner = "Manner" ident "."
   PersonPronouns = "Pronouns" ident "."
-  PersonWords = ("Warns" | "Arrives" | "Comes" | "Flinches" | "Pleads" | "Objects" | "Resents" | "Joins" | "Leaves" | "Greets" | "Likeness") string RoleWhen? "."
+  PersonWords = ("Warns" | "Arrives" | "Comes" | "Flinches" | "Pleads" | "Objects" | "Resents" | "Joins" | "Leaves" | "Greets" | "Farewell" | "Likeness") string RoleWhen? "."
   PersonAgain = "Greets" "again" string "."
   PersonLeavesTo = "Leaves" LeavesTo RoleWhen? "."
   LeavesTo = string "to" ident
@@ -158,7 +158,8 @@ Kyr {
               | "living" "in" NonemptyListOf<ident, ","> -- living
   signed = "-"? digit+
   Relation = "Relation" ident "(" ListOf<ident, ","> ")" exclusive? "."
-  Measure = "Measure" ident "(" ListOf<ident, ","> ")" "."
+  Measure = "Measure" ident "(" ListOf<ident, ","> ")" MeasureMost? "."
+  MeasureMost = "at" "most" integer
   Query = "Query" ident "(" ListOf<Parameter, ","> ")" "means" Predicate "."
   Parameter = ident ":" ident
   Entity = "Entity" ident ":" ident string MemberBinding? "."
@@ -211,10 +212,12 @@ Kyr {
   Value = Product ArithTail*
   ArithTail = sumOp Product
   Product = Operand ProductTail*
-  ProductTail = "*" Operand
+  ProductTail = ("*" | "/") Operand
   Operand = "(" Value ")" -- group
+          | ("min" | "max") "(" ExtremeArgs ")" -- extreme
           | Call
           | NumberValue
+  ExtremeArgs = Value "," Value
   sumOp = "+" | "-"
   NumberValue = expression | integer
   Call = ident "(" ListOf<term, ","> ")"

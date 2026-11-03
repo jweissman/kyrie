@@ -1,3 +1,4 @@
+import { Sentences } from './sentences';
 import { BandNames } from '../narrative/band-names';
 import type { Campaign, CampaignEvent } from '../campaign/campaign';
 import { PlayerView, type PlayerSnapshot } from './player-view';
@@ -42,7 +43,7 @@ export class ActionFeedbackView {
       amended: fresh.filter(o => gone.has(this.opening(o.text))).map(o => FictionalTime.prose(o.text)) };
   }
   // An aim's first sentence, which says what it is about.
-  static opening(text: string): string { return text.split(/(?<=[.!?])\s/)[0]!; }
+  static opening(text: string): string { return Sentences.first(text); }
   static readonly probes = ['look_closely', 'prod', 'pry', 'burn', 'push', 'listen', 'search'];
   // What a try that finds nothing says, in the words of the try (the cold playtest heard "Nothing comes of it." from
   // a speaking door, a mural and a casket alike, and stopped looking at things).

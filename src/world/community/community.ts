@@ -1,5 +1,6 @@
 import { Draw } from '../land/draw';
 import { Commons } from './commons';
+import { TownProfessions } from './town-professions';
 import { Canon } from '../../canon/canon';
 import { Overlays } from '../../overlays';
 import { RegionGeography } from '../region-geography';
@@ -128,7 +129,8 @@ export class Communities {
       }
     }
     while (picked.length < n) { picked.push(['farmer', this.occupations.farmer!]); }
-    return picked;
+    // And a few of the portraits' professions, of the kinds of life the place has room for (see TownProfessions).
+    return [...picked, ...TownProfessions.pick(region, s, water, new Set(picked.map(([, o]) => o.background)))];
   }
   // The names already given in the country when a settlement's people are named: every settlement's innkeeper,
   // priest, merchant and traveller, and the people of the settlements before it, so that no two people in a country

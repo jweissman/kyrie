@@ -801,7 +801,7 @@
     "faithful": 753,
     "adapted": 361,
     "represented": 4,
-    "kyr": 121,
+    "kyr": 504,
     "unsupported": 99,
     "unreachable": 4,
     "data-only": 12
@@ -840,7 +840,7 @@
       "faithful": 1,
       "adapted": 214,
       "represented": 0,
-      "kyr": 0,
+      "kyr": 383,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -1461,9 +1461,65 @@
    "section": "backgrounds/backgrounds-wild"
   },
   {
+   "id": "background:birdkeeper",
+   "title": "Birdkeeper",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-wild"
+  },
+  {
    "id": "background:botanist",
    "title": "Botanist",
    "status": "adapted",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-wild"
+  },
+  {
+   "id": "background:broncobuster",
+   "title": "Broncobuster",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-wild"
+  },
+  {
+   "id": "background:cowherd",
+   "title": "Cowherd",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-wild"
+  },
+  {
+   "id": "background:equestrian",
+   "title": "Equestrian",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-wild"
+  },
+  {
+   "id": "background:falconer",
+   "title": "Falconer",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-wild"
+  },
+  {
+   "id": "background:feller",
+   "title": "Feller",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-wild"
+  },
+  {
+   "id": "background:flying_squirrel_trainer",
+   "title": "Flying squirrel trainer",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-wild"
+  },
+  {
+   "id": "background:forerider",
+   "title": "Forerider",
+   "status": "kyr",
    "book": "phb",
    "section": "backgrounds/backgrounds-wild"
   },
@@ -1475,9 +1531,37 @@
    "section": "backgrounds/backgrounds-wild"
   },
   {
+   "id": "background:gamekeeper",
+   "title": "Gamekeeper",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-wild"
+  },
+  {
    "id": "background:gameskeeper",
    "title": "Gameskeeper",
    "status": "adapted",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-wild"
+  },
+  {
+   "id": "background:gatherer",
+   "title": "Gatherer",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-wild"
+  },
+  {
+   "id": "background:goose_girl",
+   "title": "Goose girl",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-wild"
+  },
+  {
+   "id": "background:gooseherd",
+   "title": "Gooseherd",
+   "status": "kyr",
    "book": "phb",
    "section": "backgrounds/backgrounds-wild"
   },
@@ -1503,9 +1587,30 @@
    "section": "backgrounds/backgrounds-wild"
   },
   {
+   "id": "background:huntress",
+   "title": "Huntress",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-wild"
+  },
+  {
    "id": "background:monster_hunter",
    "title": "Monster hunter",
    "status": "adapted",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-wild"
+  },
+  {
+   "id": "background:poacher",
+   "title": "Poacher",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-wild"
+  },
+  {
+   "id": "background:ranger",
+   "title": "Ranger",
+   "status": "kyr",
    "book": "phb",
    "section": "backgrounds/backgrounds-wild"
   },
@@ -1524,6 +1629,13 @@
    "section": "backgrounds/backgrounds-wild"
   },
   {
+   "id": "background:shepherd",
+   "title": "Shepherd",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-wild"
+  },
+  {
    "id": "background:skinner",
    "title": "Skinner",
    "status": "adapted",
@@ -1531,9 +1643,23 @@
    "section": "backgrounds/backgrounds-wild"
   },
   {
+   "id": "background:snake_charmer",
+   "title": "Snake charmer",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-wild"
+  },
+  {
    "id": "background:tracker",
    "title": "Tracker",
    "status": "adapted",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-wild"
+  },
+  {
+   "id": "background:trapper",
+   "title": "Trapper",
+   "status": "kyr",
    "book": "phb",
    "section": "backgrounds/backgrounds-wild"
   },
@@ -1552,11 +1678,25 @@
    "section": "backgrounds/backgrounds-wild"
   },
   {
+   "id": "background:woodsman",
+   "title": "Woodsman",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-wild"
+  },
+  {
    "id": "background:zoologist",
    "title": "Zoologist",
    "status": "adapted",
    "book": "phb",
    "section": "backgrounds/backgrounds-wild"
+  },
+  {
+   "id": "background:adventurer",
+   "title": "Adventurer",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-roads"
   },
   {
    "id": "background:caravaner",
@@ -1580,6 +1720,20 @@
    "section": "backgrounds/backgrounds-roads"
   },
   {
+   "id": "background:charioteer",
+   "title": "Charioteer",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-roads"
+  },
+  {
+   "id": "background:courier",
+   "title": "Courier",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-roads"
+  },
+  {
    "id": "background:drifter",
    "title": "Drifter",
    "status": "adapted",
@@ -1587,9 +1741,44 @@
    "section": "backgrounds/backgrounds-roads"
   },
   {
+   "id": "background:expediter",
+   "title": "Expediter",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-roads"
+  },
+  {
    "id": "background:explorer",
    "title": "Explorer",
    "status": "adapted",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-roads"
+  },
+  {
+   "id": "background:flaneur",
+   "title": "Flaneur",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-roads"
+  },
+  {
+   "id": "background:fugitive",
+   "title": "Fugitive",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-roads"
+  },
+  {
+   "id": "background:grail_seeker",
+   "title": "Grail seeker",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-roads"
+  },
+  {
+   "id": "background:guide",
+   "title": "Guide",
+   "status": "kyr",
    "book": "phb",
    "section": "backgrounds/backgrounds-roads"
   },
@@ -1629,9 +1818,30 @@
    "section": "backgrounds/backgrounds-roads"
   },
   {
+   "id": "background:pioneer",
+   "title": "Pioneer",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-roads"
+  },
+  {
+   "id": "background:quester",
+   "title": "Quester",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-roads"
+  },
+  {
    "id": "background:runner",
    "title": "Runner",
    "status": "adapted",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-roads"
+  },
+  {
+   "id": "background:seeker",
+   "title": "Seeker",
+   "status": "kyr",
    "book": "phb",
    "section": "backgrounds/backgrounds-roads"
   },
@@ -1646,6 +1856,27 @@
    "id": "background:vagabond",
    "title": "Vagabond",
    "status": "adapted",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-roads"
+  },
+  {
+   "id": "background:vedette",
+   "title": "Vedette",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-roads"
+  },
+  {
+   "id": "background:visitor",
+   "title": "Visitor",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-roads"
+  },
+  {
+   "id": "background:wanderer",
+   "title": "Wanderer",
+   "status": "kyr",
    "book": "phb",
    "section": "backgrounds/backgrounds-roads"
   },
@@ -1706,6 +1937,20 @@
    "section": "backgrounds/backgrounds-mechanisms"
   },
   {
+   "id": "background:arsonist",
+   "title": "Arsonist",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-shadows"
+  },
+  {
+   "id": "background:art_thief",
+   "title": "Art thief",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-shadows"
+  },
+  {
    "id": "background:assassin",
    "title": "Assassin",
    "status": "adapted",
@@ -1716,6 +1961,13 @@
    "id": "background:bandit",
    "title": "Bandit",
    "status": "adapted",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-shadows"
+  },
+  {
+   "id": "background:bookie",
+   "title": "Bookie",
+   "status": "kyr",
    "book": "phb",
    "section": "backgrounds/backgrounds-shadows"
   },
@@ -1734,6 +1986,13 @@
    "section": "backgrounds/backgrounds-shadows"
   },
   {
+   "id": "background:conspirator",
+   "title": "Conspirator",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-shadows"
+  },
+  {
    "id": "background:criminal",
    "title": "Criminal",
    "status": "adapted",
@@ -1748,9 +2007,30 @@
    "section": "backgrounds/backgrounds-shadows"
   },
   {
+   "id": "background:fixer",
+   "title": "Fixer",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-shadows"
+  },
+  {
    "id": "background:gambler",
    "title": "Gambler",
    "status": "adapted",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-shadows"
+  },
+  {
+   "id": "background:informant",
+   "title": "Informant",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-shadows"
+  },
+  {
+   "id": "background:libertine",
+   "title": "Libertine",
+   "status": "kyr",
    "book": "phb",
    "section": "backgrounds/backgrounds-shadows"
   },
@@ -1776,6 +2056,20 @@
    "section": "backgrounds/backgrounds-shadows"
   },
   {
+   "id": "background:procuress",
+   "title": "Procuress",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-shadows"
+  },
+  {
+   "id": "background:pusher",
+   "title": "Pusher",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-shadows"
+  },
+  {
    "id": "background:raider",
    "title": "Raider",
    "status": "adapted",
@@ -1783,9 +2077,30 @@
    "section": "backgrounds/backgrounds-shadows"
   },
   {
+   "id": "background:robber",
+   "title": "Robber",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-shadows"
+  },
+  {
+   "id": "background:rogue",
+   "title": "Rogue",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-shadows"
+  },
+  {
    "id": "background:saboteur",
    "title": "Saboteur",
    "status": "adapted",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-shadows"
+  },
+  {
+   "id": "background:seditionist",
+   "title": "Seditionist",
+   "status": "kyr",
    "book": "phb",
    "section": "backgrounds/backgrounds-shadows"
   },
@@ -1804,9 +2119,37 @@
    "section": "backgrounds/backgrounds-shadows"
   },
   {
+   "id": "background:street_rat",
+   "title": "Street rat",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-shadows"
+  },
+  {
+   "id": "background:thief",
+   "title": "Thief",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-shadows"
+  },
+  {
    "id": "background:thug",
    "title": "Thug",
    "status": "adapted",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-shadows"
+  },
+  {
+   "id": "background:traitor",
+   "title": "Traitor",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-shadows"
+  },
+  {
+   "id": "background:vandal",
+   "title": "Vandal",
+   "status": "kyr",
    "book": "phb",
    "section": "backgrounds/backgrounds-shadows"
   },
@@ -1818,6 +2161,13 @@
    "section": "backgrounds/backgrounds-healing"
   },
   {
+   "id": "background:alienist",
+   "title": "Alienist",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-healing"
+  },
+  {
    "id": "background:apothecary",
    "title": "Apothecary",
    "status": "adapted",
@@ -1825,9 +2175,30 @@
    "section": "backgrounds/backgrounds-healing"
   },
   {
+   "id": "background:convalescent",
+   "title": "Convalescent",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-healing"
+  },
+  {
+   "id": "background:dietitian",
+   "title": "Dietitian",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-healing"
+  },
+  {
    "id": "background:doctor",
    "title": "Doctor",
    "status": "adapted",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-healing"
+  },
+  {
+   "id": "background:healer",
+   "title": "Healer",
+   "status": "kyr",
    "book": "phb",
    "section": "backgrounds/backgrounds-healing"
   },
@@ -1842,6 +2213,13 @@
    "id": "background:medic",
    "title": "Medic",
    "status": "adapted",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-healing"
+  },
+  {
+   "id": "background:midwife",
+   "title": "Midwife",
+   "status": "kyr",
    "book": "phb",
    "section": "backgrounds/backgrounds-healing"
   },
@@ -1874,6 +2252,41 @@
    "section": "backgrounds/backgrounds-healing"
   },
   {
+   "id": "background:psychoanalyst",
+   "title": "Psychoanalyst",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-healing"
+  },
+  {
+   "id": "background:psychologist",
+   "title": "Psychologist",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-healing"
+  },
+  {
+   "id": "background:purifier",
+   "title": "Purifier",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-healing"
+  },
+  {
+   "id": "background:receptary",
+   "title": "Receptary",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-healing"
+  },
+  {
+   "id": "background:abbess",
+   "title": "Abbess",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-faith"
+  },
+  {
    "id": "background:abbot",
    "title": "Abbot",
    "status": "adapted",
@@ -1884,6 +2297,20 @@
    "id": "background:acolyte",
    "title": "Acolyte",
    "status": "adapted",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-faith"
+  },
+  {
+   "id": "background:apostle",
+   "title": "Apostle",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-faith"
+  },
+  {
+   "id": "background:archimandrite",
+   "title": "Archimandrite",
+   "status": "kyr",
    "book": "phb",
    "section": "backgrounds/backgrounds-faith"
   },
@@ -1902,9 +2329,86 @@
    "section": "backgrounds/backgrounds-faith"
   },
   {
+   "id": "background:augur",
+   "title": "Augur",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-faith"
+  },
+  {
+   "id": "background:believer",
+   "title": "Believer",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-faith"
+  },
+  {
+   "id": "background:bishop",
+   "title": "Bishop",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-faith"
+  },
+  {
+   "id": "background:cardinal",
+   "title": "Cardinal",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-faith"
+  },
+  {
+   "id": "background:celebrant",
+   "title": "Celebrant",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-faith"
+  },
+  {
+   "id": "background:convert",
+   "title": "Convert",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-faith"
+  },
+  {
    "id": "background:cultist",
    "title": "Cultist",
    "status": "adapted",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-faith"
+  },
+  {
+   "id": "background:deacon",
+   "title": "Deacon",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-faith"
+  },
+  {
+   "id": "background:disciple",
+   "title": "Disciple",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-faith"
+  },
+  {
+   "id": "background:druid",
+   "title": "Druid",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-faith"
+  },
+  {
+   "id": "background:exorcist",
+   "title": "Exorcist",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-faith"
+  },
+  {
+   "id": "background:friar",
+   "title": "Friar",
+   "status": "kyr",
    "book": "phb",
    "section": "backgrounds/backgrounds-faith"
   },
@@ -1916,9 +2420,44 @@
    "section": "backgrounds/backgrounds-faith"
   },
   {
+   "id": "background:hierophant",
+   "title": "Hierophant",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-faith"
+  },
+  {
+   "id": "background:homilist",
+   "title": "Homilist",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-faith"
+  },
+  {
+   "id": "background:hospitaller",
+   "title": "Hospitaller",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-faith"
+  },
+  {
+   "id": "background:hymnist",
+   "title": "Hymnist",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-faith"
+  },
+  {
    "id": "background:inquisitor",
    "title": "Inquisitor",
    "status": "adapted",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-faith"
+  },
+  {
+   "id": "background:martyr",
+   "title": "Martyr",
+   "status": "kyr",
    "book": "phb",
    "section": "backgrounds/backgrounds-faith"
   },
@@ -1937,9 +2476,142 @@
    "section": "backgrounds/backgrounds-faith"
   },
   {
+   "id": "background:monk",
+   "title": "Monk",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-faith"
+  },
+  {
+   "id": "background:monkey_trainer",
+   "title": "Monkey trainer",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-faith"
+  },
+  {
+   "id": "background:mother_superior",
+   "title": "Mother superior",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-faith"
+  },
+  {
+   "id": "background:novice",
+   "title": "Novice",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-faith"
+  },
+  {
+   "id": "background:nun",
+   "title": "Nun",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-faith"
+  },
+  {
+   "id": "background:oracle",
+   "title": "Oracle",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-faith"
+  },
+  {
+   "id": "background:penitent",
+   "title": "Penitent",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-faith"
+  },
+  {
+   "id": "background:pope",
+   "title": "Pope",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-faith"
+  },
+  {
    "id": "background:priest",
    "title": "Priest",
    "status": "adapted",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-faith"
+  },
+  {
+   "id": "background:priest_king",
+   "title": "Priest king",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-faith"
+  },
+  {
+   "id": "background:priestess",
+   "title": "Priestess",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-faith"
+  },
+  {
+   "id": "background:prior",
+   "title": "Prior",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-faith"
+  },
+  {
+   "id": "background:prioress",
+   "title": "Prioress",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-faith"
+  },
+  {
+   "id": "background:prophet",
+   "title": "Prophet",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-faith"
+  },
+  {
+   "id": "background:psalmist",
+   "title": "Psalmist",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-faith"
+  },
+  {
+   "id": "background:pythoness",
+   "title": "Pythoness",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-faith"
+  },
+  {
+   "id": "background:saint",
+   "title": "Saint",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-faith"
+  },
+  {
+   "id": "background:seer",
+   "title": "Seer",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-faith"
+  },
+  {
+   "id": "background:sibyl",
+   "title": "Sibyl",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-faith"
+  },
+  {
+   "id": "background:soothsayer",
+   "title": "Soothsayer",
+   "status": "kyr",
    "book": "phb",
    "section": "backgrounds/backgrounds-faith"
   },
@@ -1951,9 +2623,30 @@
    "section": "backgrounds/backgrounds-faith"
   },
   {
+   "id": "background:theologian",
+   "title": "Theologian",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-faith"
+  },
+  {
+   "id": "background:theurge",
+   "title": "Theurge",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-faith"
+  },
+  {
    "id": "background:vampire_hunter",
    "title": "Vampire hunter",
    "status": "adapted",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-faith"
+  },
+  {
+   "id": "background:vigil_keeper",
+   "title": "Vigil keeper",
+   "status": "kyr",
    "book": "phb",
    "section": "backgrounds/backgrounds-faith"
   },
@@ -1965,9 +2658,44 @@
    "section": "backgrounds/backgrounds-faith"
   },
   {
+   "id": "background:academician",
+   "title": "Academician",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-learning"
+  },
+  {
    "id": "background:advisor",
    "title": "Advisor",
    "status": "adapted",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-learning"
+  },
+  {
+   "id": "background:algebraist",
+   "title": "Algebraist",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-learning"
+  },
+  {
+   "id": "background:amanuensis",
+   "title": "Amanuensis",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-learning"
+  },
+  {
+   "id": "background:annalist",
+   "title": "Annalist",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-learning"
+  },
+  {
+   "id": "background:antiquarian",
+   "title": "Antiquarian",
+   "status": "kyr",
    "book": "phb",
    "section": "backgrounds/backgrounds-learning"
   },
@@ -2007,9 +2735,149 @@
    "section": "backgrounds/backgrounds-learning"
   },
   {
+   "id": "background:astrologer",
+   "title": "Astrologer",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-learning"
+  },
+  {
    "id": "background:astronomer",
    "title": "Astronomer",
    "status": "adapted",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-learning"
+  },
+  {
+   "id": "background:atomist",
+   "title": "Atomist",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-learning"
+  },
+  {
+   "id": "background:bibliophile",
+   "title": "Bibliophile",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-learning"
+  },
+  {
+   "id": "background:biologist",
+   "title": "Biologist",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-learning"
+  },
+  {
+   "id": "background:calligrapher",
+   "title": "Calligrapher",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-learning"
+  },
+  {
+   "id": "background:cartomancer",
+   "title": "Cartomancer",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-learning"
+  },
+  {
+   "id": "background:chemist",
+   "title": "Chemist",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-learning"
+  },
+  {
+   "id": "background:classicist",
+   "title": "Classicist",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-learning"
+  },
+  {
+   "id": "background:collector",
+   "title": "Collector",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-learning"
+  },
+  {
+   "id": "background:conjuror",
+   "title": "Conjuror",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-learning"
+  },
+  {
+   "id": "background:copyist",
+   "title": "Copyist",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-learning"
+  },
+  {
+   "id": "background:demonologist",
+   "title": "Demonologist",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-learning"
+  },
+  {
+   "id": "background:dialectician",
+   "title": "Dialectician",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-learning"
+  },
+  {
+   "id": "background:diviner",
+   "title": "Diviner",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-learning"
+  },
+  {
+   "id": "background:enchanter",
+   "title": "Enchanter",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-learning"
+  },
+  {
+   "id": "background:enchantress",
+   "title": "Enchantress",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-learning"
+  },
+  {
+   "id": "background:encyclopedist",
+   "title": "Encyclopedist",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-learning"
+  },
+  {
+   "id": "background:esotericist",
+   "title": "Esotericist",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-learning"
+  },
+  {
+   "id": "background:ethicist",
+   "title": "Ethicist",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-learning"
+  },
+  {
+   "id": "background:fortune_teller",
+   "title": "Fortune teller",
+   "status": "kyr",
    "book": "phb",
    "section": "backgrounds/backgrounds-learning"
   },
@@ -2021,9 +2889,37 @@
    "section": "backgrounds/backgrounds-learning"
   },
   {
+   "id": "background:ghostwriter",
+   "title": "Ghostwriter",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-learning"
+  },
+  {
+   "id": "background:hermeticist",
+   "title": "Hermeticist",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-learning"
+  },
+  {
    "id": "background:historian",
    "title": "Historian",
    "status": "adapted",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-learning"
+  },
+  {
+   "id": "background:humanist",
+   "title": "Humanist",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-learning"
+  },
+  {
+   "id": "background:illusionist",
+   "title": "Illusionist",
+   "status": "kyr",
    "book": "phb",
    "section": "backgrounds/backgrounds-learning"
   },
@@ -2035,9 +2931,86 @@
    "section": "backgrounds/backgrounds-learning"
   },
   {
+   "id": "background:kabbalist",
+   "title": "Kabbalist",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-learning"
+  },
+  {
+   "id": "background:lector",
+   "title": "Lector",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-learning"
+  },
+  {
    "id": "background:librarian",
    "title": "Librarian",
    "status": "adapted",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-learning"
+  },
+  {
+   "id": "background:linguist",
+   "title": "Linguist",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-learning"
+  },
+  {
+   "id": "background:logician",
+   "title": "Logician",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-learning"
+  },
+  {
+   "id": "background:magician",
+   "title": "Magician",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-learning"
+  },
+  {
+   "id": "background:magus",
+   "title": "Magus",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-learning"
+  },
+  {
+   "id": "background:mathematician",
+   "title": "Mathematician",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-learning"
+  },
+  {
+   "id": "background:medical_scholar",
+   "title": "Medical scholar",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-learning"
+  },
+  {
+   "id": "background:medium",
+   "title": "Medium",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-learning"
+  },
+  {
+   "id": "background:metaphysician",
+   "title": "Metaphysician",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-learning"
+  },
+  {
+   "id": "background:monist",
+   "title": "Monist",
+   "status": "kyr",
    "book": "phb",
    "section": "backgrounds/backgrounds-learning"
   },
@@ -2049,6 +3022,34 @@
    "section": "backgrounds/backgrounds-learning"
   },
   {
+   "id": "background:naturalist",
+   "title": "Naturalist",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-learning"
+  },
+  {
+   "id": "background:necromancer",
+   "title": "Necromancer",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-learning"
+  },
+  {
+   "id": "background:oneiromancer",
+   "title": "Oneiromancer",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-learning"
+  },
+  {
+   "id": "background:ornithologist",
+   "title": "Ornithologist",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-learning"
+  },
+  {
    "id": "background:parchment_maker",
    "title": "Parchment maker",
    "status": "adapted",
@@ -2056,9 +3057,51 @@
    "section": "backgrounds/backgrounds-learning"
   },
   {
+   "id": "background:philologist",
+   "title": "Philologist",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-learning"
+  },
+  {
    "id": "background:philosopher",
    "title": "Philosopher",
    "status": "adapted",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-learning"
+  },
+  {
+   "id": "background:physicist",
+   "title": "Physicist",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-learning"
+  },
+  {
+   "id": "background:polymath",
+   "title": "Polymath",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-learning"
+  },
+  {
+   "id": "background:professor",
+   "title": "Professor",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-learning"
+  },
+  {
+   "id": "background:reader",
+   "title": "Reader",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-learning"
+  },
+  {
+   "id": "background:researcher",
+   "title": "Researcher",
+   "status": "kyr",
    "book": "phb",
    "section": "backgrounds/backgrounds-learning"
   },
@@ -2077,9 +3120,30 @@
    "section": "backgrounds/backgrounds-learning"
   },
   {
+   "id": "background:savant",
+   "title": "Savant",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-learning"
+  },
+  {
    "id": "background:scholar",
    "title": "Scholar",
    "status": "adapted",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-learning"
+  },
+  {
+   "id": "background:scholarch",
+   "title": "Scholarch",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-learning"
+  },
+  {
+   "id": "background:scientist",
+   "title": "Scientist",
+   "status": "kyr",
    "book": "phb",
    "section": "backgrounds/backgrounds-learning"
   },
@@ -2091,9 +3155,65 @@
    "section": "backgrounds/backgrounds-learning"
   },
   {
+   "id": "background:scrivener",
+   "title": "Scrivener",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-learning"
+  },
+  {
    "id": "background:secretkeeper",
    "title": "Secretkeeper",
    "status": "adapted",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-learning"
+  },
+  {
+   "id": "background:songwriter",
+   "title": "Songwriter",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-learning"
+  },
+  {
+   "id": "background:sorceress",
+   "title": "Sorceress",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-learning"
+  },
+  {
+   "id": "background:spiritualist",
+   "title": "Spiritualist",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-learning"
+  },
+  {
+   "id": "background:summoner",
+   "title": "Summoner",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-learning"
+  },
+  {
+   "id": "background:teacher",
+   "title": "Teacher",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-learning"
+  },
+  {
+   "id": "background:thinker",
+   "title": "Thinker",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-learning"
+  },
+  {
+   "id": "background:translator",
+   "title": "Translator",
+   "status": "kyr",
    "book": "phb",
    "section": "backgrounds/backgrounds-learning"
   },
@@ -2112,9 +3232,44 @@
    "section": "backgrounds/backgrounds-learning"
   },
   {
+   "id": "background:wizard",
+   "title": "Wizard",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-learning"
+  },
+  {
+   "id": "background:writer",
+   "title": "Writer",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-learning"
+  },
+  {
    "id": "background:bricklayer",
    "title": "Bricklayer",
    "status": "adapted",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-earth"
+  },
+  {
+   "id": "background:collier",
+   "title": "Collier",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-earth"
+  },
+  {
+   "id": "background:draftsman",
+   "title": "Draftsman",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-earth"
+  },
+  {
+   "id": "background:draughtswoman",
+   "title": "Draughtswoman",
+   "status": "kyr",
    "book": "phb",
    "section": "backgrounds/backgrounds-earth"
   },
@@ -2168,6 +3323,13 @@
    "section": "backgrounds/backgrounds-earth"
   },
   {
+   "id": "background:quarrier",
+   "title": "Quarrier",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-earth"
+  },
+  {
    "id": "background:scavenger",
    "title": "Scavenger",
    "status": "adapted",
@@ -2189,6 +3351,13 @@
    "section": "backgrounds/backgrounds-earth"
   },
   {
+   "id": "background:surveyor",
+   "title": "Surveyor",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-earth"
+  },
+  {
    "id": "background:treasure_hunter",
    "title": "Treasure hunter",
    "status": "adapted",
@@ -2199,6 +3368,20 @@
    "id": "background:athlete",
    "title": "Athlete",
    "status": "adapted",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-arms"
+  },
+  {
+   "id": "background:avenger",
+   "title": "Avenger",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-arms"
+  },
+  {
+   "id": "background:berserker",
+   "title": "Berserker",
+   "status": "kyr",
    "book": "phb",
    "section": "backgrounds/backgrounds-arms"
   },
@@ -2217,6 +3400,20 @@
    "section": "backgrounds/backgrounds-arms"
   },
   {
+   "id": "background:brandisher",
+   "title": "Brandisher",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-arms"
+  },
+  {
+   "id": "background:captain",
+   "title": "Captain",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-arms"
+  },
+  {
    "id": "background:champion",
    "title": "Champion",
    "status": "adapted",
@@ -2224,9 +3421,37 @@
    "section": "backgrounds/backgrounds-arms"
   },
   {
+   "id": "background:commander",
+   "title": "Commander",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-arms"
+  },
+  {
+   "id": "background:conqueror",
+   "title": "Conqueror",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-arms"
+  },
+  {
    "id": "background:coppersmith",
    "title": "Coppersmith",
    "status": "adapted",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-arms"
+  },
+  {
+   "id": "background:crusader",
+   "title": "Crusader",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-arms"
+  },
+  {
+   "id": "background:defender",
+   "title": "Defender",
+   "status": "kyr",
    "book": "phb",
    "section": "backgrounds/backgrounds-arms"
   },
@@ -2245,6 +3470,20 @@
    "section": "backgrounds/backgrounds-arms"
   },
   {
+   "id": "background:dragonslayer",
+   "title": "Dragonslayer",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-arms"
+  },
+  {
+   "id": "background:ensign",
+   "title": "Ensign",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-arms"
+  },
+  {
    "id": "background:errant",
    "title": "Errant",
    "status": "adapted",
@@ -2259,9 +3498,51 @@
    "section": "backgrounds/backgrounds-arms"
   },
   {
+   "id": "background:far_shooter",
+   "title": "Far shooter",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-arms"
+  },
+  {
+   "id": "background:fencing_master",
+   "title": "Fencing master",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-arms"
+  },
+  {
+   "id": "background:fighter",
+   "title": "Fighter",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-arms"
+  },
+  {
    "id": "background:folk_hero",
    "title": "Folk hero",
    "status": "adapted",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-arms"
+  },
+  {
+   "id": "background:game_warden",
+   "title": "Game warden",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-arms"
+  },
+  {
+   "id": "background:gatekeeper",
+   "title": "Gatekeeper",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-arms"
+  },
+  {
+   "id": "background:general",
+   "title": "General",
+   "status": "kyr",
    "book": "phb",
    "section": "backgrounds/backgrounds-arms"
   },
@@ -2280,9 +3561,51 @@
    "section": "backgrounds/backgrounds-arms"
   },
   {
+   "id": "background:guardian",
+   "title": "Guardian",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-arms"
+  },
+  {
+   "id": "background:halberdier",
+   "title": "Halberdier",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-arms"
+  },
+  {
+   "id": "background:hero",
+   "title": "Hero",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-arms"
+  },
+  {
+   "id": "background:heroine",
+   "title": "Heroine",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-arms"
+  },
+  {
+   "id": "background:jailer",
+   "title": "Jailer",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-arms"
+  },
+  {
    "id": "background:juggernaut",
    "title": "Juggernaut",
    "status": "adapted",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-arms"
+  },
+  {
+   "id": "background:knight",
+   "title": "Knight",
+   "status": "kyr",
    "book": "phb",
    "section": "backgrounds/backgrounds-arms"
   },
@@ -2294,6 +3617,13 @@
    "section": "backgrounds/backgrounds-arms"
   },
   {
+   "id": "background:paladin",
+   "title": "Paladin",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-arms"
+  },
+  {
    "id": "background:praetor",
    "title": "Praetor",
    "status": "adapted",
@@ -2301,9 +3631,23 @@
    "section": "backgrounds/backgrounds-arms"
   },
   {
+   "id": "background:protector",
+   "title": "Protector",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-arms"
+  },
+  {
    "id": "background:roustabout",
    "title": "Roustabout",
    "status": "adapted",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-arms"
+  },
+  {
+   "id": "background:samurai",
+   "title": "Samurai",
+   "status": "kyr",
    "book": "phb",
    "section": "backgrounds/backgrounds-arms"
   },
@@ -2329,6 +3673,13 @@
    "section": "backgrounds/backgrounds-arms"
   },
   {
+   "id": "background:spahi",
+   "title": "Spahi",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-arms"
+  },
+  {
    "id": "background:squire",
    "title": "Squire",
    "status": "adapted",
@@ -2336,9 +3687,23 @@
    "section": "backgrounds/backgrounds-arms"
   },
   {
+   "id": "background:standard_bearer",
+   "title": "Standard bearer",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-arms"
+  },
+  {
    "id": "background:swashbuckler",
    "title": "Swashbuckler",
    "status": "adapted",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-arms"
+  },
+  {
+   "id": "background:swordsman",
+   "title": "Swordsman",
+   "status": "kyr",
    "book": "phb",
    "section": "backgrounds/backgrounds-arms"
   },
@@ -2357,11 +3722,32 @@
    "section": "backgrounds/backgrounds-arms"
   },
   {
+   "id": "background:warrior",
+   "title": "Warrior",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-arms"
+  },
+  {
    "id": "background:yeoman",
    "title": "Yeoman",
    "status": "adapted",
    "book": "phb",
    "section": "backgrounds/backgrounds-arms"
+  },
+  {
+   "id": "background:angler",
+   "title": "Angler",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-water"
+  },
+  {
+   "id": "background:beachcomber",
+   "title": "Beachcomber",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-water"
   },
   {
    "id": "background:boatman",
@@ -2371,9 +3757,51 @@
    "section": "backgrounds/backgrounds-water"
   },
   {
+   "id": "background:buccaneer",
+   "title": "Buccaneer",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-water"
+  },
+  {
+   "id": "background:corsair",
+   "title": "Corsair",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-water"
+  },
+  {
    "id": "background:fisherman",
    "title": "Fisherman",
    "status": "adapted",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-water"
+  },
+  {
+   "id": "background:harpooner",
+   "title": "Harpooner",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-water"
+  },
+  {
+   "id": "background:ice_cutter",
+   "title": "Ice cutter",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-water"
+  },
+  {
+   "id": "background:lifeboatman",
+   "title": "Lifeboatman",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-water"
+  },
+  {
+   "id": "background:lobster_man",
+   "title": "Lobster man",
+   "status": "kyr",
    "book": "phb",
    "section": "backgrounds/backgrounds-water"
   },
@@ -2413,9 +3841,135 @@
    "section": "backgrounds/backgrounds-water"
   },
   {
+   "id": "background:whaler",
+   "title": "Whaler",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-water"
+  },
+  {
+   "id": "background:actress",
+   "title": "Actress",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-stage"
+  },
+  {
+   "id": "background:aesthete",
+   "title": "Aesthete",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-stage"
+  },
+  {
+   "id": "background:animator",
+   "title": "Animator",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-stage"
+  },
+  {
+   "id": "background:announcer",
+   "title": "Announcer",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-stage"
+  },
+  {
+   "id": "background:aphorist",
+   "title": "Aphorist",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-stage"
+  },
+  {
+   "id": "background:ballerina",
+   "title": "Ballerina",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-stage"
+  },
+  {
+   "id": "background:bard",
+   "title": "Bard",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-stage"
+  },
+  {
+   "id": "background:belletrist",
+   "title": "Belletrist",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-stage"
+  },
+  {
+   "id": "background:bugler",
+   "title": "Bugler",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-stage"
+  },
+  {
+   "id": "background:card_player",
+   "title": "Card player",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-stage"
+  },
+  {
+   "id": "background:caricaturist",
+   "title": "Caricaturist",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-stage"
+  },
+  {
+   "id": "background:character_actor",
+   "title": "Character actor",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-stage"
+  },
+  {
+   "id": "background:clown",
+   "title": "Clown",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-stage"
+  },
+  {
    "id": "background:comedian",
    "title": "Comedian",
    "status": "adapted",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-stage"
+  },
+  {
+   "id": "background:comedy",
+   "title": "Comedy",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-stage"
+  },
+  {
+   "id": "background:composer",
+   "title": "Composer",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-stage"
+  },
+  {
+   "id": "background:con_artist",
+   "title": "Con artist",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-stage"
+  },
+  {
+   "id": "background:conductor",
+   "title": "Conductor",
+   "status": "kyr",
    "book": "phb",
    "section": "backgrounds/backgrounds-stage"
   },
@@ -2434,9 +3988,51 @@
    "section": "backgrounds/backgrounds-stage"
   },
   {
+   "id": "background:dramaturge",
+   "title": "Dramaturge",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-stage"
+  },
+  {
+   "id": "background:dream_conductor",
+   "title": "Dream conductor",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-stage"
+  },
+  {
+   "id": "background:drummer",
+   "title": "Drummer",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-stage"
+  },
+  {
    "id": "background:entertainer",
    "title": "Entertainer",
    "status": "adapted",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-stage"
+  },
+  {
+   "id": "background:epic_poet",
+   "title": "Epic poet",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-stage"
+  },
+  {
+   "id": "background:epistler",
+   "title": "Epistler",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-stage"
+  },
+  {
+   "id": "background:epistolographer",
+   "title": "Epistolographer",
+   "status": "kyr",
    "book": "phb",
    "section": "backgrounds/backgrounds-stage"
   },
@@ -2448,9 +4044,65 @@
    "section": "backgrounds/backgrounds-stage"
   },
   {
+   "id": "background:fiddler",
+   "title": "Fiddler",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-stage"
+  },
+  {
+   "id": "background:fifer",
+   "title": "Fifer",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-stage"
+  },
+  {
+   "id": "background:fool",
+   "title": "Fool",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-stage"
+  },
+  {
+   "id": "background:golden_voice",
+   "title": "Golden voice",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-stage"
+  },
+  {
+   "id": "background:guitarist",
+   "title": "Guitarist",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-stage"
+  },
+  {
    "id": "background:harlequin",
    "title": "Harlequin",
    "status": "adapted",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-stage"
+  },
+  {
+   "id": "background:illuminator",
+   "title": "Illuminator",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-stage"
+  },
+  {
+   "id": "background:illustrator",
+   "title": "Illustrator",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-stage"
+  },
+  {
+   "id": "background:impressionist",
+   "title": "Impressionist",
+   "status": "kyr",
    "book": "phb",
    "section": "backgrounds/backgrounds-stage"
   },
@@ -2462,9 +4114,58 @@
    "section": "backgrounds/backgrounds-stage"
   },
   {
+   "id": "background:jester",
+   "title": "Jester",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-stage"
+  },
+  {
    "id": "background:juggler",
    "title": "Juggler",
    "status": "adapted",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-stage"
+  },
+  {
+   "id": "background:limner",
+   "title": "Limner",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-stage"
+  },
+  {
+   "id": "background:lutenist",
+   "title": "Lutenist",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-stage"
+  },
+  {
+   "id": "background:lyricist",
+   "title": "Lyricist",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-stage"
+  },
+  {
+   "id": "background:memoirist",
+   "title": "Memoirist",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-stage"
+  },
+  {
+   "id": "background:mime",
+   "title": "Mime",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-stage"
+  },
+  {
+   "id": "background:miniaturist",
+   "title": "Miniaturist",
+   "status": "kyr",
    "book": "phb",
    "section": "backgrounds/backgrounds-stage"
   },
@@ -2476,6 +4177,41 @@
    "section": "backgrounds/backgrounds-stage"
   },
   {
+   "id": "background:muralist",
+   "title": "Muralist",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-stage"
+  },
+  {
+   "id": "background:musician",
+   "title": "Musician",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-stage"
+  },
+  {
+   "id": "background:musicologist",
+   "title": "Musicologist",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-stage"
+  },
+  {
+   "id": "background:novelist",
+   "title": "Novelist",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-stage"
+  },
+  {
+   "id": "background:operagoer",
+   "title": "Operagoer",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-stage"
+  },
+  {
    "id": "background:orator",
    "title": "Orator",
    "status": "adapted",
@@ -2483,9 +4219,37 @@
    "section": "backgrounds/backgrounds-stage"
   },
   {
+   "id": "background:organist",
+   "title": "Organist",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-stage"
+  },
+  {
+   "id": "background:painter",
+   "title": "Painter",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-stage"
+  },
+  {
    "id": "background:performer",
    "title": "Performer",
    "status": "adapted",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-stage"
+  },
+  {
+   "id": "background:pianist",
+   "title": "Pianist",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-stage"
+  },
+  {
+   "id": "background:player",
+   "title": "Player",
+   "status": "kyr",
    "book": "phb",
    "section": "backgrounds/backgrounds-stage"
   },
@@ -2504,6 +4268,69 @@
    "section": "backgrounds/backgrounds-stage"
   },
   {
+   "id": "background:portraitist",
+   "title": "Portraitist",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-stage"
+  },
+  {
+   "id": "background:prima_donna",
+   "title": "Prima donna",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-stage"
+  },
+  {
+   "id": "background:printmaker",
+   "title": "Printmaker",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-stage"
+  },
+  {
+   "id": "background:realist",
+   "title": "Realist",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-stage"
+  },
+  {
+   "id": "background:rhapsode",
+   "title": "Rhapsode",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-stage"
+  },
+  {
+   "id": "background:satirist",
+   "title": "Satirist",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-stage"
+  },
+  {
+   "id": "background:scenewright",
+   "title": "Scenewright",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-stage"
+  },
+  {
+   "id": "background:scenographer",
+   "title": "Scenographer",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-stage"
+  },
+  {
+   "id": "background:sculptor",
+   "title": "Sculptor",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-stage"
+  },
+  {
    "id": "background:singer",
    "title": "Singer",
    "status": "adapted",
@@ -2511,9 +4338,23 @@
    "section": "backgrounds/backgrounds-stage"
   },
   {
+   "id": "background:skald",
+   "title": "Skald",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-stage"
+  },
+  {
    "id": "background:storyteller",
    "title": "Storyteller",
    "status": "adapted",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-stage"
+  },
+  {
+   "id": "background:thespian",
+   "title": "Thespian",
+   "status": "kyr",
    "book": "phb",
    "section": "backgrounds/backgrounds-stage"
   },
@@ -2539,6 +4380,13 @@
    "section": "backgrounds/backgrounds-stage"
   },
   {
+   "id": "background:trumpeter",
+   "title": "Trumpeter",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-stage"
+  },
+  {
    "id": "background:virtuoso",
    "title": "Virtuoso",
    "status": "adapted",
@@ -2546,9 +4394,44 @@
    "section": "backgrounds/backgrounds-stage"
   },
   {
+   "id": "background:accountant",
+   "title": "Accountant",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
+   "id": "background:alnager",
+   "title": "Alnager",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
    "id": "background:appraiser",
    "title": "Appraiser",
    "status": "adapted",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
+   "id": "background:arborist",
+   "title": "Arborist",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
+   "id": "background:arms_dealer",
+   "title": "Arms dealer",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
+   "id": "background:art_dealer",
+   "title": "Art dealer",
+   "status": "kyr",
    "book": "phb",
    "section": "backgrounds/backgrounds-trade"
   },
@@ -2567,9 +4450,51 @@
    "section": "backgrounds/backgrounds-trade"
   },
   {
+   "id": "background:assessor",
+   "title": "Assessor",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
+   "id": "background:auctioneer",
+   "title": "Auctioneer",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
    "id": "background:baker",
    "title": "Baker",
    "status": "adapted",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
+   "id": "background:banker",
+   "title": "Banker",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
+   "id": "background:barber",
+   "title": "Barber",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
+   "id": "background:bookkeeper",
+   "title": "Bookkeeper",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
+   "id": "background:breeder",
+   "title": "Breeder",
+   "status": "kyr",
    "book": "phb",
    "section": "backgrounds/backgrounds-trade"
   },
@@ -2581,9 +4506,86 @@
    "section": "backgrounds/backgrounds-trade"
   },
   {
+   "id": "background:broker",
+   "title": "Broker",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
+   "id": "background:builder",
+   "title": "Builder",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
+   "id": "background:businessman",
+   "title": "Businessman",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
+   "id": "background:butcher",
+   "title": "Butcher",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
+   "id": "background:candlemaker",
+   "title": "Candlemaker",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
+   "id": "background:caretaker",
+   "title": "Caretaker",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
+   "id": "background:carpenter",
+   "title": "Carpenter",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
+   "id": "background:carpetmonger",
+   "title": "Carpetmonger",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
+   "id": "background:charm_seller",
+   "title": "Charm seller",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
    "id": "background:chef",
    "title": "Chef",
    "status": "adapted",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
+   "id": "background:chocolatier",
+   "title": "Chocolatier",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
+   "id": "background:cook",
+   "title": "Cook",
+   "status": "kyr",
    "book": "phb",
    "section": "backgrounds/backgrounds-trade"
   },
@@ -2595,9 +4597,37 @@
    "section": "backgrounds/backgrounds-trade"
   },
   {
+   "id": "background:dancing_master",
+   "title": "Dancing master",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
    "id": "background:diamantaire",
    "title": "Diamantaire",
    "status": "adapted",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
+   "id": "background:drawing_master",
+   "title": "Drawing master",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
+   "id": "background:embroiderer",
+   "title": "Embroiderer",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
+   "id": "background:engraver",
+   "title": "Engraver",
+   "status": "kyr",
    "book": "phb",
    "section": "backgrounds/backgrounds-trade"
   },
@@ -2616,9 +4646,44 @@
    "section": "backgrounds/backgrounds-trade"
   },
   {
+   "id": "background:financier",
+   "title": "Financier",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
    "id": "background:fletcher",
    "title": "Fletcher",
    "status": "adapted",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
+   "id": "background:florist",
+   "title": "Florist",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
+   "id": "background:fruit_seller",
+   "title": "Fruit seller",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
+   "id": "background:furrier",
+   "title": "Furrier",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
+   "id": "background:gamemaster",
+   "title": "Gamemaster",
+   "status": "kyr",
    "book": "phb",
    "section": "backgrounds/backgrounds-trade"
   },
@@ -2630,9 +4695,37 @@
    "section": "backgrounds/backgrounds-trade"
   },
   {
+   "id": "background:gleaner",
+   "title": "Gleaner",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
+   "id": "background:groundskeeper",
+   "title": "Groundskeeper",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
+   "id": "background:harvester",
+   "title": "Harvester",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
    "id": "background:hireling",
    "title": "Hireling",
    "status": "adapted",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
+   "id": "background:horticulturist",
+   "title": "Horticulturist",
+   "status": "kyr",
    "book": "phb",
    "section": "backgrounds/backgrounds-trade"
   },
@@ -2651,9 +4744,58 @@
    "section": "backgrounds/backgrounds-trade"
   },
   {
+   "id": "background:jeweler",
+   "title": "Jeweler",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
+   "id": "background:keymaster",
+   "title": "Keymaster",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
+   "id": "background:kitchenmaid",
+   "title": "Kitchenmaid",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
    "id": "background:lamp_lighter",
    "title": "Lamp lighter",
    "status": "adapted",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
+   "id": "background:laundress",
+   "title": "Laundress",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
+   "id": "background:luthier",
+   "title": "Luthier",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
+   "id": "background:mason",
+   "title": "Mason",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
+   "id": "background:master",
+   "title": "Master",
+   "status": "kyr",
    "book": "phb",
    "section": "backgrounds/backgrounds-trade"
   },
@@ -2672,6 +4814,13 @@
    "section": "backgrounds/backgrounds-trade"
   },
   {
+   "id": "background:milkmaid",
+   "title": "Milkmaid",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
    "id": "background:mill_worker",
    "title": "Mill worker",
    "status": "adapted",
@@ -2686,9 +4835,65 @@
    "section": "backgrounds/backgrounds-trade"
   },
   {
+   "id": "background:money_changer",
+   "title": "Money changer",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
+   "id": "background:needleworker",
+   "title": "Needleworker",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
+   "id": "background:nourisher",
+   "title": "Nourisher",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
+   "id": "background:nurseryman",
+   "title": "Nurseryman",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
    "id": "background:orchardist",
    "title": "Orchardist",
    "status": "adapted",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
+   "id": "background:painting_master",
+   "title": "Painting master",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
+   "id": "background:peasant",
+   "title": "Peasant",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
+   "id": "background:peddler",
+   "title": "Peddler",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
+   "id": "background:picker",
+   "title": "Picker",
+   "status": "kyr",
    "book": "phb",
    "section": "backgrounds/backgrounds-trade"
   },
@@ -2700,9 +4905,44 @@
    "section": "backgrounds/backgrounds-trade"
   },
   {
+   "id": "background:printer",
+   "title": "Printer",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
    "id": "background:quartermaster",
    "title": "Quartermaster",
    "status": "adapted",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
+   "id": "background:reckoner",
+   "title": "Reckoner",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
+   "id": "background:riddlemaster",
+   "title": "Riddlemaster",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
+   "id": "background:rosarian",
+   "title": "Rosarian",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
+   "id": "background:seamstress",
+   "title": "Seamstress",
+   "status": "kyr",
    "book": "phb",
    "section": "backgrounds/backgrounds-trade"
   },
@@ -2714,6 +4954,62 @@
    "section": "backgrounds/backgrounds-trade"
   },
   {
+   "id": "background:shipowner",
+   "title": "Shipowner",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
+   "id": "background:shoemaker",
+   "title": "Shoemaker",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
+   "id": "background:shopkeeper",
+   "title": "Shopkeeper",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
+   "id": "background:silversmith",
+   "title": "Silversmith",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
+   "id": "background:smelter",
+   "title": "Smelter",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
+   "id": "background:sower",
+   "title": "Sower",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
+   "id": "background:speculator",
+   "title": "Speculator",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
+   "id": "background:spymaster",
+   "title": "Spymaster",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
    "id": "background:street_vendor",
    "title": "Street vendor",
    "status": "adapted",
@@ -2721,9 +5017,23 @@
    "section": "backgrounds/backgrounds-trade"
   },
   {
+   "id": "background:tavernkeeper",
+   "title": "Tavernkeeper",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
    "id": "background:thatcher",
    "title": "Thatcher",
    "status": "adapted",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
+   "id": "background:vintner",
+   "title": "Vintner",
+   "status": "kyr",
    "book": "phb",
    "section": "backgrounds/backgrounds-trade"
   },
@@ -2763,6 +5073,48 @@
    "section": "backgrounds/backgrounds-trade"
   },
   {
+   "id": "background:wordsmith",
+   "title": "Wordsmith",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
+   "id": "background:writing_master",
+   "title": "Writing master",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-trade"
+  },
+  {
+   "id": "background:admiral",
+   "title": "Admiral",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-court"
+  },
+  {
+   "id": "background:advocate",
+   "title": "Advocate",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-court"
+  },
+  {
+   "id": "background:ambassador",
+   "title": "Ambassador",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-court"
+  },
+  {
+   "id": "background:ambassadress",
+   "title": "Ambassadress",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-court"
+  },
+  {
    "id": "background:aristocrat",
    "title": "Aristocrat",
    "status": "adapted",
@@ -2773,6 +5125,27 @@
    "id": "background:beadle",
    "title": "Beadle",
    "status": "adapted",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-court"
+  },
+  {
+   "id": "background:benefactor",
+   "title": "Benefactor",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-court"
+  },
+  {
+   "id": "background:chancellor",
+   "title": "Chancellor",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-court"
+  },
+  {
+   "id": "background:condesa",
+   "title": "Condesa",
+   "status": "kyr",
    "book": "phb",
    "section": "backgrounds/backgrounds-court"
   },
@@ -2791,9 +5164,79 @@
    "section": "backgrounds/backgrounds-court"
   },
   {
+   "id": "background:dictator",
+   "title": "Dictator",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-court"
+  },
+  {
    "id": "background:diplomat",
    "title": "Diplomat",
    "status": "adapted",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-court"
+  },
+  {
+   "id": "background:doge",
+   "title": "Doge",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-court"
+  },
+  {
+   "id": "background:duke",
+   "title": "Duke",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-court"
+  },
+  {
+   "id": "background:emissary",
+   "title": "Emissary",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-court"
+  },
+  {
+   "id": "background:emperor",
+   "title": "Emperor",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-court"
+  },
+  {
+   "id": "background:empress",
+   "title": "Empress",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-court"
+  },
+  {
+   "id": "background:foundress",
+   "title": "Foundress",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-court"
+  },
+  {
+   "id": "background:gentleman",
+   "title": "Gentleman",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-court"
+  },
+  {
+   "id": "background:governess",
+   "title": "Governess",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-court"
+  },
+  {
+   "id": "background:governor",
+   "title": "Governor",
+   "status": "kyr",
    "book": "phb",
    "section": "backgrounds/backgrounds-court"
   },
@@ -2805,9 +5248,72 @@
    "section": "backgrounds/backgrounds-court"
   },
   {
+   "id": "background:jurist",
+   "title": "Jurist",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-court"
+  },
+  {
+   "id": "background:king",
+   "title": "King",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-court"
+  },
+  {
+   "id": "background:lady",
+   "title": "Lady",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-court"
+  },
+  {
+   "id": "background:lawgiver",
+   "title": "Lawgiver",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-court"
+  },
+  {
+   "id": "background:lawyer",
+   "title": "Lawyer",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-court"
+  },
+  {
+   "id": "background:legate",
+   "title": "Legate",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-court"
+  },
+  {
+   "id": "background:lord",
+   "title": "Lord",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-court"
+  },
+  {
    "id": "background:magistrate",
    "title": "Magistrate",
    "status": "adapted",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-court"
+  },
+  {
+   "id": "background:marquesa",
+   "title": "Marquesa",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-court"
+  },
+  {
+   "id": "background:minister",
+   "title": "Minister",
+   "status": "kyr",
    "book": "phb",
    "section": "backgrounds/backgrounds-court"
   },
@@ -2819,6 +5325,20 @@
    "section": "backgrounds/backgrounds-court"
   },
   {
+   "id": "background:official",
+   "title": "Official",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-court"
+  },
+  {
+   "id": "background:patron",
+   "title": "Patron",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-court"
+  },
+  {
    "id": "background:politician",
    "title": "Politician",
    "status": "adapted",
@@ -2826,9 +5346,37 @@
    "section": "backgrounds/backgrounds-court"
   },
   {
+   "id": "background:prince",
+   "title": "Prince",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-court"
+  },
+  {
+   "id": "background:princess",
+   "title": "Princess",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-court"
+  },
+  {
    "id": "background:quaestor",
    "title": "Quaestor",
    "status": "adapted",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-court"
+  },
+  {
+   "id": "background:queen",
+   "title": "Queen",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-court"
+  },
+  {
+   "id": "background:reeve",
+   "title": "Reeve",
+   "status": "kyr",
    "book": "phb",
    "section": "backgrounds/backgrounds-court"
   },
@@ -2847,6 +5395,27 @@
    "section": "backgrounds/backgrounds-court"
   },
   {
+   "id": "background:secretary",
+   "title": "Secretary",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-court"
+  },
+  {
+   "id": "background:secretary_general",
+   "title": "Secretary general",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-court"
+  },
+  {
+   "id": "background:statesman",
+   "title": "Statesman",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-court"
+  },
+  {
    "id": "background:tax_collector",
    "title": "Tax collector",
    "status": "adapted",
@@ -2861,6 +5430,27 @@
    "section": "backgrounds/backgrounds-court"
   },
   {
+   "id": "background:tyrant",
+   "title": "Tyrant",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-court"
+  },
+  {
+   "id": "background:viscount",
+   "title": "Viscount",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-court"
+  },
+  {
+   "id": "background:bystander",
+   "title": "Bystander",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-margins"
+  },
+  {
    "id": "background:caitiff",
    "title": "Caitiff",
    "status": "adapted",
@@ -2868,9 +5458,37 @@
    "section": "backgrounds/backgrounds-margins"
   },
   {
+   "id": "background:chatterer",
+   "title": "Chatterer",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-margins"
+  },
+  {
+   "id": "background:degenerate",
+   "title": "Degenerate",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-margins"
+  },
+  {
    "id": "background:drone",
    "title": "Drone",
    "status": "adapted",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-margins"
+  },
+  {
+   "id": "background:drunkard",
+   "title": "Drunkard",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-margins"
+  },
+  {
+   "id": "background:egoist",
+   "title": "Egoist",
+   "status": "kyr",
    "book": "phb",
    "section": "backgrounds/backgrounds-margins"
   },
@@ -2896,6 +5514,41 @@
    "section": "backgrounds/backgrounds-margins"
   },
   {
+   "id": "background:heckler",
+   "title": "Heckler",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-margins"
+  },
+  {
+   "id": "background:indolence",
+   "title": "Indolence",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-margins"
+  },
+  {
+   "id": "background:lunatic",
+   "title": "Lunatic",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-margins"
+  },
+  {
+   "id": "background:madrileña",
+   "title": "Madrileña",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-margins"
+  },
+  {
+   "id": "background:miser",
+   "title": "Miser",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-margins"
+  },
+  {
    "id": "background:mutant",
    "title": "Mutant",
    "status": "adapted",
@@ -2903,9 +5556,30 @@
    "section": "backgrounds/backgrounds-margins"
   },
   {
+   "id": "background:nobody",
+   "title": "Nobody",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-margins"
+  },
+  {
+   "id": "background:opium_eater",
+   "title": "Opium eater",
+   "status": "kyr",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-margins"
+  },
+  {
    "id": "background:outcast",
    "title": "Outcast",
    "status": "adapted",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-margins"
+  },
+  {
+   "id": "background:pauper",
+   "title": "Pauper",
+   "status": "kyr",
    "book": "phb",
    "section": "backgrounds/backgrounds-margins"
   },
@@ -2934,6 +5608,13 @@
    "id": "background:thrall",
    "title": "Thrall",
    "status": "adapted",
+   "book": "phb",
+   "section": "backgrounds/backgrounds-margins"
+  },
+  {
+   "id": "background:witness",
+   "title": "Witness",
+   "status": "kyr",
    "book": "phb",
    "section": "backgrounds/backgrounds-margins"
   },
@@ -12018,7 +14699,7 @@
   },
   {
    "id": "rule:world_people.joining",
-   "title": "joining, parting",
+   "title": "joining, parting, farewelling",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-people"

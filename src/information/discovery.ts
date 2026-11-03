@@ -59,8 +59,11 @@ export class Discovery {
       const skilled: Predicate | undefined = f.with ? { kind: 'or', left: ModuleWriter.call('capable', 'party', f.with),
         right: ModuleWriter.call('capable', 'party', 'perception') } : undefined;
       const when: Predicate = skilled ? { kind: 'and', left: searched, right: skilled } : searched;
-      context.observations.push({ id: `${definition.id}__found${i ? i + 1 : ''}`, place: f.place, anchor: 'at', when,
-        text: f.text ?? definition.text, teaches: definition.id });
+      // Told once, as what the search found, not again in the words of finding it on every return (the Grand Tour's
+      // X01, Gosse's Company's 10): once known, it is the company's, and the place no longer tells it.
+      const unknown: Predicate = { kind: 'not', value: ModuleWriter.call('knows', 'party', definition.id) };
+      context.observations.push({ id: `${definition.id}__found${i ? i + 1 : ''}`, place: f.place, anchor: 'at',
+        when: { kind: 'and', left: when, right: unknown }, text: f.text ?? definition.text, teaches: definition.id });
     }
   }
   private static validKeys(value: object, keys: string[]): boolean {

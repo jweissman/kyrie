@@ -7,6 +7,7 @@ import { Typography } from '../../src/presentation/typography';
 import { CharacterPage } from './character-page';
 import { MenuModel } from './menu-model';
 import { Aims } from './aims';
+import { Followed } from './followed';
 
 // What takes the right-hand side's place when asked for: your notes (what is unfinished, what you know, and how sure
 // you can be of it), the story so far, what you carry, the company. The book's head goes back to what is here (a back
@@ -31,7 +32,8 @@ export class Sheet {
         <h2>Notes</h2>
         <h3>What you mean to do</h3>
         {screen.objectives.length || screen.deadlines.length
-          ? <ul className="aims">{[...screen.deadlines, ...screen.objectives].map(o => <Sheet.Aim key={o} app={app} aim={o} />)}</ul>
+          ? <ul className="aims">{Sheet.ordered(app, [...screen.deadlines, ...screen.objectives])
+            .map(o => <Sheet.Aim key={o} app={app} aim={o} />)}</ul>
           : <p className="none">{Sheet.idle(screen, facts)}</p>}
         <Sheet.Going app={app} />
         {screen.done.length > 0 && <div data-region="done"><h3>Seen through</h3>
@@ -52,9 +54,17 @@ export class Sheet {
   }
   // An aim, and, when it names somewhere the company knows the way to, setting out for it there: the notes had been a
   // document of bullets (the owner's interim report).
+  // The aim followed first, then the rest as the company took them up.
+  private static ordered(app: ReaderApp, aims: string[]): string[] {
+    const followed = app.state.frame && Followed.of(app.state.frame.screen, app.state.followed);
+    return followed ? [followed, ...aims.filter(a => a !== followed)] : aims;
+  }
   static Aim({ app, aim }: { app: ReaderApp; aim: string }) {
     const place = Aims.named(app.state.frame?.screen.destinations ?? [], aim, 0);
-    return <li className="aim-card"><span>{Typography.curl(aim)}</span>
+    const screen = app.state.frame?.screen, following = !!screen && Followed.of(screen, app.state.followed) === aim;
+    return <li className={`aim-card${following ? ' followed' : ''}`}><span>{Typography.curl(aim)}</span>
+      <button type="button" className="option follow" data-action="follow" aria-pressed={following}
+        onClick={() => app.follow(following ? undefined : aim)}>{following ? 'Following' : 'Follow this'}</button>
       {place && <button type="button" className="act set-out" data-action="set-out" data-id={place.id}
         onClick={() => app.choose(MenuModel.journey(place))}>{`Set out for ${place.name}`}</button>}</li>;
   }
@@ -83,19 +93,24 @@ export class Sheet {
     const last = story?.at(-1)?.id ?? -1;
     return story ? [...story, ...recent.filter(e => e.id > last)] : recent;
   }
-  // Everything so far, place by place.
+  // Everything so far, place by place; what was said before is not set down again (the owner, 3 November: the same
+  // answer to the same question twice was two entries), only that it was.
   private static story(entries: Entry[]) {
     let place = '';
+    const told = new Set<string>();
     return (
       <article className="story" aria-label="The story so far">
         <h2>The story so far</h2>
         {entries.length ? entries.map(e => {
           const chapter = e.place !== place ? <h3 key={`h${e.id}`}>{Words.upper(e.placeName)}</h3> : null;
           place = e.place;
+          // A line of a few words (time passes, a door opens) is said again as often as it happens.
+          const fresh = e.lines.filter(l => l.length < 60 || !told.has(l)), again = e.lines.length > 0 && !fresh.length;
+          e.lines.forEach(l => told.add(l));
           return <div key={e.id}>{chapter}
             {e.said && !Words.restates(Words.echo(Words.lastSaid(e.said)), e.lines[0])
               && <p className="you">{Words.echo(Words.lastSaid(e.said))}</p>}
-            {e.lines.map((l, i) => <p key={i}>{l}</p>)}</div>;
+            {again ? <p className="again">The same as before.</p> : fresh.map((l, i) => <p key={i}>{l}</p>)}</div>;
         }) : <p className="none">Nothing has happened yet.</p>}
       </article>
     );

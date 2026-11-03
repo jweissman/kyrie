@@ -5,6 +5,7 @@ import { Items } from './items';
 import { Effects } from '../effects';
 import { ObservationText } from '../lang/observation-text';
 import type { Call, Change } from '../lang/module';
+import type { World } from '../lang/world';
 import type { Creature } from '../creature';
 import type { CombatEvent } from '../model';
 import type { TickHost } from './campaign-tick';
@@ -38,12 +39,16 @@ export class Consequences {
     const world = host.world, handed = world.related('handed'), spent = world.related('usesUp');
     if (!handed.length && !spent.length) { return false; }
     const { definition, creatures } = host.tickState, changes = [...handed, ...spent].map(r => this.retract(r));
-    for (const [item, group] of handed.map(r => r.args as [string, string])) {
+    for (const [given, group] of handed.map(r => r.args as [string, string])) {
       const members = definition.actors.find(a => a.id === group)?.members ?? [];
-      const kind = world.one('itemKind', item), taker = members.find(id => this.up(creatures.get(id)));
+      // A kind given is a new one of it (Give wonders_list_kind to actor: the circus's friction 13, Half the Hive's 5,
+      // the Third Night's 16), with nothing to park in a room first.
+      const made = this.made(world, given, creatures), item = made?.id ?? given;
+      const kind = made?.kind ?? world.one('itemKind', item), taker = members.find(id => this.up(creatures.get(id)));
       const owner = creatures.snapshot.find(c => c.state.inventory?.some(i => i.id === item))?.id;
       if (!kind || !taker || (owner && members.includes(owner))) { continue; }
-      const label = ObservationText.label(world, item);
+      const label = made ? world.module.entities.find(e => e.id === given)?.name ?? given
+        : ObservationText.label(world, item);
       combat.push(...owner ? Items.transfer(creatures, { id: item, label }, owner, taker)
         : Items.take(creatures, taker, { id: item, definition: kind, label }));
       changes.push(...[...world.related('at', item), ...world.related('inside', item)].map(r => this.retract(r)));
@@ -56,6 +61,14 @@ export class Consequences {
     host.commitWorld(world.apply(changes));
     host.refreshProjection();
     return true;
+  }
+  // A new one of a kind given, named for its kind, with an id of its own.
+  private static made(world: World, given: string, creatures: { snapshot: Creature[] }) {
+    if (world.module.entities.find(e => e.id === given)?.type !== 'itemkind') { return undefined; }
+    const ids = new Set(creatures.snapshot.flatMap(c => (c.state.inventory ?? []).map(i => i.id)));
+    let n = 1;
+    while (ids.has(`${given}_given${n}`)) { n++; }
+    return { id: `${given}_given${n}`, kind: given };
   }
   // The thing a company gives up: the one of that name (a particular ribbon, not any of its kind: LUL-04), or one of
   // a kind, unworn before worn, from the first of it who carries one.

@@ -72,7 +72,12 @@ export class LandModel {
       const at = this.cell(id);
       if (at !== undefined) { known.add(at); }
     }
-    const heard = new Set([...ways.flatMap(w => [w.from, w.to]), ...seen.told]);
+    // Heard of: what was told, the far end of a known way from somewhere been (the next town down the road), and the
+    // ends of the ways whose course is known (with wayfinding, the country as from a map). A country whose roads its
+    // folk know is not therefore on the map whole (the owner, 3 November: the world map started mostly revealed,
+    // every march-stone and province gate at the far end of the home country's roads).
+    const heard = new Set([...ways.filter(w => visited.has(w.from) || visited.has(w.to) || routed.has(w.passage))
+      .flatMap(w => [w.from, w.to]), ...seen.told]);
     const passages = new Set(ways.map(w => w.passage));
     const roads = Object.fromEntries(Object.entries(chart.roads).filter(([way]) => visited.has(way) || heard.has(way)
       || passages.has(way)));

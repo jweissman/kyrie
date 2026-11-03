@@ -9,7 +9,11 @@ import { GenerationSetting } from '../src/generation-setting';
 // Orsino's 215 backgrounds, composed from its own rows and Kyr's kind tables: none written out by hand.
 describe('backgrounds compiled from Orsino\'s rows and Kyr\'s kinds', () => {
   it('has every one of Orsino\'s, each with Orsino\'s scores, at most 3 to one, its gold and class', () => {
-    expect(Object.keys(Canon.backgrounds)).toHaveLength(215);
+    // Orsino's 215, and the portraits' professions beside them (data/catalog/professions.json), each of a kind.
+    const orsino = Object.values(Canon.backgrounds).filter(b => b.source.orsino);
+    expect(orsino).toHaveLength(215);
+    expect(Object.keys(Canon.backgrounds).length).toBeGreaterThan(500);
+    expect(Canon.backgrounds.aphorist).toMatchObject({ name: 'Aphorist', kind: 'stage', painting: 'aphorist' });
     expect(Canon.backgrounds.champion).toMatchObject({ name: 'Champion', kind: 'arms', gold: 50, requiredClass: 'warrior',
       attributes: { strength: 3, constitution: 3, dexterity: 2, wisdom: 1, charisma: 2 }, skills: ['brawn', 'intimidation'] });
   });

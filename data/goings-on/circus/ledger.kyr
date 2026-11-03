@@ -92,7 +92,8 @@ Module circus "Wapshott's Peregrine Circus" {
   Action haggle_larder(actor: group, seller: group, site: place) "Talk {seller} down on flour, oats and bacon for the circus's larder, four coin" {
     Time 3.
     Requires able(actor) and company(actor) and at(actor, site) and at(seller, site) and current(wapshotts, ?g) and sellsTo(?g, seller) and pitched(wapshotts)
-      and quantity(actor, gold) >= 4 and haggledDay(actor) < day(clock) and larder(wapshotts) < 8.
+      and quantity(actor, gold) >= 4 and haggledDay(actor) < day(clock) and larder(wapshotts) < 8
+      and knows(actor, larder_known).
     Resolve check(actor, persuasion, dc_fair).
     On success { Decrease quantity(actor, gold) by 4. Increase quantity(seller, gold) by 4. Increase larder(wapshotts) by 3. Set haggledDay(actor) to day(clock). Increase regard(honoria) by 1. }
     On failure { Decrease quantity(actor, gold) by 4. Increase quantity(seller, gold) by 4. Increase larder(wapshotts) by 1. Set haggledDay(actor) to day(clock). }

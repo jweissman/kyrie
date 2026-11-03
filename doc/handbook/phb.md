@@ -648,19 +648,38 @@ Brings woodcraft, and knows someone who hears news on the road.
 | Animal handler | +2 wisdom, +1 dexterity | 15 | anyone | Woodcraft | Adapted |
 | Archer | +3 dexterity, +2 wisdom | 70 | Ranger | Woodcraft, Stealth | Adapted |
 | Badger | +3 constitution, +1 strength | 5 | anyone | Woodcraft | Adapted |
+| Birdkeeper | +3 intelligence, +2 wisdom | 23 | anyone | Woodcraft | Kyr |
 | Botanist | +3 intelligence, +2 wisdom | 15 | anyone | Woodcraft | Adapted |
+| Broncobuster | +3 intelligence, +2 wisdom | 15 | anyone | Woodcraft | Kyr |
+| Cowherd | +3 intelligence, +2 wisdom | 15 | anyone | Woodcraft | Kyr |
+| Equestrian | +3 intelligence, +2 wisdom | 23 | anyone | Woodcraft | Kyr |
+| Falconer | +3 intelligence, +2 wisdom | 15 | anyone | Woodcraft | Kyr |
+| Feller | +3 intelligence, +2 wisdom | 15 | anyone | Woodcraft | Kyr |
+| Flying squirrel trainer | +3 intelligence, +2 wisdom | 23 | anyone | Woodcraft | Kyr |
+| Forerider | +3 intelligence, +2 wisdom | 15 | anyone | Woodcraft | Kyr |
 | Forester | +2 wisdom, +1 dexterity | 15 | anyone | Woodcraft, handaxe | Adapted |
+| Gamekeeper | +3 intelligence, +2 wisdom | 15 | anyone | Woodcraft | Kyr |
 | Gameskeeper | +2 wisdom, +2 dexterity | 20 | Thief | Woodcraft | Adapted |
+| Gatherer | +3 intelligence, +2 wisdom | 23 | anyone | Woodcraft | Kyr |
+| Goose girl | +3 intelligence, +2 wisdom | 15 | anyone | Woodcraft | Kyr |
+| Gooseherd | +3 intelligence, +2 wisdom | 15 | anyone | Woodcraft | Kyr |
 | Herdsman | +2 wisdom, +2 constitution | 15 | anyone | Woodcraft | Adapted |
 | Horsebreaker | +3 strength, +2 dexterity, +2 wisdom | 40 | anyone | Woodcraft | Adapted |
 | Hunter | +2 dexterity, +1 wisdom, +1 constitution | 15 | Ranger | Woodcraft, Coil of rope | Adapted |
+| Huntress | +3 intelligence, +2 wisdom | 23 | anyone | Woodcraft | Kyr |
 | Monster hunter | +3 strength, +3 dexterity, +3 constitution, +2 intelligence, +2 wisdom, +1 charisma | 100 | Warrior | Woodcraft | Adapted |
+| Poacher | +3 intelligence, +2 wisdom | 15 | anyone | Woodcraft | Kyr |
+| Ranger | +3 intelligence, +2 wisdom | 15 | anyone | Woodcraft | Kyr |
 | Scout | +2 dexterity, +2 wisdom | 15 | anyone | Woodcraft | Adapted |
 | Sharpshooter | +3 dexterity, +2 intelligence, +2 wisdom | 80 | Ranger | Woodcraft, Stealth | Adapted |
+| Shepherd | +3 intelligence, +2 wisdom | 15 | anyone | Woodcraft | Kyr |
 | Skinner | +3 dexterity, +2 constitution | 20 | anyone | Woodcraft | Adapted |
+| Snake charmer | +3 intelligence, +2 wisdom | 15 | anyone | Woodcraft | Kyr |
 | Tracker | +3 wisdom, +2 dexterity | 40 | Ranger | Woodcraft, Stealth, Insight | Adapted |
+| Trapper | +3 intelligence, +2 wisdom | 15 | anyone | Woodcraft | Kyr |
 | Tribesman | +2 strength, +1 constitution, +1 wisdom | 10 | anyone | Woodcraft | Adapted |
 | Woodcutter | +2 strength, +2 constitution, −1 dexterity | 15 | anyone | Woodcraft | Adapted |
+| Woodsman | +3 intelligence, +2 wisdom | 15 | anyone | Woodcraft | Kyr |
 | Zoologist | +3 intelligence, +2 wisdom | 20 | anyone | Woodcraft | Adapted |
 
 ### The roads
@@ -669,19 +688,33 @@ Brings wayfinding, and knows someone who hears news on the road.
 
 | Background | Qualities | Gold | For | Brings | Status |
 |---|---|---|---|---|---|
+| Adventurer | +2 dexterity, +1 wisdom | 15 | anyone | Wayfinding | Kyr |
 | Caravaner | +2 wisdom, +1 constitution | 15 | anyone | Wayfinding | Adapted |
 | Cart driver | +2 strength, +1 constitution | 10 | anyone | Wayfinding | Adapted |
 | Cartographer | +2 intelligence, +2 wisdom, +1 dexterity | 20 | anyone | Wayfinding | Adapted |
+| Charioteer | +2 dexterity, +1 wisdom | 10 | anyone | Wayfinding | Kyr |
+| Courier | +2 dexterity, +1 wisdom | 10 | anyone | Wayfinding | Kyr |
 | Drifter | +2 dexterity, +1 charisma | 10 | anyone | Wayfinding | Adapted |
+| Expediter | +2 dexterity, +1 wisdom | 10 | anyone | Wayfinding | Kyr |
 | Explorer | +2 dexterity, +1 wisdom | 15 | Ranger | Wayfinding, Map of the district | Adapted |
+| Flaneur | +2 dexterity, +1 wisdom | 15 | anyone | Wayfinding | Kyr |
+| Fugitive | +2 dexterity, +1 wisdom | 10 | anyone | Wayfinding | Kyr |
+| Grail seeker | +2 dexterity, +1 wisdom | 10 | anyone | Wayfinding | Kyr |
+| Guide | +2 dexterity, +1 wisdom | 10 | anyone | Wayfinding | Kyr |
 | Herald | +2 charisma, +1 wisdom | 15 | anyone | Wayfinding | Adapted |
 | Messenger | +2 dexterity, +1 wisdom | 10 | anyone | Wayfinding | Adapted |
 | Nomad | +2 dexterity, +1 wisdom | 10 | anyone | Wayfinding | Adapted |
 | Outlander | +1 strength, +1 dexterity, +1 constitution | 10 | anyone | Wayfinding | Adapted |
 | Pathfinder | +3 dexterity, +3 wisdom | 50 | Ranger | Wayfinding, Stealth | Adapted |
+| Pioneer | +2 dexterity, +1 wisdom | 10 | anyone | Wayfinding | Kyr |
+| Quester | +2 dexterity, +1 wisdom | 10 | anyone | Wayfinding | Kyr |
 | Runner | +3 dexterity, +1 constitution | 10 | anyone | Wayfinding | Adapted |
+| Seeker | +2 dexterity, +1 wisdom | 10 | anyone | Wayfinding | Kyr |
 | Trader | +2 wisdom, +3 charisma, +3 intelligence | 120 | anyone | Wayfinding, Persuasion | Adapted |
 | Vagabond | +2 dexterity, +1 constitution | 5 | anyone | Wayfinding | Adapted |
+| Vedette | +2 dexterity, +1 wisdom | 15 | anyone | Wayfinding | Kyr |
+| Visitor | +2 dexterity, +1 wisdom | 15 | anyone | Wayfinding | Kyr |
+| Wanderer | +2 dexterity, +1 wisdom | 10 | anyone | Wayfinding | Kyr |
 | Wayfarer | +2 dexterity, +1 wisdom | 10 | anyone | Wayfinding | Adapted |
 
 ### Locks and mechanisms
@@ -704,21 +737,37 @@ Brings stealth and deception, and knows someone who hears news at a market.
 
 | Background | Qualities | Gold | For | Brings | Status |
 |---|---|---|---|---|---|
+| Arsonist | +3 dexterity, +2 intelligence | 45 | anyone | Stealth, Deception | Kyr |
+| Art thief | +3 dexterity, +2 intelligence | 45 | anyone | Stealth, Deception | Kyr |
 | Assassin | +3 dexterity, +2 intelligence, +2 wisdom, +3 charisma | 100 | Thief | Stealth, Deception | Adapted |
 | Bandit | +2 dexterity, +1 strength | 15 | Thief | Stealth, Deception, dagger | Adapted |
+| Bookie | +3 dexterity, +2 intelligence | 30 | anyone | Stealth, Deception | Kyr |
 | Burglar | +3 dexterity, +2 charisma | 40 | Thief | Stealth, Deception | Adapted |
 | Cardsharp | +3 dexterity, +2 intelligence | 30 | Thief | Stealth, Deception | Adapted |
+| Conspirator | +3 dexterity, +2 intelligence | 30 | anyone | Stealth, Deception | Kyr |
 | Criminal | +2 dexterity, +1 charisma, −1 intelligence | 15 | Thief | Stealth, Lockwork | Adapted |
 | Cutpurse | +3 dexterity, +2 charisma | 30 | Thief | Stealth, Deception | Adapted |
+| Fixer | +3 dexterity, +2 intelligence | 45 | anyone | Stealth, Deception | Kyr |
 | Gambler | +3 charisma, +2 dexterity | 25 | Thief | Stealth, Deception | Adapted |
+| Informant | +3 dexterity, +2 intelligence | 30 | anyone | Stealth, Deception | Kyr |
+| Libertine | +3 dexterity, +2 intelligence | 45 | anyone | Stealth, Deception | Kyr |
 | Outlaw | +3 dexterity, +1 strength | 15 | Thief | Stealth, Deception, dagger | Adapted |
 | Pickpocket | +3 dexterity, +2 charisma | 25 | Thief | Stealth, Deception | Adapted |
 | Poisoner | +3 dexterity, +3 intelligence, +2 wisdom | 70 | anyone | Stealth, Deception, Lore | Adapted |
+| Procuress | +3 dexterity, +2 intelligence | 30 | anyone | Stealth, Deception | Kyr |
+| Pusher | +3 dexterity, +2 intelligence | 30 | anyone | Stealth, Deception | Kyr |
 | Raider | +3 strength, +2 constitution | 15 | Warrior | Stealth, Deception | Adapted |
+| Robber | +3 dexterity, +2 intelligence | 30 | anyone | Stealth, Deception | Kyr |
+| Rogue | +3 dexterity, +2 intelligence | 30 | anyone | Stealth, Deception | Kyr |
 | Saboteur | +3 dexterity, +2 intelligence | 40 | Thief | Stealth, Deception | Adapted |
+| Seditionist | +3 dexterity, +2 intelligence | 30 | anyone | Stealth, Deception | Kyr |
 | Smuggler | +2 dexterity, +2 charisma | 40 | anyone | Stealth, Deception | Adapted |
 | Spy | +2 charisma, +2 dexterity, +1 intelligence | 50 | Thief | Stealth, Deception | Adapted |
+| Street rat | +3 dexterity, +2 intelligence | 30 | anyone | Stealth, Deception | Kyr |
+| Thief | +3 dexterity, +2 intelligence | 45 | anyone | Stealth, Deception | Kyr |
 | Thug | +3 strength, +2 constitution | 20 | Thief | Stealth, Deception | Adapted |
+| Traitor | +3 dexterity, +2 intelligence | 30 | anyone | Stealth, Deception | Kyr |
+| Vandal | +3 dexterity, +2 intelligence | 30 | anyone | Stealth, Deception | Kyr |
 
 ### Healing
 
@@ -727,14 +776,23 @@ Brings mending, and knows someone who hears news at a shrine.
 | Background | Qualities | Gold | For | Brings | Status |
 |---|---|---|---|---|---|
 | Alchemist | +2 intelligence, +1 dexterity | 30 | anyone | Mending | Adapted |
+| Alienist | +2 intelligence, +1 dexterity | 30 | anyone | Mending | Kyr |
 | Apothecary | +3 intelligence, +3 wisdom | 30 | anyone | Mending, Antidote, Healing herbs | Adapted |
+| Convalescent | +2 intelligence, +1 dexterity | 20 | anyone | Mending | Kyr |
+| Dietitian | +2 intelligence, +1 dexterity | 30 | anyone | Mending | Kyr |
 | Doctor | +2 intelligence, +2 wisdom | 20 | anyone | Mending | Adapted |
+| Healer | +2 intelligence, +1 dexterity | 20 | anyone | Mending | Kyr |
 | Herbalist | +2 wisdom, +1 intelligence | 15 | anyone | Mending | Adapted |
 | Medic | +2 wisdom, +2 intelligence | 20 | Cleric | Mending, Bandages, Healing herbs | Adapted |
+| Midwife | +2 intelligence, +1 dexterity | 20 | anyone | Mending | Kyr |
 | Nurse | +3 wisdom, +1 charisma | 15 | anyone | Mending | Adapted |
 | Pharmacist | +3 intelligence, +2 wisdom | 30 | anyone | Mending | Adapted |
 | Physician | +3 intelligence, +3 wisdom | 40 | anyone | Mending, Lore, Insight | Adapted |
 | Plague doctor | +2 intelligence, +3 wisdom | 15 | Cleric | Mending, Healing herbs | Adapted |
+| Psychoanalyst | +2 intelligence, +1 dexterity | 20 | anyone | Mending | Kyr |
+| Psychologist | +2 intelligence, +1 dexterity | 20 | anyone | Mending | Kyr |
+| Purifier | +2 intelligence, +1 dexterity | 20 | anyone | Mending | Kyr |
+| Receptary | +2 intelligence, +1 dexterity | 20 | anyone | Mending | Kyr |
 
 ### The faith
 
@@ -742,18 +800,59 @@ Brings rites of the dead and insight, and knows someone who hears news at a shri
 
 | Background | Qualities | Gold | For | Brings | Status |
 |---|---|---|---|---|---|
+| Abbess | +3 wisdom, +2 charisma | 45 | anyone | Rites of the dead, Insight | Kyr |
 | Abbot | +3 wisdom, +3 charisma | 80 | anyone | Rites of the dead, Insight | Adapted |
 | Acolyte | +2 wisdom, +1 intelligence | 5 | anyone | Rites of the dead, Insight | Adapted |
+| Apostle | +3 wisdom, +2 charisma | 30 | anyone | Rites of the dead, Insight | Kyr |
+| Archimandrite | +3 wisdom, +2 charisma | 30 | anyone | Rites of the dead, Insight | Kyr |
 | Archon | +3 intelligence, +3 wisdom, +2 charisma | 100 | anyone | Rites of the dead, Insight | Adapted |
 | Ascetic | +3 wisdom, −1 constitution | 20 | Monk | Climbing, Insight | Adapted |
+| Augur | +3 wisdom, +2 charisma | 30 | anyone | Rites of the dead, Insight | Kyr |
+| Believer | +3 wisdom, +2 charisma | 30 | anyone | Rites of the dead, Insight | Kyr |
+| Bishop | +3 wisdom, +2 charisma | 30 | anyone | Rites of the dead, Insight | Kyr |
+| Cardinal | +3 wisdom, +2 charisma | 30 | anyone | Rites of the dead, Insight | Kyr |
+| Celebrant | +3 wisdom, +2 charisma | 30 | anyone | Rites of the dead, Insight | Kyr |
+| Convert | +3 wisdom, +2 charisma | 30 | anyone | Rites of the dead, Insight | Kyr |
 | Cultist | +2 intelligence, +1 wisdom, −1 charisma | 5 | anyone | Rites of the dead, Insight | Adapted |
+| Deacon | +3 wisdom, +2 charisma | 30 | anyone | Rites of the dead, Insight | Kyr |
+| Disciple | +3 wisdom, +2 charisma | 45 | anyone | Rites of the dead, Insight | Kyr |
+| Druid | +3 wisdom, +2 charisma | 30 | anyone | Rites of the dead, Insight | Kyr |
+| Exorcist | +3 wisdom, +2 charisma | 30 | anyone | Rites of the dead, Insight | Kyr |
+| Friar | +3 wisdom, +2 charisma | 30 | anyone | Rites of the dead, Insight | Kyr |
 | Hermit | +2 constitution, +1 wisdom, −2 charisma | 5 | anyone | Rites of the dead, Insight | Adapted |
+| Hierophant | +3 wisdom, +2 charisma | 30 | anyone | Rites of the dead, Insight | Kyr |
+| Homilist | +3 wisdom, +2 charisma | 30 | anyone | Rites of the dead, Insight | Kyr |
+| Hospitaller | +3 wisdom, +2 charisma | 30 | anyone | Rites of the dead, Insight | Kyr |
+| Hymnist | +3 wisdom, +2 charisma | 30 | anyone | Rites of the dead, Insight | Kyr |
 | Inquisitor | +3 intelligence, +3 wisdom, +3 charisma | 70 | anyone | Rites of the dead, Insight | Adapted |
+| Martyr | +3 wisdom, +2 charisma | 30 | anyone | Rites of the dead, Insight | Kyr |
 | Mendicant | +3 wisdom, +2 dexterity, +1 constitution | 30 | Monk | Climbing | Adapted |
 | Missionary | +3 wisdom, +2 charisma | 20 | Cleric | Rites of the dead, Insight, Holy symbol | Adapted |
+| Monk | +3 wisdom, +2 charisma | 30 | anyone | Rites of the dead, Insight | Kyr |
+| Monkey trainer | +3 wisdom, +2 charisma | 45 | anyone | Rites of the dead, Insight | Kyr |
+| Mother superior | +3 wisdom, +2 charisma | 45 | anyone | Rites of the dead, Insight | Kyr |
+| Novice | +3 wisdom, +2 charisma | 30 | anyone | Rites of the dead, Insight | Kyr |
+| Nun | +3 wisdom, +2 charisma | 30 | anyone | Rites of the dead, Insight | Kyr |
+| Oracle | +3 wisdom, +2 charisma | 30 | anyone | Rites of the dead, Insight | Kyr |
+| Penitent | +3 wisdom, +2 charisma | 30 | anyone | Rites of the dead, Insight | Kyr |
+| Pope | +3 wisdom, +2 charisma | 30 | anyone | Rites of the dead, Insight | Kyr |
 | Priest | +3 wisdom, +2 charisma | 30 | anyone | — | Adapted |
+| Priest king | +3 wisdom, +2 charisma | 30 | anyone | Rites of the dead, Insight | Kyr |
+| Priestess | +3 wisdom, +2 charisma | 30 | anyone | Rites of the dead, Insight | Kyr |
+| Prior | +3 wisdom, +2 charisma | 30 | anyone | Rites of the dead, Insight | Kyr |
+| Prioress | +3 wisdom, +2 charisma | 45 | anyone | Rites of the dead, Insight | Kyr |
+| Prophet | +3 wisdom, +2 charisma | 30 | anyone | Rites of the dead, Insight | Kyr |
+| Psalmist | +3 wisdom, +2 charisma | 30 | anyone | Rites of the dead, Insight | Kyr |
+| Pythoness | +3 wisdom, +2 charisma | 30 | anyone | Rites of the dead, Insight | Kyr |
+| Saint | +3 wisdom, +2 charisma | 30 | anyone | Rites of the dead, Insight | Kyr |
+| Seer | +3 wisdom, +2 charisma | 30 | anyone | Rites of the dead, Insight | Kyr |
+| Sibyl | +3 wisdom, +2 charisma | 45 | anyone | Rites of the dead, Insight | Kyr |
+| Soothsayer | +3 wisdom, +2 charisma | 30 | anyone | Rites of the dead, Insight | Kyr |
 | Templar | +3 strength, +3 constitution, +3 wisdom, +2 charisma | 80 | Cleric | Rites of the dead, Insight | Adapted |
+| Theologian | +3 wisdom, +2 charisma | 30 | anyone | Rites of the dead, Insight | Kyr |
+| Theurge | +3 wisdom, +2 charisma | 30 | anyone | Rites of the dead, Insight | Kyr |
 | Vampire hunter | +3 strength, +3 dexterity, +2 constitution, +2 wisdom, +1 charisma | 50 | anyone | Rites of the dead, Insight, Holy water | Adapted |
+| Vigil keeper | +3 wisdom, +2 charisma | 45 | anyone | Rites of the dead, Insight | Kyr |
 | Witch hunter | +2 strength, +2 dexterity, +2 constitution, +2 intelligence, +3 wisdom, +1 charisma | 40 | Cleric | Rites of the dead, Insight, Holy symbol | Adapted |
 
 ### Learning
@@ -762,27 +861,90 @@ Brings lore, and knows someone who hears news at a shrine.
 
 | Background | Qualities | Gold | For | Brings | Status |
 |---|---|---|---|---|---|
+| Academician | +3 intelligence, +2 wisdom | 30 | anyone | Lore | Kyr |
 | Advisor | +3 intelligence, +3 wisdom, +2 charisma | 100 | anyone | Lore | Adapted |
+| Algebraist | +3 intelligence, +2 wisdom | 30 | anyone | Lore | Kyr |
+| Amanuensis | +3 intelligence, +2 wisdom | 30 | anyone | Lore | Kyr |
+| Annalist | +3 intelligence, +2 wisdom | 30 | anyone | Lore | Kyr |
+| Antiquarian | +3 intelligence, +2 wisdom | 45 | anyone | Lore | Kyr |
 | Apprentice | +2 intelligence, +1 dexterity | 10 | anyone | Lore | Adapted |
 | Arcanist | +3 intelligence, +1 wisdom | 70 | Mage | Lore | Adapted |
 | Archaeologist | +3 intelligence, +2 wisdom | 30 | anyone | Lore, Digging, Shovel | Adapted |
 | Architect | +3 intelligence, +3 wisdom | 60 | anyone | Lore | Adapted |
 | Archivist | +3 intelligence, +3 wisdom | 30 | anyone | Lore, Insight | Adapted |
+| Astrologer | +3 intelligence, +2 wisdom | 30 | anyone | Lore | Kyr |
 | Astronomer | +3 intelligence, +2 wisdom | 15 | anyone | Lore | Adapted |
+| Atomist | +3 intelligence, +2 wisdom | 30 | anyone | Lore | Kyr |
+| Bibliophile | +3 intelligence, +2 wisdom | 30 | anyone | Lore | Kyr |
+| Biologist | +3 intelligence, +2 wisdom | 30 | anyone | Lore | Kyr |
+| Calligrapher | +3 intelligence, +2 wisdom | 30 | anyone | Lore | Kyr |
+| Cartomancer | +3 intelligence, +2 wisdom | 30 | anyone | Lore | Kyr |
+| Chemist | +3 intelligence, +2 wisdom | 45 | anyone | Lore | Kyr |
+| Classicist | +3 intelligence, +2 wisdom | 45 | anyone | Lore | Kyr |
+| Collector | +3 intelligence, +2 wisdom | 30 | anyone | Lore | Kyr |
+| Conjuror | +3 intelligence, +2 wisdom | 30 | anyone | Lore | Kyr |
+| Copyist | +3 intelligence, +2 wisdom | 45 | anyone | Lore | Kyr |
+| Demonologist | +3 intelligence, +2 wisdom | 30 | anyone | Lore | Kyr |
+| Dialectician | +3 intelligence, +2 wisdom | 30 | anyone | Lore | Kyr |
+| Diviner | +3 intelligence, +2 wisdom | 30 | anyone | Lore | Kyr |
+| Enchanter | +3 intelligence, +2 wisdom | 30 | anyone | Lore | Kyr |
+| Enchantress | +3 intelligence, +2 wisdom | 30 | anyone | Lore | Kyr |
+| Encyclopedist | +3 intelligence, +2 wisdom | 30 | anyone | Lore | Kyr |
+| Esotericist | +3 intelligence, +2 wisdom | 45 | anyone | Lore | Kyr |
+| Ethicist | +3 intelligence, +2 wisdom | 30 | anyone | Lore | Kyr |
+| Fortune teller | +3 intelligence, +2 wisdom | 30 | anyone | Lore | Kyr |
 | Fortuneteller | +3 charisma, +1 intelligence | 40 | anyone | Lore | Adapted |
+| Ghostwriter | +3 intelligence, +2 wisdom | 45 | anyone | Lore | Kyr |
+| Hermeticist | +3 intelligence, +2 wisdom | 30 | anyone | Lore | Kyr |
 | Historian | +3 intelligence, +2 wisdom | 20 | anyone | Lore | Adapted |
+| Humanist | +3 intelligence, +2 wisdom | 30 | anyone | Lore | Kyr |
+| Illusionist | +3 intelligence, +2 wisdom | 30 | anyone | Lore | Kyr |
 | Invoker | +2 intelligence, +3 wisdom | 50 | Mage | Lore, Insight | Adapted |
+| Kabbalist | +3 intelligence, +2 wisdom | 30 | anyone | Lore | Kyr |
+| Lector | +3 intelligence, +2 wisdom | 30 | anyone | Lore | Kyr |
 | Librarian | +2 intelligence, +2 wisdom | 10 | anyone | Lore | Adapted |
+| Linguist | +3 intelligence, +2 wisdom | 30 | anyone | Lore | Kyr |
+| Logician | +3 intelligence, +2 wisdom | 30 | anyone | Lore | Kyr |
+| Magician | +3 intelligence, +2 wisdom | 30 | anyone | Lore | Kyr |
+| Magus | +3 intelligence, +2 wisdom | 30 | anyone | Lore | Kyr |
+| Mathematician | +3 intelligence, +2 wisdom | 45 | anyone | Lore | Kyr |
+| Medical scholar | +3 intelligence, +2 wisdom | 30 | anyone | Lore | Kyr |
+| Medium | +3 intelligence, +2 wisdom | 30 | anyone | Lore | Kyr |
+| Metaphysician | +3 intelligence, +2 wisdom | 45 | anyone | Lore | Kyr |
+| Monist | +3 intelligence, +2 wisdom | 30 | anyone | Lore | Kyr |
 | Mystic | +3 wisdom, −1 intelligence, +2 charisma | 60 | Mage | Lore, Insight | Adapted |
+| Naturalist | +3 intelligence, +2 wisdom | 45 | anyone | Lore | Kyr |
+| Necromancer | +3 intelligence, +2 wisdom | 30 | anyone | Lore | Kyr |
+| Oneiromancer | +3 intelligence, +2 wisdom | 30 | anyone | Lore | Kyr |
+| Ornithologist | +3 intelligence, +2 wisdom | 45 | anyone | Lore | Kyr |
 | Parchment maker | +2 dexterity, +2 intelligence | 20 | anyone | Lore | Adapted |
+| Philologist | +3 intelligence, +2 wisdom | 30 | anyone | Lore | Kyr |
 | Philosopher | +3 intelligence, +2 wisdom | 20 | anyone | Lore | Adapted |
+| Physicist | +3 intelligence, +2 wisdom | 30 | anyone | Lore | Kyr |
+| Polymath | +3 intelligence, +2 wisdom | 30 | anyone | Lore | Kyr |
+| Professor | +3 intelligence, +2 wisdom | 30 | anyone | Lore | Kyr |
+| Reader | +3 intelligence, +2 wisdom | 45 | anyone | Lore | Kyr |
+| Researcher | +3 intelligence, +2 wisdom | 30 | anyone | Lore | Kyr |
 | Rhetorician | +3 charisma, +3 intelligence, +2 wisdom | 80 | anyone | Lore, Persuasion | Adapted |
 | Sage | +3 intelligence, +3 wisdom | 25 | anyone | Lore | Adapted |
+| Savant | +3 intelligence, +2 wisdom | 45 | anyone | Lore | Kyr |
 | Scholar | +2 intelligence, +1 wisdom, −1 charisma | 5 | anyone | Lore | Adapted |
+| Scholarch | +3 intelligence, +2 wisdom | 30 | anyone | Lore | Kyr |
+| Scientist | +3 intelligence, +2 wisdom | 30 | anyone | Lore | Kyr |
 | Scribe | +2 intelligence, +1 dexterity | 15 | anyone | Lore | Adapted |
+| Scrivener | +3 intelligence, +2 wisdom | 45 | anyone | Lore | Kyr |
 | Secretkeeper | +3 dexterity, +2 intelligence, +1 wisdom | 40 | anyone | Lore | Adapted |
+| Songwriter | +3 intelligence, +2 wisdom | 30 | anyone | Lore | Kyr |
+| Sorceress | +3 intelligence, +2 wisdom | 30 | anyone | Lore | Kyr |
+| Spiritualist | +3 intelligence, +2 wisdom | 30 | anyone | Lore | Kyr |
+| Summoner | +3 intelligence, +2 wisdom | 30 | anyone | Lore | Kyr |
+| Teacher | +3 intelligence, +2 wisdom | 45 | anyone | Lore | Kyr |
+| Thinker | +3 intelligence, +2 wisdom | 30 | anyone | Lore | Kyr |
+| Translator | +3 intelligence, +2 wisdom | 30 | anyone | Lore | Kyr |
 | Vizier | +3 intelligence, +3 wisdom, +3 charisma | 150 | anyone | Lore, Persuasion | Adapted |
 | Witch | +3 intelligence, +3 wisdom, +2 charisma | 20 | Mage | Lore, Kingsfoil | Adapted |
+| Wizard | +3 intelligence, +2 wisdom | 30 | anyone | Lore | Kyr |
+| Writer | +3 intelligence, +2 wisdom | 45 | anyone | Lore | Kyr |
 
 ### Stone and earth
 
@@ -791,6 +953,9 @@ Brings digging, carries shovel, and knows someone who hears news at an inn.
 | Background | Qualities | Gold | For | Brings | Status |
 |---|---|---|---|---|---|
 | Bricklayer | +3 strength, +2 constitution | 30 | anyone | Digging, Shovel | Adapted |
+| Collier | +3 strength, +2 constitution, +2 dexterity, +1 intelligence | 20 | anyone | Digging, Shovel | Kyr |
+| Draftsman | +3 strength, +2 constitution, +2 dexterity, +1 intelligence | 20 | anyone | Digging, Shovel | Kyr |
+| Draughtswoman | +3 strength, +2 constitution, +2 dexterity, +1 intelligence | 30 | anyone | Digging, Shovel | Kyr |
 | Dungeon delver | +1 strength, +2 dexterity, +2 constitution | 20 | anyone | Digging, Shovel | Adapted |
 | Gardener | +2 wisdom, +1 constitution | 15 | anyone | Digging, Shovel | Adapted |
 | Geologist | +3 intelligence, +2 wisdom | 20 | anyone | Digging, Shovel | Adapted |
@@ -798,9 +963,11 @@ Brings digging, carries shovel, and knows someone who hears news at an inn.
 | Miner | +2 constitution, +1 strength | 15 | anyone | Digging, Shovel | Adapted |
 | Peon | +1 strength, +1 constitution | 5 | anyone | Digging, Shovel | Adapted |
 | Prospector | +2 constitution, +1 wisdom | 15 | anyone | Digging, Shovel | Adapted |
+| Quarrier | +3 strength, +2 constitution, +2 dexterity, +1 intelligence | 20 | anyone | Digging, Shovel | Kyr |
 | Scavenger | +2 dexterity, +1 wisdom | 10 | anyone | Digging, Shovel | Adapted |
 | Stone mason | +3 strength, +2 constitution, +2 dexterity, +1 intelligence | 50 | anyone | Digging, Shovel | Adapted |
 | Stonecarver | +3 strength, +2 constitution, +2 dexterity, +1 intelligence | 50 | anyone | Digging, Shovel | Adapted |
+| Surveyor | +3 strength, +2 constitution, +2 dexterity, +1 intelligence | 20 | anyone | Digging, Shovel | Kyr |
 | Treasure hunter | +3 dexterity, +3 intelligence, +2 wisdom | 120 | anyone | Digging, Stealth, Shovel | Adapted |
 
 ### Arms
@@ -810,28 +977,57 @@ Brings brawn and intimidation, and knows someone who hears news at an inn.
 | Background | Qualities | Gold | For | Brings | Status |
 |---|---|---|---|---|---|
 | Athlete | +2 strength, +2 dexterity, +1 constitution | 10 | anyone | Brawn, Intimidation | Adapted |
+| Avenger | +2 strength, +1 constitution, +1 dexterity | 30 | anyone | Brawn, Intimidation | Kyr |
+| Berserker | +2 strength, +1 constitution, +1 dexterity | 30 | anyone | Brawn, Intimidation | Kyr |
 | Blacksmith | +2 strength, +1 constitution, +1 dexterity | 25 | anyone | Brawn, Intimidation | Adapted |
 | Bounty hunter | +2 dexterity, +2 wisdom | 25 | anyone | Brawn, Intimidation, Coil of rope, Manacles | Adapted |
+| Brandisher | +2 strength, +1 constitution, +1 dexterity | 30 | anyone | Brawn, Intimidation | Kyr |
+| Captain | +2 strength, +1 constitution, +1 dexterity | 30 | anyone | Brawn, Intimidation | Kyr |
 | Champion | +3 strength, +3 constitution, +2 dexterity, +1 wisdom, +2 charisma | 50 | Warrior | Brawn, Intimidation | Adapted |
+| Commander | +2 strength, +1 constitution, +1 dexterity | 30 | anyone | Brawn, Intimidation | Kyr |
+| Conqueror | +2 strength, +1 constitution, +1 dexterity | 45 | anyone | Brawn, Intimidation | Kyr |
 | Coppersmith | +3 dexterity, +1 intelligence | 25 | anyone | Brawn, Intimidation | Adapted |
+| Crusader | +2 strength, +1 constitution, +1 dexterity | 30 | anyone | Brawn, Intimidation | Kyr |
+| Defender | +2 strength, +1 constitution, +1 dexterity | 30 | anyone | Brawn, Intimidation | Kyr |
 | Deserter | +2 dexterity, +1 constitution | 10 | anyone | Brawn, Intimidation | Adapted |
 | Dragon slayer | +3 strength, +3 constitution, +2 dexterity, +2 wisdom, +2 charisma | 200 | anyone | Brawn, Intimidation | Adapted |
+| Dragonslayer | +2 strength, +1 constitution, +1 dexterity | 30 | anyone | Brawn, Intimidation | Kyr |
+| Ensign | +2 strength, +1 constitution, +1 dexterity | 30 | anyone | Brawn, Intimidation | Kyr |
 | Errant | +2 strength, +3 intelligence, +2 wisdom, +1 charisma | 75 | Warrior | Brawn, Intimidation | Adapted |
 | Executioner | +3 strength, +3 constitution, +2 dexterity | 40 | anyone | Brawn, Intimidation | Adapted |
+| Far shooter | +2 strength, +1 constitution, +1 dexterity | 30 | anyone | Brawn, Intimidation | Kyr |
+| Fencing master | +2 strength, +1 constitution, +1 dexterity | 30 | anyone | Brawn, Intimidation | Kyr |
+| Fighter | +2 strength, +1 constitution, +1 dexterity | 30 | anyone | Brawn, Intimidation | Kyr |
 | Folk hero | +2 strength, +1 constitution, +1 charisma | 10 | anyone | Brawn, Intimidation | Adapted |
+| Game warden | +2 strength, +1 constitution, +1 dexterity | 30 | anyone | Brawn, Intimidation | Kyr |
+| Gatekeeper | +2 strength, +1 constitution, +1 dexterity | 45 | anyone | Brawn, Intimidation | Kyr |
+| General | +2 strength, +1 constitution, +1 dexterity | 30 | anyone | Brawn, Intimidation | Kyr |
 | Gladiator | +3 strength, +2 constitution, +1 dexterity | 30 | anyone | Brawn, Intimidation | Adapted |
 | Guard | +2 strength, +3 constitution | 10 | Warrior | Brawn, Intimidation | Adapted |
+| Guardian | +2 strength, +1 constitution, +1 dexterity | 45 | anyone | Brawn, Intimidation | Kyr |
+| Halberdier | +2 strength, +1 constitution, +1 dexterity | 30 | anyone | Brawn, Intimidation | Kyr |
+| Hero | +2 strength, +1 constitution, +1 dexterity | 30 | anyone | Brawn, Intimidation | Kyr |
+| Heroine | +2 strength, +1 constitution, +1 dexterity | 30 | anyone | Brawn, Intimidation | Kyr |
+| Jailer | +2 strength, +1 constitution, +1 dexterity | 30 | anyone | Brawn, Intimidation | Kyr |
 | Juggernaut | +3 strength, +3 constitution, +1 dexterity, −2 intelligence, −1 charisma | 50 | anyone | Brawn, Intimidation | Adapted |
+| Knight | +2 strength, +1 constitution, +1 dexterity | 30 | anyone | Brawn, Intimidation | Kyr |
 | Mercenary | +2 strength, +1 constitution, +1 dexterity | 20 | Warrior | Brawn, Intimidation | Adapted |
+| Paladin | +2 strength, +1 constitution, +1 dexterity | 30 | anyone | Brawn, Intimidation | Kyr |
 | Praetor | +3 strength, +3 constitution, +2 dexterity | 50 | Warrior | Brawn, Intimidation | Adapted |
+| Protector | +2 strength, +1 constitution, +1 dexterity | 30 | anyone | Brawn, Intimidation | Kyr |
 | Roustabout | +3 strength, +2 dexterity, +2 charisma | 25 | anyone | Brawn, Intimidation | Adapted |
+| Samurai | +2 strength, +1 constitution, +1 dexterity | 30 | anyone | Brawn, Intimidation | Kyr |
 | Sellsword | +2 strength, +2 dexterity, +1 constitution | 25 | Warrior | Brawn, Intimidation | Adapted |
 | Smith | +3 strength, +2 constitution | 30 | anyone | Brawn, Intimidation, Crowbar | Adapted |
 | Soldier | +2 strength, +1 constitution, +1 dexterity | 20 | Warrior | Brawn, Intimidation | Adapted |
+| Spahi | +2 strength, +1 constitution, +1 dexterity | 30 | anyone | Brawn, Intimidation | Kyr |
 | Squire | +2 strength, +1 constitution, +1 dexterity | 30 | Warrior | Brawn, Intimidation | Adapted |
+| Standard bearer | +2 strength, +1 constitution, +1 dexterity | 30 | anyone | Brawn, Intimidation | Kyr |
 | Swashbuckler | +3 dexterity, +2 charisma | 30 | Warrior | Brawn, Intimidation | Adapted |
+| Swordsman | +2 strength, +1 constitution, +1 dexterity | 45 | anyone | Brawn, Intimidation | Kyr |
 | Warden | +3 strength, +3 constitution, +2 dexterity, +1 intelligence, +1 wisdom, +2 charisma | 60 | anyone | Brawn, Intimidation | Adapted |
 | Warlord | +3 strength, +3 constitution, +2 dexterity, +2 intelligence, +2 wisdom, +3 charisma | 75 | Warrior | Brawn, Intimidation | Adapted |
+| Warrior | +2 strength, +1 constitution, +1 dexterity | 30 | anyone | Brawn, Intimidation | Kyr |
 | Yeoman | +2 wisdom, +1 dexterity | 20 | anyone | Brawn, Intimidation | Adapted |
 
 ### The water
@@ -840,13 +1036,22 @@ Brings climbing, carries coil of rope, and knows someone who hears news on the r
 
 | Background | Qualities | Gold | For | Brings | Status |
 |---|---|---|---|---|---|
+| Angler | +3 charisma, +2 wisdom | 20 | anyone | Climbing, Coil of rope | Kyr |
+| Beachcomber | +3 charisma, +2 wisdom | 30 | anyone | Climbing, Coil of rope | Kyr |
 | Boatman | +2 strength, +1 constitution | 10 | anyone | — | Faithful |
+| Buccaneer | +3 charisma, +2 wisdom | 20 | anyone | Climbing, Coil of rope | Kyr |
+| Corsair | +3 charisma, +2 wisdom | 20 | anyone | Climbing, Coil of rope | Kyr |
 | Fisherman | +2 dexterity, +1 constitution, +1 wisdom | 10 | anyone | Climbing, Coil of rope | Adapted |
+| Harpooner | +3 charisma, +2 wisdom | 20 | anyone | Climbing, Coil of rope | Kyr |
+| Ice cutter | +3 charisma, +2 wisdom | 20 | anyone | Climbing, Coil of rope | Kyr |
+| Lifeboatman | +3 charisma, +2 wisdom | 20 | anyone | Climbing, Coil of rope | Kyr |
+| Lobster man | +3 charisma, +2 wisdom | 20 | anyone | Climbing, Coil of rope | Kyr |
 | Navigator | +2 intelligence, +1 wisdom | 20 | anyone | Climbing, Coil of rope | Adapted |
 | Pirate | +2 dexterity, +1 charisma | 20 | anyone | Climbing, Coil of rope | Adapted |
 | Sailor | +2 dexterity, +1 constitution, +1 strength | 20 | anyone | Climbing, Coil of rope | Adapted |
 | Ship captain | +3 charisma, +2 wisdom | 60 | anyone | Climbing, Coil of rope | Adapted |
 | Shipwright | +2 intelligence, +1 wisdom, +1 constitution | 30 | anyone | Climbing, Coil of rope | Adapted |
+| Whaler | +3 charisma, +2 wisdom | 20 | anyone | Climbing, Coil of rope | Kyr |
 
 ### The stage
 
@@ -854,24 +1059,83 @@ Brings lore and deception, and knows someone who hears news at an inn.
 
 | Background | Qualities | Gold | For | Brings | Status |
 |---|---|---|---|---|---|
+| Actress | +3 charisma, +2 dexterity | 45 | anyone | Lore, Deception | Kyr |
+| Aesthete | +3 charisma, +2 dexterity | 30 | anyone | Lore, Deception | Kyr |
+| Animator | +3 charisma, +2 dexterity | 30 | anyone | Lore, Deception | Kyr |
+| Announcer | +3 charisma, +2 dexterity | 30 | anyone | Lore, Deception | Kyr |
+| Aphorist | +3 charisma, +2 dexterity | 45 | anyone | Lore, Deception | Kyr |
+| Ballerina | +3 charisma, +2 dexterity | 45 | anyone | Lore, Deception | Kyr |
+| Bard | +3 charisma, +2 dexterity | 30 | anyone | Lore, Deception | Kyr |
+| Belletrist | +3 charisma, +2 dexterity | 45 | anyone | Lore, Deception | Kyr |
+| Bugler | +3 charisma, +2 dexterity | 30 | anyone | Lore, Deception | Kyr |
+| Card player | +3 charisma, +2 dexterity | 30 | anyone | Lore, Deception | Kyr |
+| Caricaturist | +3 charisma, +2 dexterity | 30 | anyone | Lore, Deception | Kyr |
+| Character actor | +3 charisma, +2 dexterity | 45 | anyone | Lore, Deception | Kyr |
+| Clown | +3 charisma, +2 dexterity | 30 | anyone | Lore, Deception | Kyr |
 | Comedian | +3 charisma, +2 dexterity | 25 | Bard | Lore, Deception, Persuasion | Adapted |
+| Comedy | +3 charisma, +2 dexterity | 30 | anyone | Lore, Deception | Kyr |
+| Composer | +3 charisma, +2 dexterity | 30 | anyone | Lore, Deception | Kyr |
+| Con artist | +3 charisma, +2 dexterity | 45 | anyone | Lore, Deception | Kyr |
+| Conductor | +3 charisma, +2 dexterity | 45 | anyone | Lore, Deception | Kyr |
 | Courtesan | +3 charisma, +3 intelligence | 150 | anyone | Lore, Deception, Persuasion | Adapted |
 | Dancer | +3 dexterity, +3 charisma, +2 intelligence | 80 | Bard | Lore, Deception, Stealth | Adapted |
+| Dramaturge | +3 charisma, +2 dexterity | 45 | anyone | Lore, Deception | Kyr |
+| Dream conductor | +3 charisma, +2 dexterity | 45 | anyone | Lore, Deception | Kyr |
+| Drummer | +3 charisma, +2 dexterity | 30 | anyone | Lore, Deception | Kyr |
 | Entertainer | +2 charisma, +1 dexterity | 30 | Bard | Lore, Deception | Adapted |
+| Epic poet | +3 charisma, +2 dexterity | 45 | anyone | Lore, Deception | Kyr |
+| Epistler | +3 charisma, +2 dexterity | 30 | anyone | Lore, Deception | Kyr |
+| Epistolographer | +3 charisma, +2 dexterity | 30 | anyone | Lore, Deception | Kyr |
 | Fabulist | +3 charisma, +3 intelligence | 60 | Bard | Lore, Deception, Persuasion | Adapted |
+| Fiddler | +3 charisma, +2 dexterity | 30 | anyone | Lore, Deception | Kyr |
+| Fifer | +3 charisma, +2 dexterity | 30 | anyone | Lore, Deception | Kyr |
+| Fool | +3 charisma, +2 dexterity | 45 | anyone | Lore, Deception | Kyr |
+| Golden voice | +3 charisma, +2 dexterity | 30 | anyone | Lore, Deception | Kyr |
+| Guitarist | +3 charisma, +2 dexterity | 30 | anyone | Lore, Deception | Kyr |
 | Harlequin | +3 charisma, +3 dexterity | 40 | Bard | Lore, Deception, Persuasion | Adapted |
+| Illuminator | +3 charisma, +2 dexterity | 30 | anyone | Lore, Deception | Kyr |
+| Illustrator | +3 charisma, +2 dexterity | 30 | anyone | Lore, Deception | Kyr |
+| Impressionist | +3 charisma, +2 dexterity | 30 | anyone | Lore, Deception | Kyr |
 | Jacanape | +3 charisma, +1 dexterity | 30 | anyone | Lore, Deception | Adapted |
+| Jester | +3 charisma, +2 dexterity | 30 | anyone | Lore, Deception | Kyr |
 | Juggler | +3 dexterity, +1 charisma | 20 | anyone | Lore, Deception | Adapted |
+| Limner | +3 charisma, +2 dexterity | 30 | anyone | Lore, Deception | Kyr |
+| Lutenist | +3 charisma, +2 dexterity | 30 | anyone | Lore, Deception | Kyr |
+| Lyricist | +3 charisma, +2 dexterity | 45 | anyone | Lore, Deception | Kyr |
+| Memoirist | +3 charisma, +2 dexterity | 30 | anyone | Lore, Deception | Kyr |
+| Mime | +3 charisma, +2 dexterity | 30 | anyone | Lore, Deception | Kyr |
+| Miniaturist | +3 charisma, +2 dexterity | 30 | anyone | Lore, Deception | Kyr |
 | Minstrel | +3 charisma, +2 dexterity | 30 | Bard | Lore, Deception | Adapted |
+| Muralist | +3 charisma, +2 dexterity | 30 | anyone | Lore, Deception | Kyr |
+| Musician | +3 charisma, +2 dexterity | 30 | anyone | Lore, Deception | Kyr |
+| Musicologist | +3 charisma, +2 dexterity | 45 | anyone | Lore, Deception | Kyr |
+| Novelist | +3 charisma, +2 dexterity | 30 | anyone | Lore, Deception | Kyr |
+| Operagoer | +3 charisma, +2 dexterity | 45 | anyone | Lore, Deception | Kyr |
 | Orator | +3 charisma, +3 intelligence | 90 | Bard | Lore, Deception, Persuasion | Adapted |
+| Organist | +3 charisma, +2 dexterity | 30 | anyone | Lore, Deception | Kyr |
+| Painter | +3 charisma, +2 dexterity | 30 | anyone | Lore, Deception | Kyr |
 | Performer | +3 charisma, +2 dexterity | 30 | Bard | Lore, Deception | Adapted |
+| Pianist | +3 charisma, +2 dexterity | 45 | anyone | Lore, Deception | Kyr |
+| Player | +3 charisma, +2 dexterity | 30 | anyone | Lore, Deception | Kyr |
 | Playwright | +3 charisma, +3 intelligence | 70 | Bard | Lore, Deception, Persuasion, Quill | Adapted |
 | Poet | +3 charisma, +1 intelligence | 25 | Bard | Lore, Deception | Adapted |
+| Portraitist | +3 charisma, +2 dexterity | 30 | anyone | Lore, Deception | Kyr |
+| Prima donna | +3 charisma, +2 dexterity | 45 | anyone | Lore, Deception | Kyr |
+| Printmaker | +3 charisma, +2 dexterity | 30 | anyone | Lore, Deception | Kyr |
+| Realist | +3 charisma, +2 dexterity | 45 | anyone | Lore, Deception | Kyr |
+| Rhapsode | +3 charisma, +2 dexterity | 30 | anyone | Lore, Deception | Kyr |
+| Satirist | +3 charisma, +2 dexterity | 30 | anyone | Lore, Deception | Kyr |
+| Scenewright | +3 charisma, +2 dexterity | 30 | anyone | Lore, Deception | Kyr |
+| Scenographer | +3 charisma, +2 dexterity | 45 | anyone | Lore, Deception | Kyr |
+| Sculptor | +3 charisma, +2 dexterity | 30 | anyone | Lore, Deception | Kyr |
 | Singer | +2 charisma, +1 wisdom | 25 | Bard | Lore, Deception | Adapted |
+| Skald | +3 charisma, +2 dexterity | 30 | anyone | Lore, Deception | Kyr |
 | Storyteller | +3 charisma, +2 intelligence | 30 | Bard | Lore, Deception | Adapted |
+| Thespian | +3 charisma, +2 dexterity | 30 | anyone | Lore, Deception | Kyr |
 | Town crier | +3 charisma, +1 wisdom | 15 | anyone | Lore, Deception | Adapted |
 | Tragedian | +3 charisma, +2 wisdom | 25 | Bard | Lore, Deception, Persuasion | Adapted |
 | Troubadour | +3 charisma, +2 dexterity | 40 | Bard | Lore, Deception, Persuasion | Adapted |
+| Trumpeter | +3 charisma, +2 dexterity | 30 | anyone | Lore, Deception | Kyr |
 | Virtuoso | +3 charisma, +3 dexterity | 60 | Bard | Lore, Deception, Persuasion | Adapted |
 
 ### A trade
@@ -880,37 +1144,105 @@ Brings persuasion, and knows someone who hears news at a market.
 
 | Background | Qualities | Gold | For | Brings | Status |
 |---|---|---|---|---|---|
+| Accountant | +3 dexterity, +1 intelligence | 20 | anyone | Persuasion | Kyr |
+| Alnager | +3 dexterity, +1 intelligence | 30 | anyone | Persuasion | Kyr |
 | Appraiser | +3 intelligence, +2 wisdom | 30 | anyone | Persuasion | Adapted |
+| Arborist | +3 dexterity, +1 intelligence | 20 | anyone | Persuasion | Kyr |
+| Arms dealer | +3 dexterity, +1 intelligence | 20 | anyone | Persuasion | Kyr |
+| Art dealer | +3 dexterity, +1 intelligence | 20 | anyone | Persuasion | Kyr |
 | Artisan | +1 intelligence, +1 wisdom, +1 charisma | 20 | anyone | Persuasion | Adapted |
 | Artist | +3 charisma, +2 intelligence | 40 | anyone | Persuasion | Adapted |
+| Assessor | +3 dexterity, +1 intelligence | 20 | anyone | Persuasion | Kyr |
+| Auctioneer | +3 dexterity, +1 intelligence | 20 | anyone | Persuasion | Kyr |
 | Baker | +2 constitution, +1 wisdom | 15 | anyone | Persuasion | Adapted |
+| Banker | +3 dexterity, +1 intelligence | 20 | anyone | Persuasion | Kyr |
+| Barber | +3 dexterity, +1 intelligence | 20 | anyone | Persuasion | Kyr |
+| Bookkeeper | +3 dexterity, +1 intelligence | 20 | anyone | Persuasion | Kyr |
+| Breeder | +3 dexterity, +1 intelligence | 30 | anyone | Persuasion | Kyr |
 | Brewer | +2 constitution, +1 intelligence | 20 | anyone | Persuasion | Adapted |
+| Broker | +3 dexterity, +1 intelligence | 20 | anyone | Persuasion | Kyr |
+| Builder | +3 dexterity, +1 intelligence | 20 | anyone | Persuasion | Kyr |
+| Businessman | +3 dexterity, +1 intelligence | 20 | anyone | Persuasion | Kyr |
+| Butcher | +3 dexterity, +1 intelligence | 20 | anyone | Persuasion | Kyr |
+| Candlemaker | +3 dexterity, +1 intelligence | 30 | anyone | Persuasion | Kyr |
+| Caretaker | +3 dexterity, +1 intelligence | 20 | anyone | Persuasion | Kyr |
+| Carpenter | +3 dexterity, +1 intelligence | 20 | anyone | Persuasion | Kyr |
+| Carpetmonger | +3 dexterity, +1 intelligence | 20 | anyone | Persuasion | Kyr |
+| Charm seller | +3 dexterity, +1 intelligence | 20 | anyone | Persuasion | Kyr |
 | Chef | +2 constitution, +1 wisdom | 15 | anyone | Persuasion | Adapted |
+| Chocolatier | +3 dexterity, +1 intelligence | 30 | anyone | Persuasion | Kyr |
+| Cook | +3 dexterity, +1 intelligence | 20 | anyone | Persuasion | Kyr |
 | Craftsman | +3 dexterity, +2 intelligence, +1 wisdom | 40 | anyone | Persuasion | Adapted |
+| Dancing master | +3 dexterity, +1 intelligence | 20 | anyone | Persuasion | Kyr |
 | Diamantaire | +3 intelligence, +3 wisdom, +3 charisma | 200 | anyone | Persuasion, Lore, Insight | Adapted |
+| Drawing master | +3 dexterity, +1 intelligence | 20 | anyone | Persuasion | Kyr |
+| Embroiderer | +3 dexterity, +1 intelligence | 20 | anyone | Persuasion | Kyr |
+| Engraver | +3 dexterity, +1 intelligence | 20 | anyone | Persuasion | Kyr |
 | Factotum | +2 intelligence, +1 dexterity, +1 wisdom | 10 | anyone | Persuasion | Adapted |
 | Farmer | +2 constitution, +1 strength, +1 wisdom | 10 | anyone | Persuasion | Adapted |
+| Financier | +3 dexterity, +1 intelligence | 30 | anyone | Persuasion | Kyr |
 | Fletcher | +3 dexterity, +1 intelligence | 25 | anyone | Persuasion | Adapted |
+| Florist | +3 dexterity, +1 intelligence | 20 | anyone | Persuasion | Kyr |
+| Fruit seller | +3 dexterity, +1 intelligence | 20 | anyone | Persuasion | Kyr |
+| Furrier | +3 dexterity, +1 intelligence | 20 | anyone | Persuasion | Kyr |
+| Gamemaster | +3 dexterity, +1 intelligence | 20 | anyone | Persuasion | Kyr |
 | Glassblower | +3 dexterity, +1 intelligence | 30 | anyone | Persuasion | Adapted |
+| Gleaner | +3 dexterity, +1 intelligence | 20 | anyone | Persuasion | Kyr |
+| Groundskeeper | +3 dexterity, +1 intelligence | 20 | anyone | Persuasion | Kyr |
+| Harvester | +3 dexterity, +1 intelligence | 20 | anyone | Persuasion | Kyr |
 | Hireling | +1 strength, +1 constitution, +1 dexterity | 0 | anyone | Persuasion | Adapted |
+| Horticulturist | +3 dexterity, +1 intelligence | 20 | anyone | Persuasion | Kyr |
 | Innkeeper | +2 charisma, +1 wisdom | 25 | anyone | Persuasion | Adapted |
 | Jewelcrafter | +3 dexterity, +1 intelligence | 50 | anyone | Persuasion | Adapted |
+| Jeweler | +3 dexterity, +1 intelligence | 20 | anyone | Persuasion | Kyr |
+| Keymaster | +3 dexterity, +1 intelligence | 20 | anyone | Persuasion | Kyr |
+| Kitchenmaid | +3 dexterity, +1 intelligence | 20 | anyone | Persuasion | Kyr |
 | Lamp lighter | +2 dexterity, +1 constitution | 10 | anyone | Persuasion | Adapted |
+| Laundress | +3 dexterity, +1 intelligence | 20 | anyone | Persuasion | Kyr |
+| Luthier | +3 dexterity, +1 intelligence | 20 | anyone | Persuasion | Kyr |
+| Mason | +3 dexterity, +1 intelligence | 20 | anyone | Persuasion | Kyr |
+| Master | +3 dexterity, +1 intelligence | 20 | anyone | Persuasion | Kyr |
 | Mealman | +2 constitution, +1 wisdom | 10 | anyone | Persuasion | Adapted |
 | Merchant | +1 wisdom, +2 charisma, +1 intelligence | 100 | anyone | Persuasion | Adapted |
+| Milkmaid | +3 dexterity, +1 intelligence | 20 | anyone | Persuasion | Kyr |
 | Mill worker | +2 strength, +1 constitution | 10 | anyone | Persuasion | Adapted |
 | Miller | +2 strength, +2 constitution | 15 | anyone | Persuasion | Adapted |
+| Money changer | +3 dexterity, +1 intelligence | 20 | anyone | Persuasion | Kyr |
+| Needleworker | +3 dexterity, +1 intelligence | 20 | anyone | Persuasion | Kyr |
+| Nourisher | +3 dexterity, +1 intelligence | 20 | anyone | Persuasion | Kyr |
+| Nurseryman | +3 dexterity, +1 intelligence | 20 | anyone | Persuasion | Kyr |
 | Orchardist | +2 wisdom, +1 constitution | 15 | anyone | Persuasion | Adapted |
+| Painting master | +3 dexterity, +1 intelligence | 20 | anyone | Persuasion | Kyr |
+| Peasant | +3 dexterity, +1 intelligence | 20 | anyone | Persuasion | Kyr |
+| Peddler | +3 dexterity, +1 intelligence | 20 | anyone | Persuasion | Kyr |
+| Picker | +3 dexterity, +1 intelligence | 20 | anyone | Persuasion | Kyr |
 | Potter | +3 dexterity, +1 intelligence | 20 | anyone | Persuasion | Adapted |
+| Printer | +3 dexterity, +1 intelligence | 20 | anyone | Persuasion | Kyr |
 | Quartermaster | +2 intelligence, +2 wisdom | 20 | anyone | Persuasion | Adapted |
+| Reckoner | +3 dexterity, +1 intelligence | 20 | anyone | Persuasion | Kyr |
+| Riddlemaster | +3 dexterity, +1 intelligence | 20 | anyone | Persuasion | Kyr |
+| Rosarian | +3 dexterity, +1 intelligence | 30 | anyone | Persuasion | Kyr |
+| Seamstress | +3 dexterity, +1 intelligence | 20 | anyone | Persuasion | Kyr |
 | Servant | +1 strength, +1 dexterity, +1 constitution, +1 intelligence, +1 wisdom, +1 charisma | 5 | anyone | Persuasion | Adapted |
+| Shipowner | +3 dexterity, +1 intelligence | 20 | anyone | Persuasion | Kyr |
+| Shoemaker | +3 dexterity, +1 intelligence | 20 | anyone | Persuasion | Kyr |
+| Shopkeeper | +3 dexterity, +1 intelligence | 20 | anyone | Persuasion | Kyr |
+| Silversmith | +3 dexterity, +1 intelligence | 20 | anyone | Persuasion | Kyr |
+| Smelter | +3 dexterity, +1 intelligence | 20 | anyone | Persuasion | Kyr |
+| Sower | +3 dexterity, +1 intelligence | 20 | anyone | Persuasion | Kyr |
+| Speculator | +3 dexterity, +1 intelligence | 20 | anyone | Persuasion | Kyr |
+| Spymaster | +3 dexterity, +1 intelligence | 30 | anyone | Persuasion | Kyr |
 | Street vendor | +2 charisma, +1 wisdom | 20 | anyone | Persuasion | Adapted |
+| Tavernkeeper | +3 dexterity, +1 intelligence | 20 | anyone | Persuasion | Kyr |
 | Thatcher | +2 dexterity, +1 constitution | 15 | anyone | Persuasion | Adapted |
+| Vintner | +3 dexterity, +1 intelligence | 20 | anyone | Persuasion | Kyr |
 | Waterbearer | +2 constitution, +1 strength | 10 | anyone | Persuasion | Adapted |
 | Weaver | +3 dexterity, +1 intelligence | 25 | anyone | Persuasion | Adapted |
 | Wheelwright | +3 strength, +2 dexterity | 30 | anyone | Persuasion | Adapted |
 | Winemaker | +2 constitution, +1 intelligence | 20 | anyone | Persuasion | Adapted |
 | Woodworker | +3 dexterity, +1 intelligence | 25 | anyone | Persuasion | Adapted |
+| Wordsmith | +3 dexterity, +1 intelligence | 20 | anyone | Persuasion | Kyr |
+| Writing master | +3 dexterity, +1 intelligence | 20 | anyone | Persuasion | Kyr |
 
 ### Courts and offices
 
@@ -918,20 +1250,57 @@ Brings persuasion and insight, and knows someone who hears news at a market.
 
 | Background | Qualities | Gold | For | Brings | Status |
 |---|---|---|---|---|---|
+| Admiral | +3 charisma, +2 intelligence | 75 | anyone | Persuasion, Insight | Kyr |
+| Advocate | +3 charisma, +2 intelligence | 75 | anyone | Persuasion, Insight | Kyr |
+| Ambassador | +3 charisma, +2 intelligence | 113 | anyone | Persuasion, Insight | Kyr |
+| Ambassadress | +3 charisma, +2 intelligence | 113 | anyone | Persuasion, Insight | Kyr |
 | Aristocrat | +2 charisma, +1 intelligence, −1 strength | 400 | anyone | Persuasion, Insight | Adapted |
 | Beadle | +2 wisdom, +1 charisma | 10 | anyone | Persuasion, Insight | Adapted |
+| Benefactor | +3 charisma, +2 intelligence | 75 | anyone | Persuasion, Insight | Kyr |
+| Chancellor | +3 charisma, +2 intelligence | 113 | anyone | Persuasion, Insight | Kyr |
+| Condesa | +3 charisma, +2 intelligence | 113 | anyone | Persuasion, Insight | Kyr |
 | Courtier | +2 charisma, +1 intelligence | 50 | anyone | Persuasion, Insight | Adapted |
 | Demagogue | +3 charisma, +2 wisdom | 75 | anyone | Persuasion, Insight | Adapted |
+| Dictator | +3 charisma, +2 intelligence | 75 | anyone | Persuasion, Insight | Kyr |
 | Diplomat | +3 charisma, +1 intelligence | 75 | anyone | Persuasion, Insight | Adapted |
+| Doge | +3 charisma, +2 intelligence | 113 | anyone | Persuasion, Insight | Kyr |
+| Duke | +3 charisma, +2 intelligence | 113 | anyone | Persuasion, Insight | Kyr |
+| Emissary | +3 charisma, +2 intelligence | 113 | anyone | Persuasion, Insight | Kyr |
+| Emperor | +3 charisma, +2 intelligence | 113 | anyone | Persuasion, Insight | Kyr |
+| Empress | +3 charisma, +2 intelligence | 113 | anyone | Persuasion, Insight | Kyr |
+| Foundress | +3 charisma, +2 intelligence | 113 | anyone | Persuasion, Insight | Kyr |
+| Gentleman | +3 charisma, +2 intelligence | 113 | anyone | Persuasion, Insight | Kyr |
+| Governess | +3 charisma, +2 intelligence | 75 | anyone | Persuasion, Insight | Kyr |
+| Governor | +3 charisma, +2 intelligence | 75 | anyone | Persuasion, Insight | Kyr |
 | Judge | +3 wisdom, +3 intelligence, +2 charisma | 70 | anyone | Persuasion, Insight | Adapted |
+| Jurist | +3 charisma, +2 intelligence | 113 | anyone | Persuasion, Insight | Kyr |
+| King | +3 charisma, +2 intelligence | 113 | anyone | Persuasion, Insight | Kyr |
+| Lady | +3 charisma, +2 intelligence | 113 | anyone | Persuasion, Insight | Kyr |
+| Lawgiver | +3 charisma, +2 intelligence | 113 | anyone | Persuasion, Insight | Kyr |
+| Lawyer | +3 charisma, +2 intelligence | 75 | anyone | Persuasion, Insight | Kyr |
+| Legate | +3 charisma, +2 intelligence | 113 | anyone | Persuasion, Insight | Kyr |
+| Lord | +3 charisma, +2 intelligence | 113 | anyone | Persuasion, Insight | Kyr |
 | Magistrate | +3 intelligence, +3 wisdom, +2 charisma | 80 | anyone | Persuasion, Insight, Lore | Adapted |
+| Marquesa | +3 charisma, +2 intelligence | 113 | anyone | Persuasion, Insight | Kyr |
+| Minister | +3 charisma, +2 intelligence | 75 | anyone | Persuasion, Insight | Kyr |
 | Noble | +1 strength, +1 intelligence, +2 charisma, −1 constitution | 50 | anyone | Persuasion, Insight | Adapted |
+| Official | +3 charisma, +2 intelligence | 75 | anyone | Persuasion, Insight | Kyr |
+| Patron | +3 charisma, +2 intelligence | 113 | anyone | Persuasion, Insight | Kyr |
 | Politician | +3 charisma, +2 intelligence | 100 | anyone | Persuasion, Insight | Adapted |
+| Prince | +3 charisma, +2 intelligence | 75 | anyone | Persuasion, Insight | Kyr |
+| Princess | +3 charisma, +2 intelligence | 113 | anyone | Persuasion, Insight | Kyr |
 | Quaestor | +3 intelligence, +2 wisdom, +2 charisma | 50 | anyone | Persuasion, Insight | Adapted |
+| Queen | +3 charisma, +2 intelligence | 113 | anyone | Persuasion, Insight | Kyr |
+| Reeve | +3 charisma, +2 intelligence | 75 | anyone | Persuasion, Insight | Kyr |
 | Revolutionary | +3 charisma, +1 wisdom | 25 | anyone | Persuasion, Insight | Adapted |
 | Royalty | +3 charisma, +2 intelligence, +1 wisdom, −2 strength | 1000 | anyone | Persuasion, Insight | Adapted |
+| Secretary | +3 charisma, +2 intelligence | 113 | anyone | Persuasion, Insight | Kyr |
+| Secretary general | +3 charisma, +2 intelligence | 113 | anyone | Persuasion, Insight | Kyr |
+| Statesman | +3 charisma, +2 intelligence | 113 | anyone | Persuasion, Insight | Kyr |
 | Tax collector | +3 charisma, +2 intelligence | 70 | anyone | Persuasion, Insight | Adapted |
 | Tribune | +2 strength, +2 constitution, +2 intelligence, +2 wisdom, +2 charisma | 100 | anyone | Persuasion, Insight | Adapted |
+| Tyrant | +3 charisma, +2 intelligence | 113 | anyone | Persuasion, Insight | Kyr |
+| Viscount | +3 charisma, +2 intelligence | 113 | anyone | Persuasion, Insight | Kyr |
 
 ### The margins
 
@@ -939,17 +1308,31 @@ Brings stealth, and knows someone who hears news at an inn.
 
 | Background | Qualities | Gold | For | Brings | Status |
 |---|---|---|---|---|---|
+| Bystander | +2 strength, +2 constitution | 1 | anyone | Stealth | Kyr |
 | Caitiff | +3 dexterity, +2 constitution | 10 | anyone | Stealth | Adapted |
+| Chatterer | +2 strength, +2 constitution | 1 | anyone | Stealth | Kyr |
+| Degenerate | +2 strength, +2 constitution | 1 | anyone | Stealth | Kyr |
 | Drone | +2 constitution, +1 wisdom | 0 | anyone | Stealth | Adapted |
+| Drunkard | +2 strength, +2 constitution | 1 | anyone | Stealth | Kyr |
+| Egoist | +2 strength, +2 constitution | 1 | anyone | Stealth | Kyr |
 | Escaped slave | +2 strength, +2 constitution | 0 | anyone | Stealth | Adapted |
 | Exile | +2 strength, +2 constitution | 0 | anyone | Stealth | Adapted |
 | Experimental subject | +2 intelligence, +1 dexterity | 0 | anyone | Stealth | Adapted |
+| Heckler | +2 strength, +2 constitution | 1 | anyone | Stealth | Kyr |
+| Indolence | +2 strength, +2 constitution | 1 | anyone | Stealth | Kyr |
+| Lunatic | +2 strength, +2 constitution | 1 | anyone | Stealth | Kyr |
+| Madrileña | +2 strength, +2 constitution | 1 | anyone | Stealth | Kyr |
+| Miser | +2 strength, +2 constitution | 1 | anyone | Stealth | Kyr |
 | Mutant | +2 strength, +2 constitution | 0 | anyone | Stealth | Adapted |
+| Nobody | +2 strength, +2 constitution | 1 | anyone | Stealth | Kyr |
+| Opium eater | +2 strength, +2 constitution | 1 | anyone | Stealth | Kyr |
 | Outcast | +2 dexterity, +2 constitution, +1 wisdom | 5 | anyone | Stealth | Adapted |
+| Pauper | +2 strength, +2 constitution | 1 | anyone | Stealth | Kyr |
 | Plague survivor | +3 constitution, +1 wisdom | 5 | anyone | Stealth | Adapted |
 | Prisoner | +2 constitution, +1 wisdom | 0 | anyone | Stealth | Adapted |
 | Refugee | +2 wisdom, +1 charisma | 5 | anyone | Stealth | Adapted |
 | Thrall | +2 strength, +2 constitution | 0 | anyone | Stealth | Adapted |
+| Witness | +2 strength, +2 constitution | 1 | anyone | Stealth | Kyr |
 | Wretch | +2 constitution, +1 wisdom | 0 | anyone | Stealth | Adapted |
 
 ## Skills

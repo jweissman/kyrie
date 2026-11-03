@@ -100,7 +100,7 @@ export class WorldAssembler {
     region.provinces = await Provinces.regions(Provinces.situate(region), base);
     // One protagonist, with an origin in this world; or a company, each with an old acquaintance somewhere in it.
     const origin = options.origin ? (await Origins.load(base)).find(o => o.manifest.id === options.origin) : undefined;
-    const party = origin ? [Origins.member(origin.manifest, (options.party ?? this.party)[0]!)]
+    const party = origin ? [Origins.member(origin.manifest, (options.party ?? this.party)[0]!, !!options.party)]
       : options.party ?? this.party;
     const contacts = origin ? [] : this.contacts(region, party, seed);
     const slug = seed.replace(/[^A-Za-z0-9]/g, '').slice(0, 24) || 'world', root = `world-${slug}`;

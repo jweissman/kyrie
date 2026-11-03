@@ -16,7 +16,7 @@ export class Telling {
     address: 3, thank: 4, farewell: 4 };
   static readonly most = 3;
   static readonly authored: Record<string, string> = { join: 'joining', part: 'parting', greet: 'greeting',
-    address: 'greeting' };
+    address: 'greeting', farewell: 'farewelling' };
   static tell(campaign: Campaign, event: CampaignEvent): Voiced[] {
     const company = campaign.playerActor ?? 'party', past = campaign.history.filter(e => e !== event)
       .flatMap(e => e.voiced ?? []);
@@ -75,10 +75,13 @@ export class Telling {
     // Words said only while something holds (Leaves "…" when …) are not said, nor any others, when it does not.
     if (own && campaign.world.module.queries.some(q => q.name === `${own}_when`)
       && !campaign.world.test(ModuleWriter.call(`${own}_when`))) { return undefined; }
-    if (own && context.moment === 'first') {
+    // A farewell of their own is theirs every time; a joining or a parting the first time, and after it, nothing from
+    // the tables in another voice (the Grand Tour's 12: a second joining in the tables' words).
+    if (own && (context.moment === 'first' || h.kind === 'farewell')) {
       const words = campaign.module.entities.find(e => e.id === own)?.name ?? '';
       return { id: `own:${own}`, kind: h.kind, actor, text: Voice.render(words, speaking) };
     }
+    if (own && (h.kind === 'join' || h.kind === 'part')) { return undefined; }
     // Someone with their own words of greeting is not given the tables' afterwards: Tessary's corporal and its Factor
     // both said "Back for more of my wisdom", seven manners shared by thirty people (W18). Their own for a return
     // (Greets again) are said instead, if they have them.
@@ -91,9 +94,11 @@ export class Telling {
       }
       if (own) { return undefined; }
     }
-    // Of many, only what can be said of many.
-    const line = this.choose(Voice.fitting(h.kind, context).filter(l => !speaking.many || Voice.agrees(l)), memory.key,
-      memory.used);
+    // Of many, only what can be said of many; of a beast, nothing it would have to say (Fair Weather's 4: a dog that
+    // followed a second time said "'For a while, then.'").
+    const beast = !!VoiceContext.species(campaign, actor ?? '');
+    const line = this.choose(Voice.fitting(h.kind, context).filter(l => (!speaking.many || Voice.agrees(l))
+      && !(beast && /^['‘"“]/.test(l.text))), memory.key, memory.used);
     return line && { id: line.id, kind: h.kind, actor, text: Voice.render(line.text, speaking) };
   }
   static choose(lines: VoiceLine[], key: string, used: Set<string>): VoiceLine | undefined {

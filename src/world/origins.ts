@@ -54,8 +54,11 @@ export class Origins {
   // The protagonist as the origin makes them: its background (what they know how to do), which is what its story
   // says they are (a scribe of the order reads the old script), and what they carry. One that makes them nothing in
   // particular keeps the trade they chose.
-  static member(origin: OriginManifest, member: CreatureGenerationContext): CreatureGenerationContext {
-    return { ...member, ...origin.background ? { backgroundId: origin.background } : {},
+  // The origin's trade is the one set out with unless another was chosen (the owner, 3 November: an aphorist chosen
+  // at creation set out a trader, the origin's).
+  static member(origin: OriginManifest, member: CreatureGenerationContext, chosen = false): CreatureGenerationContext {
+    const own = chosen && member.backgroundId;
+    return { ...member, ...origin.background && !own ? { backgroundId: origin.background } : {},
       ...origin.gear ? { gear: [...member.gear ?? [], ...origin.gear] } : {} };
   }
   // The origin's module, written against this world, for the campaign to install after the region.

@@ -18,7 +18,8 @@ import orsinoItems from '../../data/catalog/orsino/items.json';
 import orsinoTraits from '../../data/catalog/orsino/traits.json';
 import orsinoBlessings from '../../data/catalog/orsino/blessings.json';
 import orsinoBackgrounds from '../../data/catalog/orsino/backgrounds.json';
-import { BackgroundCatalog, type BackgroundTables, type CompiledBackground } from './background-catalog';
+import professions from '../../data/catalog/professions.json';
+import { BackgroundCatalog, type BackgroundTables, type CompiledBackground, type KyrProfession } from './background-catalog';
 import type {
   Ability, Ancestry, CharacterClass, Combat, Condition, Deity, Domain, ItemKind, Organism, Procedure, Skill,
   Source, Species, Trait,
@@ -96,7 +97,8 @@ export class Canon {
   // Orsino's background rows composed with Kyr's background kinds (see BackgroundCatalog).
   static readonly backgrounds: Record<string, CompiledBackground> = BackgroundCatalog.compile(
     orsinoBackgrounds.backgrounds,
-    backgrounds as unknown as BackgroundTables, id => Object.hasOwn(Canon.items, Canon.resolve('items', id)));
+    backgrounds as unknown as BackgroundTables, id => Object.hasOwn(Canon.items, Canon.resolve('items', id)),
+    professions.professions as unknown as Record<string, KyrProfession>);
   static readonly backgroundKinds = (backgrounds as unknown as BackgroundTables).backgroundKindMeaning.groups;
   // A species with variantOf is its base with the variant's declared fields laid over it. Cycles are errors.
   static creature(id: string, seen: string[] = []): Species {
