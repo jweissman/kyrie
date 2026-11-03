@@ -1,0 +1,1 @@
+{ "version": 1, "source": ["ways.kyr", "skills.kyr", "goods.kyr"], "rules": ["world"], "globals": ["party"], "exports": { "party": "party" } }

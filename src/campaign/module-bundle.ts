@@ -123,14 +123,15 @@ export class ModuleBundle {
   // A module's own files, each read among every kind its files declare, as one file's are read among its own wherever
   // in it they are written: a felter in one file selling a cloak declared in another sold a trade good of that name,
   // which was no good at all (found with the architecture review's A7, its law read as the module's own).
-  // Each is read again only if a file after it declared kinds (a file knows its own wherever in it they are written).
+  // Each is read again only if a file after it declared kinds (a file knows its own wherever in it they are written);
+  // one that could not be read for a kind not yet declared is read again too, once every file has declared its own
+  // (Half the Hive's 8: kinds had to come in a file before the one that used them).
   private static own(files: SourceFile[]): Module[] {
     const read = files.map(f => {
-      const module = this.parsed(f, true);
-      return { module, kinds: LocalKinds.fingerprint() };
+      try { return { module: this.parsed(f, true), kinds: LocalKinds.fingerprint() }; } catch { return undefined; }
     });
     const all = LocalKinds.fingerprint();
-    return read.map((r, i) => r.kinds === all ? r.module : this.parsed(files[i]!, true));
+    return read.map((r, i) => r && r.kinds === all ? r.module : this.parsed(files[i]!, true));
   }
   // Several files of one module, joined: the first's identity, everything each declares. What each file declares
   // for itself as it is read (a way's kind, a thing's state) is declared once; anything else declared twice is still
