@@ -1,4 +1,5 @@
 import type { Operator, Predicate } from '../lang/module';
+import { PurchaseCompare } from './purchase-compare';
 import type { World } from '../lang/world';
 import { ActionTime } from '../campaign/action-time';
 import { FictionalTime } from '../campaign/fictional-time';
@@ -83,7 +84,7 @@ export class ChoiceGrouping {
     give_food: { slot: 'target', param: 'recipient', path: ['Give', 'one ration'] },
     attack: { slot: 'target', param: 'opponent', path: ['Attack'], risk: true },
     buy: { slot: 'target', param: 'merchant', path: ['Buy', '{goods} — 2 coin'] },
-    buy_item: { slot: 'target', param: 'merchant', path: ['Buy', '{find} — {price} coin', 'for {recipient}'],
+    buy_item: { slot: 'target', param: 'merchant', path: ['Buy', '{find} — {price} coin', 'for {recipient}{versus}'],
       also: { param: 'find', path: ['Buy from {merchant} — {price} coin', 'for {recipient}'] } },
     approach_wildlife: { slot: 'target', param: 'animal', path: ['Approach calmly ({skill})'] },
     request_passage: { slot: 'target', param: 'keeper', path: ['Invoke {identity}'] },
@@ -335,6 +336,8 @@ export class ChoiceGrouping {
       key === 'goodsfee' ? String(data.context.fees?.get(`${data.b.seller}:${data.b.goods}`) ?? 0) :
       key === 'sellfee' ? String(data.context.fees?.get(`pays:${data.b.buyer}:${data.b.form}`) ?? 0) :
       key === 'worthfee' ? String(data.context.fees?.get(`worth:${data.b.form}`) ?? 0) :
+      key === 'versus' ? (data.context.world ? PurchaseCompare.versus(data.context.world, data.b.form ?? '',
+        data.b.recipient ?? '', data.context.names) : '') :
         data.context.names.get(data.b[key] ?? key) ?? data.b[key] ?? key);
   }
   private static slot(map: Map<string, Act[]>, id: string): Act[] {

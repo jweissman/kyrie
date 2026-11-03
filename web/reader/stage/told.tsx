@@ -147,8 +147,8 @@ export class Told {
   // how many more the Book holds (an arrival had stacked five notes over the choices, pushing them off the screen).
   static few(notes: string[]): string[] {
     const aims = notes.filter(n => /^Aim( now)?: /.test(n)), rest = notes.filter(n => !aims.includes(n));
-    const more = rest.length - 2;
-    return [...aims, ...rest.slice(0, 2), ...more > 0 ? [`And ${more === 1 ? 'one thing more' : `${more} things more`}, in the Book.`] : []];
+    const room = aims.length ? 1 : 2, more = rest.length - room;
+    return [...aims, ...rest.slice(0, room), ...more > 0 ? [`And ${more === 1 ? 'one thing more' : `${more} things more`}, in the Book.`] : []];
   }
   // Something under way: said at once, in the player's words; a journey says where it goes and how long it is.
   static Working({ pending }: { pending: { said: string; travel?: Travel; stage?: string } }) {

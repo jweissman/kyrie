@@ -120,8 +120,10 @@ export class TalkStage {
     if (!w.buy) { return <span className={`ware none${w.price > coin ? ' dear' : ''}`}>{name}{price}</span>; }
     // Numbered, as what can be said is: the replies' numbers follow on from the wares'.
     if (!w.buy.children?.length) {
+      // Beside what the buyer has on in its place: "worse than your longsword" (see PurchaseCompare).
+      const versus = / · ((?:better|worse|as good) (?:than|as) your .+)$/.exec(w.buy.label)?.[1];
       return <Act.View choice={w.buy} draw={draw} className="ware"><span className="n"><i>{(draw.index.get(w.buy.id) ?? 0) + 1}</i>
-        {Typography.curl(Words.upper(w.name))}</span>{price}</Act.View>;
+        {Typography.curl(Words.upper(w.name))}</span>{price}{versus && <span className="t">{versus}</span>}</Act.View>;
     }
     return <div className="ware several">{name}{price}{w.buy.children.map(k => <Act.View key={k.id} choice={k} draw={draw}
       className="for">{Typography.curl(k.label)}</Act.View>)}</div>;

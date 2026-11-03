@@ -112,8 +112,8 @@ export class Affordances {
     return named.has(id) || [...named].some(n => n.startsWith(`${id}_`));
   }
   // Whether a way on from here is still not taken (not the road out): searching where the aim is comes after going
-  // on, at the churchyard the aim names, before the stair down to the crypt it is about (the cold review: search as
-  // an interface tax; OWN-57's play).
+  // on (at the churchyard the aim names, the stair down to the crypt first), and never where someone the aim names
+  // stands (the priest who owes for the catacombs, at her shrine): the cold review's search as an interface tax.
   private static onward(screen: Screen): boolean {
     return screen.exits.some(e => !e.visited && e.local && !e.blocked);
   }
@@ -189,7 +189,7 @@ export class Affordances {
       ...kind === 'rest' && n.hurt.size > 0 && !at.threat ? ['hurt' as const] : [],
       ...kind === 'search' && r.signs.has('') ? ['sign' as const] : [],
       ...kind === 'search' && r.named.has(r.here) && !r.done.has(c.command ?? '') && !this.onward(screen)
-        ? ['named' as const] : [],
+        && !screen.people.some(p => r.named.has(p.id)) ? ['named' as const] : [],
       ...this.ownWhy([c], r)];
     return [this.candidate(c, { kind, whys, r, notes: { dark: lit ? 'until first light' : 'in the dark',
       hungry: 'you are hungry', exposed: n.weary ? 'you are weary' : 'night in the open', named: 'where your aim is',
