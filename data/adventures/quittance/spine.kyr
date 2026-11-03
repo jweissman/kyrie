@@ -124,7 +124,7 @@ Module quittance "Quittance" {
   }
 
   // ── The acts ────────────────────────────────────────────────────────────────────────────────────────────
-  Chapter act_one "Assessment" when day(clock) == 0 and hour(clock) >= 8 "The Honest Bell is still shivering somewhere behind you, or you imagine it is. The city is already awake. In nine days it will be Reckoning.".
+  Chapter act_one "Assessment" when day(clock) == 0 and hour(clock) >= 8 "The city is already awake, and you are standing at its edge with a little money and nothing insured. In nine days it will be Reckoning.".
   Chapter act_two "Adjustment" when day(clock) == 3 and hour(clock) >= 6 "By morning the Slate has a new column, and the new column is mostly zeros. The Offices are very calm about it.".
   Chapter act_three "Settlement" when day(clock) == 6 and hour(clock) >= 6 "The Hall of the Five is being swept. A man on a ladder is taking down last year's bunting. In three days the city is to hang its Receipt, and the Receipt, which you have seen, is the colour of milk.".
   Chapter act_four "Reckoning" when day(clock) == 8 and hour(clock) >= 6 "The bells of the Exchange ring for the last time before the Reckoning. Every window in Policy Row has a candle in it, mark-insured, and not one of them is lit.".
