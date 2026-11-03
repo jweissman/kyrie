@@ -16,6 +16,7 @@ import { DrawnWorld } from '../world/drawn-world';
 import { NodeBundleSource } from '../campaign/node-bundle-source';
 import { PlayParts } from './play-parts';
 import { Traces, type Came } from './traces';
+import type { Happened } from './happened';
 
 export class PlayTool {
   static readonly usage = 'usage: kyrie play <campaign.json> [--as race/calling/Name[/background]] | --world <seed> [--origin o] [--as race/calling/Name]'
@@ -53,10 +54,12 @@ export class PlayTool {
     return { journey: Journey.of(await DrawnWorld.start(o.world, drawn, NodeBundleSource.shared)), lead: [] };
   }
   // A kept play's command played again, to where it comes (see Traces).
-  static async again(args: string[]): Promise<Came> {
+  // seen: what happened in it is added to (see Happened).
+  static async again(args: string[], seen?: Happened): Promise<Came> {
     const o = this.parse(args), { journey: j, lead } = await this.start(o);
     j.roll(o.roll);
     for (const step of [...lead, ...await this.steps(o.file), ...o.steps]) { await j.step(step); }
+    seen?.add(j);
     return this.came(j);
   }
   private static came(j: Journey): Came {

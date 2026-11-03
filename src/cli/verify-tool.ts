@@ -1,13 +1,15 @@
 // `kyrie verify <adventure>`: everything that holds an adventure to what it should be, in one: its campaign linted
 // (an error fails it, and a warning in a campaign the game offers), its tests (test/<adventure>.test.ts and every
 // test/<adventure>-*.test.ts, as `kyrie new` names a part's), and the traces kept of it (see Traces) played again to
-// what they came to. What fails is said, and the rest counted.
+// what they came to, with what of the adventure none of them came to (see Happened: the Grand Tour's GTR-X16). What
+// fails is said, and the rest counted.
 //   bin/kyrie verify <adventure>
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { KyrLint } from './kyr-lint';
 import { PlayTool } from './play-tool';
 import { Traces, type Kept } from './traces';
+import { Happened } from './happened';
 
 export class VerifyTool {
   static async main(args: string[], root = process.cwd(), print: (line: string) => void = console.log):
@@ -51,14 +53,16 @@ export class VerifyTool {
       .map(f => ({ name: Traces.named(f), k: JSON.parse(readFileSync(join(dir, f), 'utf8')) as Kept }))
       .filter(({ k }) => k.play?.includes(campaign) || (k.play?.includes('--in') && k.play.includes(adventure))) : [];
     let held = 0;
+    const happened = new Happened();
     for (const { name, k } of kept) {
-      const came = await PlayTool.again(k.play!);
+      const came = await PlayTool.again(k.play!, happened);
       const same = came.at === k.at && came.watch === k.watch && came.told === k.told;
       if (same) { held++; continue; }
       print(`  trace ${name}: came to ${came.at} at watch ${came.watch}, not ${k.at} at ${k.watch}`
         + `${came.told === k.told ? '' : ', and was told otherwise'}`);
     }
     print(`traces: ${held} of ${kept.length} come to what they came to`);
+    if (kept.length) { for (const line of happened.lines()) { print(`  in none of them: ${line}`); } }
     return held === kept.length;
   }
 }

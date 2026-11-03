@@ -683,6 +683,11 @@ kept traces):
 bin/kyrie verify ashhollow
 ```
 
+It says too what of the adventure none of its kept traces came to: each rule or event that says something and was
+never told, each ending never reached, milestone never achieved, and promise never made, kept or broken (a rule that
+says nothing is counted, not judged); `bin/kyrie reach <campaign.json>` says the same of a curious player's plays (the
+Grand Tour's 09 and 11: a rule that could never fire was found only by reading; `test/happened.test.ts`).
+
 ```
 bin/kyrie lint path/to/your.campaign.json
 ```
