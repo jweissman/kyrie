@@ -113,4 +113,13 @@ Module quittance "Quittance" {
     Assert motionLost(city). Assert decided(h_motion). }
   Observe hall_aftermath at hall_five when motionCarried(city) "The Hall empties slowly, in knots of clerks arguing about where to find a coal.".
   Observe hall_aftermath_lost at hall_five when motionLost(city) "The Hall empties quickly. Nobody is saying anything that could be quoted.".
+
+  // ── What the small adventures lend the Hearing ──────────────────────────────────────────────────────────
+  Relation ruleCited(group). Relation marksCited(group).
+  Rule mark_street_rule_cited when matterOpen(h_ordinance) and ms_rule(party) and not ruleCited(city)
+    says "The Chairman of the Lamprey, to everyone's surprise, rises on a point of order. 'The Mark Street Rule,' he says, 'provides that where two brigades quarrel over a plate, a third certification stands. It was devised by these persons, on the day, in front of a burning house. I propose that it stand for the Night.' The Chairman of the Phoenix's clerk writes it down, rather than not." {
+    Assert ruleCited(city). Increase argued(city) by 1. }
+  Rule forged_doors_cited when matterOpen(h_losses) and fg_network(party) and not marksCited(city)
+    says "The Chairman of the Providence has been handed a plate. It is a gilt bird, correct to the feather and not quite round. 'There are a dozen doors in the Wards,' he says, 'with one of these on them, and the brigades have been putting them out for a month. I cannot find that anybody has been defrauded.' He turns it over. 'I find that it is a rather good plate.'" {
+    Assert marksCited(city). Increase argued(city) by 1. }
 }
