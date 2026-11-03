@@ -118,7 +118,8 @@ describe('backgrounds in a generated region', () => {
     for (const c of [`go(region__${den}_track,region__${den})`, `den__smoke_out(party,region__${den})`]) { await s.perform(c); }
     expect(s.campaign.world.test(ModuleWriter.call('dead', 'den__beasts'))).toBe(false);
     expect(Worlds.ids(s)).toContain(`den__plunder(party,region__${den})`);
-    expect(s.campaign.state.creatures.find(c => c.id === 'region__party_1')!.state.experience).toBe(300);
+    // The den seen through (300), and found (10: every place is worth experience the first time it is reached).
+    expect(s.campaign.state.creatures.find(c => c.id === 'region__party_1')!.state.experience).toBe(310);
   }, 60000);
   it('change where the company first hears of a scenario, and not whether it exists', async () => {
     const a = await Worlds.assemble('thorn', 'mountain');

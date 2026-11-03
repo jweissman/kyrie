@@ -22,15 +22,16 @@ describe('advancement', () => {
     expect(Advancement.worth(content.createCreature('r', { raceId: 'revenant' }))).toBe(300);
     expect(Advancement.worth(content.createCreature('h', { raceId: 'human', classId: 'warrior', level: 2 }))).toBe(60);
   });
-  // Half of Orsino's reward (worth, ten for the square of the number, and 25) to each who stood: shared among them, a
-  // companion had halved what one earned (the play-structure investigation's PT-03).
+  // Half of Orsino's reward (worth, ten for each of them, and 25) to each who stood: shared among them, a companion had
+  // halved what one earned (the play-structure investigation's PT-03); by the square of their number, four rats had
+  // been more than a level (the cold review of 1 November).
   it('gives each who stood half of Orsino\'s reward for a won fight, so a companion costs nothing', () => {
     const content = new Content('share');
     const hounds = ['h1', 'h2'].map(id => content.createCreature(id, { raceId: 'bone_hound', level: 2 }));
     const company = ['a', 'b', 'c', 'd'].map(id => content.createCreature(id, { raceId: 'human', classId: 'warrior' }));
     company[2]!.state.hp = 0;
     const store = new CreatureStore([...hounds, ...company]), world = { module: { measures: [] } } as unknown as World;
-    const half = Math.floor((2 * Advancement.worth(hounds[0]!) + 10 * 2 * 2 + 25) / 2);
+    const half = Math.floor((2 * Advancement.worth(hounds[0]!) + 10 * 2 + 25) / 2);
     FieldUse.award(store, ['a', 'b', 'c'], world, { opponent: 'hounds', members: ['h1', 'h2'], events: [] });
     FieldUse.award(store, ['d'], world, { opponent: 'hounds', members: ['h1', 'h2'], events: [] });
     expect(['a', 'b', 'c', 'd'].map(id => store.get(id).state.experience)).toEqual([half, half, 0, half]);

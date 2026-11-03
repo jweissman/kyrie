@@ -703,7 +703,7 @@ is above). A row "with" another is answered by that row.
 | REV-19 | Important actions gated by schedules without notice (innkeeper only at night) | The cold review, Navigation | C | P2 | Open | Not reproduced in kin |
 | REV-20 | Item comparison and recipient confirmation before purchase | The cold review, P0 list 4 | A | P0 | Fixed | A weapon or armour for sale says what it is beside what its buyer has on in the same place ("worse than your battleaxe": PurchaseCompare, on the purchase and on the counter's ware); in a company each buyer is chosen on the purchase |
 | REV-21 | Adversarial-order quest-path tests | The cold review, P0 list 1 | F | P1 | Partial | test/drowned-stair.test.ts searches before draining |
-| REV-22 | Level 2 a large discontinuity; XP in accelerating bursts; training opaque | The cold review, Progression | C | P1 | Partial | Undertown troubles' worth set (a74cf05e); swarm term open |
+| REV-22 | Level 2 a large discontinuity; XP in accelerating bursts; training opaque | The cold review, Progression | C | P1 | Fixed | Undertown troubles' worth set (a74cf05e); swarm term open; the swarm term ten for each foe, not ten for the square of their number (FieldUse.award): four rats had been more than a level |
 | REV-23 | The rival expedition's progress invisible and inconsequential | The cold review, Time pressure | C | P2 | Open |  |
 | REV-24 | Notes in layers; NPC rumour menus curated; HP growth flattened; treasure with several destinations | The cold review, P2 list | C | P2 | Open |  |
 

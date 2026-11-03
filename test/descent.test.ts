@@ -5,6 +5,7 @@ import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { PlaySession } from '../src/session/play-session';
 import { PlayerView } from '../src/presentation/player-view';
 import { ModuleWriter } from '../src/lang/module-writer';
+import type { CreatureStore } from '../src/creature-store';
 
 // The principal demonstration, kept four times over: deep sites played to their hearts by the page's own choices
 // (test/fixtures/descent/<seed>.choices, one choice's words a line, matched as test/long-expedition matches them). In
@@ -30,6 +31,11 @@ class Descent {
     const w = await WorldAssembler.assemble(seed, NodeBundleSource.shared,
       { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId }] });
     const s = await PlaySession.start(w.path, seed, w.source);
+    // A purse for the road: the routes were written when a treasure sold for its whole worth, and buy their light,
+    // food and glossaries from what they sell; a dealer pays half now (the cold review of 1 November).
+    const store = (s.campaign as unknown as { creatures: CreatureStore }).creatures;
+    const lease = store.acquire(s.campaign.state.partyIds);
+    try { lease.creatures[0]!.state.gold += 120; lease.commit(lease.creatures); } finally { lease.release(); }
     for (const [i, step] of this.choices(seed).entries()) {
       const re = new RegExp(step, 'i'), c = PlayerView.choices(s.campaign).find(x => re.test(x.choice.name));
       const offered = () => PlayerView.choices(s.campaign).map(x => x.choice.name).join(' | ');

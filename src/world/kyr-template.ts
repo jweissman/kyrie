@@ -15,10 +15,12 @@ export class KyrTemplates {
     let id = '', about = '', section: KyrSection | undefined;
     const sections: KyrSection[] = [];
     for (const line of text.split('\n')) {
-      const head = /^#\s*([\w-]+):\s*(.*)$/.exec(line), start = /^---\s+(\w+)(?:\s+(\w+))?(?:\s+(\d+))?\s*$/.exec(line);
+      const head = /^#\s*([\w-]+):\s*(.*)$/.exec(line);
+      const start = /^---\s+(\w+)(?:\s+(\w+))?(?:\s+(\d+))?\s*$/.exec(line);
       if (head && !section) { id = head[1]!; about = head[2]!; }
       else if (start) {
-        section = { group: start[1]!, option: start[2] ?? start[1]!, weight: Number(start[3] ?? 1), lines: [], said: [] };
+        section = { group: start[1]!, option: start[2] ?? start[1]!, weight: Number(start[3] ?? 1), lines: [],
+          said: [] };
         sections.push(section);
       } else if (section && line.startsWith('>>')) { section.said.push(line.slice(2).trim()); }
       else if (section && line.trim() && !line.trim().startsWith('//')) { section.lines.push(line); }
