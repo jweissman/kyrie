@@ -380,7 +380,12 @@
    "far": "the dead who fought every day in the snow above a mountain hamlet have stopped, and nobody knows why",
    "after": {
     "talk": "The carters coming down from the west say there is news out of Larum, and cannot agree whether the dead up the Pass have started again or not, and argue about it at the tables.",
-    "told": "{keeper} hears you out about Larum and the Pass and the town of shields, and is quiet a while. 'The dead,' {keeper} says at last. 'Making bread.' {keeper} shakes their head. 'My grandfather fought at Coldharbour. He always said he hoped there was nothing after. I'll not tell him.' Then, after a moment, looking at your hands: 'You're cold. Come to the fire.'"
+    "told": "{keeper} hears you out about Larum and the Pass and the town of shields, and is quiet a while. 'The dead,' {keeper} says at last. 'Making bread.' {keeper} shakes their head. 'My grandfather fought at Coldharbour. He always said he hoped there was nothing after. I'll not tell him.' Then, after a moment, looking at your hands: 'You're cold. Come to the fire.'",
+    "by": {
+     "loud": {
+      "told": "{keeper} hears you out about Larum and the Pass and the town of shields, and is quiet a while. 'The carters said the sky up there had started again,' {keeper} says at last. 'Like a smithy, all day, on a still day. I thought they were drunk.' {keeper} shakes their head. 'The dead. Making bread, and going up in the morning to be killed again.' Then, after a moment, looking at your hands: 'You're cold. Come to the fire.'"
+     }
+    }
    }
   },
   {

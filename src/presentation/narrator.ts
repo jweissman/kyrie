@@ -57,8 +57,13 @@ export class Narrator {
     const under = !told || (told.moved && this.cameOut(campaign, told.event));
     // Why a way is shut is told the first time it is seen shut; after, the way says it (A Winter in Carth's friction
     // 12: the gaol's hours were told each time the company came into the Close).
+    // A thing come to as a rule there changes it is told after the rule's words, as what came of them, not with the
+    // place or with what is here before them: the Lull's chair was told ravelled before the Watching that ravelled it
+    // (its friction 11, LUL-08).
+    const altered = told?.moved ? screen.observed.filter(o => this.altered(this.def(defs, o.id), told.event)) : [];
     const kept = this.unsaid(screen.observed.filter(o => this.tells(this.def(defs, o.id), { shelter, known,
-      arrived: under, turned, here: screen.place.id }) && !(/__shut$/.test(o.id) && seenBefore.has(o.id))), opening);
+      arrived: under, turned, here: screen.place.id }) && !(/__shut$/.test(o.id) && seenBefore.has(o.id))
+      && !altered.includes(o)), opening);
     // What has changed since the company was last here is told under that, not twice.
     const changed = known && told?.moved ? screen.fresh : [];
     const exchange = told && this.exchange(campaign, told);
@@ -70,6 +75,7 @@ export class Narrator {
     // onto the crest, a room a torch shows) is told as what happened.
     if (exchange && !probing && told.moved) { exchange.lines = exchange.lines.filter(l => l.kind !== 'change'
       || !kept.some(k => Narration.sentence(k.text) === l.text)); }
+    exchange?.lines.push(...altered.map(o => ({ text: Narration.sentence(FictionalTime.prose(o.text)), kind: 'change' as const })));
     const echoed = new Set((exchange?.lines ?? []).map(l => l.text));
     // Nor is what it told again by another name, now that what it taught names it (a doorway seen from a tower, known
     // then for the ruin it is).
@@ -103,6 +109,11 @@ export class Narrator {
       ...journey.length ? { journey } : {},
     });
     return { ...leaf, glance: Glance.of(campaign, screen, told, { kept, known, changed: fresh, opened: !!opening }) };
+  }
+  // Whether what is seen is a thing's state that the command itself set.
+  private static altered(def: Observation | undefined, event: CampaignEvent): boolean {
+    const when = def?.when;
+    return when?.kind === 'call' && when.name === 'state' && event.changes.includes(`+ state(${when.args.join(', ')})`);
   }
   // What an opening told just before is left out of the place (see Prologue).
   private static unsaid<T extends { id: string }>(lines: T[], opening?: Opening): T[] {

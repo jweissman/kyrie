@@ -58,7 +58,7 @@ export class Frontier {
       country = this.fits(campaign, at[1]!, side);
       if (country) {
         // What the country below says of it, which it marks old news when it is seen through (optional to it).
-        const word: Record<string, string> = country.after ? { word: `${at[1]!}.edge_${side}_beyond` } : {};
+        const word = Frontier.word(country, `${at[1]!}.edge_${side}_beyond`);
         await campaign.install({ id: rid, bundle: this.base.resolve(`data/adventures/${country.bundle}`),
           imports: { party: `${RegionWriter.id}.party`, ...word, ...await this.herald(campaign, country) }, chapter: true },
         this.base, false, true);
@@ -83,7 +83,7 @@ export class Frontier {
   private async province(campaign: Campaign, id: string) {
     const country = Countries.provinces.find(c => c.id === id), install = Provinces.install(id);
     if (!country || campaign.installed.includes(install)) { return; }
-    const word: Record<string, string> = country.after ? { word: `${RegionWriter.id}.${Provinces.room(id)}_beyond` } : {};
+    const word = Frontier.word(country, `${RegionWriter.id}.${Provinces.room(id)}_beyond`);
     await campaign.install({ id: install, bundle: this.base.resolve(`data/adventures/${country.bundle}`),
       imports: { party: `${RegionWriter.id}.party`, ...word, ...await this.herald(campaign, country) }, chapter: true,
       within: `${RegionWriter.id}__region` }, this.base, false, true);
@@ -163,6 +163,12 @@ export class Frontier {
     if (!at || !campaign.module.entities.some(e => e.id === `${here}__edge_${side}_beyond`)) { return undefined; }
     const c = Countries.plan(this.seed, this.first(campaign)).get(WorldGrid.id(...WorldGrid.next(at, side)));
     return c && c.side === side && !campaign.module.entities.some(e => e.id.endsWith(`__${c.marker}`)) ? c : undefined;
+  }
+  // What the country below says of a country, which it marks old news when it is seen through, and each way it may go
+  // there (word_<way>), all optional to it (The Quiet in the Sky's friction 4).
+  private static word(country: Country, said: string): Record<string, string> {
+    if (!country.after) { return {}; }
+    return { word: said, ...Object.fromEntries(Object.keys(country.after.by ?? {}).map(k => [`word_${k}`, `${said}_${k}`])) };
   }
   // Whether a campaign is a generated world (its manifest is one the assembler wrote), which can go on past its edges.
   static generated(scenario: string): boolean { return /(^|\/)world-[^/]*\.campaign\.json$/.test(scenario); }

@@ -1,0 +1,17 @@
+Module interrupted "A watch kept in the dark, and what broke it off" {
+  Place stores "the stores" is building.
+  Place gallery "the gallery" is room within stores at 0, 0 indoors.
+  Place limbo "nowhere" is room within stores at 5, 5 indoors.
+  Company party "You" of 1 at gallery.
+  Initially Assert unlit(gallery).
+  Person moth "the moth" at limbo { Role "a moth". Ancestry human. Peaceable. }
+  Rule moth_in when watch(clock) >= 2 and not at(moth, gallery) { Assert at(moth, gallery). }
+  Observe moth_sound at gallery as sound when at(moth, gallery)
+    "Something pats along the wall in the dark, and stops close by.".
+  Action sit(actor: group, site: place) "Sit in the dark" {
+    Requires at(actor, site) and able(actor) and not at(moth, gallery).
+    Time 6.
+    Interrupted when at(moth, gallery).
+    Result "You sit until morning.".
+  }
+}

@@ -406,8 +406,11 @@ they say back, and what saying it does.
 `once` means what it does is done once. A topic that did nothing but teach (an answer, a way, a name) is offered
 afterwards as "Ask {priest} again about …", for the same answer and nothing more: a player who has forgotten what was
 said can hear it again (the notes keep it too). One that did anything else (a letter given, a key handed over) is
-not offered again. A journey step that names the first wording matches the "again" offer once the first is gone, so a
-step meant to ask once comes before anything that would ask it again.
+not offered again. Only a topic worded as a question ("Ask {priest} about …", "… why …") is offered again; one worded
+otherwise ("Tell …", "Put it to …") goes once said. Write `once only` for a question whose subject can go (a man asked
+why he will not go home, who later does): it is not offered again, and needs no guard of its own to stop being asked.
+A journey step that names the first wording matches the "again" offer once the first is gone, so a step meant to ask
+once comes before anything that would ask it again.
 
 What a topic or an action puts in the company's hands is given in so many words: `Give davy_coat to actor.` gives the
 coat to the first of the company who is up, out of whoever had it or from wherever it lay, and the page says "You take
@@ -1116,7 +1119,12 @@ An ending closes the book. The first whose condition holds is reached once: its 
 stops, and the page closes on its title and epilogue, as it does when no one is left standing
 (`test/fixtures/probes/ending`). That is so of an adventure played on its own; placed in a generated world (as every
 adventure is, a province of the first country) its ending closes its chapter only, and the world goes on: what its
-folk say after (`after` in countries.json) and its aftermath's rules are its dénouement (Fair Weather's 6):
+folk say after (`after` in countries.json) and its aftermath's rules are its dénouement (Fair Weather's 6). What they
+say can follow which way it went: `after.by` gives each way its own `talk` or `told`, told once the module marks that
+way's word stale as well as its `word` (`word_loud`, declared, imported and optional like `word`: Larum's sky loud
+again; the Quiet in the Sky's 4). An ending is reached only by a company that has stood in one of its module's places,
+its own or one it imports: a city's verdict does not end the game of a company that never came to the city (Gosse's
+Company's friction; `test/fixtures/probes/never-there`):
 
 ```text
   Ending opened "The Gate Opens" when state(lever, up) "The gate grinds open on the valley beyond, and the pass is yours.".

@@ -1,0 +1,20 @@
+Module talkers "A dog run down, and a raven with something to say" {
+  Place strand "the strand" is wilderness.
+  Place flats "the flats" is room within strand at 0, 0 outdoors.
+  Company party "You" of 1 at flats.
+  Species ship_dog "a ship's dog" like dog temperament wary
+    described "A big black water-dog.".
+  Person admiral "Admiral" at flats { Role "a black water-dog". Species ship_dog. Peaceable. Pronouns he. }
+  Species old_raven "a raven" like dog temperament wary described "A raven, old and grey at the beak.".
+  Person croaker "Croaker" at flats { Role "an old raven". Species old_raven. Peaceable. Pronouns he. }
+  Relation caught(group).
+  Action run_down(actor: group, site: place) "Run the black dog down" {
+    Speaker admiral.
+    Requires able(actor) and at(actor, site) and not caught(admiral).
+    On success { Assert caught(admiral). }
+    Result "You run him down at the tideline.".
+  }
+  Topic croak with croaker "Ask Croaker about the wreck" when true {
+    Says "'Gone down,' says Croaker. 'All gone down.'".
+  }
+}

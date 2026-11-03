@@ -116,14 +116,15 @@ export class CampaignTick {
       && world.test(ModuleWriter.call('benighted', player));
     return !dark && LocalObservations.noticed(world, actor, player);
   }
-  // The world's rules, in the order they are declared; then a way's opening once more, so that a gate declared
+  // The world's rules, in the order they are declared, but for what follows on from them (late); then a way's opening
+  // once more, and what follows on, so that a gate declared
   // before the rule that lets the company through is open as soon as it has (Low Water's 1, the Assayers' gate; What
   // Tessary Owes' W10, the black wall that shut a watch late). began is the world as the watch began, before anyone
   // acted in it: what the company perceived then it heard said in the watch (see heard).
   static rules(host: TickHost, happenings: Happening[], began: World = host.world) {
     const rules = host.module.rules ?? [];
-    for (const rule of rules) { this.fire(host, rule, happenings, { began }); }
-    for (const rule of rules) { if (rule.upkeep) { this.fire(host, rule, happenings, { began }); } }
+    for (const rule of rules) { if (!rule.late) { this.fire(host, rule, happenings, { began }); } }
+    for (const rule of rules) { if (rule.upkeep || rule.late) { this.fire(host, rule, happenings, { began }); } }
   }
   // What is read again once the rules of the moment have run, read once as a game begins, before anyone acts: a way
   // open by day, or a change made only while nobody watches, is so from the first, not from the first watch (GTR-07:
@@ -140,9 +141,12 @@ export class CampaignTick {
   // company had done something else, and an ending on what it taught later still (the Grand Tour's friction 23).
   static answer(host: TickHost, since: World): Happening[] {
     const happenings: Happening[] = [], rules = host.module.rules ?? [], at = { began: host.world, since };
-    for (const rule of rules) { if (this.stirred(host.world, rule, since)) { this.fire(host, rule, happenings, at); } }
     for (const rule of rules) {
-      if (rule.upkeep && this.stirred(host.world, rule, since)) { this.fire(host, rule, happenings, at); }
+      if (!rule.late && this.stirred(host.world, rule, since)) { this.fire(host, rule, happenings, at); }
+    }
+    for (const rule of rules) {
+      const again = rule.upkeep || rule.late;
+      if (again && this.stirred(host.world, rule, since)) { this.fire(host, rule, happenings, at); }
     }
     return happenings;
   }

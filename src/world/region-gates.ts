@@ -13,7 +13,7 @@ export class RegionGates {
   }
   static ids(region: Region): string[] {
     return (region.provinces ?? []).flatMap(p => [Provinces.room(p.country), `${Provinces.room(p.country)}_land`,
-      `${Provinces.room(p.country)}_beyond`]);
+      ...RegionBorders.words(`${Provinces.room(p.country)}_beyond`, Provinces.country(p.country).after)]);
   }
   private static gate(region: Region, p: Province): string[] {
     const q = JSON.stringify, id = Provinces.room(p.country), [x, y] = RegionGeography.spot(region, p.gate.cell);

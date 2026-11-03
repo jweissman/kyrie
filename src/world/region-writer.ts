@@ -13,6 +13,7 @@ import { RegionGates } from './region-gates';
 import { Provinces, type Province } from './provinces';
 import type { Atlas } from './land/atlas';
 import type { Side } from './land/borders';
+import type { After } from './countries';
 import type { History } from './history/histories';
 import { RegionWorks } from './region-works';
 import { RegionFellows } from './region-fellows';
@@ -63,7 +64,7 @@ export interface Region extends Naming {
   // One with no road over into it from here (an authored country entered from another side) is closed, and the
   // folk may know the country it is entered from (way).
   beyond?: Partial<Record<Side, { name: string; terrain: string; rumour?: string; heard?: string; topic?: string;
-    notice?: { name: string; text: string; talk: string }; after?: { talk: string; told: string }; closed?: boolean;
+    notice?: { name: string; text: string; talk: string }; after?: After; closed?: boolean;
     way?: string; skyline?: string }>>;
   // The authored countries its folk have heard of further off, beyond the countries next to theirs (Countries.further).
   further?: { side: Side; via: string; then: Side; name: string; terrain: string; far: string; id: string }[];
@@ -234,7 +235,8 @@ export class RegionWriter {
     ...zones.flatMap(z => [z.id, ...RegionZones.rooms(region, z), ...RegionZones.passages(region, z)]),
     ...RegionGeography.atlas(region).borders.flatMap(b => [RegionBorders.room(b), `${RegionBorders.room(b)}_land`,
       // What is said of an authored country beyond, which the country marks old news once it is seen through.
-      ...RegionBorders.remembers(region.beyond?.[b.side]) ? [`${RegionBorders.room(b)}_beyond`] : []]),
+      ...RegionBorders.remembers(region.beyond?.[b.side])
+        ? RegionBorders.words(`${RegionBorders.room(b)}_beyond`, region.beyond?.[b.side]?.after) : []]),
     ...RegionGates.ids(region),
     ...(region.history?.makers ?? []).flatMap(m => [`history_${m.art}`, `history_${m.art}_fate`]),
     ...region.history ? ['history_successors'] : [],

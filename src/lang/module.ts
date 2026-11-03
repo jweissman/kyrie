@@ -39,6 +39,10 @@ export interface Query { name: string; parameters: { name: string; type: string 
 export interface Operator {
   searchPlace?: string;
   report?: string; seen?: string; speaker?: string; movement?: ExitDefinition;
+  // Written as a Topic: something to be asked of its speaker, who is someone to talk to for it. An action merely
+  // spoken by someone (Speaker) does not make them so: a dog run down had become "Talk to Admiral" (Fair Weather's
+  // friction 14, FWR-14).
+  topic?: boolean;
   // What is told when it does not come off (a check failed): Otherwise "The goblins laugh at you.".
   otherwise?: string;
   // What cannot be undone by it, said before it is done: the page asks first (Grave "…").
@@ -78,6 +82,9 @@ export interface WorldRule {
   teaches?: string;
   // Read again once the rules of the moment have run: a way's opening (see WorldConstructs.opening).
   upkeep?: boolean;
+  // Read only once the rules of the moment have run: what follows on from them (the next matter taken up, once what
+  // came of the last has been said: see Occasions).
+  late?: boolean;
   // Said only where the company hears it, and until then not done but held as news: a promise's line, for the one it
   // was made to (see Promises.lower).
   held?: boolean;

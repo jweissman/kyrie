@@ -3,6 +3,7 @@ import type { Exchange, Frame } from '../../engine/protocol';
 import type { SceneSubject } from '../../../src/ui/scene';
 import type { ReaderApp, Travel } from '../reader-app';
 import { Typography } from '../../../src/presentation/typography';
+import { Narration } from '../../../src/presentation/narration';
 import { Words } from '../words';
 import { MenuModel } from '../menu-model';
 import { Moments } from './moments';
@@ -26,9 +27,8 @@ export class Told {
     const s = app.state, frame = s.frame!, leaf = frame.leaf, screen = frame.screen, exchange = leaf.exchange;
     const told = !whole && exchange && (exchange.lines.length || exchange.notes.length) ? exchange : undefined;
     const stayed = !leaf.moved && !!told;
-    // Hurt on the way in (a trap's blade), what happened comes before the place, whose telling says what it left (play
-    // 9 read "The hidden switch has gone off, and is spent." before "A scything blade swings through the air.").
-    const struck = !stayed && !!told && told.lines.some(l => Told.harm.test(l.text));
+    // Hurt on the way in, what happened comes before the place (see Narration.placeFirst).
+    const struck = !stayed && !!told && !Narration.placeFirst(true, told.lines);
     const subjects = app.menu.scene?.subjects ?? [];
     // What someone here is doing is told with them, not again in the telling (an origin's greeting was told twice);
     // so is what a danger is doing, in its own block.
@@ -59,7 +59,7 @@ export class Told {
       {!s.pending && told && !stayed && !struck && <Told.Happened exchange={told} ready={Moments.ready(screen)} app={app} />}
     </>;
   }
-  static readonly harm = /\btakes? \d+ [a-z]+ damage\b/;
+  static readonly harm = Narration.harm;
   // The chapter a place opens (a country come into, a story's chapter), the place's name, and where and when.
   static Heading({ frame }: { frame: Frame }) {
     const heading = frame.leaf.heading;

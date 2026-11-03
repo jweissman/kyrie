@@ -13,7 +13,7 @@ import { ModuleWriter } from '../lang/module-writer';
 import { Cast } from './cast';
 import { ItemTraits } from './item-traits';
 import type { CampaignActor, CampaignDefinition } from './definition';
-import type { Instance, Operator, Module, Person } from '../lang/module';
+import type { Instance, Operator, Module, Person, Predicate } from '../lang/module';
 import { EngineOwned } from '../lang/engine-owned';
 
 interface GoalSource {
@@ -46,7 +46,7 @@ export class ModuleAssembly {
     const module = this.joined(situation, rules, manifest);
     Spatial.addEscorts(module); Spatial.addSearches(module);
     Spatial.placeFacts(module); Cast.itemKinds(module); Cast.professions(module, situation.people ?? []);
-    this.talkers(module, manifest.imports ?? []);
+    this.talkers(module, manifest.imports ?? []); this.unheld(module); this.present(module, situation);
     const { cast, conflicts, company, people } = this.people(module, situation.people ?? [], manifest);
     const seen = (situation.people ?? []).filter(p => p.seen);
     if (seen.length) { module.seen = Object.fromEntries(seen.map(p => [p.id, p.seen!])); }
@@ -227,13 +227,47 @@ export class ModuleAssembly {
       module.initial.push({ kind: 'assert', call: ModuleWriter.call('itemKind', id, kind) });
     }
   }
-  // Who can be talked to: a person of an ancestry (not a beast of a species), and anyone with something to be asked.
-  // Someone a module borrows from another (an imported innkeeper) is said to talk by the module that has them.
+  // Who can be talked to: a person of an ancestry (not a beast of a species), and anyone with something to be asked
+  // (a Topic), not anyone an action is spoken by (Fair Weather's friction 14). Someone a module borrows from another
+  // (an imported innkeeper) is said to talk by the module that has them.
   private static talkers(module: Module, imported: string[]) {
     if (!module.relations.some(r => r.name === 'talks')) { return; }
     const ids = new Set([...(module.people ?? []).filter(p => !p.creature && !(p.raceId && Canon.isSpecies(p.raceId)))
-      .map(p => p.id), ...module.actions.flatMap(a => a.speaker && !imported.includes(a.speaker) ? [a.speaker] : [])]);
+      .map(p => p.id), ...module.actions.flatMap(a => a.topic && a.speaker && !imported.includes(a.speaker)
+      ? [a.speaker] : [])]);
     for (const id of ids) { module.initial.push({ kind: 'assert', call: ModuleWriter.call('talks', id) }); }
+  }
+  // A particular thing to be had by an action (a pledge redeemed, a parcel handed over) cannot be had while anyone
+  // holds it: the Third Night's pledges, picked up off the pawnbroker's floor, then paid for, threw "Item already
+  // owned" out of the paying (its friction 9, TTN-09). The action is simply not offered.
+  private static unheld(module: Module) {
+    if (!module.relations.some(r => r.name === 'ownedItem')) { return; }
+    for (const action of module.actions.filter(a => ['acquire', 'purchase'].includes(a.resolve?.name ?? ''))) {
+      const item = action.resolve!.args[0]!;
+      if (action.parameters?.some(p => p.name === item)) { continue; }
+      action.requires = { kind: 'and', left: action.requires,
+        right: { kind: 'not', value: ModuleWriter.call('ownedItem', item, '?holder') } };
+    }
+  }
+  // An ending is of a module the company has come into, one of whose places (its own, or one it names) it has stood
+  // in: a company that never left Wending Cross was ended by Pentrice's verdict, from a city it had never entered
+  // (Gosse's Company's friction, GOS-06), and every ending there had been guarded by hand.
+  private static present(module: Module, situation: Module) {
+    const places = situation.entities.filter(e => e.type === 'place').map(e => e.id);
+    const endings = (module.rules ?? []).filter(r => r.effects.some(c => c.kind === 'assert' && c.call.name === 'reached'));
+    if (!places.length || !endings.length || !module.relations.some(r => r.name === 'company')) { return; }
+    const came = ModuleWriter.call('companyCameHere'), call = ModuleWriter.call;
+    module.relations.push({ name: came.name, types: [], exclusive: false },
+      { name: 'placeHere', types: ['place'], exclusive: false });
+    module.initial.push(...places.map(p => ({ kind: 'assert' as const, call: call('placeHere', p) })));
+    const among: Predicate = { kind: 'and', left: call('company', '?c'),
+      right: { kind: 'and', left: call('at', '?c', '?p'), right: call('placeHere', '?p') } };
+    module.rules!.unshift({ id: 'company_came_here', when: { kind: 'and', left: { kind: 'not', value: came }, right: among },
+      effects: [{ kind: 'assert', call: came }] });
+    for (const r of endings) {
+      r.when = r.when.kind === 'and' ? { ...r.when, left: { kind: 'and', left: r.when.left, right: came } }
+        : { kind: 'and', left: r.when, right: came };
+    }
   }
   private static references(module: Module, cast: SituationManifest['creatures']) {
     if (module.relations.some(r => r.name === 'fieldUsable')) {

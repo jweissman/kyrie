@@ -34,6 +34,8 @@ describe('The Quiet in the Sky in the world', () => {
     expect(holds('outcomeDaily', 'field_country')).toBe(true);
     expect(c.running).toBe(true);
     expect(c.world.related('stale').length).toBeGreaterThan(0);
+    // The country below hears which way it went, the sky loud again, and says so (its friction 4, QIS-02).
+    expect(c.world.test({ kind: 'call', name: 'stale', args: ['region__gate_larum_beyond_loud'] })).toBe(true);
     expect(j.page).toMatch(/iron on iron/);
     // Walked back up afterwards: the Daily on the Field, and where Halt was, nothing.
     await j.play('Out to Larum street', 'To the foot of the Pass', 'To the White', 'Through to the Coming-in');

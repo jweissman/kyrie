@@ -16,3 +16,17 @@ describe('an occasion', () => {
     expect(j.watch()).toBe(j.measure('matterSince', 'p__boat') + 3);
   }, 30000);
 });
+
+// A matter decided by a rule as its time runs out is told before the next is called: "No living thing came ashore of
+// her" had come after "The second matter" (Fair Weather's friction 7, FWR-07).
+describe('a matter its time runs out on', () => {
+  it('is decided, and told so, before the next is taken up', async () => {
+    const j = await Journey.start('test/fixtures/probes/matter-lapses/probe.campaign.json');
+    await j.play('=until occasionOver(court)');
+    const page = j.page;
+    expect(page.indexOf('No living thing came ashore')).toBeGreaterThan(-1);
+    expect(page.indexOf('No living thing came ashore')).toBeLessThan(page.indexOf('The second matter'));
+    expect(j.holds('matterOpen', 'p__dog')).toBe(false);
+    expect(j.holds('matterDone', 'p__dog')).toBe(true);
+  }, 30000);
+});

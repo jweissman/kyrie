@@ -1,0 +1,17 @@
+Module pledges "A pawnbroker's pledges, picked up off her floor and then paid for" {
+  Place town "the town" is settlement.
+  Place shop "Mrs Pratt's shop" is room within town at 0, 0.
+  Company party "You" of 1 at shop.
+  Person pratt "Mrs Pratt" at shop { Role "a pawnbroker". Ancestry human. Peaceable. Pronouns she. }
+  Kind pledge_kind "a pawned clock" is treasure worth 2 weighing 1 described "A little brass clock with a ticket on it.".
+  Item pledge "the pawned clock" is pledge_kind at shop.
+  Relation redeemed(group).
+  Action redeem(actor: group, recipient: member, site: place) "Pay Mrs Pratt for the pawned clock" {
+    Speaker pratt. Time 1 minute.
+    Requires able(actor) and at(actor, site) and at(pratt, site) and not redeemed(actor)
+      and memberOf(recipient, actor) and awake(recipient).
+    Resolve acquire(pledge, pledge_kind, recipient).
+    On success { Assert redeemed(actor). Retract at(pledge, shop). }
+    Result "Mrs Pratt tears the ticket off the clock and hands it over.".
+  }
+}

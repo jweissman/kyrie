@@ -1,0 +1,17 @@
+Module lapses "A court whose first matter lapses" {
+  Place town "Skeel" is settlement.
+  Place loft "the court loft" is room within town at 0, 0.
+  Company party "You" of 1 at loft.
+  Relation decided(matter).
+  Occasion court "the Court" at loft when watch(clock) >= 1 {
+    Matter wreck "The first matter: whether anything came ashore of the Constancy." for 20 minutes until decided(wreck).
+    Matter dog "The second matter: the dog." for 20 minutes.
+    Closes "The Court rises.".
+  }
+  // A matter its time runs out on is decided as it lapses, before the next is called.
+  Rule wreck_lapses when matterDone(wreck) and not decided(wreck) says "No living thing came ashore of her, the Court finds." {
+    Assert decided(wreck).
+  }
+  Observe loft_scene at loft when true "A loft over the sail-store.".
+  Goal false.
+}

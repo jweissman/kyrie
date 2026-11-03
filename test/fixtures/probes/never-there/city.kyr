@@ -1,0 +1,8 @@
+Module city "The city, and its verdict" {
+  Entity party: group "Your company".
+  Place city "the city" is settlement.
+  Place road_end "the city gate" is room within city at 0, 0 outdoors.
+  Observe gate_scene at road_end when true "The city gate, and a bill for the Trial.".
+  // The verdict comes on its day, whether or not the company is there to hear it.
+  Ending verdict "The Verdict" when watch(clock) >= 2 "The Bench gives its verdict.".
+}

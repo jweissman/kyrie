@@ -9,6 +9,8 @@ export interface Watch {
   seen?: string[];
   // What was seen where it is as any activity began: whoever comes is told as they are then seen.
   looked: string[];
+  // Whether the company was in the dark as it began: a light can only give out on one that had it.
+  dark?: boolean;
 }
 // An activity the company can be interrupted in (a wait, a rest, a rite) passes a watch at a time. It stops when its
 // interruption comes to hold having not held when it began (someone arrives), or when something happens that the
@@ -19,7 +21,7 @@ export class Interruption {
     if (!(action.interrupt || action.watchful) || !player) { return undefined; }
     return { ...action.interrupt ? { predicate: action.interrupt } : {},
       held: !!action.interrupt && world.test(action.interrupt), present: this.present(world, player), heard: 0,
-      started: elapsed, looked: LocalObservations.read(world, player).map(o => o.id),
+      started: elapsed, looked: LocalObservations.read(world, player).map(o => o.id), dark: this.dark(world, player),
       ...action.watchful ? { seen: LocalObservations.read(world, player).map(o => o.id) } : {} };
   }
   // Why the activity stops after this watch, if it does.
@@ -28,12 +30,20 @@ export class Interruption {
     const changed = watch.seen && this.changed(watch, world, player);
     if (changed) { return changed; }
     if (!watch.predicate || watch.held || !world.test(watch.predicate)) { return undefined; }
-    // The light gone is said as itself, not as something changing.
-    if (world.module.queries.some(q => q.name === 'benighted') && world.test(ModuleWriter.call('benighted', player))) {
+    // The light gone is said as itself, not as something changing; but only where there was a light to go. A watch
+    // kept in the dark broken off by what came to it had been told as a light giving out (Half the Hive's friction 15,
+    // HTH-15): what came is told instead, as it is seen or heard there.
+    if (!watch.dark && this.dark(world, player)) {
       return 'Your light gives out, and there is no going on with it in the dark.';
     }
+    // In the dark, what came is what is heard of it, not its name.
     const names = [...this.present(world, player)].filter(id => !watch.present.has(id));
-    return names.length ? this.arrival(world, player, names, watch.looked) : 'Something changes where you are.';
+    const heard = LocalObservations.read(world, player).find(o => !watch.looked.includes(o.id))?.text;
+    if (heard && watch.dark) { return heard; }
+    return names.length ? this.arrival(world, player, names, watch.looked) : heard ?? 'Something changes where you are.';
+  }
+  private static dark(world: World, player: string): boolean {
+    return world.module.queries.some(q => q.name === 'benighted') && world.test(ModuleWriter.call('benighted', player));
   }
   // Someone has come or gone, or something seen here is new: what it is, as it is seen.
   private static changed(watch: Watch, world: World, player: string): string | undefined {

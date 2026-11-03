@@ -37,7 +37,8 @@
   ],
   "imports": [
     "party",
-    "word"
+    "word",
+    "word_loud"
   ],
   "roles": {
     "party": {
@@ -51,6 +52,7 @@
   },
   "experience": 1000,
   "optional": [
-    "word"
+    "word",
+    "word_loud"
   ]
 }
