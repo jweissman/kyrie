@@ -35,7 +35,7 @@ export class ModuleParser {
     Anchor_at: ModuleParser.Anchor, Anchor_near: ModuleParser.Anchor, Anchor_beside: ObjectParser.Beside,
     Anchor_within: ModuleParser.Anchor, Objective: ModuleParser.Objective, PersonCalled: PersonParser.PersonCalled,
     PersonHorizon: PersonParser.PersonHorizon, PersonPeaceable: PersonParser.PersonPeaceable,
-    RuleSays: ModuleParser.Second, Seen: ModuleParser.Seen, TopicOnce: PersonParser.TopicOnce,
+    RuleSays: PersonParser.RuleSays, Seen: ModuleParser.Seen, TopicOnce: PersonParser.TopicOnce,
     TopicTravelling: PersonParser.TopicOnce, RuleOnce: PersonParser.TopicOnce, PersonAgain: PersonParser.PersonAgain,
     Company: ModuleParser.Company, ItemDecl: ModuleParser.ItemDecl, PassageKind: ModuleParser.ThingKind,
     PassagePart_taking: ModuleParser.Taking, PassagePart_opening: ModuleParser.Opening,
@@ -347,7 +347,7 @@ export class ModuleParser {
       ModuleParser.ast(anchor.children[0]!) as { kind: string; id: string } : undefined;
     return { field: 'rule', value: { id: id.sourceString, when: ModuleParser.ast(predicate),
       effects: ModuleParser.list(changes), ...(where ? { place: where.id, anchor: where.kind } : {}),
-      ...(says.children.length ? { say: ModuleParser.ast(says.children[0]!) } : {}),
+      ...(says.children.length ? ModuleParser.ast(says.children[0]!) as object : {}),
       ...once.children.length ? { once: true } : {}, ...InformationParser.teaching(teaches) } };
   }
   // An observation may teach a fact: what the company sees here, it knows from then on. One "of" an entity is not

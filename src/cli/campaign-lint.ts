@@ -93,7 +93,7 @@ export class CampaignLint {
       for (const text of [a.name, a.description, a.report, a.otherwise]) { this.named(text, a.id, bound); }
     }
     for (const o of this.module.observations ?? []) { this.named(o.text, o.id, new Set()); }
-    for (const r of this.module.rules ?? []) { this.named(r.say, r.id, new Set()); }
+    for (const r of this.module.rules ?? []) { this.named(`${r.say ?? ''} ${r.again ?? ''}`, r.id, new Set()); }
     for (const e of this.module.entities.filter(x => x.type === 'fact')) { this.named(e.name, e.id, new Set()); }
   }
   private named(text: string | undefined, where: string, bound: Set<string>) {
@@ -313,7 +313,7 @@ export class CampaignLint {
   prose() {
     const texts = new Map<string, string>([
       ...(this.module.observations ?? []).map(o => [o.id, o.text] as [string, string]),
-      ...(this.module.rules ?? []).filter(r => r.say).map(r => [r.id, r.say!] as [string, string]),
+      ...(this.module.rules ?? []).filter(r => r.say).map(r => [r.id, `${r.say!} ${r.again ?? ''}`] as [string, string]),
       ...this.module.actions.filter(a => a.report).map(a => [a.schema ?? a.id, a.report!] as [string, string])]);
     for (const [id, text] of texts) {
       const word = CampaignLint.implementationWords.exec(text);

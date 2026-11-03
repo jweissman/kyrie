@@ -1,0 +1,13 @@
+Module toldagain "The ring at night" {
+  Place ring "the ring" is room.
+  Company party "You" of 1 at ring.
+  Person barker "the barker" at ring { Role "a barker". Peaceable. Pronouns he. }
+  Relation shown(group).
+  // A show every night: told in full the first night the company sees it, and in a line after that.
+  Rule show at ring when hour(clock) >= 20 and not shown(party)
+    says "The lamps go up, {barker} cries the bill, and the horses come in at a gallop, plumed, round and round the ring."
+    again "The horses come in again, and {barker} cries the bill." { Assert shown(party). }
+  Rule morning when hour(clock) < 20 and shown(party) { Retract shown(party). }
+  Observe ring_scene at ring when true "Sawdust, and a ring of benches.".
+  Goal false.
+}

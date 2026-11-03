@@ -88,6 +88,13 @@ export class PersonParser {
   static PersonAgain(_greets: Node, _again: Node, text: Node, _dot: Node): Field {
     return { field: 'words', value: { kind: 'GreetsAgain', text: ModuleParser.ast(text) as string } };
   }
+  // What a rule says, and what it says each time after the first the company hears it, where that is shorter: a
+  // nightly show told in full every night unless the author kept a fact of having seen it, and two rules (Wapshott's
+  // Circus friction 26, WPC-26).
+  static RuleSays(_says: Node, text: Node, again: Node): { say: string; again?: string } {
+    return { say: ModuleParser.ast(text) as string,
+      ...again.children.length ? { again: ModuleParser.ast(again.children[0]!.children[1]!) as string } : {} };
+  }
   // What someone with the company says on coming somewhere that matters to them, once (A Winter in Carth's friction
   // 21: Hern came into the fold his whole story points at, and the page said only that he was there).
   static PersonRemarks(_r: Node, place: Node, text: Node, _dot: Node): Field {

@@ -78,8 +78,9 @@ export class ModuleCompiler {
       else if (r.place) { this.anchor(module, r.place, r.anchor); }
       if (r.say) {
         this.text(module, r.say);
+        if (r.again) { this.text(module, r.again); }
         const named = JSON.stringify(r.when);
-        for (const v of ObservationText.variables(r.say).filter(v => !named.includes(`"${v}"`))) {
+        for (const v of ObservationText.variables(r.say + (r.again ?? '')).filter(v => !named.includes(`"${v}"`))) {
           throw new Error(`Rule ${r.id} speaks of ${v}, which its condition does not bind`);
         }
       }

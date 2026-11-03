@@ -572,6 +572,13 @@ The page at a glance gives a place's first two sentences, with its people and it
 about, and a place come back to is recalled by its first sentence. So a place leads with what matters most in it
 (the Lull's friction 10; the sentences split as the page splits them, not at "Mr." or "St.", GTR-17).
 
+An `Observe` is told once for each time the company comes, or once when it comes to hold while the company is there,
+and not again while it stays; come back, and the place is recalled by its first sentence. That is the intended rule: a
+line about what has changed (the hall ashamed after the hearing, the afterglow of a fire) is told at the step that
+made it so, and not read back later. What should stand on the page for as long as it is so belongs to a thing, as one
+of its `State`s, which the page shows with the thing each time, or to a topic, which can be asked again (Quittance's
+11; its pm 4, wk and sd found the hall's new line told once, and the thing's state the one that lasted).
+
 ## 7. module.json: rules and exports
 
 The manifest names the Kyr source of your module, the rules it is written against (`world` is the standard set), and the places a situation may use. Exports are the only way a
@@ -964,6 +971,17 @@ when the company is anywhere in the area (news of a city told, and done, when th
 advises on a rule anchored at a place that changes something of the company's own (its coin, where it is, what it
 knows) and asks nothing of where the company is: it may be meant (a hand broken at a court the company stayed away
 from), and it may not.
+
+What happens again and again, a show every night, is told in full the first time the company hears it, and after
+that by the words written after `again`; which it has heard is kept with the game (Wapshott's Circus's 26: a nightly
+show told in full every night, unless its author kept a fact of having seen it and wrote it twice;
+`probes/told-again`):
+
+```text
+  Rule show at ring when hour(clock) >= 20 and not shown(party)
+    says "The lamps go up, {barker} cries the bill, and the horses come in at a gallop, plumed, round and round the ring."
+    again "The horses come in again, and {barker} cries the bill." { Assert shown(party). }
+```
 
 A count taken below nothing stops at nothing: `Decrease dose(?m) by 8` leaves a dose of five at none. An action that
 would take one past nothing is not offered, since what cannot be paid for is not bought; where that is backwards (a

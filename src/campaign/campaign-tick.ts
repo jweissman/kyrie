@@ -24,7 +24,7 @@ export interface TickHost {
   readonly operators: Operators;
   readonly tickState: { definition: CampaignDefinition; creatures: CreatureStore;
     current: { seed: string; elapsed: number; minutes?: number; world: WorldState;
-      pending?: Record<string, PendingAction>; waiting?: Record<string, number> } };
+      pending?: Record<string, PendingAction>; waiting?: Record<string, number>; told?: string[] } };
   applyAction(action: Operator, success?: boolean): void; refreshProjection(): void; recordObservations(): void;
   commitWorld(world: World): void;
 }
@@ -172,11 +172,21 @@ export class CampaignTick {
         // for each thing it is near: an instance's id is its rule's and the binding's (aye@roll).
         const instance = Object.keys(binding).length ? `${rule.id}@${Object.values(binding).join(',')}` : rule.id;
         // An ending is told with any other that held where it was reached, as it was, for the journeys to warn of.
-        const rivals = EndingOrder.rivals(host.module, rule, prior);
-        happenings.push({ id: instance, text: ObservationText.render(rule.say, next, true, binding), kind: 'event',
+        const rivals = EndingOrder.rivals(host.module, rule, prior), say = this.telling(host, rule, instance);
+        happenings.push({ id: instance, text: ObservationText.render(say, next, true, binding), kind: 'event',
           ...rivals.length ? { rivals } : {} });
       }
     }
+  }
+  // What a rule says the first time the company hears it (of each it fires for), and after that its words again, where
+  // it has them: a nightly show is told in full once (Wapshott's Circus friction 26, WPC-26). Which it has heard is
+  // kept with the game, and saved with it.
+  private static telling(host: TickHost, rule: WorldRule, instance: string): string {
+    if (!rule.again) { return rule.say!; }
+    const current = host.tickState.current;
+    if (current.told?.includes(instance)) { return rule.again; }
+    (current.told ??= []).push(instance);
+    return rule.say!;
   }
   // Whether the company hears what a rule says, as a witness would: it can when the rule has done, and it perceived
   // the rule's anchor as the watch began, or just before the rule's effects, or just after them (the test seen applies
