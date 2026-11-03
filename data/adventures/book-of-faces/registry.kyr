@@ -21,14 +21,14 @@ Module ombra "The Book of Faces" {
   Initially Assert officeFace(face_key). Initially Assert officeFace(face_pound). Initially Assert officeFace(face_serene).
   Relation registryOpened(group). Relation registryAlarmed(group). Relation registryKeyed(group). Relation registryByFace(group).
   Thing registry_lock "the Registry's lock" on registry_door {
-    State shut blocking "The Registry door is locked, and the Doorward sits beside it.".
+    State barred blocking "The Registry door is locked, and the Doorward sits beside it.".
     State open "The Registry door stands open on a room of white spines.".
-    Change pick "Pick the Registry's lock" from shut to open needing lockwork.
-    Change unlock "Unlock the Registry door with the Contessa's old key" from shut to open needing registry_key_kind.
+    Change pick "Pick the Registry's lock" from barred to open needing lockwork.
+    Change unlock "Unlock the Registry door with the Contessa's old key" from barred to open needing registry_key_kind.
   }
   Kind registry_key_kind "the Contessa's old key" is gear worth 0 weighing 0 described "A black iron key as long as a hand, with a bare oval for a bow. The Contessa Tarn's family has kept it for three hundred years against the day it was wanted, and it is cold, as old keys are.".
   Item registry_key "the Contessa's old key" is registry_key_kind at offstage.
-  Rule registry_by_right when registryOpened(party) and state(registry_lock, shut) { Assert state(registry_lock, open). }
+  Rule registry_by_right when registryOpened(party) and state(registry_lock, barred) { Assert state(registry_lock, open). }
   // A lock picked is heard in the vestry; the Warrant is not made for it.
   Rule lock_alarm when state(registry_lock, open) and not registryOpened(party) and not registryByFace(party) and not registryKeyed(party) and not registryAlarmed(party) says "Somewhere on the other side of the nave a small bell begins, once, and a lay-brother's voice says, mildly, 'Brother Alder?'" {
     Assert registryAlarmed(party). Increase heat(party) by 2. }
@@ -36,14 +36,14 @@ Module ombra "The Book of Faces" {
   // The Face: an Office is shown to the Doorward, who judges the Fit.
   Action show_fitted_face(actor: group, mask: face, site: place) "Show Brother Alder {mask}, which was cut for you" {
     Speaker doorward.
-    Requires able(actor) and company(actor) and at(actor, site) and at(doorward, site) and officeFace(mask) and wears(actor, mask) and fitted(actor, mask) and publicHours() and not registryByFace(actor) and state(registry_lock, shut).
+    Requires able(actor) and company(actor) and at(actor, site) and at(doorward, site) and officeFace(mask) and wears(actor, mask) and fitted(actor, mask) and publicHours() and not registryByFace(actor) and state(registry_lock, barred).
     Time 5.
     On success { Assert registryByFace(actor). Assert state(registry_lock, open). }
     Result "The old man looks at the mask for a long time, as at a coat he has brushed for sixty years. 'It sits,' he says at last. 'It is a very good Fit.' He gets up, which takes some time, and takes a key from the ring, and says to the door, 'The Office goes in. The Office will be quick.' It is quite untrue that nobody notices a person being let in; but it is true that nobody will ever say so.".
   }
   Action show_unfitted_face(actor: group, mask: face, site: place) "Show Brother Alder {mask}, and hope the Fit will be forgiven" {
     Speaker doorward.
-    Requires able(actor) and company(actor) and at(actor, site) and at(doorward, site) and officeFace(mask) and wears(actor, mask) and not fitted(actor, mask) and publicHours() and not registryByFace(actor) and state(registry_lock, shut).
+    Requires able(actor) and company(actor) and at(actor, site) and at(doorward, site) and officeFace(mask) and wears(actor, mask) and not fitted(actor, mask) and publicHours() and not registryByFace(actor) and state(registry_lock, barred).
     Time 5.
     Resolve check(actor, deception, dc_hard).
     On success { Assert registryByFace(actor). Assert state(registry_lock, open). }

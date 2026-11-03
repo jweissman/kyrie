@@ -448,6 +448,42 @@
     "fen",
     "heath"
    ]
+  },
+  {
+   "id": "ombra",
+   "province": true,
+   "bundle": "book-of-faces/placed.json",
+   "entry": "delta_road",
+   "marker": "vail",
+   "side": "west",
+   "beside": [
+    "marsh",
+    "forest",
+    "hills",
+    "mountain",
+    "frost",
+    "desert"
+   ],
+   "name": "Ombra",
+   "topic": "the Drawing at Ombra",
+   "terrain": "marsh",
+   "rumour": "'Away in the west, down in the delta where the river can't make up its mind, there is Ombra,' says {keeper}. 'It rains nine days in ten. By day nobody there is anybody; they go masked, bakers and ferrywomen and the Warden of Locks, and it is a hanging crime to say aloud who is under one.' {keeper} wipes a cup. 'Their Registrar's dead. The one who keeps the book of who is who. And there's a Drawing on the ninth night that has to be read by somebody, or every Office in the city runs out at midnight. They've sent for a stranger. It has to be a stranger.'",
+   "heard": "Away in the west, down in the delta, lies Ombra, a rainy city where everyone goes masked by day and it is a crime to say who is under a mask. Its Registrar is dead and the book of faces is gone, and unless somebody holds the Drawing on the ninth night, every Office in the city dissolves at midnight. The Watch has hired a stranger to look.",
+   "skyline": "far off to the west, low on the water under a lid of cloud, a city of grey roofs where every window has a lamp in it by day",
+   "far": "a rainy delta city goes masked by day, and its Registrar has died with the book of faces missing, nine days before the Drawing",
+   "notice": {
+    "name": "the Watch's notice from Ombra",
+    "text": "A square of grey paper stamped with a bare white oval, nailed up where travellers will see it: THE MASKED WATCH OF OMBRA WILL HIRE ONE STRANGER UNDER THE SEVENTY-FIRST ARTICLE OF THE CONCORD. NO NAME, NO MASK, NO STANDING REQUIRED. APPLY AT THE GATE OF STRANGERS ON THE FIRST DAY OF THE NOVENA, AT THE THIRD BELL. The bottom has been torn off, and in pencil, in a different hand: Nine days. It is always raining.",
+    "talk": "The Watch of Ombra's notice is nailed up where travellers will see it, and half the talk is of the city that goes masked by day and what a Registrar is, and the other half of why they would need a stranger."
+   },
+   "after": {
+    "talk": "The Watch of Ombra's notice still hangs where travellers will see it, curling in the damp. The word down the west road is that the Drawing was held, one way or another, and that nobody tells it the same way twice.",
+    "told": "{keeper} hears you out, all of it, from the Gate of Strangers to the Urn Hall, and at the part about the name said kindly puts down the cup. 'We heard some of it,' {keeper} says then. 'Down the west road. Not the half.' {keeper} takes the Watch's notice off its nail, and smooths it flat with the side of a hand, and puts it away behind the bar with the things worth keeping."
+   },
+   "covers": [
+    "fen",
+    "meadow"
+   ]
   }
  ]
 }
