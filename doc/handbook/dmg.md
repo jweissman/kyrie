@@ -2376,6 +2376,15 @@ The worlds that ship with the game.
 
 > Calamy is a city of paper at the mouth of the Calam, where the tide turns the mills twice a day and every household keeps a book that knows it. Its books are entangled with its money, its law, its prayers and its quarrels, and lately some of them have begun to talk. In nine days it is the Kindling, when the city burns last year's almanacks to light the new year in.
 
+### Quittance
+
+*Kyr* · `campaign:quittance`
+
+- Regions and sites: quittance
+- Kits placed: —
+
+> Quittance burned to the ground ninety-four years ago and was rebuilt on credit, and now every house in it wears a plate over the door to say which Office of Assurance will put it out. The Offices need adjusters, because the Tables say the fires are falling, and the Receipt that renews the city's Founding Policy, hung on the Cinderwall every Reckoning, was the colour of milk last year. Reckoning is in nine days. You have a little money, and nothing that has been insured.
+
 ### Fair Weather
 
 *Kyr* · `campaign:skeel`
