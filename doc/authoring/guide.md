@@ -355,7 +355,8 @@ topics as topics).
 Talking someone round, lying to them, asking what they may refuse: an action with a `Speaker` is said to them, and
 stands in the talk with them among what can be asked, not among the place's actions. It may roll, and the page says
 the odds; their answer is its `Result` or its `Otherwise` (`test/fixtures/probes/spoken-roll`; A Winter in Carth's
-10, whose persuasions sat among the actions).
+10, whose persuasions sat among the actions). It is the topic that rolls: a word that may not come off is written so,
+not as a `Topic` (Fair Weather's 16).
 
 ```text
   Action ask_will(actor: group, site: place) "Ask Will to light the hearth himself, for the child" {
