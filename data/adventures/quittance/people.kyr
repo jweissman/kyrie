@@ -27,7 +27,7 @@ Module quittance "Quittance" {
     Greets again "'You,' says Captain Garrity. It is not clear whether it is a greeting.".
   }
   Person tobias "Tobias Pargeter" at pargeter_front {
-    Role "young fireman of the Phoenix". Ancestry human. Calling warrior. Level 2. Trait brave. Peaceable. Manner cheerful. Pronouns he.
+    Role "young fireman of the Phoenix". Ancestry human. Calling warrior. Level 2. Trait brave. Uses go. Plans 14 steps. Peaceable. Manner cheerful. Pronouns he.
     Greets "A young man in a blue coat is standing at the sideboard, looking at a mark nailed on it upside down, with great seriousness. 'I know what it looks like,' says Tobias Pargeter. 'It was meant as a joke.'".
     Greets again "'You again,' says Tobias, brightening.".
     Joins "'Right,' says Tobias, and takes his helmet down from its peg. 'I haven't been told not to.'".
@@ -74,7 +74,7 @@ Module quittance "Quittance" {
     Greets again "'Oh,' says Auberon Hearn, 'you've come back. How kind. I think we've met.'".
   }
   Person ianthe "Ianthe Corbett" at corbett_study {
-    Role "surveyor of the Guild". Ancestry human. Calling ranger. Level 3. Peaceable. Manner cheerful. Pronouns she.
+    Role "surveyor of the Guild". Ancestry human. Calling ranger. Level 3. Uses go. Plans 14 steps. Peaceable. Manner cheerful. Pronouns she.
     Known as "a woman with a rope on her shoulder" when not knows(party, d_ianthe_met).
     Greets "A woman is sitting on the desk with her boots on a plan, eating an apple and examining the ceiling with the intensity of someone assessing a dead man's stairs. 'Ianthe Corbett,' she says. 'Surveyor. If it's about a mark, I'll say now that I don't do favours. If it's about a roof, I'll do it for nothing.'".
     Greets again "'Hello again,' says Ianthe Corbett. 'Have you brought me a roof?'".
