@@ -50,6 +50,7 @@ Module quittance "Quittance" {
   Discovery d_treaty_text "The Founders' Policy, read whole, names a party who is not an Office, a city, or a person: 'the Guest of the Hearth'.".
   Discovery d_fire_is_real "Something lives under the Exchange, and has been waiting ninety-four years to be paid.".
   Discovery d_return "There is a form of words, the Return, by which the Lent coals are carried home at Reckoning. Auberon Hearn used to say it, and cannot say it alone.".
+  Discovery d_candlewick_next "The next block on the list is Candlewick Court, in the Bare Wards; the notice there is stamped, and the date on it is the second night.".
   Discovery d_skelter_book "Skelter's rent-book records the notices in advance, with the sum paid for each, and who signed.".
 
   // ── Witnesses: who will say it at the Hearing ───────────────────────────────────────────────────────────
