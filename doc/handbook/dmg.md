@@ -1298,13 +1298,13 @@ Also kept, without comment: arrival, plea, greeting, greeted, petted, warned, yi
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 1 | 24 | 2 | 1 | 18 | 5 |
+| 1 | 24 | 2 | 1 | 20 | 5 |
 
 #### temperament
 
 *Kyr · kind* · `rule:inhabitants.temperament`
 
-A creature's temperament says how it meets a company that comes where it lives. A territorial one warns, then falls on whoever stays; a defensive one warns, and fights only for its lair; a proud one names a price; a savage one falls on you at once; one that lies in ambush strikes unless keen eyes spot it first; an obedient one warns, then keeps its post and nothing else; a wary one slinks away, and fights only when cornered in its refuge; a seizing one (bailiffs, the Weights) warns, and then takes whoever stays, with no fight: what follows is the module's (captured). A group of one species takes its species' temperament; a place may give any group one (temper_savage, temper_proud…).
+A creature's temperament says how it meets a company that comes where it lives. A territorial one warns, then falls on whoever stays; a defensive one warns, and fights only for its lair; a proud one names a price; a savage one falls on you at once; one that lies in ambush strikes unless keen eyes spot it first; an obedient one keeps its post, warning first, and does nothing else; a wary one slinks away, and fights only when cornered in its refuge; a seizing one (bailiffs, the Weights) warns, and then takes whoever stays, with no fight: what follows is the module's (captured). A group of one species takes its species' temperament; a place may give any group one (temper_savage, temper_proud…).
 
 #### temperament
 
@@ -1414,7 +1414,7 @@ A warning spent: whoever stayed is fallen on (for a defensive one, only in its l
 
 Says: "{?o}"
 
-> When: warned(?g, ?c); together(?g, ?c); able(?g); not (routed(?g)); not (tolerates(?g, ?c)); patience(?g) <= watch(clock); not (temperament(?g, temper_defensive)); not (temperament(?g, temper_seizing)); onslaught(?g, ?o)
+> When: warned(?g, ?c); together(?g, ?c); able(?g); not (routed(?g)); not (tolerates(?g, ?c)); patience(?g) <= watch(clock); not (temperament(?g, temper_defensive)); not (temperament(?g, temper_seizing)); not (temperament(?g, temper_obedient)); onslaught(?g, ?o)
 
 > Then: Assert assails(?g, ?c). Retract warned(?g, ?c).
 
@@ -1460,11 +1460,31 @@ Says: "{?w}"
 
 > Then: Assert warned(?g, ?c). Assert halts(?g, ?c). Set patience(?g) to (watch(clock) + 1).
 
+#### temper_bars
+
+*Kyr · rule* · `rule:inhabitants.temper_bars`
+
+A keeper of its post bars the way and says so before it strikes: a company that has only just come is not fallen on before it can do anything (Gosse's Company's 14, Low Water's 2). Away from its post it does nothing.
+
+Says: "{?w}"
+
+> When: temperament(?g, temper_obedient); company(?c); confronts(?g, ?c); lair(?g, ?p); at(?g, ?p); not (warned(?g, ?c)); warning(?g, ?w)
+
+> Then: Assert warned(?g, ?c). Assert halts(?g, ?c). Set patience(?g) to (watch(clock) + 1).
+
+#### temper_keeps_post
+
+*Kyr · rule* · `rule:inhabitants.temper_keeps_post`
+
+Says: "{?o}"
+
+> When: warned(?g, ?c); temperament(?g, temper_obedient); lair(?g, ?p); at(?g, ?p); together(?g, ?c); able(?g); not (routed(?g)); not (tolerates(?g, ?c)); patience(?g) <= watch(clock); onslaught(?g, ?o)
+
+> Then: Assert assails(?g, ?c). Retract warned(?g, ?c).
+
 #### temper_falls_on
 
 *Kyr · rule* · `rule:inhabitants.temper_falls_on`
-
-A keeper of its post bars the way and says so before it strikes: a company that has only just come is not fallen on before it can do anything (Gosse's Company's 14, Low Water's 2).
 
 Says: "{?o}"
 

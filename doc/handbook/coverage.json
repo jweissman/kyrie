@@ -997,7 +997,7 @@
     "faithful": 220,
     "adapted": 25,
     "represented": 49,
-    "kyr": 254,
+    "kyr": 256,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 198
@@ -1010,7 +1010,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 229,
+      "kyr": 231,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -14350,6 +14350,20 @@
   {
    "id": "rule:inhabitants.temper_warns",
    "title": "temper_warns",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-inhabitants"
+  },
+  {
+   "id": "rule:inhabitants.temper_bars",
+   "title": "temper_bars",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-inhabitants"
+  },
+  {
+   "id": "rule:inhabitants.temper_keeps_post",
+   "title": "temper_keeps_post",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-inhabitants"
