@@ -1,0 +1,1 @@
+{ "version": 1, "name": "Probe: two asked of the same night", "modules": [ { "id": "p", "bundle": "module.json" } ], "party": [ { "name": "Ama", "raceId": "human", "classId": "bard" } ] }

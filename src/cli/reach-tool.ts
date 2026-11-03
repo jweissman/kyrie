@@ -1,11 +1,13 @@
 // `kyrie reach`: what of an adventure a curious player comes upon in ordinary play, against what was written (see
-// Curious): rooms, people, what can be asked of them, what can be done, what is seen, and what is sold.
+// Curious): rooms, people, what can be asked of them, what can be done, what is seen, and what is sold; and with
+// --detail, what of it never happened (see Happened).
 //   bin/kyrie reach <campaign.json> [--seed s] [--steps n] [--detail]
 //   bin/kyrie reach --all [--steps n]     every campaign, a line each
 import { readdir } from 'node:fs/promises';
 import { Journey } from '../session/journey';
 import { Curious, type Reach } from '../autoplay/curious';
 import type { Module } from '../lang/module';
+import { Happened } from './happened';
 
 export interface Written { rooms: string[]; people: string[]; topics: string[]; acts: string[]; observations: string[] }
 export class ReachTool {
@@ -35,13 +37,14 @@ export class ReachTool {
   static async run(campaign: string, seed: string, steps: number) {
     const avoid = new Set<string>();
     let j = await Journey.start(campaign, seed), curious = new Curious(j, avoid);
-    const reach = await curious.play(steps);
+    const reach = await curious.play(steps), happened = new Happened().add(j);
     for (let tries = 0; tries < 3 && curious.closer && !/^(wait|rest|sleep)/.test(curious.closer); tries++) {
       avoid.add(curious.closer); reach.ended = undefined;
       j = await Journey.start(campaign, seed); curious = new Curious(j, avoid, reach);
       await curious.play(steps);
+      happened.add(j);
     }
-    return { j, reach, written: this.written(j.campaign.world.module, j.campaign.installed) };
+    return { j, reach, happened, written: this.written(j.campaign.world.module, j.campaign.installed) };
   }
   static ratio(got: Iterable<string>, of: string[]): string {
     const had = new Set(got), n = of.filter(x => had.has(x)).length;
@@ -82,9 +85,12 @@ export class ReachTool {
       .map(f => `data/campaigns/${f}`) : [campaign!];
     for (const c of campaigns) {
       try {
-        const { reach, written } = await this.run(c, seed, steps);
+        const { reach, written, happened } = await this.run(c, seed, steps);
         print(this.line(c.replace(/^.*\/|\.campaign\.json$/g, ''), reach, written));
-        if (!all || args.includes('--detail')) { this.detail(reach, written, print); }
+        if (!all || args.includes('--detail')) {
+          this.detail(reach, written, print);
+          for (const line of happened.lines()) { print(`  ${line}`); }
+        }
       } catch (e) { print(`! ${c}: ${(e as Error).message}`); }
     }
     return 0;

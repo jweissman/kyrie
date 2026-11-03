@@ -9,21 +9,23 @@
 //   bin/kyrie play --world <seed> [--origin debt] [--as elf/ranger/Aud] [step ...]
 //   bin/kyrie play scene|character <id> --in <adventure> [--context <name>] [step ...]
 // --keep <name> keeps the play as a regression test (see Traces): the command it was, and where it came to.
+// --roll pass|fail has every check come out so, as a journey's roll() does (Quittance's friction 7, QTC-07).
 import { readFile } from 'node:fs/promises';
 import { Journey } from '../session/journey';
 import { DrawnWorld } from '../world/drawn-world';
 import { NodeBundleSource } from '../campaign/node-bundle-source';
 import { PlayParts } from './play-parts';
 import { Traces, type Came } from './traces';
+import type { Happened } from './happened';
 
 export class PlayTool {
   static readonly usage = 'usage: kyrie play <campaign.json> [--as race/calling/Name[/background]] | --world <seed> [--origin o] [--as race/calling/Name]'
     + ' | scene|character <id> --in <adventure> [--context name] [--seed s] [--steps steps.json] [--probe "..."]'
-    + ' [--choices] [--keep name] [step ...]';
+    + ' [--choices] [--keep name] [--roll pass|fail] [step ...]';
   static parse(args: string[]) {
     const flags = new Map<string, string[]>(), rest: string[] = [];
     for (let i = 0; i < args.length; i++) {
-      const a = args[i]!, flag = /^--(seed|steps|probe|world|origin|as|in|context|keep)$/.exec(a);
+      const a = args[i]!, flag = /^--(seed|steps|probe|world|origin|as|in|context|keep|roll)$/.exec(a);
       if (flag) { flags.set(flag[1]!, [...flags.get(flag[1]!) ?? [], args[++i] ?? '']); }
       else if (a === '--choices') { flags.set('choices', ['yes']); }
       else { rest.push(a); }
@@ -34,7 +36,8 @@ export class PlayTool {
     return { campaign: world || part ? undefined : rest[0], steps: world ? rest : rest.slice(part ? 2 : 1), world, part,
       origin: flags.get('origin')?.[0] ?? 'wanderer', as: flags.get('as')?.[0],
       seed: flags.get('seed')?.[0] ?? 'journey', file: flags.get('steps')?.[0], probes: flags.get('probe') ?? [],
-      choices: flags.has('choices'), keep: flags.get('keep')?.[0] };
+      choices: flags.has('choices'), keep: flags.get('keep')?.[0],
+      roll: (['pass', 'fail'] as const).find(r => r === flags.get('roll')?.[0]) };
   }
   // The game the options name (a campaign, or a generated world drawn for one protagonist), and the steps that lead
   // into what is to be played (to a scene, or into talk with someone).
@@ -51,9 +54,12 @@ export class PlayTool {
     return { journey: Journey.of(await DrawnWorld.start(o.world, drawn, NodeBundleSource.shared)), lead: [] };
   }
   // A kept play's command played again, to where it comes (see Traces).
-  static async again(args: string[]): Promise<Came> {
+  // seen: what happened in it is added to (see Happened).
+  static async again(args: string[], seen?: Happened): Promise<Came> {
     const o = this.parse(args), { journey: j, lead } = await this.start(o);
+    j.roll(o.roll);
     for (const step of [...lead, ...await this.steps(o.file), ...o.steps]) { await j.step(step); }
+    seen?.add(j);
     return this.came(j);
   }
   private static came(j: Journey): Came {
@@ -80,6 +86,7 @@ export class PlayTool {
     let started: Awaited<ReturnType<typeof PlayTool.start>>;
     try { started = await this.start(o); } catch (e) { print(`! ${(e as Error).message}`); return 1; }
     const j = started.journey, steps = [...started.lead, ...await this.steps(o.file), ...o.steps];
+    j.roll(o.roll);
     let failed = 0;
     for (const step of steps) {
       const before = j.taken.length;

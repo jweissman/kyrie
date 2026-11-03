@@ -39,6 +39,13 @@ export class Countries {
   // The countries that lie beyond marches; the rest are provinces of the first country.
   static readonly marches = Countries.list.filter(c => !c.province);
   static readonly provinces = Countries.list.filter(c => c.province);
+  // The same placing of another list of countries: countries.json as it was before a change, to say what the change
+  // moves (Fair Weather's friction 1, FWR-01: adding a country silently moved others in every seed).
+  // Its own list, and everything else as Countries has it (its statics read the list by `this`).
+  static of(list: Country[]): typeof Countries {
+    return Object.assign(Object.create(Countries) as typeof Countries, { list,
+      marches: list.filter(c => !c.province), provinces: list.filter(c => c.province) });
+  }
   // The country that fits beyond a march of a country of this terrain, of those not yet placed and this world holds.
   static fits(terrain: string, side: Side, placed: (c: Country) => boolean, seed: string): Country | undefined {
     return this.marches.find(c => c.side === side && c.beside.includes(terrain) && !placed(c)
@@ -59,9 +66,11 @@ export class Countries {
   // all, and no country is walled in by them (every country that leads into one can be reached by countries drawn
   // from the seed). Decided by the seed (and the first country's terrain, which may be given) before anyone goes
   // anywhere: the same world whichever way it is walked.
-  private static readonly plans = new Map<string, Map<string, Country>>();
+  private static readonly plans = new WeakMap<Country[], Map<string, Map<string, Country>>>();
   static plan(seed: string, first: string): Map<string, Country> {
-    const kept = this.plans.get(`${seed}\u0000${first}`);
+    const plans = this.plans.get(this.marches) ?? new Map<string, Map<string, Country>>();
+    this.plans.set(this.marches, plans);
+    const kept = plans.get(`${seed}\u0000${first}`);
     if (kept) { return kept; }
     const plan = new Map<string, Country>();
     for (const side of Borders.sides) {
@@ -73,7 +82,7 @@ export class Countries {
       const way = this.way(seed, c, plan, ways);
       if (way) { plan.set(WorldGrid.id(...WorldGrid.next(way, c.side)), c); ways.add(WorldGrid.id(...way)); }
     }
-    this.plans.set(`${seed}\u0000${first}`, plan);
+    plans.set(`${seed}\u0000${first}`, plan);
     return plan;
   }
   // The country a country is entered from, of those nearest the first that can be: of a terrain it may lie beside,

@@ -16,6 +16,7 @@ import { ActionFeedbackView } from '../presentation/action-feedback';
 import { EndingOrder } from '../lang/ending-order';
 import { Consequences } from '../campaign/consequences';
 import type { TickHost } from '../campaign/campaign-tick';
+import { Provinces } from '../world/provinces';
 
 // A choice the page offers, as an author names it in a step: its label ("Examine › Push and pull at it", "Pack › A
 // torch › Light", "a torch: Light"), and the same under the heading it is offered beneath ("the Sleeper's left
@@ -38,7 +39,8 @@ export interface Taken {
 //   =until C   wait a while at a time until a condition holds, as the module writes it (complete(reckoner),
 //              not at(party, quay), approach(bowl) >= 1), or the book closes: a week at most
 //   =+N        wait N watches more
-//   =21:00     wait until that time comes, or =day 3 21:00 until that time of that day (the first is day 1)
+//   =21:00     wait until that time comes, or =day 3 21:00 until that time of that day (the first is day 1); and
+//              =sennet day 3 21:00 by the days of a module installed as the company went (see moduleDay)
 //   ~N         wait until watch N by dark and first light (an hour when neither is offered)
 //   ~pattern   a way that is not open yet: wait a while and try again, up to twelve times
 //   >place     go to a place by the shortest way the world joins them, a way at a time (a place of a generated
@@ -100,7 +102,18 @@ export class Journey {
     // Last, the words as they are written, not as a pattern: a label with a dash, a bracket or a question in it
     // (Quittance's friction 12: "To the foot of the Exchange stair — put your shoulders…" had to be escaped).
     const words = Journey.plain(straight);
-    return all.filter(c => [c.label, c.full].some(l => Journey.plain(Journey.straight(l)).includes(words)));
+    const written = all.filter(c => [c.label, c.full].some(l => Journey.plain(Journey.straight(l)).includes(words)));
+    return written.length ? written : Journey.spoken(straight, all);
+  }
+  // "Kerensa: the night of the wreck": what someone is asked, by who is asked and any words of it, when nothing else
+  // matched (Fair Weather's friction 15, FWR-15: "about the night of the wreck" took Jinny's topic, not Kerensa's, both
+  // on the quay; their topics' labels begin "Ask", so the heading form needed the whole label).
+  private static spoken(pattern: string, all: Offered[]): Offered[] {
+    const at = pattern.indexOf(': ');
+    if (at < 1) { return []; }
+    const who = Journey.pattern(pattern.slice(0, at)), what = Journey.pattern(pattern.slice(at + 2));
+    return all.filter(c => c.full !== c.label && who.test(Journey.straight(c.full.slice(0, -c.label.length - 2)))
+      && what.test(Journey.straight(c.label)));
   }
   private static pattern(text: string): RegExp {
     try { return new RegExp(text, 'i'); } catch { return new RegExp(text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i'); }
@@ -123,6 +136,7 @@ export class Journey {
   // What the steps told, each step's perceptions and response after a space (as the journeys' own drivers said it).
   async play(...steps: string[]): Promise<string> {
     let told = '';
+    this.played = this.taken.length;
     for (const step of steps) { told += await this.step(step); }
     return told;
   }
@@ -131,6 +145,8 @@ export class Journey {
     if (step.startsWith('=until ')) { return this.untilHolds(step.slice(7)); }
     const named = /^=(?:day (\d+) )?(\d{1,2}):(\d{2})$/.exec(step);
     if (named) { return this.until(Journey.watchAt(this.watch(), named.slice(1)), false); }
+    const own = /^=(\w+) day (\d+) (\d{1,2}):(\d{2})$/.exec(step);
+    if (own) { return this.until(Journey.watchAt(this.watch(), this.moduleDay(own[1]!, own.slice(2))), false); }
     const wait = /^(=\+|=|~)(\d+)$/.exec(step);
     if (wait) {
       const n = Number(wait[2]);
@@ -206,6 +222,10 @@ export class Journey {
   }
   // Every step's telling as the page gave it, one to a line, after its label.
   get page(): string { return this.taken.map(t => `[${t.label}] ${t.page}`).join('\n'); }
+  // The same, of the steps of the last play only: a long wait keeps every hour's page, and a match on the whole found
+  // text from days before (Quittance's friction, ll 11, QTC-A22).
+  get latest(): string { return this.taken.slice(this.played).map(t => `[${t.label}] ${t.page}`).join('\n'); }
+  private played = 0;
   watch(): number { return this.campaign.world.number(ModuleWriter.call('watch', 'clock')); }
   minutes(): number { return this.watch() * 10 + (this.campaign.state.minutes ?? 0); }
   // A relation, query or measure by its name in the world, or in an installed module's (complete is
@@ -235,6 +255,18 @@ export class Journey {
     Consequences.hand(this.campaign as unknown as TickHost, []);
   }
   at(who: string): string | undefined { return this.campaign.world.one('at', who); }
+  // For a test: every check from now on comes out so (a natural twenty, or a one), until roll() lets the die fall again
+  // (Quittance's friction 7, QTC-07: a test of a failed check was a search over seeds, pinned to the steps before it).
+  roll(outcome?: 'pass' | 'fail') { this.campaign.forced = outcome; }
+  // A day and time of a module installed into the world as the company went, counted as it counts them: its day 1 is
+  // the first morning after it was reached, a later day of the world's (the Grand Tour's friction 20, GTR-20). It is
+  // named by its installation (psennet) or, a province, by its country (sennet).
+  private moduleDay(name: string, [day, hours, minutes]: string[]): (string | undefined)[] {
+    const m = this.campaign.installations.find(i => [name, Provinces.install(name)].includes(i.id));
+    if (!m) { throw new Error(`=${name} day ${day}: nothing installed is called ${name}`); }
+    return [String(Number(day) + Math.ceil(m.installedAt / Journey.day)), hours, minutes];
+  }
+  private static readonly day = 144;
   // Waits on to a watch, or until the book closes (an ending reached on the way: waiting past it threw, Hessel friction
   // 15).
   // The watch a time on the clock comes at, counted from eight on the first morning: the next such time, or that day's.

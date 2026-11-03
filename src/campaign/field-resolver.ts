@@ -12,7 +12,11 @@ import { ModuleWriter } from '../lang/module-writer';
 import { ObservationText } from '../lang/observation-text';
 import { Checks } from '../rules/checks';
 
-interface FieldHost { module: Module; creatures: CreatureStore; actors: CampaignActor[]; world: World; seed: string }
+interface FieldHost {
+  module: Module; creatures: CreatureStore; actors: CampaignActor[]; world: World; seed: string;
+  // A check made to come out so, for a test (see Checks.make).
+  forced?: 'pass' | 'fail';
+}
 // What a resolved command does to the company itself, outside a fight: rest and recovery, rewards and study, a
 // spell cast in the field, and what is bought, taken, blessed, used, risked, given or set down.
 export class FieldResolver {
@@ -75,7 +79,7 @@ export class FieldResolver {
     if (call.name === 'check') {
       const members = host.actors.find(a => a.id === call.args[0])?.members ?? [];
       return Checks.make(creatures.snapshot.filter(c => members.includes(c.id)),
-        { skill: call.args[1]!, difficulty: call.args[2]!, seed, about: action.id });
+        { skill: call.args[1]!, difficulty: call.args[2]!, seed, about: action.id, forced: host.forced });
     }
     throw new Error(`Unsupported resolver ${call.name}`);
   }

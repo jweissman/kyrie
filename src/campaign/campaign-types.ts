@@ -18,6 +18,8 @@ export interface CampaignState {
   partyIds: string[]; inhabitants: Record<string, string[]>; elapsed: number; deadline: number;
   // Minutes spent since the last whole watch (less than ten): small actions take minutes, not watches.
   minutes?: number;
+  // What rules with words for again the company has heard once (see CampaignTick.telling).
+  told?: string[];
   // Who has joined the company, and which company: their own group is empty from then on.
   enlisted?: Record<string, string>;
   // Companions laid to rest, who have left the company for good.

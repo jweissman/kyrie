@@ -40,11 +40,11 @@ export class KyrieCli {
     '           bin/kyrie inspect <campaign.json> | --world <seed> "<choice>" [--seed s] [--steps steps.json] [step ...]',
     '           bin/kyrie play scene|character <id> --in <adventure> [--context name] [step ...] [--keep name]',
     '           bin/kyrie keep <transcript.json> <name> (a game saved from the browser, kept as a test)',
-    '           bin/kyrie countries [seed ...] (where each authored country lies, for comparing before and after)',
+    '           bin/kyrie countries [--diff [before.json]] [seed ...] (where each authored country lies; what a change moves)',
     '           bin/kyrie reach <campaign.json> [--seed s] [--steps n] | --all [--detail] (what a curious player reaches)',
     '           bin/kyrie transcripts <campaign.json> --out <dir> [--seed s] <steps.json>... (journeys as the page told them)',
     '           bin/kyrie prose <campaign.json>          (a campaign\'s own words, each under its id)',
-    '           bin/kyrie voice show|moments|coverage|review|orsino | handbook [--html <dir>]',
+    '           bin/kyrie voice show|moments|coverage|review|orsino | voice repeats <module dir> | handbook [--html <dir>]',
     'Check:     bin/kyrie test [bun test arguments] | verify <adventure> | validate',
     '           bin/kyrie orsino check|report|generate|catalog|world|inventory',
     'Look up:   bin/kyrie ancestries | species | classes | abilities | batch [count]'].join('\n');

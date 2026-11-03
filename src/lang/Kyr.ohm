@@ -137,7 +137,8 @@ Kyr {
   PursuitUsing = "using" NonemptyListOf<ident, ",">
   WorldRule = "Rule" ident Anchor? "when" Predicate RuleOnce? RuleSays? RuleTeaches? "{" ChangeStatement* "}"
   RuleOnce = "once"
-  RuleSays = "says" string
+  RuleSays = "says" string RuleAgain?
+  RuleAgain = "again" string
   RuleTeaches = "teaches" ident
   Observation = "Observe" ident Anchor ObservationAbout? ObservationAspect? ObservationBy? "when" Predicate string ObservationTeaches? "."
   ObservationAbout = "of" term

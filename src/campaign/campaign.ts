@@ -34,8 +34,9 @@ export class Campaign implements WatchHost {
   get module(): Module { return this.compiled; }
   private current: Omit<CampaignState, 'party' | 'creatures'>;
   private creatures = new CreatureStore();
-  private log: CampaignEvent[] = [];
-  private encounter = 0;
+  private log: CampaignEvent[] = []; private encounter = 0;
+  // A check made to come out so, for a test (see Checks.make; Journey.roll).
+  forced?: 'pass' | 'fail';
   private definition?: CampaignDefinition;
   private observations: Record<string, number> = {};
   private executing = false;
@@ -374,7 +375,7 @@ export class Campaign implements WatchHost {
   }
   private field(action: Operator): CombatEvent[] {
     return FieldResolver.resolve(action, { module: this.module, creatures: this.creatures, world: this.world,
-      actors: this.live, seed: this.randomSeed(action, 'field') });
+      actors: this.live, seed: this.randomSeed(action, 'field'), forced: this.forced });
   }
   get tickState() { return { definition: { ...this.definition!, actors: this.live }, creatures: this.creatures,
     current: this.current }; }

@@ -4,6 +4,11 @@ import { ModuleWriter } from './module-writer';
 import { World } from './world';
 import { Reads } from './reads';
 import { KyrText } from './kyr-text';
+import { FictionalTime } from '../campaign/fictional-time';
+
+// How a measure in a text asks to be said: in words ("one", not "1"), as a time of day, and with the one of two forms
+// of a phrase that agrees with it.
+export interface Said { words: boolean; time: boolean; forms?: [string, string] }
 
 // Authored text may reference numeric measures, `{quantity(party, gold)}`, and entities by id, `{guest}`. An entity
 // reference renders the entity's current name, so portable text can name whatever its roles were bound to. A rule's
@@ -12,15 +17,29 @@ import { KyrText } from './kyr-text';
 export class ObservationText {
   private static readonly pattern = /\{([^{}]+)\}/g;
   // A measure said in words where the author asks it ("{lost(garth) in words}": "one", not "1"); a reading stays a
-  // figure ("The dial reads {dial(clock)}.").
+  // figure ("The dial reads {dial(clock)}."). One kept of the watch is said as the time it was ("{loosedAt(lanterns)
+  // as time}": "9:30 p.m."), and a phrase agrees with its count ("{left(hollows) in words|hollow is|hollows are}":
+  // "two hollows are"); authored text could do neither (the Grand Tour's 09 and 11, GTR-X22: "Half past ten" for a
+  // loosing at half past nine, and a count that read "three of the four" by hand).
   private static readonly worded = /\s+in words\s*$/;
+  private static readonly timed = /\s+as time\s*$/;
+  // A reference's call, how it is said, and the words after the call that say so, as written.
+  static parts(reference: string): { call: string; said: Said; suffix: string } {
+    const [head = '', ...forms] = reference.split('|').map(f => f.trim());
+    const words = this.worded.test(head), time = this.timed.test(head);
+    const call = head.replace(this.worded, '').replace(this.timed, '');
+    return { call, said: { words, time, ...forms.length === 2 ? { forms: forms as [string, string] } : {} },
+      suffix: `${head.slice(call.length)}${forms.map(f => `|${f}`).join('')}` };
+  }
   private static bare(reference: string): boolean { return /^\??[A-Za-z][A-Za-z0-9_-]*$/.test(reference.trim()); }
   static variables(text: string): string[] {
     return [...text.matchAll(this.pattern)].map(m => m[1]!.trim()).filter(r => /^\?[A-Za-z][A-Za-z0-9_-]*$/.test(r));
   }
   static references(text: string): Call[] {
     return [...text.matchAll(this.pattern)].filter(m => !this.bare(m[1]!)).map(match => {
-      const value = ModuleParser.predicate(match[1]!.replace(this.worded, ''));
+      const { call, said } = this.parts(match[1]!);
+      if (match[1]!.includes('|') && !said.forms) { throw new Error(`{${match[1]!.trim()}}: a count agrees by two forms`); }
+      const value = ModuleParser.predicate(call);
       if (value.kind !== 'call') { throw new Error('Observation interpolation requires a measure reference'); }
       return value;
     });
@@ -28,13 +47,16 @@ export class ObservationText {
   static names(text: string): string[] {
     return [...text.matchAll(this.pattern)].filter(m => this.bare(m[1]!)).map(m => m[1]!.trim()).filter(n => !n.startsWith('?'));
   }
-  static map(text: string, transform: (call: Call, words: boolean) => string, name?: (id: string) => string): string {
-    return text.replace(this.pattern, (_, reference: string) => this.bare(reference) ?
-      name ? name(reference.trim()) : `{${reference.trim()}}`
-      : transform(ModuleParser.predicate(reference.replace(this.worded, '')) as Call, this.worded.test(reference)));
+  static map(text: string, transform: (call: Call, said: Said, suffix: string) => string,
+    name?: (id: string) => string): string {
+    return text.replace(this.pattern, (_, reference: string) => {
+      if (this.bare(reference)) { return name ? name(reference.trim()) : `{${reference.trim()}}`; }
+      const { call, said, suffix } = this.parts(reference);
+      return transform(ModuleParser.predicate(call) as Call, said, suffix);
+    });
   }
   static scope(text: string, transform: (call: Call) => Call, id?: (value: string) => string): string {
-    return this.map(text, (call, words) => `{${World.format(transform(call))}${words ? ' in words' : ''}}`,
+    return this.map(text, (call, _said, suffix) => `{${World.format(transform(call))}${suffix}}`,
       value => `{${id ? id(value) : value}}`);
   }
   // A module's entities by id, indexed once per entity list (rebuilt if the list grows).
@@ -87,15 +109,22 @@ export class ObservationText {
   // A measure in it is read with what its rule bound ("{gold(?g)}" was read of nobody, and said 0: the architecture
   // review's A17), and in words where it says so: "I've lost one to them so far", not 1 (play 9).
   static render(text: string, world: World, capitalize = true, binding: Record<string, string> = {}): string {
-    const rendered = this.map(text, (call, words) => this.count(world.number(call, binding), words),
+    const rendered = this.map(text, (call, said) => this.say(world.number(call, binding), said),
       id => this.label(world, binding[id] ?? id, binding));
-    const told = rendered.replaceAll(KyrText.brace[0], '{').replaceAll(KyrText.brace[1], '}');
+    // A time said at the end of a sentence ends it once ("at 9:30 p.m.", not "p.m..").
+    const told = rendered.replaceAll(KyrText.brace[0], '{').replaceAll(KyrText.brace[1], '}')
+      .replace(/([ap]\.m\.)\./g, '$1');
     return capitalize ? this.sentences(told) : told;
   }
   static readonly counts = ['no', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten',
     'eleven', 'twelve'];
   private static count(n: number, words: boolean): string {
     return words && Number.isInteger(n) && n > 0 && n < this.counts.length ? this.counts[n]! : String(n);
+  }
+  private static say(n: number, said: Said): string {
+    if (said.time) { return FictionalTime.at(n).split(', ')[1]!; }
+    const count = this.count(n, said.words);
+    return said.forms ? `${count} ${said.forms[n === 1 ? 0 : 1]}` : count;
   }
   // Names are lower-case nouns ("the rising river"); a sentence that starts with one is capitalized. A quotation
   // that ends in a question or a cry goes on into who said it ("'Murkstede?' says Hob"); one that ends in a full stop

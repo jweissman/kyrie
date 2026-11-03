@@ -575,6 +575,13 @@ The page at a glance gives a place's first two sentences, with its people and it
 about, and a place come back to is recalled by its first sentence. So a place leads with what matters most in it
 (the Lull's friction 10; the sentences split as the page splits them, not at "Mr." or "St.", GTR-17).
 
+An `Observe` is told once for each time the company comes, or once when it comes to hold while the company is there,
+and not again while it stays; come back, and the place is recalled by its first sentence. That is the intended rule: a
+line about what has changed (the hall ashamed after the hearing, the afterglow of a fire) is told at the step that
+made it so, and not read back later. What should stand on the page for as long as it is so belongs to a thing, as one
+of its `State`s, which the page shows with the thing each time, or to a topic, which can be asked again (Quittance's
+11; its pm 4, wk and sd found the hall's new line told once, and the thing's state the one that lasted).
+
 ## 7. module.json: rules and exports
 
 The manifest names the Kyr source of your module, the rules it is written against (`world` is the standard set), and the places a situation may use. Exports are the only way a
@@ -686,6 +693,11 @@ kept traces):
 bin/kyrie verify ashhollow
 ```
 
+It says too what of the adventure none of its kept traces came to: each rule or event that says something and was
+never told, each ending never reached, milestone never achieved, and promise never made, kept or broken (a rule that
+says nothing is counted, not judged); `bin/kyrie reach <campaign.json>` says the same of a curious player's plays (the
+Grand Tour's 09 and 11: a rule that could never fire was found only by reading; `test/happened.test.ts`).
+
 ```
 bin/kyrie lint path/to/your.campaign.json
 ```
@@ -694,6 +706,11 @@ Lint reports identity conflicts, places outside the containment tree, passages w
 duplicate passages, passage kinds that contradict their ends, rooms the company cannot reach, actions with no
 possible target, items of unknown kinds, and prose that explains the implementation. A recommended world has no
 findings.
+
+A long module gathers its author's own habits ("for a long time" fifteen times, "purring like a millstone" twice:
+Wapshott's Circus's 25). `bin/kyrie voice repeats data/adventures/<yours>` lists the phrases of three to six words its
+texts say more than once, most often first, each with its files and lines; a name, written in capitals or one of the
+module's own, is left out (`test/voice-repeats.test.ts`).
 
 A module that does not load says where, and what else has the name:
 
@@ -764,14 +781,22 @@ A journey test plays the same steps with `Journey` (`src/session/journey.ts`), a
 event said (the action's Result, and what rules said with it) as the module wrote it; its `page` is the page's
 telling, set as a book is, its quotes curled. A step that matches choices doing different things takes the first and
 is kept in `ambiguous`; a journey started `{ strict: true }`, or run with `JOURNEY_STRICT=1`, fails there instead, and
-names them (`test/journey-driver.test.ts`).
+names them (`test/journey-driver.test.ts`). Two people asked of the same thing are told apart by who is asked:
+`Kerensa: the night of the wreck` takes what Kerensa is asked of it, not Jinny (Fair Weather's 15). `j.page` is every
+step's telling, and a long wait keeps every hour's; `j.latest` is the telling of the last `play` only, so a match after a
+wait does not find text from days before (Quittance's ll 11). A module installed as the company went (a province, a
+country beyond a march) counts its own days from the first morning after it is reached, and a step waits by them when
+it names it: `=sennet day 3 21:00` is nine at night on Sennet's third day, whatever day of the world's that is (the
+Grand Tour's 20; `test/journey-test-aids.test.ts`).
 
 A test asks of the world by the names its module gives (`j.holds('complete', 'reckoner')`, `j.measure('trust',
 'pettifer')`, the installed module's prefix found as `=until` finds it), and is told when nothing is called that.
 What the steps to it would only repeat, it may make so: `j.assert('knows', 'party', 'map_read')`, `j.put('tobias',
 'cellar')`, `j.give('forged_writ')` (into the hands of the first of the company who is up); and `>place` goes to a
 place of the region or of an installed module by its own id (`test/journey-helpers.test.ts`; Quittance's friction 8
-and 9).
+and 9). A check's die is drawn from the seed and the moment, so a test of one that fails would be a search over seeds:
+`j.roll('fail')` has every check from then on come out so (a natural one), `j.roll('pass')` a twenty, and `j.roll()`
+lets the die fall again; `kyrie play --roll fail` does the same from the terminal (Quittance's 7).
 
 ## 10. What else a module can say
 
@@ -866,7 +891,9 @@ holds the one its seed chooses (`src/world/frontier.ts`). `bin/kyrie countries` 
 Where a country lies depends on every other's `beside`: one offered beside a new terrain can take a place another had.
 `bin/kyrie countries [seed ...]` says where each authored country lies in the worlds the tests draw (its cell, its
 side, and the terrain of the country it is entered from); run it before and after changing a `beside`, and compare
-(A Winter in Carth's 16).
+(A Winter in Carth's 16). Each province's way in is placed in the order `countries.json` lists them, clear of those
+before it, so adding one can move others; `bin/kyrie countries --diff` compares the file with as it was committed (or
+`--diff before.json`) and names each country the change moves, in which seed (Fair Weather's 1).
 
 Its clock runs from the first morning after it is reached: its own `watch(clock)` is 0 at eight that morning, and below
 nothing until then (a rule at `watch(clock) >= 216` waits 216 watches from that morning); its `day(clock)` and
@@ -947,6 +974,17 @@ when the company is anywhere in the area (news of a city told, and done, when th
 advises on a rule anchored at a place that changes something of the company's own (its coin, where it is, what it
 knows) and asks nothing of where the company is: it may be meant (a hand broken at a court the company stayed away
 from), and it may not.
+
+What happens again and again, a show every night, is told in full the first time the company hears it, and after
+that by the words written after `again`; which it has heard is kept with the game (Wapshott's Circus's 26: a nightly
+show told in full every night, unless its author kept a fact of having seen it and wrote it twice;
+`probes/told-again`):
+
+```text
+  Rule show at ring when hour(clock) >= 20 and not shown(party)
+    says "The lamps go up, {barker} cries the bill, and the horses come in at a gallop, plumed, round and round the ring."
+    again "The horses come in again, and {barker} cries the bill." { Assert shown(party). }
+```
 
 A count taken below nothing stops at nothing: `Decrease dose(?m) by 8` leaves a dose of five at none. An action that
 would take one past nothing is not offered, since what cannot be paid for is not bought; where that is backwards (a
@@ -1131,6 +1169,10 @@ Any text (an observation, a result, what someone says) can say a measure as it s
 whoever the condition finds first. A measure is said as a figure, as a reading is ("The dial reads {dial(clock)}.");
 said `in words`, a small one is a word, as speech would have it: `"'I've lost {lost(garth) in words} to them so
 far,' says {garth}."` says "one", not "1" (play 9).
+A phrase agrees with its count when both its forms follow it: `"{left(rose) in words|petal is|petals are} still to
+set."` says "One petal is still to set." and, with three left, "Three petals are". A measure kept of the watch is said
+as the time of day it was, `as time`: after `Set loosedAt(lanterns) to watch(clock)`, `"The lanterns went up at
+{loosedAt(lanterns) as time}."` says "at 9:30 p.m." (the Grand Tour's 09 and 11; `test/counts-told.test.ts`).
 
 ### A way that opens only sometimes
 
