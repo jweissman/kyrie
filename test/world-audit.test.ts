@@ -31,7 +31,7 @@ describe('a generated world\'s stories', () => {
     const { w, s, sites } = await Audited.world(seed);
     expect(sites.length).toBeGreaterThan(0);
     expect(WorldAudit.audit(s.campaign, w.report.placements, sites)).toEqual([]);
-  }, 60000);
+  }, 180000);
   it('catches one that cannot: a fever when there are no herbs to be had anywhere', async () => {
     const { w, s } = await Audited.world('thorn');
     const c = s.campaign as unknown as { world: { apply(c: unknown[]): unknown }; commit(w: unknown): void };

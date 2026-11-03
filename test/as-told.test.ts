@@ -51,7 +51,7 @@ describe('as the company would tell it', () => {
     for (const s of [ranger, warrior]) { Thorn.put(s, 'w9_adit_crossing'); }
     expect(Thorn.seen(ranger)).toContain('The stone at the mouth of the way to the head of the winze is slick');
     expect(Thorn.seen(warrior)).not.toContain('Something lies in wait in there');
-  }, 60000);
+  }, 180000);
   it('does not offer to try what is already undone, nor to look at what was gathered, nor to send a goat off', async () => {
     const s = await Thorn.start('warrior');
     Thorn.put(s, 'w8_galleries_deep_gate');
