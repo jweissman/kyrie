@@ -21,8 +21,8 @@ Module oldcoin "The stranger who pays in old coin" {
   // kept its tithe; sold, the stones are broken before you come (the owner, 3 November: deeper than one errand).
   Relation offeredDealer(group). Relation sold(group). Relation refused(group).
   Person dealer "A man in a good coat" at taproom { Role "a dealer of old things, who sits where he can see the scholar". Ancestry human. Peaceable. Pronouns he. }
-  Observe watching at taproom when at(dealer, taproom) and asked(scholar) and not sold(dealer) and not refused(dealer) "{dealer} has not taken his eyes off {scholar} since you sat down with them.".
-  Topic dealer_asks with dealer "Ask the man in the good coat what he wants with {scholar}" when asked(scholar) and not offeredDealer(actor) once {
+  Observe watching at taproom when at(dealer, taproom) and asked(scholar) and not sold(dealer) and not refused(dealer) "Across the room {dealer} watches {scholar}, and has since you sat down with them.".
+  Topic dealer_asks with dealer "Ask the man in the good coat about {scholar}" when asked(scholar) and not offeredDealer(actor) once {
     Says "He smiles as if you had paid him a compliment. 'Only to know where our friend is going,' he says. 'Old stones are my trade, and the scholar reads them before I can buy them. Eight coin, now, to be told which.'".
     On discuss { Assert offeredDealer(actor). }
   }

@@ -74,6 +74,7 @@ Module skeel "Fair Weather" {
   // ── The cell, and the oil barrel ──────────────────────────────────────────────────────────────────────────────────
   Observe cell_scene at cell when true "The oldest building on the Reach: a beehive of unmortared stone, so low you stoop, with a stone bench along one wall worn hollow by somebody's sitting a very long time ago. Carved over the bench, a fish and a flame. It is the Lantern's store now: a pile of coal, wicks in a box, cans, and a big iron-hooped oil barrel on a trestle with a tap.".
   Thing barrel "the oil barrel" at cell {
+    Tries burning.
     State standing "An oil barrel on a trestle, half full, with a brass tap and a tin cup hung on it. Chalked on the head: SAT. — H.B.".
   }
   Initially Assert state(barrel, standing).
