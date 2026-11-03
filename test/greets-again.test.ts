@@ -59,4 +59,18 @@ describe('someone greeting the company again', () => {
     await Again.choose(penned, /^Ask Nan to come along/);
     expect(await Again.choose(penned, /^Shut Nan in the byre/)).not.toContain("I'll be off home");
   }, 60000);
+  // One who says they are gone goes where their parting says, and is not still among those here (the Grand Tour's
+  // friction X07: Ha'penny "gone into the green", and named among those here).
+  it('takes one who leaves to where they say they go', async () => {
+    const s = await Again.start(`Place byre "the byre" is room within field at 1, 0. Passage gap "a gap" between yard and byre.
+      Action along(actor: group, site: place) "Ask Nan to come along" {
+        Requires at(actor, site) and at(nan, site) and not following(nan, actor).
+        On success { Assert following(nan, actor). } Result "Nan puts on the coat.". }
+      Action home(actor: group, site: place) "Send Nan home" { Requires at(actor, site) and following(nan, actor).
+        On success { Retract following(nan, actor). } Result "Nan goes.". }`,
+    `Leaves "'I'll be in the byre,' says Nan, and goes." to byre.`);
+    await Again.choose(s, /^Ask Nan to come along/);
+    expect(await Again.choose(s, /^Send Nan home/)).toContain("I'll be in the byre");
+    expect(s.campaign.world.related('at').filter(r => r.args[0]!.endsWith('nan')).map(r => r.args[1])).toEqual([expect.stringMatching(/byre$/)]);
+  }, 60000);
 });

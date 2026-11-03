@@ -204,7 +204,8 @@ The words are:
   does: `Assert granted(actor, flame). Set grantedUntil(actor, flame) to watch(clock) + 12.` (a brand held up high,
   for two hours; `test/fixtures/probes/brand`);
 - `Objects`: what a person says on seeing what is theirs in the company's hands (see "Whose things are", below);
-- `Joins` and `Leaves`: what they say on joining the company and on leaving it;
+- `Joins` and `Leaves`: what they say on joining the company and on leaving it; `Leaves "…" to <place>.` also takes
+  them there as they go, so one who says they are gone is not still among those here;
 - `Greets`, and `Greets again`: what they say the first time the company speaks to them, and when it comes back. One
   with a `Greets` of their own and no `Greets again` says nothing on a return, rather than a line of the voice
   tables that thirty others share.
@@ -695,7 +696,8 @@ bin/kyrie play path/to/your.campaign.json --seed s --steps steps.json --probe "k
 
 Each step is a pattern for the choice to take, matched against its label ("Wait › An hour", "Pack › A torch ›
 Light", "a torch: Light") and then against the label under its heading ("the Sleeper's left eyelid: Examine › Push
-and pull at it"), which tells two things' alike choices apart; quotes are quotes, straight or curled. Alike things
+and pull at it"), which tells two things' alike choices apart, and last against the label without the notes the page
+adds after it (" · an even chance", so `^Juggle the clubs$` still matches); quotes are quotes, straight or curled. Alike things
 carried are one row with their count ("Pack › Three torches › Light"), so a step for any of them is
 `Pack › .*torch.* › Light`. `@command` performs a command by its id; `=N` waits until watch N, `=+N` waits N watches
 more, `~N` waits until watch N by dark and first light; `=21:00` waits until nine at night comes, and `=day 2 21:00`
@@ -1098,6 +1100,9 @@ and the map and the page give its description as the reason (`probes/moon-gate`)
 ```
 
 The condition is read with the world's rules, so it may be anything a rule may test: the hour, a fact, a measure.
+A way may wait on more than one thing, each with its own words: it opens when every clause holds, and while shut it
+is told in the words of the first clause that fails (`opening when pitched(top) "The circus has gone on."
+opening when not showing(top) "The flap is laced: the show is on."`).
 It is read again once every rule of the moment has run, so a gate declared before the rule that lets the company
 through is open as soon as that rule has (`probes/admitted`; Low Water's Assayers' gate, What Tessary Owes' black
 wall).
@@ -1159,6 +1164,11 @@ is, as the company comes near it (`probes/lamps`). The variable names it in the 
 ```text
   Observe glow near ?lamp when lit(?lamp) "{?lamp} burns low and yellow, and the room leans toward it.".
 ```
+
+A place the condition finds is written `at ?place` (or `within ?area`): told in whichever place it finds, as the company
+stands there (`Observe tents at ?g when pitched(?g) "Striped tents stand in {?g}."`). `near` is for things and people,
+which stand somewhere; a place does not. A rule's line is anchored the same way, and heard only near whoever its
+condition finds (`Rule juggles near ?j when juggler(?j) and rung(field) says "{?j} juggles three apples." { … }`).
 
 ### Seen only by some
 

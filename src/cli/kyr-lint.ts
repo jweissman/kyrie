@@ -7,6 +7,7 @@ import { PlaySession } from '../session/play-session';
 import { NodeBundleSource } from '../campaign/node-bundle-source';
 import type { BundleSource } from '../campaign/bundle-source';
 import { CampaignLint } from './campaign-lint';
+import { AuthorLint } from './author-lint';
 import { AdventureNames } from './adventure-names';
 import type { Module } from '../lang/module';
 
@@ -99,6 +100,7 @@ export class KyrLint {
     lint.applicability(); lint.labels(); lint.items(); lint.prose(); lint.domain(); lint.hazards(); lint.placeholders();
     lint.roles();
     lint.anchors(); lint.keeps(); lint.movers(); lint.endings(); lint.writeOnly(); lint.commitments();
+    AuthorLint.run(lint);
     return lint.findings;
   }
   static async run(paths: string[]) {

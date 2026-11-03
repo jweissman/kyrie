@@ -167,7 +167,7 @@ export class CampaignTick {
       // The world itself is kept, not a copy of its facts, which the next reading of the world would build again
       // from every fact (Mission 15's profile: most of a command's time in a country of several regions).
       host.commitWorld(next);
-      if (rule.say && this.heard(host, rule, [began, prior, next])) {
+      if (rule.say && this.heard(host, rule, [began, prior, next], binding)) {
         // One told for each binding it fires for (each member polled), as an observation near a variable is seen once
         // for each thing it is near: an instance's id is its rule's and the binding's (aye@roll).
         const instance = Object.keys(binding).length ? `${rule.id}@${Object.values(binding).join(',')}` : rule.id;
@@ -183,8 +183,10 @@ export class CampaignTick {
   // to an act). Judged only after them, an event near Quance that carried her to the Nexus went untold to the company
   // beside her, as did one near her in the watch her routine moved her, and its latch spent it unheard (the Grand
   // Tour's friction 2, GTR-02). What the company perceived in none of them it did not hear: that is news, told later.
-  private static heard(host: TickHost, rule: WorldRule, worlds: World[]): boolean {
-    const player = host.playerActor, place = rule.place;
+  // One near a variable (`Rule r near ?who`) is heard near whoever its binding gives (Wapshott's Circus friction 3).
+  private static heard(host: TickHost, rule: WorldRule, worlds: World[],
+    binding: Record<string, string> = {}): boolean {
+    const player = host.playerActor, place = rule.place?.startsWith('?') ? binding[rule.place] : rule.place;
     if (!player || !worlds.at(-1)!.test(ModuleWriter.call('able', player))) { return false; }
     return !place || worlds.some(world => LocalObservations.perceives(world, player, place, rule.anchor));
   }

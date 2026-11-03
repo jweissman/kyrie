@@ -10,7 +10,7 @@ import { SceneModel } from '../src/ui/scene';
 describe('one who follows the company', () => {
   it('is with it, not announced in each place it comes to', async () => {
     const j = await Journey.start('test/fixtures/probes/follow/probe.campaign.json', 'k');
-    await j.play('Ask them to come with you', 'To the square');
+    await j.play('Ask \\w+ to come with you', 'To the square');
     expect(j.at('p__rupert')).toBe('p__square');
     expect(j.taken.at(-1)!.page).not.toContain('Rupert');
     const rupert = SceneModel.build(j.screen()).subjects.find(s => s.name === 'Rupert');
@@ -21,7 +21,7 @@ describe('one who follows the company', () => {
   }, 60000);
   it('is not taken off by a rule that does not ask who follows whom', async () => {
     const j = await Journey.start('test/fixtures/probes/follow/probe.campaign.json', 'k');
-    await j.play('Ask them to come with you', 'To the square', 'Ring the bath bell');
+    await j.play('Ask \\w+ to come with you', 'To the square', 'Ring the bath bell');
     expect(j.at('p__rupert')).toBe('p__square');
     // Left to his own way, his routine is his again.
     const alone = await Journey.start('test/fixtures/probes/follow/probe.campaign.json', 'k');
@@ -30,7 +30,7 @@ describe('one who follows the company', () => {
   }, 60000);
   it('comes along when a rule carries the company off', async () => {
     const j = await Journey.start('test/fixtures/probes/follow/probe.campaign.json', 'k');
-    await j.play('Ask them to come with you', 'To the square', 'Hail a chair');
+    await j.play('Ask \\w+ to come with you', 'To the square', 'Hail a chair');
     expect(j.at('party')).toBe('p__downs');
     expect(j.at('p__rupert')).toBe('p__downs');
   }, 60000);
@@ -38,7 +38,7 @@ describe('one who follows the company', () => {
   // friction 21).
   it('says what they say on coming somewhere that matters to them, once', async () => {
     const j = await Journey.start('test/fixtures/probes/follow/probe.campaign.json', 'k');
-    await j.play('Ask them to come with you', 'To the square', 'To the King\'s Bath');
+    await j.play('Ask \\w+ to come with you', 'To the square', 'To the King\'s Bath');
     expect(j.taken.at(-1)!.page).toContain('She used to bring me here when I was small,’ says Rupert');
     await j.play('To the square', 'To the King\'s Bath');
     expect(j.taken.at(-1)!.page).not.toContain('She used to bring me here');

@@ -51,7 +51,9 @@ export class PassageModel {
     return this.world.declares(name) ? [{ kind: 'not', value: this.call(name, ...args) }] : [];
   }
   private shut(passage: string): string | undefined {
-    const o = this.world.module.observations?.find(x => x.id === `${passage}__shut`);
+    // Of a way's clauses, the words of the one that keeps it shut now (WorldConstructs.opening).
+    const o = this.world.module.observations?.find(x => new RegExp(`^${passage}__shut\\d*$`).test(x.id)
+      && this.world.test(x.when));
     return o ? ObservationText.render(o.text, this.world) : undefined;
   }
   visible(passage: string): boolean { return this.world.test(this.call('visibleTo', passage, this.actor)); }

@@ -69,9 +69,10 @@ export class SceneModel {
   }
   // An animal is led and let go, not asked.
   private static led(c: Choice): Choice {
-    const words: Record<string, string> = { 'Ask them to come with you': 'Lead along', 'Let them make their own way': 'Let go',
-      'Tell them not to wait for you': 'Leave be' };
-    return words[c.label] ? { ...c, label: words[c.label]! } : c;
+    const words: [RegExp, string][] = [[/^Ask \w+ to come with you$/, 'Lead along'], [/^Let \w+ make \w+ own way$/, 'Let go'],
+      [/^Tell \w+ not to wait for you$/, 'Leave be']];
+    const said = words.find(([w]) => w.test(c.label))?.[1];
+    return said ? { ...c, label: said } : c;
   }
   // Said beside its subject, a choice need not name it again: "Ask Wat about Father" under Wat is "Ask about Father";
   // "Take a coil of rope" under the rope is "Take". What is told someone, or asked of them, still says whom: "Tell

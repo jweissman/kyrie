@@ -43,7 +43,7 @@
   "Ask Edith Marl why",
   "Ask Edith Marl whether she knew",
   "Ask Edith Marl whether she is sorry",
-  "Ask them to come with you"
+  "Ask \\w+ to come with you"
  ],
  "ring": [
   "To the warren",

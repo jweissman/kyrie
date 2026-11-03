@@ -36,7 +36,7 @@
   "Ask the boy who he is",
   "Ask Ned how he died",
   "Ask Ned what you can do",
-  "Ned Whitlock: Ask them to come with you"
+  "Ned Whitlock: Ask \\w+ to come with you"
  ],
  "halt": [
   "To the southern Field",

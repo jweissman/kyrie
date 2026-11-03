@@ -53,7 +53,7 @@ export class ModuleCompiler {
   private signaturesOf(module: Module) {
     for (const signature of [...module.relations, ...module.measures]) {
       signature.types.forEach(type => this.kind(module, type));
-      if (signature.exclusive && signature.types.length < 2) { throw new Error('Exclusive relation needs at least two arguments'); }
+      if (signature.exclusive && signature.types.length < 1) { throw new Error('Exclusive relation needs an argument'); }
     }
     for (const query of module.queries) {
       ModuleCompiler.unique(query.parameters.map(p => p.name), 'query parameter');
@@ -74,7 +74,8 @@ export class ModuleCompiler {
     ModuleCompiler.unique((module.rules ?? []).map(r => r.id), 'rule');
     for (const r of module.rules ?? []) {
       this.predicate(module, r.when); ModuleCompiler.bound(`Rule ${r.id}`, r.when);
-      if (r.place) { this.anchor(module, r.place, r.anchor); }
+      if (r.place?.startsWith('?')) { this.subject(`Rule ${r.id}`, r.anchor, r.place, r.when); }
+      else if (r.place) { this.anchor(module, r.place, r.anchor); }
       if (r.say) {
         this.text(module, r.say);
         const named = JSON.stringify(r.when);
@@ -83,7 +84,10 @@ export class ModuleCompiler {
         }
       }
       if (r.teaches && (!r.say || this.type(module, r.teaches) !== 'fact')) {
-        throw new Error(`Rule ${r.id} teaches ${r.teaches}: it must say something, and teach a fact`);
+        // What is learned is learned from something said or seen (GTR-24: the refusal says how).
+        throw new Error(`Rule ${r.id} teaches ${r.teaches}: a rule teaches a fact by what it says (\`Rule … says "…" `
+          + `teaches fact\`), or the fact is taught where it is seen (\`Observe … teaches fact\`); see the guide's `
+          + `"Words that teach"`);
       }
       r.effects.forEach(c => this.change(module, c)); ModuleCompiler.writes(`Rule ${r.id}`, r.when, r.effects);
       if (r.effects.some(c => EngineOwned.rules.has(c.call.name))) {
@@ -188,8 +192,9 @@ export class ModuleCompiler {
   private subject(id: string, anchor: string | undefined, variable: string, when: Predicate) {
     const seen = { bound: new Set<string>(), compared: new Set<string>() };
     ModuleCompiler.variables(when, seen, true);
-    if (anchor !== 'near' || !seen.bound.has(variable)) {
-      throw new Error(`${id} is near ${variable}, which its condition must bind (Observe ${id} near ${variable} when …)`);
+    // At or within a place the condition finds, too (Wapshott's Circus friction 2: `near` a place told nothing).
+    if (!['near', 'at', 'within'].includes(anchor ?? 'at') || !seen.bound.has(variable)) {
+      throw new Error(`${id} is ${anchor ?? 'at'} ${variable}, which its condition must bind (Observe ${id} near ${variable} when …)`);
     }
   }
   private anchor(module: Module, id: string, anchor: string | undefined) {
@@ -223,9 +228,15 @@ export class ModuleCompiler {
       const type = bindings[arg] ?? this.type(module, arg);
       const expected = signature.types[i];
       if (!type || (expected !== 'entity' && type !== 'entity' && type !== expected)) {
-        throw new Error(`Invalid argument ${arg} in ${World.format(call)}`);
+        throw new Error(`Invalid argument ${arg} in ${World.format(call)}${type ? '' : this.known(module, expected)}`);
       }
     });
+  }
+  // What there is of a kind, when there are few: an unknown manner says which the manners are (Fair Weather's 10,
+  // Behind the Wainscot's F12: refused with no line, and seven to guess).
+  private known(module: Module, kind: string | undefined): string {
+    const of = module.entities.filter(e => e.type === kind).map(e => e.name);
+    return of.length && of.length <= 12 ? `: no ${kind} of that name; the ${kind}s are ${of.join(', ')}` : '';
   }
   private predicate(module: Module, predicate: Predicate, bindings: Record<string, string> = {}) {
     switch (predicate.kind) {

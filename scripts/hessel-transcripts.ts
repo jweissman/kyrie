@@ -4,7 +4,7 @@
 // editorial assessment quotes. Waits that tell nothing are counted, not repeated.
 import { writeFile, mkdir } from 'node:fs/promises';
 import { Journey } from '../src/session/journey';
-import { ScreenModel } from '../src/ui/screen-model';
+import { TranscriptWriter } from '../src/cli/transcript-writer';
 import { Hessel, build, alone as bard } from '../test/support/hessel';
 
 const out = 'doc/adventures/banns-at-hessel/playtest';
@@ -22,21 +22,11 @@ const journeys: { file: string; title: string; who: string; campaign: string; se
 await mkdir(out, { recursive: true });
 for (const { file, title, who, campaign, seed, steps } of journeys) {
   const g = await Hessel.start(campaign, seed), j: Journey = g.j;
-  const opening = ScreenModel.build(j.campaign).prose.join(' ');
+  const opening = TranscriptWriter.opening(j);
   await g.fixture(steps);
   await g.until();
-  const lines: string[] = ['*(The first page)*', '', opening, ''];
-  let quiet = 0;
-  for (const t of j.taken) {
-    const said = t.page.trim();
-    const nothing = !said || /^(An hour passes|Time passes|A while passes)\.$/.test(said);
-    if (/^Wait/.test(t.label) && nothing) { quiet++; continue; }
-    if (quiet) { lines.push(`*(${quiet} ${quiet === 1 ? 'wait' : 'waits'} in which nothing is told)*`, ''); quiet = 0; }
-    lines.push(`**${t.label}**`, '', said || '*(nothing is told)*', '');
-  }
-  const ending = j.campaign.module.entities.find(e => e.type === 'ending' && j.holds('reached', e.id));
-  await writeFile(`${out}/${file}`, [`# ${title}`, '', `Played by ${who}; seed \`${seed}\`, steps \`test/fixtures/hessel/${steps}.json\`; ` +
-    `${j.taken.length} steps; ended at watch ${j.watch()}${ending ? `, at the ending "${ending.name}"` : ''}. ` +
-    'Written by `bun scripts/hessel-transcripts.ts` from the journey as the page told it.', '', ...lines].join('\n'));
-  console.log(`${file}: ${j.taken.length} steps, ${ending?.name ?? 'no ending'}`);
+  await writeFile(`${out}/${file}`, [...TranscriptWriter.heading(j, title, `Played by ${who}; seed \`${seed}\`, steps `
+    + `\`test/fixtures/hessel/${steps}.json\``), 'Written by `bun scripts/hessel-transcripts.ts` from the journey as the page'
+    + ' told it.', '', ...TranscriptWriter.lines(j, opening)].join('\n'));
+  console.log(`${file}: ${j.taken.length} steps`);
 }

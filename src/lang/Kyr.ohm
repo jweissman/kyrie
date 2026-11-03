@@ -41,10 +41,10 @@ Kyr {
   Event = "Event" ident Anchor? "when" Predicate string RuleTeaches? EventTail
   EventTail = "then" "{" ChangeStatement* "}" -- effects
     | "." -- plain
-  Anchor = "at" ident -- at
+  Anchor = "at" term -- at
          | "near" term -- near
          | "beside" ident -- beside
-         | "within" ident -- within
+         | "within" term -- within
   Objective = "Objective" ident "when" Predicate string "."
   Milestone = "Milestone" ident string MilestoneWorth
   MilestoneWorth = "worth" integer MilestoneWhen
@@ -77,12 +77,14 @@ Kyr {
   ExitDoor = "through" ident
   ExitKnowledge = "known" "by" ident
   Person = "Person" ident string "at" ident "{" PersonPart* "}"
-  PersonPart = PersonRole | PersonKnown | PersonRace | PersonSpecies | PersonVariant | PersonSeen | PersonCreature | PersonCount | PersonCalled | PersonWants | PersonTrait | PersonCarries | PersonClass | PersonLevel | PersonUses | PersonHorizon | StatePart | ChangePart | GuardsPart | PersonPeaceable | PersonProfession | PersonBackground | OffersPart | SellsPart | BuysPart | PersonTemperament | PersonManner | PersonPronouns | PersonAgain | PersonWords | PersonHaunt | PersonRemarks
+  PersonPart = PersonRole | PersonKnown | PersonRace | PersonSpecies | PersonVariant | PersonSeen | PersonCreature | PersonCount | PersonCalled | PersonWants | PersonTrait | PersonCarries | PersonClass | PersonLevel | PersonUses | PersonHorizon | StatePart | ChangePart | GuardsPart | PersonPeaceable | PersonProfession | PersonBackground | OffersPart | SellsPart | BuysPart | PersonTemperament | PersonManner | PersonPronouns | PersonAgain | PersonLeavesTo | PersonWords | PersonHaunt | PersonRemarks
   PersonTemperament = "Temperament" ident "."
   PersonManner = "Manner" ident "."
   PersonPronouns = "Pronouns" ident "."
   PersonWords = ("Warns" | "Arrives" | "Comes" | "Flinches" | "Pleads" | "Objects" | "Resents" | "Joins" | "Leaves" | "Greets" | "Likeness") string RoleWhen? "."
   PersonAgain = "Greets" "again" string "."
+  PersonLeavesTo = "Leaves" LeavesTo RoleWhen? "."
+  LeavesTo = string "to" ident
   PersonRemarks = "Remarks at" ident string "."
   PersonHaunt = ("Lair" | "Refuge" | "Fears") ident "."
   PersonProfession = "Profession" ident "."

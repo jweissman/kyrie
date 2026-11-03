@@ -44,7 +44,7 @@ class Ring {
   static readonly look = "?Tell Tobu: 'Look at me";
   // From Kezu's kitchen, with Tobu, through the small door and up into the Keel's Long Hall.
   static async up(s: PlaySession) {
-    await this.act(s, 'Ask Tobu what happened', 'Ask Tobu to come with you into', 'Ask them to come with you',
+    await this.act(s, 'Ask Tobu what happened', 'Ask Tobu to come with you into', 'Ask \\w+ to come with you',
       'sleeping-room', '^Take', 'To Kezu.s kitchen', 'pond causeway', 'rim of Cobble', 'east lip', 'flattened barley',
       'Pay the watchers', this.look, 'back through the small door', this.look, 'back through the door to the cup shelf',
       this.look, 'back through the narrow door');
@@ -57,7 +57,7 @@ class Ring {
 describe('The House That Grows: its law', () => {
   it('opens the Annex door onto the city, because Cobble Ring watches the Annex', async () => {
     const s = await Ring.start();
-    await Ring.act(s, 'Ask Tobu what happened', 'Ask Tobu to come with you into', 'Ask them to come with you',
+    await Ring.act(s, 'Ask Tobu what happened', 'Ask Tobu to come with you into', 'Ask \\w+ to come with you',
       'pond causeway', 'rim of Cobble', 'east lip', 'flattened barley');
     // Tobu is looking: the small door will not open while anyone watches it, nor while the stools face it.
     expect(Ring.offered(s, 'back through the small door')).toBe(false);
@@ -186,7 +186,7 @@ describe('The House That Grows: its maps, its people and its sounds', () => {
     await Ring.up(s);
     await Ring.act(s, Ring.look, 'back through a door with cold air', 'Search here', Ring.look, 'back through a door with cold air',
       'Knock on a door that glints', Ring.look, 'back through a door that glints', 'Tell Ottie about the red door',
-      'Ask them to come with you', 'Take from the lamp shelves', 'into the chimney of', Ring.look, 'back through a door that glints',
+      'Ask \\w+ to come with you', 'Take from the lamp shelves', 'into the chimney of', Ring.look, 'back through a door that glints',
       Ring.look, 'back through the far door', 'Pack › .*lamp.*Set down', Ring.look, 'back through the far door', Ring.look,
       'back through the far door');
     expect(Ring.holds(s, 'at', 'party', 'hhg__coats_low')).toBe(true);
@@ -249,7 +249,7 @@ describe('The House That Grows: its maps, its people and its sounds', () => {
 
   it('hears Kezu lie about her dreams, and then, shown the twin of her cup, tell them', async () => {
     const s = await Ring.start();
-    await Ring.act(s, 'Ask Tobu what happened', 'Ask Tobu to come with you into', 'Ask them to come with you',
+    await Ring.act(s, 'Ask Tobu what happened', 'Ask Tobu to come with you into', 'Ask \\w+ to come with you',
       'sleeping-room', '^Take', 'To Kezu.s kitchen', 'pond causeway', 'rim of Cobble', 'east lip', 'flattened barley',
       'Pay the watchers', Ring.look, 'back through the small door', Ring.look, 'back through the door to the cup shelf');
     expect(Ring.holds(s, 'knows', 'party', 'hhg__cups_match')).toBe(true);

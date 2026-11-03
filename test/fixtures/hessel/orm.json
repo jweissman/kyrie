@@ -55,7 +55,7 @@
   "To Stall Street",
   "Into the Hospital",
   "Tell Dr Ottery what Hartopp",
-  "Dr Jonas Ottery.*: Ask them to come",
+  "Dr Jonas Ottery.*: Ask \\w+ to come",
   "Out to Stall Street",
   "To the Abbey Yard",
   "To the top of the Parade",

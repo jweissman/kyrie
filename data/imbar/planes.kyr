@@ -9,7 +9,9 @@ Module canon "Imbar and the planes" {
   // ── The inner planes ──────────────────────────────────────────────────────────────────────────────────────────────
   // Each plane is one region and, in it, a threshold, where doors from elsewhere arrive and an author's own places
   // join it. Its courts, cities and wastes are whatever authors set in it, each a region of its own within the plane.
-  // The elemental planes carry no law of their own yet: one written for a plane is written here, for every author.
+  // A plane's law is written here, for every author, and holds in every place within it: the Fire's and the Air's so
+  // far (the Grand Tour's Hour Court and its winds); Earth and Water carry none yet.
+  Entity plane_fire: law "the law of the Fire". Entity plane_air: law "the law of the Air".
   Place inner_fire "the Plane of Fire" is plane.
   Place inner_fire_region "the Plane of Fire" is region within inner_fire elsewhere.
   Place inner_fire_land "the threshold of Fire" is wilderness within inner_fire_region at 0, 0 elsewhere.
@@ -48,4 +50,5 @@ Module canon "Imbar and the planes" {
   Place inner_negative_land "the threshold of the Negative Plane" is wilderness within inner_negative_region at 0, 0 elsewhere.
   Place inner_negative_threshold "the threshold of the Negative Plane" is room within inner_negative_land at 0, 0.
   Observe inner_negative_seen at inner_negative_threshold when true "Dark on every side, and a cold that draws the warmth out of you.".
+  Initially Assert law(inner_fire, plane_fire). Initially Assert law(inner_air, plane_air).
 }

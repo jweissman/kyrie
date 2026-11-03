@@ -96,7 +96,8 @@ export class LocalObservations {
     const out = new Map<string, string>();
     for (const b of world.solve(o.when, {})) {
       const entity = b[o.place];
-      if (!entity || out.has(entity) || !this.perceives(world, actor, entity, 'near') || !this.noticed(world, entity, actor)) {
+      if (!entity || out.has(entity) || !this.perceives(world, actor, entity, o.anchor ?? 'at')
+        || (o.anchor === 'near' && !this.noticed(world, entity, actor))) {
         continue;
       }
       out.set(entity, ObservationText.render(o.text, world, true, b));

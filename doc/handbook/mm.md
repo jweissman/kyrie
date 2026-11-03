@@ -140,7 +140,7 @@ Charm Person: One enemy is charmed for 3 turns (only humanoid creatures; a Wisdo
 
 Mind Melt: 2d6 (2–12) psychic damage to every enemy (may cause confused: a Wisdom save against 15 avoids it; may cause insane: an Intelligence save against 15 avoids it); every enemy is stunned for 3 turns (a Constitution save against 20 + level + bonusSpellDC avoids it); every enemy is charmed for 3 turns (a Wisdom save against 15 + level + bonusSpellDC avoids it). Confused: acts at random. Insane: −1 to every roll, −2 to will saves, acts at random. Stunned: −2 to every roll, cannot act. Charmed: fights for the other side. An arcane spell of the second level. Takes a second-level slot.
 
-Engulf: One enemy is engulfed for 3 turns (a Constitution save against 16 + level + bonusSpellDC avoids it). Engulfed: cannot act, takes 2d6 (2–12) acid damage each turn.
+Engulf: One enemy is engulfed for 3 turns (a Constitution save against 16 + level + bonusSpellDC avoids it). Engulfed: cannot act, takes 2d6 (2–12) acid damage each turn. Again after 3 turns.
 
 Planar Adaptation: +2 against magic, resists 50% of fire, resists 50% of cold, resists 50% of lightning.
 
@@ -165,7 +165,7 @@ Planar Adaptation: +2 against magic, resists 50% of fire, resists 50% of cold, r
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Flee: Try to escape the fight (an even chance).
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A small but fierce mammal with fine digging ability and extreme tenacity.
 
@@ -182,7 +182,7 @@ Flee: Try to escape the fight (an even chance).
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Flee: Try to escape the fight (an even chance).
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A nocturnal flying mammal that uses echolocation to navigate in the dark.
 
@@ -199,11 +199,11 @@ Flee: Try to escape the fight (an even chance).
 - Found in: woodland, mountain
 - Worth: 150 experience a level
 
-Smash: 2d6 + level bludgeoning damage to one enemy (may cause stunned: a Constitution save against 15 avoids it). Stunned: −2 to every roll, cannot act.
+Smash: 2d6 + level bludgeoning damage to one enemy (may cause stunned: a Constitution save against 15 avoids it). Stunned: −2 to every roll, cannot act. Again after 3 turns.
 
 Maul: Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to it (may cause stunned: a Constitution save against 15 avoids it); it is bleeding for 3 turns (a Constitution save against 15 + level + bonusSpellDC avoids it). Stunned: −2 to every roll, cannot act. Bleeding: takes 1d2 (1–2) bleed damage each turn. Again after 2 turns.
 
-Flee: Try to escape the fight (an even chance).
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A powerful woodland omnivore, dangerous when its young or feeding ground are threatened.
 
@@ -222,7 +222,7 @@ Flee: Try to escape the fight (an even chance).
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Flee: Try to escape the fight (an even chance).
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A small insect with a hard exoskeleton and strong mandibles for biting.
 
@@ -239,7 +239,7 @@ Flee: Try to escape the fight (an even chance).
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Flee: Try to escape the fight (an even chance).
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A delicate insect with colorful wings. Its flight is graceful and mesmerizing.
 
@@ -256,7 +256,7 @@ Flee: Try to escape the fight (an even chance).
 - Found in: settlement
 - Worth: 150 experience a level
 
-Flee: Try to escape the fight (an even chance).
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A cat about the house: it keeps the mice down and goes where it likes.
 
@@ -275,9 +275,9 @@ Flee: Try to escape the fight (an even chance).
 
 Venomous Bite: 1d6 (1–6) poison damage to one enemy (halved if resisted; may cause poison: a Constitution save against 15 avoids it); it gains poison for 3 turns (a Constitution save against 12 + level + bonusSpellDC avoids it). Poison: takes 1d4 (1–4) true damage each turn. A divine spell of the first level. Takes a first-level slot.
 
-Ensnare: One enemy is entangled for 3 turns (a Dexterity save against 12 + level + bonusSpellDC avoids it). Entangled: −2 to hit, −5 evasion, −5 initiative, Dexterity −5.
+Ensnare: One enemy is entangled for 3 turns (a Dexterity save against 12 + level + bonusSpellDC avoids it). Entangled: −2 to hit, −5 evasion, −5 initiative, Dexterity −5. Again after 3 turns.
 
-Flee: Try to escape the fight (an even chance).
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A dog-sized spider that strings the dark with sticky lines and waits for something to blunder into them.
 
@@ -296,7 +296,7 @@ Flee: Try to escape the fight (an even chance).
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Flee: Try to escape the fight (an even chance).
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A long, segmented insect with many legs and a venomous bite.
 
@@ -314,13 +314,13 @@ Flee: Try to escape the fight (an even chance).
 
 Maul: Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to it (may cause stunned: a Constitution save against 15 avoids it); it is bleeding for 3 turns (a Constitution save against 15 + level + bonusSpellDC avoids it). Stunned: −2 to every roll, cannot act. Bleeding: takes 1d2 (1–2) bleed damage each turn. Again after 2 turns.
 
-Prepare Charge: You are preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage; and the next turn can only be Charge, nothing else.
+Prepare Charge: You are preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage; and the next turn can only be Charge, nothing else. Again after 3 turns.
 
-Charge: End preparing to charge on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may cause stunned: a Constitution save against 15 avoids it). Stunned: −2 to every roll, cannot act.
+Charge: End preparing to charge on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may cause stunned: a Constitution save against 15 avoids it). Stunned: −2 to every roll, cannot act. Again after 3 turns.
 
-Rage: You are raging for 3 turns. Raging: +1 to hit, 3 easier to hit, +2 damage.
+Rage: You are raging for 3 turns. Raging: +1 to hit, 3 easier to hit, +2 damage. Again after 3 turns.
 
-Poison Bite: 1d4 (1–4) poison damage to one enemy (may cause poison: a Constitution save against 15 avoids it). Poison: takes 1d4 (1–4) true damage each turn.
+Poison Bite: 1d4 (1–4) poison damage to one enemy (may cause poison: a Constitution save against 15 avoids it). Poison: takes 1d4 (1–4) true damage each turn. Again after 3 turns.
 
 Fireball: 6d6 (6–36) fire damage to every enemy (halved if resisted; may cause burning: a Constitution save against 15 avoids it). Burning: takes 1d3 (1–3) fire damage each turn. An arcane spell of the fourth level. Takes a fourth-level slot.
 
@@ -347,7 +347,7 @@ Wild: +2 to hit, +2 damage, +2 evasion, +1 to every roll, resists 10% of all.
 - Found in: settlement, meadow
 - Worth: 150 experience a level
 
-Flee: Try to escape the fight (an even chance).
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A milk cow, slow and certain.
 
@@ -364,7 +364,7 @@ Flee: Try to escape the fight (an even chance).
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Flee: Try to escape the fight (an even chance).
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A large aquatic reptile with powerful jaws and stealthy hunting.
 
@@ -381,7 +381,7 @@ Flee: Try to escape the fight (an even chance).
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Flee: Try to escape the fight (an even chance).
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A highly intelligent bird remarkable for its problem-solving skills and adaptability.
 
@@ -398,7 +398,7 @@ Flee: Try to escape the fight (an even chance).
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Flee: Try to escape the fight (an even chance).
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A graceful herbivore with exquisite agility and keen senses.
 
@@ -415,7 +415,7 @@ Flee: Try to escape the fight (an even chance).
 - Found in: settlement, meadow, upland
 - Worth: 150 experience a level
 
-Flee: Try to escape the fight (an even chance).
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A working dog of a farm, a drove or an inn: it knows people, and keeps an eye on what is theirs.
 
@@ -432,7 +432,7 @@ Flee: Try to escape the fight (an even chance).
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Flee: Try to escape the fight (an even chance).
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A swift flying insect with iridescent wings and excellent maneuverability.
 
@@ -449,7 +449,7 @@ Flee: Try to escape the fight (an even chance).
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Flee: Try to escape the fight (an even chance).
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A majestic bird of prey renowned for keen eyesight and capable of powerful flight.
 
@@ -466,7 +466,7 @@ Flee: Try to escape the fight (an even chance).
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Flee: Try to escape the fight (an even chance).
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A swift bird of prey possessing extreme speed and remarkable hunting prowess.
 
@@ -485,7 +485,7 @@ Flee: Try to escape the fight (an even chance).
 
 Rending bite: 1d6 (1–6) physical damage to one enemy; it is bleeding for 2 turns (a Constitution save against 11 avoids it). Bleeding: takes 1 bleed damage each turn. Again after a turn.
 
-Flee: Try to escape the fight (an even chance).
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A scavenging dog descended from abandoned working animals.
 
@@ -504,7 +504,7 @@ Flee: Try to escape the fight (an even chance).
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Flee: Try to escape the fight (an even chance).
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A small, agile mammal with great curiosity and playful nature.
 
@@ -521,7 +521,7 @@ Flee: Try to escape the fight (an even chance).
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Flee: Try to escape the fight (an even chance).
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A cunning and adaptable mammal of remarkable intelligence.
 
@@ -538,7 +538,7 @@ Flee: Try to escape the fight (an even chance).
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Flee: Try to escape the fight (an even chance).
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A small amphibian with a powerful jumping ability and croaking calls.
 
@@ -579,7 +579,7 @@ Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Flee: Try to escape the fight (an even chance).
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A sure-footed and hardy herbivore with a curious nature.
 
@@ -634,7 +634,7 @@ Of deep water: Immune to reflex.
 
 Venomous Bite: 1d6 (1–6) poison damage to one enemy (halved if resisted; may cause poison: a Constitution save against 15 avoids it); it gains poison for 3 turns (a Constitution save against 12 + level + bonusSpellDC avoids it). Poison: takes 1d4 (1–4) true damage each turn. A divine spell of the first level. Takes a first-level slot.
 
-Ensnare: One enemy is entangled for 3 turns (a Dexterity save against 12 + level + bonusSpellDC avoids it). Entangled: −2 to hit, −5 evasion, −5 initiative, Dexterity −5.
+Ensnare: One enemy is entangled for 3 turns (a Dexterity save against 12 + level + bonusSpellDC avoids it). Entangled: −2 to hit, −5 evasion, −5 initiative, Dexterity −5. Again after 3 turns.
 
 > A snake grown old and huge in the dark on whatever comes to it, as long as a hall and as thick as a man.
 
@@ -651,7 +651,7 @@ Ensnare: One enemy is entangled for 3 turns (a Dexterity save against 12 + level
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Flee: Try to escape the fight (an even chance).
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A sharp-eyed bird of prey with excellent hunting skills.
 
@@ -668,7 +668,7 @@ Flee: Try to escape the fight (an even chance).
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Flee: Try to escape the fight (an even chance).
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A small mammal covered in spines. When threatened it exhibits its defensive curling behavior.
 
@@ -685,7 +685,7 @@ Flee: Try to escape the fight (an even chance).
 - Found in: settlement
 - Worth: 150 experience a level
 
-Flee: Try to escape the fight (an even chance).
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A hen scratching about a yard.
 
@@ -702,7 +702,7 @@ Flee: Try to escape the fight (an even chance).
 - Found in: settlement, meadow
 - Worth: 150 experience a level
 
-Flee: Try to escape the fight (an even chance).
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A horse broken to saddle or to the cart.
 
@@ -719,7 +719,7 @@ Flee: Try to escape the fight (an even chance).
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Flee: Try to escape the fight (an even chance).
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A tiny bird capable of hovering in mid-air thanks to its rapid wing flapping.
 
@@ -736,7 +736,7 @@ Flee: Try to escape the fight (an even chance).
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Flee: Try to escape the fight (an even chance).
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A scavenging carnivore with powerful jaws and distinctive laugh-like vocalizations.
 
@@ -753,7 +753,7 @@ Flee: Try to escape the fight (an even chance).
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Flee: Try to escape the fight (an even chance).
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A majestic big cat of enormous strength and courage.
 
@@ -770,7 +770,7 @@ Flee: Try to escape the fight (an even chance).
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Flee: Try to escape the fight (an even chance).
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A small reptile known with exquisite agility and unusual ability to regenerate lost tails.
 
@@ -789,7 +789,7 @@ Flee: Try to escape the fight (an even chance).
 
 Rending bite: 1d6 (1–6) physical damage to one enemy; it is bleeding for 2 turns (a Constitution save against 11 avoids it). Bleeding: takes 1 bleed damage each turn. Again after a turn.
 
-Flee: Try to escape the fight (an even chance).
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A territorial animal along reed margins.
 
@@ -808,7 +808,7 @@ Flee: Try to escape the fight (an even chance).
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Flee: Try to escape the fight (an even chance).
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A small burrowing mammal with powerful forelimbs for digging and poor eyesight.
 
@@ -825,7 +825,7 @@ Flee: Try to escape the fight (an even chance).
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Flee: Try to escape the fight (an even chance).
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A nocturnal flying insect attracted to light, with soft, furry wings.
 
@@ -843,13 +843,13 @@ Flee: Try to escape the fight (an even chance).
 
 Maul: Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to it (may cause stunned: a Constitution save against 15 avoids it); it is bleeding for 3 turns (a Constitution save against 15 + level + bonusSpellDC avoids it). Stunned: −2 to every roll, cannot act. Bleeding: takes 1d2 (1–2) bleed damage each turn. Again after 2 turns.
 
-Prepare Charge: You are preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage; and the next turn can only be Charge, nothing else.
+Prepare Charge: You are preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage; and the next turn can only be Charge, nothing else. Again after 3 turns.
 
-Charge: End preparing to charge on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may cause stunned: a Constitution save against 15 avoids it). Stunned: −2 to every roll, cannot act.
+Charge: End preparing to charge on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may cause stunned: a Constitution save against 15 avoids it). Stunned: −2 to every roll, cannot act. Again after 3 turns.
 
-Rage: You are raging for 3 turns. Raging: +1 to hit, 3 easier to hit, +2 damage.
+Rage: You are raging for 3 turns. Raging: +1 to hit, 3 easier to hit, +2 damage. Again after 3 turns.
 
-Poison Bite: 1d4 (1–4) poison damage to one enemy (may cause poison: a Constitution save against 15 avoids it). Poison: takes 1d4 (1–4) true damage each turn.
+Poison Bite: 1d4 (1–4) poison damage to one enemy (may cause poison: a Constitution save against 15 avoids it). Poison: takes 1d4 (1–4) true damage each turn. Again after 3 turns.
 
 Scream: Every enemy is frightened for 3 turns (a Wisdom save against 12 + level + bonusSpellDC avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. Again after 6 turns.
 
@@ -874,7 +874,7 @@ Wild: +2 to hit, +2 damage, +2 evasion, +1 to every roll, resists 10% of all.
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Flee: Try to escape the fight (an even chance).
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A playful aquatic mammal with great agility in water and dexterous forepaws.
 
@@ -891,7 +891,7 @@ Flee: Try to escape the fight (an even chance).
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Flee: Try to escape the fight (an even chance).
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A nocturnal bird of prey with night vision and silent flight.
 
@@ -909,15 +909,15 @@ Flee: Try to escape the fight (an even chance).
 
 Maul: Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to it (may cause stunned: a Constitution save against 15 avoids it); it is bleeding for 3 turns (a Constitution save against 15 + level + bonusSpellDC avoids it). Stunned: −2 to every roll, cannot act. Bleeding: takes 1d2 (1–2) bleed damage each turn. Again after 2 turns.
 
-Prepare Charge: You are preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage; and the next turn can only be Charge, nothing else.
+Prepare Charge: You are preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage; and the next turn can only be Charge, nothing else. Again after 3 turns.
 
-Charge: End preparing to charge on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may cause stunned: a Constitution save against 15 avoids it). Stunned: −2 to every roll, cannot act.
+Charge: End preparing to charge on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may cause stunned: a Constitution save against 15 avoids it). Stunned: −2 to every roll, cannot act. Again after 3 turns.
 
-Rage: You are raging for 3 turns. Raging: +1 to hit, 3 easier to hit, +2 damage.
+Rage: You are raging for 3 turns. Raging: +1 to hit, 3 easier to hit, +2 damage. Again after 3 turns.
 
-Poison Bite: 1d4 (1–4) poison damage to one enemy (may cause poison: a Constitution save against 15 avoids it). Poison: takes 1d4 (1–4) true damage each turn.
+Poison Bite: 1d4 (1–4) poison damage to one enemy (may cause poison: a Constitution save against 15 avoids it). Poison: takes 1d4 (1–4) true damage each turn. Again after 3 turns.
 
-Stomp: 1d6 (1–6) bludgeoning damage to every enemy (may cause stunned: a Constitution save against 15 avoids it); every enemy is prone for 3 turns (a Dexterity save against 14 + level + bonusSpellDC avoids it). Stunned: −2 to every roll, cannot act. Prone: Dexterity −2, cannot act.
+Stomp: 1d6 (1–6) bludgeoning damage to every enemy (may cause stunned: a Constitution save against 15 avoids it); every enemy is prone for 3 turns (a Dexterity save against 14 + level + bonusSpellDC avoids it). Stunned: −2 to every roll, cannot act. Prone: Dexterity −2, cannot act. Again after 3 turns.
 
 Wild: +2 to hit, +2 damage, +2 evasion, +1 to every roll, resists 10% of all.
 
@@ -940,7 +940,7 @@ Wild: +2 to hit, +2 damage, +2 evasion, +1 to every roll, resists 10% of all.
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Flee: Try to escape the fight (an even chance).
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A sleek and stealthy big cat with great agility and hunting prowess.
 
@@ -957,7 +957,7 @@ Flee: Try to escape the fight (an even chance).
 - Found in: settlement, woodland
 - Worth: 150 experience a level
 
-Flee: Try to escape the fight (an even chance).
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A pig in its sty, or rooting in the wood under the swineherd's eye.
 
@@ -974,7 +974,7 @@ Flee: Try to escape the fight (an even chance).
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Flee: Try to escape the fight (an even chance).
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A small horse with surprising strength and endurance. It has a gentle temperament.
 
@@ -991,7 +991,7 @@ Flee: Try to escape the fight (an even chance).
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Flee: Try to escape the fight (an even chance).
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A small dragon-like creature with keen intelligence and magical resistance.
 
@@ -1008,7 +1008,7 @@ Flee: Try to escape the fight (an even chance).
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Flee: Try to escape the fight (an even chance).
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A small herbivorous mammal possessing excellent speed and agility.
 
@@ -1025,7 +1025,7 @@ Flee: Try to escape the fight (an even chance).
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Flee: Try to escape the fight (an even chance).
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A sturdy sure-footed herbivore capable of powerful headbutts.
 
@@ -1042,7 +1042,7 @@ Flee: Try to escape the fight (an even chance).
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Flee: Try to escape the fight (an even chance).
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A small rodent of great adaptability and resourcefulness.
 
@@ -1059,7 +1059,7 @@ Flee: Try to escape the fight (an even chance).
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Flee: Try to escape the fight (an even chance).
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A highly intelligent bird with exceptional problem-solving skills and adaptability.
 
@@ -1076,7 +1076,7 @@ Flee: Try to escape the fight (an even chance).
 - Found in: settlement, upland, meadow
 - Worth: 150 experience a level
 
-Flee: Try to escape the fight (an even chance).
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A sheep of the hill flocks, in its heavy coat.
 
@@ -1093,7 +1093,7 @@ Flee: Try to escape the fight (an even chance).
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Flee: Try to escape the fight (an even chance).
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A legless reptile of profound stealth and, in some species, venomous bite.
 
@@ -1110,7 +1110,7 @@ Flee: Try to escape the fight (an even chance).
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Flee: Try to escape the fight (an even chance).
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A small rodent of great agility and bushy tail. It is an excellent climber.
 
@@ -1127,7 +1127,7 @@ Flee: Try to escape the fight (an even chance).
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Flee: Try to escape the fight (an even chance).
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A majestic herbivore with impressive antlers and graceful movements.
 
@@ -1144,7 +1144,7 @@ Flee: Try to escape the fight (an even chance).
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Flee: Try to escape the fight (an even chance).
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A small carnivorous mammal with exceptional agility and clever hunting techniques.
 
@@ -1161,7 +1161,7 @@ Flee: Try to escape the fight (an even chance).
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Flee: Try to escape the fight (an even chance).
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A powerful big cat with great strength, agility, and striking striped coat.
 
@@ -1178,7 +1178,7 @@ Flee: Try to escape the fight (an even chance).
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Flee: Try to escape the fight (an even chance).
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A slow-moving reptile with a hard protective shell and long lifespan.
 
@@ -1196,13 +1196,13 @@ Flee: Try to escape the fight (an even chance).
 
 Maul: Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to it (may cause stunned: a Constitution save against 15 avoids it); it is bleeding for 3 turns (a Constitution save against 15 + level + bonusSpellDC avoids it). Stunned: −2 to every roll, cannot act. Bleeding: takes 1d2 (1–2) bleed damage each turn. Again after 2 turns.
 
-Prepare Charge: You are preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage; and the next turn can only be Charge, nothing else.
+Prepare Charge: You are preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage; and the next turn can only be Charge, nothing else. Again after 3 turns.
 
-Charge: End preparing to charge on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may cause stunned: a Constitution save against 15 avoids it). Stunned: −2 to every roll, cannot act.
+Charge: End preparing to charge on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may cause stunned: a Constitution save against 15 avoids it). Stunned: −2 to every roll, cannot act. Again after 3 turns.
 
-Rage: You are raging for 3 turns. Raging: +1 to hit, 3 easier to hit, +2 damage.
+Rage: You are raging for 3 turns. Raging: +1 to hit, 3 easier to hit, +2 damage. Again after 3 turns.
 
-Poison Bite: 1d4 (1–4) poison damage to one enemy (may cause poison: a Constitution save against 15 avoids it). Poison: takes 1d4 (1–4) true damage each turn.
+Poison Bite: 1d4 (1–4) poison damage to one enemy (may cause poison: a Constitution save against 15 avoids it). Poison: takes 1d4 (1–4) true damage each turn. Again after 3 turns.
 
 Life Drain: Drain 1d6 (1–6) health from one enemy (none if resisted; may cause diseased: a Constitution save against 15 avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. A divine spell of the second level. Takes a second-level slot.
 
@@ -1229,7 +1229,7 @@ Wild: +2 to hit, +2 damage, +2 evasion, +1 to every roll, resists 10% of all.
 
 Rending bite: 1d6 (1–6) physical damage to one enemy; it is bleeding for 2 turns (a Constitution save against 11 avoids it). Bleeding: takes 1 bleed damage each turn. Again after a turn.
 
-Flee: Try to escape the fight (an even chance).
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A grey wolf of the uplands: a pack hunter with a rending bite.
 
@@ -1248,7 +1248,7 @@ Flee: Try to escape the fight (an even chance).
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Flee: Try to escape the fight (an even chance).
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A small dragon-like creature with intelligence and magical resistance.
 
@@ -1418,13 +1418,13 @@ Defender: 2 harder to hit, resists 20% of bludgeoning, resists 20% of piercing, 
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Prepare Charge: You are preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage; and the next turn can only be Charge, nothing else.
+Prepare Charge: You are preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage; and the next turn can only be Charge, nothing else. Again after 3 turns.
 
-Charge: End preparing to charge on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may cause stunned: a Constitution save against 15 avoids it). Stunned: −2 to every roll, cannot act.
+Charge: End preparing to charge on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may cause stunned: a Constitution save against 15 avoids it). Stunned: −2 to every roll, cannot act. Again after 3 turns.
 
-Hide: You are hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion; and on attacking, it ends.
+Hide: You are hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion; and on attacking, it ends. Again after 3 turns.
 
-Rapid Strike: Weapon attack against one enemy; weapon attack against it; weapon attack against it.
+Rapid Strike: Weapon attack against one enemy; weapon attack against it; weapon attack against it. Again after 3 turns.
 
 Constructed Resilience: Resists 50% of bludgeoning, resists 50% of piercing, resists 50% of slashing, immune to poison, immune to disease, immune to sleep, immune to bleed.
 
@@ -1464,7 +1464,7 @@ Defender: 2 harder to hit, resists 20% of bludgeoning, resists 20% of piercing, 
 - Temperament: obedient
 - Worth: 350 experience a level
 
-Countdown: You are ticking for 3 turns. Ticking: when it ends, Detonation, at no cost.
+Countdown: You are ticking for 3 turns. Ticking: when it ends, Detonation, at no cost. Again after 3 turns.
 
 > A thing that ticks, and will not tick for long.
 
@@ -1483,13 +1483,13 @@ Countdown: You are ticking for 3 turns. Ticking: when it ends, Detonation, at no
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Prepare Charge: You are preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage; and the next turn can only be Charge, nothing else.
+Prepare Charge: You are preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage; and the next turn can only be Charge, nothing else. Again after 3 turns.
 
-Charge: End preparing to charge on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may cause stunned: a Constitution save against 15 avoids it). Stunned: −2 to every roll, cannot act.
+Charge: End preparing to charge on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may cause stunned: a Constitution save against 15 avoids it). Stunned: −2 to every roll, cannot act. Again after 3 turns.
 
-Hide: You are hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion; and on attacking, it ends.
+Hide: You are hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion; and on attacking, it ends. Again after 3 turns.
 
-Smash: 2d6 + level bludgeoning damage to one enemy (may cause stunned: a Constitution save against 15 avoids it). Stunned: −2 to every roll, cannot act.
+Smash: 2d6 + level bludgeoning damage to one enemy (may cause stunned: a Constitution save against 15 avoids it). Stunned: −2 to every roll, cannot act. Again after 3 turns.
 
 Constructed Resilience: Resists 50% of bludgeoning, resists 50% of piercing, resists 50% of slashing, immune to poison, immune to disease, immune to sleep, immune to bleed.
 
@@ -1536,7 +1536,7 @@ Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 
 - Found in: cave
 - Worth: 350 experience a level
 
-Smash: 2d6 + level bludgeoning damage to one enemy (may cause stunned: a Constitution save against 15 avoids it). Stunned: −2 to every roll, cannot act.
+Smash: 2d6 + level bludgeoning damage to one enemy (may cause stunned: a Constitution save against 15 avoids it). Stunned: −2 to every roll, cannot act. Again after 3 turns.
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
@@ -1559,7 +1559,7 @@ Constructed Resilience: Resists 50% of bludgeoning, resists 50% of piercing, res
 - Found in: cave
 - Worth: 350 experience a level
 
-Smash: 2d6 + level bludgeoning damage to one enemy (may cause stunned: a Constitution save against 15 avoids it). Stunned: −2 to every roll, cannot act.
+Smash: 2d6 + level bludgeoning damage to one enemy (may cause stunned: a Constitution save against 15 avoids it). Stunned: −2 to every roll, cannot act. Again after 3 turns.
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
@@ -1582,7 +1582,7 @@ Animate Dead: Raise a fallen ally with 40% of their health, undead nature now. A
 
 Life Drain: Drain 1d6 (1–6) health from one enemy (none if resisted; may cause diseased: a Constitution save against 15 avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. A divine spell of the second level. Takes a second-level slot.
 
-Black Ritual: You are summoning for 3 turns. Summoning: when it ends, Summon Lich, at no cost.
+Black Ritual: You are summoning for 3 turns. Summoning: when it ends, Summon Lich, at no cost. Again after 3 turns.
 
 Fiendish Resilience: Resists 50% of fire, resists 50% of poison, immune to charm.
 
@@ -1601,7 +1601,7 @@ Fiendish Resilience: Resists 50% of fire, resists 50% of poison, immune to charm
 - Temperament: obedient
 - Worth: 350 experience a level
 
-Arrow Volley: 3d4 (3–12) piercing damage to every enemy (halved if resisted; may cause bleeding: a Constitution save against 15 avoids it). Bleeding: takes 1d2 (1–2) bleed damage each turn.
+Arrow Volley: 3d4 (3–12) piercing damage to every enemy (halved if resisted; may cause bleeding: a Constitution save against 15 avoids it). Bleeding: takes 1d2 (1–2) bleed damage each turn. Again after 3 turns.
 
 > An engine of the makers that looses bolts at whatever moves in front of it.
 
@@ -1709,7 +1709,7 @@ Terror: One enemy is frightened for 3 turns (a Wisdom save against 15 + level + 
 
 Burning Hands: 2d6 (2–12) fire damage to every enemy (may cause burning: a Constitution save against 15 avoids it). Burning: takes 1d3 (1–3) fire damage each turn. An arcane spell of the second level. Takes a second-level slot.
 
-Rapid Strike: Weapon attack against one enemy; weapon attack against it; weapon attack against it.
+Rapid Strike: Weapon attack against one enemy; weapon attack against it; weapon attack against it. Again after 3 turns.
 
 Fiendish Resilience: Resists 50% of fire, resists 50% of poison, immune to charm.
 
@@ -1885,7 +1885,7 @@ Fire Vulnerability: Takes 100% more fire.
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Hide: You are hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion; and on attacking, it ends.
+Hide: You are hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion; and on attacking, it ends. Again after 3 turns.
 
 Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
 
@@ -2223,7 +2223,7 @@ Earth Affinity: Resists 50% of bludgeoning, takes 100% more lightning, immune to
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Hide: You are hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion; and on attacking, it ends.
+Hide: You are hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion; and on attacking, it ends. Again after 3 turns.
 
 Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
 
@@ -2331,7 +2331,7 @@ Earth Vulnerability: Takes 100% more bludgeoning.
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Ensnare: One enemy is entangled for 3 turns (a Dexterity save against 12 + level + bonusSpellDC avoids it). Entangled: −2 to hit, −5 evasion, −5 initiative, Dexterity −5.
+Ensnare: One enemy is entangled for 3 turns (a Dexterity save against 12 + level + bonusSpellDC avoids it). Entangled: −2 to hit, −5 evasion, −5 initiative, Dexterity −5. Again after 3 turns.
 
 Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
 
@@ -2362,7 +2362,7 @@ Charm Person: One enemy is charmed for 3 turns (only humanoid creatures; a Wisdo
 
 Sleep: Every enemy is asleep for 3 turns (a Wisdom save against 16 + level + bonusSpellDC avoids it). Asleep: cannot act. An arcane spell of the third level. Takes a third-level slot.
 
-Hide: You are hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion; and on attacking, it ends.
+Hide: You are hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion; and on attacking, it ends. Again after 3 turns.
 
 Call Animal Companion: Call the beast your people keep company with, to fight for you until the fight ends. Again after 8 turns.
 
@@ -2389,7 +2389,7 @@ Charm Person: One enemy is charmed for 3 turns (only humanoid creatures; a Wisdo
 
 Sleep: Every enemy is asleep for 3 turns (a Wisdom save against 16 + level + bonusSpellDC avoids it). Asleep: cannot act. An arcane spell of the third level. Takes a third-level slot.
 
-Hide: You are hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion; and on attacking, it ends.
+Hide: You are hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion; and on attacking, it ends. Again after 3 turns.
 
 Call Animal Companion: Call the beast your people keep company with, to fight for you until the fight ends. Again after 8 turns.
 
@@ -2416,7 +2416,7 @@ Charm Person: One enemy is charmed for 3 turns (only humanoid creatures; a Wisdo
 
 Sleep: Every enemy is asleep for 3 turns (a Wisdom save against 16 + level + bonusSpellDC avoids it). Asleep: cannot act. An arcane spell of the third level. Takes a third-level slot.
 
-Hide: You are hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion; and on attacking, it ends.
+Hide: You are hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion; and on attacking, it ends. Again after 3 turns.
 
 Confuse: One enemy is confused for 3 turns (a Wisdom save against 15 + level + bonusSpellDC avoids it). Confused: acts at random. A divine spell of the first level. Takes a first-level slot.
 
@@ -2443,7 +2443,7 @@ Charm Person: One enemy is charmed for 3 turns (only humanoid creatures; a Wisdo
 
 Sleep: Every enemy is asleep for 3 turns (a Wisdom save against 16 + level + bonusSpellDC avoids it). Asleep: cannot act. An arcane spell of the third level. Takes a third-level slot.
 
-Hide: You are hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion; and on attacking, it ends.
+Hide: You are hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion; and on attacking, it ends. Again after 3 turns.
 
 > A fey of Orsino's bestiary. It fights with dagger, armoured in leather armor, and knows Charm Person, Sleep and Hide.
 
@@ -2468,7 +2468,7 @@ Charm Person: One enemy is charmed for 3 turns (only humanoid creatures; a Wisdo
 
 Sleep: Every enemy is asleep for 3 turns (a Wisdom save against 16 + level + bonusSpellDC avoids it). Asleep: cannot act. An arcane spell of the third level. Takes a third-level slot.
 
-Hide: You are hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion; and on attacking, it ends.
+Hide: You are hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion; and on attacking, it ends. Again after 3 turns.
 
 Magic Missile: 1d4 + floor((level / 3)) force damage to 2 + round((level / 2)) different enemies, drawn at random (may cause fatigued: a Constitution save against 15 avoids it). Fatigued: −1 to every roll, Strength −1, Dexterity −1, Constitution −1. An arcane spell of the first level. Takes a first-level slot.
 
@@ -2495,15 +2495,15 @@ Magic Missile: 1d4 + floor((level / 3)) force damage to 2 + round((level / 2)) d
 
 Maul: Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to it (may cause stunned: a Constitution save against 15 avoids it); it is bleeding for 3 turns (a Constitution save against 15 + level + bonusSpellDC avoids it). Stunned: −2 to every roll, cannot act. Bleeding: takes 1d2 (1–2) bleed damage each turn. Again after 2 turns.
 
-Prepare Charge: You are preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage; and the next turn can only be Charge, nothing else.
+Prepare Charge: You are preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage; and the next turn can only be Charge, nothing else. Again after 3 turns.
 
-Charge: End preparing to charge on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may cause stunned: a Constitution save against 15 avoids it). Stunned: −2 to every roll, cannot act.
+Charge: End preparing to charge on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may cause stunned: a Constitution save against 15 avoids it). Stunned: −2 to every roll, cannot act. Again after 3 turns.
 
-Taunt: One enemy is taunted for 3 turns (a Wisdom save against 18 + level + bonusSpellDC avoids it). Taunted: whoever has it can strike at nobody but whoever gave it.
+Taunt: One enemy is taunted for 3 turns (a Wisdom save against 18 + level + bonusSpellDC avoids it). Taunted: whoever has it can strike at nobody but whoever gave it. Again after 3 turns.
 
-Stomp: 1d6 (1–6) bludgeoning damage to every enemy (may cause stunned: a Constitution save against 15 avoids it); every enemy is prone for 3 turns (a Dexterity save against 14 + level + bonusSpellDC avoids it). Stunned: −2 to every roll, cannot act. Prone: Dexterity −2, cannot act.
+Stomp: 1d6 (1–6) bludgeoning damage to every enemy (may cause stunned: a Constitution save against 15 avoids it); every enemy is prone for 3 turns (a Dexterity save against 14 + level + bonusSpellDC avoids it). Stunned: −2 to every roll, cannot act. Prone: Dexterity −2, cannot act. Again after 3 turns.
 
-Dig In: You gain dug in for 3 turns. Dug In: −2 to hit, 2 harder to hit, +3 to every save.
+Dig In: You gain dug in for 3 turns. Dug In: −2 to hit, 2 harder to hit, +3 to every save. Again after 3 turns.
 
 Titanic Strength: +2 to hit, +2 damage.
 
@@ -2528,13 +2528,13 @@ Formidable: +3 to hit, +3 damage, +2 to will saves, resists 10% of bludgeoning, 
 
 Maul: Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to it (may cause stunned: a Constitution save against 15 avoids it); it is bleeding for 3 turns (a Constitution save against 15 + level + bonusSpellDC avoids it). Stunned: −2 to every roll, cannot act. Bleeding: takes 1d2 (1–2) bleed damage each turn. Again after 2 turns.
 
-Prepare Charge: You are preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage; and the next turn can only be Charge, nothing else.
+Prepare Charge: You are preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage; and the next turn can only be Charge, nothing else. Again after 3 turns.
 
-Charge: End preparing to charge on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may cause stunned: a Constitution save against 15 avoids it). Stunned: −2 to every roll, cannot act.
+Charge: End preparing to charge on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may cause stunned: a Constitution save against 15 avoids it). Stunned: −2 to every roll, cannot act. Again after 3 turns.
 
-Taunt: One enemy is taunted for 3 turns (a Wisdom save against 18 + level + bonusSpellDC avoids it). Taunted: whoever has it can strike at nobody but whoever gave it.
+Taunt: One enemy is taunted for 3 turns (a Wisdom save against 18 + level + bonusSpellDC avoids it). Taunted: whoever has it can strike at nobody but whoever gave it. Again after 3 turns.
 
-Smash: 2d6 + level bludgeoning damage to one enemy (may cause stunned: a Constitution save against 15 avoids it). Stunned: −2 to every roll, cannot act.
+Smash: 2d6 + level bludgeoning damage to one enemy (may cause stunned: a Constitution save against 15 avoids it). Stunned: −2 to every roll, cannot act. Again after 3 turns.
 
 Titanic Strength: +2 to hit, +2 damage.
 
@@ -2559,11 +2559,11 @@ Formidable: +3 to hit, +3 damage, +2 to will saves, resists 10% of bludgeoning, 
 
 Maul: Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to it (may cause stunned: a Constitution save against 15 avoids it); it is bleeding for 3 turns (a Constitution save against 15 + level + bonusSpellDC avoids it). Stunned: −2 to every roll, cannot act. Bleeding: takes 1d2 (1–2) bleed damage each turn. Again after 2 turns.
 
-Prepare Charge: You are preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage; and the next turn can only be Charge, nothing else.
+Prepare Charge: You are preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage; and the next turn can only be Charge, nothing else. Again after 3 turns.
 
-Charge: End preparing to charge on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may cause stunned: a Constitution save against 15 avoids it). Stunned: −2 to every roll, cannot act.
+Charge: End preparing to charge on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may cause stunned: a Constitution save against 15 avoids it). Stunned: −2 to every roll, cannot act. Again after 3 turns.
 
-Taunt: One enemy is taunted for 3 turns (a Wisdom save against 18 + level + bonusSpellDC avoids it). Taunted: whoever has it can strike at nobody but whoever gave it.
+Taunt: One enemy is taunted for 3 turns (a Wisdom save against 18 + level + bonusSpellDC avoids it). Taunted: whoever has it can strike at nobody but whoever gave it. Again after 3 turns.
 
 Earthquake: 3d8 (3–24) bludgeoning damage to every enemy (none if resisted; may cause stunned: a Constitution save against 15 avoids it); every enemy is prone for 3 turns (a Constitution save against 12 + level + bonusSpellDC avoids it). Stunned: −2 to every roll, cannot act. Prone: Dexterity −2, cannot act. An arcane spell of the fourth level. Takes a fourth-level slot.
 
@@ -2591,7 +2591,7 @@ Formidable: +3 to hit, +3 damage, +2 to will saves, resists 10% of bludgeoning, 
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Flee: Try to escape the fight (an even chance).
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A drifting mote of light that answers a summoner's call.
 
@@ -2724,7 +2724,7 @@ Life Drain: Drain 1d6 (1–6) health from one enemy (none if resisted; may cause
 
 Mass Curse: Every enemy is cursed for 3 turns (a Wisdom save against 15 + level + bonusSpellDC avoids it). Cursed: Strength −1, Dexterity −1, Intelligence −1, Wisdom −1, Charisma −1, Constitution −1. A divine spell of the third level. Takes a third-level slot.
 
-Reckless Attack: Weapon attack against one enemy; weapon attack against it; you are reckless for 3 turns (a Wisdom save against 15 + level + bonusSpellDC avoids it). Reckless: −2 to hit, 2 easier to hit.
+Reckless Attack: Weapon attack against one enemy; weapon attack against it; you are reckless for 3 turns (a Wisdom save against 15 + level + bonusSpellDC avoids it). Reckless: −2 to hit, 2 easier to hit. Again after 3 turns.
 
 Undead Nature: Takes 100% more radiant, immune to poison, immune to charm, immune to sleep, immune to disease.
 
@@ -2783,7 +2783,7 @@ Slow: Every enemy gains slow for 4 turns (a Dexterity save against 14 + level + 
 
 Paralyzing Touch: One enemy is paralyzed for 3 turns (a Strength save against 14 + level + bonusSpellDC avoids it). Paralyzed: Strength −5, Dexterity −5, cannot act. An arcane spell of the second level. Takes a second-level slot.
 
-Hide: You are hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion; and on attacking, it ends.
+Hide: You are hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion; and on attacking, it ends. Again after 3 turns.
 
 Undead Nature: Takes 100% more radiant, immune to poison, immune to charm, immune to sleep, immune to disease.
 
@@ -3259,9 +3259,9 @@ Dragons are drawn by lineage (red, blue, white, black, copper, green) and maturi
 
 | Kind | Met in | Can be | Roles |
 |---|---|---|---|
-| Wolf | forest, mountain, frost | frost-adapted, marsh-adapted | — |
+| Wolf | desert, forest, mountain, frost | frost-adapted, marsh-adapted | — |
 | Bear | forest, mountain, frost | frost-adapted, marsh-adapted | — |
-| Cave spider | cave, forest | — | — |
+| Cave spider | desert, cave, forest | — | — |
 
 ### Dragon family
 

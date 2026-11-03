@@ -304,6 +304,32 @@
       },
       "law": true
     },
+    "plane_fire": {
+      "name": "the Fire",
+      "description": "The law of the Plane of Fire: heat that leans on every breath, and a working of the will that burns through what would hold it.",
+      "lifetime": "persistent",
+      "modifiers": {
+        "bonusSpellDC": -1
+      },
+      "source": {
+        "kyr": true,
+        "notes": "An inner plane's law, laid on the plane in the canon (law(inner_fire, plane_fire)), so it holds for every author's places within it: its spell DC is held by everyone fighting there, as Gehenna's is."
+      },
+      "law": true
+    },
+    "plane_air": {
+      "name": "the Air",
+      "description": "The law of the Plane of Air: no ground and no stillness, and every spell flung on a wind that is not the caster's.",
+      "lifetime": "persistent",
+      "modifiers": {
+        "bonusSpellDC": -1
+      },
+      "source": {
+        "kyr": true,
+        "notes": "An inner plane's law, laid on the plane in the canon (law(inner_air, plane_air)), so it holds for every author's places within it: its spell DC is held by everyone fighting there, as Pandemonium's is."
+      },
+      "law": true
+    },
     "plane_prime_material": {
       "name": "Prime Material",
       "description": "The law of Prime Material, the mundane world of everyday life, where magic is present but not overwhelming.",

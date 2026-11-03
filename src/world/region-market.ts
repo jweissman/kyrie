@@ -34,11 +34,11 @@ export class RegionMarket {
     const i = region.settlements.indexOf(s), market = Foundings.of(region, i).kind === 'market';
     return [...s.size === 'town' ? [] : this.yard(region, s), ...s.size === 'town' && market ? [] : this.scrivener(region, s)];
   }
-  // Everyone who teaches in the country, by name, so that no one else is given theirs.
+  // Everyone who teaches, or would teach, in the country, by name, so that no one else is given theirs: any settlement
+  // may be the one the company begins in, which keeps a yard and a scrivener whatever its size (seed wren's Dagny,
+  // who taught spells there and carried messages on its road).
   static keepers(region: Region): string[] {
-    return region.settlements.flatMap((s, i) => s.size !== 'town' ? []
-      : [this.teacher(region, s, 'arms').name,
-        ...Foundings.of(region, i).kind === 'market' ? [this.teacher(region, s, 'arcane').name] : []]);
+    return region.settlements.flatMap(s => [this.teacher(region, s, 'arms').name, this.teacher(region, s, 'arcane').name]);
   }
   private static teacher(region: Region, s: Settlement, kind: Teacher['kind']): Teacher {
     const draw = new Draw(`${region.name}:${s.id}:teacher:${kind}`), ancestry = s.folk ?? region.ancestry;

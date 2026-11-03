@@ -92,11 +92,23 @@ export class PlayTool {
     print(`-- watch ${j.watch()}, at ${j.at(j.campaign.playerActor ?? 'party') ?? 'nowhere'}`);
     for (const p of o.probes) { print(this.probe(j, p)); }
     // A scene or someone played into shows what can be done there, or asked.
-    if (o.choices || o.part) { for (const c of j.choices()) { print(`  ${c.full}`); } }
+    if (o.choices || o.part) { for (const line of this.offered(j.choices().map(c => [c.full, c.label]))) { print(`  ${line}`); } }
     if (o.keep && !failed) {
       const play = args.filter((a, i) => a !== '--keep' && args[i - 1] !== '--keep');
       print(`kept as ${await Traces.keep(o.keep, { play, ...this.came(j) })}: bun test test/traces.test.ts plays it again`);
     }
     return failed;
+  }
+  // What is offered here first, then the pack, one line to a thing with its acts after it, each once (the Grand Tour's
+  // friction P1: every thing's every act, twice over).
+  static offered(choices: [full: string, label: string][]): string[] {
+    const pack = new Map<string, string[]>();
+    for (const [, label] of choices.filter(([, l]) => l.startsWith('Pack › '))) {
+      const [thing, ...act] = label.slice('Pack › '.length).split(' › ');
+      const acts = pack.get(thing!) ?? []; pack.set(thing!, acts);
+      if (!acts.includes(act.join(' › '))) { acts.push(act.join(' › ')); }
+    }
+    return [...choices.filter(([full, label]) => full !== label).map(([full]) => full),
+      ...[...pack].map(([thing, acts]) => `${thing}: ${acts.join(' · ')}`)];
   }
 }

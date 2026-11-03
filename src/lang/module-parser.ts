@@ -27,10 +27,10 @@ export class ModuleParser {
     HoldsPart: ObjectParser.HoldsPart, Concealed: ObjectParser.Concealed, ItemPlace_at: ObjectParser.At,
     ItemPlace_in: ObjectParser.In, FoundBy: ModuleParser.FoundBy, FoundWith: ObjectParser.FoundWith,
     ThingSite_at: ModuleParser.Site, ThingSite_on: ModuleParser.Site, ThingKind: ModuleParser.ThingKind,
-    StatePart: ModuleParser.StatePart,
+    StatePart: ModuleParser.StatePart, PersonLeavesTo: PersonParser.PersonLeavesTo,
     ChangePart: ModuleParser.ChangePart, ChangeNeeds: ModuleParser.ChangeNeeds, ChangeAfter: ModuleParser.Third,
     ChangeConsumes: ModuleParser.Second, HurtsPart: ModuleParser.HurtsPart, GuardsPart: ModuleParser.GuardsPart,
-    TriesPart: ModuleParser.TriesPart,
+    TriesPart: ModuleParser.TriesPart, MemberBinding: StatementParser.MemberBinding, LeavesTo: PersonParser.LeavesTo,
     Event: ModuleParser.Event, EventTail_effects: ModuleParser.EventEffects, EventTail_plain: ModuleParser.EventPlain,
     Anchor_at: ModuleParser.Anchor, Anchor_near: ModuleParser.Anchor, Anchor_beside: ModuleParser.Anchor,
     Anchor_within: ModuleParser.Anchor, Objective: ModuleParser.Objective, PersonCalled: PersonParser.PersonCalled,
@@ -61,7 +61,6 @@ export class ModuleParser {
     PersonHaunt: PersonParser.PersonHaunt, Grave: PersonParser.Grave,
     Module: ModuleParser.Module, Observation: ModuleParser.Observation, Speaker: PersonParser.Speaker,
     WorldRule: ModuleParser.WorldRule, Pursuit: ModuleParser.Pursuit, PursuitUsing: ModuleParser.PursuitUsing,
-    MemberBinding: StatementParser.MemberBinding,
     Kind: StatementParser.Kind, Relation: ModuleParser.Relation, Measure: ModuleParser.Measure,
     Query: ModuleParser.Query, Parameter: StatementParser.Parameter, Entity: ModuleParser.Entity,
     Initial: StatementParser.Initial, Goal: StatementParser.Goal, Budget: StatementParser.Budget,
@@ -171,14 +170,16 @@ export class ModuleParser {
     const spec: PassageSpec = { id: id.sourceString, name: ModuleParser.ast(name) as string,
       sides: [a.sourceString, b.sourceString], oneWay: false,
       ...(kind.children.length ? { kind: ModuleParser.ast(kind.children[0]!) as string } : {}) };
-    for (const part of parts.children) { Object.assign(spec, ModuleParser.ast(part)); }
+    // Each opening clause is one more thing it waits on, with its own words while that one fails (WPC-05).
+    for (const v of parts.children.map(p => ModuleParser.ast(p) as Partial<PassageSpec>)) {
+      Object.assign(spec, v, v.openings ? { openings: [...spec.openings ?? [], ...v.openings] } : {}); }
     return { field: 'passage', value: spec };
   }
   static OneWay(_one: Node, _way: Node) { return { oneWay: true }; }
   // "opening when dark() \"By day the gate is a wall.\"": crossed only while it holds, and how it looks shut.
   static Opening(_opening: Node, _when: Node, predicate: Node, shut: Node) {
-    return { opening: ModuleParser.ast(predicate) as Predicate,
-      ...shut.children.length ? { shut: ModuleParser.ast(shut.children[0]!) as string } : {} };
+    return { openings: [{ when: ModuleParser.ast(predicate) as Predicate,
+      ...shut.children.length ? { shut: ModuleParser.ast(shut.children[0]!) as string } : {} }] };
   }
   static Hidden(_hidden: Node, _until: Node, fact: Node) { return { hidden: fact.sourceString }; }
   // "needing rope or climbing": any one of them will do.

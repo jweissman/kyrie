@@ -23,7 +23,7 @@
   "Talk to Simeon",
   "Ask Simeon Eddowes why",
   "Tell Simeon Eddowes that Hester",
-  "Ask them to come with you",
+  "Ask \\w+ to come with you",
   "Take your leave",
   "Out to Exiles' Row",
   "To Sixways street",
@@ -36,7 +36,7 @@
  "again": [
   "To the Fold-stone",
   "Talk to Simeon",
-  "Ask them to come with you",
+  "Ask \\w+ to come with you",
   "Take your leave",
   "=11:30",
   "To the Tump's shoulder",
