@@ -496,7 +496,8 @@ world turns the hazard on one member. From `test/fixtures/strongroom`:
 
 `season(clock)` is the season by the campaign's calendar, when it keeps one (1 spring, 2 summer, 3 autumn, 4 winter;
 0 with none: Gosse's Company's 7), and `been(party, place)` holds of every place the company has stood in, from the
-first time (Quiet in the Sky's 6: for "come back to", ask `been` and that the company was elsewhere since, as a
+first time, the engine's own record: where it began, and wherever it came to stand, by a way, a rule or a journey
+(the Grand Tour's 13) (Quiet in the Sky's 6: for "come back to", ask `been` and that the company was elsewhere since, as a
 relation of the module's own). `dice(clock)` is a die from 1 to 100 thrown every watch from the campaign's seed; a rule
 that reads it is how a world leaves something to chance (a band on the road at night, the weather turning). Weather is a `scenery` entity
 whose state other things follow by rules; scenery has states and descriptions but is not offered to be tried. A

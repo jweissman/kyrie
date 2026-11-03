@@ -141,6 +141,8 @@ export class CampaignTick {
   // open by day, or a change made only while nobody watches, is so from the first, not from the first watch (GTR-07:
   // the bureau no one stood over could not be eased open until the company had done something else first).
   static settle(host: TickHost) {
+    // Committed once as it begins, so that where the company starts is a place it has stood (see CommittedWorld).
+    host.commitWorld(host.world);
     const began = host.world;
     for (const rule of host.module.rules ?? []) { if (rule.upkeep) { this.fire(host, rule, [], { began }); } }
   }
