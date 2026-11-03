@@ -6,11 +6,14 @@ import { Sennet, steps } from './support/sennet';
 // answer to the fall, carried to the Watch.
 const whelm = () => steps('outcomes', 'undertow').slice(0, steps('outcomes', 'undertow').indexOf('Tell the guards Ha\'penny') + 1);
 describe('The Grand Tour, second pass', () => {
-  it('the Sexton: up the tower at the wrong hour it kills; at the turn, while the bell rings, it lies still', async () => {
+  // In the shared world a company is warned of what lies in wait before it goes in (GTR-25), so it meets the Sexton
+  // ready: up the tower at the wrong hour is a fight to the death, the company's or the Sexton's.
+  it('the Sexton: up the tower at the wrong hour it fights; at the turn, while the bell rings, it lies still', async () => {
     const wrong = await Sennet.start(undefined, 'sennet', Sennet.one('warrior', 'laborer', 'human', 'Brann'));
-    await wrong.play(...whelm(), '>sennet__belfry');
-    expect(wrong.page).toContain('The Sexton comes at you');
-    expect(wrong.holds('able', 'party')).toBe(false);
+    await wrong.play(...whelm(), '>sennet__drowned_church');
+    expect(wrong.page).toContain('Something is lying in wait in the belfry');
+    await wrong.play('>sennet__belfry');
+    expect(wrong.holds('dead', 'sexton') || !wrong.holds('able', 'party')).toBe(true);
     const right = await Sennet.start(undefined, 'sennet', Sennet.one('warrior', 'laborer', 'human', 'Brann'));
     await right.play(...whelm(), '=day 1 17:55', '>sennet__belfry', '=day 1 18:05');
     expect(right.page).toContain('head under its tail');
