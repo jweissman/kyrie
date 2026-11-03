@@ -1,3 +1,231 @@
 Module quittance "Quittance" {
-  Description "q_pip (stub).".
+  Description "Pip's Tin: a child on the top landing of a Salt Lane stair keeps a Lent coal that is going out; to sit up with it, or to carry it where a fire will love it, and what it is to be called.".
+
+  // ── Pip's stair ─────────────────────────────────────────────────────────────────────────────────────────
+  // Everything happens on the top landing (pip_stair): the tin on the floor, the old woman in the chair across the
+  // open door, the child on the boards. The coal's own clock is pt_dies_at(pt_pip), a watch: it is 384, the stroke
+  // of midnight at the end of the third day (day(clock) is 1 on the first morning), and a rite can put it back a day.
+  Measure pt_dies_at(group). Measure pt_carry_until(group).
+  Initially Set pt_dies_at(pt_pip) to 384.
+  Relation pt_lore(group). Relation pt_options_known(group). Relation pt_clock_known(group). Relation pt_named(group).
+  Relation pt_consent(group). Relation pt_sat(group). Relation pt_rite_done(group). Relation pt_carried(group).
+  Relation pt_saved(group). Relation pt_lost(group). Relation pt_wronged(group). Relation pt_trusted(group).
+  Relation pt_kept_penny(group). Relation pt_kept_hearn(group). Relation pt_kept_glass(group). Relation pt_kept_gas(group).
+  Relation pt_gifted(group). Relation pt_gift_asked(group). Relation pt_witnessing(group). Relation pt_gift_refused(group).
+  Relation pt_told_pump(group). Relation pt_rite_failed(group). Relation pt_stair_bare(group).
+
+  Discovery pt_claim "A child on the top of a Salt Lane stair keeps a coal in a tin and cannot keep it lit.".
+  Discovery pt_pump_seen "Pip carries Mr Larkworth his dinner, and saw him chalk the pump in Candlewick Court.".
+
+  Person pt_pip "Pip" at pip_stair {
+    Role "nine years old, who keeps a coal in a tin". Ancestry human. Peaceable. Manner proud. Pronouns she.
+    Greets "A child sits on the boards of the top landing with her knees up and her back against the doorpost, and a tin between her feet. She has the look of someone who has been told to guard a thing and has guarded it for a very long time. 'It's not for sale,' says Pip, 'and you can't have a look unless you say please.'".
+    Greets again "'You,' says Pip, and moves her feet a little further round the tin.".
+  }
+  Person pt_gran "Hester Tamsett" at pip_stair {
+    Role "Pip's grandmother, who has not left her chair in a month". Ancestry human. Peaceable. Manner stoic. Pronouns she.
+    Greets "An old woman sits in a kitchen chair set across the open door, wrapped to the chin in a blanket the colour of porridge. 'I am not dead,' says Hester Tamsett, 'though the stair has been told so. The child will not talk to you unless you say please. I mention it as a kindness.'".
+    Greets again "'Ah,' says Hester Tamsett, 'the polite ones.'".
+  }
+
+  Thing pt_tin "the tin" at pip_stair {
+    State lit "A flat tin with a loose lid stands on the boards of the landing, and in it, under a skin of ash, a coal the size of a plum gives a dull red light that swells and shrinks as if it were being breathed. The tin is warm. The wood under it is not scorched.".
+    State low "The tin on the boards has a coal in it the size of a thumb-joint. It is the colour of a plum, and when the draught moves it, it goes out of the corners of your eye and has to be looked for.".
+    State steady "The tin on the landing holds a coal of a clear steady red, and a hand held over it feels warmth that does not come from fire alone. Pip has taken to sitting a little nearer to it.".
+    State out "The tin on the boards holds a little grey ash, and a small black cinder that was a coal. There is no heat in it. Pip has not shut the lid.".
+    State away "There is a pale square on the boards of the landing where a tin stood.".
+  }
+  Observe pt_tin_look near pt_tin when tried(pt_tin, looking) and (state(pt_tin, lit) or state(pt_tin, low) or state(pt_tin, steady)) "You get down beside the tin, with Pip's leave, which she gives like a coin she will want back. Under the ash the coal is not wood or coke or sea-coal. It has a grain in it, as of something that was once alive, and a faint glaze, and at the heart of it a seam of white that moves when you do not. Pip says: 'It listens.'".
+  Observe pt_tin_ash near pt_tin when tried(pt_tin, looking) and state(pt_tin, out) "You get down beside the tin. In the ash is a cinder like a black bean, with a seam through it that was once white.".
+
+  // ── The clock of the coal ───────────────────────────────────────────────────────────────────────────────
+  Rule pt_dims at pip_stair when watch(clock) + 96 >= pt_dies_at(pt_pip) and state(pt_tin, lit) says "The coal in the tin has shrunk to a plum-coloured thread, and Pip has stopped talking." {
+    Assert state(pt_tin, low). }
+  Rule pt_goes_out when watch(clock) >= pt_dies_at(pt_pip) and (state(pt_tin, low) or state(pt_tin, lit)) {
+    Assert state(pt_tin, out). Assert pt_lost(party). }
+  Observe pt_out_told at pip_stair when state(pt_tin, out) and not pt_gifted(party) "Pip sits with the tin in her lap and the lid off, and does not look up.".
+  Rule pt_dies_carried when pt_carried(party) and watch(clock) >= pt_carry_until(party) says "The lid of the tin has stopped being warm. When you lift it the coal is a grey cinder, and the draught takes its ash. You were too slow with it." {
+    Retract pt_carried(party). Assert pt_lost(party). }
+
+  // ── The slate, and the stair ────────────────────────────────────────────────────────────────────────────
+  Observe pt_slate at slip_room when day(clock) <= 3 and not pt_saved(party) and not pt_lost(party) "CLAIMS OPEN, in a child's capitals pasted over a corner of the Slate: WANTED. SOMEONE TO SIT WITH A FIRE. SALT LANE, TOP OF THE STAIR. PAYS NOTHING. ASK FOR PIP. Underneath, in the chalk boy's hand: 'Pays nothing' has been underlined twice, in admiration." teaches pt_claim.
+  Objective pt_tin_obj when knows(party, pt_claim) and not pt_saved(party) and not pt_lost(party) "A coal in a tin at the top of a Salt Lane stair is going out, and a child will not let anyone but a polite person near it. It has until the end of the third day.".
+
+  Topic pip_tin with pt_pip "Say please, and ask Pip about the tin" when true once {
+    Says "Pip considers the please, and finds it genuine. 'It's Gran's,' she says. 'It was her mam's. I'm to keep it. It has to be kept in a tin because the stair is draughty, and you have to talk to it, only not much, because it gets embarrassed.' She looks at the tin. 'It's gone a bit small.'".
+  }
+  Topic pip_dinner with pt_pip "Ask Pip what she does when she is not minding the coal" when true once {
+    Says "'I carry dinner,' says Pip. 'Mr Larkworth gives me a farthing a day to take him his pie at the rent-office and I'm not to look in the book. I don't. I look at the pump instead, in Candlewick, on the way. Somebody chalked a number on it on Tuesday, and Mr Larkworth was standing by it with the chalk. He said it was for the water-board.' She considers. 'There isn't a water-board.'".
+    On discuss { Assert knows(actor, pt_pump_seen). }
+  }
+  Topic pip_part with pt_pip "Ask Pip whether the coal might be happier somewhere warmer" when knows(actor, d_lent_coal) and not pt_consent(actor) and not pt_carried(actor) and not state(pt_tin, away) once {
+    Says "'It's happy here,' says Pip, in the voice of a person who has been told it is not. 'If it goes, it's not mine, and then it's nobody's, and Gran says a lent thing that's nobody's is the same as a stolen thing.' She holds the lid. 'Anyway, nobody here has one that's the same. It'd go off with strangers.'".
+  }
+  Action pt_talk_round(actor: group, site: place) "Sit down on the boards and talk Pip round to letting the coal go somewhere warmer" {
+    Speaker pt_pip.
+    Requires able(actor) and company(actor) and at(actor, site) and at(pt_pip, site) and at(actor, pip_stair) and knows(actor, d_lent_coal) and pt_options_known(actor) and not pt_consent(actor) and not pt_carried(actor) and not pt_wronged(actor) and (state(pt_tin, lit) or state(pt_tin, low)).
+    Time 12 minutes.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert pt_consent(actor). }
+    Result "You do not argue. You tell Pip what you saw in the tin, and what Gran said it would take, and you do not say that it will be all right, because it will not be, for her. Pip listens with her chin on her knees. 'I'd have to give it,' she says, at last. 'Not lose it.' She lifts the lid and looks, and shuts it. 'You can carry it. You hold it all the way, and you don't let it bump.'".
+    Otherwise "Pip hears you out with the face of a magistrate. 'That's the worst I've heard this week,' she says, not unkindly, and sets the lid down, and sits on it.".
+  }
+  Action pt_promise_round(actor: group, site: place) "Promise Pip she shall be brought to see the coal wherever it is kept, if she will let it go" {
+    Speaker pt_pip.
+    Requires able(actor) and company(actor) and at(actor, site) and at(pt_pip, site) and at(actor, pip_stair) and knows(actor, d_lent_coal) and pt_options_known(actor) and not pt_consent(actor) and not pt_carried(actor) and not pt_wronged(actor) and (state(pt_tin, lit) or state(pt_tin, low)).
+    Time 6 minutes.
+    Grave "A promise to a child is a promise.".
+    On success { Assert pt_consent(actor). Assert pt_promised(actor). }
+    Result "'Properly brought?' says Pip. 'Not just told?' She puts out her hand, and you shake it, once. 'Then it can go,' she says. 'But it has to be somewhere I could walk to. I'm not allowed far.'".
+  }
+  Relation pt_promised(group).
+
+  // ── Gran ────────────────────────────────────────────────────────────────────────────────────────────────
+  Topic gran_tin with pt_gran "Ask Hester Tamsett what is in the tin" when true once {
+    Says "'What it looks like,' says Hester Tamsett. 'A coal. It came out of my mother's grate, and hers, and it goes back to a grate in a cellar I have never seen, and I am told on good authority that it is older than the Cinderwall. We keep it in. That is the whole of the art. You keep it in, and you do not sell it, and you do not let the Gas Company put a stove in the room.' She smiles, thinly. 'They have called twice.'".
+  }
+  Topic gran_lent with pt_gran "Ask Hester Tamsett why she calls it a lent coal" when tried(pt_tin, looking) and not knows(actor, d_lent_coal) once {
+    Says "'Because it is,' she says. 'Somebody lent it. You do not light a coal like that, child, you cannot; there is nothing in it you could light. It is given into a house to be kept, and a house that keeps it is not burned. That is what lent means. It means there is a lender.' She looks at the open door. 'My mother never said who. She said you were not to ask, it was rude, and that you were to be kind to it.'".
+    On discuss { Assert knows(actor, d_lent_coal). Assert pt_lore(actor). }
+  }
+  Topic gran_lent_again with pt_gran "Ask Hester Tamsett what a lent coal is" when knows(actor, d_lent_coal) and not pt_lore(actor) once {
+    Says "'You have heard it said, I see,' says Hester Tamsett. 'In my mother's day it was said at every hearth in the Wards. A coal that is lent is not owned. It is kept, which is not the same, and it keeps you.'".
+    On discuss { Assert pt_lore(actor). }
+  }
+  Topic gran_clock with pt_gran "Ask Hester Tamsett how long the coal has" when pt_lore(actor) once {
+    Says "'Until the turn of the third day,' says Hester Tamsett, 'or so the way it has gone down this week tells me. Past that, it will not be a thing that can be asked of anyone. Somebody must sit with it; or it must be carried, and the child will not like that; or it will go out.' She is quite calm. 'I have buried a husband, a son and a daughter-in-law. I would like to bury nothing else this year.'".
+    On discuss { Assert pt_clock_known(actor). }
+  }
+  Topic gran_carry with pt_gran "Ask Hester Tamsett where else it could be kept" when pt_clock_known(actor) once {
+    Says "'Not by me, and not in this stair,' she says. 'It must be a hearth that loves it. The Penny Mutual keeps one in Salt Lane, and the Mutual is poor and proud, which is the right sort. There was an old man on the Hill, Auberon Hearn, who knew about these things, and I suppose he still has his. There is the glass that Wynne woman makes, which does not let a thing go out; I do not say it lets it be. The Gas Company has furnaces that have not been out in thirty years, and a good deal of coke, and no manners.' She tucks her hands in her blanket. 'I would not choose. I would ask the coal.'".
+    On discuss { Assert pt_options_known(actor). }
+  }
+  Topic gran_name_q with pt_gran "Ask Hester Tamsett what the coal wants" when pt_clock_known(actor) and not pt_named(actor) once {
+    Says "'A name,' says Hester Tamsett. 'It has never had one, as we have never said one aloud; but it is dying, and a thing that is dying wants to be said. What is named is written down, somewhere, by someone. I do not know who. I would not like to choose.' She looks at you for some time. 'You are the ones who sat down. Will you?'".
+  }
+  Topic name_gran with pt_gran "Say that it is called for Hester, for the woman who kept it" answering gran_name_q when not pt_named(actor) {
+    Says "'Hester,' says the old woman. For a moment she says nothing else. 'It is a plain name,' she says. 'I would have chosen worse.' The tin does not change; but Pip, on the boards, takes her thumb out of her mouth.".
+    On discuss { Assert coalNamedGran(actor). Assert pt_named(actor). }
+  }
+  Topic name_pip with pt_gran "Say that it is called for Pip, who will keep it after" answering gran_name_q when not pt_named(actor) {
+    Says "'Pip,' says the old woman. Pip, who has been pretending not to listen, goes the colour of the coal. 'Well,' says Hester Tamsett, 'that is a thing it will have to live up to.' In the tin, something shifts, with a small dry sound like a page turned.".
+    On discuss { Assert coalNamedPip(actor). Assert pt_named(actor). }
+  }
+  Topic name_none with pt_gran "Say that it is not yours to name, and decline" answering gran_name_q when not pt_named(actor) {
+    Says "The old woman looks at you for some time. 'No,' she says at last, 'it is not. I wondered if you would see that.' It is not clear whether she is pleased. 'It will do without. It has before.'".
+    On discuss { Assert coalNamedNone(actor). Assert pt_named(actor). }
+  }
+
+  // ── Sitting with it ─────────────────────────────────────────────────────────────────────────────────────
+  Action pt_sit(actor: group, site: place) "Sit up with the coal through the night, until it takes" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, pip_stair) and (state(pt_tin, lit) or state(pt_tin, low)) and not pt_sat(actor) and not pt_carried(actor) and (hour(clock) >= 18 or hour(clock) < 3).
+    Time 48.
+    Grave "It will take the whole night, and you will not be anywhere else in it.".
+    On success { Assert state(pt_tin, steady). Assert pt_sat(actor). Assert pt_saved(actor). Set pt_dies_at(pt_pip) to 9999. }
+    Result "You sit on the boards with your backs to the wall and the tin between your feet. Hester Tamsett sleeps in her chair. Pip does not. Toward the second hour the coal is the colour of a plum, and you talk to it, as you were told, not much; toward the fourth, you hold your hands round it; at some time after the sixth you find that the room is warm, and the window has gone grey. The coal is a clear steady red. Pip is asleep against your arm with the lid in her fist.".
+  }
+  Action pt_rite(actor: group, site: place) "Say over the tin the old words for keeping a fire in" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, pip_stair) and (state(pt_tin, lit) or state(pt_tin, low)) and not pt_rite_done(actor) and not pt_rite_failed(actor) and knows(actor, d_lent_coal) and capable(actor, rites).
+    Time 20 minutes.
+    Resolve check(actor, rites, dc_fair).
+    On success { Assert pt_rite_done(actor). Increase pt_dies_at(pt_pip) by 144. Assert state(pt_tin, lit). }
+    On failure { Assert pt_rite_failed(actor). }
+    Result "You say what you know of a fire's keeping, which is the same in every country and no use at all in this one, and then you say it again more slowly, and leave out the parts that are for fires that are only fires. The coal goes red to the edges. It will not last. It has, you think, bought a day.".
+    Otherwise "You say the words. The coal does nothing, courteously. 'It wants ours,' says Hester Tamsett from her chair. 'Not the words. The way of saying.'".
+  }
+  Topic gran_ways with pt_gran "Ask Hester Tamsett how the family says it" when pt_clock_known(actor) and not pt_rite_done(actor) once {
+    Says "'We talk to it,' she says. 'Wipe your hands first. It likes a person who has wiped their hands. Tell it the day, and what the weather is, and who is dead.' She waves a hand. 'It is not liturgy. It is manners.'".
+  }
+
+  // ── Carrying it away ────────────────────────────────────────────────────────────────────────────────────
+  Action pt_take_tin(actor: group, site: place) "Take up the tin with Pip's leave, to carry it where a fire will keep it" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, pip_stair) and pt_consent(actor) and (state(pt_tin, lit) or state(pt_tin, low)) and not pt_carried(actor).
+    Time 3 minutes.
+    Grave "Pip's stair will have no fire on it.".
+    On success { Assert state(pt_tin, away). Assert pt_carried(actor). Set pt_carry_until(actor) to watch(clock) + 36. Assert pt_stair_bare(actor). }
+    Result "Pip puts the lid on, and holds it down with both hands, and then lets go. You lift the tin as you would lift a full cup. It is warm through the metal, and it ticks. 'Don't let it bump,' says Pip, from the doorpost.".
+  }
+  Action pt_lift_tin(actor: group, site: place) "While Pip is at the pump, lift the tin from the landing" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, pip_stair) and not pt_consent(actor) and not pt_carried(actor) and not pt_wronged(actor) and (state(pt_tin, lit) or state(pt_tin, low)) and capable(actor, stealth).
+    Time 5 minutes.
+    Resolve check(actor, stealth, dc_fair).
+    On failure { Assert pt_wronged(actor). }
+    On success { Assert state(pt_tin, away). Assert pt_carried(actor). Set pt_carry_until(actor) to watch(clock) + 36. Assert pt_wronged(actor). Assert pt_stair_bare(actor). Decrease regard(wardsfolk) by 1 or to nothing. Assert pm_slighted_wards(actor). }
+    Result "Pip goes down for water, with the pail, and she is gone as long as it takes to count thirty-one stairs. You take the tin by its lid, which is the wrong end, and you are on the lane with it before the bucket has reached the pump. Behind you, from five floors up, a child's voice says the only word that she has, which is a name, and it is not yours.".
+    Otherwise "A board speaks. 'I know what you are going to do,' says Hester Tamsett, from her chair, without opening her eyes. Pip, on the doorpost, has not taken her hand off the lid. Neither of them says anything more. They do not have to.".
+  }
+
+
+  // The places that will keep it: a coal laid on a grate that loves it. Each is a different thing to have done.
+  Action pt_lay_penny(actor: group, site: place) "Lay Pip's coal on the Penny Mutual's grate" {
+    Speaker pm_trendle.
+    Requires able(actor) and company(actor) and at(actor, site) and at(pm_trendle, site) and at(actor, penny_hall) and pt_carried(actor) and (pm_proud(actor) or pm_loan(actor) or regard(wardsfolk) >= 2).
+    Time 5 minutes.
+    On success { Retract pt_carried(actor). Assert pt_saved(actor). Assert pt_kept_penny(actor). Assert coalSource(penny_hall). Increase regard(wardsfolk) by 1. }
+    Result "Keturah Trendle takes the tin in her two red hands and stands for a moment with it as a woman stands with a baby that is not hers. 'In Salt Lane,' she says. 'On our own grate. Let it be said that the Mutual kept it.' She rakes the ash, lays the coal, and the hearth takes it all at once, and the room leans toward it. 'The child may come,' she says, 'whenever she likes. She'll find the door open. We do not lock the fire.'".
+  }
+  Action pt_lay_hearn(actor: group, site: place) "Set Pip's tin in Auberon Hearn's hands, at the hearth-room" {
+    Speaker auberon.
+    Requires able(actor) and company(actor) and at(actor, site) and at(auberon, site) and at(actor, hearn_hearth) and pt_carried(actor).
+    Time 5 minutes.
+    On success { Retract pt_carried(actor). Assert pt_saved(actor). Assert pt_kept_hearn(actor). Assert coalSource(hearn_hearth). }
+    Result "The old man takes the lid off the tin and looks in, and for the length of three breaths his face is entirely his own. 'Oh,' says Auberon Hearn, 'from the Wards. It has that smell. They never stopped, you know, the poor.' He lays it, with his shaking fingers, in the bed of the little hearth beside the coal that is already there, and the two of them lean together like old friends in a doorway. 'Tell the child,' he says, 'that it is not alone.' Then he looks round, vaguely, and says, 'Honora?'".
+  }
+  Action pt_set_glass(actor: group, site: place) "Set Pip's tin among the green glass lamps in the Lamp-house shopfront" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lamp_front) and pt_carried(actor).
+    Time 8 minutes.
+    Grave "The glass does not let a thing go out. It does not say it lets it be.".
+    On success { Retract pt_carried(actor). Assert pt_saved(actor). Assert pt_kept_glass(actor). }
+    Result "You set the coal in a spare globe of green glass at the end of a shelf, and shut the stopper, as the card beside it says. It does not go out. It will never now go out. It sits in its globe with its seam of white, perfectly steady, and a faint hum, in step with all the others on the shelf. After a while you realise it is the only thing in the room that is not humming in time.".
+  }
+  Action pt_lay_furnace(actor: group, site: place) "Feed Pip's coal into a retort-house furnace that has not been out in thirty years" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, retort_house) and pt_carried(actor).
+    Time 8 minutes.
+    On success { Retract pt_carried(actor). Assert pt_saved(actor). Assert pt_kept_gas(actor). Assert coalSource(retort_house). Increase regard(gasco) by 1. Decrease regard(wardsfolk) by 1 or to nothing. Assert pm_slighted_wards(actor). }
+    Result "A stoker shows you the warmest oven, and does not ask. The cat on it gets up, looks into the tin, and goes out of the room with its tail very straight. The coal takes at once. It is a good fire, deep and fed, that nobody has ever let go out; and a stoker with a shovel says, with respect, 'That's old, that is,' and writes in the shift-book that a coal was received. It is on the Company's books now. Pip will not be able to walk here.".
+  }
+  Rule pt_promise_broken when pt_promised(party) and (pt_kept_hearn(party) or pt_kept_glass(party) or pt_kept_gas(party)) and not pt_wronged(party) { Assert pt_wronged(party). }
+  Observe pt_reached_empty near pt_pip when pt_stair_bare(party) and (pt_kept_penny(party) or pt_kept_hearn(party) or pt_kept_glass(party) or pt_kept_gas(party)) "Pip is sitting by the pale square on the boards where the tin stood, drawing a tin on it with her finger. 'Is it warm?' she says. 'Where it is.'".
+
+  // ── Afterwards ──────────────────────────────────────────────────────────────────────────────────────────
+  Rule pt_trust_earned when pt_saved(party) and pt_named(party) and not pt_wronged(party) and not pt_trusted(party) { Assert pt_trusted(party). }
+  Observe pt_trusted_greets near pt_pip when pt_trusted(party) and not pt_stair_bare(party) "Pip has moved her stool so that you can sit down. 'You can come in,' she says. 'You wiped your hands.'".
+  Observe pt_wronged_greets near pt_pip when pt_wronged(party) "Pip looks past you, at a point on the wall. Her grandmother, from her chair, says 'The child is not at home.' The child is at home.".
+  Observe pt_ash_greets near pt_gran when state(pt_tin, out) "Hester Tamsett has the tin in her lap, closed. She looks at you without any anger at all, which is worse.".
+  Topic gran_ash with pt_gran "Say you are sorry about the coal" when state(pt_tin, out) once {
+    Says "'It was never yours to be sorry for,' says Hester Tamsett. 'It was ours, and we kept it for ninety years, and a polite person is no use against ninety years of draught.' She is silent. 'There will be others in the Wards, I suppose. There always were. Tell them to wipe their hands.'".
+    On discuss { Increase regard(wardsfolk) by 0. }
+  }
+
+  // The Night: Pip's coal, offered, or her word, offered, and not both. A child's hearth is bare after the one;
+  // a child's day is gone after the other.
+  Topic pip_gift_q with pt_pip "Ask Pip whether she would give her coal to the Return, if it is asked of her" when pt_trusted(party) and state(pt_tin, steady) and day(clock) >= 6 and not pt_gift_asked(actor) and not pt_witnessing(actor) once {
+    Says "Pip thinks about it with her whole face. 'If I give it,' she says, 'I haven't got one. Gran says a house with no coal is a house with a door that anyone can open. And it doesn't come back; it goes home, with the rest.' She looks at her grandmother, who looks at the ceiling. 'But it asked for a name, and you gave it one. So it's yours a bit, as well.' She pulls the lid off. 'You can have it. But I'll have a cold hearth till it's back, and you're to say thank you properly.'".
+    On discuss { Assert pt_gift_asked(actor). }
+  }
+  Action pt_accept_gift(actor: group, site: place) "Accept Pip's coal for the Night, and thank her properly" {
+    Speaker pt_pip.
+    Requires able(actor) and company(actor) and at(actor, site) and at(pt_pip, site) and at(actor, pip_stair) and pt_gift_asked(actor) and not pt_gifted(actor) and not pt_witnessing(actor) and quantity(actor, coal) < 2 and day(clock) >= 6.
+    Time 10 minutes.
+    On success { Increase quantity(actor, coal) by 1. Set coalExpires(actor) to watch(clock) + 144. Assert pt_gifted(actor). Assert state(pt_tin, out). Increase regard(wardsfolk) by 1. }
+    Result "You thank her, as you were told to, standing, with your hat in your hand, and you take the coal out of the tin into one of your own. She watches it go. The tin, with only ash in it, goes cold in her lap, and she holds it anyway. 'Say it's from me,' says Pip, 'when they ask.'".
+  }
+  Action pt_refuse_gift(actor: group, site: place) "Tell Pip to keep her coal; you will find another" {
+    Speaker pt_pip.
+    Requires able(actor) and company(actor) and at(actor, site) and at(pt_pip, site) and at(actor, pip_stair) and pt_gift_asked(actor) and not pt_gifted(actor) and not pt_gift_refused(actor).
+    Time 3 minutes.
+    On success { Assert pt_gift_refused(actor). Increase regard(wardsfolk) by 1. }
+    Result "'Keep it,' you say. 'A house shouldn't be without.' Pip looks at you for some time, and puts the lid back with a small, formal click. 'That's the first time anyone's said so,' she says. 'Everyone says take it.'".
+  }
+  Topic pip_witness_q with pt_pip "Ask Pip whether she would tell the Five who chalked the pump" when pt_trusted(party) and knows(actor, pt_pump_seen) and not pt_witnessing(actor) and not pt_gifted(actor) once {
+    Says "Pip looks at her grandmother. Her grandmother, who has not opened her eyes, says, 'It is not mine to say.' 'In the big hall?' says Pip. 'With the five chairs?' She has gone a bad colour. 'I'd have to sit in one. And say it, out loud, with people. And not be at the stair.' She picks at the lid. 'Who'd mind the coal?'".
+  }
+  Action pt_ask_witness(actor: group, site: place) "Ask Pip to say before the Five what she saw Mr Larkworth chalk" {
+    Speaker pt_pip.
+    Requires able(actor) and company(actor) and at(actor, site) and at(pt_pip, site) and at(actor, pip_stair) and pt_trusted(actor) and knows(actor, pt_pump_seen) and not pt_witnessing(actor) and not pt_gifted(actor).
+    Time 10 minutes.
+    Grave "A child at the Five is a hard thing, and she will not be at her coal on the Night.".
+    On success { Assert pt_witnessing(actor). Assert witness(pt_pip). }
+    Result "Pip is a long time answering. 'All right,' she says. 'But you sit next to me. And Gran has to be carried, she'll want to see.' She has gone very white, and very dignified. 'And you're to mind the coal,' she says, 'since I'll not be here to.'".
+  }
 }
