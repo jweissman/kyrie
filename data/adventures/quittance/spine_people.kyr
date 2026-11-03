@@ -135,30 +135,30 @@ Module quittance "Quittance" {
   Relation pettiferSpoke(group). Relation hearingOver(group). Relation pettiferBroken(group).
 
   // ── Candlewick Court and Gasket Yard ────────────────────────────────────────────────────────────────────
-  Person nan "Nan Wickersham" at candlewick {
+  Person wickersham "Nell Wickersham" at candlewick {
     Role "washerwoman, keeper of the pump". Ancestry human. Peaceable. Manner stoic. Pronouns she.
-    Greets "A woman is scrubbing a sheet on the rim of the pump with the concentrated hatred of someone who has to get it clean by dark. 'The Court's paid up,' says Nan Wickersham, 'if you're the collector. If you're not, you can hold the other end.'".
-    Greets again "'Hold the other end,' says Nan Wickersham.".
+    Greets "A woman is scrubbing a sheet on the rim of the pump with the concentrated hatred of someone who has to get it clean by dark. 'The Court's paid up,' says Nell Wickersham, 'if you're the collector. If you're not, you can hold the other end.'".
+    Greets again "'Hold the other end,' says Nell Wickersham.".
   }
-  Topic nan_chalk with nan "Ask what the number on the pump means" when true once {
-    Says "'A man chalked it on Tuesday,' says Nan. 'Not our man. A clerk-sort, with a stamp. I scrubbed it off and it was back in the morning. It's a date, I think. I never was good with dates.'".
+  Topic wickersham_chalk with wickersham "Ask what the number on the pump means" when true once {
+    Says "'A man chalked it on Tuesday,' says Nell. 'Not our man. A clerk-sort, with a stamp. I scrubbed it off and it was back in the morning. It's a date, I think. I never was good with dates.'".
   }
-  Action warn_candlewick(actor: group, site: place) "Tell Nan the Court will burn on the second night, and to get everyone out of it" {
-    Speaker nan.
-    Requires able(actor) and company(actor) and at(actor, site) and at(nan, site) and knows(actor, d_candlewick_next) and not candlewickWarned(actor) and not burned(candlewick) and (measureRegardWards(actor) or entered_gap(actor)).
+  Action warn_candlewick(actor: group, site: place) "Tell Nell the Court will burn on the second night, and to get everyone out of it" {
+    Speaker wickersham.
+    Requires able(actor) and company(actor) and at(actor, site) and at(wickersham, site) and knows(actor, d_candlewick_next) and not candlewickWarned(actor) and not burned(candlewick) and (measureRegardWards(actor) or entered_gap(actor)).
     Time 15 minutes.
     On success { Assert candlewickWarned(actor). }
-    Result "Nan listens with the sheet dripping in her hands. Then she wrings it out in one long twist, hangs it on the pump, and goes to the nearest door. 'Right,' she says, over her shoulder. 'Everybody up. We're having a party in the lane.' By dusk every bed in Candlewick Court is stripped, and every pot, and the cat is in a basket. Nobody will say how they were persuaded; the Court only knows that you did not lie.".
+    Result "Nell listens with the sheet dripping in her hands. Then she wrings it out in one long twist, hangs it on the pump, and goes to the nearest door. 'Right,' she says, over her shoulder. 'Everybody up. We're having a party in the lane.' By dusk every bed in Candlewick Court is stripped, and every pot, and the cat is in a basket. Nobody will say how they were persuaded; the Court only knows that you did not lie.".
   }
   Query measureRegardWards(g: group) means regard(wardsfolk) >= 1.
-  Action warn_candlewick_talk(actor: group, site: place) "Tell Nan the Court will burn, and talk her into believing a stranger" {
-    Speaker nan.
-    Requires able(actor) and company(actor) and at(actor, site) and at(nan, site) and knows(actor, d_candlewick_next) and not candlewickWarned(actor) and not burned(candlewick) and not measureRegardWards(actor) and not entered_gap(actor).
+  Action warn_candlewick_talk(actor: group, site: place) "Tell Nell the Court will burn, and talk her into believing a stranger" {
+    Speaker wickersham.
+    Requires able(actor) and company(actor) and at(actor, site) and at(wickersham, site) and knows(actor, d_candlewick_next) and not candlewickWarned(actor) and not burned(candlewick) and not measureRegardWards(actor) and not entered_gap(actor).
     Time 30 minutes.
     Resolve check(actor, persuasion, dc_hard).
     On success { Assert candlewickWarned(actor). }
-    Result "'I've heard the Phoenix say a lot of things,' says Nan. 'You've got the wrong coat for it. Fine.' She goes round the Court with her arms folded, knocking on doors, and by dusk it is empty.".
-    Otherwise "'A stranger comes to the Court and says it'll burn,' says Nan. 'A stranger. I've had that before, and it was a man selling insurance.'".
+    Result "'I've heard the Phoenix say a lot of things,' says Nell. 'You've got the wrong coat for it. Fine.' She goes round the Court with her arms folded, knocking on doors, and by dusk it is empty.".
+    Otherwise "'A stranger comes to the Court and says it'll burn,' says Nell. 'A stranger. I've had that before, and it was a man selling insurance.'".
   }
   Person dolly "Dolly Orrimer" at gasket_yard {
     Role "pump-woman of Gasket Yard". Ancestry human. Peaceable. Manner proud. Pronouns she.
