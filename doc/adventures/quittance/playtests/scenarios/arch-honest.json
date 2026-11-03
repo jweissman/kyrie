@@ -1,0 +1,5 @@
+{ "title": "Into Quittance: the honest declaration",
+  "note": "The default company comes down the Declaration Road, declares its goods, purpose and intentions truthfully, takes out an adjuster's licence at the Bell & Slip, and reads the Slate.",
+  "seed": "arch-honest",
+  "steps": ["^To the Declarations Hall", "Ask Mr Prest how the Bell knows", "Declare yourselves truthfully", "^Out to Gate Plaza", "^To the Brokers", "^To Policy Row", "^Into the Bell & Slip", "Take out an adjuster"],
+  "probes": ["quittance__inCity party", "quittance__onTheRoll party", "quittance__entered_honest party", "#quantity party gold", "#quittance__regard quittance__phoenix"] }
