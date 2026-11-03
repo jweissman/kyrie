@@ -6,6 +6,9 @@ Module bout "A fight that is not to the death: lads with their fists, a pit-figh
   Passage up "the way up the slip" between strand and slip.
   Passage over "the way over to the yard" between strand and yard.
   Passage on "the way on to the lane" between strand and lane.
+  Place quay "the quay" is room at 0, 1 outdoors.
+  Place lockup "the lockup" is room at 0, 2 indoors.
+  Passage down "the way down to the quay" between strand and quay.
   Company party "You" of 1 at strand.
   Person lads "the Cawse lads" at strand { Role "three young men with their fists". Ancestry human. Calling commoner.
     Level 1. Numbers 3. Pronouns they. Refuge slip.
@@ -17,6 +20,13 @@ Module bout "A fight that is not to the death: lads with their fists, a pit-figh
   Person pads "the footpads" at lane { Role "four footpads". Ancestry human. Calling commoner. Level 1. Numbers 4.
     Pronouns they. }
   Initially Assert breaks(pads).
+  // Gosse's Company's GOS-13: what a captor's rule says as the fight ends was never told.
+  Person reeve_men "the reeve's men" at quay { Role "the reeve's men, with cudgels". Ancestry human. Calling warrior.
+    Level 9. Numbers 2. Pronouns they. }
+  Initially Assert takesPrisoners(reeve_men).
+  Rule thrown_in when captured(reeve_men, party) and at(party, quay) says "They drag you up the quay by the arms and throw you in the lockup." {
+    Retract at(party, quay). Assert at(party, lockup).
+  }
   Rule lads_bested when routed(lads) and not bested(party) says "Up on the slip somebody laughs at them." { Assert bested(party). }
   Relation bested(group).
 }

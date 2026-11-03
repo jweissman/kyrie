@@ -46,4 +46,11 @@ describe('a bout, and a band that breaks', () => {
     expect(Bout.hp(j, 'Four footpads').filter(n => n > 0).length).toBe(2);
     expect(Bout.holds(j, 'routed', 'p__pads')).toBe(true);
   }, 60000);
+
+  it("tells what a captor's rule says as the fight ends, on the fight's own page (GOS-13)", async () => {
+    const j = await Bout.start('b');
+    await j.play('To the quay', 'Attack');
+    expect(j.latest).toContain('They drag you up the quay by the arms and throw you in the lockup.');
+    expect(j.campaign.world.one('at', 'party')).toBe('p__lockup');
+  }, 60000);
 });
