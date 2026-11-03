@@ -1,0 +1,77 @@
+Module quittance "Quittance" {
+  Description "Hearn House: the last Hearthkeeper, his coal, the three lines of the Return, and what an old man can give if he is kept company.".
+
+  Kind hearn_kindling "a bundle of kindling" is gear worth 1 weighing 1 described "Split ash-sticks tied with tarred cord. A bundle of this is, in the inner wards of Quittance, a quiet offence.".
+  Measure lucidUntil(group). Relation returnLearned(group). Relation hearnCoalOne(group). Relation hearnCoalTwo(group). Relation hearnKeyGiven(group).
+  Discovery d_return_1 "The first line of the Return, as Auberon Hearn gave it: 'What was lent is not lost.'".
+  Discovery d_return_2 "The second line of the Return, cut under the soot of the hearth-room lintel: 'What was kept is returned.'".
+  Item hearn_key_item "the Exchange cellar key" is cellar_key at nowhere.
+
+  // ── The housekeeper ─────────────────────────────────────────────────────────────────────────────────────
+  Person overend "Mrs Overend" at hearn_parlour {
+    Role "housekeeper at Hearn House". Ancestry human. Peaceable. Manner acerbic. Pronouns she.
+    Greets "A tall woman in grey with a ring of keys and a face like a shut door stands in the parlour with her back to the bricked-up fireplace, as though to keep it in. 'Mr Hearn is not receiving,' says Mrs Overend. 'He is not receiving anything. He has had a quiet week.'".
+    Greets again "'Wipe your feet,' says Mrs Overend. 'He may or may not know you.'".
+  }
+  Topic overend_fuel with overend "Ask why there is no fire in the house" when true once {
+    Says "'The Ordinance,' says Mrs Overend. 'No open fire within the inner wards. I have not lit a fire in this house in nineteen years. Mr Hearn has the hearth-room, which is exempt, on grounds of sentiment. I do not carry fuel to it, because I do not hold with sentiment, and if he asks me to I shall say that there is none.' She looks at the floor. 'There is none.'".
+  }
+  Topic overend_him with overend "Ask how he is" when true once {
+    Says "'He is eighty-three,' says Mrs Overend. 'He is the last of them. The Hearns kept the coals for a hundred years and never once said what for, and now he sits by a little red thing in a grate and calls it by a woman's name. Some days he knows me.' She straightens a chair that is straight. 'He is always very polite. That is the dreadful part.'".
+  }
+
+  // ── The hearth-room ─────────────────────────────────────────────────────────────────────────────────────
+  Thing hearn_lintel "the sooted lintel over the hearth" at hearn_hearth {
+    State sooted "The stone lintel over the little hearth is black with a century of smoke. Under the soot, you think, there is something cut.".
+    State clean "The lintel has been scrubbed, and a line is cut in it, in a notary's capitals: WHAT WAS KEPT IS RETURNED.".
+    Change scrub "Scrub the soot from the lintel" from sooted to clean.
+  }
+  Observe lintel_read at hearn_hearth when state(hearn_lintel, clean) "Under the lintel, in a neat deep hand: WHAT WAS KEPT IS RETURNED. And beneath it, smaller, as though added by someone who had run out of room: and what is lent is lent." teaches d_return_2.
+  Observe auberon_lucid_scene at hearn_hearth when watch(clock) < lucidUntil(auberon) "The old man has turned his chair a little from the fire. His hands are quite steady. He is looking at you with a keen, tired, intelligent attention, like a clerk at the end of a long day who has just been handed the one file that matters.".
+  Observe auberon_lost_scene at hearn_hearth when watch(clock) >= lucidUntil(auberon) "The little red coal glows in the grate, no bigger than a hand. The old man has his own hands to it, and watches it as one watches a sleeping child, and now and then speaks to it.".
+
+  Action tend_coal(actor: group, site: place) "Feed the old man's coal a bundle of kindling" {
+    Requires able(actor) and company(actor) and at(actor, hearn_hearth) and holding(actor, hearn_kindling).
+    Time 10 minutes.
+    On success { Spend hearn_kindling from actor. Set lucidUntil(auberon) to watch(clock) + 6. }
+    Result "You lay the sticks on the coal as you would lay them on a sleeping animal, one at a time. It takes slowly, with a small crackle, and a clean yellow flame stands up in the grate. The old man draws a long breath, as if from a depth. 'Ah,' says Auberon Hearn. 'There. That is better. Do sit down.' And his face, in the new light, has gathered itself.".
+  }
+  Rule auberon_first_lucid when watch(clock) < lucidUntil(auberon) and arc(auberon) < 1 { Set arc(auberon) to 1. }
+  Topic auberon_who with auberon "Ask whom he takes you for" when watch(clock) >= lucidUntil(auberon) once {
+    Says "'The coal-men,' says Auberon Hearn comfortably. 'You will have come for the Return, but it is not yet, it is the autumn. Honora said it was never to be before the bells. You will take tea?' He offers you a cup he does not have. 'I shall just feed my guest.' And he turns back to the hearth, and tends the coal with the end of a spoon.".
+  }
+  Topic auberon_honora with auberon "Ask about Honora" when watch(clock) < lucidUntil(auberon) once {
+    Says "'My great-grandmother,' says Auberon Hearn. 'She was a notary. A very good one. They say she walked into the fire to look for a client.' He smiles. 'That is rather what she did. The client was the fire. She told me once, I was seven, that every contract is a promise to be kind to someone you have not met yet. She said the Offices were the worst thing she ever drafted, and that she had made them so that someone would always be paid to remember.' He looks at the coal. 'I am, I think, what they paid to remember. It is not much.'".
+    On discuss { Assert knows(actor, d_fire_is_real). }
+  }
+  Topic auberon_return with auberon "Ask him to say the Return" when watch(clock) < lucidUntil(auberon) and not knows(actor, d_return_1) once {
+    Says "He straightens, with an effort, and puts down the spoon. 'What was lent,' says Auberon Hearn, clearly, in a voice that has done this a hundred times, 'is not lost.' He waits. His lips move. 'And,' he says. 'And.' Something goes out of his face, like a lamp turned down, and he is looking at you with courteous bewilderment. 'I'm so sorry,' he says. 'I had it a moment ago.'".
+    On discuss { Assert knows(actor, d_return_1). Assert knows(actor, d_return). Set lucidUntil(auberon) to watch(clock). }
+  }
+  Rule return_learned when knows(party, d_return_1) and knows(party, d_return_2) and knows(party, d_return_3) and not returnLearned(party) { Assert returnLearned(party). }
+  Discovery d_return_3 "The third line of the Return, from the Founders' own paper: 'Quit, and welcome.'".
+  Rule auberon_second_stage when returnLearned(party) and arc(auberon) < 2 { Set arc(auberon) to 2. }
+  Topic auberon_say_back with auberon "Say the three lines of the Return back to him, in order" when returnLearned(actor) and watch(clock) < lucidUntil(auberon) once {
+    Says "You say it: what was lent is not lost; what was kept is returned; quit, and welcome. The old man is quite still. His eyes have filled, and he does not seem to know it. 'Yes,' he says. 'That is the one.' He reaches out and takes hold of the nearest of you by the sleeve. 'You will say it for me,' says Auberon Hearn. 'I have been so afraid there would be nobody who could.' He lets go. 'The key is in the clock,' he says. 'And the coal is yours to carry. Do not let it go out.'".
+    On discuss { Assert hearnKeyGiven(actor). }
+  }
+  Topic auberon_key with auberon "Ask for the key to the Exchange cellars" when hearnKeyGiven(actor) and not holding(actor, cellar_key) once {
+    Says "He opens the case of the little carriage-clock on the mantel, and takes a black key from behind the pendulum as if he had put it there that morning. 'The cellars,' he says. 'Mind the Queue. They are very patient and they will want a pen.'".
+    On discuss { Give hearn_key_item to actor. Assert cellarLeave(actor). }
+  }
+  Action hearn_coal_one(actor: group, site: place) "Ask Auberon Hearn for a coal to carry, for the Night" {
+    Speaker auberon.
+    Requires able(actor) and company(actor) and at(actor, site) and at(auberon, site) and watch(clock) < lucidUntil(auberon) and day(clock) >= 6 and not hearnCoalOne(actor) and quantity(actor, coal) < 2.
+    Time 10 minutes.
+    On success { Assert hearnCoalOne(actor). Increase quantity(actor, coal) by 1. Set coalExpires(actor) to watch(clock) + 144. }
+    Result "He takes the tongs himself, with a hand that trembles only at the start, and lifts a living coal out of the grate into your tin. It is the colour of the inside of a plum. 'One for every house that will have it,' he says. 'You must choose. I never could.'".
+  }
+  Action hearn_coal_two(actor: group, site: place) "Ask Auberon Hearn for a second coal" {
+    Speaker auberon.
+    Requires able(actor) and company(actor) and at(actor, site) and at(auberon, site) and watch(clock) < lucidUntil(auberon) and day(clock) >= 6 and hearnCoalOne(actor) and not hearnCoalTwo(actor) and quantity(actor, coal) < 2 and arc(auberon) >= 2.
+    Time 10 minutes.
+    On success { Assert hearnCoalTwo(actor). Increase quantity(actor, coal) by 1. Set coalExpires(actor) to watch(clock) + 144. }
+    Result "'Another,' says Auberon. 'Yes. If it is for the right sort of house.' His hand is steadier this time. 'I have not given two in my life.'".
+  }
+  Rule hearn_keeps_hill when arc(auberon) >= 2 and not keeper(hill) { Assert keeper(hill). }
+}

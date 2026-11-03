@@ -75,5 +75,6 @@ Module quittance "Quittance" {
     Sells bandages for 1 coin from 6.
     Sells chandlers_candle for 1 coin from 12.
     Sells steel_pencil for 1 coin from 6.
+    Sells hearn_kindling for 1 coin from 6.
   }
 }
