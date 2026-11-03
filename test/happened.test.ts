@@ -12,9 +12,10 @@ describe('what never happened', () => {
     const early = await Journey.start(probe);
     await early.play('Turn the wheel');
     const seen = new Happened().add(early);
+    // (Silent: the probe's own, and the one an ending waits on, that the company has come into its places: GOS-06.)
     expect(seen.never()).toEqual({ rules: ['p__bell'], endings: ['p__drowning'], milestones: [], promises: [],
-      silent: 1 });
-    expect(seen.lines()[0]).toBe('never told: bell (and 1 rules that say nothing, not judged)');
+      silent: 2 });
+    expect(seen.lines()[0]).toBe('never told: bell (and 2 rules that say nothing, not judged)');
     const late = await Journey.start(probe);
     await late.play('=40');
     expect(seen.add(late).never()).toMatchObject({ rules: [], endings: [] });

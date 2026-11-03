@@ -18,6 +18,8 @@ class EngineNames {
     recorded: 'the record of a situation manifest\'s pressure, a deadline no generator or module has used since the '
       + 'first commit; saves carry its empty list (Gate E\'s deadlines use it, declared, or remove it)',
     deficit: 'the same pressure\'s shortfall',
+    companyCameHere: 'that the company has stood in one of a module\'s places, which its endings wait on: written by '
+      + 'the assembler into each module with endings, its own (GOS-06)',
   };
   private static kept?: ReturnType<typeof KyrLint.parsed>;
   static get parsed() { return this.kept ??= KyrLint.parsed(); }
@@ -40,7 +42,7 @@ class EngineNames {
 }
 
 describe('the names the engine reads, and the shared rules that declare them', () => {
-  it('reads by name only what the shared rules declare, but for two records said why', () => {
+  it('reads by name only what the shared rules declare, but for the records said why', () => {
     const declared = EngineNames.declared(), read = EngineNames.read();
     expect(read.size).toBeGreaterThan(100);
     const unruled = [...read].filter(([name]) => !declared.has(name)).map(([name, files]) => `${name} ← ${files.join(', ')}`);
