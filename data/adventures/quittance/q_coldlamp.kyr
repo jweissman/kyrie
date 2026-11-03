@@ -134,7 +134,7 @@ Module quittance "Quittance" {
   Relation cl_coalPending(group).
   Action cl_coal(actor: group, site: place) "Ask Wynne for the spark that stayed, lit" {
     Speaker wynne.
-    Requires able(actor) and company(actor) and at(actor, site) and at(wynne, site) and cl_coalPending(wynne) and not cl_coalGiven(wynne) and day(clock) >= 6 and quantity(actor, coal) < 2.
+    Requires able(actor) and company(actor) and at(actor, site) and at(wynne, site) and cl_coalPending(wynne) and not cl_coalGiven(wynne) and day(clock) >= 7 and quantity(actor, coal) < 2.
     Time 10 minutes.
     On success { Increase quantity(actor, coal) by 1. Set coalExpires(actor) to watch(clock) + 144. Assert cl_coalGiven(wynne). }
     Result "Wynne lifts the back jar down and unstoppers it. The spark comes out on to her palm, sits for a moment, and then climbs on to the ember she has banked in a tin, which takes it without remark. 'It is a coal,' she says. 'It is lit. It was lit when it came. Don't thank me, it did it on its own.' The tin is warm through your coat, and ticks.".

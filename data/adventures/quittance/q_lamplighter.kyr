@@ -7,7 +7,7 @@ Module quittance "Quittance" {
   // brackets go to the mains. If the company is not there, Hob walks the Round alone, and the Stokers' Steps are
   // fifty steps long.
   Query ll_dusk() means hour(clock) >= 17 and hour(clock) < 21.
-  Query ll_lastNight() means (day(clock) == 5 and hour(clock) >= 21) or day(clock) >= 6.
+  Query ll_lastNight() means (day(clock) == 5 and hour(clock) >= 21) or day(clock) >= 7.
 
   Discovery ll_claim "On the Slate: the Lamplighters' Hall asks for hands to walk the Foundry Round with Hob Tansy, who is retired when the cold-lamps come in.".
   Discovery ll_nan_hid "A child is hiding in the lamp-house on the Furnace Wharf: there is a boot-toe under its door.".
