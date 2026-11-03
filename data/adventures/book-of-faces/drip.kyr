@@ -1,2 +1,860 @@
 Module ombra "The Book of Faces" {
+  // ═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+  // THE DRIP (drip.kyr, prefix dr_). The poor islands: ferries, lamp-trimmers, washerwomen, the Anonymous Saint's soup.
+  // Four threads and the people who carry them: Rill Ketch's sinking ferry (Round 1), Sister Nobody's pot (Round 4), the
+  // Rain-Wives' petition, and the Lamp-Trimmers' strike. The Drip is the least masked quarter: its masks are old, patched
+  // and worn with a casual intimacy, and by night it does not bother to knock.
+  // ═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+
+  // ── Scenes: the landing ──────────────────────────────────────────────────────────────────────────────────────────
+  Observe dr_landing_day at drip_landing when publicHours() "The Drip landing is a slab of wet stone with six mooring-posts, where the ferries from Counting Row put in. The rain comes at it sideways. Flat black boats crowd the posts, each with a pale eye painted on its prow, and the people who step off them are all somebody else: a Cockle with a basket on her hip, an Owl with a pole across his shoulders, a Gull bent over a stern that rides too low. Every post has a lamp on it, unlit. Everyone here is wet, and nobody has ever apologised for it.".
+  Observe dr_landing_night at drip_landing when privateHours() "At the Ninth Bell the ferrywomen hang a sack over each prow's painted eye, so that the boats cannot see either, and go home. The landing is one lantern and a good deal of dark. People cross it bare-faced and unhurried, as you cross your own kitchen, and a man you do not know holds a woman's hand on the steps the way people do who have never been told whose it is. Rain ticks on the sacks.".
+  Observe dr_landing_rain at drip_landing as weather when day(clock) >= 3 and day(clock) < 6 "Since the Deepening the water has come over the bottom step and does not go back. Boards are laid across it, and the Drip walks on them with its skirts held up and an expression of having expected nothing better.".
+  Observe dr_landing_flood at drip_landing as weather when day(clock) >= 6 "The Flood. The landing is two steps shorter than it was, and the water talks against the posts all night. The gutters of the Drip run uphill, and nobody seems surprised.".
+  Observe dr_patience_low at drip_landing when not dr_boat_sound(party) and not dr_berth_sold(party) "At the end post lies the Patience, a ferry the length of three doors, riding a hand lower than any boat on the landing, with a tin cup on a string for the bailing. Her strakes are black with wet. A small dark tongue of water lies along her bilge and does not go down.".
+  Observe dr_patience_mended at drip_landing when dr_boat_sound(party) and not dr_berth_sold(party) "At the end post the Patience rides as high as any boat on the landing, her new strakes pale against the old, her tin cup hung up dry on its string.".
+  Observe dr_patience_gone at drip_landing when dr_berth_sold(party) and not dr_boat_sound(party) "Where the Patience lay there is a rope-end on the end post and a clean square of water, and a board nailed up in the Ferrymen's hand: BERTH LET.".
+
+  // ── Scenes: the bread-market ─────────────────────────────────────────────────────────────────────────────────────
+  Observe dr_market_day at bread_market when publicHours() "The bread-market is a square of wet cobble under oilcloth awnings that sag in the middle and are emptied with a broom. Under them the Cockles sell what the ovens made before dawn, and the smell of crust fights with boiled eels and tallow and wet wool and comes out about even. A weighing-board stands at the corner with a brass pound on it, polished by thirty thousand thumbs. Off one side are the Rain-Wives' door and the kitchen door, and between them a stall of rope and tallow and ship's timber stacked under a sheet.".
+  Observe dr_market_night at bread_market when privateHours() "The awnings are furled and the stalls are shuttered, and the market is for once only a square. The bakers' ovens burn all night, and behind each shutter the bakers are bare-faced in the red glow, working, talking, singing what they would not sing in a mask. A lantern burns at the Rain-Wives' door. Dogs go through the puddles in a body.".
+  Observe dr_market_queue at bread_market when dr_pot_dry(party) and not dr_pot_secured(party) "A line of people stands along the wall from the kitchen door to the corner, patient and wet, each with a bowl held against the chest. The kitchen door is shut. Nobody knocks.".
+  Observe dr_market_flood at bread_market as weather when day(clock) >= 6 "The gutters of the market run toward the Rain-Wives' door, uphill, in a thin brown sheet.".
+
+  // ── Scenes: the Rain-Wives' hall ─────────────────────────────────────────────────────────────────────────────────
+  Observe dr_hall_day at rain_hall_floor when publicHours() "The Rain-Wives' hall is one long room with copper boilers along a wall, each as big as a bell and breathing steam, and across the rafters a hundred lines of grey cloth hung to drip. Forty women in the washerwomen's domino of grey linen work the coppers with forearms like ship's cable and talk without stopping. Along the far wall, on a rail of boat-hooks, hangs a strip of linen as long as the hall and no wider than a hand: the Tally-cloth, stitched in rows of colour from end to end.".
+  Observe dr_hall_night at rain_hall_floor when privateHours() "The wash stops at the Ninth Bell and the coppers are let go down to a mutter. The Wives have taken their grey masks off and hung them on the rafters among the sheets, forty empty faces, and sit about in the steam with their feet in tubs of hot water and their sleeves rolled. The Tally-cloth hangs on its rail with a lamp turned low beside it.".
+  Observe dr_hall_lamp at rain_hall_floor when day(clock) >= 4 and not dr_petition_answered(party) "The lamp in the hall's window is lit, which the Rain-Wives do only when they have something to say, and the whole hall is a little too aware of it.".
+
+  // ── Scenes: the Anonymous Saint's kitchen ────────────────────────────────────────────────────────────────────────
+  Observe dr_soup_day at soup_room when publicHours() and not dr_pot_dry(party) "The kitchen is one room, long and low, with a copper the size of a church bell at one end and three hundred wooden bowls in leaning stacks along the other. A queue comes in at one door and out at the other, and a woman in a mask of plain grey cloth, unpainted, with two holes in it, ladles into every bowl without a word and without a face. Nobody here is asked who they are. It is the only courtesy in Ombra that is also a kind of contempt, and it has fed three hundred a day for twenty years.".
+  Observe dr_soup_night at soup_room when privateHours() and not dr_pot_dry(party) "The fire is banked under the copper, and the bowls are turned down in their stacks. There is a three-legged stool at the cold end of the room that nobody has been seen to sit on, and a heel of bread on a plate beside it, and a candle-end burning on the sill. The room smells of barley and of the sort of tiredness that has a smell.".
+  Observe dr_soup_dry at soup_room when dr_pot_dry(party) and not dr_pot_secured(party) "The copper is cold, and the bowls are stacked, and somebody has scrubbed the long tables white. The ladle hangs on its nail. In the corner a woman in a grey cloth mask sits on the floor with her back against the wall and her hands open on her knees, as one who has counted everything there is to count.".
+  Observe dr_soup_shut at soup_room when dr_kitchen_shut(party) "The kitchen is shut. Someone has left the door on the latch, and the copper cold, and a bowl upside down on every table.".
+
+  // ── Scenes: the Lamp-Trimmers' yard ──────────────────────────────────────────────────────────────────────────────
+  Observe dr_yard_day at lamp_yard when publicHours() and not dr_strike_on(party) "The Lamp-Trimmers' yard is a cobbled square walled on three sides by the lamp-house, with the poles racked along it like a company of pikemen and ladders hung under the eaves. The Owls in their round-eyed dominoes sit on upturned buckets and cut wicks, and mend glass, and fill the little brass reservoirs from oilskin bottles, and keep up a steady grumble over the whole business, which is the sound of a trade in good health. A bench by the wall is empty. It is the lamp-boys' bench, and the lamp-boys are not on it.".
+  Observe dr_yard_night at lamp_yard when privateHours() and not dr_strike_on(party) "The yard is dark but for the lamp-house, whose window is yellow and loud with men unmasked, boots off, arguing about the price of oil. The poles stand racked against the wall with their brass hooks wet. A smell of lamp-oil and wet iron lies over everything, and from the lane to the cistern steps comes the sound of the Drip's one real river, running below the street.".
+  Observe dr_yard_strike at lamp_yard when dr_strike_on(party) "The poles are racked and nobody is carrying them. The Owls stand about the yard in their round-eyed dominoes with their hands in their sleeves and do not clean, mend, fill or trim, with the air of men who are doing it on purpose. A board nailed to the lamp-house door says in chalk: NO OIL, NO WAGE, NO LIGHT. A man at the gate has been given a bucket to stand on, so as to be seen not working.".
+  Observe dr_yard_broken at lamp_yard when dr_strike_broken(party) "The yard is quiet in a way that is not rest. Some of the Owls have gone home, and those who remain do not look at the lamp-house door, where the chalk has been rubbed off with a sleeve and not rewritten.".
+
+  // ── Scenes: the cistern steps ────────────────────────────────────────────────────────────────────────────────────
+  Observe dr_steps_day at cistern_steps when publicHours() "A flight of green stone steps goes down into a sunk square behind the lamp-yard, with an iron rail and a grating at the bottom, and from below, through the grating, the sound of a great deal of water being patient. Somebody has set a heel of bread and a cup of milk on the second step, under a tile to keep the rain off. It has been gone by morning every morning since the Novena began.".
+  Observe dr_steps_night at cistern_steps when privateHours() "The steps run with a thin skin of water, and the grating at the bottom breathes up a cold that smells of oil and brick. Somebody has left a candle-stub burning on the fourth step, in a dish, where the wind cannot take it. It has been left, you think, as a person leaves a lamp in a window.".
+  Observe dr_steps_flood at cistern_steps as weather when day(clock) >= 6 "Grey water stands in the cisterns' mouth, level with the grating, and has begun on the first step.".
+
+  // A person is received when the city's register matches the face: a trade's mask by day, a bare face by night.
+  Query dr_received(c: group) means (masked(c) and publicHours()) or (not masked(c) and privateHours()).
+
+  // ── What the Drip's threads remember (relations of the party; each is read by rules and topics below) ─────────────────
+  // Rill's ferry: sound or not, sold from under her or not, and what she makes of the company's hand in it.
+  Relation dr_boat_sound(group). Relation dr_berth_sold(group). Relation dr_rill_insulted(group). Relation dr_rill_open(group).
+  Relation dr_rill_consents(group). Relation dr_rill_hired(group). Relation dr_rill_indebted(group). Relation dr_rill_guild_ok(group).
+  Relation dr_ley_struck(group). Relation dr_rill_cool(group). Relation dr_rill_bailed(group). Relation dr_ferry_free(group).
+  Relation dr_boat_how_custom(group). Relation dr_boat_how_guild(group). Relation dr_boat_how_right(group). Relation dr_boat_how_bought(group).
+  // The Saint's pot: points of supply, dry on the fourth day, secured to the Drawing at six.
+  Measure dr_supply(group).
+  Relation dr_pot_dry(group). Relation dr_pot_secured(group). Relation dr_kitchen_shut(group). Relation dr_nobody_moved(group).
+  Relation dr_nobody_cool(group). Relation dr_nobody_seated(group). Relation dr_nobody_laughed(group). Relation dr_nobody_unhooded(group).
+  Relation dr_pot_by_wives(group). Relation dr_pot_by_rill(group). Relation dr_pot_by_coin(group).
+  // The Petition: the cloth read, what the Wives were told, and whether and why they march.
+  Relation dr_petition_answered(group). Relation dr_marchers(group). Relation dr_wives_chance(group). Relation dr_wives_keep(group).
+  Relation dr_wives_lied(group). Relation dr_wives_waiting(group). Relation dr_hesper_told(group). Relation dr_cloth_read(group).
+  Relation dr_pallet_cool(group). Relation dr_pallet_asked(group). Relation dr_pallet_chose(group). Relation dr_cloth_counting(group).
+  Measure dr_march_day(group).
+  // The Strike: on from the eighth day unless settled; dark on the ninth night unless the Owls light the city.
+  Relation dr_strike_on(group). Relation dr_strike_settled(group). Relation dr_strike_broken(group). Relation dr_strike_joined(group).
+  Relation dr_dark(group). Relation dr_box_found(group). Relation dr_arrears_paid(group). Relation dr_lodgers_lent(group).
+  Relation dr_hal_told(group). Relation dr_hal_shielded(group). Relation dr_jory_cool(group).
+
+  // Things the company may carry for these threads.
+  Kind dr_oak_kind "a cord-length of seasoned oak" is gear worth 4 weighing 6 described "Ship's strakes, dry and pale and ringing when you tap them, bound with tarred cord. They have been under a sheet in a chandler's stall for two summers, which is what seasoned means.".
+  Kind dr_supper_kind "a covered bowl of hot barley and eel" is gear worth 1 weighing 1 described "A tin bowl with a plate for a lid, the Rain-Wives' copper-supper: barley, a ladle of eel-stock, a heel of rye. It is hot, and goes cold with every minute you carry it.".
+  Kind dr_pestle_kind "the Saint's pestle" is gear worth 8 weighing 1 granting insight described "A brass pestle, worn thin on one side by a right hand, such as an apothecary might have had made for him once and then found he could not give up. It has a bare finger's-width of engraving under the green: a physician's seal.".
+  Kind dr_cup_kind "the Gull's tin cup" is gear worth 1 weighing 0 described "A dented tin cup on a length of tarred string, for bailing, with a notch filed in its rim for every year of a boat's life. It has more notches than a cup should.".
+
+  // ── People ────────────────────────────────────────────────────────────────────────────────────────────────────────
+  // Rill Ketch, the Gull. Thirty-eight, a widow, proud and blunt; she will take nothing she has not paid for, because the
+  // Ferrymen's Guild fed her for nine years after the Sluice drowned her mother, and she paid it back to the last candle.
+  // She writes, by the Patience's lantern, to a man she thinks is a Lamp-reader of the Weights (local.kyr writes that).
+  Person rill "Rill Ketch" at drip_landing {
+    Role "ferrywoman of the Patience, the Drip's Gull". Ancestry human. Pronouns she. Manner proud. Peaceable.
+    Greets "A broad woman sits on the Patience's after-thwart, bailing with a tin cup on a string, in a gull-domino so old the paint has gone to the colour of the rain. The cup goes in, comes out, goes over the side. She does not look up. Her boat sits a hand lower in the water than the boats on either side of her, and she is the only person on the landing who is not looking at it.".
+    Greets again "{rill} bails, and does not look up.".
+  }
+  Discovery dr_rill_name "The ferrywoman of the Drip landing, who keeps the Patience, is Rill Ketch, a widow; the Ferrymen's Guild raised her from a child.".
+  Observe dr_rill_plate at drip_landing as feature when privateHours() and at(rill, drip_landing) "By night, with the sack hung over her boat's eye and the lantern turned up, the name on the Patience's stern-plate is legible, as it is not allowed to be by day: a tin plate, hand-lettered, R. KETCH, MASTER, and under it a smaller line, PAID." teaches dr_rill_name.
+
+  // The Ferrymen's steward and the surveyor who supplies the timber he surveys.
+  Person dr_brine "Dame Orla Brine" at offstage {
+    Role "the steward of the Ferrymen's Guild at the Drip, with the Guild's ledger" when at(dr_brine, drip_landing). Role "the steward of the Ferrymen's Guild at the Drip" when not at(dr_brine, drip_landing). Ancestry human. Pronouns she. Manner acerbic. Peaceable.
+    Greets "A stout woman in a gull-cowl lined with oilskin stands at the landing's head with a ledger under one arm and an umbrella over it, so that the ledger is dry and she is not. She has the look of one who has been right about a thing for a long time and been thanked for it by nobody.".
+    Greets again "The Guild's steward looks up from her ledger, down at your feet, and up again.".
+  }
+  Discovery dr_brine_name "The steward of the Ferrymen's Guild at the Drip is Dame Orla Brine, who keeps the Guild's ledger and its loans.".
+  Person dr_ley "Hobart Ley" at offstage {
+    Role "the Ferrymen's surveyor". Ancestry human. Pronouns he. Manner proud. Peaceable.
+    Known as "a lean man in the surveyor's heavy gull-cowl, with a mallet and a measuring-rod" when not knows(party, dr_ley_face).
+    Greets "A lean man in the surveyor's cowl goes along a hull with a mallet, tapping, and writing a mark on a slate after every tap. He is exactly as friendly as a mallet.".
+    Greets again "The surveyor taps, and writes.".
+  }
+  Discovery dr_ley_face "The Ferrymen's surveyor is Hobart Ley, a cousin on his mother's side of Ser Corvin Lacke, the Warden of Locks; he keeps a timber-yard on Counting Row.".
+  Initially Assert unmaskTeaches(dr_ley, dr_ley_face).
+
+  // Sister Nobody: the Anonymous Saint. A Physician-General of the Offices, drawn at fifty and Spent twelve years ago; she
+  // went down to the Drip the day she was Spent and has not been seen to smile since.
+  Person nobody "Sister Nobody" at soup_room {
+    Role "the Anonymous Saint, who keeps the soup-kitchen". Ancestry human. Pronouns she. Manner stoic. Peaceable.
+    Greets "A tall woman in a plain grey cloth mask, with two eye-holes cut in it and no other feature, stands at the copper with a ladle. Her hands are very clean, and very steady, and a good deal older than the rest of her. She does not say her name, because she has not got one that she is willing to use.".
+    Greets again "The Anonymous Saint ladles, and does not look up.".
+  }
+  Discovery dr_nobody_spent "Sister Nobody, the Anonymous Saint, was twelve years ago the Physician-General of Ombra, drawn at fifty and Spent after her year; she came to the Drip the day she was Spent.".
+  Initially Assert unmaskTeaches(nobody, dr_nobody_spent).
+
+  // Goody Pallet, mother of the Rain-Wives. Seventy. Keeper of the Tally-cloth: thirty-one feet of linen, a foot a year.
+  Person rainmother "Goody Pallet" at rain_hall_floor {
+    Role "the mother of the Rain-Wives, who keeps the Tally-cloth". Ancestry human. Pronouns she. Manner jovial. Peaceable.
+    Greets "A small round woman of seventy, in a grey linen domino with the strings tied in a bow like a child's, sits at the end of the Tally-cloth with a needle going in her hand and her chin on her chest. She looks asleep. She is counting. When you come up she says, without opening her eyes, how many steps you took from the door.".
+    Greets again "Goody Pallet tells you, with her eyes shut, how many steps you took.".
+  }
+  Person dr_tansy "Tansy Ruddock" at rain_hall_floor {
+    Role "a Rain-Wife, the cloth's second stitcher". Ancestry human. Pronouns she. Manner acerbic. Peaceable.
+    Sells dr_supper_kind for 2 coin from 6.
+    Greets "A thin woman of forty with forearms like cable, her grey domino pushed up on her forehead like a pair of spectacles, is sitting under the Tally-cloth with a lamp and a stick of chalk, doing sums on the floor.".
+    Greets again "Tansy Ruddock looks up from her sums.".
+  }
+
+  // Jory Wickham, steward of the Owls; and his brother Hal, who took the Owls' wage-box.
+  Person steward "Jory Wickham" at lamp_yard {
+    Role "the steward of the lamp-trimmers, the Owls' steward". Ancestry human. Pronouns he. Manner grim. Peaceable.
+    Greets "A heavy-shouldered man with a ring of brass keys at his belt is standing in the middle of the yard with his arms folded, watching his Owls cut wicks. He has the stillness of a man holding something up with his back. He looks at you, and at your hands, and decides what sort of hands they are before you have said anything at all.".
+    Greets again "The steward of the Owls looks at your hands.".
+  }
+  Discovery dr_jory_name "The steward of the lamp-trimmers is Jory Wickham, an honest man whose wage-box has gone missing; his brother is Hal.".
+  Observe dr_jory_board at lamp_yard as feature when privateHours() and at(steward, lamp_yard) "In the lamp-house, on the board where the keys hang, the pegs have names burned into them as the Owls have not been allowed to have by day: J. WICKHAM, H. DUNNE, and a dozen more. The key above H. DUNNE is missing." teaches dr_jory_name.
+  Person dr_hal "Hal Dunne" at offstage {
+    Role "the steward's younger brother, a runner for the Hall of Weights". Ancestry human. Pronouns he. Manner jovial. Peaceable.
+    Greets "A young man of twenty-five sits at the back of the lamp-house in a corner nobody else is using, with a jug between his feet. He has the large, friendly, ruined face of one who has done a thing, and is being agreeable to everybody so that nobody will ask what.".
+    Greets again "Hal Dunne looks up, over-pleased.".
+  }
+  Discovery dr_hal_name "The steward's brother is Hal Dunne, a runner for the Hall of Weights, who has been drinking in the lamp-house corner since the first night.".
+
+  // The bread-woman. She weighs with the market's pound, and has since her mother did.
+  Person dr_gammon "Mother Gammon" at bread_market {
+    Role "the bread-woman". Ancestry human. Pronouns she. Manner jovial. Peaceable. Sells rations for 2 coin from 12.
+    Greets "A woman built like a doorframe, in the Cockle's flour-white domino, stands behind a board of round loaves with her arms folded in a cloud of her own steam. On the corner of her board is the market's pound in brass, and she touches it from time to time as a person touches a relative's shoulder.".
+    Greets again "Mother Gammon nods you a loaf's worth.".
+  }
+
+  // ── Where they are by the hour (Jory Wickham never leaves his yard: the round is walked behind him) ──────────────────
+  Rule dr_rill_noon when hour(clock) >= 12 and hour(clock) < 13 and not at(rill, bread_market) { Assert at(rill, bread_market). }
+  Rule dr_rill_landing when (hour(clock) < 12 or hour(clock) >= 13) and not at(rill, drip_landing) { Assert at(rill, drip_landing). }
+  Rule dr_brine_day when hour(clock) >= 9 and hour(clock) < 17 and not at(dr_brine, drip_landing) { Assert at(dr_brine, drip_landing). }
+  Rule dr_brine_home when (hour(clock) < 9 or hour(clock) >= 17) and not at(dr_brine, offstage) { Assert at(dr_brine, offstage). }
+  Rule dr_ley_measures when day(clock) >= 5 and day(clock) <= 7 and hour(clock) >= 10 and hour(clock) < 16 and not dr_ley_struck(party) and not at(dr_ley, drip_landing) { Assert at(dr_ley, drip_landing). }
+  Rule dr_ley_home when (day(clock) < 5 or day(clock) > 7 or hour(clock) < 10 or hour(clock) >= 16 or dr_ley_struck(party)) and not at(dr_ley, offstage) { Assert at(dr_ley, offstage). }
+  Rule dr_gammon_stall when hour(clock) >= 8 and hour(clock) < 20 and not at(dr_gammon, bread_market) { Assert at(dr_gammon, bread_market). }
+  Rule dr_gammon_home when (hour(clock) < 8 or hour(clock) >= 20) and not at(dr_gammon, offstage) { Assert at(dr_gammon, offstage). }
+  Rule dr_hal_by_day when hour(clock) >= 5 and hour(clock) < 20 and not at(dr_hal, offstage) { Assert at(dr_hal, offstage). }
+  Rule dr_hal_by_night when (hour(clock) >= 20 or hour(clock) < 5) and not at(dr_hal, lamp_yard) { Assert at(dr_hal, lamp_yard). }
+
+  // ═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+  // THREAD 1: RILL'S FERRY (Round 1, r_ferry). The Patience is sinking by inches. The White Lady paid, through a courier,
+  // for planking; Rill threw the purse in the Cuff. A Gull takes nothing she has not paid for: she was fed nine years by
+  // the Guild's charity as a child and has paid every candle of it back. The complication is under the paint: the
+  // strakes put in her last March by the Guild's surveyor, Hobart Ley (a cousin of Lacke's), are green, and she will
+  // fail his survey on the seventh day and her berth be let. Four ways out, and what each leaves: mend her as the Gull
+  // by day (custom); ask her leave, and mend her by night for a Gull's penny (a job); the Guild's loan (a debt she can
+  // respect); the Articles against Ley (restitution, a right and not a gift); buying the boat (she hates it; she can sell
+  // it back for a penny). Mended unasked, in the dark, by a stranger, it is charity, and she will say nothing to you again.
+  // ═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+  Discovery dr_boat_leaks "The Patience takes a bucket an hour and has since March, when the Ferrymen's surveyor re-planked her; Rill says she is eleven years old, and that this is not her age.".
+  Discovery dr_white_lady "A courier came twice to the ferrywoman from a woman in white, the White Lady, with the price of new planking and no name to it; Rill threw the purse into the Cuff after him.".
+  Discovery dr_green_planks "The Patience's new strakes are green timber, laid by the surveyor, and weeping; she cannot pass his survey on the seventh day, and her berth will be let.".
+  Discovery dr_articles "The Ferrymen's Articles forbid a surveyor to supply timber for a boat he surveys, and say that the Guild stands the cost of any hull he has damaged by his own hand.".
+  Discovery dr_gulls_penny "A Gull may not be given a thing, but may be sold it for a penny; the Gull's penny turns a gift into a fare, and no Gull has ever refused a fare.".
+  Discovery dr_rill_orphan "Rill Ketch was one of the orphans of the year of the Sluice, fed nine years by the Ferrymen's Guild, and has paid back every candle of it; she takes nothing she has not paid for.".
+  Discovery dr_loans "The Ferrymen's Guild lends on a boat's berth against a master's mark, to be paid out of the fares, and the steward holds the ledger.".
+
+  // Said to a bare face by day: the cold word each of the Drip says, and what the Drip's trade-masks answer.
+  Topic dr_rill_cold with rill "Speak to {rill}" when not masked(actor) and publicHours() and not dr_rill_insulted(party) {
+    Says "{rill} bails. 'Boat's full,' she says to the water, in the voice of one who has said it to a hundred bare faces and will say it to a hundred more. The cup goes in. It is not even unkind. You are weather.".
+  }
+  Topic dr_rill_fare with rill "Ask {rill} for a crossing" when masked(actor) and not wears(actor, face_gull) and publicHours() and not dr_rill_insulted(party) {
+    Says "'Row quay, two coin, and you sit forward of the thwart where the water is,' says {rill}, not stopping. 'She is slow today. She is slow every day; she will float. Do not lean on the starboard side and do not ask whether she is safe, because I will answer.'".
+  }
+  Topic dr_rill_boat with rill "Speak to {rill} as one Gull to another" when wears(actor, face_gull) and publicHours() once {
+    Says "{rill} looks up for the first time, and at the domino, and at your hands, and decides about both. 'A Gull.' She says it as a person says the name of the town they were born in. 'Whose boat?' She does not wait. 'Nobody's, by those hands. Mine is the Patience. She takes a bucket an hour and has done since March, when the surveyor put new strakes in her to the Guild's measure.' The cup goes in. 'He says it is her age. She is eleven. I have seen a boat of eleven. It is not her age.'".
+    On discuss { Assert knows(actor, dr_boat_leaks). }
+  }
+  Topic dr_rill_courier with rill "Ask {rill} whether anyone has offered to help with the Patience" when wears(actor, face_gull) and publicHours() and knows(actor, dr_boat_leaks) and not dr_boat_sound(party) once {
+    Says "'There was a courier.' She says it to the bilge. 'Last summer, and again at the Feast of Wicks: a boy in a livery with no badge, to say that the White Lady had heard the Patience leaked, and here was the price of planking, and no name to it and none wanted. I told him what the Guild told me when I was seven. A Gull takes nothing she has not paid for.' The cup goes in. 'And I threw the purse in the Cuff after him. He went in after it. He is a better man than I took him for, and I did not mean him to.'".
+    On discuss { Assert knows(actor, dr_white_lady). }
+  }
+
+  // By night: a bare knock is received. The first night's talk is only a door, and a custom, and a cup.
+  Topic dr_rill_night with rill "Say you are bare, and ask if you may sit in the Patience" when privateHours() and not masked(actor) once {
+    Says "'Bare,' says {rill}. It is not an accusation. It is an entry in a book. 'Then sit, and mind the bilge. It is nine inches deep and the one honest thing aboard.' The lantern is trimmed so that her face is a shape and not a person. 'I do not talk about my boat to anyone who has not bailed her. That is not pride. It is only the rule, and the rule is a hundred years old, and so is the cup.' She holds it out, handle first.".
+  }
+  Action dr_bail_with_rill(actor: group, site: place) "Take the cup, and bail the Patience with {rill} through the night" {
+    Speaker rill.
+    Requires able(actor) and company(actor) and at(actor, site) and at(rill, site) and privateHours() and not masked(actor) and not dr_rill_open(party)
+      and not dr_rill_insulted(party).
+    Resolve check(actor, brawn, dc_fair).
+    Time 18.
+    On success { Assert dr_rill_open(party). Assert dr_rill_bailed(party). }
+    Result "You bail until the sky goes from black to the colour of dishwater, and neither of you says a word for three hours. Then she says, to the cup: 'Davit used to count them. Fifteen thousand strokes in the Deepening. I never asked him what he did when he reached the end.' It is, you understand, the opening of a conversation, and you have paid for it in blisters.".
+    Otherwise "Your arms give out in the second hour. {rill} takes the cup from you without a word, which is worse than any word, and goes on bailing, and the water goes down as it goes down for her. You may try again another night.".
+  }
+  Topic dr_rill_orphan_told with rill "Ask {rill} where a Gull learns a rule like that" when dr_rill_open(party) and privateHours() and not masked(actor) once {
+    Says "'The Guild,' says {rill}. 'My mother went in the year of the Sluice, and my brother, and I was seven, on a roof, and the Guild came for the roof. Nine years they fed me. A bowl in the morning, a bowl at night. I was never once hungry and I was never once not owing.' She turns the cup in her hands. 'I paid the Guild back to the last candle at sixteen, and they put a plate on my first boat. P-A-I-D. It's the only word I have ever wanted to read on anything.'".
+    On discuss { Assert knows(actor, dr_rill_orphan). }
+  }
+  Action dr_rill_read(actor: group, site: place) "Watch how {rill} bails, and the tin on the thwart, and say what you see" {
+    Speaker rill.
+    Requires able(actor) and company(actor) and at(actor, site) and at(rill, site) and privateHours() and not masked(actor) and dr_rill_open(party)
+      and not knows(actor, dr_gulls_penny) and not dr_rill_cool(party).
+    Resolve check(actor, insight, dc_fair).
+    Time 3.
+    On success { Assert knows(actor, dr_gulls_penny). }
+    Result "On the thwart under the lantern sits a tobacco tin with a slot cut in its lid, and while you watch she puts a penny in it, for no reason you saw: you had given her the cup back. She puts a penny in for every kindness. It is not pride. It is a woman keeping accounts with a world that once lent her a roof. You say nothing, and she sees you have understood, and neither of you mentions it.".
+    Otherwise "She is only a woman bailing. You say something kind about the boat, and it goes into the water with the rest, and {rill}'s mouth goes thin. She will not talk any more tonight.".
+    On failure { Assert dr_rill_cool(party). }
+  }
+  Rule dr_rill_warm when hour(clock) == 6 and dr_rill_cool(party) { Retract dr_rill_cool(party). }
+  Action dr_rill_persuade(actor: group, site: place) "Ask {rill} to let the Guild's steward look at the boat" {
+    Speaker rill.
+    Requires able(actor) and company(actor) and at(actor, site) and at(rill, site) and dr_rill_open(party) and not dr_rill_guild_ok(party) and not dr_boat_sound(party)
+      and not dr_rill_cool(party) and not dr_rill_insulted(party).
+    Resolve check(actor, persuasion, dc_hard).
+    Time 3.
+    On success { Assert dr_rill_guild_ok(party). }
+    Otherwise "'The steward,' says {rill}, 'has seen my boat. She sees it every Tuesday, on the way to her breakfast.' She turns her back, in the sense that a woman in a boat can: she looks the other way over the side. You have asked her to be helped, and she has heard it as being told.".
+    On failure { Assert dr_rill_cool(party). }
+    Result "'She may look,' says {rill} at last, with the air of a woman who is paying for something in advance. 'A Guild loan is a loan. It comes out of the fares and it is in a book, and I can read a book.'".
+  }
+  Topic dr_rill_may_refuse with rill "Ask {rill} what she would let anyone do for the boat, and say that she may refuse" when dr_rill_open(party) and knows(actor, dr_gulls_penny) and not dr_rill_consents(party) and not dr_boat_sound(party) once {
+    Says "{rill} puts the cup down, which she has not done all night. 'Asked,' she says. 'Not told.' She looks at you for a long time. 'Then I will say it, since you ask and do not tell. You may mend her. By night, when the Guild is asleep and the surveyor's yard cannot see: oak, and your own hands, and I will have her bought off you for a penny on the thwart in the morning, and no word to a soul that it was charity, because it was not. It was a job.' A pause. 'Ask me for more and I will tell you no.'".
+    On discuss { Assert dr_rill_consents(party). }
+  }
+
+  // The hull: what is under the paint. Mending reads the work; woodcraft reads the wood.
+  Action dr_hull_mending(actor: group, site: place) "Go along the Patience's strakes with a mender's eye" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(rill, site) and (wears(actor, face_gull) or dr_rill_open(party))
+      and not knows(actor, dr_green_planks) and not dr_boat_sound(party) and not dr_berth_sold(party).
+    Resolve check(actor, mending, dc_fair).
+    Time 3.
+    On success { Assert knows(actor, dr_green_planks). }
+    Result "Under the paint the new strakes are the wrong colour at the heart: sappy, pale, and wet in a way no sound oak is wet, weeping at every nail and already starting from their neighbours. Someone has laid green timber, soaked in tar to look dry. It is good work to look at, and the work of a man who knew exactly what he was putting where.".
+    Otherwise "Wet wood is wet wood. You go along her from stem to stern, and every strake looks like a boat that has been in the rain.".
+  }
+  Action dr_hull_woodcraft(actor: group, site: place) "Knock on the Patience's strakes and listen to the wood" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(rill, site) and (wears(actor, face_gull) or dr_rill_open(party))
+      and not knows(actor, dr_green_planks) and not dr_boat_sound(party) and not dr_berth_sold(party).
+    Resolve check(actor, woodcraft, dc_fair).
+    Time 3.
+    On success { Assert knows(actor, dr_green_planks). }
+    Result "Seasoned oak rings. These strakes thud, as a loaf does that is not yet baked. You press a thumbnail in, and sap comes up. Somebody has put green timber in her, tarred over, and called it new.".
+    Otherwise "You tap along her side. The Patience says what a wet boat says: a wet boat.".
+  }
+
+  // The Guild: a steward with a ledger; a loan that is a debt a Gull can respect.
+  Topic dr_brine_cold with dr_brine "Speak to the steward" when not masked(actor) and publicHours() {
+    Says "The steward does not lift her eyes from the ledger. 'The Guild does not take petitions from the dry,' she says to the page, kindly, as a woman might say it to a wall.".
+  }
+  Topic dr_brine_penny with dr_brine "Ask the steward how a Gull is to be helped, who will not be given anything" when masked(actor) and publicHours() once {
+    Says "'Ah.' The steward looks up for the first time. She has, you see, been waiting for years for somebody to ask. 'A Gull may not be given a thing. She may be sold it for a penny, and no Gull has ever refused a fare, and that is the oldest custom the Guild has and the only one that works. Gift her a plank and she throws it in the Cuff. Sell her the plank for a penny and she will tell you it is the best plank she ever bought.' She turns a page. 'You may tell me this was not a custom of mine. I will say it was always a custom.'".
+    On discuss { Assert knows(actor, dr_gulls_penny). Assert knows(actor, dr_brine_name). }
+  }
+  Topic dr_brine_loans with dr_brine "Ask the steward about a Guild loan for a Gull's boat" when wears(actor, face_gull) and publicHours() once {
+    Says "'On a master's mark, against the berth, out of the fares, at a farthing in the penny.' She says it as a litany. 'A master signs. I cannot sign for her. I have seen the Patience: I have a ledger and eyes. If Ketch will come to my table and put her mark to it I will lend her the planking tomorrow. She will not. She has not signed for anything since she was sixteen.'".
+    On discuss { Assert knows(actor, dr_loans). Assert knows(actor, dr_brine_name). }
+  }
+  Action dr_ask_loan(actor: group, site: place) "Put Rill's mark to the steward's table, and ask for the planking on the Guild's loan" {
+    Speaker dr_brine.
+    Requires able(actor) and company(actor) and at(actor, site) and at(dr_brine, site) and wears(actor, face_gull) and dr_rill_guild_ok(party) and knows(actor, dr_loans)
+      and not dr_boat_sound(party) and not dr_berth_sold(party) and publicHours().
+    Resolve check(actor, persuasion, dc_fair).
+    Time 6.
+    On success { Assert dr_boat_sound(party). Assert dr_boat_how_guild(party). Assert dr_rill_indebted(party). Increase goodwill(face_gull) by 1. }
+    Result "{rill} comes up the landing with her chin out, and signs as a woman signs who is putting her hand in a fire to show it will not hurt. The steward blots it. By evening the Guild's yard has put six sound strakes in the Patience, charged to her berth at a farthing in the penny, and she is a boat in debt, which is the only kind {rill} has ever known how to be.".
+    Otherwise "The steward reads the mark, and reads it again, and says that a mark is a mark and a master is a master, and that she will believe in the loan when she sees the master hold the pen. It is not a no. It is the Guild's yes, taking its time.".
+  }
+
+  // The Articles against the surveyor: restitution, which is a right and not a gift.
+  Action dr_construe_articles(actor: group) "Read the Ferrymen's Articles nailed up in the landing hut, and construe them" {
+    Requires able(actor) and company(actor) and at(actor, drip_landing) and not knows(actor, dr_articles).
+    Resolve check(actor, lore, dc_fair).
+    Time 6.
+    On success { Assert knows(actor, dr_articles). }
+    Result "Forty clauses of guild law in the old river-tongue, nailed up under the rain-shelf where nobody can stand to read them. The twenty-third says what a surveyor may not do, and the twenty-ninth says who pays. It is the Guild's own law, and the Guild has forgotten it, as a city forgets the oldest thing it ever agreed.".
+    Otherwise "Forty clauses in the old river-tongue, each longer than the one before and each beginning *Whereas*. You lose the thread at the twelfth, and the rain finds the back of your neck.".
+  }
+  Action dr_lay_case(actor: group, site: place) "Lay the green strakes and the twenty-third Article before the steward" {
+    Speaker dr_brine.
+    Requires able(actor) and company(actor) and at(actor, site) and at(dr_brine, site) and wears(actor, face_gull) and knows(actor, dr_green_planks) and knows(actor, dr_articles)
+      and not dr_boat_sound(party) and publicHours().
+    Time 6.
+    On success { Assert dr_ley_struck(party). Assert dr_boat_sound(party). Assert dr_boat_how_right(party). Increase goodwill(face_gull) by 1. }
+    Result "The steward goes down into the Patience's bilge on her knees with her ledger held over her head, and comes up with sap on her fingers. She says nothing for a long time. Then she says: 'Twenty-three. Twenty-nine.' The surveyor is struck from the Guild's roll before the lamps are lit, and the Guild re-planks the Patience at his forfeit. It is restitution. It is not a favour; it is the Guild's own law, finding its own feet, and {rill} will take it as a Gull takes her due.".
+  }
+  Rule dr_ley_named_falls when named(dr_ley) and not dr_ley_struck(party) says "The surveyor's name goes out across the landing. By evening it is in the Guild's ledger against every timber he ever sold, and the steward is on her knees in the Patience's bilge with sap on her fingers. The Guild strikes him from its roll, and re-planks the Patience at his forfeit; it is, the steward says, the Articles. It is also a man ruined in a square." {
+    Assert dr_ley_struck(party). Assert dr_boat_sound(party). Assert dr_boat_how_right(party). }
+
+  // Mending: the Gull by day (custom), by night asked (a job), by night unasked (charity), and the buying.
+  Action dr_mend_gull(actor: group, site: place) "Mend the Patience as a Gull mends a Gull's boat, in the open, by day" {
+    Speaker rill.
+    Requires able(actor) and company(actor) and at(actor, site) and at(rill, site) and wears(actor, face_gull) and publicHours() and holding(actor, dr_oak_kind)
+      and knows(actor, dr_green_planks) and not dr_boat_sound(party) and not dr_berth_sold(party).
+    Resolve check(actor, mending, dc_fair).
+    Time 24.
+    On success { Spend dr_oak_kind from actor. Assert dr_boat_sound(party). Assert dr_boat_how_custom(party). Increase goodwill(face_gull) by 1. }
+    Otherwise "The oak splits along the grain at the third nail, and the spoiled strake floats away down the landing, and every Gull on the stage looks at it, and at you, and says nothing, which in the Ferrymen's tongue is a kindness. You will want more oak.".
+    On failure { Spend dr_oak_kind from actor. }
+    Result "You mend her where everybody can see, in a Gull's domino, with {rill} on the thwart handing you nails. Nobody has to be told it is custom, because it is being done in the Gull's colours by one Gull to another's boat, and a Gull may do that for a Gull as the tide may. {rill} says almost nothing all afternoon. At the last strake she says, 'That's a fair job,' and for a Gull that is a speech.".
+  }
+  Action dr_mend_night(actor: group, site: place) "Mend the Patience by night as {rill} has allowed, oak and your own hands" {
+    Speaker rill.
+    Requires able(actor) and company(actor) and at(actor, site) and at(rill, site) and privateHours() and not masked(actor) and holding(actor, dr_oak_kind)
+      and dr_rill_consents(party) and knows(actor, dr_green_planks) and not dr_boat_sound(party) and not dr_berth_sold(party).
+    Resolve check(actor, mending, dc_fair).
+    Time 24.
+    On success { Spend dr_oak_kind from actor. Assert dr_boat_sound(party). Assert dr_boat_how_custom(party). Increase quantity(actor, gold) by 1. }
+    Otherwise "The oak splits at the third nail. {rill} watches it go away down the landing in the lantern-light and says only, 'Another?' You will want more oak.".
+    On failure { Spend dr_oak_kind from actor. }
+    Result "You work by the lantern until the grey. When the last strake is down and the pitch is on it she comes aboard, and walks the length of the Patience with her hand on the new wood, and at the stem she takes a coin from her tin and puts it in your hand. 'One penny,' she says. 'For six strakes of seasoned oak, sold to a Gull, to be paid for. It is in the book.' It is a very large coin. You do not say so.".
+  }
+  Action dr_mend_unasked(actor: group, site: place) "Mend the Patience in the dark, while {rill} sleeps, and say nothing" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(rill, site) and privateHours() and not masked(actor) and holding(actor, dr_oak_kind)
+      and knows(actor, dr_green_planks) and not dr_rill_consents(party) and not dr_boat_sound(party) and not dr_berth_sold(party).
+    Resolve check(actor, mending, dc_fair).
+    Time 24.
+    On success { Spend dr_oak_kind from actor. Assert dr_boat_sound(party). Assert dr_rill_insulted(party). }
+    Otherwise "The oak splits at the third nail with a noise like a gun, and {rill} sits up out of her blanket with the cup in her fist. 'What,' she says. It is not a question.".
+    On failure { Spend dr_oak_kind from actor. Assert dr_rill_cool(party). }
+    Result "You work by the lantern with your coat over it, and by the grey the strakes are in and the pitch is down, and the Patience sits a hand higher in the water than she has since March. It is the best thing you have done in Ombra. {rill} wakes at dawn and walks the length of her boat with her hand on the new wood, and says nothing, and sits down, and bails a boat that does not need it. It is a gift. She has not been asked. You will not be spoken to again unless it is put right.".
+  }
+  Action dr_pay_penny(actor: group, site: place) "Put a coin on the thwart for the planking, and call it a sale" {
+    Speaker rill.
+    Requires able(actor) and company(actor) and at(actor, site) and at(rill, site) and dr_rill_insulted(party) and knows(actor, dr_gulls_penny) and quantity(actor, gold) >= 1.
+    Time 1.
+    On success { Decrease quantity(actor, gold) by 1. Increase quantity(rill, gold) by 1. Retract dr_rill_insulted(party). Assert dr_boat_how_custom(party). }
+    Result "'You have been talking to the steward,' says {rill}, after a minute. She picks up the coin, and looks at it, and then she puts it into the tin, and the tin makes the little noise it makes. 'Sold: one boat's planking, to a Gull, for a penny. It is in the Account.' She does not smile. She has lifted, perhaps, the weight of a hand off something, and she is bailing again, but now it is a boat that needs it.".
+  }
+  Action dr_buy_ferry(actor: group, site: place) "Buy the Patience outright, forty coin, and hire {rill} to master her" {
+    Speaker rill.
+    Requires able(actor) and company(actor) and at(actor, site) and at(rill, site) and quantity(actor, gold) >= 40 and not dr_boat_sound(party) and not dr_rill_insulted(party).
+    Time 6.
+    Grave "A ferry bought is a ferry bought: forty coin, and a woman who will say 'master' to you for as long as you keep her.".
+    On success { Decrease quantity(actor, gold) by 40. Increase quantity(rill, gold) by 40. Retract dr_berth_sold(party). Assert dr_boat_sound(party). Assert dr_rill_hired(party). Assert dr_boat_how_bought(party). }
+    Result "The forty coin goes into the tin, which is not nearly big enough for it, and the Patience is re-planked at the Guild's yard by the end of the week at a price that is not quite forty, and is yours. {rill} says, 'Master,' at every end of every sentence, with a precision of diction that could cut glass. She has not stopped working. She has stopped looking at you.".
+  }
+  Action dr_sell_back(actor: group, site: place) "Sell the Patience back to {rill} for a penny" {
+    Speaker rill.
+    Requires able(actor) and company(actor) and at(actor, site) and at(rill, site) and dr_rill_hired(party) and knows(actor, dr_gulls_penny).
+    Time 1.
+    On success { Retract dr_rill_hired(party). Assert dr_boat_how_custom(party). Decrease quantity(rill, gold) by 1. Increase quantity(actor, gold) by 1. }
+    Result "'Sold,' says {rill}. She says it with the flat of her hand on the Patience's rail. 'One ferry, as she stands, to the Gull she was bought from, for a penny.' She counts it into your palm. Nobody has ever looked so much like a woman who has been given back her own name. You are forty coin lighter and you do not at all mind.".
+  }
+
+  // The seventh day: what happens if nobody comes.
+  Rule dr_survey_fails when day(clock) == 7 and hour(clock) >= 12 and not dr_boat_sound(party) and not dr_berth_sold(party) { Assert dr_berth_sold(party). }
+  Relation dr_survey_told(group).
+  Rule dr_survey_told_at when dr_berth_sold(party) and not dr_boat_sound(party) and not dr_survey_told(party) and day(clock) == 7 and at(party, drip_landing) says "On the landing the surveyor goes along the Patience with his mallet. At the fourth strake the mallet goes in to the head, and he draws it out and looks at the hole and writes on his slate and says one word aloud, 'Condemned.' The steward writes it in her ledger without looking up. By noon BERTH LET is nailed up, in the Guild's hand, at the end post, and {rill} stands on the stage with her cup in her fist and her gull-face turned away, so that nobody should see what the paint is for." { Assert dr_survey_told(party). }
+
+  // After the ferry is mended: the warmth, the speed of the crossing, and the Gull's goodwill.
+  Rule dr_ferry_done when dr_boat_sound(party) and not dr_rill_insulted(party) and not dr_rill_hired(party) and not roundDone(party, r_ferry) { Assert roundDone(party, r_ferry). }
+  Topic dr_rill_after_custom with rill "Ask {rill} how the Patience rides" when roundDone(party, r_ferry) and dr_boat_how_custom(party) {
+    Says "'Dry,' says {rill}. She says it as a woman says a thing she means to say again tomorrow. 'You will not pay for the crossing. I have put it in the Account, and the Account says we are square, which it has not said of anyone since Davit. Sit forward. Mind the starboard side; there is nothing wrong with it, but I like to see a person mind.'".
+  }
+  Topic dr_rill_after_guild with rill "Ask {rill} how the Patience rides" when roundDone(party, r_ferry) and dr_boat_how_guild(party) {
+    Says "'Dry, and owing,' says {rill}. 'A farthing in the penny till Michaelmas. I have never liked a boat so much that I owed for.' She bails, though there is nothing to bail. It is, you gather, a habit that has outlived its water. 'You will not pay a crossing. Not you. The steward would write it in the ledger and I would have to look at it.'".
+  }
+  Topic dr_rill_after_right with rill "Ask {rill} how the Patience rides" when roundDone(party, r_ferry) and dr_boat_how_right(party) {
+    Says "'The Guild is very sorry,' says {rill}, 'in writing. They have given me the surveyor's berth-money for the year, because the twenty-ninth says so.' She turns the coin over. 'It was my due. I know a due from a gift. I know a good many things by what they cost.' She looks at you. 'No crossing money from you. That one is not the Guild's. That is mine.'".
+  }
+  // The crossing, in watches of ten minutes: slow while the Patience is bailed across (three), slower on a hired oar once
+  // the berth is let (four), the Row's ordinary two when she is sound, and one when Rill carries a company she trusts.
+  Rule dr_ferry_slow when not dr_boat_sound(party) and not dr_berth_sold(party) and travelTime(ferry_row_drip) != 3 { Set travelTime(ferry_row_drip) to 3. }
+  Rule dr_ferry_hired_oar when dr_berth_sold(party) and not dr_boat_sound(party) and travelTime(ferry_row_drip) != 4 { Set travelTime(ferry_row_drip) to 4. }
+  Rule dr_ferry_sound when dr_boat_sound(party) and not roundDone(party, r_ferry) and travelTime(ferry_row_drip) != 2 { Set travelTime(ferry_row_drip) to 2. }
+  Rule dr_ferry_quick when roundDone(party, r_ferry) and travelTime(ferry_row_drip) != 1 { Set travelTime(ferry_row_drip) to 1. }
+  Milestone dr_m_ferry "brought the Patience through the survey in a way Rill Ketch could live with" worth 50 when roundDone(party, r_ferry).
+  Milestone dr_m_ley "had the Ferrymen's surveyor struck from the roll for laying green timber" worth 25 when dr_ley_struck(party).
+
+  Topic dr_rill_silent with rill "Speak to {rill}" when dr_rill_insulted(party) and not masked(actor) {
+    Says "{rill} bails a boat that does not need it. She does not look up, and does not say Next, or Bare, or anything; the cup goes in, and comes out, and goes over the side. The strakes under your boots are new. She is, you see, being very careful not to look at them.".
+  }
+  Topic dr_rill_silent_masked with rill "Speak to {rill}" when dr_rill_insulted(party) and masked(actor) and publicHours() {
+    Says "{rill} bails, and says to the water, 'Gulls are paid for.' It is not at you. It is at a boat.".
+  }
+  Topic dr_rill_burglar with rill "Speak to {rill}" when masked(actor) and privateHours() {
+    Says "'Take it off,' says {rill}, quite quietly, and the cup in her hand is no longer a cup. 'A masked knock after the Ninth Bell is a burglar's, and I have a boat to lose and nothing else.'".
+  }
+
+  // ═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+  // THREAD 2: THE ANONYMOUS SAINT (Round 4, r_soup). Sister Nobody feeds three hundred a day and asks no names; the
+  // coin came on the first of each quarter in a leather bag at the back door, from a woman in white, and the bag was not
+  // there on the first of the Novena. There is bread for four days. She will take a gift put into the alms-box bare, and
+  // will hand back one put there in a mask: the Saint takes from nobody's hand. Hidden: she was the Physician-General, and
+  // was a young physician in the flood year; she suspects the Lie, because she was *read* her Office, not drawn it. She is
+  // moved by neither evidence nor argument: by a supper eaten sitting down, or by being made to laugh once. If the pot is
+  // dry at noon on the sixth day she shuts the kitchen. If she is Named, she goes to the Hospice and is bare.
+  // ═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+  Discovery dr_pot_low "The Anonymous Saint's soup is paid for by a donor in white who has stopped; the kitchen has bread for four days, and she will not ask who the donor was.".
+  Discovery dr_nobody_counts "The Saint takes a pulse at every wrist that holds out a bowl, with two fingers, without looking: a physician's habit, kept after a physician's office was left.".
+  Discovery dr_nobody_stands "The Saint has not been seen to sit down or to eat at her own copper in the whole of the kitchen's day; she eats a heel of bread standing, like a servant.".
+  Discovery dr_nobody_flood "Sister Nobody was a young physician in the year of the Sluice, and counted the drowned: six hundred and four, in the order she found them; she says the Serene stood in the gallery in white-and-gold and said nothing.".
+  Discovery dr_urn_hand "Sister Nobody, drawn Physician-General twelve years ago, says the Registrar did not put her hand in the Urn: she read the name from the palm of her left hand, and has thought ever since that she was read and not drawn.".
+  Relation dr_grain_lifted(group). Relation dr_benefit_done(group).
+  Observe dr_stool_note at soup_room as feature when privateHours() and not dr_pot_dry(party) "A heel of bread on a plate beside the stool has a bite out of it: someone has been eating standing, and putting the rest down, as a servant eats who may be called." teaches dr_nobody_stands.
+
+  Topic dr_nobody_cold with nobody "Speak to the Saint" when not masked(actor) and publicHours() {
+    Says "She ladles into the bowl you have not got, and when she sees that you have none she ladles into a cup and puts it in your hand, without looking. 'Next,' she says. It is the kindest thing a mask has done to you in Ombra, and in the doing of it she has taken from you any chance to say thank you.".
+  }
+  Topic dr_nobody_burglar with nobody "Speak to the Saint" when masked(actor) and privateHours() and not dr_nobody_moved(party) {
+    Says "She looks at the mask and then, deliberately, at the door. 'The kitchen is shut at the Ninth Bell. In the morning, to anyone,' says the Saint. 'At night, to nobody whose face I cannot see.'".
+  }
+  Topic dr_nobody_pot with nobody "Ask the Saint about the pot" when masked(actor) and publicHours() once {
+    Says "'Barley, onions, what the Cockles bring at the ends of the day, an eel when the Gulls have one over.' The ladle does not stop. 'Twenty years. There was a donor. A woman in white, they say; I have never asked. I do not ask. She paid on the first of every quarter, in a leather bag by the back door, and there was no bag on the first of the Novena.' A bowl. 'Next.' And without a change of voice: 'I have done the sum. Bread for four days.'".
+    On discuss { Assert knows(actor, dr_pot_low). }
+  }
+  Topic dr_nobody_donor with nobody "Ask the Saint who the donor was" when masked(actor) and publicHours() and knows(actor, dr_pot_low) once {
+    Says "'No.' The ladle goes round in the copper once, quite slowly. 'If I knew her name it would be a name I knew, and a person who knows a name in this city is a person who is waiting to be asked it. The Saint does not know whom she serves. The Saint does not know who feeds her. It is the whole of the Saint.' She gives you a long look through the eye-holes. 'You may give to the box, if you give bare. I do not take from a face.'".
+  }
+  Action dr_nobody_watch(actor: group, site: place) "Watch the Saint's hands while the queue goes by" {
+    Speaker nobody.
+    Requires able(actor) and company(actor) and at(actor, site) and at(nobody, site) and masked(actor) and publicHours() and knows(actor, dr_pot_low) and not knows(actor, dr_nobody_counts).
+    Resolve check(actor, insight, dc_fair).
+    Time 6.
+    On success { Assert knows(actor, dr_nobody_counts). }
+    Result "You stand in the queue three times and go round again. At every bowl her left hand goes under the wrist that holds it, two fingers on the pulse, for as long as a ladle takes to fill and no longer, without a glance at the person. She is not feeding them. She is counting them. It is the habit of one who spent forty years being sure that people were alive.".
+    Otherwise "She is a woman ladling soup. You are a bowl in a queue, and the queue moves you on, and the Saint says 'Next' to the back of your head.".
+  }
+  Rule dr_nobody_warm when hour(clock) == 6 and dr_nobody_cool(party) { Retract dr_nobody_cool(party). }
+  Action dr_nobody_recall(actor: group, site: place) "Reckon up the Physicians-General of thirty years, and which was Spent twelve years ago and did not go home" {
+    Requires able(actor) and company(actor) and at(actor, site) and knows(actor, dr_nobody_counts) and not knows(actor, dr_nobody_spent).
+    Resolve check(actor, lore, dc_hard).
+    Time 6.
+    On success { Assert knows(actor, dr_nobody_spent). }
+    Result "The Offices are drawn, spent, and never spoken of; but the Collegium's rolls name the years, and not the faces, and one year's Physician-General was drawn at fifty from the Drip's own island, and Spent, and did not take her house back. You have the ledger of a person's absence in your head, and the person is holding the ladle. You cannot stop knowing it now. It is not a name. It is worse; it is a name that would work.".
+    Otherwise "The Physicians-General run together in your memory like the grey of a pigeon's neck. Eleven, or twelve; a man, or a woman; drawn from somewhere. You give it up.".
+  }
+  Rule dr_nobody_lifted when lifted(nobody) and not dr_nobody_unhooded(party) says "The grey cloth comes away, and under it is a woman of sixty-two with a face the colour of porridge and very clear, very tired eyes, who sees who has done it, and puts out one hand, and takes the cloth back, and ties it on again with the care of a surgeon. She does not say a word. In the whole of the kitchen nobody has noticed. She will not speak to you again except to say Next." {
+    Assert dr_nobody_unhooded(party). }
+  Rule dr_nobody_named when named(nobody) and not dr_kitchen_shut(party) says "The Saint's name has gone out across the market, and a quiet falls on it. By evening there are people at the kitchen door with their grudges in their hands: a Physician-General's year is a year of men who died on her table, and somebody's mother. The Saint hangs her ladle on its nail and takes off her grey mask, bare-faced for the first time in twelve years, and walks out of the kitchen and across the Drip to the Gate of Strangers, where a bare face may go, and does not look back." {
+    Assert dr_kitchen_shut(party). Assert at(nobody, hospice_hall). }
+  Topic dr_nobody_named_talk with nobody "Speak to the Saint" when named(nobody) {
+    Says "She sits on a Hospice bed with her hands open on her knees, bare-faced, and does not answer. She has been called by her name in a square, and it is not hers any more; it is everybody's. She looks at you for as long as it takes to understand that you are one of those who did it, and then she looks at the wall.".
+  }
+
+  // By night, bare, at the back door: the Saint takes her mask off and is a tired woman at a table.
+  Topic dr_nobody_night with nobody "Knock at the kitchen's back door, bare-faced, and ask to sit" when privateHours() and not masked(actor) and not dr_kitchen_shut(party) and not dr_nobody_unhooded(party) once {
+    Says "She takes a long time to come to the door, and when she does she has taken the cloth off and holds it in her hand as one holds a dead bird. Under it a woman of sixty-two with a face the colour of porridge and very clear tired eyes looks at you without any interest. 'Bare,' she says. 'Then come in, if you are going to be quiet. I do not have a name, and I do not have a bed to offer. I have the stool, and the fire.' She does not sit herself. 'Say what you came for, and I will say whether I can.'".
+  }
+  Action dr_feed_sitting(actor: group, site: place) "Put a hot supper in the Saint's hands and ask her to sit down and eat it" {
+    Speaker nobody.
+    Requires able(actor) and company(actor) and at(actor, site) and at(nobody, site) and privateHours() and not masked(actor) and holding(actor, dr_supper_kind)
+      and not dr_nobody_moved(party) and not dr_nobody_unhooded(party) and not dr_kitchen_shut(party).
+    Time 3.
+    On success { Spend dr_supper_kind from actor. Assert dr_nobody_moved(party). Assert dr_nobody_seated(party). }
+    Result "You do not say anything clever. You put the bowl on the three-legged stool, and the stool where the fire is, and you say, 'Sit.' She looks at the bowl as if it were a message. Then she sits, for the first time in twelve years, and eats the barley with a tin spoon, very slowly, and does not look up, and you stand by the door while she does it and look at the rain. At the end of it she says, without turning: 'Nobody has ever brought me a hot dinner. They bring me soup to give away.' It is not thanks. She has put her hands flat on her knees, which is nearer.".
+  }
+  Action dr_nobody_joke(actor: group, site: place) "Tell the Saint, quite gravely, about the Assessor of Weights, whom the clerks must call the Pound" {
+    Speaker nobody.
+    Requires able(actor) and company(actor) and at(actor, site) and at(nobody, site) and privateHours() and not masked(actor) and not dr_nobody_moved(party)
+      and not dr_nobody_unhooded(party) and not dr_kitchen_shut(party) and not dr_nobody_cool(party).
+    Resolve check(actor, performance, dc_hard).
+    Time 3.
+    On success { Assert dr_nobody_moved(party). Assert dr_nobody_laughed(party). }
+    Otherwise "You tell it, and it dies on the stone. 'I laughed once,' says the Saint, kindly, 'at a funeral. It was not a good funeral, and it was a worse laugh. Try again another night. I am not going anywhere.'".
+    On failure { Assert dr_nobody_cool(party). }
+    Result "You tell it with a straight face: how the Assessor of Weights is the Pound, and the clerks must address her so, and so when she dropped her glove in the Standard Room the first clerk said, 'The Pound has dropped a glove,' and the second, 'The Pound has dropped a glove, Pound,' and the third, who was new, 'Pound, you have dropped a Pound.' It comes out of the Saint like a cough. She puts her hand over her mouth in alarm, and then does not take it off, and her shoulders go; and at the end of it she is wiping her eyes with the cloth she wears on her face, and saying, 'Oh. Oh, no. Oh, the Pound.' She has not smiled. It is much better than a smile.".
+  }
+  Topic dr_nobody_flood_told with nobody "Ask the Saint what she did before the kitchen" when dr_nobody_moved(party) and privateHours() and not masked(actor) once {
+    Says "'I counted,' she says. 'The year of the Sluice I was thirty-one, a surgeon's second in the Collegium, and they sent every hand they had to the low islands. I wrote them down in the order I found them. Six hundred and four.' The spoon goes round the empty bowl. 'The Serene of that year stood in the public gallery in white-and-gold and said nothing, because the Concord told him what to say and it was nothing. He was Named by sundown. I have never understood why the people who knew whom to blame never counted the drowned.'".
+    On discuss { Assert knows(actor, dr_nobody_flood). Assert knows(actor, sluice_known). }
+  }
+  Topic dr_nobody_hand_told with nobody "Ask the Saint about the year she was drawn" when dr_nobody_moved(party) and privateHours() and not masked(actor) and knows(actor, dr_nobody_flood) once {
+    Says "'The Registrar read my name. That was the Drawing. They put the Urn on its plinth and the Registrar put her hand in it, I saw her, and drew out nothing, and said my name, from her palm. She held the card in her left. I thought: she has made a mistake in the order. I thought it for twelve years.' She looks at the fire. 'She looked at me when she said it, the way you look at a patient you are about to tell. I was a good Physician-General. I was the best this city ever drew. It is what I have not been able to forgive.'".
+    On discuss { Assert knows(actor, dr_urn_hand). }
+  }
+
+  // Securing the pot. Eight points of supply carry the kitchen to the Drawing and past it.
+  Action dr_fund_pot(actor: group, site: place) "Put thirty coin in the Saint's alms-box, bare, with no name" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(nobody, site) and not masked(actor) and quantity(actor, gold) >= 30 and not dr_pot_secured(party) and not dr_kitchen_shut(party).
+    Time 2.
+    On success { Decrease quantity(actor, gold) by 30. Increase dr_supply(party) by 8. Assert dr_pot_by_coin(party). }
+    Result "The box is a tin one, by the door, with a slot, and a hole in the bottom stopped with a rag. The coins make a noise in it like a cough. The Saint does not look round: she hears, as she hears everything in her kitchen, and her ladle does not pause. 'Next,' she says. It is an answer.".
+  }
+  Action dr_give_ration(actor: group, site: place) "Leave a ration in the Saint's larder" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(nobody, site) and quantity(actor, rations) >= 1 and not dr_pot_secured(party) and not dr_kitchen_shut(party).
+    Time 1.
+    On success { Decrease quantity(actor, rations) by 1. Increase dr_supply(party) by 1. }
+    Result "You put it on the larder shelf, among the sacks. It looks very small there. The Saint says nothing; she does not take from a face, but a ration on a shelf is nobody's.".
+  }
+  Action dr_lift_grain(actor: group) "Lift a sack of barley from the grain-brokers' stack, by night, for the Saint's pot" {
+    Requires able(actor) and company(actor) and at(actor, exchange_floor) and privateHours() and not dr_grain_lifted(party) and not dr_pot_secured(party) and not dr_kitchen_shut(party).
+    Resolve check(actor, stealth, dc_hard).
+    Time 6.
+    On success { Assert dr_grain_lifted(party). Increase dr_supply(party) by 4. }
+    On failure { Increase heat(actor) by 1. }
+    Result "The brokers stack their barley under a sheet in the corner of the Exchange floor, with a boy asleep on it. You are a good deal quieter than the boy. By morning there is a sack on the Saint's back step with no note on it, and the sort of silence in the kitchen that belongs to a woman deciding not to ask.".
+    Otherwise "The boy on the barley wakes, and does not shout; he looks, and a light comes on in a window on the Row, and you are in the street with your heart going and a face that has been seen. The Watch will hear of it by morning.".
+  }
+  Action dr_busk_benefit(actor: group) "Play a benefit for the Saint's pot at the market corner, in the Moth" {
+    Requires able(actor) and company(actor) and at(actor, bread_market) and wears(actor, face_moth) and publicHours() and not dr_benefit_done(party) and not dr_pot_secured(party) and not dr_kitchen_shut(party).
+    Resolve check(actor, performance, dc_fair).
+    Time 6.
+    On success { Assert dr_benefit_done(party). Increase dr_supply(party) by 3. Increase goodwill(face_moth) by 1. }
+    Result "You do it in the Moth, a players' half-mask, on an upturned bread-crate at the corner of the market, in the rain, to an audience of bakers who are masked and have an hour to spare. They are not easy. At the end a Cockle puts a loaf in your hat, and another, and a woman in grey linen puts a farthing in it, and by dusk the hat is a larder.".
+    Otherwise "The rain takes the first verse and the bakers take the second, and the third goes unheard. A loaf is thrown, not unkindly. It will not feed three hundred.".
+  }
+  Rule dr_pot_secures when dr_supply(party) >= 8 and not dr_pot_secured(party) and not dr_kitchen_shut(party) says "In the soup-room the copper is hot, and the larder shelf has the look of a shelf that is not afraid. The pot will last to the Drawing and past it." {
+    Assert dr_pot_secured(party). }
+  Rule dr_soup_done when dr_pot_secured(party) and not named(nobody) and not dr_nobody_unhooded(party) and not roundDone(party, r_soup) { Assert roundDone(party, r_soup). }
+  Rule dr_pot_runs_dry when day(clock) == 4 and hour(clock) >= 8 and not dr_pot_secured(party) and not dr_pot_dry(party) { Assert dr_pot_dry(party). }
+  Relation dr_dry_told(group).
+  Rule dr_pot_dry_told when dr_pot_dry(party) and not dr_pot_secured(party) and not dr_dry_told(party) and at(party, soup_room) says "There is no soup. The Saint has scrubbed the long tables white and hung the ladle on its nail and sat down on the floor, because there is nothing left to stand for. In the market, a line has already begun." { Assert dr_dry_told(party). }
+  Rule dr_kitchen_shuts when day(clock) == 6 and hour(clock) >= 12 and not dr_pot_secured(party) and not dr_kitchen_shut(party) { Assert dr_kitchen_shut(party). }
+  Rule dr_kitchen_reopens when dr_pot_dry(party) and dr_pot_secured(party) and not dr_kitchen_shut(party) and not dr_pot_reopened(party) says "The queue gets its soup. It is the thinnest the kitchen has made, and everybody in the line says it is the best." {
+    Assert dr_pot_reopened(party). }
+  Relation dr_pot_reopened(group).
+  Topic dr_nobody_gift with nobody "Tell the Saint the pot is secured to the Drawing, and ask her for nothing" when dr_pot_secured(party) and dr_nobody_moved(party) and not masked(actor) once {
+    Says "She goes into the back and comes out with something wrapped in a cloth, and puts it in your hand. 'It was a physician's,' she says. 'It is no use to a Saint, and I would rather it were somebody's than nobody's.' It is a pestle, worn thin on one side by a right hand, and under the green a physician's seal. 'I am not giving it. You will say you found it.'".
+    On discuss { Give dr_pestle to actor. }
+  }
+  Item dr_pestle "the Saint's pestle" is dr_pestle_kind at offstage.
+  Milestone dr_m_soup "kept the Anonymous Saint's pot full to the Drawing" worth 50 when roundDone(party, r_soup).
+  Milestone dr_m_nobody "made Sister Nobody sit down, or laugh, once" worth 25 when dr_nobody_moved(party).
+
+  // ═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+  // THREAD 3: THE RAIN-WIVES' PETITION. Every year of the Drawing the washerwomen stitch the nineteen Offices on the
+  // Tally-cloth, a colour for each Office, a foot of linen for each year: thirty-one feet. Read down the cloth, the
+  // colours go to the same sort of person year on year: the best bakers, ferrymen, clerks. Goody Pallet will not say what
+  // she thinks it means. She wants a Bare, who has no stake, to read it and say whether the Drawing is fair, or the Wives
+  // will march on the Chapel on the sixth day. What the company says is the game: the truth, a kind lie, or "ask at the
+  // Hearing". And Goody Pallet has a thread in the cloth she stitches last with her eyes shut, for an Assessor of her own
+  // street who was good, and the question under the whole thing is hers: chance, which is fair and may give a fool, or
+  // a hand, which is just and is a hand. What moves her is not the evidence. It is Hesper.
+  // The integrator reads dr_marchers(party) (they march on the Chapel), and dr_wives_chance(party) (they march for a real
+  // draw), dr_wives_keep(party) (they keep the Lie), dr_march_day(party).
+  // ═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+  Discovery dr_hesper_known "One knot in the Tally-cloth, in the nineteenth year back, is pink and not the colour of any Office: Hesper Wain, a dyer's girl of Goody Pallet's own street, drawn Assessor of Weights, honest, poor, and dead Spent in a garret.".
+  Discovery dr_tally_sums "Tansy Ruddock has done the sum in chalk on the hall floor: of five hundred and eighty-nine Offices drawn in thirty-one years, four hundred and two went to the trades the street calls trusted, which no honest jar would give once in a thousand tries.".
+  Relation dr_petition_asked(group). Relation dr_told_truth(group). Relation dr_march_pending(group). Relation dr_deferred(group).
+
+  Topic dr_pallet_cold with rainmother "Speak to Goody Pallet" when not masked(actor) and publicHours() {
+    Says "'Forty-one,' says Goody Pallet, not opening her eyes. 'You came in forty-one steps, and every one of them bare. The Wives do not read the cloth to the dry. There is a kitchen across the market that feeds anybody; I should go there, and eat.'".
+  }
+  Topic dr_pallet_burglar with rainmother "Speak to Goody Pallet" when masked(actor) and privateHours() {
+    Says "'Forty-one,' says Goody Pallet, opening her eyes, which are small and black and very awake. 'Forty-one steps, and a mask. I have forty women in this room with their feet in tubs and I have only to say a word. Take it off, or get out.'".
+  }
+  Topic dr_pallet_early with rainmother "Ask what the Tally-cloth is, and why the lamp is not lit" when masked(actor) and publicHours() and day(clock) < 4 once {
+    Says "'It is the Drawing,' says Goody Pallet, still sewing, 'every year of it, stitch by stitch, for thirty-one years. And the lamp is lit when it has something to say, and it has not yet.' She counts three stitches under her breath. 'Come when it is lit, little face. By the Fourth Day. We will have found our words by then, and if we have not we shall have found a march.'".
+  }
+  Topic dr_pallet_asks with rainmother "Ask Goody Pallet why the lamp in the window is lit" when masked(actor) and publicHours() and day(clock) >= 4 and not dr_petition_asked(party) once {
+    Says "'Because we have something to say, and nobody to say it to.' Goody Pallet puts down the needle for the first time. 'The cloth. A colour for each Office, thirty-one years, a foot of linen a year. And the Wives say there is a thing wrong with it, and I say there is nothing wrong with it, and neither of us can say what we mean. We want a Bare, a person with no stake in either answer, to read it and say whether the Drawing is fair. If it is, the lamp goes out. If it is not' (she smiles; it is not a happy smile) 'we march on the Chapel, on the Sixth Day, forty women with wet sleeves.'".
+    On discuss { Assert dr_petition_asked(party). }
+  }
+  Topic dr_pallet_black with rainmother "Ask Goody Pallet about the black row in the cloth" when dr_received(actor) and dr_petition_asked(party) once {
+    Says "'The thirty-first foot.' She puts her thumb on it without looking. 'Six hundred and four stitches, black, one for each. We did them the winter after, all forty of us, one stitch a night, till it was done. We do not stitch the Offices for that year; there were no Offices that anybody liked. A girl of nineteen had been Treasurer, they say, and the Sluice failed, and the Serene stood in the gallery. We took the black for the Offices.' She takes the thumb away. 'We have not forgotten any of them. That is what a Rain-Wife is for.'".
+    On discuss { Assert knows(actor, sluice_known). }
+  }
+  Action dr_cloth_lore(actor: group, site: place) "Read the Tally-cloth down its thirty-one feet, and say what the colours are" {
+    Speaker rainmother.
+    Requires able(actor) and company(actor) and at(actor, site) and at(rainmother, site) and masked(actor) and publicHours() and dr_petition_asked(party) and not dr_cloth_read(party).
+    Resolve check(actor, lore, dc_fair).
+    Time 12.
+    On success { Assert dr_cloth_read(party). Assert knows(actor, lie_tally). Assert knows(actor, dr_hesper_known). }
+    Otherwise "You walk down the cloth with your finger an inch from it, as the Wives have told you, and every foot is a column of coloured knots. Reds, greens, a great deal of blue. You can tell that it is beautiful. That is all you can tell, and you stand in front of it with your hand open like a child at an altar.".
+    Result "The colours are the Offices: gold for the Treasurer, grey for the Physician, blue for the Warden, a dozen more, each in its own stitch. It takes an hour to see it, and then you cannot unsee it. The same colours sit beside one another, year after year, in the same order of person: the baker's blue, the ferryman's, the clerk's. They are never a boy from the eels, never a girl from the umbrella-menders; never a fool. A jar does not choose like that. Somebody has been choosing. And at the nineteenth foot there is one small knot of pink that is not the colour of any Office at all.".
+  }
+  Action dr_cloth_count(actor: group, site: place) "Count the Tally-cloth with Tansy Ruddock, a stitch at a time, till you have the sum of it" {
+    Speaker dr_tansy.
+    Requires able(actor) and company(actor) and at(actor, site) and at(dr_tansy, site) and masked(actor) and publicHours() and dr_petition_asked(party) and not dr_cloth_read(party).
+    Time 36.
+    On success { Assert dr_cloth_read(party). Assert dr_cloth_counting(party). Assert knows(actor, lie_tally). Assert knows(actor, dr_tally_sums). Assert knows(actor, dr_hesper_known). }
+    Result "It takes six hours, and nobody is clever. {dr_tansy} reads the colour, you chalk the tally on the floor, and the floor fills. A thousand knots. At the end there are five hundred and eighty-nine Offices in thirty-one years and four hundred and two of them in the trusted trades, which no honest jar would give once in a thousand tries; and {dr_tansy} sits back on her heels and says, in the voice of a woman who has been right for a month and hoped to be wrong, 'There.' At the nineteenth foot, the pink knot is not in the sum at all.".
+  }
+  Action dr_pallet_insight(actor: group, site: place) "Watch what Goody Pallet stitches last, with her eyes shut, and does not say" {
+    Speaker rainmother.
+    Requires able(actor) and company(actor) and at(actor, site) and at(rainmother, site) and masked(actor) and publicHours() and dr_petition_asked(party) and not knows(actor, dr_hesper_known)
+      and not dr_pallet_cool(party).
+    Resolve check(actor, insight, dc_fair).
+    Time 6.
+    On success { Assert knows(actor, dr_hesper_known). }
+    Result "You watch her sew a whole afternoon. She counts as she goes, and she never looks at the cloth; but at the nineteenth foot her needle slows, and goes round something with its eyes shut, as a hand goes round a sleeping animal. It is a small knot, pink, and not any Office's. She does not say what it is. She does not have to. She has told you where it is, and that, you think, is what she wanted.".
+    Otherwise "Goody Pallet sews. You watch her sew. She says, at the end of an hour, 'Forty-one steps. Forty-four. You are fidgeting.' It is not hostile. It is only true.".
+    On failure { Assert dr_pallet_cool(party). }
+  }
+  Rule dr_pallet_warm when hour(clock) == 6 and dr_pallet_cool(party) { Retract dr_pallet_cool(party). }
+  Topic dr_tansy_cold with dr_tansy "Speak to Tansy Ruddock" when not masked(actor) and publicHours() {
+    Says "Tansy Ruddock does not look up. 'The dry do not read the cloth,' she says to the chalk, and goes on with her sum, and you stand in the steam and are carried to the end of it.".
+  }
+  Topic dr_tansy_sums with dr_tansy "Ask Tansy Ruddock what she is working out" when masked(actor) and publicHours() and dr_petition_asked(party) once {
+    Says "'The odds,' says {dr_tansy}. She has chalk to the elbow. 'Nineteen Offices, thirty-one years. I have drawn the same fraction on this floor eleven times and I do not like it. I should like to be told I have been adding wrong.' She hands you the chalk, with the air of a woman handing a stranger a bucket. 'The cloth is there. You read the colours, or you count the knots. One of you will tell me the answer, and I should prefer it was not me.'".
+  }
+  Topic dr_pallet_hesper_day with rainmother "Ask Goody Pallet about the one pink knot" when masked(actor) and publicHours() and knows(actor, dr_hesper_known) and not dr_hesper_told(party) once {
+    Says "The needle stops. 'Hesper,' says Goody Pallet, in the voice of a woman setting down a heavy thing she has carried a long time. 'Hesper Wain. A dyer's girl from my own street, the third house, whose mother had hands as blue as a Gull's. They drew her Assessor of Weights nineteen years ago and she was honest. It was not a good year to be honest. She died in a garret in the Spent's quarter eleven years after, and nobody, when she was Spent, would use her name.' She starts again. 'I put her in pink, because there was no colour for her. Ask me at night. By day I am the mother of the Rain-Wives.'".
+  }
+  Topic dr_pallet_night with rainmother "Knock at the hall's night-door, bare, and ask whether the cloth may be read" when privateHours() and not masked(actor) and dr_petition_asked(party) and not dr_hesper_told(party) once {
+    Says "The door is opened by a woman with her feet in a tub and her domino hanging on a nail. 'Bare,' says Goody Pallet, from the end of the room, in her own face, which is small and brown and not at all what the mask said. 'Come in out of it. The Wives are talking, and when they are talking they are not afraid.' Forty women look at you, unmasked. Nobody says anything for a while. 'Have you read it?' she asks. 'Say nothing. Come and sit. I will tell you what I should not tell the cloth.'".
+  }
+  Topic dr_pallet_hesper_night with rainmother "Sit by Goody Pallet's tub, and ask her who Hesper was" when privateHours() and not masked(actor) and dr_petition_asked(party) and not dr_hesper_told(party) and not dr_pallet_asked(party) once {
+    Says "'Hesper Wain,' says Goody Pallet, to the water. 'A dyer's girl from the third house of my street, the nineteenth foot, pink. They drew her Assessor of Weights and she was honest, and I was so proud I could not sleep, because the Drip had never once had an Office, and a jar had picked one of ours. A jar. That is the word I have kept, nineteen years, like a coin.' She looks at you. 'If the cloth says what the Wives say it says, then it was not a jar. It was somebody who knew her. Who knew a dyer's girl in the third house of my street. Who has been looking at us.' She is quite still. 'I had rather it were luck. Tell me, Bare, because you have no stake: would you have had her drawn out of a jar, and maybe a fool, or chosen out of the street by someone who knew her?'".
+    On discuss { Assert dr_hesper_told(party). Assert dr_pallet_asked(party). Assert knows(actor, dr_hesper_known). }
+  }
+  Topic dr_pallet_chance with rainmother "Say: out of a jar. A fool by chance is nobody's fool" answering dr_pallet_hesper_night when dr_pallet_asked(party) and not dr_pallet_chose(party) {
+    Says "Goody Pallet closes her eyes. 'A jar,' she says, quite softly. 'Yes. I thought you would. It was my own word; I only wanted to hear it said by somebody who would have to live with it.' She opens them. 'Then that is what the Wives will march for, if they march. Not for blame. For the jar.'".
+    On discuss { Assert dr_pallet_chose(party). Assert dr_wives_chance(party). }
+  }
+  Topic dr_pallet_keep with rainmother "Say: chosen by somebody who knew her. Hesper was good, and a jar would not have found her" answering dr_pallet_hesper_night when dr_pallet_asked(party) and not dr_pallet_chose(party) {
+    Says "Goody Pallet is quiet a long time. 'It is an ugly thing to be glad of,' she says, 'being looked at.' She turns her foot in the tub. 'But she was good. And we had a miller's boy for Warden the year before, and he drank the Lock-tax and a good deal else, and nobody wept when he was Spent.' She nods, slowly, as at a bargain. 'I should not like to say that to the Wives. But I should not like to say the other either. Let me think what a mother says.'".
+    On discuss { Assert dr_pallet_chose(party). Assert dr_wives_keep(party). }
+  }
+  Topic dr_pallet_hearing with rainmother "Say: you do not know, and neither will she, until the one who chooses has been asked" answering dr_pallet_hesper_night when dr_pallet_asked(party) and not dr_pallet_chose(party) {
+    Says "'Ah,' says Goody Pallet, with an old woman's relish. 'The Hearing. Yes. Somebody ought to ask, and it is not going to be a washerwoman.' She wrings out a cloth. 'A person who says she does not know, and means to find out, is a person I can tell the Wives about. I will hold them. I will not hold them for ever.'".
+    On discuss { Assert dr_pallet_chose(party). Assert dr_wives_waiting(party). }
+  }
+
+  // What to tell the Wives, in the hall, by day, with the lamp lit. Three answers, and each leaves something.
+  Action dr_tell_truth(actor: group, site: place) "Tell the Rain-Wives the truth: somebody has been choosing, and the jar is not what it seems" {
+    Speaker rainmother.
+    Requires able(actor) and company(actor) and at(actor, site) and at(rainmother, site) and masked(actor) and publicHours() and dr_cloth_read(party) and not dr_petition_answered(party) and not dr_pallet_cool(party).
+    Time 6.
+    Grave "Told, it is told: forty women will know by dusk, and what the Wives know the Drip knows.".
+    On success { Assert dr_told_truth(party). Assert dr_petition_answered(party). Assert dr_march_pending(party). Set dr_march_day(party) to 6. }
+    Result "You say it plainly, standing in the steam under the cloth: that the Offices do not fall as a jar would drop them; that somebody has been choosing; that the cloth is the proof and the Wives are right. Nobody speaks. Then Goody Pallet says, to nobody, 'There,' and Tansy Ruddock sits down on the floor, and from forty women in grey linen comes a sound you will not forget: not anger. Relief. It is a very hard thing to be right.".
+  }
+  Rule dr_truth_kept when dr_told_truth(party) and dr_wives_keep(party) and dr_march_pending(party) and not dr_marchers(party) says "Goody Pallet stands, and the Wives look at her. 'Then we have been well governed by a liar,' she says, 'for thirty-one years, and been fed on it. There will be no march. The lamp goes out.' She goes to the window and puts it out with two fingers. 'I will tell the street the Wives read the cloth and found it good. They will not ask what that cost.' The Rain-Wives sit down, one by one, and take up their sleeves." {
+    Retract dr_march_pending(party). }
+  Action dr_tell_lie(actor: group, site: place) "Tell the Rain-Wives, kindly, that the Drawing is fair and the cloth only a pattern" {
+    Speaker rainmother.
+    Requires able(actor) and company(actor) and at(actor, site) and at(rainmother, site) and masked(actor) and publicHours() and dr_cloth_read(party) and not dr_petition_answered(party) and not dr_pallet_cool(party).
+    Resolve check(actor, deception, dc_fair).
+    Time 6.
+    On success { Assert dr_wives_lied(party). Assert dr_petition_answered(party). }
+    Otherwise "You say it kindly: that luck is lumpy, that a jar has runs of good fortune as a roof has runs of rain. Goody Pallet counts the words. At the end she says, 'Forty-one,' which is the number of the words, and opens her eyes. 'No. That is not what you read.' The lamp stays lit, and the Wives look at one another, and you have made it worse.".
+    On failure { Assert dr_pallet_cool(party). Assert dr_march_pending(party). Set dr_march_day(party) to 6. Assert dr_petition_answered(party). }
+    Result "'Fair,' says Goody Pallet, to the hall. 'The Bare says fair.' You told it as a nurse tells a child that the dark is only a room; and the Wives, who have been afraid for a month, believe you with the whole of their wet backs. The lamp goes out. Somebody starts to hum. You are very much liked, for an afternoon. You do not feel that it is a gift.".
+  }
+  Rule dr_lie_unravels when day(clock) >= 8 and hour(clock) >= 12 and dr_wives_lied(party) and dr_wives_chance(party) and not dr_marchers(party) and not dr_march_pending(party) says "Somebody in the hall has done the sum again, with Tansy Ruddock's chalk; and Tansy has done it after her. The lamp in the window is lit. By dusk forty women are in the street with their sleeves wet and a long strip of linen carried flat between them like a body, and on the strip, in a hand that has had a good deal of practice at keeping quiet, somebody has written: A JAR." {
+    Assert dr_march_pending(party). Set dr_march_day(party) to 8. }
+  Action dr_defer_hearing(actor: group, site: place) "Ask the Rain-Wives to wait: put the cloth to the Hearing of the Unseen" {
+    Speaker rainmother.
+    Requires able(actor) and company(actor) and at(actor, site) and at(rainmother, site) and masked(actor) and publicHours() and dr_cloth_read(party) and not dr_petition_answered(party) and not dr_pallet_cool(party).
+    Resolve check(actor, persuasion, dc_fair).
+    Time 6.
+    On success { Assert dr_deferred(party). Assert dr_petition_answered(party). Assert dr_march_pending(party). Set dr_march_day(party) to 8. }
+    Otherwise "'The Hearing,' says Tansy Ruddock, flatly, 'is a thing that does not happen.' The hall agrees with her. Goody Pallet holds up one hand and the hall is quiet; but she is looking at you with the patience of an old woman who has heard better lies, and you have given her the chance to say so. The lamp stays lit.".
+    On failure { Assert dr_pallet_cool(party). }
+    Result "It takes an hour, and it is not easy. You say that a thing found out is a thing that must be put to those who can answer it; that a march is a door, and the Hearing is a door with a person behind it; that nobody has asked. Goody Pallet turns it over. 'Two days,' she says at last. 'Not three. They will march on the Eighth Day if there is no answer, and I shall be at the head of them, and so will you if you have any sense.' It is not a victory. It is a delay, which is what a victory usually is.".
+  }
+  // The march itself: told where the company might see it, and in force whenever its day comes.
+  Rule dr_march_goes when dr_march_pending(party) and day(clock) >= dr_march_day(party) and hour(clock) >= 12 and not dr_marchers(party) { Assert dr_marchers(party). Retract dr_march_pending(party). }
+  Relation dr_march_told(group).
+  Rule dr_march_told_at when dr_marchers(party) and not dr_march_told(party) and day(clock) == dr_march_day(party) and hour(clock) >= 12 and hour(clock) < 20 and at(party, chapel_steps) says "They come over the Chapel bridge two by two, forty women in grey linen with their sleeves rolled, carrying the Tally-cloth flat between them like a stretcher, and they stop at the foot of the Chapel steps, and set it down. They do not shout. They stand, in the rain, in their own faces, as washerwomen stand at a door when they have come about the wash, and wait for somebody to come out and say whose it is." { Assert dr_march_told(party). }
+  Rule dr_march_default when day(clock) == 6 and hour(clock) >= 12 and not dr_petition_answered(party) and not dr_marchers(party) { Assert dr_marchers(party). Assert dr_petition_answered(party). Set dr_march_day(party) to 6. }
+  Topic dr_pallet_after_march with rainmother "Speak to Goody Pallet" when dr_marchers(party) and masked(actor) and publicHours() {
+    Says "'We are at the Chapel,' says Goody Pallet, at the Chapel steps, where she is not; it is the hall, and her chair, and her stitching, and the cloth is gone. 'The Wives carried it. I stayed. Somebody has to keep the hall, and I am old enough to be forgiven for not being brave.' She counts. 'Thirty-eight. Thirty-nine. They are very slow, the old ones. They went by the long way, to be seen.'".
+  }
+  Topic dr_wives_pot with rainmother "Ask whether the Rain-Wives could take on the Saint's pot, as the Wives' washing-penny" when dr_petition_answered(party) and not dr_wives_lied(party) and not dr_pallet_cool(party) and not dr_pot_secured(party) and not dr_kitchen_shut(party) and not dr_pot_by_wives(party) and masked(actor) and publicHours() once {
+    Says "'Forty women, a penny a week,' says Goody Pallet, thinking. 'Three hundred bowls a day. It is not charity; a Wife who eats the Saint's soup has the right to say who fills the pot. That is a thing we can do.' She puts her needle in the cloth like a pennant. 'We have done it before, for the lamp-boys. It was never in the cloth. I do not know why that is, for a thing that has been done.'".
+    On discuss { Assert dr_pot_by_wives(party). Increase dr_supply(party) by 4. }
+  }
+  Milestone dr_m_cloth "read the Rain-Wives' Tally-cloth" worth 25 when dr_cloth_read(party).
+  Milestone dr_m_petition "answered the Rain-Wives' Petition, truly or kindly or by a delay" worth 50 when dr_petition_answered(party).
+
+  // ═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+  // THREAD 4: THE LAMP-TRIMMERS' STRIKE. The Owls are owed sixty coin of arrears, drawn from the Hall of Weights on the
+  // quarter-day and carried to the lamp-house in a wage-box by Hal Dunne, the steward's brother, who put twenty-two of it
+  // on an eel and has the rest in an oil-cask. The Hall says it paid. Jory has sworn on his key-ring to the Owls that the
+  // wage would be in the box by the eighth day, and will not unswear it for a stranger's money: an Owl's wage is hands.
+  // What he trusts is hands: a lamp lit in order, a box handed back, a day stood in the yard. On the eighth day the Owls
+  // walk out unless it is settled; no lamps on the ninth night means a dark city (dr_dark(party), which the integrator
+  // reads). Ways: pay (coin, once he trusts you); find the box (Hal, by insight and persuasion, or the cask by lockwork or
+  // stealth) and bring it back whole; break the strike (the Hospice's Bare lodgers lighting the lamps in the Owl's domino;
+  // the Owls will not forgive it); or join the walk (the Owls make you one; the city goes dark).
+  // ═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+  Discovery dr_arrears_known "The lamp-trimmers are owed sixty coin of arrears drawn from the Hall of Weights on the quarter-day; the steward has sworn the wage will be in the box by the eighth day, and the Owls will walk out on the eighth day if it is not.".
+  Discovery dr_box_taken "The Owls' wage-box went missing on the road from the Hall of Weights in the hands of the steward's brother Hal, who is drinking in the lamp-house corner; there is a key missing from his peg.".
+  Discovery dr_cask_known "Hal Dunne has what is left of the wage-box in a locked oil-cask at the back of the lamp-house, thirty-eight of the sixty coin; the rest went on an eel.".
+  Measure dr_arrears(group). Relation dr_jory_trusts(group). Relation dr_box_returned(group). Relation dr_hal_will(group). 
+
+  Topic dr_jory_cold with steward "Speak to {steward}" when not masked(actor) and publicHours() {
+    Says "{steward} looks at your bare face, and then at your hands, and decides about both. 'The lamps are for the Owls,' he says, to nobody in particular, to the yard. 'The dry may look at them. They may not touch them. It is not personal. It has never been personal.'".
+  }
+  Topic dr_jory_burglar with steward "Speak to {steward}" when masked(actor) and privateHours() {
+    Says "The yard goes quiet. 'A face at night,' says {steward}, and his hand is on the key-ring in a way you do not like. 'Take it off in the lamp-house where we can see it, or take it away down the Drip. There is a man here who has not slept since the quarter-day.'".
+  }
+  Topic dr_jory_customer with steward "Ask {steward} about the lamps of the Drip" when masked(actor) and not wears(actor, face_owl) and publicHours() and not dr_strike_on(party) once {
+    Says "'Ninety-one,' says {steward}. 'Lit at the Eighth Bell, trimmed at the Third, filled on Thursdays. Only an Owl touches a street lamp: the Articles of the Lamp, which is older than the Concord and a good deal more sensible.' He watches the rain come down on his poles. 'We have not been paid since the quarter-day. Sixty coin of arrears, in a wage-box, from the Hall of Weights. I have sworn on my key-ring that it will be in the lamp-house by the Eighth Day. After the Eighth, the Owls walk.' A pause. 'It is not a threat. A threat is when you hope it works.'".
+    On discuss { Assert knows(actor, dr_arrears_known). Assert knows(actor, dr_jory_name). }
+  }
+  Topic dr_jory_owl with steward "Speak to {steward} as one Owl to another" when wears(actor, face_owl) and publicHours() and not dr_strike_on(party) once {
+    Says "'An Owl.' {steward} looks at the domino and, for a moment, at your face under it, where he has not been invited. 'Then you will know what an unpaid week is. The box went to the Hall of Weights on the quarter-day and came back on the road with my half-brother Hal, who says he never saw it. Sixty coin. I believe him: he is the best of us.' He does not sound as if he were quite certain what he believed. 'He has not been well. I am the steward, and I swore the wage by the Eighth.'".
+    On discuss { Assert knows(actor, dr_arrears_known). Assert knows(actor, dr_jory_name). Assert knows(actor, dr_hal_name). }
+  }
+  Topic dr_jory_boys with steward "Ask {steward} about the empty bench" when masked(actor) and publicHours() and not dr_strike_on(party) once {
+    Says "{steward}'s face, under the domino, does something. 'The lamp-boys,' he says. 'Three of them went down the cistern steps on the first night and did not come up. Nell, and Tobit, and the Tolliver child. They are not in trouble. They have seen a thing, the way a child sees a thing, and they are afraid of the daylight.' He folds his arms. 'We leave a heel of bread and a cup of milk on the second step, and it is gone by morning. I would not have anybody go down after them who frightens easy. They have a candle, and they have each other.'".
+  }
+
+  // The brother, by night, in the lamp-house corner.
+  Topic dr_hal_cold with dr_hal "Speak to the young man in the corner" when masked(actor) and privateHours() {
+    Says "He looks at the mask, and puts down the jug quite carefully, and it is not a gesture of friendship. 'No,' says Hal Dunne, in an altered voice, 'I have nothing for the Watch. I do not know a thing. Ask my brother.'".
+  }
+  Topic dr_hal_sit with dr_hal "Sit down by Hal Dunne, bare, and share the jug" when privateHours() and not masked(actor) and at(dr_hal, lamp_yard) once {
+    Says "'Sit! Sit.' Hal Dunne moves the jug to make room, and then moves it back, and then pours you a cup you did not ask for with a hand that is not quite steady. 'A stranger. You are bare, so you are a stranger, and strangers are the only people I can bear. My brother is the steward. He is a good man. I am a runner for the Hall of Weights. Did I say that? I run.' He laughs, and it falls over. 'It is quite all right. I shall be all right by the Eighth Day.'".
+  }
+  Action dr_hal_read(actor: group, site: place) "Watch Hal Dunne's hands, and the peg with the missing key, and say what you see" {
+    Speaker dr_hal.
+    Requires able(actor) and company(actor) and at(actor, site) and at(dr_hal, site) and privateHours() and not masked(actor) and not knows(actor, dr_box_taken) and not dr_jory_cool(party).
+    Resolve check(actor, insight, dc_fair).
+    Time 3.
+    On success { Assert knows(actor, dr_box_taken). Assert knows(actor, dr_hal_name). }
+    Otherwise "He is a young man with a jug, and a brother, and a hard week, and any one of them might be all of it. He catches you looking and offers you the jug again.".
+    On failure { Assert dr_jory_cool(party). }
+    Result "He has a key on a string round his neck that he keeps touching, in the way a man touches a tooth. It is not the lamp-house key; it is a small one, brass, for a cask. The peg above his name on the board has been empty since the quarter-day. He has not been drinking to forget. He has been drinking to be where the key is. You do not say it. He sees you looking at the string, and the cup shakes in his hand, and he says, quietly, 'Oh. Oh, you are good at this.'".
+  }
+  Rule dr_jory_warm when hour(clock) == 6 and dr_jory_cool(party) { Retract dr_jory_cool(party). }
+  Action dr_hal_coax(actor: group, site: place) "Say to Hal, as one who has done worse, that the box may go back and nobody have to know" {
+    Speaker dr_hal.
+    Requires able(actor) and company(actor) and at(actor, site) and at(dr_hal, site) and privateHours() and not masked(actor) and knows(actor, dr_box_taken) and not dr_box_found(party) and not dr_jory_cool(party).
+    Resolve check(actor, persuasion, dc_fair).
+    Time 6.
+    On success { Assert dr_box_found(party). Assert dr_hal_shielded(party). Assert knows(actor, dr_cask_known). }
+    Otherwise "'No,' says Hal Dunne. He says it with great politeness. 'I think you had better go. I think I will be sick.' He is, a little, into the jug. It is not a refusal, you think, so much as an inability. You may try another night.".
+    On failure { Assert dr_jory_cool(party). }
+    Result "You do not argue. You say what you did once, which was less than this and a good deal worse, and nobody found out, and it was a long time before you could look at your own hands. He listens as a drowning man listens to a rope. At the end he takes the key from his neck without a word, and goes to the cask at the back of the lamp-house, and comes back with a canvas bag that clinks, and puts it in your lap. 'Thirty-eight,' he says. 'I lost twenty-two on an eel. I could not tell him. Take it to Jory. Do not say me.'".
+  }
+  Action dr_find_cask(actor: group, site: place) "While Hal sleeps it off, find the cask and what is in it" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(dr_hal, site) and privateHours() and not masked(actor) and knows(actor, dr_box_taken) and not dr_box_found(party).
+    Resolve check(actor, lockwork, dc_fair).
+    Time 6.
+    On success { Assert dr_box_found(party). Assert knows(actor, dr_cask_known). }
+    Otherwise "The little brass lock will not give, and the cask is as dumb as a drum, and Hal Dunne has begun to stir in the corner. You are on the other side of the room with a jug in your hand and nothing in your face when he opens his eyes.".
+    On failure { Assert dr_jory_cool(party). }
+    Result "It is the third cask along: an oil-cask with a brass lock the size of a thumbnail, put in an oil-cask because nobody checks them for money. The lock gives with a noise like a held breath. Inside, under the rag, is a canvas bag, and in the bag, thirty-eight coin. Hal Dunne is asleep with his cheek on the wall, and in his sleep he is saying 'twenty-two' over and over, in a small ashamed voice.".
+  }
+  Action dr_return_box(actor: group, site: place) "Put the canvas bag of thirty-eight coin in {steward}'s hands" {
+    Speaker steward.
+    Requires able(actor) and company(actor) and at(actor, site) and at(steward, site) and dr_box_found(party) and not dr_box_returned(party) and not dr_strike_settled(party).
+    Time 3.
+    On success { Assert dr_box_returned(party). Increase dr_arrears(party) by 38. Assert dr_jory_trusts(party). }
+    Result "{steward} takes the bag, and weighs it, and does not open it. He looks at the peg on the lamp-house door, and then at you, and then away. 'Thirty-eight,' he says. 'It is short.' He does not ask where it was found, or whom from. It is possible he does not need to. 'An Owl does not take a stranger's coin,' he says. 'But a lamp-trimmer may take his own wage from whoever found it in the yard.' He puts it inside his shirt, where the keys are. It is, you gather, the nearest a man of his sort comes to an embrace.".
+  }
+  Topic dr_tell_jory_hal with steward "Tell {steward} that it was his brother Hal who took the wage-box" when knows(actor, dr_box_taken) and not dr_hal_told(party) and not dr_hal_shielded(party) once {
+    Grave "A thing said to a brother about a brother is said. It will not be unsaid.".
+    Says "{steward} does not move. For quite a time he does not move. 'Hal,' he says. 'Hal ran the box.' He goes to the lamp-house door and stands in it, in the rain, with his keys, and comes back. 'I knew,' he says, 'on the first night, and I thought if I did not say it I would not have been told it. That is the whole of being a steward.' He takes the ring from his belt and holds it. 'You have done a hard thing, and I do not thank you for it. I will have it out of him before the Eighth Day, and out of me, and the Owls will have their wage.'".
+    On discuss { Assert dr_hal_told(party). Assert dr_jory_trusts(party). }
+  }
+  Action dr_pay_arrears(actor: group, site: place) "Pay the Owls what is still owing them, in the box, to the steward's hand" {
+    Speaker steward.
+    Requires able(actor) and company(actor) and at(actor, site) and at(steward, site) and dr_jory_trusts(party) and not dr_strike_settled(party) and not dr_strike_broken(party)
+      and quantity(actor, gold) >= 60 - dr_arrears(party).
+    Time 3.
+    On success { Decrease quantity(actor, gold) by 60 - dr_arrears(party). Set dr_arrears(party) to 60. Assert dr_arrears_paid(party). Assert dr_strike_settled(party). }
+    Result "{steward} counts it twice into the box, and shuts the lid, and says to the yard, in a voice that carries, 'The wage is in.' It does not sound like a victory. It sounds like a man putting down a very heavy thing that is still his. The Owls look at one another, and then, one by one, at the poles, and the grumble comes back into the yard like a tide.".
+  }
+  Topic dr_jory_no_money with steward "Offer to pay the Owls' arrears yourself" when masked(actor) and publicHours() and not dr_jory_trusts(party) and knows(actor, dr_arrears_known) and not dr_strike_settled(party) {
+    Says "'No.' {steward} does not raise his voice. 'Sixty coin out of a stranger's purse is a bribe, and the Owls have never been bribed; they have been robbed, which is different, and it is honest. I will not have the wage in the box and have it be somebody's kindness.' He looks at your hands again. 'Light a lamp. Stand in the yard. Bring me back something that was ours. Then I will know whose hands you have.'".
+  }
+  Rule dr_strike_begins when day(clock) == 8 and hour(clock) >= 6 and not dr_strike_settled(party) and not dr_strike_broken(party) and not dr_strike_on(party) says "The sound of a great many people not doing something: at the Eighth Bell the Drip's street-lamps are not lit. They stand all along the lanes in their cages with their wicks unlit, ninety-one of them, and a board nailed up at the lamp-yard says in chalk: NO OIL, NO WAGE, NO LIGHT." {
+    Assert dr_strike_on(party). }
+  Rule dr_strike_goes_dark when day(clock) == 9 and hour(clock) >= 6 and dr_strike_on(party) and not dr_strike_settled(party) and not dr_strike_broken(party) and not dr_dark(party) says "The Owls have not gone back, and nobody has. By the Ninth Bell the Drip will be as dark as the Cuff, and so, you gather from the way people are talking, will the rest of the city: the lamp-trimmers keep all of Ombra's lamps and have an understanding with the lamp-trimmers of the other islands." {
+    Assert dr_dark(party). }
+  Rule dr_strike_over when (dr_strike_settled(party) or dr_strike_broken(party)) and dr_strike_on(party) { Retract dr_strike_on(party). }
+  Rule dr_strike_ends_dark when (dr_strike_settled(party) or dr_strike_broken(party)) and dr_dark(party) { Retract dr_dark(party). }
+
+  // Breaking it: the Hospice's Bare light the lamps in the Owl's domino. Only an Owl may touch a street lamp.
+  Topic dr_tibb_lodgers with tibb "Ask Mother Tibb whether any of the Hospice's lodgers could be lent, for an evening, to light a street of lamps" when knows(actor, dr_arrears_known) and (dr_strike_on(party) or day(clock) >= 7) and not dr_lodgers_lent(party) and not dr_strike_settled(party) once {
+    Says "'Eleven strangers and nine beds,' says Mother Tibb, as one reading a figure off a wall. 'Two of them I would be glad to see go out for an evening and I need not enter where.' She looks at you for a long time. 'The Owls will not like it. A Bare lighting an Owl's lamp is a Bare touching what is not his, and he does it in a domino that is not his either. You will be wanting the Owl on your face, and the Owls will want your head.' She writes something in the margin of the sheet. 'I should not do it, if I were you. I should do it at the last possible hour.'".
+    On discuss { Assert dr_lodgers_lent(party). }
+  }
+  Action dr_light_with_lodgers(actor: group, site: place) "Light the Drip's lamps in the Owl, with the Hospice's lodgers, while the Owls stand in the yard" {
+    Speaker steward.
+    Requires able(actor) and company(actor) and at(actor, site) and dr_strike_on(party) and dr_lodgers_lent(party) and wears(actor, face_owl) and hour(clock) >= 17 and hour(clock) < 20
+      and not dr_strike_broken(party) and not dr_strike_settled(party).
+    Resolve check(actor, deception, dc_fair).
+    Time 12.
+    Grave "Only an Owl may touch a street lamp. Lit by strangers in a borrowed domino, the Drip's lamps burn, and the Owls will not forgive it, and will not let the Owl's face stay on anybody who did it.".
+    On success { Assert dr_strike_broken(party). Decrease goodwill(face_owl) by 3 or to nothing. }
+    Otherwise "You get as far as the first post. A heavy-shouldered man in a round-eyed domino takes the pole out of your hands, quite gently, as a man takes a knife from a child, and a ring of Owls closes round the two Bare lodgers, who have been standing about with the look of those who would like to be back in bed. Nobody strikes anybody. You are walked to the end of the lane. It is worse than being struck.".
+    On failure { Assert dr_jory_cool(party). Decrease goodwill(face_owl) by 1 or to nothing. }
+    Result "The lodgers carry the ladder, and you carry the pole, in the Owl's round-eyed domino, and for an hour the Drip's lamps are lit by a woman from Strand Street and a man from the road who has not been indoors since February, and nobody can say, in the rain and the dusk, whose faces are under the dominoes. Ninety-one lamps. The Owls stand in the yard, and the glow comes up over the wall; and then somebody in the yard begins to say, 'Who--', and somebody else says, 'Hush,' and then nobody says anything. It is a very cold sort of silence.".
+  }
+  Rule dr_owls_take_back when dr_strike_broken(party) and holdsFace(party, face_owl) and not rented(party, face_owl) { Retract holdsFace(party, face_owl). Retract wears(party, face_owl). Retract masked(party). }
+  Rule dr_owls_rent_back when dr_strike_broken(party) and rented(party, face_owl) and wears(party, face_owl) { Retract wears(party, face_owl). Retract masked(party). }
+
+  // Joining it: the Owls make you one. The city goes dark.
+  Action dr_join_walk(actor: group) "Stand in the yard with the Owls in the Owl's domino, and do not work" {
+    Requires able(actor) and company(actor) and at(actor, lamp_yard) and dr_strike_on(party) and wears(actor, face_owl) and publicHours() and not dr_strike_joined(party) and not dr_strike_broken(party).
+    Time 36.
+    On success { Assert dr_strike_joined(party). Assert dr_jory_trusts(party). Increase goodwill(face_owl) by 2. }
+    Result "You stand in the yard from the Third Bell to the Ninth in a round-eyed domino with your hands in your sleeves, not working, and it is harder than any work you have done in Ombra. The rain runs off the poles. Nobody tells you what to think. At dusk the steward comes down the line, and at the end of it he stops in front of you, and takes the brass key from his own belt-ring, and gives it you: the key to the yard's gate. 'We make you one,' says {steward}. It is not a thanks. It is the thing that comes after one.".
+  }
+  Rule dr_joined_dark when dr_strike_joined(party) and day(clock) >= 9 and dr_strike_on(party) and not dr_dark(party) { Assert dr_dark(party). }
+  Milestone dr_m_strike "settled the Lamp-Trimmers' arrears, and kept the city lit" worth 75 when dr_strike_settled(party).
+  Milestone dr_m_strike_broke "broke the Lamp-Trimmers' strike with the Hospice's lodgers" worth 25 when dr_strike_broken(party).
+  Milestone dr_m_strike_joined "stood a day with the Owls" worth 25 when dr_strike_joined(party).
+
+  // ── Later effects that cross the threads ──────────────────────────────────────────────────────────────────────────────
+  // Rill's morning bakers' leavings, to the Saint, by the Patience, once she trusts the company's hands.
+  Topic dr_rill_leavings with rill "Ask {rill} whether the Row bakers' leavings could come across on the Patience for the Saint's pot" when roundDone(party, r_ferry) and not dr_pot_secured(party) and not dr_kitchen_shut(party) and not dr_pot_by_rill(party) and publicHours() and masked(actor) once {
+    Says "'The ends,' says {rill}. 'The Cockles on the Row throw out forty loaves a day, the crusts and the ends and the ones that burned. Cosimo's lot, the clerks, have them for the pigeons.' She spits over the side, with precision. 'They can have them for the Saint's pot. It costs me nothing to carry. It is not a kindness; it is a cargo.' The cup goes in. 'I will have it in the Account, and the Account will say Saint, and she will never know whom to thank. That is the right way round.'".
+    On discuss { Assert dr_pot_by_rill(party). Increase dr_supply(party) by 3. }
+  }
+  Topic dr_rill_davit with rill "Ask {rill} what Davit did when he came to the end of the count" when roundDone(party, r_ferry) and dr_rill_bailed(party) and privateHours() and not masked(actor) once {
+    Says "{rill} turns the cup in her hands, a long time. 'He started again,' she says. 'That is all it is. You get to the end of the strokes, and you start again from one. I said it was a stupid way to live, and he said it was the only way he had found, and then he was in the Cuff on the fourth of the Deepening, and I was in the boat.' She puts a penny in the tin, and the tin says what it says. 'I have been counting since. Not strokes. Years. It is a good deal easier when somebody is bailing.'".
+  }
+  Topic dr_rill_about_wives with rill "Ask {rill} what the Drip says about the Rain-Wives' cloth" when masked(actor) and publicHours() and dr_petition_asked(party) and not dr_petition_answered(party) once {
+    Says "'The Drip says the Wives have found something and are too frightened to say what, and that the Wives are never frightened, and that therefore it must be something to do with the water.' {rill} bails. 'My mother was in that cloth, I think. One of the black stitches. I have never asked which.'".
+  }
+
+  // ── The closing account: what became of the people of the Drip ───────────────────────────────────────────────────────
+  Rule dr_fate_rill_custom when newsHour() and dr_boat_how_custom(party) and not dr_boat_how_bought(party) and roundDone(party, r_ferry) once says "Of Rill Ketch: the Patience rides dry, and she has put a line in the Account that she shows nobody: *one boat's planking, sold to a Gull, one penny, paid*. She does not say what it cost her to take it. She takes a Row fare in the morning and a Drip fare at night, and on the first of the month, they say, she puts a coin in the tin for no reason at all, and does not look to see who sees." { }
+  Rule dr_fate_rill_resold when newsHour() and dr_boat_how_bought(party) and dr_boat_how_custom(party) and roundDone(party, r_ferry) once says "Of Rill Ketch: you bought the Patience, and she called you master for two days at both ends of every sentence, and then you sold her back for a penny, and she put the penny in the tin with a noise like a small bell. She has not forgiven the forty coin. She has put it in the Account in a column of its own, headed *Owed to the Bare*, and every Gull on the landing knows she means to pay it, and nobody knows how." { }
+  Rule dr_fate_rill_guild when newsHour() and dr_boat_how_guild(party) and dr_rill_indebted(party) and roundDone(party, r_ferry) once says "Of Rill Ketch: she signed for the Guild's planks with her chin out, and owes a farthing in the penny till Michaelmas, and has never loved a boat as well as one she owes for. She will pay it off a week early. She will tell the steward so, and the steward will write it in the ledger as the Guild's good fortune, which it is." { }
+  Rule dr_fate_rill_right when newsHour() and dr_boat_how_right(party) and roundDone(party, r_ferry) and not named(dr_ley) once says "Of Rill Ketch: the Guild was very sorry, in writing, and she has had the surveyor's berth-money for the year, which she calls her due and nothing else. The Patience is sound, and her hull is the only one on the landing that has had its own Articles read over it. She is, for a Gull, almost talkative about it." { }
+  Rule dr_fate_rill_named_ley when newsHour() and dr_boat_how_right(party) and named(dr_ley) once says "Of Rill Ketch: the Patience is sound, and the man who laid her green was Named in the landing's hearing, and every grudge he ever escaped came home to roost on him by sundown. She does not say she is sorry. She stands at the stage with her cup and watches the water where his name went, for a good while, with the expression of one who has been given a thing she did not ask for, and has had to pay for it, and is not sure to whom." { }
+  Rule dr_fate_rill_hired when newsHour() and dr_rill_hired(party) once says "Of Rill Ketch: she is your hired Gull, and says 'Master' to you at both ends of every sentence, with a precision of diction that could cut glass. The Patience is sound, and in your name. She is, by every account, the best servant the Drip has ever had, and has not once looked at you since the day of the sale." { }
+  Rule dr_fate_rill_sold when newsHour() and dr_berth_sold(party) and not dr_boat_sound(party) once says "Of Rill Ketch: the Patience was condemned on the seventh day by a surveyor's mallet and her berth let to his brother-in-law; she hires a Gull's oar on another woman's boat now, and has been seen on the landing at night with a tin and a cup and nothing to bail, bailing it." { }
+  Rule dr_fate_rill_insulted when newsHour() and dr_rill_insulted(party) once says "Of Rill Ketch: the Patience is sound, and has been since a night in the Novena when somebody she did not ask mended her in the dark. She has said nothing to that person, then or since. She keeps the silence like a good tool, oiled and in its place; and every day, with a bad conscience, she looks at her new strakes." { }
+
+  Rule dr_fate_nobody_named when newsHour() and named(nobody) once says "Of Sister Nobody: she lives in the Hospice now, bare, in a bed that is the tenth of nine, and was Named in a square. She does not go out. Mother Tibb has given her the bed by the stove and a task, which is counting the linen. She counts it every hour, with two fingers on each fold, as one counts a pulse." { }
+  Rule dr_fate_nobody_shut when newsHour() and dr_kitchen_shut(party) and not named(nobody) once says "Of Sister Nobody: the kitchen shut at noon on the sixth day. Nobody was fed in the soup-room for three days, and the Drip went to the Rain-Wives' copper and the Gulls' rations and Mother Gammon's back door, and said nothing about it, which is how the Drip says what it thinks of a thing. She sits in the cold room with her mask on. She has been seen to sit." { }
+  Rule dr_fate_nobody_seated when newsHour() and dr_pot_secured(party) and dr_nobody_seated(party) once says "Of Sister Nobody: the pot is full to the Drawing and past it, and on the ninth night, for the first time in twelve years, she sat down at her own table and ate the supper somebody else had brought. She takes the grey cloth off in the evenings now and leaves it on its nail. She is the Saint by day, and by night an old woman in a good chair with a bowl, and she says that she prefers it. She has not smiled. She has been observed to be about to." { }
+  Rule dr_fate_nobody_laughed when newsHour() and dr_pot_secured(party) and dr_nobody_laughed(party) once says "Of Sister Nobody: the pot is full to the Drawing and past it, and every so often, in the middle of a queue, over the copper, she says to nobody 'The Pound has dropped a Pound', and stops, and says 'Next,' with her shoulders shaking. The Drip thinks it is a cough, and has begun to say so in the street. She has not smiled. That is not what a laugh is for." { }
+  Rule dr_fate_nobody_plain when newsHour() and dr_pot_secured(party) and not dr_nobody_moved(party) and not dr_pot_by_coin(party) and not named(nobody) and not dr_nobody_unhooded(party) once says "Of Sister Nobody: the pot is full to the Drawing and past it, and she does not know why, and will not ask. She ladles. A bowl, and a bowl, and a bowl. She does not know whom to thank, and has made that the whole of her thanks. It is the Saint." { }
+  Rule dr_fate_nobody_coin when newsHour() and dr_pot_by_coin(party) and not dr_nobody_moved(party) and not named(nobody) and not dr_nobody_unhooded(party) once says "Of Sister Nobody: the pot is full to the Drawing and past it, on thirty coin that came into her tin box one night with a noise like a cough, bare-handed and not by a face. She does not know whom to thank, and has made that the whole of her thanks. She ladles. She is, you are told, ladling rather more slowly; as a woman does who has begun to count how many days there are." { }
+  Rule dr_fate_nobody_unhooded when newsHour() and dr_nobody_unhooded(party) and not named(nobody) once says "Of Sister Nobody: somebody lifted her mask, in the queue, in the rain, with leave or without it. She tied it on again with a surgeon's care and has said to that person nothing but Next. She goes on, because three hundred of the Drip must be fed whoever has seen her face." { }
+
+  Rule dr_fate_tansy when newsHour() and dr_cloth_counting(party) once says "Of Tansy Ruddock: she has the sum on the hall floor in chalk, and has not scrubbed it. Four hundred and two of five hundred and eighty-nine. She stands on it in the evenings with her domino on her forehead like a pair of spectacles and says, to anybody, that she should have liked to be wrong. Nobody, in the Drip, has ever seen her so happy." { }
+  Rule dr_fate_pallet_chance when newsHour() and dr_marchers(party) and dr_wives_chance(party) once says "Of Goody Pallet: the Rain-Wives stood at the foot of the Chapel steps with the Tally-cloth between them for a jar, and the banner, in a hand that has had a good deal of practice at keeping quiet, said so. She stayed in the hall and stitched, and when the news came to her she stitched one more pink knot, at the end of the thirty-first foot, in the place where the Drawing was to be. 'A jar,' she says, to the cloth. 'Whatever it holds.'" { }
+  Rule dr_fate_pallet_deferred when newsHour() and dr_marchers(party) and (dr_deferred(party) or dr_wives_waiting(party)) and not dr_wives_chance(party) once says "Of Goody Pallet: she held the Wives for two days, as she said she would, and on the Eighth Day she was at the head of them, because she had said she would be, an old woman of seventy in a grey domino with the strings in a bow, at a pace she set herself. Nobody came out of the Chapel to say whose the wash was. They are still, they say, waiting." { }
+  Rule dr_fate_pallet_marched when newsHour() and dr_marchers(party) and not dr_wives_chance(party) and not dr_deferred(party) and not dr_wives_waiting(party) once says "Of Goody Pallet: the Rain-Wives marched on the Sixth Day with forty damp sleeves and no reason that could be written down, and stood at the foot of the Chapel steps till the Ninth Bell. She says it was not nothing. She says a thing that is stood before is a thing that has been answered, even by silence. She is not sure she is right. She keeps a space on the cloth." { }
+  Rule dr_fate_pallet_kept when newsHour() and dr_wives_keep(party) and not dr_marchers(party) once says "Of Goody Pallet: she put out the lamp with two fingers and told the street the Wives had read the cloth and found it good. She has not stitched since. She sits at the end of it with the needle in the linen, and does not draw it through; and sometimes at night, in her own face, she says to the Wives, 'It was a good girl they picked,' and nobody asks who." { }
+  Rule dr_fate_pallet_lied when newsHour() and dr_wives_lied(party) and not dr_marchers(party) and not dr_wives_keep(party) once says "Of Goody Pallet: the lamp went out on the Fourth Day on the word of a Bare, and the Wives have been very kind to one another since. She counts steps. She counts forty-one from the door to the cloth, and she has begun to count a second number, under her breath, that she has told nobody. It is the number of the years since the cloth was last wrong." { }
+
+  Rule dr_fate_jory_returned when newsHour() and dr_strike_settled(party) and dr_box_returned(party) and not dr_hal_told(party) once says "Of Jory Wickham: the box was in the lamp-house on the Eighth Day, thirty-eight and twenty-two. He swore on his key-ring that he did not ask where the thirty-eight was found, and he has kept it. He and his brother go home at night down the same lane, not speaking, and on the ninth night they lit the lamps of the Drip side by side, each on his own pole, and the Owls say it is the best they have ever burned." { }
+  Rule dr_fate_jory_told when newsHour() and dr_strike_settled(party) and dr_hal_told(party) once says "Of Jory Wickham: the box was in the lamp-house, and Hal Dunne went down the delta road on the Ninth Day with a purse his brother had made up out of his own pocket, and a letter to a cousin in the Marsh, and a lamp. Jory trimmed the Drip's lamps that night alone, in his own face, and did not say who he was trimming them for." { }
+  Rule dr_fate_jory_paid when newsHour() and dr_arrears_paid(party) and not dr_box_returned(party) and not dr_hal_told(party) once says "Of Jory Wickham: the wage was in the box on the Eighth Day, from a stranger's purse that he took for the Owls and not for himself, and he said so, in the yard, in front of everybody. The Weights have still not said where the other box went. Hal sits in the corner with the jug and a face like a letter nobody has answered." { }
+  Rule dr_fate_jory_broken when newsHour() and dr_strike_broken(party) once says "Of Jory Wickham: the lamps of the Drip were lit by strangers in an Owl's domino, and the Owls did not forgive it. He stands in the yard with the key-ring in his hands, and when somebody asks him who it was he says the Hospice, and that is all he says. He has not struck anybody. He has not been asked. The Owls who stayed do not look at the lamp-house door, where the chalk was rubbed off with a sleeve." { }
+  Rule dr_fate_jory_joined when newsHour() and dr_dark(party) and dr_strike_joined(party) once says "Of Jory Wickham: the Owls stood in the yard on the Ninth Day with a stranger among them in a round-eyed domino, and the Drip was dark. He says it was the longest night of his life. It is also, he says, the one he is proudest of. He gave the stranger the yard's gate-key, and has not asked for it back." { }
+  Rule dr_fate_jory_dark when newsHour() and dr_dark(party) and not dr_strike_joined(party) once says "Of Jory Wickham: the Owls did not go back, and nobody made them, and the city was dark on the ninth night. He stood at the gate in the rain with the poles racked behind him, and when the Drawing began, a mile away, he took off his domino and held it in his hands and watched the black water, and was not ashamed. He will say the strike was just. He will not say it was wise." { }
+
+  // ── More of the Drip's people, in their two registers ──────────────────────────────────────────────────────────────────
+  // Jory by night, bare, in the lamp-house: the oath, and the brother.
+  Topic dr_jory_night with steward "Knock at the lamp-house door, bare, and ask to sit by the stove" when privateHours() and not masked(actor) and not dr_strike_on(party) once {
+    Says "The lamp-house is one room, hot as an oven, and eleven men in their shirts round a stove with their boots off and their dominoes hung on pegs. Nobody in it is an owl. {steward} sits at the head of them with the key-ring in his lap, turning it, and he does not get up. 'Bare,' he says, quite mildly. 'Then you may sit. It is not often a stranger comes to the Owls at night.' A man passes you a tin cup of something hot. 'We are owed sixty coin, since the quarter-day, and I swore on this ring to the yard that it would be in the box by the Eighth.' He looks at the ring. 'I do not know where it is. That is a thing I should not say in the day.' In the corner at the back, a young man laughs too loudly at nothing.".
+    On discuss { Assert knows(actor, dr_arrears_known). Assert knows(actor, dr_jory_name). Assert knows(actor, dr_hal_name). }
+  }
+  Topic dr_gammon_cold with dr_gammon "Speak to the bread-woman" when not masked(actor) and publicHours() {
+    Says "Mother Gammon looks over your bare face at the awning, and says to it, 'Loaves are a penny. Not to the dry. Not because I am hard. Because I have forty customers in the wet, and every one of them has a face, and I have only the one pair of hands.'".
+  }
+  Topic dr_gammon_pound with dr_gammon "Ask the bread-woman about the brass pound on her board" when masked(actor) and publicHours() once {
+    Says "'The pound.' She lays one flat hand on it. It is worn to a pale gold at the middle, as a doorstep is. 'My mother weighed with it and her mother. It is the market's pound, and a pound is what it says, and nobody has ever asked it for its papers.' She weighs a loaf on it, quite slowly, and looks at the pan. 'The Weights come down once in a long while and look at it. Then they go back up the Row. It is a very good pound. It is a very old one. I have never known a loaf go short on it.' The loaf goes in the bag. 'Have you?'".
+  }
+  Observe dr_wives_at_steps at chapel_steps when dr_marchers(party) and day(clock) >= dr_march_day(party) and hour(clock) >= 12 and hour(clock) < 20 "At the foot of the steps, in the rain, forty women in grey linen stand with a long strip of embroidered cloth laid out flat on the stones in front of them, and do not say anything to anybody who goes up.".
 }

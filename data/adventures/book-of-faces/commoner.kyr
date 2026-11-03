@@ -1,2 +1,347 @@
 Module ombra "The Book of Faces" {
+  // ═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+  // A TRADE OF ONE'S OWN (commoner.kyr, prefix cm_). To be a person in Ombra is to have a trade; a Bare who takes one up
+  // is the nearest the city comes to letting a stranger in. Three trades of the Drip, each in three beats and a mask:
+  //   the Ferry (Rill Ketch; the Gull): learn the Cuff, row it in the Deepening, and a passenger who cannot pay;
+  //   the Lamp (Jory Wickham; the Owl): light the round in order, mend the pump, and a gill of oil the Owls would keep;
+  //   the Chandler (Mistress Crumb; the Cockle): tally the stock, a customer who is no customer, and a short weight.
+  // Each ends in the guild's offer: take its mask (an earned face, kept for good: you are a person in Ombra, and Mother
+  // Tibb notices), or stay a Bare who works, and keep the tool and the wage. Two trades that have taken the company in, and
+  // the Owls paid, and the Trades walk to the Chapel on the ninth night: the Procession (hand_procession).
+  // This is the richest arc for a company with no calling's arc: the best coin, the surest friends, the least danger.
+  // ═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+  Kind cm_trade.
+  Entity cm_t_ferry: cm_trade "the Ferry".
+  Entity cm_t_lamp: cm_trade "the Lamp".
+  Entity cm_t_chandler: cm_trade "the Chandler's stall".
+  // A trade begun (the errand done), tried (the test done), decided (what kind of worker), and joined (a mask taken, or
+  // the guild's wage kept and the mask refused).
+  Relation cm_began(group, cm_trade). Relation cm_tested(group, cm_trade). Relation cm_decided(group, cm_trade).
+  Relation cm_in(group, cm_trade). Relation cm_kept_bare(group, cm_trade).
+  Measure cm_trades(group).
+  // What each trade's company learned of what kind of worker it was.
+  Relation cm_ferry_asked(group). Relation cm_fare_book(group). Relation cm_fare_free(group). Relation cm_fare_penny(group).
+  Relation cm_lamp_asked(group). Relation cm_oil_refused(group). Relation cm_oil_complied(group). Relation cm_oil_paid(group).
+  Relation cm_crumb_asked(group). Relation cm_weight_refused(group). Relation cm_weight_complied(group). Relation cm_weight_paid(group).
+  Relation cm_thief_seen(group). Relation cm_thief_caught(group). Relation cm_thief_let(group). Relation cm_thief_told(group). Relation cm_stall_robbed(group).
+  Relation cm_sack_bought(group). Relation cm_body_endowed(group). Relation cm_tibb_told(group). Relation cm_lamps_dim(group).
+  Relation cm_walked(group).
+
+  Kind cm_hook_kind "the Gull's boat-hook" is gear worth 6 weighing 3 granting wayfinding described "A boat-hook of ash with a brass sleeve, its pole polished by a hundred hands, a gull's eye cut into the butt-end: the sign that the Ferrymen's Guild has said of a person that they know the Cuff.".
+  Kind cm_snuffer_kind "the Owl's snuffer-pole" is gear worth 6 weighing 3 granting climbing described "A long pole of ash with a brass cup and a brass hook at one end, and a round-eyed owl burned into the butt. The Owls give it to those they have decided to trust with the lamps of a street.".
+  Kind cm_scale_kind "Crumb's brass scale" is gear worth 8 weighing 2 granting insight described "A small brass balance with a pan of each, worn smooth with use. It has been used to weigh tallow and thread and ship's rope for forty years, and gives you, when you pick it up, a feeling of knowing about how much things weigh, and what people will tell you they weigh.".
+  Item cm_hook "the Gull's boat-hook" is cm_hook_kind at offstage.
+  Item cm_snuffer "the Owl's snuffer-pole" is cm_snuffer_kind at offstage.
+  Item cm_scale "Crumb's brass scale" is cm_scale_kind at offstage.
+
+  // A trade counts when its mask has been taken. The Owls take theirs back from one who breaks their strike.
+  Rule cm_count_ferry when cm_in(party, cm_t_ferry) and not cm_counted(cm_t_ferry) { Assert cm_counted(cm_t_ferry). Increase cm_trades(party) by 1. }
+  Rule cm_count_lamp when cm_in(party, cm_t_lamp) and not cm_counted(cm_t_lamp) { Assert cm_counted(cm_t_lamp). Increase cm_trades(party) by 1. }
+  Rule cm_count_chandler when cm_in(party, cm_t_chandler) and not cm_counted(cm_t_chandler) { Assert cm_counted(cm_t_chandler). Increase cm_trades(party) by 1. }
+  Relation cm_counted(cm_trade).
+  Rule cm_owls_revoke when dr_strike_broken(party) and cm_in(party, cm_t_lamp) { Retract cm_in(party, cm_t_lamp). Retract cm_counted(cm_t_lamp). Decrease cm_trades(party) by 1 or to nothing. }
+  // The Owls make one of whoever stands the walk with them: the third way into the Lamp.
+  Rule cm_owls_make_one when dr_strike_joined(party) and not cm_in(party, cm_t_lamp) and not dr_strike_broken(party) { Assert cm_in(party, cm_t_lamp). Assert holdsFace(party, face_owl). Assert fitted(party, face_owl). Retract rented(party, face_owl). }
+  Rule cm_arc_begun when cm_trades(party) >= 1 and not arcBegun(party, hand_procession) { Assert arcBegun(party, hand_procession). }
+
+  // ── Mistress Crumb, the chandler; and the people of the Ferry's third beat and the stall's second ────────────────────
+  // Dorcas Crumb, sixty, keeps the stall of rope, tallow and ship's timber by the Rain-Wives' door. She weighs with her
+  // thumb, as every chandler has since the first, and calls it the margin.
+  Person cm_crumb "Dorcas Crumb" at bread_market {
+    Role "the chandler, who keeps the stall of rope and tallow and ship's timber". Ancestry human. Pronouns she. Manner acerbic. Peaceable.
+    Sells dr_oak_kind for 5 coin from 4.
+    Greets "A woman of sixty with a face like a dried apple and a pencil behind each ear stands behind a trestle of rope and tallow candles and thread, and under a sheet at the back a stack of pale ship's timber bound with tarred cord. She is in the Cockle's flour-white domino, and she is doing three sums at once and listening to a fourth. She has the manner of one who has been robbed by the best and is not going to be robbed by you.".
+    Greets again "Mistress Crumb does a sum, and looks at you over it.".
+  }
+  Rule cm_crumb_stall when hour(clock) >= 8 and hour(clock) < 19 and not at(cm_crumb, bread_market) { Assert at(cm_crumb, bread_market). }
+  Rule cm_crumb_home when (hour(clock) < 8 or hour(clock) >= 19) and not at(cm_crumb, offstage) { Assert at(cm_crumb, offstage). }
+  Person cm_dill "Bertram Dill" at offstage {
+    Role "a Weights copyist, turned off without his last quarter". Ancestry human. Pronouns he. Manner stoic. Peaceable.
+    Greets "An old man in a clerk's grey Heron half-mask, ink to the second knuckle, sits on the landing steps with a carpet-bag on his knees and a Row address on a card in his hat-band. He has the careful stillness of one who is being as small as he can.".
+    Greets again "Master Dill holds his bag.".
+  }
+  Person cm_teale "Fenwick Teale" at offstage {
+    Role "a mild customer in a Heron's cowl, asking after wicks" when at(cm_teale, bread_market). Role "a mild man in a Heron's cowl" when not at(cm_teale, bread_market). Ancestry human. Pronouns he. Manner jovial. Peaceable.
+    Greets "A mild man in a Heron's cowl stands at the trestle turning over a card of wicks, one at a time, with every sign of the keenest interest in wicks. He has the gentle manner of one who is always about to buy.".
+    Greets again "Master Teale turns over a wick.".
+  }
+  Rule cm_dill_comes when cm_tested(party, cm_t_ferry) and not cm_decided(party, cm_t_ferry) and publicHours() and not at(cm_dill, drip_landing) { Assert at(cm_dill, drip_landing). }
+  Rule cm_dill_goes when cm_decided(party, cm_t_ferry) and not at(cm_dill, offstage) { Assert at(cm_dill, offstage). }
+  Rule cm_teale_comes when cm_began(party, cm_t_chandler) and not cm_tested(party, cm_t_chandler) and hour(clock) >= 11 and hour(clock) < 18 and not at(cm_teale, bread_market) { Assert at(cm_teale, bread_market). }
+  Rule cm_teale_goes when (cm_tested(party, cm_t_chandler) or hour(clock) >= 18 or hour(clock) < 8) and not at(cm_teale, offstage) { Assert at(cm_teale, offstage). }
+
+  Topic cm_crumb_cold with cm_crumb "Speak to the chandler" when not masked(actor) and publicHours() {
+    Says "'Bare,' says Mistress Crumb, to the candle she is holding, and weighs it in her palm. 'Candles are three the pound. Not to the dry. The dry may look at the candle and think of it.'".
+  }
+  Topic cm_crumb_trade with cm_crumb "Ask Mistress Crumb whether the stall wants another pair of hands" when masked(actor) and publicHours() and not cm_crumb_asked(party) once {
+    Says "'It wants a pair that can add.' She does not look up from the trestle. 'Tallow, wicks, rope by the fathom, timber by the cord: I do it in my head and it takes the whole of my head. Do the stock for me. Tell me how many pounds of tallow there are on that shelf against what the book says, and I shall know whether you can tell a pound from a guess.' A candle goes into the pan. 'A Cockle with sums is the best thing a market has. A Cockle without is a thief with a pretty face.'".
+    On discuss { Assert cm_crumb_asked(party). }
+  }
+  Topic cm_crumb_oak with cm_crumb "Ask Mistress Crumb about the timber under the sheet" when masked(actor) and publicHours() once {
+    Says "'Oak. Seasoned two summers, the Drip's boats are the only people that ask.' She lifts a corner of the sheet. The strakes under it are pale, dry and straight, and ring a little when the rain hits them. 'Five coin the cord, and I do not take less, and I do not take a Gull's word for what it is for. A cord does a boat's side, if the boat is not a fool.'".
+  }
+
+  // ═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+  // THE FERRY. Rill Ketch will take a Gull for a second oar; the test is the Cuff itself.
+  // ═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+  Topic cm_rill_oar with rill "Ask {rill} whether the Patience could use a second oar" when wears(actor, face_gull) and publicHours() and not dr_rill_insulted(party) and not dr_berth_sold(party) and not cm_ferry_asked(party) once {
+    Says "{rill} looks at the oar of her hand, and at yours. 'A second oar on a sinking boat is a second bailer,' she says, 'and she does a bucket an hour, and I have never yet turned down a bailer.' The cup goes in. 'You will not take the Patience's till until you know the Cuff. That is not a rule of mine. Nobody does. Three channels, the Tally Reach and the Long Wet and the Mercy Cut, and the fog comes down in the Reach by noon. Learn them with me, and then we shall see what you are.'".
+    On discuss { Assert cm_ferry_asked(party). }
+  }
+  Action cm_learn_cuff(actor: group, site: place) "Learn the Cuff's three channels from {rill}, rowing them in the rain" {
+    Speaker rill.
+    Requires able(actor) and company(actor) and at(actor, site) and at(rill, site) and wears(actor, face_gull) and publicHours() and cm_ferry_asked(party) and not cm_began(party, cm_t_ferry).
+    Resolve check(actor, wayfinding, dc_fair).
+    Time 18.
+    On success { Assert cm_began(party, cm_t_ferry). }
+    Otherwise "The fog comes down in the Reach at noon, as she said, and you row the Mercy Cut twice without knowing it. {rill} lets you. She says nothing at all until you have run the boat gently on to the Row quay's weed, and then she says, 'Every fool does that. The Cuff does not mind. It is only that it is a very long time before it does not mind you.' You may try again.".
+    Result "Three channels: the Tally Reach, wide and brown and quick, where the Weights clerks cross at the Eighth Bell; the Long Wet, which looks like the Cuff and is not, and goes nowhere; and the Mercy Cut, a gut between two Row warehouses where a Gull can pass a boat and a half and no more. {rill} names them aloud, and each time you cross one she says its name again, and by the sixth hour you can feel the current under the boat as you feel a floor under a foot. The Cuff, she says, has no landmarks. It has only people who have not got lost in it.".
+  }
+  Action cm_row_deepening(actor: group, site: place) "Take the Patience's oars across the Cuff with a load of fares in the Deepening's weather" {
+    Speaker rill.
+    Requires able(actor) and company(actor) and at(actor, site) and at(rill, site) and wears(actor, face_gull) and publicHours() and cm_began(party, cm_t_ferry) and not cm_tested(party, cm_t_ferry).
+    Resolve check(actor, brawn, dc_fair).
+    Time 12.
+    On success { Assert cm_tested(party, cm_t_ferry). }
+    Otherwise "Two strokes in the Reach and the current has the Patience by the nose. {rill} says 'Lean,' and you lean, and she says 'Not that way,' and takes the oars from you with a hand as hard as rope. You are a stone in the boat for the rest of the crossing. A woman with a basket pats your knee. It is not an insult. It is much worse than an insult. You may try again.".
+    Result "A boat's length of fog, and you are a pair of hands: eleven fares, two baskets, a goat, and the Patience taking her bucket an hour while {rill} bails and says nothing. At the Row quay the goat is the first off. The Cockle with the basket says to the rain, 'Good Gull,' and tips you a farthing; and {rill} says, in a voice she has not used before, 'She is not a good boat. You are not a good oar. You will do.'".
+  }
+  Observe cm_dill_here at drip_landing when at(cm_dill, drip_landing) "On the landing steps an old man in a grey Heron half-mask sits with a carpet-bag on his knees and a Row address on a card in his hat-band, not asking anyone for anything.".
+  Action cm_fare_by_book(actor: group, site: place) "Take the old copyist's fare, as the Guild's table says: two coin, and no coin no crossing" {
+    Speaker cm_dill.
+    Requires able(actor) and company(actor) and at(actor, site) and at(cm_dill, site) and wears(actor, face_gull) and cm_tested(party, cm_t_ferry) and not cm_decided(party, cm_t_ferry).
+    Time 6.
+    On success { Assert cm_decided(party, cm_t_ferry). Assert cm_fare_book(party). }
+    Result "He turns out his pockets, with an air of ceremony, and finds a shilling and a button and a pawn-ticket. He has a quarter's wages owed him on the Row, and no fare to reach them. 'No, no, quite right,' says Master Dill, who is perfectly polite. 'The Guild's table.' He leaves the button on the stage, in case, and sits on the steps again with his bag on his knees. {rill} sees it, and says nothing. She puts her cup down. She does not say that it was the rule. It is, you realise, the first time she has not said so.".
+  }
+  Action cm_fare_free(actor: group, site: place) "Carry the old copyist across for nothing, and say it was on the house" {
+    Speaker cm_dill.
+    Requires able(actor) and company(actor) and at(actor, site) and at(cm_dill, site) and wears(actor, face_gull) and cm_tested(party, cm_t_ferry) and not cm_decided(party, cm_t_ferry).
+    Time 6.
+    On success { Assert cm_decided(party, cm_t_ferry). Assert cm_fare_free(party). }
+    Result "You take his bag and hand him down into the Patience, and he sits very straight, with his hat on his knees, like a man in church. He does not thank you. He does not look at you. At the Row quay he steps out and says to the stones, with great precision, 'I shall send it,' and goes up the steps. {rill} has seen. She says, to the water, 'Nobody rides free in my boat. It is a kindness to nobody. Now he will spend a quarter of his wages not being able to look at a Gull.'".
+  }
+  Action cm_fare_penny(actor: group, site: place) "Pay the old copyist's fare for him, and take his penny for it, as a fare" {
+    Speaker cm_dill.
+    Requires able(actor) and company(actor) and at(actor, site) and at(cm_dill, site) and wears(actor, face_gull) and cm_tested(party, cm_t_ferry) and not cm_decided(party, cm_t_ferry) and quantity(actor, gold) >= 2.
+    Time 6.
+    On success { Assert cm_decided(party, cm_t_ferry). Assert cm_fare_penny(party). Decrease quantity(actor, gold) by 2. }
+    Result "You say, to the air, that it is a Gull's custom that a fare is a fare, and that the Guild's table is two coin, and that a copyist may sell his button for a penny. He looks at the button, and at you, and slowly takes the penny out of his pocket and puts it in your hand, and you put two coin of your own in the stage's box beside the Patience's rail, for the Guild. It is a fare. Everybody on the stage sees that it is. At the Row quay he steps out and says, 'Good Gull,' and means it, and {rill} says, to the rain, 'That is how it is done.'".
+  }
+  Action cm_take_gull(actor: group, site: place) "Take the Ferrymen's Guild's offer: the Gull, a mask of your own, and the Guild's name for it" {
+    Speaker dr_brine.
+    Requires able(actor) and company(actor) and at(actor, site) and at(dr_brine, site) and wears(actor, face_gull) and cm_decided(party, cm_t_ferry) and not cm_in(party, cm_t_ferry) and not cm_kept_bare(party, cm_t_ferry) and publicHours().
+    Time 6.
+    Grave "A face of your own is a face of your own: the Gull is yours for good, and with it a Gull's name in the Guild's ledger, and the city will say you are somebody.".
+    On success { Assert cm_in(party, cm_t_ferry). Assert holdsFace(actor, face_gull). Assert fitted(actor, face_gull). Retract rented(actor, face_gull). Give cm_hook to actor. Increase quantity(actor, gold) by 8. Increase goodwill(face_gull) by 2. }
+    Result "The steward opens her ledger to the page and turns it round, and there is a space, and she writes in it, in the Guild's hand, a line that is not a name. She hands you the boat-hook, with the gull's eye cut in the butt, and eight coin for the quarter's oar, and says: 'It is the Guild's. It is not yours to sell, and it will not fit anyone else.' She looks at the domino on your face. 'It never did, quite. It does now.' It is yours; it is not rented; it does not go back at the Ninth Bell.".
+  }
+  Action cm_keep_oar(actor: group, site: place) "Take the oar's wage and the boat-hook, and stay Bare: a stranger who works" {
+    Speaker dr_brine.
+    Requires able(actor) and company(actor) and at(actor, site) and at(dr_brine, site) and cm_decided(party, cm_t_ferry) and not cm_in(party, cm_t_ferry) and not cm_kept_bare(party, cm_t_ferry) and publicHours().
+    Time 6.
+    On success { Assert cm_kept_bare(party, cm_t_ferry). Give cm_hook to actor. Increase quantity(actor, gold) by 8. }
+    Result "'Bare,' says the steward, as one who has been asked for a thing by many. She counts eight coin on the ledger and puts the boat-hook on top of them. 'The Guild pays an oar, whoever has hold of it. It does not put a name in the book for a face that has not got one.' She is not unkind. 'The offer does not go off. It is made once a year, and it is made again the next.'".
+  }
+
+  // ═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+  // THE LAMP. Jory Wickham, steward of the Owls, decides about a stranger by their hands.
+  // ═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+  Topic cm_jory_work with steward "Ask {steward} whether an Owl's pole could use another pair of hands" when wears(actor, face_owl) and publicHours() and not dr_strike_on(party) and not dr_strike_broken(party) and not cm_lamp_asked(party) once {
+    Says "{steward} looks at the domino, and then, not quickly, at the hands. 'Hands first,' he says. 'Then the face. We have ninety-one lamps, and every one lit at the Eighth Bell in the order the round is written: the Landing, the Market, the Rain-Wives' door, the Kitchen, the Yard, and out along the lanes to the Steps. In order, and none skipped, and the ladder not left where a child will walk into it. Do it at dusk with my poles and I shall know what you are.' A small, grim nod, as if at a thing he had put by. 'And do it wet. It is always wet.'".
+    On discuss { Assert cm_lamp_asked(party). }
+  }
+  Action cm_light_round(actor: group, site: place) "Light the Drip's round with the Owls' poles at dusk, in order, up the ladders" {
+    Speaker steward.
+    Requires able(actor) and company(actor) and at(actor, site) and at(steward, site) and wears(actor, face_owl) and cm_lamp_asked(party) and hour(clock) >= 17 and hour(clock) < 20
+      and not dr_strike_on(party) and not dr_strike_broken(party) and not cm_began(party, cm_t_lamp).
+    Resolve check(actor, climbing, dc_fair).
+    Time 12.
+    On success { Assert cm_began(party, cm_t_lamp). Assert dr_jory_trusts(party). }
+    Otherwise "The third ladder slides on the wet cobble and you hang for a long moment from a lamp-bracket by one hand with a pole across your back. Nobody laughs. {steward} comes and puts the ladder back, without a word, and holds it. The lamp is lit, in the end; but you will want another dusk.".
+    Result "Landing, Market, the Rain-Wives' door, the Kitchen, the Yard, and out along the lanes: ninety-one lamps, each a brass cage, a wick, and a hand-width of oil, each lit with the hook of the pole at the pace of the Owl before you. The rain puts out three. You light them again, and nobody remarks on it. At the last lamp, at the cistern steps, {steward} is standing at the foot of the ladder, a heavy shape in the lamp-light. 'In order,' he says, 'and none skipped.' It is, for a steward, a speech.".
+  }
+  Action cm_mend_pump(actor: group, site: place) "Mend the lamp-yard's oil-pump, which has not drawn since the Deepening" {
+    Speaker steward.
+    Requires able(actor) and company(actor) and at(actor, site) and at(steward, site) and wears(actor, face_owl) and cm_began(party, cm_t_lamp) and not cm_tested(party, cm_t_lamp) and publicHours().
+    Resolve check(actor, mending, dc_fair).
+    Time 6.
+    On success { Assert cm_tested(party, cm_t_lamp). }
+    Otherwise "You find the leak, and then you find another, behind it, and then the whole of the pump, as a person finds the bottom of a bad drawer. The brass sweats. {steward} comes and looks at it, and at you. 'It is a pump,' he says. 'It is not meant to be understood in an afternoon.' You may try again.".
+    Result "It is a Collegium pump, a brass lung with a leather bellows, and the leather has cracked at the third fold. You re-sew it with a lamp-trimmer's waxed thread, tight, tight, and the long handle goes down with a gasp and the oil comes up into the glass, amber, in the yard's grey light. The Owls on their buckets look round. There is a good deal of looking round. At the end of it somebody says, 'It draws,' in the voice of a congregation.".
+  }
+  Action cm_oil_refuse(actor: group, site: place) "Fill the lamps full, as {steward} asks nothing less, and say the gill is not yours to keep back" {
+    Speaker steward.
+    Requires able(actor) and company(actor) and at(actor, site) and at(steward, site) and wears(actor, face_owl) and cm_tested(party, cm_t_lamp) and not cm_decided(party, cm_t_lamp) and publicHours().
+    Time 6.
+    On success { Assert cm_decided(party, cm_t_lamp). Assert cm_oil_refused(party). Increase goodwill(face_owl) by 1. }
+    Result "The oil-factor's measure is a gill short in every pint. {steward} says it as a thing he has said before to men who have not liked it: that the Owls have always kept the short gill back for the lamp-boys' own lamps at home, which the Drip's children read by, and that nobody has ever asked. You fill the lamps full. You say, quite quietly, that a lamp is a lamp. He does not argue. 'It is what an Owl would do,' he says, 'and it is why we have been so poor.' He puts the pole away. 'The boys will have no oil tonight.'".
+  }
+  Action cm_oil_comply(actor: group, site: place) "Fill the lamps to three-quarters, and keep the gill back for the lamp-boys' own lamps, as the Owls always have" {
+    Speaker steward.
+    Requires able(actor) and company(actor) and at(actor, site) and at(steward, site) and wears(actor, face_owl) and cm_tested(party, cm_t_lamp) and not cm_decided(party, cm_t_lamp) and publicHours().
+    Time 6.
+    On success { Assert cm_decided(party, cm_t_lamp). Assert cm_oil_complied(party). Assert cm_lamps_dim(party). Decrease goodwill(face_owl) by 1 or to nothing. }
+    Result "You fill them to three-quarters, and keep the gill. It is what the Owls have always done, with the oil-factor's measure and a long view, and in the lamp-house at night, in a dozen small windows over the Drip, a child is reading by a stub. The street is a little dimmer than it should be. Nobody notices. That is the trouble with a gill. {steward} says nothing, and pours a measure into the lamp-house jar, and does not look at you.".
+  }
+  Action cm_oil_pay(actor: group, site: place) "Fill the lamps full, and buy the lamp-boys' gill yourself, from the oil-factor, at his own measure" {
+    Speaker steward.
+    Requires able(actor) and company(actor) and at(actor, site) and at(steward, site) and wears(actor, face_owl) and cm_tested(party, cm_t_lamp) and not cm_decided(party, cm_t_lamp) and quantity(actor, gold) >= 6 and publicHours().
+    Time 6.
+    On success { Assert cm_decided(party, cm_t_lamp). Assert cm_oil_paid(party). Decrease quantity(actor, gold) by 6. Increase goodwill(face_owl) by 2. }
+    Result "You fill every lamp, and then you take six coin from your purse to the oil-factor's boy at the Row quay, and he measures out a jar of oil to the lamp-boys' families, at his own gill, and charges for the gill that was short. It is not a gift. It is a purchase, made on behalf of the Owls, by an Owl. {steward} sees the jar come in. He says, 'We did not ask,' and, after a time, 'We did not expect.' It is as near as the Owls come to an oath.".
+  }
+  Action cm_take_owl(actor: group, site: place) "Take the Owls' offer: the round-eyed domino, the snuffer-pole and the yard's name for it" {
+    Speaker steward.
+    Requires able(actor) and company(actor) and at(actor, site) and at(steward, site) and wears(actor, face_owl) and cm_decided(party, cm_t_lamp) and not cm_in(party, cm_t_lamp) and not cm_kept_bare(party, cm_t_lamp)
+      and not dr_strike_on(party) and not dr_strike_broken(party) and publicHours().
+    Time 6.
+    Grave "A face of your own is a face of your own: the Owl is yours for good, and with it the Owls' quarrels, which are not light.".
+    On success { Assert cm_in(party, cm_t_lamp). Assert holdsFace(actor, face_owl). Assert fitted(actor, face_owl). Retract rented(actor, face_owl). Give cm_snuffer to actor. Increase quantity(actor, gold) by 8. Increase goodwill(face_owl) by 2. }
+    Result "The steward takes a brass key from his ring and hangs it round your neck on a lamp-wick, which is how the Owls do it. 'The yard's gate,' he says. 'You may come and go.' The domino, he says, was cut for nobody; the Owls cut a few every spring, and put them by, against someone. They gave it you in the rain, and it fits.".
+  }
+  Action cm_keep_pole(actor: group, site: place) "Take the Owls' wage and the snuffer-pole, and stay Bare: a stranger who lights lamps" {
+    Speaker steward.
+    Requires able(actor) and company(actor) and at(actor, site) and at(steward, site) and cm_decided(party, cm_t_lamp) and not cm_in(party, cm_t_lamp) and not cm_kept_bare(party, cm_t_lamp) and not dr_strike_broken(party).
+    Time 6.
+    On success { Assert cm_kept_bare(party, cm_t_lamp). Give cm_snuffer to actor. Increase quantity(actor, gold) by 8. }
+    Result "'Bare,' says {steward}. He weighs the word, as he would weigh a measure of oil. 'The Owls pay a pole, whoever has it. It is not a lamp-trimmer's to put a name in the yard for a face he has not seen.' He puts eight coin in your hand and the pole on top. 'It is a good pole. The offer does not go off.'".
+  }
+  Observe cm_dim_lamps at drip_landing when cm_lamps_dim(party) and privateHours() and not dr_strike_on(party) "The lamps of the landing burn low and yellow, three-quarters full, and from the windows over the Drip a small, steady light comes from a hundred stubs. Somebody has been generous with a gill.".
+
+  // ═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+  // THE CHANDLER. Dorcas Crumb weighs with her thumb. A customer is a thief, and a short weight is the market's custom.
+  // ═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+  Action cm_tally_stock(actor: group, site: place) "Tally the stall's tallow and timber and thread against Mistress Crumb's book" {
+    Speaker cm_crumb.
+    Requires able(actor) and company(actor) and at(actor, site) and at(cm_crumb, site) and masked(actor) and publicHours() and cm_crumb_asked(party) and not cm_began(party, cm_t_chandler).
+    Resolve check(actor, lore, dc_fair).
+    Time 6.
+    On success { Assert cm_began(party, cm_t_chandler). }
+    Otherwise "You come out with eleven pounds of tallow more than there is. Mistress Crumb recounts without a word, a candle at a time, and finds that it is you that has the shelf wrong. 'Tallow is not a thing you can do on your fingers,' she says. 'Do it on the shelf.' You may try again.".
+    Result "You do it as she does it, on the shelf, a candle at a time, with a pencil behind each ear: forty-one pounds of tallow against forty-three in the book, and a thread ledger that has been out by a skein since the spring. Mistress Crumb watches your pencil. At the end she says, 'Two pounds is a mouse. A skein is a daughter-in-law.' She makes a mark in the book with the air of one adding a name.".
+  }
+  Observe cm_teale_here at bread_market when at(cm_teale, bread_market) "A mild man in a Heron's cowl is standing at the stall turning over a card of wicks, one by one, with every sign of the keenest interest in wicks. A little behind him a small figure in a Cockle's domino is looking, with equal interest, at the sheet over the timber.".
+  Action cm_spot_thief(actor: group, site: place) "Watch the customer at the wicks, and his friend by the timber" {
+    Speaker cm_crumb.
+    Requires able(actor) and company(actor) and at(actor, site) and at(cm_crumb, site) and at(cm_teale, site) and cm_began(party, cm_t_chandler) and not cm_tested(party, cm_t_chandler) and not cm_thief_seen(party) and masked(actor).
+    Resolve check(actor, insight, dc_fair).
+    Time 3.
+    On success { Assert cm_thief_seen(party). }
+    Otherwise "He buys a wick. He is perfectly civil. When the mild man has gone you look under the sheet and find that two candles and a reel of good thread have gone with the friend, and Mistress Crumb is looking at you over her pencils with the patience of one who has seen the best and the worst of it. 'You will know next time,' she says. It is not forgiveness. It is arithmetic.".
+    On failure { Assert cm_stall_robbed(party). Assert cm_tested(party, cm_t_chandler). }
+    Result "He asks the price of wicks four times and the price of tallow twice, and each time he asks he moves a little further along the trestle, so that she must turn to answer him. His friend, a small figure in a Cockle's white, does not move at all. The hand, when it comes, comes under the sheet, and takes a reel of thread, and is gone. It is a very clean piece of work. It is a customer, and a pair of hands, and a market's whole patience at the thing in the middle.".
+  }
+  Action cm_catch_thief(actor: group, site: place) "Take the friend by the wrist, in front of the stall, with the thread in his hand" {
+    Speaker cm_crumb.
+    Requires able(actor) and company(actor) and at(actor, site) and at(cm_crumb, site) and cm_thief_seen(party) and not cm_tested(party, cm_t_chandler).
+    Resolve check(actor, brawn, dc_fair).
+    Time 3.
+    On success { Assert cm_thief_caught(party). Assert cm_tested(party, cm_t_chandler). }
+    Otherwise "You have a handful of Cockle's white and then you have not: he goes under the trestle and out the far side like an eel from a net, and the mild man, who has been looking at wicks, is now looking at the sky. 'Well,' says Mistress Crumb, 'that is two for you.' She means the thread.".
+    On failure { Assert cm_stall_robbed(party). Assert cm_tested(party, cm_t_chandler). }
+    Result "He is a boy of fourteen in a Cockle's white that is too big, with a reel of Mistress Crumb's best thread in his sleeve. The mild man has gone from the trestle as if he had never been at it. Mistress Crumb looks at the boy for a long time. She takes the thread, and the reel's worth, and the boy's ear. 'The Watch would have him by the neck in an hour,' she says, to you. 'Ask me what I shall do with him.' She does not say. You see her put a loaf in his hand as she sends him off.".
+  }
+  Action cm_warn_thief(actor: group, site: place) "Tell the mild man quietly that you have seen, and let him and his friend go" {
+    Speaker cm_teale.
+    Requires able(actor) and company(actor) and at(actor, site) and at(cm_teale, site) and cm_thief_seen(party) and not cm_tested(party, cm_t_chandler).
+    Time 3.
+    On success { Assert cm_thief_let(party). Assert cm_tested(party, cm_t_chandler). }
+    Result "You tell him, a card of wicks away, in a pleasant voice, that you have seen. He does not stop turning the card. He says, in the same voice, that he is sure he does not know what you mean, and that he will not trouble the lady for wicks after all; and a moment later the small figure by the timber has put a reel of thread back under the sheet, and the two of them are going away toward the landing in the rain at a pace that has nothing to do with it. It has cost the stall nothing but a customer.".
+  }
+  Action cm_tell_crumb(actor: group, site: place) "Tell Mistress Crumb quietly what you have seen, and leave it to her" {
+    Speaker cm_crumb.
+    Requires able(actor) and company(actor) and at(actor, site) and at(cm_crumb, site) and cm_thief_seen(party) and not cm_tested(party, cm_t_chandler).
+    Time 3.
+    On success { Assert cm_thief_told(party). Assert cm_tested(party, cm_t_chandler). }
+    Result "She does not turn her head. 'Third wick from the left,' she says, so that you must think she is talking to herself, 'and the small one by the timber.' She weighs a candle in her palm, and sets it down, and by the time she has set it down the mild man is looking at the stall as if he had never seen it, and the small one is at the end of the lane, going. 'It is a poor thing,' she says, 'that a stall must be watched. I thank you.' It is not an unprofitable thing to be thanked by Mistress Crumb. It is the only coin she gives.".
+  }
+  Action cm_weight_refuse(actor: group, site: place) "Weigh every pound of tallow honest, and tell Mistress Crumb it is not the stall's to keep back an ounce" {
+    Speaker cm_crumb.
+    Requires able(actor) and company(actor) and at(actor, site) and at(cm_crumb, site) and masked(actor) and cm_tested(party, cm_t_chandler) and not cm_decided(party, cm_t_chandler) and publicHours().
+    Time 6.
+    On success { Assert cm_decided(party, cm_t_chandler). Assert cm_weight_refused(party). }
+    Result "She has told you what the margin is: a stall must make an ounce on a pound or it is not a stall, since the Row's tallow-brokers have put the pound up a farthing and the Drip will not pay it. 'A pound is fifteen ounces,' says Mistress Crumb, 'and always has been, to the market's scales.' You weigh them honest. The customers do not notice. You notice, at the end of the afternoon, that the till is light by the sum of every ounce. She does not say anything. She puts the pencil behind her ear. 'You will be a very honest poor Cockle,' she says. 'It is rare.'".
+  }
+  Action cm_weight_comply(actor: group, site: place) "Weigh the pound at fifteen ounces, as the market's scales weigh it, and say nothing" {
+    Speaker cm_crumb.
+    Requires able(actor) and company(actor) and at(actor, site) and at(cm_crumb, site) and masked(actor) and cm_tested(party, cm_t_chandler) and not cm_decided(party, cm_t_chandler) and publicHours().
+    Time 6.
+    On success { Assert cm_decided(party, cm_t_chandler). Assert cm_weight_complied(party). Decrease goodwill(face_cockle) by 1 or to nothing. }
+    Result "'A pound is fifteen ounces to the market's scales,' says Mistress Crumb, and weighs it. You weigh as she weighs: thumb on the pan, margin in the till. Nobody in the Drip has ever seen it. A woman with a basket takes her pound of tallow and goes away light, and does not know it, and does not ever; and at the end of the afternoon Mistress Crumb counts the till and says, 'There. A stall.' She does not look at you. It is the sound of a person being forgiven a thing in advance.".
+  }
+  Action cm_weight_pay(actor: group, site: place) "Weigh every pound honest, and make up the ounce from your own purse at the day's end" {
+    Speaker cm_crumb.
+    Requires able(actor) and company(actor) and at(actor, site) and at(cm_crumb, site) and masked(actor) and cm_tested(party, cm_t_chandler) and not cm_decided(party, cm_t_chandler) and quantity(actor, gold) >= 5 and publicHours().
+    Time 6.
+    On success { Assert cm_decided(party, cm_t_chandler). Assert cm_weight_paid(party). Decrease quantity(actor, gold) by 5. Increase goodwill(face_cockle) by 2. }
+    Result "You weigh them honest, and when the stall shuts you put five coin on the trestle, the sum of the ounces. It is the margin; it is not a gift; you have bought the Row's farthing for her, a day at a time, and she may do what she likes with it. Mistress Crumb counts it twice. 'I shall not say I did not need it,' she says. 'I shall say I did not ask.' She puts it in the till. For the first time that day she looks at the hands that have been weighing, and not at the scale.".
+  }
+  Action cm_take_cockle(actor: group, site: place) "Take Mistress Crumb's offer: the Cockle, the stall's brass scale and a name at the bread-market" {
+    Speaker cm_crumb.
+    Requires able(actor) and company(actor) and at(actor, site) and at(cm_crumb, site) and wears(actor, face_cockle) and cm_decided(party, cm_t_chandler) and not cm_in(party, cm_t_chandler) and not cm_kept_bare(party, cm_t_chandler) and publicHours().
+    Time 6.
+    Grave "A face of your own is a face of your own: the Cockle is yours for good, and the bread-market's good opinion with it, which is not cheap to keep.".
+    On success { Assert cm_in(party, cm_t_chandler). Assert holdsFace(actor, face_cockle). Assert fitted(actor, face_cockle). Retract rented(actor, face_cockle). Give cm_scale to actor. Increase quantity(actor, gold) by 10. Increase goodwill(face_cockle) by 2. }
+    Result "'It is not mine to give,' says Mistress Crumb, and takes the Cockle's white from a peg at the back of the stall, where it has hung since her husband's day, and puts it on you with her own hands. She hands you the brass scale. 'Do not tell me what it weighs. I shall guess.' Ten coin for the month. 'The bread-market has a face for those that weigh honest, or honestly enough. You have the thumb for it.'".
+  }
+  Action cm_keep_stall(actor: group, site: place) "Take the stall's wage and the brass scale, and stay Bare: a stranger who weighs" {
+    Speaker cm_crumb.
+    Requires able(actor) and company(actor) and at(actor, site) and at(cm_crumb, site) and cm_decided(party, cm_t_chandler) and not cm_in(party, cm_t_chandler) and not cm_kept_bare(party, cm_t_chandler) and publicHours().
+    Time 6.
+    On success { Assert cm_kept_bare(party, cm_t_chandler). Give cm_scale to actor. Increase quantity(actor, gold) by 10. }
+    Result "'Bare,' says Mistress Crumb, to the pan of the scale, and weighs the word and finds it about an ounce. 'I do not ask a person to put on a thing they have not come for.' Ten coin and the brass scale. 'The offer stands. It is a stall: it will be here.'".
+  }
+  Action cm_buy_sack(actor: group, site: place) "Buy a sack of barley at the stall's cost price, for the Saint's pot" {
+    Speaker cm_crumb.
+    Requires able(actor) and company(actor) and at(actor, site) and at(cm_crumb, site) and cm_began(party, cm_t_chandler) and not cm_sack_bought(party) and quantity(actor, gold) >= 6 and not dr_pot_secured(party) and not dr_kitchen_shut(party) and publicHours().
+    Time 3.
+    On success { Assert cm_sack_bought(party). Decrease quantity(actor, gold) by 6. Increase dr_supply(party) by 3. }
+    Result "'At cost,' says Mistress Crumb, 'which is not what I charge, and is what the Saint would pay if she paid.' She does not look at the sack. She has put it on your shoulder, and the six coin in the till, and written it in the book as *barley, spoilt*, in case anybody asks.".
+  }
+
+  // ── The Tibb's notice, and the body a worker earns ───────────────────────────────────────────────────────────────────
+  Topic cm_tibb_notes with tibb "Say that you have a trade's face of your own, and ask whether the Hospice must count you" when cm_trades(party) >= 1 and not cm_tibb_told(party) once {
+    Says "Mother Tibb looks at the domino for the length of a sheet being turned. 'Ah,' she says. She takes her pencil and draws a line through something in the margin, and writes beside it, carefully, in a smaller hand. 'Twelve I have sent out of that gate,' she says, 'and eleven of them Bare, and they were all good people. You are the first I have lost to a face.' She does not say whether this is a loss. 'You will not be on the count. It is quite another thing to be on the Guild's. Come and sit by the stove when it is cold.'".
+    On discuss { Assert cm_tibb_told(party). }
+  }
+  Action cm_worker_body(actor: group, reader: member) "Have {reader} take on the work of three trades, and come out of it harder" {
+    Requires memberOf(reader, actor) and awake(reader) and at(actor, bread_market) and cm_trades(party) >= 3 and not cm_body_endowed(party) and publicHours().
+    Time 36.
+    Resolve endow(reader, constitution, by_one).
+    On success { Assert cm_body_endowed(party). }
+    Result "{reader} spends the day at three trades in turn, as a Gull and an Owl and a Cockle, lifting what was heavy, climbing what was high, standing for the whole of a market day. By dusk there is a slowness in the legs and a width in the back that was not there at the Third Bell. It is a worker's body. It is not given. It is earned by the day.".
+  }
+
+  // ═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+  // THE PROCESSION. On the ninth night the Trades walk to the Chapel. It asks two trades that have taken the company in
+  // and a city that is not on strike.
+  // ═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+  Rule cm_procession_ready when cm_trades(party) >= 2 and dr_strike_settled(party) and not handReady(party, hand_procession) { Assert handReady(party, hand_procession). }
+  Action cm_walk_procession(actor: group) "Walk the Trades' procession down into the Urn Hall, in your own face" {
+    Requires able(actor) and company(actor) and at(actor, urn_hall) and drawingNight() and handReady(party, hand_procession) and not handPlayed(party, hand_procession) and masked(actor).
+    Time 6.
+    On success { Assert handPlayed(party, hand_procession). Assert cm_walked(party). Set handWay(hand_procession) to cm_trades(party). Assert arcDone(party, hand_procession). }
+    Result "They come down the Urn Hall stair behind you in their trades: the Gulls with their boat-hooks, with the gull's eye in the butt; the Owls with the lamps lit on their poles, one by one, as they come; the Cockles with a loaf on each shoulder, white, in a basket, like a banner. They do not shout. They do not say whose they are. They stand in the Urn Hall in their old patched masks, wet to the knee, and take up the room that a Drawing has, and a great many masked people who had not thought of the Drip look at it. It is not a rising. It is a presence. It is, you think, how the Drip has always said what it means, which is by arriving.".
+  }
+
+  // ── Mistress Crumb's closing account ─────────────────────────────────────────────────────────────────────────────────
+  Rule cm_fate_dill_book when newsHour() and cm_fare_book(party) once says "Of Bertram Dill: he left his button on the Drip stage and went up the Row on foot, by the Mercy Cut, in the rain, and had his quarter's wages by the Fourth Day and his place back by the Seventh. He sends the Guild's table a penny every Thursday, in a clean envelope, as a person sends a thing to the one who refused him, and means it as thanks." { }
+  Rule cm_fate_dill_free when newsHour() and cm_fare_free(party) once says "Of Bertram Dill: he was carried across the Cuff for nothing by a stranger in a Gull's domino, and has never forgiven it. He has the quarter's wages, and the place, and he walks to the Row on foot now, the long way, round by the bridges, so as not to be a person who owes a boat." { }
+  Rule cm_fate_dill_penny when newsHour() and cm_fare_penny(party) once says "Of Bertram Dill: he had his quarter's wages and rode the Patience to the Row in the morning, every morning, for a penny. He says the penny is the best coin in his purse. When somebody asks him what it is for he tells them that a fare is a fare, and goes red, and looks round to see whether the Gull has heard." { }
+  Rule cm_fate_lampboys_refused when newsHour() and cm_oil_refused(party) once says "Of the lamp-boys' oil: the Owls filled the lamps full, and the Drip was bright on the ninth night as it has not been for a generation, and in the windows over the lanes there were a few more dark than there had been. Jory Wickham sent a jar round by the back door, on the quiet, in his own name, and did not say." { }
+  Rule cm_fate_lampboys_complied when newsHour() and cm_oil_complied(party) once says "Of the lamp-boys' oil: the Owls kept their gill, as they have always kept it, and in a hundred small windows over the Drip a child read by a stub, and the lamps burned a little low. Nobody noticed. It is what a gill is. Somebody in the yard has begun to say the oil-factor ought to be asked, and somebody else has told him it is not an Owl's business." { }
+  Rule cm_fate_lampboys_paid when newsHour() and cm_oil_paid(party) once says "Of the lamp-boys' oil: a jar came round from the oil-factor's boy at the Row quay to every family in the lamp-house, at the factor's own gill, and was paid for by a stranger in an Owl's domino, and nobody could say which. The lamps burned full. The yard has a new custom, which is that on the first of the month somebody puts a measure in the jar and does not say whose." { }
+  Rule cm_fate_crumb_refused when newsHour() and cm_weight_refused(party) once says "Of Mistress Crumb: she weighs honest now, on the stall that was hers and her husband's, and the till is light by an ounce a pound, and she says so to anybody. The Drip says it has never been so well weighed, and has begun to give her a farthing over the price without knowing why. She has taken the pencil from behind one ear. She does not say that she is sorry." { }
+  Rule cm_fate_crumb_complied when newsHour() and cm_weight_complied(party) once says "Of Mistress Crumb: the stall makes its margin, and the till is full, and she has never been so well liked. Nobody in the Drip has ever had a short pound off her that she did not give them in kindness. It is what a stall is. She sits behind the trestle at night in the Cockle's white, and weighs a candle in her palm, and does not put it down." { }
+  Rule cm_fate_crumb_paid when newsHour() and cm_weight_paid(party) once says "Of Mistress Crumb: she weighs honest, and a stranger in the Cockle's white puts five coin on the trestle at the day's end, and she says she did not ask. It has been in the till since the Novena. She has not spent it. It is the only coin in her till she keeps in a drawer, and she shows it to her granddaughter on feast days, and tells her what it is for." { }
+  Rule cm_fate_crumb_caught when newsHour() and cm_thief_caught(party) once says "Of Mistress Crumb: the boy in the Cockle's white sweeps her stall now, in the mornings, on a wage of one loaf. She says she could not have the Watch have him. She says it with a sniff, and a look at her own hands, and a good deal of unnecessary scrubbing of the trestle." { }
+  Rule cm_fate_crumb_let when newsHour() and cm_thief_let(party) once says "Of Mistress Crumb: she never knew that a mild man in a Heron's cowl and a small Cockle by the timber were put politely out of her stall by a stranger, and the thread was put back under the sheet. She says it was a good week for thread. She has noticed that the same two have not been seen again in the market; she says they must have found a better stall, and weighs a candle in her palm, and is not at all sure which of them she means." { }
+  Rule cm_fate_crumb_told when newsHour() and cm_thief_told(party) once says "Of Mistress Crumb: she saw a mild man and his friend off her stall with the third wick from the left and a word, and has had it said of her in the market that she has an eye in the back of her cap. She has not corrected anybody. It is, she says, a stall that is watched; and she thanks, very drily, whoever watched it." { }
+  Rule cm_fate_crumb_robbed when newsHour() and cm_stall_robbed(party) once says "Of Mistress Crumb: the stall lost two candles and a reel of thread to a mild man in a Heron's cowl, and she says it was her own fault, which it was not, and she has had a bell hung on the sheet over the timber, which rings at every wind. She has begun to say that it is the only honest thing in the market." { }
+
+  Milestone cm_m_ferry "was taken in by the Ferrymen of the Drip, or took their wage, and learned the Cuff" worth 50 when cm_in(party, cm_t_ferry) or cm_kept_bare(party, cm_t_ferry).
+  Milestone cm_m_lamp "was taken in by the Owls, or took their wage, and lit the Drip's round" worth 50 when cm_in(party, cm_t_lamp) or cm_kept_bare(party, cm_t_lamp).
+  Milestone cm_m_chandler "was taken in by the bread-market's Cockles, or took Mistress Crumb's wage" worth 50 when cm_in(party, cm_t_chandler) or cm_kept_bare(party, cm_t_chandler).
+  Milestone cm_m_trades "carried the Trades into the Urn Hall" worth 75 when cm_walked(party).
 }
