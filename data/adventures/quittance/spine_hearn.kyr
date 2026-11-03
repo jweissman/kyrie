@@ -49,7 +49,6 @@ Module quittance "Quittance" {
     On discuss { Assert knows(actor, d_return_1). Assert knows(actor, d_return). Set lucidUntil(auberon) to watch(clock). }
   }
   Rule return_learned when knows(party, d_return_1) and knows(party, d_return_2) and knows(party, d_return_3) and not returnLearned(party) { Assert returnLearned(party). }
-  Discovery d_return_3 "The third line of the Return, from the Founders' own paper: 'Quit, and welcome.'".
   Rule auberon_second_stage when returnLearned(party) and arc(auberon) < 2 { Set arc(auberon) to 2. }
   Topic auberon_say_back with auberon "Say the three lines of the Return back to him, in order" when returnLearned(actor) and watch(clock) < lucidUntil(auberon) once {
     Says "You say it: what was lent is not lost; what was kept is returned; quit, and welcome. The old man is quite still. His eyes have filled, and he does not seem to know it. 'Yes,' he says. 'That is the one.' He reaches out and takes hold of the nearest of you by the sleeve. 'You will say it for me,' says Auberon Hearn. 'I have been so afraid there would be nobody who could.' He lets go. 'The key is in the clock,' he says. 'And the coal is yours to carry. Do not let it go out.'".
@@ -74,4 +73,5 @@ Module quittance "Quittance" {
     Result "'Another,' says Auberon. 'Yes. If it is for the right sort of house.' His hand is steadier this time. 'I have not given two in my life.'".
   }
   Rule hearn_keeps_hill when arc(auberon) >= 2 and not keeper(hill) { Assert keeper(hill). }
+  Rule return_said_below when returnLearned(party) and at(party, hearth_below) and not returnSaid(party) { Assert returnSaid(party). }
 }
