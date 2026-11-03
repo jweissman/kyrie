@@ -268,7 +268,7 @@ export class ChoiceGrouping {
     if (told) { leaf.about = told; }
     const data = { choice: choice.name, b, context };
     const path = rule.path.map(text => this.fill(text, data));
-    if (rule.path.at(-1) === 'for {recipient}' && b.find && b.recipient && context.carrier?.(b.find)) {
+    if (rule.path.at(-1)?.startsWith('for {recipient}') && b.find && b.recipient && context.carrier?.(b.find)) {
       if (context.carrier(b.find) !== b.recipient) { return; }
       path.pop(); if (!context.solo) { leaf.by = [context.names.get(b.recipient) ?? b.recipient]; }
     } else if (context.solo && rule.path.at(-1) === 'for {recipient}') { path.pop(); }

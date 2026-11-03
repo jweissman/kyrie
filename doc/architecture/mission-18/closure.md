@@ -42,7 +42,10 @@ These are the first things Mission 19 must measure rather than build.
 
 ## Evidence
 
-- **Tests.** The quick suite (1,362 tests) and the slow suite (601 tests), both green. The slow suite is now run
+- **Tests.** The quick suite (1,362 tests), the slow suite (601), the browser specs (58) and the long descents, all
+  green locally on 3 November. CI was red on main from 2 to 3 November: the Long Man's browser spec caught a regression
+  of mine (a ware bought in a company was offered to every member: M18-12), and a long descent named a drover renamed
+  by a fix to names. Both are repaired. The slow suite is now run
   locally before any push that changes text or labels: two pushes went to CI red on slow journeys this week, and the
   quick suite alone cannot see them.
 - **Browser plays.** Through the reader's visible controls (scratch drivers for the town loop and for creation), every
