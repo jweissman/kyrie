@@ -1,3 +1,138 @@
 Module quittance "Quittance" {
-  Description "spine (stub).".
+  Description "What the city does while the company is elsewhere: the Appointed Nights, Candlewick Court and Gasket Yard, the Great Tithe at Reckoning, Skelter's rent-book, the acts, and the day's Slate.".
+
+  // ── The Appointed Losses ────────────────────────────────────────────────────────────────────────────────
+  // Prewitt's list. A block of the Bare Wards is burned on an Appointed Night, with notice given a week early by a
+  // rent-collector. The first, Candlewick Court, burns in the small hours of day 3 (watch 390); the second,
+  // Gasket Yard, in the small hours of day 6 (watch 822); the Great Tithe, the Cinder Ward, at Reckoning midnight
+  // (watch 1248). Each can be warned, stopped, or witnessed; none waits for the company.
+  Relation burned(place). Relation candlewickSaved(group). Relation candlewickWarned(group).
+  Relation gasketSaved(group). Relation gasketWarned(group). Relation appointedHalted(group).
+  Measure casualties(group).
+
+  Person torchmen "the torchmen" at skelter_room {
+    Role "three hired men with oil-cans and a handcart". Ancestry human. Calling thief. Level 2. Numbers 3. Pronouns they.
+    Temperament territorial.
+    Warns "The handcart stops. 'Move along,' says the biggest, quite gently. 'This court's been declared a hazard. We're here to see it abated.' The others set down the oil-cans and look at you in the way men look at a task that is going to be harder than they were told.".
+    Comes "They come at you with the oil-cans swinging, and one of them, you notice, has been crying.".
+    Flinches "The torchmen back away down the lane with the handcart rattling.".
+    Pleads "'I was told it was empty,' says the biggest, with his hands up. 'They said it was empty.'".
+    Refuge skelter_room.
+    Lair candlewick.
+  }
+  Person burners "Skelter's men" at skelter_room {
+    Role "four hired men with lamp-oil and a pole-ladder". Ancestry human. Calling warrior. Level 3. Numbers 4. Pronouns they.
+    Temperament territorial.
+    Warns "Four men stand in the mouth of the yard with their oil, between you and the well. 'The Court is condemned,' says the foreman. 'Official. Move along, or be condemned with it.'".
+    Comes "The foreman drops the oil-can and pulls a billet of wood from his belt. 'Right,' he says, with great weariness.".
+    Flinches "The men break and go, leaving a pole-ladder and a smell of oil.".
+    Pleads "'We've families,' says the foreman. 'Don't. We've families.'".
+    Refuge skelter_room.
+    Lair gasket_yard.
+  }
+  Rule torchmen_to_candlewick when watch(clock) >= 384 and not candlewickSaved(party) and not burned(candlewick) and not appointedHalted(city) and not at(torchmen, candlewick) { Assert at(torchmen, candlewick). }
+  Rule burners_to_gasket when watch(clock) >= 816 and not gasketSaved(party) and not burned(gasket_yard) and not appointedHalted(city) and not at(burners, gasket_yard) { Assert at(burners, gasket_yard). }
+  Rule candlewick_saved_by_force when (routed(torchmen) or dead(torchmen)) and not candlewickSaved(party) and not burned(candlewick) { Assert candlewickSaved(party). }
+  Rule gasket_saved_by_force when (routed(burners) or dead(burners)) and not gasketSaved(party) and not burned(gasket_yard) { Assert gasketSaved(party). }
+  Rule candlewick_burns when watch(clock) >= 390 and not burned(candlewick) and not candlewickSaved(party) and not appointedHalted(city) {
+    Assert burned(candlewick). }
+  Rule candlewick_burns_dead when burned(candlewick) and not candlewickWarned(party) and not candlewickCounted(city) { Increase casualties(city) by 19. Assert candlewickCounted(city). }
+  Rule candlewick_burns_empty when burned(candlewick) and candlewickWarned(party) and not candlewickCounted(city) { Assert candlewickCounted(city). }
+  Relation candlewickCounted(group). Relation gasketCounted(group).
+  Rule gasket_burns when watch(clock) >= 822 and not burned(gasket_yard) and not gasketSaved(party) and not appointedHalted(city) {
+    Assert burned(gasket_yard). }
+  Rule gasket_burns_dead when burned(gasket_yard) and not gasketWarned(party) and not gasketCounted(city) { Increase casualties(city) by 31. Assert gasketCounted(city). }
+  Rule gasket_burns_empty when burned(gasket_yard) and gasketWarned(party) and not gasketCounted(city) { Assert gasketCounted(city). }
+  Rule torchmen_gone when watch(clock) >= 400 and at(torchmen, candlewick) and (burned(candlewick) or candlewickSaved(party)) and not routed(torchmen) { Assert at(torchmen, skelter_room). }
+  Rule burners_gone when watch(clock) >= 832 and at(burners, gasket_yard) and (burned(gasket_yard) or gasketSaved(party)) and not routed(burners) { Assert at(burners, skelter_room). }
+
+  Observe torchmen_at_court at candlewick when at(torchmen, candlewick) and not burned(candlewick) "Three men with oil-cans and a handcart are standing at the mouth of the court in the dark, waiting for a church clock to strike something.".
+  Observe candlewick_burnt at candlewick when burned(candlewick) and not candlewickWarned(party) "Seven black shells round a pump. The smell is wet ash and something under it. Women are walking among the timbers, not speaking, turning things over with their feet; a man sits by the pump with a baby that is not his. Nobody has come from any brigade. There is no mark on any of the doors to come for.".
+  Observe candlewick_burnt_empty at candlewick when burned(candlewick) and candlewickWarned(party) "Seven black shells round a pump, and the people of the Court standing in the lane in their nightclothes, counting one another, all of them present. A woman is holding a clock. A child is holding a cat. Nobody has come from any brigade. There is no mark on any of the doors to come for.".
+  Observe candlewick_saved_scene at candlewick when candlewickSaved(party) "Seven timber houses round a pump, black with smoke and standing. An oil-can lies where it was dropped, and the women have been round it twice to look.".
+  Observe gasket_burnt at gasket_yard when burned(gasket_yard) "A square of black timber round a dry well. The notice is still pasted to the well-head, in its clerk's hand, with a corner burned off. What is left of it says: DECLARED A HAZARD. ABATED.".
+
+  // ── The Great Tithe ─────────────────────────────────────────────────────────────────────────────────────
+  Relation tithePrepared(group). Relation titheBurned(group).
+  Rule tithe_prepared when watch(clock) >= 1230 and not appointedHalted(city) and not tithePrepared(city) says "Down in the Cinder Ward a handcart goes by in the dark with its wheels bound in rag." { Assert tithePrepared(city). }
+  Rule tithe_burns when watch(clock) >= 1248 and tithePrepared(city) and not appointedHalted(city) and not titheBurned(city) {
+    Assert titheBurned(city). Assert burned(cinder_ward). Increase casualties(city) by 400. }
+
+  // ── Skelter's rent-office ───────────────────────────────────────────────────────────────────────────────
+  // Skelter keeps the list. By day he is in his office from nine until noon and from two until six; from noon until two
+  // he is out collecting. The door is locked from the inside when he is in; the desk is always locked.
+  Item skelter_item "Skelter's rent-book" is skelter_book at nowhere.
+  Thing skelter_door "the rent-office door" on market_skelter {
+    Tries listening.
+    State locked blocking "The rent-office door is shut, and a bolt shoots home on the other side when anyone leans on it.".
+    State open "The rent-office door stands open on the hatch and the grating.".
+    Change pick "Pick the rent-office lock" from locked to open needing lockwork.
+    Change force "Put a shoulder to the rent-office door" from locked to open needing brawn.
+  }
+  Observe skelter_door_listened near skelter_door when tried(skelter_door, listening) "Behind the door a pen scratches steadily, stops, scratches again. There is the clink of a coin counted twice.".
+  Thing skelter_desk "Skelter's desk" at skelter_room {
+    Holds.
+    State locked closed "A stout desk stands behind the grating, locked, and a heavy book lies on top of it with its spine to the wall.".
+    State open "The desk stands open. A shelf of oilcloth-bound books lies inside.".
+    Change pick_desk "Pick the desk's lock" from locked to open needing lockwork.
+    Change force_desk "Break the desk's lock with a bar" from locked to open needing crowbar.
+  }
+  Rule skelter_out when hour(clock) == 12 and at(skelter, skelter_room) { Assert at(skelter, night_market). }
+  Rule skelter_back when hour(clock) == 14 and at(skelter, night_market) { Assert at(skelter, skelter_room). }
+  Relation skelterTold(group). Relation skelterBribed(group). Relation skelterFrightened(group). Relation skelterConned(group).
+  Topic skelter_rent with skelter "Ask Mr Skelter what the rent is on the Court" when at(skelter, skelter_room) once {
+    Says "'Seven shillings and fourpence a week the house,' says Mr Skelter. 'It is the lowest rent in the city, and the most trouble.'".
+  }
+  Action bribe_skelter(actor: group, site: place) "Offer Mr Skelter thirty coin for the page that lists the next block" {
+    Speaker skelter.
+    Requires able(actor) and company(actor) and at(actor, site) and at(skelter, site) and quantity(actor, gold) >= 30 and not skelterBribed(actor) and not holding(actor, skelter_book).
+    Time 15 minutes.
+    On success { Decrease quantity(actor, gold) by 30. Assert skelterBribed(actor). Assert knows(actor, d_gasket_next). Assert knows(actor, d_list_exists). Assert skelterTold(actor). }
+    Result "Mr Skelter looks at the coins, and at the grating, and at the door. 'Gasket Yard,' he says, 'the second night. It's in the margin, if you must know. I did not tell you. If you ask me again I'll say I've never seen you.' The coins are gone from the counter before you've seen him move.".
+  }
+  Action frighten_skelter(actor: group, site: place) "Tell Mr Skelter what a Hearing does to a man who keeps two columns" {
+    Speaker skelter.
+    Requires able(actor) and company(actor) and at(actor, site) and at(skelter, site) and not skelterFrightened(actor) and not holding(actor, skelter_book).
+    Time 15 minutes.
+    Resolve check(actor, intimidation, dc_hard).
+    On success { Assert skelterFrightened(actor). Give skelter_item to actor. Assert knows(actor, d_skelter_book). }
+    On failure { Assert skelterFrightened(actor). }
+    Result "Mr Skelter's pen stops. He says nothing for the length of a church clock's quarter. Then he reaches under the counter, and pushes the book through the hatch with the flat of his hand, as if it were something hot. 'It's not mine,' he says. 'It never was.'".
+    Otherwise "Mr Skelter smiles, which is worse. 'Out,' he says. 'I have a man in the next room who does sums for the Chief Underwriter. I am sure he would be interested in yours.'".
+  }
+  Action con_skelter(actor: group, site: place) "Show Mr Skelter the Phoenix's writ and ask for the book, for the audit" {
+    Speaker skelter.
+    Requires able(actor) and company(actor) and at(actor, site) and at(skelter, site) and holding(actor, phoenix_writ) and not skelterConned(actor) and not holding(actor, skelter_book).
+    Time 15 minutes.
+    Resolve check(actor, deception, dc_fair).
+    On success { Assert skelterConned(actor). Give skelter_item to actor. Assert knows(actor, d_skelter_book). }
+    On failure { Assert skelterConned(actor). }
+    Result "Mr Skelter reads the writ twice, holds it to the light, and sighs. 'About time,' he says. 'I was beginning to think nobody checked.' The book comes through the hatch. He looks, you think, relieved.".
+    Otherwise "'The Chief Underwriter,' says Mr Skelter slowly, 'has a very particular hand. This is a good copy.' He does not move.".
+  }
+  Action take_book(actor: group, site: place) "Take the oilcloth-bound book from Skelter's desk" {
+    Requires able(actor) and company(actor) and at(actor, skelter_room) and state(skelter_desk, open) and not holding(actor, skelter_book) and not at(skelter, skelter_room).
+    Time 3 minutes.
+    On success { Give skelter_item to actor. }
+    Result "You lift the top book from the shelf. Its spine is cracked at a single page.".
+  }
+  Action read_book(actor: group, site: place) "Read Skelter's rent-book" {
+    Requires able(actor) and company(actor) and at(actor, site) and holding(actor, skelter_book) and not knows(actor, d_prewitt_appoints).
+    Time 20 minutes.
+    On success { Assert knows(actor, d_skelter_book). Assert knows(actor, d_prewitt_appoints). Assert knows(actor, d_gasket_next). Assert knows(actor, d_list_exists). Assert knows(actor, d_appointed_notice). }
+    Result "The rents are in black ink and the second column in red. Down the margin, in a hand like a row of pins, run dates a week before each fire, and against each, initials: S.P. Candlewick Court. Gasket Yard. At the foot of the last page, for the night of Reckoning, in the same hand: Cinder Ward, approx. 3,000; abate.".
+  }
+
+  // ── The acts ────────────────────────────────────────────────────────────────────────────────────────────
+  Chapter act_one "Assessment" when day(clock) == 0 and hour(clock) >= 8 "The Honest Bell is still shivering somewhere behind you, or you imagine it is. The city is already awake. In nine days it will be Reckoning.".
+  Chapter act_two "Adjustment" when day(clock) == 3 and hour(clock) >= 6 "By morning the Slate has a new column, and the new column is mostly zeros. The Offices are very calm about it.".
+  Chapter act_three "Settlement" when day(clock) == 6 and hour(clock) >= 6 "The Hall of the Five is being swept. A man on a ladder is taking down last year's bunting. In three days the city is to hang its Receipt, and the Receipt, which you have seen, is the colour of milk.".
+  Chapter act_four "Reckoning" when day(clock) == 8 and hour(clock) >= 6 "The bells of the Exchange ring for the last time before the Reckoning. Every window in Policy Row has a candle in it, mark-insured, and not one of them is lit.".
+
+  // ── The Slate's news ───────────────────────────────────────────────────────────────────────────────────
+  Observe slate_candle_burnt at slip_room when burned(candlewick) and day(clock) >= 3 "TOTAL LOSSES: Candlewick Court, Bare Wards; uninsured; the Phoenix regrets. Nineteen persons are unaccounted for. The Provident Mutual of the Bare Wards (Penny) has chalked its own column beneath, in a different hand, which the boy on the ladder has been asked not to rub out.".
+  Observe slate_candle_empty at slip_room when burned(candlewick) and candlewickWarned(party) and day(clock) >= 3 "TOTAL LOSSES: Candlewick Court, Bare Wards; uninsured; the Phoenix regrets. No persons are reported lost; the Court was, it appears, evacuated beforehand, an irregularity which the Phoenix has noted.".
+  Observe slate_candle_saved at slip_room when candlewickSaved(party) and day(clock) >= 3 "FIXTURES: an attempted abatement in the Bare Wards, abandoned. The Phoenix has no comment. The boy on the ladder has written it very small.".
+  Observe slate_gasket_burnt at slip_room when burned(gasket_yard) and day(clock) >= 6 "TOTAL LOSSES: Gasket Yard, Bare Wards; uninsured; thirty-one persons unaccounted for. The Phoenix regrets.".
+  Observe slate_tithe at slip_room when burned(cinder_ward) "The Slate is blank. Someone has written across it, in a very large hand, QUITTANCE, and nobody will say who.".
 }
