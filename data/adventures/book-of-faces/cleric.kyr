@@ -1,2 +1,407 @@
 Module ombra "The Book of Faces" {
+  // ── The Confessional ──────────────────────────────────────────────────────────────────────────────────────────────
+  // The cleric's arc. In a city where nobody answers a bare face, the Chapel keeps one box where a masked person kneels
+  // to a bare one on purpose. Father Ansel has heard it behind a veil for forty years; since the Registrar's death
+  // he cannot, and lets whoever has the rites sit the grille. Three penitents come on the third, fifth and seventh
+  // nights, each in turn: a cooper in the Serene's mask who ran, a Warden of Locks who performs, a clerk who has
+  // hidden the Book. Each tells a little more each night, to someone who is trusted, and less to someone who is not.
+  //
+  // Three decisions fix what kind of Hearer the company took itself for. (1) Absolve, or set a penance: absolution
+  // costs the penitent nothing and changes nothing; a penance costs them something and may change them. (2) The seal:
+  // what is said in the box cannot be used. The Warden's confession exposes the one crime the Concord can prosecute;
+  // the company keeps the seal and proves it another way (the lamp-room, chapel.kyr), lets him report himself, or
+  // breaks the seal and carries the confession to the Watch, which costs it the grille. (3) At the Drawing Father
+  // Ansel asks the Hearer to bless the Draw, knowing what the Urn holds.
+  //
+  // Ids of mine that other files may read: `hearer(party)`; relations `cl_assigned`, `cl_seal_broken`,
+  // `cl_pell_penitent` (Pell has been heard at least once), `cl_pell_released` (Pell has agreed to put the Book down),
+  // `cl_hobb_unburdened`, `cl_lacke_spent`, `cl_lacke_reporting`, `cl_blessed_lie`, `cl_refused`, `cl_blessed_true` (and
+  // `handWay(hand_blessing)` 1 = lie blessed, 2 = refused, 3 = the people blessed); the item `cl_chit` that Pell gives.
+
+  Query hearer(c: group) means memberOf(?m, c) and brings(?m, rites).
+
+  Relation cl_assigned(group). Relation cl_seal_broken(group). Relation cl_pell_penitent(group). Relation cl_pell_released(group).
+  Relation cl_hobb_unburdened(group). Relation cl_hobb_eased(group). Relation cl_lacke_spent(group). Relation cl_lacke_reporting(group).
+  Relation cl_blessed_lie(group). Relation cl_refused(group). Relation cl_blessed_true(group). Relation cl_asked(group).
+  Measure cl_stage(group). Measure cl_trust(group). Measure cl_lastnight(group). Measure cl_waitnight(group). Measure cl_closed(group).
+  Relation cl_open(group). Relation cl_absolved(group). Relation cl_sealed(fact).
+  // What is learned in the box is sealed; the page and the journal say so, and the company's own acts decide what it does with it.
+  Initially Assert cl_sealed(cl_hobb_1). Initially Assert cl_sealed(cl_hobb_2). Initially Assert cl_sealed(cl_hobb_urn).
+  Initially Assert cl_sealed(cl_lacke_1). Initially Assert cl_sealed(cl_lacke_2). Initially Assert cl_sealed(cl_lacke_said).
+  Initially Assert cl_sealed(cl_clerk_1). Initially Assert cl_sealed(cl_clerk_2). Initially Assert cl_sealed(cl_pell_said).
+
+  // ── Father Ansel gives up the grille ──────────────────────────────────────────────────────────────────────────────
+  // The seal is a law of the Chapel older than the Concord: what is said in the box is said to nobody, and is not to
+  // be repeated, or used to the speaker's harm, by the Hearer who heard it; one who does so is not let sit the grille again.
+  Topic cl_ansel_assign with chaplain "Tell Father Ansel that you will sit the grille, if he cannot" when hearer(actor) and day(clock) >= 2 and day(clock) < 8 and not cl_assigned(actor) and ((masked(actor) and publicHours()) or (not masked(actor) and privateHours())) once {
+    Says "He puts a hand over his eyes. 'It is not that I cannot,' says Father Ansel, 'it is that I have begun to hear the wrong thing. Forty years. I listen through the grille, and what comes through is a voice, and under the voice is her voice, saying a thing I am not allowed to say. I cannot hear them any more. And they will come. They came to me because nobody would answer them in the street. They will come on the third night, and the fifth, and the seventh, because they have already begun.' He lowers the hand. 'Sit bare. A mask on the Hearer is a penitent. Hear them in the order they come. And, my dear. What is said in the box is said to nobody. If you carry it out, the grille is closed to you, and to the next, and to me.'".
+    On discuss { Assert cl_assigned(actor). Assert arcBegun(actor, hand_blessing). Assert knows(actor, cl_the_seal). }
+  }
+  Discovery cl_the_seal "The Chapel's seal: what a penitent says in the confessional is said to nobody; the Hearer may not repeat it or use it to the penitent's harm, and one who does is not let sit the grille again. A Hearer sits bare, at night, and hears the penitents in the order they come: the third night, the fifth and the seventh.".
+
+  // The penitents: voices behind a grille, who come masked to a bare Hearer, by schedule. A penitent is not identified
+  // by anything said to the Hearer: by what the Hearer already knows of the evening (the oak, the glove, the tape), or by
+  // what the Hearer has the wit to read, and a name is not to be said.
+  Query hearingNight() means (day(clock) == 3 or day(clock) == 5 or day(clock) == 7) and hour(clock) >= 20.
+  Query hearingOn() means hearingNight() and cl_assigned(party) and not cl_seal_broken(party).
+  // A masked Hearer is a penitent: with a face on, nobody kneels.
+  Query penitentsCome() means hearingOn() and not masked(party).
+  Person cl_cooper "the first penitent" at offstage {
+    Role "a cooper, who is the Serene". Ancestry human. Peaceable. Pronouns he. Manner stoic.
+    Known as "a masked penitent, smelling of brine and burnt oak" when not knows(party, cl_hobb_1) and not knows(party, ch_cooper).
+    Greets "A big man kneels on the penitent's side, a darkness the width of two shoulders on the other side of a hand's breadth of lead. You smell oak, and brine, and a fire made of shavings. He kneels as if he were holding something up.".
+    Greets again "The big man kneels again on the penitent's side. The smell of brine and shavings comes through the grille ahead of him.".
+  }
+  Person cl_warden "the second penitent" at offstage {
+    Role "a Warden of Locks, who is wearing the Key". Ancestry human. Peaceable. Pronouns he. Manner jovial.
+    Known as "a masked penitent in grey leather gloves" when not knows(party, cl_lacke_1) and not knows(party, ch_glove).
+    Greets "Someone kneels on the penitent's side with a great deal of rustle, and settles his coat, and lays one hand on the ledge under the grille, gloved in grey leather. He has a lovely voice, which he knows. 'Do begin when you like,' he says, as if he were the one being heard.".
+    Greets again "The gloved hand comes down on the ledge under the grille. 'Hearer,' says the lovely voice, 'again.'".
+  }
+  Person cl_clerk "the third penitent" at offstage {
+    Role "a clerk of the Registry, who keeps what he took". Ancestry human. Peaceable. Pronouns he. Manner grim.
+    Known as "a masked penitent smelling of ink" when not knows(party, cl_clerk_1) and not knows(party, ch_knot).
+    Greets "A narrow man kneels on the penitent's side and does not touch the ledge. Ink, and tallow smoke, and a sweet note of old paper. He wipes his right thumb against his forefinger, over and over, as a man does who is trying to take something off it.".
+    Greets again "The narrow man kneels again. His thumb is at work against his forefinger before he is settled.".
+  }
+  Rule cl_cooper_arrives when penitentsCome() and cl_stage(cl_cooper) < 3 and cl_lastnight(cl_cooper) != day(clock) and not at(cl_cooper, confessionals) { Assert at(cl_cooper, confessionals). }
+  Rule cl_warden_arrives when penitentsCome() and cl_stage(cl_warden) < 3 and cl_lastnight(cl_warden) != day(clock) and (hour(clock) >= 21 or cl_lastnight(cl_cooper) == day(clock) or cl_stage(cl_cooper) >= 3) and not at(cl_warden, confessionals) { Assert at(cl_warden, confessionals). }
+  Rule cl_clerk_arrives when penitentsCome() and cl_stage(cl_clerk) < 3 and cl_lastnight(cl_clerk) != day(clock) and (hour(clock) >= 22 or cl_lastnight(cl_warden) == day(clock) or cl_stage(cl_warden) >= 3) and not at(cl_clerk, confessionals) { Assert at(cl_clerk, confessionals). }
+  Rule cl_cooper_leaves when at(cl_cooper, confessionals) and (not penitentsCome() or cl_lastnight(cl_cooper) == day(clock) or cl_stage(cl_cooper) >= 3) { Assert at(cl_cooper, offstage). }
+  Rule cl_warden_leaves when at(cl_warden, confessionals) and (not penitentsCome() or cl_lastnight(cl_warden) == day(clock) or cl_stage(cl_warden) >= 3) { Assert at(cl_warden, offstage). }
+  Rule cl_clerk_leaves when at(cl_clerk, confessionals) and (not penitentsCome() or cl_lastnight(cl_clerk) == day(clock) or cl_stage(cl_clerk) >= 3) { Assert at(cl_clerk, offstage). }
+  Observe cl_box_waiting at confessionals when penitentsWaiting() "Someone has put the candle out in the penitent's tin shade and lit it again, which is the Chapel's way of saying that the box is wanted.".
+  Query penitentsWaiting() means penitentsCome() and (at(cl_cooper, confessionals) or at(cl_warden, confessionals) or at(cl_clerk, confessionals)) and not masked(party).
+  Observe cl_box_masked at confessionals when hearingOn() and masked(party) "You hear someone come into the penitent's box, and stop. The curtain does not move; nobody kneels. A masked Hearer is a penitent, and a penitent does not sit the grille. The footsteps go away.".
+
+  // The silence. A Hearer who has nothing clever to say may say nothing, which is its own rite: the box is for waiting.
+  // It needs no skill, and it earns what skill would, one night at a time.
+  Action cl_wait_with(actor: group, who: group, site: place) "Say nothing, and wait with {who}" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(who, site) and cl_open(who) and cl_waitnight(who) != day(clock) and hearer(actor) and not masked(actor).
+    Time 3.
+    On success { Increase cl_trust(who) by 1. Set cl_waitnight(who) to day(clock). }
+    Result "You say nothing. The candle in the tin shade burns down a finger's width. On the other side of the grille a person is breathing on purpose, the way you breathe when you are trying to be heard to be calm; and then not on purpose; and at the end of half an hour there is the small sound of someone who has been waiting to be asked a question, and has stopped waiting for it.".
+  }
+
+  // ── Hobb, the cooper in the Serene's mask ─────────────────────────────────────────────────────────────────────────
+  // Chosen for his dullness. He went to beg the Registrar to let him off, saw her face, and ran; he has not taken the
+  // Mask off since, for fear that without it he would be asked what he saw. What moves him is not the evidence (that she was
+  // dead when he came) but holding the mask up and finding nobody behind it.
+  Topic cl_hobb_hear1 with cl_cooper "Hear what the big man has come to say" when penitentsCome() and hearer(actor) and not masked(actor) and cl_stage(cl_cooper) == 0 and not cl_open(cl_cooper) and cl_lastnight(cl_cooper) != day(clock) once {
+    Says "'You are not the old one. Good.' He says it as a man tests ice. 'He would have known my breathing.' A long silence; the candle leans. 'If a man ran from a person, and the person died after. Which is the sin, Hearer? The running, or the dying?' He does not wait. 'I only ask in general.'".
+    On discuss { Assert cl_open(cl_cooper). }
+  }
+  Action cl_hobb_read1(actor: group, site: place) "Listen to how he asks, and to what his hands do" {
+    Speaker cl_cooper.
+    Requires able(actor) and company(actor) and at(actor, site) and at(cl_cooper, site) and cl_open(cl_cooper) and cl_stage(cl_cooper) == 0 and hearer(actor).
+    Time 3.
+    Resolve check(actor, insight, dc_fair).
+    On success { Assert knows(actor, cl_hobb_1). Increase cl_trust(cl_cooper) by 1. Increase cl_stage(cl_cooper) by 1. Set cl_lastnight(cl_cooper) to day(clock). Retract cl_open(cl_cooper). }
+    On failure { Increase cl_stage(cl_cooper) by 1. Set cl_lastnight(cl_cooper) to day(clock). Retract cl_open(cl_cooper). }
+    Result "He asks it in general, and his hands are not general: they come up together to the rim of the mask, as if to lift it off, and stop a finger's width short; and settle on his knees; and come up again. A man in a face he cannot get out of. Gilt on the lacquer takes the candle, and one fleck of it is missing at the cord. You know the mask. You say, 'It is the running that a man carries, and the dying that is carried for him.' He lets out a breath that goes on for some time. 'Thank you,' he says. 'I shall come again.'".
+    Otherwise "You hear a man in trouble, in general, and you tell him in general that it is the dying, which is a thing one says. 'Then I am all right,' he says, with no relief at all in it, and gets up on a knee that complains, and is gone.".
+  }
+  Discovery cl_hobb_1 "The first penitent wears the Serene's gilt-white mask and cannot get his hands to lift it off; he has run from a person who died. He said so under the seal.".
+  Topic cl_hobb_hear2 with cl_cooper "Hear what the big man says on the night of the Swap" when penitentsCome() and hearer(actor) and not masked(actor) and cl_stage(cl_cooper) == 1 and not cl_open(cl_cooper) and cl_lastnight(cl_cooper) != day(clock) once {
+    Says "He is in the same mask. 'It's the night everyone swaps,' he says. 'I asked three strangers in the nave, and every one said no, in the kindest possible way. It is the Serene. Nobody swaps with the Serene.' A dry sound that might be a laugh. 'I went to say no to her, Hearer. She had sent for me, and I'd said yes, and I went back to say no. I stood in the lamp-room door in my work-coat. Her mask was off. Not off: slid. I had never seen a Registrar's face. It was only a very old woman with her mouth a little open, and I did not go in. I turned round and ran. I am a big man. I could have carried her to the Row.'".
+    On discuss { Assert cl_open(cl_cooper). Assert knows(actor, cl_hobb_2). }
+  }
+  Discovery cl_hobb_2 "The Serene went to the lamp-room to refuse his Mask, saw the Registrar with her mask slid and her face bare, did not go in, and ran. He thinks he might have carried her to the Row. He told you so under the seal.".
+  Action cl_hobb_ask2(actor: group, site: place) "Ask him gently what he saw in her face" {
+    Speaker cl_cooper.
+    Requires able(actor) and company(actor) and at(actor, site) and at(cl_cooper, site) and cl_open(cl_cooper) and cl_stage(cl_cooper) == 1 and hearer(actor).
+    Time 3.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Increase cl_trust(cl_cooper) by 1. Increase cl_stage(cl_cooper) by 1. Set cl_lastnight(cl_cooper) to day(clock). Retract cl_open(cl_cooper). }
+    On failure { Increase cl_stage(cl_cooper) by 1. Set cl_lastnight(cl_cooper) to day(clock). Retract cl_open(cl_cooper). }
+    Result "'Nothing,' he says, at once, and then, because the grille is a thing you can say nothing through: 'Nobody. That is what. I had always thought there would be somebody. A mask, you think, there is somebody under it; the Concord says there is. And she was old, and tired, and not very anyone at all. And then I thought, and I am the Serene, and I am the same.' You say nothing. 'That is what I cannot say to anyone,' he says. 'That if I take it off, there is a cooper, and no one at all, and everyone will see.'".
+    Otherwise "'You are very kind,' says the voice, and there is a click as of a latch dropping. 'I should not have said. Good night, Hearer.' He goes on his knees to the curtain, absurdly, and out.".
+  }
+  Topic cl_hobb_hear3 with cl_cooper "Hear what the big man has come to ask, the last night" when penitentsCome() and hearer(actor) and not masked(actor) and cl_stage(cl_cooper) == 2 and not cl_open(cl_cooper) and cl_lastnight(cl_cooper) != day(clock) and cl_trust(cl_cooper) >= 2 once {
+    Says "'The Serene, Hearer, is a cooper whose wife says he is dull,' says the voice through the lead, 'and he is. She sent for me two days before, and told me. The Urn has nothing in it, she said. I choose. I chose you, because you are dull and good and nobody will ever want to ask you for anything. You may refuse, and I will choose another, and they will be worse.' He is quiet. 'So I said yes. And I have not got a lot to give back. Do you see? There is no lot to be let off. There is just me, and the mask, and she is dead, and the next one will be worse.'".
+    On discuss { Assert cl_open(cl_cooper). Assert knows(actor, cl_hobb_urn). }
+  }
+  Topic cl_hobb_hear3_thin with cl_cooper "Hear what the big man has come for, the last night" when penitentsCome() and hearer(actor) and not masked(actor) and cl_stage(cl_cooper) == 2 and not cl_open(cl_cooper) and cl_lastnight(cl_cooper) != day(clock) and cl_trust(cl_cooper) < 2 once {
+    Says "'I came,' says the big man, and it takes him some time to go on, 'to be told that it is all right. That is all. I am not able to say it better.' He is quiet. 'I do not know you, Hearer. I have been three nights, and I cannot tell if you were there.' The mask makes a small sound against the lead as he lowers his head. 'I should like to be told, if you can.'".
+    On discuss { Assert cl_open(cl_cooper). }
+  }
+  Discovery cl_hobb_urn "The Registrar told the Serene, two days before she died, that the Urn has nothing in it and that she chose him by hand, for his dullness; he told you so under the seal. It is not to be used or repeated.".
+  Action cl_hobb_absolve(actor: group, site: place) "Absolve him, as the form asks" {
+    Speaker cl_cooper.
+    Requires able(actor) and company(actor) and at(actor, site) and at(cl_cooper, site) and cl_open(cl_cooper) and cl_stage(cl_cooper) == 2 and hearer(actor).
+    Time 1 minute.
+    On success { Assert cl_absolved(cl_cooper). Increase cl_stage(cl_cooper) by 1. Set cl_lastnight(cl_cooper) to day(clock). Retract cl_open(cl_cooper). Increase cl_closed(actor) by 1. }
+    Result "You say the form, in the Chapel's own words, which are brief, and ask nothing of him. He lowers his head against the lead. 'Thank you,' he says; 'that is very light,' and it is not clear to either of you whether this is praise.".
+  }
+  Action cl_hobb_tell_room(actor: group, site: place) "Tell him what the room says: that she was dead before he came" {
+    Speaker cl_cooper.
+    Requires able(actor) and company(actor) and at(actor, site) and at(cl_cooper, site) and cl_open(cl_cooper) and cl_stage(cl_cooper) == 2 and hearer(actor) and knows(actor, ch_evening) and not cl_hobb_eased(actor).
+    Time 1 minute.
+    On success { Assert cl_hobb_eased(actor). Increase cl_trust(cl_cooper) by 1. }
+    Result "You tell him nothing that he told you. You tell him what the lamp-room told you: that her own candle burned down untrimmed from the hour the Warden went, that nobody's hand touched it since, though a hand that was alive would have trimmed it by the quarter-hour out of habit. 'She was dead,' you say, 'and had been an hour, and was dead before you came to the door. There was nothing to carry.' He does not move for a very long moment. 'You know that?' he says. 'You do not only say it?' 'I know it.' 'Then I was only afraid,' he says, wonderingly. 'It was only that I was afraid.'".
+  }
+  Action cl_hobb_penance(actor: group, site: place) "Set him a penance: take the mask off, and look into it" {
+    Speaker cl_cooper.
+    Requires able(actor) and company(actor) and at(actor, site) and at(cl_cooper, site) and cl_open(cl_cooper) and cl_stage(cl_cooper) == 2 and cl_trust(cl_cooper) >= 2 and hearer(actor).
+    Grave "A penance asks something of him that he may not do, and a man who is asked and cannot has been refused the easy way out; it cannot be unasked.".
+    Time 4.
+    Resolve check(actor, rites, dc_fair).
+    On success { Assert cl_hobb_unburdened(actor). Increase cl_stage(cl_cooper) by 3. Set cl_lastnight(cl_cooper) to day(clock). Retract cl_open(cl_cooper). Increase cl_closed(actor) by 1. }
+    On failure { Assert cl_absolved(cl_cooper). Increase cl_stage(cl_cooper) by 3. Set cl_lastnight(cl_cooper) to day(clock). Retract cl_open(cl_cooper). }
+    Result "You ask him to do it by the form, which has a place for it: that a penitent in a face may take it off in the Chapel and hold it up to the candle, and say what he sees. A long time. Then the gilt-white oval is passed under the curtain, up against the lead, and you hold it to the light, with a cooper's thumbprints in the lacquer at each cheek. The candle shows through the eye-holes. 'Is there anyone in it?' you say. A breath. 'No.' 'Then who is it you are afraid will see you?' He is breathing like a man who has run up a stair. 'Nobody,' he says. 'There is nobody in it.' When he gets up from his knees the voice that thanks you is a cooper's, tired and plain, and the face that goes out through the curtain, you will never know, has been put away in a pocket.".
+    Otherwise "You ask it badly. The form is there and you have it by the wrong end, and he hears that, as an ear does that has been listening for forty years to men who know it. 'I cannot,' he says, 'I cannot,' and the mask stays where it is, and he is sorry to have been asked.".
+  }
+
+  // ── Ser Corvin Lacke, the Warden of Locks ─────────────────────────────────────────────────────────────────────────
+  // He has come to find out whether the Chapel keeps what it is told. He performs: for two nights a confession of a
+  // great many small, delightful sins; on the third something true, if he has been given a reason to say it. What
+  // moves him is not proof. It is the offer of a way to put the Key down that is not a Naming.
+  Topic cl_warden_hear1 with cl_warden "Hear what the man in the gloves has come to say" when penitentsCome() and hearer(actor) and not masked(actor) and cl_stage(cl_warden) == 0 and not cl_open(cl_warden) and cl_lastnight(cl_warden) != day(clock) once {
+    Says "'Hearer! Forgive me, for I have sinned, and what a luck to find an ear that does not know me.' A voice like warm oil. 'I shall be brief. I have loved my horse above my wife. I have lied to the Master of Measures about the horse's age. I have, in my heart, called a perfectly good soup an insult. On two Thursdays I have been unkind to a clerk.' A little pause, for the laugh. 'There. Is it not a relief? How very much lighter one feels, having been so frank.'".
+    On discuss { Assert cl_open(cl_warden). }
+  }
+  Action cl_warden_read1(actor: group, site: place) "Listen for what he has pitched each sin to find out" {
+    Speaker cl_warden.
+    Requires able(actor) and company(actor) and at(actor, site) and at(cl_warden, site) and cl_open(cl_warden) and cl_stage(cl_warden) == 0 and hearer(actor).
+    Time 3.
+    Resolve check(actor, insight, dc_fair).
+    On success { Assert knows(actor, cl_lacke_1). Increase cl_trust(cl_warden) by 1. Increase cl_stage(cl_warden) by 1. Set cl_lastnight(cl_warden) to day(clock). Retract cl_open(cl_warden). }
+    On failure { Increase cl_stage(cl_warden) by 1. Set cl_lastnight(cl_warden) to day(clock). Retract cl_open(cl_warden). }
+    Result "Every sin is of a kind that could be told in a coffee-house; each is pitched a little higher than the last, like a man trying a floor with his weight. He is not confessing. He is knocking on the wall to hear what is behind it. The glove on the ledge has four small points in the knuckles, catching the candle. 'Warden,' you do not say. 'You have not yet told me why you have come.' The lovely voice stops. Then, in a different one, smaller and a good deal older: 'No. I have not.' He sits back. 'Another night, perhaps.'".
+    Otherwise "You give him three Aves and a lecture on the horse. He thanks you with perfect courtesy, and leaves a coin in the saucer, and goes out whistling very faintly. It is, you reflect, the first time anyone has paid you to be fooled.".
+  }
+  Discovery cl_lacke_1 "The first penitent wears grey leather gloves with a stud-plate of four pins in the knuckles, and confessed a stream of small delightful sins to find out whether the box keeps its seal: the Warden of Locks.".
+  Topic cl_warden_hear2 with cl_warden "Hear what the man in the Heron's cowl says on the night of the Swap" when penitentsCome() and hearer(actor) and not masked(actor) and cl_stage(cl_warden) == 1 and not cl_open(cl_warden) and cl_lastnight(cl_warden) != day(clock) once {
+    Says "He is in a Heron's cowl that is not his; it is rather too small. 'I swapped with a young person from the Weights who believes they have the Warden of Locks' own mask, and has gone home to be happy in it. It is very restful, being nobody.' He settles. 'A hypothetical. A man of position says a name aloud, in a closed room, in a house where it must not be said. The person whose name it is cannot be hurt by it. Or can, I mean. I only wish to know whether a name said in a shut room is a name said, or whether a Chapel, being shut, is more of a kind of cupboard.'".
+    On discuss { Assert cl_open(cl_warden). }
+  }
+  Action cl_warden_lore2(actor: group, site: place) "Give him the Chapel's law on the seal, article and clause" {
+    Speaker cl_warden.
+    Requires able(actor) and company(actor) and at(actor, site) and at(cl_warden, site) and cl_open(cl_warden) and cl_stage(cl_warden) == 1 and hearer(actor).
+    Time 3.
+    Resolve check(actor, lore, dc_fair).
+    On success { Assert knows(actor, cl_lacke_2). Increase cl_trust(cl_warden) by 1. Increase cl_stage(cl_warden) by 1. Set cl_lastnight(cl_warden) to day(clock). Retract cl_open(cl_warden). }
+    On failure { Increase cl_stage(cl_warden) by 1. Set cl_lastnight(cl_warden) to day(clock). Retract cl_open(cl_warden). }
+    Result "You give it as a clerk would: the Concord's tenth article, which makes the Chapel a place where a name may be said once to nobody; the Chapel's own clause on the seal, which makes it unsayable by the Hearer on pain of the grille. A name said in the box is said to the Bare Face, and the Bare Face keeps it. 'To nobody,' he says, tasting it. 'I like that very much.' A pause. 'I said it, as it happens, in a cupboard. I do not intend to say it again here tonight.' But the oil has gone out of his voice, and you hear what it was hiding.".
+    Otherwise "You cite an article, and he corrects you on the clause, rather kindly, as a man of law does who has kept a sharper clerk than you. 'Not quite,' he says. 'But it is generous of you to put it so.' He leaves in good humour, having learned nothing, and leaving you in none.".
+  }
+  Discovery cl_lacke_2 "The Warden of Locks asked, as a hypothesis, whether a name said aloud in a shut room is a name said; and added that he had said one 'in a cupboard'. He told you so under the seal.".
+  Topic cl_warden_hear3 with cl_warden "Hear what the Warden says when he has nothing left to perform" when penitentsCome() and hearer(actor) and not masked(actor) and cl_stage(cl_warden) == 2 and not cl_open(cl_warden) and cl_lastnight(cl_warden) != day(clock) and cl_trust(cl_warden) >= 2 once {
+    Says "The glove comes off; you hear it, a small leather sound, laid on the ledge. 'I said her name aloud,' says Corvin Lacke, with no music in it. 'In the lamp-room, to her face, three times, louder each time. I said I would cry it in the Row at noon unless she called off the Rounds. They were closing on the tax, Hearer, and I am a Warden and the Lock-tax is mine and the tax is not all there. She said: Say it. And I said it. And she put her head on her arm like a child at a desk. And I said, Good evening, Registrar. And at the nave door I looked back, and she had not moved.' A long silence. 'I have a good heart. It is my great fault.'".
+    On discuss { Assert cl_open(cl_warden). Assert knows(actor, cl_lacke_said). }
+  }
+  Topic cl_warden_hear3_thin with cl_warden "Hear what the Warden has come for, the last night" when penitentsCome() and hearer(actor) and not masked(actor) and cl_stage(cl_warden) == 2 and not cl_open(cl_warden) and cl_lastnight(cl_warden) != day(clock) and cl_trust(cl_warden) < 2 once {
+    Says "'The usual,' says the lovely voice, a good deal less lovely than before. 'The horse. The soup. I find the Chapel does not give back what I came for, which is the sense of having been told that it will be all right. Might you tell me that? I should be very grateful.' He waits. He is, you realise, much more afraid than he was.".
+    On discuss { Assert cl_open(cl_warden). }
+  }
+  Discovery cl_lacke_said "The Warden of Locks told you, under the seal, that he said the Registrar's name aloud in her lamp-room three times and threatened to cry it in the Row unless she called off the Rounds that were closing on his Lock-tax; and that she answered, Say it, and put her head down and did not move. It is not to be repeated or used.".
+  Action cl_warden_absolve(actor: group, site: place) "Absolve him, as the form asks" {
+    Speaker cl_warden.
+    Requires able(actor) and company(actor) and at(actor, site) and at(cl_warden, site) and cl_open(cl_warden) and cl_stage(cl_warden) == 2 and hearer(actor).
+    Time 1 minute.
+    On success { Assert cl_absolved(cl_warden). Increase cl_stage(cl_warden) by 1. Set cl_lastnight(cl_warden) to day(clock). Retract cl_open(cl_warden). Increase cl_closed(actor) by 1. }
+    Result "You say the form. It is short, and asks nothing, and he takes it like a man taking a coat from a servant. 'Thank you,' says the voice, and the oil is coming back into it already. 'That is so very much lighter.'".
+  }
+  Action cl_warden_spent(actor: group, site: place) "Set him a penance: lay the Key down at the grille, in the Chapel's form, before the Drawing" {
+    Speaker cl_warden.
+    Requires able(actor) and company(actor) and at(actor, site) and at(cl_warden, site) and cl_open(cl_warden) and cl_stage(cl_warden) == 2 and cl_trust(cl_warden) >= 2 and knows(actor, cl_lacke_said) and hearer(actor).
+    Grave "A penance of this kind is a promise on his part and a trust on yours: it is the Chapel's own gentle road for an Office that has to go. Once he has laid the Key down in the form, he cannot be Named for it, and the seal is on you for ever.".
+    Time 4.
+    Resolve check(actor, rites, dc_fair).
+    On success { Assert cl_lacke_spent(actor). Increase cl_stage(cl_warden) by 1. Set cl_lastnight(cl_warden) to day(clock). Retract cl_open(cl_warden). Increase cl_closed(actor) by 1. }
+    On failure { Assert cl_absolved(cl_warden). Increase cl_stage(cl_warden) by 1. Set cl_lastnight(cl_warden) to day(clock). Retract cl_open(cl_warden). Increase cl_closed(actor) by 1. }
+    Result "You tell him there is an old form for it, which almost no one remembers because almost no one has had cause: an Office laid down at the grille by its own wearer, before the Drawing, goes Spent in the Chapel's book and not in the Row's; it is a going, and not a Naming; the Concord has made room for it since before the Sluice because it expected that someone would one day need it. 'A way out that is not a way down,' says Lacke. You hear the Key, which is a heavy mask, laid on the ledge. 'I should not have thought the Chapel would be so kind to the man who killed her.' 'The Chapel,' you say, 'is not kind. It is exact.' He weeps a little, as people do who are very good at everything else.".
+    Otherwise "You have the form by the wrong end, and he hears it, and his chin comes up. 'A form,' he says. 'You offer me a form.' And the old music is back, wearily: 'You are very good, Hearer. I shall think about it.' He will not, and both of you know.".
+  }
+  Action cl_warden_report(actor: group, site: place) "Set him a penance: go to the Sergeant yourself, and say it in your own voice" {
+    Speaker cl_warden.
+    Requires able(actor) and company(actor) and at(actor, site) and at(cl_warden, site) and cl_open(cl_warden) and cl_stage(cl_warden) == 2 and cl_trust(cl_warden) >= 2 and knows(actor, cl_lacke_said) and hearer(actor).
+    Grave "A penance of this kind may cost him his Office and his name. He may say yes and not do it; he may do it and be Named for it. You will not know which.".
+    Time 4.
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert cl_lacke_reporting(actor). Increase cl_stage(cl_warden) by 1. Set cl_lastnight(cl_warden) to day(clock). Retract cl_open(cl_warden). Increase cl_closed(actor) by 1. }
+    On failure { Assert cl_absolved(cl_warden). Increase cl_stage(cl_warden) by 1. Set cl_lastnight(cl_warden) to day(clock). Retract cl_open(cl_warden). Increase cl_closed(actor) by 1. }
+    Result "You do not ask for the Key. You ask for his own mouth, in Sergeant Vail's hearing, in his own voice; that it is the one thing in the matter that is entirely his. He says that it is a great deal to ask. You say yes. He says, rather quickly, that it is a very great deal. You say yes, and you say nothing, which is a thing you have learned the use of this week; and the silence goes on until he says, in a voice quite without ornament, 'The Gate. Tomorrow. At the third bell.' He does not say he will go. You have the clear sense that, for the first time in some years, he means to.".
+    Otherwise "He listens courteously all the way through. 'I have been asked to do a great many things by a great many people,' he says, 'and have discovered, on the whole, that the thing to do is to be asked by a more sympathetic person.' He leaves a coin in the saucer, and goes.".
+  }
+
+  // The seal, and what it costs to break it. The Warden's confession is the one thing in the box that exposes a crime;
+  // the lamp-room (chapel.kyr) proves the same crime without it. The company that breaks the seal gets to Vail with the
+  // Warden's own words and loses the grille and Father Ansel's trust; the company that lays the lamp-room's evidence
+  // before her has said the same thing and broken nothing.
+  Topic cl_tell_vail with vail "Tell Sergeant Vail what the Warden confessed in the box" when knows(actor, cl_lacke_said) and cl_sealed(cl_lacke_said) and not cl_seal_broken(actor) once {
+    Grave "What is said in the box is said to nobody. Said to the Watch, it is said to the Watch, and cannot be unsaid; the Chapel will know by evening, and will not let you sit the grille again.".
+    Says "She listens without writing. 'You were in the box,' says Sergeant Vail, 'and a person in the box has said a thing that is the one crime I may prosecute.' She is very still. 'You are aware what you have just done.' It is not a question. 'Thank you,' she says. 'I am not going to say that I am glad.' She writes, now, a single line. 'The Warden will be sent for in the morning. I would not, in your place, go to the Chapel tonight.'".
+    On discuss { Assert cl_seal_broken(actor). Assert knows(actor, lacke_unfaced). Assert cl_lacke_reported(actor). }
+  }
+  Topic cl_tell_vail_proof with vail "Lay the lamp-room's evidence of the Warden before Sergeant Vail" when knows(actor, lacke_unfaced) and not cl_lacke_reported(actor) once {
+    Says "She hears it out: the glove, the pins in the wax, the voice through the door. 'This I can use,' says Sergeant Vail, and for the first time there is something in her face. 'A Warden's stud-plate in the Registrar's table, and a Hearer's ear. It is not a confession. It is better; it was not given to anyone in confidence.' She lays down her pen. 'He will be sent for in the morning.'".
+    On discuss { Assert cl_lacke_reported(actor). }
+  }
+  Relation cl_lacke_reported(group).
+  Topic cl_ansel_wrath with chaplain "Face Father Ansel" when cl_seal_broken(actor) and ((masked(actor) and publicHours()) or (not masked(actor) and privateHours())) once {
+    Says "He is at the lamps. He does not turn. 'The Watch came to the Row at dawn for a man who sat in the penitent's box. The box has been used for forty years, and that is the first time I have heard that a Hearer carried a thing out.' His voice does not rise; it goes out like a candle. 'I am not angry. I should like to be. I am only very tired. You will not sit the grille again. Whatever the Concord said to you, it was not the Chapel.' He goes on trimming. 'We were the one place where it was safe to say it. You have made us a place where it is merely quiet.'".
+    On discuss { Retract cl_assigned(actor). Retract ch_ansel_trusts(actor). }
+  }
+  Rule cl_penitents_gone when cl_seal_broken(party) and cl_wrath_noted(party) == 0 says "In the confessionals, the taper in the penitent's tin shade has been left to gutter. Nobody kneels. Word goes through a city that has no names in it faster than anything else does, and the penitents have heard." {
+    Set cl_wrath_noted(party) to 1. }
+  Measure cl_wrath_noted(group).
+
+  // ── Tomas Pell, the clerk who took the Book ───────────────────────────────────────────────────────────────────────
+  // He covered her face and took the Book, as he believes, to keep her safe from being read; and posted it to Nobody at
+  // the Dead Letter Office, whose Nobodies burn at noon on the ninth day. What moves him is to be asked, by a Hearer, as
+  // a penitent, to put the thing down.
+  Topic cl_clerk_hear1 with cl_clerk "Hear what the narrow man has come to say" when penitentsCome() and hearer(actor) and not masked(actor) and cl_stage(cl_clerk) == 0 and not cl_open(cl_clerk) and cl_lastnight(cl_clerk) != day(clock) once {
+    Says "'I, a person who may not be named, being of sound mind and in the exercise of a trust, say that on a day I need not specify I took into my keeping an article which was not mine, for a reason which I believed good at the time.' It comes in a single breath, in the form. 'I have it still. I wish to be advised, Hearer, whether a theft is a sin in a case where the owner is not in a position to be wronged.'".
+    On discuss { Assert cl_open(cl_clerk). Assert cl_pell_penitent(actor). }
+  }
+  Action cl_clerk_read1(actor: group, site: place) "Recognise the form he has said it in" {
+    Speaker cl_clerk.
+    Requires able(actor) and company(actor) and at(actor, site) and at(cl_clerk, site) and cl_open(cl_clerk) and cl_stage(cl_clerk) == 0 and hearer(actor).
+    Time 3.
+    Resolve check(actor, lore, dc_fair).
+    On success { Assert knows(actor, cl_clerk_1). Increase cl_trust(cl_clerk) by 1. Increase cl_stage(cl_clerk) by 1. Set cl_lastnight(cl_clerk) to day(clock). Retract cl_open(cl_clerk). }
+    On failure { Increase cl_stage(cl_clerk) by 1. Set cl_lastnight(cl_clerk) to day(clock). Retract cl_open(cl_clerk). }
+    Result "You know the form. It is not a penitent's: it is a deposition, the Registry's, down to the clause, in the exercise of a trust; a clerk who has put his own sin into the shape of a certificate because it is the only shape in which he can bear to hold it. You say, as if to a colleague: 'A theft is a sin where the owner can be wronged. Whose is the article?' The thumb stops at last. 'It is,' says the narrow voice, 'in my keeping.' It is almost a laugh. 'Thank you. I shall be back, I think. I should like to be.'".
+    Otherwise "You hear a formality and you answer a formality: that the Chapel does not advise in cases, only hears. 'Of course,' says the clerk, rather faintly. 'It was the wrong place. Forgive me.' He goes, with the dignity of someone who has been made to feel he has handed over a parcel at the wrong counter.".
+  }
+  Discovery cl_clerk_1 "The first of the penitents said his sin in the form of a Registry deposition, and keeps something that is not his: a clerk of the Registry, whose thumb is stained with ink. He told you so under the seal.".
+  Topic cl_clerk_hear2 with cl_clerk "Hear what the clerk says in the Cockle's domino" when penitentsCome() and hearer(actor) and not masked(actor) and cl_stage(cl_clerk) == 1 and not cl_open(cl_clerk) and cl_lastnight(cl_clerk) != day(clock) once {
+    Says "He has a Cockle's domino on that is not his; it smells of loaves. 'I swapped with a woman who bakes. She gave me this and a roll. I am holding the roll and I do not know why.' A breath. 'I found her, Hearer. I put the mask straight. Nobody should see a Registrar's face; it is the worst thing a clerk can do, to look. I looked. I had to, to tie it, and I tied it as if she were asleep. And she had said to me, on the day she made me her clerk: if ever I am not here, it is yours to keep, until a name is chosen. And the name was never chosen. So I took it. I did what she asked.'".
+    On discuss { Assert cl_open(cl_clerk). Assert knows(actor, cl_clerk_2). }
+  }
+  Discovery cl_clerk_2 "The clerk found the Registrar dead, retied her mask so that nobody should see her face, and took what she had told him to keep until a name was chosen; the name was never chosen. He told you so under the seal.".
+  Action cl_clerk_ask2(actor: group, site: place) "Ask him, as a Hearer asks, what he is afraid will happen when he lets it go" {
+    Speaker cl_clerk.
+    Requires able(actor) and company(actor) and at(actor, site) and at(cl_clerk, site) and cl_open(cl_clerk) and cl_stage(cl_clerk) == 1 and hearer(actor).
+    Time 3.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Increase cl_trust(cl_clerk) by 1. Increase cl_stage(cl_clerk) by 1. Set cl_lastnight(cl_clerk) to day(clock). Retract cl_open(cl_clerk). }
+    On failure { Increase cl_stage(cl_clerk) by 1. Set cl_lastnight(cl_clerk) to day(clock). Retract cl_open(cl_clerk). }
+    Result "'That I shall be asked what it is,' he says at once, and then, because the answer has come out too fast, 'and that I shall have to say that I took it. And that it is not at the place where I put it.' A long breath. 'I posted it to Nobody. It is the one address in Ombra no one ever looks at. I thought: nine days; a name will be chosen in nine days. I did not think. The Dead Letter Office burns its Nobodies at noon on the ninth day.' His thumb has begun again. 'I hid it so well, Hearer, that I have no idea how to take it back.'".
+    Otherwise "'I am not afraid,' says the clerk, in the voice of someone who has just been shown the door of his own mind and found it locked. 'I am a clerk. We are not paid to be.' He sits for a while, saying nothing. Then he goes, and the roll he has been holding is left on the ledge in its paper.".
+  }
+  Topic cl_clerk_hear3 with cl_clerk "Hear what the clerk has come to say, the last night" when penitentsCome() and hearer(actor) and not masked(actor) and cl_stage(cl_clerk) == 2 and not cl_open(cl_clerk) and cl_lastnight(cl_clerk) != day(clock) and cl_trust(cl_clerk) >= 2 once {
+    Says "'In the sorting-hall of the Dead Letter Office, on the third rack, in a bundle tied with tape, addressed to Nobody, Return to Nobody,' he says. It is the form again, and then it is not. 'I have the chit, for the parcel; it is a Registry chit, and I have walked past the Office eleven times. I cannot go in. The clerk will say, What is it? And I will say what it is. And he will look at me.' His breath is short. 'It burns at noon, the day after tomorrow. I know it does. I have known it for six nights. I have not slept for the knowing.' His voice breaks and mends itself. 'Tell me what to do.'".
+    On discuss { Assert cl_open(cl_clerk). Assert knows(actor, cl_pell_said). }
+  }
+  Topic cl_clerk_hear3_thin with cl_clerk "Hear what the clerk says, the last night" when penitentsCome() and hearer(actor) and not masked(actor) and cl_stage(cl_clerk) == 2 and not cl_open(cl_clerk) and cl_lastnight(cl_clerk) != day(clock) and cl_trust(cl_clerk) < 2 once {
+    Says "'There is nothing to add,' says the clerk to the grille. 'The sin stands as I stated it. I should be glad of whatever absolution the Chapel is able to give in the circumstances. I am very tired.' It is not a request for anything but an end; he has the voice of a man giving back a pen.".
+    On discuss { Assert cl_open(cl_clerk). }
+  }
+  Discovery cl_pell_said "The clerk told you, under the seal, that what he took is in the sorting-hall of the Dead Letter Office on the third rack, in a bundle addressed to Nobody, and that it burns at noon on the ninth day; he has the chit, and has walked past the Office eleven times without being able to go in. It is not to be used against him.".
+  Kind cl_chit_kind "Pell's Registry chit" is gear worth 0 weighing 0 described "A slip of buff paper with the Registry's bare-oval stamp, tied round with a black clerk's tape: RETURN TO NOBODY, THIRD RACK, ONE PARCEL, TIED. The clerk's initials are in the corner, in a hand that has pressed hard.".
+  Item cl_chit "Pell's Registry chit" is cl_chit_kind at offstage.
+  Action cl_clerk_absolve(actor: group, site: place) "Absolve him, as the form asks" {
+    Speaker cl_clerk.
+    Requires able(actor) and company(actor) and at(actor, site) and at(cl_clerk, site) and cl_open(cl_clerk) and cl_stage(cl_clerk) == 2 and hearer(actor).
+    Time 1 minute.
+    On success { Assert cl_absolved(cl_clerk). Increase cl_stage(cl_clerk) by 1. Set cl_lastnight(cl_clerk) to day(clock). Retract cl_open(cl_clerk). Increase cl_closed(actor) by 1. }
+    Result "You say the form. 'Thank you,' says the clerk, and stays kneeling a moment too long, as a man does who has been handed a receipt for a debt he has not paid. Then he goes, and you hear him on the nave stones, wiping his thumb.".
+  }
+  Action cl_clerk_release(actor: group, site: place) "Set him a penance: put the thing down, where it is wanted, and let it go" {
+    Speaker cl_clerk.
+    Requires able(actor) and company(actor) and at(actor, site) and at(cl_clerk, site) and cl_open(cl_clerk) and cl_stage(cl_clerk) == 2 and cl_trust(cl_clerk) >= 2 and knows(actor, cl_pell_said) and hearer(actor).
+    Grave "A penance is a promise on his side and a trust on yours. Once you have the chit, the thing is yours to carry, and you will have to carry it without being able to say where you learned it.".
+    Time 4.
+    Resolve check(actor, insight, dc_fair).
+    On success { Assert cl_pell_released(actor). Give cl_chit to actor. Increase cl_stage(cl_clerk) by 1. Set cl_lastnight(cl_clerk) to day(clock). Retract cl_open(cl_clerk). Increase cl_closed(actor) by 1. }
+    On failure { Assert cl_absolved(cl_clerk). Increase cl_stage(cl_clerk) by 1. Set cl_lastnight(cl_clerk) to day(clock). Retract cl_open(cl_clerk). Increase cl_closed(actor) by 1. }
+    Result "You do not tell him to fetch it. You tell him the one thing the form allows a Hearer to say, which is what the penance is. That a thing carried is put down in the place where it is wanted, not in the next hand; that the keeper who cannot let go is the one for whom the form was made; and that he is not to carry it a day longer, or fetch it himself, or be looked at: that someone else will. He is quiet for a very long time. Under the grille, the chit comes through, pushed along the ledge with two fingers, tied round with a black tape. 'Then it is yours,' says the clerk. 'The form says so, does it not. Hearer. I was so tired of being right.'".
+    Otherwise "You say what a penance is and it comes out as an instruction, and he stiffens at the word as a clerk does. 'I cannot be told,' he says, very low. 'I am the one who tells.' He is sorry; he is already going; the chit, if there was ever to be one, goes with him.".
+  }
+
+  // If the Book is carried out of the Dead Letter Office by someone who had the place from a penitent who did not let
+  // go of it: the Chapel will not say it, but the clerk will know.
+  Rule cl_pell_betrayed when carries(party, book_of_faces) and knows(party, cl_pell_said) and not cl_pell_released(party) and not cl_pell_felt(party) {
+    Assert cl_pell_felt(party). }
+  Relation cl_pell_felt(group).
+
+  // ── What the company is told it is ────────────────────────────────────────────────────────────────────────────────
+  // Having kept the box for the nights it was asked, a Hearer is told so, and given what a Hearer is given: the stole, a
+  // quiet, and a place on the penitent's side of the grille.
+  Discovery cl_hearing_kept "You sat the Chapel of the Bare Face's grille, bare, on the nights it was asked, and heard what was brought to it. Father Ansel calls you Hearer.".
+  Topic cl_ansel_kept with chaplain "Tell Father Ansel the grille has been sat" when hearer(actor) and cl_closed(actor) >= 2 and not cl_seal_broken(actor) and ((masked(actor) and publicHours()) or (not masked(actor) and privateHours())) once {
+    Says "He does not ask what was said. He closes his hand over yours, which is a thing the Chapel does not do, and lets go. 'Then you have it,' says Father Ansel. 'What I had, and wished I did not, and could not give to anyone. The listening.' He takes a narrow grey stole from the press and lays it in your hands; it is as light as a handkerchief. 'The Hearer's. Wear it at the grille, or do not. In my day nobody asked. And there is a thing I should like to teach you, if there is a week, which is how not to say what one knows.'".
+    On discuss { Assert knows(actor, cl_hearing_kept). Give cl_stole to actor. Assert arcDone(actor, hand_blessing). }
+  }
+  Kind cl_stole_kind "the Hearer's grey stole" is gear worth 0 weighing 1 granting insight described "A narrow band of grey wool, worn shiny at the neck by forty years of one man's collar and two nights of yours. It smells faintly of bay and candle-smoke. Wearing it at a grille you find you listen for the thing under the thing.".
+  Item cl_stole "the Hearer's grey stole" is cl_stole_kind at offstage.
+  Relation cl_heard_self(group).
+  Action cl_be_heard(actor: group, reader: member, site: place) "Kneel at the grille and let Father Ansel hear {reader}" {
+    Speaker chaplain.
+    Requires able(actor) and company(actor) and at(actor, site) and at(chaplain, site) and at(actor, vestry) and memberOf(reader, actor) and knows(actor, cl_hearing_kept) and privateHours() and not cl_heard_self(actor).
+    Time 6.
+    Resolve endow(reader, wisdom, by_one).
+    On success { Assert cl_heard_self(actor). }
+    Result "He sits, for once, on the Hearer's side without a veil, and you kneel, and for an hour you tell an old man the thing you did not tell the three of them. He says nothing, and gets up, and puts out the candle in the tin shade with his fingers. 'Yes,' he says. 'That is how it is done.' When you come out into the nave the lamps are lit in it, nine, and you can hear all of them burn.".
+  }
+
+  // ── The Drawing: the blessing ─────────────────────────────────────────────────────────────────────────────────────
+  // On the ninth night Father Ansel asks the Hearer to bless the Draw. He has blessed it forty times and cannot bless
+  // a forty-first; he cannot refuse, either, for if the Draw is refused the Offices dissolve and the sluices go
+  // unwatched, and it is he who will have done it. He knows what the Urn holds, and cannot say. Three things may be done.
+  // To bless the Draw is to bless the lie, and the city is governed well and does not know. To refuse is to stop it
+  // on the Chapel's word, at a price. To bless what is true (the people, not the Urn) needs the Urn's secret
+  // (deduced, or from the box) and the form, and a Hearer who has not broken the seal.
+  Rule cl_blessing_ready when hearer(party) and drawingNight() and not handReady(party, hand_blessing) { Assert handReady(party, hand_blessing). }
+  Topic cl_ansel_asks with chaplain "Ask Father Ansel what he wants of you at the Urn" when hearer(actor) and drawingNight() and at(chaplain, urn_hall) and not cl_asked(actor) and not cl_seal_broken(actor) once {
+    Says "He is standing by the Urn with his veil off, quite bare, in front of four hundred masks, and it does not seem to have occurred to him. 'I have blessed this forty times,' says Father Ansel. 'From where you are standing, a vessel with a slot in it. I know what is in it.' He stops. 'I cannot say. I may not say.' He folds his veil. 'I am too old to bless a thing I know is empty, and too frightened to refuse. And so I am going to ask the Hearer. I cannot say what you should do. I can say that there are three things that may be done, and that I have thought about each of them for forty years.'".
+    On discuss { Assert cl_asked(actor). }
+  }
+  Topic cl_ansel_asks_broken with chaplain "Go to Father Ansel at the Urn" when hearer(actor) and drawingNight() and at(chaplain, urn_hall) and not cl_asked(actor) and cl_seal_broken(actor) once {
+    Says "He does not turn. 'You will do as you think right,' says Father Ansel to the Urn. 'I should rather you did it without me.' But he stands where he is, and does not leave, and after a moment he moves a little to one side, so that there is room.".
+    On discuss { Assert cl_asked(actor). }
+  }
+  Action cl_bless_lie(actor: group, site: place) "Bless the Draw, as it has been blessed forty years" {
+    Speaker chaplain.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, urn_hall) and drawingNight() and cl_asked(actor) and hearer(actor) and not handPlayed(actor, hand_blessing).
+    Grave "The Offices will be drawn on your word. If the Urn is empty, you will have blessed an empty Urn before the whole city.".
+    Time 2 minutes.
+    On success { Assert handPlayed(actor, hand_blessing). Assert cl_blessed_lie(actor). Set handWay(hand_blessing) to 1. }
+    Result "You lift your hand over the Urn and say the old words, in the old order: that the lots are drawn by no hand, that the Offices are given and not chosen, that whoever is called is called by the Bare Face and nobody. Four hundred masks lower their heads. It is a beautiful form, and you say it well. Father Ansel does not look at you. When you have finished he says, quietly, 'Thank you,' which is not at all the same as 'Well done.'".
+  }
+  Action cl_refuse_draw(actor: group, site: place) "Refuse to bless the Draw, in the Chapel's name" {
+    Speaker chaplain.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, urn_hall) and drawingNight() and cl_asked(actor) and hearer(actor) and not handPlayed(actor, hand_blessing).
+    Grave "If the Hearer will not bless the Draw, the Draw cannot lawfully be held tonight. At midnight the Offices dissolve, and the sluices will go unwatched. You will have done it.".
+    Time 2 minutes.
+    On success { Assert handPlayed(actor, hand_blessing). Assert cl_refused(actor). Set handWay(hand_blessing) to 2. }
+    Result "'I will not,' you say, in the Chapel's name, and the Hall, which has been murmuring, stops as a pond stops. 'I cannot bless what I am not allowed to say is blessed. If the Draw is to be held, it will be held without this Chapel.' A great many masks turn toward you. Father Ansel closes his eyes, and opens them, and for the first time in some days seems to see the Urn Hall with the care of a man who has been shown where he lives.".
+  }
+  Action cl_bless_true(actor: group, site: place) "Bless the people of Ombra, and not the Urn" {
+    Speaker chaplain.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, urn_hall) and drawingNight() and cl_asked(actor) and hearer(actor) and not handPlayed(actor, hand_blessing) and not cl_seal_broken(actor) and (knows(actor, urn_hollow) or knows(actor, cl_hobb_urn)).
+    Time 3.
+    Resolve check(actor, rites, dc_fair).
+    On success { Assert handPlayed(actor, hand_blessing). Assert cl_blessed_true(actor). Set handWay(hand_blessing) to 3. }
+    Result "You turn your back on the Urn. It is not in the form, and it is the one thing in the form the Concord has never forbidden because nobody ever thought to try. You lift your hand over the Hall instead, over the four hundred masks and the doors and the water beyond, and bless what is there: the bakers and the ferrymen and the lamp-boys, the Spent in their cloisters, the strangers at the Gate, the people who are drawn and the people who are not. You say nothing about the Urn at all. When you have finished the Hall is silent in a way you have not heard in it, the silence of a crowd that has been spoken to as a crowd of people. Father Ansel puts his hand over his mouth.".
+    Otherwise "You turn from the Urn and the words will not come in their order; a blessing is a thing that cannot be hurried, and the Hall is watching. You lower your hand. Father Ansel says, very quietly, 'Try again. Take your time. They will wait.'".
+  }
+
+  // ── Milestones ────────────────────────────────────────────────────────────────────────────────────────────────────
+  Milestone cl_m_assigned "took the Chapel's grille from a Hearer who could no longer sit it" worth 25 when cl_assigned(party).
+  Milestone cl_m_hobb "put the Serene's mask in front of a candle and showed him nobody was in it" worth 75 when cl_hobb_unburdened(party).
+  Milestone cl_m_lacke "gave the Warden of Locks a way to lay the Key down" worth 75 when cl_lacke_spent(party) or cl_lacke_reporting(party).
+  Milestone cl_m_pell "asked a clerk to put the Book down, and was obeyed" worth 75 when cl_pell_released(party).
+  Milestone cl_m_kept "was told by Father Ansel that the grille had been kept" worth 50 when knows(party, cl_hearing_kept).
+  Milestone cl_m_blessing "blessed the people of Ombra at the Drawing and not the Urn" worth 100 when cl_blessed_true(party).
+  Milestone cl_m_refusal "refused the Draw in the Chapel's name" worth 75 when cl_refused(party).
+
+  // ── What became of them ───────────────────────────────────────────────────────────────────────────────────────────
+  Rule cl_fate_hobb_free when newsHour() and cl_hobb_unburdened(party) once says "Of Hobb, the Serene: he took the mask off in the cooperage on the morning of the ninth, with nobody looking, and held it up to the window, and put it on again to go to the Drawing, because it was his Office and he had said he would; he says that it is not so heavy, now, as it was." { }
+  Rule cl_fate_hobb_eased when newsHour() and cl_hobb_eased(party) and not cl_hobb_unburdened(party) once says "Of Hobb, the Serene: he knows now that she was dead when he came to the door, and has said so to his wife, who said it was a great thing to learn at his age. He is still in the mask. He has stopped running from it." { }
+  Rule cl_fate_hobb_absolved when newsHour() and cl_absolved(cl_cooper) and not cl_hobb_unburdened(party) and not cl_hobb_eased(party) once says "Of Hobb, the Serene: he was absolved in the box, in the form, and kept the mask on, and will, they say in the Drip, keep it on until it is taken off him at the end of the year, like a man holding his breath underwater with a smile." { }
+  Rule cl_fate_hobb_unheard when newsHour() and cl_stage(cl_cooper) == 0 and cl_assigned(party) once says "Of the cooper in the Serene's mask: he came to the confessional on the third night and the fifth and the seventh, and nobody was there to hear him. The Chapel says only that someone came." { }
+  Rule cl_fate_lacke_spent when newsHour() and cl_lacke_spent(party) once says "Of the Warden of Locks: he laid the Key down at the grille in the Chapel's form, before the Drawing, and goes into his year of silence without a name cried in any square; it is generally put about that he was taken ill. He sent the Chapel a ham." { }
+  Rule cl_fate_lacke_reports when newsHour() and cl_lacke_reporting(party) and not cl_seal_broken(party) once says "Of the Warden of Locks: he went to the Gate at the third bell, on the ninth day, and said it to Sergeant Vail in his own voice, in a good coat, standing; and what the Watch has done with it, nobody has said. He is still, as far as the Row knows, the Warden. It is a very odd thing to see a man trying not to look relieved." { }
+  Rule cl_fate_lacke_betrayed when newsHour() and cl_seal_broken(party) and cl_lacke_reported(party) once says "Of the Warden of Locks: he was sent for from the Watch-house on the morning after the Hearer carried the box's word out. He did not deny it. It is said that what he cannot forgive is not the Watch, but the Chapel; that he will not go into it again; and that he sent a note by the verger, which said, in a good hand: I believed it kept." { }
+  Rule cl_fate_lacke_absolved when newsHour() and cl_absolved(cl_warden) and not cl_lacke_reporting(party) and not cl_lacke_spent(party) and not cl_lacke_reported(party) once says "Of the Warden of Locks: absolved in the box, and nothing more. He is in his office on the Row in the Key, and has been seen to pay the baker. The Lock-tax is, it is said, a little closer to what it should be, as though a conscience were a draught that did not quite shut." { }
+  Rule cl_fate_pell_released when newsHour() and cl_pell_released(party) once says "Of Tomas Pell, the Registry's clerk: he has slept, for the first time in nine nights, with a whole night's rest on both sides of it, and is told by his landlady that he looks ten years younger. He asked the Chapel's verger whether the box had a way of letting a man in, and was told that it had; and went in." { }
+  Rule cl_fate_pell_absolved when newsHour() and cl_absolved(cl_clerk) and not cl_pell_released(party) once says "Of Tomas Pell, the Registry's clerk: he was absolved in the box and walked out of the Chapel with his thumb at work. What he did with what he took, he has not told the Chapel; and the Chapel did not ask." { }
+  Rule cl_fate_pell_felt when newsHour() and cl_pell_felt(party) once says "Of Tomas Pell, the Registry's clerk: he went to the third rack in the sorting-hall of the Dead Letter Office on the morning of the ninth, and the parcel was not there. He stood in front of it for some time. It is said that he did not ask who had it, because he knew; and that he walked away down the Wet Post saying, to nobody, the form for a confession." { }
+  Rule cl_fate_ansel_lie when newsHour() and cl_blessed_lie(party) once says "Of Father Ansel: he heard the old words said over the Urn in the Chapel's name, by someone who said them well, and thanked them; he has been seen at the lamps every evening since, trimming wicks that were not in need of it, for a very long time." { }
+  Rule cl_fate_ansel_refused when newsHour() and cl_refused(party) once says "Of Father Ansel: the Chapel refused the Draw, and he stood beside the one who said it, and the Hall did not riot, which no one expected; he says that in forty years he has never been so afraid, and never so little ashamed." { }
+  Rule cl_fate_ansel_true when newsHour() and cl_blessed_true(party) once says "Of Father Ansel: it is said that the people of Ombra, on the ninth night, were blessed and not the Urn, and that nobody could say afterward why it had seemed the right way round. He has had the verger fetch the Hearer's grille out of storage, and put it in the nave, where people may see through it." { }
+  Rule cl_fate_seal when newsHour() and cl_seal_broken(party) once says "Of the Chapel's confessionals: the taper in the penitent's tin shade has not been lit since the night the box's word was carried out. The people who came to it have found, in the nine days, that Ombra has no other place that will let a masked person kneel to a bare one; some say the Chapel was a fiction; some say it was the only true thing in the city, and the Hearer broke it for the sake of a Warden's name." { }
 }
