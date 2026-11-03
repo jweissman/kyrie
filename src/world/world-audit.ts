@@ -121,7 +121,7 @@ export class WorldAudit {
     return campaign.world.relates(name) ? campaign.world.related(name) : [];
   }
   // Whether some aim holds when the fact is known: its condition asks that it be known, not that it not be.
-  private static aimed(campaign: Campaign, fact: string): boolean {
+  static aimed(campaign: Campaign, fact: string): boolean {
     return (campaign.module.objectives ?? [])
       .some(o => this.calls(o.when).some(c => c.name === 'knows' && c.args[1] === fact));
   }

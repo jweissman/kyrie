@@ -77,7 +77,7 @@ Module pellam "The Liberty of the Ice" {
     Result "'Brother,' says Doody, or 'Sister,' and wipes his nose, and gives it you. 'The cloth must stick together. Nobody else will.'".
   }
   Action read_register(actor: group, reader: member, site: place) "Read the register of the last Frost Fair" {
-    Requires able(actor) and memberOf(reader, actor) and ownedItem(old_register, reader) and not benighted(actor) and not knows(actor, gosling_wed).
+    Requires able(actor) and at(actor, site) and memberOf(reader, actor) and ownedItem(old_register, reader) and not benighted(actor) and not knows(actor, gosling_wed).
     Time 1.
     On success { Assert knows(actor, gosling_wed). }
     Result "Old Grigg's hand gets worse as the Fair goes on, and on the last night it is very bad indeed. Fifty marriages between dusk and midnight. The forty-first: Hamnet Gosling, nineteen, apprentice to the Wool Exchange, and Isabel Ashby, nineteen, of the Frozen Lamb. Both have signed. He has drawn a little skate beside his name. Under the last entry Grigg has written, very large: ICE GOING. GOD SAVE US. NOT LANDED.".

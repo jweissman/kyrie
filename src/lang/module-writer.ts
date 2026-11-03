@@ -62,7 +62,7 @@ export class ModuleWriter {
     }
     for (const o of module.observations ?? []) {
       const how = `${o.aspect ? ` as ${o.aspect}` : ''}${o.by ? ` noticed by ${o.by}` : ''}`;
-      lines.push(`  Observe ${o.id} ${o.anchor ?? 'at'} ${o.place}${o.about ? ` of ${o.about}` : ''}${how} when ${ModuleWriter.predicate(o.when)} ${JSON.stringify(o.text)}${o.teaches ? ` teaches ${o.teaches}` : ''}.`);
+      lines.push(`  Observe ${o.id} ${o.anchor ?? 'at'} ${o.place}${o.from ? ` from ${o.from}` : ''}${o.about ? ` of ${o.about}` : ''}${how} when ${ModuleWriter.predicate(o.when)} ${JSON.stringify(o.text)}${o.teaches ? ` teaches ${o.teaches}` : ''}.`);
     }
     for (const o of module.objectives ?? []) {
       lines.push(`  Objective ${o.id} when ${ModuleWriter.predicate(o.when)} ${JSON.stringify(o.text)}.`);

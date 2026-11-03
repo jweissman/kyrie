@@ -22,8 +22,10 @@ Kyr {
               | "opening" "when" Predicate string? -- opening
   timeUnit = "minutes" | "minute" | "hours" | "hour" | "days" | "day"
   Thing = "Thing" ident string ThingSite ThingKind? Concealed? "{" ThingPart* "}"
+  // One end of a way: a thing on the way, or a line beside it, told only to a company at that end (GTR-08).
+  WayEnd = "from" ident
   ThingSite = "at" ident -- at
-            | "on" ident -- on
+            | "on" ident WayEnd? -- on
             | kwIn ident -- in
   ThingKind = "is" ident
   ThingPart = StatePart | ChangePart | HurtsPart | GuardsPart | HoldsPart | TriesPart
@@ -43,7 +45,7 @@ Kyr {
     | "." -- plain
   Anchor = "at" term -- at
          | "near" term -- near
-         | "beside" ident -- beside
+         | "beside" ident WayEnd? -- beside
          | "within" term -- within
   Objective = "Objective" ident "when" Predicate string "."
   Milestone = "Milestone" ident string MilestoneWorth

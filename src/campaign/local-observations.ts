@@ -75,6 +75,7 @@ export class LocalObservations {
     const here = world.one('at', actor), all = (world.module.observations ?? [])
       .filter(o => !dark || ['sound', 'felt'].includes(o.aspect ?? ''));
     const seen = all.filter(o => !o.place.startsWith('?') && ((o.anchor ?? 'at') !== 'at' || o.place === here)
+      && (!o.from || o.from === here)
       && this.perceives(world, actor, o.place, o.anchor)
       && world.test(o.when) && this.noticed(world, o.about ?? (o.anchor === 'near' ? o.place : undefined), actor)
       && this.brings(world, actor, o.by));

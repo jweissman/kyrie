@@ -7,7 +7,8 @@ import type { CampaignLint } from './campaign-lint';
 export class AuthorLint {
   // What a whole adventure, one with an ending, should have: a first place said, and something to grow by.
   static run(lint: CampaignLint) {
-    this.greetings(lint); this.lowered(lint); this.walkers(lint); this.placesAt(lint);
+    this.greetings(lint); this.lowered(lint); this.walkers(lint); this.placesAt(lint); this.aliases(lint);
+    this.goods(lint); this.unbound(lint);
     if (lint.module.entities.some(e => e.type === 'ending')) { this.opening(lint); this.growth(lint); }
   }
   // An act that lowers a measure, not a price, with nothing that asks how much there is: below nothing, it is not
@@ -48,6 +49,36 @@ export class AuthorLint {
         if (!places.has(m[1]!)) { continue; }
         lint.add('warning', 'at', `${id} asks at(${m[1]}, …), which is never so: a place is not at anything; `
           + `ask at(actor, ${m[1]})`);
+      }
+    }
+  }
+  // Someone known as their own name until something holds never changes name (the Quiet in the Sky's 7).
+  static aliases(lint: CampaignLint) {
+    for (const e of lint.module.entities.filter(x => x.id.includes('__'))) {
+      const same = [...(e.roles ?? []).map(r => r.name), e.alias?.name].filter(n => n === e.name);
+      if (same.length) {
+        lint.add('advice', 'alias', `${e.id} is known as "${e.name}", their own name, until it changes: they never change name`);
+      }
+    }
+  }
+  // Holding a good (rations, coin) is never true: a good is counted, not carried (Fair Weather's 11).
+  static goods(lint: CampaignLint) {
+    const goods = new Set(lint.module.entities.filter(e => e.type === 'good').map(e => e.id));
+    const held = [...JSON.stringify([lint.module.actions.filter(a => a.id.includes('__')).map(a => a.requires),
+      (lint.module.rules ?? []).filter(r => r.id.includes('__')).map(r => r.when)])
+      .matchAll(/"name":"holding","args":\["[^"]*","([^"]+)"\]/g)].map(m => m[1]!).filter(g => goods.has(g));
+    for (const g of new Set(held)) {
+      lint.add('warning', 'good', `holding(…, ${g}) is never true: ${g} is a good, counted by quantity(…, ${g}) >= 1`);
+    }
+  }
+  // A parameter its condition never names is offered for every one of its type in the world: one choice for each
+  // place there is (Half the Hive's 10).
+  static unbound(lint: CampaignLint) {
+    for (const a of lint.module.actions.filter(x => x.id.includes('__') && !x.schema)) {
+      const asked = JSON.stringify(a.requires);
+      for (const p of (a.parameters ?? []).filter(x => !asked.includes(`"${x.name}"`))) {
+        lint.add('warning', 'unbound', `Action ${a.id}: nothing in its condition names ${p.name}, so it is offered `
+          + `once for every ${p.type} in the world; ask it (at(actor, ${p.name}), …)`);
       }
     }
   }

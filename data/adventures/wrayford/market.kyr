@@ -111,7 +111,7 @@ Module wrayford "The Third Night" {
     described "A day-book bound in calf, scorched on the outside, every page within ruled and filled in a small exact hand: four months of the bridge toll, cart by cart, beast by beast, and a second column, very faint, in pencil.".
   Item daybook "the toll day-book" is daybook_kind at pinch_room hidden until daybook_found.
   Action read_daybook(actor: group, reader: member, site: place) "Read the toll day-book" {
-    Requires able(actor) and memberOf(reader, actor) and ownedItem(daybook, reader) and not benighted(actor) and not knows(actor, daybook_read).
+    Requires able(actor) and at(actor, site) and memberOf(reader, actor) and ownedItem(daybook, reader) and not benighted(actor) and not knows(actor, daybook_read).
     Time 1.
     On success { Assert knows(actor, daybook_read). }
     Result "It is very clear, which is the terrible thing about it. Every cart, every beast, every farthing, entered in ink. And beside every fifth entry, in pencil, faint as a breath, a mark: a penny for the Company, and a penny for Amos Pinch. Four months of it. The last page is the night of the rising, the entries stopping at the hour the chain went, and under them, in pencil, as if he could not help it, a sum: what the fire would save him.".
@@ -233,7 +233,7 @@ Module wrayford "The Third Night" {
   }
   Relation triedPratt(group). Relation acquireRing(member).
   Action take_ring(actor: group, recipient: member, site: place) "Take the ring that is owed" {
-    Requires able(actor) and memberOf(recipient, actor) and acquireRing(recipient).
+    Requires able(actor) and at(actor, site) and memberOf(recipient, actor) and acquireRing(recipient).
     Time 0.
     Resolve acquire(joss_ring, ring_kind, recipient).
     On success { Retract acquireRing(recipient). }

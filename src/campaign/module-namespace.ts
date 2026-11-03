@@ -107,6 +107,7 @@ export class ModuleNamespace {
         when: this.predicate(o.when), text: this.text(o.text) })),
       observations: original.observations?.map(o => ({ ...o, id: `${this.bindings.id}__${o.id}`,
         place: o.place.startsWith('?') ? o.place : this.entities[o.place]!, when: this.predicate(o.when),
+        ...o.from ? { from: this.entities[o.from] ?? o.from } : {},
         text: this.text(o.text), ...(o.teaches ? { teaches: this.entities[o.teaches]! } : {}),
         ...(o.about ? { about: this.entities[o.about] ?? o.about } : {}) })),
       initial: original.initial.map(c => this.change(c)), goal: this.predicate(original.goal),

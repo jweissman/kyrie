@@ -26,13 +26,13 @@ export class ModuleParser {
     PassagePart_needs: ModuleParser.Needs, Thing: ModuleParser.Thing, ThingSite_in: ObjectParser.In,
     HoldsPart: ObjectParser.HoldsPart, Concealed: ObjectParser.Concealed, ItemPlace_at: ObjectParser.At,
     ItemPlace_in: ObjectParser.In, FoundBy: ModuleParser.FoundBy, FoundWith: ObjectParser.FoundWith,
-    ThingSite_at: ModuleParser.Site, ThingSite_on: ModuleParser.Site, ThingKind: ModuleParser.ThingKind,
-    StatePart: ModuleParser.StatePart, PersonLeavesTo: PersonParser.PersonLeavesTo,
+    ThingSite_at: ModuleParser.Site, ThingSite_on: ObjectParser.SiteOn, WayEnd: ObjectParser.WayEnd,
+    ThingKind: ModuleParser.ThingKind, StatePart: ModuleParser.StatePart, PersonLeavesTo: PersonParser.PersonLeavesTo,
     ChangePart: ModuleParser.ChangePart, ChangeNeeds: ModuleParser.ChangeNeeds, ChangeAfter: ModuleParser.Third,
     ChangeConsumes: ModuleParser.Second, HurtsPart: ModuleParser.HurtsPart, GuardsPart: ModuleParser.GuardsPart,
     TriesPart: ModuleParser.TriesPart, MemberBinding: StatementParser.MemberBinding, LeavesTo: PersonParser.LeavesTo,
     Event: ModuleParser.Event, EventTail_effects: ModuleParser.EventEffects, EventTail_plain: ModuleParser.EventPlain,
-    Anchor_at: ModuleParser.Anchor, Anchor_near: ModuleParser.Anchor, Anchor_beside: ModuleParser.Anchor,
+    Anchor_at: ModuleParser.Anchor, Anchor_near: ModuleParser.Anchor, Anchor_beside: ObjectParser.Beside,
     Anchor_within: ModuleParser.Anchor, Objective: ModuleParser.Objective, PersonCalled: PersonParser.PersonCalled,
     PersonHorizon: PersonParser.PersonHorizon, PersonPeaceable: PersonParser.PersonPeaceable,
     RuleSays: ModuleParser.Second, Seen: ModuleParser.Seen, TopicOnce: PersonParser.TopicOnce,
@@ -354,8 +354,8 @@ export class ModuleParser {
   // perceived while the company has not noticed that entity.
   static Observation(_observe: Node, id: Node, anchor: Node, about: Node, aspect: Node, by: Node, _when: Node,
     predicate: Node, text: Node, teaches: Node, _dot: Node): Field {
-    const where = ModuleParser.ast(anchor) as { kind: string; id: string };
-    return { field: 'observation', value: { id: id.sourceString, place: where.id,
+    const where = ModuleParser.ast(anchor) as { kind: string; id: string; from?: string };
+    return { field: 'observation', value: { id: id.sourceString, place: where.id, ...where.from ? { from: where.from } : {},
       ...(where.kind === 'at' ? {} : { anchor: where.kind }), when: ModuleParser.ast(predicate), text: ModuleParser.ast(text),
       ...(about.children.length ? { about: about.children[0]!.children[1]!.sourceString } : {}),
       ...(aspect.children.length ? { aspect: ModuleParser.ast(aspect.children[0]!) } : {}),

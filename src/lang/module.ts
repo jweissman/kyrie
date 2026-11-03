@@ -83,6 +83,8 @@ export type Aspect = 'fixture' | 'feature' | 'sign' | 'weather' | 'ambience' | '
   | 'hearsay' | 'sound' | 'felt';
 export interface Observation {
   id: string; place: string; anchor?: Anchor; when: Predicate; text: string; teaches?: string;
+  // Beside a way: the end of it it is told from, if only one (a guard who stands on this side).
+  from?: string;
   // The entity described, which is not perceived while the company has not noticed it.
   about?: string;
   aspect?: Aspect;

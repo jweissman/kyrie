@@ -9,12 +9,15 @@ import { join, resolve } from 'node:path';
 // 26; A Winter in Carth's 15).
 export class AdventureNames {
   static readonly shared = new Set(['Imbar']);
-  static readonly declared = /^\s*(Person|Place)\s+\w+\s+"([^"]+)"/gm;
+  static readonly declared = /^\s*(Person|Place|Kind)\s+(\w+)\s+"([^"]+)"/gm;
   static readonly titles = new Set(['Speaker', 'Precentor', 'Sir', 'Lady', 'Lord', 'Master', 'Mother', 'Father',
     'Brother', 'Sister', 'Old', 'Young', 'Captain', 'Warden', 'Steward', 'Reeve', 'Saint', 'Dame', 'Doctor']);
   // A person's surname, or the name of one called by one name; a place's name without its article, if it is a
   // proper name.
-  static of(kind: string, name: string): string[] {
+  // A kind of thing by its id, which is the world's one namespace of kinds (Fair Weather's 13: a clash found by a
+  // test, not as an author drafts).
+  static of(kind: string, name: string, id = ''): string[] {
+    if (kind === 'Kind') { return [id]; }
     const words = name.replace(/^(the|a|an) /i, '').replace(/'s\b|’s\b/g, '').split(/\s+/);
     if (kind === 'Person') {
       const proper = words.filter(w => /^[A-Z][a-z]+$/.test(w) && !this.titles.has(w));
@@ -32,9 +35,9 @@ export class AdventureNames {
     for (const adventure of adventures) {
       for (const file of readdirSync(join(root, adventure.name)).filter(f => f.endsWith('.kyr'))) {
         for (const m of readFileSync(join(root, adventure.name, file), 'utf8').matchAll(this.declared)) {
-          for (const n of this.of(m[1]!, m[2]!).map(n => `${m[1]}: ${n}`)) {
+          for (const n of this.of(m[1]!, m[3]!, m[2]!).map(n => `${m[1]}: ${n}`)) {
             if (!names.has(n)) { names.set(n, new Map()); }
-            names.get(n)!.set(adventure.name, m[2]!);
+            names.get(n)!.set(adventure.name, m[3]!);
           }
         }
       }

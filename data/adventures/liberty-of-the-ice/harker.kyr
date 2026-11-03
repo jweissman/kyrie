@@ -76,7 +76,7 @@ Module pellam "The Liberty of the Ice" {
   Relation deskSeen(group).
   Rule desk_shuts when hour(clock) == 8 and state(harker_desk, open) { Assert state(harker_desk, locked). }
   Action read_ledger(actor: group, reader: member, site: place) "Read Harker's hiring ledger" {
-    Requires able(actor) and memberOf(reader, actor) and (ownedItem(ledger, reader) or reaches(actor, ledger)) and not benighted(actor) and not knows(actor, ledger_read).
+    Requires able(actor) and at(actor, site) and memberOf(reader, actor) and (ownedItem(ledger, reader) or reaches(actor, ledger)) and not benighted(actor) and not knows(actor, ledger_read).
     Time 1.
     On success { Assert knows(actor, ledger_read). Assert knows(actor, hired_sold). }
     Result "Nine years of Pellam hirings in Kemble's neat hand. Name, age, token (crook, pail, whip, mop), and then two columns. The first is headed PLACE, and under it, for every name, in the same hand: farm in the hills. The second is headed DISPOSED, and under it, for every name, in pencil: Gallowmoor, by Ossett's agent, eight coin. At the spring hiring of this year, the eleventh name is Richard Cobb, twenty, of Swale Head, token a crook. Gallowmoor, eight coin. Against three of the names, nine years back, someone has written in pencil, very small: dead.".
@@ -169,7 +169,7 @@ Module pellam "The Liberty of the Ice" {
   Kind bondbook_kind "Kemble's bond book" is gear worth 0 weighing 1 described "A thin book in Kemble's hand: this Fair's hirings, name, age and token, each with a little drawn hand beside it for shaken, and on the last page in pencil, not in Kemble's hand but in Harker's: All to Ossett's agent at the thaw. Gallowmoor.".
   Item bondbook "Kemble's bond book" is bondbook_kind at bond_floor owned by harker.
   Action read_bondbook(actor: group, reader: member, site: place) "Read Kemble's bond book" {
-    Requires able(actor) and memberOf(reader, actor) and (ownedItem(bondbook, reader) or reaches(actor, bondbook)) and not benighted(actor) and not knows(actor, bondbook_read).
+    Requires able(actor) and at(actor, site) and memberOf(reader, actor) and (ownedItem(bondbook, reader) or reaches(actor, bondbook)) and not benighted(actor) and not knows(actor, bondbook_read).
     Time 1.
     On success { Assert knows(actor, bondbook_read). Assert knows(actor, hired_sold). }
     Result "This Fair's hirings: Tansy Hobb, fifteen, Swale Head, pail; Amos Pell, nineteen, Garthwaite, whip; and on, name by name, each with a little drawn hand. On the last page, in pencil, in a different hand, broader and more careful: All to Ossett's agent at the thaw. Gallowmoor.".

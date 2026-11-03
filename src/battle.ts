@@ -9,6 +9,7 @@ import { Expressions } from './expressions';
 import { Effects, type EffectContext } from './effects';
 import { Targeting } from './targeting';
 import { Fighting } from './rules/fighting';
+import { Morale } from './rules/morale';
 import { Tactics } from './tactics';
 import { Quarry } from './quarry';
 import { ItemCatalog } from './item-catalog';
@@ -350,7 +351,9 @@ export class Battle {
   private first(id: string): number { return Number(this.fighters.find(f => f.id === id)?.team === 'fighters'); }
   // Combat.round: a foe that has turned to flight leaves before anyone rolls, and what it summoned goes with it.
   private rout() {
-    for (const f of this.fighters.filter(x => x.hp > 0 && x.team !== 'fighters' && Effects.modifiers(x).flee)) {
+    // And a band broken, half of it down (see Morale).
+    for (const f of new Set([...this.fighters.filter(x => x.hp > 0 && x.team !== 'fighters' && Effects.modifiers(x).flee),
+      ...Morale.broken(this.fighters, this.departed)])) {
       this.depart(f);
       this.history.push({ type: 'flee', turn: this.turn, actor: f.id, success: true });
     }

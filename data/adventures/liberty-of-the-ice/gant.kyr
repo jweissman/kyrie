@@ -35,7 +35,7 @@ Module pellam "The Liberty of the Ice" {
   }
   Rule counterpart_comes when counterpartGiven(gant) and at(counterpart, limbo) and at(party, ?p) { Retract at(counterpart, limbo). Assert at(counterpart, ?p). }
   Action read_counterpart(actor: group, reader: member, site: place) "Read Sir Lionel's counterpart against what Harker's writ says" {
-    Requires able(actor) and memberOf(reader, actor) and ownedItem(counterpart, reader) and knows(actor, gant_bond) and not benighted(actor) and not knows(actor, gant_altered) and not counterpartTried(actor).
+    Requires able(actor) and at(actor, site) and memberOf(reader, actor) and ownedItem(counterpart, reader) and knows(actor, gant_bond) and not benighted(actor) and not knows(actor, gant_altered) and not counterpartTried(actor).
     Time 1.
     Resolve check(actor, lore, dc_easy).
     On success { Assert knows(actor, gant_altered). Assert counterpartTried(actor). }

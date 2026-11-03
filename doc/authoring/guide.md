@@ -61,7 +61,8 @@ physically. The kinds are `passage`, `door`, `doorway`, `arch`, `gate`, `stair`,
 `track`, `road`, `causeway`, `bridge`, `ford`, `tunnel`, `crawl`, `culvert`, `drift`, `incline` and `ferry`. Its
 duration says how long it takes to cross: a minute through a door, doorway, arch or gate, two on a stair, steps or a
 ladder, ten minutes for anything else, unless you write `taking 3 minutes`, `taking 30 minutes` or `taking 2 hours`. A
-passage can be `hidden until` a fact is known, or `needing` a skill or an item kind.
+passage can be `hidden until` a fact is known, or `needing` a skill or an item kind (a Change too, and either of two:
+`needing crowbar or lockwork`).
 
 ```kyr
   Passage heron_door "the Heron's door" is door between taproom and green.
@@ -248,6 +249,8 @@ moves the thing from one state to another. It can need a skill, an item kind or 
 good, and `at` a place it can be made from there alone. You never write a separate scene line saying the gate is
 open: the gate's state says it. `changedBy(thing, who)` says who last changed a thing by one of its changes, so a rule
 can ask who opened the lockbox, not only that it is open (What Tessary Owes' W15; `test/fixtures/probes/changed-by`).
+A thing on a way is told at both its ends; one seen from one end only says so (`Thing step "the deep step" on ford from
+far_bank`), and so may a line beside a way (`Observe post beside ford from near_bank when true "…"`).
 
 ```kyr
   Thing grille "the rusted grille" on ossuary_arch {
@@ -423,8 +426,10 @@ time passes a watch at a time, and its success applies only if it runs its cours
 A thing can hold others (`Holds.`), and a state flagged `closed` keeps what it holds out of sight and reach. Items
 and things can start inside one (`in chest`), and anything can be `hidden until` a fact the company learns; a
 discovery can be `Found by searching` a place (optionally `with` a skill), and is then seen there from that time on.
-Every thing can be tried: looked over closely, prodded with a pole, pried at with a bar, put to the flame, pushed and
-pulled, listened at. Offering a try reveals nothing; what a try finds is an observation or a rule on `tried(thing,
+A thing can be tried as what it is: anything looked over closely; one that holds or shuts also prodded with a pole,
+pried at with a bar and listened at; one that blocks a way (`on` it) listened at, pushed and pried at; one set in a way
+that hurts, prodded from a pace off. Any other try is offered by naming it, `Tries burning, pushing.` (Quittance's
+A11: a thing offered only Look closely, and the guide had said every try was offered). Offering a try reveals nothing; what a try finds is an observation or a rule on `tried(thing,
 verb)`, and a try that finds nothing says so. A trap is a thing whose rule asserts `strikes(hazard, party)`; the
 world turns the hazard on one member. From `test/fixtures/strongroom`:
 
@@ -485,7 +490,9 @@ the dark again (the Road's B3: a lantern smothered in a coat had stayed lit).
 `tolerates(x, company)` means x lets the company be: it does not bar the company's way, fall on it, or break its
 rest. A toll, a bribe, an audience or a bargain is a rule or action that asserts it, and a betrayal retracts it. Any
 person or creature, a band of them as well, can stand over a way: a `blocking` state and `Guards drain_way.` bar it
-until they let the company by (`test/fixtures/probes/guarded-way`: six rats over a drain, thrown bread).
+until they let the company by (`test/fixtures/probes/guarded-way`: six rats over a drain, thrown bread). Those who
+guard a way can be fought from either side of it, so Attack is offered against them from the room before it
+(Quittance's friction 24); one who should only be met inside is at their place, not guarding the way in.
 `keyholder(x, thing)` lets x, and whoever serves x, through a way that thing bars. From the Lanthorn, also retired:
 
 ```text
@@ -557,6 +564,10 @@ the Banns at Hessel's 24).
   Observe nave_scene at nave when true "Tablets line the nave. One tablet only says, HE CAME TOO LATE.".
   Observe tablet_newer at nave when state(tablets, newer) "Under the west window one tablet is newer and whiter than the rest.".
 ```
+
+The page at a glance gives a place's first two sentences, with its people and its signs; the rest is under Look
+about, and a place come back to is recalled by its first sentence. So a place leads with what matters most in it
+(the Lull's friction 10; the sentences split as the page splits them, not at "Mr." or "St.", GTR-17).
 
 ## 7. module.json: rules and exports
 
@@ -744,6 +755,13 @@ telling, set as a book is, its quotes curled. A step that matches choices doing 
 is kept in `ambiguous`; a journey started `{ strict: true }`, or run with `JOURNEY_STRICT=1`, fails there instead, and
 names them (`test/journey-driver.test.ts`).
 
+A test asks of the world by the names its module gives (`j.holds('complete', 'reckoner')`, `j.measure('trust',
+'pettifer')`, the installed module's prefix found as `=until` finds it), and is told when nothing is called that.
+What the steps to it would only repeat, it may make so: `j.assert('knows', 'party', 'map_read')`, `j.put('tobias',
+'cellar')`, `j.give('forged_writ')` (into the hands of the first of the company who is up); and `>place` goes to a
+place of the region or of an installed module by its own id (`test/journey-helpers.test.ts`; Quittance's friction 8
+and 9).
+
 ## 10. What else a module can say
 
 The example above is a village; an adventure of your own will want more. Each construct below is shown by the
@@ -844,7 +862,9 @@ nothing until then (a rule at `watch(clock) >= 216` waits 216 watches from that 
 `nightCount(clock)` are counted from that morning too, `day(clock)` being 1 on that first morning, 2 on the next
 (Quittance's friction 3), and `hour(clock)` is the world's. A country reached in the
 evening has its first day still to come, so a rule for that day's afternoon asks `watch(clock) >= 0` as well, or fires
-that evening (the Liberty of the Ice's 7). What it says of the company that comes in is said by names of its own
+that evening (the Liberty of the Ice's 7). A measure of a time it keeps (`Set fedAt(goats) to watch(clock)`) reads 0
+until set, which before that first morning is later than now: ask a fact that it was set, not that it is above 0
+(Half the Hive's 7). What it says of the company that comes in is said by names of its own
 (`Initially Set breath(party) to 12`).
 
 ### Someone on an errand of their own
@@ -853,7 +873,8 @@ Someone can have somewhere to be. A person who goes by the ways (`Uses go.`) and
 how many ways ahead they look) takes up a `Pursuit` whose aim is a place: they walk there a way at a time, taking each
 way's time; the company sees them go, and can meet them on the road (`test/fixtures/probes/errand`; the Road's F10:
 Webb's walk to Keld had been a teleport). Of several pursuits the one of the highest priority whose condition holds is
-taken up.
+taken up, until what it seeks holds; then the next (Quittance's A30), so a pursuit of home at a lower priority brings
+someone back from an errand done. One who does not `Uses go` goes nowhere, and the lint says so (its 5).
 
 ```text
   Person webb "Webb" at yard { Role "a carter". Uses go. Plans 14 steps. Peaceable. Pronouns he. }
@@ -1015,7 +1036,9 @@ learning makes hold fires then: a rule that held already goes on as it did.
 
 An ending closes the book. The first whose condition holds is reached once: its epilogue is told as it happens, play
 stops, and the page closes on its title and epilogue, as it does when no one is left standing
-(`test/fixtures/probes/ending`):
+(`test/fixtures/probes/ending`). That is so of an adventure played on its own; placed in a generated world (as every
+adventure is, a province of the first country) its ending closes its chapter only, and the world goes on: what its
+folk say after (`after` in countries.json) and its aftermath's rules are its dénouement (Fair Weather's 6):
 
 ```text
   Ending opened "The Gate Opens" when state(lever, up) "The gate grinds open on the valley beyond, and the pass is yours.".
@@ -1147,9 +1170,12 @@ A command takes minutes (`Time 2 minutes.`) or watches (`Time 1.`, ten minutes e
 them is a watch passed. A command's time passes a watch at a time. In each watch: the clock moves (`watch`, `dark()`,
 `hour(clock)`, `day(clock)`, `nightCount(clock)`, `dice(clock)`) and conditions on bodies run down; every other power
 and person acts, in the order the campaign lists them; then every rule is tried once, the shared rules first, then each
-module in the order the campaign installs it, each in the order its rules are written; then each way that opens only
-sometimes is read again; then what a hazard strikes lands on bodies. A rule sees what the rules before it changed in the
-same watch. A rule whose condition still holds fires again next watch, so a rule meant to happen once is written `once`
+module in the order the campaign installs it, each in the order its rules are written (its files in the order its
+module.json lists them: Quittance's 23); then each way that opens only sometimes is read again; then what a hazard
+strikes lands on bodies. A rule sees what the rules before it changed in the same watch, so a shared rule has done its
+work before a module's is tried: one brought home is no longer `following` by then (`brought_home` retracts it, and
+asserts `cameHome(person)`), and a module's rule for the homecoming waits on `cameHome`, not on `following` (Half the
+Hive's 13). A rule whose condition still holds fires again next watch, so a rule meant to happen once is written `once`
 (`Rule bell when watch(clock) >= 1 once says "A bell rings." { … }`), changes what it tests (`Assert sung(party)` beside
 `not sung(party)`, for once per one of many), or is an `Event`, which happens once. An action that passes no watch (one
 that takes no time, or a few minutes) is followed by one pass of the rules and whatever a hazard strikes, and no clock.
@@ -1167,6 +1193,9 @@ spectral, vampiric), each adding to its attributes, abilities and traits as `dat
   Person hounds "the hounds" at den { Role "hounds". Species wolf. Aspect venomous. Numbers 2. }
   Person bones "the bones" at barrow { Role "a dead wolf". Species wolf. Undead skeletal. }
 ```
+
+A band of `Numbers 2` or more is one group: `able(hounds)` while any of them is up, `dead(hounds)` only when every
+one is down (Quittance's A17).
 
 ### Something said near each one of many
 
@@ -1190,6 +1219,9 @@ To anyone else they are not there: not on the page, and nothing can be done to t
 ```text
   Person lady "the grey lady" at nave { Role "a woman who died here". Peaceable. Seen when knows(viewer, sight). }
 ```
+
+The condition may ask anything, not only what the viewer knows: Quittance's lamplighters are about only after dark
+(`Seen when hour(clock) >= 17 or hour(clock) < 5.`; its A28).
 
 ### Said once for each one it finds
 

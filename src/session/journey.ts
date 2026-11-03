@@ -14,6 +14,8 @@ import { PlayerView } from '../presentation/player-view';
 import { Narrator } from '../presentation/narrator';
 import { ActionFeedbackView } from '../presentation/action-feedback';
 import { EndingOrder } from '../lang/ending-order';
+import { Consequences } from '../campaign/consequences';
+import type { TickHost } from '../campaign/campaign-tick';
 
 // A choice the page offers, as an author names it in a step: its label ("Examine › Push and pull at it", "Pack › A
 // torch › Light", "a torch: Light"), and the same under the heading it is offered beneath ("the Sleeper's left
@@ -141,7 +143,10 @@ export class Journey {
   private chosen(step: string): Offered {
     const matched = this.matches(step), c = matched[0];
     if (!c) {
-      throw Journey.unoffered(`No /${step}/ at watch ${this.watch()} among ${this.choices().map(x => x.label).join(' | ')}`);
+      // (Not every Pack and Give row, which buried what was offered under four thousand characters: Quittance's A14.)
+      const all = this.choices().map(x => x.label), kept = all.filter(l => !/^(Pack|Give|Unpack|Drop) /.test(l));
+      const more = all.length > kept.length ? ` | and ${all.length - kept.length} to pack, give or drop` : '';
+      throw Journey.unoffered(`No /${step}/ at watch ${this.watch()} among ${kept.join(' | ')}${more}`);
     }
     if (new Set(matched.map(m => m.command)).size > 1) {
       const said = `/${step}/ matches ${matched.map(m => m.full).join(' | ')}`;
@@ -191,9 +196,31 @@ export class Journey {
   get page(): string { return this.taken.map(t => `[${t.label}] ${t.page}`).join('\n'); }
   watch(): number { return this.campaign.world.number(ModuleWriter.call('watch', 'clock')); }
   minutes(): number { return this.watch() * 10 + (this.campaign.state.minutes ?? 0); }
-  holds(name: string, ...args: string[]): boolean { return this.campaign.world.test(ModuleWriter.call(name, ...args)); }
-  measure(name: string, ...args: string[]): number {
-    return this.campaign.world.number(ModuleWriter.call(name, ...args));
+  // A relation, query or measure by its name in the world, or in an installed module's (complete is
+  // lowwater__complete), and nothing by a name nothing has: a misnamed one had been simply false (Quittance's 9).
+  holds(name: string, ...args: string[]): boolean { return this.campaign.world.test(this.named(name, args)); }
+  measure(name: string, ...args: string[]): number { return this.campaign.world.number(this.named(name, args)); }
+  private named(name: string, args: string[]) {
+    const module = this.campaign.world.module, prefixes = ['region__', ...this.campaign.installed.map(id => `${id}__`)];
+    const functions = new Set([...module.relations, ...module.measures, ...module.queries].map(f => f.name));
+    const called = Journey.called(name, functions, prefixes), ids = new Set(module.entities.map(e => e.id));
+    if (!called) { throw new Error(`Nothing in the world is called ${name}`); }
+    return ModuleWriter.call(called, ...args.map(a => Journey.called(a, ids, prefixes) ?? a));
+  }
+  // For a test: a fact made so, someone put somewhere, a thing given to the company, without the steps that would
+  // (Quittance's friction 8 and its A15: tests reached into the campaign's world, or spliced in a stand-in module).
+  assert(name: string, ...args: string[]) {
+    this.campaign.commitWorld(this.campaign.world.apply([{ kind: 'assert', call: this.named(name, args) }]));
+  }
+  put(who: string, place: string) {
+    const world = this.campaign.world, at = this.named('at', [who, place]);
+    this.campaign.commitWorld(world.apply([...world.related('at', at.args[0]!)
+      .map(r => ({ kind: 'retract' as const, call: ModuleWriter.call('at', ...r.args) })), { kind: 'assert', call: at }]));
+    this.campaign.refreshProjection();
+  }
+  give(item: string, to = this.campaign.playerActor ?? 'party') {
+    this.assert('handed', item, to);
+    Consequences.hand(this.campaign as unknown as TickHost, []);
   }
   at(who: string): string | undefined { return this.campaign.world.one('at', who); }
   // Waits on to a watch, or until the book closes (an ending reached on the way: waiting past it threw, Hessel friction
@@ -245,7 +272,9 @@ export class Journey {
     return known.has(name) ? name : prefixes.map(p => p + name).find(q => known.has(q));
   }
   private async go(place: string): Promise<string> {
-    const world = this.campaign.world, id = world.module.entities.some(e => e.id === place) ? place : `region__${place}`;
+    // By its id, or its id in the region or in an installed module (>furnace_row: Quittance's A16).
+    const world = this.campaign.world, prefixes = ['region__', ...this.campaign.installed.map(m => `${m}__`)];
+    const id = Journey.called(place, new Set(world.module.entities.map(e => e.id)), prefixes) ?? `region__${place}`;
     // Someone, or something, is gone to where they are.
     const target = world.module.entities.find(e => e.id === id)?.type === 'place' ? id : world.one('at', id) ?? id;
     const company = this.campaign.playerActor ?? 'party';

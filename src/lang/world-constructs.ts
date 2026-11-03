@@ -9,7 +9,7 @@ export interface ChangeSpec {
   at?: string;
 }
 export interface ThingSpec {
-  id: string; name: string; type: string; site?: { anchor: 'at' | 'on' | 'inside'; id: string };
+  id: string; name: string; type: string; site?: { anchor: 'at' | 'on' | 'inside'; id: string; from?: string };
   states: StateSpec[]; changes: ChangeSpec[]; hurts?: { ability: string; when: string; then: string };
   guards?: string[];
   // Not perceived or reachable until the company knows this fact; holds: things can be put inside it.
@@ -165,7 +165,7 @@ export class WorldConstructs {
   private static all(ps: Predicate[]): Predicate { return ps.reduce((left, right) => ({ kind: 'and', left, right })); }
   // States and changes of a thing or person. A thing's descriptions follow the thing: they are perceived where it
   // stands, or from either side of the passage it occupies, and only while it is in that state.
-  static states(module: Module, t: ThingSpec, anchor: { kind: Anchor; id: string }) {
+  static states(module: Module, t: ThingSpec, anchor: { kind: Anchor; id: string; from?: string }) {
     const names = new Set(t.states.map(s => s.id));
     if (names.size !== t.states.length) { throw new Error(`Duplicate state in ${t.id}`); }
     for (const c of t.changes) {
@@ -182,6 +182,7 @@ export class WorldConstructs {
       if (s.flags.includes('closed')) { this.assert(module, 'closesWhen', t.id, s.id); }
       if (s.text) {
         (module.observations ??= []).push({ id: `${t.id}__${s.id}`, place: anchor.id, anchor: anchor.kind, about: t.id,
+          ...anchor.from ? { from: anchor.from } : {},
           when: t.type === 'group' ? { kind: 'and',
             left: { kind: 'call', name: 'able', args: [t.id] },
             right: { kind: 'call', name: 'state', args: [t.id, s.id] } }
@@ -223,7 +224,8 @@ export class WorldConstructs {
       this.assert(module, 'probeable', t.id);
       for (const verb of tries) { this.assert(module, 'suits', t.id, verb); }
     }
-    this.states(module, t, t.site.anchor === 'on' ? { kind: 'beside', id: t.site.id } : { kind: 'near', id: t.id });
+    this.states(module, t, t.site.anchor === 'on' ? { kind: 'beside', id: t.site.id, from: t.site.from }
+      : { kind: 'near', id: t.id });
   }
   // How a thing may be tried, by what anyone can see of it, so that offering a try gives nothing away: anything can
   // be looked at closely; a chest or a casket, or anything shut, prodded, pried at and listened at; a door, wall or

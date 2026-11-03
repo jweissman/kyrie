@@ -94,8 +94,10 @@ describe('The Patient Star probes', () => {
     expect(s.campaign.world.number(ModuleWriter.call('p__dose', 'party'))).toBe(0);
   }, 60000);
 
-  it('P6: a person with somewhere to go stays put unless the module also says Uses go, and lint is silent', async () => {
-    expect((await Probe.lint('stand'))).toEqual([]);
+  // (The lint had been silent; it says so now: Quittance's friction 5.)
+  it('P6: a person with somewhere to go stays put unless the module also says Uses go, and the lint says so', async () => {
+    expect((await Probe.lint('stand')).map(f => f.message))
+      .toEqual(['go_home seeks somewhere for p__garret, who cannot go there: give them `Uses go.`']);
     const s = await Probe.start('stand');
     for (let i = 0; i < 6; i++) { await Probe.act(s, 'Wait › A while'); }
     expect(s.campaign.world.one('at', 'p__garret')).toBe('p__yard');

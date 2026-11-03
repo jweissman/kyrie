@@ -36,4 +36,12 @@ export class ObjectParser {
       ...(text.children.length ? { text: ModuleParser.ast(text.children[0]!) as string } : {}) } };
   }
   static FoundWith(_with: Node, skill: Node) { return skill.sourceString; }
+  // A thing on a way, or a line beside it, and the end of the way it is told from, if only one (GTR-08, TTN-18).
+  static SiteOn(_on: Node, id: Node, end: Node) {
+    return { anchor: 'on', id: id.sourceString, ...end.children.length ? { from: ModuleParser.ast(end.children[0]!) } : {} };
+  }
+  static Beside(_beside: Node, id: Node, end: Node) {
+    return { kind: 'beside', id: id.sourceString, ...end.children.length ? { from: ModuleParser.ast(end.children[0]!) } : {} };
+  }
+  static WayEnd(_from: Node, id: Node) { return id.sourceString; }
 }
