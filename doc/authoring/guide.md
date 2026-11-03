@@ -293,6 +293,10 @@ module alone; no other world sees it. A thing hurts whoever crosses it while it 
   }
 ```
 
+What it hurts with, it hurts once, and then is as its `then` says. A danger met on every crossing (foul air in a shaft)
+is one that stays as it was, `Hurts with foul_air when foul then foul.`: each crossing is a risk, and the company that
+takes it goes over (`test/fixtures/probes/foul-air`; Quittance's bg 7, whose company had been turned back each time).
+
 ## 5. Knowledge
 
 A discovery is something that can be known. Its sources are where it can be learned: a document to read, or a person
