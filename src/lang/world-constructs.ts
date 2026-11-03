@@ -96,12 +96,16 @@ export class WorldConstructs {
   private static opening(module: Module, id: string, openings: { when: Predicate; shut?: string }[],
     { hidden }: { hidden?: string }) {
     const unopened: Predicate = { kind: 'call', name: 'unopened', args: [id] };
+    // Nor does it shut under whoever is crossing it: the sea over the sands had sent a company half across them back
+    // onto the flooding sand (Fair Weather's 2, FWR-02). It shuts once they are off it, at either end.
+    const crossing: Predicate = { kind: 'not', value: { kind: 'call', name: 'enRoute', args: ['?crosser', id] } };
     const when = openings.map(o => o.when).reduce((left, right) => ({ kind: 'and', left, right }));
     this.assert(module, 'unopened', id);
     (module.rules ??= []).push(
       { id: `${id}__opens`, when: { kind: 'and', left: when, right: unopened },
         effects: [{ kind: 'retract', call: unopened }], upkeep: true },
-      { id: `${id}__shuts`, when: { kind: 'and', left: { kind: 'not', value: when }, right: { kind: 'not', value: unopened } },
+      { id: `${id}__shuts`, when: { kind: 'and', left: { kind: 'not', value: when },
+        right: { kind: 'and', left: { kind: 'not', value: unopened }, right: crossing } },
         effects: [{ kind: 'assert', call: unopened }], upkeep: true });
     const known: Predicate = { kind: 'call', name: 'knows', args: ['party', hidden ?? ''] };
     openings.forEach((o, i) => {
