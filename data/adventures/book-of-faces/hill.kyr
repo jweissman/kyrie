@@ -1,2 +1,482 @@
 Module ombra "The Book of Faces" {
+  // ── Quiet Hill ────────────────────────────────────────────────────────────────────────────────────────────────────
+  // The Fourteen Palaces of the Old Names, whose Houses were the Feud: after the Concord they kept their names and
+  // shut their shutters, and are the only people in Ombra who do not wear masks in the street, because nobody would
+  // dare name them. What they do instead is precedence. Two threads are told here: the Dinner of Spoons, in which the
+  // Contessa Tarn asks the Bare to seat a table that cannot be seated, and the Last Servant, in which Gaspar dusts the
+  // empty Palazzo Venn for a family that Spent itself, and the Registrar had found its heir in the Drip. The Gauntlet
+  // of the Duelling Stair is warrior.kyr's; its Seconds are met in the yard here.
+
+  Relation hl_asked(group). Measure hl_trust(group). Relation hl_bored(group). Measure hl_bored_day(group).
+  Relation hl_spied(group). Relation hl_beaten(group). Relation hl_ismene(group). Relation hl_waited(group).
+  Relation hl_ladle_ruled(group). Relation hl_voice(group). Relation hl_round_table(group). Relation hl_swapped(group).
+  Relation hl_swap_caught(group). Relation hl_swap_found(group). Relation hl_vesper_gone(group).
+  Relation hl_feud(group). Relation hl_dinner_done(group). Relation hl_contessa_voice(group). Relation hl_price_paid(group).
+  Query hl_dining_hours() means day(clock) == 7 and hour(clock) >= 19 and hour(clock) < 23.
+  // The Ladle seats the table only if somebody is there to call it.
+  Query hl_seated() means (hl_ladle_ruled(party) and (hl_voice(party) or hl_lisbet_resolved(party))) or hl_round_table(party) or hl_swapped(party) or hl_vesper_gone(party).
+
+  // ── The streets and the palazzi ───────────────────────────────────────────────────────────────────────────────────
+  Observe hl_terrace_scene at hill_terrace when true "The Terrace of the Fourteen is a long flagged shelf with the Palaces facing the water, each with its shutters closed and its arms over the door, and in front of every door a pair of iron boot-scrapers, for a guest who has not come in three hundred years. There are no masks here. It is the strangest thing in Ombra, a street of bare faces that nobody looks at.".
+  Observe hl_terrace_noon at hill_terrace when publicHours() and hour(clock) >= 12 and hour(clock) < 14 and not hl_vesper_gone(party) "At noon, because it is the only time the weather allows, the Old Names take the air: an old man with a stick, stiff as a hall-stand, at one end of the Terrace, and a thin old woman in grey with a fur collar at the other, walking toward each other, and not once looking at each other, in a great and perfect silence that has been going on for some years.".
+  Observe hl_terrace_night at hill_terrace when privateHours() "The Terrace at night is a line of dark houses and a line of dark water, and between them, now and again, a lamp carried across a window by somebody who has not been told it is night.".
+  Observe hl_terrace_dinner at hill_terrace when hl_dining_hours() "All of Quiet Hill has opened its shutters, once, for the Dinner, and every Palace has a lamp in its upper windows, and the Terrace smells of wet wool and wax and the cooking of fourteen kitchens. Servants in the Houses' liveries hurry along it with covered dishes held in front of them like shields.".
+  Observe hl_quay_scene at hill_quay when true "The Hill's water-gate is a stone arch with a chain across it, and a landing-stage that has been repaired so many times that it is mostly the repairs. A heron stands on the chain. Beyond it is the Cuff, and the Chapel's green roof, and a boat now and then, going somewhere that is not here.".
+  Observe hl_quay_night at hill_quay when dark() "The chain across the water-gate is wet, and the lamp on the arch has gone out. You can hear the tide taking the stage's old timbers one at a time.".
+  Observe hl_hall_scene at tarn_hall when true "The hall of the Palazzo Tarn is as high as a chapel, and cold as one, with a stair going up out of it to a gallery nobody has used. In the middle of it, under a hanging lamp, there is a card-table with a green baize cloth and a game laid out on it; fourteen small silver spoons in a row, and one more, in a chair-arm's reach, as if it were the one that mattered.".
+  Observe hl_hall_dark at tarn_hall when privateHours() and not hl_dining_hours() "The hall is dark but for one lamp on the baize, and the spoons shine like a row of small teeth.".
+  Observe hl_dining_scene at tarn_dining when not hl_dining_hours() "The great dining-room of the Palazzo Tarn is laid for the Fourteen and nobody else, a table forty feet long under a ceiling the colour of old cream, with fourteen high chairs down its sides, each with its spoon already laid, and its House's arms carved above it. The room has a smell of beeswax, damp, and a hunger of two hundred years' standing.".
+  Observe hl_dining_table_round at tarn_dining when hl_round_table(party) and not hl_dining_hours() "They have not taken the long table away. They have put a round one at the end of the room, laid for fifteen, with a tureen at its centre and one ladle laid across the tureen's mouth, and nobody has said what it is for.".
+  Observe hl_dining_night at tarn_dining when hl_dining_hours() and not hl_dinner_done(party) "The Dinner of Spoons is about to be eaten. The Fourteen stand in a ring behind their chairs, each with a hand on the back of it and an eye on the spoon, and the Seconds stand behind the Fourteen, in grey, with their hands loose, as men do who have been told not to be seen to be armed.".
+  Observe hl_dining_after at tarn_dining when hl_dining_hours() and hl_dinner_done(party) "The Dinner of Spoons is being eaten, or its remains are. Candles, bones, a great deal of silver, and fourteen Old Names engaged, with the particular concentration of the very old, in a conversation that is the opposite of the one they had meant to have.".
+  Observe hl_study_scene at tarn_study when true "The Contessa's study is small and warm and the only room on Quiet Hill that looks lived in: a fire, a chair worn to the shape of one particular back, a bureau full of letters in a dozen hands, and, over the fire, in a black frame, a portrait of a thin woman in the dress of three hundred years ago, with one hand laid flat on a panel in the wall as if to keep it from opening.".
+  Observe hl_study_stair at tarn_study when privateStairOpen(party) "The portrait has been swung out from the wall on its hinge like a door, and behind it a stone stair goes down into a smell of cold and very old wax.".
+  Observe hl_venn_hall_scene at venn_hall when true "The hall of the Palazzo Venn has been dusted every day for fourteen years. You can see that: there is nothing in it, no chair out of its place, no mark on the black and white floor, and no one's step but one's own. A long table is laid for a dinner at the far end, with six places and a candle, and on every plate a napkin folded in the shape of a swan.".
+  Observe hl_venn_hall_night at venn_hall when privateHours() "At night the Palazzo Venn keeps one lamp, in the hall, and somebody has trimmed it so exactly that its flame stands up straight as a pin.".
+  Observe hl_gallery_scene at venn_gallery when true "The Venn gallery is lined with the portraits of a family, in the order of their dying, and all of them are dusted. At the far end, under a dust-sheet, there is a round table; at the near end, on a lectern, a very thick book with a cord for a marker; and between the two, in the windows, the curtains hang in long loops where the moth has been at them for fourteen years, and the Cuff comes in grey between the loops.".
+  Observe hl_gallery_curtains at venn_gallery when hl_curtains_hung(party) "The curtains of the gallery have been taken down, and mended, and hung again, and the grey light of the Cuff comes in through them as something nearer gold. Somebody has left a thimble on the sill.".
+  Observe hl_yard_scene at seconds_yard when true "The yard of the Seconds' Guild is a cobbled square under an awning of sailcloth, with a practice-ring chalked in the middle and rows of wooden swords in racks along the walls, and at the end a bench with a woman on it with a needle, who looks up at everyone who comes in as if to see where they will need her.".
+  Observe hl_yard_night at seconds_yard when privateHours() and at(wr_ullin, seconds_yard) "A young man with a sword is practising alone in the lamplit ring, a lot harder than the light or the hour calls for, the way a man does who is trying to wear something out.".
+  Observe hl_loft_scene at lisbet_room when true "A long low loft under the roof of a Drip house, four tables and as many lamps, and the smell of lamp-oil and steam and cloth. The sempstresses' work hangs from the beams on hooks, a whole city's masks' linings and domino-cloaks and gull-wings, and one table by the window has an almost finished cloak laid out on it with a thimble set on its hem like a paperweight.".
+  Observe hl_loft_night at lisbet_room when privateHours() "At night the loft is dark but for one lamp and one person, bent over one table, working by the particular quiet that comes of not being seen working.".
+
+  // ── The Contessa Ismene Tarn ──────────────────────────────────────────────────────────────────────────────────────
+  // Eighty-three, bored, brilliant, imperious, and the last person in Ombra who still enjoys being known. She is
+  // moved by none of the things people try to move her with: not by evidence, not by flattery, not by her title; she is
+  // moved by being argued with as a person, by being beaten at a game she cheats at, and by somebody sitting up with her.
+  Person tarn "the Contessa Ismene Tarn" at tarn_hall {
+    Role "the Contessa of the Palazzo Tarn, eighty-three, the eldest of the Old Names". Ancestry human. Peaceable. Pronouns she. Manner proud.
+    Greets "A very old woman in a black gown receives you sitting upright in a chair made for somebody larger, with a rug over her knees and a train that has been trodden on by the whole of the Hill. She looks at you as at the first new thing in a year. 'No, do not tell me,' says the Contessa Tarn. 'A stranger. They are always something. We have no masks here, you will have noticed: nobody has ever dared ask it of us. Sit down. I am told I am a monster and I should like to see whether it holds up.'".
+    Greets again "'You,' says the Contessa Tarn, with pleasure, and moves one of the spoons.".
+  }
+  Rule hl_tarn_hall when publicHours() and not hl_dining_hours() and not at(tarn, tarn_hall) { Assert at(tarn, tarn_hall). }
+  Rule hl_tarn_dining when hl_dining_hours() and not at(tarn, tarn_dining) { Assert at(tarn, tarn_dining). }
+  Rule hl_tarn_study when privateHours() and not hl_dining_hours() and not at(tarn, tarn_study) { Assert at(tarn, tarn_study). }
+  // By day a masked company is a small tiresomeness to her; by night a masked one in her study is a burglar, and she
+  // has a Second to ring for.
+  Topic hl_tarn_bare with tarn "Say you are a stranger, and no one" when not masked(actor) and publicHours() once {
+    Says "'Splendid.' The Contessa looks at your bare face for some time, as at a piece of music. 'Do you know, I had forgotten that they came that way. On the Hill we are known to each other from the cradle, and the rest of the city goes about under a bag.' She leans a little. 'You will have been told that nobody will speak to you. I shall. I am the only person in Ombra who has no use for a mask and no fear of a stranger, and I am eighty-three, and I have a great deal of conversation put by.'".
+  }
+  Topic hl_tarn_masked with tarn "Say that you are a Gull, a Heron, a Moth" when masked(actor) and publicHours() once {
+    Says "'And I am, I suppose, the Contessa.' She looks at the mask with distaste, and not at all unkindly. 'Do take it off. You are the first in a year to come in at my door in one; it is quite like being visited by a lampshade. We keep no masks on the Hill, so you may have no need of one, and if you must be somebody to be spoken to, I find I can speak to nobody perfectly well.'".
+  }
+  Topic hl_tarn_night_masked with tarn "Say that you have come to the Contessa's study, in the dark, in a mask" when masked(actor) and privateHours() once {
+    Says "'A face,' says the Contessa. She has not moved, but her hand has found a bell-pull. 'At midnight, in my study, on my carpet. We have a word for that on the Hill, and it is not *caller*.' The bell somewhere in the house rings once, and a pair of boots begin to come down a corridor. She regards you. 'I should take it off, my dear. I am very old and very slow and I always ring.'".
+    On discuss { Increase heat(actor) by 1. }
+  }
+  Topic hl_tarn_self with tarn "Ask who she is, and what she does with the Hill" when not masked(actor) or publicHours() once {
+    Says "'I am the last of the Tarns, and the eldest of the Fourteen, and I keep the Hill, which means that I decide who sits where.' She rests her hands on the rug. 'The Concord took our names and gave us our precedence. A very good bargain, for the city; one gets so much more done if the people who kill one another are made to do it with spoons. We have not had a duel on the Hill in sixty years, and I am not at all sure what it is I do with the rest of the time.'".
+  }
+  Discovery hl_dinner_task "The Contessa Tarn gives the Fourteen's dinner on the seventh evening, and Lord Vesper and Lady Corm dispute the seventh and eighth places by the precedence of their spoons; the Seconds will be armed, and a duel at the table would wake the Feud. She has asked the Bare to seat it.".
+  Topic hl_tarn_dinner with tarn "Ask what the Contessa wants of a Bare" when not masked(actor) or publicHours() once {
+    Says "'A seating.' She says it the way another would say *a murder*. 'On the seventh day the Fourteen dine in my hall, as they have since the Feud, and nobody has yet been able to put two people in the seventh and eighth places who will sit in them. It is a matter of spoons. Vesper's is eleven inches of silver with a round bowl, and Corm's eleven inches with an oval one; by the Book a round bowl takes the seventh and an oval the eighth, unless the oval has been *bruised in service*. And it has.'".
+    On discuss { Assert hl_asked(actor). Assert knows(actor, hl_dinner_task). }
+  }
+  Topic hl_tarn_why with tarn "Ask why a stranger should seat the Fourteen" when hl_asked(actor) once {
+    Says "'Because there will be Seconds at the table, armed, and if Hadrian Vesper and Philomena Corm cannot both be seated they will both be standing, and then one of them will have a sword. And I should like the problem to be somebody's who has no spoon.' The Contessa folds her hands. 'It is astonishing how few people qualify. You have, I think, until the seventh evening at seven.'".
+  }
+  // The checks of the long conversation. First, a woman who is bored; she is cheating at the game she plays against no one.
+  Discovery hl_tarn_cheats "The Contessa Tarn plays Spoons alone every day on the card-table in her hall, and cheats: she moves a spoon when she thinks no one is looking, to see what the Book would say of it.".
+  Action hl_spy_game(actor: group, site: place) "Watch her hand on the baize, and the spoon that she moves" {
+    Speaker tarn.
+    Requires able(actor) and company(actor) and at(actor, site) and at(tarn, site) and hl_asked(actor) and not hl_spied(actor) and not hl_bored(actor).
+    Time 3 minutes.
+    Resolve check(actor, insight, dc_fair).
+    On success { Assert hl_spied(actor). Assert knows(actor, hl_tarn_cheats). }
+    On failure { Assert hl_bored(actor). Set hl_bored_day(actor) to day(clock). }
+    Result "You watch the game as one watches a pot, and see it at the fourth move: the bowl-end of the seventh spoon is turned half an inch, when she thinks you are looking at her face, and the spoon is put back as if it had never been touched. The Contessa has been playing a game against nobody for twenty years, and has been cheating at it, and has not once been caught. 'Oh, do,' she says, without looking up. 'Do, if you have seen it. It is such a long time since I was looked at properly.'".
+    Otherwise "She plays on, and you cannot see a thing, and the Contessa sighs very slightly. 'You are looking at my face,' she says. 'Everybody does. Come back tomorrow, when I have something to look at.'".
+  }
+  Action hl_beat_game(actor: group, site: place) "Say that she has moved the seventh spoon, and play her at Spoons, by the Book" {
+    Speaker tarn.
+    Requires able(actor) and company(actor) and at(actor, site) and at(tarn, site) and hl_spied(actor) and not hl_beaten(actor) and not hl_bored(actor).
+    Time 20 minutes.
+    Resolve check(actor, lore, dc_fair).
+    On success { Assert hl_beaten(actor). Increase hl_trust(actor) by 1. }
+    On failure { Assert hl_bored(actor). Set hl_bored_day(actor) to day(clock). }
+    Result "'You moved the seventh,' you say. 'A bruised spoon counts as an oval, so it goes to the eighth, and the eighth comes up to the seventh, and then the count is one over, and it will not come out. It never could. One of your fourteen is a spoon with nobody behind it: the Venn. You have been laying the dead among the living for twenty years, and cheating to make them fit.' The Contessa goes quite still. Then she puts down the spoon in her hand, very carefully, in its place, and the whole of her old face changes, like a house with its shutters opened. 'Nobody,' she says, 'has beaten me at Spoons since my husband. Go on, tell me how you knew. No: do not; I shall enjoy not knowing.'".
+    Otherwise "You say a great deal, and you are wrong in the middle, and the Contessa lets you finish, and then explains, with the patience of a very old woman to a child, where. 'It is a clever failing,' she says. 'Another day. I am a little tired of being right.'".
+  }
+  Rule hl_bored_lapses when hl_bored(party) and hl_bored_day(party) < day(clock) { Retract hl_bored(party). }
+  // Then the thing that moves her: being spoken to by her name, as a person and not a Contessa.
+  Topic hl_tarn_ismene with tarn "Call her Ismene" when hl_beaten(actor) and not hl_ismene(actor) once {
+    Says "The Contessa Tarn does not say anything at all. Her hand goes to the spoon and lets it go. 'My husband said that,' she says at last, to the baize. 'Fifty-one years. He said it in the mornings, when I was putting my hair up, and I used to tell him not to.' She looks at you; she has been, for the length of one breath, a girl who has been made a present of her own name. 'I do not know how you knew it. I do not think I mind. Say it again, at some point, when I am not paying attention.'".
+    On discuss { Assert hl_ismene(actor). Increase hl_trust(actor) by 1. }
+  }
+  // And the hour she is given: no check, only company.
+  Action hl_sit_up(actor: group, site: place) "Sit up with the Contessa an hour, and say nothing in particular" {
+    Speaker tarn.
+    Requires able(actor) and company(actor) and at(actor, site) and at(tarn, site) and at(actor, tarn_study) and privateHours() and not masked(actor) and hl_asked(actor) and not hl_waited(actor).
+    Time 6.
+    On success { Assert hl_waited(actor). Increase hl_trust(actor) by 1. }
+    Result "She does not talk, which is the first thing. The fire does. At some point she says that her husband used to say the Hill was a house that had been left on, and at another that she can hear the whole of Ombra from here, being nobody, and it sounds like a very long dinner. At some point she is asleep in the chair with her hand on the rug, and you do not move, and the fire goes down and you put a log on it. In the morning, if she remembers it, she will not say.".
+  }
+  Topic hl_tarn_alone with tarn "Ask why she is awake, at this hour, and alone" when privateHours() and not masked(actor) and at(actor, tarn_study) once {
+    Says "'Because I am eighty-three.' She does not look at you. 'In my youth to be named was a pleasure. A name in a mouth was a thing one was given. Then the Concord, and nobody on the Hill could be Named, because nobody would dare, and so we have nobody who says it. I am the last who remembers what it was to be called, and when I am dead the Fourteen will dine on precedence and nobody will have been anyone.' A pause. 'I tell you because you are a stranger, and strangers may be told. It is the whole use of them.'".
+  }
+  // The solutions. She will do three things, each differently, and each for a reason that has nothing to do with proof.
+  // One: a round table and the soup by the stair, argued as a person, on the strength of what the two old people want.
+  Discovery hl_vesper_door "Lord Vesper will not sit with his back to a door: in 1269 he sat so at a dinner, and buried a cousin for it.".
+  Discovery hl_corm_soup "Lady Corm wants the first soup, hot, and has not had it since the Novena of 1280, when she was served after Vesper and the soup was cold.".
+  Action hl_pitch_round(actor: group, site: place) "Put it to her that Vesper wants a door and Corm wants a hot soup, and that a round table has no head" {
+    Speaker tarn.
+    Requires able(actor) and company(actor) and at(actor, site) and at(tarn, site) and hl_asked(actor) and hl_beaten(actor) and knows(actor, hl_vesper_door) and knows(actor, hl_corm_soup)
+      and not hl_round_table(actor) and not hl_ladle_ruled(actor) and not hl_dinner_done(actor) and not hl_bored(actor).
+    Time 10 minutes.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert hl_round_table(actor). Increase hl_trust(actor) by 1. }
+    On failure { Assert hl_bored(actor). Set hl_bored_day(actor) to day(clock). }
+    Result "'A round table.' The Contessa thinks about it with her eyes shut, like a woman turning over a very old coin. 'Where the door is nowhere, because every place is the door's equal. And the soup is brought in from the stair, in a single tureen, to the middle, and each takes it by his own hand and not from another's.' She opens her eyes. 'It is perfectly ridiculous. It is exactly what that great foolish pair of children have wanted for twenty years.' She rings. 'Spiers! A table. The round one, and fifteen chairs, and a tureen with a ladle, and nobody is to say a word until I do.'".
+    Otherwise "She listens, and nods, and at the end of it says, with great courtesy, that it is the sort of notion one has at one's third glass of wine. 'It will not do,' she says. 'But I like that you are in the habit of having them.'".
+  }
+  Action hl_pitch_ladle(actor: group, site: place) "Lay the Venn Book of Spoons open before her, at the year 1103, and read her the Ladle" {
+    Speaker tarn.
+    Requires able(actor) and company(actor) and at(actor, site) and at(tarn, site) and carries(actor, hl_book) and knows(actor, hl_ladle_1103) and knows(actor, hl_ladle_repealed)
+      and not hl_ladle_ruled(actor) and not hl_round_table(actor) and not hl_dinner_done(actor).
+    Time 20 minutes.
+    On success { Assert hl_ladle_ruled(actor). Increase hl_trust(actor) by 1. }
+    Result "She reads it twice, with her finger, and once aloud. 'The Ladle,' says the Contessa Tarn. 'Of course. *Whoever eats of one ladle sits equal, and is served in the order that he came in.* Venn. The Dowager Venn. It was repealed the next year.' She turns the page, and her mouth goes thin. 'And may be called only by a voice of that House. There is no House.' She shuts the book. 'There is, I should say, a House with a servant. That is the whole of what it needs, and it is what Gaspar has been dusting for. Who is to call it?'".
+  }
+  Topic hl_tarn_voice with tarn "Say that Gaspar may call the Ladle, being the House's only voice" when hl_ladle_ruled(actor) and not hl_voice(actor) and not hl_lisbet_told(actor) once {
+    Says "She considers it; it takes her some time. 'A servant calling a House's ruling. It has not been done.' Then: 'It has not been *forbidden*. We have an ancient rule that the steward of a vacant House speaks for it in all that it holds. He has to say it himself, at the table, and he has to say it loud, and he is seventy-eight, and has not spoken at table in fourteen years. If he will do it, it is called. If he will not, I shall sit there like a woman with a very large tureen.' She taps the book. 'Go and ask him. Not as a favour to me. As the Venn.'".
+    On discuss { Assert knows(actor, hl_voice_rule). }
+  }
+  Discovery hl_voice_rule "By an old rule of the Hill the steward of a vacant House speaks for it in all that it holds; the Contessa will accept the Ladle called by Gaspar, if he will call it himself, aloud, at table, on the seventh evening.".
+  // A Gaspar who has been dusted with needs no persuading: a favour done is the whole of the argument.
+  Action hl_gaspar_will_call(actor: group, site: place) "Ask Gaspar, who has dusted the Venns with you, to call the Ladle at the Contessa's table" {
+    Speaker gaspar.
+    Requires able(actor) and company(actor) and at(actor, site) and at(gaspar, site) and knows(actor, hl_voice_rule) and not hl_voice(actor) and not hl_lisbet_told(actor) and hl_gaspar_trust(actor) >= 1.
+    Time 10 minutes.
+    On success { Assert hl_voice(actor). }
+    Result "'The Ladle,' says Gaspar. He has stopped dusting. 'I have kept the book at the page for fourteen years, sir. In case.' He sits down on the edge of a chair that has never been sat in. 'It has to be a Venn, and I am not; I am the Palazzo's man. But the steward speaks for the House. I had forgotten it was a rule. I thought it was only a habit I had.' He looks at the portraits, which have been dusted with a stranger's hand and look it. 'You have been kind to them, sir. I shall do it for them.' He stands again. 'I shall have to practise, in the gallery. I shall have to have the Venns for the audience.'".
+  }
+  Action hl_ask_gaspar_call(actor: group, site: place) "Ask Gaspar to call the Ladle at the Contessa's table, as the voice of the House of Venn" {
+    Speaker gaspar.
+    Requires able(actor) and company(actor) and at(actor, site) and at(gaspar, site) and knows(actor, hl_voice_rule) and not hl_voice(actor) and not hl_lisbet_told(actor) and hl_gaspar_trust(actor) < 1 and hl_try_day(actor) < day(clock).
+    Time 10 minutes.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert hl_voice(actor). }
+    On failure { Set hl_try_day(actor) to day(clock). }
+    Result "'The Ladle,' says Gaspar. He has stopped dusting. 'I have kept the book at the page for fourteen years, sir. In case. Nobody has ever called it, because it has to be a Venn, and I am not; I am the Palazzo's man.' He sits down on the edge of a chair that has never been sat in. 'The steward speaks for the House. I had forgotten it was a rule. I thought it was only a habit I had.' He stands again. 'I shall have to practise,' says Gaspar. 'In the gallery. I shall have to have the portraits for the audience.'".
+    Otherwise "'I could not, sir,' says Gaspar. 'Not at the Contessa's table. A servant does not call anything.' He picks up his duster again, and puts it down, with great dignity. 'I should be sick on the cloth.'".
+  }
+  Measure hl_try_day(group).
+  // Three: the spoons themselves.
+  Action hl_swap_spoons(actor: group, site: place) "Change the spoons laid for Lord Vesper and Lady Corm" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, tarn_dining) and day(clock) == 7 and hour(clock) >= 15 and hour(clock) < 19 and not hl_swapped(actor) and not hl_swap_caught(actor) and not hl_dinner_done(actor).
+    Time 5 minutes.
+    Resolve check(actor, stealth, dc_hard).
+    On success { Assert hl_swapped(actor). Assert knows(actor, hl_swap_made). }
+    On failure { Assert hl_swap_caught(actor). Decrease hl_trust(actor) by 1 or to nothing. }
+    Result "The footman has gone to count the napkins, and you have perhaps a minute. You swap them, Vesper's long round bowl for Corm's oval, and the oval to the round: each will find at the table, in the light of the candles, the spoon they have in their heads, and neither will measure it. You are out of the room and in the hall, with your breath going, before the footman has reached the Hs.".
+    Otherwise "'Sir,' says a footman's voice, behind you, in the tone of one who has been waiting forty years to say it, 'madam. I shall tell the Contessa.' He does.".
+  }
+  Discovery hl_swap_made "The spoons laid for Lord Vesper and Lady Corm at the Dinner have been exchanged, round bowl for oval, and neither knows it.".
+  // The price: a position.
+  Topic hl_tarn_price with tarn "Ask whether the Contessa will lend the use of her private stair" when hl_seated() and hl_trust(actor) >= 1 and hl_dinner_done(actor) and not privateStairOpen(actor) and not hl_swap_found(actor) once {
+    Says "'The stair.' She leans back. 'You have been listening at doors, or somebody has. Yes. From this study to the vestry of the Chapel of the Bare Face, three hundred years shut. My great-grandmother built it for the purpose of going to the Chapel by night to read her own name in the Book. She did not, I believe; she only liked to know she could.' She is quite serious. 'I do not give it. I price it. I shall have either of two things, and I do not much mind which. A Second, for one killing. Or your *voice*, at the Hearing, said for the Old Names, when the city is asked what to do with us.'".
+    On discuss { Assert knows(actor, hl_price_known). }
+  }
+  Discovery hl_price_known "The Contessa Tarn keeps a private stair from her study to the vestry of the Chapel of the Bare Face; her price for it is either a sworn Second, for one killing, or the company's voice at the Hearing, said for the Old Names.".
+  Action hl_pay_voice(actor: group, site: place) "Promise the Contessa your voice at the Hearing, for the Old Names" {
+    Speaker tarn.
+    Requires able(actor) and company(actor) and at(actor, site) and at(tarn, site) and knows(actor, hl_price_known) and not hl_price_paid(actor).
+    Time 10 minutes.
+    On success { Assert hl_price_paid(actor). Assert hl_contessa_voice(actor). Assert privateStairOpen(actor). Assert knows(actor, private_stair_known). }
+    Result "'I shall hold you to it,' says the Contessa, with satisfaction. 'Not to what you say. To saying it.' She goes to the portrait in her black dress and puts her hand where the painted hand is and presses, and the frame comes out from the wall on its hinge with a sigh of three centuries of cold air. A stair goes down in the dark. 'It is a good deal steeper than it looks,' she says. 'My great-grandmother was a mountaineer.'".
+  }
+  Action hl_pay_second(actor: group, site: place) "Promise the Contessa a sworn Second's blade, for one killing" {
+    Speaker tarn.
+    Requires able(actor) and company(actor) and at(actor, site) and at(tarn, site) and knows(actor, hl_price_known) and not hl_price_paid(actor) and wr_sworn(actor).
+    Time 10 minutes.
+    On success { Assert hl_price_paid(actor). Assert privateStairOpen(actor). Assert knows(actor, private_stair_known). Assert wr_promised(actor). }
+    Result "'A Second.' She says it with relish. 'I shall tell you of it when you have rested. It is a matter of precedence, and a daughter, and a man of the Houses.' She goes to the portrait and puts her hand where the painted hand is. The frame comes out on its hinge, and a stair goes down in the dark. 'There is a lamp on the third step,' says the Contessa. 'My great-grandmother left it. It will not, I am afraid, be lit.'".
+  }
+  Relation wr_promised(group).
+
+  // ── The Fourteen: Lord Vesper and Lady Corm ───────────────────────────────────────────────────────────────────────
+  Person hl_vesper "Lord Hadrian Vesper" at offstage {
+    Role "of the Old Names, stiff as a hall-stand, with a stick". Ancestry human. Peaceable. Pronouns he. Manner grim.
+    Greets "An old man with a stick and a back like a rule stands on the Terrace facing the water, and does not look round. 'I am Vesper,' he says, to the Cuff. 'It is seen that you are not. State your business, and do not stand behind me.'".
+    Greets again "'Not behind me,' says Lord Vesper, without turning.".
+  }
+  Person hl_corm "Lady Philomena Corm" at offstage {
+    Role "of the Old Names, thin and grey, in a fur collar" when not at(hl_corm, tarn_dining).
+    Role "of the Old Names, thin and grey, in a fur collar, at the Contessa's table" when at(hl_corm, tarn_dining).
+    Ancestry human. Peaceable. Pronouns she. Manner acerbic.
+    Greets "A thin old woman in a grey gown and a fur collar that has seen better foxes looks you up and down at the far end of the Terrace, and finds you wanting only in the matter of being a Corm. 'A stranger,' she says. 'Good. I am so tired of being agreed with by people with the same spoon.'".
+    Greets again "'You again,' says Lady Corm, with something approaching warmth. 'It is dreadful, how quickly one gets used to somebody.'".
+  }
+  Rule hl_old_names_walk when publicHours() and hour(clock) >= 12 and hour(clock) < 14 and not hl_vesper_gone(party) and not hl_dining_hours() and not at(hl_vesper, hill_terrace) { Assert at(hl_vesper, hill_terrace). Assert at(hl_corm, hill_terrace). }
+  Rule hl_old_names_walk_corm when publicHours() and hour(clock) >= 12 and hour(clock) < 14 and hl_vesper_gone(party) and not at(hl_corm, hill_terrace) { Assert at(hl_corm, hill_terrace). }
+  Rule hl_old_names_home when (hour(clock) < 12 or hour(clock) >= 14) and not hl_dining_hours() and not at(hl_vesper, offstage) { Assert at(hl_vesper, offstage). }
+  Rule hl_corm_home when (hour(clock) < 12 or hour(clock) >= 14) and not hl_dining_hours() and not at(hl_corm, offstage) { Assert at(hl_corm, offstage). }
+  Rule hl_old_names_dine when hl_dining_hours() and not hl_vesper_gone(party) and not at(hl_vesper, tarn_dining) { Assert at(hl_vesper, tarn_dining). }
+  Rule hl_corm_dines when hl_dining_hours() and not at(hl_corm, tarn_dining) { Assert at(hl_corm, tarn_dining). }
+  Topic hl_vesper_seventh with hl_vesper "Ask Lord Vesper about the seventh place at the Contessa's table" when true once {
+    Says "'It is mine.' He says it to the water. 'By the round bowl. It has been mine since the Treaty of the Eels, and my father's, and it is not a matter for argument with a woman whose spoon has a dent in it.' The stick shifts. 'The seventh faces the door. I do not sit with my back to a door. I did it once, in 1269, at the Novena, and when I turned round my cousin was lying on the floor with the carving knife that was meant for me. I shall have the seventh, or I shall have my Second, and the Contessa may choose.'".
+    On discuss { Assert knows(actor, hl_vesper_door). }
+  }
+  Topic hl_corm_eighth with hl_corm "Ask Lady Corm about the eighth place" when true once {
+    Says "'It is nothing to do with the place.' She is very dry. 'I sat in the eighth at the Novena of 1280, and the soup was brought in the order of the spoons, and by the time it came to me, the seventh had had it, and it had gone as cold as his conversation. I am not young. I have not been warm since the Concord.' She draws the collar closer. 'I would sit in the cellar if somebody would bring me the soup hot and *first*. I have not said so to the Contessa, because I do not discuss what I want with the woman who is meant to know.'".
+    On discuss { Assert knows(actor, hl_corm_soup). }
+  }
+  // The Veil on the Stair is Vesper's son: if he has been Named, Vesper does not dine, and the dispute dissolves.
+  Rule hl_vesper_shamed when named(wr_veil) and not hl_vesper_gone(party)
+    says "Word comes up the Hill by the water-gate before noon: that a Second in a black domino was Named in Strangers' Square, and who he is. By the afternoon every shutter in the Palazzo Vesper has been closed again, and one of the footmen has been seen carrying a trunk." {
+    Assert hl_vesper_gone(party). Decrease hl_trust(party) by 1 or to nothing. }
+
+  // ── The Dinner of Spoons ──────────────────────────────────────────────────────────────────────────────────────────
+  // On the seventh evening at seven the Fourteen sit, or do not. What happens is settled here by what was done, whether
+  // or not the company is at the table; those who are at it see it, and the rest hear of it in the morning.
+  Rule hl_dinner_ladle at tarn_dining when hl_dining_hours() and hl_ladle_ruled(party) and hl_voice(party) and not hl_dinner_done(party) and not hl_lisbet_resolved(party)
+    says "At the second course, when Lord Vesper has stood and Lady Corm has stood and the Seconds have moved, a very old man in a footman's coat comes in from the side with his hands shaking and stops at the foot of the table, where a spoon has been laid for a House that has not dined in fourteen years. 'The Ladle,' says Gaspar. It does not carry. He tries again, and finds, to the astonishment of the whole room, a voice. 'The Ladle is called,' says the steward of the House of Venn. 'By the Dowager's rule of 1103. Whoever eats of one ladle sits equal.' Nobody says a word. Then the Contessa Tarn, at the head, lifts the ladle off the tureen, and her hand is not quite steady either, and she says, 'Venn will serve first. Gaspar, if you would.'" {
+    Assert hl_dinner_done(party). Assert hl_end_ladle(party). Increase hl_trust(party) by 1. }
+  Rule hl_dinner_ladle_lisbet at tarn_dining when hl_dining_hours() and hl_ladle_ruled(party) and hl_lisbet_resolved(party) and not hl_dinner_done(party)
+    says "At the second course, when Lord Vesper has stood and Lady Corm has stood and the Seconds have moved, a young woman in a borrowed gown, with a silver thimble on a ribbon at her breast, gets up from the foot of the table, where a place has been laid for a House that has not dined in fourteen years. 'The Ladle is called,' says Lisbet Venn. Her voice shakes, and carries because of it. 'By the Dowager's rule of 1103. Whoever eats of one ladle sits equal.' Behind her chair an old man in a footman's coat is making a sound he is trying to hide. The Contessa Tarn, at the head, lifts the ladle off the tureen. 'Venn will serve first,' she says." {
+    Assert hl_dinner_done(party). Assert hl_end_ladle(party). Increase hl_trust(party) by 1. }
+  Rule hl_dinner_round at tarn_dining when hl_dining_hours() and hl_round_table(party) and not hl_ladle_ruled(party) and not hl_dinner_done(party)
+    says "The Fourteen are shown to a round table with a tureen at its heart, and stand about it, each with one hand on a chair, looking for the head of it. There is none. Lord Vesper sits, and finds that he has sat facing every door in the room at once; Lady Corm sits, and a footman from the stair puts a tureen at her elbow, hot, and she takes the ladle before anybody can stop her and serves herself first and finds that nobody minds. The Contessa Tarn watches the pair of them over the rim of her glass with the expression of a woman who has stopped a war with soup." {
+    Assert hl_dinner_done(party). }
+  Rule hl_dinner_swapped at tarn_dining when hl_dining_hours() and hl_swapped(party) and not hl_ladle_ruled(party) and not hl_round_table(party) and not hl_dinner_done(party)
+    says "The Fourteen sit. Lord Vesper takes the seventh, and measures his spoon with the eye of a man who has been measuring it for sixty years, and finds it long. Lady Corm takes the eighth, and does the same, and finds, to her visible relief, that hers has become the rounder. Neither of them looks at the other. They are, for the first time in a generation, both absolutely satisfied, and nobody has died. At the head of the table the Contessa Tarn watches them eat with an expression you cannot place." {
+    Assert hl_dinner_done(party). }
+  Rule hl_dinner_gone at tarn_dining when hl_dining_hours() and hl_vesper_gone(party) and not hl_ladle_ruled(party) and not hl_round_table(party) and not hl_swapped(party) and not hl_dinner_done(party)
+    says "The seventh place is empty. Lady Corm looks at it for some time, as one looks at a victory that has been served cold, and then moves into it, and then, to be safe, into the eighth as well, and eats her soup from both." {
+    Assert hl_dinner_done(party). }
+  Rule hl_dinner_failed at tarn_dining when hl_dining_hours() and not hl_seated() and not hl_dinner_done(party)
+    says "It is a very short dinner. Lord Vesper and Lady Corm arrive at the seventh place together, each from his own side of the table, each with an inch of silver in his hand, and the Seconds behind them move, as they have been trained to, a quarter-second before anybody has said a word. There is a chair on its back. There is steel. The Contessa Tarn has not risen, and does not, and says in a perfectly level voice to the room at large: 'Well. It has been sixty years.' By the time the Watch is sent for, the Feud is awake, and has dined." {
+    Assert hl_dinner_done(party). Assert hl_feud(party). Decrease hl_trust(party) by 2 or to nothing. }
+  // Heard of away from the table: in the morning.
+  Rule hl_dinner_heard when day(clock) == 8 and hour(clock) >= 7 and hl_dinner_done(party) and not hl_heard(party) and not hl_feud(party)
+    says "The Hill has not been so loud in the morning since the Concord: carriages on the Terrace, doors left open, an old woman's laughter in the Palazzo Corm. It seems the Dinner of Spoons was eaten, and nobody was killed at it, and the Fourteen are speaking to one another in the way of people who have been surprised." { Assert hl_heard(party). }
+  Rule hl_dinner_heard_feud when day(clock) == 8 and hour(clock) >= 7 and hl_feud(party) and not hl_heard(party)
+    says "The Hill has shut its shutters again. There is a stain on the stair of the Palazzo Tarn that the footmen have been told not to look at, and a Second of the Guild was seen carried down to the yard before dawn. The Feud is awake: the Old Names are not speaking, and every House has doubled its Seconds." { Assert hl_heard(party). }
+  Relation hl_heard(group).
+  // A swapped spoon is a swapped spoon: found at breakfast.
+  Rule hl_swap_discovered when day(clock) == 8 and hour(clock) >= 8 and hl_swapped(party) and not hl_swap_found(party)
+    says "By the morning of the eighth day Lady Corm has measured her spoon against her own sister's, and found it round. The Palazzo Corm is, by nine, a place of high voices, and by ten Lord Vesper has been shown the matter and has gone white, and both houses know that somebody has been at the silver in the Contessa's dining-room, and neither of them can prove who." { Assert hl_swap_found(party). Decrease hl_trust(party) by 1 or to nothing. }
+
+  // ── The Last Servant: Gaspar ──────────────────────────────────────────────────────────────────────────────────────
+  // Gaspar, seventy-eight, has dusted the empty Palazzo Venn every morning for fourteen years for a family that Spent
+  // itself under the Concord, and lays the long table at nine, and clears it at ten. The Registrar found the youngest
+  // Venn's daughter, and told neither of them. Four ways to bring it to its end; they are not equally kind.
+  Person gaspar "Gaspar" at venn_gallery {
+    Role "the old steward of the empty Palazzo Venn, with a duster". Ancestry human. Peaceable. Pronouns he. Manner stoic.
+    Greets "An old man in a footman's coat of a cut that went out with the Concord stands on a stool at the far end of a portrait gallery with a feather duster, in a silence that has been dusted into every corner. He turns, carefully, as one who has been told that the stool is not what it was. 'I am Gaspar,' he says. 'The family is not receiving. They have not been receiving for a time. I am to say that the Palazzo is aired on Tuesdays, and that if you are come about the paper, there is nobody to sign it.'".
+    Greets again "'Sir,' says Gaspar, from the stool. 'Madam. The family is not receiving.'".
+  }
+  Rule hl_gaspar_gallery when hour(clock) >= 8 and hour(clock) < 14 and not hl_gaspar_dining() and not hl_gaspar_at_peace() and not at(gaspar, venn_gallery) { Assert at(gaspar, venn_gallery). }
+  Rule hl_gaspar_hall when ((hour(clock) >= 14 and hour(clock) < 22)) and not hl_gaspar_dining() and not hl_gaspar_at_peace() and not at(gaspar, venn_hall) { Assert at(gaspar, venn_hall). }
+  Rule hl_gaspar_bed when (hour(clock) < 8 or hour(clock) >= 22) and not hl_gaspar_dining() and not hl_gaspar_at_peace() and not at(gaspar, offstage) { Assert at(gaspar, offstage). }
+  Rule hl_gaspar_dines when hl_gaspar_dining() and not at(gaspar, tarn_dining) { Assert at(gaspar, tarn_dining). }
+  Query hl_gaspar_dining() means day(clock) == 7 and hour(clock) >= 18 and hour(clock) < 23 and (hl_voice(party) or hl_lisbet_resolved(party)) and hl_ladle_ruled(party).
+  Query hl_gaspar_at_peace() means hl_end_told(party) or hl_end_lie(party) or hl_end_curtains(party) or hl_end_sold(party) or hl_end_ladle(party).
+  Relation hl_end_told(group). Relation hl_end_lie(group). Relation hl_end_curtains(group). Relation hl_end_sold(group). Relation hl_end_ladle(group).
+  Rule hl_gaspar_done when hl_gaspar_at_peace() and not roundDone(party, r_gaspar) { Assert roundDone(party, r_gaspar). }
+  // A Gaspar at peace keeps the gallery; the rule above stops moving him, and these put him where his peace was made.
+  Rule hl_gaspar_peace_hall when hl_gaspar_at_peace() and hour(clock) >= 8 and hour(clock) < 22 and not at(gaspar, venn_gallery) and not hl_gaspar_dining() { Assert at(gaspar, venn_gallery). }
+  Topic hl_gaspar_house with gaspar "Ask Gaspar about the Palazzo Venn" when true once {
+    Says "'The Palazzo Venn,' says Gaspar, and taps the stool. 'Third on the Terrace, with the swan over the door. The House has been Spent fourteen years: the last of the Lord Venns died, and his heirs signed their name away to the Concord, because there was a debt, and the Concord gives a House a clean grave. It is a very civil thing, a clean grave. Everything is sealed, and nothing is taken. And I am left.' He dusts a frame. 'I was to leave, sir. I was given a month and a letter. I have not yet found the day.'".
+  }
+  Discovery hl_orla "Gaspar remembers the youngest of the Venns, Miss Orla, who left the Palazzo at nineteen with a lamp-trimmer and never wrote; her room is aired every Tuesday, and her silver thimble with the three keys of the House on it was the one thing she took.".
+  Topic hl_gaspar_orla with gaspar "Ask whether there is any family left to the House at all" when true once {
+    Says "'There was Miss Orla.' He stops dusting. 'The youngest. A sempstress's hands, they used to say, and she would sew in the nursery, which was not done. She went in the spring of the year the old Lord was ill, with a lamp-trimmer from the Drip, a very decent young man in the wrong coat, and she took her thimble, which was her grandmother's, with the three keys on it. I have kept her room. They say she is dead. I have not been told.' He looks at the frame. 'The Registrar was here, in the autumn, sir, with a lantern, asking about her. I did not like to say. One does not, to the Registrar. She went away without a word, and she looked very pleased.'".
+    On discuss { Assert knows(actor, hl_orla). }
+  }
+  Rule hl_heir_deduced when knows(party, hl_orla) and knows(party, hl_thimble) and not knows(party, hl_heir)
+    says "A silver thimble with three keys on it, on a sempstress's hem in the Drip; and a silver thimble with three keys on it, that a servant has been dusting the room of for fourteen years. You lay one against the other. The girl in the loft is the one the Registrar was looking for, and the family in the Palazzo has an heir who is hemming a Gull's cloak at a table by the window." teaches hl_heir { }
+  Discovery hl_heir "Lisbet, the sempstress in the loft in the Drip, is the daughter of Orla Venn and the heir to the Palazzo Venn and its debts, and does not know it; the Registrar had found her and told neither her nor Gaspar.".
+  Action hl_dust(actor: group, site: place) "Offer to help Gaspar dust the portraits, and say nothing about the paper" {
+    Speaker gaspar.
+    Requires able(actor) and company(actor) and at(actor, site) and at(gaspar, site) and at(actor, venn_gallery) and hl_gaspar_trust(actor) < 1 and not hl_gaspar_at_peace().
+    Time 12.
+    On success { Increase hl_gaspar_trust(actor) by 1. Assert knows(actor, hl_gaspar_work_done). }
+    Result "'Sir?' says Gaspar. He looks at the cloth you have taken off the rack as if it were a form of address. 'It is not done.' He considers that. 'No. It is not.' He hands you the second-best duster, and shows you how it is held, which is more as one would hold a bird than a tool. You dust the faces of the Venns for two hours, in order of their dying, and he tells you about each of them as you reach the frame. By the end of it you know a good many things about the family that no one else on the Hill has any use for, and he has put his stool down and is sitting on it.".
+  }
+  Discovery hl_gaspar_work_done "You have dusted the Venn portraits with Gaspar, and he talks to you now as a person.".
+  Measure hl_gaspar_trust(group).
+  Topic hl_gaspar_book with gaspar "Ask Gaspar about the thick book on the lectern, with the cord" when hl_gaspar_trust(actor) >= 1 once {
+    Says "'The Book of Spoons.' He is a little shy of it, as of a relation. 'It is the Venns' own, the Dowager's. All the precedence of the Hill in a hundred and forty years, with notes. Nobody has asked for it since the Concord, and I have kept it at one page.' He turns it, so that you can read, and you do, for the better part of an hour, with the rain on the windows. When you look up he is dusting again, and has not said that you may take it. He says, 'It would not be missed.' And, as if surprised: 'It would not be missed *here*.'".
+    On discuss { Give hl_book to actor. Assert knows(actor, hl_ladle_1103). Assert knows(actor, hl_ladle_repealed). }
+  }
+  Kind hl_book_kind "the Venn Book of Spoons" is gear worth 0 weighing 2 described "A very thick book in a binding of faded green, with a cord for a marker and a hundred and forty years of notes in the margins in four hands. The cord lies at a page for the year 1103, where somebody has drawn in the margin a small and careful ladle.".
+  Item hl_book "the Venn Book of Spoons" is hl_book_kind at offstage.
+  Discovery hl_ladle_1103 "In 1103 the Dowager Venn ended a dinner-feud on the Hill by serving every guest from one ladle: whoever eats of one ladle sits equal, and is served in the order that he came in.".
+  Discovery hl_ladle_repealed "The Ladle was struck from the Book of Spoons in 1104, but for one clause: it may be called only by a voice of the House of Venn.".
+  // Reading it without his help: the lectern is in the gallery, in the open, and a lorekeeper can read a page.
+  Action hl_read_spoons(actor: group, site: place) "Read the Book of Spoons at its lectern, for the year of the Treaty" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, venn_gallery) and not knows(actor, hl_ladle_1103).
+    Time 30 minutes.
+    Resolve check(actor, lore, dc_fair).
+    On success { Assert knows(actor, hl_ladle_1103). Assert knows(actor, hl_ladle_repealed). }
+    Result "A hundred and forty years of precedence, in four hands, on paper that has not been touched. You find it at the bottom of a page, where the Dowager Venn has written in a round clear hand: *Served from the one ladle, and all were equal, and all were fed.* And next to it, in another hand, in red: *Struck. A voice of Venn only.* You have read the whole of it by the time you look up.".
+    Otherwise "A hundred and forty years of precedence, and every page of it looks like every other page. When you look up the light has gone grey, and you know a great deal about the seating of 1140 and nothing you can use.".
+  }
+  Topic hl_gaspar_key with gaspar "Ask Gaspar whether Miss Orla left anything that might be shown to her child, if she had one" when hl_gaspar_trust(actor) >= 1 and knows(actor, hl_orla) once {
+    Says "He is very still. 'If she had.' He puts down the duster; he has not put it down for some time. 'There is a key, sir. To her room, which I keep. She left it on the nursery sill, the day she went, with the thimble's twin, which was her mother's. A sempstress's thimble, a plain one, with the keys.' He goes to the sideboard and comes back with a small iron key on a grey ribbon and holds it a moment. 'If there were a child, sir. It is not mine to give. But it is not mine to keep, either.'".
+    On discuss { Give hl_orla_key to actor. }
+  }
+  Kind hl_orla_key_kind "the key to Orla Venn's room" is gear worth 0 weighing 0 described "A small iron key on a grey ribbon, much handled, with three notches cut in the bow: the three keys of the House of Venn, in little.".
+  Item hl_orla_key "the key to Orla Venn's room" is hl_orla_key_kind at offstage.
+  Topic hl_gaspar_curtains with gaspar "Ask Gaspar what the Palazzo wants done for the Novena" when hl_gaspar_trust(actor) >= 1 once {
+    Says "'The curtains, sir.' He looks at them. 'The Procession goes by on the ninth day, with all the Houses at their windows, and the Venn window has not been dressed in fourteen years, and one does not like it said that the Venns are not at their window. They want taking down and mending and hanging, three days' work for a good hand, and I have not a hand. I cannot hold a needle.' He holds up two fingers, which shake. 'Nor have I the money to ask the Drip.'".
+    On discuss { Assert knows(actor, hl_curtains_wanted). }
+  }
+  Discovery hl_curtains_wanted "Gaspar wants the Palazzo Venn's gallery curtains taken down, mended and hung again before the Procession on the ninth day, so that the Venns are seen at their window; he has no hand to do it and no money for the Drip.".
+  // Four ends. First, the gentlest and the most expensive: tell Lisbet.
+  Topic hl_lisbet_cold with lisbet "Say good morning to the sempstress at the window" when not masked(actor) and publicHours() once {
+    Says "She does not look up. 'The Bare don't buy,' says the girl at the window table, to the hem. 'It's a rule of the loft, not mine.' The needle goes in and comes out. It is the whole of what she says, and she says it as though she had been saying it all morning, to everybody, as a kindness, so that they will go.".
+  }
+  Topic hl_lisbet_customer with lisbet "Ask the sempstress about a hem, as a customer" when masked(actor) and publicHours() once {
+    Says "'Oh, it is you,' she says, to your mask, in the voice of the Drip for any domino, 'the Gull, the Moth, who has not got round to it. Sit, if you want it taken in. Sixpence the hour, and a penny for the thread.' Her thimble clicks on the hem as she measures: a plain silver one, bright with wear, with three small keys stamped on its crown in a pattern, worn nearly smooth. 'Mind the pins.'".
+    On discuss { Assert knows(actor, hl_thimble). }
+  }
+  Discovery hl_thimble "Lisbet the sempstress wears a plain silver thimble with three small keys stamped on its crown, worn nearly smooth.".
+  Topic hl_lisbet_night with lisbet "Knock, bare, and say that you are not selling anything" when not masked(actor) and privateHours() once {
+    Says "'Not at this hour,' says the voice at the crack of the door, and then, as it opens: 'Oh, you have no face. Come in out of the wet.' She is twenty-six, with a sempstress's stoop, and a lamp in one hand, and the thimble on her thumb, on a ribbon she has not taken off. 'It is quiet. I do the Moths' linings at night, they pay by the hour.' She puts the kettle on. 'You can sit on the cloaks. I do not know what I am being asked, and I am too tired to mind.' You sit on a pile of gull-wings. The thimble, in the lamplight, has three small keys on its crown.".
+    On discuss { Assert knows(actor, hl_thimble). }
+  }
+  Topic hl_lisbet_burglar with lisbet "Knock, in a mask, at the door of the loft, at night" when masked(actor) and privateHours() once {
+    Says "The crack in the door shows a lamp and one eye. 'A face,' says the voice. 'At this hour.' The door closes, and a bolt goes, and then another, and the voice says, quite level, to the whole of the stair: 'There is somebody on the landing in a mask.' A window opens somewhere above. A man's voice calls to know whether he is to fetch the Watch.".
+    On discuss { Increase heat(actor) by 1. }
+  }
+  Topic hl_lisbet_mother with lisbet "Ask her about the thimble" when not masked(actor) and privateHours() and at(actor, lisbet_room) {
+    Says "She looks at her thumb. 'It was my mother's. She was a sempstress; she was given it by her mother, she said, but she would not say where her mother was.' She turns it. 'She died in the Deepening, the year I was twelve. I have sewn ever since. She called me by the street's name, and not by hers. I do not know what hers was. She said it would be a nuisance, to know.' She does not look up. 'Why do you ask?'".
+    On discuss { Assert knows(actor, hl_lisbet_mother_told). }
+  }
+  Discovery hl_lisbet_mother_told "Lisbet's mother was a sempstress from somewhere that she would not name, who died in the Deepening when Lisbet was twelve, and left her the thimble and no surname.".
+  Relation hl_lisbet_told(group). Relation hl_lisbet_resolved(group). Relation hl_curtains_hung(group). Measure hl_told_at(group).
+  Action hl_tell_lisbet(actor: group, site: place) "Tell Lisbet who her mother was, and whose house has been dusted for her" {
+    Speaker lisbet.
+    Requires able(actor) and company(actor) and at(actor, site) and at(lisbet, site) and knows(actor, hl_heir) and not hl_lisbet_told(actor) and not hl_gaspar_at_peace() and hl_try_day(actor) < day(clock)
+      and ((publicHours() and masked(actor)) or (privateHours() and not masked(actor))).
+    Time 15 minutes.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert hl_lisbet_told(actor). Set hl_told_at(actor) to watch(clock). }
+    On failure { Set hl_try_day(actor) to day(clock). }
+    Result "She hears you out with the needle stopped, and does not say anything for so long that you think you have done it wrong. 'A house,' she says. 'On the Hill. With a servant who is dusting it.' She puts the thimble on the table and looks at it as if it might say. 'I shall have to go and see him.' She is not smiling, and she is not crying. 'I do not know if I want it. I did not know there was a thing to want. I shall go tomorrow, with my own hands, and look at the curtains.'".
+    Otherwise "'I know who I am,' says Lisbet, and picks up the needle. 'I am the one at this table.' She does not say anything else, and she does not look up, and you have the sense of a door that has been closed gently from the other side.".
+  }
+  Action hl_show_key(actor: group, site: place) "Put the key to Orla's room, on its grey ribbon, in Lisbet's hand" {
+    Speaker lisbet.
+    Requires able(actor) and company(actor) and at(actor, site) and at(lisbet, site) and carries(actor, hl_orla_key) and not hl_lisbet_told(actor) and not hl_gaspar_at_peace()
+      and ((publicHours() and masked(actor)) or (privateHours() and not masked(actor))).
+    Time 10 minutes.
+    On success { Assert hl_lisbet_told(actor). Set hl_told_at(actor) to watch(clock). Spend hl_orla_key from actor. }
+    Result "She takes it without a word, and turns it over, and there is nothing on it to say what it is. Then her thumb finds the three notches in the bow, and moves from one to the next, and she looks at the thimble on its ribbon, and at the key, and at you. 'It is the same,' she says. 'It is the same three.' It is a long time before she says anything else. 'Who has been keeping it?'".
+  }
+  Person lisbet "Lisbet" at lisbet_room {
+    Role "a sempstress at the window table of the loft, with a thimble on a ribbon". Ancestry human. Peaceable. Pronouns she. Manner stoic.
+    Known as "a sempstress in a grey apron" when not knows(party, hl_thimble).
+    Greets "A young woman at the window table, in a grey apron, with her head bent and a needle going in and out of a hem too fast to watch, does not look up as you come. She has a sempstress's stoop, and a sempstress's way of seeing a stranger: by the cut of what they are wearing, and what it will want.".
+    Greets again "Lisbet's needle does not stop.".
+  }
+  // After the reunion she lives where she was found out: the Palazzo's gallery by day, its hall by night, and at the
+  // Contessa's table on the seventh evening if the Ladle is to be called by a Venn.
+  Rule hl_lisbet_home_day when hl_end_told(party) and not hl_dining_hours() and hour(clock) >= 8 and hour(clock) < 20 and not at(lisbet, venn_gallery) { Assert at(lisbet, venn_gallery). }
+  Rule hl_lisbet_home_night when hl_end_told(party) and not hl_dining_hours() and privateHours() and not at(lisbet, venn_hall) { Assert at(lisbet, venn_hall). }
+  Rule hl_lisbet_dines when hl_dining_hours() and hl_ladle_ruled(party) and hl_lisbet_resolved(party) and not at(lisbet, tarn_dining) { Assert at(lisbet, tarn_dining). }
+  // The reunion: she goes up to the Hill a few hours after she has been told, and finds him at the gallery window.
+  Rule hl_reunion when hl_lisbet_told(party) and not hl_end_told(party) and not hl_gaspar_dining() and watch(clock) >= hl_told_at(party) + 6 and hour(clock) >= 9 and hour(clock) < 20 and not at(lisbet, venn_gallery) { Assert at(lisbet, venn_gallery). Assert at(gaspar, venn_gallery). }
+  Rule hl_reunion_told at venn_gallery when hl_lisbet_told(party) and at(lisbet, venn_gallery) and not hl_end_told(party) and not hl_gaspar_dining() and not hl_ladle_ruled(party)
+    says "A young woman in a Drip cloak, with a sempstress's stoop and a thimble on a ribbon, comes in at the end of the gallery, and stops, and looks at the portraits as one looks at a room that has been described. The old man on the stool does not turn round. When he does, it is slowly, and he gets down from the stool as if it had grown. 'Miss Orla,' says Gaspar, in an odd voice. 'No. I beg your pardon. I thought you were the other one.' He puts down the duster. 'The family is receiving,' he says. 'The family has been waiting. It has been only a short time.'" {
+    Assert hl_end_told(party). Assert hl_lisbet_resolved(party). }
+  Rule hl_reunion_ladle at venn_gallery when hl_lisbet_told(party) and at(lisbet, venn_gallery) and not hl_end_told(party) and not hl_gaspar_dining() and hl_ladle_ruled(party)
+    says "A young woman in a Drip cloak, with a thimble on a ribbon, comes in at the end of the gallery and stops. The old man on the stool does not turn round until she says, in a voice that is not sure of itself, 'Gaspar?' Then he gets down from the stool as if it had grown. 'Miss,' he says. 'The family is receiving. There is a dinner on Thursday. There is a place laid.' He cannot say anything else. She puts her hand on his sleeve, and neither of them moves." {
+    Assert hl_end_told(party). Assert hl_lisbet_resolved(party). }
+  // Second: kindly, to say nothing.
+  Action hl_lie_gaspar(actor: group, site: place) "Tell Gaspar that Miss Orla did well, abroad, and that the family asks him to rest" {
+    Speaker gaspar.
+    Requires able(actor) and company(actor) and at(actor, site) and at(gaspar, site) and knows(actor, hl_orla) and not hl_lisbet_told(actor) and not hl_gaspar_at_peace() and not hl_lied(actor).
+    Time 15 minutes.
+    Resolve check(actor, deception, dc_fair).
+    On success { Assert hl_end_lie(actor). Assert hl_lied(actor). }
+    On failure { Assert hl_lied(actor). }
+    Result "You tell it as plainly as you can: that she married well, in a country where nobody knew the Concord; that she kept a house and sewed in it for the pleasure; that she spoke of the Palazzo, at the end, as of a place where she had been happy; and that the family has asked, by you, that Gaspar be released. He listens with his duster in his hand. At the end of it he sits down in the gallery chair that is not sat in, and says, 'Thank you, sir,' and then, in the voice of a man putting something down at last: 'It is a great relief.' By the next morning the shutters of the Palazzo Venn are closed from the inside, and a notice is up that says only: *Aired.*".
+    Otherwise "He listens to the end, politely, with his head on one side, and at the end says, 'You are very kind, sir. But I do not think the family would have asked. It has never asked me anything.' He goes back to the frame. You have the sense of having offered a cup to a man who has just seen through the cup.".
+  }
+  Relation hl_lied(group).
+  // Third: the curtains. Lisbet is commissioned by the company, and does not know whom she works for.
+  Action hl_hire_lisbet(actor: group, site: place) "Ask Lisbet to take the curtains of a house on the Hill in hand, for six coin" {
+    Speaker lisbet.
+    Requires able(actor) and company(actor) and at(actor, site) and at(lisbet, site) and knows(actor, hl_curtains_wanted) and not hl_lisbet_told(actor) and not hl_curtains_hired(actor) and not hl_gaspar_at_peace()
+      and quantity(actor, gold) >= 6 and ((publicHours() and masked(actor)) or (privateHours() and not masked(actor))).
+    Time 10 minutes.
+    On success { Decrease quantity(actor, gold) by 6. Increase quantity(lisbet, gold) by 6. Assert hl_curtains_hired(actor). Set hl_told_at(actor) to day(clock). }
+    Result "'A house on the Hill,' says Lisbet, in the tone of a woman asked to mend something on the moon. 'With a servant, and no money, and a window.' She counts the six coin and puts them in her apron. 'It is a great deal of curtain. I shall go up tomorrow with the pins. Which house?' You tell her. 'Venn,' she says, with no particular expression, and then, for no reason that you can see, she touches the thimble on its ribbon.".
+  }
+  Relation hl_curtains_hired(group).
+  Rule hl_lisbet_sews when hl_curtains_hired(party) and not hl_end_curtains(party) and hl_told_at(party) < day(clock) and hl_told_at(party) + 3 >= day(clock) and hour(clock) >= 9 and hour(clock) < 17 and not at(lisbet, venn_gallery) { Assert at(lisbet, venn_gallery). }
+  Rule hl_lisbet_sews_home when hl_curtains_hired(party) and not hl_end_told(party) and hour(clock) >= 17 and at(lisbet, venn_gallery) { Assert at(lisbet, lisbet_room). }
+  Rule hl_curtains_done at venn_gallery when hl_curtains_hired(party) and hl_told_at(party) + 2 <= day(clock) and hour(clock) >= 15 and not hl_end_curtains(party)
+    says "Gaspar has served her tea twice a day for two days, in the second-best cups, and she has not once asked who he is. On the third afternoon she stands on the steps with the last of the curtain over her arm and a pin in her mouth, and he looks up at her from below, quite suddenly, and says, with no idea why, 'You hold your head like Miss Orla.' She takes the pin out. 'Do I?' says Lisbet. 'Who was she?' And he tells her, all of it, over the tea, as one tells a stranger, and she listens, and it does not occur to either of them what has been said." {
+    Assert hl_end_curtains(party). Assert hl_curtains_hung(party). }
+  // Fourth: the paper. The Contessa holds it; she may take it up, and keep him, and the Venn place laid.
+  Topic hl_tarn_paper with tarn "Say that the Palazzo Venn has a servant and a debt and nobody to sign for either" when hl_trust(actor) >= 1 and knows(actor, hl_orla) and not hl_lisbet_told(actor) and not hl_gaspar_at_peace() once {
+    Says "'Venn.' She says it as though she had stepped on the word. 'I hold the paper. I have held it fourteen years, as one holds a tooth that has come out.' She regards you with great acuity. 'You are asking me to foreclose. It is a thing nobody has asked of me before: they ask me not to.' A silence. 'I could. I should keep Gaspar, in the Palazzo, as its caretaker, and lay the Venn place at every dinner I give, and nobody would have to be sent for.' She closes her mouth on something else. 'It would be a kindness, and a theft, and I should have the house. I shall do it, if you ask it plainly. Do you?'".
+    On discuss { Assert knows(actor, hl_paper_offered). }
+  }
+  Discovery hl_paper_offered "The Contessa holds the Palazzo Venn's debt, and will foreclose, keep Gaspar as its caretaker, and lay the Venn place at her dinners, if she is asked plainly to.".
+  Action hl_ask_foreclose(actor: group, site: place) "Ask the Contessa plainly to take up the Venn paper, and keep the house" {
+    Speaker tarn.
+    Requires able(actor) and company(actor) and at(actor, site) and at(tarn, site) and knows(actor, hl_paper_offered) and not hl_lisbet_told(actor) and not hl_gaspar_at_peace().
+    Time 10 minutes.
+    On success { Assert hl_end_sold(actor). Increase hl_trust(actor) by 1. }
+    Result "'Very well,' says the Contessa. She takes up her pen, and writes three lines, and sands them, and rings for Spiers, who is sent with it up the Terrace with a face of great fixity. 'It is a great deal of house to have taken,' she says. 'I had rather it were somebody's.' She looks at the pen. 'Gaspar will be told in the morning that the house is kept. It is a thing I should like to be told, in his place.'".
+  }
+
+  // What each end leaves: Gaspar says something different to whoever comes after, and the Palazzo shows it.
+  Topic hl_gaspar_after_told with gaspar "Ask Gaspar how the family does" when hl_end_told(party) once {
+    Says "'Receiving, sir.' He is up on the stool, and does not need to be; he is dusting a frame that is already clean, for the pleasure of the frame. 'Miss Lisbet takes her tea at four. She has asked me to sit. I said it was not done.' He looks at the long table through the door. 'She said she would stand, then, and I should have to sit or be stood over. It is a very odd sort of mistress, sir. I have not been so well managed since the old Lord.'".
+  }
+  Topic hl_gaspar_after_lie with gaspar "Ask Gaspar how he does" when hl_end_lie(party) once {
+    Says "He is sitting in the gallery chair, in his coat, with his hands on his knees and his duster across them like a thing that has been given leave. 'Very well, sir.' He looks at the window. 'I find I do not know what to do before nine. I thought I might sit till it passed.' A pause. 'It is a good thing, to have been told. I am not at all sure it is true. But it is a good thing.'".
+  }
+  Topic hl_gaspar_after_curtains with gaspar "Ask Gaspar about the curtains" when hl_end_curtains(party) and not hl_end_told(party) once {
+    Says "'Hung, sir.' He is looking at them as at a person. 'The young woman from the Drip. She would not take the second-best cups. She said she would drink out of the best or nothing, which is, if I may say so, how Miss Orla was.' He taps his sleeve. 'I did not think to ask her name. I thought it would be a presumption. She comes on Tuesdays, now, to see that they are not letting the moth in.'".
+  }
+  Topic hl_gaspar_after_sold with gaspar "Ask Gaspar about the new mistress" when hl_end_sold(party) once {
+    Says "'The Contessa has been, sir. In person.' He is rather white about the mouth. 'She walked through every room and said nothing, and at the last she said, *the gallery will want its curtains*, and that was all.' He smooths his coat. 'She has left the long table as it is. She said I was to lay it as before, and that she would send the Venn place's name on a card.'".
+  }
+  Observe hl_venn_after at venn_hall when hl_end_told(party) and privateHours() "The long table in the hall of the Palazzo Venn is laid for two, tonight, and there are two candles in it. One of the swan-napkins has been unfolded, by somebody who did not know that it was not done.".
+  Observe hl_foot_sworn at hill_foot when wr_sworn(party) "A Second you have never met, coming down the Stair in the rain, lifts two fingers to you as you pass, and says his name to nobody in particular, and goes on.".
+  Topic hl_reeve_after with reeve "Ask the Captain how the Stair does" when wr_sworn(actor) once {
+    Says "'It holds.' She does not look up. 'Sturry still says that the Open Hand is the toll. The Fool does a joke for the child that is yours, I think, and not very good. The boy on the eighth has a lamp.' She turns the pen. 'You will not be thanked on the Hill, Second. The Hill does not know it has been held. It is the whole of the post.'".
+  }
+
+  // ── The Seconds' yard ─────────────────────────────────────────────────────────────────────────────────────────────
+  // The Guild's yard is where a company that has fallen on the Stair is brought round, and where a Second is seen to.
+  Person hl_surgeon "Goodwife Tansy Ream" at seconds_yard {
+    Role "the Guild's surgeon, with a needle, on a bench". Ancestry human. Peaceable. Pronouns she. Manner compassionate.
+    Offers healing "stitches, brandy and a clean bench" for 3 coin.
+    Sells bandages for 1 coin from 6.
+    Greets "A broad woman on a bench in the Seconds' yard looks up from a sleeve she is mending and says, without surprise, 'Sit. Not there; there is blood on it. There.' She bites off a thread. 'Ream. I do the Guild. I have never yet had a Second come in and tell me it was nothing, and I have never yet had one that was.'".
+    Greets again "'Sit,' says Goodwife Ream, and does not look up.".
+  }
+  Initially Assert restful(seconds_yard).
+  Topic hl_ream_stair with hl_surgeon "Ask the surgeon about the Stair" when true once {
+    Says "'The Stair is nothing, it is the Seconds.' She doesn't look up. 'Nine landings, nine men in grey, and not one of them ever meant to hurt a stranger. It is what makes them dangerous. I have sewn more of them than the ones they sent down.' A stitch. 'You will find that they are most careful with the ones who are afraid.'".
+  }
+
+  // ── What came of them ─────────────────────────────────────────────────────────────────────────────────────────────
+  Milestone hl_m_game "beat the Contessa Tarn at Spoons" worth 25 when hl_beaten(party).
+  Milestone hl_m_dinner "seated the Fourteen at the Dinner of Spoons, and nobody died" worth 50 when hl_dinner_done(party) and not hl_feud(party).
+  Milestone hl_m_stair "was lent the Contessa's private stair" worth 25 when hl_price_paid(party).
+  Milestone hl_m_gaspar "brought the last servant of the Palazzo Venn to his rest" worth 50 when hl_gaspar_at_peace().
+  Rule hl_fate_tarn_feud when newsHour() and hl_feud(party) once says "Of the Contessa Tarn: she has not left her study since the Dinner. The Hill is shuttered, the Fourteen are not speaking, and she has been seen at the window playing Spoons against nobody, and moving the seventh spoon, and putting it back. She says the Hill is as it always was, which is a great comfort to someone." { }
+  Rule hl_fate_tarn_ladle when newsHour() and hl_end_ladle(party) and not hl_feud(party) once says "Of the Contessa Tarn: the Ladle is the custom of the Hill's dinners now, and is called the Venn. She has been heard to say, a little too loudly, in front of a Lord, that she was beaten at Spoons by a Bare." { }
+  Rule hl_fate_tarn_round when newsHour() and hl_round_table(party) and not hl_ladle_ruled(party) and not hl_feud(party) once says "Of the Contessa Tarn: the Hill dines at a round table, now, which has no head, and is understood to be a very old custom the Contessa has revived. Lady Corm has been heard to call it the warmest thing that has happened to her since the Concord." { }
+  Rule hl_fate_tarn_swapped when newsHour() and hl_swapped(party) and not hl_ladle_ruled(party) and not hl_round_table(party) and not hl_feud(party) once says "Of the Contessa Tarn: she knows who changed the spoons, and has decided that it was the best joke the Hill has had in sixty years, and has said so to nobody, and wrote it in a letter to a dead man." { }
+  Rule hl_fate_tarn_voice when newsHour() and hl_contessa_voice(party) once says "Of the Contessa Tarn's bargain: her name is down, in her own hand, for the Hearing of the Unseen, to speak for the Old Names when the city is asked what to do with them, and somebody else's voice will say it." { }
+  Rule hl_fate_tarn_stair when newsHour() and privateStairOpen(party) and not hl_contessa_voice(party) once says "Of the Contessa Tarn's stair: she has been seen on its top step, at midnight, in her black gown, with a lamp, looking down. She has not gone down it. She says she likes to know that she could." { }
+  Rule hl_fate_gaspar_told when newsHour() and hl_end_told(party) once says "Of Gaspar: he has been given a chair in the gallery of the Palazzo Venn, and a young woman in a Drip cloak takes her tea with him every afternoon, and calls him by his name, and he lays the long table at nine for two." { }
+  Rule hl_fate_gaspar_lie when newsHour() and hl_end_lie(party) once says "Of Gaspar: the shutters of the Palazzo Venn are closed from the inside, and the notice on the door says only, *Aired.* He sits on a stool on the Terrace in the afternoons, in the sun that Quiet Hill does not get, and nobody has told him that the family never wrote." { }
+  Rule hl_fate_gaspar_curtains when newsHour() and hl_end_curtains(party) and not hl_end_told(party) once says "Of Gaspar: the Venn window was dressed for the Procession, and the Hill saw the Venns at it. A sempstress from the Drip is said to take her tea in the gallery on Tuesdays. Neither of them, you gather, has asked the other what she is." { }
+  Rule hl_fate_gaspar_sold when newsHour() and hl_end_sold(party) once says "Of Gaspar: he is the Contessa's caretaker, in the Palazzo that is now hers, and the Venn place is laid at every dinner she gives, and he stands behind it, and somebody says *thank you, Gaspar*." { }
+  Rule hl_fate_gaspar_ladle when newsHour() and hl_end_ladle(party) and not hl_end_told(party) and not hl_end_curtains(party) and not hl_end_sold(party) once says "Of Gaspar: he called the Ladle, once, in a voice nobody on the Hill had known he had, and has been, since, quite insufferable about it, to the portraits." { }
+  Rule hl_fate_gaspar_none when newsHour() and not hl_gaspar_at_peace() once says "Of Gaspar: the Palazzo Venn is aired on Tuesdays, and the long table is laid at nine, and cleared at ten, and nobody has told him it may stop." { }
+  Rule hl_fate_lisbet_told when newsHour() and hl_end_told(party) once says "Of Lisbet Venn: she took the loft's best table to the gallery of the Palazzo, and mends the curtains of the Hill at half the Drip's price, and has been seen on the Terrace without a mask, which nobody has had the courage to tell her is a thing she cannot do." { }
+  Rule hl_fate_lisbet_curtains when newsHour() and hl_end_curtains(party) and not hl_end_told(party) once says "Of Lisbet, the sempstress: she is back at the window table in the Drip, with a commission from the Hill and no idea why they asked for her, and has taken to touching her thimble when she hears the name Venn." { }
+  Rule hl_fate_lisbet_none when newsHour() and not hl_end_told(party) and not hl_end_curtains(party) once says "Of Lisbet, the sempstress: she hems a Gull's cloak at a window table in the Drip, with a silver thimble on a ribbon. She does not know there is a house." { }
 }
