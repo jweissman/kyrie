@@ -117,6 +117,9 @@ export class Journey {
       .some(m => thing.test(l.slice(0, m.index)) && act.test(l.slice(m.index + 2)))));
   }
   offers(pattern: string): boolean { return !!this.find(pattern); }
+  // Whether a way it names can be taken now: not only looked at (a shut way's Examine row matched its label, so
+  // offers was true of a way that could not be gone through: Quittance's A06).
+  takes(pattern: string): boolean { return this.matches(pattern).some(c => /^(go\(|travel:|enter\()/.test(c.command)); }
   // What the steps told, each step's perceptions and response after a space (as the journeys' own drivers said it).
   async play(...steps: string[]): Promise<string> {
     let told = '';
