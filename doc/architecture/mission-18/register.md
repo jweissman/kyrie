@@ -570,6 +570,168 @@ LUL-02, F14 by HTH-08, F17 by NVR-04, F18 by GTR-20, F19 by WPC-21, F20 by LUL-1
 | QIS-08 | Placing a country is trial and error across seeds | D | P2 | Open | `kyrie countries --try` reporting moved and missing countries per seed |
 | QIS-09 | Travel through generated countries in a test fails mid-route ("Unavailable command") | D | P2 | Open | GeneratedWorld.travel that goes on past what stops it, as MapPlay.reach does |
 
+
+### Reports carried 2 November: the adventures' friction not yet in any register, the cold review in full, the independent review, the systemic review's interventions
+
+The owner asked (2 November) that every item of the existing reviews and friction reports be reflected in the ledger.
+Carried in earlier missions and not repeated here: the friction of A Winter in Carth (CTH), Banns at Hessel (HSL),
+the Liberty of the Ice (ICE), the Parliament of Books, What Tessary Owes and Thrume (Mission 17's register; their
+open rows inherited above), and of the Grand Tour, Wapshott's Circus, Fair Weather, Half the Hive, the Lull and the
+Quiet in the Sky (their sections below and above). Here: Behind the Wainscot (BTW), The Third Night (TTN), Gosse's
+Company (GOS), Low Water (LWR), Let One Remember (LOR), the cold review of 1 November in full (REV-11 on; its P0s are
+REV-10), the independent review of 30 October (IND), and the systemic review's ranked interventions (SYS; its section H
+is above). A row "with" another is answered by that row.
+
+#### Behind the Wainscot (doc/adventures/behind-the-wainscot/friction.md)
+
+| ID | Finding | Source | Gate | Pri | Now | Note |
+|---|---|---|---|---|---|---|
+| BTW-01 | The browser turns anyone an action is about into a conversation: "Keep still" and "Step out into the light" became "Talk to the Lady" (Attending.opener, ChoiceGrouping.fallback) | Behind the Wainscot friction F3 | A | P1 | Open | Act choices about a person kept as acts, not folded into talk |
+| BTW-02 | The glance shows one sentence of a place until Look about | Behind the Wainscot friction F4 | A | P1 | Open | With the arrival-weight defect (closure report) |
+| BTW-03 | World events are not canonical: the Freehold is an outcome other modules should be able to read | Behind the Wainscot friction F10 | B | P2 | Open | With OWN-35 |
+| BTW-04 | Passage kinds and the lint assume human scale (a ladder up a table leg "does not change level") | Behind the Wainscot friction F1 | D | P3 | Open |  |
+| BTW-05 | No level for "up on the furniture" without costing the map | Behind the Wainscot friction F2 | D | P3 | Open | Considered and rejected by the author |
+| BTW-06 | A blocking thing on a passage blocks both directions (a toll that is "DOWN, FREE") | Behind the Wainscot friction F5 | D | P2 | Open | With GTR-08 |
+| BTW-07 | A standard give has no Grave: selling the deed is irreversible and not asked twice | Behind the Wainscot friction F6 | D | P2 | Partial | OWN-50 asks first before any act that can hurt; Grave on gives still to do |
+| BTW-08 | Day counts in a placed country run from the morning after it is reached | Behind the Wainscot friction F7 | B | P2 | Open | With GTR-01 |
+| BTW-09 | Lethality at level one: a cat's paw meant as play (2d6) kills a six-hit-point protagonist | Behind the Wainscot friction F9 | C | P1 | Open | With C6, PT-11 |
+| BTW-10 | Surnames are global across adventures in the lint | Behind the Wainscot friction F8 | D | P3 | Partial | Hit at the merge: Whitlock/Saltash renamed (1a2c9bdd); with AUT-07 |
+| BTW-11 | Giant gentry are new canon | Behind the Wainscot friction F11 | B | P3 | Open | For the canon (OWN-35) |
+| BTW-12 | Manners are seven | Behind the Wainscot friction F12 | D | P3 | Open | With CTH-09 |
+| BTW-13 | Role articles: a role is given "a" unless it starts with "the" | Behind the Wainscot friction F13 | D | P3 | Open |  |
+| BTW-14 | Topics in a placed bundle cannot name the world's inns | Behind the Wainscot friction F14 | B | P2 | Open |  |
+
+#### The Third Night (doc/adventures/the-third-night/09-friction.md)
+
+| ID | Finding | Source | Gate | Pri | Now | Note |
+|---|---|---|---|---|---|---|
+| TTN-01 | A measure cannot go below nothing; an effect that would take it there silently makes the action unavailable | The Third Night friction 1; Gosse's Company; Let One Remember B2/F4 | D | P1 | Open | With AUT-05: `at least 0` |
+| TTN-02 | Ending coverage is invisible: nothing tells an author that a reachable state reaches no ending | The Third Night friction 2 | D | P2 | Open |  |
+| TTN-03 | Reading the game as a player reads it needed a tool the author wrote | The Third Night friction 3; Let One Remember tooling 1 | D | P2 | Partial | `kyrie play`, journey drivers; a public step driver still to do |
+| TTN-04 | Prose repeats unless every description is written twice (arrival shows the room's observations) | The Third Night friction 4 | A | P2 | Open |  |
+| TTN-05 | A rule scoped to a place is not told when the company cannot perceive it | The Third Night friction 5 | D | P2 | Open | With CTH-06, ICE-02 |
+| TTN-06 | `once` topics come back as "Ask … again" | The Third Night friction 6 | D | P2 | Open | With ARV-A19 |
+| TTN-07 | Farewells and later greetings are not the author's | The Third Night friction 7 | D | P3 | Open |  |
+| TTN-08 | Effects cannot give an item to someone | The Third Night friction 8 | D | P2 | Open |  |
+| TTN-09 | Items in a room are anyone's unless owned; taking an owned-elsewhere item crashes later | The Third Night friction 9 | D | P1 | Open | To reproduce |
+| TTN-10 | Passages cannot cost anything (a farthing toll is a rule watching for the company) | The Third Night friction 10 | D | P2 | Open |  |
+| TTN-11 | A placed chapter counts its days from the dawns after the company arrives | The Third Night friction 11 | B | P2 | Open | With GTR-01 |
+| TTN-12 | A creature cannot be both deadly and avoidable without a workaround | The Third Night friction 12 | C | P2 | Open |  |
+| TTN-13 | A passage's closed text is one text for every reason it is closed | The Third Night friction 13 | D | P3 | Open |  |
+| TTN-14 | There are no chapters | The Third Night friction 14 | D | P2 | Fixed | `Kind chapter` and chapter installs (Frontier.province) |
+| TTN-15 | Nothing can be said "after a while" at a place | The Third Night friction 15 | D | P3 | Open |  |
+| TTN-16 | Gifts have no identity | The Third Night friction 16 | D | P3 | Open |  |
+| TTN-17 | Greetings and descriptions do not know where they are said | The Third Night friction 17 | D | P3 | Open |  |
+| TTN-18 | Things on passages show at both ends | The Third Night friction 18 | D | P2 | Open | With GTR-08 |
+| TTN-19 | The test helper has to be told which names are shared | The Third Night friction 19 | D | P3 | Open |  |
+| TTN-20 | The prose extractor is a regular expression | The Third Night friction 20 | D | P3 | Open | With the authorability audit |
+| TTN-21 | "Small, but often", Deem and the environment, and the interface (sections of the report) | The Third Night friction §§ small, Deem, interface | D | P3 | Open | Read with the report |
+
+#### Gosse's Company (doc/adventures/gosses-company/friction.md)
+
+| ID | Finding | Source | Gate | Pri | Now | Note |
+|---|---|---|---|---|---|---|
+| GOS-01 | Heralds: a country that sends word ahead into a generated town | Gosse's Company friction 1 | B | P1 | Fixed | Made on the branch; Countries.heralds includes provinces |
+| GOS-02 | A hidden way described shut to a company that never heard of it | Gosse's Company friction 2 | D | P1 | Fixed | Made on the branch |
+| GOS-03 | A cached campaign's kinds put back before it is forked | Gosse's Company friction 3 | D | P1 | Fixed | Made on the branch |
+| GOS-04 | Rules cannot assert knowledge; teaching prints the fact | Gosse's Company friction; second pass | D | P2 | Open | Met again in the undertown (a Rule may not assert knows) |
+| GOS-05 | A rule anchored at a place still happens when nobody is there | Gosse's Company friction | D | P2 | Open | With CTH-06 |
+| GOS-06 | Endings fire for a company that was never there | Gosse's Company friction | D | P1 | Open |  |
+| GOS-07 | The world's calendar has no season the text can trust | Gosse's Company friction | E | P2 | Open | With E7, ICE-15 |
+| GOS-08 | "The green" in a town without one | Gosse's Company friction | A | P2 | Fixed | Caught by the suite; settlement hearts named by founding |
+| GOS-09 | A held country with no `among` takes every march it fits | Gosse's Company friction | B | P2 | Fixed | Caught by the suite; provinces now (Gate B) |
+| GOS-10 | The found-by-searching text outlives the thing found | Gosse's Company friction | D | P2 | Open |  |
+| GOS-11 | Names; the engine's own voice; time; what Kyr has no construct for | Gosse's Company friction (low and medium) | D | P3 | Open |  |
+| GOS-12 | A query cannot compare against its own parameter | Gosse's Company friction, second pass | D | P2 | Open |  |
+| GOS-13 | What a captor's rule says as a fight ends is never told | Gosse's Company friction, second pass | C | P1 | Open |  |
+| GOS-14 | A keeper of its post falls on a company before it can do anything | Gosse's Company friction, second pass | C | P1 | Open | With LWR-02 |
+| GOS-15 | `Called` names a band of beasts, not of people; a proud band's price asked in the singular; splitting a way renames it | Gosse's Company friction, second pass | D | P3 | Open |  |
+
+#### Low Water (doc/adventures/low-water/friction.md)
+
+| ID | Finding | Source | Gate | Pri | Now | Note |
+|---|---|---|---|---|---|---|
+| LWR-01 | A way's `opening when` is checked before the module's own rules | Low Water friction 1 | D | P2 | Open |  |
+| LWR-02 | Someone who turns hostile falls on the company at once | Low Water friction 2 | C | P1 | Open | With GOS-14 |
+| LWR-03 | `carries(group, x)` reads only members' packs | Low Water friction 3 | D | P2 | Open |  |
+| LWR-04 | A teaching observation shows the journal text instead of the scene | Low Water friction 4 | D | P2 | Open | With LOR-17 |
+| LWR-05 | A topic cannot take an answer | Low Water friction 5 | D | P2 | Partial | `answering` topics exist; free answers do not |
+| LWR-06 | Spending one carried item of a kind | Low Water friction 6 | D | P2 | Fixed | LUL-04 (beea736) |
+| LWR-07 | Measures have no floor or ceiling | Low Water friction 7 | D | P2 | Open | With AUT-05 |
+| LWR-08 | Entries 8–21 kept from the first pass | Low Water friction 8–21 | D | P3 | Partial | As the report says what each became |
+| LWR-09 | The journey driver; rule order is manifest order; a step label can match another person's topic; rule text during an action in `page` not `told`; environment | Low Water friction 22–26 | D | P3 | Open |  |
+| LWR-10 | Nothing compares an encounter with the party | Low Water friction 27 | C | P1 | Partial | With CMB-12: danger reckoned before a fight |
+
+#### Let One Remember (doc/adventures/let-one-remember/friction.md)
+
+| ID | Finding | Source | Gate | Pri | Now | Note |
+|---|---|---|---|---|---|---|
+| LOR-01 | The module's own critique: the world announced, not inhabited; balance invisible; Teshen a key; the grammar half a puzzle; write-only facts; tests prove happy paths; the later acts thinner; a company does not grow | Let One Remember friction, part one and part three | C | P2 | Open | For the module's author |
+| LOR-02 | A long hazardous way always turns the company back | Let One Remember B1 | C | P1 | Open | To reproduce after OWN-50 (risk now asks first) |
+| LOR-03 | A count below zero stops the game (Invalid quantity) and lint cannot see it | Let One Remember B2 | D | P1 | Open | With TTN-01 |
+| LOR-04 | A lit light that is shuttered stays lit | Let One Remember B3 | D | P2 | Open |  |
+| LOR-05 | Twin destinations are not told apart across exits | Let One Remember B4 | A | P1 | Partial | NAV-04; tiles say acts (REV-10); a road's tracks said apart (a74cf05e) |
+| LOR-06 | A companion who has joined is nowhere: events near them never fire | Let One Remember B5 | D | P1 | Open |  |
+| LOR-07 | Recruiting adds the recruit's purse | Let One Remember B6 | C | P2 | Open |  |
+| LOR-08 | Arithmetic is strictly left to right | Let One Remember F1 | D | P2 | Open | With AUT-05 |
+| LOR-09 | No computed measure; text cannot carry a measure | Let One Remember F2, F3, F25 | D | P2 | Open |  |
+| LOR-10 | No senses beyond sight in the dark | Let One Remember F5 | D | P3 | Open |  |
+| LOR-11 | Exits labelled by destination give a decoy away | Let One Remember F6 | D | P3 | Open |  |
+| LOR-12 | A companion's capability is eight bespoke actions | Let One Remember F7 | D | P2 | Open |  |
+| LOR-13 | Inference phrased as an observation; news at a speed | Let One Remember F8, F9 | D | P3 | Open | F9 with ICE-02 |
+| LOR-14 | Errands teleport people; dates are watch numbers | Let One Remember F10, F11 | D | P2 | Open | F11 with AUT-09 |
+| LOR-15 | An action fires on one click; a topic cannot be refused | Let One Remember F12 | D | P2 | Partial | Grave and OWN-50 for actions; topics still to do |
+| LOR-16 | Crowd size; level containment; shelter not inherited; collisions reported one load at a time | Let One Remember F13–F16 | D | P3 | Open | F16 with AUT-07 |
+| LOR-17 | A revelation is told twice (the discovery's text, then the speech) | Let One Remember F17 | D | P2 | Open | With LWR-04, GOS-04 |
+| LOR-18 | Light as the real cost of going deep is not offered as a choice | Let One Remember F18 | C | P2 | Partial | The company's light told underground (M17); lantern bought in the browser play |
+| LOR-19 | No ending construct | Let One Remember F19, F23 | D | P2 | Fixed | `Ending` exists (ending-order.ts) |
+| LOR-20 | A module cannot start a company knowing a fact; state and observation ids collide module-wide | Let One Remember F20–F22 | D | P2 | Open |  |
+| LOR-21 | Label verbs, local queries and driver step syntax undocumented | Let One Remember F24, F26, F27 | D | P3 | Open |  |
+
+#### The cold review of 1 November (doc/architecture/mission-18/review.md)
+
+| ID | Finding | Source | Gate | Pri | Now | Note |
+|---|---|---|---|---|---|---|
+| REV-11 | The field economy collapses after one delve: 191 coin makes every field cost trivial | The cold review of 1 November, Economy | C | P1 | Open | Closure report: economy |
+| REV-12 | Selling loot awards coin and experience at once | The cold review, Economy | C | P1 | Open | Proposed: experience for recovery, coin for sale |
+| REV-13 | No economic tiers: field, expedition, domain | The cold review, Economy | C | P2 | Open |  |
+| REV-14 | Rest and food are interesting but opaque; money alternatives become flavour | The cold review, Economy | C | P2 | Open |  |
+| REV-15 | Search functions as an interface tax | The cold review, Boredom | C | P1 | Open | With REV-02 |
+| REV-16 | Combat sometimes outlives its decision: no morale, surrender or fast resolution | The cold review, Boredom | C | P1 | Open |  |
+| REV-17 | Known travel is insufficiently compressed; itineraries lost to interruptions | The cold review, Boredom | A | P1 | Partial | Travel stops only for what is new (M17); not re-measured |
+| REV-18 | Rumour and destination abundance lacks hierarchy (current, nearby, rumour, archive) | The cold review, Boredom | A | P1 | Open | With OWN-53 |
+| REV-19 | Important actions gated by schedules without notice (innkeeper only at night) | The cold review, Navigation | C | P2 | Open | Not reproduced in kin |
+| REV-20 | Item comparison and recipient confirmation before purchase | The cold review, P0 list 4 | A | P0 | Open |  |
+| REV-21 | Adversarial-order quest-path tests | The cold review, P0 list 1 | F | P1 | Partial | test/drowned-stair.test.ts searches before draining |
+| REV-22 | Level 2 a large discontinuity; XP in accelerating bursts; training opaque | The cold review, Progression | C | P1 | Partial | Undertown troubles' worth set (a74cf05e); swarm term open |
+| REV-23 | The rival expedition's progress invisible and inconsequential | The cold review, Time pressure | C | P2 | Open |  |
+| REV-24 | Notes in layers; NPC rumour menus curated; HP growth flattened; treasure with several destinations | The cold review, P2 list | C | P2 | Open |  |
+
+#### The independent review of 30 October (doc/playtests/independent-review-2026-10-30/report.md)
+
+| ID | Finding | Source | Gate | Pri | Now | Note |
+|---|---|---|---|---|---|---|
+| IND-01 | Generated settlements have texture before they have drama | The independent review of 30 October, §2 | C | P1 | Partial | Undertown troubles posted on the green (OWN-57) |
+| IND-02 | An aim can be born cleanly and still lose the player's attention (aims as active projections) | The independent review, §3, rec. 1 | A | P1 | Open | With OWN-53 |
+| IND-03 | Wilderness travel has geography but too little event grammar (sparse causal events) | The independent review, §4, rec. 6 | C | P1 | Open | With REV-03 |
+| IND-04 | Danger well signalled can still lose the decision hierarchy | The independent review, §5 | A | P1 | Partial | A parleyed group no longer led to attack (361b6f90) |
+| IND-05 | Character identity does not reliably steer ordinary play (profession test) | The independent review, §6, rec. 4 | C | P2 | Open | With PT-14 |
+| IND-06 | Situations without initiative; generic actions not contextual under pressure; no aftermath surfaces | The independent review, recs. 2, 3, 5 | C | P2 | Open | With REV-01 |
+| IND-07 | Acceptance tests: first-town, aim-retention, urgency, profession, journey-density, return, restraint | The independent review, acceptance tests | F | P1 | Open | First-town and return played in the browser 2 November; the rest not run |
+
+#### The systemic review's ranked interventions (doc/playtests/systemic-enjoyment-2026-10-30/review.md, D)
+
+| ID | Finding | Source | Gate | Pri | Now | Note |
+|---|---|---|---|---|---|---|
+| SYS-01 | Situation/affordance projection from the legal set | The systemic review of 30 October, D.1 | A | P0 | Partial | The glance (OWN-18/19), with REV-05 |
+| SYS-02 | Finish shared identity and placement inside M18 | The systemic review, D.2 | B | P0 | Partial | Gate B, OWN-31..38 |
+| SYS-03 | Aftermath contract for significant situations | The systemic review, D.3 | C | P1 | Open | With REV-01 |
+| SYS-04 | Balance one expedition across money, experience and capability | The systemic review, D.4 | C | P1 | Open | With REV-11, REV-12 |
+| SYS-05 | Novice danger covenant by calling | The systemic review, D.5 | C | P1 | Open | With C6, PT-11 |
+| SYS-06 | Operational professions in generated situations | The systemic review, D.6 | C | P2 | Open | With PT-14 |
+| SYS-07 | Sparse causal wilderness events and partial discoveries | The systemic review, D.7 | C | P2 | Open | With REV-03 |
+| SYS-08 | Procedural rotation by causal role, with repetition measures | The systemic review, D.8 | C | P2 | Open | With PT-15 |
+
 ## Appendix: Mission 17's evidence, as it stood at 28b306c
 
 Verbatim from the Mission 17 register; where a cell there ends in "…", the [Mission 16 register](../mission-16/register.md)
