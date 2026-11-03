@@ -87,7 +87,7 @@ export class Journey {
   // The choices a pattern matches: by label, else by label under its heading, else by a thing's name and what is done
   // with it.
   matches(pattern: string): Offered[] {
-    const straight = Journey.straight(pattern), re = new RegExp(straight, 'i'), all = this.choices();
+    const straight = Journey.straight(pattern), re = Journey.pattern(straight), all = this.choices();
     for (const key of ['label', 'full'] as const) {
       const found = all.filter(c => re.test(Journey.straight(c[key])));
       if (found.length) { return found; }
@@ -95,8 +95,17 @@ export class Journey {
     // The label as its action has it, without the notes the page adds after it (" · an even chance": WPC-20).
     const bare = all.filter(c => re.test(Journey.straight(c.label).replace(/ · .*$/, '')));
     if (bare.length) { return bare; }
-    return Journey.named(straight, all);
+    const named = Journey.named(straight, all);
+    if (named.length) { return named; }
+    // Last, the words as they are written, not as a pattern: a label with a dash, a bracket or a question in it
+    // (Quittance's friction 12: "To the foot of the Exchange stair — put your shoulders…" had to be escaped).
+    const words = Journey.plain(straight);
+    return all.filter(c => [c.label, c.full].some(l => Journey.plain(Journey.straight(l)).includes(words)));
   }
+  private static pattern(text: string): RegExp {
+    try { return new RegExp(text, 'i'); } catch { return new RegExp(text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i'); }
+  }
+  private static plain(text: string): string { return text.replace(/[‐-―]/g, '-').toLowerCase(); }
   private static straight(text: string): string { return text.replace(/[‘’]/g, "'").replace(/[“”]/g, '"'); }
   // "register: Take" for "the register of names: Take": a thing called by part of its name, then what is done with it
   // (a step had to quote an item's whole name: Liberty of the Ice friction 19).

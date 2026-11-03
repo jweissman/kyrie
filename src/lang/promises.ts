@@ -4,7 +4,8 @@ import type { Change, Module, Predicate, WorldRule } from './module';
 type Node = ohm.Node;
 // close: kept only as the story or chapter closes (`kept at the close when …`), and broken there if it is not.
 export interface PromiseSpec {
-  id: string; words: string; to: string; kept: { when: Predicate; text?: string; close?: boolean };
+  id: string; words: string; to: string;
+  kept: { when: Predicate; text?: string; close?: boolean; effects?: Change[] };
   broken: { when: Predicate; text: string; effects: Change[] };
 }
 
@@ -24,7 +25,7 @@ export interface PromiseSpec {
 export class Promises {
   static readonly actions = { Promise: Promises.parse, PromiseHead: Promises.head, PromiseKept: Promises.kept,
     PromiseWhen: Promises.when, PromiseBroken: Promises.broken, PromiseTail: Promises.tail,
-    PromiseEffects: Promises.effects };
+    PromiseEffects: Promises.effects, PromiseKeptTail: Promises.keptTail };
   // Promise = "Promise" PromiseHead PromiseKept PromiseBroken
   static parse(_p: Node, head: Node, kept: Node, broken: Node) {
     return { field: 'promise', value: { ...Promises.ast(head) as object, kept: Promises.ast(kept),
@@ -34,11 +35,17 @@ export class Promises {
   static head(id: Node, words: Node, _to: Node, to: Node) {
     return { id: id.sourceString, words: Promises.ast(words) as string, to: to.sourceString };
   }
-  // PromiseKept = "kept" PromiseClose? PromiseWhen string?, where PromiseClose = "at" "the" "close"
-  static kept(_k: Node, close: Node, when: Node, text: Node) {
-    const said = text.children.map(t => Promises.ast(t) as string)[0];
-    return { when: Promises.ast(when) as Predicate, ...said ? { text: said } : {},
+  // PromiseKept = "kept" PromiseClose? PromiseWhen PromiseKeptTail, where PromiseClose = "at" "the" "close"
+  static kept(_k: Node, close: Node, when: Node, tail: Node) {
+    return { when: Promises.ast(when) as Predicate, ...Promises.ast(tail) as object,
       ...close.children.length ? { close: true } : {} };
+  }
+  // PromiseKeptTail = string? PromiseEffects?: what is said of its keeping, and what keeping it brings, as breaking it
+  // may (Quittance's friction 14: only broken took a block).
+  static keptTail(text: Node, effects: Node) {
+    const said = text.children.map(t => Promises.ast(t) as string)[0];
+    const brings = effects.children.flatMap(e => Promises.ast(e) as Change[]);
+    return { ...said ? { text: said } : {}, ...brings.length ? { effects: brings } : {} };
   }
   // PromiseWhen = "when" Predicate
   static when(_when: Node, when: Node) { return Promises.ast(when); }
@@ -72,7 +79,7 @@ export class Promises {
     const close = p.kept.close ? { upkeep: true } : {};
     (module.rules ??= []).push(
       { id: `${p.id}_kept`, when: p.kept.close ? Promises.all(stands, closed, p.kept.when) : Promises.all(stands,
-        p.kept.when), effects: [{ kind: 'assert', call: kept! }], ...close },
+        p.kept.when), effects: [{ kind: 'assert', call: kept! }, ...p.kept.effects ?? []], ...close },
       { id: `${p.id}_broken`, when: Promises.all(stands, p.broken.when), effects: breaking },
       ...p.kept.close ? [{ id: `${p.id}_unkept`, when: Promises.all(stands, closed, { kind: 'not', value: p.kept.when }),
         effects: breaking, upkeep: true }] : [],

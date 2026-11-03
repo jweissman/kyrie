@@ -144,13 +144,16 @@ export class ModuleAssembly {
   // Nothing a module does may write what the campaign projects or keeps: creatures' facts, the clock, records and
   // pressures; and every pressure, outcome and goal must be a well-formed predicate over the module.
   private static readOnly(instance: Instance, definition: CampaignDefinition, compiler: ModuleCompiler) {
-    const writes = instance.module.actions.flatMap(a => [...a.success, ...a.failure]);
-    if (writes.some(c => EngineOwned.actions.has(c.call.name))) {
-      throw new Error('Creature projections and campaign clock/pressure records are read-only');
+    // Each said with what writes it (Quittance's friction 2: "which statement?").
+    const writes = [...new Set(instance.module.actions.flatMap(a => [...a.success, ...a.failure]
+      .filter(c => EngineOwned.actions.has(c.call.name)).map(c => `${a.schema ?? a.id} writes ${c.call.name}`)))];
+    if (writes.length) {
+      throw new Error(`Creature projections and campaign clock/pressure records are read-only: ${writes.join('; ')}`);
     }
-    if ([...instance.module.initial, ...(instance.module.rules ?? []).flatMap(r => r.effects)]
-      .some(c => c.call.name === 'capable')) {
-      throw new Error('Creature capabilities are read-only projections');
+    const capable = (instance.module.rules ?? []).filter(r => r.effects.some(c => c.call.name === 'capable'))
+      .map(r => r.id);
+    if (capable.length || instance.module.initial.some(c => c.call.name === 'capable')) {
+      throw new Error(`Creature capabilities are read-only projections: ${capable.join(', ') || 'Initially'} sets capable`);
     }
     for (const pressure of definition.pressures) {
       compiler.validate({ ...instance.module, goal: { kind: 'compare', operator: '>=',

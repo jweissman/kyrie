@@ -10,6 +10,7 @@ import { CampaignLint } from './campaign-lint';
 import { AuthorLint } from './author-lint';
 import { AdventureNames } from './adventure-names';
 import type { Module } from '../lang/module';
+import { EngineOwned } from '../lang/engine-owned';
 
 // An error fails the lint; a warning fails it in recommended content; advice is for the author to look at, and fails
 // nothing (a rule that may be meant: see CampaignLint.anchors).
@@ -90,8 +91,13 @@ export class KyrLint {
         where.set(r.name, [...(where.get(r.name) ?? []), file.slice(this.root.length + 1)]);
       }
     }
-    return [...where].sort((a, b) => b[1].length - a[1].length || a[0].localeCompare(b[0]))
-      .map(([name, files]) => `${String(files.length).padStart(3)}  ${name}  ${files.join(', ')}`);
+    // And what the engine keeps, which a module reads and never writes, by kind (Quittance's friction 2: `recorded`
+    // and `knows` found only by loading).
+    const kept = Object.entries({ clock: EngineOwned.clock, records: EngineOwned.records,
+      projected: EngineOwned.projected, held: EngineOwned.held, knowledge: EngineOwned.knowledge })
+      .map(([kind, names]) => `engine ${kind}: ${names.join(', ')}`);
+    return [...[...where].sort((a, b) => b[1].length - a[1].length || a[0].localeCompare(b[0]))
+      .map(([name, files]) => `${String(files.length).padStart(3)}  ${name}  ${files.join(', ')}`), ...kept];
   }
   // A source of its own for a process that reads files that change (the preview), since loads are kept per source.
   static async campaign(path: string, source: BundleSource = NodeBundleSource.shared): Promise<Finding[]> {
