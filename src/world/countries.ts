@@ -7,6 +7,7 @@ import { PlaceNames } from './place-names';
 // An authored country a generated world may hold (data/adventures/countries.json): its module, the room the road
 // across the march comes into, an entity only it has, what it is called and what kind of country it is, the side of a
 // generated country it lies on, and the terrains of the countries it may lie beside.
+export interface After { talk: string; told: string; by?: Record<string, { talk?: string; told?: string }> }
 export interface Country {
   id: string; bundle: string; entry: string; marker: string; name: string; terrain: string; side: Side;
   beside: string[]; among?: string;
@@ -15,8 +16,10 @@ export interface Country {
   // posted.
   rumour?: string; heard?: string; topic?: string; notice?: { name: string; text: string; talk: string };
   // Once it is seen through (the country marks what was said of it stale): how the talk goes where its notice hangs,
-  // and what whoever keeps travellers says to the company come back from it (after).
-  after?: { talk: string; told: string };
+  // and what whoever keeps travellers says to the company come back from it (after). By which way it went there, where
+  // the country says (by: each way's word, where the country marks its own word_<way> stale as well as its word), so
+  // the country next door does not say one thing whatever came of it (The Quiet in the Sky's friction 4, QIS-02).
+  after?: After;
   // What is said of it a country further off, where it is only heard of: "where ..." (see RegionBorders).
   far?: string;
   // What is seen of it from somewhere high in the country next to it, over its march (see RegionSights): a mountain

@@ -4,6 +4,7 @@ import { RegionRoads } from './region-roads';
 import { Draw } from './land/draw';
 import type { Border } from './land/borders';
 import type { Region } from './region-writer';
+import type { After } from './countries';
 import { SettlementWriter } from './settlement-writer';
 
 // The roads out of a region: from the settlement nearest each side, an old road to the edge of the region, marked
@@ -54,6 +55,7 @@ export class RegionBorders {
     // Once the country marks what is said of it old news (seen through), it is not passed on as news.
     const fresh = this.remembers(beyond) ? ` and not stale(${id})` : '';
     const lines = [`  Discovery ${id} ${q(beyond.heard)}.`, `  Initially Assert leadsTo(${id}, ${b.room}).`,
+      ...this.ways(id, beyond),
       ...beyond.notice ? this.notice(b, beyond, region) : []];
     for (const s of region.settlements) {
       const keeper = `${s.id}_innkeeper`, about = beyond.topic ?? b.way;
@@ -104,8 +106,26 @@ export class RegionBorders {
     // The notice is seen where it is nailed up, and talked of, before anyone is asked.
     ...at.map(([sid, place]) => `  Observe ${notice}_${sid}_talk at ${place} when ${this.remembers(beyond)
       ? `not stale(${id})` : 'true'} ${q(beyond.notice!.talk)}.`),
-    ...this.remembers(beyond) ? at.map(([sid, place]) => `  Observe ${notice}_${sid}_after at ${place} when stale(${id})`
-      + ` and intact(${notice}_${sid}) ${q(after!.talk)}.`) : []];
+    ...this.remembers(beyond) ? this.afters(id, after!).flatMap(a => at.map(([sid, place]) =>
+      `  Observe ${notice}_${sid}_after${a.key} at ${place} when stale(${id})${a.when}`
+      + ` and intact(${notice}_${sid}) ${q(a.talk)}.`)) : []];
+  }
+  // What came down of a country seen through: by which way it went there, where the country says which (each way's
+  // word marked stale by it, the first that is), and else its one word (The Quiet in the Sky's friction 4, QIS-02).
+  private static afters(id: string, after: After): { key: string; when: string; talk: string; told: string }[] {
+    const ways = Object.keys(after.by ?? {});
+    return [{ key: '', when: this.none(id, ways), talk: after.talk, told: after.told },
+      ...ways.map((k, i) => ({ key: `_${k}`, when: ` and stale(${id}_${k})${this.none(id, ways.slice(0, i))}`,
+        talk: after.by![k]!.talk ?? after.talk, told: after.by![k]!.told ?? after.told }))];
+  }
+  private static none(id: string, ways: string[]): string { return ways.map(k => ` and not stale(${id}_${k})`).join(''); }
+  // Each way's word, a fact of its own for the country to mark.
+  private static ways(id: string, beyond: NonNullable<Region['beyond']>[Border['side']]): string[] {
+    return Object.keys(beyond?.after?.by ?? {}).map(k => `  Entity ${id}_${k}: fact ${JSON.stringify(`${id}, ${k}`)}.`);
+  }
+  // What is said of a country, and of each way it may go there, for the country to mark (exported to it).
+  static words(id: string, after: After | undefined): string[] {
+    return [id, ...Object.keys(after?.by ?? {}).map(k => `${id}_${k}`)];
   }
   // The company back from a country seen through, told what the road brought down of it before the company says its
   // own part: the report and the company's own history, said apart (a world that remembers). The notice comes down.
@@ -114,8 +134,10 @@ export class RegionBorders {
     if (!this.remembers(beyond)) { return []; }
     const q = JSON.stringify, id = `${b.room}_beyond`, keeper = `${sid}_innkeeper`;
     const notice = beyond.notice ? `${b.room}_notice_${sid}` : undefined;
-    return [`  Topic ${id}_back_${sid} with ${keeper} ${q(`Tell {${keeper}} you have been to ${beyond.name}`)} when stale(${id}) once {`,
-      `    Says ${q(beyond.after!.told.replaceAll('{keeper}', `{${keeper}}`))}.`,
-      ...notice ? [`    On discuss { Retract intact(${notice}). Retract at(${notice}, ${place}). }`] : [], '  }'];
+    return this.afters(id, beyond!.after!).flatMap(a => [
+      `  Topic ${id}_back_${sid}${a.key} with ${keeper} ${q(`Tell {${keeper}} you have been to ${beyond!.name}`)}`
+      + ` when stale(${id})${a.when} once {`,
+      `    Says ${q(a.told.replaceAll('{keeper}', `{${keeper}}`))}.`,
+      ...notice ? [`    On discuss { Retract intact(${notice}). Retract at(${notice}, ${place}). }`] : [], '  }']);
   }
 }

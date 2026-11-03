@@ -4,4 +4,7 @@ Module larum "The Quiet in the Sky" {
   // What is said of Larum in the country behind it: once the Morning After has come, it is old news there.
   Entity word: fact "What is said of Larum and the quiet in the country behind it.".
   Rule word_old when outcomeDecided(field_country) and morningAfter() and not stale(word) { Assert stale(word). }
+  // And which way it went: the sky loud again over the Pass, or quiet still (the word of it in countries.json, by).
+  Entity word_loud: fact "That the dead up the Larum Pass have started again.".
+  Rule word_loud_old when skyLoud() and morningAfter() and not stale(word_loud) { Assert stale(word_loud). }
 }
