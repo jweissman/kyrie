@@ -1,0 +1,526 @@
+Module ombra "The Book of Faces" {
+  // ── The Gate of Strangers ─────────────────────────────────────────────────────────────────────────────────────────
+  // The landward end of the city, and the one place in it that has to say what it is: a stair, a square, a Hospice with
+  // nine beds for eleven Strangers, and a shop of pegs. Everything here teaches a rule of the city by doing it to the
+  // company: nobody answers a bare face before the Ninth Bell, except the people whose office it is to; a mask is not
+  // lodged; after the Ninth Bell a bare knock is received. The Gatehouse hall is the Warrant's (warrant.kyr).
+
+  // ── The road and the Steps and the Square, by day and by night ──────────────────────────────────────────────────────
+  Observe road_end_scene at road_end when publicHours() "The delta road comes to an end all at once, as if it had been Named: a last flat stone, a lamp-post with its lamp unlit, and a board nailed to the post that reads BARE ARE REQUESTED TO PROCEED TO THE CUSTOMS STEPS, in a hand that has been requesting it for a long time. Past the board the silt gives way to water, and across the water, in the rain, Ombra: roofs, bridges, bell-towers and not one face.".
+  Observe road_end_night at road_end when privateHours() "The delta road ends at a lamp-post whose lamp somebody has lit, for once, and left to the rain. Across the water the whole city has put its windows on, one at a time, and behind each window, you understand, somebody is sitting with their face in their lap. The board on the post says BARE ARE REQUESTED TO PROCEED TO THE CUSTOMS STEPS. After dark, it is not a request.".
+  Observe steps_scene at customs_steps when publicHours() "Forty wet steps go up from the water to the Gate, and all along them people are putting their faces on. A woman in a gull-domino ties her strings with her teeth. Two men in the same cowl hold each other's lanterns while they do up the buckles at the back. Every head turns a little away from you as you pass, politely, the way a street turns from a drunk, and you see that this is not rudeness but the whole of the law: there is nobody here to speak to you.".
+  Observe steps_night at customs_steps when privateHours() "The Customs Steps after the Ninth Bell are bare, wet, and nearly empty. A lantern burns in a bracket, and beside the Gate's low door a bell-pull has been labelled, in neat black paint, KNOCK BARE. Someone has hung a domino on the lantern-bracket and left it for the rain to have.".
+  Observe square_scene at gate_square when publicHours() "Strangers' Square is the only place in Ombra with a name that admits what it is: a paved yard in the rain with the Gatehouse on one side, the Hospice on another, and on the third the Wardrobe Annex with its pegs in the window like a crowd that has just looked away. Over the Hospice door, in plain black on plain white, one word: BARE. Across the square the city goes to work in disguise: porters in the Cockle's cream domino, a Heron-clerk with his cowl pulled forward against the wet, and a pair of grey Watch dominoes who look neither left nor right and see everything.".
+  Observe square_night at gate_square when privateHours() "The square after the Ninth Bell: shutters closed, lamps lit, the masks gone indoors with the people who wore them. One Watch domino stands under the Gatehouse lamp in the rain, being nobody at a steady pace. Over the Hospice door a lamp is lit, and the white of the door is the whitest thing in the quarter.".
+  // The first lesson, given before anyone has said a word: a good morning, unheard.
+  Discovery gt_unheard "By day nobody in Ombra answers a bare face: not rudeness, but law. Whoever is spoken to by day is spoken to as the face they wear.".
+  Rule gt_first_bare at customs_steps when at(party, customs_steps) and publicHours() and not masked(party) once says "You say good morning to the nearest ferryman. He does not hear it, in the way a wall does not hear it, and the woman beside him has begun, with great attention, to read the rain. A small boy in a cockle-domino looks at you, and is turned round by the collar, gently, by someone who has not looked down. Nothing has been done to you. Nobody has been anything but kind. It is a very thorough way of being nobody." teaches gt_unheard { }
+
+  Observe hall_scene at hospice_hall when publicHours() "The Hospice hall is the loudest room in Ombra, and it takes a moment to see why: everyone in it is bare. Benches, a stove that smokes according to the wind, a long table with a ledger and a hand-bell on it, and thirty feet of damp strangers all talking at once, in the voices of people who were silent in the street an hour ago and are making it up. It is the one room in the city where, by day, a face is spoken to.".
+  Observe hall_night at hospice_hall when privateHours() "The Hospice hall at night: the stove banked, the benches pushed to the walls, a lamp on the long table beside the ledger and the bell. The talk is down to a mutter from the dormitory. On a nail by the dormitory door hangs a string, a yard of it, grey with handling, with a knot in it for every one of the Bare who has died under this roof.".
+  Observe dorm_scene at hospice_dorm when publicHours() "Nine cots in two rows under a long window, each with a number painted on the headboard and a folded sheet stamped with the same number. Two men sleep on the floor between them by an arrangement that has been agreed and is never discussed. By day the dormitory is empty but for whoever is sleeping off something, and the rain on the window is the only conversation.".
+  Observe dorm_night at hospice_dorm when privateHours() "Nine cots and eleven sleepers, and the breathing of all of them, in several keys. The window has a lamp in it. Somebody has put a candle-stub on the sill by the cot at the end, and not lit it, as one keeps a place at table.".
+  Observe annex_scene at annex_counter when publicHours() "A shop of pegs. Thousands of them: the domino and cowl of every trade in Ombra hung by their strings from rails to the ceiling, so that the room seems full of a crowd that has that moment looked away. Behind a counter the width of a coffin a long young man writes in a book, and does not look up. Over the counter, a card: FACES BY THE DAY. THE OFFICES ARE NOT RENTED.".
+  Observe annex_night at annex_counter when privateHours() "The Annex shuttered, the pegs hung up in the lamplight like a congregation asleep on its feet. A single lamp burns on the counter, and by it, with something across his knees, the clerk sits up.".
+
+  // ── What the Hospice teaches: the Almanack of Usages, and a sheet ─────────────────────────────────────────────────
+  // Three rules, one joke and one threat, on one folded page; the Hospice has printed it for ninety years and nobody has
+  // read it. A bed needs a sheet, a sheet needs the Three Questions, and the Questions are procedure followed to its
+  // end: the Hospice is the first place the company learns the city's manners by having them done to it.
+  Kind gt_almanack_kind "the Almanack of Usages" is gear worth 0 weighing 0 described "One sheet, folded in eight, printed both sides in a type that has printed it for ninety years and is now mostly ink. FIRST USAGE: Between the Third Bell and the Ninth the city is masked, and answers the mask. A bare face is not impolite; it is not there. SECOND USAGE: A masked person who names another aloud is Named, and cried in every square by sundown with every debt he escaped. A Bare may name whom he likes. The Watch counts. THIRD USAGE: After the Ninth Bell the city is at home and bare, and knocks are received bare. A masked knock is a burglar. The Hospice keeps nine beds. It has never been known to keep eleven strangers, and it has never been known to be wrong. A Bare who outstays nine days is a Resident, and the Hospice has no beds for Residents.".
+  Item gt_almanack "the Almanack of Usages" is gt_almanack_kind at offstage.
+  Kind gt_sheet_kind "a Hospice sheet" is gear worth 0 weighing 1 described "A grey linen sheet, stamped in blue with a number, and under the number the Hospice's single word. The number on yours is the cot under the window that has never been dry. It is, in the Hospice's view, a bed.".
+  Item gt_sheet_item "a Hospice sheet" is gt_sheet_kind at offstage.
+  Relation gt_almanack_given(group). Relation gt_sheet(group). Relation gt_asked(group). Measure gt_tibb_retry(group). Relation gt_reason(group).
+  Relation gt_q2_done(group). Relation gt_q3_done(group). Relation gt_kin_named(group). Relation gt_kin_none(group). Relation gt_summoned(group).
+  Discovery gt_usages "The Hospice's Almanack of Usages: by day the city is masked and answers the mask; to name a masked person aloud is to be cried in every square; after the Ninth Bell the city is at home and bare, and a masked knock is a burglar.".
+  Discovery gt_string_known "Mother Tibb ties a knot in a string for each Bare who dies under her roof, since the Bare have no names that can be written down: there are forty-one, and the Tuesdays are mostly the old.".
+  Discovery gt_peck_name "Absalom Peck, the old man by the Hospice stove with a bottle between his boots, was the Serene in the Year of the Cullet Sluice, and was Named for it, and has been Bare for thirty-one years.".
+
+  Person tibb "Mother Tibb" at hospice_hall {
+    Role "the keeper of the Hospice of the Bare". Ancestry human. Peaceable. Pronouns she. Manner grim.
+    Offers lodging "a bed under a numbered sheet" for 0 coin.
+    Greets "A square woman in a grey half-mask sits behind a long table on which are a ledger, a hand-bell and a folded sheet, and writes. The mask is the Hospice's own, and she wears it as other women wear spectacles, pushed up and forgotten. 'Face or no face?' she says, without looking up. 'It changes what I am permitted to say.'".
+    Greets again "'Face or no face,' says Mother Tibb, to the ledger.".
+  }
+  // A mask is not lodged: the Hospice is the one room that speaks to the bare by day, and the one that will not speak to a face.
+  Topic gt_tibb_masked with tibb "Speak to Mother Tibb" when masked(actor) and publicHours() {
+    Says "Mother Tibb looks at the mask in the way a custodian looks at a coat left on a bench. 'The Hospice is for the Bare,' she says, to the domino, not to whoever is in it. 'A mask in this hall is a burglar who has not yet made up his mind. Take it off at the door or go through it.' She goes back to her ledger. It is, you notice, more than anyone has said to you all day, and it was not said to you.".
+  }
+  Topic gt_tibb_almanack with tibb "Ask Mother Tibb for the Almanack of Usages" when not masked(actor) and not gt_almanack_given(actor) once {
+    Says "'Everybody wants one and nobody has read it.' She does not look up; she slides it across the table with two fingers, as one passes a plate to a man one is not sure of. 'Three usages, one joke and one threat. The joke is the one about beds. I should read the threat first, if I were you; it is at the bottom, in the smaller type.' She has begun to write again. 'Do not give it to a mask. The mask will believe it.'".
+    On discuss { Give gt_almanack to actor. Assert gt_almanack_given(actor). Assert knows(actor, gt_usages). }
+  }
+  Topic gt_tibb_bed with tibb "Ask Mother Tibb for a bed" when not masked(actor) and not gt_sheet(actor) and not gt_asked(actor) once {
+    Says "'A bed,' she says, and uncaps the ink with the air of a woman who has uncapped it eleven thousand times. 'A bed needs a sheet. A sheet needs three answers. I do not make the law, I only have the ledger.' She turns it round so that you can read it upside down: NINE REASONS FOR A BARE. Sickness. Pilgrimage. Trade. Summons. Grief. The law. Weather. Curiosity, disfavoured. None, at the Mother's discretion. 'First. Why are you in Ombra? Everyone has chosen weather. I should choose weather.'".
+    On discuss { Assert gt_asked(actor). }
+  }
+  Topic gt_a1_true with tibb "Tell her the truth: you came to see the city" answering gt_tibb_bed when not warrantHeld(actor) and not gt_reason(actor) {
+    Says "'Curiosity.' She writes it, and then, in a smaller hand, the word disfavoured, as if sorry to have to. 'Column eight. You will be last to the stove. It is the truest of the nine and it has never helped anybody.' She dips the pen. 'Second.'".
+    On discuss { Assert gt_reason(actor). }
+  }
+  Topic gt_a1_summons with tibb "Tell her the truth: the Watch has sent for you" answering gt_tibb_bed when warrantHeld(actor) and not gt_reason(actor) {
+    Says "The pen stops. 'Summons.' She looks up at last, as far as your collar. 'The Watch does not send, the Watch summons; it is a different column and a better one, and it has not been written in this ledger for sixty-two years.' She writes it, slowly, and the pen is not quite steady. 'Then it is you,' she says. 'Well. Second.'".
+    On discuss { Assert gt_reason(actor). Assert gt_summoned(actor). }
+  }
+  Action gt_a1_grief(actor: group, site: place) "Tell Mother Tibb you have come in grief, and look it" {
+    Speaker tibb.
+    Requires able(actor) and company(actor) and at(actor, site) and at(tibb, site) and gt_asked(actor) and not gt_reason(actor) and not masked(actor) and watch(clock) >= gt_tibb_retry(actor).
+    Time 1 minute.
+    Resolve check(actor, deception, dc_fair).
+    On success { Assert gt_reason(actor). }
+    On failure { Set gt_tibb_retry(actor) to watch(clock) + 6. }
+    Result "'Grief.' She writes it in column five without a flicker, and blots it. 'Everyone is, a little, who comes by the delta road. Second.' You are not at all sure she has been taken in. You are quite sure she has been paid the compliment of being lied to well.".
+    Otherwise "'Grief,' says Mother Tibb, and does not write it. 'For whom?' You find that you have not decided. 'Think about weather,' she says, kindly, and turns a page. She does not look up again for an hour.".
+  }
+  Action gt_a1_discretion(actor: group, site: place) "Ask Mother Tibb to use the Mother's discretion, and write none" {
+    Speaker tibb.
+    Requires able(actor) and company(actor) and at(actor, site) and at(tibb, site) and gt_asked(actor) and not gt_reason(actor) and not masked(actor) and watch(clock) >= gt_tibb_retry(actor).
+    Time 1 minute.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert gt_reason(actor). }
+    On failure { Set gt_tibb_retry(actor) to watch(clock) + 6. }
+    Result "She considers you for the first time as a thing with an inside. 'None,' she says. 'At the Mother's discretion. I have used it four times in twenty-six years, and I have been right three.' She writes it very small. 'Second.'".
+    Otherwise "'The discretion is mine,' says Mother Tibb, 'and I have not been moved to it. Choose again.' She does not look up again for an hour.".
+  }
+  Topic gt_tibb_q2 with tibb "Say you are ready for the second question" when gt_reason(actor) and not gt_q2_done(actor) once {
+    Says "'Second.' She does not look up. 'How long do you propose to stay? The law gives the Bare nine days from the first Bell, and then the Hospice has no beds for Residents. I have to ask. I have asked it of a woman who was ninety.'".
+  }
+  Topic gt_a2_drawing with tibb "Say you will stay until the Drawing" answering gt_tibb_q2 when not gt_q2_done(actor) {
+    Says "'Until the ninth night.' She writes it with something like relief. 'Everyone who is sensible says that. Nine days, and then you are somebody's problem.' She blots it. 'Third. It is the one people mind.'".
+    On discuss { Assert gt_q2_done(actor). }
+  }
+  Topic gt_a2_unsure with tibb "Say you had not planned to leave" answering gt_tibb_q2 when not gt_q2_done(actor) {
+    Says "'Undecided.' She writes it, and a second word beside it which you cannot read upside down, and it looks to be a longer word. 'It is not a column. I have made it a column. Third.'".
+    On discuss { Assert gt_q2_done(actor). }
+  }
+  Topic gt_tibb_q3 with tibb "Say you are ready for the third question" when gt_q2_done(actor) and not gt_q3_done(actor) once {
+    Says "'Third.' The pen is quite still. 'If you die under this roof, and some do, whom am I to write to?' She looks up, and the grey half-mask is the colour of the room. 'I do not ask it to be unkind. I ask it because there is a space in the ledger and I do not like to leave a space.'".
+  }
+  Topic gt_a3_name with tibb "Give her a name to write to" answering gt_tibb_q3 when not gt_q3_done(actor) {
+    Says "She writes it with a clerk's care, and you see that she has done this many times and that a good half of the names she has been given have not been true. 'There,' she says. 'You are the kind that has someone. It is a great comfort to the ledger.' She stamps a grey sheet and pushes it across. 'Number seven. The cot under the window, which has never been dry. Do not take it up with the window.'".
+    On discuss { Assert gt_q3_done(actor). Assert gt_sheet(actor). Assert gt_kin_named(actor). Give gt_sheet_item to actor. }
+  }
+  Topic gt_a3_none with tibb "Say there is no one" answering gt_tibb_q3 when not gt_q3_done(actor) {
+    Says "She writes nothing. She puts the pen down, and takes a grey string from her apron and, with one practised movement, ties a knot in it, and hangs it on a nail behind her. 'That is yours,' she says. 'It saves time. I have never yet had to move one.' She stamps a sheet. 'Number seven. The cot under the window, which has never been dry.' She does not say it unkindly. That is the dreadful part of it.".
+    On discuss { Assert gt_q3_done(actor). Assert gt_sheet(actor). Assert gt_kin_none(actor). Give gt_sheet_item to actor. }
+  }
+  // Without a sheet the Hospice does not make a bed up; with one, and bare, it does, for nothing, as the law says.
+  Rule gt_hospice_refuses when company(?c) and (not gt_sheet(?c) or masked(?c)) and not refusesService(tibb, ?c) { Assert refusesService(tibb, ?c). }
+  Rule gt_hospice_accepts when company(?c) and gt_sheet(?c) and not masked(?c) and refusesService(tibb, ?c) { Retract refusesService(tibb, ?c). }
+  Rule gt_tibb_post when hour(clock) >= 7 and hour(clock) < 21 and not at(tibb, hospice_hall) { Assert at(tibb, hospice_hall). }
+  Rule gt_tibb_watch when (hour(clock) >= 21 or hour(clock) < 7) and not at(tibb, hospice_dorm) { Assert at(tibb, hospice_dorm). }
+
+  // ── Absalom Peck (Round 3) ────────────────────────────────────────────────────────────────────────────────────────
+  // Thirty-one years ago he was the Serene, who stands in the public gallery in gold and white and says nothing. In the
+  // Year of the Cullet Sluice he said nothing as he was bound to, and six hundred drowned, and the mob needed a face and
+  // the Serene's was the one that could be named. He has been Bare ever since: drunk by day (it is tea), old at night, and
+  // the one man in Ombra who knows who the Treasurer of that year became. She came to his bed every first night of the
+  // Novena for thirty-one years, in the white, and sat for the length of a candle, and could not speak, since a
+  // Registrar may not say a Named man's name. What he wants is that: his name, said kindly, once. What he holds is
+  // the Sluice year and her name. He is moved by neither proof nor pressure; he is moved by being spoken to as a
+  // person, in the dark, by someone who wants nothing of him; and he dies on the seventh night if no one does.
+  Initially Assert named(peck).
+  Person peck "Absalom Peck" at hospice_hall {
+    Role "the oldest of the Hospice's Bare". Ancestry human. Peaceable. Pronouns he. Manner jovial.
+    Greets "In the best place by the stove, in a chair that everyone has the tact to leave to him, an old man sits with a bottle between his boots and the gravity of a bishop. His coat was good once; you can see the ghost of gold-and-white braid where it was picked off, thread by thread, by somebody patient. 'A new one,' he says, with great courtesy. 'Sit, sit; you are the weather's guest. I should rise, but I have given it up. Peck. Absalom Peck, since you will have it from the Mother in any case; do not trouble to look as if it meant anything. It used to.'".
+    Greets again "'Ah,' says the old man, and lifts a hand an inch, as a hat.".
+    Joins "The old man gets up, which takes some time, and takes his stick from where it leans, and his hat. 'A walk,' he says, to nobody. 'I have not had one with somebody since the Sluice.'".
+    Leaves "The old man lowers himself, with great care, as one lowers something hot.".
+  }
+  Relation gt_peck_met(group). Relation gt_peck_seen(group). Relation gt_peck_wounded(group). Relation gt_peck_easy(group). Relation gt_peck_gone(group).
+  Relation gt_peck_given(group). Relation gt_peck_wish(group). Relation gt_peck_candle(group).
+  Relation gt_told_lady(group). Relation gt_told_treasurer(group). Relation gt_told_sluice(group).
+  Relation gt_via_name(group). Relation gt_via_vigil(group). Relation gt_via_cast(group). Relation gt_via_chapel(group). Relation gt_via_confession(group).
+  Relation gt_peck_sealed(group). Measure gt_peck_retry(group).
+  Discovery gt_peck_wish "Absalom Peck would like, once, to hear his own name said kindly: not cried, as it was cried in every square, but said to him as to a person.".
+  Discovery gt_peck_sober "Absalom Peck is a sober man playing a drunk: the bottle by his boot is tea, and has been for eleven years. A drunk is not asked questions; a drunk is handed things.".
+  Discovery gt_peck_treasurer "The Treasurer of the Sluice year was a lamp-trimmer's daughter of nineteen, drawn honestly by the Urn and bad at it: nobody had told her the keepers' wages went by her seal.".
+  Discovery gt_peck_lady "A woman in a white mask sat by Absalom Peck's bed for the length of a candle on the first night of every Novena for thirty-one years, and never spoke; this year she did not come.".
+  Discovery gt_serene_knot "The Serene's Mask is tied with the gallery knot, which the wearer can undo with one pull of the left string; Peck was shown it on his first day, and no Serene has been shown it since.".
+  Query gt_peck_open(a: group) means gt_peck_met(a) and not gt_peck_wounded(peck) and not gt_peck_given(peck) and not gt_peck_easy(peck) and not gt_peck_gone(peck).
+  Query gt_peck_ready(a: group) means not masked(a) and gt_peck_open(a).
+  // Where he sits: by the stove by day, in the end cot at night; in the cot all day once he is too ill to leave it.
+  Rule gt_peck_stove when hour(clock) >= 8 and hour(clock) < 20 and day(clock) < 6 and not gt_peck_gone(peck) and not following(peck, party) and not at(peck, hospice_hall) { Assert at(peck, hospice_hall). }
+  Rule gt_peck_cot_day when hour(clock) >= 8 and hour(clock) < 20 and day(clock) >= 6 and not gt_peck_easy(peck) and not gt_peck_gone(peck) and not following(peck, party) and not at(peck, hospice_dorm) { Assert at(peck, hospice_dorm). }
+  Rule gt_peck_stove_easy when hour(clock) >= 8 and hour(clock) < 20 and day(clock) >= 6 and gt_peck_easy(peck) and not gt_peck_gone(peck) and not following(peck, party) and not at(peck, hospice_hall) { Assert at(peck, hospice_hall). }
+  Rule gt_peck_cot_night when (hour(clock) >= 20 or hour(clock) < 8) and not gt_peck_gone(peck) and not following(peck, party) and not at(peck, hospice_dorm) { Assert at(peck, hospice_dorm). }
+  // Brought out on the company's arm he is taken home again by evening on the seventh day: he will not die in a street.
+  Rule gt_peck_home when day(clock) == 7 and hour(clock) >= 20 and following(peck, party) and not gt_peck_gone(peck) says "The old man stops at the next lamp and looks at it for some time. 'Home,' he says. 'Now, I think. Not for any reason.' He has already turned. Whatever he is going to do not to be dying in a street, he does it, and goes back up the road to the Hospice with his stick, alone." { Retract following(peck, party). Retract acceptsEscort(peck, party). Assert at(peck, hospice_dorm). }
+  // Days of his decline, told to whoever is in the room.
+  Observe peck_hall_cough at hospice_hall when at(peck, hospice_hall) and day(clock) >= 4 and day(clock) < 6 and not gt_peck_easy(peck) "By the stove the old man's cough has got into the hall's general noise, and the hall has made a space for it.".
+  Observe peck_hall_easy at hospice_hall when at(peck, hospice_hall) and gt_peck_easy(peck) "The old man by the stove has a blanket over his knees that Mother Tibb is pretending she did not knit, and the bottle by his boot has gone. He sits as a man sits who is waiting for a ferry and is in no hurry for it.".
+  Observe peck_hall_betrayed at hospice_hall when at(peck, hospice_hall) and gt_peck_given(peck) and not gt_peck_gone(peck) "The old man has turned his chair to face the wall. It is the first time anyone has seen him do it. The Hospice has understood that something has been said to somebody, and it is being polite about it in the loud, practised way of a room that has been betrayed before.".
+  Observe peck_dorm_cot at hospice_dorm when at(peck, hospice_dorm) and day(clock) >= 6 and not gt_peck_easy(peck) and not gt_peck_gone(peck) "In the end cot, the old man lies propped on three pillows with his eyes open, breathing like a man carrying water up a stair. The candle-stub on the sill beside him has been trimmed, and is not lit.".
+  Observe peck_dorm_empty at hospice_dorm when gt_peck_gone(peck) "The end cot has been stripped to its ticking, and the sheet folded on it, number nine, with its corners to the corners. On the sill a candle-stub has been lit, and burned down to the saucer, and nobody has taken the saucer away.".
+  Observe peck_hall_gone at hospice_hall when gt_peck_gone(peck) "The best chair by the stove stands empty, and nobody has sat in it, and nobody will before the Novena is out. On the nail by the dormitory door the string has a fresh knot in it, tied tight by someone who did not want to tie it.".
+
+  // The first day: a stranger by the stove, the name, the Urn, and a rule about the Bare's courtesy.
+  Topic gt_peck_whoami with peck "Ask Absalom Peck what his name used to mean" when not masked(actor) and not knows(actor, gt_peck_name) once {
+    Says "'It was read aloud a good deal; you must have heard it, in a manner of speaking, and not known it was a name.' He tips the bottle to his mouth with great grace, and sets it down. 'I was the Serene. I stood in the gallery in the gold-and-white and I said nothing, which is the whole of the Office, and I was very good at it.' He smiles at the stove. 'Then the Sluice. Then I was a great many things. Now I am by the stove. It is better.'".
+    On discuss { Assert knows(actor, gt_peck_name). Assert gt_peck_met(actor). }
+  }
+  Topic gt_peck_sit with peck "Sit by the old man a while, and let him talk" when not masked(actor) and publicHours() and not gt_peck_wounded(peck) and not gt_peck_given(peck) once {
+    Says "He talks as a man pours who has had practice: a long unbroken arc, not a drop lost. The Concord, the Urn, the winter the pigeons voted (they did not); the gallery, where one stands in gold and white and is a pillar; the inside of a mask, which smells, he says, of the last man. And in the middle of a sentence about eels: 'The girl was drawn honest. I watched the Urn give her up with my own eyes. Honest as rain. And after her it was never the same, the Urn. Never.' He looks at the bottle as if it had spoken. 'Ask the Mother about the weather,' he says.".
+    On discuss { Assert gt_peck_met(actor). Assert knows(actor, lie_peck). }
+  }
+  // A mask is not spoken to by a Bare, and the Bare know it: Peck's courtesy is a bow, and nothing else.
+  Topic gt_peck_bow with peck "Speak to the old man by the stove" when masked(actor) and publicHours() {
+    Says "The old man looks at the mask, and gets to his feet, which costs him, and bows from the hips as to a person of rank, and does not say a word. When you do not move on he bows again, slightly lower. It is the exact courtesy of the Bare to a face. He has no right to speak to you, and you, he is too well-bred to remark, have no right to be speaking to him. He sits down again with the care of a man lowering something hot.".
+  }
+  Topic gt_tibb_peck with tibb "Ask Mother Tibb about Absalom Peck" when not masked(actor) and not knows(actor, gt_peck_name) once {
+    Says "'Peck.' She says it to the ledger. 'Absalom. I say it because he is Bare, and a Bare's name is only a noise, and he has had it said to him more than any man alive, and nobody ever meant it well.' She dips the pen. 'He was somebody, once, and it was the wrong somebody. He is in nine, at the end. He has been in nine for eleven years. I give him the bottle by day because he thinks I think it is gin.' She does not look up. 'Do not tell him that I know.'".
+    On discuss { Assert knows(actor, gt_peck_name). }
+  }
+
+  // The same man at night: Tibb has taken the bottle, and he is simply old. He asks what you want, since everyone wants
+  // something after dark; the answers are the first fork.
+  Topic gt_peck_night with peck "Sit on the end of the old man's cot, after the lamp is turned down" when not masked(actor) and privateHours() and not gt_peck_given(peck) and not gt_peck_gone(peck) once {
+    Says "He does not look drunk at all. He looks as if he had put on, for the night, his own face, and found it a little large. 'The Mother takes the bottle at the Ninth Bell. It is only tea, you know; she thinks I think it is gin.' He moves his feet to make room for you with great politeness. 'By day I am a drunk, which is a trade, like another, and the Bare have not many. At night I am merely old. What do you want of me? Everyone wants something, after dark.'".
+    On discuss { Assert gt_peck_met(actor). }
+  }
+  Topic gt_pa_sluice with peck "Tell him you want to hear about the Sluice year" answering gt_peck_night when not gt_peck_wish(actor) {
+    Says "'Ah.' He is not offended; he is only tired. 'Everyone does. They want the six hundred, and a face to put on them, and I have been that face and it was a good fit.' He folds his hands. 'I will tell it to nobody who wants it. I have decided. It is the one thing in my life I have decided. You may try; they have.'".
+  }
+  Topic gt_pa_nothing with peck "Tell him you want nothing of him" answering gt_peck_night when not gt_peck_wish(actor) {
+    Says "He laughs, a short bark that turns into the cough and is a long time getting out of it. 'The first lie anyone has told me in a year, and a good one.' He wipes his mouth. 'If I were to ask for something, you understand, I am not asking, it would be this. Just to hear it said once. My name. By somebody who did not want a thing: not cried. I have been called it by forty thousand and none of them meant it as a name.' He looks away. 'It is nothing. It is an old man's whim.'".
+    On discuss { Assert gt_peck_wish(actor). Assert knows(actor, gt_peck_wish). }
+  }
+  Topic gt_pa_sit with peck "Tell him you came only to sit" answering gt_peck_night when not gt_peck_wish(actor) {
+    Says "'To sit.' He considers it, as a man considers an unfamiliar coin. 'Nobody has come to sit in the Hospice since the winter the pigeons voted.' He settles back against the three pillows. 'Then sit. I will not say a thing, and you will not say a thing, and it will be, I think, the best conversation I have had.' After a while he adds, in the dark, without turning his head: 'Not the Sluice. Never the Sluice. But a name said kindly would not come amiss, if a man were choosing.'".
+    On discuss { Assert gt_peck_wish(actor). Assert knows(actor, gt_peck_wish). }
+  }
+  Topic gt_tibb_wish with tibb "Ask Mother Tibb what the old man wants" when privateHours() and not masked(actor) and gt_peck_met(actor) and not knows(actor, gt_peck_wish) once {
+    Says "'He asked me once.' She is knotting a spare piece of string, which she does when she is not saying something. 'Eleven years ago, drunk, or being drunk. He said, say it to me, Mother, once, so I know it still works. And I could not, because I am the Hospice, and the Hospice has a mask on, and a masked woman who says a Named man's name is a masked woman who has said a name. So I said, go to bed, Mr Peck.' The string goes round her finger. 'It is a thing a stranger could do. Strangers are not Named for it. That is the only use of them.'".
+    On discuss { Assert gt_peck_wish(actor). Assert knows(actor, gt_peck_wish). }
+  }
+  Topic gt_tibb_lady with tibb "Ask Mother Tibb who sits with Peck at the Novena" when privateHours() and not masked(actor) and knows(actor, gt_peck_name) and not knows(actor, gt_peck_lady) once {
+    Says "She stops the string. 'Who told you that?' Nobody has. She looks at you for a long moment from under the grey mask, and takes up the string again. 'A woman in a white mask,' she says. 'First night of every Novena, after the Ninth Bell, by the street door with her own key, which no one has ever asked her about. She sits by nine with a candle he has put out for her. She does not speak. She is gone before the candle is. Thirty-one years.' The knot tightens. 'I took her for one of the Chaplain's. I did not ask. You do not ask a white mask where it has been.' She glances at the end cot. 'She did not come this year.'".
+    On discuss { Assert knows(actor, gt_peck_lady). }
+  }
+
+  // ── What the company may try with him, and what each costs ──────────────────────────────────────────────────────────
+  // Four checks, four different things: reading a man (insight), knowing a sluice (lore), leaning on him (intimidation: it
+  // works, and costs), and asking him straight (persuasion). None of them gets her name. That is given only to the
+  // kindnesses below, because it is the one thing he has chosen not to say.
+  Action gt_peck_read(actor: group, site: place) "Watch the old man's hands while he talks" {
+    Speaker peck.
+    Requires able(actor) and company(actor) and at(actor, site) and at(peck, site) and gt_peck_ready(actor) and not gt_peck_seen(actor) and watch(clock) >= gt_peck_retry(actor).
+    Time 3 minutes.
+    Resolve check(actor, insight, dc_fair).
+    On success { Assert gt_peck_seen(actor). Assert knows(actor, gt_peck_sober). }
+    On failure { Set gt_peck_retry(actor) to watch(clock) + 36. }
+    Result "You stop listening to what he says and watch what he does. The bottle goes to his mouth and he wets his lip; he does not drink. His hands are the steadiest in the room. He catches you at it, and after a moment inclines his head, as a fencer does. 'Tea,' he says, quite softly. 'Eleven years. The Mother thinks it is gin. A drunk is not asked questions; a drunk is handed things. It is a good trade, and you are the first to look at the hands.'".
+    Otherwise "He is exactly as drunk as he appears, you decide, and then you are not sure, and then he has begun upon the pigeons again and the thought is gone. He settles his chin on his chest, and appears, for some hours, to be asleep.".
+  }
+  Action gt_peck_sluice(actor: group, site: place) "Ask the old man how the Cullet Sluice worked, as a thing that works" {
+    Speaker peck.
+    Requires able(actor) and company(actor) and at(actor, site) and at(peck, site) and gt_peck_ready(actor) and not knows(actor, sluice_known) and watch(clock) >= gt_peck_retry(actor).
+    Time 6.
+    Resolve check(actor, lore, dc_fair).
+    On success { Assert knows(actor, sluice_known). }
+    On failure { Set gt_peck_retry(actor) to watch(clock) + 36. }
+    Result "'On the Cullet there is a rack and a pawl,' you say, 'and the pawl is dogged by a seal, and a sluice-keeper is paid by the dogging.' Peck sets the bottle down. 'Nobody has asked me about the pawl in thirty-one years,' he says. 'They ask who. They have never once asked how.' And he tells it as a wright would: the keepers unpaid because the wages went by the Treasurer's seal and the Treasurer did not know they were hers to give; the keepers walking; the pawl left undogged in the Rains; the Cuff coming up the low islands in a night. Six hundred. 'I stood in the gallery,' he says. 'I said nothing. It was the whole of my Office. They cried my name by sunset.' He will not say whose seal. You do not ask.".
+    Otherwise "You say pawl and rack and get the order wrong, and he looks at you with real kindness, which is the worst of it. 'No,' he says. 'No. It is not like that. Nobody knows what it is like.' He settles his chin on his chest, and appears, for some hours, to be asleep.".
+  }
+  Action gt_peck_press(actor: group, site: place) "Tell the old man the Watch will have it out of him, if you do not" {
+    Speaker peck.
+    Requires able(actor) and company(actor) and at(actor, site) and at(peck, site) and gt_peck_ready(actor) and not knows(actor, gt_peck_treasurer) and watch(clock) >= gt_peck_retry(actor).
+    Time 3 minutes.
+    Resolve check(actor, intimidation, dc_fair).
+    On success { Assert knows(actor, gt_peck_treasurer). Assert knows(actor, sluice_known). Assert gt_peck_wounded(peck). }
+    On failure { Set gt_peck_retry(actor) to watch(clock) + 36. }
+    Result "You say it as if you had the right. The old man's face does not change; it merely goes elsewhere, and what is left behind it answers, in a clear sober voice, like a clerk's. A girl of nineteen. A lamp-trimmer's daughter, drawn by the Urn, honest as rain. The keepers' wages went by her seal and nobody told her. Six hundred. 'There,' he says. 'There is your Sluice. You will want to wash your hands.' He turns his face to the stove. He does not speak to you again that day, and he will not look.".
+    Otherwise "'I have been Named by forty thousand,' says the old man, mildly, 'and you are not as frightening as that.' He lifts the bottle. 'Try again when you have been cried in a square. It is a great teacher.' He settles his chin on his chest, and appears, for some hours, to be asleep.".
+  }
+  Action gt_peck_ask_plain(actor: group, site: place) "Ask the old man, plainly and without a threat, who the Treasurer was" {
+    Speaker peck.
+    Requires able(actor) and company(actor) and at(actor, site) and at(peck, site) and gt_peck_ready(actor) and not knows(actor, gt_peck_treasurer) and watch(clock) >= gt_peck_retry(actor).
+    Time 6.
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert knows(actor, gt_peck_treasurer). }
+    On failure { Set gt_peck_retry(actor) to watch(clock) + 36. }
+    Result "He is silent so long that the stove ticks twice. 'Of the year,' he says at last. 'Not of the name. A girl of nineteen, a lamp-trimmer's daughter, drawn by the Urn as honest as rain, who was bad at the Treasury, as a girl of nineteen would be, and nobody had told her the keepers' wages went by her seal.' He shuts his mouth on the rest of it like a purse. 'That is all of that I can say, and I have said more than I said to the Chaplain.'".
+    Otherwise "'Not today,' says the old man, pleasantly, 'and not in the hall, and not in that voice.' You have been, you realise, very nearly asked to leave by a drunk in a chair. He settles his chin on his chest, and appears, for some hours, to be asleep.".
+  }
+  Action gt_peck_apologise(actor: group, site: place) "Sit by the old man and say you are sorry" {
+    Speaker peck.
+    Requires able(actor) and company(actor) and at(actor, site) and at(peck, site) and not masked(actor) and gt_peck_wounded(peck) and not gt_peck_gone(peck).
+    Time 6.
+    On success { Retract gt_peck_wounded(peck). }
+    Result "He does not look at you for most of an hour. The Hospice goes on being loud around the two of you. Then, without turning, he passes you the bottle, and you drink the tea. 'You were frightened,' he says. 'The young are, of the old. It is the same fear, from the other end.' He takes the bottle back. 'Go on, then. I have forgiven you; it is no trouble; I have had the practice.'".
+  }
+
+  // ── The kindnesses: each one is a way of saying his name that is not crying it ──────────────────────────────────────────
+  // The name, said at night, bare, with nothing wanted: costs nothing but the knowing; the vigil costs a night; a cast of
+  // his face costs Madame Pavane's price; the Chapel costs a walk; a confession costs a cleric and the seal. Each ends with
+  // him at ease and the Round done, and each opens the telling in its own way. None can be done as a face: a mask is not
+  // addressed by a Bare, and does not address one.
+  Action gt_peck_namekind(actor: group, site: place) "Say the old man's name to him, softly, as you would to a friend" {
+    Speaker peck.
+    Requires able(actor) and company(actor) and at(actor, site) and at(peck, site) and gt_peck_ready(actor) and knows(actor, gt_peck_name) and knows(actor, gt_peck_wish) and privateHours().
+    Time 6.
+    On success { Assert gt_peck_easy(peck). Assert gt_via_name(peck). }
+    Result "You wait until the lamp is turned down and the dormitory has settled into its several keys. Then you say it: not Peck, not the Serene, not the thing it was cried as across every square by people who wanted somebody. You say it as one says it across a table, to a man one is glad has come. 'Absalom Peck.' For a time nothing happens at all. The old man looks at the ceiling. His mouth works once, as if the name were a coin he had been looking for the pocket of. 'Again,' he says. 'No. Don't. Once is what I asked for.' He lays the back of his wrist across his eyes, and neither of you looks at where the bottle goes.".
+  }
+  Action gt_peck_vigil(actor: group, site: place) "Sit up with the old man through the evening, and say nothing" {
+    Speaker peck.
+    Requires able(actor) and company(actor) and at(actor, site) and at(peck, site) and gt_peck_ready(actor) and privateHours() and (hour(clock) >= 20 or hour(clock) < 3).
+    Time 18.
+    On success { Assert gt_peck_easy(peck). Assert gt_via_vigil(peck). }
+    Result "You do not speak. He does not speak. The stove ticks, and the dormitory breathes, and about the second hour he stops arranging his face. At the third he puts out his hand and lays it, quite lightly, on your sleeve, as one touches a thing to be sure it is there; and leaves it. Nobody in thirty-one years has stayed in a room with him for no reason. You find you have understood what the Hospice is for.".
+  }
+  Action gt_peck_confess(actor: group) "Hear the old man's confession, under the seal" {
+    Speaker peck.
+    Requires able(actor) and company(actor) and at(actor, confessionals) and at(peck, confessionals) and following(peck, actor) and gt_peck_ready(actor) and capable(actor, rites).
+    Time 12.
+    On success { Assert gt_peck_easy(peck). Assert gt_via_confession(peck). Assert gt_peck_sealed(actor). }
+    Result "The confessional is the one place on the Island where a masked face and a bare one may speak as persons, and it has been unused by him for thirty-one years. He kneels, with difficulty, and says it into the grille in a small flat voice: not the Sluice, which is the world's, but the three seconds, in the gallery, in which he might have spoken and did not. You hear it as you were taught to hear, without pity or surprise. The seal is on it. When you say the words of release he stays on his knees a while, and then gets up, and is lighter by something he does not name.".
+  }
+  Action gt_peck_chapel(actor: group) "Stand with the old man at the Chapel's lamps while he lights one for the six hundred" {
+    Speaker peck.
+    Requires able(actor) and company(actor) and at(actor, nave) and at(peck, nave) and following(peck, actor) and gt_peck_ready(actor).
+    Time 6.
+    On success { Assert gt_peck_easy(peck). Assert gt_via_chapel(peck). }
+    Result "The lamps for the dead burn in a rack by the nave door, each for a name that cannot be said; the Chaplain's boy keeps them trimmed. The old man stands in front of them for a long time with his hat in his hand. Then he takes a taper, and lights one, and does not say whose it is. He has not been through this door since the Sluice. Nobody stops him. Nobody notices; that, you understand, is the gift the Chapel has for the Bare. His hand is steady on the taper, and it is the first thing today that has not been a performance.".
+  }
+  Topic gt_peck_invite with peck "Ask the old man whether he would walk to the Chapel with you, for company" when gt_peck_ready(actor) and gt_peck_wish(actor) and not acceptsEscort(peck, actor) once {
+    Says "He looks at you with a long, level look, and you see him decide whether to be insulted. 'The Chapel of the Bare Face,' he says. 'I have not been through that door since the Sluice.' He turns his hat in his hands. 'If you ask me to be carried I shall refuse; I am too old. If you ask me to be led I shall refuse; I am too proud.' The hat stops. 'You said company. It is the only word that was not an insult. Give me a minute to find my stick.'".
+    On discuss { Assert acceptsEscort(peck, actor). }
+  }
+  // The Cast: a life-cast of his face for the Wall, which has had no Peck on it for thirty-one years (the Named are taken
+  // down); Madame Pavane's price in coin, or asked for as a favour, for its own sake.
+  Relation gt_cast_asked(group).
+  Action gt_peck_cast_paid(actor: group, site: place) "Pay Madame Pavane six coin to take a cast of the old man's face, and no mask to go with it" {
+    Speaker pavane.
+    Requires able(actor) and company(actor) and at(actor, site) and at(pavane, site) and at(peck, site) and following(peck, actor) and gt_peck_open(actor) and masked(actor) and quantity(actor, gold) >= 6.
+    Time 12.
+    On success { Decrease quantity(actor, gold) by 6. Increase quantity(pavane, gold) by 6. Assert gt_peck_easy(peck). Assert gt_via_cast(peck). }
+    Result "He sits for the plaster with the gravity of a bishop at his own consecration, with a straw in each nostril and a smear of grease on his brows, and for the three-quarters of an hour that it takes to set he does not move a hair. When it is lifted off he asks, in a small voice, whether it came out; and Madame Pavane turns it over, and he looks at his own face in reverse, thirty years younger in the hollow than in the glass, and says nothing at all.".
+  }
+  Action gt_peck_cast_asked(actor: group, site: place) "Ask Madame Pavane to cast the old man's face for its own sake, with no mask to go with it" {
+    Speaker pavane.
+    Requires able(actor) and company(actor) and at(actor, site) and at(pavane, site) and at(peck, site) and following(peck, actor) and gt_peck_open(actor) and masked(actor).
+    Time 12.
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert gt_peck_easy(peck). Assert gt_via_cast(peck). }
+    Result "She looks at the old man, and then for a long time at you, as a craftsman looks at a client who wants something that is not in the book. 'There is no fee for a face that nobody is going to wear,' she says at last. 'I should have to charge for the mask. Sit.' He sits for the plaster with a straw in each nostril, as a bishop sits for a portrait; and when it comes off he looks at his own face in reverse, thirty years younger in the hollow than in the glass, and for the first time since the Sluice his mouth stops guarding itself.".
+    Otherwise "'I cut faces for a reason,' says Madame Pavane, and goes back to her bench. 'Tell me what it is for, and I will cut it. Tell me it is for itself and I am a busy woman.'".
+  }
+
+  // The telling: what he says once he is at ease, in the order it comes. Each rule is one beat of it.
+  Rule gt_tell_lady when gt_via_name(peck) and not gt_told_lady(peck) once says "'She came every first night of the Novena,' he says, to the ceiling, 'thirty-one years, in the white, by the street door with her own key. She sat where you are, for the length of a candle. She did not speak, because she could not: a Registrar may not say a Named man's name. I put the stub out for her myself, so she should have the light to sit by.' The wrist stays where it is. 'This year the stub went out and nobody came. I knew then. Nobody may say it, and I do not. I only say that I knew.'" teaches gt_peck_lady { Assert gt_told_lady(peck). }
+  Rule gt_tell_treasurer when gt_peck_easy(peck) and not gt_told_treasurer(peck) and (not gt_via_name(peck) or gt_told_lady(peck)) once says "He tells it then, in the order it comes. 'Ysolde Marrick. A lamp-trimmer's girl of nineteen, drawn by the Urn as honest as rain, and bad at the Treasury, God keep her, as I should have been. She knew about wicks and nothing about seals. I could have told her; it was not the Serene's place to speak. And she knew my name, and did not say it, for thirty-one years, and I did not say hers.' He turns his head a little, toward nothing in particular. 'She became the Registrar. That is who sat by my bed. Do you see? It was the only way she had to say it.'" teaches marrick_was_treasurer { Assert gt_told_treasurer(peck). }
+  Rule gt_tell_sluice when gt_told_treasurer(peck) and not gt_told_sluice(peck) and not knows(party, sluice_known) once says "'And the Sluice,' he says, 'for the tally. The keepers walked because the wages went by her seal. The pawl was left undogged in the Rains. The Cuff came up the low islands in the night, and six hundred drowned, and by sunset somebody had to have done it; and the Serene is the one whose name may be cried.' He shrugs, a small old man's shrug. 'It is not an injustice. It is only a city. It had to be somebody.'" teaches sluice_known { Assert gt_told_sluice(peck). }
+  Rule gt_tell_knot when gt_told_treasurer(peck) and not knows(party, gt_serene_knot) once says "As he is settling, he says, as an afterthought: 'There is one thing in my gift, for what it is worth. The Serene's Mask is tied with the gallery knot. It comes off with one pull of the left string. They show it you on your first day, in the vestry, and no one shows the next. If the Serene who wears it now has forgotten, or was never shown, he may think he cannot take it off.' He closes his eyes. 'It would be an unkind thing to leave a man in a mask for want of a string.'" teaches gt_serene_knot { }
+  Rule gt_peck_round when gt_peck_easy(peck) and not roundDone(party, r_peck) { Assert roundDone(party, r_peck). }
+  Rule gt_peck_dies at hospice_dorm when nightCount(clock) == 7 and hour(clock) >= 3 and hour(clock) < 6 and not gt_peck_easy(peck) and not gt_peck_gone(peck) says "Some time after the Third Bell of the morning the breathing at the end of the dormitory changes its key, and goes on in the lower one for a little, and stops as a clock stops that no one was watching. Mother Tibb is at the cot before you have understood it. She does not speak. She stands for a moment with the back of her hand against her grey half-mask. Then she takes the string from its nail." { Assert gt_peck_gone(peck). Assert at(peck, offstage). Retract following(peck, party). }
+
+  // Betraying him: the Watch will take his statement; and the Hospice will take it that you did.
+  Topic gt_vail_peck with vail "Tell the Sergeant where the Serene of the Sluice year is to be found" when knows(actor, gt_peck_name) and not gt_peck_given(peck) and not gt_peck_easy(peck) and not gt_peck_gone(peck) once {
+    Says "'Peck,' says Sergeant Vail. 'Absalom.' She writes it in her book at once, and underlines it, and you see that she has known where he was for thirty-one years and has been waiting, with the whole patience of the Watch, for somebody to tell her officially. 'A witness to the Sluice. The Hearing will want him.' She looks at you, and something almost like approval crosses a domino. 'The Watch is obliged. You have been a help, and your count shall be the lighter by one.' It is exactly as simple as that. It has cost you nothing you can see.".
+    On discuss { Assert gt_peck_given(peck). Decrease heat(actor) by 1 or to nothing. Retract acceptsEscort(peck, actor). }
+  }
+  Rule gt_peck_given_word when gt_peck_given(peck) and not gt_peck_gone(peck) and at(party, hospice_hall) once says "A Watch domino has been to the Hospice, and gone, and left behind it a card in the ledger in Mother Tibb's hand: ATTEND. The old man has read it, and has read it again. He says nothing. It is not what he has been waiting for, and he knows who it was that told them." { }
+  Topic gt_tibb_cold with tibb "Ask Mother Tibb for your bed" when gt_sheet(actor) and not masked(actor) and (gt_peck_wounded(peck) or gt_peck_given(peck)) {
+    Says "'There is no bed.' She does not look up. 'There are nine. There is one with a sheet of yours on it, and I am not able to find it.' The pen goes on. 'I do not ask what is said in my hall. I ask only that it should not be said to an old man who has been very kind to the Hospice for eleven years and has never once asked it for anything.' She turns a page. 'The old man's door is the end cot. I should say so, if I were you, to the old man.'".
+  }
+  Rule gt_hospice_refuses_cold when company(?c) and gt_peck_wounded(peck) and not refusesService(tibb, ?c) { Assert refusesService(tibb, ?c). }
+  Rule gt_hospice_refuses_given when company(?c) and gt_peck_given(peck) and not refusesService(tibb, ?c) { Assert refusesService(tibb, ?c). }
+  // The Serene the old man would help: Hobb, who cannot take his Mask off, because no one showed him the knot.
+  Relation gt_knot_shown(group).
+  Topic gt_hobb_knot with hobb "Tell the Serene how the gallery knot comes undone" when knows(actor, gt_serene_knot) and not gt_knot_shown(hobb) once {
+    Says "The Serene stands quite still, in the Mask, for so long that the rain has time to find a new way down his neck. 'The left string,' he says at last, in the voice of a man at the bottom of a barrel. 'One pull.' He does not move. Then one gloved hand comes up, slowly, as if to a thing that might be hot, and takes hold of it. 'They told me,' says Hobb, 'that it could not be taken off. Not that it could not; that it must not. I have been sitting up with it three nights.' The hand tightens, and he does not pull. 'Not yet,' he says. 'But thank you. Tell the old man. Tell him it was shown.'".
+    On discuss { Assert gt_knot_shown(hobb). }
+  }
+
+  // ── Mother Tibb by night ───────────────────────────────────────────────────────────────────────────────────────────
+  // After the Ninth Bell she takes the bottle from Peck's hand, banks the stove, and sits in the dormitory doorway
+  // with a string in her lap, and the Hospice's grey half-mask comes off. Her private register is a woman keeping a
+  // book of the nameless; her one question is the one the Warrant puts to the company: will you take a face.
+  Relation gt_face_said(group). Relation gt_face_yes(group). Relation gt_face_no(group).
+  Topic gt_tibb_string with tibb "Ask Mother Tibb about the string by the dormitory door" when privateHours() and not masked(actor) once {
+    Says "She does not stop knotting; her hands do it as other people's breathe. 'A knot for each. Forty-one. The Bare have no names to write down; a Bare name is a noise, and a noise does not go in a ledger. So I tie one, and I know the day and I know the weather. The Tuesdays are mostly the old.' She weighs the string in her palm. 'When the Brothers come with the barrow they ask me which, and I give them the knot, and they bury the knot with him. It is a very small funeral. Everyone who is at it has been told they are not there.'".
+    On discuss { Assert knows(actor, gt_string_known). }
+  }
+  Topic gt_tibb_eleven with tibb "Ask Mother Tibb what became of the Bare she has walked to the Gate" when privateHours() and not masked(actor) and knows(actor, gt_string_known) and not gt_face_said(actor) once {
+    Says "'Twelve,' she says. 'In twenty-six years. When the Warrant ends the law offers a Bare a face, and the Hospice walks him to the Gate and it is done or it is not. Eleven I walked back out again when the offer ran out, and they went down the delta road, and I did not see them again. One went in.' She almost smiles. 'She has a stall in the Drip, in a cockle-mask. She bakes. I go on Thursdays, and she sells me a roll, and she has never once known me, and I have never once asked her to.' The string stops. 'They will offer it to you. The sergeant has the form. Will you take it?'".
+  }
+  Topic gt_tibb_yes with tibb "Say you will take the face, if it is offered" answering gt_tibb_eleven when not gt_face_said(actor) {
+    Says "'Then I shall be glad,' she says, steadily, 'and I shall not know you in the street, and it will be right.' She goes back to the knotting. 'I was a great deal younger the first time, and I took it very badly, and I have been practising the other thing since.'".
+    On discuss { Assert gt_face_said(actor). Assert gt_face_yes(actor). }
+  }
+  Topic gt_tibb_no with tibb "Say you will not take it" answering gt_tibb_eleven when not gt_face_said(actor) {
+    Says "'Then you are one of mine.' She says it without triumph. 'Eleven out and one in, and now you.' She looks at the string. 'I do not say it is the wrong thing. I only say it is the one with the knots in it. Go to sleep, Bare. It is a long road, and I have always liked the ones who walk it.'".
+    On discuss { Assert gt_face_said(actor). Assert gt_face_no(actor). }
+  }
+  Topic gt_tibb_unsure with tibb "Say you do not know" answering gt_tibb_eleven when not gt_face_said(actor) {
+    Says "'That is the only honest answer I have ever been given to it,' says Mother Tibb. 'I have a column for it.' She makes a mark, and it is very small, and you see that it is the only mark in the ledger made with any tenderness. 'Do not decide in a hurry. They never give you the whole nine days to be decent in, but they give you most of them.'".
+    On discuss { Assert gt_face_said(actor). }
+  }
+
+  // ── The Hospice's other Bare ──────────────────────────────────────────────────────────────────────────────────────
+  // Eleven Strangers in nine beds: a few of them to be met by day, in the loudest room in Ombra, and by night, when
+  // they are what they have been all day. Each is a small stranger in a city of masks, and each would be a joke if a
+  // city of masks did not, from the point of view of anyone who has to live in it, make so much sense.
+  Person gt_ilbrand "Master Ilbrand Voss" at hospice_hall {
+    Role "a cartographer, with a drawing-board on his knees" when at(gt_ilbrand, hospice_hall).
+    Role "a cartographer, drawing by the dormitory window" when not at(gt_ilbrand, hospice_hall).
+    Ancestry human. Peaceable. Pronouns he. Manner stoic.
+    Greets "A long man with the hands of a surgeon and the coat of a man who has not been home is drawing on a board across his knees, and does not look up. 'Voss,' he says, to the paper. 'Cartographer. If you wish to be on the map you will have to hold quite still, and not look at me.'".
+    Greets again "'Do not look at me,' says Master Voss, pleasantly, and goes on drawing.".
+  }
+  Topic gt_ilbrand_map with gt_ilbrand "Ask the cartographer what he is drawing" when not masked(actor) and publicHours() once {
+    Says "He turns the board. The Gate, the Steps, Strangers' Square, to the last wet cobble: a plan so exact that your eyes ache, and across it, small and careful, forty or fifty figures, each of them an oval with nothing in. 'I can draw anything that holds still,' he says, 'and nothing that is looking at me. I came to Ombra because I was told nobody here looked.' He regards his work with sorrow and pride. 'It is, I think, the only true map of the city. It has everyone in it.'".
+  }
+  Topic gt_ilbrand_hand with gt_ilbrand "Ask the cartographer, after the lamp is out, why he cannot draw a face" when privateHours() and not masked(actor) once {
+    Says "He is awake. He is always awake; he draws by the lamp in the window, with the board against his knees. 'My wife,' he says. 'Eleven years. I can draw you the cottage and the pump and the cat. When I come to her it comes out an oval.' He does not seem upset; he states it as a fact of the weather. 'It is quiet, here, in a city of ovals. I am nearly at home.' He holds the board an inch toward you, and there, on the margin, is a hand, drawn in a single line, perfectly: yours.".
+  }
+  Person gt_dorcas "Dorcas Ammet" at hospice_hall {
+    Role "a pilgrim of the Gentle Sun, in a straw hat, with a letter of introduction" when at(gt_dorcas, hospice_hall).
+    Role "a pilgrim of the Gentle Sun, asleep in her straw hat" when not at(gt_dorcas, hospice_hall).
+    Ancestry human. Peaceable. Pronouns she. Manner cheerful.
+    Greets "A stout woman in a straw hat, with a letter of introduction held out in front of her like a lantern, rises from a bench as you pass, and sits down again. 'I came four hundred miles,' she says, 'to see the Face of Faces. They say it shines.' She turns the letter over. 'I have been told, by nine people, very politely, that it is not seen. I do not mind. I am a pilgrim; it is the walking I am for.'".
+    Greets again "'Four hundred miles,' says Dorcas Ammet, comfortably, to the room.".
+  }
+  Topic gt_dorcas_face with gt_dorcas "Ask the pilgrim what she expects the Face of Faces to look like" when not masked(actor) and publicHours() once {
+    Says "'Oh, like a face.' She is surprised that you should ask. 'But shining. At home they say it is the face one would have if nobody were looking. I thought that was a very fine thing to walk for.' She looks round the loud, wet hall, at everyone here with nobody looking. 'I have begun to think,' she says, 'that it may be a very ordinary face, and that it is only the not-looking that does the shining.' She adjusts her hat. 'It would be a poor sort of pilgrimage that could not do with that.'".
+  }
+  Topic gt_dorcas_night with gt_dorcas "Ask the pilgrim, in the dark, whether she will see it" when privateHours() and not masked(actor) once {
+    Says "She is sitting up, in her hat, with her letter in her lap. 'At the Drawing, they tell me, the Chapel's door stands open, and one may stand on the steps.' She says it as a child says a place at table. 'I shall stand there. If you are there, and you see it, will you tell me what it was? I shall not be able to see for the heads.' She lies down again, carefully, with the hat on. 'Even if it is only the rain,' she says. 'I should like to know what it was.'".
+  }
+  Person gt_quill "Cyprian Lorimer" at hospice_hall {
+    Role "a physiognomist, with a tray of lenses". Ancestry human. Peaceable. Pronouns he. Manner jovial.
+    Greets "A plump man in a coat the colour of a wet fox opens a tray on his knees, and every lens on it flashes at once. 'Cyprian Lorimer, Physiognomist, late of Four Cities,' he says. 'Lenses of the Honest Eye, madam, sir, two coin, guaranteed to find the face under any mask in Ombra. The Watch has twice asked me to stop, which is the best testimonial a man can have.'".
+    Greets again "'The Honest Eye!' says Mr Lorimer, and flashes the tray.".
+  }
+  Kind gt_lens_kind "a Lens of the Honest Eye" is gear worth 1 weighing 0 described "A disc of window-glass in a tin ring, on a loop of string. Through it everything is slightly larger and the rain is slightly closer. A label on the ring says, in an educated hand, GUARANTEED. Nothing in it says what.".
+  Item gt_lens "a Lens of the Honest Eye" is gt_lens_kind at offstage.
+  Relation gt_lens_bought(group).
+  Action gt_buy_lens(actor: group, site: place) "Buy a Lens of the Honest Eye from Mr Lorimer, two coin" {
+    Speaker gt_quill.
+    Requires able(actor) and company(actor) and at(actor, site) and at(gt_quill, site) and not masked(actor) and not gt_lens_bought(actor) and quantity(actor, gold) >= 2.
+    Time 2 minutes.
+    On success { Decrease quantity(actor, gold) by 2. Increase quantity(gt_quill, gold) by 2. Assert gt_lens_bought(actor). Give gt_lens to actor. }
+    Result "He puts it in your palm with a flourish and closes your fingers over it. You hold it up to the nearest Watch domino through the window, and a large, grey, blurred mask looks back at you. 'It works best,' says Mr Lorimer, 'on an honest face.' You perceive that you have, for two coin, bought the one thing in the Hospice that nobody else was fooled by: a lesson.".
+  }
+  Topic gt_quill_night with gt_quill "Ask Mr Lorimer, in the dark, whether the lenses work" when privateHours() and not masked(actor) once {
+    Says "He is sitting on the edge of his cot with the tray shut on his knees and no flourish at all. 'Of course not,' he says. 'Nobody has ever seen a face under a mask through a piece of glass. But they come to me, you know, every one of them, the Bare. They do not want the face. They want to be told there is one under there, like theirs, and that it would be kind.' He looks at his hands. 'I tell them so. I charge two coin. I do not think it is the worst trade in Ombra.'".
+  }
+  Person gt_maro "Maro Tilt" at hospice_hall {
+    Role "a drummer from the Marches, refused a trade-mask". Ancestry human. Peaceable. Pronouns he. Manner cheerful.
+    Greets "A brown man with a drum on a strap between his knees taps out something on its rim, and stops, and looks at his fingers as if they had done it by themselves. 'Maro Tilt, of the Marches,' he says. 'I play. I went to the Annex for a face and the clerk said a drum is not a trade; I said a drum is all of them. He said he was very sorry. They are all very sorry.' He taps once more, softly. 'I am told I may not drum in the Hospice. I am drumming very quietly.'".
+    Greets again "Maro Tilt taps the rim of his drum once, as one says hello with a finger.".
+  }
+  Topic gt_maro_day with gt_maro "Ask the drummer why a drum is not a trade" when not masked(actor) and publicHours() once {
+    Says "'The Annex says a face must be asked for something,' says Maro. 'A Gull is asked to carry, a Cockle to feed. They said, what is a drummer asked for?' He taps. 'I said, to be listened to. The clerk went a funny colour. He said, in Ombra nobody is listened to, they are only answered.' He holds up the drum like a loaf. 'I think this is why they will not give me a face. It would be a very loud one.'".
+  }
+  Topic gt_maro_night with gt_maro "Ask the drummer what he plays at night" when privateHours() and not masked(actor) once {
+    Says "He is not drumming. He is sitting in the dark with both hands flat on the skin, as a man holds a sleeping animal. 'At night I play the rain,' he says. 'Not so you hear. So I do.' He takes one hand away, and puts it back. 'The Mother says the drum wakes nine people. I said, nine is a fine number, it is one fewer than the Hospice has beds for. She did not laugh. But the next morning there was a folded sheet on the headboard, where my hand goes, so as not to hurt the wood.'".
+  }
+  Rule gt_lodgers_day when hour(clock) >= 8 and hour(clock) < 20 and (not at(gt_ilbrand, hospice_hall) or not at(gt_dorcas, hospice_hall) or not at(gt_quill, hospice_hall) or not at(gt_maro, hospice_hall)) {
+    Assert at(gt_ilbrand, hospice_hall). Assert at(gt_dorcas, hospice_hall). Assert at(gt_quill, hospice_hall). Assert at(gt_maro, hospice_hall). }
+  Rule gt_lodgers_night when (hour(clock) >= 20 or hour(clock) < 8) and (not at(gt_ilbrand, hospice_dorm) or not at(gt_dorcas, hospice_dorm) or not at(gt_quill, hospice_dorm) or not at(gt_maro, hospice_dorm)) {
+    Assert at(gt_ilbrand, hospice_dorm). Assert at(gt_dorcas, hospice_dorm). Assert at(gt_quill, hospice_dorm). Assert at(gt_maro, hospice_dorm). }
+
+  // ── The Wardrobe Annex: Moll, and the Borrowed Face (local) ───────────────────────────────────────────────────────
+  // A returned Gull domino with a letter in its lining. Moll cannot read it without Unfacing the one person it would
+  // unface, and cannot return it without saying who hired the face, which is a name. He asks a Bare, who is not bound,
+  // and who may do four things with it: carry it unread to the hirer of the face, read it and carry it to its writer,
+  // give it to the Watch, or let it lie, which the clock will not. The letter is a love-letter, and the lovers are
+  // local.kyr's: this file only says where it went.
+  Relation gt_moll_asked(group). Relation gt_letter_held(group). Relation gt_letter_read(group). Relation gt_letter_done(group). Relation gt_letter_lost(group).
+  Relation gt_letter_rill(group). Relation gt_letter_cosimo(group). Relation gt_letter_watch(group). Relation gt_moll_trust(group). Relation gt_moll_lent(group).
+  Relation gt_faces_known(group).
+  Kind gt_letter_kind "an unsent letter, folded eight times" is gear worth 0 weighing 0 described "A letter folded eight times and thumbed at the folds, with no direction on it. It was found in the lining of a gull-domino. It smells very faintly of lamp-oil, and of a hand that has carried it a long time next to a heart and been ashamed of it.".
+  Item gt_letter "an unsent letter" is gt_letter_kind at offstage.
+  Discovery gt_swap_tryst "On the night of the Swap, at the Ninth Bell, 'C.' will wait in a cockle-domino at the Gull's ferry stage to know his Lamplight by her lantern: a letter that was written to her, and never sent.".
+  Topic gt_moll_bare with moll "Ask Moll why he speaks to the counter" when not masked(actor) and publicHours() once {
+    Says "'The counter has not got a face,' says Moll. 'I have found it is the one thing in the shop that does not mind being looked at.' He regards the pegs, which are many. 'I am sorry. It is only that I have to say that you are Bare. I should like it to be known that I have never once in my life had a thing against the Bare. It is just that I have never known where to put my eyes.'".
+  }
+  Topic gt_moll_faces with moll "Ask Moll which face would suit you" when publicHours() and not gt_faces_known(actor) once {
+    Says "He takes down, one after another, with the weary gentleness of a man dressing a child, the Gull, the Owl, the Cockle, the Heron, the Magpie, the Moth and the Crow. 'Whichever you wear you will be asked for its trade, and for nothing else. The Gull is asked to carry things. The Owl to light them. The Cockle to feed, and to owe. The Heron to count, the Magpie to tally, the Moth to be seen, the Crow to write.' He hangs them up again. 'I find it restful. You will be very busy and nobody will ask who you are.'".
+    On discuss { Assert gt_faces_known(actor). Assert knows(actor, gt_faces_taught). }
+  }
+  Discovery gt_faces_taught "The city speaks to the face: the Gull is asked to carry, the Owl to light, the Cockle to feed and to owe, the Heron to count, the Magpie to tally, the Moth to be seen, the Crow to write; and to nothing else.".
+  Topic gt_moll_night with moll "Ask Moll why he is sitting up with a domino across his knees" when privateHours() and not masked(actor) and not gt_moll_asked(actor) once {
+    Says "He has the lining turned out, a grey gull-domino, and in his hand a letter folded eight times, which he holds by the corners like a hot plate. 'It was in the lining. When a face comes back I turn it out for airing. The book says the Gull went out on the second morning to a hirer I am not permitted to know, and it came back with this.' He looks at it. 'I cannot read it. A letter is a person with the mask off. And I cannot return it, because to return it I must say who hired the face, and that is a name.'".
+    On discuss { Assert gt_moll_asked(actor). }
+  }
+  Topic gt_moll_take with moll "Offer to take it away" answering gt_moll_night when not gt_letter_held(actor) {
+    Says "He sets it on the counter with some courtesy, as one sets down a child one is not sure is one's own. 'You are Bare,' says Moll. 'You are not bound by the Concord, and you are, I think, a kind of person.' He does not push it across; he lets it be taken. 'I shall not ask what you do with it. If I were asked, I should be obliged to forget, and I am poor at it. I should be very grateful for the room it leaves in the drawer.'".
+    On discuss { Give gt_letter to actor. Assert gt_letter_held(actor). }
+  }
+  Topic gt_moll_refuse with moll "Say it is no business of a Bare's" answering gt_moll_night when not gt_letter_held(actor) {
+    Says "'No,' says Moll. 'Of course.' He puts the letter back in the lining, and the lining in the drawer, with great care, and closes it, in the manner of a man closing the lid on something that is still talking. 'I beg your pardon. It is only that one has to ask somebody.'".
+  }
+  Topic gt_moll_again with moll "Ask Moll whether he still has the letter from the Gull's lining" when privateHours() and not masked(actor) and gt_moll_asked(actor) and not gt_letter_held(actor) and not gt_letter_done(actor) and not gt_letter_lost(actor) once {
+    Says "He takes it out of the drawer before you have finished the sentence, and you understand that it has been lying there a day and a night with its folds against his conscience. 'Oh,' says Moll. 'Oh, thank you.' He holds it out by the corners.".
+    On discuss { Give gt_letter to actor. Assert gt_letter_held(actor). }
+  }
+  Action gt_read_letter(actor: group) "Unfold the letter and read it" {
+    Requires able(actor) and company(actor) and carries(actor, gt_letter) and not gt_letter_read(actor).
+    Time 2 minutes.
+    On success { Assert gt_letter_read(actor). Assert knows(actor, gt_swap_tryst). }
+    Result "It is short, and written in a clerk's neat hand that has been made to forget itself in places. 'Lamplight: on the night of the Swap I will be at the Gull's ferry stage at the Ninth Bell in the Cockle; I shall know you by your lantern. Do not be kind. I could not bear it. C.' There is a blot in the corner where a pen was held too long over the word kind. You have read a person with the mask off. It does not feel like a crime. It feels like having been told, by accident, the only true thing a stranger will say all year.".
+  }
+  // Unread, to the hirer of the Gull; Rill carries it to the man whose letter it is, who rides her ferry every morning.
+  Topic gt_letter_to_rill with rill "Give Rill the letter from the Gull's lining, and say where it was found" when carries(actor, gt_letter) and not gt_letter_done(actor) once {
+    Says "She takes it between two fingers like a fish she has not decided about, and does not unfold it. 'In my face,' says Rill. 'In the lining.' She turns it over and reads the folds. 'I know whose it is. The hand is a Weights-clerk's, and he is always dropping things in my boat: his gloves, his hat, once a whole pair of spectacles. I will see he has it.' She tucks it in her bodice, which is as good as a postbox. 'You did not read it. I can tell. The folds are all on the right side.'".
+    On discuss { Spend gt_letter from actor. Assert gt_letter_done(actor). Assert gt_letter_rill(actor). Assert gt_moll_trust(actor). }
+  }
+  // Read, to its writer: the Heron, who wrote it, and is mortified, and wanted it sent.
+  Topic gt_letter_to_cosimo with cosimo "Give the Heron his letter, and say you read it" when carries(actor, gt_letter) and gt_letter_read(actor) and not gt_letter_done(actor) once {
+    Says "He goes the colour of the inside of a mask. He takes it from you with both hands, and unfolds it far enough to see his own writing, and folds it again. 'You read it,' he says. 'Of course you read it. I should have.' He stands there with it. 'I did not send it because it was not true; I did not throw it away because it was.' He looks, for the first time, at what you are, and finds it bare. 'Thank you. I do not know what it is I am thanking you for.'".
+    On discuss { Spend gt_letter from actor. Assert gt_letter_done(actor). Assert gt_letter_cosimo(actor). Assert gt_moll_trust(actor). }
+  }
+  Topic gt_letter_to_vail with vail "Hand the Sergeant the letter from the Gull's lining" when carries(actor, gt_letter) and not gt_letter_done(actor) once {
+    Says "'A letter.' Vail takes it by the edges, and opens it, and reads it, standing quite still. Then she folds it along the old folds and puts it in a drawer, and you see the drawer is already full of folded things. 'Of no interest to the Watch,' she says. 'The Watch will keep it. The Watch keeps everything; it is the whole of its art.' She looks at you from the domino. 'You did right, by the book. Your count shall be the lighter by one.' It is a very clean sensation, and you cannot wait to be rid of it.".
+    On discuss { Spend gt_letter from actor. Assert gt_letter_done(actor). Assert gt_letter_watch(actor). Decrease heat(actor) by 1 or to nothing. }
+  }
+  // The default: Moll cannot keep it past the fourth noon; and if the company keeps it past the Swap, the Swap comes.
+  Rule gt_moll_posts when day(clock) >= 4 and hour(clock) >= 12 and gt_moll_asked(party) and not gt_letter_held(party) and not gt_letter_done(party) and not gt_letter_lost(party) once says "Word comes across the square, as it does, by the way of nobody saying anything: Moll was seen at noon at the post-box outside the Annex, with a letter folded eight times, and then not." { Assert gt_letter_lost(party). }
+  Rule gt_swap_comes when swapNight() and gt_letter_held(party) and not gt_letter_done(party) and not gt_letter_lost(party) once says "At the Ninth Bell, somewhere across the water, a man in a cockle-domino stands at a ferry stage in the rain with a lantern, and waits for a woman who has been told nothing. You still have the letter." { Assert gt_letter_lost(party). }
+  Action gt_moll_lend(actor: group, mask: face, site: place) "Ask Moll to lend you {mask} for the day, for nothing" {
+    Speaker moll.
+    Requires able(actor) and company(actor) and at(actor, site) and at(moll, site) and rentable(mask) and not holdsFace(actor, mask) and gt_moll_trust(actor) and not gt_moll_lent(actor).
+    Time 2 minutes.
+    On success { Assert holdsFace(actor, mask). Assert rented(actor, mask). Set rentEnds(actor) to watch(clock) + 72. Assert gt_moll_lent(actor). }
+    Result "He does not write it in the book. He takes the face down and holds it out across the counter, not looking at it, nor at you. 'It was in the lining,' says Moll. 'I have not forgotten. I have never in my life been so grateful for a thing I was not told.' He lets it go. 'The book has no column for this. I shall say it was cleaned.'".
+  }
+  Observe moll_trust at annex_counter when gt_moll_trust(party) "On a peg by the counter, apart from the rest, a gull-domino hangs with a card on it in a small clerk's hand: HELD. The clerk glances at it, when he thinks you are not looking, as one glances at a window with a light in it.".
+
+  // ── What the company grows by ─────────────────────────────────────────────────────────────────────────────────────
+  Milestone gt_m_sheet "answered the Hospice's Three Questions, and was given a sheet" worth 25 when gt_sheet(party).
+  Milestone gt_m_peck "said an old man's name to him, or stayed with him, as a person" worth 50 when gt_peck_easy(peck).
+  Milestone gt_m_letter "carried an unsent letter to a hand that could send it" worth 25 when gt_letter_rill(party) or gt_letter_cosimo(party).
+  Milestone gt_m_knot "showed the Serene how his Mask comes off" worth 25 when gt_knot_shown(hobb).
+
+  // ── What became of them (the closing account) ──────────────────────────────────────────────────────────────────────
+  Rule gt_fate_peck_name when newsHour() and gt_via_name(peck) once says "Of Absalom Peck: he has stopped holding the bottle, which Mother Tibb waited eleven years for him to do, and misses it as one misses a hat. He sits by the stove in the ghost of his gold-and-white coat and tells the loud hall, whether it asks or not, that his name was said to him once by a stranger, kindly, and that it still works. Nobody asks which stranger. He does not say." { }
+  Rule gt_fate_peck_vigil when newsHour() and gt_via_vigil(peck) once says "Of Absalom Peck: he says the best conversation of his life was a night in which nobody spoke. He has since offered the same to the Hospice's other Bare in rotation, sitting on the ends of their cots with a flask of tea, saying nothing; Mother Tibb allows it, as cheaper than a Chaplain and, on the whole, more effective." { }
+  Rule gt_fate_peck_cast when newsHour() and gt_via_cast(peck) once says "Of Absalom Peck: there is a face on the Wall of Faces that was not there before, in a niche that has stood empty for thirty-one years: plaster, with a straw-hole in each nostril, and no name under it. Madame Pavane's apprentices take it for a practice piece. He goes to look at it on Thursdays and says nothing to it, and it, with the tact of all the Wall's faces, says nothing back." { }
+  Rule gt_fate_peck_chapel when newsHour() and gt_via_chapel(peck) once says "Of Absalom Peck: there is a lamp in the rack by the Chapel door that nobody lit, for a name nobody can say, and the Chaplain's boy has been told to keep it trimmed. The old man comes on the first of each month with his hat in his hand, and stands in front of it for the length of a candle, and goes home; and the Chapel, which has seen worse, lets him." { }
+  Rule gt_fate_peck_confession when newsHour() and gt_via_confession(peck) once says "Of Absalom Peck: he has been shriven, and does not say of what. The Chaplain, who knows nothing, says only that the old man now comes to the second Mass and kneels at the back and sings, a little flat, the hymn the Bare are not supposed to know. A seal is a quiet thing. It keeps better than a name." { }
+  Rule gt_fate_peck_given when newsHour() and gt_peck_given(peck) once says "Of Absalom Peck: the Watch sent for him, and a corporal came with a hired Heron mask that he could not tie, and he was read his own name from a paper by a clerk who did not know it was one. He gave them nothing. He turned his chair to the wall, and died on the seventh night with the Watch's card under the pillow. The statement taken from him says, in full: NOTHING. It is signed." { }
+  Rule gt_fate_peck_gone when newsHour() and gt_peck_gone(peck) and not gt_peck_given(peck) and not gt_peck_wounded(peck) once says "Of Absalom Peck: he died on the seventh night in the end cot, with the candle-stub lit on the sill, which Mother Tibb trimmed and lit herself, there being no white mask to do it. The Brothers came with the barrow and asked which, and she gave them the string. He lies in the cloister garth under a knot; and what he knew of the Sluice year went in with him, and the city has not noticed." { }
+  Rule gt_fate_peck_pressed when newsHour() and gt_peck_gone(peck) and gt_peck_wounded(peck) once says "Of Absalom Peck: he did not speak again to the one who had pressed him, and died on the seventh night with his face to the stove-end of the dormitory. He had told it, in the end, to someone who asked as if they had the right. It is the last thing the Hospice remembers him saying, and nobody is wholly sure he was wrong to resent it." { }
+  Rule gt_fate_tibb_gone when newsHour() and gt_peck_gone(peck) once says "Of Mother Tibb: forty-two knots on the string by the dormitory door, and the last tied three times and loosened twice. She will not say whether she is sorry. She has moved the best chair away from the stove, and moved it back." { }
+  Rule gt_fate_tibb_easy when newsHour() and gt_peck_easy(peck) once says "Of Mother Tibb: the string by the dormitory door has forty-one knots, and she says that will do. There is a rug on the best chair now, and she says it is for the cold, and that no one is to speak of it." { }
+  Rule gt_fate_tibb_face when newsHour() and faceTaken(party) once says "Of Mother Tibb: she walked you to the Gate herself, in the grey half-mask, and came back alone, and wrote in the ledger in the column for it, with great neatness, one. On Thursdays she goes to a stall in the Drip and buys two rolls, and eats one on the bridge, and leaves the other on the rail for a person who will not know whose it is." { }
+  Rule gt_fate_tibb_shut when newsHour() and gateShut(party) once says "Of Mother Tibb: when the Gate was shut on the Bare she kept the Hospice door on the latch against the order, and nine beds held eleven, and then fifteen, and a ledger that has never been wrong was wrong, with great care, for as long as the rain lasted." { }
+  Rule gt_fate_moll_rill when newsHour() and gt_letter_rill(party) once says "Of Ferris Moll: he has taken to looking people in the face. It is not that the pegs have moved; a ferrywoman who came for a domino stood looking at him, and said she had heard of him, and he found she had a face. He still turns out the lining of every returned domino. It is not for letters now. It is for the pleasure of finding there is nothing." { }
+  Rule gt_fate_moll_cosimo when newsHour() and gt_letter_cosimo(party) once says "Of Ferris Moll: a Weights-clerk in the Heron has been to the Annex, and stood at the counter, and asked for the Gull for a day, and paid, and gone. Moll has nothing to say of it, and the book has a column for it, which he made himself, and which says: Returned." { }
+  Rule gt_fate_moll_watch when newsHour() and gt_letter_watch(party) once says "Of Ferris Moll: he does not look at the counter any more; he looks at the door. He has put the pegs in a new order, so that the Gull hangs where the Owl was, and says it is a precaution. It is the nearest he can come to apologising, and he knows that it will not be accepted, by anyone, and he does it every morning." { }
+  Rule gt_fate_moll_lost when newsHour() and gt_letter_lost(party) and not gt_letter_rill(party) and not gt_letter_cosimo(party) and not gt_letter_watch(party) once says "Of Ferris Moll: a letter folded eight times was posted to Nobody from the Annex's own box, and burned at noon on the ninth day with the rest of the Nobodies, and is, in that sense, as private as it was meant to be. He has not told the book. It sits in the book, in the space where he did not write it." { }
+  Rule gt_fate_ilbrand when newsHour() once says "Of Master Ilbrand Voss: his map of the Gate has been bought for the Chapel's Registry, where it hangs on the stair with its forty-seven ovals, and the Chaplain says it is the only plan of Ombra in which every citizen has been got right." { }
+  Rule gt_fate_dorcas when newsHour() once says "Of Dorcas Ammet: she stood on the Chapel steps till dusk and saw the backs of a great many heads, and the rain on the white of the door; she says it shone. She has written home that the Face of Faces is a perfectly ordinary face, and that it is the not-looking that does it, and that she would advise nobody to come." { }
+  Rule gt_fate_quill_lens when newsHour() and gt_lens_bought(party) once says "Of Cyprian Lorimer: he is the happiest man in Ombra, with one satisfied customer; he tells the story of the Bare who bought a Lens of the Honest Eye to everyone he meets, and in his telling you were taller, and found a face." { }
+  Rule gt_fate_quill when newsHour() and not gt_lens_bought(party) once says "Of Cyprian Lorimer: he sold the last of the lenses at the Drawing to a party of Heron-clerks, at twice the price, who held them up to the Chapel door and said they could see the whole matter quite clearly. He is putting up his prices for the next." { }
+  Rule gt_fate_maro when newsHour() once says "Of Maro Tilt: on the last night he drummed, very softly, in the Hospice, and the Mother did not stop him; and in the Square a Watch domino was seen to tap, once, on the Gatehouse door, in time." { }
+  Rule gt_fate_tibb_said_yes when newsHour() and gt_face_yes(party) and not faceTaken(party) once says "Of Mother Tibb: you told her you would take the face, and did not, and she has not mentioned it. She goes on Thursdays to the stall in the Drip all the same, and buys two rolls." { }
+  Rule gt_fate_tibb_said_no when newsHour() and gt_face_no(party) and faceTaken(party) once says "Of Mother Tibb: you told her you would not take it, and took it, and she says that is the way it is always done, and that she has never been so glad to be lied to." { }
+  Rule gt_fate_tibb_kin_none when newsHour() and gt_kin_none(party) once says "Of Mother Tibb: the knot she tied for you on the first morning, to save time, still hangs by itself on the nail behind the table, a hand's breadth from the others. She has not moved it. She says she will not until it is asked for." { }
+  Rule gt_fate_tibb_kin_named when newsHour() and gt_kin_named(party) once says "Of Mother Tibb: on the tenth morning she wrote, to the name you gave her, whatever it was, that the Bare in question had been well. She does not know whether it was a true name. She says that does not make the letter untrue." { }
+  Observe tibb_summons at hospice_hall when gt_summoned(party) "On the open page of the ledger, in column four, where Mother Tibb has lately written SUMMONS in a hand that is a little too neat, a second ink has been gone over the word, to be sure of it.".
+}

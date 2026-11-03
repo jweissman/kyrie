@@ -1,0 +1,43 @@
+Module ombra "The Book of Faces" {
+  // ── The Novena ────────────────────────────────────────────────────────────────────────────────────────────────────
+  // Nine days of rain-prayer, from the eve of which the Registrar lay dead in the Chapel, to the Drawing on the ninth
+  // night. The company comes to the end of the delta road at eight on the first morning (watch 0); day n begins at
+  // watch (n-1)*144 from eight. In a world that goes on, the first day begins the first morning after Ombra is
+  // reached.
+  Query begun() means watch(clock) >= 0.
+  Query morning() means hour(clock) >= 8 and hour(clock) < 12.
+  Query afternoon() means hour(clock) >= 12 and hour(clock) < 18.
+  Query evening() means hour(clock) >= 18 and hour(clock) < 23.
+  Query smallHours() means hour(clock) < 5.
+
+  // The Masked Hours run from the Third Bell (eight in the morning) to the Ninth (eight at night). Then the city goes
+  // home and takes its faces off; whoever is out is out bare in the dark, and whoever knocks is knocked in answer.
+  Query publicHours() means hour(clock) >= 8 and hour(clock) < 20.
+  Query privateHours() means hour(clock) < 8 or hour(clock) >= 20.
+  // The Swap, the fifth night: every citizen of Ombra exchanges a mask with the first stranger who will.
+  Query swapNight() means day(clock) == 5 and hour(clock) >= 20.
+  // The last day.
+  Query drawingDay() means day(clock) == 9.
+  Query drawingNight() means day(clock) == 9 and hour(clock) >= 18.
+  // The book closes at midnight on the ninth night; what became of everyone is told in the hour before it.
+  // The Drawing is held between eight and ten on the ninth night, by one of the ways drawing.kyr gives; the book closes
+  // an hour after it, or at midnight with the Offices dissolved if none was taken.
+  Query drawingWindow() means day(clock) == 9 and hour(clock) >= 20 and hour(clock) < 22.
+  Query closing() means day(clock) >= 10 or (drawingHeld(party) and day(clock) == 9 and hour(clock) >= 23 and (faceTaken(party) or faceDeclined(party))).
+  Query newsHour() means day(clock) == 9 and hour(clock) >= 22 and not closing().
+
+  Chapter day_one "The Gate of Strangers" when begun() and day(clock) == 1 "The Third Bell rings across the water as you come down the last of the delta road, and all along the Customs Steps people are putting their faces on.".
+  Chapter day_two "The Fitting" when day(clock) == 2 and hour(clock) >= 6 "The second morning of the Novena. The rain has settled in the way a tenant does.".
+  Chapter day_three "The Deepening" when day(clock) == 3 and hour(clock) >= 6 "The rain doubles. In the Drip they are putting boards across the bottom steps and calling it the Deepening, as if it were an honour.".
+  Chapter day_four "The Tally" when day(clock) == 4 and hour(clock) >= 6 "The fourth day. The Rain-Wives' hall has put a lamp in its window, which it does only when it has something to say.".
+  Chapter day_five "The Swap" when day(clock) == 5 and hour(clock) >= 6 "The fifth day of the Novena, the day of the Swap. Everyone in Ombra is carrying a spare face in a bag, and looks as if they have been told a joke they have not yet understood.".
+  Chapter day_six "The Flood" when day(clock) == 6 and hour(clock) >= 6 "Grey water stands in the cisterns' mouths and the gutters of the Drip run uphill. The Hearing of the Unseen may be called today, if anyone dares to call it.".
+  Chapter day_seven "The Dinner of Spoons" when day(clock) == 7 and hour(clock) >= 6 "The seventh day. Quiet Hill has opened its shutters, which it does once a year, to be seen being quiet.".
+  Chapter day_eight "The Strike" when day(clock) == 8 and hour(clock) >= 6 "The eighth day. There is the sound of a great many people not doing something.".
+  Chapter day_nine "The Drawing" when day(clock) == 9 and hour(clock) >= 6 "The ninth morning, and the Dead Letter Office's chimney is already smoking. At dusk the Urn Hall opens, if there is anyone left with the right to open it.".
+
+  // Whom the company has met, to be told of afterwards; and where news of the city reaches the company.
+  Relation met(group).
+  Rule meets when addressed(?p, party) and not met(?p) { Assert met(?p). }
+  Rule followers_keep_up when following(?x, party) and at(party, ?p) and not at(?x, ?p) { Assert at(?x, ?p). }
+}

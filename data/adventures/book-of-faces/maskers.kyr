@@ -1,0 +1,533 @@
+Module ombra "The Book of Faces" {
+  // ── Maskers' Lane ─────────────────────────────────────────────────────────────────────────────────────────────────
+  // The Guild of Maskers: workshops with their shutters hooked back to the rain, the Wet Stage (bard.kyr's), the
+  // Cockle and Heron mask-shop that cuts the Annex's faces by the gross, and Madame Pavane's house, which has under it
+  // the Wall of Faces: a life-cast of every citizen taken at sixteen, because a mask must fit. Three threads live here:
+  // the Wall itself and the woman who keeps it (this file); an apprentice's made face that fits nobody (this file); and
+  // the Cast-Room, the thief's own heist on the Wall (thief.kyr, which uses what is declared here).
+  //
+  // Facts this file may teach: lie_wall (the Menders' shelf, seen from the cellar) and marrick_was_treasurer (the
+  // Registrar's veiled cast). Declared here for others to read: mk_dov_trusts(party), mk_face_drowned, castTaken (the
+  // spine's), fitted (the spine's), mk_maule_has(party), mk_crude_fit(party, face), mk_cast_pavane(party).
+
+  // ── The lane, the rooms ───────────────────────────────────────────────────────────────────────────────────────────
+  Observe mk_lane_day at maskers_lane when publicHours() "Maskers' Lane is a lane of faces being made. Every second door is a workshop with its shutters hooked back to the rain, and in each a figure in a trade's half-mask bends over a block, so that the whole street seems to be nodding. Lacquer, hot glue and wet plaster cross the air in layers, and the gutters run white. Over the Fitter's door a brass oval, polished by thumbs, says PAVANE, and under it, smaller: BY APPOINTMENT OF THE FACE.".
+  Observe mk_lane_night at maskers_lane when privateHours() "At night the lane is a row of shut faces. The workshops have their shutters up and their stoves banked, and the rain goes down the gutters white with plaster to the Cuff. A lamp burns on the sill of the Fitter's fitting-room, as it does every night, so that a late customer may know where to knock.".
+  Observe mk_lane_roof at maskers_lane when privateHours() and at(dov, maskers_roof) "Somewhere above the Fitter's eaves, on the slates, something is sitting very still in the rain. It is larger than a cat. It has a little light, the size of a thumbnail, that it shades with its hand.".
+  Observe mk_lane_hawker at maskers_lane when at(th_slee, maskers_lane) "At the mouth of the lane a barrow stands under an oilcloth, and on it, among a heap of second-hand faces with their ribbons knotted, a brass scale with two pans.".
+
+  Observe mk_fitting_day at fitting_room when publicHours() "Madame Pavane's fitting-room is the one tidy room in the Lane. A single chair stands on a dais under a skylight of ground glass, with an iron headrest and a bowl of drinking-straws; round the walls, on pegs, hang a hundred plaster brows with no faces under them, the Fitter's working blocks, and the light from the skylight is the grey of an oyster. Nothing here is for sale. A bell by the parlour door has a card: WAIT.".
+  Observe mk_fitting_night at fitting_room when privateHours() "By night the fitting-room has put a sheet over its hundred brows, and they stand in rows like the foreheads of the drowned. The chair keeps its dais and its straws. The lamp on the sill burns for any late face that needs finding, and the parlour door stands an inch open, with light in the crack.".
+  Observe mk_parlour_day at pavane_parlour when publicHours() "Behind the fitting-room is the working half of the house: a stove, a long table dusted white, racks of knives and spoons and little saws, and on every shelf the stock of a trade that makes one thing four thousand ways. By the window an unfinished mask stands on an iron stand with a cloth over its face. A narrow door in the corner says CELLAR, and the lock on it says it twice.".
+  Observe mk_parlour_night at pavane_parlour when privateHours() "The parlour at night is the warmest room in the lane. The stove is up, a kettle ticks on it, and the long table has been cleared of plaster and laid with a cloth and two cups, as though somebody had been told to expect somebody. The unfinished mask on its stand has had its cloth taken off: it has a brow and a mouth and nothing between them, and by lamplight it looks like a face thinking of something else.".
+  Observe mk_parlour_blank at pavane_parlour when publicHours() and not knows(party, mk_blank_known) "On the iron stand by the window the half-made mask is a different grey from the rest, older and more handled. It is not for the Offices and it is not for the trades; there is no peg or ticket on it.".
+
+  Observe mk_cellar_scene at cast_cellar when true "The Wall of Faces. The cellar is long, low, vaulted and dry, lit by a single hooded lamp on a hook at the stair foot that, by the smell of its oil, has not gone out in forty years. Every wall is shelving, and on every shelf, close as cobbles, stand faces: plaster faces, life-size, eyes shut, from the brow to the chin, each with a little chalk plate beneath it. There are forty thousand, give or take. They are not frightening. That is what is frightening: they have the look of people waiting for something in a quiet room, and none of them is thinking about you.".
+  Observe mk_cellar_trades at cast_cellar when true "The shelves are labelled by trade in a hand that has copied the same words for forty years: MAKERS. KEEPERS. CARRIERS. FERRYMEN. BAKERS. LAMPS. MENDERS.".
+  Observe mk_cellar_menders at cast_cellar when true "The shelf of MENDERS is one of the smaller ones, and the best kept. Under each of its faces the plate gives a street and a trade in the Fitter's code and, under a good many, a second line in a different chalk: a letter and a year. You read down the second lines. K, P, T, S, W: the same nineteen letters, year after year after year, thirty years of them, each a face from this shelf and from no other, as if a hand had gone to the Menders every spring and taken what it needed." teaches lie_wall.
+  Observe mk_cellar_drowned at cast_cellar when true "The shelf marked DROWNED is lower than the rest and set closer, and the faces on it have a dampness about the mouth that plaster should not keep. There are six hundred of them, taken from the dead for the box, because the Concord buries nobody faceless. Each has a name chalked under it and a line through the name where it was claimed. The last has no name: the plate says only a question mark, and a tally of nine, and nine, and nine, one for each nine days that nobody came.".
+  Observe mk_cellar_niche at cast_cellar when true "In the middle of the long wall, at the height of a face, there is a niche with a lampblacked bracket and nothing in it. The plate under it has been rubbed out and rewritten so often that the slate has gone thin; it says THE FITTER. It is the one empty place on forty thousand shelves." teaches mk_empty_niche.
+  Observe mk_cellar_veil at cast_cellar when not knows(party, marrick_was_treasurer) "On the shelf of LAMPS, near the end, one face has a cloth over it, a square of black wool pinned at the brow, the way a house covers its mirrors. Whatever the plate under it says, the cloth hides.".
+  Observe mk_cellar_veil_up at cast_cellar when knows(party, marrick_was_treasurer) "On the shelf of LAMPS the black cloth is folded back from the last face: a girl's, young and plain, with a lamp-trimmer's jaw. The plate says Y. MARRICK, and under it, in the other chalk, T for the year of the Sluice, and then R. It is the only face on either shelf that has an Office chalked against it from before the Menders began. She does not look as if she knew what was going to be done to her.".
+
+  Observe mk_shop_day at mask_shop_floor when publicHours() "The Cockle and Heron sells faces by the gross. Domino on domino hangs from the beams on loops of tape, bakers' Cockles and clerks' Herons, each pair of eyeholes at a slightly different height, so that the whole shop appears to be looking at a point just past you. A bell on the counter has a card: RING ONCE. THE MASTER IS AT THE LAST ONE.".
+  Observe mk_shop_night at mask_shop_floor when privateHours() "The mask-shop is shut up and smells of size. The faces hang in the dark in their hundreds with the rain behind them, and a ladder-stair goes up through a hatch in the ceiling to the drying-loft, where, if you look, there is a lamp.".
+  Observe mk_loft_day at mk_loft when publicHours() "The drying-loft: a long low room under the tiles, where damp masks hang from lines like washing, by the thousand, drying their glue. It smells of size and wet card and the inside of other people's faces. Nobody is here but the faces, and the rain ticking on the tiles over their heads.".
+  Observe mk_loft_night at mk_loft when privateHours() "The drying-loft by night: a long low room under the tiles with a single lamp turned down on a crate, and the masks hanging from the lines in their thousands, turning very slightly in the draught, like a congregation that has been told to keep still.".
+
+  Observe mk_roof_day at maskers_roof when publicHours() "The Maskers' roofs are a country of wet slate and tile, cut by gutters and chimney-stacks. Over the Fitter's fitting-room a skylight of ground glass; over the parlour, set into the pitch, a smaller one on a hinge, with a bolt on the inside. The rain falls here with nothing to apologise for.".
+  Observe mk_roof_free at maskers_roof when privateHours() and mk_dov_free(party) and at(dov, maskers_roof) "Dov is on the ridge, with his hood back, in the rain, doing nothing in particular. His hands are open on his knees.".
+  Observe mk_roof_night at maskers_roof when privateHours() "At night the roofs are very dark and very loud: every slate has a voice, and the gutters run like a crowd of people all being told the same thing. Below you the lane is a strip of weak tea, the Fitter's lamp on its sill; beyond, across the Cuff, the lamps of the Drip stand in the rain like a drowned town.".
+
+  // The drying-loft above the mask-shop is Slee's counting-house by night (thief.kyr); the stair is ours.
+  Place mk_attic "the attic of the mask-shop" is level within mask_shop.
+  Place mk_loft "the drying-loft over the mask-shop" is room within mk_attic at 2, 0 indoors.
+  Passage mk_loft_stair "the drying-loft stair" is stair between mask_shop_floor and mk_loft.
+
+  // ── Madame Pavane ─────────────────────────────────────────────────────────────────────────────────────────────────
+  // Sixty-one, vain of her craft, cold, and wanting only to be seen as an artist. She came down the delta road
+  // Bare thirty-nine years ago, was offered a face, took it, and has cut every Office's mask since; her own face is
+  // the one place on her Wall that has never been filled. She has always known the Offices go to Menders, because she
+  // sees whom she fits; she thinks it is the best thing the city does, and has kept it for thirty-one years.
+  Person pavane "Madame Pavane" at fitting_room {
+    Role "the Fitter of the Maskers' Guild". Ancestry human. Pronouns she. Manner proud.
+    Known as "a woman of sixty in a Fitter's grey half-mask and a plaster-dusted apron" when publicHours() and not knows(party, mk_pavane_name).
+    Known as "a grey-haired woman in a quilted gown with plaster under her nails" when privateHours() and not knows(party, mk_pavane_name).
+    Greets "A tall woman with plaster to the elbow and a long, mobile, unsculpted hand does not turn from her work, but she has measured the width of your face, brow to chin, before you are through the door; you feel it as you feel a draught. 'Do not apologise,' she says to the plaster. 'You are wondering whether your face is as ordinary as it feels. It is. They all are. It is the great comfort of my trade.'".
+    Greets again "'Face,' says Madame Pavane, as another woman says good morning, and goes on with her knife.".
+  }
+  Initially Assert unmaskTeaches(pavane, mk_pavane_name).
+  Discovery mk_pavane_name "Under the Fitter's grey half-mask is a woman called Sabine Orrell, from the far side of the delta road; Pavane is the name of the house, and Orrell is the name she has not said aloud in Ombra for thirty-nine years.".
+  Discovery mk_wall_known "Under Madame Pavane's house, in a cellar, is the Wall of Faces: a plaster cast of every citizen's face taken at sixteen, because a mask must fit, shelved by trade.".
+  Discovery mk_blank_known "On a stand in the Fitter's parlour is a half-made mask that is for nobody: she begins one every winter, she says, and has never finished one.".
+  Discovery mk_empty_niche "On the Wall of Faces there is one empty niche, in the middle of the long wall, with a plate that says THE FITTER: the Fitter has never been cast.".
+  Discovery mk_pavane_was_bare "Madame Pavane came down the delta road Bare, was offered a face by the Concord and took it, and was never cast, since the Wall takes faces at sixteen and she came at twenty-two.".
+  Discovery mk_pavane_knows_lie "Madame Pavane has known for thirty-one years that every Office goes to a face from the Menders' shelf; she cut each mask and saw whose face it was, and thought it the best thing the city did.".
+
+  Relation mk_guiding(group). Relation mk_pavane_trust(group). Relation mk_commissioned(group). Relation mk_waited(group).
+  Relation mk_warranted(group). Relation mk_pavane_seen(group). Relation mk_pavane_moved(group). Relation mk_wall_refused(group).
+  Relation mk_veil_refused(group). Relation mk_cast_pavane(group). Relation mk_pavane_cold(group). Relation mk_free_fit(group).
+  Relation mk_pavane_told(group). Relation mk_sitting_known(group).
+
+  // Her day, by the hour: the chair by day, the parlour by night, abed from one. A guided visit holds her wherever she is
+  // leading; a Naming shuts her in the parlour with the door locked.
+  Rule mk_pavane_chair when hour(clock) >= 8 and hour(clock) < 20 and not named(pavane) and not mk_guiding(pavane) and not at(pavane, fitting_room) { Assert at(pavane, fitting_room). }
+  Rule mk_pavane_evening when (hour(clock) >= 20 or hour(clock) < 1 or (hour(clock) >= 7 and hour(clock) < 8)) and not mk_guiding(pavane) and not at(pavane, pavane_parlour) { Assert at(pavane, pavane_parlour). }
+  Rule mk_pavane_abed when hour(clock) >= 1 and hour(clock) < 7 and not mk_guiding(pavane) and not at(pavane, offstage) { Assert at(pavane, offstage). }
+  Rule mk_pavane_shut when named(pavane) and hour(clock) >= 8 and hour(clock) < 20 and not mk_guiding(pavane) and not at(pavane, pavane_parlour) { Assert at(pavane, pavane_parlour). }
+  Rule mk_guide_ends when mk_guiding(pavane) and not at(party, cast_cellar) { Retract mk_guiding(pavane). }
+
+  // The cellar door. Locked unless the Fitter has led the company down; she locks it again behind them.
+  Thing mk_cellar_lock "the cellar door" on cellar_stair {
+    State locked blocking "The cellar door in the corner of the parlour is shut, and the lock on it is a good one, with a plate of brass so clean that it shows your thumb.".
+    State open "The cellar door stands open on a stair going down into lamplight.".
+  }
+  Rule mk_relock when state(mk_cellar_lock, open) and not at(party, cast_cellar) and not mk_picked_open(party) { Retract state(mk_cellar_lock, open). Assert state(mk_cellar_lock, locked). }
+  Relation mk_picked_open(group).
+
+  // ── The Fitter by day: the chair, the study, the Fit ──────────────────────────────────────────────────────────────
+  // By day she answers a face. A bare one gets one cold sentence and a hint of the one place in Ombra the Concord does
+  // not reach: the chair, where a face is cast bare, because plaster does not take a mask.
+  Topic mk_p_cold with pavane "Say good day to the Fitter" when not masked(actor) and publicHours() {
+    Says "'We are not at home to the Bare,' says the Fitter to her plaster, in the voice she keeps for people who do not matter. Then, as if it were a rule of the trade that came out by itself: 'If it is a face you want, the chair is there. It is the one thing in Ombra that does not mind what is in it.' She does not look round.".
+  }
+  Topic mk_p_named_topic with pavane "Speak to the Fitter, whose name has been cried" when named(pavane) {
+    Says "She does not turn from the shuttered window. 'You have ruined a woman,' says Sabine Orrell, in the voice of someone reading an inscription. 'It was not my name in your mouth. It was the name of a girl who stood nine days at a gate with her hands in her sleeves. I have not the strength to be angry; I shall have to be it in the morning.' She waits, perfectly still, until you have gone.".
+  }
+  Topic mk_p_trade with pavane "Ask the Fitter what a Fit is" when masked(actor) and publicHours() once {
+    Says "'A mask is a promise made of paste,' says Madame Pavane. 'The Gull's is a promise to the ferry. I cut it by the dozen and it goes on any face, and the face keeps the promise. An Office's is a promise to the city, and it is cut to one face. It sits on that face like a hand. On any other face it sits like a hand on the wrong arm, and any Fitter can tell you the tell.' She does not tell you the tell. 'It is the one thing in Ombra that cannot be forged, and I am tired of being its only witness.'".
+    On discuss { Assert knows(actor, mk_fit_told). }
+  }
+  Discovery mk_fit_told "Madame Pavane says an Office's mask is cut to one face only and sits on no other like a hand on the wrong arm: every Fit has a tell that a Fitter can see.".
+  Topic mk_p_appraise with pavane "Ask the Fitter what she makes of the face you are wearing" when masked(actor) and publicHours() and not wears(actor, face_moth) once {
+    Says "She takes your chin in two plaster fingers and turns your head to the grey light, quite without ceremony, and looks at the mask and not at you. 'An Annex face. Maule's, by the gross. It fits you well enough to be wrong.' She lets go. 'Come to me by night with your own face on, and I will show you the difference. It is not a thing one does by day. By day I am a pair of hands.'".
+  }
+  Topic mk_p_moth with pavane "Show the Fitter that you wear the Moth" when wears(actor, face_moth) and publicHours() once {
+    Says "'The Moth.' She says it as she might say the name of a disease. 'Players. You want your faces by the dozen and your Fits by Friday, and you wear them out in a night and call it art.' Then, because she cannot help it: 'The lacquer on the Wet Stage's Lamp is mine. Whoever cut its eyes cut them an eighth too wide. Tell him I know.'".
+  }
+  Topic mk_p_burglar with pavane "Say you have come to talk" when masked(actor) and privateHours() {
+    Says "'Faces off,' says Madame Pavane, without looking up, in the voice of a woman who has found that the shortest way with a burglar is to treat him as a guest. 'This house is received bare after the Ninth Bell. I make no exception for the Gull.' She has not moved her hand from the drawer where the knives are.".
+  }
+
+  // The chair: six coin, forty minutes, bare. Her price for a look at her Wall is a face of one's own on it.
+  Action mk_p_sit(actor: group, site: place) "Sit in the Fitter's chair to be cast, six coin" {
+    Speaker pavane.
+    Requires able(actor) and company(actor) and at(actor, site) and at(pavane, site) and publicHours() and not masked(actor) and not castTaken(actor) and quantity(actor, gold) >= 6.
+    Time 40 minutes.
+    On success { Decrease quantity(actor, gold) by 6. Increase quantity(pavane, gold) by 6. Assert castTaken(actor). Assert knows(actor, mk_wall_known). }
+    Result "Straws in the nostrils, oiled cloth at the hairline, and then the plaster, which is warm, and heavier than a face has any right to be. You breathe through the straws and count, and the Fitter works in total silence with her hands on your cheekbones, and once, near the end, you feel her stop and simply look. It sets. It comes away with a small wet sound, and she holds it up to the grey light and says, to no one, 'There you are.' It will go on the Wall, she says; and the sitter may look at the shelf that is theirs.".
+  }
+  Action mk_p_commission(actor: group, site: place) "Commission a Fitter's study of your face, ten coin" {
+    Speaker pavane.
+    Requires able(actor) and company(actor) and at(actor, site) and at(pavane, site) and publicHours() and masked(actor) and not mk_commissioned(actor) and not castTaken(actor) and quantity(actor, gold) >= 10.
+    Time 5 minutes.
+    On success { Decrease quantity(actor, gold) by 10. Increase quantity(pavane, gold) by 10. Assert mk_commissioned(actor). Assert knows(actor, mk_wall_known). }
+    Result "'A study,' says Madame Pavane, and the word changes her, as a word will change a priest: she straightens, and the half-mask seems for an instant the least of her. 'A study begins from the Wall. The customer is taken down to see the faces his own has come from, and chooses.' She names a figure. It is not a figure for a mask; it is a figure for a look. Whatever the study is, she is not going to make it, and both of you know it, and the coin is a fair price for being let down.".
+  }
+  Action mk_p_guide(actor: group, site: place) "Ask Madame Pavane to take you down to the Wall" {
+    Speaker pavane.
+    Requires able(actor) and company(actor) and at(actor, site) and at(pavane, site) and not named(pavane) and (mk_commissioned(actor) or castTaken(actor) or mk_pavane_trust(actor) or mk_warranted(actor)) and not mk_guiding(pavane).
+    Time 5 minutes.
+    On success { Assert at(actor, cast_cellar). Assert at(pavane, cast_cellar). Assert mk_guiding(pavane). Retract state(mk_cellar_lock, locked). Assert state(mk_cellar_lock, open). Assert knows(actor, mk_wall_known). }
+    Result "She takes the key from the chain at her neck and goes before you down the stair, and at the foot of it she takes off her mask and hangs it on a hook, among a great many hooks, with the air of a woman leaving a hat at a church. 'Nobody wears one down here,' she says. 'They find it rude.'".
+  }
+
+  // ── The Fitter by night ───────────────────────────────────────────────────────────────────────────────────────────
+  // A bare knock is received. What she says by night she would not say by day, and she says it to the only kind of person
+  // who cannot be made to answer for it: a Bare is not bound by the Concord, and so may Name, and she knows it.
+  Topic mk_p_night with pavane "Sit at the Fitter's stove, bare, and say you came to talk" when not masked(actor) and privateHours() once {
+    Says "She looks at your bare face for a long moment, as a farmer looks at a field he has been told is his. 'Sit. Not the chair; the chair is for work.' She pours something from the kettle that is not tea. 'It is the rule of the house that at night we are two people and not two faces. I am Pavane. It is the house's. The woman who lives in it is not to be asked.' Her hand, round the cup, is not quite steady, and she is pleased with you for not noticing.".
+  }
+  Topic mk_p_wall_ask with pavane "Ask Madame Pavane about the Wall under her house" when not masked(actor) and privateHours() and knows(actor, mk_wall_known) and not mk_wall_refused(actor) and not mk_pavane_trust(actor) and not mk_commissioned(actor) and not castTaken(actor) once {
+    Says "'The Wall is the Guild's, and the Guild's is the city's, and the city has never once asked to see it. That is why it has stayed so tidy.' She turns her cup a quarter turn on the cloth. 'It is shown to the sitter, and the sitter is shown the shelf that is his, and nobody else. Ask me again in the morning. I shall have forgotten the question; I am sixty-one.'".
+    On discuss { Assert mk_wall_refused(actor). }
+  }
+  Topic mk_p_blank with pavane "Ask about the unfinished mask on the stand" when not masked(actor) and privateHours() and not knows(actor, mk_blank_known) once {
+    Says "'Nobody's.' She looks at it, not at you. 'The one thing in this house that is not cut to measure. I begin one every winter. They are in the cellar, under the stair; there are thirty-nine. I have never finished one: a face wants somebody to be wrong for, and I have never been able to think of whom.' She says it as a joke, and does not smile at it, and goes on looking at the mask as if it had said something.".
+    On discuss { Assert knows(actor, mk_blank_known). }
+  }
+  Measure mk_blank_tries(group). Measure mk_cut_try(group).
+  Action mk_p_see_blank(actor: group, site: place) "Tell her what you see in the mask that is for nobody" {
+    Speaker pavane.
+    Requires able(actor) and company(actor) and at(actor, site) and at(pavane, site) and privateHours() and not masked(actor) and knows(actor, mk_blank_known) and not mk_pavane_seen(actor) and mk_blank_tries(actor) < 2.
+    Time 20 minutes.
+    Resolve check(actor, insight, dc_fair).
+    On success { Assert mk_pavane_seen(actor). }
+    On failure { Increase mk_blank_tries(actor) by 1. }
+    Result "You do not say that it is well made. You say that it is the only thing in the room that is looking at something, and that you think the empty place between the brow and the mouth is the whole point of it, and that nobody making a face for a person would have left it so. The kettle ticks. Madame Pavane sets down her cup very precisely, as though it were the thing most likely to fall. 'No one has said that,' she says. 'In thirty-nine years, no one has said anything. They say it is very fine.'".
+    Otherwise "You say something about the line of the brow, which is true, and about the craftsmanship, which is true, and she thanks you for your interest in her work in exactly the voice she uses to the Watch. The kettle ticks. It has been a good evening and nothing has happened in it.".
+  }
+  Action mk_p_ask_cut(actor: group, site: place) "Ask her to finish the mask for nobody, and sit by while she does" {
+    Speaker pavane.
+    Requires able(actor) and company(actor) and at(actor, site) and at(pavane, site) and privateHours() and not masked(actor) and mk_pavane_seen(actor) and not mk_pavane_moved(actor) and mk_cut_try(actor) < day(clock).
+    Time 2.
+    Resolve check(actor, performance, dc_fair).
+    On success { Assert mk_pavane_moved(actor). Assert mk_pavane_trust(actor). Set mk_cut_try(actor) to day(clock). }
+    On failure { Set mk_cut_try(actor) to day(clock). }
+    Result "You sit where she puts you, and you do not pose; you hold still and let your face be the thing it is when nobody has asked it to be anything, which is a good deal harder, and takes the whole of your attention. She works for two hours with the knife and the little saw and does not speak. Toward the end she stops, and holds the mask at arm's length, and for the first time in thirty-nine winters it is a face: not yours, not anyone's, the face of someone who has just stopped waiting. She puts it down on the table between you. 'Finished,' she says, in an odd voice, and then, 'Well.'".
+    Otherwise "You sit, and you hold a face, and you can feel yourself doing it: the little managing muscles at the corners of the mouth, that want to be liked. She sees it, as she sees everything of that kind. She works ten minutes and puts the knife down, and says that it is late, and that she is a woman of sixty-one, and that she will think about it.".
+  }
+  Action mk_p_press(actor: group, site: place) "Tell her the Warrant covers what masks may not see, and the Wall is one" {
+    Speaker pavane.
+    Requires able(actor) and company(actor) and at(actor, site) and at(pavane, site) and warrantLive() and not mk_warranted(actor) and not mk_pavane_trust(actor) and not mk_guiding(pavane) and not named(pavane).
+    Time 5 minutes.
+    Resolve check(actor, intimidation, dc_fair).
+    On success { Assert mk_warranted(actor). Assert mk_pavane_cold(actor). Increase heat(actor) by 1. Assert knows(actor, mk_wall_known). }
+    On failure { Increase heat(actor) by 1. }
+    Result "You say the seventy-first article, as Vail said it to you, and she listens to the end with her eyes on your forehead, like a woman weighing a block of clay she did not order. 'The law of the Concord says that the Wall is the Guild's,' she says. 'The law of the Stranger's Warrant says I am to show you what the Concord forbids. I have never in my life been so glad that it is somebody else's decision.' Not a word more will you get from her that is not about plaster, and a note will go to the Watch in the morning, and it will be polite.".
+    Otherwise "She hears the article out, and corrects your citation of it, and says that in sixty-two years the Warrant has been shown to her once, and it was in better handwriting. She rings the bell by the parlour door. A boy is sent to the Watch-house with a note, and you are left to find your own way out of a very civil silence.".
+  }
+  Action mk_p_wait(actor: group, site: place) "Stand in the rain before Madame Pavane's door until she comes down" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, maskers_lane) and privateHours() and hour(clock) >= 20 and hour(clock) < 23 and not masked(actor) and not mk_waited(actor) and not mk_pavane_trust(actor) and not named(pavane).
+    Time 60 minutes.
+    On success { Assert mk_waited(actor). Assert mk_pavane_trust(actor). Assert knows(actor, mk_wall_known). }
+    Result "You do not knock. You stand on the step with the rain running off your hair into your collar, in the lamp from the sill, and the hour goes by as an hour does when it is being watched: the Chapel strikes it, a long way off, across water. The door opens the width of a face. 'People who knock three times are the Watch, or in love,' says Madame Pavane. 'People who stand are neither. Come in, before you ruin my step.' In the parlour she gives you a towel without comment and the cup by the stove without being asked, and says, in a different voice, that the Wall may be shown to people who have been rained on.".
+  }
+
+  // ── What she tells the company she trusts ─────────────────────────────────────────────────────────────────────────
+  Topic mk_p_niche with pavane "Ask her why there is nothing on the Wall where THE FITTER should be" when not masked(actor) and (mk_pavane_moved(actor) or mk_drowned_pavane(actor)) and knows(actor, mk_empty_niche) and not knows(actor, mk_pavane_was_bare) once {
+    Says "'Because I came down the delta road at twenty-two,' says Madame Pavane. 'The Wall takes a face at sixteen. I was sixteen in another country, where nobody had thought of it.' She turns the empty cup. 'I stood at the Gate of Strangers nine days with my hands in my sleeves. On the ninth the Concord offered me a face, and I took it, and was a Fitter's girl by the spring. I have cut every Office's mask since. I have never been cast. I never asked. Who would I have asked?'".
+    On discuss { Assert knows(actor, mk_pavane_was_bare). }
+  }
+  Topic mk_p_name with pavane "Ask Madame Pavane what she wants you to do with what she has said" when not masked(actor) and knows(actor, mk_pavane_was_bare) and not knows(actor, mk_pavane_name) once {
+    Says "She looks at your bare face with an exactness that is almost tenderness. 'My name is Sabine Orrell. If you say it in a square you have ruined a woman; I am not asking you not to. I am telling you because you are the one person I know who is not bound to hold your tongue, and I should like, once, to be a person to someone who might.' She picks up the cup, and finds it empty, and holds it anyway. 'That is all. It is a great deal more than I meant to give.'".
+    On discuss { Assert knows(actor, mk_pavane_name). Assert mk_pavane_told(actor). }
+  }
+  Topic mk_p_told with pavane "Ask Madame Pavane how she is, now that she has said what she has said" when not masked(actor) and privateHours() and mk_pavane_told(actor) once {
+    Says "'Lighter,' she says, after considering it as she would the weight of a mask. 'And frightened, which is new. A secret is a very good cloak, Bare, and I have walked about in mine for so long that I have forgotten what the weather was.' She pours. 'You will not forget that you know. I should like you to know that I know you will not.'".
+  }
+  Topic mk_p_knew with pavane "Ask the Fitter whether she has ever noticed whose faces the Offices are cut to" when not masked(actor) and privateHours() and mk_pavane_moved(actor) and not knows(actor, mk_pavane_knows_lie) once {
+    Says "'Noticed.' She laughs, shortly. 'I cut the Treasurer's mask each spring to a face from the Menders' shelf. And the Warden's, and the Assessor's, and the Serene's: thirty-one years of them. I am a Fitter, Bare; I know every face in this city better than its mother does. I have never once cut an Office to a gambler or a thief or a fool.' She looks at the stove. 'I thought it was the best thing the city did. I still think so. Do not tell me otherwise tonight. I have been polite for a very long time.'".
+    On discuss { Assert knows(actor, mk_pavane_knows_lie). }
+  }
+  Action mk_p_cast_her(actor: group, site: place) "Offer to take the Fitter's own cast, for the empty niche on her Wall" {
+    Speaker pavane.
+    Requires able(actor) and company(actor) and at(actor, site) and at(pavane, site) and not masked(actor) and knows(actor, mk_pavane_was_bare) and not mk_cast_pavane(actor) and not named(pavane).
+    Time 2.
+    Resolve check(actor, mending, dc_fair).
+    On success { Assert mk_cast_pavane(actor). Assert mk_pavane_trust(actor). Assert mk_free_fit(actor). Give mk_fitters_picks to actor. }
+    Result "She sits in her own chair, which she has not done in thirty-nine years, with the straws in her nose and the oiled cloth at her hairline, and says in a small voice that it is the oddest thing, to be on the other side of one's own hands. Yours are not hers. But you have watched; you rub the plaster up to the right warmth, and lay it as lightly as breath, and you wait. It comes away with a small wet sound. She holds her own face up to the lamp, and says nothing for so long that the stove ticks twice. Then she takes a ring of little steel picks from her apron, and puts it in your hand, and shuts your fingers on it. 'I shall want it back,' she says, 'when you have stopped being a stranger.' She will put it on the Wall tomorrow. Tonight she wants it here.".
+    Otherwise "The plaster goes on too warm and sets crooked, and when you lift it, it takes a tuft of her hair and half her eyebrow with it. She says nothing at all, with great dignity, until you are both laughing, which is a thing neither of you expected to do tonight. 'Again,' she says. 'Not tonight. I have no more eyebrow.'".
+  }
+  Action mk_p_veil(actor: group, site: place) "Ask Madame Pavane to lift the black cloth from the last face on the shelf of Lamps" {
+    Speaker pavane.
+    Requires able(actor) and company(actor) and at(actor, cast_cellar) and at(pavane, cast_cellar) and at(actor, site) and not knows(actor, marrick_was_treasurer) and not mk_veil_refused(actor) and not mk_cast_pavane(actor).
+    Time 3.
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert knows(actor, marrick_was_treasurer). Assert mk_pavane_told(actor). }
+    On failure { Assert mk_veil_refused(actor). }
+    Result "She is a long time at it, with the cloth between finger and thumb. 'Nineteen,' she says. 'Lamps. My master cut her Treasurer on a morning like this one, in the second week of the Rains, and I held the bowl, and she cried through the whole of the fitting, and I, God forgive me, told her to hold still.' She folds the cloth, and lays it on the shelf, and the plate under it says T for the Sluice year, and then, in the same hand, R. 'The Registrar is dead. I know it as a Fitter knows it: the cloth goes on when a mask comes back to me with nobody in it. I have not said so to a living soul, because it is not mine to say.' She looks at you. 'Do not make me sorry.'".
+    Otherwise "'No.' She does not raise her voice. 'There are cloths on a Fitter's Wall that are not to be lifted by a stranger, and that one is the first of them.' She stands between you and the shelf, and the lamp swings very slightly on its hook, as though something had passed.".
+  }
+  Action mk_p_veil_free(actor: group, site: place) "Ask Madame Pavane, whose face you have cast, to lift the black cloth" {
+    Speaker pavane.
+    Requires able(actor) and company(actor) and at(actor, cast_cellar) and at(pavane, cast_cellar) and at(actor, site) and not knows(actor, marrick_was_treasurer) and mk_cast_pavane(actor).
+    Time 3.
+    On success { Assert knows(actor, marrick_was_treasurer). Assert mk_pavane_told(actor). }
+    Result "She lifts it before you have finished asking. 'Nineteen,' she says. 'Lamps. My master cut her Treasurer on a morning like this one, in the second week of the Rains, and I held the bowl, and she cried through the whole of it, and I told her to hold still.' She lays the cloth on the shelf. The plate under it says T for the Sluice year, and then R. 'I have been wanting to say that to someone for nine days,' says Madame Pavane. 'There was no one it was safe to say it to.'".
+  }
+  // Lifted by hand, with or without her leave: with the Fitter by it is a rudeness she remembers; alone it costs nothing.
+  Action mk_lift_veil(actor: group, site: place) "Lift the black cloth from the last face on the shelf of Lamps" {
+    Requires able(actor) and company(actor) and at(actor, cast_cellar) and at(actor, site) and not knows(actor, marrick_was_treasurer) and not at(pavane, cast_cellar).
+    Time 2.
+    On success { Assert knows(actor, marrick_was_treasurer). }
+    Result "The wool comes away in your fingers with a faint pull of the pin. Under it is a girl's face in plaster, plain, a lamp-trimmer's jaw, and the plate says Y. MARRICK, and the second chalk says T for the year of the Sluice, and under that R. It is the same R as on the Registrar's seal. The cloth is the kind a house puts over its mirrors when somebody has died.".
+  }
+  Action mk_lift_veil_rude(actor: group, site: place) "Lift the black cloth yourself, with the Fitter standing by" {
+    Requires able(actor) and company(actor) and at(actor, cast_cellar) and at(actor, site) and at(pavane, cast_cellar) and mk_veil_refused(actor) and not knows(actor, marrick_was_treasurer).
+    Time 1 minute.
+    On success { Assert knows(actor, marrick_was_treasurer). Retract mk_pavane_trust(actor). Assert mk_pavane_cold(actor). Increase heat(actor) by 1. Assert at(actor, pavane_parlour). Retract mk_guiding(pavane). Assert at(pavane, pavane_parlour). }
+    Result "You lift it. She does not stop you; she watches you do it, with an expression you will remember: not anger, but the look of a woman who has been right about a person. Under the wool is a girl's face, and the plate, and T, and R. Then she takes you by the elbow, perfectly politely, up the stair and out of her parlour, and the cellar door shuts behind you with a very small sound, and a note will go to the Watch in the morning.".
+  }
+
+  // The Fit. A sitter whose Office mask is in hand may have it cut to their face; the Fitter's are good fits with no tell.
+  Action mk_p_fit(actor: group, mask: face, site: place) "Ask the Fitter to Fit {mask} to your face, twenty-five coin" {
+    Speaker pavane.
+    Requires able(actor) and company(actor) and at(actor, site) and at(pavane, site) and castTaken(actor) and holdsFace(actor, mask) and not rentable(mask) and distinct(mask, face_white) and not fitted(actor, mask) and quantity(actor, gold) >= 25 and not named(pavane).
+    Time 90 minutes.
+    On success { Decrease quantity(actor, gold) by 25. Increase quantity(pavane, gold) by 25. Assert fitted(actor, mask). }
+    Result "She works with the mask on her knee and your cast on the table beside it, and shaves a hair from here and a hair from there, and bends the eyeholes a thought toward the face that is going to have to look out of them, and does not say what she is doing, or whose face it was cut for, or what she thinks of someone who would come to her with this. When it goes on, it sits like a hand. 'There,' she says. 'It has no tell. That is the other thing I am for.'".
+  }
+  Action mk_p_fit_free(actor: group, mask: face, site: place) "Ask the Fitter, whose face you cast, to Fit {mask} to you for nothing" {
+    Speaker pavane.
+    Requires able(actor) and company(actor) and at(actor, site) and at(pavane, site) and castTaken(actor) and mk_free_fit(actor) and holdsFace(actor, mask) and not rentable(mask) and distinct(mask, face_white) and not fitted(actor, mask) and not named(pavane).
+    Time 90 minutes.
+    On success { Retract mk_free_fit(actor). Assert fitted(actor, mask). }
+    Result "She does not take a coin. She works with her lip between her teeth and the mask on her knee, and when it goes on and sits like a hand she says, without looking up, 'There. Do not tell anyone I did it for nothing. They will think I have gone soft, and the Guild will want to charge more.'".
+  }
+
+  // ── Dov Ashe, and the mask that fits nobody ───────────────────────────────────────────────────────────────────────
+  // Sixteen, brilliant, ashamed. His journeyman's piece is judged by the Guild on the ninth afternoon: a mask cut from a
+  // cast of the Fitter's choosing, which must fit the face it was cut for. She told him to take a face nobody would miss;
+  // he took the last on the shelf of the Drowned, a man pulled from the Cuff in the Sluice year and never claimed, and
+  // not on the Wall's other shelves, because he was a stranger. The mask is the best Dov has made. It falls off every
+  // face in Ombra, and sits on the Bare: a face for somebody who has no one to claim him.
+  Person dov "Dov Ashe" at fitting_room {
+    Role "the Fitter's apprentice". Ancestry human. Pronouns he. Manner compassionate.
+    Known as "a boy in an apprentice's half-mask, with a broom" when publicHours() and not knows(party, mk_dov_name).
+    Known as "a boy in an oilcloth cape with plaster in his hair" when privateHours() and not knows(party, mk_dov_name).
+    Greets "A boy of sixteen starts like a hare and puts both hands behind him, though there is nothing in them but a broom. 'I wasn't,' he says. 'I'm not meant to — I sweep.' He holds the broom across himself the way a Second holds a sword, and looks at you with the particular dread of the very young who have done one thing wrong and think it is written on them.".
+    Greets again "Dov looks up, and down again, and goes on sweeping a patch of floor that is already clean.".
+  }
+  Initially Assert unmaskTeaches(dov, mk_dov_name).
+  Discovery mk_dov_name "The Fitter's apprentice is Dov Ashe, sixteen, a lamp-trimmer's son from the Drip, whose mother takes in sheets for the Guild and owes the Rain-Wives' burial club for his father.".
+  Discovery mk_dov_hiding "On the Maskers' roofs after the Ninth Bell the Fitter's apprentice sits in the rain with something wrapped in oilcloth in his arms, which he holds as one holds a child.".
+  Discovery mk_dov_story "Dov Ashe's journeyman's piece, to be judged by the Guild on the ninth afternoon, is a mask cut from the last nameless face on the Wall's shelf of the Drowned: a stranger pulled from the Cuff in the Sluice year and never claimed. It is the best mask he has made, and it falls off every face he has tried.".
+  Discovery mk_mask_fits_bare "Dov's mask, cut from a drowned stranger who had nobody, falls off every face in Ombra and sits on yours: it fits only someone who has no one to claim them, a Bare.".
+  Discovery mk_maule_makes "The Annex's faces are cut by the gross by Maule of the Cockle and Heron in Maskers' Lane; the Offices' faces are the Fitter's, and she does not say how she cuts them.".
+  Discovery mk_maule_offer "Maule, the rival maskmaker, would take on Dov Ashe if the Fitter turned him out.".
+
+  Relation mk_dov_holds(group). Relation mk_dov_showed(group). Relation mk_dov_trusts(group). Relation mk_dov_proud(group).
+  Relation mk_dov_spooked(group). Relation mk_dov_free(group). Relation mk_dov_keeps(group). Relation mk_dov_will_show(group).
+  Relation mk_dov_wont(group). Relation mk_dov_journeyman(group). Relation mk_dov_judged(group). Relation mk_dov_dismissed(group).
+  Relation mk_maule_took_dov(group). Relation mk_maule_has(group). Relation mk_crude_fit(group, face). Relation mk_watch_asked(group).
+  Relation mk_drowned_burned(group). Relation mk_drowned_buried(group). Relation mk_drowned_pavane(group). Relation mk_peck_claimed(group).
+  Relation mk_freed(group). Measure mk_hold(group).
+  Initially Assert mk_dov_holds(dov).
+
+  Entity mk_face_drowned: face "the Drowned Face, a made face that fits nobody".
+  Kind mk_drowned_mask_kind "the mask that fits nobody" is gear worth 0 weighing 1 described "A half-mask of grey-white plaster-board, so lightly made that it gives to the thumb, with the broad, lined, patient face of a man of forty: a nose that was set badly once, a mouth that has just stopped saying something, and eyes shut on a long thought. It is the best mask in Maskers' Lane. It is also the only one that has been refused by every face in the city.".
+  Item mk_drowned_mask "the mask that fits nobody" is mk_drowned_mask_kind at offstage.
+  Kind mk_fitters_picks_kind "the Fitter's picks" is gear worth 6 weighing 1 granting lockwork described "A ring of seven steel picks no longer than a finger, worn bright at the shank by thirty-nine years of one hand. Each has a bit of different shape, and a hair of plaster in the cleft of it. The Fitter's own, for the cellar lock she cannot lose the key of.".
+  Item mk_fitters_picks "the Fitter's picks" is mk_fitters_picks_kind at offstage.
+
+  Rule mk_dov_day when hour(clock) >= 8 and hour(clock) < 20 and not mk_dov_dismissed(party) and not at(dov, fitting_room) { Assert at(dov, fitting_room). }
+  Rule mk_dov_roof when hour(clock) >= 20 and hour(clock) < 24 and not mk_dov_spooked(dov) and not mk_dov_dismissed(party) and not at(dov, maskers_roof) { Assert at(dov, maskers_roof). }
+  Rule mk_dov_bed when (hour(clock) < 8 or ((hour(clock) >= 20) and mk_dov_spooked(dov))) and not at(dov, offstage) { Assert at(dov, offstage). }
+  Rule mk_dov_out when mk_dov_dismissed(party) and not mk_maule_took_dov(party) and hour(clock) >= 8 and not at(dov, maskers_lane) { Assert at(dov, maskers_lane). }
+  Rule mk_dov_at_maule when mk_maule_took_dov(party) and hour(clock) >= 8 and hour(clock) < 20 and not at(dov, mask_shop_floor) { Assert at(dov, mask_shop_floor). }
+  Rule mk_dov_calms when mk_dov_spooked(dov) and hour(clock) >= 8 and hour(clock) < 20 { Retract mk_dov_spooked(dov). }
+
+  Topic mk_dov_day with dov "Ask the apprentice about the plaster" when masked(actor) and publicHours() and not mk_dov_dismissed(actor) {
+    Says "'Mistress says an apprentice is a pair of hands,' says the boy, in the flat voice of a catechism, 'and hands have nothing to say by day.' His eyes, under the half-mask, go for an instant to the ceiling, and the roof that is over it, and come down again.".
+  }
+  Topic mk_dov_bare with dov "Say good day to the apprentice" when not masked(actor) and publicHours() and not mk_dov_dismissed(actor) {
+    Says "The broom does not break its rhythm. A bare face is not a person, and the boy has been well taught: he addresses the floor. 'We are not at home to the Bare. The chair is through there, if it is a face you want.' Then, lower, and not to the floor: 'It is a good deal easier by dark.'".
+  }
+  Topic mk_dov_hello with dov "Say you only came up for the air" when not masked(actor) and at(dov, maskers_roof) once {
+    Says "'The air.' He almost laughs. 'It is raining. It is always raining. Nobody comes up for the air.' He looks at your bare face, and the fear goes out of his shoulders and something sadder comes in: it is the look of someone who has been waiting for the Watch, and got a stranger. 'You're the Bare. Everyone knows. I'm Dov.' He tells you his name as one gives away a coin that is no good to anyone. 'I sweep.' Under the oilcape, as he says it, something moves in his arms, and he holds it closer.".
+    On discuss { Assert knows(actor, mk_dov_name). Assert knows(actor, mk_dov_hiding). }
+  }
+  // The first check: a thing seen rather than a thing said; its failure sends him down the ladder for the night.
+  Action mk_dov_read(actor: group, site: place) "Tell Dov you do not think what he is holding is shameful; you think he loves it" {
+    Speaker dov.
+    Requires able(actor) and company(actor) and at(actor, site) and at(dov, site) and at(dov, maskers_roof) and not masked(actor) and knows(actor, mk_dov_hiding) and not mk_dov_showed(actor).
+    Time 10 minutes.
+    Resolve check(actor, insight, dc_fair).
+    On success { Assert mk_dov_showed(actor). Assert knows(actor, mk_dov_story). }
+    On failure { Assert mk_dov_spooked(dov). }
+    Result "He does not answer for so long that you think the rain has taken it. Then he unwraps the oilcloth with both hands, as one unwraps bread for a stranger, and it is a face: a man's face in pale plaster-board, forty, lined, shut-eyed, with a nose that was broken once and set badly, and a patience about the mouth that you would not have thought could be made. 'It's for the Guild,' he says. 'My piece. Judged the ninth afternoon. I cut it off the last cast on the Drowned shelf, the one with no name. Mistress said, take one nobody would miss.' He turns it to the lamp. 'It's the best I've made. It doesn't fit anyone.'".
+    Otherwise "'Loves it,' says Dov. 'It's a bad pour.' The wet cape goes tight round the thing in his arms. 'You don't know what I've got. Nobody's got anything on a roof.' He is gone down the ladder before you can say another word, and the slates are empty, and the lamp-light of the Drip is very far off across the Cuff.".
+  }
+  // The same door, by the long way: nothing asked, nothing weighed, an hour on a wet ridge.
+  Action mk_dov_sit(actor: group, site: place) "Sit by Dov on the ridge in the rain, and ask him nothing" {
+    Speaker dov.
+    Requires able(actor) and company(actor) and at(actor, site) and at(dov, site) and at(dov, maskers_roof) and not masked(actor) and knows(actor, mk_dov_hiding) and not mk_dov_showed(actor) and not mk_dov_spooked(dov).
+    Time 60 minutes.
+    On success { Assert mk_dov_showed(actor). Assert knows(actor, mk_dov_story). }
+    Result "You sit. The rain is the only thing speaking. After a long time, the first for which neither of you has looked at the other, the boy says: 'It's the dark that makes it all right. By day I can't.' Then he opens the oilcloth. It is a man's face in pale plaster-board, forty, lined, shut-eyed, with a nose that was set badly once and a patience about the mouth you did not think could be made. 'My piece. Judged the ninth afternoon, by the Guild. I cut it from the last cast on the Drowned shelf, the one with no name. Mistress said, take a face nobody would miss.' He does not look at you. 'It doesn't fit anyone.'".
+  }
+  Topic mk_dov_why with dov "Ask Dov why he has not put it in the ground" when mk_dov_showed(actor) and at(dov, maskers_roof) and mk_dov_holds(dov) once {
+    Says "'It's the best I've made.' He says it like a confession. 'And the Guild buries nobody faceless, that's the law, so they give the poor drowned a face for the box, and I made him one, and it was never going in a box, because he wasn't a body any more, only a cast.' He looks at the mask. 'It falls off. Mine, Mistress's, the Gull's I borrowed. She said a mask that will not fit is a bad pour, and if I can't make one fit by the Guild's meeting I can't be journeyman, and I'm out on the Lane with my mother's rent. And I've tried to burn it four times. I get as far as the stove.'".
+  }
+  Action mk_dov_tryon(actor: group, site: place) "Ask Dov if you may try the mask on" {
+    Speaker dov.
+    Requires able(actor) and company(actor) and at(actor, site) and at(dov, site) and mk_dov_showed(actor) and mk_dov_holds(dov) and not knows(actor, mk_mask_fits_bare).
+    Time 2.
+    On success { Assert knows(actor, mk_mask_fits_bare). Assert mk_dov_trusts(actor). }
+    Result "'It won't,' says Dov. 'Nobody's.' But he gives it you. It goes on as a hand goes into a glove that has been left out for it; it has no ribbon and needs none; it sits on your cheekbones, and for a moment you are very old, and extremely patient, and cold. Then you take it off and are yourself. Dov is staring at you. 'It stayed,' he says. 'It stayed on.' He sits down on the wet slates quite suddenly, and puts the heel of his hand to his eye. 'I thought it was me,' he says. 'I thought it was my hands.'".
+  }
+  // The second check: the lore, which is that a Fit is only a promise to someone, and this one's promise had no one to be made to.
+  Action mk_dov_lore(actor: group, site: place) "Tell Dov it is not a bad pour: a mask cut for somebody who had no one will fit only someone with no one" {
+    Speaker dov.
+    Requires able(actor) and company(actor) and at(actor, site) and at(dov, site) and knows(actor, mk_mask_fits_bare) and not mk_dov_proud(actor) and at(dov, maskers_roof).
+    Time 10 minutes.
+    Resolve check(actor, lore, dc_fair).
+    On success { Assert mk_dov_proud(actor). }
+    Result "You say it as the Fitter might have, that a mask is a promise and a Fit is the promise kept: that this was a promise made to a man with nobody to make it to, and that the only faces in Ombra with nobody to keep it for are the Bare's, and that therefore it is not a bad mask, it is an exact one; it is the most exact thing in Maskers' Lane. Dov listens with his mouth a little open. 'An exact one,' he says. 'It fits what it was for.' It is the first time you have heard him sound like a man of sixteen who was proud of his work.".
+    Otherwise "You say something kind, and complicated, and not quite true; and Dov hears the kindness, and not the rest. 'You're being good to me,' he says, with a flat despair. 'It's all right. It's very good of you.' He looks at the mask in his lap as if it had been a dog he was going to have to put down.".
+  }
+  // The third: that he should carry it to her himself. If he does, he has made the thing she will judge; if not, someone else will.
+  Action mk_dov_push(actor: group, site: place) "Ask Dov to take it to Madame Pavane himself in the morning, and tell her what it is" {
+    Speaker dov.
+    Requires able(actor) and company(actor) and at(actor, site) and at(dov, site) and at(dov, maskers_roof) and mk_dov_proud(actor) and mk_dov_holds(dov) and not mk_dov_will_show(actor) and not mk_dov_wont(actor).
+    Time 10 minutes.
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert mk_dov_will_show(actor). }
+    On failure { Assert mk_dov_wont(actor). }
+    Result "He is afraid of her as only the very young can be afraid of someone who has been kind in the wrong way, and you tell him so, which is not what he expected. 'You made it,' you say. 'Nobody else. If it is judged, it ought to be judged by someone who knows whose hands.' He is quiet for the length of a chimney's smoke. 'In the morning,' he says. 'Before the shop opens. If I wait until I'm brave I'll never.' He wraps the mask again, very tenderly, and tucks it back in his cape.".
+    Otherwise "'I can't,' he says, at once, as if the word had been waiting. 'You don't know her. She'd look at it, and at me, and say it is very fine.' He turns the oilcloth over his knees. 'Don't. Please. If you want to do it, you do it. I'll not be asked.'".
+  }
+  Topic mk_dov_lend with dov "Ask Dov to let you take the mask, and decide what is to be done" when mk_dov_trusts(actor) and mk_dov_holds(dov) and not mk_dov_will_show(actor) once {
+    Says "'Do what you think,' he says, quite quietly, and holds it out in both hands. 'Not burn it. No. Or. I don't know. I can't think about it any more, and you've had it on, and it didn't fall.' He lets go of it as of a rope. 'If it's burned there's nobody who'll ever know he was. That's all. I'm not saying. Do what's right.'".
+    On discuss { Give mk_drowned_mask to actor. Retract mk_dov_holds(dov). Assert holdsFace(actor, mk_face_drowned). }
+  }
+  Topic mk_dov_burn with dov "Tell Dov to burn it, as he meant to" when mk_dov_trusts(actor) and mk_dov_holds(dov) and not mk_dov_will_show(actor) once {
+    Grave "A burned mask is a burned mask: nothing of the man it was made from will be left but a plate with a question mark on it.".
+    Says "He nods, and takes it down the ladder, and you hear the stove door in the mask-shop below, and a long time after, nothing. When he comes back up his hands smell of size and his face is wet and, you notice, perfectly easy. 'Thank you,' he says. 'I couldn't ask anyone to say it.' He does not say what the piece will be, on the ninth afternoon. He sits down on the ridge and watches the lamps of the Drip, and for the first time since you met him he is not holding anything.".
+    On discuss { Retract mk_dov_holds(dov). Assert mk_drowned_burned(actor). Assert mk_dov_free(actor). }
+  }
+  Topic mk_dov_keep with dov "Tell Dov to keep it, and stop being ashamed of it" when mk_dov_trusts(actor) and mk_dov_holds(dov) and not mk_dov_will_show(actor) and mk_dov_proud(actor) once {
+    Says "He looks at you as at someone who has told him that his own hands are his own. 'Keep it,' he says. 'Like a. Like a thing you made.' He puts it back under the oilcape. 'I'll take it to the Guild, then. Whatever it is, at least it'll be mine.' He sits taller on the ridge, for the first time since you came.".
+    On discuss { Assert mk_dov_keeps(actor). Assert mk_dov_free(actor). Assert mk_dov_will_show(actor). }
+  }
+  Topic mk_dov_cut with dov "Ask Dov to cut the mask off your face" when mk_clinging(actor) and mk_dov_trusts(actor) once {
+    Says "He is up the ridge in two bounds, with a little knife out of his apron, and his hands, which were shaking, are perfectly steady. 'Hold still,' he says. 'It isn't the glue. It's never the glue.' He puts the point under the edge, at the brow, and says very gently, to the mask, not to you: 'It's all right. You can let go. You aren't owed.' It comes away in his palm. You do not remember, afterwards, what you were saying to the Hospice. It was a great deal.".
+    On discuss { Assert mk_freed(actor). Set mk_hold(actor) to 0. Retract masked(actor). Retract wears(actor, mk_face_drowned). }
+  }
+  Topic mk_dov_cold with dov "Ask the boy in the lane what has happened" when mk_dov_dismissed(actor) and not mk_maule_took_dov(actor) {
+    Says "He is sitting on the Fitter's step with his things in a pillowcase, not crying; the rain does that for him. 'Mistress says I used the key,' he says. 'I did. I mean. Somebody did.' He looks at his hands. 'It doesn't matter whose. A boy turned out of a Fitter's house is not taken by anyone in the Guild, they say, because who knows what he did. I'll go back to the Drip. My mother takes in sheets.'".
+  }
+  Topic mk_dov_hask with dov "Ask Dov if he has been to the Cockle and Heron" when mk_dov_dismissed(actor) and (knows(actor, mk_maule_offer) or mk_dov_hask_sent(actor)) and not mk_maule_took_dov(actor) once {
+    Says "'Maule?' He looks up as though you had named a country. 'He sells by the gross. He says a mask is an egg. He says —' He stops. 'He said once I had good hands. When I took him a message. He said it to the wall, but I heard.' He picks up the pillowcase. 'I suppose a man can only say no.'".
+    On discuss { Assert mk_dov_hask_sent(actor). }
+  }
+  Relation mk_dov_hask_sent(group).
+  Query mk_clinging(a: group) means mk_hold(a) >= 3 and not mk_freed(a) and holdsFace(a, mk_face_drowned).
+  // Whoever has said it was to be shown to the Fitter: in the morning the apprentice does it himself, unasked.
+  Rule mk_dov_shows_moved when mk_dov_will_show(party) and not mk_dov_keeps(party) and mk_pavane_moved(party) and hour(clock) >= 8 and hour(clock) < 12 and not mk_drowned_pavane(party) once says "In the fitting-room, at nine, a boy with plaster in his hair puts an oilcloth bundle on the Fitter's table and says something that nobody in the lane can hear. The Fitter listens to the end. She tries the mask on, and it falls off her. She looks at it for a long time, and at him, and then, quite quietly, she says a word, and he drops his broom, and she does not tell him to pick it up." {
+    Assert mk_drowned_pavane(party). Assert mk_dov_journeyman(party). Assert mk_dov_free(party). Retract mk_dov_holds(dov). }
+  Rule mk_dov_shows_cold when mk_dov_will_show(party) and not mk_dov_keeps(party) and not mk_pavane_moved(party) and hour(clock) >= 8 and hour(clock) < 12 and not mk_drowned_pavane(party) once says "In the fitting-room, at nine, a boy with plaster in his hair puts an oilcloth bundle on the Fitter's table and says something in a rush. She hears him out with her knife in her hand. She tries the mask on, and it falls off her; she turns it in the light, and says it is the best mask the Guild has had in ten years and a very bad Fit, and that a bad Fit made on purpose is the difference between a journeyman and a boy. He does not know which of those it is. He will know on the ninth afternoon." {
+    Assert mk_drowned_pavane(party). Assert mk_dov_free(party). Retract mk_dov_holds(dov). }
+  // Left alone: judged on the ninth afternoon.
+  Rule mk_dov_judged_out when day(clock) == 9 and hour(clock) >= 14 and not mk_dov_journeyman(party) and not mk_dov_judged(dov) and not mk_dov_keeps(party) and not mk_drowned_pavane(party) and not mk_dov_dismissed(party) once says "The Guild of Maskers has sat on the ninth afternoon, and the Fitter's apprentice's piece was not before it. He has been told by the Fitter, in her kindest voice, that a boy who cannot make a mask fit is not a journeyman at Candlemas, and that she is sorry." {
+    Assert mk_dov_judged(dov). Assert mk_dov_dismissed(party). }
+  Rule mk_dov_judged_vouched when day(clock) == 9 and hour(clock) >= 14 and mk_drowned_pavane(party) and not mk_dov_journeyman(party) and not mk_dov_judged(dov) once says "The Guild of Maskers has sat on the ninth afternoon. The Fitter put a mask that fits nobody on the table before it, with a boy of sixteen standing behind her chair, and said that it was a bad Fit made on purpose, and the best mask in the Lane in ten years, and that she would be obliged if the Guild would not make her say it twice. The Guild did not." {
+    Assert mk_dov_judged(dov). Assert mk_dov_journeyman(party). }
+  Rule mk_dov_judged_in when day(clock) == 9 and hour(clock) >= 14 and mk_dov_keeps(party) and not mk_dov_journeyman(party) and not mk_dov_judged(dov) once says "The Guild of Maskers has sat on the ninth afternoon. A boy of sixteen has put before it a mask that fits nobody, and said, steadily, what it is. The Fitter was seen to look at her hands. What the Guild decided is not known, but the Fitter has sent for the stationer, and a card in the Guild's best hand is to be made." {
+    Assert mk_dov_judged(dov). Assert mk_dov_journeyman(party). }
+
+  // ── Giving the mask a place ───────────────────────────────────────────────────────────────────────────────────────
+  Action mk_give_pavane(actor: group, site: place) "Put the mask that fits nobody in Madame Pavane's hands" {
+    Speaker pavane.
+    Requires able(actor) and company(actor) and at(actor, site) and at(pavane, site) and carries(actor, mk_drowned_mask) and not mk_clinging(actor) and not named(pavane).
+    Time 5 minutes.
+    On success { Spend mk_drowned_mask from actor. Retract holdsFace(actor, mk_face_drowned). Retract wears(actor, mk_face_drowned). Assert mk_drowned_pavane(actor). Assert mk_pavane_trust(actor). Assert mk_dov_journeyman(actor). Assert mk_dov_free(actor). }
+    Result "She takes it in both hands, without a word, as one takes a bowl that is too full. She tries it on, and it falls off her, and she catches it, and turns it to the lamp; and the long, bitter vanity of a woman who has wanted for forty years to be told what she was good at stirs and finds it has been told by a boy of sixteen. 'It is not a bad pour,' she says, after a time. 'It is the best mask in the Guild. It fits nobody, because the man it was cut for belonged to nobody, and Dov, God help him, knew that and could not say it.' She sets it on the stand beside her unfinished one, where there is a second face in the room. 'Tell him he is journeyman. No. I shall tell him. Tell him to come and be told.'".
+  }
+  Topic mk_peck_mask with peck "Show Peck the mask that fits nobody" when carries(actor, mk_drowned_mask) and not mk_clinging(actor) and not mk_peck_claimed(actor) once {
+    Says "He takes it, as a man who has not held a face in his hands for thirty-one years takes it, and looks at the closed eyes. 'Six hundred and eleven,' says Absalom Peck. 'The Serene signs the burial paper. I signed them all, in the white-and-gold, with the whole gallery looking, and they were all of them somebody's, but the last. NOT KNOWN, I wrote. In my own hand. It was the only one I wrote slowly.' He sets it on the blanket on his knees, and puts his palm over the brow. 'He was somebody's,' he says. 'He was a man in the Cuff in the rains and he was somebody's, and I wrote that he was not. I claim him. I'm nothing to claim him with: but I claim him. Tibb will give me a nail.'".
+    On discuss { Give mk_drowned_mask to peck. Retract holdsFace(actor, mk_face_drowned). Retract wears(actor, mk_face_drowned). Assert mk_peck_claimed(actor). Assert mk_dov_free(actor). }
+  }
+  Action mk_bury_mask(actor: group, site: place) "Sink the mask in the Cuff, where the man it was cut from came out of it" {
+    Grave "The mask will not come back from the Cuff, and neither will the one the Mage's Collegium might have made of it.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, row_quay) and carries(actor, mk_drowned_mask) and not mk_clinging(actor).
+    Time 20 minutes.
+    On success { Spend mk_drowned_mask from actor. Retract holdsFace(actor, mk_face_drowned). Retract wears(actor, mk_face_drowned). Assert mk_drowned_buried(actor). Assert mk_dov_free(actor). }
+    Result "You wade out to the end of the quay-stones where the Cuff runs brown and quick, and you hold it under, and it takes a moment, because the plaster-board is lighter than water and does not want to go. Then it goes, face up, with its eyes shut, the way a man goes who has stopped arguing, and the current takes it down toward the low islands, past the places where six hundred others went. The water closes on it with a very small sound. There is nobody else on the quay.".
+  }
+
+  // ── Wearing it ────────────────────────────────────────────────────────────────────────────────────────────────────
+  // A face the Bare may wear, and the dead man's own: those who lost kin in the Sluice speak to it as to their dead.
+  // Each such talk is power and it is a cost: the third will not come off, until a hand that made it takes it off.
+  Topic mk_peck_grief with peck "Let Peck see the face you are wearing, and say nothing" when wears(actor, mk_face_drowned) and not mk_peck_claimed(actor) once {
+    Says "Peck puts down his cup. He looks at the closed eyes of the face for a long while, and his own face does something it has not done in a long time. 'I told them to put you under the stair,' he says to it. 'Not you. All of you. I told them it was the Concord's business and none of mine. I stood in the gallery in the white-and-gold, and I let them say it was me.' He is crying without any noise. 'I thought if I took the blame it would keep the six hundred. It didn't. It only kept the one.' You say nothing. You find that your mouth has made a shape that is not yours, and that it has forgiven him.".
+    On discuss { Increase mk_hold(actor) by 1. Increase goodwill(mk_face_drowned) by 1. Assert knows(actor, mk_peck_gave). }
+  }
+  Discovery mk_peck_gave "Absalom Peck spoke to the Drowned Face as to the six hundred of the Sluice year, and said he let the blame be his so that it would keep them; it kept only the one.".
+  Topic mk_tibb_grief with tibb "Let Mother Tibb see the face you are wearing" when wears(actor, mk_face_drowned) once {
+    Says "'Oh,' says Mother Tibb, quite quietly, and sits down on a sack. 'There you are.' She looks at the broad shut face with the old, dry, unillusioned fondness she keeps for guests who have stayed longer than the rule. 'Nine beds. Ten of you came that week. I let the tenth sleep in the doorway, for the one night, I thought, the tenth. And the water came up the doorway.' She wipes her hands down her apron. 'I've given the Gate nine days for forty years since, and not one of you in the door.' She looks up. 'Go on. Eat something.'".
+    On discuss { Increase mk_hold(actor) by 1. Increase goodwill(mk_face_drowned) by 1. Assert knows(actor, mk_tibb_tenth). }
+  }
+  Discovery mk_tibb_tenth "Mother Tibb let the tenth Bare of the Sluice year sleep in the Hospice doorway when the nine beds were full; the water came up the doorway; he is the drowned stranger whose mask fits only the Bare.".
+  Topic mk_pallet_grief with rainmother "Let the Rain-Wife see the face you are wearing" when wears(actor, mk_face_drowned) once {
+    Says "She comes out from behind the table with her hands already out, and stops a hand's breadth from you. 'Tam?' says Goody Pallet. Then: 'No. He had a mole.' She does not cry; the Rain-Wives do not. She takes your hands anyway and holds them. 'Mine was one of the six hundred,' she says. 'The burial club paid for a box and not a face. You wear a face that was in the Cuff and somebody's.' She presses coin into your palm, hard, four of it. 'Take it. For the ferry. Don't say no. I've no one else who'd have it.'".
+    On discuss { Increase mk_hold(actor) by 1. Increase goodwill(mk_face_drowned) by 1. Increase quantity(actor, gold) by 4. Assert knows(actor, mk_pallet_son). }
+  }
+  Discovery mk_pallet_son "Goody Pallet, a Rain-Wife, mistook the Drowned Face for her son, lost in the Sluice year; she paid the burial club's four coin into the company's hand for the ferry.".
+  Rule mk_hold_warns when mk_hold(party) == 2 and wears(party, mk_face_drowned) and not mk_clinging(party) once says "You have begun to lose the edges of what you meant to say. When the Rain-Wife spoke, you answered in a voice you did not choose; when you try to remember the Hospice, you find the face has put it away. The mask sits very comfortably now." { }
+  Rule mk_hold_clings when mk_clinging(party) and (not masked(party) or not wears(party, mk_face_drowned)) { Assert masked(party). Assert wears(party, mk_face_drowned). }
+  Rule mk_hold_says when mk_clinging(party) and wears(party, mk_face_drowned) and not mk_cling_said(party) once says "It does not come off. You take hold of the edge and it is not glued, or tied; it is simply a part of the face, and the face has forgotten it is a mask. By night, when everyone takes theirs off, it will be the only one in Ombra that does not. Someone who made it could take it off you." { Assert mk_cling_said(party). }
+  Relation mk_cling_said(group).
+  Topic mk_p_cut_off with pavane "Ask the Fitter to take the Drowned Face off you" when mk_clinging(actor) and not named(pavane) once {
+    Says "She looks at it for a long moment and then, to your surprise, laughs, a short dry bark. 'I told him it was a bad pour.' She takes a little saw and a spoon from the rack. 'Not the Fitter's; this was never mine. Hold your head.' She works for a quarter of an hour, saying very little, and when it comes away there is a line across your brow as thin as a hair. 'He will want it back,' she says. 'Do not give it. He will want it burned, or hidden. Neither is the right thing.'".
+    On discuss { Assert mk_freed(actor). Set mk_hold(actor) to 0. Retract masked(actor). Retract wears(actor, mk_face_drowned). }
+  }
+
+  // ── Maule, the Cockle and Heron ────────────────────────────────────────────────────────────────────────────────────
+  // The rival: cuts eight thousand faces a year by the gross, loose on a tape, for any head, and holds that a mask which
+  // fits one head is a mask that fits the wrong one when the head dies. He thinks the Wall a cellar, and the Fit a snobbery.
+  Person mk_maule "Jasper Maule" at mask_shop_floor {
+    Role "the master of the Cockle and Heron mask-shop". Ancestry dwarf. Pronouns he. Manner jovial.
+    Known as "a heavy-handed man in a Maker's half-mask up to the wrist in size" when publicHours() and not knows(party, mk_maule_name).
+    Known as "a heavy-handed man in a leather apron with glue on his beard" when privateHours() and not knows(party, mk_maule_name).
+    Greets "A broad man with a broad beard, up to the wrist in size, looks round without taking his hands out of it. 'Don't stand in the draught,' he says. 'It'll curl the cockles. Look about; I've two thousand on the beams, and every one will fit you, that is the point. Don't tell the Fitter. She believes a mask should be made for a face. I believe a face should be made for a mask. It's a difference of philosophy and about nine coin.'".
+    Greets again "'Still not buying,' says Maule, comfortably, to his glue.".
+  }
+  Discovery mk_maule_name "The master of the Cockle and Heron is Jasper Maule, a dwarf from the Weights Row side who thinks the Wall of Faces a cellar and the Fit a snobbery.".
+  Rule mk_maule_shop when hour(clock) >= 8 and hour(clock) < 20 and not at(mk_maule, mask_shop_floor) { Assert at(mk_maule, mask_shop_floor). }
+  Rule mk_maule_home when (hour(clock) >= 20 or hour(clock) < 8) and not at(mk_maule, offstage) { Assert at(mk_maule, offstage). }
+  Topic mk_maule_cold with mk_maule "Say good day to the master of the shop" when not masked(actor) and publicHours() {
+    Says "'We don't sell to the Bare,' says Maule, quite without malice, to his work. 'It's not me, it's the pegs. The Annex has the pegs; I make the faces for the pegs. Moll will let one out to you for three coin. It's a system.' He looks at you at last, briefly, and kindly, in the way a man looks at a dog that has not been told the rules. 'It's a good system. Everybody is somebody else, and nobody gets hurt.'".
+  }
+  Topic mk_maule_trade with mk_maule "Ask the master of the shop about his trade" when masked(actor) and publicHours() once {
+    Says "'Eight thousand a year,' says Maule, with a certain calm. 'Gull, Owl, Cockle, Heron, Magpie, Moth, Crow; cut loose on a tape, any head. A mask that fits one head fits the wrong one the day the head dies. Mine are nobody's, which is the whole art. She cuts to the face. I cut to the many.' He drags a thumb through the size. 'The Annex is all mine. You are wearing me. Do you feel it? You feel nothing. That is craft.'".
+    On discuss { Assert knows(actor, mk_maule_makes). }
+  }
+  Topic mk_maule_wall with mk_maule "Ask how an Office's mask is cut to a face" when masked(actor) and publicHours() and not knows(actor, mk_wall_known) once {
+    Says "'You don't cut it to a face you haven't got.' He gives you a look of considerable amusement. 'Under her house. Every face in Ombra, at sixteen, off the plaster: forty thousand and the dead ones, in rows, by trade. Every sitter in the Lane knows. Nobody says. It is called discretion in the Guild and I call it a cellar.' He wipes his hands. 'Don't tell her I said it. She thinks it is a secret, and I think it is a smell.'".
+    On discuss { Assert knows(actor, mk_wall_known). }
+  }
+  Topic mk_maule_dov with mk_maule "Ask the master of the shop what he thinks of the Fitter's apprentice" when masked(actor) and publicHours() and knows(actor, mk_dov_story) and not knows(actor, mk_maule_offer) once {
+    Says "'Dov.' The jovial face takes a moment to stop being jovial. 'He's wasted there. She has him sweeping a cellar and calls it training. Boy has the best hands in the Lane and I'd say so to her face if I had one that she'd see.' He pastes a Heron to a block. 'If she ever turned him out, I'd take him. I'd not say so to the Guild. I would say so to you, since you won't be asked.'".
+    On discuss { Assert knows(actor, mk_maule_offer). }
+  }
+  Topic mk_maule_take with mk_maule "Ask Maule to take on the boy the Fitter has turned out" when masked(actor) and publicHours() and mk_dov_dismissed(actor) and (knows(actor, mk_maule_offer) or mk_dov_hask_sent(actor)) and not mk_maule_took_dov(actor) once {
+    Says "He puts down the paste-brush. 'Turned out.' He looks at nothing for a time. 'For a key. Or for a mask. Whichever it was, she's wrong, and she knows she's wrong, and she'll never say.' He wipes his hands, slowly. 'Send him round at the Third Bell. I shall pretend I have been wanting an apprentice for years, and the Guild will pretend to believe it, and we shall all be very well bred.'".
+    On discuss { Assert mk_maule_took_dov(actor). }
+  }
+  // The Fitter's ledger is not private: a sitter's cast is a squeeze a coin, to anyone in the Lane who asks.
+  Rule mk_maule_buys when castTaken(party) and day(clock) >= 3 and hour(clock) >= 9 and not mk_pavane_trust(party) and not mk_maule_has(party) once says "In the Lane, at the Cockle and Heron, a master with glue to his elbows has a new plaster squeeze on his bench with a ticket under it. It has your nose." { Assert mk_maule_has(party). }
+  Topic mk_maule_squeeze with mk_maule "Say good day to the master of the shop, whose bench you have seen" when masked(actor) and publicHours() and mk_maule_has(actor) and not knows(actor, mk_maule_squeeze_known) once {
+    Says "'The nose,' says Maule, looking at the mask and through it with enormous benevolence. 'The Fitter sells her sitters at a coin the squeeze to anyone who asks, and I am anyone. Don't look at me so. It is perfectly legal, and it isn't nice.' He turns a cast of your face on the bench. 'I could cut you a Fit of an Office from this, for twelve coin. Rough. A bad Fit has a tell, and a good Fitter can spot it from across a room. But it would go on. That is what a bad Fit is for.'".
+    On discuss { Assert knows(actor, mk_maule_squeeze_known). }
+  }
+  Discovery mk_maule_squeeze_known "Maule of the Cockle and Heron has bought a squeeze of the company's face from the Fitter's ledger, and will cut a rough Fit of an Office mask from it for twelve coin; a Fitter would see its tell.".
+  Action mk_maule_fit(actor: group, mask: face, site: place) "Have Maule cut a rough Fit of {mask} from the squeeze of your face, twelve coin" {
+    Speaker mk_maule.
+    Requires able(actor) and company(actor) and at(actor, site) and at(mk_maule, site) and mk_maule_has(actor) and holdsFace(actor, mask) and not rentable(mask) and distinct(mask, face_white) and not fitted(actor, mask) and quantity(actor, gold) >= 12.
+    Time 60 minutes.
+    On success { Decrease quantity(actor, gold) by 12. Increase quantity(mk_maule, gold) by 12. Assert fitted(actor, mask). Assert mk_crude_fit(actor, mask). }
+    Result "He cuts it on the bench with a gouge, in a quarter of the time it would take the Fitter, humming, and sands the eyeholes with his thumb. It goes on and it holds, and it sits like a hand in a mitten: near enough to be a hand, and not near enough to be yours. 'It will not fool a Fitter,' says Maule, with perfect good humour. 'It will fool everyone else. Which is, as a rule, all of them.'".
+  }
+
+  // The Annex clerk knows only whose faces are on his pegs.
+  Topic mk_moll_faces with moll "Ask Moll who makes the faces on the pegs" when true once {
+    Says "'Maule.' He says it to the pegs. 'The Cockle and Heron, in the Lane, by the gross; every face on these pegs, and none of them, if you notice, quite straight. He says a mask should fit the many.' He pauses on the word, as on a stair. 'The Offices are not his. The Offices are the Fitter's, and the Fitter does not say where she gets her faces from. It is not rudeness. It is only a very old silence.'".
+    On discuss { Assert knows(actor, mk_maule_makes). }
+  }
+
+  // ── Consequences ──────────────────────────────────────────────────────────────────────────────────────────────────
+  // A cast left in the Fitter's hands is a face the Watch may ask for. When heat has begun, she gives them hers.
+  Rule mk_watch_asks when castTaken(party) and heat(party) >= 2 and day(clock) >= 3 and hour(clock) >= 9 and not mk_pavane_trust(party) and not mk_watch_asked(party) once says "Sergeant Vail's Watch has been to the Fitter, politely, and asked for the faces of the Bare it has begun to count. She is a woman who keeps to the law of the Lane. The squeeze of your face is in a Watch satchel now, and every Gull in the city has it described to them." { Assert mk_watch_asked(party). Increase heat(party) by 1. }
+  // A Naming is a door shut: the Fitter does not cast, fit or guide a company that has cried her name; the boy goes quiet.
+  Rule mk_pavane_named_says when named(pavane) once says "By dusk the Fitter's name is in every Sleeve, the one from the far side of the delta road. The shutters of the fitting-room are up and the lamp on the sill is out, and in the lane they say she has not been seen. A man in a tallow-coloured coat has been knocking at her door asking, in a foreign voice, about something that is thirty-nine years old." {
+    Assert mk_pavane_cold(party). Retract mk_pavane_trust(party). }
+  Rule mk_dov_named_says when named(dov) once says "By dusk the Fitter's apprentice is Dov Ashe in every Sleeve, and it is his mother's debt to the Rain-Wives' club they cry with it. He has not come out of the cellar." { Assert mk_dov_dismissed(party). }
+
+  // ── What the lane's people become ─────────────────────────────────────────────────────────────────────────────────
+  Milestone mk_m_sat "sat in the Fitter's chair to be cast" worth 25 when castTaken(party).
+  Milestone mk_m_wall "read the Menders' shelf on the Wall of Faces" worth 50 when knows(party, lie_wall).
+  Milestone mk_m_veil "learned whose face was under the black cloth" worth 50 when knows(party, marrick_was_treasurer).
+  Milestone mk_m_blank "was the first to see what the Fitter's unfinished mask is for" worth 75 when mk_pavane_moved(party).
+  Milestone mk_m_cast "took the Fitter's own cast for her empty niche" worth 75 when mk_cast_pavane(party).
+  Milestone mk_m_dov "sat with Dov Ashe and the mask that fits nobody" worth 25 when mk_dov_trusts(party).
+  Milestone mk_m_mask "found the mask that fits nobody its end" worth 50 when mk_drowned_pavane(party) or mk_peck_claimed(party) or mk_drowned_buried(party) or mk_drowned_burned(party) or mk_dov_keeps(party).
+  Milestone mk_m_journeyman "saw Dov Ashe made a journeyman" worth 50 when mk_dov_journeyman(party).
+
+  // ── The news ──────────────────────────────────────────────────────────────────────────────────────────────────────
+  Rule mk_fate_pavane_cast when newsHour() and mk_cast_pavane(party) and not named(pavane) once says "Of Madame Pavane: the empty niche on the Wall now has a face in it, hers, a little crooked about the left eyebrow, and the plate under it says THE FITTER in a new hand. She has begun a mask that is for a particular person, and will not say whose. The Lane says it has more nose than it has had in forty years." { }
+  Rule mk_fate_pavane_moved when newsHour() and mk_pavane_moved(party) and not mk_cast_pavane(party) and not named(pavane) once says "Of Madame Pavane: she has finished the mask for nobody and hung it on the wall of the fitting-room, where customers must look at it. It has not been mentioned, in the Lane; it has been looked at, a great deal, and by a good many Guild masters going slowly past in the rain." { }
+  Rule mk_fate_pavane_cold when newsHour() and mk_pavane_cold(party) and not named(pavane) and not th_pavane_hurt(party) once says "Of Madame Pavane: she cuts the Offices still, for those the Drawing names, and keeps the Wall, and says nothing, politely, to the Watch. Some of the veils she has cast upon the Wall do not come off." { }
+  Rule mk_fate_pavane_named when newsHour() and named(pavane) once says "Of Madame Pavane: the Fitter's house is shut, and the shutters are painted over with the word BARE in a hand that is not the Guild's. The Wall is said to be in the cellar still, and nobody has the key. She went down the delta road at dawn with a bag, the way she came." { }
+  Rule mk_fate_pavane_plain when newsHour() and not named(pavane) and not th_found(party) and not th_pavane_hurt(party) and not mk_pavane_cold(party) and not mk_pavane_moved(party) and not mk_cast_pavane(party) once says "Of Madame Pavane: she is cutting the Offices for the Drawing at the usual price, to the faces she has always cut them for, which are, she remarks to the plaster, not at all ordinary." { }
+  Rule mk_fate_dov_journeyman when newsHour() and mk_dov_journeyman(party) once says "Of Dov Ashe: the Guild has made him journeyman, over a bench by the window of the fitting-room, with a mask on the wall above him that nobody has ever tried to wear since. His mother has been seen in the lane in a new shawl." { }
+  Rule mk_fate_dov_hask when newsHour() and mk_maule_took_dov(party) and not mk_dov_journeyman(party) once says "Of Dov Ashe: he has a stool by the window of the Cockle and Heron and a gouge of his own, and has cut his first mask for the gross. It fits, they say, nearly everybody, and he is quietly appalled, and perfectly happy." { }
+  Rule mk_fate_dov_out when newsHour() and mk_dov_dismissed(party) and not mk_maule_took_dov(party) and not th_dov_failed(party) once says "Of Dov Ashe: he is on the Drip ferry with a pillowcase, and the ferrywoman has said she will not charge a boy who is carrying his whole life as if it were glass." { }
+  Rule mk_fate_mask_burned when newsHour() and mk_drowned_burned(party) once says "Of the drowned man of the Sluice year: nothing, which is what he had; the stove-ash in the mask-shop was swept out by a boy who went up on the roof afterwards. He is on a plate on the Wall with a question mark, and a boy who knows his face, and nobody else." { }
+  Rule mk_fate_mask_buried when newsHour() and mk_drowned_buried(party) once says "Of the drowned man of the Sluice year: he has gone back to the Cuff, face up, and is somewhere off the low islands with the six hundred. A Gull on the Row quay says a man's face was seen in the water at dawn, and was not claimed, and was not afraid." { }
+  Rule mk_fate_mask_peck when newsHour() and mk_peck_claimed(party) once says "Of the drowned man of the Sluice year: he has a nail in the Hospice dormitory wall above the bed of a lodger called Absalom, and a name, which is Absalom's to give him, and which he has not given. They have agreed, between them, that it is rude to ask." { }
+  Rule mk_fate_mask_pavane when newsHour() and mk_drowned_pavane(party) and not mk_drowned_buried(party) once says "Of the drowned man of the Sluice year: he hangs beside the Fitter's unfinished mask in her parlour, and has a visitor most evenings, who sits by the stove and does not say whose face she is looking at." { }
+  Rule mk_fate_clinging when newsHour() and mk_clinging(party) once says "Of the Drowned Face: it did not come off by the Ninth night, and in Ombra, where everyone is somebody else, nobody has remarked on it. By the morning of the tenth the Lane will have a name for the stranger who wears the unfitted mask, and it will not be kind, and it will not be wrong." { }
+  Rule mk_fate_wall when newsHour() and knows(party, lie_wall) and not named(pavane) once says "Of the Wall of Faces: it stands where it stood, forty thousand faces on their shelves with their eyes shut, and nobody in Ombra has yet seen all of it at once. The shelf of Menders has been dusted. It is the only one that has." { }
+}

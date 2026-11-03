@@ -1,0 +1,262 @@
+Module ombra "The Book of Faces" {
+  // ── The Fit ───────────────────────────────────────────────────────────────────────────────────────────────────────
+  // The mage's research: of Likeness, a spell for making a face hold. Four stages: (1) Dr Thole's failing theory in the
+  // Collegium of Measures; (2) three sources, each a different understanding (Form at Madame Pavane's casts, Measure at
+  // the Standard Pound, Cost at the drowned mask or at the Warden of Locks' night table); (3) the synthesis, a lead
+  // chosen, and a Master who must be made to change his mind; (4) the casting at the Urn on the ninth night.
+  // The reward is a lesson from Thole (the shared `train_member` in belongings.kyr, which wants a student who can be
+  // taught it and twenty experience) plus a book that raises Intelligence. Only a mage can be taught; anyone with lore
+  // can assist, and reads the treatise for its margins.
+  // What a level-1 mage can actually learn and prepare was measured in play (see notes-counting.md): a first-level
+  // spell is prepared at once; a second-level one is learned and waits for third-level slots, which a company that
+  // ends the book on 1000 experience does not reach. So each lead teaches one of each.
+
+  // ── The Master of Measures ────────────────────────────────────────────────────────────────────────────────────────
+  Discovery mg_theory "Dr Thole's treatise On the Held Shape says a face is a shape held by bone, muscle and nerve, and that a mask cut to its measure must hold; the Fitting-frame measures to a sixty-fourth of an inch, and every mask it cuts falls off; Thole says the frame is warped.".
+  Discovery mg_failure "The Collegium has a hundred and four masks cut by the Fitting-frame, and not one stays on a face; Thole has begun to wonder, in private, whether it is the rule that forbids masks over a measuring instrument, or the frame.".
+  Discovery mg_clue_form "Dr Thole's rival, Madame Pavane, casts every citizen at sixteen in plaster by the feel of her thumbs, with no measurement at all; and her masks fit.".
+  Discovery mg_clue_measure "The Standard Pound in the Hall of Weights fits every beam on the Row and has never been measured to a sixty-fourth; Thole would like to know why a pound fits.".
+  Discovery mg_clue_cost "A mask in the Drip fits nobody and its maker is ashamed of it; and the Warden of Locks says the mask of his Office has cost him more than it should: two places where a face is paid for.".
+  Relation mg_audience(group). Relation mg_engine_seen(group). Relation mg_thole_agrees(group). Relation mg_taught(group). Relation mg_studied(group). Relation mg_margin_given(group).
+  Person thole "Dr Aurelian Thole" at collegium_study {
+    Role "the Master of Measures".
+    Ancestry human. Peaceable. Pronouns he. Manner proud.
+    Greets "In the middle of the workroom, in a chair on wheels with a rug over its knees, sits a very old man in a gown the colour of ink, with an ear-trumpet as long as a child's trombone laid across his lap like a sleeping pet. This is Aurelian Thole, eighty, Master of Measures, who has been deaf for twenty years and has told nobody, on the grounds that nobody has asked. From the arm of the chair hangs a slate on a string, and on the slate, in a hand that has not wavered since the Third Bell of 1241: STATE UNITS.".
+    Greets again "Dr Thole looks at your lips, and then at his slate, and sighs, and taps the word UNITS.".
+  }
+  Rule mg_thole_hours when not at(thole, collegium_study) { Assert at(thole, collegium_study). }
+  Observe mg_thole_nod near thole when privateHours() and at(thole, collegium_study) "He is awake, and has been for some hours, and is trying to look as if he were not; a man whose arithmetic goes on in the dark, where nobody can mark it.".
+  // Getting his ear. He is deaf and proud; the Collegium has a form for everything, and the form for a question is the slate.
+  // Either you can put a question in the units the Collegium asks for, or you can speak the old recitative into the trumpet.
+  Action mg_slate(actor: group, site: place) "Write your question on his slate, with its units" {
+    Speaker thole.
+    Requires able(actor) and company(actor) and at(actor, site) and at(thole, site) and not mg_audience(actor).
+    Time 2.
+    Resolve check(actor, lore, dc_fair).
+    On success { Assert mg_audience(actor). }
+    Result "You write: HOW LONG HAS THE FRAME BEEN IN ERROR; and, because the slate says STATE UNITS, you add, in years. Thole reads it, and reads the unit, and his whole face opens like a man handed a lit lamp in a cellar. 'Years!' he says aloud, in a voice meant for a lecture-hall. 'Someone has put the years! In eleven years of correspondence nobody has put the years.' He pushes the trumpet off his knee. You are, it appears, in.".
+    Otherwise "You write: A LONG TIME. He reads it with the patience of a very large tortoise, and writes under it HOW LONG? and hands the slate back. You spend the better part of an hour pacing out the workroom, because he has found it necessary, in the first instance, to know how big it is.".
+  }
+  Action mg_trumpet(actor: group, site: place) "Speak into the ear-trumpet in the Collegium's old recitative" {
+    Speaker thole.
+    Requires able(actor) and company(actor) and at(actor, site) and at(thole, site) and not mg_audience(actor).
+    Time 2.
+    Resolve check(actor, performance, dc_fair).
+    On success { Assert mg_audience(actor). }
+    Result "You put your mouth to the brass and say it, not as speech but as the Collegium taught its students to say a figure across the Quad: on a note, in measures, each number held a beat longer than the last. Thole's head comes up like a dog's. He has heard it. It goes into him not as a word but as a bar of weather. 'Nobody has done that,' he says, 'since Tollemache,' and then does not say anything for some time, and wipes his eye with the cuff of the gown, as if it had got there by mistake.".
+    Otherwise "The trumpet takes your voice and does something to it that you cannot account for. He winces, and leans away, and writes on the slate, in the manner of a man correcting a pupil's gait: PLEASE.".
+  }
+  Topic mg_thole_treatise with thole "Ask him for the treatise, On the Held Shape" when mg_audience(actor) once {
+    Says "'The Held Shape.' He is already pulling a leather roll from under the rug, though you have not asked him in any form that he could have read. 'A face is a shape that is held. Held, you see, by the structure: bone, muscle, the long habit of the nerve. A mask cut to that shape must hold on it as a cork holds in a bottle. The Frame takes the measure of the shape to a sixty-fourth of an inch, and the mask cut by it must hold.' He taps the roll. 'It does not hold. The Frame is warped. It has been warped since 1269, and will be corrected when the Bursar sends the brass.'".
+    On discuss { Assert knows(actor, mg_theory). }
+  }
+  Topic mg_thole_wall with thole "Ask him about the masks on the walls" when mg_audience(actor) and knows(actor, mg_theory) once {
+    Says "'A hundred and four,' says Thole. 'Perfect. Perfect. They are perfectly, perfectly, perfectly in error.' He pats the nearest; it swings on its ear-hole, empty. 'One for every Collegiate head since the Frame was made. Not one has stayed on. It is a rule of the house that nobody shall do arithmetic in a mask, and I have begun, lately, to wonder, at night, whether the rule is in the habit of the house, or in the Frame.' He looks, quickly, at your face, and away. 'You did not hear that. I said it to the slate.'".
+    On discuss { Assert knows(actor, mg_failure). }
+  }
+  Topic mg_thole_pavane with thole "Ask who else has tried to cut a mask that holds" when mg_audience(actor) and knows(actor, mg_theory) once {
+    Says "'Pavane,' says Thole, with such violence that the trumpet slides off his knee. 'Madame Pavane. In Maskers' Lane. She casts. In plaster, from the living, at sixteen: every citizen of Ombra, I understand, in a cellar. Not one measurement among them. It is done by the feel of a woman's thumbs.' He retrieves the trumpet. 'And her masks fit.' He looks at the wall of his own. 'I should not like it to be thumbs.'".
+    On discuss { Assert knows(actor, mg_clue_form). }
+  }
+  Topic mg_thole_pound with thole "Ask whether anything in Ombra has ever been made to fit anything" when mg_audience(actor) and knows(actor, mg_theory) once {
+    Says "He considers the question at some length, in a great stillness. 'The Standard Pound,' he says at last, like a man naming a rival. 'In the Hall of Weights, in a case. It fits every beam on the Row, and the Drip's, and the Hill's. It has never been measured to the sixty-fourth. Nobody has dared; the Hall would take it as an insult.' He rubs the trumpet. 'A pound fits and a face does not. I have never been able to say why it is not the same thing.'".
+    On discuss { Assert knows(actor, mg_clue_measure). }
+  }
+  Topic mg_thole_price with thole "Ask what he would give for a mask that held" when mg_audience(actor) and knows(actor, mg_theory) once {
+    Says "'Give.' He seems to take the word out and look at it. 'I am eighty. I have given forty years, to a frame.' A long pause. 'There is a story in the Drip of a mask that fits nobody, and the boy who cut it; I have not been told it. And the Warden of Locks, whose clocks I mend, tells me that the mask of his Office has cost him a great deal more than it should, and will not say what. I do not follow the Row.' He smooths the rug. 'But I notice where a man pays for a thing. That is all arithmetic is.'".
+    On discuss { Assert knows(actor, mg_clue_cost). }
+  }
+  // The frame at work: a hundred and fourth mask, cut in front of the company, falls off before anyone has finished
+  // looking at it.
+  Action mg_engine(actor: group, site: place) "Ask him to run the Fitting-frame on a plaster face" {
+    Speaker thole.
+    Requires able(actor) and company(actor) and at(actor, site) and at(thole, site) and mg_audience(actor) and knows(actor, mg_theory) and not mg_engine_seen(actor).
+    Time 4.
+    On success { Assert mg_engine_seen(actor). Assert arcBegun(actor, hand_likeness). }
+    Result "A hundred feelers come down on the plaster, delicately, each on its jewel; a bell rings; a brass arm pares a sheet of lacquered leather; and a mask comes out of the frame, a thing of such flawless correspondence that it makes the plaster look approximate. Thole fits it to the plaster, where it sits like a lid. Then he fits it to the face of his own student, who has come in to hold the lamp, and it holds for about as long as a held breath, and slides off, and rolls across the floor, and stops with its hollow upward. 'You see,' says Thole, not unkindly, to the slate.".
+  }
+
+  // ── Stage two: three sources ──────────────────────────────────────────────────────────────────────────────────────
+  // Each gives a different understanding of why a mask fits. The company may take them in any order; each has a second
+  // way in, in a different place and at a different cost, and a deeper reading for those who have done other work in the
+  // city first.
+  Discovery mg_form "A face is a shape that something is holding; a cast keeps the shape and loses the holder, so every cast is of a face at rest, and nobody has one.".
+  Discovery mg_form_deep "On the Wall of Faces the casts taken at sixteen keep, in the lines about the mouth, the very habit of holding the face had: a mask cut from them is cut from a person, and not from a shape.".
+  Discovery mg_measure "A pound is not the bronze; it is a promise two strangers keep about it, and a thing fits when both sides are held to the same measure.".
+  Discovery mg_measure_custom "A measure that is wrong by the same amount every time is not false but fitted: a custom is an error that everyone has agreed to keep.".
+  Discovery mg_cost "A mask that fits is a face somebody has given up: the Key costs its wearer his name, the drowned mask the one who would have claimed it. The price of a fit is whoever the face was cut from.".
+  // Form, at the casts of the living (Pavane's cellar) or the dead (the plaster Masters of the Collegium's hall).
+  Action mg_read_casts(actor: group, site: place) "Read the casts on the Wall of Faces for what they keep" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, cast_cellar) and knows(actor, mg_theory) and not knows(actor, mg_form) and not benighted(actor).
+    Time 3.
+    Resolve check(actor, insight, dc_fair).
+    On success { Assert knows(actor, mg_form). Assert knows(actor, mg_form_deep). }
+    Result "Hundreds of faces on shelves: all sixteen, all with their eyes shut and their mouths a little closed, as a face is when someone has asked it, very nicely, to hold still. You stop looking at the shape, and look at the lines about the mouth. In every one, faint as the memory of a hand on a banister, there is the habit of the person: the corner that went down when they were afraid, the lip that was bitten. The plaster has kept not the shape of a face but what the face was doing to hold itself. Pavane's masks fit because they are cut from the holding.".
+    Otherwise "You walk the shelves with the lamp until your eyes are full of plaster. Every face is perfect, and every face is a stranger's, and you carry nothing up the stair but the sense that you were told something by someone speaking in another room.".
+  }
+  Action mg_read_masters(actor: group, site: place) "Read the plaster Masters of the Collegium for what they keep" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, collegium_hall) and knows(actor, mg_theory) and not knows(actor, mg_form).
+    Time 3.
+    Resolve check(actor, insight, dc_hard).
+    On success { Assert knows(actor, mg_form). }
+    Result "They are death-masks: each Master of Measures, cast the day he died, mouth shut and eyes closed, in a line along the wall like the beads of a very long sum. You look at one for an hour. It has nothing in it. It is exactly the shape of a man who has stopped. A face, you see, is what a person does with a shape; and a cast keeps the shape, and cannot keep the doing. Every cast ever taken is of a face at rest, and nobody has one.".
+    Otherwise "You stand before the Masters until you can feel their expressions, and cannot say what it is that you feel. There is a student, behind you, who has been waiting to be asked to leave for some time.".
+  }
+  // Measure, at the Standard Pound: either what a pound is, or what a short one teaches.
+  Action mg_measure_true(actor: group, site: place) "Stand before the Standard Pound and ask what makes a pound a pound" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, standard_room) and not at(assessor, standard_room) and knows(actor, mg_theory) and not knows(actor, mg_measure).
+    Time 3.
+    Resolve check(actor, lore, dc_fair).
+    On success { Assert knows(actor, mg_measure). }
+    Result "You stand before it in its case a good while, as the Hall's visitors do: a drum of bronze the colour of strong tea. Nothing about it is exact. It has a thumbprint in its patina and a chip on its ring; its weight is, you will find, what the Hall's own Second says it is, and the Second is what the Standard says. They hold each other up. A pound is not the metal. It is the promise that the Hall will keep to it and the Drip will keep to the Hall, and a thing that is held to by both sides fits, whatever its shape.".
+    Otherwise "You look at it for an hour and it is a pound. You were hoping for something less like a pound.".
+  }
+  Action mg_measure_short(actor: group, site: place) "Set the market's short pound against the Standard, and study the ounce" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, standard_room) and not at(assessor, standard_room) and knows(actor, mg_theory) and holding(actor, ct_pound_kind) and not knows(actor, mg_measure).
+    Time 3.
+    On success { Assert knows(actor, mg_measure). Assert knows(actor, mg_measure_custom). }
+    Result "The short pound rises in the pan, an ounce, no more, and what you cannot stop looking at is that it rises by an ounce *every time*. The Drip's bakers, the Row's brokers, the loaf in a woman's hand: everyone in the Sleeve has fitted to it, and been fitted, as a coat is to a stoop. It is not that it is false. It is that it is false by a fixed amount, and so reliable; and a measure that is wrong the same way every time is a measure two people can agree on. A fit is an agreement; and a custom is an error that has been agreed to be kept.".
+  }
+  // Cost, from the drowned mask and the boy who cut it, or from the Warden of Locks at his night-table.
+  Action mg_cost_dov(actor: group, site: place) "Ask Dov to put the drowned mask in your hands, and tell you what it cost him to cut" {
+    Speaker dov.
+    Requires able(actor) and company(actor) and at(actor, site) and at(dov, site) and knows(actor, mg_theory) and not knows(actor, mg_cost) and (holdsFace(actor, mk_face_drowned) or mk_dov_trusts(actor)).
+    Time 3.
+    Resolve check(actor, insight, dc_fair).
+    On success { Assert knows(actor, mg_cost). }
+    Result "He puts it in your hands as he might put down a thing that had been in the family, and tells you without any of the usual pretences. It was cut from a man pulled out of the lagoon in the Sluice year; nobody claimed him. 'It fits whoever has nobody,' says Dov Ashe. 'That is all it is: I cut it from a face and it gives the face back to the next one who needs it. Which is a thing a mask ought to do, and the wrong one to have, and it costs him. It costs the man every time. It costs the one who was going to claim him.' He wipes his hands. 'I think a fit is a thing somebody paid for. I do not think it is ever free.'".
+    Otherwise "He holds it out and does not let go. 'It's only a mask,' says Dov, and you cannot tell if he is lying to you or to himself, and you leave with the sense of a door that was meant to be opened and was not, by either of you.".
+  }
+  Action mg_cost_lacke(actor: group, site: place) "Ask the Warden what the Key has cost him, as one who has had it" {
+    Speaker lacke.
+    Requires able(actor) and company(actor) and at(actor, site) and at(lacke, site) and ctNight(actor) and ct_lacke_warm(lacke) and knows(actor, mg_theory) and not knows(actor, mg_cost).
+    Time 3.
+    Resolve check(actor, insight, dc_fair).
+    On success { Assert knows(actor, mg_cost). }
+    Result "'It costs you the one who was under it,' says Corvin Lacke. He has not been asked; he has been waiting eleven months to be asked. 'A year ago I was a man with an opinion about clocks. The Key does not hold opinions. In the beginning one wears it, and in the middle it wears one, and I do not recall a morning at which the one became the other.' He looks at the shelf where it rests. 'A mask that fits has been paid for, sir, by whoever it fitted before.'".
+    Otherwise "'The Key has cost me,' says Lacke, and examines the sentence, and does not finish it. 'I think we shall not go into that.' He winds a clock to hide in.".
+  }
+  Rule mg_sources when knows(party, mg_form) and knows(party, mg_measure) and knows(party, mg_cost) and not mg_sources_known(party) says "You lay them side by side as you would three witnesses to a crime they each saw from the other side of a wall. A face is a shape that is held, and what holds it is the person; a fit is a promise two sides keep to a measure; and a fit has been paid for, by whoever the face was cut from. They are not one thing. They are three, and each, followed far enough, is the whole of it. In the Collegium's workroom there is a table, and a pen, and a choice about which of the three to follow." { Assert mg_sources_known(party). }
+  Relation mg_sources_known(group).
+
+  // ── Stage three: the lead ─────────────────────────────────────────────────────────────────────────────────────────
+  // The research can follow only one understanding; the other two become footnotes. The kind chosen is the spell's kind:
+  // Form, the Likeness that sees; Measure, the Likeness that fits; Cost, the Likeness that gives.
+  Relation mg_led(group). Relation mg_led_form(group). Relation mg_led_measure(group). Relation mg_led_cost(group).
+  Discovery mg_lead_form "The research follows Form: a likeness is a face's holding, taken and shown; the Urn can be made to show what it holds.".
+  Discovery mg_lead_measure "The research follows Measure: a likeness is a promise kept to a measure; a mask can be made to fit, and an Office to fail to.".
+  Discovery mg_lead_cost "The research follows Cost: a likeness is a face given; its price can be paid by one, or shared among many.".
+  Action mg_lead_form(actor: group, site: place) "Follow Form: a likeness is a holding, taken and shown" {
+    Grave "A research has one lead. The other two understandings become footnotes, and the footnotes will not be cast.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, collegium_study) and mg_sources_known(actor) and not mg_led(actor).
+    Time 6.
+    On success { Assert mg_led(actor). Assert mg_led_form(actor). Assert knows(actor, mg_lead_form). }
+    Result "You write it up by the study lamp: a likeness is not a shape but a holding, and the spell, if there is a spell, is an act of seeing what holds a face. A fine, cold, exact clarity comes over the page. It is the kind of understanding that has no use for anything it can see, and is at its best on lies.".
+  }
+  Action mg_lead_measure(actor: group, site: place) "Follow Measure: a likeness is a promise kept to a measure" {
+    Grave "A research has one lead. The other two understandings become footnotes, and the footnotes will not be cast.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, collegium_study) and mg_sources_known(actor) and not mg_led(actor).
+    Time 6.
+    On success { Assert mg_led(actor). Assert mg_led_measure(actor). Assert knows(actor, mg_lead_measure). }
+    Result "You write it up by the study lamp: a likeness is a promise, and the spell, if there is a spell, is the keeping of one: a face made to fit by being held to a measure by both sides, or made not to, by one side letting go. The page has a quiet, fair, civic quality. It is the kind of understanding that rules the Row and cannot, for the life of it, be moved to feel anything.".
+  }
+  Action mg_lead_cost(actor: group, site: place) "Follow Cost: a likeness is a face given" {
+    Grave "A research has one lead. The other two understandings become footnotes, and the footnotes will not be cast.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, collegium_study) and mg_sources_known(actor) and not mg_led(actor).
+    Time 6.
+    On success { Assert mg_led(actor). Assert mg_led_cost(actor). Assert knows(actor, mg_lead_cost). }
+    Result "You write it up by the study lamp, and stop twice. A likeness is not a thing taken but a thing given up; and the spell, if there is a spell, is the paying of a price: your own face, or somebody's, or shared out among a great many so that none of it is heavy. You are aware of having written a sentence that you would not like to have to say aloud to the man under the mask.".
+  }
+
+  // Dr Thole must be made to change his mind. He holds that the frame is warped; the truth is that it measures the shape
+  // and leaves out the hand that holds it. Three ways to bring him to it, none of them evidence: he has had evidence
+  // for forty years.
+  Discovery mg_held_by_whom "Dr Thole has changed his mind: the frame is not warped; it measures the shape of a face and leaves out whoever is holding it; a face is a shape held, and the Master of Measures had not once in forty years asked by whom.".
+  Action mg_thole_bare(actor: group, site: place) "Ask him to explain what a face is to someone who has none" {
+    Speaker thole.
+    Requires able(actor) and company(actor) and at(actor, site) and at(thole, site) and mg_led(actor) and mg_audience(actor) and not masked(actor) and not mg_thole_agrees(actor).
+    Time 3.
+    On success { Assert mg_thole_agrees(actor). Assert knows(actor, mg_held_by_whom). }
+    Result "You do not ask him to look at the research. You ask him, plainly, as one who has never worn a face, to explain it. He starts the recitation he has given a thousand times, at the speed of a man who knows it by heart: a face is a shape that is held. He gets to the word held. For the first time in forty years the sentence has to be finished for someone who does not already know what it means. 'Held,' says Thole, and stops. 'By what?' You wait. 'By its owner,' he says, slowly. 'By the one who has it. The Frame measured the shape, all of it, to a sixty-fourth, and left out the hand.' He puts down the trumpet. 'It is not warped.' He writes on the slate, enormous, HELD BY WHOM? and underlines it twice, and looks like a man who has been forgiven by a creditor he did not know he had.".
+  }
+  Action mg_thole_lend(actor: group, site: place) "Ask him to hold your mask on his own face, for the length of one sentence" {
+    Speaker thole.
+    Requires able(actor) and company(actor) and at(actor, site) and at(thole, site) and mg_led(actor) and mg_audience(actor) and masked(actor) and not mg_thole_agrees(actor).
+    Time 3.
+    Resolve check(actor, insight, dc_fair).
+    On success { Assert mg_thole_agrees(actor). Assert knows(actor, mg_held_by_whom). }
+    Result "You wait for the moment when he has the pen down and nothing to correct, and ask him, in the plainest units, to put your mask on. 'In the Collegium,' he says, and then does not finish the sentence. He puts it on. It is the wrong size; it should slip. It does not. He sits quite still in the chair on wheels with a stranger's face on his face. 'It holds,' he says in a very small voice. 'It is held. I am holding it.' A long while. He takes it off, and the gown has gone damp at the collar. 'Forty years,' says Thole. 'The frame cuts the shape and I have never once thought to hold it.' He writes HELD BY WHOM? on the slate and looks at it as one looks at a name.".
+    Otherwise "You ask a half-second late, over the top of a sentence of his, and the moment goes by like a ferry you were slow for. 'Not in the Collegium,' says Thole, from far away, and hands the mask back by one edge, as one hands back an unfinished remark.".
+  }
+  Action mg_thole_argue(actor: group, site: place) "Tell him, to his face, that the frame is not warped" {
+    Speaker thole.
+    Requires able(actor) and company(actor) and at(actor, site) and at(thole, site) and mg_led(actor) and mg_audience(actor) and not mg_thole_agrees(actor).
+    Time 3.
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert mg_thole_agrees(actor). Assert knows(actor, mg_held_by_whom). }
+    Result "You write it on the slate in the largest hand you have: THE FRAME IS NOT WARPED. IT MEASURES THE SHAPE AND LEAVES OUT THE HAND. He reads it three times, the third time aloud, with a face like a man being told, in a public place, that his house has been on fire for some time. Then he argues, for a quarter of an hour, with himself, in three voices, and loses all three. 'Held,' he says. 'By whom. By whom.' And begins, with the tip of his pen, to put a question mark after a sentence he published in 1269.".
+    Otherwise "He reads it, and a great calm comes over his face, the calm of a man who has met the argument before and defeated it in committee. 'Warped,' says Thole, and begins to explain the Bursar's brass. You nod for an hour. At the end of it he is quite sure that you agree with him.".
+  }
+  Rule mg_thole_lessons_form when mg_thole_agrees(party) and mg_led_form(party) and not teaches(thole, magic_missile) once says "At the study table the Master of Measures draws a line under the page and signs it. 'I shall teach it,' he says to the slate. 'Both parts. It is the first thing I have taught in thirty years that I did not already know.'" { Assert teaches(thole, magic_missile). Assert teaches(thole, acid_arrow). Assert teaches(thole, augury). Assert arcBegun(party, hand_likeness). }
+  Rule mg_thole_lessons_measure when mg_thole_agrees(party) and mg_led_measure(party) and not teaches(thole, armor) once says "At the study table the Master of Measures draws a line under the page and signs it. 'I shall teach it,' he says to the slate. 'Both parts. It is the first thing I have taught in thirty years that I did not already know.'" { Assert teaches(thole, armor). Assert teaches(thole, blur). Assert teaches(thole, mirror_image). Assert arcBegun(party, hand_likeness). }
+  Rule mg_thole_lessons_cost when mg_thole_agrees(party) and mg_led_cost(party) and not teaches(thole, hex) once says "At the study table the Master of Measures draws a line under the page and signs it. 'I shall teach it,' he says to the slate. 'Both parts. It is the first thing I have taught in thirty years that I did not already know.'" { Assert teaches(thole, hex). Assert teaches(thole, charm). Assert teaches(thole, mind_blank). Assert arcBegun(party, hand_likeness). }
+  // His fee is the Collegium's: three coin to the Bursar. That a lesson has been paid for is how the rest of the module
+  // knows a mage, and not a bystander, has been taught.
+  Initially Set lessonFee(thole) to 3.
+  Initially Set quantity(thole, gold) to 0.
+  Rule mg_lesson_given when quantity(thole, gold) >= 3 and not mg_taught(party) says "Thole watches the spell go in, as one watches a pupil take the first step on a stair: not with pride, with a sort of terrified accuracy. 'There,' he says. 'It holds.' He sounds, for a moment, surprised that it does." { Assert mg_taught(party). Assert handReady(party, hand_likeness). }
+  // The margin of the treatise, for all who helped: the Master's corrections, in a second ink. It sharpens the reader.
+  Topic mg_thole_copy with thole "Ask him for a copy of the treatise, with his corrections" when mg_thole_agrees(actor) and not mg_margin_given(actor) once {
+    Says "He is already writing. For an hour the pen goes, in the second ink, in the margin, and it is not a margin any more but the whole of the page: the original, entire, with the correction of every line beside it. HELD BY WHOM?, on the first, and on the last, and between them forty years' worth of the Frame, and where it was right. He sands it, and gives it to you. 'It is not the work of a man who was wrong,' says Thole. 'It is the work of a man who was exact about the wrong thing.'".
+    On discuss { Give mg_treatise to actor. Assert mg_margin_given(actor). }
+  }
+  Kind mg_treatise_kind "Thole's marginal treatise" is gear worth 0 weighing 1 granting lore described "A copy of Dr Thole's On the Held Shape in his own hand, with a margin as wide as the text and the margin in a second ink: the corrections of a man who has been wrong for forty years, in detail, and has enjoyed it.".
+  Item mg_treatise "Thole's marginal treatise" is mg_treatise_kind at offstage.
+  Action mg_study_margin(actor: group, reader: member, site: place) "Have {reader} read Thole's corrections through, and be corrected" {
+    Requires able(actor) and memberOf(reader, actor) and awake(reader) and holding(actor, mg_treatise_kind) and not mg_studied(actor) and at(actor, site) and not benighted(actor).
+    Time 12.
+    Resolve endow(reader, intelligence, by_one).
+    On success { Assert mg_studied(actor). }
+    Result "{reader} reads it through, the original and its corrections in turn, twice, and the second time begins to see where the margin is wrong; and then where it is right in a way the margin did not know. By the end the page is a conversation, and {reader} has been in it.".
+  }
+
+  // ── Stage four: the casting at the Urn ────────────────────────────────────────────────────────────────────────────
+  // On the ninth night, in the Urn Hall, the company casts the Likeness it followed. drawing.kyr reads handPlayed and
+  // these three relations.
+  Relation mg_urn_shown(group). Relation mg_fit_false(group). Relation mg_burden_shared(group). Relation mg_unremembered(group).
+  Action mg_cast_form(actor: group, site: place) "Cast the Likeness of Form on the Urn" {
+    Grave "A likeness cast at the Urn cannot be called back. The room will see what you have seen.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, urn_hall) and drawingNight() and handReady(actor, hand_likeness) and mg_led_form(actor) and not handPlayed(actor, hand_likeness).
+    Time 2.
+    On success { Assert handPlayed(actor, hand_likeness). Assert mg_urn_shown(actor). Assert arcDone(actor, hand_likeness). }
+    Result "You lay the spell on the Urn as you would lay a hand on a brow, and see what holds it. The bronze jar, which the city has believed in for thirty-one years, is not holding anything. There is no shape in it: no tessera, no lot, no luck, no chance; only the metal, and the weight of the metal, and above it, very faintly, the shape of a hand that has been in and out of its slot a great many times. You let the room see it. Nobody speaks. In the Urn Hall, at the ninth hour, a hundred masks turn toward a jar.".
+  }
+  Action mg_cast_measure(actor: group, site: place) "Cast the Likeness of Measure on the Offices" {
+    Grave "A likeness cast at the Urn cannot be called back. The Offices will not sit as they did.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, urn_hall) and drawingNight() and handReady(actor, hand_likeness) and mg_led_measure(actor) and not handPlayed(actor, hand_likeness).
+    Time 2.
+    On success { Assert handPlayed(actor, hand_likeness). Assert mg_fit_false(actor). Assert arcDone(actor, hand_likeness). }
+    Result "You do not cast it at the Urn. You cast it at the nineteen Offices' masks laid out in their case: a fine, civic, even spell, a promise withdrawn. The Key, the Pound, the Serene: each, in turn, sits on its cushion and ceases, for a moment, to be held to its measure by the face it was cut for. Whoever claims an Office tonight will find that the mask does not fit them as it should, and that the city can see it. Nobody will say why. The mask will merely fall off.".
+  }
+  Action mg_cast_cost(actor: group, site: place) "Cast the Likeness of Cost, and share the lie out" {
+    Grave "The price is paid in faces: yours, and then everyone's who stands in the Hall. You will not be remembered by what you wore.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, urn_hall) and drawingNight() and handReady(actor, hand_likeness) and mg_led_cost(actor) and not handPlayed(actor, hand_likeness).
+    Time 2.
+    On success { Assert handPlayed(actor, hand_likeness). Assert mg_burden_shared(actor). Assert mg_unremembered(actor). Assert arcDone(actor, hand_likeness). Retract masked(actor). }
+    Result "You give it away. Not the lie, which is not yours, but the weight of it, spread among everyone in the Hall at the same moment, an ounce each, like a short pound: a little of the thirty-one years laid on every mask in the room, so that nobody has to carry the whole. And your own face, which you spend as the first payment, goes out of the memory of every person you have spoken to in Ombra, by degrees, like a coin spent where nobody counts. For a moment you are a person nobody has ever met. It is, you find, extremely restful.".
+  }
+
+  // ── Milestones and fates ──────────────────────────────────────────────────────────────────────────────────────────
+  Milestone mg_m_theory "had the Master of Measures explain his failing theory" worth 25 when knows(party, mg_theory).
+  Milestone mg_m_sources "found three understandings of a fit" worth 50 when mg_sources_known(party).
+  Milestone mg_m_agrees "made Dr Thole ask by whom" worth 50 when mg_thole_agrees(party).
+  Milestone mg_m_taught "was taught the Likeness" worth 50 when mg_taught(party).
+  Milestone mg_m_cast "cast the Likeness at the Urn" worth 100 when handPlayed(party, hand_likeness).
+
+  Rule mg_fate_form when newsHour() and mg_urn_shown(party) once says "Of Dr Thole: he was in the Urn Hall, in his chair on wheels, and did not hear it, and was told afterwards by a student on the slate, in units; and the whole of the Collegium watched the Master of Measures read it and take, very carefully, his mask off the peg by the door, and put it on, and go down the steps in the rain with it." { }
+  Rule mg_fate_measure when newsHour() and mg_fit_false(party) once says "Of Dr Thole: the Offices, drawn on the ninth night, would not sit; the masks fell off the faces they had been cut for, one after another, in front of the Hall, and nobody could say why, and the Master of Measures, on the slate, in the Collegium, wrote 'by agreement' and underlined it twice." { }
+  Rule mg_fate_cost when newsHour() and mg_burden_shared(party) and mg_unremembered(party) once says "Of Dr Thole: the Collegium found, on the tenth morning, that it had mislaid the name of the Bare who had been its guest at night; Thole, who had it in a margin, did not tell them. 'A fit is paid for,' he is reported to have said, to the frame. 'By whoever it fitted before.'" { }
+  Rule mg_fate_agrees when newsHour() and mg_thole_agrees(party) and not handPlayed(party, hand_likeness) once says "Of Dr Thole: he has revised On the Held Shape; the new edition has three words on its title-page and a hundred and four masks in an appendix; the Frame has been fitted with a hook for a hand, and is not warped. He is said to be happier, and to hear less." { }
+  Rule mg_fate_failed when newsHour() and mg_audience(party) and not mg_thole_agrees(party) once says "Of Dr Thole: the Bursar has sent the brass, and the Frame has been corrected, and a hundred and five masks hang on the wall of the workroom, perfect, each by its ear-holes; and the Master of Measures is waiting, with the patience of eighty years, for someone to put a unit on the question." { }
+  Rule mg_fate_unmet when newsHour() and not mg_audience(party) once says "Of Dr Thole: he went on measuring, in the cold, until the ninth night, as he had every night for forty years, and did not hear the bells." { }
+}

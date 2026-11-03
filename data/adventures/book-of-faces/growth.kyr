@@ -1,0 +1,24 @@
+Module ombra "The Book of Faces" {
+  // ── What the company grows by ─────────────────────────────────────────────────────────────────────────────────────
+  // A company grows in Ombra by what it does for its people and for the truth, not only by what it survives: the small
+  // stories are worth as much as the case, and settling the Drawing is worth most. Seeing the book through is worth the
+  // module's own experience on top (module.json).
+  Milestone m_warrant "took the Stranger's Warrant" worth 25 when warrantHeld(party).
+  Milestone m_body "found how the Registrar died" worth 25 when knows(party, marrick_natural).
+  Milestone m_mask "read how her mask was put on" worth 25 when knows(party, mask_reset).
+  Milestone m_bands "found the older band under the white mask's" worth 50 when knows(party, old_band).
+  Milestone m_hobb "sat with the Serene until he took the Mask off" worth 75 when hobbMoved(party).
+  Milestone m_vane "was refused by the Candid, and refused her back" worth 75 when vaneDoubts(party).
+  Milestone m_vane_consent "got the Candid to read only the names that were given" worth 75 when vane_consents(party).
+  Milestone m_vail "earned the Watch's trust" worth 50 when vailTrust(party) >= 3.
+  Milestone m_seal "opened the Registrar's letter" worth 50 when knows(party, letter_read).
+  Milestone m_registry "stood in the Registry" worth 50 when state(registry_lock, open).
+  Milestone m_book "read the Book of Faces" worth 100 when bookRead(party).
+  Milestone m_urn "knew the Urn was empty" worth 100 when knows(party, urn_hollow).
+  Milestone m_hearing "called the Hearing of the Unseen" worth 100 when hearingHeld(party).
+  Milestone m_lacke_hearing "laid the case against the Warden of Locks before the Hearing" worth 100 when hearingLaid(party).
+  Milestone m_drawing "held the Drawing" worth 150 when drawingHeld(party).
+  Milestone m_face "answered the Concord's offer of a face" worth 100 when faceTaken(party) or faceDeclined(party).
+  Milestone m_marks "mended four of the Registrar's Rounds" worth 100 when marks(party) >= 4.
+  Milestone m_marks_all "mended all nine of the Registrar's Rounds" worth 150 when marks(party) >= 9.
+}

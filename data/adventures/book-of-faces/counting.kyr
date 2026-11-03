@@ -1,0 +1,679 @@
+Module ombra "The Book of Faces" {
+  // ── Counting Row ──────────────────────────────────────────────────────────────────────────────────────────────────
+  // The Sleeve where Ombra does its sums: the Exchange, the Hall of Weights, the Warden of Locks' house, the Collegium
+  // of Measures and the coffee-house where the tallymen settle what the Exchange has promised. Two threads of the
+  // Registrar's Rounds lie here: the short pound (Round 5) and the Lock-tax (Round 6). The mage's research (mage.kyr)
+  // runs through the Collegium and the Standard Room. A reckoning, a weight and a lock are all things that can be
+  // wrong by a little and by a custom; that is the Row's whole morality, and the Row has never been caught at it.
+
+  // What a person of the Row makes of the company: the company is met as its face, by day; and at home, by night, as
+  // whoever knocks.
+  Query ctBare(a: group) means publicHours() and not masked(a).
+  Query ctDay(a: group) means publicHours() and masked(a).
+  Query ctNight(a: group) means privateHours() and not masked(a).
+  Query ctBurglar(a: group) means privateHours() and masked(a).
+  Query ctHeard(a: group) means ctDay(a) or ctNight(a).
+
+  // ── Rooms of our own ──────────────────────────────────────────────────────────────────────────────────────────────
+  // The Warden lives over his office, the Assessor in the Hall's lodging, and Teague over a chandler's: by night the
+  // company may knock at each, and by day the stairs are chained.
+  Place ct_fenn_house "the chandler's house" is building within row_sleeve.
+  Place ct_locks_parlour "the Warden's clock-room" is room within locks_house at 3, 0 indoors.
+  Place ct_assessor_kitchen "the Assessor's kitchen" is room within weights_hall at 0, 0 indoors.
+  Place ct_fenn_room "Naomi Teague's room" is room within ct_fenn_house at 0, 0 indoors.
+  Passage ct_parlour_stair "the Warden's stair" is doorway between locks_office and ct_locks_parlour
+    opening when privateHours() or at(party, ct_locks_parlour) "By day the Warden's stair is chained across, with a card on the chain: THE WARDEN'S HOUSEHOLD RECEIVES BY APPOINTMENT.".
+  Passage ct_kitchen_door "the Assessor's door" is doorway between weights_floor and ct_assessor_kitchen
+    opening when privateHours() or at(party, ct_assessor_kitchen) "A rope across a doorway behind the rail, and on the rope a card: THE ASSESSOR IS NOT AN OFFICE AFTER THE NINTH BELL.".
+  Passage ct_fenn_door "the chandler's stair" is stair between row_street and ct_fenn_room
+    opening when privateHours() or at(party, ct_fenn_room) "The chandler's stair beside his shop is shuttered by day: a lodgers' stair, and the lodgers are all at their desks.".
+
+  // ── Scenes ────────────────────────────────────────────────────────────────────────────────────────────────────────
+  Observe ct_row_day at row_street when publicHours() "Counting Row runs under its arcades with the shutters up and its faces on: Magpies in pairs, Herons with ledgers under their cowls, a Crow reading a bill aloud to a Cockle who is pretending to be deaf. Nobody hurries. Haste, on the Row, is a form of confession. At every door a brass plate says what is done inside and not by whom, and the rain, which respects no Office, comes down the plates in threads.".
+  Observe ct_row_night at row_street when privateHours() "At night the Row is shut doors with the sums still audible behind them: a clerk reciting a total to himself in a bare voice, a bolt shot, and from some upper room the small patient ticking of a clock being wound a quarter-turn at a time. Nobody is anybody out here. Behind the shutters everybody is somebody, in a nightshirt.".
+  Observe ct_quay_day at row_quay when publicHours() "The Row quay is where the Exchange puts down its sacks. Flour comes in from the millers on barges the colour of the river and goes up the steps on the backs of men in identical grey masks who do not look as if they have anything to do with flour. A ferry waits for the Drip, its Gull idle on a boathook.".
+  Observe ct_quay_night at row_quay when privateHours() "Tarred planks and the sound of water pulling at a rope. A lantern on the ferry-stage gives off a small yellow certainty. Across the Cuff someone in the Drip is already baking, and the smell comes over the water: more than bread; a trade that has very little else to be proud of.".
+  Observe ct_exchange_day at exchange_floor when publicHours() "The floor of the Exchange is a square of pale stone chalked with the names of grains. A hundred Magpies with slates stand on it saying numbers aloud to one another, and above them, in a gallery, a row of Herons checks that what the Magpies promise is what the Magpies said. The noise is the sound of numbers spoken by people who are not, in any ordinary sense, there.".
+  Observe ct_exchange_night at exchange_floor when privateHours() "The Exchange at night is a floor of chalk marks being slowly washed out by a drip from the dome. Nobody has mended the drip; it is entered in the accounts as a charge of the weather.".
+  Observe ct_weights_day at weights_floor when publicHours() "The Hall of Weights is a long cold room of beams: every size of balance hangs from the roof on its chains, level and still, as if someone had told them to be good. Across from the door, behind a rail, a woman in a flat bronze mask sits on a high stool and weighs whatever is brought: a coin, a cheese, a lawsuit. Over her head the rule of the house, in letters a foot high: THE BEAM HAS NO FACE.".
+  Observe ct_weights_night at weights_floor when privateHours() "The Hall of Weights is dark but for one lamp left burning over the Honest Beam, so that it can never be said it went unwatched. The chains tick as they cool. Behind the rail, from a doorway with a rope across it, a smell of yeast and floured wood: someone in this building bakes at night.".
+  Observe ct_standard_scene at standard_room when true "The Standard Room is the size of a confessional with the ambition of a chapel. In a glass case on a black stone plinth, on a cushion gone grey with being looked at, sits the Standard Pound: a drum of bronze the colour of strong tea, which is what a pound is, in Ombra, everywhere, and has been for two hundred years. Beside it a second case with a small brass lock holds the Hall's copies, and a card in the Assessor's hand: THE POUND IS NOT A MEASURE OF HEAVINESS. IT IS A PROMISE.".
+  Observe ct_standard_night at standard_room when privateHours() "By the lamp's reach the Standard Pound looks smaller than it should. The things that settle everything usually do.".
+  Observe ct_locks_day at locks_office when publicHours() "The Warden of Locks keeps his office behind a door with no handle on its outer face, which is the joke of the house: you are let in. Inside, a long desk, three clerks' stools, a wall of hooks with a key hung on each from a tagged string, and in the place of honour the Warden's chair, tall, upholstered in rain-proof green, with a brass lock let into its arm. A small door at the back leads to the strongroom.".
+  Observe ct_locks_night at locks_office when privateHours() "The office by night: stools up on the desk, the hooks hung with sleeping keys, and over the ceiling, faint, a sound like a great many small animals. Clocks. Not one of them agrees with another.".
+  Observe ct_strong_scene at locks_strongroom when true "A cell of iron-banded oak, windowless, with the Lock-tax of the whole city on its shelves in leather quarters, a book to every Sleeve. The air is dry and tastes of old money, which tastes of nothing, since nobody has ever licked it.".
+  Observe ct_parlour_scene at ct_locks_parlour when true "The Warden of Locks keeps his time upstairs, and has a great deal of it. Forty clocks and not one within four minutes of another: long-cases along the walls like a congregation, brackets, a ship's clock in gimbals, a gilt one in the form of a heron with its beak at a quarter to. The sound is that of a very large number of small decisions, all slightly different. A stove, a chair too deep for anyone to be proud in, and by the chair a winding-key on a ribbon.".
+  Observe ct_collegium_day at collegium_hall when publicHours() "The Collegium of Measures keeps its masks on pegs by the door, a hundred wooden hands, so that nobody shall do arithmetic in one. Inside, bare faces: ink on every cuff, a dozen students quarrelling in the units of their own subjects. On the walls, plaster Masters with their eyes shut, the Collegium's dead in a line, so that the living should remember what a held breath looks like at rest.".
+  Observe ct_collegium_night at collegium_hall when privateHours() "At night the pegs are empty: the Collegium goes home with its faces like everyone else. The plaster Masters on the walls have the hall to themselves, and keep their eyes shut, as they have been taught.".
+  Observe ct_study_day at collegium_study when publicHours() "The workroom is given over to the Fitting-frame: a brass frame the size of a bed, jointed like a crab, with a hundred feelers each ending in a jewel, which close on a plaster face laid on the table and take its measure to the sixty-fourth of an inch. Around the walls hang a century of failed masks, each by its ear-holes: every one perfect, every one with the look of a coat cut for a man who has left.".
+  Observe ct_study_night at collegium_study when privateHours() "The frame is under a sheet, like an animal being kept warm. One lamp, burning on the table, and in its circle an old man in a nightcap who is not, whatever it looks like, asleep.".
+  Observe ct_coffee_day at coffee_room when publicHours() "The Tally Coffee-house smells of roasted beans and wet slate. Magpies at every table bent over the same sums as if each had found it unattended; a brass urn singing; the walls one blackboard, chalked to the ceiling with prices, and a boy going round with a damp cloth rubbing out the ones that have turned out to be lies.".
+  Observe ct_coffee_night at coffee_room when privateHours() "The coffee-house at night is a smell and a shape: slates stacked, the urn cooling to a tick, and one price left on the wall that nobody has had the nerve to rub out.".
+  Observe ct_kitchen_scene at ct_assessor_kitchen when true "A kitchen from another life, set down in a Hall of Weights: a brick oven too big for the room, a trough, a peel on the wall, a flour-bin with a lid cut to a child's reach. The Hall lodges its Assessor in a suite of eleven rooms with a view of the Standard Room's roof. She has lived, since the Drawing, in this one.".
+  Observe ct_fenn_scene at ct_fenn_room when true "A room over a chandler's: bed, stove, one chair, one table under the window, and on it a lamp trimmed low beside a ledger of the cheap sort, open. The room smells of tallow, the cheap kind, which the chandler downstairs sells his lodgers by the stub.".
+
+  // ── What the Row keeps ────────────────────────────────────────────────────────────────────────────────────────────
+  Kind ct_pound_kind "a copy of the Pound" is gear worth 0 weighing 1 described "A drum of bronze with a ring on its head, the colour of strong tea; the weight of a pound, or near it. On its base the Hall's stamp, a bare oval.".
+  Kind ct_loaf_kind "a penny-loaf of the Drip" is gear worth 0 weighing 1 described "A round brown loaf, warm, with a cross cut in its top and the Drip's baker's thumb in the crust. Whether it weighs what it says is a question the Hall of Weights has been asked, and has not been asked in the right way.".
+  Kind ct_book_kind "Naomi Teague's other book" is gear worth 0 weighing 1 described "A cheap ledger bound in an old recipe-book's boards, so that on the front a faded hand says Ginger Cake for Feast Days. Inside, in a small clerk's hand, every Lock-tax quarter for eleven years, in two columns: the sum the Warden's book says, and the sum it should.".
+  Kind ct_key_kind "the strongroom key" is gear worth 0 weighing 0 described "A short iron key, filed down to be small enough to hide in a sleeve, and worn bright where a thumb has held it.".
+  Kind ct_clock_kind "a travelling clock that gains" is gear worth 6 weighing 1 described "A brass carriage clock with a cracked glass and a loud, clear tick. It gains eleven minutes a day and has always gained eleven minutes a day, which makes it, a hawker would say, the only honest clock on the Row.".
+
+  // ── The Warden of Locks ───────────────────────────────────────────────────────────────────────────────────────────
+  // Ser Corvin Lacke has been the Key for eleven months and skimmed the Lock-tax for nineteen years, in the Key or out of
+  // it: the Warden of Locks is an Office, but its book has been kept by the same hand since before the mask was
+  // drawn. He calls it custom. He is a vain, pious, civil and terrified man who winds forty clocks every night because
+  // he cannot bear that the city has no common hour, and the Registrar's Rounds were closing on him. Three nights ago he
+  // went to the Chapel. (lacke_unfaced is told by others.)
+  Discovery ct_lacke_face "The Key, the Warden of Locks, is Ser Corvin Lacke, who collects clocks and wears the mask of his Office as other men wear their good coat.".
+  Initially Assert unmaskTeaches(lacke, ct_lacke_face).
+  Discovery ct_tax_how "Every lock in Ombra pays the Warden's Office a quarter-penny a quarter, entered in the books in the strongroom behind the Warden's office; the owner has a receipt and the Office has a custom.".
+  Discovery ct_lacke_custom "Lacke calls it custom: for nineteen years every lock's quarter-penny has been rounded up to a half before it reached the book, and the other quarter stayed in his hand.".
+  Discovery ct_clocks_fact "Lacke keeps forty clocks in his upstairs room, no two of them agreeing, because he cannot bear that the city has no common hour; and a clock that is wrong by the same amount every day is, to him, the only honest kind.".
+  // Where he stands with the company: a measure of how it has gone (1 named, 2 laughed out, 3 fled, 4 resigned, 5 sold the Key).
+  Measure ct_lacke_end(group).
+  Relation ct_lacke_warm(group). Relation ct_lacke_stiff(group). Relation ct_lacke_cracked(group). Relation ct_lacke_afraid_known(group).
+  Relation ct_lacke_burned(group). Relation ct_lacke_warned(group). Relation ct_lacke_gone(group).
+  Person lacke "Ser Corvin Lacke" at locks_office {
+    Role "the Warden of Locks".
+    Known as "a man in the Key, the Warden of Locks' brass-lock mask" when publicHours() and not knows(party, ct_lacke_face).
+    Ancestry human. Peaceable. Pronouns he. Manner proud.
+    Greets "The Warden of Locks turns toward you, or toward the place where a person would stand if the rules of the house allowed one: a big careful man with a great deal of forehead, who holds something small in one hand, a pen, a candle, a key, as other men hold a cup. By day the face he turns is brass, with a keyhole where a mouth would be. By night he has no other, and appears to feel the lack.".
+    Greets again "Ser Corvin Lacke turns his forehead toward you, and waits to be exact.".
+  }
+  Rule ct_lacke_office when hour(clock) >= 8 and hour(clock) < 12 and not ct_lacke_gone(lacke) and ct_lacke_end(lacke) == 0 and not at(lacke, locks_office) { Assert at(lacke, locks_office). }
+  Rule ct_lacke_floor when hour(clock) == 12 and not ct_lacke_gone(lacke) and ct_lacke_end(lacke) == 0 and not at(lacke, exchange_floor) { Assert at(lacke, exchange_floor). }
+  Rule ct_lacke_afternoon when hour(clock) >= 13 and hour(clock) < 20 and not ct_lacke_gone(lacke) and ct_lacke_end(lacke) == 0 and not at(lacke, locks_office) { Assert at(lacke, locks_office). }
+  Rule ct_lacke_home when (hour(clock) >= 20 or hour(clock) < 8) and not ct_lacke_gone(lacke) and not at(lacke, ct_locks_parlour) { Assert at(lacke, ct_locks_parlour). }
+  Rule ct_lacke_stays_in when hour(clock) >= 8 and hour(clock) < 20 and ct_lacke_end(lacke) > 0 and ct_lacke_end(lacke) != 3 and not ct_lacke_gone(lacke) and not at(lacke, ct_locks_parlour) { Assert at(lacke, ct_locks_parlour). }
+  Rule ct_lacke_vanishes when ct_lacke_gone(lacke) and not at(lacke, offstage) { Assert at(lacke, offstage). }
+  Observe ct_lacke_noon at exchange_floor when at(lacke, exchange_floor) and publicHours() "At noon the Key walks the length of the floor with its hands behind it, slowly, so that the Exchange may see an Office going by, and be steadied.".
+  Observe ct_lacke_chain at locks_office when privateHours() and not ct_lacke_gone(lacke) "A line of light under the stair-door at the back; he has not gone to bed.".
+  // At home he has no brass to hide in: the company that finds the keyhole's owner in a nightcap knows who he is.
+  Observe ct_lacke_bare near lacke when privateHours() and at(lacke, ct_locks_parlour) "Without the brass he is a face you have seen only as a keyhole: Ser Corvin Lacke, plump, well-shaven, with a great deal of forehead, who has the manners to introduce himself as if you had been expected." teaches ct_lacke_face.
+
+  // The day register: the Warden of Locks as the Office is met. By day the Office is exact, pious, and never lies in
+  // a sentence that has not first been washed.
+  Topic ct_lacke_locks with lacke "Ask the Warden how the city's locks are kept" when ctDay(actor) and at(lacke, locks_office) once {
+    Says "'Every lock in Ombra,' says the Key, 'is entered in a book, and every book is kept in the room behind me, and every quarter the owner of each lock pays this Office a quarter-penny, as his father did, and his father. It is custom.' He lets the word lie on the desk a moment, as if it were a cheque. 'The sums are, I assure you, immaculate.'".
+    On discuss { Assert knows(actor, ct_tax_how). }
+  }
+  Topic ct_lacke_registrar with lacke "Ask the Warden whether he knew the Registrar" when ctDay(actor) and at(lacke, locks_office) and knows(actor, marrick_dead) once {
+    Says "The keyhole of the mask does not move. 'The Office of Locks holds the Registrar's memory in the highest regard. I was of her last congregation, but not, I think, a conspicuous member.' It is a very clean sentence, clean as a thing that has been washed more than once. 'Her loss is a sorrow to every door in Ombra.'".
+  }
+  Topic ct_lacke_book_warrant with lacke "Show the Warrant, and ask to see the strongroom's book" when ctDay(actor) and at(lacke, locks_office) and warrantLive() and not ct_lacke_burned(lacke) once {
+    Says "He reads it twice, which takes him no time at all. 'The Stranger's Warrant. How very rare.' He rises, goes through the small door, and is gone for as long as it takes to wind a clock. When he returns he lays on the desk a ledger so spotless that it looks laundered: every column in a single hand, every total exact. 'The Office is, I think, in order.' You turn the pages. It is the loveliest book you have ever seen, and nothing in it is out of place, which is itself a place.".
+    On discuss { Assert knows(actor, ct_book_clean). }
+  }
+  Discovery ct_book_clean "The Warden of Locks' ledger, shown to a Warrant, is spotless: one hand, every total exact, and fetched too slowly; a book somebody has had time to prepare.".
+  Topic ct_lacke_cold with lacke "Say something to the Key" when ctBare(actor) and at(lacke, locks_office) once {
+    Says "'The Office does not receive,' says the Key to the wall at your left, 'what has not been issued a face.' It rings a small brass bell for a clerk, who looks at you, and does not.".
+  }
+  Topic ct_lacke_burglar with lacke "Knock again" when ctBurglar(actor) and at(lacke, ct_locks_parlour) once {
+    Says "The clocks tick on the other side of the door. After a time the voice says, with immense weariness, 'You will take your mask off, or you will go away. It is quite simple. I have a window and I am not above it.'".
+  }
+
+  // The night register.
+  Topic ct_lacke_clocks with lacke "Ask him about the clocks" when ctNight(actor) and at(lacke, ct_locks_parlour) once {
+    Says "'Forty-one,' he says, 'if you count the one in my pocket, which I do not.' He lifts the candle toward the nearest. 'The Sleeves keep each their own hour, you know. The Concord has no common noon; a common noon would be a common face. So the Row's clocks say one thing, the Drip's another, the Hill's a third, and I have bought, in nineteen years, every honest estimate of the time in Ombra.' He winds one a quarter-turn. 'It is the only form of collecting that has never made me feel clever. I should like to know what hour it is. Only that.'".
+    On discuss { Assert knows(actor, ct_clocks_fact). }
+  }
+  Topic ct_lacke_tax_night with lacke "Ask him, as a man, what the Lock-tax is" when ctNight(actor) and at(lacke, ct_locks_parlour) and knows(actor, ct_tax_how) once {
+    Says "'It is,' he says, and you watch the next word arrive and be examined, 'a custom.' He sits. 'It was a farthing a lock when I was a clerk. It is rounded. Everything is rounded, in an Office; one cannot enter a half of a farthing, the book has no column for it. So up. Up, and what is over...' He stops winding. 'The first year it was a kindness to the book. Do you understand me? A kindness. By the fifth it was a custom. By the ninth it was the roof.' His voice has dropped. 'One does not stop a roof.'".
+    On discuss { Assert knows(actor, ct_lacke_custom). }
+  }
+  Topic ct_lacke_chapel with lacke "Tell him you know he called at the Chapel on the Registrar's last evening" when ctNight(actor) and at(lacke, ct_locks_parlour) and knows(actor, lacke_unfaced) and not ct_lacke_cracked(lacke) once {
+    Says "The candle does not shake. That is what is terrible: it is as steady as if it were stone. 'I was angry,' he says. 'I said a thing. In the white mask she was a figure of law, and I was a thief in front of her, and it came to me that she was only Ysolde Marrick with a ledger, and I said her name. Aloud. In a chapel, to her face, which was not hers.' He looks at his forty clocks, one by one. 'I have been trying to find the hour it happened. They will not agree on it. Is it not absurd? They will not agree.'".
+    On discuss { Assert ct_lacke_cracked(lacke). }
+  }
+
+  // The five things that can be done to a man in a nightcap who has been found out; each has a different price.
+  // 1. Look at him: the clocks are the only part of him that is true (insight).
+  Action ct_lacke_read(actor: group, site: place) "Look at what the clocks are for, not what they say" {
+    Speaker lacke.
+    Requires able(actor) and company(actor) and at(actor, site) and at(lacke, site) and ctNight(actor) and not ct_lacke_afraid_known(lacke) and not ct_lacke_stiff(lacke) and knows(actor, ct_clocks_fact).
+    Time 2.
+    Resolve check(actor, insight, dc_fair).
+    On success { Assert ct_lacke_afraid_known(lacke). Assert knows(actor, ct_lacke_after). }
+    On failure { Assert ct_lacke_stiff(lacke). }
+    Result "You watch him wind, a quarter-turn each, and what you see is not a collector. It is a man counting. Every clock is set to a different Sleeve's hour, and the one thing they have in common is that every hand is pointing at the same day: the ninth. He is not afraid of the Watch. He is afraid of the morning after the Drawing, when the Key goes to some other face and nobody in Ombra will ever again rise when he enters a room.".
+    Otherwise "He catches you looking and draws himself up. The nightcap does not help. 'These are not a spectacle,' he says, and turns his back, and for a long minute the only sound is forty clocks being wrong at you.".
+  }
+  Discovery ct_lacke_after "Lacke winds forty clocks toward the ninth day: he does not fear the Watch so much as the morning after the Drawing, when the Key goes to some other face and nobody will rise for him again.".
+  // 2. Be useful to what he loves: name his best clock (lore).
+  Action ct_lacke_maker(actor: group, site: place) "Name the maker of the long-case clock by the stair" {
+    Speaker lacke.
+    Requires able(actor) and company(actor) and at(actor, site) and at(lacke, site) and ctNight(actor) and knows(actor, ct_clocks_fact) and not ct_lacke_warm(lacke) and not ct_lacke_stiff(lacke).
+    Time 1.
+    Resolve check(actor, lore, dc_fair).
+    On success { Assert ct_lacke_warm(lacke). }
+    Result "'Tollemache of the Collegium,' you say, 'in the year of the Third Bell, and rated to lose no more than a breath a week if kept from the damp.' It is a guess built on a remembered plaque in the Collegium's hall and a clockmaker's way of making a case. His mouth opens. 'But nobody,' says Lacke, and sits down, as if struck, in the chair too deep for pride. 'Nobody knows that.' The tone of the room alters, as a chord does when a note is put right.".
+    Otherwise "'Near, near,' he says, with a pain so gentle it is almost kindness. 'It is a Tollemache, certainly; but you have the wrong decade by thirty years, and that is a different man, a worse man, and a clock you would not wish on a dog.' He corrects you for some time. It is oddly warm.".
+  }
+  // 3. Make him laugh at himself, privately, the one audience he cannot bear to lose (performance).
+  Action ct_lacke_laugh(actor: group, site: place) "Tell him, gravely, the story of the Assessor who was asked in which Sleeve" {
+    Speaker lacke.
+    Requires able(actor) and company(actor) and at(actor, site) and at(lacke, site) and ctNight(actor) and ct_lacke_warm(lacke) and ct_lacke_end(lacke) == 0 and not ct_lacke_cracked_laugh(lacke).
+    Time 2.
+    Resolve check(actor, performance, dc_fair).
+    On success { Assert ct_lacke_cracked_laugh(lacke). }
+    On failure { Assert ct_lacke_stiff(lacke). }
+    Result "It is an old tale of the Row, and you tell it as one tells a thing at a wake: a clerk of the Weights asks the Assessor what time it is, and she says, without lifting her mask, 'In which Sleeve?' The first sound he makes is not a laugh. Then it is. It goes on, helplessly, a man of fifty-five in a nightcap bent over his own clocks with his shoulders going, and then it turns, as laughter will, and he is not laughing at all, and you look at the heron clock until he has done.".
+    Otherwise "You tell it badly: too early on the joke, too fond of the pause. He waits it out with an expression of the most perfect politeness. 'Yes,' he says. 'I know it. It was told of my predecessor.' The warmth in the room goes out like a stove left unfed.".
+  }
+  Relation ct_lacke_cracked_laugh(group).
+  // 4. Fear him out of the house (intimidation, hard).
+  Action ct_lacke_threaten(actor: group, site: place) "Stand among the clocks and tell him what the Warrant does to a Warden who steals" {
+    Speaker lacke.
+    Requires able(actor) and company(actor) and at(actor, site) and at(lacke, site) and ctNight(actor) and warrantHeld(actor) and knows(actor, lacke_taxed) and ct_lacke_end(lacke) == 0.
+    Time 2.
+    Resolve check(actor, intimidation, dc_hard).
+    On success { Set ct_lacke_end(lacke) to 3. Assert ct_lacke_gone(lacke). }
+    On failure { Assert ct_lacke_stiff(lacke). Increase heat(actor) by 2. }
+    Result "You tell him: what the Warrant is; what the Hearing is; what a Named Warden is, in a square, at noon, with the nineteen years entered against him in the Sleeves' own hand. He listens with his eyes on the clocks. 'I see,' he says. When you leave he is putting on his shoes. By morning the stair-door is open and there is a gap on the wall the size of a travelling-trunk, and the only clock still going is the one that will not be carried.".
+    Otherwise "He draws himself up in the nightcap, and says, very loudly, to the window, 'WATCH,' and then again, 'WATCH,' and a lantern in the street swings round. You are down the stair before the second shout. Somewhere on the Row a window is opened by someone who will say afterwards that he saw nothing.".
+  }
+  // 5. Persuade him to be Spent quietly (persuasion, hard; it is easier once the company knows what he fears).
+  Action ct_lacke_dignity(actor: group, site: place) "Ask him to be Spent quietly, and keep his face" {
+    Speaker lacke.
+    Requires able(actor) and company(actor) and at(actor, site) and at(lacke, site) and ctNight(actor) and ct_lacke_afraid_known(lacke) and knows(actor, lacke_taxed) and ct_lacke_end(lacke) == 0.
+    Time 3.
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Set ct_lacke_end(lacke) to 4. }
+    On failure { Assert ct_lacke_stiff(lacke). }
+    Result "'You will be Spent at the Drawing in any case,' you say. 'The only question is whether you go in a square, named, or on the ninth night with the tax made good and a letter to the Board saying that the Warden of Locks has found his book in some disorder and begs to lay it down.' He is silent a long time. The heron clock says a quarter to. 'It would have to be a thing with a ribbon on it,' he says. 'A proper letter. Do not let them put a ribbon on the wrong thing.' You promise it. He sits down at once and begins to write, with the hand of a man who has always been better at endings than at what comes before them.".
+    Otherwise "'Spent,' says Lacke, as one says a word of a foreign tongue to see whether it has any weight. 'You speak as if there were a form. There is no form. A man cannot ask to be Spent; he is drawn from the Urn,' and then, because he is honest about exactly one thing, 'or whatever it is,' and you know you have lost him. He looks at the clocks, all disagreeing, and says: 'No.'".
+  }
+  // The gift that needs no tongue: a clock that is honestly wrong. It is bought on the Exchange floor.
+  Action ct_lacke_gift(actor: group, site: place) "Give him the travelling clock that gains eleven minutes a day" {
+    Speaker lacke.
+    Requires able(actor) and company(actor) and at(actor, site) and at(lacke, site) and ctNight(actor) and holding(actor, ct_clock_kind) and knows(actor, ct_clocks_fact) and knows(actor, lacke_taxed) and ct_lacke_end(lacke) == 0.
+    Time 3.
+    On success { Spend ct_clock_kind from actor. Set ct_lacke_end(lacke) to 4. Assert ct_lacke_warm(lacke). }
+    Result "He takes it as one takes a child that has been brought in from the rain. He winds it. He sets it by the heron and listens to it for a full minute, and then: 'Eleven minutes a day.' He says it with wonder. 'And it has always been eleven? Then it is not wrong. A thing that is wrong the same amount every day is a thing one can correct. It is only the clocks that are right on Tuesdays that cannot be trusted.' He looks up. His eyes are quite wet. 'You have come about the tax,' he says. 'Of course you have. Sit down. I will write it out. I should like it to be done by someone who understands about the eleven minutes.'".
+  }
+  // The Face approach: the Key itself, for silence (it opens the strongroom by right, and it is, for the wearer, an Office the
+  // Drawing did not give).
+  Action ct_lacke_key(actor: group, site: place) "Take the Key as the price of the matter going no further" {
+    Speaker lacke.
+    Grave "The mask is not his to give: the Office is the Drawing's. Worn by a stranger it is a debt on every door in Ombra, and a Bare in the Key is a crime that has no name only because nobody has thought to need one.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(lacke, site) and ctNight(actor) and ct_lacke_cracked_laugh(lacke) and not holdsFace(actor, face_key) and ct_lacke_end(lacke) == 0.
+    Time 2.
+    On success { Assert holdsFace(actor, face_key). Set ct_lacke_end(lacke) to 5. }
+    Result "'I will tell you what it costs,' he says, 'to be the Key.' He takes the brass mask from the shelf where he keeps it with the clocks and holds it in both hands. 'It costs your name. Not at once. One morning you find you are saying what the Office would say, and then one morning there is nobody to say anything else. You would wear it better; you have a face to come back to.' He puts it into your hands. 'Take it. Say the book was in order, if anyone asks, and I shall say you were a visiting Office, and we shall neither of us be asked to be exact.'".
+  }
+  Rule ct_key_worn when wears(party, face_key) once says "The Key sits on your face with a faint, particular weight, as a hand does that is not yours. The Row's pavement seems to be one degree more even under it; people look at the keyhole where your mouth is, and look away, and do not quite know why they stand aside." { Increase heat(party) by 1. Increase faceHeat(face_key) by 1. }
+
+  // The Key opens what the Key keeps: the strongroom gives way to its wearer without a pick or a clerk.
+  Rule ct_key_opens when wears(party, face_key) and state(ct_strong_lock, locked) says "The seal across the strongroom's keyhole, wired by the Office, has the grace to look the other way." { Retract state(ct_strong_lock, locked). Assert state(ct_strong_lock, open). }
+  // The default: a man who has not been come to burns what he can, at noon on the sixth day.
+  Rule ct_lacke_burns when day(clock) >= 6 and hour(clock) >= 12 and ct_lacke_end(lacke) == 0 and not ct_lacke_burned(lacke) once says "At noon a thin brown smoke goes up the Warden's chimney, though there is no cold in the Row to warrant a fire. It smells of leather, of nineteen years of leather." { Assert ct_lacke_burned(lacke). }
+  // What follows from his end: the Round, the Office's talk.
+  Rule ct_lacke_named_end when named(lacke) and ct_lacke_end(lacke) == 0 once says "By dusk the name is in every Sleeve; by the Ninth Bell the Key has been taken off the hook in the Warden's office, where nobody will put it on again. Lacke's debts, Lacke's grudges and Lacke's nineteen years come up the Row after the news like gulls after a net." { Set ct_lacke_end(lacke) to 1. Assert ct_lacke_gone(lacke). }
+  Rule ct_lacke_laughed_end when bd_lacke_laughed(party) and ct_lacke_end(lacke) == 0 once says "The Row has had the Wet Stage's lampoon by heart since dinner. The Warden of Locks is described in it as a man who winds forty clocks in order to be late. By evening the Exchange has left a gap about the Key on its floor, a yard wide, in which nobody stands; and a note goes up the stair from the Board: THE WARDEN IS UNWELL, AND WILL BE SO UNTIL FURTHER NOTICE." { Set ct_lacke_end(lacke) to 2. }
+  Rule ct_round_lacke when ct_lacke_end(lacke) >= 1 and not roundDone(party, r_lacke) { Assert roundDone(party, r_lacke). }
+
+  // ── The Short Pound (Round 5) ─────────────────────────────────────────────────────────────────────────────────────
+  // The Drip's bread-market weighs by a copy of the Standard Pound that is an ounce light. The brokers on the Row weigh
+  // the millers' flour in against it and pay for fifteen ounces what they sell at sixteen; the Drip's bakers, who bake
+  // a pound loaf by the same copy, have been glad of the ounce for a year, since flour doubled. The Assessor of the
+  // Pound has weighed the Drip's bread in her hand on Thursdays and said nothing, because the Hall acts on a
+  // Complaint, lodged by a mask in good standing, naming a market and never a man. (The Drip's own file may read
+  // ct_pound_true and ct_loaf_dear to price its bread.)
+  Discovery ct_loaf_short "A penny-loaf of the Drip bread-market weighs fifteen ounces on the Hall of Weights' Honest Beam.".
+  Discovery ct_pound_short "The Drip bread-market's copy of the Pound is an ounce light: set against the Standard it rises in the pan, and the Drip's own beam makes a heavier loaf of anything it weighs.".
+  Discovery ct_brokers_gain "The grain-brokers of Counting Row weigh the millers' flour in against the Drip market's pound, and pay for fifteen ounces what they sell at sixteen: an ounce a pound, which is their weather.".
+  Discovery ct_complaint_form "The Hall of Weights acts on a written Complaint of Short Weight lodged by any masked person, naming a market and its measure and never a man; the Assessor, who has weighed the Drip's loaves in her hand and said nothing, cannot lodge her own.".
+  Discovery ct_widow_story "The Assessor of the Pound is Hanne Orrow, a baker's widow of the Drip, drawn at the last Drawing and lodged by the Hall in a suite of eleven rooms, of which she uses the kitchen.".
+  Discovery ct_reckoning "A reckoning has no face: a tallyman may say that a till is seventeen short without saying whose hand it was, and the Concord has nothing to say against arithmetic.".
+  Relation ct_pound_out(group). Relation ct_pound_true(group). Relation ct_pound_exposed(group). Relation ct_pound_swapped(group). Relation ct_cob_owned(group).
+  Relation ct_second_taken(group). Relation ct_second_back(group). Relation ct_assessor_told(group). Relation ct_assessor_warm(group). Relation ct_marl_paid(group).
+  Relation ct_marl_bluffed(group). Relation ct_marl_bluff_won(group). Relation ct_marl_squeezed(group). Relation ct_fund_given(group). Relation ct_loaf_dear(place).
+  Relation ct_cob_shamed(group). Relation ct_rain_thanks(group).
+  Measure ct_second_day(group).
+  Kind ct_true_pound_kind "the Hall's Second Pound" is gear worth 0 weighing 1 described "A drum of bronze the colour of strong tea, with a ring on its head and the Hall's stamp on its base: a bare oval. It is the true copy kept in reserve against the day the Standard Pound should need to be looked at without being disturbed. It weighs exactly what the Standard weighs, which is to say, what a pound is.".
+  Kind ct_hers_kind "the Assessor's own loaf" is gear worth 0 weighing 1 described "A loaf with a cross cut deep, wrapped in a floured cloth, still faintly warm. Sixteen ounces to the Honest Beam; she weighed it twice.".
+  Item ct_market_pound "the market's pound" is ct_pound_kind at offstage.
+  Item ct_second_pound "the Hall's Second Pound" is ct_true_pound_kind at offstage.
+  Item ct_hers_loaf "the Assessor's own loaf" is ct_hers_kind at offstage.
+
+  // The Hall of Weights.
+  Person assessor "Hanne Orrow" at weights_floor {
+    Role "the Assessor of the Pound".
+    Known as "the Assessor of the Pound, in the Pound's flat bronze mask" when publicHours() and not knows(party, ct_widow_story).
+    Ancestry human. Peaceable. Pronouns she. Manner stoic.
+    Greets "A woman of fifty sits very straight on a high stool, with a baker's forearms under the Hall's grey sleeves. By day her face is bronze, flat and blank as a griddle. She has the manner of one who was told to be believed and has taken it for an instruction about posture; and a floured, unhurried voice, the voice of a woman who has told a great many children to wait for the loaf.".
+    Greets again "The Assessor looks up from the beam. 'What is brought?'".
+  }
+  Initially Assert unmaskTeaches(assessor, ct_widow_story).
+  Rule ct_assessor_hall when hour(clock) >= 8 and hour(clock) < 20 and not at(assessor, weights_floor) { Assert at(assessor, weights_floor). }
+  Rule ct_assessor_home when (hour(clock) >= 20 or hour(clock) < 8) and not at(assessor, ct_assessor_kitchen) { Assert at(assessor, ct_assessor_kitchen). }
+  Observe ct_assessor_kneads near assessor when at(assessor, ct_assessor_kitchen) and privateHours() "She is kneading, in her own face, with her sleeves pushed up: Hanne Orrow, a baker's widow of the Drip, who is the Assessor of the Pound from the Third Bell to the Ninth. The dough goes over and comes back with the sound of a slow, large, patient animal turning in its sleep." teaches ct_widow_story.
+  Topic ct_assessor_beam with assessor "Ask the Assessor what the Hall will weigh" when ctDay(actor) once {
+    Says "'Anything,' says the bronze face, 'that is brought honestly and set down gently.' It is a rote answer, and she hears it. 'A pound is not a heaviness. It is a promise that two strangers can make about a thing without having to meet.' A pause, in which something shifts behind the bronze, very slightly. 'My husband said it was a promise you could eat.'".
+  }
+  Topic ct_assessor_cold with assessor "Say something to the Assessor" when ctBare(actor) once {
+    Says "'The Hall weighs things,' says the Assessor, to the beam, and sets a cheese on it with great gentleness. 'It is not an instrument for what is not entered.'".
+  }
+  Topic ct_assessor_cockle with assessor "Speak to the Assessor as a baker speaks to one" when ctDay(actor) and wears(actor, face_cockle) and not ct_assessor_warm(assessor) once {
+    Says "The bronze tilts. 'A Cockle,' she says, and for the first time the voice has a slope in it, as a floor has toward the oven. 'Which oven?' You say the Drip. 'My husband baked in the Drip, in Weaver's Alley, twenty-six years, sixteen ounces to the pound or he said he was robbing God. He died the spring before I drew. The Registrar read my name off a card, you know. She did not look at the Urn.' She looks at her hands on the beam. 'I thought it was a mistake. I am told the Offices sometimes are.'".
+    On discuss { Assert ct_assessor_warm(assessor). Assert knows(actor, ct_widow_story). }
+  }
+  Topic ct_assessor_night with assessor "Tell her you have come about the Drip's bread" when ctNight(actor) and at(assessor, ct_assessor_kitchen) and not ct_assessor_warm(assessor) once {
+    Says "She does not stop kneading. 'You will be the one the Watch hired. They told me.' The dough goes over. 'I weigh my own loaves on the Honest Beam at four every morning and every morning they are right. Every Thursday I buy one of the Drip's from the boy at the Gate and it is fifteen. I have told no one. Who would I tell, in bronze? The Hall acts on a Complaint, from a mask in good standing, on the form, naming the market and not the man. I may not lodge my own.' She sets the dough down. 'Sit. There is a heel of the last batch, and it is better than anything the Row has.'".
+    On discuss { Assert ct_assessor_warm(assessor). Assert knows(actor, ct_widow_story). Assert knows(actor, ct_complaint_form). }
+  }
+  Topic ct_assessor_loaf with assessor "Ask her what she would have done, if she could" when ctNight(actor) and at(assessor, ct_assessor_kitchen) and ct_assessor_warm(assessor) and not ct_pound_true(party) once {
+    Says "'Weighed a loaf of mine at the Drip's beam,' she says at once, which means she has thought of it for months. 'The same loaf: sixteen here, and whatever it says there. If the beam is right, it says sixteen. Take it, and do not tell the market whose.' She wraps a loaf in a cloth with the quick neatness of a hand that has wrapped ten thousand. 'And do not eat it. It is a witness.'".
+    On discuss { Give ct_hers_loaf to actor. }
+  }
+
+  // Weighing what has been bought, at the Honest Beam, which is free to any mask.
+  Action ct_weigh_loaf(actor: group, site: place) "Weigh the Drip's loaf on the Honest Beam" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, weights_floor) and ctDay(actor) and holding(actor, ct_loaf_kind) and not knows(actor, ct_loaf_short).
+    Time 1.
+    On success { Assert knows(actor, ct_loaf_short). }
+    Result "The Honest Beam takes the loaf in its pan without comment, and a small bronze drum in the other, and rises on the loaf's side, gently, by the thickness of a thumb. The Assessor does not look at it. She looks very hard at the cheese on her own rail, in the manner of a person who has a cheese to look at and nothing else in the world.".
+  }
+  // The standard against its copy, in the Standard Room (lore: the beam is read in the Weights' own tongue).
+  Action ct_weigh_pound(actor: group, site: place) "Set the market's pound against the Standard Pound" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, standard_room) and not at(assessor, standard_room) and holding(actor, ct_pound_kind) and not knows(actor, ct_pound_short).
+    Time 2.
+    Resolve check(actor, lore, dc_fair).
+    On success { Assert knows(actor, ct_pound_short). }
+    Result "The Standard Room's own small beam is old, honest and fussy, and reads in a notation of the Hall's that nobody has taught outside it. You read it as you would read a long sum of someone else's: slowly, and then all at once. The market's copy rises in the pan. It is an ounce light, and has been all its life, and looks, in the lamplight, exactly like what it is not.".
+    Otherwise "The pans tremble, and settle, and tremble. You are certain of the answer and unable to say it in the Hall's tongue. It takes the good part of an hour to be sure of a thing you knew at the start.".
+  }
+  // The favour: her loaf at the market's beam (no skill: a thing carried to the right beam).
+  Action ct_weigh_hers(actor: group, site: place) "Ask Cob to weigh the Assessor's loaf on the market's beam" {
+    Speaker ct_cob.
+    Requires able(actor) and company(actor) and at(actor, site) and at(ct_cob, site) and ctDay(actor) and holding(actor, ct_hers_kind) and not knows(actor, ct_pound_short).
+    Time 1.
+    On success { Assert knows(actor, ct_pound_short). }
+    Result "Cob sets it in the pan with a flourish, as a man does with someone else's good work, and the bronze drum goes up, and the loaf down, with a thump. 'Seventeen,' says Cob, delighted. 'A pound and an ounce, and a cross on it you could moor a boat to. Whoever bakes this is giving it away.' He does not, you see, hear it. He weighs the loaf again, to enjoy it. The ounce is in his own hook.".
+  }
+
+  // Getting hold of the two pounds. The Second Pound is the Hall's reserve copy, kept in a case in the Standard Room; the
+  // market's, in its net on its hook by the beam.
+  Action ct_take_second(actor: group, site: place) "Open the Hall's reserve case and take the Second Pound" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, standard_room) and privateHours() and not ct_second_taken(actor) and not ct_pound_true(actor) and capable(actor, lockwork).
+    Time 2.
+    Resolve check(actor, stealth, dc_fair).
+    On success { Give ct_second_pound to actor. Assert ct_second_taken(actor). Set ct_second_day(actor) to day(clock). }
+    On failure { Increase heat(actor) by 1. }
+    Result "The case has a lock of the Hall's own design, which is to say a lock designed by a committee to be difficult only to those who are not on it. It goes. Through the wall, somewhere in the kitchen, a person turns over in a bed that is not hers, and the dough in the trough sighs. You lift the Second Pound out of its dent in the velvet, and it is cold, and exact, and you are very aware of how many people in Ombra believe in it.".
+    Otherwise "The lock is worse than it looks, and the case answers it with a clap of glass. From the kitchen a voice says, 'Who is it?' and a floury hand is on the doorframe. You are out of the Hall before she has found her shoes. Nobody on the Row will say they saw anything, which is the Row's way of telling the Watch.".
+  }
+  Observe ct_case_empty at standard_room when ct_second_taken(party) and not ct_second_back(party) "In the reserve case, a dent in the velvet where a copy sat for forty years.".
+  Action ct_return_second(actor: group, site: place) "Set the Second Pound back in its case" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, standard_room) and holding(actor, ct_true_pound_kind).
+    Time 1.
+    On success { Spend ct_true_pound_kind from actor. Assert ct_second_back(actor). }
+    Result "You lay it in its dent. It sits as if it had never been touched, which is a thing the Hall's copies are good at.".
+  }
+  Rule ct_second_missed when ct_second_taken(party) and not ct_second_back(party) and not ct_assessor_told(party) and not ct_pound_true(party) and day(clock) > ct_second_day(party) and hour(clock) >= 9 once says "At the Hall of Weights a woman in bronze has counted the reserve case three times, and a fourth, and has gone to the Watch's post at the end of the Row, which she has not entered in eleven months. A Bare, it is understood, was seen on the Row on the night in question." { Increase heat(party) by 1. }
+  Topic ct_assessor_confess with assessor "Tell the Assessor where the Second Pound is" when ctDay(actor) and ct_second_taken(actor) and not ct_second_back(actor) and not ct_assessor_told(actor) once {
+    Says "She hears you out with no movement at all. 'The Second Pound,' she says, 'is hanging, or it is in your pack. It is not for me to ask which. If it is in the Drip's market, then I have a copy short and a market right, and I can live with a copy short; I have lived with worse. If it is in your pack, it is the Hall's.' She folds her hands. 'I have not noticed anything. I count on Thursdays.'".
+    On discuss { Assert ct_assessor_told(actor). }
+  }
+
+  // The Drip's bread-market. The pound hangs in a net of old twine on a hook by the beam, and is held by Cob Hallard.
+  Person ct_cob "Cob Hallard" at bread_market {
+    Role "the beam-keeper of the Drip bread-market".
+    Known as "a beam-keeper in a Cockle's domino" when publicHours() and not knows(party, ct_cob_face).
+    Ancestry human. Peaceable. Pronouns he. Manner jovial.
+    Sells ct_loaf_kind for 1 coin from 6.
+    Greets "A square old man with flour in his eyebrows and a Cockle's soft domino over his eyes keeps the beam at the Drip bread-market: a beam, a bench, a pile of loaves and, on a hook by the beam in a net of old twine, a drum of bronze he pats from time to time, as one pats a dog that has never once bitten anyone.".
+    Greets again "Cob pats the drum on its hook.".
+  }
+  Discovery ct_cob_face "The Drip's beam-keeper is Cob Hallard, whose father hung the market's pound on its hook and whose grandfather fetched it.".
+  Initially Assert unmaskTeaches(ct_cob, ct_cob_face).
+  Rule ct_cob_market when hour(clock) >= 8 and hour(clock) < 20 and not at(ct_cob, bread_market) { Assert at(ct_cob, bread_market). }
+  Rule ct_cob_home when (hour(clock) >= 20 or hour(clock) < 8) and not at(ct_cob, offstage) { Assert at(ct_cob, offstage). }
+  Observe ct_hook at bread_market when not ct_pound_true(party) and not ct_pound_out(party) "By the beam, on a hook, in a net of old twine, hangs the market's pound.".
+  Observe ct_hook_true at bread_market when ct_pound_true(party) "By the beam, on its hook in its old twine, hangs the market's pound, which was never so clean.".
+  Observe ct_market_dear at bread_market when ct_loaf_dear(bread_market) "The bakers' slate by the beam says a loaf is a penny and a farthing, in chalk newer than the rest, and underneath, in a smaller hand, 'By the Hall.' Nobody has rubbed out the second line.".
+  Topic ct_cob_beam with ct_cob "Ask Cob how the market's beam is kept" when ctDay(actor) once {
+    Says "'By the pound,' says Cob, and pats the bronze drum on its hook. 'The Hall's own. My father hung it, and his father fetched it, in a barrow, in the rain, from the Row. Forty years I have weighed the Drip's bread by this and not a loaf has gone out under.' He believes it. That is the shape of the thing: he believes it, entirely, and has never once had a reason to put anything else on the other pan.".
+  }
+  // Later effects: Cob after the pound is mended, by whichever hand; the Assessor after her form; the broker after a bluff.
+  Observe ct_cob_owned_now near ct_cob when ct_cob_owned(party) and publicHours() "Cob has taken to calling out the weight of every loaf as he sets it in the pan, in the voice of a man reading a will, and to looking round to see who has heard.".
+  Observe ct_cob_shamed_now near ct_cob when ct_cob_shamed(party) and publicHours() "Cob weighs without a word. He has stopped patting the drum on its hook; it has been wiped; and he looks at it, now and then, as at a relation who has been in prison.".
+  Observe ct_assessor_form near assessor when ct_pound_exposed(party) and publicHours() "On the Assessor's rail, pinned under the cheese, is a form in her hand with a very small tick at the foot of it, which is the first thing on that rail in a year that anybody has seen her write for herself.".
+  Observe ct_tebbit_polite near ct_marl when (ct_marl_squeezed(party) or ct_marl_bluffed(party)) and publicHours() "The stout Magpie has risen, half an inch, as you come in. It is the courtesy of a man who has decided to be exactly as polite to you as he would be to the weather.".
+  Topic ct_cob_cold with ct_cob "Say something to the beam-keeper" when ctBare(actor) once {
+    Says "'The beam weighs the Faced,' says Cob, kindly, to his bench. 'I'm that sorry. It's the rule.' He weighs a loaf for no one, to be doing.".
+  }
+  Action ct_borrow_pound(actor: group, site: place) "Ask Cob to lend the market's pound, for the Assessor's annual assay" {
+    Speaker ct_cob.
+    Requires able(actor) and company(actor) and at(actor, site) and at(ct_cob, site) and ctDay(actor) and not ct_pound_out(actor) and not ct_pound_true(actor) and not ct_cob_owned(actor).
+    Time 2.
+    Resolve check(actor, deception, dc_fair).
+    On success { Give ct_market_pound to actor. Assert ct_pound_out(actor). }
+    Result "'Assay!' Cob is thrilled. 'In forty years nobody's assayed it, and I always said they'd want to, one day.' He unhooks it with a reverence that makes your own lie a small embarrassing thing in the pocket, and lays it in your hands. 'Back by the Ninth Bell, mind. I do the dusk loaves by it.' He is wonderfully trusting. He tells three bakers you are from the Hall.".
+    Otherwise "'Assay,' says Cob. He considers it. 'The Hall sends a clerk with a paper, in the usual way.' He is kind about it, and will not be moved, and that evening you hear in the Drip that a Bare has been round the beam-keeper asking after the pound.".
+  }
+  Action ct_lift_pound(actor: group, site: place) "Lift the market's pound from its hook in the dark" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, bread_market) and privateHours() and not ct_pound_out(actor) and not ct_pound_true(actor) and not ct_cob_owned(actor).
+    Time 1.
+    Resolve check(actor, stealth, dc_fair).
+    On success { Give ct_market_pound to actor. Assert ct_pound_out(actor). }
+    On failure { Increase heat(actor) by 1. }
+    Result "Nothing in the market is locked, because nothing in it is worth stealing. The net slides off the hook with a small dry rattle. You hold, in your hand, what the Drip has agreed for two hundred years to mean by a pound.".
+    Otherwise "A lamp-trimmer's boy is sitting on the next stall with a lantern and his boots in a puddle, and looks at you, and at the hook, and says nothing, with great clarity. By morning the Watch has been told, in the manner of the Drip, by every adult who did not see it.".
+  }
+  // Putting the true one up: in the dark, by the company's own hand.
+  Action ct_hang_true(actor: group, site: place) "Hang the Hall's Second Pound on the market's hook, and take the short one down" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, bread_market) and privateHours() and holding(actor, ct_true_pound_kind) and not ct_pound_true(actor).
+    Time 2.
+    Resolve check(actor, stealth, dc_fair).
+    On success { Spend ct_true_pound_kind from actor. Assert ct_pound_true(actor). Assert ct_pound_swapped(actor). Assert ct_loaf_dear(bread_market). Assert roundDone(actor, r_pound). Retract ct_pound_out(actor).
+      Give ct_market_pound to actor. }
+    On failure { Increase heat(actor) by 1. }
+    Result "The twine fits it, of course: the twine was made for a pound. You take the old one down and the true one goes up, and the hook, which has held a lie for two hundred years, does not know the difference. In the morning, a loaf will weigh sixteen ounces, and cost a farthing more, and nobody will be able to say what has changed.".
+    Otherwise "The boy with the lantern sits on the next stall again. 'Evening,' he says, and when you freeze, he adds, kindly, 'I did not see anything. Neither did my brother, who is the Watch.'".
+  }
+  // Telling Cob, who has nothing to be ashamed of but forty years.
+  Action ct_tell_cob(actor: group, site: place) "Tell Cob, plainly, what his father's pound weighs" {
+    Speaker ct_cob.
+    Requires able(actor) and company(actor) and at(actor, site) and at(ct_cob, site) and ctDay(actor) and knows(actor, ct_pound_short) and not ct_pound_true(actor) and not ct_cob_owned(actor).
+    Time 3.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert ct_cob_owned(actor). Assert ct_pound_true(actor). Assert ct_loaf_dear(bread_market). Assert roundDone(actor, r_pound). }
+    Result "He does not argue. He takes it off its hook and puts it in your hand, and you feel it be an ounce wrong. His face under the domino does not do anything at all. Then, slowly, he takes the Cockle off, and holds it by its string, in the open, in the rain, in front of the whole market, which is in Ombra as near as a man gets to taking off his skin. 'I will walk it to the Hall myself,' he says. 'And I will give the Assessor the pound, and the beam, and my own, and say that I was weighing by it forty years and sold the Drip an ounce short, and I did not know. And then I will put on the right one.' He does, that afternoon. The market is quite silent when he goes by.".
+    Otherwise "'My father hung that pound,' says Cob, quietly, 'and he was a man you could set a church by.' He has gone the colour of dough. He will not hear it, and you see that he will not hear it from anyone not wearing the Hall's bronze; and that he will go home and weigh a loaf by it, to be certain.".
+  }
+
+  // The Hall's way: a Complaint of Short Weight, by a mask in good standing.
+  Action ct_complain_proof(actor: group, mask: face, site: place) "Lodge a Complaint of Short Weight, with the market's pound laid on the rail" {
+    Speaker assessor.
+    Requires able(actor) and company(actor) and at(actor, site) and at(assessor, site) and ctDay(actor) and wears(actor, mask) and holding(actor, ct_pound_kind) and knows(actor, ct_pound_short) and not ct_pound_true(actor).
+    Time 2.
+    On success { Spend ct_pound_kind from actor. Assert ct_pound_exposed(actor). Assert ct_pound_true(actor). Assert ct_loaf_dear(bread_market). Assert roundDone(actor, r_pound). Increase goodwill(mask) by 1. }
+    Result "She does not need the beam. She has it in her hands by the ring, and the bronze face tilts, once, in the way you suppose a woman's face tilts at a note in her husband's hand. 'The Hall accepts the Complaint,' she says, 'against a market and its measure. It has no name for the other party; the form does not leave a space.' She writes. 'By the morning the Drip will have its own again, with the Hall's stamp. The beam-keeper will be told he has been mistaken, and he will be, I think, a very quiet man.' She looks at the pound on the rail. 'Thank you, Mask.'".
+  }
+  Action ct_complain_word(actor: group, mask: face, site: place) "Lodge a Complaint of Short Weight against the Drip's market, on a loaf" {
+    Speaker assessor.
+    Requires able(actor) and company(actor) and at(actor, site) and at(assessor, site) and ctDay(actor) and wears(actor, mask) and knows(actor, ct_loaf_short) and not knows(actor, ct_pound_short) and not ct_assessor_warm(assessor) and not ct_pound_true(actor).
+    Time 3.
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert ct_pound_exposed(actor). Assert ct_pound_true(actor). Assert ct_loaf_dear(bread_market). Assert roundDone(actor, r_pound). Increase goodwill(mask) by 1. }
+    Result "'A loaf is not a pound,' says the Assessor. 'A loaf is a loaf.' You say that this loaf was a penny-loaf, and that the market has weighed all of the Drip's bread by one hook for two hundred years, and ask her who weighs the hook. A very long pause. 'The Hall,' she says. The bronze face does not move. 'The Hall has not been asked.' She draws a form toward her. 'It is being asked.'".
+    Otherwise "'A loaf,' says the Assessor, 'is a loaf,' and weighs your cheese, which you did not bring, for something to do with her hands. The Hall does not act on a feeling about bread. It acts on a pound.".
+  }
+  Action ct_complain_warm(actor: group, mask: face, site: place) "Lodge a Complaint of Short Weight, as one who has sat in her kitchen" {
+    Speaker assessor.
+    Requires able(actor) and company(actor) and at(actor, site) and at(assessor, site) and ctDay(actor) and wears(actor, mask) and ct_assessor_warm(assessor) and not holding(actor, ct_pound_kind) and not ct_pound_true(actor) and (knows(actor, ct_loaf_short) or knows(actor, ct_pound_short)).
+    Time 2.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert ct_pound_exposed(actor). Assert ct_pound_true(actor). Assert ct_loaf_dear(bread_market). Assert roundDone(actor, r_pound). Increase goodwill(mask) by 1. }
+    Result "She takes the form from under the rail, where it has been for a month, filled in but for the signature of a Mask. She does not look at you. 'My husband,' says the Assessor of the Pound, to the beam, 'never gave short weight in his life. He said an ounce is a thing that takes a man a lifetime to put back.' She signs, over your mask's name, and it is done. By morning the Hall's own will hang on the Drip's hook.".
+    Otherwise "She puts the form back under the rail. 'The Hall does not,' she says, with real pain, 'act on being told it is being asked to act.' You have the sense of a door being closed gently, to spare the hinge.".
+  }
+  Rule ct_cob_shamed_rule when ct_pound_exposed(party) and not ct_cob_owned(party) once says "In the Drip, at noon, the beam-keeper is seen to take his domino off and look at it for a long time. It is not understood what has been done to him, only that something has, by the Hall, in a form that did not leave a space for his name." { Assert ct_cob_shamed(party). }
+
+  // The brokers, who profit by the ounce, and the tallymen, who know it. Squeeze or bluff the one; learn from the others.
+  Discovery ct_marl_face "The stout Magpie at the corner table of the Tally Coffee-house is Ambrose Tebbit, the largest grain-broker on Counting Row.".
+  Person ct_marl "Ambrose Tebbit" at coffee_room {
+    Role "a grain-broker".
+    Known as "a stout Magpie at the corner table, with a slate on his stomach" when publicHours() and not knows(party, ct_marl_face).
+    Ancestry human. Peaceable. Pronouns he. Manner jovial.
+    Greets "A stout Magpie at the corner table has a slate propped on his stomach and the look of a man who has never in his life had to raise his voice, because the number does it for him. He is eating a very small cake with a very large attention.".
+    Greets again "The stout Magpie turns a cake over, and looks at it, and at you.".
+  }
+  Initially Assert unmaskTeaches(ct_marl, ct_marl_face).
+  Rule ct_marl_cafe when hour(clock) >= 10 and hour(clock) < 16 and not at(ct_marl, coffee_room) { Assert at(ct_marl, coffee_room). }
+  Rule ct_marl_floor when ((hour(clock) >= 8 and hour(clock) < 10) or (hour(clock) >= 16 and hour(clock) < 20)) and not at(ct_marl, exchange_floor) { Assert at(ct_marl, exchange_floor). }
+  Rule ct_marl_home when (hour(clock) >= 20 or hour(clock) < 8) and not at(ct_marl, offstage) { Assert at(ct_marl, offstage). }
+  Topic ct_marl_bread with ct_marl "Ask the stout tallyman what moves the price of bread" when ctDay(actor) once {
+    Says "'Weather,' says the Magpie warmly, 'and custom. Never underrate custom. A thing nobody remembers starting is the only thing nobody can stop.' He eats a corner of the cake. 'The Drip likes a cheap loaf; the Row likes a cheap flour; the Hall likes a tidy beam. The three of them, in my experience, never meet.' He appears to find this restful. 'You are not from here. You will find the rain is the only thing in Ombra that has to be accounted for.'".
+  }
+  Topic ct_marl_cold with ct_marl "Say something to the Magpie" when ctBare(actor) once {
+    Says "He looks, with great politeness, at a place four feet to your left, and eats his cake.".
+  }
+  Action ct_squeeze_marl(actor: group, site: place) "Tell Tebbit by name what an ounce a pound comes to in ten years" {
+    Speaker ct_marl.
+    Requires able(actor) and company(actor) and at(actor, site) and at(ct_marl, site) and ctDay(actor) and knows(actor, ct_marl_face) and (knows(actor, ct_pound_short) or knows(actor, ct_brokers_gain)) and not ct_pound_true(actor) and not ct_marl_squeezed(actor).
+    Time 2.
+    Resolve check(actor, intimidation, dc_fair).
+    On success { Assert ct_marl_squeezed(actor). Assert ct_marl_paid(actor). Increase quantity(actor, gold) by 25. Assert ct_pound_true(actor). Assert ct_loaf_dear(bread_market). Assert roundDone(actor, r_pound). }
+    On failure { Assert ct_marl_squeezed(actor). Increase heat(actor) by 1. }
+    Result "You say his name, low, under the noise, as you would say a figure; and then the figure. He puts down the cake. The slate slides off his stomach and he does not catch it. 'I should like it very much,' says Ambrose Tebbit, with enormous dignity, 'if you would think of this as a fee.' He counts twenty-five into your hand. 'The hook will be seen to by morning. The brokers are not, whatever you may think, monsters. We are men who were once told by a hook that we were being generous.'".
+    Otherwise "'I am sure,' says the stout Magpie, 'that I do not know what you mean.' He picks up the slate. 'But I will mention to the Watch, I think, that there is a Bare at the Tally asking money of the Row.' He is quite gentle about it. His cake remains, uneaten, in the saucer, like a verdict.".
+  }
+  Action ct_bluff_marl(actor: group, site: place) "Tell him the Assessor weighs the Drip's bread on Thursdays" {
+    Speaker ct_marl.
+    Requires able(actor) and company(actor) and at(actor, site) and at(ct_marl, site) and ctDay(actor) and knows(actor, ct_brokers_gain) and not ct_pound_true(actor) and not ct_marl_bluffed(actor).
+    Time 2.
+    Resolve check(actor, deception, dc_fair).
+    On success { Assert ct_marl_bluffed(actor). Assert ct_marl_bluff_won(actor). Assert ct_pound_true(actor). Assert ct_loaf_dear(bread_market). Assert roundDone(actor, r_pound). }
+    On failure { Assert ct_marl_bluffed(actor). }
+    Result "You say it lightly, as gossip: that the Assessor has taken to weighing the Drip's loaves in her hand, and has a form in a drawer, and has not yet been asked. The Magpie looks at the stairs, then at the door, then, very briefly, at his cake. 'Ah,' he says. By morning the hook has been seen to. Nobody is paid, nobody is named, and the only thing that has been exchanged is a look; but you have, at the Tally, made an enemy of a man too polite ever to say so.".
+    Otherwise "'Thursdays,' says Tebbit, interested. 'Which Thursday? She has not in my knowledge left the Hall since the Drawing.' He has, in a sentence, found the flaw in the lie, and he is far too gracious to point at it.".
+  }
+  // What the Row does with a bare shake: a favour called in, once, on the sixth day.
+  Rule ct_marl_grudge when day(clock) >= 6 and hour(clock) >= 9 and (ct_marl_squeezed(party) or ct_marl_bluffed(party)) and not ct_pound_exposed(party) and not ct_cob_owned(party) once says "A note goes round the Row, with no hand and no name, that a Bare has taken coin of the Exchange for what it did not need to be paid for. The Watch is in no hurry about it. It is not, either, in no hurry." { Increase heat(party) by 1. }
+  Action ct_give_fund(actor: group, mask: face, site: place) "Lay the Magpie's twenty-five on the Rain-Wives' board, for the bakers' farthing" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, rain_hall_floor) and ct_marl_paid(actor) and not ct_fund_given(actor) and quantity(actor, gold) >= 25 and wears(actor, mask).
+    Time 2.
+    On success { Decrease quantity(actor, gold) by 25. Assert ct_fund_given(actor). Retract ct_loaf_dear(bread_market). Increase goodwill(mask) by 2. }
+    Result "They count it twice, in the manner of women who have never been given anything that was not owed. 'For what?' says one of them. You say: a farthing a loaf, for a year, from an ounce. She nods, slowly, and writes it on the slate by the door in chalk, in a column headed SOMEBODY, which no one is to rub out.".
+  }
+  Action ct_give_fund_bare(actor: group, site: place) "Lay the Magpie's twenty-five on the Rain-Wives' board, bare-faced" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, rain_hall_floor) and ct_marl_paid(actor) and not ct_fund_given(actor) and quantity(actor, gold) >= 25 and not masked(actor).
+    Time 2.
+    On success { Decrease quantity(actor, gold) by 25. Assert ct_fund_given(actor). Retract ct_loaf_dear(bread_market). Assert ct_rain_thanks(actor). }
+    Result "They count it twice. Nobody says a word to you, being Faced; but one of them, as you go, puts a hand flat on the slate by the door, over a column headed SOMEBODY, as a woman puts a hand on a child's head. You will be remembered here by what you did and not by anything you wore.".
+  }
+
+  // The Tally Coffee-house: a Magpie tallyman, who talks.
+  Person ct_tally "a Magpie tallyman" at coffee_room {
+    Role "a tallyman, with a wet slate". Ancestry human. Peaceable. Pronouns he. Manner acerbic.
+    Greets "A thin Magpie at the window table has a slate in one hand, a damp cloth in the other, and a face you cannot see turned politely to the street, as if conducting the conversation with it on your behalf.".
+    Greets again "The tallyman rubs out a number and writes another.".
+  }
+  Rule ct_tally_cafe when hour(clock) >= 9 and hour(clock) < 20 and not at(ct_tally, coffee_room) { Assert at(ct_tally, coffee_room). }
+  Rule ct_tally_home when (hour(clock) >= 20 or hour(clock) < 9) and not at(ct_tally, offstage) { Assert at(ct_tally, offstage). }
+  Topic ct_tally_bread with ct_tally "Ask the tallyman who gains when the Drip's loaf goes light" when ctDay(actor) once {
+    Says "'Gains.' He writes the word on his slate and looks at it. 'The Drip's bakers, in the short run: an ounce of flour a loaf is bread. The Drip's customers, never: an ounce is an ounce. The Row.' The slate is rubbed. 'The Row weighs the millers' sacks in against the Drip's own pound, since it is on a hook near the quay, and has the Hall's stamp on it, and nobody has had the heart to carry the Exchange's beam across the Cuff. Ounce in, ounce out. A man could do very well on the difference, if he were the sort to count.' He turns the slate over. 'I am the sort to count. I have not, you will see, said a name.'".
+    On discuss { Assert knows(actor, ct_brokers_gain). }
+  }
+  Topic ct_tally_reckon with ct_tally "Ask what a tallyman may say about a short till" when ctDay(actor) once {
+    Says "He does not answer you. He leans across, with the unhurried courtesy of a man who has found a use for an audience, to the table behind, where a colleague is nursing a long face. 'Seventeen short,' he says aloud, to the whole room, 'in the Candlemakers' till, at the quarter. The books are seventeen short, Master Magpie, and the last page is where one would look.' The colleague goes white. Nobody in the room turns a head. 'By whom?' says the tallyman gently, over his shoulder, to you. 'A sum has no face.' He writes 17 on the wall, where it will be wiped out by the boy by noon. 'It is the only sort of statement the Concord has never been able to find a rule against. Arithmetic. They tried once, I'm told. It came out even.'".
+    On discuss { Assert knows(actor, ct_reckoning). }
+  }
+  Topic ct_tally_cold with ct_tally "Say something to the tallyman" when ctBare(actor) once {
+    Says "'Seventeen,' says the tallyman, to the street, in a voice of such neutrality that you are not sure whether it is a price, a remark about the weather, or the cold thing he has to say to the Bare.".
+  }
+
+  // The hawker of clocks on the Exchange floor, who answers anyone, having never had the luxury of a rule.
+  Person ct_hawker "a clock-hawker" at exchange_floor {
+    Role "a hawker of second-hand clocks, with a tray round his neck". Ancestry human. Peaceable. Pronouns he. Manner cheerful.
+    Sells ct_clock_kind for 6 coin from 2.
+    Greets "A hawker with a tray of clocks round his neck stands at the corner of the floor, where no Magpie will quite look at him, saying in a cheerful carrying bass: 'Time! Time for a coin! Eleven minutes fast, honest, and warranted never to be right!' He answers a bare face as readily as a masked one. He has not, as he says, got the capital for scruples.".
+    Greets again "'Time!' says the hawker, to you in particular.".
+  }
+  Rule ct_hawker_floor when hour(clock) >= 9 and hour(clock) < 18 and not at(ct_hawker, exchange_floor) { Assert at(ct_hawker, exchange_floor). }
+  Rule ct_hawker_home when (hour(clock) >= 18 or hour(clock) < 9) and not at(ct_hawker, offstage) { Assert at(ct_hawker, offstage). }
+
+  // The day-four slate: if nothing is done, the Rain-Wives put the arithmetic on the wall of the market, where
+  // everyone can read it and nobody is to blame.
+  Rule ct_pound_slate at bread_market when day(clock) >= 4 and hour(clock) >= 9 and not ct_pound_true(party) once says "In chalk on the Rain-Wives' door, in the market, someone has written 16, and under it, smaller, 15, and nothing else. The bakers walk by it with their eyes on their feet. Nobody has rubbed it out, and nobody has dared to explain it." { }
+  Rule ct_pound_rides when day(clock) >= 7 and hour(clock) >= 9 and not ct_pound_true(party) once says "The Drip's bread has been light for a year, and cheap, and the Drip has decided, on the whole, to be glad of it. A woman at the end of the Row says that it is not cheating if everyone has agreed not to look. She is, in her way, quite right; and the hook goes on swinging." { }
+
+  // ── The Lock-tax (Round 6): the strongroom, the ledger, and Naomi Teague ─────────────────────────────────────────────────
+  // The Warden's book is kept in the strongroom, in one hand, exact. Naomi Teague, his clerk, copies the true sums every
+  // quarter into a second book she carries in her sleeve, and signs the false ones. She has been the signing hand for
+  // eleven years; if it is said, the Concord will believe an Office before a Heron, and to say it she must say a person
+  // aloud. What moves her is not evidence (she has the evidence) but a way to say it that is not a name: a reckoning.
+  Discovery ct_noon_hint "At noon the Warden of Locks walks the floor of the Exchange, and his clerk eats at her desk alone in the office, with the strongroom's small door at her back.".
+  Discovery ct_fenn_face "The Heron clerk at the Warden's desk is Naomi Teague, thirty-four, eleven years the Warden's clerk, unmarried, who lodges over a chandler's.".
+  Discovery ct_fenn_copies "Naomi Teague carries a second ledger up her sleeve every day and copies into it the true sums of the Lock-tax that she is made to sign false.".
+  Discovery ct_ledger_false "The Lock-tax book in the Warden's strongroom is in one hand with every total exact; but in every quarter after the ninth year the totals are in a smaller pen, with a stroke of the same ink that the figures lack, and no total is ever uneven.".
+  Relation ct_fenn_wary(group). Relation ct_fenn_open(group). Relation ct_fenn_trust(group). Relation ct_fenn_yields(group). Relation ct_fenn_cowed(group).
+  Relation ct_fenn_bolted(group). Relation ct_fenn_gave(group). Relation ct_fenn_stiff(group). Relation ct_fenn_gave_key(group).
+  Measure ct_fenn_back(group).
+  // She is gone from the Row when she has run, or when she has given the book she was frightened into giving.
+  Query ct_fenn_leaves() means ct_fenn_bolted(fenn) or (ct_fenn_cowed(fenn) and ct_fenn_gave(fenn)).
+  Item ct_true_book "Naomi Teague's other book" is ct_book_kind at offstage.
+  Item ct_strong_key "Teague's strongroom key" is ct_key_kind at offstage.
+  Person fenn "Naomi Teague" at locks_office {
+    Role "the Warden's clerk".
+    Known as "a Heron clerk at the Warden's desk, with the cowl pulled low over her ledger" when publicHours() and not knows(party, ct_fenn_face).
+    Ancestry human. Peaceable. Pronouns she. Manner stoic.
+    Greets "A woman of thirty-four, narrow and exact, with ink in the creases of her hands and the manner of someone who has learned to occupy no more of a room than will still count. By day a Heron's cowl, grey and deep. At night her own plain face, which is, for the first time in the day, listening.".
+    Greets again "Naomi Teague turns a page, or does not.".
+  }
+  Initially Assert unmaskTeaches(fenn, ct_fenn_face).
+  Rule ct_fenn_office when hour(clock) >= 8 and hour(clock) < 20 and not ct_fenn_leaves() and not at(fenn, locks_office) { Assert at(fenn, locks_office). }
+  Rule ct_fenn_home when (hour(clock) >= 20 or hour(clock) < 8) and not ct_fenn_leaves() and not at(fenn, ct_fenn_room) { Assert at(fenn, ct_fenn_room). }
+  Rule ct_fenn_away when ct_fenn_leaves() and not at(fenn, offstage) { Assert at(fenn, offstage). }
+  Rule ct_fenn_returns when ct_fenn_bolted(fenn) and day(clock) >= ct_fenn_back(fenn) and hour(clock) >= 8 { Retract ct_fenn_bolted(fenn). }
+  Rule ct_calms when hour(clock) >= 8 and hour(clock) < 9 and (ct_fenn_wary(fenn) or ct_fenn_stiff(fenn) or ct_lacke_stiff(lacke)) { Retract ct_fenn_wary(fenn). Retract ct_fenn_stiff(fenn). Retract ct_lacke_stiff(lacke). }
+  Observe ct_fenn_bare near fenn when at(fenn, ct_fenn_room) and privateHours() "Without the cowl she is smaller and younger than the Heron: Naomi Teague, thirty-four, in a shawl with a pen in her hand, who has, for the first time since the Third Bell, a face that is listening." teaches ct_fenn_face.
+  Observe ct_fenn_cowl near fenn when at(fenn, locks_office) and publicHours() and at(lacke, locks_office) "The Heron clerk writes with her left hand and keeps the right in her lap, under the desk, in a fist.".
+
+  // The day register: a clerk in a cowl by a Warden's chair says what the Office permits, which is nothing.
+  Topic ct_fenn_front with fenn "Ask the clerk about the quarter's receipts" when ctDay(actor) and at(lacke, locks_office) once {
+    Says "She does not look up. 'The Warden receives on Tuesdays,' says the Heron, to her ledger, and turns a page she has already turned. Behind you the green chair creaks, a small leather sound. In a room with the Key in it, you understand, nothing a clerk says is hers.".
+  }
+  Topic ct_fenn_tax with fenn "Ask the clerk how the Lock-tax is gathered" when ctDay(actor) and not at(lacke, locks_office) once {
+    Says "'By receipt,' she says, quick and low, to the page. 'Every lock-owner pays a quarter-penny a quarter at that window and is given a slip, and every slip is copied into the Warden's book, in the strongroom, in the Warden's own hand. In the Warden's own hand,' she repeats, as one reads a line twice to be sure it is a joke. 'It is a very tidy book.'".
+    On discuss { Assert knows(actor, ct_tax_how). }
+  }
+  Topic ct_fenn_book with fenn "Ask whether the strongroom's book can be seen" when ctDay(actor) and not at(lacke, locks_office) and not ct_lacke_burned(lacke) once {
+    Says "'By Warrant,' she says, 'or the Board's order.' Then, very quickly, so that it is hardly a sentence: 'Not at noon. At noon the Warden walks the Floor, and the clerk eats at her desk, and a clerk at her desk cannot be said to have been anywhere else.' She turns a page. 'I have said nothing about noon.'".
+    On discuss { Assert knows(actor, ct_noon_hint). }
+  }
+  Topic ct_fenn_cold with fenn "Say something to the clerk" when ctBare(actor) once {
+    Says "The Heron's cowl moves a quarter of an inch toward you and returns. 'The Office is not open to the unfaced,' she says, to the desk, with something that, in a person less afraid, might be apology.".
+  }
+  // Insight: watch what she does with her sleeve. A failure spoils the day.
+  Action ct_fenn_watch(actor: group, site: place) "Watch her sleeve while she turns the pages" {
+    Speaker fenn.
+    Requires able(actor) and company(actor) and at(actor, site) and at(fenn, site) and ctDay(actor) and not at(lacke, site) and not knows(actor, ct_fenn_copies) and not ct_fenn_wary(fenn).
+    Time 2.
+    Resolve check(actor, insight, dc_fair).
+    On success { Assert knows(actor, ct_fenn_copies). }
+    On failure { Assert ct_fenn_wary(fenn). }
+    Result "She reaches for each page with the left hand, always, because the right keeps going to the cuff; and when the cuff rides up, you see the edge of cheap boards, the corner of a small book, a ribbon. She is carrying a second ledger up her sleeve every day of her life. Her fingers close on it each time the green chair creaks, as a hand closes on a bird.".
+    Otherwise "She sees you look. The cowl turns, once, with a clerk's great economy, and the sleeve goes back down, and she writes for an hour a column that does not, you suspect, need an hour. Nothing you say to her till tomorrow will find an answer.".
+  }
+
+  // The night register: a clerk at her own table, with a kettle.
+  Topic ct_fenn_polite with fenn "Ask Naomi Teague how she comes to be up so late" when ctNight(actor) and at(fenn, ct_fenn_room) and not knows(actor, ct_fenn_copies) once {
+    Says "'Work,' she says. She has not asked you to sit. She has not, either, closed the door. 'A clerk's work is only ever caught up the night after the last.' She looks at the book open on the table, and, with a small, practised movement, closes it on her thumb, as if to keep a place. 'Is there something the Office wants, at this hour?'".
+  }
+  Topic ct_fenn_confront with fenn "Tell her you know she copies the book" when ctNight(actor) and at(fenn, ct_fenn_room) and knows(actor, ct_fenn_copies) and not ct_fenn_open(fenn) once {
+    Says "Her hand goes to her cuff, and then, as if it belonged to someone else, to the table. 'Yes,' says Naomi Teague. 'Every quarter for eleven years. I sign the line he gives me, and I enter the true one here, in my mother's ginger-cake book, because I cannot bear it to be in no book at all.' She stops. 'Do you know what I am? I am the signing hand. If it comes out I am not the clerk who knew; I am the clerk who signed. He will say it, and the Concord will believe an Office over a Heron. And if I say it, I must say him, a person, aloud, under a mask; and then I am Named, and so is he, and every debt I have ever had is a thing the Sleeves can read.'".
+    On discuss { Assert ct_fenn_open(fenn). }
+  }
+  // 1. An hour waited: the only thing she has been asked for, in eleven years, is nothing.
+  Action ct_fenn_sit(actor: group, site: place) "Sit with her through her evening's copying, and say nothing" {
+    Speaker fenn.
+    Requires able(actor) and company(actor) and at(actor, site) and at(fenn, site) and ctNight(actor) and not ct_fenn_trust(fenn) and not ct_fenn_yields(fenn).
+    Time 6.
+    On success { Assert ct_fenn_trust(fenn). }
+    Result "She does not tell you to sit. You sit. She copies, a column at a time, in a hand like a row of small closed doors, and you do not speak, and the kettle does the speaking. At the end of the hour she lays down the pen. 'My mother kept this book for Feast-day cakes. She could not read a figure. She knew by the weight in her hand when a recipe was off.' She looks at the ledger. 'I think that was the whole of her wisdom, and I think I have been trying to do it with money.' She does not say what she will do. But it is the first time in eleven years that the pen has stopped in the presence of a witness.".
+  }
+  // 2. The form of words (insight to choose the moment; the reckoning is in the tally-house, and is shown, not told).
+  Action ct_fenn_reckon(actor: group, site: place) "Offer her the form of a reckoning: the books are in error by so much, and no one is named" {
+    Speaker fenn.
+    Requires able(actor) and company(actor) and at(actor, site) and at(fenn, site) and ctNight(actor) and ct_fenn_open(fenn) and knows(actor, ct_reckoning) and not ct_fenn_yields(fenn) and not ct_fenn_stiff(fenn).
+    Time 3.
+    Resolve check(actor, insight, dc_fair).
+    On success { Assert ct_fenn_yields(fenn). }
+    On failure { Assert ct_fenn_stiff(fenn). }
+    Result "You wait for the minute when she has her pen in her hand and nothing to put it to. Then you say it as the tallyman said it, over your shoulder, almost lightly: that the book is, in this quarter, seventeen short, and in the last, and in the one before; that a till is a till; that a sum has no face. She goes very still. Then she laughs, once, a cracked, astonished sound, like a woman finding a door in a wall she has leant on for years. 'A reckoning,' says Naomi Teague. 'It is only a reckoning. I can say it to anyone. I have been saying it to myself for eleven years and never put the last line on.' She puts the last line on.".
+    Otherwise "You say it a half-second too soon, with the wrong inflection, so that it sounds like what it is, which is a clever trick; and she hears it as one. 'A sum,' she says, in a small, flat voice, 'is a sum.' She turns the ledger face down. 'You had better go.'".
+  }
+  // 3. The Warrant held over a frightened woman (intimidation): the book is got, and she is broken in getting it.
+  Action ct_fenn_press(actor: group, site: place) "Tell her the Warrant will have the signing hand, in her own name, if she will not give the other" {
+    Speaker fenn.
+    Requires able(actor) and company(actor) and at(actor, site) and at(fenn, site) and ctNight(actor) and warrantHeld(actor) and ct_fenn_open(fenn) and not ct_fenn_yields(fenn).
+    Time 3.
+    Resolve check(actor, intimidation, dc_fair).
+    On success { Assert ct_fenn_yields(fenn). Assert ct_fenn_cowed(fenn). }
+    On failure { Assert ct_fenn_bolted(fenn). Set ct_fenn_back(fenn) to day(clock) + 2. }
+    Result "You tell her what the Warrant is for, and what a signing hand is to a Hearing, and watch it go in. She does not argue. She takes the book from the table, and lays it in your hands, and says, quite politely, 'There. That is all of it. I will not be in the Office tomorrow.' She is, you see, already packing, in her mind, one case. There is nothing to be glad of in what you have done, and you have done it.".
+    Otherwise "She stands up, very slowly, and is out of the door in her shawl before you have decided whether to follow. The kettle is still on. In the morning her desk at the Office is empty, her cowl on its hook, and, Lacke will say, a Heron has a sister in the Drip, whom she will be visiting for some days.".
+  }
+  // What she gives, and what she tells. She will not give the book while she can still be the signing hand.
+  Topic ct_fenn_testimony with fenn "Ask her to say what she has seen, as she would tell it to her mother" when ctNight(actor) and at(fenn, ct_fenn_room) and ct_fenn_trust(fenn) and not ct_fenn_yields(fenn) and not knows(actor, lacke_taxed) once {
+    Says "She does not use his name. She says 'the Office,' always, so that it is a thing that goes on in the next room. 'The Office takes a farthing and calls it a half. It has taken it for nineteen years: every lock in Ombra, to the quarter, in the sum of the day's receipts, and the book in the strongroom has never once, in eleven of them, said so. The totals are exact because the Office makes them so. I have the real ones.' She puts her hand flat on the ledger on the table. 'I cannot give you the book. I can tell you that it exists, and who holds it, which is not the same as giving it.'".
+    On discuss { Assert knows(actor, lacke_taxed). Assert knows(actor, ct_noon_hint). }
+  }
+  Topic ct_fenn_give with fenn "Ask her for the book she keeps" when ctNight(actor) and at(fenn, ct_fenn_room) and ct_fenn_yields(fenn) and not ct_fenn_cowed(fenn) and not ct_fenn_gave(fenn) once {
+    Says "She gives it into your hands as one hands over a child that has been ill a long time. 'The reckoning is all in it,' she says. 'Say that the books are in error by so much and so much in every quarter, and where; you need not say by whom. A sum has no face.' She almost smiles. 'It is the only comfort I have ever had of arithmetic.'".
+    On discuss { Give ct_true_book to actor. Assert ct_fenn_gave(fenn). Assert knows(actor, lacke_taxed). }
+  }
+  Topic ct_fenn_give_cowed with fenn "Take the book she holds out" when ctNight(actor) and at(fenn, ct_fenn_room) and ct_fenn_cowed(fenn) and not ct_fenn_gave(fenn) once {
+    Says "She holds it out without being asked a second time, at arm's length, and you take it. She does not look at you. 'Go,' says Naomi Teague, in the voice of a woman who is already elsewhere, 'and do not say I helped.'".
+    On discuss { Give ct_true_book to actor. Assert ct_fenn_gave(fenn). Assert knows(actor, lacke_taxed). }
+  }
+  Topic ct_fenn_key with fenn "Ask about the key to the strongroom" when ctNight(actor) and at(fenn, ct_fenn_room) and (ct_fenn_trust(fenn) or ct_fenn_yields(fenn)) and not ct_fenn_gave_key(fenn) once {
+    Says "'The Warden's key is on the Warden's ribbon,' she says, 'and it was never the only one.' She takes a small iron thing out of the lining of her shawl, worn bright by a thumb. 'This opens the door from the office side. It has been in my sleeve eleven years, and I never once used it, which I have lately begun to think was the point.' She lays it in your hand. 'At noon. Not before.'".
+    On discuss { Give ct_strong_key to actor. Assert ct_fenn_gave_key(fenn). }
+  }
+
+  // The strongroom lock; picked, or opened with Teague's key. By day, with the Warden in his office, it is a bad place to
+  // be found.
+  Thing ct_strong_lock "the strongroom lock" on strongroom_door {
+    State locked blocking "The strongroom's small door is locked, a brass lock the size of a hymn-book, with the Office's seal wired across the keyhole.".
+    State open "The strongroom's small door stands open.".
+    Change pick "Pick the strongroom lock" from locked to open needing lockwork.
+    Change unlock "Unlock the strongroom with Teague's key" from locked to open needing ct_strong_key.
+  }
+  Rule ct_caught_in_strongroom when at(party, locks_strongroom) and at(lacke, locks_office) and publicHours() and not ct_lacke_warned(lacke) once says "The small door opens behind you. 'The Office,' says the Key, in the keyhole voice, 'does not receive in its strongroom.' The brass face regards you without any expression at all, and a bell is rung, in the office, by someone who has been waiting a long time to ring it." { Increase heat(party) by 2. Assert ct_lacke_warned(lacke). }
+  Action ct_read_ledger(actor: group, site: place) "Read the Lock-tax book against its receipts" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, locks_strongroom) and not ct_lacke_burned(lacke) and not knows(actor, ct_ledger_false) and not benighted(actor).
+    Time 3.
+    Resolve check(actor, lore, dc_fair).
+    On success { Assert knows(actor, ct_ledger_false). Assert knows(actor, lacke_taxed). }
+    Result "It is the loveliest book in the city: every column in a single hand, every total exact. That is the first thing wrong with it. In the Sleeve books the owners' slips are pinned beside the sums, and the slips are in a dozen hands, a quarter-penny each; and the sums, after the ninth year, are in a smaller pen, and every quarter comes out a half. A quarter-penny is a quarter-penny. A half is a custom.".
+    Otherwise "The figures swim, as figures do in a cell with one candle. You have the sense of having been shown something and of not having seen it. An hour goes by, in which the strongroom does you the courtesy of not minding.".
+  }
+  Observe ct_strong_burned at locks_strongroom when ct_lacke_burned(lacke) "On the shelf where the Lock-tax of the last nine years stood, there is a heap of grey flakes, and a smell of leather. Whoever did it was careful not to hurry.".
+  Observe ct_office_empty at locks_office when ct_lacke_end(lacke) >= 1 and not at(lacke, locks_office) and publicHours() "The green chair is empty. On its arm the brass lock is open, and the Key hangs on its peg beside the chair, where a clerk has hung it with a duster over it, as one covers a mirror.".
+
+  // What follows from the Lock-tax's end, for Teague and for the Office.
+  Rule ct_fenn_unburdened when ct_lacke_end(lacke) >= 1 and ct_lacke_end(lacke) != 3 and ct_fenn_yields(fenn) and not ct_fenn_cowed(fenn) once says "In the Warden's office a Heron is seen to take the green chair, by right of the Board, for the length of a morning, to see how it feels; and to get up again, and take her own stool, and her own pen. It is understood that she has been offered the desk, and has said she will think." { }
+
+  // ── Milestones ────────────────────────────────────────────────────────────────────────────────────────────────────────
+  Milestone ct_m_ledger "learned how the Lock-tax is skimmed" worth 25 when knows(party, lacke_taxed).
+  Milestone ct_m_pound "put the true Pound back on the Drip's hook" worth 50 when ct_pound_true(party).
+  Milestone ct_m_fund "had the Row pay the Drip's farthing" worth 25 when ct_fund_given(party).
+  Milestone ct_m_fenn "gave Naomi Teague a way to say it that is not a name" worth 50 when ct_fenn_yields(fenn) and not ct_fenn_cowed(fenn).
+  Milestone ct_m_lacke "stopped the Warden of Locks' hand in the Lock-tax" worth 75 when ct_lacke_end(lacke) >= 1.
+
+  // ── What became of them ───────────────────────────────────────────────────────────────────────────────────────────────
+  Rule ct_fate_lacke_named when newsHour() and ct_lacke_end(lacke) == 1 once says "Of Ser Corvin Lacke: Named at noon in the Row, with every grudge of nineteen years come up the street after the name like gulls after a net. He has kept the clocks. They are, in the room he has been let, in agreement for the first time: there is only one of them, and it is wrong by eleven minutes." { }
+  Rule ct_fate_lacke_laughed when newsHour() and ct_lacke_end(lacke) == 2 once says "Of Ser Corvin Lacke: laughed off the floor of the Exchange by a lampoon in the Wet Stage's own pen, and gone home on the Board's note that he was unwell. He winds the clocks still. It is said he laughs, sometimes, in the middle of it, alone, like a man hearing a joke told about someone he used to know." { }
+  Rule ct_fate_lacke_fled when newsHour() and ct_lacke_end(lacke) == 3 once says "Of Ser Corvin Lacke: gone from the Row before light on the seventh day with a travelling-trunk, and the stair-door open on forty clocks, which stopped, one by one, over the week, each at its own hour. The last, a gilt heron, struck a quarter to, and did not go on." { }
+  Rule ct_fate_lacke_resigned when newsHour() and ct_lacke_end(lacke) == 4 once says "Of Ser Corvin Lacke: wrote his letter to the Board on the ninth night, with a ribbon on the right thing, and made the Lock-tax good as far as his means ran. He was Spent with his face on. On the tenth morning he was seen in the Collegium, buying a clock that gains eleven minutes a day, and showing it to everyone." { }
+  Rule ct_fate_lacke_key when newsHour() and ct_lacke_end(lacke) == 5 once says "Of Ser Corvin Lacke: has no Office now, and no brass to hide in, and does not appear to know what to do with his face. The Key hangs wherever the Bare keeps it. He sits among forty clocks and is, for the first time in his life, exactly the age on his forehead." { }
+  Rule ct_fate_lacke_unmet when newsHour() and ct_lacke_end(lacke) == 0 once says "Of Ser Corvin Lacke: the strongroom's chimney smoked on the sixth day, and the Key sat the ninth night in its green chair, and the nineteen years went on. He is a man who has not been come to, and has gone on being himself with great punctuality." { }
+  Rule ct_fate_fenn_cowed when newsHour() and ct_fenn_cowed(fenn) once says "Of Naomi Teague: left the Row on the day after, with one case, and her mother's ginger-cake book in no one's hands but yours. Nobody could say which coach. The Warden's office has a new Heron, who signs what she is given." { }
+  Rule ct_fate_fenn_free when newsHour() and ct_fenn_yields(fenn) and not ct_fenn_cowed(fenn) and ct_lacke_end(lacke) >= 1 once says "Of Naomi Teague: the Board has offered her the desk, and she has said she will think. She has begun to take her cowl off at the door of her own room on her own stair, and to leave the true sums, in a clear hand, on the Warden's desk, with a note: A SUM HAS NO FACE." { }
+  Rule ct_fate_fenn_waits when newsHour() and ct_fenn_yields(fenn) and not ct_fenn_cowed(fenn) and ct_lacke_end(lacke) == 0 once says "Of Naomi Teague: she gave the book, and the Key sat on, and she goes in every morning in the Heron, to a green chair with someone in it, and signs. It is worse than before, and also easier. She has stopped hiding the pen." { }
+  Rule ct_fate_fenn_told when newsHour() and not ct_fenn_yields(fenn) and ct_fenn_trust(fenn) once says "Of Naomi Teague: she told you what she could, and no more, and goes on copying the true sums into her mother's book at night, a column at a time. She says it is the only form of prayer a clerk is allowed. Someone, she says, sat with her once." { }
+  Rule ct_fate_fenn_unmet when newsHour() and not ct_fenn_yields(fenn) and not ct_fenn_trust(fenn) once says "Of Naomi Teague: still the signing hand. She copies, by night, and does not say. She will be the clerk who knew, if it is ever asked, for as long as nobody asks her." { }
+  Rule ct_fate_assessor_exposed when newsHour() and ct_pound_exposed(party) once says "Of Hanne Orrow: she lodged the first Complaint of Short Weight the Hall has accepted in thirty years, over a Mask's name, on a form that did not leave a space for a man. She bakes still, in her own face, at four, and weighs the Drip's bread on Thursdays on the Honest Beam, where it is, now, exact." { }
+  Rule ct_fate_assessor_true when newsHour() and ct_pound_true(party) and not ct_pound_exposed(party) once says "Of Hanne Orrow: the Hall did nothing. The hook corrected itself, the way a tide does, and she wrote 'noted' on a Thursday in her flat bronze hand. She has been seen, on the Drip side of the quay, standing very still before a loaf." { }
+  Rule ct_fate_assessor_untold when newsHour() and not ct_pound_true(party) once says "Of Hanne Orrow: weighs the Drip's bread by hand on Thursdays, fifteen ounces, and has told nobody. She will go on being the woman in the bronze, on a high stool, until she is Spent; and be remembered, at the end of her year, for a very clean beam." { }
+  Rule ct_fate_cob_owned when newsHour() and ct_cob_owned(party) once says "Of Cob Hallard: he walked the pound to the Hall in the rain with his domino in his hand, and was given a new one, with the Hall's stamp, and told it was not his fault. He did not believe it. He weighs the Drip's bread to the ounce now, and shouts the weight out, to show anyone who will look that he is not hiding it." { }
+  Rule ct_fate_cob_shamed when newsHour() and ct_cob_shamed(party) once says "Of Cob Hallard: told by the Hall that he has been mistaken, in a form with no space for his name, and he has been a very quiet man since. His father's pound is a thing he sometimes sits and looks at, in the evenings, in a shop where it hangs in a net on a nail with its stamp taken off." { }
+  Rule ct_fate_cob_swapped when newsHour() and ct_pound_swapped(party) once says "Of Cob Hallard: found the pound true on its hook one morning, and has said nothing about it to anyone, and pats it, from time to time, a little more carefully than he used to." { }
+  Rule ct_fate_cob_mended when newsHour() and ct_pound_true(party) and not ct_pound_swapped(party) and not ct_cob_owned(party) and not ct_cob_shamed(party) once says "Of Cob Hallard: the pound on his hook was seen to in the night by hands he never learned, and he has taken the beam apart twice since, to find what the brokers did to it, and found nothing; he is not a man who will ever know what was the matter, and is the better for it." { }
+  Rule ct_fate_rainwives when newsHour() and ct_rain_thanks(party) once says "Of the Rain-Wives: they kept a column on their door, in chalk, headed SOMEBODY, for the Bare who put twenty-five coin on their board and would not be told what face to be thanked in; and they will not rub it out, whoever it was." { }
+  Rule ct_fate_cob_unmet when newsHour() and not ct_pound_true(party) once says "Of Cob Hallard: he pats the market's pound on its hook, and weighs the Drip's bread by it, to the last loaf, and not a loaf has gone out under; he believes it to the end." { }
+  Rule ct_fate_marl_paid when newsHour() and ct_marl_paid(party) and ct_fund_given(party) once says "Of Ambrose Tebbit: paid twenty-five coin for his weather, and saw it, in chalk, in the Drip's bakers' column, headed SOMEBODY. He eats his cake at the corner table of the Tally with a certain care, as of a man who has had a lesson in what a farthing is for." { }
+  Rule ct_fate_marl_kept when newsHour() and ct_marl_paid(party) and not ct_fund_given(party) once says "Of Ambrose Tebbit: paid his twenty-five and did not forget whom to. A note went round the Row, with no hand, about a Bare who took the Exchange's coin; and the Drip's loaf is a farthing dearer by the Hall's order, and the Drip knows nothing of him." { }
+  Rule ct_fate_marl_bluffed when newsHour() and ct_marl_bluff_won(party) once says "Of Ambrose Tebbit: saw to the hook by morning, and said nothing, and was never named, and has been, ever since, a little too polite to you in any street." { }
+  Rule ct_fate_marl_rides when newsHour() and not ct_pound_true(party) once says "Of Ambrose Tebbit: weighs the millers' flour in against the Drip's pound, an ounce on the pound, as he has for ten years. He calls it weather, and believes, with great sincerity, that it is." { }
+  Rule ct_fate_marl_lost when newsHour() and ct_pound_true(party) and not ct_marl_paid(party) and not ct_marl_bluffed(party) once says "Of Ambrose Tebbit: lost his ounce to nobody he could name, and has had to find another weather. He is said to have opened a dispute with the sky." { }
+  Rule ct_fate_drip_dear when newsHour() and ct_loaf_dear(bread_market) once says "Of the Drip's bread: a loaf is a penny and a farthing by the Hall's own beam, and the Drip says that it was cheaper to be cheated. It says so in the Drip's way, which is to bake very well, and to charge for it." { }
+  Rule ct_fate_drip_paid when newsHour() and ct_pound_true(party) and not ct_loaf_dear(bread_market) once says "Of the Drip's bread: a loaf is a penny, to the ounce, and sixteen; and nobody in the Sleeve can say who has paid the difference, and a column in chalk on the Rain-Wives' door says SOMEBODY." { }
+
+  // ── END ──
+}

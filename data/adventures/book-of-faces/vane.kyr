@@ -1,0 +1,61 @@
+Module ombra "The Book of Faces" {
+  // ── The Candid ────────────────────────────────────────────────────────────────────────────────────────────────────
+  // Orsolya Hart, who has not worn a mask in eleven years, and whose Reading-room on Counting Row is the one place in
+  // Ombra where a bare face is spoken to by day. She leads the Candid, a few hundred who go unmasked by vow and are
+  // despised for it; and she is right about nearly everything except what a name is for. She wants the Book of Faces read
+  // aloud at the Drawing. She is moved not by evidence but by being refused, as an equal, by someone who stays.
+  Observe candid_scene at candid_room when publicHours() "A long room over a printer's, with a hand-press at one end that is never still and a table at the other covered in galleys that are all, if you look, the same page. A hundred bare faces on the wall in pencil, each with a number and no name. The Candid do not hide in here. They work in the open and look at each other: it is the oddest thing in the whole of Ombra, and it is a little like being cold.".
+  Observe candid_night at candid_room when privateHours() "At night the press is covered and the room has the look of a house where a meeting has just broken up. Somebody has left a lamp lit under a drawing of a face with its mask in its hand.".
+  Person vane "Orsolya Hart" at candid_room {
+    Role "the Candid, who has not worn a mask in eleven years".
+    Ancestry human. Calling bard. Level 5. Peaceable. Pronouns she. Manner proud.
+    Greets "A tall woman in a grey coat, with ink to her elbows and not so much as a veil, looks up from the press and sees you as no one has seen you since you came down the delta road: all at once, from the top of your head. 'A Bare,' she says. 'And you came in at the front. Sit.' Her face is long and plain and furious and kind, and it has no mask on it, and it has been rained on, and slapped, and spat on, and nothing has made it look away. 'I am Orsolya Hart,' she says, 'and it is a crime to say so. I shall go on saying it.'".
+    Greets again "'Bare,' says Orsolya Hart, and moves a galley so you can sit.".
+  }
+  Relation vaneListened(group). Relation vaneBookWanted(group). Relation vaneDoubts(group). Relation vaneHolds(group). Relation vaneRefused(group).
+  Topic vane_creed with vane "Ask what the Candid want" when true once {
+    Says "'A face is a promise,' says Orsolya Hart. 'It says: it is I who am standing here and you may hold me to it. The Concord took it away. We have lived three hundred years in a city where nobody can be held to anything. The Treasurer has no name and so the sluice has no keeper. The Warden has no name and so the tax has no thief.' She taps the galley. 'I am not asking for a feud. I am asking for a name on a lock.'".
+    On discuss { Assert vaneListened(actor). }
+  }
+  Topic vane_book with vane "Ask what she means to do with the Book" when vaneListened(actor) once {
+    Says "'The Registrar is dead and the Book is gone, and the Drawing will be read on the ninth night by somebody,' she says. 'When I have the Book, I shall read it aloud in the Urn Hall, every name, every year, before a Registrar sits down. And the city will know who has been its masks.' She does not blink. 'I do not want to hurt them. I want them to be a little less safe. It is not the same.'".
+    On discuss { Assert vaneBookWanted(actor). }
+  }
+  Topic vane_who with vane "Ask her why she has no mask" when vaneListened(actor) and privateHours() once {
+    Says "'I was the Serene,' she says, after a while, 'four years ago.' She has the look of a woman making herself go over a wall. 'I wore it a year. In the year, nobody said a thing to me that was not to the Serene. At the end of it I was Spent, and went home, and nobody in my street would speak to a person who had been it; and nobody could say why, since nobody could say I had been.' She turns a galley over. 'I decided I would rather be spat on by people who could name me.'".
+    On discuss { Assert knows(actor, vane_was_serene). }
+  }
+  Discovery vane_was_serene "Orsolya Hart, the Candid, was the Serene four years ago, and has gone unmasked ever since: she would rather be spat on by people who can name her than be thanked by nobody.".
+  // Giving her the Book, or not. The Book itself is the post.kyr's find.
+  Action give_vane_book(actor: group, site: place) "Give Orsolya Hart the Book of Faces" {
+    Speaker vane.
+    Requires able(actor) and company(actor) and at(actor, site) and at(vane, site) and carries(actor, book_of_faces) and not vaneHolds(actor).
+    Time 2 minutes.
+    On success { Assert vaneHolds(actor). Spend book_of_faces from actor. Assert at(book_of_faces, candid_room). }
+    Result "She takes it in both hands and does not open it. 'Ninety years of names,' she says, and her face does something quite complicated. 'I have wanted to hold this since I was nineteen.' Then she does open it, at random, and reads a line, and says, very quietly, 'Oh, they are so small.'".
+  }
+  // The second beat. A person who has been agreed with for eleven years is moved by a refusal that stays in the room.
+  Action refuse_vane(actor: group, site: place) "Tell her, to her face, that you will not give her the Book, and stay to hear her answer" {
+    Speaker vane.
+    Requires able(actor) and company(actor) and at(actor, site) and at(vane, site) and vaneBookWanted(actor) and not vaneRefused(actor) and not vaneHolds(actor).
+    Time 20.
+    Resolve check(actor, insight, dc_fair).
+    On success { Assert vaneRefused(actor). Assert vaneDoubts(actor). }
+    On failure { Assert vaneRefused(actor). Increase heat(actor) by 1. }
+    Result "She goes still. For eleven years the masks have said no and the Candid have said yes, and you are neither, and you have not left. 'You are afraid I shall hurt the Spent,' she says at last. 'I am afraid of that too, God knows.' A silence. 'Tell me what you would have read, and what not.' She takes a pencil. It is the first time she has asked.".
+    Otherwise "She says, with great courtesy, that she did not know a Bare had opinions, and rises, and has the press stopped for the first time in a month so that the whole room can hear you go.".
+  }
+  Action vane_consent(actor: group, site: place) "Persuade her to read only the names of the Spent who consent" {
+    Speaker vane.
+    Requires able(actor) and company(actor) and at(actor, site) and at(vane, site) and vaneDoubts(actor) and not vaneHolds(actor) and not vane_consents(actor).
+    Time 20.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert vane_consents(actor). }
+    Result "'All right,' says Orsolya Hart. 'Names that are given. Not names that are taken.' She writes it on the wall in pencil, over the hundred bare faces, in a hand that has been waiting a long time to write it. 'And if nobody consents?' 'Then you will have a silence,' you say, 'and the city will have to learn to stand in it.' She laughs, which is not a thing she does.".
+    Otherwise "'I will think about it,' she says, in a voice that has finished thinking.".
+  }
+  Relation vane_consents(group).
+  Topic vane_bare_day with vane "Ask whether a Bare may rest here by day" when publicHours() once {
+    Says "'You may rest here, read here, ask here, and be asked,' she says. 'You are the one person in the city who will not be looked through in this room.' She finds a stool and does not apologise for it. 'It is the only thing I can offer a stranger that the Concord does not.'".
+  }
+}

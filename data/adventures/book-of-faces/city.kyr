@@ -1,0 +1,258 @@
+Module ombra "The Book of Faces" {
+  Description "Ombra, a delta city of forty thousand where it rains nine days in ten and every person goes masked by day: seven Sleeves of islands, a reed-garden, the cisterns under the poor ones, and nine days to the Drawing.".
+
+  // ── The map ───────────────────────────────────────────────────────────────────────────────────────────────────────
+  // Ombra is a coat laid out on the water: its islands are the Sleeves and the water between them the Cuff. The delta
+  // road comes in from the landward side to the Gate of Strangers; Counting Row and the Wet Post lie behind it,
+  // Chapel Island at the middle of the coat, Maskers' Lane and Quiet Hill to the west of it, the Drip beyond, and the
+  // Heronry at the lagoon's edge. Positions on the region map (x to the east, y to the south):
+  //      0,0 Heronry     1,0 Quiet Hill   2,0 Chapel Island   3,0 the Wet Post
+  //      0,1 the Drip    1,1 Maskers' Lane 2,1 Counting Row    3,1 the Gate of Strangers
+  //                                                            3,2 the delta road
+  // Every room here is owned by the file named in its comment; the owner writes its scene (Observe) and its people.
+  Place ombra_delta "the Delta of Ombra" is region.
+  Initially Assert terrain(ombra_delta, marsh).
+  Place delta_road "the delta road" is wilderness within ombra_delta at 3, 2.
+  Place gate_sleeve "the Gate of Strangers" is settlement within ombra_delta at 3, 1.
+  Place post_sleeve "the Wet Post" is settlement within ombra_delta at 3, 0.
+  Place chapel_sleeve "Chapel Island" is settlement within ombra_delta at 2, 0.
+  Place row_sleeve "Counting Row" is settlement within ombra_delta at 2, 1.
+  Place maskers_sleeve "Maskers' Lane" is settlement within ombra_delta at 1, 1.
+  Place hill_sleeve "Quiet Hill" is settlement within ombra_delta at 1, 0.
+  Place drip_sleeve "the Drip" is settlement within ombra_delta at 0, 1.
+  Place heronry "the Heronry" is wilderness within ombra_delta at 0, 0.
+  Place cisterns "the cisterns under the Drip" is site within drip_sleeve.
+  Place duelling_stair "the Duelling Stair" is site within hill_sleeve.
+
+  // ── Buildings ─────────────────────────────────────────────────────────────────────────────────────────────────────
+  // gate.kyr
+  Place gatehouse "the Gatehouse" is building within gate_sleeve.
+  Place hospice "the Hospice of the Bare" is building within gate_sleeve.
+  Place annex "the Wardrobe Annex" is building within gate_sleeve.
+  // maskers.kyr
+  Place pavane_house "Madame Pavane's house" is building within maskers_sleeve.
+  Place mask_shop "the Cockle and Heron mask-shop" is building within maskers_sleeve.
+  Place wet_stage "the Wet Stage" is building within maskers_sleeve.
+  // counting.kyr
+  Place exchange "the Exchange" is building within row_sleeve.
+  Place weights_hall "the Hall of Weights" is building within row_sleeve.
+  Place locks_house "the Warden of Locks' house" is building within row_sleeve.
+  Place collegium "the Collegium of Measures" is building within row_sleeve.
+  Place coffee_house "the Tally Coffee-house" is building within row_sleeve.
+  // vane.kyr
+  Place candid_house "the Candid Reading-room" is building within row_sleeve.
+  // post.kyr
+  Place post_office "the Dead Letter Office" is building within post_sleeve.
+  Place loft "the pigeon loft" is building within post_sleeve.
+  // drip.kyr
+  Place rain_hall "the Rain-Wives' hall" is building within drip_sleeve.
+  Place soup_kitchen "the Anonymous Saint's kitchen" is building within drip_sleeve.
+  Place ostler_house "Ostler's umbrella-shop" is building within drip_sleeve.
+  Place penhallow_house "Penhallow's umbrella-shop" is building within drip_sleeve.
+  Place lisbet_house "the sempstresses' loft" is building within drip_sleeve.
+  // serene.kyr
+  Place cooperage "Hobb's cooperage" is building within drip_sleeve.
+  // hill.kyr
+  Place palazzo_tarn "the Palazzo Tarn" is building within hill_sleeve.
+  Place palazzo_venn "the Palazzo Venn" is building within hill_sleeve.
+  Place seconds_hall "the Seconds' Guild hall" is building within hill_sleeve.
+  // chapel.kyr
+  Place chapel "the Chapel of the Bare Face" is building within chapel_sleeve.
+  Place cloister "the cloister of the Bare Brothers" is building within chapel_sleeve.
+
+  // Levels: below ground and on the roofs. A level of a settlement is a terrace.
+  Place pavane_cellars "Pavane's cellars" is level within pavane_house.
+  Place flies_level "the flies" is level within wet_stage.
+  Place roofs_level "the Maskers' roofs" is level within maskers_sleeve.
+  Place post_roofs "the Post's roofs" is level within post_sleeve.
+  Place chapel_depths "the Chapel's depths" is level within chapel.
+  Place pump_level "the pump level" is level within cisterns.
+  Place cellar_level "the cellar level" is level within cisterns.
+
+  // ── Rooms ─────────────────────────────────────────────────────────────────────────────────────────────────────────
+  // The delta road and the Gate of Strangers (gate.kyr)
+  Place offstage "elsewhere in Ombra" is room within delta_road at 5, 5.
+  Place road_end "the end of the delta road" is room within delta_road at 0, 0 outdoors.
+  Place customs_steps "the Customs Steps" is room within gate_sleeve at 0, 1 outdoors.
+  Place gate_square "Strangers' Square" is room within gate_sleeve at 1, 1 outdoors.
+  Place gate_hall "the Gatehouse hall" is room within gatehouse at 1, 0 indoors.
+  Place hospice_hall "the Hospice hall" is room within hospice at 2, 1 indoors.
+  Place hospice_dorm "the Hospice dormitory" is room within hospice at 2, 2 indoors.
+  Place annex_counter "the Wardrobe Annex" is room within annex at 0, 0 indoors.
+  // Maskers' Lane (maskers.kyr)
+  Place maskers_lane "Maskers' Lane" is room within maskers_sleeve at 1, 1 outdoors.
+  Place maskers_roof "the Maskers' roofs" is room within roofs_level at 1, 0 outdoors.
+  Place fitting_room "Madame Pavane's fitting-room" is room within pavane_house at 0, 1 indoors.
+  Place pavane_parlour "Madame Pavane's parlour" is room within pavane_house at 0, 2 indoors.
+  Place cast_cellar "the Wall of Faces" is room within pavane_cellars at 0, 3 underground.
+  Place mask_shop_floor "the mask-shop" is room within mask_shop at 2, 1 indoors.
+  Place stage_pit "the pit of the Wet Stage" is room within wet_stage at 3, 1 indoors.
+  Place stage_green_room "the green room of the Wet Stage" is room within wet_stage at 3, 2 indoors.
+  Place stage_flies "the flies of the Wet Stage" is room within flies_level at 3, 0 indoors.
+  // Counting Row (counting.kyr)
+  Place row_street "Counting Row" is room within row_sleeve at 1, 1 outdoors.
+  Place row_quay "the Row quay" is room within row_sleeve at 0, 1 outdoors.
+  Place exchange_floor "the floor of the Exchange" is room within exchange at 2, 1 indoors.
+  Place weights_floor "the Hall of Weights" is room within weights_hall at 1, 0 indoors.
+  Place standard_room "the Standard Room" is room within weights_hall at 1, 2 indoors.
+  Place locks_office "the Warden of Locks' office" is room within locks_house at 3, 1 indoors.
+  Place locks_strongroom "the Lock-tax strongroom" is room within locks_house at 3, 2 indoors.
+  Place collegium_hall "the hall of the Collegium of Measures" is room within collegium at 4, 1 indoors.
+  Place collegium_study "the Collegium's workroom" is room within collegium at 4, 2 indoors.
+  Place coffee_room "the Tally Coffee-house" is room within coffee_house at 2, 0 indoors.
+  Place candid_room "the Candid Reading-room" is room within candid_house at 0, 2 indoors.
+  // The Wet Post (post.kyr)
+  Place post_street "the Wet Post" is room within post_sleeve at 1, 1 outdoors.
+  Place arcade "the letter-writers' arcade" is room within post_sleeve at 0, 1 outdoors.
+  Place dlo_counter "the Dead Letter Office" is room within post_office at 2, 1 indoors.
+  Place dlo_sorting "the sorting-hall" is room within post_office at 2, 2 indoors.
+  Place dlo_furnace "the burning-room" is room within post_office at 2, 3 indoors.
+  Place loft_floor "the pigeon loft" is room within loft at 3, 1 indoors.
+  Place loft_roof "the loft roof" is room within post_roofs at 3, 0 outdoors.
+  // The Drip (drip.kyr)
+  Place drip_landing "the Drip landing" is room within drip_sleeve at 1, 1 outdoors.
+  Place bread_market "the Drip bread-market" is room within drip_sleeve at 2, 1 outdoors.
+  Place umbrella_row "Umbrella Row" is room within drip_sleeve at 2, 0 outdoors.
+  Place ostler_shop "Ostler's umbrella-shop" is room within ostler_house at 3, 0 indoors.
+  Place penhallow_shop "Penhallow's umbrella-shop" is room within penhallow_house at 1, 0 indoors.
+  Place lamp_yard "the Lamp-Trimmers' yard" is room within drip_sleeve at 0, 1 outdoors.
+  Place eel_pond "the eel-pond" is room within drip_sleeve at 0, 2 outdoors.
+  Place rain_hall_floor "the Rain-Wives' hall" is room within rain_hall at 3, 1 indoors.
+  Place soup_room "the Anonymous Saint's kitchen" is room within soup_kitchen at 2, 2 indoors.
+  Place lisbet_room "the sempstresses' loft" is room within lisbet_house at 1, 2 indoors.
+  Place cistern_steps "the cistern steps" is room within drip_sleeve at 1, 3 outdoors.
+  Place cooperage_floor "Hobb's cooperage" is room within cooperage at 3, 2 indoors.
+  // The cisterns (cisterns.kyr)
+  Place cistern_head "the foot of the cistern steps" is room within cisterns at 0, 0 underground.
+  Place cistern_hall "the lamp-oil cistern" is room within cisterns at 1, 0 underground.
+  Place lamp_boys_den "the lamp-boys' den" is room within cisterns at 2, 0 underground.
+  Place drain_mouth "the mouth of the Ninefold Drain" is room within cisterns at 1, 1 underground.
+  Place pump_chamber "the Aenean pump-chamber" is room within pump_level at 1, 2 underground.
+  Place urn_cellar "the cellar under the Urn Hall" is room within cellar_level at 1, 3 underground.
+  // The Heronry (heronry.kyr)
+  Place heronry_edge "the Heronry's edge" is room within heronry at 0, 0 outdoors.
+  Place reed_path "the reed path" is room within heronry at 1, 0 outdoors.
+  Place heron_pool "the heron pool" is room within heronry at 2, 0 outdoors.
+  // Quiet Hill (hill.kyr; the Stair's landings are the Gauntlet's, warrior.kyr)
+  Place hill_foot "the foot of the Duelling Stair" is room within hill_sleeve at 0, 3 outdoors.
+  Place stair_top "the head of the Duelling Stair" is room within duelling_stair at 0, 0 outdoors.
+  Place hill_quay "the Hill's water-gate" is room within hill_sleeve at 1, 3 outdoors.
+  Place hill_terrace "the Terrace of the Fourteen" is room within hill_sleeve at 1, 1 outdoors.
+  Place tarn_hall "the hall of the Palazzo Tarn" is room within palazzo_tarn at 2, 1 indoors.
+  Place tarn_dining "the great dining-room of the Palazzo Tarn" is room within palazzo_tarn at 2, 2 indoors.
+  Place tarn_study "the Contessa's study" is room within palazzo_tarn at 2, 0 indoors.
+  Place venn_hall "the hall of the Palazzo Venn" is room within palazzo_venn at 0, 1 indoors.
+  Place venn_gallery "the Venn gallery of portraits" is room within palazzo_venn at 0, 2 indoors.
+  Place seconds_yard "the yard of the Seconds' Guild" is room within seconds_hall at 3, 1 indoors.
+  // Chapel Island (chapel.kyr)
+  Place chapel_steps "the Chapel steps" is room within chapel_sleeve at 1, 1 outdoors.
+  Place nave "the nave of the Chapel of the Bare Face" is room within chapel at 1, 0 indoors.
+  Place lamp_room "the lamp-room" is room within chapel at 2, 0 indoors.
+  Place bier_room "the bier-room" is room within chapel at 2, 1 indoors.
+  Place registry "the Registry of the Concord" is room within chapel at 1, 2 indoors.
+  Place urn_hall "the Urn Hall" is room within chapel_depths at 1, 3 underground.
+  Place vestry "the vestry" is room within chapel at 0, 0 indoors.
+  Place confessionals "the confessionals" is room within chapel at 0, 1 indoors.
+  Place cloister_garth "the cloister garth" is room within cloister at 3, 1 outdoors.
+  Place brothers_cells "the Brothers' cells" is room within cloister at 3, 2 indoors.
+  Place refectory "the Brothers' refectory" is room within cloister at 4, 1 indoors.
+
+  // ── Ways ──────────────────────────────────────────────────────────────────────────────────────────────────────────
+  // The road in and the Gate of Strangers.
+  Passage road_in "the delta road" is road between road_end and customs_steps taking 20 minutes.
+  Passage customs_in "the Customs Steps" is steps between customs_steps and gate_square.
+  Passage gate_door "the Gatehouse door" is door between gate_square and gate_hall.
+  Passage hospice_door "the Hospice door" is door between gate_square and hospice_hall.
+  Passage dorm_door "the dormitory door" is doorway between hospice_hall and hospice_dorm.
+  Passage annex_door "the Annex door" is door between gate_square and annex_counter.
+  // The bridges between the Sleeves.
+  Passage bridge_row "the Gate bridge" is bridge between gate_square and row_street taking 5 minutes.
+  Passage bridge_post "the Post bridge" is bridge between gate_square and post_street taking 5 minutes.
+  Passage bridge_row_post "the Tally bridge" is bridge between row_street and post_street taking 5 minutes.
+  Passage bridge_row_chapel "the Chapel bridge" is bridge between row_street and chapel_steps taking 5 minutes.
+  Passage bridge_post_chapel "the Candle bridge" is bridge between post_street and chapel_steps taking 5 minutes.
+  Passage bridge_row_maskers "the Mask bridge" is bridge between row_street and maskers_lane taking 5 minutes.
+  Passage bridge_maskers_drip "the Rainwives' bridge" is bridge between maskers_lane and drip_landing taking 8 minutes.
+  Passage steps_maskers_hill "the Terrace steps" is steps between maskers_lane and hill_terrace taking 10 minutes.
+  // The ferries: Rill's boat, and the Cuff's other crossings.
+  Passage ferry_row_drip "the Drip ferry" is ferry between row_quay and drip_landing taking 15 minutes.
+  Passage path_row_quay "the Row quay path" is path between row_street and row_quay taking 3 minutes.
+  Passage ferry_chapel_hill "the Hill ferry" is ferry between chapel_steps and hill_quay taking 15 minutes.
+  Passage ferry_drip_hill "the water-gate ferry" is ferry between drip_landing and hill_quay taking 15 minutes.
+  Passage path_drip_heronry "the Heronry path" is path between drip_landing and heronry_edge taking 20 minutes.
+  Passage water_gate "the water-gate" is gate between hill_quay and hill_terrace.
+  // Hill, Stair: the foot of the Stair to its head is the Gauntlet's (warrior.kyr); from the head to the Terrace:
+  Passage stair_head_way "the Terrace gate" is gate between stair_top and hill_terrace.
+  Passage terrace_foot_way "the foot of the Hill" is path between hill_terrace and hill_foot taking 5 minutes.
+  // Maskers' Lane.
+  Passage fitting_door "Madame Pavane's door" is door between maskers_lane and fitting_room.
+  Passage parlour_door "the parlour door" is doorway between fitting_room and pavane_parlour.
+  Passage cellar_stair "the cellar stair" is stair between pavane_parlour and cast_cellar.
+  Passage mask_shop_door "the mask-shop door" is door between maskers_lane and mask_shop_floor.
+  Passage pit_door "the Wet Stage's door" is door between maskers_lane and stage_pit.
+  Passage green_room_door "the green-room door" is doorway between stage_pit and stage_green_room.
+  Passage flies_ladder "the flies ladder" is ladder between stage_pit and stage_flies.
+  Passage roof_ladder "the roof ladder" is ladder between maskers_lane and maskers_roof.
+  Passage roof_flies "the skylight" is doorway between maskers_roof and stage_flies.
+  Passage roof_parlour "the parlour skylight" is doorway between maskers_roof and pavane_parlour.
+  // Counting Row.
+  Passage exchange_door "the Exchange door" is door between row_street and exchange_floor.
+  Passage weights_door "the Hall of Weights door" is door between row_street and weights_floor.
+  Passage standard_door "the Standard Room door" is door between weights_floor and standard_room.
+  Passage locks_door "the Warden's door" is door between row_street and locks_office.
+  Passage strongroom_door "the strongroom door" is door between locks_office and locks_strongroom.
+  Passage collegium_door "the Collegium door" is door between row_street and collegium_hall.
+  Passage workroom_door "the workroom door" is doorway between collegium_hall and collegium_study.
+  Passage coffee_door "the coffee-house door" is door between row_street and coffee_room.
+  Passage candid_door "the Reading-room door" is door between row_street and candid_room.
+  // The Wet Post.
+  Passage dlo_door "the Dead Letter Office door" is door between post_street and dlo_counter.
+  Passage sorting_door "the sorting-hall door" is doorway between dlo_counter and dlo_sorting.
+  Passage furnace_door "the burning-room door" is door between dlo_sorting and dlo_furnace.
+  Passage arcade_way "the arcade" is path between post_street and arcade taking 2 minutes.
+  Passage loft_door "the loft door" is door between post_street and loft_floor.
+  Passage loft_hatch "the loft hatch" is ladder between loft_floor and loft_roof.
+  // The Drip.
+  Passage market_way "the market lane" is path between drip_landing and bread_market taking 3 minutes.
+  Passage umbrella_way "Umbrella Row lane" is path between bread_market and umbrella_row taking 3 minutes.
+  Passage ostler_door "Ostler's door" is door between umbrella_row and ostler_shop.
+  Passage penhallow_door "Penhallow's door" is door between umbrella_row and penhallow_shop.
+  Passage rain_door "the Rain-Wives' door" is door between bread_market and rain_hall_floor.
+  Passage soup_door "the kitchen door" is door between bread_market and soup_room.
+  Passage cooperage_door "the cooperage door" is door between bread_market and cooperage_floor.
+  Passage lamp_way "the lamp-yard lane" is path between drip_landing and lamp_yard taking 3 minutes.
+  Passage eel_way "the eel-pond lane" is path between lamp_yard and eel_pond taking 3 minutes.
+  Passage lisbet_door "the sempstresses' stair" is stair between umbrella_row and lisbet_room.
+  Passage cistern_way "the cistern steps lane" is path between lamp_yard and cistern_steps taking 4 minutes.
+  // The Heronry.
+  Passage reed_way "the reed path" is path between heronry_edge and reed_path taking 10 minutes.
+  Passage pool_way "the pool path" is path between reed_path and heron_pool taking 10 minutes.
+  // Quiet Hill.
+  Passage tarn_door "the Palazzo Tarn door" is door between hill_terrace and tarn_hall.
+  Passage dining_door "the great doors" is doorway between tarn_hall and tarn_dining.
+  Passage study_door "the study door" is doorway between tarn_hall and tarn_study.
+  Passage venn_door "the Palazzo Venn door" is door between hill_terrace and venn_hall.
+  Passage gallery_door "the gallery doors" is doorway between venn_hall and venn_gallery.
+  Passage seconds_door "the Guild door" is door between hill_foot and seconds_yard.
+  // The Chapel and its Island.
+  Passage nave_door "the Chapel door" is door between chapel_steps and nave.
+  Passage lamp_door "the lamp-room door" is doorway between nave and lamp_room.
+  Passage bier_door "the bier-room door" is doorway between lamp_room and bier_room.
+  Passage registry_door "the Registry door" is door between nave and registry.
+  Passage urn_stair "the Urn Hall stair" is stair between registry and urn_hall.
+  Passage vestry_door "the vestry door" is doorway between nave and vestry.
+  Passage confessional_way "the confessionals" is doorway between nave and confessionals.
+  Passage cloister_door "the cloister door" is door between chapel_steps and cloister_garth.
+  Passage cells_door "the cells' door" is doorway between cloister_garth and brothers_cells.
+  Passage refectory_door "the refectory door" is doorway between cloister_garth and refectory.
+  // The Contessa's private stair, kept shut three hundred years: hill.kyr opens it.
+  Passage private_stair "the Contessa's private stair" is stair between tarn_study and vestry hidden until private_stair_known opening when privateStairOpen(party).
+  // Down to the cisterns, and the Drain's long way to the Urn Hall (cisterns.kyr gives the Drain its rooms and ways).
+  Passage cistern_down "the cistern steps" is stair between cistern_steps and cistern_head.
+  Passage cistern_hall_way "the oil-cistern arch" is arch between cistern_head and cistern_hall.
+  Passage den_way "the lamp-boys' crawl" is crawl between cistern_hall and lamp_boys_den.
+  Passage drain_way "the Ninefold Drain" is culvert between cistern_hall and drain_mouth taking 20 minutes.
+  Passage pump_way "the pump-chamber stair" is stair between drain_mouth and pump_chamber.
+  Passage cellar_way "the cellar shaft" is shaft between pump_chamber and urn_cellar.
+  Passage cellar_hatch "the cellar hatch" is ladder between urn_cellar and urn_hall.
+}

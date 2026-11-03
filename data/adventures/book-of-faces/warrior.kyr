@@ -1,0 +1,664 @@
+Module ombra "The Book of Faces" {
+  // ── The Gauntlet ──────────────────────────────────────────────────────────────────────────────────────────────────
+  // The Duelling Stair of Quiet Hill is ninety-nine steps in nine flights, with a landing at the top of each and a
+  // Second on every landing. The Seconds' Guild (the Old Names' hired swords, who go bare-faced by oath, because a
+  // Second signs his blows) holds that a champion is made by what they refuse, so each landing asks one question of a
+  // blade and takes a company's answer as the answer. What the answers add up to is the company's creed on the Stair:
+  // a sword for hire (the Hireling), a shield for the unarmed (the Defender) or one that breaks what binds (the
+  // Breaker), and the Captain at the head of the Stair says which, at the end, and asks what it refuses.
+  // A company with no blade to answer with (nobody in it of the warrior's calling) is let up as the weather is, and
+  // can finish nothing but the climb; the water-gate and the Terrace are the other way up and need no answer at all.
+
+  Relation wr_post(group, place). Relation wr_landing(place). Relation wr_counted(group).
+  // What the company answered, landing by landing: the creed is whichever of these is the most.
+  Measure wr_hire(group). Measure wr_defend(group). Measure wr_break(group). Measure wr_height(group).
+  Relation wr_blooded(group).
+  Relation wr_sworn(group). Relation wr_hireling(group). Relation wr_defender(group). Relation wr_breaker(group). Relation wr_plain(group).
+  Relation wr_asked(group). Relation wr_bout(group, group). Relation wr_carried(group).
+  Hazard wr_bruise "A Second's fist, or the flat of a blade" means "Deal (1d3) physical damage to ally unless dexterity save against (11).".
+  // Three falls on the Stair in one climb is the Guild's count: whoever has taken them is carried down and sent to the bench.
+  Measure wr_falls(group).
+
+  // ── The landings ──────────────────────────────────────────────────────────────────────────────────────────────────
+  Place wr_l1 "the landing of the Open Hand" is room within duelling_stair at 0, 9 outdoors.
+  Place wr_l2 "the landing of the Door" is room within duelling_stair at 0, 8 outdoors.
+  Place wr_l3 "the landing of the Fool" is room within duelling_stair at 0, 7 outdoors.
+  Place wr_l4 "the landing of the Ledger" is room within duelling_stair at 0, 6 outdoors.
+  Place wr_l5 "the landing of the Yielding" is room within duelling_stair at 0, 5 outdoors.
+  Place wr_l6 "the landing of the Veil" is room within duelling_stair at 0, 4 outdoors.
+  Place wr_l7 "the landing of the Brother" is room within duelling_stair at 0, 3 outdoors.
+  Place wr_l8 "the landing of the Lamp" is room within duelling_stair at 0, 2 outdoors.
+  Place wr_l9 "the landing of the Captain" is room within duelling_stair at 0, 1 outdoors.
+  Passage wr_f1 "the first flight of the Stair" is steps between hill_foot and wr_l1 taking 3 minutes.
+  Passage wr_f2 "the second flight" is steps between wr_l1 and wr_l2 taking 3 minutes.
+  Passage wr_f3 "the third flight" is steps between wr_l2 and wr_l3 taking 3 minutes.
+  Passage wr_f4 "the fourth flight" is steps between wr_l3 and wr_l4 taking 3 minutes.
+  Passage wr_f5 "the fifth flight" is steps between wr_l4 and wr_l5 taking 3 minutes.
+  Passage wr_f6 "the sixth flight" is steps between wr_l5 and wr_l6 taking 3 minutes.
+  Passage wr_f7 "the seventh flight" is steps between wr_l6 and wr_l7 taking 3 minutes.
+  Passage wr_f8 "the eighth flight" is steps between wr_l7 and wr_l8 taking 3 minutes.
+  Passage wr_f9 "the ninth flight" is steps between wr_l8 and wr_l9 taking 3 minutes.
+  Passage wr_f10 "the last of the Stair" is steps between wr_l9 and stair_top taking 3 minutes.
+  Initially Assert wr_landing(wr_l1). Initially Assert wr_landing(wr_l2). Initially Assert wr_landing(wr_l3).
+  Initially Assert wr_landing(wr_l4). Initially Assert wr_landing(wr_l5). Initially Assert wr_landing(wr_l6).
+  Initially Assert wr_landing(wr_l7). Initially Assert wr_landing(wr_l8). Initially Assert wr_landing(wr_l9).
+
+  Observe wr_stair_foot at hill_foot when true "Under the Hill the Duelling Stair goes up out of a stone yard like a throat, ninety-nine steps, with a landing at every eleventh and the rain coming down them in a sheet. A board by the bottom step lists what is not allowed on it: umbrellas, bargaining, and the word *quits*.".
+  Observe wr_stair_foot_dark at hill_foot when dark() "At night the Stair is lit only at its landings, nine small yellow squares one above another, with a shadow standing in each.".
+  Observe wr_dark_landing at ?p when wr_landing(?p) and dark() "The lamp on the wall is the only light, and the rain falls through it in lines.".
+  Observe wr_l1_scene at wr_l1 when true "The first landing is a stone shelf the width of a cart, roofed with nothing, with an iron rack on the wall for steel and a bucket by the rack. The rain has worn a dish in the paving where thirty generations of champions have stood to be asked the same thing.".
+  Observe wr_l2_scene at wr_l2 when true "The second landing has a door in its wall, a narrow door with the Guild's iron ring on it, and a step down in front of it that is the only part of the Stair anybody ever sweeps. The rest is wet stone, and the sound of two men not quite whispering behind the door.".
+  Observe wr_l3_scene at wr_l3 when true "On the third landing there is a smell of boiled sweets. A fool's cap with three bells hangs from the lamp-bracket, and on the top step, with her chin on a wooden sword, a girl of about seven sits and watches the stair below with the patience of someone who has been told to.".
+  Observe wr_l4_scene at wr_l4 when true "The fourth landing is a counting-room with no walls: a high desk bolted to the stone and under a tin hood against the rain, a ledger chained to it, and a stool. Everything on it is dry but the clerk.".
+  Observe wr_l5_scene at wr_l5 when true "The fifth landing has a bench, which none of the others has, and a view: from here the whole of Quiet Hill lies below with its shutters closed, and past it the Cuff, and across the Cuff the green copper of the Chapel roof going to blue in the rain. An old man sits on the bench with something long across his knees under a cloth.".
+  Observe wr_l6_scene at wr_l6 when true "The sixth landing is hung with grey sailcloth on three sides, so that the rain is a drumming and the light is the colour of a tent. In the middle of it, standing quite still, is a Second in a domino of black lacquer, with his hands crossed on the pommel of a sword.".
+  Observe wr_l7_scene at wr_l7 when true "The seventh landing has had its paving scrubbed white. It is the only clean thing on the Stair, and it smells of vinegar and, under the vinegar, of drink. A man in a Second's grey stands at the far side of it with his back to the rain, as one does who has stopped noticing it.".
+  Observe wr_l8_scene at wr_l8 when true "The eighth landing has no lamp. Someone has put it out, and the iron bracket drips. By the grey light off the water you can make out a wall, a step, and a boy standing against the wall with a sword held out in front of him in both hands, as if it were something that had been handed to him in the street.".
+  Observe wr_l9_scene at wr_l9 when true "The ninth landing is the widest, and it is bare. The Captain's table stands in the open, a plank on two barrels, and on it a lamp under a glass, a pen, and nothing else. Beyond it the last of the Stair goes up into the rain to a gate, and through the gate the flat grey roofs of the Fourteen.".
+  Observe wr_head_scene at stair_top when true "The head of the Stair is a small stone court with a gate in its far wall and, over the gate, the Seconds' motto, cut deep and filled with moss: WHAT I REFUSE. Below, the Hill; beyond, the water. Nobody who has come up ninety-nine steps in the rain has ever liked the motto, and everybody has stopped to read it.".
+  Observe wr_head_night at stair_top when dark() "The last lamp of the Stair is burning over the gate, and in its light the motto looks a little less like a boast.".
+
+  // The Guild rule for the whole Stair: a Second guards the flight above his landing, and lets a company by when it has
+  // answered his question. Whoever has no blade is not asked.
+  Rule wr_unarmed_by when wr_post(?s, ?p) and at(party, ?p) and not capable(party, brawn) and not tolerates(?s, party) and not dead(?s)
+    says "The Second looks at your empty hands, and at the rain on your face, and steps aside. 'The Stair is a stair,' he says. 'We ask nothing of the unarmed but that they hold the rail.'" {
+    Assert tolerates(?s, party). }
+  Rule wr_height_counts when wr_post(?s, ?p) and tolerates(?s, party) and not wr_counted(?s) { Assert wr_counted(?s). Increase wr_height(party) by 1. }
+  Rule wr_dead_counts when wr_post(?s, ?p) and dead(?s) and not wr_counted(?s) { Assert wr_counted(?s). Increase wr_height(party) by 1. }
+  // A Second killed on the Stair is blood on it: the Guild does not forgive it, and tells the company so at the head.
+  Relation wr_slain(group).
+  Rule wr_blood_on_stair when wr_post(?s, ?p) and dead(?s) and not wr_slain(?s) and company(party)
+    says "Somewhere below, on the Hill, a bell is rung once, the way it is for a Second. Nobody on the Stair has told it. Every landing has heard." { Assert wr_slain(?s). Assert wr_blooded(party). }
+  // A company that falls on the Stair is carried down it, as the Guild always has: the Seconds do not leave their dead
+  // or their guests on a landing, and the Mercy of the engine has left a little life in them.
+  Rule wr_carried_down when wr_post(?s, ?p) and captured(?s, party) and not wr_carried(party)
+    says "Two Seconds you have not seen before take you under the arms and carry you down ninety-nine steps in the rain, talking quietly over your head about something else. They set you on the stone at the bottom, and one of them folds your cloak under your head. 'Come again,' he says. 'Everyone does.'" {
+    Retract captured(?s, party). Retract assails(?s, party). Assert peaceable(?s). Assert at(party, hill_foot). }
+  Rule wr_carried_reset when wr_carried(party) { Retract wr_carried(party). }
+  Rule wr_three_falls when wr_falls(party) >= 3 and at(party, ?p) and wr_landing(?p)
+    says "Somebody on the landing below calls the count, and it is taken up from landing to landing, quite gently: three. Two Seconds you have not seen before come up the flight and take you under the arms, and carry you down ninety-nine steps in the rain. 'Three is the Guild's count,' says one of them. 'There is a bench. There is a surgeon. There is no hurry on the Stair, and nobody has ever once been late.'" {
+    Set wr_falls(party) to 0. Assert at(party, hill_foot). }
+
+  // The Seconds are Peaceable until a company chooses steel: then they are as dangerous as they are, and it is a real
+  // fight, to the end, which the Mercy of the engine makes the end of the company only if all of it falls.
+  Initially Assert takesPrisoners(wr_marl). Initially Assert takesPrisoners(wr_pair). Initially Assert takesPrisoners(wr_dobb).
+  Initially Assert takesPrisoners(wr_vask). Initially Assert takesPrisoners(wr_veil). Initially Assert takesPrisoners(wr_anselm).
+  Initially Assert takesPrisoners(wr_rook). Initially Assert takesPrisoners(reeve).
+
+  // ── 1. Dignity: Second Odo Sturry ───────────────────────────────────────────────────────────────────────────────────
+  Person wr_marl "Second Odo Sturry" at wr_l1 {
+    Role "a Second of the Seconds' Guild, a heavy man on a bucket". Ancestry human. Calling warrior. Level 1. Peaceable. Pronouns he. Manner jovial.
+    State holding blocking "A heavy man in Second's grey sits on a bucket across the flight with a wet cigar, and is not going to get up for nothing.".
+    Guards wr_f2.
+    Greets "'Odo Sturry,' says the man on the bucket, getting up as far as his knees, 'Second, of this landing, and of the Guild, and of nobody's much else.' He takes the cigar out. 'A Second says his name first. It is so that the one he hurts has something to put on the writ.'".
+    Greets again "'Sturry,' says Sturry, as to a ledger.".
+  }
+  Initially Assert wr_post(wr_marl, wr_l1).
+  Topic wr_marl_rule with wr_marl "Ask Sturry what the first landing asks" when true {
+    Says "'The Open Hand,' says Sturry, and nods at the rack. 'Steel on the rack, as it comes. You and me, and the hands we were born with, and first blood: the nose, the lip, a knuckle. No judge. The one who bleeds says so.' He considers the cigar. 'It is the first thing the Stair asks, and it asks it so as to find out how a man takes being hit by somebody he has no quarrel with. Some say it is dignity. I say it is the toll.'".
+  }
+  Action wr_box(actor: group, site: place) "Lay your steel on the rack and box Sturry to first blood" {
+    Speaker wr_marl.
+    Requires able(actor) and company(actor) and at(actor, site) and at(wr_marl, site) and able(wr_marl) and not tolerates(wr_marl, actor) and capable(actor, brawn).
+    Time 5 minutes.
+    Resolve check(actor, brawn, dc_fair).
+    On success { Assert tolerates(wr_marl, actor). Increase wr_defend(actor) by 1. }
+    On failure { Assert strikes(wr_bruise, actor). Increase wr_falls(actor) by 1. }
+    Result "You lay your steel on the rack among the others and square up in the dish worn in the paving. It is not much of a fight and not a bad one: he is slow and sound and has been hit by better, and at the end of it he sits down on his bucket with his nose running red and says 'Sturry. First blood,' with great satisfaction, as one reading out a result. 'Up you go.'".
+    Otherwise "Sturry's fist finds your mouth, gently, as a man hangs up a coat. 'First blood to Sturry, who is sorry,' he says. 'Have your dinner and come back.' You taste iron and rain.".
+  }
+  Action wr_toll(actor: group, site: place) "Pay Sturry the Stair's toll, three coin, and go by" {
+    Speaker wr_marl.
+    Requires able(actor) and company(actor) and at(actor, site) and at(wr_marl, site) and able(wr_marl) and not tolerates(wr_marl, actor) and capable(actor, brawn) and quantity(actor, gold) >= 3.
+    Time 1 minute.
+    On success { Decrease quantity(actor, gold) by 3. Increase quantity(wr_marl, gold) by 3. Assert tolerates(wr_marl, actor). Increase wr_hire(actor) by 1. }
+    Result "Sturry weighs the three coin in his hand and puts them away in the lining of his hat. 'The toll was Second Pyke's, the year the roof came in,' he says. 'Nobody has liked to repeal it. Go up.' He does not look at you, which is a courtesy, and which you notice.".
+  }
+  Action wr_steel1(actor: group, site: place) "Keep your steel, and tell Sturry that a stair is a stair" {
+    Speaker wr_marl.
+    Requires able(actor) and company(actor) and at(actor, site) and at(wr_marl, site) and able(wr_marl) and not tolerates(wr_marl, actor) and capable(actor, brawn).
+    Time 1 minute.
+    On success { Retract peaceable(wr_marl). Assert assails(wr_marl, actor). Increase wr_break(actor) by 1. }
+    Result "Sturry looks at the rack, and then at the sword in your hand, and then, for a long time, at you. 'Odo Sturry,' he says, getting up off the bucket with something like regret, and draws.".
+  }
+
+  // ── 2. The Door: Seconds Hale and Tace ────────────────────────────────────────────────────────────────────────────
+  Person wr_pair "Seconds Hale and Tace" at wr_l2 {
+    Role "two Seconds of the Guild, in the doorway of the second landing". Ancestry human. Calling warrior. Level 1. Numbers 2. Peaceable. Pronouns they.
+    State holding blocking "Two Seconds in grey stand in the narrow door of the second landing, shoulder to shoulder, and the flight above it goes past them and not through them.".
+    Guards wr_f3.
+    Greets "'Hale,' says the elder of the two, and 'Tace,' says the other, a half-beat behind, as if a bell had been rung for him. They stand either side of the Guild's door with their hands loose. 'We are paid by the hour,' says Hale, 'and we are on the hour.'".
+    Greets again "'Hale.' 'Tace.'".
+  }
+  Initially Assert wr_post(wr_pair, wr_l2).
+  Topic wr_pair_rule with wr_pair "Ask what the second landing asks" when true {
+    Says "'The Door,' says Hale. 'It is a door on a landing, and nobody comes through it unless they are carrying something worth the carrying. We are the two who want to get through. You are the one who has the doorway.' Tace nods. 'Hold it for the length of the Concord's preamble.' 'Which is long,' says Tace. 'And Hale reads slowly.' 'The Guild says a man learns what a door is for by being the only thing in it.'".
+  }
+  Action wr_hold(actor: group, site: place) "Take the narrow door, and hold it against the pair of them" {
+    Speaker wr_pair.
+    Requires able(actor) and company(actor) and at(actor, site) and at(wr_pair, site) and able(wr_pair) and not tolerates(wr_pair, actor) and capable(actor, brawn).
+    Time 8 minutes.
+    Resolve check(actor, brawn, dc_hard).
+    On success { Assert tolerates(wr_pair, actor). Increase wr_defend(actor) by 1. }
+    On failure { Assert strikes(wr_bruise, actor). Increase wr_falls(actor) by 1. }
+    Result "You put your back to the jamb and your boot to the sill and they come at you one after the other, as a tide does, and each time you are the only thing between them and whatever is behind you, which is nothing at all, and you find that does not matter. Hale reads the preamble aloud, haltingly, to the end. 'Hold,' says Hale, closing the book. 'That is the Door.' Tace shakes your hand with a hand that has been bruised in two places by you.".
+    Otherwise "The elder goes high and the younger goes low and the door is theirs, and so are you, briefly, in a heap on the wet stone with the preamble still going somewhere above you. 'Again,' says Hale, quite kindly. 'It is a long preamble. There is time to get the hang of it.'".
+  }
+  Action wr_steel2(actor: group, site: place) "Go out onto the landing, and fight the pair of them in the open" {
+    Speaker wr_pair.
+    Requires able(actor) and company(actor) and at(actor, site) and at(wr_pair, site) and able(wr_pair) and not tolerates(wr_pair, actor) and capable(actor, brawn).
+    Time 1 minute.
+    On success { Retract peaceable(wr_pair). Assert assails(wr_pair, actor). Increase wr_hire(actor) by 1. }
+    Result "'In the open,' says Hale, as one who has heard it said before. 'The open is dearer.' They draw together, one half a beat after the other, and the landing is suddenly very small.".
+  }
+
+  // ── 3. The Fool: Second Fenwick Dobb ──────────────────────────────────────────────────────────────────────────────
+  Person wr_dobb "Second Fenwick Dobb" at wr_l3 {
+    Role "the Fool of the Stair, a Second in a motley cap, and a child's father". Ancestry human. Calling warrior. Level 1. Peaceable. Pronouns he. Manner cheerful.
+    State holding blocking "A man in a three-belled cap stands on the third landing with a rapier and a wide, tired, professional smile, between you and the flight above.".
+    Guards wr_f4.
+    Greets "'A champion!' says the man in the cap, with a flourish that sends the bells off, and a bow so deep it comes back up as a wince. 'Dobb. Fenwick. The Fool, on the Stair, which is a post the Guild has kept since the Feud, to remind blades that they are comedy to the dead.' On the top step the little girl lifts her chin off the wooden sword and looks at you. 'And that is Dilly,' says Dobb, not turning round. 'She is not part of the fight.'".
+    Greets again "'Dobb!' says the Fool, brightly, and does not take his eyes off the way you are holding your hands.".
+  }
+  Initially Assert wr_post(wr_dobb, wr_l3).
+  Topic wr_dobb_rule with wr_dobb "Ask Dobb what the third landing asks" when true {
+    Says "'To be fought,' says Dobb, and smiles at the rain. 'The Fool is fought. That is all it is. They send up the best of what the Hill has, in the Novena, and the best of what the Hill has finds a man in a cap, and the Guild would like to know what it does.' The bells move. 'It is not unkind. It is a short post, the Fool. Eight years. I took it for the pay, which is very good, and the cap, which is warm.'".
+  }
+  Topic wr_dobb_child with wr_dobb "Ask Dobb about the little girl on the step" when true once {
+    Says "'Mine,' says Dobb, quietly, and for a moment the cap is a cap. 'Dilly. Her mother went in the Deepening four years back, the Drip took half of her street. Dilly comes up on the Third Bell days because there is nobody to leave her with, and sits on the step, and watches me be fought.' He takes one of the bells between finger and thumb to still it. 'She likes it when the champions bow. She thinks it is a play. I have not found a way to say that it isn't.'".
+  }
+  Action wr_spar(actor: group, site: place) "Spar the Fool to first blood, with the child watching" {
+    Speaker wr_dobb.
+    Requires able(actor) and company(actor) and at(actor, site) and at(wr_dobb, site) and able(wr_dobb) and not tolerates(wr_dobb, actor) and capable(actor, brawn).
+    Time 5 minutes.
+    Resolve check(actor, brawn, dc_fair).
+    On success { Assert tolerates(wr_dobb, actor). Increase wr_hire(actor) by 1. }
+    On failure { Assert strikes(wr_bruise, actor). Increase wr_falls(actor) by 1. }
+    Result "He is quick and he is theatrical and he wants it to be over before it is anything else; you give him that, and take first blood from his sleeve, and he goes down with the whole of the Fool's art, flat on his back with his bells crashing and one hand up for pardon. On the step Dilly claps twice, uncertainly, and looks at her father to see whether she was right to.".
+    Otherwise "The Fool's rapier writes on your ribs and is gone before you have worked out where it was. 'First blood,' says Dobb, tenderly, 'to the Fool. I am so sorry,' and the bells ring all down the flight.".
+  }
+  Action wr_play_fool(actor: group, site: place) "Put on the Fool's cap, and be a better fool than he is" {
+    Speaker wr_dobb.
+    Requires able(actor) and company(actor) and at(actor, site) and at(wr_dobb, site) and able(wr_dobb) and not tolerates(wr_dobb, actor) and capable(actor, brawn).
+    Time 5 minutes.
+    Resolve check(actor, performance, dc_fair).
+    On success { Assert tolerates(wr_dobb, actor). Increase wr_defend(actor) by 1. Assert wr_fooled(actor). }
+    On failure { Assert wr_fooled(actor). }
+    Result "You take the cap off its hook and put it on, and let the bells go, and fall down the third landing in a way that the Hill's best have never once fallen. It takes Dobb perhaps half a minute to understand he is being outdone at the one trade he has, and then he is crying with laughter, and on the top step Dilly has dropped the sword and is shrieking. 'No,' says the Fool, wiping his eyes. 'No, I cannot fight that. Go up, go up, you have broken my heart and my best joke.'".
+    Otherwise "You put on the cap and the bells go off and nothing else does. The child looks at you with polite, total silence. 'It is very hard,' says the Fool, gently, taking it back, 'and it takes eight years.'".
+  }
+  Relation wr_fooled(group).
+  Action wr_steel3(actor: group, site: place) "Draw on the Fool" {
+    Speaker wr_dobb.
+    Requires able(actor) and company(actor) and at(actor, site) and at(wr_dobb, site) and able(wr_dobb) and not tolerates(wr_dobb, actor) and capable(actor, brawn).
+    Time 1 minute.
+    On success { Retract peaceable(wr_dobb). Assert assails(wr_dobb, actor). Increase wr_break(actor) by 1. }
+    Result "'Ah,' says Dobb. The smile does not leave his face, because it was put there to stay; it only stops being aimed at anything. On the top step the child stands up. 'Dilly,' he says, without looking round, 'go and see the lamp.'".
+  }
+  // A father killed in front of his daughter is the Stair's cruelty and it is remembered: by the Guild, by the child's
+  // grandmother in the Drip, and by the Captain.
+  Rule wr_dilly_orphaned when dead(wr_dobb) and not wr_orphan(wr_dobb) says "Dilly does not cry. She goes on standing on the step with the wooden sword held in both hands, and when the Seconds come up to carry her father down she steps out of their way, politely, as she has been taught to, and lets them by." { Assert wr_orphan(wr_dobb). }
+  Relation wr_orphan(group).
+
+  // ── 4. The Ledger: Second Corin Vask ──────────────────────────────────────────────────────────────────────────────
+  Person wr_vask "Second Corin Vask" at wr_l4 {
+    Role "the Stair's clerk and fourth Second, behind a ledger". Ancestry human. Calling warrior. Level 2. Peaceable. Pronouns he. Manner acerbic.
+    State holding blocking "A thin man in a Second's grey sits at a high desk bolted to the stone, under a tin hood, with a sword across the ledger as a paperweight, and he does not look as if he intends to be moved.".
+    Guards wr_f5.
+    Greets "'Vask,' says the clerk, without looking up from the page. 'Corin. Second, fourth landing. A Second signs his blow, and I have signed a great many.' He turns the ledger a quarter turn, so that it faces you, and does not take his finger off the line. 'The Stair keeps accounts. It is the one thing the Hill has been honest about. Do you read?'".
+    Greets again "Vask does not look up. 'Sign here,' he says, and then remembers, and does not mean it.".
+  }
+  Initially Assert wr_post(wr_vask, wr_l4).
+  Topic wr_vask_rule with wr_vask "Ask Vask what the fourth landing asks" when true {
+    Says "'What a man does with a thing he has not earned,' says Vask, to the page. 'That is all the Ledger has ever asked. I put it that way because it is how the Guild puts it, and because it is a very civil way to say that a Second may be bought. It is known that a Second may be bought. The Stair has a column for it.' His finger has not moved. 'A champion is put to me, and he fights me, or he does not, and the book records which.'".
+  }
+  Discovery wr_paid_to_lose "Second Corin Vask, on the fourth landing of the Duelling Stair, has been paid forty coin to lose to the next champion who comes up; the receipt in his ledger is in a hand he will not name.".
+  Topic wr_vask_ledger with wr_vask "Ask to see the line his finger is on" when true once {
+    Says "He takes the finger away. The line says, in a small square clerk's hand: *Received of R., in advance, forty coin, to fall to the next to come up the Stair, as the Guild may see fit.* And under it, *Corin Vask*, signed, as a Second signs his blows. 'It is a custom,' says Vask, in the voice of a man who has been over it a great many nights. 'A champion ought to win something. It is the custom of the Stair to see to it that one does, once, and it is the Guild's own coin, in its way. I will not say whose way.' He looks at you for the first time. 'You are the next to come up, as it happens.'".
+    On discuss { Assert knows(actor, wr_paid_to_lose). }
+  }
+  Action wr_take_win(actor: group, site: place) "Take the win he has been paid to give you" {
+    Speaker wr_vask.
+    Requires able(actor) and company(actor) and at(actor, site) and at(wr_vask, site) and able(wr_vask) and not tolerates(wr_vask, actor) and capable(actor, brawn) and knows(actor, wr_paid_to_lose).
+    Time 5 minutes.
+    On success { Assert tolerates(wr_vask, actor). Increase wr_hire(actor) by 1. Increase quantity(actor, gold) by 20. }
+    Result "You cross blades with him for the look of it, three passes and a flourish, and he lets you through his guard so nicely that it is only afterwards that you see how many ways you might have gone wrong. He falls off the stool with a groan he has been practising. 'The champion,' he says, 'has the fourth,' and writes it down, and counts twenty coin out of a box under the desk onto the ledger, and does not say what for. 'A purse,' says Vask, 'is for sharing. It is in the book.'".
+  }
+  Action wr_honest_bout(actor: group, site: place) "Tell Vask you will not be given it, and make him fight for it" {
+    Speaker wr_vask.
+    Requires able(actor) and company(actor) and at(actor, site) and at(wr_vask, site) and able(wr_vask) and not tolerates(wr_vask, actor) and capable(actor, brawn) and knows(actor, wr_paid_to_lose).
+    Time 8 minutes.
+    Resolve check(actor, brawn, dc_hard).
+    On success { Assert tolerates(wr_vask, actor). Increase wr_defend(actor) by 1. Assert wr_vask_honest(actor). }
+    On failure { Assert strikes(wr_bruise, actor). Increase wr_falls(actor) by 1. }
+    Result "'Do not,' says Vask, standing slowly, and then, as he sees you mean it: 'Oh, very well.' He is a good deal better than he has been letting the Stair think. You take it from him in the end because he is tired and has been sitting down for eleven years; when he lies on the paving with the rain on his face he is smiling, in the way of a man who has been caught at something he did not want to be done. 'Write it,' he says, to nobody. 'Not for money. Write it fair.' He writes it himself.".
+    Otherwise "He is a good deal better than he has been letting the Stair think. He puts you on your back in four moves and stands over you not unkindly. 'That,' he says, 'is what the forty was for. I am very sorry. You were, rather, the point.'".
+  }
+  Relation wr_vask_honest(group).
+  Action wr_steel4(actor: group, site: place) "Fight Vask in earnest, with steel, and let the book say what it likes" {
+    Speaker wr_vask.
+    Requires able(actor) and company(actor) and at(actor, site) and at(wr_vask, site) and able(wr_vask) and not tolerates(wr_vask, actor) and capable(actor, brawn).
+    Time 1 minute.
+    On success { Retract peaceable(wr_vask). Assert assails(wr_vask, actor). Increase wr_break(actor) by 1. }
+    Result "'Corin Vask,' says Vask, getting up off the stool and taking the sword off the ledger with a care for the page. 'I did try to make it easy.'".
+  }
+
+  // ── 5. The Yielding: Aldous Wend ──────────────────────────────────────────────────────────────────────────────────
+  Kind wr_wend_blade_kind "the Wend sword" is gear worth 30 weighing 3 granting brawn described "A long plain sword in a greased scabbard, in the Guild's iron, with a hand-grip worn to the shape of a hand no longer quite strong enough for it. On the pommel, scratched in with a nail, nine small marks in a row, and a tenth begun.".
+  Item wr_wend_blade "the Wend sword" is wr_wend_blade_kind at offstage.
+  Person wr_wend "Aldous Wend" at wr_l5 {
+    Role "who was champion of the Stair for twenty-two years, on the bench of the fifth landing". Ancestry human. Calling warrior. Level 1. Peaceable. Pronouns he. Manner stoic.
+    State holding blocking "An old man on the bench of the fifth landing has laid a long thing in a cloth across his knees, and has not made any move to stand, and neither, by the look of it, will the flight.".
+    Guards wr_f6.
+    Greets "'Sit, sit,' says the old man, and moves his hip. His voice is the dry voice of someone who has said very little for a long time and does not want to waste what there is. 'Aldous Wend. I was the champion here, twenty-two years, and I am the Yielding now: it is a post, and the pension is the bench. The fifth landing does not fight. It sees what you do when a man gives you what he has.'".
+    Greets again "'Sit,' says Wend. 'The view will not mend, but it is a view.'".
+  }
+  Initially Assert wr_post(wr_wend, wr_l5).
+  Topic wr_wend_rule with wr_wend "Ask Wend what the fifth landing asks" when true {
+    Says "'To be offered a thing,' says Wend. He turns the cloth back off the long shape a hand's breadth, so that you see the grip, and covers it again. 'My sword. It is the Guild's custom that a champion who yields the Stair offers it to the first who comes up after, at the fifth landing, where he has stopped being able to climb. And the one who comes up does with it what he does.' He looks at the view. 'I have been offered a great many things in twenty-two years, and I find that what a man does when a thing is held out to him, he does for the rest of his life, in some form.'".
+  }
+  Discovery wr_wend_debt "The Wend sword is owed to nine families on the Hill: Aldous Wend killed a man of each in the Guild's service, and each year a boy is sent to ask whether the blade is still kept; whoever takes it is asked to answer the boy.".
+  Action wr_read_wend(actor: group, site: place) "Look at the old man, and at what he is asking" {
+    Speaker wr_wend.
+    Requires able(actor) and company(actor) and at(actor, site) and at(wr_wend, site) and not knows(actor, wr_wend_debt).
+    Time 3 minutes.
+    Resolve check(actor, insight, dc_fair).
+    On success { Assert knows(actor, wr_wend_debt). }
+    Result "You sit, and say nothing, and look at the hand that is not on the sword. It is on the pommel's small marks, thumb down on the tenth: begun and never finished. 'You have noticed,' says Wend. 'Nine families. A man of each, for the Guild, in twenty-two years. A boy comes up each Novena to ask whether the blade is still kept, and I tell him that it is. Whoever has the sword answers the boy. It is not a prize. I am not so old that I do not know that.'".
+    Otherwise "Wend looks at the view, and you at him, and nothing is said that you can use.".
+  }
+  Action wr_take_blade(actor: group, site: place) "Take the old man's sword" {
+    Speaker wr_wend.
+    Requires able(actor) and company(actor) and at(actor, site) and at(wr_wend, site) and not tolerates(wr_wend, actor) and capable(actor, brawn).
+    Time 2 minutes.
+    On success { Assert tolerates(wr_wend, actor). Increase wr_hire(actor) by 1. Give wr_wend_blade to actor. Assert wr_blade_taken(actor). }
+    Result "You take it. It is lighter than it looks, and then heavier. 'It was always going to be somebody,' says Wend, and lets his hands lie, empty, on the cloth, and looks at them. 'Go up. Keep it greased. And when the boy comes, do not tell him it was a gift.'".
+  }
+  Action wr_refuse_blade(actor: group, site: place) "Tell him to keep it, and carry his water jar down to the spring for him" {
+    Speaker wr_wend.
+    Requires able(actor) and company(actor) and at(actor, site) and at(wr_wend, site) and not tolerates(wr_wend, actor) and capable(actor, brawn).
+    Time 20 minutes.
+    On success { Assert tolerates(wr_wend, actor). Increase wr_defend(actor) by 1. Assert wr_wend_helped(actor). }
+    Result "'Keep it,' you say, 'you will want it,' and he looks at you for so long that you think you have given offence. Then he gives you the water jar. It is not a small thing to carry down ninety steps in the rain for a man who has had to be carried up them. When you come back he has the cloth over the sword again, and has put the jar on the bench by his hand, and he says, 'There are not many who would be seen doing that on this Stair. Go on up.'".
+  }
+  Action wr_break_blade(actor: group, site: place) "Break the sword over your knee, and say what it was for" {
+    Speaker wr_wend.
+    Requires able(actor) and company(actor) and at(actor, site) and at(wr_wend, site) and not tolerates(wr_wend, actor) and capable(actor, brawn).
+    Time 2 minutes.
+    On success { Assert tolerates(wr_wend, actor). Increase wr_break(actor) by 1. Assert wr_blade_broken(actor). }
+    Result "It will not break over your knee, being the Guild's iron, and in the end you lay it across the rack-iron of the bench and put your weight on it and it goes with a sound like a bell being struck wrong. Wend watches the two halves. His mouth does something that is neither a flinch nor a smile. 'Nine families,' he says, 'will want to know what became of it. I shall say that it was refused.' He laughs, once, and very nearly cries. 'Twenty-two years. I never thought of it.'".
+  }
+  Relation wr_blade_taken(group). Relation wr_blade_broken(group). Relation wr_wend_helped(group).
+
+  // ── 6. The Veil: a Second without a name ──────────────────────────────────────────────────────────────────────────
+  Discovery wr_veil_face "The Second in the black lacquer domino on the sixth landing, hired by a House that may not be known, is Tobias Vesper, the younger son of Lord Vesper, who hires himself to the Stair under a mask to be someone who may be beaten.".
+  Person wr_veil "a Second in a black domino" at wr_l6 {
+    Role "a masked Second of the Guild, hired for the Novena by a House that is not named". Ancestry human. Calling warrior. Level 2. Peaceable. Pronouns he. Manner grim.
+    Known as "a Second in a black lacquer domino" when not knows(party, wr_veil_face).
+    State holding blocking "A masked Second stands in the middle of the grey-hung landing with his hands crossed on his pommel, in the way of one who has been told to stand there and nothing else.".
+    Guards wr_f7.
+    Greets "The masked Second does not say his name. 'No name,' he says, in a voice pitched a little lower than it was born. 'A Second of no name, hired for the Novena: the Guild permits it, once in a generation, to a House that cannot be seen to be hiring. You are not to ask whose. You are not to say if you find out. That is the sixth landing.'".
+    Greets again "'No name,' says the Veil, again, firmly, to the sailcloth.".
+  }
+  Initially Assert wr_post(wr_veil, wr_l6). Initially Assert unmaskTeaches(wr_veil, wr_veil_face).
+  Topic wr_veil_rule with wr_veil "Ask the Second what the sixth landing asks" when true {
+    Says "'What a man does with a thing he was not meant to see,' says the Veil. 'We cross blades; if you can put me down I shall tell you so, and the mask will come away, because it does, and then you will have seen me. It is the Guild's custom that you may do what you like with it. I am told some have said a great deal. I am told others have taken money. I am told one or two have said nothing at all, and I did not hear of those, because they said nothing.'".
+  }
+  Action wr_cross_veil(actor: group, site: place) "Cross blades with the Second in the domino, and keep your eyes off his face" {
+    Speaker wr_veil.
+    Requires able(actor) and company(actor) and at(actor, site) and at(wr_veil, site) and able(wr_veil) and not tolerates(wr_veil, actor) and capable(actor, brawn).
+    Time 8 minutes.
+    Resolve check(actor, brawn, dc_fair).
+    On success { Assert tolerates(wr_veil, actor). Assert wr_veil_down(actor). }
+    On failure { Assert strikes(wr_bruise, actor). Increase wr_falls(actor) by 1. }
+    Result "He fights without a word, cleanly, and a little desperately, as someone does who has more to lose than his place. When you put him down on the wet paving his domino has come away in the rain and lies a yard off, face down, like something he had dropped, and in the grey light you cannot help seeing the face. It is a young face, and very frightened, and it knows you have seen it.".
+    Otherwise "He is quicker than you, and unlike the others he is not at all sorry. The flat of his blade lays you out against the sailcloth, and the rain drums.".
+  }
+  Relation wr_veil_down(group).
+  Rule wr_veil_seen when wr_veil_down(party) and not knows(party, wr_veil_face) says "The face under the black lacquer is one you have been told you may not know, and you know it anyway, from the Hill's portraits: the jaw, and the Vesper way of holding the head a little back, as if smelling an insult." teaches wr_veil_face { }
+  Action wr_veil_purse(actor: group, site: place) "Take the House's ten coin for the face you did not see" {
+    Speaker wr_veil.
+    Requires able(actor) and company(actor) and at(actor, site) and at(wr_veil, site) and wr_veil_down(actor) and not wr_veil_settled(actor).
+    Time 2 minutes.
+    On success { Increase quantity(actor, gold) by 10. Increase wr_hire(actor) by 1. Assert wr_veil_settled(actor). }
+    Result "He has the coin ready in a twist of paper in his sleeve. It has been ready for some time, and you wonder how many hands it has been held out to. 'From the House,' says the young man, not looking at you. 'For a face you did not see.' You did not see it, in the matter of the record. The paper is wet and the coin dry, and he does not breathe again until you have put it away.".
+  }
+  Action wr_veil_hush(actor: group, site: place) "Pick up his domino, and give it back, and say you saw nothing" {
+    Speaker wr_veil.
+    Requires able(actor) and company(actor) and at(actor, site) and at(wr_veil, site) and wr_veil_down(actor) and not wr_veil_settled(actor).
+    Time 2 minutes.
+    On success { Increase wr_defend(actor) by 1. Assert wr_veil_settled(actor). Assert wr_veil_spared(actor). }
+    Result "You fetch the domino out of the wet and give it to him by the edges, as you would a thing that was somebody's hat. 'I saw a Second of no name,' you say. 'I saw nothing else, and the sailcloth is very thick.' He puts it on. His hands shake, and then do not. 'No name,' he says, thickly, and is a Second again. When you are three steps on, he says behind you, as one who cannot help it: 'Thank you.'".
+  }
+  Relation wr_veil_settled(group). Relation wr_veil_spared(group).
+  // Said aloud in a square, the name does what it does: the Second is Named, and a House with it.
+  Rule wr_veil_named when named(wr_veil) and not wr_veil_broken(party) { Assert wr_veil_broken(party). Increase wr_break(party) by 1. Assert wr_veil_settled(party). }
+  Relation wr_veil_broken(group).
+  Action wr_steel6(actor: group, site: place) "Fight the Second in the domino to the end" {
+    Speaker wr_veil.
+    Requires able(actor) and company(actor) and at(actor, site) and at(wr_veil, site) and able(wr_veil) and not tolerates(wr_veil, actor) and capable(actor, brawn).
+    Time 1 minute.
+    On success { Retract peaceable(wr_veil). Assert assails(wr_veil, actor). Increase wr_break(actor) by 1. }
+    Result "'No name,' says the Second, to the cloth and to the rain, as if saying it to himself for the last time, and draws.".
+  }
+
+  // ── 7. The Brother: Second Anselm Reeve ───────────────────────────────────────────────────────────────────────────
+  Person wr_anselm "Second Anselm Reeve" at wr_l7 {
+    Role "the Captain's brother, who was the Guild's best sword, at the seventh landing". Ancestry human. Calling warrior. Level 3. Peaceable. Pronouns he. Manner proud.
+    State holding blocking "A tall man in Second's grey stands at the far side of the scrubbed landing with a long sword held low, and the way up is behind him, and he is not tall enough for it.".
+    Guards wr_f8.
+    Greets "'Reeve,' says the man, and then, because it is the Guild's custom, and because his voice does not entirely hold on it: 'Anselm Reeve. Second. The Captain's brother, since you will have heard.' He has his sister's profile, under a three days' grey stubble, and his sister's way of looking at you as though she has asked you something. 'I am the seventh landing, and I am the best of the Stair, and I will be good enough for you.' He moistens his lips. 'Come on.'".
+    Greets again "'Reeve,' he says, a little too steadily.".
+  }
+  Initially Assert wr_post(wr_anselm, wr_l7).
+  Topic wr_anselm_rule with wr_anselm "Ask Reeve what the seventh landing asks" when true {
+    Says "'To be disarmed by the best,' he says. 'It is not much, as a test; it asks whether you can take a sword from a man who is better than you and has a reason to keep it. That is all.' He drinks from nothing. 'It is the Captain's own brother, who is the Captain's one weakness, and everyone on the Hill knows she will not have it said he was beaten for pay. So he is not beaten for pay. He is beaten honestly, or he is let through, and nobody has ever been sure which. That is what the seventh landing is for.'".
+  }
+  Discovery wr_brother_shakes "Anselm Reeve, the Captain's brother and the Stair's best sword, has not held a sword steady since he killed a boy in a duel last winter; he drinks to hold it still, and the Captain has not said so to the Guild.".
+  Action wr_read_anselm(actor: group, site: place) "Watch his sword hand, and the vinegar on the paving" {
+    Speaker wr_anselm.
+    Requires able(actor) and company(actor) and at(actor, site) and at(wr_anselm, site) and not knows(actor, wr_brother_shakes).
+    Time 3 minutes.
+    Resolve check(actor, insight, dc_fair).
+    On success { Assert knows(actor, wr_brother_shakes). }
+    Result "The stone is scrubbed because there was something on it. The vinegar is to cover another smell. And the sword is held low and a little away from the body, the way one holds a thing that might go off, and the hand that holds it, under the glove, is not quite still. Nobody on the Hill has told you why. He sees you look and does not move it. 'Winter,' he says, as if you had asked. 'A boy. He was seventeen, and he did not yield, and I did not stop.' Then, in the manner of one who has said it a good many times to a wall: 'I am quite good enough. Come on.'".
+    Otherwise "He is better than you, and he is waiting, and nothing in him that you can read is any different from what it was.".
+  }
+  Action wr_disarm(actor: group, site: place) "Take the sword out of his hand" {
+    Speaker wr_anselm.
+    Requires able(actor) and company(actor) and at(actor, site) and at(wr_anselm, site) and able(wr_anselm) and not tolerates(wr_anselm, actor) and capable(actor, brawn).
+    Time 8 minutes.
+    Resolve check(actor, brawn, dc_hard).
+    On success { Assert tolerates(wr_anselm, actor). Increase wr_hire(actor) by 1. }
+    On failure { Assert strikes(wr_bruise, actor). Increase wr_falls(actor) by 1. }
+    Result "He is very, very good, and you are lucky; in the end the sword goes out of his hand and skitters across the clean paving and over the edge of the landing, and you hear it ring on the rock below for a long time. He does not look at it. 'Well done,' says Anselm Reeve, to the wall. 'My sister will be very pleased,' and then, in a very different voice, 'Will she be told?'".
+    Otherwise "He puts the flat of his blade across your wrist and the strength goes out of your arm, and your own sword rings on the paving. 'Not yet,' he says. It is a courtesy, and his voice is not quite steady on it, and it is the courtesy that you remember.".
+  }
+  Action wr_let_touch(actor: group, site: place) "Drop your point, and let him touch you, and say that he has won" {
+    Speaker wr_anselm.
+    Requires able(actor) and company(actor) and at(actor, site) and at(wr_anselm, site) and able(wr_anselm) and not tolerates(wr_anselm, actor) and capable(actor, brawn) and knows(actor, wr_brother_shakes).
+    Time 4 minutes.
+    On success { Assert tolerates(wr_anselm, actor). Increase wr_defend(actor) by 1. Assert strikes(wr_bruise, actor). Assert wr_brother_spared(actor). }
+    Result "You lower your point, and say, aloud, so that the Seconds on the landing below will hear it, that the seventh landing is his, and take his blade along your forearm, not deeply, because he is very good, and at the last he is not quite good enough to stop it. 'No,' says Anselm Reeve, white to the lips. 'No, you did not need to do that.' He looks at his hand, which is steady. 'Go up. Tell her I held. Tell her I held,' and he sits down on the clean stone, all at once, like someone whose strings have been let go.".
+  }
+  Relation wr_brother_spared(group).
+  Action wr_steel7(actor: group, site: place) "Fight the Captain's brother, with steel, to the end" {
+    Speaker wr_anselm.
+    Requires able(actor) and company(actor) and at(actor, site) and at(wr_anselm, site) and able(wr_anselm) and not tolerates(wr_anselm, actor) and capable(actor, brawn).
+    Time 1 minute.
+    On success { Retract peaceable(wr_anselm). Assert assails(wr_anselm, actor). Increase wr_break(actor) by 1. }
+    Result "'Anselm Reeve,' he says, and his sword comes up out of its low guard as if the thing had been waiting all winter to hear it.".
+  }
+
+  // ── 8. Fear: Second Hesk ──────────────────────────────────────────────────────────────────────────────────────────
+  Person wr_rook "Second Pen Hesk" at wr_l8 {
+    Role "a boy of sixteen, sworn to the Guild last week, with a lamp put out". Ancestry human. Calling warrior. Level 1. Peaceable. Pronouns he. Manner cheerful.
+    State holding blocking "A boy is standing against the wall of the eighth landing with a sword held out in front of him in both hands, and the sword is shaking, and so is the rest of him, and he is between you and the flight above.".
+    Guards wr_f9.
+    Greets "'Hesk,' says the boy, and swallows, and starts again. 'Pen Hesk. Second. Of the Guild. A Second says his name before he strikes.' His voice breaks on 'strikes'. 'I am to ask you,' he says, with great care, as if reading it off the inside of his skull, 'whether you are afraid. And then I am to fight you. That is the eighth landing. I am very sorry about the lamp.'".
+    Greets again "'Hesk,' says the boy, and the blade ticks against the wall.".
+  }
+  Initially Assert wr_post(wr_rook, wr_l8).
+  Topic wr_rook_rule with wr_rook "Ask what the eighth landing asks" when true {
+    Says "'Fear,' says Hesk. 'It is a person who is afraid. It is never anybody else, you see. The Guild puts one on every landing, but the eighth is the one that is always the newest, and it is the one nobody has ever had to put a name to.' His teeth chatter and he shuts them. 'I am meant to be what you will have to go past. They did not say it would be me.'".
+  }
+  Action wr_stare(actor: group, site: place) "Stare the boy down, and walk past him" {
+    Speaker wr_rook.
+    Requires able(actor) and company(actor) and at(actor, site) and at(wr_rook, site) and able(wr_rook) and not tolerates(wr_rook, actor) and capable(actor, brawn).
+    Time 2 minutes.
+    Resolve check(actor, intimidation, dc_easy).
+    On success { Assert tolerates(wr_rook, actor). Increase wr_hire(actor) by 1. }
+    Result "You walk toward him as if he were furniture, and he has nowhere to go but flat against the wall, where he lets his sword drop, and you go by with the rain on your back. Behind you he is quietly sick over the edge. It was perfectly effective.".
+    Otherwise "He shuts his eyes and holds the sword out, as stiffly as a curtain-rail, and sets his jaw, and does not move. It is more frightening than you expected, and more difficult to go past.".
+  }
+  Action wr_wait_rook(actor: group, site: place) "Sit on the step across from him and wait until his hand stops" {
+    Speaker wr_rook.
+    Requires able(actor) and company(actor) and at(actor, site) and at(wr_rook, site) and able(wr_rook) and not tolerates(wr_rook, actor).
+    Time 6.
+    On success { Assert tolerates(wr_rook, actor). Increase wr_defend(actor) by 1. Assert wr_rook_waited(actor). }
+    Result "You put your own sword across your knees where he can see it, and sit down on the wet step, and say nothing. It takes most of an hour. The rain keeps up and the boy keeps the sword out, and at some point he is not holding it as a rail but as a weight, and at some point the point has come down, and then he sits too, with his back to the wall, and says, to the lampless bracket, 'I did not know it was allowed to sit.' Then: 'Hesk. I mean, you may go by, Pen Hesk, Second, I am sorry.' It is not clear which of you has been got past.".
+  }
+  Relation wr_rook_waited(group).
+  Action wr_steel8(actor: group, site: place) "Cut him down before he can swing" {
+    Speaker wr_rook.
+    Requires able(actor) and company(actor) and at(actor, site) and at(wr_rook, site) and able(wr_rook) and not tolerates(wr_rook, actor) and capable(actor, brawn).
+    Time 1 minute.
+    On success { Retract peaceable(wr_rook). Assert assails(wr_rook, actor). Increase wr_break(actor) by 1. }
+    Result "'Hesk,' says the boy, in a thread of a voice. 'Pen Hesk,' and he swings, because he was told to, with his eyes shut.".
+  }
+
+  // ── 9. The Captain: Brannoch Reeve ────────────────────────────────────────────────────────────────────────────────
+  Person reeve "Captain Brannoch Reeve" at wr_l9 {
+    Role "Captain of the Seconds' Guild, at her table in the rain" when not at(reeve, urn_hall).
+    Role "Captain of the Seconds' Guild, with forty Seconds in grey at her back" when at(reeve, urn_hall).
+    Ancestry human. Calling warrior. Level 4. Peaceable. Pronouns she. Manner stoic.
+    State holding blocking "A woman in Captain's grey sits at a plank table on the ninth landing with a lamp, a pen, and her hands folded, and the last of the Stair goes up behind her. She has watched you come up the whole way.".
+    Guards wr_f10.
+    Greets "'Reeve,' says the Captain of Seconds, not rising. She is fifty and square and looks as if she had been cut from the same stone as the Stair and rained on for as long. 'I will not give you my first name. It is the one thing on the Hill I have kept.' She turns her pen over once. 'You have come a long way up in the wet, and I have watched you the whole of it, which is not a courtesy, it is the post. Sit.'".
+    Greets again "'Reeve,' says the Captain, and moves the lamp a hand's breadth to see you better.".
+  }
+  Initially Assert wr_post(reeve, wr_l9).
+  Topic wr_reeve_unarmed with reeve "Ask the Captain what is at the head of the Stair" when not capable(actor, brawn) {
+    Says "'The Hill,' says Reeve, 'and a gate, and a motto, which you may read.' She does not look at your hands, as the Seconds below did not. 'The Guild's oath is for those who carry. You are not asked it, and I should not think any the less of you. Go up, and see what the Old Names have shut their shutters on. It is not much.'".
+  }
+  Topic wr_reeve_rule with reeve "Ask the Captain what she asks at the top" when wr_bladed_up() {
+    Says "'Nothing,' says Reeve. 'Eight asked, and you answered, and the book has it. I only read it back.' She opens the ledger on the table. It is another ledger, the Captain's, with a column for each landing, and in the column for each landing, in a different hand for each, a line. 'A champion is made by what they refuse. I do not ask what you will do. I know it: I have a Second at every landing. I ask what you *refuse*.'".
+  }
+  Query wr_bladed_up() means capable(party, brawn) and wr_height(party) >= 8.
+  // The Captain's question, put once; the three answers are the three creeds, each available to a company that has
+  // earned it by what it did on the landings (twice, at the least).
+  Topic wr_reeve_asks with reeve "Tell the Captain you will answer her question" when wr_bladed_up() and not wr_blooded(party) once {
+    Says "She turns the ledger round so that you can read it. 'The first,' says Reeve, 'laid his steel on the rack, or took your coin, or drew. The second held a door or fought two. The third was a clown with a daughter. The fourth was paid to fall to you, and was, or was not. The fifth held out a sword. The sixth wore a mask. The seventh is my brother.' Her voice does not change on it. 'The eighth was a child. And I have a column of what you did. Say what it is that you refuse.'".
+  }
+  Topic wr_say_hire with reeve "Say that you refuse nothing that is fairly paid for" answering wr_reeve_asks when wr_hire(party) >= 2 {
+    Says "'A sword for rent,' says Reeve, and does not make it sound like an insult, which is a gift. 'The Guild is mostly that. It is honest work. It is the oldest, and the best-paid, and the one the Hill cannot do without; and its whole ethic is that the buyer is told the price, and the sword does what it is paid for and no more. If that is what you are, say it, and be that, and do not let anyone say it is shame.'".
+    On discuss { Assert wr_hireling(party). Assert wr_asked(party). }
+  }
+  Topic wr_say_defend with reeve "Say that you refuse to see the unarmed hurt" answering wr_reeve_asks when wr_defend(party) >= 2 {
+    Says "'A shield,' says Reeve. Her eyes go to the lamp. 'It is the rarest, and nobody has thanked it, ever, and it is the one the Guild is for, on paper. A Second who refuses to let the unarmed be hurt is a Second who gets in the way of the people who pay Seconds. You will not be rich. You will, I should think, be the last person on the Stair that they are afraid of, and the only one they come to when it is over.'".
+    On discuss { Assert wr_defender(party). Assert wr_asked(party). }
+  }
+  Topic wr_say_break with reeve "Say that you refuse a rule that makes you do it" answering wr_reeve_asks when wr_break(party) >= 2 {
+    Says "'A breaker,' says Reeve, and for the first time sits back. 'It is what the Hill is afraid of, and what it is secretly for. Someone has to be the person to whom it can be said, *and the rule?* and who answers, *what rule*.' She almost smiles. 'The Guild has had four in three hundred years. We did not swear them in. We keep their names in the book, in the back, in a hand nobody else can read. You will be in it.'".
+    On discuss { Assert wr_breaker(party). Assert wr_asked(party). }
+  }
+  Topic wr_say_plain with reeve "Say that you do not know what you refuse" answering wr_reeve_asks when wr_hire(party) < 2 and wr_defend(party) < 2 and wr_break(party) < 2 {
+    Says "'That is the commonest answer,' says Reeve, 'and the one I like best. It is the truthful one.' She makes a note. 'You have climbed nine landings and answered nine ways, and not one of them twice, and I shall put you down as plain. You are not a hireling or a shield or a breaker. You are a Second, which is all that is on the oath; the rest is what you find out.'".
+    On discuss { Assert wr_plain(party). Assert wr_asked(party). }
+  }
+  // What the Captain says of the blood on the Stair, to a company that has left some.
+  Topic wr_reeve_blood with reeve "Ask the Captain what she will say of the Stair" when wr_blooded(party) and capable(actor, brawn) {
+    Says "'You have killed on my Stair,' says Reeve. 'Seconds I have trained, who signed their blows. The Guild's oath is not for those who bring blood up it, and you know that it is not, or you would not have drawn on a man who was paid to be hit.' She does not stand. 'You may go up. It is a public stair. I will not swear you, and you will not be a Second, and I will tell you which of mine I buried, since you did not ask.' She names them. It does not take long.".
+  }
+  Topic wr_reeve_ledger with reeve "Ask the Captain about the forty coin in the fourth landing's book" when knows(actor, wr_paid_to_lose) {
+    Says "'Mine,' says Reeve at once. She does not make it a confession. 'Forty coin from my purse, in my hand, signed R., and every Second on the Stair has a column and a custom, and the fourth landing's is to see what a champion does with a gift. I put the purse in. I wanted to see what you did.' She turns the pen once. 'It is a mean sort of trade, and I am the Captain, and it is how the Guild has always found out what kind of blade has come up it. Do not think it was personal. It was only that you were next.'".
+  }
+  Action wr_swear(actor: group, site: place) "Kneel on the wet stone, and take the Seconds' oath" {
+    Speaker reeve.
+    Requires able(actor) and company(actor) and at(actor, site) and at(reeve, site) and wr_asked(actor) and not wr_blooded(actor) and not wr_sworn(actor).
+    Time 5 minutes.
+    On success { Assert wr_sworn(actor). Give wr_seconds_blade to actor. Assert handReady(actor, hand_stair). Assert arcBegun(actor, hand_stair).
+      Assert tolerates(reeve, actor). }
+    Result "You kneel on the paving in the rain and say the oath, which is shorter than you were afraid of: to sign what you strike; to refuse what is to be refused; to come when the Stair calls. The Captain stands, which she does for nobody, and gives you, hilt first, a plain grey blade with the Guild's ring pommel, and says, in the voice of someone reading a column: 'Second.' Then, as the Seconds on every landing below you lift their hands, each as it hears it, one after another, nine times down the rain: 'Welcome up.'".
+  }
+  // The Captain lets a company that has not been sworn up and out: it is a public stair. What she will not do is let it
+  // go by her unasked while it carries a blade.
+  Rule wr_reeve_lets_by when reeve_lets(party) and not tolerates(reeve, party) { Assert tolerates(reeve, party). }
+  Relation reeve_lets(group).
+  Rule wr_reeve_lets_blood when wr_blooded(party) and wr_height(party) >= 8 and at(party, wr_l9) and not reeve_lets(party) { Assert reeve_lets(party). }
+  Rule wr_reeve_lets_plain when wr_asked(party) and not wr_sworn(party) and not reeve_lets(party) { Assert reeve_lets(party). }
+  Kind wr_seconds_blade_kind "a Second's blade" is gear worth 40 weighing 3 granting brawn described "A plain grey sword with a ring for a pommel, and the Guild's mark cut into the ricasso: a hand, open, held up. It has no name, which is the point. A Second signs his blows; the blade does not have to.".
+  Item wr_seconds_blade "a Second's blade" is wr_seconds_blade_kind at offstage.
+
+  // What the oath leaves with a company: the Guild's own creed, said at the head of the Stair, the standing invitation
+  // into the Guild's yard (its infirmary, its practice ring) and, once, an hour's drill with the Captain.
+  Relation wr_drilled(group).
+  Action wr_drill(actor: group, who: member, site: place) "Drill an hour in the Guild's yard with the Captain, and be put through it" {
+    Speaker reeve.
+    Requires able(actor) and company(actor) and at(actor, site) and at(reeve, site) and memberOf(who, actor) and wr_sworn(actor) and not wr_drilled(actor) and capable(actor, brawn).
+    Time 6.
+    Resolve endow(who, strength, by_one).
+    On success { Assert wr_drilled(actor). }
+    Result "She works you in the yard for an hour in the rain until you can no longer lift the sword and then makes you lift it. It is not kindness and it is not cruelty, only the Guild's own sums. At the end of it she looks at you. 'You are stronger,' says Reeve. 'It is not that I taught you. It is that nobody else made you do it past the point of wanting to.'".
+  }
+  // The standing invitation: the Guild's surgeon sees to its own for nothing, and does not ask what was done on the Stair.
+  Action wr_yard_care(actor: group, site: place) "Be seen to on the surgeon's bench, as one of the Guild" {
+    Speaker hl_surgeon.
+    Requires able(actor) and company(actor) and at(actor, site) and at(hl_surgeon, site) and wr_sworn(actor).
+    Time 6.
+    Resolve recover(actor).
+    Result "'A Second,' says Goodwife Ream, without looking up, and moves along the bench. She does not ask what it was, and she does not take a coin. By the end of the hour you are stitched, strapped, and so thoroughly fed that you have to be told when to stop.".
+  }
+  Milestone wr_m_five "climbed the Duelling Stair to the fifth landing" worth 25 when wr_height(party) >= 5.
+  Milestone wr_m_top "answered every landing of the Duelling Stair, and the Captain's question" worth 50 when wr_asked(party).
+  Milestone wr_m_sworn "was sworn a Second of the Seconds' Guild" worth 75 when wr_sworn(party).
+
+  // ── The Contessa's killing ────────────────────────────────────────────────────────────────────────────────────────
+  // At the top of the Stair the Contessa wants a Second for a killing: Lord Dacre Ullin has put a child in her
+  // goddaughter, Elinor Sarum, and will not own it, and on the Hill what the Houses will not own is washed by a Second.
+  // The truth is that they were married by lamplight in the Chapel, by someone now dead, and that the Houses will not
+  // hear it, because Ullin sits at the eleventh place and Sarum at the fourteenth, and a spoon does not marry down.
+  // Three ways: do it (a hireling's), refuse it, or stand for Elinor in the yard on the Guild's own Rule.
+  Relation wr_commissioned(group). Relation wr_hired(group). Relation wr_refused(group).
+  Relation wr_ullin_dead(group). Relation wr_ullin_bound(group). Relation wr_ullin_taken(group). Relation wr_other_second(group).
+  Query wr_ullin_settled() means wr_ullin_dead(party) or wr_ullin_bound(party) or wr_other_second(party).
+  Person wr_elinor "Elinor Sarum" at offstage {
+    Role "the Contessa's goddaughter, of House Sarum, with her hand on a window-seat" when at(wr_elinor, tarn_hall).
+    Role "the Contessa's goddaughter, of House Sarum" when not at(wr_elinor, tarn_hall).
+    Ancestry human. Peaceable. Pronouns she. Manner compassionate.
+    Greets "A young woman sits in the window of the hall of the Palazzo Tarn with a book she is not reading, and a hand laid very lightly on her gown below the waist, in the manner of a person who does not yet know she is doing it. 'I am Elinor Sarum,' she says. 'I am the Contessa's goddaughter, and you are the Bare, and I am not to be spoken to; she is quite firm about it. She is very kind.'".
+    Greets again "'You are not to speak to me,' says Elinor Sarum, and makes room on the seat.".
+  }
+  Person wr_ullin "Lord Dacre Ullin" at offstage {
+    Role "of House Ullin, who practises alone in the Guild's yard by lamplight" when not wr_other_second(party).
+    Role "of House Ullin, who is not at the Guild's yard any more" when wr_other_second(party).
+    Ancestry human. Calling warrior. Level 3. Peaceable. Pronouns he. Manner proud.
+    Greets "The young man in the practice ring lowers his sword and does not take it for a courtesy. 'Ullin,' he says. 'Dacre, if you must. The eleventh spoon.' He wipes his face with his sleeve. 'You are somebody's Second. They are always somebody's Second, at this hour. I wish you would say whose, and let me get on with it.'".
+    Greets again "'Ah,' says Lord Ullin, and does not lift the sword.".
+  }
+  Initially Assert takesPrisoners(wr_ullin).
+  Rule wr_elinor_hall when publicHours() and not hl_dining_hours() and not at(wr_elinor, tarn_hall) { Assert at(wr_elinor, tarn_hall). }
+  Rule wr_elinor_bed when privateHours() and not at(wr_elinor, offstage) and not wr_ullin_bound(party) { Assert at(wr_elinor, offstage). }
+  Rule wr_ullin_yard when hour(clock) >= 18 and not wr_ullin_dead(party) and not wr_other_second(party) and not at(wr_ullin, seconds_yard) { Assert at(wr_ullin, seconds_yard). }
+  Rule wr_ullin_home when (hour(clock) < 18 or wr_other_second(party)) and not wr_ullin_dead(party) and not at(wr_ullin, offstage) { Assert at(wr_ullin, offstage). }
+  Discovery wr_elinor_story "Elinor Sarum is with child by Lord Dacre Ullin, and they were married by lamplight in the Chapel by someone who is now dead; the Houses will not own it, because Ullin's spoon is the eleventh and Sarum's the fourteenth, and the Contessa calls it a dishonour that only a Second's blade can wash.".
+  Topic wr_elinor_tells with wr_elinor "Ask Elinor why she is not to be spoken to" when true once {
+    Says "She laughs, and it is not a laugh. 'Because I am a dishonour.' She is very composed. 'I was married in the Chapel, in October, at night, by somebody who did not ask what the Houses thought, because she did not need to; she was to be dead in a week, and I believe she knew. Dacre knelt in the vestry. I wore my second-best gown.' Her hand does not move. 'The Houses say a Sarum does not marry an Ullin, because of the eleventh spoon and the fourteenth. I have told them that I have, and that there is a child, and they say that a dishonour is not a marriage, and the Contessa has said that she knows how a dishonour is washed.'".
+    On discuss { Assert knows(actor, wr_elinor_story). }
+  }
+  Topic wr_elinor_ask with wr_elinor "Ask what she would have a Second do" when knows(actor, wr_elinor_story) once {
+    Says "'Nothing.' It comes very fast. 'Nothing. I should like very much not to have anyone's death on the child.' She looks at her hands. 'If there were a way that he might say it, in front of the Fourteen, that it was true, I think the Contessa would not be able to say that it was a dishonour. She cannot bear to be disproved. She bears a good deal else. I do not know of any way, and I do not know a Second. But I should be quite, quite glad, if somebody found one.'".
+  }
+  Topic wr_ullin_story with wr_ullin "Ask him whether he knows what the Contessa means to do" when knows(actor, wr_elinor_story) once {
+    Says "'Of course I know.' He puts the sword in the rack, as a man puts away something that has been a comfort. 'It was a Second who told me, last week, as a kindness. I am to be killed by the Contessa's Second before the ninth, in a yard, in the dark, and I am to have the privilege of not seeing it coming, which I do not, since I have been in this yard every night.' A short laugh. 'I should marry her in the street. I should marry her in the Terrace and have it cried, if they would hear it. It is not a question of what I will say. It is a question of whether anybody on the Hill is *listening*.'".
+  }
+  Topic wr_tarn_asks with tarn "Tell the Contessa that you are sworn" when wr_sworn(actor) and not wr_commissioned(actor) and (not masked(actor) or publicHours()) once {
+    Says "'A Second.' She puts down the spoon. 'The Captain sent me word by the water-gate, which is quicker than the Stair, and I have been looking forward to you.' She is not unkind, and she is not asking. 'There is a man, Dacre Ullin, of the Ullins, the eleventh spoon. He has dishonoured a daughter of this house, my goddaughter, Elinor, and he will not own what he has done. In the Houses a thing of that kind is washed by a Second, in a yard, with the Guild's leave, and the Guild's leave I have. Sixty coin. On or before the eighth night. He practises alone.' She regards you. 'You may think it over. You may not think it over for long.'".
+    On discuss { Assert wr_commissioned(actor). Assert knows(actor, wr_commission_known). }
+  }
+  Discovery wr_commission_known "The Contessa has commissioned a sworn Second to kill Lord Dacre Ullin of the eleventh spoon, in the Guild's yard, by the eighth night, for sixty coin, for dishonouring her goddaughter Elinor Sarum.".
+  Action wr_take_commission(actor: group, site: place) "Take the Contessa's sixty coin, and the commission" {
+    Speaker tarn.
+    Requires able(actor) and company(actor) and at(actor, site) and at(tarn, site) and wr_commissioned(actor) and not wr_hired(actor) and not wr_refused(actor) and not wr_ullin_settled().
+    Time 5 minutes.
+    On success { Assert wr_hired(actor). Increase quantity(actor, gold) by 60. Decrease quantity(tarn, gold) by 60 or to nothing. }
+    Result "'Good.' She counts it out herself, into your hand, sixty small gold coins out of a purse that has been kept for the purpose, and does not once look at your face. 'I have always found,' says the Contessa Tarn, 'that it is the ones who take the money who finish. The ones who refuse it do not finish; they merely feel.'".
+  }
+  Action wr_refuse_commission(actor: group, site: place) "Tell the Contessa that you will not do it" {
+    Speaker tarn.
+    Requires able(actor) and company(actor) and at(actor, site) and at(tarn, site) and wr_commissioned(actor) and not wr_hired(actor) and not wr_refused(actor) and not wr_ullin_settled().
+    Time 5 minutes.
+    On success { Assert wr_refused(actor). Decrease hl_trust(actor) by 1 or to nothing. }
+    Result "'No,' says the Contessa, as one who has been told that it will rain. She regards you for some time. 'It is, I suppose, what a Second is for, in the end. You are the only one in the Guild who will say it to my face, and I am not sure I shall forgive you.' She picks up the spoon. 'Somebody else will. They are cheaper than the other kind.'".
+  }
+  Action wr_kill_ullin(actor: group, site: place) "Take the Contessa's commission, in the yard, with steel" {
+    Speaker wr_ullin.
+    Requires able(actor) and company(actor) and at(actor, site) and at(wr_ullin, site) and able(wr_ullin) and wr_hired(actor) and not wr_ullin_settled().
+    Time 1 minute.
+    On success { Retract peaceable(wr_ullin). Assert assails(wr_ullin, actor). }
+    Result "'Ah,' says Lord Ullin, very quietly. 'It is you.' He lifts the sword out of the rack. 'Dacre Ullin,' says Lord Ullin, which is the Guild's way, and the practice ring is suddenly a good deal smaller.".
+  }
+  Rule wr_ullin_falls when dead(wr_ullin) and wr_hired(party) and not wr_ullin_dead(party)
+    says "He falls in the lamplight, with the practice-sword still in his hand, and says one word that you do not catch. It is not an oath. It is, you think, a name." { Assert wr_ullin_dead(party). Increase wr_hire(party) by 1. }
+  Action wr_champion(actor: group, site: place) "Stand for Elinor Sarum, as her Second, and call the Rule of Acknowledgement against him" {
+    Speaker wr_ullin.
+    Requires able(actor) and company(actor) and at(actor, site) and at(wr_ullin, site) and able(wr_ullin) and wr_sworn(actor) and knows(actor, wr_elinor_story) and not wr_ullin_settled().
+    Time 10 minutes.
+    Resolve check(actor, brawn, dc_hard).
+    On success { Assert wr_ullin_bound(actor). Increase wr_defend(actor) by 1. }
+    On failure { Assert strikes(wr_bruise, actor). Increase wr_falls(actor) by 1. }
+    Result "'On the Rule of Acknowledgement, to first blood,' you say, 'for the Lady Elinor Sarum, who is his wife.' He stares at you. Then he laughs, and lifts the sword, and for a time the yard rings. At the end of it he is on his knee on the cobbles, with a cut on his wrist, and when he looks up he is quite white. 'I acknowledge it,' says Lord Ullin, to the whole of the Guild's yard, which is empty, and then, louder, to the dark, 'I acknowledge her, and the child, and the marriage, before the Seconds' Guild, and any of the Fourteen who like to ask.' He is crying. 'I have been waiting so long for somebody to make me.'".
+    Otherwise "He is far better than you hoped, and perhaps a little better than he cares to be: the Rule is called, and he fights it with the whole of his heart, and puts you down, not unkindly, on the cobbles. 'First blood to Ullin,' he says, breathless. 'And, you know, if I could be made to say it by a blade, I should have been made by now.'".
+  }
+  Action wr_talk_ullin(actor: group, site: place) "Tell Ullin that the Houses will listen, if he says it before the Fourteen at the Contessa's table" {
+    Speaker wr_ullin.
+    Requires able(actor) and company(actor) and at(actor, site) and at(wr_ullin, site) and able(wr_ullin) and knows(actor, wr_elinor_story) and not wr_ullin_settled() and not wr_ullin_talked(actor).
+    Time 10 minutes.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert wr_ullin_bound(actor). Assert wr_ullin_talked(actor). }
+    On failure { Assert wr_ullin_talked(actor). }
+    Result "'Not in a yard,' you say. 'Not in the street, either, where it can be said that you were made to. At the dinner, at the Contessa's table, with all fourteen of the spoons in the room. She cannot call it a dishonour in front of the Houses if the Ullin says it to her face and in his own voice.' He is silent so long that the lamp gutters. 'It would be the end of the eleventh spoon,' says Dacre Ullin. 'I should be an Ullin that married a Sarum. I should be, I think, extremely happy.'".
+    Otherwise "He listens to it all, courteously, and at the end he says, with great weariness, that it is exactly what he would say himself, to somebody else, and that he would not, in the end, either believe it or do it. 'Come back with a better reason, or a better sword.'".
+  }
+  Relation wr_ullin_talked(group).
+  // Left alone, the Contessa finds a cheaper Second, in the dark of the eighth night.
+  Rule wr_ullin_taken_by_other when day(clock) == 8 and hour(clock) >= 23 and not wr_ullin_settled() and not wr_ullin_taken(party)
+    says "In the small hours of the eighth night a Second whose name is not in the Guild's book goes into the practice ring of the yard by lamplight, and a young man with a sword is found in it in the morning." { Assert wr_ullin_taken(party). Assert wr_other_second(party). Assert at(wr_ullin, offstage). }
+  Milestone wr_m_ullin "settled the Ullin matter without a death" worth 50 when wr_ullin_bound(party).
+  Milestone wr_m_killed "did the Contessa's killing" worth 25 when wr_ullin_dead(party).
+
+  // ── The Stair held ────────────────────────────────────────────────────────────────────────────────────────────────
+  // On the ninth night the Seconds keep the crowd off the Urn Hall's stair. The Captain brings forty of them across the
+  // Cuff at dusk, and what they do is the sworn company's to say; drawing.kyr reads handPlayed(hand_stair) and handWay:
+  // 1 the Stair held with shields (nobody hurt), 2 held with steel (the crowd bled), 3 the line opened (nobody held).
+  Rule wr_reeve_marches when drawingNight() and wr_sworn(party) and not at(reeve, urn_hall) { Assert at(reeve, urn_hall). }
+  Relation wr_held(group).
+  Action wr_hold_shields(actor: group, site: place) "Have the Seconds close their shields across the Urn Hall stair, and hold" {
+    Speaker reeve.
+    Requires able(actor) and company(actor) and at(actor, site) and at(reeve, site) and at(actor, urn_hall) and drawingNight() and handReady(actor, hand_stair) and not handPlayed(actor, hand_stair).
+    Time 10 minutes.
+    On success { Assert handPlayed(actor, hand_stair). Assert arcDone(actor, hand_stair). Set handWay(hand_stair) to 1. Assert wr_held(actor). }
+    Result "Forty Seconds in grey come down the Urn Hall stair in the lamplight and close their shields across the foot of it, a wall of plain painted wood, two ranks deep, in total silence, and the crowd, which has come to the Chapel with every sort of grievance, finds that it is looking at a line of faces that say *no* so politely. They do not draw. They do not need to. At each end of the line a Second says his name, quietly, to the people in front of him, and by the third repeating it has begun to sound like an apology.".
+  }
+  Action wr_hold_steel(actor: group, site: place) "Order the Seconds to clear the stair with steel" {
+    Speaker reeve.
+    Requires able(actor) and company(actor) and at(actor, site) and at(reeve, site) and at(actor, urn_hall) and drawingNight() and handReady(actor, hand_stair) and not handPlayed(actor, hand_stair) and not wr_defender(actor).
+    Time 10 minutes.
+    On success { Assert handPlayed(actor, hand_stair). Assert arcDone(actor, hand_stair). Set handWay(hand_stair) to 2. Assert wr_held(actor). Assert wr_crowd_bled(actor). }
+    Result "'On your word,' says the Captain, and the Seconds go down the stair with their swords drawn, saying their names, and what follows is quick and not at all like the Stair: a crowd is not a Second, and does not yield when it is bloodied. The Urn Hall's stair is held. It is held, you see afterwards, over eleven people lying on it, and the Captain does not look at you for the rest of the night, and is, throughout, entirely correct.".
+  }
+  Relation wr_crowd_bled(group).
+  Action wr_open_line(actor: group, site: place) "Tell the Seconds to stand aside, and let the crowd through" {
+    Speaker reeve.
+    Requires able(actor) and company(actor) and at(actor, site) and at(reeve, site) and at(actor, urn_hall) and drawingNight() and handReady(actor, hand_stair) and not handPlayed(actor, hand_stair) and wr_breaker(actor).
+    Time 10 minutes.
+    On success { Assert handPlayed(actor, hand_stair). Assert arcDone(actor, hand_stair). Set handWay(hand_stair) to 3. Assert wr_line_opened(actor). }
+    Result "'A breaker,' says Reeve, very softly, and looks along the line of her Seconds, and gives a signal that is not in the Guild's book. They step apart, forty of them, each a pace to the side, all at once, as men do who have been waiting to be told, and the crowd, which had braced for a wall, goes down the stair of the Urn Hall in a rush that is almost embarrassed. 'It is the first time in three hundred years,' says the Captain, 'that the Stair has refused to hold.'".
+  }
+  Relation wr_line_opened(group).
+  Milestone wr_m_held "held the Stair at the Drawing" worth 75 when wr_held(party).
+  Milestone wr_m_opened "opened the Seconds' line at the Drawing" worth 75 when wr_line_opened(party).
+
+  // ── What came of them ─────────────────────────────────────────────────────────────────────────────────────────────
+  Rule wr_fate_reeve_hireling when newsHour() and wr_hireling(party) once says "Of Captain Reeve: she has written your name in the front of the Guild's book, with a price against it, and the Seconds have taken to quoting a rate for each landing, as you did, and calling it the Hireling's courtesy." { }
+  Rule wr_fate_reeve_defender when newsHour() and wr_defender(party) once says "Of Captain Reeve: she has put your name in the front of the Guild's book with nothing against it. The Seconds say that when a company of the unarmed is in trouble on the Hill, there is now one door in the Guild they know to knock at." { }
+  Rule wr_fate_reeve_breaker when newsHour() and wr_breaker(party) once says "Of Captain Reeve: she has written your name in the back of the Guild's book, in the hand that nobody else can read, and under it a single line: *The rule, and?*" { }
+  Rule wr_fate_reeve_plain when newsHour() and wr_plain(party) once says "Of Captain Reeve: you are down in the book as plain, which is the commonest entry and the one she likes best. She has been seen to read it, on the ninth landing, in the rain." { }
+  Rule wr_fate_reeve_blooded when newsHour() and wr_blooded(party) and not wr_sworn(party) once says "Of Captain Reeve: she has buried the Seconds she trained that you killed, with the Guild's honours, on the Hill, and has not said your name aloud, which on the Hill is the worst that can be done to anybody." { }
+  Rule wr_fate_reeve_never when newsHour() and not wr_sworn(party) and not wr_blooded(party) once says "Of Captain Reeve: she keeps the ninth landing as she always has, and has been seen, at the hour when somebody might come up it, to lift her head." { }
+  Rule wr_fate_hesk when newsHour() and wr_rook_waited(party) once says "Of Pen Hesk: the lamp on the eighth landing is lit again, and he sits by it with his sword across his knees, and has told nobody on the Stair that it was allowed to sit." { }
+  Rule wr_fate_bled when newsHour() and wr_crowd_bled(party) once says "Of the Seconds' line at the Chapel: eleven of the crowd were carried across the Cuff by the Guild before dawn, and the Captain has had every name written down, in the Guild's own book, and read them aloud in the yard." { }
+  Rule wr_fate_promised when newsHour() and wr_promised(party) and not wr_ullin_settled() once says "Of the Contessa's Second: she is still waiting, with the lamp on the third step of her private stair unlit, for somebody who said they would come." { }
+  Rule wr_fate_anselm when newsHour() and wr_brother_spared(party) once says "Of Anselm Reeve: he has put down the vinegar, and holds the seventh landing steady, and says that he held. His sister has not told him that she knows." { }
+  Rule wr_fate_dobb_dead when newsHour() and wr_orphan(wr_dobb) once says "Of Dilly, the Fool's daughter: she sits on the third landing's top step on the Third Bell days, with the wooden sword across her knees, and watches the stair below, and when a champion bows, she does not clap." { }
+  Rule wr_fate_dobb_fooled when newsHour() and wr_fooled(party) and not wr_orphan(wr_dobb) once says "Of Fenwick Dobb: the Fool of the Stair has a new joke, and does it badly, on purpose, in your honour, to a child who has never in her life laughed at anything as hard." { }
+  Rule wr_fate_vask when newsHour() and wr_vask_honest(party) once says "Of Corin Vask: the Ledger of the fourth landing records that he lost to a champion who would not be given the win, and that the loss was fair, in his own hand. He has framed the page." { }
+  Rule wr_fate_wend_blade when newsHour() and wr_blade_taken(party) once says "Of Aldous Wend: on the Third Bell of the Drawing a boy comes up the Stair to ask whether the sword is still kept, and is told that it is, by somebody who does not tell him that it was a gift." { }
+  Rule wr_fate_wend_broken when newsHour() and wr_blade_broken(party) once says "Of Aldous Wend: nine families on the Hill have been told that the sword is refused, and not broken, and nobody has disputed it, and he has been seen on his bench laughing, with his hands over his face." { }
+  Rule wr_fate_wend_helped when newsHour() and wr_wend_helped(party) once says "Of Aldous Wend: somebody has put his water jar by his hand on the fifth landing every morning since the day somebody carried it down for him." { }
+  Rule wr_fate_veil_named when newsHour() and named(wr_veil) once says "Of Tobias Vesper: he is no longer a Second of no name. He has gone from Quiet Hill by the water-gate, in the rain, with a trunk, and the Palazzo Vesper has taken the black domino down from the wall of the Guild's yard and burned it." { }
+  Rule wr_fate_veil_spared when newsHour() and wr_veil_spared(party) once says "Of Tobias Vesper: he still stands on the sixth landing in a black domino, and says his no-name to the sailcloth, and has told nobody on the Hill what somebody said to him there." { }
+  Rule wr_fate_ullin_bound when newsHour() and wr_ullin_bound(party) once says "Of Elinor Sarum and Dacre Ullin: she is the Lady Ullin, by the Rule, before the Seconds' Guild, and the eleventh spoon has been seen at the table with the fourteenth next to it. The Contessa said she was not at all sure it was permitted, and ate her soup." { }
+  Rule wr_fate_ullin_dead when newsHour() and wr_ullin_dead(party) once says "Of Elinor Sarum: she has gone into the Bare Brothers' cloister, with her hand on her gown, and the child that was born, or will be, is to be a Sarum. The Contessa has had the sixty coin returned to her purse, and counted it twice." { }
+  Rule wr_fate_ullin_other when newsHour() and wr_other_second(party) once says "Of Elinor Sarum: Lord Ullin was found in the practice ring of the Guild's yard on the ninth morning, and a Second whose name is not in the book has been paid. Elinor has gone into the cloister, and the Contessa has said that it was a thing that had to be done, in a voice that nobody on the Hill has heard her use before." { }
+}

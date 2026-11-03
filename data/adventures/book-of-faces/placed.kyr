@@ -1,0 +1,8 @@
+Module ombra "The Book of Faces" {
+  // A province of a generated world's first country: the company that comes down the delta road is the world's own.
+  Entity party: group "Your company".
+  // What the country's towns say of Ombra (a notice of the Novena, nailed up where travellers are kept): once the
+  // Drawing is over, one way or another, it is old news there.
+  Entity word: fact "What is said of Ombra and its Drawing in the towns of the country.".
+  Rule word_old when drawingOver(ombra_delta) and not stale(word) { Assert stale(word). }
+}

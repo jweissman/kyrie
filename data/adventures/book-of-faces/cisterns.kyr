@@ -1,0 +1,570 @@
+Module ombra "The Book of Faces" {
+  // ── The cisterns under the Drip ───────────────────────────────────────────────────────────────────────────────────
+  // The lamp-oil and rain-water of the poor islands are kept in a drowned brick cathedral that older engineers than
+  // Ombra's built and Ombra's lamp-trimmers filled. Under the cistern the Brewers' Drain, which the Drip calls the
+  // Ninefold for its turnings, goes down by five reaches to an Aenean pump and, below the pump, to the cellar under
+  // the Urn Hall. It is passable for the first five days of the Novena, hard from the third, and shut for good by the
+  // Flood on the sixth: the rains fill it from the top. Three lamp-boys hide in the den above it, and the youngest has
+  // seen what no one may. Everything that is here is the Drip's own, and its masks are old and few: the dark is the
+  // one place in Ombra where nobody has to be anybody. (Prefix ci_; the people are pip, ci_nell, ci_tobit.)
+
+  // ── The Drain's rooms and ways ────────────────────────────────────────────────────────────────────────────────────
+  // The spine gives the foot of the steps, the oil-cistern, the den, the drain's mouth, the pump-chamber and the
+  // cellar; the five reaches between the mouth and the pump are ours. (The spine's own stair from mouth to pump is shut
+  // by a sump until the pump has run: the long way is the only way the first time.)
+  Place ci_weir "the weir" is room within cisterns at 2, 1 underground.
+  Place ci_slick "the oil gallery" is room within cisterns at 3, 1 underground.
+  Place ci_eelrun "the eel-run" is room within cisterns at 3, 2 underground.
+  Place ci_chimney "the Brewers' chimney" is room within cisterns at 2, 2 underground.
+  Place ci_aenean "the Aenean stair-head" is room within pump_level at 0, 2 underground.
+  Initially Assert unlit(cistern_head). Initially Assert unlit(cistern_hall). Initially Assert unlit(drain_mouth).
+  Initially Assert unlit(ci_weir). Initially Assert unlit(ci_slick). Initially Assert unlit(ci_eelrun). Initially Assert unlit(ci_chimney).
+  Initially Assert unlit(ci_aenean). Initially Assert unlit(pump_chamber). Initially Assert unlit(urn_cellar).
+  Passage ci_weir_steps "the weir steps" is steps between drain_mouth and ci_weir taking 6 minutes.
+  Passage ci_gallery_arch "the gallery arch" is arch between ci_weir and ci_slick.
+  Passage ci_run_way "the run" is culvert between ci_slick and ci_eelrun taking 8 minutes.
+  // Two ways on from the eel-run: through the water, which the eel keeps; and over it, by the ledge and the chimney.
+  Passage ci_siphon_way "the Siphon" is crawl between ci_eelrun and ci_aenean taking 10 minutes.
+  Passage ci_ledge_way "the ledge over the run" is passage between ci_eelrun and ci_chimney needing climbing or rope taking 8 minutes.
+  Passage ci_chimney_way "the Brewers' chimney" is shaft between ci_chimney and ci_aenean needing climbing or rope.
+  Passage ci_door_way "the Aenean door" is door between ci_aenean and pump_chamber.
+
+  // ── The water ─────────────────────────────────────────────────────────────────────────────────────────────────────
+  // Days one and two: the Drain runs knee-deep and the Siphon has an air-gap you can crawl. From the Deepening the rain
+  // fills the Siphon to the roof, so that it is crossed under water (and hurts) unless the Aenean pump is working.
+  // The sixth morning's Flood drowns the foot of the steps, and the Drain with it, for good.
+  Hazard ci_undertow "the Drain's water, running" means "Deal (2d6) physical damage to ally unless strength save against (12).".
+  Hazard ci_drowning "the Siphon, under water" means "Deal (1d8) physical damage to ally unless constitution save against (12).".
+  Thing ci_water "the water in the Siphon" on ci_siphon_way is scenery {
+    State ci_low "The Siphon is a low black arch with a hand's breadth of air under it and water to the wrists: it can be crawled.".
+    State ci_high dangerous "The Siphon is full to the roof: whoever goes through goes through under water, by feel, holding what breath they have.".
+    Hurts with ci_drowning when ci_high then ci_high.
+  }
+  Rule ci_siphon_fills when day(clock) >= 3 and hour(clock) >= 6 and state(ci_water, ci_low) and not state(ci_pump, ci_running)
+    says "Somewhere below, in the dark, the water finds the roof of the Siphon and takes it, with a sound like a long swallow." { Assert state(ci_water, ci_high). }
+  Rule ci_siphon_ebbs when state(ci_pump, ci_running) and state(ci_water, ci_high)
+    says "Under the floor something thumps, slowly, and the water in the Drain goes down the walls in long sighs." { Assert state(ci_water, ci_low). }
+  // The Flood. From the sixth morning the foot of the cistern steps is under, and what was below is a cistern full
+  // to the arch. The boys have gone to higher ground before it comes; whoever is below is thrown out of it.
+  Thing ci_flood "the water on the cistern steps" on cistern_down is scenery {
+    State ci_shallow "The cistern steps go down into the dark between wet walls.".
+    State ci_drowned blocking dangerous "Grey water stands in the stairwell to the fourth step from the top, with the Drip's rain falling into it in rings. Nothing goes down here for a week.".
+  }
+  Rule ci_flood_comes when day(clock) >= 6 and hour(clock) >= 6 and state(ci_flood, ci_shallow) { Assert state(ci_flood, ci_drowned). }
+  Rule ci_washed_out when state(ci_flood, ci_drowned) and within(party, cisterns) and not state(ci_hatch, ci_open)
+    says "The note of the dripping changes. Then it is not dripping but pouring, and the dark is full of cold, and every wall you have been touching is moving. The Flood takes you off your feet and puts you down again a long way up, on your hands and knees on the cistern steps, coughing lamp-oil, with the Drip's rain coming down on your back like a blessing." {
+    Assert strikes(ci_undertow, party). Assert at(party, cistern_steps). }
+  // Above the hatch, in the Urn Hall, is somewhere the Flood does not take the company out of: it is a dry place for as
+  // long as the hatch is shut.
+  Rule ci_washed_up when state(ci_flood, ci_drowned) and within(party, cisterns) and state(ci_hatch, ci_open) and not at(party, urn_hall)
+    says "The Flood comes up the Drain behind you with a noise like a crowd. You go up the hatch ladder with the water at your heels, and out, onto the floor of the Urn Hall, and it follows you." {
+    Assert at(party, urn_hall). }
+  // A hatch left open takes the Flood into the Urn Hall whoever is there to see it.
+  Rule ci_hall_floods at urn_hall when state(ci_flood, ci_drowned) and state(ci_hatch, ci_open) and not ci_hall_wet(party)
+    says "Water comes up through the cellar hatch in the Hall's floor, slowly, in a black skin, and spreads. It smells of lamp-oil and the Drain. The Hall will be held in it." { Assert ci_hall_wet(party). }
+  Relation ci_hall_wet(group).
+
+  // ── The foot of the steps, the oil-cistern, the den ───────────────────────────────────────────────────────────────
+  Observe ci_head_scene at cistern_head when true "The steps end in a landing of black brick, and the rain that follows you down the stairwell goes on past you in a thin steady rope, into a drain, into the dark, with a noise like somebody counting. The air is cold and sweet: tallow, wet stone, and lamp-oil laid up in the dark like wine. East, a low arch, and over its keystone a tally cut by someone's thumbnail, in nines.".
+  Observe ci_head_deep at cistern_head as weather when day(clock) >= 3 and day(clock) < 6 "Somebody has laid planks over the two lowest steps, and the water has been up to them in the night and gone down again, leaving a tide-line of oil that shines like a bruise.".
+  Observe ci_head_bell at cistern_head as ambience when privateHours() "Far above, through the grating, the Ninth Bell has rung, and in the dripping something has changed; it has the patience of a house that has taken its face off.".
+  Observe ci_hall_scene at cistern_hall when true "A brick cathedral gone under: aisles of pillars standing in black oil and water, each aisle a lane of dark with its end lost, and the vaulting over it all sweating with the Drip's whole rain. The lamp-oil is kept in the nave, in a long still lake with a skin on it like a plum, and it breathes. The lamp-boys have run a ledge of planks along the pillars, and on one of them someone has cut TRIM, and under it, smaller, a boy's name that has been scratched out. A crawl goes off east under a low arch, and the Drain's mouth is south, through an iron gate somebody has propped open with a brick.".
+  Observe ci_den_scene at lamp_boys_den when true "A low brick room off the oil-cistern's flank, dry, which is the whole of its virtue: a drift of sacking and sail in one corner, a row of wick-ends laid out on a plank like a rank of tiny soldiers, a rat's skull strung from a nail, a cracked tin kettle, and chalk on the brick, in three hands, counting something. At the far end the sacking has been drawn across in a way that looks careless, and is not. Somebody is breathing behind it, in the careful way of someone who has been told to.".
+  Observe ci_den_lit at lamp_boys_den when knows(party, ci_boys_found) "A candle-stub burns on the kettle's lid, the only light in the cisterns that has not been brought down by a stranger. Three small shadows lie against the wall and do not move until they are spoken to.".
+  Observe ci_mouth_scene at drain_mouth when true "The Drain begins as a square brick throat in the cistern's south wall, with an iron sluice-door hung from it by one hinge, and goes away into the dark with the water going the same way, a little faster than you want it to. Over the door, cut by hands that could count and had no use for names, a row of nine notches, and under the ninth the word REACH in a script that was old when the Brewers were young. The draught off the water is cold and smells of lamp-oil, and of something else that is much older.".
+  Observe ci_mouth_low at drain_mouth as weather when state(ci_water, ci_low) "The Drain runs knee-deep and slow, brown with the Drip's silt, with a skin of oil on it that takes the light and gives it back in a rainbow nobody wanted.".
+  Observe ci_mouth_deep at drain_mouth as weather when state(ci_water, ci_high) "The Drain runs thigh-deep and quick, and what it carries has stopped being silt and become the Drip's whole rain, going down to the lagoon in a hurry, as if it had remembered an appointment.".
+
+  // ── The weir, with the lamp-rats ──────────────────────────────────────────────────────────────────────────────────
+  // The Brewers left a coil of rope on the weir's rail for whoever came after, stiff with oil and sound: the way down
+  // the Drain is not for the climber alone.
+  Item ci_old_rope "a coil of the Brewers' rope" is rope at ci_weir.
+  Observe ci_weir_scene at ci_weir when true "The first of the nine turnings: the Drain steps down over a weir of old brick with an iron rail along it worn bright by every hand that has needed it, and the water goes over in a brown glassy lip. The walls are honeycombed with holes the size of a fist, and in every hole something is awake. There is a smell of rat and, from the arch ahead, of something sweeter and more dangerous: lamp-oil, standing in the air.".
+  Observe ci_weir_smell at ci_weir as feature when state(ci_fumes, ci_heavy) "The sweet smell from the gallery is strong enough to taste. A boy's chalk on the arch has been rubbed half out, and what is left says NO LITE, and a drawing of a flame with a line through it, and a drawing of a boy.".
+
+  // ── The oil gallery ───────────────────────────────────────────────────────────────────────────────────────────────
+  // Lamp-oil from the cistern's leak has run down the Drain's old overflow for years and lies on the gallery's low
+  // water in a skin, and its fumes lie on the skin. A lit light carried into it goes off like a bell. Dark is safe; so
+  // is no leak; so is a flame set to it from the weir, at a distance, which costs the Drip its oil.
+  Hazard ci_flash "the fumes of the oil gallery, taking" means "Deal (2d6) fire damage to ally unless dexterity save against (12).".
+  Thing ci_fumes "the fumes in the oil gallery" at ci_slick is scenery {
+    State ci_heavy "The air in the gallery is thick with lamp-oil, sweet and cold, standing in layers.".
+    State ci_clear "The air in the gallery is only damp. The smell has gone off it, and the skin on the water has broken into islands.".
+    State ci_burnt "The gallery is black along its roof, and bitter with smoke, and the oil that lay on its water is gone. The water is only water.".
+  }
+  Relation ci_oil_burnt(group). Relation ci_slipped(group). Relation ci_sealed_at(group).
+  Rule ci_flash_rule when at(party, ci_slick) and state(ci_fumes, ci_heavy) and capable(party, light)
+    says "The light you are carrying leans, in your hand, toward something it has smelled, and the gallery lights from end to end: a sheet of blue and then yellow, silent, and then all the sound there has ever been." {
+    Assert strikes(ci_flash, party). Assert state(ci_fumes, ci_burnt). Assert ci_oil_burnt(party). }
+  Rule ci_slip_rule when at(party, ci_slick) and state(ci_fumes, ci_heavy) and not capable(party, light) and not capable(party, wayfinding)
+    and not knows(party, ci_oil_line) and not ci_slipped(party)
+    says "You go along the gallery's wall by feel, and the floor under the oil is a floor of old brick with a lip every few paces, and one of the lips finds your heel. You go down on your back in the oil, and lie there for a moment with your heart going, in the dark, smelling like a chapel." {
+    Assert ci_slipped(party). Assert strikes(ci_fall, party). }
+  Hazard ci_fall "a fall on the oil" means "Deal (1d4) physical damage to ally unless dexterity save against (11).".
+  Observe ci_slick_scene at ci_slick when true "A long gallery with a floor of brick under a hand's depth of water, and on the water, everywhere, a skin of oil that does not break when you walk through it. The walls shine with it. At the far end the gallery bends away left; at the near end is the weir. Along the right-hand wall, at the height of a boy's hand, a line of knots in a bit of old fishing-cord has been pegged along the brick for the whole length, and the cord is worn dark and smooth by touching.".
+  Observe ci_slick_after at ci_slick when state(ci_fumes, ci_burnt) "The ceiling is black. Pegged along the right-hand wall are the burnt ends of a cord, where the lamp-boys' knotted line was, and the pegs are still in the brick.".
+  Action ci_burn_off(actor: group, site: place) "Touch a flame to the gallery's fumes from the weir, and stand back" {
+    Description "It costs the Drip the oil that has been running down the Drain. It does not cost you anything else.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, ci_weir) and state(ci_fumes, ci_heavy) and capable(actor, flame).
+    Grave "The oil on the gallery's water belongs to the Drip, which has little enough of it. It will not come back.".
+    Time 2 minutes.
+    On success { Assert state(ci_fumes, ci_burnt). Assert ci_oil_burnt(actor). }
+    Result "You hold the torch out at the full stretch of your arm, to the arch, and the dark takes it. A hush. Then the whole gallery draws breath and lets it go in one long blue gasp that you feel on your face from ten paces; the rats are in the walls before it has finished; and when you look again the arch is a mouth with an orange tongue in it, which sinks and goes out. There is a smell of smoke and sweet burnt oil, and somewhere over your head, a long way, the Drip's lamp-oil has stopped being the Drip's.".
+  }
+
+  // ── The leak that feeds it ────────────────────────────────────────────────────────────────────────────────────────
+  Thing ci_leak "the leak at the third pillar" at cistern_hall {
+    State ci_seeping "Oil seeps out of the opened mortar at the foot of the third pillar, a bead at a time.".
+    State ci_sealed "The leak at the third pillar is stopped with a plug of clay.".
+    Change ci_plug "Stop the leak with pitched rag and clay" from ci_seeping to ci_sealed needing mending.
+    Change ci_dig_plug "Dig clay from the floor of the aisle and pack the leak with it" from ci_seeping to ci_sealed needing digging.
+    Change ci_drive "Drive a wooden bung into the opened mortar" from ci_seeping to ci_sealed needing brawn.
+  }
+  Observe ci_leak_looked near ci_leak when tried(ci_leak, looking) and state(ci_leak, ci_seeping) "The brick has opened along a mortar-line the thickness of a finger and a boy's arm long. The oil that comes out of it does not go to the cistern's drains but into a groove the Brewers cut for water, and the groove goes south, to the Drain, to the gallery, to the dark. It has been going for years. Whatever lies along the gallery's water, that is where it came from." teaches ci_leak_known.
+  Discovery ci_leak_known "The oil that lies in skins on the Drain's gallery comes from a leak in the oil-cistern at the third pillar, along a groove the Brewers cut for water; stop the leak and the gallery clears.".
+  Rule ci_leak_stopped when state(ci_leak, ci_sealed) and state(ci_fumes, ci_heavy) and not ci_sealed_at(party)
+    says "The smell of lamp-oil in the cistern's air has thinned, as if somebody had opened a window in a very old house." { Assert ci_sealed_at(party). Set ci_sealed_when(party) to watch(clock). }
+  Measure ci_sealed_when(group).
+  Rule ci_gallery_clears when ci_sealed_at(party) and state(ci_fumes, ci_heavy) and watch(clock) >= ci_sealed_when(party) + 36 { Assert state(ci_fumes, ci_clear). }
+
+  // The Drip's oil is free to draw to anybody who has a flask and a reason; the trimmers will not notice a flask.
+  Item ci_oil_stock "a flask of lamp oil" is lamp_oil at offstage.
+  Action ci_draw_oil(actor: group, site: place) "Fill a flask at the oil-cistern's tap" {
+    Description "It is the Drip's oil, and a flask of it will not be missed.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, cistern_hall) and not holding(actor, lamp_oil) and not benighted(actor).
+    Time 2 minutes.
+    On success { Give ci_oil_stock to actor. }
+    Result "The tap is a brass cock on the cistern's flank, green with the damp, and the oil comes out of it slow and golden and smelling of a thousand evening streets. You fill the flask to the neck and stop it.".
+  }
+
+  // ── The eel-run ───────────────────────────────────────────────────────────────────────────────────────────────────
+  // Eight feet of black water between two ledges, and the eel that lives in it. It keeps the Siphon. It can be fed
+  // (the lamp-boys do, and have for years), slipped, climbed over by those who can climb, or fought.
+  Species ci_eel_kind "a cistern eel" like great_pike temperament territorial described "An eel the length of a ladder and as thick as a thigh, the colour of the dark it lives in, with a head like a shut fist and eyes that have given up. The lamp-boys call her the Warden, because she has never let anyone past without a toll.".
+  Person ci_eel "the cistern eel" at ci_eelrun {
+    Role "an eel as long as a ladder, in the run". Species ci_eel_kind. Level 1. Temperament territorial. Pronouns she.
+    Lair ci_eelrun.
+    State ci_watching blocking "The Siphon is the eel's: she lies in the run with her head to its lip, still as a stone in a well, and whoever crosses it crosses over her.".
+    Guards ci_siphon_way.
+    Warns "The water at the foot of the Siphon bellies up, and the eel's head comes out of it to the level of your knee, and stays there, with the whole slow weight of her behind it. She is not in a hurry. She has not been in a hurry for forty years.".
+    Comes "The Warden comes up out of the run in one long dark piece, with her mouth open.".
+  }
+  Relation ci_eel_fed(group).
+  Rule ci_eel_gone when (dead(ci_eel) or routed(ci_eel)) and not ci_eel_fed(party) { Assert ci_eel_fed(party). }
+  Kind ci_heads_kind "a bucket of fish-heads" is gear worth 0 weighing 1 described "A bucket of eel-pond heads, gone high, kept by the lamp-boys for the Warden's toll. It is the best thing in the cisterns to be carrying and the worst to be carrying near anyone.".
+  Item ci_heads "a bucket of fish-heads" is ci_heads_kind at lamp_boys_den hidden until ci_eel_toll.
+  Action ci_feed_eel(actor: group, site: place) "Throw the Warden her toll" {
+    Description "Fish-heads from the lamp-boys' shelf, or a ration, thrown to the far side of the run.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, ci_eelrun) and at(ci_eel, site) and able(ci_eel) and not tolerates(ci_eel, actor)
+      and (holding(actor, ci_heads_kind) or quantity(actor, rations) >= 1).
+    Time 1 minute.
+    On success { Assert tolerates(ci_eel, actor). Assert ci_eel_fed(party). }
+    Result "You throw it as far as the far ledge, underhand, and the run goes still and then very loud. The Warden takes it in one long heave and goes back down with it, and the water closes over the place with no more fuss than a hand closing on a coin. She will not come up again for a while.".
+  }
+
+  // ── The chimney and the Siphon, to the stair-head ─────────────────────────────────────────────────────────────────
+  Observe ci_eelrun_scene at ci_eelrun when true "The Drain widens into a long cold room with a pool in it, a ledge on either side a hand wide, and the pool black and dead level, as if poured. On the far side a low arch lets the pool go on into the dark: the Siphon. High on the right a second way goes up by a hand-cut ledge to a dark shaft in the roof. Something in the pool is looking at you, from under the water, with all the time in the world.".
+  Observe ci_chimney_scene at ci_chimney when true "A square shaft, going up out of sight and down into the dark, with iron staples let into one wall at a spacing that suited somebody with longer arms than yours. The Brewers built it to draw the Drain's air; it draws it still, and the draught that goes up past you smells of nothing at all. Far over your head, very small and very square, there is something that is not dark: a gleam of light, a slot of grey, a grating at the Drip's street-level a very long way off. A child's voice, once, would carry down it.".
+  Observe ci_aenean_scene at ci_aenean when true "The Drain ends here, and something older begins. The brick gives way to black stone fitted without mortar, plain and square and cut with a precision that hurts the eye, and in the floor of the stair-head, before a door of the same black stone, there is a single paving-slab that is not quite the colour of the others. Water runs down the walls in lines.".
+  Hazard ci_stone "the Aenean counterweight, falling" means "Deal (2d6) physical damage to ally unless dexterity save against (13).".
+  Discovery ci_plate_known "The paving-slab before the Aenean door is a pressure-plate: stood on, it lets a counterweight fall from the lintel.".
+  Thing ci_plate "the slab before the Aenean door" on ci_door_way {
+    State ci_primed dangerous "In the floor at the Aenean door one slab is a shade paler than the rest, and the joints around it are clean.".
+    State ci_sprung "The Aenean door's slab has been trodden down into the floor, and the counterweight lies split in the doorway, with the dust still settling.".
+    State ci_safe "The Aenean door's slab has been made safe, its chain wedged.".
+    Change ci_wedge "Wedge the counterweight's chain, and stand on the slab" from ci_primed to ci_safe needing trapwork after learning ci_plate_known.
+    Hurts with ci_stone when ci_primed then ci_sprung.
+    Tries prodding.
+  }
+  Observe ci_plate_read beside ci_door_way of ci_plate when tried(ci_plate, looking) and state(ci_plate, ci_primed) "The joints round the slab are clean of silt and the others are not, and the slab sits a hair lower on its seat, as if it had been leaned on. Over the lintel, in the black stone, there is a slot the width of a shut door, and a gleam of chain." teaches ci_plate_known.
+  Rule ci_plate_poled when tried(ci_plate, prodding) and state(ci_plate, ci_primed)
+    says "You lean out and lay the pole's iron shoe on the slab, and press. The slab goes down with a click you feel in your teeth. Overhead, a block of black stone as big as a door comes out of the lintel with a long grinding noise and falls on the place where you would have been, and splits, and lies there, and the dust comes down on you like flour." {
+    Assert state(ci_plate, ci_sprung). }
+  Rule ci_plate_stepped when knows(party, ci_plate_step) and state(ci_plate, ci_primed) and at(party, ci_aenean)
+    says "You step over the pale slab, as you were told, on the left-hand black one beside it, and the door opens to your hand." { Assert state(ci_plate, ci_safe). }
+  Discovery ci_plate_step "The lamp-boys cross the Aenean door's stair-head on the left-hand black slab, and never on the pale one.".
+  Discovery ci_oil_line "The lamp-boys have pegged a knotted cord along the right-hand wall of the oil gallery, and cross it in the dark by touch, a knot at a stride, because a light in there goes off like a bell.".
+  Discovery ci_eel_toll "The lamp-boys pay the eel in the Drain a toll of fish-heads, which they keep in a bucket on the shelf of their den, and she lets them by.".
+
+  // ── The Aenean pump ───────────────────────────────────────────────────────────────────────────────────────────────
+  // Older than the Drain: a wheel and a piston in a hall of black stone, which the Aeneans built to keep this end of
+  // their city dry, and left. It was kept going by the Brewers, and then not. Three things are wrong with it, and it
+  // can be put right by each of three crafts. When it runs it holds the Siphon low (and so keeps the Drain open on the
+  // third to fifth days) and drains the Drain's water to wherever its valve is set: the lagoon, through the Heronry,
+  // which it has done since the Aeneans and which the Heronry has never asked for; or to the Weighhouse Yard on the
+  // Row, which is a sunk yard the Exchange has coveted for years.
+  Observe ci_pump_scene at pump_chamber when true "A round hall of black stone under a low dome, and in the middle of it, in a pit, a wheel: twice a man's height, black metal, spokes like the ribs of something, a piston standing up beside it in a jacket of green bronze. A plaque in the wall is cut in letters you half know. Round the wheel's pit, the floor is silted, and in the silt the print of a boy's bare foot goes in a circle and does not go on. A valve-wheel as big as a cartwheel stands on a pillar by the door, with an arrow cut on its rim.".
+  Observe ci_pump_running at pump_chamber as sound when state(ci_pump, ci_running) "The great wheel turns, a quarter-turn to the minute, with the long wet knock of the piston going up and down inside its jacket, and the whole hall hums with it like a bell that has been struck and not stopped.".
+  Thing ci_pump "the Aenean pump" at pump_chamber {
+    State ci_silted "The wheel stands in its pit, locked in silt to the hub, with its piston down.".
+    State ci_cleared "The silt is out of the wheel's pit. The wheel turns a hand's breadth when pushed, and stops, and is dry as a bone.".
+    State ci_primed "The wheel's bearings shine with lamp-oil, and the piston's jacket is wet to the top.".
+    State ci_running "The wheel turns in its pit, slowly, and the piston goes up and down in its jacket.".
+    State ci_drowned "The pump stands in a hall full of black water, and does not turn.".
+    Change ci_clear_silt "Clear the silt out of the wheel's pit" from ci_silted to ci_cleared needing digging or brawn.
+    Change ci_clear_bind "Free the wheel's pawl and work the silt out of its bearings" from ci_silted to ci_cleared needing mending.
+    Change ci_prime "Prime the bearings and the piston's jacket with lamp-oil" from ci_cleared to ci_primed consuming lamp_oil.
+    Change ci_start_wheel "Put your shoulder to the spokes and start the wheel" from ci_primed to ci_running needing brawn.
+    Change ci_start_pawl "Lift the pawl, and let the wheel take the weight of the stair" from ci_primed to ci_running needing lockwork or mending.
+  }
+  Rule ci_pump_drowns when state(ci_flood, ci_drowned) and state(ci_pump, ci_running) { Assert state(ci_pump, ci_drowned). }
+  Observe ci_pump_looked near ci_pump when tried(ci_pump, looking) and state(ci_pump, ci_silted) "The wheel is locked by silt, but silt does not do this alone: the bearings are dry, black, and the oil-ports on the piston's jacket have been put out of the way of the rain by somebody who knew what they were for. A pump like this wants clearing, and oiling, and starting; and the plaque beside it will tell you in what order." teaches ci_pump_known.
+  Discovery ci_pump_known "The Aenean pump in the pump-chamber wants three things: its pit cleared of silt, its bearings primed with lamp-oil, and its wheel started; running, it holds the Drain's Siphon low.".
+  Discovery ci_valve_known "The Aenean pump's valve-wheel sets where it throws what it pumps: to the lagoon, through the Heronry's reeds, as the Aeneans had it; or by the Brewers' old cut to the Weighhouse Yard on the Row.".
+  Thing ci_valve "the pump's valve-wheel" at pump_chamber {
+    State ci_lagoon "The valve-wheel's arrow points to a drawing of a reed-bed: the lagoon, and the Heronry's reeds on the way to it.".
+    State ci_cut "The valve-wheel's arrow points to a drawing of a square: the Brewers' cut, and the Weighhouse Yard on the Row.".
+    Change ci_to_cut "Turn the valve-wheel to the Brewers' cut" from ci_lagoon to ci_cut needing brawn.
+    Change ci_to_lagoon "Turn the valve-wheel to the lagoon" from ci_cut to ci_lagoon needing brawn.
+  }
+  Observe ci_valve_read near ci_valve when tried(ci_valve, looking) "The rim of the wheel is cut with two drawings and an arrow, and under the drawings, in Aenean, the two words that mean WHERE IT GOES. The drawing of the reed-bed has been worn bright by the hand that last set it, in a world that had reeds in it already. The other is a square, with a line through it, like a yard." teaches ci_valve_known.
+  Thing ci_plaque "the plaque in the wall" at pump_chamber {
+    State ci_cut "The plaque is cut in the black stone, four lines of square Aenean, with a drawing at the foot of a wheel and a drop.".
+  }
+  Observe ci_plaque_read near ci_plaque when tried(ci_plaque, looking) and capable(party, lore) "You read it as you would read a receipt, left to right and without hope. THE WHEEL WANTS: ITS HOUSE CLEARED; ITS OIL; ITS HAND. IT THROWS WHERE THE VALVE IS TURNED. KEEP IT, AND THE WATER IS YOURS. And under it, a line added in the Brewers' blunter script: IT BELONGS TO THE HERONS' WATER, WHICH WE NEVER ASKED." teaches ci_pump_known.
+  Rule ci_pump_known_valve when knows(party, ci_pump_known) and not knows(party, ci_valve_known) and capable(party, lore) and at(party, pump_chamber)
+    says "The plaque's last four words you had taken for decoration; they are a note about the valve." teaches ci_valve_known { }
+  // The spine's own stair, from mouth to pump, is shut by the sump until the pump has run.
+  Thing ci_sump "the sump on the pump stair" on pump_way {
+    State ci_flooded blocking dangerous "The stair from the Drain's mouth goes down into black water to the roof, and stays there. It has been this way since the Brewers.".
+    State ci_drained "The stair from the Drain's mouth down to the pump is dry, and slimed, and shines.".
+  }
+  Rule ci_sump_drains when state(ci_pump, ci_running) and state(ci_sump, ci_flooded)
+    says "Under your feet the pump takes its first slow breath, and somewhere beyond the wall the sump on the stair drops away with a gurgle like the end of a bath." { Assert state(ci_sump, ci_drained). }
+  Measure ci_pump_since(group).
+  Rule ci_pump_stamp when state(ci_pump, ci_running) and ci_pump_since(party) < 1 { Set ci_pump_since(party) to watch(clock). }
+  Rule ci_pump_throws_lagoon when state(ci_pump, ci_running) and state(ci_valve, ci_lagoon) and ci_pump_since(party) >= 1 and watch(clock) >= ci_pump_since(party) + 36 and not ci_reeds_drawn(party)
+    says "Far to the north-west, under the lagoon's mist, the reeds of the Heronry begin to lose their water by a hand's breadth a day. Nobody in the Drip will see it for some time." { Assert ci_reeds_drawn(party). }
+  Rule ci_pump_throws_cut when state(ci_pump, ci_running) and state(ci_valve, ci_cut) and ci_pump_since(party) >= 1 and watch(clock) >= ci_pump_since(party) + 36 and not ci_yard_dry(party) { Assert ci_yard_dry(party). }
+  Relation ci_reeds_drawn(group). Relation ci_yard_dry(group).
+
+  // ── The shaft to the cellar, and the cellar below the Urn ─────────────────────────────────────────────────────────
+  Thing ci_shaft "the shaft to the cellar" on cellar_way {
+    State ci_sheer blocking "The shaft goes down from the pump-chamber's floor into the dark, and the iron ladder in it has rusted to stumps. There is not a handhold below the first.".
+    State ci_rigged "A rope hangs down the shaft, tied off round the pump's pillar, with a knot every arm's length.".
+    Change ci_rig "Tie a rope off round the pillar and let it down the shaft" from ci_sheer to ci_rigged needing rope.
+    Change ci_free_climb "Go down the shaft by the rust-stumps, without a rope" from ci_sheer to ci_rigged needing climbing.
+  }
+  Observe ci_cellar_scene at urn_cellar when true "A cellar of black stone, square, dry, and very quiet, with the shaft in one wall and in the other a ladder of iron staples going up into a round trapdoor. Over your head, in the middle of the ceiling, a bronze plate the size of a cartwheel is let into the stone, green with the damp, with a slot in its middle like a mouth. Under it, on the floor, a shallow bronze bowl on three feet, and nothing in it but a fur of dust, undisturbed, as even as a mould.".
+  Observe ci_cellar_dust at urn_cellar as feature when not knows(party, lie_urn) "The dust in the bowl has not been touched in a very long time. It has no marks in it at all, no tessera-edge, no print of a hand.".
+  Action ci_rap_plate(actor: group, site: place) "Rap on the bronze plate in the ceiling, and listen" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, urn_cellar) and not knows(actor, lie_urn) and not benighted(actor).
+    Time 2 minutes.
+    On success { Assert knows(actor, lie_urn). }
+    Result "You stand on the bowl's rim and rap on the plate with the butt of your pole, or your knuckle, or the heel of your hand, and it rings. It rings like a bell that has nothing to say, a long clean note that goes up through the Hall above and comes back down the shaft of the slot: the note of a bronze jar with nothing in it. A jar of three hundred thousand lots would have said nothing. In the bowl under the slot, where the Aeneans caught what the Urn let fall, there is not a mark in the dust.".
+  }
+  Hazard ci_hatch_blow "the hatch coming down" means "Deal (1d6) physical damage to ally unless strength save against (11).".
+  Thing ci_hatch "the cellar hatch" on cellar_hatch {
+    State ci_bolted blocking "The trapdoor over the ladder is bolted on the far side: you can see the line of the bolt through the seam, and a thread of light, which is the Urn Hall.".
+    State ci_open "The cellar hatch stands open on the Urn Hall, and the ladder goes up into light.".
+    State ci_seated "The hatch lies down on its seat, unbolted, with a gasket of old pitch round it, and keeps the water out.".
+    Change ci_work_bolt "Work the bolt back with a blade through the seam" from ci_bolted to ci_open needing lockwork.
+    Change ci_heave_hatch "Heave the hatch against its bolt, until the bolt gives" from ci_bolted to ci_open needing brawn.
+    Change ci_lift_pins "Lift the hatch off its hinge-pins with the bar" from ci_bolted to ci_open needing crowbar.
+    Change ci_seat_down "Let the hatch down on its seat, and tread it home" from ci_open to ci_seated.
+    Change ci_raise_again "Lift the hatch on its seat" from ci_seated to ci_open.
+  }
+  Observe ci_hatch_wet at urn_hall when state(ci_hatch, ci_open) and state(ci_flood, ci_drowned) "Water stands on the Urn Hall's floor in a black skin, coming up round the cellar hatch in slow rings, and the Hall smells of the Drain.".
+  Observe ci_hatch_hole at urn_hall when state(ci_hatch, ci_open) and state(ci_flood, ci_shallow) "In the floor of the Hall a round hatch stands open on the dark, with a ladder going down.".
+
+  // ── The lamp-rats ─────────────────────────────────────────────────────────────────────────────────────────────────
+  // Four of them at the weir, big as terriers, who have eaten the boys' leavings for as long as the boys have been
+  // down here and have no great love of a stranger's boots. A light drives them back into the walls; without one they
+  // hold the weir, and are fought.
+  Species ci_rat_kind "a lamp-rat" like rat temperament defensive described "A rat the size of a terrier and the colour of the oil it lives on, wet, quick, with a tail like a length of wick and no idea that it is meant to be afraid of you.".
+  Person ci_rats "the lamp-rats" at ci_weir {
+    Role "four lamp-rats at the weir, big as terriers". Species ci_rat_kind. Level 1. Numbers 4. Pronouns they.
+    Temperament defensive.
+    Lair ci_weir. Refuge cistern_hall. Fears flame.
+    Warns "The holes in the walls are full of eyes, and the eyes have all come forward. A long thin noise starts somewhere low in the brick, like a lot of small wet wheels, and the nearest rat sits up on the rail and shows you exactly how many teeth a rat has.".
+    Comes "The rats pour off the weir at you.".
+    Flinches "The rats are gone off the weir in a long brown ripple, back into the walls, with the light in their eyes.".
+  }
+
+  // ── The lamp-boys ─────────────────────────────────────────────────────────────────────────────────────────────────
+  // Three of them, and one is the book's whole heart. The boys are the Owls' (the lamp-trimmers'): they trim the Drip's
+  // lamps and the Chapel's wicks and are counted for their candle-ends at the end of every night. Pip, who is nine,
+  // was trimming under the lamp-table when the Registrar died. He saw her bare face, which in his religion is the end
+  // of him; he saw the clerk, the cooper and the Warden come and go; and he has been in the cisterns since, with a stub
+  // of candle he took from the table, which he will not put down. Pip is not moved by evidence, which he has had
+  // plenty of; he is moved by being asked what he wants. By day, in the Masked Hours, he wears his Owl and speaks
+  // as the Owl, to an Owl, or not at all; by night, or to a bare knock at his own den, he is nine.
+  Discovery ci_boys_found "Three lamp-boys hide behind the drawn sacking at the end of the den off the oil-cistern: Nell, who is eleven and speaks for the others; Tobit, who is six; and the smallest, who holds a candle-stub in both hands and will not put it down.".
+  Discovery ci_pip_named "The smallest of the lamp-boys in the cisterns is Pip Tolliver, nine, a lamp-trimmer's boy: the P. T. of the Registrar's ledger.".
+  Discovery ci_pip_fear "Pip is not afraid of the Watch. He believes that to see the Registrar's bare face is what killed her, and that her face, now, is looking for him.".
+  Discovery ci_pip_wish "Pip wants a candle: a whole one, that no steward has counted, that is his to keep.".
+  Discovery ci_pip_clerk "The Registrar's clerk found Pip under the lamp-table, told him he had seen nothing, and left him there in the dark with her until morning.".
+  Discovery ci_pip_hers "The Registrar knew the lamp-boy's name, and the south wick he was always late with; she said she was sorry, and he does not know for what.".
+  // The catalog's candle is known to the module by an item of its kind, set where nobody reaches it, so that what a company
+  // carries can be asked for by its kind.
+  Item ci_candle_stock "a tallow candle" is candle at offstage.
+  Measure ci_trust(group). Measure ci_closed_until(group).
+  Relation ci_asked(group). Relation ci_candle(group). Relation ci_told_saw(group). Relation ci_told_others(group). Relation ci_may_tell(group).
+  Relation ci_told_warden(group). Relation ci_pell_message(group). Relation ci_pell_knows(group). Relation ci_pip_forgave(group).
+  Relation ci_spooked(group). Relation ci_bribed(group). Relation ci_clowned(group). Relation ci_where_asked(group).
+  Relation ci_pip_settled(group). Relation ci_pip_stays(group). Relation ci_pip_garrity(group). Relation ci_pip_taken(group).
+  Query ci_found(a: group) means knows(a, ci_boys_found).
+  Query ci_heard(a: group) means privateHours() or wears(a, face_owl).
+  Query ci_open_now() means watch(clock) >= ci_closed_until(pip).
+
+  Person pip "Pip Tolliver" at lamp_boys_den {
+    Role "a lamp-boy, nine, with a candle-stub in both hands". Ancestry human. Peaceable. Pronouns he. Manner cheerful.
+    Known as "a small figure in a cut-down Owl" when not knows(party, ci_pip_named).
+    Seen when knows(viewer, ci_boys_found).
+    Greets "The smallest of them comes forward on his knees as far as the end of the sacking and no further. His Owl is a man's, cut down with a pair of shears and tied on with bootlace, the eyeholes too big, so that he looks out of the corners of them like something in a hedge. In both hands, against his chest, the way you would hold a wren, he has a candle-stub no longer than a thumb. 'Bares don't come down here,' he says. 'Bares don't go nowhere. You're lost.'".
+    Greets again "The boy in the cut-down Owl watches you from the end of the sacking with the stub held against his chest.".
+    Joins "Pip tucks the stub into his hat, takes hold of the back of your coat in his fist, and does not look up at the Drip's rain.".
+    Leaves "Pip lets go of your coat and does not say anything.".
+  }
+  Person ci_nell "Nell" at lamp_boys_den {
+    Role "a lamp-boy's sister, eleven, who has appointed herself the rest". Ancestry human. Peaceable. Pronouns she. Manner acerbic.
+    Seen when knows(viewer, ci_boys_found).
+    Greets "A girl of eleven in a man's coat to her ankles gets between you and the smallest without appearing to move. She has a boy's trimming-knife and the look of someone who has been left in charge of a thing too large for her and has decided to do it anyway. 'No,' says Nell.".
+    Greets again "'Still no,' says Nell, with less conviction.".
+  }
+  Person ci_tobit "Tobit" at lamp_boys_den {
+    Role "a lamp-boy, six, who does not speak". Ancestry human. Peaceable. Pronouns he. Manner stoic.
+    Seen when knows(viewer, ci_boys_found).
+    Greets "The smallest of all sits on the sail-cloth with his knees up, regarding you gravely, and says nothing, and goes on saying it.".
+    Greets again "Tobit looks at you for a while longer.".
+  }
+
+  // ── Finding the boys ──────────────────────────────────────────────────────────────────────────────────────────────
+  // By tracking (woodcraft, a check; failed, it sends them to ground for the half-day), by food and patience (a ration, an
+  // hour, no check), by sitting out their fear in the dark (no light, no coin, no craft; only at night), by paying
+  // (they take it and go), or by telling the Watch, which is the cruellest and the quickest.
+  Action ci_read_den(actor: group, site: place) "Read the den's floor and walls for where the boys have gone" {
+    Description "Wet bare feet; soot at a hand's height; the draught under the sacking. A tracker reads an alley as a woodsman reads a wood.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lamp_boys_den) and not knows(actor, ci_boys_found) and not ci_spooked(actor) and not benighted(actor).
+    Resolve check(actor, woodcraft, dc_fair).
+    Time 6.
+    On success { Assert knows(actor, ci_boys_found). }
+    On failure { Assert ci_spooked(actor). Set ci_spook_end(actor) to watch(clock) + 72. }
+    Result "It is all there, as it is on any ground, if you can bear to read it as a story and not as a mess: three sets of bare prints, a man's size and a girl's and a smaller than either, going in and out at the sacking's edge in the order of a game that has rules; soot at the height of a hand on a child; a trodden place on the floor where somebody has sat for a long time facing the wall. The draught under the sacking is warm. You lift the end of it, and three faces look back.".
+    Otherwise "You read the floor wrong, or too loud: a stone turns under your heel in the dark, and behind the sacking a whole small household draws one breath and is gone, with a skitter, into the crawl at the back of the den that you had not seen. You hear them go a long way. They will not be back for half a day.".
+  }
+  Measure ci_spook_end(group).
+  Rule ci_unspook when ci_spooked(party) and watch(clock) >= ci_spook_end(party) { Retract ci_spooked(party). }
+  Action ci_leave_food(actor: group, site: place) "Leave a ration at the sacking's edge, and sit well back for an hour" {
+    Description "Nobody has been kind to a lamp-boy by accident in the history of the Drip.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lamp_boys_den) and not knows(actor, ci_boys_found) and not ci_spooked(actor) and quantity(actor, rations) >= 1.
+    Time 6.
+    On success { Decrease quantity(actor, rations) by 1. Assert knows(actor, ci_boys_found). Increase ci_trust(pip) by 1. }
+    Result "You lay it where the sacking meets the floor, and move to the far wall, and sit with your hands where they can be seen, and do not look. It is a long hour. Water drips somewhere. At the end of it the ration has gone and a hand has come out for it three times, a different size each time, and the sacking has been drawn back the width of a face; and the face, which is smaller than you expected, says nothing, and neither do you.".
+  }
+  Action ci_wait_dark(actor: group, site: place) "Put out your light, sit in the dark, and wait for the Ninth Bell to have rung" {
+    Description "Nobody comes out to a stranger. They come out, a little, once a stranger has stopped being there.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lamp_boys_den) and not knows(actor, ci_boys_found) and privateHours().
+    Time 6.
+    On success { Assert knows(actor, ci_boys_found). }
+    Result "You put your light out and sit down on the cold brick with your back to the wall, and make yourself as little as you can. After a time you cannot count, you become aware of breathing that is not yours; after another, of the faint smell of tallow and wet wool that is children; and then, at the edge of hearing, a whisper in three voices, one very small, arguing about whether you have gone. The sacking moves. You have the sense, not of being looked at, but of being tried, like a plank over water.".
+  }
+  Action ci_hold_out_coin(actor: group, site: place) "Hold out three coin into the dark, and call that it is for the boy with the candle" {
+    Description "He will take it. He is nine, and it is three coin.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lamp_boys_den) and not knows(actor, ci_boys_found) and quantity(actor, gold) >= 3.
+    Time 2 minutes.
+    On success { Decrease quantity(actor, gold) by 3. Assert ci_bribed(actor). Assert knows(actor, ci_boys_found). Assert knows(actor, ci_pip_named). Assert knows(actor, pip_saw).
+      Assert at(pip, loft_roof). Assert at(ci_nell, loft_roof). Assert at(ci_tobit, loft_roof). Retract at(pip, lamp_boys_den). Retract at(ci_nell, lamp_boys_den). Retract at(ci_tobit, lamp_boys_den). }
+    Result "A hand comes out of the sacking, quick as a wren's beak, and the coin is gone from your palm; and a voice says, very fast and without drawing breath, that it was him, it was Pip, he was under the table, he saw her face and the clerk and a man and he never saw nothing else and that is all, and that is three coin's worth, and the sacking whips shut, and the den is empty, and from the crawl at the back you hear them going, all three, a long way up and away, a handful of bare feet in the dark. They will have gone to the highest and driest place in the Sleeve, which is the pigeon-loft at the Post.".
+  }
+
+  // ── The wrong way to find a child, and the quick one ──────────────────────────────────────────────────────────────
+  Topic ci_betray_boy with vail "Tell Sergeant Vail that the lamp-boy is hiding in the cisterns under the Drip" when knows(actor, ci_boys_found) and not ci_pip_taken(actor) and not ci_pip_settled(actor) once {
+    Grave "A boy who has been told a Watch cannot Face him will be Faced by it: a witness is a person in Ombra, and a witness has a face given him.".
+    Says "Vail does not write it down. She has a good memory for what she is told by a Bare, and she gives you the look of a woman putting a fact in a drawer she has not decided whether to lock. 'The Warrant is a good deal more than a pass to ask questions,' she says. 'A child who saw a Registrar die. He will not be hurt. He will be fed, and given a bed, and a face, a small one, with a ribbon, so that he can be spoken to, and three questions will be asked him by a clerk with a sheet.' She stops, and finds, for a moment, that she cannot say the rest. 'It is what we are for,' she says.".
+    On discuss { Assert ci_pip_taken(actor). Assert knows(actor, pip_saw). Assert knows(actor, serene_saw). Assert knows(actor, lacke_unfaced). Assert knows(actor, ci_pip_named). }
+  }
+  Rule ci_pip_to_gate when ci_pip_taken(party) and at(pip, ?p) and distinct(?p, gate_hall) { Retract at(pip, ?p). Assert at(pip, gate_hall). }
+  Rule ci_nell_to_gate when ci_pip_taken(party) and at(ci_nell, ?p) and distinct(?p, gate_hall) { Retract at(ci_nell, ?p). Assert at(ci_nell, gate_hall). }
+  Rule ci_tobit_to_gate when ci_pip_taken(party) and at(ci_tobit, ?p) and distinct(?p, gate_hall) { Retract at(ci_tobit, ?p). Assert at(ci_tobit, gate_hall). }
+  Topic ci_pip_in_watch with pip "Speak to the boy in the Watch's keeping" when ci_pip_taken(actor) {
+    Says "They have given him a small white domino, with a ribbon. He has not put it on; it lies in his lap, face-up, and he looks at it. He has the stub in his hands, still, but it has been snuffed, and his thumb goes over the wick and over the wick. 'I'm nobody,' he tells you, politely, the way one tells a stranger a street's name. He does not look up, and does not say whose face he is hoping it will not be.".
+  }
+  Topic ci_nell_in_watch with ci_nell "Speak to the girl in the Watch's keeping" when ci_pip_taken(actor) {
+    Says "'You,' says Nell, and that is all she says, and she says it with her whole body, and after a moment she turns her back, so that you will have the trouble of knowing she has done it on purpose.".
+  }
+
+  // ── Pip, by day and by night ──────────────────────────────────────────────────────────────────────────────────────
+  Topic ci_pip_cold_bare with pip "Speak to the boy behind the sacking" when publicHours() and not masked(actor) and not ci_pip_taken(actor) {
+    Says "'I'm at my work,' says the Owl, to the sacking, in a small flat voice that has been told what to say. 'I'm nobody. You're nobody. That's two nobodies and no business.' The stub does not move.".
+  }
+  Topic ci_pip_cold_mask with pip "Speak to the boy behind the sacking" when publicHours() and masked(actor) and not wears(actor, face_owl) and not ci_pip_taken(actor) {
+    Says "'Don't know that face,' says the Owl, politely, from behind the sacking. 'I'm at my work, whoever you are. Go on.' It is the voice of a boy being very good in front of a stranger, who has been told what happens to the other kind.".
+  }
+  Topic ci_pip_who with pip "Ask the boy his name" when ci_heard(actor) and ci_found(actor) and not knows(actor, ci_pip_named) and not ci_pip_taken(actor) once {
+    Says "'Nobody,' he says, and then, because he is nine, and a boy in the dark will tell a name to anything that does not scare him: 'Pip, if you've to call me something. Pip Tolliver. It's only what they call me. It ain't mine, it's the Owls'. The steward's got it in a book.'".
+    On discuss { Assert knows(actor, ci_pip_named). }
+  }
+  Action ci_read_fear(actor: group, site: place) "Watch his hands, and say aloud what he is afraid of" {
+    Speaker pip.
+    Description "It is not the Watch. A child hiding from the Watch holds his candle away from his body; this one holds it like a wound.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(pip, site) and ci_heard(actor) and ci_found(actor) and not knows(actor, ci_pip_fear) and not ci_told_saw(actor) and ci_open_now() and not ci_pip_taken(actor).
+    Resolve check(actor, insight, dc_fair).
+    Time 2 minutes.
+    On success { Assert knows(actor, ci_pip_fear). Increase ci_trust(pip) by 1. }
+    On failure { Set ci_closed_until(pip) to watch(clock) + 6. }
+    Result "'You're not afraid of the Watch,' you say, and the boy goes quite still. 'You're afraid of her. You think it was looking at her that did it. You think her face is somewhere now, looking for you.' Nobody has told him that anyone can see this. He does not answer, and he does not run. His thumb goes over the stub's wick, once, like a man testing whether a knife is sharp, and the whole room waits.".
+    Otherwise "'The Watch,' you say; and it is so wrong, and so plainly the guess of a grown person, that he draws the sacking shut with a snap. 'I ain't afraid of the Watch.' It is an hour, at least, before he will say anything to anyone.".
+  }
+  Topic ci_pip_evidence with pip "Tell him it cannot have been seeing her that killed her" when ci_heard(actor) and knows(actor, ci_pip_fear) and not ci_pip_taken(actor) once {
+    Says "'You weren't there,' says Pip. He says it kindly, and it is the kindness of a child with a better case than yours. 'Everybody says it. Nell says it. The cooper's lad down the Drip says his da says. Said it's her heart.' He turns the stub over. 'It ain't a *reason*, though, is it? It's only what you say when it's already happened.'".
+  }
+  Topic ci_pip_ask_want with pip "Ask him what he wants" when ci_heard(actor) and ci_found(actor) and not ci_asked(actor) and not ci_pip_taken(actor) once {
+    Says "He does not answer at once. You see him go through the things people have said to him, the things he has been told he must do, the Watch, the steward, the Chapel, and then back to the question, which is not in that list and which he turns over like a coin he cannot place. 'Nobody asked,' says Pip, slowly. 'Nobody asked me that. Not ever.' The stub comes down against his knee. 'A candle. A whole one. Not a stub. That nobody's counted, that the steward don't have in his book. That's mine to keep.' He seems astonished to have said it, and then to be unable to stop. 'That's all. That's all I want.'".
+    On discuss { Assert ci_asked(actor). Increase ci_trust(pip) by 2. Assert knows(actor, ci_pip_wish). }
+  }
+  Action ci_clown(actor: group, site: place) "Do the Assessor of the Pound addressing the Hall of Weights: pompously, to the pigeons" {
+    Speaker pip.
+    Description "It is a rule followed to its humane absurd end: the Assessor must be addressed as the Pound. It is, to a boy of nine in the dark, the funniest thing in Ombra.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(pip, site) and ci_heard(actor) and ci_found(actor) and not ci_clowned(actor) and not ci_pip_settled(actor) and ci_open_now() and not ci_pip_taken(actor).
+    Resolve check(actor, performance, dc_fair).
+    Time 2 minutes.
+    On success { Assert ci_clowned(actor). Increase ci_trust(pip) by 1. }
+    On failure { Assert ci_clowned(actor). Set ci_closed_until(pip) to watch(clock) + 6. }
+    Result "You draw yourself up and address a pillar, in the voice of a man who has never been wrong, as the Pound; and the pillar, you inform the room, is two ounces light. From behind the sacking comes a small damp snort, and then a larger one, and then the sound of somebody trying with all his strength not to laugh and being defeated by it: a high, helpless, gasping child's laugh that goes up the oil-cistern's arches and comes back down. Nell says, in a furious whisper, 'Shut up,' and does not mean it. Tobit, at last, smiles.".
+    Otherwise "You do it, and it is dreadful. The silence afterwards is the particular silence of three children being tactful to an adult. 'That was a joke,' Pip tells you gently, 'was it?'".
+  }
+  Topic ci_pip_route with pip "Ask how the boys get under the Drain" when ci_heard(actor) and ci_found(actor) and ci_trust(pip) >= 1 and not ci_pip_taken(actor) once {
+    Says "'We don't,' says Pip, which is a lie, and then, because it is a poor lie and he knows it, 'we don't *go*. We go to the weir for the rats. Nell's got a line in the gallery, in the dark, you do it by the knots, you can't have a light, it goes up, I saw it go. The eel's called the Warden. She wants her heads, from that bucket, and she's civil. And the door at the end's got a black slab, a left one, you stand on that and not the pale one, because the pale one's a liar.' He stops. 'That's nothing. That's not a route. That's just where we put our feet.'".
+    On discuss { Assert knows(actor, ci_oil_line). Assert knows(actor, ci_eel_toll). Assert knows(actor, ci_plate_step). }
+  }
+  Topic ci_pip_saw_t with pip "Ask what he saw, that night, under the lamp-table" when ci_heard(actor) and ci_found(actor) and ci_trust(pip) >= 2 and not ci_told_saw(actor) and not ci_pip_taken(actor) once {
+    Says "'I was trimming the south wick,' says Pip. 'I'm always late with the south one. And she come in.' He is looking at the stub. 'She'd her mask on. And then she sat down, and she took it off, like you'd take off a hat, and set it on the table next to my knee, and I seen her face. She was only a woman. That's the thing. She wasn't big or nothing. She had a cold.' A silence. 'She said, *Oh, there you are. South wick.* And then, *I am sorry.* And I don't know what for.'".
+    On discuss { Assert ci_told_saw(actor). Assert knows(actor, pip_saw). Assert knows(actor, ci_pip_hers). Increase ci_trust(pip) by 1. }
+  }
+  Topic ci_pip_others_t with pip "Ask who else came, after she had sat down" when ci_heard(actor) and ci_found(actor) and ci_told_saw(actor) and not ci_told_others(actor) and not ci_pip_taken(actor) once {
+    Says "'A big man in a leather apron,' says Pip, 'that smelled of birch and hot tar, and he stood in the door with his hands hanging, and he said, *Oh God, oh no.* And he ran. Fast, for a big one.' He swallows. 'Then a thin man, with ink on his thumbs. He cried. He put her mask on her, careful, the way you would a baby's cap. And he saw me. He *saw* me. And he said, *You saw nothing. You saw nothing, do you hear?* And he took a book off the lectern, and he went, and he left me in the dark. With her.'".
+    On discuss { Assert ci_told_others(actor). Assert knows(actor, serene_saw). Assert knows(actor, ci_pip_clerk). }
+  }
+  Action ci_give_candle(actor: group, site: place) "Give him a candle of your own, a whole one, that nobody has counted" {
+    Speaker pip.
+    Description "Tallow, a wick, and nobody's book.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(pip, site) and ci_asked(actor) and not ci_candle(actor) and holding(actor, candle) and not ci_pip_taken(actor).
+    Time 1 minute.
+    On success { Spend candle from actor. Assert ci_candle(actor). Increase ci_trust(pip) by 1. Assert restful(lamp_boys_den). }
+    Result "You hold it out across the gap in the sacking, the whole length of it, white and straight and tall as a boy's forearm. For a long moment nothing happens. Then Pip reaches out with one hand, and takes hold of the middle of it, the way you take the arm of someone about to fall; and lights it from the stub, very carefully, with his tongue between his teeth; and pinches the stub out between a finger and thumb that do not flinch, and puts the stub in his hat. 'Nobody's counted that,' he says, in a whisper. 'Have they?' The flame stands straight up in the dark, with nothing in the whole cistern to trouble it.".
+  }
+  Action ci_roll_candle(actor: group, site: place) "Ask for the stub, and roll him a whole candle from it and the wax-ends of the den" {
+    Speaker pip.
+    Description "He will have to let go of the stub to let you. It is the first thing he has not let go of since the night she died.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(pip, site) and ci_asked(actor) and not ci_candle(actor) and not holding(actor, candle) and ci_open_now() and not ci_pip_taken(actor).
+    Resolve check(actor, mending, dc_fair).
+    Time 6.
+    On success { Assert ci_candle(actor). Increase ci_trust(pip) by 1. Assert restful(lamp_boys_den). }
+    On failure { Set ci_closed_until(pip) to watch(clock) + 6. }
+    Result "He gives it to you with both hands, as one gives up a bird. You melt it in the kettle's lid with the wax-ends from the plank, a hundred small soldiers, and stir in a twist of the sail-cloth's thread for a wick, and roll the lot between your palms on the slate until it is whole and long and your hands are burning, and set it to stand. It is lopsided. It is the finest candle in the cisterns. Pip stands it in front of him and looks at it for a long time. 'That's mine,' he says. 'Out of mine.'".
+    Otherwise "The wick drowns in its own wax and the whole thing guts and slumps, and there is nothing in the kettle but a grey sticky smear where the stub was. Pip looks at it. 'That was a good stub,' he says, in a very small voice, and goes behind the sacking, and does not say another word for an hour.".
+  }
+  Action ci_tell_nobody(actor: group, site: place) "Tell him a Bare is no one, and what is told to no one has not been Said" {
+    Speaker pip.
+    Description "The Concord's cruellest law has one hole in it, and you are standing in it. A Bare cannot Name, and cannot be Named; and a Bare is not a person.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(pip, site) and ci_heard(actor) and ci_told_others(actor) and ci_trust(pip) >= 3 and not ci_may_tell(actor) and ci_open_now() and not ci_pip_taken(actor).
+    Resolve check(actor, persuasion, dc_hard).
+    Time 2 minutes.
+    On success { Assert ci_may_tell(actor). }
+    On failure { Set ci_closed_until(pip) to watch(clock) + 6. }
+    Result "'There's a thing about a Bare,' you tell him. 'A Bare's nobody. Nobody can name you to a Bare, because a Bare isn't anybody the Concord has got. If you tell me a name, you haven't Said it; you've told a wall. And walls aren't Named.' You say it slowly, as it is true. Pip thinks about it for a while, with the lit candle in front of his face. 'A wall,' he says. 'Like the oil-cistern's.' He has a look you recognise, of a child who has found a hole in a fence and is trying to decide whether it is a hole or a trap. 'All right,' he says. 'But you're a wall.'".
+    Otherwise "'But you're *somebody*,' says Pip. 'You've got a face. You've got a mouth.' It is perfectly unanswerable, and you do not answer it.".
+  }
+  Action ci_sit_with(actor: group, site: place) "Sit by his candle and say nothing, for as long as it takes" {
+    Speaker pip.
+    Description "There is a kind of telling that is done by someone else's silence, and takes an hour, and needs nothing but a candle and no questions.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(pip, site) and ci_heard(actor) and ci_told_others(actor) and ci_candle(actor) and not ci_may_tell(actor) and not ci_pip_taken(actor).
+    Time 6.
+    On success { Assert ci_may_tell(actor). Increase ci_trust(pip) by 1. }
+    Result "You sit down on the cold brick, with your back to a pillar, and do not look at him. The candle burns. Nell, who has been standing guard for three nights without sleeping, sits down too, in the end, with the knife across her knees. Tobit puts his head in her lap. For an hour nothing is said at all, and in the dark the drip counts. When it is over Pip says, in the voice of someone speaking to the flame, 'There was another one. After.'".
+  }
+  Topic ci_pip_warden_t with pip "Ask about the other one, who came after" when ci_heard(actor) and ci_found(actor) and ci_may_tell(actor) and not ci_told_warden(actor) and not ci_pip_taken(actor) once {
+    Says "'A man with keys,' says Pip. 'On his belt, the big iron ones. In a green coat. He didn't see me. He came to *shout*. At her. He said she'd to stop, stop the walking about, or he'd tell. He said she was a, he said, I ain't going to say what he said.' The flame shivers. 'He said her *name*. Out loud. In the Chapel. And I know it now, and it won't come out of my head, and I ain't going to say it, not to you, not to a wall, don't make me.' He is shaking. 'He said it twice.'".
+    On discuss { Assert ci_told_warden(actor). Assert knows(actor, lacke_unfaced). Increase ci_trust(pip) by 1. }
+  }
+
+  // ── Forgiving the clerk ───────────────────────────────────────────────────────────────────────────────────────────
+  // Pip is angry at one person, and it is not the Warden: it is the clerk who told him he had seen nothing and left him
+  // in the dark with a dead woman. The clerk has a reason, and he has been carrying it for a week, and has never been
+  // able to say it to the one person it is owed to. The company can carry it down. (post.kyr reads ci_pip_forgave.)
+  Topic ci_pell_pip with pell "Tell Tomas Pell that the boy under the lamp-table is alive, and has been asking after no one" when knows(actor, ci_pip_clerk) and not (publicHours() and not masked(actor)) and not ci_pell_knows(actor) once {
+    Says "Pell has been standing quite still for some time. 'Alive,' he says, and sits down, quite suddenly, on whatever there is. 'I thought. I did not know what I thought. I left a child in the dark with her. I have known it every hour of seven days.' He covers his mouth. 'I said it so that, if he was asked, he could say it truly. *I saw nothing.* A child who has seen a bare Registrar, and is asked, and says he has, is Faced. A child who says he has seen nothing is a child. It was all that I could think of.' He looks up. 'Tell him. Tell him I am sorry I was too frightened to stay. Tell him it was the only gift I could give and I gave it badly.'".
+    On discuss { Assert ci_pell_knows(actor). Assert ci_pell_message(actor). }
+  }
+  Topic ci_pip_forgives with pip "Carry Tomas Pell's words to Pip, as he said them" when ci_heard(actor) and ci_found(actor) and ci_pell_message(actor) and ci_trust(pip) >= 2 and not ci_pip_forgave(actor) and not ci_pip_taken(actor) once {
+    Says "You say it as he said it, word for word, and the lamp-boy listens with his eyes fixed on the flame. For a while there is no answer. 'He said I'd seen nothing,' says Pip, at last. 'Because he thought, if I said it true. If somebody asked. I wouldn't be.' He is working it out aloud, as children do, with a good deal of pausing. 'Nell says he's a coward.' A long breath. 'He *cried*. He put her mask on straight.' The candle burns. 'Tell him he can have it back, the nothing. I'll not say.' He looks up, finally, at you. 'No. Tell him *I saw it*, and I'm all right, and he needn't have. Tell him that.'".
+    On discuss { Assert ci_pip_forgave(actor). Increase ci_trust(pip) by 1. }
+  }
+
+  // ── Nell, and Tobit ───────────────────────────────────────────────────────────────────────────────────────────────
+  Topic ci_nell_cold with ci_nell "Speak to the girl in the man's coat" when publicHours() and not masked(actor) and not ci_pip_taken(actor) {
+    Says "'No,' says Nell. It is not an answer to anything you said. It is the whole of her policy, said once.".
+  }
+  Topic ci_nell_hint with ci_nell "Ask Nell how the boy might be got to talk" when ci_found(actor) and not ci_asked(actor) and (privateHours() or wears(actor, face_owl) or masked(actor)) and not ci_pip_taken(actor) once {
+    Says "Nell looks at you for a long time with her knife across her knees. 'Everybody tells him,' she says. 'The Watch told him. The steward told him. The Chaplain told him on the steps, I saw. Told him he's to come in, told him he's to be good, told him he's safe.' She spits, neatly, into the oil. 'I tell him. I'm worse than any of them. *Nobody asks him.* Nobody's ever asked him a thing in his life, that wasn't what's he done. If you want him out, ask him something. That's all I know.'".
+    On discuss { Assert knows(actor, ci_pip_named). }
+  }
+  Topic ci_nell_heads with ci_nell "Ask Nell what the boys feed the eel" when ci_found(actor) and (privateHours() or masked(actor)) and not ci_pip_taken(actor) once {
+    Says "'The heads,' says Nell. 'Off the eel-pond, when they're going. She's not hard to keep; she wants the same thing every night, and she's *polite* about it. You can put your hand in a bucket on the shelf there and not be sorry.' She considers you. 'Or a ration. She'll eat a ration. She's not proud.'".
+    On discuss { Assert knows(actor, ci_eel_toll). }
+  }
+  Topic ci_tobit_t with ci_tobit "Ask Tobit what his name is" when ci_found(actor) and not ci_pip_taken(actor) once {
+    Says "Tobit regards you with the grave attention of the very small. He holds out, for inspection, with perfect solemnity, a lamp-rat's tail, dried hard as a bootlace. Whether it is a gift, a toll, or his name, he does not say, and Nell, who knows, plainly does not intend to either.".
+  }
+
+  // ── Where he goes ─────────────────────────────────────────────────────────────────────────────────────────────────
+  // Once he has told it, and has his candle, the choice of what he becomes is his to be asked about, not the company's to
+  // give. He stays among the boys (the guild's steward, paid, will stop counting his candle-ends); or he goes up to
+  // the pigeon-loft, where the old master is deaf in one ear and has a loft that needs a boy with good ones. Left to
+  // himself the Flood sends him to the loft anyway, but not as somebody's.
+  Topic ci_pip_where with pip "Ask him where he would be, if he might be anywhere" when ci_heard(actor) and ci_found(actor) and ci_asked(actor) and ci_candle(actor) and ci_told_others(actor) and ci_trust(pip) >= 3 and not ci_where_asked(actor) and not ci_pip_taken(actor) once {
+    Says "'Anywhere?' He has not thought it was a thing one was allowed. 'Here, with Nell and Tobit. Only they'd not have me counted.' He thinks. 'Or the birds. There's a man at the Post has birds, white tumblers, and the white tumblers sit on his head. He's got one ear, the other's no good, I've heard him shout. I give them crusts through the grating, on the sly. If there was a place where somebody wanted a boy for the other ear.' A pause. 'It wouldn't be a lamp. But it'd be a whole candle, kind of.'".
+    On discuss { Assert ci_where_asked(actor). }
+  }
+  Action ci_pip_stays_a(actor: group, site: place) "Tell him he may stay with the boys, and that you will see he is not counted" {
+    Speaker pip.
+    Description "It costs six coin, paid to the steward of the Owls for the boys' keep, and it buys what a boy of nine most wants: to stay where he knows the dark.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(pip, site) and ci_where_asked(actor) and ci_candle(actor) and not ci_pip_settled(actor) and not ci_pip_taken(actor) and quantity(actor, gold) >= 6.
+    Time 1 minute.
+    On success { Decrease quantity(actor, gold) by 6. Increase quantity(steward, gold) by 6. Assert ci_pip_settled(actor). Assert ci_pip_stays(actor). Assert roundDone(actor, r_pip). }
+    Result "You put six coin on the kettle's lid, for the steward, with a message that the three boys in the cistern are a charge on the Owls' account and are not to be counted in anything at all. Pip looks at it, and at you, and at his candle. 'You can't do that,' he says. 'There ain't a way.' And then, to the candle, wonderingly, 'There's a *way*.' Nell says nothing, and comes and stands by his shoulder, and for the first time since you came down, puts the knife away.".
+  }
+  Action ci_pip_goes(actor: group, site: place) "Ask him if he would come up to the pigeon-loft at the Post, to Old Garrity" {
+    Speaker pip.
+    Description "He is nine, and has not been in the daylight since the night she died. By day the Drip is masked, and he has a cut-down Owl to go in. The loft is on the far side of the city.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(pip, site) and ci_where_asked(actor) and ci_candle(actor) and not ci_pip_settled(actor) and not following(pip, actor) and not ci_pip_taken(actor).
+    Time 1 minute.
+    On success { Assert following(pip, actor). }
+    Result "He gets up, quite slowly, with the candle in one hand and the other held out, a little, to nobody; and Nell, without a word, takes hold of it, and holds it for a moment, and lets go. 'Bring him back,' she says, 'if it's no good.' Pip puts his hat on, with the stub in it, and the leather Owl over his eyes, and takes hold of the back of your coat in his fist. 'I'll be nobody,' he tells you, as one telling the time. 'Up there. Only I'll be nobody *with a candle*.'".
+  }
+  Topic ci_pip_stayed with pip "Ask Pip how the boys are, now they are not counted" when ci_pip_stays(actor) and (privateHours() or wears(actor, face_owl)) {
+    Says "'We had a whole row of candles last night,' says Pip. 'Nell made us count them. Not for the steward. For *us*.' He laughs. He doesn't often. 'Tobit blew one out. First thing he ever did on purpose.'".
+  }
+
+  Topic ci_pip_loft_t with pip "Ask Pip how he finds the loft" when ci_pip_garrity(actor) and (privateHours() or masked(actor)) {
+    Says "'They sit on me,' says Pip, with dignity. 'The white ones. Garrity says it's a sign of respect, and I say it's because I've bread in my hat.' He considers. 'He talks all the time. He never asks me nothing. He just says *which one*, and I *say*.' He is rather pink. 'I've still got the candle. He put it on the shelf by the corn. It's not counted. I checked.'".
+  }
+
+  // ── The Flood sends the boys up, if nobody has ───────────────────────────────────────────────────────────────────
+  // On the sixth morning the den is a fathom under; the boys have gone to the highest, driest place they know, which
+  // is the roof of the pigeon-loft at the Post, where a deaf man with six dozen birds has not yet counted them.
+  Rule ci_boys_flee when state(ci_flood, ci_drowned) and at(pip, lamp_boys_den) { Retract at(pip, lamp_boys_den). Assert at(pip, loft_roof). }
+  Rule ci_nell_flees when state(ci_flood, ci_drowned) and at(ci_nell, lamp_boys_den) { Retract at(ci_nell, lamp_boys_den). Assert at(ci_nell, loft_roof). }
+  Rule ci_tobit_flees when state(ci_flood, ci_drowned) and at(ci_tobit, lamp_boys_den) { Retract at(ci_tobit, lamp_boys_den). Assert at(ci_tobit, loft_roof). }
+
+  // ── Milestones ────────────────────────────────────────────────────────────────────────────────────────────────────
+  Milestone ci_m_found "found the lamp-boys hiding under the Drip" worth 25 when knows(party, ci_boys_found).
+  Milestone ci_m_asked "asked a lamp-boy what he wanted, and was answered" worth 25 when ci_asked(party).
+  Milestone ci_m_pip "brought Pip Tolliver's story to an end he could live with" worth 50 when roundDone(party, r_pip).
+  Milestone ci_m_forgave "carried a clerk's apology down to the child it was owed to" worth 50 when ci_pip_forgave(party).
+  Milestone ci_m_cellar "went under the Drip and the Cuff by the Ninefold Drain, and stood in the cellar below the Urn" worth 75 when at(party, urn_cellar).
+  Milestone ci_m_pump "set the Aenean pump going, after some centuries" worth 25 when state(ci_pump, ci_running).
+  Milestone ci_m_urn "heard the Urn ring hollow, from below" worth 25 when knows(party, lie_urn).
+
+  // ── What became of them ──────────────────────────────────────────────────────────────────────────────────────────
+  Rule ci_fate_pip_stays when newsHour() and ci_pip_stays(party) once says "Of Pip Tolliver: the Owls' steward did, in the end, strike three names from his candle-book, and did not say why, and has not been asked. The boy trims the Drip's lamps still, and walks the Drip in a cut-down Owl, by day. By night, in the cisterns, with Nell and Tobit, he keeps a whole candle burning on the lid of a kettle, which nobody counts. He is, on the Drip's own account, the happiest boy in it, and nobody has ever once asked him if he is." { }
+  Rule ci_fate_pip_garrity when newsHour() and ci_pip_garrity(party) once says "Of Pip Tolliver: he sits on the left of an old man in a pigeon-loft on the Wet Post, at the ear that does not hear, and says *there* when a bird comes in. The white tumblers sit on his head. The Owls have lost a boy, and nobody has come to the loft to say so. He has been given a bed, and a candle, and a name that is the loft's, and he has not been Faced; he wears a feather in his hat instead, which the Post says is his own." { }
+  Rule ci_fate_pip_taken when newsHour() and ci_pip_taken(party) once says "Of Pip Tolliver: a witness in the keeping of the Masked Watch, in a small white domino with a ribbon, which he has not been seen to put on. He answers when he is spoken to, politely, that he is nobody. The Watch is kind to him. It does not know that this is the worst of it." { }
+  Rule ci_fate_pip_left when newsHour() and not ci_pip_settled(party) and not ci_pip_taken(party) and not ci_bribed(party) once says "Of Pip Tolliver: the Flood put him on the roof of the pigeon-loft at the Post, with Nell and Tobit, three small wet nobodies among the white birds. An old man who is deaf on the left side found them in the morning, and did not tell anybody, and did not send them away. They are there still. Nobody has asked the boy what he wants. The pigeons, it is said, have been told." { }
+  Rule ci_fate_pip_bribed when newsHour() and ci_bribed(party) and not ci_pip_settled(party) once says "Of Pip Tolliver: he took the money, and went, as a boy would, and was found at the loft, where the pigeons are, by an old man who is deaf in one ear. He keeps the three coin in a boot. He told you the little that three coin buys, and nobody has ever told him that it was not enough." { }
+  Rule ci_fate_pell_forgiven when newsHour() and ci_pip_forgave(party) once says "Of Tomas Pell: he has had a message, by a stranger, from a nine-year-old, which said that he need not have. He has not been able to say what he made of it. He has kept the Book's keys in the same pocket as the candle-end a boy sent him, and in the Dead Letter Office they say he has not been heard to mutter since." { }
+  Rule ci_fate_oil when newsHour() and ci_oil_burnt(party) once says "Of the Drip's lamp-oil: the gallery of the Drain burned, one blue evening, and the lamp-trimmers found the cistern's oil a hand lower than it was and accounted for it, in the Owls' book, as rats. The steward, who knows better, has said nothing, and counts the candle-ends twice. The Drip's lamps were lit on the ninth night, in the end, a little yellower than their custom, which the Drip put down to the Flood." { }
+  Rule ci_fate_eel when newsHour() and ci_eel_fed(party) once says "Of the Warden of the Drain: she was fed, or she was fought, or she was passed in the dark; the eel in the eel-run has, in any case, the whole Drain to herself, to the arch, and the Flood has put the sea in it. She will have been astonished." { }
+  Rule ci_fate_hall_wet when newsHour() and ci_hall_wet(party) once says "Of the Urn Hall: the Drawing was held, as the Concord says it must be, in four inches of the Drain, which came up through a hatch that somebody forgot to shut; the Urn stood in it as it had stood for ninety years, and did not rattle; and the Assessor of Weights, who had to read the lots, did so in galoshes." { }
+}
