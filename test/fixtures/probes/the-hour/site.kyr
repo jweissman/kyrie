@@ -1,0 +1,24 @@
+Module thehour "A basket that goes up through the cloud, and a show at seven" {
+  Place cloudgate "Cloudgate" is settlement.
+  Place quay "the basket quay" is room within cloudgate at 0, 0 outdoors.
+  Company party "You" of 1 at quay.
+  // Until an hour of the clock (WPC-10), and hours said as hours (QTC-A13).
+  Action wait_show(actor: group, site: place) "Wait for the show at seven" {
+    Requires able(actor) and at(actor, site) and hour(clock) < 19.
+    Time until hour 19.
+  }
+  Action wait_late(actor: group, site: place) "Wait three hours" {
+    Requires able(actor) and at(actor, site).
+    Time 3 hours.
+  }
+  // What the ride says, by the hour it is taken (GTR-06).
+  Action ride(actor: group, site: place) "Ride the basket up through the cloud" {
+    Requires able(actor) and at(actor, site).
+    Time 0.
+    Result "Up into the sun: the middle of a fine afternoon.".
+    Result "Up through the cloud into the dark, and the stars over it." when dark().
+    Result "Up into the last of the evening light." when hour(clock) >= 19.
+  }
+  Observe quay_scene at quay when true "A quay of baskets and ropes.".
+  Goal false.
+}

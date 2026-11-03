@@ -121,8 +121,9 @@ Kyr {
   TopicEffects = "On" "discuss" "{" ChangeStatement* "}"
   Speaker = "Speaker" ident "."
   Grave = "Grave" string "."
-  Result = "Result" string "."
-  Otherwise = "Otherwise" string "."
+  Result = "Result" string TextWhen? "."
+  Otherwise = "Otherwise" string TextWhen? "."
+  TextWhen = "when" Predicate
   Information = "Discovery" ident string "{" InformationPart* "}" -- parts
               | "Discovery" ident string "." -- plain
   InformationPart = KnownBy | DeniedBy | InformationSource | FoundBy
@@ -183,8 +184,13 @@ Kyr {
   Failure = "On" "failure" "{" ChangeStatement* "}"
   Cost = "Cost" integer "."
   Time = "Time" integer ("minutes" | "minute") "." -- minutes
+       | "Time" integer ("hours" | "hour") "." -- hours
+       | "Time" "until" TimeUntil "." -- until
        | "Time" integer "." -- fixed
        | "Time" Call "." -- measured
+  // Until an hour of the clock, or of a day: "Time until hour 19.", "Time until day 2 hour 6." (WPC-10).
+  TimeUntil = TimeDay? "hour" integer
+  TimeDay = "day" integer
   Resolve = "Resolve" Call "."
   ChangeStatement = Change "."
   Change = Assert | Retract | Set | Increase | Lessen | Decrease | Give | Spend

@@ -2,7 +2,7 @@ import { RandomStreams } from '../random-streams';
 import { CommandResolutions } from './command-resolution';
 import { Aftermath } from './aftermath'; import { FieldUse } from './field-use';
 import { FieldResolver } from './field-resolver';
-import { ObservationText } from '../lang/observation-text'; import { Operators } from './operators';
+import { ActionParts } from '../lang/action-parts'; import { Operators } from './operators';
 import { CompanyChoices } from './company-choices';
 import { Perceptions } from './perceptions';
 import { ModuleBundle, type BundleRequest } from './module-bundle';
@@ -296,8 +296,7 @@ export class Campaign implements WatchHost {
     if (this.definition) { this.refresh(); }
     this.commit(Aftermath.record(before, this.world, action, combat));
     this.resolutions(combat, true);
-    const told = success ? action.report : action.otherwise;
-    let response = told ? ObservationText.render(told, this.world) : undefined;
+    let response = ActionParts.told(action, success, this.world);
     if (!success && action.resolve?.name === 'expose' && !action.otherwise) { response = CommandResolutions.downed(action, this.world); }
     const pass = WatchLoop.pass(this, action,
       { before, combat, ...leg ? { journey: { leg, arrive: Journey.arrive.bind(Journey, this, action, leg) } } : {} });

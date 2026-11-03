@@ -102,6 +102,10 @@ export class ModuleWriter {
       `    Cost ${action.cost}. Time ${action.duration ? World.format(action.duration) : action.time}.`];
     if (action.report) { lines.push(`    Result ${JSON.stringify(action.report)}.`); }
     if (action.otherwise) { lines.push(`    Otherwise ${JSON.stringify(action.otherwise)}.`); }
+    for (const t of action.told ?? []) {
+      lines.push(`    ${t.failed ? 'Otherwise' : 'Result'} ${JSON.stringify(t.text)} when ${ModuleWriter.predicate(t.when)}.`);
+    }
+    if (action.until) { lines.push(`    Time until ${action.until.day ? `day ${action.until.day} ` : ''}hour ${action.until.hour}.`); }
     if (action.seen) { lines.push(`    Seen ${JSON.stringify(action.seen)}.`); }
     if (action.speaker) { lines.push(`    Speaker ${action.speaker}.`); }
     if (action.grave) { lines.push(`    Grave ${JSON.stringify(action.grave)}.`); }

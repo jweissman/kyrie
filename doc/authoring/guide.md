@@ -1120,6 +1120,17 @@ company can do in a matter asks `matterOpen(herring)`; `matterDone`, `occasionBe
   }
 ```
 
+### Words for the moment
+
+An action's `Result` (or its `Otherwise`) can have others for a moment, each `when` something holds as it is done; the
+first that holds is told, and the plain one otherwise. The basket's ride told of a fine afternoon at ten at night (the
+Grand Tour's 6; `test/fixtures/probes/the-hour`):
+
+```text
+    Result "Up into the sun: the middle of a fine afternoon.".
+    Result "Up through the cloud into the dark, and the stars over it." when dark().
+```
+
 ### Numbers in what is said
 
 Any text (an observation, a result, what someone says) can say a measure as it stands when it is told:
@@ -1175,8 +1186,11 @@ declared another module's private relation, and written it).
 
 ### The order things happen in
 
-A command takes minutes (`Time 2 minutes.`) or watches (`Time 1.`, ten minutes each); minutes add up, and every ten of
-them is a watch passed. A command's time passes a watch at a time. In each watch: the clock moves (`watch`, `dark()`,
+A command takes minutes (`Time 2 minutes.`), watches (`Time 1.`, ten minutes each) or hours (`Time 3 hours.`, as a
+passage is `taking 3 hours`: Quittance's bg 16); minutes add up, and every ten of them is a watch passed. One that
+waits for an hour takes until it comes round, or until that hour of a day, reckoned from the clock as the hours until
+dark are: `Time until hour 19.`, `Time until day 2 hour 6.` (`test/fixtures/probes/the-hour`; the circus's 10 kept a
+measure of its own, set by a rule every watch, to wait for the show). A command's time passes a watch at a time. In each watch: the clock moves (`watch`, `dark()`,
 `hour(clock)`, `day(clock)`, `nightCount(clock)`, `dice(clock)`) and conditions on bodies run down; every other power
 and person acts, in the order the campaign lists them; then every rule is tried once, the shared rules first, then each
 module in the order the campaign installs it, each in the order its rules are written (its files in the order its

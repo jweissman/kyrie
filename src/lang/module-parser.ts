@@ -4,14 +4,14 @@ import { Discovery, type DiscoveryDefinition } from '../information/discovery';
 import * as ohm from 'ohm-js';
 import source from './Kyr.ohm' with { type: 'text' };
 import type { Change, Module, Operator, Predicate } from './module';
-import type { PassageSpec, ThingSpec } from './world-constructs';
+import type { PassageSpec } from './world-constructs';
 import { PersonParser } from './person-parser';
 import { StatementParser } from './statement-parser';
 import { ObjectParser } from './object-parser';
 import { CatalogParser } from './catalog-parser'; import { Milestones } from './milestones'; import { ParseCache } from './parse-cache';
 import { InformationParser } from './information-parser'; import { Endings } from './endings';
 import { LocalKinds } from '../canon/local-catalog';
-import { ModuleDeclarations } from './module-declarations';
+import { ModuleDeclarations } from './module-declarations'; import { ActionParts } from './action-parts';
 
 type Node = ohm.Node;
 type AstNode = ohm.Node & { ast(): unknown };
@@ -52,9 +52,9 @@ export class ModuleParser {
     PersonCreature: PersonParser.PersonCreature, PersonCount: PersonParser.PersonCount,
     PersonTrait: PersonParser.PersonTrait, PersonCarries: PersonParser.PersonCarries,
     HazardDecl: ModuleParser.HazardDecl, PersonUses: PersonParser.PersonUses, PersonWants: PersonParser.PersonWants,
-    Topic: ModuleParser.Topic, TopicEffects: ModuleParser.TopicEffects, Result: ModuleParser.Result,
-    Otherwise: ModuleParser.Otherwise, Lessen: StatementParser.Lessen, ToNothing: StatementParser.ToNothing,
-    Information_parts: ModuleParser.Information, InformationSource: ModuleParser.InformationSource,
+    Topic: ModuleParser.Topic, TopicEffects: ModuleParser.TopicEffects, Lessen: StatementParser.Lessen,
+    ToNothing: StatementParser.ToNothing, Information_parts: ModuleParser.Information,
+    InformationSource: ModuleParser.InformationSource,
     ChangeAt: ModuleParser.Second, ItemOwner: ModuleParser.Third,
     PersonTemperament: PersonParser.PersonTemperament, PersonWords: PersonParser.PersonWords,
     PersonManner: PersonParser.PersonManner, PersonPronouns: PersonParser.PersonPronouns,
@@ -77,7 +77,7 @@ export class ModuleParser {
     Comparison: StatementParser.Comparison, Call: StatementParser.Call,
     Value: StatementParser.Value, expression: StatementParser.Expression, integer: StatementParser.Integer,
     string: StatementParser.String, Product: StatementParser.Value, Operand_group: StatementParser.Group,
-    Operand_extreme: StatementParser.Extreme, ExtremeArgs: StatementParser.ExtremeArgs,
+    Operand_extreme: StatementParser.Extreme, ExtremeArgs: StatementParser.ExtremeArgs, ...ActionParts.actions,
     ...CatalogParser.actions, ...InformationParser.actions, ...Endings.actions, ...Milestones.actions,
   });
   // A text parsed before comes back as it was, and declares its own kinds again, as its parse did: a start meanwhile
@@ -198,14 +198,6 @@ export class ModuleParser {
   static FoundBy(_found: Node, _by: Node, _searching: Node, place: Node, skill: Node, text: Node, _dot: Node) {
     return ObjectParser.found(place, skill, text);
   }
-  static thingPart(spec: ThingSpec, part: Field) {
-    if (part.field === 'state') { spec.states.push(part.value as ThingSpec['states'][number]); }
-    else if (part.field === 'change') { spec.changes.push(part.value as ThingSpec['changes'][number]); }
-    else if (part.field === 'hurts') { spec.hurts = part.value as ThingSpec['hurts']; }
-    else if (part.field === 'guards') { (spec.guards ??= []).push(part.value as string); }
-    else if (part.field === 'holds') { spec.holds = true; }
-    else if (part.field === 'tries') { spec.tries = [...spec.tries ?? [], ...part.value as string[]]; }
-  }
   static Site(word: Node, id: Node) { return { anchor: word.sourceString, id: id.sourceString }; }
   static ThingKind(_is: Node, kind: Node) { return kind.sourceString; }
   static StatePart(_s: Node, id: Node, flags: Node, text: Node, _dot: Node): Field {
@@ -269,12 +261,6 @@ export class ModuleParser {
     return { ticks: Math.max(1, u.startsWith('minute') ? Math.ceil(n / 10) : u.startsWith('hour') ? n * 6 : n * 144),
       ...u.startsWith('minute') && n < 10 ? { minutes: n } : {} };
   }
-  static Result(_r: Node, text: Node, _dot: Node): Field {
-    return { field: 'report', value: ModuleParser.ast(text) };
-  }
-  static Otherwise(_o: Node, text: Node, _dot: Node): Field {
-    return { field: 'otherwise', value: ModuleParser.ast(text) };
-  }
   static TopicEffects(_on: Node, _discuss: Node, _open: Node, changes: Node, _close: Node): Change[] {
     return ModuleParser.list(changes) as Change[];
   }
@@ -296,16 +282,9 @@ export class ModuleParser {
       topic: true, report: ModuleParser.ast(response), ...PersonParser.topic(once, [before, after], answering),
       parameters: [{ name: 'actor', type: 'group' }, { name: 'site', type: 'place' }],
       requires: { kind: 'and', left: ModuleParser.predicate(text), right: ModuleParser.ast(condition) },
-      success: ModuleParser.told(effects.children.length ? ModuleParser.ast(effects.children[0]!) as Change[] : [],
+      success: PersonParser.told(effects.children.length ? ModuleParser.ast(effects.children[0]!) as Change[] : [],
         who),
       failure: [], cost: 1, time: 0 } };
-  }
-  // What a topic teaches the company it learns from the speaker: each fact it comes to know is also told by them.
-  static told(changes: Change[], speaker: string): Change[] {
-    return changes.flatMap(c => c.kind === 'assert' && c.call.name === 'knows' && c.call.args[0] === 'actor'
-      ? [c, { kind: 'assert' as const,
-        call: { kind: 'call' as const, name: 'toldBy', args: ['actor', speaker, c.call.args[1]!] } }]
-      : [c]);
   }
   // A discovery with nothing to say of where it is learnt: something people know, or a scene teaches.
   static Information(_discovery: Node, id: Node, text: Node, _open: Node, parts: Node, _close: Node): Field {
@@ -390,6 +369,8 @@ export class ModuleParser {
     const seen = new Set<string>();
     for (const child of parts.children) {
       const { field, value } = ModuleParser.ast(child) as Field;
+      // Words for a moment may be several, each with its own condition (see ActionParts.told).
+      if (field === 'told') { (action.told ??= []).push(value as NonNullable<Operator['told']>[number]); continue; }
       if (seen.has(field)) { throw new Error(`Duplicate ${field} in action ${action.id}`); }
       seen.add(field);
       Object.assign(action, { [field]: value });

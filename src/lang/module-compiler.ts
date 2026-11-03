@@ -139,6 +139,9 @@ export class ModuleCompiler {
     this.text(module, action.report ?? '', bindings);
     this.text(module, action.otherwise ?? '', bindings);
     this.text(module, action.seen ?? '', bindings);
+    for (const t of action.told ?? []) {
+      this.predicate(module, t.when, bindings); this.text(module, t.text, bindings);
+    }
     if (action.resolve) { this.call(module, action.resolve, this.capabilities, bindings); }
     if (action.duration) { this.call(module, action.duration, module.measures, bindings); }
   }
@@ -164,6 +167,7 @@ export class ModuleCompiler {
     for (const action of module.actions) {
       action.requires = this.resolvePredicate(action.requires, expressions);
       if (action.interrupt) { action.interrupt = this.resolvePredicate(action.interrupt, expressions); }
+      for (const t of action.told ?? []) { t.when = this.resolvePredicate(t.when, expressions); }
     }
     const world = new World(module).apply(module.initial);
     return { module, world: world.snapshot, budget: World.literal(module.budget) };
