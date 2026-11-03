@@ -60,7 +60,7 @@ describe('A Trade of One\'s Own: the Ferry', () => {
     expect(g.holds('holdsFace', 'party', 'face_gull')).toBe(true);
     expect(g.holds('fitted', 'party', 'face_gull')).toBe(true);
     // Mother Tibb notices
-    await g.play('>ombra__hospice_hall', 'Say that you have a trade');
+    await g.play('>ombra__hospice_dorm', 'Say that you have a trade');
     expect(g.holds('cm_tibb_told', 'party')).toBe(true);
   }, 240000);
 

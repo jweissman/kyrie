@@ -18,6 +18,11 @@ setDefaultTimeout(180000);
 const campaign = process.env.OMBRA_CAMPAIGN ?? home;
 const begin = (seed = 'gate', party?: CreatureGenerationContext[]) => Ombra.start(campaign, seed, party);
 const toHospice = ['^To the Customs Steps', '^To Strangers', '^Into the Hospice'];
+// The Warrant, taken for real from the sergeant who stands in Strangers' Square till she has her Bare (warrant.kyr): once
+// it is held she stands in the Gatehouse, by day and by night, and is "a sergeant of the Masked Watch" until she is named.
+const takeWarrant = ['Talk to a sergeant', 'Ask what use the Watch', 'Take the Stranger', '?Take your leave'];
+const takeWarrantAtSquare = ['^To the Customs Steps', '^To Strangers', ...takeWarrant];
+const warranted = ['^To the Customs Steps', '^To Strangers', ...takeWarrant, '^Into the Hospice'];
 // Tibb's Three Questions, answered truthfully; the sheet and the bed follow.
 const sheet = ['Talk to Mother Tibb', 'Ask Mother Tibb for a bed', 'Tell her the truth', 'second question', 'until the Drawing',
   'third question', 'Give her a name', '?Take your leave'];
@@ -161,10 +166,10 @@ describe('The Gate of Strangers: Absalom Peck, Round 3', () => {
 
   it('is cast in plaster by Madame Pavane, for six coin, and the Wall has a Peck on it again', async () => {
     const g = await begin();
-    await g.play(...toHospice, ...meet, ...night, '=day 2 09:00', 'To the Hospice hall', 'Talk to Absalom',
+    await g.play(...warranted, ...meet, ...night, '=day 2 09:00', 'To the Hospice hall', 'Talk to Absalom',
       'Ask the old man whether he would walk', 'Ask him to come with you', '?Take your leave', '^Out to Strangers', '^Into the Wardrobe Annex',
       'Talk to Ferris', 'Rent the Gull', '?Take your leave', 'Put on the Gull', '^Out to Strangers', '^To Counting Row', '^To Maskers',
-      '^Into Madame Pavane', '^To Madame Pavane', 'Talk to Madame Pavane');
+      '^Into Madame Pavane', 'Talk to Madame Pavane');
     const before = g.gold();
     await g.play('Pay Madame Pavane six coin');
     expect(g.gold()).toBe(before - 6);
@@ -207,8 +212,8 @@ describe('The Gate of Strangers: Absalom Peck, Round 3', () => {
 
   it('is given to the Watch, for a lighter count: and nothing can be done for him after', async () => {
     const g = await begin();
-    await g.play(...toHospice, ...meet, ...sheet, 'Talk to Absalom', 'Sit by the old man', '?Take your leave', '^Out to Strangers',
-      '=day 1 20:30', '^Into the Gatehouse', 'Talk to Sergeant Vail', 'Tell the Sergeant where the Serene');
+    await g.play(...warranted, ...meet, ...sheet, 'Talk to Absalom', 'Sit by the old man', '?Take your leave', '^Out to Strangers',
+      '=day 1 20:30', '^Into the Gatehouse', 'Talk to a sergeant', 'Tell the Sergeant where the Serene');
     expect(g.holds('gt_peck_given', 'peck')).toBe(true);
     expect(g.holds('roundDone', 'party', 'r_peck')).toBe(false);
     await g.play('?Take your leave', '^Out to Strangers', '^Into the Hospice', '=day 1 21:30', 'To the Hospice dormitory', 'Talk to Absalom');
@@ -252,10 +257,10 @@ describe('The Gate of Strangers: Absalom Peck, Round 3', () => {
 
   it('is taught, by the Serene\'s knot, to the Serene: the one pull that nobody showed him', async () => {
     const g = await begin();
-    await g.play(...toHospice, ...meet, ...night, "Say the old man's name to him", '?Take your leave', 'To the Hospice hall', '^Out to Strangers',
+    await g.play(...warranted, ...meet, ...night, "Say the old man's name to him", '?Take your leave', 'To the Hospice hall', '^Out to Strangers',
       '^To Counting Row', '^To Maskers', '^To the Drip landing', '^To the Drip bread-market', "^Into Hobb's cooperage");
     expect(g.knows('gt_serene_knot')).toBe(true);
-    await g.play('Talk to Hobb', 'Tell the Serene how the gallery knot');
+    await g.play('Tell the Serene how the gallery knot');
     expect(g.holds('gt_knot_shown', 'hobb')).toBe(true);
     expect(g.page).toMatch(/Tell him it was shown/);
   });
@@ -265,18 +270,19 @@ describe('The Gate of Strangers: the letter in the Gull\'s lining', () => {
   const tonight = ['=day 1 20:30', '^Into the Wardrobe Annex', 'Talk to Ferris Moll', 'Ask Moll why he is sitting up'];
   it('is taken from Moll at night, read, and carried to the Heron who wrote it: the Swap, and a Gull for nothing', async () => {
     const g = await begin();
-    await g.play('^To the Customs Steps', '^To Strangers', ...tonight, 'Offer to take it away');
+    await g.play(...takeWarrantAtSquare, ...tonight, 'Offer to take it away');
     expect(g.carries('gt_letter')).toBe(true);
     await g.play('?Take your leave', 'Unfold the letter and read it');
     expect(g.holds('gt_letter_read', 'party')).toBe(true);
     expect(g.knows('gt_swap_tryst')).toBe(true);
     expect(g.page).toMatch(/Do not be kind\. I could not bear it\. C\./);
-    await g.play('^Out to Strangers', '^To Counting Row', 'Talk to Cosimo', 'Give the Heron his letter');
+    await g.play('=day 2 10:00', '^Out to Strangers', '^To Counting Row', '^Into the Hall of Weights', 'Talk to Cosimo', 'Give the Heron his letter');
     expect(g.holds('gt_letter_cosimo', 'party')).toBe(true);
     expect(g.carries('gt_letter')).toBe(false);
     expect(g.holds('gt_moll_trust', 'party')).toBe(true);
+    // Cosimo is at home at night (local.kyr) and in the Hall of Weights by day, so the Heron is given his letter next morning.
     // Moll's trust: a face for the day, for nothing, once.
-    await g.play('=day 2 09:00', '^To Strangers', '^Into the Wardrobe Annex', 'Talk to Ferris');
+    await g.play('^Out to Counting Row', '^To Strangers', '^Into the Wardrobe Annex', 'Talk to Ferris');
     const before = g.gold();
     await g.play('Ask Moll to lend you the Gull');
     expect(g.gold()).toBe(before);
@@ -296,8 +302,8 @@ describe('The Gate of Strangers: the letter in the Gull\'s lining', () => {
 
   it('is given to the Watch, for a lighter count, and Moll will not lend', async () => {
     const g = await begin();
-    await g.play('^To the Customs Steps', '^To Strangers', ...tonight, 'Offer to take it away', '?Take your leave', '^Out to Strangers',
-      '^Into the Gatehouse', 'Talk to Sergeant Vail', 'Hand the Sergeant the letter');
+    await g.play(...takeWarrantAtSquare, ...tonight, 'Offer to take it away', '?Take your leave', '^Out to Strangers',
+      '^Into the Gatehouse', 'Talk to a sergeant', 'Hand the Sergeant the letter');
     expect(g.holds('gt_letter_watch', 'party')).toBe(true);
     expect(g.holds('gt_moll_trust', 'party')).toBe(false);
   });
