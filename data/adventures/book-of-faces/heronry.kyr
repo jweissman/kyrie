@@ -1,2 +1,313 @@
 Module ombra "The Book of Faces" {
+  // ── The Heronry, and the loft on the Wet Post ────────────────────────────────────────────────────────────────────
+  // At the lagoon's edge, beyond the Drip, a reed-garden of a few hundred acres that the Concord has never learned to
+  // mask: the one place in Ombra where a bare face is answered by day, because the herons never learned to tell. It
+  // is kept by a writ seven hundred years old which says that no Weights may be sunk in the reeds so long as a heron
+  // stands in the pool at the Ninth Bell. The old bird that held the pool was caught in an eel-line eleven days ago
+  // and has not stood since; the Exchange's surveyor comes on the eighth day to sink the first Weight of a Tallow
+  // Exchange, if none does. Meanwhile, across the city on the Wet Post, an old man's pigeons will not fly. The two
+  // threads are one country's: both are what a city does with the last wild thing it has, and both are the ranger's
+  // (ranger.kyr); the Heronry's is the ledger's Round 8. (Prefix hr_; the people are withy, halloran, garrity, heron.)
+
+  // ── What the Heronry is, by day and by night ──────────────────────────────────────────────────────────────────────
+  Observe hr_edge_scene at heronry_edge when true "The Heronry path ends where the mud does: a post with a bell on it, and a notice that nobody has repainted since the Aeneans, and then reeds, a wall of them, brown and silver, twice a man's height, moving all together in the rain like a crowd that has been told to be quiet. A hut on stilts. A punt drawn up on a hurdle. A smell of mud, fish, woodsmoke and wet feather. Nobody here has a mask on; the sign by the bell says why, in a hand that was never taught to be polite: THE BIRDS DO NOT KNOW THE CONCORD.".
+  Observe hr_edge_night at heronry_edge as ambience when privateHours() "There is a lamp in the hut, and the reeds, which were a wall by day, have turned to a sound: a long dry rustle like a great many pages being turned by someone who is not reading. Over the pool, now and then, a heron calls: a single flat note, like a door opening in an empty house.".
+  Observe hr_edge_six at heronry_edge as feature when day(clock) >= 6 and not hr_garden_deal(party) "Along the path and the mud on either side, as far as the lamp-light goes, the Drip is camped: families under oiled sails, children in a row on a hurdle, a pot on a fire that smokes and will not be got to burn. Six hundred by the warden's count, put out of the low streets by the Flood, who have walked to the only dry ground west of the Cuff and found that it was a bird-sanctuary.".
+  Observe hr_reed_scene at reed_path when true "The path goes in on a causeway of fascines, bundles of cut reed laid crosswise, which rise a hand when you step and sink when you stop. The reed-heads meet overhead and the light comes down green and dim and loud with small things. Water on both sides, black, with a skin of duckweed. The path forks once, and neither fork is signed, and both go on.".
+  Observe hr_pool_scene at heron_pool when true "A round of open water the size of a village green, brown, flat, ringed with reeds and a rim of silver mist. In the middle of it, standing in the water up to its shoulder, a stone post, leaning, with letters cut down its side so worn that the lichen has become the writing. Round the pool's edge the reeds have been trampled flat in a hundred places by something that stood, and stood, and stood: the place where a heron holds its pool.".
+  Observe hr_pool_drawn at heron_pool when ci_reeds_drawn(party) "The water in the pool stands a hand lower than the reeds' own tide-marks, and the mud at the rim has cracked. Something has been taking the Heronry's water, a little each day, and the reeds are already thinking about what to do.".
+  Observe hr_reed_drawn at reed_path when ci_reeds_drawn(party) "The reed-heads have gone from silver to the colour of straw along the water's edge. A mat of cracked mud lies where the water was, and the herons, which were all here yesterday, are standing somewhere else.".
+
+  // ── The herons ────────────────────────────────────────────────────────────────────────────────────────────────────
+  Species hr_heron_kind "a heron" like owl temperament wary described "A white heron, tall, grave, long in the neck and the leg and the memory, which stands in water on one leg for hours and spears whatever comes by with the whole of its attention. They have stood in these reeds since before there was a city to be masked in.".
+  Person heron "the old white heron" at reed_path {
+    Role "an old white heron, caught in an eel-line" when state(heron, hr_hurt).
+    Role "an old white heron, free of the line and unsteady" when state(heron, hr_freed) or state(heron, hr_tended).
+    Role "the old white heron of the pool" when state(heron, hr_standing).
+    Species hr_heron_kind. Level 1. Peaceable. Pronouns she.
+    State hr_hurt "An old white heron stands in the sedge at the path's side with one leg drawn up in a tangle of black eel-line that has cut into the knee. She has stood in this one place for eleven days, and she has the look of a bird that is waiting to be told that she may stop.".
+    State hr_freed "The old heron stands on two legs in the sedge for the first time in eleven days, and does not trust them.".
+    State hr_tended "The old heron stands in the sedge, steadier, and turns her head to watch you with one round yellow eye.".
+    State hr_standing "The old heron stands in the middle of the pool, to the knee, on both legs, with her head on her shoulder, a white hinge in the mist. The reeds all round are quite still.".
+    Change hr_free "Cut the eel-line from the heron's leg, an inch at a time" from hr_hurt to hr_freed needing woodcraft or mending.
+    Change hr_feed "Offer the heron a share of your ration, on the flat of your hand" from hr_freed to hr_tended consuming rations.
+    Greets "The old heron turns her head and looks at you out of one yellow eye, and goes on standing. She has been the one that stood at the Ninth Bell for twenty-two years. She does not appear to hold it against you that you are not what she is waiting for.".
+    Greets again "The old heron watches you, and does not move.".
+  }
+  Person hr_young "the young herons" at reed_path {
+    Role "three young herons in the north reeds". Species hr_heron_kind. Level 1. Numbers 3. Peaceable. Pronouns they.
+    Greets "Three grey young herons stand in the reeds at the edge of sight, in the way of the young, all looking in different directions, like a committee.".
+  }
+  Rule hr_heron_stands when state(heron, hr_tended) and hr_tended_at(party) >= 1 and watch(clock) >= hr_tended_at(party) + 36
+    says "At the edge of the pool, in the mist, a heron has come out of the sedge on her own two legs, and gone in to the knee, and put her head on her shoulder." { Retract at(heron, reed_path). Assert at(heron, heron_pool). Assert state(heron, hr_standing). }
+  Measure hr_tended_at(group).
+  Rule hr_tended_stamp when state(heron, hr_tended) and hr_tended_at(party) < 1 { Set hr_tended_at(party) to watch(clock). }
+  Rule hr_herons_scatter when ci_reeds_drawn(party) and at(hr_young, reed_path) says "Somewhere in the reeds there is a great clapping of wings, and then nothing: the young herons have gone off, over the water, to some other wet." { Retract at(hr_young, reed_path). Assert at(hr_young, offstage). }
+
+  // ── The Writ ──────────────────────────────────────────────────────────────────────────────────────────────────────
+  // The stone says *a* heron. The Exchange's copy, which is the one that was made for its Surveyor, and Mistress Withy's
+  // own memory, which is the one she has said aloud every dusk for thirty years, say *the*. It makes no difference to
+  // either of them until somebody reads the stone.
+  Thing hr_stone "the Writ-stone" at heron_pool {
+    State hr_cut "The Writ is cut down the side of the post in four lines of old Ombran, the lichen grown into the letters.".
+  }
+  Observe hr_stone_read near hr_stone when tried(hr_stone, looking) and capable(party, lore) "You read it as a lawyer reads: from the end. NO WEIGHTS TO BE SUNK IN THE REEDS OF THE LAGOON SO LONG AS A HERON STAND IN THE POOL AT THE NINTH BELL. A HERON, it says. Not the heron: a heron: any. Seven hundred years of people have said it as the Heron's Writ and never once read the line again." teaches hr_writ_wording.
+  Observe hr_stone_looked near hr_stone when tried(hr_stone, looking) and not capable(party, lore) "Four lines of letters older than the ones the Chapel uses, worn to a texture. You can make out a bell, and a bird, and a drawing of a weight: a plumb-bob, sinking. The rest is a language.".
+  Discovery hr_writ_wording "The Heronry Writ, cut on the stone in the pool, says that no Weights may be sunk in the reeds so long as *a* heron stands in the pool at the Ninth Bell; not the heron. The Exchange's copy, and the Heronry's own memory, say the.".
+  Discovery hr_writ_known "A writ seven hundred years old forbids the sinking of Weights in the Heronry's reeds so long as a heron stands in the heron pool at the Ninth Bell; the old heron has not stood there for eleven days, and the Exchange's surveyor comes on the eighth day.".
+  Discovery hr_heron_known "The old heron that held the heron pool for twenty-two years is hurt, in the sedge by the reed path, with an eel-line round her leg; she can be freed, fed, and she will stand again in a day or so.".
+  Discovery hr_survey_known "The Exchange means to sink the first Weight of a Tallow Exchange in the Heronry's reeds at the Ninth Bell on the eighth day, if no heron stands in the pool, and to drain the reeds after; its Surveyor is Mr Halloran, who has come to measure them.".
+  Discovery hr_six_hundred "The Flood has put six hundred people of the Drip's low streets out of their houses, and they are camped on the Heronry's edge, the only dry ground west of the Cuff.".
+  Relation hr_engaged(group). Relation hr_wording_pressed(group). Relation hr_bargain_struck(group). Relation hr_deal_struck(group). Relation hr_consent(group).
+  Relation hr_decided(group). Relation hr_writ_held(group). Relation hr_weights_sunk(group). Relation hr_reed_trust(group).
+  Relation hr_reeds_kept(group). Relation hr_reeds_sunk(group). Relation hr_garden_deal(group).
+
+  // ── Mistress Withy ─────────────────────────────────────────────────────────────────────────────────────────────────
+  // The warden has kept the Heronry for thirty years, as her husband did, the ratcatcher, who is dead. She has fed the
+  // old heron since it was a young one with a wing like a hinge. Eleven days ago it was caught, and has not let her
+  // near; six days ago the Flood put six hundred people on her mud; and she will do what a Bare tells her to, because a
+  // Bare is nobody, and so cannot be blamed. It is the only thing she wants of you.
+  Person withy "Mistress Withy" at heronry_edge {
+    Role "the Heronry's warden". Ancestry human. Peaceable. Pronouns she. Manner grim.
+    Greets "A woman of sixty in a man's oilskin and a hat of plaited reed is standing at the edge of the mud with a bucket of fish-heads, looking at the reeds as other people look at the sky. She has no mask on, and does not seem to have thought of it. She looks at your face, whichever it is, for a good deal longer than the Concord allows. 'You'll be wanting the herons,' she says. 'Everyone does, once.'".
+    Greets again "'Still here,' says Mistress Withy, to the reeds, in the tone of a woman who is not complaining.".
+  }
+  Topic hr_reed_cold with withy "Speak to Mistress Withy" when publicHours() and masked(actor) {
+    Says "'You've brought the city in with you,' says Mistress Withy, without turning. 'Take it off while you're in the reeds, or stand where the path is. The birds don't know it, and nor do I. I'll talk to a face. I won't talk to *that*.'".
+  }
+  Topic hr_reed_writ with withy "Ask Mistress Withy what the notice on the post says" when not (publicHours() and masked(actor)) once {
+    Says "'Writ.' She says it as a family would say a grandmother's name. 'Seven hundred years. No Weights sunk in the reeds so long as the Heron stands in the pool at the Ninth Bell. That's the whole of it, and it's held through the Sluice and the Fourteen's war and a Registrar who wanted a canal.' She looks at the pool. 'He's not stood since the Novena began. Eleven days. The Exchange has its man coming on the eighth, with his chains, and he's a clerk, and he can count.'".
+    On discuss { Assert knows(actor, hr_writ_known). Assert hr_engaged(actor). }
+  }
+  Topic hr_reed_heron with withy "Ask where the old heron is" when knows(actor, hr_writ_known) and not (publicHours() and masked(actor)) once {
+    Says "'The reed path, in the sedge, second fork.' Her mouth works. 'He's got a line on him. Eel-line, off the Drip's boats, black as a hair. It's gone into the knee. I've been in there every dusk for eleven days with a knife, and he looks at me and he won't be touched. Twenty-two years I've fed him.' She spits, neatly, into the mud. 'He's an old fool, and I'd give him the whole of the Row for his leg back.'".
+    On discuss { Assert knows(actor, hr_heron_known). Assert hr_engaged(actor). }
+  }
+  Topic hr_reed_help with withy "Tell Mistress Withy you mean to see the old heron stand again" when knows(actor, hr_heron_known) and not hr_reed_trust(actor) and not (publicHours() and masked(actor)) once {
+    Says "She looks at you for a long time, and you can see her deciding whether you are a person who says things. 'He'll let a stranger,' she says at last, grudgingly. 'I've thought that. Strangers don't smell of me. I'll hold the lantern, and talk to him, and you do the knife; or you do the talking and I'll do the cutting. Whichever way he'd rather.' She picks up her bucket. 'It's more than anyone else has offered.'".
+    On discuss { Assert hr_reed_trust(actor). Assert hr_engaged(actor). }
+  }
+  Action hr_withy_cuts(actor: group, site: place) "Fetch Mistress Withy in off the mud, to hold the lantern while you hold the heron" {
+    Description "The old bird will not be touched by her. She will let her kneel, a yard off, while a stranger stands where she can see him.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, reed_path) and hr_reed_trust(actor) and state(heron, hr_hurt) and at(heron, site).
+    Time 6.
+    On success { Assert state(heron, hr_freed). Assert hr_engaged(actor). }
+    Result "She comes in off the mud in her stockinged feet, and kneels by the sedge, and you stand where the heron can see you, with your hands open and your breath slow, and say nothing at all. It takes an hour. The old bird looks at you the whole while, and at the knife not once. When the last coil comes away Mistress Withy puts it in her pocket, quite carefully, as one keeps the thing that did it. 'That's my knee,' she says, unsteadily, 'that is. Look at him.'".
+  }
+  Topic hr_reed_six with withy "Ask Mistress Withy about the people camped at her edge" when day(clock) >= 6 and not (publicHours() and masked(actor)) once {
+    Says "'Six hundred,' says Withy. 'Counted them myself, in the dark, with a lantern.' She does not look round. 'They'd no right, and I've no heart to turn a child out of the one dry yard on the west side of the Cuff, and I've no heart to see the reeds go either. The Exchange man says they'd have the ground, if he drained. A third, he says. Dry. With a roof.' She turns her bucket upside down and sits on it, heavily. 'I've never had to choose between two lots of people before. Only between people and birds, and that's easy.'".
+    On discuss { Assert knows(actor, hr_six_hundred). Assert hr_engaged(actor). }
+  }
+  Topic hr_reed_asks with withy "Tell Mistress Withy what you think the Heronry is for" when knows(actor, hr_six_hundred) and knows(actor, hr_survey_known) and not hr_consent(actor) and not hr_decided(actor) once {
+    Grave "A Writ let go cannot be taken up again; Mistress Withy will do as a Bare tells her, which is why you should not.".
+    Says "She waits. She has the look of a woman who has been waiting for someone to say this to her for eleven days, and is dreading it. 'You're nobody,' she says. 'It's why I'm asking. Nobody can be blamed. If I let it go, I want it to have been somebody else's word.' The mud sucks at her boots. 'Tell me, then. Hold it, or let it go. I'll do it.'".
+    On discuss { Assert hr_engaged(actor). }
+  }
+  Action hr_let_go(actor: group, site: place) "Tell her the Writ may go, and the reeds with it, for the six hundred" {
+    Speaker withy.
+    Description "The Drip's six hundred will have dry ground and a roof, from the Exchange's own money, by the spring. The herons will have the north reeds and what the drain leaves them; the old bird will have a pond.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(withy, site) and not (publicHours() and masked(actor)) and knows(actor, hr_six_hundred) and knows(actor, hr_survey_known) and not hr_decided(actor) and not hr_consent(actor).
+    Grave "A Writ let go cannot be taken up again.".
+    Time 1 minute.
+    On success { Assert hr_consent(actor). Assert hr_engaged(actor). }
+    Result "'Let it go,' she repeats, in a flat voice; then she nods, once, very slowly, like a woman accepting a verdict. 'I'll sign for the Heronry when he asks. I'll not sink his weight for him.' She is crying, quite quietly, without making any noise about it. 'Thirty years,' says Mistress Withy. 'It's only a pool, isn't it. It's only mud.'".
+  }
+  Action hr_hold_fast(actor: group, site: place) "Tell her to hold it, whatever it costs" {
+    Speaker withy.
+    Description "The Writ stands, if a heron does. It does not feed six hundred.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(withy, site) and not (publicHours() and masked(actor)) and knows(actor, hr_six_hundred) and knows(actor, hr_survey_known) and not hr_decided(actor) and not hr_consent(actor).
+    Time 1 minute.
+    On success { Assert hr_engaged(actor). Assert hr_hold_told(actor). }
+    Result "'Hold it.' She breathes out. It is not relief; it is the sound of a woman who has been told the thing she was afraid she would be, and finds that the weight is the same either way. 'Then I'll want him standing,' says Withy. 'And I'll want you to tell the Exchange man, not me. I can't.'".
+  }
+  Relation hr_hold_told(group).
+
+  // ── Mr Halloran ───────────────────────────────────────────────────────────────────────────────────────────────────
+  // The Exchange's surveyor, a Weights clerk by trade, who goes about by day in the Heron's cowl, as his Hall does. He
+  // is an honest man who has been told to measure a reed-bed, and measures it. He is at the Exchange till the eighth
+  // morning, then in the Heronry to the Ninth Bell, when the first Weight is sunk, or is not.
+  Person halloran "Mr Halloran" at exchange_floor {
+    Role "the Exchange's surveyor, in the Heron's cowl, at his desk" when at(halloran, exchange_floor).
+    Role "the Exchange's surveyor, in the Heron's cowl, with his chain-measure" when not at(halloran, exchange_floor).
+    Ancestry human. Peaceable. Pronouns he. Manner acerbic.
+    Greets "A narrow man with a chain-measure over one shoulder and ink on the inside of his cowl, who stands exactly where a surveyor stands, which is where the view is, and not where it is dry. He has a plumb-bob in his hand and is turning it, slowly, on its string, as other men turn a coin. 'Halloran,' he says, to a point beside your face. 'Surveyor. If it's about the tallow, I'll tell you what I tell everyone: it's a measured site, and measurement is the only kind of kindness I have.'".
+    Greets again "'Halloran,' says Mr Halloran, again, in case it had gone.".
+  }
+  Rule hr_halloran_to_edge when day(clock) >= 8 and hour(clock) >= 8 and at(halloran, exchange_floor)
+    says "Down at the Heronry's edge, a narrow man in a cowl has come up the path with two chainmen, a theodolite in a sack, and the air of a man who has never been surprised by a bog." { Retract at(halloran, exchange_floor). Assert at(halloran, heronry_edge). }
+  Rule hr_halloran_to_reeds when day(clock) >= 8 and hour(clock) >= 12 and at(halloran, heronry_edge) and not hr_decided(party) { Retract at(halloran, heronry_edge). Assert at(halloran, reed_path). }
+  Rule hr_halloran_to_pool when day(clock) >= 8 and hour(clock) >= 15 and at(halloran, reed_path) and not hr_decided(party) { Retract at(halloran, reed_path). Assert at(halloran, heron_pool). }
+  Rule hr_halloran_home when day(clock) >= 9 and hour(clock) >= 7 and at(halloran, ?p) and distinct(?p, exchange_floor) and not hr_weights_sunk(party) { Retract at(halloran, ?p). Assert at(halloran, exchange_floor). }
+  Topic hr_halloran_cold with halloran "Speak to Mr Halloran" when publicHours() and not masked(actor) {
+    Says "Halloran does not turn the cowl. 'A Bare,' he says, to his plumb-bob. 'I am not at liberty to have heard that.'".
+  }
+  Topic hr_halloran_stranger with halloran "Speak to Mr Halloran" when publicHours() and masked(actor) and not wears(actor, face_heron) {
+    Says "'Mm,' says Halloran, looking at your mask as a surveyor looks at a bench-mark. 'You are not of the Weights. Then you are a member of the public, and I have nothing to say to the public but that the public may not cross my line.' He indicates the chain-measure. 'It's costly.'".
+  }
+  Topic hr_halloran_colleague with halloran "Ask Mr Halloran, as one of the Heron, what he is measuring" when publicHours() and wears(actor, face_heron) once {
+    Says "The cowl turns at once, and the plumb-bob stops. 'A fellow of the Hall,' says Halloran, with real pleasure. 'Then you'll understand. The Exchange wants a tallow-yard on dry ground. It has been told the Heronry is the nearest ground with no title to it that anybody cares to defend. The first Weight goes into the reeds at the Ninth Bell on the eighth day, if the Writ's heron is not standing in the pool, as the Writ requires. Mistress Withy's own journal says he has not stood in eleven days.' He lowers his voice. 'I should like it to stand. I should like it very much. But I have a chain, and it is the length it is.'".
+    On discuss { Assert knows(actor, hr_survey_known). Assert hr_engaged(actor). }
+  }
+  Topic hr_halloran_night with halloran "Ask Mr Halloran why he does it" when privateHours() and not masked(actor) once {
+    Says "He has taken the cowl off, and without it he looks like what he is: a clever, tired, damp man of forty-five who has spent his life on other people's mud. 'Because a thing measured is a thing you can stop being afraid of,' says Halloran. 'My father was a tallyman who drowned in a ditch nobody had surveyed. I measure ditches.' He rubs his eyes. 'The Board wants dry ground. I've told them what I'd have told them if I were somebody who had a choice. It's the nearest. It's not the best. I don't get to say best.' The theodolite stands behind him in its sack, like a patient.".
+    On discuss { Assert knows(actor, hr_survey_known). Assert hr_engaged(actor). }
+  }
+  // The lore way: the stone says *a* heron. As a Heron, the claim is a colleague's, and costs less to make.
+  Action hr_press_wording(actor: group, site: place) "Put the stone's wording to Mr Halloran: a heron, not the heron" {
+    Speaker halloran.
+    Description "He may reply that a Writ means what it has always been said to mean. He may also be a man who reads the line again when he is shown it.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(halloran, site) and knows(actor, hr_writ_wording) and not hr_wording_pressed(actor) and not hr_decided(actor) and not (publicHours() and not masked(actor)) and not wears(actor, face_heron).
+    Resolve check(actor, lore, dc_hard).
+    Time 5 minutes.
+    On success { Assert hr_wording_pressed(actor). Assert hr_engaged(actor). }
+    On failure { Assert hr_engaged(actor). }
+    Result "You do not argue it; you read it, from the end, aloud, as it is cut. Halloran says nothing for some time. He goes and puts his own copy beside the stone, and his finger on the line, and reads it again, with his lips, and then once more. 'A heron,' he says. It does not sound like a surrender. It sounds like a man doing a sum that he has just found he has got wrong in the first line. 'Then it is a question of whether *a* heron stands in the pool at the Ninth Bell. Any heron.' He looks at the reeds. 'Mistress Withy's young ones come to the water at dusk, I've seen them. I should have to wait and see.'".
+    Otherwise "'A Writ means what it has been said to mean for seven hundred years,' says Halloran, politely. 'I have heard this argument. A copyist who couldn't read made it in the fourth century.' It is the voice of a man who has been shown a hole in the fence and has already reported it.".
+  }
+  Action hr_press_wording_heron(actor: group, site: place) "Put the stone's wording to Mr Halloran, as one of the Heron: a heron, not the heron" {
+    Speaker halloran.
+    Description "A colleague's reading is a colleague's: it is the one thing the Weights do not argue about, since they are the ones who wrote them down.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(halloran, site) and knows(actor, hr_writ_wording) and not hr_wording_pressed(actor) and not hr_decided(actor) and wears(actor, face_heron).
+    Resolve check(actor, lore, dc_easy).
+    Time 5 minutes.
+    On success { Assert hr_wording_pressed(actor). Assert hr_engaged(actor). Increase goodwill(face_heron) by 1. }
+    On failure { Assert hr_engaged(actor). }
+    Result "You put it to him as you would to a colleague at the Hall, with the stone's line, from the end, and your finger under the article; and he does what a clerk of the Weights does when shown a mis-weight. He sucks his teeth. He consults his own copy. He is shown wrong, and he is, to your surprise, delighted. 'A,' says Halloran. 'A! Forty years of the Hall's own annotations, and not one of us looked.' He writes it in his book. 'Then it is a question of whether any heron stands in the pool at the Ninth Bell. I shall be here to see.'".
+    Otherwise "Halloran looks at the line you point to and at the article under your finger, and says, kindly, that a Heron ought to know better than to read an old stone with a modern grammar. It is the one kind of defeat the Weights find themselves unable to resent.".
+  }
+  Topic hr_halloran_yard with halloran "Tell Mr Halloran what the Aenean pump has done to the Weighhouse Yard" when ci_yard_dry(actor) and not hr_bargain_struck(actor) and not hr_decided(actor) and not (publicHours() and not masked(actor)) once {
+    Says "'Dry,' says Halloran, after some time; and then, as he has not been told how, he sits on his theodolite. 'The Weighhouse Yard on the Row. It has been a sunk yard since before the Hall, and the Exchange has coveted it for sixty years, because it lies under the Hall's own windows, and the Hall would not drain it. You have drained it.' He is quite pale. 'It's the *better* site. I said it was the nearest. I never said it was the best, because I could not say it was the dry.' He takes out his book. 'I shall have to put that to the Board, in writing, and the Board will have to take it, because it is a measured fact. I am sorry about the reeds. I am not at all sorry about this.'".
+    On discuss { Assert hr_bargain_struck(actor). Assert hr_engaged(actor). }
+  }
+  Action hr_press_deal(actor: group, site: place) "Ask Mr Halloran, for the Drip's six hundred, a third of the drained ground, and a pond for the herons" {
+    Speaker halloran.
+    Description "He may agree to put it to the Board. He is a man who does not like being the one who is asked.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(halloran, site) and hr_consent(actor) and not hr_deal_struck(actor) and not hr_decided(actor) and not (publicHours() and not masked(actor)).
+    Resolve check(actor, persuasion, dc_hard).
+    Time 5 minutes.
+    On success { Assert hr_deal_struck(actor). }
+    On failure { Assert hr_engaged(actor). }
+    Result "'A third,' says Halloran, writing. 'For the Drip, with a roof, on the dry side. A third for the Exchange's yard. And the east reeds left as a pond, with a warden, and a bell, and a stone with a bird on it.' He pauses, with the pen. 'The Board will say it is charity. I shall tell them it is a drainage covenant, with a heritable use, and has been done in the Row since the Sluice.' He blots it. 'They will sign. They are afraid of the Drip this week.'".
+    Otherwise "'The Board will not hear a third,' says Halloran. 'The Board is hearing a tallow-yard.' He is not unkind. 'If you could give me something it wants more than it wants the ground, I might make it sit still. I have not found what.'".
+  }
+
+  // ── The Ninth Bell on the eighth day ──────────────────────────────────────────────────────────────────────────────
+  // The Writ is tried at the Ninth Bell by a Weight sunk, or not. The old bird standing in the pool holds it; so does a
+  // young one standing there, if the Writ's *a* has been read to the Exchange; so does a better site, if the pump has
+  // dried it; and a Writ let go for the Drip is not held but traded. Left alone, the Weight is sunk. Each of the four
+  // that is not neglect ends the Round, since the matter has been decided by someone with a hand in it.
+  Rule hr_ninth_heron at heron_pool when day(clock) == 8 and hour(clock) >= 20 and not hr_decided(party) and state(heron, hr_standing)
+    says "At the Ninth Bell, in the heron pool, an old white heron is standing to the knee with her head on her shoulder, as she has stood every dusk for twenty-two years but eleven. Halloran, at the edge with the Weight on its chain, looks at her for a long time. Then he lowers the Weight, very carefully, into the bag, and takes off his cowl, and sits on his theodolite. 'Well,' he says to nobody. 'There she is.'" {
+    Assert hr_decided(party). Assert hr_writ_held(party). Assert hr_reeds_kept(party). Assert roundDone(party, r_heronry). }
+  Rule hr_ninth_wording at heron_pool when day(clock) == 8 and hour(clock) >= 20 and not hr_decided(party) and hr_wording_pressed(party) and not ci_reeds_drawn(party)
+    says "At the Ninth Bell a young heron has come into the pool, grey, ungainly, to the knee, and stands as if somebody had told it where. Halloran lets it stand. He reads the stone once more by his lantern, and puts the Weight back in its bag, and writes in his book, in a very small hand, a single line, which reads, if anyone looks: A HERON." {
+    Assert hr_decided(party). Assert hr_writ_held(party). Assert hr_reeds_kept(party). Assert roundDone(party, r_heronry). }
+  Rule hr_ninth_bargain at heron_pool when day(clock) == 8 and hour(clock) >= 20 and not hr_decided(party) and hr_bargain_struck(party)
+    says "At the Ninth Bell Mr Halloran does not sink his Weight. He has put it away, with a look of the quiet delight of a man who has found that the better answer is also the cheaper one. 'The Weighhouse Yard,' he tells Mistress Withy, who has not asked. 'On the Row. It's *dry*.' She looks at him for a long time. 'Then the reeds stay,' she says. 'Dry,' says Halloran, to no one, and laughs, once, a short bark that startles a heron." {
+    Assert hr_decided(party). Assert hr_reeds_kept(party). Assert roundDone(party, r_heronry). }
+  Rule hr_ninth_deal at heron_pool when day(clock) == 8 and hour(clock) >= 20 and not hr_decided(party) and hr_consent(party) and hr_deal_struck(party)
+    says "At the Ninth Bell Mr Halloran does not sink his Weight; he sinks, instead, a stake with a ribbon on it, at the western edge of the reeds, and Mistress Withy puts her signature below his in the mud-stained book. The Drip's six hundred, who have been watching from the path in the lamplight, do not cheer. They stand there. A woman at the front puts her hand over her mouth. At the pool's edge the old bird, or a young one, you cannot tell in the dusk, comes in to the water and stands." {
+    Assert hr_decided(party). Assert hr_garden_deal(party). Assert hr_reeds_sunk(party). Assert roundDone(party, r_heronry). }
+  Rule hr_ninth_consent at heron_pool when day(clock) == 8 and hour(clock) >= 20 and not hr_decided(party) and hr_consent(party) and not hr_deal_struck(party)
+    says "At the Ninth Bell Mr Halloran lowers his Weight on its chain into the pool, and it goes down through the brown water with no more sound than a stone into a well. Mistress Withy watches it go with her arms folded, and does not say anything. By the next morning the Exchange's stakes are all along the reeds, and the Drip's six hundred have been told the ground will be theirs, in time, for a rent, if the Board agrees; and nobody has said in which year." {
+    Assert hr_decided(party). Assert hr_weights_sunk(party). Assert hr_reeds_sunk(party). Assert roundDone(party, r_heronry). }
+  Rule hr_ninth_neglect at heron_pool when day(clock) == 8 and hour(clock) >= 20 and not hr_decided(party) and not hr_engaged(party)
+    says "At the Ninth Bell no heron stands in the pool, and Mr Halloran, in the lamplight, lowers the first Weight of the Tallow Exchange into the Heronry on its chain, with a small distinct splash. Nobody is there to stop him. It is a matter of record, by the morning, and the Exchange's chainmen have begun to drive stakes." {
+    Assert hr_decided(party). Assert hr_weights_sunk(party). Assert hr_reeds_sunk(party). }
+  Rule hr_ninth_failed at heron_pool when day(clock) == 8 and hour(clock) >= 20 and not hr_decided(party) and hr_engaged(party)
+    says "At the Ninth Bell no heron stands in the pool. Mistress Withy rings the bell on its post, three times, as she has rung it at dusk for thirty years. Nothing comes. Mr Halloran lowers the Weight on its chain into the water, and it goes down slowly, and the reeds, all round the pool, are quite still. 'I am sorry,' says Halloran, and plainly is. Nobody answers him. Mistress Withy has gone into the hut and shut the door." {
+    Assert hr_decided(party). Assert hr_weights_sunk(party). Assert hr_reeds_sunk(party). Assert roundDone(party, r_heronry). }
+  Observe hr_after_kept at heronry_edge when hr_reeds_kept(party) "The Exchange's chainmen have gone from the mud. Somebody has painted the notice by the bell, in white, with a good brush, and under THE BIRDS DO NOT KNOW THE CONCORD, in a hand that has been taught to be polite, someone has added: NOR DO WE.".
+  Observe hr_after_sunk at heronry_edge when hr_reeds_sunk(party) and not hr_garden_deal(party) "Surveyor's stakes with red rags on them run in a line through the reeds toward the pool, as a seam runs through a coat; the nearest reeds have already been cut, and the cut-ends are white and wet. The herons, what is left of them, are standing in the north.".
+  Observe hr_after_deal at heronry_edge when hr_garden_deal(party) "A row of surveyor's stakes with white rags on them runs down the western edge, and behind it the Drip is putting up sail-cloth roofs on a ground that will, in time, be a street. In the east the reeds are standing, and Mistress Withy has hung her bell on a new post.".
+
+  // ── Garrity and the Post's pigeons ────────────────────────────────────────────────────────────────────────────────
+  Observe hr_loft_scene at loft_floor when true "A long room under the slates, tiered to the rafters with boxes, and in every box a pigeon, and not one of them moving. It smells of corn, droppings, warm feather and the particular damp of a very large number of small animals who have been sitting still for a long time. A dormer window gives on the Post's roofs. A ladder goes up through a hatch in the ridge to the open roof. The floor is thick with grain nobody has been eating.".
+  Observe hr_loft_night at loft_floor as ambience when privateHours() "By night the loft is a sound, not a place: three hundred birds breathing, a long soft gurgle from the boxes, and under it, now and then, the old man's voice, humming a tune to which nobody ever put words.".
+  Observe hr_roof_scene at loft_roof when true "A long ridge of wet slate, a chimney, a dormer's lead gutter, and the whole of the Wet Post spread out below like a drawer of letters: roofs, chimneys, the Dead Letter Office's furnace-stack, the white Candle bridge, and beyond, across the Cuff, the lamps of Chapel Island going out in the rain. The loft's alighting-board runs the whole length of the ridge, and on it, in a very neat row, there are no birds at all.".
+  Observe hr_roof_signs at loft_roof when capable(party, woodcraft) and not state(hr_nest, hr_gone) "Along the ridge, on the lee side of the chimney, the slates are white with mutes, in a long splash, as if somebody had poured whitewash off the roof from the same place for a month. By the chimney-foot, in a heap, a dozen pigeon wing-feathers, plucked clean, on the one flat slate that stands above the gutter. Whatever it is that does this has done it here, on this plucking-slate, every dawn, and has a very good opinion of the view." teaches hr_hawk_known.
+  Rule hr_falcon_stoops at loft_roof when hour(clock) >= 5 and hour(clock) < 8 and at(hr_hawk, loft_roof) and not knows(party, hr_hawk_known)
+    says "Out of the mist over the Post, very high, there is a dot, which is a falcon, grey as the slates, and which stoops, in one long fold of wing, and comes down onto the chimney like a thrown stone, and settles, and looks at you. The loft's alighting-board has gone to a ridge of nothing. You have understood why nothing flies." teaches hr_hawk_known { }
+  Discovery hr_hawk_known "A peregrine falcon has taken the chimney on the pigeon-loft's roof as a plucking-post and perch, and the pigeons will not fly; Garrity, who is deaf on one side and cannot hear her high cry on the other, has not noticed.".
+  Discovery hr_strike_known "Old Garrity's pigeons have not left the loft for eleven days, and three hundred letters wait at the Post for them.".
+  Species hr_falcon_kind "a peregrine falcon" like falcon temperament wary described "A falcon the grey of slate and the length of a forearm, barred under, with a black moustache and an eye with all the interest of a coin. She stoops at three hundred feet and does not miss, and has no opinion about pigeons except that they exist.".
+  Person hr_hawk "the falcon on the loft roof" at loft_roof {
+    Role "a peregrine falcon on the chimney, grey as the slates" when at(hr_hawk, loft_roof).
+    Role "a peregrine falcon, far from her chimney" when not at(hr_hawk, loft_roof).
+    Species hr_falcon_kind. Level 1. Peaceable. Pronouns she.
+    Greets "The falcon looks at you without turning her head, the way a landlady looks at a lodger who has not been paying attention. She is not afraid of you. It has not occurred to her.".
+  }
+  Thing hr_nest "the falcon's plucking-slate" at loft_roof {
+    State hr_held "The falcon's plucking-slate stands above the gutter by the chimney, white with her mutes.".
+    State hr_gone "The plucking-slate by the chimney is washed clean by the rain, and nothing has come to it since.".
+  }
+  Person garrity "Old Garrity" at loft_floor {
+    Role "the pigeon-master of the Wet Post". Ancestry human. Peaceable. Pronouns he. Manner jovial.
+    Greets "An old man in a sheepskin sits in the middle of the loft on an upturned bucket with a white bird on his head, in the attitude of someone who has been sitting for a long time and has decided to go on. 'Left ear's no good,' he says, to a point some distance to your right. 'Right one's busy.' He lifts the bird off his head and holds it up in front of him, and looks at it, and puts it back. 'Eleven days,' says Garrity. 'It's the damp.'".
+    Greets again "'Left ear's no good,' says Old Garrity, to the pigeons.".
+  }
+  Topic hr_garrity_cold with garrity "Speak to Old Garrity" when publicHours() and not masked(actor) {
+    Says "Old Garrity turns his good ear, very carefully, away. 'Can't hear a thing,' he says, with deep contentment, to a pigeon. 'Not a thing. Old age.'".
+  }
+  Topic hr_garrity_strike with garrity "Ask Old Garrity why the birds will not fly" when not (publicHours() and not masked(actor)) once {
+    Says "'Off their feed,' says Garrity. 'The damp, I'd say, only it never was the damp, in forty years. They go up to the board and they sit, and they look at the sky, and they come back in as if they'd been slapped. Eleven days. Three hundred letters sat in the Post, and Dunnage says it's the pigeons' fault, and I say, Dunnage, I'd send them by the *boy* if you'd lend me one.' He lowers the bird. 'It's not the damp. I've never heard a thing on that roof. Not a thing.'".
+    On discuss { Assert knows(actor, hr_strike_known). }
+  }
+  Topic hr_garrity_boy with garrity "Ask Old Garrity if a boy came to the loft, the night the Registrar died" when (privateHours() or wears(actor, face_crow)) and knows(actor, hr_strike_known) once {
+    Says "The old man is quiet for the length of time it takes a pigeon to settle. 'There might've been,' says Garrity. 'Dawn, it'd be. On the roof, wet through, with a wick behind his ear, one of the Drip's lamp-boys. He's been feeding my tumblers crusts through the grating by the cistern steps, the little scrub, for a year. He said, *I saw her face.* That's all. Said it to the bird on his arm, not me.' He rubs the bad ear. 'I said, I'm deaf in that one, son. He went off down the ladder. I never told. A boy asked.'".
+    On discuss { Assert knows(actor, pip_saw). Assert knows(actor, ci_pip_named). }
+  }
+  Action hr_scare_falcon(actor: group, site: place) "Climb the ridge at first light with a wet cloak, and drive the falcon off her chimney" {
+    Description "She will not be hurt. She will go to the reeds, where there is plenty, and she will not come back to a roof that has been made to stink of cloak.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, loft_roof) and at(hr_hawk, site) and knows(actor, hr_hawk_known) and not hr_birds_fly(actor) and hour(clock) >= 5 and hour(clock) < 9.
+    Resolve check(actor, climbing, dc_fair).
+    Time 6.
+    On success { Retract at(hr_hawk, loft_roof). Assert at(hr_hawk, offstage). Assert state(hr_nest, hr_gone). Assert hr_birds_fly(actor). Assert hr_hawk_driven(actor). }
+    On failure { Assert strikes(hr_slate_fall, actor). }
+    Result "You go along the ridge on your stomach with the cloak over your head, which is wet, and stinks of the Drip, and is not a thing a falcon has any good opinion of. She watches you come, with all the contempt of her kind. At two yards she lifts off the chimney, quite slowly, as a thing leaves a room that it was thinking of leaving anyway, and goes out over the Post in a long grey curve, and does not look back. In the loft below you hear, after a minute, a sound like applause: three hundred pigeons, going up.".
+    Otherwise "A slate turns under your knee on the wet ridge and you go down the roof on your side, fast, with the gutter rushing up, and catch it with both hands, and hang. The falcon on the chimney does not move. She watches you hang there with the faint, sharp interest of an animal whose lunch has been delayed.".
+  }
+  Hazard hr_slate_fall "a slide down the loft roof" means "Deal (1d6) physical damage to ally unless dexterity save against (11).".
+  Relation hr_birds_fly(group). Relation hr_hawk_driven(group). Relation hr_hawk_sold(group). Relation hr_flight_timed(group).
+  Topic hr_garrity_hours with garrity "Tell Garrity what is on his roof, and the hours she keeps" when knows(actor, hr_hawk_known) and (privateHours() or masked(actor)) and not hr_birds_fly(actor) once {
+    Says "'A *falcon*,' says Garrity. He turns the good ear toward you with an air of extraordinary effort. 'On my roof.' He is silent. 'It'd be high, her cry. That's it. It's the high notes I've lost in this one, and the low in that.' He laughs, silently, with his whole chest. 'Eleven days, and I've been sitting here telling them it's the damp. Well. If she feeds at first light and sits full to eleven, they'll go at noon. They've been wanting to be told.' He puts down the bird. 'We'll fly at noon. And at dusk, when she's in the reeds. The Post will have to learn manners.'".
+    On discuss { Assert hr_birds_fly(actor). Assert hr_flight_timed(actor). }
+  }
+  Action hr_net_falcon(actor: group, site: place) "Lay a noose-carpet on the plucking-slate, and take her, hooded, to the Exchange's falconer for twelve coin" {
+    Description "It is twelve coin, and she will have a perch in a rich man's hall, and a bell on her, and will never again have the Post's whole sky.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, loft_roof) and at(hr_hawk, site) and knows(actor, hr_hawk_known) and not hr_birds_fly(actor) and capable(actor, trapwork).
+    Grave "She will not be a wild thing again.".
+    Resolve check(actor, trapwork, dc_fair).
+    Time 6.
+    On success { Retract at(hr_hawk, loft_roof). Assert at(hr_hawk, offstage). Assert state(hr_nest, hr_gone). Assert hr_birds_fly(actor). Assert hr_hawk_sold(actor). Increase quantity(actor, gold) by 12. }
+    Result "It is done quickly, and not well, in the way of such things: a tangle of horsehair nooses on the slate, a leather hood, a stoop that goes wrong, and then the falcon is a weight on your glove, hooded and furious, quite silent, with her feet closed round the glove's seam as if it were something she could still kill. The Exchange's falconer, in the Row, gives you twelve coin without looking up from her and says she is a fine one. In the loft behind you, as you go, three hundred pigeons go up.".
+    Otherwise "She sees the nooses, which no falcon has ever failed to do, and goes up off the chimney in a long grey sweep, and sits on the Chapel's weather-vane a quarter-mile off, looking at the loft as at a thing she means to come back to.".
+  }
+  // Pip and the left ear. Garrity does not take boys; he takes a boy who says there before the bird has come.
+  Topic hr_garrity_takes with garrity "Present Pip to Old Garrity, for the ear that does not hear" when following(pip, actor) and ci_asked(actor) and ci_candle(actor) and not ci_pip_settled(actor) and (privateHours() or wears(actor, face_crow) or masked(actor)) once {
+    Says "'A boy,' says Garrity. 'No. I don't take boys. Boys *talk*.' He has not looked at Pip, and Pip has not said a word. A wild grey drops on the alighting-board outside the dormer, the first bird to have dared the ridge in eleven days, and Pip, on the old man's left, says, in a small clear voice, 'There.' Garrity's head comes round. 'Which?' he says. 'Grey. The one with the ring,' says Pip. 'She's tired.' The old man looks at the boy with great attention, for the first time. 'Well,' he says. 'That's the left ear *and* the eyes.' He pats the bucket beside him. 'Sit. And put that candle out, we've a loft full of feathers.'".
+    On discuss { Retract following(pip, actor). Assert at(pip, loft_floor). Assert ci_pip_settled(actor). Assert ci_pip_garrity(actor). Assert roundDone(actor, r_pip). }
+  }
+
+  // ── Milestones ────────────────────────────────────────────────────────────────────────────────────────────────────
+  Milestone hr_m_heron "freed the old heron from the eel-line" worth 25 when state(heron, hr_freed) or state(heron, hr_tended) or state(heron, hr_standing).
+  Milestone hr_m_writ "decided the matter of the Heronry Writ" worth 75 when roundDone(party, r_heronry).
+  Milestone hr_m_kept "kept the Writ, and the reeds with it" worth 25 when hr_reeds_kept(party).
+  Milestone hr_m_deal "found the Drip's six hundred a roof without taking the Heronry from the herons entirely" worth 50 when hr_garden_deal(party).
+  Milestone hr_m_birds "got the Post's pigeons flying again" worth 50 when hr_birds_fly(party).
+  Milestone hr_m_falcon "found what was on Garrity's roof" worth 25 when knows(party, hr_hawk_known).
+
+  // ── What became of them ──────────────────────────────────────────────────────────────────────────────────────────
+  Rule hr_fate_heron_held when newsHour() and hr_reeds_kept(party) and state(heron, hr_standing) once says "Of the old heron of the Heronry: she stood at the Ninth Bell, and has stood at every Ninth Bell since, in the pool, to the knee, on one leg, as she did for twenty-two years but eleven. Mistress Withy rings the bell for her at dusk. A seven-hundred-year-old Writ has been read, for the first time in seven centuries, by a Surveyor of the Exchange, and found to say what it says; and the Exchange's tallow is, in the way of such things, going to the Weighhouse Yard." { }
+  Rule hr_fate_reeds_wording when newsHour() and hr_writ_held(party) and not state(heron, hr_standing) once says "Of the reeds of the Heronry: a young heron stood in the pool at the Ninth Bell, and was, in law, a heron; and the Exchange's Surveyor, who has a copy of the Writ with one letter corrected in his own hand, has been seen to smile at it. The reeds stand. The old bird, if she lives, lives in the sedge, and is fed by a warden who has begun to be hopeful." { }
+  Rule hr_fate_reeds_bargain when newsHour() and hr_bargain_struck(party) and not hr_garden_deal(party) once says "Of the Weighhouse Yard on the Row: it is dry. It has been dry since a pump that no one remembered began to run under the Drip, and the Exchange has laid down tallow-vats in it, in four neat rows, where for sixty years there was a pond with a heron-coloured sky in it. The Hall of Weights has not said a word. The reeds are the Heronry's still; and Mr Halloran, in the Row, is said to be teaching a class on drainage, at which he speaks with great feeling of mud." { }
+  Rule hr_fate_reeds_sunk when newsHour() and hr_reeds_sunk(party) and not hr_garden_deal(party) once says "Of the Heronry: the first Weight went in at the Ninth Bell on the eighth day, and the second and third on the ninth; by the spring there will be a drained yard with a tallow-exchange on it and a very good view of the lagoon. The herons have gone north to the other reeds. Mistress Withy has not gone anywhere. She sits on her bucket at the edge of what is left, with the bell, and rings it at dusk, and some days a bird comes." { }
+  Rule hr_fate_garden when newsHour() and hr_garden_deal(party) once says "Of the Heronry and the Drip: it is two places now. In the west, on dry ground, under a roof the Exchange has put its name to and the Drip its feet, six hundred people have a street, which has been given, in a wet joke, the name of Weight Lane. In the east, under a new bell, the reeds stand round a pond with a stone in it; and a heron, old or young, comes in at dusk, and stands, and is looked at, over a low wall, by a good many children who have not before had anything to look at that was theirs." { }
+  Rule hr_fate_reed when newsHour() and hr_engaged(party) once says "Of Mistress Withy: she has asked a stranger to decide, once, in her life, and has not forgiven herself for needing to, or the stranger for being right, or wrong; she keeps a journal, and the page for the eighth day has been written and torn out and written again. She feeds what herons are left. She is the only warden in Ombra who has told the Exchange's surveyor to his face that a bird is a person, and has been, in her own estimation, entirely ignored." { }
+  Rule hr_fate_garrity_birds when newsHour() and hr_birds_fly(party) once says "Of Old Garrity: his birds are flying. The Post has its three hundred letters, a little late, and has learned manners. He sits on his bucket in the loft with a white tumbler on his head, and tells whoever will listen about a falcon that he never once heard." { }
+  Rule hr_fate_garrity_still when newsHour() and not hr_birds_fly(party) once says "Of Old Garrity: his pigeons did not fly for the whole of the Novena, and the Post's three hundred letters went by boy, and arrived, in the main, wet. He sits on his bucket with a white tumbler on his head and tells it that it is the damp. It is a good bird, and agrees with him." { }
+  Rule hr_fate_timed when newsHour() and hr_flight_timed(party) once says "Of the falcon of the Post: she keeps her chimney, and the Post flies at noon and at dusk, by the clock of her appetite; Old Garrity says it is the first schedule of his life that has not been the Postmaster's, and that it is a good one. Letters go by the falcon's leave. She is not asked." { }
+  Rule hr_fate_hold when newsHour() and hr_hold_told(party) and hr_reeds_kept(party) once says "Of the Drip's six hundred, who camped at the Heronry's edge: they went back to the low streets when the water dropped, to what the Flood had left, and Mistress Withy gave them a bucket of fish-heads, and the reeds stayed as they were. Neither side has forgiven the other, and both have, in the way of the Drip, begun to be fond." { }
+  Rule hr_fate_falcon when newsHour() and hr_hawk_driven(party) once says "Of the falcon of the Post: she took the Heronry's reeds as her own, on the third dawn, and has been seen to stoop at gulls over the lagoon with an expression of the greatest content. She does not know that there was ever a roof." { }
+  Rule hr_fate_falcon_sold when newsHour() and hr_hawk_sold(party) once says "Of the falcon of the Post: she sits on a perch in a house in the Row, in a hood, with a bell on her, and eats off a glove. She has not tried to fly in some days. The Exchange's falconer says she is a fine one, and that she is settling." { }
 }

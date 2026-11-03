@@ -1,2 +1,194 @@
 Module ombra "The Book of Faces" {
+  // ── The ranger: the Heronry ───────────────────────────────────────────────────────────────────────────────────────
+  // Ombra has no wild but the reed-garden at the lagoon's edge and what the rats and the pigeons have made of the rest,
+  // and a ranger in it is a tracker without a wood. The arc is three things. A craft: tracking a child who does not
+  // want to be found through a city that rains on its own tracks, by what the rain does not wash (soot at a hand's
+  // height, the crumbs on a grating, the runs the rats make to a scrap): three small readings, each a check, and a last
+  // that costs nothing, which lets a company that has read the city walk into the den downwind and still. A question:
+  // what a ranger is for, to keep the wild out of the city or to mend it so the city can live beside it (the Writ is the
+  // whole argument in one reed-bed; Withy asks it, and what the company answers is the arc's creed). And a finale at
+  // the Drawing, two ways, in the Hall: the old heron loosed in the light-well over the Urn, a sign the crowd takes for
+  // the Registrar's soul; or a child brought up to speak. Anyone may play either; a ranger has the craft, the question,
+  // a feather, a vigil, a lesson and a bird. (Prefix rg_; reads cisterns.kyr and heronry.kyr.)
+
+  Query rg_ranger(a: group) means capable(a, woodcraft) or craft(a, craft_wild).
+
+  // ── The craft: three readings of a city ───────────────────────────────────────────────────────────────────────────
+  // Rain washes a track in an hour and a Concord does not wash a habit. A lamp-boy goes by walls, not ground: he puts his
+  // hand on the brick, so there is soot at a hand's height; he feeds pigeons, so there are crumbs on a lip; he leaves
+  // scraps, so the rats make runs. A ranger who has read the three has read the boy.
+  Discovery rg_sign_soot "Under the Chapel's porch, at a small child's hand-height on the dry stone, there is a soot-smudge of a lamp-boy's palm, and a snipped wick-end. He went out by the Candle bridge, at dawn, bare-faced and running.".
+  Discovery rg_sign_grating "At the cistern steps' grating, the bars are polished at a boy's reach, and a line of crumbs is laid along the lip of it, every day, in a row: someone feeds the pigeons, patiently, and does not come up.".
+  Discovery rg_sign_runs "In the oil-cistern the rats' runs on the pillars' ledge all lead to one place: a low crawl on the east side, where something is fed, regularly, by someone who does not mean to be seen.".
+  Action rg_read_porch(actor: group, site: place) "Read the Chapel steps and the porch's undersides for what the rain has not washed" {
+    Description "A track in this city lasts the length of a shower. A habit lasts as long as the boy.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, chapel_steps) and not knows(actor, rg_sign_soot) and not rg_blind_porch(actor).
+    Resolve check(actor, woodcraft, dc_fair).
+    Time 6.
+    On success { Assert knows(actor, rg_sign_soot). Assert arcBegun(actor, hand_heron). }
+    On failure { Assert rg_blind_porch(actor). Set rg_porch_end(actor) to watch(clock) + 36. }
+    Result "The steps themselves tell you nothing: a hundred masked feet have been over them since. You get down on your knees in the wet and look up under the porch's lip, where nobody looks, and there, on the dry stone, at the height of a child's hand, is a smudge of soot the shape of a palm, and under it a snipped wick-end, dropped by someone who could not bear to waste it and could not bear to keep it. The smudge points toward the Candle bridge.".
+    Otherwise "A great deal of the Chapel's steps is wet, and the rest is somebody's boots. You see nothing that a clerk would not see, and a Masked Watch domino on the steps looks at you with the courteous contempt reserved for a Bare who has got on his knees to the stonework.".
+  }
+  Relation rg_blind_porch(group). Measure rg_porch_end(group).
+  Rule rg_porch_clears when rg_blind_porch(party) and watch(clock) >= rg_porch_end(party) { Retract rg_blind_porch(party). }
+  Action rg_read_grating(actor: group, site: place) "Read the grating at the cistern steps, where the pigeons gather" {
+    Description "A pigeon is a good witness: it goes where it is fed, and tells nobody.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, cistern_steps) and not knows(actor, rg_sign_grating) and not rg_blind_grating(actor).
+    Resolve check(actor, woodcraft, dc_fair).
+    Time 6.
+    On success { Assert knows(actor, rg_sign_grating). Assert arcBegun(actor, hand_heron). }
+    On failure { Assert rg_blind_grating(actor). Set rg_grating_end(actor) to watch(clock) + 36. }
+    Result "You wait, which is the whole of the craft, and the Drip's pigeons come back: a dozen, then forty, in the rain, to the iron grating by the head of the steps, and sit along the bars with their feathers up. The lip of the grating has a row of crumbs laid along it, neat, equal, nine to the foot, such as no pigeon and no grown person would lay, and the bars at the height of a boy's reach have been rubbed bright. Somebody comes here every day with his pockets full and does not come up. The row points, as a finger would, at the head of the cistern steps.".
+    Otherwise "You stand in the rain among forty pigeons, who are not interested in you, and go away.".
+  }
+  Relation rg_blind_grating(group). Measure rg_grating_end(group).
+  Rule rg_grating_clears when rg_blind_grating(party) and watch(clock) >= rg_grating_end(party) { Retract rg_blind_grating(party). }
+  Action rg_read_runs(actor: group, site: place) "Read the rats' runs on the oil-cistern's ledge" {
+    Description "Rats go where the food is, and the food is where the boys are.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, cistern_hall) and not knows(actor, rg_sign_runs) and not benighted(actor) and not rg_blind_runs(actor).
+    Resolve check(actor, woodcraft, dc_fair).
+    Time 6.
+    On success { Assert knows(actor, rg_sign_runs). Assert arcBegun(actor, hand_heron). }
+    On failure { Assert rg_blind_runs(actor). Set rg_runs_end(actor) to watch(clock) + 36. }
+    Result "The ledge along the pillars is greasy, and the rats have worn it into a lane: a lane with an end, which is not the Drain, nor the gate, but the low crawl on the east side. You stand at the mouth of it and watch for a time. A rat comes out with a crumb, and another, and a long way in there, through the brick, quite distinctly, someone coughs, and is hushed.".
+    Otherwise "You find a great many rats, and no sense in their coming and going.".
+  }
+  Relation rg_blind_runs(group). Measure rg_runs_end(group).
+  Rule rg_runs_clears when rg_blind_runs(party) and watch(clock) >= rg_runs_end(party) { Retract rg_blind_runs(party). }
+  // The last reading is a method and not a skill: the company that has read all three walks into the den downwind and
+  // still, and the sacking opens. There is no check, and so no way to frighten them.
+  Action rg_come_in_still(actor: group, site: place) "Go in to the den downwind and still, as the three signs say" {
+    Description "You have read the Chapel's porch, the grating and the rats' lane: you know what he does with his hands, and how long he waits. It is the only approach that cannot go wrong.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lamp_boys_den) and knows(actor, rg_sign_soot) and knows(actor, rg_sign_grating) and knows(actor, rg_sign_runs) and not knows(actor, ci_boys_found).
+    Time 6.
+    On success { Assert knows(actor, ci_boys_found). Increase ci_trust(pip) by 1. }
+    Result "You come in as the signs say: with the draught in your face, your hands where they can be seen, your pace the pace of the dripping. You do not look at the sacking. You sit down with your back to a pillar, at the distance a child's courtesy requires, and take out nothing at all. After a while the sacking moves a hand's breadth, and a face looks out at you that has been looking, you think, for some time. 'You read us,' says the smallest, not as an accusation. 'You read it off the *wall*.'".
+  }
+
+  // ── The question: what is a ranger for? ───────────────────────────────────────────────────────────────────────────
+  // Mistress Withy does not ask it of anyone else. She asks it of a ranger because her husband was one, of a kind, and
+  // had two answers, and never settled which was his.
+  Relation rg_creed_wild(group). Relation rg_creed_tended(group). Relation rg_creed_asked(group).
+  Topic rg_reed_asks with withy "Show Mistress Withy what you are: a ranger of the wild" when rg_ranger(actor) and hr_reed_trust(actor) and not rg_creed_asked(actor) and not (publicHours() and masked(actor)) once {
+    Says "She looks at your hands, and your boots, and where your eyes go when a bird calls. 'A ranger,' says Mistress Withy. 'They told me you were all dead.' She sits on her bucket. 'My husband said he was one, when he was a ratcatcher, because the Drip hadn't a word for it. He had two answers to what it's *for*, and he never made up his mind. Keep it out, he'd say: the wild's the wild, and the city's the city, and the herons are better for not knowing us. Or tend it: they've lived beside us seven hundred years on our mud and our eels, and what's wild here has always been half ours.' Her voice is perfectly flat. 'Which are you?'".
+    On discuss { Assert rg_creed_asked(actor). }
+  }
+  Topic rg_creed_keep with withy "Say that the wild must be kept out of the city: it is a thing apart" answering rg_reed_asks when true {
+    Says "'That's his,' says Withy, quietly. 'He was a hard man with a rat and a soft one with a bird, and it is the soft thing in him he said that for.' She looks at the pool. 'Then you'll hold the Writ. I'll have no one tell me otherwise.'".
+    On discuss { Assert rg_creed_wild(actor). }
+  }
+  Topic rg_creed_tend with withy "Say that the wild is mended best by the people who live beside it" answering rg_reed_asks when true {
+    Says "'That's mine,' says Withy, 'and I've never said it aloud, not to him, not to the Board, not to myself. Seven hundred years of eels and mud and nets.' She is staring. 'Then I'll hear what the Exchange man's got to say, if it comes to it. I'll *listen*.'".
+    On discuss { Assert rg_creed_tended(actor). }
+  }
+  // What the company did in the reeds, whatever it said: kept, or tended. The closing account reads both.
+  Relation rg_wild(group). Relation rg_tended(group). Relation rg_lone(group).
+  Rule rg_wild_set when rg_ranger(party) and hr_reeds_kept(party) and not hr_garden_deal(party) and not rg_wild(party) { Assert rg_wild(party). }
+  Rule rg_tended_set when rg_ranger(party) and hr_garden_deal(party) and not rg_tended(party) { Assert rg_tended(party). }
+  Rule rg_lone_set when rg_ranger(party) and hr_reeds_sunk(party) and not hr_garden_deal(party) and not rg_lone(party) { Assert rg_lone(party). }
+
+  // ── The feather ───────────────────────────────────────────────────────────────────────────────────────────────────
+  // When the old heron has stood, she drops a feather on the pool's rim: a long white scapular, the best thing in the
+  // Heronry to carry. It may be taken, which is a theft from a bird that is not a person; or left, which costs the
+  // company the charm, and which Mistress Withy notices.
+  Kind rg_feather_kind "the old heron's feather" is gear worth 8 weighing 0 granting stealth described "A scapular feather of a white heron, as long as a forearm, quite perfect, with a spine like a bird's own bone. You are better at being still while you carry it, and a good deal more at being nobody.".
+  Item rg_feather "the old heron's feather" is rg_feather_kind at heron_pool hidden until rg_feather_seen.
+  Discovery rg_feather_seen "When the old heron has stood in the pool, a long white feather lies on the water at the pool's rim.".
+  Observe rg_feather_scene at heron_pool when state(heron, hr_standing) and not rg_feather_gone(party) "At the pool's rim, where the old heron has trodden the mud flat, one long white feather lies on the water, quite perfect, turning a little in the rain." teaches rg_feather_seen.
+  Relation rg_feather_taken(group). Relation rg_feather_gone(group). Relation rg_feather_given(group).
+  Rule rg_feather_taken_rule when carries(party, rg_feather) and not rg_feather_taken(party)
+    says "It comes up out of the water into your hand as if it had been waiting to, and for a moment, across the pool, the old heron lifts her head and looks at you with one round yellow eye, and puts it back on her shoulder." { Assert rg_feather_taken(party). Assert rg_feather_gone(party). }
+  Topic rg_reed_feather with withy "Ask Mistress Withy about the feather on the water" when knows(actor, rg_feather_seen) and not rg_feather_taken(actor) and not rg_feather_given(actor) and hr_decided(actor) once {
+    Says "'You've left it.' It is not a question. 'Eleven years ago a young man took one off the rim, a clerk with a bird-book, and he had it a month, and the old fellow wouldn't stand for him again. He knows who's taken.' She opens the tin on her belt, the one she keeps the Writ's copy in, and takes out, wrapped in a bit of oiled paper, a long white feather gone cream at the barb. 'Mine,' she says. 'Twenty-two years. He gave it me. I'd like you to have it, if you're the sort that leaves one.'".
+    On discuss { Give rg_gift_feather to actor. Assert rg_feather_given(actor). }
+  }
+  Kind rg_gift_kind "a heron's feather, given" is gear worth 12 weighing 0 granting woodcraft described "A heron's scapular, cream at the barb with twenty-two years in Mistress Withy's tin, wrapped in oiled paper. It was given. It makes you better at reading what is not there to be read, and at waiting for it.".
+  Item rg_gift_feather "a heron's feather, given" is rg_gift_kind at offstage.
+  Topic rg_reed_taken with withy "Tell Mistress Withy about the feather you took" when rg_feather_taken(actor) and hr_decided(actor) once {
+    Says "Mistress Withy does not look at the feather. 'He'll not come to you, now,' she says, without anger. 'Not for a long while. He'd have given it you, if you'd waited. That's all.' She turns the bucket over. 'It's not a thing I'd say to a person twice.'".
+  }
+
+  // ── Withy's lesson, and the vigil ──────────────────────────────────────────────────────────────────────────────────
+  // A heron's stillness is the one technique in the Heronry, and Withy has been watching it for thirty years. It is the
+  // ranger's own at the third level; to a ranger who has not come to it, it is the old heron's gift.
+  Rule rg_reed_teaches when state(heron, hr_standing) and rg_ranger(party) and not rg_taught(party) { Assert teaches(withy, hide). Assert rg_taught(party). }
+  Relation rg_taught(group). Relation rg_vigil_kept(group).
+  Action rg_vigil(actor: group, reader: member, site: place) "Have {reader} keep the heron's vigil at the pool until the Ninth Bell" {
+    Description "Six hours, standing, in the reeds' edge, without moving or speaking, as a heron does. It is the nearest thing in Ombra to prayer that is not asked for a name.".
+    Requires at(actor, site) and memberOf(reader, actor) and awake(reader) and at(actor, heron_pool) and state(heron, hr_standing) and not hr_decided(actor) and rg_ranger(actor) and not rg_vigil_kept(actor) and hour(clock) >= 14 and hour(clock) < 20.
+    Time 36. Resolve endow(reader, wisdom, by_one).
+    On success { Assert rg_vigil_kept(actor). Assert arcBegun(actor, hand_heron). }
+    Result "You stand where the reeds meet the water, on the one dry hummock, and do nothing, and then do nothing better, as the afternoon goes by on the pool like a slow barge. The heron does not look at you. At some point {reader} stops waiting for something to happen, and is, simply, in the light on the water, and a good deal later is surprised to find that the Ninth Bell has gone, and that Mistress Withy, on the hummock behind, has not said a word in six hours, and is nodding.".
+  }
+
+  // ── Garrity's bird ────────────────────────────────────────────────────────────────────────────────────────────────
+  Kind rg_pigeon_kind "Tally, a homing pigeon of the Post" is gear worth 4 weighing 0 described "A grey Post pigeon, ringed on the left leg, with an eye like a drop of tea. Garrity says she has never in her life flown to the wrong roof, which is the same as saying she has never been told one.".
+  Item rg_pigeon "Tally, a homing pigeon of the Post" is rg_pigeon_kind at offstage.
+  Relation rg_pigeon_given(group). Relation rg_pigeon_sent(group).
+  Topic rg_garrity_bird with garrity "Take the grey pigeon Old Garrity offers you, for the road" when hr_birds_fly(actor) and rg_ranger(actor) and not rg_pigeon_given(actor) and (privateHours() or masked(actor)) once {
+    Says "'You've the look,' says Garrity, to the point six inches to your right. 'Of a person who's got a dozen places to be and nobody to tell them.' He reaches into the nearest box, with the unerring delicacy of long habit, and comes out with a grey bird, which sits on his wrist as one who knows her duty. 'Tally. Never wrong. You put a word on her leg, you let her go, and she'll be at the Post before you've shut the door.' He puts her in your hands. 'Don't send her anywhere near a falcon. Not that there's one. Eh? What?'".
+    On discuss { Give rg_pigeon to actor. Assert rg_pigeon_given(actor). }
+  }
+  Action rg_send_bird(actor: group, site: place) "Send Tally to the Gate with a word for the Watch" {
+    Description "She goes to the Post, and a Post clerk takes the word to Sergeant Vail's desk, who has been wondering, for two days, whether a Bare is still about the Warrant's business.".
+    Requires able(actor) and company(actor) and at(actor, site) and carries(actor, rg_pigeon) and not rg_pigeon_sent(actor) and heat(actor) >= 1 and not (publicHours() and not masked(actor)).
+    Time 1 minute.
+    On success { Spend rg_pigeon from actor. Assert rg_pigeon_sent(actor). Decrease heat(actor) by 1 or to nothing. }
+    Result "You write on a scrap of the pigeon's own wrapping, in as few words as will say a Bare is still working: *Warrant in hand. Business ongoing. Nothing lifted since.* She goes up off your wrist in the rain, a grey fleck, straight as a plumb-line, over the Drip's roofs toward the Post, and is gone before you have finished watching. By the time you reach the Gate, the Watch is of the view that you are, on the whole, a considerate Stranger.".
+  }
+
+  // ── The finale: two ways at the Drawing ───────────────────────────────────────────────────────────────────────────
+  // handReady when either piece is in hand: the old heron, standing, and not given offence; or the child, forgiving and
+  // trusting. They are separate acts, at the Urn Hall on the ninth night, and a company may do either or both.
+  Relation rg_heron_carried(group). Relation rg_heron_flown(group). Relation rg_pip_asked(group). Relation rg_pip_spoke(group).
+  Rule rg_ready_heron when state(heron, hr_standing) and not rg_feather_taken(party) and not handReady(party, hand_heron)
+    says "The old bird stands in the pool like a sheet drawn off a face, and it comes to you, quite quietly, what a crowd would take her for." { Assert handReady(party, hand_heron). }
+  Rule rg_ready_pip when ci_asked(party) and ci_candle(party) and ci_told_warden(party) and ci_trust(pip) >= 3 and not handReady(party, hand_heron)
+    says "It comes to you that what a nine-year-old has told you, in the dark of the den, is a sentence that could be said in a hall, aloud, to everyone, by him, if he were asked." { Assert handReady(party, hand_heron). }
+  Action rg_carry_heron(actor: group, site: place) "Ask the old heron to come, in Withy's basket, to the city, on the ninth day" {
+    Description "She will not be hurried; she will sit in a basket on your knee, with her eye on the Drip, and she will be a long way from her water for a night.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, heron_pool) and at(heron, site) and state(heron, hr_standing) and not rg_feather_taken(actor) and not rg_heron_carried(actor) and drawingDay() and hr_decided(actor).
+    Time 6.
+    On success { Assert rg_heron_carried(actor). Assert following(heron, actor). }
+    Result "Mistress Withy brings the basket, a long one, of plaited reed, with a lid like a hat, and puts it in the shallows. The old heron looks at it, and at you, and at the reeds. Then she steps over its rim, with a dignity such as is not often spared a basket, and folds in, a long white fold of neck and leg, with her eye turned up at you through the weave. 'Bring her back,' says Withy. 'At the Ninth Bell on the tenth, if the book's still open, and the day after if it isn't.'".
+  }
+  Action rg_release_heron(actor: group, site: place) "Loose the old heron from her basket in the Urn Hall's light-well" {
+    Description "A shaft of grey light comes down the Hall's well from the Chapel's roof. A white bird going up it, in the lamplight, in front of the whole city, will be taken for something.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, urn_hall) and drawingNight() and rg_heron_carried(actor) and following(heron, actor) and not rg_heron_flown(actor).
+    Time 2 minutes.
+    On success { Assert rg_heron_flown(actor). Assert handPlayed(actor, hand_heron). Assert arcDone(actor, hand_heron). Retract following(heron, actor). Set handWay(hand_heron) to 1. }
+    Result "You take the lid off the basket in the light of the Hall's well, in front of the nineteen Offices and the whole of the Ninth Bell's crowd, and the old heron stands up. She looks at them. She looks, for rather a long time, at the Urn. Then she opens her wings, which are a great deal larger than anyone had been told, and goes up the shaft, slowly, white as a sheet drawn off a face, into the dark of the Chapel roof, and out. Nobody speaks. Somebody, in the gallery, says *her*; and it goes round the Hall like a breath, as a name goes round a room that is not allowed to say it, and nobody is Named.".
+  }
+  Action rg_ask_pip_to_speak(actor: group, site: place) "Ask Pip if he will say, in the Hall, what he saw: the Warden said her name" {
+    Speaker pip.
+    Description "He is nine. It is the Concord's whole gallery, and the whole crowd, and the Warden of Locks in his green coat. He is not to say the name. He is to say that it was said.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(pip, site) and ci_asked(actor) and ci_candle(actor) and ci_told_warden(actor) and ci_trust(pip) >= 3 and not rg_pip_asked(actor) and not following(pip, actor) and not ci_pip_taken(actor).
+    Grave "A child who says a thing in public in Ombra is a person afterwards, whether he wishes it or not.".
+    Time 6.
+    On success { Assert rg_pip_asked(actor). Assert following(pip, actor). }
+    Result "He thinks about it, with the whole of his face, for a long time. Nell does not say a word, which is, you understand, a very great effort. 'Will they say my name?' he asks. 'No.' 'Will I be Faced?' 'Not by me.' A pause. 'And I'll not have to say hers.' 'No.' Pip looks at his candle. 'Then I'll say it,' he says. 'That the man with the keys said it. That it was said, and I heard. I'll say it to everyone.' His hand finds your coat. 'You'll stand by me?'".
+  }
+  Action rg_pip_speaks(actor: group, site: place) "Stand beside Pip while he says what he heard" {
+    Speaker pip.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, urn_hall) and drawingNight() and following(pip, actor) and rg_pip_asked(actor) and not rg_pip_spoke(actor).
+    Time 6.
+    On success { Assert rg_pip_spoke(actor). Assert handPlayed(actor, hand_heron). Assert arcDone(actor, hand_heron). Retract following(pip, actor). Assert at(pip, urn_hall). Set handWay(hand_heron) to 2. }
+    Result "There is a stir in the Hall as the boy steps up, because nobody has told it that anyone would. He is very small in the lamp-light, in his cut-down Owl, with a whole candle in his fist. He does not take the mask off. He says, to the gallery, in a clear high voice that does not shake until the end, that he was under the lamp-table, and he saw her bare, and it was not a terrible thing; and that a man in a green coat with the Warden's keys came, that night, and said her name aloud, twice, in the Chapel, and that is all. He sits down on the step with the candle. Behind you the Warden's seat has gone very quiet. The Hall, which cannot say what it has heard, has heard it.".
+  }
+
+  // ── Milestones ────────────────────────────────────────────────────────────────────────────────────────────────────
+  Milestone rg_m_signs "read a lamp-boy's habits off a city the rain had washed" worth 25 when knows(party, rg_sign_soot) and knows(party, rg_sign_grating) and knows(party, rg_sign_runs).
+  Milestone rg_m_creed "said aloud what a ranger is for, to a woman who needed to hear it" worth 25 when rg_creed_asked(party) and (rg_creed_wild(party) or rg_creed_tended(party)).
+  Milestone rg_m_vigil "kept the heron's vigil until the Ninth Bell" worth 25 when rg_vigil_kept(party).
+  Milestone rg_m_given "left the feather on the water, and was given one" worth 25 when rg_feather_given(party).
+  Milestone rg_m_flown "loosed a heron in the light-well over the Urn Hall" worth 100 when rg_heron_flown(party).
+  Milestone rg_m_spoke "stood by a nine-year-old while he said what he had heard" worth 100 when rg_pip_spoke(party).
+
+  // ── What became of them ──────────────────────────────────────────────────────────────────────────────────────────
+  Rule rg_fate_flown when newsHour() and rg_heron_flown(party) once says "Of the old heron: she went up through the Chapel roof on the ninth night and was seen at dawn on the Candle bridge, on one leg, looking at the water, like something that had been asked a question and was considering it. The Drip says it was the Registrar. The Post says it was a heron. She is in the pool by the Ninth Bell on the tenth, as a matter of fact, standing, to the knee, with her head on her shoulder, and Mistress Withy rings the bell." { }
+  Rule rg_fate_spoke when newsHour() and rg_pip_spoke(party) once says "Of Pip Tolliver, at the Drawing: he said it, in the Urn Hall, aloud, at nine years old, before the nineteen Offices, and then sat on a step with a candle. He is not Named. He is not Faced. The Concord has not decided what to do with a child who has said a thing in public, and so, for the present, has done nothing at all, which in Ombra is the greatest kindness it has." { }
+  Rule rg_fate_wild when newsHour() and rg_wild(party) once says "Of the ranger of the Heronry: in the reeds the company told Mistress Withy to hold the Writ, and the Writ held, and the reeds are the herons' to this day; and the six hundred of the Drip are somewhere else, which is a thing a keeper of the wild must learn to bear, and finds, in the evenings, that she cannot." { }
+  Rule rg_fate_tended when newsHour() and rg_tended(party) once says "Of the ranger of the Heronry: in the reeds the company told Mistress Withy that the wild is mended best by those who live beside it, and the west reeds are a street, and the east reeds a pond, and the old heron stands in it, in sight of a good many windows. It is not the wild. It is, in the Drip's view, a good deal better than that." { }
+  Rule rg_fate_lone when newsHour() and rg_lone(party) once says "Of the ranger of the Heronry: the reeds went to the Exchange, in the end, to the stake and the chain, and the ranger who had read a whole city off its walls could not read the one thing that would have kept them. Mistress Withy has not asked her what she is for again." { }
 }
