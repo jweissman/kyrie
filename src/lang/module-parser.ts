@@ -78,6 +78,7 @@ export class ModuleParser {
     Value: StatementParser.Value, expression: StatementParser.Expression, integer: StatementParser.Integer,
     string: StatementParser.String, Product: StatementParser.Value, Operand_group: StatementParser.Group,
     Operand_extreme: StatementParser.Extreme, ExtremeArgs: StatementParser.ExtremeArgs, ...ActionParts.actions,
+    Operand_given: StatementParser.Given,
     ...CatalogParser.actions, ...InformationParser.actions, ...Endings.actions, ...Milestones.actions,
   });
   // A text parsed before comes back as it was, and declares its own kinds again, as its parse did: a start meanwhile

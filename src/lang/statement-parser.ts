@@ -1,6 +1,7 @@
 import type * as ohm from 'ohm-js';
 import { ModuleParser } from './module-parser';
 import { KyrText } from './kyr-text';
+import { Arithmetic } from './arithmetic';
 
 type Node = ohm.Node;
 type Field = { field: string; value: unknown };
@@ -67,6 +68,8 @@ export class StatementParser {
     const [left, right] = ModuleParser.ast(args) as [unknown, unknown];
     return { kind: 'arith', op: word.sourceString, left, right };
   }
+  // A name standing alone as a value: the number its query is given (see Arithmetic.given).
+  static Given(name: Node) { return { kind: 'call', name: Arithmetic.given, args: [name.sourceString] }; }
   static ExtremeArgs(left: Node, _comma: Node, right: Node) {
     return [ModuleParser.ast(left), ModuleParser.ast(right)];
   }

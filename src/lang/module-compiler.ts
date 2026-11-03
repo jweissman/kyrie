@@ -6,6 +6,7 @@ import { Expressions } from '../expressions';
 import type { Aspect, Call, Change, Instance, Module, NumberValue, Predicate, Signature, Value } from './module';
 import { World } from './world';
 import { EngineOwned } from './engine-owned';
+import { Arithmetic } from './arithmetic';
 
 // Name lookups for one validation pass; validation reads every action, so linear scans make it quadratic.
 interface Lookup { types: Map<string, string>; relations: Signature[]; predicates: Signature[] }
@@ -58,7 +59,7 @@ export class ModuleCompiler {
     for (const query of module.queries) {
       ModuleCompiler.unique(query.parameters.map(p => p.name), 'query parameter');
       const bindings = Object.fromEntries(query.parameters.map(p => [p.name, p.type]));
-      query.parameters.forEach(p => this.kind(module, p.type));
+      query.parameters.forEach(p => p.type === 'number' || this.kind(module, p.type));
       this.predicate(module, query.body, bindings);
       this.acyclic(module, query.name, []);
     }
@@ -228,7 +229,9 @@ export class ModuleCompiler {
     const signature = index.get(call.name);
     if (!signature || signature.types.length !== call.args.length) { throw new Error(`Unknown function or arity: ${World.format(call)}`); }
     call.args.forEach((arg, i) => {
-      if (arg.startsWith('?')) { return; }
+      if (arg.startsWith('?') || (signature.types[i] === 'number' && (/^\d+$/.test(arg) || bindings[arg] === 'number'))) {
+        return;
+      }
       const type = bindings[arg] ?? this.type(module, arg);
       const expected = signature.types[i];
       if (!type || (expected !== 'entity' && type !== 'entity' && type !== expected)) {
@@ -255,7 +258,9 @@ export class ModuleCompiler {
     }
   }
   private value(module: Module, value: Value, bindings: Record<string, string>) {
-    if (value.kind === 'call') { this.call(module, value, module.measures, bindings); }
+    if (value.kind === 'call' && value.name === Arithmetic.given) {
+      if (bindings[value.args[0]!] !== 'number') { throw new Error(`${value.args[0]} is no number its query is given`); }
+    } else if (value.kind === 'call') { this.call(module, value, module.measures, bindings); }
     else if (value.kind === 'arith') { this.value(module, value.left, bindings); this.value(module, value.right, bindings); }
     else { this.number(value); }
   }

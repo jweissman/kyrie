@@ -226,10 +226,13 @@ Kyr {
           | ("min" | "max") "(" ExtremeArgs ")" -- extreme
           | Call
           | NumberValue
+          | ident -- given
   ExtremeArgs = Value "," Value
   sumOp = "+" | "-"
   NumberValue = expression | integer
-  Call = ident "(" ListOf<term, ","> ")"
+  // A query's number is given to it as a figure: speaking(actor, 3) (GOS-12).
+  Call = ident "(" ListOf<argument, ","> ")"
+  argument = term | digit+
   term = variable | ident
   variable = "?" ident
   comparator = ">=" | "<=" | "==" | "!=" | ">" | "<"

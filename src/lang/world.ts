@@ -49,9 +49,7 @@ export class World {
     next.byName = new Map(from.byName); next.measuresByName = new Map(from.measuresByName);
     next.owned = new Set(); next.ownedMeasures = new Set();
     next.count = from.count; next.measureCount = from.measureCount;
-    next.stamps = new Map(from.stamps);
-    next.sums = [...from.sums];
-    next.lineage = from.lineage;
+    next.stamps = new Map(from.stamps); next.sums = [...from.sums]; next.lineage = from.lineage;
     return next;
   }
   private static copy(call: Call): Call { return { ...call, args: [...call.args] }; }
@@ -152,6 +150,7 @@ export class World {
       const left = this.number(value.left, bindings, counts), right = this.number(value.right, bindings, counts);
       return Arithmetic.of(value.op, left, right);
     }
+    if (value.name === Arithmetic.given) { return Arithmetic.number(World.value(value.args[0]!, bindings)); }
     if (!World.index(this.module).measures.has(value.name)) { throw new Error(`Unknown measure ${value.name}`); }
     const call = this.bind(value, bindings), changed = counts?.now(World.key(call));
     if (changed !== undefined) { return changed; }

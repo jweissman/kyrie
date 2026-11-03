@@ -1,9 +1,10 @@
 import type { Call, Change, Module, NumberValue, Operator, Person, Predicate, Value } from './module';
 import { World } from './world';
+import { Arithmetic } from './arithmetic';
 
 export class ModuleWriter {
   static value(value: Value): string {
-    if (value.kind === 'call') { return World.format(value); }
+    if (value.kind === 'call') { return value.name === Arithmetic.given ? value.args[0]! : World.format(value); }
     if (value.kind === 'arith' && (value.op === 'min' || value.op === 'max')) {
       return `${value.op}(${ModuleWriter.value(value.left)}, ${ModuleWriter.value(value.right)})`;
     }
