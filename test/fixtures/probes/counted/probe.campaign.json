@@ -1,0 +1,1 @@
+{ "version": 1, "name": "Probe: a count, not a tally", "modules": [ { "id": "p", "bundle": "module.json" } ], "party": [ { "name": "Ama", "raceId": "human", "classId": "warrior" } ] }

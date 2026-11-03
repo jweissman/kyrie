@@ -5,6 +5,13 @@ export class Arithmetic {
   // Gosse's Company's second pass (GOS-12) wrote the comparison out twenty-two times, for want of it. Written as a call
   // of this name, which no module can declare.
   static readonly given = '#';
+  // How many ways a condition holds, as the world answers it (count(…): the House That Grows kept a tally by hand at
+  // every change to what it counted, HTH-06).
+  static count(ways: Iterator<unknown>): number {
+    let n = 0;
+    while (!ways.next().done) { n++; }
+    return n;
+  }
   static number(given: string): number {
     const n = Number(given);
     if (!Number.isSafeInteger(n)) { throw new Error(`${given} is no number`); }

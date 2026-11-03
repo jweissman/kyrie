@@ -72,6 +72,8 @@ export class StatementParser {
     const [left, right] = ModuleParser.ast(args) as [unknown, unknown];
     return { kind: 'arith', op: word.sourceString, left, right };
   }
+  // count(…): how many ways a condition holds (see World.number).
+  static Count(_count: Node, _open: Node, of: Node, _close: Node) { return { kind: 'count', of: ModuleParser.ast(of) }; }
   // A name standing alone as a value: the number its query is given (see Arithmetic.given).
   static Given(name: Node) { return { kind: 'call', name: Arithmetic.given, args: [name.sourceString] }; }
   static ExtremeArgs(left: Node, _comma: Node, right: Node) {

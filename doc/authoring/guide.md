@@ -860,7 +860,9 @@ nothing`).
 A number of the quest's own is a measure of nothing at all, hung on no one: `Measure ruling().`, `Set ruling() to 1.`,
 `ruling() >= 3` (Quittance's bg 15 hung one on an office). A query can be given a number, and compare against it:
 `Query ruled(n: number) means ruling() >= n.`, asked `ruled(3)` (`test/fixtures/probes/scalar`; Gosse's supper wrote
-`supperBeat(pentrice) == 3` out twenty-two times for want of it).
+`supperBeat(pentrice) == 3` out twenty-two times for want of it). How many ways something holds is counted as it is
+read, not kept as a tally at every change: `count(lit(?p)) >= 2`, `Set lamps() to count(memberOf(?m, party)).`; its
+variables are its own, but for any bound around it (`test/fixtures/probes/counted`; the House That Grows' 6).
 
 Two names are of different things where `distinct(a, b)` holds: "a place other than the Ranks" is
 `at(?p, …) and distinct(?p, ranks)` (What Tessary Owes' W5). It tests what is bound and binds nothing, so what it

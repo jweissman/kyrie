@@ -235,6 +235,7 @@ Kyr {
   ProductTail = ("*" | "/") Operand
   Operand = "(" Value ")" -- group
           | ("min" | "max") "(" ExtremeArgs ")" -- extreme
+          | "count" "(" Predicate ")" -- count
           | Call
           | NumberValue
           | ident -- given

@@ -5,6 +5,7 @@ import { Arithmetic } from './arithmetic';
 export class ModuleWriter {
   static value(value: Value): string {
     if (value.kind === 'call') { return value.name === Arithmetic.given ? value.args[0]! : World.format(value); }
+    if (value.kind === 'count') { return `count(${ModuleWriter.predicate(value.of)})`; }
     if (value.kind === 'arith' && (value.op === 'min' || value.op === 'max')) {
       return `${value.op}(${ModuleWriter.value(value.left)}, ${ModuleWriter.value(value.right)})`;
     }
@@ -144,6 +145,7 @@ export class ModuleWriter {
   static calls(value: Value, f: (call: Call) => Call): Value {
     if (value.kind === 'call') { return f(value); }
     if (value.kind === 'arith') { return { ...value, left: this.calls(value.left, f), right: this.calls(value.right, f) }; }
+    if (value.kind === 'count') { return { ...value, of: this.conditionCalls(value.of, f) }; }
     return { ...value };
   }
   // The same for a condition: each call in it, and in what it compares.

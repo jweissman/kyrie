@@ -175,7 +175,7 @@ export class ModuleCompiler {
   }
   // A value with its dice rolled once, for the module: what is left to the world is its measures.
   private static settle(expressions: Expressions, value: Value): Value {
-    if (value.kind === 'call') { return value; }
+    if (value.kind === 'call' || value.kind === 'count') { return value; }
     if (value.kind === 'arith') { return { ...value, left: this.settle(expressions, value.left),
       right: this.settle(expressions, value.right) }; }
     return this.resolve(expressions, value);
@@ -262,6 +262,7 @@ export class ModuleCompiler {
       if (bindings[value.args[0]!] !== 'number') { throw new Error(`${value.args[0]} is no number its query is given`); }
     } else if (value.kind === 'call') { this.call(module, value, module.measures, bindings); }
     else if (value.kind === 'arith') { this.value(module, value.left, bindings); this.value(module, value.right, bindings); }
+    else if (value.kind === 'count') { this.predicate(module, value.of, bindings); }
     else { this.number(value); }
   }
   private number(value: NumberValue) {
@@ -288,10 +289,15 @@ export class ModuleCompiler {
   // architecture review's A9: `Assert marked(?t)` under `at(ann, hall)`, or under `not lit(?t)`, kept marked(?t)).
   private static writes(id: string, when: Predicate, effects: Change[]) {
     const bound = this.binds(when);
-    const written = effects.flatMap(c => JSON.stringify(c).match(/"\?[A-Za-z0-9_]+"/g) ?? []).map(v => v.slice(1, -1));
+    const written = effects.flatMap(c => JSON.stringify(c, ModuleCompiler.uncounted).match(/"\?[A-Za-z0-9_]+"/g) ?? [])
+      .map(v => v.slice(1, -1));
     for (const v of written) {
       if (!bound.has(v)) { throw new Error(`${id} writes ${v}, which its condition does not bind`); }
     }
+  }
+  // What a count names is its own to find (count(…)), and not written: read past, as JSON is written.
+  private static uncounted(this: void, _key: string, value: unknown): unknown {
+    return (value as { kind?: string } | null)?.kind === 'count' ? 0 : value;
   }
   // The variables a condition binds wherever it holds: of an `or`, only those both sides bind.
   private static binds(p: Predicate): Set<string> {

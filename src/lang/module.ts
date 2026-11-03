@@ -1,6 +1,9 @@
 export interface Call { kind: 'call'; name: string; args: string[] }
 export type NumberValue = { kind: 'number'; value: number } | { kind: 'deem'; expression: string };
-export type Value = NumberValue | Call | Arithmetic;
+export type Value = NumberValue | Call | Arithmetic | Count;
+// How many ways a condition holds as it is read: count(memberOf(?m, party)) (HTH-06). Its variables are its own, but
+// for any bound around it.
+export interface Count { kind: 'count'; of: Predicate }
 // A sum, difference or product of values, worked out when it is read.
 export interface Arithmetic { kind: 'arith'; op: '+' | '-' | '*' | '/' | 'min' | 'max'; left: Value; right: Value }
 export type Predicate = Call | { kind: 'boolean'; value: boolean }

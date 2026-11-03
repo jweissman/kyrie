@@ -117,6 +117,17 @@ export class QueryModes {
     }))];
   }
   private static values(v: Value): string[] {
-    return v.kind === 'call' ? [...v.args] : v.kind === 'arith' ? [...this.values(v.left), ...this.values(v.right)] : [];
+    return v.kind === 'call' ? [...v.args] : v.kind === 'arith' ? [...this.values(v.left), ...this.values(v.right)]
+      : v.kind === 'count' ? this.reading(v.of) : [];
+  }
+  // Every name a condition reads, for a count that reads what is bound around it.
+  private static reading(p: Predicate): string[] {
+    switch (p.kind) {
+      case 'call': return [...p.args];
+      case 'not': return this.reading(p.value);
+      case 'and': case 'or': return [...this.reading(p.left), ...this.reading(p.right)];
+      case 'compare': return [...this.values(p.left), ...this.values(p.right)];
+      default: return [];
+    }
   }
 }

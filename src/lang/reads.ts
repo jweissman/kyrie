@@ -28,6 +28,7 @@ export class Reads {
       case 'not': this.visit(part.value, queries, names); return;
       case 'and': case 'or': case 'compare': case 'arith':
         this.visit(part.left, queries, names); this.visit(part.right, queries, names); return;
+      case 'count': this.visit(part.of, queries, names); return;
       case 'assert': case 'retract': this.visit(part.call, queries, names); return;
       case 'set': case 'increase': case 'decrease':
         this.visit(part.call, queries, names); this.visit(part.value, queries, names); return;
