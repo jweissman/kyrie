@@ -4,7 +4,6 @@ Module sennet "The Grand Tour" {
   // The sylphs' court gives audience by reputation: the North Wind receives only whoever is most talked of. Whatever
   // is said in the Gallery is blown down into Cloudgate and Sennet within the hour. The court's petal was given away
   // two hundred years ago by the North Wind, Prince Tramontane, to a mortal girl he loved.
-  Initially Assert law(wind_land, plane_air).
   Query inAir() means within(party, air_land).
   Thing air_bar "the bar of the Air Door" on air_door {
     State sealed blocking "A bar of silver lies across the arch of the Air Door, with the Halyards' seal on it in green wax: whoever has the Halyards' leave lifts it, and sets it back.".

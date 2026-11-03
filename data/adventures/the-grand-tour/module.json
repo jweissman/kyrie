@@ -4,9 +4,7 @@
     "inner_fire",
     "inner_earth",
     "inner_air",
-    "house_of_doors",
-    "plane_fire",
-    "plane_air"
+    "house_of_doors"
   ],
   "source": [
     "clock.kyr",

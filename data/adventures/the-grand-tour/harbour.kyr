@@ -139,7 +139,7 @@ Module sennet "The Grand Tour" {
     Greets "A merfolk child is sitting on the third step from the bottom of the dry ones, with her tail in the sea and a basket of cockles in her lap: green-skinned, freckled with silver, with gills under her ears like the gills of a fish, which open and shut when she is interested, which is always. 'Cockles,' she says. 'Ha'penny a scoop. That's my name too. Ha'penny. What's yours?'".
     Greets again "'It's you!' says Ha'penny, and her gills go.".
     Joins "Ha'penny grips the rim of the basket with both hands, like a queen in a carriage. 'Go on, then,' she says. 'Before the fat man looks.'".
-    Leaves "Ha'penny flicks her tail once and is gone into the green, the way the merfolk go: not leaving, just not there.".
+    Leaves "Ha'penny flicks her tail once and is gone into the green, the way the merfolk go: not leaving, just not there." to drowned_street.
   }
   Relation hapennyUp(group). Relation hapennyWish(group). Relation hapennyShopped(group). Relation hapennyInvites(group).
   Query stairsTide() means (hour(clock) >= 7 and hour(clock) < 10) or (hour(clock) >= 16 and hour(clock) < 18).

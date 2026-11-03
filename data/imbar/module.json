@@ -108,9 +108,7 @@
     "rector_fled",
     "rector_barred",
     "perrin_lives",
-    "perrin_lost",
-    "plane_fire",
-    "plane_air"
+    "perrin_lost"
   ],
   "exports": {
     "imbar": "imbar",
@@ -211,8 +209,6 @@
     "rector_fled": "rector_fled",
     "rector_barred": "rector_barred",
     "perrin_lives": "perrin_lives",
-    "perrin_lost": "perrin_lost",
-    "plane_fire": "plane_fire",
-    "plane_air": "plane_air"
+    "perrin_lost": "perrin_lost"
   }
 }
