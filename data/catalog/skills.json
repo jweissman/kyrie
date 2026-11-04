@@ -3,6 +3,7 @@
   "skills": {
     "woodcraft": {
       "name": "Woodcraft",
+      "rests": "wisdom",
       "description": "Reading animals and wild country: tracks, warning signs, a safe approach.",
       "source": {
         "kyr": true
@@ -10,6 +11,7 @@
     },
     "lockwork": {
       "name": "Lockwork",
+      "rests": "dexterity",
       "description": "Opening locks without their keys.",
       "source": {
         "orsino": "rule.statusModifier:pickLockBonus",
@@ -19,6 +21,7 @@
     },
     "trapwork": {
       "name": "Trapwork",
+      "rests": "dexterity",
       "description": "Finding and disarming traps.",
       "source": {
         "orsino": "rule.statusModifier:disarmTrapBonus",
@@ -28,6 +31,7 @@
     },
     "mending": {
       "name": "Mending",
+      "rests": "wisdom",
       "description": "Setting bones and binding wounds.",
       "source": {
         "kyr": true
@@ -35,6 +39,7 @@
     },
     "wayfinding": {
       "name": "Wayfinding",
+      "rests": "wisdom",
       "description": "Knowing a region's roads before walking them.",
       "source": {
         "kyr": true
@@ -42,6 +47,7 @@
     },
     "digging": {
       "name": "Digging",
+      "rests": "constitution",
       "description": "Moving earth and stone quickly and safely.",
       "source": {
         "kyr": true
@@ -49,6 +55,7 @@
     },
     "climbing": {
       "name": "Climbing",
+      "rests": "strength",
       "description": "Using climbing routes with the right equipment.",
       "source": {
         "kyr": true
@@ -63,6 +70,7 @@
     },
     "stealth": {
       "name": "Stealth",
+      "rests": "dexterity",
       "description": "Moving unseen and unheard: slipping past a watcher, a guardian or a beast without a fight.",
       "source": {
         "kyr": true
@@ -70,6 +78,7 @@
     },
     "lore": {
       "name": "Lore",
+      "rests": "intelligence",
       "description": "Old histories, scripts and the workings of magic: reading what others only see.",
       "source": {
         "kyr": true
@@ -77,6 +86,7 @@
     },
     "rites": {
       "name": "Rites of the dead",
+      "rests": "wisdom",
       "description": "The prayers and forms that give the dead rest; what keeps the unquiet in their graves.",
       "source": {
         "kyr": true
@@ -84,6 +94,7 @@
     },
     "brawn": {
       "name": "Brawn",
+      "rests": "strength",
       "description": "Strength used with judgement: lifting a fallen weight clear, wrenching a lock off its hasp, holding a door.",
       "source": {
         "kyr": true
@@ -119,6 +130,7 @@
     },
     "persuasion": {
       "name": "Persuasion",
+      "rests": "charisma",
       "description": "Talking people round: a bargain struck, a band talked out of a fight, a favour asked and given.",
       "source": {
         "kyr": true
@@ -126,6 +138,7 @@
     },
     "deception": {
       "name": "Deception",
+      "rests": "charisma",
       "description": "Telling a lie that holds, and keeping a straight face while it is weighed.",
       "source": {
         "kyr": true
@@ -133,6 +146,7 @@
     },
     "intimidation": {
       "name": "Intimidation",
+      "rests": "charisma",
       "description": "Making someone believe it would go badly for them, without having to show them.",
       "source": {
         "kyr": true
@@ -140,6 +154,7 @@
     },
     "insight": {
       "name": "Insight",
+      "rests": "wisdom",
       "description": "Reading what someone means from how they say it: a motive, a lie, a fear.",
       "source": {
         "kyr": true
@@ -147,6 +162,7 @@
     },
     "tumbling": {
       "name": "Tumbling",
+      "rests": "dexterity",
       "description": "Going down on purpose and coming up unhurt: the fall, the roll, the cartwheel, the low wire; a body that knows where the ground is.",
       "source": {
         "kyr": true
@@ -154,6 +170,7 @@
     },
     "performance": {
       "name": "Performance",
+      "rests": "charisma",
       "description": "Holding a house: a tune, a turn, a spiel, a face pulled at the right moment; the art of being watched and making it worth it.",
       "source": {
         "kyr": true

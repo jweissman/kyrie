@@ -557,6 +557,7 @@
     "test/own-words.test.ts": 56,
     "test/sentences.test.ts": 54,
     "test/likeness-sex.test.ts": 52,
+    "test/skill-qualities.test.ts": 50,
     "test/glance-rules.test.ts": 48,
     "test/told-moments.test.ts": 48,
     "test/second-person.test.ts": 47,
