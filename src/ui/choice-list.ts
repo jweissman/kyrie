@@ -218,7 +218,8 @@ export class ChoiceList {
     if (e.unmarked && e.way) { return `By ${this.inline(e.way)}`; }
     const room = this.inline(e.destination.name);
     if (e.bearing) { return `${e.bearing.charAt(0).toUpperCase()}${e.bearing.slice(1)}: ${room}`; }
-    if (e.transition === 'enter') { return `Into ${this.inline(e.scope ?? room)}`; }
+    const into = this.inline(e.scope ?? room);
+    if (e.transition === 'enter') { return ChoiceList.whereabouts.test(into) ? this.upper(into) : `Into ${into}`; }
     const lead = ChoiceList.leads[e.transition], where = ChoiceList.whereabouts.test(room);
     return lead ? `${lead} ${where ? '' : 'to '}${room}` : where ? this.upper(room) : `To ${room}`;
   }

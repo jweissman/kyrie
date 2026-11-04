@@ -22,6 +22,8 @@ describe('the words of a way', () => {
         Passage back "the private stair" is steps between yard and top.
         Passage rushes "the path through the rushes" is path between foot and reeds.
         Passage lane "the lane" is path between foot and yard.
+        Place undercroft "under the Hill" is building within hill. Place vault "the vault" is room within undercroft at 0, 0.
+        Passage hatch "the hatch" is ladder between foot and vault.
         Company party "You" of 1 at foot. }`,
       'wl/module.json': JSON.stringify({ version: 1, source: 'site.kyr', rules: ['world'], globals: ['party'],
         exports: { party: 'party' } }),
@@ -29,6 +31,6 @@ describe('the words of a way', () => {
         party: [{ name: 'Ama', raceId: 'human', classId: 'warrior' }] }) });
     const s = await PlaySession.start(source.resolve('wl.campaign.json'), 'wl', source);
     expect(ChoiceList.ways(ScreenModel.build(s.campaign).exits).choices.map(c => c.label).sort())
-      .toEqual(['Among the reeds', 'Into the Duelling Stair by the first flight', "To the Seconds' yard"]);
+      .toEqual(['Among the reeds', 'Into the Duelling Stair by the first flight', "To the Seconds' yard", 'Under the Hill']);
   }, 60000);
 });
