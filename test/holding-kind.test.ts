@@ -5,7 +5,7 @@ import { OverlayBundleSource } from '../src/campaign/overlay-bundle-source';
 import { PlayerView } from '../src/presentation/player-view';
 
 // A condition may ask the company to hold a kind of the catalog's that the module names nowhere else (the Book of
-// Faces' BOF-19: holding(actor, candle) had been refused, "no itemkind of that name", unless the module declared a
+// Faces' BOF-17: holding(actor, candle) had been refused, "no itemkind of that name", unless the module declared a
 // candle of its own): the kind is the world's, as one given is, and the act is offered to whoever holds one.
 describe('a condition on holding a kind of the catalog\'s', () => {
   it('is read, and offered to one who holds it', async () => {
