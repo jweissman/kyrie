@@ -23,24 +23,24 @@ export class Sheet {
       </section>
     );
   }
+  // The notes as a journal, in layers (the cold review's REV-18 and REV-24): what is followed and the other aims;
+  // leads, heard and not yet seen; what is known; what is done, folded. It had been one column of every kind of note
+  // at once, thirty destinations alike.
   private static journal(app: ReaderApp, frame: Frame) {
     const screen = frame.screen, facts = screen.knowledge.filter(k => !screen.objectives.includes(k.text));
-    const kinds: [string, string][] = [['seen', 'Seen for yourself'], ['confirmed', 'Heard, and since seen'],
-      ['reported', 'Heard, not yet seen'], ['known', 'Known before you set out']];
+    const leads = facts.filter(k => k.kind === 'reported'), known = facts.filter(k => k.kind !== 'reported');
     return (
       <article className="journal" data-region="knowledge">
         <h2>Notes</h2>
         <h3>What you mean to do</h3>
         {screen.objectives.length || screen.deadlines.length ? <Sheet.Aims app={app} /> : <p className="none">
           {Sheet.idle(screen, facts)}</p>}
-        {screen.done.length > 0 && <div data-region="done"><h3>Seen through</h3>
-          <ul>{screen.done.map(d => <li key={d}>{d}</li>)}</ul></div>}
-        {kinds.map(([kind, title]) => {
-          const list = facts.filter(k => k.kind === kind);
-          return list.length ? <div key={kind}><h3>{title}</h3>
-            <ul>{list.map(k => <li key={k.text}>{k.text}{k.how && <span className="how"> — {k.how}</span>}</li>)}</ul>
-          </div> : null;
-        })}
+        {leads.length > 0 && <div data-region="leads"><h3>Leads: heard, not yet seen</h3>
+          <Sheet.Facts list={leads} /></div>}
+        {known.length > 0 && <details className="known" data-region="known"><summary>
+          {`What you know (${known.length})`}</summary><Sheet.Facts list={known} /></details>}
+        {screen.done.length > 0 && <details data-region="done"><summary>{`Done (${screen.done.length})`}</summary>
+          <ul>{screen.done.map(d => <li key={d}>{d}</li>)}</ul></details>}
         {!facts.length && <p className="none">You know nothing here yet but what you see.</p>}
         <p className="keep">
           <button type="button" className="option" data-action="export" onClick={app.download}>Download a save file</button>
@@ -48,6 +48,10 @@ export class Sheet {
         </p>
       </article>
     );
+  }
+  // Notes, each with how it is known (seen, heard and since seen, known before).
+  static Facts({ list }: { list: Screen['knowledge'] }) {
+    return <ul>{list.map(k => <li key={k.text}>{k.text}{k.how && <span className="how"> — {k.how}</span>}</li>)}</ul>;
   }
   // An aim, and, when it names somewhere the company knows the way to, setting out for it there: the notes had been a
   // document of bullets (the owner's interim report).

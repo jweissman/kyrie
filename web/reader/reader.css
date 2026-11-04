@@ -119,10 +119,10 @@ kbd { font: 500 10.5px/1 var(--do); color: var(--dim); border: 1px solid var(--e
   border-left: 3px solid var(--yellow); }
 .journal .aims .aim-acts { display: flex; flex-wrap: wrap; gap: 8px; }
 /* The rest of what the company could take up, folded under the aim it follows (the owner, 4 November). */
-.journal .aims-more { margin: 4px 0 18px; }
-.journal .aims-more > summary { cursor: pointer; font: 500 13px var(--do); letter-spacing: .08em; text-transform: uppercase;
+.journal .aims-more, .journal > details { margin: 4px 0 18px; }
+.journal .aims-more > summary, .journal > details > summary { cursor: pointer; font: 500 13px var(--do); letter-spacing: .08em; text-transform: uppercase;
   color: var(--grey); padding: 6px 0; }
-.journal .aims-more[open] > summary { margin-bottom: 8px; }
+.journal .aims-more[open] > summary, .journal > details[open] > summary { margin-bottom: 8px; }
 .journal .keep { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 30px; }
 
 /* The head of a book's page: where, and which book. */
