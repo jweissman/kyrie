@@ -14,6 +14,8 @@ import { BoardField } from './board-field';
 import { MenuModel } from './menu-model';
 import { Notices } from './notices';
 import { Typography } from '../../src/presentation/typography';
+import { FictionalTime } from '../../src/campaign/fictional-time';
+import { Marks } from '../../src/ui/marks';
 import { Words } from './words';
 import { Act } from './stage/act';
 
@@ -105,6 +107,14 @@ export class MapView {
     if (e.key !== 'Escape' || !forget || app.state.help) { return; }
     e.stopPropagation(); forget();
   }
+  // When the company would come there, set out now, and whether after dark: the time a journey takes had been said,
+  // and not what it would cost of the day (the cold review's "expedition ledger").
+  static arrival(screen: Screen, minutes: number): string {
+    const [day, time] = FictionalTime.at(screen.elapsed, minutes).split(', '), today = FictionalTime.at(screen.elapsed).split(', ')[0];
+    const dark = Marks.journey(screen.elapsed, minutes) ? ', after dark' : '';
+    const said = `${time}${day === today ? '' : ` on ${day!.toLowerCase()}`}${dark}`;
+    return `You would come there about ${said.replace(/\.$/, '')}.`;
+  }
   // The way to a place chosen by the keys, next for them: how to set out, or, where there is no way, what it is.
   private static onward(dialog: HTMLElement | null): void {
     (dialog?.querySelector<HTMLElement>('.plan .go') ?? dialog?.querySelector<HTMLElement>('.plan .to'))?.focus();
@@ -128,7 +138,8 @@ export class MapView {
         <h2 className="to" tabIndex={-1}>{Typography.curl(Words.upper(name))}</h2>
         {d && <ol className="legs">{d.legs.map((l, i) => <li key={i}>{Typography.curl(Words.leg(l.way, l.to))}
           <span className="note">{Words.span(l.minutes)}</span></li>)}</ol>}
-        <p className="how">{d ? `${Words.upper(Words.span(d.minutes))} in all${d.toward ? `, as far as ${d.toward}` : ''}.`
+        <p className="how">{d ? `${Words.upper(Words.span(d.minutes))} in all${d.toward ? `, as far as ${d.toward}` : ''}. ${
+          MapView.arrival(screen, d.minutes)}`
           : here ? 'You are here already.' : go ? 'Across the country you can see, the quickest way.'
             : cell !== undefined && !MapView.walkable(land, Number(cell)) ? 'There is no going there on foot.'
               : 'You know no way there yet.'}</p>
