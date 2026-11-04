@@ -587,5 +587,12 @@
         "Danu"
       ]
     }
+  },
+  "townsfolkSex": {
+    "discriminator": "sex",
+    "groups": {
+      "she": ["a", "ah", "elle", "ette", "ine", "ia", "lyn", "wen"],
+      "he": ["ic", "ik", "ard", "ald", "bert", "ric", "mund", "ulf", "us", "rod", "ram"]
+    }
   }
 }

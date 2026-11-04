@@ -1,11 +1,13 @@
 import { Expressions } from '../expressions';
 import { GenerationSetting } from '../generation-setting';
+import folk from '../../data/generation/scenes/folk.json';
 import type { Region, Settlement } from './region-writer';
 
 interface Mix { _key: string; __weight?: number; majority: string; others: string[] }
 interface Tables {
   regionPeoples: { groups: Record<string, Mix[]> }; peopleCame: { groups: Record<string, string[]> };
   folkWord: { groups: Record<string, string[]> }; townsfolkName: { groups: Record<string, string[]> };
+  townsfolkSex: { groups: { she: string[]; he: string[] } };
 }
 export type Townsfolk = 'innkeeper' | 'priest' | 'merchant' | 'traveller';
 
@@ -31,8 +33,9 @@ export class RegionPeoples {
       const people = Object.fromEntries(this.roles.map(r => [r,
         rng.number('1d100') <= this.local[r] ? folk[i]! : this.pick(peoples, rng)])) as Record<Townsfolk, string>;
       const names = Object.fromEntries(this.roles.map(r => [r, this.name(people[r], used, rng)]));
-      const pronouns = Object.fromEntries(['innkeeper', 'priest', 'merchant', 'traveller']
-        .map(r => [r, sexes.number('1d2') === 1 ? 'he' : 'she']));
+      const pronouns = Object.fromEntries((['innkeeper', 'priest', 'merchant', 'traveller'] as const)
+        .map(r => [r, sexes.number('1d2') === 1 ? 'he' : 'she'] as const)
+        .map(([r, drawn]) => [r, RegionPeoples.sex(names[r]!, people[r]) ?? drawn]));
       return { ...s, ...names, folk: folk[i]!, people, pronouns, ...folk[i] === region.ancestry ? {}
         : { came: this.came(folk[i]!, { trade: s.trade, majority: region.ancestry }, rng) } };
     });
@@ -81,6 +84,16 @@ export class RegionPeoples {
     const name = this.pick(free.length ? free : list, rng);
     used.add(name);
     return name;
+  }
+  // Whether a name says who is called it: one of a people's given names for women or for men (folk.json), or a
+  // woman's or man's name by its ending (names.json's townsfolkSex); otherwise as drawn (a woman had been called
+  // Rurik: OWN-51).
+  static sex(name: string, ancestry: string): 'he' | 'she' | undefined {
+    const given = (folk.given as Record<string, { he?: string[]; she?: string[] }>)[ancestry], low = name.toLowerCase();
+    if (given?.she?.includes(name)) { return 'she'; }
+    if (given?.he?.includes(name)) { return 'he'; }
+    const rule = this.tables.townsfolkSex.groups;
+    return rule.she.some(e => low.endsWith(e)) ? 'she' : rule.he.some(e => low.endsWith(e)) ? 'he' : undefined;
   }
   private static came(ancestry: string, at: { trade: string; majority: string }, rng: Expressions): string {
     const lines = this.tables.peopleCame.groups[ancestry];

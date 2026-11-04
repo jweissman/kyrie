@@ -75,3 +75,22 @@ describe('a den holds what lives where it is', () => {
     expect(PlayerView.choices(s.campaign).map(c => c.choice.id)).toContain(`${module}__plunder(party,region__${den})`);
   }, 60000);
 });
+
+// A townsperson is called as they are: a woman is not Rurik, nor a man Helena (OWN-51). The name says it where it
+// can (a people's given names, a name's ending), and the pronoun follows.
+describe('a townsperson\'s name and pronoun', () => {
+  it('never contradict each other', () => {
+    const wrong: string[] = [];
+    for (const seed of [1, 2, 3, 4, 5, 6, 7, 8]) {
+      for (const s of RegionPeoples.settle(Peopled.region(seed), `sex${seed}`).settlements) {
+        for (const role of ['innkeeper', 'priest', 'merchant', 'traveller'] as const) {
+          const said = RegionPeoples.sex(s[role], s.people?.[role] ?? 'human'), pronoun = s.pronouns?.[role];
+          if (said && pronoun !== said) { wrong.push(`${s[role]} (${pronoun})`); }
+        }
+      }
+    }
+    expect(wrong).toEqual([]);
+    expect(RegionPeoples.sex('Rurik', 'human')).toBe('he');
+    expect(RegionPeoples.sex('Helena', 'human')).toBe('she');
+  });
+});
