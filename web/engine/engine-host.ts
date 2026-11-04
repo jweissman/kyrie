@@ -83,7 +83,7 @@ export class EngineHost {
       case 'resume': return this.resume(request.saved, { world: request.world, apart: request.apart });
       case 'perform':
         return this.command(() => this.perform(request.command));
-      case 'fight': this.fight(request.choice); return null;
+      case 'fight': this.pressing = !!request.through; this.fight(request.choice); return null;
       case 'travel': return this.command(() => this.travel(request.destination));
       // A journey given up: it is no longer held, nor shown.
       case 'unbind': this.bound = undefined; return this.frame();
@@ -280,9 +280,17 @@ export class EngineHost {
     return frontier?.expand(campaign);
   }
   // The fight's controller: the page turns to the fight, opening with what started it, and waits for a choice.
+  // Pressed on to its end (the cold review's REV-16: a fight decided, then clicked through blow by blow): each turn of
+  // the company's fought by its own tactics, until the fight ends or turns against it (one of the company down).
+  private pressing = false;
   readonly controller = (battle: Battle) => new Promise<Command>(resolve => {
     // A fight begins where the company now is (it may have just come there), not where the page last showed it.
     if (!this.opening.length) { this.opening = this.begun(); this.screen = undefined; }
+    const ours = battle.state.combatants.filter(f => f.team === 'fighters');
+    if (this.pressing && ours.every(f => f.hp > f.maxHp / 3)) {
+      resolve(Tactics.choose(battle.state, battle.plain(battle.legalCommands()))); return;
+    }
+    this.pressing = false;
     this.turn = { battle, resolve };
     this.fought = battle;
     this.post({ kind: 'frame', frame: this.frame() });

@@ -200,6 +200,12 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     this.setState({ pending: { said: 'Fighting on' }, fight: ReaderApp.mark(this.state.frame) });
     void this.engine.request({ kind: 'fight' });
   };
+  // A fight decided pressed on to its end at once, each turn by the company's own tactics, unless it turns (REV-16).
+  readonly through = () => {
+    if (!this.state.frame?.combat?.ours || this.state.pending) { return; }
+    this.setState({ pending: { said: 'Pressing on' }, fight: ReaderApp.mark(this.state.frame) });
+    void this.engine.request({ kind: 'fight', through: true });
+  };
   // On from a fight that has ended, to the place it was fought in.
   private onward() {
     const frame = this.state.frame!;

@@ -131,7 +131,7 @@ export type Request =
   // words had been kept as the story: the architecture review's H2).
   | { kind: 'perform'; command: string }
   // A companion's choice in a fight ("ability>target"); none lets them fight this turn on their own.
-  | { kind: 'fight'; choice?: string }
+  | { kind: 'fight'; choice?: string; through?: boolean }
   // Travel along known ways to a place the company knows (see Travel): leg after leg, until it arrives or something
   // wants a decision.
   | { kind: 'travel'; destination: string }

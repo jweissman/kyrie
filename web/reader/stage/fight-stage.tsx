@@ -13,6 +13,11 @@ import { Act } from './act';
 // a web page's fold: play 7). A word said in the middle of it never hides what happened. Once it has ended, the page stays: the last blows, how it ended and what
 // it was worth, and how each side stands, until the player goes on.
 export class FightStage {
+  // Decided: every foe standing is at half its strength or less, and every one of the company above half.
+  static decided(c: { foes: { hp: number; maxHp: number }[]; allies: { hp: number; maxHp: number }[] }): boolean {
+    const standing = c.foes.filter(f => f.hp > 0);
+    return standing.length > 0 && standing.every(f => f.hp <= f.maxHp / 2) && c.allies.every(f => f.hp > f.maxHp / 2);
+  }
   static View({ app }: { app: ReaderApp }) {
     const [log, show] = useState(false);
     const s = app.state, frame = s.frame!, combat = frame.combat!, mark = s.fight, draw = Act.draw(app);
@@ -55,6 +60,9 @@ export class FightStage {
           </section>)}
           {combat.ours && !combat.outcome && app.menu.sections.length > 0 && <p className="auto">T lets {combat.actorName} fight
             this turn on their own.</p>}
+          {combat.ours && !combat.outcome && FightStage.decided(combat) && <p className="through">
+            <button type="button" className="option" data-action="press-on" onClick={app.through}>Press on to the end</button>
+            <span className="why">The fight is as good as won: the rest fought out at once, unless it turns.</span></p>}
         </div>
         <p className="fight-log-toggle"><button type="button" className="option quiet" data-action="fight-log"
           aria-pressed={log} onClick={() => show(!log)}>{log ? 'Back to what just happened' : 'The fight so far'}</button></p>
