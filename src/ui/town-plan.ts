@@ -19,7 +19,10 @@ export class TownPlan {
   constructor(private entities: Map<string, Entity>, public links: [string, string][]) {}
   static of(screen: Screen, entities: Map<string, Entity>, world: World, visited: Set<string>): Pick<Screen, 'plan'> {
     const here = screen.place.id, line = Spatial.ancestry(entities, here);
-    if (!here || entities.get(here)?.space?.shelter === 'underground') { return {}; }
+    if (!here) { return {}; }
+    // Under the ground, the rooms known down there, apart from what is above them: the undertown under a town, a
+    // level of a site (the product-design review's PD-09: a dungeon's ways had been a list).
+    if (entities.get(here)?.space?.shelter === 'underground') { return this.under(screen, entities, world, visited); }
     // A site above ground is drawn as a town is (Ísencepan's gate, bailey, hall and wall-walk: NVR-16, a site's Map
     // had shown nothing of where the company was in it).
     const within = line.slice(1).filter(e => ['building', 'settlement', 'site'].includes(e.space?.kind ?? ''));
@@ -32,15 +35,31 @@ export class TownPlan {
       // Only the ways with an end in the town or the building: a drawn country has thousands.
       plan.links = world.related('connects').map(r => [r.args[1]!, r.args[2]!] as [string, string])
         .filter(([a, b]) => plan.inside(a, enclosure.id) || plan.inside(b, enclosure.id));
-      const drawn = plan.draw(enclosure, here, known, visited);
+      const drawn = plan.draw(enclosure, here, known, { visited });
       const rooms = drawn.cells.filter(c => !c.door).length;
       if (drawn.kind === 'building' && rooms < 3 && enclosure !== within.at(-1)) { continue; }
       return drawn.cells.length > 1 ? { plan: drawn } : {};
     }
     return {};
   }
-  private draw(within: Entity, here: string, known: Set<string>, visited: Set<string>): Plan {
-    const kids = [...this.entities.values()].filter(e => e.space?.parent === within.id && e.space.shelter !== 'underground');
+  private static under(screen: Screen, entities: Map<string, Entity>, world: World, visited: Set<string>)
+    : Pick<Screen, 'plan'> {
+    const here = screen.place.id, known = new Set([here, ...visited, ...screen.exits.map(e => e.destination.id)]);
+    const within = Spatial.ancestry(entities, here).slice(1)
+      .filter(e => ['level', 'site', 'building', 'settlement'].includes(e.space?.kind ?? ''));
+    for (const enclosure of within) {
+      const plan = new TownPlan(entities, []);
+      plan.links = world.related('connects').map(r => [r.args[1]!, r.args[2]!] as [string, string])
+        .filter(([a, b]) => plan.inside(a, enclosure.id) || plan.inside(b, enclosure.id));
+      const drawn = plan.draw(enclosure, here, known, { visited, under: true });
+      if (drawn.cells.filter(c => !c.door).length > 1) { return { plan: { ...drawn, kind: 'under' } }; }
+    }
+    return {};
+  }
+  private draw(within: Entity, here: string, known: Set<string>, at: { visited: Set<string>; under?: boolean }): Plan {
+    const { visited, under = false } = at;
+    const kids = [...this.entities.values()].filter(e => e.space?.parent === within.id
+      && (e.space.shelter === 'underground') === under && (!under || e.space.kind === 'room'));
     const rooms = kids.filter(e => e.type === 'place' && e.space!.kind === 'room' && known.has(e.id));
     const buildings = kids.filter(e => e.space!.kind === 'building')
       .flatMap(b => { const door = this.door(b, known); return door ? [{ b, door }] : []; });
@@ -50,15 +69,16 @@ export class TownPlan {
         been: [...visited].some(v => this.inside(v, b.id)) });
       cells.push(c); this.stands.set(c, b.id);
     }
-    // Inside a building or a site, its doors out, each to the place outside it leads to.
-    if (within.space?.kind !== 'settlement') {
+    // Inside a building or a site, its doors out, each to the place outside it leads to; below, the ways up and on.
+    if (within.space?.kind !== 'settlement' || under) {
       for (const [a, b] of this.links) {
         const [inner, outer] = this.inside(a, within.id) ? [a, b] : [b, a];
-        if (!this.inside(inner, within.id) || this.inside(outer, within.id) || cells.some(c => c.id === outer)) {
-          continue;
-        }
+        const drawn = cells.some(c => c.id === inner), beyond = under ? !drawn || cells.some(c => c.id === outer)
+          || (this.inside(outer, within.id) && this.entities.get(outer)?.space?.shelter === 'underground')
+          : !this.inside(inner, within.id) || this.inside(outer, within.id) || cells.some(c => c.id === outer);
+        if (beyond) { continue; }
         const o = this.entities.get(outer);
-        if (o && o.space?.shelter !== 'underground') {
+        if (o && (under || o.space?.shelter !== 'underground')) {
           cells.push(this.cell(outer, o.name, undefined, { door: true, been: visited.has(outer) }));
         }
       }

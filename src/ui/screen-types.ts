@@ -174,7 +174,7 @@ export interface Screen {
 // The plan of the town or the building the company is in (see TownPlan): each place a cell on its grid, by its id
 // (a building's, the room its door opens into; a door out, the place outside), and the ways between.
 export interface Plan {
-  name: string; kind: 'settlement' | 'building' | 'site';
+  name: string; kind: 'settlement' | 'building' | 'site' | 'under';
   cells: { id: string; name: string; x: number; y: number; indoors: boolean; here: boolean; been: boolean;
     building?: boolean; door?: boolean }[];
   lanes: { from: string; to: string }[];

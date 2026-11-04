@@ -8,7 +8,8 @@ import type { Plan } from '../src/ui/screen-types';
 
 // The plan of the town the company is in (TownPlan): each place a cell of its own on the town's grid, a building one
 // cell gone into by its door, the lanes between, and where the company is; from inside a building of a room or two,
-// the town's plan with that building where it is; none below ground (that plan is the level's).
+// the town's plan with that building where it is; below ground, the rooms known down there and the ways up out of them
+// (PD-09).
 class Stood {
   static campaign: Campaign;
   static at(name: string): Plan | undefined {
@@ -55,5 +56,14 @@ describe('the plan of a town', () => {
     expect(plan.cells.map(c => c.name)).toEqual(expect.arrayContaining(['the bailey', 'the great hall', 'the wall-walk']));
     expect(plan.cells.filter(c => c.door)).toHaveLength(1);
   }, 120000);
+  // Under a town, the rooms of its undertown the company knows, apart from the town above them, and the way up: a
+  // dungeon's ways had been only a list (the product-design review's PD-09).
+  it('below ground is of the rooms known down there, with the way up', () => {
+    const plan = Stood.at('the rat-runs')!;
+    expect(plan.kind).toBe('under');
+    const names = plan.cells.map(cell => cell.name);
+    expect(names).toEqual(expect.arrayContaining(['the rat-runs', 'the corn-store cellar']));
+    expect(plan.cells.find(cell => cell.here)?.name).toBe('the rat-runs');
+    expect(names).not.toContain('the green');
+  });
 });
-

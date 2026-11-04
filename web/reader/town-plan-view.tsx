@@ -25,7 +25,8 @@ export class TownPlanView {
     const name = Typography.curl(plan.name.replace(/^the /, 'The '));
     return (
       <section className="town-plan" aria-label={`The plan of ${plan.name}`}>
-        <p className="label">{plan.kind === 'building' ? `Inside ${name}` : `The plan of ${name}`}</p>
+        <p className="label">{plan.kind === 'building' ? `Inside ${name}` : plan.kind === 'under' ? `Below ${name}`
+          : `The plan of ${name}`}</p>
         <svg className="town-drawn" viewBox={`-10 -10 ${width + 20} ${height + 20}`} role="group"
           style={{ maxWidth: `${width + 20}px` }}>
           <defs>
