@@ -11,8 +11,12 @@ export class Followed {
   // The aim followed, while it is still one of the company's aims; until one is chosen, the first, which is why the
   // company came (the owner, 4 November: the page said "Your aim" of one the notes said was not followed). One the
   // player stopped following stays unfollowed.
+  // The default is kept once taken: the aims are ordered by where the company stands (Stakes.here), so the first of
+  // them changes as it goes, and the aim followed had changed with it.
   static of(screen: Screen, chosen?: string): string | undefined {
-    const kept = this.kept(screen), aim = chosen ?? (kept === undefined ? screen.objectives[0] : kept);
+    const kept = this.kept(screen);
+    if (chosen === undefined && kept === undefined && screen.objectives[0]) { this.keep(screen, screen.objectives[0]); }
+    const aim = chosen ?? (kept === undefined ? screen.objectives[0] : kept);
     return aim && screen.objectives.includes(aim) ? aim : undefined;
   }
   static keep(screen: Screen, aim: string | undefined) {
