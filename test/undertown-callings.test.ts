@@ -4,8 +4,8 @@ import { PlayTool } from '../src/cli/play-tool';
 // A calling makes a difference in the first town (Mission 19, Priority Three; journey 2): at Lowmouth in a1 a thief
 // picks the corn-store padlock without asking anyone, a warrior wrenches its hasp out of the old door, and of the
 // dead under the churchyard a cleric says the rite of rest over them, and a mage reads in the chalk ring what the
-// raiser's book left out and tells him so. Each is the town template's (data/generation/town/undertown.kyrt), so
-// every generated town has them.
+// raiser's book left out and tells him so; at the quarry a ranger reads in the web what the boy saw. Each is the
+// town template's (data/generation/town/undertown.kyrt), so every generated town has them.
 describe('a calling\'s own way in the first town', () => {
   const start = (calling: string) => PlayTool.start(PlayTool.parse(['--world', 'a1', '--as', `human/${calling}/Wat`]))
     .then(s => s.journey);
@@ -32,5 +32,13 @@ describe('a calling\'s own way in the first town', () => {
     await mage.step('To the ossuary');
     expect(mage.offers('Say the rite of rest')).toBe(false);
     expect(await mage.step('what his book left out')).toMatch(/out of Lowmouth before morning/);
+  }, 120000);
+  it('lets a ranger read in the web at the quarry what is laying at the back', async () => {
+    const adit = ['To the landing at Lowmouth', 'Into the Lucky Phoenix', 'Ask .* about the old quarry',
+      'To the landing at Lowmouth', 'To the old quarry pit', '^Down to the quarry adit$', 'a candle: Light'];
+    const ranger = await start('ranger'), warrior = await start('warrior');
+    for (const step of adit) { await ranger.step(step); await warrior.step(step); }
+    expect(ranger.latest).toMatch(/something big at the back is laying/);
+    expect(warrior.latest).not.toMatch(/something big at the back is laying/);
   }, 120000);
 });
