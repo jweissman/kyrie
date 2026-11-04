@@ -86,10 +86,12 @@ export class DeepRooms {
   static readonly kept = table.left;
   private static left(room: string): string[] {
     const draw = new Draw(`${room}:left`), stocks = world.shops as unknown as Record<string, { stock: [string, number][] }>;
-    return this.kept.flatMap((kind, n) => {
+    const kinds = this.kept.flatMap((kind, n) => {
       const pool = stocks[kind]?.stock ?? [];
       return pool.length && (n === 0 || draw.next() < 0.5) ? [draw.pick(pool)[0]] : [];
-    }).map((kind, n) => `  Item ${room}_left${n} ${this.q(this.called(kind))} is ${kind} at ${room}.`);
+    });
+    return kinds.length ? [...this.section('pack', { room }),
+      ...kinds.map((kind, n) => `  Item ${room}_left${n} ${this.q(this.called(kind))} is ${kind} in ${room}_pack.`)] : [];
   }
   private static camp(room: string, at: { level: number; purpose: DeepPurpose; first: boolean }): string[] {
     const camp = at.purpose.camp, journal = camp.journal[Math.min(at.level, camp.journal.length - 1)]!;

@@ -77,10 +77,10 @@ describe('as the company would tell it', () => {
     Thorn.put(s, 'w8_galleries_colonnade');
     await s.perform(PlayerView.choices(s.campaign).find(c => c.choice.name === 'Unstrap the notebook and read it')!.choice.id);
     expect(Thorn.names(s)).not.toContain('Look closely at a damp notebook');
-    // And what the party that camped there carried against the worst lies by the fire to be taken (hoards.json#left).
+    // And what the party that camped there carried against the worst is in their pack (hoards.json#left).
     const left = s.campaign.module.entities.filter(e => e.id.startsWith('region__w8_galleries_colonnade_left'));
     expect(left.length).toBeGreaterThan(0);
-    expect(Thorn.names(s).some(n => n.startsWith('Collect') && n.includes(left[0]!.name))).toBe(true);
+    expect(Thorn.names(s).some(n => n.startsWith('Take') && n.includes(`${left[0]!.name} out of a rotted pack`))).toBe(true);
     // Orsino's wildtype is a kind as it is: d4's hall had "the wildtype voice".
     for (const seed of ['d4', 'thorn']) {
       const w = await WorldAssembler.assemble(seed, NodeBundleSource.shared,

@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
+import type { Frame } from '../../engine/protocol';
 import type { Screen } from '../../../src/ui/screen-types';
 import { Typography } from '../../../src/presentation/typography';
 import { Scenery } from '../../../src/ui/scenery';
@@ -31,9 +32,14 @@ export class WorldStage {
     const here = screen.place.id;
     // What is chosen on the map, and whether the company has gone into the hex it stands in: both belong to this place.
     const [chosen, choose] = useState<{ at: string; id?: string }>({ at: here });
-    const [entered, enter] = useState<string>();
+    const [entered, enter] = useState<string>(), [left, leave] = useState<Frame>();
+    // The frame the company came to this place by: anything done here since (a word, a wait, a search) is done in the
+    // hex, and the place is shown entered.
+    const arrival = useRef<{ at: string; frame: Frame }>(undefined);
+    if (arrival.current?.at !== here) { arrival.current = { at: here, frame }; }
     const pick = (id?: string) => choose({ at: here, id });
-    const overworld = WorldStage.wild(screen) && entered !== here, focus = chosen.at === here ? chosen.id : undefined;
+    const overworld = WorldStage.wild(screen) && entered !== here && (arrival.current.frame === frame || left === frame);
+    const focus = chosen.at === here ? chosen.id : undefined;
     const view = screen.dark ? undefined : Scenery.of(screen) ?? Scenery.inside(screen);
     return (
       <article className={`world-page scale-${overworld ? 'board' : 'scene'} kind-${PlaceStage.kind(screen)}`
@@ -48,7 +54,7 @@ export class WorldStage {
             {overworld ? <WorldStage.Hex app={app} screen={screen} id={focus} clear={() => pick()}
               enter={() => enter(here)} />
               : <>{WorldStage.wild(screen) && <button type="button" className="option quiet back-to-map"
-                data-action="back-to-map" onClick={() => enter(undefined)}>Back out to the map</button>}
+                data-action="back-to-map" onClick={() => { leave(frame); enter(undefined); }}>Back out to the map</button>}
                 {frame.leaf.glance ? <GlanceStage.View app={app} draw={draw} />
                   : <div className="telling"><Told.Place app={app} headed={false}
                     here={<PlaceStage.Here app={app} draw={draw} />} /></div>}</>}

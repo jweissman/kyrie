@@ -50,18 +50,22 @@ export class MonoDriver {
   }
   // A choice touched where it is on show, as a finger would: on the sheet raised over a place when it is there; else
   // on the place's glance, the sheet put away first; else the sheet that holds it raised first (Look about, Every way
-  // or More: see Raised), or, where there are no such sheets (a road), every way.
+  // or More: see Raised), or, where there are no such sheets (a road), every way. Out in the wild, on the world map,
+  // the hex the company stands in is entered first (nothing is done in a hex from the map).
   async tap(index: number) {
     const choice = `[data-action="choice"][data-index="${index}"]`, sheet = '.intentions [aria-modal="true"]';
     const raised = `${sheet} ${choice} >> visible=true`, shown = `.intentions ${choice} >> visible=true`;
     if (await this.page.locator(raised).count()) { await this.click(raised); return; }
+    if (!(await this.page.locator(shown).count()) && await this.page.locator('[data-action="enter-hex"]').count()) {
+      await this.click('[data-action="enter-hex"]');
+    }
     const state = await this.inspect(), id = state.choices[index]?.id ?? '';
     const glanced = !!state.glance && [...state.glance.acts.map(a => a.choice), ...state.glance.ways].includes(id);
     if (await this.page.locator(sheet).count()) { await this.click(`${sheet} .sheet-shut`); }
     const holder = state.sheets && !glanced ? (['look', 'ways', 'more'] as const).find(k => state.sheets![k].includes(id))
       : undefined;
     const opener = holder && { look: '[data-action="look-about"]', ways: '.all-ways', more: '[data-action="more"]' }[holder];
-    if (opener) { await this.click(opener); }
+    if (opener && await this.page.locator(opener).count()) { await this.click(opener); }
     else if (!(await this.page.locator(shown).count()) && await this.page.locator('.all-ways').count()) {
       await this.click('.all-ways');
     }

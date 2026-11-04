@@ -53,3 +53,9 @@
   Rule {room}_notebook_done when state({room}_notebook, read) and not tried({room}_notebook, looking) { Assert tried({room}_notebook, looking). }
   Item {room}_rope "a coil of rope" is rope at {room}.
   Item {room}_torch "a torch" is torch at {room}.
+--- pack
+  // What the earlier party left at their camp lies in one of their packs ({room}: the camp's room).
+  Thing {room}_pack "a rotted pack" at {room} {
+    Holds.
+    State lying "A pack lies against the wall where its owner left it, the straps rotted through.".
+  }
