@@ -11,10 +11,11 @@ import { Headings } from '../ui/headings';
 import { LandModel } from '../ui/land-model';
 import { Promotion, type Situation } from '../ui/promotion';
 import { Marks } from '../ui/marks';
-import { SceneModel } from '../ui/scene';
+import { SceneModel, type Scene } from '../ui/scene';
 import type { Act, Screen } from '../ui/screen-types';
 import { Stakes } from '../ui/stakes';
 import { CompanyRecall } from './company-recall';
+import { DecisionFrame } from './decision-frame';
 import { GlanceLines } from './glance-lines';
 import type { Arrival, Glance as View, Promoted } from './glance-types';
 import { PlayerView } from './player-view';
@@ -54,10 +55,17 @@ export class Glance {
     // Not again beneath "A new aim" that has just said it.
     const said = aim && !(arrival === 'opening' && telling.opened) && !told?.feedback.aims?.includes(aim)
       && (['opening', 'first', 'resume'].includes(arrival) || turned);
-    const need = this.need(screen);
+    const need = this.need(screen), after = told && this.after(campaign, told, { screen, acts, scene });
     return { arrival, ...lines.sight ? { sight: lines.sight } : {}, ...lines.life ? { life: lines.life } : {},
       changed: lines.changed, acts, ways: Promotion.ways(cands, acts, s), aimed: this.aimed(screen, reading),
-      ...said ? { aim } : {}, ...need.length ? { need } : {} };
+      ...said ? { aim } : {}, ...need.length ? { need } : {}, ...after ? { after } : {} };
+  }
+  // What came of the act just done, and what it made relevant (REV-05; see DecisionFrame).
+  private static after(campaign: Campaign, told: Told, at: { screen: Screen; acts: Promoted[]; scene: Scene }) {
+    const choices = PlayerView.choices(campaign).map(r => ({ command: r.choice.id, label: r.choice.name,
+      ...r.action.schema ? { schema: r.action.schema } : {} }));
+    return DecisionFrame.after({ feedback: told.feedback, moved: told.moved, failed: told.event.result === 'failure',
+      place: at.screen.place.name }, at.acts, { names: new Map(at.scene.subjects.map(x => [x.id, x.name])), choices });
   }
   // What an author writes to be done with a thing (Change … from … to …), by the rules' kinds of it.
   static readonly changes = ['change_thing', 'change_thing_paying', 'change_thing_spending'];

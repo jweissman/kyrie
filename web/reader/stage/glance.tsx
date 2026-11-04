@@ -45,6 +45,10 @@ export class GlanceStage {
         </div>}
         {/* What came of coming here (the grey dog comes over to push her nose into your hand). */}
         {!s.pending && told && !stayed && !struck && <Told.Happened exchange={told} ready={ready} app={app} />}
+        {/* What the act opened that the glance does not lead with (asking Alfric along, once he has said he will
+            go), said in a line under what came of it: the button stays where it is drawn (REV-05). */}
+        {!s.pending && told && g.after?.next && !g.after.next.choice && <p className="opened-now" data-id="next">
+          <span className="label">Now open</span>{` ${Typography.curl(g.after.next.label)}`}</p>}
         <GlanceStage.Aim app={app} said={g.aim} />
         <GlanceStage.Acts app={app} draw={draw} acts={g.acts} />
         <GlanceStage.People app={app} draw={draw} led={new Set(g.acts.map(a => GlanceStage.choice(app, a.choice)?.id))} />
@@ -141,7 +145,8 @@ export class GlanceStage {
     return (
       <ol className="led" aria-label="What you could do now">{shown.map(({ a, c }, i) => {
         const label = GlanceStage.label(app, a, c), note = GlanceStage.note(a, c, label);
-        return <li key={a.choice} data-promoted={i + 1} data-why={a.why}>
+        return <li key={a.choice} data-promoted={i + 1} data-why={a.why}
+          data-next={app.state.frame?.leaf.glance?.after?.next?.choice === a.choice || undefined}>
           <Act.View choice={c} draw={draw} className={`led-act${i === 0 ? ' first' : ''}`}>
             <span className="n">{Typography.curl(label)}</span>
             {note && <span className="why-said">{Typography.curl(note)}</span>}

@@ -30,6 +30,8 @@ export interface ActionFeedback {
   // What the company was told and has now seen for itself (come to the place, or the thing in its hands), and who told
   // it: following the innkeeper's word to the mound, it is borne out where it is come to (Friday's surprise).
   borne?: { text: string; from?: string }[];
+  // The ids of the choices it opened, where the company stayed: what it has made possible (see DecisionFrame).
+  opened?: string[];
 }
 export class ActionFeedbackView {
   // An aim is new when it was not one before: the same aim told again with its count gone up (graves opened, five,
@@ -258,7 +260,12 @@ export class ActionFeedbackView {
       available: before.location?.id === after.location?.id ?
         after.choices.filter(c => !old.has(c.id)).map(c => c.name) : [],
       unavailable: before.location?.id === after.location?.id ?
-        before.choices.filter(c => !now.has(c.id)).map(c => c.name) : [] };
+        before.choices.filter(c => !now.has(c.id)).map(c => c.name) : [],
+      ...this.opened(before, after, old) };
+  }
+  private static opened(before: PlayerSnapshot, after: PlayerSnapshot, old: Set<string>): { opened?: string[] } {
+    const opened = before.location?.id === after.location?.id ? after.choices.filter(c => !old.has(c.id)) : [];
+    return opened.length ? { opened: opened.map(c => c.id) } : {};
   }
   // What the company did, in the words it was offered in (a name it learns by doing it is not echoed back), where
   // the offer was one; several offered under one id (buy it for one of the company or another) say it as done. One's

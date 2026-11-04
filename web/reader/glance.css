@@ -33,6 +33,9 @@
 .glance .happened { margin: 0 0 18px; }
 .glance > .happened:not(:first-child) .telling, .glance > .happened:not(:first-child) p { font-size: 17.5px; }
 .glance .changed { margin: 4px 0 18px; }
+/* What the last act opened that is not led with (REV-05): a line, like a note, the button where it is drawn. */
+.glance .opened-now { margin: -10px 0 18px; font-size: 15.5px; }
+.glance .opened-now .label { margin: 0 8px 0 0; color: var(--verdigris); }
 .glance .aim { margin: 18px 0 0; font-size: 15.5px; color: var(--dim); }
 .glance .dark-note { margin: 0 0 16px; }
 
