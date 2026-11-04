@@ -180,6 +180,35 @@ same day.
   rows found already answered (the navigation review's fixes of 30 October among them) are closed with their
   evidence, and 41 more are marked Partial with what remains.
 
+## The evening of 3 November: the ground cleared
+
+The owner's verdict of the evening: ordinary play does not yet feel like a game (the town a web page, the loop
+distended, navigation puzzling, more wrong than can be named). The answer was to clear the P0s, take the P1s as far
+as they would go, and play an ordinary expedition headlessly to find what is wrong rather than guess.
+
+- **The quick suite is quick** (the specs under two seconds by their kept timings, 30 seconds; `test:changed` for what
+  a change touches); everything else is CI's, its three shards balanced by `test/timings.json`. CI had been red or
+  cancelled since the afternoon; its findings (two adventures sharing two surnames, the Lady called by a name she
+  had not yet given, timeouts) are repaired, and a drawn country's lint is five times faster (an action's binding
+  found depth first).
+- **Merged:** the Book of Faces (Ombra, a province of the one country; its friction is BOF-01 to 38); the open
+  country's meetings (OWN-27: a charcoal-burner, a cragfast ewe, a boar that warns, caches, tracks, each leading on to
+  a site); the expedition contract a gate (REV-01); the frame after an act (REV-05, first half); successors and
+  renewal (PT-01, PT-29); `Rule … heard at` (QTC-A18).
+- **Navigation:** a census of every place's ways (scripts/navigation-census.ts) found the blocker in the generated
+  towns' long way lists, not the authored places; the town, a building, and a site above ground are now drawn as a
+  plan at the head of Every way, each place on its grid and chosen there (OWN-77, OWN-81, NVR-16, NVR-20).
+- **Played:** a1, a lone warrior, by the page's own labels: the notice, Mik's key, the corn-store, the rats, their run
+  stopped, paid; out to the charcoal-burner in the woods of Oakhurst and back by the road to Ísencepan's portcullis and
+  wolves. What it found and fixed: rooms below a town that said nothing; rats that died to a blow; a reckoning that
+  called a usually-won fight hopeless from three unlucky trials; two flasks told as one; two smiths seen doing the same
+  thing; a going-on asked about twice; a step into a wood told as fen; a grave-robber who killed a fresh warrior from
+  full health. The first job is an acceptance journey now (test/first-town-job.test.ts).
+- **The fight before it begins:** a foe that shrugs off steel is said to be a long fight, with what would bite; a fire
+  flask and holy water are sold in every town (PT-23).
+- **Authoring:** a masked name in every label and placeholder (BOF-01), several Greets each with its when (BOF-03),
+  a module teaching a spell (BOF-04), two modules in one town proven apart (COR-05).
+
 ## What is carried into Mission 19, and why
 
 Each of these needs more than a closure pass: a design decision, a measurement over many plays, or a new subsystem.
@@ -187,15 +216,17 @@ Each of these needs more than a closure pass: a design decision, a measurement o
 1. **Play for longer, and by someone new.** An hour unaided, the independent review's seven acceptance tests (IND-07),
    and the viability of every calling alone (PT-11, measured in
    [novice-viability-closure.md](novice-viability-closure.md)).
-2. **The wilderness and the wider country** (OWN-27, REV-03, REV-08, NVR-01 and NVR-06): exploration that uncovers
-   destinations of its own; the map taking you to other countries.
+2. **The wilderness and the wider country** (REV-03, REV-08, OWN-80): the wild's meetings are a first grammar of
+   events; turns of weather, supplies, route and camp, a boundless map with fog over what is not known, and walking
+   the map close up are the next.
 3. **Combat that ends when decided** (REV-16) and non-lethal bouts (FWR-17, QIS-04): a band that breaks was tried and
    taken out (above); routed must first count as dealt with.
-4. **The Grand Tour's outcomes as canon** (OWN-36 to 38), and two adventures sharing a town (B1, COR-05).
+4. **The Grand Tour's outcomes as canon** (OWN-36 to 38); two modules sharing a town is proven (COR-05).
 5. **Authorability**:
    - the 22 generators into data templates;
    - the IF review's causal trace;
-   - the language forms the authors still ask for: portable places, people offstage, once-and-later texts, computed
-     measures, module-scoped kinds.
+   - the language forms the authors still ask for: portable places (WPC-01: every reference to a pitched room has to
+     be rewritten, the circus's 187 among them), people offstage, once-and-later texts, computed measures,
+     module-scoped kinds.
 6. **Tools:** `kyrie stats`, `info`, `bench`, and a browser play driver in the CLI.
 7. **The City of Seven Towers and the Encyclopedia** (B2, E11), once the loop above is proved at length.
