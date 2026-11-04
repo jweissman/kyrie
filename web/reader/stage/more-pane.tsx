@@ -4,6 +4,7 @@ import { Act, type Draw } from './act';
 import { Drawer } from './drawer';
 import { PlaceStage } from './place-stage';
 import { Stage } from './stage';
+import { Followed } from '../followed';
 
 // More (OWN-19): yourself, and what you can do of yourself wherever you are (wait, search, camp, rest, tend, prepare
 // spells, a development to spend), and your aim as it stands. They had stood across the foot of every place; now the
@@ -18,7 +19,8 @@ export class MorePane {
           <Stage.Me screen={frame.screen} />
           <Act.List choices={scene.you.filter(c => !SceneModel.own(c))} draw={draw} className="column yours" marked />
         </section>
-        <PlaceStage.Aim screen={frame.screen} bound={!!frame.bound} />
+        <PlaceStage.Aim screen={frame.screen} bound={!!frame.bound}
+          followed={Followed.of(frame.screen, app.state.followed)} />
       </Drawer.View>
     );
   }

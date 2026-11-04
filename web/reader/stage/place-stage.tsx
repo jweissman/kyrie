@@ -260,10 +260,13 @@ export class PlaceStage {
   // is said as written: "You mean to / the brothers want …" was no sentence (play 7). Not on the first place after a
   // new game's opening, which has just said it (opened): "Your father … did not come home" was read on the choice of
   // a life, in the opening and under the first place, three screens running (the opening's critique).
-  static Aim({ screen, bound, opened }: { screen: Screen; bound: boolean; opened?: boolean }) {
-    const aim = screen.objectives[0];
+  // The aim followed is said as followed, as the glance says it (the owner, 4 November: "Your aim" in one place,
+  // "Following" in another).
+  static Aim({ screen, bound, opened, followed }: { screen: Screen; bound: boolean; opened?: boolean; followed?: string }) {
+    const aim = followed ?? screen.objectives[0];
     if (!aim || bound || opened) { return null; }
-    return <p className="aim" data-id="aim"><span className="label">Your aim</span>{Typography.curl(Words.upper(aim))}</p>;
+    return <p className="aim" data-id="aim"><span className="label">{followed ? 'Following' : 'Your aim'}</span>
+      {Typography.curl(Words.upper(aim))}</p>;
   }
   // Where you are going, while you are: where to, the next way and how long it is, how long in all; going on (by the
   // way known from here, a way at a time, stopping only for what wants you) and giving it up. On every page you

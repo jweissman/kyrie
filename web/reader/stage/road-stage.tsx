@@ -8,6 +8,7 @@ import { Words } from '../words';
 import { Act, type Draw } from './act';
 import { PlaceStage } from './place-stage';
 import { Told } from './told';
+import { Followed } from '../followed';
 
 // On a road. Not a room: across the head of the stage, the line across the country between two places, the country
 // it crosses in bands (fen, woods, a ford), you on it, and the tracks that leave it; under it what the way was like and
@@ -40,7 +41,8 @@ export class RoadStage {
           <PlaceStage.Further app={app} draw={draw} />
         </div></div></section>
         <footer className="place-foot">
-          <PlaceStage.Aim screen={frame.screen} bound={!!frame.bound} />
+          <PlaceStage.Aim screen={frame.screen} bound={!!frame.bound}
+          followed={Followed.of(frame.screen, app.state.followed)} />
           <PlaceStage.You app={app} draw={draw} />
         </footer>
       </article>
