@@ -386,6 +386,7 @@
     "test/command-atomicity.test.ts": 1228,
     "test/speaker.test.ts": 1205,
     "test/counted.test.ts": 1201,
+    "test/holding-kind.test.ts": 1200,
     "test/local-isolation.test.ts": 1188,
     "test/riddle-door.test.ts": 1173,
     "test/needing-later.test.ts": 1168,

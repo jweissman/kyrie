@@ -46,11 +46,24 @@ export class WorldConstructs {
   static given(module: Module) {
     const changes = [...module.initial, ...module.actions.flatMap(a => [...a.success, ...a.failure]),
       ...(module.rules ?? []).flatMap(r => r.effects)];
-    for (const c of changes.filter(x => ['assert', 'increase'].includes(x.kind)
-      && ['handed', 'usesUp', 'gifts'].includes(x.call.name))) {
-      const kind = c.call.args[c.call.name === 'usesUp' ? 1 : 0]!, known = ItemCatalog.definitions[kind]?.name;
+    const kinds = changes.filter(x => ['assert', 'increase'].includes(x.kind)
+      && ['handed', 'usesUp', 'gifts'].includes(x.call.name)).map(c => c.call.args[c.call.name === 'usesUp' ? 1 : 0]!);
+    // And one a condition asks the company to hold (holding(actor, candle)): refused unless the module declared an item
+    // of the kind (the Book of Faces' BOF-19).
+    const held = new Set<string>();
+    this.holding([module.actions, module.rules ?? [], module.queries], held);
+    for (const kind of [...kinds, ...held]) {
+      const known = ItemCatalog.definitions[kind]?.name;
       if (known && !module.entities.some(e => e.id === kind)) { this.entity(module, kind, 'itemkind', known); }
     }
+  }
+  // The kinds named as what is held in every holding(…, kind) a part of a module asks, however deep.
+  private static holding(part: unknown, held: Set<string>) {
+    if (Array.isArray(part)) { for (const p of part) { this.holding(p, held); } return; }
+    if (!part || typeof part !== 'object') { return; }
+    const call = part as { kind?: string; name?: string; args?: string[] };
+    if (call.kind === 'call' && call.name === 'holding' && call.args?.[1]) { held.add(call.args[1]); }
+    for (const value of Object.values(part)) { if (value && typeof value === 'object') { this.holding(value, held); } }
   }
   static readonly quick: Record<string, number> = { door: 1, doorway: 1, arch: 1, gate: 1, stair: 2, steps: 2,
     ladder: 2 };
