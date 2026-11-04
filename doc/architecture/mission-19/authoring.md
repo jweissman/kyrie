@@ -39,12 +39,15 @@ comes where it came").
 
 *The change* (1eb58ad4). A salter had sold rope, torches, a lantern and oil, as every merchant did from when a
 town's merchant was its only shop; since every village and town now has a chandler, each trade stocks what it
-makes: a salter provisions, a furrier bedrolls and rope, a woodwright poles, torches and a handaxe, a smith iron.
+makes or plausibly keeps: a salter provisions, pitch torches and rope, a furrier bedrolls and rope, a woodwright
+poles, torches and a handaxe, a smith iron, and the torches, lanterns and oil of a forge (56617685, after the long
+descents, which buy there, failed on CI).
 
 *Generate, inspect, validate, play.* `bin/kyrie play --world a1 --as human/warrior/Aud "To the landing at Lowmouth"
-"To Mik's salt-house" "zzqqxx"` lists `Buy › …` as the shop now has it; `test/generated-economy.test.ts` holds that
-whoever sells a lantern sells oil; the bundle index is rewritten by `bun run web:build`; the browser's Bask at
-Millholm sells rations.
+"To Mik's salt-house" "zzqqxx"` lists `Buy › A ration`, `Buy › A coil of rope`, `Buy › A torch` and no lantern; `test/generated-economy.test.ts` holds that
+whoever sells a lantern sells oil; the bundle index is rewritten by `bun run web:build`; in the browser Bask at
+Millholm sells rations, rope and torches, and the lantern is the chandler's; `KYRIE_LONG=1 bun test
+test/descent.test.ts` plays the four long descents that buy from these shops.
 
 ## 3. A naming rule: whether a townsperson is a woman or a man
 
