@@ -13,7 +13,15 @@
   Kind corn_store_key "the corn-store key" like cell_key described "A heavy iron key on a loop of string, with the corn-store's mark burned into its wooden tag.".
   Kind crypt_key "the crypt key" like cell_key described "A long black key, worn smooth, for the stone door into the catacombs under the churchyard.".
   Kind quarry_key "the key to the quarry gate" like cell_key described "A small brass padlock key, for the gate the inn put across the old quarry's adit.".
-  Passage {t}_u_store_door "the corn-store door" is door between {t}_green and {t}_u_store needing corn_store_key.
+  Passage {t}_u_store_door "the corn-store door" is door between {t}_green and {t}_u_store.
+  // Each locked way is a lock on it: whoever the job is given to holds its key and goes through as if it were open,
+  // and anyone with lockwork can pick it instead (Mission 19, a calling's own way in: a thief need not ask).
+  Thing {t}_u_store_lock "the corn-store padlock" on {t}_u_store_door {
+    State locked blocking "A padlock the size of a fist hangs on the corn-store door.".
+    State open "The corn-store padlock hangs open on its hasp.".
+    Change pick "Pick the corn-store padlock" from locked to open needing lockwork.
+    Change wrench "Wrench the padlock's hasp out of the old door" from locked to open needing brawn.
+  }
   Place {t}_u_yard "the churchyard" is room within {t} at 1, 2 outdoors.
   Passage {t}_u_yard_gate "the lych-gate" is gate between {t}_green and {t}_u_yard.
   Place {t}_u_pit "the old quarry pit" is room within {t} at 2, 2 outdoors.
@@ -23,11 +31,21 @@
   Place {t}_u_warren "the rat-runs" is room within {t} at 0, 4 underground.
   Passage {t}_u_runs "a hole gnawed through the cellar wall" is crawl between {t}_u_cellar and {t}_u_warren.
   Place {t}_u_crypt "the crypt" is room within {t} at 1, 3 underground.
-  Passage {t}_u_crypt_stair "the stone stair under the churchyard" is stair between {t}_u_yard and {t}_u_crypt needing crypt_key.
+  Passage {t}_u_crypt_stair "the stone stair under the churchyard" is stair between {t}_u_yard and {t}_u_crypt.
+  Thing {t}_u_crypt_lock "the lock of the stone door" on {t}_u_crypt_stair {
+    State locked blocking "The stone door into the ground is locked, an old lock in an iron plate.".
+    State open "The stone door into the ground stands unlocked.".
+    Change pick "Pick the old lock of the stone door" from locked to open needing lockwork.
+  }
   Place {t}_u_ossuary "the ossuary" is room within {t} at 1, 4 underground.
   Passage {t}_u_bone_arch "an arch stacked round with skulls" is arch between {t}_u_crypt and {t}_u_ossuary.
   Place {t}_u_adit "the quarry adit" is room within {t} at 2, 3 underground.
-  Passage {t}_u_adit_mouth "the gated adit" is passage between {t}_u_pit and {t}_u_adit needing quarry_key.
+  Passage {t}_u_adit_mouth "the gated adit" is passage between {t}_u_pit and {t}_u_adit.
+  Thing {t}_u_adit_lock "the padlock on the adit gate" on {t}_u_adit_mouth {
+    State locked blocking "A gate of iron bars closes the adit, with a brass padlock on its chain.".
+    State open "The adit gate's padlock hangs open on its chain.".
+    Change pick "Pick the brass padlock" from locked to open needing lockwork.
+  }
   Place {t}_u_gallery "the cut gallery" is room within {t} at 2, 4 underground.
   Passage {t}_u_gallery_way "the old cutting" is passage between {t}_u_adit and {t}_u_gallery.
   Initially Assert unlit({t}_u_cellar). Initially Assert unlit({t}_u_warren). Initially Assert unlit({t}_u_crypt).
@@ -53,7 +71,7 @@
   Entity {t}_u_rats_source: fact "The rats come up into the cellar by a run of their own from the old drain below.".
   Topic {t}_u_rats_job_ask with {t}_merchant "Ask {{t}_merchant} about the rats in the corn-store" when not {t}_u_given({t}_u_rats_job) once {
     Says "'They've got into the old corn-store from underneath,' says {{t}_merchant}. 'Rats the size of cats. I've lost a third of the grain.' A key comes off a nail behind the counter. 'There's a trapdoor in the floor. Kill them, and find where they're getting in, or they'll be back by harvest. Ten coin, and I'll see you right for a lantern besides.'".
-    On discuss { Assert knows(actor, {t}_u_rats_job). Assert {t}_u_given({t}_u_rats_job). Give corn_store_key to actor. }
+    On discuss { Assert knows(actor, {t}_u_rats_job). Assert {t}_u_given({t}_u_rats_job). Give corn_store_key to actor. Assert keyholder(actor, {t}_u_store_lock). }
   }
   Observe {t}_u_rats_run_seen at {t}_u_warren as sign when not knows(party, {t}_u_rats_source) "Along the back wall of the runs the rats have worn a path in the dirt, and it goes into the old brickwork." teaches {t}_u_rats_source.
   Thing {t}_u_rats_run "the rats' run from the drain" at {t}_u_warren {
@@ -104,7 +122,7 @@
   Entity {t}_u_dead_job: fact "Lay whatever has come up in the catacombs under the churchyard at {town}.".
   Topic {t}_u_dead_job_ask with {t}_priest "Ask {{t}_priest} about the noises under the churchyard" when not {t}_u_given({t}_u_dead_job) once {
     Says "{{t}_priest} looks at the floor. 'The catacombs. Something has come up out of the bone-heaps, and there have been lights in the churchyard at night that were not mine.' The crypt key is unhooked from a belt. 'I cannot ask anyone to go. If you will, lay them, and find out who is doing it. Fifteen coin, and what the shrine can give besides.'".
-    On discuss { Assert knows(actor, {t}_u_dead_job). Assert {t}_u_given({t}_u_dead_job). Give crypt_key to actor. }
+    On discuss { Assert knows(actor, {t}_u_dead_job). Assert {t}_u_given({t}_u_dead_job). Give crypt_key to actor. Assert keyholder(actor, {t}_u_crypt_lock). }
   }
   Topic {t}_u_dead_lodger_ask with {t}_innkeeper "Ask {{t}_innkeeper} who goes out at night" when knows(actor, {t}_u_dead_robbed) and not knows(actor, {t}_u_dead_lodger) once {
     Says "{{t}_innkeeper} wipes the same place on the counter twice. 'There's a man in the back room, been here a fortnight, pays in old coin. Goes out after dark and comes in before light, and there's grave-dirt on his boots that I scrub off the step.'".
@@ -117,6 +135,25 @@
     On success { Assert state({t}_u_candle, snuffed). Retract state({t}_u_candle, alight). Retract at({t}_u_raiser, {t}_u_ossuary). Assert {t}_u_done({t}_u_raiser). }
     Result "He looks at you a long time over the flame, and then at the dead. Then he wets his fingers and pinches the candle out, and goes past you up the stair without a word, and out of {town} before morning. The book he leaves on the bones.".
     Otherwise "'They'll hang me whether I stop or not,' he says, and lifts the candle higher. The dead turn their heads.".
+  }
+  // A priest's way, and a scholar's (Mission 19: a calling's knowledge makes a different ending): the rite of rest
+  // said over the bone-heaps puts the candle out from where it stands; and one who knows the old scripts reads in the
+  // chalk ring what the raiser's book left out, and can tell him so.
+  Action {t}_u_dead_rested(actor: group, site: place) "Say the rite of rest over the bone-heaps, against the black candle" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {t}_u_ossuary) and state({t}_u_candle, alight) and capable(actor, rites).
+    Time 1.
+    Resolve check(actor, rites, dc_fair).
+    On success { Assert state({t}_u_candle, snuffed). Retract state({t}_u_candle, alight). Retract at({t}_u_raiser, {t}_u_ossuary). Assert {t}_u_done({t}_u_raiser). }
+    Result "You say the words for the dead that every shrine keeps, slowly, as they are meant to be said. The flame on the black candle leans as if a door had opened somewhere, and goes out. The man in the muddy coat looks at you as if you had struck him, and goes up the stair at a run, and out of {town} before morning. The book he leaves on the bones.".
+    Otherwise "The words come, but the black candle's flame does not move, and the dead turn their heads toward the sound.".
+  }
+  Entity {t}_u_dead_read: fact "The marks round the chalk ring are copied from an old book of the dead, and copied badly: the warding line is left out. The dead are held only while the candle burns, and whoever holds them is not safe from them.".
+  Observe {t}_u_crypt_marks at {t}_u_crypt as sign when capable(party, lore) and knows(party, {t}_u_dead_raised) and not knows(party, {t}_u_dead_read) "You know these marks from the old scripts. Round the chalk ring they say what they are for, and they are copied badly: the warding line, the one that keeps the dead off whoever calls them, is not there." teaches {t}_u_dead_read.
+  Action {t}_u_raiser_read(actor: group, site: place) "Tell the man with the black candle what his book left out of the ring" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {t}_u_ossuary) and at({t}_u_raiser, {t}_u_ossuary) and able({t}_u_raiser) and knows(actor, {t}_u_dead_read) and state({t}_u_candle, alight).
+    Time 0.
+    On success { Assert state({t}_u_candle, snuffed). Retract state({t}_u_candle, alight). Retract at({t}_u_raiser, {t}_u_ossuary). Assert {t}_u_done({t}_u_raiser). }
+    Result "You tell him about the warding line. He looks down at the chalk, and you watch him find the place where it should be. His hand shakes when he pinches the candle out. He goes up the stair without looking at the dead, and out of {town} before morning. The book he leaves on the bones.".
   }
   // His while he stands, and only bones once the candle is out: with him gone and it still burning they are no one's,
   // and turn on the living, warning first, so there is a moment to pinch it out.
@@ -152,7 +189,7 @@
   Kind hobb_knife "a bone-handled knife" like dagger worth 2 weighing 1 described "A working man's knife with a bone handle, H burned into it.".
   Topic {t}_u_spiders_job_ask with {t}_innkeeper "Ask {{t}_innkeeper} about the old quarry" when not {t}_u_given({t}_u_spiders_job) once {
     Says "'Nobody goes in the old quarry now,' says {{t}_innkeeper}. 'There's webs across the adit thick as sailcloth, and the Hobb boy went in after a ferret and came out white. We put a gate on it.' A small key, put down on the counter. 'Twelve coin from the house to whoever burns them out, and a pot of the salve the firemen use. Talk to the boy first. He saw more than he says.'".
-    On discuss { Assert knows(actor, {t}_u_spiders_job). Assert {t}_u_given({t}_u_spiders_job). Give quarry_key to actor. }
+    On discuss { Assert knows(actor, {t}_u_spiders_job). Assert {t}_u_given({t}_u_spiders_job). Give quarry_key to actor. Assert keyholder(actor, {t}_u_adit_lock). }
   }
   Topic {t}_u_hobb_told with {t}_u_hobb "Ask Dannel Hobb what he saw in the old quarry" when knows(actor, {t}_u_spiders_job) and not knows(actor, {t}_u_spiders_eggs) once {
     Says "The boy looks at the door before he answers. 'There's a big one at the back,' he says. 'Bigger than a dog. And bags. Hanging up, white, like puddings. They was moving.' He swallows. 'I dropped Dad's knife. Don't tell him.'".
