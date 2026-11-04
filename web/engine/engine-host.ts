@@ -236,11 +236,15 @@ export class EngineHost {
   // it up, and kept with the game, so that every page says where it is going and how far it has still to go (the
   // owner's interim report: a destination set out for was forgotten as soon as the journey stopped).
   private bound?: string;
+  // The aim followed when it was set out on: a journey set out on for another aim is not gone on with once the aim
+  // followed has changed (after the father's cart was found, the page led on to Mistshaw "where you set out for").
+  private boundFor?: string;
   private async travel(destination: string): Promise<Frame> {
     const session = this.session;
     if (!session) { throw new Error('No game is under way'); }
     const trail: Trail = { legs: [] };
     this.bound = destination;
+    this.boundFor = Undertakings.followed(session.campaign)?.id;
     const done = await Travel.go({ campaign: session.campaign, perform: this.leg.bind(this, trail) }, destination);
     const plan = Itineraries.plan(session.campaign, destination);
     // Come there, or with no way on known from where it stopped, nothing is held: the page had said "Go on to …
@@ -436,6 +440,9 @@ export class EngineHost {
   private journeying(): Pick<Frame, 'bound'> {
     const campaign = this.session!.campaign, id = this.bound;
     if (!id || !campaign.running) { return {}; }
+    if (this.boundFor !== undefined && Undertakings.followed(campaign)?.id !== this.boundFor) {
+      this.bound = undefined; return {};
+    }
     const at = campaign.world.one('at', campaign.playerActor ?? 'party');
     const entities = new Map(campaign.module.entities.map(e => [e.id, e]));
     if (at && Spatial.ancestry(entities, at).some(e => e.id === id)) { this.bound = undefined; return {}; }
