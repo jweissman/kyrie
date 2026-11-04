@@ -73,9 +73,16 @@ export class ObservationText {
   static label(world: World, id: string, binding: Record<string, string> = {}): string {
     const entity = this.entity(world, id);
     if (!entity) { return id; }
-    const name = entity.type === 'group' ? entity.name.split(', ')[0]! : this.known(world, entity);
+    const name = this.knownAs(world, entity)
+      ?? (entity.type === 'group' ? entity.name.split(', ')[0]! : this.known(world, entity));
     return name.includes('{') ? this.map(name, call => World.format(call),
       ref => this.label(world, binding[ref] ?? ref, binding)) : name;
+  }
+  // What someone is known as while that holds ("an old man by the stove" until he has said he is Tibb), whole, comma
+  // and all. Every label and placeholder goes by it, so a masked name does not leak into "Talk to …" or a {who} (the
+  // Book of Faces' BOF-01, BOF-02).
+  static knownAs(world: World, entity: Entity): string | undefined {
+    return entity.roles?.find(r => !r.name.startsWith(entity.name) && world.test(r.when))?.name;
   }
   // A place's name if the company knows the fact that names it, else what it looks like to a stranger. A world with
   // no company (an author's check) knows every name.

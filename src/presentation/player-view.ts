@@ -121,7 +121,8 @@ export class PlayerView {
     const visible = OwnWords.unasked(world.module, seen);
     const rows = ActionPresentation.choices(visible, campaign.schemaList).map(row => {
       row.choice.time = ActionTime.of(row.action, world);
-      // Choices are grounded with every place's name; one the company has not learned is said as it is seen.
+      // Choices are grounded with every name; a place the company has not learned is said as it is seen, someone known
+      // as something while that holds as that (the Book of Faces' BOF-01: "Talk to Tibb" beside "an old man").
       for (const [name, alias] of unnamed) { row.choice.name = row.choice.name.replaceAll(name, alias); }
       row.choice.name = ChoiceWording.word(campaign, row.action, { name: row.choice.name, ...here ? { here } : {} });
       return row;
@@ -151,8 +152,9 @@ export class PlayerView {
       .reduce((t, e) => t.replaceAll(e.name, e.alias!.name), text);
   }
   private static unnamed(world: Campaign['world']): Map<string, string> {
-    return new Map(EntityIndex.of(world.module.entities).aliased.filter(e => ObservationText.known(world, e) !== e.name)
-      .map(e => [e.name, e.alias!.name]));
+    return new Map([...EntityIndex.of(world.module.entities).aliased, ...world.module.entities.filter(e => e.roles)]
+      .map(e => [e.name, ObservationText.knownAs(world, e) ?? ObservationText.known(world, e)] as const)
+      .filter(([name, called]) => called !== name));
   }
   // A choice the page offers, or any action the rules offer now by its id: the page groups and words what it shows, and
   // an action it folded into another (the same done with either of two alike things) is no less legal for that (the

@@ -6,6 +6,8 @@ import { VoiceContext } from './voice-context';
 import { Editor } from './editor';
 import { Journeys } from './journeys';
 import { ModuleWriter } from '../lang/module-writer';
+import { ObservationText } from '../lang/observation-text';
+import { EntityIndex } from '../lang/entity-index';
 
 export type Voiced = NonNullable<CampaignEvent['voiced']>[number];
 // What the company is told of what a command made happen, in the voice tables' words: chosen for the moment, never
@@ -65,21 +67,31 @@ export class Telling {
     const ids = campaign.readout.inhabitants?.[actor] ?? [];
     return ids.length > 0 && ids.every(id => (campaign.readout.creatures.find(c => c.id === id)?.state.hp ?? 1) <= 0);
   }
+  // Someone's own words with whoever they name in them as the company would call them ("'Evening,' says {tibb}." had
+  // been said with the id in it: the Book of Faces' BOF-37); the voice's own words ({Name}, {they}) are left to it.
+  private static filled(campaign: Campaign, words: string): string {
+    const ids = EntityIndex.of(campaign.world.module.entities).byId;
+    return words.replace(/\{([a-z][a-z0-9_]*)\}/g, (all, id: string) => ids.has(id)
+      ? ObservationText.label(campaign.world, id) : all);
+  }
   private static say(campaign: Campaign, h: Happening,
     memory: { used: Set<string>; pairs: Set<string>; key: string }): Voiced | undefined {
     const actor = h.actor ?? '', context = VoiceContext.of(campaign, h, memory.pairs);
     const speaking = { actor: this.called(campaign, actor), pronoun: context.pronoun,
       many: (campaign.readout.inhabitants?.[actor]?.length ?? 1) > 1 };
-    const own = this.authored[h.kind] && campaign.world.module.relations.some(r => r.name === this.authored[h.kind])
-      ? campaign.world.one(this.authored[h.kind]!, actor) : undefined;
-    // Words said only while something holds (Leaves "…" when …) are not said, nor any others, when it does not.
-    if (own && campaign.world.module.queries.some(q => q.name === `${own}_when`)
-      && !campaign.world.test(ModuleWriter.call(`${own}_when`))) { return undefined; }
+    // Words said only while something holds (Leaves "…" when …) are not said, nor any others, when they do not; of
+    // several, the first that holds (Greets "…" when it is day, Greets "…" when it is night: the Book of Faces'
+    // BOF-03).
+    const mine = this.authored[h.kind] && campaign.world.module.relations.some(r => r.name === this.authored[h.kind])
+      ? campaign.world.related(this.authored[h.kind]!).filter(r => r.args[0] === actor).map(r => r.args[1]!) : [];
+    const own = mine.find(w => !campaign.world.module.queries.some(q => q.name === `${w}_when`)
+      || campaign.world.test(ModuleWriter.call(`${w}_when`)));
+    if (mine.length && !own) { return undefined; }
     // A farewell of their own is theirs every time; a joining or a parting the first time, and after it, nothing from
     // the tables in another voice (the Grand Tour's 12: a second joining in the tables' words).
     if (own && (context.moment === 'first' || h.kind === 'farewell')) {
       const words = campaign.module.entities.find(e => e.id === own)?.name ?? '';
-      return { id: `own:${own}`, kind: h.kind, actor, text: Voice.render(words, speaking) };
+      return { id: `own:${own}`, kind: h.kind, actor, text: Voice.render(this.filled(campaign, words), speaking) };
     }
     if (own && (h.kind === 'join' || h.kind === 'part')) { return undefined; }
     // Someone with their own words of greeting is not given the tables' afterwards: Tessary's corporal and its Factor
@@ -90,7 +102,7 @@ export class Telling {
         ? campaign.world.one('regreeting', actor) : undefined;
       const words = again && campaign.module.entities.find(e => e.id === again)?.name;
       if (words && context.moment !== 'first') {
-        return { id: `own:${again}`, kind: h.kind, actor, text: Voice.render(words, speaking) };
+        return { id: `own:${again}`, kind: h.kind, actor, text: Voice.render(this.filled(campaign, words), speaking) };
       }
       if (own) { return undefined; }
     }

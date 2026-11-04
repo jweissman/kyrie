@@ -151,7 +151,9 @@ export class PersonParser {
       if (['Lair', 'Refuge', 'Fears', 'Manner', 'Pronouns'].includes(m.kind)) {
         PersonParser.fact(module, relation, id, m.text); continue;
       }
-      const words = `${id}_${relation}`;
+      // A second of the same (two Greets, each with its when) is words of its own (the Book of Faces' BOF-03).
+      const first = `${id}_${relation}`, n = module.entities.filter(e => e.id === first || e.id.startsWith(`${first}_`)
+        && /^\d+$/.test(e.id.slice(first.length + 1))).length, words = n ? `${first}_${n + 1}` : first;
       module.entities.push({ id: words, type: 'fact', name: m.text });
       PersonParser.fact(module, relation, id, words);
       // Said only while it holds: a gaol door shutting on someone is no parting (A Winter in Carth's friction 8).
@@ -204,9 +206,12 @@ export class PersonParser {
   // What someone is called while something holds, in place of their name and role: "a woman in a grey shawl" until
   // she has said who she is, "the masked lady" while the mask is on (the Liberty of the Ice's friction 12; A Winter in
   // Carth's 5, which wrote the masked Lady as a second person).
+  // It is one name, commas and all: the page tells a name from a role at its first comma ("Hob, the miller"), so a
+  // comma in it is joined to what follows by a space that does not break, which reads the same (the Book of Faces'
+  // BOF-02: "a woman in a grey half-mask, plaster to the elbows" had been two people).
   static PersonKnown(_k: Node, text: Node, when: Node, _dot: Node): Field {
-    return { field: 'roles', value: { role: ModuleParser.ast(text) as string, when: ModuleParser.ast(when) as Predicate,
-      whole: true } };
+    const role = (ModuleParser.ast(text) as string).replaceAll(', ', ',\u00a0');
+    return { field: 'roles', value: { role, when: ModuleParser.ast(when) as Predicate, whole: true } };
   }
   static RoleWhen(_w: Node, p: Node) { return ModuleParser.ast(p); }
   static PersonRace(_r: Node, id: Node, _dot: Node): Field { return { field: 'raceId', value: id.sourceString }; }
