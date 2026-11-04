@@ -184,7 +184,20 @@ Module belongings "What the company carries" {
     Description "Hand it to someone who has asked for it, or will take it. What they do with it is theirs to decide.".
     Requires able(actor) and at(actor, site) and able(recipient) and at(recipient, site) and distinct(actor, recipient)
       and memberOf(carrier, actor) and awake(carrier) and ownedItem(gift, carrier) and itemKind(gift, form)
-      and wants(recipient, form).
+      and wants(recipient, form) and not valuable(form).
+    Resolve drop(gift, carrier).
+    On success { Assert keeps(recipient, gift). }
+    Result "{carrier} gives {gift} to {recipient}.".
+  }
+  // Something of worth given away is not had back: asked before it is done (BTW-07: the deed to the Wainscot was
+  // handed over on one touch).
+  Action give_valuable(actor: group, gift: item, form: itemkind, carrier: member, recipient: group, site: place) "Give {gift} to {recipient}" {
+    Time 1 minute.
+    Description "Hand it to someone who has asked for it, or will take it. What they do with it is theirs to decide.".
+    Grave "Once it is given it is theirs, and you will not have it back.".
+    Requires able(actor) and at(actor, site) and able(recipient) and at(recipient, site) and distinct(actor, recipient)
+      and memberOf(carrier, actor) and awake(carrier) and ownedItem(gift, carrier) and itemKind(gift, form)
+      and wants(recipient, form) and valuable(form).
     Resolve drop(gift, carrier).
     On success { Assert keeps(recipient, gift). }
     Result "{carrier} gives {gift} to {recipient}.".
