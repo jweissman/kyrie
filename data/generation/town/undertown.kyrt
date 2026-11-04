@@ -7,6 +7,9 @@
 // needs to change.
 --- base
   Relation {t}_u_paid(entity). Relation {t}_u_done(entity). Relation {t}_u_given(entity).
+  // A job half paid for (done, its cause not yet seen to) is paid only the rest when it is finished (REV-21: the
+  // half and then the whole had both been paid).
+  Relation {t}_u_halved(entity).
   Place {t}_u_store "the old corn-store" is room within {t} at 0, 1 indoors.
   // Each way down is locked or barred by whoever is troubled by what is under it, and given by them with the job: the
   // troubles had been done without a word to anyone, and paid for after (the owner, 3 November).
@@ -93,13 +96,17 @@
   Objective {t}_u_rats_job_sought when knows(party, {t}_u_notice) and not {t}_u_given({t}_u_rats_job) "Ask {{t}_merchant} about the rats in the corn-store at {town}: the corn-store is locked.".
   Objective {t}_u_rats_job_aim when {t}_u_given({t}_u_rats_job) and not {t}_u_done({t}_u_rats_job) "Clear the rats out of {{t}_u_cellar}, under {{t}_u_store} at {town}, and find where they get in.".
   Objective {t}_u_rats_job_run when {t}_u_done({t}_u_rats_job) and state({t}_u_rats_run, open) and knows(party, {t}_u_rats_source) and not {t}_u_paid({t}_u_rats_job) "Stop {{t}_u_rats_run}, in {{t}_u_warren} under {{t}_u_store}, or they will be back.".
-  Topic {t}_u_rats_job_paid with {t}_merchant "Tell {{t}_merchant} the rats under the corn-store are dead, and their run from the drain stopped" when {t}_u_done({t}_u_rats_job) and state({t}_u_rats_run, stopped) and not {t}_u_paid({t}_u_rats_job) once {
+  Topic {t}_u_rats_job_paid with {t}_merchant "Tell {{t}_merchant} the rats under the corn-store are dead, and their run from the drain stopped" when {t}_u_done({t}_u_rats_job) and state({t}_u_rats_run, stopped) and not {t}_u_halved({t}_u_rats_job) and not {t}_u_paid({t}_u_rats_job) once {
     Says "{{t}_merchant} goes down to look, and comes back up with dust on both knees and a different face. Ten coin are counted out, and a lantern and two flasks of oil set on the counter beside them. 'You'll want light where you're going,' says {{t}_merchant}. 'Anyone who goes down there does.'".
     On discuss { Increase quantity(actor, gold) by 10. Give lantern to actor. Give 2 lamp_oil to actor. Assert {t}_u_paid({t}_u_rats_job). }
   }
+  Topic {t}_u_rats_job_rest with {t}_merchant "Tell {{t}_merchant} the rats under the corn-store are dead, and their run from the drain stopped" when {t}_u_done({t}_u_rats_job) and state({t}_u_rats_run, stopped) and {t}_u_halved({t}_u_rats_job) and not {t}_u_paid({t}_u_rats_job) once {
+    Says "{{t}_merchant} goes down to look, and comes back up with dust on both knees. The other four coin are counted out, and a lantern and two flasks of oil set on the counter beside them. 'You'll want light where you're going,' says {{t}_merchant}.".
+    On discuss { Increase quantity(actor, gold) by 4. Give lantern to actor. Give 2 lamp_oil to actor. Assert {t}_u_paid({t}_u_rats_job). }
+  }
   Topic {t}_u_rats_job_half with {t}_merchant "Tell {{t}_merchant} the rats under the corn-store are dead" when {t}_u_done({t}_u_rats_job) and state({t}_u_rats_run, open) and not {t}_u_paid({t}_u_rats_job) once {
     Says "'Dead,' says {{t}_merchant}, 'and the rest of them coming up the same way they came, I don't doubt.' Six coin are counted out. 'Find where they get in and stop it, and you'll have the other four, and the lantern.'".
-    On discuss { Increase quantity(actor, gold) by 6. }
+    On discuss { Increase quantity(actor, gold) by 6. Assert {t}_u_halved({t}_u_rats_job). }
   }
   Objective {t}_u_rats_job_owed when {t}_u_done({t}_u_rats_job) and state({t}_u_rats_run, stopped) and not {t}_u_paid({t}_u_rats_job) "Tell {{t}_merchant} the rats are dead and their run stopped, at {{merchantat}}: ten coin and a lantern.".
 >> 'RATS in the old corn-store, as big as cats. Ten coin, and a lantern. Ask {{t}_merchant} for the key.'
@@ -174,13 +181,17 @@
   Rule {t}_u_raiser_ended when not able({t}_u_raiser) and not {t}_u_done({t}_u_raiser) { Assert {t}_u_done({t}_u_raiser). }
   Objective {t}_u_dead_job_sought when knows(party, {t}_u_notice) and not {t}_u_given({t}_u_dead_job) "Ask {{t}_priest} about what has come up under the churchyard at {town}: the crypt is locked.".
   Objective {t}_u_dead_job_aim when {t}_u_given({t}_u_dead_job) and not {t}_u_done({t}_u_dead_job) "Lay the dead in {{t}_u_crypt} under {{t}_u_yard} at {town}, and find out who raised them.".
-  Topic {t}_u_dead_job_paid with {t}_priest "Tell {{t}_priest} the dead under the churchyard are laid, and who raised them" when {t}_u_done({t}_u_dead_job) and {t}_u_done({t}_u_raiser) and not {t}_u_paid({t}_u_dead_job) once {
+  Topic {t}_u_dead_job_paid with {t}_priest "Tell {{t}_priest} the dead under the churchyard are laid, and who raised them" when {t}_u_done({t}_u_dead_job) and {t}_u_done({t}_u_raiser) and not {t}_u_halved({t}_u_dead_job) and not {t}_u_paid({t}_u_dead_job) once {
     Says "{{t}_priest} hears it all with eyes shut, and at the end says the names of the three in the opened graves, one after another. Then 15 coin, and from the shrine's own chest a charm of ashwood and bronze wire, and two small stoppered bottles. 'The charm was made for those who go among the dead,' {{t}_priest} says. 'The bottles are for after.'".
     On discuss { Increase quantity(actor, gold) by 15. Give ashwood_charm to actor. Give 2 healingdraught to actor. Assert {t}_u_paid({t}_u_dead_job). }
   }
+  Topic {t}_u_dead_job_rest with {t}_priest "Tell {{t}_priest} who raised the dead under the churchyard" when {t}_u_done({t}_u_dead_job) and {t}_u_done({t}_u_raiser) and {t}_u_halved({t}_u_dead_job) and not {t}_u_paid({t}_u_dead_job) once {
+    Says "{{t}_priest} hears it all with eyes shut, and at the end says the names of the three in the opened graves, one after another. Then the rest of the coin, and from the shrine's own chest a charm of ashwood and bronze wire, and two small stoppered bottles. 'The charm was made for those who go among the dead,' {{t}_priest} says. 'The bottles are for after.'".
+    On discuss { Increase quantity(actor, gold) by 5. Give ashwood_charm to actor. Give 2 healingdraught to actor. Assert {t}_u_paid({t}_u_dead_job). }
+  }
   Topic {t}_u_dead_job_half with {t}_priest "Tell {{t}_priest} the dead under the churchyard are laid" when {t}_u_done({t}_u_dead_job) and not {t}_u_done({t}_u_raiser) and not {t}_u_paid({t}_u_dead_job) once {
     Says "'Laid,' says {{t}_priest}, 'until whoever raised them comes back with another candle.' Ten coin. 'Find who it is, and the rest is yours, and more.'".
-    On discuss { Increase quantity(actor, gold) by 10. }
+    On discuss { Increase quantity(actor, gold) by 10. Assert {t}_u_halved({t}_u_dead_job). }
   }
   Objective {t}_u_dead_job_owed when {t}_u_done({t}_u_dead_job) and {t}_u_done({t}_u_raiser) and not {t}_u_paid({t}_u_dead_job) "Tell {{t}_priest} the dead are laid and who raised them, at {{priestat}}: fifteen coin, and what the shrine can give.".
 >> 'Whoever will go down into the catacombs under the churchyard, where something has come up: fifteen coin, and the shrine's thanks. Ask {{t}_priest}.'
@@ -229,13 +240,17 @@
   Objective {t}_u_spiders_job_sought when knows(party, {t}_u_notice) and not {t}_u_given({t}_u_spiders_job) "Ask {{t}_innkeeper} about the old quarry at {town}: its gate is locked.".
   Objective {t}_u_spiders_job_aim when {t}_u_given({t}_u_spiders_job) and not {t}_u_done({t}_u_spiders_job) "Burn the spiders out of {{t}_u_adit} under {{t}_u_pit} at {town}.".
   Objective {t}_u_spiders_job_eggs when {t}_u_done({t}_u_spiders_job) and knows(party, {t}_u_spiders_eggs) and state({t}_u_eggs, hanging) "Burn the egg-sacs at the back of the quarry's gallery, or the spiders will come again.".
-  Topic {t}_u_spiders_job_paid with {t}_innkeeper "Tell {{t}_innkeeper} the spiders in the old quarry are dead, and their eggs burned" when {t}_u_done({t}_u_spiders_job) and state({t}_u_eggs, burnt) and not {t}_u_paid({t}_u_spiders_job) once {
+  Topic {t}_u_spiders_job_paid with {t}_innkeeper "Tell {{t}_innkeeper} the spiders in the old quarry are dead, and their eggs burned" when {t}_u_done({t}_u_spiders_job) and state({t}_u_eggs, burnt) and not {t}_u_halved({t}_u_spiders_job) and not {t}_u_paid({t}_u_spiders_job) once {
     Says "{{t}_innkeeper} counts out 12 coin, and sets a clay pot and a coil of good rope beside it. 'Fireman's salve, and the rope from the gate, which we'll not want now,' {{t}_innkeeper} says.".
     On discuss { Increase quantity(actor, gold) by 12. Give fireproof_salve to actor. Give rope to actor. Assert {t}_u_paid({t}_u_spiders_job). }
   }
+  Topic {t}_u_spiders_job_rest with {t}_innkeeper "Tell {{t}_innkeeper} the spiders' eggs in the old quarry are burned" when {t}_u_done({t}_u_spiders_job) and state({t}_u_eggs, burnt) and {t}_u_halved({t}_u_spiders_job) and not {t}_u_paid({t}_u_spiders_job) once {
+    Says "{{t}_innkeeper} counts out the other five coin, and sets a clay pot and a coil of good rope beside it. 'Fireman's salve, and the rope from the gate, which we'll not want now,' {{t}_innkeeper} says.".
+    On discuss { Increase quantity(actor, gold) by 5. Give fireproof_salve to actor. Give rope to actor. Assert {t}_u_paid({t}_u_spiders_job). }
+  }
   Topic {t}_u_spiders_job_half with {t}_innkeeper "Tell {{t}_innkeeper} the spiders in the old quarry are dead" when {t}_u_done({t}_u_spiders_job) and state({t}_u_eggs, hanging) and not {t}_u_paid({t}_u_spiders_job) once {
     Says "'And the eggs?' says {{t}_innkeeper}, and sees your face. 'Then they'll be back by spring.' Seven coin. 'Burn them and the rest is yours.'".
-    On discuss { Increase quantity(actor, gold) by 7. }
+    On discuss { Increase quantity(actor, gold) by 7. Assert {t}_u_halved({t}_u_spiders_job). }
   }
   Topic {t}_u_hobb_knife with {t}_u_hobb "Give Dannel Hobb his father's knife back" when holding(actor, hobb_knife) once {
     Says "The boy takes it in both hands. That evening his mother comes to find you, with a bottle wrapped in a cloth. 'From the boy,' she says. 'It's what I had by me.'".
