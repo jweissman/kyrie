@@ -11,7 +11,7 @@ Read alongside:
 - [overview.md](../overview.md): the four layers, and one authored line followed to a remembered consequence. Start
   there for the architecture; this file adds what changed since and what is weak.
 - [register.md](register.md): every finding of every review and author's report, one row each, with its status and
-  evidence.
+  evidence; the rows carried to Mission 19 (Wishlist) are in [wishlist.md](wishlist.md).
 - [closure.md](closure.md): what Mission 18 set out to do and what it did (the phase-by-phase account below is the
   current one).
 - [verification.md](../verification.md) and [performance.md](../performance.md): test tiers, CI, and costs.
@@ -135,12 +135,12 @@ The brief is [brief.md](brief.md) (gates A to F); the owner's own requests are t
 ## 6. The register
 
 [register.md](register.md). Statuses: Fixed (with evidence), Partial (what remains said), Open, Wishlist (Mission 19,
-with why), Superseded, Not reproduced. Older rows keep their status at the start of the last cell; later notes are
-appended dated. Counts at handoff (568 rows): Fixed 383, Wishlist 138, Not reproduced 12, Partial 7, Superseded 3, and 25 held by or answered in another row; none Open.
+with why), Superseded, Not reproduced. Each row's status is the bold word at the head of its status cell; later notes are
+appended dated. The 138 Wishlist rows are in [wishlist.md](wishlist.md), and the register names them under each table. Counts at handoff (568 rows): Fixed 383, Wishlist 138, Not reproduced 12, Partial 7, Superseded 3, and 25 held by or answered in another row; none Open.
 
 What remains Partial is the owner's to judge in play (OWN-55, OWN-76 to OWN-79, OWN-81: the town page, the loop,
 navigation) and one concrete item (NVR-23, the road page's spec).
-The Wishlist is Mission 19's backlog, each row saying what it needs; many group under a few themes (§10).
+The Wishlist ([wishlist.md](wishlist.md)) is Mission 19's backlog, each row saying what it needs; many group under a few themes (§10).
 
 Practice that bit the builder twice: a register row's id must be checked against its finding before it is closed
 (two rows were closed by the wrong id and corrected).

@@ -124,7 +124,7 @@ with the play named), **Accepted** (the owner's word, where the gate asks it).
 **Mission 18 is closed, not complete.** No requirement is **Accepted**: the gates that ask for the owner's word (A,
 and C and F through play) have not had it, and the owner's verdict on ordinary play of 3 November was negative.
 Every requirement below that is short of Played or Built has a disposition, so nothing is carried silently; the
-register's matching rows are Wishlist with what each needs, and [handoff.md](handoff.md) and
+register's matching rows are Wishlist with what each needs ([wishlist.md](wishlist.md)), and [handoff.md](handoff.md) and
 [handoff-supplement.md](handoff-supplement.md) say what Mission 19 should take first.
 
 | Req | State | Disposition |
