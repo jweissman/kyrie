@@ -203,3 +203,7 @@
     box-shadow: 0 -18px 40px rgba(0, 0, 0, .45); }
   .glance > .told-col { padding-bottom: 18px; }
 }
+/* Several aims at once, one note: a line each, the follow beside it, small (PD-11). */
+.notes .aims-many > ul { list-style: none; margin: 6px 0 0; padding: 0; display: grid; gap: 4px; }
+.notes .aims-many > ul > li { font-size: 14.5px; line-height: 1.45; }
+.notes .aims-many .follow-aim { margin-left: 8px; padding: 1px 8px; font-size: 11px; }

@@ -141,7 +141,9 @@ export class Told {
           ?? <p key={`r${i}`} className={l.kind}>{Typography.curl(l.text)}</p>)}
         {ended && <Moments.SeenThrough ended={ended} ready={ready} />}
         {levels.length > 0 && <Moments.Levelled levels={levels} />}
-        {notes.length > 0 && <ul className="notes">{notes.map(n => <li key={n}
+        {notes.length > 0 && <ul className="notes">
+          {Told.aims(notes).length > 1 && <Told.Aims app={app} aims={Told.aims(notes)} />}
+          {notes.filter(n => Told.aims(notes).length < 2 || !Told.aims(notes).includes(n)).map(n => <li key={n}
           className={Words.noted.test(n) ? 'learned' : undefined}>{Words.noted.test(n)
             ? <><span className="label">{Words.label(n)}</span>
               {` ${Typography.curl(n.replace(Words.noted, ''))}`}
@@ -156,6 +158,14 @@ export class Told {
     const aims = notes.filter(n => /^Aim( now)?: /.test(n)), rest = notes.filter(n => !aims.includes(n));
     const room = aims.length ? 1 : 2, more = rest.length - room;
     return [...aims, ...rest.slice(0, room), ...more > 0 ? [`And ${more === 1 ? 'one thing more' : `${more} things more`}, in the Book.`] : []];
+  }
+  static aims(notes: string[]): string[] { return notes.filter(n => /^Aim: /.test(n)); }
+  // Several aims taken up at once (a notice of three jobs) are one note, a line each, not a block each (the
+  // product-design review's PD-11: three quest paragraphs in the town's telling).
+  static Aims({ app, aims }: { app?: ReaderApp; aims: string[] }) {
+    return <li className="learned aims-many"><span className="label">{`${aims.length} new aims`}</span>
+      <ul>{aims.map(n => { const aim = n.replace(Words.noted, ''); return <li key={n}>{Typography.curl(aim)}
+        {app && <Told.Follow app={app} aim={aim} />}</li>; })}</ul></li>;
   }
   // A new aim not followed (the company's own errand is, or another the player chose), to follow instead: as an
   // RPG's journal offers to track a quest just taken up (see Undertakings).

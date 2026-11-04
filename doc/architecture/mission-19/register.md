@@ -83,7 +83,7 @@ quick-start on *What is owed* toward the king-barrow; the map at 390×844). Each
 | PD-08 | R | Heard, lead, undertaking, route knowledge and immediate action are not separate records the journal, map and page all project | Review §1.3, §3.C, Phase 2 | P1 | **Open** (see M19-01, M19-35 for the aim's identity, which is done) |
 | PD-09 | U | A settlement and a site have no plan of their own: the town's and the dungeon's ways are lists | Review §1.4, Phase 3 | P1 | **Open** (the depth line, M19-41, is the first part) |
 | PD-10 | U | Gold means selection, focus, destination, availability and the aim at once | Review §4.4 | P2 | **Open** |
-| PD-11 | U | The notice's three jobs arrive as three quest paragraphs in the town's telling, each a new aim | Review §3.A | P2 | **Open** |
+| PD-11 | U | The notice's three jobs arrive as three quest paragraphs in the town's telling, each a new aim | Review §3.A | P2 | **Partial**: several aims taken up at once are one note, "3 new aims", a line each with its follow beside it ([capture](evidence/2026-11-04-notice-1280x800.png)). Open: whether a notice's jobs should be aims at all before anyone is asked |
 | PD-12 | U | On the phone map, labels compete, and a followed aim whose place is not known gives no direction or says who might know | Review §1.4, §4 | P2 | **Open** |
 | PD-13 | U | After a fight, no aftermath: what was recovered, what it cost, what is unfinished | Review §3.E | P2 | **Open** |
 | PD-14 | D | The acceptance protocol: five cold players, comprehension, orientation, intention, action integrity, continuity, pacing, motivation | Review §7 | P1 | **Open**: an obligation for closure; evidence.md's instructions to be extended to it |
