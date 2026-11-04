@@ -24,7 +24,8 @@ export interface Standing { names: Map<string, string>; choices: { command: stri
 
 export class DecisionFrame {
   // Choices an act opens that are only its own undoing or a farewell, never what it made relevant.
-  static readonly quiet = ['take_leave', 'leave', 'wait'];
+  // Not said as opened: what is always to hand (talking to someone just left had been "Now open: Talk to Bask").
+  static readonly quiet = ['take_leave', 'leave', 'wait', 'talk_to'];
   static after(acted: Acted, acts: Promoted[], standing: Standing): AfterAct {
     const f = acted.feedback, result = [f.result, ...f.discoveries, ...f.observations, ...f.events, ...f.immediate]
       .find(t => t?.trim());
