@@ -1476,6 +1476,20 @@ never past twenty-five, outside the level's development: a Manual. It spends not
   }
 ```
 
+### A spell taught
+
+`Resolve teach(member, spell)` takes a catalog spell or technique into what a member knows, of any tradition, at no
+cost: a master's lesson, a researched spell, a song learned by ear. It can be prepared from then on, once the member
+can cast its level; a spell is taught only to one who casts spells, and nothing happens to anyone else, or to one who
+knows it already (`test/module-teaches-spell.test.ts`). `Resolve learn` is the level's own choice, and spends it.
+
+```text
+  Action read_book(actor: group, reader: member, site: place) "Have {reader} read the drowned book" {
+    Requires at(actor, site) and memberOf(reader, actor). Resolve teach(reader, drench).
+    Result "{reader} reads the drowned book through.".
+  }
+```
+
 ### A place out of the world
 
 `elsewhere`, where `outdoors`, `indoors` or `underground` would go, says a place has no sky over it and no hour told

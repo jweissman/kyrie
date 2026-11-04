@@ -138,7 +138,9 @@ export class FieldUse {
       const c = lease.creatures[0]!;
       if (name === 'improve') { Advancement.improve(c, choice as Attribute); } else if (name === 'feat') {
         Advancement.feat(c, choice);
-      } else if (name === 'school') { Advancement.school(c, choice); } else { Advancement.learn(c, choice); }
+      } else if (name === 'school') { Advancement.school(c, choice); } else if (name === 'teach') {
+        if (!Advancement.teach(c, choice)) { return []; }
+      } else { Advancement.learn(c, choice); }
       lease.commit([c], { advancement: true });
       // A skill taken up is said by the command's own result ("Tamsin takes up Climbing."), not again as a gain.
       if (name === 'school') { return []; }

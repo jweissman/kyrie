@@ -156,6 +156,16 @@ export class Advancement {
     creature.base[quality] = Math.max(before, Math.min(this.ceiling, before + by));
     return creature.base[quality] - before;
   }
+  // A spell or technique taught by someone in the world (a master, a book, a song learned by ear), outside the level's
+  // development: taken into what they know at no cost, of any tradition, to be prepared once they can cast its level;
+  // a spell is taught only to one who casts spells (the Book of Faces' BOF-04: a module could not teach one at all).
+  // Whether it was taken in: not again, nor a spell by one who casts none.
+  static teach(creature: Creature, ability: string): boolean {
+    const known = [...creature.base.abilities, ...creature.state.learnedAbilities];
+    if (known.includes(ability) || (Spellcasting.levelOf(ability) > 0 && !this.specialist(creature))) { return false; }
+    creature.state.learnedAbilities.push(ability);
+    return true;
+  }
   static learn(creature: Creature, spell: string) {
     if (!this.learnable(creature).includes(spell)) { throw new Error(`${creature.id} cannot learn ${spell}`); }
     creature.state.learnedAbilities.push(spell); creature.state.advances!.spells--;

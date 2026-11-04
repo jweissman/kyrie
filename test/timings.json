@@ -312,6 +312,7 @@
     "test/engine-words.test.ts": 1824,
     "test/countries-tool.test.ts": 1815,
     "test/told-again.test.ts": 1803,
+    "test/module-teaches-spell.test.ts": 1800,
     "test/author-lint.test.ts": 1745,
     "test/journey-named-time.test.ts": 1723,
     "test/endings-lint.test.ts": 1697,
