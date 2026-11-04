@@ -116,7 +116,7 @@ export class PlaceStage {
       {face}
       <span className="who"><span className="n">{Typography.curl(Words.upper(s.name))}</span>
         {s.note && <span className="r">{Typography.curl(s.note)}</span>}
-        {first && <span className="why-said">{Typography.curl(first)}</span>}
+        {first && !s.note?.startsWith(first) && <span className="why-said">{Typography.curl(first)}</span>}
         {s.state && <span className="r hurt">{s.state === 'dead' ? 'dead' : 'down'}</span>}
         {s.says?.[0] && !brief && <span className="doing">{Typography.curl(s.says.join(' '))}</span>}</span>
       {/* What touching the plate does, as a chip says it: every plate the same (the owner, 4 November). */}

@@ -3,6 +3,7 @@ import type { View } from './menu-model';
 import { Stage } from './stage/stage';
 import { PrologueStage } from './stage/prologue-stage';
 import { Raised, type Sheet } from './stage/raised';
+import { GlanceStage } from './stage/glance';
 
 // The keyboard. In play, arrows move the highlight through what can be done now (raising the sheet a choice is on, at
 // a place: see Raised), Enter does it, a digit does one at once (at a place, 1 to 3 what the glance leads with), Esc
@@ -32,17 +33,20 @@ export class ReaderKeys {
     if (Stage.mapped(app) && /^(ArrowUp|ArrowDown|Enter| |[1-9])$/.test(key)) { return false; }
     if (key === 'ArrowDown' || key === 'ArrowUp') {
       if (!menu.choices.length) { return false; }
-      // The first press shows where the keys are, on the first choice (or the last, going up), rather than passing
-      // over one the player never saw it on.
+      // The first press shows where the keys are, on what the page marks first (or the last, going up), rather than
+      // passing over one the player never saw it on.
       const n = menu.choices.length, step = key === 'ArrowDown' ? 1 : -1;
-      const cursor = s.keyed ? (s.cursor + step + n) % n : step > 0 ? 0 : n - 1;
+      const cursor = s.keyed ? (s.cursor + step + n) % n : step > 0 ? Math.max(0, GlanceStage.top(app)) : n - 1;
       app.setState({ cursor, hovered: undefined, keyed: true });
       if (Stage.mode(app) === 'explore') { Raised.follow(app, cursor); }
       return true;
     }
     if (key === 'Enter' || key === ' ') {
       // Nothing is shown chosen yet: Enter shows where the keys are, and does nothing unseen.
-      if (!s.keyed && menu.choices.length) { app.setState({ cursor: 0, keyed: true }); return true; }
+      if (!s.keyed && menu.choices.length) {
+        app.setState({ cursor: Math.max(0, GlanceStage.top(app)), keyed: true });
+        return true;
+      }
       const chosen = menu.choices[s.cursor];
       if (chosen) { app.choose(chosen); }
       return !!chosen;

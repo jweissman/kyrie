@@ -77,9 +77,9 @@ export class MonoDriver {
     for (let again = 0; again < 2; again++) {
       if (this.pointer) { await this.tap(index); }
       else {
-        // The first press shows where the keys are (on the first choice); the player moves from there.
-        const now = again ? await this.inspect() : state;
-        if (now.selected === undefined) { await this.key('ArrowDown'); }
+        // The first press shows where the keys are (on what the page marks first); the player moves from there.
+        let now = again ? await this.inspect() : state;
+        if (now.selected === undefined) { await this.key('ArrowDown'); now = await this.inspect(); }
         const current = Math.max(0, now.choices.findIndex(c => c.id === (now.selected ?? now.choices[0]?.id)));
         const delta = index - current;
         for (let i = 0; i < Math.abs(delta); i++) { await this.key(delta > 0 ? 'ArrowDown' : 'ArrowUp'); }

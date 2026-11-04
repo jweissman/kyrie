@@ -17,8 +17,9 @@ import { Raised } from './raised';
 import { Told } from './told';
 import { WaysPane } from './ways-pane';
 
-// A place at a glance (OWN-18, OWN-19), as the engine decides it (see Glance): one column under the place's head. What
-// was just done, when it was done here; how the company came, in a line; the place's own line; a sign of life now (a
+// A place at a glance (OWN-18, OWN-19), as the engine decides it (see Glance), under the place's head: what is told in
+// one column, and what can be done held in view beside it (under it on a screen held upright), never a scroll away.
+// What was just done, when it was done here; how the company came, in a line; the place's own line; a sign of life now (a
 // danger, as what it is and how a fight would go); on a return, what has changed; the aim, when it wants saying; the
 // few things worth doing now, each with why and what it risks, the first edged in gold (the keys' 1, 2 and 3); a quiet
 // row of the nearest ways; how the company is, only when something is wrong; and Every way, Look about and More, each
@@ -35,33 +36,40 @@ export class GlanceStage {
     const acts = app.menu.leads ?? g.acts, leading = new Set<string | undefined>(app.menu.leading ?? []);
     // What the glance ranks first is marked first, a lead or someone's plate (the owner, 4 November: lead 1 had been
     // marked though talking to Theren, on her plate, was what the aim followed asked).
-    const top = g.acts[0] && GlanceStage.choice(app, g.acts[0].choice)?.id;
+    const top = GlanceStage.first(app);
     return (
       <div className={`glance arrival-${g.arrival}`} data-region="glance" data-arrival={g.arrival}>
-        {leaf.recap && (leaf.recap.aim || leaf.recap.last) && <Told.Recap recap={leaf.recap} />}
-        {s.pending ? <Told.Working pending={{ ...s.pending, stage: s.stage }} />
-          : (stayed || struck) && <Told.Happened exchange={told!} said={stayed} ready={ready} app={app} />}
-        {g.came && <GlanceStage.Came app={app} came={g.came} />}
-        {screen.dark && !g.sight && <p className="dark-note">It is dark here. You have no light to see by.</p>}
-        {g.sight && <p className="sight" data-id={g.sight.id}>{Typography.curl(g.sight.text)}</p>}
-        <GlanceStage.Life app={app} glance={g} />
-        {g.changed.length > 0 && <div className="changed">
-          <p className="label">Since you were last here</p>
-          {g.changed.map((l, i) => <p key={i}>{Typography.curl(l)}</p>)}
-        </div>}
-        {/* What came of coming here (the grey dog comes over to push her nose into your hand). */}
-        {!s.pending && told && !stayed && !struck && <Told.Happened exchange={told} ready={ready} app={app} />}
-        {/* What the act opened that the glance does not lead with (asking Alfric along, once he has said he will
-            go), said in a line under what came of it: the button stays where it is drawn (REV-05). */}
-        {!s.pending && told && g.after?.next && !g.after.next.choice && <p className="opened-now" data-id="next">
-          <span className="label">Now open</span>{` ${Typography.curl(g.after.next.label)}`}</p>}
-        <GlanceStage.Aim app={app} said={g.aim} />
-        <GlanceStage.Acts app={app} draw={draw} acts={acts} top={top} />
-        <GlanceStage.People app={app} draw={draw} led={new Set(acts.map(a => GlanceStage.choice(app, a.choice)?.id))}
-          leading={leading} top={top} why={g.acts[0]?.note} />
-        <GlanceStage.Row app={app} draw={draw} glance={g} />
-        {g.need && <p className="need" data-id="need">{g.need.map(n => <span key={n}>{Typography.curl(n)}</span>)}</p>}
-        <GlanceStage.Keys app={app} />
+        <div className="told-col" data-region="told">
+          {leaf.recap && (leaf.recap.aim || leaf.recap.last) && <Told.Recap recap={leaf.recap} />}
+          {s.pending ? <Told.Working pending={{ ...s.pending, stage: s.stage }} />
+            : (stayed || struck) && <Told.Happened exchange={told!} said={stayed} ready={ready} app={app} />}
+          {g.came && <GlanceStage.Came app={app} came={g.came} />}
+          {screen.dark && !g.sight && <p className="dark-note">It is dark here. You have no light to see by.</p>}
+          {g.sight && <p className="sight" data-id={g.sight.id}>{Typography.curl(g.sight.text)}</p>}
+          <GlanceStage.Life app={app} glance={g} />
+          {g.changed.length > 0 && <div className="changed">
+            <p className="label">Since you were last here</p>
+            {g.changed.map((l, i) => <p key={i}>{Typography.curl(l)}</p>)}
+          </div>}
+          {/* What came of coming here (the grey dog comes over to push her nose into your hand). */}
+          {!s.pending && told && !stayed && !struck && <Told.Happened exchange={told} ready={ready} app={app} />}
+          {/* What the act opened that the glance does not lead with (asking Alfric along, once he has said he will
+              go), said in a line under what came of it: the button stays where it is drawn (REV-05). */}
+          {!s.pending && told && g.after?.next && !g.after.next.choice && <p className="opened-now" data-id="next">
+            <span className="label">Now open</span>{` ${Typography.curl(g.after.next.label)}`}</p>}
+        </div>
+        {/* What can be done here, held in view beside what is told (the owner, 4 November: never a scroll away). */}
+        <div className="do-col" data-region="do">
+          <div className="do-list">
+            <GlanceStage.Aim app={app} said={g.aim} />
+            {g.need && <p className="need" data-id="need">{g.need.map(n => <span key={n}>{Typography.curl(n)}</span>)}</p>}
+            <GlanceStage.Acts app={app} draw={draw} acts={acts} top={top} />
+            <GlanceStage.People app={app} draw={draw} led={new Set(acts.map(a => GlanceStage.choice(app, a.choice)?.id))}
+              leading={leading} top={top} why={g.acts[0]?.note} />
+            <GlanceStage.Row app={app} draw={draw} glance={g} />
+          </div>
+          <GlanceStage.Keys app={app} />
+        </div>
       </div>
     );
   }
@@ -78,6 +86,7 @@ export class GlanceStage {
     const more = all.length - shown.length;
     return (
       <div className="cast glance-cast" data-line="People here">
+        <p className="label">{all.length === 1 ? 'Someone here' : 'People here'}</p>
         <ul className="plates">{shown.map(x => <li key={x.id} data-subject={x.id} className="brief">
           <PlaceStage.Plate subject={x} draw={draw} brief led={x.choices.some(c => leading.has(c.id))}
             first={x.choices.some(c => c.id === top) ? why ?? '' : undefined} /></li>)}</ul>
@@ -85,7 +94,8 @@ export class GlanceStage {
       </div>
     );
   }
-  static readonly most = 6;
+  // Four: two rows of the rail, so that the ways under them are in view too.
+  static readonly most = 4;
   private static people(app: ReaderApp): SceneSubject[] {
     return (app.menu.scene?.subjects ?? []).filter(x => x.kind === 'person' && !x.danger);
   }
@@ -206,6 +216,7 @@ export class GlanceStage {
     if (!ways.length) { return null; }
     return (
       <nav className="glance-row" aria-label="The nearest ways">
+        <p className="label">Ways</p>
         <ul className="tiles">{ways.map(c => {
           const exit = screen.exits.find(e => e.id === c.id), step = exit?.bearing, tile = WaysPane.tile(c.label);
           return <li key={c.id} className={step ? 'step' : undefined}>
@@ -235,6 +246,15 @@ export class GlanceStage {
           onClick={() => Raised.toggle(app, 'more')}><span>More</span></button>
       </nav>
     );
+  }
+  // What the glance ranks first, as the page draws it; and where it is among the page's choices (-1, none).
+  static first(app: ReaderApp): string | undefined {
+    const first = app.state.frame?.leaf.glance?.acts[0];
+    return first && GlanceStage.choice(app, first.choice)?.id;
+  }
+  static top(app: ReaderApp): number {
+    const id = GlanceStage.first(app);
+    return id ? app.menu.choices.findIndex(c => c.id === id) : -1;
   }
   // A way out into the country, in a town or a site, is drawn as going out to it (see MenuModel.place).
   static choice(app: ReaderApp, id: string): Choice | undefined {

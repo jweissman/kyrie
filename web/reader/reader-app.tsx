@@ -21,6 +21,7 @@ import { ReaderOptions, type Options } from './reader-options';
 import { Shell } from './shell';
 import { Stage } from './stage/stage';
 import { Act } from './stage/act';
+import { GlanceStage } from './stage/glance';
 
 export type Phase = 'title' | 'options' | 'campaigns' | 'company' | 'loading' | 'play';
 // A journey under way: from where, to where, by what way and how long. Said while the engine works it out, never
@@ -89,6 +90,10 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     const frame = this.state.frame;
     if (frame && prev.frame !== frame) {
       Timings.painted(frame);
+      // The keys rest on what the page marks first, not on whatever is drawn first (the owner, 4 November: the first
+      // option lit while another was the aim's).
+      const top = this.state.keyed ? GlanceStage.top(this) : -1;
+      if (top > 0 && this.state.cursor === 0) { this.setState({ cursor: top }); }
       if (!prev.frame || frame.combat || prev.frame.combat || prev.frame.screen.place.id !== frame.screen.place.id) {
         ReaderApp.top();
       }

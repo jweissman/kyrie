@@ -1,8 +1,8 @@
 /* ---- The lantern. A dark ground, the country's painting far behind it, and one bounded stage lit within it: about a
-   fifth of a desktop's width kept as margin (a tenth each side), less on a tablet, none on a phone, where the stage is
-   the screen inside its safe areas. The page itself never scrolls; what is long scrolls inside its own region. ---- */
+   tenth of a desktop's width kept as margin (a twentieth each side: the owner, 4 November, room to play), less on a
+   tablet, none on a phone, where the stage is the screen inside its safe areas. The page itself never scrolls; what is long scrolls inside its own region. ---- */
 html, body { overflow: hidden; }
-.shell { --gx: clamp(24px, 10vw, 220px); --gy: clamp(16px, 6vh, 84px);
+.shell { --gx: clamp(16px, 5vw, 140px); --gy: clamp(12px, 3.5vh, 48px);
   --frame-w: min(calc(100vw - 2 * var(--gx)), 1320px); --frame-h: min(calc(100dvh - 2 * var(--gy)), 940px);
   position: fixed; inset: 0; display: grid; place-items: center; background: var(--ground); overflow: clip; }
 @media (orientation: portrait) { .shell { --frame-h: min(calc(100dvh - 2 * var(--gy)), 1240px); } }

@@ -90,8 +90,6 @@
   letter-spacing: .08em; text-transform: uppercase; color: var(--ember); }
 @media (hover: none) { .act.led-act .key, .glance-keys kbd { display: none; } }
 @media (max-height: 960px) and (min-width: 700px) {
-  .glance-page .place-head.painted { min-height: clamp(130px, 19vh, 190px); }
-  .glance-page > .scene { padding-top: clamp(16px, 2.6vh, 26px); }
   .glance-keys { padding-bottom: max(18px, env(safe-area-inset-bottom)); }
   .glance .sight { font-size: 19px; line-height: 1.55; margin-bottom: 14px; }
   .glance .life, .glance .threat, .glance .happened, .glance .changed { margin-bottom: 14px; }
@@ -155,5 +153,53 @@
 /* A fight reckoned easy or fair is not drawn in the colour of a deadly one (the rats' "Easily won" had been ember). */
 .led-mark.mark-fight:is(.danger-slight, .danger-fair), .mark-tag.mark-fight:is(.danger-slight, .danger-fair) { color: var(--dim); }
 /* Someone's plate, when talking to them is what the glance ranks first: marked as a first lead is (see GlanceStage). */
-.plate.first { border-color: var(--gold-line); box-shadow: inset 3px 0 0 var(--gold); }
+.act.plate.first { border-color: var(--gold-line); box-shadow: inset 3px 0 0 var(--gold);
+  background: linear-gradient(90deg, var(--gold-glow), transparent 80%), var(--raised); }
 .plate.first .why-said { display: block; font: 400 13px/1.35 var(--do); color: var(--gold); }
+
+/* ---- The glance in two (the owner, 4 November: "you shouldn't have to scroll to see all the things you can do
+   somewhere"). What is told scrolls in its own column; what can be done is held in view beside it, in a rail of its
+   own, the keys at its foot: the aim followed, the few things worth doing, who is here, the nearest ways, each under a
+   quiet label and set the same distance apart. Held upright, or on a phone, the rail is docked under what is told. */
+.scene-page.glance-page > .scene { display: flex; overflow: hidden; padding: 0; scrollbar-gutter: auto; }
+.scene-page.glance-page > .scene .measure { display: flex; flex: 1 1 auto; min-width: 0; min-height: 0; max-width: none;
+  margin: 0; }
+.glance { flex: 1 1 auto; min-width: 0; min-height: 0; display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(19rem, 1fr); }
+.glance > .told-col { min-height: 0; overflow-y: auto; overscroll-behavior: contain;
+  padding: clamp(18px, 3vh, 30px) clamp(20px, 3vw, 44px) 28px; }
+.glance > .told-col > * { max-width: 38rem; }
+.glance > .do-col { min-height: 0; display: flex; flex-direction: column; border-left: 1px solid var(--edge);
+  background: linear-gradient(180deg, rgba(25, 27, 33, .72), rgba(18, 19, 24, .35)); }
+.glance .do-list { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; display: flex;
+  flex-direction: column; gap: 16px; padding: clamp(16px, 2.6vh, 24px) clamp(14px, 2vw, 24px) 16px; }
+.glance .do-list > :is(.aim, .need, .led, .cast, .glance-row) { margin: 0; }
+.glance .do-list .label { margin: 0 0 8px; }
+.glance .do-list > .aim { font-size: 14.5px; line-height: 1.45; }
+.glance .do-list > .aim .label { display: block; margin: 0 0 4px; }
+.glance .do-list > .aim .set-out { margin: 8px 0 0; }
+.glance .do-list > .glance-row { padding: 0; border-top: 0; }
+.glance .do-list .glance-row .tiles { grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr)); }
+.glance .do-list .act.led-act { min-height: 50px; padding-top: 10px; padding-bottom: 10px; }
+/* Who is here, a line each, two to a row where the rail is wide enough. */
+.glance .do-list .plates { grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr)); gap: 6px; }
+.glance .do-list .plates > li.lead { grid-column: 1 / -1; }
+.glance .do-list li.brief .act.plate { min-height: 46px; padding: 6px 10px; }
+.glance .do-list li.brief .act.plate.faced:has(> .verb) { grid-template-columns: 30px minmax(0, 1fr) auto; }
+.glance .do-list li.brief .plate .face { width: 30px; height: 36px; }
+.glance .do-list li.brief .plate .face.blank { font-size: 18px; }
+.glance .do-list li.brief .plate .who .n { font-size: 15px; }
+.glance .do-list li.brief .plate .who .r { font-size: 12.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  max-width: 100%; }
+.glance .do-list .more-here { margin: 6px 0 0; font-size: 13.5px; color: var(--dim); }
+.glance > .do-col > .glance-keys { position: static; flex: none; margin: 0; background: rgba(18, 19, 24, .92);
+  padding: 10px clamp(14px, 2vw, 24px) max(12px, env(safe-area-inset-bottom)); border-top: 1px solid var(--edge); }
+.glance-page .place-head.painted { min-height: clamp(104px, 15vh, 180px); }
+/* The place's name over what is told, on its edge. */
+.glance-page .place-head .title-block { max-width: none; margin: 0; padding-left: clamp(0px, .6vw, 8px); }
+@media (max-width: 899px), (orientation: portrait) {
+  .glance { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(84px, 1fr) auto; }
+  .glance > .do-col { max-height: calc(var(--frame-h) * .6); border-left: 0; border-top: 1px solid var(--gold-line);
+    box-shadow: 0 -18px 40px rgba(0, 0, 0, .45); }
+  .glance > .told-col { padding-bottom: 18px; }
+}
