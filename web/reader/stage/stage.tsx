@@ -6,7 +6,7 @@ import { FictionalTime } from '../../../src/campaign/fictional-time';
 import { Typography } from '../../../src/presentation/typography';
 import { Words } from '../words';
 import { PlanView } from '../plan-view';
-import { PlaceStage } from './place-stage';
+import { WorldStage } from './world-stage';
 import { TalkStage } from './talk-stage';
 import { ThingStage } from './thing-stage';
 import { RoadStage } from './road-stage';
@@ -39,7 +39,7 @@ export class Stage {
           {mode === 'talk' && menu.talk && <TalkStage.View app={app} talk={menu.talk} />}
           {mode === 'examine' && menu.examined && <ThingStage.View app={app} examined={menu.examined} />}
           {mode === 'road' && <RoadStage.View app={app} route={Routes.of(frame.screen)!} />}
-          {mode === 'explore' && <PlaceStage.View app={app} />}
+          {mode === 'explore' && <WorldStage.View app={app} />}
         </div>
       </div>
     );

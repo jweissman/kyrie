@@ -1,0 +1,72 @@
+/* ---- The world as the play's surface (doc/architecture/mission-19/spatial-play.md). Across the stage the place bar;
+   under it the surface, where the company is laid out (a town's plan, a building's or a cellar's rooms, the hex board
+   in the wild), and beside it the focus: what the company is attending to. Held upright, the surface above and the
+   focus below. The page never scrolls; the focus's prose, when long, scrolls within it. ---- */
+.world-page { position: relative; height: var(--frame-h); display: grid; grid-template-rows: auto minmax(0, 1fr); }
+.world-bar { padding: 14px clamp(20px, 3vw, 40px) 12px; border-bottom: 1px solid var(--edge);
+  background: linear-gradient(180deg, var(--hour), transparent); }
+.world-bar .title-block { max-width: none; }
+.world-bar .place { font-size: clamp(26px, 2.8vw, 38px); margin: 0 0 6px; }
+.world-body { min-height: 0; display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(21rem, 1fr); }
+.world-page .surface { position: relative; min-width: 0; min-height: 0; overflow: hidden;
+  background: radial-gradient(ellipse 80% 70% at 50% 45%, rgba(236, 230, 217, .035), transparent 70%); }
+.world-page .focus { min-width: 0; min-height: 0; display: flex; flex-direction: column; border-left: 1px solid var(--edge);
+  background: linear-gradient(180deg, rgba(25, 27, 33, .72), rgba(18, 19, 24, .35)); }
+
+/* The focus holds the glance as one column: what happened above, bounded, the few things to do and who is here under
+   it, scrolling within itself, and the keys at the foot, under them and never over them. */
+.focus > .glance, .focus > .glance.sparse { flex: 1 1 auto; min-height: 0; max-width: none; margin: 0; overflow: hidden;
+  display: flex; flex-direction: column; }
+.focus > .glance > .told-col { flex: 0 1 auto; max-height: 46%; overflow-y: auto; overscroll-behavior: contain;
+  padding: 18px clamp(16px, 2vw, 24px) 6px; }
+.focus > .glance > .told-col > * { max-width: none; }
+.focus > .glance > .do-col { flex: 1 1 auto; min-height: 0; border: 0; background: none; box-shadow: none; max-height: none;
+  display: flex; flex-direction: column; }
+.focus > .glance .do-list { flex: 1 1 auto; min-height: 0; overflow-y: auto; padding: 10px clamp(16px, 2vw, 24px) 12px; }
+.focus > .glance > .do-col > .glance-keys { position: static; flex: none; }
+.focus > .glance .sight { font-size: 17.5px; }
+.focus > .telling { flex: 1; overflow-y: auto; padding: 18px 22px; }
+
+/* The plan: places on the grid, the ways between, the company ringed in gold; a place not yet been to is drawn
+   broken, the way out in verdigris; a place chosen is lit; one that can be gone to answers the finger. */
+.plan-surface { position: absolute; inset: 0; overflow: auto; overscroll-behavior: contain; scrollbar-width: none;
+  display: grid; place-items: center; padding: clamp(14px, 3vh, 32px) clamp(14px, 3vw, 40px); }
+.plan-surface::-webkit-scrollbar { display: none; }
+.plan-surface svg { width: 100%; height: 100%; display: block; }
+.plan-surface .hatch { stroke: rgba(236, 230, 217, .10); stroke-width: 1; }
+.plan-surface .lane { fill: none; stroke: rgba(236, 230, 217, .16); stroke-width: 7; stroke-linecap: round;
+  stroke-linejoin: round; }
+.plan-surface .lane.walked { stroke: rgba(236, 230, 217, .30); }
+.plan-surface .place .body { fill: #1d1f25; stroke: var(--edge-strong); stroke-width: 1.5; transition: stroke var(--quick); }
+.plan-surface .place.in .body { fill: #23252c; }
+.plan-surface .place .floor { fill: url(#surface-hatch); }
+.plan-surface .place.unvisited .body { fill: rgba(18, 19, 24, .6); stroke-dasharray: 6 5; }
+.plan-surface .place.door .body { fill: rgba(95, 211, 182, .05); stroke: rgba(95, 211, 182, .55); }
+.plan-surface .place.reach { cursor: pointer; outline: none; }
+.plan-surface .place.reach:hover .body, .plan-surface .place.reach:focus-visible .body { stroke: var(--touch); }
+.plan-surface .place.chosen .body { stroke: var(--ivory); stroke-width: 2.5; }
+.plan-surface .place .ring { fill: none; stroke: var(--gold); stroke-width: 2.5; }
+.plan-surface text { fill: var(--ivory); font: 500 17px var(--do); pointer-events: none; }
+.plan-surface .place.unvisited text { fill: var(--dim); font-style: italic; }
+.plan-surface .place.door text { fill: var(--verdigris); }
+
+.board-surface { position: absolute; inset: 0; }
+.board-surface > * { width: 100%; height: 100%; }
+.bare-surface { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; gap: 8px; }
+.bare-surface .bare-name { margin: 0; font: 300 clamp(26px, 3vw, 40px)/1.1 var(--do); color: var(--dim); }
+.bare-surface .bare-dark { margin: 0; color: var(--faint); }
+
+/* A place chosen on the plan, in the focus. */
+.chosen-place { padding: 20px clamp(16px, 2vw, 24px); display: grid; gap: 12px; align-content: start; }
+.chosen-place .to { margin: 0; font: 400 26px/1.15 var(--do); color: var(--ivory); }
+.chosen-place .label { margin: 0; }
+.chosen-place .how { margin: 0; font-size: 14px; color: var(--dim); }
+.focus > .plan { padding: 18px 20px; overflow-y: auto; }
+
+@media (max-width: 899px), (orientation: portrait) {
+  .world-body { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, .44fr) minmax(0, .56fr); }
+  .world-page .focus { border-left: 0; border-top: 1px solid var(--gold-line); }
+  .world-bar { padding-top: max(52px, env(safe-area-inset-top)); }
+}
+/* On a plan or the board, the surface is the ways: the focus does not row them again. */
+.world-page:is(.scale-plan, .scale-board) .focus .glance-row { display: none; }

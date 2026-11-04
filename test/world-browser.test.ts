@@ -60,8 +60,9 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a generated world in the browser', 
   // foot of your aim and yourself under both): the glance on the reading measure, the head's name set on the same
   // measure, the whole height between the head and the stage's foot, and nothing across the foot; and the stage that
   // holds it keeps its margins: about a twentieth of the screen's width each side (Mission 18's A1, halved by the
-  // owner, 4 November). What can be done is held in a rail beside what is told, never a scroll away.
-  it('gives a place what is told and what can be done side by side under its head, in a stage with its margins', async () => {
+  // owner, 4 November). The place is laid out as the surface, and what the company attends to is the focus beside it
+  // (spatial-play.md).
+  it('gives a place its surface and its focus side by side under its head, in a stage with its margins', async () => {
     const { page, errors } = await MonoBrowser.page(browser, { width: 1440, height: 900 },
       { site, pointer: false, query: '?world=mere' });
     await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
@@ -69,20 +70,15 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a generated world in the browser', 
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
     const laid = await page.evaluate(() => {
       const box = (s: string) => document.querySelector(s)!.getBoundingClientRect();
-      const [scene, told, rail, title, head, page, frame] = ['.scene-page > .scene', '[data-region="told"]',
-        '[data-region="do"]', '.place-head .title-block', '.place-head', '#page', '.frame'].map(box) as DOMRect[];
+      const [surface, focus, bar, page, frame] = ['.world-page .surface', '.world-page .focus', '.world-bar', '#page',
+        '.frame'].map(box) as DOMRect[];
       const r = Math.round;
-      return { whole: r(scene!.width) === r(page!.width),
-        // Beside it; or, where there is no one and little to do, under it, one column (PD-06).
-        beside: document.querySelector('.glance.sparse') ? r(rail!.top) >= r(told!.bottom) - 1
-          : r(rail!.left) >= r(told!.right) - 1 && r(rail!.top) === r(told!.top),
-        measure: Math.abs(r(told!.left) - r(title!.left)) <= 48 || !!document.querySelector('.glance.sparse'),
-        between: r(scene!.top) === r(head!.bottom) && r(scene!.bottom) === r(page!.bottom),
-        panes: document.querySelectorAll('.on-pane, .place-foot').length,
+      return { beside: r(focus!.left) >= r(surface!.right) - 1 && r(focus!.top) === r(surface!.top),
+        under: r(surface!.top) === r(bar!.bottom) && r(surface!.bottom) === r(page!.bottom),
+        scroll: document.scrollingElement!.scrollHeight > innerHeight + 1,
         margins: Math.min(r(frame!.left), r(innerWidth - frame!.right)) };
     });
-    expect([laid.whole, laid.beside, laid.measure, laid.between, laid.panes, laid.margins >= 70])
-      .toEqual([true, true, true, true, 0, true]);
+    expect([laid.beside, laid.under, laid.scroll, laid.margins >= 70]).toEqual([true, true, false, true]);
     expect(errors).toEqual([]);
     await page.close();
   }, 240000);
