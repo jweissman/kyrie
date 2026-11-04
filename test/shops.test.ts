@@ -48,7 +48,7 @@ describe('a purchase the company cannot afford', () => {
     const w = await WorldAssembler.assemble('mere', NodeBundleSource.shared,
       { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
     const s = await PlaySession.start(w.path, 'mere', w.source), c = s.campaign;
-    GeneratedWorld.put(s, 's1_shop');
+    GeneratedWorld.put(s, 's1_chandlery');
     await s.perform('wait');
     const cc = c as unknown as { world: { apply(c: unknown[]): unknown }; commit(w: unknown): void };
     cc.commit(cc.world.apply([{ kind: 'set', call: ModuleWriter.call('quantity', 'party', 'gold'),

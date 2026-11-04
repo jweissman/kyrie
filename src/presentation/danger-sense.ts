@@ -100,8 +100,14 @@ export class DangerSense {
     const frail = [...falls].sort((a, b) => b[1] - a[1])[0]?.[0], held = this.heldBy(won);
     return { odds: won.length / played.length,
       fallen: won.length ? won.reduce((n, t) => n + t.fell.length, 0) / won.length : ours.length,
-      hurt: won.length ? won.reduce((n, t) => n + t.hurt, 0) / won.length : 1, ...frail ? { frail } : {},
+      hurt: won.length ? DangerSense.worse(won.map(t => t.hurt)) : 1, ...frail ? { frail } : {},
       ...held ? { held } : {}, ...this.bite(played) };
+  }
+  // How hurt the company could come out of a fight it wins: as it does one time in four, not on average (two great
+  // rats were "no match" to a fresh warrior on their mean, and one bit him from fifteen to six: Mission 19's play).
+  private static worse(hurts: number[]): number {
+    const sorted = hurts.toSorted((a, b) => b - a), mean = hurts.reduce((n, h) => n + h, 0) / (hurts.length || 1);
+    return Math.max(mean, sorted[Math.floor(sorted.length / 4)] ?? 0);
   }
   // How much of what the company landed the foes shrugged off, over every fight played, and what hurts them more.
   private static bite(played: Trial[]): Pick<Fight, 'blunted' | 'hurtBy'> {
