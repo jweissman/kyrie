@@ -1016,6 +1016,11 @@ holds the one its seed chooses (`src/world/frontier.ts`). `bin/kyrie countries` 
   (`{keeper}` is the innkeeper), with what the company knows of it once told (`heard`), which the journal keeps as
   heard from them.
 
+What is said passes one way. The country's keepers speak of yours in your words; your people cannot name the
+country's towns, inns or keepers, which are drawn for each world after yours is written, so a topic of yours names
+only what your module declares or imports (Behind the Wainscot's F14: Jory Mudge of Bootscrape and the innkeeper of
+the town next door cannot know each other). Speak of the world beyond your country as its folk would, without names.
+
 Where a country lies depends on every other's `beside`: one offered beside a new terrain can take a place another had.
 `bin/kyrie countries [seed ...]` says where each authored country lies in the worlds the tests draw (its cell, its
 side, and the terrain of the country it is entered from); run it before and after changing a `beside`, and compare
@@ -1295,7 +1300,10 @@ A day, or an act, that opens is a `Chapter`, written as an ending is: it opens o
 its title heads the page, and its words are told first of what came of the step, in a paragraph of their own, before
 the morning's weather or whatever else the step told (`test/fixtures/probes/chapters`; the Liberty of the Ice's 26, the
 Banns at Hessel's 22: each day's opening had been a rule and a latch, run on after supper). `chapterOpened(saturday)` says
-it has opened.
+it has opened. A chapter opens wherever the company is when its condition holds, a day's walk off as readily as in the
+room: a day's chapter should, but one that is a scene asks for the company where the scene is (`and at(party,
+dancing_hall)`), not anywhere in the country around it. Half the Hive's Calling, asked of anywhere in the Wold, opened
+for a company camped a day away under the Far Brow (its 17).
 
 ```text
   Chapter saturday "Saturday" when day(clock) == 2 and hour(clock) >= 6 "The bells of Saint Ebba's ring six, and the town is up before them.".
@@ -1315,6 +1323,10 @@ Tessary Owes' 5: every promise was a relation, a deadline rule, a kept rule, a b
     kept when keeps(comptroller, letter) "The Comptroller draws a line through the promise, neatly." { Assert trusted(party). }
     broken when hour(clock) >= 18 "Somewhere a line is drawn through a promise you made." { Assert forsworn(party). }.
 ```
+
+A promise to bring someone to one place, and no other, is kept when the company and they are there, and broken when
+they are anywhere the module names wrong: `kept when at(party, gap) and at(pip, gap)`, `broken when at(pip, ?p) and
+wrong(?p)`, with `Initially Assert wrong(pit)` for each wrong place (`test/promises.test.ts`; Quittance's pm 13).
 
 ### An occasion of several matters
 
@@ -1377,6 +1389,10 @@ A way does not shut under a company crossing it: the sea that comes over the san
 keeps it going to the far side, and the way shuts once it is off (Fair Weather's 2; `probes/crossing`). A way that
 should turn back whoever is on it is barred by a thing's state instead (`blocking`), as the tide over the ford-road's
 causeway is.
+A way that opens only sometimes is shut at both its ends: a door shut by day shuts in a company that was inside when
+day came (the Book of Faces' counting 5). A door that shuts against one side only is a thing on the way from that end
+(`Thing bolt "the kitchen door's bolt" on kitchen_door from street`), whose `blocking` state a rule sets by day and
+lifts by night: the company inside walks out, and none comes in from the street (`test/way-end.test.ts`).
 
 ### Kin, companions and animals
 
@@ -1434,6 +1450,15 @@ Hive's 13). A rule whose condition still holds fires again next watch, so a rule
 (`Rule bell when watch(clock) >= 1 once says "A bell rings." { … }`), changes what it tests (`Assert sung(party)` beside
 `not sung(party)`, for once per one of many), or is an `Event`, which happens once. An action that passes no watch (one
 that takes no time, or a few minutes) is followed by one pass of the rules and whatever a hazard strikes, and no clock.
+
+So a rule runs once for every action as well as once a watch, and a measure meant to rise once a watch (a district's
+heat) keeps the watch it last rose in: `Rule warms when heatAt(party) < watch(clock) { Increase heat(party) by 1. Set
+heatAt(party) to watch(clock). }` rises once a watch however many words are said in it. An action's own changes are
+made, and its `Result` told, as it is begun, before its time passes: a rule that waits on them fires in the first watch
+of a three-hour task, not at its end, so what should come at the end waits on the hour it ends (`Set sawnBy(party) to
+watch(clock) + 18`, and a rule `when watch(clock) >= sawnBy(party)`). Talk takes no time: a topic is said between one
+watch and the next, however long the argument, so a clocked scene is not hurried by talk; a conversation that should
+cost the minutes is an action with a `Speaker` and a `Time` (`test/order-of-a-moment.test.ts`; Quittance's 22).
 
 What happens after a while at a place, not at an hour, asks how long the company has stood there: `lingered(party)`
 is the watches since it came (since the first, where it began), so `when at(party, platform) and lingered(party) >= 3

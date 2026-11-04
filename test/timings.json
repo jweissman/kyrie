@@ -510,6 +510,8 @@
     "test/hollins-browser.test.ts": 614,
     "test/world-reads.test.ts": 605,
     "test/way-labels.test.ts": 600,
+    "test/order-of-a-moment.test.ts": 600,
+    "test/topic-offered-once.test.ts": 600,
     "test/kyr-template.test.ts": 590,
     "test/handbook-browser.test.ts": 587,
     "test/measure-bounds.test.ts": 585,
