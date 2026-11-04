@@ -1,0 +1,1 @@
+{ "version": 1, "name": "Probe: a room come back to", "modules": [ { "id": "p", "bundle": "module.json" } ], "party": [ { "name": "Ama", "raceId": "human", "classId": "warrior" } ] }

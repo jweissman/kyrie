@@ -15,7 +15,7 @@ yet resolved: open, with its re-entry), **Deferred** (an ambition or recommendat
 does not close a child: each row is closed only when its own symptom is checked. Mission 19's own findings are in
 [register.md](register.md); the evidence for what was played is in [evidence.md](evidence.md).
 
-**138 rows**: Open risk 54, Deferred 44, Partial 23, Fixed 12, Not reproduced 5.
+**138 rows**: Open risk 54, Deferred 44, Partial 22, Fixed 13, Not reproduced 5.
 
 | ID | Class | Kind | Cluster | Finding | Disposition |
 |---|---|---|---|---|---|
@@ -133,7 +133,7 @@ does not close a child: each row is closed only when its own symptom is checked.
 | SYS-06 | U | recommendation | C | Operational professions in generated situations | **Deferred** Operational professions in generated situations: generator content work. Re-entry: when its cluster is next commissioned; children keep their own acceptance. |
 | SYS-07 | U | defect |  | Sparse causal wilderness events and partial discoveries | **Partial** as REV-03 |
 | SYS-08 | U | recommendation | E | Procedural rotation by causal role, with repetition measures | **Deferred** As PT-15. Re-entry: when its cluster is next commissioned; children keep their own acceptance. |
-| QTC-10 | A | defect | B | A returned-to place is told by its first sentence only; `page` and `told` disagree about revisits | **Partial** (probe, 4 November): a place come back to is told briefly by design, and what changed while away is told; a state the company itself left (a chest opened) is not recalled on return, only under Look about. Open risk |
+| QTC-10 | A | defect | B | A returned-to place is told by its first sentence only; `page` and `told` disagree about revisits | **Fixed** (4 November): come back to, what the company left changed in a place (a chest it opened) is said with what has changed, by the world's changedBy record and the line's own subject (come-back spec, probe come-back); the brief recall of the place's own line stays by design |
 | QTC-14 | D | ambition |  | `Promise … kept when` takes no effect block; `Grave` cannot be conditional; a `Rule` cannot branch | **Deferred** An authoring convenience Quittance's authors worked around in their own Kyr; a new form wants a design and its use across the adventures, which the brief's §VII sets after workable paths for the content families. |
 | QTC-19 | D | defect | F | A recruited companion has `at` retracted, so every rule about where they are must ask `travelsWith`; `memberOf` is engine-owned | **Open risk** An authoring convenience Quittance's authors worked around in their own Kyr; a new form wants a design and its use across the adventures, which the brief's §VII sets after workable paths for the content families. Re-entry: reproduce on the current build before Mission 20 is commissioned; fix or narrow with a spec. |
 | QTC-21 | C | defect | F | `Level` does not scale a fixed-stat species; the catalogue has no elemental and no talking bird | **Open risk** Level scaling for fixed-stat species and new species: catalog and combat work. Re-entry: reproduce on the current build before Mission 20 is commissioned; fix or narrow with a spec. |

@@ -32,11 +32,22 @@ export class GlanceLines {
       : this.life(screen, { defs, present, kept: at.kept, own, sight, arrival: at.arrival, recall: at.recall });
     const passing = new Set(screen.observed.filter(o => ['weather', 'ambience'].includes(this.def(defs, o.id)?.aspect ?? ''))
       .map(o => Typography.curl(FictionalTime.prose(o.text))));
-    const changed = ['return', 'resume'].includes(at.arrival) ? at.changed.map(t => Typography.curl(t))
-      .filter(t => t !== sight?.text && !passing.has(t) && t !== life?.text).slice(0, 2) : [];
+    const back = ['return', 'resume'].includes(at.arrival);
+    const told = back ? [...new Set([...at.changed, ...this.left(campaign, screen, defs)])] : [];
+    const changed = told.map(t => Typography.curl(t))
+      .filter(t => t !== sight?.text && !passing.has(t) && t !== life?.text).slice(0, 2);
     // What the lines told now name, of someone here or of the place (the taproom a dog lies at the door of).
     const pointed = new Set(screen.observed.flatMap(l => this.named(this.def(defs, l.id)?.text ?? '')));
     return { ...sight ? { sight } : {}, ...life ? { life } : {}, changed, pointed };
+  }
+  // What the company itself left changed here (a chest it opened), as it stands now: come back to, the place had been
+  // told by its first sentence only, and what was done in it went unsaid (Quittance's QTC-10). By the world's record
+  // of who changed what (changedBy), and the line's own subject, never the words.
+  private static left(campaign: Campaign, screen: Screen, defs: Map<string, Observation>): string[] {
+    const ours = new Set(['party', campaign.playerActor ?? '']);
+    const changed = new Set(campaign.world.related('changedBy').filter(r => ours.has(r.args[1]!)).map(r => r.args[0]!));
+    return screen.observed.filter(o => changed.has(this.def(defs, o.id)?.about ?? ''))
+      .map(o => FictionalTime.prose(o.text));
   }
   // The place's lead line: in the dark, the dark; else its own lasting line before its passing life, the first written.
   // Come back to, a line never seen here before (the night's, an authored "again") is told whole, and is no change; one

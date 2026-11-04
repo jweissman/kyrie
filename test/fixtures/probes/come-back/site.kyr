@@ -1,0 +1,15 @@
+Module back "A strongroom left open, and come back to" {
+  Place keep "the keep" is settlement.
+  Place strongroom "the strongroom" is room within keep at 0, 0 indoors.
+  Place stair "the stair" is room within keep at 1, 0 indoors.
+  Passage strong_door "the strongroom door" is door between strongroom and stair.
+  Company party "You" of 1 at strongroom.
+  Thing chest "the iron chest" at strongroom {
+    State shut closed "An iron chest stands against the wall, its lid down.".
+    State open "The iron chest stands open, and empty.".
+    Change lift "Lift the chest's lid" from shut to open.
+  }
+  Observe strong_scene at strongroom when true "A low vaulted room. The walls sweat. There is one door.".
+  Observe stair_scene at stair when true "A turning stair.".
+  Goal false.
+}
