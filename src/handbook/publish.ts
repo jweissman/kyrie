@@ -4,7 +4,8 @@ import { Handbooks } from './handbooks';
 import { HandbookHtml } from './render-html';
 import { HandbookMarkdown } from './render-md';
 import { CapabilityAudit } from './audit';
-import { Encyclopedia, type Land } from './encyclopedia';
+import tongues from 'languages';
+import { Encyclopedia, type Land, type Tongue } from './encyclopedia';
 import { EncyclopediaHtml } from './encyclopedia-html';
 
 // Writes the books: HTML pages and coverage.json for the site, Markdown and coverage.json for the repository.
@@ -22,9 +23,22 @@ export class HandbookPublisher {
     await mkdir(out, { recursive: true });
     const countries = Handbooks.read(handbooks.root, 'data/adventures/countries.json') as { countries: Land[] };
     const html = new EncyclopediaHtml(new Encyclopedia(handbooks, countries.countries.filter(c => c.heard),
-      Encyclopedia.canon(handbooks.root)));
+      Encyclopedia.canon(handbooks.root), HandbookPublisher.tongues()));
     for (const c of html.book.chapters) { await writeFile(join(out, `${c.id}.html`), html.chapter(c)); }
     await writeFile(join(out, 'index.html'), html.landing());
+  }
+  // Who speaks each tongue (src/world/place-names.ts names the land's tongue by its people; Aenean is the makers' old
+  // kingdom's, in which ruins, barrows and towers keep their names), and some plain words in it.
+  static readonly speakers: Record<string, string> = { westron: 'the common tongue of men', quenya: 'the elves',
+    khuzdul: 'the dwarves', aenean: 'the old kingdom, in its ruins and barrows' };
+  static tongues(): Tongue[] {
+    const plain = ['hill', 'river', 'wood', 'stone', 'ford', 'king', 'old', 'dark'];
+    return Object.entries(tongues.languages).map(([id, l]) => {
+      const words = l.vocabulary as Record<string, string | undefined>;
+      return { id, name: l.name, family: l.family, description: l.description,
+        speakers: this.speakers[id] ?? 'its own folk',
+        words: plain.flatMap(w => words[w] ? [[w, words[w]] as [string, string]] : []) };
+    });
   }
   static async markdown(handbooks: Handbooks, out: string) {
     await mkdir(out, { recursive: true });

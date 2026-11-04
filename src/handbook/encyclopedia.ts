@@ -9,6 +9,9 @@ export interface Chapter { id: string; title: string; lede: string[]; sections: 
 // A land an adventure lies in, as its own folk and its neighbours speak of it (countries.json): never what is found
 // there.
 export interface Where { chapter: string; title: string; kind?: string }
+// A tongue of Imbar (the languages package): who speaks it, what it is like, and a few of its words.
+export interface Tongue { id: string; name: string; family: string; description: string; speakers: string;
+  words: [string, string][] }
 // A plane of the canon (data/imbar), as one who came to its threshold would see it.
 export interface Plane { id: string; name: string; kind: string; seen?: string }
 export interface Land { id: string; name: string; heard: string; terrain?: string; skyline?: string }
@@ -25,7 +28,7 @@ export class Encyclopedia {
   static readonly making =
     /\b(Orsino|Kyr|catalog|definitions?|module|engine|status|this book|Handbook|Guide|Manual)\b/i;
   readonly chapters: Chapter[];
-  constructor(handbooks: Handbooks, lands: Land[], planes: Plane[] = []) {
+  constructor(handbooks: Handbooks, lands: Land[], planes: Plane[] = [], tongues: Tongue[] = []) {
     const phb = handbooks.books.find(b => b.id === 'phb')!, mm = handbooks.books.find(b => b.id === 'mm')!;
     this.chapters = [
       { id: 'peoples', title: 'Peoples', sections: Encyclopedia.take(phb, ['ancestries']), lede: [
@@ -44,6 +47,9 @@ export class Encyclopedia {
         'The beasts, monsters and strange folk of Imbar: what each is, how it fights, and what it is born with.'] },
       { id: 'conditions', title: 'Conditions', sections: Encyclopedia.take(phb, ['conditions']), lede: [
         'What can come over a body in a fight or after it: wounds, poisons, curses, blessings, and how long each lasts.'] },
+      { id: 'tongues', title: 'Tongues', sections: [Encyclopedia.tongues(tongues)], lede: [
+        'The languages of Imbar, who speaks each, and a few of their words: the names of its towns and hills are in '
+        + 'them, worn down by the folk who live there.'] },
       { id: 'planes', title: 'Imbar and the planes', sections: [Encyclopedia.planes(planes)], lede: [
         'Imbar is the world under the sky; beyond it lie the planes, inner and outer, each with a threshold where doors '
         + 'from elsewhere open. What is seen there is all that most travellers ever tell of them.'] },
@@ -86,6 +92,11 @@ export class Encyclopedia {
     return { id: e.id, title: e.title, status: e.status, ...e.kind ? { kind: e.kind } : {},
       ...e.facts?.length ? { facts: e.facts } : {}, ...e.rules?.length ? { rules: e.rules } : {},
       ...e.text?.length ? { text: e.text.filter(p => !this.making.test(p)) } : {}, ...e.refs ? { refs: e.refs } : {} };
+  }
+  private static tongues(tongues: Tongue[]): Section {
+    return { id: 'tongues-all', title: 'The tongues', entries: tongues.map(t => ({ id: `tongue:${t.id}`, title: t.name,
+      status: 'kyr' as const, kind: `${t.family} · ${t.speakers}`, text: [t.description],
+      facts: t.words.map(([en, w]) => [en, w] as [string, string]) })) };
   }
   private static planes(planes: Plane[]): Section {
     return { id: 'planes-all', title: 'The planes', entries: planes.map(p => ({ id: `plane:${p.id}`, title: p.name
