@@ -886,7 +886,7 @@ still a duplicate.
 | BOF-35 | `Greets again` leaves `{id}` unfilled | The Book of Faces, local 3 | D | P3 | Fixed | to probe; 3 November: someone's own words fill a {who} with the name the company would use (Telling.filled), Greets again among them; test/known-as-labels.test.ts |
 | BOF-36 | A way's label doubles itself (Into the Duelling Stair by the first flight of the Stair) and cannot be said otherwise | The Book of Faces, hill 9 | A | P3 | Open | to probe; a way's own words |
 | BOF-37 | `strikes(hazard, group)` lands on whichever member | The Book of Faces, counting 2 | D | P3 | Open | to probe |
-| BOF-38 | Setting the company's coin in a test does nothing; no coin aid | The Book of Faces, drip 3 | F | P3 | Open | j.give for coin, or the measure through Journey.assert |
+| BOF-38 | Setting the company's coin in a test does nothing; no coin aid | The Book of Faces, drip 3 | F | P3 | Fixed | j.give for coin, or the measure through Journey.assert; 3 November: j.coin(n) puts the company's coin in its first member's purse, the measure being read from the purses (test/journey-helpers.test.ts) |
 
 ## Appendix: Mission 17's evidence, as it stood at 28b306c
 

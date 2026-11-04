@@ -9,6 +9,7 @@ import { ScreenModel } from '../ui/screen-model';
 import type { Screen } from '../ui/screen-types';
 import type { World } from '../lang/world';
 import type { Predicate } from '../lang/module';
+import { ObservationText } from '../lang/observation-text';
 import { ChoiceList, type Choice } from '../ui/choice-list';
 import { PlayerView } from '../presentation/player-view';
 import { Narrator } from '../presentation/narrator';
@@ -98,6 +99,11 @@ export class Journey {
     // The label as its action has it, without the notes the page adds after it (" · an even chance": WPC-20).
     const bare = all.filter(c => re.test(Journey.straight(c.label).replace(/ · .*$/, '')));
     if (bare.length) { return bare; }
+    // A step that names someone by the name the page keeps from the player while they are known as something else
+    // ("Talk to Tomas Pell", the page saying "Talk to a Crow clerk"): the author knows who it is (BOF-01).
+    const masks = this.masks(), unmasked = masks.length ? all.filter(c => re.test(Journey.straight(masks
+      .reduce((l, [mask, name]) => l.replaceAll(mask, name), c.label)))) : [];
+    if (unmasked.length) { return unmasked; }
     const named = Journey.named(straight, all);
     if (named.length) { return named; }
     // Last, the words as they are written, not as a pattern: a label with a dash, a bracket or a question in it
@@ -105,6 +111,14 @@ export class Journey {
     const words = Journey.plain(straight);
     const written = all.filter(c => [c.label, c.full].some(l => Journey.plain(Journey.straight(l)).includes(words)));
     return written.length ? written : Journey.spoken(straight, all);
+  }
+  // What someone is known as now, and their name, longest first so that one mask within another is not undone.
+  private masks(): [string, string][] {
+    const world = this.campaign.world;
+    return world.module.entities.filter(e => e.roles?.length).flatMap(e => {
+      const mask = ObservationText.knownAs(world, e);
+      return mask ? [[mask, e.name.split(', ')[0]!] as [string, string]] : [];
+    }).sort((a, b) => b[0].length - a[0].length);
   }
   // "Kerensa: the night of the wreck": what someone is asked, by who is asked and any words of it, when nothing else
   // matched (Fair Weather's friction 15, FWR-15: "about the night of the wreck" took Jinny's topic, not Kerensa's, both
@@ -258,6 +272,17 @@ export class Journey {
   give(item: string, to = this.campaign.playerActor ?? 'party') {
     this.assert('handed', item, to);
     Consequences.hand(this.campaign as unknown as TickHost, []);
+  }
+  // The company's coin made so, in its first member's purse: the measure is read from the purses, so setting it had
+  // done nothing (the Book of Faces' BOF-38).
+  coin(amount: number) {
+    const { definition, creatures } = (this.campaign as unknown as TickHost).tickState;
+    const lease = creatures.acquire(definition.actors.find(a => a.id === this.campaign.playerActor)?.members ?? []);
+    try {
+      lease.creatures.forEach((m, i) => { m.state.gold = i === 0 ? amount : 0; });
+      lease.commit(lease.creatures);
+    } finally { lease.release(); }
+    this.campaign.refreshProjection();
   }
   at(who: string): string | undefined { return this.campaign.world.one('at', who); }
   // For a test: every check from now on comes out so (a natural twenty, or a one), until roll() lets the die fall again

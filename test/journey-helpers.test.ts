@@ -4,7 +4,8 @@ import { Journey } from '../src/session/journey';
 // What a test may do without the steps that would do it (Quittance's friction 8, 9 and its A15, A16): ask of a
 // relation by the name its module gives it, and be told when nothing is called that; make a fact so; put someone
 // somewhere; give the company a thing; go to a place by its own id; and a step's words taken as written when they
-// match nothing as a pattern (its 12: a dash, a bracket); and whether a way can be taken, not only looked at (A06).
+// match nothing as a pattern (its 12: a dash, a bracket); and whether a way can be taken, not only looked at (A06);
+// and set the company's coin.
 describe('a journey, for a test', () => {
   it('names by the module, refuses what nothing is called, and asserts, puts, gives and goes', async () => {
     const j = await Journey.start('test/fixtures/probes/give/probe.campaign.json');
@@ -21,5 +22,8 @@ describe('a journey, for a test', () => {
     expect(j.holds('carries', 'party', 'weight_b')).toBe(true);
     await j.play('>lane');
     expect(j.at('party')).toBe('p__lane');
+    // And the company's coin, in its purses (the Book of Faces' BOF-38: setting the measure had done nothing).
+    j.coin(37);
+    expect(j.measure('quantity', 'party', 'gold')).toBe(37);
   }, 60000);
 });

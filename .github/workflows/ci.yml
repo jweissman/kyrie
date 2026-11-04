@@ -1,4 +1,4 @@
-# Kyrie's checks, on every push and pull request: lint and types, and the whole suite in three balanced shards, with
+# Kyrie's checks, on every push and pull request: lint and types, and the whole suite in five balanced shards, with
 # every skipped spec listed in the run's summary; the long descents; and the browser specs, each against the page it
 # builds. A failing spec turns its job red. Deem and the languages package are pinned in package.json (github:owner/name#commit) and installed by
 # bun from the lockfile, so a clean clone needs no sibling checkouts. Orsino, whose registry one spec regenerates byte
@@ -25,13 +25,14 @@ jobs:
       - run: bun install --frozen-lockfile
       - run: bun run lint
       - run: bun run typecheck
-  # The suite in three shards, balanced by the time each spec file took when the timings were last kept
-  # (test/timings.json): on one runner it had come to 27 of its 30 minutes.
+  # The suite in five shards, balanced by the time each spec file took when the timings were last kept
+  # (test/timings.json): in three, a shard had come to 27 of its 30 minutes, and past them once the Book of Faces'
+  # hour of journeys came in (3 November).
   suite:
-    name: suite ${{ matrix.shard }}/3
+    name: suite ${{ matrix.shard }}/5
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    strategy: { fail-fast: false, matrix: { shard: [1, 2, 3] } }
+    strategy: { fail-fast: false, matrix: { shard: [1, 2, 3, 4, 5] } }
     steps:
       - uses: actions/checkout@v4
         with: { path: kyrie }
@@ -42,9 +43,9 @@ jobs:
       - uses: oven-sh/setup-bun@v2
         with: { bun-version: 1.4.3 }
       - run: bun install --frozen-lockfile
-      - run: bun test --parallel --shard=${{ matrix.shard }}/3 --timings=test/timings.json --reporter=junit --reporter-outfile=junit.xml
+      - run: bun test --parallel --shard=${{ matrix.shard }}/5 --timings=test/timings.json --reporter=junit --reporter-outfile=junit.xml
       - if: always()
-        run: bun scripts/test-summary.ts junit.xml --title "Suite, shard ${{ matrix.shard }} of 3"
+        run: bun scripts/test-summary.ts junit.xml --title "Suite, shard ${{ matrix.shard }} of 5"
   long:
     name: long descents
     runs-on: ubuntu-latest
