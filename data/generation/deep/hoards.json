@@ -1,0 +1,29 @@
+{
+  "about": "How the coin left in a deep site's room lies there, and how the place looks once it is gathered: one pair drawn for each room by its own id (see src/world/deep/deep-rooms.ts; the play-structure investigation's PT-15). Add a pair to add a way; nothing in the engine needs to change.",
+  "hoards": [
+    [
+      "Coins lie scattered in the dust, green with age, where a purse rotted through.",
+      "Nothing is left in the dust but the shape of a purse."
+    ],
+    [
+      "A cracked pot lies on its side against the wall, and coins have spilled from it across the floor.",
+      "The cracked pot lies empty against the wall."
+    ],
+    [
+      "Coins glint in a crack between two flagstones, a row of them, pushed in edgeways long ago.",
+      "The crack between the flagstones is only a crack now."
+    ],
+    [
+      "A rotted pouch lies under a fallen stone, and coins have run out of it like seed.",
+      "The rotted pouch lies empty under its stone."
+    ],
+    [
+      "Coins lie heaped in a niche in the wall, green and stuck together, as if someone left them for someone.",
+      "The niche is empty but for a ring of green where the coins lay."
+    ],
+    [
+      "A rusted strongbox has burst at its seams, and coins lie in the rust around it.",
+      "The burst strongbox is empty, and so is the rust around it."
+    ]
+  ]
+}

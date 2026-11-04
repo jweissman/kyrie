@@ -1,0 +1,55 @@
+# rooms: what a room of a deep site may hold besides who lives there: a riddle casket, coin, an earlier party's camp.
+// A Kyr template (see src/world/kyr-template.ts), written for the rooms of every deep site (see
+// src/world/deep/deep-rooms.ts, which chooses which rooms have which, and draws the riddle, the answers and the coin).
+// {id} is the thing's id, {room} the room's. Change a state, a hazard's dice or the words here; nothing in the engine
+// needs to change.
+--- casket
+  // A casket with a riddle on its lid and four words with a hollow beside each; the right one opens it. {breath} is a
+  // wrong word's damage, by the riddle's difficulty; {question} the riddle; {row} "letters" or "words".
+  Hazard {id}_cold "the casket's breath" means "Deal ({breath}) cold damage to ally unless constitution save against (12).".
+  Thing {id} "the stone casket" at {room} {
+    Holds.
+    State sealed closed "A casket of grey stone stands against the wall, its lid one piece with it. Words are cut across the lid in the old script, and under them, scratched in a later hand: '{question}' Below is a row of {row}, each with a hollow beside it for a finger.".
+    State open "The casket's lid has turned on a pivot you could not see, and stands open.".
+  }
+--- right
+  // A word on the casket, the right one: {n} its place in the row, {word} the word, {unit} "letter" or "word".
+  Action {id}_word{n}(actor: group) "Press the {unit} “{word}” on the casket" {
+    Requires able(actor) and at(actor, {room}) and state({id}, sealed) and not benighted(actor).
+    Time 1.
+    On success { Retract state({id}, sealed). Assert state({id}, open). }
+    Result "The word sinks under your finger, and something in the stone turns over; the lid swings up on its pivot.".
+  }
+--- wrong
+  // A wrong one: it breathes.
+  Action {id}_word{n}(actor: group) "Press the {unit} “{word}” on the casket" {
+    Requires able(actor) and at(actor, {room}) and state({id}, sealed) and not benighted(actor).
+    Time 1.
+    On success { Assert strikes({id}_cold, actor). }
+    Result "The word sinks and comes back up. The casket breathes out, once, cold as a well in winter, and stays shut.".
+  }
+--- coins
+  // Coin left lying in a room: {lying} and {gathered} a pair from hoards.json; {count} how much, in words.
+  Thing {id} "scattered coins" at {room} {
+    State lying "{lying}".
+    State gathered "{gathered}".
+    Change gather "Gather up the coins" from lying to gathered.
+  }
+  Relation {id}_counted().
+  Rule {id}_counted when state({id}, gathered) and not {id}_counted() says "{count} coin, all told, most of it old and some of it good." {
+    Assert {id}_counted(). Assert tried({id}, looking). Increase quantity(party, gold) by {coin}. }
+--- camp
+  // An earlier party's camp, with what their notebook says of what is below ({scene}, {journal}: the site's purpose's).
+  // What it says is told once, as it is read, and kept among what the company knows; the notebook lies open.
+  Observe {room}_camp at {room} when true "{scene}".
+  Entity {room}_journal: fact "{journal}".
+  Thing {room}_notebook "a damp notebook" at {room} {
+    State shut "A notebook lies by the dead fire, swollen with damp, its cover held shut with a strap.".
+    State read "The notebook lies open by the dead fire where you left it.".
+    Change read "Unstrap the notebook and read it" from shut to read.
+  }
+  Observe {room}_read at {room} when state({room}_notebook, read) and not knows(party, {room}_journal) "{journal}" teaches {room}_journal.
+  // Read, there is nothing more to see in it by looking closely.
+  Rule {room}_notebook_done when state({room}_notebook, read) and not tried({room}_notebook, looking) { Assert tried({room}_notebook, looking). }
+  Item {room}_rope "a coil of rope" is rope at {room}.
+  Item {room}_torch "a torch" is torch at {room}.

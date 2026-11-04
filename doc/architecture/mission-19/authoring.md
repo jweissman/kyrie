@@ -87,7 +87,7 @@ and not others.
 - **Spells and effects.** Spells come from Orsino's registry (`data/catalog/orsino/`, generated) or hand JSON;
   Kyr cannot define one, only teach one (`Resolve teach`).
 - **Most generators are still TypeScript writing Kyr as text** (the handoff's §8): the undertown, the works, the
-  wild's meetings and the roads' fords and passes are templates, and the roads' looks a table; the settlements, deep
-  sites, market and fellows are not. Ranked by the prose still in them: `deep/deep-rooms.ts`,
-  `community/community-writer.ts`, `deep/deep-mechanisms.ts`, `region-market.ts`, `settlement-writer.ts`,
-  `region-zones.ts` (M19-44).
+  wild's meetings, the roads' fords and passes, and a deep site's riddle caskets, coin and earlier camps
+  (`data/generation/deep/rooms.kyrt`, `hoards.json`) are templates or tables; the settlements, the rest of the deep
+  sites, the market and the fellows are not. Ranked by the prose still in them: `community/community-writer.ts`,
+  `deep/deep-mechanisms.ts`, `region-market.ts`, `settlement-writer.ts`, `region-zones.ts` (M19-44).
