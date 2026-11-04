@@ -271,6 +271,7 @@
     "test/darkness.test.ts": 4762,
     "test/command-contract.test.ts": 4692,
     "test/authored-land.test.ts": 4610,
+    "test/town-plan.test.ts": 4400,
     "test/causal-integration.test.ts": 4153,
     "test/authoring-guide.test.ts": 4027,
     "test/offstage.test.ts": 3572,
