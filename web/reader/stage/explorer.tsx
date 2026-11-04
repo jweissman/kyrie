@@ -2,7 +2,7 @@ import type { ReaderApp } from '../reader-app';
 import { Typography } from '../../../src/presentation/typography';
 import { MenuModel } from '../menu-model';
 import { Words } from '../words';
-import type { Draw } from './act';
+import { Act, type Draw } from './act';
 import { GlanceStage } from './glance';
 import { SceneSurface } from './scene-surface';
 import { PlaceStage } from './place-stage';
@@ -35,6 +35,7 @@ export class Explorer {
           <section className={`explorer-go${part === 'go' ? ' first' : ''}`} aria-label="Where to go">
             <p className="part">Go</p>
             <GlanceStage.Row app={app} draw={draw} glance={g} />
+            <Explorer.AtWays app={app} draw={draw} />
           </section>
           <section className={`explorer-here${part === 'here' ? ' first' : ''}`} aria-label="What to do here">
             <p className="part">Here</p>
@@ -51,6 +52,18 @@ export class Explorer {
         </div>
       </div>
     );
+  }
+  // The ways with something on them besides going (a lock to pick, a tripwire, a thing to look at closer), each its
+  // name and what can be done there: the rest are their names above, and nothing more.
+  static AtWays({ app, draw }: { app: ReaderApp; draw: Draw }) {
+    const ways = PlaceStage.ways(app.state.frame!.screen, SceneSurface.choices(app)).filter(w => w.choices.length > 1);
+    return ways.length > 0 && <div className="at-ways" data-line="At the ways">
+      <p className="label">At the ways</p>
+      <ul className="ways">{ways.map(w => <li key={w.exit.id} data-exit={w.exit.id}>
+        <p className="at-way">{GlanceStage.short(w.exit.destination.name)}</p>
+        {w.choices.slice(1).map(c => c.children?.length ? <PlaceStage.Hazard key={c.id} choice={c} draw={draw} />
+          : <Act.View key={c.id} choice={c} draw={draw} className="way also" marked>
+            {Typography.curl(Words.upper(PlaceStage.also(c.label)))}</Act.View>)}</li>)}</ul></div>;
   }
   // Everyone here by name and what they are, each the way to them.
   static People({ app, draw }: { app: ReaderApp; draw: Draw }) {

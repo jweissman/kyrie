@@ -8,9 +8,9 @@ import { SiteBuild } from '../src/cli/site-build';
 import { MonoBrowser } from './support/mono-browser';
 
 class Grave {
-  // A thing turned to by a touch: on the place's glance when it leads with it, else under Look about (OWN-18).
+  // A thing turned to by a touch: where the place at rest draws it, else in its explorer (Explore…).
   static async touch(page: Page, selector: string) {
-    if (!(await page.locator(selector).count())) { await page.click('[data-action="look-about"]'); }
+    if (!(await page.locator(selector).count())) { await page.click('[data-action="explore"][data-part="here"]'); }
     await page.click(selector);
   }
 }

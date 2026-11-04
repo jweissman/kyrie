@@ -37,6 +37,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('Behind the Wainscot in the browser'
     await page.waitForSelector('[data-action="start"]');
     await d.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
+    // Play begins on the map, Bootscrape's card over it; entered, the moor road is told.
+    await d.enter();
     expect(await text(page)).toMatch(/windows in it, each window as tall as a church/);
     if (shots) { await page.screenshot({ path: `${shots}/browser-1-moor-road.png` }); }
     await act(d, 'To Bootscrape street');

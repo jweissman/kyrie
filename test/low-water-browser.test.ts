@@ -38,8 +38,9 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('Low Water in the browser', () => {
     await page.waitForSelector('[data-action="start"]');
     await d.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
-    // The Rim at a glance is its first lines; told whole, a look about (OWN-18).
-    await d.click('[data-region="glance"] [data-action="look-about"]');
+    // The Rim at rest is its first lines; told whole, a look about, in its explorer.
+    await d.enter();
+    await d.lookAbout();
     expect(await Page_.text(page)).toContain('the ring is mud');
     await d.key('Escape');
     await Page_.act(d, '^To the head of the Stair', '^Talk to Isaura', 'waiting for you', 'join the company');

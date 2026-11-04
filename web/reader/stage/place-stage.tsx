@@ -318,7 +318,7 @@ export class PlaceStage {
     const said = c.label.replace(/ — .*$/, '');
     return /^(To|Into|Out|Up|Down|Back|Across|Over|Through|Along) /.test(said) ? said : exit.destination.name;
   }
-  private static also(label: string): string { return / — (.+)$/.exec(label)?.[1] ?? label; }
+  static also(label: string): string { return / — (.+)$/.exec(label)?.[1] ?? label; }
   static route(way: string, to: string): string {
     const m = /^(.+?)\s+(?:out into|out onto|up onto|into|onto|to|across|over|through)\s+(.+)$/.exec(way);
     const place = m?.[2]!.replace(/^(the|a|an) /i, '');

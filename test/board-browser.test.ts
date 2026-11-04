@@ -26,11 +26,13 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the map\'s board, in three dimensio
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
     const from = (await driver.inspect()).place?.id;
+    // Play begins on the map; M raises it again wherever the company is, and keeps it up.
     await driver.mode('m');
     await page.waitForSelector('.field-land.board[data-board="ready"]', { timeout: 180000 });
     const drawn = await page.evaluate(() => {
       const canvas = document.querySelector('.field-land.board canvas')!.getBoundingClientRect();
-      return { whole: canvas.width >= innerWidth - 1 && canvas.height >= innerHeight - 1,
+      const stage = document.querySelector('.world-page .surface')!.getBoundingClientRect();
+      return { whole: canvas.width >= stage.width - 1 && canvas.height >= stage.height - 1,
         you: document.querySelectorAll('.board-labels [aria-current="location"]').length,
         towns: document.querySelectorAll('.board-town').length, signs: document.querySelectorAll('.board-sign').length };
     });
@@ -39,8 +41,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the map\'s board, in three dimensio
     expect(drawn.towns).toBeGreaterThan(1);
     await page.focus('[data-action="map-place"][data-id="region__s4"]');
     await page.keyboard.press('Enter');
-    expect(await page.textContent('.plan')).toContain('Brockfield');
-    await page.click('[data-action="set-out"]');
+    expect(await page.textContent('.enter-card')).toContain('Brockfield');
+    await page.click('.enter-card [data-action="enter"]');
     await driver.settle();
     const after = await driver.inspect();
     expect([after.mode, after.place?.id !== from]).toEqual(['explore', true]);

@@ -301,10 +301,9 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
   };
   show(view: View, who?: string) {
     if (this.state.frame?.combat && view !== 'here') { return; }
-    // The map is the one map, wherever the company is in a country that has one: raised over the stage, not a page.
-    if (view === 'map' && this.state.frame?.screen.region?.land) {
-      this.outdoor(!(this.state.outdoors && this.state.view === 'here')); return;
-    }
+    // The map is the one map, wherever the company is in a country that has one: raised over the stage, not a page,
+    // and left by entering where the company stands (its card's ENTER), not by asking for the map again.
+    if (view === 'map' && this.state.frame?.screen.region?.land) { this.outdoor(true); return; }
     const member = who ?? (this.state.member || (this.state.frame?.screen.party[0]?.id ?? ''));
     this.setState({ view: this.state.view === view ? 'here' : view, cursor: 0, open: [], hovered: undefined, member });
     if (view === 'story' && this.state.view !== 'story') {
