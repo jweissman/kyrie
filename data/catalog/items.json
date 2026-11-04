@@ -34,6 +34,16 @@
         "notes": "Orsino's pole, given the length and the uses Kyr's tries ask of it."
       }
     },
+    "ratsbane": {
+      "name": "Twist of ratsbane",
+      "category": "gear",
+      "description": "A twist of paper holding meal mixed with something bitter, for vermin. Laid where they run, it does its work overnight.",
+      "value": 2,
+      "source": {
+        "kyr": true,
+        "notes": "A way to the first town's rats for a company that would rather not fight them: bought at the chandler's (Mission 19)."
+      }
+    },
     "spyglass": {
       "name": "Spyglass",
       "category": "gear",

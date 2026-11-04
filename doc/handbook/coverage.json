@@ -801,7 +801,7 @@
     "faithful": 753,
     "adapted": 362,
     "represented": 4,
-    "kyr": 505,
+    "kyr": 506,
     "unsupported": 98,
     "unreachable": 4,
     "data-only": 12
@@ -892,7 +892,7 @@
       "faithful": 235,
       "adapted": 73,
       "represented": 0,
-      "kyr": 55,
+      "kyr": 56,
       "unsupported": 23,
       "unreachable": 0,
       "data-only": 0
@@ -997,7 +997,7 @@
     "faithful": 220,
     "adapted": 25,
     "represented": 49,
-    "kyr": 274,
+    "kyr": 275,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 198
@@ -1010,7 +1010,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 248,
+      "kyr": 249,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -8531,6 +8531,13 @@
    "section": "equipment/gear"
   },
   {
+   "id": "item:ratsbane",
+   "title": "Twist of ratsbane",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
    "id": "item:spyglass",
    "title": "Spyglass",
    "status": "kyr",
@@ -13615,6 +13622,13 @@
   {
    "id": "rule:belongings.give",
    "title": "give",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-belongings"
+  },
+  {
+   "id": "rule:belongings.give_valuable",
+   "title": "give valuable",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-belongings"

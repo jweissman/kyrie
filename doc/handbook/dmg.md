@@ -92,7 +92,7 @@ Also kept, without comment: itemKind, ownedItem, wearing, forSale, soldBy, weara
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 2 | 30 | 12 | 2 | 9 | 20 |
+| 2 | 30 | 12 | 2 | 9 | 21 |
 
 #### relieves
 
@@ -430,7 +430,23 @@ What a companion who has fallen, or cannot stir, was carrying, the others can ta
 
 Hand it to someone who has asked for it, or will take it. What they do with it is theirs to decide.
 
-> Needs: able(actor); at(actor, site); able(recipient); at(recipient, site); distinct(actor, recipient); memberOf(carrier, actor); awake(carrier); ownedItem(gift, carrier); itemKind(gift, form); wants(recipient, form)
+> Needs: able(actor); at(actor, site); able(recipient); at(recipient, site); distinct(actor, recipient); memberOf(carrier, actor); awake(carrier); ownedItem(gift, carrier); itemKind(gift, form); wants(recipient, form); not (valuable(form))
+
+> Then: Assert keeps(recipient, gift).
+
+#### give valuable
+
+*Kyr · action (group, item, itemkind, member, group, place)* · `rule:belongings.give_valuable`
+
+- Shown as: Give {gift} to {recipient}
+- Takes: 10 minutes
+- Costs: 1
+
+Something of worth given away is not had back: asked before it is done (BTW-07: the deed to the Wainscot was handed over on one touch).
+
+Hand it to someone who has asked for it, or will take it. What they do with it is theirs to decide.
+
+> Needs: able(actor); at(actor, site); able(recipient); at(recipient, site); distinct(actor, recipient); memberOf(carrier, actor); awake(carrier); ownedItem(gift, carrier); itemKind(gift, form); wants(recipient, form); valuable(form)
 
 > Then: Assert keeps(recipient, gift).
 
@@ -726,7 +742,7 @@ Six hours and a ration, somewhere safe. The living get their strength and mana b
 
 *Kyr · relation(group); measure(group)* · `rule:care.rested`
 
-Its ration is the company's meal: one the day's meal has already eaten in the six hours (the next is a day off) is not eaten twice; else it is eaten now, and is the day's meal. A meal eaten while it slept put the next a day after one due in its six hours: at least a day less six hours on.
+Asleep while it lasts: what happens to a company awake in those hours is neither done to it nor told it on waking (LUL-02); whatever comes at it still wakes it, since a threat interrupts the rest. Its ration is the company's meal: one the day's meal has already eaten in the six hours (the next is a day off) is not eaten twice; else it is eaten now, and is the day's meal. A meal eaten while it slept put the next a day after one due in its six hours: at least a day less six hours on.
 
 #### rest_meal
 

@@ -80,6 +80,16 @@
     Change stop "Pack the rats' run with brick and rubble" from open to stopped.
   }
   Rule {t}_u_rats_cleared when not able({t}_u_rats) and not {t}_u_done({t}_u_rats_job) { Assert {t}_u_done({t}_u_rats_job). }
+  // A way through that needs no fight (Mission 19: a lone mage or thief had no way through the first jobs): ratsbane
+  // from the chandler's, laid where the rats come up into the cellar, does its work by morning.
+  Relation {t}_u_baited(group). Measure {t}_u_baited_at(group).
+  Action {t}_u_rats_baited(actor: group, site: place) "Lay ratsbane where the rats come up into the cellar" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {t}_u_cellar) and holding(actor, ratsbane) and able({t}_u_rats) and not {t}_u_baited({t}_u_rats).
+    Time 1.
+    On success { Spend ratsbane from actor. Assert {t}_u_baited({t}_u_rats). Set {t}_u_baited_at({t}_u_rats) to watch(clock). }
+    Result "You lay the ratsbane in twists along the foot of the wall where the droppings are thickest. Something scrabbles behind the brick, and goes quiet. By morning, it will have done its work.".
+  }
+  Rule {t}_u_rats_poisoned when {t}_u_baited({t}_u_rats) and able({t}_u_rats) and watch(clock) >= {t}_u_baited_at({t}_u_rats) + 36 { Slay {t}_u_rats. }
   Objective {t}_u_rats_job_sought when knows(party, {t}_u_notice) and not {t}_u_given({t}_u_rats_job) "Ask {{t}_merchant} about the rats in the corn-store at {town}: the corn-store is locked.".
   Objective {t}_u_rats_job_aim when {t}_u_given({t}_u_rats_job) and not {t}_u_done({t}_u_rats_job) "Clear the rats out of {{t}_u_cellar}, under {{t}_u_store} at {town}, and find where they get in.".
   Objective {t}_u_rats_job_run when {t}_u_done({t}_u_rats_job) and state({t}_u_rats_run, open) and knows(party, {t}_u_rats_source) and not {t}_u_paid({t}_u_rats_job) "Stop {{t}_u_rats_run}, in {{t}_u_warren} under {{t}_u_store}, or they will be back.".
@@ -206,6 +216,14 @@
     State hanging "At the back of the gallery white sacs the size of loaves hang from the roof in a cluster, and something in them moves.".
     State burnt "Where the egg-sacs hung there is a black stain on the roof and a smell of burnt hair.".
     Change burn "Burn the egg-sacs" from hanging to burnt needing flame.
+  }
+  // A way through for a company that would not stand in the web: a fire flask thrown into it from the adit, and the
+  // fire runs up it into the gallery. The egg-sacs at the back are still to be seen to.
+  Action {t}_u_spiders_burned(actor: group, site: place) "Throw a fire flask into the web across the cutting" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {t}_u_adit) and holding(actor, fire_flask) and able({t}_u_spiders).
+    Time 1.
+    On success { Spend fire_flask from actor. Slay {t}_u_spiders. }
+    Result "The flask bursts against the web and the fire runs up it into the dark of the cutting, faster than you would have thought. Something screams in a voice like wet wood in a grate. When it has burned out, nothing moves in there.".
   }
   Rule {t}_u_spiders_cleared when not able({t}_u_spiders) and not {t}_u_done({t}_u_spiders_job) { Assert {t}_u_done({t}_u_spiders_job). }
   Objective {t}_u_spiders_job_sought when knows(party, {t}_u_notice) and not {t}_u_given({t}_u_spiders_job) "Ask {{t}_innkeeper} about the old quarry at {town}: its gate is locked.".

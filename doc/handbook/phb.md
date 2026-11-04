@@ -4388,6 +4388,14 @@ spells 1 harder to resist.
 
 > A mystical stone that provides a protective barrier to the bearer.
 
+#### Twist of ratsbane
+
+*Kyr · gear* · `item:ratsbane`
+
+- Worth: 2
+
+> A twist of paper holding meal mixed with something bitter, for vermin. Laid where they run, it does its work overnight.
+
 #### Spyglass
 
 *Kyr · gear* · `item:spyglass`
