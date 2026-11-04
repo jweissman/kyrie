@@ -25,7 +25,9 @@ what the Hobb boy saw. Each is in the town template, so every generated village 
 Lowmouth and kite's Newmeet (M19-17, 21, 23).
 
 **The road says what matters on it.** On the road where the father's cart went off, the page now leads with the
-fresh ruts and says the aim followed; the empty "Ways on" column is the map, named for the road's ends (M19-11, 14).
+fresh ruts and says the aim followed; the empty "Ways on" column is the map, named for the road's ends; once the
+cart is found and the aim turns home, the page no longer leads on to Mistshaw "where you set out for" (M19-11, 14,
+18). The map's plan of a journey says when the company would come there, and whether after dark (M19-30).
 
 **Fights are told and reckoned more honestly.** A band's members are "the second great rat", not "the second of
 the rats under the corn-store"; the reckoning judges harm by how a fight goes one time in four, not on average (two
@@ -41,8 +43,9 @@ called Rurik; a lantern given is "a lantern" in the pack; "Now open: Talk to Bas
 
 **The Encyclopedia of Imbar** opens from the title: peoples, callings and lives, magic and prayer, arms and
 treasure, creatures, conditions, and the lands of rumour (each adventure's country as its neighbours speak of it),
-made from the same entries the game plays from, with search and cross-references, in the game's own look; the
-developers' coverage handbooks moved to Options (M19-15, 16).
+made from the same entries the game plays from, with search and cross-references, in the game's own look; then
+the tongues (from the languages package's own records) and Imbar and its planes (the canon read by the Kyr parser);
+the developers' coverage handbooks moved to Options (M19-15, 16).
 
 ## What an author can do differently
 
@@ -72,6 +75,6 @@ is said there too. The content inventory with what is met in play, not only defi
 3. **No one but the builder has played it since**, and the builder's play shows only that the first town's jobs now
    cohere end to end and differ by calling: whether that is enjoyable for an evening is untested, and the country
    beyond the town is as uneven as the handoff says.
-4. **The Encyclopedia lacks history, institutions, languages and planes**, and modules do not add entries.
+4. **The Encyclopedia lacks history and institutions**, and modules do not add entries of their own.
 5. **Most content generators are still TypeScript writing Kyr as text**; the old-tongue site names have no everyday
    name beside them where the folk lack one (M19-20).
