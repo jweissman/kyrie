@@ -96,3 +96,24 @@ evidence goes is in [evidence.md](evidence.md) (ledger E2 to E8). In short, and 
 
 Item 5 above is partly answered by the last; item 4 by two chapters of the Encyclopedia, the old makers and those after them, and the gods by their domains, from the data every country draws its past and its faith from; items 1 to 3 stand as they were. Item 3 above stands most of all: no
 independent player has played since the repairs, and the evidence for an hour's play is the builder's.
+
+### The evening of 4 November: the place laid out
+
+After the independent product-design review, the owner asked that play be reconstructed as a world moved through,
+not a page of descriptions and buttons ([spatial-play.md](spatial-play.md)). Built, and played by the builder (not
+accepted):
+
+- **The place is the surface.** In the wild, the 3D hex board, where the company stands; in a town, a building, a
+  site or a level above ground, its plan (streets, open ground, buildings, the way out, the company ringed); under
+  the ground, the rooms known down there and the ways up. Choosing a place on it shows it beside; choosing it again
+  goes there. The page does not scroll.
+- **The focus beside it** is what the company attends to: here (what just happened, who and what is here, the few
+  things worth doing), a place chosen, or a town come to from the country, seen whole before it is walked into.
+- **One journey, pinned** on the real runtime: a1's camp on the town's plan, Bask and the rats job, the corn-store and
+  the cellar and rat-runs on the plan below, the fight, back up, out into the country and back
+  (`spatial-journey-browser`). The plans come from structure alone, and reach generated sites and levels and authored
+  modules (the circus, the raiders' cave, Silkholme's sink, the tower's bailey).
+
+Still the old way: the focus carries the glance's ranked acts and the three keys (Every way, Look about, More) to the
+whole legal set; a building on the plan says what it is and the way there, not yet who keeps it, which wants the
+company's knowledge of where people are kept apart from where they are.
