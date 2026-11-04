@@ -198,8 +198,16 @@ export class Communities {
     const name = !used.has(first) ? first : families.map(f => `${given} ${f}`).find(n => !used.has(n)) ?? first;
     used.add(name);
     return { id: `${s.id}_r${i + 1}`, name, family, pronoun, ancestry, occupation: key, work,
-      household: `${s.id}_h${i + 1}`, manner: draw.pick(this.manners), seen: draw.pick(work.seen), talk: draw.pick(work.talk),
+      household: `${s.id}_h${i + 1}`, manner: draw.pick(this.manners), seen: this.fresh(s, work.seen, draw, used),
+      talk: this.fresh(s, work.talk, draw, used),
       evening: draw.chance(0.45) ? 'inn' : 'home', tavern: draw.pick(this.evenings) };
+  }
+  // A line of a trade's that nobody else in the town has been given while there are others: two smiths on one landing
+  // had both been "mending a hinge with the patience of the paid" (a1's Lowmouth, 3 November).
+  private static fresh(s: Settlement, lines: string[], draw: Draw, used: Set<string>): string {
+    const unsaid = lines.filter(l => !used.has(`${s.id}:${l}`)), line = draw.pick(unsaid.length ? unsaid : lines);
+    used.add(`${s.id}:${line}`);
+    return line;
   }
   // Who lives with whom: now and then two of the workers are one household, a pair or a parent and a grown child,
   // and share a family name.
