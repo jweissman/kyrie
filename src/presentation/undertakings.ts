@@ -1,7 +1,9 @@
 import type { Campaign } from '../campaign/campaign';
-import type { Objective } from '../lang/module';
+import type { Entity, Objective } from '../lang/module';
 import { Stakes } from '../ui/stakes';
 import { FictionalTime } from '../campaign/fictional-time';
+import { EntityIndex } from '../lang/entity-index';
+import { Spatial } from '../spatial';
 
 // The aim the player follows (the owner's "a clearer currently selected quest"; Mission 19, journal and intentions):
 // one of the aims the company holds, by its id, kept with the game in its save, and the one every page's "your aim"
@@ -41,8 +43,27 @@ export class Undertakings {
       .toSorted((a, b) => Number(b.id === followed) - Number(a.id === followed))
       .map(o => ({ id: o.id, text: FictionalTime.prose(o.text), ...o.id === followed ? { followed: true as const } : {},
         ...o.id === followed && chosen ? { chosen: true as const } : {},
-        ...defs.get(o.id) && Stakes.own(defs.get(o.id)!) ? { own: true as const } : {} }));
+        ...defs.get(o.id) && Stakes.own(defs.get(o.id)!) ? { own: true as const } : {},
+        ...defs.get(o.id) ? { places: this.places(campaign, defs.get(o.id)!) } : {} }));
     return { objectives: ordered.map(o => o.text), ...ordered.length ? { aims: ordered } : {} };
+  }
+  // The places an aim is about, by id, most particular first: those its words or condition name; then the outside of
+  // a site among them (the barrow's outside, where the map has it); then what they lie in (the inn's town). For the
+  // page to find the aim on the map and among the journeys by id, not by matching the aim's words against place names
+  // (the owner, 4 November).
+  private static places(campaign: Campaign, o: Objective): string[] {
+    const byId = EntityIndex.of(campaign.module.entities).byId, w = campaign.world;
+    const named = [...Stakes.named(campaign, o)].filter(id => byId.get(id)?.space);
+    // A site's outside: a place outside the site a way joins to one of its rooms.
+    const inside = new Map(named.flatMap(id => { const s = this.site(byId, id); return s ? [[id, s] as const] : []; }));
+    const joined = w.related('connects').flatMap(r => [[r.args[1]!, r.args[2]!], [r.args[2]!, r.args[1]!]] as const)
+      .flatMap(([a, b]) => inside.has(a) && this.site(byId, b) !== inside.get(a) ? [b] : []);
+    const around = named.flatMap(id => Spatial.ancestry(byId, id).slice(1)
+      .filter(e => !['plane', 'region'].includes(e.space?.kind ?? '')).map(e => e.id));
+    return [...new Set([...named, ...joined, ...around])];
+  }
+  private static site(byId: Map<string, Entity>, id: string): string | undefined {
+    return Spatial.ancestry(byId, id).find(e => e.space?.kind === 'site')?.id;
   }
   // After a command, from the aims held before it.
   static after(campaign: Campaign, before: string[]) {

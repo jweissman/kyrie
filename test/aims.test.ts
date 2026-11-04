@@ -7,6 +7,7 @@ import { ActionFeedbackView } from '../src/presentation/action-feedback';
 import { Narrator } from '../src/presentation/narrator';
 import { ScreenModel } from '../src/ui/screen-model';
 import { Aims } from '../web/reader/aims';
+import type { Screen } from '../src/ui/screen-types';
 import { ModuleWriter } from '../src/lang/module-writer';
 
 // Your own errand comes first among your aims, and an aim taken up is said when it is: the page's aim had wandered to
@@ -37,16 +38,14 @@ describe('your aims', () => {
     expect(PlayerView.observe(c).objectives?.map(o => o.text)).not.toEqual(later.objectives?.map(o => o.text));
     expect(ActionFeedbackView.read(c, waited, later).aims ?? []).toEqual([]);
   }, 120000);
-  // The place your aim names is offered to set out for, however far: the cisterns of Lunastagn, the aim, were only "on
-  // the map", while three nearer places stood under Set out for (play 7). The notes still match an aim to a place by
-  // its name (Sheet.Aim); the place's ways and journeys take the aims' places from the engine (glance.aimed: see
-  // glance-menu.test.ts).
-  it('offers the place your aim names to set out for, beside the nearest', () => {
-    const places = ['Riwustagn', 'Argentumfons', 'a lone tower', 'Lunastagn', 'Murkheald', 'Glōmburg'].map(name => ({ name }));
+  // The place your aim names is found by the ids of the places the engine says it is about (Undertakings.places), the
+  // most particular first, never by its words against place names (the owner, 4 November: the notes had matched an
+  // aim to a place by its name, and a name inside another word, or a place named in passing, could be taken).
+  it('finds the place your aim is about by the engine\'s ids, not its words', () => {
     const aim = 'Bring the Wardens\' reading-glass up out of Lunastagn, from the still water at the bottom.';
-    expect(Aims.named(places, aim, 3)?.name).toBe('Lunastagn');
-    // One of the nearest is offered already; a name inside another word is not a name.
-    expect(Aims.named(places, 'The brothers want the old writing at Riwustagn copied.', 3)).toBeUndefined();
-    expect(Aims.named([...places, { name: 'Glōm' }], 'The road to Glōmburg', 6)).toBeUndefined();
+    const screen = { aims: [{ id: 'w', text: aim, places: ['x__still_water', 'x__lunastagn', 'x__region9'] }] } as unknown as Screen;
+    const places = [{ id: 'x__riwustagn' }, { id: 'x__region9' }, { id: 'x__lunastagn' }];
+    expect(Aims.named(screen, places, aim)?.id).toBe('x__lunastagn');
+    expect(Aims.named(screen, places, 'The brothers want the old writing at Riwustagn copied.')).toBeUndefined();
   });
 });

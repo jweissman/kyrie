@@ -70,10 +70,14 @@ export class MapView {
   private static aim(app: ReaderApp, screen: Screen): string | undefined {
     // The aim followed, where it names somewhere the company knows the way to; else the one the page leads toward.
     const followed = Followed.of(screen);
-    const named = followed && Aims.named(screen.destinations ?? [], followed, 0)?.id;
+    const named = followed && Aims.named(screen, screen.destinations ?? [], followed)?.id;
     if (named && screen.region?.land && MapView.way(screen, named).go) { return named; }
     const id = app.state.frame?.leaf.glance?.aimed?.find(a => a.startsWith('travel:'))?.slice('travel:'.length);
-    return id && screen.region?.land && MapView.way(screen, id).go ? id : undefined;
+    if (id && screen.region?.land && MapView.way(screen, id).go) { return id; }
+    // Where the aim is, on the map, though no way there is known yet: chosen, its card says so.
+    const land = screen.region?.land, marked = new Set([...land?.marks.map(m => m.id) ?? [],
+      ...(screen.region?.areas ?? []).filter(a => a.kind === 'settlement').map(a => a.id)]);
+    return land ? Aims.named(screen, [...marked].map(m => ({ id: m })), followed)?.id : undefined;
   }
   // Opened, the map takes the keys' focus and holds it: what is under it is out of reach (and unread) until it
   // closes, when the focus goes back to what had it, or, where that has gone, to the first thing to do.

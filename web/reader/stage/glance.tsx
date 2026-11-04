@@ -104,7 +104,7 @@ export class GlanceStage {
     if (aim && recap === aim) { return null; }
     // Followed, it opens the map on itself (see MapView.aim).
     if (!aim) { return null; }
-    const place = followed && Aims.named(screen.destinations ?? [], followed, 0);
+    const place = followed && Aims.named(screen, screen.destinations ?? [], followed);
     return (
       <p className={`aim${followed ? ' followed' : ''}`} data-id="aim"><span className="label">
         {followed ? 'Following' : 'Your aim'}</span>{Typography.curl(Words.upper(aim))}

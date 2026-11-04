@@ -70,8 +70,8 @@ export class Sheet {
   // An aim, to follow or not, and where it names a place the company knows, that place on the map: going anywhere is the
   // map's (the owner, 4 November: no setting out from any page but the world map's).
   static Aim({ app, aim }: { app: ReaderApp; aim: string }) {
-    const place = Aims.named(app.state.frame?.screen.destinations ?? [], aim, 0);
     const screen = app.state.frame?.screen, following = !!screen && Followed.of(screen) === aim;
+    const place = screen && Aims.named(screen, screen.destinations ?? [], aim);
     return <li className={`aim-card${following ? ' followed' : ''}`}><span>{Typography.curl(aim)}</span>
       <span className="aim-acts"><button type="button" className="option follow" data-action="follow"
         aria-pressed={following} disabled={following} onClick={() => app.follow(aim)}>
