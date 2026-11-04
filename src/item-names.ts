@@ -5,6 +5,11 @@ export class ItemNames {
   static readonly uncounted = new Set(['mail', 'armor', 'armour', 'leather', 'clothing', 'clothes', 'gear', 'rope', 'oil',
     'chalk', 'water', 'incense', 'salve', 'ammunition', 'regalia', 'bread', 'meat', 'firewood', 'tinder', 'soap',
     'heather', 'comfrey', 'kingsfoil', 'ale', 'wine', 'vinegar', 'fire', 'dice']);
+  // A thing carried, by its own name, or as its kind is called when its name is only its kind's: a lantern given
+  // had been "Lantern" in the pack beside "A torch" (M19-29).
+  static shown(own: string | undefined, kind: string): string {
+    return own && own !== kind ? own : this.called(kind);
+  }
   static called(name: string): string {
     const article = /^(the|a|an|some) /i.exec(name);
     if (article) { return `${article[1]!.toLowerCase()}${name.slice(article[1]!.length)}`; }
