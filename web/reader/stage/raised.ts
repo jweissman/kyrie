@@ -1,3 +1,4 @@
+import { GlanceStage } from './glance';
 import { MenuModel, type Menu } from '../menu-model';
 import type { ReaderApp } from '../reader-app';
 
@@ -30,6 +31,8 @@ export class Raised {
   // place: none while a sheet is raised over them; no limit where there is no glance (a road).
   static led(app: ReaderApp): number | undefined {
     const g = app.state.frame?.leaf.glance, menu = app.menu;
+    // A place at rest leads with nothing by number: what is led with is in the explorer (see Explorer).
+    if (g && !app.state.outdoors && !app.state.exploring) { return 0; }
     if (!g || !menu.sheets) { return undefined; }
     return this.up(app) ? 0
       : new Set((menu.leads ?? g.acts).flatMap(a => MenuModel.lead(menu, a.choice)?.id ?? [])).size;
@@ -42,6 +45,12 @@ export class Raised {
   // The keys come to a choice: the sheet that holds it is raised, and any other put away.
   static follow(app: ReaderApp, cursor: number) {
     const id = app.menu.choices[cursor]?.id, up = this.up(app);
+    // At a place at rest, the keys on something not drawn there open the explorer, and on what is drawn put it away.
+    if (id && app.state.frame?.leaf.glance && !app.state.outdoors) {
+      const resting = GlanceStage.atRest(app).has(id);
+      if (resting !== !app.state.exploring) { app.explore(resting ? undefined : 'here'); }
+      return;
+    }
     if (!id || !app.menu.sheets) { return; }
     const sheet = this.holding(app.menu, id, { ...up ? { up } : {}, glanced: this.glanced(app) });
     if (sheet !== up) { this.raise(app, sheet); }

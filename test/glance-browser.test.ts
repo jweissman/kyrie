@@ -56,7 +56,7 @@ class Glancing {
   // from here, who is here and what the company can do of itself are in the focus beside the place, at once.
   static async atOnce(page: Page) {
     const at = (s: string) => page.locator(`.world-page .focus ${s}`).count();
-    return { ways: await at('.ways-here .way-row') > 0, yourself: await at('.yours-here .act') > 0,
+    return { ways: await at('.ways-here .way-tile') > 0, yourself: await at('.yours-here .act') > 0,
       keys: await page.locator('.glance-keys').count() };
   }
 }

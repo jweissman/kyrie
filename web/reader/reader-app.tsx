@@ -4,6 +4,7 @@ import type { Choice } from '../../src/ui/choice-list';
 import type { Catalog, CompanyView, Entry, Frame, Member, Message, Setting } from '../engine/protocol';
 import { EngineClient } from './engine-client';
 import { MenuModel, type Menu, type View } from './menu-model';
+import { WorldStage } from './stage/world-stage';
 import { Conversation, type TalkLine } from './conversation';
 import type { Attention } from '../../src/ui/attention';
 import { ReaderStore, type SavedGame } from './reader-store';
@@ -45,6 +46,13 @@ export interface AppState {
   prologue?: number; beat?: number;
   // Whether the company is setting out from the choice of a life: the page says only that, over the country.
   leaving?: boolean;
+  // Whether the world map is up: the one map, the whole stage. Play begins on it; coming into open country raises it;
+  // entering a place, or doing anything where the company is, puts it away (the owner, 4 November, late: one map,
+  // never a second view of it with a sidebar).
+  outdoors?: boolean;
+  // Whether the explorer is open over a place, and on which part of it first: where to go, or what to do here (the
+  // owner, 4 November, late: the place at rest, its apparatus opened when wanted).
+  exploring?: 'go' | 'here';
   // The choices that are open, showing what can be done with them (what to say to someone, what to buy).
   open: string[];
   // Whether the keys are being used: only then is the choice they are on shown.
@@ -135,7 +143,8 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
       const combat = message.frame.combat, fight = combat ? this.state.frame?.combat ? this.state.fight
         : { seen: 0, hp: {}, first: true, began: Object.fromEntries(combat.allies.map(f => [f.id, f.hp])) } : undefined;
       this.setState({ frame: message.frame, pending: undefined, cursor: 0, open: [], hovered: undefined, fight,
-        attention: Conversation.place, talk: [], asked: [], confirming: undefined });
+        attention: Conversation.place, talk: [], asked: [], confirming: undefined,
+        outdoors: !!message.frame.screen.region?.land && !combat });
     }
   }
   private built?: { frame?: Frame; view: View; open: string[]; attention: Attention; member: string; asked: string[];
@@ -231,7 +240,7 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     try {
       const journey = /^travel:(.+)$/.exec(choice.command!)?.[1], unbind = choice.command === MenuModel.unbind;
       // Set out from the map, the way is walked on it before where it comes to is told.
-      const walked = journey && this.state.view === 'map' ? ReaderApp.walk() : undefined;
+      const walked = journey && (this.state.view === 'map' || this.state.outdoors) ? ReaderApp.walk() : undefined;
       const next = journey ? await this.engine.request<Frame>({ kind: 'travel', destination: journey })
         : unbind ? await this.engine.request<Frame>({ kind: 'unbind' })
           : await this.engine.request<Frame>({ kind: 'perform', command: choice.command! });
@@ -246,10 +255,21 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
         // Set out from the map, the journey is told where it arrives; anything else done from the map or the company
         // leaves it open.
         view: !journey && ['map', 'company'].includes(this.state.view) ? this.state.view : 'here', stage: '', attention, talk,
-        asked: person && !turning ? [...this.state.asked, choice.id] : [],
+        asked: person && !turning ? [...this.state.asked, choice.id] : [], outdoors: ReaderApp.outdoors(frame, next),
+        exploring: undefined,
         acted: this.state.attention.kind === 'thing' ? this.state.attention.id : undefined });
     } catch (error) { this.failed(error); }
   }
+  // Whether the map is up after a command: come into open country, it is; come into a town or a site, or anything done
+  // where the company already was, the place is shown.
+  static outdoors(before: Frame, after: Frame): boolean {
+    return after.screen.place.id !== before.screen.place.id && !after.combat && WorldStage.wild(after.screen);
+  }
+  // The explorer opened over the place, on one of its parts, or shut.
+  readonly explore = (part?: 'go' | 'here') => { this.setState({ exploring: part, hovered: undefined }); };
+  // The map up, or put away (entering where the company stands, or backing out of it to the map).
+  readonly outdoor = (up: boolean) => { this.setState({ outdoors: up, view: 'here', attention: Conversation.place, cursor: 0,
+    open: [], hovered: undefined, exploring: undefined }); };
   // As long as your mark takes to walk the way on the map; no time where nothing moves on it.
   private static walk(): Promise<void> | undefined {
     if (typeof matchMedia === 'undefined' || matchMedia('(prefers-reduced-motion: reduce)').matches) { return undefined; }
@@ -265,6 +285,7 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     const s = this.state;
     if (s.frame?.combat?.outcome) { this.onward(); }
     else if (s.help) { this.setState({ help: false }); }
+    else if (s.exploring) { this.setState({ exploring: undefined }); }
     else if (s.open.length) { this.setState({ open: s.open.slice(0, -1), cursor: 0 }); }
     else if (s.view !== 'here') { this.setState({ view: 'here', cursor: 0 }); }
     else if (s.attention.kind === 'person' && this.menu.talk) { this.choose(this.menu.talk.leave); }
@@ -280,6 +301,10 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
   };
   show(view: View, who?: string) {
     if (this.state.frame?.combat && view !== 'here') { return; }
+    // The map is the one map, wherever the company is in a country that has one: raised over the stage, not a page.
+    if (view === 'map' && this.state.frame?.screen.region?.land) {
+      this.outdoor(!(this.state.outdoors && this.state.view === 'here')); return;
+    }
     const member = who ?? (this.state.member || (this.state.frame?.screen.party[0]?.id ?? ''));
     this.setState({ view: this.state.view === view ? 'here' : view, cursor: 0, open: [], hovered: undefined, member });
     if (view === 'story' && this.state.view !== 'story') {

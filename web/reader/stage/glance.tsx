@@ -24,7 +24,8 @@ import { SceneModel } from '../../../src/ui/scene';
 // row of the nearest ways; how the company is, only when something is wrong; and Every way, Look about and More, each
 // a sheet over the page. Everything else is one deliberate touch away, and nothing is guessed here.
 export class GlanceStage {
-  static View({ app, draw }: { app: ReaderApp; draw: Draw }) {
+  // apart: the ways are drawn by the stage, in a bar of their own across it (see WorldStage), not in this column.
+  static View({ app, draw, apart }: { app: ReaderApp; draw: Draw; apart?: boolean }) {
     const s = app.state, frame = s.frame!, leaf = frame.leaf, g = leaf.glance!, screen = frame.screen;
     const exchange = leaf.exchange, told = exchange && (exchange.lines.length || exchange.notes.length) ? exchange : undefined;
     // Hurt on the way in (a trap's blade), what happened comes before the place (see Told.Place).
@@ -70,12 +71,15 @@ export class GlanceStage {
           <div className="do-list">
             <GlanceStage.Aim app={app} said={g.aim} />
             {g.need && <p className="need" data-id="need">{g.need.map(n => <span key={n}>{Typography.curl(n)}</span>)}</p>}
-            <GlanceStage.Acts app={app} draw={draw} acts={acts} top={top} />
-            <GlanceStage.Row app={app} draw={draw} glance={g} />
-            <GlanceStage.People app={app} draw={draw} led={new Set(acts.map(a => GlanceStage.choice(app, a.choice)?.id))}
-              leading={leading} top={top} why={g.acts[0]?.note} />
-            <GlanceStage.Around app={app} draw={draw} led={new Set(acts.map(a => GlanceStage.choice(app, a.choice)?.id))} />
+            {apart ? <GlanceStage.Resting app={app} draw={draw} acts={acts} top={top} />
+              : <><GlanceStage.Acts app={app} draw={draw} acts={acts} top={top} />
+                <GlanceStage.People app={app} draw={draw} led={new Set(acts.map(a => GlanceStage.choice(app, a.choice)?.id))}
+                  leading={leading} top={top} why={g.acts[0]?.note} />
+                <GlanceStage.Around app={app} draw={draw} led={new Set(acts.map(a => GlanceStage.choice(app, a.choice)?.id))} />
+              </>}
           </div>
+          {/* The ways from here at the foot, always in view: where the company can go, and how to leave. */}
+          {!apart && <GlanceStage.Row app={app} draw={draw} glance={g} />}
         </div>
       </div>
     );
@@ -101,9 +105,37 @@ export class GlanceStage {
       </div>
     );
   }
+  // At rest in a place (the owner, 4 November, late: a settled principle): only what will not wait — a danger, an
+  // answer owed, a warning, the dark — and the aim's next step, each one line; then Go… and Explore…, which open the
+  // explorer (see Explorer). The rest of what can be done is there, not here.
+  static Resting({ app, draw, acts, top }: { app: ReaderApp; draw: Draw; acts: Promoted[]; top?: string }) {
+    const shown = GlanceStage.pressing(acts);
+    return <>
+      {shown.length > 0 && <GlanceStage.Acts app={app} draw={draw} acts={shown} top={top} />}
+      <p className="explore-keys">
+        <button type="button" className="explore-open" data-action="explore" data-part="go"
+          onClick={() => app.explore('go')}>Go…</button>
+        <button type="button" className="explore-open" data-action="explore" data-part="here"
+          onClick={() => app.explore('here')}>Explore…</button>
+      </p>
+    </>;
+  }
+  // What will not wait (a danger, an answer owed, a warning, the dark), else the aim's next step.
+  static pressing(acts: Promoted[]): Promoted[] {
+    const urgent = acts.filter(a => a.tier === 0).slice(0, 2);
+    const next = acts.find(a => ['bound', 'kin', 'about', 'named', 'toward'].includes(a.why));
+    return urgent.length ? urgent : next ? [next] : [];
+  }
+  // What a place at rest draws that can be chosen: whoever is here, on the picture, and what is pressing.
+  static atRest(app: ReaderApp): Set<string> {
+    const g = app.state.frame?.leaf.glance, subjects = app.menu.scene?.subjects ?? [];
+    const pressing = g ? GlanceStage.pressing(app.menu.leads ?? g.acts).flatMap(a => GlanceStage.choice(app, a.choice)?.id ?? []) : [];
+    return new Set([...pressing, ...subjects.filter(x => x.kind === 'person' || x.kind === 'animal').slice(0, 7)
+      .flatMap(x => PlaceStage.into(x)?.id ?? [])]);
+  }
   // Four: two rows of the rail, so that the ways under them are in view too.
   static readonly most = 10;
-  private static people(app: ReaderApp): SceneSubject[] {
+  static people(app: ReaderApp): SceneSubject[] {
     return (app.menu.scene?.subjects ?? []).filter(x => x.kind === 'person' && !x.danger);
   }
   // Those shown by their plates: whom the company has a stake in, then whoever sells, then whoever has something to be
@@ -215,29 +247,51 @@ export class GlanceStage {
   static Row({ app, draw, glance: g }: { app: ReaderApp; draw: Draw; glance: Glance }) {
     // Every way from here, once, in the panel beside the picture, never over it (the owner, 4 November evening): which
     // way it goes, where, how long; the aim's marked. Ranked as the glance ranks them.
+    // Each a short label, its kind by its mark (into, out, up, down); what more there is to say of one (how long, what
+    // it risks, why it is shut) in one line under them, for the way under the finger or the keys, or the aim's (the
+    // owner, 4 November, late: a way's reasons had swollen its button to half the panel). Those within the town and
+    // those out of it apart, so how to leave is plain.
     const screen = app.state.frame!.screen, aimed = PlaceStage.aimed(app);
     const open = SceneSurface.open(screen, SceneSurface.choices(app), [...g.acts.map(a => a.choice), ...g.ways]);
     if (!open.length) { return null; }
+    const ways = open.map(({ c, exit }) => ({ c, exit, whither: SceneSurface.whither(exit),
+      name: exit?.destination.name ?? c.label.replace(/^To /, ''),
+      aim: aimed.some(id => id === c.id || id.startsWith(`${exit?.id}/`)) }));
+    const leaving = (w: (typeof ways)[number]) => ['Out', 'Away'].includes(w.whither);
+    const shown = ways.find(w => w.c.id === app.state.hovered) ?? ways.find(w => w.aim);
+    const town = screen.path.find(p => ['settlement', 'site'].includes(p.kind))?.name;
+    const group = (list: typeof ways, label: string) => list.length > 0 && <div className="way-group">
+      <p className="label">{label}</p>
+      <ul>{list.map(w => <li key={w.c.id} onMouseEnter={() => app.hover(w.c.id)} onFocus={() => app.hover(w.c.id)}
+        onClickCapture={() => { if (w.c.disabled) { app.hover(w.c.id); } }}>
+        <Act.View choice={w.c} draw={draw} quiet className={`way-tile${w.aim ? ' aimed' : ''}`}>
+          <span className={`glyph whither-${w.whither.toLowerCase()}`} aria-hidden="true">
+            {w.c.disabled ? '⊘' : SceneSurface.glyph(w.whither)}</span>
+          <span className="n">{GlanceStage.short(w.exit?.destination.name ?? w.c.label.replace(/^To /, ''))}</span>
+        </Act.View></li>)}</ul></div>;
     return (
       <nav className="ways-here" aria-label="The ways from here">
-        <p className="label">Ways</p>
-        <ul>{open.map(({ c, exit }) => {
-          const whither = SceneSurface.whither(exit), aim = aimed.some(id => id === c.id || id.startsWith(`${exit?.id}/`));
-          return <li key={c.id}><Act.View choice={c} draw={draw} marked className={`way-row${aim ? ' aimed' : ''}`}>
-            <span className={`glyph whither-${whither.toLowerCase()}`} aria-hidden="true">{SceneSurface.glyph(whither)}</span>
-            <span className="n">{Typography.curl(Words.upper(exit?.destination.name ?? c.label.replace(/^To /, '')))}</span>
-            <span className="t">{[whither !== 'To' ? whither : '', (c.minutes ?? 0) > 5 ? Words.span(c.minutes!) : '']
-              .filter(Boolean).join(' · ')}</span>
-            {aim && <span className="why-said">your aim</span>}
-          </Act.View></li>;
-        })}</ul>
+        {group(ways.filter(w => !leaving(w)), town ? `In ${Typography.curl(town.replace(/^the /i, 'the '))}` : 'Ways')}
+        {group(ways.filter(leaving), town ? `Out of ${Typography.curl(town)}` : 'Out')}
+        <p className="way-detail" aria-live="polite">{shown ? GlanceStage.detail(shown) : ''}</p>
       </nav>
     );
+  }
+  // A way's label: its place's name without the article it is said with ("The byre" is Byre), the whole name in the
+  // way's detail line.
+  static short(name: string): string { return Typography.curl(Words.upper(name.replace(/^(the|a|an) /i, ''))); }
+  // What more there is to say of a way than its name: which way it goes and how long, the aim's, what it risks, and
+  // why it is shut if it is.
+  static detail(w: { c: Choice; whither: string; aim: boolean; name: string }): string {
+    const c = w.c, time = (c.minutes ?? 0) > 5 ? Words.span(c.minutes!) : '';
+    return Typography.curl([w.name, c.disabled ? `shut: ${c.disabled}` : '', w.aim ? 'your aim' : '',
+      w.whither !== 'To' ? w.whither.toLowerCase() : '', time, ...(c.marks ?? []).map(m => m.said)]
+      .filter(Boolean).map((x, i) => i ? x : Words.upper(x)).join(' · '));
   }
   // What else is here and what the company can do of itself, at once, not a sheet away (the owner, 4 November
   // evening: Every way, Look about and More had been crutches): the animals and things here, each with what can be
   // done with it; what the place offers to do; and the company's own acts (wait, search, rest, light).
-  static Around({ app, draw, led }: { app: ReaderApp; draw: Draw; led: Set<string | undefined> }) {
+  static Around({ app, draw, led, apart }: { app: ReaderApp; draw: Draw; led: Set<string | undefined>; apart?: boolean }) {
     const scene = app.menu.scene;
     if (!scene) { return null; }
     const doing = scene.you.filter(c => SceneModel.own(c) && !led.has(c.id));
@@ -252,10 +306,15 @@ export class GlanceStage {
           <PlaceStage.Chip subject={x} draw={draw} /></li>)}</ul></div>}
       {doing.length > 0 && <div className="doing" data-line="To do here"><p className="label">To do here</p>
         <Act.List choices={doing} draw={draw} className="small" marked /></div>}
-      {yours.length > 0 && <div className="yours-here" data-line="Yourself">
-        <p className="label">Yourself</p>
-        <Act.List choices={yours} draw={draw} className="small" marked /></div>}
+      {yours.length > 0 && !apart && <GlanceStage.Yours app={app} draw={draw} />}
     </>;
+  }
+  // What the company can do of itself wherever it is (wait, search, rest, light a candle).
+  static Yours({ app, draw }: { app: ReaderApp; draw: Draw }) {
+    const yours = (app.menu.scene?.you ?? []).filter(c => !SceneModel.own(c));
+    return yours.length > 0 && <div className="yours-here" data-line="Yourself">
+      <p className="label">Yourself</p>
+      <Act.List choices={yours} draw={draw} className="small" marked /></div>;
   }
   // A place with no one in it and little to do (a cellar, a stair) is drawn as one column, what to do under what is
   // told, not two panes half empty (the product-design review's PD-06).

@@ -141,7 +141,7 @@ export class PlaceStage {
       {rest.length > 0 && <Act.List choices={rest} draw={draw} className="small under" marked={marked} />}
     </>;
   }
-  private static into(s: SceneSubject): Choice | undefined {
+  static into(s: SceneSubject): Choice | undefined {
     return s.choices.find(c => /#(talk|look)$/.test(c.id)) ?? (s.choices.length === 1 ? s.choices[0] : undefined);
   }
   // What could be fought: a creature, or anyone the company reckons a fight with (a band of goblins who can also be

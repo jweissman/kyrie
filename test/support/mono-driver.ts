@@ -59,6 +59,12 @@ export class MonoDriver {
     if (!(await this.page.locator(shown).count()) && await this.page.locator('[data-action="enter-hex"]').count()) {
       await this.click('[data-action="enter-hex"]');
     }
+    // A place at rest draws only who is here and what is pressing: anything else is in its explorer, opened first.
+    const explore = '[data-action="explore"][data-part="here"]';
+    if (!(await this.page.locator(shown).count()) && await this.page.locator(explore).count()) {
+      await this.click(explore);
+      if (await this.page.locator(raised).count()) { await this.click(raised); return; }
+    }
     const state = await this.inspect(), id = state.choices[index]?.id ?? '';
     const glanced = !!state.glance && [...state.glance.acts.map(a => a.choice), ...state.glance.ways].includes(id);
     if (await this.page.locator(sheet).count()) { await this.click(`${sheet} .sheet-shut`); }

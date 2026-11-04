@@ -16,25 +16,25 @@ Module world_making "What a company can make of what it carries" {
   Entity oil_and_rag: recipe "a rag stuffed in a flask of lamp oil".
   Initially Assert takes(oil_and_rag, lamp_oil). Initially Assert takesWith(oil_and_rag, bandages).
   Initially Assert makes(oil_and_rag, fire_flask).
-  Action make_remedy(actor: group, maker: member, recipe_used: recipe, ingredient: item, ingredient_kind: itemkind, partner: item, partner_kind: itemkind, made: itemkind) "{maker}: make {made} of {ingredient} and {partner}" {
+  Action make_remedy(actor: group, mk_maker: member, mk_recipe: recipe, mk_first: item, mk_first_kind: itemkind, mk_second: item, mk_second_kind: itemkind, mk_made: itemkind) "{mk_maker}: make {mk_made} of {mk_first} and {mk_second}" {
     Description "Steeped, boiled down and strained, the two are one dose that does what both would, and more: a mender's work, and it can spoil.".
-    Requires able(actor) and memberOf(maker, actor) and awake(maker) and not benighted(actor)
-      and remedy(recipe_used) and takes(recipe_used, ingredient_kind) and takesWith(recipe_used, partner_kind) and makes(recipe_used, made)
-      and ownedItem(ingredient, maker) and itemKind(ingredient, ingredient_kind) and ownedItem(partner, maker) and itemKind(partner, partner_kind).
+    Requires able(actor) and memberOf(mk_maker, actor) and awake(mk_maker) and not benighted(actor)
+      and remedy(mk_recipe) and takes(mk_recipe, mk_first_kind) and takesWith(mk_recipe, mk_second_kind) and makes(mk_recipe, mk_made)
+      and ownedItem(mk_first, mk_maker) and itemKind(mk_first, mk_first_kind) and ownedItem(mk_second, mk_maker) and itemKind(mk_second, mk_second_kind).
     Time 6.
     Resolve check(actor, mending, dc_fair).
-    On success { Spend ingredient_kind from actor. Spend partner_kind from actor. Give made to actor. }
-    On failure { Spend ingredient_kind from actor. }
-    Result "{maker} makes {made} of them.".
-    Otherwise "It boils over, or goes to a brown sludge: {ingredient} is spoiled.".
+    On success { Spend mk_first_kind from actor. Spend mk_second_kind from actor. Give mk_made to actor. }
+    On failure { Spend mk_first_kind from actor. }
+    Result "{mk_maker} makes {mk_made} of them.".
+    Otherwise "It boils over, or goes to a brown sludge: {mk_first} is spoiled.".
   }
-  Action make_plain(actor: group, maker: member, recipe_used: recipe, ingredient: item, ingredient_kind: itemkind, partner: item, partner_kind: itemkind, made: itemkind) "{maker}: make {made} of {ingredient} and {partner}" {
+  Action make_plain(actor: group, mk_maker: member, mk_recipe: recipe, mk_first: item, mk_first_kind: itemkind, mk_second: item, mk_second_kind: itemkind, mk_made: itemkind) "{mk_maker}: make {mk_made} of {mk_first} and {mk_second}" {
     Description "Plain work, quickly done.".
-    Requires able(actor) and memberOf(maker, actor) and awake(maker) and not benighted(actor)
-      and not remedy(recipe_used) and takes(recipe_used, ingredient_kind) and takesWith(recipe_used, partner_kind) and makes(recipe_used, made)
-      and ownedItem(ingredient, maker) and itemKind(ingredient, ingredient_kind) and ownedItem(partner, maker) and itemKind(partner, partner_kind).
+    Requires able(actor) and memberOf(mk_maker, actor) and awake(mk_maker) and not benighted(actor)
+      and not remedy(mk_recipe) and takes(mk_recipe, mk_first_kind) and takesWith(mk_recipe, mk_second_kind) and makes(mk_recipe, mk_made)
+      and ownedItem(mk_first, mk_maker) and itemKind(mk_first, mk_first_kind) and ownedItem(mk_second, mk_maker) and itemKind(mk_second, mk_second_kind).
     Time 1.
-    On success { Spend ingredient_kind from actor. Spend partner_kind from actor. Give made to actor. }
-    Result "{maker} makes {made} of them.".
+    On success { Spend mk_first_kind from actor. Spend mk_second_kind from actor. Give mk_made to actor. }
+    Result "{mk_maker} makes {mk_made} of them.".
   }
 }

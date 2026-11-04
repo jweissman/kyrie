@@ -7,7 +7,7 @@
   background: linear-gradient(180deg, var(--hour), transparent); }
 .world-bar .title-block { max-width: none; }
 .world-bar .place { font-size: clamp(26px, 2.8vw, 38px); margin: 0 0 6px; }
-.world-body { min-height: 0; display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(21rem, 1fr); }
+.world-body { min-height: 0; display: grid; grid-template-columns: minmax(0, 1.9fr) minmax(21rem, 1fr); }
 .world-page .surface { position: relative; min-width: 0; min-height: 0; overflow: hidden;
   background: radial-gradient(ellipse 80% 70% at 50% 45%, rgba(236, 230, 217, .035), transparent 70%); }
 .world-page .focus { min-width: 0; min-height: 0; display: flex; flex-direction: column; border-left: 1px solid var(--edge);
@@ -17,7 +17,7 @@
    it, scrolling within itself, and the keys at the foot, under them and never over them. */
 .focus > .glance, .focus > .glance.sparse { flex: 1 1 auto; min-height: 0; max-width: none; margin: 0; overflow: hidden;
   display: flex; flex-direction: column; }
-.focus > .glance > .told-col { flex: none; max-height: 58%;
+.focus > .glance > .told-col { flex: none; max-height: 30%;
   mask-image: linear-gradient(180deg, #000 calc(100% - 22px), transparent); overflow-y: auto; overscroll-behavior: contain;
   padding: 18px clamp(16px, 2vw, 24px) 6px; }
 .focus > .glance > .told-col > * { max-width: none; }
@@ -25,7 +25,7 @@
   display: flex; flex-direction: column; }
 .focus > .glance .do-list { flex: 1 1 auto; min-height: 0; overflow-y: auto; padding: 10px clamp(16px, 2vw, 24px) 12px; }
 .focus > .glance > .do-col > .glance-keys { position: static; flex: none; }
-.focus > .glance .sight { font-size: 17.5px; }
+.focus > .glance .sight { font-size: 16.5px; }
 .focus > .telling { flex: 1; overflow-y: auto; padding: 18px 22px; }
 
 .board-surface { position: absolute; inset: 0; }
@@ -143,20 +143,25 @@
 .board-surface .field-tools { left: 16px; right: auto; }
 /* The ways from here, once, in the focus: a row each, its direction marked in a ring, where it goes, which way and how
    long; the aim's edged in gold. */
-.focus .ways-here { margin: 0; }
-.focus .ways-here ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
-.act.way-row { display: grid; grid-template-columns: 30px minmax(0, 1fr) auto; align-items: center; gap: 0 12px;
-  width: 100%; min-height: 46px; padding: 6px 12px 6px 8px; background: rgba(236, 230, 217, .03); border-color: transparent; }
-.act.way-row::before { display: none; }
-.act.way-row .glyph { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%;
-  border: 1px solid var(--edge-strong); font: 500 15px/1 var(--do); color: var(--ivory); }
-.act.way-row .glyph.whither-up, .act.way-row .glyph.whither-down { border-color: rgba(236, 230, 217, .45); }
-.act.way-row .n { font: 500 15px/1.25 var(--do); color: var(--ivory); }
-.act.way-row .t { font: 400 12px/1.2 var(--do); color: var(--dim); letter-spacing: .04em; white-space: nowrap; }
-.act.way-row .why-said { grid-column: 2 / -1; font: 400 12px/1.3 var(--do); color: var(--gold); }
-.act.way-row.aimed { box-shadow: inset 2px 0 0 var(--gold); }
-.act.way-row.aimed .glyph { border-color: var(--gold-line); color: var(--gold); }
-.act.way-row:hover, .act.way-row.sel, .act.way-row:focus-visible { background: rgba(236, 230, 217, .07); }
+/* The ways from here: short labels, two to a row, those within the place and those out of it apart; what more there
+   is to say of one in a single line under them (the owner, 4 November, late). */
+.explorer .ways-here { margin: 0; display: grid; gap: 10px; }
+.explorer .ways-here .way-group .label { margin: 0 0 6px; }
+.explorer .ways-here ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 5px; }
+.explorer .ways-here li { max-width: 100%; }
+.act.way-tile { display: inline-flex; align-items: center; gap: 6px; min-height: 30px; padding: 3px 10px 3px 8px;
+  border: 1px solid rgba(236, 230, 217, .12); border-radius: 3px; background: rgba(236, 230, 217, .03);
+  text-align: left; max-width: 100%; }
+.act.way-tile::before { display: none; }
+.act.way-tile .glyph { flex: none; width: 12px; color: var(--dim); font: 400 12px/1 var(--do); text-align: center; }
+.act.way-tile .n { font: 500 13.5px/1.2 var(--do); color: var(--ivory); white-space: nowrap; overflow: hidden;
+  text-overflow: ellipsis; }
+.act.way-tile.aimed { border-color: var(--gold-line); }
+.act.way-tile.aimed .glyph, .act.way-tile.aimed .n { color: var(--gold); }
+.act.way-tile.shut { opacity: .55; border-style: dashed; }
+.act.way-tile:hover, .act.way-tile.sel, .act.way-tile:focus-visible { background: rgba(236, 230, 217, .08); }
+.ways-here .way-detail { margin: 0; min-height: 1.3em; font: 400 12.5px/1.3 var(--do); color: var(--dim);
+  letter-spacing: .02em; }
 /* The hex the company stands in, on the map: described, and entered. */
 .hex-card { padding: 20px; display: grid; gap: 12px; overflow-y: auto; }
 .hex-card .to { margin: 0; font: 300 30px/1.1 var(--do); color: var(--ivory); }
@@ -169,3 +174,83 @@
   background: var(--gold); border: 1px solid var(--gold); }
 .hex-card .enter:hover, .hex-card .enter:focus-visible { filter: brightness(1.08); outline: 2px solid var(--ivory); }
 .focus > .back-to-map { align-self: flex-start; margin: 12px clamp(16px, 2vw, 24px) 0; }
+
+/* In the focus beside a place, what to do is tight: a lead is a line, not a slab (the owner, 4 November, late). */
+.world-page .focus .act.led-act { min-height: 38px; padding-top: 6px; padding-bottom: 6px; }
+.world-page .focus .act.led-act .n { font-size: 15px; }
+.world-page .focus .led { gap: 4px; }
+/* People here as cards two to a row, a face, a name and what they are, the card itself the way to talk to them;
+   animals and things as chips; the company's own acts as small chips (the owner, 4 November, late: each its own kind
+   of control, and all of it in view). */
+.world-page .focus .glance-cast .plates { display: grid; grid-template-columns: repeat(auto-fill, minmax(13.5rem, 1fr));
+  gap: 6px; margin: 0; padding: 0; list-style: none; }
+.world-page .focus .glance-cast .plate { min-height: 50px; padding: 6px 10px; gap: 10px; }
+.world-page .focus .glance-cast .plate .face { width: 38px; height: 38px; flex: none; }
+.world-page .focus .glance-cast .plate .n { font-size: 14.5px; }
+.world-page .focus .glance-cast .plate .r { font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.world-page .focus .glance-cast .plate .verb { font-size: 10.5px; }
+.world-page .focus .glance-cast > .label, .world-page .focus .also-here > .label,
+  .world-page .focus .yours-here > .label { margin: 10px 0 4px; }
+.world-page .focus .also-here .chip { min-height: 30px; padding: 4px 10px; font-size: 13px; }
+.world-page .focus .acts.small.under { margin-top: 4px; }
+
+/* ---- A place at rest (the owner, 4 November, late, a settled principle): the picture, a few lines, who is here as
+   likenesses over its foot, and Go… / Explore…; what can be done opens over the stage when it is wanted. ---- */
+.world-page .surface .portraits { position: absolute; left: 18px; bottom: 16px; right: 18px; z-index: 2; margin: 0;
+  padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end; pointer-events: none; }
+.world-page .surface .portraits li { pointer-events: auto; }
+.portraits .portrait { display: grid; justify-items: center; gap: 4px; padding: 0; border: 0; background: none;
+  min-height: 0; width: 72px; cursor: pointer; }
+.portraits .portrait::before { display: none; }
+.portraits .portrait .face { width: 54px; height: 54px; border-radius: 50%; overflow: hidden; display: grid;
+  place-items: center; border: 2px solid rgba(236, 230, 217, .75); background: rgba(18, 19, 24, .85);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, .55); transition: transform .15s ease, border-color .15s ease; }
+.portraits .portrait .face img { width: 100%; height: 100%; object-fit: cover; }
+.portraits .portrait .initial { font: 300 22px/1 var(--do); color: var(--ivory); }
+.portraits .portrait .pn { font: 500 11.5px/1.15 var(--do); color: var(--ivory); text-align: center; max-width: 72px;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-shadow: 0 1px 3px #000, 0 0 8px rgba(0, 0, 0, .8); }
+.portraits .animal .portrait .face { width: 44px; height: 44px; }
+.portraits .danger .portrait .face { border-color: var(--ember, #c4552e); }
+.portraits .portrait:hover .face, .portraits .portrait.sel .face, .portraits .portrait:focus-visible .face {
+  transform: translateY(-2px); border-color: var(--gold); }
+.portraits .portrait.more { width: 54px; height: 54px; border-radius: 50%; place-items: center;
+  border: 1px solid rgba(236, 230, 217, .5); background: rgba(18, 19, 24, .8); color: var(--ivory); font: 500 14px var(--do); }
+.focus .explore-keys { display: flex; gap: 8px; margin: 14px 0 0; }
+.focus .explore-open { flex: 1; min-height: 40px; border: 1px solid var(--gold-line); background: rgba(236, 230, 217, .04);
+  color: var(--ivory); font: 500 14px/1 var(--do); letter-spacing: .08em; text-transform: uppercase; cursor: pointer; }
+.focus .explore-open:hover, .focus .explore-open:focus-visible { background: rgba(236, 230, 217, .1); border-color: var(--gold); }
+.world-body { position: relative; }
+.world-page .explorer { position: absolute; inset: 0; z-index: 5;
+  display: grid; grid-template-rows: auto minmax(0, 1fr); background: rgba(14, 15, 19, .94);
+  backdrop-filter: blur(6px); border-top: 1px solid var(--gold-line); }
+.explorer-head { display: flex; align-items: center; justify-content: space-between;
+  padding: 12px clamp(18px, 3vw, 36px) 8px; }
+.explorer-head h2 { margin: 0; font: 300 24px/1.2 var(--do); color: var(--ivory); }
+.explorer-shut { width: 38px; height: 38px; border: 1px solid var(--edge-strong); background: none; color: var(--ivory);
+  font-size: 16px; cursor: pointer; }
+.explorer-body { min-height: 0; display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 0 36px;
+  padding: 4px clamp(18px, 3vw, 36px) 18px; overflow-y: auto; }
+.explorer .part { margin: 0 0 8px; font: 500 12px/1 var(--do); letter-spacing: .2em; text-transform: uppercase;
+  color: var(--gold); }
+.explorer .led { margin: 0 0 10px; }
+.explorer .act.led-act { min-height: 38px; padding-top: 6px; padding-bottom: 6px; }
+.explorer .act.led-act .n { font-size: 15px; }
+.explorer .also-here, .explorer .doing, .explorer .yours-here { margin: 10px 0 0; }
+.explorer .also-here .chips { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.explorer .yours-here .acts.small, .explorer .doing .acts.small { display: flex; flex-wrap: wrap; gap: 6px; }
+@media (max-width: 899px), (orientation: portrait) {
+  .explorer-body { grid-template-columns: minmax(0, 1fr); gap: 18px; }
+  .portraits .portrait { width: 60px; }
+  .portraits .portrait .face { width: 46px; height: 46px; }
+}
+/* At rest the told lines have the column, scrolling within it only if they must; the aim and Go… / Explore… under. */
+.world-page.scale-scene .focus > .glance > .told-col { flex: 0 1 auto; max-height: none; }
+.world-page.scale-scene .focus > .glance > .do-col { flex: none; }
+.world-page.scale-scene .focus > .glance .do-list { overflow: visible; padding-bottom: 18px; }
+.explorer .led { list-style: none; padding: 0; }
+.explorer .led > li::marker { content: none; }
+.explorer-body { align-content: start; }
+@media (max-width: 899px), (orientation: portrait) {
+  .world-page.scale-scene .world-body { grid-template-rows: minmax(0, 1.3fr) minmax(0, 1fr); }
+  .world-page.scale-scene .focus { overflow-y: auto; }
+}

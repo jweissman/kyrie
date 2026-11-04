@@ -16,13 +16,14 @@ export class Act {
   }
   // marked: what it risks said on it, as a tag (see Marks): a fight and how it would go, something heard in a way in,
   // a journey that ends after dark. What cannot be undone and a risk say so already.
-  static View({ choice: c, draw, className, children, marked }: { choice: Choice; draw: Draw; className?: string;
-    children?: ReactNode; marked?: boolean }) {
+  // quiet: its label alone, what more there is to say of it said elsewhere (a way's detail line, see GlanceStage.Row).
+  static View({ choice: c, draw, className, children, marked, quiet }: { choice: Choice; draw: Draw;
+    className?: string; children?: ReactNode; marked?: boolean; quiet?: boolean }) {
     const i = draw.index.get(c.id) ?? -1, s = draw.app.state, selected = !!s.keyed && i === s.cursor;
     const opens = !!c.children && !/#(talk|look)$/.test(c.id), asks = Act.asks(c);
     const classes = ['act', className ?? '', selected ? 'sel' : '', c.risk ? 'risk' : '', c.grave ? 'grave' : '',
       c.disabled ? 'shut' : '', opens ? draw.open.has(c.id) ? 'opened' : 'opens' : ''].filter(Boolean).join(' ');
-    const tags = marked ? Act.tags(c) : [];
+    const tags = marked && !quiet ? Act.tags(c) : [];
     return (
       <button type="button" className={classes} data-action="choice" data-choice={c.id} data-index={i}
         aria-current={selected || undefined} aria-disabled={c.disabled ? true : undefined}
@@ -30,8 +31,8 @@ export class Act {
         {children ?? <>{Typography.curl(Words.shown(c.label))}{c.note && <span className="note">{Typography.curl(c.note)}</span>}</>}
         {tags.map(m => <span key={m.kind} className={`mark-tag mark-${m.kind}${m.danger ? ` danger-${m.danger}` : ''}`} title={Typography.curl(m.said)}>
           {Act.marks[m.kind]}</span>)}
-        {c.disabled && <span className="why">{Typography.curl(c.disabled)}</span>}
-        {c.about && (c.risk || c.grave) && !children && <span className="about">{Typography.curl(c.about)}</span>}
+        {c.disabled && !quiet && <span className="why">{Typography.curl(c.disabled)}</span>}
+        {c.about && (c.risk || c.grave) && !children && !quiet && <span className="about">{Typography.curl(c.about)}</span>}
         {asks && s.confirming === c.id && <span className="grave-said" role="alert">
           {Typography.curl(Act.asked(asks, !!c.grave))}</span>}
       </button>
