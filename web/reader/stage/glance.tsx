@@ -178,7 +178,9 @@ export class GlanceStage {
   static label(app: ReaderApp, a: Promoted, c: Choice): string {
     const subject = a.subject && app.menu.scene?.subjects.find(x => x.id === a.subject);
     if (subject && /#look$/.test(c.id)) { return `Look at ${subject.name.replace(/^(The|A|An|Some) /, m => m.toLowerCase())}`; }
-    return MenuModel.said(app.menu, c);
+    // Something done to what bars a way, as the act ("Pick the corn-store padlock"), not the way it is on.
+    const tried = /^exit:[^/]+\/\d+:/.test(c.id) ? / — (.+)$/.exec(c.label)?.[1] : undefined;
+    return tried ? Words.upper(tried) : MenuModel.said(app.menu, c);
   }
   // Why, unless it is said already ("Talk to your brother" is not "your brother" again, nor a fight's reckoning that its
   // mark says whole); for what is found by turning to someone or something, what it is (the ruts, to follow).

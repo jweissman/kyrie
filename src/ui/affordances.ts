@@ -148,7 +148,12 @@ export class Affordances {
       // the corn-store the rats are in, the stair up had led as "your aim".
       ...r.named.has(dest) && !(r.named.has(r.here) && exit.visited) ? ['named' as const] : [], ...toward ? [toward] : [],
       ...r.held.has(dest) ? ['held' as const] : [], ...r.needs.night && dest === r.needs.bed ? ['night' as const] : [],
-      ...exit.local && !exit.visited && !r.needs.night ? ['unvisited' as const] : [], ...first ? ['unlooked' as const] : []];
+      ...exit.local && !exit.visited && !r.needs.night ? ['unvisited' as const] : [], ...first ? ['unlooked' as const] : [],
+      // An author's own way through what bars it, open to this company (a thief's pick of the corn-store padlock had
+      // been only under Every way: Mission 19).
+      // After the place's own acts (the notice before a padlock), unless an aim is about what lies behind it.
+      ...tried && !c.disabled && c.command && r.authored.has(c.command) && !r.done.has(c.command)
+        ? [r.named.has(dest) || r.held.has(dest) ? 'own' as const : 'unlooked' as const] : []];
     // A try on a way barred (look at the portcullis) is something done there, not a way.
     const kind = tried ? 'act' as const : exit.bearing ? 'step' as const : 'way' as const;
     return [this.candidate(c, { exit: exit.id, kind, whys, r,
