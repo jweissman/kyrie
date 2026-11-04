@@ -20,7 +20,8 @@ class Menus {
     expect(Routes.of(frame.screen)).toBeUndefined();
     // In a town or a site, a way out into the country the glance leads with is drawn as going out to it.
     const ids = menu.choices.map(c => c.id), out = (id: string) => menu.overland?.has(id) ? MenuModel.country.id : id;
-    const led = [...new Set(glance.acts.map(a => out(a.choice)))];
+    // (Less talk with anyone here, who is talked to by their own plate: the owner, 4 November.)
+    const led = [...new Set((menu.leads ?? glance.acts).map(a => out(a.choice)))];
     expect(ids.slice(0, led.length)).toEqual(led);
     expect(glance.ways.map(out).filter(id => !ids.includes(id))).toEqual([]);
     expect([...ids].sort()).toEqual(Menus.ids(Menus.unglanced(frame)).sort());
@@ -38,8 +39,9 @@ describe('the menu at a glance', () => {
     Menus.check(g);
     await g.choose(/,region__s2_green\)$/);
     Menus.check(g);
-    // Talking to your brother is the first choice, and the keys' 1.
-    expect(Menus.ids(g.frame())[0]).toBe('drover__son#talk');
+    // Talking to your brother is by his plate, edged as the one led with, not the keys' 1 (the owner, 4 November).
+    expect([Menus.ids(g.frame())[0], [...MenuModel.build(g.frame(), 'here', []).leading ?? []]])
+      .toEqual(['view:map', ['drover__son#talk']]);
     expect(MenuModel.build(g.frame(), 'here', []).sheets!.look).toContain('drover__son#talk');
     await g.to('region__w11');
     Menus.check(g);
