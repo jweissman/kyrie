@@ -99,6 +99,10 @@
   min-height: 60px; padding: 10px 16px 10px 34px; font: 500 15px/1.25 var(--do);
   background: linear-gradient(180deg, var(--lift), var(--raised)); }
 .fight .moves .act .note, .fight .moves .act small { font: 400 12.5px/1.25 var(--do); color: var(--dim); }
+/* What a card opens is said by its chevron at the card's edge, not on a line of its own under it (the hand had run
+   past the foot of a laptop's stage by a line a card: the owner, 4 November). */
+.fight .moves .act.opens { position: relative; padding-right: 30px; }
+.fight .moves .act.opens::after { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); }
 .fight .moves .act:hover, .fight .moves .act.sel, .fight .moves .act:focus-visible { transform: translateY(-2px);
   box-shadow: 0 10px 24px rgba(0, 0, 0, .4), inset 0 -2px 0 var(--gold); }
 .fight .moves .act:active { transform: translateY(0); }
@@ -118,7 +122,7 @@
    900 too, once each act carried its marks). */
 @media (max-height: 920px) {
   .fight > .sides { padding-top: 14px; }
-  .fight > .moves { max-height: calc(var(--frame-h) * .36); }
+  .fight > .moves { max-height: calc(var(--frame-h) * .44); }
   .fight .moves .act { min-height: 52px; padding-top: 8px; padding-bottom: 8px; }
 }
 @media (max-width: 560px) {

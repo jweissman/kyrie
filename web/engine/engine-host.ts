@@ -375,10 +375,9 @@ export class EngineHost {
     // Not kept, it is drawn up again from the game as it is then (its text was let go once kept).
     if (ok) { world.kept = true; world.text = undefined; } else { this.world = undefined; }
   }
-  // The world a checkpoint is played in, keyed by its contents: the same until the country grows.
+  // The world a checkpoint is played in, keyed by its contents: the same until the country grows, or the module does.
   private worldOf(checkpoint: SessionCheckpoint) {
-    const { module, definition } = checkpoint.save;
-    if (this.world?.part.module === module && this.world.part.definition === definition) { return this.world; }
+    if (this.world && KeptGame.still(this.world, checkpoint)) { return this.world; }
     this.world = { ...KeptGame.keyed(checkpoint), kept: false };
     return this.world;
   }

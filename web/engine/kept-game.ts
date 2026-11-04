@@ -31,7 +31,10 @@ export interface KeptState {
 export interface Whole { checkpoint: SessionCheckpoint; log?: Entry[]; bound?: string; build?: string }
 // A world as the host holds it while it plays: its part, its key, where each of its facts stood, and how each relation
 // last differed from it (see `differLive`).
-export interface Keyed { key: string; part: WorldPart; index: Map<string, number>; relations?: Relations }
+// shape: how long the module's lists were when it was keyed (see KeptGame.shape).
+export interface Keyed {
+  key: string; part: WorldPart; index: Map<string, number>; relations?: Relations; shape?: string;
+}
 interface Relation { list: readonly Call[]; removed: number[]; tail: Call[] }
 interface Relations { positions: Map<string, number[]>; by: Map<string, Relation> }
 
@@ -40,7 +43,18 @@ export class KeptGame {
     const save = checkpoint.save, base = save.state.world.relations;
     const part: WorldPart = { module: save.module, ...save.definition ? { definition: save.definition } : {}, base };
     const text = JSON.stringify(part);
-    return { key: this.key(text), part, index: this.index(base), text };
+    return { key: this.key(text), part, index: this.index(base), text, shape: this.shape(save.module) };
+  }
+  // Whether a world kept is still the module played in: the same module, grown by nothing since. A thing given in
+  // play is made an entity of the module as it is given (Consequences.make); kept without it, the world opened again
+  // had no such thing, and the game would not open ("Inconsistent saved creature facts", once Bask gave the corn-store
+  // key: Mission 19's play).
+  static still(world: Keyed, checkpoint: SessionCheckpoint): boolean {
+    const { module, definition } = checkpoint.save;
+    return world.part.module === module && world.part.definition === definition && world.shape === this.shape(module);
+  }
+  static shape(module: CampaignSave['module']): string {
+    return [module.entities.length, module.relations.length, module.measures.length, module.actions.length].join(':');
   }
   static index(base: Call[]): Map<string, number> { return new Map(base.map((c, i) => [this.fact(c), i])); }
   // A checkpoint as kept: its state, with the world's key, and its facts as they differ from the world's.

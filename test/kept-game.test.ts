@@ -48,4 +48,23 @@ describe('a game kept in the browser', () => {
     // A world's key is its contents': the same text, the same key.
     expect(KeptGame.key(first.text)).toBe(first.key);
   }, 120000);
+  // A thing given in play is made an entity of the module as it is given: the world kept before it is no longer the
+  // world played in, and is kept again (Mission 19: a game in which Bask had given the corn-store key would not open).
+  it('keeps its world again once something given has grown the module, and opens as it was', async () => {
+    const w = await WorldAssembler.assemble('kite', NodeBundleSource.shared,
+      { party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
+    const s = await PlaySession.start(w.path, 'kite', w.source), first = KeptGame.keyed(s.checkpoint(true));
+    for (const re of [/^Take Falkor's door/, /^Ask .* about the rats/]) {
+      await s.perform(PlayerView.choices(s.campaign).find(x => re.test(x.choice.name))!.choice.id);
+    }
+    const checkpoint = s.checkpoint(true);
+    expect(KeptGame.still(first, checkpoint)).toBe(false);
+    // Kept beside the world from before the gift, as the browser had kept it, it would not open.
+    const stale = KeptGame.join(JSON.parse(JSON.stringify(KeptGame.split(checkpoint, first, []))),
+      JSON.parse(first.text));
+    expect(() => PlaySession.resume(stale.checkpoint, { trusted: true })).toThrow(/creature facts/);
+    const again = KeptGame.keyed(checkpoint), kept = JSON.parse(JSON.stringify(KeptGame.split(checkpoint, again, [])));
+    const whole = KeptGame.join(kept, JSON.parse(again.text));
+    expect(() => PlaySession.resume(whole.checkpoint, { trusted: true })).not.toThrow();
+  }, 120000);
 });
