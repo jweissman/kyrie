@@ -799,10 +799,10 @@
    "title": "Player's Handbook",
    "counts": {
     "faithful": 753,
-    "adapted": 361,
+    "adapted": 362,
     "represented": 4,
-    "kyr": 504,
-    "unsupported": 99,
+    "kyr": 505,
+    "unsupported": 98,
     "unreachable": 4,
     "data-only": 12
    },
@@ -890,10 +890,10 @@
      "title": "Equipment",
      "counts": {
       "faithful": 235,
-      "adapted": 72,
+      "adapted": 73,
       "represented": 0,
-      "kyr": 54,
-      "unsupported": 24,
+      "kyr": 55,
+      "unsupported": 23,
       "unreachable": 0,
       "data-only": 0
      }
@@ -7819,7 +7819,7 @@
   {
    "id": "item:holy_water",
    "title": "Holy water",
-   "status": "unsupported",
+   "status": "adapted",
    "book": "phb",
    "section": "equipment/gear"
   },
@@ -8673,6 +8673,13 @@
   {
    "id": "item:lamp_oil",
    "title": "Flask of lamp oil",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:fire_flask",
+   "title": "Fire flask",
    "status": "kyr",
    "book": "phb",
    "section": "equipment/gear"

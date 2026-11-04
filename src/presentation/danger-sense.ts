@@ -18,9 +18,13 @@ type Place = ReturnType<typeof Environment.encounter> & { moment?: Moment };
 // How a fight with a group would likely go, as the company reckons it before it starts: the fight played out a few
 // times from where everyone stands now, both sides fighting as the game's own tactics would. It decides nothing; it
 // is what a seasoned eye makes of the odds, said by the most seasoned member in words, not numbers.
-// A fight won is held when the foes lost more turns than they took, and by what was laid on them most (prone).
-interface Trial { won: boolean; fell: string[]; hurt: number; held?: string }
-interface Fight { odds: number; fallen: number; hurt: number; frail?: string; held?: string }
+// A fight won is held when the foes lost more turns than they took, and by what was laid on them most (prone). The
+// company's blows that landed on the foes, and how many of them the foes mostly shrugged off, and what the foes are
+// hurt by, tell a fight that will be a grind before it is begun (PT-23).
+interface Trial { won: boolean; fell: string[]; hurt: number; held?: string; blows: number; blunted: number;
+  hurtBy: string[] }
+interface Fight { odds: number; fallen: number; hurt: number; frail?: string; held?: string; blunted: number;
+  hurtBy: string[] }
 export class DangerSense {
   static readonly trials = 6;
   // How a foe is kept from fighting back, by what keeps it so; anything else, from fighting back.
@@ -86,7 +90,7 @@ export class DangerSense {
       played.push(this.trial(ours, foes, `${key}:${trial}`, place));
       // Half the trials lost leave no doubt.
       if (trial === this.trials / 2 - 1 && played.every(t => !t.won)) {
-        return { odds: 0, fallen: ours.length, hurt: 1 };
+        return { odds: 0, fallen: ours.length, hurt: 1, ...this.bite(played) };
       }
     }
     // Six fights decide most reckonings; one in the uneven middle (could be lost, or likely won) is played six more
@@ -102,7 +106,12 @@ export class DangerSense {
     return { odds: won.length / played.length,
       fallen: won.length ? won.reduce((n, t) => n + t.fell.length, 0) / won.length : ours.length,
       hurt: won.length ? won.reduce((n, t) => n + t.hurt, 0) / won.length : 1, ...frail ? { frail } : {},
-      ...held ? { held } : {} };
+      ...held ? { held } : {}, ...this.bite(played) };
+  }
+  // How much of what the company landed the foes shrugged off, over every fight played, and what hurts them more.
+  private static bite(played: Trial[]): Pick<Fight, 'blunted' | 'hurtBy'> {
+    const blows = played.reduce((n, t) => n + t.blows, 0), blunted = played.reduce((n, t) => n + t.blunted, 0);
+    return { blunted: blows ? blunted / blows : 0, hurtBy: played[0]?.hurtBy ?? [] };
   }
   // What kept the foes from fighting back in most of the fights won, if they were kept so: a lone barrow-king, a
   // level-five revenant, read "no match" to a fresh warrior because Sweep had him prone nearly every turn of it.
@@ -131,11 +140,21 @@ export class DangerSense {
     const battle = Battle.encounter(store, [...ours.map(c => ({ creatureId: c.id, team: 'fighters' as const })),
       ...foes.map(c => ({ creatureId: c.id, team: 'goblins' as const }))], { seed, maxTurns: 150, ...place });
     while (!battle.state.outcome) { battle.step(Tactics.choose(battle.state, battle.plain(battle.legalCommands()))); }
-    if (battle.state.outcome !== 'fighters') { return { won: false, fell: [], hurt: 1 }; }
+    const bite = this.blows(battle, new Set(ours.map(c => c.id)), new Set(foes.map(f => f.id)));
+    if (battle.state.outcome !== 'fighters') { return { won: false, fell: [], hurt: 1, ...bite }; }
     const company = battle.state.combatants.filter(f => f.team === 'fighters');
     return { won: true, fell: company.filter(f => f.hp === 0).map(f => f.id),
       hurt: 1 - company.reduce((sum, f) => sum + f.hp, 0) / ours.reduce((sum, c) => sum + c.state.hp, 0),
-      ...this.held(battle.events, new Set(foes.map(f => f.id))) };
+      ...this.held(battle.events, new Set(foes.map(f => f.id))), ...bite };
+  }
+  // The company's blows that landed on the foes in a fight, those half or more shrugged off, and the kinds of harm
+  // any foe is the worse for.
+  private static blows(battle: Battle, ours: Set<string>, foes: Set<string>): Pick<Trial, 'blows' | 'blunted' | 'hurtBy'> {
+    const landed = battle.events.flatMap(e => e.type === 'damage' && ours.has(e.actor ?? '') && foes.has(e.target)
+      ? [e.modifiers?.resistance ?? 0] : []);
+    const hurtBy = new Set(battle.state.combatants.filter(f => foes.has(f.id))
+      .flatMap(f => Object.entries(Effects.modifiers(f).resistances ?? {}).filter(([, v]) => v < 0).map(([k]) => k)));
+    return { blows: landed.length, blunted: landed.filter(r => r >= 0.5).length, hurtBy: [...hurtBy].sort() };
   }
   // Anyone falling in any of the fights played out makes it a hard one: one who falls may not get up. Who would
   // fall is said by name (Wenna, at seven hit points, where the beetles are no match for Tharash).
@@ -166,7 +185,15 @@ export class DangerSense {
     // meets the foe as it is.
     const told = said[danger] + (fight.held && (danger === 'slight' || danger === 'fair')
       ? `, so long as you keep ${one ? 'them' : them} ${this.keeping[fight.held] ?? 'from fighting back'}` : '');
-    return { danger, text: ours.length > 1 ? `${judge.name} reckons ${told}.`
-      : `${told.charAt(0).toUpperCase()}${told.slice(1)}.` };
+    return { danger, text: (ours.length > 1 ? `${judge.name} reckons ${told}.`
+      : `${told.charAt(0).toUpperCase()}${told.slice(1)}.`) + this.grind(fight, them) };
+  }
+  // A fight in which most of what the company lands is shrugged off is a long one, whoever wins it, and says so
+  // before it is begun, with what would serve better where the foe is the worse for something (PT-23).
+  private static grind(fight: Fight, them: string): string {
+    if (fight.blunted <= 0.5) { return ''; }
+    const better = fight.hurtBy.filter(k => k !== 'all');
+    return ` It will be long: your weapons barely bite ${them}${better.length ? `; ${better.join(' or ')} would serve better`
+      : ''}.`;
   }
 }

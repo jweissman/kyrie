@@ -371,6 +371,29 @@
         "notes": "What a lantern burns (Orsino's lantern has a duration and no fuel; here the duration is in the flask)."
       }
     },
+    "fire_flask": {
+      "name": "Fire flask",
+      "category": "consumable",
+      "description": "A stoppered flask of lamp oil with a rag in its neck. Lit and thrown, it bursts in fire over what it strikes, if it is not dodged: a cheap alchemist's fire, for a thing steel barely harms.",
+      "value": 2,
+      "use": "Deal (1d6) fire damage to enemy unless dexterity save against (11).",
+      "source": {
+        "kyr": true,
+        "notes": "The answer to a foe that shrugs off weapons, sold where lamp oil is (PT-23)."
+      }
+    },
+    "holy_water": {
+      "name": "Holy water",
+      "category": "consumable",
+      "description": "A small glass vial of water blessed at a shrine. Thrown on the dead that walk, it burns them as fire would.",
+      "value": 6,
+      "use": "Deal (1d6) radiant damage to enemy.",
+      "source": {
+        "orsino": "gear:holy_water",
+        "fidelity": "adapted",
+        "notes": "Orsino's harms the undead and Kyr could not use it; here it is thrown for radiant harm, at a sexton's price, the answer to the walking dead for a company with no cleric (PT-23)."
+      }
+    },
     "pack_mule": {
       "name": "Pack mule",
       "category": "gear",

@@ -187,12 +187,13 @@ describe('a site\'s worthiest band', () => {
   // The audit heard a ruin's climax "no match for you" to a fresh warrior in a third of first ruins. Out of mail, the
   // great barrow's last king, a revenant of the fifth level, still was: Sweep had him prone nearly every turn of every
   // fight played out, and the reckoning said nothing of it. Sweep rests three turns now, as Orsino's skills do (the
-  // OWN-28 diagnosis: every reckoning had fought with it free each turn), so he is a fight a warrior wins hurt; to a
-  // mage, he is more than they can take.
+  // OWN-28 diagnosis: every reckoning had fought with it free each turn), so he is a fight a warrior wins hurt, and a
+  // long one, said so, since he shrugs off half of what steel does (PT-23); to a mage, he is more than they can take.
   it('is no walkover for a fresh warrior when above it, and more than a mage can take', async () => {
     const warrior = await Played.worthiest('cov7', 'warrior'), mage = await Played.worthiest('cov7', 'mage');
     expect(warrior.find(b => b.name?.startsWith('the barrow-king'))?.reckoning)
-      .toEqual({ danger: 'fair', text: 'You should beat it, though not unhurt.' });
+      .toEqual({ danger: 'fair', text: 'You should beat it, though not unhurt. It will be long: your weapons barely bite '
+        + 'it; fire or radiant would serve better.' });
     expect(mage.find(b => b.name?.startsWith('the barrow-king'))?.reckoning.danger).toBe('deadly');
     // A fresh company is of the first level: no band above it is a bare walkover.
     expect(warrior.filter(b => b.level > 1 && b.reckoning.danger === 'slight' && !/so long as/.test(b.reckoning.text)))

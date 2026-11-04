@@ -3335,13 +3335,15 @@ Used: You are candlelit for 2 hours.
 
 #### Holy water
 
-*Not playable · gear* · `item:holy_water`
+*Adapted · consumable* · `item:holy_water`
 
-- Worth: 25
+- Worth: 6
 
-> A vial of holy water that can harm undead creatures.
+Used: 1d6 (1–6) radiant damage to one enemy (may cause blinded: a Dexterity save against 15 avoids it).
 
-*Not playable — use: Kyr cannot use a damage effect from an item.*
+> A small glass vial of water blessed at a shrine. Thrown on the dead that walk, it burns them as fire would.
+
+*Adapted: Orsino's harms the undead and Kyr could not use it; here it is thrown for radiant harm, at a sexton's price, the answer to the walking dead for a company with no cleric (PT-23).*
 
 #### Hose
 
@@ -4581,6 +4583,16 @@ Brings Climbing to whoever carries it equipped.
 Used: You are lamplit for 6 hours.
 
 > A stoppered flask of lamp oil: enough to keep a lantern burning six hours.
+
+#### Fire flask
+
+*Kyr · consumable* · `item:fire_flask`
+
+- Worth: 2
+
+Used: 1d6 (1–6) fire damage to one enemy (a Dexterity save against 11 avoids it; may cause burning: a Constitution save against 15 avoids it).
+
+> A stoppered flask of lamp oil with a rag in its neck. Lit and thrown, it bursts in fire over what it strikes, if it is not dodged: a cheap alchemist's fire, for a thing steel barely harms.
 
 #### Pack mule
 
