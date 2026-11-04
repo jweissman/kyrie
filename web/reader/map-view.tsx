@@ -130,7 +130,12 @@ export class MapView {
     clear?: () => void; pointed?: string }) {
     const region = screen.region, land = region?.land, chosen = picked ?? pointed, over = !picked;
     if (!chosen || !region || !land) {
+      // The aim followed, when the map cannot show where it is: said so, not left out (the product-design review's
+      // PD-12: following the crown, the map stayed on the town and said nothing of it).
+      const aim = Followed.of(screen) && !MapView.aim(app, screen) ? Followed.of(screen) : undefined;
       return <aside className="plan" aria-label="A place on the map" aria-live="polite">
+        {aim && <><p className="label">Your aim</p><p className="aim-unplaced">{Typography.curl(aim)}</p>
+          <p className="how">Where this is, the map does not show yet: ask about it, or follow what you know.</p></>}
         <p className="label">Somewhere to go</p>
         <p className="how">Choose a hex or a place to see the way there; choose it again to set out.</p></aside>;
     }
