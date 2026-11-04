@@ -60,6 +60,12 @@ export class RegionUndertown {
       `  Entity ${w}_found: fact ${q(`The way down into ${site.name} is behind the keeper's chair in the vault.`)}.`,
       `  Place ${w} "the stair below the vault" is room within ${t} at 1, 7 underground.`,
       `  Initially Assert unlit(${w}).`,
+      // What it is for comes before the way to it is known (the crown, heard of at the inn): the next thing to find is
+      // said, and where, so that the aim leads somewhere (the product-design review's PD-03: "a barrow, not yet made
+      // out", and nothing to say the way was down through the town).
+      `  Objective ${w}_way when knows(party, ${w}_story) and not ${w}_raised() and not knows(party, ${t}_u_vault_found)`
+        + ` ${q(`The way down to {${w}_site} is under ${s.name}: below a sealed vault, found from {${t}_u_undercroft},`
+        + ` which {${t}_u_crypt} under {${t}_u_yard} goes down to.`)}.`,
       `  Passage ${t}_u_deeper "a narrow stair behind the keeper's chair" is stair between ${t}_u_vault and ${w}.`,
       // The measures every deep site declares are the country's already when it has one of its own.
       ...DeepSites.lines(region, site, { purpose, values, rivals: false, buried: s.name })
