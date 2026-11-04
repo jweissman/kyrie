@@ -1,0 +1,43 @@
+LUL-02	Fixed 53e92ff9: rest, camp and a bed hold asleep(actor) while they last (Meanwhile); a threat still interrupts; probe spec interrupted.test.ts
+BTW-07	Fixed baf12319: give_valuable, Grave "Once it is given it is theirs"; ordinary gives stay one touch
+LOR-15	Fixed (actions and topics can be Grave and are asked first, OWN-50; guide §What cannot be undone); a person refusing a topic is talk-as-activity, deferred with IFR-04
+M19-35	Fixed 4c2923a1
+GTR-X02	Fixed 43a21b6e: kept in the presence line unless their own line names them; presence-own-line spec
+BOF-26	Fixed aa19e7ce: author lint 'near-way'; author-lint spec
+REV-18	Fixed 1f60613c: notes in layers (aims; leads heard, not yet seen; what you know, folded; done, folded); browser play
+LOR-05	Not reproduced in play: the third way-mark's two 'right-hand passage' labels hold only before the Fork is found, and it is found before the mark is reached (navigation census reads names before discovery)
+QIS-09	Not reproduced: GeneratedWorld.travel reached a1's w8 and w11 across the country on 4 Nov (scratch lead walker)
+REV-16	Partial 4a9932ac: 'Press on to the end' when every foe standing is at half strength or less and the company above half (engine presses by tactics, stops if one of the company falls under a third); morale and surrender by default stay deferred (authored fights wait on a band's fall)
+PT-11	Partial bb400a85: the first town's three jobs each have a way any calling can take (ratsbane, fire flask, the rite or the chalk ring); lone casters and thieves still lose standing fights out of town (novice-viability); companions by recruitment are the brief's answer
+SYS-05	Partial bb400a85: as PT-11
+REV-08	Fixed e7aeac3a: the aim shown is the one followed, kept by the engine, not the one naming where the company stands, so the page no longer points from each edge at the other aim (pine, order: followed steady on the brothers' errand)
+REV-09	Fixed (Mission 18's OWN-85: crossing the country is the map's alone); M19-11 the road's ways on are the map, named for its ends
+IND-05	Fixed d7ceb585, d8539236, bb400a85: thief, warrior, cleric, mage, bard and ranger each have a way of their own in every first town, led on the page; undertown-callings spec
+IND-04	Partial 6cc89d2f, 8e954982: a fight's mark carries its reckoned danger (an easy fight not drawn as a deadly one); the way back led only from a fight that could be lost; the decision hierarchy under danger otherwise as it was
+REV-18	Fixed 1f60613c: notes in layers
+REV-24	Partial 1f60613c: notes in layers; NPC rumour menus curated, flattened HP growth and treasure with several destinations remain (with REV-13's economic tiers)
+FWR-08	Partial cd2a2b53: the glance leads with three besides whoever is talked to by their plate; an occasion's acts as the acts while it sits waits on IFR-04's occasions
+REV-05	Partial: the frame after an act (Mission 18); before an act, the map's plan of a journey with its arrival and the dark (M19-30) and fights' marks by danger (M19-26); a general frame before every act deferred with SYS-01
+REV-17	Partial: travel is the map's alone and stops only for what is staged; a journey set out on for another aim is no longer led (M19-18); re-measuring compression deferred with REV-03
+REV-03	Partial: the wild's meetings by land and hour stop a journey once each (Mission 18); the map says when a journey would come there and whether after dark (M19-30); turns of weather, camp and supplies are deferred: new shared rules for travel, beyond a bounded fix
+IND-03	Partial: as REV-03
+SYS-07	Partial: as REV-03
+OWN-75	Partial: the first town's three jobs each have a cause to find, a way of each calling's own and a prepared way bought at the chandler's (M19-17, bb400a85); deeper country missions remain the adventures' and the deep sites'
+OWN-51	Partial 8a5dd206: a townsperson's pronoun follows their name; Common names in the heartland (Mission 18); the old tongue's sites keep the folk's worn-down names (M19-20)
+ARV-M4	Partial 4c2923a1, 558e0dca: an aim's places by the engine's ids, not a regex of place names; a site's sign by the generator's record of its kind, not words in its name; services and the panorama still read English
+ARV-L2	Partial 8e954982, 558e0dca: guidance into sites by the world's nesting of places, site kinds by a chart record; march-stones, provinces and stretches are still known by id shapes
+ARV-H4	Partial: the town's jobs (undertown.kyrt), the trade table and the townsfolk's names are data an author changes (authoring.md); the settlement, road, deep-site, market and fellows writers are still TypeScript
+REV-11	Partial: treasure at half value and the sinks are in (Mission 18, economy.md); re-measuring the per-delve economy deferred with REV-13's tiers
+REV-14	Partial: the food half (test/fed.test.ts); an account of rations and light before a wait deferred
+REV-21	Partial 97cb51f9: an out-of-order spec for the first town's rats (ratsbane, half pay before the run, the rest after) found and fixed double pay in all three jobs; adversarial orders across the adventures remain
+ARV-M3	Deferred: a strict check of a template's holes cannot tell a misspelt hole from Kyr's own {actor}-style references in its text without the template declaring its holes; the undertown, works and meetings fill without loss in every world drawn by the specs
+OWN-61	Fixed (Mission 18, 210d7ee2): creation asks "What did you do before this?", the background chosen and kept
+IND-07	Partial: first-town (first-town-job), aim retention (undertakings), profession (undertown-callings), out of order (undertown-orders); urgency, journey density and restraint remain
+NVR-22	Not reproduced: the navigation census finds a1's page ways told apart (alike only among overland steps, the map's since OWN-85), and Let One Remember's twins only before discovery; shared names are of rooms in different sites
+M17-73	Partial (re-examined 4 November, restored by the process audit): a bed says when it ends before it is taken ("until 3:00 p.m.", choice-grouping until); Set Spear asks for a weapon that can meet a charge (interceptWeapon); a ranger's animal is drawn from Orsino's list (crow to panther), not a deer of three hit points. Open: no ranger specialty (classes.json has none)
+M17-99	Fixed (re-examined 4 November on a1, restored by the process audit): the 11 sites are named in at most five words; the inn has one ask for each site, with its "again" offered only once asked
+ARV-A5	Partial: the four symptoms reported are fixed and pinned (cures by id, a stance ending from its holder, 133 of 133 stuns cost a turn, a drainer killed stays dead; mechanical-meaning spec, passing 4 November). Open risk: the catalog-wide test of every ability's text against what it does
+GTR-X03	Not reproduced 4 November: a rule about what the company carries sees a thing given in talk in the same moment (given-seen spec, probe given-seen). The rule's words are told before the topic's (an order of telling: IFR-08)
+LWR-02	Not reproduced 4 November with the shared form: withdrawing tolerance from someone whose temperament warns first gives a warning and the company's turn before the blow (turns-on spec); Assert assails is the form for one who falls on at once, as authored
+QTC-10	Partial (probe, 4 November): a place come back to is told briefly by design, and what changed while away is told; a state the company itself left (a chest opened) is not recalled on return, only under Look about. Open risk
+BOF-15	Fixed 2cbca24e: a refused service is shown without its command, saying who will not serve the company (RefusalReading; refused spec, probe refused)

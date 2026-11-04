@@ -12,7 +12,7 @@ enjoyable on the builder's say-so alone.
 - **The reference town.** Millholm, in the country Merscfaenn: the drover's camp, the corn-store and its cellar, the
   shrine and churchyard with its catacombs, Corrin's alehouse and the quarry; the road to Mistshaw where the father's
   cart went off. The handoff's journey (the wanderer at Lowmouth, the same seed) is the second reference.
-- **The driver.** `scripts/play-server.ts` with the step scripts kept outside the repository (`/var/tmp/kyrie/m19`):
+- **The driver.** `scripts/play-server.ts` with its step scripts, now kept in [evidence/driver](evidence/driver):
   `start.sh` (fresh game, default creation), `go.sh` (keys, clicks, prints), `rats.sh` (the rats job).
 
 ## The ten steps of the loop, as played on 4 November

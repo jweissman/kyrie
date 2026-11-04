@@ -1,0 +1,16 @@
+Module given "A light handed over, and what is seen of it" {
+  Place hythe "Hythe" is settlement.
+  Place taproom "the taproom of the Bell" is room within hythe at 0, 0 indoors.
+  Company party "You" of 1 at taproom.
+  Person joan "Joan" at taproom { Role "the landlady of the Bell". Ancestry human. Calling commoner. Peaceable. Pronouns she. }
+  Relation noticed(group).
+  Topic light with joan "Ask Joan for a light" when true once {
+    Says "Joan takes a torch down from the wall.".
+    On discuss { Give torch to actor. }
+  }
+  // A rule about what the company carries, which should see the torch in the moment it is given (GTR-X03).
+  Rule smokes when carries(party, ?i) and itemKind(?i, torch) and not noticed(party) says "The torch smokes in your hand." {
+    Assert noticed(party). }
+  Observe taproom_scene at taproom when true "A low taproom with a fire.".
+  Goal false.
+}

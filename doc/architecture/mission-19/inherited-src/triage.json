@@ -1,0 +1,818 @@
+[
+[
+"ARV-H5",
+"R",
+"Presentation reads omniscient truth (foe HP in the dark) and re-derives rules incompletely (passage legality, rest labels, daylight)",
+"Deferred beyond Mission 19"
+],
+[
+"COR-12",
+"R",
+"Presentation inside the authority boundary (perception decided by presentation code; prose stored in the log)",
+"Deferred beyond Mission 19"
+],
+[
+"NAR-12",
+"U",
+"Notes knowing what nobody said",
+"Mission 19: to do"
+],
+[
+"NAR-14",
+"U",
+"Exceptional events in the ordinary register (a body found, a betrayal, a revelation)",
+"Mission 19: to do"
+],
+[
+"PRE-05",
+"C",
+"Portrait suitability",
+"Mission 19: to do"
+],
+[
+"NAV-10",
+"U",
+"Hidden or unreachable authored content",
+"Mission 19: to do"
+],
+[
+"NAR-01",
+"C",
+"Characters and institutions dramatically thin; generic people in a commons",
+"Mission 19: to do"
+],
+[
+"PT-11",
+"U",
+"Alone at level 1, the big ruin's fights are won by a warrior 80% of the time, a cleric 25%, a thief and a mage never",
+"Mission 19: to do"
+],
+[
+"PT-01",
+"U",
+"A resolution ends in \"Nothing more is asked of you\": no thread leaves a successor",
+"Mission 19: to do"
+],
+[
+"PT-15",
+"U",
+"A third of each country's narrated sentences appear word for word in three quarters of the others; the same den, raiders, toll and buyer in \u2026",
+"Mission 19: to do"
+],
+[
+"NAR-17",
+"U",
+"Independent undertakings must leave traces and reports",
+"Mission 19: to do"
+],
+[
+"ARV-A24",
+"R",
+"The download lacks the story log; autosaves re-serialize everything; a country can be drawn twice at once",
+"Mission 19: to do"
+],
+[
+"ARV-H4",
+"R",
+"Generators author plots in TypeScript that emits Kyr text",
+"Mission 19: to do"
+],
+[
+"ARV-H7",
+"R",
+"Process-global caches (item kinds, parse cache, concurrent loads) make meaning depend on process history",
+"Mission 19: to do"
+],
+[
+"ARV-M5",
+"D",
+"Combat has exactly two teams",
+"Deferred beyond Mission 19"
+],
+[
+"ARV-M6",
+"R",
+"Hidden registries and central edit points (work plans, region generators, rule modules, origins, the title page's list)",
+"Deferred beyond Mission 19"
+],
+[
+"ARV-M7",
+"R",
+"Party membership has no public lifecycle; two companion systems; generated member ids in authored text",
+"Deferred beyond Mission 19"
+],
+[
+"AUT-25",
+"R",
+"Deem: module-local tables and templates, weighted and conditional selection, generated families, naming",
+"Deferred beyond Mission 19"
+],
+[
+"COR-04",
+"R",
+"Module kinds live in process-global catalogs; the parse cache is keyed by text over them",
+"Mission 19: to do"
+],
+[
+"ARV-A19",
+"R",
+"Generated \"Ask \u2026 again\" copies often dead, chosen by English wording; condition grammar from word endings",
+"Deferred beyond Mission 19"
+],
+[
+"ARV-A9",
+"R",
+"The compiler accepts unbound and ill-typed effect variables; binding-check holes; query types depend on asking mode",
+"Deferred beyond Mission 19"
+],
+[
+"ARV-H6",
+"R",
+"Determinism asserted, not verified: locale-dependent combat AI, one combat stream, unchecked resume and replay",
+"Mission 19: to do"
+],
+[
+"ARV-L2",
+"R",
+"Identity encoded in id strings",
+"Mission 19: to do"
+],
+[
+"ARV-M2",
+"D",
+"Kyr too large at the leaves, too small in the middle (no once-only rule, money, timers; dead Exit and Budget)",
+"Deferred beyond Mission 19"
+],
+[
+"ARV-M3",
+"R",
+"Five composition mechanisms; unfilled placeholders pass silently; .kyrt values unescaped",
+"Mission 19: to do"
+],
+[
+"ARV-M4",
+"R",
+"Closed English word lists and name regexes classify content in general code",
+"Mission 19: to do"
+],
+[
+"ARV-M8",
+"R",
+"Exceptions swallowed where failures change the game or hide from lint",
+"Mission 19: to do"
+],
+[
+"AUT-07",
+"R",
+"State names share the module namespace",
+"Deferred beyond Mission 19"
+],
+[
+"CTH-05",
+"D",
+"A person cannot be spoken to through a window, or be called otherwise while masked: every topic about Hern's mind is written twice",
+"Deferred beyond Mission 19"
+],
+[
+"CTH-09",
+"C",
+"The generic voice is chosen by facts a module must know to state: \"dew still on the grass\" on a frozen fell; a masked Lady's cheerful farewell",
+"Mission 19: to do"
+],
+[
+"ARV-A5",
+"A",
+"Cures by display name, stance endings that hit the attacker, stuns that cost nothing, a drainer healed after death",
+"Mission 19: to do"
+],
+[
+"AUT-09",
+"D",
+"Counters against the clock; dates, periods, a module calendar",
+"Deferred beyond Mission 19"
+],
+[
+"NAR-18",
+"D",
+"One substantial companion, with a perspective, a memory and people of his own",
+"Deferred beyond Mission 19"
+],
+[
+"COR-18",
+"R",
+"Tests teleport rather than journey",
+"Deferred beyond Mission 19"
+],
+[
+"OWN-41",
+"C",
+"Every name through one mechanism: the Common names of the human heartland from a true \"common\" tongue in the `languages` package that echoes the conce",
+"Mission 19: to do"
+],
+[
+"OWN-42",
+"C",
+"The intro and studio stab given care, with words (a studio name such as \"Freehaven\" or \"Seventh Star\"); the product's own name not to stay \"Kyrie\", ca",
+"Mission 19: to do"
+],
+[
+"OWN-44",
+"C",
+"Varied terrain on the map and in the land: tundra, snowfield and ice for frost countries, desert (dunes, scrub, stony waste, oases) and steppe, open o",
+"Mission 19: to do"
+],
+[
+"OWN-34",
+"D",
+"The Rose and the upper galleries: the petals, the contest and the elemental tasks kept; the whole Rose opens the Door of Doors, the threshold of the r",
+"Deferred beyond Mission 19"
+],
+[
+"OWN-36",
+"D",
+"The Grand Tour's integration decisions: its Hour Court, Slow Assembly and Gallery canonical locations within their planes, not exhausting them; the Pl",
+"Deferred beyond Mission 19"
+],
+[
+"OWN-37",
+"D",
+"The Grand Tour for an ordinary player: its premise (Tamsin, a bard) working for any created protagonist of another calling, ancestry, name or backgrou",
+"Deferred beyond Mission 19"
+],
+[
+"OWN-38",
+"D",
+"Demonstrations: two adventures extending and visiting one Plane of Fire; two extending one Infinite Library (or its diagnosis and correction); the Gra",
+"Deferred beyond Mission 19"
+],
+[
+"OWN-51",
+"C",
+"Common the default tongue of ordinary generated settlements, through the `languages` library's Common passthrough (its real API and version); elven an",
+"Mission 19: to do"
+],
+[
+"OWN-61",
+"U",
+"The owner, 3 November: bring back a background or profession decision, perhaps diegetically (a talk with a traveller on the road in)",
+"Mission 19: to do"
+],
+[
+"OWN-75",
+"U",
+"The owner, 3 November (later): the missions should be much deeper than one fight and 'it is done', with rewards worth having",
+"Mission 19: to do"
+],
+[
+"OWN-80",
+"U",
+"The owner, 3 November (evening): with one map, what does a march-stone mean? A boundless map, regions not yet seen hinting their terrain under a fog; ",
+"Mission 19: to do"
+],
+[
+"REV-03",
+"U",
+"The wild is connective tissue: travel compresses into prose; no turn asks a decision of route, camp, supplies, signs or travellers",
+"Mission 19: to do"
+],
+[
+"REV-05",
+"U",
+"No decision frame: an act collapses anticipation, commitment, response and explanation into a button and a paragraph, then a new list of legal command",
+"Mission 19: to do"
+],
+[
+"REV-08",
+"U",
+"A company with two aims, each in wild country beyond the known roads, is led back and forth between their edges and never into the wild (pine, the ord",
+"Mission 19: to do"
+],
+[
+"REV-09",
+"U",
+"The owner, 31 October: cross-hex travel belongs to the map, not the page (\"start the player off in the world map and offer enter town \u2026 exit to overwo",
+"Mission 19: to do"
+],
+[
+"NVR-20",
+"D",
+"No vertical order and no single grid convention: an interior render would draw towers upside down and stairs going the wrong way",
+"Deferred beyond Mission 19"
+],
+[
+"NVR-21",
+"D",
+"What an interior map needs and what the model has: plans and way kinds yes, room kinds no",
+"Deferred beyond Mission 19"
+],
+[
+"NVR-22",
+"U",
+"Way and level names that say nothing, or say the same thing twice",
+"Mission 19: to do"
+],
+[
+"GTR-26",
+"D",
+"A person's daily round (Aubrey's rooms by day, the Promenade in the evening, abed at night) is written as one rule for each part of the day.",
+"Deferred beyond Mission 19"
+],
+[
+"GTR-X02",
+"A",
+"A person who has a line of their own near them (`Observe \u2026 near`) is never said to be present.",
+"Mission 19: to do"
+],
+[
+"GTR-X03",
+"A",
+"A rule about what the company carries sees a thing given in conversation only on the next command.",
+"Mission 19: to do"
+],
+[
+"WPC-01",
+"D",
+"A place cannot move: a travelling circus has to be written as five rooms in each of three towns (fifteen rooms), with a hand-written rule that moves i",
+"Deferred beyond Mission 19"
+],
+[
+"WPC-14",
+"R",
+"A module's own kinds of thing share one namespace with the catalog and with every other module, so an author must invent long names (`wonders_list_kin",
+"Deferred beyond Mission 19"
+],
+[
+"WPC-18",
+"D",
+"A going-on placed in 'any' settlement claims that town for itself alone, so something that visits towns already busy, like a circus, cannot share one ",
+"Deferred beyond Mission 19"
+],
+[
+"WPC-X04",
+"C",
+"A module cannot declare its own techniques. The circus put Pratfall and Feint into the shared abilities.json, so every world and the generated handboo",
+"Deferred beyond Mission 19"
+],
+[
+"WPC-X05",
+"D",
+"A rule that sends a module's people to their places pulls a recruit out of the company unless it adds `and not travelsWith(?p, party)`.",
+"Deferred beyond Mission 19"
+],
+[
+"WPC-X06",
+"D",
+"A story placed in the shared country (a going-on or a standing scenario) cannot use an Ending, because a placed module's ending closes the whole book.",
+"Deferred beyond Mission 19"
+],
+[
+"WPC-X08",
+"D",
+"The circus has been played only by its author, at the command line.",
+"Deferred beyond Mission 19"
+],
+[
+"GTR-21",
+"D",
+"For every person a rule or action moves, lint advises that a role which seems to put them somewhere is told wherever they are.",
+"Deferred beyond Mission 19"
+],
+[
+"GTR-27",
+"D",
+"A number the player should feel, such as how fond Fabian has grown of the company, lives only in the world's state.",
+"Deferred beyond Mission 19"
+],
+[
+"GTR-X20",
+"D",
+"Kyr cannot hold an accusation that the player puts together.",
+"Deferred beyond Mission 19"
+],
+[
+"GTR-X21",
+"D",
+"The highest reward goes unused in the campaign. The Door of Doors 'will open for you on anywhere you have stood', and the book closes at nine the next",
+"Deferred beyond Mission 19"
+],
+[
+"WPC-06",
+"C",
+"Naming a room for its town (\"Wapshott's ground by {town_a}\") is neither documented nor tested, and the circus's author took it to be impossible, so on",
+"Deferred beyond Mission 19"
+],
+[
+"WPC-X02",
+"D",
+"A contest of words (a heckler's composure against the answerer's poise, over three jabs) has to be built by hand from relations, measures and rules: e",
+"Deferred beyond Mission 19"
+],
+[
+"WPC-X09",
+"D",
+"A module can name places beyond its towns only as fixed words in its prose (the circus's Dunmere, Marlow, Wakeham and Oster), the same in every world.",
+"Deferred beyond Mission 19"
+],
+[
+"FWR-05",
+"D",
+"No cycles: tides built by hand from the hour, a lag measure and arithmetic",
+"Deferred beyond Mission 19"
+],
+[
+"FWR-08",
+"U",
+"In a crowded room every person's every topic is offered at once, burying the scene's own few acts",
+"Mission 19: to do"
+],
+[
+"LUL-02",
+"A",
+"Rules run at every watch of a long action (a night's sleep), and nothing says the company is in one: a midnight rule told on waking",
+"Mission 19: to do"
+],
+[
+"IFR-01",
+"D",
+"`why` and a causal trace: why an action is not offered, down to an effect that would be refused; what each watch ran and why",
+"Deferred beyond Mission 19"
+],
+[
+"IFR-02",
+"D",
+"Typed transformations: move, place, pay (strict), raise/lower (clamped), give or spend a particular item, create from stock",
+"Deferred beyond Mission 19"
+],
+[
+"IFR-03",
+"D",
+"Observations that afford: perceived evidence names the kinds of attention it opens (track, treat, ask, examine), with the reason a choice is staged (i",
+"Deferred beyond Mission 19"
+],
+[
+"IFR-04",
+"D",
+"`Occasion` grown to a whole activity: participants, an opening, visible pressure, its matters' answers, resolution and aftermath",
+"Deferred beyond Mission 19"
+],
+[
+"IFR-05",
+"D",
+"Named rule phases (reactions, consequences, defaults), rare `after`, and `otherwise` fallbacks; derived constructs settled before telling",
+"Deferred beyond Mission 19"
+],
+[
+"IFR-06",
+"D",
+"One knowledge and perception model: what is learned keeps its source, channel and moment; one viewer-relative projection for presence, name and role e",
+"Deferred beyond Mission 19"
+],
+[
+"IFR-07",
+"D",
+"Dynamic identity: offices assigned and deposed; portable places (a circus pitched and moved); people offstage (`nowhere`)",
+"Deferred beyond Mission 19"
+],
+[
+"IFR-08",
+"D",
+"Each command told as one transaction in causal order (act, result, reactions, discoveries, changed scene, later news); interruption policy per event; ",
+"Deferred beyond Mission 19"
+],
+[
+"IFR-09",
+"D",
+"Proven patterns only: warning with grace, dates and recurrence, directional passages, containers, typed verdicts, offscreen conflict",
+"Deferred beyond Mission 19"
+],
+[
+"IFR-10",
+"D",
+"Scale: state names scoped to their thing, typed relation roles, a names tool, coverage and prose reports, journeys by semantic id, one transcript comm",
+"Deferred beyond Mission 19"
+],
+[
+"QIS-01",
+"D",
+"No temperature: cold is a module's own measure, warnings and hazard, reinvented by every winter country (the Lull, Carth, Pellam, here)",
+"Deferred beyond Mission 19"
+],
+[
+"QIS-09",
+"A",
+"Travel through generated countries in a test fails mid-route (\"Unavailable command\")",
+"Mission 19: to do"
+],
+[
+"BTW-07",
+"A",
+"A standard give has no Grave: selling the deed is irreversible and not asked twice",
+"Mission 19: to do"
+],
+[
+"BTW-11",
+"D",
+"Giant gentry are new canon",
+"Deferred beyond Mission 19"
+],
+[
+"TTN-02",
+"D",
+"Ending coverage is invisible: nothing tells an author that a reachable state reaches no ending",
+"Deferred beyond Mission 19"
+],
+[
+"LWR-02",
+"A",
+"Someone who turns hostile falls on the company at once",
+"Mission 19: to do"
+],
+[
+"LOR-05",
+"U",
+"Twin destinations are not told apart across exits",
+"Mission 19: to do"
+],
+[
+"LOR-09",
+"D",
+"No computed measure; text cannot carry a measure",
+"Deferred beyond Mission 19"
+],
+[
+"LOR-13",
+"D",
+"Inference phrased as an observation; news at a speed",
+"Deferred beyond Mission 19"
+],
+[
+"LOR-15",
+"A",
+"An action fires on one click; a topic cannot be refused",
+"Mission 19: to do"
+],
+[
+"LOR-16",
+"D",
+"Crowd size; level containment; shelter not inherited; collisions reported one load at a time",
+"Deferred beyond Mission 19"
+],
+[
+"REV-11",
+"U",
+"The field economy collapses after one delve: 191 coin makes every field cost trivial",
+"Mission 19: to do"
+],
+[
+"REV-13",
+"U",
+"No economic tiers: field, expedition, domain",
+"Mission 19: to do"
+],
+[
+"REV-14",
+"U",
+"Rest and food are interesting but opaque; money alternatives become flavour",
+"Mission 19: to do"
+],
+[
+"REV-16",
+"U",
+"Combat sometimes outlives its decision: no morale, surrender or fast resolution",
+"Mission 19: to do"
+],
+[
+"REV-17",
+"U",
+"Known travel is insufficiently compressed; itineraries lost to interruptions",
+"Mission 19: to do"
+],
+[
+"REV-18",
+"U",
+"Rumour and destination abundance lacks hierarchy (current, nearby, rumour, archive)",
+"Mission 19: to do"
+],
+[
+"REV-21",
+"U",
+"Adversarial-order quest-path tests",
+"Mission 19: to do"
+],
+[
+"REV-23",
+"U",
+"The rival expedition's progress invisible and inconsequential",
+"Mission 19: to do"
+],
+[
+"REV-24",
+"U",
+"Notes in layers; NPC rumour menus curated; HP growth flattened; treasure with several destinations",
+"Mission 19: to do"
+],
+[
+"IND-01",
+"U",
+"Generated settlements have texture before they have drama",
+"Mission 19: to do"
+],
+[
+"IND-03",
+"U",
+"Wilderness travel has geography but too little event grammar (sparse causal events)",
+"Mission 19: to do"
+],
+[
+"IND-04",
+"U",
+"Danger well signalled can still lose the decision hierarchy",
+"Mission 19: to do"
+],
+[
+"IND-05",
+"U",
+"Character identity does not reliably steer ordinary play (profession test)",
+"Mission 19: to do"
+],
+[
+"IND-06",
+"U",
+"Situations without initiative; generic actions not contextual under pressure; no aftermath surfaces",
+"Mission 19: to do"
+],
+[
+"IND-07",
+"U",
+"Acceptance tests: first-town, aim-retention, urgency, profession, journey-density, return, restraint",
+"Mission 19: to do"
+],
+[
+"SYS-01",
+"D",
+"Situation/affordance projection from the legal set",
+"Deferred beyond Mission 19"
+],
+[
+"SYS-04",
+"U",
+"Balance one expedition across money, experience and capability",
+"Mission 19: to do"
+],
+[
+"SYS-05",
+"U",
+"Novice danger covenant by calling",
+"Mission 19: to do"
+],
+[
+"SYS-06",
+"U",
+"Operational professions in generated situations",
+"Mission 19: to do"
+],
+[
+"SYS-07",
+"U",
+"Sparse causal wilderness events and partial discoveries",
+"Mission 19: to do"
+],
+[
+"SYS-08",
+"U",
+"Procedural rotation by causal role, with repetition measures",
+"Mission 19: to do"
+],
+[
+"QTC-10",
+"A",
+"A returned-to place is told by its first sentence only; `page` and `told` disagree about revisits",
+"Mission 19: to do"
+],
+[
+"QTC-14",
+"D",
+"`Promise \u2026 kept when` takes no effect block; `Grave` cannot be conditional; a `Rule` cannot branch",
+"Deferred beyond Mission 19"
+],
+[
+"QTC-19",
+"D",
+"A recruited companion has `at` retracted, so every rule about where they are must ask `travelsWith`; `memberOf` is engine-owned",
+"Deferred beyond Mission 19"
+],
+[
+"QTC-21",
+"C",
+"`Level` does not scale a fixed-stat species; the catalogue has no elemental and no talking bird",
+"Mission 19: to do"
+],
+[
+"QTC-A02",
+"D",
+"A `Change` cannot carry an author's condition, and a Rule cannot tell which Change opened a Thing (an 6)",
+"Deferred beyond Mission 19"
+],
+[
+"QTC-A04",
+"D",
+"Write-only / no-target advice is permanent noise for relations other modules read; there is no Exports declaration (an 13, bg 13, ll 12, ms 15, ds 11)",
+"Deferred beyond Mission 19"
+],
+[
+"QTC-A10",
+"D",
+"A won fight against a Person leaves them dead, never routed, so Pleads never fires; the guide does not say when Pleads applies (bg 10)",
+"Deferred beyond Mission 19"
+],
+[
+"QTC-A20",
+"D",
+"No schedule construct: each person needs three or four Retract/Assert `at` rules (ll 9)",
+"Deferred beyond Mission 19"
+],
+[
+"QTC-A24",
+"D",
+"A `Known as` alias holds although its teaching topic was not taken; `Greets` cannot teach (ll 17)",
+"Deferred beyond Mission 19"
+],
+[
+"BOF-08",
+"D",
+"A rule's words come a pass after the action's Result, and a fact a later rule sets is read the next watch",
+"Deferred beyond Mission 19"
+],
+[
+"BOF-09",
+"D",
+"A failed check costs nothing, so every author built a one try per hour or day by hand",
+"Deferred beyond Mission 19"
+],
+[
+"BOF-10",
+"D",
+"A check's difficulty is a constant and cannot read a measure (trust)",
+"Deferred beyond Mission 19"
+],
+[
+"BOF-11",
+"D",
+"A file cannot add a condition to another file's declaration, and nothing says a company came by a passage",
+"Deferred beyond Mission 19"
+],
+[
+"BOF-15",
+"A",
+"A refused service cannot say why: the choice just goes",
+"Mission 19: to do"
+],
+[
+"BOF-16",
+"D",
+"Two files placing one person at the same hour fight every pass, and no lint catches it",
+"Deferred beyond Mission 19"
+],
+[
+"BOF-20",
+"D",
+"The prose lint still takes the singular flag and the engine for the implementation's",
+"Deferred beyond Mission 19"
+],
+[
+"BOF-22",
+"D",
+"`teaches` goes after the words in an Observe and before the braces in a Rule",
+"Deferred beyond Mission 19"
+],
+[
+"BOF-24",
+"D",
+"A topic is one turn; there is no talk of several exchanges",
+"Deferred beyond Mission 19"
+],
+[
+"BOF-26",
+"A",
+"`Observe near` a thing on a passage does nothing, and nothing says so",
+"Mission 19: to do"
+],
+[
+"BOF-30",
+"D",
+"Several authors' tests cannot load until the others' people exist; everyone kept stub campaigns uncommitted",
+"Deferred beyond Mission 19"
+],
+[
+"BOF-33",
+"D",
+"A per-entity table of measures needs a line each, and an entity cannot be offered on a condition",
+"Deferred beyond Mission 19"
+],
+[
+"BOF-34",
+"D",
+"No hour-by-hour search of a container",
+"Deferred beyond Mission 19"
+]
+]

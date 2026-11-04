@@ -1,0 +1,17 @@
+Module turns "A drover the company insults" {
+  Place hythe "Hythe" is settlement.
+  Place yard "the drovers' yard" is room within hythe at 0, 0 outdoors.
+  Company party "You" of 1 at yard.
+  Person ruff "Ruff" at yard { Role "a drover with a cudgel". Ancestry human. Calling warrior. Level 1. Temperament territorial. Lair yard. Pronouns he. }
+  Initially Assert tolerates(ruff, party).
+  Initially Assert warning(ruff, ruff_warns). Initially Assert onslaught(ruff, ruff_comes).
+  Entity ruff_warns: fact "Ruff takes his cudgel off his shoulder. 'Say that again,' he says, 'and see.'".
+  Entity ruff_comes: fact "Ruff comes at you with the cudgel.".
+  // Turned against the company by what it said: he warns before he strikes (Low Water's 2, LWR-02).
+  Topic insult with ruff "Tell Ruff his cattle are thin" when tolerates(ruff, party) once {
+    Says "Ruff's face goes still.".
+    On discuss { Retract tolerates(ruff, actor). }
+  }
+  Observe yard_scene at yard when true "A yard of trodden muck and hurdles.".
+  Goal false.
+}
