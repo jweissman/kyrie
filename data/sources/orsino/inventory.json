@@ -1272,19 +1272,18 @@
   },
   "treasureTier": {
    "concept": "equipment",
-   "destination": "src/handbook/dmg.ts (described)",
-   "representation": "described",
-   "generative": "none",
+   "destination": "data/generation/scenes/orsino-world.json#dungeon.treasure, drawn by src/world/deep/deep-pacing.ts and a riddle's casket (deep-rooms.ts)",
+   "representation": "the tiers a deep site's rooms and caskets hold their finds by, by depth",
+   "generative": "every deep site's rooms, narrowed by what its purpose says its makers and those after them left",
    "tests": [
-    "test/handbook.test.ts"
+    "test/deep-treasure.test.ts"
    ],
-   "status": "reference",
-   "blocker": "A work's treasure is drawn by its plan and its makers (src/world/region-works.ts); Orsino's tier weights are not consulted.",
+   "status": "integrated",
    "rule": "family",
    "counts": {
-    "integrated": 0,
+    "integrated": 6,
     "represented": 0,
-    "reference": 6,
+    "reference": 0,
     "blocked": 0
    }
   },
@@ -15432,7 +15431,7 @@
    "id": "shop:antiquarian",
    "status": "blocked",
    "blockers": [
-    "No town keeps one (src/world/region-shops.ts)."
+    "No town keeps one: it has no scene in data/generation/scenes/shops.json (src/world/region-shops.ts)."
    ]
   },
   {
@@ -15443,7 +15442,7 @@
    "id": "shop:arcaneum",
    "status": "blocked",
    "blockers": [
-    "No town keeps one (src/world/region-shops.ts)."
+    "No town keeps one: it has no scene in data/generation/scenes/shops.json (src/world/region-shops.ts)."
    ]
   },
   {
@@ -15454,21 +15453,21 @@
    "id": "shop:black_market",
    "status": "blocked",
    "blockers": [
-    "No town keeps one (src/world/region-shops.ts)."
+    "No town keeps one: it has no scene in data/generation/scenes/shops.json (src/world/region-shops.ts)."
    ]
   },
   {
    "id": "shop:blacksmith",
    "status": "blocked",
    "blockers": [
-    "Kyr has fewer than three things of its kinds a country's market sees (worth 300 coin or less): nothing for such a shop to stock."
+    "Kyr has fewer than three things of its kinds that it can use and a town could keep (worth 1500 coin or less): nothing for such a shop to stock."
    ]
   },
   {
    "id": "shop:curiosities",
    "status": "blocked",
    "blockers": [
-    "No town keeps one (src/world/region-shops.ts)."
+    "No town keeps one: it has no scene in data/generation/scenes/shops.json (src/world/region-shops.ts)."
    ]
   },
   {
@@ -15519,7 +15518,7 @@
    "id": "shop:rarities",
    "status": "blocked",
    "blockers": [
-    "No town keeps one (src/world/region-shops.ts)."
+    "No town keeps one: it has no scene in data/generation/scenes/shops.json (src/world/region-shops.ts)."
    ]
   },
   {
@@ -15530,7 +15529,7 @@
    "id": "shop:tailor",
    "status": "blocked",
    "blockers": [
-    "Kyr has fewer than three things of its kinds a country's market sees (worth 300 coin or less): nothing for such a shop to stock."
+    "Kyr has fewer than three things of its kinds that it can use and a town could keep (worth 1500 coin or less): nothing for such a shop to stock."
    ]
   },
   {
@@ -15549,14 +15548,14 @@
    "id": "shop:wonders",
    "status": "blocked",
    "blockers": [
-    "No town keeps one (src/world/region-shops.ts)."
+    "No town keeps one: it has no scene in data/generation/scenes/shops.json (src/world/region-shops.ts)."
    ]
   },
   {
    "id": "shop:zoology",
    "status": "blocked",
    "blockers": [
-    "Kyr has fewer than three things of its kinds a country's market sees (worth 300 coin or less): nothing for such a shop to stock."
+    "Kyr has fewer than three things of its kinds that it can use and a town could keep (worth 1500 coin or less): nothing for such a shop to stock."
    ]
   },
   {
@@ -19349,51 +19348,33 @@
   },
   {
    "id": "treasureTier:basic",
-   "status": "reference",
-   "mechanics": "catalogued",
-   "blockers": [
-    "A work's treasure is drawn by its plan and its makers (src/world/region-works.ts); Orsino's tier weights are not consulted."
-   ]
+   "status": "integrated",
+   "mechanics": "catalogued"
   },
   {
    "id": "treasureTier:grand",
-   "status": "reference",
-   "mechanics": "catalogued",
-   "blockers": [
-    "A work's treasure is drawn by its plan and its makers (src/world/region-works.ts); Orsino's tier weights are not consulted."
-   ]
+   "status": "integrated",
+   "mechanics": "catalogued"
   },
   {
    "id": "treasureTier:legendary",
-   "status": "reference",
-   "mechanics": "catalogued",
-   "blockers": [
-    "A work's treasure is drawn by its plan and its makers (src/world/region-works.ts); Orsino's tier weights are not consulted."
-   ]
+   "status": "integrated",
+   "mechanics": "catalogued"
   },
   {
    "id": "treasureTier:major",
-   "status": "reference",
-   "mechanics": "catalogued",
-   "blockers": [
-    "A work's treasure is drawn by its plan and its makers (src/world/region-works.ts); Orsino's tier weights are not consulted."
-   ]
+   "status": "integrated",
+   "mechanics": "catalogued"
   },
   {
    "id": "treasureTier:minor",
-   "status": "reference",
-   "mechanics": "catalogued",
-   "blockers": [
-    "A work's treasure is drawn by its plan and its makers (src/world/region-works.ts); Orsino's tier weights are not consulted."
-   ]
+   "status": "integrated",
+   "mechanics": "catalogued"
   },
   {
    "id": "treasureTier:negligible",
-   "status": "reference",
-   "mechanics": "catalogued",
-   "blockers": [
-    "A work's treasure is drawn by its plan and its makers (src/world/region-works.ts); Orsino's tier weights are not consulted."
-   ]
+   "status": "integrated",
+   "mechanics": "catalogued"
   },
   {
    "id": "weapon:acid_breath",

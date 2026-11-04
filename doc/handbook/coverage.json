@@ -997,7 +997,7 @@
     "faithful": 232,
     "adapted": 25,
     "represented": 37,
-    "kyr": 275,
+    "kyr": 278,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 198
@@ -1010,7 +1010,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 249,
+      "kyr": 252,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -14597,6 +14597,27 @@
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-inhabitants"
+  },
+  {
+   "id": "rule:world_making.recipe",
+   "title": "recipe, takes, takesWith, makes",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-making"
+  },
+  {
+   "id": "rule:world_making.make_remedy",
+   "title": "make remedy",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-making"
+  },
+  {
+   "id": "rule:world_making.make_plain",
+   "title": "make plain",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-making"
   },
   {
    "id": "rule:world_needs.sleeps",

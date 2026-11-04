@@ -10,7 +10,7 @@ reaches it with declared omissions), **reference** (kept in the registry only, b
 computed from what Kyr has and draws, not claimed: the ledger and generated catalogs for rules and things, what
 a generated country draws for wonders and traps, the voice tables for barks.
 
-2651 entries in 79 families: 1569 integrated, 191 represented, 751 reference, 140 blocked.
+2651 entries in 79 families: 1575 integrated, 191 represented, 745 reference, 140 blocked.
 
 ## By family
 
@@ -46,7 +46,7 @@ a generated country draws for wonders and traps, the voice tables for barks.
 | equipment | gear | 68 | 65 | 2 | 0 | 1 | data/catalog/orsino/items.json | shops, starting gear | `test/treasure.test.ts` |
 | equipment | gem | 5 | 5 | 0 | 0 | 0 | data/catalog/orsino/items.json | finds in works | `test/treasure.test.ts` |
 | equipment | junk | 71 | 71 | 0 | 0 | 0 | data/catalog/orsino/items.json | finds in works | `test/treasure.test.ts` |
-| equipment | treasureTier | 6 | 0 | 0 | 6 | 0 | src/handbook/dmg.ts (described) | none | `test/handbook.test.ts` |
+| equipment | treasureTier | 6 | 6 | 0 | 0 | 0 | data/generation/scenes/orsino-world.json#dungeon.treasure, drawn by src/world/deep/deep-pacing.ts and a riddle's casket (deep-rooms.ts) | every deep site's rooms, narrowed by what its purpose says its makers and those after them left | `test/deep-treasure.test.ts` |
 | equipment | weapon | 83 | 83 | 0 | 0 | 0 | data/catalog/orsino/items.json | shops, gear, finds | `test/treasure.test.ts` |
 | generation | legendaryWonderRoll | 20 | 0 | 0 | 20 | 0 | none | none | — |
 | generation | roomDecoration | 100 | 0 | 0 | 100 | 0 | none | none | — |
@@ -227,10 +227,6 @@ For each family with entries not met in play: its blockers, with how many entrie
 - 1 × field:masterGear.duration: A Kyr torch does not burn down; it is a tool that changes need, not a light that runs out.
 - 1 × Generated; not executable: use.
 
-### treasureTier
-
-- 6 × A work's treasure is drawn by its plan and its makers (src/world/region-works.ts); Orsino's tier weights are not consulted.
-
 ### legendaryWonderRoll
 
 - 20 × Roll weights over wonders. A generated country draws evenly among the wonders Kyr can run (src/world/region-marvels.ts); a weighted roll would favour wonders that are often not runnable.
@@ -390,8 +386,8 @@ For each family with entries not met in play: its blockers, with how many entrie
 
 ### shop
 
-- 6 × No town keeps one (src/world/region-shops.ts).
-- 3 × Kyr has fewer than three things of its kinds a country's market sees (worth 300 coin or less): nothing for such a shop to stock.
+- 6 × No town keeps one: it has no scene in data/generation/scenes/shops.json (src/world/region-shops.ts).
+- 3 × Kyr has fewer than three things of its kinds that it can use and a town could keep (worth 1500 coin or less): nothing for such a shop to stock.
 
 ### specialRoom
 

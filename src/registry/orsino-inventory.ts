@@ -68,8 +68,9 @@ export class OrsinoInventory {
       case 'climate': return this.drawn(e.key in weather.climateWeather.groups,
         'Not among the climates of data/generation/tables/weather.json.');
       case 'shop': return this.drawn(e.key in RegionShops.kinds && (RegionShops.stocks[e.key]?.stock.length ?? 0) >= 3,
-        (RegionShops.stocks[e.key]?.stock.length ?? 0) < 3 ? 'Kyr has fewer than three things of its kinds a country\'s market'
-          + ' sees (worth 300 coin or less): nothing for such a shop to stock.' : 'No town keeps one (src/world/region-shops.ts).');
+        (RegionShops.stocks[e.key]?.stock.length ?? 0) < 3 ? 'Kyr has fewer than three things of its kinds that it can use'
+          + ' and a town could keep (worth 1500 coin or less): nothing for such a shop to stock.'
+          : 'No town keeps one: it has no scene in data/generation/scenes/shops.json (src/world/region-shops.ts).');
       case 'riddle': return this.drawn(e.family === 'riddle' ? !!(world.riddles as Record<string, unknown[]>)[e.key]?.length
         : e.key in (world as unknown as { riddleAnswers: Record<string, string[]> }).riddleAnswers,
       'Not plain words a door can offer (data/generation/scenes/orsino-world.json#riddleAnswers).');

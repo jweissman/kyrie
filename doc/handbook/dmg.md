@@ -1754,6 +1754,48 @@ Make a noise at the way in, and step back to meet whatever comes, weapons out.
 
 > Then: Assert at(lurker, site). Assert awaits(actor, lurker).
 
+### What a company can make of what it carries
+
+Also kept, without comment: remedy.
+
+| Kinds | Relations | Measures | Queries | Rules | Actions |
+|---|---|---|---|---|---|
+| 1 | 4 | 0 | 0 | 0 | 2 |
+
+#### recipe, takes, takesWith, makes
+
+*Kyr · kind; relation(recipe, itemkind); relation(recipe, itemkind); relation(recipe, itemkind)* · `rule:world_making.recipe`
+
+A way of making one thing of two others one of the company carries (a recipe): willow bark and meadowsweet steeped into a minor potion of healing, dandelion and heather into an antidote, a rag in a flask of lamp oil to throw. What it takes, what it makes, and whether it is a remedy (a mender's work, which can go wrong: the first of what it takes is spoiled) or plain work anyone can do. A recipe is two facts and its entity: add one here, of kinds the catalog has, and it can be made wherever the company has light to work by.
+
+#### make remedy
+
+*Kyr · action (group, member, recipe, item, itemkind, item, itemkind, itemkind)* · `rule:world_making.make_remedy`
+
+- Shown as: {maker}: make {made} of {ingredient} and {partner}
+- Takes: 60 minutes
+- Costs: 1
+
+Steeped, boiled down and strained, the two are one dose that does what both would, and more: a mender's work, and it can spoil.
+
+> Needs: able(actor); memberOf(maker, actor); awake(maker); not (benighted(actor)); remedy(recipe_used); takes(recipe_used, ingredient_kind); takesWith(recipe_used, partner_kind); makes(recipe_used, made); ownedItem(ingredient, maker); itemKind(ingredient, ingredient_kind); ownedItem(partner, maker); itemKind(partner, partner_kind)
+
+> Then: Assert usesUp(actor, ingredient_kind). Assert usesUp(actor, partner_kind). Assert handed(made, actor).
+
+#### make plain
+
+*Kyr · action (group, member, recipe, item, itemkind, item, itemkind, itemkind)* · `rule:world_making.make_plain`
+
+- Shown as: {maker}: make {made} of {ingredient} and {partner}
+- Takes: 10 minutes
+- Costs: 1
+
+Plain work, quickly done.
+
+> Needs: able(actor); memberOf(maker, actor); awake(maker); not (benighted(actor)); not (remedy(recipe_used)); takes(recipe_used, ingredient_kind); takesWith(recipe_used, partner_kind); makes(recipe_used, made); ownedItem(ingredient, maker); itemKind(ingredient, ingredient_kind); ownedItem(partner, maker); itemKind(partner, partner_kind)
+
+> Then: Assert usesUp(actor, ingredient_kind). Assert usesUp(actor, partner_kind). Assert handed(made, actor).
+
 ### Food and sleep
 
 Also kept, without comment: eats, hungry, nextMeal, lastSlept.

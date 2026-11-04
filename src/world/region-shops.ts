@@ -78,7 +78,8 @@ export class RegionShops {
     const q = JSON.stringify, k = this.kinds[at.kind]!, id = `${s.id}_${at.kind}`, keeper = `${id}_keeper`;
     const ancestry = s.folk ?? region.ancestry, { name, pronoun, draw } = this.keeper(region, s, at.kind);
     const room = k.room.replace('{keeper}', name);
-    const sells = at.shelves.map(([what, fee]) => `Sells ${what} for ${fee} coin from 2.`).join(' ');
+    // Two of what is cheap; one of what is dear (a jeweller has one ring of protection, not a pair).
+    const sells = at.shelves.map(([what, fee]) => `Sells ${what} for ${fee} coin from ${fee > 100 ? 1 : 2}.`).join(' ');
     const likeness = CommunityWriter.likenessOf(region, { pronoun, painting: k.painting, id: keeper });
     return [`  Place ${id} ${q(room)} is room within ${s.id} at 3, ${1 + at.n} indoors.`,
       `  Passage ${id}_door ${q(`${name}'s door`)} is door between ${id} and ${s.id}_green.`,
