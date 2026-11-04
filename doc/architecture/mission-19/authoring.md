@@ -90,5 +90,8 @@ and not others.
   wild's meetings, the roads' fords and passes, and a deep site's riddle caskets, coin and earlier camps
   (`data/generation/deep/rooms.kyrt`, `hoards.json`), and the townspeople's small errands (where willow grows, a goat
   got out, a thing wanted: `data/generation/town/errands.kyrt`) are templates or tables; the settlements' shape, the
-  rest of the deep sites, the market and the fellows are not. Ranked by the prose still in them:
-  `deep/deep-mechanisms.ts`, `region-market.ts`, `settlement-writer.ts`, `region-zones.ts` (M19-44).
+  rest of the deep sites, the market and the fellows are not. What is left is mostly the shape of Kyr, written by
+  TypeScript (deep mechanisms' words are already the purposes' data; a settlement's writer has one line of prose):
+  the words still in code are the drill-yard's and the scrivener's teaching (`region-market.ts`, nine lines) and the
+  way across country between known places (`region-zones.ts`). The shapes themselves (a winch, a seal, a schedule)
+  are the next step: templates an author can change without a code change (M19-44).
