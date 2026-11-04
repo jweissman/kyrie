@@ -10,7 +10,7 @@ not acceptance: nothing here is **Accepted**; that is the owner's word, or an in
 States: **open** (not begun), **under way** (some of it built and evidenced, more to do), **built** (what was asked
 exists, is reachable and has a spec, but has not been played by anyone but the builder).
 
-Updated 4 November 2026, night, at 4b15fb94.
+Updated 4 November 2026, late night (after f0514839 and the road branch).
 
 ## The brief's priorities
 
@@ -23,7 +23,7 @@ Updated 4 November 2026, night, at 4b15fb94.
 | VII | Generative authorship | under way | towns, roads, deep rooms and hoards, errands, teachers, straying as templates (M19-44: five generators moved); variations of creatures; recipes; the guide's sections for each | the deep mechanisms and settlement shapes still in TypeScript; languages, spells and effects authored outside the repository |
 | VIII | World coherence | under way | merchants' stock by trade and by what a place can afford; frost and fen beasts where the country is so; names from the makers' tongue (M19-20) | economy across a country (prices by scarcity); ecology beyond dens |
 | IX | Architectural integrity | under way | no regex over Kyr in the new work (structure read as parsed Kyr: WrittenKyr); typed kinds declared by their relation's signature; the reader's aim-to-place match by id (M19-35) | the remaining TypeScript prose (M19-44); the reader's text patterns over labels (`/^the /`, articles) in naming |
-| X | The Encyclopedia | built | peoples, callings, magic, arms and treasure, creatures, conditions, lands of rumour, tongues, Imbar's planes, its past and gods | variations and recipes as chapters; read by someone else |
+| X | The Encyclopedia | built | peoples (catfolk among them), callings, magic, arms and treasure with what can be made, creatures with their variations, conditions, lands of rumour, tongues, Imbar's planes, its past and gods | read by someone else |
 | XII | Six journeys | under way | journeys 1, 3, 4 driven in the browser by the builder (evidence E1–E10); spatial journey pinned | 2, 5, 6 through the interface; any journey by an independent player |
 
 ## The owner's commissions of 4 November
@@ -32,10 +32,10 @@ Updated 4 November 2026, night, at 4b15fb94.
 |---|---|---|---|
 | Process audit ([m18-m19-process-audit.md](../m18-m19-process-audit.md)) | built | 138 inherited rows reconciled with kinds and causes, Open risk distinct from Deferred, five A rows re-examined, the evidence vocabulary and ledger | keep the ledger as rows close; variations journeys run by someone else |
 | Spatial reconstruction, and its correction | under way | three scales felt as one: the hex board in the wild (exploration only), towns and sites as their paintings, the dark below with the place's words; ways laid by where they lead; real plans' needs written down ([spatial-play.md](spatial-play.md)) | authored geometry for real plans (extents, door sides, streets); the owner's judgement of the captures |
-| 1. Game-like experience | under way | as IV above; no sheet a touch away; the map for finding only | strict viewport at every size checked by a person; the town's busyness |
+| 1. Game-like experience | under way | **settled principle**: the world dominates, the apparatus comes when wanted (the owner, 4 November, late; register M19-47, 48, 50). Play begins on the one full-screen map; a place at rest is its painting with whoever is here as likenesses over it, a few lines, the aim, what will not wait, Go… / Explore…; the explorer holds ways, what to do, the place told whole; road interruptions are the hex's own ("!" on the map, the card says why) | a person's judgement at desktop and tablet; the dark interiors' composition; the camera turned to an interruption; Setting out's wait (M19-49) |
 | 2. Depth, motivation, economy | under way | treasure that turns up for sale and in the earlier party's packs; a smith with arms to sell; a way to earn by making; the country's money measured again ([economy.md](economy.md): median 1.90, was 1.93) | the analysis of an ordinary hour's play for repetition and purposelessness, and fixes for its shared causes |
 | 3. The Orsino inheritance | under way | below | below |
-| 4. Authorable world structures | under way | creatures as kinds with variations (six axes, Deem hints) — never a species per variant; recipes; trades as data | plants and animals beyond dens; materials as their own family; spells and effects authored as data; languages and names |
+| 4. Authorable world structures | under way | creatures as kinds with variations (six axes, Deem hints) — never a species per variant; recipes; trades as data; travellers, sites and the speaking door as data and templates (M19-52); catfolk a playable people by data alone (M19-51) | plants and animals beyond dens; materials as their own family; spells and effects authored as data; languages and names |
 | 5. One craft loop | built | gather willow bark and meadowsweet, steep a minor potion of healing (a mender's check, a spoiled ingredient on failure), sell it to a herb-wife or chandler; antidote; fire flask ([making.kyr](../../../data/rules/making.kyr), `test/making.test.ts`) | smithing and enchanting (below); played by someone else |
 | 6. Honest discharge | under way | register rows with ids and dispositions; inherited rows by cause | close M19 only when the owner accepts it |
 
