@@ -1098,6 +1098,17 @@ advises on a rule anchored at a place that changes something of the company's ow
 knows) and asks nothing of where the company is: it may be meant (a hand broken at a court the company stayed away
 from), and it may not.
 
+When it is meant, say so: a rule written `heard at` (or `heard near`, `heard beside`, `heard within`) anchors only its
+words. It happens wherever the company is, whenever its condition holds, and is told only to a company that witnesses
+it there; the lint does not advise on it, and one heard within an area does not wait for the company to come into it.
+A surveyor's verdict on the landing, given whether or not anyone stood there, had been an unanchored change and an
+anchored telling with a latch of its own (The Book of Faces' 5.8, Quittance's surveyor; `probes/heard-only`):
+
+```text
+  Rule survey_fails heard at landing when day(clock) == 7 and hour(clock) >= 12 and not boat_sound(party)
+    says "'Condemned,' says the surveyor, and BERTH LET is nailed up at the end post." { Assert berth_sold(party). }
+```
+
 What happens again and again, a show every night, is told in full the first time the company hears it, and after
 that by the words written after `again`; which it has heard is kept with the game (Wapshott's Circus's 26: a nightly
 show told in full every night, unless its author kept a fact of having seen it and wrote it twice;

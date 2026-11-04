@@ -38,16 +38,18 @@ export class CampaignLint {
   // authors met it apart (a purse lifted at Pellam's fair from a company a mile off on the road; a chair at Hessel run
   // and crashed while the company crossed the river). One that changes something of the company's own (its coin, where
   // it is, what it knows), and whose condition asks nothing of where it is, is advice to look at it: it may be meant
-  // (a hand broken at a court the company stayed away from). A rule anchored within an area waits for the company.
+  // (a hand broken at a court the company stayed away from). A rule anchored within an area waits for the company. One
+  // written `heard at` says it is meant: done everywhere, its words heard there (QTC-A18, BOF-07).
   anchors() {
     const company = this.session.campaign.playerActor;
     if (!company) { return; }
     for (const r of this.module.rules ?? []) {
-      if (!r.place || !['at', 'beside'].includes(r.anchor ?? '')) { continue; }
+      if (!r.place || r.heard || !['at', 'beside'].includes(r.anchor ?? '')) { continue; }
       const reaches = r.effects.some(c => c.call.args[0] === company);
       if (!reaches || CampaignLint.asksWhere(r.when, company, r.place)) { continue; }
       this.add('advice', 'anchor', `${r.id} is heard at ${r.place}, but what it does to the company happens wherever`
-        + ` the company is: put at(${company}, ${r.place}) in its condition, or anchor it within an area`);
+        + ` the company is: put at(${company}, ${r.place}) in its condition, anchor it within an area, or write it`
+        + ` heard at ${r.place} if that is meant`);
     }
   }
   // Whether a condition asks where the company is (at(party, …)), or anything of the place itself.
