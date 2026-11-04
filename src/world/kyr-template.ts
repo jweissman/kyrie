@@ -4,9 +4,10 @@ import { Draw } from './land/draw';
 // a heading ("# id: what it is"), comments ("//"), then sections. A section is "--- group" (always written) or
 // "--- group option [weight]" (one option of the group drawn for each place it is written for, by weight). Its lines
 // are Kyr with placeholders ("{t}", "{town}") filled from the values given; "{{t}_merchant}" is written
-// "{s2_merchant}", Kyr's own reference to a name. A line beginning ">>" is not Kyr but something the section says of
-// itself for the generator to gather (the undertown's notice). The generator chooses and fills; what is written is
-// the author's (the owner, 2 November: world content authorable, not emitted from engine code).
+// "{s2_merchant}", Kyr's own reference to a name; "{!x}" is a piece of Kyr put in as it is. A line beginning ">>"
+// is not Kyr but something the section says of itself for the generator to gather (the undertown's notice). The
+// generator chooses and fills; what is written is the author's (the owner, 2 November: world content authorable, not
+// emitted from engine code).
 export interface KyrSection { group: string; option: string; weight: number; lines: string[]; said: string[] }
 export interface KyrTemplate { id: string; about: string; sections: KyrSection[] }
 
@@ -37,9 +38,11 @@ export class KyrTemplates {
       return always.length ? always : [draw.weighted(options.map(o => [o, o.weight] as const))];
     });
   }
-  // Lines with their placeholders filled; a brace round anything not a value given is left for Kyr.
+  // Lines with their placeholders filled; a brace round anything not a value given is left for Kyr. A value is made
+  // safe to stand in a Kyr string; "{!name}" puts a value in as it is, a piece of Kyr the generator wrote (a
+  // likeness, what someone sells), outside any string.
   static fill(lines: string[], values: Record<string, string>): string[] {
-    return lines.map(line => line.replace(/\{([a-z]+)\}/g, (whole, name: string) =>
-      values[name]?.replace(/["\\{}]/g, '\\$&') ?? whole));
+    return lines.map(line => line.replace(/\{(!?)([a-z]+)\}/g, (whole, raw: string, name: string) =>
+      (raw ? values[name] : values[name]?.replace(/["\\{}]/g, '\\$&')) ?? whole));
   }
 }

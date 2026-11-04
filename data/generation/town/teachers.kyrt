@@ -1,0 +1,33 @@
+# teachers: who teaches in a generated town: a master-at-arms in a drill-yard behind the inn, and someone behind the scrivener's curtain.
+// A Kyr template (see src/world/kyr-template.ts), written for every generated settlement (see src/world/region-market.ts,
+// which draws who teaches, what and for how much). {s} is the settlement's id, {town} its name, {inn} its inn's name,
+// {folk} its people; {name} the teacher's, {pronoun} theirs, {fee} a lesson's coin, {lessons} what they teach;
+// {!likeness} and {!sells} pieces of Kyr the generator writes. Change the yard, the shop or the words here; nothing in
+// the engine needs to change.
+--- yard
+  Place {s}_drill "the drill-yard behind {inn}" is room within {s} outdoors.
+  Passage {s}_drill_gate "the yard gate" is door between {s}_drill and {s}_green.
+  Person {s}_drill_master "{name}" at {s}_drill { Role "a master-at-arms, who teaches for {fee} coin a lesson". Ancestry {folk}.{!likeness} Peaceable. Pronouns {pronoun}. Manner stoic.{!sells} }
+--- yardafter
+  Initially Set lessonFee({s}_drill_master) to {fee}.
+  Observe {s}_drill_scene at {s}_drill as fixture when true "A square of beaten earth behind {inn}, a rack of blunted blades along one wall and a post hacked pale at the height of a man's neck. Whoever teaches here will show a technique to anyone who has done enough to be worth the showing, and can pay for it.".
+  Observe {s}_drill_lessons at {s}_drill as ambience when true "{name} teaches {lessons}, {fee} coin a lesson: an hour's work, and only to one who has done enough out in the world to have earned it. On the rack by the gate, for sale and not for practice, {sold}: the yard's smith's best work.".
+--- scrivener
+  // The scrivener's, and the curtain at the back of it: shut, and saying so, until the company asks after the older
+  // books; behind it someone who teaches arcane spells, found, not posted.
+  Place {s}_scriv "the scrivener's" is room within {s} indoors.
+  Passage {s}_scriv_door "the scrivener's door" is door between {s}_scriv and {s}_green.
+  Place {s}_scriv_back "the room behind the scrivener's curtain" is room within {s} indoors.
+  Passage {s}_scriv_back_curtain "the curtain at the back" is door between {s}_scriv and {s}_scriv_back opening when knows(party, {s}_scriv_curtain) "A heavy curtain hangs across the back of the shop. The scrivener keeps a chair in front of it, and keeps sitting in it.".
+  Observe {s}_scriv_scene at {s}_scriv as fixture when true "A narrow shop that smells of ink and sand: a counter, letters waiting under a stone to be called for, a price for each kind of hand chalked on a board.".
+  Person {s}_scriv_clerk "the scrivener" at {s}_scriv { Role "who writes letters for those who cannot". Ancestry {folk}. Peaceable. Manner acerbic. }
+  Discovery {s}_scriv_curtain "Behind the scrivener's curtain in {town}, {name} teaches spells, to those who cast them, for coin.".
+  Topic {s}_scriv_curtain_asked with {s}_scriv_clerk "Ask {{s}_scriv_clerk} after the older books" when not knows(actor, {s}_scriv_curtain) {
+    Says "{{s}_scriv_clerk} looks at you over the pen for a long moment, then gets up and draws the curtain back. 'Not books,' {{s}_scriv_clerk} says. 'Better. Mind the step.'".
+    On discuss { Assert knows(actor, {s}_scriv_curtain). }
+  }
+  Person {s}_scriv_reader "{name}" at {s}_scriv_back { Role "who teaches spells, for {fee} coin a lesson". Ancestry {folk}.{!likeness} Peaceable. Pronouns {pronoun}. Manner proud. }
+--- scrivenerafter
+  Initially Set lessonFee({s}_scriv_reader) to {fee}.
+  Observe {s}_scriv_back_scene at {s}_scriv_back as fixture when true "A low room lined with shelves of things that are not books: jars, a skull with a candle in it, a slate covered in figures. It smells of hot wax and iron.".
+  Observe {s}_scriv_back_lessons at {s}_scriv_back as ambience when true "{name} teaches {lessons}, {fee} coin a lesson: an hour's work, and only to a caster of such spells who has done enough out in the world to have earned it.".
