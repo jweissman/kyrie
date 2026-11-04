@@ -18,6 +18,8 @@
   --ground: #0A0B0E; --surface: #121318; --raised: #191B21; --lift: #22252D; --deep: #07080A;
   --ivory: #ECE6D9; --dim: #A59F94; --faint: #6E6A62; --edge: rgba(236, 230, 217, .10); --edge-strong: rgba(236, 230, 217, .24);
   --gold: #F2BD4C; --gold-glow: rgba(242, 189, 76, .16); --gold-line: rgba(242, 189, 76, .55);
+  /* Under the finger or the keys: light, not gold, which is the aim's and what is marked first (PD-10). */
+  --touch: rgba(236, 230, 217, .62); --touch-glow: rgba(236, 230, 217, .07);
   --ember: #FF6B45; --ember-glow: rgba(255, 107, 69, .14); --verdigris: #5FD3B6; --azure: #79AEF7; --violet: #B49CFF;
   --rose: #EF9FAE; --life: #79D58F;
   /* The hour's light, which tints the ground: set on the shell by the time of day. */
@@ -60,16 +62,16 @@ kbd { font: 500 10.5px/1 var(--do); color: var(--dim); border: 1px solid var(--e
    under the finger: only colour, light and the diamond change. ---- */
 .act { all: unset; box-sizing: border-box; position: relative; cursor: pointer; display: inline-flex; align-items: center;
   flex-wrap: wrap; gap: 2px 10px; min-height: 44px; padding: 9px 16px 9px 34px; font: 500 15.5px/1.3 var(--do);
-  color: var(--ivory); background: linear-gradient(90deg, var(--gold-glow), transparent 75%) no-repeat 0 0 / 0% 100%,
+  color: var(--ivory); background: linear-gradient(90deg, var(--touch-glow), transparent 75%) no-repeat 0 0 / 0% 100%,
   var(--raised); border: 1px solid var(--edge); border-radius: 2px; -webkit-tap-highlight-color: transparent;
   user-select: none; transition: background-size var(--settle) var(--ease), border-color var(--quick), color var(--quick); }
 .act::before { content: ''; position: absolute; left: 14px; top: 50%; width: 7px; height: 7px; margin-top: -4px;
   border: 1.5px solid var(--dim); transform: rotate(45deg); transition: background var(--quick), border-color var(--quick),
   transform var(--settle) var(--ease); }
-.act:hover, .act.sel, .act:focus-visible { background-size: 100% 100%, auto; border-color: var(--gold-line); outline: none; }
-.act:hover::before, .act.sel::before, .act:focus-visible::before { background: var(--gold); border-color: var(--gold);
+.act:hover, .act.sel, .act:focus-visible { background-size: 100% 100%, auto; border-color: var(--touch); outline: none; }
+.act:hover::before, .act.sel::before, .act:focus-visible::before { background: var(--ivory); border-color: var(--ivory);
   transform: rotate(135deg); }
-.act.sel, .act:focus-visible { box-shadow: inset 2px 0 0 var(--gold); }
+.act.sel, .act:focus-visible { box-shadow: inset 2px 0 0 var(--ivory); }
 .act:active { background: var(--gold-glow); transform: translateY(1px); transition-duration: 40ms; }
 .act.fired { border-color: var(--gold); background: var(--gold-glow); }
 .act.fired::before { background: var(--gold); border-color: var(--gold); animation: fired .9s var(--ease) infinite; }

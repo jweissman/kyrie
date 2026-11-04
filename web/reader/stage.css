@@ -11,7 +11,7 @@
 .when { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 14px; margin: 0; font: 500 11.5px/1.5 var(--do);
   letter-spacing: .16em; text-transform: uppercase; color: var(--dim); }
 .when .at { color: var(--ivory); }
-.when .depth { color: var(--gold); }
+.when .depth { color: var(--ivory); }
 .when::before { content: ''; flex: none; width: 20px; height: 2px; margin-right: -2px; background: var(--faint); }
 .when.light-morning::before { background: #F6CD8C; box-shadow: 0 0 8px #F6CD8C; }
 .when.light-afternoon::before { background: var(--gold); box-shadow: 0 0 8px var(--gold); }
@@ -198,7 +198,7 @@
 .plate.still { border: 1px solid var(--edge); }
 .plate .face { display: block; width: 48px; height: 58px; overflow: hidden; background: var(--lift);
   box-shadow: 0 0 0 1px var(--edge-strong); }
-.act.plate:hover .face, .act.plate.sel .face, .act.plate:focus-visible .face { box-shadow: 0 0 0 1px var(--gold); }
+.act.plate:hover .face, .act.plate.sel .face, .act.plate:focus-visible .face { box-shadow: 0 0 0 1px var(--touch); }
 .plate .face.gone { visibility: hidden; }
 .plate .face img { display: block; width: 100%; height: 100%; object-fit: cover; filter: saturate(.85); }
 .plate .who { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; min-width: 0; }
@@ -216,10 +216,10 @@
 .act.plate.faced:has(> .verb) { grid-template-columns: 48px minmax(0, 1fr) auto; }
 .plates > li.lead .act.plate.faced:has(> .verb) { grid-template-columns: 64px minmax(0, 1fr) auto; }
 .act.plate > .verb { font: 500 11px/1 var(--do); letter-spacing: .14em; text-transform: uppercase; color: var(--faint); }
-.act.plate:hover > .verb, .act.plate.sel > .verb, .act.plate:focus-visible > .verb { color: var(--gold); }
+.act.plate:hover > .verb, .act.plate.sel > .verb, .act.plate:focus-visible > .verb { color: var(--ivory); }
 .plate .face.blank { display: grid; place-items: center; font: 300 26px/1 var(--told); color: var(--dim); }
 /* Led with, but not first: edged only; the first is barred and lit as the first lead is (see glance.css). */
-.act.plate.leading { border-color: var(--gold-line); }
+.act.plate.leading { border-color: var(--edge-strong); }
 .plates > li.lead .plate .face { width: 64px; height: 78px; box-shadow: 0 0 0 1px var(--rose); }
 .plates > li.lead .plate .who .n { font-size: 19px; }
 /* A busy place's people, a line each, two to a row. */
