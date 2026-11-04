@@ -194,8 +194,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the opening and the choice of a lif
       await driver.click('[data-action="go-on"]');
       await page.waitForSelector('[data-mode="explore"]', { timeout: 30000 });
       // The place opens without the chapter, either beat (not even the way in's first sentence) or the aim.
-      expect(await page.locator('.place-head .chapter, [data-id="aim"]').count()).toBe(0);
-      const place = (await page.textContent('.scene'))!, opens = (t: string) => /^.*?[.!?](?=\s|$)/.exec(t)?.[0] ?? t;
+      expect(await page.locator('.world-bar .chapter, [data-id="aim"]').count()).toBe(0);
+      const place = (await page.textContent('.world-page .focus'))!, opens = (t: string) => /^.*?[.!?](?=\s|$)/.exec(t)?.[0] ?? t;
       expect([place.includes(opens(first)), place.includes(opens(second)), place.includes('looking for work')])
         .toEqual([false, false, false]);
       expect(await page.locator('[data-action="book"]').count()).toBe(1);
