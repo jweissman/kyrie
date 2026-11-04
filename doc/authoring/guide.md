@@ -490,6 +490,10 @@ heals at sunset, a raising, a regeneration is written (`test/fixtures/probes/mad
   }
 ```
 
+`Slay ?g.` is the other way: whoever it names is dead, in the story and in the body, slain for good, so `dead(ullin)`
+holds and the page says so; a Second killed on the Stair in the night is `Slay ullin.` in the rule that tells of it
+(`test/slay.test.ts`; the Book of Faces' hill 8, whose fates had said it of an offstage double).
+
 `Assert keeps(actor, heart)` does not do it for the company: what it carries is in its members' packs, so what it
 keeps is in nobody's hands, and `kyrie lint` says so (Low Water's 3). What someone else keeps is theirs.
 

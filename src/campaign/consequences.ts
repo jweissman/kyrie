@@ -1,4 +1,5 @@
 import { Expressions } from '../expressions';
+import { Canon } from '../canon/canon';
 import { RandomStreams } from '../random-streams';
 import { ModuleWriter } from '../lang/module-writer';
 import { Items } from './items';
@@ -48,6 +49,26 @@ export class Consequences {
       lease.commit(lease.creatures);
     } finally { lease.release(); }
     host.commitWorld(host.world.apply(whole.map(r => this.retract(r))));
+    host.refreshProjection();
+    return true;
+  }
+  // Whoever a rule or an act strikes dead ("Slay ?g." in what it does) is dead in the story and in the body: no hit
+  // point left, and slain for good, as one who dies of their wounds is; and the fact is forgotten. A Second killed in
+  // the night could not be said to be dead, `dead` being the engine's (the Book of Faces' hill 8, BOF-25).
+  static slay(host: TickHost): boolean {
+    const doomed = host.world.related('struckDead');
+    if (!doomed.length) { return false; }
+    const { definition, creatures } = host.tickState, slain = Canon.rules.combat.ids.slain;
+    const ids = [...new Set(doomed.flatMap(r => definition.actors.find(a => a.id === r.args[0])?.members ?? []))];
+    const lease = creatures.acquire(ids);
+    try {
+      for (const c of lease.creatures) {
+        c.state.hp = 0;
+        if (!c.state.conditions.some(s => s.id === slain)) { c.state.conditions.push({ id: slain, remaining: 1, clock: 'until-removed' }); }
+      }
+      lease.commit(lease.creatures);
+    } finally { lease.release(); }
+    host.commitWorld(host.world.apply(doomed.map(r => this.retract(r))));
     host.refreshProjection();
     return true;
   }

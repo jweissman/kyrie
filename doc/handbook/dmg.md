@@ -576,7 +576,7 @@ Also kept, without comment: swappable, improvable, learnable, skillOpen, featOpe
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 7 | 20 | 2 | 0 | 2 | 10 |
+| 7 | 21 | 2 | 0 | 2 | 10 |
 
 #### levelOf
 
@@ -601,6 +601,12 @@ One who falls lies senseless (fallen) until a rest, when they come round or die 
 *Kyr · relation(group)* · `rule:care.madeWhole`
 
 Whoever a rule or an act makes whole (Restore x): every hit point, no condition, risen if fallen or dead; the engine does it and forgets that it was asked to (Consequences.restore).
+
+#### struckDead
+
+*Kyr · relation(group)* · `rule:care.struckDead`
+
+Whoever a rule or an act strikes dead (Slay x): no hit point, slain for good (Consequences.slay; BOF-25).
 
 #### field spell
 

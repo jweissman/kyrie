@@ -80,7 +80,8 @@ export class ModuleParser {
     Value: StatementParser.Value, expression: StatementParser.Expression, integer: StatementParser.Integer,
     string: StatementParser.String, Product: StatementParser.Value, Operand_group: StatementParser.Group,
     Operand_extreme: StatementParser.Extreme, ExtremeArgs: StatementParser.ExtremeArgs, ...ActionParts.actions,
-    Operand_given: StatementParser.Given, Restore: StatementParser.Restore, Operand_count: StatementParser.Count,
+    Operand_given: StatementParser.Given, Restore: StatementParser.Restore, Slay: StatementParser.Slay,
+    Operand_count: StatementParser.Count,
     ...CatalogParser.actions, ...InformationParser.actions, ...Endings.actions, ...Milestones.actions,
     ...PersonParser.actions,
   });
