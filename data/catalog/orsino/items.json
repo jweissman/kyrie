@@ -3571,7 +3571,7 @@
    "description": "A magical deck of cards with many uses.",
    "value": 5000,
    "unsupported": {
-    "use": "A summon aimed at ally is not supported."
+    "use": "A summon aimed at enemy is not supported."
    },
    "source": {
     "orsino": "consumable:deck_of_multiplicity",
@@ -3694,15 +3694,13 @@
   },
   "potion_of_barkskin": {
    "name": "Potion of Barkskin",
-   "category": "gear",
+   "category": "consumable",
    "description": "A vial of thick, green liquid that hardens the drinker's skin, providing additional protection.",
    "value": 120,
-   "unsupported": {
-    "use": "Kyr cannot use a cast effect from an item."
-   },
+   "use": "Cast barkskin on ally.",
    "source": {
     "orsino": "consumable:potion_of_barkskin",
-    "fidelity": "adapted"
+    "fidelity": "faithful"
    }
   },
   "rashers": {
@@ -3718,15 +3716,13 @@
   },
   "scroll_of_apocalypse": {
    "name": "Scroll of Apocalypse",
-   "category": "gear",
+   "category": "consumable",
    "description": "An ancient scroll that unleashes catastrophic energy upon all enemies in the area.",
    "value": 2000,
-   "unsupported": {
-    "use": "Kyr cannot use a cast effect from an item."
-   },
+   "use": "Cast apocalypse on enemy.",
    "source": {
     "orsino": "consumable:scroll_of_apocalypse",
-    "fidelity": "adapted"
+    "fidelity": "faithful"
    }
   },
   "scroll_of_cure_disease": {
@@ -3742,28 +3738,24 @@
   },
   "scroll_of_domination": {
    "name": "Scroll of Domination",
-   "category": "gear",
+   "category": "consumable",
    "description": "A magical scroll that allows the caster to control the mind of a target creature.",
    "value": 100,
-   "unsupported": {
-    "use": "Kyr cannot use a cast effect from an item."
-   },
+   "use": "Cast dominate_person on enemy.",
    "source": {
     "orsino": "consumable:scroll_of_domination",
-    "fidelity": "adapted"
+    "fidelity": "faithful"
    }
   },
   "scroll_of_fireball": {
    "name": "Scroll of Fireball",
-   "category": "gear",
+   "category": "consumable",
    "description": "A magical scroll that allows the caster to unleash a fiery explosion at a target location.",
    "value": 200,
-   "unsupported": {
-    "use": "Kyr cannot use a cast effect from an item."
-   },
+   "use": "Cast fireball on enemy.",
    "source": {
     "orsino": "consumable:scroll_of_fireball",
-    "fidelity": "adapted"
+    "fidelity": "faithful"
    }
   },
   "scroll_of_shapechange": {
@@ -3772,7 +3764,7 @@
    "description": "A powerful scroll that allows the caster to transform into a fearsome dragon.",
    "value": 1500,
    "unsupported": {
-    "use": "Kyr cannot use a cast effect from an item."
+    "use": "It casts shapechange, which Kyr cannot run."
    },
    "source": {
     "orsino": "consumable:scroll_of_shapechange",
@@ -3781,41 +3773,38 @@
   },
   "wand_of_cure_minor_wounds": {
    "name": "Wand of Cure Minor Wounds",
-   "category": "gear",
+   "category": "consumable",
    "description": "A slender wand that can channel healing energy to mend minor wounds.",
    "value": 100,
-   "unsupported": {
-    "use": "Kyr cannot use a cast effect from an item."
-   },
+   "charges": 15,
+   "use": "Cast cure_minor on ally.",
    "source": {
     "orsino": "consumable:wand_of_cure_minor_wounds",
-    "fidelity": "adapted"
+    "fidelity": "faithful"
    }
   },
   "wand_of_magic_missile": {
    "name": "Wand of Magic Missile",
-   "category": "gear",
+   "category": "consumable",
    "description": "A slender wand that can fire magical darts of force energy at a target.",
    "value": 250,
-   "unsupported": {
-    "use": "Kyr cannot use a cast effect from an item."
-   },
+   "charges": 20,
+   "use": "Cast magic_missile on enemy.",
    "source": {
     "orsino": "consumable:wand_of_magic_missile",
-    "fidelity": "adapted"
+    "fidelity": "faithful"
    }
   },
   "wand_of_paralyzing_touch": {
    "name": "Wand of Paralyzing Touch",
-   "category": "gear",
+   "category": "consumable",
    "description": "A slender wand that can deliver a paralyzing touch to a target.",
    "value": 150,
-   "unsupported": {
-    "use": "Kyr cannot use a cast effect from an item."
-   },
+   "charges": 10,
+   "use": "Cast paralyzing_touch on enemy.",
    "source": {
     "orsino": "consumable:wand_of_paralyzing_touch",
-    "fidelity": "adapted"
+    "fidelity": "faithful"
    }
   },
   "wand_of_polymorph": {
@@ -3824,7 +3813,7 @@
    "description": "A slender wand that can transform a target into a different creature.",
    "value": 250,
    "unsupported": {
-    "use": "Kyr cannot use a cast effect from an item."
+    "use": "It casts Polymorph Other, which Kyr cannot run."
    },
    "source": {
     "orsino": "consumable:wand_of_polymorph",
@@ -4015,7 +4004,7 @@
    "slot": "weapon",
    "weapon": {
     "damage": "2d8",
-    "type": "equipment"
+    "type": "bludgeoning"
    },
    "modifiers": {
     "bonusSpellDC": 5,
@@ -4026,9 +4015,6 @@
    "source": {
     "orsino": "equipment:arcane_conduit",
     "fidelity": "faithful"
-   },
-   "unsupported": {
-    "type": "Damage kind equipment is not an Orsino damage kind."
    }
   },
   "belt_of_giant_strength": {
@@ -4055,7 +4041,7 @@
    "slot": "weapon",
    "weapon": {
     "damage": "1d8",
-    "type": "slashing"
+    "type": "bludgeoning"
    },
    "hooks": {
     "onAttackHit": [
@@ -4211,7 +4197,7 @@
    "slot": "weapon",
    "weapon": {
     "damage": "1d6",
-    "type": "equipment"
+    "type": "bludgeoning"
    },
    "modifiers": {
     "bonusSpellDC": 2,
@@ -4222,9 +4208,6 @@
    "source": {
     "orsino": "equipment:darkwood_staff",
     "fidelity": "faithful"
-   },
-   "unsupported": {
-    "type": "Damage kind equipment is not an Orsino damage kind."
    }
   },
   "dragonhelm": {
@@ -4377,7 +4360,7 @@
    "slot": "weapon",
    "weapon": {
     "damage": "1d8",
-    "type": "piercing"
+    "type": "bludgeoning"
    },
    "hooks": {
     "onAttackHit": [
@@ -4421,7 +4404,7 @@
    "slot": "weapon",
    "weapon": {
     "damage": "2d8",
-    "type": "equipment"
+    "type": "bludgeoning"
    },
    "hooks": {
     "onAttackHit": [
@@ -4447,9 +4430,6 @@
    "source": {
     "orsino": "equipment:phoenix_talon",
     "fidelity": "faithful"
-   },
-   "unsupported": {
-    "type": "Damage kind equipment is not an Orsino damage kind."
    }
   },
   "ring_of_major_protection": {
@@ -4750,7 +4730,7 @@
    "slot": "weapon",
    "weapon": {
     "damage": "2d10",
-    "type": "equipment"
+    "type": "bludgeoning"
    },
    "modifiers": {
     "bonusSpellDC": 6,
@@ -4774,9 +4754,6 @@
    "source": {
     "orsino": "equipment:staff_of_power",
     "fidelity": "faithful"
-   },
-   "unsupported": {
-    "type": "Damage kind equipment is not an Orsino damage kind."
    }
   },
   "staff_of_the_necromancer": {
@@ -4787,7 +4764,7 @@
    "slot": "weapon",
    "weapon": {
     "damage": "2d6",
-    "type": "equipment"
+    "type": "bludgeoning"
    },
    "modifiers": {
     "bonusSpellDC": 5,
@@ -4811,9 +4788,6 @@
    "source": {
     "orsino": "equipment:staff_of_the_necromancer",
     "fidelity": "faithful"
-   },
-   "unsupported": {
-    "type": "Damage kind equipment is not an Orsino damage kind."
    }
   },
   "sword_of_ages": {
@@ -4824,7 +4798,7 @@
    "slot": "weapon",
    "weapon": {
     "damage": "1d10",
-    "type": "slashing"
+    "type": "bludgeoning"
    },
    "hooks": {
     "onAttackHit": [
@@ -4865,7 +4839,7 @@
    "slot": "weapon",
    "weapon": {
     "damage": "1d8",
-    "type": "slashing"
+    "type": "bludgeoning"
    },
    "modifiers": {
     "attributes": {
@@ -4903,7 +4877,7 @@
    "slot": "weapon",
    "weapon": {
     "damage": "2d6",
-    "type": "slashing"
+    "type": "bludgeoning"
    },
    "hooks": {
     "onAttackHit": [

@@ -10,7 +10,8 @@ export interface ConditionInstance {
   id: string; remaining: number; source?: string; clock?: 'owner-turn' | 'world-time' | 'until-removed';
   by?: string; tempHp?: number; waits?: boolean;
 }
-export interface ItemInstance { id: string; definition: string; equipped?: boolean }
+// charges: the uses a charged thing has left (a wand), where it has been used; its kind's charges until then.
+export interface ItemInstance { id: string; definition: string; equipped?: boolean; charges?: number }
 // raceId is what the creature is: an ancestry (a person, who has a class) or a species (which has none).
 export interface Creature {
   id: string; name: string; raceId: string; classId?: string; backgroundId?: string; professionId?: string;

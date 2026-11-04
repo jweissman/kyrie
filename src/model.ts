@@ -21,6 +21,8 @@ export interface Fighter {
   // What it carries that it can use up here, by the ability each is used as (the items of that kind not yet used),
   // and what it has used up in this fight (PT-07).
   stock?: Record<string, string[]>; spent?: string[];
+  // The uses left in each charged thing carried (a wand), by its id; a thing not here is spent in one use.
+  charges?: Record<string, number>;
   // The wielded (or natural) weapon, worn armour's ac, and equipped items' modifiers and hooks.
   equipment: Equipment;
   statuses: ConditionInstance[];

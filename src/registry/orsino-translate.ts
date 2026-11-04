@@ -237,7 +237,16 @@ export class OrsinoTranslate {
         source: { orsino: e.id, fidelity: 'faithful' } };
     }
     return { ...out, ...new OrsinoGoods(this.entries, { modifiers: this.modifiers.bind(this),
-      effect: this.itemEffect.bind(this), status: this.statusId.bind(this), weapons: out }).items() };
+      effect: this.itemEffect.bind(this), status: this.statusId.bind(this), spell: this.spell.bind(this),
+      weapons: out }).items() };
+  }
+  // The ability a scroll or a wand casts, by the name Orsino gives it (its key, or its own name: "Fireball", "Cure
+  // Minor Wounds"); none where Kyr has no such ability, or cannot run it.
+  private spell(name: unknown): string | undefined {
+    const said = String(name).toLowerCase();
+    const e = this.family('ability', 'arcaneSpell', 'divineSpell').find(x => !x.shadowedBy
+      && (x.key === said || String((x.definition as Raw).name ?? '').toLowerCase() === said));
+    return e && !this.ability(e).unsupported ? e.key : undefined;
   }
   // What using an item does to the one it is used on: one of the company, or a foe it is thrown at.
   private itemEffect(raw: Raw, from: string, target: Target = 'ally') { return this.effects.effect(raw, target, from); }

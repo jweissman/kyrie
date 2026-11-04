@@ -254,8 +254,8 @@
    "status": "integrated",
    "rule": "ledger",
    "counts": {
-    "integrated": 15,
-    "represented": 13,
+    "integrated": 22,
+    "represented": 6,
     "reference": 0,
     "blocked": 0
    }
@@ -457,8 +457,8 @@
    "status": "integrated",
    "rule": "ledger",
    "counts": {
-    "integrated": 38,
-    "represented": 10,
+    "integrated": 43,
+    "represented": 5,
     "reference": 0,
     "blocked": 0
    }
@@ -6593,13 +6593,10 @@
   },
   {
    "id": "consumable:potion_of_barkskin",
-   "status": "represented",
-   "mechanics": "represented",
+   "status": "integrated",
+   "mechanics": "executable",
    "kyr": [
     "item:potion_of_barkskin"
-   ],
-   "blockers": [
-    "Generated; not executable: use."
    ]
   },
   {
@@ -6612,13 +6609,10 @@
   },
   {
    "id": "consumable:scroll_of_apocalypse",
-   "status": "represented",
-   "mechanics": "represented",
+   "status": "integrated",
+   "mechanics": "executable",
    "kyr": [
     "item:scroll_of_apocalypse"
-   ],
-   "blockers": [
-    "Generated; not executable: use."
    ]
   },
   {
@@ -6631,24 +6625,18 @@
   },
   {
    "id": "consumable:scroll_of_domination",
-   "status": "represented",
-   "mechanics": "represented",
+   "status": "integrated",
+   "mechanics": "executable",
    "kyr": [
     "item:scroll_of_domination"
-   ],
-   "blockers": [
-    "Generated; not executable: use."
    ]
   },
   {
    "id": "consumable:scroll_of_fireball",
-   "status": "represented",
-   "mechanics": "represented",
+   "status": "integrated",
+   "mechanics": "executable",
    "kyr": [
     "item:scroll_of_fireball"
-   ],
-   "blockers": [
-    "Generated; not executable: use."
    ]
   },
   {
@@ -6664,35 +6652,26 @@
   },
   {
    "id": "consumable:wand_of_cure_minor_wounds",
-   "status": "represented",
-   "mechanics": "represented",
+   "status": "integrated",
+   "mechanics": "executable",
    "kyr": [
     "item:wand_of_cure_minor_wounds"
-   ],
-   "blockers": [
-    "Generated; not executable: use."
    ]
   },
   {
    "id": "consumable:wand_of_magic_missile",
-   "status": "represented",
-   "mechanics": "represented",
+   "status": "integrated",
+   "mechanics": "executable",
    "kyr": [
     "item:wand_of_magic_missile"
-   ],
-   "blockers": [
-    "Generated; not executable: use."
    ]
   },
   {
    "id": "consumable:wand_of_paralyzing_touch",
-   "status": "represented",
-   "mechanics": "represented",
+   "status": "integrated",
+   "mechanics": "executable",
    "kyr": [
     "item:wand_of_paralyzing_touch"
-   ],
-   "blockers": [
-    "Generated; not executable: use."
    ]
   },
   {
@@ -9427,13 +9406,10 @@
   },
   {
    "id": "equipment:arcane_conduit",
-   "status": "represented",
-   "mechanics": "represented",
+   "status": "integrated",
+   "mechanics": "executable",
    "kyr": [
     "item:arcane_conduit"
-   ],
-   "blockers": [
-    "Generated; not executable: type."
    ]
   },
   {
@@ -9502,13 +9478,10 @@
   },
   {
    "id": "equipment:darkwood_staff",
-   "status": "represented",
-   "mechanics": "represented",
+   "status": "integrated",
+   "mechanics": "executable",
    "kyr": [
     "item:darkwood_staff"
-   ],
-   "blockers": [
-    "Generated; not executable: type."
    ]
   },
   {
@@ -9588,13 +9561,10 @@
   },
   {
    "id": "equipment:phoenix_talon",
-   "status": "represented",
-   "mechanics": "represented",
+   "status": "integrated",
+   "mechanics": "executable",
    "kyr": [
     "item:phoenix_talon"
-   ],
-   "blockers": [
-    "Generated; not executable: type."
    ]
   },
   {
@@ -9731,24 +9701,18 @@
   },
   {
    "id": "equipment:staff_of_power",
-   "status": "represented",
-   "mechanics": "represented",
+   "status": "integrated",
+   "mechanics": "executable",
    "kyr": [
     "item:staff_of_power"
-   ],
-   "blockers": [
-    "Generated; not executable: type."
    ]
   },
   {
    "id": "equipment:staff_of_the_necromancer",
-   "status": "represented",
-   "mechanics": "represented",
+   "status": "integrated",
+   "mechanics": "executable",
    "kyr": [
     "item:staff_of_the_necromancer"
-   ],
-   "blockers": [
-    "Generated; not executable: type."
    ]
   },
   {

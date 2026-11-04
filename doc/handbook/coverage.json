@@ -146,10 +146,10 @@
     "family": "consumable",
     "concept": "equipment",
     "total": 28,
-    "feasible": 22,
+    "feasible": 28,
     "catalogued": 0,
-    "represented": 13,
-    "executable": 13,
+    "represented": 6,
+    "executable": 20,
     "play-validated": 2
    },
    {
@@ -266,10 +266,10 @@
     "family": "equipment",
     "concept": "equipment",
     "total": 48,
-    "feasible": 42,
+    "feasible": 43,
     "catalogued": 0,
-    "represented": 10,
-    "executable": 37,
+    "represented": 5,
+    "executable": 42,
     "play-validated": 1
    },
    {
@@ -798,11 +798,11 @@
   "phb": {
    "title": "Player's Handbook",
    "counts": {
-    "faithful": 753,
+    "faithful": 765,
     "adapted": 362,
     "represented": 4,
     "kyr": 506,
-    "unsupported": 98,
+    "unsupported": 86,
     "unreachable": 4,
     "data-only": 12
    },
@@ -889,11 +889,11 @@
      "id": "equipment",
      "title": "Equipment",
      "counts": {
-      "faithful": 235,
+      "faithful": 247,
       "adapted": 73,
       "represented": 0,
       "kyr": 56,
-      "unsupported": 23,
+      "unsupported": 11,
       "unreachable": 0,
       "data-only": 0
      }
@@ -994,9 +994,9 @@
   "dmg": {
    "title": "Dungeon Master's Guide",
    "counts": {
-    "faithful": 220,
+    "faithful": 232,
     "adapted": 25,
-    "represented": 49,
+    "represented": 37,
     "kyr": 275,
     "unsupported": 0,
     "unreachable": 0,
@@ -1046,9 +1046,9 @@
      "id": "orsino-world",
      "title": "Appendix: Orsino's world material",
      "counts": {
-      "faithful": 220,
+      "faithful": 232,
       "adapted": 25,
-      "represented": 49,
+      "represented": 37,
       "kyr": 0,
       "unsupported": 0,
       "unreachable": 0,
@@ -6104,7 +6104,7 @@
   {
    "id": "item:arcane_conduit",
    "title": "Arcane Conduit",
-   "status": "unsupported",
+   "status": "faithful",
    "book": "phb",
    "section": "equipment/weapons"
   },
@@ -6174,7 +6174,7 @@
   {
    "id": "item:darkwood_staff",
    "title": "Darkwood Staff",
-   "status": "unsupported",
+   "status": "faithful",
    "book": "phb",
    "section": "equipment/weapons"
   },
@@ -6538,7 +6538,7 @@
   {
    "id": "item:phoenix_talon",
    "title": "Phoenix Talon",
-   "status": "unsupported",
+   "status": "faithful",
    "book": "phb",
    "section": "equipment/weapons"
   },
@@ -6629,14 +6629,14 @@
   {
    "id": "item:staff_of_power",
    "title": "Staff of Power",
-   "status": "unsupported",
+   "status": "faithful",
    "book": "phb",
    "section": "equipment/weapons"
   },
   {
    "id": "item:staff_of_the_necromancer",
    "title": "Staff of the Necromancer",
-   "status": "unsupported",
+   "status": "faithful",
    "book": "phb",
    "section": "equipment/weapons"
   },
@@ -8204,7 +8204,7 @@
   {
    "id": "item:potion_of_barkskin",
    "title": "Potion of Barkskin",
-   "status": "unsupported",
+   "status": "faithful",
    "book": "phb",
    "section": "equipment/gear"
   },
@@ -8218,7 +8218,7 @@
   {
    "id": "item:scroll_of_apocalypse",
    "title": "Scroll of Apocalypse",
-   "status": "unsupported",
+   "status": "faithful",
    "book": "phb",
    "section": "equipment/gear"
   },
@@ -8232,14 +8232,14 @@
   {
    "id": "item:scroll_of_domination",
    "title": "Scroll of Domination",
-   "status": "unsupported",
+   "status": "faithful",
    "book": "phb",
    "section": "equipment/gear"
   },
   {
    "id": "item:scroll_of_fireball",
    "title": "Scroll of Fireball",
-   "status": "unsupported",
+   "status": "faithful",
    "book": "phb",
    "section": "equipment/gear"
   },
@@ -8253,21 +8253,21 @@
   {
    "id": "item:wand_of_cure_minor_wounds",
    "title": "Wand of Cure Minor Wounds",
-   "status": "unsupported",
+   "status": "faithful",
    "book": "phb",
    "section": "equipment/gear"
   },
   {
    "id": "item:wand_of_magic_missile",
    "title": "Wand of Magic Missile",
-   "status": "unsupported",
+   "status": "faithful",
    "book": "phb",
    "section": "equipment/gear"
   },
   {
    "id": "item:wand_of_paralyzing_touch",
    "title": "Wand of Paralyzing Touch",
-   "status": "unsupported",
+   "status": "faithful",
    "book": "phb",
    "section": "equipment/gear"
   },
@@ -16660,7 +16660,7 @@
   {
    "id": "orsino:equipment:arcane_conduit",
    "title": "Arcane Conduit",
-   "status": "represented",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-equipment"
   },
@@ -16723,7 +16723,7 @@
   {
    "id": "orsino:equipment:darkwood_staff",
    "title": "Darkwood Staff",
-   "status": "represented",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-equipment"
   },
@@ -16793,7 +16793,7 @@
   {
    "id": "orsino:equipment:phoenix_talon",
    "title": "Phoenix Talon",
-   "status": "represented",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-equipment"
   },
@@ -16905,14 +16905,14 @@
   {
    "id": "orsino:equipment:staff_of_power",
    "title": "Staff of Power",
-   "status": "represented",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-equipment"
   },
   {
    "id": "orsino:equipment:staff_of_the_necromancer",
    "title": "Staff of the Necromancer",
-   "status": "represented",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-equipment"
   },
@@ -17059,7 +17059,7 @@
   {
    "id": "orsino:consumable:potion_of_barkskin",
    "title": "Potion of Barkskin",
-   "status": "represented",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-consumable"
   },
@@ -17073,7 +17073,7 @@
   {
    "id": "orsino:consumable:scroll_of_apocalypse",
    "title": "Scroll of Apocalypse",
-   "status": "represented",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-consumable"
   },
@@ -17087,14 +17087,14 @@
   {
    "id": "orsino:consumable:scroll_of_domination",
    "title": "Scroll of Domination",
-   "status": "represented",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-consumable"
   },
   {
    "id": "orsino:consumable:scroll_of_fireball",
    "title": "Scroll of Fireball",
-   "status": "represented",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-consumable"
   },
@@ -17108,21 +17108,21 @@
   {
    "id": "orsino:consumable:wand_of_cure_minor_wounds",
    "title": "Wand of Cure Minor Wounds",
-   "status": "represented",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-consumable"
   },
   {
    "id": "orsino:consumable:wand_of_magic_missile",
    "title": "Wand of Magic Missile",
-   "status": "represented",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-consumable"
   },
   {
    "id": "orsino:consumable:wand_of_paralyzing_touch",
    "title": "Wand of Paralyzing Touch",
-   "status": "represented",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-consumable"
   },

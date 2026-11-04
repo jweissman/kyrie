@@ -1973,17 +1973,17 @@ Each thing is carried by one companion. A weapon or armour works only for a call
 
 | Weapon | Damage | Type | Kind | Weight | Notes | Status |
 |---|---|---|---|---|---|---|
-| Arcane Conduit | 2d8 | equipment |  |  |  | Not playable |
+| Arcane Conduit | 2d8 | bludgeoning |  |  |  | Faithful |
 | battleaxe | 1d8 | slashing | axe | heavy |  | Faithful |
 | bec de corbin | 1d8+1 | piercing | polearm | heavy |  | Faithful |
-| Bolt Blade | 1d8 | slashing |  |  |  | Faithful |
+| Bolt Blade | 1d8 | bludgeoning |  |  |  | Faithful |
 | broadsword | 2d4 | slashing | blade | medium |  | Faithful |
 | claymore | 2d4 | slashing | blade | heavy |  | Faithful |
 | club | 1d4 | bludgeoning | club | light |  | Faithful |
 | composite bow | 1d6 | piercing | bow | medium | missile | Faithful |
 | cutlass | 1d6 | slashing | blade | light |  | Faithful |
 | dagger | 1d4 | piercing | blade | light |  | Faithful |
-| Darkwood Staff | 1d6 | equipment |  |  |  | Not playable |
+| Darkwood Staff | 1d6 | bludgeoning |  |  |  | Faithful |
 | dart | 1d3 | piercing | dart | light | missile | Faithful |
 | falchion | 2d4 | slashing | blade | medium |  | Faithful |
 | fine battleaxe | 1d8+1 | slashing | axe | heavy |  | Kyr |
@@ -2035,7 +2035,7 @@ Each thing is carried by one companion. A weapon or armour works only for a call
 | morningstar | 2d4 | piercing | morningstar | medium |  | Faithful |
 | naginata | 1d10+1 | slashing | polearm | heavy | sets against a charge | Faithful |
 | nunchaku | 1d6+2 | bludgeoning | club | light |  | Faithful |
-| Phoenix Talon | 2d8 | equipment |  |  |  | Not playable |
+| Phoenix Talon | 2d8 | bludgeoning |  |  |  | Faithful |
 | pike | 1d10+1 | piercing | polearm | heavy | sets against a charge | Faithful |
 | pole arm | 1d6+1 | piercing | polearm | medium | sets against a charge | Faithful |
 | quarterstaff | 1d6+2 | bludgeoning | staff | medium |  | Faithful |
@@ -2048,11 +2048,11 @@ Each thing is carried by one companion. A weapon or armour works only for a call
 | sling | 1d4 | bludgeoning | sling | light | missile | Faithful |
 | spear | 1d6 | piercing | spear | light | sets against a charge | Faithful |
 | staff | 1d6 | bludgeoning | staff | medium |  | Faithful |
-| Staff of Power | 2d10 | equipment |  |  |  | Not playable |
-| Staff of the Necromancer | 2d6 | equipment |  |  |  | Not playable |
-| Sword of Ages | 1d10 | slashing |  |  |  | Faithful |
-| Sword of Goblinkind | 1d8 | slashing |  |  |  | Faithful |
-| Tirion's Fury | 2d6 | slashing |  |  |  | Faithful |
+| Staff of Power | 2d10 | bludgeoning |  |  |  | Faithful |
+| Staff of the Necromancer | 2d6 | bludgeoning |  |  |  | Faithful |
+| Sword of Ages | 1d10 | bludgeoning |  |  |  | Faithful |
+| Sword of Goblinkind | 1d8 | bludgeoning |  |  |  | Faithful |
+| Tirion's Fury | 2d6 | bludgeoning |  |  |  | Faithful |
 | trident | 1d6+1 | piercing | trident | medium | sets against a charge | Faithful |
 | voulge | 1d10+1 | slashing | polearm | heavy | sets against a charge | Faithful |
 | wakizashi | 1d6+1 | slashing | blade | light |  | Faithful |
@@ -3741,7 +3741,7 @@ Used: Heal one ally for 1d3 (1–3); end poison on that ally.
 
 > A magical deck of cards with many uses.
 
-*Not playable — use: A summon aimed at ally is not supported.*
+*Not playable — use: A summon aimed at enemy is not supported.*
 
 #### Elixir of Strength
 
@@ -3845,13 +3845,13 @@ Used: Heal one ally for 2d4 + 2 (4–10).
 
 #### Potion of Barkskin
 
-*Not playable · gear* · `item:potion_of_barkskin`
+*Faithful · consumable* · `item:potion_of_barkskin`
 
 - Worth: 120
 
-> A vial of thick, green liquid that hardens the drinker's skin, providing additional protection.
+Used: Barkskin, at no cost.
 
-*Not playable — use: Kyr cannot use a cast effect from an item.*
+> A vial of thick, green liquid that hardens the drinker's skin, providing additional protection.
 
 #### Rashers of Bacon
 
@@ -3865,13 +3865,13 @@ Used: Heal one ally for 1d3 (1–3).
 
 #### Scroll of Apocalypse
 
-*Not playable · gear* · `item:scroll_of_apocalypse`
+*Faithful · consumable* · `item:scroll_of_apocalypse`
 
 - Worth: 2000
 
-> An ancient scroll that unleashes catastrophic energy upon all enemies in the area.
+Used: Apocalypse, at no cost.
 
-*Not playable — use: Kyr cannot use a cast effect from an item.*
+> An ancient scroll that unleashes catastrophic energy upon all enemies in the area.
 
 #### Scroll of Cure Disease
 
@@ -3885,23 +3885,23 @@ Used: End diseased on one ally.
 
 #### Scroll of Domination
 
-*Not playable · gear* · `item:scroll_of_domination`
+*Faithful · consumable* · `item:scroll_of_domination`
 
 - Worth: 100
 
-> A magical scroll that allows the caster to control the mind of a target creature.
+Used: Dominate Person, at no cost.
 
-*Not playable — use: Kyr cannot use a cast effect from an item.*
+> A magical scroll that allows the caster to control the mind of a target creature.
 
 #### Scroll of Fireball
 
-*Not playable · gear* · `item:scroll_of_fireball`
+*Faithful · consumable* · `item:scroll_of_fireball`
 
 - Worth: 200
 
-> A magical scroll that allows the caster to unleash a fiery explosion at a target location.
+Used: Fireball, at no cost.
 
-*Not playable — use: Kyr cannot use a cast effect from an item.*
+> A magical scroll that allows the caster to unleash a fiery explosion at a target location.
 
 #### Scroll of Shapechange
 
@@ -3911,37 +3911,37 @@ Used: End diseased on one ally.
 
 > A powerful scroll that allows the caster to transform into a fearsome dragon.
 
-*Not playable — use: Kyr cannot use a cast effect from an item.*
+*Not playable — use: It casts shapechange, which Kyr cannot run.*
 
 #### Wand of Cure Minor Wounds
 
-*Not playable · gear* · `item:wand_of_cure_minor_wounds`
+*Faithful · consumable* · `item:wand_of_cure_minor_wounds`
 
 - Worth: 100
 
-> A slender wand that can channel healing energy to mend minor wounds.
+Used: Cure Minor Wounds, at no cost.
 
-*Not playable — use: Kyr cannot use a cast effect from an item.*
+> A slender wand that can channel healing energy to mend minor wounds.
 
 #### Wand of Magic Missile
 
-*Not playable · gear* · `item:wand_of_magic_missile`
+*Faithful · consumable* · `item:wand_of_magic_missile`
 
 - Worth: 250
 
-> A slender wand that can fire magical darts of force energy at a target.
+Used: Magic Missile, at no cost.
 
-*Not playable — use: Kyr cannot use a cast effect from an item.*
+> A slender wand that can fire magical darts of force energy at a target.
 
 #### Wand of Paralyzing Touch
 
-*Not playable · gear* · `item:wand_of_paralyzing_touch`
+*Faithful · consumable* · `item:wand_of_paralyzing_touch`
 
 - Worth: 150
 
-> A slender wand that can deliver a paralyzing touch to a target.
+Used: Paralyzing Touch, at no cost.
 
-*Not playable — use: Kyr cannot use a cast effect from an item.*
+> A slender wand that can deliver a paralyzing touch to a target.
 
 #### Wand of Polymorph
 
@@ -3951,7 +3951,7 @@ Used: End diseased on one ally.
 
 > A slender wand that can transform a target into a different creature.
 
-*Not playable — use: Kyr cannot use a cast effect from an item.*
+*Not playable — use: It casts Polymorph Other, which Kyr cannot run.*
 
 #### Wand of Wonder
 

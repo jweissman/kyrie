@@ -75,6 +75,7 @@ export class AbilityParser {
     Learn: AbilityParser.Learn,
     Summon: AbilityParser.Summon,
     Travel: AbilityParser.Travel,
+    Cast: AbilityParser.Cast,
     expression: AbilityParser.expression,
     integer: AbilityParser.integer,
   });
@@ -156,6 +157,10 @@ export class AbilityParser {
   }
   static Travel(_travel: ohm.Node, _to: ohm.Node, location: ohm.Node): Effect {
     return { kind: 'travel', location: location.sourceString, target: 'self' };
+  }
+  // Another ability performed at no cost (a scroll of fireball read, a wand of magic missile pointed).
+  static Cast(_cast: ohm.Node, ability: ohm.Node, _on: ohm.Node, target: ohm.Node): Effect {
+    return { kind: 'cast', ability: ability.sourceString, target: target.sourceString as Target };
   }
   static expression(_open: ohm.Node, content: ohm.Node, _close: ohm.Node): Amount {
     return { kind: 'deem', expression: content.sourceString.trim() };

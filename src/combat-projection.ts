@@ -27,9 +27,10 @@ export class CombatProjection {
           && !(original && ItemCatalog.abilities(original)[id]
             && !original.state.learnedAbilities.includes(id)) && !fighter.stock?.[id]),
         conditions: structuredClone(fighter.statuses),
-        // What it used up in the fight is gone from its pack.
+        // What it used up in the fight is gone from its pack; a wand used and not spent keeps the charges it has left.
         ...(original?.state.inventory ? { inventory: structuredClone(original.state.inventory
-          .filter(i => !fighter.spent?.includes(i.id))) } : {}),
+          .flatMap(i => !fighter.spent?.includes(i.id) ? [i] : fighter.charges?.[i.id]
+            ? [{ ...i, charges: fighter.charges[i.id]! }] : [])) } : {}),
         // What levels gained still have to spend, and the skills taken up with them, are no part of a fight, and come
         // back from it as they went in (a warrior's climbing, taken up with a level, was gone at the next watch of a
         // torch burning: found by test/growth.test.ts).
@@ -52,10 +53,23 @@ export class CombatProjection {
       abilities: [...new Set([...creature.base.abilities, ...creature.state.learnedAbilities,
         ...Object.keys(sources)])],
       ...(Object.keys(sources).length ? { abilitySources: sources } : {}),
-      ...(Object.keys(stock).length ? { stock } : {}),
+      ...(Object.keys(stock).length ? { stock } : {}), ...CombatProjection.charges(creature, stock),
       statuses: structuredClone(creature.state.conditions), equipment: ItemCatalog.equipment(creature),
       ...(creature.traits ? { traits: [...creature.traits] } : {}),
       team, cooldowns: {} };
+  }
+  // The uses left in each charged thing it carries into the fight (a wand): its own count, or its kind's when new.
+  static charges(creature: Creature, stock: Record<string, string[]>): { charges?: Record<string, number> } {
+    const carried = new Set(Object.values(stock).flat()), charges = Object.fromEntries((creature.state.inventory ?? [])
+      .filter(i => carried.has(i.id) && ItemCatalog.get(i.definition).charges)
+      .map(i => [i.id, i.charges ?? ItemCatalog.get(i.definition).charges!]));
+    return Object.keys(charges).length ? { charges } : {};
+  }
+  // One charge used of a charged thing: whether any are left in it.
+  static discharge(fighter: Fighter, id: string): boolean {
+    const left = (fighter.charges?.[id] ?? 1) - 1;
+    if (left > 0) { fighter.charges![id] = left; } else { delete fighter.charges?.[id]; }
+    return left > 0;
   }
   static participant(fighter: Fighter, localConditions: Fighter['statuses']): EncounterParticipant {
     return { creatureId: fighter.id, team: fighter.team,

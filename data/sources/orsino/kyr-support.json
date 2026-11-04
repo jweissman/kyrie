@@ -379,7 +379,7 @@
   ],
   "field:masterEquipment.type": [
    "adapted",
-   "The damage type of weapon-class equipment (exact where Kyr has the type); a catalog grouping otherwise."
+   "The damage type of weapon-class equipment where Orsino gives one; where it gives only the item's type (\"equipment\": a darkwood staff, a phoenix talon) the weapon strikes bludgeoning."
   ],
   "field:masterEquipment.itemClass": [
    "cosmetic",
@@ -422,6 +422,14 @@
    "Treasure generation weight."
   ],
   "field:consumables.aspect": [
+   "cosmetic",
+   "Catalog grouping."
+  ],
+  "field:consumables.charges": [
+   "faithful",
+   "A wand's uses before it is spent: each use in a fight is one, and what is left is kept with it (test/fight-carried.test.ts)."
+  ],
+  "field:masterEquipment.aspect": [
    "cosmetic",
    "Catalog grouping."
   ],

@@ -149,6 +149,8 @@ export interface ItemKind {
   weapon?: WeaponStats; armor?: ArmorStats; hooks?: Hooks;
   // What it burns, lit (a lantern burns lamp oil): an item kind whose use is the light it gives.
   fuel?: string;
+  // How many times it can be used before it is spent (a wand of magic missile's twenty); once, unless it says.
+  charges?: number;
   grants?: { ability?: string; skill?: string }; unsupported?: Omissions; source: Source;
   // What of the source a generated item leaves out, and why (a container's capacity: Kyr does not count it).
   omits?: Omissions;

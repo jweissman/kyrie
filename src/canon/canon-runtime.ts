@@ -8,6 +8,7 @@ export interface PerkAt { environment?: string; weapon?: { weight?: string; miss
 export interface RuntimeItem {
   name: string; description: string; slot?: string; capability?: string; ability?: string; use?: string;
   modifiers?: Modifiers; hooks?: Hooks; weapon?: WeaponStats; armorAc?: number; armor?: ItemKind['armor']; fuel?: string;
+  charges?: number;
 }
 
 // Lowers the canonical catalogs into the shapes the executor reads: the ability list for AbilityUse, condition
@@ -67,7 +68,8 @@ export class CanonRuntime {
       ...i.grants?.ability ? { ability: i.grants.ability } : {},
       ...i.modifiers ? { modifiers: i.modifiers } : {}, ...i.hooks ? { hooks: i.hooks } : {},
       ...i.weapon ? { weapon: i.weapon } : {}, ...i.armor ? { armor: i.armor } : {},
-      ...i.use ? { use: i.use } : {}, ...i.fuel ? { fuel: i.fuel } : {} } as RuntimeItem]));
+      ...i.use ? { use: i.use } : {}, ...i.fuel ? { fuel: i.fuel } : {},
+      ...i.charges ? { charges: i.charges } : {} } as RuntimeItem]));
     return this.withAliases('items', own);
   }
   // The permanent modifiers and hooks of the traits a creature holds, with the perks that hold only somewhere (in a

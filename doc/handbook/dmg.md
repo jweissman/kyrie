@@ -3017,7 +3017,7 @@ Orsino's planes, traps, wonders, treasure and magic items, with how much of each
 | Amulet of Protection | amulet | legendary | ac -2 resistAll 0.1 | faithful |
 | Amulet of Vitality | amulet | — | con 1 | faithful |
 | Angelmail | body | legendary | ac -4 resistRadiant 0.5 onAttacked [{"type":"damage","amount":"1d8","kind":"radiant","target":"attacker"}] | faithful |
-| Arcane Conduit | weapon | legendary | bonusSpellDC 5 int 5 | represented |
+| Arcane Conduit | weapon | legendary | bonusSpellDC 5 int 5 | faithful |
 | Belt of Giant Strength | belt | rare | str 6 | faithful |
 | Bolt Blade | weapon | rare | onAttackHit [{"type":"damage","amount":"1d6","kind":"lightning","target":"target"}] | faithful |
 | Bone Armor | body | rare | resistNecrotic 0.4 onAttacked [{"type":"damage","amount":"1d3","kind":"necrotic","target":"attacker"}] | faithful |
@@ -3026,7 +3026,7 @@ Orsino's planes, traps, wonders, treasure and magic items, with how much of each
 | Cloak of Invisibility | cloak | legendary | onCombatStart [{"type":"buff","status":"invisible","target":"self"}] | faithful |
 | Cloak of Protection | cloak | common | ac -1 saveVersusAll 1 | faithful |
 | Crown of Insight | helm | legendary | wis 4 | faithful |
-| Darkwood Staff | weapon | rare | bonusSpellDC 2 int 2 | represented |
+| Darkwood Staff | weapon | rare | bonusSpellDC 2 int 2 | faithful |
 | Dragonhelm | helm | legendary | ac -3 resistFire 0.5 onAttacked [{"type":"damage","amount":"1d6","kind":"fire","target":"attacker"}] | faithful |
 | Dun Rìerdan Waystone | amulet | rare | con 2 resistAll 0.05 revealLocation dun_ri | represented |
 | Galvorn Mail | body | legendary | ac -5 resistAll 0.2 | faithful |
@@ -3036,7 +3036,7 @@ Orsino's planes, traps, wonders, treasure and magic items, with how much of each
 | Ironglass Dagger | dagger | common | bonusDamage 1d2 | faithful |
 | Longsword of Flames | weapon | rare | onAttackHit [{"type":"damage","amount":"1d6","kind":"fire","target":"target"}] | faithful |
 | Mantle of Charisma | cloak | uncommon | cha 4 | faithful |
-| Phoenix Talon | weapon | legendary | onAttackHit [{"type":"damage","amount":"=3d6","kind":"fire","target":"target"},{"type":"heal","amount":"=1d8","target":"self"}] | represented |
+| Phoenix Talon | weapon | legendary | onAttackHit [{"type":"damage","amount":"=3d6","kind":"fire","target":"target"},{"type":"heal","amount":"=1d8","target":"self"}] | faithful |
 | Ring of Major Protection | ring | legendary | ac -3 | faithful |
 | Ring of Minor Protection | ring | uncommon | ac -1 | faithful |
 | Ring of Minor Strength | ring | — | str 1 | faithful |
@@ -3052,8 +3052,8 @@ Orsino's planes, traps, wonders, treasure and magic items, with how much of each
 | Robe of the Archmagi | body | legendary | int 4 wis 4 bonusSpellDC 4 resistAll 0.15 | faithful |
 | Silvered Bracers | bracers | common | ac -1 | faithful |
 | Singing Stone | amulet | uncommon | bonusSpellDC 1 bonusSpellDamage 1 | represented |
-| Staff of Power | weapon | legendary | bonusSpellDC 6 int 6 onAttackHit [{"type":"damage","amount":"=3d6","kind":"force","target":"target"}] | represented |
-| Staff of the Necromancer | weapon | legendary | bonusSpellDC 5 int 5 onAttackHit [{"type":"damage","amount":"=2d6","kind":"necrotic","target":"target"}] | represented |
+| Staff of Power | weapon | legendary | bonusSpellDC 6 int 6 onAttackHit [{"type":"damage","amount":"=3d6","kind":"force","target":"target"}] | faithful |
+| Staff of the Necromancer | weapon | legendary | bonusSpellDC 5 int 5 onAttackHit [{"type":"damage","amount":"=2d6","kind":"necrotic","target":"target"}] | faithful |
 | Sword of Ages | weapon | legendary | onAttackHit [{"type":"damage","amount":"=1d4+1","kind":"true","target":"target"},{"type":"debuff","status":"weakened","target":"target","saveDC":30}] | faithful |
 | Sword of Goblinkind | weapon | rare | dex 3 int 3 onAttackHit [{"type":"debuff","status":"confused","target":"target","saveDC":20}] | faithful |
 | Tirion's Fury | weapon | legendary | onAttackHit [{"type":"damage","amount":"=2d6+2","kind":"true","target":"target"},{"type":"debuff","status":"stun","target":"target","saveDC":35}] | faithful |
@@ -3081,16 +3081,16 @@ Orsino's planes, traps, wonders, treasure and magic items, with how much of each
 | Major Potion of Healing | potion | type heal amount 4d4+4 | faithful |
 | Minor Potion of Healing | potion | type heal amount 2d4+2 | adapted |
 | Flask of Oil | flask | type debuff status oiled saveDC 25 | represented |
-| Potion of Barkskin | potion | type cast spellName Barkskin | represented |
+| Potion of Barkskin | potion | type cast spellName Barkskin | faithful |
 | Rashers of Bacon | food | type heal amount 1d3 | faithful |
-| Scroll of Apocalypse | scroll | type cast spellName Apocalypse | represented |
+| Scroll of Apocalypse | scroll | type cast spellName Apocalypse | faithful |
 | Scroll of Cure Disease | scroll | type removeStatus statusName Disease | faithful |
-| Scroll of Domination | scroll | type cast spellName dominate_person | represented |
-| Scroll of Fireball | scroll | type cast spellName Fireball | represented |
+| Scroll of Domination | scroll | type cast spellName dominate_person | faithful |
+| Scroll of Fireball | scroll | type cast spellName Fireball | faithful |
 | Scroll of Shapechange | scroll | type cast spellName shapechange | represented |
-| Wand of Cure Minor Wounds | wand | type cast spellName Cure Minor Wounds | represented |
-| Wand of Magic Missile | wand | type cast spellName Magic Missile | represented |
-| Wand of Paralyzing Touch | wand | type cast spellName Paralyzing Touch | represented |
+| Wand of Cure Minor Wounds | wand | type cast spellName Cure Minor Wounds | faithful |
+| Wand of Magic Missile | wand | type cast spellName Magic Missile | faithful |
+| Wand of Paralyzing Touch | wand | type cast spellName Paralyzing Touch | faithful |
 | Wand of Polymorph | wand | type cast spellName Polymorph Other | represented |
 | Wand of Wonder | wand | type randomEffect randomEffects [{"type":"cast","spellName":"magic_missile"},{"type":"cast","spellName":"fireball"},{"type":"cast","spellName":"lightning_bolt"},{"type":"cast","spellName":"cone_of_cold"},{"type":"cast","spellName":"invisibility","target":"self"},{"type":"cast","spellName":"flight","target":"self"},{"type":"cast","spellName":"heal","target":"self"},{"type":"cast","spellName":"summon_monster"},{"type":"cast","spellName":"summon_elemental"}] | represented |
 

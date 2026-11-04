@@ -217,7 +217,9 @@ export class Battle {
   private spend(actor: Fighter, ability: string) {
     const [used, ...rest] = actor.stock?.[ability] ?? [];
     if (!used) { return; }
-    actor.stock![ability] = rest; (actor.spent ??= []).push(used);
+    // A wand used is a charge gone from it, and only the last charge spends it.
+    (actor.spent ??= []).push(used); if (CombatProjection.discharge(actor, used)) { return; }
+    actor.stock![ability] = rest;
     if (rest[0]) { actor.abilitySources![ability] = { ...actor.abilitySources![ability]!, id: rest[0] }; }
   }
   // Each creature on the other side decides what it means to do as the round begins, on what it can see then; the

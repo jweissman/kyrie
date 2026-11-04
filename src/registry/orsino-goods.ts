@@ -11,6 +11,8 @@ export interface GoodsHelpers {
   effect(raw: Raw, from: string, target?: Target): Effect[] | string;
   // The Kyr condition an Orsino status name is ("Poison" is poisoned).
   status(name: unknown, from: string): string | undefined;
+  // The Kyr ability an Orsino spell name is, if Kyr can run it.
+  spell(name: unknown): string | undefined;
   weapons: Record<string, ItemKind>;
 }
 
@@ -69,13 +71,16 @@ export class OrsinoGoods {
       return [e.key, { name: String(d.name ?? OrsinoGoods.name(e.key)),
         category: typeof use === 'string' ? 'consumable' as const : 'gear' as const,
         description: String(d.description), ...typeof d.value === 'number' ? { value: d.value } : {},
+        ...typeof use === 'string' && typeof d.charges === 'number' ? { charges: d.charges } : {},
         ...typeof use === 'string' ? { use } : { unsupported: use ?? { use: 'Orsino gives it no effect.' } },
         source: { orsino: e.id, fidelity: typeof use === 'string' ? 'faithful' : 'adapted' } }];
     }));
   }
-  // Whom it is used on: one of the company, unless Orsino aims it at a foe (a flask of alchemist's fire is thrown).
+  // Whom it is used on: one of the company, unless Orsino aims it at a foe (a flask of alchemist's fire is thrown, a
+  // scroll of fireball read at a crowd of them, a wand of magic missile pointed at three).
   private static aim(d: Raw): Target {
-    return Array.isArray(d.target) && d.target[0] === 'enemy' ? 'enemy' : 'ally';
+    return Array.isArray(d.target) && ['enemy', 'enemies', 'randomEnemies'].includes(String(d.target[0])) ? 'enemy'
+      : 'ally';
   }
   // What using it does, as Kyr's effect text ("Heal (3d4) health to ally."), or why Kyr cannot say it.
   private use(effects: Raw[], from: string, target: Target = 'ally'): string | Omissions | undefined {
@@ -86,7 +91,10 @@ export class OrsinoGoods {
       if (typeof typed === 'string') { return { use: typed }; }
       for (const effect of typed) {
         const text = this.text(effect, from);
-        if (!text) { return { use: `Kyr cannot use a ${effect.kind} effect from an item.` }; }
+        if (!text) {
+          return { use: effect.kind === 'cast' ? `It casts ${effect.ability}, which Kyr cannot run.`
+            : `Kyr cannot use a ${effect.kind} effect from an item.` };
+        }
         said.push(text);
       }
     }
@@ -103,6 +111,8 @@ export class OrsinoGoods {
         const status = effect.status || this.helpers.status(effect.pattern, from);
         return status ? `Remove ${status} from ally.` : undefined;
       }
+      // A scroll read, a wand pointed, a potion of a spell drunk: the spell, at no cost.
+      case 'cast': { const id = this.helpers.spell(effect.ability); return id && `Cast ${id} on ${effect.target}.`; }
       default: return undefined;
     }
   }
@@ -129,7 +139,8 @@ export class OrsinoGoods {
     const kind = String(d.kind);
     const weapon = this.helpers.weapons[kind];
     return weapon?.weapon ? weapon : (kind === 'weapon' && typeof d.damage === 'string'
-      ? { name: 'weapon', category: 'weapon', description: '', weapon: { damage: d.damage, type: String(d.type ?? 'slashing') },
+      // Orsino's type here is the item's ("equipment"), not a kind of harm; it strikes as a staff or a club does.
+      ? { name: 'weapon', category: 'weapon', description: '', weapon: { damage: d.damage, type: 'bludgeoning' },
         source: { orsino: 'equipment' } } : undefined);
   }
 }

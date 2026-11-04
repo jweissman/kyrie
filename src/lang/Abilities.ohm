@@ -1,7 +1,7 @@
 KyrAbilities <: Kyr {
   Program = Statement+
   Statement = AbilityAction Save? "."
-  AbilityAction = Conditional | Damage | Healing | Defend | Apply | Remove | Drain | Revive | Kill | Flee | Gain | Learn | Summon | Travel
+  AbilityAction = Conditional | Damage | Healing | Defend | Apply | Remove | Drain | Revive | Kill | Flee | Gain | Learn | Summon | Travel | Cast
   Conditional = "If" expression "," AbilityAction
   Save = "unless" ident "save" "against" Amount
   Damage = "Deal" Amount DamageType "damage" "to" Target
@@ -17,6 +17,7 @@ KyrAbilities <: Kyr {
   Learn = "Teach" ident "to" Target
   Summon = "Summon" ident "for" Target
   Travel = "Travel" "to" ident
+  Cast = "Cast" ident "on" Target
   Span = Turns | Hours
   Turns = "turns" | "turn"
   Hours = "hours" | "hour"

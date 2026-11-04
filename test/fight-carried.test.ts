@@ -55,6 +55,46 @@ describe('what the company carries, in a fight', () => {
   });
 });
 
+// A scroll or a wand casts its spell, as its caster would and at no cost (Orsino's cast effect from an item, which
+// Kyr had held as gear it could not use): a scroll of fireball read at the foes burns them, and is spent.
+describe('a thing that casts a spell', () => {
+  it('casts it in a fight, at no cost, and is spent', () => {
+    expect(ItemCatalog.get('scroll_of_fireball').use).toBe('Cast fireball on enemy.');
+    expect(ItemCatalog.use('wand_of_magic_missile')!.effects).toEqual([{ kind: 'cast', ability: 'magic_missile',
+      target: 'enemy' }]);
+    const content = new Content('scroll');
+    const hero = content.createCreature('hero', { raceId: 'human', classId: 'warrior' });
+    hero.state.inventory = [{ id: 'scroll', definition: 'scroll_of_fireball' }];
+    const foe = content.createCreature('foe', { raceId: 'goblin', classId: 'thief' });
+    const store = new CreatureStore([hero, foe]);
+    const battle = Battle.encounter(store, [{ creatureId: 'hero', team: 'fighters' },
+      { creatureId: 'foe', team: 'goblins' }], { seed: 'scroll' });
+    Carried.toHero(battle);
+    expect(battle.legalCommands()).toContainEqual({ actor: 'hero', ability: 'item-scroll_of_fireball', target: 'foe' });
+    const read = battle.step({ actor: 'hero', ability: 'item-scroll_of_fireball', target: 'foe' });
+    expect(read.some(e => e.type === 'damage' && e.target === 'foe' && e.damageType === 'fire')).toBe(true);
+    expect(store.get('hero').state.inventory).toEqual([]);
+  });
+  it('a wand is a charge spent at each use, and comes out of the fight with what it has left', () => {
+    expect(ItemCatalog.get('wand_of_magic_missile').charges).toBe(20);
+    const content = new Content('wand');
+    const hero = content.createCreature('hero', { raceId: 'human', classId: 'warrior' });
+    hero.state.inventory = [{ id: 'wand', definition: 'wand_of_magic_missile', charges: 2 }];
+    const foe = content.createCreature('foe', { raceId: 'goblin', classId: 'thief' });
+    const store = new CreatureStore([hero, foe]);
+    const battle = Battle.encounter(store, [{ creatureId: 'hero', team: 'fighters' },
+      { creatureId: 'foe', team: 'goblins' }], { seed: 'wand' });
+    Carried.toHero(battle);
+    battle.step({ actor: 'hero', ability: 'item-wand_of_magic_missile', target: 'foe' });
+    Carried.toHero(battle);
+    if (!battle.state.outcome) {
+      expect(CombatModel.build(battle).abilities.find(a => a.id === 'item-wand_of_magic_missile')?.carried).toBe(1);
+    }
+    while (!battle.state.outcome) { battle.step(battle.chosen()); }
+    expect(store.get('hero').state.inventory).toEqual([{ id: 'wand', definition: 'wand_of_magic_missile', charges: 1 }]);
+  });
+});
+
 // What a remedy is kept for, when its use is not offered now (PT-18: moss that "binds a wound better than linen" could
 // not be used on anyone, and nothing said why): none of the company needs it.
 describe('a thing whose use is not offered now', () => {
