@@ -20,6 +20,7 @@ import { PlayerView, type PlayerSnapshot } from '../presentation/player-view';
 import type { Campaign } from '../campaign/campaign';
 import type { Entity } from '../lang/module';
 import { Withheld } from './withheld';
+import { CompanyRecall } from '../presentation/company-recall';
 import { DangerSense } from '../presentation/danger-sense';
 import { ChoiceGrouping, type Grouped } from './choice-grouping';
 import { Passages } from './passages';
@@ -92,7 +93,7 @@ export class ScreenModel {
       unplaced: [...grouped.unplaced, ...[...unclaimed.entries()].flatMap(([id, acts]) =>
         acts.map(a => ({ ...a, label: `${entities.get(id)?.name ?? id}: ${a.label}` })))],
     };
-    return { ...screen, ...TownPlan.of(screen, entities, world, visited) };
+    return { ...screen, ...TownPlan.of(screen, entities, world, { visited, recall: CompanyRecall.of(campaign) }) };
   }
   // What each item is priced at, where prices are measured: its items read by the entities' index, not every entity.
   private static prices(world: World): Map<string, number> {

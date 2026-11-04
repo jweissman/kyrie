@@ -73,6 +73,7 @@ export class PlanSurface {
         <rect className="body" width={w} height={h} rx={c.indoors || c.building ? 2 : 10} />
         {(c.indoors || c.building) && <rect className="floor" x={6} y={6} width={w - 12} height={h - 12} />}
         {c.here && <rect className="ring" x={-6} y={-6} width={w + 12} height={h + 12} rx={6} />}
+        {c.met && <text className="met" x={w / 2} y={h - 8} textAnchor="middle">{Typography.curl(c.met.join(', '))}</text>}
         <text x={w / 2} y={h / 2} textAnchor="middle">
           {TownPlanView.lines(said, 16).map((l, i, all) => <tspan key={i} x={w / 2}
             dy={i === 0 ? `${0.35 - (all.length - 1) * 0.6}em` : '1.2em'}>{Typography.curl(l)}</tspan>)}

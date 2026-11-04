@@ -176,7 +176,9 @@ export interface Screen {
 export interface Plan {
   name: string; kind: 'settlement' | 'building' | 'site' | 'level' | 'under';
   cells: { id: string; name: string; x: number; y: number; indoors: boolean; here: boolean; been: boolean;
-    building?: boolean; door?: boolean }[];
+    building?: boolean; door?: boolean;
+    // Whom the company last spoke with there, by name (see CompanyRecall): what it knows, not where they are now.
+    met?: string[] }[];
   lanes: { from: string; to: string }[];
 }
 export interface Chart {

@@ -2,6 +2,7 @@ import { Spatial } from '../spatial';
 import type { Entity } from '../lang/module';
 import type { World } from '../lang/world';
 import type { Plan, Screen } from './screen-types';
+import type { CompanyRecall } from '../presentation/company-recall';
 
 type Cell = Plan['cells'][number];
 
@@ -17,7 +18,14 @@ export class TownPlan {
   private stands = new Map<Cell, string>();
   private lines = new Map<string, Set<string>>();
   constructor(private entities: Map<string, Entity>, public links: [string, string][]) {}
-  static of(screen: Screen, entities: Map<string, Entity>, world: World, visited: Set<string>): Pick<Screen, 'plan'> {
+  // With whom the company last spoke at each place (recall), when the company's story is to hand.
+  static of(screen: Screen, entities: Map<string, Entity>, world: World, at: { visited: Set<string>;
+    recall?: CompanyRecall }): Pick<Screen, 'plan'> {
+    const drawn = this.drawn(screen, entities, world, at.visited);
+    return at.recall ? this.met(drawn, at.recall, entities) : drawn;
+  }
+  private static drawn(screen: Screen, entities: Map<string, Entity>, world: World, visited: Set<string>)
+    : Pick<Screen, 'plan'> {
     const here = screen.place.id, line = Spatial.ancestry(entities, here);
     if (!here) { return {}; }
     // Under the ground, the rooms known down there, apart from what is above them: the undertown under a town, a
@@ -41,6 +49,14 @@ export class TownPlan {
       return drawn.cells.length > 1 ? { plan: drawn } : {};
     }
     return {};
+  }
+  // Whom the company last spoke with at each place of the plan, or within a building drawn as one cell.
+  private static met(plan: Pick<Screen, 'plan'>, recall: CompanyRecall, entities: Map<string, Entity>): Pick<Screen, 'plan'> {
+    if (!plan.plan) { return plan; }
+    return { plan: { ...plan.plan, cells: plan.plan.cells.map(c => {
+      const met = recall.spokeAt(c.id).map(id => (entities.get(id)?.name ?? id).split(', ')[0]!);
+      return met.length ? { ...c, met } : c;
+    }) } };
   }
   private static under(screen: Screen, entities: Map<string, Entity>, world: World, visited: Set<string>)
     : Pick<Screen, 'plan'> {

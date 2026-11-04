@@ -11,6 +11,8 @@ interface Read {
   visited: Set<string>; seen: Set<string>; texts: Set<string>;
   // Up to the command before the last: whom the company has spoken with, and what it has done where.
   talked: Set<string>; done: Map<string, Set<string>>;
+  // Where the company last spoke with each one it has spoken with: its own experience, not where they are now.
+  spoke: Map<string, string>;
   // Where the company came from to where it was before the last command.
   came?: string;
 }
@@ -23,7 +25,7 @@ export class CompanyRecall {
     let r = this.logs.get(log);
     if (!r || r.actor !== actor || log.length - 1 < r.read || (r.read > 0 && log[r.read - 1] !== r.last)) {
       r = { actor, read: 0, at: new Map(), visited: new Set(), seen: new Set(), texts: new Set(), talked: new Set(),
-        done: new Map() };
+        done: new Map(), spoke: new Map() };
       for (const c of campaign.module.initial) {
         if (c.kind === 'assert' && c.call.name === 'at') { r.at.set(c.call.args[0]!, c.call.args[1]!); }
       }
@@ -46,6 +48,7 @@ export class CompanyRecall {
   private static take(campaign: Campaign, r: Read, event: CampaignEvent) {
     const here = r.at.get(r.actor), whom = this.whom(campaign, event.action);
     if (whom) { r.talked.add(whom); }
+    if (whom && here) { r.spoke.set(whom, here); }
     if (here) { r.done.set(here, (r.done.get(here) ?? new Set()).add(event.action)); }
     for (const p of event.perceptions ?? []) { r.seen.add(p.id); r.texts.add(p.text); }
     VisitedPlaces.moves(event.changes, r.at);
@@ -67,6 +70,8 @@ export class CompanyRecall {
   get came(): string | undefined { return this.lastly.came; }
   // Whether this was seen before the last command, by its id or by its words.
   saw(id: string): boolean { return this.r.seen.has(id); }
+  // Those the company last spoke with at a place, before the last command.
+  spokeAt(place: string): string[] { return [...this.r.spoke].filter(([, at]) => at === place).map(([who]) => who); }
   read(text: string): boolean { return this.r.texts.has(text); }
   // Whether the company has spoken with them, the last command included.
   talkedTo(id: string): boolean { return this.r.talked.has(id) || this.lastly.talked.has(id); }

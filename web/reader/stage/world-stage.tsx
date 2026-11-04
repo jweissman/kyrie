@@ -131,6 +131,7 @@ export class WorldStage {
       <section className="chosen-place" data-id={id} aria-live="polite">
         <p className="label">{what}{cell.been ? ', where you have been' : ', not yet been to'}</p>
         <h2 className="to">{Typography.curl(Words.upper(cell.name))}</h2>
+        {cell.met && <p className="met">{Typography.curl(`Where you spoke with ${Words.listed(cell.met)}.`)}</p>}
         {go ? <Act.View choice={go} draw={draw} className="led-act first go-there">
           <span className="n">{Typography.curl(go.label)}</span>
           {go.disabled && <span className="why-said">{Typography.curl(go.disabled)}</span>}

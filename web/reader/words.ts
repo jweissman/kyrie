@@ -17,6 +17,8 @@ export class Words {
   static readonly ordinals = ['first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh', 'eighth', 'ninth',
     'tenth', 'eleventh', 'twelfth'];
   static upper(s: string): string { return s.charAt(0).toUpperCase() + s.slice(1); }
+  // "Bask", "Bask and Mik", "Bask, Mik and Ulf".
+  static listed(xs: string[]): string { return xs.length < 2 ? xs.join('') : `${xs.slice(0, -1).join(', ')} and ${xs.at(-1)}`; }
   // A note set apart by what it is (see Narrator): something learned, an aim taken up, or one as it stands now; or
   // something heard, borne out by coming to it.
   static readonly noted = /^(Noted|Aim|Aim now|Borne out): /;

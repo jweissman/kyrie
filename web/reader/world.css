@@ -91,3 +91,5 @@
 .plan-surface.kind-settlement .place.in.unvisited .body { fill: #202228; }
 .plan-surface.kind-under .lane { stroke: rgba(236, 230, 217, .12); stroke-width: 9; }
 .plan-surface.kind-under .place .body { fill: #18191e; }
+.plan-surface text.met { font: italic 400 12px var(--told); fill: var(--verdigris); }
+.chosen-place .met { margin: 0; font: italic 400 15px/1.45 var(--told); color: var(--dim); }
