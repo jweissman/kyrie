@@ -31,11 +31,8 @@ export class Sheet {
       <article className="journal" data-region="knowledge">
         <h2>Notes</h2>
         <h3>What you mean to do</h3>
-        {screen.objectives.length || screen.deadlines.length
-          ? <ul className="aims">{Sheet.ordered(app, [...screen.deadlines, ...screen.objectives])
-            .map(o => <Sheet.Aim key={o} app={app} aim={o} />)}</ul>
-          : <p className="none">{Sheet.idle(screen, facts)}</p>}
-        <Sheet.Going app={app} />
+        {screen.objectives.length || screen.deadlines.length ? <Sheet.Aims app={app} /> : <p className="none">
+          {Sheet.idle(screen, facts)}</p>}
         {screen.done.length > 0 && <div data-region="done"><h3>Seen through</h3>
           <ul>{screen.done.map(d => <li key={d}>{d}</li>)}</ul></div>}
         {kinds.map(([kind, title]) => {
@@ -59,28 +56,29 @@ export class Sheet {
     const followed = app.state.frame && Followed.of(app.state.frame.screen, app.state.followed);
     return followed ? [followed, ...aims.filter(a => a !== followed)] : aims;
   }
+  // The aim followed, and the rest folded under it, so that a company newly come is not handed ten things at once (the
+  // owner, 4 November).
+  static Aims({ app }: { app: ReaderApp }) {
+    const screen = app.state.frame!.screen, [first, ...rest] = Sheet.ordered(app, [...screen.deadlines, ...screen.objectives]);
+    return <>
+      <ul className="aims"><Sheet.Aim app={app} aim={first!} /></ul>
+      {rest.length > 0 && <details className="aims-more">
+        <summary>{rest.length === 1 ? 'One more you could take up' : `${rest.length} more you could take up`}</summary>
+        <ul className="aims">{rest.map(o => <Sheet.Aim key={o} app={app} aim={o} />)}</ul></details>}
+    </>;
+  }
+  // An aim, to follow or not, and where it names a place the company knows, that place on the map: going anywhere is the
+  // map's (the owner, 4 November: no setting out from any page but the world map's).
   static Aim({ app, aim }: { app: ReaderApp; aim: string }) {
     const place = Aims.named(app.state.frame?.screen.destinations ?? [], aim, 0);
     const screen = app.state.frame?.screen, following = !!screen && Followed.of(screen, app.state.followed) === aim;
     return <li className={`aim-card${following ? ' followed' : ''}`}><span>{Typography.curl(aim)}</span>
-      <button type="button" className="option follow" data-action="follow" aria-pressed={following}
-        onClick={() => app.follow(following ? undefined : aim)}>{following ? 'Following' : 'Follow this'}</button>
-      {place && <button type="button" className="act set-out" data-action="set-out" data-id={place.id}
-        onClick={() => app.choose(MenuModel.journey(place))}>{`Set out for ${place.name}`}</button>}</li>;
-  }
-  // Where the company could set out for, nearest first, each with how long and setting out: the notes are a plan, not
-  // a ledger (the play-structure investigation's PT-25).
-  // The places heard of or been to first, then the towns the roads go to.
-  static Going({ app }: { app: ReaderApp }) {
-    const screen = app.state.frame?.screen, leads = screen?.destinations ?? [], roads = screen?.roads ?? [];
-    if (!leads.length && !roads.length) { return null; }
-    return <div className="going" data-region="going"><h3>Where you could go</h3>
-      <ul>{[...leads, ...roads].map(d => <li key={d.id} className={roads.includes(d) ? 'road' : undefined}>
-        <span className="to">{d.toward ? `Toward ${d.name}` : d.name}</span>
-        <span className="how">{Words.span(d.minutes)}{d.toward ? `, as far as ${d.toward}` : ''}
-          {roads.includes(d) ? ', by the roads' : ''}</span>
-        <button type="button" className="act set-out" data-action="set-out" data-id={d.id}
-          onClick={() => app.choose(MenuModel.journey(d))}>Set out</button></li>)}</ul></div>;
+      <span className="aim-acts"><button type="button" className="option follow" data-action="follow"
+        aria-pressed={following} onClick={() => app.follow(following ? undefined : aim)}>
+        {following ? 'Following' : 'Follow this'}</button>
+      {place && <button type="button" className="option on-map" data-action="aim-map" data-id={place.id}
+        onClick={() => { app.follow(aim); app.choose(MenuModel.country); }}>{`${place.name}, on the map`}</button>}
+      </span></li>;
   }
   // Nothing asked: yet, or any more, now something has been seen through; and what has been heard of is there to
   // follow (the follow-up review read "Nothing is asked of you yet" over a family's story finished and a hall heard of).

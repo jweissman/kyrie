@@ -40,9 +40,9 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the map and the notes, to plan with
     await driver.settle();
     const after = await driver.inspect();
     expect([after.mode, after.place?.id !== from]).toEqual(['explore', true]);
-    // The notes say where else the company could go, each with setting out.
+    // Going anywhere is the map's alone: the notes set out for nowhere (the owner, 4 November).
     await driver.mode('j');
-    expect(await page.locator('.going [data-action="set-out"]').count()).toBeGreaterThan(0);
+    expect(await page.locator('.journal [data-action="set-out"]').count()).toBe(0);
     expect(errors).toEqual([]);
     await page.close();
   }, 240000);

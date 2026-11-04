@@ -8,15 +8,16 @@ export class Followed {
   private static key(screen: Screen): string {
     return `kyrie:followed:${screen.party[0]?.name ?? ''}:${screen.path[0]?.name ?? ''}`;
   }
-  // The aim followed, while it is still one of the company's aims.
+  // The aim followed, while it is still one of the company's aims; until one is chosen, the first, which is why the
+  // company came (the owner, 4 November: the page said "Your aim" of one the notes said was not followed). One the
+  // player stopped following stays unfollowed.
   static of(screen: Screen, chosen?: string): string | undefined {
-    const aim = chosen ?? this.kept(screen);
+    const kept = this.kept(screen), aim = chosen ?? (kept === undefined ? screen.objectives[0] : kept);
     return aim && screen.objectives.includes(aim) ? aim : undefined;
   }
   static keep(screen: Screen, aim: string | undefined) {
-    try {
-      if (aim) { localStorage.setItem(this.key(screen), aim); } else { localStorage.removeItem(this.key(screen)); }
-    } catch { /* A browser that keeps nothing follows for this session only. */ }
+    try { localStorage.setItem(this.key(screen), aim ?? ''); } catch { /* A browser that keeps nothing follows for this
+      session only. */ }
   }
   private static kept(screen: Screen): string | undefined {
     try { return localStorage.getItem(this.key(screen)) ?? undefined; } catch { return undefined; }

@@ -21,8 +21,9 @@ describe('the names of the adventures one world holds', () => {
       }
       expect(AdventureNames.clashes(root)).toEqual(['Person: Coyle: Agnes Coyle (corrow), Dennet Coyle (ghessil)']);
     } finally { rmSync(root, { recursive: true, force: true }); }
+    // (The lint reads every module's files for its vocabulary: two minutes and more on CI once the Book of Faces came.)
     expect((await KyrLint.run(['test/fixtures/probes/pains/probe.campaign.json'])).names).toEqual([]);
-  }, 120000);
+  }, 300000);
   // A kind of thing an adventure declares (Kind letter_kind "a letter" is gear) is one catalog's for the whole game:
   // What Tessary Owes and A Parliament of Books each declared a letter_kind, and a career that went from Tessary to
   // Calamy could not install Calamy (the library tour, seed kite).

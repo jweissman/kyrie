@@ -210,6 +210,14 @@
 .plates > li.lead .act.plate { padding-top: 14px; padding-bottom: 14px; border-color: rgba(239, 159, 174, .45);
   background: linear-gradient(90deg, rgba(239, 159, 174, .08), transparent 70%), var(--raised); }
 .plates > li.lead .act.plate.faced { grid-template-columns: 64px minmax(0, 1fr); }
+/* Every plate alike (the owner, 4 November): a face or an initial, who they are, and what touching it does; the one
+   the glance would have led with is edged in gold. */
+.act.plate.faced:has(> .verb) { grid-template-columns: 48px minmax(0, 1fr) auto; }
+.plates > li.lead .act.plate.faced:has(> .verb) { grid-template-columns: 64px minmax(0, 1fr) auto; }
+.act.plate > .verb { font: 500 11px/1 var(--do); letter-spacing: .14em; text-transform: uppercase; color: var(--faint); }
+.act.plate:hover > .verb, .act.plate.sel > .verb, .act.plate:focus-visible > .verb { color: var(--gold); }
+.plate .face.blank { display: grid; place-items: center; font: 300 26px/1 var(--told); color: var(--dim); }
+.act.plate.led { border-color: var(--gold-line); background: linear-gradient(90deg, var(--gold-glow), transparent 70%), var(--raised); }
 .plates > li.lead .plate .face { width: 64px; height: 78px; box-shadow: 0 0 0 1px var(--rose); }
 .plates > li.lead .plate .who .n { font-size: 19px; }
 /* A busy place's people, a line each, two to a row. */

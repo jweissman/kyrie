@@ -13,14 +13,16 @@ export class OwnWords {
     if (!pairs) {
       pairs = new Set(module.actions.filter(a => a.speaker && a.schema !== 'ask').flatMap(a => a.success
         .filter(c => c.kind === 'assert' && c.call.name === 'knows' && c.call.args[0] === 'actor')
-        .map(c => `${a.speaker}|${c.call.args[1]}`)
-        .concat(this.module(a.id) && this.module(a.id) !== 'region' ? [`${a.speaker}|${this.module(a.id)}__`] : [])));
+        .map(c => `${a.speaker}|${c.call.args[1]}`)));
       this.taught.set(module, pairs);
     }
     return pairs;
   }
+  // A going-on's own topic counts while it is offered: one of the tower's still to come had hidden the shared question
+  // of its opened graves from the start (kite, 4 November).
   static unasked(module: Module, offered: readonly Operator[]): readonly Operator[] {
-    const pairs = this.of(module);
+    const pairs = new Set([...this.of(module), ...offered.filter(a => a.speaker && a.schema !== 'ask')
+      .flatMap(a => { const m = this.module(a.schema ?? a.id); return m && m !== 'region' ? [`${a.speaker}|${m}__`] : []; })]);
     if (!pairs.size) { return offered; }
     return offered.filter(a => a.schema !== 'ask' || !(pairs.has(`${a.bindings?.informant}|${a.bindings?.statement}`)
       || pairs.has(`${a.bindings?.informant}|${this.module(a.bindings?.statement ?? '')}__`)));

@@ -93,8 +93,9 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a place at a glance', () => {
         expect([now.mode, now.place?.id, await page.locator('[aria-modal="true"]').count()]).toEqual(['explore', at, 1]);
         await d.key('Escape');
       }
-      // The first thing led with, by its key (or its touch): your brother.
-      if (pointer) { await d.click('[data-promoted="1"] [data-action="choice"]'); } else { await d.key('1'); }
+      // Your brother, by his plate, which the glance edges as the one it would lead with: someone in sight is talked to
+      // by their plate, not by a lead above it as well (the owner, 4 November).
+      await d.click('[data-region="glance"] .act.plate.led');
       expect((await d.inspect()).mode).toBe('talk');
       expect(await page.locator('.dialogue').count()).toBe(1);
       await d.away();
@@ -139,7 +140,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a place at a glance', () => {
     await Glancing.shot(page, 'thorn-hole');
     await Glancing.act(page, d, (await Glancing.way('region__w11', 'region__t2'))[0]!);
     expect((await d.inspect()).glance!.acts.map(a => a.why)).toContain('own');
-    expect(await page.locator('[data-region="glance"] .glance-row li.step').count()).toBeGreaterThan(1);
+    // And no step across the country on the page: that is the map's alone (the owner, 4 November).
+    expect(await page.locator('[data-region="glance"] .glance-row li.step').count()).toBe(0);
     await Glancing.shot(page, 'fells');
     expect(errors).toEqual([]);
     await page.close();

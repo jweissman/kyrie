@@ -30,6 +30,12 @@ export class GlanceStage {
     // Hurt on the way in (a trap's blade), what happened comes before the place (see Told.Place).
     const stayed = !leaf.moved && !!told, struck = !stayed && !!told && told.lines.some(l => Told.harm.test(l.text));
     const ready = Moments.ready(screen);
+    // Someone here in sight is talked to by their own plate, not by a lead above it as well (the owner, 4 November:
+    // "Talk to Lambert" over a plate of Lambert that did nothing): the lead goes, and the plate is edged as it would be.
+    const talked = new Set(GlanceStage.cast(app).flatMap(x => x.choices.filter(c => /#talk$/.test(c.id)).map(c => c.id)));
+    const talks = (a: Promoted) => talked.has(GlanceStage.choice(app, a.choice)?.id ?? '');
+    const acts = g.acts.filter(a => !talks(a));
+    const leading = new Set(g.acts.filter(talks).map(a => GlanceStage.choice(app, a.choice)?.id));
     return (
       <div className={`glance arrival-${g.arrival}`} data-region="glance" data-arrival={g.arrival}>
         {leaf.recap && (leaf.recap.aim || leaf.recap.last) && <Told.Recap recap={leaf.recap} />}
@@ -50,8 +56,9 @@ export class GlanceStage {
         {!s.pending && told && g.after?.next && !g.after.next.choice && <p className="opened-now" data-id="next">
           <span className="label">Now open</span>{` ${Typography.curl(g.after.next.label)}`}</p>}
         <GlanceStage.Aim app={app} said={g.aim} />
-        <GlanceStage.Acts app={app} draw={draw} acts={g.acts} />
-        <GlanceStage.People app={app} draw={draw} led={new Set(g.acts.map(a => GlanceStage.choice(app, a.choice)?.id))} />
+        <GlanceStage.Acts app={app} draw={draw} acts={acts} />
+        <GlanceStage.People app={app} draw={draw} led={new Set(acts.map(a => GlanceStage.choice(app, a.choice)?.id))}
+          leading={leading} />
         <GlanceStage.Row app={app} draw={draw} glance={g} />
         {g.need && <p className="need" data-id="need">{g.need.map(n => <span key={n}>{Typography.curl(n)}</span>)}</p>}
         <GlanceStage.Keys app={app} />
@@ -63,29 +70,39 @@ export class GlanceStage {
   // to be asked, the rest after; a few at most, the others under Look about, which is for a crowd.
   // A choice the glance leads with already (Talk to Falkor) is not drawn again on their plate: one choice is one
   // button on the page, and the keys and a browser's driver find it once.
-  static People({ app, draw, led }: { app: ReaderApp; draw: Draw; led: Set<string | undefined> }) {
-    const scene = app.menu.scene;
-    const people = (scene?.subjects ?? []).filter(x => x.kind === 'person' && !x.danger)
-      .map(x => ({ ...x, choices: x.choices.filter(c => !led.has(c.id)) }));
-    if (!people.length) { return null; }
-    const rank = (x: SceneSubject) => (x.stake ? 0 : GlanceStage.sells(x.choices) ? 1 : x.asked ? 2 : 3);
-    const shown = [...people].sort((a, b) => rank(a) - rank(b)).slice(0, GlanceStage.most), more = people.length - shown.length;
+  static People({ app, draw, led, leading }: { app: ReaderApp; draw: Draw; led: Set<string | undefined>;
+    leading: Set<string | undefined> }) {
+    const all = GlanceStage.people(app);
+    if (!all.length) { return null; }
+    const shown = GlanceStage.cast(app).map(x => ({ ...x, choices: x.choices.filter(c => !led.has(c.id)) }));
+    const more = all.length - shown.length;
     return (
       <div className="cast glance-cast" data-line="People here">
         <ul className="plates">{shown.map(x => <li key={x.id} data-subject={x.id} className="brief">
-          <PlaceStage.Plate subject={x} draw={draw} brief /></li>)}</ul>
+          <PlaceStage.Plate subject={x} draw={draw} brief led={x.choices.some(c => leading.has(c.id))} /></li>)}</ul>
         {more > 0 && <p className="more-here">{`And ${more} more, under Look about.`}</p>}
       </div>
     );
   }
   static readonly most = 6;
+  private static people(app: ReaderApp): SceneSubject[] {
+    return (app.menu.scene?.subjects ?? []).filter(x => x.kind === 'person' && !x.danger);
+  }
+  // Those shown by their plates: whom the company has a stake in, then whoever sells, then whoever has something to be
+  // asked, the rest after, a few at most.
+  static cast(app: ReaderApp): SceneSubject[] {
+    const rank = (x: SceneSubject) => (x.stake ? 0 : GlanceStage.sells(x.choices) ? 1 : x.asked ? 2 : 3);
+    return [...GlanceStage.people(app)].sort((a, b) => rank(a) - rank(b)).slice(0, GlanceStage.most);
+  }
   private static sells(choices: Choice[]): boolean {
     return choices.some(c => /^Buy\b/.test(c.label) || GlanceStage.sells(c.children ?? []));
   }
   // The aim followed, on every page, with the way to it where the way is known (the owner, 3 November: a clearer
   // quest followed); with none followed, the aim this place is about, when it wants saying.
   static Aim({ app, said }: { app: ReaderApp; said?: string }) {
-    const screen = app.state.frame!.screen, followed = Followed.of(screen, app.state.followed), aim = followed ?? said;
+    // Not on the first page, before anything is done: the opening has just told it.
+    const screen = app.state.frame!.screen, followed = screen.elapsed ? Followed.of(screen, app.state.followed) : undefined;
+    const aim = followed ?? said;
     // Followed, it opens the map on itself (see MapView.aim).
     if (!aim) { return null; }
     const place = followed && Aims.named(screen.destinations ?? [], followed, 0);

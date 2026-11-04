@@ -119,6 +119,13 @@ export class Told {
   }
   // What came of something done: what the company did, when it did it where it stands, in its own words; then what
   // happened, and what it came to know or spent.
+  // What can be gone to from what is seen: in a drawn country, by the map, which opens on it (the owner, 4 November:
+  // no setting out from any page but the world map's); elsewhere, the journey there.
+  private static going(app: ReaderApp | undefined) {
+    const screen = app?.state.frame?.screen, map = !!screen && MenuModel.inside(screen);
+    return [...screen?.destinations ?? [], ...screen?.roads ?? []]
+      .map(d => ({ id: d.id, name: d.name, journey: map ? MenuModel.country : MenuModel.journey(d) }));
+  }
   static Happened({ exchange, said, ready, app }: { exchange: Exchange; said?: boolean; ready?: string; app?: ReaderApp }) {
     const echo = said && exchange.said ? Words.echo(Words.lastSaid(exchange.said)) : undefined;
     const { plain, rest, sights, ended, levels } = Moments.of(exchange.lines);
@@ -128,9 +135,8 @@ export class Told {
         {echo && !Words.restates(echo, exchange.lines[0]?.text) && <p className="you">{Typography.curl(echo)}</p>}
         {plain.map((l, i) => Check.of(l, i)
           ?? <p key={i} className={l.kind}>{Typography.curl(l.text)}</p>)}
-        {sights.length > 0 && <Panorama.View sights={sights} going={[...app?.state.frame?.screen.destinations ?? [],
-          ...app?.state.frame?.screen.roads ?? []].map(d => ({ id: d.id, name: d.name, journey: MenuModel.journey(d) }))}
-          choose={app && (c => app.choose(c))} />}
+        {sights.length > 0 && <Panorama.View sights={sights} going={Told.going(app)} choose={app && (c => app.choose(c))}
+          onMap={!!app?.state.frame && MenuModel.inside(app.state.frame.screen)} />}
         {rest.map((l, i) => Check.of(l, `r${i}`)
           ?? <p key={`r${i}`} className={l.kind}>{Typography.curl(l.text)}</p>)}
         {ended && <Moments.SeenThrough ended={ended} ready={ready} />}

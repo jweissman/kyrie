@@ -57,7 +57,8 @@ export class Panorama {
     return notes.filter(n => !sights.some(s => s.place !== s.seen && this.plain(n) === this.plain(`Noted: ${s.place}: ${s.seen}`)));
   }
   // Each way, as a row of the compass: where to set out for it, when it is somewhere the company could set out for.
-  static View({ sights, going = [], choose }: { sights: Sight[]; going?: Going[]; choose?: (c: Choice) => void }) {
+  static View({ sights, going = [], choose, onMap }: { sights: Sight[]; going?: Going[]; choose?: (c: Choice) => void;
+    onMap?: boolean }) {
     return (
       <div className="panorama" role="group" aria-label="What can be seen from here" data-id="panorama">
         <p className="kicker">What can be seen from here</p>
@@ -75,7 +76,7 @@ export class Panorama {
             <span className="off">{s.distance}{d?.journey.minutes ? ` · ${Words.span(d.journey.minutes)} by the ways you know`
               : ''}</span>
             {d && choose && <button type="button" className="act set-out" data-action="set-out" data-id={d.id}
-              title={d.journey.label} onClick={() => choose(d.journey)}>Set out</button>}
+              title={d.journey.label} onClick={() => choose(d.journey)}>{onMap ? 'On the map' : 'Set out'}</button>}
           </li>;
         })}</ol>
       </div>

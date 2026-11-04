@@ -112,9 +112,11 @@ export class MenuModel {
   // landmark, a site, the town on this stretch of country). What crosses into other country, the next stretch of the
   // wild, the next hex of the road, the marches, is the map's, and only the map's (the owner, 3 November: no choice on
   // the page goes beyond the hex the company is in; the way toward the aim had stayed, and the town's roads).
+  // A step across the open country (West: open fields) is the map's as well (the owner, 4 November: no north-west or
+  // north-east on a page of the wild).
   private static stays(c: Choice, screen: Frame['screen']): boolean {
     const exit = screen.exits.find(e => e.id === c.id);
-    return !!c.local || !exit || !['travel', 'cross_plane'].includes(exit.transition);
+    return !!c.local || !exit || (!['travel', 'cross_plane'].includes(exit.transition) && !exit.bearing);
   }
   // Going out of a town or a site into the country: the map, where the country is crossed.
   static readonly country: Choice = { id: 'view:map', label: 'Open the world map', tone: 'way', command: 'view:map' };

@@ -110,13 +110,6 @@ kbd { font: 500 10.5px/1 var(--do); color: var(--dim); border: 1px solid var(--e
 .sheet .back { margin: 0 0 26px; }
 .story h3 { margin-top: 34px; }
 .story .you { font: 400 14px/1.4 var(--do); color: var(--grey); margin: 14px 0 4px; }
-.journal .going ul { list-style: none; padding: 0; }
-.journal .going li { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; align-items: baseline; gap: 0 14px;
-  padding: 7px 0; border-top: 1px solid var(--hair); margin: 0; }
-.journal .going .to { font: 500 16px var(--do); }
-.journal .going .how { font: 400 14px var(--do); color: var(--grey); }
-.journal .going .set-out { font: 500 14px var(--do); text-decoration: none; padding: 4px 10px 5px; border: 1px solid var(--ink); }
-.journal .going .set-out:hover, .journal .going .set-out:focus-visible { background: var(--ink); color: var(--paper); }
 .journal li.learned, .story .learned { border-left: 4px solid var(--yellow); padding-left: 10px; list-style: none; margin-left: -1.1em; }
 /* The notes as a game's book, not a document: aims and what is known as cards, no bullets (the owner's report). */
 .journal ul { list-style: none; padding: 0; }
@@ -124,7 +117,12 @@ kbd { font: 500 10.5px/1 var(--do); color: var(--dim); border: 1px solid var(--e
   background: var(--paper); font: 400 16px/1.45 var(--told); }
 .journal .aims .aim-card { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 14px;
   border-left: 3px solid var(--yellow); }
-.journal .aims .set-out { font: 500 14px var(--do); text-decoration: none; padding: 4px 10px 5px; border: 1px solid var(--ink); }
+.journal .aims .aim-acts { display: flex; flex-wrap: wrap; gap: 8px; }
+/* The rest of what the company could take up, folded under the aim it follows (the owner, 4 November). */
+.journal .aims-more { margin: 4px 0 18px; }
+.journal .aims-more > summary { cursor: pointer; font: 500 13px var(--do); letter-spacing: .08em; text-transform: uppercase;
+  color: var(--grey); padding: 6px 0; }
+.journal .aims-more[open] > summary { margin-bottom: 8px; }
 .journal .keep { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 30px; }
 
 /* The head of a book's page: where, and which book. */
