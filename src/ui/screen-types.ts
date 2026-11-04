@@ -40,6 +40,8 @@ export interface PlaceRef { id: string; name: string; kind: string; underground?
 export interface ExitRow {
   id: string; kind: 'exit'; name: string; destination: PlaceRef; transition: Transition; passage: Passage;
   scope?: string; via?: string; blocked?: string; visited: boolean; acts: Act[]; way?: string; hazard?: string;
+  // What the hazard on it does to whoever goes first, on an average roll.
+  harm?: number;
   // A way about the settlement or site the company is in (a lane to the hall, a shaft to the level below), however
   // long it takes: not a way out.
   local?: boolean;

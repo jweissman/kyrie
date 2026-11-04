@@ -1,3 +1,4 @@
+import { Harm } from '../rules/harm';
 import { ModuleWriter } from '../lang/module-writer';
 import { KeptPredicates } from '../lang/kept-predicates';
 import { ObservationText } from '../lang/observation-text';
@@ -10,6 +11,8 @@ export type WayStatus = 'open' | 'blocked' | 'hazard' | 'guarded' | 'needs';
 export interface WayInfo {
   passage: string; name: string; from: string; to: string; oneWay: boolean; status: WayStatus;
   reason?: string; via?: string;
+  // What a hazard on it does to whoever goes first, on an average roll (see Harm).
+  harm?: number;
 }
 
 // Reads first-class passages (connects/on/guards/needs/revealedBy) for the player's side of the world: which ways the
@@ -106,7 +109,9 @@ export class PassageModel {
       this.call('harmsWhen', '?h', '?s')));
     if (hazard && LocalObservations.noticed(this.world, hazard['?h']!, this.actor)) {
       const h = hazard['?h']!;
-      return { ...base, status: 'hazard', via: this.label(h), reason: this.describe(h) ?? `${this.label(h)} is dangerous.` };
+      const effect = (this.entities.get(this.world.one('hurtsWith', h) ?? '') as { effect?: string } | undefined)?.effect;
+      return { ...base, status: 'hazard', via: this.label(h), reason: this.describe(h) ?? `${this.label(h)} is dangerous.`,
+        ...effect ? { harm: Harm.average(effect) } : {} };
     }
     // A way that needs something is open to a company with any one of what it needs (climbing, or a rope), and one
     // that needs something going to this end only, so too (GTR-X08).

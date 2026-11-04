@@ -10,7 +10,7 @@ import { Depth } from './depth';
 export interface ExitActs { acts: Act[]; passage?: Passage; via?: string }
 interface Known {
   destination: string; passage: Passage; via?: string; blocked?: string; name?: string; mode?: Transition;
-  way?: string; hazard?: string; oneWay?: boolean; unmarked?: boolean;
+  way?: string; hazard?: string; harm?: number; oneWay?: boolean; unmarked?: boolean;
 }
 
 // Exits the party knows from its current place. Movement legality still comes only from the command list:
@@ -108,7 +108,7 @@ export class Passages {
       const passage: Passage = w.status === 'guarded' ? 'guarded' : w.status === 'hazard' ? 'hazard'
         : w.status === 'needs' ? 'climb' : w.status === 'blocked' ? 'door' : 'open';
       rows.push({ destination: w.to, passage, way: w.name, ...(w.via ? { via: w.via } : {}),
-        ...w.oneWay ? { oneWay: true } : {}, ...this.unmarked(w.passage) ? { unmarked: true } : {}, ...(w.status === 'hazard' ? { hazard: w.reason! } : {}),
+        ...w.oneWay ? { oneWay: true } : {}, ...this.unmarked(w.passage) ? { unmarked: true } : {}, ...(w.status === 'hazard' ? { hazard: w.reason!, ...w.harm ? { harm: w.harm } : {} } : {}),
         ...(['blocked', 'guarded', 'needs'].includes(w.status) ? { blocked: w.reason! } : {}) });
     }
     for (const e of spatial?.exits ?? []) {
@@ -139,7 +139,8 @@ export class Passages {
     for (const [destination, g] of grouped) {
       const prior = merged.get(destination);
       merged.set(destination, { destination, passage: g.passage ?? prior?.passage ?? 'open',
-        ...(prior?.way ? { way: prior.way } : {}), ...(prior?.hazard ? { hazard: prior.hazard } : {}),
+        ...(prior?.way ? { way: prior.way } : {}),
+        ...(prior?.hazard ? { hazard: prior.hazard, ...prior.harm ? { harm: prior.harm } : {} } : {}),
         ...(g.via ?? prior?.via ? { via: g.via ?? prior?.via } : {}), ...(prior?.name ? { name: prior.name } : {}),
         ...(prior?.mode ? { mode: prior.mode } : {}), ...(prior?.blocked ? { blocked: prior.blocked } : {}),
         ...prior?.oneWay ? { oneWay: true } : {}, ...prior?.unmarked ? { unmarked: true } : {} });
@@ -161,7 +162,8 @@ export class Passages {
       destination: this.place(k.destination), transition, passage: k.passage, ...local ? { local } : {},
       ...(scope ? { scope } : {}), ...(k.via ? { via: k.via } : {}),
       ...(acts.length && !k.blocked ? {} : { blocked: k.blocked ?? 'Not possible from here right now.' }),
-      ...(k.way ? { way: k.way } : {}), ...(k.hazard ? { hazard: k.hazard } : {}), ...several ? { several } : {},
+      ...(k.way ? { way: k.way } : {}), ...(k.hazard ? { hazard: k.hazard, ...k.harm ? { harm: k.harm } : {} } : {}),
+      ...several ? { several } : {},
       ...k.oneWay ? { oneWay: true } : {}, ...k.unmarked && !visited.has(k.destination) ? { unmarked: true } : {},
       visited: visited.has(k.destination), acts };
   }

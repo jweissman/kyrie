@@ -107,7 +107,16 @@ export class RegionMarvels {
       `    Hurts with ${site.id}_trap when primed then sprung.`, '  }',
       `  Event ${id}_goes beside ${way} when state(${id}, sprung) ${q(`${at.under ? t.text.replace(/^Vines erupt/, 'Roots burst out') : t.text}.`)}.`,
       `  Event ${id}_drawn beside ${way} when state(${id}, drawn) ${q(`The ${t.mechanism} goes off at the pole's end: ${/^[aeiou]/i.test(t.name) ? 'an' : 'a'} ${t.name}, spent on nothing.`)}.`,
-      `  Observe ${id}_read beside ${way} of ${id} when tried(${id}, looking) and state(${id}, primed) ${q(how.seen)} teaches ${id}_known.`];
+      `  Observe ${id}_read beside ${way} of ${id} when tried(${id}, looking) and state(${id}, primed) ${q(how.seen)} teaches ${id}_known.`,
+      ...this.knowing(id, way, how)];
+  }
+  // Whoever has a skill that both reads and deals with a mechanism knows it on sight (snares.json's reads).
+  private static knowing(id: string, way: string, how: Snare): string[] {
+    const reads = new Set((snares as { reads: string[] }).reads);
+    const skills = [...new Set(how.ways.map(w => w.needing).filter(n => reads.has(n)))];
+    if (!skills.length) { return []; }
+    return [`  Observe ${id}_knew beside ${way} of ${id} when state(${id}, primed) and not knows(party, ${id}_known) and (`
+      + `${skills.map(k => `capable(party, ${k})`).join(' or ')}) ${JSON.stringify(how.seen)} teaches ${id}_known.`];
   }
   // The harm an effect does on an average roll (see Harm).
   static harm(effect: string): number { return Harm.average(effect); }

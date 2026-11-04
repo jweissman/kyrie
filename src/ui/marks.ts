@@ -28,6 +28,14 @@ export class Marks {
     return { ...c, ...marks.length ? { marks } : {},
       ...c.children ? { children: c.children.map(k => this.marked(k, s, here)) } : {} };
   }
+  // What a trap does if it goes off, against the company: risked blind, a novice had died of four harm in one round
+  // (the product-design review's PD-01).
+  private static harm(exit: ExitRow | undefined, screen: Screen): string {
+    if (!exit?.harm) { return ''; }
+    const n = Math.round(exit.harm), weakest = screen.party.filter(m => m.hp > 0).sort((a, b) => a.hp - b.hp)[0];
+    const said = `If it goes off: about ${n} harm to whoever goes first.`;
+    return weakest && n >= weakest.hp ? `${said} ${weakest.name} has ${weakest.hp} left: it could kill.` : said;
+  }
   // Every mark one choice carries, the gravest first.
   static of(c: Choice, s: Section, here: Here): Mark[] {
     const act = c.command ? here.acts.get(c.command) : undefined;
@@ -41,7 +49,10 @@ export class Marks {
     if (fight) { marks.push(fight); }
     // A risk is asked about before it is taken, as what cannot be undone is: a wrong word on a speaking door, chosen
     // for something else, had killed a company (the owner's play, 31 October).
-    else if (c.risk && c.command) { marks.push({ kind: 'trap', said: exit?.hazard ?? 'It could go wrong.', ask: true }); }
+    else if (c.risk && c.command) {
+      marks.push({ kind: 'trap', said: [exit?.hazard ?? 'It could go wrong.', this.harm(exit, here.screen)].join(' ').trim(),
+        ask: true });
+    }
     if (c.note?.split(' · ').includes(ChoiceList.unexamined)) {
       marks.push({ kind: 'unlooked', said: 'Not looked at closely yet.' });
     }
