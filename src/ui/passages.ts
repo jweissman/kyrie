@@ -6,6 +6,7 @@ import type { Act, ExitRow, Passage, PlaceRef, Transition } from './screen-types
 import { PassageModel } from './passage-model';
 import { ModuleCanon } from '../campaign/module-canon';
 import { Depth } from './depth';
+import { EntityIndex } from '../lang/entity-index';
 
 export interface ExitActs { acts: Act[]; passage?: Passage; via?: string }
 interface Known {
@@ -75,7 +76,12 @@ export class Passages {
       const parent = Spatial.ancestry(this.entities, destination)[1];
       return parent ? parent.name : undefined;
     }
-    return this.crossed(origin, destination, transition)?.name;
+    // A site entered from the place named for it (Lunalac from outside Lunalac) is not named again as where the way
+    // goes: "Into Lunalac", from Lunalac, said nothing, and named the site before it was known (PD-04).
+    // By the names the module gives them: the place may be shown by what it looks like until it is known.
+    const crossed = this.crossed(origin, destination, transition);
+    const own = EntityIndex.of(this.world.module.entities).byId;
+    return crossed && own.get(crossed.id)?.name === own.get(origin)?.name ? undefined : crossed?.name;
   }
   // Entering, the outermost enclosure crossed (the tower, not the level inside it).
   private crossed(origin: string, destination: string, transition: Transition): Entity | undefined {

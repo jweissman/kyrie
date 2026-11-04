@@ -218,7 +218,8 @@ export class GlanceStage {
       <nav className="glance-row" aria-label="The nearest ways">
         <p className="label">Ways</p>
         <ul className="tiles">{ways.map(c => {
-          const exit = screen.exits.find(e => e.id === c.id), step = exit?.bearing, tile = WaysPane.tile(c.label);
+          const exit = screen.exits.find(e => e.id === c.id), step = exit?.bearing;
+          const way = exit ?? screen.exits.find(e => c.id.startsWith(`${e.id}/`)), tile = WaysPane.tile(c.label, way?.destination.name);
           return <li key={c.id} className={step ? 'step' : undefined}>
             <Act.View choice={c} draw={draw} marked className={`tile${aimed.includes(c.id) ? ' aimed' : ''}`}>
               <span className="n">{step ? Words.upper(step) : Typography.curl(tile.n)}</span>

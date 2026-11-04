@@ -50,12 +50,14 @@ export class WaysPane {
   // A way as a tile says it: where it goes; or, for something done on it (risking a switch, looking at a glyph), what
   // is done, and toward where. Two tiles had both said "The pump-room", one risking the switch and one looking at it,
   // and neither said so (the cold review of 1 November).
-  static tile(label: string): { n: string; r?: string } {
+  // Where it goes is the way's own destination, by name, when the page knows it ("toward Out to Lunalac" had been made
+  // of the label's words: the product-design review's PD-04).
+  static tile(label: string, place?: string): { n: string; r?: string } {
     const [to, act] = label.split(' — ');
     if (!act || !/^(risk|look|prod|try|open|knock|lean|wedge|press|push|listen|break|climb|cross|force|pick|unbar|lift)\b/i.test(act)) {
       return { n: this.short(label) };
     }
-    return { n: Words.upper(act), r: `toward ${to!.replace(/^(?:To|Into) /, '')}` };
+    return { n: Words.upper(act), r: `toward ${place ?? to!.replace(/^(?:To|Into) /, '')}` };
   }
   static raise(app: ReaderApp, up: boolean) { Raised.raise(app, up ? 'ways' : undefined); }
 }
