@@ -80,7 +80,7 @@ Left alone, Mabel delivers the first two herself on the third night and keeps th
 
 A parcel has waited nearly a year on the Unclaimed shelf, addressed to whoever wore the Cockle at the fifth bell on Michaelmas Eve (the Office delivers to faces,
 not to hours, and to ask who wore it is to Name). Pell gives it to a Crow, as a Crow ("I do not go round"); the note inside gives three clues (left hand; a blue thread in the broken
-mask-string; "bread is a promise kept warm"); four Cockles work the bakehouse (Wick, black string, right hand, owes; Wynne, blue ribbon, fifteen; Bram, blue wool,
+mask-string; "bread is a promise kept warm"); four Cockles work the bakehouse (Wick, black string, right hand, owes; Nessa, blue ribbon, fifteen; Bram, blue wool,
 right hand; Odile Ollerton, one neat blue thread, left hand, who says it unprompted when asked what bread is). Approaches: **deduce** (the scenes give the string and the
 hand), **ask the Cockles** (`ps_knead`: a morning at the trough as a Cockle earns `goodwill(face_cockle)`; then Bram tells, Cockle to Cockle), **hand it to anyone
 and watch** (the wrong ones decline each in their own way; the right one stops folding), **Name her** (generic `name_aloud`; she is ruined and nobody is unkind),

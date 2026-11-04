@@ -1,6 +1,10 @@
-import { beforeAll, describe, expect, it } from 'bun:test';
+import { beforeAll, describe, expect, it, setDefaultTimeout } from 'bun:test';
 import { Glanced } from './support/glanced';
 import type { Glance } from '../src/presentation/glance-types';
+
+// Each step plays a few watches of a whole drawn country, four or five seconds on CI: more than bun's five allows once
+// the open country had its meetings to write.
+setDefaultTimeout(30000);
 import { ModuleWriter } from '../src/lang/module-writer';
 
 // A place at a glance in a generated country (OWN-18, OWN-19): kite, come home as kin, Wenna the warrior. The page had

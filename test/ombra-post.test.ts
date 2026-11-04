@@ -129,7 +129,7 @@ describe('The Burning of the Nobodies: Tomas Pell', () => {
 
   withStubs('puts the Book down himself when he is told Pip has forgiven him, and goes to the Chapel', async () => {
     const o = await start();
-    await o.play(...vigil, ...toLamp, 'zz: Pip forgives', 'Tell him that Pip Tolliver has forgiven him');
+    await o.play(...vigil, ...toLamp, 'zz: Pip forgives', 'Tell him that Pip Treen has forgiven him');
     expect(o.holds('ps_pell_free', 'party')).toBe(true);
     expect(o.carries('book_of_faces')).toBe(true);
     await o.play('=+2');

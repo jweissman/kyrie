@@ -166,7 +166,7 @@ Module ombra "The Book of Faces" {
   // Wet Post bakehouse's floor, and one of them wore it at the fifth bell on a Michaelmas Eve (the third thread).
   Discovery ps_odile_is_she "The Cockle with the neat blue thread in her mask-string is Odile Ollerton, a baker's hand, who lodges in the garret of the Post-lodgings.".
   Discovery ps_wick_is_he "The tall Cockle with the string mended in black is Teodor Wick, a baker, who lodges on the second landing of the Post-lodgings and owes money.".
-  Discovery ps_wynne_is_she "The Cockle in the mask a size too big is Wynne, the bakehouse's apprentice, fifteen.".
+  Discovery ps_wynne_is_she "The Cockle in the mask a size too big is Nessa, the bakehouse's apprentice, fifteen.".
   Discovery ps_bram_is_he "The young Cockle with the string knotted in blue wool is Bram Cutter, a baker's journeyman.".
   Person ps_wick "Teodor Wick" at ps_bake_floor {
     Role "a baker of the Wet Post bakehouse".
@@ -186,7 +186,7 @@ Module ombra "The Book of Faces" {
     Greets again "'Not till ten,' says the woman, and her left hand goes on.".
   }
   Initially Assert unmaskTeaches(ps_odile, ps_odile_is_she).
-  Person ps_wynne "Wynne" at ps_bake_floor {
+  Person ps_wynne "Nessa" at ps_bake_floor {
     Role "the Wet Post bakehouse's apprentice".
     Known as "a Cockle in a mask a size too big, with a blue ribbon in her hair" when not knows(party, ps_wynne_is_she).
     Ancestry human. Peaceable. Pronouns she. Manner cheerful.
@@ -627,7 +627,7 @@ Module ombra "The Book of Faces" {
     On discuss { Assert ps_pell_child_asked(actor). }
   }
   // The three things that move him. Each is a different kind of thing, and none is an argument.
-  Topic ps_pell_y_pip with pell "Tell him that Pip Tolliver has forgiven him" when ci_pip_forgave(actor) and knows(actor, ps_pell_is_pell) and not ps_pell_free(actor) and not carries(actor, book_of_faces) and not ps_book_burned(actor) and ps_pell_home() once {
+  Topic ps_pell_y_pip with pell "Tell him that Pip Treen has forgiven him" when ci_pip_forgave(actor) and knows(actor, ps_pell_is_pell) and not ps_pell_free(actor) and not carries(actor, book_of_faces) and not ps_book_burned(actor) and ps_pell_home() once {
     Says "Pell does not move. Then he takes off the Crow, which he has not done in daylight since he came, and holds it in both hands like a basin. 'He said so himself,' he says. 'In words.' You tell him the words. When you have done he is looking at the sacks through the wall again, but as a man looks at a door he has decided to go through. 'Third sack,' he says. 'Left of the lamp. I will carry it. I think I should like to be the one.' He is a long while gone. When he comes back he has a parcel the size of a breadboard in both hands, and he gives it to you without a word, and is not holding anything.".
     On discuss { Give book_of_faces to actor. Assert ps_pell_free(actor). Assert ps_pell_admits(actor). Assert ps_book_found(actor). Assert knows(actor, pell_hid_book). Assert ps_pell_chapel(pell). }
   }

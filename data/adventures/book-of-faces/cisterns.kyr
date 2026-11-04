@@ -290,7 +290,7 @@ Module ombra "The Book of Faces" {
   // plenty of; he is moved by being asked what he wants. By day, in the Masked Hours, he wears his Owl and speaks
   // as the Owl, to an Owl, or not at all; by night, or to a bare knock at his own den, he is nine.
   Discovery ci_boys_found "Three lamp-boys hide behind the drawn sacking at the end of the den off the oil-cistern: Nell, who is eleven and speaks for the others; Tobit, who is six; and the smallest, who holds a candle-stub in both hands and will not put it down.".
-  Discovery ci_pip_named "The smallest of the lamp-boys in the cisterns is Pip Tolliver, nine, a lamp-trimmer's boy: the P. T. of the Registrar's ledger.".
+  Discovery ci_pip_named "The smallest of the lamp-boys in the cisterns is Pip Treen, nine, a lamp-trimmer's boy: the P. T. of the Registrar's ledger.".
   Discovery ci_pip_fear "Pip is not afraid of the Watch. He believes that to see the Registrar's bare face is what killed her, and that her face, now, is looking for him.".
   Discovery ci_pip_wish "Pip wants a candle: a whole one, that no steward has counted, that is his to keep.".
   Discovery ci_pip_clerk "The Registrar's clerk found Pip under the lamp-table, told him he had seen nothing, and left him there in the dark with her until morning.".
@@ -307,7 +307,7 @@ Module ombra "The Book of Faces" {
   Query ci_heard(a: group) means privateHours() or wears(a, face_owl).
   Query ci_open_now() means watch(clock) >= ci_closed_until(pip).
 
-  Person pip "Pip Tolliver" at lamp_boys_den {
+  Person pip "Pip Treen" at lamp_boys_den {
     Role "a lamp-boy, nine, with a candle-stub in both hands". Ancestry human. Peaceable. Pronouns he. Manner cheerful.
     Known as "a small figure in a cut-down Owl" when not knows(party, ci_pip_named).
     Seen when knows(viewer, ci_boys_found).
@@ -392,7 +392,7 @@ Module ombra "The Book of Faces" {
     Says "'Don't know that face,' says the Owl, politely, from behind the sacking. 'I'm at my work, whoever you are. Go on.' It is the voice of a boy being very good in front of a stranger, who has been told what happens to the other kind.".
   }
   Topic ci_pip_who with pip "Ask the boy his name" when ci_heard(actor) and ci_found(actor) and not knows(actor, ci_pip_named) and not ci_pip_taken(actor) once {
-    Says "'Nobody,' he says, and then, because he is nine, and a boy in the dark will tell a name to anything that does not scare him: 'Pip, if you've to call me something. Pip Tolliver. It's only what they call me. It ain't mine, it's the Owls'. The steward's got it in a book.'".
+    Says "'Nobody,' he says, and then, because he is nine, and a boy in the dark will tell a name to anything that does not scare him: 'Pip, if you've to call me something. Pip Treen. It's only what they call me. It ain't mine, it's the Owls'. The steward's got it in a book.'".
     On discuss { Assert knows(actor, ci_pip_named). }
   }
   Action ci_read_fear(actor: group, site: place) "Watch his hands, and say aloud what he is afraid of" {
@@ -551,18 +551,18 @@ Module ombra "The Book of Faces" {
   // ── Milestones ────────────────────────────────────────────────────────────────────────────────────────────────────
   Milestone ci_m_found "found the lamp-boys hiding under the Drip" worth 25 when knows(party, ci_boys_found).
   Milestone ci_m_asked "asked a lamp-boy what he wanted, and was answered" worth 25 when ci_asked(party).
-  Milestone ci_m_pip "brought Pip Tolliver's story to an end he could live with" worth 50 when roundDone(party, r_pip).
+  Milestone ci_m_pip "brought Pip Treen's story to an end he could live with" worth 50 when roundDone(party, r_pip).
   Milestone ci_m_forgave "carried a clerk's apology down to the child it was owed to" worth 50 when ci_pip_forgave(party).
   Milestone ci_m_cellar "went under the Drip and the Cuff by the Ninefold Drain, and stood in the cellar below the Urn" worth 75 when at(party, urn_cellar).
   Milestone ci_m_pump "set the Aenean pump going, after some centuries" worth 25 when state(ci_pump, ci_running).
   Milestone ci_m_urn "heard the Urn ring hollow, from below" worth 25 when knows(party, lie_urn).
 
   // ── What became of them ──────────────────────────────────────────────────────────────────────────────────────────
-  Rule ci_fate_pip_stays when newsHour() and ci_pip_stays(party) once says "Of Pip Tolliver: the Owls' steward did, in the end, strike three names from his candle-book, and did not say why, and has not been asked. The boy trims the Drip's lamps still, and walks the Drip in a cut-down Owl, by day. By night, in the cisterns, with Nell and Tobit, he keeps a whole candle burning on the lid of a kettle, which nobody counts. He is, on the Drip's own account, the happiest boy in it, and nobody has ever once asked him if he is." { }
-  Rule ci_fate_pip_garrity when newsHour() and ci_pip_garrity(party) once says "Of Pip Tolliver: he sits on the left of an old man in a pigeon-loft on the Wet Post, at the ear that does not hear, and says *there* when a bird comes in. The white tumblers sit on his head. The Owls have lost a boy, and nobody has come to the loft to say so. He has been given a bed, and a candle, and a name that is the loft's, and he has not been Faced; he wears a feather in his hat instead, which the Post says is his own." { }
-  Rule ci_fate_pip_taken when newsHour() and ci_pip_taken(party) once says "Of Pip Tolliver: a witness in the keeping of the Masked Watch, in a small white domino with a ribbon, which he has not been seen to put on. He answers when he is spoken to, politely, that he is nobody. The Watch is kind to him. It does not know that this is the worst of it." { }
-  Rule ci_fate_pip_left when newsHour() and not ci_pip_settled(party) and not ci_pip_taken(party) and not ci_bribed(party) once says "Of Pip Tolliver: the Flood put him on the roof of the pigeon-loft at the Post, with Nell and Tobit, three small wet nobodies among the white birds. An old man who is deaf on the left side found them in the morning, and did not tell anybody, and did not send them away. They are there still. Nobody has asked the boy what he wants. The pigeons, it is said, have been told." { }
-  Rule ci_fate_pip_bribed when newsHour() and ci_bribed(party) and not ci_pip_settled(party) once says "Of Pip Tolliver: he took the money, and went, as a boy would, and was found at the loft, where the pigeons are, by an old man who is deaf in one ear. He keeps the three coin in a boot. He told you the little that three coin buys, and nobody has ever told him that it was not enough." { }
+  Rule ci_fate_pip_stays when newsHour() and ci_pip_stays(party) once says "Of Pip Treen: the Owls' steward did, in the end, strike three names from his candle-book, and did not say why, and has not been asked. The boy trims the Drip's lamps still, and walks the Drip in a cut-down Owl, by day. By night, in the cisterns, with Nell and Tobit, he keeps a whole candle burning on the lid of a kettle, which nobody counts. He is, on the Drip's own account, the happiest boy in it, and nobody has ever once asked him if he is." { }
+  Rule ci_fate_pip_garrity when newsHour() and ci_pip_garrity(party) once says "Of Pip Treen: he sits on the left of an old man in a pigeon-loft on the Wet Post, at the ear that does not hear, and says *there* when a bird comes in. The white tumblers sit on his head. The Owls have lost a boy, and nobody has come to the loft to say so. He has been given a bed, and a candle, and a name that is the loft's, and he has not been Faced; he wears a feather in his hat instead, which the Post says is his own." { }
+  Rule ci_fate_pip_taken when newsHour() and ci_pip_taken(party) once says "Of Pip Treen: a witness in the keeping of the Masked Watch, in a small white domino with a ribbon, which he has not been seen to put on. He answers when he is spoken to, politely, that he is nobody. The Watch is kind to him. It does not know that this is the worst of it." { }
+  Rule ci_fate_pip_left when newsHour() and not ci_pip_settled(party) and not ci_pip_taken(party) and not ci_bribed(party) once says "Of Pip Treen: the Flood put him on the roof of the pigeon-loft at the Post, with Nell and Tobit, three small wet nobodies among the white birds. An old man who is deaf on the left side found them in the morning, and did not tell anybody, and did not send them away. They are there still. Nobody has asked the boy what he wants. The pigeons, it is said, have been told." { }
+  Rule ci_fate_pip_bribed when newsHour() and ci_bribed(party) and not ci_pip_settled(party) once says "Of Pip Treen: he took the money, and went, as a boy would, and was found at the loft, where the pigeons are, by an old man who is deaf in one ear. He keeps the three coin in a boot. He told you the little that three coin buys, and nobody has ever told him that it was not enough." { }
   Rule ci_fate_pell_forgiven when newsHour() and ci_pip_forgave(party) once says "Of Tomas Pell: he has had a message, by a stranger, from a nine-year-old, which said that he need not have. He has not been able to say what he made of it. He has kept the Book's keys in the same pocket as the candle-end a boy sent him, and in the Dead Letter Office they say he has not been heard to mutter since." { }
   Rule ci_fate_oil when newsHour() and ci_oil_burnt(party) once says "Of the Drip's lamp-oil: the gallery of the Drain burned, one blue evening, and the lamp-trimmers found the cistern's oil a hand lower than it was and accounted for it, in the Owls' book, as rats. The steward, who knows better, has said nothing, and counts the candle-ends twice. The Drip's lamps were lit on the ninth night, in the end, a little yellower than their custom, which the Drip put down to the Flood." { }
   Rule ci_fate_eel when newsHour() and ci_eel_fed(party) once says "Of the Warden of the Drain: she was fed, or she was fought, or she was passed in the dark; the eel in the eel-run has, in any case, the whole Drain to herself, to the arch, and the Flood has put the sea in it. She will have been astonished." { }

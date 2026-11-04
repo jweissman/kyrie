@@ -5,6 +5,9 @@ import type { Call, Change, Module, Operator, Predicate, Value } from '../lang/m
 import { ModuleWriter } from '../lang/module-writer';
 import { EngineWrites } from './engine-writes';
 
+// What grounding reads: the relations nothing writes, the facts they start with, the entities by type, and who acts.
+type Grounding = { constants: Set<string>; facts: Set<string>; types: Map<string, Module['entities']>;
+  actors?: readonly Pick<CampaignActor, 'id' | 'actions' | 'allActions'>[] };
 export class ActionSchemas {
   static placeholders(template: string): string[] {
     return [...template.matchAll(/\{([A-Za-z_][A-Za-z0-9_]*)\}/g)].map(match => match[1]!);
@@ -45,7 +48,7 @@ export class ActionSchemas {
     failed?: Map<string, string>): Set<string> {
     const context = this.context(module);
     return new Set(module.actions.filter(action => {
-      try { return this.bindings(module, action, { ...context, actors }).length > 0; } catch (error) {
+      try { return this.some(module, action, { ...context, actors }); } catch (error) {
         const why = error instanceof Error ? error.message : String(error);
         if (why !== ActionSchemas.many(action.id)) { failed?.set(action.id, why); }
         return true;
@@ -53,6 +56,24 @@ export class ActionSchemas {
     }).map(a => a.id));
   }
   private static many(id: string): string { return `Too many bindings for ${id}`; }
+  // Whether a schema has a binding, found depth first and stopped at the first (a drawn country's lint had listed
+  // every binding of the shared ask breadth first, half a minute, to learn there was one: 3 November). A search that
+  // goes on past the limit, as the listing would have, has plainly many.
+  private static some(module: Module, action: Operator, context: Grounding,
+    at: { binding: Record<string, string>; i: number; tried: { n: number } } = { binding: {}, i: 0, tried: { n: 0 } })
+    : boolean {
+    const parameters = action.parameters ?? [], parameter = parameters[at.i];
+    if (!parameter) { return true; }
+    const names = new Set(parameters.map(p => p.name));
+    for (const e of parameter.type === 'entity' ? module.entities : context.types.get(parameter.type) ?? []) {
+      if (parameter.name === 'actor' && !this.mayAct(action, e.id, context.actors)) { continue; }
+      if (++at.tried.n > 20000) { return true; }
+      const binding = { ...at.binding, [parameter.name]: e.id };
+      if (this.constantTruth(action.requires, binding, { parameters: names, ...context }) !== false
+        && this.some(module, action, context, { binding, i: at.i + 1, tried: at.tried })) { return true; }
+    }
+    return false;
+  }
   // Join only on relations that no action, rule or campaign projection can write. Keep dynamic
   // preconditions for execution, including cross-module distinct facts installed after grounding.
   private static context(module: Module) {
@@ -61,16 +82,22 @@ export class ActionSchemas {
       ...(module.rules ?? []).flatMap(r => r.effects.map(c => c.call.name))]);
     const constants = new Set(module.relations.filter(r => !written.has(r.name)).map(r => r.name));
     const facts = new Set(new World(module).apply(module.initial).view.relations.map(c => ActionSchemas.key(c)));
-    return { constants, facts };
+    // The entities of each type, gathered once: every parameter of every action had scanned the whole world for its
+    // type (a drawn country's lint spent most of a minute so, and timed out on CI: 3 November).
+    const types = new Map<string, Module['entities']>();
+    for (const e of module.entities) {
+      if (!types.has(e.type)) { types.set(e.type, []); }
+      types.get(e.type)!.push(e);
+    }
+    return { constants, facts, types };
   }
-  private static bindings(module: Module, action: Operator, context: { constants: Set<string>; facts: Set<string>;
-    actors?: readonly Pick<CampaignActor, 'id' | 'actions' | 'allActions'>[] }): Record<string, string>[] {
+  private static bindings(module: Module, action: Operator, context: Grounding): Record<string, string>[] {
     if (!action.parameters?.length) { return [{}]; }
     const { constants, facts, actors } = context, parameters = new Set(action.parameters.map(p => p.name));
     let combinations: Record<string, string>[] = [{}];
     for (const parameter of action.parameters) {
-      const candidates = module.entities.filter(e => (parameter.type === 'entity' || e.type === parameter.type)
-        && (parameter.name !== 'actor' || this.mayAct(action, e.id, actors)));
+      const candidates = (parameter.type === 'entity' ? module.entities : context.types.get(parameter.type) ?? [])
+        .filter(e => parameter.name !== 'actor' || this.mayAct(action, e.id, actors));
       combinations = combinations.flatMap(binding => candidates.map(e => ({ ...binding, [parameter.name]: e.id })))
         .filter(binding => this.constantTruth(action.requires, binding, { parameters, constants, facts }) !== false);
       if (combinations.length > 20000) { throw new Error(ActionSchemas.many(action.id)); }

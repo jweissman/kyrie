@@ -90,7 +90,7 @@ that could say names, have been simple to forgive:
    Rounds that were closing on his Lock-tax. He said her name aloud in the Chapel. That is Unfacing. It frightened
    her to death, or it did not; the heart was going anyway. It is the only crime in the whole affair that Ombra's
    law can prosecute, and he committed it.
-4. **A lamp-boy**, Pip Tolliver, nine, was under the lamp-table trimming wicks. He saw the face, saw the clerk, the
+4. **A lamp-boy**, Pip Treen, nine, was under the lamp-table trimming wicks. He saw the face, saw the clerk, the
    cooper and the Warden come and go, understood nothing except that he had seen a Registrar bare, which in his
    religion is the end of him. He is in the cisterns under the Drip.
 

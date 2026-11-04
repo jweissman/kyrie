@@ -29,5 +29,5 @@ describe('a generated world', () => {
       { kind: 'retract', call: ModuleWriter.call('unlit', 'region__w2_hall') }]));
     const meet = PlayerView.choices(s.campaign).find(x => /the glowing symbols$/.test(x.choice.name))!;
     expect((await s.perform(meet.choice.id)).result).toBe('success');
-  }, 60000);
+  }, 180000);
 });

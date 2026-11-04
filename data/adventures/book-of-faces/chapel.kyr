@@ -109,10 +109,10 @@ Module ombra "The Book of Faces" {
   }
   Discovery ch_boot_hint "A dead Bare lies in a Hospice sheet on the Chapel steps; the Concord will not let the Chaplain bury him, and Father Ansel has not been able to bear looking in his boot.".
   Topic ch_ansel_owl with chaplain "Ask Father Ansel about the Chapel's lamps" when wears(actor, face_owl) and publicHours() once {
-    Says "'The Owls,' he says, with relief; it is a trade he can talk to. 'The Chapel's wicks are trimmed by a lamp-boy, one of your steward's, of an evening. A little thing, very quick, who will not look at the Hearer; I believe he thinks I am a ghost. He has not come since the night the Registrar,' and he stops, and starts again, 'since the night of the Hearing's postponement. Tolliver. A good name for a trimmer. If you see his mother, tell her the lamps are all right.'".
+    Says "'The Owls,' he says, with relief; it is a trade he can talk to. 'The Chapel's wicks are trimmed by a lamp-boy, one of your steward's, of an evening. A little thing, very quick, who will not look at the Hearer; I believe he thinks I am a ghost. He has not come since the night the Registrar,' and he stops, and starts again, 'since the night of the Hearing's postponement. Treen. A good name for a trimmer. If you see his mother, tell her the lamps are all right.'".
     On discuss { Assert knows(actor, ch_boy_known). }
   }
-  Discovery ch_boy_known "Pip Tolliver, a lamp-boy of the Owls' steward, trimmed the Chapel's wicks of an evening and has not been seen here since the night the Registrar died; his mother thinks he went down with the lamp-boys.".
+  Discovery ch_boy_known "Pip Treen, a lamp-boy of the Owls' steward, trimmed the Chapel's wicks of an evening and has not been seen here since the night the Registrar died; his mother thinks he went down with the lamp-boys.".
 
   // The verger has been told to leave the floor and so knows what is on it. He tells a face that does a little work.
   Topic ch_jonas_floor with ch_verger "Ask Jonas Heddle why Father said to leave the floor" when masked(actor) and publicHours() once {
@@ -130,7 +130,7 @@ Module ombra "The Book of Faces" {
     Requires able(actor) and company(actor) and at(actor, site) and at(ch_verger, site) and at(actor, nave) and masked(actor) and publicHours() and knows(actor, ch_jonas_pan) and not ch_jonas_helped(actor).
     Time 6.
     On success { Assert ch_jonas_helped(actor). Assert knows(actor, ch_cooper). Assert knows(actor, ch_boy_known). Give ch_curls to actor. }
-    Result "You hold the ladder and pass up the wicks, and by the fourth lamp he has stopped explaining what he is doing and started explaining why. At the end of the hour he takes a pan out of the lamp-cupboard, with a tin lid on it, and puts it in your hands without a word. Oak curls, pale and sweet, and with them a smell that is not the Chapel's at all: brine, and a fire made of shavings. 'And the Tolliver boy, that trims for the Owls,' he says, to the ladder. 'He's not been in since the night. His mother says he's gone down with the lamp-boys. I should not like to be the one to say it was for something he saw.'".
+    Result "You hold the ladder and pass up the wicks, and by the fourth lamp he has stopped explaining what he is doing and started explaining why. At the end of the hour he takes a pan out of the lamp-cupboard, with a tin lid on it, and puts it in your hands without a word. Oak curls, pale and sweet, and with them a smell that is not the Chapel's at all: brine, and a fire made of shavings. 'And the Treen boy, that trims for the Owls,' he says, to the ladder. 'He's not been in since the night. His mother says he's gone down with the lamp-boys. I should not like to be the one to say it was for something he saw.'".
   }
   Kind ch_curls_kind "a pan of oak shavings" is gear worth 0 weighing 1 described "Curls of white oak, an inch across and as fine as lace, with a smell of brine and charred wood. Someone has been shaving staves, and has done it for years: each curl is cut to the same bevel.".
   Item ch_curls "a pan of oak shavings" is ch_curls_kind at offstage.

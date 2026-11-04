@@ -3,5 +3,5 @@
         "To the Skirting","To the Letterdrift","Talk to Faith","Ask Faith Penny about the Keys","Pay Faith Penny","Take your leave","To the Skirting","To the Hearth","Talk to Bet","?Urge Bet","Take your leave","To the Skirting","To the Button Market","To the Nail","Talk to Mab","Take a bed"],
  "jump": ["=day 2 10:00","To the Button Market","To the Skirting","Talk to Bet|Talk to Nan","?Ask Bet Collier whether the colliers","?Ask Nan Collier whether the colliers","Take your leave","To the keyboard of the piano","Talk to Ludovic","Give Ludovic","Take your leave"],
  "play": ["=day 2 21:30","?Lead the Keys","=day 3 21:30","?Lead the Keys"],
- "seen": ["=day 4 08:00","To the Skirting","To the Readers' shelf","To the Library floor","To the chart table","=day 4 09:10","Step out into the light","Talk to Miss Whitbread","Ask the Lady why she","Take your leave"]
+ "seen": ["=day 4 08:00","To the Skirting","To the Readers' shelf","To the Library floor","To the chart table","=day 4 09:10","Step out into the light","Talk to (Miss Whitbread|the Lady)","Ask the Lady why she","Take your leave"]
 }

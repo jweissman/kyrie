@@ -20,7 +20,7 @@ describe('a failure', () => {
     const module = ModuleParser.parse(`Module m "M" { Kind group. Relation at(group, entity). Entity party: group "You".
       Action poke(actor: group) "Poke" { Requires at(actor, ?p). Time 1. } }`);
     const failed = new Map<string, string>();
-    spyOn(ActionSchemas as unknown as { bindings: () => never }, 'bindings').mockImplementationOnce(() => {
+    spyOn(ActionSchemas as unknown as { some: () => never }, 'some').mockImplementationOnce(() => {
       throw new Error('a measure that throws');
     });
     expect(ActionSchemas.targeted(module, undefined, failed).has('poke')).toBe(true);

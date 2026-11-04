@@ -31,7 +31,7 @@ Four people did something to her last evening: **Tomas Pell**, the clerk, who pu
 *Nobody* at the Dead Letter Office (which burns its Nobodies at noon on the ninth day); **Hobb**, a cooper, whom she had made
 the Serene for his dullness, who came to beg to be let off the Mask, and ran; **Ser Corvin Lacke**, the Warden of Locks, who
 threatened her an hour before she died and said her name aloud, which is Unfacing and the one crime the Concord can
-prosecute here; and **Pip Tolliver**, nine, a lamp-boy under the lamp-table, who saw her bare face and has been hiding in the
+prosecute here; and **Pip Treen**, nine, a lamp-boy under the lamp-table, who saw her bare face and has been hiding in the
 cisterns since. The player assembles the four and the Book, and, from whose hands what the city is made of, decides what the
 city should do with the secret.
 
@@ -73,7 +73,7 @@ everything except what a name is for. Moved by being refused, as an equal, by so
 **The Contessa Ismene Tarn**: eighty-three, the last person in Ombra who enjoys being known. Moved by being argued with as a
 person, and by a game.
 **Madame Pavane**, the Fitter: keeper of the Wall of Faces, which is the real Book. Moved by being *seen*.
-**Pip Tolliver**, nine, a lamp-boy: the book's heart.
+**Pip Treen**, nine, a lamp-boy: the book's heart.
 **Rill Ketch and Cosimo Dray**: the Gull and the Heron, who love each other's sentences and dislike each other on the ferry.
 **And thirty more** in the districts' small adventures: Mother Tibb, Sister Nobody, Goody Pallet, the Umbrella families, the
 Censor of the Wet Stage, Mabel Strake of the Dead Letter Office, Old Garrity and his birds, Brother Amery, Brother Alder,

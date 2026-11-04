@@ -697,7 +697,7 @@ Module ombra "The Book of Faces" {
     On discuss { Assert knows(actor, dr_arrears_known). Assert knows(actor, dr_jory_name). Assert knows(actor, dr_hal_name). }
   }
   Topic dr_jory_boys with steward "Ask {steward} about the empty bench" when masked(actor) and publicHours() and not dr_strike_on(party) once {
-    Says "{steward}'s face, under the domino, does something. 'The lamp-boys,' he says. 'Three of them went down the cistern steps on the first night and did not come up. Nell, and Tobit, and the Tolliver child. They are not in trouble. They have seen a thing, the way a child sees a thing, and they are afraid of the daylight.' He folds his arms. 'We leave a heel of bread and a cup of milk on the second step, and it is gone by morning. I would not have anybody go down after them who frightens easy. They have a candle, and they have each other.'".
+    Says "{steward}'s face, under the domino, does something. 'The lamp-boys,' he says. 'Three of them went down the cistern steps on the first night and did not come up. Nell, and Tobit, and the Treen child. They are not in trouble. They have seen a thing, the way a child sees a thing, and they are afraid of the daylight.' He folds his arms. 'We leave a heel of bread and a cup of milk on the second step, and it is gone by morning. I would not have anybody go down after them who frightens easy. They have a candle, and they have each other.'".
   }
 
   // The brother, by night, in the lamp-house corner.

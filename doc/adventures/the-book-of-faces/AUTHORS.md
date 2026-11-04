@@ -119,7 +119,7 @@ voice shows most.
 | `chapel.kyr` | chapel agent | `chaplain` (Father Ansel), the lamp-table, `lamp_table` |
 | `cleric.kyr` | chapel agent | |
 | `monk.kyr` | gate agent | `amery` (Brother Amery) |
-| `cisterns.kyr` | cisterns agent | `pip` (Pip Tolliver) |
+| `cisterns.kyr` | cisterns agent | `pip` (Pip Treen) |
 | `heronry.kyr` `ranger.kyr` | cisterns agent | `garrity` (the pigeon-master), `heron` |
 | `bard.kyr` | bard agent | `orme` (Madame Orme, the Wet Stage's manager), `ludd` (the censor) |
 
