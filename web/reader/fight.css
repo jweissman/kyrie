@@ -138,3 +138,7 @@
   .fight .fighter .of { font-size: 11.5px; }
   .fight .fighter .n b { flex: 1 1 auto; }
 }
+/* After a fight: what it cost, and what is still to do (PD-13). */
+.fight .aftermath { margin: 14px 0 0; padding: 10px 0 0; border-top: 1px solid var(--edge); display: grid; gap: 6px;
+  font: 400 14.5px/1.45 var(--do); color: var(--ivory); }
+.fight .aftermath .label { margin: 0 10px 0 0; display: inline; color: var(--verdigris); }

@@ -3,6 +3,7 @@ import type { CombatantRow } from '../../../src/ui/screen-types';
 import type { ReaderApp } from '../reader-app';
 import { Typography } from '../../../src/presentation/typography';
 import { Words } from '../words';
+import { Followed } from '../followed';
 import { FightLog } from '../fight-log';
 import { Act } from './act';
 
@@ -43,6 +44,7 @@ export class FightStage {
             {earlier.map(e => <p key={e.n} className="what earlier" title={e.detail}>{Typography.curl(e.text)}</p>)}
             {recent.map(e => <p key={e.n} className="what" title={e.detail}>{Typography.curl(e.text)}</p>)}
             {after.map(l => <p key={l} className="after">{Typography.curl(l)}</p>)}
+            {combat.outcome && <FightStage.Aftermath app={app} />}
             {!recent.length && !first && !after.length && <p className="quiet">Nothing has changed.</p>}
           </>}</div>
           <ul className="side foes" aria-label="Against you">{combat.foes.map(f => <FightStage.Card key={`${f.id}:${f.hp}`} fighter={f}
@@ -68,6 +70,21 @@ export class FightStage {
           aria-pressed={log} onClick={() => show(!log)}>{log ? 'Back to what just happened' : 'The fight so far'}</button></p>
       </div>
     );
+  }
+  // What the fight cost the company, each by how they stood as it began, and what is still to do (the product-design
+  // review's PD-13: an end that told what was won, never what it cost or what remained).
+  static Aftermath({ app }: { app: ReaderApp }) {
+    const frame = app.state.frame!, combat = frame.combat!, began = app.state.fight?.began ?? {};
+    const cost = combat.allies.map(f => {
+      const was = began[f.id] ?? f.hp;
+      return f.hp === 0 ? `${f.name} down` : f.hp < was ? `${f.name} ${f.hp} of ${f.maxHp}, ${was - f.hp} lost`
+        : `${f.name} unhurt`;
+    });
+    const aim = Followed.of(frame.screen);
+    return <div className="aftermath" data-region="aftermath">
+      <p><span className="label">What it cost</span>{Typography.curl(cost.join(' · '))}</p>
+      {aim && <p><span className="label">Still to do</span>{Typography.curl(aim)}</p>}
+    </div>;
   }
   // How many blows before the last are kept on the page, quieter.
   static readonly kept = 4;

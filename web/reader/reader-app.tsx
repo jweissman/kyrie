@@ -28,8 +28,9 @@ export type Phase = 'title' | 'options' | 'campaigns' | 'company' | 'loading' | 
 // held on the screen for its own sake.
 export interface Travel { from: string; to: string; way: string; minutes: number }
 // Where the company last chose in a fight: how many exchanges had been told, and how each fighter then stood, so the
-// page can show what happened since and what each blow took.
-export interface FightMark { seen: number; hp: Record<string, number>; first: boolean }
+// page can show what happened since and what each blow took; and how the company stood as it began, for what the fight
+// cost it (see FightStage.Aftermath).
+export interface FightMark { seen: number; hp: Record<string, number>; first: boolean; began?: Record<string, number> }
 export interface AppState {
   phase: Phase; catalog?: Catalog; saved?: SavedGame; options: Options;
   campaign: string; seed: string; setting?: Setting; party: Member[]; preview?: CompanyView; editing: number;
@@ -132,7 +133,7 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     else if (message.kind === 'progress') { this.setState({ stage: message.stage }); }
     else if (message.kind === 'frame') {
       const combat = message.frame.combat, fight = combat ? this.state.frame?.combat ? this.state.fight
-        : { seen: 0, hp: {}, first: true } : undefined;
+        : { seen: 0, hp: {}, first: true, began: Object.fromEntries(combat.allies.map(f => [f.id, f.hp])) } : undefined;
       this.setState({ frame: message.frame, pending: undefined, cursor: 0, open: [], hovered: undefined, fight,
         attention: Conversation.place, talk: [], asked: [], confirming: undefined });
     }
@@ -178,7 +179,7 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     const said = MenuModel.said(this.menu, choice);
     Timings.chosen(said);
     if (frame.combat) {
-      this.setState({ pending: { said }, fight: ReaderApp.mark(frame) });
+      this.setState({ pending: { said }, fight: ReaderApp.mark(frame, this.state.fight?.began) });
       this.engine.request({ kind: 'fight', choice: choice.command }).catch(this.failed);
       return;
     }
@@ -202,13 +203,13 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
   // Let the companion whose turn it is fight this turn on their own.
   readonly auto = () => {
     if (!this.state.frame?.combat?.ours || this.state.pending) { return; }
-    this.setState({ pending: { said: 'Fighting on' }, fight: ReaderApp.mark(this.state.frame) });
+    this.setState({ pending: { said: 'Fighting on' }, fight: ReaderApp.mark(this.state.frame, this.state.fight?.began) });
     void this.engine.request({ kind: 'fight' });
   };
   // A fight decided pressed on to its end at once, each turn by the company's own tactics, unless it turns (REV-16).
   readonly through = () => {
     if (!this.state.frame?.combat?.ours || this.state.pending) { return; }
-    this.setState({ pending: { said: 'Pressing on' }, fight: ReaderApp.mark(this.state.frame) });
+    this.setState({ pending: { said: 'Pressing on' }, fight: ReaderApp.mark(this.state.frame, this.state.fight?.began) });
     void this.engine.request({ kind: 'fight', through: true });
   };
   // On from a fight that has ended, to the place it was fought in.
@@ -216,10 +217,10 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     const frame = this.state.frame!;
     this.setState({ frame: { ...frame, combat: undefined }, fight: undefined, cursor: 0, open: [], hovered: undefined });
   }
-  private static mark(frame: Frame): FightMark {
+  private static mark(frame: Frame, began?: Record<string, number>): FightMark {
     const c = frame.combat!;
     return { seen: (c.exchanges.at(-1)?.n ?? -1) + 1, first: false,
-      hp: Object.fromEntries([...c.foes, ...c.allies].map(f => [f.id, f.hp])) };
+      hp: Object.fromEntries([...c.foes, ...c.allies].map(f => [f.id, f.hp])), ...began ? { began } : {} };
   }
   private readonly failed = (error: unknown) => {
     this.setState({ pending: undefined, error: error instanceof Error ? error.message : String(error) });
