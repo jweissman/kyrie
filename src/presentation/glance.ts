@@ -127,7 +127,8 @@ export class Glance {
     const authored = new Set(rows.filter(r => this.changes.includes(r.action.schema ?? '')).map(r => r.choice.id));
     return { schema, args, speakers: new Set(rows.filter(r => r.action.speaker).map(r => r.choice.id)), authored,
       named, held,
-      toward: this.toward(campaign, screen, { named, held }), ...back ? { back } : {}, here, signs: this.signs(campaign,
+      toward: this.toward(campaign, screen, { named, held }), inward: this.inward(campaign, screen),
+      ...back ? { back } : {}, here, signs: this.signs(campaign,
         screen, recall), ...at.life ? { life: at.life } : {}, pointed: at.pointed,
       done: new Set(commands.filter(c => recall.did(here, c))),
       talked: new Set(screen.people.map(p => p.id).filter(id => recall.talkedTo(id))),
@@ -201,6 +202,34 @@ export class Glance {
       : undefined;
     if (step && !out.has(step)) { out.set(step, 'toward'); }
     return out;
+  }
+  // The ways into a site (a barrow, a cave, a ruin) not yet taken, or further into the one the company is in, by the
+  // world's own nesting of its places, never by their names: from its outside its way in, from each room the rooms
+  // beyond. Not out of one site into another.
+  private static inward(campaign: Campaign, screen: Screen): Set<string> {
+    const byId = EntityIndex.of(campaign.module.entities).byId, here = this.siteOf(byId, screen.place.id);
+    const inward = new Set(screen.exits.filter(e => {
+      const there = !e.visited && !e.blocked && this.siteOf(byId, e.destination.id);
+      return there && (!here || there === here);
+    }).map(e => e.id));
+    return inward.size || !here ? inward : this.onward(campaign, screen, { byId, site: here });
+  }
+  // From a room of a site with no way on from it not yet taken (a side recess), the way toward the nearest room of
+  // the site known of and not yet entered, by the known ways: the rest of the site, not the way out of it.
+  private static onward(campaign: Campaign, screen: Screen, at: { byId: Map<string, Entity>; site: string }):
+    Set<string> {
+    const visited = new Set(screen.map.filter(p => p.visited).map(p => p.id)), graph = Itineraries.graph(campaign);
+    const rooms = [...new Set([...graph.values()].flat().map(w => w.to))]
+      .filter(id => !visited.has(id) && this.siteOf(at.byId, id) === at.site);
+    for (const id of rooms) {
+      const first = this.leading(graph, { here: screen.place.id, id, byId: at.byId, area: at.site });
+      const exit = first && screen.exits.find(e => e.destination.id === first && !e.blocked);
+      if (exit) { return new Set([`~${exit.id}`]); }
+    }
+    return new Set();
+  }
+  private static siteOf(byId: Map<string, Entity>, id: string): string | undefined {
+    return Spatial.ancestry(byId, id).find(a => a.space?.kind === 'site')?.id;
   }
   // The first place on the way to a place: within the area when it lies in it, two legs away at most when not.
   private static leading(graph: Map<string, WayInfo[]>,

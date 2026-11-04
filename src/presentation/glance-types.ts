@@ -18,6 +18,8 @@ export type Why =
   | 'answer' | 'danger' | 'retreat' | 'warned' | 'dark'
   // The aim: the journey set out on, kin, what the aim names, a way the aim names, a way toward it, another aim held.
   | 'bound' | 'kin' | 'about' | 'named' | 'toward' | 'held'
+  // In a site, a way further into it not yet taken: whatever aim is followed, a site is gone into, not out of.
+  | 'deeper' | 'onward'
   // What the company needs: food, mending, a bed for the night, a camp.
   | 'hungry' | 'hurt' | 'night' | 'exposed'
   // The place: whoever is the life of it, one of its own acts, a sign not seen before, someone with something to ask,

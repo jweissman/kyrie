@@ -33,9 +33,10 @@ export class Promotion {
   // Each reason's tier and its place in it.
   static readonly tiers: Record<Why, [Tier, number]> = {
     answer: [0, 0], danger: [0, 1], warned: [0, 2], dark: [0, 3], retreat: [0, 4],
-    bound: [1, 0], kin: [1, 1], about: [1, 2], named: [1, 3], toward: [1, 4], held: [1, 5],
+    bound: [1, 0], kin: [1, 1], about: [1, 2], named: [1, 3], toward: [1, 4], held: [1, 5], deeper: [1, 6],
     hungry: [2, 0], hurt: [2, 1], night: [2, 2], exposed: [2, 3],
     spoils: [3, -2], means: [3, -1], life: [3, 0], own: [3, 1], sign: [3, 2], asked: [3, 3], unlooked: [3, 4],
+    onward: [3, 5],
     unvisited: [4, 0],
   };
   static pick(cands: Candidate[], s: Situation): Promoted[] {
@@ -100,7 +101,9 @@ export class Promotion {
   // What it is led with for, and what of it is pressing, aimed, new or only known.
   private static promoted(c: Candidate, why: Why, whys: Why[]): Promoted {
     const tiers = new Set(whys.map(w => this.tiers[w][0]));
-    const facets: Facet[] = ['here', ...tiers.has(1) ? ['aimed' as const] : [],
+    // Further into a site is not the aim's (see Glance.inward).
+    const aimed = whys.some(w => w !== 'deeper' && this.tiers[w][0] === 1);
+    const facets: Facet[] = ['here', ...aimed ? ['aimed' as const] : [],
       ...tiers.has(0) || tiers.has(2) ? ['urgent' as const] : [], ...tiers.has(3) || tiers.has(4) ? ['new' as const] : [],
       ...c.known ? ['known' as const] : []];
     const note = c.notes?.[why];

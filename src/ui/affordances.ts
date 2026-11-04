@@ -17,6 +17,9 @@ export interface Reading {
   // The ids the aim shown names (its people, places and things, and the places of a site it names), those the other
   // aims held name, and the ways from here that lead toward a place they name (by exit id, and for which).
   named: Set<string>; held: Set<string>; toward: Map<string, 'toward' | 'held'>;
+  // In a site: the ways further into it not yet taken, by exit id; "~" before one back from a dead end toward the rest
+  // of it (see Glance.inward).
+  inward: Set<string>;
   back?: string; here: string;
   // A sign perceived here and not seen before, by whom or what it is of ('' for the place's own).
   signs: Map<string, string>;
@@ -31,7 +34,12 @@ export interface Reading {
 export class Affordances {
   static of(scene: Scene, screen: Screen, r: Reading): Candidate[] {
     const threat = scene.subjects.some(s => SceneModel.threat(s));
-    const back = threat || !!screen.warned || !!screen.dark;
+    // The way back is led only from a fight the company could lose, or a warning, or the dark: from every fight it had
+    // been the second thing led with, and a player following the page went out of each site at its first foe (the
+    // owner, 4 November: "it always guides you back out").
+    const losing = scene.subjects.filter(s => SceneModel.threat(s)).some(s => !['slight', 'fair']
+      .includes(screen.people.find(p => p.id === s.id)?.reckoning?.danger ?? ''));
+    const back = losing || !!screen.warned || !!screen.dark;
     // In the dark, nothing gives light when no one can light one (see ChoiceList.lighting).
     const lightless = !!screen.dark && !scene.you.some(c => this.kind(c, r) === 'light');
     return [...scene.subjects.flatMap(s => this.warning(this.subject(s, screen, r), s, screen)),
@@ -147,7 +155,8 @@ export class Affordances {
       // Not back to a place the aim names that the company has been, from another it names: down in the cellar under
       // the corn-store the rats are in, the stair up had led as "your aim".
       ...r.named.has(dest) && !(r.named.has(r.here) && exit.visited) ? ['named' as const] : [], ...toward ? [toward] : [],
-      ...r.held.has(dest) ? ['held' as const] : [], ...r.needs.night && dest === r.needs.bed ? ['night' as const] : [],
+      ...r.held.has(dest) ? ['held' as const] : [], ...this.inward(c, exit.id, r),
+      ...r.needs.night && dest === r.needs.bed ? ['night' as const] : [],
       ...exit.local && !exit.visited && !r.needs.night ? ['unvisited' as const] : [], ...first ? ['unlooked' as const] : [],
       // An author's own way through what bars it, open to this company (a thief's pick of the corn-store padlock had
       // been only under Every way: Mission 19).
@@ -158,8 +167,15 @@ export class Affordances {
     const kind = tried ? 'act' as const : exit.bearing ? 'step' as const : 'way' as const;
     return [this.candidate(c, { exit: exit.id, kind, whys, r,
       notes: { retreat: 'the way you came', named: 'your aim', toward: 'toward your aim', held: 'another aim',
+        deeper: 'further in', onward: 'toward the rest of it',
         night: 'a bed for the night', unlooked: exit.blocked ?? '' }, visited: exit.visited,
       pointed: r.pointed.has(dest) })];
+  }
+  // Into a site, or further in: the way itself, never a risk taken to get through (a trap's switch); back from a dead
+  // end toward the rest of it, after what the room has to do (see Glance.inward).
+  private static inward(c: Choice, exit: string, r: Reading): Why[] {
+    if (c.id !== exit || c.risk) { return []; }
+    return r.inward.has(exit) ? ['deeper'] : r.inward.has(`~${exit}`) ? ['onward'] : [];
   }
   private static firstTry(c: Choice, exit: ExitRow): boolean {
     return c.id === `${exit.id}/${exit.acts[0]?.key ?? ''}`;
@@ -179,6 +195,9 @@ export class Affordances {
   // October). Not another aim held: two such, each shown where it names the place, sent a company back and forth
   // between the edges of two wild countries (REV-08).
   private static journeys(screen: Screen, r: Reading): Candidate[] {
+    // Not while a site the company is at has ways in not yet taken: it is gone into before it is left (the owner, 4
+    // November: deep in a barrow the page had led with setting out for town).
+    if (r.inward.size) { return []; }
     const near = new Set((screen.around ?? []).map(d => d.id)), here = screen.place.name.toLowerCase();
     // Named by the aim is named in anything in it: an aim names a work's rooms and its site, never the place it is
     // set out for by (Lunalac's reading-glass named every room of it, and nothing led toward it: OWN-56).
