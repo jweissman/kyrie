@@ -6,6 +6,7 @@
 @names mound, rest, keep, watch
 @danger 1
 @lair passage
+@declines successor: only the first makers' barrows show the way to their greatest work (the flute); a second people's points nowhere yet
 --- outside
   Observe {w}_mound_seen at {w} when true "A long mound lies along the land, grassed over, higher at one end. At the high end a forecourt of standing stones faces the sunrise, and between the two tallest is the entrance, a low black square.".
   Observe {w}_cut at {w} when true "On the stone across the entrance, cut in the old script: {oldup}." teaches {w}_named.

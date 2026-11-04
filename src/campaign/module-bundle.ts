@@ -53,6 +53,8 @@ export interface BundleManifest {
   generation?: { type: string; context?: Record<string, DeemValue>; tables?: string; templates?: string };
   // Experience for each companion when the module's goal first holds.
   experience?: number;
+  // Why a going-on keeps no clock, when it keeps none: it waits on the company, and grows no worse for it (PT-29).
+  unclocked?: string;
   // A region's land, for its map (see LandChart): its own ids, which installing it prefixes.
   chart?: import('../lang/module').LandChart;
 }

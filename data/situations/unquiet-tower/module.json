@@ -61,5 +61,6 @@
     "templates": "templates.json",
     "tables": "tables.json"
   },
-  "experience": 1200
+  "experience": 1200,
+  "unclocked": "the risen walk to the town by night and go back by dawn, night after night; it comes to no head of itself"
 }

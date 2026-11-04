@@ -8,6 +8,8 @@ import { RegionWriter } from './region-writer';
 import { ScenarioWord } from './scenario-word';
 import { WorldAssembler, type Entry, type Placement } from './world-assembler';
 import type { DeemValue } from 'deem';
+import type { Predicate } from '../lang/module';
+import type { World } from '../lang/world';
 
 // A country goes on after its first troubles: what goes on in its towns that it did not draw at the start (a fever, a
 // drover missing, players stuck at the inn) begins on the third morning, and another every other morning after, while
@@ -19,9 +21,16 @@ export class Renewal {
   static readonly first = 276;
   static readonly pace = 288;
   static readonly most = 3;
-  // How many have fallen due by this watch.
-  static due(elapsed: number): number {
-    return elapsed < this.first ? 0 : Math.min(this.most, 1 + Math.floor((elapsed - this.first) / this.pace));
+  // How many have fallen due by this watch, or by how many troubles the company has seen through (ended): each
+  // ending begins the next, so a country goes on from the end of the one before, not only by the day (PT-29: a
+  // company that saw the first trouble through on the first day had nothing new until the third morning).
+  static due(elapsed: number, ended = 0): number {
+    const days = elapsed < this.first ? 0 : 1 + Math.floor((elapsed - this.first) / this.pace);
+    return Math.min(this.most, Math.max(days, ended));
+  }
+  // How many of the troubles in play are seen through: those worth experience whose goal holds (see Progression).
+  static ended(campaign: { installations: readonly { experience?: number; goal: Predicate }[]; world: World }): number {
+    return campaign.installations.filter(m => m.experience && campaign.world.test(m.goal)).length;
   }
   static id(n: number): string { return `renewal${n}`; }
   // The n-th held back (from 1): its modules, and its word, as one installation each; none, if the country has no more,

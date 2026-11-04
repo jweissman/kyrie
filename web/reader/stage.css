@@ -42,6 +42,9 @@
 .happened .speech { font-size: 20px; line-height: 1.55; }
 .happened .change { font-style: italic; }
 .happened .opening { font-size: 19px; }
+/* A revelation (NAR-14): what an author marked as deserving the page to itself, set apart from the run of it. */
+.happened .revelation, .lines .line.revelation { margin: 20px 0; padding: 4px 0 4px 18px; border-left: 2px solid var(--gold);
+  font-size: 19px; font-style: italic; }
 .happened .fight { font: 400 15.5px/1.45 var(--do); color: var(--dim); }
 .happened.tone-fail p { color: var(--dim); }
 .happened.tone-fight { padding-left: 14px; border-left: 2px solid var(--ember); }

@@ -97,7 +97,7 @@ export class Frontier {
   private readonly none = new Set<number>();
   private async renew(campaign: Campaign) {
     const installed = new Set(campaign.installed);
-    for (let n = 1; n <= Renewal.due(campaign.readout.elapsed); n++) {
+    for (let n = 1; n <= Renewal.due(campaign.readout.elapsed, Renewal.ended(campaign)); n++) {
       if (installed.has(Renewal.id(n)) || this.none.has(n)) { continue; }
       const name = campaign.module.entities.find(e => e.id === `${RegionWriter.id}__region`)?.name;
       const held = await Renewal.draw(this.seed, this.base, { ...this.made, ...name ? { name } : {} }, n);

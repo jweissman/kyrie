@@ -19,23 +19,32 @@ export class CompanyKnowledge {
       const found = world.related('learnedFrom', actor).find(r => r.args[2] === e.id);
       const seen = CompanyKnowledge.holds(world, 'witnessed', actor, e.id),
         read = CompanyKnowledge.holds(world, 'readIn', actor, e.id);
+      const by = learned.get(e.id);
+      const own = !seen && !found && !read && !told && by ? this.own(campaign, by.action) : undefined;
       const source = seen ? 'seen' as const : found ? 'found' as const : read ? 'read' as const : told ? 'heard' as const
-        : undefined;
+        : own?.source;
       const writing = read ? campaign.module.observations?.find(o => o.teaches === e.id && o.aspect === 'reading')?.about
         : undefined;
       const from = found ? labels.get(found.args[1]!) : read && writing ? labels.get(writing)
-        : told ? labels.get(told.args[1]!) : undefined;
+        : told ? labels.get(told.args[1]!) : own?.from ? labels.get(own.from) : undefined;
       return { id: e.id, text: ObservationText.render(e.name, world), ...source ? { source } : {},
         ...told && (seen || found || read || reached.has(e.id) || this.borne(world, actor, e.id))
           ? { confirmed: true as const } : {},
-        ...from ? { from } : {}, ...learned.has(e.id) ? { at: learned.get(e.id)! } : {} };
+        ...from ? { from } : {}, ...by ? { at: by.at } : {} };
     });
+  }
+  // What was learnt in play by an act that names no source of its own (no witnessing, no telling written for it): told,
+  // when the act was asking someone, by them; otherwise found by the company itself (the notice on the well-post
+  // read). It had been filed as known before the company set out (NAR-12: notes knowing what nobody said).
+  private static own(campaign: Campaign, action: string): { source: 'heard' | 'seen'; from?: string } {
+    const op = campaign.operator(action), speaker = op?.speaker ?? op?.bindings?.informant;
+    return speaker ? { source: 'heard', from: speaker } : { source: 'seen' };
   }
   // When the company learned each thing it knows, from the log: read once, and then only what the log has added since
   // (a log cut back, by a command undone, is read again).
   private static readonly learnt = new WeakMap<readonly CampaignEvent[],
-    { actor: string; read: number; last?: CampaignEvent; learned: Map<string, number> }>();
-  private static learned(campaign: Campaign, actor: string): Map<string, number> {
+    { actor: string; read: number; last?: CampaignEvent; learned: Map<string, { at: number; action: string }> }>();
+  private static learned(campaign: Campaign, actor: string): Map<string, { at: number; action: string }> {
     const log = campaign.history;
     let kept = this.learnt.get(log);
     if (!kept || kept.actor !== actor || kept.read > log.length || log[kept.read - 1] !== kept.last) {
@@ -45,7 +54,9 @@ export class CompanyKnowledge {
       const e = log[kept.read]!;
       for (const c of e.changes) {
         const m = /^\+ knows\(([^,]+), ([^)]+)\)$/.exec(c);
-        if (m && m[1] === actor && !kept.learned.has(m[2]!)) { kept.learned.set(m[2]!, e.elapsed); }
+        if (m && m[1] === actor && !kept.learned.has(m[2]!)) {
+          kept.learned.set(m[2]!, { at: e.elapsed, action: e.action });
+        }
       }
     }
     kept.last = log[kept.read - 1];

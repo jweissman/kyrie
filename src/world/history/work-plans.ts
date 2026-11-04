@@ -21,6 +21,9 @@ export interface WorkPlan {
   lair?: string;
   // A deep site (see DeepSites): generated from what it was for, not written from sections.
   deep?: boolean;
+  // The links of an expedition its works may not make, each with why (@declines successor: its sight-line has
+  // fallen); as KitManifest.declines.
+  declines?: Record<string, string>;
 }
 
 // Works are written as Kyr templates (data/generation/works/*.kyrt): a few header lines, then sections. The base
@@ -74,6 +77,12 @@ export class WorkPlans {
       case 'great': plan.great = value === 'yes'; break;
       case 'lair': plan.lair = value; break;
       case 'names': plan.names = value.split(',').map(p => p.trim()); break;
+      case 'declines': {
+        const colon = value.indexOf(':');
+        plan.declines = { ...plan.declines, [colon < 0 ? value : value.slice(0, colon).trim()]:
+          colon < 0 ? '' : value.slice(colon + 1).trim() };
+        break;
+      }
       default: throw new Error(`Unknown work plan field @${name}`);
     }
   }

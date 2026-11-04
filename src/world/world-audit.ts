@@ -4,18 +4,23 @@ import { EngineWrites } from '../campaign/engine-writes';
 import { EntityIndex } from '../lang/entity-index';
 import { ModuleWriter } from '../lang/module-writer';
 import type { Placement } from './world-assembler';
+import { ExpeditionContract } from './expedition-contract';
 
-export interface AuditFinding { kind: 'route' | 'resource' | 'clue' | 'outcome'; subject: string; text: string }
+export interface AuditFinding {
+  kind: 'route' | 'resource' | 'clue' | 'outcome' | 'contract'; subject: string; text: string;
+}
 // A site a placement sets apart (a kit's hold, a makers' work), and the settlements it is bound to, whose people
-// should tell of it (see PlacedSites).
-export interface PlacedSite { subject: string; place: string; towns: string[] }
+// should tell of it (see PlacedSites); and the links of an expedition its placement declines, with why (see
+// ExpeditionContract).
+export interface PlacedSite { subject: string; place: string; towns: string[]; declines?: Record<string, string> }
 
 // Whether a world's adventures can be found and finished, read off the world itself rather than trusted to its
 // generator: every place a story is set in can be walked to (by any way, shut or not: a way can be opened); every
 // thing someone wants exists somewhere the company can get it (for sale, growing, lying about) and not only in their
 // own hands; every story has someone who tells of it, somewhere the company can reach; every site set apart for one
-// is told of where it belongs, and knowing of it is an aim; and every story's ending names only what something in the
-// world can bring about. What the willow fix did for one fever, for every story.
+// is told of where it belongs, and knowing of it is an aim, and makes every link of an expedition or declines it with
+// why (REV-01); and every story's ending names only what something in the world can bring about. What the willow fix
+// did for one fever, for every story.
 export class WorldAudit {
   // Written by the engine rather than by rules: what a story may wait on without any rule asserting it.
   static readonly engine = EngineWrites.names;
@@ -23,7 +28,15 @@ export class WorldAudit {
     const reach = this.reachable(campaign);
     return [...this.routes(campaign, placements, reach), ...this.resources(campaign, reach),
       ...this.clues(campaign, placements, reach), ...this.leads(campaign, sites, reach),
-      ...this.outcomes(campaign)];
+      ...this.contracts(campaign, sites), ...this.outcomes(campaign)];
+  }
+  // Every link of an expedition a site neither makes nor declines with why (see ExpeditionContract.undeclared).
+  private static contracts(campaign: Campaign, sites: PlacedSite[]): AuditFinding[] {
+    if (!sites.length) { return []; }
+    return ExpeditionContract.undeclared(ExpeditionContract.of(campaign, sites)).map(line => {
+      const [subject, link] = line.split(': ') as [string, string];
+      return { kind: 'contract' as const, subject, text: `${link}: neither made nor declined` };
+    });
   }
   // Every place reachable from where the company stands, by every passage there is.
   static reachable(campaign: Campaign): Set<string> {

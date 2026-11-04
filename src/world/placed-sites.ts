@@ -20,13 +20,15 @@ export class PlacedSites {
       const towns = Object.values(p.bindings)
         .filter(b => ledger.holds('settlement', b) || ledger.solve(square, { '?square': b }).length > 0);
       return Object.entries(p.bindings).filter(([, b]) => ledger.holds('taken', b, p.kit) && !ledger.holds('onRoad', b))
-        .map(([slot, place]) => ({ subject: `${p.id}.${slot}`, place, towns }));
+        .map(([slot, place]) => ({ subject: `${p.id}.${slot}`, place, towns,
+          ...p.declines ? { declines: p.declines } : {} }));
     });
   }
   private static works(report: WorldReport): PlacedSite[] {
     const region = report.region;
     return region.sites.filter(s => s.work && !Histories.plan(s.work.plan).great && !Histories.plan(s.work.plan).deep)
       .map(s => ({ subject: `work:${s.id}`, place: `${RegionWriter.id}__${s.id}`,
-        towns: RegionWorks.towns(region, s).map(t => `${RegionWriter.id}__${t.id}`) }));
+        towns: RegionWorks.towns(region, s).map(t => `${RegionWriter.id}__${t.id}`),
+        ...Histories.plan(s.work!.plan).declines ? { declines: Histories.plan(s.work!.plan).declines } : {} }));
   }
 }

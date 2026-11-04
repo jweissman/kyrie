@@ -3,6 +3,8 @@ Module origin "What is owed" {
   Entity party: group "You".
   Place shop "The shop" is room.
   Entity creditor: group "The merchant". Entity loan: debt "What you owe".
+  // The work the merchant tells of once paid, and the way there (see Origins.after; PT-01).
+  Entity named: fact "Where it is". Entity found: fact "The way there".
   Kind debt. Measure owed(debt).
   Relation extended(group). Relation called(group). Relation squared(group). Relation termed(group).
   // Once answered, the creditor's greeting is not said again.
@@ -28,8 +30,9 @@ Module origin "What is owed" {
     On discuss { Assert extended(actor). Increase owed(loan) by 5. }
   }
   Topic pay with creditor "Pay {creditor} what you owe" when owed(loan) > 0 and quantity(actor, gold) >= owed(loan) once {
-    Says "{creditor} counts it twice, and sweeps it into the drawer. 'We're square.' For the first time, a smile. 'I didn't think you would.'".
-    On discuss { Decrease quantity(actor, gold) by owed(loan). Set owed(loan) to 0. Retract inDebtTo(actor, creditor). Assert squared(actor). }
+    Says "{creditor} counts it twice, and sweeps it into the drawer. 'We're square.' For the first time, a smile. 'I didn't think you would.'{after}".
+    On discuss { Decrease quantity(actor, gold) by owed(loan). Set owed(loan) to 0. Retract inDebtTo(actor, creditor). Assert squared(actor).
+      Assert knows(actor, named). Assert knows(actor, found). }
   }
   Rule called_in when owed(loan) > 0 and not called(party) and ((watch(clock) >= 1440 and not extended(party)) or watch(clock) >= 2160) says "Word has gone round {homename}: {creditor} has called in what you owe, and will not deal with you, nor will anyone who wants {creditor}'s custom." {
     Assert called(party). Assert refusesService(creditor, party).

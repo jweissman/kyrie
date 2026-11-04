@@ -1,3 +1,5 @@
+import type { AfterAct } from './decision-frame';
+
 // A place at a glance (OWN-18, OWN-19): what the page leads with where the company stands, decided by the engine so
 // that the page draws and does not guess. The full telling, every person and every way stay behind "Look about",
 // "Every way" and "More": nothing written is lost, and nothing legal is left out.
@@ -63,4 +65,6 @@ export interface Glance {
   aim?: string;
   // The company's state, said only when something is wrong (hungry, hurt, weary, in the dark).
   need?: string[];
+  // After an act: what was attempted, what came of it, what it changed, and the act it made relevant (REV-05).
+  after?: AfterAct;
 }
