@@ -269,6 +269,7 @@
     "test/play-parts.test.ts": 5477,
     "test/placed-star.test.ts": 5207,
     "test/darkness.test.ts": 4762,
+    "test/two-modules-one-town.test.ts": 4700,
     "test/command-contract.test.ts": 4692,
     "test/authored-land.test.ts": 4610,
     "test/town-plan.test.ts": 4400,
