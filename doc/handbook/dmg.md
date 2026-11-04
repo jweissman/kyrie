@@ -2086,7 +2086,7 @@ Someone who would come with you, if you led them, can be told not to wait: they 
 
 #### talks, addressed
 
-*Kyr · relation(group); relation(group, group)* · `rule:world_people.talks`
+*Kyr · relation(group); relation(person: group, company: group)* · `rule:world_people.talks`
 
 Talking to someone: the company's attention on one person, until it takes its leave or goes. Anyone who is a person (not an animal or a beast) talks, and anyone with something to be asked (Topic) does. Speaking to them takes no time; they answer it (a greeting, from the voice tables), and what can be put to them is put in it.
 

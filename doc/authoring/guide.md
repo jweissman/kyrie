@@ -107,7 +107,10 @@ of one, two or three, and of one when nobody chooses (`test/fixtures/probes/comp
 of its module for a campaign of three).
 
 A person is a `group` wherever a relation, query or action names one: there is no `person` type, and `Relation
-named(person)` will not load where `Relation named(group)` does (the Book of Faces' BOF-32).
+named(person)` will not load where `Relation named(group)` does (the Book of Faces' BOF-32). Each argument may be named
+for the part it plays, which tells apart two of one kind: the shared `Relation addressed(person: group, company:
+group)` takes the person first, and the handbook and a refused call say so (Wapshott's Circus's 7: written the other
+way round, its `metCircus` never held, and nothing warned; `test/relation-roles.test.ts`).
 
 A person has a place and whatever you choose to fix about them: `Ancestry`, `Calling` (class), `Level`, a
 `Profession`, a `Background`. Anything you leave open is filled by generation, if the campaign generates people, or

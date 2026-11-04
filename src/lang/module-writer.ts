@@ -37,7 +37,8 @@ export class ModuleWriter {
       `  Description ${JSON.stringify(module.description)}.`];
     for (const kind of module.kinds) { lines.push(`  Kind ${kind}.`); }
     for (const relation of module.relations) {
-      lines.push(`  Relation ${relation.name}(${relation.types.join(', ')})${relation.exclusive ? ' exclusive' : ''}.`);
+      const args = relation.types.map((t, i) => relation.roles?.[i] ? `${relation.roles[i]}: ${t}` : t);
+      lines.push(`  Relation ${relation.name}(${args.join(', ')})${relation.exclusive ? ' exclusive' : ''}.`);
     }
     for (const measure of module.measures) {
       lines.push(`  Measure ${measure.name}(${measure.types.join(', ')})${measure.most !== undefined ? ` at most ${measure.most}` : ''}.`);

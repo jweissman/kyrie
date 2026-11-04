@@ -493,6 +493,7 @@
     "test/candidates.test.ts": 701,
     "test/danger-grind.test.ts": 700,
     "test/strikes-member.test.ts": 700,
+    "test/relation-roles.test.ts": 700,
     "test/roles-said.test.ts": 692,
     "test/long-man-browser.test.ts": 689,
     "test/fighting-odds.test.ts": 676,

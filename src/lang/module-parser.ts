@@ -354,10 +354,16 @@ export class ModuleParser {
       ...(instead.children.length ? { instead: ModuleParser.ast(instead.children[0]!) } : {}),
       ...(teaches.children.length ? { teaches: teaches.children[0]!.children[1]!.sourceString } : {}) } };
   }
+  // A relation's arguments may each be named for the part it plays (`Relation addressed(person: group, company:
+  // group)`): two of one kind are told apart by their names, in the handbook and in what is refused (WPC-07: written
+  // the other way round, the circus's metCircus never held, and nothing said so).
   static Relation(_relation: Node, name: Node, _open: Node, types: Node,
     _close: Node, exclusive: Node, _dot: Node): Field {
-    return { field: 'relation', value: { name: name.sourceString,
-      types: types.asIteration().children.map(ModuleParser.text), exclusive: exclusive.children.length > 0 } };
+    const parameters = types.asIteration().children.map(p => p.children[0]!.ctorName === 'Parameter'
+      ? ModuleParser.ast(p.children[0]!) as { name: string; type: string } : { name: '', type: p.sourceString });
+    const roles = parameters.some(p => p.name) ? { roles: parameters.map(p => p.name) } : {};
+    return { field: 'relation', value: { name: name.sourceString, types: parameters.map(p => p.type), ...roles,
+      exclusive: exclusive.children.length > 0 } };
   }
   static Measure(_measure: Node, name: Node, _open: Node, types: Node, _close: Node, most: Node, _dot: Node): Field {
     return { field: 'measure', value: { name: name.sourceString,

@@ -230,7 +230,9 @@ export class ModuleCompiler {
     let index = this.signatures.get(signatures);
     if (!index) { index = new Map(signatures.map(s => [s.name, s])); this.signatures.set(signatures, index); }
     const signature = index.get(call.name);
-    if (!signature || signature.types.length !== call.args.length) { throw new Error(`Unknown function or arity: ${World.format(call)}`); }
+    if (!signature || signature.types.length !== call.args.length) {
+      throw new Error(`Unknown function or arity: ${World.format(call)}${signature ? `; it is ${this.shape(signature)}` : ''}`);
+    }
     call.args.forEach((arg, i) => {
       if (arg.startsWith('?') || (signature.types[i] === 'number' && (/^\d+$/.test(arg) || bindings[arg] === 'number'))) {
         return;
@@ -238,10 +240,14 @@ export class ModuleCompiler {
       const type = bindings[arg] ?? this.type(module, arg);
       const expected = signature.types[i];
       if (!type || (expected !== 'entity' && type !== 'entity' && type !== expected)) {
-        throw new Error(`Invalid argument ${arg} in ${World.format(call)}${type ? ''
+        throw new Error(`Invalid argument ${arg} in ${World.format(call)}${type ? signature.roles ? `; it is ${this.shape(signature)}` : ''
           : this.unrun(arg, expected) ?? this.known(module, expected)}`);
       }
     });
+  }
+  // A relation as declared, with the part each argument plays where it names them (WPC-07).
+  private shape(s: Signature): string {
+    return `${s.name}(${s.types.map((t, i) => s.roles?.[i] ? `${s.roles[i]}: ${t}` : t).join(', ')})`;
   }
   // An ability of Orsino's that Kyr cannot run, said so with why, where it had been only an invalid argument (the Book
   // of Faces' BOF-05: true_sight, an hour lost).

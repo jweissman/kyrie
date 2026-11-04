@@ -67,7 +67,7 @@ Module world_people "Company and intention" {
   // Talking to someone: the company's attention on one person, until it takes its leave or goes. Anyone who is a
   // person (not an animal or a beast) talks, and anyone with something to be asked (Topic) does. Speaking to them
   // takes no time; they answer it (a greeting, from the voice tables), and what can be put to them is put in it.
-  Relation talks(group). Relation addressed(group, group).
+  Relation talks(group). Relation addressed(person: group, company: group).
   // Whoever the company has spoken with, for good: someone called a stranger's name until then (Known as "an old man
   // with a pole" when not acquainted(hob, party)) is themselves from the first word and their greeting, whichever way
   // the company came to them (Quittance's ll 17, QTC-A24: one topic taught his name, and a Greets could not).

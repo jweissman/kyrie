@@ -33,8 +33,9 @@ export interface Entity {
   // Who someone is while something holds, the first that does, instead of who they are otherwise.
   roles?: { name: string; when: Predicate }[];
 }
-// A measure may say the most it can be (Measure fondness(group) at most 10): a change past it stops there.
-export interface Signature { name: string; types: string[]; exclusive: boolean; most?: number }
+// A measure may say the most it can be (Measure fondness(group) at most 10): a change past it stops there. A
+// relation may name the part each argument plays (roles), the same length as its types.
+export interface Signature { name: string; types: string[]; exclusive: boolean; most?: number; roles?: string[] }
 export interface Query { name: string; parameters: { name: string; type: string }[]; body: Predicate }
 export interface Operator {
   searchPlace?: string;
