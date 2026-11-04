@@ -136,10 +136,10 @@ The brief is [brief.md](brief.md) (gates A to F); the owner's own requests are t
 
 [register.md](register.md). Statuses: Fixed (with evidence), Partial (what remains said), Open, Wishlist (Mission 19,
 with why), Superseded, Not reproduced. Older rows keep their status at the start of the last cell; later notes are
-appended dated. Counts at handoff (568 rows): Fixed 362, Wishlist 122, Open 45, Partial 5, Not reproduced 6, Superseded 3, and 25 held by or answered in another row. The 45 Open rows are being triaged in a branch (m18/rows-open) as this is written; see the register for their final state.
+appended dated. Counts at handoff (568 rows): Fixed 383, Wishlist 138, Not reproduced 12, Partial 7, Superseded 3, and 25 held by or answered in another row; none Open.
 
-What remains Partial is the owner's to judge in play (OWN-55, OWN-77, OWN-78, OWN-81: the town page, the loop,
-navigation) and a handful of concrete items (NVR-23 the road page's spec, WPC-16 and WPC-17 placement needs).
+What remains Partial is the owner's to judge in play (OWN-55, OWN-76 to OWN-79, OWN-81: the town page, the loop,
+navigation) and one concrete item (NVR-23, the road page's spec).
 The Wishlist is Mission 19's backlog, each row saying what it needs; many group under a few themes (§10).
 
 Practice that bit the builder twice: a register row's id must be checked against its finding before it is closed
