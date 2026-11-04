@@ -47,7 +47,7 @@ describe('a protagonist\'s name', () => {
     async () => {
       const world = await WorldAssembler.assemble('thorn', NodeBundleSource.shared, {});
       const names = ProtagonistNames.drawn(world.report.region, 'thorn'), taken = Outfitters.everyone(world.report.region);
-      expect(Object.keys(names).sort()).toEqual(['dwarf', 'elf', 'human']);
+      expect(Object.keys(names).sort()).toEqual(['catfolk', 'dwarf', 'elf', 'human']);
       for (const [people, lists] of Object.entries(names)) {
         const own = given[people]!;
         const strange = (list: string[], as: string) => list.filter(n => !own[as]!.includes(n));
