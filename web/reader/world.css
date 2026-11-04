@@ -80,3 +80,14 @@
 .overview-view .scenery { position: absolute; inset: 0; margin: 0; }
 .overview-view .scenery img { width: 100%; height: 100%; object-fit: cover; filter: saturate(.85) brightness(.85); }
 .overview-view .scenery figcaption { position: absolute; right: 10px; bottom: 6px; font-size: 10.5px; color: var(--faint); }
+/* A town's plan as a plan: its ways drawn as streets, broad and pale under everything; open ground (a green, a yard,
+   a lane) as ground, unbordered; a building as a block with a roof's hatch. Below ground and inside, rooms and the
+   passages between them, as before. */
+.plan-surface.kind-settlement .lane { stroke: rgba(236, 230, 217, .06); stroke-width: 16; }
+.plan-surface.kind-settlement .lane.walked { stroke: rgba(236, 230, 217, .11); }
+.plan-surface.kind-settlement .place.open .body { fill: #1e241d; stroke: rgba(122, 150, 96, .32); }
+.plan-surface.kind-settlement .place.open.unvisited .body { fill: #181b18; }
+.plan-surface.kind-settlement .place.in .body { fill: #2a2c33; stroke: rgba(236, 230, 217, .30); }
+.plan-surface.kind-settlement .place.in.unvisited .body { fill: #202228; }
+.plan-surface.kind-under .lane { stroke: rgba(236, 230, 217, .12); stroke-width: 9; }
+.plan-surface.kind-under .place .body { fill: #18191e; }
