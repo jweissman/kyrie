@@ -284,10 +284,26 @@ export class ChartModel {
     return [...w.related('revealedBy').filter(r => this.knows(r.args[1]!)).map(r => r.args[0]!),
       ...w.related('leadsVia').filter(r => this.knows(r.args[0]!)).map(r => r.args[1]!)];
   }
-  // The places facts the company knows lead to.
+  // The places facts the company knows lead to; and the places its aims name, a site by its outside (an aim to bring
+  // the crown out from under Lapistumul had left the barrow on the map as "a barrow, not yet made out": Mission 19).
   private leads(): string[] {
     const w = this.world;
-    return w.relates('leadsTo') ? w.related('leadsTo')
-      .filter(r => w.test(ModuleWriter.call('knows', this.actor, r.args[0]!))).map(r => r.args[1]!) : [];
+    return [...w.relates('leadsTo') ? w.related('leadsTo')
+      .filter(r => w.test(ModuleWriter.call('knows', this.actor, r.args[0]!))).map(r => r.args[1]!) : [],
+    ...this.aimed()];
+  }
+  private aimed(): string[] {
+    const w = this.world, named = new Set<string>();
+    for (const o of (w.module.objectives ?? []).filter(x => w.test(x.when))) {
+      ObservationText.map(o.text, call => { call.args.forEach(a => named.add(a)); return ''; },
+        id => { named.add(id); return ''; });
+    }
+    const sites = new Set([...named].flatMap(id => this.siteOf(id) ?? []));
+    const outsides = w.related('connects').flatMap(r => [[r.args[1]!, r.args[2]!], [r.args[2]!, r.args[1]!]] as const)
+      .flatMap(([a, b]) => sites.has(this.siteOf(a) ?? '') && !this.siteOf(b) ? [b] : []);
+    return [...new Set([...[...named].filter(id => this.entities.get(id)?.space && !this.siteOf(id)), ...outsides])];
+  }
+  private siteOf(id: string): string | undefined {
+    return Spatial.ancestry(this.entities, id).find(e => e.space?.kind === 'site')?.id;
   }
 }

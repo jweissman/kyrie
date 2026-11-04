@@ -127,7 +127,7 @@ export class Glance {
     const authored = new Set(rows.filter(r => this.changes.includes(r.action.schema ?? '')).map(r => r.choice.id));
     return { schema, args, speakers: new Set(rows.filter(r => r.action.speaker).map(r => r.choice.id)), authored,
       named, held,
-      toward: this.toward(campaign, screen, { named, held }), inward: this.inward(campaign, screen),
+      ...this.ways(campaign, screen, { named, held }),
       ...back ? { back } : {}, here, signs: this.signs(campaign,
         screen, recall), ...at.life ? { life: at.life } : {}, pointed: at.pointed,
       done: new Set(commands.filter(c => recall.did(here, c))),
@@ -203,14 +203,31 @@ export class Glance {
     if (step && !out.has(step)) { out.set(step, 'toward'); }
     return out;
   }
+  // The ways toward the aims, and into a site: no step across the country toward an aim while there is a way into a
+  // site here (the barrow's door beside the company, and the page had led with the map "toward your aim").
+  private static ways(campaign: Campaign, screen: Screen, aims: { named: Set<string>; held: Set<string> }):
+    Pick<Reading, 'toward' | 'inward'> {
+    const inward = this.inward(campaign, screen), toward = this.toward(campaign, screen, aims);
+    if (inward.size) {
+      for (const [id] of toward) { if (screen.exits.find(e => e.id === id)?.bearing) { toward.delete(id); } }
+    }
+    return { toward, inward };
+  }
   // The ways into a site (a barrow, a cave, a ruin) not yet taken, or further into the one the company is in, by the
   // world's own nesting of its places, never by their names: from its outside its way in, from each room the rooms
   // beyond. Not out of one site into another.
   private static inward(campaign: Campaign, screen: Screen): Set<string> {
     const byId = EntityIndex.of(campaign.module.entities).byId, here = this.siteOf(byId, screen.place.id);
+    // A site's outside (the mound a barrow's door is in) is the way into it too: a place outside any site a way joins
+    // to one of its rooms (the barrow's mound, beside the wood, had been only under Every way).
+    const outsides = new Map(campaign.world.related('connects').flatMap(r => [[r.args[1]!, r.args[2]!],
+      [r.args[2]!, r.args[1]!]] as const).flatMap(([a, b]) => {
+      const site = this.siteOf(byId, b);
+      return site && !this.siteOf(byId, a) ? [[a, site] as const] : [];
+    }));
     const inward = new Set(screen.exits.filter(e => {
-      const there = !e.visited && !e.blocked && this.siteOf(byId, e.destination.id);
-      return there && (!here || there === here);
+      const there = !e.visited && !e.blocked && (this.siteOf(byId, e.destination.id) ?? outsides.get(e.destination.id));
+      return there && (!here || there === here) && e.destination.id !== screen.place.id;
     }).map(e => e.id));
     return inward.size || !here ? inward : this.onward(campaign, screen, { byId, site: here });
   }

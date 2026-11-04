@@ -102,7 +102,9 @@ export class LandModel {
   // somewhere high (the owner, 1 November: "only illuminate the surrounding six hexes from where you start").
   private about(id: string, known: Set<number>): void {
     const chart = this.chart, area = this.marked(id), at = this.cell(id);
-    for (const c of chart.parts[id] ?? chart.roads[id] ?? []) { this.reveal(c, 1, known); }
+    // A road walked, along its length; a stretch of wild country, only where the company stood in it (the edge of a
+    // wood had lit the whole wood: the owner, 4 November, only the hexes the company has been beside).
+    for (const c of chart.roads[id] ?? []) { this.reveal(c, 1, known); }
     if (at !== undefined) { this.reveal(at, 1, known); }
     for (const c of (area && chart.blocks?.[area.id]) ?? []) { this.reveal(c, 1, known); }
   }

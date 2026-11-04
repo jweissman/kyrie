@@ -7,7 +7,7 @@
 //   /key?k=a,Enter       press keys in order                               /text?t=Label  click the first matching text
 //   /click?s=<selector>  click an element                                  /eval?js=…     evaluate (or POST the script)
 //   /size?w=&h=          resize the viewport                                /x             the page's text
-//   /hover?x=&y=         move the pointer there
+//   /hover?x=&y=         move the pointer there                            /tap?x=&y=     click there
 //   any request takes wait=<ms> (default 400) and shot=<name> to save <out>/<name>.png and <name>.txt
 import { chromium, type Page } from 'playwright-core';
 import { mkdirSync, writeFileSync } from 'node:fs';
@@ -49,6 +49,7 @@ class PlayServer {
         for (const k of (q.get('k') ?? '').split(',').filter(Boolean)) { await page.keyboard.press(k); await page.waitForTimeout(120); }
         break;
       case '/hover': await page.mouse.move(Number(q.get('x')), Number(q.get('y'))); break;
+      case '/tap': await page.mouse.click(Number(q.get('x')), Number(q.get('y'))); break;
       case '/text': await page.getByText(q.get('t')!, { exact: q.has('exact') }).first().click(); break;
       case '/click': await page.click(q.get('s')!); break;
       case '/size': await page.setViewportSize({ width: Number(q.get('w')), height: Number(q.get('h')) }); break;

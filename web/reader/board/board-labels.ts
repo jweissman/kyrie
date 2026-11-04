@@ -39,12 +39,14 @@ export class BoardLabels {
     const el = this.button(m, 'board-town'); el.textContent = m.state === 'heard' ? m.name : m.name.toUpperCase();
     this.add({ el, at, cell: m.cell, id: m.id, town: true, w: 0, h: 0, afar: BoardLabels.afar(m) });
   }
-  // A place's sign: centred in its ring, the sign of its kind; only heard of, an empty ring of dashes with the name it
-  // was told by always beside it; not made out, a question.
+  // A place's sign: centred in its ring, the sign of its kind; only heard of, a ring of dashes with the name it was
+  // told by always beside it, and the sign of what it is said to be where that is known (a barrow, a cave: the owner,
+  // 4 November); not made out, its kind if its shape tells it, else a question.
   sign(m: BoardMark, at: Vector3): void {
     const el = this.button(m, `board-sign ${m.kind}`), name = document.createElement('span'),
-      told = m.state === 'heard';
-    el.innerHTML = told ? '<i></i>' : `<i>${BoardGlyphs.svg(m.state === 'unknown' && !HexLand.kinds.has(m.kind) ? 'unknown' : m.kind)}</i>`;
+      told = m.state === 'heard', kind = HexLand.kinds.has(m.kind);
+    el.innerHTML = told && !kind ? '<i></i>'
+      : `<i>${BoardGlyphs.svg(m.state === 'unknown' && !kind ? 'unknown' : m.kind)}</i>`;
     name.className = 'name'; name.textContent = m.name.replace(/^the /, ''); name.hidden = !told; el.appendChild(name);
     this.add({ el, at, cell: m.cell, id: m.id, town: false, w: 0, h: 0, name, afar: BoardLabels.afar(m), told });
   }

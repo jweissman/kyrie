@@ -115,6 +115,10 @@ export class MapView {
     const said = `${time}${day === today ? '' : ` on ${day!.toLowerCase()}`}${dark}`;
     return `You would come there about ${said.replace(/\.$/, '')}.`;
   }
+  // Whether a place chosen is only heard of, its country not yet seen.
+  private static heard(screen: Screen, chosen: string): boolean {
+    return screen.region?.land?.marks.some(m => m.id === chosen && m.state === 'heard') ?? false;
+  }
   // The way to a place chosen by the keys, next for them: how to set out, or, where there is no way, what it is.
   private static onward(dialog: HTMLElement | null): void {
     (dialog?.querySelector<HTMLElement>('.plan .go') ?? dialog?.querySelector<HTMLElement>('.plan .to'))?.focus();
@@ -142,7 +146,8 @@ export class MapView {
           MapView.arrival(screen, d.minutes)}`
           : here ? 'You are here already.' : go ? 'Across the country you can see, the quickest way.'
             : cell !== undefined && !MapView.walkable(land, Number(cell)) ? 'There is no going there on foot.'
-              : 'You know no way there yet.'}</p>
+              : MapView.heard(screen, chosen) ? 'You know no way there yet: go into the country beside it, and the way will show.'
+                : 'You know no way there yet.'}</p>
         {over && go && <p className="note">Choose it to see the way; choose it again to set out.</p>}
         {!over && go && <button type="button" className="act go" data-action="set-out" onClick={() => app.choose(go)}>
           {Typography.curl(go.label)}</button>}
@@ -163,8 +168,12 @@ export class MapView {
     const d = plans.find(x => x.id === id) ?? plans.find(x => x.id === area);
     const mark = land.marks.find(m => m.id === chosen), within = region.areas.find(a => a.here)?.id === area;
     const here = cell !== undefined ? land.here === Number(cell) || (!land.tracts && within) : mark ? mark.here : within;
-    // A place the page plans no way to is not set out for (a journey that knows no way leaves nothing to go on with).
-    const go: Choice | undefined = d ? MenuModel.journey(d) : here || mark ? undefined : MapView.across(land, cell, name);
+    // A place the page plans no way to is not set out for (a journey that knows no way leaves nothing to go on with),
+    // unless its hex is country the company can see: then across it, to the place's hex (a barrow heard of, beside
+    // the wood the company stands in, had been "no way there yet": Mission 19's play).
+    const go: Choice | undefined = d ? MenuModel.journey(d) : here ? undefined
+      : mark ? MapView.across(land, land.known.includes(mark.cell) ? mark.cell : undefined, name)
+        : MapView.across(land, cell, name);
     return { cell, name, d, here, go };
   }
   // Where no way is known, across the open country to the hex: a hex chosen, the hex a place seen stands on, or one
