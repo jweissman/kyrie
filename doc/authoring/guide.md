@@ -1505,6 +1505,23 @@ spectral, vampiric), each adding to its attributes, abilities and traits as `dat
 A band of `Numbers 2` or more is one group: `able(hounds)` while any of them is up, `dead(hounds)` only when every
 one is down (Quittance's A17).
 
+And it can be its kind varied, one way on each axis — age, size, its part among its kind, the country it was bred
+in, how it is disposed, what has got into it — with `Variant`, as many as it has axes. Never write a species for a
+variant (a buck rat, a frost wolf): write the kind and lay the variations on it.
+
+```text
+  Person buck "the buck rat" at nest { Role "a rat the size of a dog". Species great_rat. Variant elder. Variant great. }
+  Person mother "the spiders' mother" at brood { Role "a spider the size of a pony". Species cave_spider.
+    Variant great. Variant brood_mother. }
+```
+
+Each variation is a row of `data/catalog/variations.json`: its axis, the word it is called by (an *old great rat*),
+what is seen of it, what it adds to the qualities, health a level, abilities and natural traits, the kinds of
+creature it can be, and a Deem `hint` on where a generated country lays it on its dens' beasts
+(`#climate == 'cold' || #habitat == 'snow'` for frost). Add a row and it is in the game: written in a Person, laid on
+where its hint holds, and listed in the Monster Manual's *Variations*. Two of one axis are refused, as is a
+variation the table has not got (`test/variants.test.ts`).
+
 ### Something said near each one of many
 
 An observation can be near a variable its condition binds: one line for each lit lamp, near that lamp, wherever it

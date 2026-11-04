@@ -226,23 +226,6 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A small insect with a hard exoskeleton and strong mandibles for biting.
 
-#### Buck rat
-
-*Kyr · a great rat, altered* · `species:buck_rat`
-
-- Type: beast (animal)
-- Hit points: d7 a level
-- Qualities: rolled (3d6 each)
-- Attack: bite, 1d6 piercing
-- Hide: Fur Armor, armour 0
-- Temperament: territorial
-- Found in: settlement, cave
-- Worth: 10 experience a level
-
-Rending bite: 1d6 (1–6) physical damage to one enemy; it is bleeding for 2 turns (a Constitution save against 11 avoids it). Bleeding: takes 1 bleed damage each turn. Again after a turn.
-
-> An old male of the great rats, the size of a dog, scarred and grey at the muzzle: the one the others make way for, and the last to run.
-
 #### Butterfly
 
 *Faithful · beast* · `species:butterfly`
@@ -1132,25 +1115,6 @@ Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 
 Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A legless reptile of profound stealth and, in some species, venomous bite.
-
-#### Spider mother
-
-*Kyr · a cave spider, altered* · `species:spider_mother`
-
-- Type: beast (animal)
-- Hit points: d10 a level
-- Qualities: rolled (3d6 each)
-- Attack: bite, 1d6 piercing
-- Hide: Chitin Armor, armour 2
-- Temperament: defensive
-- Found in: cave
-- Worth: 150 experience a level
-
-Venomous Bite: 1d6 (1–6) poison damage to one enemy (halved if resisted; may cause poison: a Constitution save against 15 avoids it); it gains poison for 3 turns (a Constitution save against 12 + level + the caster's spell bonus avoids it). Poison: takes 1d4 (1–4) true damage each turn. A divine spell of the first level. Takes a first-level slot.
-
-Ensnare: One enemy is entangled for 3 turns (a Dexterity save against 12 + level + the caster's spell bonus avoids it). Entangled: −2 to hit, −5 evasion, −5 initiative, Dexterity −5. Again after 3 turns.
-
-> A cave spider grown to the size of a pony, swollen and slow, that keeps to the back of the web with her eggs and does not leave them.
 
 #### Squirrel
 
@@ -2905,6 +2869,24 @@ Ethereal Form: +5 evasion, resists 50% of bludgeoning, resists 50% of piercing, 
 *Left out — field:monsterGold: Orsino's 2d10 gold for the kill is not carried.*
 
 *Adapted: Composed by OrsinoMonsters (undead class, Wraith type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
+
+## Variations
+
+A creature is its kind with any of these laid over it, one of each axis: an old great rat, a frost wolf, a great brood-mother of the cave spiders. An author gives them in a Person (Variant elder.); a generated country lays them on what dens where the hint holds.
+
+| Variation | Axis | Called | What is seen | Adds | Laid on where |
+|---|---|---|---|---|---|
+| young | age | young | not yet grown: quick, unsure of itself, and readier to run | Strength -2, Constitution -2, Dexterity +1, health -1 a level | only by an author |
+| elder | age | old | grey and scarred, the one the others make way for, and the last to run | Strength +1, Constitution +2, Dexterity -1, Wisdom +2, health +1 a level, Stout Constitution | only by an author |
+| runt | size | runt | small for its kind, and the quicker for it | Strength -2, Constitution -1, Dexterity +2, health -1 a level | only by an author |
+| great | size | great | twice the size of the rest of its kind | Strength +3, Constitution +2, Dexterity -2, health +2 a level | only by an author |
+| brood_mother | role | brood-mother | swollen and slow, keeping to her eggs and not leaving them | Strength +1, Constitution +3, Dexterity -2, health +3 a level | only by an author |
+| pack_leader | role | lead | the one the rest follow, and watch | Strength +1, Constitution +1, Charisma +2, health +1 a level, Berserker Rage | only by an author |
+| frost | region | frost | thick-coated and pale, bred where the winters are long | Frost adapted | #climate == 'cold' \|\| #habitat == 'snow' |
+| marsh | region | fen | dark and slick with the mud of the fens it was bred in | Marsh adapted | #habitat == 'fen' |
+| sunburnt | region | sun-scorched | lean and dun-coloured, bred where the sun is hard | Fire lineage | #climate == 'arid' |
+| starving | disposition | starving | ribs showing; it will not wait to be sure of you | Strength -1, Constitution -2, Dexterity +1, Berserker Rage | #habitat == 'snow' \|\| #habitat == 'fells' \|\| #habitat == 'heights' |
+| blighted | corruption | blighted | something has got into it: patchy, weeping, and wrong in the way it moves | Constitution +1, Charisma -3, Poison lineage | #habitat == 'barrow' \|\| #habitat == 'ruin' |
 
 ## Natural abilities
 

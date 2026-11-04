@@ -443,9 +443,10 @@ export class WorldAssembler {
     const seat = site && RegionGeography.seats(region).find(x => x.site === site);
     const habitat = site && RegionEcology.habitat(region, site, seat?.form?.form);
     const found = site && RegionEcology.den(region, habitat!);
-    const beast = found && RegionEcology.variant(site, found, habitat!);
+    const beast = found && RegionEcology.variant(site, found, { habitat: habitat!, region });
     return beast ? { beast: beast.species, beastCount: beast.count, beastLabel: beast.label, beastRole: beast.role,
       beastNature: beast.nature, ...beast.aspect ? { beastAspect: beast.aspect } : {},
-      ...beast.template ? { beastTemplate: beast.template } : {} } : {};
+      ...beast.template ? { beastTemplate: beast.template } : {},
+      ...beast.variations ? { beastVariations: beast.variations } : {} } : {};
   }
 }

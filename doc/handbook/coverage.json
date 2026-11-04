@@ -1063,7 +1063,7 @@
     "faithful": 105,
     "adapted": 158,
     "represented": 9,
-    "kyr": 34,
+    "kyr": 32,
     "unsupported": 5,
     "unreachable": 0,
     "data-only": 123
@@ -1076,7 +1076,20 @@
       "faithful": 40,
       "adapted": 69,
       "represented": 0,
-      "kyr": 17,
+      "kyr": 15,
+      "unsupported": 0,
+      "unreachable": 0,
+      "data-only": 0
+     }
+    },
+    {
+     "id": "variations",
+     "title": "Variations",
+     "counts": {
+      "faithful": 0,
+      "adapted": 0,
+      "represented": 0,
+      "kyr": 0,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -18737,13 +18750,6 @@
    "section": "species/species-beast"
   },
   {
-   "id": "species:buck_rat",
-   "title": "Buck rat",
-   "status": "kyr",
-   "book": "mm",
-   "section": "species/species-beast"
-  },
-  {
    "id": "species:butterfly",
    "title": "Butterfly",
    "status": "faithful",
@@ -19076,13 +19082,6 @@
    "id": "species:snake",
    "title": "Snake",
    "status": "faithful",
-   "book": "mm",
-   "section": "species/species-beast"
-  },
-  {
-   "id": "species:spider_mother",
-   "title": "Spider mother",
-   "status": "kyr",
    "book": "mm",
    "section": "species/species-beast"
   },

@@ -1,0 +1,62 @@
+{
+  "about": "What makes one creature other than the rest of its kind, along one axis each: how old it is, how big, what part it has among its kind, the country it was bred in, how it is disposed, what has got into it. A creature is its species with any of these laid over it, one at most of each axis (Variant elder. Variant great. in a Person), never a species of its own for each (the owner, 4 November night). Each says the word it is called by before its kind (an old great rat), what is seen of it, and what it adds: to its qualities, its health at each level, its abilities and its natural traits (data/catalog/traits.json). kinds: the kinds of creature it can be (animal, monster, spirit). hint: a Deem condition on where it is met, by which a generated country lays it on what dens there (climate: arid, cold, humid, temperate, tropical; habitat: the kind of country, as RegionEcology names it); one without a hint is only ever an author's.",
+  "variations": {
+    "young": {
+      "axis": "age", "word": "young", "kinds": ["animal", "monster"],
+      "says": "not yet grown: quick, unsure of itself, and readier to run",
+      "attributes": { "strength": -2, "constitution": -2, "dexterity": 1 }, "health": -1
+    },
+    "elder": {
+      "axis": "age", "word": "old", "kinds": ["animal", "monster"],
+      "says": "grey and scarred, the one the others make way for, and the last to run",
+      "attributes": { "strength": 1, "constitution": 2, "dexterity": -1, "wisdom": 2 }, "health": 1, "traits": ["sturdy"]
+    },
+    "runt": {
+      "axis": "size", "word": "runt", "kinds": ["animal", "monster"],
+      "says": "small for its kind, and the quicker for it",
+      "attributes": { "strength": -2, "constitution": -1, "dexterity": 2 }, "health": -1
+    },
+    "great": {
+      "axis": "size", "word": "great", "kinds": ["animal", "monster"],
+      "says": "twice the size of the rest of its kind",
+      "attributes": { "strength": 3, "constitution": 2, "dexterity": -2 }, "health": 2
+    },
+    "brood_mother": {
+      "axis": "role", "word": "brood-mother", "kinds": ["animal"],
+      "says": "swollen and slow, keeping to her eggs and not leaving them",
+      "attributes": { "strength": 1, "constitution": 3, "dexterity": -2 }, "health": 3
+    },
+    "pack_leader": {
+      "axis": "role", "word": "lead", "kinds": ["animal"],
+      "says": "the one the rest follow, and watch",
+      "attributes": { "strength": 1, "constitution": 1, "charisma": 2 }, "health": 1, "traits": ["fierce"]
+    },
+    "frost": {
+      "axis": "region", "word": "frost", "kinds": ["animal", "monster"],
+      "says": "thick-coated and pale, bred where the winters are long",
+      "traits": ["frost_adapted"], "hint": "#climate == 'cold' || #habitat == 'snow'"
+    },
+    "marsh": {
+      "axis": "region", "word": "fen", "kinds": ["animal", "monster"],
+      "says": "dark and slick with the mud of the fens it was bred in",
+      "traits": ["marsh_adapted"], "hint": "#habitat == 'fen'"
+    },
+    "sunburnt": {
+      "axis": "region", "word": "sun-scorched", "kinds": ["animal", "monster"],
+      "says": "lean and dun-coloured, bred where the sun is hard",
+      "traits": ["fire_lineage"], "hint": "#climate == 'arid'"
+    },
+    "starving": {
+      "axis": "disposition", "word": "starving", "kinds": ["animal"],
+      "says": "ribs showing; it will not wait to be sure of you",
+      "attributes": { "strength": -1, "constitution": -2, "dexterity": 1 }, "traits": ["fierce"],
+      "hint": "#habitat == 'snow' || #habitat == 'fells' || #habitat == 'heights'"
+    },
+    "blighted": {
+      "axis": "corruption", "word": "blighted", "kinds": ["animal", "monster"],
+      "says": "something has got into it: patchy, weeping, and wrong in the way it moves",
+      "attributes": { "constitution": 1, "charisma": -3 }, "traits": ["poison_lineage"],
+      "hint": "#habitat == 'barrow' || #habitat == 'ruin'"
+    }
+  }
+}

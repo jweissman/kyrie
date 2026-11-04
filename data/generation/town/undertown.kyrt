@@ -82,7 +82,7 @@
   }
   Initially Set encounterXp({t}_u_rats) to 20.
   Person {t}_u_buck "the old buck rat" at {t}_u_nest {
-    Role "a rat the size of a dog, grey at the muzzle, with a torn ear and the run of the drain". Species buck_rat. Numbers 1. Level 2. Temperament territorial. Lair {t}_u_nest.
+    Role "a rat the size of a dog, grey at the muzzle, with a torn ear and the run of the drain". Species great_rat. Variant elder. Variant great. Numbers 1. Level 2. Temperament territorial. Lair {t}_u_nest.
   }
   Initially Set encounterXp({t}_u_buck) to 40.
   Entity {t}_u_rats_job: fact "Clear the rats out of the corn-store cellar, under the old corn-store at {town}.".
@@ -229,7 +229,7 @@
   }
   Initially Set encounterXp({t}_u_spiders) to 20.
   Person {t}_u_mother "the spiders' mother" at {t}_u_brood {
-    Role "a spider the size of a pony, swollen and slow, crouched over the eggs at the back of the web". Species spider_mother. Numbers 1. Level 2. Temperament defensive. Lair {t}_u_brood.
+    Role "a spider the size of a pony, swollen and slow, crouched over the eggs at the back of the web". Species cave_spider. Variant great. Variant brood_mother. Numbers 1. Level 2. Temperament defensive. Lair {t}_u_brood.
   }
   Initially Set encounterXp({t}_u_mother) to 40.
   Person {t}_u_hobb "Dannel Hobb" at {innkeeperat} { Role "a boy of ten with a white streak in his hair, kept indoors". Ancestry human. Peaceable. Pronouns he. }

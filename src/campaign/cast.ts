@@ -14,7 +14,7 @@ export interface CastMember { id: string; context: CreatureGenerationContext; go
 // the rest; each field records where it came from. A generator may only contribute fields a person actually has.
 export class Cast {
   static readonly fields = ['raceId', 'classId', 'level', 'backgroundId', 'professionId', 'traits', 'gear', 'aspect',
-    'template'] as const;
+    'template', 'variations'] as const;
   static person(p: Person, generated: Record<string, unknown> = {}, conflicts: string[] = []): CastMember {
     for (const key of Object.keys(generated)) {
       if (!['name', 'parameters', 'role', 'count'].includes(key) && !(this.fields as readonly string[]).includes(key)) {

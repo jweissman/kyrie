@@ -54,7 +54,7 @@ export class PersonParser {
       if (part.field === 'roles') { (p.roles ??= []).push(part.value as NonNullable<Person['roles']>[number]); continue; }
       if (part.field === 'words' || part.field === 'haunt') { manner.push(part.value as Manner); continue; }
       if (part.field === 'arrival') { p.arrives = part.value as NonNullable<Person['arrives']>; continue; }
-      if (part.field === 'traits' || part.field === 'gear') {
+      if (part.field === 'traits' || part.field === 'gear' || part.field === 'variations') {
         const list = ((p as unknown as Record<string, string[]>)[part.field] ??= []);
         list.push(part.value as string);
         if (!authored.includes(part.field)) { authored.push(part.field); }
@@ -230,9 +230,11 @@ export class PersonParser {
       default: return p;
     }
   }
-  // What makes this creature other than its kind: an aspect (an agile wolf), or the dead of its kind (skeletal).
+  // What makes this creature other than its kind: an aspect (an agile wolf), the dead of its kind (skeletal), or a
+  // variation, any of them, one of each axis (Variant elder. Variant great.: data/catalog/variations.json).
   static PersonVariant(word: Node, id: Node, _dot: Node): Field {
-    return { field: word.sourceString === 'Aspect' ? 'aspect' : 'template', value: id.sourceString };
+    const field = { Aspect: 'aspect', Undead: 'template', Variant: 'variations' }[word.sourceString]!;
+    return { field, value: id.sourceString };
   }
   static PersonCreature(_c: Node, list: Node, _dot: Node): Field {
     const params = list.asIteration().children.map(c => {

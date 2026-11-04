@@ -137,6 +137,8 @@ export interface Person { role?: string; roles?: { role: string; when: Predicate
   authored?: string[]; professionId?: string; backgroundId?: string; traits?: string[]; gear?: string[];
   // An Orsino aspect (agile, venomous) or undead template (skeletal, spectral) the creature has (see CreatureVariants).
   aspect?: string; template?: string;
+  // What makes it other than its kind besides, one of each axis (an old great rat: see CreatureVariants.variations).
+  variations?: string[];
   // Seen only by a viewer for whom this holds (?viewer is whoever is looking).
   seen?: Predicate;
   offers?: { kind: string; text: string; fee: number }[]; sells?: { what: string; fee: number; stock: number }[];

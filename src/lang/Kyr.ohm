@@ -118,7 +118,7 @@ Kyr {
   RoleWhen = "when" Predicate
   PersonRace = ("Race" | "Ancestry") ident "."
   PersonSpecies = "Species" ident "."
-  PersonVariant = ("Aspect" | "Undead") ident "."
+  PersonVariant = ("Aspect" | "Undead" | "Variant") ident "."
   PersonSeen = "Seen" "when" Predicate "."
   PersonCreature = "Creature" NonemptyListOf<CreatureParam, ","> "."
   CreatureParam = ident (ident | integer)

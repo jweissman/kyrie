@@ -7,6 +7,7 @@ import { HandbookText } from './text';
 import { CompanyChapters } from './phb-company';
 import type { OrsinoAppendix } from './orsino-appendix';
 import { MonsterDescribers } from './mm-describers';
+import { CreatureVariants } from '../creature-variants';
 
 interface Kind { family: string; body?: string; raceId?: string; classIds?: string[]; _terrains?: Record<string, true>;
   _adaptations?: Record<string, true>; _roles?: Record<string, true> }
@@ -29,7 +30,7 @@ export class MonsterManual {
       'A species acts as many times a turn as its kind does: most once, an owlbear or an angel twice, a dragon three '
         + 'times. Most of the bestiary is composed from Orsino\'s monster template and grows with level as the template '
         + 'does: every quality rises by one at levels 4, 12 and 20, and hit points by three a level.'],
-    sections: [this.species(), this.natural(), this.traits(), this.generated(), this.orsino()] };
+    sections: [this.species(), this.variations(), this.natural(), this.traits(), this.generated(), this.orsino()] };
   }
   species(): Section {
     const types = [...new Set(Object.keys(Canon.species).map(id => Canon.creature(id).type ?? 'monster'))].sort();
@@ -70,6 +71,21 @@ export class MonsterManual {
       text: [s.description], notes: HandbookStatus.notes(s as Parameters<typeof HandbookStatus.notes>[0]),
       refs: [...(s.abilities ?? []).map(a => `ability:${a}`), ...s.variantOf ? [`species:${s.variantOf}`] : []] };
   }
+  // What can make a creature other than its kind, one of each axis (data/catalog/variations.json).
+  variations(): Section {
+    return { id: 'variations', title: 'Variations', intro: ['A creature is its kind with any of these laid over it, one '
+      + 'of each axis: an old great rat, a frost wolf, a great brood-mother of the cave spiders. An author gives them in a '
+      + 'Person (Variant elder.); a generated country lays them on what dens where the hint holds.'],
+    table: { head: ['Variation', 'Axis', 'Called', 'What is seen', 'Adds', 'Laid on where'],
+      rows: Object.entries(CreatureVariants.variations).map(([id, v]) => [id, v.axis, v.word, v.says,
+        MonsterManual.adds(v) || '—', v.hint ?? 'only by an author']) } };
+  }
+  static adds(v: (typeof CreatureVariants.variations)[string]): string {
+    return [...Object.entries(v.attributes ?? {}).map(([k, n]) => `${HandbookText.capital(k)} ${MonsterManual.signed(n)}`),
+      ...v.health ? [`health ${MonsterManual.signed(v.health)} a level`] : [], ...(v.traits ?? []).map(t => Canon.traits[t]?.name ?? t),
+      ...(v.abilities ?? []).map(a => HandbookText.ability(a))].join(', ');
+  }
+  static signed(n: number): string { return `${n > 0 ? '+' : ''}${n}`; }
   static resistances(r: Record<string, number>): string {
     return Object.entries(r).map(([k, v]) => v >= 1 ? `immune to ${k}` : v > 0 ? `${k} ${Math.round(v * 100)}%`
       : `${k} takes ${Math.round(-v * 100)}% more`).join(', ');

@@ -1,6 +1,7 @@
 import { Draw } from './land/draw';
 import { WrittenKyr } from './written-kyr';
 import { RegionEcology } from './region-ecology';
+import { RegionWeather } from './region-weather';
 import type { Region, Site } from './region-writer';
 
 // What a makers' work holds besides what its plan wrote: its rooms had been bare but for one keeper and two
@@ -25,11 +26,14 @@ export class RegionStock {
     return kyr.rooms().filter(r => !lived.has(r));
   }
   private static den(region: Region, site: Site, room: string): string[] {
-    const habitat = RegionEcology.habitat(region, site), beast = RegionEcology.den(region, habitat);
-    if (!beast) { return []; }
+    const habitat = RegionEcology.habitat(region, site), found = RegionEcology.den(region, habitat);
+    if (!found) { return []; }
+    const beast = RegionEcology.varied(found, { habitat, climate: RegionWeather.climate(region) },
+      new Draw(`${site.id}:denned`));
     const q = JSON.stringify, count = Math.max(1, Math.ceil(beast.count / 2));
     return [`  Person ${site.id}_denned ${q(beast.label)} at ${room} {`,
-      `    Role ${q(`${beast.role}, denned in a room of ${site.name}`)}. Species ${beast.species}. Numbers ${count}. Level 1. Temperament territorial. Lair ${room}.`,
+      `    Role ${q(`${beast.role}, denned in a room of ${site.name}`)}. Species ${beast.species}. Numbers ${count}. Level 1. Temperament territorial. Lair ${room}.`
+        + (beast.variations ?? []).map(v => ` Variant ${v}.`).join(''),
       '  }'];
   }
   private static cache(site: Site, room: string, values: Record<string, string>): string[] {

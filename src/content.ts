@@ -37,7 +37,7 @@ export type CreatureGenerationContext = Partial<Record<Attribute, number>> & {
   prepared?: boolean; adaptation?: string; parameters?: Record<string, DeemValue>;
   lineage?: string; maturity?: string;
   // What makes it other than its kind (see CreatureVariants).
-  aspect?: string; template?: string;
+  aspect?: string; template?: string; variations?: string[];
   // The six qualities as the player placed them at creation, each three dice rolled, before what their people and
   // calling add (the cold playtest saw its rolled qualities and could not place them).
   rolled?: Partial<Record<Attribute, number>>;
@@ -133,7 +133,7 @@ export class Content {
       throw new Error('Specialized Deem creatures do not yet support background, profession, spell or extra gear overlays');
     }
     const asked: Record<string, unknown> = { ...context }, family = context.family;
-    delete asked.aspect; delete asked.template;
+    delete asked.aspect; delete asked.template; delete asked.variations;
     const generated = new Content(RandomStreams.key(this.seed, 'creature', randomIdentity), this.setting)
       .generate('creature', { ...context.parameters, ...asked, ...family ? { family } : {} });
     return CreatureVariants.vary(CreatureDefinition.accept(id, generated), context);

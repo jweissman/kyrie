@@ -3,8 +3,10 @@ import { GenerationSetting } from '../generation-setting';
 import type { Region, Site } from './region-writer';
 import { Draw } from './land/draw';
 import { CreatureVariants } from '../creature-variants';
+import { RegionWeather } from './region-weather';
 
-export interface Beast { species: string; count: number; label: string; role: string; nature: string }
+export interface Beast { species: string; count: number; label: string; role: string; nature: string;
+  variations?: string[] }
 interface Row { _key: string; __weight?: number }
 interface Tables {
   denBeast: { groups: Record<string, (Row & Omit<Beast, 'species'>)[]> };
@@ -42,18 +44,26 @@ export class RegionEcology {
     return row && { species: row._key, count: row.count, label: row.label, role: row.role, nature: row.nature };
   }
   // What makes the beasts of one den other than their kind: in a barrow or a ruin, sometimes the dead of it (skeletal
-  // wolves, which the rites will lay down); anywhere, sometimes an Orsino aspect drawn by rarity (venomous, ancient).
-  // Drawn by the site, so each den is its own.
-  static variant(site: Site, beast: Beast, habitat: string): Beast & { aspect?: string; template?: string } {
-    const draw = new Draw(`${site.id}:variant`);
+  // wolves, which the rites will lay down); else the variations its country gives it (data/catalog/variations.json:
+  // frost wolves where the winters are long, starving ones on the fells), and sometimes an Orsino aspect drawn by
+  // rarity (venomous, ancient). Drawn by the site, so each den is its own.
+  static variant(site: Site, beast: Beast, at: { habitat: string; region: Region }):
+    Beast & { aspect?: string; template?: string } {
+    const draw = new Draw(`${site.id}:variant`), habitat = at.habitat;
     if (['barrow', 'ruin'].includes(habitat) && beast.nature === 'wild' && draw.chance(0.4)) {
       const template = draw.pick(['skeletal', 'zombie']);
       return { ...this.named(beast, template), nature: 'unquiet', template };
     }
-    if (!draw.chance(0.45)) { return beast; }
+    const varied = this.varied(beast, { habitat, climate: RegionWeather.climate(at.region) }, draw);
+    if (!draw.chance(0.45)) { return varied; }
     const aspect = CreatureVariants.draw(draw.int(100) + 1, draw.int.bind(draw));
     // Orsino's wildtype is the beast as it is: nothing to call it.
-    return aspect === 'wildtype' ? beast : { ...this.named(beast, aspect), aspect };
+    return aspect === 'wildtype' ? varied : { ...this.named(varied, aspect), aspect };
+  }
+  // A beast with the variations its country gives it, and called by them ("a wolf" of the snows, "a frost wolf").
+  static varied(beast: Beast, where: { habitat: string; climate: string }, draw: Draw): Beast {
+    const variations = CreatureVariants.fitting(beast.species, where, () => draw.next());
+    return variations.length ? { ...beast, variations, role: CreatureVariants.called(beast.role, variations) } : beast;
   }
   // "a wolf", venomous, is "a venomous wolf".
   private static named(beast: Beast, word: string): Beast {
