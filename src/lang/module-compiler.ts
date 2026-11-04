@@ -1,4 +1,5 @@
 import { Spatial } from '../spatial';
+import { Canon } from '../canon/canon';
 import { ComputedRelations } from './computed-relations';
 import { ObservationText } from './observation-text';
 import { Deem } from 'deem';
@@ -237,9 +238,17 @@ export class ModuleCompiler {
       const type = bindings[arg] ?? this.type(module, arg);
       const expected = signature.types[i];
       if (!type || (expected !== 'entity' && type !== 'entity' && type !== expected)) {
-        throw new Error(`Invalid argument ${arg} in ${World.format(call)}${type ? '' : this.known(module, expected)}`);
+        throw new Error(`Invalid argument ${arg} in ${World.format(call)}${type ? ''
+          : this.unrun(arg, expected) ?? this.known(module, expected)}`);
       }
     });
+  }
+  // An ability of Orsino's that Kyr cannot run, said so with why, where it had been only an invalid argument (the Book
+  // of Faces' BOF-05: true_sight, an hour lost).
+  private unrun(arg: string, kind: string | undefined): string | undefined {
+    const ability = kind === 'ability' ? Canon.abilities[arg] : undefined;
+    return ability?.unsupported ? `: ${ability.name} is Orsino's, and Kyr cannot run it (${Object.values(ability.unsupported)
+      .join(' ')})` : undefined;
   }
   // What there is of a kind, when there are few: an unknown manner says which the manners are (Fair Weather's 10,
   // Behind the Wainscot's F12: refused with no line, and seven to guess).
