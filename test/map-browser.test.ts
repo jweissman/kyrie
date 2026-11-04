@@ -103,7 +103,9 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the map and the notes, to plan with
   }, 240000);
   // Pointed at, a hex of country known is a waypoint set out for at once, your mark walking the way there on the map
   // before the journey is told where it comes to (the owner, OWN-48).
-  it('sets out at once for a hex pointed at, and comes to it', async () => {
+  // A touch chooses, and shows the way; a second touch on it sets out (the owner, 4 November: one touch had set out
+  // at once, and taken him where he had not meant to go).
+  it('chooses a hex pointed at, and sets out for it on a second touch', async () => {
     const { page, errors, driver } = await MonoBrowser.page(browser, { width: 1440, height: 900 },
       { site, query: '?world=kite' });
     await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
@@ -114,6 +116,9 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the map and the notes, to plan with
     await page.waitForSelector('.field-land.board[data-board="ready"]', { timeout: 180000 });
     await page.waitForTimeout(6000);
     const you = (await page.locator('.board-you').boundingBox())!;
+    await page.mouse.click(you.x + you.width * 2.5, you.y + you.height - 4);
+    await page.waitForSelector('.plan [data-action="set-out"]', { timeout: 30000 });
+    expect(await page.locator('.field-map').count()).toBe(1);
     await page.mouse.click(you.x + you.width * 2.5, you.y + you.height - 4);
     await page.waitForSelector('.field-map', { state: 'detached', timeout: 60000 });
     await driver.settle();

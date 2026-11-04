@@ -133,7 +133,9 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a place at a glance', () => {
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
     for (const step of await Glancing.way((await d.inspect()).place!.id, 'region__w11')) { await Glancing.act(page, d, step); }
     const den = (await d.inspect()).glance!;
-    expect(den.acts.map(a => a.why)).toEqual(['danger', 'danger', 'retreat']);
+    // The way back is led only from a fight that could be lost (the owner, 4 November: led from every fight, it had
+    // taken a player following the page out of each site at its first foe).
+    expect(den.acts.slice(0, 2).map(a => a.why)).toEqual(['danger', 'danger']);
     expect(den.acts[1]!.marks).toContain('fight');
     expect(await page.locator('[data-region="glance"] .threat').count()).toBe(1);
     expect(await Glancing.quiet(page)).toEqual({ scroll: false, panes: 0, led: true });

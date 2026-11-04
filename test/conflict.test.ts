@@ -89,8 +89,8 @@ describe('the register of names: a power that acts while the company is elsewher
     await s.perform('light_item(march__nera_torch_1)');
     await s.perform('take_item(tower__rings,march__member_party_1)');
     March.put(s, 'march__shrine');
-    expect(March.legal(s)).toContain('give(tower__rings,east__agnes)');
-    await s.perform('give(tower__rings,east__agnes)');
+    expect(March.legal(s)).toContain('give_valuable(tower__rings,east__agnes)');
+    await s.perform('give_valuable(tower__rings,east__agnes)');
     await s.perform('rising__iron_band');
     March.put(s, 'east__churchyard');
     await s.perform('change_thing(rising__gravewarden_name_him)');
@@ -117,7 +117,7 @@ describe('the register of names: a power that acts while the company is elsewher
     March.put(s, 'tower__ossuary');
     await March.walk(s, ['light_item(march__nera_torch_1)', 'take_item(tower__rings,march__member_party_1)']);
     March.put(s, 'march__shrine');
-    await March.walk(s, ['give(tower__rings,east__agnes)', 'rising__iron_band']);
+    await March.walk(s, ['give_valuable(tower__rings,east__agnes)', 'rising__iron_band']);
     March.put(s, 'east__churchyard');
     await s.perform('change_thing(rising__gravewarden_name_him)');
     await March.until(s, 220);
