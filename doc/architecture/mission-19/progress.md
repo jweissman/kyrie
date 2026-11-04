@@ -78,3 +78,21 @@ is said there too. The content inventory with what is met in play, not only defi
 4. **The Encyclopedia lacks history and institutions**, and modules do not add entries of their own.
 5. **Most content generators are still TypeScript writing Kyr as text**; the old-tongue site names have no everyday
    name beside them where the folk lack one (M19-20).
+
+### Since, the same day (afternoon of 4 November)
+
+The owner's notes (M19-36 to M19-42) and the process audit (M19-43) were taken up; what changed and how far its
+evidence goes is in [evidence.md](evidence.md) (ledger E2 to E8). In short, and **none of it accepted**:
+
+- What the aim followed asks is marked first, and family leads only while the company's own errand is followed.
+- A place's page holds what can be done in view: a rail beside what is told, docked under it held upright.
+- Underground, the page says how many storeys down; the undertown says its own depths.
+- A game in which something was given opens again after a reload (it had not: M19-42, found by playing).
+- A refused service says who refuses it (BOF-15).
+- The inherited backlog is reconciled to 138 rows with Open risk kept apart from Deferred; five action-integrity rows
+  re-examined on today's build.
+- Five generators' words and mechanics moved to templates and tables (roads, deep rooms, town errands, teachers,
+  losing the way), each checked by generated Kyr unchanged to the byte (M19-44).
+
+Item 5 above is partly answered by the last; items 1 to 4 stand as they were. Item 3 above stands most of all: no
+independent player has played since the repairs, and the evidence for an hour's play is the builder's.
