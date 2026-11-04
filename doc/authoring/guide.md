@@ -142,6 +142,18 @@ rest), and says as written a role that begins with its own ("the smith", "who sp
 someone is ("Master Harker's clerk"). A role should not name its person again ("Lady Wenlock, a Lady Wenlock"): the page
 says it once, and `kyrie lint` points it out.
 
+A role is said wherever its person is. One that puts them somewhere ("a day stoker at the retort-house") is said
+only where it is true, `when` it holds, instead of who they are otherwise (`test/fixtures/probes/role-when`):
+
+```text
+  Person mallow "Mallow" at retort_house { Role "a stoker off shift".
+    Role "a day stoker at the retort-house" when at(mallow, retort_house). Peaceable. }
+```
+
+`kyrie lint` advises of a role that places someone a rule, an action or an errand moves; what they are wherever they
+go (a trade, "a die-sinker, retired by the Phoenix") it leaves alone (`test/role-lint.test.ts`; Quittance's an 12, ll 9,
+ms 11).
+
 Backgrounds and professions are in `data/catalog/backgrounds.json`:
 
 - Professions: `innkeeper`, `herbalist`, `priest`, `boatman`.

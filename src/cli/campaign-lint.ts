@@ -288,8 +288,10 @@ export class CampaignLint {
   // A role is what someone is wherever they are: a clerk "at a high desk, doing sums" was standing barefoot in the
   // Minster porch (A Winter in Carth's 13). One that puts them somewhere, on someone moved by a rule, an action or a
   // pursuit of their own, is advice to say where it is true (`Role "…" when at(clerk, counting_house)`); what they
-  // are (an innkeeper, a cutter going home) is true wherever they go.
-  static readonly placing = /\b(at|in|on|by|beside|behind|under|over|inside|outside)\s+(a|an|the|his|her|their|its)\b/i;
+  // are (an innkeeper, a cutter going home) is true wherever they go, and so is a trade done by someone's leave
+  // ("a die-sinker, retired by the Phoenix": Quittance's ms 11, QTC-A03), where "by" says who, not where.
+  static readonly placing =
+    /\b(at|in|on|(?<!\b\w+ed )by|beside|behind|under|over|inside|outside)\s+(a|an|the|his|her|their|its)\b/i;
   movers() {
     const moved = new Map<string, string>();
     const lists = [...this.module.actions.map(a => [a.schema ?? a.id, [...a.success, ...a.failure]] as const),
