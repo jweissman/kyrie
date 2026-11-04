@@ -798,8 +798,8 @@
   "phb": {
    "title": "Player's Handbook",
    "counts": {
-    "faithful": 765,
-    "adapted": 362,
+    "faithful": 764,
+    "adapted": 363,
     "represented": 4,
     "kyr": 506,
     "unsupported": 86,
@@ -811,8 +811,8 @@
      "id": "ancestries",
      "title": "Ancestries",
      "counts": {
-      "faithful": 14,
-      "adapted": 0,
+      "faithful": 13,
+      "adapted": 1,
       "represented": 0,
       "kyr": 1,
       "unsupported": 0,
@@ -1224,7 +1224,7 @@
   {
    "id": "ancestry:catfolk",
    "title": "Catfolk",
-   "status": "faithful",
+   "status": "adapted",
    "book": "phb",
    "section": "ancestries"
   },

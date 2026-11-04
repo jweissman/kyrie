@@ -1772,29 +1772,29 @@ A way of making one thing of two others one of the company carries (a recipe): w
 
 *Kyr · action (group, member, recipe, item, itemkind, item, itemkind, itemkind)* · `rule:world_making.make_remedy`
 
-- Shown as: {maker}: make {made} of {ingredient} and {partner}
+- Shown as: {mk_maker}: make {mk_made} of {mk_first} and {mk_second}
 - Takes: 60 minutes
 - Costs: 1
 
 Steeped, boiled down and strained, the two are one dose that does what both would, and more: a mender's work, and it can spoil.
 
-> Needs: able(actor); memberOf(maker, actor); awake(maker); not (benighted(actor)); remedy(recipe_used); takes(recipe_used, ingredient_kind); takesWith(recipe_used, partner_kind); makes(recipe_used, made); ownedItem(ingredient, maker); itemKind(ingredient, ingredient_kind); ownedItem(partner, maker); itemKind(partner, partner_kind)
+> Needs: able(actor); memberOf(mk_maker, actor); awake(mk_maker); not (benighted(actor)); remedy(mk_recipe); takes(mk_recipe, mk_first_kind); takesWith(mk_recipe, mk_second_kind); makes(mk_recipe, mk_made); ownedItem(mk_first, mk_maker); itemKind(mk_first, mk_first_kind); ownedItem(mk_second, mk_maker); itemKind(mk_second, mk_second_kind)
 
-> Then: Assert usesUp(actor, ingredient_kind). Assert usesUp(actor, partner_kind). Assert handed(made, actor).
+> Then: Assert usesUp(actor, mk_first_kind). Assert usesUp(actor, mk_second_kind). Assert handed(mk_made, actor).
 
 #### make plain
 
 *Kyr · action (group, member, recipe, item, itemkind, item, itemkind, itemkind)* · `rule:world_making.make_plain`
 
-- Shown as: {maker}: make {made} of {ingredient} and {partner}
+- Shown as: {mk_maker}: make {mk_made} of {mk_first} and {mk_second}
 - Takes: 10 minutes
 - Costs: 1
 
 Plain work, quickly done.
 
-> Needs: able(actor); memberOf(maker, actor); awake(maker); not (benighted(actor)); not (remedy(recipe_used)); takes(recipe_used, ingredient_kind); takesWith(recipe_used, partner_kind); makes(recipe_used, made); ownedItem(ingredient, maker); itemKind(ingredient, ingredient_kind); ownedItem(partner, maker); itemKind(partner, partner_kind)
+> Needs: able(actor); memberOf(mk_maker, actor); awake(mk_maker); not (benighted(actor)); not (remedy(mk_recipe)); takes(mk_recipe, mk_first_kind); takesWith(mk_recipe, mk_second_kind); makes(mk_recipe, mk_made); ownedItem(mk_first, mk_maker); itemKind(mk_first, mk_first_kind); ownedItem(mk_second, mk_maker); itemKind(mk_second, mk_second_kind)
 
-> Then: Assert usesUp(actor, ingredient_kind). Assert usesUp(actor, partner_kind). Assert handed(made, actor).
+> Then: Assert usesUp(actor, mk_first_kind). Assert usesUp(actor, mk_second_kind). Assert handed(mk_made, actor).
 
 ### Food and sleep
 

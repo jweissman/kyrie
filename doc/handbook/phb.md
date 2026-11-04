@@ -150,10 +150,10 @@ Jack of All Trades: +1 to searching.
 
 ### Catfolk
 
-*Faithful · not chosen by players* · `ancestry:catfolk`
+*Adapted · playable ancestry* · `ancestry:catfolk`
 
 - Qualities: −1 strength, +4 dexterity, −1 constitution, +1 intelligence, +1 wisdom, +1 charisma
-- Callings: Thief, Ranger, Bard, Commoner
+- Callings: Warrior, Thief, Ranger, Bard, Mage, Cleric, Monk, Commoner
 - Born with: Humanoid Traits, Graceful, Not How I Remember It
 
 +1 against charms, +1 against fear.
@@ -161,6 +161,8 @@ Jack of All Trades: +1 to searching.
 1 harder to hit, +1 against magic.
 
 > An agile, stealthy person with feline traits, often a hunter.
+
+*Adapted: Orsino racialModifier attributes, occupation options and forbidden traits; its racial traits and humanoid are given at birth, as in the pc template. Kyr adds the commoner, which is open to every ancestry. Orsino does not make it a player race and opens it to the thief, the ranger and the bard; Kyr makes it playable (Mission 19: the studio painted catfolk of every calling, assets/pcs/catfolk*.png) and opens it to every calling, as a human's. Its people also live in generated regions and may be met and recruited there.*
 
 ### Sylph
 
