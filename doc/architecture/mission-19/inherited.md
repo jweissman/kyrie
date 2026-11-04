@@ -15,7 +15,7 @@ yet resolved: open, with its re-entry), **Deferred** (an ambition or recommendat
 does not close a child: each row is closed only when its own symptom is checked. Mission 19's own findings are in
 [register.md](register.md); the evidence for what was played is in [evidence.md](evidence.md).
 
-**138 rows**: Open risk 54, Deferred 44, Partial 22, Fixed 13, Not reproduced 5.
+**138 rows**: Open risk 52, Deferred 44, Partial 22, Fixed 14, Not reproduced 6.
 
 | ID | Class | Kind | Cluster | Finding | Disposition |
 |---|---|---|---|---|---|
@@ -148,8 +148,8 @@ does not close a child: each row is closed only when its own symptom is checked.
 | BOF-11 | D | ambition |  | A file cannot add a condition to another file's declaration, and nothing says a company came by a passage | **Deferred** An authoring convenience the Book of Faces' authors worked around; as QTC rows. |
 | BOF-15 | A | defect | A | A refused service cannot say why: the choice just goes | **Fixed** 2cbca24e: a refused service is shown without its command, saying who will not serve the company (RefusalReading; refused spec, probe refused) |
 | BOF-16 | D | defect | F | Two files placing one person at the same hour fight every pass, and no lint catches it | **Open risk** An authoring convenience the Book of Faces' authors worked around; as QTC rows. Re-entry: reproduce on the current build before Mission 20 is commissioned; fix or narrow with a spec. |
-| BOF-20 | D | defect | F | The prose lint still takes the singular flag and the engine for the implementation's | **Open risk** An authoring convenience the Book of Faces' authors worked around; as QTC rows. Re-entry: reproduce on the current build before Mission 20 is commissioned; fix or narrow with a spec. |
-| BOF-22 | D | defect | F | `teaches` goes after the words in an Observe and before the braces in a Rule | **Open risk** An authoring convenience the Book of Faces' authors worked around; as QTC rows. Re-entry: reproduce on the current build before Mission 20 is commissioned; fix or narrow with a spec. |
+| BOF-20 | D | defect | F | The prose lint still takes the singular flag and the engine for the implementation's | **Fixed** (4 November): the prose lint takes "state flag" and "the game engine", not a flagstone's "flag" nor a siege engine (author-lint spec) |
+| BOF-22 | D | defect | F | `teaches` goes after the words in an Observe and before the braces in a Rule | **Not reproduced** 4 November: in both, teaches follows the words (Rule … says "…" teaches x { … }; Observe … "…" teaches x.); a Rule's braces come after, as its effects always do |
 | BOF-24 | D | ambition |  | A topic is one turn; there is no talk of several exchanges | **Deferred** An authoring convenience the Book of Faces' authors worked around; as QTC rows. |
 | BOF-26 | A | defect |  | `Observe near` a thing on a passage does nothing, and nothing says so | **Fixed** aa19e7ce: author lint 'near-way'; author-lint spec |
 | BOF-30 | D | defect | D | Several authors' tests cannot load until the others' people exist; everyone kept stub campaigns uncommitted | **Open risk** An authoring convenience the Book of Faces' authors worked around; as QTC rows. Re-entry: reproduce on the current build before Mission 20 is commissioned; fix or narrow with a spec. |

@@ -41,3 +41,5 @@ GTR-X03	Not reproduced 4 November: a rule about what the company carries sees a 
 LWR-02	Not reproduced 4 November with the shared form: withdrawing tolerance from someone whose temperament warns first gives a warning and the company's turn before the blow (turns-on spec); Assert assails is the form for one who falls on at once, as authored
 BOF-15	Fixed 2cbca24e: a refused service is shown without its command, saying who will not serve the company (RefusalReading; refused spec, probe refused)
 QTC-10	Fixed (4 November): come back to, what the company left changed in a place (a chest it opened) is said with what has changed, by the world's changedBy record and the line's own subject (come-back spec, probe come-back); the brief recall of the place's own line stays by design
+BOF-20	Fixed (4 November): the prose lint takes "state flag" and "the game engine", not a flagstone's "flag" nor a siege engine (author-lint spec)
+BOF-22	Not reproduced 4 November: in both, teaches follows the words (Rule … says "…" teaches x { … }; Observe … "…" teaches x.); a Rule's braces come after, as its effects always do

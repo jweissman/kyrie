@@ -2,6 +2,7 @@ import { describe, expect, it } from 'bun:test';
 import { KyrLint } from '../src/cli/kyr-lint';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { OverlayBundleSource } from '../src/campaign/overlay-bundle-source';
+import { CampaignLint } from '../src/cli/campaign-lint';
 
 // What the Grand Tour's author was not told (its friction X06, X15, X17): a tame one's Greets said on arrival, and, of
 // a whole adventure (one with an ending), a first place with nothing said of it and no milestone.
@@ -37,4 +38,14 @@ describe('the author lint', () => {
     const found = await KyrLint.campaign(source.resolve('nw.campaign.json'), source);
     expect(found.filter(f => f.check === 'near-way').map(f => f.level)).toEqual(['advice']);
   }, 60000);
+});
+
+// The Book of Faces' BOF-20: the prose lint had taken a flagstone's "flag" and a siege engine for the implementation's
+// words. Only what the implementation alone says is taken.
+describe('the prose lint\'s implementation words', () => {
+  it('passes a flag of stone and the engine of a siege, and takes a state flag and the game engine', () => {
+    const words = CampaignLint.implementationWords;
+    expect(['A worn flag of the floor lifts.', 'The engine throws its stone.'].map(t => words.test(t))).toEqual([false, false]);
+    expect(['It sets a state flag.', 'The game engine moves them.'].map(t => words.test(t))).toEqual([true, true]);
+  });
 });

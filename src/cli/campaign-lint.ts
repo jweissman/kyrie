@@ -13,9 +13,10 @@ import { CommitmentLint } from './commitment-lint';
 
 // One campaign's findings, gathered by named checks over its loaded world.
 export class CampaignLint {
-  // (Not "flags", which are flagstones as often as not: the Third Night's "small, but often".)
-  static readonly implementationWords = new RegExp('\\b(flag|teleports?|persists?|persistent|generated|canonical'
-    + '|the engine(?!-)|remains available|does not reset|state flag)\\b', 'i');
+  // (Not "flag" nor "the engine" alone: a flag is a flagstone or flown as often as not, the Third Night's "small, but
+  // often", and an engine a siege engine or a mill's, the Book of Faces' BOF-20.)
+  static readonly implementationWords = new RegExp('\\b(teleports?|persists?|persistent|generated|canonical'
+    + '|the game engine|remains available|does not reset|state flag)\\b', 'i');
   readonly findings: Finding[] = [];
   readonly entities: Map<string, Entity>;
   constructor(readonly path: string, readonly session: PlaySession) {
