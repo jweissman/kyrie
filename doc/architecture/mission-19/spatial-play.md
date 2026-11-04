@@ -62,3 +62,13 @@ Bask's salt-house (select, go, talk, the rats job) → the corn-store → the ce
 fight) → back up and out, the way marked at every step. Built on the real runtime; checked by a browser spec of that
 route and by captures at laptop and tablet sizes. It generalizes because every surface draws only from the
 structured projections above, which every generated and authored place already has.
+
+## How far it reaches, as built (4 November)
+
+Standing the company in places of kite's drawn world, headless (`ScreenModel.build(…).plan`): a deep site's level
+under Newmeet ("the long halls", 3 to 7 rooms known), a generated site above ground (Gaudumport, its porch and round
+hall), Newmeet itself (20 places) and its inn; and installed authored modules, Silkholme's sink (3), Wapshott's
+circus pitched in Newmeet (4) and the raiders' cave (6). The authored tower (`tower__bailey`) has no plan: its rooms
+carry no grid, and fewer than two are joined to where it stands; the surface there is the place's name, and its ways
+stay in the focus. Nothing here is special to Millholm; what a place shows comes from its containment, grid and
+ways, and what the company has seen of them.
