@@ -25,7 +25,7 @@ export class TownPlan {
     if (entities.get(here)?.space?.shelter === 'underground') { return this.under(screen, entities, world, visited); }
     // A site above ground is drawn as a town is (Ísencepan's gate, bailey, hall and wall-walk: NVR-16, a site's Map
     // had shown nothing of where the company was in it).
-    const within = line.slice(1).filter(e => ['building', 'settlement', 'site'].includes(e.space?.kind ?? ''));
+    const within = line.slice(1).filter(e => ['level', 'building', 'settlement', 'site'].includes(e.space?.kind ?? ''));
     const known = new Set([here, ...visited, ...screen.exits.map(e => e.destination.id),
       ...(screen.around ?? []).map(d => d.id)]);
     // A building of a room or two is better shown as where it stands in the town (the guest-hall and its door out
@@ -37,7 +37,7 @@ export class TownPlan {
         .filter(([a, b]) => plan.inside(a, enclosure.id) || plan.inside(b, enclosure.id));
       const drawn = plan.draw(enclosure, here, known, { visited });
       const rooms = drawn.cells.filter(c => !c.door).length;
-      if (drawn.kind === 'building' && rooms < 3 && enclosure !== within.at(-1)) { continue; }
+      if (['building', 'level'].includes(drawn.kind) && rooms < 3 && enclosure !== within.at(-1)) { continue; }
       return drawn.cells.length > 1 ? { plan: drawn } : {};
     }
     return {};
