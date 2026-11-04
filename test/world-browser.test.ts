@@ -56,12 +56,10 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a generated world in the browser', 
   }, 240000);
   // (The road page's spec, a road's two ends with their ways beneath, went with the road page's last way in: a journey
   // across a drawn country now arrives whole, and nothing leaves the company on a road; see the register's NVR-23.)
-  // On a desktop a place is one column under its head (OWN-19: the telling and the ways had stood side by side, with a
-  // foot of your aim and yourself under both): the glance on the reading measure, the head's name set on the same
-  // measure, the whole height between the head and the stage's foot, and nothing across the foot; and the stage that
-  // holds it keeps its margins: about a twentieth of the screen's width each side (Mission 18's A1, halved by the
-  // owner, 4 November). The place is laid out as the surface, and what the company attends to is the focus beside it
-  // (spatial-play.md).
+  // On a desktop a place is laid out (spatial-play.md): its surface, the plan of where the company is, and beside it
+  // the focus, from the place's head to the stage's foot, nothing across the foot and nothing to scroll; and the stage
+  // keeps its margins, about a twentieth of the screen's width each side (Mission 18's A1, halved by the owner,
+  // 4 November).
   it('gives a place its surface and its focus side by side under its head, in a stage with its margins', async () => {
     const { page, errors } = await MonoBrowser.page(browser, { width: 1440, height: 900 },
       { site, pointer: false, query: '?world=mere' });
