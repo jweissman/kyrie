@@ -1,4 +1,5 @@
 import { Terrain } from './land/terrain';
+import sites from '../../data/generation/scenes/sites.json';
 import type { Atlas, Way } from './land/atlas';
 import type { Landmark } from './region-land';
 import type { Region, Settlement, Site } from './region-writer';
@@ -17,11 +18,9 @@ export interface Seat { site: Site; land: string; spot: Spot; town: Settlement; 
 // region's chart are the cells themselves.
 export class RegionGeography {
   static readonly country: Record<string, string> = { forest: 'woods', marsh: 'fen', mountain: 'fells', frost: 'snowfields' };
-  static readonly looks: Record<string, string> = {
-    cave: 'A dark mouth opens in the hillside.', barrow: 'A long grassed mound with a stone-lined entrance.',
-    ruin: 'Fallen walls in rough grass; someone built here once.', tower: 'A lone tower stands above the land.',
-    grove: 'Old trees crowd close, and the light under them is green.', bog: 'Black water between tussocks; the path is a line of stakes.',
-    mine: 'Spoil heaps and a timbered adit.', sinkhole: 'Grass runs to the edge of a round pit in the ground.' };
+  // How each kind of site looks come to: the author's (data/generation/scenes/sites.json).
+  static readonly looks: Record<string, string> = Object.fromEntries(Object.entries(sites.kinds)
+    .map(([k, v]) => [k, v.look]));
   static atlas(region: Region): Atlas {
     if (!region.atlas) { throw new Error(`${region.name} has no atlas`); }
     return region.atlas;

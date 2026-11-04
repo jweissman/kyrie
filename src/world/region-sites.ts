@@ -1,4 +1,6 @@
 import { Draw } from './land/draw';
+import { Foundings } from './founding';
+import sites from '../../data/generation/scenes/sites.json';
 import { Terrain } from './land/terrain';
 import { Histories } from './history/histories';
 import { RegionEcology } from './region-ecology';
@@ -14,18 +16,18 @@ import type { Region } from './region-writer';
 // someone finds it by searching there or is told the way. A site in open country stands in a stretch of its own,
 // reached from the nearest road or settlement.
 export class RegionSites {
-  static readonly seen: Record<string, string> = { cave: 'a cave in the hillside', barrow: 'a grassed mound',
-    ruin: 'the fallen walls', tower: 'a lone tower', grove: 'an old grove', bog: 'a black bog', mine: 'the old workings',
-    sinkhole: 'a pit in the ground' };
+  // How each kind of site is seen, what the folk say of it, and where an old one carries its name: the author's
+  // (data/generation/scenes/sites.json).
+  static readonly table = sites as { kinds: Record<string, { seen: string; look: string; said: string; cut?: string }>;
+    gloss: { work: string; old: string; plain: string } };
+  static readonly seen = this.pick('seen');
   // What the people nearby say of each kind of site.
-  static readonly said: Record<string, string> = { cave: 'There is always something living in it.',
-    barrow: 'Old dead. Leave them be.', ruin: 'Older than the town. Folk take stone from it, when they dare.',
-    tower: 'Nobody has lived there since my grandmother\'s day.', grove: 'We do not cut there.',
-    bog: 'Keep to the stakes, if you go.', mine: 'Worked out, my father said, and he would know.',
-    sinkhole: 'Sheep go in. They do not come out.' };
+  static readonly said = this.pick('said');
   // Where an old site carries its name.
-  static readonly cut: Record<string, string> = { tower: 'Over the door, cut in the old script',
-    barrow: 'On the stone across the entrance, in the old script', ruin: 'On a fallen lintel, in the old script' };
+  static readonly cut = this.pick('cut');
+  static pick(field: 'seen' | 'look' | 'said' | 'cut'): Record<string, string> {
+    return Object.fromEntries(Object.entries(this.table.kinds).flatMap(([k, v]) => v[field] ? [[k, v[field]!]] : []));
+  }
   // What a site is called until its name is known: how it looks, and, where the region has others that look the
   // same, where it is (a grassed mound north of Faennslím; a cave in the hillside deep in Bruinforwest).
   static seenAs(seat: Seat, region: Region): string {
@@ -167,7 +169,8 @@ export class RegionSites {
   // What a name means, as the people who say it would put it.
   private static gloss(site: { gloss?: string; tongue?: string; work?: object }): string {
     if (!site.gloss) { return ''; }
-    if (site.work) { return ' \'An old name; nobody knows what it means.\''; }
-    return site.tongue === 'Aenean' ? ` 'The old tongue: ${site.gloss}.'` : ` 'It means ${site.gloss}.'`;
+    const g = this.table.gloss;
+    if (site.work) { return ` '${g.work}'`; }
+    return ` '${Foundings.fill(site.tongue === 'Aenean' ? g.old : g.plain, { gloss: site.gloss })}'`;
   }
 }

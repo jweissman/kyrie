@@ -1,0 +1,53 @@
+{
+  "about": "The small sites of a generated country, by kind (src/world/region-sites.ts, region-geography.ts): how one is seen from afar until its name is known (seen), how it looks come to (look), what the folk nearby say of it (said: a work's makers' own sayings are said of a work instead), and, for one that carries its old name, where it is cut (cut). gloss: how a name's meaning is said: of a work's name (work), a name in the old tongue (old: {gloss}), any other (plain: {gloss}). Add a kind here and the sites table (data/generation/tables) can place it.",
+  "kinds": {
+    "cave": {
+      "seen": "a cave in the hillside",
+      "look": "A dark mouth opens in the hillside.",
+      "said": "There is always something living in it."
+    },
+    "barrow": {
+      "seen": "a grassed mound",
+      "look": "A long grassed mound with a stone-lined entrance.",
+      "said": "Old dead. Leave them be.",
+      "cut": "On the stone across the entrance, in the old script"
+    },
+    "ruin": {
+      "seen": "the fallen walls",
+      "look": "Fallen walls in rough grass; someone built here once.",
+      "said": "Older than the town. Folk take stone from it, when they dare.",
+      "cut": "On a fallen lintel, in the old script"
+    },
+    "tower": {
+      "seen": "a lone tower",
+      "look": "A lone tower stands above the land.",
+      "said": "Nobody has lived there since my grandmother's day.",
+      "cut": "Over the door, cut in the old script"
+    },
+    "grove": {
+      "seen": "an old grove",
+      "look": "Old trees crowd close, and the light under them is green.",
+      "said": "We do not cut there."
+    },
+    "bog": {
+      "seen": "a black bog",
+      "look": "Black water between tussocks; the path is a line of stakes.",
+      "said": "Keep to the stakes, if you go."
+    },
+    "mine": {
+      "seen": "the old workings",
+      "look": "Spoil heaps and a timbered adit.",
+      "said": "Worked out, my father said, and he would know."
+    },
+    "sinkhole": {
+      "seen": "a pit in the ground",
+      "look": "Grass runs to the edge of a round pit in the ground.",
+      "said": "Sheep go in. They do not come out."
+    }
+  },
+  "gloss": {
+    "work": "An old name; nobody knows what it means.",
+    "old": "The old tongue: {gloss}.",
+    "plain": "It means {gloss}."
+  }
+}

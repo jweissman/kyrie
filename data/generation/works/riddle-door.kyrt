@@ -1,0 +1,36 @@
+# riddle-door: a sealed door on the way into a makers' work that opens to the right answer (Orsino's riddles).
+// A Kyr template (see src/world/kyr-template.ts), written for every work that has one (src/world/region-riddles.ts
+// chooses which works, and draws the riddle, its answer and three wrong words of the same kind). {id} is the door's
+// id, {way} the way it stands on, {room} the room before it, {question} the riddle. Change the words, the cold's dice
+// or the save here; nothing in the engine needs to change.
+--- door
+  Hazard {id}_cold "the breath of the stone" means "Deal (1d6) cold damage to ally unless constitution save against (11).".
+  Relation {id}_door(thing).
+  Initially Assert {id}_door({id}).
+  Thing {id} "the speaking door" on {way} {
+    State sealed blocking "A door of one grey stone fills the way in, without hinge or handle. Words are cut deep across it in the old script, and under them, in a later hand, scratched small, what they say: ‘{question}’ Below is a row of words with a hollow beside each, worn smooth by fingers.".
+    State open "The stone door stands turned on its pivot, and the way in is open.".
+  }
+--- right
+  // A word on the door, the right one: {n} its place in the row, {word} the word. Asked first, every word alike (a
+  // mark on the wrong ones only would give the answer away): a word pressed is the door's answer (the owner's play,
+  // 31 October: a player pressed one thinking it the way in, and the cold killed the company). Whoever presses the
+  // right word has opened it, as whoever works any change on a thing has changed it (PT-33).
+  Action {id}_word{n}(actor: group, door: thing) "Press the word “{word}”" {
+    Description "Put a finger in the hollow beside the word, and press.".
+    Grave "Pressing a word answers the riddle; a wrong word, and the stone breathes out cold.".
+    Requires able(actor) and at(actor, {room}) and {id}_door(door) and state(door, sealed).
+    Time 1.
+    On success { Retract state(door, sealed). Assert state(door, open). Assert changedBy(door, actor). }
+    Result "The word sinks into the stone under your finger. Something deep in the door turns over, like a sleeper, and the whole slab swings on a pivot you could not see, and the way in is open.".
+  }
+--- wrong
+  // A wrong one: the stone breathes out cold, and the door stays shut.
+  Action {id}_word{n}(actor: group, door: thing) "Press the word “{word}”" {
+    Description "Put a finger in the hollow beside the word, and press.".
+    Grave "Pressing a word answers the riddle; a wrong word, and the stone breathes out cold.".
+    Requires able(actor) and at(actor, {room}) and {id}_door(door) and state(door, sealed).
+    Time 1.
+    On success { Assert strikes({id}_cold, actor). }
+    Result "The word sinks under your finger and comes back up. The stone breathes out, once, a breath as cold as a well in winter, and the door stays as it was.".
+  }

@@ -1,0 +1,81 @@
+{
+  "about": "The travellers at a generated country's inns who would go along with a company (src/world/region-recruits.ts): each settlement's traveller follows one of these callings, which is a class (a drover can fight, a pilgrim pray, a tinker open locks), and says what brings them there when asked; near: the classes one turns to whose people cannot take the calling's own (a halfling scholar a bard, not a warrior: PT-13); passing: what one with no calling here says; hire: what the company knows of the inn's traveller from the first ({town}, {one}: the traveller, or 'a traveller'; {country}); hiring: what the innkeeper says while the traveller waits ({traveller} and {keeper} are the world's names for them).",
+  "callings": {
+    "drover": {
+      "class": "warrior",
+      "brings": "Took a drove over the hills and came back with nothing but blisters and the price of a bed."
+    },
+    "tinker": {
+      "class": "thief",
+      "brings": "Mending pots. There are more locks than pots in this country, and they pay better."
+    },
+    "pilgrim": {
+      "class": "cleric",
+      "brings": "I walk from shrine to shrine. The gods have not said where to stop."
+    },
+    "pedlar": {
+      "class": "bard",
+      "brings": "Ribbons, pins and news. The news sells best."
+    },
+    "charcoal-burner": {
+      "class": "ranger",
+      "brings": "The burn is done and the charcoal sold. I have a month before the next."
+    },
+    "eel-catcher": {
+      "class": "ranger",
+      "brings": "The eels are not running. Nothing is, this season."
+    },
+    "trapper": {
+      "class": "ranger",
+      "brings": "The furs are sold, and the snow is late."
+    },
+    "minstrel": {
+      "class": "bard",
+      "brings": "Playing for my supper. The suppers have been thin, this side of the hills."
+    },
+    "scholar": {
+      "class": "mage",
+      "brings": "Copying the old inscriptions, for a library that may not want them. It is the copying I like."
+    },
+    "soldier": {
+      "class": "warrior",
+      "brings": "My company was paid off at midsummer. I have a sword, a bad knee and no reason to be anywhere."
+    },
+    "mason": {
+      "class": "warrior",
+      "brings": "Walls. There is always somebody whose wall has fallen down, and they always want it by market day."
+    }
+  },
+  "near": {
+    "mage": [
+      "bard",
+      "cleric",
+      "thief"
+    ],
+    "cleric": [
+      "bard",
+      "mage",
+      "monk"
+    ],
+    "bard": [
+      "thief",
+      "mage",
+      "cleric"
+    ],
+    "thief": [
+      "ranger",
+      "bard"
+    ],
+    "ranger": [
+      "thief",
+      "warrior"
+    ],
+    "warrior": [
+      "ranger",
+      "monk"
+    ]
+  },
+  "passing": "Passing through, like everyone.",
+  "hire": "At the inn at {town}, {one} is looking for work, and would come with you for a few coins and their keep; the inns of {country}'s other towns have others.",
+  "hiring": "'{traveller} there is looking for work,' says {keeper}. 'Would go anywhere with anyone, for a few coins and their keep.'"
+}

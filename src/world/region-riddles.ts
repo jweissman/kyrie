@@ -1,4 +1,6 @@
+import text from '../../data/generation/works/riddle-door.kyrt' with { type: 'text' };
 import { Draw } from './land/draw';
+import { KyrTemplates } from './kyr-template';
 import { WrittenKyr } from './written-kyr';
 import world from '../../data/generation/scenes/orsino-world.json';
 import type { Region, Site } from './region-writer';
@@ -12,7 +14,6 @@ interface Riddle { question: string; answer: string; kind: string; level: string
 // their way in.
 export class RegionRiddles {
   static readonly riddles = world.riddles as Record<string, Riddle[]>;
-  static readonly breath = 'Deal (1d6) cold damage to ally unless constitution save against (11).';
   static readonly answers = (world as unknown as { riddleAnswers: Record<string, string[]> }).riddleAnswers;
   static work(region: Region, site: Site, written: string[]): string[] {
     const way = `${site.id}_in`, ends = WrittenKyr.of(written).ends(way);
@@ -25,31 +26,15 @@ export class RegionRiddles {
     const offered = draw.shuffle([riddle.answer, ...wrong]);
     return this.door(site.id, { way, room, riddle, offered });
   }
-  private static door(w: string, at: { way: string; room: string; riddle: Riddle; offered: string[] }): string[] {
-    const q = JSON.stringify, id = `${w}_riddle`, { riddle } = at;
-    return [`  Hazard ${id}_cold "the breath of the stone" means ${q(this.breath)}.`,
-      `  Relation ${id}_door(thing).`, `  Initially Assert ${id}_door(${id}).`,
-      `  Thing ${id} "the speaking door" on ${at.way} {`,
-      `    State sealed blocking ${q(`A door of one grey stone fills the way in, without hinge or handle. Words are cut deep across it in the old script, and under them, in a later hand, scratched small, what they say: ‘${riddle.question}’ Below is a row of words with a hollow beside each, worn smooth by fingers.`)}.`,
-      '    State open "The stone door stands turned on its pivot, and the way in is open.".', '  }',
-      ...at.offered.flatMap((word, n) => this.answer({ id, w, room: at.room, word, n,
-        right: word === riddle.answer }))];
+  // The door and its words, as the author wrote them (data/generation/works/riddle-door.kyrt).
+  static readonly template = KyrTemplates.parse(text);
+  private static section(group: string, values: Record<string, string>): string[] {
+    return KyrTemplates.fill(this.template.sections.filter(t => t.group === group).flatMap(t => t.lines), values);
   }
-  private static answer(a: { id: string; w: string; room: string; word: string; n: number; right: boolean }): string[] {
-    const q = JSON.stringify;
-    return [`  Action ${a.id}_word${a.n}(actor: group, door: thing) ${q(`Press the word “${a.word}”`)} {`,
-      `    Description "Put a finger in the hollow beside the word, and press.".`,
-      // Asked first, every word alike (a mark on the wrong ones only would give the answer away): a word pressed is
-      // the door's answer, and a wrong one is answered with cold (a player pressed one thinking it the way in, and the
-      // cold killed the company: the owner's play, 31 October).
-      `    Grave "Pressing a word answers the riddle; a wrong word, and the stone breathes out cold.".`,
-      `    Requires able(actor) and at(actor, ${a.room}) and ${a.id}_door(door) and state(door, sealed).`, '    Time 1.',
-      // Whoever presses the right word has opened it, as whoever works any change on a thing has changed it: those
-      // who watch the way can tell who did it (Sir Hamo's men at Fyrsteport, PT-33).
-      a.right ? `    On success { Retract state(door, sealed). Assert state(door, open). Assert changedBy(door, actor). }`
-        : `    On success { Assert strikes(${a.id}_cold, actor). }`,
-      `    Result ${q(a.right ? `The word sinks into the stone under your finger. Something deep in the door turns over, like a sleeper, and the whole slab swings on a pivot you could not see, and the way in is open.`
-        : 'The word sinks under your finger and comes back up. The stone breathes out, once, a breath as cold as a well in winter, and the door stays as it was.')}.`,
-      '  }'];
+  private static door(w: string, at: { way: string; room: string; riddle: Riddle; offered: string[] }): string[] {
+    const id = `${w}_riddle`;
+    return [...this.section('door', { id, way: at.way, question: at.riddle.question }),
+      ...at.offered.flatMap((word, n) => this.section(word === at.riddle.answer ? 'right' : 'wrong',
+        { id, room: at.room, word, n: String(n) }))];
   }
 }
