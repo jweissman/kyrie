@@ -39,6 +39,24 @@ Updated 4 November 2026, night, at 4b15fb94.
 | 5. One craft loop | built | gather willow bark and meadowsweet, steep a minor potion of healing (a mender's check, a spoiled ingredient on failure), sell it to a herb-wife or chandler; antidote; fire flask ([making.kyr](../../../data/rules/making.kyr), `test/making.test.ts`) | smithing and enchanting (below); played by someone else |
 | 6. Honest discharge | under way | register rows with ids and dispositions; inherited rows by cause | close M19 only when the owner accepts it |
 
+## An ordinary stretch of play, measured
+
+A scratch probe (`/var/tmp/kyrie/m19/ordinary.ts`) played a1 for 200 steps with the autoplay's own players and
+counted, each step, whether anything was new: words never told, coin, things, places.
+
+| Player | Steps that brought nothing new | Longest run of them | Fights | Talks | Moving or waiting |
+|---|---:|---:|---:|---:|---:|
+| intent, cleric | 107 of 200 | 12 | 0 | 1 | 176 |
+| expedition, cleric | 119 of 200 | 11 | 0 | 3 | 149 |
+
+What it shows, and what it does not. Repetition on the page is already handled where it matters: passing life is told
+the first time only, and a place come back to is recalled by its first sentence (the narrator's `recalled`), so the
+counts of lines "current" on arrival overstate what is read. The real finding is about the instrument: neither player
+takes up the first town's jobs (one to three conversations in two hundred steps), so an aimless half-hour is all it
+measures. The next instrument is a player that follows the aim the page leads with, as a person does; until then the
+analysis of tedium, purposelessness and economic sense in *ordinary* play is the owner's and an independent player's
+to give, and is open.
+
 ## The Orsino inheritance: loot and equipment
 
 Measured over five generated worlds (a1, b2, c3, d4, e5) by whether an item's id is anywhere in the compiled world
