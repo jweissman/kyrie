@@ -48,6 +48,17 @@ export class MonoDriver {
       requestAnimationFrame(() => requestAnimationFrame(() => done(pages.every((p, i) => p?.scrollTop === tops[i]))));
     }), null, { timeout: 10000 });
   }
+  // Into the place the company stands in, from the map, where play has begun on it or open country raised it: what a
+  // player does before anything else there.
+  async enter() {
+    if (await this.page.locator('[data-action="enter-hex"]').count()) { await this.click('[data-action="enter-hex"]'); }
+  }
+  // The place told whole: its explorer opened, and what is said about it there (at rest it is told in brief).
+  async lookAbout() {
+    const explore = '[data-action="explore"][data-part="here"]';
+    if (await this.page.locator(explore).count()) { await this.click(explore); }
+    if (await this.page.locator('.about-here:not([open]) > summary').count()) { await this.click('.about-here > summary'); }
+  }
   // A choice touched where it is on show, as a finger would: on the sheet raised over a place when it is there; else
   // on the place's glance, the sheet put away first; else the sheet that holds it raised first (Look about, Every way
   // or More: see Raised), or, where there are no such sheets (a road), every way. Out in the wild, on the world map,

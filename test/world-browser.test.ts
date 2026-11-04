@@ -61,11 +61,13 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a generated world in the browser', 
   // keeps its margins, about a twentieth of the screen's width each side (Mission 18's A1, halved by the owner,
   // 4 November).
   it('gives a place its surface and its focus side by side under its head, in a stage with its margins', async () => {
-    const { page, errors } = await MonoBrowser.page(browser, { width: 1440, height: 900 },
+    const { page, errors, driver } = await MonoBrowser.page(browser, { width: 1440, height: 900 },
       { site, pointer: false, query: '?world=mere' });
     await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
+    // Play begins on the map; entered, the place.
+    await driver.enter();
     const laid = await page.evaluate(() => {
       const box = (s: string) => document.querySelector(s)!.getBoundingClientRect();
       const [surface, focus, bar, page, frame] = ['.world-page .surface', '.world-page .focus', '.world-bar', '#page',
@@ -80,22 +82,22 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a generated world in the browser', 
     expect(errors).toEqual([]);
     await page.close();
   }, 240000);
-  // On a phone each way from a place is a row the width of the focus, its name whole on it: "To the market-place of
-  // Karashilgab" had wrapped over three lines in half the width (play 11); the ways are beside the place at once, not a
-  // sheet away (spatial-play.md).
-  it('gives each way about a place a row of its own on a phone', async () => {
+  // On a phone each way from a place, in the explorer, has its name whole ("To the market-place of Karashilgab" had
+  // wrapped over three lines in half the width: play 11) and none runs off the side of the screen.
+  it('gives each way about a place its whole name on a phone', async () => {
     const { page, errors, driver } = await MonoBrowser.page(browser, { width: 390, height: 844 },
       { site, pointer: true, query: '?world=mere' });
     await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
     await driver.pick(c => /^To the market-place/.test(c.label), 'the market-place');
-    const rows = await page.$$eval('.ways-here ul', lists => lists.flatMap(list => {
-      const whole = list.getBoundingClientRect().width;
-      return Array.from(list.querySelectorAll(':scope > li')).map(li => Math.abs(li.getBoundingClientRect().width - whole) < 2);
+    await page.click('[data-action="explore"][data-part="go"]');
+    const names = await page.$$eval('.explorer .ways-here .way-tile', tiles => tiles.map(t => {
+      const n = t.querySelector('.n')!, box = t.getBoundingClientRect();
+      return n.scrollWidth <= n.clientWidth + 1 && box.right <= innerWidth && box.left >= 0;
     }));
-    expect(rows.length).toBeGreaterThan(0);
-    expect(rows.every(Boolean)).toBe(true);
+    expect(names.length).toBeGreaterThan(0);
+    expect(names.every(Boolean)).toBe(true);
     expect(errors).toEqual([]);
     await page.close();
   }, 240000);

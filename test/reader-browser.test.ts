@@ -63,8 +63,9 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the reader', () => {
     expect(await page.waitForSelector('[data-mode="loading"]', { timeout: 150 })).toBeTruthy();
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
     expect(await page.textContent('[data-id="place"]')).toBe('Reedwake quay');
-    // The company's portraits are for their cards in a fight and their pages, never what is told (OWN-29).
-    expect(await page.locator('img[src*="paintings/pcs/"]').count()).toBe(0);
+    // The company's portraits are for their cards in a fight, their pages and their mark on the map, never what is
+    // told (OWN-29).
+    expect(await page.locator('img[src*="paintings/pcs/"]:not(.board-surface *)').count()).toBe(0);
     // Told once, and the story does not move while the pointer does.
     await d.do('relative', 'Ask what is wrong');
     const told = await Reading.text(page);
@@ -86,10 +87,10 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the reader', () => {
     // Across country to the causeway; the map shows where the company is.
     await d.go('causeway');
     expect((await d.inspect()).place?.id).toBe('march__causeway');
-    await d.mode('m');
-    await page.waitForSelector('[data-region="map"] [aria-current="location"]', { timeout: 120000 });
-    expect(await page.locator('[data-region="map"] [aria-current="location"]').count()).toBe(1);
-    await d.mode('m');
+    // Come into open country, the map is up (else M raises it): the one map, where the company is said on its card.
+    if (!await page.locator('.world-page.scale-board').count()) { await d.mode('m'); }
+    await page.waitForSelector('.world-page.scale-board .hex-card[data-id="march__causeway"]', { timeout: 120000 });
+    expect(await page.locator('.world-page.scale-board .board-surface').count()).toBe(1);
     // A fight: each foe and what it means to do; each exchange in words, the dice kept back.
     await Reading.fight(d);
     expect((await d.inspect()).mode).toBe('combat');

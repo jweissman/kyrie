@@ -7,9 +7,10 @@ import { SiteBuild } from '../src/cli/site-build';
 import { MonoBrowser } from './support/mono-browser';
 import type { ChoiceShape } from './support/mono-driver';
 
-// The map is a thing to plan with (the play-structure investigation's PT-27: it could not be clicked): a place on it
-// is chosen by pointing or by the keys, says whether the company has been there and the way there leg by leg, and
-// sets out; the journey is told where it comes to. From the notes, too, each place known is somewhere to set out for
+// The map is a thing to plan with (the play-structure investigation's PT-27: it could not be clicked), and the one
+// map (the owner, 4 November, late): play begins on it, and a place on it is chosen by pointing or by the keys, says
+// whether the company has been there and the way there, and is entered (a town) or set out for (anywhere else); the
+// journey is told where it comes to. From the notes, too, each place known is somewhere to set out for
 // (PT-25: the notes were a ledger, not a plan). Opt in with KYRIE_BROWSER=1.
 describe.skipIf(!process.env.KYRIE_BROWSER)('the map and the notes, to plan with', () => {
   let site = '', browser: Awaited<ReturnType<typeof MonoBrowser.launch>>;
@@ -27,16 +28,15 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the map and the notes, to plan with
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
     const from = (await driver.inspect()).place?.id;
-    await driver.mode('m');
-    expect((await driver.inspect()).mode).toBe('map');
+    expect(await page.locator('.world-page.scale-board').count()).toBe(1);
     // By the keys: the town is reached by Tab and chosen with Enter (on the board, once it is drawn).
     await page.waitForSelector('[data-action="map-place"][data-id="region__s4"]', { timeout: 120000 });
     await page.focus('[data-action="map-place"][data-id="region__s4"]');
     await page.keyboard.press('Enter');
-    const plan = await page.textContent('.plan');
-    expect(plan).toContain('Brockfield');
-    expect(plan).toMatch(/By the .+ to /);
-    await page.click('[data-action="set-out"]');
+    const card = await page.textContent('.enter-card');
+    expect(card).toContain('Brockfield');
+    expect(card).toMatch(/by the ways you know/);
+    await page.click('.enter-card [data-action="enter"]');
     await driver.settle();
     const after = await driver.inspect();
     expect([after.mode, after.place?.id !== from]).toEqual(['explore', true]);
@@ -57,14 +57,13 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the map and the notes, to plan with
     await page.click('[data-action="origin"][data-id="debt"]');
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
-    await driver.mode('m');
     await page.waitForSelector('[data-action="map-place"][data-id="region__edge_east"]', { timeout: 120000 });
     await page.focus('[data-action="map-place"][data-id="region__edge_east"]');
     await page.keyboard.press('Enter');
     const plan = await page.textContent('.plan');
     expect(plan).toContain('march-stone of');
     expect(plan).toMatch(/By the old road east/);
-    await page.click('[data-action="set-out"]');
+    await page.click('.plan [data-action="set-out"]');
     await driver.settle();
     // Gone on with, as the page offers, past whatever stops it on the road (on the bridge by Brightbridge, something
     // going on there stops a journey, as a toll or nightfall would).
@@ -74,24 +73,24 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the map and the notes, to plan with
     expect(errors).toEqual([]);
     await page.close();
   }, 300000);
-  // On a phone the map is the whole screen (Mission 18, the owner's correction), the board or the flat map, whichever
-  // the browser can draw: where you are is on it, nothing runs
-  // past the screen's edge, and a place chosen is said in a card at its foot, whole (the register's NAV-05 and PRE-04:
+  // On a phone the map is the whole stage (Mission 18, the owner's correction): where you are is on it, nothing runs
+  // past the screen's edge, and where you are is said in a card at its foot, whole (the register's NAV-05 and PRE-04:
   // names cut on a phone; the map untested at 390 px). The rest of the country is a drag away.
-  it('at 390 by 844: fills the screen with the map, you on it, and the plan at its foot', async () => {
-    const { page, errors, driver } = await MonoBrowser.page(browser, { width: 390, height: 844 },
+  it('at 390 by 844: fills the stage with the map, you on it, and its card at its foot', async () => {
+    const { page, errors } = await MonoBrowser.page(browser, { width: 390, height: 844 },
       { site, pointer: true, query: '?world=kite' });
     await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
-    await driver.mode('m');
-    await page.waitForSelector('.field-land [aria-current="location"] .you-dot', { timeout: 120000 });
+    await page.waitForSelector('.field-land.board[data-board="ready"] .board-you', { timeout: 120000 });
+    await page.waitForTimeout(2000);
     const fit = await page.evaluate(() => {
-      const map = document.querySelector('.field-land svg, .field-land canvas')!.getBoundingClientRect();
-      const you = document.querySelector('.field-land [aria-current="location"] .you-dot')!.getBoundingClientRect();
-      const plan = document.querySelector('.field-map .plan')!.getBoundingClientRect();
-      return { names: document.querySelectorAll('.field-land text, .board-labels [data-action="map-place"]').length,
-        whole: map.width >= innerWidth - 1 && map.height >= innerHeight - 1,
+      const map = document.querySelector('.field-land canvas')!.getBoundingClientRect();
+      const stage = document.querySelector('.world-page .surface')!.getBoundingClientRect();
+      const you = document.querySelector('.board-you')!.getBoundingClientRect();
+      const plan = document.querySelector('.world-page .focus > section')!.getBoundingClientRect();
+      return { names: document.querySelectorAll('.board-labels [data-action="map-place"]').length,
+        whole: map.width >= stage.width - 1 && map.height >= stage.height - 1,
         you: you.left >= 0 && you.right <= innerWidth && you.top >= 0 && you.bottom <= innerHeight,
         wide: document.documentElement.scrollWidth > innerWidth,
         plan: plan.left >= 0 && plan.right <= innerWidth && plan.bottom <= innerHeight };
@@ -112,15 +111,14 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the map and the notes, to plan with
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
     const from = (await driver.inspect()).place?.id;
-    await driver.mode('m');
     await page.waitForSelector('.field-land.board[data-board="ready"]', { timeout: 180000 });
     await page.waitForTimeout(6000);
     const you = (await page.locator('.board-you').boundingBox())!;
     await page.mouse.click(you.x + you.width * 2.5, you.y + you.height - 4);
     await page.waitForSelector('.plan [data-action="set-out"]', { timeout: 30000 });
-    expect(await page.locator('.field-map').count()).toBe(1);
     await page.mouse.click(you.x + you.width * 2.5, you.y + you.height - 4);
-    await page.waitForSelector('.field-map', { state: 'detached', timeout: 60000 });
+    await page.waitForFunction(was => (window as unknown as { kyrieMono: { inspect(): { place?: { id: string } } } })
+      .kyrieMono.inspect().place?.id !== was, from, { timeout: 60000 });
     await driver.settle();
     const after = await driver.inspect();
     expect([after.mode, after.place?.id !== from]).toEqual(['explore', true]);

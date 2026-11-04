@@ -17,9 +17,11 @@ import type { MonoDriver } from './support/mono-driver';
 class Walk {
   constructor(readonly page: Page, readonly d: MonoDriver) {}
   async here(): Promise<string | undefined> { return (await this.d.inspect()).place?.id; }
-  // A way from here, taken at a touch from the ways beside the place: its own going, or the first of its acts.
+  // A way from here, taken as a player takes it: Go…, then its name in the explorer (its own going, or the first of
+  // its acts).
   async to(place: string) {
-    await this.page.click(`.ways-here :is([data-choice="exit:${place}"], [data-choice^="exit:${place}/"])`);
+    await this.page.click('[data-action="explore"][data-part="go"]');
+    await this.page.click(`.explorer .ways-here :is([data-choice="exit:${place}"], [data-choice^="exit:${place}/"])`);
     await this.d.settle();
     expect(await this.here()).toBe(place);
   }
@@ -44,12 +46,15 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a journey through the world, laid o
     await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
-    // The town as it is painted, nothing over the picture, its ways beside it.
+    // Play begins on the map, with the town the company stands in described over it; entered, the town as it is
+    // painted, nothing over the picture but whoever is here, and no list of ways.
+    expect(await w.page_()).toContain('scale-board');
+    await page.click('[data-action="enter-hex"]');
     expect(await w.page_()).toContain('scale-scene');
-    expect(await page.locator('.scene-surface button, .scene-surface nav').count()).toBe(0);
+    expect(await page.locator('.scene-surface button, .scene-surface nav, .focus .ways-here').count()).toBe(0);
     await w.to('region__s2_green');
-    // Bask, at his house door: the rats job, and the key.
-    await page.click('[data-subject="region__s2_merchant"] button');
+    // Bask, at his house door, by his likeness on the picture: the rats job, and the key.
+    await page.click('.surface .portraits [data-subject="region__s2_merchant"] .portrait');
     await driver.settle();
     await driver.pick(c => /^Ask about the rats in the corn-store/.test(c.label), 'the rats');
     await driver.away();
@@ -59,7 +64,9 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a journey through the world, laid o
     expect(await page.locator('[data-id="depth"]').textContent()).toBe('One storey down');
     await driver.pick(c => /light|Light/.test(c.label), 'a light');
     expect(await page.locator('.scene-surface .scenery img').count()).toBe(1);
-    expect(await page.locator('.ways-here .glyph.whither-up').count()).toBe(1);
+    await page.click('[data-action="explore"][data-part="go"]');
+    expect(await page.locator('.explorer .ways-here .glyph.whither-up').count()).toBe(1);
+    await page.click('[data-action="explore-shut"]');
     await w.to('region__s2_u_warren');
     await driver.pick(c => c.id === 'region__s2_u_rats/0:Attack', 'the rats');
     await driver.fight();
@@ -69,8 +76,10 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a journey through the world, laid o
     await w.to('region__s2_u_cellar');
     await w.to('region__s2_u_store');
     await w.to('region__s2_green');
-    // Out into the country by the map: there the map is the whole stage, the hex described, entered by its button.
+    // Out into the country by the map, the one map: raised over the stage, a hex beside the town chosen and set out
+    // for; there the map is the whole stage, the hex described, entered by its button.
     await driver.mode('m');
+    expect(await w.page_()).toContain('scale-board');
     await page.waitForSelector('.field-land.board[data-board="ready"]', { timeout: 180000 });
     await page.waitForTimeout(4000);
     const you = (await page.locator('.board-you').boundingBox())!;
@@ -85,12 +94,10 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a journey through the world, laid o
     expect(await w.page_()).toContain('scale-scene');
     await page.click('[data-action="back-to-map"]');
     expect(await w.page_()).toContain('scale-board');
-    // Back into the town from its card on the map.
-    await driver.mode('m');
+    // Back into the town from its card on the map: chosen, and entered by its large button.
     await page.waitForSelector('[data-action="map-place"][data-id="region__s2"]', { timeout: 120000 });
-    await page.focus('[data-action="map-place"][data-id="region__s2"]');
-    await page.keyboard.press('Enter');
-    await page.click('.plan [data-action="set-out"]');
+    await page.click('[data-action="map-place"][data-id="region__s2"]');
+    await page.click('.enter-card [data-action="enter"]');
     await driver.settle();
     expect((await driver.inspect()).place?.id).toMatch(/^region__s2_/);
     expect(await w.page_()).toContain('scale-scene');

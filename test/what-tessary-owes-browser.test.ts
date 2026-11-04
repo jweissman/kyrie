@@ -40,6 +40,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('What Tessary Owes in the browser', 
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
     await shot('causeway');
     await act(d, '^To the Landgate');
+    // At rest the gate is told in brief; looked about, whole (the bill-board, Saint Evenhand's chapel).
+    await d.lookAbout();
     expect(await page.evaluate(() => document.body.innerText)).toContain('Saint Evenhand');
     await act(d, 'notice', '^Read');
     expect(await page.evaluate(() => document.body.innerText)).toContain('Nan Teazle');

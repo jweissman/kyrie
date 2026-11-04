@@ -37,6 +37,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('The Lull in the browser', () => {
     await page.waitForSelector('[data-action="start"]');
     await d.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
+    // Play begins on the map, with Sixways' card over it; entered, the hamlet is told.
+    await d.enter();
     expect(await text(page)).toMatch(/a hamlet of one street/);
     if (shots) { await page.screenshot({ path: `${shots}/browser-1-march-road.png` }); }
     await act(d, 'Sixways street');

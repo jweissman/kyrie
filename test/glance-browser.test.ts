@@ -52,12 +52,17 @@ class Glancing {
     for (const hop of p.route('freezeland')) { await p.play(hop); }
     return p.j.session.campaign.history.map(e => e.action);
   }
-  // Nothing a sheet away (the owner, 4 November evening: Every way, Look about and More had been crutches): the ways
-  // from here, who is here and what the company can do of itself are in the focus beside the place, at once.
-  static async atOnce(page: Page) {
-    const at = (s: string) => page.locator(`.world-page .focus ${s}`).count();
-    return { ways: await at('.ways-here .way-tile') > 0, yourself: await at('.yours-here .act') > 0,
-      keys: await page.locator('.glance-keys').count() };
+  // A place at rest (the owner, 4 November, late: a settled principle): the picture with whoever is here over its foot,
+  // and Go… / Explore…; no ways, no list of what can be done. Opened, the explorer has the ways and what the company
+  // can do of itself.
+  static async atRest(page: Page) {
+    const at = (s: string) => page.locator(`.world-page ${s}`).count();
+    const rest = { portraits: await at('.surface .portraits .portrait') > 0, explore: await at('[data-action="explore"]'),
+      listed: await at('.focus .ways-here'), keys: await page.locator('.glance-keys').count() };
+    await page.click('[data-action="explore"][data-part="go"]');
+    const opened = { ways: await at('.explorer .ways-here .way-tile') > 0, yourself: await at('.explorer .yours-here .act') > 0 };
+    await page.click('[data-action="explore-shut"]');
+    return { ...rest, ...opened };
   }
 }
 
@@ -82,7 +87,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a place at a glance', () => {
       expect(await Glancing.quiet(page)).toEqual({ scroll: false, panes: 0, led: true });
       expect((await d.inspect()).glance?.arrival).toBe('first');
       await Glancing.shot(page, 'first-arrival');
-      expect(await Glancing.atOnce(page)).toEqual({ ways: true, yourself: true, keys: 0 });
+      expect(await Glancing.atRest(page)).toEqual({ portraits: true, explore: 2, listed: 0, keys: 0, ways: true,
+        yourself: true });
       // A digit beyond what it leads with does nothing out of sight.
       if (!pointer) {
         const at = (await d.inspect()).place?.id;
@@ -90,9 +96,9 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a place at a glance', () => {
         const now = await d.inspect();
         expect([now.mode, now.place?.id]).toEqual(['explore', at]);
       }
-      // Your brother, by his plate, which the glance edges as the one it would lead with: someone in sight is talked to
-      // by their plate, not by a lead above it as well (the owner, 4 November).
-      await d.click('[data-region="glance"] .act.plate.leading');
+      // Your brother, by his likeness on the picture: someone in sight is talked to by touching them (the owner,
+      // 4 November, late).
+      await d.click('.surface .portraits [data-subject="drover__son"] .portrait');
       expect((await d.inspect()).mode).toBe('talk');
       expect(await page.locator('.dialogue').count()).toBe(1);
       await d.away();
@@ -111,9 +117,11 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a place at a glance', () => {
     await page.waitForSelector('[data-action="start"]');
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
-    // Among the ways beside the place, the way says what it risks, and asks before it is taken (spatial-play.md).
-    const drop = '.ways-here [data-choice^="exit:"][data-choice*="pool"]';
-    expect(await page.locator(`${drop} .mark-one-way`).first().innerText()).toMatch(/no way back/i);
+    // Among the ways in the explorer, the way says what it risks in its line, and asks before it is taken.
+    await page.click('[data-action="explore"][data-part="go"]');
+    const drop = '.explorer .ways-here [data-choice^="exit:"][data-choice*="pool"]';
+    await page.hover(`${drop} >> nth=0`);
+    expect(await page.locator('.explorer .way-detail').innerText()).toMatch(/no coming back/i);
     await d.click(`${drop} >> nth=0`);
     expect(await page.locator(`${drop} .grave-said`).first().innerText()).toMatch(/no coming back.+Choose it again/);
     expect((await d.inspect()).place?.id).toBe('p__ledge');

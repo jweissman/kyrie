@@ -6,6 +6,7 @@ import type { Draw } from './act';
 import { GlanceStage } from './glance';
 import { SceneSurface } from './scene-surface';
 import { PlaceStage } from './place-stage';
+import { Told } from './told';
 
 // What can be done in and beyond a place, opened over it when the player means to do something, and gone again when
 // they have (the owner, 4 November, late: a settled principle — the place at rest, its apparatus when wanted). Two
@@ -38,6 +39,11 @@ export class Explorer {
           <section className={`explorer-here${part === 'here' ? ' first' : ''}`} aria-label="What to do here">
             <p className="part">Here</p>
             <GlanceStage.Acts app={app} draw={draw} acts={acts} />
+            {/* The place told whole, as at rest it is told only in brief (nothing written is lost: OWN-18). */}
+            <details className="about-here" data-region="about">
+              <summary>{`About ${Typography.curl(screen.place.name.replace(/^The /, 'the '))}`}</summary>
+              <div className="telling"><Told.Place app={app} headed={false} whole here={null} /></div>
+            </details>
             <Explorer.People app={app} draw={draw} />
             <GlanceStage.Around app={app} draw={draw} led={led} apart />
             <GlanceStage.Yours app={app} draw={draw} />
