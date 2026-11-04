@@ -871,7 +871,7 @@ still a duplicate.
 | BOF-20 | The prose lint still takes the singular flag and the engine for the implementation's | The Book of Faces, gate 9, counting 9 | D | P3 | Partial | flags no longer; flag and the engine as words of the world to be told apart |
 | BOF-21 | `travelTime` counts watches, and the guide's example gives no unit | The Book of Faces, drip 5 | D | P3 | Fixed | the guide to say ten minutes a watch there; 3 November: the guide's travelTime example says its unit: watches of ten minutes |
 | BOF-22 | `teaches` goes after the words in an Observe and before the braces in a Rule | The Book of Faces, drip 8 | D | P3 | Partial | parse errors name the construct; one place for teaches still to choose |
-| BOF-23 | An Observe on tried(…) is told on every view; there is no Observe once | The Book of Faces, chapel 6 | D | P3 | Open | with WPC-26: once and again on Observe |
+| BOF-23 | An Observe on tried(…) is told on every view; there is no Observe once | The Book of Faces, chapel 6 | D | P3 | Fixed | with WPC-26: once and again on Observe; 3 November: the guide's 'Words that teach' shows an observation told once: it asks for the absence of what it teaches (the undertown's rat-runs) |
 | BOF-24 | A topic is one turn; there is no talk of several exchanges | The Book of Faces, hill 6 | D | P3 | Open | a topic's follow-ups as a form |
 | BOF-25 | `dead` is the engine's, so a module cannot make someone dead in the story | The Book of Faces, hill 8 | D | P3 | Open | a slaying a module can bring about, through the engine |
 | BOF-26 | `Observe near` a thing on a passage does nothing, and nothing says so | The Book of Faces, cisterns 5 | D | P3 | Partial | the guide shows beside … from; the lint still silent |

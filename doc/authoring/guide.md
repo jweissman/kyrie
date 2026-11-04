@@ -1234,6 +1234,15 @@ that sets its account against what Kittiwake saw and finds the lie, and the endi
 one reading (the Grand Tour's 23, whose inference fired only once the company had done something else). Only what the
 learning makes hold fires then: a rule that held already goes on as it did.
 
+
+An observation told once, and not on every view after (the Book of Faces' BOF-23: a scratch on a lock told every
+time the chest was looked at), asks for the absence of what it teaches: it is told, it is known, and its condition no
+longer holds. The undertown's rat-runs say so (`data/generation/town/undertown.kyrt`):
+
+```text
+  Observe rats_run_seen at warren as sign when not knows(party, rats_source) "Along the back wall the rats have worn a path in the dirt, and it goes into the old brickwork." teaches rats_source.
+```
+
 ### How the story ends
 
 An ending closes the book. The first whose condition holds is reached once: its epilogue is told as it happens, play
