@@ -452,6 +452,7 @@
     "test/riddle-door-browser.test.ts": 914,
     "test/said-within.test.ts": 912,
     "test/aside-journey.test.ts": 907,
+    "test/carried-told.test.ts": 900,
     "test/kyr-escapes.test.ts": 898,
     "test/generative-kernel.test.ts": 892,
     "test/learned-at-once.test.ts": 886,
