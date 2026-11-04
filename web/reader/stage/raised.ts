@@ -1,4 +1,4 @@
-import type { Menu } from '../menu-model';
+import { MenuModel, type Menu } from '../menu-model';
 import type { ReaderApp } from '../reader-app';
 
 // What a place keeps a deliberate touch away (OWN-18, OWN-19), each a sheet raised over its glance and put away again
@@ -31,7 +31,8 @@ export class Raised {
   static led(app: ReaderApp): number | undefined {
     const g = app.state.frame?.leaf.glance, menu = app.menu;
     if (!g || !menu.sheets) { return undefined; }
-    return this.up(app) ? 0 : (menu.leads ?? g.acts).filter(a => menu.choices.some(c => c.id === a.choice)).length;
+    return this.up(app) ? 0
+      : new Set((menu.leads ?? g.acts).flatMap(a => MenuModel.lead(menu, a.choice)?.id ?? [])).size;
   }
   // The choices the glance draws: what it leads with, and its quiet row of ways.
   static glanced(app: ReaderApp): string[] {

@@ -14,6 +14,7 @@ import { Marks } from '../ui/marks';
 import { SceneModel, type Scene } from '../ui/scene';
 import type { Act, Screen } from '../ui/screen-types';
 import { Stakes } from '../ui/stakes';
+import { Undertakings } from './undertakings';
 import { CompanyRecall } from './company-recall';
 import { DecisionFrame } from './decision-frame';
 import { GlanceLines } from './glance-lines';
@@ -49,9 +50,9 @@ export class Glance {
     // coming somewhere new, at the opening and on resuming, and when the aims have changed, not on every page that
     // has nothing to do with it (the owner, OWN-53: restrained, and only what is truly held).
     const turned = !!told?.feedback.aims?.length || !!told?.feedback.amended?.length;
-    // A new aim just taken up is the one said (the vault under the undercroft, found, not the father's errand again).
-    const local = Stakes.here(campaign, PlayerView.observe(campaign).objectives ?? [], here)[0]?.text;
-    const aim = told?.feedback.aims?.at(-1) ?? local ?? screen.objectives[0];
+    // A new aim just taken up is the one said (the vault under the undercroft, found, not the father's errand again);
+    // otherwise the aim followed (see Undertakings).
+    const aim = told?.feedback.aims?.at(-1) ?? screen.aims?.find(a => a.followed)?.text ?? screen.objectives[0];
     // Not again beneath "A new aim" that has just said it.
     const said = aim && !(arrival === 'opening' && telling.opened) && !told?.feedback.aims?.includes(aim)
       && (['opening', 'first', 'resume'].includes(arrival) || turned);
@@ -118,7 +119,7 @@ export class Glance {
     const schema = new Map(rows.map(r => [r.choice.id, r.action.searchPlace ? 'search' : r.action.schema ?? r.action.id]));
     const args = new Map(rows.map(r => [r.choice.id, Object.entries(r.action.bindings ?? {})
       .filter(([k]) => !['actor', 'site'].includes(k)).map(([, v]) => v)]));
-    const named = this.named(campaign, here);
+    const named = this.named(campaign);
     const held = new Set([...screen.aimed ?? []].filter(id => !named.has(id) && id !== campaign.playerActor));
     const back = recall.came && screen.exits.find(e => e.destination.id === recall.came)?.destination.id;
     const commands = this.commands(screen);
@@ -146,10 +147,9 @@ export class Glance {
     const bed = screen.exits.find(e => e.local && rooms.has(e.destination.id))?.destination.id;
     return bed ? { bed } : {};
   }
-  // What the aim shown names (the one that names where the company stands, else its own errand: see Stakes.here).
-  private static named(campaign: Campaign, here: string): Set<string> {
-    const held = PlayerView.observe(campaign).objectives ?? [], shown = Stakes.here(campaign, held, here)[0];
-    const def = shown && (campaign.module.objectives ?? []).find(o => o.id === shown.id);
+  // What the aim followed names (see Undertakings): "your aim" is that one's, and no other's.
+  private static named(campaign: Campaign): Set<string> {
+    const def = Undertakings.followed(campaign);
     // Not the company itself, which an aim's condition names as whoever must get somewhere.
     return new Set([...def ? this.names(campaign, def) : []].filter(id => id !== campaign.playerActor));
   }

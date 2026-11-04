@@ -39,7 +39,6 @@ export interface AppState {
   memorial?: import('../../src/world/memorial').Memorial;
   frame?: Frame; view: View; cursor: number; hovered?: string; member: string;
   // The aim the player follows, chosen in the Notes (see Followed).
-  followed?: string;
   // Which beat of a new game's opening is shown, while it is, and when it came (see PrologueStage).
   prologue?: number; beat?: number;
   // Whether the company is setting out from the choice of a life: the page says only that, over the country.
@@ -259,11 +258,13 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     else if (s.attention.kind === 'person' && this.menu.talk) { this.choose(this.menu.talk.leave); }
     else if (s.attention.kind !== 'place') { this.setState({ attention: Conversation.place, cursor: 0 }); }
   };
-  // An aim to follow, or none: said on every page, and kept for the game in this browser (see Followed).
+  // An aim to follow, or none (the game follows for the player again): said on every page, and kept with the game
+  // (see Followed).
   follow = (aim?: string) => {
-    const screen = this.state.frame?.screen;
-    if (screen) { Followed.keep(screen, aim); }
-    this.setState({ followed: aim });
+    const screen = this.state.frame?.screen, id = screen && aim ? Followed.id(screen, aim) : undefined;
+    if (this.state.pending || (aim && !id)) { return; }
+    void this.engine.request<Frame | null>({ kind: 'follow', ...id ? { aim: id } : {} })
+      .then(frame => { if (frame) { this.setState({ frame }); } }).catch(this.failed);
   };
   show(view: View, who?: string) {
     if (this.state.frame?.combat && view !== 'here') { return; }

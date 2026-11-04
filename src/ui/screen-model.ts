@@ -28,7 +28,7 @@ import { ObservationText } from '../lang/observation-text';
 import { ChartModel } from './chart-model'; import { Carriers } from './carriers'; import { CarriedFlame } from './carried-flame';
 import { Overlays } from '../overlays'; import { PerkText } from '../presentation/perk-text'; import { Exposure } from './exposure';
 import { Services } from './services'; import { Headings } from './headings'; import { TradeModel } from './trade-model'; import { ItemUses } from './item-uses'; import { Skies } from './skies';
-import { Stakes } from './stakes'; import { TownPlan } from './town-plan';
+import { Stakes } from './stakes'; import { TownPlan } from './town-plan'; import { Undertakings } from '../presentation/undertakings';
 import type { Act, ItemRow, MemberRow, Screen, TargetRow } from './screen-types';
 
 // Builds the renderer-independent game screen from the authoritative campaign. Pure: same campaign, same screen.
@@ -83,7 +83,7 @@ export class ScreenModel {
       capabilities: (view.capabilities ?? []).map(c => `${c.name} — ${c.providers.join(', ')}`),
       formations: this.formations(campaign),
       trade: here ? TradeModel.at(world, here, names) : [], services: Services.of(campaign, names),
-      objectives: Stakes.here(campaign, view.objectives ?? [], here).map(o => FictionalTime.prose(o.text)),
+      ...Undertakings.shown(campaign, view.objectives ?? [], here),
       ...stakes.size ? { aimed: [...stakes] } : {},
       ...charted,
       expedition: this.expedition(world, view, items, here),

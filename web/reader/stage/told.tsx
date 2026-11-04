@@ -144,7 +144,8 @@ export class Told {
         {notes.length > 0 && <ul className="notes">{notes.map(n => <li key={n}
           className={Words.noted.test(n) ? 'learned' : undefined}>{Words.noted.test(n)
             ? <><span className="label">{Words.label(n)}</span>
-              {` ${Typography.curl(n.replace(Words.noted, ''))}`}</>
+              {` ${Typography.curl(n.replace(Words.noted, ''))}`}
+              {app && /^Aim( now)?: /.test(n) && <Told.Follow app={app} aim={n.replace(Words.noted, '')} />}</>
             : Typography.curl(n)}</li>)}</ul>}
       </section>
     );
@@ -155,6 +156,13 @@ export class Told {
     const aims = notes.filter(n => /^Aim( now)?: /.test(n)), rest = notes.filter(n => !aims.includes(n));
     const room = aims.length ? 1 : 2, more = rest.length - room;
     return [...aims, ...rest.slice(0, room), ...more > 0 ? [`And ${more === 1 ? 'one thing more' : `${more} things more`}, in the Book.`] : []];
+  }
+  // A new aim not followed (the company's own errand is, or another the player chose), to follow instead: as an
+  // RPG's journal offers to track a quest just taken up (see Undertakings).
+  static Follow({ app, aim }: { app: ReaderApp; aim: string }) {
+    const held = app.state.frame?.screen.aims?.find(a => a.text === aim);
+    return held && !held.followed ? <button type="button" className="follow-aim" data-action="follow"
+      onClick={() => app.follow(aim)}>Follow this</button> : null;
   }
   // Something under way: said at once, in the player's words; a journey says where it goes and how long it is.
   static Working({ pending }: { pending: { said: string; travel?: Travel; stage?: string } }) {

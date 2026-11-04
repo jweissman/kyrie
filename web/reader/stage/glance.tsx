@@ -98,7 +98,7 @@ export class GlanceStage {
   // quest followed); with none followed, the aim this place is about, when it wants saying.
   static Aim({ app, said }: { app: ReaderApp; said?: string }) {
     // Not on the first page, before anything is done: the opening has just told it.
-    const screen = app.state.frame!.screen, followed = screen.elapsed ? Followed.of(screen, app.state.followed) : undefined;
+    const screen = app.state.frame!.screen, followed = screen.elapsed ? Followed.of(screen) : undefined;
     const aim = followed ?? said, recap = app.state.frame!.leaf.recap?.aim;
     // Nor again under "Where you left off", which has just said it.
     if (aim && recap === aim) { return null; }
@@ -191,9 +191,11 @@ export class GlanceStage {
   // The quiet row: the nearest ways the glance rows (across the open country, the compass).
   static Row({ app, draw, glance: g }: { app: ReaderApp; draw: Draw; glance: Glance }) {
     // In a town or a site, going out to the country is always among the nearest ways (see MenuModel.place).
+    // Not a way the glance leads with already, above (the world map had been drawn twice at Millholm's camp).
     const out = app.menu.overland ? app.menu.choices.find(c => c.id === MenuModel.country.id) : undefined;
+    const led = new Set((app.menu.leads ?? g.acts).map(a => GlanceStage.choice(app, a.choice)));
     const ways = [...g.ways.flatMap(id => GlanceStage.choice(app, id) ?? []), ...out ? [out] : []]
-      .filter((c, i, all) => all.indexOf(c) === i), aimed = PlaceStage.aimed(app);
+      .filter((c, i, all) => all.indexOf(c) === i && !led.has(c)), aimed = PlaceStage.aimed(app);
     const screen = app.state.frame!.screen;
     if (!ways.length) { return null; }
     return (
@@ -230,7 +232,6 @@ export class GlanceStage {
   }
   // A way out into the country, in a town or a site, is drawn as going out to it (see MenuModel.place).
   static choice(app: ReaderApp, id: string): Choice | undefined {
-    return app.menu.choices.find(c => c.id === id)
-      ?? (app.menu.overland?.has(id) ? app.menu.choices.find(c => c.id === MenuModel.country.id) : undefined);
+    return MenuModel.lead(app.menu, id);
   }
 }

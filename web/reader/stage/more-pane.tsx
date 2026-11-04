@@ -20,7 +20,7 @@ export class MorePane {
           <Act.List choices={scene.you.filter(c => !SceneModel.own(c))} draw={draw} className="column yours" marked />
         </section>
         <PlaceStage.Aim screen={frame.screen} bound={!!frame.bound}
-          followed={Followed.of(frame.screen, app.state.followed)} />
+          followed={Followed.of(frame.screen)} />
       </Drawer.View>
     );
   }

@@ -138,7 +138,11 @@ export interface Screen {
   // Lines of this scene the company has not seen before, at a place it has been before: what has changed.
   fresh: string[];
   map: { id: string; name: string; zone: string; visited: boolean; here: boolean }[];
-  chart?: Chart; region?: RegionChart; plan?: Plan; objectives: string[];
+  chart?: Chart; region?: RegionChart; plan?: Plan;
+  // What the company means to do, in words, the aim followed first; and each by its id: the one followed (see
+  // Undertakings), whether the player chose it, and the company's own errand.
+  objectives: string[];
+  aims?: { id: string; text: string; followed?: true; chosen?: true; own?: true }[];
   // Whom and what the company's aims and family name (people, places, ways): met and gone to first (see Stakes).
   aimed?: string[];
   expedition: { time: string; daylight: string; rations: number; hungry: boolean; weary?: boolean; nextMeal?: string;

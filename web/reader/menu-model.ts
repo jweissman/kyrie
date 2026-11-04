@@ -110,6 +110,11 @@ export class MenuModel {
     around: about, ...glance ? { sheets, leads, leading } : {},
     ...country ? { overland: new Set([...overland, ...journeys].map(c => c.id)) } : {} };
   }
+  // The choice a lead of the glance is drawn as and done by: its own, or, for a way out into the country, going out
+  // to it (the keys had counted a lead on the road as none, and every digit at Millholm's camp did nothing).
+  static lead(menu: Menu, id: string): Choice | undefined {
+    return this.found(menu.choices, id, menu.overland ?? new Set());
+  }
   // A choice by its id; a way out into the country, in a town or a site, as going out to it.
   private static found(choices: Choice[], id: string, overland: Set<string>): Choice | undefined {
     return choices.find(c => c.id === id)

@@ -42,7 +42,7 @@ export class RoadStage {
         </div></div></section>
         <footer className="place-foot">
           <PlaceStage.Aim screen={frame.screen} bound={!!frame.bound}
-          followed={Followed.of(frame.screen, app.state.followed)} />
+          followed={Followed.of(frame.screen)} />
           <PlaceStage.You app={app} draw={draw} />
         </footer>
       </article>

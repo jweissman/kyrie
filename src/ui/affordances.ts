@@ -77,21 +77,24 @@ export class Affordances {
     // they sell; the page had led with "Talk to Adrik — your aim" for as long as he had an answer to repeat.
     const fresh = leaves.filter(c => r.speakers.has(c.command!) && !/_again(\(|$)/.test(c.command!));
     const talked = r.talked.has(s.id), person = s.kind === 'person';
-    const answer = leaves.find(c => c.answer), kin = s.stake && (!talked || fresh.some(c => !r.done.has(c.command!)));
-    const word = s.note?.split(' · ')[0], feature = screen.things.find(t => t.id === s.id)?.kind === 'feature';
+    const word = s.note?.split(' · ')[0], ours = word?.startsWith('your ') || r.named.has(s.id);
+    // Someone another aim names is led with after the aim followed asks (see Undertakings).
+    const owed = s.stake && (!talked || fresh.some(c => !r.done.has(c.command!)));
+    const answer = leaves.find(c => c.answer), kin = owed && ours, held = owed && !ours;
+    const feature = screen.things.find(t => t.id === s.id)?.kind === 'feature';
     const looked = leaves.find(c => r.schema.get(c.command!) === 'look_closely' && !r.done.has(c.command!));
     // A treasure lying here is what the delve was for: taken up, led with (the vault's rings and moonstone had been
     // under Look about once its keeper fell: OWN-57's play).
     const spoils = screen.things.find(t => t.id === s.id)?.valuable
       && leaves.some(c => /^(take_item|take_out)\(/.test(c.command!));
-    const whys: Why[] = [...answer ? ['answer' as const] : [], ...kin ? ['kin' as const] : [], ...spoils ? ['spoils' as const] : [],
+    const whys: Why[] = [...answer ? ['answer' as const] : [], ...kin ? ['kin' as const] : [], ...held ? ['held' as const] : [], ...spoils ? ['spoils' as const] : [],
       ...this.about(fresh, r) ? ['about' as const] : [], ...person && r.life === s.id && !talked ? ['life' as const] : [],
       ...this.ownWhy(leaves, r), ...r.signs.has(s.id) ? ['sign' as const] : [],
       ...person && s.asked && !talked ? ['asked' as const] : [], ...feature && looked ? ['unlooked' as const] : []];
     const needs = this.served(leaves, r);
     const base = { subject: s.id, kind: person ? 'talk' as const : 'act' as const, r };
     return [this.candidate(opener, { ...base, whys: [...whys, ...needs.map(n => n.why)], notes: {
-      ...answer ? { answer: answer.label } : {}, ...kin ? { kin: word?.startsWith('your ') ? word : 'your aim' } : {},
+      ...answer ? { answer: answer.label } : {}, ...kin ? { kin: word?.startsWith('your ') ? word : 'your aim' } : {}, ...held ? { held: 'another aim' } : {},
       ...Object.fromEntries(needs.map(n => [n.why, n.note])) },
     ...answer?.command ? { command: answer.command } : {} })];
   }

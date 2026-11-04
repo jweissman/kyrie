@@ -137,6 +137,8 @@ export type Request =
   | { kind: 'travel'; destination: string }
   // A journey given up.
   | { kind: 'unbind' }
+  // An aim followed by the player's choice, by its id; none, and the game follows for them (see Undertakings).
+  | { kind: 'follow'; aim?: string }
   | { kind: 'checkpoint' }
   // The whole story so far, for the Story page: frames carry only its last entries.
   | { kind: 'story' }

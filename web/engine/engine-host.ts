@@ -2,6 +2,7 @@ import { PlaySession, type SessionCheckpoint } from '../../src/session/play-sess
 import { PlayerView } from '../../src/presentation/player-view';
 import { ActionFeedbackView, type ActionFeedback } from '../../src/presentation/action-feedback';
 import { FictionalTime } from '../../src/campaign/fictional-time';
+import { Undertakings } from '../../src/presentation/undertakings';
 import { ScreenModel } from '../../src/ui/screen-model';
 import { CombatModel } from '../../src/ui/combat-model';
 import { Tactics } from '../../src/tactics';
@@ -86,6 +87,7 @@ export class EngineHost {
       case 'travel': return this.command(() => this.travel(request.destination));
       // A journey given up: it is no longer held, nor shown.
       case 'unbind': this.bound = undefined; return this.frame();
+      case 'follow': return this.followed(request.aim);
       case 'kept': this.acknowledged(request.key, request.ok); return null;
       // The page's download waits for the command under way (the independent review's A2).
       // With the story so far, so that a game opened from the file has its Story page (the review's A24).
@@ -312,6 +314,14 @@ export class EngineHost {
     this.spent = 0;
     this.saving();
     return frame;
+  }
+  // The aim the player chose to follow, kept with the game; the page drawn again for it, nothing else done.
+  private followed(aim?: string): Frame | null {
+    if (!this.session || this.busy !== undefined) { return null; }
+    Undertakings.follow(this.session.campaign, aim);
+    this.screen = ScreenModel.build(this.session.campaign);
+    this.saving();
+    return this.frame();
   }
   // The game is kept after every command, once its frame has gone to the page, so the page never waits on it.
   private saving() { setTimeout(() => { void this.keep(); }, 0); }

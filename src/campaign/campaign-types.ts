@@ -35,6 +35,8 @@ export interface CampaignState {
   pending?: Record<string, PendingAction>;
   // Who found no way to a goal after a long look, and the watch they try again at (see Agency.plan).
   waiting?: Record<string, number>;
+  // The aim the player follows, by its id, and whether they chose it (see Undertakings).
+  following?: { id: string; chosen?: boolean };
 }
 export interface NpcDecision {
   actor: string; goal: string; action: string; plan: string[]; elapsed?: number; changes?: string[];

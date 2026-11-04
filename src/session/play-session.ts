@@ -7,6 +7,7 @@ import { Tactics } from '../tactics';
 import { PlayerView } from '../presentation/player-view';
 import { Telling } from '../narrative/telling';
 import type { Memorial } from '../world/memorial';
+import { Undertakings } from '../presentation/undertakings';
 import { Digest } from './digest';
 
 // digest: what the game was after it (see Digest).
@@ -81,6 +82,7 @@ export class PlaySession {
   async perform(command: string, controller: CombatController = PlaySession.auto): Promise<CampaignEvent> {
     if (this.busy) { throw new Error('A command is already in progress'); }
     const id = PlayerView.resolve(this.campaign, command);
+    const aims = Undertakings.held(this.campaign).map(o => o.id);
     this.busy = true;
     const combat: Command[] = [];
     try {
@@ -107,6 +109,7 @@ export class PlaySession {
         // What the company is told of it, in the voice tables' words, kept with the command so it is not said again.
         voiced = Telling.tell(this.campaign, event);
       } catch (error) { this.campaign.undo(); throw error; }
+      Undertakings.after(this.campaign, aims);
       this.steps.push({ command, ...combat.length ? { combat } : {}, digest: Digest.of(this.campaign) });
       if (voiced.length) { this.campaign.told(voiced); event.voiced = voiced; }
       return event;

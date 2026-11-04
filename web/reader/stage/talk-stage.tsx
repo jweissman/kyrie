@@ -9,6 +9,7 @@ import { Words } from '../words';
 import { Act, type Draw } from './act';
 import { Stage } from './stage';
 import { Moments } from './moments';
+import { Told } from './told';
 import { Wares, type Ware } from '../wares';
 
 // Speaking with someone. Their painting, large, with their name on it; beside it the conversation: what they were
@@ -26,7 +27,7 @@ export class TalkStage {
         <TalkStage.Sitter app={app} name={name!} role={role.join(' · ')}>
           <Stage.When frame={frame} extra={frame.screen.place.name} /></TalkStage.Sitter>
         <div className="dialogue">
-          <TalkStage.Lines lines={s.talk} pending={s.pending?.said} ready={Moments.ready(frame.screen)} />
+          <TalkStage.Lines lines={s.talk} pending={s.pending?.said} ready={Moments.ready(frame.screen)} app={app} />
           <div className="answer">
             <div className="choosing">
               <TalkStage.Counter wares={wares} buys={counter?.buys ?? []} coin={frame.screen.purse.coin} draw={draw} />
@@ -71,7 +72,7 @@ export class TalkStage {
   }
   // What has passed between you, newest last and kept in view; when the newest is longer than there is room for, from
   // its beginning (what you said), not its end.
-  static Lines({ lines, pending, ready }: { lines: TalkLine[]; pending?: string; ready?: string }) {
+  static Lines({ lines, pending, ready, app }: { lines: TalkLine[]; pending?: string; ready?: string; app?: ReaderApp }) {
     const end = useRef<HTMLDivElement>(null), newest = useRef<HTMLParagraphElement>(null);
     const from = Math.max(0, lines.map(l => l.kind).lastIndexOf('you'));
     useLayoutEffect(() => {
@@ -90,7 +91,8 @@ export class TalkStage {
             : levelled ? <Moments.Levelled key={i} levels={[levelled]} />
             : l.kind === 'learned' || l.kind === 'aim'
               ? <p key={i} ref={i === from ? newest : undefined} className={`line learned ${l.kind}`}>
-                <b>{l.label ?? (l.kind === 'aim' ? 'A new aim' : 'You know now')}</b>{Typography.curl(l.text)}</p>
+                <b>{l.label ?? (l.kind === 'aim' ? 'A new aim' : 'You know now')}</b>{Typography.curl(l.text)}
+                {app && l.kind === 'aim' && <Told.Follow app={app} aim={l.text} />}</p>
               : <p key={i} ref={i === from ? newest : undefined} className={`line ${l.kind}`}>{Typography.curl(l.text)}</p>;
         })}
         {pending && <p className="line you waiting">{Typography.curl(Words.lastSaid(pending))}</p>}

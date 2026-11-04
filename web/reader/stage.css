@@ -481,3 +481,7 @@
   .throw { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "who words" "track track"; }
   .throw .who { white-space: normal; }
 }
+/* A new aim, offered to follow instead of the aim followed (see Told.Follow). */
+.follow-aim { margin-left: 10px; padding: 2px 10px; font: 600 11px/1.6 var(--ui, inherit); letter-spacing: .08em;
+  text-transform: uppercase; color: var(--gold); background: none; border: 1px solid var(--gold); cursor: pointer; }
+.follow-aim:hover, .follow-aim:focus-visible { background: var(--gold); color: var(--surface, #111); }

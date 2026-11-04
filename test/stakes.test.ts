@@ -22,10 +22,11 @@ describe('a stake', () => {
     const screen = ScreenModel.build(j.campaign);
     expect(screen.exits.filter(e => screen.aimed!.includes(e.destination.id)).map(e => e.destination.name))
       .toEqual(['a door of stone in a long mound']);
-    // At its door the aim it names is the one said first, not the father's (play 13: the debt had been the aim shown
+    // The aim followed is said first wherever the company is (Mission 19: the page's aim is the one followed, see
+    // Undertakings); inside, the aim the barrow names comes next, before the rest (play 13: the debt had been shown
     // in the king-barrow whose crown was the other).
     expect(screen.objectives[0]).toMatch(/father/);
     await j.play('^Into Lacrimerecs');
-    expect(ScreenModel.build(j.campaign).objectives[0]).toMatch(/crown/);
+    expect(ScreenModel.build(j.campaign).objectives.slice(0, 2).join(' / ')).toMatch(/father.* \/ .*crown/);
   }, 30000);
 });
