@@ -43,11 +43,30 @@ Nothing here needs to know how the game is made.
 1. Build: `bun install`, then `bun run web:build`; serve `site/` (any static server) and open `index.html?world=a1`.
 2. Character: the first card at every step of creation (Coming Home; human; warrior; Hamo). Then, a second time, a
    mage, and a third, a thief: everything else the first card.
-3. Play for an hour from Begin. There is no route to follow; if it helps, the notice on the post at Millholm's camp
-   offers three jobs.
+3. Play for an hour from Begin. Play opens on the world map: press ENTER on the card for where you are. There is no
+   route to follow; if it helps, the notice on the post at Millholm's camp offers three jobs (Explore…).
 4. Record: the build (the commit `git rev-parse --short HEAD`), the screen size and whether keys, mouse or touch; what
    you were trying to do every few minutes; where you were stuck, misled or bored; whether you wanted to go on.
 5. Keep the record beside this file as `evidence/<date>-<name>.md` and add a line to the ledger.
+
+### The acceptance protocol (PD-14)
+
+What the product-design review asks of five players who have not read the design documents (its §7), as a sheet to
+fill in for each. Give no help beyond step 1 above. Play opens on the world map, the town you begin in described over
+it with ENTER; a place is its painting with whoever is there over its foot, and Go… / Explore… for the rest.
+
+| Asked | When | Passes if |
+|---|---|---|
+| Comprehension | a minute after the first place is entered | they say where they are, why they came, what is going on, one person or thing that matters and two sensible things to do, without opening Explore… to answer |
+| Orientation | after a building and a three-room site | they name the way in, where they are, a way not yet taken, a way barred and the way back (four of five) |
+| Intention | after two rumours and one job taken up | they tell apart what they heard, what they took up, where they know to go and what is still uncertain; after buying and resting they take it up again without searching the Notes |
+| Action integrity | before and after something that costs or risks | what they expected to spend or risk matches what it took; they notice the result without opening the Story |
+| Continuity | after each of town → person → shop → map → journey → site → fight → aftermath → town | they name where they are and what they are about; nothing felt like another program |
+| Pacing | throughout | count page scrolls, openings of Explore… made only to see what is in it, accidental moves, rereadings, and the time to the first meaningful act |
+| Motivation | at the return to town | they name what they want to do next, and whether they would play twenty minutes more unasked (four of five) |
+
+Keep each sheet as `evidence/<date>-<name>-acceptance.md` with the build and screen, and a line in the ledger. Until
+five are kept, M19's acceptance is unmet whatever the builder's play shows.
 
 The builder's own driver (a headless Chromium answering small HTTP requests; `scripts/play-server.ts`) and the two
 step scripts used above are in [evidence/driver](evidence/driver).
