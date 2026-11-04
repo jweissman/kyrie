@@ -21,7 +21,8 @@ export class ModuleParser {
   private static readonly grammar = ohm.grammar(source);
   private static readonly semantics = ModuleParser.grammar.createSemantics().addOperation<unknown>('ast', {
     Place: ModuleParser.Place, PlaceParent: ModuleParser.PlaceParent, PlaceGrid: ModuleParser.PlaceGrid,
-    PlaceAlias: ModuleParser.PlaceAlias, PlaceShelter: ModuleParser.text, ObservationAspect: ModuleParser.Second,
+    PlaceAlias: ModuleParser.PlaceAlias, PlaceShelter: ModuleParser.text, PlaceDepth: ModuleParser.PlaceDepth,
+    ObservationAspect: ModuleParser.Second,
     ObservationBy: ModuleParser.Third, ObservationInstead: ModuleParser.Third, TopicAnswering: ModuleParser.Second,
     Passage: ModuleParser.Passage, PassagePart_oneway: ModuleParser.OneWay, PassagePart_hidden: ModuleParser.Hidden,
     PassagePart_needs: ModuleParser.Needs, NeedsEnd_to: ModuleParser.NeedsTo, NeedsEnd_from: ModuleParser.Anchor,
@@ -152,11 +153,12 @@ export class ModuleParser {
     }
   }
   static Place(_p: Node, id: Node, name: Node, _is: Node, kind: Node, parent: Node, grid: Node, shelter: Node,
-    alias: Node, _dot: Node): Field {
+    depth: Node, alias: Node, _dot: Node): Field {
     const space = { kind: kind.sourceString,
       ...(parent.children.length ? { parent: ModuleParser.ast(parent.children[0]!) } : {}),
       ...(grid.children.length ? { grid: ModuleParser.ast(grid.children[0]!) } : {}),
-      ...(shelter.children.length ? { shelter: ModuleParser.ast(shelter.children[0]!) } : {}) };
+      ...(shelter.children.length ? { shelter: ModuleParser.ast(shelter.children[0]!) } : {}),
+      ...(depth.children.length ? { depth: ModuleParser.ast(depth.children[0]!) } : {}) };
     return { field: 'place', value: { id: id.sourceString, name: ModuleParser.ast(name), type: 'place', space,
       ...(alias.children.length ? { alias: ModuleParser.ast(alias.children[0]!) } : {}) } };
   }
@@ -165,9 +167,8 @@ export class ModuleParser {
     return { name: ModuleParser.ast(name) as string, until: fact.sourceString };
   }
   static PlaceParent(_within: Node, parent: Node): string { return parent.sourceString; }
-  static PlaceGrid(_at: Node, x: Node, _comma: Node, y: Node): [number, number] {
-    return [Number(x.sourceString), Number(y.sourceString)];
-  }
+  static PlaceDepth(n: Node, _down: Node): number { return Number(n.sourceString); }
+  static PlaceGrid(_at: Node, x: Node, _c: Node, y: Node): number[] { return [x, y].map(n => Number(n.sourceString)); }
   static Passage(_p: Node, id: Node, name: Node, kind: Node, _between: Node, a: Node, _and: Node, b: Node, parts: Node,
     _dot: Node): Field {
     const spec: PassageSpec = { id: id.sourceString, name: ModuleParser.ast(name) as string,

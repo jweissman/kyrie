@@ -29,30 +29,30 @@
   Passage {t}_u_yard_gate "the lych-gate" is gate between {t}_green and {t}_u_yard.
   Place {t}_u_pit "the old quarry pit" is room within {t} at 2, 2 outdoors.
   Passage {t}_u_pit_path "the path down into the old quarry" is path between {t}_green and {t}_u_pit taking 5 minutes.
-  Place {t}_u_cellar "the corn-store cellar" is room within {t} at 0, 3 underground.
+  Place {t}_u_cellar "the corn-store cellar" is room within {t} at 0, 3 underground 1 down.
   Passage {t}_u_trap "the trapdoor" is stair between {t}_u_store and {t}_u_cellar.
-  Place {t}_u_warren "the rat-runs" is room within {t} at 0, 4 underground.
+  Place {t}_u_warren "the rat-runs" is room within {t} at 0, 4 underground 1 down.
   Passage {t}_u_runs "a hole gnawed through the cellar wall" is crawl between {t}_u_cellar and {t}_u_warren.
-  Place {t}_u_nest "the nest" is room within {t} at 0, 6 underground.
+  Place {t}_u_nest "the nest" is room within {t} at 0, 6 underground 2 down.
   Passage {t}_u_nest_way "the rats' run down" is crawl between {t}_u_warren and {t}_u_nest.
   Passage {t}_u_nest_shelf "a shelf above the water" is passage between {t}_u_nest and {t}_u_drain.
-  Place {t}_u_crypt "the crypt" is room within {t} at 1, 3 underground.
+  Place {t}_u_crypt "the crypt" is room within {t} at 1, 3 underground 1 down.
   Passage {t}_u_crypt_stair "the stone stair under the churchyard" is stair between {t}_u_yard and {t}_u_crypt.
   Thing {t}_u_crypt_lock "the lock of the stone door" on {t}_u_crypt_stair {
     State locked blocking "The stone door into the ground is locked, an old lock in an iron plate.".
     State open "The stone door into the ground stands unlocked.".
     Change pick "Pick the old lock of the stone door" from locked to open needing lockwork.
   }
-  Place {t}_u_ossuary "the ossuary" is room within {t} at 1, 4 underground.
+  Place {t}_u_ossuary "the ossuary" is room within {t} at 1, 4 underground 1 down.
   Passage {t}_u_bone_arch "an arch stacked round with skulls" is arch between {t}_u_crypt and {t}_u_ossuary.
-  Place {t}_u_adit "the quarry adit" is room within {t} at 2, 3 underground.
+  Place {t}_u_adit "the quarry adit" is room within {t} at 2, 3 underground 1 down.
   Passage {t}_u_adit_mouth "the gated adit" is passage between {t}_u_pit and {t}_u_adit.
   Thing {t}_u_adit_lock "the padlock on the adit gate" on {t}_u_adit_mouth {
     State locked blocking "A gate of iron bars closes the adit, with a brass padlock on its chain.".
     State open "The adit gate's padlock hangs open on its chain.".
     Change pick "Pick the brass padlock" from locked to open needing lockwork.
   }
-  Place {t}_u_gallery "the cut gallery" is room within {t} at 2, 4 underground.
+  Place {t}_u_gallery "the cut gallery" is room within {t} at 2, 4 underground 1 down.
   Passage {t}_u_gallery_way "the old cutting" is passage between {t}_u_adit and {t}_u_gallery.
   Initially Assert unlit({t}_u_cellar). Initially Assert unlit({t}_u_warren). Initially Assert unlit({t}_u_crypt).
   Initially Assert unlit({t}_u_ossuary). Initially Assert unlit({t}_u_adit). Initially Assert unlit({t}_u_gallery).
@@ -280,9 +280,9 @@
   Objective {t}_u_spiders_job_owed when {t}_u_done({t}_u_spiders_job) and state({t}_u_eggs, burnt) and not {t}_u_paid({t}_u_spiders_job) "Tell {{t}_innkeeper} the spiders are dead and their eggs burned, at {{innkeeperat}}: twelve coin, salve and rope.".
 >> 'SPIDERS in the old quarry. Twelve coin from the house. Ask {{t}_innkeeper} for the gate key.'
 --- below
-  Place {t}_u_drain "the old drain" is room within {t} at 0, 5 underground.
+  Place {t}_u_drain "the old drain" is room within {t} at 0, 5 underground 2 down.
   Passage {t}_u_drain_way "a culvert going down" is crawl between {t}_u_warren and {t}_u_drain.
-  Place {t}_u_undercroft "the undercroft" is room within {t} at 1, 5 underground.
+  Place {t}_u_undercroft "the undercroft" is room within {t} at 1, 5 underground 2 down.
   Passage {t}_u_drain_mouth "the mouth of the drain" is passage between {t}_u_drain and {t}_u_undercroft.
   Passage {t}_u_ossuary_steps "steps down behind the bone-heaps" is steps between {t}_u_ossuary and {t}_u_undercroft.
   Passage {t}_u_gallery_breach "a breach in the gallery floor" is crawl between {t}_u_gallery and {t}_u_undercroft.
@@ -303,7 +303,7 @@
   Discovery {t}_u_vault_found "The lettered flag in the undercroft floor lifts: under it, a stair going down into the dark." {
     Found by searching {t}_u_undercroft "The flag cut with letters is not set like the others: it rocks under your foot.".
   }
-  Place {t}_u_vault "the sealed vault" is room within {t} at 1, 6 underground.
+  Place {t}_u_vault "the sealed vault" is room within {t} at 1, 6 underground 3 down.
   Passage {t}_u_vault_stair "the stair under the lettered flag" is stair between {t}_u_undercroft and {t}_u_vault hidden until {t}_u_vault_found.
   Initially Assert unlit({t}_u_vault).
   Observe {t}_u_vault_scene at {t}_u_vault as fixture when true "A small square vault, dry as an oven, with a stone chair at the far end and niches in the walls where something was kept, and a smell of old spice.".

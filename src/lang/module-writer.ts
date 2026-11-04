@@ -84,7 +84,8 @@ export class ModuleWriter {
   // A place, an exit, a hazard or a plain entity, as its own declaration.
   private static entity(entity: Module['entities'][number]): string {
     if (entity.space) {
-      const grid = `${entity.space.grid ? ` at ${entity.space.grid[0]}, ${entity.space.grid[1]}` : ''}${entity.space.shelter ? ` ${entity.space.shelter}` : ''}`;
+      const grid = `${entity.space.grid ? ` at ${entity.space.grid[0]}, ${entity.space.grid[1]}` : ''}${entity.space.shelter ? ` ${entity.space.shelter}` : ''}`
+        + (entity.space.depth ? ` ${entity.space.depth} down` : '');
       const alias = entity.alias ? ` seen as ${JSON.stringify(entity.alias.name)} until ${entity.alias.until}` : '';
       return `  Place ${entity.id} ${JSON.stringify(entity.name)} is ${entity.space.kind}${entity.space.parent ? ` within ${entity.space.parent}` : ''}${grid}${alias}.`;
     }

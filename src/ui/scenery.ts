@@ -46,7 +46,9 @@ export class Scenery {
   // at Merrow had opened on a sunlit wood (Mission 18's first walk), and a picture that contradicts the place is worse
   // than none.
   static of(screen: Screen): string | undefined {
-    if (screen.path.some(p => p.kind === 'building' || p.kind === 'level')) { return undefined; }
+    // Under the ground the head has no painting of the country over it, only the dark (a cellar under Millholm had
+    // the town's morning over it).
+    if (screen.place.underground || screen.path.some(p => p.kind === 'building' || p.kind === 'level')) { return undefined; }
     const kinds = screen.path.map(p => p.kind), area = screen.region?.areas.find(a => a.here);
     const season = /; (\w+)$/.exec(screen.date?.long ?? '')?.[1];
     const form = area?.form?.replace(/^land_/, ''), terrain = screen.region?.terrain?.replace(/^.*__/, '');

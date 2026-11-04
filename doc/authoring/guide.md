@@ -1575,6 +1575,18 @@ What calling a member follows, and what they have learned, a rule or an action c
 calling: a commoner who has learned brawn is no warrior, and `capable(party, brawn)` cannot tell them apart
 (`test/callings.test.ts`; the Book of Faces' hill 3, gate 6 and counting 3).
 
+### How deep a place is
+
+A place under the ground can say how many storeys down it is, after `underground`: the page's head says it there
+("Two storeys down"), so that a company far into an undertown knows how far it has come. Where it is not said, it is
+reckoned: from the open air, or from a place whose depth is said, one more for each `stair`, `steps`, `ladder` or
+`shaft` taken and for each level of a site below the one before (`src/ui/depth.ts`; `test/depth.test.ts`). Say it
+where a crawl or a culvert goes down, which the reckoning cannot know.
+
+```text
+  Place mill_nest "the nest" is room within mill at 0, 6 underground 2 down.
+```
+
 ### A place out of the world
 
 `elsewhere`, where `outdoors`, `indoors` or `underground` would go, says a place has no sky over it and no hour told

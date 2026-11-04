@@ -95,6 +95,9 @@ export class Stage {
     return (
       <p className={`when light-${FictionalTime.part(frame.screen.elapsed)}`} data-id="clock">
         <span className="at">{Typography.curl(where.join(', '))}</span>
+        {/* How deep under the ground the company is (the owner, 4 November). */}
+        {frame.screen.place.depth && <span className="depth" data-id="depth">
+          {frame.screen.place.depth === 1 ? 'One storey down' : Words.upper(`${Words.many(frame.screen.place.depth, 'storey')} down`)}</span>}
         <span className="hour">{Stage.when(frame).join(', ')}</span>
       </p>
     );

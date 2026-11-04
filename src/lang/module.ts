@@ -21,7 +21,9 @@ export type MovementMode = 'walk' | 'enter' | 'leave' | 'ascend' | 'descend' | '
 // and the day.
 // Elsewhere: a place out of the world (a plane, a dream) with no sky over it and no hour told in it.
 export type Shelter = 'outdoors' | 'indoors' | 'underground' | 'elsewhere';
-export interface PlaceDefinition { kind: PlaceKind; parent?: string; grid?: [number, number]; shelter?: Shelter }
+// depth: storeys under the ground, as its author says (see Passages.depth).
+export interface PlaceDefinition { kind: PlaceKind; parent?: string; grid?: [number, number]; shelter?: Shelter;
+  depth?: number }
 export interface ExitDefinition {
   passage?: string; origin: string; destination: string; mode: MovementMode; door?: string; knowledge?: string;
 }

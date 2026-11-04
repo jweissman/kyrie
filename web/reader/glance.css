@@ -173,9 +173,9 @@
   background: linear-gradient(180deg, rgba(25, 27, 33, .72), rgba(18, 19, 24, .35)); }
 .glance .do-list { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; display: flex;
   flex-direction: column; gap: 16px; padding: clamp(16px, 2.6vh, 24px) clamp(14px, 2vw, 24px) 16px; }
-.glance .do-list > :is(.aim, .need, .led, .cast, .glance-row) { margin: 0; }
+.glance .do-list > :is(.aim, .need, .led, .cast, .glance-row) { flex: none; margin: 0; }
 .glance .do-list .label { margin: 0 0 8px; }
-.glance .do-list > .aim { font-size: 14.5px; line-height: 1.45; }
+.glance .do-list > .aim { display: block; font-size: 14.5px; line-height: 1.45; }
 .glance .do-list > .aim .label { display: block; margin: 0 0 4px; }
 .glance .do-list > .aim .set-out { margin: 8px 0 0; }
 .glance .do-list > .glance-row { padding: 0; border-top: 0; }

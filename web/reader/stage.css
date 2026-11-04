@@ -11,6 +11,7 @@
 .when { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 14px; margin: 0; font: 500 11.5px/1.5 var(--do);
   letter-spacing: .16em; text-transform: uppercase; color: var(--dim); }
 .when .at { color: var(--ivory); }
+.when .depth { color: var(--gold); }
 .when::before { content: ''; flex: none; width: 20px; height: 2px; margin-right: -2px; background: var(--faint); }
 .when.light-morning::before { background: #F6CD8C; box-shadow: 0 0 8px #F6CD8C; }
 .when.light-afternoon::before { background: var(--gold); box-shadow: 0 0 8px var(--gold); }
