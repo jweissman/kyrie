@@ -241,7 +241,11 @@ export class Narrator {
     const lines: string[] = [], named: string[] = [];
     let many = false;
     for (const t of [...screen.people.filter(p => !p.companion), ...screen.things]) {
-      if (t.says?.length) { lines.push(...t.says); continue; }
+      // Their own line said, someone is still said to be here unless it names them (the Grand Tour's X02: a line near
+      // them, of what they keep, had left them unsaid).
+      const own = t.says?.length ? t.says : undefined, name = this.short(t.name).toLowerCase();
+      if (own) { lines.push(...own); }
+      if (own && (!['person', 'creature'].includes(t.kind) || own.some(l => l.toLowerCase().includes(name)))) { continue; }
       if (t.state) {
         const lie = t.many ? (t.state === 'dead' ? 'lie dead' : 'are down') : t.state === 'dead' ? 'lies dead' : 'is down';
         lines.push(`${this.upper(this.short(t.name))} ${lie}.`); continue;
