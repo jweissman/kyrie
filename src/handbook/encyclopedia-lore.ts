@@ -2,6 +2,9 @@ import arts from '../../data/generation/history/arts.json';
 import religion from '../../data/catalog/religion.json';
 import type { Section } from './model';
 import { Counted } from '../presentation/counted';
+import making from '../../data/rules/making.kyr' with { type: 'text' };
+import { ModuleParser } from '../lang/module-parser';
+import { Canon } from '../canon/canon';
 
 interface Art { epithet: string; plans: string[]; craft: string; belief: string; fates: string[]; said?: string[] }
 interface Successor { id: string; were: string; made: string }
@@ -36,6 +39,24 @@ export class EncyclopediaLore {
       id: `domain:${id}`, title: x.name, status: 'kyr' as const, kind: x.alignment,
       text: [`Prayed to through ${this.list(deities.filter(d => d.domains.includes(id)).map(d => d.name))}.`] })) }];
   }
+  // What can be made of what is carried, read from the making rules as Kyr parses them (data/rules/making.kyr): each
+  // way of making, what it takes and makes, and whether it is a mender's remedy, which can spoil.
+  static making(): Section[] {
+    const module = ModuleParser.parse(making), facts = module.initial.filter(c => c.kind === 'assert').map(c => c.call);
+    return [{ id: 'making', title: 'Making', intro: ['A company can make one thing of two it carries, wherever it has '
+      + 'light to work by. A remedy is an hour of a mender\'s work, and can spoil: the first of the two is lost. Anything '
+      + 'else is plain work, quickly done.'],
+    entries: module.entities.filter(e => e.type === 'recipe').map(e => ({ id: `recipe:${e.id}`,
+      title: e.name.charAt(0).toUpperCase() + e.name.slice(1), status: 'kyr' as const,
+      kind: facts.some(f => f.name === 'remedy' && f.args[0] === e.id) ? 'a remedy' : 'plain work',
+      facts: [['Takes', this.list([...this.of(facts, 'takes', e.id), ...this.of(facts, 'takesWith', e.id)]
+        .map(k => this.called(k)))], ['Makes', this.list(this.of(facts, 'makes', e.id).map(k => this.called(k)))]] as
+        [string, string][] })) }];
+  }
+  private static of(facts: { name: string; args: string[] }[], name: string, recipe: string): string[] {
+    return facts.filter(f => f.name === name && f.args[0] === recipe).map(f => f.args[1]!);
+  }
+  private static called(kind: string): string { return Canon.items[kind]?.name.toLowerCase() ?? kind.replaceAll('_', ' '); }
   // A plan by its id, as many of it: "cistern" is cisterns, "galleries" and "singing_halls" are many already.
   private static many(plan: string): string {
     const said = plan.replaceAll('_', ' ');

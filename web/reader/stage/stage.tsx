@@ -51,7 +51,9 @@ export class Stage {
     if (s.view !== 'here') { return 'book'; }
     if (s.attention.kind === 'person' && menu.talk) { return 'talk'; }
     if (s.attention.kind === 'thing' && menu.examined) { return 'examine'; }
-    return Routes.of(frame.screen) ? 'road' : 'explore';
+    // A road is open country like any other (the owner, 4 November, night: no road page apart from the hex): on the
+    // map when come to, and entered to deal with whatever stopped the journey there.
+    return 'explore';
   }
   // Whether a new game's opening is being told, before its first place: then the keys are the opening's.
   static prologue(app: ReaderApp): boolean {

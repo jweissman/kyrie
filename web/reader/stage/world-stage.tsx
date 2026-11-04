@@ -37,9 +37,13 @@ export class WorldStage {
     // or doing anything where the company is puts it away.
     const overworld = !!app.state.outdoors && !!screen.region?.land, focus = chosen.at === here ? chosen.id : undefined;
     const view = screen.dark ? undefined : Scenery.of(screen) ?? Scenery.inside(screen);
+    // A journey stopped here (a toll, a band on the road, a cart gone off it), and whether what stopped it means harm:
+    // the map marks where, and says so (the owner, 4 November, night).
+    const stopped = frame.travel && !frame.travel.arrived, threat = (app.menu.scene?.subjects ?? []).some(x => x.danger);
     return (
       <article className={`world-page scale-${overworld ? 'board' : 'scene'} kind-${PlaceStage.kind(screen)}`
-        + `${view ? '' : ' unpainted'}${screen.dark ? ' dark' : ''}${up ? ` raised-${up}` : ''}`} id="page">
+        + `${view ? '' : ' unpainted'}${screen.dark ? ' dark' : ''}${up ? ` raised-${up}` : ''}`
+        + `${stopped ? ' interrupted' : ''}${threat ? ' threatened' : ''}`} id="page">
         <header className="world-bar"><div className="title-block"><Told.Heading frame={frame} /></div></header>
         <div className="world-body">
           <section className="surface" aria-label="Where you are">
@@ -68,7 +72,9 @@ export class WorldStage {
   // in it, but restrained, and each the way to them): touched, the person is talked to, the animal turned to. Those
   // dangerous are ringed; more than seven, and the rest are in the explorer.
   static Portraits({ app, draw }: { app: ReaderApp; draw: Draw }) {
-    const here = (app.menu.scene?.subjects ?? []).filter(x => x.kind === 'person' || x.kind === 'animal');
+    // Those who mean harm last, so that they stand apart at the right of the picture.
+    const here = (app.menu.scene?.subjects ?? []).filter(x => x.kind === 'person' || x.kind === 'animal')
+      .sort((a, b) => Number(!!a.danger) - Number(!!b.danger));
     if (!here.length) { return null; }
     const shown = here.slice(0, 7), more = here.length - shown.length;
     return (
@@ -125,13 +131,29 @@ export class WorldStage {
         {land.here !== undefined && <p className="how">{Typography.curl(Words.upper(MapView.ground(land, land.here,
           screen.region)))}</p>}
         {g?.sight && <p className="sight">{Typography.curl(g.sight.text)}</p>}
-        {danger && <p className="about danger">Something here is dangerous.</p>}
+        <WorldStage.Stopped app={app} danger={danger} />
         {people > 0 && <p className="about">{people === 1 ? 'Someone is here.' : 'There are people here.'}</p>}
         <button type="button" className="enter" data-action="enter-hex" onClick={enter}>
           Enter {Typography.curl(name.replace(/^the /, ''))}</button>
         <p className="how">Choose a hex on the map to see what is known of it, and the way there.</p>
       </section>
     );
+  }
+  // Why the journey stopped here, and what going on from here risks: the way on's own marks (a band that will not let
+  // the company by unanswered, nightfall), else that something here is dangerous; never a chance the game does not
+  // reckon (the owner, 4 November, night: no hidden way out of what is here by the map).
+  static Stopped({ app, danger }: { app: ReaderApp; danger: boolean }) {
+    const frame = app.state.frame!, travel = frame.travel, bound = frame.bound;
+    const on = bound && (app.menu.destinations ?? []).find(c => c.id === `travel:${bound.id}`);
+    const risks = (on?.marks ?? []).map(m => m.said);
+    return <>
+      {travel && !travel.arrived && <p className="about stopped">{Typography.curl(`On the way to ${travel.to}: `
+        + `${travel.stopped ?? 'the journey stops here'}.`)}</p>}
+      {danger && <p className="about danger">{Typography.curl(risks.length
+        ? `Something here is dangerous. Going on: ${risks.join('; ')}.` : 'Something here is dangerous.')}</p>}
+      {on && <p className="go"><button type="button" className="option go-on" data-action="go-on"
+        onClick={() => app.choose(on)}>{`Go on to ${bound.name}`}</button></p>}
+    </>;
   }
   // A town chosen on the map: seen whole, how far and by what way, and entered by one large button (the owner,
   // 4 November evening: from the world map a town is entered, from a card over it).

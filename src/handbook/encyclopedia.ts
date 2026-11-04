@@ -41,7 +41,8 @@ export class Encyclopedia {
       { id: 'magic', title: 'Magic and prayer', sections: Encyclopedia.take(phb, ['magic', 'techniques']), lede: [
         'The spells learnt by study and the prayers granted by the gods, level by level, and the techniques of those '
         + 'who fight without them. Each says what it does when it is used.'] },
-      { id: 'arms', title: 'Arms, gear and treasure', sections: Encyclopedia.take(phb, ['equipment']), lede: [
+      { id: 'arms', title: 'Arms, gear and treasure', sections: [...Encyclopedia.take(phb, ['equipment']),
+        ...EncyclopediaLore.making()], lede: [
         'What can be carried, bought and sold: weapons and armour, the gear an expedition lives by, and the things '
         + 'worth bringing back.'] },
       { id: 'creatures', title: 'Creatures', sections: mm.sections, lede: [

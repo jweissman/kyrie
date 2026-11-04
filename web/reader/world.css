@@ -258,3 +258,15 @@
 .explorer .about-here > summary { cursor: pointer; font: 500 13px/1.3 var(--do); color: var(--ivory); letter-spacing: .04em;
   padding: 6px 0; }
 .explorer .about-here .telling { padding: 4px 0 8px; max-width: 62ch; }
+/* A journey stopped short: where, marked on the map over your mark (gold; red where what stopped it means harm), and
+   whoever means harm drawn apart on the picture's right, ringed red (the owner, 4 November, night). */
+.world-page.interrupted .board-you::after, .world-page.threatened .board-you::after { content: '!'; position: absolute;
+  left: calc(var(--you) - 8px); top: -10px; width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center;
+  font: 700 13px/1 var(--do); color: #14151a; background: var(--gold); animation: stopped-pulse 1.6s ease-in-out 3; }
+.world-page.threatened .board-you::after { background: var(--ember, #c4552e); color: var(--ivory); }
+@keyframes stopped-pulse { 50% { transform: scale(1.35); } }
+@media (prefers-reduced-motion: reduce) { .world-page .board-you::after { animation: none; } }
+.hex-card .stopped { color: var(--gold); }
+.hex-card .go { margin: 0; }
+.world-page .surface .portraits li.danger:not(.danger ~ .danger) { margin-left: auto; }
+.portraits .danger .portrait .face { border-width: 3px; box-shadow: 0 0 0 2px rgba(196, 85, 46, .35), 0 4px 14px rgba(0, 0, 0, .55); }
