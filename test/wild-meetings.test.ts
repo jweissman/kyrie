@@ -10,8 +10,10 @@ import { Terrain } from '../src/world/land/terrain';
 import { RegionGeography } from '../src/world/region-geography';
 import { RegionMeetings, type Meeting } from '../src/world/region-meetings';
 import { RegionTracts } from '../src/world/region-tracts';
+import { RegionSites } from '../src/world/region-sites';
 import type { Region } from '../src/world/region-writer';
 import { GeneratedWorld } from './support/generated';
+import { Glanced } from './support/glanced';
 
 // What is met with in the open country (the owner's OWN-27): a few dozen stretches of each country hold something,
 // drawn by their land from data/generation/wild/meetings.kyrt, one near each town at the edge of what it knows; a
@@ -35,6 +37,10 @@ class Wild {
     const f = ActionFeedbackView.read(s.campaign, event, before);
     return [f.result, ...f.observations, ...f.events, ...f.immediate].join(' ');
   }
+  // What the page leads with here, and why.
+  static led(s: PlaySession): [string, string][] {
+    return Glanced.of(s).glance.acts.map(a => [a.command ?? a.choice, a.why]);
+  }
   static seen(s: PlaySession): string { return PlayerView.observe(s.campaign).observations.map(o => o.text).join(' '); }
 }
 
@@ -57,6 +63,10 @@ describe('the open country\'s meetings', () => {
         ...region.settlements.map(t => t.cell!)];
       expect(meetings.filter(m => m.section.said.includes('danger'))
         .every(m => busy.every(c => Terrain.distance(land, c, m.cell) >= 2))).toBe(true);
+      // Where a site's track goes off unseen, something is noticed there first (REV-02).
+      const deep = region.sites.filter(w => w.zone && (w.part ?? 0) > 0 && !w.work?.great).length;
+      const hints = RegionSites.lines(region).filter(l => / as sign when not knows\(party, w\d+_found\)/.test(l));
+      expect([deep > 0, hints.length > 0]).toEqual([deep > 0, deep > 0]);
     }
   });
   it('lead on into the wild, keep a cache under its sign, and stop a journey the first time', async () => {
@@ -75,6 +85,7 @@ describe('the open country\'s meetings', () => {
     GeneratedWorld.put(s, RegionTracts.id(cache.cell));
     await s.perform('wait');
     expect(Wild.seen(s)).toContain('Three stones are set one on another');
+    expect(Wild.led(s)).toContainEqual([`search(region__t${cache.cell})`, 'sign']);
     expect(await Wild.said(s, /^Search /)).toContain('a bundle done up in oilcloth');
     expect(PlayerView.choices(s.campaign).some(c => /pitched torch/.test(c.choice.name))).toBe(true);
     // Where nothing is hidden, the search says so.
@@ -83,6 +94,7 @@ describe('the open country\'s meetings', () => {
       && meetings.every(m => Terrain.distance(land, m.cell, c) > 3))!;
     GeneratedWorld.put(s, RegionTracts.id(plain));
     await s.perform('wait');
+    expect(Wild.led(s).filter(([c]) => c.startsWith('search('))).toEqual([]);
     expect(await Wild.said(s, /^Search /)).toContain('nothing is hidden here');
     // Crossing the country past a meeting not yet come to, the journey stops there.
     const other = meetings.find(m => !['tracks', 'cache'].includes(m.section.option) && !m.section.said.includes('danger'))!;
