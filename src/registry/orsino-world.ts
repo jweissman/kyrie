@@ -36,7 +36,8 @@ export class OrsinoWorld {
     abilities: Set<string>; damage: Set<string>; items: Set<string>;
     // Kyr's items, with the Orsino entry each translates and its worth: what a shop can stock; and the outfit anyone
     // setting out needs, in the order a chandler shelves it (data/generation/tables/trade.json).
-    catalog?: Record<string, { source?: { orsino?: string }; value?: number }>; outfit?: string[] }) {}
+    catalog?: Record<string, { source?: { orsino?: string }; value?: number; unsupported?: object }>;
+    outfit?: string[] }) {}
   generate(): WorldTables {
     return { wonders: this.wonders(), traps: this.traps(), shops: this.shops(), riddles: this.riddles(),
       riddleAnswers: this.riddleAnswers(), dungeon: this.dungeon() };
@@ -77,19 +78,23 @@ export class OrsinoWorld {
         stock: this.stock(sells, (d.itemRestrictions as Record<string, string[]> | null) ?? {}) }];
     }));
   }
-  // The Kyr items a shop stocks: those of its kinds whose Orsino entries meet its restrictions (kind, rarity, type),
-  // worth no more than a country's market sees (300 coin), at most eight: the outfit first, in its order, then the
-  // cheapest. A general store had stocked the eight cheapest by name, a bedroll, a bell, dice and firewood, and no
-  // light, rope or crowbar (M18-06).
+  // The Kyr items a shop may stock: those of its kinds whose Orsino entries meet its restrictions (kind, rarity, type),
+  // that Kyr can use, and worth no more than a rich town's shop could keep (OrsinoWorld.dearest): the outfit first, in
+  // its order, then the cheapest. Each town's shop draws its own shelves from these by what the town can afford
+  // (RegionShops.shelves); the table had been the eight cheapest of each, and so every weapon-shop in every country
+  // sold a club, a dart and a sling and never a sword (and a general store, before the outfit led, a bedroll, a bell,
+  // dice and firewood and no light, rope or crowbar: M18-06).
+  static readonly dearest = 1500;
   private stock(sells: string[], restrictions: Record<string, string[]>): [string, number][] {
     const by = new Map(this.entries.map(e => [e.id, e]));
     return Object.entries(this.known.catalog ?? {}).flatMap(([id, item]) => {
       const source = item.source?.orsino, entry = source ? by.get(source) : undefined;
-      if (!entry || !sells.includes(entry.family) || !item.value || item.value > 300) { return []; }
+      if (!entry || !sells.includes(entry.family) || !item.value || item.value > OrsinoWorld.dearest
+        || item.unsupported) { return []; }
       const def: Raw = { rarity: 'common', ...(entry.definition as Raw) };
       const fits = Object.entries(restrictions).every(([field, allowed]) => allowed.includes(String(def[field])));
       return fits ? [[id, Math.max(1, Math.round(item.value))] as [string, number]] : [];
-    }).sort((a, b) => this.rank(a[0]) - this.rank(b[0]) || a[1] - b[1] || a[0].localeCompare(b[0])).slice(0, 8);
+    }).sort((a, b) => this.rank(a[0]) - this.rank(b[0]) || a[1] - b[1] || a[0].localeCompare(b[0]));
   }
   // Where a thing comes in the outfit; anything not of it, after the whole outfit.
   private rank(id: string): number {

@@ -38,7 +38,8 @@ export class DeepRooms {
       ...c.wonder ? this.wonder(c.wonder, r.id) : [],
       ...(c.treasure?.items ?? []).map((kind, n) => `  Item ${r.id}_find${n} ${this.q(this.called(kind, at.purpose))} is ${kind} at ${r.id}.`),
       ...c.treasure?.coin && ['treasure', 'elite', 'special', 'mob'].includes(c.guide) ? this.coins(r.id, c.treasure.coin) : [],
-      ...c.special ? this.camp(r.id, { level: r.level, purpose: at.purpose, first: at.first === r.id }) : []];
+      ...c.special ? this.camp(r.id, { level: r.level, purpose: at.purpose, first: at.first === r.id }) : [],
+      ...c.special ? this.left(r.id) : []];
   }
   // A thing by its own name: the makers' own by the name the site gives it, a catalog item by the catalog's.
   static called(id: string, purpose?: DeepPurpose): string {
@@ -80,6 +81,15 @@ export class DeepRooms {
     const [lying, gathered] = new Draw(`${room}:coins`).pick(this.hoards);
     return this.section('coins', { id: `${room}_coins`, room, lying, gathered, coin: String(coin),
       count: String(Counted.words[coin] ?? coin) });
+  }
+  // What the earlier party left at their camp, of what a company carries against the worst (hoards.json#left).
+  static readonly kept = table.left;
+  private static left(room: string): string[] {
+    const draw = new Draw(`${room}:left`), stocks = world.shops as unknown as Record<string, { stock: [string, number][] }>;
+    return this.kept.flatMap((kind, n) => {
+      const pool = stocks[kind]?.stock ?? [];
+      return pool.length && (n === 0 || draw.next() < 0.5) ? [draw.pick(pool)[0]] : [];
+    }).map((kind, n) => `  Item ${room}_left${n} ${this.q(this.called(kind))} is ${kind} at ${room}.`);
   }
   private static camp(room: string, at: { level: number; purpose: DeepPurpose; first: boolean }): string[] {
     const camp = at.purpose.camp, journal = camp.journal[Math.min(at.level, camp.journal.length - 1)]!;

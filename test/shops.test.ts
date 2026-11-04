@@ -33,11 +33,25 @@ describe("a town's shops", () => {
     expect(s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold'))).toBeLessThan(gold);
   }, 60000);
   // A general store had the eight cheapest things of its kinds by name, a bedroll, a bell, dice and firewood, and no
-  // light, rope or crowbar (M18-06): what anyone setting out needs comes first.
+  // light, rope or crowbar (M18-06): what anyone setting out needs comes first, on every general store's shelves.
   it('a general store stocks the outfit first', () => {
     const stock = RegionShops.stocks.general!.stock.map(([what]) => what);
     expect(stock.slice(0, 5)).toEqual(['torch', 'candle', 'lantern', 'rope', 'crowbar']);
-    expect(stock).not.toContain('dice');
+    expect(RegionShops.shelf('general', { means: 300, key: 'test' }).map(([what]) => what))
+      .toEqual(expect.arrayContaining(stock.slice(0, 5)));
+  });
+  // Every weapon-shop in every country had sold the eight cheapest weapons, a club, a dart and a sling, and never a
+  // sword; a village smith a dagger and nothing else to fight with. Each draws its own from all its trade's goods.
+  it('each has its own shelves of its trade, and a smith deals in arms', () => {
+    expect(RegionShops.stocks.weapons!.stock.map(([what]) => what)).toEqual(expect.arrayContaining(['longsword',
+      'battleaxe']));
+    const village = { name: 'Test', settlements: [{ id: 's1', size: 'village' }, { id: 's2', size: 'village' }] } as
+      unknown as Region;
+    const of = (id: string) => RegionShops.wares(village, village.settlements.find(s => s.id === id)!,
+      { trades: ['weapons', 'armory'], have: ['dagger'] });
+    expect(of('s1')).toHaveLength(3);
+    expect(of('s1').every(([what, fee, n]) => what !== 'dagger' && fee <= 80 && n === 1)).toBe(true);
+    expect(of('s1')).not.toEqual(of('s2'));
   });
 });
 

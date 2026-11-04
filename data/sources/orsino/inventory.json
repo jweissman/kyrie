@@ -15432,7 +15432,7 @@
    "id": "shop:antiquarian",
    "status": "blocked",
    "blockers": [
-    "Kyr has fewer than three things of its kinds a country's market sees (worth 300 coin or less): nothing for such a shop to stock."
+    "No town keeps one (src/world/region-shops.ts)."
    ]
   },
   {
@@ -15443,7 +15443,7 @@
    "id": "shop:arcaneum",
    "status": "blocked",
    "blockers": [
-    "Kyr has fewer than three things of its kinds a country's market sees (worth 300 coin or less): nothing for such a shop to stock."
+    "No town keeps one (src/world/region-shops.ts)."
    ]
   },
   {
@@ -15454,7 +15454,7 @@
    "id": "shop:black_market",
    "status": "blocked",
    "blockers": [
-    "Kyr has fewer than three things of its kinds a country's market sees (worth 300 coin or less): nothing for such a shop to stock."
+    "No town keeps one (src/world/region-shops.ts)."
    ]
   },
   {
@@ -15468,7 +15468,7 @@
    "id": "shop:curiosities",
    "status": "blocked",
    "blockers": [
-    "Kyr has fewer than three things of its kinds a country's market sees (worth 300 coin or less): nothing for such a shop to stock."
+    "No town keeps one (src/world/region-shops.ts)."
    ]
   },
   {
@@ -15519,7 +15519,7 @@
    "id": "shop:rarities",
    "status": "blocked",
    "blockers": [
-    "Kyr has fewer than three things of its kinds a country's market sees (worth 300 coin or less): nothing for such a shop to stock."
+    "No town keeps one (src/world/region-shops.ts)."
    ]
   },
   {
@@ -15549,7 +15549,7 @@
    "id": "shop:wonders",
    "status": "blocked",
    "blockers": [
-    "Kyr has fewer than three things of its kinds a country's market sees (worth 300 coin or less): nothing for such a shop to stock."
+    "No town keeps one (src/world/region-shops.ts)."
    ]
   },
   {

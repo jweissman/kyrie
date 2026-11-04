@@ -26,7 +26,7 @@ export class RegionShops {
   static chosen(region: Region, i: number): string[] {
     const s = region.settlements[i]!;
     if (s.size !== 'town') { return []; }
-    const fit = Object.keys(this.kinds).filter(k => (this.stocks[k]?.stock.length ?? 0) >= 3);
+    const fit = Object.keys(this.kinds).filter(k => this.shelves(region, i, k).length >= 3);
     const had = new Set(['general', this.merchants[s.merchantType ?? 'chandler'] ?? '']), out: string[] = [];
     for (const kind of new Draw(`${region.name}:${s.id}:shops`).shuffle(fit)) {
       const family = this.families[kind] ?? kind;
@@ -36,7 +36,19 @@ export class RegionShops {
   }
   static lines(region: Region, i: number): string[] {
     const s = region.settlements[i]!;
-    return this.chosen(region, i).flatMap((kind, n) => this.shop(region, s, { kind, n }));
+    return this.chosen(region, i).flatMap((kind, n) =>
+      this.shop(region, s, { kind, n, shelves: this.shelves(region, i, kind) }));
+  }
+  // What a town's shop of a kind has on its shelves, of all its kinds Orsino's shop would sell: the first five (what
+  // anyone setting out needs, then the cheapest) and three more drawn for the town from the rest it can afford to keep,
+  // cheapest first. A market town's jeweller may have a ring of protection; a small town's has what a small town buys.
+  static shelves(region: Region, i: number, kind: string): [string, number][] {
+    return this.shelf(kind, { means: Foundings.of(region, i).kind === 'market' ? 800 : 300,
+      key: `${region.name}:${region.settlements[i]!.id}:${kind}:shelves` });
+  }
+  static shelf(kind: string, at: { means: number; key: string }): [string, number][] {
+    const pool = (this.stocks[kind]?.stock ?? []).filter(([, fee]) => fee <= at.means), draw = new Draw(at.key);
+    return [...pool.slice(0, 5), ...draw.shuffle(pool.slice(5)).slice(0, 3)].sort((a, b) => a[1] - b[1]);
   }
   // Who keeps a shop: a name nobody settled in the country has (see Communities.everyone).
   private static keeper(region: Region, s: Settlement, kind: string): { name: string; pronoun: string; draw: Draw } {
@@ -51,11 +63,22 @@ export class RegionShops {
   static keepers(region: Region): string[] {
     return region.settlements.flatMap((s, i) => this.chosen(region, i).map(kind => this.keeper(region, s, kind).name));
   }
-  private static shop(region: Region, s: Settlement, at: { kind: string; n: number }): string[] {
+  // What a settlement's merchant has of their trade besides what anyone setting out needs (a smith's swords and coats
+  // of mail, a herb-wife's comfrey): three things drawn for the settlement from Orsino's shops of that trade, one of
+  // each, within what it can afford to keep; a village smith had sold a dagger, and nothing else to fight with.
+  static wares(region: Region, s: Settlement, of: { trades: string[]; have: string[] }): [string, number, number][] {
+    const means = ({ town: 300, village: 80 } as Record<string, number>)[s.size] ?? 25;
+    const pool = [...new Map(of.trades.flatMap(k => this.stocks[k]?.stock ?? [])
+      .filter(([what, fee]) => fee <= means && !of.have.includes(what))).entries()];
+    return new Draw(`${region.name}:${s.id}:wares`).shuffle(pool).slice(0, 3).sort((a, b) => a[1] - b[1])
+      .map(([what, fee]) => [what, fee, 1]);
+  }
+  private static shop(region: Region, s: Settlement, at: { kind: string; n: number; shelves: [string, number][] }):
+    string[] {
     const q = JSON.stringify, k = this.kinds[at.kind]!, id = `${s.id}_${at.kind}`, keeper = `${id}_keeper`;
     const ancestry = s.folk ?? region.ancestry, { name, pronoun, draw } = this.keeper(region, s, at.kind);
     const room = k.room.replace('{keeper}', name);
-    const sells = this.stocks[at.kind]!.stock.map(([what, fee]) => `Sells ${what} for ${fee} coin from 2.`).join(' ');
+    const sells = at.shelves.map(([what, fee]) => `Sells ${what} for ${fee} coin from 2.`).join(' ');
     const likeness = CommunityWriter.likenessOf(region, { pronoun, painting: k.painting, id: keeper });
     return [`  Place ${id} ${q(room)} is room within ${s.id} at 3, ${1 + at.n} indoors.`,
       `  Passage ${id}_door ${q(`${name}'s door`)} is door between ${id} and ${s.id}_green.`,

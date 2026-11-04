@@ -1,5 +1,7 @@
 {
   "about": "How the coin left in a deep site's room lies there, and how the place looks once it is gathered: one pair drawn for each room by its own id (see src/world/deep/deep-rooms.ts; the play-structure investigation's PT-15). Add a pair to add a way; nothing in the engine needs to change.",
+  "left_about": "What an earlier party left at the camp where they turned back (or did not), a deep site's special room: one thing drawn from each of these, as Orsino's shop of that kind would sell it (data/generation/scenes/orsino-world.json#shops), the first always and each after it one time in two. A party setting out against the worst carried a wand or a ring of minor protection, and a scroll or a draught.",
+  "left": ["magic_items", "dispensary"],
   "hoards": [
     [
       "Coins lie scattered in the dust, green with age, where a purse rotted through.",

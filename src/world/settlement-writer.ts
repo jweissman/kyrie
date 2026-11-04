@@ -16,6 +16,8 @@ import type { Region, Settlement } from './region-writer';
 interface MerchantType {
   role: string; profession?: string; shop: string; scene?: string;
   stock: [string, number, number][]; buys: [string, number][];
+  // The kinds of Orsino's shop whose goods this kind of merchant also deals in (a smith's arms and armour).
+  trades?: string[];
 }
 interface Tables {
   merchantType: { groups: Record<string, MerchantType> };
@@ -132,7 +134,9 @@ export class SettlementWriter {
   // or at their own door on the heart.
   private static merchant(s: Settlement, f: Founding, region: Region): string {
     const t = this.trade(s), q = this.q;
-    const sells = t.stock.map(([what, fee, n]) => `Sells ${what} for ${fee} coin from ${n}.`).join(' ');
+    const have = t.stock.map(([w]) => w);
+    const wares = [...t.stock, ...RegionShops.wares(region, s, { trades: t.trades ?? [], have })];
+    const sells = wares.map(([what, fee, n]) => `Sells ${what} for ${fee} coin from ${n}.`).join(' ');
     const buys = t.buys.map(([what, fee]) => `Buys ${what} for ${fee} coin.`).join(' ');
     // Every merchant deals in valuables too, as far as their purse goes: a town's goes further than a hamlet's.
     const purse = ({ town: 600, village: 120 } as Record<string, number>)[s.size] ?? 60;

@@ -390,7 +390,8 @@ For each family with entries not met in play: its blockers, with how many entrie
 
 ### shop
 
-- 9 × Kyr has fewer than three things of its kinds a country's market sees (worth 300 coin or less): nothing for such a shop to stock.
+- 6 × No town keeps one (src/world/region-shops.ts).
+- 3 × Kyr has fewer than three things of its kinds a country's market sees (worth 300 coin or less): nothing for such a shop to stock.
 
 ### specialRoom
 
