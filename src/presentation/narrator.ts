@@ -16,7 +16,10 @@ import type { Glance as GlanceView } from './glance-types';
 
 // One line of what came of a command: someone's words, the telling of what happened, an event that broke in, a
 // change to the place, or a fight's turning point.
-export interface ExchangeLine { text: string; kind: 'speech' | 'telling' | 'event' | 'change' | 'fight' | 'roll' | 'opening' }
+// A revelation is a discovery an author marked as deserving the page to itself (`as revelation`: NAR-14).
+export interface ExchangeLine {
+  text: string; kind: 'speech' | 'telling' | 'event' | 'change' | 'fight' | 'roll' | 'opening' | 'revelation';
+}
 export interface Exchange { said?: string; lines: ExchangeLine[]; notes: string[]; tone: 'act' | 'fight' | 'fail' }
 // What the page tells, kept apart by what it is for: the present situation (what this place is, and who and what
 // is here), what has changed since the company was last here, and what came of the last thing it did.
@@ -349,11 +352,22 @@ export class Narrator {
     // A fight that fell on the company is not an activity it began (its action is the attack it was drawn into: "You
     // begin to attack the wheel-keeper" was told of a company that walked into the wheel-room and fled).
     const begun = event.cut && !event.prelude && campaign.operator(event.action)?.name, me = this.alone(campaign);
+    const revealed = this.revealed(campaign, event);
     const turned = this.tidy(unique, fight).map(l => me && ['telling', 'event', 'change'].includes(l.kind)
-      ? { ...l, text: SecondPerson.turn(l.text, me) } : l);
+      ? { ...l, text: SecondPerson.turn(l.text, me) } : l)
+      .map(l => revealed.has(this.plain(l.text)) ? { ...l, kind: 'revelation' as const } : l);
     return { ...told.said ? { said: begun ? Narrator.begun(begun) : told.said } : {},
       lines: turned, notes, tone: fight ? 'fight' : event.result === 'failure' ? 'fail' : 'act' };
   }
+  // What the act brought to light that its author marked as a revelation (a body found, who drowned the miller): told
+  // as one, set apart from what else happened, not in the run of it (NAR-14).
+  private static revealed(campaign: Campaign, event: CampaignEvent): Set<string> {
+    const defs = this.defs(campaign);
+    return new Set((event.perceptions ?? []).filter(p => this.def(defs, p.id)?.aspect === 'revelation')
+      .map(p => this.plain(FictionalTime.prose(p.text))));
+  }
+  // A line as words, whatever its quotes were curled to.
+  private static plain(text: string): string { return text.replace(/[‘’]/g, '\'').replace(/[“”]/g, '"').trim(); }
   // An activity broken off is told as begun, not done, in its own words (a heading's choice may have no verb: "Until
   // first light"), and what broke it off follows. "You wait until first light" was told at night, the wait cut short
   // by the storm.

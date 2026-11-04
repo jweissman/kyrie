@@ -1,0 +1,23 @@
+Module revelation "A mirror that shows the room as it was, and a drawer of letters" {
+  Place hall "Ashby" is settlement.
+  Place parlour "the parlour" is room within hall at 0, 0.
+  Company party "You" of 1 at parlour.
+  Entity truth: fact "Who drowned the miller".
+  Entity letters_read: fact "What the letters say".
+  // A discovery that deserves the page to itself (NAR-14): marked as a revelation, it is set apart from what else
+  // happened; the drawer's letters, as ordinary, are not.
+  Thing mirror "the tall mirror" at parlour {
+    State dull "A tall mirror, its glass gone grey.".
+    State wiped "The mirror's glass is clean.".
+    Change wiped "Wipe the glass of the mirror" from dull to wiped.
+  }
+  Thing drawer "the drawer of the bureau" at parlour {
+    State shut "A drawer in the bureau, shut.".
+    State open "The drawer stands open, full of letters.".
+    Change open "Open the drawer" from shut to open.
+  }
+  Observe shown at parlour as revelation when state(mirror, wiped) "In the clean glass the parlour is as it was on the night of the flood, and the man at the window, holding the miller under, is your host." teaches truth.
+  Observe letters at parlour when state(drawer, open) "The letters are bills, and none of them paid." teaches letters_read.
+  Observe parlour_scene at parlour when true "A cold parlour, the curtains drawn.".
+  Goal false.
+}

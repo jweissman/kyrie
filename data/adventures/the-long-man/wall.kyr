@@ -145,7 +145,8 @@ Module longman "The Long Man" {
     Source shaft_notches "the notches down the gauge shaft" at shaft_foot readable by party.
   }
   Discovery wall_known "The Long Man is a wall: it holds Hollow Water back from the dale, and the beck comes through it by a culvert.".
-  Observe sluice_teaches at sluice when true "Above the grating the wheels and the culvert make plain what the Long Man is: not a barrow, a wall, with a lake behind it and a sluice through it." teaches wall_known.
+  // What the Long Man is, come to at last: told as a revelation, set apart from the run of the page (NAR-14).
+  Observe sluice_teaches at sluice as revelation when true "Above the grating the wheels and the culvert make plain what the Long Man is: not a barrow, a wall, with a lake behind it and a sluice through it." teaches wall_known.
   Observe teeth_missing at leak when not state(leak_gate, mended) "Fresh bright scars on the stone by the crack show where a bar has been used, and lately." teaches teeth_taken.
   Discovery teeth_taken "Twelve bronze teeth have been prised out of the wheel of the shutter that should close the leak in the Long Man.".
 
