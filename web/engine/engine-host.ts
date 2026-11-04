@@ -261,8 +261,8 @@ export class EngineHost {
   private async leg(trail: Trail, command: string, said: string): Promise<CampaignEvent> {
     const last = await this.perform(command, { said, move: true, named: false });
     trail.last = last;
-    trail.legs.push({ place: last.screen.place.name, at: last.screen.clock, journey: last.leaf.journey ?? [],
-      lines: (last.leaf.exchange?.lines ?? []).map(l => l.text) });
+    trail.legs.push({ place: last.screen.place.name, id: last.screen.place.id, at: last.screen.clock,
+      journey: last.leaf.journey ?? [], lines: (last.leaf.exchange?.lines ?? []).map(l => l.text) });
     return this.session!.campaign.history.at(-1)!;
   }
   // A fight held on its own page is not told again at the place it was fought in: only what was witnessed meanwhile.

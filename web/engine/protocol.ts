@@ -105,7 +105,7 @@ export interface Frame {
   // A journey just made along known ways: where it was going, each leg as it went (where it came, when, how the way
   // was, and anything that came of it), whether it arrived, and why it stopped if it did not.
   travel?: { to: string; arrived: boolean; stopped?: string;
-    legs: { place: string; at: string; journey: string[]; lines: string[] }[] };
+    legs: { place: string; id?: string; at: string; journey: string[]; lines: string[] }[] };
   // Where the company set out for and has not yet come to, held across stops and pages: where, the way on from here
   // leg by leg, and how long (see EngineHost.bound).
   bound?: { id: string; name: string; minutes: number; legs: { way: string; to: string; minutes: number }[];

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import type { Choice } from '../../../src/ui/choice-list';
 import type { Screen } from '../../../src/ui/screen-types';
 import { Typography } from '../../../src/presentation/typography';
+import { Scenery } from '../../../src/ui/scenery';
 import type { ReaderApp } from '../reader-app';
 import { BoardField } from '../board-field';
 import { MapView } from '../map-view';
@@ -30,6 +31,9 @@ export class WorldStage {
     const [chosen, choose] = useState<{ at: string; id?: string }>({ at: screen.place.id });
     const pick = (id?: string) => choose({ at: screen.place.id, id });
     const focus = chosen.at === screen.place.id ? chosen.id : undefined, surface = WorldStage.surface(screen);
+    // Come into a town from the country, it is first seen whole, before it is walked into.
+    const [walked, walk] = useState<string>();
+    const town = WorldStage.arrived(app), overview = town && walked !== screen.place.id ? town : undefined;
     return (
       <article className={`world-page scale-${surface ?? 'none'} kind-${PlaceStage.kind(screen)}`
         + `${screen.dark ? ' dark' : ''}${up ? ` raised-${up}` : ''}`} id="page">
@@ -42,7 +46,8 @@ export class WorldStage {
             {!surface && <WorldStage.Bare app={app} />}
           </section>
           <aside className="focus" aria-label="What you are attending to">
-            {focus ? <WorldStage.Chosen app={app} screen={screen} id={focus} draw={draw} clear={() => pick()} />
+            {overview ? <WorldStage.Overview app={app} town={overview} walk={() => walk(screen.place.id)} />
+              : focus ? <WorldStage.Chosen app={app} screen={screen} id={focus} draw={draw} clear={() => pick()} />
               : frame.leaf.glance ? <GlanceStage.View app={app} draw={draw} />
                 : <div className="telling"><Told.Place app={app} headed={false} here={<PlaceStage.Here app={app} draw={draw} />} /></div>}
           </aside>
@@ -51,6 +56,38 @@ export class WorldStage {
         {up === 'ways' && <WaysPane.Sheet app={app} draw={draw} />}
         {up === 'more' && <MorePane.Sheet app={app} draw={draw} />}
       </article>
+    );
+  }
+  static last: { here?: string; from?: string } = {};
+  // The town just come into from the country, if that is how the company came.
+  static arrived(app: ReaderApp): string | undefined {
+    const frame = app.state.frame!, here = frame.screen.place.id;
+    const town = frame.screen.path.filter(p => p.kind === 'settlement').at(-1);
+    // Where the company was before here, kept across pages (and the map over them).
+    if (WorldStage.last.here !== here) { WorldStage.last = { here, from: WorldStage.last.here }; }
+    // From outside it: the place before was not one of the town's plan, nor in the town.
+    const inside = new Set(frame.screen.plan?.cells.filter(c => !c.door).map(c => c.id) ?? []);
+    const from = WorldStage.last.from;
+    return town && from && !inside.has(from) && frame.travel ? town.name : undefined;
+  }
+  // A town come to, seen whole: its name, how it looks, how many are about and how many places it has that the
+  // company knows of, and walking in (the owner, 4 November: approaching a town, a composed overview and Enter).
+  static Overview({ app, town, walk }: { app: ReaderApp; town: string; walk: () => void }) {
+    const frame = app.state.frame!, g = frame.leaf.glance, screen = frame.screen;
+    const people = (app.menu.scene?.subjects ?? []).filter(x => x.kind === 'person').length;
+    const places = screen.plan?.cells.filter(c => !c.door).length ?? 0;
+    const view = screen.dark ? undefined : Scenery.of(screen);
+    return (
+      <section className="overview" data-region="overview" aria-live="polite">
+        {view && <div className="overview-view"><PlaceStage.Country view={view} /></div>}
+        <p className="label">You come to</p>
+        <h2 className="to">{Typography.curl(Words.upper(town))}</h2>
+        {g?.sight && <p className="sight">{Typography.curl(g.sight.text)}</p>}
+        <p className="how">{[people ? `${people === 1 ? 'one person' : Words.many(people, 'person').replace(/persons$/, 'people')} about` : '',
+          places > 1 ? `${places} places you can see from here` : ''].filter(Boolean).join(' · ')}</p>
+        <button type="button" className="act led-act first walk-in" data-action="walk-in" onClick={walk}>
+          <span className="n">Walk in</span></button>
+      </section>
     );
   }
   // What the surface is: the place's plan (a town, a building, a site, below ground), else the hex board in the wild,
