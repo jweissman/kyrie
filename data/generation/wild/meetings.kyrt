@@ -1,0 +1,227 @@
+# meetings: what is met with in the open country, a stretch here and there (the owner's OWN-27: a wilderness worth exploring, whose exploration regularly uncovers worthwhile destinations and interactions).
+// A Kyr template (see src/world/kyr-template.ts), written for a few stretches of each country's open country (see
+// src/world/region-meetings.ts, which chooses them). The country section is written once in a country; the base
+// section for every meeting; of the rest, one option is drawn for each meeting from those of its land: a group is a
+// kind of land (meadow, heath, wood, fen, fell; the heights draw the fell's, and heath the fell's as well as its own),
+// and "any" is drawn from on every land. Each option is a small situation with an act or two, not a line.
+//
+// {m} is the meeting's id, to make its own ids with; {tract} the stretch it is in ("{{tract}}" its name); {town} the
+// nearest town's name; {folk} the country's people; {he}, {his}, {him} whoever is met. An option with a ">> lead" line
+// names a site beyond (REV-08: something met at the known edge draws the company on into the wild): {site} is its id,
+// {seen} how it looks to a stranger, {toward} which way it lies from here; teaching {site}_named and {site}_found
+// gives its name and the way to it. One with ">> danger" is written only away from the roads and the towns: a danger
+// gives warning first. Add an option to add a meeting; nothing in the engine needs to change.
+--- country
+  // What has been done at a meeting, once (the pack gone through, the thanks given).
+  Relation wildSpent(entity).
+--- base
+  // A journey across the stretch stops here the first time, for what is going on (see Travel.interrupted).
+  Entity {m}_met: fact "Something is going on in {{tract}}.".
+  Initially Assert staged({tract}, {m}_met).
+--- wood burner 3
+  // A charcoal-burner at a stack, who knows the wood: asked, tells of the place the burners keep away from, and the
+  // way; helped with the stack before it flares, gives what a burner has to give.
+  Person {m}_burner "the charcoal-burner" at {tract} {
+    Role "a charcoal-burner, black to the elbows, minding a smoking stack in a clearing". Ancestry {folk}. Background laborer. Peaceable. Pronouns {he}. Manner stoic.
+  }
+  Thing {m}_stack "the charcoal stack" at {tract} {
+    State flaring "A stack of cordwood under turf smokes in the clearing, and on one side the turf has slipped and flame shows through it.".
+    State damped "The charcoal stack smokes evenly under its turf, as it should.".
+    Change damp "Help pack fresh turf over the flaring side of the stack" from flaring to damped.
+  }
+  Topic {m}_burner_ask with {m}_burner "Ask the charcoal-burner about the wood" when not knows(actor, {site}_found) once {
+    Says "'There's {seen} off to the {toward},' says the charcoal-burner, wiping a black hand across a black face. 'Burners don't cut near it. Things go in and don't come out, or come out wrong.' And you are told the way, as a burner tells it, by the trees.".
+    On discuss { Assert knows(actor, {site}_named). Assert knows(actor, {site}_found). }
+  }
+  Topic {m}_burner_thanks with {m}_burner "Tell the charcoal-burner the stack is damped down" when state({m}_stack, damped) and not wildSpent({m}_stack) once {
+    Says "'You saved me a day's burn,' says the charcoal-burner, and hands over two pine-knots, pitched black and ready. 'They'll burn an hour each, in any wind. More use to you than to me.'".
+    On discuss { Give 2 torch to actor. Assert wildSpent({m}_stack). }
+  }
+>> lead
+--- wood boar 2
+  // A boar where it roots: its sign first, then its warning, so that there is a moment to go round; past it, the
+  // pack of someone who did not heed it.
+  Observe {m}_rooting at {tract} as sign when able({m}_boar) "The ground under the oaks is rooted up in raw swathes, the earth in them still dark and wet. Whatever did it is not far off.".
+  Person {m}_boar "a boar" at {tract} {
+    Role "an old boar with one tusk broken, rooting for mast". Species boar. Numbers 1. Level 1. Temperament territorial. Lair {tract}.
+    Warns "A boar comes out of the holly with its head low, and stands, and blows. It does not mean to go round you.".
+  }
+  Initially Set encounterXp({m}_boar) to 20.
+  Observe {m}_pack_seen at {tract} when not wildSpent({m}_pack) "Trampled into the bracken by the rooting lies a pack, its strap broken, as if dropped by someone running.".
+  Entity {m}_pack: fact "A pack trampled into the bracken.".
+  Action {m}_pack_open(actor: group, site: place) "Go through the pack trampled into the bracken" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {tract}) and not able({m}_boar) and not wildSpent({m}_pack).
+    Time 1.
+    On success { Assert wildSpent({m}_pack). Increase quantity(actor, gold) by 7. Give herbs to actor. }
+    Result "In the pack: a heel of bread gone green, a twist of dried herbs, and a purse with seven coin in it. Whoever it was did not come back for it.".
+  }
+>> danger
+--- wood woundwort 2
+  // Something to gather: a stand of woundwort, the herb the hedge-doctors bind on a cut (see data/rules/growing.kyr).
+  Thing {m}_stand "the woundwort" at {tract} is scenery {
+    State growing "Woundwort grows thick in a wet hollow under the trees, purple-flowered and rank-smelling: the herb the hedge-doctors bind on cuts.".
+  }
+  Initially Assert grows({m}_stand).
+  Discovery {m}_stand_hid "What grows here is gathered, not found.".
+  Item {m}_stand_1 "a bunch of woundwort" is herbs in {m}_stand hidden until {m}_stand_hid.
+  Item {m}_stand_2 "a bunch of woundwort" is herbs in {m}_stand hidden until {m}_stand_hid.
+  Initially Assert crop({m}_stand_1, {m}_stand). Initially Assert crop({m}_stand_2, {m}_stand).
+--- fell shepherd 3
+  // A shepherd out after strays, who knows every fold and stone of the fell: asked, tells of the place the flock is
+  // kept from, and the way; a ewe cragfast on a ledge is a thing a company could help with.
+  Person {m}_herd "the shepherd" at {tract} {
+    Role "a shepherd with a crook and a grey dog, out after strays". Ancestry {folk}. Background herdsman. Peaceable. Pronouns {he}. Manner grim.
+  }
+  Thing {m}_ewe "the cragfast ewe" at {tract} {
+    State stuck "Below the edge a ewe stands on a ledge she jumped down to and cannot jump up from, bleating, and the shepherd's dog lying flat at the top watching her. Someone with a rope, or who can climb, could fetch her up.".
+    State fetched "The ewe that was cragfast is back with the flock, as if she had never been anywhere.".
+    Change fetch "Get down to the ledge and bring the cragfast ewe up" from stuck to fetched needing rope or climbing.
+  }
+  Topic {m}_herd_ask with {m}_herd "Ask the shepherd about the fell" when not knows(actor, {site}_found) once {
+    Says "'You'll want to keep off to the {toward},' says the shepherd. 'There's {seen} over that way. My father's dogs wouldn't go near it, nor mine won't.' And you are told the way, as a shepherd knows it.".
+    On discuss { Assert knows(actor, {site}_named). Assert knows(actor, {site}_found). }
+  }
+  Topic {m}_herd_thanks with {m}_herd "Tell the shepherd the cragfast ewe is back with the flock" when state({m}_ewe, fetched) and not wildSpent({m}_ewe) once {
+    Says "'More than I'd have got for her dead,' says the shepherd, and counts out five coin, and a heel of hard cheese wrapped in a dock leaf besides. 'There. And if you're ever up at the fold, there's a fire.'".
+    On discuss { Increase quantity(actor, gold) by 5. Assert wildSpent({m}_ewe). }
+  }
+>> lead
+--- fell wolf 2
+  // A wolf over a kill: the kill seen first, then the wolf, which warns before it fights for it.
+  Observe {m}_kill at {tract} as sign when able({m}_wolf) "A ewe lies torn open among the stones, not long dead, and the tracks round her are a dog's, but bigger than any dog's.".
+  Person {m}_wolf "a grey wolf" at {tract} {
+    Role "a lean grey wolf, alone and hungry, over its kill". Species wolf. Numbers 1. Level 1. Temperament territorial. Lair {tract}.
+    Warns "A grey wolf gets up from behind the stones with blood to the eyes, and does not run. Its lip goes back from its teeth.".
+  }
+  Initially Set encounterXp({m}_wolf) to 20.
+  Observe {m}_mark at {tract} when not able({m}_wolf) and not wildSpent({m}_mark) "The dead ewe has a shepherd's mark on her fleece, red ruddle on the shoulder: someone on the fell will want to know.".
+  Entity {m}_mark: fact "A wolf killed a marked ewe on the fell.".
+  Action {m}_fleece(actor: group, site: place) "Cut the ruddled fleece off the dead ewe, to show whose she was" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {tract}) and not able({m}_wolf) and not wildSpent({m}_mark).
+    Time 1.
+    On success { Assert wildSpent({m}_mark). Increase quantity(actor, gold) by 4. }
+    Result "You cut the marked fleece away. Rolled in it, where it had been tied to her neck against the wolf, are four coin: some shepherd's charm that did not work.".
+  }
+>> danger
+--- heath yarrow 2
+  // Something to gather on the heath: yarrow among the ling, which a poultice is made of.
+  Thing {m}_stand "the yarrow" at {tract} is scenery {
+    State growing "Among the ling a patch of yarrow grows, white flat heads and feathery leaves: the soldier's herb, for a wound.".
+  }
+  Initially Assert grows({m}_stand).
+  Discovery {m}_stand_hid "What grows here is gathered, not found.".
+  Item {m}_stand_1 "a handful of yarrow" is herbs in {m}_stand hidden until {m}_stand_hid.
+  Item {m}_stand_2 "a handful of yarrow" is herbs in {m}_stand hidden until {m}_stand_hid.
+  Initially Assert crop({m}_stand_1, {m}_stand). Initially Assert crop({m}_stand_2, {m}_stand).
+--- fen eeler 3
+  // An eel-catcher at the traps, who knows which tussocks bear a foot and which do not: asked, tells of the place
+  // nobody poles to, and the way; a trap jammed in the deep channel is something to lend a hand with.
+  Person {m}_eeler "the eel-catcher" at {tract} {
+    Role "an eel-catcher in a flat boat, among wicker traps, with a pole twice their height". Ancestry {folk}. Background laborer. Peaceable. Pronouns {he}. Manner acerbic.
+  }
+  Thing {m}_trap "the jammed eel-trap" at {tract} {
+    State jammed "One of the wicker traps is fast under a sunk branch in the deep channel, and the eel-catcher has been heaving at it a long while.".
+    State freed "The wicker trap is up out of the channel, alive with eels.".
+    Change free "Wade in and heave the eel-trap out from under the branch" from jammed to freed.
+  }
+  Topic {m}_eeler_ask with {m}_eeler "Ask the eel-catcher about the fen" when not knows(actor, {site}_found) once {
+    Says "'Off to the {toward}?' says the eel-catcher. 'There's {seen}. Nobody poles that way that has any sense. But since you ask.' And you are told the way, and which ground bears a foot on the way, and which does not.".
+    On discuss { Assert knows(actor, {site}_named). Assert knows(actor, {site}_found). }
+  }
+  Topic {m}_eeler_thanks with {m}_eeler "Tell the eel-catcher the trap is up out of the channel" when state({m}_trap, freed) and not wildSpent({m}_trap) once {
+    Says "'A week's eels in one trap,' says the eel-catcher, and gives you three coin and a pot of the black salve the fen-folk put on leech-bites. 'For your trouble. Don't wade in up to your neck, next time.'".
+    On discuss { Increase quantity(actor, gold) by 3. Give bandages to actor. Assert wildSpent({m}_trap). }
+  }
+>> lead
+--- fen lights 2
+  // A light over the water where none should be: a will-o'-the-wisp, seen first as a light, that warns as it comes.
+  Observe {m}_glim at {tract} as sign when able({m}_wisp) "Out over the black water a light goes along low, the colour of a candle, where nobody could be walking.".
+  Person {m}_wisp "a will-o'-the-wisp" at {tract} {
+    Role "a pale light over the fen that leads travellers into the deep water". Species wisp. Numbers 1. Level 1. Temperament territorial. Lair {tract}.
+    Warns "The light comes nearer over the water, and is not a candle, and there is no one holding it. The reeds hiss.".
+  }
+  Initially Set encounterXp({m}_wisp) to 20.
+  Observe {m}_drowned at {tract} when not able({m}_wisp) and not wildSpent({m}_drowned) "Where the light went to and fro, a pack floats snagged in the reeds: someone it led in, a long while ago.".
+  Entity {m}_drowned: fact "A pack snagged in the reeds where the light was.".
+  Action {m}_drowned_open(actor: group, site: place) "Pull the snagged pack out of the reeds" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {tract}) and not able({m}_wisp) and not wildSpent({m}_drowned).
+    Time 1.
+    On success { Assert wildSpent({m}_drowned). Increase quantity(actor, gold) by 9. Give lamp_oil to actor. }
+    Result "The pack is rotten, but the purse in it is not: nine coin, and a stoppered flask of oil, dry inside.".
+  }
+>> danger
+--- meadow haymaker 3
+  // A hayward walking the bounds, who knows the country as far as the beasts are pastured: asked, tells of the place
+  // the cattle are kept from, and the way; a beast through the hedge is something to help with.
+  Person {m}_hayward "the hayward" at {tract} {
+    Role "a hayward walking the bounds of the common, with a hazel switch". Ancestry {folk}. Background farmer. Peaceable. Pronouns {he}. Manner cheerful.
+  }
+  Thing {m}_heifer "the strayed heifer" at {tract} {
+    State strayed "A red heifer has broken through the hedge and stands in the next field eating what is not hers, and will not be driven by one.".
+    State penned "The red heifer is back in her own field, and the gap in the hedge stopped with a hurdle.".
+    Change pen "Help drive the heifer back through the gap, and stop it with a hurdle" from strayed to penned.
+  }
+  Topic {m}_hayward_ask with {m}_hayward "Ask the hayward about the country round about" when not knows(actor, {site}_found) once {
+    Says "'Beasts won't graze to the {toward},' says the hayward. 'There's {seen} that way, past the last field. Folk from {town} don't go, but there's a way, if you want it.' And you are told it, gate by gate as far as the gates go.".
+    On discuss { Assert knows(actor, {site}_named). Assert knows(actor, {site}_found). }
+  }
+  Topic {m}_hayward_thanks with {m}_hayward "Tell the hayward the heifer is back in her field" when state({m}_heifer, penned) and not wildSpent({m}_heifer) once {
+    Says "'There's that,' says the hayward, and gives you the fine that the heifer's owner will pay at the next court, four coin, out of a purse at the belt. 'I'll have it back off him. Go on.'".
+    On discuss { Increase quantity(actor, gold) by 4. Assert wildSpent({m}_heifer). }
+  }
+>> lead
+--- meadow meadowsweet 2
+  // Something to gather in a wet field: meadowsweet, which takes a fever down.
+  Thing {m}_stand "the meadowsweet" at {tract} is scenery {
+    State growing "Along a wet ditch meadowsweet stands in a creamy froth, and the smell of it is like honey and almonds.".
+  }
+  Initially Assert grows({m}_stand).
+  Discovery {m}_stand_hid "What grows here is gathered, not found.".
+  Item {m}_stand_1 "a sheaf of meadowsweet" is herbs in {m}_stand hidden until {m}_stand_hid.
+  Item {m}_stand_2 "a sheaf of meadowsweet" is herbs in {m}_stand hidden until {m}_stand_hid.
+  Initially Assert crop({m}_stand_1, {m}_stand). Initially Assert crop({m}_stand_2, {m}_stand).
+--- any cache 1
+  // A store someone left against need: a sign first (stones set where no stones lie), then found by searching, and
+  // taken (REV-02: where something is to be found, a sign beforehand; where nothing is, the search says so).
+  Observe {m}_cairn at {tract} as sign when not knows(party, {m}_cache) "Three stones are set one on another here, where no other stones lie, and the ground at their foot has been dug and trodden flat again: somebody's mark.".
+  Discovery {m}_cache "Under the three marked stones, a hollow lined with bark, and a bundle done up in oilcloth: somebody's store against need." {
+    Found by searching {tract} "Under the three marked stones, a hollow lined with bark, and in it a bundle done up in oilcloth.".
+  }
+  Item {m}_cache_1 "a pitched torch" is torch at {tract} hidden until {m}_cache.
+  Item {m}_cache_2 "a flask of lamp oil" is lamp_oil at {tract} hidden until {m}_cache.
+  Item {m}_cache_3 "a roll of clean linen" is bandages at {tract} hidden until {m}_cache.
+--- any waystone 2
+  // A fallen stone of the old makers' road, its face under moss: cleared, a hand cut in it points the way the road
+  // went, to a site beyond; one who knows the old script reads the place's name, and the way (REV-08).
+  Thing {m}_stone "the fallen way-stone" at {tract} {
+    State mossed "A long stone lies half sunk in the ground, squared once by somebody's tools; moss covers the face of it.".
+    State cleared "The fallen way-stone lies with its face cleared: letters in the old script, and a hand cut pointing {toward}.".
+    Change clear "Scrape the moss off the face of the fallen stone" from mossed to cleared.
+  }
+  Entity {m}_pointed: fact "A fallen way-stone of the old road points {toward}, toward {seen}.".
+  Initially Assert leadsTo({m}_pointed, {site}).
+  Observe {m}_hand at {tract} as sign when state({m}_stone, cleared) and not knows(party, {m}_pointed) "The hand cut in the stone points {toward}, the way the old road went: toward {seen}." teaches {m}_pointed.
+  Action {m}_letters(actor: group, site: place) "Read the old letters on the way-stone" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {tract}) and state({m}_stone, cleared) and not knows(actor, {site}_found).
+    Time 1.
+    Resolve check(actor, lore, dc_fair).
+    On success { Assert knows(actor, {site}_named). Assert knows(actor, {site}_found). }
+    Result "The letters are worn, but they will read: the name of the place the road went to, and how many miles, and the turns of the way.".
+    Otherwise "The letters are worn past your reading. The hand still points.".
+  }
+>> lead
+--- any tracks 2
+  // Tracks of something heavy going one way: seen, they say which way the lair is; followed with a woodsman's eye,
+  // they give the way to it (REV-08).
+  Entity {m}_trail: fact "Heavy tracks cross the open country, going {toward}, toward {seen}.".
+  Initially Assert leadsTo({m}_trail, {site}).
+  Observe {m}_slots at {tract} as sign when not knows(party, {m}_trail) "Tracks cross the ground here, heavy and fresh and all going the one way, {toward}, and the same tracks older under them: something uses this way often." teaches {m}_trail.
+  Action {m}_follow(actor: group, site: place) "Follow the tracks a way, and see where they go" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {tract}) and knows(actor, {m}_trail) and not knows(actor, {site}_found).
+    Time 3.
+    Resolve check(actor, woodcraft, dc_fair).
+    On success { Assert knows(actor, {site}_found). }
+    Result "You follow them far enough to be sure of them: they go to {seen}, and back, by the same way every time.".
+    Otherwise "You lose them on stony ground, and cast about, and do not find them again. They went {toward}; that much is certain.".
+  }
+>> lead

@@ -50,7 +50,9 @@ export class ActionFeedbackView {
   static readonly nothing: Record<string, string> = { look_closely: 'Looked at closely, it is just as it seems.',
     listen: 'There is nothing to hear from it.', prod: 'Nothing gives, and nothing answers.',
     pry: 'The bar finds no purchase, and nothing gives.', push: 'It does not shift, either way.',
-    burn: 'It does not take the flame.', search: 'You find nothing out of the ordinary.' };
+    // A search goes over the whole of a place, and says so once and plainly when nothing is hidden in it: one neutral
+    // sentence had left players searching everywhere in case (REV-02, REV-15).
+    burn: 'It does not take the flame.', search: 'You have been over the whole of it, and nothing is hidden here.' };
   // Where something learned leads, when nothing said where it is: somewhere to set out for now, and how far (the lone
   // tower joined the journeys unsaid, after the opened graves: play 7, M17-42).
   private static leads(campaign: Campaign, learned: { id: string; text: string }[],
