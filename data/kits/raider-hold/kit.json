@@ -180,5 +180,8 @@
       "topic": "Sir Hamo's outlaws",
       "heard": "prey"
     }
-  ]
+  ],
+  "declines": {
+    "successor": "the band's hold is where its trouble ends: what it took goes home to the settlement it robbed (the aftermath), and nothing in it leads on; a hold set in an old work is pointed onward by the work, if at all"
+  }
 }

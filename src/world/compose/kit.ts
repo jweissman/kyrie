@@ -31,6 +31,10 @@ export interface KitManifest {
   modules: KitModule[];
   hooks?: KitHook[];
   tables?: string;
+  // The links of an expedition (see ExpeditionContract) the place it claims does not make, each with why: a toll
+  // levied on a road has nothing to carry out of it. A link declined is not asked of it; one neither made nor
+  // declined is a finding (the cold review's REV-01).
+  declines?: Record<string, string>;
 }
 export interface Kit { path: string; manifest: KitManifest; tables: Record<string, DeemValue> }
 

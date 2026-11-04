@@ -6,6 +6,7 @@
 @names watch, tower, view, spire
 @danger 2
 @lair floor
+@declines successor: a tower whose sight-line has fallen sees no other tower; one with a twin points to it
 --- outside
   Observe {w}_tower_seen at {w} when true "A tower of grey stone stands on the height, roofless. The wind goes round it and does not stop.".
   Observe {w}_cut at {w} when true "Round the doorway, cut in the old script so large it can be read from the ground: {oldup}." teaches {w}_named.

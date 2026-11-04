@@ -46,8 +46,11 @@ describe('a generated world\'s stories', () => {
     const { w, s, sites } = await Audited.world('kite');
     expect(sites).toContainEqual(expect.objectContaining({ subject: 'raiders.approach', place: 'region__w1' }));
     Audited.retract(s, 'leadsTo', 'region__w1');
-    expect(WorldAudit.audit(s.campaign, w.report.placements, sites)).toEqual([
+    expect(WorldAudit.audit(s.campaign, w.report.placements, sites).filter(f => f.kind === 'clue')).toEqual([
       { kind: 'clue', subject: 'raiders.approach', text: 'nothing leads to it' },
       { kind: 'clue', subject: 'work:w1', text: 'nothing leads to it' }]);
+    // Nor does it keep its contract: with no word of it, it is no expedition (REV-01).
+    expect(WorldAudit.audit(s.campaign, w.report.placements, sites).filter(f => f.kind === 'contract'))
+      .toContainEqual({ kind: 'contract', subject: 'raiders.approach', text: 'lead: neither made nor declined' });
   }, 60000);
 });
