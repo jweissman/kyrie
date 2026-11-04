@@ -31,12 +31,12 @@
       },
       "smith": {
         "role": "smith", "shop": "forge", "scene": "The forge glows in its corner; tongs, hammers and half-made things hang on the wall, and the floor is black with scale.",
-        "stock": [["crowbar", 3, 2], ["shovel", 2, 2], ["pole", 1, 2], ["iron_spikes", 1, 6], ["dagger", 2, 1]],
+        "stock": [["crowbar", 3, 2], ["shovel", 2, 2], ["pole", 1, 2], ["iron_spikes", 1, 6], ["dagger", 2, 1], ["torch", 1, 2], ["lantern", 7, 1], ["lamp_oil", 1, 3]],
         "buys": [["bronze_bearing", 10], ["grave_rings", 6]]
       },
       "salter": {
         "role": "salter", "shop": "salt-house", "scene": "Salt in sacks stacked to the rafters, barrels of fish in brine along the wall, and a smell of tar and the sea that gets into everything.",
-        "stock": [["rations", 1, 12]],
+        "stock": [["rations", 1, 10], ["rope", 1, 2], ["torch", 1, 2]],
         "buys": []
       },
       "furrier": {
