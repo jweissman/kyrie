@@ -4867,7 +4867,7 @@ Raise a fallen ally with 30% of their health, undead nature now (only animal cre
 
 *Faithful · cantrip arcane spell, illusion* · `ability:dancing_lights`
 
-Every enemy is distracted for 3 turns (a Wisdom save against 15 + level + bonusSpellDC avoids it); every enemy is blinded for 3 turns (a Wisdom save against 10 + level + bonusSpellDC avoids it). Distracted: −1 to hit, −1 damage, −5 evasion. Blinded: −4 to hit, −10 evasion, −2 to every roll. An arcane cantrip, cast at will.
+Every enemy is distracted for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it); every enemy is blinded for 3 turns (a Wisdom save against 10 + level + the caster's spell bonus avoids it). Distracted: −1 to hit, −1 damage, −5 evasion. Blinded: −4 to hit, −10 evasion, −2 to every roll. An arcane cantrip, cast at will.
 
 > Create small lights that hover and move.
 
@@ -4891,7 +4891,7 @@ You gain ghost touch for 3 turns. Ghost Touch: on landing a blow, 1d3 (1–3) ne
 
 *Faithful · cantrip arcane spell, enchantment* · `ability:minor_distract`
 
-One enemy is distracted for a turn (a Wisdom save against 12 + level + bonusSpellDC avoids it). Distracted: −1 to hit, −1 damage, −5 evasion. An arcane cantrip, cast at will.
+One enemy is distracted for a turn (a Wisdom save against 12 + level + the caster's spell bonus avoids it). Distracted: −1 to hit, −1 damage, −5 evasion. An arcane cantrip, cast at will.
 
 > Distract an enemy, giving them a -2 penalty to attack rolls for 1 round.
 
@@ -4925,7 +4925,7 @@ You are minor warded for 10 turns. Minor Warded: +1 against magic, 7 + level mor
 
 *Faithful · cantrip arcane spell, evocation* · `ability:scald`
 
-1d4 (1–4) fire damage to one enemy (halved if resisted; may cause burning: a Constitution save against 15 avoids it); it is scalded for 3 turns (a Constitution save against 14 + level + bonusSpellDC avoids it). Burning: takes 1d3 (1–3) fire damage each turn. Scalded: −1 to every roll. An arcane cantrip, cast at will.
+1d4 (1–4) fire damage to one enemy (halved if resisted; may cause burning: a Constitution save against 15 avoids it); it is scalded for 3 turns (a Constitution save against 14 + level + the caster's spell bonus avoids it). Burning: takes 1d3 (1–3) fire damage each turn. Scalded: −1 to every roll. An arcane cantrip, cast at will.
 
 > Blast an enemy with superheated steam.
 
@@ -4977,7 +4977,7 @@ You are blurred for 3 turns. Blurred: 1 harder to hit, +10 evasion, +2 against m
 
 *Faithful · level 1 arcane spell, enchantment* · `ability:charm`
 
-One enemy is charmed for 3 turns (only humanoid creatures; a Wisdom save against 18 + level + bonusSpellDC avoids it). Charmed: fights for the other side. An arcane spell of the first level. Takes a first-level slot.
+One enemy is charmed for 3 turns (only humanoid creatures; a Wisdom save against 18 + level + the caster's spell bonus avoids it). Charmed: fights for the other side. An arcane spell of the first level. Takes a first-level slot.
 
 > Charm an enemy, making them friendly towards you.
 
@@ -4985,7 +4985,7 @@ One enemy is charmed for 3 turns (only humanoid creatures; a Wisdom save against
 
 *Faithful · level 1 arcane spell, transmutation* · `ability:drench`
 
-One enemy is drenched for 3 turns (a Dexterity save against 10 + level + bonusSpellDC avoids it). Drenched: −2 to hit, takes 100% more lightning, takes 200% more cold. An arcane spell of the first level. Takes a first-level slot.
+One enemy is drenched for 3 turns (a Dexterity save against 10 + level + the caster's spell bonus avoids it). Drenched: −2 to hit, takes 100% more lightning, takes 200% more cold. An arcane spell of the first level. Takes a first-level slot.
 
 > Drench an enemy, reducing their attack rolls by 2 for 3 rounds.
 
@@ -5001,7 +5001,7 @@ One enemy is drenched for 3 turns (a Dexterity save against 10 + level + bonusSp
 
 *Faithful · level 1 arcane spell, necromancy* · `ability:hex`
 
-One enemy is hexed for 3 turns (a Wisdom save against 13 + level + bonusSpellDC avoids it). Hexed: −2 to every roll, −2 to every save. An arcane spell of the first level. Takes a first-level slot.
+One enemy is hexed for 3 turns (a Wisdom save against 13 + level + the caster's spell bonus avoids it). Hexed: −2 to every roll, −2 to every save. An arcane spell of the first level. Takes a first-level slot.
 
 > Curse an enemy, causing misfortune.
 
@@ -5043,7 +5043,7 @@ You are mage-armored for 20 turns. Mage-Armored: 4 harder to hit, 20 more hit po
 
 *Faithful · level 1 arcane spell, necromancy* · `ability:shrieking_missile`
 
-1d3 + level necrotic damage to one enemy (may cause diseased: a Constitution save against 15 avoids it); it is frightened for 3 turns (a Wisdom save against 14 + level + bonusSpellDC avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. An arcane spell of the first level. Takes a first-level slot.
+1d3 + level necrotic damage to one enemy (may cause diseased: a Constitution save against 15 avoids it); it is frightened for 3 turns (a Wisdom save against 14 + level + the caster's spell bonus avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. An arcane spell of the first level. Takes a first-level slot.
 
 > Fire a missile that emits a horrifying shriek.
 
@@ -5075,7 +5075,7 @@ Call 1d4 + floor((level / 2)) creatures, each one of: rat, cave spider, centiped
 
 *Faithful · level 1 arcane spell, evocation* · `ability:thunderclap`
 
-1d3 (1–3) sonic damage to every enemy (halved if resisted; may cause deafened: a Constitution save against 15 avoids it; may cause migraine: a Wisdom save against 15 avoids it); every enemy is deafened for 5 turns (a Constitution save against 13 + level + bonusSpellDC avoids it). Deafened: −2 to hit, 2 easier to hit, −2 damage, −1 to every save, resists 50% of sonic. Migraine: takes 200% more radiant, takes 200% more sonic. An arcane spell of the first level. Takes a first-level slot.
+1d3 (1–3) sonic damage to every enemy (halved if resisted; may cause deafened: a Constitution save against 15 avoids it; may cause migraine: a Wisdom save against 15 avoids it); every enemy is deafened for 5 turns (a Constitution save against 13 + level + the caster's spell bonus avoids it). Deafened: −2 to hit, 2 easier to hit, −2 damage, −1 to every save, resists 50% of sonic. Migraine: takes 200% more radiant, takes 200% more sonic. An arcane spell of the first level. Takes a first-level slot.
 
 > Create a burst of thunderous sound that damages and deafens enemies nearby.
 
@@ -5109,7 +5109,7 @@ You are augured for 3 turns; you gain sage's insight for 3 turns. Augured: +5 in
 
 *Faithful · level 2 arcane spell, necromancy* · `ability:chill_blood`
 
-One enemy gains slow for 3 turns (a Dexterity save against 12 + level + bonusSpellDC avoids it); 3d3 + floor((level / 2)) cold damage to it (may cause frozen: a Dexterity save against 15 avoids it). Slow: −10 initiative, Dexterity −5, -1 more blows a turn. Frozen: Dexterity −5, cannot act. An arcane spell of the second level. Takes a second-level slot.
+One enemy gains slow for 3 turns (a Dexterity save against 12 + level + the caster's spell bonus avoids it); 3d3 + floor((level / 2)) cold damage to it (may cause frozen: a Dexterity save against 15 avoids it). Slow: −10 initiative, Dexterity −5, -1 more blows a turn. Frozen: Dexterity −5, cannot act. An arcane spell of the second level. Takes a second-level slot.
 
 > Touch an enemy to slow their movements for 3 rounds.
 
@@ -5151,7 +5151,7 @@ One ally gains mind blank for 10 turns. Mind Blank: +2 to will saves, resists 50
 
 *Faithful · level 2 arcane spell, enchantment* · `ability:psionic_blast`
 
-2d6 (2–12) psychic damage to every enemy (may cause confused: a Wisdom save against 15 avoids it; may cause insane: an Intelligence save against 15 avoids it); every enemy is stunned for 3 turns (a Constitution save against 20 + level + bonusSpellDC avoids it); every enemy is charmed for 3 turns (a Wisdom save against 15 + level + bonusSpellDC avoids it). Confused: acts at random. Insane: −1 to every roll, −2 to will saves, acts at random. Stunned: −2 to every roll, cannot act. Charmed: fights for the other side. An arcane spell of the second level. Takes a second-level slot.
+2d6 (2–12) psychic damage to every enemy (may cause confused: a Wisdom save against 15 avoids it; may cause insane: an Intelligence save against 15 avoids it); every enemy is stunned for 3 turns (a Constitution save against 20 + level + the caster's spell bonus avoids it); every enemy is charmed for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it). Confused: acts at random. Insane: −1 to every roll, −2 to will saves, acts at random. Stunned: −2 to every roll, cannot act. Charmed: fights for the other side. An arcane spell of the second level. Takes a second-level slot.
 
 > Invade minds of all enemies, dealing 1d6 psychic damage and stunning them.
 
@@ -5167,7 +5167,7 @@ You gain mirror images for 3 turns. Mirror Images: 2 harder to hit, +15 evasion,
 
 *Faithful · level 2 arcane spell, necromancy* · `ability:paralyzing_touch`
 
-One enemy is paralyzed for 3 turns (a Strength save against 14 + level + bonusSpellDC avoids it). Paralyzed: Strength −5, Dexterity −5, cannot act. An arcane spell of the second level. Takes a second-level slot.
+One enemy is paralyzed for 3 turns (a Strength save against 14 + level + the caster's spell bonus avoids it). Paralyzed: Strength −5, Dexterity −5, cannot act. An arcane spell of the second level. Takes a second-level slot.
 
 > Touch an enemy to paralyze them for 2 rounds.
 
@@ -5201,7 +5201,7 @@ On 7 + round((level / 2)) different enemies, drawn at random, each the next of t
 
 *Faithful · level 2 arcane spell, transmutation* · `ability:slow`
 
-Every enemy gains slow for 4 turns (a Dexterity save against 14 + level + bonusSpellDC avoids it). Slow: −10 initiative, Dexterity −5, -1 more blows a turn. An arcane spell of the second level. Takes a second-level slot.
+Every enemy gains slow for 4 turns (a Dexterity save against 14 + level + the caster's spell bonus avoids it). Slow: −10 initiative, Dexterity −5, -1 more blows a turn. An arcane spell of the second level. Takes a second-level slot.
 
 > Reduce the speed of your foes.
 
@@ -5217,7 +5217,7 @@ Call one of: chimera, nightmare, owlbear, wendigo, dryad, nymph, pixie, satyr, s
 
 *Faithful · level 2 arcane spell, necromancy* · `ability:weakness`
 
-One enemy is weakened for 3 turns (a Constitution save against 14 + level + bonusSpellDC avoids it). Weakened: −2 damage, Strength −2. An arcane spell of the second level. Takes a second-level slot.
+One enemy is weakened for 3 turns (a Constitution save against 14 + level + the caster's spell bonus avoids it). Weakened: −2 damage, Strength −2. An arcane spell of the second level. Takes a second-level slot.
 
 > Sap the strength of an enemy, reducing their damage output.
 
@@ -5235,7 +5235,7 @@ Raise a fallen ally with 40% of their health, undead nature now. An arcane spell
 
 *Faithful · level 3 arcane spell, necromancy* · `ability:cause_blindness`
 
-One enemy is blinded for 5 turns (a Constitution save against 14 + level + bonusSpellDC avoids it). Blinded: −4 to hit, −10 evasion, −2 to every roll. An arcane spell of the third level. Takes a third-level slot.
+One enemy is blinded for 5 turns (a Constitution save against 14 + level + the caster's spell bonus avoids it). Blinded: −4 to hit, −10 evasion, −2 to every roll. An arcane spell of the third level. Takes a third-level slot.
 
 > Blind an enemy.
 
@@ -5243,7 +5243,7 @@ One enemy is blinded for 5 turns (a Constitution save against 14 + level + bonus
 
 *Faithful · level 3 arcane spell, illusion* · `ability:confusion`
 
-One enemy is confused for 3 turns (a Wisdom save against 18 + level + bonusSpellDC avoids it). Confused: acts at random. An arcane spell of the third level. Takes a third-level slot.
+One enemy is confused for 3 turns (a Wisdom save against 18 + level + the caster's spell bonus avoids it). Confused: acts at random. An arcane spell of the third level. Takes a third-level slot.
 
 > Confuse an enemy, causing them to act randomly.
 
@@ -5251,7 +5251,7 @@ One enemy is confused for 3 turns (a Wisdom save against 18 + level + bonusSpell
 
 *Faithful · level 3 arcane spell, necromancy* · `ability:dismal_ray`
 
-One enemy is weakened for 3 turns (a Constitution save against 18 + level + bonusSpellDC avoids it); it gains despair for 3 turns (a Wisdom save against 15 + level + bonusSpellDC avoids it); 3d6 (3–18) necrotic damage to it (may cause diseased: a Constitution save against 15 avoids it). Weakened: −2 damage, Strength −2. Despair: −2 to hit, −2 damage, −2 to every save, Charisma −2. Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. An arcane spell of the third level. Takes a third-level slot.
+One enemy is weakened for 3 turns (a Constitution save against 18 + level + the caster's spell bonus avoids it); it gains despair for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it); 3d6 (3–18) necrotic damage to it (may cause diseased: a Constitution save against 15 avoids it). Weakened: −2 damage, Strength −2. Despair: −2 to hit, −2 damage, −2 to every save, Charisma −2. Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. An arcane spell of the third level. Takes a third-level slot.
 
 > A black energy ray weakens an enemy.
 
@@ -5309,7 +5309,7 @@ You are hidden for 5 turns. Hidden: 4 harder to hit, +10 evasion; and on attacki
 
 *Faithful · level 3 arcane spell, necromancy* · `ability:pain`
 
-2d6 (2–12) psychic damage to one enemy (halved if resisted; may cause confused: a Wisdom save against 15 avoids it; may cause insane: an Intelligence save against 15 avoids it); it gains agony for 3 turns (a Wisdom save against 15 + level + bonusSpellDC avoids it). Confused: acts at random. Insane: −1 to every roll, −2 to will saves, acts at random. Agony: Intelligence −1, Wisdom −1, takes 2d4 (2–8) necrotic damage each turn. An arcane spell of the third level. Takes a third-level slot.
+2d6 (2–12) psychic damage to one enemy (halved if resisted; may cause confused: a Wisdom save against 15 avoids it; may cause insane: an Intelligence save against 15 avoids it); it gains agony for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it). Confused: acts at random. Insane: −1 to every roll, −2 to will saves, acts at random. Agony: Intelligence −1, Wisdom −1, takes 2d4 (2–8) necrotic damage each turn. An arcane spell of the third level. Takes a third-level slot.
 
 > Inflict intense pain on an enemy, causing ongoing damage.
 
@@ -5317,7 +5317,7 @@ You are hidden for 5 turns. Hidden: 4 harder to hit, +10 evasion; and on attacki
 
 *Faithful · level 3 arcane spell, evocation* · `ability:sandstorm`
 
-3d6 (3–18) bludgeoning damage to every enemy (may cause stunned: a Constitution save against 15 avoids it); every enemy is blinded for 3 turns (a Constitution save against 15 + level + bonusSpellDC avoids it). Stunned: −2 to every roll, cannot act. Blinded: −4 to hit, −10 evasion, −2 to every roll. An arcane spell of the third level. Takes a third-level slot.
+3d6 (3–18) bludgeoning damage to every enemy (may cause stunned: a Constitution save against 15 avoids it); every enemy is blinded for 3 turns (a Constitution save against 15 + level + the caster's spell bonus avoids it). Stunned: −2 to every roll, cannot act. Blinded: −4 to hit, −10 evasion, −2 to every roll. An arcane spell of the third level. Takes a third-level slot.
 
 > Create a swirling sandstorm that damages and blinds enemies within it for 3 rounds.
 
@@ -5325,7 +5325,7 @@ You are hidden for 5 turns. Hidden: 4 harder to hit, +10 evasion; and on attacki
 
 *Faithful · level 3 arcane spell, illusion* · `ability:silence`
 
-Every enemy gains silence for 3 turns (a Wisdom save against 15 + level + bonusSpellDC avoids it). Silence: cannot cast spells. An arcane spell of the third level. Takes a third-level slot.
+Every enemy gains silence for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it). Silence: cannot cast spells. An arcane spell of the third level. Takes a third-level slot.
 
 > Create an area of silence, preventing spellcasting for 3 rounds.
 
@@ -5333,7 +5333,7 @@ Every enemy gains silence for 3 turns (a Wisdom save against 15 + level + bonusS
 
 *Faithful · level 3 arcane spell, enchantment* · `ability:sleep`
 
-Every enemy is asleep for 3 turns (a Wisdom save against 16 + level + bonusSpellDC avoids it). Asleep: cannot act. An arcane spell of the third level. Takes a third-level slot.
+Every enemy is asleep for 3 turns (a Wisdom save against 16 + level + the caster's spell bonus avoids it). Asleep: cannot act. An arcane spell of the third level. Takes a third-level slot.
 
 > Lull enemies into a magical slumber.
 
@@ -5367,7 +5367,7 @@ One ally is disrupting for 3 turns. Disrupting: on attacking, 2d6 (2–12) true 
 
 *Faithful · level 4 arcane spell, enchantment* · `ability:distraction`
 
-One enemy is distracted for 3 turns (a Wisdom save against 14 + level + bonusSpellDC avoids it). Distracted: −1 to hit, −1 damage, −5 evasion. An arcane spell of the fourth level. Takes a fourth-level slot.
+One enemy is distracted for 3 turns (a Wisdom save against 14 + level + the caster's spell bonus avoids it). Distracted: −1 to hit, −1 damage, −5 evasion. An arcane spell of the fourth level. Takes a fourth-level slot.
 
 > Greatly distract an enemy, giving them a -4 penalty to attack rolls for 3 rounds.
 
@@ -5375,7 +5375,7 @@ One enemy is distracted for 3 turns (a Wisdom save against 14 + level + bonusSpe
 
 *Faithful · level 4 arcane spell, evocation* · `ability:earthquake`
 
-3d8 (3–24) bludgeoning damage to every enemy (none if resisted; may cause stunned: a Constitution save against 15 avoids it); every enemy is prone for 3 turns (a Constitution save against 12 + level + bonusSpellDC avoids it). Stunned: −2 to every roll, cannot act. Prone: Dexterity −2, cannot act. An arcane spell of the fourth level. Takes a fourth-level slot.
+3d8 (3–24) bludgeoning damage to every enemy (none if resisted; may cause stunned: a Constitution save against 15 avoids it); every enemy is prone for 3 turns (a Constitution save against 12 + level + the caster's spell bonus avoids it). Stunned: −2 to every roll, cannot act. Prone: Dexterity −2, cannot act. An arcane spell of the fourth level. Takes a fourth-level slot.
 
 > Cause the ground to shake.
 
@@ -5417,7 +5417,7 @@ You gain false life for 3 turns. False Life: 10d6 + 2 × level more hit points (
 
 *Faithful · level 4 arcane spell, evocation* · `ability:lightning_bolt`
 
-3d8 (3–24) electric damage to 2 different enemies, drawn at random (halved if resisted); each of them is paralyzed for 3 turns (a Strength save against 15 + level + bonusSpellDC avoids it). Paralyzed: Strength −5, Dexterity −5, cannot act. An arcane spell of the fourth level. Takes a fourth-level slot.
+3d8 (3–24) electric damage to 2 different enemies, drawn at random (halved if resisted); each of them is paralyzed for 3 turns (a Strength save against 15 + level + the caster's spell bonus avoids it). Paralyzed: Strength −5, Dexterity −5, cannot act. An arcane spell of the fourth level. Takes a fourth-level slot.
 
 > Strike random enemies with lightning.
 
@@ -5435,7 +5435,7 @@ You gain false life for 3 turns. False Life: 10d6 + 2 × level more hit points (
 
 *Faithful · level 4 arcane spell, necromancy* · `ability:major_weakness`
 
-One enemy is major weakened for 3 turns (a Constitution save against 20 + level + bonusSpellDC avoids it). Major Weakened: −4 damage, Strength −4. An arcane spell of the fourth level. Takes a fourth-level slot.
+One enemy is major weakened for 3 turns (a Constitution save against 20 + level + the caster's spell bonus avoids it). Major Weakened: −4 damage, Strength −4. An arcane spell of the fourth level. Takes a fourth-level slot.
 
 > Greatly reduce an enemy's damage output.
 
@@ -5443,7 +5443,7 @@ One enemy is major weakened for 3 turns (a Constitution save against 20 + level 
 
 *Faithful · level 4 arcane spell, necromancy* · `ability:scourge`
 
-4d6 (4–24) necrotic damage to one enemy (halved if resisted; may cause diseased: a Constitution save against 15 avoids it); it is diseased for 3 turns (a Constitution save against 16 + level + bonusSpellDC avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. An arcane spell of the fourth level. Takes a fourth-level slot.
+4d6 (4–24) necrotic damage to one enemy (halved if resisted; may cause diseased: a Constitution save against 15 avoids it); it is diseased for 3 turns (a Constitution save against 16 + level + the caster's spell bonus avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. An arcane spell of the fourth level. Takes a fourth-level slot.
 
 > Inflict necrotic damage and disease upon an enemy.
 
@@ -5521,7 +5521,7 @@ One ally gains haste for 3 turns. Haste: 2 harder to hit, +10 initiative, Dexter
 
 *Faithful · level 5 arcane spell, necromancy* · `ability:insanity`
 
-One enemy is insane for 3 turns (a Wisdom save against 18 + level + bonusSpellDC avoids it). Insane: −1 to every roll, −2 to will saves, acts at random. An arcane spell of the fifth level. Takes a fifth-level slot.
+One enemy is insane for 3 turns (a Wisdom save against 18 + level + the caster's spell bonus avoids it). Insane: −1 to every roll, −2 to will saves, acts at random. An arcane spell of the fifth level. Takes a fifth-level slot.
 
 > Drive an enemy mad, causing them to act unpredictably.
 
@@ -5529,7 +5529,7 @@ One enemy is insane for 3 turns (a Wisdom save against 18 + level + bonusSpellDC
 
 *Faithful · level 5 arcane spell, necromancy* · `ability:pestilence`
 
-2d6 (2–12) necrotic damage to every enemy (halved if resisted; may cause diseased: a Constitution save against 15 avoids it); every enemy is diseased for 3 turns (a Constitution save against 16 + level + bonusSpellDC avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. An arcane spell of the fifth level. Takes a fifth-level slot.
+2d6 (2–12) necrotic damage to every enemy (halved if resisted; may cause diseased: a Constitution save against 15 avoids it); every enemy is diseased for 3 turns (a Constitution save against 16 + level + the caster's spell bonus avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. An arcane spell of the fifth level. Takes a fifth-level slot.
 
 > Unleash a deadly plague upon all enemies.
 
@@ -5621,7 +5621,7 @@ End polymorphed or shapechanged on one enemy. An arcane spell of the sixth level
 
 *Faithful · level 6 arcane spell, transmutation* · `ability:flesh_to_stone`
 
-One enemy is petrified for 10 turns (a Constitution save against 18 + level + bonusSpellDC avoids it). Petrified: immune to fear, immune to charm, immune to stun, immune to sleep, immune to poison, immune to disease, cannot act. An arcane spell of the sixth level. Takes a sixth-level slot.
+One enemy is petrified for 10 turns (a Constitution save against 18 + level + the caster's spell bonus avoids it). Petrified: immune to fear, immune to charm, immune to stun, immune to sleep, immune to poison, immune to disease, cannot act. An arcane spell of the sixth level. Takes a sixth-level slot.
 
 > Turn an enemy to stone.
 
@@ -5653,7 +5653,7 @@ One enemy is petrified for 10 turns (a Constitution save against 18 + level + bo
 
 *Faithful · level 6 arcane spell, enchantment* · `ability:mass_distraction`
 
-Every enemy is distracted for 5 turns (a Wisdom save against 16 + level + bonusSpellDC avoids it). Distracted: −1 to hit, −1 damage, −5 evasion. An arcane spell of the sixth level. Takes a sixth-level slot.
+Every enemy is distracted for 5 turns (a Wisdom save against 16 + level + the caster's spell bonus avoids it). Distracted: −1 to hit, −1 damage, −5 evasion. An arcane spell of the sixth level. Takes a sixth-level slot.
 
 > Severely distract enemies.
 
@@ -5661,7 +5661,7 @@ Every enemy is distracted for 5 turns (a Wisdom save against 16 + level + bonusS
 
 *Faithful · level 6 arcane spell, necromancy* · `ability:mass_weakness`
 
-Every enemy is weakened for 3 turns (a Constitution save against 16 + level + bonusSpellDC avoids it). Weakened: −2 damage, Strength −2. An arcane spell of the sixth level. Takes a sixth-level slot.
+Every enemy is weakened for 3 turns (a Constitution save against 16 + level + the caster's spell bonus avoids it). Weakened: −2 damage, Strength −2. An arcane spell of the sixth level. Takes a sixth-level slot.
 
 > Reduce the damage output of multiple enemies.
 
@@ -5677,7 +5677,7 @@ Every enemy is weakened for 3 turns (a Constitution save against 16 + level + bo
 
 *Faithful · level 6 arcane spell, abjuration* · `ability:quieten`
 
-Every enemy gains silence for 10 turns (a Wisdom save against 25 + level + bonusSpellDC avoids it). Silence: cannot cast spells. An arcane spell of the sixth level. Takes a sixth-level slot.
+Every enemy gains silence for 10 turns (a Wisdom save against 25 + level + the caster's spell bonus avoids it). Silence: cannot cast spells. An arcane spell of the sixth level. Takes a sixth-level slot.
 
 > Create an area where sound is magically suppressed.
 
@@ -5711,7 +5711,7 @@ Call one of: discerner, mind destroyer, mouther, ooze, automaton, funerary bronz
 
 *Faithful · level 7 arcane spell, necromancy* · `ability:contagion`
 
-6d8 + level necrotic damage to every enemy (halved if resisted; may cause diseased: a Constitution save against 15 avoids it); every enemy is diseased for 3 turns (a Constitution save against 18 + level + bonusSpellDC avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. An arcane spell of the seventh level. Takes a seventh-level slot.
+6d8 + level necrotic damage to every enemy (halved if resisted; may cause diseased: a Constitution save against 15 avoids it); every enemy is diseased for 3 turns (a Constitution save against 18 + level + the caster's spell bonus avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. An arcane spell of the seventh level. Takes a seventh-level slot.
 
 > Infect enemies with a virulent disease that worsens over time.
 
@@ -5719,7 +5719,7 @@ Call one of: discerner, mind destroyer, mouther, ooze, automaton, funerary bronz
 
 *Faithful · level 7 arcane spell, necromancy* · `ability:finger_of_death`
 
-10d6 + level necrotic damage to one enemy (halved if resisted; may cause diseased: a Constitution save against 15 avoids it); slay it (a Constitution save against 16 + level + bonusSpellDC avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. An arcane spell of the seventh level. Takes a seventh-level slot.
+10d6 + level necrotic damage to one enemy (halved if resisted; may cause diseased: a Constitution save against 15 avoids it); slay it (a Constitution save against 16 + level + the caster's spell bonus avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. An arcane spell of the seventh level. Takes a seventh-level slot.
 
 > Send negative energy that can instantly kill a creature.
 
@@ -5737,7 +5737,7 @@ Call one of: discerner, mind destroyer, mouther, ooze, automaton, funerary bronz
 
 *Faithful · level 7 arcane spell, enchantment* · `ability:mass_charm`
 
-Every enemy is charmed for 3 turns (only humanoid creatures; a Wisdom save against 19 + level + bonusSpellDC avoids it). Charmed: fights for the other side. An arcane spell of the seventh level. Takes a seventh-level slot.
+Every enemy is charmed for 3 turns (only humanoid creatures; a Wisdom save against 19 + level + the caster's spell bonus avoids it). Charmed: fights for the other side. An arcane spell of the seventh level. Takes a seventh-level slot.
 
 > Charm multiple humanoid enemies, making them friendly towards you.
 
@@ -5745,7 +5745,7 @@ Every enemy is charmed for 3 turns (only humanoid creatures; a Wisdom save again
 
 *Faithful · level 7 arcane spell, illusion* · `ability:mass_confuse`
 
-Every enemy is confused for 3 turns (a Wisdom save against 18 + level + bonusSpellDC avoids it). Confused: acts at random. An arcane spell of the seventh level. Takes a seventh-level slot.
+Every enemy is confused for 3 turns (a Wisdom save against 18 + level + the caster's spell bonus avoids it). Confused: acts at random. An arcane spell of the seventh level. Takes a seventh-level slot.
 
 > Confuse multiple enemies, causing them to act randomly.
 
@@ -5789,7 +5789,7 @@ Call one of: dragon, drake, wyrm, wyvern, behemoth, colossus, titan, angel, arch
 
 *Faithful · level 7 arcane spell, transmutation* · `ability:warp`
 
-On one enemy, one of these, drawn at random: it is stunned for 3 turns (a Constitution save against 15 + level + bonusSpellDC avoids it) / it gains slow for 3 turns (a Dexterity save against 15 + level + bonusSpellDC avoids it) / it is weakened for 3 turns (a Constitution save against 15 + level + bonusSpellDC avoids it) / it is distracted for 3 turns (a Wisdom save against 15 + level + bonusSpellDC avoids it); on it, one of these, drawn at random: it is cursed for 3 turns (a Wisdom save against 15 + level + bonusSpellDC avoids it) / it is insane for 3 turns (an Intelligence save against 15 + level + bonusSpellDC avoids it) / it is charmed for 3 turns (a Wisdom save against 15 + level + bonusSpellDC avoids it) / it is frightened for 3 turns (a Wisdom save against 15 + level + bonusSpellDC avoids it). An arcane spell of the seventh level. Takes a seventh-level slot.
+On one enemy, one of these, drawn at random: it is stunned for 3 turns (a Constitution save against 15 + level + the caster's spell bonus avoids it) / it gains slow for 3 turns (a Dexterity save against 15 + level + the caster's spell bonus avoids it) / it is weakened for 3 turns (a Constitution save against 15 + level + the caster's spell bonus avoids it) / it is distracted for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it); on it, one of these, drawn at random: it is cursed for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it) / it is insane for 3 turns (an Intelligence save against 15 + level + the caster's spell bonus avoids it) / it is charmed for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it) / it is frightened for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it). An arcane spell of the seventh level. Takes a seventh-level slot.
 
 > Distort the fabric of reality around an enemy, causing unpredictable effects.
 
@@ -5823,7 +5823,7 @@ On every enemy, one of these, drawn at random: 6d6 (6–36) fire damage to it (h
 
 *Faithful · level 8 arcane spell, necromancy* · `ability:greater_contagion`
 
-5d6 + level necrotic damage to every enemy (halved if resisted; may cause diseased: a Constitution save against 15 avoids it); every enemy is diseased for 3 turns (a Constitution save against 20 + level + bonusSpellDC avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. An arcane spell of the eighth level. Takes an eighth-level slot.
+5d6 + level necrotic damage to every enemy (halved if resisted; may cause diseased: a Constitution save against 15 avoids it); every enemy is diseased for 3 turns (a Constitution save against 20 + level + the caster's spell bonus avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. An arcane spell of the eighth level. Takes an eighth-level slot.
 
 > Infect multiple enemies with a deadly disease that worsens rapidly.
 
@@ -5831,7 +5831,7 @@ On every enemy, one of these, drawn at random: 6d6 (6–36) fire damage to it (h
 
 *Faithful · level 8 arcane spell, enchantment* · `ability:greater_distraction`
 
-Every enemy is severely distracted for 7 turns (a Wisdom save against 18 + level + bonusSpellDC avoids it). Severely Distracted: −2 to hit, −2 damage, −10 evasion, −1 to every roll. An arcane spell of the eighth level. Takes an eighth-level slot.
+Every enemy is severely distracted for 7 turns (a Wisdom save against 18 + level + the caster's spell bonus avoids it). Severely Distracted: −2 to hit, −2 damage, −10 evasion, −1 to every roll. An arcane spell of the eighth level. Takes an eighth-level slot.
 
 > Extremely distract enemies, giving them a -6 penalty to attack rolls for 5 rounds.
 
@@ -5873,7 +5873,7 @@ Call one of: dragon, drake, wyrm, wyvern, behemoth, colossus, titan, angel, arch
 
 *Faithful · level 8 arcane spell, illusion* · `ability:symbol_of_insanity`
 
-Every enemy is insane for 3 turns (a Wisdom save against 19 + level + bonusSpellDC avoids it). Insane: −1 to every roll, −2 to will saves, acts at random. An arcane spell of the eighth level. Takes an eighth-level slot.
+Every enemy is insane for 3 turns (a Wisdom save against 19 + level + the caster's spell bonus avoids it). Insane: −1 to every roll, −2 to will saves, acts at random. An arcane spell of the eighth level. Takes an eighth-level slot.
 
 > Insanity-inducing symbol that affects all enemies within range.
 
@@ -5979,7 +5979,7 @@ Heal one ally for 1d4 (1–4). A divine cantrip, cast at will.
 
 *Faithful · cantrip divine spell, death domain* · `ability:curse`
 
-One enemy is cursed for 3 turns (a Wisdom save against 10 + level + bonusSpellDC avoids it). Cursed: Strength −1, Dexterity −1, Intelligence −1, Wisdom −1, Charisma −1, Constitution −1. A divine cantrip, cast at will.
+One enemy is cursed for 3 turns (a Wisdom save against 10 + level + the caster's spell bonus avoids it). Cursed: Strength −1, Dexterity −1, Intelligence −1, Wisdom −1, Charisma −1, Constitution −1. A divine cantrip, cast at will.
 
 > Curse an enemy.
 
@@ -5995,7 +5995,7 @@ You are blessed for 3 turns; you are keen weapon for 3 turns. Blessed: +1 to hit
 
 *Faithful · cantrip divine spell, darkness domain* · `ability:gloom`
 
-Every enemy gains despair for 3 turns (a Wisdom save against 15 + level + bonusSpellDC avoids it). Despair: −2 to hit, −2 damage, −2 to every save, Charisma −2. A divine cantrip, cast at will.
+Every enemy gains despair for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it). Despair: −2 to hit, −2 damage, −2 to every save, Charisma −2. A divine cantrip, cast at will.
 
 > Envelop an area in magical darkness.
 
@@ -6013,7 +6013,7 @@ Every enemy gains despair for 3 turns (a Wisdom save against 15 + level + bonusS
 
 *Faithful · cantrip divine spell, storm domain* · `ability:gust`
 
-1d2 + level sonic damage to one enemy (halved if resisted; may cause deafened: a Constitution save against 15 avoids it; may cause migraine: a Wisdom save against 15 avoids it); 1 + level bludgeoning damage to it (halved if resisted; may cause stunned: a Constitution save against 15 avoids it); it is prone for 3 turns (a Dexterity save against 12 + level + bonusSpellDC avoids it). Deafened: −2 to hit, 2 easier to hit, −2 damage, −1 to every save, resists 50% of sonic. Migraine: takes 200% more radiant, takes 200% more sonic. Stunned: −2 to every roll, cannot act. Prone: Dexterity −2, cannot act. A divine cantrip, cast at will.
+1d2 + level sonic damage to one enemy (halved if resisted; may cause deafened: a Constitution save against 15 avoids it; may cause migraine: a Wisdom save against 15 avoids it); 1 + level bludgeoning damage to it (halved if resisted; may cause stunned: a Constitution save against 15 avoids it); it is prone for 3 turns (a Dexterity save against 12 + level + the caster's spell bonus avoids it). Deafened: −2 to hit, 2 easier to hit, −2 damage, −1 to every save, resists 50% of sonic. Migraine: takes 200% more radiant, takes 200% more sonic. Stunned: −2 to every roll, cannot act. Prone: Dexterity −2, cannot act. A divine cantrip, cast at will.
 
 > Create a strong gust of wind that knocks back an enemy.
 
@@ -6021,7 +6021,7 @@ Every enemy gains despair for 3 turns (a Wisdom save against 15 + level + bonusS
 
 *Faithful · cantrip divine spell, law domain* · `ability:hold_animal`
 
-One enemy is paralyzed for 3 turns (only animal creatures; a Strength save against 15 + level + bonusSpellDC avoids it). Paralyzed: Strength −5, Dexterity −5, cannot act. A divine cantrip, cast at will.
+One enemy is paralyzed for 3 turns (only animal creatures; a Strength save against 15 + level + the caster's spell bonus avoids it). Paralyzed: Strength −5, Dexterity −5, cannot act. A divine cantrip, cast at will.
 
 > Paralyze a small animal for a short duration.
 
@@ -6029,7 +6029,7 @@ One enemy is paralyzed for 3 turns (only animal creatures; a Strength save again
 
 *Faithful · cantrip divine spell, chaos domain* · `ability:ire`
 
-1d4 (1–4) psychic damage to one enemy (halved if resisted; may cause confused: a Wisdom save against 15 avoids it; may cause insane: an Intelligence save against 15 avoids it); it is mocked for 2 turns (a Wisdom save against 15 + level + bonusSpellDC avoids it). Confused: acts at random. Insane: −1 to every roll, −2 to will saves, acts at random. Mocked: −1 to hit, −1 damage, −1 to every save. A divine cantrip, cast at will.
+1d4 (1–4) psychic damage to one enemy (halved if resisted; may cause confused: a Wisdom save against 15 avoids it; may cause insane: an Intelligence save against 15 avoids it); it is mocked for 2 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it). Confused: acts at random. Insane: −1 to every roll, −2 to will saves, acts at random. Mocked: −1 to hit, −1 damage, −1 to every save. A divine cantrip, cast at will.
 
 > Deal a tiny amount of damage and mock an enemy.
 
@@ -6069,7 +6069,7 @@ Drain 1d4 (1–4) health from one enemy (none if resisted; may cause diseased: a
 
 *Faithful · cantrip divine spell, ocean domain* · `ability:salt_spray`
 
-1d3 (1–3) cold damage to one enemy (halved if resisted; may cause frozen: a Dexterity save against 15 avoids it); it is drenched for 3 turns (a Wisdom save against 15 + level + bonusSpellDC avoids it). Frozen: Dexterity −5, cannot act. Drenched: −2 to hit, takes 100% more lightning, takes 200% more cold. A divine cantrip, cast at will.
+1d3 (1–3) cold damage to one enemy (halved if resisted; may cause frozen: a Dexterity save against 15 avoids it); it is drenched for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it). Frozen: Dexterity −5, cannot act. Drenched: −2 to hit, takes 100% more lightning, takes 200% more cold. A divine cantrip, cast at will.
 
 > Spray a burst of salty water at an enemy.
 
@@ -6103,7 +6103,7 @@ Heal every ally for 1d3 + level. A divine cantrip, cast at will.
 
 *Faithful · cantrip divine spell, light domain* · `ability:sunmark`
 
-1d3 (1–3) radiant damage to one enemy (may cause blinded: a Dexterity save against 15 avoids it); it is sunmarked for 3 turns (a Wisdom save against 15 + level + bonusSpellDC avoids it). Blinded: −4 to hit, −10 evasion, −2 to every roll. Sunmarked: −1 against magic, takes 25% more fire, takes 25% more radiant; and when attacked, 1d4 (1–4) radiant damage to whoever has it (may cause blinded: a Dexterity save against 15 avoids it). A divine cantrip, cast at will.
+1d3 (1–3) radiant damage to one enemy (may cause blinded: a Dexterity save against 15 avoids it); it is sunmarked for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it). Blinded: −4 to hit, −10 evasion, −2 to every roll. Sunmarked: −1 against magic, takes 25% more fire, takes 25% more radiant; and when attacked, 1d4 (1–4) radiant damage to whoever has it (may cause blinded: a Dexterity save against 15 avoids it). A divine cantrip, cast at will.
 
 > Light up an enemy with a radiant mark.
 
@@ -6111,7 +6111,7 @@ Heal every ally for 1d3 + level. A divine cantrip, cast at will.
 
 *Faithful · cantrip divine spell, nature domain* · `ability:thorn_whip`
 
-1d3 (1–3) piercing damage to one enemy (may cause bleeding: a Constitution save against 15 avoids it); it is entangled for 3 turns (a Dexterity save against 15 + level + bonusSpellDC avoids it). Bleeding: takes 1d2 (1–2) bleed damage each turn. Entangled: −2 to hit, −5 evasion, −5 initiative, Dexterity −5. A divine cantrip, cast at will.
+1d3 (1–3) piercing damage to one enemy (may cause bleeding: a Constitution save against 15 avoids it); it is entangled for 3 turns (a Dexterity save against 15 + level + the caster's spell bonus avoids it). Bleeding: takes 1d2 (1–2) bleed damage each turn. Entangled: −2 to hit, −5 evasion, −5 initiative, Dexterity −5. A divine cantrip, cast at will.
 
 > Create a whip of thorns to strike an enemy.
 
@@ -6145,7 +6145,7 @@ Every ally is anointed for 5 turns. Anointed: +1 to hit, +1 damage, +2 to every 
 
 *Faithful · level 1 divine spell, ocean domain* · `ability:aqua_bolt`
 
-1d6 (1–6) cold damage to one enemy (halved if resisted; may cause frozen: a Dexterity save against 15 avoids it); it is drenched for 3 turns (a Wisdom save against 15 + level + bonusSpellDC avoids it). Frozen: Dexterity −5, cannot act. Drenched: −2 to hit, takes 100% more lightning, takes 200% more cold. A divine spell of the first level. Takes a first-level slot.
+1d6 (1–6) cold damage to one enemy (halved if resisted; may cause frozen: a Dexterity save against 15 avoids it); it is drenched for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it). Frozen: Dexterity −5, cannot act. Drenched: −2 to hit, takes 100% more lightning, takes 200% more cold. A divine spell of the first level. Takes a first-level slot.
 
 > Hurl a bolt of water at an enemy.
 
@@ -6177,7 +6177,7 @@ One ally is blessed for 3 turns. Blessed: +1 to hit, +1 damage. A divine spell o
 
 *Faithful · level 1 divine spell, chaos domain* · `ability:confuse`
 
-One enemy is confused for 3 turns (a Wisdom save against 15 + level + bonusSpellDC avoids it). Confused: acts at random. A divine spell of the first level. Takes a first-level slot.
+One enemy is confused for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it). Confused: acts at random. A divine spell of the first level. Takes a first-level slot.
 
 > Confuse an enemy, causing them to act erratically.
 
@@ -6201,7 +6201,7 @@ Heal one ally for 1d8 (1–8). A divine spell of the first level. Takes a first-
 
 *Faithful · level 1 divine spell, darkness domain* · `ability:heat_drain`
 
-2d4 (2–8) cold damage to one enemy (may cause frozen: a Dexterity save against 15 avoids it); it gains slow for 3 turns (a Dexterity save against 15 + level + bonusSpellDC avoids it). Frozen: Dexterity −5, cannot act. Slow: −10 initiative, Dexterity −5, -1 more blows a turn. A divine spell of the first level. Takes a first-level slot.
+2d4 (2–8) cold damage to one enemy (may cause frozen: a Dexterity save against 15 avoids it); it gains slow for 3 turns (a Dexterity save against 15 + level + the caster's spell bonus avoids it). Frozen: Dexterity −5, cannot act. Slow: −10 initiative, Dexterity −5, -1 more blows a turn. A divine spell of the first level. Takes a first-level slot.
 
 > Drain heat from an enemy, causing damage and slowing them.
 
@@ -6257,7 +6257,7 @@ You are hidden for 3 turns; you are fox's cunning for 3 turns. Hidden: 4 harder 
 
 *Faithful · level 1 divine spell, nature domain* · `ability:entangle`
 
-Every enemy is entangled for 3 turns (a Dexterity save against 15 + level + bonusSpellDC avoids it). Entangled: −2 to hit, −5 evasion, −5 initiative, Dexterity −5. A divine spell of the first level. Takes a first-level slot.
+Every enemy is entangled for 3 turns (a Dexterity save against 15 + level + the caster's spell bonus avoids it). Entangled: −2 to hit, −5 evasion, −5 initiative, Dexterity −5. A divine spell of the first level. Takes a first-level slot.
 
 > Summon vines to entangle your foes.
 
@@ -6265,7 +6265,7 @@ Every enemy is entangled for 3 turns (a Dexterity save against 15 + level + bonu
 
 *Faithful · level 1 divine spell, poison domain* · `ability:venomous_bite`
 
-1d6 (1–6) poison damage to one enemy (halved if resisted; may cause poison: a Constitution save against 15 avoids it); it gains poison for 3 turns (a Constitution save against 12 + level + bonusSpellDC avoids it). Poison: takes 1d4 (1–4) true damage each turn. A divine spell of the first level. Takes a first-level slot.
+1d6 (1–6) poison damage to one enemy (halved if resisted; may cause poison: a Constitution save against 15 avoids it); it gains poison for 3 turns (a Constitution save against 12 + level + the caster's spell bonus avoids it). Poison: takes 1d4 (1–4) true damage each turn. A divine spell of the first level. Takes a first-level slot.
 
 > Deal poison damage to an enemy with a venomous strike.
 
@@ -6275,7 +6275,7 @@ Every enemy is entangled for 3 turns (a Dexterity save against 15 + level + bonu
 
 *Faithful · level 2 divine spell, nature domain* · `ability:calm_emotions`
 
-Every enemy gains calm for 3 turns (a Wisdom save against 15 + level + bonusSpellDC avoids it). Calm: +1 to hit, +2 to will saves, immune to fear, immune to insanity. A divine spell of the second level. Takes a second-level slot.
+Every enemy gains calm for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it). Calm: +1 to hit, +2 to will saves, immune to fear, immune to insanity. A divine spell of the second level. Takes a second-level slot.
 
 > Soothe strong emotions in a group of creatures.
 
@@ -6283,7 +6283,7 @@ Every enemy gains calm for 3 turns (a Wisdom save against 15 + level + bonusSpel
 
 *Faithful · level 2 divine spell, chaos domain* · `ability:chaotic_surge`
 
-1d8 (1–8) psychic damage to every enemy (halved if resisted; may cause confused: a Wisdom save against 15 avoids it; may cause insane: an Intelligence save against 15 avoids it); on every enemy, one of these, drawn at random: it is confused for 3 turns (a Wisdom save against 14 + level + bonusSpellDC avoids it) / it gains slow for 3 turns (a Constitution save against 14 + level + bonusSpellDC avoids it) / it is distracted for 3 turns (a Wisdom save against 16 + level + bonusSpellDC avoids it). Confused: acts at random. Insane: −1 to every roll, −2 to will saves, acts at random. A divine spell of the second level. Takes a second-level slot.
+1d8 (1–8) psychic damage to every enemy (halved if resisted; may cause confused: a Wisdom save against 15 avoids it; may cause insane: an Intelligence save against 15 avoids it); on every enemy, one of these, drawn at random: it is confused for 3 turns (a Wisdom save against 14 + level + the caster's spell bonus avoids it) / it gains slow for 3 turns (a Constitution save against 14 + level + the caster's spell bonus avoids it) / it is distracted for 3 turns (a Wisdom save against 16 + level + the caster's spell bonus avoids it). Confused: acts at random. Insane: −1 to every roll, −2 to will saves, acts at random. A divine spell of the second level. Takes a second-level slot.
 
 > Unleash a surge of chaotic energy that damages and disorients enemies.
 
@@ -6291,7 +6291,7 @@ Every enemy gains calm for 3 turns (a Wisdom save against 15 + level + bonusSpel
 
 *Faithful · level 2 divine spell, darkness domain* · `ability:create_darkness`
 
-Every enemy is blinded for 3 turns (a Dexterity save against 15 + level + bonusSpellDC avoids it). Blinded: −4 to hit, −10 evasion, −2 to every roll. A divine spell of the second level. Takes a second-level slot.
+Every enemy is blinded for 3 turns (a Dexterity save against 15 + level + the caster's spell bonus avoids it). Blinded: −4 to hit, −10 evasion, −2 to every roll. A divine spell of the second level. Takes a second-level slot.
 
 > Create an area of magical darkness that obscures vision.
 
@@ -6325,7 +6325,7 @@ Heal one ally for 1d8 + level. A divine spell of the second level. Takes a secon
 
 *Faithful · level 2 divine spell, law domain* · `ability:hold_person`
 
-One enemy is paralyzed for 3 turns (only humanoid creatures; a Strength save against 20 + level + bonusSpellDC avoids it). Paralyzed: Strength −5, Dexterity −5, cannot act. A divine spell of the second level. Takes a second-level slot.
+One enemy is paralyzed for 3 turns (only humanoid creatures; a Strength save against 20 + level + the caster's spell bonus avoids it). Paralyzed: Strength −5, Dexterity −5, cannot act. A divine spell of the second level. Takes a second-level slot.
 
 > Paralyze an enemy for 4 rounds.
 
@@ -6333,7 +6333,7 @@ One enemy is paralyzed for 3 turns (only humanoid creatures; a Strength save aga
 
 *Faithful · level 2 divine spell, war domain* · `ability:holy_wrath`
 
-3d6 (3–18) radiant damage to every enemy (halved if resisted; may cause blinded: a Dexterity save against 15 avoids it); every enemy is stunned for 3 turns (a Wisdom save against 16 + level + bonusSpellDC avoids it). Blinded: −4 to hit, −10 evasion, −2 to every roll. Stunned: −2 to every roll, cannot act. A divine spell of the second level. Takes a second-level slot.
+3d6 (3–18) radiant damage to every enemy (halved if resisted; may cause blinded: a Dexterity save against 15 avoids it); every enemy is stunned for 3 turns (a Wisdom save against 16 + level + the caster's spell bonus avoids it). Blinded: −4 to hit, −10 evasion, −2 to every roll. Stunned: −2 to every roll, cannot act. A divine spell of the second level. Takes a second-level slot.
 
 > Unleash a burst of holy energy that damages and stuns enemies.
 
@@ -6397,7 +6397,7 @@ One ally is fireproof for 3 turns. Fireproof: resists 50% of fire. A divine spel
 
 *Faithful · level 2 divine spell, darkness domain* · `ability:shadow_bind`
 
-One enemy is entangled for 3 turns (a Dexterity save against 15 + level + bonusSpellDC avoids it); it gains slow for 3 turns (a Wisdom save against 18 + level + bonusSpellDC avoids it). Entangled: −2 to hit, −5 evasion, −5 initiative, Dexterity −5. Slow: −10 initiative, Dexterity −5, -1 more blows a turn. A divine spell of the second level. Takes a second-level slot.
+One enemy is entangled for 3 turns (a Dexterity save against 15 + level + the caster's spell bonus avoids it); it gains slow for 3 turns (a Wisdom save against 18 + level + the caster's spell bonus avoids it). Entangled: −2 to hit, −5 evasion, −5 initiative, Dexterity −5. Slow: −10 initiative, Dexterity −5, -1 more blows a turn. A divine spell of the second level. Takes a second-level slot.
 
 > Bind an enemy with shadowy tendrils.
 
@@ -6413,7 +6413,7 @@ One ally is shielded for 10 turns. Shielded: 1 harder to hit, +1 against magic, 
 
 *Faithful · level 2 divine spell, nature domain* · `ability:spike_growth`
 
-2d6 (2–12) piercing damage to every enemy (may cause bleeding: a Constitution save against 15 avoids it); every enemy gains slow for 3 turns (a Dexterity save against 15 + level + bonusSpellDC avoids it). Bleeding: takes 1d2 (1–2) bleed damage each turn. Slow: −10 initiative, Dexterity −5, -1 more blows a turn. A divine spell of the second level. Takes a second-level slot.
+2d6 (2–12) piercing damage to every enemy (may cause bleeding: a Constitution save against 15 avoids it); every enemy gains slow for 3 turns (a Dexterity save against 15 + level + the caster's spell bonus avoids it). Bleeding: takes 1d2 (1–2) bleed damage each turn. Slow: −10 initiative, Dexterity −5, -1 more blows a turn. A divine spell of the second level. Takes a second-level slot.
 
 > Cause the ground to sprout painful spikes.
 
@@ -6421,7 +6421,7 @@ One ally is shielded for 10 turns. Shielded: 1 harder to hit, +1 against magic, 
 
 *Faithful · level 2 divine spell, love domain* · `ability:sweet_whisper`
 
-One enemy is distracted for 4 turns (only humanoid creatures; a Wisdom save against 14 + level + bonusSpellDC avoids it). Distracted: −1 to hit, −1 damage, −5 evasion. A divine spell of the second level. Takes a second-level slot.
+One enemy is distracted for 4 turns (only humanoid creatures; a Wisdom save against 14 + level + the caster's spell bonus avoids it). Distracted: −1 to hit, −1 damage, −5 evasion. A divine spell of the second level. Takes a second-level slot.
 
 > Soothe an enemy, reducing their aggression.
 
@@ -6429,7 +6429,7 @@ One enemy is distracted for 4 turns (only humanoid creatures; a Wisdom save agai
 
 *Faithful · level 2 divine spell, death domain* · `ability:terror`
 
-One enemy is frightened for 3 turns (a Wisdom save against 15 + level + bonusSpellDC avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. A divine spell of the second level. Takes a second-level slot.
+One enemy is frightened for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. A divine spell of the second level. Takes a second-level slot.
 
 > Frighten an enemy.
 
@@ -6447,7 +6447,7 @@ Every ally is inspired for 3 turns; every ally gains courage for 3 turns; every 
 
 *Faithful · level 3 divine spell, love domain* · `ability:charming_glance`
 
-One enemy is charmed for 3 turns (only humanoid creatures; a Wisdom save against 15 + level + bonusSpellDC avoids it). Charmed: fights for the other side. A divine spell of the third level. Takes a third-level slot.
+One enemy is charmed for 3 turns (only humanoid creatures; a Wisdom save against 15 + level + the caster's spell bonus avoids it). Charmed: fights for the other side. A divine spell of the third level. Takes a third-level slot.
 
 > Charm a humanoid enemy for a short duration.
 
@@ -6455,7 +6455,7 @@ One enemy is charmed for 3 turns (only humanoid creatures; a Wisdom save against
 
 *Faithful · level 3 divine spell, storm domain* · `ability:cloudburst`
 
-Every enemy is drenched for 8 turns (a Wisdom save against 15 + level + bonusSpellDC avoids it). Drenched: −2 to hit, takes 100% more lightning, takes 200% more cold. A divine spell of the third level. Takes a third-level slot.
+Every enemy is drenched for 8 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it). Drenched: −2 to hit, takes 100% more lightning, takes 200% more cold. A divine spell of the third level. Takes a third-level slot.
 
 > Summon a storm cloud that drenches enemies in an area.
 
@@ -6463,7 +6463,7 @@ Every enemy is drenched for 8 turns (a Wisdom save against 15 + level + bonusSpe
 
 *Faithful · level 3 divine spell, darkness domain* · `ability:cold_embrace`
 
-2d6 (2–12) cold damage to every enemy (may cause frozen: a Dexterity save against 15 avoids it); every enemy gains slow for 3 turns (a Dexterity save against 15 + level + bonusSpellDC avoids it). Frozen: Dexterity −5, cannot act. Slow: −10 initiative, Dexterity −5, -1 more blows a turn. A divine spell of the third level. Takes a third-level slot.
+2d6 (2–12) cold damage to every enemy (may cause frozen: a Dexterity save against 15 avoids it); every enemy gains slow for 3 turns (a Dexterity save against 15 + level + the caster's spell bonus avoids it). Frozen: Dexterity −5, cannot act. Slow: −10 initiative, Dexterity −5, -1 more blows a turn. A divine spell of the third level. Takes a third-level slot.
 
 > Produce a chilling aura that damages nearby enemies.
 
@@ -6495,7 +6495,7 @@ Heal one ally for 2d8 (2–16). A divine spell of the third level. Takes a third
 
 *Faithful · level 3 divine spell, death domain* · `ability:dirge`
 
-Every enemy is weakened for 3 turns (a Wisdom save against 15 + level + bonusSpellDC avoids it). Weakened: −2 damage, Strength −2. A divine spell of the third level. Takes a third-level slot.
+Every enemy is weakened for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it). Weakened: −2 damage, Strength −2. A divine spell of the third level. Takes a third-level slot.
 
 > A mournful song that weakens your enemies.
 
@@ -6503,7 +6503,7 @@ Every enemy is weakened for 3 turns (a Wisdom save against 15 + level + bonusSpe
 
 *Faithful · level 3 divine spell, poison domain* · `ability:inflict_disease`
 
-2d6 (2–12) poison damage to one enemy (halved if resisted; may cause poison: a Constitution save against 15 avoids it); it is diseased for 3 turns (a Constitution save against 15 + level + bonusSpellDC avoids it). Poison: takes 1d4 (1–4) true damage each turn. Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. A divine spell of the third level. Takes a third-level slot.
+2d6 (2–12) poison damage to one enemy (halved if resisted; may cause poison: a Constitution save against 15 avoids it); it is diseased for 3 turns (a Constitution save against 15 + level + the caster's spell bonus avoids it). Poison: takes 1d4 (1–4) true damage each turn. Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. A divine spell of the third level. Takes a third-level slot.
 
 > Inflict a minor disease on an enemy.
 
@@ -6511,7 +6511,7 @@ Every enemy is weakened for 3 turns (a Wisdom save against 15 + level + bonusSpe
 
 *Faithful · level 3 divine spell, chaos domain* · `ability:mad_whispers`
 
-1d12 (1–12) psychic damage to one enemy (halved if resisted; may cause confused: a Wisdom save against 15 avoids it; may cause insane: an Intelligence save against 15 avoids it); it is confused for 3 turns (a Wisdom save against 18 + level + bonusSpellDC avoids it); it gains slow for 3 turns (a Constitution save against 18 + level + bonusSpellDC avoids it); it is stunned for 3 turns (a Wisdom save against 18 + level + bonusSpellDC avoids it); it is distracted for 3 turns (a Wisdom save against 18 + level + bonusSpellDC avoids it). Confused: acts at random. Insane: −1 to every roll, −2 to will saves, acts at random. Slow: −10 initiative, Dexterity −5, -1 more blows a turn. Stunned: −2 to every roll, cannot act. Distracted: −1 to hit, −1 damage, −5 evasion. A divine spell of the third level. Takes a third-level slot.
+1d12 (1–12) psychic damage to one enemy (halved if resisted; may cause confused: a Wisdom save against 15 avoids it; may cause insane: an Intelligence save against 15 avoids it); it is confused for 3 turns (a Wisdom save against 18 + level + the caster's spell bonus avoids it); it gains slow for 3 turns (a Constitution save against 18 + level + the caster's spell bonus avoids it); it is stunned for 3 turns (a Wisdom save against 18 + level + the caster's spell bonus avoids it); it is distracted for 3 turns (a Wisdom save against 18 + level + the caster's spell bonus avoids it). Confused: acts at random. Insane: −1 to every roll, −2 to will saves, acts at random. Slow: −10 initiative, Dexterity −5, -1 more blows a turn. Stunned: −2 to every roll, cannot act. Distracted: −1 to hit, −1 damage, −5 evasion. A divine spell of the third level. Takes a third-level slot.
 
 > Whisper maddening secrets to an enemy.
 
@@ -6519,7 +6519,7 @@ Every enemy is weakened for 3 turns (a Wisdom save against 15 + level + bonusSpe
 
 *Faithful · level 3 divine spell, death domain* · `ability:mass_curse`
 
-Every enemy is cursed for 3 turns (a Wisdom save against 15 + level + bonusSpellDC avoids it). Cursed: Strength −1, Dexterity −1, Intelligence −1, Wisdom −1, Charisma −1, Constitution −1. A divine spell of the third level. Takes a third-level slot.
+Every enemy is cursed for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it). Cursed: Strength −1, Dexterity −1, Intelligence −1, Wisdom −1, Charisma −1, Constitution −1. A divine spell of the third level. Takes a third-level slot.
 
 > Your venomous words fill your enemies with a sense of doom.
 
@@ -6559,7 +6559,7 @@ Call one of: bear, wolf, eagle, stag, to fight for you until the fight ends. A d
 
 *Faithful · level 3 divine spell, ocean domain* · `ability:tidal_wave`
 
-1d10 (1–10) cold damage to every enemy (halved if resisted; may cause frozen: a Dexterity save against 15 avoids it); every enemy is drenched for 6 turns (a Wisdom save against 15 + level + bonusSpellDC avoids it); every enemy is prone for 3 turns (a Constitution save against 18 + level + bonusSpellDC avoids it). Frozen: Dexterity −5, cannot act. Drenched: −2 to hit, takes 100% more lightning, takes 200% more cold. Prone: Dexterity −2, cannot act. A divine spell of the third level. Takes a third-level slot.
+1d10 (1–10) cold damage to every enemy (halved if resisted; may cause frozen: a Dexterity save against 15 avoids it); every enemy is drenched for 6 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it); every enemy is prone for 3 turns (a Constitution save against 18 + level + the caster's spell bonus avoids it). Frozen: Dexterity −5, cannot act. Drenched: −2 to hit, takes 100% more lightning, takes 200% more cold. Prone: Dexterity −2, cannot act. A divine spell of the third level. Takes a third-level slot.
 
 > Summon a massive wave to crash down on your enemies.
 
@@ -6577,7 +6577,7 @@ Every enemy is fleeing for 2 turns (only undead creatures; a Wisdom save against
 
 *Faithful · level 4 divine spell, chaos domain* · `ability:agony`
 
-2d6 (2–12) psychic damage to one enemy (halved if resisted; may cause confused: a Wisdom save against 15 avoids it; may cause insane: an Intelligence save against 15 avoids it); it gains agony for 3 turns (a Wisdom save against 20 + level + bonusSpellDC avoids it). Confused: acts at random. Insane: −1 to every roll, −2 to will saves, acts at random. Agony: Intelligence −1, Wisdom −1, takes 2d4 (2–8) necrotic damage each turn. A divine spell of the fourth level. Takes a fourth-level slot.
+2d6 (2–12) psychic damage to one enemy (halved if resisted; may cause confused: a Wisdom save against 15 avoids it; may cause insane: an Intelligence save against 15 avoids it); it gains agony for 3 turns (a Wisdom save against 20 + level + the caster's spell bonus avoids it). Confused: acts at random. Insane: −1 to every roll, −2 to will saves, acts at random. Agony: Intelligence −1, Wisdom −1, takes 2d4 (2–8) necrotic damage each turn. A divine spell of the fourth level. Takes a fourth-level slot.
 
 > Inflict intense pain on an enemy.
 
@@ -6609,7 +6609,7 @@ Heal one ally for 3d8 (3–24). A divine spell of the fourth level. Takes a four
 
 *Faithful · level 4 divine spell, death domain* · `ability:deathtouch`
 
-3d6 (3–18) necrotic damage to one enemy (halved if resisted; may cause diseased: a Constitution save against 15 avoids it); it is cursed for 3 turns (a Wisdom save against 15 + level + bonusSpellDC avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. Cursed: Strength −1, Dexterity −1, Intelligence −1, Wisdom −1, Charisma −1, Constitution −1. A divine spell of the fourth level. Takes a fourth-level slot.
+3d6 (3–18) necrotic damage to one enemy (halved if resisted; may cause diseased: a Constitution save against 15 avoids it); it is cursed for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. Cursed: Strength −1, Dexterity −1, Intelligence −1, Wisdom −1, Charisma −1, Constitution −1. A divine spell of the fourth level. Takes a fourth-level slot.
 
 > Touch an enemy to curse them.
 
@@ -6617,7 +6617,7 @@ Heal one ally for 3d8 (3–24). A divine spell of the fourth level. Takes a four
 
 *Faithful · level 4 divine spell, love domain* · `ability:flirt`
 
-One enemy is distracted for 6 turns (only humanoid creatures; a Wisdom save against 18 + level + bonusSpellDC avoids it). Distracted: −1 to hit, −1 damage, −5 evasion. A divine spell of the fourth level. Takes a fourth-level slot.
+One enemy is distracted for 6 turns (only humanoid creatures; a Wisdom save against 18 + level + the caster's spell bonus avoids it). Distracted: −1 to hit, −1 damage, −5 evasion. A divine spell of the fourth level. Takes a fourth-level slot.
 
 > Distract an enemy with a playful flirtation.
 
@@ -6649,7 +6649,7 @@ One ally gains courage for 3 turns; that ally gains bear's endurance for 3 turns
 
 *Faithful · level 4 divine spell, darkness domain* · `ability:nightmare`
 
-One enemy is frightened for 3 turns (a Wisdom save against 22 + level + bonusSpellDC avoids it); it is insane for 3 turns (a Wisdom save against 20 + level + bonusSpellDC avoids it); it is confused for 3 turns (a Wisdom save against 18 + level + bonusSpellDC avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. Insane: −1 to every roll, −2 to will saves, acts at random. Confused: acts at random. A divine spell of the fourth level. Takes a fourth-level slot.
+One enemy is frightened for 3 turns (a Wisdom save against 22 + level + the caster's spell bonus avoids it); it is insane for 3 turns (a Wisdom save against 20 + level + the caster's spell bonus avoids it); it is confused for 3 turns (a Wisdom save against 18 + level + the caster's spell bonus avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. Insane: −1 to every roll, −2 to will saves, acts at random. Confused: acts at random. A divine spell of the fourth level. Takes a fourth-level slot.
 
 > Induce terrifying waking nightmares in an enemy.
 
@@ -6665,7 +6665,7 @@ Raise a fallen ally with 50% of their health. A divine spell of the fourth level
 
 *Faithful · level 4 divine spell, nature domain* · `ability:storm_wind`
 
-4d6 + level bludgeoning damage to every enemy (halved if resisted; may cause stunned: a Constitution save against 15 avoids it); every enemy is prone for 3 turns (a Wisdom save against 15 + level + bonusSpellDC avoids it). Stunned: −2 to every roll, cannot act. Prone: Dexterity −2, cannot act. A divine spell of the fourth level. Takes a fourth-level slot.
+4d6 + level bludgeoning damage to every enemy (halved if resisted; may cause stunned: a Constitution save against 15 avoids it); every enemy is prone for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it). Stunned: −2 to every roll, cannot act. Prone: Dexterity −2, cannot act. A divine spell of the fourth level. Takes a fourth-level slot.
 
 > Summon a fierce wind to buffet your enemies.
 
@@ -6673,7 +6673,7 @@ Raise a fallen ally with 50% of their health. A divine spell of the fourth level
 
 *Faithful · level 4 divine spell, storm domain* · `ability:thunderstorm`
 
-2d8 + level electric damage to every enemy (halved if resisted); 1d4 + level sonic damage to every enemy (halved if resisted; may cause deafened: a Constitution save against 15 avoids it; may cause migraine: a Wisdom save against 15 avoids it); every enemy is deafened for 3 turns (a Constitution save against 16 + level + bonusSpellDC avoids it). Deafened: −2 to hit, 2 easier to hit, −2 damage, −1 to every save, resists 50% of sonic. Migraine: takes 200% more radiant, takes 200% more sonic. A divine spell of the fourth level. Takes a fourth-level slot.
+2d8 + level electric damage to every enemy (halved if resisted); 1d4 + level sonic damage to every enemy (halved if resisted; may cause deafened: a Constitution save against 15 avoids it; may cause migraine: a Wisdom save against 15 avoids it); every enemy is deafened for 3 turns (a Constitution save against 16 + level + the caster's spell bonus avoids it). Deafened: −2 to hit, 2 easier to hit, −2 damage, −1 to every save, resists 50% of sonic. Migraine: takes 200% more radiant, takes 200% more sonic. A divine spell of the fourth level. Takes a fourth-level slot.
 
 > Create a thunderstorm that damages and deafens enemies in an area.
 
@@ -6699,7 +6699,7 @@ You are shielded for 3 turns; you gain bear's endurance for 3 turns; you are min
 
 *Faithful · level 5 divine spell, love domain* · `ability:charm_aura`
 
-You are charming for 3 turns. Charming: Charisma +3, Intelligence +2, Wisdom +1; and against an enemy who attacks, that enemy is charmed for 4 turns (only humanoid creatures; a Wisdom save against 16 + level + bonusSpellDC avoids it). A divine spell of the fifth level. Takes a fifth-level slot.
+You are charming for 3 turns. Charming: Charisma +3, Intelligence +2, Wisdom +1; and against an enemy who attacks, that enemy is charmed for 4 turns (only humanoid creatures; a Wisdom save against 16 + level + the caster's spell bonus avoids it). A divine spell of the fifth level. Takes a fifth-level slot.
 
 > Create an aura that and charms enemies who enter it.
 
@@ -6707,7 +6707,7 @@ You are charming for 3 turns. Charming: Charisma +3, Intelligence +2, Wisdom +1;
 
 *Faithful · level 5 divine spell, poison domain* · `ability:cloudkill`
 
-1d8 (1–8) poison damage to every enemy (halved if resisted; may cause poison: a Constitution save against 15 avoids it); every enemy gains poison for 3 turns (a Constitution save against 14 + level + bonusSpellDC avoids it). Poison: takes 1d4 (1–4) true damage each turn. A divine spell of the fifth level. Takes a fifth-level slot.
+1d8 (1–8) poison damage to every enemy (halved if resisted; may cause poison: a Constitution save against 15 avoids it); every enemy gains poison for 3 turns (a Constitution save against 14 + level + the caster's spell bonus avoids it). Poison: takes 1d4 (1–4) true damage each turn. A divine spell of the fifth level. Takes a fifth-level slot.
 
 > Create a cloud of poisonous gas that damages enemies within it.
 
@@ -6715,7 +6715,7 @@ You are charming for 3 turns. Charming: Charisma +3, Intelligence +2, Wisdom +1;
 
 *Faithful · level 5 divine spell, death domain* · `ability:cold_fire`
 
-4d6 (4–24) necrotic damage to one enemy (halved if resisted; may cause diseased: a Constitution save against 15 avoids it); it gains slow for 3 turns (a Constitution save against 18 + level + bonusSpellDC avoids it); it is frozen for 3 turns (a Constitution save against 18 + level + bonusSpellDC avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. Slow: −10 initiative, Dexterity −5, -1 more blows a turn. Frozen: Dexterity −5, cannot act. A divine spell of the fifth level. Takes a fifth-level slot.
+4d6 (4–24) necrotic damage to one enemy (halved if resisted; may cause diseased: a Constitution save against 15 avoids it); it gains slow for 3 turns (a Constitution save against 18 + level + the caster's spell bonus avoids it); it is frozen for 3 turns (a Constitution save against 18 + level + the caster's spell bonus avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. Slow: −10 initiative, Dexterity −5, -1 more blows a turn. Frozen: Dexterity −5, cannot act. A divine spell of the fifth level. Takes a fifth-level slot.
 
 > Unleash a blast of chilling energy.
 
@@ -6747,7 +6747,7 @@ Heal one ally for 4d8 + level; end diseased, poison, cursed, blinded, slow or pa
 
 *Faithful · level 5 divine spell, chaos domain* · `ability:heartrend`
 
-3d6 (3–18) psychic damage to one enemy (halved if resisted; may cause confused: a Wisdom save against 15 avoids it; may cause insane: an Intelligence save against 15 avoids it); it gains despair for 3 turns (a Wisdom save against 22 + level + bonusSpellDC avoids it); it is weakened for 3 turns (a Wisdom save against 18 + level + bonusSpellDC avoids it); it is distracted for 3 turns (a Wisdom save against 15 + level + bonusSpellDC avoids it); it is stunned for 3 turns (a Wisdom save against 13 + level + bonusSpellDC avoids it). Confused: acts at random. Insane: −1 to every roll, −2 to will saves, acts at random. Despair: −2 to hit, −2 damage, −2 to every save, Charisma −2. Weakened: −2 damage, Strength −2. Distracted: −1 to hit, −1 damage, −5 evasion. Stunned: −2 to every roll, cannot act. A divine spell of the fifth level. Takes a fifth-level slot.
+3d6 (3–18) psychic damage to one enemy (halved if resisted; may cause confused: a Wisdom save against 15 avoids it; may cause insane: an Intelligence save against 15 avoids it); it gains despair for 3 turns (a Wisdom save against 22 + level + the caster's spell bonus avoids it); it is weakened for 3 turns (a Wisdom save against 18 + level + the caster's spell bonus avoids it); it is distracted for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it); it is stunned for 3 turns (a Wisdom save against 13 + level + the caster's spell bonus avoids it). Confused: acts at random. Insane: −1 to every roll, −2 to will saves, acts at random. Despair: −2 to hit, −2 damage, −2 to every save, Charisma −2. Weakened: −2 damage, Strength −2. Distracted: −1 to hit, −1 damage, −5 evasion. Stunned: −2 to every roll, cannot act. A divine spell of the fifth level. Takes a fifth-level slot.
 
 > Tear at the very soul of an enemy.
 
@@ -6755,7 +6755,7 @@ Heal one ally for 4d8 + level; end diseased, poison, cursed, blinded, slow or pa
 
 *Faithful · level 5 divine spell, ocean domain* · `ability:ice_shard`
 
-3d10 (3–30) cold damage to one enemy (halved if resisted; may cause frozen: a Dexterity save against 15 avoids it); it gains slow for 3 turns (a Constitution save against 18 + level + bonusSpellDC avoids it). Frozen: Dexterity −5, cannot act. Slow: −10 initiative, Dexterity −5, -1 more blows a turn. A divine spell of the fifth level. Takes a fifth-level slot.
+3d10 (3–30) cold damage to one enemy (halved if resisted; may cause frozen: a Dexterity save against 15 avoids it); it gains slow for 3 turns (a Constitution save against 18 + level + the caster's spell bonus avoids it). Frozen: Dexterity −5, cannot act. Slow: −10 initiative, Dexterity −5, -1 more blows a turn. A divine spell of the fifth level. Takes a fifth-level slot.
 
 > Launch a shard of ice that damages and slows an enemy.
 
@@ -6763,7 +6763,7 @@ Heal one ally for 4d8 + level; end diseased, poison, cursed, blinded, slow or pa
 
 *Faithful · level 5 divine spell, storm domain* · `ability:ion_burst`
 
-2d8 + level electric damage to one enemy (halved if resisted); it is stunned for 3 turns (a Wisdom save against 18 + level + bonusSpellDC avoids it). Stunned: −2 to every roll, cannot act. A divine spell of the fifth level. Takes a fifth-level slot.
+2d8 + level electric damage to one enemy (halved if resisted); it is stunned for 3 turns (a Wisdom save against 18 + level + the caster's spell bonus avoids it). Stunned: −2 to every roll, cannot act. A divine spell of the fifth level. Takes a fifth-level slot.
 
 > Release a burst of ionized energy that damages and stuns an enemy.
 
@@ -6805,7 +6805,7 @@ Heal one ally for 4d8 (4–32). A divine spell of the sixth level. Takes a sixth
 
 *Faithful · level 6 divine spell, ocean domain* · `ability:flood`
 
-3d10 (3–30) cold damage to every enemy (halved if resisted; may cause frozen: a Dexterity save against 15 avoids it); every enemy is drenched for 6 turns (a Wisdom save against 15 + level + bonusSpellDC avoids it); every enemy gains slow for 3 turns (a Constitution save against 18 + level + bonusSpellDC avoids it). Frozen: Dexterity −5, cannot act. Drenched: −2 to hit, takes 100% more lightning, takes 200% more cold. Slow: −10 initiative, Dexterity −5, -1 more blows a turn. A divine spell of the sixth level. Takes a sixth-level slot.
+3d10 (3–30) cold damage to every enemy (halved if resisted; may cause frozen: a Dexterity save against 15 avoids it); every enemy is drenched for 6 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it); every enemy gains slow for 3 turns (a Constitution save against 18 + level + the caster's spell bonus avoids it). Frozen: Dexterity −5, cannot act. Drenched: −2 to hit, takes 100% more lightning, takes 200% more cold. Slow: −10 initiative, Dexterity −5, -1 more blows a turn. A divine spell of the sixth level. Takes a sixth-level slot.
 
 > Summon a flood that engulfs your enemies, dealing damage and hindering their movement.
 
@@ -6829,7 +6829,7 @@ Heal one ally for 4d8 (4–32). A divine spell of the sixth level. Takes a sixth
 
 *Faithful · level 6 divine spell, law domain* · `ability:judgment`
 
-6d6 (6–36) radiant damage to one enemy (halved if resisted; may cause blinded: a Dexterity save against 15 avoids it); it is blinded for 3 turns (a Dexterity save against 15 + level + bonusSpellDC avoids it); it is marked for judgment for 3 turns (a Wisdom save against 14 + level + bonusSpellDC avoids it). Blinded: −4 to hit, −10 evasion, −2 to every roll. Marked for Judgment: when healed, 1d6 (1–6) radiant damage to whoever has it (may cause blinded: a Dexterity save against 15 avoids it). A divine spell of the sixth level. Takes a sixth-level slot.
+6d6 (6–36) radiant damage to one enemy (halved if resisted; may cause blinded: a Dexterity save against 15 avoids it); it is blinded for 3 turns (a Dexterity save against 15 + level + the caster's spell bonus avoids it); it is marked for judgment for 3 turns (a Wisdom save against 14 + level + the caster's spell bonus avoids it). Blinded: −4 to hit, −10 evasion, −2 to every roll. Marked for Judgment: when healed, 1d6 (1–6) radiant damage to whoever has it (may cause blinded: a Dexterity save against 15 avoids it). A divine spell of the sixth level. Takes a sixth-level slot.
 
 > Call down divine judgment on an enemy.
 
@@ -6845,7 +6845,7 @@ Heal one ally for 4d8 (4–32). A divine spell of the sixth level. Takes a sixth
 
 *Faithful · level 6 divine spell, chaos domain* · `ability:overwhelming_chaos`
 
-4d6 (4–24) psychic damage to every enemy (halved if resisted; may cause confused: a Wisdom save against 15 avoids it; may cause insane: an Intelligence save against 15 avoids it); every enemy is confused for 3 turns (a Wisdom save against 22 + level + bonusSpellDC avoids it). Confused: acts at random. Insane: −1 to every roll, −2 to will saves, acts at random. A divine spell of the sixth level. Takes a sixth-level slot.
+4d6 (4–24) psychic damage to every enemy (halved if resisted; may cause confused: a Wisdom save against 15 avoids it; may cause insane: an Intelligence save against 15 avoids it); every enemy is confused for 3 turns (a Wisdom save against 22 + level + the caster's spell bonus avoids it). Confused: acts at random. Insane: −1 to every roll, −2 to will saves, acts at random. A divine spell of the sixth level. Takes a sixth-level slot.
 
 > Unleash a torrent of chaotic energy that damages and confuses enemies.
 
@@ -6861,7 +6861,7 @@ Heal one ally for 4d8 (4–32). A divine spell of the sixth level. Takes a sixth
 
 *Faithful · level 6 divine spell, light domain* · `ability:solar_flare`
 
-6d6 (6–36) radiant damage to one enemy (halved if resisted; may cause blinded: a Dexterity save against 15 avoids it); it is blinded for 3 turns (a Wisdom save against 30 + level + bonusSpellDC avoids it). Blinded: −4 to hit, −10 evasion, −2 to every roll. A divine spell of the sixth level. Takes a sixth-level slot.
+6d6 (6–36) radiant damage to one enemy (halved if resisted; may cause blinded: a Dexterity save against 15 avoids it); it is blinded for 3 turns (a Wisdom save against 30 + level + the caster's spell bonus avoids it). Blinded: −4 to hit, −10 evasion, −2 to every roll. A divine spell of the sixth level. Takes a sixth-level slot.
 
 > Blaze a searing flare of sunlight at an enemy.
 
@@ -6885,7 +6885,7 @@ Call one of: earth elemental, air elemental, fire elemental, water elemental, to
 
 *Faithful · level 6 divine spell, poison domain* · `ability:venom_burst`
 
-2d8 (2–16) poison damage to every enemy (halved if resisted; may cause poison: a Constitution save against 15 avoids it); every enemy gains poison for 3 turns (a Constitution save against 18 + level + bonusSpellDC avoids it). Poison: takes 1d4 (1–4) true damage each turn. A divine spell of the sixth level. Takes a sixth-level slot.
+2d8 (2–16) poison damage to every enemy (halved if resisted; may cause poison: a Constitution save against 15 avoids it); every enemy gains poison for 3 turns (a Constitution save against 18 + level + the caster's spell bonus avoids it). Poison: takes 1d4 (1–4) true damage each turn. A divine spell of the sixth level. Takes a sixth-level slot.
 
 > Explode with venomous energy, damaging nearby enemies.
 
@@ -6903,7 +6903,7 @@ One ally is vital boost for 3 turns. Vital Boost: +2 to every save, Constitution
 
 *Faithful · level 7 divine spell, darkness domain* · `ability:cruel_will`
 
-One enemy is dominated for 10 turns (a Wisdom save against 28 + level + bonusSpellDC avoids it). Dominated: fights for the other side, does as whoever gave it bids. A divine spell of the seventh level. Takes a seventh-level slot.
+One enemy is dominated for 10 turns (a Wisdom save against 28 + level + the caster's spell bonus avoids it). Dominated: fights for the other side, does as whoever gave it bids. A divine spell of the seventh level. Takes a seventh-level slot.
 
 > Overwhelm the mind of an enemy.
 
@@ -6919,7 +6919,7 @@ One enemy is dominated for 10 turns (a Wisdom save against 28 + level + bonusSpe
 
 *Faithful · level 7 divine spell, love domain* · `ability:domination`
 
-One enemy is dominated for 3 turns (a Wisdom save against 25 + level + bonusSpellDC avoids it). Dominated: fights for the other side, does as whoever gave it bids. A divine spell of the seventh level. Takes a seventh-level slot.
+One enemy is dominated for 3 turns (a Wisdom save against 25 + level + the caster's spell bonus avoids it). Dominated: fights for the other side, does as whoever gave it bids. A divine spell of the seventh level. Takes a seventh-level slot.
 
 > Take control of an enemy's mind.
 
@@ -6943,7 +6943,7 @@ You gain wildheart for 3 turns. Wildheart: +2 to hit, +2 damage, Constitution +4
 
 *Faithful · level 7 divine spell, law domain* · `ability:holy`
 
-3d6 + wisdom radiant damage to every enemy (may cause blinded: a Dexterity save against 15 avoids it); every enemy is deafened for 3 turns (a Constitution save against 18 + level + bonusSpellDC avoids it). Blinded: −4 to hit, −10 evasion, −2 to every roll. Deafened: −2 to hit, 2 easier to hit, −2 damage, −1 to every save, resists 50% of sonic. A divine spell of the seventh level. Takes a seventh-level slot.
+3d6 + wisdom radiant damage to every enemy (may cause blinded: a Dexterity save against 15 avoids it); every enemy is deafened for 3 turns (a Constitution save against 18 + level + the caster's spell bonus avoids it). Blinded: −4 to hit, −10 evasion, −2 to every roll. Deafened: −2 to hit, 2 easier to hit, −2 damage, −1 to every save, resists 50% of sonic. A divine spell of the seventh level. Takes a seventh-level slot.
 
 > Smite your foes with holy energy.
 
@@ -6951,7 +6951,7 @@ You gain wildheart for 3 turns. Wildheart: +2 to hit, +2 damage, Constitution +4
 
 *Faithful · level 7 divine spell, chaos domain* · `ability:madness`
 
-One enemy is insane for 3 turns (an Intelligence save against 25 + level + bonusSpellDC avoids it). Insane: −1 to every roll, −2 to will saves, acts at random. A divine spell of the seventh level. Takes a seventh-level slot.
+One enemy is insane for 3 turns (an Intelligence save against 25 + level + the caster's spell bonus avoids it). Insane: −1 to every roll, −2 to will saves, acts at random. A divine spell of the seventh level. Takes a seventh-level slot.
 
 > Drive an enemy insane.
 
@@ -6959,7 +6959,7 @@ One enemy is insane for 3 turns (an Intelligence save against 25 + level + bonus
 
 *Faithful · level 7 divine spell, poison domain* · `ability:plague_wave`
 
-4d8 (4–32) poison damage to every enemy (halved if resisted; may cause poison: a Constitution save against 15 avoids it); every enemy is diseased for 3 turns (a Constitution save against 20 + level + bonusSpellDC avoids it). Poison: takes 1d4 (1–4) true damage each turn. Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. A divine spell of the seventh level. Takes a seventh-level slot.
+4d8 (4–32) poison damage to every enemy (halved if resisted; may cause poison: a Constitution save against 15 avoids it); every enemy is diseased for 3 turns (a Constitution save against 20 + level + the caster's spell bonus avoids it). Poison: takes 1d4 (1–4) true damage each turn. Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. A divine spell of the seventh level. Takes a seventh-level slot.
 
 > Send out a wave of plague that infects enemies.
 
@@ -6991,7 +6991,7 @@ Call a lich, of level 10, to fight for you until the fight ends. A divine spell 
 
 *Faithful · level 7 divine spell, ocean domain* · `ability:tempest`
 
-4d10 + level cold damage to every enemy (halved if resisted; may cause frozen: a Dexterity save against 15 avoids it); every enemy is drenched for 8 turns (a Wisdom save against 15 + level + bonusSpellDC avoids it); every enemy gains slow for 3 turns (a Constitution save against 20 + level + bonusSpellDC avoids it). Frozen: Dexterity −5, cannot act. Drenched: −2 to hit, takes 100% more lightning, takes 200% more cold. Slow: −10 initiative, Dexterity −5, -1 more blows a turn. A divine spell of the seventh level. Takes a seventh-level slot.
+4d10 + level cold damage to every enemy (halved if resisted; may cause frozen: a Dexterity save against 15 avoids it); every enemy is drenched for 8 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it); every enemy gains slow for 3 turns (a Constitution save against 20 + level + the caster's spell bonus avoids it). Frozen: Dexterity −5, cannot act. Drenched: −2 to hit, takes 100% more lightning, takes 200% more cold. Slow: −10 initiative, Dexterity −5, -1 more blows a turn. A divine spell of the seventh level. Takes a seventh-level slot.
 
 > Unleash a violent storm that damages and hinders your enemies.
 
@@ -7009,7 +7009,7 @@ Call a lich, of level 10, to fight for you until the fight ends. A divine spell 
 
 *Faithful · level 8 divine spell, death domain* · `ability:death`
 
-Slay one enemy (a Constitution save against 20 + level + bonusSpellDC avoids it). A divine spell of the eighth level. Takes an eighth-level slot.
+Slay one enemy (a Constitution save against 20 + level + the caster's spell bonus avoids it). A divine spell of the eighth level. Takes an eighth-level slot.
 
 > Utter a power word in the blackest of tongues.
 
@@ -7033,7 +7033,7 @@ You are raven's cunning for 3 turns; you gain sage's wisdom for 3 turns; you gai
 
 *Faithful · level 8 divine spell, chaos domain* · `ability:doom_spiral`
 
-6d6 (6–36) psychic damage to one enemy (halved if resisted; may cause confused: a Wisdom save against 15 avoids it; may cause insane: an Intelligence save against 15 avoids it); it is entangled for 3 turns (a Dexterity save against 24 + level + bonusSpellDC avoids it); it is confused for 3 turns (a Wisdom save against 22 + level + bonusSpellDC avoids it); it is fatigued for 3 turns (a Wisdom save against 20 + level + bonusSpellDC avoids it). Confused: acts at random. Insane: −1 to every roll, −2 to will saves, acts at random. Entangled: −2 to hit, −5 evasion, −5 initiative, Dexterity −5. Fatigued: −1 to every roll, Strength −1, Dexterity −1, Constitution −1. A divine spell of the eighth level. Takes an eighth-level slot.
+6d6 (6–36) psychic damage to one enemy (halved if resisted; may cause confused: a Wisdom save against 15 avoids it; may cause insane: an Intelligence save against 15 avoids it); it is entangled for 3 turns (a Dexterity save against 24 + level + the caster's spell bonus avoids it); it is confused for 3 turns (a Wisdom save against 22 + level + the caster's spell bonus avoids it); it is fatigued for 3 turns (a Wisdom save against 20 + level + the caster's spell bonus avoids it). Confused: acts at random. Insane: −1 to every roll, −2 to will saves, acts at random. Entangled: −2 to hit, −5 evasion, −5 initiative, Dexterity −5. Fatigued: −1 to every roll, Strength −1, Dexterity −1, Constitution −1. A divine spell of the eighth level. Takes an eighth-level slot.
 
 > Trap an enemy in a spiraling vortex of chaos.
 
@@ -7109,7 +7109,7 @@ You gain scaleskin for 3 turns. Scaleskin: 8 harder to hit, resists 25% of fire.
 
 *Faithful · level 9 divine spell, death domain* · `ability:apocalypse`
 
-6d6 (6–36) fire damage to every enemy (halved if resisted; may cause burning: a Constitution save against 15 avoids it); 6d6 (6–36) cold damage to every enemy (halved if resisted; may cause frozen: a Dexterity save against 15 avoids it); 6d6 (6–36) lightning damage to every enemy (halved if resisted; may cause paralyzed: a Strength save against 15 avoids it); every enemy is doomed for 3 turns (a Wisdom save against 15 + level + bonusSpellDC avoids it). Burning: takes 1d3 (1–3) fire damage each turn. Frozen: Dexterity −5, cannot act. Paralyzed: Strength −5, Dexterity −5, cannot act. Doomed: Strength −4, Dexterity −4, Constitution −4, Intelligence −4, Wisdom −4, Charisma −4. A divine spell of the ninth level. Takes a ninth-level slot.
+6d6 (6–36) fire damage to every enemy (halved if resisted; may cause burning: a Constitution save against 15 avoids it); 6d6 (6–36) cold damage to every enemy (halved if resisted; may cause frozen: a Dexterity save against 15 avoids it); 6d6 (6–36) lightning damage to every enemy (halved if resisted; may cause paralyzed: a Strength save against 15 avoids it); every enemy is doomed for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it). Burning: takes 1d3 (1–3) fire damage each turn. Frozen: Dexterity −5, cannot act. Paralyzed: Strength −5, Dexterity −5, cannot act. Doomed: Strength −4, Dexterity −4, Constitution −4, Intelligence −4, Wisdom −4, Charisma −4. A divine spell of the ninth level. Takes a ninth-level slot.
 
 > Unleash a cataclysmic storm of elemental fury upon all enemies.
 
@@ -7125,7 +7125,7 @@ You gain scaleskin for 3 turns. Scaleskin: 8 harder to hit, resists 25% of fire.
 
 *Faithful · level 9 divine spell, poison domain* · `ability:death_fog`
 
-6d8 (6–48) poison damage to every enemy (halved if resisted; may cause poison: a Constitution save against 15 avoids it); slay every enemy (a Constitution save against 22 + level + bonusSpellDC avoids it). Poison: takes 1d4 (1–4) true damage each turn. A divine spell of the ninth level. Takes a ninth-level slot.
+6d8 (6–48) poison damage to every enemy (halved if resisted; may cause poison: a Constitution save against 15 avoids it); slay every enemy (a Constitution save against 22 + level + the caster's spell bonus avoids it). Poison: takes 1d4 (1–4) true damage each turn. A divine spell of the ninth level. Takes a ninth-level slot.
 
 > Create a deadly fog that severely poisons enemies within it.
 
@@ -7133,7 +7133,7 @@ You gain scaleskin for 3 turns. Scaleskin: 8 harder to hit, resists 25% of fire.
 
 *Faithful · level 9 divine spell, chaos domain* · `ability:discordant_wave`
 
-8d6 (8–48) psychic damage to every enemy (halved if resisted; may cause confused: a Wisdom save against 15 avoids it; may cause insane: an Intelligence save against 15 avoids it); every enemy is insane for 3 turns (a Wisdom save against 28 + level + bonusSpellDC avoids it); every enemy is confused for 3 turns (a Wisdom save against 25 + level + bonusSpellDC avoids it); every enemy is stunned for 3 turns (a Wisdom save against 23 + level + bonusSpellDC avoids it); every enemy is distracted for 3 turns (a Wisdom save against 20 + level + bonusSpellDC avoids it); every enemy is doomed for 3 turns (a Wisdom save against 18 + level + bonusSpellDC avoids it). Confused: acts at random. Insane: −1 to every roll, −2 to will saves, acts at random. Stunned: −2 to every roll, cannot act. Distracted: −1 to hit, −1 damage, −5 evasion. Doomed: Strength −4, Dexterity −4, Constitution −4, Intelligence −4, Wisdom −4, Charisma −4. A divine spell of the ninth level. Takes a ninth-level slot.
+8d6 (8–48) psychic damage to every enemy (halved if resisted; may cause confused: a Wisdom save against 15 avoids it; may cause insane: an Intelligence save against 15 avoids it); every enemy is insane for 3 turns (a Wisdom save against 28 + level + the caster's spell bonus avoids it); every enemy is confused for 3 turns (a Wisdom save against 25 + level + the caster's spell bonus avoids it); every enemy is stunned for 3 turns (a Wisdom save against 23 + level + the caster's spell bonus avoids it); every enemy is distracted for 3 turns (a Wisdom save against 20 + level + the caster's spell bonus avoids it); every enemy is doomed for 3 turns (a Wisdom save against 18 + level + the caster's spell bonus avoids it). Confused: acts at random. Insane: −1 to every roll, −2 to will saves, acts at random. Stunned: −2 to every roll, cannot act. Distracted: −1 to hit, −1 damage, −5 evasion. Doomed: Strength −4, Dexterity −4, Constitution −4, Intelligence −4, Wisdom −4, Charisma −4. A divine spell of the ninth level. Takes a ninth-level slot.
 
 > Release a wave of chaotic energy that wreaks havoc on all enemies.
 
@@ -7141,7 +7141,7 @@ You gain scaleskin for 3 turns. Scaleskin: 8 harder to hit, resists 25% of fire.
 
 *Faithful · level 9 divine spell, war domain* · `ability:dust_to_dust`
 
-10d6 (10–60) radiant damage to every enemy (halved if resisted; may cause blinded: a Dexterity save against 15 avoids it); every enemy is stunned for 3 turns (a Wisdom save against 20 + level + bonusSpellDC avoids it). Blinded: −4 to hit, −10 evasion, −2 to every roll. Stunned: −2 to every roll, cannot act. A divine spell of the ninth level. Takes a ninth-level slot.
+10d6 (10–60) radiant damage to every enemy (halved if resisted; may cause blinded: a Dexterity save against 15 avoids it); every enemy is stunned for 3 turns (a Wisdom save against 20 + level + the caster's spell bonus avoids it). Blinded: −4 to hit, −10 evasion, −2 to every roll. Stunned: −2 to every roll, cannot act. A divine spell of the ninth level. Takes a ninth-level slot.
 
 > Call upon the gods to strike down your enemies with overwhelming force.
 
@@ -7157,7 +7157,7 @@ You gain scaleskin for 3 turns. Scaleskin: 8 harder to hit, resists 25% of fire.
 
 *Faithful · level 9 divine spell, love domain* · `ability:lovebomb`
 
-6d12 (6–72) psychic damage to every enemy (halved if resisted; may cause confused: a Wisdom save against 15 avoids it; may cause insane: an Intelligence save against 15 avoids it); every enemy is charmed for 5 turns (only humanoid creatures; a Wisdom save against 30 + level + bonusSpellDC avoids it); every enemy is distracted for 5 turns (a Wisdom save against 25 + level + bonusSpellDC avoids it). Confused: acts at random. Insane: −1 to every roll, −2 to will saves, acts at random. Charmed: fights for the other side. Distracted: −1 to hit, −1 damage, −5 evasion. A divine spell of the ninth level. Takes a ninth-level slot.
+6d12 (6–72) psychic damage to every enemy (halved if resisted; may cause confused: a Wisdom save against 15 avoids it; may cause insane: an Intelligence save against 15 avoids it); every enemy is charmed for 5 turns (only humanoid creatures; a Wisdom save against 30 + level + the caster's spell bonus avoids it); every enemy is distracted for 5 turns (a Wisdom save against 25 + level + the caster's spell bonus avoids it). Confused: acts at random. Insane: −1 to every roll, −2 to will saves, acts at random. Charmed: fights for the other side. Distracted: −1 to hit, −1 damage, −5 evasion. A divine spell of the ninth level. Takes a ninth-level slot.
 
 > Explode with overwhelming affection, incapacitating enemies.
 
@@ -7165,7 +7165,7 @@ You gain scaleskin for 3 turns. Scaleskin: 8 harder to hit, resists 25% of fire.
 
 *Faithful · level 9 divine spell, storm domain* · `ability:maelstrom`
 
-5d8 + level × 3 electric damage to every enemy (halved if resisted); every enemy is stunned for 3 turns (a Wisdom save against 24 + level + bonusSpellDC avoids it). Stunned: −2 to every roll, cannot act. A divine spell of the ninth level. Takes a ninth-level slot.
+5d8 + level × 3 electric damage to every enemy (halved if resisted); every enemy is stunned for 3 turns (a Wisdom save against 24 + level + the caster's spell bonus avoids it). Stunned: −2 to every roll, cannot act. A divine spell of the ninth level. Takes a ninth-level slot.
 
 > Create a devastating maelstrom of storm energy that damages and stuns all enemies in an area.
 
@@ -7181,7 +7181,7 @@ Heal one ally for 10d8 + level; end diseased, poison, cursed, blinded, slow, par
 
 *Faithful · level 9 divine spell, ocean domain* · `ability:oceans_wrath`
 
-6d10 + level × 2 cold damage to every enemy (halved if resisted; may cause frozen: a Dexterity save against 15 avoids it); every enemy is drenched for 10 turns (a Wisdom save against 15 + level + bonusSpellDC avoids it); every enemy is prone for 3 turns (a Constitution save against 22 + level + bonusSpellDC avoids it). Frozen: Dexterity −5, cannot act. Drenched: −2 to hit, takes 100% more lightning, takes 200% more cold. Prone: Dexterity −2, cannot act. A divine spell of the ninth level. Takes a ninth-level slot.
+6d10 + level × 2 cold damage to every enemy (halved if resisted; may cause frozen: a Dexterity save against 15 avoids it); every enemy is drenched for 10 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it); every enemy is prone for 3 turns (a Constitution save against 22 + level + the caster's spell bonus avoids it). Frozen: Dexterity −5, cannot act. Drenched: −2 to hit, takes 100% more lightning, takes 200% more cold. Prone: Dexterity −2, cannot act. A divine spell of the ninth level. Takes a ninth-level slot.
 
 > Call upon the full fury of the ocean to devastate your enemies.
 
@@ -7302,7 +7302,7 @@ Weapon attack against one enemy, carrying a killing blow on to another. Again af
 
 - Again after: 3 turns
 
-One enemy is confused for 3 turns (a Wisdom save against 18 + level + bonusSpellDC avoids it). Confused: acts at random. Again after 3 turns.
+One enemy is confused for 3 turns (a Wisdom save against 18 + level + the caster's spell bonus avoids it). Confused: acts at random. Again after 3 turns.
 
 > Confuse an enemy, causing them to act erratically.
 
@@ -7363,7 +7363,7 @@ You gain dug in for 3 turns. Dug In: −2 to hit, 2 harder to hit, +3 to every s
 
 - Again after: 3 turns
 
-One enemy is blinded for 3 turns (a Dexterity save against 14 + level + bonusSpellDC avoids it). Blinded: −4 to hit, −10 evasion, −2 to every roll. Again after 3 turns.
+One enemy is blinded for 3 turns (a Dexterity save against 14 + level + the caster's spell bonus avoids it). Blinded: −4 to hit, −10 evasion, −2 to every roll. Again after 3 turns.
 
 > Perform a dirty trick to blind or entangle an enemy, giving them -4 to hit for 2 rounds.
 
@@ -7393,7 +7393,7 @@ Every enemy is distracted for a turn (a Wisdom save against 13 avoids it). Distr
 
 - Again after: 3 turns
 
-One enemy is engulfed for 3 turns (a Constitution save against 16 + level + bonusSpellDC avoids it). Engulfed: cannot act, takes 2d6 (2–12) acid damage each turn. Again after 3 turns.
+One enemy is engulfed for 3 turns (a Constitution save against 16 + level + the caster's spell bonus avoids it). Engulfed: cannot act, takes 2d6 (2–12) acid damage each turn. Again after 3 turns.
 
 > Absorb an enemy into the ooze, dealing 6d6 acid damage over 3 rounds.
 
@@ -7403,7 +7403,7 @@ One enemy is engulfed for 3 turns (a Constitution save against 16 + level + bonu
 
 - Again after: 3 turns
 
-One enemy is entangled for 3 turns (a Dexterity save against 12 + level + bonusSpellDC avoids it). Entangled: −2 to hit, −5 evasion, −5 initiative, Dexterity −5. Again after 3 turns.
+One enemy is entangled for 3 turns (a Dexterity save against 12 + level + the caster's spell bonus avoids it). Entangled: −2 to hit, −5 evasion, −5 initiative, Dexterity −5. Again after 3 turns.
 
 > Entangle an enemy with vines, reducing their speed and giving them -2 to hit for 3 rounds.
 
@@ -7469,7 +7469,7 @@ You are hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion; and on attacki
 
 - Again after: 3 turns
 
-One enemy is marked as prey for 3 turns (a Wisdom save against 15 + level + bonusSpellDC avoids it). Marked as Prey: 2 easier to hit; and when attacked, 1d8 (1–8) true damage to whoever has it. Again after 3 turns.
+One enemy is marked as prey for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it). Marked as Prey: 2 easier to hit; and when attacked, 1d8 (1–8) true damage to whoever has it. Again after 3 turns.
 
 > Mark an enemy, giving them -2 AC and +1d4 damage from all attacks for 5 rounds.
 
@@ -7555,7 +7555,7 @@ You are overwatching for a turn. Overwatching: +2 damage; and against an enemy w
 
 - Again after: 3 turns
 
-You are poisoning blade for 3 turns. poisoning blade: on landing a blow, the one struck gains poison for 3 turns (a Constitution save against 15 + level + bonusSpellDC avoids it). Again after 3 turns.
+You are poisoning blade for 3 turns. poisoning blade: on landing a blow, the one struck gains poison for 3 turns (a Constitution save against 15 + level + the caster's spell bonus avoids it). Again after 3 turns.
 
 > Coat your weapon in poison for your next 2 attacks.
 
@@ -7623,7 +7623,7 @@ Weapon attack against one enemy; weapon attack against it; weapon attack against
 
 - Again after: 3 turns
 
-Weapon attack against one enemy; weapon attack against it; you are reckless for 3 turns (a Wisdom save against 15 + level + bonusSpellDC avoids it). Reckless: −2 to hit, 2 easier to hit. Again after 3 turns.
+Weapon attack against one enemy; weapon attack against it; you are reckless for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it). Reckless: −2 to hit, 2 easier to hit. Again after 3 turns.
 
 > Make a powerful double attack that deals +2 damage each, but you take -2 to hit and +2 AC for 2 rounds.
 
@@ -7663,7 +7663,7 @@ You are riposting for 3 turns. Riposting: 1 easier to hit, +3 evasion; and when 
 
 - Again after: 6 turns
 
-Every enemy is frightened for 3 turns (a Wisdom save against 12 + level + bonusSpellDC avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. Again after 6 turns.
+Every enemy is frightened for 3 turns (a Wisdom save against 12 + level + the caster's spell bonus avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. Again after 6 turns.
 
 > Let out a horrific scream.
 
@@ -7694,7 +7694,7 @@ You are braced for 3 turns. Braced: against an enemy who charges, 3d8 + 1 (4–2
 
 - Again after: 4 turns
 
-1d6 (1–6) bludgeoning damage to one enemy (halved if resisted; may cause stunned: a Constitution save against 15 avoids it); it is stunned for 3 turns (a Constitution save against 20 + level + bonusSpellDC avoids it). Stunned: −2 to every roll, cannot act. Again after 4 turns.
+1d6 (1–6) bludgeoning damage to one enemy (halved if resisted; may cause stunned: a Constitution save against 15 avoids it); it is stunned for 3 turns (a Constitution save against 20 + level + the caster's spell bonus avoids it). Stunned: −2 to every roll, cannot act. Again after 4 turns.
 
 > Bash an enemy with your shield, dealing 1d6 damage and stunning them for 1 turn.
 
@@ -7734,7 +7734,7 @@ Weapon attack against one enemy. Again after 3 turns.
 
 - Again after: 3 turns
 
-Every enemy is diseased for 3 turns (a Constitution save against 16 + level + bonusSpellDC avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. Again after 3 turns.
+Every enemy is diseased for 3 turns (a Constitution save against 16 + level + the caster's spell bonus avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. Again after 3 turns.
 
 > Spread a debilitating disease to all nearby enemies.
 
@@ -7754,7 +7754,7 @@ You are vigorous for 5 turns. Vigorous: +1 to hit, +1 damage, +1 to every save, 
 
 - Again after: 3 turns
 
-1d6 (1–6) bludgeoning damage to every enemy (may cause stunned: a Constitution save against 15 avoids it); every enemy is prone for 3 turns (a Dexterity save against 14 + level + bonusSpellDC avoids it). Stunned: −2 to every roll, cannot act. Prone: Dexterity −2, cannot act. Again after 3 turns.
+1d6 (1–6) bludgeoning damage to every enemy (may cause stunned: a Constitution save against 15 avoids it); every enemy is prone for 3 turns (a Dexterity save against 14 + level + the caster's spell bonus avoids it). Stunned: −2 to every roll, cannot act. Prone: Dexterity −2, cannot act. Again after 3 turns.
 
 > Stomp the ground, dealing 1d6 bludgeoning damage to all adjacent enemies and knocking them prone.
 
@@ -7764,7 +7764,7 @@ You are vigorous for 5 turns. Vigorous: +1 to hit, +1 damage, +1 to every save, 
 
 - Again after: 3 turns
 
-Weapon attack against one enemy; it is prone for 3 turns (a Dexterity save against 15 + level + bonusSpellDC avoids it). Prone: Dexterity −2, cannot act. Again after 3 turns.
+Weapon attack against one enemy; it is prone for 3 turns (a Dexterity save against 15 + level + the caster's spell bonus avoids it). Prone: Dexterity −2, cannot act. Again after 3 turns.
 
 > Attempt to knock an enemy prone with a wide swing of your weapon.
 
@@ -7774,7 +7774,7 @@ Weapon attack against one enemy; it is prone for 3 turns (a Dexterity save again
 
 - Again after: 3 turns
 
-One enemy is taunted for 3 turns (a Wisdom save against 18 + level + bonusSpellDC avoids it). Taunted: whoever has it can strike at nobody but whoever gave it. Again after 3 turns.
+One enemy is taunted for 3 turns (a Wisdom save against 18 + level + the caster's spell bonus avoids it). Taunted: whoever has it can strike at nobody but whoever gave it. Again after 3 turns.
 
 > Taunt an enemy, forcing them to target you on their next turn.
 
@@ -7784,7 +7784,7 @@ One enemy is taunted for 3 turns (a Wisdom save against 18 + level + bonusSpellD
 
 - Again after: 3 turns
 
-1d3 (1–3) fire damage to every enemy (halved if resisted; may cause burning: a Constitution save against 15 avoids it); every enemy is confused for 3 turns (a Wisdom save against 15 + level + bonusSpellDC avoids it). Burning: takes 1d3 (1–3) fire damage each turn. Confused: acts at random. Again after 3 turns.
+1d3 (1–3) fire damage to every enemy (halved if resisted; may cause burning: a Constitution save against 15 avoids it); every enemy is confused for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it). Burning: takes 1d3 (1–3) fire damage each turn. Confused: acts at random. Again after 3 turns.
 
 > Toss a firebomb that damages and confuses enemies.
 
@@ -7804,7 +7804,7 @@ Hex, at no cost. Again after 3 turns.
 
 - Again after: 4 turns
 
-1d4 (1–4) psychic damage to one enemy (may cause confused: a Wisdom save against 15 avoids it; may cause insane: an Intelligence save against 15 avoids it); it is mocked for 3 turns (a Wisdom save against 10 + level + bonusSpellDC avoids it). Confused: acts at random. Insane: −1 to every roll, −2 to will saves, acts at random. Mocked: −1 to hit, −1 damage, −1 to every save. Again after 4 turns.
+1d4 (1–4) psychic damage to one enemy (may cause confused: a Wisdom save against 15 avoids it; may cause insane: an Intelligence save against 15 avoids it); it is mocked for 3 turns (a Wisdom save against 10 + level + the caster's spell bonus avoids it). Confused: acts at random. Insane: −1 to every roll, −2 to will saves, acts at random. Mocked: −1 to hit, −1 damage, −1 to every save. Again after 4 turns.
 
 > Hurl a string of insults at an enemy.
 

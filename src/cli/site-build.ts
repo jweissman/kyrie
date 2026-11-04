@@ -68,7 +68,9 @@ export class SiteBuild {
     const size = await this.reader(out, true, options.fixtures ? ['test/fixtures'] : []);
     await this.page(out, '');
     await writeFile(join(out, '.nojekyll'), '');
-    await HandbookPublisher.html(new Handbooks(this.root), join(out, 'handbook'));
+    const handbooks = new Handbooks(this.root);
+    await HandbookPublisher.html(handbooks, join(out, 'handbook'));
+    await HandbookPublisher.encyclopedia(handbooks, join(out, 'encyclopedia'));
     return size;
   }
   // An author's preview: the reader unminified, with the campaign's directories, and a page that reloads itself when

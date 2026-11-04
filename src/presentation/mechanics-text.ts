@@ -252,11 +252,14 @@ export class MechanicsText {
       && e.args[0]!.kind === 'value' && e.args[0]!.value === 0) { return e.args[1]!; }
     return e;
   }
+  static readonly references: Record<string, string> = { bonusSpellDC: 'the caster\'s spell bonus', level: 'level',
+    str: 'Strength', dex: 'Dexterity', con: 'Constitution', int: 'Intelligence', wis: 'Wisdom', cha: 'Charisma' };
   private static format(e: Expression): string {
     switch (e.kind) {
       case 'value': return String(e.value);
       case 'dice': return `${e.count}d${e.sides}`;
-      case 'reference': return e.name;
+      // A reference as a reader says it: "the caster's spell bonus", not bonusSpellDC (the Encyclopedia had shown it).
+      case 'reference': return MechanicsText.references[e.name] ?? e.name;
       case 'operation': {
         const args = e.args.map(a => this.format(a));
         if (e.operator === '+') {

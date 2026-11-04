@@ -37,6 +37,12 @@ export class OptionsPage {
               <input type="file" id="load" accept="application/json" hidden
                 onChange={TitlePage.load.bind(null, app)} /></label></li></ul>
           </section>
+          <section className="setting" aria-label="For authors">
+            <p className="label">For authors</p>
+            <ul className="acts"><li><a className="act" data-nav data-action="handbooks" href="handbook/index.html">
+              The Kyr handbooks<span className="why">Every definition the game plays from, and how far it plays it.</span>
+            </a></li></ul>
+          </section>
           <p className="set-out"><button type="button" className="act go" data-nav data-action="back"
             onClick={OptionsPage.back.bind(null, app)}>Back</button></p>
           <p className="colophon">{Identity.spoken(named.game)}, from {Identity.spoken(named.studio)}</p>

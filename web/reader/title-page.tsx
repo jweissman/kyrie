@@ -48,7 +48,7 @@ export class TitlePage {
                 <span className="why">{[saved.where, saved.when].filter(Boolean).join(' · ')}</span></button></li>}
               <li><button type="button" className="way-in" data-nav data-action="begin" onClick={app.opening.anew} {...item(n++)}>
                 <span className="n">{saved ? 'Begin anew' : 'Begin'}</span></button></li>
-              <li><a className="way-in" data-nav data-action="handbooks" href="handbook/index.html" {...item(n++)}>
+              <li><a className="way-in" data-nav data-action="encyclopedia" href="encyclopedia/index.html" {...item(n++)}>
                 <span className="n">The encyclopedia</span></a></li>
               <li><button type="button" className="way-in" data-nav data-action="options" {...item(n++)}
                 onClick={TitlePage.options.bind(null, app)}><span className="n">Options</span></button></li>

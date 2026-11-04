@@ -6,7 +6,8 @@ import { join } from 'node:path';
 import { SiteBuild } from '../src/cli/site-build';
 import { MonoBrowser } from './support/mono-browser';
 
-// The handbooks in the built site: reached from the title, searchable, filtered by status, and readable on a phone.
+// The handbooks in the built site: reached from the options (the title opens the Encyclopedia), searchable,
+// filtered by status, and readable on a phone.
 // Opt in with KYRIE_BROWSER=1.
 describe.skipIf(!process.env.KYRIE_BROWSER)('the handbooks in the browser', () => {
   let site = '', browser: Awaited<ReturnType<typeof MonoBrowser.launch>>;
@@ -17,8 +18,9 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the handbooks in the browser', () =
   }, 60_000);
   afterAll(async () => { await browser?.close(); await rm(site, { recursive: true, force: true }); });
 
-  it('are linked from the title and open on the landing page', async () => {
+  it('are linked from the options and open on the landing page', async () => {
     const { page, errors } = await MonoBrowser.page(browser, { width: 1440, height: 900 }, { site, query: '' });
+    await page.click('[data-action="options"]');
     await page.click('[data-action="handbooks"]');
     await page.waitForSelector('.cards .card');
     expect(await page.locator('.cards .card').count()).toBe(3);

@@ -4,6 +4,8 @@ import { Handbooks } from './handbooks';
 import { HandbookHtml } from './render-html';
 import { HandbookMarkdown } from './render-md';
 import { CapabilityAudit } from './audit';
+import { Encyclopedia, type Land } from './encyclopedia';
+import { EncyclopediaHtml } from './encyclopedia-html';
 
 // Writes the books: HTML pages and coverage.json for the site, Markdown and coverage.json for the repository.
 export class HandbookPublisher {
@@ -14,6 +16,14 @@ export class HandbookPublisher {
     for (const b of handbooks.books) { await writeFile(join(out, `${b.id}.html`), html.book(b)); }
     await writeFile(join(out, 'index.html'), html.landing(coverage));
     await writeFile(join(out, 'coverage.json'), `${JSON.stringify(coverage)}\n`);
+  }
+  // The Encyclopedia of Imbar beside them: the same entries, as a reader's book (see Encyclopedia).
+  static async encyclopedia(handbooks: Handbooks, out: string) {
+    await mkdir(out, { recursive: true });
+    const countries = Handbooks.read(handbooks.root, 'data/adventures/countries.json') as { countries: Land[] };
+    const html = new EncyclopediaHtml(new Encyclopedia(handbooks, countries.countries.filter(c => c.heard)));
+    for (const c of html.book.chapters) { await writeFile(join(out, `${c.id}.html`), html.chapter(c)); }
+    await writeFile(join(out, 'index.html'), html.landing());
   }
   static async markdown(handbooks: Handbooks, out: string) {
     await mkdir(out, { recursive: true });
