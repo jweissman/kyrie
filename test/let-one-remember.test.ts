@@ -136,7 +136,7 @@ describe('Let One Remember', () => {
     said = await T.play(s, ['^(Down |Up )?To the lowest', '?a torch: Light', '^(Down |Up )?To the third Forge', '^(Down |Up )?To the Gaol', '^(Down |Up )?To the collapsed', '^(Down |Up )?To the edge of the Glass',
       'Talk to Ida', 'across the Diggings', 'Ask Ida.*join', '^(Down |Up )?To the Diggings']);
     expect(said).toContain('Don\'t breathe in');
-    said = await T.play(s, ['^(Down |Up )?To the trough', '^(Down |Up )?To under the Breach', '?a torch: Light', '^(Down |Up )?To Lamplighter', 'journals', '^(Down |Up )?To the head of the low road',
+    said = await T.play(s, ['^(Down |Up )?To the trough', '^(Down |Up )?(To )?under the Breach', '?a torch: Light', '^(Down |Up )?To Lamplighter', 'journals', '^(Down |Up )?To the head of the low road',
       '?a torch: Light', '^(Down |Up )?To the first way-mark']);
     expect(said).toContain('calve tel lue senneth: kept');
     // Left, right, left: the ways marked kept.
@@ -149,7 +149,7 @@ describe('Let One Remember', () => {
     said = await T.play(s, ['^(Down |Up )?To the third way-mark', '^(Down |Up )?To the left-hand passage|^To the Seam']);
     // Up by the dive under the Scarp, which the Registry never sees.
     said = await T.play(s, ['^(Down |Up )?To the third way-mark', '?a torch: Light', '^(Down |Up )?To the Fork', '^(Down |Up )?To the second way-mark', '^(Down |Up )?To the first way-mark', '^(Down |Up )?To the head of the low road',
-      '^(Down |Up )?To Lamplighter', '^(Down |Up )?To under the Breach', '^(Down |Up )?To the Underfloor river', '?a torch: Light', '^(Down |Up )?To the Wendhead pool']);
+      '^(Down |Up )?To Lamplighter', '^(Down |Up )?(To )?under the Breach', '^(Down |Up )?To the Underfloor river', '?a torch: Light', '^(Down |Up )?To the Wendhead pool']);
     expect(T.is(s, 'unclosed', 'party')).toBe(true);
     said = await T.play(s, ['^(Down |Up )?To Wendhead bridge', '^(Down |Up )?To the valley road below', '^(Down |Up )?To the well square', '^Into the Keepstone', 'Talk to Judge', '^Give']);
     expect(said).toContain('And my house is mine');
@@ -258,7 +258,7 @@ describe('Let One Remember: names, the Chain and the rim', () => {
     let said = await T.play(s, ['^(Down |Up )?To an inner cell', '?a torch: Light']);
     expect(said).toContain('a mage\'s robe gone stiff and red with rust');
     said = await T.play(s, ['^(Down |Up )?To the Gaol', '^(Down |Up )?To the collapsed', '^(Down |Up )?To the edge of the Glass', '^(Down |Up )?To the Diggings', '?Shutter every light', '^(Down |Up )?To the trough',
-      '^(Down |Up )?To under the Breach', '?a torch: Light', '^(Down |Up )?To the Underfloor river', '?a torch: Light', '^(Down |Up )?To the neck of the sump', '?a torch: Light',
+      '^(Down |Up )?(To )?under the Breach', '?a torch: Light', '^(Down |Up )?To the Underfloor river', '?a torch: Light', '^(Down |Up )?To the neck of the sump', '?a torch: Light',
       'Throw the Old Silver']);
     expect(said).toContain('lies on the bottom of the neck like a fallen tree');
     said = await T.play(s, ['^(Down |Up )?To the head of the low road', '?a torch: Light']);
@@ -362,14 +362,14 @@ describe('Act III, the Kin Fall', () => {
     await T.play(s, ['^Out', '^(Down |Up )?To the foot', '^(Down |Up )?To the eighth', ...toKeld, '^Into Bede', 'Talk to Bede', 'Ask Bede Orrisk for the loan', '^Take$',
       'Take your leave', '^Out', '^(Down |Up )?To the Keld end', '^(Down |Up )?To the drove-road gate', '^(Down |Up )?To the street', '^(Down |Up )?To the Hawse', '^Into the Rope',
       ...Array(6).fill('Buy › A torch'), '^Out', '^(Down |Up )?To the rim', '^(Down |Up )?To the edge of the Glass', '^(Down |Up )?To the Diggings', '?Shutter every light', '^(Down |Up )?To the trough',
-      '^(Down |Up )?To under the Breach', '?a torch: Light', '^(Down |Up )?To Lamplighter', 'journals', '^(Down |Up )?To the head of the low road', '?a torch: Light',
+      '^(Down |Up )?(To )?under the Breach', '?a torch: Light', '^(Down |Up )?To Lamplighter', 'journals', '^(Down |Up )?To the head of the low road', '?a torch: Light',
       '^(Down |Up )?To the first way-mark', '?a torch: Light', '^(Down |Up )?To the left-hand passage', '?a torch: Light', '^(Down |Up )?To the right-hand passage', '?a torch: Light',
       '^(Down |Up )?To the third way-mark', '?a torch: Light', '^(Down |Up )?To the (left-hand passage|Seam)', '?a torch: Light']);
     expect(T.holds(s, 'at', 'party', 'corrow__seam')).toBe(true);
     let said = await T.play(s, ['Break Wenna']);
     expect(said).toContain('nothing in Imbar can read it now but the horn');
     said = await T.play(s, ['^(Down |Up )?To the third way-mark', '^(Down |Up )?To the Fork', '^(Down |Up )?To the second way-mark', '^(Down |Up )?To the first way-mark', '^(Down |Up )?To the head', '^(Down |Up )?To Lamplighter',
-      '^(Down |Up )?To under the Breach', '^(Down |Up )?To the Underfloor river', '?a torch: Light', '~8400']);
+      '^(Down |Up )?(To )?under the Breach', '^(Down |Up )?To the Underfloor river', '?a torch: Light', '~8400']);
     expect(said).toContain('as if they could not think where to go next');
     expect(T.is(s, 'bandRead', 'corrow')).toBe(false);
   }, 300000);
