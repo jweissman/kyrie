@@ -143,20 +143,19 @@ Missing sources and uncertain areas:
 
 ## 5. Verification snapshot
 
-- **Final commit pushed at writing: 25c12914.** Later commits in this mission are noted in git; this file and the
-  handoff will be committed after it.
-- **Typecheck** (`tsc --noEmit -p .`): clean at 25c12914.
-- **ESLint**: every changed file clean before each commit. The full `bun run lint` passes on CI (lint and types green
-  at 3d3af364).
-- **Quick tests**: 570 pass, 0 fail at 25c12914.
-- **Full CI**: the last complete run with every job green was **3d3af364** (five suite shards, browser specs, long
-  descents, lint and types). CI for 25c12914 had not finished at writing: **unverified**. Commits since 3d3af364 changed
-  the reader's leads and plates, the followed-aim default, OwnWords, ScenarioTowns, and the register.
-- **Browser specs locally**: glance and opening (16) pass at 25c12914. The full browser set last ran locally before
-  7b1dd04c (35 pass, 2 fixed after): **not re-run in full since**.
+- **Final code commit: 37784a86** (only this document's own update follows it).
+- **Full CI on 37784a86: every job green**: the five suite shards, browser specs, long descents, lint and types. It
+  is the complete verification of the mission's final code, including the merged open-rows work and its label
+  changes to the Hollins, Patient Star, Let One Remember and road-name journeys, which were not run locally.
+- **Typecheck** (`tsc --noEmit -p .`) and **ESLint** (on changed files before each commit; the full lint on CI):
+  clean.
+- **Quick tests**: 583 pass, 0 fail at 37784a86.
+- **Browser specs locally**: glance and opening (16) pass at 25c12914; the full set passes on CI at 37784a86.
 - **Player-facing end to end**: the §1 journey through the browser on 25c12914's build (driven by
-  `scripts/play-server.ts`, by keys and clicks, screenshots kept outside the repository). The owner's last own play
-  (3 November) was negative. No independent player has played.
+  `scripts/play-server.ts`, by keys and clicks, screenshots kept outside the repository). 37784a86 adds the
+  open-rows work, which changed some way labels: **the journey was not replayed in the browser on it** (its
+  headless form, `test/first-town-job.test.ts`, passes there). The owner's last own play (3 November) was negative.
+  No independent player has played.
 - **Generated artifacts**:
   - The bundle index is current (its spec is in the quick suite and passes).
   - The handbooks were regenerated after the last catalog change.
