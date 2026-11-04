@@ -4,6 +4,7 @@ import { Canon } from '../canon/canon';
 import type { BattleState, CombatEvent } from '../model';
 import { ItemCatalog } from '../item-catalog';
 import { ItemNames } from '../item-names';
+import { Counted } from '../presentation/counted';
 
 export class CombatPresenter {
   // A condition's own words for starting or running out ("{target} holds up a light."), if it has them.
@@ -19,6 +20,13 @@ export class CombatPresenter {
       m.absorbed ? `${m.absorbed} absorbed` : ''].filter(Boolean) : [];
     const calculation = [`roll ${event.rolled}`, ...parts].join(', ');
     return `${target} takes ${event.amount} ${event.damageType ?? ''} damage (${event.hp} HP; ${calculation}).`;
+  }
+  // Two or more of a thing given are said as many ("2 flasks of lamp oil"), a thing's name being capitalised as the
+  // catalog has it; a count of something else (experience, spell slots) as it is.
+  private static counted(event: { detail?: string; amount?: number }): string {
+    const what = event.detail ?? '';
+    return (event.amount ?? 0) > 1 && /^[A-Z]/.test(what) ? Counted.plural(`${what.charAt(0).toLowerCase()}${what.slice(1)}`)
+      : what;
   }
   private static save(event: Extract<CombatEvent, { type: 'save' }>, target: string): string {
     if (event.immune) { return `${target} is immune (${event.kind}).`; }
@@ -82,7 +90,7 @@ export class CombatPresenter {
           // One thing taken into the hands ("Ivo gains 1 the deeds of the held", "Ama gains 1 Davy's red coat") is a
           // thing taken, not a count gained.
           : event.amount === 1 && event.detail !== 'experience' && /^(the|a|an) |\w['’]s /i.test(event.detail ?? '')
-            ? `${target} takes ${event.detail}.` : `${target} gains ${event.amount} ${event.detail}.`;
+            ? `${target} takes ${event.detail}.` : `${target} gains ${event.amount} ${this.counted(event)}.`;
       case 'learn': return `${target} learns ${event.detail}.`;
       case 'summon': return `${actor} calls ${event.detail}.`;
       case 'dismiss': return `${event.detail} goes back whence it came.`;

@@ -44,3 +44,20 @@ describe('a fight that will be a grind', () => {
     }
   });
 });
+
+// A fight the company wins two times in three is not reckoned beyond it: the first three of its fights lost had been
+// taken to leave no doubt, and two great rats under a corn-store were "more than you can take" to a warrior who beat
+// them in play (a1, 3 November); every fight reckoned is played out before it is said.
+describe('a reckoning of a fight usually won', () => {
+  it('is never that it is beyond the company', () => {
+    const said = ['a', 'b', 'c', 'd', 'e', 'f'].map(seed => {
+      const content = new Content(seed);
+      const hero = content.createCreature('hero', { raceId: 'human', classId: 'warrior' });
+      const rats = [0, 1].map(i => content.createCreature(`rat${i}`, { raceId: 'great_rat' }));
+      return DangerSense.of(Battle.encounter(new CreatureStore([hero, ...rats]), [{ creatureId: 'hero', team: 'fighters' },
+        ...rats.map(r => ({ creatureId: r.id, team: 'goblins' as const }))], { seed, moment: 'seen' })).danger;
+    });
+    expect(said).not.toContain('deadly');
+  });
+});
+

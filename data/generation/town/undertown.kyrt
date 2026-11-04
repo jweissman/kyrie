@@ -32,13 +32,21 @@
   Passage {t}_u_gallery_way "the old cutting" is passage between {t}_u_adit and {t}_u_gallery.
   Initially Assert unlit({t}_u_cellar). Initially Assert unlit({t}_u_warren). Initially Assert unlit({t}_u_crypt).
   Initially Assert unlit({t}_u_ossuary). Initially Assert unlit({t}_u_adit). Initially Assert unlit({t}_u_gallery).
+  // What each room under the town is, said on coming down into it (the cellar had said nothing at all: a play of a1's
+  // rats on 3 November).
+  Observe {t}_u_cellar_scene at {t}_u_cellar as fixture when true "A low brick cellar under the corn-store, damp to the touch, with spilled grain trodden black on the floor and the droppings of something bigger than mice.".
+  Observe {t}_u_warren_scene at {t}_u_warren as fixture when true "A crawlway of earth and old brick behind the cellar wall, gnawed wider than any rat should need, littered with husks, bones and the stink of a nest.".
+  Observe {t}_u_crypt_scene at {t}_u_crypt as fixture when true "A vaulted crypt under the churchyard, its shelves of coffins pushed askew; the dust on the floor is scuffed through in a dozen places by feet that dragged.".
+  Observe {t}_u_ossuary_scene at {t}_u_ossuary as fixture when true "Bones stacked to the roof in patient courses, skulls set in rows along the top like a frieze, and gaps in the courses where some have lately been taken down.".
+  Observe {t}_u_adit_scene at {t}_u_adit as fixture when true "The old quarry's adit runs straight into the hill, its walls marked with the bite of picks, and grey threads of web across it at the height of a face.".
+  Observe {t}_u_gallery_scene at {t}_u_gallery as fixture when true "A gallery cut square out of the rock, wider than it is high, where the stone was taken out in blocks; the roof here is thick with web, and the web is thick with husks.".
 --- store rats
   // The rats: the corn-store is locked and its key is the merchant's, given with the job; under it they come up by a
   // run from the old drain, which stopped keeps them out for good; told it, the merchant pays in what a company going
   // down needs as well as coin (the owner, 3 November: deeper than one fight and "it is done").
   Observe {t}_u_store_scene at {t}_u_store as fixture when true "Sacks stacked to the rafters, and the smell of mice; a trapdoor in the floor with a sack of grain weighting it down, and gnawed holes along the foot of every wall.".
   Person {t}_u_rats "the rats under the corn-store" at {t}_u_warren {
-    Role "rats as big as cats, that have eaten their way into the corn-store from below". Species rat. Numbers 4. Level 1. Temperament territorial. Lair {t}_u_warren.
+    Role "rats as big as cats, that have eaten their way into the corn-store from below". Species great_rat. Numbers 2. Level 1. Temperament territorial. Lair {t}_u_warren.
   }
   Initially Set encounterXp({t}_u_rats) to 15.
   Entity {t}_u_rats_job: fact "Clear the rats out from under the old corn-store at {town}.".
@@ -47,7 +55,7 @@
     Says "'They've got into the old corn-store from underneath,' says {{t}_merchant}. 'Rats the size of cats. I've lost a third of the grain.' A key comes off a nail behind the counter. 'There's a trapdoor in the floor. Kill them, and find where they're getting in, or they'll be back by harvest. Ten coin, and I'll see you right for a lantern besides.'".
     On discuss { Assert knows(actor, {t}_u_rats_job). Assert {t}_u_given({t}_u_rats_job). Give corn_store_key to actor. }
   }
-  Observe {t}_u_rats_run_seen at {t}_u_warren as sign when not knows(party, {t}_u_rats_source) "Along the back wall of the runs the rats have worn a path to a hole in older brickwork, and out of it comes the smell of the drain." teaches {t}_u_rats_source.
+  Observe {t}_u_rats_run_seen at {t}_u_warren as sign when not knows(party, {t}_u_rats_source) "Along the back wall of the runs the rats have worn a path in the dirt, and it goes into the old brickwork." teaches {t}_u_rats_source.
   Thing {t}_u_rats_run "the rats' run from the drain" at {t}_u_warren {
     State open "A hole in the old brickwork, worn smooth by the rats' coming and going, breathes the smell of the drain.".
     State stopped "The rats' run is packed with broken brick and rubble, wedged hard.".
@@ -185,6 +193,7 @@
   Passage {t}_u_ossuary_steps "steps down behind the bone-heaps" is steps between {t}_u_ossuary and {t}_u_undercroft.
   Passage {t}_u_gallery_breach "a breach in the gallery floor" is crawl between {t}_u_gallery and {t}_u_undercroft.
   Initially Assert unlit({t}_u_drain). Initially Assert unlit({t}_u_undercroft).
+  Observe {t}_u_drain_scene at {t}_u_drain as fixture when true "An old drain of fitted stone, tall enough to stoop along, with a black trickle down the middle of it and the walls furred with something pale that moves when the light touches it.".
   Observe {t}_u_undercroft_scene at {t}_u_undercroft as fixture when true "A long room of round pillars, older than anything above it: the corn-store, the church and the quarry were all dug down into it, from three sides, by people who did not know it was here.".
   // The flag is a sign of its own, so the page says it apart and searching is the act it leads with.
   Observe {t}_u_undercroft_flag at {t}_u_undercroft as sign when not knows(party, {t}_u_vault_found) "One flag in the middle of the floor is cut with a ring of letters nobody here can read, and it does not sit quite level with the rest".
@@ -203,6 +212,7 @@
   Place {t}_u_vault "the sealed vault" is room within {t} at 1, 6 underground.
   Passage {t}_u_vault_stair "the stair under the lettered flag" is stair between {t}_u_undercroft and {t}_u_vault hidden until {t}_u_vault_found.
   Initially Assert unlit({t}_u_vault).
+  Observe {t}_u_vault_scene at {t}_u_vault as fixture when true "A small square vault, dry as an oven, with a stone chair at the far end and niches in the walls where something was kept, and a smell of old spice.".
   Person {t}_u_keeper "the keeper of the vault" at {t}_u_vault {
     Role "the last of whoever built the undercroft, long dead and still at its post". Species ghoul. Numbers 1. Level 3. Lair {t}_u_vault.
     Warns "Something stands up from a stone chair at the far end of the vault, slowly, as if it had been waiting a long time.".

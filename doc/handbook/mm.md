@@ -619,6 +619,25 @@ Of deep water: Immune to reflex.
 
 > A pike grown old and huge in cold deep water, long as a boat, that takes whatever falls in.
 
+#### Great rat
+
+*Kyr · a rat, altered* · `species:great_rat`
+
+- Type: beast (animal)
+- Hit points: d3 a level
+- Qualities: rolled (3d6 each)
+- Attack: bite, 1d6 piercing
+- Hide: Fur Armor, armour 0
+- Temperament: territorial
+- Found in: settlement, cave
+- Worth: 10 experience a level
+
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
+
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
+
+> A rat the size of a cat, grown fat in the dark under a town on its grain and its dead: it bites to the bone and does not run from one man.
+
 #### Great snake
 
 *Kyr · beast* · `species:great_snake`

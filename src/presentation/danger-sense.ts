@@ -86,18 +86,13 @@ export class DangerSense {
   // most often.
   private static play(ours: Creature[], foes: Creature[], key: string, place: Place): Fight {
     const played: Trial[] = [];
-    for (let trial = 0; trial < this.trials; trial++) {
-      played.push(this.trial(ours, foes, `${key}:${trial}`, place));
-      // Half the trials lost leave no doubt.
-      if (trial === this.trials / 2 - 1 && played.every(t => !t.won)) {
-        return { odds: 0, fallen: ours.length, hurt: 1, ...this.bite(played) };
-      }
-    }
-    // Six fights decide most reckonings; one in the uneven middle (could be lost, or likely won) is played six more
-    // times before it is said (M16's free play heard "you would likely beat them" of a fight won less than half the
-    // time, from four wins in six).
+    // Six fights decide most reckonings, all six played: three lost to begin with had been taken to leave no doubt,
+    // and two great rats a warrior beats two times in three were "more than you can take" (a1's corn-store, 3
+    // November). One won some of the time and not nearly always is played six more times before it is said (M16's
+    // free play heard "you would likely beat them" of a fight won less than half the time, from four wins in six).
+    for (let trial = 0; trial < this.trials; trial++) { played.push(this.trial(ours, foes, `${key}:${trial}`, place)); }
     const first = played.filter(t => t.won).length / this.trials;
-    for (let trial = this.trials; first >= 0.25 && first < 0.9 && trial < this.trials * 2; trial++) {
+    for (let trial = this.trials; first > 0 && first < 0.9 && trial < this.trials * 2; trial++) {
       played.push(this.trial(ours, foes, `${key}:${trial}`, place));
     }
     const won = played.filter(t => t.won), falls = new Map<string, number>();
@@ -141,7 +136,11 @@ export class DangerSense {
       ...foes.map(c => ({ creatureId: c.id, team: 'goblins' as const }))], { seed, maxTurns: 150, ...place });
     while (!battle.state.outcome) { battle.step(Tactics.choose(battle.state, battle.plain(battle.legalCommands()))); }
     const bite = this.blows(battle, new Set(ours.map(c => c.id)), new Set(foes.map(f => f.id)));
-    if (battle.state.outcome !== 'fighters') { return { won: false, fell: [], hurt: 1, ...bite }; }
+    // The last foe running off is the company's fight won, not lost (three rats with a flee in them, beaten in play,
+    // had been reckoned "more than you can take": a1's corn-store, 3 November).
+    const end = battle.events.findLast(e => e.type === 'end'), routed = battle.state.outcome === 'escaped'
+      && end?.type === 'end' && !!end.fled && end.fled.team !== 'fighters';
+    if (battle.state.outcome !== 'fighters' && !routed) { return { won: false, fell: [], hurt: 1, ...bite }; }
     const company = battle.state.combatants.filter(f => f.team === 'fighters');
     return { won: true, fell: company.filter(f => f.hp === 0).map(f => f.id),
       hurt: 1 - company.reduce((sum, f) => sum + f.hp, 0) / ours.reduce((sum, c) => sum + c.state.hp, 0),

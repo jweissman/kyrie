@@ -61,6 +61,7 @@ export class Consequences {
     changes.push(...counted.map(m => ({ kind: 'set' as const, call: m.call, value: ModuleWriter.number(0) })));
     const gifts = [...handed.map(r => r.args as [string, string]),
       ...counted.flatMap(m => Array.from({ length: m.value }, () => m.call.args as [string, string]))];
+    const from = combat.length;
     for (const [given, group] of gifts) {
       const members = definition.actors.find(a => a.id === group)?.members ?? [];
       // A kind given is a new one of it (Give wonders_list_kind to actor: the circus's friction 13, Half the Hive's 5,
@@ -78,6 +79,7 @@ export class Consequences {
       if (made) { this.make(world, made.id, label); changes.push(this.fact('itemKind', made.id, kind)); }
       changes.push(...[...world.related('at', item), ...world.related('inside', item)].map(r => this.retract(r)));
     }
+    this.together(combat, from);
     for (const [group, what] of spent.map(r => r.args as [string, string])) {
       const carriers = (definition.actors.find(a => a.id === group)?.members ?? []).map(id => creatures.get(id));
       const [carrier, thing] = this.spendable(carriers, what, 'id') ?? this.spendable(carriers, what, 'definition') ?? [];
@@ -86,6 +88,16 @@ export class Consequences {
     host.commitWorld(world.apply(changes));
     host.refreshProjection();
     return true;
+  }
+  // Two of a kind given at once are said as two ("Aud gains 2 Flask of lamp oil"), not one said twice and told once.
+  private static together(events: CombatEvent[], from: number) {
+    const given = events.splice(from), said: CombatEvent[] = [];
+    for (const e of given) {
+      const same = e.type === 'gain' && e.amount !== undefined ? said.find(o => o.type === 'gain' && o.target === e.target
+        && o.detail === e.detail && o.amount !== undefined) : undefined;
+      if (same?.type === 'gain' && e.type === 'gain') { same.amount = same.amount! + e.amount!; } else { said.push(e); }
+    }
+    events.push(...said);
   }
   private static make(world: World, id: string, name: string) {
     if (!world.module.entities.some(e => e.id === id)) { world.module.entities.push({ id, type: 'item', name }); }
