@@ -30,12 +30,9 @@ export class GlanceStage {
     // Hurt on the way in (a trap's blade), what happened comes before the place (see Told.Place).
     const stayed = !leaf.moved && !!told, struck = !stayed && !!told && told.lines.some(l => Told.harm.test(l.text));
     const ready = Moments.ready(screen);
-    // Someone here in sight is talked to by their own plate, not by a lead above it as well (the owner, 4 November:
-    // "Talk to Lambert" over a plate of Lambert that did nothing): the lead goes, and the plate is edged as it would be.
-    const talked = new Set(GlanceStage.cast(app).flatMap(x => x.choices.filter(c => /#talk$/.test(c.id)).map(c => c.id)));
-    const talks = (a: Promoted) => talked.has(GlanceStage.choice(app, a.choice)?.id ?? '');
-    const acts = g.acts.filter(a => !talks(a));
-    const leading = new Set(g.acts.filter(talks).map(a => GlanceStage.choice(app, a.choice)?.id));
+    // Someone here is talked to by their own plate, not by a lead above it as well (the owner, 4 November: "Talk to
+    // Lambert" over a plate of Lambert that did nothing): the menu leaves the lead out and the plate is edged.
+    const acts = app.menu.leads ?? g.acts, leading = new Set<string | undefined>(app.menu.leading ?? []);
     return (
       <div className={`glance arrival-${g.arrival}`} data-region="glance" data-arrival={g.arrival}>
         {leaf.recap && (leaf.recap.aim || leaf.recap.last) && <Told.Recap recap={leaf.recap} />}

@@ -31,7 +31,7 @@ export class Raised {
   static led(app: ReaderApp): number | undefined {
     const g = app.state.frame?.leaf.glance, menu = app.menu;
     if (!g || !menu.sheets) { return undefined; }
-    return this.up(app) ? 0 : g.acts.filter(a => menu.choices.some(c => c.id === a.choice)).length;
+    return this.up(app) ? 0 : (menu.leads ?? g.acts).filter(a => menu.choices.some(c => c.id === a.choice)).length;
   }
   // The choices the glance draws: what it leads with, and its quiet row of ways.
   static glanced(app: ReaderApp): string[] {

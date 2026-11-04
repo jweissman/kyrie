@@ -21,6 +21,9 @@ export interface Menu {
   // In a town or a site, the ways out into the country the page does not draw (they are the map's): what the glance
   // leads with among them is drawn as going out to the country.
   overland?: Set<string>;
+  // What the glance leads with, less talk with anyone here, who is talked to by their own plate (the owner, 4
+  // November); and the talk it would have led with, so that plate is edged. The keys 1 to 3 are these, as numbered.
+  leads?: Glance['acts']; leading?: Set<string>;
   // Where each choice at a place is drawn besides the glance (see Glance): who and what is here and the place's own
   // acts under Look about, the ways under Every way, the company's own under More. It places them; it ranks nothing.
   sheets?: Sheets;
@@ -87,6 +90,10 @@ export class MenuModel {
     // out of the play environment").
     const overland = inside ? kept.far.filter(c => !MenuModel.stays(c, screen)) : [];
     const scene = inside ? { ...kept, far: kept.far.filter(c => MenuModel.stays(c, screen)) } : kept;
+    const talked = new Set(scene.subjects.filter(x => x.kind === 'person' && !x.danger)
+      .flatMap(x => x.choices.filter(c => /#talk$/.test(c.id)).map(c => c.id)));
+    const leads = glance?.acts.filter(a => !talked.has(a.choice)) ?? [];
+    const leading = new Set(glance?.acts.filter(a => talked.has(a.choice)).map(a => a.choice) ?? []);
     // Underground, the world map is not a way out (a cellar under a corn-store had offered it beside the rat-runs).
     const going = inside ? [] : journeys, country = !screen.place.underground
       && (overland.length || (inside && journeys.length)) ? MenuModel.country : undefined;
@@ -98,9 +105,9 @@ export class MenuModel {
       more: this.ids(yours, opened) };
     return { scene, sections: [...this.sections(scene), ...going.length
       ? [{ id: 'destinations', title: 'Set out for', tone: 'way' as const, glyph: '⇢', choices: going }] : []],
-    choices: this.led(this.unfolded([...subjects, ...ways, ...scene.you], opened), glance,
+    choices: this.led(this.unfolded([...subjects, ...ways, ...scene.you], opened), glance && { ...glance, acts: leads },
       { aimed, overland: new Set([...overland, ...journeys].map(c => c.id)) }), destinations: going,
-    around: about, ...glance ? { sheets } : {},
+    around: about, ...glance ? { sheets, leads, leading } : {},
     ...country ? { overland: new Set([...overland, ...journeys].map(c => c.id)) } : {} };
   }
   // A choice by its id; a way out into the country, in a town or a site, as going out to it.
