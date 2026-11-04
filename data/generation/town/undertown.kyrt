@@ -92,7 +92,7 @@
   Initially Assert tolerates({t}_u_dead, party).
   Initially Set encounterXp({t}_u_dead) to 25.
   Person {t}_u_raiser "the man with the black candle" at {t}_u_ossuary {
-    Role "a grave-robber who has read a book he should not have, and is trying what it says". Ancestry human. Calling mage. Level 3. Temperament defensive. Lair {t}_u_ossuary. Pronouns he.
+    Role "a grave-robber who has read a book he should not have, and is trying what it says". Ancestry human. Calling mage. Level 2. Temperament defensive. Lair {t}_u_ossuary. Pronouns he.
     Warns "A man in a muddy coat stands up behind a burning black candle, among the bones. 'Go back up,' he says. 'This is not yours.'".
   }
   Initially Set encounterXp({t}_u_raiser) to 30.
