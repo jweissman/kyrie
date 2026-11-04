@@ -12,6 +12,6 @@ describe('a rule heard at a place', () => {
     const found = await KyrLint.campaign('test/fixtures/probes/heard-there/probe.campaign.json', new NodeBundleSource());
     expect(found.filter(f => f.check === 'anchor').map(f => f.message)).toEqual([
       'p__lifted is heard at p__market, but what it does to the company happens wherever the company is: put at(party,'
-      + ' p__market) in its condition, or anchor it within an area']);
+      + ' p__market) in its condition, anchor it within an area, or write it heard at p__market if that is meant']);
   }, 60000);
 });

@@ -154,7 +154,10 @@ Kyr {
   PursuitUsing = "using" NonemptyListOf<ident, ","> PursuitPlanning?
   // How many ways ahead they look, for someone another file declares (QTC-A31).
   PursuitPlanning = "planning" integer "steps"
-  WorldRule = "Rule" ident Anchor? "when" Predicate RuleOnce? RuleSays? RuleTeaches? "{" ChangeStatement* "}"
+  WorldRule = "Rule" ident RuleWhere? "when" Predicate RuleOnce? RuleSays? RuleTeaches? "{" ChangeStatement* "}"
+  // Only its words anchored: done wherever the company is, heard only there (QTC-A18, BOF-07).
+  RuleWhere = "heard" Anchor -- heard
+    | Anchor -- plain
   RuleOnce = "once"
   RuleSays = "says" string RuleAgain?
   // And after that each in turn, round again: a parrot's repertoire (QTC-A35).

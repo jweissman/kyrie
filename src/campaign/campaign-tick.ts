@@ -171,8 +171,9 @@ export class CampaignTick {
     { began, since }: { began: World; since?: World }) {
     const { definition, creatures } = host.tickState;
     // A rule said within an area waits for the company to be there: news of the city is told, and done, when the
-    // company comes up from under the sea (What Tessary Owes' W1, the Road's F9).
-    if (rule.anchor === 'within' && rule.place
+    // company comes up from under the sea (What Tessary Owes' W1, the Road's F9). One only heard within it happens
+    // regardless: the Sexton goes back up the tower whether or not anyone is under the water (the Grand Tour's 22).
+    if (rule.anchor === 'within' && rule.place && !rule.heard
       && !(host.playerActor && LocalObservations.inArea(host.world, host.playerActor, rule.place))) { return; }
     // One held as news waits for the company to hear it: a promise's line, until the company is with the one it was
     // made to (the Grand Tour's friction 5, Perrin's 'as he asked' told wherever the company was).

@@ -359,6 +359,7 @@
     "test/catalog-isolation.test.ts": 1523,
     "test/interrupted.test.ts": 1503,
     "test/known-as-labels.test.ts": 1500,
+    "test/heard-only.test.ts": 1500,
     "test/promise-heard.test.ts": 1492,
     "test/quiet-in-the-sky-browser.test.ts": 1399,
     "test/happened.test.ts": 1373,

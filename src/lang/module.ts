@@ -95,6 +95,10 @@ export interface WorldRule {
   // Said only where the company hears it, and until then not done but held as news: a promise's line, for the one it
   // was made to (see Promises.lower).
   held?: boolean;
+  // Written `heard at` (or near, beside, within): only its words are anchored. It happens wherever the company is, and
+  // is told only to a company there as a witness, the lint not advising on it: a surveyor's verdict at the landing is
+  // given whether anyone is on the landing or not (QTC-A18, BOF-07: each such beat had been two rules and a latch).
+  heard?: boolean;
 }
 // What an observation tells of: what a place is (a fixture, the default), a part worth a closer look (a feature),
 // evidence of something (a sign), the sky (weather), the passing life of the place (ambience), something happening

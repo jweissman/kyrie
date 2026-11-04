@@ -35,7 +35,8 @@ export class ModuleParser {
     TriesPart: ModuleParser.TriesPart, MemberBinding: StatementParser.MemberBinding, LeavesTo: PersonParser.LeavesTo,
     Event: ModuleParser.Event, EventTail_effects: ModuleParser.EventEffects, EventTail_plain: ModuleParser.EventPlain,
     Anchor_at: ModuleParser.Anchor, Anchor_near: ModuleParser.Anchor, Anchor_beside: ObjectParser.Beside,
-    Anchor_within: ModuleParser.Anchor, Objective: ModuleParser.Objective, PersonCalled: PersonParser.PersonCalled,
+    Anchor_within: ModuleParser.Anchor, RuleWhere_heard: ModuleParser.Heard, Objective: ModuleParser.Objective,
+    PersonCalled: PersonParser.PersonCalled,
     PersonHorizon: PersonParser.PersonHorizon, PersonPeaceable: PersonParser.PersonPeaceable,
     RuleSays: PersonParser.RuleSays, Seen: ModuleParser.Seen, TopicOnce: PersonParser.TopicOnly,
     TopicTravelling: PersonParser.TopicOnce, RuleOnce: PersonParser.TopicOnce, PersonAgain: PersonParser.PersonAgain,
@@ -230,6 +231,7 @@ export class ModuleParser {
     return { field: 'tries', value: [first.sourceString, ...more.children.map(n => n.sourceString)] };
   }
   static Anchor(word: Node, id: Node) { return { kind: word.sourceString, id: id.sourceString }; }
+  static Heard(_heard: Node, anchor: Node) { return { ...ModuleParser.ast(anchor) as object, heard: true }; }
   static Event(_e: Node, id: Node, anchor: Node, _when: Node, when: Node, text: Node, taught: Node, tail: Node): Field {
     return { field: 'event', value: { id: id.sourceString,
       ...(anchor.children.length ? { anchor: ModuleParser.ast(anchor.children[0]!) } : {}),
@@ -332,9 +334,10 @@ export class ModuleParser {
   static WorldRule(_rule: Node, id: Node, anchor: Node, _when: Node, predicate: Node, once: Node, says: Node,
     teaches: Node, _open: Node, changes: Node, _close: Node): Field {
     const where = anchor.children.length ?
-      ModuleParser.ast(anchor.children[0]!) as { kind: string; id: string } : undefined;
+      ModuleParser.ast(anchor.children[0]!) as { kind: string; id: string; heard?: true } : undefined;
     return { field: 'rule', value: { id: id.sourceString, when: ModuleParser.ast(predicate),
       effects: ModuleParser.list(changes), ...(where ? { place: where.id, anchor: where.kind } : {}),
+      ...where?.heard ? { heard: true } : {},
       ...(says.children.length ? ModuleParser.ast(says.children[0]!) as object : {}),
       ...once.children.length ? { once: true } : {}, ...InformationParser.teaching(teaches) } };
   }
