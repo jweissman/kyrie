@@ -40,6 +40,9 @@ describe('an origin\'s ending', () => {
     const keep = w.report.region.sites.find(x => x.name === 'Ísencepan')!;
     expect(paid.response).toContain('If you want work, and have the stomach for it: Ísencepan, out in the fen');
     expect([Ended.knows(s, `region__${keep.id}_named`), Ended.knows(s, `region__${keep.id}_found`)]).toEqual([true, true]);
+    // And the notes have it from the merchant, as said, not as known before the company set out (NAR-12).
+    const note = PlayerView.observe(s.campaign).knowledge.find(k => k.id === `region__${keep.id}_named`)!;
+    expect([note.source, note.from]).toEqual(['heard', 'Mik, salter']);
     const screen = ScreenModel.build(s.campaign);
     expect(screen.objectives).toContainEqual(expect.stringContaining('Ísencepan'));
     expect(screen.destinations?.map(d => d.name)).toContain('Ísencepan');
