@@ -49,7 +49,7 @@ export class WorldConstructs {
     const kinds = changes.filter(x => ['assert', 'increase'].includes(x.kind)
       && ['handed', 'usesUp', 'gifts'].includes(x.call.name)).map(c => c.call.args[c.call.name === 'usesUp' ? 1 : 0]!);
     // And one a condition asks the company to hold (holding(actor, candle)): refused unless the module declared an item
-    // of the kind (the Book of Faces' BOF-19).
+    // of the kind (the Book of Faces' BOF-17).
     const held = new Set<string>();
     this.holding([module.actions, module.rules ?? [], module.queries], held);
     for (const kind of [...kinds, ...held]) {
