@@ -31,7 +31,7 @@ evidence goes:
 | The first town's loop, the reference | Usable by the builder, not accepted | E1–E6 |
 | Another calling | Reachable only: a mage by ratsbane or a fire flask | E7 (`undertown-callings`) |
 | Another order of the town's jobs | Reachable only: half paid, then the rest, never twice | E7 (`undertown-orders`, REV-21) |
-| An expedition with retreat and return | Not yet shown this mission | the rats spec rests in the corn-store between fights; no out-of-town expedition replayed since the repairs |
+| An expedition with retreat and return | Reachable only (headless, green on every push): out to a deep site and home, what was carried up sold (`long-expedition`); out, a night outside, back in to a cleared room filled again (`deep-expedition`); hurt by the brood, back up to rest, down again for the buck (`undertown`) | not played in the browser since the repairs; no retreat from a fight going badly in any of them |
 | An authored adventure reached through ordinary play | Not yet shown this mission | journey 4 (13f1f149) reaches a generated site heard of; no authored adventure has been reached from Begin since the repairs |
 
 ## For an independent player
