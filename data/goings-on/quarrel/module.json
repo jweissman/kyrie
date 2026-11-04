@@ -15,5 +15,6 @@
     "priest": { "type": "group" }
   },
   "exports": { "feud": "feud" },
-  "experience": 300
+  "experience": 300,
+  "unclocked": "an old quarrel keeps: the stones moved in the spring and stand where they are until someone settles it"
 }

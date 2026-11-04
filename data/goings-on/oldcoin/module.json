@@ -12,5 +12,6 @@
   },
   "generation": { "type": "oldcoin", "templates": "templates.json", "tables": "tables.json" },
   "exports": { "coin_talk": "coin_talk" },
-  "experience": 300
+  "experience": 300,
+  "unclocked": "the stranger waits at the inn to be taken to the old place, and nothing comes of it for waiting"
 }
