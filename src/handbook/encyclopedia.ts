@@ -4,6 +4,7 @@ import { ModuleParser } from '../lang/module-parser';
 import type { Entity } from '../lang/module';
 import type { Handbooks } from './handbooks';
 import type { Book, Entry, Section, Status } from './model';
+import { EncyclopediaLore } from './encyclopedia-lore';
 
 export interface Chapter { id: string; title: string; lede: string[]; sections: Section[] }
 // A land an adventure lies in, as its own folk and its neighbours speak of it (countries.json): never what is found
@@ -47,6 +48,11 @@ export class Encyclopedia {
         'The beasts, monsters and strange folk of Imbar: what each is, how it fights, and what it is born with.'] },
       { id: 'conditions', title: 'Conditions', sections: Encyclopedia.take(phb, ['conditions']), lede: [
         'What can come over a body in a fight or after it: wounds, poisons, curses, blessings, and how long each lasts.'] },
+      { id: 'history', title: 'The old makers, and after', sections: EncyclopediaLore.history(), lede: [
+        'Before the folk who live in Imbar now, other peoples made things in its land, each by its own art, and were '
+        + 'gone; kingdoms came after them and used what they left. Their works are still there to be found.'] },
+      { id: 'gods', title: 'The gods', sections: EncyclopediaLore.gods(), lede: [
+        'The gods of Imbar, each by the domains it answers in: what a priest prays to, and what a shrine is kept for.'] },
       { id: 'tongues', title: 'Tongues', sections: [Encyclopedia.tongues(tongues)], lede: [
         'The languages of Imbar, who speaks each, and a few of their words: the names of its towns and hills are in '
         + 'them, worn down by the folk who live there.'] },

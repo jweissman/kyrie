@@ -94,5 +94,5 @@ evidence goes is in [evidence.md](evidence.md) (ledger E2 to E8). In short, and 
 - Five generators' words and mechanics moved to templates and tables (roads, deep rooms, town errands, teachers,
   losing the way), each checked by generated Kyr unchanged to the byte (M19-44).
 
-Item 5 above is partly answered by the last; items 1 to 4 stand as they were. Item 3 above stands most of all: no
+Item 5 above is partly answered by the last; item 4 by two chapters of the Encyclopedia, the old makers and those after them, and the gods by their domains, from the data every country draws its past and its faith from; items 1 to 3 stand as they were. Item 3 above stands most of all: no
 independent player has played since the repairs, and the evidence for an hour's play is the builder's.

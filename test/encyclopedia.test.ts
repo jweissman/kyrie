@@ -15,8 +15,16 @@ describe('the Encyclopedia of Imbar', () => {
   const html = new EncyclopediaHtml(book);
   it('has its chapters, each with entries', () => {
     expect(book.chapters.map(c => c.id)).toEqual(['peoples', 'lives', 'magic', 'arms', 'creatures', 'conditions',
-      'tongues', 'planes', 'lands']);
+      'history', 'gods', 'tongues', 'planes', 'lands']);
     for (const c of book.chapters) { expect(html.chapter(c)).toContain('class="item'); }
+  });
+  // Its history and its gods, from the data every country draws its past and its faith from (Mission 19's progress:
+  // the Encyclopedia had lacked history and institutions).
+  it('tells of the old makers, those after them, and the gods', () => {
+    const where = book.where();
+    expect(where.get('makers:water')?.title).toBe('The Water-Wardens');
+    expect([...where.keys()].filter(id => id.startsWith('successors:')).length).toBeGreaterThanOrEqual(3);
+    expect([...where.keys()].filter(id => id.startsWith('deity:')).length).toBeGreaterThan(20);
   });
   it('holds only what the game plays, said as the game plays it', () => {
     const where = book.where(), placed = new Map(handbooks.placed().map(p => [p.id, p]));
