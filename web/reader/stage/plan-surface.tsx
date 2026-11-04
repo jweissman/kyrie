@@ -37,7 +37,8 @@ export class PlanSurface {
       <div className={`plan-surface kind-${plan.kind}`} data-region="plan" ref={host}>
         <svg viewBox={`-24 -24 ${width + 48} ${height + 48}`} preserveAspectRatio="xMidYMid meet" role="group"
           aria-label={`The plan of ${plan.name}`} style={{ minWidth: `${Math.round((width + 48) * 0.82)}px`,
-            minHeight: `${Math.round((height + 48) * 0.82)}px` }}>
+            minHeight: `${Math.round((height + 48) * 0.82)}px`, maxWidth: `${Math.round((width + 48) * 1.1)}px`,
+            maxHeight: `${Math.round((height + 48) * 1.1)}px` }}>
           <defs>
             <pattern id="surface-hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
               <line x1="0" y1="0" x2="0" y2="6" className="hatch" /></pattern>
