@@ -1,0 +1,46 @@
+{
+  "about": "How a generated country's roads look, as the page tells them on the way (see src/world/region-roads.ts, which draws one of each list for a road by what it crosses or runs through). {river}, {wood} and {pass} are the name of what it crosses; {from} and {to} its two ends. Add a line to a list to add one; nothing in the engine needs to change.",
+  "fords": [
+    "The road comes down between alders to the {river} and crosses it on a ford of flat stones; on the far bank it climbs again toward {to}.",
+    "At the ford the {river} spreads wide and shallow over gravel. A pole stands in the water, marked for the depth.",
+    "The road goes into the {river} at a shelving beach and out the other side; carts have cut deep ruts on both banks."
+  ],
+  "bridges": [
+    "The road crosses the {river} by a bridge of old grey stone, three arches green with moss; the river runs deep and quick beneath.",
+    "A timber bridge on stone piers carries the road over the {river}. Its planks are new; its piers are not.",
+    "The bridge over the {river} is narrow and humped, with a cut stone at its crown too worn to read."
+  ],
+  "woods": [
+    "The road winds under the trees of {wood}, roots across it and the light gone green. It is slow going, and the wood is quiet on either hand.",
+    "Through {wood} the road is a sunken lane, banks higher than your head, oak roots knotted in them.",
+    "In {wood} the road narrows to a cart's width. Woodcutters have stacked cordwood along it, and left."
+  ],
+  "passes": [
+    "The road climbs to the {pass}, a saddle of bare rock between the heights, and goes over. Cairns mark the way where the snow lies. There is no shelter, and the wind never stops.",
+    "At the top of the {pass} a cairn of stones stands higher than a rider, every traveller's stone added to it.",
+    "The {pass} is a notch between crags, the road a ledge along one side of it, with a long fall on the other."
+  ],
+  "open": {
+    "meadow": [
+      "The road between {from} and {to} runs between hedges and fields, past a farm or two and a wayside cross.",
+      "Open farmland on either hand: strip-fields, a mill-pond, cattle that lift their heads as you pass.",
+      "A drove road, broad and rutted, between {from} and {to}, with thorn hedges and the odd byre."
+    ],
+    "heath": [
+      "The road crosses open moor between {from} and {to}, marked by standing posts where the heather would hide it.",
+      "Heather and gorse either side, and the road a pale line over the moor toward {to}."
+    ],
+    "wood": [
+      "Woods close in on both sides of the road between {from} and {to}, and open again at clearings.",
+      "The road between {from} and {to} goes through scattered woods and the clearings of charcoal-burners."
+    ],
+    "fen": [
+      "The road crosses the fen on a causeway of piled stone and black timber: open water on one hand, reeds on the other.",
+      "Between {from} and {to} the road is a raised bank across the fen, with ditches either side full of still water."
+    ],
+    "fell": [
+      "The road climbs and falls over the shoulders of the fells between {from} and {to}, stone walls beside it.",
+      "Between {from} and {to} the road keeps to the valley side, above the river, under the fells."
+    ]
+  }
+}

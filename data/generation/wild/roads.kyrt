@@ -1,0 +1,21 @@
+# roads: what a generated country's road asks of a company crossing a river by a ford, or going over a pass.
+// A Kyr template (see src/world/kyr-template.ts), written for each road of a generated country that fords a river or
+// crosses a pass (see src/world/region-roads.ts, which writes the road itself: its place, its passages, its look).
+// {w} is the road's way (the room the road is), to make its own ids with; {on} the passage on from it, where the ford
+// is; {river} the river's name, {pass} the pass's. Change a hazard, a state or the words here; nothing in the engine
+// needs to change.
+--- ford
+  // A ford is crossed knee-deep; when the river is up it can be risked, and whoever goes first may be swept off it.
+  Hazard {w}_swept "Swept off the ford" means "Deal (1d6) physical damage to ally unless strength save against (12).".
+  Thing {w}_water "the {river}" on {on} is scenery {
+    State low "The {river} runs knee-deep and clear over the ford stones.".
+    State spate dangerous "The {river} is in spate: brown water runs fast and loud over the ford, thigh-deep and rising.".
+    Hurts with {w}_swept when spate then spate.
+  }
+--- pass
+  // A pass is a long climb, cold after dark.
+  Hazard {w}_cold "The cold on the {pass}" means "Deal (1d4) cold damage to ally unless constitution save against (12).".
+  Relation {w}_chilled(group).
+  Initially Assert unsheltered({w}, {w}_cold).
+  Rule {w}_night when at(party, {w}) and dark() and not {w}_chilled(party) says "Night comes down on the {pass}, and the cold with it. There is no shelter, and nothing to burn." { Assert strikes({w}_cold, party). Assert {w}_chilled(party). }
+  Rule {w}_dawn when {w}_chilled(party) and not dark() { Retract {w}_chilled(party). }

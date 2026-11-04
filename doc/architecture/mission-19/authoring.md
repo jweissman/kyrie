@@ -61,6 +61,20 @@ called Rurik: OWN-51). An author extends it by adding endings, or names to `folk
 *Validate.* `test/region-peoples.test.ts` checks eight countries' townsfolk; no one is renamed (the pronoun stream
 draws as before), and the kept trace comes where it came.
 
+## 4. A road: how it looks, and what its ford or pass asks
+
+How a generated country's roads look on the way is a table, `data/generation/scenes/roads.json`: a list for fords,
+bridges, woods and passes, and for open roads one list for each kind of ground (meadow, heath, wood, fen, fell), with
+`{river}`, `{wood}`, `{pass}`, `{from}` and `{to}` filled in. What a ford or a pass asks of a company (swept off a ford
+in spate; cold on a pass after dark) is a Kyr template, `data/generation/wild/roads.kyrt`: change the hazard's dice,
+the river's states or the night's words there. `src/world/region-roads.ts` keeps only what is structure: which roads
+there are, what they are called, how long each half takes. Moving them out of TypeScript changed no generated world
+(the Kyr written for kite is the same to the byte).
+
+To try it: add a line to `"fen"` in `roads.json`, `bun run web:build`, and draw a world (`bin/kyrie play --world kite`)
+whose roads cross fen; the road's look is drawn from the list by the road's own id, so a new line is met on some roads
+and not others.
+
 ## What does not yet work as an author would want
 
 - **Languages.** Place and people names come from the `languages` package, pinned by git commit; changing a
@@ -72,5 +86,8 @@ draws as before), and the kept trace comes where it came.
   creature is not met in play without a code change.
 - **Spells and effects.** Spells come from Orsino's registry (`data/catalog/orsino/`, generated) or hand JSON;
   Kyr cannot define one, only teach one (`Resolve teach`).
-- **Most generators are still TypeScript writing Kyr as text** (the handoff's §8): the undertown, the works and the
-  wild's meetings are templates; the settlements, roads, deep sites, market and fellows are not.
+- **Most generators are still TypeScript writing Kyr as text** (the handoff's §8): the undertown, the works, the
+  wild's meetings and the roads' fords and passes are templates, and the roads' looks a table; the settlements, deep
+  sites, market and fellows are not. Ranked by the prose still in them: `deep/deep-rooms.ts`,
+  `community/community-writer.ts`, `deep/deep-mechanisms.ts`, `region-market.ts`, `settlement-writer.ts`,
+  `region-zones.ts` (M19-44).
