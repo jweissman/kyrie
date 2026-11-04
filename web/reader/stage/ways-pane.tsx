@@ -6,9 +6,10 @@ import type { Draw } from './act';
 import { Drawer } from './drawer';
 import { PlaceStage } from './place-stage';
 import { Raised } from './raised';
+import { TownPlanView } from '../town-plan-view';
 
 // Every way from a place (OWN-19): a sheet raised over the glance by one touch (W), which rows the nearest few. Where
-// you are bound and the next way there, and giving it up; across country, the six ways as the hexes about lie; the
+// you are bound and the next way there, and giving it up; in a town or a building, its plan (see TownPlanView); across country, the six ways as the hexes about lie; the
 // ways about the place, the town's other places, the roads out, each with how long and whether you have been; and the
 // places further off you know the way to. Whatever your aims name says so.
 export class WaysPane {
@@ -20,6 +21,7 @@ export class WaysPane {
       <Drawer.View app={app} sheet="ways" title={from} shut="ways">
         <div className="ways-all">
           <PlaceStage.Bound app={app} draw={draw} />
+          <TownPlanView.View app={app} screen={screen} choices={[...scene.near, ...scene.far, ...app.menu.around ?? []]} />
           <PlaceStage.Ways screen={screen} near={scene.near} far={scene.far} draw={draw} around={app.menu.around}
             aimed={PlaceStage.aimed(app)} />
           <PlaceStage.Further app={app} draw={draw} />

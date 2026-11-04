@@ -268,3 +268,29 @@
 .plan-drawn .spot.out path { fill: none; stroke: var(--ivory); stroke-opacity: .7; stroke-width: 1.6; }
 .plan-drawn text { fill: var(--ivory); font: 400 13px/1 var(--do); }
 .plan-drawn .spot:not(.been) text { fill: var(--dim); }
+
+/* ---- The plan of the town or building you are in (TownPlanView): cells of the grid, walls hatched, open ground
+   stippled, the lanes the streets between, you ringed in gold. ---- */
+.town-plan { display: flex; flex-direction: column; gap: 10px; }
+.town-plan .key { margin: 0; font: 400 12px/1.5 var(--do); color: var(--dim); max-width: 60ch; }
+.town-drawn { width: 100%; height: auto; max-height: 52vh; display: block; }
+.town-drawn .hatch { stroke: var(--ivory); stroke-opacity: .62; stroke-width: 1.6; }
+.town-drawn .stipple { fill: var(--ivory); fill-opacity: .34; }
+.town-drawn .lane { fill: none; stroke: var(--edge-strong); stroke-width: 9; stroke-linejoin: round; stroke-linecap: round; }
+.town-drawn .cell .wall { fill: url(#plan-hatch); stroke: var(--ivory); stroke-opacity: .7; stroke-width: 1.2; }
+.town-drawn .cell .floor { fill: var(--raised); stroke: var(--ivory); stroke-opacity: .45; stroke-width: .8; }
+.town-drawn .cell .ground { fill: url(#plan-ground); stroke: var(--ivory); stroke-opacity: .45; stroke-width: 1;
+  stroke-dasharray: 5 4; }
+.town-drawn .cell .base { fill: var(--surface); }
+.town-drawn .cell text { fill: var(--ivory); font: 500 14px/1 var(--do); pointer-events: none; }
+.town-drawn .cell:not(.been) text { fill: var(--dim); font-style: italic; }
+.town-drawn .cell:not(.been) .wall, .town-drawn .cell:not(.been) .ground { opacity: .7; }
+.town-drawn .cell.door .ground { stroke-dasharray: 2 4; }
+.town-drawn .cell.barred .ground, .town-drawn .cell.barred .wall { stroke: var(--ember); stroke-dasharray: 3 4; }
+.town-drawn .cell.here .ring { fill: none; stroke: var(--gold); stroke-width: 2.2; }
+.town-drawn .cell.here text { fill: var(--gold); }
+.town-drawn .cell.go { cursor: pointer; }
+.town-drawn .cell.go:hover .floor, .town-drawn .cell.go:focus-visible .floor { fill: var(--lift); }
+.town-drawn .cell.go:hover .ground, .town-drawn .cell.go:focus-visible .ground { stroke: var(--gold); stroke-opacity: .9; }
+.town-drawn .cell.go:hover .wall, .town-drawn .cell.go:focus-visible .wall { stroke: var(--gold); }
+.town-drawn .cell.go:focus-visible { outline: none; }

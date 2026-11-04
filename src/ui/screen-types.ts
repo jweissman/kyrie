@@ -138,7 +138,7 @@ export interface Screen {
   // Lines of this scene the company has not seen before, at a place it has been before: what has changed.
   fresh: string[];
   map: { id: string; name: string; zone: string; visited: boolean; here: boolean }[];
-  chart?: Chart; region?: RegionChart; objectives: string[];
+  chart?: Chart; region?: RegionChart; plan?: Plan; objectives: string[];
   // Whom and what the company's aims and family name (people, places, ways): met and gone to first (see Stakes).
   aimed?: string[];
   expedition: { time: string; daylight: string; rations: number; hungry: boolean; weary?: boolean; nextMeal?: string;
@@ -163,6 +163,14 @@ export interface Screen {
   // Where in the settlement the company is in what anyone needs is found (see Services): each need, who meets it,
   // where, whether that is here, and what of it they have.
   services?: { need: string; who: string; place: PlaceRef; here: boolean; has: string[] }[];
+}
+// The plan of the town or the building the company is in (see TownPlan): each place a cell on its grid, by its id
+// (a building's, the room its door opens into; a door out, the place outside), and the ways between.
+export interface Plan {
+  name: string; kind: 'settlement' | 'building';
+  cells: { id: string; name: string; x: number; y: number; indoors: boolean; here: boolean; been: boolean;
+    building?: boolean; door?: boolean }[];
+  lanes: { from: string; to: string }[];
 }
 export interface Chart {
   // A way out of the plan is drawn as a place beyond it (external); one to another level of the site goes up or down.

@@ -1,0 +1,45 @@
+import { beforeAll, describe, expect, it } from 'bun:test';
+import { DrawnWorld } from '../src/world/drawn-world';
+import { NodeBundleSource } from '../src/campaign/node-bundle-source';
+import { ScreenModel } from '../src/ui/screen-model';
+import { ModuleWriter } from '../src/lang/module-writer';
+import type { Campaign } from '../src/campaign/campaign';
+import type { Plan } from '../src/ui/screen-types';
+
+// The plan of the town the company is in (TownPlan): each place a cell of its own on the town's grid, a building one
+// cell gone into by its door, the lanes between, and where the company is; from inside a building of a room or two,
+// the town's plan with that building where it is; none below ground (that plan is the level's).
+class Stood {
+  static campaign: Campaign;
+  static at(name: string): Plan | undefined {
+    const c = this.campaign, party = c.playerActor ?? 'party', was = c.world.one('at', party)!;
+    const to = c.module.entities.find(e => e.type === 'place' && e.space?.kind === 'room' && e.name === name)!;
+    c.commitWorld(c.world.apply([{ kind: 'retract', call: ModuleWriter.call('at', party, was) },
+      { kind: 'assert', call: ModuleWriter.call('at', party, to.id) }]));
+    return ScreenModel.build(c).plan;
+  }
+}
+
+describe('the plan of a town', () => {
+  beforeAll(async () => {
+    Stood.campaign = (await DrawnWorld.start('thorn', { origin: 'wanderer',
+      party: [{ name: 'Wenna', raceId: 'human', classId: 'ranger' }] }, NodeBundleSource.shared)).campaign;
+  }, 120000);
+  it('sets each place it knows a way to in a cell of its own, the company where it stands', () => {
+    const plan = Stood.at('the gate-yard of Sedgeminster')!;
+    expect(plan).toMatchObject({ kind: 'settlement', name: 'Sedgeminster' });
+    expect(plan.cells.filter(c => c.here).map(c => c.name)).toEqual(['the gate-yard of Sedgeminster']);
+    expect(new Set(plan.cells.map(c => `${c.x},${c.y}`)).size).toBe(plan.cells.length);
+    const house = plan.cells.find(c => c.building)!;
+    expect(house).toMatchObject({ name: 'the brothers\' house at Sedgeminster', indoors: true });
+    // Gone into by its door: the room of it the yard leads into.
+    expect(house.id).not.toBe('region__s5_inn');
+    const here = plan.cells.find(c => c.here)!.id;
+    expect(plan.lanes.some(l => [l.from, l.to].includes(here) && [l.from, l.to].includes(house.id))).toBe(true);
+  });
+  it('from a building of a room or two, is the town\'s, with the building where the company is', () => {
+    const plan = Stood.at('the guest-hall of Sedgeminster')!;
+    expect(plan.kind).toBe('settlement');
+    expect(plan.cells.filter(c => c.here)).toEqual([expect.objectContaining({ building: true })]);
+  });
+});

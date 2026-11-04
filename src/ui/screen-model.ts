@@ -28,7 +28,7 @@ import { ObservationText } from '../lang/observation-text';
 import { ChartModel } from './chart-model'; import { Carriers } from './carriers'; import { CarriedFlame } from './carried-flame';
 import { Overlays } from '../overlays'; import { PerkText } from '../presentation/perk-text'; import { Exposure } from './exposure';
 import { Services } from './services'; import { Headings } from './headings'; import { TradeModel } from './trade-model'; import { ItemUses } from './item-uses'; import { Skies } from './skies';
-import { Stakes } from './stakes';
+import { Stakes } from './stakes'; import { TownPlan } from './town-plan';
 import type { Act, ItemRow, MemberRow, Screen, TargetRow } from './screen-types';
 
 // Builds the renderer-independent game screen from the authoritative campaign. Pure: same campaign, same screen.
@@ -40,8 +40,7 @@ export class ScreenModel {
       ...sky ? { weather: sky.replace(/^.*__/, '').replace(/^weather_/, '') } : {} };
   }
   static build(campaign: Campaign): Screen {
-    const view = PlayerView.observe(campaign), world = campaign.world;
-    const entities = ObservationText.presented(world);
+    const view = PlayerView.observe(campaign), world = campaign.world, entities = ObservationText.presented(world);
     const names = this.names(campaign), prices = this.prices(world);
     const present = new Set(view.present.map(p => p.id));
     const passageOf = this.passageOf(world, view.location?.id ?? '');
@@ -64,7 +63,7 @@ export class ScreenModel {
       ...this.marks(campaign, p.id, { along, stakes }),
       ...scene.says.has(p.id) ? { says: scene.says.get(p.id)! } : {}, ...this.reckoning(campaign, p.id, grouped),
       ...CharacterSheets.recruit(campaign, p.id, grouped.targets.get(p.id) ?? []) })));
-    return {
+    const screen: Screen = {
       title: view.title, clock: FictionalTime.at(view.elapsed, view.minutes), elapsed: view.elapsed,
       running: view.running, ...Patience.of(campaign, view.minutes),
       ...this.when(campaign, view.elapsed), path: here ? passages.path(here) : [], place: passages.place(here),
@@ -94,6 +93,7 @@ export class ScreenModel {
       unplaced: [...grouped.unplaced, ...[...unclaimed.entries()].flatMap(([id, acts]) =>
         acts.map(a => ({ ...a, label: `${entities.get(id)?.name ?? id}: ${a.label}` })))],
     };
+    return { ...screen, ...TownPlan.of(screen, entities, world, visited) };
   }
   // The choices, with who makes each skilled one possible, and what the company could do with a skill nobody in it has.
   private static commands(campaign: Campaign): Row[] {
