@@ -34,7 +34,7 @@ describe('two fights in one', () => {
       moved: false };
     const leaf = Narrator.leaf(s.campaign, ScreenModel.build(s.campaign), told);
     const lines = (leaf.exchange?.lines ?? []).map(l => l.text);
-    expect(lines.some(l => /^The (first|second|third|fourth) of the rats falls\.$/.test(l))).toBe(true);
+    expect(lines.some(l => /^The (first|second|third|fourth) [a-z ]*rat falls\.$/.test(l))).toBe(true);
     expect(lines.some(l => /bone hounds/.test(l))).toBe(true);
     expect(lines.filter(l => /^The fight is won/.test(l))).toEqual(['The fight is won.']);
   }, 60000);

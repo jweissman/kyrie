@@ -56,7 +56,7 @@ describe('A Parliament of Books: the Ash', () => {
       const j = await Calamy.start('ash-fight',
         [{ name: 'Brand', raceId: 'human', classId: 'warrior', backgroundId: 'soldier', level: 10 } as CreatureGenerationContext]);
       await Calamy.play(j, ...withCrake, 'go:char_edge', 'Attack', 'go:cinderfield', 'Attack', 'go:char_edge',
-        'Make camp for the night', 'go:hearth', 'Attack');
+        'Make camp', 'go:hearth', 'Attack');
       expect(j.holds('dead', C('penknife')) || Calamy.holds(j, 'routed', 'penknife')).toBe(true);
       await Calamy.play(j, 'Throw the Index into its own furnace');
       expect(Calamy.holds(j, 'indexBurned', 'index')).toBe(true);

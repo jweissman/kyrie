@@ -1,5 +1,6 @@
 import type { Campaign } from '../campaign/campaign';
 import { EntityIndex } from '../lang/entity-index';
+import { Content } from '../content';
 
 // What a creature is called when its fight is told after it, as the company knew it: one of a band by its place in
 // the band ("the second of the spirits"), a band of one by the band ("the curious ooze"), anyone else by their own
@@ -20,7 +21,15 @@ export class BandNames {
       if (!band || !label || !/^(the|a|an) /i.test(label)) { return [c.id, c.name ?? c.id]; }
       if (band.members.length === 1) { return [c.id, label]; }
       const nth = this.ordinals[band.members.indexOf(c.id)] ?? 'last';
-      return [c.id, `the ${nth} of ${label.replace(/^(a|an) /i, 'the ')}`];
+      // A band all of one kind by the kind: "the second great rat", not "the second of the rats under the corn-store"
+      // (Mission 19's play: the band's whole name on every line of the fight).
+      const kind = this.kind(campaign, band.members);
+      return [c.id, kind ? `the ${nth} ${kind}` : `the ${nth} of ${label.replace(/^(a|an) /i, 'the ')}`];
     }));
+  }
+  private static kind(campaign: Campaign, members: string[]): string | undefined {
+    const kinds = new Set(members.map(id => campaign.readout.creatures.find(c => c.id === id)?.raceId));
+    const [race] = kinds;
+    return kinds.size === 1 && race ? Content.race(race)?.name.toLowerCase() : undefined;
   }
 }

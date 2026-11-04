@@ -9,6 +9,7 @@ import { Act, type Draw } from './act';
 import { PlaceStage } from './place-stage';
 import { Told } from './told';
 import { Followed } from '../followed';
+import { MenuModel } from '../menu-model';
 
 // On a road. Not a room: across the head of the stage, the line across the country between two places, the country
 // it crosses in bands (fen, woods, a ford), you on it, and the tracks that leave it; under it what the way was like and
@@ -37,6 +38,7 @@ export class RoadStage {
             <p className="label">Ways on</p>
             <RoadStage.End choices={RoadStage.choices(ways, route.from)} exit={route.from} draw={draw} back />
             <RoadStage.End choices={RoadStage.choices(ways, route.to)} exit={route.to} draw={draw} />
+            <RoadStage.Mapped app={app} draw={draw} ends={[route.from, route.to].filter(e => !RoadStage.choices(ways, e).length)} />
           </nav>
           <PlaceStage.Further app={app} draw={draw} />
         </div></div></section>
@@ -65,6 +67,19 @@ export class RoadStage {
           <ul className="chips">{small.map(s => <li key={s.id} data-subject={s.id}>
             <PlaceStage.Chip subject={s} draw={draw} /></li>)}</ul>
         </div>}
+      </div>
+    );
+  }
+  // In a drawn country the road's ends are crossed to on the map (the owner, OWN-85), and the column had stood empty
+  // under "Ways on" (Mission 19's play, the road where the father's cart went off): the map, named for them.
+  static Mapped({ app, draw, ends }: { app: ReaderApp; draw: Draw; ends: ExitRow[] }) {
+    const out = app.menu.choices.find(c => c.id === MenuModel.country.id);
+    if (!out || !ends.length) { return null; }
+    return (
+      <div className="end-way">
+        <Act.View choice={out} draw={draw} className="route onward-act">
+          <span className="n">{Typography.curl(ends.map(e => Words.upper(e.destination.name)).join(' or '))} ›</span>
+          <span className="r">on the world map</span></Act.View>
       </div>
     );
   }
