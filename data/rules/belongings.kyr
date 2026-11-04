@@ -143,11 +143,14 @@ Module belongings "What the company carries" {
   }
   // A light put out, smothered or pinched out: the dark is the dark again, and what was left of it is spent (the Road's
   // B3: a lantern smothered in a coat stayed lit).
-  Action douse_light(actor: group, carrier: member) "Put out {carrier}'s light" {
+  // It says so before and after: what is left of the light is spent, a torch done with and a lantern's oil with it (the
+  // Book of Faces' BOF-28).
+  Action douse_light(actor: group, carrier: member) "Put out {carrier}'s light for good" {
+    Description "What is left of it is spent: a torch put out is done with, and a lantern's oil goes with it.".
     Time 1 minute.
     Requires able(actor) and memberOf(carrier, actor) and awake(carrier) and brings(carrier, light).
     Resolve douse(carrier).
-    Result "{carrier} puts the light out.".
+    Result "{carrier} puts the light out, and what was left of it is spent.".
   }
   // A lantern is filled and lit: the flask of oil is spent, and burns in it as long as the flask says.
   Action light_lamp(actor: group, dose: item, form: itemkind, vessel: item, shape: itemkind, carrier: member) "Fill {vessel} from {dose} and light it" {

@@ -362,11 +362,13 @@ What reading a kind of thing teaches (Kind … is document teaching bill_read): 
 
 *Kyr · action (group, member)* · `rule:belongings.douse_light`
 
-- Shown as: Put out {carrier}'s light
+- Shown as: Put out {carrier}'s light for good
 - Takes: 10 minutes
 - Costs: 1
 
-A light put out, smothered or pinched out: the dark is the dark again, and what was left of it is spent (the Road's B3: a lantern smothered in a coat stayed lit).
+A light put out, smothered or pinched out: the dark is the dark again, and what was left of it is spent (the Road's B3: a lantern smothered in a coat stayed lit). It says so before and after: what is left of the light is spent, a torch done with and a lantern's oil with it (the Book of Faces' BOF-28).
+
+What is left of it is spent: a torch put out is done with, and a lantern's oil goes with it.
 
 > Needs: able(actor); memberOf(carrier, actor); awake(carrier); brings(carrier, light)
 
