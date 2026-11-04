@@ -133,10 +133,25 @@ export class Origins {
   private static debt(region: Region): Bound | undefined {
     const s = region.settlements.find(t => t.size === 'town') ?? region.settlements[0];
     if (!s) { return undefined; }
-    return { values: { ...this.approach(region, s), merchant: s.merchant,
+    const after = this.after(region, s);
+    return { values: { ...this.approach(region, s), merchant: s.merchant, after: after.said,
       lost: (tables.lost as Record<string, string>)[s.trade] ?? 'a cartload of goods' },
     start: { place: `${s.id}_shop` }, imports: { shop: [`region.${s.id}_shop`, 'place'],
-      creditor: [`region.${s.id}_merchant`, 'group'] } };
+      creditor: [`region.${s.id}_merchant`, 'group'], ...after.imports } };
+  }
+  // What a debt paid leaves (the play-structure investigation's PT-01: a resolution had ended in "Nothing more is
+  // asked of you"): the merchant, square, says where there is work for someone with nothing to lose, the makers' work
+  // nearest the town, whose name and way the company then knows, and so an aim. A country with no lesser work leaves
+  // the debt where it ends.
+  private static after(region: Region, s: Settlement): { said: string; imports: Record<string, [string, string]> } {
+    const works = region.sites.filter(w => w.work && !w.work.great && !w.work.deep);
+    const work = this.nearest(region, s, works);
+    const seat = work && RegionGeography.seats(region).find(x => x.site === work);
+    if (!work || !seat) { return { said: '', imports: {} }; }
+    const where = RegionSites.where(seat, region);
+    return { said: ` Then, as you go: 'If you want work, and have the stomach for it: ${work.name}, out in ${where}.`
+      + ' Nobody from here has been inside it in living memory. Whatever is in there would sell.\'',
+    imports: { named: [`region.${work.id}_named`, 'fact'], found: [`region.${work.id}_found`, 'fact'] } };
   }
   private static herbs(region: Region, placements: Placement[]): Bound | undefined {
     const p = this.placed(placements, 'fever'), s = p && this.home(region, p.bindings.town ?? '');
