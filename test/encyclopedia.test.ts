@@ -10,10 +10,10 @@ describe('the Encyclopedia of Imbar', () => {
   const handbooks = new Handbooks(process.cwd());
   const lands = (Handbooks.read(process.cwd(), 'data/adventures/countries.json') as { countries: Land[] }).countries
     .filter(c => c.heard);
-  const book = new Encyclopedia(handbooks, lands), html = new EncyclopediaHtml(book);
+  const book = new Encyclopedia(handbooks, lands, Encyclopedia.canon(process.cwd())), html = new EncyclopediaHtml(book);
   it('has its chapters, each with entries', () => {
     expect(book.chapters.map(c => c.id)).toEqual(['peoples', 'lives', 'magic', 'arms', 'creatures', 'conditions',
-      'lands']);
+      'planes', 'lands']);
     for (const c of book.chapters) { expect(html.chapter(c)).toContain('class="item'); }
   });
   it('holds only what the game plays, said as the game plays it', () => {
@@ -25,6 +25,11 @@ describe('the Encyclopedia of Imbar', () => {
   it('says nothing of how it was made', () => {
     const pages = [html.landing(), ...book.chapters.map(c => html.chapter(c))].join('\n');
     expect(pages).not.toMatch(/Orsino|>Faithful<|>Adapted<|Not playable|bonusSpellDC|Dungeon Master/);
+  });
+  it('tells of the planes as their thresholds are seen, read from the canon by the Kyr parser', () => {
+    const page = html.chapter(book.chapters.find(c => c.id === 'planes')!);
+    expect(page).toContain('Heat and light on every side');
+    expect(page).toMatch(/an outer plane/);
   });
   it('tells of the adventures\' lands only as they are spoken of', () => {
     const page = html.chapter(book.chapters.find(c => c.id === 'lands')!);
