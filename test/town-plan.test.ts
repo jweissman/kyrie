@@ -42,4 +42,18 @@ describe('the plan of a town', () => {
     expect(plan.kind).toBe('settlement');
     expect(plan.cells.filter(c => c.here)).toEqual([expect.objectContaining({ building: true })]);
   });
+  // A site above ground is drawn as a town is, with its door out (NVR-16: inside Ísencepan the Map had shown nothing
+  // of where the company was).
+  it('of a site above ground is the site\'s, with its way out', async () => {
+    const keep = (await DrawnWorld.start('a1', { origin: 'wanderer',
+      party: [{ name: 'Wenna', raceId: 'human', classId: 'ranger' }] }, NodeBundleSource.shared)).campaign;
+    const [was, campaign] = [Stood.campaign, keep];
+    Stood.campaign = campaign;
+    const plan = Stood.at('the bailey')!;
+    Stood.campaign = was;
+    expect(plan).toMatchObject({ kind: 'site', name: 'Ísencepan' });
+    expect(plan.cells.map(c => c.name)).toEqual(expect.arrayContaining(['the bailey', 'the great hall', 'the wall-walk']));
+    expect(plan.cells.filter(c => c.door)).toHaveLength(1);
+  }, 120000);
 });
+

@@ -20,7 +20,9 @@ export class TownPlan {
   static of(screen: Screen, entities: Map<string, Entity>, world: World, visited: Set<string>): Pick<Screen, 'plan'> {
     const here = screen.place.id, line = Spatial.ancestry(entities, here);
     if (!here || entities.get(here)?.space?.shelter === 'underground') { return {}; }
-    const within = line.slice(1).filter(e => e.space?.kind === 'building' || e.space?.kind === 'settlement');
+    // A site above ground is drawn as a town is (Ísencepan's gate, bailey, hall and wall-walk: NVR-16, a site's Map
+    // had shown nothing of where the company was in it).
+    const within = line.slice(1).filter(e => ['building', 'settlement', 'site'].includes(e.space?.kind ?? ''));
     const known = new Set([here, ...visited, ...screen.exits.map(e => e.destination.id),
       ...(screen.around ?? []).map(d => d.id)]);
     // A building of a room or two is better shown as where it stands in the town (the guest-hall and its door out
@@ -48,8 +50,8 @@ export class TownPlan {
         been: [...visited].some(v => this.inside(v, b.id)) });
       cells.push(c); this.stands.set(c, b.id);
     }
-    // Inside a building, its doors out, each to the place outside it leads to.
-    if (within.space?.kind === 'building') {
+    // Inside a building or a site, its doors out, each to the place outside it leads to.
+    if (within.space?.kind !== 'settlement') {
       for (const [a, b] of this.links) {
         const [inner, outer] = this.inside(a, within.id) ? [a, b] : [b, a];
         if (!this.inside(inner, within.id) || this.inside(outer, within.id) || cells.some(c => c.id === outer)) {
@@ -63,7 +65,7 @@ export class TownPlan {
     }
     const lanes = this.lanes(cells, within);
     this.settle(cells, lanes);
-    return { name: within.name, kind: within.space!.kind === 'building' ? 'building' : 'settlement', cells, lanes };
+    return { name: within.name, kind: within.space!.kind as Plan['kind'], cells, lanes };
   }
   // A building's door is the room of it a place outside leads into, the first the company knows.
   private door(b: Entity, known: Set<string>): string | undefined {
