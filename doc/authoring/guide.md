@@ -1565,6 +1565,12 @@ knows it already (`test/module-teaches-spell.test.ts`). `Resolve learn` is the l
   }
 ```
 
+What calling a member follows, and what they have learned, a rule or an action can ask: `hasCalling(?m, calling_mage)`
+(one of `calling_warrior`, `calling_mage`, `calling_thief`, `calling_cleric`, `calling_bard`, `calling_ranger`,
+`calling_monk`, `calling_commoner`) and `learned(?m, conjure_light)`, with `memberOf(?m, actor)`. A skill is no
+calling: a commoner who has learned brawn is no warrior, and `capable(party, brawn)` cannot tell them apart
+(`test/callings.test.ts`; the Book of Faces' hill 3, gate 6 and counting 3).
+
 ### A place out of the world
 
 `elsewhere`, where `outdoors`, `indoors` or `underground` would go, says a place has no sky over it and no hour told

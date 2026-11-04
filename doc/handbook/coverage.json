@@ -997,7 +997,7 @@
     "faithful": 220,
     "adapted": 25,
     "represented": 49,
-    "kyr": 271,
+    "kyr": 273,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 198
@@ -1010,7 +1010,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 245,
+      "kyr": 247,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -13396,6 +13396,13 @@
    "section": "world-rules/rules-belongings"
   },
   {
+   "id": "rule:belongings.learned",
+   "title": "learned",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-belongings"
+  },
+  {
    "id": "rule:belongings.worth",
    "title": "worth, dealerPays, buysValuables, realized",
    "status": "kyr",
@@ -13993,6 +14000,13 @@
   {
    "id": "rule:world_core.craft",
    "title": "craft, craft",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-core"
+  },
+  {
+   "id": "rule:world_core.callingkind",
+   "title": "callingkind, hasCalling",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-core"

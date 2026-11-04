@@ -17,6 +17,9 @@ Module belongings "What the company carries" {
   // As many of a kind given at once (Give 2 lamp_oil to actor): counted, and made, and the count cleared.
   Measure gifts(entity, group).
   Relation canTrain(member, ability). Relation teaches(group, ability).
+  // What a member has learned, of the abilities the world names: a spell, a song, a technique (BOF-13: a mage taught
+  // a lesson was told apart by a fee raised in the mentor's purse).
+  Relation learned(member, ability).
   Relation proficient(member, itemkind).
   Relation wants(group, itemkind). Measure pays(group, itemkind).
   // What a kind of thing is worth (its catalog value), and those who deal in valuables: a merchant who buys any

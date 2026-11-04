@@ -92,7 +92,7 @@ Also kept, without comment: itemKind, ownedItem, wearing, forSale, soldBy, weara
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 2 | 29 | 12 | 2 | 9 | 20 |
+| 2 | 30 | 12 | 2 | 9 | 20 |
 
 #### relieves
 
@@ -117,6 +117,12 @@ A thing handed to a company ("Give coat to party." in what a topic or an action 
 *Kyr · measure(entity, group)* · `rule:belongings.gifts`
 
 As many of a kind given at once (Give 2 lamp_oil to actor): counted, and made, and the count cleared.
+
+#### learned
+
+*Kyr · relation(member, ability)* · `rule:belongings.learned`
+
+What a member has learned, of the abilities the world names: a spell, a song, a technique (BOF-13: a mage taught a lesson was told apart by a fee raised in the mentor's purse).
 
 #### worth, dealerPays, buysValuables, realized
 
@@ -766,7 +772,7 @@ Also kept, without comment: matterOpen, matterDone, at, able, dead, distinct, cl
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 19 | 47 | 17 | 5 | 5 | 8 |
+| 20 | 48 | 17 | 5 | 5 | 8 |
 
 #### ending, reached
 
@@ -935,6 +941,12 @@ A company on the way, between where it set out and where it is going: enRoute(co
 *Kyr · kind; relation(group, craft)* · `rule:world_core.craft`
 
 The kind of work the company has done (its backgrounds' families): what those who do the same work know it by.
+
+#### callingkind, hasCalling
+
+*Kyr · kind; relation(member, callingkind)* · `rule:world_core.callingkind`
+
+The calling each of the company follows (its class): who someone is, not only what they can do. A warrior's arc had asked capable(party, brawn), which a commoner who had learned brawn passed (the Book of Faces' BOF-13).
 
 #### manner, manner
 
