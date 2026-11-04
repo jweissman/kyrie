@@ -6,30 +6,38 @@ column beside a rail of legal acts); it keeps Kyr, the runtime, the 3D hex board
 
 ## One viewport, two surfaces
 
+Corrected the same evening (the owner: the graph of places "looks like an engineering diagram"; the painting is the
+place). The surface is the place **as it is seen**, never a graph of its rooms:
+
 ```text
 ┌ PLACE BAR  name · where · storeys down · hour            MAP  YOU  BOOK ┐
 ├───────────────────────────────────────────┬──────────────────────────────┤
 │                                           │ FOCUS                        │
-│   SURFACE: where you are                  │  what you are attending to:  │
-│   · the wild: the hex board               │  here, a place on the plan,  │
-│   · a town, a building, above ground:     │  a hex, someone, something   │
-│     its plan (streets, buildings, you)    │                              │
-│   · underground, inside: its floor plan   │  what just happened (short)  │
-│     (rooms, doors, stairs, you)           │  two or three things to do   │
-│   select = focus · select again = go      │  Other possibilities…        │
+│   SURFACE: the place as it is seen        │  what you are attending to:  │
+│   · the wild: the 3D hex board            │  here, a way chosen, a hex,  │
+│   · a town, a site above ground: its      │  someone, something          │
+│     painting, filling the surface         │                              │
+│   · indoors, under the ground: the dark   │  what just happened (short)  │
+│     the company's light opens, the        │  two or three things to do   │
+│     place's own words set in it           │                              │
+│   the ways from here lie on it: along     │                              │
+│   the foot; up at the top, down below     │                              │
+│   choose = focus · choose again = go      │                              │
 └───────────────────────────────────────────┴──────────────────────────────┘
 ```
 
-Held upright (a tablet, a phone) the surface is above and the focus below, each with its own bounds. The page never
-scrolls; only the focus's prose, when it is long, scrolls within it.
+The ways shown on the surface are the few the glance ranks first (its leads, then its row of nearest ways), placed
+by what the world says of each (its transition: up, down, into, out), never by its words; the rest are under Every
+way. The plan of a town or a building (TownPlan) stays a reference under Every way, not the surface: its grid and
+its ways are topology, which a graph can draw but a plan cannot be made from.
 
 ## Focus, not catalogue
 
 The focus starts as **here**: the place's line, what just happened, who and what is here (each selectable), and
 the few acts the engine ranks (Glance: urgent, the aim's, what the place offers that is new). Selecting:
 
-- **a place on the plan** shows it (name, what it is, been or not, its way and how long) and *Go*; selecting it again
-  goes, as on the hex board;
+- **a way on the scene** shows where it goes (up, down, into; been there or not; whom the company last spoke with
+  there), what can be done at it (a padlock to pick or wrench) and *Go*; choosing it again goes, as on the hex board;
 - **a hex or a mark** on the board shows what the protagonist can perceive of it (the map's own card) and *Set out*;
 - **someone** shows them (likeness, what they are doing) and what can be done with them (talk opens the
   conversation stage; buy, give, ask);
@@ -41,33 +49,41 @@ fight keep their own purpose-built stages. Book, You and the pack are sheets ove
 ## Arriving and leaving
 
 Coming into a settlement from outside, the focus is first its **overview** (its name, its look, what it is) with
-*Walk in*; leaving one, the board. The plan marks the way out; the board marks the town. Underground, the place bar
-says how deep, and the plan the ways up. Every surface shows where you are, how you came and how to leave.
+*Walk in*; leaving one, the board. Underground, the place bar says how deep, and the way up stands at the top of the
+scene. Every surface shows where you are and how to leave; the way you came is led with when the way on is not.
 
-## What the runtime gives, and what is new
+## What the runtime gives, and what real plans would need
 
-Already structured, already projected for the player's knowledge (nothing inferred from names or ids):
-`screen.plan` (TownPlan: cells by grid, lanes by `connects`, here, been, doors out; towns, buildings, above-ground
-sites, and below ground since 4 November), `screen.chart` (a site's levels), `screen.region.land` (the board's hexes,
-fog and marks), `screen.exits` and `screen.around` (the ways and their acts), the scene's subjects and their
-choices, and the Glance's ranked acts. New in the slice: the composition (`WorldStage`), focus and selection as UI
-state, the plan as an interactive surface, the board embedded where the company is in the wild, and the overview.
-Wanted next, where the slice finds the data thin: a building's character for its card (its trade, who keeps it),
-and districts for large towns.
+Already structured and projected for what the company knows (nothing inferred from names or ids): a place's
+containment (region, settlement, wilderness, site, level, building, room), its grid cell (`at x, y`, written by the
+generators and by authors), its shelter and depth (`underground 2 down`), its ways (`connects`, each with a kind:
+door, stair, steps, ladder, crawl, path, road, gate, bridge, ford; a time; one way or both; hidden until something;
+what it needs), the things on a way (a padlocked door), a site's levels in order, the region's hexes (the board), and
+what the company has been to, seen and been told. Enough for knowledge-aware navigation, the board, the depth line,
+and which way a way goes; not enough for a plan.
+
+What a drawn plan of a town, a building or a dungeon would need, beyond that, and no more:
+
+1. **An extent for a place**: `at x, y size w by h` (grid cells), so a room or a building has a footprint, not a
+   point. Written by authors where it matters, and by each generator for what it lays out (a house a cell, a hall
+   two by three, the green as large as its houses leave).
+2. **Where a way meets a place**: the side of its extent (`on the north side`), so a door is a gap in a wall and a
+   stair a mark in a room, not a line between centres.
+3. **Streets and open ground as places with extents**, as the town's lanes and green already are places, so a street
+   is drawn as the space between buildings rather than as a lane between nodes.
+4. **A few features with a position** (a well, a gate, an altar), from the things already placed in rooms.
+
+With those, a plan is drawn only where its geometry is known, at any scale, and the painting stays wherever it is
+not. Without them, nothing is drawn that pretends to be a plan.
 
 ## The vertical slice
 
-a1, the default character: the causeway (board) → Millholm (overview, Walk in) → the camp on the town's plan →
-Bask's salt-house (select, go, talk, the rats job) → the corn-store → the cellar and the rat-runs (floor plan, the
-fight) → back up and out, the way marked at every step. Built on the real runtime; checked by a browser spec of that
-route and by captures at laptop and tablet sizes. It generalizes because every surface draws only from the
-structured projections above, which every generated and authored place already has.
+a1, the default character: the causeway → the camp (Millholm's painting, its ways along it) → Bask at his door (talk,
+the rats job) → the corn-store → the cellar and the rat-runs (the place's words in the light, the way up above them,
+the fight) → back up → out into the country (the board) → back to Millholm's overview, Walk in. Built on the real
+runtime; checked by `spatial-journey-browser` and by captures of a wild hex, the town and the cellar (evidence.md).
 
-## How far it reaches, as built (4 November)
+## How far it reaches
 
-Standing the company in places of kite's drawn world, headless (`ScreenModel.build(…).plan`): a deep site's level
-under Newmeet ("the long halls", 3 to 7 rooms known), a generated site above ground (Gaudumport, its porch and round
-hall), Newmeet itself (20 places) and its inn; and installed authored modules, Silkholme's sink (3), Wapshott's
-circus pitched in Newmeet (4), the raiders' cave (6), and the authored tower's bailey (5), once a level above ground
-was drawn as a building is (it had been passed over). Nothing here is special to Millholm; what a place shows comes from its containment, grid and
-ways, and what the company has seen of them.
+The scene and the board need nothing a place does not already have: every generated and authored place has a name, a
+shelter, its ways and their transitions, and (outdoors, in a town, a site) a painting chosen by its kind of land.

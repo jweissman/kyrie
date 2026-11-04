@@ -6,14 +6,13 @@ import { Scenery } from '../../../src/ui/scenery';
 import type { ReaderApp } from '../reader-app';
 import { BoardField } from '../board-field';
 import { MapView } from '../map-view';
-import { TownPlanView } from '../town-plan-view';
 import { Words } from '../words';
 import { Act, type Draw } from './act';
 import { GlanceStage } from './glance';
 import { LookAbout } from './look-about';
 import { MorePane } from './more-pane';
 import { PlaceStage } from './place-stage';
-import { PlanSurface } from './plan-surface';
+import { SceneSurface } from './scene-surface';
 import { Raised } from './raised';
 import { Told } from './told';
 import { WaysPane } from './ways-pane';
@@ -35,15 +34,14 @@ export class WorldStage {
     const [walked, walk] = useState<string>();
     const town = WorldStage.arrived(app), overview = town && walked !== screen.place.id ? town : undefined;
     return (
-      <article className={`world-page scale-${surface ?? 'none'} kind-${PlaceStage.kind(screen)}`
+      <article className={`world-page scale-${surface} kind-${PlaceStage.kind(screen)}`
+        + `${surface === 'scene' && (screen.dark || !Scenery.of(screen)) ? ' unpainted' : ''}`
         + `${screen.dark ? ' dark' : ''}${up ? ` raised-${up}` : ''}`} id="page">
         <header className="world-bar"><div className="title-block"><Told.Heading frame={frame} /></div></header>
         <div className="world-body">
           <section className="surface" aria-label="Where you are">
-            {surface === 'plan' && <PlanSurface.View app={app} screen={screen} choices={WorldStage.ways(app)}
-              chosen={focus} choose={pick} />}
-            {surface === 'board' && <WorldStage.Board app={app} screen={screen} chosen={focus} choose={pick} />}
-            {!surface && <WorldStage.Bare app={app} />}
+            {surface === 'board' ? <WorldStage.Board app={app} screen={screen} chosen={focus} choose={pick} />
+              : <SceneSurface.View app={app} screen={screen} ways={WorldStage.ways(app)} chosen={focus} choose={pick} />}
           </section>
           <aside className="focus" aria-label="What you are attending to">
             {overview ? <WorldStage.Overview app={app} town={overview} walk={() => walk(screen.place.id)} />
@@ -90,14 +88,12 @@ export class WorldStage {
       </section>
     );
   }
-  // What the surface is: the place's plan (a town, a building, a site, below ground), else the hex board in the wild,
-  // else nothing drawn (a room on its own, the dark).
-  static surface(screen: Screen): 'plan' | 'board' | undefined {
-    if (screen.plan && screen.plan.cells.length > 1) { return 'plan'; }
-    if (!screen.dark && PlaceStage.kind(screen) === 'wild' && screen.region?.land) { return 'board'; }
-    return undefined;
+  // What the surface is: the hex board out in the wild; elsewhere the scene, the place as it is seen (its painting,
+  // or the dark its light opens), its ways along it (the owner, 4 November evening: the painting is the place).
+  static surface(screen: Screen): 'board' | 'scene' {
+    return !screen.dark && PlaceStage.kind(screen) === 'wild' && screen.region?.land ? 'board' : 'scene';
   }
-  // The choices that take the company to a place on the plan (see TownPlanView.way).
+  // The choices that take the company somewhere from here: its ways, and the walks about its town.
   static ways(app: ReaderApp): Choice[] {
     const scene = app.menu.scene!;
     return [...scene.near, ...scene.far, ...app.menu.around ?? []];
@@ -112,32 +108,38 @@ export class WorldStage {
     return <div className="board-surface"><BoardField.View region={screen.region!} chosen={chosen} choose={pick}
       face={screen.party[0]?.face?.src} /></div>;
   }
-  // Nothing to lay out (one room, the dark): the place's painting, or the dark.
-  static Bare({ app }: { app: ReaderApp }) {
-    const screen = app.state.frame!.screen;
-    return <div className="bare-surface"><p className="bare-name">{Typography.curl(Words.upper(screen.place.name))}</p>
-      {screen.dark && <p className="bare-dark">It is dark.</p>}</div>;
+  // What can be done at a way, besides going by it (the owner, 4 November evening: a door chosen, the door's own
+  // acts): the acts drawn on the way, a lock picked, a padlock looked at.
+  static atWay(app: ReaderApp, way: string, going: string): Choice[] {
+    return WorldStage.ways(app).filter(c => c.id.startsWith(`${way}/`) && c.id !== going);
   }
-  // A place chosen on the surface: what it is, whether the company has been there, and the way to it; or, on the
-  // board, what is known of the hex (the map's own card).
+  // A way chosen on the surface: where it goes and whether the company has been there, whom it last spoke with there,
+  // the way's own acts, and going; or, on the board, what is known of the hex (the map's own card).
   static Chosen({ app, screen, id, draw, clear }: { app: ReaderApp; screen: Screen; id: string; draw: Draw;
     clear: () => void }) {
     if (WorldStage.surface(screen) === 'board') { return <MapView.Plan app={app} screen={screen} chosen={id} clear={clear} />; }
-    const cell = screen.plan?.cells.find(c => c.id === id);
-    if (!cell) { return null; }
-    const go = TownPlanView.way(screen, WorldStage.ways(app), cell);
-    const what = cell.door ? 'The way out' : cell.building ? 'A building' : cell.indoors ? 'A room' : 'A place';
+    const go = WorldStage.ways(app).find(c => c.id === id);
+    if (!go) { return null; }
+    const exit = screen.exits.find(e => e.id === id || id.startsWith(`${e.id}/`));
+    const to = exit?.destination.id ?? id.replace(/^travel:/, ''), name = exit?.destination.name ?? go.label.replace(/^(To|Into) /, '');
+    const cell = screen.plan?.cells.find(c => c.id === to), acts = exit ? WorldStage.atWay(app, exit.id, go.id) : [];
     return (
       <section className="chosen-place" data-id={id} aria-live="polite">
-        <p className="label">{what}{cell.been ? ', where you have been' : ', not yet been to'}</p>
-        <h2 className="to">{Typography.curl(Words.upper(cell.name))}</h2>
-        {cell.met && <p className="met">{Typography.curl(`Where you spoke with ${Words.listed(cell.met)}.`)}</p>}
-        {go ? <Act.View choice={go} draw={draw} className="led-act first go-there">
+        <p className="label">{SceneSurface.whither(exit)}{exit?.visited || cell?.been ? ', where you have been'
+          : ', not yet been to'}</p>
+        <h2 className="to">{Typography.curl(Words.upper(name))}</h2>
+        {cell?.met && <p className="met">{Typography.curl(`Where you spoke with ${Words.listed(cell.met)}.`)}</p>}
+        {!go.disabled && <Act.View choice={go} draw={draw} className="led-act first go-there">
           <span className="n">{Typography.curl(go.label)}</span>
-          {go.disabled && <span className="why-said">{Typography.curl(go.disabled)}</span>}
           {(go.minutes ?? 0) > 5 && <span className="why-said">{Words.span(go.minutes!)}</span>}
-        </Act.View> : <p className="how">No way there from here that you know.</p>}
-        <p className="how">Choose it again on the plan to go there.</p>
+        </Act.View>}
+        {go.disabled && <p className="shut">{Typography.curl(go.disabled)}</p>}
+        {acts.length > 0 && <div className="at-way">
+          <p className="label">At the way there</p>
+          <ul className="acts column">{acts.map(c => <li key={c.id}>
+            <Act.View choice={c} draw={draw}><span className="n">{Typography.curl(Words.upper(c.label.split(' — ')
+              .slice(1).join(' — ') || c.label))}</span>
+              {c.disabled && <span className="note">{Typography.curl(c.disabled)}</span>}</Act.View></li>)}</ul></div>}
         <button type="button" className="option quiet" data-action="unchoose" onClick={clear}>Back to where you are</button>
       </section>
     );

@@ -114,7 +114,11 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a place at a glance', () => {
     await page.waitForSelector('[data-action="start"]');
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
-    const drop = '[data-choice^="exit:"][data-choice*="pool"]';
+    // On the scene the way says what it risks, and is not taken there by a second touch: it asks, from its card or
+    // from Every way (spatial-play.md).
+    const opening = '.scene-surface [data-way*="pool"]';
+    expect(await page.locator(`${opening} .risk`).first().innerText()).toMatch(/no way back/i);
+    const drop = '[data-choice^="exit:"][data-choice*="pool"]:visible';
     if (!(await page.locator(drop).count())) { await d.click('.all-ways'); }
     expect(await page.locator(`${drop} .mark-one-way`).first().innerText()).toMatch(/no way back/i);
     await d.click(`${drop} >> nth=0`);

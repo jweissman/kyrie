@@ -17,7 +17,8 @@
    it, scrolling within itself, and the keys at the foot, under them and never over them. */
 .focus > .glance, .focus > .glance.sparse { flex: 1 1 auto; min-height: 0; max-width: none; margin: 0; overflow: hidden;
   display: flex; flex-direction: column; }
-.focus > .glance > .told-col { flex: 0 1 auto; max-height: 54%; overflow-y: auto; overscroll-behavior: contain;
+.focus > .glance > .told-col { flex: 0 1 auto; max-height: 58%;
+  mask-image: linear-gradient(180deg, #000 calc(100% - 22px), transparent); overflow-y: auto; overscroll-behavior: contain;
   padding: 18px clamp(16px, 2vw, 24px) 6px; }
 .focus > .glance > .told-col > * { max-width: none; }
 .focus > .glance > .do-col { flex: 1 1 auto; min-height: 0; border: 0; background: none; box-shadow: none; max-height: none;
@@ -27,29 +28,6 @@
 .focus > .glance .sight { font-size: 17.5px; }
 .focus > .telling { flex: 1; overflow-y: auto; padding: 18px 22px; }
 
-/* The plan: places on the grid, the ways between, the company ringed in gold; a place not yet been to is drawn
-   broken, the way out in verdigris; a place chosen is lit; one that can be gone to answers the finger. */
-.plan-surface { position: absolute; inset: 0; overflow: auto; overscroll-behavior: contain; scrollbar-width: none;
-  display: grid; place-items: center; padding: clamp(14px, 3vh, 32px) clamp(14px, 3vw, 40px); }
-.plan-surface::-webkit-scrollbar { display: none; }
-.plan-surface svg { width: 100%; height: 100%; display: block; }
-.plan-surface .hatch { stroke: rgba(236, 230, 217, .10); stroke-width: 1; }
-.plan-surface .lane { fill: none; stroke: rgba(236, 230, 217, .16); stroke-width: 7; stroke-linecap: round;
-  stroke-linejoin: round; }
-.plan-surface .lane.walked { stroke: rgba(236, 230, 217, .30); }
-.plan-surface .place .body { fill: #1d1f25; stroke: var(--edge-strong); stroke-width: 1.5; transition: stroke var(--quick); }
-.plan-surface .place.in .body { fill: #23252c; }
-.plan-surface .place .floor { fill: url(#surface-hatch); }
-.plan-surface .place.unvisited .body { fill: rgba(18, 19, 24, .6); stroke-dasharray: 6 5; }
-.plan-surface .place.door .body { fill: rgba(95, 211, 182, .05); stroke: rgba(95, 211, 182, .55); }
-.plan-surface .place.reach { cursor: pointer; outline: none; }
-.plan-surface .place.reach:hover .body, .plan-surface .place.reach:focus-visible .body { stroke: var(--touch); }
-.plan-surface .place.chosen .body { stroke: var(--ivory); stroke-width: 2.5; }
-.plan-surface .place .ring { fill: none; stroke: var(--gold); stroke-width: 2.5; }
-.plan-surface text { fill: var(--ivory); font: 500 17px var(--do); pointer-events: none; }
-.plan-surface .place.unvisited text { fill: var(--dim); font-style: italic; }
-.plan-surface .place.door text { fill: var(--verdigris); }
-
 .board-surface { position: absolute; inset: 0; }
 .board-surface > * { width: 100%; height: 100%; }
 .bare-surface { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; gap: 8px; }
@@ -57,7 +35,8 @@
 .bare-surface .bare-dark { margin: 0; color: var(--faint); }
 
 /* A place chosen on the plan, in the focus. */
-.chosen-place { padding: 20px clamp(16px, 2vw, 24px); display: grid; gap: 12px; align-content: start; }
+.chosen-place { flex: 1 1 auto; min-height: 0; overflow-y: auto; padding: 20px clamp(16px, 2vw, 24px); display: grid;
+  gap: 12px; align-content: start; }
 .chosen-place .to { margin: 0; font: 400 26px/1.15 var(--do); color: var(--ivory); }
 .chosen-place .label { margin: 0; }
 .chosen-place .how { margin: 0; font-size: 14px; color: var(--dim); }
@@ -68,8 +47,6 @@
   .world-page .focus { border-left: 0; border-top: 1px solid var(--gold-line); }
   .world-bar { padding-top: max(52px, env(safe-area-inset-top)); }
 }
-/* On a plan or the board, the surface is the ways: the focus does not row them again. */
-.world-page:is(.scale-plan, .scale-board) .focus .glance-row { display: none; }
 /* A town come to from the country: seen whole before it is walked into. */
 .overview { padding: 24px clamp(16px, 2vw, 24px); display: grid; gap: 14px; align-content: start; }
 .overview .to { margin: 0; font: 300 34px/1.1 var(--do); color: var(--ivory); }
@@ -80,16 +57,56 @@
 .overview-view .scenery { position: absolute; inset: 0; margin: 0; }
 .overview-view .scenery img { width: 100%; height: 100%; object-fit: cover; filter: saturate(.85) brightness(.85); }
 .overview-view .scenery figcaption { position: absolute; right: 10px; bottom: 6px; font-size: 10.5px; color: var(--faint); }
-/* A town's plan as a plan: its ways drawn as streets, broad and pale under everything; open ground (a green, a yard,
-   a lane) as ground, unbordered; a building as a block with a roof's hatch. Below ground and inside, rooms and the
-   passages between them, as before. */
-.plan-surface.kind-settlement .lane { stroke: rgba(236, 230, 217, .06); stroke-width: 16; }
-.plan-surface.kind-settlement .lane.walked { stroke: rgba(236, 230, 217, .11); }
-.plan-surface.kind-settlement .place.open .body { fill: #1e241d; stroke: rgba(122, 150, 96, .32); }
-.plan-surface.kind-settlement .place.open.unvisited .body { fill: #181b18; }
-.plan-surface.kind-settlement .place.in .body { fill: #2a2c33; stroke: rgba(236, 230, 217, .30); }
-.plan-surface.kind-settlement .place.in.unvisited .body { fill: #202228; }
-.plan-surface.kind-under .lane { stroke: rgba(236, 230, 217, .12); stroke-width: 9; }
-.plan-surface.kind-under .place .body { fill: #18191e; }
-.plan-surface text.met { font: italic 400 12px var(--told); fill: var(--verdigris); }
 .chosen-place .met { margin: 0; font: italic 400 15px/1.45 var(--told); color: var(--dim); }
+.chosen-place .at-way .label { margin: 4px 0 8px; }
+.chosen-place .at-way .acts.column { display: grid; gap: 6px; }
+.chosen-place .at-way .acts.column .act { display: flex; width: 100%; }
+.chosen-place .shut { margin: 0; padding: 10px 14px; border-left: 2px solid rgba(255, 107, 69, .55);
+  font: 400 15px/1.45 var(--told); color: var(--ivory); background: rgba(255, 107, 69, .06); }
+.chosen-place .at-way .acts.column { list-style: none; margin: 0; padding: 0; }
+.chosen-place .at-way .act .note { flex-basis: 100%; font-size: 12.5px; color: var(--dim); }
+
+/* The scene: the place as it is seen (the owner, 4 November evening). Painted, the painting fills the surface and the
+   ways lie along its foot over a dark fall of shade; unpainted (indoors, under the ground), the dark the company's
+   light opens, warm at its middle, the place's name set in it, and the ways as openings round it. */
+.scene-surface { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; }
+.scene-surface .scene-view { position: absolute; inset: 0; }
+.scene-surface .scene-view .scenery { position: absolute; inset: 0; margin: 0; overflow: hidden; }
+.scene-surface .scene-view .scenery img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%;
+  filter: saturate(.9) brightness(.9); }
+.scene-surface .scene-view .scenery::after { content: ''; position: absolute; inset: 0;
+  background: linear-gradient(180deg, transparent 45%, rgba(12, 13, 17, .55) 72%, rgba(12, 13, 17, .92)); }
+.scene-surface .scene-view .scenery figcaption { position: absolute; top: 10px; right: 14px; z-index: 1;
+  font-size: 10.5px; color: rgba(236, 230, 217, .55); }
+.scene-surface .scene-dark { position: absolute; inset: 0; display: grid; place-items: center;
+  background: radial-gradient(ellipse 46% 52% at 50% 46%, rgba(242, 189, 76, .13), rgba(242, 160, 60, .04) 55%, transparent 78%),
+    radial-gradient(ellipse at 50% 50%, #17181d, #0c0d10 80%); }
+.scene-surface.under .scene-dark { background: radial-gradient(ellipse 40% 46% at 50% 46%, rgba(242, 170, 70, .16),
+  rgba(200, 120, 40, .04) 55%, transparent 76%), radial-gradient(ellipse at 50% 50%, #141417, #08080a 80%); }
+.scene-surface .scene-words { max-width: 30rem; margin: 0 clamp(24px, 6vw, 72px) 6vh; text-align: center;
+  font: italic 400 clamp(19px, 1.7vw, 24px)/1.6 var(--told); color: rgba(236, 230, 217, .86);
+  text-shadow: 0 0 30px rgba(242, 189, 76, .22); text-wrap: balance; }
+.scene-surface .openings { position: relative; z-index: 1; display: flex; flex-wrap: wrap; gap: 6px; align-items: end;
+  padding: 0 clamp(14px, 2.4vw, 32px) clamp(14px, 2.6vh, 26px); }
+.scene-surface .opening { all: unset; box-sizing: border-box; cursor: pointer; display: grid; grid-template-columns: auto 1fr;
+  gap: 1px 10px; align-items: baseline; min-width: 8rem; max-width: 15rem; padding: 7px 12px 8px;
+  background: rgba(14, 15, 19, .78); border: 1px solid rgba(236, 230, 217, .16); backdrop-filter: blur(6px);
+  transition: border-color var(--quick), background var(--quick); }
+.scene-surface .opening .whither { font: 600 10px/1 var(--do); letter-spacing: .16em; text-transform: uppercase;
+  color: var(--dim); }
+.scene-surface .opening .to { grid-column: 1 / -1; font: 500 14px/1.25 var(--do); color: var(--ivory); }
+.scene-surface .opening .t { grid-column: 1 / -1; font: 400 12px/1.2 var(--do); color: var(--dim); }
+.scene-surface .opening:hover, .scene-surface .opening:focus-visible { border-color: var(--touch); outline: none; }
+.scene-surface .opening.chosen { border-color: var(--ivory); background: rgba(24, 25, 31, .92); }
+.scene-surface .opening.barred .to { color: var(--dim); }
+.scene-surface .opening.barred { border-style: dashed; }
+/* Openings by where they lead: up at the top of the surface, down at its foot, the rest along the foot beside them. */
+.scene-surface .openings.up { position: absolute; top: clamp(14px, 2.6vh, 26px); left: 0; right: 0; justify-content: center; }
+.scene-surface .openings.down { justify-content: center; padding-top: 6px; }
+.scene-surface.unpainted .openings.level { justify-content: center; }
+/* Where the surface sets the place's words in the light, the focus does not say them again. */
+.world-page.unpainted .focus .glance .sight { display: none; }
+/* The surface carries the ways from here: the focus does not row them again. */
+.world-page:is(.scale-scene, .scale-board) .focus .glance-row { display: none; }
+.scene-surface .opening .risk { grid-column: 1 / -1; font: 600 10px/1.2 var(--do); letter-spacing: .12em;
+  text-transform: uppercase; color: var(--ember); }
