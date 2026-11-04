@@ -106,6 +106,9 @@ A company may be of as many as are chosen for it, within bounds: `Company party 
 of one, two or three, and of one when nobody chooses (`test/fixtures/probes/company-range`; the Lull's F12 kept a copy
 of its module for a campaign of three).
 
+A person is a `group` wherever a relation, query or action names one: there is no `person` type, and `Relation
+named(person)` will not load where `Relation named(group)` does (the Book of Faces' BOF-32).
+
 A person has a place and whatever you choose to fix about them: `Ancestry`, `Calling` (class), `Level`, a
 `Profession`, a `Background`. Anything you leave open is filled by generation, if the campaign generates people, or
 by a default. **What you write always wins.** If a generator suggests a different ancestry, it is ignored and the
@@ -529,7 +532,7 @@ region since retired (it is in the history before commit e4b485b):
     State swollen blocking "The Varrow is in spate, brown and loud, over the ford stones. Nobody crosses today.".
   }
   Rule ford_swells when state(sky, rain) and state(spate, fordable) { Assert state(spate, swollen). }
-  Rule gap_slow when state(sky, rain) { Set travelTime(gap_road) to 18. }
+  Rule gap_slow when state(sky, rain) { Set travelTime(gap_road) to 18. }   // in watches of ten minutes: three hours
   Rule raiders_on_road when at(party, barrows) and (dark() or state(sky, fog)) and dice(clock) <= 3 and … {
     Assert at(raiders, barrows). Assert assails(raiders, party). }
 ```
@@ -635,6 +638,9 @@ no `Goal`: objectives say what the company is trying to do.
   Observe ossuary_scene at ossuary when true "Shelves of skulls, and a square black opening in the floor.".
 }
 ```
+
+A double quote inside a text is written `\"`. A text is one paragraph: it cannot hold a line break (the Book of
+Faces' BOF-19).
 
 A place is told in the order its lines are written: first what it is (an `Observe` with no `as`), then its features,
 signs, weather and ambience (`as feature`, `as sign`, `as weather`, `as ambience`), each in the order written; then who
@@ -878,6 +884,10 @@ wait does not find text from days before (Quittance's ll 11). A module installed
 country beyond a march) counts its own days from the first morning after it is reached, and a step waits by them when
 it names it: `=sennet day 3 21:00` is nine at night on Sennet's third day, whatever day of the world's that is (the
 Grand Tour's 20; `test/journey-test-aids.test.ts`).
+
+Two idioms surprise (the Book of Faces' BOF-31): a step naming a grave act takes it at once, since the page's "are
+you sure" is the reader's, not the journey's; and `Take your leave` is there only in a conversation, so after a topic
+asked without `Talk to …` first, or an act someone does themselves (`Speaker`), there is no leave to take.
 
 A test asks of the world by the names its module gives (`j.holds('complete', 'reckoner')`, `j.measure('trust',
 'pettifer')`, the installed module's prefix found as `=until` finds it), and is told when nothing is called that.

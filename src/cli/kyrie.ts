@@ -33,10 +33,11 @@ export class KyrieCli {
   static readonly usage = [
     'Play:      bin/kyrie campaign <campaign.json> [seed] | resume <save.json> | replay <transcript.json>',
     'Author:    bin/kyrie new <id> ["Title"] | new scene|item|chapter|character <id> --in <adventure> | new site <id>',
-    '           bin/kyrie lint [campaign.json] [--inventory] | compile <module.kyr> | names <surname ...>',
+    '           bin/kyrie lint [campaign.json] [--errors] [--inventory] | compile <module.kyr> | names <surname ...>',
     '           bin/kyrie preview <campaign.json> [--port 8080]',
     '           bin/kyrie world <seed> [--terrain forest|marsh|mountain|frost] [--json] | playtext <seed> [steps]',
     '           bin/kyrie play <campaign.json> [--seed s] [--steps steps.json] [--probe "fact args"|"#measure args"] [step ...]',
+    '                (the steps file first, then the steps written after it)',
     '           bin/kyrie play --world <seed> [--origin debt] [--as elf/ranger/Aud] [step ...]',
     '           bin/kyrie inspect <campaign.json> | --world <seed> "<choice>" [--seed s] [--steps steps.json] [step ...]',
     '           bin/kyrie play scene|character <id> --in <adventure> [--context name] [step ...] [--keep name]',

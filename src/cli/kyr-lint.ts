@@ -122,7 +122,8 @@ export class KyrLint {
   }
   static async main(args: string[]): Promise<number> {
     if (args.includes('--inventory')) { console.log(this.inventory().join('\n')); return 0; }
-    const verbose = args.includes('--verbose');
+    // Errors only, for an author who wants to know whether it loads and plays (the Book of Faces' BOF-14).
+    const verbose = args.includes('--verbose'), only = args.includes('--errors');
     const results = await this.run(args.filter(a => !a.startsWith('--')));
     let failed = false;
     for (const [where, findings] of Object.entries(results)) {
@@ -131,7 +132,7 @@ export class KyrLint {
       const recommended = this.recommended.includes(where);
       const tag = recommended ? 'recommended' : where === 'vocabulary' ? 'repository' : 'legacy';
       console.log(`${where} [${tag}]: ${errors} errors, ${warnings} warnings${advice ? `, ${advice} to look at` : ''}`);
-      for (const f of findings.filter(x => verbose || recommended || x.level === 'error')) {
+      for (const f of findings.filter(x => x.level === 'error' || (!only && (verbose || recommended)))) {
         console.log(`  ${f.level} ${f.check}: ${f.where === where ? '' : `${f.where}: `}${f.message}`);
       }
       // An error fails the lint in any campaign (an author's own, run as a check before play); recommended content

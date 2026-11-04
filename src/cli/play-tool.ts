@@ -21,7 +21,7 @@ import type { Happened } from './happened';
 export class PlayTool {
   static readonly usage = 'usage: kyrie play <campaign.json> [--as race/calling/Name[/background]] | --world <seed> [--origin o] [--as race/calling/Name]'
     + ' | scene|character <id> --in <adventure> [--context name] [--seed s] [--steps steps.json] [--probe "..."]'
-    + ' [--choices] [--keep name] [--roll pass|fail] [step ...]';
+    + ' [--choices] [--keep name] [--roll pass|fail] [step ...]\n  (the steps file is played first, then the steps written after it)';
   static parse(args: string[]) {
     const flags = new Map<string, string[]>(), rest: string[] = [];
     for (let i = 0; i < args.length; i++) {
