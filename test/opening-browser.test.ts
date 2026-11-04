@@ -203,7 +203,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the opening and the choice of a lif
       await page.close();
     }, 240000);
 
-  it.each([[1440, 900, 130], [1180, 820, 40], [820, 1180, 16], [390, 844, 0]])(
+  // A twentieth of a desktop's width each side (the owner, 4 November: room to play), not a tenth.
+  it.each([[1440, 900, 70], [1180, 820, 40], [820, 1180, 16], [390, 844, 0]])(
     'at %i by %i holds the stage inside the screen, its margins kept, the page still', async (width, height, margin) => {
       const { page, errors } = await MonoBrowser.page(browser, { width, height }, { site, pointer: width < 900,
         query: '?world=kite' });
