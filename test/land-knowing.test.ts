@@ -53,12 +53,15 @@ class Knowing {
   static async take(s: PlaySession, name: RegExp): Promise<void> {
     await s.perform(PlayerView.choices(s.campaign).find(c => name.test(c.choice.name))!.choice.id);
   }
-  // Each place not made out: a question on its hex, with no name, no kind and no id of its own.
+  // Each place not made out: its hex, with no name or id of its own; seen by its shape where it is a site of a kind
+  // (a tower, a barrow: the owner, 4 November, not a "?"), and a question only where it is not.
   static unmade(land: Land): number[] {
     const marks = land.marks.filter(m => m.state === 'unknown');
     for (const m of marks) {
-      expect(m).toMatchObject({ id: `unmade:${m.cell}`, name: LandModel.unmade.name, kind: 'unknown' });
-      expect([HexLand.sign(m), BoardField.kind(m)]).toEqual(['unknown', 'unknown']);
+      const kind = HexLand.kinds.has(m.kind) ? m.kind : 'unknown';
+      expect(m).toMatchObject({ id: `unmade:${m.cell}`,
+        name: kind === 'unknown' ? LandModel.unmade.name : expect.stringMatching(/^an? [a-z]+, not yet made out$/) });
+      expect([HexLand.sign(m), BoardField.kind(m)]).toEqual([kind, kind]);
       expect(Knowing.about(land, m.cell).some(c => land.known.includes(c))).toBe(true);
     }
     return marks.map(m => m.cell);
@@ -85,10 +88,13 @@ describe('what the map knows of a place', () => {
     await Knowing.take(s, /^Ask \S+ about the light in a lone tower$/);
     const told = Knowing.of(s), tower = told.land.marks.find(m => m.id === 'region__w9')!;
     Knowing.kept(start, told);
-    expect(tower).toMatchObject({ name: 'a lone tower', state: 'heard', kind: 'place' });
+    // Heard of as what it is (a tower), not as a mark that says nothing (the owner, 4 November).
+    expect(tower).toMatchObject({ name: 'a lone tower', state: 'heard', kind: 'tower' });
     // (Further off than the one ring known about a town at first, it was no question mark before it was told of.)
-    expect([questions.includes(tower.cell), told.land.known.includes(tower.cell)]).toEqual([false, true]);
-    expect(told.land.known.length).toBeGreaterThan(start.land.known.length);
+    // Hearing of it marks it, and reveals none of the land: only where the company has been, or stood beside, is
+    // known (the owner, 4 November).
+    expect([questions.includes(tower.cell), told.land.known.includes(tower.cell)]).toEqual([false, false]);
+    expect(told.land.known.length).toBe(start.land.known.length);
     Knowing.unmade(told.land);
     // From the top of the shrine's tower, a ruin in the wood is seen: by its look, its name not yet said, on its own
     // hex, with the sign of what it is.
@@ -96,9 +102,10 @@ describe('what the map knows of a place', () => {
     await Knowing.take(s, /^Climb the tower/);
     const high = Knowing.of(s), ruin = high.land.marks.find(m => m.id === 'region__w3')!;
     Knowing.kept(told, high);
-    expect(ruin).toMatchObject({ name: 'a square doorway in a hillside in Birchwood', state: 'seen', kind: 'site' });
+    // Its sign is what the world made it (a cave), not a guess from its name (which had read "ruin").
+    expect(ruin).toMatchObject({ name: 'a square doorway in a hillside in Birchwood', state: 'seen', kind: 'cave' });
     expect([questions.includes(ruin.cell), high.land.known.includes(ruin.cell), HexLand.sign(ruin)])
-      .toEqual([true, true, 'ruin']);
+      .toEqual([true, true, 'cave']);
     // Set out for it by the way the page plans, and come to it: known whole, by the name cut over its door, the land
     // about it with it.
     const done = await Travel.go({ campaign: s.campaign, perform: (c: string) => s.perform(c) }, ruin.id);

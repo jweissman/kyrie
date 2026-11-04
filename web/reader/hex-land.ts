@@ -96,10 +96,15 @@ export class HexLand {
   // a place shows that it is there, finding it shows what it is: OWN-24); seen or been to, by what it is called (a
   // tower, a cave, a shrine), else by what it is (a site's broken walls, a standing stone).
   static sign(m: Land['marks'][number]): string {
+    // What the place is, as the world made it (a cave, a barrow), before anything its name might suggest; a place
+    // only heard of by what it is said to be, one glimpsed by its shape (the owner, 4 November: not a "?").
+    if (HexLand.kinds.has(m.kind)) { return m.kind; }
     if (m.state === 'unknown') { return 'unknown'; }
     if (m.state === 'heard') { return 'place'; }
     return this.signs.find(([re]) => re.test(m.name))?.[1] ?? (m.kind === 'site' ? 'ruin' : 'stone');
   }
+  // The kinds of site the world makes that have a sign of their own.
+  static readonly kinds = new Set(['tower', 'ruin', 'cave', 'barrow', 'shrine', 'camp', 'tarn', 'crag', 'grove']);
   // Each place on the land with its sign: a town; anything else by what it is called (a tower, a cave, a shrine).
   static readonly signs: [RegExp, string][] = [[/tower|keep|spire/i, 'tower'], [/ruin|fallen|walls|arch/i, 'ruin'],
     [/cave|hollow|den|adit|workings|mine|pit/i, 'cave'], [/shrine|chapel|altar|well/i, 'shrine'],

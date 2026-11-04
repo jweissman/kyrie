@@ -66,9 +66,12 @@ export class LandModel {
     const chart = this.chart, visited = seen.visited, known = this.explored(visited, seen.surveys);
     for (const id of [...visited].filter(v => !LandModel.tract.test(v))) { this.about(id, known); }
     const routed = new Set([...seen.routes ?? [], ...ways.filter(w => visited.has(w.from) && visited.has(w.to))
-      .map(w => w.passage)]), routes = ways.filter(w => routed.has(w.passage));
+      .map(w => w.passage)]);
     const sighted = new Set([...seen.sighted ?? [], ...this.found(visited)]);
-    for (const id of [...sighted, ...routes.flatMap(w => [w.from, w.to])]) {
+    // Only what the company has stood in or beside, sighted or looked out over is land it knows: a way it was told the
+    // course of (a guide's directions, a country's roads known as from a map) is its route on the map, not the land
+    // along it (the owner, 4 November: too much was revealed by hearing of things).
+    for (const id of sighted) {
       const at = this.cell(id);
       if (at !== undefined) { known.add(at); }
     }
@@ -81,9 +84,8 @@ export class LandModel {
     const passages = new Set(ways.map(w => w.passage));
     const roads = Object.fromEntries(Object.entries(chart.roads).filter(([way]) => visited.has(way) || heard.has(way)
       || passages.has(way)));
-    const ends = new Set(routes.flatMap(w => [w.from, w.to]));
     for (const [way, cells] of Object.entries(roads)) {
-      if (routed.has(way) || ends.has(way)) { for (const c of cells) { known.add(c); } }
+      if (visited.has(way)) { for (const c of cells) { known.add(c); } }
     }
     const placed = this.marks({ visited, sighted, heard }, here), towns = this.towns(areas, known);
     const marks = [...placed, ...this.unmade(new Set([...placed.map(m => m.cell),
@@ -154,8 +156,11 @@ export class LandModel {
       if (!e?.space || LandModel.areas.includes(e.space.kind)) { continue; }
       const state = of.visited.has(id) ? 'visited' : of.sighted.has(id) ? 'seen' : 'heard', row = rows.get(e.id);
       if (row && rank.indexOf(row.state) >= rank.indexOf(state)) { continue; }
-      rows.set(e.id, { id: e.id, name: e.name, cell: this.chart.places[e.id]!, kind: state === 'heard' ? 'place'
-        : this.kind(e), visited: state === 'visited', here: line.has(e.id), state });
+      // What it is, where the country's folk would say it (a barrow, a cave), even of a place only heard of: a "?" on
+      // the map had told nothing of what was there (the owner, 4 November).
+      const kind = this.chart.kinds?.[e.id] ?? (state === 'heard' ? 'place' : this.kind(e));
+      rows.set(e.id, { id: e.id, name: e.name, cell: this.chart.places[e.id]!, kind, visited: state === 'visited',
+        here: line.has(e.id), state });
     }
     return [...rows.values()];
   }
@@ -168,8 +173,13 @@ export class LandModel {
     const near = new Set([...known].flatMap(c => [c, ...this.round(c)]));
     const cells = new Set(Object.entries(this.chart.places).filter(([id, c]) => near.has(c) && !marked.has(c)
       && LandModel.site(this.entities.get(id))).map(([, c]) => c));
+    // Seen at the edge of what is known by its shape (a tower, a mound), not by its name: its kind on the map, not a
+    // "?" (the owner, 4 November).
+    const kinds = new Map(Object.entries(this.chart.places)
+      .flatMap(([id, c]) => this.chart.kinds?.[id] ? [[c, this.chart.kinds[id]!] as const] : []));
     return [...cells].sort((a, b) => a - b).map(cell => ({ id: `${LandModel.unmade.id}${cell}`,
-      name: LandModel.unmade.name, cell, kind: 'unknown', visited: false, here: false, state: 'unknown' as const }));
+      name: kinds.has(cell) ? `${/^[aeiou]/.test(kinds.get(cell)!) ? 'an' : 'a'} ${kinds.get(cell)}, not yet made out`
+        : LandModel.unmade.name, cell, kind: kinds.get(cell) ?? 'unknown', visited: false, here: false, state: 'unknown' as const }));
   }
   static readonly areas = ['settlement', 'wilderness'];
   static readonly unmade = { id: 'unmade:', name: 'something not yet made out' };

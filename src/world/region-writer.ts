@@ -273,6 +273,7 @@ export class RegionWriter {
       // What each name means, in the tongue it was given in: kept with the chart, not said in the place's description.
       glosses: Object.fromEntries([...region.settlements, ...region.sites].filter(x => x.gloss && x.tongue)
         .map(x => [x.id, `${x.tongue}${x.tongue === 'Aenean' ? ', the old tongue,' : ''} for “${x.gloss}”`])),
+      kinds: Object.fromEntries(region.sites.map(w => [w.id, w.kind])),
       places: Object.fromEntries([...region.settlements.map(s => [s.id, s.cell]),
         ...atlas.zones.flatMap(z => RegionZones.landmarks(region, z).map(l => [l.id, l.cell])),
         ...region.sites.filter(w => w.cell !== undefined).map(w => [w.id, w.cell]),

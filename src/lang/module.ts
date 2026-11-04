@@ -164,6 +164,9 @@ export interface Module {
 export interface LandChart {
   width: number; height: number; cover: string; rivers: number[][]; roads: Record<string, number[]>;
   parts: Record<string, number[]>; places: Record<string, number>; glosses?: Record<string, string>;
+  // What each site is (a cave, a barrow, a ruin, a tower), as the generator made it: the map's sign for it, which it
+  // had guessed from words in the place's name.
+  kinds?: Record<string, string>;
   // Where each river rises, above where it is a river: drawn on the map, nothing else (see Drainage.spring).
   springs?: number[][]; falls?: number[];
   // An authored region's: the cells of each of its stretches of country, settlements and sites (see AuthoredLand).

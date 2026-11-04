@@ -1,3 +1,4 @@
+import { HexLand } from '../hex-land';
 import { type Camera, Vector3 } from 'three';
 import { BoardGlyphs } from './board-glyphs';
 import type { BoardHooks, BoardMark } from './board-types';
@@ -43,7 +44,7 @@ export class BoardLabels {
   sign(m: BoardMark, at: Vector3): void {
     const el = this.button(m, `board-sign ${m.kind}`), name = document.createElement('span'),
       told = m.state === 'heard';
-    el.innerHTML = told ? '<i></i>' : `<i>${BoardGlyphs.svg(m.state === 'unknown' ? 'unknown' : m.kind)}</i>`;
+    el.innerHTML = told ? '<i></i>' : `<i>${BoardGlyphs.svg(m.state === 'unknown' && !HexLand.kinds.has(m.kind) ? 'unknown' : m.kind)}</i>`;
     name.className = 'name'; name.textContent = m.name.replace(/^the /, ''); name.hidden = !told; el.appendChild(name);
     this.add({ el, at, cell: m.cell, id: m.id, town: false, w: 0, h: 0, name, afar: BoardLabels.afar(m), told });
   }

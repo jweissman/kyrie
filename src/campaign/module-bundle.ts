@@ -196,7 +196,8 @@ export class ModuleBundle {
   // A chart's places, roads and parts named as the installed module names them.
   private static chart(chart: import('../lang/module').LandChart, id: string): import('../lang/module').LandChart {
     return { ...chart, roads: this.scoped(chart.roads, id), parts: this.scoped(chart.parts, id),
-      places: this.scoped(chart.places, id), ...chart.glosses ? { glosses: this.scoped(chart.glosses, id) } : {} };
+      places: this.scoped(chart.places, id), ...chart.glosses ? { glosses: this.scoped(chart.glosses, id) } : {},
+      ...chart.kinds ? { kinds: this.scoped(chart.kinds, id) } : {} };
   }
   // A chart's own ids, scoped to its module; one of another module's already (a province's region, drawn on the land
   // of the country it is a part of) is kept as it is.

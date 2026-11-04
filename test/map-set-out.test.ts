@@ -46,14 +46,15 @@ describe('setting out from the map', () => {
   }, 240000);
   // With wayfinding the company knows every road and path of the country, and thirty places on the map: each is set
   // out for itself, by the ways it knows, from inside a shop too (the map went to the hex the place stands on, and
-  // stopped beside it, or walked through it into the field beyond).
+  // stopped beside it, or walked through it into the field beyond). The land along those ways is not known by being
+  // known of: only where the company has been, or stood beside (the owner, 4 November), so the fellside the lone
+  // tower stands on is not a hex to cross to, while the tower is a place to set out for.
   it('goes to a place known by wayfinding itself, and across country from inside a shop', async () => {
     const j = await MapPlay.start('kite', 'debt'), screen = j.screen(), land = screen.region!.land!;
     expect(screen.place.id).toBe('region__s1_shop');
-    // The fellside the lone tower stands on: from the shop, "You know no way on to the fellside north-west of …".
-    const across = MapPlay.fork(j, 'kite', 'debt'), hex = land.marks.find(m => m.id === 'region__w9')!.cell;
-    expect(MapCard.of(screen, `hex:${hex}`).command).toBe(`travel:${land.tracts}${hex}`);
-    expect((await MapPlay.reach(across, `${land.tracts}${hex}`)).arrived).toBe(true);
+    const hex = land.marks.find(m => m.id === 'region__w9')!.cell;
+    expect(land.known).not.toContain(hex);
+    expect(MapCard.of(screen, 'region__w9').command).toBe('travel:region__w9');
     for (const m of land.marks.filter(x => ['landmark', 'site'].includes(x.kind)).slice(0, 3)) {
       const card = MapCard.of(screen, m.id), f = MapPlay.fork(j, 'kite', 'debt');
       expect(card.command).toBe(`travel:${m.id}`);

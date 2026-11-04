@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import type { RegionChart } from '../../src/ui/screen-types';
 import type { BoardApi, BoardLand, BoardModule } from './board/board-types';
 import { HexLand } from './hex-land';
@@ -7,7 +7,9 @@ type Land = NonNullable<RegionChart['land']>;
 
 // The map's board, when the browser can draw it (Mission 18, the owner's addendum): the country as a table of hex
 // tiles in three dimensions. Its script is the page's own (board.js, beside the reader), fetched only when the map is
-// first opened, so that nothing of it is paid for before; where it cannot be drawn, the flat map stands in its place.
+// first opened, so that nothing of it is paid for before. It is the only map (the owner, 4 November: a flat drawing had
+// stood in for it once its drawing was lost, opened from a place): a drawing lost is made again, and a browser that
+// cannot draw it at all is told so, not shown another map.
 export class BoardField {
   private static loading?: Promise<BoardModule | undefined>;
   private static drawable?: boolean;
@@ -77,42 +79,48 @@ export class BoardField {
   }
   // The board, given where the company is bound as the maps know it (see whither), and where it is setting out for,
   // that your mark walk the way there.
-  static View({ region, chosen, choose, bound, flat, face, walking, point }: { region: RegionChart; chosen?: string;
-    choose: (id: string, keyed?: boolean) => void; bound?: string; flat: ReactNode; face?: string; walking?: string;
+  static View({ region, chosen, choose, bound, face, walking, point }: { region: RegionChart; chosen?: string;
+    choose: (id: string, keyed?: boolean) => void; bound?: string; face?: string; walking?: string;
     point?: (id?: string) => void }) {
     const host = useRef<HTMLDivElement>(null), board = useRef<BoardApi | undefined>(undefined), pick = useRef(choose);
     const over = useRef(point); over.current = point;
-    const [failed, fail] = useState(() => !BoardField.able()), [ready, readied] = useState(false);
+    // Each failure (a drawing lost, the script not fetched) makes the board again, a moment later; only a browser with
+    // no drawing at all is given up on.
+    const [tries, retry] = useState(0), [ready, readied] = useState(false), able = BoardField.able();
+    const fail = useCallback(() => { setTimeout(() => retry(n => n + 1), 400); }, []);
     const [land, same] = useMemo(() => BoardField.drawn(region, face), [region, face]);
     const now = useRef({ land, chosen, bound });
     pick.current = choose; now.current = { land, chosen, bound };
     useEffect(() => {
-      if (failed) { return; }
+      if (!able) { return; }
       let live = true;
       // Made only once the map has been drawn opening (after the next frame), so that the press that opened it is
       // answered at once, and the making is not done in the moment of that press.
       void BoardField.load().then(m => requestAnimationFrame(() => setTimeout(() => {
         if (!live || !host.current) { return; }
-        if (!m) { fail(true); return; }
+        if (!m) { fail(); return; }
         try {
           const still = matchMedia('(prefers-reduced-motion: reduce)').matches, at = now.current;
           board.current = m.mount(host.current, at.land, { choose: (id, keyed) => pick.current(id, keyed),
-            lost: () => fail(true), point: id => over.current?.(id) }, still);
+            lost: () => fail(), point: id => over.current?.(id) }, still);
           // A board made again (the land changed under it) shows at once what is chosen and where you are bound.
           board.current.show(at.chosen, at.bound); readied(true);
         } catch (e) {
-          // The flat map in its place, and why told where it can be read (a land the board could not be made of).
-          console.error(e); fail(true);
+          // Made again, and why told where it can be read (a land the board could not be made of).
+          console.error(e); fail();
         }
       })));
       return () => { live = false; board.current?.dispose(); board.current = undefined; readied(false); };
-    }, [same, failed]);
+    }, [same, able, tries]);
     // Put away as the map closes, before it is taken off the page, while the page can still be told (see
     // BoardCamera.dispose).
     useLayoutEffect(() => () => { board.current?.dispose(); board.current = undefined; }, []);
     useEffect(() => { board.current?.show(chosen, bound); }, [chosen, bound, ready]);
     useEffect(() => { if (walking) { board.current?.walk(walking); } }, [walking, ready]);
-    if (failed) { return <>{flat}</>; }
+    if (!able) {
+      return <div className="field-land board" data-board="unable"><p className="none">This browser cannot draw the map
+        (it needs WebGL). Every way you know is still under Every way.</p></div>;
+    }
     return (
       <div className="field-land board" ref={host} data-board={ready ? 'ready' : 'loading'}>
         <div className="field-tools">
