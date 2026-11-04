@@ -102,8 +102,8 @@ export class PlaceStage {
   // Someone here, as one choice: their likeness when one fits, their name and what they are, and what they are doing
   // as the company sees them (in brief, only their name and what they are). Choosing them turns to them; anything
   // else that can be done with them is beneath.
-  static Plate({ subject: s, draw, brief, marked, led }: { subject: SceneSubject; draw: Draw; brief?: boolean;
-    marked?: boolean; led?: boolean }) {
+  static Plate({ subject: s, draw, brief, marked, led, first }: { subject: SceneSubject; draw: Draw; brief?: boolean;
+    marked?: boolean; led?: boolean; first?: string }) {
     const into = PlaceStage.into(s), rest = s.choices.filter(c => c !== into);
     // One with no likeness has their initial where it would be, so that every plate reads alike (Perrin, among faces,
     // had a choice's diamond: the owner, 4 November).
@@ -116,13 +116,14 @@ export class PlaceStage {
       {face}
       <span className="who"><span className="n">{Typography.curl(Words.upper(s.name))}</span>
         {s.note && <span className="r">{Typography.curl(s.note)}</span>}
+        {first && <span className="why-said">{Typography.curl(first)}</span>}
         {s.state && <span className="r hurt">{s.state === 'dead' ? 'dead' : 'down'}</span>}
         {s.says?.[0] && !brief && <span className="doing">{Typography.curl(s.says.join(' '))}</span>}</span>
       {/* What touching the plate does, as a chip says it: every plate the same (the owner, 4 November). */}
       {into && /#(talk|look)$/.test(into.id) && <span className="verb">{/#talk$/.test(into.id) ? 'talk' : 'look'}</span>}
     </>;
     return <>
-      {into ? <Act.View choice={into} draw={draw} className={`plate${face ? ' faced' : ''}${led ? ' leading' : ''}`}>{body}</Act.View>
+      {into ? <Act.View choice={into} draw={draw} className={`plate${face ? ' faced' : ''}${led ? ' leading' : ''}${first !== undefined ? ' first' : ''}`}>{body}</Act.View>
         : <span className={`plate still${face ? ' faced' : ''}`}>{body}</span>}
       {rest.length > 0 && <Act.List choices={rest} draw={draw} className="small under" marked={marked} />}
     </>;

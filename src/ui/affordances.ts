@@ -85,8 +85,10 @@ export class Affordances {
     // they sell; the page had led with "Talk to Adrik — your aim" for as long as he had an answer to repeat.
     const fresh = leaves.filter(c => r.speakers.has(c.command!) && !/_again(\(|$)/.test(c.command!));
     const talked = r.talked.has(s.id), person = s.kind === 'person';
-    const word = s.note?.split(' · ')[0], ours = word?.startsWith('your ') || r.named.has(s.id);
-    // Someone another aim names is led with after the aim followed asks (see Undertakings).
+    // Someone the aim followed names leads, and family while the company's own errand is followed; someone another aim
+    // names, or family while a job is, after it (the owner, 4 November: a sister marked first while the rats job was).
+    const errand = !screen.aims || !!screen.aims.find(a => a.followed)?.own;
+    const word = s.note?.split(' · ')[0], ours = r.named.has(s.id) || (!!word?.startsWith('your ') && errand);
     const owed = s.stake && (!talked || fresh.some(c => !r.done.has(c.command!)));
     const answer = leaves.find(c => c.answer), kin = owed && ours, held = owed && !ours;
     const feature = screen.things.find(t => t.id === s.id)?.kind === 'feature';
@@ -103,7 +105,8 @@ export class Affordances {
     const needs = this.served(leaves, r);
     const base = { subject: s.id, kind: person ? 'talk' as const : 'act' as const, r };
     return [this.candidate(opener, { ...base, whys: [...whys, ...needs.map(n => n.why)], notes: {
-      ...answer ? { answer: answer.label } : {}, ...kin ? { kin: word?.startsWith('your ') ? word : 'your aim' } : {}, ...held ? { held: 'another aim' } : {},
+      ...answer ? { answer: answer.label } : {}, ...kin ? { kin: word?.startsWith('your ') ? word : 'your aim' } : {},
+      ...held ? { held: word?.startsWith('your ') ? word : 'another aim' } : {},
       ...Object.fromEntries(needs.map(n => [n.why, n.note])) },
     ...answer?.command ? { command: answer.command } : {} })];
   }

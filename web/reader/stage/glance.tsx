@@ -33,6 +33,9 @@ export class GlanceStage {
     // Someone here is talked to by their own plate, not by a lead above it as well (the owner, 4 November: "Talk to
     // Lambert" over a plate of Lambert that did nothing): the menu leaves the lead out and the plate is edged.
     const acts = app.menu.leads ?? g.acts, leading = new Set<string | undefined>(app.menu.leading ?? []);
+    // What the glance ranks first is marked first, a lead or someone's plate (the owner, 4 November: lead 1 had been
+    // marked though talking to Theren, on her plate, was what the aim followed asked).
+    const top = g.acts[0] && GlanceStage.choice(app, g.acts[0].choice)?.id;
     return (
       <div className={`glance arrival-${g.arrival}`} data-region="glance" data-arrival={g.arrival}>
         {leaf.recap && (leaf.recap.aim || leaf.recap.last) && <Told.Recap recap={leaf.recap} />}
@@ -53,9 +56,9 @@ export class GlanceStage {
         {!s.pending && told && g.after?.next && !g.after.next.choice && <p className="opened-now" data-id="next">
           <span className="label">Now open</span>{` ${Typography.curl(g.after.next.label)}`}</p>}
         <GlanceStage.Aim app={app} said={g.aim} />
-        <GlanceStage.Acts app={app} draw={draw} acts={acts} />
+        <GlanceStage.Acts app={app} draw={draw} acts={acts} top={top} />
         <GlanceStage.People app={app} draw={draw} led={new Set(acts.map(a => GlanceStage.choice(app, a.choice)?.id))}
-          leading={leading} />
+          leading={leading} top={top} why={g.acts[0]?.note} />
         <GlanceStage.Row app={app} draw={draw} glance={g} />
         {g.need && <p className="need" data-id="need">{g.need.map(n => <span key={n}>{Typography.curl(n)}</span>)}</p>}
         <GlanceStage.Keys app={app} />
@@ -67,8 +70,8 @@ export class GlanceStage {
   // to be asked, the rest after; a few at most, the others under Look about, which is for a crowd.
   // A choice the glance leads with already (Talk to Falkor) is not drawn again on their plate: one choice is one
   // button on the page, and the keys and a browser's driver find it once.
-  static People({ app, draw, led, leading }: { app: ReaderApp; draw: Draw; led: Set<string | undefined>;
-    leading: Set<string | undefined> }) {
+  static People({ app, draw, led, leading, top, why }: { app: ReaderApp; draw: Draw; led: Set<string | undefined>;
+    leading: Set<string | undefined>; top?: string; why?: string }) {
     const all = GlanceStage.people(app);
     if (!all.length) { return null; }
     const shown = GlanceStage.cast(app).map(x => ({ ...x, choices: x.choices.filter(c => !led.has(c.id)) }));
@@ -76,7 +79,8 @@ export class GlanceStage {
     return (
       <div className="cast glance-cast" data-line="People here">
         <ul className="plates">{shown.map(x => <li key={x.id} data-subject={x.id} className="brief">
-          <PlaceStage.Plate subject={x} draw={draw} brief led={x.choices.some(c => leading.has(c.id))} /></li>)}</ul>
+          <PlaceStage.Plate subject={x} draw={draw} brief led={x.choices.some(c => leading.has(c.id))}
+            first={x.choices.some(c => c.id === top) ? why ?? '' : undefined} /></li>)}</ul>
         {more > 0 && <p className="more-here">{`And ${more} more, under Look about.`}</p>}
       </div>
     );
@@ -154,7 +158,7 @@ export class GlanceStage {
   }
   // What the glance leads with, best first: each as the player would say it, why beside it (your brother, your aim,
   // the way you came), and under it what it risks, in words; whatever it opens, open under it.
-  static Acts({ app, draw, acts }: { app: ReaderApp; draw: Draw; acts: Promoted[] }) {
+  static Acts({ app, draw, acts, top }: { app: ReaderApp; draw: Draw; acts: Promoted[]; top?: string }) {
     const shown = acts.flatMap(a => { const c = GlanceStage.choice(app, a.choice); return c ? [{ a, c }] : []; })
       .filter((x, i, all) => all.findIndex(y => y.c.id === x.c.id) === i);
     if (!shown.length) { return null; }
@@ -163,7 +167,7 @@ export class GlanceStage {
         const label = GlanceStage.label(app, a, c), note = GlanceStage.note(a, c, label);
         return <li key={a.choice} data-promoted={i + 1} data-why={a.why}
           data-next={app.state.frame?.leaf.glance?.after?.next?.choice === a.choice || undefined}>
-          <Act.View choice={c} draw={draw} className={`led-act${i === 0 ? ' first' : ''}`}>
+          <Act.View choice={c} draw={draw} className={`led-act${c.id === top ? ' first' : ''}`}>
             <span className="n">{Typography.curl(label)}</span>
             {note && <span className="why-said">{Typography.curl(note)}</span>}
             <kbd className="key" aria-hidden="true">{i + 1}</kbd>

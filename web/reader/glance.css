@@ -154,3 +154,6 @@
 }
 /* A fight reckoned easy or fair is not drawn in the colour of a deadly one (the rats' "Easily won" had been ember). */
 .led-mark.mark-fight:is(.danger-slight, .danger-fair), .mark-tag.mark-fight:is(.danger-slight, .danger-fair) { color: var(--dim); }
+/* Someone's plate, when talking to them is what the glance ranks first: marked as a first lead is (see GlanceStage). */
+.plate.first { border-color: var(--gold-line); box-shadow: inset 3px 0 0 var(--gold); }
+.plate.first .why-said { display: block; font: 400 13px/1.35 var(--do); color: var(--gold); }
