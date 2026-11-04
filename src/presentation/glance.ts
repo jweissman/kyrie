@@ -7,6 +7,8 @@ import { EntityIndex } from '../lang/entity-index';
 import { Affordances, type Reading } from '../ui/affordances';
 import { Attending } from '../ui/attention';
 import { Itineraries } from '../ui/itinerary';
+import { Headings } from '../ui/headings';
+import { LandModel } from '../ui/land-model';
 import { Promotion, type Situation } from '../ui/promotion';
 import { Marks } from '../ui/marks';
 import { SceneModel } from '../ui/scene';
@@ -177,6 +179,14 @@ export class Glance {
         Spatial.ancestry(byId, e.destination.id).some(a => a.id === site) && !e.blocked) : undefined;
       if (exit && !out.has(exit.id)) { out.set(exit.id, why); }
     }
+    // No known way toward the aim shown, nor a journey to it: in the open country, the step that goes nearest it
+    // (REV-08).
+    const aim = places.find(([, why]) => why === 'toward')?.[0];
+    const journey = (screen.destinations ?? []).some(d => aim && Itineraries.within(byId, aim, d.id));
+    const step = aim && !journey && ![...out.values()].includes('toward') && LandModel.tract.test(here)
+      ? Headings.toward(campaign.module, { path: screen.path, here, exits: screen.exits }, { id: aim, entities: byId })
+      : undefined;
+    if (step && !out.has(step)) { out.set(step, 'toward'); }
     return out;
   }
   // The first place on the way to a place: within the area when it lies in it, two legs away at most when not.

@@ -1206,7 +1206,7 @@ They tell you what they know of it.
 - Takes: 20 minutes
 - Costs: 1
 
-Go over the place: walls, floor, furniture, the backs of things. Twenty minutes, once; a search the light gives out on is not made.
+Go over the whole of the place, a little at a time: the ground, the walls, the backs of things. Twenty minutes, once; what it does not find is not there to be found, and a search the light gives out on is not made.
 
 > Needs: able(actor); at(actor, site); not (benighted(actor)); not (searched(actor, site))
 

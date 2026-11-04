@@ -87,11 +87,20 @@ export class RegionSites {
     const told = this.way(seat, region), here = `A track you had not seen goes off from here: the way to {${id}}.`;
     lines.push(hidden && !great
       ? `  Discovery ${id}_found ${q(told)} { Found by searching ${RegionZones.room(zone!, site.part!)} ${q(here)}. }`
-      : `  Discovery ${id}_found ${q(told)}.`);
+      : `  Discovery ${id}_found ${q(told)}.`, ...hidden && !great ? this.hint(region, seat) : []);
     if (this.cut[site.kind] && !site.work) {
       lines.push(`  Observe ${id}_letters at ${id} when true ${q(`${this.cut[site.kind]}: ${site.name.toUpperCase()}.`)} teaches ${id}_named.`);
     }
     return lines;
+  }
+  // Where a track goes off unseen, something noticed there before anyone searches, once for the place, until the
+  // way is found: searching had been a lottery played everywhere in case (REV-02).
+  private static hint(region: Region, seat: Seat): string[] {
+    const zone = RegionGeography.atlas(region).zones.find(z => z.id === seat.site.zone)!, part = seat.site.part!;
+    const hint = RegionZones.table[zone.wild]?.hint, id = seat.site.id, room = RegionZones.room(zone, part);
+    const first = region.sites.find(s => s.zone === zone.id && s.part === part && !s.work?.great) === seat.site;
+    return hint && first ? [`  Observe ${id}_hint at ${room} as sign when not knows(party, ${id}_found)`
+      + ` ${JSON.stringify(hint)}.`] : [];
   }
   // The way to a site, as the innkeeper tells it or as it is seen from somewhere high (see RegionSights): through its
   // wild country landmark by landmark to where its track starts, or where its track goes from. Named as the company

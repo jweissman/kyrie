@@ -81,7 +81,7 @@ describe('things hidden until found', () => {
   }, 60000);
   it('says so when a search or a try finds nothing', async () => {
     const s = await Strongroom.start();
-    expect(await Strongroom.said(s, 'search(world__hall)')).toContain('You find nothing out of the ordinary.');
+    expect(await Strongroom.said(s, 'search(world__hall)')).toContain('You have been over the whole of it, and nothing is hidden here.');
     await s.perform('go(world__study_door,world__study)');
     expect(await Strongroom.said(s, 'push(world__wall_map)')).toContain('It does not shift, either way.');
   }, 60000);

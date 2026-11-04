@@ -69,7 +69,7 @@ Module discovery_rules "Reliable discovery and trusted reports" {
     }
   }
   Action search(actor: group, site: place) "Search {site}" {
-    Description "Go over the place: walls, floor, furniture, the backs of things. Twenty minutes, once; a search the light gives out on is not made.".
+    Description "Go over the whole of the place, a little at a time: the ground, the walls, the backs of things. Twenty minutes, once; what it does not find is not there to be found, and a search the light gives out on is not made.".
     Requires able(actor) and at(actor, site) and not benighted(actor) and not searched(actor, site).
     Time 2. Resolve rummage(actor). Interrupted when threatened(actor) or benighted(actor).
     On success { Assert searched(actor, site). }

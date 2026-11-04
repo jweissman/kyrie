@@ -75,11 +75,13 @@ export class Promotion {
     return x.best !== 'unvisited' || picked.length < 2;
   }
   // The reasons it may be led with for, as what it is allows: never a wait (but for first light, in the dark with
-  // nothing to give light), a step across the country, studying; a search only for a sign of the place's or the aim
-  // naming it; a camp or a rest only for what the company needs; a way not yet taken only in a settlement or site, and
-  // not with a danger or a warning.
+  // nothing to give light), or studying; a step across the country only toward the aim shown (REV-08: from the edge of
+  // the known into the wild country it lies in); a search only for a sign of the place's or the aim naming it; a camp
+  // or a rest only for what the company needs; a way not yet taken only in a settlement or site, and not with a danger
+  // or a warning.
   private static allowed(c: Candidate, s: Situation): Why[] {
-    if (['step', 'study'].includes(c.kind)) { return []; }
+    if (c.kind === 'study') { return []; }
+    if (c.kind === 'step') { return c.whys.filter(w => w === 'toward'); }
     const whys = c.whys.filter(w => w !== 'unvisited' || (s.settled && !s.threat && !s.warned));
     if (c.kind === 'wait') { return whys.filter(w => w === 'dark'); }
     if (c.kind === 'search') { return whys.filter(w => w === 'sign' || w === 'named'); }

@@ -92,8 +92,13 @@ export class Travel {
   }
   // Whether the company saw something here it had not seen before: a drover's cattle at a ford stopped one journey four
   // times, the last after the cattle had gone.
+  // The event is the campaign's copy of its own record, never the record itself, so it is told from the others by
+  // when it was and what it did: compared as the same object, every perception had been seen already, in the leg's
+  // own record, and nothing staged ever stopped a journey (found by the wild's meetings: OWN-27).
   private static fresh(campaign: Campaign, event: CampaignEvent): boolean {
-    const seen = new Set(campaign.history.filter(e => e !== event).flatMap(e => (e.perceptions ?? []).map(p => p.id)));
+    const own = campaign.history.findLastIndex(e => e.action === event.action && e.elapsed === event.elapsed);
+    const seen = new Set(campaign.history.filter((_, i) => i !== own)
+      .flatMap(e => (e.perceptions ?? []).map(p => p.id)));
     return (event.perceptions ?? []).some(p => p.kind !== 'discovery' && !seen.has(p.id));
   }
   // Whether something said is said by one who goes with the company: an Event near them.

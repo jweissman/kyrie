@@ -10,7 +10,7 @@ import tables from '../../data/generation/scenes/wilds.json';
 
 interface Kind { id: string; name: string; scene: string; ambience: string; view?: boolean; things?: Feature[] }
 interface Table {
-  trails: string[]; into: string; entry: { name: string; scene: string };
+  trails: string[]; into: string; hint?: string; entry: { name: string; scene: string };
   lost: { name: string; scene: string; astray: string; guided: string }; landmarks: Kind[]; water: Kind[];
   view: { change: string; seen: string; unseen: string };
 }

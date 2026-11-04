@@ -43,7 +43,7 @@ describe('the glance ranks', () => {
     expect(picked[0]!.facets).toEqual(['here', 'aimed', 'urgent']);
     expect(picked[1]!.marks).toEqual([fight]);
   });
-  it('never leads with a wait, a step, study, a bare search, a camp or rest unneeded, the barred', () => {
+  it('never leads with a wait, a step but toward the aim, study, a bare search, a camp or rest unneeded, the barred', () => {
     const never = [Made.c('wait', ['life'], { kind: 'wait' }), Made.c('north', ['unvisited'], { kind: 'step' }),
       Made.c('prepare', ['own'], { kind: 'study' }), Made.c('search', ['own'], { kind: 'search' }),
       Made.c('camp', ['own'], { kind: 'camp' }), Made.c('rest', ['life'], { kind: 'rest' }),
@@ -52,6 +52,9 @@ describe('the glance ranks', () => {
     // But first light in the dark, a search for a sign, a camp for the night.
     expect(Made.ids([Made.c('dawn', ['dark'], { kind: 'wait' }), Made.c('search', ['sign'], { kind: 'search' }),
       Made.c('camp', ['exposed'], { kind: 'camp' })], { ...Made.calm, dark: true })).toEqual(['dawn', 'camp', 'search']);
+    // And a step across the open country toward the aim, from the edge of the known into the wild (REV-08).
+    expect(Made.ids([Made.c('east', ['toward', 'unvisited'], { kind: 'step' }), Made.c('west', ['held'], { kind: 'step' })],
+      { ...Made.calm, settled: false })).toEqual(['east']);
   });
   it('leads with one of the place\'s own, not its risk unless there is nothing else, and two ways at most', () => {
     const own = [Made.c('skittles', ['own'], { own: true, risk: true }), Made.c('swing', ['own'], { own: true }),
