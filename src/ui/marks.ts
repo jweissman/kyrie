@@ -60,7 +60,7 @@ export class Marks {
     const reckoning = act?.reckoned ?? (row?.reckoning && c.label === 'Attack' ? row.reckoning : undefined);
     if (!reckoning || !c.command) { return undefined; }
     return { kind: 'fight', said: [ChoiceList.chances[reckoning.danger], reckoning.text].filter(Boolean).join(': '),
-      ...['grave', 'deadly'].includes(reckoning.danger) ? { ask: true } : {} };
+      danger: reckoning.danger, ...['grave', 'deadly'].includes(reckoning.danger) ? { ask: true } : {} };
   }
   // A danger here: someone the company could fight who is not with it, nor down (as SceneModel.threat has it).
   static threat(this: void, row: TargetRow): boolean { return !!row.reckoning && !row.companion && !row.state; }

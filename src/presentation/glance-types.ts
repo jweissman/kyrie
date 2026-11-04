@@ -31,7 +31,8 @@ export type Why =
 // What a choice risks, or needs said before it is chosen.
 export type MarkKind = 'one-way' | 'grave' | 'fight' | 'trap' | 'unlooked' | 'heard' | 'exposed' | 'warned' | 'night';
 // ask: the page asks again before it is done.
-export interface Mark { kind: MarkKind; said: string; ask?: boolean }
+// danger: a fight's, as reckoned, so that an easy one is not drawn as a deadly one is.
+export interface Mark { kind: MarkKind; said: string; ask?: boolean; danger?: 'slight' | 'fair' | 'hard' | 'grave' | 'deadly' }
 export type Tier = 0 | 1 | 2 | 3 | 4;
 export interface Promoted {
   // The exact id of the choice the page draws (MenuModel.build(frame, 'here', []).choices): the page resolves nothing.

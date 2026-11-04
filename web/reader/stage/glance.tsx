@@ -167,7 +167,7 @@ export class GlanceStage {
             <span className="n">{Typography.curl(label)}</span>
             {note && <span className="why-said">{Typography.curl(note)}</span>}
             <kbd className="key" aria-hidden="true">{i + 1}</kbd>
-            {a.marks.map(m => <span key={m.kind} className={`led-mark mark-${m.kind}`}>{Typography.curl(Words.upper(m.said))}</span>)}
+            {a.marks.map(m => <span key={m.kind} className={`led-mark mark-${m.kind}${m.danger ? ` danger-${m.danger}` : ''}`}>{Typography.curl(Words.upper(m.said))}</span>)}
           </Act.View>
           <PlaceStage.Opened choice={c} draw={draw} />
         </li>;

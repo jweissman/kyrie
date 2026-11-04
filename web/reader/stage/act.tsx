@@ -28,7 +28,7 @@ export class Act {
         aria-current={selected || undefined} aria-disabled={c.disabled ? true : undefined}
         aria-expanded={opens ? draw.open.has(c.id) : undefined} onClick={Act.click.bind(null, draw.app)}>
         {children ?? <>{Typography.curl(Words.shown(c.label))}{c.note && <span className="note">{Typography.curl(c.note)}</span>}</>}
-        {tags.map(m => <span key={m.kind} className={`mark-tag mark-${m.kind}`} title={Typography.curl(m.said)}>
+        {tags.map(m => <span key={m.kind} className={`mark-tag mark-${m.kind}${m.danger ? ` danger-${m.danger}` : ''}`} title={Typography.curl(m.said)}>
           {Act.marks[m.kind]}</span>)}
         {c.disabled && <span className="why">{Typography.curl(c.disabled)}</span>}
         {c.about && (c.risk || c.grave) && !children && <span className="about">{Typography.curl(c.about)}</span>}
