@@ -3,6 +3,8 @@ import { Overlays } from '../../overlays';
 import { Canon } from '../../canon/canon';
 import { RegionGrowth } from '../region-growth';
 import trades from '../../../data/generation/scenes/occupations.json';
+import text from '../../../data/generation/town/errands.kyrt' with { type: 'text' };
+import { KyrTemplates } from '../kyr-template';
 import { RegionGeography } from '../region-geography';
 import { RegionNews } from '../region-news';
 import type { Region } from '../region-writer';
@@ -16,6 +18,11 @@ import { Portraits } from '../../paintings/portraits';
 // which can be made much of; and its one small trouble.
 export class CommunityWriter {
   static readonly q = JSON.stringify;
+  // The townspeople's small troubles and knowledge: the author's, in data/generation/town/errands.kyrt.
+  static readonly template = KyrTemplates.parse(text);
+  private static section(group: string, values: Record<string, string>): string[] {
+    return KyrTemplates.fill(this.template.sections.filter(t => t.group === group).flatMap(t => t.lines), values);
+  }
   // Where the workplaces stand about the green: the spots of its grid the green, inn, shrine and shop leave free.
   static readonly spots: [number, number][] = [[0, 0], [2, 0], [0, 2], [1, 2], [2, 2]];
   static lines(region: Region, c: Community): string[] {
@@ -107,16 +114,13 @@ export class CommunityWriter {
   // Someone whose work is by the water knows where the willow grows (and so what to strip for a fever): they say
   // where, and the company knows it, and can set out for it.
   private static knowing(region: Region, c: Community, r: Resident): string[] {
-    const q = this.q, s = c.settlement;
+    const s = c.settlement;
     if (!r.work.knows?.some(k => k === 'water' || k === 'herbs') || s.cell === undefined) { return []; }
     const where = RegionGrowth.near(region, 'willow', s.cell), names = where.map(w => w.name);
     if (!where.length) { return []; }
-    const fact = `${r.id}_willows`, places = names.length > 1 ? `${names[0]}, and along ${names[1]}` : names[0]!;
-    return [`  Entity ${fact}: fact ${q(`Willows grow by the water on ${places}: willow bark breaks a fever.`)}.`,
-      ...where.map(w => `  Initially Assert leadsTo(${fact}, ${w.id}).`),
-      `  Topic ${r.id}_where with ${r.id} ${q(`Ask ${r.name} where willow grows`)} when not knows(actor, ${fact}) {`,
-      `    Says ${q(`'Willow? By the water, same as everywhere,' says ${r.name}. 'There's a good stand on ${places}. Strip the bark, not the wood.'`)}.`,
-      `    On discuss { Assert knows(actor, ${fact}). }`, '  }'];
+    const places = names.length > 1 ? `${names[0]}, and along ${names[1]}` : names[0]!, at = { r: r.id, name: r.name, places };
+    return [...this.section('willow', at), ...where.map(w => `  Initially Assert leadsTo(${r.id}_willows, ${w.id}).`),
+      ...this.section('willowask', at)];
   }
   // Someone whose work takes them round the roads (a tinker crying "news for nothing") has news of a neighbour, asked
   // for by its name, as a traveller's is (a tinker asked only for the news answered "Merscslím? I was only passing
@@ -159,26 +163,17 @@ export class CommunityWriter {
   // A goat got out: she is up the road, eating a hedge, and comes home led; a coin from her people for it. Or someone
   // needs a thing the shop sells, and pays for it brought.
   private static concern(region: Region, c: Community): string[] {
-    const concern = c.concern, s = c.settlement, q = this.q;
+    const concern = c.concern, s = c.settlement;
     if (!concern) { return []; }
-    const r = c.residents.find(x => x.id === concern.resident)!;
+    const r = c.residents.find(x => x.id === concern.resident)!, at = { r: r.id, name: r.name };
     if (concern.kind === 'strayed') {
-      const goat = c.animals.find(a => a.id === concern.animal)!;
-      const road = this.strayRoad(region, s.id);
-      const where = road ? road.way : `${s.id}_green`, other = road ? (road.from.id === s.id ? road.to : road.from).name : '';
-      return [`  Person ${goat.id} ${q(goat.name)} at ${where} { Role ${q(`${r.name}'s goat`)}. Species goat. Pronouns she. Peaceable. }`,
-        `  Observe ${goat.id}_seen near ${goat.id} of ${goat.id} when at(${goat.id}, ${where}) ${q(`A goat with a broken tether is cropping the verge, with her whole attention.`)}.`,
-        `  Initially Assert home(${goat.id}, ${s.id}_green). Initially Assert acceptsEscort(${goat.id}, party).`,
-        `  Topic ${r.id}_goat with ${r.id} ${q(`Ask ${r.name} what the matter is`)} when not cameHome(${goat.id}) once {`,
-        `    Says ${q(`'${goat.name} has had her tether through again,' says ${r.name}. '${road ? `She'll be off up the road to ${other}, eating somebody's hedge` : 'She will be in somebody\'s garden'}. If you see her, bring her home. She comes for anyone who walks like they mean it.'`)}.`, '  }',
-        `  Rule ${goat.id}_thanks when cameHome(${goat.id}) and not grateful(${r.id}, party) says ${q(`${r.name} catches ${goat.name}'s broken tether and ties it twice. 'Thank you. Here.' A coin, warm from a pocket.`)} {`,
-        `    Assert grateful(${r.id}, party). Increase quantity(party, gold) by 1. Retract acceptsEscort(${goat.id}, party). }`];
+      const goat = c.animals.find(a => a.id === concern.animal)!, road = this.strayRoad(region, s.id);
+      const other = road ? (road.from.id === s.id ? road.to : road.from).name : '';
+      const her = { ...at, goat: goat.id, goatname: goat.name, where: road ? road.way : `${s.id}_green`,
+        green: `${s.id}_green`, other };
+      return [...this.section('strayed', her), ...this.section(road ? 'road' : 'garden', her), ...this.section('home', her)];
     }
-    return [`  Initially Assert wants(${r.id}, ${concern.wants}).`,
-      `  Topic ${r.id}_wants with ${r.id} ${q(`Ask ${r.name} what the matter is`)} when not grateful(${r.id}, party) once {`,
-      `    Says ${q(`'I need a ${concern.wants === 'herbs' ? 'bundle of herbs' : concern.wants} and I've no time to go for one,' says ${r.name}. 'If you can get one, I'd pay you back and a bit over.'`)}.`, '  }',
-      `  Rule ${r.id}_thanks when keeps(${r.id}, ?g) and not grateful(${r.id}, party) says ${q(`'That's the one,' says ${r.name}, and pays you for it and a coin besides.`)} {`,
-      `    Assert grateful(${r.id}, party). Increase quantity(party, gold) by price(?g).`
-        + ` Increase quantity(party, gold) by 1. }`];
+    const wants = concern.wants ?? '', thing = wants === 'herbs' ? 'bundle of herbs' : wants;
+    return this.section('wants', { ...at, wants, thing });
   }
 }

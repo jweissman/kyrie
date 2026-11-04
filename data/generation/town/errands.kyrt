@@ -1,0 +1,38 @@
+# errands: the small troubles and knowledge of a generated town's people: where willow grows, a goat got out, a thing wanted.
+// A Kyr template (see src/world/kyr-template.ts), written for the residents of every generated settlement (see
+// src/world/community/community-writer.ts, which decides who knows what and who is troubled by what). {r} is the
+// resident's id and {name} their name. Change what is said or what is paid here; nothing in the engine needs to change.
+--- willow
+  // Someone whose work is by the water knows where the willow grows: {places} the waters nearest it.
+  Entity {r}_willows: fact "Willows grow by the water on {places}: willow bark breaks a fever.".
+--- willowask
+  Topic {r}_where with {r} "Ask {name} where willow grows" when not knows(actor, {r}_willows) {
+    Says "'Willow? By the water, same as everywhere,' says {name}. 'There's a good stand on {places}. Strip the bark, not the wood.'".
+    On discuss { Assert knows(actor, {r}_willows). }
+  }
+--- strayed
+  // A goat got out: {goat} her id, {goatname} her name, {where} where she has got to, {green} her home.
+  Person {goat} "{goatname}" at {where} { Role "{name}'s goat". Species goat. Pronouns she. Peaceable. }
+  Observe {goat}_seen near {goat} of {goat} when at({goat}, {where}) "A goat with a broken tether is cropping the verge, with her whole attention.".
+  Initially Assert home({goat}, {green}). Initially Assert acceptsEscort({goat}, party).
+--- road
+  // Up the road to {other}.
+  Topic {r}_goat with {r} "Ask {name} what the matter is" when not cameHome({goat}) once {
+    Says "'{goatname} has had her tether through again,' says {name}. 'She'll be off up the road to {other}, eating somebody's hedge. If you see her, bring her home. She comes for anyone who walks like they mean it.'".
+  }
+--- garden
+  // Where no road is free for her: in the town.
+  Topic {r}_goat with {r} "Ask {name} what the matter is" when not cameHome({goat}) once {
+    Says "'{goatname} has had her tether through again,' says {name}. 'She will be in somebody's garden. If you see her, bring her home. She comes for anyone who walks like they mean it.'".
+  }
+--- home
+  Rule {goat}_thanks when cameHome({goat}) and not grateful({r}, party) says "{name} catches {goatname}'s broken tether and ties it twice. 'Thank you. Here.' A coin, warm from a pocket." {
+    Assert grateful({r}, party). Increase quantity(party, gold) by 1. Retract acceptsEscort({goat}, party). }
+--- wants
+  // Someone needs a thing the shop sells ({wants} its kind, {thing} what they call it), and pays for it brought.
+  Initially Assert wants({r}, {wants}).
+  Topic {r}_wants with {r} "Ask {name} what the matter is" when not grateful({r}, party) once {
+    Says "'I need a {thing} and I've no time to go for one,' says {name}. 'If you can get one, I'd pay you back and a bit over.'".
+  }
+  Rule {r}_thanks when keeps({r}, ?g) and not grateful({r}, party) says "'That's the one,' says {name}, and pays you for it and a coin besides." {
+    Assert grateful({r}, party). Increase quantity(party, gold) by price(?g). Increase quantity(party, gold) by 1. }

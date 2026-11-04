@@ -88,6 +88,7 @@ and not others.
   Kyr cannot define one, only teach one (`Resolve teach`).
 - **Most generators are still TypeScript writing Kyr as text** (the handoff's §8): the undertown, the works, the
   wild's meetings, the roads' fords and passes, and a deep site's riddle caskets, coin and earlier camps
-  (`data/generation/deep/rooms.kyrt`, `hoards.json`) are templates or tables; the settlements, the rest of the deep
-  sites, the market and the fellows are not. Ranked by the prose still in them: `community/community-writer.ts`,
+  (`data/generation/deep/rooms.kyrt`, `hoards.json`), and the townspeople's small errands (where willow grows, a goat
+  got out, a thing wanted: `data/generation/town/errands.kyrt`) are templates or tables; the settlements' shape, the
+  rest of the deep sites, the market and the fellows are not. Ranked by the prose still in them:
   `deep/deep-mechanisms.ts`, `region-market.ts`, `settlement-writer.ts`, `region-zones.ts` (M19-44).
