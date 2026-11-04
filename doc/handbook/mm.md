@@ -226,6 +226,23 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A small insect with a hard exoskeleton and strong mandibles for biting.
 
+#### Buck rat
+
+*Kyr · a great rat, altered* · `species:buck_rat`
+
+- Type: beast (animal)
+- Hit points: d7 a level
+- Qualities: rolled (3d6 each)
+- Attack: bite, 1d6 piercing
+- Hide: Fur Armor, armour 0
+- Temperament: territorial
+- Found in: settlement, cave
+- Worth: 10 experience a level
+
+Rending bite: 1d6 (1–6) physical damage to one enemy; it is bleeding for 2 turns (a Constitution save against 11 avoids it). Bleeding: takes 1 bleed damage each turn. Again after a turn.
+
+> An old male of the great rats, the size of a dog, scarred and grey at the muzzle: the one the others make way for, and the last to run.
+
 #### Butterfly
 
 *Faithful · beast* · `species:butterfly`

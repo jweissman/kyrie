@@ -549,6 +549,32 @@
         "notes": "Orsino's rat (bite and fur) grown to the giant rats of the undertown, with rolled attributes and a hit die, since a rat's two hit points made four of them a single blow each (a1's corn-store, 3 November)."
       }
     },
+    "buck_rat": {
+      "variantOf": "great_rat",
+      "name": "Buck rat",
+      "type": "beast",
+      "kind": "animal",
+      "description": "An old male of the great rats, the size of a dog, scarred and grey at the muzzle: the one the others make way for, and the last to run.",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 7,
+        "primary": "strength",
+        "weapon": "bite",
+        "armor": "fur"
+      },
+      "abilities": [
+        "rending_bite"
+      ],
+      "temperament": "territorial",
+      "habitats": [
+        "settlement",
+        "cave"
+      ],
+      "source": {
+        "kyr": true,
+        "notes": "The great rats' old buck, for the nest under a first town (Mission 19: the owner found two rats too slight a job; a larger rat to fight at its end)."
+      }
+    },
     "bone_hound": {
       "name": "Knitted bone hound",
       "type": "undead",

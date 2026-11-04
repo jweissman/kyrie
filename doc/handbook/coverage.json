@@ -1063,7 +1063,7 @@
     "faithful": 105,
     "adapted": 158,
     "represented": 9,
-    "kyr": 32,
+    "kyr": 33,
     "unsupported": 5,
     "unreachable": 0,
     "data-only": 123
@@ -1076,7 +1076,7 @@
       "faithful": 40,
       "adapted": 69,
       "represented": 0,
-      "kyr": 15,
+      "kyr": 16,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -18733,6 +18733,13 @@
    "id": "species:beetle",
    "title": "Beetle",
    "status": "faithful",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:buck_rat",
+   "title": "Buck rat",
+   "status": "kyr",
    "book": "mm",
    "section": "species/species-beast"
   },

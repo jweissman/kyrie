@@ -4,7 +4,7 @@ import { ModuleWriter } from '../src/lang/module-writer';
 
 // Success judged by ordinary play (the owner's OWN-55, the independent review's first-town acceptance): a fresh
 // warrior of a drawn country, come in by the causeway, reads the notice on the well-post, takes the corn-store job
-// and its key from the merchant, goes down with a light, clears the rats and stops their run from the drain, and
+// and its key from the merchant, goes down with a light, clears the rats and the old buck rat in their nest, and
 // comes back to be paid in coin and in what the next job wants (a lantern, oil); the job is gone from what is asked
 // of the company, and the merchant has nothing more to ask of it. Played by the page's own labels, as in a1 on 3
 // November, where the rooms below had said nothing and the reckoning had called two rats more than a warrior could
@@ -22,7 +22,12 @@ describe('the first town\'s first job', () => {
     expect(await j.step('To the rat-runs')).toMatch(/worn a path in the dirt/);
     await j.step('Attack');
     expect(j.campaign.world.test(ModuleWriter.call('able', 'region__s1_u_rats'))).toBe(false);
-    for (const step of ['Pack', 'To the corn-store cellar', 'Up to the old corn-store', 'To the landing at Lowmouth',
+    // Their run goes down to the nest, where the old buck rat keeps it: the job's second fight (Mission 19).
+    expect(j.screen().objectives.join(' ')).toMatch(/Clear the rats' nest/);
+    await j.step('To the nest');
+    await j.step('Attack');
+    expect(j.campaign.world.test(ModuleWriter.call('able', 'region__s1_u_buck'))).toBe(false);
+    for (const step of ['To the rat-runs', 'To the corn-store cellar', 'Up to the old corn-store', 'To the landing at Lowmouth',
       'To Mik\'s salt-house', 'Talk to Mik']) { await j.step(step); }
     expect(await j.step('Tell Mik the rats')).toMatch(/a lantern and two flasks of oil set on the counter/);
     const pack = j.campaign.readout.creatures.find(c => c.name === 'Aud')!.state.inventory?.map(i => i.definition) ?? [];
