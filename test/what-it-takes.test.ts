@@ -6,6 +6,7 @@ import { PlayerView } from '../src/presentation/player-view';
 import { ActionFeedbackView } from '../src/presentation/action-feedback';
 import { SkillReading } from '../src/presentation/skill-reading';
 import { ScreenModel } from '../src/ui/screen-model';
+import { Withheld } from '../src/ui/withheld';
 import { SceneModel } from '../src/ui/scene';
 import type { Choice } from '../src/ui/choice-list';
 import { Narrator } from '../src/presentation/narrator';
@@ -35,7 +36,7 @@ class Barrow {
   // Every choice the page offers, those opened under others too.
   static every(cs: Choice[]): Choice[] { return cs.flatMap(c => [c, ...Barrow.every(c.children ?? [])]); }
   static wanting(s: PlaySession) {
-    return SkillReading.read(s.campaign).wanting.map(w => `${w.choice.name}: ${ScreenModel.wanting(w)}`);
+    return SkillReading.read(s.campaign).wanting.map(w => `${w.choice.name}: ${Withheld.wanting(w)}`);
   }
   static exit(s: PlaySession, to: string) {
     return ScreenModel.build(s.campaign).exits.find(e => e.name === to)?.blocked;

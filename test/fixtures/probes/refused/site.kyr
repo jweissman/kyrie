@@ -1,0 +1,17 @@
+Module refused "A landlady who will not have the company under her roof" {
+  Place hythe "Hythe" is settlement.
+  Place taproom "the taproom of the Bell" is room within hythe at 0, 0 indoors.
+  Company party "You" of 1 at taproom.
+  Person joan "Joan" at taproom {
+    Role "the landlady of the Bell". Ancestry human. Calling commoner. Peaceable. Pronouns she.
+    Offers lodging "a bed under the eaves" for 0 coin.
+  }
+  // She will not serve the company until it has paid for the window (the Book of Faces' gate 4, BOF-15).
+  Initially Assert refusesService(joan, party).
+  Topic amends with joan "Pay Joan for the broken window" when refusesService(joan, party) once {
+    Says "Joan counts the coin twice. 'Well,' she says. 'That's the window.'".
+    On discuss { Retract refusesService(joan, actor). }
+  }
+  Observe taproom_scene at taproom when true "A low taproom with a fire.".
+  Goal false.
+}

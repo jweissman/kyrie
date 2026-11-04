@@ -1,6 +1,5 @@
 import { Likeness } from '../paintings/likeness'; import { CompanyPortraits } from '../paintings/company-portraits';
 import { CharacterSheets } from '../presentation/character-sheet';
-import { CoinReading } from '../presentation/coin-reading';
 import { Itineraries } from './itinerary';
 import type { World } from '../lang/world';
 import { EntityIndex } from '../lang/entity-index';
@@ -20,9 +19,9 @@ import { Calendar } from '../campaign/calendar';
 import { PlayerView, type PlayerSnapshot } from '../presentation/player-view';
 import type { Campaign } from '../campaign/campaign';
 import type { Entity } from '../lang/module';
-import { SkillReading, type Wanting } from '../presentation/skill-reading';
+import { Withheld } from './withheld';
 import { DangerSense } from '../presentation/danger-sense';
-import { ChoiceGrouping, type Grouped, type Row } from './choice-grouping';
+import { ChoiceGrouping, type Grouped } from './choice-grouping';
 import { Passages } from './passages';
 import { ObservationText } from '../lang/observation-text';
 import { ChartModel } from './chart-model'; import { Carriers } from './carriers'; import { CarriedFlame } from './carried-flame';
@@ -45,7 +44,7 @@ export class ScreenModel {
     const present = new Set(view.present.map(p => p.id));
     const passageOf = this.passageOf(world, view.location?.id ?? '');
     const fees = this.fees(campaign);
-    const grouped = ChoiceGrouping.group(this.commands(campaign), { present, names, prices, passageOf, fees,
+    const grouped = ChoiceGrouping.group(Withheld.rows(campaign), { present, names, prices, passageOf, fees,
       tell: ScreenModel.tell, ...Exposure.of(world), ...view.party.length === 1 ? { solo: true } : {},
       world, reckon: DangerSense.reckon.bind(DangerSense, campaign),
       ...(view.actor ? { carrier: Carriers.carrier.bind(null, world, view.actor) } : {}) });
@@ -94,15 +93,6 @@ export class ScreenModel {
         acts.map(a => ({ ...a, label: `${entities.get(id)?.name ?? id}: ${a.label}` })))],
     };
     return { ...screen, ...TownPlan.of(screen, entities, world, visited) };
-  }
-  // The choices, with who makes each skilled one possible, and what the company could do with a skill nobody in it has.
-  private static commands(campaign: Campaign): Row[] {
-    const reading = SkillReading.read(campaign);
-    return [...PlayerView.choices(campaign).map(r => ({ ...r,
-      ...(reading.uses.has(r.action.id) ? { by: reading.uses.get(r.action.id)! } : {}) })),
-    ...reading.wanting.map(w => ({ choice: { ...w.choice, time: w.choice.time ?? 1 }, action: w.action,
-      wanting: ScreenModel.wanting(w) })), ...CoinReading.read(campaign).map(s => ({ choice: { ...s.choice,
-      time: s.choice.time ?? 1 }, action: s.action, wanting: CoinReading.why(s) }))];
   }
   // What each item is priced at, where prices are measured: its items read by the entities' index, not every entity.
   private static prices(world: World): Map<string, number> {
@@ -196,11 +186,6 @@ export class ScreenModel {
   }
   // What a spell or technique does, in its own words and then in the rules' terms.
   // Why a choice cannot be made: the skill it needs, and anything else that would do, which the company lacks.
-  static wanting(w: Wanting): string {
-    if (w.thing) { return `Needs ${[w.name, ...w.or].join(' or ')}, and the company has none.`; }
-    return w.or.length ? `Needs ${w.name.toLowerCase()} or ${w.or.join(' or ')}, and the company has neither.`
-      : `Needs ${w.name.toLowerCase()}: no one in the company has it.${w.had ? ` ${w.had}` : ''}`;
-  }
   static tell(this: void, id: string): string | undefined {
     const ability = Content.abilities.find(a => a.id === id), feat = Canon.traits[id];
     // A feat: what each of its perks does, and the abilities it brings.
