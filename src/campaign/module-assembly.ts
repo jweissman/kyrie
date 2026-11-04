@@ -95,7 +95,10 @@ export class ModuleAssembly {
     return { ...situation, name: manifest.name ? `${situation.name}: ${manifest.name}` : situation.name,
       kinds: [...rules.kinds, ...situation.kinds], relations: [...rules.relations, ...situation.relations],
       measures: [...rules.measures, ...situation.measures], queries: [...rules.queries, ...situation.queries],
-      entities: [...rules.entities, ...situation.entities, ...information.entities],
+      // A kind of the catalog both name (a recipe's willow bark, and willow bark lying on a bank) is one kind.
+      entities: [...rules.entities, ...situation.entities.filter(e => e.type !== 'itemkind'
+        || !rules.entities.some(r => r.id === e.id && r.type === e.type && r.name === e.name)),
+      ...information.entities],
       actions: [...rules.actions, ...situation.actions],
       pursuits: [...(rules.pursuits ?? []), ...(situation.pursuits ?? [])],
       rules: [...(rules.rules ?? []), ...(situation.rules ?? [])],

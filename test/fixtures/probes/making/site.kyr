@@ -1,0 +1,15 @@
+Module making "Making a remedy of what grows" {
+  Place village "the village" is settlement.
+  Place bank "the river bank" is room within village at 0, 0 outdoors.
+  Place green "the green" is room within village at 1, 0 outdoors.
+  Passage lane "the lane" is path between bank and green.
+  Company party "You" of 1 at bank.
+  Item bark "some willow bark" is willow_bark at bank.
+  Item sweet "a twist of meadowsweet" is herbs at bank.
+  Item oil "a flask of lamp oil" is lamp_oil at bank.
+  Item rag "a strip of linen" is bandages at bank.
+  Person nan "Nan Aske" at green { Role "the herb-wife". Peaceable. Pronouns she. Buys minor_healing_potion for 8 coin. Buys lamp_oil for 1 coin. }
+  Observe bank_scene at bank when true "Willows over the water.".
+  Observe green_scene at green when true "The village green.".
+  Goal false.
+}

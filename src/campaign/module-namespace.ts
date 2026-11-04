@@ -18,7 +18,7 @@ export class ModuleNamespace {
   // Catalog-backed entity types: the same id means the same thing in every installation.
   static readonly canonical = ['ability', 'feat', 'capability', 'itemkind', 'good', 'clock', 'waykind', 'servicekind', 'element',
     'terrainkind', 'temperament', 'law', 'manner', 'pronoun', 'sizekind', 'craft',
-    'verb', 'circle', 'quality', 'difficulty'];
+    'verb', 'circle', 'quality', 'difficulty', 'recipe'];
   private entities: Record<string, string>;
   private functions: Record<string, string>;
   private kinds: Record<string, string>;

@@ -3,16 +3,20 @@ import type { CampaignActor } from './definition';
 import type { Module, Operator } from '../lang/module';
 import type { World } from '../lang/world';
 
-// A campaign's actions grounded on demand: its operators, made again only when its module, its actions or its
-// controllers change; and the actions open to the player, worked out once for each world.
+// A campaign's actions grounded on demand: its operators, made again only when its module, its actions, its entities
+// or its controllers change; and the actions open to the player, worked out once for each world. A thing given the
+// company (Give lantern to actor.; a potion made) is an entity new to the module, and had been in no action's domain:
+// it could not be sold, set down or used.
 export class CampaignGrounding {
-  private grounded?: { module: Module; length: number; actors: CampaignActor[] | undefined; operators: Operators };
+  private grounded?: { module: Module; length: number; entities: number; actors: CampaignActor[] | undefined;
+    operators: Operators };
   private applicable?: { world: World; player: CampaignActor | undefined; actions: Operator[] };
   operators(module: Module, actors: CampaignActor[] | undefined): Operators {
     const g = this.grounded;
-    if (g?.module === module && g.length === module.actions.length && g.actors === actors) { return g.operators; }
+    if (g?.module === module && g.length === module.actions.length && g.entities === module.entities.length
+      && g.actors === actors) { return g.operators; }
     const operators = new Operators(module, actors);
-    this.grounded = { module, length: module.actions.length, actors, operators };
+    this.grounded = { module, length: module.actions.length, entities: module.entities.length, actors, operators };
     return operators;
   }
   // The player's: those it may take (all of them, or those its declaration names).

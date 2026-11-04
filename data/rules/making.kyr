@@ -1,0 +1,40 @@
+Module world_making "What a company can make of what it carries" {
+  // A way of making one thing of two others one of the company carries (a recipe): willow bark and meadowsweet
+  // steeped into a minor potion of healing, dandelion and heather into an antidote, a rag in a flask of lamp oil to
+  // throw. What it takes, what it makes, and whether it is a remedy (a mender's work, which can go wrong: the first
+  // of what it takes is spoiled) or plain work anyone can do. A recipe is two facts and its entity: add one here, of
+  // kinds the catalog has, and it can be made wherever the company has light to work by.
+  Kind recipe. Relation takes(recipe, itemkind). Relation takesWith(recipe, itemkind). Relation makes(recipe, itemkind).
+  Relation remedy(recipe).
+  Goal false.
+  Entity steeped_willow: recipe "willow bark and meadowsweet, steeped".
+  Initially Assert takes(steeped_willow, willow_bark). Initially Assert takesWith(steeped_willow, herbs).
+  Initially Assert makes(steeped_willow, minor_healing_potion). Initially Assert remedy(steeped_willow).
+  Entity dandelion_tisane: recipe "dandelion and heather, boiled down".
+  Initially Assert takes(dandelion_tisane, dandelion). Initially Assert takesWith(dandelion_tisane, heather).
+  Initially Assert makes(dandelion_tisane, antidote). Initially Assert remedy(dandelion_tisane).
+  Entity oil_and_rag: recipe "a rag stuffed in a flask of lamp oil".
+  Initially Assert takes(oil_and_rag, lamp_oil). Initially Assert takesWith(oil_and_rag, bandages).
+  Initially Assert makes(oil_and_rag, fire_flask).
+  Action make_remedy(actor: group, maker: member, recipe_used: recipe, ingredient: item, ingredient_kind: itemkind, partner: item, partner_kind: itemkind, made: itemkind) "{maker}: make {made} of {ingredient} and {partner}" {
+    Description "Steeped, boiled down and strained, the two are one dose that does what both would, and more: a mender's work, and it can spoil.".
+    Requires able(actor) and memberOf(maker, actor) and awake(maker) and not benighted(actor)
+      and remedy(recipe_used) and takes(recipe_used, ingredient_kind) and takesWith(recipe_used, partner_kind) and makes(recipe_used, made)
+      and ownedItem(ingredient, maker) and itemKind(ingredient, ingredient_kind) and ownedItem(partner, maker) and itemKind(partner, partner_kind).
+    Time 6.
+    Resolve check(actor, mending, dc_fair).
+    On success { Spend ingredient_kind from actor. Spend partner_kind from actor. Give made to actor. }
+    On failure { Spend ingredient_kind from actor. }
+    Result "{maker} makes {made} of them.".
+    Otherwise "It boils over, or goes to a brown sludge: {ingredient} is spoiled.".
+  }
+  Action make_plain(actor: group, maker: member, recipe_used: recipe, ingredient: item, ingredient_kind: itemkind, partner: item, partner_kind: itemkind, made: itemkind) "{maker}: make {made} of {ingredient} and {partner}" {
+    Description "Plain work, quickly done.".
+    Requires able(actor) and memberOf(maker, actor) and awake(maker) and not benighted(actor)
+      and not remedy(recipe_used) and takes(recipe_used, ingredient_kind) and takesWith(recipe_used, partner_kind) and makes(recipe_used, made)
+      and ownedItem(ingredient, maker) and itemKind(ingredient, ingredient_kind) and ownedItem(partner, maker) and itemKind(partner, partner_kind).
+    Time 1.
+    On success { Spend ingredient_kind from actor. Spend partner_kind from actor. Give made to actor. }
+    Result "{maker} makes {made} of them.".
+  }
+}

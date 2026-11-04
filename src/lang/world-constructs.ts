@@ -52,6 +52,11 @@ export class WorldConstructs {
     // of the kind (the Book of Faces' BOF-17).
     const held = new Set<string>();
     this.holding([module.actions, module.rules ?? [], module.queries], held);
+    // And one a fact names where its relation takes a kind of thing (a recipe's takes(steeped_willow, willow_bark)).
+    const typed = new Map(module.relations.map(r => [r.name, r.types]));
+    for (const c of module.initial.filter(x => x.kind === 'assert')) {
+      c.call.args.forEach((arg, i) => { if (typed.get(c.call.name)?.[i] === 'itemkind') { held.add(arg); } });
+    }
     for (const kind of [...kinds, ...held]) {
       const known = ItemCatalog.definitions[kind]?.name;
       if (known && !module.entities.some(e => e.id === kind)) { this.entity(module, kind, 'itemkind', known); }

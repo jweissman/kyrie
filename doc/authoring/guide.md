@@ -927,6 +927,23 @@ They answer the findings of an author who wrote a whole adventure in Kyr (the le
 branch `house-that-grows-authoring`); the response to each finding is
 [doc/authoring/findings-response.md](findings-response.md).
 
+### Making one thing of two
+
+A company makes one thing of two it carries by a recipe (`data/rules/making.kyr`, in every world): willow bark and
+meadowsweet steeped into a minor potion of healing, dandelion and heather into an antidote, a rag in a flask of lamp
+oil to throw. A recipe is an entity and its facts, of kinds the catalog has:
+
+```text
+  Entity steeped_willow: recipe "willow bark and meadowsweet, steeped".
+  Initially Assert takes(steeped_willow, willow_bark). Initially Assert takesWith(steeped_willow, herbs).
+  Initially Assert makes(steeped_willow, minor_healing_potion). Initially Assert remedy(steeped_willow).
+```
+
+A `remedy` is a mender's work, an hour long, against a fair mending check; on a failure the first of the two is
+spoiled. Any other recipe is plain work, quickly done. What is made is the company's, to use or sell (a herb-wife buys
+a minor potion of healing for 8 coin, a chandler for 6: `data/generation/tables/trade.json`). Add a recipe in your own
+module the same way and it can be made there (`test/making.test.ts`, `test/fixtures/probes/making`).
+
 ### Kinds and creatures of your own
 
 An item of a kind only your adventure has is declared in it: its category or the kind it is like, its worth in coin,
