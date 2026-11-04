@@ -217,7 +217,7 @@
 .act.plate > .verb { font: 500 11px/1 var(--do); letter-spacing: .14em; text-transform: uppercase; color: var(--faint); }
 .act.plate:hover > .verb, .act.plate.sel > .verb, .act.plate:focus-visible > .verb { color: var(--gold); }
 .plate .face.blank { display: grid; place-items: center; font: 300 26px/1 var(--told); color: var(--dim); }
-.act.plate.led { border-color: var(--gold-line); background: linear-gradient(90deg, var(--gold-glow), transparent 70%), var(--raised); }
+.act.plate.leading { border-color: var(--gold-line); background: linear-gradient(90deg, var(--gold-glow), transparent 70%), var(--raised); }
 .plates > li.lead .plate .face { width: 64px; height: 78px; box-shadow: 0 0 0 1px var(--rose); }
 .plates > li.lead .plate .who .n { font-size: 19px; }
 /* A busy place's people, a line each, two to a row. */

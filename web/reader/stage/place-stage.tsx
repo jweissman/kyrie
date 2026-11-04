@@ -122,7 +122,7 @@ export class PlaceStage {
       {into && /#(talk|look)$/.test(into.id) && <span className="verb">{/#talk$/.test(into.id) ? 'talk' : 'look'}</span>}
     </>;
     return <>
-      {into ? <Act.View choice={into} draw={draw} className={`plate${face ? ' faced' : ''}${led ? ' led' : ''}`}>{body}</Act.View>
+      {into ? <Act.View choice={into} draw={draw} className={`plate${face ? ' faced' : ''}${led ? ' leading' : ''}`}>{body}</Act.View>
         : <span className={`plate still${face ? ' faced' : ''}`}>{body}</span>}
       {rest.length > 0 && <Act.List choices={rest} draw={draw} className="small under" marked={marked} />}
     </>;

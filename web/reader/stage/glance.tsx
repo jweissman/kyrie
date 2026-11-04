@@ -102,7 +102,9 @@ export class GlanceStage {
   static Aim({ app, said }: { app: ReaderApp; said?: string }) {
     // Not on the first page, before anything is done: the opening has just told it.
     const screen = app.state.frame!.screen, followed = screen.elapsed ? Followed.of(screen, app.state.followed) : undefined;
-    const aim = followed ?? said;
+    const aim = followed ?? said, recap = app.state.frame!.leaf.recap?.aim;
+    // Nor again under "Where you left off", which has just said it.
+    if (aim && recap === aim) { return null; }
     // Followed, it opens the map on itself (see MapView.aim).
     if (!aim) { return null; }
     const place = followed && Aims.named(screen.destinations ?? [], followed, 0);

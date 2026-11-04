@@ -95,7 +95,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a place at a glance', () => {
       }
       // Your brother, by his plate, which the glance edges as the one it would lead with: someone in sight is talked to
       // by their plate, not by a lead above it as well (the owner, 4 November).
-      await d.click('[data-region="glance"] .act.plate.led');
+      await d.click('[data-region="glance"] .act.plate.leading');
       expect((await d.inspect()).mode).toBe('talk');
       expect(await page.locator('.dialogue').count()).toBe(1);
       await d.away();
