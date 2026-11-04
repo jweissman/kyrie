@@ -9,7 +9,9 @@ import type { Glance } from '../src/presentation/glance-types';
 class Seen {
   static check(g: Glanced, glance: Glance) {
     const menu = new Set(g.menu());
-    expect(glance.acts.length).toBeLessThanOrEqual(3);
+    // Three at most besides whoever is talked to by their own plate, two of those at most (M19-24).
+    expect(glance.acts.filter(a => !/#talk$/.test(a.choice)).length).toBeLessThanOrEqual(3);
+    expect(glance.acts.filter(a => /#talk$/.test(a.choice)).length).toBeLessThanOrEqual(2);
     expect([...glance.acts.map(a => a.choice), ...glance.ways].filter(id => !menu.has(id))).toEqual([]);
     expect(new Set(glance.acts.map(a => a.choice)).size).toBe(glance.acts.length);
     for (const a of glance.acts) { expect(a.facets).toContain('here'); }

@@ -24,7 +24,7 @@ describe('the Liberty of the Ice at a glance', () => {
     expect(Glanced.sentences(street.sight!.text)).toBeLessThanOrEqual(2);
     expect(g.screen.people.map(x => x.id)).toContain(street.life?.subject ?? 'no one');
     expect(street.acts.length).toBeGreaterThan(0);
-    expect(street.acts.length).toBeLessThanOrEqual(3);
+    expect(street.acts.filter(a => !/#talk$/.test(a.choice)).length).toBeLessThanOrEqual(3);
     expect(street.acts.filter(a => a.why === 'own').length).toBeLessThanOrEqual(1);
     const menu = new Set(g.menu());
     expect([...street.acts.map(a => a.choice), ...street.ways].filter(id => !menu.has(id))).toEqual([]);

@@ -19,7 +19,9 @@ class Kite {
     const menu = new Set(g.menu());
     expect(glance.acts.map(a => a.choice).filter(id => !menu.has(id))).toEqual([]);
     expect(glance.ways.filter(id => !menu.has(id))).toEqual([]);
-    expect(glance.acts.length).toBeLessThanOrEqual(3);
+    // Three at most besides whoever is talked to by their own plate, two of those at most (M19-24).
+    expect(glance.acts.filter(a => !/#talk$/.test(a.choice)).length).toBeLessThanOrEqual(3);
+    expect(glance.acts.filter(a => /#talk$/.test(a.choice)).length).toBeLessThanOrEqual(2);
     for (const a of glance.acts) { expect([a.why, a.tier, a.facets[0]]).toEqual([a.why, expect.any(Number), 'here']); }
     // And nothing legal is lost: every command is still to be had somewhere the page draws.
     const reachable = g.reachable();
@@ -45,9 +47,10 @@ describe('kite at a glance', () => {
     expect(glance.acts.map(a => [a.choice, a.why, a.note])).toEqual([
       ['drover__son#talk', 'kin', 'your brother'],
       ['exit:region__s5_s2_way', 'named', 'your aim'],
-      // The notice of what is under the town, the town's own (OWN-57), before the grey dog's sign; Wynn the carter,
-      // a fourth, is not led with.
-      ['company/2:Read the notice on the well-post', 'own', undefined]]);
+      // The notice of what is under the town, the town's own (OWN-57), before the grey dog's sign; the brother is
+      // talked to by his plate, so the dog is the third on the page (M19-24); Wynn the carter is not led with.
+      ['company/2:Read the notice on the well-post', 'own', undefined],
+      ['drover__dog/0:Make much of the grey dog', 'sign', undefined]]);
     expect(glance.acts[1]!.facets).toEqual(['here', 'aimed']);
     // The taproom the dog lies at the door of is named: first of the ways rowed.
     expect(glance.ways[0]).toBe('exit:region__s2_taproom');

@@ -47,10 +47,15 @@ export class Promotion {
     fit.sort((a, b) => this.rank(a.best) - this.rank(b.best) || Number(a.c.kind === 'attack') - Number(b.c.kind === 'attack')
       || a.c.order - b.c.order);
     const subjects = new Set(fit.map(x => x.c.subject ?? x.c.choice)), picked: Promoted[] = [];
-    const taken = { ways: 0, own: 0, by: new Map<string, number>() };
+    // Someone to talk to is drawn on their own plate, edged (see the reader's MenuModel.leads), not among the three:
+    // two at most, and they take none of the three places (after the notice at Millholm the three job-givers had
+    // taken them all, and only the map was led: M19-24).
+    const taken = { ways: 0, own: 0, plates: 0, by: new Map<string, number>() };
     for (const x of fit) {
-      if (picked.length >= this.cap) { break; }
+      if (picked.length - taken.plates >= this.cap) { break; }
+      if (x.c.kind === 'talk' && taken.plates >= 2) { continue; }
       if (!this.room(x, picked, { taken, s, lone: subjects.size === 1 })) { continue; }
+      if (x.c.kind === 'talk') { taken.plates++; }
       const subject = x.c.subject ?? x.c.choice;
       taken.by.set(subject, (taken.by.get(subject) ?? 0) + 1);
       if (this.way(x.c)) { taken.ways++; }
@@ -63,7 +68,8 @@ export class Promotion {
   // and so may a place with nothing else); two ways; one of the place's own; a way not yet taken only while fewer than
   // two are led with.
   private static room(x: { c: Candidate; best: Why }, picked: Promoted[],
-    at: { taken: { ways: number; own: number; by: Map<string, number> }; s: Situation; lone: boolean }): boolean {
+    at: { taken: { ways: number; own: number; plates: number; by: Map<string, number> }; s: Situation; lone: boolean }):
+    boolean {
     const c = x.c, subject = c.subject ?? c.choice;
     if (picked.some(p => p.choice === c.choice)) { return false; }
     // One for each way: not going into Gaudumport and looking closer at its door, open now, both (OWN-57's play).
@@ -72,7 +78,7 @@ export class Promotion {
     if ((at.taken.by.get(subject) ?? 0) >= most) { return false; }
     if (this.way(c) && x.best !== 'retreat' && at.taken.ways >= 2) { return false; }
     if (x.best === 'own' && at.taken.own >= 1) { return false; }
-    return x.best !== 'unvisited' || picked.length < 2;
+    return x.best !== 'unvisited' || picked.length - at.taken.plates < 2;
   }
   // The reasons it may be led with for, as what it is allows: never a wait (but for first light, in the dark with
   // nothing to give light), or studying; a step across the country only toward the aim shown (REV-08: from the edge of
