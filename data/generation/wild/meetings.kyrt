@@ -22,7 +22,7 @@
   // A charcoal-burner at a stack, who knows the wood: asked, tells of the place the burners keep away from, and the
   // way; helped with the stack before it flares, gives what a burner has to give.
   Person {m}_burner "the charcoal-burner" at {tract} {
-    Role "a charcoal-burner, black to the elbows, minding a smoking stack in a clearing". Ancestry {folk}. Background laborer. Peaceable. Pronouns {he}. Manner stoic. Seen when hour(clock) >= 6 and hour(clock) < 20.
+    Role "a collier black to the elbows, minding a smoking stack in a clearing". Ancestry {folk}. Background laborer. Peaceable. Pronouns {he}. Manner stoic. Seen when hour(clock) >= 6 and hour(clock) < 20.
   }
   Thing {m}_stack "the charcoal stack" at {tract} {
     State flaring "A stack of cordwood under turf smokes in the clearing, and on one side the turf has slipped and flame shows through it.".
@@ -70,7 +70,7 @@
   // A shepherd out after strays, who knows every fold and stone of the fell: asked, tells of the place the flock is
   // kept from, and the way; a ewe cragfast on a ledge is a thing a company could help with.
   Person {m}_herd "the shepherd" at {tract} {
-    Role "a shepherd with a crook and a grey dog, out after strays". Ancestry {folk}. Background herdsman. Peaceable. Pronouns {he}. Manner grim. Seen when hour(clock) >= 6 and hour(clock) < 20.
+    Role "a herdsman with a crook and a grey dog, out after strays". Ancestry {folk}. Background herdsman. Peaceable. Pronouns {he}. Manner grim. Seen when hour(clock) >= 6 and hour(clock) < 20.
   }
   Thing {m}_ewe "the cragfast ewe" at {tract} {
     State stuck "Below the edge a ewe stands on a ledge she jumped down to and cannot jump up from, bleating, and the shepherd's dog lying flat at the top watching her. Someone with a rope, or who can climb, could fetch her up.".
@@ -117,7 +117,7 @@
   // An eel-catcher at the traps, who knows which tussocks bear a foot and which do not: asked, tells of the place
   // nobody poles to, and the way; a trap jammed in the deep channel is something to lend a hand with.
   Person {m}_eeler "the eel-catcher" at {tract} {
-    Role "an eel-catcher in a flat boat, among wicker traps, with a pole twice their height". Ancestry {folk}. Background laborer. Peaceable. Pronouns {he}. Manner acerbic. Seen when hour(clock) >= 6 and hour(clock) < 20.
+    Role "a fisher in a flat boat among wicker traps, with a pole twice their height". Ancestry {folk}. Background laborer. Peaceable. Pronouns {he}. Manner acerbic. Seen when hour(clock) >= 6 and hour(clock) < 20.
   }
   Thing {m}_trap "the jammed eel-trap" at {tract} {
     State jammed "One of the wicker traps is fast under a sunk branch in the deep channel, and the eel-catcher has been heaving at it a long while.".
@@ -156,7 +156,7 @@
   // A hayward walking the bounds, who knows the country as far as the beasts are pastured: asked, tells of the place
   // the cattle are kept from, and the way; a beast through the hedge is something to help with.
   Person {m}_hayward "the hayward" at {tract} {
-    Role "a hayward walking the bounds of the common, with a hazel switch". Ancestry {folk}. Background farmer. Peaceable. Pronouns {he}. Manner cheerful. Seen when hour(clock) >= 6 and hour(clock) < 20.
+    Role "a bounds-keeper walking the common, with a hazel switch". Ancestry {folk}. Background farmer. Peaceable. Pronouns {he}. Manner cheerful. Seen when hour(clock) >= 6 and hour(clock) < 20.
   }
   Thing {m}_heifer "the strayed heifer" at {tract} {
     State strayed "A red heifer has broken through the hedge and stands in the next field eating what is not hers, and will not be driven by one.".

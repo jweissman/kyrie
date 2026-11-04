@@ -136,14 +136,16 @@ export class Journeys {
     return Object.values(campaign.module.charts ?? {}).find(c => c.roads[from] || c.roads[to]
       || (c.places[from] !== undefined && c.places[to] !== undefined));
   }
-  // The cells the way runs over: half the road from the end it leaves, or from one place to the other.
+  // The cells the way runs over: half the road from the end it leaves; or, off the roads, the land it goes into (a step
+  // from the fen into the woods of Oakhurst had been told "Out on the fen the sky is enormous", the fen winning a tie
+  // of one cell each: a1, 3 November).
   private static cells(chart: LandChart, from: string, to: string): number[] {
     const road = chart.roads[to] ?? chart.roads[from];
     if (road) {
       const half = Math.ceil(road.length / 2);
       return chart.roads[to] ? road.slice(0, half) : road.slice(-half);
     }
-    return [chart.places[from], chart.places[to]].filter((c): c is number => c !== undefined);
+    return [chart.places[to] ?? chart.places[from]].filter((c): c is number => c !== undefined);
   }
   // The land a way runs through, and how it crosses water when it does: by the bridge, ford or ferry the road comes to,
   // the way itself or the next from its room in the wild (the M16 free play crossed the bridge over the Karnahar
