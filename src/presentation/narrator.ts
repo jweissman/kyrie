@@ -344,8 +344,10 @@ export class Narrator {
       .filter(l => !(told.moved && /^You arrive at /.test(l.text)));
     // What was learned is noted, unless it has just been said.
     const said = new Set(unique.map(l => l.text));
+    // Nor what a new aim says again ("You know now: Clear the rats out of the cellar" over the aim to).
+    const aimed = [...feedback.aims ?? [], ...feedback.amended ?? []];
     const notes = [...feedback.resources.map(r => this.resource(r)), ...(spoken.length ? []
-      : feedback.discoveries.filter(d => !said.has(d)).map(d => `Noted: ${this.gist(d)}`)),
+      : feedback.discoveries.filter(d => !said.has(d) && !this.restated(d, aimed)).map(d => `Noted: ${this.gist(d)}`)),
     ...(feedback.leads ?? []).map(l => `Noted: ${l}`), ...(feedback.aims ?? []).map(a => `Aim: ${a}`),
     ...(feedback.amended ?? []).map(a => `Aim now: ${a}`),
     ...(feedback.borne ?? []).map(b => `Borne out: ${this.gist(b.text)}${b.from ? ` (${b.from})` : ''}`)];
@@ -401,6 +403,11 @@ export class Narrator {
   }
   // What was learned, as much of it as can be acted on: its first sentence ("The way to the round tower on the
   // Sharpmunt: north from the ford, then..."), or its first part when the sentence runs long, never cut mid-thought.
+  // Whether an aim says what was learned again, in its first words.
+  private static restated(learned: string, aims: string[]): boolean {
+    const gist = this.gist(learned).replace(/\.$/, '');
+    return aims.some(a => a.startsWith(gist));
+  }
   static gist(fact: string): string {
     const sentence = Sentences.first(fact).replace(/\.$/, ''), part = sentence.split(/[;:]\s/)[0]!;
     return this.words(sentence) <= 30 ? sentence : this.words(part) <= 30 ? part

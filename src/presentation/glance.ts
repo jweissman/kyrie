@@ -170,8 +170,12 @@ export class Glance {
     const here = screen.place.id, around = new Set(Spatial.ancestry(byId, here).map(e => e.id));
     const area = [...screen.path].reverse().find(p => ['settlement', 'site'].includes(p.kind))?.id;
     const held = aims.named.has(here) ? [] : [...aims.held];
+    // Nor, from there, back to a place it names that the company has been (the rat-runs the run is in, not the
+    // corn-store above them).
+    const been = new Set(aims.named.has(here) ? screen.map.filter(p => p.visited).map(p => p.id) : []);
     const places = [...[...aims.named].map(id => [id, 'toward'] as const), ...held.map(id => [id, 'held'] as const)]
-      .filter(([id]) => byId.get(id)?.space && !around.has(id) && !screen.exits.some(e => e.destination.id === id))
+      .filter(([id]) => byId.get(id)?.space && !around.has(id) && !been.has(id)
+        && !screen.exits.some(e => e.destination.id === id))
       // A room to stand in before the area round it: an aim at Gaudumport's far end names the site too, and the way
       // in, once the speaking door was open, had not been led with (OWN-57's play).
       .sort((a, b) => Number(byId.get(b[0])?.space?.kind === 'room') - Number(byId.get(a[0])?.space?.kind === 'room'))

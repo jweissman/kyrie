@@ -136,12 +136,16 @@ export class Affordances {
     const first = tried && this.firstTry(c, exit);
     // A way not yet taken from a place an aim names is the way on into what it is about (the stair down from the
     // churchyard, to the crypt the priest's trouble is in), when no known way is pointed off elsewhere.
-    const on = exit.local && !exit.visited && !exit.blocked && dest !== r.back
+    // Not while what it is about is here to be dealt with (the rats' run, not the old drain past it).
+    const present = [...screen.things, ...screen.people].some(t => r.named.has(t.id));
+    const on = exit.local && !exit.visited && !exit.blocked && dest !== r.back && !present
       && (r.named.has(r.here) ? 'toward' as const : r.held.has(r.here) ? 'held' as const : undefined);
     const toward = r.toward.get(exit.id) ?? (on || undefined);
     // A way about the place not yet taken is worth taking by day; at night, the way to a bed.
     const whys: Why[] = [...at.back && dest === r.back && !c.disabled ? ['retreat' as const] : [],
-      ...r.named.has(dest) ? ['named' as const] : [], ...toward ? [toward] : [],
+      // Not back to a place the aim names that the company has been, from another it names: down in the cellar under
+      // the corn-store the rats are in, the stair up had led as "your aim".
+      ...r.named.has(dest) && !(r.named.has(r.here) && exit.visited) ? ['named' as const] : [], ...toward ? [toward] : [],
       ...r.held.has(dest) ? ['held' as const] : [], ...r.needs.night && dest === r.needs.bed ? ['night' as const] : [],
       ...exit.local && !exit.visited && !r.needs.night ? ['unvisited' as const] : [], ...first ? ['unlooked' as const] : []];
     // A try on a way barred (look at the portcullis) is something done there, not a way.

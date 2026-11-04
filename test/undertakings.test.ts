@@ -20,7 +20,7 @@ describe('the aim followed', () => {
     for (const step of ['To Mik\'s salt-house', 'Talk to Mik', 'Ask Mik about the rats', 'Take your leave']) {
       await j.step(step);
     }
-    expect(followed()?.text).toMatch(/Clear the rats out from under the old corn-store/);
+    expect(followed()?.text).toMatch(/Clear the rats out of the corn-store cellar, under the old corn-store/);
     expect(j.screen().objectives[0]).toBe(followed()!.text);
     // Leads that say "your aim" are the rats': none of the other jobs' people, who are "another aim".
     const leads = Glance.of(j.campaign, j.screen(), undefined, { kept: [], known: true, changed: [] }).acts;

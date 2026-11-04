@@ -19,12 +19,15 @@ export class Stakes {
     }
     return ids;
   }
-  // What one aim names, in its condition or its words, and the places of a site it names, however deep: the way to
-  // its mouth is the way to it.
+  // What one aim names, in its words, or in its condition when its words name nothing, and the places of a site it
+  // names, however deep: the way to its mouth is the way to it. What its condition holds of is what it waits on, not
+  // what it is about once its words say (the rats' run stopped had stayed "your aim" after it was packed).
   static named(campaign: Campaign, o: Objective): Set<string> {
     const ids = new Set<string>(), byId = EntityIndex.of(campaign.module.entities).byId;
-    ModuleWriter.conditionCalls(o.when, call => { call.args.forEach(a => ids.add(a)); return call; });
     ObservationText.map(o.text, call => { call.args.forEach(a => ids.add(a)); return ''; }, id => { ids.add(id); return ''; });
+    if (!ids.size) {
+      ModuleWriter.conditionCalls(o.when, call => { call.args.forEach(a => ids.add(a)); return call; });
+    }
     for (const e of campaign.module.entities.filter(x => x.space?.parent && Stakes.inside(x.id, ids, byId))) {
       ids.add(e.id);
     }

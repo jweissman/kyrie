@@ -49,7 +49,7 @@
     Role "rats as big as cats, that have eaten their way into the corn-store from below". Species great_rat. Numbers 2. Level 1. Temperament territorial. Lair {t}_u_warren.
   }
   Initially Set encounterXp({t}_u_rats) to 15.
-  Entity {t}_u_rats_job: fact "Clear the rats out from under the old corn-store at {town}.".
+  Entity {t}_u_rats_job: fact "Clear the rats out of the corn-store cellar, under the old corn-store at {town}.".
   Entity {t}_u_rats_source: fact "The rats come up into the cellar by a run of their own from the old drain below.".
   Topic {t}_u_rats_job_ask with {t}_merchant "Ask {{t}_merchant} about the rats in the corn-store" when not {t}_u_given({t}_u_rats_job) once {
     Says "'They've got into the old corn-store from underneath,' says {{t}_merchant}. 'Rats the size of cats. I've lost a third of the grain.' A key comes off a nail behind the counter. 'There's a trapdoor in the floor. Kill them, and find where they're getting in, or they'll be back by harvest. Ten coin, and I'll see you right for a lantern besides.'".
@@ -63,8 +63,8 @@
   }
   Rule {t}_u_rats_cleared when not able({t}_u_rats) and not {t}_u_done({t}_u_rats_job) { Assert {t}_u_done({t}_u_rats_job). }
   Objective {t}_u_rats_job_sought when knows(party, {t}_u_notice) and not {t}_u_given({t}_u_rats_job) "Ask {{t}_merchant} about the rats in the corn-store at {town}: the corn-store is locked.".
-  Objective {t}_u_rats_job_aim when {t}_u_given({t}_u_rats_job) and not {t}_u_done({t}_u_rats_job) "Clear the rats out from under {{t}_u_store} at {town}, and find where they get in.".
-  Objective {t}_u_rats_job_run when {t}_u_done({t}_u_rats_job) and state({t}_u_rats_run, open) and knows(party, {t}_u_rats_source) and not {t}_u_paid({t}_u_rats_job) "Stop the rats' run from the drain, under {{t}_u_store}, or they will be back.".
+  Objective {t}_u_rats_job_aim when {t}_u_given({t}_u_rats_job) and not {t}_u_done({t}_u_rats_job) "Clear the rats out of {{t}_u_cellar}, under {{t}_u_store} at {town}, and find where they get in.".
+  Objective {t}_u_rats_job_run when {t}_u_done({t}_u_rats_job) and state({t}_u_rats_run, open) and knows(party, {t}_u_rats_source) and not {t}_u_paid({t}_u_rats_job) "Stop {{t}_u_rats_run}, in {{t}_u_warren} under {{t}_u_store}, or they will be back.".
   Topic {t}_u_rats_job_paid with {t}_merchant "Tell {{t}_merchant} the rats under the corn-store are dead, and their run from the drain stopped" when {t}_u_done({t}_u_rats_job) and state({t}_u_rats_run, stopped) and not {t}_u_paid({t}_u_rats_job) once {
     Says "{{t}_merchant} goes down to look, and comes back up with dust on both knees and a different face. Ten coin are counted out, and a lantern and two flasks of oil set on the counter beside them. 'You'll want light where you're going,' says {{t}_merchant}. 'Anyone who goes down there does.'".
     On discuss { Increase quantity(actor, gold) by 10. Give lantern to actor. Give 2 lamp_oil to actor. Assert {t}_u_paid({t}_u_rats_job). }

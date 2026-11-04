@@ -16,7 +16,7 @@ describe('the first town\'s first job', () => {
     const before = gold();
     for (const step of ['To the landing at Lowmouth', 'Read the notice', 'To Mik\'s salt-house', 'Talk to Mik',
       'Ask Mik about the rats', 'Take your leave']) { await j.step(step); }
-    expect(j.screen().objectives.join(' ')).toMatch(/Clear the rats out from under the old corn-store/);
+    expect(j.screen().objectives.join(' ')).toMatch(/Clear the rats out of the corn-store cellar, under the old corn-store/);
     for (const step of ['To the landing at Lowmouth', 'To the old corn-store', 'a torch: Light']) { await j.step(step); }
     expect(await j.step('Down to the corn-store cellar')).toMatch(/A low brick cellar under the corn-store/);
     expect(await j.step('To the rat-runs')).toMatch(/worn a path in the dirt/);
