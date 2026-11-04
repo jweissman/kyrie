@@ -73,8 +73,10 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a generated world in the browser', 
         '[data-region="do"]', '.place-head .title-block', '.place-head', '#page', '.frame'].map(box) as DOMRect[];
       const r = Math.round;
       return { whole: r(scene!.width) === r(page!.width),
-        beside: r(rail!.left) >= r(told!.right) - 1 && r(rail!.top) === r(told!.top),
-        measure: Math.abs(r(told!.left) - r(title!.left)) <= 48,
+        // Beside it; or, where there is no one and little to do, under it, one column (PD-06).
+        beside: document.querySelector('.glance.sparse') ? r(rail!.top) >= r(told!.bottom) - 1
+          : r(rail!.left) >= r(told!.right) - 1 && r(rail!.top) === r(told!.top),
+        measure: Math.abs(r(told!.left) - r(title!.left)) <= 48 || !!document.querySelector('.glance.sparse'),
         between: r(scene!.top) === r(head!.bottom) && r(scene!.bottom) === r(page!.bottom),
         panes: document.querySelectorAll('.on-pane, .place-foot').length,
         margins: Math.min(r(frame!.left), r(innerWidth - frame!.right)) };

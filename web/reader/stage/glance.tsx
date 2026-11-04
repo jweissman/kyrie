@@ -38,7 +38,8 @@ export class GlanceStage {
     // marked though talking to Theren, on her plate, was what the aim followed asked).
     const top = GlanceStage.first(app);
     return (
-      <div className={`glance arrival-${g.arrival}`} data-region="glance" data-arrival={g.arrival}>
+      <div className={`glance arrival-${g.arrival}${GlanceStage.sparse(app, acts, g) ? ' sparse' : ''}`} data-region="glance"
+        data-arrival={g.arrival}>
         <div className="told-col" data-region="told">
           {leaf.recap && (leaf.recap.aim || leaf.recap.last) && <Told.Recap recap={leaf.recap} />}
           {s.pending ? <Told.Working pending={{ ...s.pending, stage: s.stage }} />
@@ -247,6 +248,11 @@ export class GlanceStage {
           onClick={() => Raised.toggle(app, 'more')}><span>More</span></button>
       </nav>
     );
+  }
+  // A place with no one in it and little to do (a cellar, a stair) is drawn as one column, what to do under what is
+  // told, not two panes half empty (the product-design review's PD-06).
+  static sparse(app: ReaderApp, acts: Promoted[], g: Glance): boolean {
+    return !GlanceStage.people(app).length && acts.length + g.ways.length <= 3;
   }
   // What the glance ranks first, as the page draws it; and where it is among the page's choices (-1, none).
   static first(app: ReaderApp): string | undefined {

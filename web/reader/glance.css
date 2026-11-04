@@ -207,3 +207,13 @@
 .notes .aims-many > ul { list-style: none; margin: 6px 0 0; padding: 0; display: grid; gap: 4px; }
 .notes .aims-many > ul > li { font-size: 14.5px; line-height: 1.45; }
 .notes .aims-many .follow-aim { margin-left: 8px; padding: 1px 8px; font-size: 11px; }
+/* A sparse place: one column on the reading measure, what to do under what is told (PD-06). */
+@media (min-width: 900px) and (orientation: landscape) {
+  .glance.sparse { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr); max-width: 44rem;
+    overflow-y: auto; overscroll-behavior: contain;
+    width: 100%; margin: 0 auto; }
+  .glance.sparse > .told-col { overflow: visible; padding: clamp(18px, 3vh, 30px) clamp(14px, 2vw, 24px) 0; }
+  .glance.sparse > .do-col { border-left: 0; background: none; }
+  .glance.sparse .do-list { flex: none; padding-top: 4px; }
+  .glance.sparse > .do-col > .glance-keys { margin-top: auto; background: none; }
+}
