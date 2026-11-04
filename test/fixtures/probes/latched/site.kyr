@@ -1,0 +1,16 @@
+Module latched "A falcon's stoop, seen from the roof" {
+  // The Book of Faces' cisterns 10 (BOF-27): a rule that teaches by being heard on the roof, written once, is used up
+  // wherever the company is; one latched on what it teaches, or asking for the company there, waits to be heard.
+  Place cisterns "the cisterns" is building.
+  Place roof "the cistern roof" is room within cisterns at 0, 0 outdoors.
+  Place pool "the pool below" is room within cisterns at 0, 1.
+  Passage stair "the roof stair" is stair between roof and pool.
+  Company party "You" of 1 at pool.
+  Entity hawk_known: fact "where the falcon stoops".
+  Entity heron_known: fact "where the heron stands".
+  Entity gull_known: fact "where the gulls roost".
+  Rule stoop at roof when hour(clock) >= 8 once says "The falcon stoops on the pool from the east." teaches hawk_known { }
+  Rule heron at roof when hour(clock) >= 8 and not knows(party, heron_known) says "A heron stands in the shallows." teaches heron_known { }
+  Rule gulls at roof when hour(clock) >= 8 and at(party, roof) once says "Gulls come in off the sea." teaches gull_known { }
+  Goal false.
+}

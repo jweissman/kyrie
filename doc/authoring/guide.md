@@ -1242,7 +1242,10 @@ say, as an observation does, to a company that hears them (`test/fixtures/patien
 An action, or a topic, can `Assert knows(…)`: what the company does, it knows it did (naming the chairman to Lanyon).
 A rule or an event happens whether or not the company is there to hear it, so what it teaches is learned by hearing
 it, and only then (the Banns at Hessel's 19). A scene that teaches two things is two rules, each saying its part (A
-Winter in Carth's 19).
+Winter in Carth's 19). So a rule that teaches by being heard at a place is not written `once`: it fires the first time
+its condition holds wherever the company is, and if the company is away what it teaches is lost. It is latched on
+what it teaches (`and not knows(party, hawk_known)`), and goes on until it is heard; `kyrie lint` advises of one that
+is not (`test/fixtures/probes/latched`; the Book of Faces' cisterns 10).
 
 What the company learns, the world answers at once. A rule, an event or an ending on something just seen, read or
 heard fires in the command that taught it, and its line is told with what taught it: above, the bell rings in the

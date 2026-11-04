@@ -14,4 +14,11 @@ describe('a rule heard at a place', () => {
       'p__lifted is heard at p__market, but what it does to the company happens wherever the company is: put at(party,'
       + ' p__market) in its condition, anchor it within an area, or write it heard at p__market if that is meant']);
   }, 60000);
+  // The Book of Faces' cisterns 10 (BOF-27): the falcon's stoop, once, taught nothing to a company down at the pool.
+  it('is said to lose what it teaches when it is once, and the company may be away', async () => {
+    const found = await KyrLint.campaign('test/fixtures/probes/latched/probe.campaign.json', new NodeBundleSource());
+    expect(found.filter(f => f.check === 'latched').map(f => f.message)).toEqual([
+      'p__stoop teaches p__hawk_known heard at p__roof, once, wherever the company is: away, what it teaches is lost;'
+      + ' latch it on not knows(party, p__hawk_known) instead, or ask at(party, p__roof)']);
+  }, 60000);
 });

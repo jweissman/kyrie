@@ -1,6 +1,6 @@
 import { LocalObservations } from '../campaign/local-observations';
 import { Sentences } from '../presentation/sentences';
-import type { CampaignLint } from './campaign-lint';
+import { CampaignLint } from './campaign-lint';
 
 // What an author would want to know of a campaign and is not told by its play (the Grand Tour's friction X06, X15 and
 // X17): a tame one's own greeting said on arrival, a first place with nothing said of it, a module that gives the
@@ -9,7 +9,7 @@ export class AuthorLint {
   // What a whole adventure, one with an ending, should have: a first place said, and something to grow by.
   static run(lint: CampaignLint) {
     this.greetings(lint); this.lowered(lint); this.walkers(lint); this.placesAt(lint); this.aliases(lint);
-    this.goods(lint); this.unbound(lint); this.scenery(lint); this.untried(lint);
+    this.goods(lint); this.unbound(lint); this.scenery(lint); this.untried(lint); this.latched(lint);
     if (lint.module.entities.some(e => e.type === 'ending')) { this.opening(lint); this.growth(lint); }
   }
   // An act that lowers a measure, not a price, with nothing that asks how much there is: below nothing, it is not
@@ -24,6 +24,21 @@ export class AuthorLint {
         lint.add('advice', 'lowered', `Action ${a.id} lowers ${c.call.name} without asking how much there is: below `
           + 'nothing it is not offered at all; write `Decrease … by … or to nothing`, or ask for enough in its condition');
       }
+    }
+  }
+  // A rule that teaches by being heard at a place, written `once`, uses itself up wherever the company is: heard on
+  // the roof while the company is down in the cisterns, what it teaches is lost for good (the Book of Faces' cisterns
+  // 10, BOF-27: the falcon's dawn stoop). Latched on what it teaches it waits to be heard; one that asks for the
+  // company where it is heard, or is anchored within an area (which waits for it), is left alone.
+  static latched(lint: CampaignLint) {
+    const company = lint.session.campaign.playerActor;
+    for (const r of company ? lint.module.rules ?? [] : []) {
+      const once = r.effects.some(c => c.kind === 'assert' && c.call.name === `${r.id}_once` && !c.call.args.length);
+      const waits = r.anchor === 'within' || !r.place || CampaignLint.asksWhere(r.when, company!, r.place);
+      if (!r.teaches || !once || waits) { continue; }
+      lint.add('advice', 'latched', `${r.id} teaches ${r.teaches} heard at ${r.place}, once, wherever the company is: `
+        + `away, what it teaches is lost; latch it on not knows(${company}, ${r.teaches}) instead, or ask at(${company}, `
+        + `${r.place})`);
     }
   }
   // A pursuit that seeks somewhere for someone who cannot go: never taken up, and nothing says so (Quittance's friction

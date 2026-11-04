@@ -53,7 +53,7 @@ export class CampaignLint {
     }
   }
   // Whether a condition asks where the company is (at(party, …)), or anything of the place itself.
-  private static asksWhere(p: unknown, company: string, place: string): boolean {
+  static asksWhere(p: unknown, company: string, place: string): boolean {
     if (!p || typeof p !== 'object') { return false; }
     const c = p as { kind?: string; name?: string; args?: string[] };
     const where = ['at', 'together'].includes(c.name ?? '') && c.args?.includes(company);
