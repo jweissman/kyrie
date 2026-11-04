@@ -22,6 +22,11 @@ export class ScenarioTowns {
   static town(need: string, at: { region: Region; bindings: Record<string, string>; claimed: Set<string>;
     key: string; parts: ('taproom' | 'shrine' | 'shop')[] }): string {
     const { region, bindings, claimed } = at;
+    // A need of no known form is refused, not quietly taken for the first town (Wapshott's Circus friction 17).
+    if (!this.forms.some(f => f.endsWith(':') ? need.startsWith(f) : need === f)) {
+      throw new Error(`Unknown settlement need '${need}': it is one of ${this.forms.map(f => f === 'toward:' ? `${f}side`
+        : f.endsWith(':') ? `${f}role` : f).join(', ')}`);
+    }
     const fit = region.settlements.filter(t => at.parts.every(p => SettlementWriter.rooms(region, t)[p]));
     // The town a side's road leaves from (toward:west): where what lies that way is told of, and set out for.
     if (need.startsWith('toward:')) {
@@ -44,6 +49,7 @@ export class ScenarioTowns {
     claimed.add(town.id);
     return town.id;
   }
+  static readonly forms = ['any', 'largest', 'along:', 'near:', 'toward:'];
   static readonly sizes: Record<string, number> = { town: 3, village: 2, hamlet: 1 };
   // The biggest settlement, the first of those as big.
   static largest(towns: Settlement[]): Settlement {

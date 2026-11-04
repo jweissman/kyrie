@@ -545,6 +545,7 @@
     "test/tie-order.test.ts": 364,
     "test/company-refusals.test.ts": 332,
     "test/after-by-way.test.ts": 329,
+    "test/scenario-needs.test.ts": 300,
     "test/orsino-catalog-current.test.ts": 208,
     "test/journey-leg.test.ts": 134,
     "test/panorama.test.ts": 92,
