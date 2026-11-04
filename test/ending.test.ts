@@ -27,4 +27,10 @@ describe('an ending on the company dead', () => {
     await j.play('Lie down in the snow');
     expect([j.campaign.running, Endings.reached(j.campaign.world)?.title]).toEqual([false, 'The Hour']);
   }, 60000);
+  it('is reached when the company is killed in a fight', async () => {
+    const j = await Journey.start('test/fixtures/probes/fallen/probe.campaign.json', 'fallen');
+    await j.play('>hollow', '?Attack');
+    expect([j.campaign.running, Endings.reached(j.campaign.world)?.lines]).toEqual([false,
+      ['And then you are walking in snow, and your breath does not steam.']]);
+  }, 60000);
 });

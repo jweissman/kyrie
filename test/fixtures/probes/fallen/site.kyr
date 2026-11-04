@@ -4,6 +4,12 @@ Module fallen "Where the dead walk in" {
   Place field "the field" is wilderness.
   Place height "the height" is room within field at 0, 0 outdoors.
   Company party "You" of 1 at height.
+  // Or the wolves kill it, in a fight it loses: the page closes on the module's ending, not on "The fight is lost".
+  Place hollow "the hollow" is room within field at 1, 0 outdoors.
+  Passage down "the way down to the hollow" between height and hollow.
+  Person wolves "the wolves" at hollow { Role "grey wolves". Ancestry human. Calling warrior. Level 9. Numbers 3.
+    Pronouns they. }
+  Initially Assert hostile(wolves, party).
   Hazard white_cold "the cold of the height" means "Deal (40d10) cold damage to ally.".
   Action lie_down(actor: group) "Lie down in the snow" {
     Requires able(actor) and company(actor) and at(actor, height).
