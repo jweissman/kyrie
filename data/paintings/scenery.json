@@ -1,0 +1,130 @@
+{
+  "about": "Which painting shows a place, by what kind of place it is (see src/ui/scenery.ts): a settlement by its land, wild country by its land or its region's terrain, a site, the night; the way into a town at a new game's opening (approaches); under a roof and under the ground (within: indoors, and underground in a settlement or in a site), where no country is painted. Each kind has a few, and a place is given the same one each time. Chosen by looking at the paintings (seen.json): never a sight the place's words deny, never a figure who could be taken for someone met. Winter paintings are shown only in winter. Add a painting's name to a list to use it; nothing in the engine needs to change.",
+  "views": {
+    "settlement:river": [
+      "bridge",
+      "mill"
+    ],
+    "settlement:frost": [
+      "wintre",
+      "ice-cutter",
+      "trapper",
+      "idyll"
+    ],
+    "settlement:forest": [
+      "forest",
+      "herd",
+      "chapel"
+    ],
+    "settlement:marsh": [
+      "mill",
+      "trapper"
+    ],
+    "settlement": [
+      "herd",
+      "chapel",
+      "arcadia",
+      "bridge"
+    ],
+    "wild:river": [
+      "indolence",
+      "bridge"
+    ],
+    "wild:lake": [
+      "bear",
+      "party"
+    ],
+    "wild:peak": [
+      "idyll",
+      "avalanche"
+    ],
+    "wild:pass": [
+      "idyll",
+      "bridge"
+    ],
+    "wild:wood": [
+      "grove",
+      "gale"
+    ],
+    "forest": [
+      "grove",
+      "gale",
+      "forest"
+    ],
+    "marsh": [
+      "grove",
+      "trapper"
+    ],
+    "mountain": [
+      "idyll",
+      "bear"
+    ],
+    "frost": [
+      "ice-cutter",
+      "wintre",
+      "trapper",
+      "idyll"
+    ],
+    "desert": [
+      "encampment"
+    ],
+    "hills": [
+      "herd",
+      "idyll"
+    ],
+    "wild": [
+      "indolence",
+      "idyll",
+      "arch"
+    ],
+    "site": [
+      "arch",
+      "ruin",
+      "trilith",
+      "tower"
+    ],
+    "night": [
+      "camp",
+      "moon",
+      "aurora"
+    ]
+  },
+  "approaches": {
+    "forest": [
+      "forest",
+      "herd",
+      "chapel"
+    ],
+    "marsh": [
+      "mill"
+    ],
+    "mountain": [
+      "idyll",
+      "bridge"
+    ],
+    "frost": [
+      "idyll",
+      "wintre"
+    ]
+  },
+  "winter": [
+    "wintre",
+    "ice-cutter",
+    "avalanche"
+  ],
+  "within": {
+    "indoors": [
+      "meditation",
+      "well"
+    ],
+    "underground": [
+      "meditation",
+      "well"
+    ],
+    "underground:site": [
+      "perdition",
+      "meditation",
+      "colonnade"
+    ]
+  }
+}

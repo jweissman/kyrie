@@ -17,7 +17,7 @@
    it, scrolling within itself, and the keys at the foot, under them and never over them. */
 .focus > .glance, .focus > .glance.sparse { flex: 1 1 auto; min-height: 0; max-width: none; margin: 0; overflow: hidden;
   display: flex; flex-direction: column; }
-.focus > .glance > .told-col { flex: 0 1 auto; max-height: 58%;
+.focus > .glance > .told-col { flex: none; max-height: 58%;
   mask-image: linear-gradient(180deg, #000 calc(100% - 22px), transparent); overflow-y: auto; overscroll-behavior: contain;
   padding: 18px clamp(16px, 2vw, 24px) 6px; }
 .focus > .glance > .told-col > * { max-width: none; }
@@ -104,9 +104,68 @@
 .scene-surface .openings.up { position: absolute; top: clamp(14px, 2.6vh, 26px); left: 0; right: 0; justify-content: center; }
 .scene-surface .openings.down { justify-content: center; padding-top: 6px; }
 .scene-surface.unpainted .openings.level { justify-content: center; }
-/* Where the surface sets the place's words in the light, the focus does not say them again. */
-.world-page.unpainted .focus .glance .sight { display: none; }
 /* The surface carries the ways from here: the focus does not row them again. */
 .world-page:is(.scale-scene, .scale-board) .focus .glance-row { display: none; }
 .scene-surface .opening .risk { grid-column: 1 / -1; font: 600 10px/1.2 var(--do); letter-spacing: .12em;
   text-transform: uppercase; color: var(--ember); }
+/* Every way along the foot in one row, moved along when they are many; the first the glance ranks. */
+.scene-surface .openings.level { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; justify-content: flex-start;
+  mask-image: linear-gradient(90deg, #000 calc(100% - 40px), transparent); }
+.scene-surface .openings.level::-webkit-scrollbar { display: none; }
+.scene-surface .openings .opening { flex: none; }
+/* What else is here and what the company can do of itself, in the focus, at once. */
+.focus .also-here, .focus .yours-here, .focus .doing { margin: 0; }
+.focus .also-here .chips { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.focus .yours-here .acts.small { display: flex; flex-wrap: wrap; gap: 6px; }
+.focus .yours-here .acts.small .act { min-height: 36px; padding: 6px 12px 6px 28px; font-size: 13.5px; }
+/* The wild: the board is the whole stage under the bar, and what the company attends to floats over it at the right;
+   a town chosen on it is entered from its card (the owner, 4 November evening). */
+.world-page.scale-board .world-body { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr); }
+.world-page.scale-board .world-body > .surface { grid-area: 1 / 1; }
+.world-page.scale-board .focus { grid-area: 1 / 1; justify-self: end; align-self: start; z-index: 2; position: relative;
+  width: min(25rem, calc(100% - 32px)); max-height: calc(100% - 32px); margin: 16px; border: 1px solid var(--edge-strong);
+  background: rgba(16, 17, 21, .9); backdrop-filter: blur(8px); box-shadow: 0 18px 50px rgba(0, 0, 0, .5); }
+.enter-card { padding: 0 20px 20px; display: grid; gap: 12px; overflow-y: auto; }
+.enter-card .enter-view { position: relative; height: 150px; margin: 0 -20px 4px; overflow: hidden; }
+.enter-card .enter-view .scenery { position: absolute; inset: 0; margin: 0; }
+.enter-card .enter-view .scenery img { width: 100%; height: 100%; object-fit: cover; }
+.enter-card .enter-view figcaption { display: none; }
+.enter-card .to { margin: 0; font: 300 34px/1.1 var(--do); color: var(--ivory); }
+.enter-card .label, .enter-card .how { margin: 0; }
+.enter-card .enter { all: unset; box-sizing: border-box; cursor: pointer; text-align: center; padding: 16px 20px;
+  font: 600 15px/1 var(--do); letter-spacing: .28em; text-transform: uppercase; color: var(--deep);
+  background: var(--gold); border: 1px solid var(--gold); }
+.enter-card .enter:hover, .enter-card .enter:focus-visible { filter: brightness(1.08); outline: 2px solid var(--ivory); }
+@media (max-width: 899px), (orientation: portrait) {
+  .world-page.scale-board .focus { justify-self: stretch; align-self: end; width: auto; max-height: 52%; }
+}
+/* The board's own controls stand at its left, clear of what floats at its right. */
+.board-surface .field-tools { left: 16px; right: auto; }
+/* The ways from here, once, in the focus: a row each, its direction marked in a ring, where it goes, which way and how
+   long; the aim's edged in gold. */
+.focus .ways-here { margin: 0; }
+.focus .ways-here ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.act.way-row { display: grid; grid-template-columns: 30px minmax(0, 1fr) auto; align-items: center; gap: 0 12px;
+  width: 100%; min-height: 46px; padding: 6px 12px 6px 8px; background: rgba(236, 230, 217, .03); border-color: transparent; }
+.act.way-row::before { display: none; }
+.act.way-row .glyph { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%;
+  border: 1px solid var(--edge-strong); font: 500 15px/1 var(--do); color: var(--ivory); }
+.act.way-row .glyph.whither-up, .act.way-row .glyph.whither-down { border-color: rgba(236, 230, 217, .45); }
+.act.way-row .n { font: 500 15px/1.25 var(--do); color: var(--ivory); }
+.act.way-row .t { font: 400 12px/1.2 var(--do); color: var(--dim); letter-spacing: .04em; white-space: nowrap; }
+.act.way-row .why-said { grid-column: 2 / -1; font: 400 12px/1.3 var(--do); color: var(--gold); }
+.act.way-row.aimed { box-shadow: inset 2px 0 0 var(--gold); }
+.act.way-row.aimed .glyph { border-color: var(--gold-line); color: var(--gold); }
+.act.way-row:hover, .act.way-row.sel, .act.way-row:focus-visible { background: rgba(236, 230, 217, .07); }
+/* The hex the company stands in, on the map: described, and entered. */
+.hex-card { padding: 20px; display: grid; gap: 12px; overflow-y: auto; }
+.hex-card .to { margin: 0; font: 300 30px/1.1 var(--do); color: var(--ivory); }
+.hex-card .label, .hex-card .how, .hex-card .about { margin: 0; }
+.hex-card .sight { margin: 0; font: italic 400 16.5px/1.55 var(--told); color: var(--ivory); }
+.hex-card .about { font: 400 14.5px/1.4 var(--do); color: var(--ivory); }
+.hex-card .about.danger { color: var(--ember); }
+.hex-card .enter, .enter-card .enter { all: unset; box-sizing: border-box; cursor: pointer; text-align: center;
+  padding: 16px 20px; font: 600 15px/1 var(--do); letter-spacing: .28em; text-transform: uppercase; color: var(--deep);
+  background: var(--gold); border: 1px solid var(--gold); }
+.hex-card .enter:hover, .hex-card .enter:focus-visible { filter: brightness(1.08); outline: 2px solid var(--ivory); }
+.focus > .back-to-map { align-self: flex-start; margin: 12px clamp(16px, 2vw, 24px) 0; }

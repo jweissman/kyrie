@@ -36,6 +36,10 @@ class Glancing {
     await d.settle();
     expect([command, (await d.inspect()).error]).toEqual([command, '']);
   }
+  // Into the hex the company stands in, from the world map: nothing in a hex is done from the map (owner, 4 November).
+  static async enter(page: Page, d: MonoDriver) {
+    if (await page.locator('[data-action="enter-hex"]').count()) { await d.click('[data-action="enter-hex"]'); }
+  }
   // Each step on the shortest way from one place to another, as the world joins them.
   static async way(from: string, to: string): Promise<string[]> {
     const g = await Glanced.country('kite');
@@ -48,16 +52,12 @@ class Glancing {
     for (const hop of p.route('freezeland')) { await p.play(hop); }
     return p.j.session.campaign.history.map(e => e.action);
   }
-  // Each sheet raised (by its key, or its touch) and put away by Esc.
-  static async sheets(page: Page, d: MonoDriver, pointer: boolean) {
-    const raised: string[] = [];
-    for (const [key, action, sheet] of [['l', 'look-about', 'look'], ['w', 'ways', 'ways'], ['', 'more', 'more']]) {
-      if (pointer || !key) { await d.click(`[data-region="glance"] [data-action="${action}"]`); } else { await d.key(key); }
-      raised.push(`${sheet}:${await page.locator(`[aria-modal="true"][data-sheet="${sheet}"]`).count()}`);
-      await d.key('Escape');
-      raised.push(`${sheet}:${await page.locator('[aria-modal="true"]').count()}`);
-    }
-    return raised;
+  // Nothing a sheet away (the owner, 4 November evening: Every way, Look about and More had been crutches): the ways
+  // from here, who is here and what the company can do of itself are in the focus beside the place, at once.
+  static async atOnce(page: Page) {
+    const at = (s: string) => page.locator(`.world-page .focus ${s}`).count();
+    return { ways: await at('.ways-here .way-row') > 0, yourself: await at('.yours-here .act') > 0,
+      keys: await page.locator('.glance-keys').count() };
   }
 }
 
@@ -82,16 +82,13 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a place at a glance', () => {
       expect(await Glancing.quiet(page)).toEqual({ scroll: false, panes: 0, led: true });
       expect((await d.inspect()).glance?.arrival).toBe('first');
       await Glancing.shot(page, 'first-arrival');
-      expect(await Glancing.sheets(page, d, pointer)).toEqual(['look:1', 'look:0', 'ways:1', 'ways:0', 'more:1', 'more:0']);
-      // A digit beyond what it leads with does nothing out of sight, nor one under a sheet raised over it.
+      expect(await Glancing.atOnce(page)).toEqual({ ways: true, yourself: true, keys: 0 });
+      // A digit beyond what it leads with does nothing out of sight.
       if (!pointer) {
         const at = (await d.inspect()).place?.id;
         await d.key('9');
-        await d.key('l');
-        await d.key('1');
         const now = await d.inspect();
-        expect([now.mode, now.place?.id, await page.locator('[aria-modal="true"]').count()]).toEqual(['explore', at, 1]);
-        await d.key('Escape');
+        expect([now.mode, now.place?.id]).toEqual(['explore', at]);
       }
       // Your brother, by his plate, which the glance edges as the one it would lead with: someone in sight is talked to
       // by their plate, not by a lead above it as well (the owner, 4 November).
@@ -114,12 +111,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a place at a glance', () => {
     await page.waitForSelector('[data-action="start"]');
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
-    // On the scene the way says what it risks, and is not taken there by a second touch: it asks, from its card or
-    // from Every way (spatial-play.md).
-    const opening = '.scene-surface [data-way*="pool"]';
-    expect(await page.locator(`${opening} .risk`).first().innerText()).toMatch(/no way back/i);
-    const drop = '[data-choice^="exit:"][data-choice*="pool"]:visible';
-    if (!(await page.locator(drop).count())) { await d.click('.all-ways'); }
+    // Among the ways beside the place, the way says what it risks, and asks before it is taken (spatial-play.md).
+    const drop = '.ways-here [data-choice^="exit:"][data-choice*="pool"]';
     expect(await page.locator(`${drop} .mark-one-way`).first().innerText()).toMatch(/no way back/i);
     await d.click(`${drop} >> nth=0`);
     expect(await page.locator(`${drop} .grave-said`).first().innerText()).toMatch(/no coming back.+Choose it again/);
@@ -136,6 +129,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a place at a glance', () => {
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
     for (const step of await Glancing.way((await d.inspect()).place!.id, 'region__w11')) { await Glancing.act(page, d, step); }
+    await Glancing.enter(page, d);
     const den = (await d.inspect()).glance!;
     // The way back is led only from a fight that could be lost (the owner, 4 November: led from every fight, it had
     // taken a player following the page out of each site at its first foe).
