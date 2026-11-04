@@ -107,4 +107,13 @@ describe('the open country\'s meetings', () => {
     expect(done.legs.at(-1)?.command).toEndWith(`,region__t${other.cell})`);
     expect([done.arrived, done.stopped]).toEqual([false, 'Something is going on here']);
   }, 120000);
+  // Kite come home as kin: the father went out by the bridge on the Brightbridge road. Out in the open country, with
+  // no way to it known, the glance had led only with looking out; it leads with the step toward it (REV-08).
+  it('leads a step toward the aim from the open country when no way to it is known', async () => {
+    const g = await Glanced.country('kite');
+    GeneratedWorld.put(g.s, 't100');
+    const glance = await g.perform('wait');
+    const step = glance.acts.find(a => a.why === 'toward')!;
+    expect(g.screen.exits.find(e => e.id === step.choice)?.bearing).toBe('east');
+  }, 120000);
 });
