@@ -883,9 +883,9 @@ still a duplicate.
 | BOF-32 | There is no person kind: `Relation named(person)` fails at load | The Book of Faces, 02 W2 | D | P3 | Open | the guide says group is the type of a person |
 | BOF-33 | A per-entity table of measures needs a line each, and an entity cannot be offered on a condition | The Book of Faces, bard 7 | D | P3 | Open | with AUT-25 |
 | BOF-34 | No hour-by-hour search of a container | The Book of Faces, post 7 | C | P3 | Open | with REV-02 |
-| BOF-35 | `Greets again` leaves `{id}` unfilled | The Book of Faces, local 3 | D | P3 | Open | to probe |
+| BOF-35 | `Greets again` leaves `{id}` unfilled | The Book of Faces, local 3 | D | P3 | Fixed | to probe; 3 November: someone's own words fill a {who} with the name the company would use (Telling.filled), Greets again among them; test/known-as-labels.test.ts |
 | BOF-36 | A way's label doubles itself (Into the Duelling Stair by the first flight of the Stair) and cannot be said otherwise | The Book of Faces, hill 9 | A | P3 | Open | to probe; a way's own words |
-| BOF-37 | `strikes(hazard, group)` lands on whichever member | The Book of Faces, counting 2 | D | P3 | Fixed | to probe; 3 November: 3 November: someone's own words fill a {who} with the name the company would use (Telling.filled), Greets again among them; test/known-as-labels.test.ts |
+| BOF-37 | `strikes(hazard, group)` lands on whichever member | The Book of Faces, counting 2 | D | P3 | Open | to probe |
 | BOF-38 | Setting the company's coin in a test does nothing; no coin aid | The Book of Faces, drip 3 | F | P3 | Open | j.give for coin, or the measure through Journey.assert |
 
 ## Appendix: Mission 17's evidence, as it stood at 28b306c

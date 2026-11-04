@@ -7,7 +7,7 @@ import { ScreenModel } from '../src/ui/screen-model';
 import { SceneModel } from '../src/ui/scene';
 
 // Someone known as something until their name is learned is called that everywhere the page names them: in "Talk
-// to …", in an author's own labels, in a {who} in their words (the Book of Faces' BOF-01, BOF-37: in a book about
+// to …", in an author's own labels, in a {who} in their words (the Book of Faces' BOF-01, BOF-35: in a book about
 // masks, every label had printed the real name, and "{tibb}" had been said as an id). Once the name is learned, the
 // name; and a Known as with a comma in it is one name, not a name and a role (BOF-02).
 class Masked {

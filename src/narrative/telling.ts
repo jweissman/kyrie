@@ -68,7 +68,7 @@ export class Telling {
     return ids.length > 0 && ids.every(id => (campaign.readout.creatures.find(c => c.id === id)?.state.hp ?? 1) <= 0);
   }
   // Someone's own words with whoever they name in them as the company would call them ("'Evening,' says {tibb}." had
-  // been said with the id in it: the Book of Faces' BOF-37); the voice's own words ({Name}, {they}) are left to it.
+  // been said with the id in it: the Book of Faces' BOF-35); the voice's own words ({Name}, {they}) are left to it.
   private static filled(campaign: Campaign, words: string): string {
     const ids = EntityIndex.of(campaign.world.module.entities).byId;
     return words.replace(/\{([a-z][a-z0-9_]*)\}/g, (all, id: string) => ids.has(id)
