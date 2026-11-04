@@ -23,6 +23,8 @@ Module care "Rest, mending and lessons" {
   // Whoever a rule or an act makes whole (Restore x): every hit point, no condition, risen if fallen or dead; the
   // engine does it and forgets that it was asked to (Consequences.restore).
   Relation madeWhole(group).
+  // Whoever a rule or an act strikes dead (Slay x): no hit point, slain for good (Consequences.slay; BOF-25).
+  Relation struckDead(group).
   Relation restful(place). Relation offeredAt(reward, place). Relation giftEffect(reward, ability).
   Relation rewardFor(reward, fact). Relation claimed(reward).
   Goal false.

@@ -21,8 +21,9 @@ Module world_passages "Passages, obstacles and the condition of things" {
   Relation revealedBy(entity, fact).
   // Containment: a thing or item inside another, reachable while that one is not shut; a receptacle can take more.
   Relation inside(entity, entity). Relation receptacle(entity). Relation closesWhen(entity, condition).
-  // A hazard that strikes a company: the world turns it on one of its members (a trap sprung, a stone that falls).
-  Relation strikes(hazard, group).
+  // A hazard that strikes a company: the world turns it on one of its members (a trap sprung, a stone that falls);
+  // one that strikes a member strikes that one (a lesson for the mage, not whoever the dice choose: BOF-37).
+  Relation strikes(hazard, entity).
   // What can be tried on a thing (looked over closely, prodded, pried at...), and what has been.
   Kind verb. Relation probeable(entity). Relation suits(entity, verb). Relation tried(entity, verb).
   Relation needs(entity, entity).

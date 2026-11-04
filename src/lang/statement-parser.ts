@@ -54,6 +54,10 @@ export class StatementParser {
   static Restore(_restore: Node, group: Node) {
     return { kind: 'assert', call: { kind: 'call', name: 'madeWhole', args: [group.sourceString] } };
   }
+  // "Slay ?g.": whoever it names dead, slain for good (see Consequences.slay).
+  static Slay(_slay: Node, group: Node) {
+    return { kind: 'assert', call: { kind: 'call', name: 'struckDead', args: [group.sourceString] } };
+  }
   static Set(_set: Node, call: Node, _to: Node, value: Node) {
     return { kind: 'set', call: ModuleParser.ast(call), value: ModuleParser.ast(value) };
   }

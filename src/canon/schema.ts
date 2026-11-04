@@ -137,7 +137,8 @@ export interface Background {
   // The kind of background it is (wild country, the roads, a trade), and Orsino gear Kyr does not have.
   kind?: string; omits?: Omissions;
 }
-export interface Skill { name: string; description: string; source: Source }
+// The quality a check of it rests on (a d20 and that quality's modifier: see Checks), for a skill that is tried.
+export interface Skill { name: string; description: string; source: Source; rests?: Attribute }
 export interface WeaponStats {
   damage: string; type: string; kind?: string; weight?: string; missile?: true; intercept?: true; natural?: true;
 }

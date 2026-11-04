@@ -1,4 +1,4 @@
-import type { Act, CombatScreen, ExitRow, ItemRow, MemberRow, Screen, TargetRow } from './screen-types';
+import type { Act, CombatScreen, ExitRow, ItemRow, MemberRow, Screen, TargetRow, Transition } from './screen-types';
 import { Patience } from './patience';
 import { Tending } from './tending';
 import { Counted } from '../presentation/counted';
@@ -131,20 +131,32 @@ export class ChoiceList {
     // into the Strongrooms, W16).
     const twice = this.alike(labels);
     const told = exits.map((e, i) => twice.has(labels[i]!) && !e.unmarked
-      ? `${labels[i]!.split(' ')[0]} ${this.inline(e.destination.name)}` : labels[i]!);
+      ? this.lead(labels[i]!, this.inline(e.destination.name)) : labels[i]!);
     // Ways that read alike still, to places of one name (from a road, its ways off into the stretches of one wood it
     // crosses, each "among the trees of Beorquudu": NAV-04), are each told by their own way.
     const still = this.alike(told);
     const choices = exits.flatMap((e, i) => {
       const label = still.has(told[i]!) && e.way ? `${told[i]!} by ${this.inline(e.way)}`
         : twice.has(labels[i]!) ? told[i]!
-          : (e.several && e.transition === 'enter' || e.oneWay) && e.way ? `${labels[i]!} by ${this.inline(e.way)}`
+          : (e.several && e.transition === 'enter' || e.oneWay) && e.way
+            ? `${labels[i]!} by ${this.inline(this.unrepeated(e.way, e.scope))}`
             : labels[i]!;
       return this.way(e, label).map(c => e.local ? { ...c, local: true } : c).map(c => e.oneWay && c.command
         ? { ...c, grave: ChoiceList.oneWay } : c);
     });
     return { id: 'ways', title: 'Ways on', tone: 'way', glyph: '→', choices };
   }
+  // The word a way's label leads with, before another place's name: none for a place whose name says where it is.
+  private static lead(label: string, room: string): string {
+    return ChoiceList.whereabouts.test(label) ? this.upper(room) : `${label.split(' ')[0]} ${room}`;
+  }
+  // A way into an enclosure named for it ("the first flight of the Stair", into the Duelling Stair) is said without
+  // the enclosure again: "Into the Duelling Stair by the first flight", where it had said the Stair twice (BOF-36).
+  private static unrepeated(way: string, scope?: string): string {
+    const of = / of (?:the )?([^,]+)$/.exec(way);
+    return of && scope && this.tail(of[1]!) === this.tail(scope) ? way.slice(0, of.index) : way;
+  }
+  private static tail(name: string): string { return name.split(' ').pop()!.toLowerCase(); }
   private static alike(labels: string[]): Set<string> {
     return new Set(labels.filter((l, i) => labels.indexOf(l) !== i));
   }
@@ -195,31 +207,34 @@ export class ChoiceList {
     return new Set(this.leaves(acts).flatMap(a => /^look_closely\(([^)]+)\)$/.exec(a.command ?? '')?.[1] ?? []));
   }
   private static moves(a: Act): boolean { return a.label === 'Go' || a.label === 'Walk'; }
+  // A place whose name says where it is ("among the trees of Beorquudu", "under the bridge") is gone to without a
+  // "to": the navigation review's march-stone had offered "To among the trees of …" (NVR-05).
+  static readonly whereabouts = new RegExp(`^(${['among', 'amid', 'amongst', 'by', 'under', 'over', 'beneath', 'below',
+    'above', 'beside', 'behind', 'beyond', 'across', 'along', 'inside', 'outside', 'within', 'between', 'near', 'past',
+    'through'].join('|')})\\s`, 'i');
+  static readonly leads: Partial<Record<Transition, string>> = { leave: 'Out', ascend: 'Up', descend: 'Down',
+    cross_plane: 'Through' };
   static wayLabel(e: ExitRow): string {
     if (e.unmarked && e.way) { return `By ${this.inline(e.way)}`; }
     const room = this.inline(e.destination.name);
     if (e.bearing) { return `${e.bearing.charAt(0).toUpperCase()}${e.bearing.slice(1)}: ${room}`; }
-    switch (e.transition) {
-      case 'enter': return `Into ${this.inline(e.scope ?? room)}`;
-      case 'leave': return `Out to ${room}`;
-      case 'ascend': return `Up to ${room}`;
-      case 'descend': return `Down to ${room}`;
-      case 'cross_plane': return `Through to ${room}`;
-      default: return `To ${room}`;
-    }
+    const into = this.inline(e.scope ?? room);
+    if (e.transition === 'enter') { return ChoiceList.whereabouts.test(into) ? this.upper(into) : `Into ${into}`; }
+    const lead = ChoiceList.leads[e.transition], where = ChoiceList.whereabouts.test(room);
+    return lead ? `${lead} ${where ? '' : 'to '}${room}` : where ? this.upper(room) : `To ${room}`;
   }
   private static wayAbout(e: ExitRow): string {
     const minutes = this.longest(e.acts);
     if (e.unmarked && e.way) { return `${this.upper(e.way)}: where it goes, nothing here says.`; }
-    const room = e.destination.name;
+    const room = e.destination.name, to = ChoiceList.whereabouts.test(room) ? room : `to ${room}`;
     const span = minutes > 10 ? `, ${this.span(minutes)} away` : ', a few steps away';
     const how = e.way ? ` by ${e.way}` : '';
     // Inside another building or level, the room is named with it when the two names differ.
     const within = e.scope && e.scope !== room && !room.includes(e.scope) ? `, in ${e.scope}` : '';
     const where = { walk: `${this.upper(room)}${span}${how}.`, enter: `${this.upper(room)}${within}${span}.`,
-      leave: `Out to ${room}${within}${span}.`, level: `${this.upper(room)}${within}${span}.`,
-      ascend: `Up to ${room}${span}.`, descend: `Down to ${room}${span}.`,
-      travel: `Across country to ${room}${e.scope ? `, ${e.scope}` : ''}${minutes > 10 ? ` (${this.span(minutes)})` : ''}${how}.`,
+      leave: `Out ${to}${within}${span}.`, level: `${this.upper(room)}${within}${span}.`,
+      ascend: `Up ${to}${span}.`, descend: `Down ${to}${span}.`,
+      travel: `Across country ${to}${e.scope ? `, ${e.scope}` : ''}${minutes > 10 ? ` (${this.span(minutes)})` : ''}${how}.`,
       cross_plane: `Across a planar threshold to ${room}.` }[e.transition];
     return [where, e.via && e.via !== e.way ? `The way runs past ${e.via}.` : '', e.hazard ?? e.blocked ?? '']
       .filter(Boolean).join(' ');

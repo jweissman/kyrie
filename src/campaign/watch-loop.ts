@@ -57,6 +57,7 @@ export class WatchLoop {
       CampaignTick.rules(host, happenings);
       Arrivals.tell(host.world, player, present, happenings);
       Consequences.strike(host, combat); Consequences.hand(host, combat); Consequences.restore(host);
+      Consequences.slay(host);
       const foe = Engagement.foe(host);
       if (foe) { return { npc, happenings, interrupted: Engagement.announced(host, foe, happenings) }; }
       Engagement.halt(host);
@@ -74,6 +75,7 @@ export class WatchLoop {
         CampaignTick.rules(host, happenings, began);
         present = Arrivals.tell(host.world, player, present, happenings);
         Consequences.strike(host, combat); Consequences.hand(host, combat); Consequences.restore(host);
+        Consequences.slay(host);
         host.settleWatch(combat);
         // Someone falling on the company stops whatever it was doing, interruptible or not.
         const foe = Engagement.foe(host), halted = foe ? undefined : Engagement.halt(host);

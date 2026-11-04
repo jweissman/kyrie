@@ -188,7 +188,8 @@ Kyr {
               | "described" string -- described
               | "living" "in" NonemptyListOf<ident, ","> -- living
   signed = "-"? digit+
-  Relation = "Relation" ident "(" ListOf<ident, ","> ")" exclusive? "."
+  Relation = "Relation" ident "(" ListOf<RelationParameter, ","> ")" exclusive? "."
+  RelationParameter = Parameter | ident
   Measure = "Measure" ident "(" ListOf<ident, ","> ")" MeasureMost? "."
   MeasureMost = "at" "most" integer
   Query = "Query" ident "(" ListOf<Parameter, ","> ")" "means" Predicate "."
@@ -222,9 +223,11 @@ Kyr {
   TimeDay = "day" integer
   Resolve = "Resolve" Call "."
   ChangeStatement = Change "."
-  Change = Assert | Retract | Set | Increase | Lessen | Decrease | Give | Spend | Restore
+  Change = Assert | Retract | Set | Increase | Lessen | Decrease | Give | Spend | Restore | Slay
   // Whole again: every hit point, no condition, risen if fallen or dead (LUL-01).
   Restore = "Restore" term
+  // Dead in the story and in the body (BOF-25).
+  Slay = "Slay" term
   Assert = "Assert" Call
   Give = "Give" GiveWhat "to" term
   // How many of a kind (Give 2 lamp_oil to actor), or one thing or one of a kind.

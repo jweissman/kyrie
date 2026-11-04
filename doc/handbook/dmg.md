@@ -92,7 +92,7 @@ Also kept, without comment: itemKind, ownedItem, wearing, forSale, soldBy, weara
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 2 | 29 | 12 | 2 | 9 | 20 |
+| 2 | 30 | 12 | 2 | 9 | 20 |
 
 #### relieves
 
@@ -117,6 +117,12 @@ A thing handed to a company ("Give coat to party." in what a topic or an action 
 *Kyr · measure(entity, group)* · `rule:belongings.gifts`
 
 As many of a kind given at once (Give 2 lamp_oil to actor): counted, and made, and the count cleared.
+
+#### learned
+
+*Kyr · relation(member, ability)* · `rule:belongings.learned`
+
+What a member has learned, of the abilities the world names: a spell, a song, a technique (BOF-13: a mage taught a lesson was told apart by a fee raised in the mentor's purse).
 
 #### worth, dealerPays, buysValuables, realized
 
@@ -570,7 +576,7 @@ Also kept, without comment: swappable, improvable, learnable, skillOpen, featOpe
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 7 | 20 | 2 | 0 | 2 | 10 |
+| 7 | 21 | 2 | 0 | 2 | 10 |
 
 #### levelOf
 
@@ -595,6 +601,12 @@ One who falls lies senseless (fallen) until a rest, when they come round or die 
 *Kyr · relation(group)* · `rule:care.madeWhole`
 
 Whoever a rule or an act makes whole (Restore x): every hit point, no condition, risen if fallen or dead; the engine does it and forgets that it was asked to (Consequences.restore).
+
+#### struckDead
+
+*Kyr · relation(group)* · `rule:care.struckDead`
+
+Whoever a rule or an act strikes dead (Slay x): no hit point, slain for good (Consequences.slay; BOF-25).
 
 #### field spell
 
@@ -766,7 +778,7 @@ Also kept, without comment: matterOpen, matterDone, at, able, dead, distinct, cl
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 19 | 47 | 17 | 5 | 5 | 8 |
+| 20 | 48 | 17 | 5 | 5 | 8 |
 
 #### ending, reached
 
@@ -935,6 +947,12 @@ A company on the way, between where it set out and where it is going: enRoute(co
 *Kyr · kind; relation(group, craft)* · `rule:world_core.craft`
 
 The kind of work the company has done (its backgrounds' families): what those who do the same work know it by.
+
+#### callingkind, hasCalling
+
+*Kyr · kind; relation(member, callingkind)* · `rule:world_core.callingkind`
+
+The calling each of the company follows (its class): who someone is, not only what they can do. A warrior's arc had asked capable(party, brawn), which a commoner who had learned brawn passed (the Book of Faces' BOF-13).
 
 #### manner, manner
 
@@ -1806,9 +1824,9 @@ Containment: a thing or item inside another, reachable while that one is not shu
 
 #### strikes
 
-*Kyr · relation(hazard, group)* · `rule:world_passages.strikes`
+*Kyr · relation(hazard, entity)* · `rule:world_passages.strikes`
 
-A hazard that strikes a company: the world turns it on one of its members (a trap sprung, a stone that falls).
+A hazard that strikes a company: the world turns it on one of its members (a trap sprung, a stone that falls); one that strikes a member strikes that one (a lesson for the mage, not whoever the dice choose: BOF-37).
 
 #### verb, probeable, suits, tried
 
@@ -2086,7 +2104,7 @@ Someone who would come with you, if you led them, can be told not to wait: they 
 
 #### talks, addressed
 
-*Kyr · relation(group); relation(group, group)* · `rule:world_people.talks`
+*Kyr · relation(group); relation(person: group, company: group)* · `rule:world_people.talks`
 
 Talking to someone: the company's attention on one person, until it takes its leave or goes. Anyone who is a person (not an animal or a beast) talks, and anyone with something to be asked (Topic) does. Speaking to them takes no time; they answer it (a greeting, from the voice tables), and what can be put to them is put in it.
 

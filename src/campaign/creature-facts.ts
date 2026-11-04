@@ -23,6 +23,7 @@ type Entity = Module['entities'][number];
 interface Declared {
   has: Set<string>; measures: Set<string>; abilityIds: Set<string>; declared: ArenaAbility[]; field: ArenaAbility[];
   capabilities: Entity[]; items: Entity[]; kinds: Entity[]; references: Map<string, string>; itemIds: Set<string>;
+  callings: Map<string, string>;
 }
 // What the module declares, with the world the projection reads what holds now from (see `set`).
 interface Scope extends Declared { world: World; at?: PerkContext }
@@ -31,7 +32,7 @@ export class CreatureFacts {
   // Every relation or measure `project` writes.
   static readonly written = ['capable', 'memberOf', 'awake', 'needsCare', 'ownedItem', 'wearing', 'proficient', 'canTrain',
     'treatable', 'relieves', 'canCast', 'able', 'dead', 'quantity', 'swappable', 'company', 'improvable', 'learnable',
-    'brings', 'featOpen', 'skillOpen', 'temperament', 'fallen', 'slain', 'craft', 'levelOf'];
+    'brings', 'featOpen', 'skillOpen', 'temperament', 'fallen', 'slain', 'craft', 'levelOf', 'hasCalling', 'learned'];
   static readonly crafts = ['wild', 'roads', 'mechanisms', 'shadows', 'healing', 'faith', 'learning', 'earth', 'arms',
     'water', 'stage', 'trade', 'court', 'margins'];
   // Every relation or measure a projection writes or reads besides the creatures (see Projection).
@@ -110,6 +111,8 @@ export class CreatureFacts {
       abilityIds, declared, field: declared.filter(a => FieldUse.safe(a.id)),
       capabilities: entities.filter(e => e.type === 'capability'), items, itemIds: new Set(items.map(e => e.id)),
       kinds: entities.filter(e => e.type === 'itemkind'),
+      // Each calling by its class, under the id its installation gave it (canon__calling_mage).
+      callings: new Map(entities.filter(e => e.type === 'callingkind').map(e => [e.id.replace(/^.*__calling_/, ''), e.id])),
       references: new Map(entities.filter(e => e.creatureId).map(e => [e.creatureId!, e.id])) };
     this.declarations.set(module, { lengths, declared: made });
     return made;
@@ -200,6 +203,7 @@ export class CreatureFacts {
       changes.push({ kind: 'set', call: ModuleWriter.call('carried', reference), value: ModuleWriter.number(Burden.load(c)) },
         { kind: 'set', call: ModuleWriter.call('capacity', reference), value: ModuleWriter.number(Burden.capacity(c)) });
     }
+    changes.push(...this.calling(c, reference, scope, learned));
     const known = new Set([...learned, ...Object.keys(ItemCatalog.abilities(c))]);
     const useful = scope.field.filter(a => CreatureFacts.helps(a, c));
     if (has.has('relieves')) {
@@ -211,6 +215,13 @@ export class CreatureFacts {
     changes.push(...this.set(scope, 'treatable', reference, useful.map(a => a.id)),
       ...this.set(scope, 'canCast', reference, usable.map(a => a.id)));
     return changes;
+  }
+  // A member's calling, and what they have learned of the abilities the world names (the Book of Faces' BOF-13).
+  private static calling(c: Creature, reference: string, scope: Scope, learned: string[]): Change[] {
+    const calling = c.classId && scope.callings.get(c.classId);
+    return [...scope.has.has('hasCalling') ? this.set(scope, 'hasCalling', reference, calling ? [calling] : []) : [],
+      ...scope.has.has('learned') ? this.set(scope, 'learned', reference, learned.filter(id => scope.abilityIds.has(id)))
+        : []];
   }
   // Whether an ability would do anything for someone: heal a hurt, lift something they have, or lay on something
   // they have not, or renew it once half of it is spent (a lantern topped up before going down).
@@ -231,8 +242,7 @@ export class CreatureFacts {
   // The relations the projection writes from a member to many things: item first for what a member owns or wears,
   // the member first for the rest.
   static readonly sets: Record<string, 0 | 1> = { ownedItem: 1, wearing: 1, proficient: 0, canTrain: 0, treatable: 0,
-    relieves: 0,
-    canCast: 0 };
+    relieves: 0, canCast: 0, hasCalling: 0, learned: 0 };
   private static set(scope: Scope, name: string, reference: string, now: string[]): Change[] {
     const want = new Set(now), item = this.sets[name]!;
     // What holds now of this member, read by the member's place among the relation's arguments.

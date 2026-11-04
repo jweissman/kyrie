@@ -1,6 +1,7 @@
 import { Expressions } from '../expressions';
 import { RandomStreams } from '../random-streams';
 import { PartyCapabilities } from '../campaign/party-capabilities';
+import { Canon } from '../canon/canon';
 import type { Attribute, Creature } from '../creature';
 import type { CombatEvent } from '../model';
 
@@ -12,12 +13,10 @@ export type Odds = 'sure' | 'likely' | 'even' | 'unlikely' | 'beyond';
 // the modifier of the quality it rests on, and their proficiency when the skill is theirs. It is rolled only when it
 // could go either way; when it cannot fail, or cannot succeed, it is not rolled at all, and is told so.
 export class Checks {
-  // The quality each skill rests on.
-  static readonly qualities: Record<string, Attribute> = { persuasion: 'charisma', deception: 'charisma',
-    intimidation: 'charisma', insight: 'wisdom', lore: 'intelligence', woodcraft: 'wisdom', perception: 'wisdom',
-    stealth: 'dexterity', lockwork: 'dexterity', trapwork: 'dexterity', climbing: 'strength', brawn: 'strength',
-    mending: 'wisdom', rites: 'wisdom', wayfinding: 'wisdom', digging: 'constitution', tumbling: 'dexterity',
-    performance: 'charisma' };
+  // The quality each skill rests on, as the catalog says (skills.json's `rests`), and keen eyes, which no one learns,
+  // on wisdom. A new skill had been written in four shared places, one of them here (Wapshott's Circus, WPC-X03).
+  static readonly qualities: Record<string, Attribute> = { perception: 'wisdom', ...Object.fromEntries(
+    Object.entries(Canon.skills).flatMap(([id, s]) => s.rests ? [[id, s.rests]] : [])) };
   // How hard, as Kyr names it (Resolve check(actor, persuasion, dc_hard)): the number to meet or beat.
   static readonly difficulties: Record<string, number> = { dc_easy: 10, dc_fair: 13, dc_hard: 16, dc_formidable: 19 };
   static difficulty(id: string): number {

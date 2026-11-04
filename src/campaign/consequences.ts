@@ -1,4 +1,5 @@
 import { Expressions } from '../expressions';
+import { Canon } from '../canon/canon';
 import { RandomStreams } from '../random-streams';
 import { ModuleWriter } from '../lang/module-writer';
 import { Items } from './items';
@@ -11,7 +12,9 @@ import type { CombatEvent } from '../model';
 import type { TickHost } from './campaign-tick';
 
 // What the world does to bodies. A fact that a hazard strikes a company (a trap sprung, a stone that falls) is
-// turned on one of its members, chosen by the seeded stream, and then forgotten.
+// turned on one of its members, chosen by the seeded stream, and then forgotten; one that strikes a member of it
+// strikes that one (the Book of Faces' BOF-37: a lesson taught by a hazard had gone to whichever member the stream
+// chose, the warrior as soon as the mage).
 export class Consequences {
   static strike(host: TickHost, combat: CombatEvent[]): boolean {
     const struck = host.world.related('strikes');
@@ -19,8 +22,9 @@ export class Consequences {
     const { definition, creatures, current } = host.tickState;
     const standing = new Set(creatures.live.filter(c => c.state.hp > 0).map(c => c.id));
     for (const [hazard, group] of struck.map(r => r.args as [string, string])) {
-      const members = definition.actors.find(a => a.id === group)?.members
-        .filter(id => standing.has(id)) ?? [];
+      const one = host.module.entities.find(e => e.id === group)?.creatureId;
+      const members = (one ? [one] : definition.actors.find(a => a.id === group)?.members ?? [])
+        .filter(id => standing.has(id));
       if (!members.length) { continue; }
       const roll = new Expressions(RandomStreams.key(current.seed, 'strike', hazard, String(current.elapsed)));
       const target = members[roll.number(`1d${members.length}`) - 1]!;
@@ -45,6 +49,26 @@ export class Consequences {
       lease.commit(lease.creatures);
     } finally { lease.release(); }
     host.commitWorld(host.world.apply(whole.map(r => this.retract(r))));
+    host.refreshProjection();
+    return true;
+  }
+  // Whoever a rule or an act strikes dead ("Slay ?g." in what it does) is dead in the story and in the body: no hit
+  // point left, and slain for good, as one who dies of their wounds is; and the fact is forgotten. A Second killed in
+  // the night could not be said to be dead, `dead` being the engine's (the Book of Faces' hill 8, BOF-25).
+  static slay(host: TickHost): boolean {
+    const doomed = host.world.related('struckDead');
+    if (!doomed.length) { return false; }
+    const { definition, creatures } = host.tickState, slain = Canon.rules.combat.ids.slain;
+    const ids = [...new Set(doomed.flatMap(r => definition.actors.find(a => a.id === r.args[0])?.members ?? []))];
+    const lease = creatures.acquire(ids);
+    try {
+      for (const c of lease.creatures) {
+        c.state.hp = 0;
+        if (!c.state.conditions.some(s => s.id === slain)) { c.state.conditions.push({ id: slain, remaining: 1, clock: 'until-removed' }); }
+      }
+      lease.commit(lease.creatures);
+    } finally { lease.release(); }
+    host.commitWorld(host.world.apply(doomed.map(r => this.retract(r))));
     host.refreshProjection();
     return true;
   }

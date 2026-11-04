@@ -36,4 +36,27 @@ describe('one end of a way', () => {
     await j.play('Pay Ma Riser a crumb', '^To the top of the wainscot$');
     expect(j.at('party')).toBe('p__top');
   }, 60000);
+  // The Book of Faces' BOF-12: a way that opens only by night (`opening when`) shuts at both ends, and the Assessor's
+  // kitchen, its door shut by day, shut in a company that was inside at half past eight. A door that shuts against
+  // the street only is a thing on the way from the street's end, barring it by day: the company inside walks out.
+  it('shuts against one end only, by day, and lets out whoever is inside', async () => {
+    const source = new OverlayBundleSource(NodeBundleSource.shared, {
+      'ke/site.kyr': `Module ke "The kitchen" { Place row "Counting Row" is settlement.
+        Place street "the street" is room within row at 0, 0 outdoors. Place kitchen "the night kitchen" is room within row at 1, 0.
+        Passage kitchen_door "the kitchen door" is door between street and kitchen. Company party "You" of 1 at kitchen.
+        Thing bolt "the kitchen door's bolt" on kitchen_door from street {
+          State drawn blocking "The kitchen door is bolted from inside: the Assessor bakes by night.". State back "The door is on the latch.". }
+        Rule bolted when not dark() and state(bolt, back) { Assert state(bolt, drawn). }
+        Rule unbolted when dark() and state(bolt, drawn) { Assert state(bolt, back). } }`,
+      'ke/module.json': JSON.stringify({ version: 1, source: 'site.kyr', rules: ['world'], globals: ['party'],
+        exports: { party: 'party' } }),
+      'ke.campaign.json': JSON.stringify({ version: 1, name: 'ke', modules: [{ id: 'p', bundle: 'ke/module.json' }],
+        party: [{ name: 'Ama', raceId: 'human', classId: 'warrior' }] }) });
+    const j = await Journey.start(source.resolve('ke.campaign.json'), 'ke', { source });
+    await j.play('^To the street$');
+    expect(j.at('party')).toBe('p__street');
+    expect(j.choices().map(c => c.label)).not.toContain('To the night kitchen');
+    await j.play('Until dark');
+    expect(j.choices().map(c => c.label)).toContain('To the night kitchen');
+  }, 60000);
 });

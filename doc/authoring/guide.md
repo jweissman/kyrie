@@ -107,7 +107,10 @@ of one, two or three, and of one when nobody chooses (`test/fixtures/probes/comp
 of its module for a campaign of three).
 
 A person is a `group` wherever a relation, query or action names one: there is no `person` type, and `Relation
-named(person)` will not load where `Relation named(group)` does (the Book of Faces' BOF-32).
+named(person)` will not load where `Relation named(group)` does (the Book of Faces' BOF-32). Each argument may be named
+for the part it plays, which tells apart two of one kind: the shared `Relation addressed(person: group, company:
+group)` takes the person first, and the handbook and a refused call say so (Wapshott's Circus's 7: written the other
+way round, its `metCircus` never held, and nothing warned; `test/relation-roles.test.ts`).
 
 A person has a place and whatever you choose to fix about them: `Ancestry`, `Calling` (class), `Level`, a
 `Profession`, a `Background`. Anything you leave open is filled by generation, if the campaign generates people, or
@@ -141,6 +144,18 @@ would after a comma, without an article; the page gives it the one it wants ("th
 rest), and says as written a role that begins with its own ("the smith", "who speaks for the parish") or says whose
 someone is ("Master Harker's clerk"). A role should not name its person again ("Lady Wenlock, a Lady Wenlock"): the page
 says it once, and `kyrie lint` points it out.
+
+A role is said wherever its person is. One that puts them somewhere ("a day stoker at the retort-house") is said
+only where it is true, `when` it holds, instead of who they are otherwise (`test/fixtures/probes/role-when`):
+
+```text
+  Person mallow "Mallow" at retort_house { Role "a stoker off shift".
+    Role "a day stoker at the retort-house" when at(mallow, retort_house). Peaceable. }
+```
+
+`kyrie lint` advises of a role that places someone a rule, an action or an errand moves; what they are wherever they
+go (a trade, "a die-sinker, retired by the Phoenix") it leaves alone (`test/role-lint.test.ts`; Quittance's an 12, ll 9,
+ms 11).
 
 Backgrounds and professions are in `data/catalog/backgrounds.json`:
 
@@ -475,6 +490,10 @@ heals at sunset, a raising, a regeneration is written (`test/fixtures/probes/mad
   }
 ```
 
+`Slay ?g.` is the other way: whoever it names is dead, in the story and in the body, slain for good, so `dead(ullin)`
+holds and the page says so; a Second killed on the Stair in the night is `Slay ullin.` in the rule that tells of it
+(`test/slay.test.ts`; the Book of Faces' hill 8, whose fates had said it of an offstage double).
+
 `Assert keeps(actor, heart)` does not do it for the company: what it carries is in its members' packs, so what it
 keeps is in nobody's hands, and `kyrie lint` says so (Low Water's 3). What someone else keeps is theirs.
 
@@ -492,7 +511,9 @@ pried at with a bar and listened at; one that blocks a way (`on` it) listened at
 that hurts, prodded from a pace off. Any other try is offered by naming it, `Tries burning, pushing.` (Quittance's
 A11: a thing offered only Look closely, and the guide had said every try was offered). Offering a try reveals nothing; what a try finds is an observation or a rule on `tried(thing,
 verb)`, and a try that finds nothing says so. A trap is a thing whose rule asserts `strikes(hazard, party)`; the
-world turns the hazard on one member. From `test/fixtures/strongroom`:
+world turns the hazard on one member, as the dice choose; `strikes(hazard, ?m)` on a member the rule finds strikes
+that one (`memberOf(?m, party) and brings(?m, lockwork)`: whoever picked the lock; `test/strikes-member.test.ts`, the
+Book of Faces' counting 2). From `test/fixtures/strongroom`:
 
 ```text
   Thing chest "an iron-bound chest" at study {
@@ -1016,6 +1037,11 @@ holds the one its seed chooses (`src/world/frontier.ts`). `bin/kyrie countries` 
   (`{keeper}` is the innkeeper), with what the company knows of it once told (`heard`), which the journal keeps as
   heard from them.
 
+What is said passes one way. The country's keepers speak of yours in your words; your people cannot name the
+country's towns, inns or keepers, which are drawn for each world after yours is written, so a topic of yours names
+only what your module declares or imports (Behind the Wainscot's F14: Jory Mudge of Bootscrape and the innkeeper of
+the town next door cannot know each other). Speak of the world beyond your country as its folk would, without names.
+
 Where a country lies depends on every other's `beside`: one offered beside a new terrain can take a place another had.
 `bin/kyrie countries [seed ...]` says where each authored country lies in the worlds the tests draw (its cell, its
 side, and the terrain of the country it is entered from); run it before and after changing a `beside`, and compare
@@ -1225,7 +1251,10 @@ say, as an observation does, to a company that hears them (`test/fixtures/patien
 An action, or a topic, can `Assert knows(…)`: what the company does, it knows it did (naming the chairman to Lanyon).
 A rule or an event happens whether or not the company is there to hear it, so what it teaches is learned by hearing
 it, and only then (the Banns at Hessel's 19). A scene that teaches two things is two rules, each saying its part (A
-Winter in Carth's 19).
+Winter in Carth's 19). So a rule that teaches by being heard at a place is not written `once`: it fires the first time
+its condition holds wherever the company is, and if the company is away what it teaches is lost. It is latched on
+what it teaches (`and not knows(party, hawk_known)`), and goes on until it is heard; `kyrie lint` advises of one that
+is not (`test/fixtures/probes/latched`; the Book of Faces' cisterns 10).
 
 What the company learns, the world answers at once. A rule, an event or an ending on something just seen, read or
 heard fires in the command that taught it, and its line is told with what taught it: above, the bell rings in the
@@ -1295,7 +1324,10 @@ A day, or an act, that opens is a `Chapter`, written as an ending is: it opens o
 its title heads the page, and its words are told first of what came of the step, in a paragraph of their own, before
 the morning's weather or whatever else the step told (`test/fixtures/probes/chapters`; the Liberty of the Ice's 26, the
 Banns at Hessel's 22: each day's opening had been a rule and a latch, run on after supper). `chapterOpened(saturday)` says
-it has opened.
+it has opened. A chapter opens wherever the company is when its condition holds, a day's walk off as readily as in the
+room: a day's chapter should, but one that is a scene asks for the company where the scene is (`and at(party,
+dancing_hall)`), not anywhere in the country around it. Half the Hive's Calling, asked of anywhere in the Wold, opened
+for a company camped a day away under the Far Brow (its 17).
 
 ```text
   Chapter saturday "Saturday" when day(clock) == 2 and hour(clock) >= 6 "The bells of Saint Ebba's ring six, and the town is up before them.".
@@ -1315,6 +1347,10 @@ Tessary Owes' 5: every promise was a relation, a deadline rule, a kept rule, a b
     kept when keeps(comptroller, letter) "The Comptroller draws a line through the promise, neatly." { Assert trusted(party). }
     broken when hour(clock) >= 18 "Somewhere a line is drawn through a promise you made." { Assert forsworn(party). }.
 ```
+
+A promise to bring someone to one place, and no other, is kept when the company and they are there, and broken when
+they are anywhere the module names wrong: `kept when at(party, gap) and at(pip, gap)`, `broken when at(pip, ?p) and
+wrong(?p)`, with `Initially Assert wrong(pit)` for each wrong place (`test/promises.test.ts`; Quittance's pm 13).
 
 ### An occasion of several matters
 
@@ -1377,6 +1413,10 @@ A way does not shut under a company crossing it: the sea that comes over the san
 keeps it going to the far side, and the way shuts once it is off (Fair Weather's 2; `probes/crossing`). A way that
 should turn back whoever is on it is barred by a thing's state instead (`blocking`), as the tide over the ford-road's
 causeway is.
+A way that opens only sometimes is shut at both its ends: a door shut by day shuts in a company that was inside when
+day came (the Book of Faces' counting 5). A door that shuts against one side only is a thing on the way from that end
+(`Thing bolt "the kitchen door's bolt" on kitchen_door from street`), whose `blocking` state a rule sets by day and
+lifts by night: the company inside walks out, and none comes in from the street (`test/way-end.test.ts`).
 
 ### Kin, companions and animals
 
@@ -1434,6 +1474,15 @@ Hive's 13). A rule whose condition still holds fires again next watch, so a rule
 (`Rule bell when watch(clock) >= 1 once says "A bell rings." { … }`), changes what it tests (`Assert sung(party)` beside
 `not sung(party)`, for once per one of many), or is an `Event`, which happens once. An action that passes no watch (one
 that takes no time, or a few minutes) is followed by one pass of the rules and whatever a hazard strikes, and no clock.
+
+So a rule runs once for every action as well as once a watch, and a measure meant to rise once a watch (a district's
+heat) keeps the watch it last rose in: `Rule warms when heatAt(party) < watch(clock) { Increase heat(party) by 1. Set
+heatAt(party) to watch(clock). }` rises once a watch however many words are said in it. An action's own changes are
+made, and its `Result` told, as it is begun, before its time passes: a rule that waits on them fires in the first watch
+of a three-hour task, not at its end, so what should come at the end waits on the hour it ends (`Set sawnBy(party) to
+watch(clock) + 18`, and a rule `when watch(clock) >= sawnBy(party)`). Talk takes no time: a topic is said between one
+watch and the next, however long the argument, so a clocked scene is not hurried by talk; a conversation that should
+cost the minutes is an action with a `Speaker` and a `Time` (`test/order-of-a-moment.test.ts`; Quittance's 22).
 
 What happens after a while at a place, not at an hour, asks how long the company has stood there: `lingered(party)`
 is the watches since it came (since the first, where it began), so `when at(party, platform) and lingered(party) >= 3
@@ -1519,6 +1568,12 @@ knows it already (`test/module-teaches-spell.test.ts`). `Resolve learn` is the l
     Result "{reader} reads the drowned book through.".
   }
 ```
+
+What calling a member follows, and what they have learned, a rule or an action can ask: `hasCalling(?m, calling_mage)`
+(one of `calling_warrior`, `calling_mage`, `calling_thief`, `calling_cleric`, `calling_bard`, `calling_ranger`,
+`calling_monk`, `calling_commoner`) and `learned(?m, conjure_light)`, with `memberOf(?m, actor)`. A skill is no
+calling: a commoner who has learned brawn is no warrior, and `capable(party, brawn)` cannot tell them apart
+(`test/callings.test.ts`; the Book of Faces' hill 3, gate 6 and counting 3).
 
 ### A place out of the world
 
