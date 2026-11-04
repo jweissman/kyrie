@@ -21,18 +21,22 @@ enjoyable on the builder's say-so alone.
 |---|---|---|---|---|
 | 1. Identity at creation | origin, people, calling, way, background, sex, name; first spell for casters | yes, five pages and Set out | yes; one question a page | promising (owner, M18) |
 | 2. A settlement, understood | glance, plates for people, town plan | yes | partly: Millholm's camp shows six plates, eighteen ways under Every way, the map as the first lead | not yet: "a web app/wiki" (owner, 3 Nov) |
-| 3. People, services, places | plates, services, conversation with wares | yes | yes for Bask; a salter selling lanterns and rope | — |
+| 3. People, services, places | plates, services, conversation with wares | yes | yes for Bask; each trade now sells what it makes (M19-10) | — |
 | 4. A reason to adventure | origin errand, notice with three jobs, rumours, heralds | yes | yes since this mission: the aim followed is the engine's (see below) | — |
 | 5. Prepare | buy, carry, light | yes | yes for a torch; no comparison or recipient before buying (REV backlog) | — |
 | 6. Reach a site | town jobs are a walk; country sites by the map | yes | yes in town; the map sets out at once on a click | — |
 | 7. Explore a coherent site | cellar, rat-runs, drain | yes | yes, three rooms | thin |
-| 8. Decisions by several means | fight, pack the run | yes | fight readable; one way to do the job | thin |
+| 8. Decisions by several means | fight, pack the run; since d7ceb585 a lock picked or wrenched, the rite of rest, the chalk ring read, the web read | yes, by calling | a thief, warrior, cleric, mage and ranger each have a way of their own in every first town (`undertown-callings` spec) | not yet judged |
 | 9. Discover, survive, return | paid in coin, lantern, oil | yes | yes | — |
 | 10. Results used | the lantern for the catacombs | yes in principle | not yet seen | — |
 
 The rats job, played through the browser on 4 November after this mission's first repairs, takes about twenty
 choices from the camp to payment and goes where it says. Before the repairs it did not: see the register's M19-01 to
 M19-06.
+
+Beyond the loop: the Encyclopedia of Imbar opens from the title (M19-15, first form); the authoring workflows that
+work end to end are in [authoring.md](authoring.md), and the content inventory with operational coverage in
+[inventory.md](inventory.md).
 
 ## The most consequential shared causes
 
