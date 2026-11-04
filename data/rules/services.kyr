@@ -12,7 +12,7 @@ Module world_services "Lodging, goods and camping" {
     Requires able(actor) and able(host) and distinct(actor, host) and at(actor, site) and at(host, site)
       and not refusesService(host, actor) and not onTheHouse(host, actor) and offers(host, service)
       and serviceOf(service, lodging) and quantity(actor, gold) >= fee(service).
-    Time untilMorning(clock). Resolve recover(actor).
+    Time untilMorning(clock). Resolve recover(actor). Meanwhile asleep(actor).
     On success { Decrease quantity(actor, gold) by fee(service). Increase quantity(host, gold) by fee(service).
       Retract hungry(actor). Increase nextMeal(actor) by 144.
       Set lastSlept(actor) to watch(clock) + untilMorning(clock). Retract weary(actor). }
@@ -21,7 +21,7 @@ Module world_services "Lodging, goods and camping" {
   Action take_lodging_guest(actor: group, host: group, service: service, site: place) "Take {service} from {host}, on the house" {
     Requires able(actor) and able(host) and distinct(actor, host) and at(actor, site) and at(host, site)
       and onTheHouse(host, actor) and offers(host, service) and serviceOf(service, lodging).
-    Time untilMorning(clock). Resolve recover(actor).
+    Time untilMorning(clock). Resolve recover(actor). Meanwhile asleep(actor).
     On success { Retract onTheHouse(host, actor). Retract hungry(actor). Increase nextMeal(actor) by 144.
       Set lastSlept(actor) to watch(clock) + untilMorning(clock). Retract weary(actor). }
     Result "You eat what is put in front of you, and sleep long, under a roof, and nobody will take your coin.".
@@ -81,7 +81,7 @@ Module world_services "Lodging, goods and camping" {
   Relation unsheltered(place, entity).
   Action camp(actor: group, site: place) "Make camp at {site}" {
     Requires able(actor) and at(actor, site) and not indoors(site) and not settled(site) and not hungry(actor).
-    Time untilMorning(clock). Resolve rough(actor). Interrupted when threatened(actor).
+    Time untilMorning(clock). Resolve rough(actor). Interrupted when threatened(actor). Meanwhile asleep(actor).
     On success { Set lastSlept(actor) to watch(clock). Retract weary(actor). }
     Result "You find what shelter there is, and sleep as well as you can, with one ear open.".
   }

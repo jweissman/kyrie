@@ -25,6 +25,13 @@ describe('what holds meanwhile', () => {
     const k = await Journey.start('test/fixtures/probes/meanwhile/probe.campaign.json');
     await k.play('=22:00', 'Wait › An hour', 'Wait › An hour', 'Wait › An hour');
     expect(k.holds('sawStars', 'party')).toBe(true);
+    // And the shared camp sleeps as the act of the module's own does (Mission 19: rest, camp and a bed say it).
+    const c = await Journey.start('test/fixtures/probes/meanwhile/probe.campaign.json');
+    await c.play('=22:00');
+    c.campaign.commitWorld(c.campaign.world.apply([{ kind: 'retract', call: ModuleWriter.call('hungry', 'party') }]));
+    await c.play('Make camp');
+    expect(c.taken.at(-1)!.page).not.toContain('The stars go out');
+    expect([c.holds('sawStars', 'party'), c.holds('asleep', 'party')]).toEqual([false, false]);
   }, 60000);
   it('is written as it was read', () => {
     const m = ModuleParser.parse('Module m "M" { Relation dozing(group). Action nap(actor: group) "Nap" { '

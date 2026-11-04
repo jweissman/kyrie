@@ -78,6 +78,9 @@ Module care "Rest, mending and lessons" {
     Description "Six hours and a ration, somewhere safe. The living get their strength and mana back, and bleeding is stopped; poison is not mended. Whoever has fallen comes round, or dies where they fell (a d20 and their Constitution against 10). The world does not wait while you sleep.".
     Requires able(actor) and at(actor, site) and restful(site) and quantity(actor, rations) >= 1.
     Time 36. Resolve recover(actor). Interrupted when threatened(actor).
+    // Asleep while it lasts: what happens to a company awake in those hours is neither done to it nor told it on
+    // waking (LUL-02); whatever comes at it still wakes it, since a threat interrupts the rest.
+    Meanwhile asleep(actor).
     // Its ration is the company's meal: one the day's meal has already eaten in the six hours (the next is a day off)
     // is not eaten twice; else it is eaten now, and is the day's meal.
     On success { Assert rested(actor). Set restedAt(actor) to watch(clock). Set lastSlept(actor) to watch(clock).
