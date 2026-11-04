@@ -7,6 +7,8 @@ import { RegionRoads } from './region-roads';
 import type { Region } from './region-writer';
 import { Features, type Feature } from './features';
 import tables from '../../data/generation/scenes/wilds.json';
+import text from '../../data/generation/wild/astray.kyrt' with { type: 'text' };
+import { KyrTemplates } from './kyr-template';
 
 interface Kind { id: string; name: string; scene: string; ambience: string; view?: boolean; things?: Feature[] }
 interface Table {
@@ -30,6 +32,11 @@ interface Start { from: string; cell: number; through: boolean; by: string }
 export class RegionZones {
   static readonly roles = ['edge', 'deep', 'heart'] as const;
   static readonly habitat: Record<Wild, string> = { wood: 'wood', fen: 'fen', heath: 'heights', fell: 'heights' };
+  // Leaving the trails and losing the way: the author's, in data/generation/wild/astray.kyrt.
+  static readonly template = KyrTemplates.parse(text);
+  private static section(group: string, values: Record<string, string>): string[] {
+    return KyrTemplates.fill(this.template.sections.filter(t => t.group === group).flatMap(t => t.lines), values);
+  }
   static readonly table = tables as unknown as Record<Wild, Table>;
   static lines(region: Region): string[] {
     return RegionGeography.atlas(region).zones.flatMap(z => this.zone(z, region));
@@ -239,41 +246,20 @@ export class RegionZones {
   // risked. Somewhere with a view, or someone who reads wild country, keeps you right; otherwise you may lose the
   // way. Lost, running water leads to the crossing, and casting about finds the edge again, in time.
   private static astray(zone: Wilds, region: Region, marks: Landmark[]): string[] {
-    const q = JSON.stringify, z = zone.id, t = this.table[zone.wild], name = zone.naming.name;
+    const z = zone.id, t = this.table[zone.wild], name = zone.naming.name;
     const joined = new Set(this.trails(zone, region, marks).map(l => /between (\S+) and (\S+) taking/.exec(l)!.slice(1).sort().join('|')));
     const land = RegionGeography.atlas(region).land;
     // Straight across is about three-quarters of the way round by the trails, and is risked.
     const across = marks.flatMap(a => marks.filter(b => b !== a && !joined.has([a.id, b.id].sort().join('|')))
       .map(b => `  Initially Assert ${z}_across(${a.id}, ${b.id}). Initially Set ${z}_span(${a.id}, ${b.id}) to ${Math.max(3, Terrain.distance(land, a.cell, b.cell) * 3)}.`));
     const water = marks.find(l => l.water), edge = marks[0]!;
-    // Lost is nowhere in particular: the place has no position on any chart.
-    return [`  Place ${z}_lost ${q(this.fill(t.lost.name, { zone: name }))} is room within ${z} outdoors.`,
-      `  Observe ${z}_lost_scene at ${z}_lost as fixture when true ${q(this.fill(t.lost.scene, { zone: name }))}.`,
-      `  Entity ${z}_mapped: fact ${q(`You know the lie of ${name}: its paths, its water, and which way the edges lie.`)}.`,
-      // Its paths are ways the company can set out along, as if it had walked them (leadsVia).
-      ...this.passages(region, zone).map(w => `  Initially Assert leadsVia(${z}_mapped, ${w}).`),
-      `  Relation ${z}_across(place, place). Relation ${z}_heading(group, place). Relation ${z}_astray(group). Relation ${z}_casting(group).`,
-      `  Measure ${z}_span(place, place).`,
-      ...across,
-      `  Action ${z}_strike(actor: group, start: place, dest: place) ${q(`Strike out across ${name} toward {dest}`)} {`,
-      `    Description ${q('Leave the path and go straight there across the country: quicker, if you do not lose your way.')}.`,
-      `    Requires able(actor) and at(actor, start) and ${z}_across(start, dest) and been(actor, dest) and not benighted(actor).`,
-      `    Time ${z}_span(start, dest). On success { Retract at(actor, start). Assert at(actor, ${z}_lost). Assert ${z}_heading(actor, dest). }`, '  }',
-      // One of the company's fellows who reads wild country finds the way, and is seen to.
-      `  Rule ${z}_guided when ${z}_heading(party, ?goal) and at(party, ${z}_lost) and memberOf(?m, party) and fellow(?m) and brings(?m, woodcraft) says ${q(t.lost.guided)} {`,
-      `    Retract ${z}_heading(party, ?goal). Retract at(party, ${z}_lost). Assert at(party, ?goal). }`,
-      `  Rule ${z}_bearing when ${z}_heading(party, ?goal) and at(party, ${z}_lost) and (capable(party, woodcraft) or capable(party, wayfinding) or knows(party, ${z}_mapped) or dice(clock) <= 60) {`,
-      `    Retract ${z}_heading(party, ?goal). Retract at(party, ${z}_lost). Assert at(party, ?goal). }`,
-      `  Rule ${z}_strays when ${z}_heading(party, ?goal) and at(party, ${z}_lost) says ${q(t.lost.astray)} { Retract ${z}_heading(party, ?goal). Assert ${z}_astray(party). }`,
-      `  Action ${z}_cast(actor: group) "Cast about for a path you know" {`,
-      `    Requires able(actor) and at(actor, ${z}_lost) and ${z}_astray(actor). Time 3. On success { Assert ${z}_casting(actor). }`, '  }',
-      `  Rule ${z}_found when ${z}_casting(party) and (dice(clock) <= 45 or knows(party, ${z}_mapped)) says ${q(`At last you come out on a path you know, and follow it to ${edge.name}.`)} {`,
-      `    Retract ${z}_casting(party). Retract ${z}_astray(party). Retract at(party, ${z}_lost). Assert at(party, ${edge.id}). }`,
-      `  Rule ${z}_circles when ${z}_casting(party) says "After an hour you come back to a place you are sure you have passed before." { Retract ${z}_casting(party). }`,
-      ...water ? [`  Action ${z}_follow(actor: group) ${q(`Follow running water down to the ${water.water}`)} {`,
-        `    Requires able(actor) and at(actor, ${z}_lost) and ${z}_astray(actor). Time 6.`,
-        `    On success { Retract ${z}_astray(actor). Retract at(actor, ${z}_lost). Assert at(actor, ${water.id}). }`,
-        `    Result ${q(`The ground falls toward the sound of water, and you follow it down until you come out at ${water.name}.`)}.`, '  }'] : []];
+    const at = { z, zone: name, lostname: this.fill(t.lost.name, { zone: name }),
+      lostscene: this.fill(t.lost.scene, { zone: name }), guided: t.lost.guided, astray: t.lost.astray,
+      edge: edge.id, edgename: edge.name,
+      ...water ? { water: water.id, watername: water.name, stream: water.water! } : {} };
+    // Its paths are ways the company can set out along, as if it had walked them (leadsVia).
+    const paths = this.passages(region, zone).map(w => `  Initially Assert leadsVia(${z}_mapped, ${w}).`);
+    return [...this.section('lost', at), ...paths, ...this.section('heading', at), ...across, ...this.section('strike', at), ...water ? this.section('water', at) : []];
   }
   static readonly named: Record<Wild, Record<'edge' | 'deep' | 'heart', string>> = {
     wood: { edge: 'the edge of {zone}', deep: 'deep in {zone}', heart: 'the heart of {zone}' },

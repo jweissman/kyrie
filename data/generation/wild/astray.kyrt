@@ -1,0 +1,41 @@
+# astray: leaving the trails of a wild country: straight across to a landmark the company has been to, quicker but risked.
+// A Kyr template (see src/world/kyr-template.ts), written for every wild country (wood, fen, heath, fell) of a
+// generated country (see src/world/region-zones.ts, which places its landmarks and trails, and says which pairs of
+// landmarks the trails do not join). Somewhere with a view, or someone who reads wild country, keeps you right;
+// otherwise you may lose the way. Lost, running water leads to the crossing, and casting about finds the edge again,
+// in time. {z} is the wild country's id, {zone} its name; {lostname}, {lostscene}, {!guided} and {astray} its kind's
+// words for being lost (data/generation/scenes/wilds.json); {edge} the landmark you come out at, {edgename} its name.
+// Change the chances, the time or the words here; nothing in the engine needs to change.
+--- lost
+  // Lost is nowhere in particular: the place has no position on any chart.
+  Place {z}_lost "{lostname}" is room within {z} outdoors.
+  Observe {z}_lost_scene at {z}_lost as fixture when true "{lostscene}".
+  Entity {z}_mapped: fact "You know the lie of {zone}: its paths, its water, and which way the edges lie.".
+--- heading
+  Relation {z}_across(place, place). Relation {z}_heading(group, place). Relation {z}_astray(group). Relation {z}_casting(group).
+  Measure {z}_span(place, place).
+--- strike
+  Action {z}_strike(actor: group, start: place, dest: place) "Strike out across {zone} toward {dest}" {
+    Description "Leave the path and go straight there across the country: quicker, if you do not lose your way.".
+    Requires able(actor) and at(actor, start) and {z}_across(start, dest) and been(actor, dest) and not benighted(actor).
+    Time {z}_span(start, dest). On success { Retract at(actor, start). Assert at(actor, {z}_lost). Assert {z}_heading(actor, dest). }
+  }
+  // One of the company's fellows who reads wild country finds the way, and is seen to.
+  Rule {z}_guided when {z}_heading(party, ?goal) and at(party, {z}_lost) and memberOf(?m, party) and fellow(?m) and brings(?m, woodcraft) says "{!guided}" {
+    Retract {z}_heading(party, ?goal). Retract at(party, {z}_lost). Assert at(party, ?goal). }
+  Rule {z}_bearing when {z}_heading(party, ?goal) and at(party, {z}_lost) and (capable(party, woodcraft) or capable(party, wayfinding) or knows(party, {z}_mapped) or dice(clock) <= 60) {
+    Retract {z}_heading(party, ?goal). Retract at(party, {z}_lost). Assert at(party, ?goal). }
+  Rule {z}_strays when {z}_heading(party, ?goal) and at(party, {z}_lost) says "{astray}" { Retract {z}_heading(party, ?goal). Assert {z}_astray(party). }
+  Action {z}_cast(actor: group) "Cast about for a path you know" {
+    Requires able(actor) and at(actor, {z}_lost) and {z}_astray(actor). Time 3. On success { Assert {z}_casting(actor). }
+  }
+  Rule {z}_found when {z}_casting(party) and (dice(clock) <= 45 or knows(party, {z}_mapped)) says "At last you come out on a path you know, and follow it to {edgename}." {
+    Retract {z}_casting(party). Retract {z}_astray(party). Retract at(party, {z}_lost). Assert at(party, {edge}). }
+  Rule {z}_circles when {z}_casting(party) says "After an hour you come back to a place you are sure you have passed before." { Retract {z}_casting(party). }
+--- water
+  // Where the wild country has running water: {water} the landmark it leads to, {watername} its name, {stream} what it is.
+  Action {z}_follow(actor: group) "Follow running water down to the {stream}" {
+    Requires able(actor) and at(actor, {z}_lost) and {z}_astray(actor). Time 6.
+    On success { Retract {z}_astray(actor). Retract at(actor, {z}_lost). Assert at(actor, {water}). }
+    Result "The ground falls toward the sound of water, and you follow it down until you come out at {watername}.".
+  }
