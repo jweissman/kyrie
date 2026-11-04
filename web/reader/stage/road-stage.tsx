@@ -7,6 +7,7 @@ import { Typography } from '../../../src/presentation/typography';
 import { Words } from '../words';
 import { Act, type Draw } from './act';
 import { PlaceStage } from './place-stage';
+import { GlanceStage } from './glance';
 import { Told } from './told';
 import { Followed } from '../followed';
 import { MenuModel } from '../menu-model';
@@ -34,6 +35,9 @@ export class RoadStage {
         <section className="on-pane" aria-label="Ways on"><div className="measure"><div className="on">
           {/* A journey stopped on the road (a cart gone off it, a goat loose) is taken up again from here. */}
           <PlaceStage.Bound app={app} draw={draw} />
+          {frame.leaf.glance && <div className="road-led">
+            <GlanceStage.Aim app={app} said={frame.leaf.glance.aim} />
+            <GlanceStage.Acts app={app} draw={draw} acts={app.menu.leads ?? frame.leaf.glance.acts} /></div>}
           <nav className="onward" aria-label="Ways on">
             <p className="label">Ways on</p>
             <RoadStage.End choices={RoadStage.choices(ways, route.from)} exit={route.from} draw={draw} back />

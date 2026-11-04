@@ -2,7 +2,6 @@ import { ChoiceList, type Choice, type Section } from '../../src/ui/choice-list'
 import { ChoiceTree } from '../../src/ui/choice-tree';
 import { SceneModel, type Scene } from '../../src/ui/scene';
 import { Attending, type Attention, type Examined, type Talk } from '../../src/ui/attention';
-import { Routes } from '../../src/ui/route';
 import type { Frame } from '../engine/protocol';
 import type { Glance } from '../../src/presentation/glance-types';
 import type { Travel } from './reader-app';
@@ -81,8 +80,9 @@ export class MenuModel {
     const screen = frame.screen, inside = MenuModel.inside(screen);
     const kept = { ...found, you: found.you.map(c => /^advance:/.test(c.id) ? this.developing(c, screen)
       : /^prepare:/.test(c.id) ? this.preparing(c, screen) : c) };
-    // On a road the page draws no glance (see RoadStage): its two ends and what is by it, in their own order.
-    const glance = Routes.of(screen) ? undefined : frame.leaf.glance;
+    // On a road the page draws what the glance leads with, as a place does (the fresh ruts the father's cart went off
+    // by had been one of four things under "By the road": Mission 19), beside its two ends (see RoadStage).
+    const glance = frame.leaf.glance;
     const aimed = frame.leaf.glance?.aimed;
     const journeys = [...this.onward(frame.bound), ...this.destinations(screen, frame.bound?.id, aimed)];
     // In a town or a site of a drawn country the page keeps to its own ways and those a step away; the journeys

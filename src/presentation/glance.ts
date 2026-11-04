@@ -83,7 +83,8 @@ export class Glance {
   }
   // The journey held, at the head of what the aim asks, and the rest capped again: three at most, two ways.
   private static first(acts: Promoted[], bound: Promoted): Promoted[] {
-    const rest = acts.filter(a => a.choice !== bound.choice), at = rest.findIndex(a => a.tier > 0);
+    // After what the aim is about where the company stands: a journey stopped by the fresh ruts goes on after them.
+    const rest = acts.filter(a => a.choice !== bound.choice), at = rest.findIndex(a => a.tier > 0 && a.why !== 'about');
     const all = at < 0 ? [...rest, bound] : [...rest.slice(0, at), bound, ...rest.slice(at)];
     const ways = all.filter(a => (a.exit || a.choice.startsWith('travel:')) && a.why !== 'retreat');
     return all.filter(a => !ways.slice(2).includes(a)).slice(0, Promotion.cap);
