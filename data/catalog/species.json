@@ -549,6 +549,18 @@
         "notes": "Orsino's rat (bite and fur) grown to the giant rats of the undertown, with rolled attributes and a hit die, since a rat's two hit points made four of them a single blow each (a1's corn-store, 3 November)."
       }
     },
+    "spider_mother": {
+      "variantOf": "cave_spider",
+      "name": "Spider mother",
+      "type": "beast",
+      "kind": "animal",
+      "description": "A cave spider grown to the size of a pony, swollen and slow, that keeps to the back of the web with her eggs and does not leave them.",
+      "statistics": { "attributes": "rolled", "hitDie": 10, "primary": "dexterity", "weapon": "bite", "armor": "chitin" },
+      "abilities": ["venomous_bite", "ensnare"],
+      "temperament": "defensive",
+      "habitats": ["cave"],
+      "source": { "kyr": true, "notes": "The cave spiders' mother, for the quarry under a first town (Mission 19: the Hobb boy saw her, and there was nothing there to fight)." }
+    },
     "buck_rat": {
       "variantOf": "great_rat",
       "name": "Buck rat",

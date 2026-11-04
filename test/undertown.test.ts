@@ -77,6 +77,18 @@ describe('under the town the company begins in', () => {
     const kit = c.readout.creatures[0]!.state.inventory!.map(i => i.definition);
     expect([kit.includes('ashwood_charm'), kit.filter(k => k === 'healingdraught').length]).toEqual([true, 2]);
   }, 120000);
+  // The Hobb boy saw "a big one at the back": she is there, over her eggs, and they are not burned while she lives
+  // (Mission 19: the eggs had hung alone, and nothing the boy saw was there to fight).
+  it('has the spiders\' mother over her eggs behind the gallery, who must be dealt with before they burn', async () => {
+    const s = await Town.start(), c = s.campaign;
+    expect([c.world.one('at', 'region__s1_u_mother'), c.world.one('at', 'region__s1_u_eggs')])
+      .toEqual(['region__s1_u_brood', 'region__s1_u_brood']);
+    const k = c as unknown as { world: { apply(c: unknown[]): unknown }; commit(w: unknown): void };
+    k.commit(k.world.apply([{ kind: 'assert', call: ModuleWriter.call('at', 'party', 'region__s1_u_brood') }]));
+    await Town.take(s, /^Light a torch/);
+    expect(PlayerView.choices(c).some(x => /^Burn the egg-sacs/.test(x.choice.name))).toBe(false);
+    expect(ScreenModel.build(c).observed.map(o => o.text).join(' ')).toContain('will not let you near');
+  }, 120000);
   it('joins its three ways down in an undercroft, under which only a search finds the stair to the sealed vault', async () => {
     const s = await Town.start(), c = s.campaign;
     const shown = () => PlayerView.choices(c).map(x => x.choice.name);

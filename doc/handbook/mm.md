@@ -1133,6 +1133,25 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A legless reptile of profound stealth and, in some species, venomous bite.
 
+#### Spider mother
+
+*Kyr · a cave spider, altered* · `species:spider_mother`
+
+- Type: beast (animal)
+- Hit points: d10 a level
+- Qualities: rolled (3d6 each)
+- Attack: bite, 1d6 piercing
+- Hide: Chitin Armor, armour 2
+- Temperament: defensive
+- Found in: cave
+- Worth: 150 experience a level
+
+Venomous Bite: 1d6 (1–6) poison damage to one enemy (halved if resisted; may cause poison: a Constitution save against 15 avoids it); it gains poison for 3 turns (a Constitution save against 12 + level + the caster's spell bonus avoids it). Poison: takes 1d4 (1–4) true damage each turn. A divine spell of the first level. Takes a first-level slot.
+
+Ensnare: One enemy is entangled for 3 turns (a Dexterity save against 12 + level + the caster's spell bonus avoids it). Entangled: −2 to hit, −5 evasion, −5 initiative, Dexterity −5. Again after 3 turns.
+
+> A cave spider grown to the size of a pony, swollen and slow, that keeps to the back of the web with her eggs and does not leave them.
+
 #### Squirrel
 
 *Faithful · beast* · `species:squirrel`

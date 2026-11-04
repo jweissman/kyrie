@@ -54,6 +54,9 @@
   }
   Place {t}_u_gallery "the cut gallery" is room within {t} at 2, 4 underground 1 down.
   Passage {t}_u_gallery_way "the old cutting" is passage between {t}_u_adit and {t}_u_gallery.
+  // Behind the gallery, where the boy saw the big one: the spiders' mother and her eggs.
+  Place {t}_u_brood "the brood-chamber" is room within {t} at 3, 4 underground 1 down.
+  Passage {t}_u_brood_way "a crack at the back of the gallery, hung with web" is crawl between {t}_u_gallery and {t}_u_brood.
   Initially Assert unlit({t}_u_cellar). Initially Assert unlit({t}_u_warren). Initially Assert unlit({t}_u_crypt).
   Initially Assert unlit({t}_u_ossuary). Initially Assert unlit({t}_u_adit). Initially Assert unlit({t}_u_gallery).
   Initially Assert unlit({t}_u_nest).
@@ -225,6 +228,10 @@
     Role "cave spiders the size of dogs, that have strung the old workings with web". Species cave_spider. Numbers 2. Level 1. Temperament territorial. Lair {t}_u_gallery.
   }
   Initially Set encounterXp({t}_u_spiders) to 20.
+  Person {t}_u_mother "the spiders' mother" at {t}_u_brood {
+    Role "a spider the size of a pony, swollen and slow, crouched over the eggs at the back of the web". Species spider_mother. Numbers 1. Level 2. Temperament defensive. Lair {t}_u_brood.
+  }
+  Initially Set encounterXp({t}_u_mother) to 40.
   Person {t}_u_hobb "Dannel Hobb" at {innkeeperat} { Role "a boy of ten with a white streak in his hair, kept indoors". Ancestry human. Peaceable. Pronouns he. }
   Entity {t}_u_spiders_job: fact "Burn the spiders out of the quarry adit under the old quarry pit at {town}.".
   Entity {t}_u_spiders_eggs: fact "At the back of the old workings the spiders' mother has hung her eggs: the spiders will come again unless they are burned.".
@@ -244,10 +251,17 @@
     Found by searching {t}_u_gallery "Something under the web at the gallery's mouth catches the light.".
   }
   Item {t}_u_knife "a bone-handled knife" is hobb_knife at {t}_u_gallery hidden until {t}_u_knife_found.
-  Thing {t}_u_eggs "the spiders' egg-sacs" at {t}_u_gallery {
-    State hanging "At the back of the gallery white sacs the size of loaves hang from the roof in a cluster, and something in them moves.".
+  Thing {t}_u_eggs "the spiders' egg-sacs" at {t}_u_brood {
+    State hanging "White sacs the size of loaves hang from the roof in a cluster, and something in them moves.".
     State burnt "Where the egg-sacs hung there is a black stain on the roof and a smell of burnt hair.".
-    Change burn "Burn the egg-sacs" from hanging to burnt needing flame.
+    Change burn "Burn the egg-sacs" from hanging to burnt needing flame when not able({t}_u_mother) "The spiders' mother crouches over them, and will not let you near.".
+  }
+  // A fire flask thrown through the crack does for the mother and the eggs both, for a company that would not go in.
+  Action {t}_u_brood_burned(actor: group, site: place) "Throw a fire flask through the crack into the brood-chamber" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {t}_u_gallery) and holding(actor, fire_flask) and able({t}_u_mother).
+    Time 1.
+    On success { Spend fire_flask from actor. Slay {t}_u_mother. Retract state({t}_u_eggs, hanging). Assert state({t}_u_eggs, burnt). }
+    Result "The flask bursts somewhere behind the web, and the crack fills with light. Something heavy thrashes in there a long while, and then the only sound is the sacs popping in the heat.".
   }
   // A way through for a company that would not stand in the web: a fire flask thrown into it from the adit, and the
   // fire runs up it into the gallery. The egg-sacs at the back are still to be seen to.
@@ -260,7 +274,7 @@
   Rule {t}_u_spiders_cleared when not able({t}_u_spiders) and not {t}_u_done({t}_u_spiders_job) { Assert {t}_u_done({t}_u_spiders_job). }
   Objective {t}_u_spiders_job_sought when knows(party, {t}_u_notice) and not {t}_u_given({t}_u_spiders_job) "Ask {{t}_innkeeper} about the old quarry at {town}: its gate is locked.".
   Objective {t}_u_spiders_job_aim when {t}_u_given({t}_u_spiders_job) and not {t}_u_done({t}_u_spiders_job) "Burn the spiders out of {{t}_u_adit} under {{t}_u_pit} at {town}.".
-  Objective {t}_u_spiders_job_eggs when {t}_u_done({t}_u_spiders_job) and knows(party, {t}_u_spiders_eggs) and state({t}_u_eggs, hanging) "Burn the egg-sacs at the back of the quarry's gallery, or the spiders will come again.".
+  Objective {t}_u_spiders_job_eggs when {t}_u_done({t}_u_spiders_job) and knows(party, {t}_u_spiders_eggs) and state({t}_u_eggs, hanging) "Deal with the spiders' mother in {{t}_u_brood} behind the quarry's gallery, and burn her eggs, or the spiders will come again.".
   Topic {t}_u_spiders_job_paid with {t}_innkeeper "Tell {{t}_innkeeper} the spiders in the old quarry are dead, and their eggs burned" when {t}_u_done({t}_u_spiders_job) and state({t}_u_eggs, burnt) and not {t}_u_halved({t}_u_spiders_job) and not {t}_u_paid({t}_u_spiders_job) once {
     Says "{{t}_innkeeper} counts out 12 coin, and sets a clay pot and a coil of good rope beside it. 'Fireman's salve, and the rope from the gate, which we'll not want now,' {{t}_innkeeper} says.".
     On discuss { Increase quantity(actor, gold) by 12. Give fireproof_salve to actor. Give rope to actor. Assert {t}_u_paid({t}_u_spiders_job). }

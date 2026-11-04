@@ -1063,7 +1063,7 @@
     "faithful": 105,
     "adapted": 158,
     "represented": 9,
-    "kyr": 33,
+    "kyr": 34,
     "unsupported": 5,
     "unreachable": 0,
     "data-only": 123
@@ -1076,7 +1076,7 @@
       "faithful": 40,
       "adapted": 69,
       "represented": 0,
-      "kyr": 16,
+      "kyr": 17,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -19076,6 +19076,13 @@
    "id": "species:snake",
    "title": "Snake",
    "status": "faithful",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:spider_mother",
+   "title": "Spider mother",
+   "status": "kyr",
    "book": "mm",
    "section": "species/species-beast"
   },
