@@ -1806,9 +1806,9 @@ Containment: a thing or item inside another, reachable while that one is not shu
 
 #### strikes
 
-*Kyr · relation(hazard, group)* · `rule:world_passages.strikes`
+*Kyr · relation(hazard, entity)* · `rule:world_passages.strikes`
 
-A hazard that strikes a company: the world turns it on one of its members (a trap sprung, a stone that falls).
+A hazard that strikes a company: the world turns it on one of its members (a trap sprung, a stone that falls); one that strikes a member strikes that one (a lesson for the mage, not whoever the dice choose: BOF-37).
 
 #### verb, probeable, suits, tried
 

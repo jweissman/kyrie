@@ -504,7 +504,9 @@ pried at with a bar and listened at; one that blocks a way (`on` it) listened at
 that hurts, prodded from a pace off. Any other try is offered by naming it, `Tries burning, pushing.` (Quittance's
 A11: a thing offered only Look closely, and the guide had said every try was offered). Offering a try reveals nothing; what a try finds is an observation or a rule on `tried(thing,
 verb)`, and a try that finds nothing says so. A trap is a thing whose rule asserts `strikes(hazard, party)`; the
-world turns the hazard on one member. From `test/fixtures/strongroom`:
+world turns the hazard on one member, as the dice choose; `strikes(hazard, ?m)` on a member the rule finds strikes
+that one (`memberOf(?m, party) and brings(?m, lockwork)`: whoever picked the lock; `test/strikes-member.test.ts`, the
+Book of Faces' counting 2). From `test/fixtures/strongroom`:
 
 ```text
   Thing chest "an iron-bound chest" at study {

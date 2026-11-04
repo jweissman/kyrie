@@ -11,7 +11,9 @@ import type { CombatEvent } from '../model';
 import type { TickHost } from './campaign-tick';
 
 // What the world does to bodies. A fact that a hazard strikes a company (a trap sprung, a stone that falls) is
-// turned on one of its members, chosen by the seeded stream, and then forgotten.
+// turned on one of its members, chosen by the seeded stream, and then forgotten; one that strikes a member of it
+// strikes that one (the Book of Faces' BOF-37: a lesson taught by a hazard had gone to whichever member the stream
+// chose, the warrior as soon as the mage).
 export class Consequences {
   static strike(host: TickHost, combat: CombatEvent[]): boolean {
     const struck = host.world.related('strikes');
@@ -19,8 +21,9 @@ export class Consequences {
     const { definition, creatures, current } = host.tickState;
     const standing = new Set(creatures.live.filter(c => c.state.hp > 0).map(c => c.id));
     for (const [hazard, group] of struck.map(r => r.args as [string, string])) {
-      const members = definition.actors.find(a => a.id === group)?.members
-        .filter(id => standing.has(id)) ?? [];
+      const one = host.module.entities.find(e => e.id === group)?.creatureId;
+      const members = (one ? [one] : definition.actors.find(a => a.id === group)?.members ?? [])
+        .filter(id => standing.has(id));
       if (!members.length) { continue; }
       const roll = new Expressions(RandomStreams.key(current.seed, 'strike', hazard, String(current.elapsed)));
       const target = members[roll.number(`1d${members.length}`) - 1]!;
