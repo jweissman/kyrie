@@ -117,7 +117,7 @@
   Thing {t}_u_candle "the black candle" at {t}_u_ossuary {
     State alight "A black candle burns on a skull in the middle of the bone-heaps, with a flame that does not move.".
     State snuffed "The black candle is out, and smells of something worse than tallow.".
-    Change pinch "Pinch out the black candle" from alight to snuffed.
+    Change pinch "Pinch out the black candle" from alight to snuffed when not at({t}_u_raiser, {t}_u_ossuary) or not able({t}_u_raiser) "The man with the black candle stands over it, and the dead are his while it burns.".
   }
   Entity {t}_u_dead_job: fact "Lay whatever has come up in the catacombs under the churchyard at {town}.".
   Topic {t}_u_dead_job_ask with {t}_priest "Ask {{t}_priest} about the noises under the churchyard" when not {t}_u_given({t}_u_dead_job) once {
