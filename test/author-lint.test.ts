@@ -21,4 +21,20 @@ describe('the author lint', () => {
     expect(found.filter(f => ['greeting', 'lowered', 'opening', 'growth'].includes(f.check)).map(f => [f.check, f.level]))
       .toEqual([['greeting', 'advice'], ['lowered', 'advice'], ['opening', 'warning'], ['growth', 'advice']]);
   }, 60000);
+  // A line near a thing that stands on a way is never told (the Book of Faces' cisterns 5, BOF-26).
+  it('says a line near a thing on a way is never told', async () => {
+    const source = new OverlayBundleSource(NodeBundleSource.shared, {
+      'nw/site.kyr': `Module nw "Near a way" { Place field "Field" is wilderness.
+        Place yard "the yard" is room within field at 0, 0. Place lane "the lane" is room within field at 1, 0.
+        Passage gate "the gate" is gate between yard and lane. Company party "You" of 1 at yard.
+        Thing bar "the bar" on gate { State down blocking "A bar is down across the gate.". State up "The bar is up.".
+          Change lift "Lift the bar" from down to up. }
+        Observe bar_rust near bar when true "Rust has run down the gate from the bar.". }`,
+      'nw/module.json': JSON.stringify({ version: 1, source: 'site.kyr', rules: ['world'], globals: ['party'],
+        exports: { party: 'party' } }),
+      'nw.campaign.json': JSON.stringify({ version: 1, name: 'nw', modules: [{ id: 'p', bundle: 'nw/module.json' }],
+        party: [{ name: 'Ama', raceId: 'human', classId: 'warrior' }] }) });
+    const found = await KyrLint.campaign(source.resolve('nw.campaign.json'), source);
+    expect(found.filter(f => f.check === 'near-way').map(f => f.level)).toEqual(['advice']);
+  }, 60000);
 });

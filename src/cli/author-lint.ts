@@ -10,6 +10,7 @@ export class AuthorLint {
   static run(lint: CampaignLint) {
     this.greetings(lint); this.lowered(lint); this.walkers(lint); this.placesAt(lint); this.aliases(lint);
     this.goods(lint); this.unbound(lint); this.scenery(lint); this.untried(lint); this.latched(lint);
+    this.nearWay(lint);
     if (lint.module.entities.some(e => e.type === 'ending')) { this.opening(lint); this.growth(lint); }
   }
   // An act that lowers a measure, not a price, with nothing that asks how much there is: below nothing, it is not
@@ -39,6 +40,18 @@ export class AuthorLint {
       lint.add('advice', 'latched', `${r.id} teaches ${r.teaches} heard at ${r.place}, once, wherever the company is: `
         + `away, what it teaches is lost; latch it on not knows(${company}, ${r.teaches}) instead, or ask at(${company}, `
         + `${r.place})`);
+    }
+  }
+  // A line `near` a thing that stands on a way is never told: a thing on a way is at neither end of it, so nothing is
+  // near it there (the Book of Faces' cisterns 5, BOF-26). `Observe … beside <way> from <end>` says it at an end.
+  static nearWay(lint: CampaignLint) {
+    const world = lint.session.campaign.world, passages = new Set(lint.module.entities.filter(e => e.type === 'passage')
+      .map(e => e.id));
+    const onWay = new Set(world.related('on').filter(r => passages.has(r.args[1]!)).map(r => r.args[0]!));
+    for (const o of (lint.module.observations ?? []).filter(x => x.anchor === 'near' && !x.id.endsWith('__why'))) {
+      if (!o.id.includes('__') || !onWay.has(o.place)) { continue; }
+      lint.add('advice', 'near-way', `Observe ${o.id} is near ${o.place}, which stands on a way: it is never told; write `
+        + '`Observe … beside <the way> from <an end>` to say it at one end');
     }
   }
   // A pursuit that seeks somewhere for someone who cannot go: never taken up, and nothing says so (Quittance's friction
