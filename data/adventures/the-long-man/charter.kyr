@@ -1,0 +1,84 @@
+Module longman "The Long Man" {
+  Description "What the Hall was given the Long Wall to do, and what the parish was told it owned: the charter over the steward's fire, the sheaf in forty, the reeve's office, and the bell.".
+
+  // ── The Hall's charter ──────────────────────────────────────────────────────────────────────────────────────────
+  // A monk's copy of a much older writ of the Prefect of the Marches (the Aeneans, who found the wall and did not
+  // build it; they fenced the culvert, wrote the keeping into law and let the law outlast them). The copy is in the
+  // old imperial tongue; under it, pinned, a card in a later hand gives the Hall's own understanding of it. The two
+  // differ by one word, custodia, which is a keeping and which three centuries of lords have read as a holding.
+  Discovery charter_seen "A framed charter hangs over the steward's fire: close lines in the old imperial tongue, much copied, and pinned under it in a later hand a card that reads THE HOUSE HOLDS THE LONG WALL AND ALL IN IT." {
+    Source charter "the framed charter over the study fire" at study readable by party.
+    Known by venn.
+  }
+  Discovery charter_read "The charter is a writ of the Prefect of the Marches: the House on the water is given the KEEPING of the Long Wall of the Hesci and of the waters behind it, to keep and not to own; the dale renders one sheaf in forty for so long as the wall stands; none shall hinder the Keeper of the Wall in its work; the House shall neither take from the wall nor sell nor suffer it to be taken, and what is found in the wall is the dale's; and if the keeping fail, the dale shall choose another House. The reeve of the waters holds the rod to watch the keeping." {
+    Found by searching study with lore "The old imperial tongue is a lawyer's Latin, and the lines are not hard. CUSTODIA MURI LONGI HESCORUM: the keeping of the Long Wall of the Hesci. NON DOMINIUM SED CUSTODIA: not lordship but keeping. VALLIS REDDET UNUM MANIPULUM EX QUADRAGINTA DUM MURUS STABIT: the dale shall render one sheaf in forty while the wall stands. NE QUIS CUSTODEM MURI IMPEDIAT: let none hinder the Keeper of the Wall. The House shall not take from the wall nor sell, nor let it be taken; what is found in it is the dale's; and if the keeping fail, let the dale choose another House. And the reeve of the waters shall hold the rod, to watch the keeping. The card pinned under it says only that the House holds the wall and all in it.".
+  }
+  Relation reeveRoused(group). Relation valeTold(group). Relation bellGone().
+  Relation wardenChosen(group). Relation sheafWithheld(group).
+
+  // Mother Ysolt reads the copy as she reads the register: slowly, and as someone who learned her letters from nuns
+  // who copied this sort of thing for their bread. What she finds is not what she has preached.
+  Topic ysolt_charter with ysolt "Show Mother Ysolt the charter over the steward's fire" when knows(actor, charter_seen) and not valeTold(ysolt) {
+    Says "She reads it standing, with her lips moving, and then once more with her finger under the line. 'Murus Longus,' she says. 'The Long Wall. Say it quickly, in the mouth of a dale that never spoke Latin, and where do you come to?' She almost smiles. 'And Merrow is murus with the stone worn off it. I have been christening children on the Wall for twenty years and calling it a king.' She reads the third line again and does not like it. 'Custodia. Keeping. It does not say the House holds the wall. It says the House keeps it, and is paid a sheaf in forty to do so, and may be replaced if it does not. The card under it has had that wrong since before the Hall's grandfather.' She puts the copy down. 'And Hesci. I took it for a surname in the register. There was a Hesk, reeve of the waters, buried in the year the Long Man wept.'".
+    On discuss { Assert knows(actor, charter_read). Assert valeTold(ysolt). }
+  }
+  Observe hesk_register at vestry when knows(party, charter_read) and knows(party, wept_known) "Turning back through the register with the charter's word in your head, you find them: Hesk, Alys, dyke-reeve, buried in the year after the water; and before her, Hesk, Wat, and Hesk, Brid, and a column of Hesks at the foot of the old pages, thinning to one. Nobody of the name since. The reeve's office went to the Collers by marriage, and the rod with it.".
+
+  // Gammer Coller reads the same lines as an office, not a history.
+  Topic nell_office with nell "Tell Gammer Coller what the charter says of the reeve of the waters" when knows(actor, charter_read) and not reeveRoused(nell) {
+    Says "Gammer Coller says nothing for the length of a pipe she does not smoke. 'To watch the keeping,' she says. 'I thought I was to keep the ditches. Forty years I have kept the ditches and been thanked for it with a pot of lard at Michaelmas.' She takes the rod down from its pegs and sets it across her knees. 'It was never the Mower I ought to have been watching on the crest. It was the Hall.' She looks at you sharply. 'Does it say what the reeve does if the Hall will not be watched?'".
+    On discuss { Assert reeveRoused(nell). }
+  }
+  Topic nell_remedy with nell "Tell Gammer Coller the charter lets the dale choose another House" when reeveRoused(nell) and knows(actor, charter_read) once {
+    Says "'Another House,' she says, tasting it. 'There is no other House. There is Dunnet, who has not been paid since Lammas and is the only man at the Hall who goes into the hill when the Mower walks, and there is me, and I am seventy-one.' She turns the rod over. 'A reeve may not choose a House. A parish may choose a man to hold the key.' She sniffs. 'It would want Mother Ysolt to say so from the font, and Hob Teller to put his name under it, and Hob Teller has a good deal to put his name under, I should think.'".
+  }
+  Topic dunnet_warden with dunnet "Ask Dunnet whether he would keep the wall, if the parish asked" when reeveRoused(nell) and valeTold(ysolt) and not wardenChosen(dunnet) {
+    Says "Dunnet looks at his hands for a good while. 'Keep it,' he says. 'Not own it. Not sell it.' He turns the words over like a man trying a step. 'A sheaf in forty. That would be a wage, near enough, if it were all brought to the one barn.' He looks up at the hill, and for the first time the look is not afraid. 'Somebody ought to learn what the Mower knows, before it tires. I'd want Gammer Coller to show me the rod. And I'd want it said at the font, where I can be held to it.'".
+    On discuss { Assert wardenChosen(dunnet). Retract serves(dunnet, venn). }
+  }
+
+  // Venn reads, or is read to. He is no thief by temper: he is a man who was given a card.
+  Topic venn_lord with venn "Ask Aldous Venn about the Lord, whom he writes to every week" when not exposed(venn) and not hostile(venn, actor) once {
+    Says "'Dame Isolde,' says Venn, and for once the smile does not arrive first. 'The Lord's widow. She has a house at Marlow at her sister's charge, and a suit in the Chancery of the March against her late husband's brother, who says the Hall is his.' He straightens a ledger that is already straight. 'The suit costs eleven crowns a month. The Hall brings in less. I did not sell the old metal because I thought the hill was a quarry, friend. I sold it because it was the one thing at the Hall that nobody was using.'".
+  }
+  Topic venn_charter with venn "Read Aldous Venn his own charter, line by line" when knows(actor, charter_read) and not exposed(venn) and not hostile(venn, actor) and not reeveRoused(nell) {
+    Says "He takes the card down from under the frame, and reads it aloud, and then you read him the Latin above it. He does not interrupt. At custodia his mouth moves, and at the sheaf in forty he sits down. 'Every Michaelmas,' he says. 'Thirty years the dale has brought it to the Hall barn, and the late Lord said it was the Hall's due, and I said it was the Hall's due.' He looks at the key at his belt. 'It is a wage. We have been taking a wage for a job nobody told us we had.' He unhooks the key. 'If this goes to the Chancery, the suit is lost, and the Hall with it. And if I do not do something with it, the water takes the dale.' He hangs the key on the hook and does not look at it. 'Do what you must. I will write to Dame Isolde tonight, and tell her I have been a fool in her service.'".
+    On discuss { Assert exposed(venn). Assert lends(venn, key, actor). Assert state(key_hook, hung). }
+  }
+  Topic venn_charter_reeve with venn "Tell Aldous Venn the reeve of the waters has read his charter" when knows(actor, charter_read) and not exposed(venn) and not hostile(venn, actor) and reeveRoused(nell) {
+    Says "Venn is still reading the card when Gammer Coller comes in behind you with the rod across her arm and her good shawl on. She does not sit. 'Mr Venn,' she says. 'I am to watch the keeping. I am come to watch it.' He starts to say something about the estate, and she lifts the rod an inch, not high, and he does not say it. 'Give the key to this company,' she says. 'And give Dunnet his wages out of the sheaf in forty, which is the dale's, as I read it, and has been since the Prefect.' Venn looks from the rod to the card to the old woman, and unhooks the key with fingers that are almost steady. 'Dame Isolde will be ruined,' he says. 'Mistress Coller, she will be ruined, and she did not know.' 'No,' says Gammer Coller, not unkindly. 'None of you did. That is what a card is for.'".
+    On discuss { Assert exposed(venn). Assert lends(venn, key, actor). Assert state(key_hook, hung). }
+  }
+
+  // ── The bell ─────────────────────────────────────────────────────────────────────────────────────────────────────
+  // The old register's next leaf: how the parish answered the year the Long Man wept. The bronze of the dale's bell was
+  // the same bronze as the wall's teeth: the Hesci's founders' pour. It was given to the Mower, and the parish bought
+  // the thin bell that hangs there now with pennies.
+  Discovery bell_given_before "The parish register, the leaf after the weeping: 'The Hall's men having sold the teeth, the water was stopped by the gift of the bell of the Ford, which the Keeper took in at the south door and fitted. The parish bought another with pennies, and it is not so good.' In the margin, in a later hand: 'Alys Hesk gave the word to give it.'" {
+    Source register_leaf "the parish register, the leaf after the weeping" at vestry readable by party.
+    Known by ysolt.
+  }
+  Observe bell_scene at nave when not bellGone() "By the font a bell-rope hangs up through the roof, worn pale where hands take it. The bell is not large, and its voice is thin; the sexton says it was bought by the penny.".
+  Observe bell_gone_scene at nave when bellGone() "The bell-rope hangs by the font with nothing on the end of it. The sexton has tied a rag round the end, to remember where it was.".
+  Topic ysolt_bell with ysolt "Ask Mother Ysolt whether the parish would give its bell again" when knows(actor, bell_given_before) and knows(actor, teeth_taken) and not state(leak_gate, mended) and not bellGone() {
+    Says "Mother Ysolt does not answer at once. She looks up the rope into the dark of the roof. 'That bell was bought with the pennies of children,' she says. 'Most of Merrow's dead were christened and buried to it.' She puts her hand flat on the font. 'And another bell was given, once, by a parish that had decided what a bell was for. If I ask it of them from the font, they will say yes, and then they will not forgive me for a year.' She goes up the rope hand over hand, with a sexton's boy to hold the ladder, and the bell comes down in an hour on a hay-cart: green-bronze under the black, as heavy as a man.".
+    On discuss { Assert bellGone(). Assert knows(actor, bell_gift_made). }
+  }
+  Discovery bell_gift_made "Mother Ysolt has had the parish bell taken down for the Mower; the bronze of it is the old pour, and will serve as the teeth did.".
+  Item bell_bronze "the bell of the Chapel of the Ford" is bell_teeth at nave hidden until bell_gift_made.
+  Event mower_mends_bell near party when keeps(mower, bell_bronze) and not state(leak_gate, mended) "The Mower takes the bell from you in both arms as a man takes a sleeping child, and stands a moment with its blank face bent over the green bronze. Then it turns and carries it into the hill, and you hear it ring once, a long way down, in a note a good deal deeper than the one the parish has been using; and after it something heavy closing, as it closed at the weeping, with a sound like a bell." then {
+    Assert state(leak_gate, mended). Assert at(mower, leak). Assert bellSpent().
+  }
+  Relation bellSpent().
+  Rule bell_unrung when storming() and bellGone() and convinced(ysolt) and at(folk, green) and not at(folk, yard)
+    says "There is no bell to ring. Mother Ysolt goes from door to door in the rain with the porch lantern and a sexton's boy, calling the houses by name, and it takes three times as long, and Merrow comes up the Hall lane in ones and twos with its feet in the water." {
+    Assert at(folk, yard). Assert at(ysolt, yard).
+  }
+
+  // ── What the dale does with it, afterwards ──────────────────────────────────────────────────────────────────────
+  // Each reads only what the company left in the dale. None of them is the only right ending: the dale has a wall, a
+  // wage and a quarrel, and which it sorts out first is its own business.
+  Observe after_warden at green when calm(long_man) and wardenChosen(dunnet) and not broke(long_man) "On the green a board has been nailed to the lime tree. It is headed THE KEEPING, and under it, in two hands, Mother Ysolt's and Gammer Coller's, the dale's sheaf in forty is entered against a name: Dunnet, warden. Hob Teller has put his name under it. Dunnet goes by the well with the reeve's rod across his shoulder and Gammer Coller three steps behind correcting how he carries it.".
+  Observe after_bell at green when calm(long_man) and bellSpent() and not broke(long_man) "Nobody has hung another bell. At the hours a boy goes round the green with a pan and a spoon, and the children follow, banging, and Mother Ysolt says in a year or two the dale will find the pennies.".
+  Observe after_hall_cold at yard when calm(long_man) and exposed(venn) and not wardenChosen(dunnet) "The Hall is quiet. Venn's study door stands open on a table with one long letter on it, half written, to Marlow.".
+}
