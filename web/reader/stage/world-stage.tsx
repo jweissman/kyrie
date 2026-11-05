@@ -2,6 +2,7 @@ import { useState } from 'react';
 import type { Screen } from '../../../src/ui/screen-types';
 import { Typography } from '../../../src/presentation/typography';
 import { Scenery } from '../../../src/ui/scenery';
+import { Canon } from '../../../src/canon/canon';
 import type { ReaderApp } from '../reader-app';
 import { BoardField } from '../board-field';
 import { MapView } from '../map-view';
@@ -151,9 +152,20 @@ export class WorldStage {
         + `${travel.stopped ?? 'the journey stops here'}.`)}</p>}
       {danger && <p className="about danger">{Typography.curl(risks.length
         ? `Something here is dangerous. Going on: ${risks.join('; ')}.` : 'Something here is dangerous.')}</p>}
+      {danger && <p className="about">{WorldStage.flight()}</p>}
       {on && <p className="go"><button type="button" className="option go-on" data-action="go-on"
         onClick={() => app.choose(on)}>{`Go on to ${bound.name}`}</button></p>}
     </>;
+  }
+  // The odds of getting away from a fight, as the engine rolls them (vocabulary.json's combat.flee): each try's, and
+  // sure after the last (Effects.apply's flee).
+  static flight(): string {
+    const said = ['none', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'];
+    const tries = Canon.rules.combat.flee.map(t => {
+      const sides = Number(t.die.replace(/^1d/, ''));
+      return t.atMost * 2 === sides ? 'an even chance' : `${said[t.atMost] ?? t.atMost} in ${said[sides] ?? sides}`;
+    });
+    return `Should it come to a fight, getting away is ${[...tries, 'sure'].join(', then ')}.`;
   }
   // A town chosen on the map: seen whole, how far and by what way, and entered by one large button (the owner,
   // 4 November evening: from the world map a town is entered, from a card over it).
