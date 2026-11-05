@@ -191,6 +191,14 @@ html, body { overflow: hidden; }
   padding: max(14px, env(safe-area-inset-top)) clamp(16px, 3vw, 40px) 0; pointer-events: none; }
 .creation-edge > .quiet-word { pointer-events: auto; }
 .creation-edge .set-out-now { margin-left: auto; }
+/* The life chosen so far, its emblems in a small row in the corner, the likeness last once it is settled. */
+.signature { position: absolute; right: clamp(16px, 3vw, 40px); bottom: max(16px, env(safe-area-inset-bottom)); margin: 0;
+  padding: 0; list-style: none; display: flex; align-items: center; gap: 10px; pointer-events: none; z-index: 2; }
+.signature li { width: 26px; height: 26px; display: grid; place-items: center; animation: arrive 400ms var(--ease) both; }
+.signature svg { width: 26px; height: 26px; fill: none; stroke: var(--gold); stroke-width: 1.4; stroke-linecap: round;
+  stroke-linejoin: round; opacity: .85; }
+.signature .face { width: 34px; height: 34px; border-radius: 50%; overflow: hidden; border: 1px solid var(--gold-line); }
+.signature .face img { width: 100%; height: 100%; object-fit: cover; }
 /* A quiet word: Back, Set out now, Details, Roll again, Close. */
 .quiet-word { all: unset; box-sizing: border-box; cursor: pointer; font: 500 11.5px/1 var(--do); letter-spacing: .2em;
   text-transform: uppercase; color: var(--dim); padding: 14px 4px; -webkit-tap-highlight-color: transparent;
@@ -232,7 +240,6 @@ html, body { overflow: hidden; }
 .card .glyph { width: 48px; height: 48px; flex: none; fill: none; stroke: var(--ivory); stroke-width: 1.6;
   stroke-linecap: round; stroke-linejoin: round; transition: stroke var(--quick); }
 .card.chosen .glyph { stroke: var(--gold); filter: drop-shadow(0 0 6px rgba(242, 189, 76, .5)); }
-.card .glyph text { fill: var(--ivory); stroke: none; font: 300 20px var(--do); }
 .card-name { font: 500 13px/1.3 var(--do); letter-spacing: .18em; text-transform: uppercase; padding-left: .18em; }
 .deck-specialties .card-name { font-size: 12.5px; letter-spacing: .12em; padding-left: .12em; }
 .card-line { font: italic 400 14px/1.35 var(--told); color: var(--dim); text-wrap: balance; }
@@ -294,6 +301,24 @@ html, body { overflow: hidden; }
   text-align: center; color: var(--ivory); text-wrap: balance; }
 .sheet-body { overflow-y: auto; overscroll-behavior: contain; padding: 0 4px 56px; }
 .sheet-body .how { font: 400 14px/1.5 var(--do); color: var(--dim); margin: 0 0 10px; }
+/* Of one thing chosen: its likeness or emblem at the left, what kind of thing, its name and its sentence beside it; a
+   rule under the head, the rules beneath, and Back to the cards at their foot. */
+.sheet-panel.headed { width: min(100%, 44rem); }
+.sheet-head { display: grid; grid-template-columns: auto minmax(0, 1fr); justify-content: stretch; background: none; gap: clamp(16px, 2.6vw, 28px); align-items: center;
+  padding: 0 4px clamp(16px, 2.6vh, 24px); margin: 0 0 clamp(16px, 2.6vh, 24px); border-bottom: 1px solid var(--edge); }
+.sheet-head > div { min-width: 0; width: 100%; }
+.sheet-head .label { margin: 0 0 6px; font: 500 11.5px/1.3 var(--do); letter-spacing: .2em; text-transform: uppercase;
+  color: var(--gold); }
+.sheet-panel .sheet-head h2 { margin: 0; text-align: left; display: flex; align-items: center; gap: 12px; }
+.sheet-summary { margin: 10px 0 0; font: italic 400 17px/1.5 var(--told); color: var(--ivory); }
+.sheet-face { width: clamp(96px, 14vw, 148px); aspect-ratio: 1; object-fit: cover; border: 1px solid var(--gold-line);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, .5); }
+.sheet-glyph { width: clamp(72px, 10vw, 104px); height: clamp(72px, 10vw, 104px); fill: none; stroke: var(--gold);
+  stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.sheet-glyph.small { width: 30px; height: 30px; flex: none; stroke-width: 1.4; }
+.sheet-back { margin: clamp(10px, 2vh, 20px) 0 0; display: flex; justify-content: center; }
+@media (max-width: 599px) { .sheet-head { grid-template-columns: minmax(0, 1fr); justify-items: center; text-align: center; }
+  .sheet-panel .sheet-head h2 { justify-content: center; } }
 .particulars { margin: 0 0 18px; }
 .particulars .label, .spell-rules .label { margin: 0 0 8px; font: 500 11.5px/1.3 var(--do); letter-spacing: .16em;
   text-transform: uppercase; color: var(--gold); }

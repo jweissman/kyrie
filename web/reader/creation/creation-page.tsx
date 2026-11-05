@@ -7,6 +7,7 @@ import { SpecialtyStep } from './specialty-step';
 import { OriginStep } from './origin-step';
 import { NameStep } from './name-step';
 import { BeforeStep } from './before-step';
+import { Signature } from './signature';
 
 type Step = { id: string; ask: string; View: (p: { app: ReaderApp; onward?: ReactNode }) => ReactNode };
 
@@ -51,6 +52,7 @@ export class CreationPage {
           {next && <button type="button" className="quiet-word set-out-now" data-action="start" onClick={app.opening.begin}>
             Set out now</button>}
         </nav>
+        <Signature.View app={app} />
       </div>
     );
   }

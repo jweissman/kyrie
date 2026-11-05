@@ -15,7 +15,8 @@ export class OriginStep {
     const origin = origins.find(o => o.id === s.origin);
     return (
       <Card.Deck kind="origins" onward={onward} details={origin && { title: origin.title,
-        body: <Card.Particulars facts={[OriginStep.makes(origin.background, catalog)]} /> }}>
+        head: { kind: 'Why you came', glyph: origin.id, summary: origin.choice },
+        body: <Card.Particulars title="In play" facts={[OriginStep.makes(origin.background, catalog)]} /> }}>
         {origins.map(o => <Card.View key={o.id} name={o.title} line={OriginStep.rule(o.background, catalog)}
           text={o.choice} glyph={o.id} chosen={s.origin === o.id} data={{ action: 'origin', id: o.id }}
           onChoose={() => app.opening.origin(o.id)} />)}

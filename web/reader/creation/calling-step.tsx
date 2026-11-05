@@ -17,7 +17,8 @@ export class CallingStep {
     const people = catalog.ancestries.find(a => a.id === m.raceId), calling = catalog.callings.find(c => c.id === m.classId);
     return (
       <Card.Deck kind="callings" onward={onward} details={calling && { title: calling.name,
-        body: <Card.Particulars facts={CallingStep.facts(calling, catalog)} /> }}>
+        head: { kind: 'Calling', glyph: calling.id, summary: calling.text },
+        body: <Card.Particulars title="In play" facts={CallingStep.facts(calling, catalog).slice(1)} /> }}>
         {catalog.callings.map(c => <Card.View key={c.id} name={c.name} line={c.line} text={c.text} glyph={c.id}
           chosen={m.classId === c.id} data={{ choice: `classId:${c.id}` }} onChoose={() => app.opening.edit(0, 'classId', c.id)}
           shut={people && !people.callings.includes(c.id) ? `Not for ${PeopleStep.plural(people)}` : undefined} />)}

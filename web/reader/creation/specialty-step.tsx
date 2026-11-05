@@ -3,6 +3,7 @@ import type { ReaderApp } from '../reader-app';
 import type { Catalog } from '../../engine/protocol';
 import { Words } from '../words';
 import { Card } from './card';
+import type { SheetHead } from './creation-sheet';
 import { SpellStrip } from './spell-strip';
 import { SpellChoice } from './spell-choice';
 import { PeopleStep } from './people-step';
@@ -56,11 +57,13 @@ export class SpecialtyStep {
   }
   // Behind Details: who takes it, and its spells level by level; or a discipline's rules in plain words. None, where
   // they would only say again what is said beneath the cards.
-  private static details(t: Way, calling: string): { title: string; body: ReactNode } | undefined {
+  private static details(t: Way, calling: string): { title: string; body: ReactNode; head?: SheetHead } | undefined {
+    const kind = { cleric: 'Domain', mage: 'School' }[calling] ?? 'Way';
     if (t.spells) {
-      return { title: t.name, body: <><Card.Particulars facts={[SpecialtyStep.taker(t)]} />
-        <SpellStrip.Rules spells={t.spells} calling={calling} /></> };
+      return { title: t.name, head: { kind, glyph: t.id, summary: SpecialtyStep.taker(t) },
+        body: <SpellStrip.Rules spells={t.spells} calling={calling} /> };
     }
-    return t.rules?.length ? { title: t.name, body: <Card.Particulars facts={t.rules} /> } : undefined;
+    return t.rules?.length ? { title: t.name, head: { kind, glyph: t.id, summary: SpecialtyStep.sentence(t) },
+      body: <Card.Particulars title="In play" facts={t.rules} /> } : undefined;
   }
 }

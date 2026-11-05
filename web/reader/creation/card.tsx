@@ -2,7 +2,7 @@ import { Children, isValidElement, useEffect, useLayoutEffect, useRef, useState,
   type ReactNode } from 'react';
 import { Typography } from '../../../src/presentation/typography';
 import { Glyphs } from './glyphs';
-import { CreationSheet } from './creation-sheet';
+import { CreationSheet, type SheetHead } from './creation-sheet';
 
 // A choice at creation as a card held up, all of one proportion: its emblem, its name, and a line of a few words of
 // what it is (OWN-14: the cards had carried their rules, and a horizontal scroll of them). Chosen, it is lifted and
@@ -51,7 +51,7 @@ export class Card {
   // sentence, what more the step shows of it (a school's spells), and the way on: Details, which opens the chosen
   // card's rules over the page, and Continue, kept in sight when the page is longer than the screen.
   static Deck({ kind, children, details, after, onward }: { kind: string; children: ReactNode;
-    details?: { title: string; body: ReactNode }; after?: ReactNode; onward?: ReactNode }) {
+    details?: { title: string; body: ReactNode; head?: SheetHead }; after?: ReactNode; onward?: ReactNode }) {
     const [open, show] = useState(false), cards = Children.toArray(children), deck = useRef<HTMLElement>(null);
     const chosen = cards.find((c): c is ReactElement<CardShape> => isValidElement<CardShape>(c) && !!c.props.chosen)?.props;
     const n = cards.length, size = { '--card-wide': `${n <= 4 ? 176 : n <= 7 ? 150 : n <= 8 ? 140 : 128}px`,
@@ -76,7 +76,7 @@ export class Card {
             onClick={() => show(true)}>Details</button>}
           {onward}
         </p>
-        {open && details && <CreationSheet.View title={details.title} onClose={() => show(false)}>
+        {open && details && <CreationSheet.View title={details.title} head={details.head} onClose={() => show(false)}>
           {details.body}</CreationSheet.View>}
       </section>
     );

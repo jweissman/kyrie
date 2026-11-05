@@ -74,8 +74,7 @@ export class CharacterPage {
     return (
       <section className="development" aria-label="Development">
         <h3>{d.left === 1 ? 'A development to spend' : `${d.left} developments to spend`}</h3>
-        <p className="how">Each level gained gives one: a skill the calling teaches, or a point of a quality. It is
-          taken at once, and for good.</p>
+        <p className="how">Taken at once, and for good.</p>
         {skills.length > 0 && <><p className="label">A skill</p><ul className="options">{skills.map(o =>
           <CharacterPage.Option key={o.id} option={o} choice={chosen(o)} draw={draw} />)}</ul></>}
         <p className="label">A point of a quality</p>

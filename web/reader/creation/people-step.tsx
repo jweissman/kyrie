@@ -3,6 +3,7 @@ import type { ReaderApp } from '../reader-app';
 import { CreationRules } from '../creation-rules';
 import { Card } from './card';
 import { Words } from '../words';
+import { CompanyPortraits } from '../../../src/paintings/company-portraits';
 
 // Your people: each a card with what they are in a few words; the chosen one's sentence beneath, and behind Details
 // its every gift, what it adds to the qualities and the callings it does not follow.
@@ -10,14 +11,21 @@ export class PeopleStep {
   static View({ app, onward }: { app: ReaderApp; onward?: ReactNode }) {
     const s = app.state, catalog = s.catalog!, m = s.party[0]!, mine = catalog.ancestries.find(a => a.id === m.raceId);
     return (
-      <Card.Deck kind="people" onward={onward} details={mine && { title: mine.name, body: <Card.Particulars
-        facts={[...mine.gifts, PeopleStep.adds(mine.qualities, catalog), PeopleStep.closed(mine.callings, catalog)]
-          .filter(Boolean)} /> }}>
+      <Card.Deck kind="people" onward={onward} details={mine && { title: mine.name,
+        head: { kind: 'Ancestry', glyph: mine.id, face: PeopleStep.face(app, mine.id), summary: mine.text },
+        body: <Card.Particulars title="In play" facts={[...mine.gifts, PeopleStep.adds(mine.qualities, catalog),
+          PeopleStep.closed(mine.callings, catalog)].filter(Boolean)} /> }}>
         {catalog.ancestries.map(a => <Card.View key={a.id} name={a.name} line={a.line} text={a.text} glyph={a.id}
           chosen={m.raceId === a.id} data={{ choice: `raceId:${a.id}` }}
           onChoose={() => app.opening.edit(0, 'raceId', a.id)} />)}
       </Card.Deck>
     );
+  }
+  // A likeness of the people in the calling chosen, as you present if you have said, else either.
+  static face(app: ReaderApp, raceId: string): string | undefined {
+    const m = app.state.party[0]!, presentation = ({ she: 'woman', he: 'man' } as const)[m.pronouns as 'she' | 'he'];
+    return CompanyPortraits.of({ raceId, classId: m.classId ?? 'commoner', ...presentation ? { presentation } : {},
+      key: m.name ?? raceId })?.medium;
   }
   // "+1 Dexterity, −1 Constitution": what a people adds to the rolls, quality by quality.
   static adds(qualities: Record<string, number>, catalog: NonNullable<ReaderApp['state']['catalog']>): string {
@@ -26,7 +34,8 @@ export class PeopleStep {
   }
   // A people in the plural, as a card a calling they never follow says so ("Not for elves").
   static plural(people: { id: string; name: string }): string {
-    return ({ elf: 'elves', dwarf: 'dwarves' } as Record<string, string>)[people.id] ?? `${people.name.toLowerCase()}s`;
+    const name = people.name.toLowerCase();
+    return ({ elf: 'elves', dwarf: 'dwarves' } as Record<string, string>)[people.id] ?? (/folk$/.test(name) ? name : `${name}s`);
   }
   static closed(callings: string[], catalog: NonNullable<ReaderApp['state']['catalog']>): string {
     const not = catalog.callings.filter(c => !callings.includes(c.id)).map(c => c.name.toLowerCase());
