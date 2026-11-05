@@ -798,8 +798,8 @@
   "phb": {
    "title": "Player's Handbook",
    "counts": {
-    "faithful": 765,
-    "adapted": 363,
+    "faithful": 764,
+    "adapted": 364,
     "represented": 4,
     "kyr": 506,
     "unsupported": 85,
@@ -811,8 +811,8 @@
      "id": "ancestries",
      "title": "Ancestries",
      "counts": {
-      "faithful": 13,
-      "adapted": 1,
+      "faithful": 12,
+      "adapted": 2,
       "represented": 0,
       "kyr": 1,
       "unsupported": 0,
@@ -1245,7 +1245,7 @@
   {
    "id": "ancestry:birdfolk",
    "title": "Birdfolk",
-   "status": "faithful",
+   "status": "adapted",
    "book": "phb",
    "section": "ancestries"
   },

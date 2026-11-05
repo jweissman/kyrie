@@ -1,5 +1,5 @@
 {
-  "about": "The names the folk of a country give their children, their households and their animals, by people and by the words they are spoken of in. Human names are the plain old names of a country that speaks Westron (some from Orsino's name tables, kept where they fit); other peoples' are their own. The catfolk's are those of Orsino's that are names and not a pet's (Ash, Cinder, Dusk, Ember, Fang, Ginger, Haze, Jinx, Luna, Misty, Onyx, Quinn, Raven, Zara: not Tigger, Whiskers, Pounce, Nala, Karma or Bast), with others of the same kind. A household is called by its family name, or by its work or its place when it has none.",
+  "about": "The names the folk of a country give their children, their households and their animals, by people and by the words they are spoken of in. Human names are the plain old names of a country that speaks Westron (some from Orsino's name tables, kept where they fit); other peoples' are their own. The catfolk's are those of Orsino's that are names and not a pet's (Ash, Cinder, Dusk, Ember, Fang, Ginger, Haze, Jinx, Luna, Misty, Onyx, Quinn, Raven, Zara: not Tigger, Whiskers, Pounce, Nala, Karma or Bast), with others of the same kind; the birdfolk's likewise (Aquila, Gale, Iris, Kestrel, Lark, Orion, Plume, Quill, Soren: not Beak, Caw, Talons or Nectar). A household is called by its family name, or by its work or its place when it has none.",
   "given": {
     "human": {
       "she": ["Agnes", "Alys", "Annis", "Avice", "Beatrix", "Bet", "Cecily", "Edith", "Edda", "Ebba", "Emmot", "Gytha", "Hawise", "Hild", "Isot", "Joan", "Letice", "Mabel", "Magot", "Marjory", "Maud", "Moll", "Nan", "Nest", "Petronel", "Rose", "Sabine", "Sibyl", "Wynn", "Aldith", "Leofrun", "Wulfrun", "Juliana", "Orabel", "Elswith", "Tilda", "Mildred", "Odile", "Alma", "Averil"],
@@ -30,6 +30,11 @@
       "she": ["Ember", "Haze", "Luna", "Raven", "Zara", "Sable", "Saffron", "Linnet", "Marigold", "Wisp"],
       "he": ["Ash", "Cinder", "Dusk", "Fang", "Onyx", "Quinn", "Flint", "Rook", "Bracken", "Tarn"],
       "they": ["Ginger", "Jinx", "Misty"]
+    },
+    "birdfolk": {
+      "she": ["Aquila", "Iris", "Kestrel", "Lark", "Wren", "Merle", "Siskin", "Teal", "Avocet", "Sora"],
+      "he": ["Orion", "Soren", "Quill", "Gale", "Corvin", "Merlin", "Tern", "Harrier", "Plover", "Hobby"],
+      "they": ["Plume", "Swift", "Piper"]
     }
   },
   "family": {

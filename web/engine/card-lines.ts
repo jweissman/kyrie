@@ -6,6 +6,7 @@
 export class CardLines {
   static readonly lines: Record<string, string> = {
     human: 'Quick to any trade', elf: 'Light of foot, keen of eye', dwarf: 'Slow to anger, slower to die',
+    catfolk: 'Soft of foot, lucky in a fall', birdfolk: 'Light of bone, far of sight',
     warrior: 'Arms and any armour', mage: 'Spells learnt by study', thief: 'Locks, traps, a quick blade',
     cleric: 'A god’s prayers, in armour', bard: 'Songs, lore, a few spells', ranger: 'Bow, spear and woodcraft',
     monk: 'Bare hands, a quick step',

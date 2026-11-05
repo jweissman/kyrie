@@ -404,10 +404,15 @@
       "nameGroup": "hero",
       "classes": [
         "warrior",
+        "thief",
         "ranger",
+        "bard",
         "mage",
+        "cleric",
+        "monk",
         "commoner"
       ],
+      "playable": true,
       "attributes": {
         "strength": -2,
         "dexterity": 2,
@@ -423,8 +428,8 @@
       ],
       "source": {
         "orsino": "ancestry:birdfolk",
-        "fidelity": "faithful",
-        "notes": "Orsino racialModifier attributes, occupation options and forbidden traits; its racial traits and humanoid are given at birth, as in the pc template. Kyr adds the commoner, which is open to every ancestry. Orsino does not make it a player race; in Kyr its people live in generated regions and may be met and recruited there."
+        "fidelity": "adapted",
+        "notes": "Orsino racialModifier attributes, occupation options and forbidden traits; its racial traits and humanoid are given at birth, as in the pc template. Kyr adds the commoner, which is open to every ancestry. Orsino does not make it a player race and opens it to the warrior, the ranger and the mage; Kyr makes it playable (Mission 19: the studio painted birdfolk of every calling, assets/pcs/birdfolk*.png) and opens it to every calling, as a human's. Its people also live in generated regions and may be met and recruited there."
       }
     },
     "fae": {

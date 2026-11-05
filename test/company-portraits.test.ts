@@ -17,7 +17,7 @@ describe('the portraits of the company', () => {
   const kinds = ['warrior', 'mage', 'cleric', 'thief', 'bard', 'ranger', 'monk', 'aristocrat', 'commoner'];
   it('paints every calling and general type of each people, men and women, each with copies the page can show', () => {
     for (const kind of kinds) {
-      for (const ancestry of ['human', 'elf', 'dwarf', 'catfolk']) {
+      for (const ancestry of ['human', 'elf', 'dwarf', 'catfolk', 'birdfolk']) {
         for (const as of ['man', 'woman']) {
           const fit = CompanyPortraits.usable.filter(p => p.class === kind && p.ancestry === ancestry);
           expect([kind, ancestry, as, fit.filter(p => p.presentation === as).length]).toEqual([kind, ancestry, as, 1]);
