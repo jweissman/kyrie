@@ -121,11 +121,11 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the reader', () => {
     // What is asked for opens over the right-hand page, and Esc closes it.
     await d.mode('c');
     expect(await page.locator('.sheet.view-company .character h2.who:visible').count()).toBe(1);
-    // The sheet at a glance (OWN-03): six qualities, each its score; what one does is a touch away, not on the page.
-    const strength = page.locator('.character .chips details').first();
-    expect([await page.locator('.character .chips details').count(), await strength.locator('.does').isVisible()]).toEqual([6, false]);
-    await strength.locator('summary').click();
-    expect(await strength.locator('.does').isVisible()).toBe(true);
+    // The sheet at a glance (OWN-03, and the owner's 5 November: the qualities at the top): six qualities in a row,
+    // each its score; what one does is under the pointer, not on the page.
+    const strength = page.locator('.character .stat-row li').first();
+    expect(await page.locator('.character .stat-row li').count()).toBe(6);
+    expect(await strength.getAttribute('title')).toMatch(/\w/);
     // A caster's row shows the caster's sheet as it opens what they can do (it left the first member's showing).
     await d.pick(c => c.label === 'Dori', 'Dori');
     expect(await page.textContent('.sheet.view-company .character h2.who')).toContain('Dori');

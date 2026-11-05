@@ -330,33 +330,52 @@ kbd { font: 500 10.5px/1 var(--do); color: var(--dim); border: 1px solid var(--e
   .character section.fight { grid-column: 3; grid-row: span 3; }
 }
 @media (max-width: 960px) { .character .chips { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-/* The character composed (the owner, 5 November): who and how they are across the head, their likeness large; what
-   they can do and what they carry and how they grow in two columns; the rules folded under a line of the qualities. */
-.character .head-of.pc { grid-template-columns: 132px minmax(0, 1fr) auto; }
-.character .head-of.pc .sat { width: 132px; height: 132px; grid-row: 1 / span 4; align-self: start;
+/* The character as a compact sheet, in one view (the owner, 5 November): who and how they are across the head, a
+   large likeness at its left; the six qualities in a row under it; then fighting and saves, what they can do and
+   know, and what they carry, in three columns. */
+.book-page:has(.character) { padding-top: 18px; }
+.character .head-of.pc { grid-template-columns: 112px minmax(0, 1fr) minmax(220px, 300px); padding-bottom: 14px; }
+.character .head-of.pc .sat { width: 112px; height: 112px; grid-row: 1 / span 4; align-self: start;
   border: 1px solid var(--gold-line); }
-.character .head-of.faced .specialty, .character .head-of.faced .standing { grid-column: 2 / -1; margin: 6px 0 0; }
-.character .head-of .specialty { color: var(--ivory); }
-.character .sheet-cols { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 0 clamp(28px, 4vw, 64px);
-  align-items: start; }
-.character .sheet-cols h3 { margin-top: 22px; }
-.character .in-hand { font: 500 17px/1.5 var(--do); color: var(--ivory); margin: 0 0 4px; }
-.character .gear-line { color: var(--grey); }
-.character .by-rules { margin: 34px 0 0; border-top: 1px solid var(--hair); padding-top: 12px; }
-.character .by-rules > summary { cursor: pointer; list-style: none; font: 500 12.5px/1.2 var(--do); letter-spacing: .14em;
-  text-transform: uppercase; color: var(--grey); padding: 6px 0; }
-.character .by-rules > summary::-webkit-details-marker { display: none; }
-.character .by-rules > summary::before { content: '▸ '; }
-.character .by-rules[open] > summary::before { content: '▾ '; }
-.character .by-rules > summary:hover { color: var(--gold); }
-.character .by-rules[open] { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 clamp(24px, 3vw, 48px); }
-.character .by-rules[open] > summary { grid-column: 1 / -1; }
-@media (max-width: 960px) {
-  .character .sheet-cols, .character .by-rules[open] { grid-template-columns: minmax(0, 1fr); }
-  .character .head-of.pc { grid-template-columns: 88px minmax(0, 1fr); }
-  .character .head-of.pc .sat { width: 88px; height: 88px; }
+.character .head-of.faced .specialty, .character .head-of.faced .standing { grid-column: 2; margin: 4px 0 0; font-size: 14.5px; }
+.character .head-of .who { font-size: clamp(36px, 4vw, 52px); }
+.character .stat-row { list-style: none; margin: 14px 0 6px; padding: 0; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr));
+  border: 1px solid var(--hair); }
+.character .stat-row li { display: grid; grid-template-columns: auto 1fr; grid-template-rows: auto auto; align-items: baseline;
+  padding: 8px 14px; border-left: 1px solid var(--hair); cursor: help; }
+.character .stat-row li:first-child { border-left: 0; }
+.character .stat-row .q { grid-column: 1 / -1; font: 500 11px/1.2 var(--do); letter-spacing: .16em; text-transform: uppercase;
+  color: var(--grey); }
+.character .stat-row .score { font: 400 30px/1.1 var(--told); font-variant-numeric: tabular-nums; }
+.character .stat-row .mod { font: 500 14px var(--do); color: var(--gold); margin-left: 8px; }
+.character .sheet-grid { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr) minmax(0, .8fr);
+  gap: 0 clamp(22px, 3vw, 44px); align-items: start; }
+.character .sheet-grid h3 { margin: 18px 0 8px; }
+.character .rows { margin: 0; }
+.character .rows div { display: grid; grid-template-columns: 7.2em minmax(0, 1fr); gap: 0 10px; padding: 4px 0;
+  border-top: 1px solid var(--hair); }
+.character .rows dt { font: 500 12.5px/1.4 var(--do); color: var(--grey); }
+.character .rows dd { margin: 0; font: 400 14.5px/1.4 var(--do); color: var(--ivory); }
+.character .rows.saves dd b { font-weight: 600; margin-right: 6px; }
+.character .rows.saves dd small { color: var(--grey); font-size: 12px; }
+.character .can .chips { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.character .can .chips button { all: unset; cursor: pointer; padding: 5px 10px; border: 1px solid var(--hair);
+  font: 500 13.5px/1.2 var(--do); color: var(--ivory); }
+.character .can .chips button small { color: var(--grey); margin-left: 6px; font-weight: 400; }
+.character .can .chips button:hover, .character .can .chips button[aria-pressed="true"] { border-color: var(--gold-line);
+  color: var(--gold); }
+.character .can .read { margin: 10px 0 0; font: 400 14.5px/1.5 var(--do); color: var(--ivory); }
+.character .skill-line { margin: 0; font: 500 14.5px/1.6 var(--do); }
+.character .skill-line small { color: var(--grey); font-weight: 400; }
+.character .in-hand { font: 500 16px/1.5 var(--do); color: var(--ivory); margin: 0 0 4px; }
+.character .gear-line { color: var(--grey); font-size: 14.5px; margin: 0; }
+@media (max-width: 1100px) { .character .sheet-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .character .sheet-grid .kit { grid-column: 1 / -1; } }
+@media (max-width: 700px) {
+  .character .sheet-grid { grid-template-columns: minmax(0, 1fr); }
+  .character .stat-row { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .character .stat-row li:nth-child(4) { border-left: 0; }
+  .character .stat-row li:nth-child(n+4) { border-top: 1px solid var(--hair); }
+  .character .head-of.pc { grid-template-columns: 80px minmax(0, 1fr); }
+  .character .head-of.pc .sat { width: 80px; height: 80px; }
 }
-.character .can .folds { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 24px; }
-.character .can .folds > li > details > summary { padding: 7px 0; }
-.character .can .folds > li > details[open] { grid-column: 1 / -1; }
-@media (max-width: 599px) { .character .can .folds { grid-template-columns: minmax(0, 1fr); } }

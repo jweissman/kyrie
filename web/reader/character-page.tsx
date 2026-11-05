@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import type { MemberRow, Screen } from '../../src/ui/screen-types';
 import { Glyphs } from './creation/glyphs';
 import type { Choice } from '../../src/ui/choice-list';
@@ -40,20 +41,18 @@ export class CharacterPage {
           <CharacterPage.Standing member={m} />
         </header>
         {exchange?.said && /^(Have|Raise|Take up)/.test(exchange.said) && <Told.Happened exchange={exchange} />}
-        {/* Who, how they are, then what they can do and carry, how they grow; the rules a touch away (the owner, 5
-            November: a composed page, not a dashboard of boxes). */}
-        <div className="sheet-cols">
-          <div className="can"><CharacterPage.Can member={m} swaps={sections.find(s => s.id === 'prepare')?.choices ?? []}
-            draw={draw} /></div>
-          <div className="has">
-            <CharacterPage.Development member={m} draw={draw}
-              choices={sections.find(s => s.id === 'development')?.choices ?? []} />
-            <CharacterPage.Carries member={m} screen={screen} />
+        {/* A character sheet, compact and in one view (the owner, 5 November): the qualities across the top under who
+            and how they are; then how they fight and save, what they can do and know, what they carry and how they
+            grow, side by side; a development to spend before them all. */}
+        <CharacterPage.Qualities member={m} />
+        <CharacterPage.Development member={m} draw={draw} choices={sections.find(s => s.id === 'development')?.choices ?? []} />
+        <div className="sheet-grid">
+          <CharacterPage.Fighting member={m} />
+          <CharacterPage.Can member={m} swaps={sections.find(s => s.id === 'prepare')?.choices ?? []} draw={draw} />
+          <div className="kit"><CharacterPage.Carries member={m} screen={screen} />
             {acts.length > 0 && <section><h3>What can be done</h3><Act.List choices={acts} draw={draw} className="column" />
-            </section>}
-          </div>
+            </section>}</div>
         </div>
-        <CharacterPage.Rules member={m} />
       </article>
     );
   }
@@ -136,20 +135,46 @@ export class CharacterPage {
         {m.fallen && <span className="hurt"> · {Typography.curl(m.fallen)}</span>}</p>
     );
   }
-  // What they can do: their techniques and spells by name, each opened for what it is; what is prepared today; their
-  // skills, each with what it adds.
-  static Can({ member: m, swaps, draw }: { member: MemberRow; swaps: Choice[]; draw: Draw }) {
+  // The six qualities in a row, each its score and what it adds, its rules under the pointer.
+  static Qualities({ member: m }: { member: MemberRow }) {
     const sheet = m.sheet;
-    return <>
-      <section><h3>Can do</h3><ul className="folds">{m.abilities.map(a => <li key={a.id}><details><summary>{a.name}
-        {a.price && <span className="from">{a.price}{CharacterPage.yet(m, a.price)}</span>}</summary>
-        <p>{Typography.curl(a.text)}</p></details></li>)}</ul></section>
+    if (!sheet) { return null; }
+    return <ul className="stat-row" aria-label="Qualities">{sheet.qualities.map(q => <li key={q.id}
+      title={Typography.curl(CreationRules.quality(q.id, q.score, undefined, false).join(' '))}>
+      <span className="q">{q.name.slice(0, 3)}</span><b className="score">{q.score}</b>
+      <span className="mod">{CharacterPage.signed(Math.floor((q.score - 10) / 2))}</span></li>)}</ul>;
+  }
+  // How they fight and how they save, as the rules will read them.
+  static Fighting({ member: m }: { member: MemberRow }) {
+    const sheet = m.sheet;
+    if (!sheet) { return <section className="fighting" />; }
+    const saves = sheet.saves.map(b => {
+      const m2 = /^Against (.+) \((\w+)\)$/.exec(b.label), against = m2?.[1] ?? b.label, quality = m2?.[2] ?? '';
+      return { quality, against: against!.replace(/ and /, ', '), value: b.value };
+    });
+    return <section className="fighting"><h3>Fighting</h3>
+      <dl className="rows">{sheet.fighting.filter(b => b.label !== 'Hit points').map(b => <div key={b.label}>
+        <dt>{b.label}</dt><dd>{Typography.curl(b.value)}</dd></div>)}</dl>
+      <h3>Saves</h3>
+      <dl className="rows saves">{saves.map(x => <div key={x.quality || x.against}>
+        <dt>{x.quality || Words.upper(x.against)}</dt><dd><b>{x.value}</b>
+          {x.quality && <small>{Typography.curl(x.against)}</small>}</dd></div>)}</dl>
+    </section>;
+  }
+  // What they can do and know: techniques and spells as names, one read at a time beneath them; what is prepared
+  // today; skills in a line, each with what it adds.
+  static Can({ member: m, swaps, draw }: { member: MemberRow; swaps: Choice[]; draw: Draw }) {
+    const [read, choose] = useState<string>(), sheet = m.sheet, shown = m.abilities.find(a => a.id === read);
+    return <section className="can"><h3>Can do</h3>
+      <ul className="chips">{m.abilities.map(a => <li key={a.id}><button type="button" aria-pressed={a.id === read}
+        onClick={() => choose(a.id === read ? undefined : a.id)}>{a.name}
+        {a.price && <small>{a.price}{CharacterPage.yet(m, a.price)}</small>}</button></li>)}</ul>
+      {shown && <p className="read"><b>{shown.name}.</b> {Typography.curl(shown.text)}</p>}
       <CharacterPage.Prepared member={m} swaps={swaps} draw={draw} />
-      {sheet && sheet.skills.length > 0 && <section><h3>Knows</h3><ul className="folds">{sheet.skills.map(s =>
-        <li key={s.id}><details><summary>{s.name}{s.check !== undefined
-          && <span className="from">{CharacterPage.signed(s.check)}</span>}</summary>
-          <p><span className="from">{s.from}.</span> {Typography.curl(s.text)}</p></details></li>)}</ul></section>}
-    </>;
+      {sheet && sheet.skills.length > 0 && <><h3>Knows</h3><p className="skill-line">{sheet.skills.map((k, i) =>
+        <span key={k.id} title={Typography.curl(`${k.from}. ${k.text}`)}>{i > 0 && ' · '}{k.name}
+          {k.check !== undefined && <small> {CharacterPage.signed(k.check)}</small>}</span>)}</p></>}
+    </section>;
   }
   // What they carry: what is in hand and worn first, then the rest, the same things together.
   static Carries({ member: m, screen }: { member: MemberRow; screen: Screen }) {
@@ -161,24 +186,6 @@ export class CharacterPage {
       {used.length > 0 && <p className="in-hand">{named(used)}</p>}
       {rest.length > 0 ? <p className="gear-line">{named(rest)}</p> : !used.length && <p className="none">Nothing.</p>}
     </section>;
-  }
-  // The numbers the rules go by, a touch away: each quality, what it adds and does; how they fight; their saves.
-  static Rules({ member: m }: { member: MemberRow }) {
-    const sheet = m.sheet;
-    if (!sheet) { return null; }
-    return <details className="by-rules"><summary>{sheet.qualities.map(q => `${q.name.slice(0, 3)} ${q.score}`).join(' · ')}</summary>
-      <section className="qualities-of"><ul className="chips">{sheet.qualities.map(q =>
-        <li key={q.id}><details><summary><span className="q">{q.name}</span><b className="score">{q.score}</b>
-          <span className="mod">{CharacterPage.signed(Math.floor((q.score - 10) / 2))}</span></summary>
-          <p className="does">{q.score !== q.base && <span className="mods">{`Of ${q.base}. `}</span>}
-            {CreationRules.quality(q.id, q.score, undefined, false).filter(l => !/^Hit points/.test(l))
-              .map(l => <span key={l}>{Typography.curl(l)} </span>)}</p></details></li>)}</ul></section>
-      <section className="fight"><h3>In a fight</h3><dl className="bearings">{sheet.fighting
-        .filter(b => b.label !== 'Hit points').map(b => <div key={b.label}>
-          <dt>{b.label}</dt><dd>{Typography.curl(b.value)}</dd></div>)}</dl></section>
-      <section className="fight"><h3>Saves</h3><dl className="bearings saves">{sheet.saves.map(b => <div key={b.label}>
-        <dt>{Typography.curl(b.label)}</dt><dd>{b.value} and the die</dd></div>)}</dl></section>
-    </details>;
   }
   // The spells prepared today, each with what could be prepared in its place (an hour's study or prayer), chosen
   // there: on the place's page it had been a fold three deep, "Prepare spells › In place of Bless (first-level slot) ›
