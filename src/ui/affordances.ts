@@ -12,6 +12,8 @@ import type { ExitRow, Screen } from './screen-types';
 // All of it from what the company has perceived and the module declares, never from a choice's words.
 export interface Reading {
   schema: Map<string, string>; args: Map<string, string[]>; speakers: Set<string>;
+  // What each choice's success changes the standing of: the entities its effects name (the rite of rest, the raiser).
+  touches?: Map<string, Set<string>>;
   // What the module's author wrote to be done with something here (Change follow "Follow the ruts"): its own act.
   authored: Set<string>;
   // The ids the aim shown names (its people, places and things, and the places of a site it names), those the other
@@ -45,15 +47,27 @@ export class Affordances {
     const back = losing || !!screen.warned;
     // In the dark, nothing gives light when no one can light one (see ChoiceList.lighting).
     const lightless = !!screen.dark && !scene.you.some(c => this.kind(c, r) === 'light');
+    const threats = new Set(scene.subjects.filter(s => SceneModel.threat(s)).map(s => s.id));
     return [...scene.subjects.flatMap(s => this.warning(this.subject(s, screen, r), s, screen)),
+      ...scene.subjects.flatMap(s => this.ending(s, r, threats)),
       ...[...scene.near, ...scene.far].flatMap(c => this.way(c, screen, { r, back, lightless })),
       ...this.around(screen, r), ...this.journeys(screen, r),
-      ...scene.you.flatMap(c => this.yours(c, screen, { r, threat, lightless }))]
+      ...scene.you.flatMap(c => this.yours(c, screen, { r, threat, lightless, threats }))]
       .map((c, order) => ({ ...c, order }));
   }
   // Whoever warns the company off: what is done toward them comes first, before the way back.
   private static warning(cands: Candidate[], s: SceneSubject, screen: Screen): Candidate[] {
     return screen.warned?.id === s.id ? cands.map((c, i) => i ? c : { ...c, whys: ['warned', ...c.whys] }) : cands;
+  }
+  // Any of the place's own ways of ending a danger here, wherever it hangs (a cleric's rite of rest over the bone-heaps
+  // hangs on the black candle; a scholar's reading of the ring on the raiser): its success changes the danger's
+  // standing, and it is led beside talking them round and the fight, not left behind them (a calling's own way had been
+  // offered and never led).
+  private static ending(s: SceneSubject, r: Reading, threats: Set<string>): Candidate[] {
+    if (!threats.size) { return []; }
+    return Attending.all(s.choices).filter(c => c.command && !c.disabled && (c.own || r.authored.has(c.command))
+      && this.kind(c, r) !== 'attack' && [...r.touches?.get(c.command) ?? []].some(t => threats.has(t)))
+      .map(c => this.candidate(c, { kind: 'act', r, whys: ['danger'] }));
   }
   private static subject(s: SceneSubject, screen: Screen, r: Reading): Candidate[] {
     if (s.kind === 'companion' || s.state) { return []; }
@@ -73,6 +87,7 @@ export class Affordances {
     const gentle = this.gentle(s.choices, r), attack = s.choices.find(c => this.kind(c, r) === 'attack');
     return [...gentle ? [this.candidate(gentle, { subject: s.id, kind: 'act', r,
       whys: ['danger', ...this.about([gentle], r) ? ['about' as const] : []] })] : [],
+
     ...attack ? [this.candidate(attack, { subject: s.id, kind: 'attack', r, whys: ['danger'],
       notes: { danger: s.danger ?? '' } })] : []];
   }
@@ -217,7 +232,7 @@ export class Affordances {
   // What the company does by itself: light a light in the dark, tend whoever is hurt, eat when hungry, camp at night
   // in the open or weary, rest when hurt, search for a sign or where the aim is, and the place's own acts.
   private static yours(c: Choice, screen: Screen,
-    at: { r: Reading; threat: boolean; lightless: boolean }): Candidate[] {
+    at: { r: Reading; threat: boolean; lightless: boolean; threats?: Set<string> }): Candidate[] {
     const r = at.r, n = r.needs, kind = this.kind(c, r);
     const lit = at.lightless && kind === 'wait'
       ? (c.children ?? []).find(k => r.schema.get(k.command ?? '') === 'wait_for_light') : undefined;
@@ -229,10 +244,17 @@ export class Affordances {
       ...kind === 'search' && r.signs.has('') ? ['sign' as const] : [],
       ...kind === 'search' && r.named.has(r.here) && !r.done.has(c.command ?? '') && !this.onward(screen)
         && !screen.people.some(p => r.named.has(p.id)) ? ['named' as const] : [],
-      ...this.ownWhy([c], r)];
+      ...this.ownWhy([c], r), ...this.answers(c, at) ? ['danger' as const] : []];
     return [this.candidate(c, { kind, whys, r, notes: { dark: lit ? 'until first light' : 'in the dark',
       hungry: 'you are hungry', exposed: n.weary ? 'you are weary' : 'night in the open', named: 'where your aim is',
       hurt: kind === 'tend' ? c.note ?? '' : 'you are hurt' }, ...lit?.command ? { command: lit.command } : {} })];
+  }
+  // Whether something the company can do of itself answers a danger here: its success changes a threat's standing
+  // (a cleric's rite of rest puts out the raiser's candle and sends him off), as talking them round or fighting them
+  // does; it is led with beside those (it had been offered and never led, so a calling's own way went unseen).
+  private static answers(c: Choice, at: { r: Reading; threats?: Set<string> }): boolean {
+    const touched = c.command ? at.r.touches?.get(c.command) : undefined;
+    return !!touched && [...at.threats ?? []].some(t => touched.has(t));
   }
   // One of the place's own acts not done here (not a topic: what is asked of someone is theirs).
   private static ownWhy(choices: Choice[], r: Reading): Why[] {

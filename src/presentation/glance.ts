@@ -120,12 +120,15 @@ export class Glance {
     const schema = new Map(rows.map(r => [r.choice.id, r.action.searchPlace ? 'search' : r.action.schema ?? r.action.id]));
     const args = new Map(rows.map(r => [r.choice.id, Object.entries(r.action.bindings ?? {})
       .filter(([k]) => !['actor', 'site'].includes(k)).map(([, v]) => v)]));
+    const touches = new Map(rows.map(r => [r.choice.id,
+      new Set((r.action.success ?? []).flatMap(c => c.call?.args ?? []))]));
     const named = this.named(campaign);
     const held = new Set([...screen.aimed ?? []].filter(id => !named.has(id) && id !== campaign.playerActor));
     const back = recall.came && screen.exits.find(e => e.destination.id === recall.came)?.destination.id;
     const commands = this.commands(screen);
     const authored = new Set(rows.filter(r => this.changes.includes(r.action.schema ?? '')).map(r => r.choice.id));
-    return { schema, args, speakers: new Set(rows.filter(r => r.action.speaker).map(r => r.choice.id)), authored,
+    return { schema, args, touches, authored,
+      speakers: new Set(rows.filter(r => r.action.speaker).map(r => r.choice.id)),
       named, held,
       ...this.ways(campaign, screen, { named, held }),
       ...back ? { back } : {}, here, signs: this.signs(campaign,
