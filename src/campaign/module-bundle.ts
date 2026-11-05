@@ -136,7 +136,7 @@ export class ModuleBundle {
     return merged;
   }
   private static key(text: string, among: boolean): string {
-    return among ? `${LocalKinds.fingerprint()}\u0000${text}` : text;
+    return among ? `${LocalKinds.seen(text)}\u0000${text}` : text;
   }
   // A module's own files, each read among every kind its files declare, as one file's are read among its own wherever
   // in it they are written: a felter in one file selling a cloak declared in another sold a trade good of that name,

@@ -91,7 +91,7 @@ export class ModuleParser {
   // Kept by the text and the kinds it was read among: one read while another campaign's kinds were in the catalogs
   // (Kind figurine like dreg_ox) is not taken for one read without them (the review's H7).
   static parse(text: string): Module {
-    const key = `${LocalKinds.fingerprint()}\u0000${text}`, known = ParseCache.get(key);
+    const key = `${LocalKinds.seen(text)}\u0000${text}`, known = ParseCache.get(key);
     if (known) { LocalKinds.install(known.catalog); return structuredClone(known); }
     const match = ModuleParser.grammar.match(text);
     if (match.failed()) { throw new Error(`Invalid Kyr module: ${match.message}`); }

@@ -85,6 +85,13 @@ export class LocalKinds {
   static local(id: string): boolean { return this.installed.has(`item:${id}`); }
   // Which kinds modules have put in the catalogs now: what a reading of a module could have turned on.
   static fingerprint(): string { return [...this.installed].sort().join(' '); }
+  // The kinds installed that a text could name: those whose id occurs in it. What a text is parsed into depends on no
+  // others, so a parse kept by these alone is good wherever they stand as they do (a new country's own kinds had made
+  // every adventure's parse that country's alone: M19-49). An id that only occurs inside another word is kept too,
+  // which costs a parse kept twice, never a wrong one.
+  static seen(text: string): string {
+    return [...this.installed].filter(k => text.includes(k.slice(k.indexOf(':') + 1))).sort().join(' ');
+  }
   // Takes every module's own kinds back out of the catalogs: a new campaign begins with the catalogs as they are.
   static reset() {
     for (const key of this.installed) { this.remove(key); }

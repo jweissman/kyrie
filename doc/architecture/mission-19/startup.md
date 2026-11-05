@@ -31,11 +31,27 @@ its own copy.
 The browser had no store for parsed Kyr between visits (a process with a file system keeps one on disk), so every
 start parsed every module afresh: about ten seconds of V8 for 123 texts. Parsed Kyr is now kept in IndexedDB by
 edition (`web/engine/parse-keep.ts`), read in as the engine starts (≈ 0.4 s), so a world set out in again is ready
-almost at once. A **new** world gains nothing yet: a module's files are parsed "among" the local kinds installed so
+almost at once. A **new** world gained nothing at first: a module's files are parsed "among" the local kinds installed so
 far, and the key of each parse includes all of them, so once a generated region's own kinds are installed even the
-authored adventures' parses are particular to that world. That is the next cut: key an authored module's parse by the
-kinds it can see (its own and the shared catalogs), not by every kind any module of the world has installed; the
-adventures alone are about half the parsing.
+authored adventures' parses were particular to that world (the adventures alone are about half the parsing); the
+next section is the cut that answered it.
+
+## Then: a parse kept by the kinds a text names
+
+A parse is now kept by the local kinds installed whose ids occur in the text, not by every kind installed
+(`LocalKinds.seen`): what a text is parsed into depends on no others. The adventures' and the rules' parses are the
+same in every country, and kept across them.
+
+| In the browser, one build | Ms from Set out to the map |
+|---|---:|
+| The first world ever in this browser (a1) | 9 263 (was ≈ 12 400) |
+| A new world after it (b2), the last page read for a few seconds | 217 |
+| Another new world (kite) | 215 |
+| The first again | 221 |
+
+A new world's own files are still parsed, but while the last page of creation is read (the start is made ready in
+advance), so the player waits for it only when they set out at once. Headless with no disk store, a second world in
+the same process starts in 6.1 s where it took 10.5.
 
 ## And while waiting
 
