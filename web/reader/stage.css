@@ -218,6 +218,8 @@
 .act.plate > .verb { font: 500 11px/1 var(--do); letter-spacing: .14em; text-transform: uppercase; color: var(--faint); }
 .act.plate:hover > .verb, .act.plate.sel > .verb, .act.plate:focus-visible > .verb { color: var(--ivory); }
 .plate .face.blank { display: grid; place-items: center; font: 300 26px/1 var(--told); color: var(--dim); }
+.plate .face.blank .emblem { width: 60%; height: 60%; fill: none; stroke: var(--dim); stroke-width: 1.4;
+  stroke-linecap: round; stroke-linejoin: round; }
 /* Led with, but not first: edged only; the first is barred and lit as the first lead is (see glance.css). */
 .act.plate.leading { border-color: var(--edge-strong); }
 .plates > li.lead .plate .face { width: 64px; height: 78px; box-shadow: 0 0 0 1px var(--rose); }

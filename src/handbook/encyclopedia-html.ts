@@ -2,6 +2,7 @@ import type { Entry, Section, Table } from './model';
 import type { Chapter, Encyclopedia } from './encyclopedia';
 import { HandbookHtml } from './render-html';
 import { Identity } from '../presentation/identity';
+import { Emblems } from '../presentation/emblems';
 
 // The Encyclopedia as pages in the game's own look (the lantern: dark ground, ivory reading face, gold for what can be
 // gone to): a title page of chapters and a search over every entry, and a page for each chapter, its contents beside
@@ -13,7 +14,8 @@ export class EncyclopediaHtml {
   private static esc(s: string): string { return HandbookHtml.esc(s); }
   private link(id: string): string {
     const w = this.where.get(id);
-    return w ? `<a href="${w.chapter}.html#${HandbookHtml.anchor(id)}">${EncyclopediaHtml.esc(w.title)}</a>` : '';
+    return w ? `<a href="${w.chapter}.html#${HandbookHtml.anchor(id)}">${EncyclopediaHtml.emblem(id, 'emblem inline')}${
+      EncyclopediaHtml.esc(w.title)}</a>` : '';
   }
   page(title: string, body: string, current?: string): string {
     const nav = this.book.chapters.map(c => `<a href="${c.id}.html"${c.id === current ? ' aria-current="page"' : ''}>`
@@ -68,9 +70,16 @@ export class EncyclopediaHtml {
     return `<div class="scroll"><table><thead><tr>${t.head.map(h => `<th>${EncyclopediaHtml.esc(h)}</th>`).join('')}`
       + `</tr></thead><tbody>${rows}</tbody></table></div>`;
   }
+  // A people's, a calling's, a way's or a kind of life's emblem beside its name, drawn as creation and play draw it
+  // (the owner, 5 November: the Encyclopedia teaches the same signs).
+  private static emblem(id: string, className?: string): string {
+    const of = /^(?:ancestry|class|trait):(.+)$/.exec(id)?.[1] ?? /^backgrounds-(.+)$/.exec(id)?.[1]?.replace(/^/, 'life_');
+    return of ? Emblems.svg(of, className) : '';
+  }
   private entry(e: Entry): string {
     const see = [...new Set(e.refs ?? [])].filter(id => id !== e.id).map(id => this.link(id)).filter(Boolean);
-    return `<article class="item entry" id="${HandbookHtml.anchor(e.id)}"><h3>${EncyclopediaHtml.esc(e.title)}</h3>`
+    return `<article class="item entry" id="${HandbookHtml.anchor(e.id)}"><h3>${EncyclopediaHtml.emblem(e.id)}${
+      EncyclopediaHtml.esc(e.title)}</h3>`
       + (e.kind ? `<p class="kind">${EncyclopediaHtml.esc(e.kind)}</p>` : '')
       + (e.text ?? []).map(p => `<p class="text">${EncyclopediaHtml.esc(p)}</p>`).join('')
       + (e.facts?.length ? `<dl>${e.facts.map(([k, v]) => `<dt>${EncyclopediaHtml.esc(k)}</dt><dd>${
@@ -124,6 +133,10 @@ h3 { font: 500 20px/1.3 var(--do); margin: 0 0 4px; } h4 { font: 500 16px/1.3 va
 .entries { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 12px; }
 .entry { padding: 16px 18px; background: var(--surface); border: 1px solid var(--edge); }
 .entry:target { border-color: var(--gold); }
+.entry h3 { display: flex; align-items: center; gap: 10px; } .entry { scroll-margin-top: 104px; }
+.emblem.inline { width: 1.05em; height: 1.05em; margin-right: .25em; vertical-align: -.15em; stroke-width: 1.6; }
+.emblem { width: 28px; height: 28px; flex: none; fill: none; stroke: var(--gold); stroke-width: 1.4; stroke-linecap: round;
+  stroke-linejoin: round; }
 .entry .text { font-style: italic; margin: 8px 0; } .entry dl { display: grid; grid-template-columns: auto 1fr; gap: 2px 12px;
   margin: 8px 0; font: 14px/1.5 var(--do); } .entry dt { color: var(--dim); } .entry dd { margin: 0; }
 .rules { margin-top: 10px; padding-top: 8px; border-top: 1px solid var(--edge); font-size: 16px; } .rules p { margin: 4px 0; }

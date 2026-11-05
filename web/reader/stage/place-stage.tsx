@@ -1,4 +1,5 @@
 import { Fragment, useEffect, useRef } from 'react';
+import { Glyphs } from '../creation/glyphs';
 import type { Choice } from '../../../src/ui/choice-list';
 import { SceneModel, type SceneSubject } from '../../../src/ui/scene';
 import type { ExitRow, Screen } from '../../../src/ui/screen-types';
@@ -105,13 +106,13 @@ export class PlaceStage {
   static Plate({ subject: s, draw, brief, marked, led, first }: { subject: SceneSubject; draw: Draw; brief?: boolean;
     marked?: boolean; led?: boolean; first?: string }) {
     const into = PlaceStage.into(s), rest = s.choices.filter(c => c !== into);
-    // One with no likeness has their initial where it would be, so that every plate reads alike (Perrin, among faces,
-    // had a choice's diamond: the owner, 4 November).
+    // One with no likeness has their people's emblem where it would be, so that every plate reads alike (Perrin, among
+    // faces, had a choice's diamond: the owner, 4 November; never a letter in a ring: 5 November).
     const face = s.portrait ? <span className="face" aria-hidden="true"><img src={s.portrait.src} alt="" decoding="async"
       loading="lazy" style={{ objectPosition: `50% ${s.portrait.focus}%` }}
       onError={e => { e.currentTarget.parentElement?.classList.add('gone'); }} /></span>
-      : s.kind === 'person' ? <span className="face blank" aria-hidden="true">{Words.upper(s.name).replace(/^The /, '')
-        .charAt(0)}</span> : undefined;
+      : s.kind === 'person' ? <span className="face blank" aria-hidden="true">
+        <Glyphs.View id={s.emblem ?? 'someone'} className="emblem" /></span> : undefined;
     const body = <>
       {face}
       <span className="who"><span className="n">{Typography.curl(Words.upper(s.name))}</span>

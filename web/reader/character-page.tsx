@@ -1,4 +1,5 @@
 import type { MemberRow, Screen } from '../../src/ui/screen-types';
+import { Glyphs } from './creation/glyphs';
 import type { Choice } from '../../src/ui/choice-list';
 import type { CharacterSheet, DevelopmentOption } from '../../src/presentation/character-sheet';
 import type { ReaderApp } from './reader-app';
@@ -31,7 +32,8 @@ export class CharacterPage {
             style={{ objectPosition: `50% ${m.portrait.focus}%` }} />
             : m.face && <img className="sat" src={m.face.medium} alt="" decoding="async" />}
           <h2 className="who">{Typography.curl(m.name)}</h2>
-          <p className="line-of">{Words.upper(Words.article(m.line))}, level {m.level}{m.background
+          <p className="line-of">{m.emblems?.map(id => <Glyphs.View key={id} id={id} className="emblem" />)}
+            {Words.upper(Words.article(m.line))}, level {m.level}{m.background
             ? `, once ${Words.article(m.background.toLowerCase())}` : ''}</p>
           <CharacterPage.Gauges member={m} />
         </header>

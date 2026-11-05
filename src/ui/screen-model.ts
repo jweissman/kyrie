@@ -1,4 +1,5 @@
 import { Likeness } from '../paintings/likeness'; import { CompanyPortraits } from '../paintings/company-portraits';
+import { Emblems } from '../presentation/emblems';
 import { CharacterSheets } from '../presentation/character-sheet';
 import { Itineraries } from './itinerary';
 import type { World } from '../lang/world';
@@ -300,8 +301,10 @@ export class ScreenModel {
       // A painting is of one person, of a people who look like the folk in the paintings: not a band of goblins.
       const likened = playable && (p.members?.length ?? 1) === 1 && Canon.ancestries[member!.raceId]?.playable === true;
       const portrait = likened && at.campaign ? Portraits.of(at.campaign, p.id) : undefined;
+      const emblem = animal ? 'animal' : playable && Emblems.has(member!.raceId) ? member!.raceId : undefined;
       return { id: p.id, kind: playable || soul ? 'person' : animal ? 'animal' : 'creature', name, ...(note ? { note } : {}),
-        ...portrait ? { portrait } : {}, ...(p.members?.length ?? 0) > 1 ? { many: true } : {},
+        ...portrait ? { portrait } : {}, ...emblem ? { emblem } : {},
+        ...(p.members?.length ?? 0) > 1 ? { many: true } : {},
         ...(!dark && !p.state && p.activity ? { activity: p.activity } : {}), ...(look ? { look } : {}),
         ...(p.state ? { state: p.state === 'dead' ? 'dead' as const : 'down' as const } : {}), acts };
     }
@@ -359,7 +362,8 @@ export class ScreenModel {
       const likeness = campaign.readout.creatures.find(c => c.id === m.id)?.likeness;
       const pronoun = ref ? CompanyPortraits.said(campaign.world, ref) : undefined;
       const face = CompanyPortraits.member(m, { ...pronoun ? { pronoun } : {}, ...likeness ? { likeness } : {} });
-      return { id: m.id, ...(ref ? { ref } : {}), name: m.name, line: `${race} ${klass}`.toLowerCase(),
+      const emblems = [m.raceId, m.classId].filter((x): x is string => !!x && Emblems.has(x));
+      return { id: m.id, ...(ref ? { ref } : {}), name: m.name, line: `${race} ${klass}`.toLowerCase(), emblems,
         ...likeness && Likeness.ids.has(likeness) ? { portrait: Likeness.portrait(likeness) } : {},
         ...face ? { face } : {},
         ...(background ? { background } : {}), level: m.level, hp: m.hp, maxHp: m.maxHp, mana: m.mana,

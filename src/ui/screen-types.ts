@@ -56,6 +56,8 @@ export interface ExitRow {
 }
 export interface TargetRow {
   id: string; kind: 'person' | 'creature' | 'animal' | 'thing' | 'feature'; name: string; note?: string; activity?: string;
+  // The emblem drawn for them where there is no likeness: their people's, or an animal's (see Emblems).
+  emblem?: string;
   // What a group is, seen from outside: how many of what, how seasoned, how hurt.
   look?: string; state?: 'dead' | 'down'; acts: Act[];
   // A treasure lying where the company is, there to be taken (not for sale).
@@ -90,6 +92,8 @@ export interface ItemRow {
 }
 export interface MemberRow {
   id: string; ref?: string; name: string; line: string; background?: string; level: number;
+  // The emblems of their people and calling, where each has one, drawn beside the line (see Emblems).
+  emblems?: string[];
   hp: number; maxHp: number; mana: number; maxMana: number; slots?: number[]; maxSlots?: number[];
   // Spells by level: each prepared one, and whether it is still ready to cast.
   spells?: { level: number; name: string; ready: boolean }[];

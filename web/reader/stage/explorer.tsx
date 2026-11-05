@@ -29,7 +29,6 @@ export class Explorer {
       <div className="explorer" role="dialog" aria-modal="true" aria-label={`Explore ${screen.place.name}`}
         data-region="explorer" data-part={part}>
         <header className="explorer-head">
-          <h2>{Typography.curl(Words.upper(screen.place.name))}</h2>
           <button type="button" className="explorer-shut" data-action="explore-shut" aria-label="Back to the place"
             onClick={() => app.explore()}>✕</button>
         </header>

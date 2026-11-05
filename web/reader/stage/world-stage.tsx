@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Glyphs } from '../creation/glyphs';
 import type { Screen } from '../../../src/ui/screen-types';
 import { Typography } from '../../../src/presentation/typography';
 import { Scenery } from '../../../src/ui/scenery';
@@ -84,7 +85,7 @@ export class WorldStage {
         {shown.map(x => {
           const into = PlaceStage.into(x), face = x.portrait
             ? <img src={x.portrait.src} alt="" decoding="async" style={{ objectPosition: `50% ${x.portrait.focus}%` }} />
-            : <span className="initial">{Words.upper(x.name).replace(/^The /, '').charAt(0)}</span>;
+            : <Glyphs.View id={x.emblem ?? (x.kind === 'animal' ? 'animal' : 'someone')} className="emblem" />;
           const body = <><span className="face" aria-hidden="true">{face}</span>
             <span className="pn">{Typography.curl(Words.upper(x.name))}</span></>;
           return <li key={x.id} data-subject={x.id} className={`${x.kind}${x.danger ? ' danger' : ''}`}>

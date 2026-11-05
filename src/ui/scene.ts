@@ -9,6 +9,8 @@ export interface SceneSubject {
   danger?: string; choices: Choice[];
   // A painting of someone who could be them: small and large copies, where the face sits, and its credit.
   portrait?: TargetRow['portrait'];
+  // Their emblem, where there is no likeness (see TargetRow).
+  emblem?: string;
   // What can be seen of them now ("Nest is driving geese along the green"), and whether they are dead or down.
   says?: string[]; state?: TargetRow['state'];
   // Someone who would join the company: what they would bring (see CharacterSheets.recruit).
@@ -62,7 +64,8 @@ export class SceneModel {
     const note = [role.join(', '), said].filter(Boolean).join(' · ');
     return { id: s.id, kind, name: name!, ...note ? { note } : {}, ...s.about ? { about: s.about } : {},
       ...row?.reckoning ? { danger: ChoiceList.chances[row.reckoning.danger] } : {},
-      ...row?.portrait ? { portrait: row.portrait } : {}, ...row?.says?.length ? { says: row.says } : {},
+      ...row?.portrait ? { portrait: row.portrait } : {}, ...row?.emblem ? { emblem: row.emblem } : {},
+      ...row?.says?.length ? { says: row.says } : {},
       ...row?.state ? { state: row.state } : {}, ...row?.recruit ? { recruit: row.recruit } : {},
       ...row?.stake ? { stake: true } : {}, ...row?.asked ? { asked: true } : {},
       choices: s.choices.map(c => this.bare(c, name!)).map(c => row?.kind === 'animal' ? this.led(c) : c) };
