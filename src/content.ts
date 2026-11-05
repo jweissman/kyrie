@@ -145,8 +145,9 @@ export class Content {
     if (speciesFamily && context.classId !== undefined) {
       throw new Error(`${id}: ${Creation.a(speciesFamily)} is a species and takes no class`);
     }
-    const deemSpecies = speciesFamily && Object.hasOwn(tables.creatureBody.groups, speciesFamily);
-    if (context.family || deemSpecies || Content.composed(context)) {
+    // Every species is made from its catalog record, as every other is (the owner, 5 November: one pipeline; five
+    // bodies had gone by Deem's grammar instead). Deem makes a creature only when asked for one by its dimensions.
+    if (context.family || Content.composed(context)) {
       return this.generatedKind(id, context, randomIdentity);
     }
     const stream = this.stream.bind(this, randomIdentity);

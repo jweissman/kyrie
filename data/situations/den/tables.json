@@ -1,13 +1,117 @@
 {
-  "denFamily": { "discriminator": "terrain", "groups": {
-    "forest": [{ "__weight": 3, "__value": "animal" }, "humanoid"],
-    "mountain": [{ "__weight": 2, "__value": "animal" }, "humanoid"],
-    "marsh": ["humanoid"],
-    "frost": ["animal"],
-    "desert": [{"__weight": 2, "__value": "animal"}, "humanoid"]
-  } },
-  "denLabel": { "discriminator": "family", "groups": {
-    "animal": ["the pack", "the beasts"],
-    "humanoid": ["the outlaws", "the cutthroats"]
-  } }
+ "denFamily": {
+  "discriminator": "terrain",
+  "groups": {
+   "forest": [
+    {
+     "__weight": 3,
+     "__value": "animal"
+    },
+    "humanoid"
+   ],
+   "mountain": [
+    {
+     "__weight": 2,
+     "__value": "animal"
+    },
+    "humanoid"
+   ],
+   "marsh": [
+    "humanoid"
+   ],
+   "frost": [
+    "animal"
+   ],
+   "desert": [
+    {
+     "__weight": 2,
+     "__value": "animal"
+    },
+    "humanoid"
+   ]
+  }
+ },
+ "denLabel": {
+  "discriminator": "family",
+  "groups": {
+   "animal": [
+    "the pack",
+    "the beasts"
+   ],
+   "humanoid": [
+    "the outlaws",
+    "the cutthroats"
+   ]
+  }
+ },
+ "denSpecies": {
+  "about": "What dens in a country's wild when the world has not said (a den set by a scenario in a country with no ecology of its own): a species from the catalog, never a body Deem makes (the owner, 5 November: one creature pipeline).",
+  "discriminator": "terrain",
+  "groups": {
+   "forest": [
+    {
+     "__weight": 3,
+     "__value": "wolf"
+    },
+    "bear",
+    "cave_spider"
+   ],
+   "mountain": [
+    {
+     "__weight": 2,
+     "__value": "wolf"
+    },
+    "bear"
+   ],
+   "marsh": [
+    "cave_spider"
+   ],
+   "frost": [
+    "wolf"
+   ],
+   "desert": [
+    {
+     "__weight": 2,
+     "__value": "cave_spider"
+    },
+    "wolf"
+   ]
+  }
+ },
+ "denRole": {
+  "discriminator": "species",
+  "groups": {
+   "wolf": [
+    "a wolf"
+   ],
+   "bear": [
+    "a bear"
+   ],
+   "cave_spider": [
+    "a cave spider"
+   ]
+  }
+ },
+ "denPeople": {
+  "about": "Outlaws in a den: people, made as any person is, by ancestry and calling.",
+  "discriminator": "family",
+  "groups": {
+   "humanoid": [
+    {
+     "__weight": 3,
+     "__value": "human"
+    },
+    "elf"
+   ]
+  }
+ },
+ "denCalling": {
+  "discriminator": "family",
+  "groups": {
+   "humanoid": [
+    "warrior",
+    "ranger"
+   ]
+  }
+ }
 }

@@ -4,7 +4,6 @@ import { WorldConstructs } from '../lang/world-constructs';
 import { ModuleWriter } from '../lang/module-writer';
 import { Content, type CreatureGenerationContext } from '../content';
 import { Canon } from '../canon/canon';
-import { GenerationSetting } from '../generation-setting';
 import type { Module, Person } from '../lang/module';
 
 export type Provenance = Record<string, 'authored' | 'generated' | 'default'>;
@@ -42,8 +41,7 @@ export class Cast {
     const offered = Object.entries((generated.parameters ?? {}) as Record<string, unknown>)
       .filter(([, v]) => v != null);
     const parameters = { ...Object.fromEntries(offered), ...p.creature };
-    const chosen = typeof generated.raceId === 'string' && Canon.isSpecies(generated.raceId)
-      && !Object.hasOwn(GenerationSetting.tables.creatureBody.groups, generated.raceId);
+    const chosen = typeof generated.raceId === 'string' && Canon.isSpecies(generated.raceId);
     if (Object.keys(parameters).length && !chosen) {
       context.parameters = parameters; provenance.parameters = p.creature ? 'authored' : 'generated';
     }
