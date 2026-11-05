@@ -63,7 +63,8 @@ export class GlanceStage {
           {!s.pending && told && !stayed && !struck && <Told.Happened exchange={told} ready={ready} app={app} />}
           {/* What the act opened that the glance does not lead with (asking Alfric along, once he has said he will
               go), said in a line under what came of it: the button stays where it is drawn (REV-05). */}
-          {!s.pending && told && g.after?.next && !g.after.next.choice && <p className="opened-now" data-id="next">
+          {/* Not on a place at rest, which names no act (the owner, 5 November): what it opened is in the explorer. */}
+          {!apart && !s.pending && told && g.after?.next && !g.after.next.choice && <p className="opened-now" data-id="next">
             <span className="label">Now open</span>{` ${Typography.curl(g.after.next.label)}`}</p>}
         </div>
         {/* What can be done here, held in view beside what is told (the owner, 4 November: never a scroll away). */}
