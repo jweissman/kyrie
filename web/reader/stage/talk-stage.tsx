@@ -1,4 +1,5 @@
 import { useLayoutEffect, useRef, useState, type ReactNode } from 'react';
+import { Glyphs } from '../creation/glyphs';
 import type { Talk } from '../../../src/ui/attention';
 import type { Choice } from '../../../src/ui/choice-list';
 import type { Counter } from '../../../src/ui/trade-model';
@@ -65,6 +66,9 @@ export class TalkStage {
           style={{ objectPosition: `50% ${portrait.focus}%` }} />}
         {/* Credited where the painter is known; nothing said where not ("Painter unrecorded" read as a defect). */}
         {portrait?.credit && <p className="credit">{portrait.credit}</p>}
+        {/* Unpainted, their people's emblem stands large and faint behind their name (the owner, 5 November). */}
+        {!portrait && app.menu.talk!.subject.emblem && <Glyphs.View id={app.menu.talk!.subject.emblem}
+          className="sitter-emblem" />}
         <div className="cap"><h1 className="n">{Typography.curl(name)}</h1>{role && <p className="r">{Typography.curl(role)}</p>}
           {children}</div>
       </div>
@@ -101,14 +105,16 @@ export class TalkStage {
     );
   }
   // What someone who trades has on their side of the counter, whether or not you can afford it: each thing a control
-  // that buys it, with its price and how many are left (what is beyond your purse quieter, and says why); and what they
+  // that buys it, with its price and how many are left (what is beyond your purse quieter, the purse said once by the
+  // label: the owner, 5 November, "It costs 10 coin, and you have 8" had stood under each); and what they
   // will buy, and for how much. The wares had been a run-on line above the replies, and buying a list opened inside
   // them (the owner's interim report; play 7).
   static Counter({ wares, buys, coin, draw }: { wares: Ware[]; buys: Counter['buys']; coin: number; draw: Draw }) {
     if (!wares.length && !buys.length) { return null; }
     return (
       <section className="counter" aria-label="For sale">
-        {wares.length > 0 && <><p className="label">For sale</p><ul className="wares">{wares.map(w => <li key={w.name}>
+        {wares.length > 0 && <><p className="label">For sale<span className="purse">{`you have ${coin} coin`}</span></p>
+          <ul className="wares">{wares.map(w => <li key={w.name}>
           <TalkStage.Ware ware={w} coin={coin} draw={draw} /></li>)}</ul></>}
         {buys.length > 0 && <p className="buys">Buys {buys.slice(0, 4).map(b => `${b.name.toLowerCase()} (${b.price})`)
           .join(', ')}{buys.length > 4 ? ', and more' : ''}.</p>}
@@ -124,7 +130,9 @@ export class TalkStage {
     if (!w.buy.children?.length) {
       // Beside what the buyer has on in its place: "worse than your longsword" (see PurchaseCompare).
       const versus = / · ((?:better|worse|as good) (?:than|as) your .+)$/.exec(w.buy.label)?.[1];
-      return <Act.View choice={w.buy} draw={draw} className="ware"><span className="n"><i>{(draw.index.get(w.buy.id) ?? 0) + 1}</i>
+      // Beyond the purse, it is quieter and says nothing more: what the company has is said once, by the label.
+      const dear = /^It costs \d+ coin, and you have \d+\.$/.test(w.buy.disabled ?? '');
+      return <Act.View choice={w.buy} draw={draw} className="ware" quiet={dear}><span className="n"><i>{(draw.index.get(w.buy.id) ?? 0) + 1}</i>
         {Typography.curl(Words.upper(w.name))}</span>{price}{versus && <span className="t">{versus}</span>}</Act.View>;
     }
     return <div className="ware several">{name}{price}{w.buy.children.map(k => <Act.View key={k.id} choice={k} draw={draw}
