@@ -124,22 +124,36 @@ export class Glance {
       new Set((r.action.success ?? []).flatMap(c => c.call?.args ?? []))]));
     const named = this.named(campaign);
     const held = new Set([...screen.aimed ?? []].filter(id => !named.has(id) && id !== campaign.playerActor));
+    const idle = new Set([...screen.around ?? [], ...screen.destinations ?? []].map(d => d.id)
+      .concat(screen.exits.map(e => e.destination.id), [...named], [...held]).filter(id => recall.idle(id)));
     const back = recall.came && screen.exits.find(e => e.destination.id === recall.came)?.destination.id;
     const commands = this.commands(screen);
     const authored = new Set(rows.filter(r => this.changes.includes(r.action.schema ?? '')).map(r => r.choice.id));
     return { schema, args, touches, authored,
       speakers: new Set(rows.filter(r => r.action.speaker).map(r => r.choice.id)),
       named, held,
-      ...this.ways(campaign, screen, { named, held }),
+      ...this.ways(campaign, screen, { named, held, idle }),
       ...back ? { back } : {}, here, signs: this.signs(campaign,
         screen, recall), ...at.life ? { life: at.life } : {}, pointed: at.pointed,
       done: new Set(commands.filter(c => recall.did(here, c))),
       talked: new Set(screen.people.map(p => p.id).filter(id => recall.talkedTo(id))),
+      idle,
       needs: { hungry: screen.expedition.hungry, rations: screen.purse.rations, weary: !!screen.expedition.weary,
         hurt: new Set(screen.party.filter(m => m.hp < m.maxHp / 2).map(m => m.id)),
         night: screen.expedition.daylight === 'night',
         settled: screen.path.some(p => ['settlement', 'site'].includes(p.kind)),
-        open: screen.exits.some(e => !!e.bearing), ...this.bed(campaign, screen, schema) } };
+        open: screen.exits.some(e => !!e.bearing), ...this.bed(campaign, screen, schema),
+        ...this.unlit(campaign) } };
+  }
+  // The kinds of thing that light, when none of the company carries one or has a light going (Affordances.served).
+  private static unlit(campaign: Campaign): { unlit?: Set<string> } {
+    const w = campaign.world, party = campaign.playerActor;
+    if (!party || !w.relates('lightsUp') || !w.relates('ownedItem')) { return {}; }
+    const lights = new Set(w.related('lightsUp').map(r => r.args[0]!));
+    const members = w.related('memberOf').filter(r => r.args[1] === party).map(r => r.args[0]!);
+    const lit = members.some(m => w.relates('brings') && w.test(ModuleWriter.call('brings', m, 'light')))
+      || w.related('ownedItem').some(r => members.includes(r.args[1]!) && lights.has(w.one('itemKind', r.args[0]!) ?? ''));
+    return lit ? {} : { unlit: lights };
   }
   // Where a bed is to be had a step from here, in a settlement at night, when no one here offers one: whoever offers
   // lodging, where they are.
@@ -170,7 +184,7 @@ export class Glance {
   // company stands in, no way is pointed off toward another aim held: what that aim asks is here (at the bridge the
   // father went out by, the ruts off the road, not the road to the hobs' hold: OWN-28).
   private static toward(campaign: Campaign, screen: Screen,
-    aims: { named: Set<string>; held: Set<string> }): Reading['toward'] {
+    aims: { named: Set<string>; held: Set<string>; idle: Set<string> }): Reading['toward'] {
     const out = new Map<string, 'toward' | 'held'>(), byId = EntityIndex.of(campaign.module.entities).byId;
     const here = screen.place.id, around = new Set(Spatial.ancestry(byId, here).map(e => e.id));
     const area = [...screen.path].reverse().find(p => ['settlement', 'site'].includes(p.kind))?.id;
@@ -179,7 +193,7 @@ export class Glance {
     // corn-store above them).
     const been = new Set(aims.named.has(here) ? screen.map.filter(p => p.visited).map(p => p.id) : []);
     const places = [...[...aims.named].map(id => [id, 'toward'] as const), ...held.map(id => [id, 'held'] as const)]
-      .filter(([id]) => byId.get(id)?.space && !around.has(id) && !been.has(id)
+      .filter(([id]) => byId.get(id)?.space && !around.has(id) && !been.has(id) && !aims.idle.has(id)
         && !screen.exits.some(e => e.destination.id === id))
       // A room to stand in before the area round it: an aim at Gaudumport's far end names the site too, and the way
       // in, once the speaking door was open, had not been led with (OWN-57's play).
@@ -208,7 +222,8 @@ export class Glance {
   }
   // The ways toward the aims, and into a site: no step across the country toward an aim while there is a way into a
   // site here (the barrow's door beside the company, and the page had led with the map "toward your aim").
-  private static ways(campaign: Campaign, screen: Screen, aims: { named: Set<string>; held: Set<string> }):
+  private static ways(campaign: Campaign, screen: Screen,
+    aims: { named: Set<string>; held: Set<string>; idle: Set<string> }):
     Pick<Reading, 'toward' | 'inward'> {
     const inward = this.inward(campaign, screen), toward = this.toward(campaign, screen, aims);
     if (inward.size) {

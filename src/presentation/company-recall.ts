@@ -15,17 +15,22 @@ interface Read {
   spoke: Map<string, string>;
   // Where the company came from to where it was before the last command.
   came?: string;
+  // How many of its commands brought news (something learnt, someone joined, a level), how many it has given where it
+  // now stands, and each place it left having done nothing there, at that count and how many times: a place left so
+  // twice, with no news since, has nothing to go back for (the page had led a company from the churchyard to the
+  // corn-store and back for days; a candle bought between is no reason to go back).
+  acts: number; stay: number; idle: Map<string, { at: number; times: number }>;
 }
 export class CompanyRecall {
   private static readonly logs = new WeakMap<readonly CampaignEvent[], Read>();
   private constructor(private readonly r: Read, private readonly lastly: { talked: Set<string>; done: Set<string>;
-    from?: string; came?: string }) {}
+    from?: string; came?: string; left?: string; acted?: boolean }) {}
   static of(campaign: Campaign): CompanyRecall {
     const actor = campaign.playerActor ?? 'party', log = campaign.history;
     let r = this.logs.get(log);
     if (!r || r.actor !== actor || log.length - 1 < r.read || (r.read > 0 && log[r.read - 1] !== r.last)) {
       r = { actor, read: 0, at: new Map(), visited: new Set(), seen: new Set(), texts: new Set(), talked: new Set(),
-        done: new Map(), spoke: new Map() };
+        done: new Map(), spoke: new Map(), acts: 0, stay: 0, idle: new Map() };
       for (const c of campaign.module.initial) {
         if (c.kind === 'assert' && c.call.name === 'at') { r.at.set(c.call.args[0]!, c.call.args[1]!); }
       }
@@ -41,8 +46,9 @@ export class CompanyRecall {
       done.add(last.action);
     }
     const moved = !!last && !!from && last.changes.includes(`- at(${actor}, ${from})`);
-    const came = moved ? from : r.came;
-    return new CompanyRecall(r, { talked, done, ...from ? { from } : {}, ...came ? { came } : {} });
+    const came = moved ? from : r.came, left = moved && !r.stay ? from : undefined;
+    return new CompanyRecall(r, { talked, done, ...from ? { from } : {}, ...came ? { came } : {},
+      ...left ? { left } : {}, acted: !!last && !moved && CompanyRecall.news(last) });
   }
   // One command: what it was done to, where, and what it showed; and where it left the company.
   private static take(campaign: Campaign, r: Read, event: CampaignEvent) {
@@ -54,6 +60,13 @@ export class CompanyRecall {
     VisitedPlaces.moves(event.changes, r.at);
     const there = r.at.get(r.actor);
     if (there) { r.visited.add(there); }
+    if (here && there && there !== here) {
+      if (!r.stay) { r.idle.set(here, { at: r.acts, times: CompanyRecall.times(r, here) + 1 }); }
+      r.stay = 0;
+    } else {
+      r.stay++;
+      if (CompanyRecall.news(event)) { r.acts++; }
+    }
     if (here && there && there !== here) { r.came = here; }
   }
   // Whom a command spoke with: talking to them, asking them something, or one of the things written to be asked them.
@@ -61,6 +74,20 @@ export class CompanyRecall {
     const op = campaign.operator(action), b = op?.bindings ?? {};
     if (op?.speaker) { return op.speaker; }
     return op?.schema === 'talk_to' ? b.person : op?.schema === 'ask' ? b.informant : undefined;
+  }
+  // Whether a command brought the company news: something it knows now, someone with it, a level gained.
+  private static news(event: CampaignEvent): boolean {
+    return event.changes.some(c => /^\+ (knows|memberOf)\(/.test(c) || /\blevel\(/.test(c));
+  }
+  // Whether the company has left this place twice having done nothing there, with no news since: once is passing
+  // through, or not yet getting to what is there (the ruts at the bridge, still to be looked at).
+  idle(place: string): boolean {
+    const times = CompanyRecall.times(this.r, place) + (this.lastly.left === place ? 1 : 0);
+    return !this.lastly.acted && times >= 2;
+  }
+  private static times(r: Read, place: string): number {
+    const was = r.idle.get(place);
+    return was && was.at === r.acts ? was.times : 0;
   }
   // Whether the company had been here before the last command.
   been(place: string): boolean { return this.r.visited.has(place); }

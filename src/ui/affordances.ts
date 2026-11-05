@@ -26,10 +26,14 @@ export interface Reading {
   // A sign perceived here and not seen before, by whom or what it is of ('' for the place's own).
   signs: Map<string, string>;
   life?: string; pointed: Set<string>; done: Set<string>; talked: Set<string>;
+  // Places about the company it left having done nothing there, with nothing done since: no aim leads back to them.
+  idle?: Set<string>;
   needs: { hungry: boolean; rations: number; hurt: Set<string>; night: boolean; weary: boolean; settled: boolean;
     open: boolean;
     // Where in the settlement a bed is to be had, a step from here, when there is none here.
-    bed?: string };
+    bed?: string;
+    // When the company carries nothing to make light by: the kinds of thing that light, any of them worth buying.
+    unlit?: Set<string> };
 }
 // Every top-level choice of the place (as the page draws it: Attending.place over the scene), and the walks about the
 // town, as candidates to be led with, each with every reason it might be (see Promotion). Pure.
@@ -120,22 +124,33 @@ export class Affordances {
       ...person && r.life === s.id && !talked ? ['life' as const] : [],
       ...this.ownWhy(leaves, r), ...r.signs.has(s.id) ? ['sign' as const] : [],
       ...person && s.asked && !talked ? ['asked' as const] : [], ...feature && looked ? ['unlooked' as const] : []];
-    const needs = this.served(leaves, r);
+    const needs = this.served(leaves, r), asked = fresh.find(c => !r.done.has(c.command!));
     const base = { subject: s.id, kind: person ? 'talk' as const : 'act' as const, r };
     return [this.candidate(opener, { ...base, whys: [...whys, ...needs.map(n => n.why)], notes: {
       ...answer ? { answer: answer.label } : {}, ...kin ? { kin: word?.startsWith('your ') ? word : 'your aim' } : {},
       ...held ? { held: word?.startsWith('your ') ? word : 'another aim' } : {},
       ...Object.fromEntries(needs.map(n => [n.why, n.note])) },
-    ...answer?.command ? { command: answer.command } : {} })];
+    // Led for an aim that names them and with no answer owed, what it is led for is the first new thing to ask them,
+    // not their first reply (the priest led for his job had stood for his care of the wounded, the innkeeper for a
+    // bed).
+    ...answer?.command ? { command: answer.command }
+      : (kin || held) && asked ? { command: asked.command! }
+        : needs[0]?.choice?.command ? { command: needs[0].choice.command } : {} })];
   }
   // What someone here offers that the company needs now: a bed at night in a settlement, healing for one hurt; and
   // what it has won, put to use: a treasure it carries bought, a lesson or a spell it can pay for (a company back in
   // town was shown nothing to do with what it had won: the owner, 31 October).
-  private static served(leaves: Choice[], r: Reading): { why: Why; note: string }[] {
+  private static served(leaves: Choice[], r: Reading): { why: Why; note: string; choice?: Choice }[] {
     const bed = r.needs.night && r.needs.settled && this.offered(leaves, r, ['take_lodging', 'take_lodging_guest']);
     const cure = r.needs.hurt.size > 0 && this.offered(leaves, r, ['take_healing']);
+    // Something to make light by, from one who sells it, for a company that has none (a cleric whose job lay under
+    // the ground had walked from the quarry to the chandler's and back without ever being told a torch was a coin).
+    const light = r.needs.unlit && leaves.find(c => r.schema.get(c.command!) === 'buy_item'
+      && r.needs.unlit!.has(r.args.get(c.command!)?.[1] ?? ''));
     const sale = this.offered(leaves, r, ['sell_valuable']), lesson = this.offered(leaves, r, ['train_member', 'learn_spell']);
-    return [...bed ? [{ why: 'night' as const, note: `for the night: ${this.priced(bed)}` }] : [],
+    return [...bed ? [{ why: 'night' as const, note: `for the night: ${this.priced(bed)}`, choice: bed }] : [],
+      // Before the aim: going on with nothing to see by is going on into the dark.
+      ...light ? [{ why: 'dark' as const, note: `a light: ${this.priced(light)}`, choice: light }] : [],
       ...cure ? [{ why: 'hurt' as const, note: this.priced(cure) }] : [],
       ...sale ? [{ why: 'spoils' as const, note: this.priced(sale) }] : [],
       ...lesson ? [{ why: 'means' as const, note: `a lesson in ${lesson.label.replace(/^Train (\S+ )?(in )?| — .+$/g, '')}` }]
@@ -176,8 +191,10 @@ export class Affordances {
     const whys: Why[] = [...(at.back && dest === r.back || up) && !c.disabled ? ['retreat' as const] : [],
       // Not back to a place the aim names that the company has been, from another it names: down in the cellar under
       // the corn-store the rats are in, the stair up had led as "your aim".
-      ...r.named.has(dest) && !(r.named.has(r.here) && exit.visited) ? ['named' as const] : [], ...toward ? [toward] : [],
-      ...r.held.has(dest) ? ['held' as const] : [], ...this.inward(c, exit.id, r),
+      // Nor to one it left having done nothing there, with nothing done since (see CompanyRecall.idle).
+      ...r.named.has(dest) && !(r.named.has(r.here) && exit.visited) && !r.idle?.has(dest) ? ['named' as const] : [],
+      ...toward ? [toward] : [], ...r.held.has(dest) && !r.idle?.has(dest) ? ['held' as const] : [],
+      ...this.inward(c, exit.id, r),
       ...r.needs.night && dest === r.needs.bed ? ['night' as const] : [],
       ...exit.local && !exit.visited && !r.needs.night ? ['unvisited' as const] : [], ...first ? ['unlooked' as const] : [],
       // An author's own way through what bars it, open to this company (a thief's pick of the corn-store padlock had
@@ -208,8 +225,8 @@ export class Affordances {
     return (screen.around ?? []).map(d => ({ choice: `travel:${d.id}`, command: `travel:${d.id}`, label: `To ${d.name}`,
       kind: 'travel' as const, order: 0, marks: d.minutes > 10 && Marks.journey(screen.elapsed, d.minutes) ? [Marks.dusk] : [],
       minutes: d.minutes, visited: visited.has(d.id),
-      pointed: r.pointed.has(d.id), whys: [...r.named.has(d.id) ? ['named' as const] : [],
-        ...r.held.has(d.id) ? ['held' as const] : [], ...visited.has(d.id) ? [] : ['unvisited' as const]],
+      pointed: r.pointed.has(d.id), whys: [...r.named.has(d.id) && !r.idle?.has(d.id) ? ['named' as const] : [],
+        ...r.held.has(d.id) && !r.idle?.has(d.id) ? ['held' as const] : [], ...visited.has(d.id) ? [] : ['unvisited' as const]],
       notes: { named: 'your aim', held: 'another aim' } }));
   }
   // A journey to where the aim shown is, further than the ways from here, by the way the company knows (as far as it
@@ -223,7 +240,7 @@ export class Affordances {
     const near = new Set((screen.around ?? []).map(d => d.id)), here = screen.place.name.toLowerCase();
     // Named by the aim is named in anything in it: an aim names a work's rooms and its site, never the place it is
     // set out for by (Lunalac's reading-glass named every room of it, and nothing led toward it: OWN-56).
-    return (screen.destinations ?? []).filter(d => !near.has(d.id) && this.within(d.id, r.named)
+    return (screen.destinations ?? []).filter(d => !near.has(d.id) && this.within(d.id, r.named) && !r.idle?.has(d.id)
       && d.toward?.toLowerCase() !== here).map(d => ({ choice: `travel:${d.id}`, command: `travel:${d.id}`,
       kind: 'travel' as const, order: 0, label: `Set out ${d.toward ? 'toward' : 'for'} ${d.name}`, minutes: d.minutes,
       marks: Marks.journey(screen.elapsed, d.minutes) ? [Marks.dusk] : [], whys: ['named' as const],
