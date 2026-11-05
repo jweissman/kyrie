@@ -449,6 +449,25 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A majestic bird of prey renowned for keen eyesight and capable of powerful flight.
 
+#### Eel
+
+*Kyr · beast* · `species:eel`
+
+- Type: beast (animal)
+- Hit points: d4 a level
+- Qualities: rolled (3d6 each)
+- Attack: bite, 1d6 piercing
+- Hide: Hide Armor, armour 1
+- Temperament: ambush
+- Found in: riverbank, marsh
+- Worth: 150 experience a level
+
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
+
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
+
+> An eel of the rivers and the still water, long as an arm and thick as a wrist, that lies in the weed by day and takes what comes down to it.
+
 #### Falcon
 
 *Faithful · beast* · `species:falcon`

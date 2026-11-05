@@ -1,4 +1,5 @@
 import { Likeness } from '../paintings/likeness'; import { CompanyPortraits } from '../paintings/company-portraits';
+import { CreaturePortraits } from '../paintings/creature-portraits';
 import { Emblems } from '../presentation/emblems';
 import { CharacterSheets } from '../presentation/character-sheet';
 import { Itineraries } from './itinerary';
@@ -300,7 +301,9 @@ export class ScreenModel {
       const name = dark ? p.name.split(', ')[0]! : this.called(w, p.id, p.name);
       // A painting is of one person, of a people who look like the folk in the paintings: not a band of goblins.
       const likened = playable && (p.members?.length ?? 1) === 1 && Canon.ancestries[member!.raceId]?.playable === true;
-      const portrait = likened && at.campaign ? Portraits.of(at.campaign, p.id) : undefined;
+      // A creature is shown by its kind's painting, where its kind has one (see CreaturePortraits).
+      const portrait = likened && at.campaign ? Portraits.of(at.campaign, p.id)
+        : !playable && member && !dark ? CreaturePortraits.of(member.raceId) : undefined;
       const emblem = animal ? 'animal' : playable && Emblems.has(member!.raceId) ? member!.raceId : undefined;
       return { id: p.id, kind: playable || soul ? 'person' : animal ? 'animal' : 'creature', name, ...(note ? { note } : {}),
         ...portrait ? { portrait } : {}, ...emblem ? { emblem } : {},

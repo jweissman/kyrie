@@ -106,6 +106,8 @@ export interface Species {
   // A kind named for what varies it (a great rat, a cave spider): its base (variantOf) with these variations
   // (variations.json), which every creature of it is made with, as an author's Variant would make it.
   variations?: string[];
+  // The painting it is shown by, where its kind has one other than a painting named for it (see CreaturePortraits).
+  portrait?: string;
   // Experience for defeating one (Orsino's monsterXp + 50 × level, an animal's 10 × level); else by type.
   worth?: { base: number; perLevel: number };
   omits?: Omissions; source: Source;

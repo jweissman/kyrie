@@ -54,6 +54,13 @@
       ],
       "river": [
         {
+          "_key": "eel",
+          "count": 2,
+          "label": "the eels",
+          "role": "an eel",
+          "nature": "wild"
+        },
+        {
           "_key": "boar",
           "__weight": 2,
           "count": 2,
@@ -77,6 +84,13 @@
         }
       ],
       "lake": [
+        {
+          "_key": "eel",
+          "count": 2,
+          "label": "the eels",
+          "role": "an eel",
+          "nature": "wild"
+        },
         {
           "_key": "great_pike",
           "__weight": 2,

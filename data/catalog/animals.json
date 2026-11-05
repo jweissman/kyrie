@@ -475,6 +475,32 @@
         "kyr": true,
         "notes": "Kyr's own: the Old Jack of Hollow Water."
       }
+    },
+    "eel": {
+      "name": "Eel",
+      "type": "beast",
+      "kind": "animal",
+      "description": "An eel of the rivers and the still water, long as an arm and thick as a wrist, that lies in the weed by day and takes what comes down to it.",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 4,
+        "primary": "dexterity",
+        "weapon": "bite",
+        "armor": "hide_armor"
+      },
+      "abilities": [
+        "defend",
+        "flee"
+      ],
+      "temperament": "ambush",
+      "habitats": [
+        "riverbank",
+        "marsh"
+      ],
+      "source": {
+        "kyr": true,
+        "notes": "A base kind added by its record alone (M19-60's acceptance): no Orsino eel; the giant eels of the adventures, written like great_pike, are its kin to reconcile."
+      }
     }
   }
 }
