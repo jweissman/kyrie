@@ -1,4 +1,5 @@
 import type { Battle } from '../battle';
+import { CompanyRecall } from '../presentation/company-recall';
 import type { Command } from '../model';
 import { Tactics } from '../tactics';
 import { DangerSense } from '../presentation/danger-sense';
@@ -103,7 +104,9 @@ export class AutoPlayer {
   private followed(s: Situation): Move | undefined {
     for (const led of s.led ?? []) {
       if (led.startsWith('travel:')) { return { kind: 'travel', to: led.slice('travel:'.length) }; }
-      const o = s.offered.find(x => x.id === led);
+      // Led in the form the page offers it or as it is done (with the company that does it): the notice on the green,
+      // led as notice_read(party, green), had never been read, and the priest had no job to give.
+      const o = s.offered.find(x => x.id === led) ?? s.offered.find(x => CompanyRecall.same(x.id, led));
       if (o) { return this.command(o); }
     }
     return undefined;

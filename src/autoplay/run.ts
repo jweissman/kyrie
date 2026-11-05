@@ -101,9 +101,12 @@ export class AutoplayRun {
   // What the page leads with where the company stands, best first, by command (see Glance).
   private static led(s: PlaySession): string[] {
     const glance = Narrator.leaf(s.campaign, ScreenModel.build(s.campaign)).glance;
-    // A conversation it leads with is opened as the page opens it: by talking to them.
-    return (glance?.acts ?? []).flatMap(a => a.command ? [a.command]
-      : a.choice.endsWith('#talk') ? [`talk_to(${a.choice.slice(0, -'#talk'.length)})`] : []);
+    // A conversation it leads with is opened as the page opens it, by talking to them; the question it leads with in it
+    // is asked, as the page puts it first among the replies, and nothing else said beside it is done in its place (a
+    // bed had been taken four times over by ten in the morning, the innkeeper's first reply).
+    return (glance?.acts ?? []).flatMap(a => a.choice.endsWith('#talk')
+      ? [...a.command?.startsWith('ask(') ? [a.command] : [], `talk_to(${a.choice.slice(0, -'#talk'.length)})`]
+      : a.command ? [a.command] : []);
   }
   // How each fight offered would go, as the page reckons it, for those it reckons (a group the company could fight).
   private static dangers(s: PlaySession, offered: { id: string }[]): Record<string, string> {
