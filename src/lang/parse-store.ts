@@ -1,5 +1,6 @@
 import { createHash } from 'node:crypto';
-import { existsSync, mkdirSync, readFileSync, readdirSync, statSync, writeFileSync, renameSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, utimesSync, writeFileSync, renameSync }
+  from 'node:fs';
 import { join, resolve } from 'node:path';
 import { deserialize, serialize } from 'node:v8';
 import type { Module } from './module';
@@ -18,9 +19,28 @@ export class ParseStore {
     for (const file of this.sources.flatMap(d => this.files(join(root, d))).sort()) {
       hash.update(file).update(readFileSync(file));
     }
-    const dir = resolve(root, 'node_modules/.cache/kyrie-parse');
+    const store = resolve(root, 'node_modules/.cache/kyrie-parse'), version = hash.digest('hex');
+    const dir = join(store, version.slice(0, 16));
     mkdirSync(dir, { recursive: true });
-    return new ParseStore(dir, hash.digest('hex'));
+    // A version opened is in use: its directory's time says so (see prune).
+    try { utimesSync(dir, new Date(), new Date()); } catch { /* only that it may be let go sooner */ }
+    this.prune(store, dir);
+    return new ParseStore(dir, version);
+  }
+  // Each version of the language keeps its parses apart, and those of a version not read for a day are let go (the
+  // store had grown to eight gigabytes of parses no version would read again); and the store as it was before, one
+  // file a parse of any version, all at once.
+  private static prune(store: string, keep: string) {
+    const stale = Date.now() - 24 * 3600 * 1000;
+    for (const name of readdirSync(store)) {
+      const path = join(store, name);
+      try {
+        const s = statSync(path);
+        if (path !== keep && (!s.isDirectory() || s.mtimeMs < stale)) {
+          rmSync(path, { recursive: true, force: true });
+        }
+      } catch { /* Gone already, or another process's: only slower. */ }
+    }
   }
   private static files(dir: string): string[] {
     if (!existsSync(dir)) { return []; }
@@ -35,12 +55,14 @@ export class ParseStore {
   get(key: string): Module | undefined {
     try { return deserialize(readFileSync(this.path(key))) as Module; } catch { return undefined; }
   }
+
   // Written whole, then moved into place, so that a worker reading at the same moment reads all of it or none.
   set(key: string, module: Module) {
     try {
       const path = this.path(key), part = `${path}.${process.pid}`;
       writeFileSync(part, serialize(module));
       renameSync(part, path);
+
     } catch { /* A store that cannot be written is only slower. */ }
   }
 }
