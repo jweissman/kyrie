@@ -1,0 +1,27 @@
+{
+  "cell": [
+    "^To Fore Street",
+    "^To the quay",
+    "^To the Slip",
+    "=until lowWater()",
+    ">skeel__holm_shore",
+    "^Into the hermit",
+    "the worn stone bench in the cell: .*Look",
+    "^Out to the Holm strand"
+  ],
+  "parson": [
+    "=until lowWater()",
+    ">skeel__church",
+    "Ask Parson Hosken to read the tally"
+  ],
+  "court": [
+    "=day 3 15:30",
+    "^Out to Fore Street",
+    "^To the quay",
+    "^Into the fish cellars",
+    "^Into the net-loft",
+    "=until matterOpen(lantern)",
+    "Read the keeper's tally to the Court",
+    "=until courtDone(reach)"
+  ]
+}
