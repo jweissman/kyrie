@@ -89,3 +89,35 @@ the eels "like great_pike", and more (the audit's list).
 6. **Acceptance** (the owner's): a new base creature by JSON alone, used in play; variations of one; made by Deem and
    by an authored scenario through the same machinery; its abilities, behaviour and portrait from its one record;
    kept across a save and reload; no path left that makes a creature another way.
+
+## Done, 5 November
+
+1. **One engine** (b930448c): every species is made from its record by the catalog chassis; the `creatureBody` switch
+   (content.ts, cast.ts) is gone. A den with no beast of the world's picks a species (or outlaws, made as people) from
+   its own tables (`data/situations/den/tables.json`: `denSpecies`, `denPeople`, `denCalling`); the brood-hollow's
+   spiders are `Species cave_spider` with the brood-mother's variation.
+2. **Two authored files** (79292ece): `data/catalog/animals.json` and `monsters.json` replace `species.json`;
+   Orsino's 92 generated kinds are read with them from `data/catalog/orsino/species.json`, its role said in both files'
+   `about` (a hand record naming an Orsino source stands in its place).
+3. **Variation, not species** (cb16909a): a base `rat` that grows with its level, a base `spider`; `great_rat` is rat
+   + great, `cave_spider` is spider + great + cave (`Species.variations`, applied once wherever one is made, and taken
+   as chosen by a country's dens); the variation `cave` on its own axis (`haunt`), apart from climate.
+5. **Portraits** (a30ce8b0): by the record's `portrait`, else a painting of the kind, else its base's
+   (`CreaturePortraits`); the eighteen creature paintings now shown.
+6. **Acceptance** (`test/creature-pipeline.test.ts`): every base creature from its own record; the rat's growth;
+   great rat and cave spider from their bases and variations; the eel, a kind added by its record alone (and denning
+   in rivers and lakes), made by an author's Person and by generation's casting alike, with its record's abilities,
+   kept across a save and its reading again; portraits by kind.
+
+## Not yet
+
+- Deem's creature grammar (`creatureFamilies`, `creatureKinds`, `creatureBody`, `creatureAncestry`, `creatureClass`,
+  `constructMaterial`, `creatureRole`, `environmentAdaptation`, `creatureFamilyPool`; `dragons.json`) is reached
+  only when a creature is asked for by its dimensions (`Creature family …`, the Deem CLI, the handbook's "Generated
+  creatures"); no content asks. To retire with that handbook section, its lineages and maturities made variations.
+- One habitat vocabulary (step 4): species `habitats` still in the organisms' words, dens and variation hints in the
+  ecology's.
+- Authored kinds that are adjectives of another (`pantry_rat` like cave_hound; five giant eels like great_pike, now
+  that `eel` exists; `umber_wolf`, `young_owlbear`): to reconcile in their adventures, fight by fight.
+- `organisms.json`'s three animals (red_deer, otter, grey_wolf) are still read only by validation: Orsino's `deer` and
+  `otter` and the hand `wolf` are their creatures.
