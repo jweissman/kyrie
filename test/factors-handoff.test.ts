@@ -13,14 +13,18 @@ import { GeneratedWorld } from './support/generated';
 // the lot into her keeping; her carter sends it south on a run of his own while the company is elsewhere; and Low
 // Water's Halm, who collects working things, has it in his tray when the company crosses the Rim. No module names
 // another: what passes is custody of a thing of a catalog kind, in the one world.
-class Dale { static said(e: { response?: string; perceptions?: { text: string }[] }) { return [e.response ?? '', ...(e.perceptions ?? []).map(p => p.text)].join(' '); } }
 class World {
+  static said(e: { response?: string; perceptions?: { text: string }[] }) {
+    return [e.response ?? '', ...(e.perceptions ?? []).map(p => p.text)].join(' ');
+  }
   static async start(seed = 'thorn') {
     const w = await WorldAssembler.assemble(seed, NodeBundleSource.shared, { region: { terrain: 'mountain' } });
     const s = await PlaySession.start(w.path, seed, w.source);
     return { w, s, frontier: new Frontier(seed, NodeBundleSource.shared) };
   }
-  static holds(s: PlaySession, name: string, ...args: string[]) { return s.campaign.world.test(ModuleWriter.call(name, ...args)); }
+  static holds(s: PlaySession, name: string, ...args: string[]) {
+    return s.campaign.world.test(ModuleWriter.call(name, ...args));
+  }
   static choose(s: PlaySession, pattern: RegExp) {
     const c = PlayerView.choices(s.campaign).find(x => pattern.test(x.choice.name));
     if (!c) { throw new Error(`No ${pattern} among ${PlayerView.choices(s.campaign).map(x => x.choice.name).slice(0, 20).join(' | ')}`); }
@@ -73,7 +77,7 @@ describe('the factor who buys old bronze', () => {
     await GeneratedWorld.travel(s, 'plowwater__dig');
     await s.perform('wait');
     expect(PlayerView.observe(s.campaign).observations.map(o => o.text).join(' ')).toContain('twelve teeth of green bronze');
-    expect(Dale.said(await World.choose(s, /^Ask Halm where the bell-teeth/))).toContain('Founders\' Exchange in the north');
+    expect(World.said(await World.choose(s, /^Ask Halm where the bell-teeth/))).toContain('Founders\' Exchange in the north');
   }, 600000);
 
   it('sends nothing south if the company buys the lot back at the factor\'s table before the carter goes, and Halm\'s tray stays empty', async () => {
