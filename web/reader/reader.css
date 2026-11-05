@@ -330,3 +330,33 @@ kbd { font: 500 10.5px/1 var(--do); color: var(--dim); border: 1px solid var(--e
   .character section.fight { grid-column: 3; grid-row: span 3; }
 }
 @media (max-width: 960px) { .character .chips { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+/* The character composed (the owner, 5 November): who and how they are across the head, their likeness large; what
+   they can do and what they carry and how they grow in two columns; the rules folded under a line of the qualities. */
+.character .head-of.pc { grid-template-columns: 132px minmax(0, 1fr) auto; }
+.character .head-of.pc .sat { width: 132px; height: 132px; grid-row: 1 / span 4; align-self: start;
+  border: 1px solid var(--gold-line); }
+.character .head-of.faced .specialty, .character .head-of.faced .standing { grid-column: 2 / -1; margin: 6px 0 0; }
+.character .head-of .specialty { color: var(--ivory); }
+.character .sheet-cols { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 0 clamp(28px, 4vw, 64px);
+  align-items: start; }
+.character .sheet-cols h3 { margin-top: 22px; }
+.character .in-hand { font: 500 17px/1.5 var(--do); color: var(--ivory); margin: 0 0 4px; }
+.character .gear-line { color: var(--grey); }
+.character .by-rules { margin: 34px 0 0; border-top: 1px solid var(--hair); padding-top: 12px; }
+.character .by-rules > summary { cursor: pointer; list-style: none; font: 500 12.5px/1.2 var(--do); letter-spacing: .14em;
+  text-transform: uppercase; color: var(--grey); padding: 6px 0; }
+.character .by-rules > summary::-webkit-details-marker { display: none; }
+.character .by-rules > summary::before { content: '▸ '; }
+.character .by-rules[open] > summary::before { content: '▾ '; }
+.character .by-rules > summary:hover { color: var(--gold); }
+.character .by-rules[open] { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 clamp(24px, 3vw, 48px); }
+.character .by-rules[open] > summary { grid-column: 1 / -1; }
+@media (max-width: 960px) {
+  .character .sheet-cols, .character .by-rules[open] { grid-template-columns: minmax(0, 1fr); }
+  .character .head-of.pc { grid-template-columns: 88px minmax(0, 1fr); }
+  .character .head-of.pc .sat { width: 88px; height: 88px; }
+}
+.character .can .folds { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 24px; }
+.character .can .folds > li > details > summary { padding: 7px 0; }
+.character .can .folds > li > details[open] { grid-column: 1 / -1; }
+@media (max-width: 599px) { .character .can .folds { grid-template-columns: minmax(0, 1fr); } }

@@ -36,14 +36,24 @@ export class CharacterPage {
             {Words.upper(Words.article(m.line))}, level {m.level}{m.background
             ? `, once ${Words.article(m.background.toLowerCase())}` : ''}</p>
           <CharacterPage.Gauges member={m} />
+          {m.sheet?.specialty && <CharacterPage.Specialty who={m.name} specialty={m.sheet.specialty} />}
+          <CharacterPage.Standing member={m} />
         </header>
-        {m.sheet?.specialty && <CharacterPage.Specialty who={m.name} specialty={m.sheet.specialty} />}
         {exchange?.said && /^(Have|Raise|Take up)/.test(exchange.said) && <Told.Happened exchange={exchange} />}
-        <CharacterPage.Development member={m} draw={draw} choices={sections.find(s => s.id === 'development')?.choices ?? []} />
-        <CharacterPage.Standing member={m} />
-        <CharacterPage.Sheet member={m} screen={screen} swaps={sections.find(s => s.id === 'prepare')?.choices ?? []}
-          draw={draw} />
-        {acts.length > 0 && <section><h3>What can be done</h3><Act.List choices={acts} draw={draw} className="column" /></section>}
+        {/* Who, how they are, then what they can do and carry, how they grow; the rules a touch away (the owner, 5
+            November: a composed page, not a dashboard of boxes). */}
+        <div className="sheet-cols">
+          <div className="can"><CharacterPage.Can member={m} swaps={sections.find(s => s.id === 'prepare')?.choices ?? []}
+            draw={draw} /></div>
+          <div className="has">
+            <CharacterPage.Development member={m} draw={draw}
+              choices={sections.find(s => s.id === 'development')?.choices ?? []} />
+            <CharacterPage.Carries member={m} screen={screen} />
+            {acts.length > 0 && <section><h3>What can be done</h3><Act.List choices={acts} draw={draw} className="column" />
+            </section>}
+          </div>
+        </div>
+        <CharacterPage.Rules member={m} />
       </article>
     );
   }
@@ -126,35 +136,49 @@ export class CharacterPage {
         {m.fallen && <span className="hurt"> · {Typography.curl(m.fallen)}</span>}</p>
     );
   }
-  // The sheet at a glance, the rules a touch away (the owner's review: "a compact character sheet that still reaches
-  // the whole rules"): each quality its score and what it adds, opened for what it does; how they fight; their saves
-  // in a line; each skill and technique by name, opened for what it is; what they carry in a line.
-  static Sheet({ member: m, screen, swaps, draw }: { member: MemberRow; screen: Screen; swaps: Choice[]; draw: Draw }) {
-    const sheet = m.sheet, gear = CharacterPage.counted(screen.items.filter(i => i.owner === m.id));
+  // What they can do: their techniques and spells by name, each opened for what it is; what is prepared today; their
+  // skills, each with what it adds.
+  static Can({ member: m, swaps, draw }: { member: MemberRow; swaps: Choice[]; draw: Draw }) {
+    const sheet = m.sheet;
     return <>
-      {sheet && <section className="qualities-of"><h3>Qualities</h3><ul className="chips">{sheet.qualities.map(q =>
+      <section><h3>Can do</h3><ul className="folds">{m.abilities.map(a => <li key={a.id}><details><summary>{a.name}
+        {a.price && <span className="from">{a.price}{CharacterPage.yet(m, a.price)}</span>}</summary>
+        <p>{Typography.curl(a.text)}</p></details></li>)}</ul></section>
+      <CharacterPage.Prepared member={m} swaps={swaps} draw={draw} />
+      {sheet && sheet.skills.length > 0 && <section><h3>Knows</h3><ul className="folds">{sheet.skills.map(s =>
+        <li key={s.id}><details><summary>{s.name}{s.check !== undefined
+          && <span className="from">{CharacterPage.signed(s.check)}</span>}</summary>
+          <p><span className="from">{s.from}.</span> {Typography.curl(s.text)}</p></details></li>)}</ul></section>}
+    </>;
+  }
+  // What they carry: what is in hand and worn first, then the rest, the same things together.
+  static Carries({ member: m, screen }: { member: MemberRow; screen: Screen }) {
+    const gear = CharacterPage.counted(screen.items.filter(i => i.owner === m.id));
+    const used = gear.filter(g => g.item.equipped), rest = gear.filter(g => !g.item.equipped);
+    const named = (xs: typeof gear) => xs.map(({ item: i, count }) =>
+      Words.upper(count > 1 ? Words.many(count, Words.bare(i.name)) : Words.bare(i.name))).join(' · ');
+    return <section className="carries"><h3>Carries</h3>
+      {used.length > 0 && <p className="in-hand">{named(used)}</p>}
+      {rest.length > 0 ? <p className="gear-line">{named(rest)}</p> : !used.length && <p className="none">Nothing.</p>}
+    </section>;
+  }
+  // The numbers the rules go by, a touch away: each quality, what it adds and does; how they fight; their saves.
+  static Rules({ member: m }: { member: MemberRow }) {
+    const sheet = m.sheet;
+    if (!sheet) { return null; }
+    return <details className="by-rules"><summary>{sheet.qualities.map(q => `${q.name.slice(0, 3)} ${q.score}`).join(' · ')}</summary>
+      <section className="qualities-of"><ul className="chips">{sheet.qualities.map(q =>
         <li key={q.id}><details><summary><span className="q">{q.name}</span><b className="score">{q.score}</b>
           <span className="mod">{CharacterPage.signed(Math.floor((q.score - 10) / 2))}</span></summary>
           <p className="does">{q.score !== q.base && <span className="mods">{`Of ${q.base}. `}</span>}
             {CreationRules.quality(q.id, q.score, undefined, false).filter(l => !/^Hit points/.test(l))
-              .map(l => <span key={l}>{Typography.curl(l)} </span>)}</p></details></li>)}</ul></section>}
-      {sheet && <section className="fight"><h3>In a fight</h3><dl className="bearings">{sheet.fighting.filter(b => b.label !== 'Hit points')
-        .map(b => <div key={b.label}>
-        <dt>{b.label}</dt><dd>{Typography.curl(b.value)}</dd></div>)}</dl>
-        <h3>Saves</h3><dl className="bearings saves">{sheet.saves.map(b => <div key={b.label}>
-          <dt>{Typography.curl(b.label)}</dt><dd>{b.value} and the die</dd></div>)}</dl></section>}
-      {sheet && sheet.skills.length > 0 && <section><h3>Skills</h3><ul className="folds">{sheet.skills.map(s =>
-        <li key={s.id}><details><summary>{s.name}{s.check !== undefined
-          && <span className="from">{CharacterPage.signed(s.check)}</span>}</summary>
-          <p><span className="from">{s.from}.</span> {Typography.curl(s.text)}</p></details></li>)}</ul></section>}
-      <CharacterPage.Prepared member={m} swaps={swaps} draw={draw} />
-      <section><h3>Techniques</h3><ul className="folds">{m.abilities.map(a => <li key={a.id}><details><summary>{a.name}
-        {a.price && <span className="from">{a.price}{CharacterPage.yet(m, a.price)}</span>}</summary>
-        <p>{Typography.curl(a.text)}</p></details></li>)}</ul></section>
-      <section><h3>Carries</h3>{gear.length ? <p className="gear-line">{gear.map(({ item: i, count }, n) => <span key={i.id}>
-        {n > 0 && ' · '}{Words.upper(count > 1 ? Words.many(count, Words.bare(i.name)) : Words.bare(i.name))}
-        {i.equipped && <span className="from">in use</span>}</span>)}</p> : <p className="none">Nothing.</p>}</section>
-    </>;
+              .map(l => <span key={l}>{Typography.curl(l)} </span>)}</p></details></li>)}</ul></section>
+      <section className="fight"><h3>In a fight</h3><dl className="bearings">{sheet.fighting
+        .filter(b => b.label !== 'Hit points').map(b => <div key={b.label}>
+          <dt>{b.label}</dt><dd>{Typography.curl(b.value)}</dd></div>)}</dl></section>
+      <section className="fight"><h3>Saves</h3><dl className="bearings saves">{sheet.saves.map(b => <div key={b.label}>
+        <dt>{Typography.curl(b.label)}</dt><dd>{b.value} and the die</dd></div>)}</dl></section>
+    </details>;
   }
   // The spells prepared today, each with what could be prepared in its place (an hour's study or prayer), chosen
   // there: on the place's page it had been a fold three deep, "Prepare spells › In place of Bless (first-level slot) ›
