@@ -67,6 +67,11 @@ export class MapView {
     return typeof document === 'undefined' ? map : createPortal(map, document.body);
   }
   // The place the aim shown is set out for, where the way to it is known and the map has it.
+  // The aim followed, when the map cannot show where it is and it names someone who might know.
+  static unplaced(app: ReaderApp, screen: Screen): { aim: string; who: string } | undefined {
+    const aim = Followed.of(screen), who = screen.aims?.find(a => a.followed)?.who ?? [];
+    return aim && who.length && !MapView.aim(app, screen) ? { aim, who: MapView.who(screen) } : undefined;
+  }
   private static aim(app: ReaderApp, screen: Screen): string | undefined {
     // The aim followed, where it names somewhere the company knows the way to; else the one the page leads toward.
     const followed = Followed.of(screen);
@@ -119,6 +124,11 @@ export class MapView {
   private static heard(screen: Screen, chosen: string): boolean {
     return screen.region?.land?.marks.some(m => m.id === chosen && m.state === 'heard') ?? false;
   }
+  // Where an aim not on the map might be learnt: from whom it names, or else that it is not on the map yet.
+  static who(screen: Screen): string {
+    const who = screen.aims?.find(a => a.followed)?.who ?? [];
+    return who.length ? `Not yet on your map: ${Words.listed(who)} may know where.` : 'Not yet on your map.';
+  }
   // The way to a place chosen by the keys, next for them: how to set out, or, where there is no way, what it is.
   private static onward(dialog: HTMLElement | null): void {
     (dialog?.querySelector<HTMLElement>('.plan .go') ?? dialog?.querySelector<HTMLElement>('.plan .to'))?.focus();
@@ -135,7 +145,7 @@ export class MapView {
       const aim = Followed.of(screen) && !MapView.aim(app, screen) ? Followed.of(screen) : undefined;
       return aim ? <aside className="plan" aria-label="A place on the map" aria-live="polite">
         <p className="label">Your aim</p><p className="aim-unplaced">{Typography.curl(aim)}</p>
-        <p className="how">Not yet on your map.</p></aside> : null;
+        <p className="how">{Typography.curl(MapView.who(screen))}</p></aside> : null;
     }
     const { cell, name, d, here, go } = MapView.way(screen, chosen);
     return (

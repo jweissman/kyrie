@@ -4,6 +4,7 @@ import { Stakes } from '../ui/stakes';
 import { FictionalTime } from '../campaign/fictional-time';
 import { EntityIndex } from '../lang/entity-index';
 import { Spatial } from '../spatial';
+import { ObservationText } from '../lang/observation-text';
 
 // The aim the player follows (the owner's "a clearer currently selected quest"; Mission 19, journal and intentions):
 // one of the aims the company holds, by its id, kept with the game in its save, and the one every page's "your aim"
@@ -41,10 +42,12 @@ export class Undertakings {
     const defs = new Map((campaign.module.objectives ?? []).map(o => [o.id, o]));
     const ordered = Stakes.here(campaign, held, here)
       .toSorted((a, b) => Number(b.id === followed) - Number(a.id === followed))
-      .map(o => ({ id: o.id, text: FictionalTime.prose(o.text), ...o.id === followed ? { followed: true as const } : {},
+      .map(o => ({ o, def: defs.get(o.id) })).map(({ o, def }) => ({ id: o.id, text: FictionalTime.prose(o.text),
+        ...o.id === followed ? { followed: true as const } : {},
         ...o.id === followed && chosen ? { chosen: true as const } : {},
-        ...defs.get(o.id) && Stakes.own(defs.get(o.id)!) ? { own: true as const } : {},
-        ...defs.get(o.id) ? { places: this.places(campaign, defs.get(o.id)!) } : {} }));
+        ...def && Stakes.own(def) ? { own: true as const } : {},
+        ...def ? { places: this.places(campaign, def) } : {}, ...def && this.who(campaign, def).length
+          ? { who: this.who(campaign, def) } : {} }));
     return { objectives: ordered.map(o => o.text), ...ordered.length ? { aims: ordered } : {} };
   }
   // The places an aim is about, by id, most particular first: those its words or condition name; then the outside of
@@ -61,6 +64,14 @@ export class Undertakings {
     const around = named.flatMap(id => Spatial.ancestry(byId, id).slice(1)
       .filter(e => !['plane', 'region'].includes(e.space?.kind ?? '')).map(e => e.id));
     return [...new Set([...named, ...joined, ...around])];
+  }
+  // Those an aim names who are someone (said with a he, a she or a they), by the names the company knows them by: who
+  // might know where it is, when the map cannot show it (the product-design review's PD-12).
+  private static who(campaign: Campaign, o: Objective): string[] {
+    const w = campaign.world, byId = EntityIndex.of(campaign.module.entities).byId;
+    if (!w.relates('pronouns')) { return []; }
+    return [...Stakes.named(campaign, o)].filter(id => byId.get(id)?.type === 'group' && id !== campaign.playerActor
+      && !!w.one('pronouns', id)).map(id => ObservationText.label(w, id));
   }
   private static site(byId: Map<string, Entity>, id: string): string | undefined {
     return Spatial.ancestry(byId, id).find(e => e.space?.kind === 'site')?.id;

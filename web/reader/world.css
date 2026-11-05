@@ -152,6 +152,14 @@
   .world-page.scale-board .world-bar .title-block { max-width: none; padding-top: 44px; }
   .world-page.scale-board .board-surface .field-tools { bottom: auto; top: 50%; transform: translateY(-50%); }
 }
+/* On a phone the card over the map is a band, its painting a strip, so that the map keeps most of the screen. */
+@media (max-width: 599px) {
+  .world-page.scale-board .focus { max-height: 40%; margin: 10px; width: calc(100% - 20px); }
+  .world-page.scale-board .enter-card .enter-view { height: 72px; }
+  .world-page.scale-board .enter-card { gap: 8px; padding-bottom: 14px; }
+  .world-page.scale-board .enter-card .to { font-size: 26px; }
+  .world-page.scale-board .enter-card .enter { padding: 13px 16px; }
+}
 /* The board's own controls stand at its left, clear of what floats at its right. */
 .board-surface .field-tools { left: 16px; right: auto; }
 /* The ways from here, once, in the focus: a row each, its direction marked in a ring, where it goes, which way and how

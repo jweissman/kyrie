@@ -127,7 +127,7 @@ export class WorldStage {
     if (town) { return <WorldStage.Town app={app} screen={screen} town={town} />; }
     const g = app.state.frame!.leaf.glance, land = screen.region!.land!, name = within?.name ?? screen.place.name;
     const people = (app.menu.scene?.subjects ?? []).filter(x => x.kind === 'person').length;
-    const danger = (app.menu.scene?.subjects ?? []).some(x => x.danger);
+    const danger = (app.menu.scene?.subjects ?? []).some(x => x.danger), unplaced = MapView.unplaced(app, screen);
     return (
       <section className="hex-card" data-id={screen.place.id} aria-live="polite">
         <p className="label">Where you are</p>
@@ -136,6 +136,8 @@ export class WorldStage {
           screen.region)))}</p>}
         {g?.sight && <p className="sight">{Typography.curl(g.sight.text)}</p>}
         <WorldStage.Stopped app={app} danger={danger} />
+        {unplaced && <><p className="label">Your aim</p><p className="aim-unplaced">{Typography.curl(unplaced.aim)}</p>
+          <p className="how">{Typography.curl(unplaced.who)}</p></>}
         {people > 0 && <p className="about">{people === 1 ? 'Someone is here.' : 'There are people here.'}</p>}
         <button type="button" className="enter" data-action="enter-hex" onClick={enter}>Enter</button>
       </section>

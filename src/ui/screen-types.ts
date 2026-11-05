@@ -149,7 +149,8 @@ export interface Screen {
   // What the company means to do, in words, the aim followed first; and each by its id: the one followed (see
   // Undertakings), whether the player chose it, and the company's own errand.
   objectives: string[];
-  aims?: { id: string; text: string; followed?: true; chosen?: true; own?: true; places?: string[] }[];
+  // Each with the places it is about, by id, and who it names that might know where (by name).
+  aims?: { id: string; text: string; followed?: true; chosen?: true; own?: true; places?: string[]; who?: string[] }[];
   // Whom and what the company's aims and family name (people, places, ways): met and gone to first (see Stakes).
   aimed?: string[];
   expedition: { time: string; daylight: string; rations: number; hungry: boolean; weary?: boolean; nextMeal?: string;
