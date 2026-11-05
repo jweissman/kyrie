@@ -98,6 +98,10 @@ export class AutoplayRun {
       visited: VisitedPlaces.of(c, c.playerActor!), step, dangers: this.dangers(s, offered),
       dark: Travel.dark(c), ...led ? { led: this.led(s) } : {} };
   }
+  // What is had of someone for coin or work (a bed, healing, wares, a lesson, a hand hired), not asked of them.
+  static readonly service = /^(take_|work_|sing_|buy|sell|train_|learn_|hire)/;
+  // What the page leads someone with because the company needs what they offer: then it is had of them.
+  static readonly needed = new Set(['night', 'hurt', 'hungry', 'means', 'spoils', 'dark']);
   // What the page leads with where the company stands, best first, by command (see Glance).
   private static led(s: PlaySession): string[] {
     const glance = Narrator.leaf(s.campaign, ScreenModel.build(s.campaign)).glance;
@@ -105,7 +109,8 @@ export class AutoplayRun {
     // is asked, as the page puts it first among the replies, and nothing else said beside it is done in its place (a
     // bed had been taken four times over by ten in the morning, the innkeeper's first reply).
     return (glance?.acts ?? []).flatMap(a => a.choice.endsWith('#talk')
-      ? [...a.command?.startsWith('ask(') ? [a.command] : [], `talk_to(${a.choice.slice(0, -'#talk'.length)})`]
+      ? [...a.command && (!AutoplayRun.service.test(a.command) || AutoplayRun.needed.has(a.why ?? '')) ? [a.command] : [],
+        `talk_to(${a.choice.slice(0, -'#talk'.length)})`]
       : a.command ? [a.command] : []);
   }
   // How each fight offered would go, as the page reckons it, for those it reckons (a group the company could fight).
