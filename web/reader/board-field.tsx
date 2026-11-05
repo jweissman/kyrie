@@ -52,6 +52,10 @@ export class BoardField {
       known: land.known, here: land.here, marks: [...towns, ...marks], face,
       ...region.terrain ? { terrain: region.terrain } : {} };
   }
+  // Boards replaced, put away and taken off the page.
+  private static release(boards: { api: BoardApi; el: HTMLElement }[]): void {
+    for (const b of boards) { b.api.dispose(); b.el.remove(); }
+  }
   // A place's kind, by its sign on the flat map; where a way goes into wild country, seen or been to, a cairn.
   static kind(m: Land['marks'][number]): string {
     const found = m.state === 'seen' || m.state === 'visited';
@@ -83,6 +87,9 @@ export class BoardField {
     choose: (id: string, keyed?: boolean) => void; bound?: string; face?: string; walking?: number[];
     walked?: () => void; point?: (id?: string) => void }) {
     const host = useRef<HTMLDivElement>(null), board = useRef<BoardApi | undefined>(undefined), pick = useRef(choose);
+    // The board as it stood before the land changed under it, kept drawn until the new one is (it had gone black for
+    // half a second at a journey's end: M19-58), each in a layer of its own.
+    const layer = useRef<HTMLElement | undefined>(undefined), old = useRef<{ api: BoardApi; el: HTMLElement }[]>([]);
     const over = useRef(point); over.current = point;
     // Each failure (a drawing lost, the script not fetched) makes the board again, a moment later; only a browser with
     // no drawing at all is given up on.
@@ -101,20 +108,30 @@ export class BoardField {
         if (!m) { fail(); return; }
         try {
           const still = matchMedia('(prefers-reduced-motion: reduce)').matches, at = now.current;
-          board.current = m.mount(host.current, at.land, { choose: (id, keyed) => pick.current(id, keyed),
+          const el = layer.current = host.current.appendChild(document.createElement('div'));
+          el.className = 'board-layer';
+          board.current = m.mount(el, at.land, { choose: (id, keyed) => pick.current(id, keyed),
             lost: () => fail(), point: id => over.current?.(id) }, still);
-          // A board made again (the land changed under it) shows at once what is chosen and where you are bound.
+          // A board made again (the land changed under it) shows at once what is chosen and where you are bound,
+          // and the one it replaces is let go.
           board.current.show(at.chosen, at.bound); readied(true);
+          BoardField.release(old.current.splice(0));
         } catch (e) {
           // Made again, and why told where it can be read (a land the board could not be made of).
           console.error(e); fail();
         }
       })));
-      return () => { live = false; board.current?.dispose(); board.current = undefined; readied(false); };
+      return () => {
+        live = false;
+        if (board.current && layer.current) { old.current.push({ api: board.current, el: layer.current }); }
+        board.current = undefined; layer.current = undefined; readied(false);
+      };
     }, [same, able, tries]);
     // Put away as the map closes, before it is taken off the page, while the page can still be told (see
     // BoardCamera.dispose).
-    useLayoutEffect(() => () => { board.current?.dispose(); board.current = undefined; }, []);
+    useLayoutEffect(() => () => {
+      board.current?.dispose(); board.current = undefined; BoardField.release(old.current.splice(0));
+    }, []);
     useEffect(() => { board.current?.show(chosen, bound); }, [chosen, bound, ready]);
     const done = useRef(walked); done.current = walked;
     useEffect(() => {
