@@ -12,9 +12,19 @@ export class LoadingPage {
         <main>
           {!s.leaving && <h1>{heading}</h1>}
           <p className="stage" role="status" aria-live="polite">{s.leaving ? 'Setting out' : s.stage || 'Opening'}…</p>
+          {s.leaving && <LoadingPage.Steps stage={s.stage} />}
         </main>
         <Toast.View app={app} />
       </div>
     );
+  }
+  // What the engine is doing while the company sets out, step by step as it reports each beginning (M19-49): no
+  // share of the whole is guessed at.
+  static readonly steps = ['Drawing the world', 'Placing its people', 'Telling where you are'];
+  static Steps({ stage }: { stage: string }) {
+    const at = LoadingPage.steps.indexOf(stage);
+    if (at < 0) { return null; }
+    return <ol className="steps" aria-hidden="true">{LoadingPage.steps.map((step, i) =>
+      <li key={step} className={i < at ? 'done' : i === at ? 'now' : ''}>{step}</li>)}</ol>;
   }
 }

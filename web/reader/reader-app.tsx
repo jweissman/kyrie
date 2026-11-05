@@ -339,6 +339,7 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
       ...s.confirming ? { confirming: s.confirming } : {},
       combat: frame?.combat, log: (frame?.entries ?? []).slice(-5), party: frame?.screen.party.map(m => ({ name: m.name,
         hp: m.hp })), pending: !!s.pending || s.phase === 'loading', error: s.error, timings: Timings.list,
+      begun: s.frame?.timing,
       keeps: Timings.keeps };
   }
   exportTranscript() { return this.state.frame?.transcript; }

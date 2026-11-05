@@ -422,3 +422,9 @@ html, body { overflow: hidden; }
   font: 400 13px/1.3 var(--do); color: var(--dim); border: 1px solid var(--hair); transition: color var(--quick); }
 .creation .trade:hover, .creation .trade:focus-visible { color: var(--ivory); outline: none; border-color: var(--edge); }
 .creation .trade[aria-pressed="true"] { color: var(--gold); border-color: var(--gold-line); background: var(--gold-glow); }
+/* Setting out, step by step as the engine begins each (M19-49): those done quiet, the one under way lit. */
+.loading .steps { list-style: none; margin: 14px 0 0; padding: 0; display: flex; gap: 18px; justify-content: center;
+  font: 400 12.5px/1.4 var(--do); letter-spacing: .06em; color: rgba(236, 230, 217, .32); }
+.loading .steps li.done { color: rgba(236, 230, 217, .55); }
+.loading .steps li.done::before { content: '✓ '; }
+.loading .steps li.now { color: var(--ivory); }

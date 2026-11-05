@@ -58,6 +58,10 @@ export class Board implements BoardApi {
   private readonly keys = document.createElement('p');
   private dirty = true;
   private drawn = 0;
+  // When the board last changed (a move, a touch, the country coming): the air over it drifts for a while after, and
+  // then the board is drawn only when something changes (an idle map had kept four cores busy in software drawing).
+  private active = 0;
+  static readonly settles = 15000;
   private frame = 0;
   private chosen?: string;
   private bound?: string;
@@ -359,7 +363,9 @@ export class Board implements BoardApi {
       // The country come: the ways over it laid as it now stands.
       if (!moving) { this.lay(); }
     }
-    if (this.dirty || (!this.still && now - this.drawn > 120)) {
+    if (this.dirty) { this.active = now; }
+    const drifting = !this.still && now - this.active < Board.settles;
+    if (this.dirty || (drifting && now - this.drawn > 120)) {
       this.look.air(this.view.distance, this.still ? 40 : t);
       this.renderer.render(this.scene, this.view.camera); this.began ??= performance.now();
       if (this.dirty) { this.labels.place(this.view.camera, [this.host.clientWidth, this.host.clientHeight],

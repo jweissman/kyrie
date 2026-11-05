@@ -121,6 +121,20 @@ export class ModuleBundle {
     } else { LocalKinds.install(module.catalog); }
     return structuredClone(module);
   }
+  // The shared rules a module is read with, joined once for each set of them and kept: every module of a world is read
+  // with the same few, and joining them again for each (each file copied out of the parse cache, then joined) had
+  // been most of what reading a generated world cost (M19-49). Kept, never changed: compose is given its own copy.
+  private static readonly rulesets = new Map<string, Module>();
+  private static shared(files: SourceFile[]): Module {
+    const key = files.map(f => f.text).join('\u0001');
+    let merged = this.rulesets.get(key);
+    if (!merged) {
+      merged = this.merge(files.map(f => this.parsed(f)));
+      if (this.rulesets.size > 8) { this.rulesets.clear(); }
+      this.rulesets.set(key, merged);
+    } else { LocalKinds.install(merged.catalog); }
+    return merged;
+  }
   private static key(text: string, among: boolean): string {
     return among ? `${LocalKinds.fingerprint()}\u0000${text}` : text;
   }
@@ -303,7 +317,7 @@ export class ModuleBundle {
     const generated = { ...this.generated(manifest, texts.slice(-2) as [string, string], seed,
       { ...ModuleBundle.apart(request.context, options.people), now: options.elapsed ?? 0 }),
     imports: manifest.imports ?? [] };
-    const combined = this.merge(files.slice(situationPaths.length).map(f => this.parsed(f)));
+    const combined = this.shared(files.slice(situationPaths.length));
     // What the module names that the shared rules name too is its own, within it (see ModuleShadow).
     const parsed = this.merge(mine);
     const shadowed = ModuleShadow.shared(parsed, combined), told = ModuleShadow.told(shadowed);
