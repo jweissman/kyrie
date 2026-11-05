@@ -36,12 +36,15 @@ describe('the frame after an act, in kite', () => {
     expect(v.after!.next).toEqual({ command: 'talk_to(drover__son)', label: 'Talk to your brother',
       choice: 'drover__son#talk', why: 'kin' });
   });
-  it('says what an answer opened, though the glance does not lead with it', async () => {
+  // A company of one is led to whoever would join it (M19-59: a lone cleric had turned back from every fight of the
+  // first town's jobs, never told the traveller at the inn would come): the answer opened it, and the glance leads it.
+  it('says what an answer opened, and leads a company of one to the brother who would now join it', async () => {
     await g.perform('talk_to(drover__son)');
     const v = await g.perform('drover__son_plan');
     expect(v.after).toMatchObject({ attempt: 'Ask Alfric what he means to do', result: '\'Go after him,\' says Alfric.' });
-    expect(v.after!.next).toEqual({ command: 'recruit(drover__son)', label: 'Ask Alfric to join the company' });
-    expect(v.acts.map(a => a.command)).not.toContain('recruit(drover__son)');
+    expect(v.after!.next).toMatchObject({ choice: 'drover__son#talk', command: 'recruit(drover__son)', why: 'means' });
+    expect(v.acts.find(a => a.choice === 'drover__son#talk')).toMatchObject({ for: 'recruit(drover__son)',
+      note: 'would join you' });
   });
   it('reads the notice: the aims it gave and what was learnt, and no act made up for people not here', async () => {
     const v = await g.choose(/notice/);

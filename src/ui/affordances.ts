@@ -33,7 +33,9 @@ export interface Reading {
     // Where in the settlement a bed is to be had, a step from here, when there is none here.
     bed?: string;
     // When the company carries nothing to make light by: the kinds of thing that light, any of them worth buying.
-    unlit?: Set<string> };
+    unlit?: Set<string>;
+    // Whether the company is one alone, for whom someone who would join is help.
+    alone?: boolean };
 }
 // Every top-level choice of the place (as the page draws it: Attending.place over the scene), and the walks about the
 // town, as candidates to be led with, each with every reason it might be (see Promotion). Pure.
@@ -130,12 +132,12 @@ export class Affordances {
       ...answer ? { answer: answer.label } : {}, ...kin ? { kin: word?.startsWith('your ') ? word : 'your aim' } : {},
       ...held ? { held: word?.startsWith('your ') ? word : 'another aim' } : {},
       ...Object.fromEntries(needs.map(n => [n.why, n.note])) },
-    // Led for an aim that names them and with no answer owed, what it is led for is the first new thing to ask them,
-    // not their first reply (the priest led for his job had stood for his care of the wounded, the innkeeper for a
-    // bed).
-    ...answer?.command ? { command: answer.command }
-      : (kin || held) && asked ? { command: asked.command! }
-        : needs[0]?.choice?.command ? { command: needs[0].choice.command } : {} })];
+    ...answer?.command ? { command: answer.command } : {},
+    // Led for an aim that names them, what it is led for is the first new thing to ask them, not their first reply
+    // (the priest led for his job had stood for his care of the wounded, the innkeeper for a bed); else what the
+    // company needs of them.
+    ...!answer && (kin || held) && asked ? { for: asked.command! }
+      : !answer && needs[0]?.choice?.command ? { for: needs[0].choice.command } : {} })];
   }
   // What someone here offers that the company needs now: a bed at night in a settlement, healing for one hurt; and
   // what it has won, put to use: a treasure it carries bought, a lesson or a spell it can pay for (a company back in
@@ -147,10 +149,14 @@ export class Affordances {
     // the ground had walked from the quarry to the chandler's and back without ever being told a torch was a coin).
     const light = r.needs.unlit && leaves.find(c => r.schema.get(c.command!) === 'buy_item'
       && r.needs.unlit!.has(r.args.get(c.command!)?.[1] ?? ''));
+    // Someone who would join a company of one (a cleric alone had turned back from every fight of the first town's
+    // jobs, and never been told the traveller at the inn would come for a few coin).
+    const hand = r.needs.alone && this.offered(leaves, r, ['recruit']);
     const sale = this.offered(leaves, r, ['sell_valuable']), lesson = this.offered(leaves, r, ['train_member', 'learn_spell']);
     return [...bed ? [{ why: 'night' as const, note: `for the night: ${this.priced(bed)}`, choice: bed }] : [],
       // Before the aim: going on with nothing to see by is going on into the dark.
       ...light ? [{ why: 'dark' as const, note: `a light: ${this.priced(light)}`, choice: light }] : [],
+      ...hand ? [{ why: 'means' as const, note: `would join you${this.fee(hand)}`, choice: hand }] : [],
       ...cure ? [{ why: 'hurt' as const, note: this.priced(cure) }] : [],
       ...sale ? [{ why: 'spoils' as const, note: this.priced(sale) }] : [],
       ...lesson ? [{ why: 'means' as const, note: `a lesson in ${lesson.label.replace(/^Train (\S+ )?(in )?| — .+$/g, '')}` }]
@@ -167,6 +173,10 @@ export class Affordances {
   }
   private static offered(leaves: Choice[], r: Reading, schemas: string[]): Choice | undefined {
     return leaves.find(c => schemas.includes(r.schema.get(c.command!) ?? ''));
+  }
+  private static fee(c: Choice): string {
+    const fee = c.note?.split(' · ')[0];
+    return fee && /coin$/.test(fee) ? `, ${fee}` : '';
   }
   private static priced(c: Choice): string {
     const fee = c.note?.split(' · ')[0];
@@ -307,9 +317,10 @@ export class Affordances {
     return !!c.risk || (!!c.children?.length && c.children.every(k => this.risky(k)));
   }
   private static candidate(c: Choice, at: { kind: Kind; whys: Why[]; r: Reading; subject?: string; exit?: string;
-    notes?: Candidate['notes']; command?: string; visited?: boolean; pointed?: boolean }): Candidate {
+    notes?: Candidate['notes']; command?: string; for?: string; visited?: boolean; pointed?: boolean }): Candidate {
     const command = at.command ?? this.command(c);
-    return { choice: c.id, label: c.label, ...command ? { command } : {}, ...at.subject ? { subject: at.subject } : {},
+    return { choice: c.id, label: c.label, ...command ? { command } : {}, ...at.for ? { for: at.for } : {},
+      ...at.subject ? { subject: at.subject } : {},
       ...at.exit ? { exit: at.exit } : {}, kind: at.kind, whys: at.whys, ...at.notes ? { notes: at.notes } : {},
       order: 0, marks: c.marks ?? [], ...c.minutes ? { minutes: c.minutes } : {},
       ...this.risky(c) ? { risk: true } : {},

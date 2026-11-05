@@ -41,6 +41,9 @@ export interface Promoted {
   choice: string;
   // The command it does (a PlayerView choice, or travel:<place>), for headless use; an opener (a talk) has its own.
   command?: string;
+  // Within an opener (a talk), what it is led for: the first new thing to ask someone an aim names, or what the
+  // company needs of them (a bed at night, a light, a hand); headless players take it there, as a player would.
+  for?: string;
   subject?: string; exit?: string;
   label: string;
   why: Why; facets: Facet[]; tier: Tier;

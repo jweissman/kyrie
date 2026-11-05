@@ -8,7 +8,7 @@ export type Kind = 'talk' | 'act' | 'attack' | 'way' | 'step' | 'travel' | 'ligh
 // One choice the page draws where the company stands, with every reason it might be led with (see Affordances).
 export interface Candidate {
   // The page's own id for it (an opener for what is nested under one: a topic under "Talk to Wat").
-  choice: string; label: string; command?: string; subject?: string; exit?: string;
+  choice: string; label: string; command?: string; for?: string; subject?: string; exit?: string;
   kind: Kind; whys: Why[];
   // The reason's words, by reason ("your brother", "the way you came").
   notes?: Partial<Record<Why, string>>;
@@ -112,7 +112,8 @@ export class Promotion {
       ...tiers.has(0) || tiers.has(2) ? ['urgent' as const] : [], ...tiers.has(3) || tiers.has(4) ? ['new' as const] : [],
       ...c.known ? ['known' as const] : []];
     const note = c.notes?.[why];
-    return { choice: c.choice, ...c.command ? { command: c.command } : {}, ...c.subject ? { subject: c.subject } : {},
+    return { choice: c.choice, ...c.command ? { command: c.command } : {}, ...c.for ? { for: c.for } : {},
+      ...c.subject ? { subject: c.subject } : {},
       ...c.exit ? { exit: c.exit } : {}, label: c.label, why, facets, tier: this.tiers[why][0],
       ...note ? { note } : {}, marks: c.marks };
   }

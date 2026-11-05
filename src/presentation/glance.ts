@@ -142,7 +142,8 @@ export class Glance {
         hurt: new Set(screen.party.filter(m => m.hp < m.maxHp / 2).map(m => m.id)),
         night: screen.expedition.daylight === 'night',
         settled: screen.path.some(p => ['settlement', 'site'].includes(p.kind)),
-        open: screen.exits.some(e => !!e.bearing), ...this.bed(campaign, screen, schema),
+        open: screen.exits.some(e => !!e.bearing), alone: screen.party.length === 1,
+        ...this.bed(campaign, screen, schema),
         ...this.unlit(campaign) } };
   }
   // The kinds of thing that light, when none of the company carries one or has a light going (Affordances.served).
