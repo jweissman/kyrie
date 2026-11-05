@@ -781,6 +781,10 @@
    "faithful",
    "Added to spell and debuff DCs."
   ],
+  "modifier:bonusSpellDamage": [
+   "faithful",
+   "Added to the harm of every spell its bearer casts (test/shared-item-effects.test.ts)."
+  ],
   "modifier:tempHp": [
    "faithful",
    "A pool rolled when the status is applied; it absorbs damage first and ends with the status."

@@ -457,8 +457,8 @@
    "status": "integrated",
    "rule": "ledger",
    "counts": {
-    "integrated": 43,
-    "represented": 5,
+    "integrated": 44,
+    "represented": 4,
     "reference": 0,
     "blocked": 0
    }
@@ -9689,13 +9689,10 @@
   },
   {
    "id": "equipment:singing_stone",
-   "status": "represented",
-   "mechanics": "represented",
+   "status": "integrated",
+   "mechanics": "executable",
    "kyr": [
     "item:singing_stone"
-   ],
-   "blockers": [
-    "Generated; not executable: bonusSpellDamage."
    ]
   },
   {

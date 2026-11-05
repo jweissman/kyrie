@@ -22,6 +22,8 @@ export interface EffectContext {
   // Runs a creature's status or item hooks (set by AbilityUse); hooking marks effects already inside a hook.
   hook?: (holder: Fighter, key: HookKey, subject: Fighter, context: EffectContext) => void;
   hooking?: boolean;
+  // Whether what is being done is a spell, whose harm its caster's bonusSpellDamage adds to.
+  spell?: boolean;
   // The creatures an ability drew at random, drawn once for all its effects and its resist saves.
   drawn?: Fighter[];
   // An ability another one casts (Orsino's cast effect) costs nothing.
@@ -197,8 +199,8 @@ export class Effects {
   static damage(target: Fighter, hit: { amount: number; type: string; critical?: number }, context: EffectContext) {
     if (target.hp === 0) { return 0; }
     const { amount: rolled, type } = hit, actor = context.actor;
-    const bonus = actor && actor.id !== target.id
-      ? Effects.dice(Effects.modifiers(actor).bonusDamage, context, actor) : 0;
+    const bonus = actor && actor.id !== target.id ? Effects.dice(Effects.modifiers(actor).bonusDamage, context, actor)
+      + (context.spell ? Effects.modifiers(actor).bonusSpellDamage ?? 0 : 0) : 0;
     const mitigated = Fighting.mitigate(rolled, type, { bonus, defender: Effects.modifiers(target),
       physical: Content.rules.physicalDamage });
     const { applied, absorbed } = Effects.hp(target, mitigated.amount, context);
