@@ -16,10 +16,10 @@ import { Identity } from '../src/presentation/identity';
 // beneath it, and any key goes straight to the ways in under the game's name; a tap or a click that skips does only
 // that, though it lands where Begin is about to be; another name asked for by the address is shown instead, and keeps
 // to one line on a phone; the gold mark about the ways in closes on the name of the one pointed at;
-// creation asks first why you have come, shows no likeness of you anywhere, and goes on by Continue, the chosen card's
-// rules behind Details; and at a desktop's size, a tablet's either way up and a phone's, creation is the whole screen
-// and play's stage stays inside it, keeping its margins where there is room for them, and the page itself never
-// scrolls.
+// creation asks first why you have come, shows no likeness of you until it is asked how you present, and goes on by
+// Continue, the chosen card's rules behind Details; and at a desktop's size, a tablet's either way up and a phone's,
+// creation and the world map are the whole screen and a place's stage stays inside it, keeping its margins where
+// there is room for them, and the page itself never scrolls.
 class Stage {
   static bounds(page: Page) {
     return page.evaluate(() => {
@@ -150,6 +150,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the opening and the choice of a lif
     expect(await page.locator('[aria-modal="true"]').count()).toBe(0);
     expect(await page.getAttribute('.creation-body', 'data-page')).toBe('calling');
     expect(await page.locator('.creation img').count()).toBe(0);
+    // The life chosen so far gathers in the corner as its emblems; the likeness only once how you present is asked.
+    expect(await page.locator('.signature svg').count()).toBeGreaterThan(1);
     expect(errors).toEqual([]);
     await page.close();
   }, 240000);
@@ -212,9 +214,13 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the opening and the choice of a lif
       const creating = await Stage.bounds(page);
       await page.click('[data-action="start"]');
       await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
+      const mapped = await Stage.bounds(page);
+      await page.click('[data-action="enter-hex"]');
       const playing = await Stage.bounds(page);
-      // Creation is the whole screen, as the title is (OWN-14: no window frame); play keeps the stage's margins.
+      // Creation is the whole screen, as the title is (OWN-14: no window frame), and so is the world map (the owner,
+      // 5 November: edge to edge); a place entered keeps the stage's margins.
       expect([creating.inside, creating.margin, creating.scrolls]).toEqual([true, 0, false]);
+      expect([mapped.inside, mapped.margin, mapped.scrolls]).toEqual([true, 0, false]);
       expect([playing.inside, playing.margin >= margin, playing.scrolls]).toEqual([true, true, false]);
       expect(errors).toEqual([]);
       await page.close();

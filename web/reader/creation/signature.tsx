@@ -4,9 +4,10 @@ import { Glyphs } from './glyphs';
 
 // The life chosen so far, as a small row of its emblems in the corner (the owner, 5 November): the people, the kind
 // of life before, the calling and its way, and the likeness once it is the one alone (a people, a calling and how
-// you present all chosen). Each changes as its choice does; it shows and decides nothing else.
+// you present all chosen: how you present is asked on the last page, and until it has been seen nothing stands for
+// it). Each changes as its choice does; it shows and decides nothing else.
 export class Signature {
-  static View({ app }: { app: ReaderApp }) {
+  static View({ app, likeness }: { app: ReaderApp; likeness: boolean }) {
     const s = app.state, catalog = s.catalog!, m = s.party[0]!;
     const people = catalog.ancestries.find(a => a.id === m.raceId), calling = catalog.callings.find(c => c.id === m.classId);
     const before = catalog.backgrounds.find(b => b.id === m.backgroundId);
@@ -16,7 +17,7 @@ export class Signature {
       calling && { id: calling.id, name: calling.name }, way && { id: way.id, name: way.name }]
       .filter((x): x is { id: string; name: string } => !!x && Glyphs.has(x.id));
     const presentation = ({ she: 'woman', he: 'man' } as const)[m.pronouns as 'she' | 'he'];
-    const face = people && calling && presentation
+    const face = likeness && people && calling && presentation
       && CompanyPortraits.of({ raceId: people.id, classId: calling.id, presentation, key: m.name ?? '' });
     if (!marks.length) { return null; }
     return (

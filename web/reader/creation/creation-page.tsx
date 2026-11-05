@@ -29,7 +29,8 @@ export class CreationPage {
       { id: 'name', ask: 'Choose your name', View: NameStep.View }];
   }
   static View({ app }: { app: ReaderApp }) {
-    const [at, go] = useState('why'), s = app.state;
+    const [at, go] = useState('why'), s = app.state, [named, name] = useState(false);
+    useEffect(() => { if (at === 'name') { name(true); } }, [at]);
     useEffect(() => { document.querySelector('.creation-body')?.scrollTo({ top: 0 }); }, [at]);
     if (!s.setting || !s.catalog || !s.party[0]) { return null; }
     const steps = CreationPage.steps(app), i = Math.max(0, steps.findIndex(x => x.id === at)), step = steps[i]!;
@@ -52,7 +53,7 @@ export class CreationPage {
           {next && <button type="button" className="quiet-word set-out-now" data-action="start" onClick={app.opening.begin}>
             Set out now</button>}
         </nav>
-        <Signature.View app={app} />
+        <Signature.View app={app} likeness={named} />
       </div>
     );
   }
