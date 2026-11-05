@@ -108,7 +108,17 @@ export class RegionMarvels {
       `  Event ${id}_goes beside ${way} when state(${id}, sprung) ${q(`${at.under ? t.text.replace(/^Vines erupt/, 'Roots burst out') : t.text}.`)}.`,
       `  Event ${id}_drawn beside ${way} when state(${id}, drawn) ${q(`The ${t.mechanism} goes off at the pole's end: ${/^[aeiou]/i.test(t.name) ? 'an' : 'a'} ${t.name}, spent on nothing.`)}.`,
       `  Observe ${id}_read beside ${way} of ${id} when tried(${id}, looking) and state(${id}, primed) ${q(how.seen)} teaches ${id}_known.`,
-      ...this.knowing(id, way, how)];
+      ...this.knowing(id, way, how), ...this.beyond(id, way, how)];
+  }
+  // Looked at closely by a company that can take none of the ways of dealing with it: what would (snares.json's
+  // beyond and needs), any one of them.
+  private static beyond(id: string, way: string, how: Snare): string[] {
+    const s = snares as unknown as { beyond: string; needs: Record<string, string> };
+    const needs = [...new Set(how.ways.map(w => w.needing))];
+    const said = needs.map(n => s.needs[n] ?? n), list = said.length < 2 ? said.join('')
+      : `${said.slice(0, -1).join(', ')} or ${said.at(-1)}`;
+    return [`  Observe ${id}_beyond beside ${way} of ${id} when tried(${id}, looking) and state(${id}, primed) and `
+      + `${needs.map(n => `not meets(party, ${n})`).join(' and ')} ${JSON.stringify(s.beyond.replace('{needs}', list))}.`];
   }
   // Whoever has a skill that both reads and deals with a mechanism knows it on sight (snares.json's reads).
   private static knowing(id: string, way: string, how: Snare): string[] {

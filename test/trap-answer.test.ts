@@ -63,4 +63,21 @@ describe('a snare in a generated country', () => {
     expect(c.world.test(ModuleWriter.call('knows', 'party', 'region__w5_snare_known'))).toBe(true);
     expect(PlayerView.choices(c).some(x => /^Say over it what quiets such things/.test(x.choice.name))).toBe(true);
   }, 120000);
+  // Looked at closely by a company that can take none of its answers, it says what would (PD-01: a calling with no
+  // answer had been told nothing of who or what would help).
+  it('tells a company with no answer to it what would deal with it', async () => {
+    const w = await WorldAssembler.assemble('kite', NodeBundleSource.shared,
+      { origin: 'kin', party: [{ name: 'Nan', raceId: 'human', classId: 'thief' }] });
+    const s = await PlaySession.start(w.path, 'kite', w.source), c = s.campaign;
+    const k = c as unknown as { world: { apply(c: unknown[]): unknown }; commit(w: unknown): void };
+    // A thief has no lore, rites or strength for a humming thing; and here, no pole either.
+    const poles = c.world.related('ownedItem').filter(r => c.world.one('itemKind', r.args[0]!) === 'pole')
+      .map(r => ({ kind: 'retract', call: ModuleWriter.call('ownedItem', r.args[0]!, r.args[1]!) }));
+    k.commit(k.world.apply([...poles, { kind: 'assert', call: ModuleWriter.call('at', 'party', 'region__w5_counting') }]));
+    const light = PlayerView.choices(c).find(x => /^Light/.test(x.choice.name));
+    if (light) { await s.perform(light.choice.id); }
+    const look = PlayerView.choices(c).find(x => /^look_closely\(region__w5_snare/.test(x.choice.id))!;
+    const seen = (await s.perform(look.choice.id)).perceptions?.map(p => p.text).join(' ') ?? '';
+    expect(seen).toMatch(/None of you knows how to deal with it as you are: it wants .+\./);
+  }, 120000);
 });
