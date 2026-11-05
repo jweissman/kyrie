@@ -66,27 +66,29 @@ export class MonoDriver {
   async tap(index: number) {
     const choice = `[data-action="choice"][data-index="${index}"]`, sheet = '.intentions [aria-modal="true"]';
     const raised = `${sheet} ${choice} >> visible=true`, shown = `.intentions ${choice} >> visible=true`;
-    if (await this.page.locator(raised).count()) { await this.click(raised); return; }
-    if (!(await this.page.locator(shown).count()) && await this.page.locator('[data-action="enter-hex"]').count()) {
-      await this.click('[data-action="enter-hex"]');
-    }
-    // A place at rest draws only who is here and what is pressing: anything else is in its explorer, opened first.
+    const has = async (s: string) => (await this.page.locator(s).count()) > 0;
+    if (await has(raised)) { await this.click(raised); return; }
+    // Out in the wild, on the world map, the hex the company stands in is entered first.
+    if (!await has(shown) && await has('[data-action="enter-hex"]')) { await this.click('[data-action="enter-hex"]'); }
+    // An explorer (or an old sheet) up that does not hold it is put away, and the place at rest looked at again.
+    if (await has(sheet)) { await this.click(`${sheet} :is(.sheet-shut, [data-action="explore-shut"])`); }
+    if (await has(shown)) { await this.click(shown); return; }
+    // A place at rest draws only who is here and what is pressing: anything else is in its explorer.
     const explore = '[data-action="explore"][data-part="here"]';
-    if (!(await this.page.locator(shown).count()) && await this.page.locator(explore).count()) {
+    if (await has(explore)) {
       await this.click(explore);
-      if (await this.page.locator(raised).count()) { await this.click(raised); return; }
+      if (await has(raised)) { await this.click(raised); return; }
+      await this.click(`${sheet} [data-action="explore-shut"]`);
     }
+    // Where there is no explorer (a road, a book), the old sheets that hold it, or every way.
     const state = await this.inspect(), id = state.choices[index]?.id ?? '';
     const glanced = !!state.glance && [...state.glance.acts.map(a => a.choice), ...state.glance.ways].includes(id);
-    if (await this.page.locator(sheet).count()) { await this.click(`${sheet} .sheet-shut`); }
     const holder = state.sheets && !glanced ? (['look', 'ways', 'more'] as const).find(k => state.sheets![k].includes(id))
       : undefined;
     const opener = holder && { look: '[data-action="look-about"]', ways: '.all-ways', more: '[data-action="more"]' }[holder];
-    if (opener && await this.page.locator(opener).count()) { await this.click(opener); }
-    else if (!(await this.page.locator(shown).count()) && await this.page.locator('.all-ways').count()) {
-      await this.click('.all-ways');
-    }
-    await this.click(shown);
+    if (opener && await has(opener)) { await this.click(opener); }
+    else if (!await has(shown) && await has('.all-ways')) { await this.click('.all-ways'); }
+    await this.click(await has(raised) ? raised : shown);
   }
   // Does a choice on show, found by a predicate; arrows bring the highlight to it, then Enter does it.
   // A choice that asks again before it is done (what cannot be undone, a fight that could be lost) is chosen again,

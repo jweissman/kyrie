@@ -73,7 +73,7 @@ export class WorldStage {
   // dangerous are ringed; more than seven, and the rest are in the explorer.
   static Portraits({ app, draw }: { app: ReaderApp; draw: Draw }) {
     // Those who mean harm last, so that they stand apart at the right of the picture.
-    const here = (app.menu.scene?.subjects ?? []).filter(x => x.kind === 'person' || x.kind === 'animal')
+    const here = (app.menu.scene?.subjects ?? []).filter(x => ['companion', 'person', 'animal'].includes(x.kind))
       .sort((a, b) => Number(!!a.danger) - Number(!!b.danger));
     if (!here.length) { return null; }
     const shown = here.slice(0, 7), more = here.length - shown.length;

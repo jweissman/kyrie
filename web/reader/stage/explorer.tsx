@@ -18,9 +18,11 @@ export class Explorer {
     const frame = app.state.frame!, g = frame.leaf.glance, screen = frame.screen, part = app.state.exploring;
     if (!g || !part) { return null; }
     const going = new Set(SceneSurface.open(screen, SceneSurface.choices(app), []).map(x => x.c.id));
+    // What is done at a way is drawn at it (At the ways), not again among what to do here.
+    const atWays = new Set(Explorer.atWays(app).flatMap(w => w.choices.flatMap(c => [c.id, ...(c.children ?? []).map(k => k.id)])));
     const acts = (app.menu.leads ?? g.acts).filter(a => {
       const c = GlanceStage.choice(app, a.choice);
-      return c?.id !== MenuModel.country.id && !going.has(c?.id ?? '');
+      return c?.id !== MenuModel.country.id && !going.has(c?.id ?? '') && !atWays.has(c?.id ?? '');
     });
     const led = new Set(acts.map(a => GlanceStage.choice(app, a.choice)?.id));
     return (
@@ -56,18 +58,23 @@ export class Explorer {
   // The ways with something on them besides going (a lock to pick, a tripwire, a thing to look at closer), each its
   // name and what can be done there: the rest are their names above, and nothing more.
   static AtWays({ app, draw }: { app: ReaderApp; draw: Draw }) {
-    const ways = PlaceStage.ways(app.state.frame!.screen, SceneSurface.choices(app)).filter(w => w.choices.length > 1);
+    const ways = Explorer.atWays(app);
     return ways.length > 0 && <div className="at-ways" data-line="At the ways">
       <p className="label">At the ways</p>
       <ul className="ways">{ways.map(w => <li key={w.exit.id} data-exit={w.exit.id}>
         <p className="at-way">{GlanceStage.short(w.exit.destination.name)}</p>
+        {w.exit.blocked && <p className="at-why">{Typography.curl(w.exit.blocked)}</p>}
         {w.choices.slice(1).map(c => c.children?.length ? <PlaceStage.Hazard key={c.id} choice={c} draw={draw} />
           : <Act.View key={c.id} choice={c} draw={draw} className="way also" marked>
             {Typography.curl(Words.upper(PlaceStage.also(c.label)))}</Act.View>)}</li>)}</ul></div>;
   }
+  static atWays(app: ReaderApp) {
+    return PlaceStage.ways(app.state.frame!.screen, SceneSurface.choices(app)).filter(w => w.choices.length > 1);
+  }
   // Everyone here by name and what they are, each the way to them.
   static People({ app, draw }: { app: ReaderApp; draw: Draw }) {
-    const people = GlanceStage.people(app);
+    // Whoever is with the company first, then the people of the place.
+    const people = [...(app.menu.scene?.subjects ?? []).filter(x => x.kind === 'companion'), ...GlanceStage.people(app)];
     return people.length > 0 && <div className="also-here people-here" data-line="People here">
       <p className="label">{people.length === 1 ? 'Someone here' : 'People here'}</p>
       <ul className="chips">{people.map(x => <li key={x.id} data-subject={x.id}>

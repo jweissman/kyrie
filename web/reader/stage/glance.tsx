@@ -130,7 +130,7 @@ export class GlanceStage {
   static atRest(app: ReaderApp): Set<string> {
     const g = app.state.frame?.leaf.glance, subjects = app.menu.scene?.subjects ?? [];
     const pressing = g ? GlanceStage.pressing(app.menu.leads ?? g.acts).flatMap(a => GlanceStage.choice(app, a.choice)?.id ?? []) : [];
-    return new Set([...pressing, ...subjects.filter(x => x.kind === 'person' || x.kind === 'animal').slice(0, 7)
+    return new Set([...pressing, ...subjects.filter(x => ['companion', 'person', 'animal'].includes(x.kind)).slice(0, 7)
       .flatMap(x => PlaceStage.into(x)?.id ?? [])]);
   }
   // Four: two rows of the rail, so that the ways under them are in view too.
