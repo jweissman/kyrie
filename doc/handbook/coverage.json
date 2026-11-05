@@ -266,10 +266,10 @@
     "family": "equipment",
     "concept": "equipment",
     "total": 48,
-    "feasible": 43,
+    "feasible": 44,
     "catalogued": 0,
-    "represented": 5,
-    "executable": 42,
+    "represented": 4,
+    "executable": 43,
     "play-validated": 1
    },
    {
@@ -798,11 +798,11 @@
   "phb": {
    "title": "Player's Handbook",
    "counts": {
-    "faithful": 764,
+    "faithful": 765,
     "adapted": 363,
     "represented": 4,
     "kyr": 506,
-    "unsupported": 86,
+    "unsupported": 85,
     "unreachable": 4,
     "data-only": 12
    },
@@ -889,11 +889,11 @@
      "id": "equipment",
      "title": "Equipment",
      "counts": {
-      "faithful": 247,
+      "faithful": 248,
       "adapted": 73,
       "represented": 0,
       "kyr": 56,
-      "unsupported": 11,
+      "unsupported": 10,
       "unreachable": 0,
       "data-only": 0
      }
@@ -994,9 +994,9 @@
   "dmg": {
    "title": "Dungeon Master's Guide",
    "counts": {
-    "faithful": 232,
+    "faithful": 233,
     "adapted": 25,
-    "represented": 37,
+    "represented": 36,
     "kyr": 278,
     "unsupported": 0,
     "unreachable": 0,
@@ -1046,9 +1046,9 @@
      "id": "orsino-world",
      "title": "Appendix: Orsino's world material",
      "counts": {
-      "faithful": 232,
+      "faithful": 233,
       "adapted": 25,
-      "represented": 37,
+      "represented": 36,
       "kyr": 0,
       "unsupported": 0,
       "unreachable": 0,
@@ -8532,7 +8532,7 @@
   {
    "id": "item:singing_stone",
    "title": "Singing Stone",
-   "status": "unsupported",
+   "status": "faithful",
    "book": "phb",
    "section": "equipment/gear"
   },
@@ -16932,7 +16932,7 @@
   {
    "id": "orsino:equipment:singing_stone",
    "title": "Singing Stone",
-   "status": "represented",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-equipment"
   },

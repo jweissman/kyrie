@@ -3093,7 +3093,7 @@ Orsino's planes, traps, wonders, treasure and magic items, with how much of each
 | Robe of Elvenkind | body | rare | dex 2 evasion 10 onAttacked [{"type":"debuff","status":"blinded","target":"attacker","saveDC":25},{"type":"debuff","status":"slow","target":"attacker","saveDC":25}] | faithful |
 | Robe of the Archmagi | body | legendary | int 4 wis 4 bonusSpellDC 4 resistAll 0.15 | faithful |
 | Silvered Bracers | bracers | common | ac -1 | faithful |
-| Singing Stone | amulet | uncommon | bonusSpellDC 1 bonusSpellDamage 1 | represented |
+| Singing Stone | amulet | uncommon | bonusSpellDC 1 bonusSpellDamage 1 | faithful |
 | Staff of Power | weapon | legendary | bonusSpellDC 6 int 6 onAttackHit [{"type":"damage","amount":"=3d6","kind":"force","target":"target"}] | faithful |
 | Staff of the Necromancer | weapon | legendary | bonusSpellDC 5 int 5 onAttackHit [{"type":"damage","amount":"=2d6","kind":"necrotic","target":"target"}] | faithful |
 | Sword of Ages | weapon | legendary | onAttackHit [{"type":"damage","amount":"=1d4+1","kind":"true","target":"target"},{"type":"debuff","status":"weakened","target":"target","saveDC":30}] | faithful |

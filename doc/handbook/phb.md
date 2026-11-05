@@ -4370,16 +4370,16 @@ Dexterity +2.
 
 #### Singing Stone
 
-*Not playable · equipment* · `item:singing_stone`
+*Faithful · equipment* · `item:singing_stone`
 
 - Worth: 200
 - Worn: neck
 
 spells 1 harder to resist.
 
-> A mystical stone that emits a soothing melody when held.
+spells do 1 more harm.
 
-*Not playable — bonusSpellDamage: Kyr does not execute this Orsino effect yet.*
+> A mystical stone that emits a soothing melody when held.
 
 #### Wardstone
 
