@@ -78,6 +78,27 @@ second hour and nothing earned, the follower has no way to grow stronger or hire
 at their end; a company of one that cannot win the first fight has nothing to do but wander. That is the loop's next
 question (the brief's Priority One), not the page's.
 
+Then, 5 November, the follower's own faults and four more of the page's. The follower had done a talk lead's first
+reply in place of opening the conversation (a bed at the inn, four times over by ten in the morning, the purse spent)
+and missed leads given with the company that does them (the notice on the green never read, so no job given). Fixed
+in the harness, it showed the page's: someone an aim names was led for their first service (the priest's care of the
+wounded) not the question the aim is about; nothing told a company with no light that the chandler sold a torch for a
+coin; and the page led back and forth between two aims' places where nothing could be done. Now someone an aim names
+is led with the first new thing to ask them, a seller of light is led first while the company has none, and a place
+left twice with nothing done there is not led back to until the company has news (something learnt, someone joined, a level:
+`CompanyRecall.idle`).
+
+| 200 steps, follow, wanderer | Places reached | Longest stretch with nothing new | Steps with nothing new | Coin at the end |
+|---|---:|---:|---:|---:|
+| a1, cleric | 27 | 16 | 79 | 15 |
+| a1, warrior | 29 | 28 | 86 | 11 |
+| b2, thief | 27 | 37 | 85 | 8 |
+
+(Counted differently from the table above: a step is new if its act or its place is.) What is left is the loop's
+own question, not the page's: an aim beyond a lone company (the rats, a fight it would lose; a dark it has no light
+for) still draws it back once there is news, and none of the three earned a level in 200 steps. What the page should
+say of an aim the company cannot yet meet is the owner's to decide (M19-59).
+
 ## The Orsino inheritance: loot and equipment
 
 Measured over five generated worlds (a1, b2, c3, d4, e5) by whether an item's id is anywhere in the compiled world
