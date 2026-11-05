@@ -12,9 +12,7 @@ export class ParseKeep {
   private constructor(private readonly db: IDBDatabase | undefined, private readonly kept: Map<string, Module>) {}
   static async open(): Promise<ParseKeep> {
     try {
-      const db = await this.request(indexedDB.open(this.database, 1), r => {
-        r.result.createObjectStore('parsed');
-      });
+      const db = await this.request(indexedDB.open(this.database, 1), ParseKeep.made);
       const store = db.transaction('parsed', 'readwrite').objectStore('parsed');
       const [keys, values] = await Promise.all([this.request(store.getAllKeys()), this.request(store.getAll())]);
       const kept = new Map<string, Module>(), stale: IDBValidKey[] = [];
@@ -35,6 +33,7 @@ export class ParseKeep {
       return new ParseKeep(db, kept);
     } catch { return new ParseKeep(undefined, new Map()); }
   }
+  private static made(this: void, r: IDBOpenDBRequest) { r.result.createObjectStore('parsed'); }
   get(key: string): Module | undefined { return this.kept.get(key); }
   set(key: string, module: Module) {
     this.kept.set(key, module);
@@ -43,10 +42,14 @@ export class ParseKeep {
     } catch { /* Not kept: only slower next time. */ }
   }
   private static request<T>(r: IDBRequest<T> | IDBOpenDBRequest, upgrade?: (r: IDBOpenDBRequest) => void): Promise<T> {
-    return new Promise((resolve, reject) => {
-      if (upgrade && 'onupgradeneeded' in r) { r.onupgradeneeded = () => upgrade(r); }
-      r.onsuccess = () => resolve(r.result as T);
-      r.onerror = () => reject(r.error ?? new Error('IndexedDB request failed'));
-    });
+    const { promise, resolve, reject } = Promise.withResolvers<T>();
+    if (upgrade && 'onupgradeneeded' in r) { r.addEventListener('upgradeneeded', upgrade.bind(null, r)); }
+    r.addEventListener('success', ParseKeep.succeeded.bind(undefined, r as IDBRequest, resolve as (v: unknown) => void));
+    r.addEventListener('error', ParseKeep.failed.bind(undefined, r as IDBRequest, reject));
+    return promise;
+  }
+  private static succeeded(this: void, r: IDBRequest, resolve: (v: unknown) => void) { resolve(r.result); }
+  private static failed(this: void, r: IDBRequest, reject: (e: unknown) => void) {
+    reject(r.error ?? new Error('IndexedDB request failed'));
   }
 }
