@@ -59,3 +59,21 @@ The page says what the engine is actually doing, each step as it begins (drawing
 telling where you are), with those done marked and no guessed share of the whole. The 3D map no longer draws its
 drifting air for ever: fifteen seconds after the last movement it draws only when something changes (an idle map had
 kept four cores busy in software GL, which also slowed every start begun beside it).
+
+## The first visit, as a player makes it
+
+Measured 5 November on the same machine, each run in a new browser with nothing kept (the play server restarted:
+`/var/tmp/kyrie/m19/cold.sh <seconds>`), creation's pages gone through and the last one read for a while before
+Set out. The world is drawn, placed and its modules parsed while creation is read, so the wait is only what is left
+of that when the player sets out.
+
+| Seconds on creation's pages before Set out | Ms from Set out to the map |
+|---:|---:|
+| 0 (straight through) | 9 300 |
+| 10 | 843 |
+| 25 | 2 455 |
+
+A first visit is ready under three seconds after Set out for anyone who reads creation's pages for ten seconds; only a
+player who sets out at once waits the whole of the parse. (The earlier table's runs had kept their parses between
+visits: a page opened again in the same browser keeps its IndexedDB.)
+
