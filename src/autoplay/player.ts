@@ -4,7 +4,7 @@ import { Tactics } from '../tactics';
 import { DangerSense } from '../presentation/danger-sense';
 import { Draw } from './draw';
 
-export type Temper = 'wander' | 'intent' | 'fight' | 'investigate' | 'care' | 'expedition' | 'deviate';
+export type Temper = 'wander' | 'intent' | 'fight' | 'investigate' | 'care' | 'expedition' | 'deviate' | 'follow';
 export type PolicyName = Temper | 'mixed';
 export interface Offered { id: string; name: string }
 export interface Situation {
@@ -13,6 +13,8 @@ export interface Situation {
   dangers?: Record<string, string>;
   // Night, when the roads are dark.
   dark?: boolean;
+  // What the page leads with, best first, as commands (asked for by one who follows the page).
+  led?: string[];
 }
 export type Move = { kind: 'command'; id: string } | { kind: 'travel'; to: string };
 
@@ -92,7 +94,19 @@ export class AutoPlayer {
       case 'care': return this.command(d.pick(this.of(s, 'care', 'grow', 'gear', 'trade', 'join')) ?? d.pick(this.of(s, 'wait')));
       case 'expedition': return this.expedition(s) ?? this.command(d.pick(this.winnable(s)) ?? d.pick(this.fresh(s)));
       case 'deviate': return this.command(d.pick(s.offered));
+      // One who follows the page: what it leads with that can be done, else as one who investigates.
+      case 'follow': return this.followed(s)
+        ?? this.command(d.pick(this.of(s, 'talk', 'look').filter(o => !this.tried.has(o.id)))) ?? this.command(d.pick(this.fresh(s)));
     }
+  }
+  // What the page leads with that can be done: a walk it leads with is walked, as the page walks it.
+  private followed(s: Situation): Move | undefined {
+    for (const led of s.led ?? []) {
+      if (led.startsWith('travel:')) { return { kind: 'travel', to: led.slice('travel:'.length) }; }
+      const o = s.offered.find(x => x.id === led);
+      if (o) { return this.command(o); }
+    }
+    return undefined;
   }
   // What a careful player does first: meets a demand it can, goes back from what is beyond it to somewhere it has
   // been, and rests, or waits for the light, rather than go on in the dark.

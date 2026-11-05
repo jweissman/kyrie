@@ -39,7 +39,10 @@ export class Affordances {
     // owner, 4 November: "it always guides you back out").
     const losing = scene.subjects.filter(s => SceneModel.threat(s)).some(s => !['slight', 'fair']
       .includes(screen.people.find(p => p.id === s.id)?.reckoning?.danger ?? ''));
-    const back = losing || !!screen.warned || !!screen.dark;
+    // The way back is led from danger only: from the dark it had led straight back into the ossuary the company had
+    // just left its raiser in, and the follower went to and fro between them a hundred and fifty times. In the dark,
+    // light is led with (see Promotion's dark), and the dark tells the ways the company knows.
+    const back = losing || !!screen.warned;
     // In the dark, nothing gives light when no one can light one (see ChoiceList.lighting).
     const lightless = !!screen.dark && !scene.you.some(c => this.kind(c, r) === 'light');
     return [...scene.subjects.flatMap(s => this.warning(this.subject(s, screen, r), s, screen)),

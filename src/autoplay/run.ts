@@ -14,6 +14,7 @@ import { Invariants, type Violation } from './invariants';
 import { Widening } from './widening';
 import { DangerSense } from '../presentation/danger-sense';
 import { ScreenModel } from '../ui/screen-model';
+import { Narrator } from '../presentation/narrator';
 import { ChoiceList, type Choice } from '../ui/choice-list';
 
 export interface Protagonist { name: string; raceId: string; classId: string }
@@ -57,7 +58,7 @@ export class AutoplayRun {
     const from = this.watch(s);
     let kept: SessionCheckpoint | undefined = s.checkpoint(), failure: Failure | undefined;
     for (let step = 0; step < spec.steps && c.running && !failure; step++) {
-      const move = player.next(this.situation(s, step));
+      const move = player.next(this.situation(s, step, spec.policy === 'follow'));
       if (!move) { failure = { kind: 'softlock', message: 'nothing to choose', step }; break; }
       const said = move.kind === 'travel' ? undefined : this.said(s, move.id), from = this.minutes(s);
       try { await this.apply(s, move, player, metrics); } catch (error) {
@@ -91,11 +92,18 @@ export class AutoplayRun {
   private static leaves(choices: Choice[]): Choice[] {
     return choices.flatMap(c => c.children ? this.leaves(c.children) : [c]);
   }
-  static situation(s: PlaySession, step: number): Situation {
+  static situation(s: PlaySession, step: number, led = false): Situation {
     const c = s.campaign, offered = PlayerView.choices(c).map(x => ({ id: x.choice.id, name: x.choice.name }));
     return { offered, destinations: Itineraries.destinations(c).map(d => ({ id: d.id, name: d.name })),
       visited: VisitedPlaces.of(c, c.playerActor!), step, dangers: this.dangers(s, offered),
-      dark: Travel.dark(c) };
+      dark: Travel.dark(c), ...led ? { led: this.led(s) } : {} };
+  }
+  // What the page leads with where the company stands, best first, by command (see Glance).
+  private static led(s: PlaySession): string[] {
+    const glance = Narrator.leaf(s.campaign, ScreenModel.build(s.campaign)).glance;
+    // A conversation it leads with is opened as the page opens it: by talking to them.
+    return (glance?.acts ?? []).flatMap(a => a.command ? [a.command]
+      : a.choice.endsWith('#talk') ? [`talk_to(${a.choice.slice(0, -'#talk'.length)})`] : []);
   }
   // How each fight offered would go, as the page reckons it, for those it reckons (a group the company could fight).
   private static dangers(s: PlaySession, offered: { id: string }[]): Record<string, string> {

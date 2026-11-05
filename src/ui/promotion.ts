@@ -88,8 +88,13 @@ export class Promotion {
   // or a warning.
   private static allowed(c: Candidate, s: Situation): Why[] {
     if (c.kind === 'study') { return []; }
+    // A question asked once more ("Ask Bask again about …") tells only what was told: never led with, whatever aim it
+    // is about (a player following the page had asked a merchant the same rumour a hundred and sixty times).
+    if (c.command && /_again(\(|$)/.test(c.command)) { return []; }
     if (c.kind === 'step') { return c.whys.filter(w => w === 'toward'); }
-    const whys = c.whys.filter(w => w !== 'unvisited' || (s.settled && !s.threat && !s.warned));
+    // Something done already is not led with again because another aim names whom it is done with: the page had led a
+    // follower to lodge and to work for its keep at the same inn, turn and turn about, for days (the follower's 160).
+    const whys = c.whys.filter(w => (w !== 'unvisited' || (s.settled && !s.threat && !s.warned)) && !(c.known && w === 'held'));
     if (c.kind === 'wait') { return whys.filter(w => w === 'dark'); }
     if (c.kind === 'search') { return whys.filter(w => w === 'sign' || w === 'named'); }
     if (c.kind === 'camp' || c.kind === 'rest') { return whys.filter(w => this.tiers[w][0] === 2); }

@@ -77,6 +77,19 @@ export class CompanyRecall {
   talkedTo(id: string): boolean { return this.r.talked.has(id) || this.lastly.talked.has(id); }
   // Whether it has done this here, the last command included.
   did(place: string, command: string): boolean {
-    return !!this.r.done.get(place)?.has(command) || (this.lastly.from === place && this.lastly.done.has(command));
+    const done = [...this.r.done.get(place) ?? [], ...this.lastly.from === place ? this.lastly.done : []];
+    return done.some(d => CompanyRecall.same(command, d));
+  }
+  // Whether a command as the page offers it is one done: the same, or the same act with the page's arguments among the
+  // engine's, in order (the page leaves out those its label does not show, the company first): "work_keep(innkeeper)"
+  // is "work_keep(party,innkeeper)". Without it nothing offered in that form had ever counted as done.
+  static same(offered: string, done: string): boolean {
+    if (offered === done) { return true; }
+    const [a, b] = [offered, done].map(c => /^([^(]+)\((.*)\)$/.exec(c));
+    if (!a || !b || a[1] !== b[1]) { return false; }
+    const want = a[2]!.split(','), have = b[2]!.split(',');
+    let at = 0;
+    for (const x of want) { at = have.indexOf(x, at); if (at < 0) { return false; } at++; }
+    return true;
   }
 }
