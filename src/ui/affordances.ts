@@ -41,12 +41,12 @@ export class Affordances {
       .includes(screen.people.find(p => p.id === s.id)?.reckoning?.danger ?? ''));
     // The way back is led from danger only: from the dark it had led straight back into the ossuary the company had
     // just left its raiser in, and the follower went to and fro between them a hundred and fifty times. In the dark,
-    // light is led with (see Promotion's dark), and the dark tells the ways the company knows.
+    // light is led with (see Promotion's dark); with nothing to light, the way up or out, toward the light.
     const back = losing || !!screen.warned;
     // In the dark, nothing gives light when no one can light one (see ChoiceList.lighting).
     const lightless = !!screen.dark && !scene.you.some(c => this.kind(c, r) === 'light');
     return [...scene.subjects.flatMap(s => this.warning(this.subject(s, screen, r), s, screen)),
-      ...[...scene.near, ...scene.far].flatMap(c => this.way(c, screen, { r, back })),
+      ...[...scene.near, ...scene.far].flatMap(c => this.way(c, screen, { r, back, lightless })),
       ...this.around(screen, r), ...this.journeys(screen, r),
       ...scene.you.flatMap(c => this.yours(c, screen, { r, threat, lightless }))]
       .map((c, order) => ({ ...c, order }));
@@ -144,7 +144,7 @@ export class Affordances {
   }
   // A way: the one the aim names, one toward it, the way back when there is something to get away from, a way about
   // the place not yet taken, the first thing to try on a way barred.
-  private static way(c: Choice, screen: Screen, at: { r: Reading; back: boolean }): Candidate[] {
+  private static way(c: Choice, screen: Screen, at: { r: Reading; back: boolean; lightless?: boolean }): Candidate[] {
     const exit = screen.exits.find(e => c.id === e.id || c.id.startsWith(`${e.id}/`)), r = at.r;
     if (!exit) { return []; }
     const dest = exit.destination.id, tried = c.id !== exit.id && !!exit.blocked;
@@ -157,7 +157,8 @@ export class Affordances {
       && (r.named.has(r.here) ? 'toward' as const : r.held.has(r.here) ? 'held' as const : undefined);
     const toward = r.toward.get(exit.id) ?? (on || undefined);
     // A way about the place not yet taken is worth taking by day; at night, the way to a bed.
-    const whys: Why[] = [...at.back && dest === r.back && !c.disabled ? ['retreat' as const] : [],
+    const up = at.lightless && ['ascend', 'leave'].includes(exit.transition ?? '');
+    const whys: Why[] = [...(at.back && dest === r.back || up) && !c.disabled ? ['retreat' as const] : [],
       // Not back to a place the aim names that the company has been, from another it names: down in the cellar under
       // the corn-store the rats are in, the stair up had led as "your aim".
       ...r.named.has(dest) && !(r.named.has(r.here) && exit.visited) ? ['named' as const] : [], ...toward ? [toward] : [],
@@ -172,7 +173,7 @@ export class Affordances {
     // A try on a way barred (look at the portcullis) is something done there, not a way.
     const kind = tried ? 'act' as const : exit.bearing ? 'step' as const : 'way' as const;
     return [this.candidate(c, { exit: exit.id, kind, whys, r,
-      notes: { retreat: 'the way you came', named: 'your aim', toward: 'toward your aim', held: 'another aim',
+      notes: { retreat: dest === r.back ? 'the way you came' : 'up, toward the light', named: 'your aim', toward: 'toward your aim', held: 'another aim',
         deeper: 'further in', onward: 'toward the rest of it',
         night: 'a bed for the night', unlooked: exit.blocked ?? '' }, visited: exit.visited,
       pointed: r.pointed.has(dest) })];
