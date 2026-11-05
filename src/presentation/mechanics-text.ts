@@ -203,6 +203,7 @@ export class MechanicsText {
     if (m.extraAttacksPerTurn) { out.push(`${m.extraAttacksPerTurn} more ${m.extraAttacksPerTurn === 1 ? 'blow' : 'blows'} a turn`); }
     if (m.criticalRangeIncrease) { out.push(`a telling blow on ${20 - m.criticalRangeIncrease} or more`); }
     if (m.bonusSpellDC) { out.push(`spells ${m.bonusSpellDC} harder to resist`); }
+    if (m.bonusSpellDamage) { out.push(`spells do ${m.bonusSpellDamage} more harm`); }
     for (const [type, r] of Object.entries(m.resistances ?? {})) {
       out.push(r >= 1 ? `immune to ${type}` : r > 0 ? `resists ${Math.round(r * 100)}% of ${type}`
         : `takes ${Math.round(-r * 100)}% more ${type}`);

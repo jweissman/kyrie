@@ -23,8 +23,8 @@ class Carried {
       { creatureId: 'foe', team: 'goblins' }], { seed });
     return { store, battle };
   }
-  static toHero(battle: Battle) {
-    while (!battle.state.outcome && battle.state.actor !== 'hero') { battle.step(battle.chosen()); }
+  static toHero(battle: Battle, hero = 'hero') {
+    while (!battle.state.outcome && battle.state.actor !== hero) { battle.step(battle.chosen()); }
   }
 }
 
@@ -105,5 +105,25 @@ describe('a thing whose use is not offered now', () => {
     expect(ItemUses.kept('herbs', [{ key: 'use', label: 'Use herbs on Aud', command: 'use_item(herbs1,herbs,aud,aud)' }]))
       .toBeUndefined();
     expect(ItemUses.kept('rope', [])).toBeUndefined();
+  });
+});
+
+// What a thing worn adds to a caster's spells (Orsino's bonusSpellDamage): a singing stone adds one to the harm of
+// every spell its bearer casts.
+describe('a thing that strengthens spells', () => {
+  it('adds to the harm of a spell its bearer casts', () => {
+    const content = new Content('stone');
+    const mage = content.createCreature('mage', { raceId: 'human', classId: 'mage', level: 3 });
+    mage.state.inventory = [...mage.state.inventory ?? [], { id: 'stone', definition: 'singing_stone', equipped: true }];
+    const foe = content.createCreature('foe', { raceId: 'goblin', classId: 'thief', level: 6 });
+    const battle = Battle.encounter(new CreatureStore([mage, foe]), [{ creatureId: 'mage', team: 'fighters' },
+      { creatureId: 'foe', team: 'goblins' }], { seed: 'stone' });
+    Carried.toHero(battle, 'mage');
+    const spell = battle.legalCommands().find(c => Content.abilities.find(a => a.id === c.ability)?.spell
+      && Content.abilities.find(a => a.id === c.ability)!.effects.some(e => e.kind === 'damage') && c.target === 'foe');
+    expect(spell).toBeDefined();
+    const cast = battle.step(spell!).filter(e => e.type === 'damage' && e.target === 'foe');
+    expect(cast.length).toBeGreaterThan(0);
+    expect(cast.every(e => e.type === 'damage' && e.modifiers?.bonus === 1)).toBe(true);
   });
 });

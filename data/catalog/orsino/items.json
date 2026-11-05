@@ -4712,14 +4712,12 @@
    "value": 200,
    "slot": "neck",
    "modifiers": {
-    "bonusSpellDC": 1
-   },
-   "unsupported": {
-    "bonusSpellDamage": "Kyr does not execute this Orsino effect yet."
+    "bonusSpellDC": 1,
+    "bonusSpellDamage": 1
    },
    "source": {
     "orsino": "equipment:singing_stone",
-    "fidelity": "adapted"
+    "fidelity": "faithful"
    }
   },
   "staff_of_power": {

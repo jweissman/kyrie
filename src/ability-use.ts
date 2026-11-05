@@ -86,6 +86,7 @@ export class AbilityUse {
         actor.cooldowns[ability.id] = (ability.cooldown ?? 0) + 1;
       }
     }
+    context.spell = !!ability.spell;
     context.events.push({ type: 'action', turn: context.turn,
       command: { actor: actor?.id ?? Effects.sourceId(context), ability: ability.id, target: chosenId },
       source: context.source ?? { id: actor!.id, kind: 'ability' } });

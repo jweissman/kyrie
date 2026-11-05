@@ -10,7 +10,7 @@ reaches it with declared omissions), **reference** (kept in the registry only, b
 computed from what Kyr has and draws, not claimed: the ledger and generated catalogs for rules and things, what
 a generated country draws for wonders and traps, the voice tables for barks.
 
-2651 entries in 79 families: 1575 integrated, 191 represented, 745 reference, 140 blocked.
+2651 entries in 79 families: 1576 integrated, 190 represented, 745 reference, 140 blocked.
 
 ## By family
 
@@ -42,7 +42,7 @@ a generated country draws for wonders and traps, the voice tables for barks.
 | creature | npcType | 89 | 0 | 0 | 89 | 0 | none | none | — |
 | equipment | armor | 15 | 15 | 0 | 0 | 0 | data/catalog/orsino/items.json | shops, gear, finds | `test/treasure.test.ts` |
 | equipment | consumable | 28 | 22 | 6 | 0 | 0 | data/catalog/orsino/items.json | shops and finds | `test/treasure.test.ts` `test/shared-item-effects.test.ts` |
-| equipment | equipment | 48 | 43 | 5 | 0 | 0 | data/catalog/orsino/items.json | shops and finds | `test/treasure.test.ts` |
+| equipment | equipment | 48 | 44 | 4 | 0 | 0 | data/catalog/orsino/items.json | shops and finds | `test/treasure.test.ts` |
 | equipment | gear | 68 | 65 | 2 | 0 | 1 | data/catalog/orsino/items.json | shops, starting gear | `test/treasure.test.ts` |
 | equipment | gem | 5 | 5 | 0 | 0 | 0 | data/catalog/orsino/items.json | finds in works | `test/treasure.test.ts` |
 | equipment | junk | 71 | 71 | 0 | 0 | 0 | data/catalog/orsino/items.json | finds in works | `test/treasure.test.ts` |
@@ -215,7 +215,6 @@ For each family with entries not met in play: its blockers, with how many entrie
 
 ### equipment
 
-- 1 × Generated; not executable: bonusSpellDamage.
 - 1 × Generated; not executable: reflectSpellChance, onSaveVersusMagic.
 - 1 × Generated; not executable: reflectSpellChance.
 - 1 × Generated; not executable: revealLocation.

@@ -14,6 +14,8 @@ export interface Modifiers {
   saveVersusAll?: number; saves?: Record<string, number>; attributes?: Partial<Record<Attribute, number>>;
   resistances?: Record<string, number>; immune?: string[]; noActions?: boolean; noSpellcasting?: boolean;
   bonusHealing?: Dice; bonusSpellDC?: number; tempHp?: string; onTurnEnd?: Periodic[];
+  // Added to the harm of every spell its bearer casts (Orsino's bonusSpellDamage: a singing stone's one).
+  bonusSpellDamage?: number;
   // Orsino's turn structure: actions a turn beyond the one (haste +1, slow −1, never fewer than one); acting at random
   // (confused); taking the other side (charmed); and control passing to the other side (dominated).
   extraAttacksPerTurn?: number; randomActions?: boolean; changeAllegiance?: boolean; controlledActions?: boolean;
@@ -22,13 +24,13 @@ export interface Modifiers {
 }
 export type DiceModifier = 'bonusDamage' | 'bonusMeleeDamage' | 'bonusHealing';
 export type NumericModifier = 'toHit' | 'ac' | 'evasion' | 'damageReduction' | 'criticalRangeIncrease' | 'initiative'
-  | 'allRolls' | 'saveVersusAll' | 'bonusSpellDC' | 'extraAttacksPerTurn';
+  | 'allRolls' | 'saveVersusAll' | 'bonusSpellDC' | 'bonusSpellDamage' | 'extraAttacksPerTurn';
 export type FlagModifier = 'noActions' | 'noSpellcasting' | 'randomActions' | 'changeAllegiance' | 'controlledActions'
   | 'flee';
 
 export class ModifierSet {
   static readonly numeric: NumericModifier[] = ['toHit', 'ac', 'evasion', 'damageReduction', 'criticalRangeIncrease',
-    'initiative', 'allRolls', 'saveVersusAll', 'bonusSpellDC', 'extraAttacksPerTurn'];
+    'initiative', 'allRolls', 'saveVersusAll', 'bonusSpellDC', 'bonusSpellDamage', 'extraAttacksPerTurn'];
   static readonly dice: DiceModifier[] = ['bonusDamage', 'bonusMeleeDamage', 'bonusHealing'];
   static readonly flags: FlagModifier[] = ['noActions', 'noSpellcasting', 'randomActions', 'changeAllegiance',
     'controlledActions', 'flee'];
