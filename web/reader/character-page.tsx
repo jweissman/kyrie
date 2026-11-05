@@ -138,7 +138,8 @@ export class CharacterPage {
           <p className="does">{q.score !== q.base && <span className="mods">{`Of ${q.base}. `}</span>}
             {CreationRules.quality(q.id, q.score, undefined, false).filter(l => !/^Hit points/.test(l))
               .map(l => <span key={l}>{Typography.curl(l)} </span>)}</p></details></li>)}</ul></section>}
-      {sheet && <section className="fight"><h3>In a fight</h3><dl className="bearings">{sheet.fighting.map(b => <div key={b.label}>
+      {sheet && <section className="fight"><h3>In a fight</h3><dl className="bearings">{sheet.fighting.filter(b => b.label !== 'Hit points')
+        .map(b => <div key={b.label}>
         <dt>{b.label}</dt><dd>{Typography.curl(b.value)}</dd></div>)}</dl>
         <h3>Saves</h3><dl className="bearings saves">{sheet.saves.map(b => <div key={b.label}>
           <dt>{Typography.curl(b.label)}</dt><dd>{b.value} and the die</dd></div>)}</dl></section>}
