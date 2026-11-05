@@ -16,9 +16,21 @@ export class SceneSurface {
       <div className={`scene-surface ${view ? 'painted' : 'unpainted'}${screen.place.underground ? ' under' : ''}`}
         data-region="scene-surface">
         {view ? <div className="scene-view"><PlaceStage.Country view={view} /></div>
-          : <div className="scene-dark" aria-hidden="true" />}
+          : <div className="scene-dark"><SceneSurface.Bearings screen={screen} /></div>}
       </div>
     );
+  }
+  // In the dark, or where a place has no picture, what the company can still tell of where it is: how deep, and which
+  // ways it knows lead from here, by where they go (the owner, 4 November, late: an interior without artwork as
+  // deliberate a scene as one with). Words to orient by, not controls: the ways are taken by Go….
+  static Bearings({ screen }: { screen: Screen }) {
+    const known = screen.exits.filter(e => e.visited || e.transition === 'ascend' || e.transition === 'leave');
+    return <div className="bearings">
+      {screen.place.depth ? <p className="deep">{screen.place.depth === 1 ? 'One storey down' : `${screen.place.depth} storeys down`}</p> : null}
+      <p className="here">{screen.place.name}</p>
+      {known.length > 0 && <ul>{known.slice(0, 5).map(e => <li key={e.id}>
+        <span className="glyph">{SceneSurface.glyph(SceneSurface.whither(e))}</span>{e.destination.name}</li>)}</ul>}
+    </div>;
   }
   // A way's direction as a mark: up, down, in, out, away, on.
   static glyph(whither: string): string {

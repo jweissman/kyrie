@@ -277,3 +277,10 @@
   display: inline-flex; width: auto; }
 .explorer .at-ways .way-thing { margin: 2px 0 4px; font: 400 13px/1.3 var(--do); color: var(--ivory); }
 .explorer .at-ways .at-why { margin: 0 0 6px; font: 400 14px/1.45 var(--serif, Georgia, serif); color: var(--ivory); max-width: 60ch; }
+/* The dark, or a place with no picture: where you are and the ways you know, set quietly in the middle of it. */
+.scene-dark { display: grid; place-items: center; height: 100%; }
+.scene-dark .bearings { text-align: center; color: rgba(236, 230, 217, .55); font: 400 14px/1.6 var(--do); letter-spacing: .04em; }
+.scene-dark .bearings .deep { margin: 0 0 4px; font-size: 11.5px; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); opacity: .7; }
+.scene-dark .bearings .here { margin: 0 0 14px; font: 300 26px/1.2 var(--do); color: rgba(236, 230, 217, .8); }
+.scene-dark .bearings ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.scene-dark .bearings .glyph { display: inline-block; width: 1.4em; color: rgba(236, 230, 217, .4); }
