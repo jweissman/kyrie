@@ -13,6 +13,7 @@ import { GeneratedWorld } from './support/generated';
 // the lot into her keeping; her carter sends it south on a run of his own while the company is elsewhere; and Low
 // Water's Halm, who collects working things, has it in his tray when the company crosses the Rim. No module names
 // another: what passes is custody of a thing of a catalog kind, in the one world.
+class Dale { static said(e: { response?: string; perceptions?: { text: string }[] }) { return [e.response ?? '', ...(e.perceptions ?? []).map(p => p.text)].join(' '); } }
 class World {
   static async start(seed = 'thorn') {
     const w = await WorldAssembler.assemble(seed, NodeBundleSource.shared, { region: { terrain: 'mountain' } });
@@ -68,6 +69,11 @@ describe('the factor who buys old bronze', () => {
     expect(World.holds(s, 'keeps', 'plowwater__halm', 'plongman__teeth')).toBe(true);
     expect(World.holds(s, 'keeps', 'factors__carter', 'plongman__teeth')).toBe(false);
     expect(w.report.placements.filter(p => p.scenario === 'factors').length).toBe(1);
+    // At the dig the company finds the lot on a cloth, and Halm says where it came from.
+    await GeneratedWorld.travel(s, 'plowwater__dig');
+    await s.perform('wait');
+    expect(PlayerView.observe(s.campaign).observations.map(o => o.text).join(' ')).toContain('twelve teeth of green bronze');
+    expect(Dale.said(await World.choose(s, /^Ask Halm where the bell-teeth/))).toContain('Founders\' Exchange in the north');
   }, 600000);
 
   it('sends nothing south if the company buys the lot back at the factor\'s table before the carter goes, and Halm\'s tray stays empty', async () => {

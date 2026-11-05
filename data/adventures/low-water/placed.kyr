@@ -12,4 +12,12 @@ Module lowwater "Low Water" {
     Retract keeps(carter, ?t). Assert keeps(halm, ?t). Assert fromExchange(?t).
   }
   Relation fromExchange(item).
+  // What the company finds at the dig when the Exchange's lot has come: a thing on a cloth, and Halm's account of it. The
+  // lot is only here if the carter brought it; nothing else writes this.
+  Relation exchangeLot().
+  Rule exchange_lot_noted when keeps(halm, ?t) and fromExchange(?t) and not exchangeLot() { Assert exchangeLot(). }
+  Observe halm_tray at dig when exchangeLot() "Apart from the day's finds, on a clean cloth, lie twelve teeth of green bronze, each the shape of a small bell, laid out in a row by someone who has rung every one. Beside them a sack with a tin tag, in a factor's hand: NORTH.".
+  Topic halm_tray_ask with halm "Ask Halm where the bell-teeth on the cloth came from" when exchangeLot() once {
+    Says "'A cart,' says Halm, without looking round from the tray. 'Last week, from a Founders' Exchange in the north, a factor who buys by the pound and sells to the Collegium by the ring. They always have the stuff that rings.' He picks up a tooth and flicks it; the note goes on and on. 'Twelve. Each a voice, each pitched to the next. They come out of a wheel, and a wheel with twelve teeth missing is a wheel that has stopped doing something.' He puts it down very carefully. 'I paid double. I paid for it. I'd like, if you have any idea where the wheel is, to have it back where it belongs, and to have never been paid for it.'".
+  }
 }
