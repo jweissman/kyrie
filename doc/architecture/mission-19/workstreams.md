@@ -57,6 +57,27 @@ measures. The next instrument is a player that follows the aim the page leads wi
 analysis of tedium, purposelessness and economic sense in *ordinary* play is the owner's and an independent player's
 to give, and is open.
 
+### With a player who follows the page
+
+The autoplay now has a player who does what the page leads with (`follow`: it walks the walks and opens the
+conversations the page leads with, else looks and talks). Played the same way, a1, a cleric, 200 steps:
+
+| | Places reached | Longest stretch with nothing new | Steps with nothing new |
+|---|---:|---:|---:|
+| Before (the page as it was) | 4 | 160 | 186 |
+| After the three fixes below, and the dark's | 24 | 11 | 138 |
+
+What it found, all fixed and held by `test/page-follower.test.ts`: the page led with asking a merchant the same rumour
+again (160 times); with lodging and working one's keep at an inn turn and turn about for days (nothing offered in the
+page's form had ever counted as done); from the dark of a crypt straight back into the ossuary its raiser was in, and
+back; and with nothing at all in a dark with no light (now the way up, toward the light).
+
+What it shows and is not yet answered: a lone cleric following the page takes up the priest's job and goes down to the
+raiser, and turns back from a fight reckoned "could be lost" every time; with twelve coin spent on rations by the
+second hour and nothing earned, the follower has no way to grow stronger or hire help. The first jobs' pay comes only
+at their end; a company of one that cannot win the first fight has nothing to do but wander. That is the loop's next
+question (the brief's Priority One), not the page's.
+
 ## The Orsino inheritance: loot and equipment
 
 Measured over five generated worlds (a1, b2, c3, d4, e5) by whether an item's id is anywhere in the compiled world
