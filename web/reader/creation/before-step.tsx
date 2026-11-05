@@ -43,10 +43,7 @@ export class BeforeStep {
   // qualities serve what the calling wants most (a mage offered Poisoner and Courtesan had been offered the first).
   private static first(open: Trade[], kind: string, wants: Record<string, number>): Trade {
     const of = open.filter(b => b.kind === kind);
-    return of.find(b => b.calling) ?? [...of].sort((a, b) => BeforeStep.fit(b, wants) - BeforeStep.fit(a, wants))[0]!;
-  }
-  private static fit(trade: Trade, wants: Record<string, number>): number {
-    return Object.entries(wants).reduce((t, [q, w]) => t + (trade.qualities[q] ?? 0) * w, 0);
+    return of.find(b => b.calling) ?? [...of].sort((a, b) => TradeStep.fit(b, wants) - TradeStep.fit(a, wants))[0]!;
   }
   private static said(trade: Trade, does: string): string {
     return [trade.text && `${Words.upper(trade.name)}: ${trade.text.replace('; ', ', and ')}.`, does].filter(Boolean).join(' ');

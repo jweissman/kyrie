@@ -16,19 +16,21 @@ export class TradeStep {
     const s = app.state, catalog = s.catalog!, m = s.party[0]!;
     const open = catalog.backgrounds.filter(b => !b.calling || b.calling === m.classId);
     const kinds = catalog.kinds.filter(k => open.some(b => b.kind === k.id)), mine = open.find(b => b.id === m.backgroundId);
+    const wants = catalog.callings.find(c => c.id === m.classId)?.qualities;
     return <>
       {mine && <Card.Particulars title={Words.upper(mine.name)} facts={OriginStep.facts(mine, catalog)} />}
       {kinds.map(k => {
-        const rows = open.filter(b => b.kind === k.id), most = TradeStep.most(rows.map(b => b.text));
+        const rows = open.filter(b => b.kind === k.id), most = TradeStep.most(rows.map(b => b.text)), held = m.backgroundId;
+        const alike = TradeStep.alike(rows, most, { held, wants: wants ?? {} });
         return <details key={k.id} className="kit-group" open={mine?.kind === k.id}>
           <summary>{Typography.curl(Words.upper(k.name))}<small>{rows.length}</small></summary>
           <p className="how">{Typography.curl([most && `Most ${most.replace(/\bknows\b/, 'know')
             .replace(/\bcarries\b/, 'carry').replace('; ', ', and ')}.`, k.does].filter(Boolean).join(' '))}</p>
-          <ul className="kit-rows">{TradeStep.distinct(rows, most, m.backgroundId).map(b =>
+          <ul className="kit-rows">{rows.filter(b => !alike.includes(b)).map(b =>
             <TradeStep.Row key={b.id} app={app} trade={b} most={most} />)}</ul>
-          {TradeStep.alike(rows, most, m.backgroundId).length > 0 && <details className="kit-more">
-            <summary>{`${TradeStep.alike(rows, most, m.backgroundId).length} more, alike in what they give`}</summary>
-            <ul className="kit-rows">{TradeStep.alike(rows, most, m.backgroundId).map(b =>
+          {alike.length > 0 && <details className="kit-more">
+            <summary>{`${alike.length} more, alike in what they give`}</summary>
+            <ul className="kit-rows">{alike.map(b =>
               <TradeStep.Row key={b.id} app={app} trade={b} most={most} />)}</ul></details>}
         </details>;
       })}
@@ -44,15 +46,17 @@ export class TradeStep {
       <span className="tag">{b.coin} coin</span>
     </button></li>;
   }
-  // The trades that differ in what they give, the one held, and one of those alike; the rest of the alike folded (the
-  // product-design review's PD-02: thirty scholarly trades, academician to polymath, that gave the same, at once).
-  static distinct(rows: Trade[], most: string | undefined, held?: string): Trade[] {
-    const alike = this.alike(rows, most, held);
-    return rows.filter(b => !alike.includes(b));
-  }
-  static alike(rows: Trade[], most: string | undefined, held?: string): Trade[] {
+  // Those alike in what they give, but for the one held and the one most fit for the calling (its qualities, then
+  // its coin), which are shown with the trades that differ; the rest folded (the product-design review's PD-02: thirty
+  // scholarly trades, academician to polymath, that gave the same, at once; the one shown had been the first by name).
+  static alike(rows: Trade[], most: string | undefined, at: { held?: string; wants: Record<string, number> }): Trade[] {
     if (!most) { return []; }
-    return rows.filter(b => b.text === most && b.id !== held).slice(1);
+    return rows.filter(b => b.text === most && b.id !== at.held)
+      .sort((a, b) => TradeStep.fit(b, at.wants) - TradeStep.fit(a, at.wants) || b.coin - a.coin).slice(1);
+  }
+  // How well a trade suits a calling: what it adds to the qualities the calling rests on, weighed as the calling does.
+  static fit(trade: Trade, wants: Record<string, number>): number {
+    return Object.entries(wants).reduce((t, [q, w]) => t + (trade.qualities[q] ?? 0) * w, 0);
   }
   // What most of a kind's trades know and carry, if most of them say the same.
   static most(texts: string[]): string | undefined {
