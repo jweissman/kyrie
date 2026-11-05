@@ -26,12 +26,12 @@ a generated country draws for wonders and traps, the voice tables for barks.
 | creature | animal | 44 | 39 | 5 | 0 | 0 | data/catalog/orsino/species.json | wild country dens and creatures (data/generation/tables/ecology.json) | `test/wild-country.test.ts` `test/creature-generation.test.ts` |
 | creature | aspect | 31 | 31 | 0 | 0 | 0 | data/catalog/orsino/variants.json#aspects, applied by src/creature-variants.ts | a den's beasts, sometimes, drawn by rarity (src/world/region-ecology.ts); an author's Aspect in a Person | `test/variants.test.ts` |
 | creature | aspectRarity | 5 | 5 | 0 | 0 | 0 | data/catalog/orsino/variants.json#rarity, drawn by src/creature-variants.ts | a den's aspect, drawn by rarity | `test/variants.test.ts` |
-| creature | combatEntity | 5 | 5 | 0 | 0 | 0 | data/catalog/species.json (antimagic_ward, barrier, bomb, phylactery, turret) | none yet: an author's Person of the species | `test/fighting-objects.test.ts` |
+| creature | combatEntity | 5 | 5 | 0 | 0 | 0 | data/catalog/monsters.json (antimagic_ward, barrier, bomb, phylactery, turret) | none yet: an author's Person of the species | `test/fighting-objects.test.ts` |
 | creature | companion | 27 | 0 | 0 | 27 | 0 | none | none | — |
 | creature | creatureOverlay | 1 | 1 | 0 | 0 | 0 | data/catalog/orsino/variants.json#templates (Undead in a Kyr Person) | a barrow's or a ruin's beasts, sometimes | `test/variants.test.ts` |
 | creature | creatureTemplate | 4 | 4 | 0 | 0 | 0 | data/catalog/orsino/variants.json#templates, applied by src/creature-variants.ts | a barrow's or a ruin's beasts, sometimes (skeletal, zombie), laid to rest by rites; an author's Undead in a Person | `test/variants.test.ts` |
 | creature | difficultyTier | 6 | 0 | 0 | 6 | 0 | src/handbook/dmg.ts (described) | none | `test/handbook.test.ts` |
-| creature | dragonColor | 10 | 1 | 0 | 0 | 9 | data/catalog/species.json (dragons) and data/generation/tables/dragons.json | a great work's dragon | `test/great-works.test.ts` |
+| creature | dragonColor | 10 | 1 | 0 | 0 | 9 | data/catalog/monsters.json (dragons) and data/generation/tables/dragons.json | a great work's dragon | `test/great-works.test.ts` |
 | creature | elemental | 17 | 17 | 0 | 0 | 0 | data/catalog/orsino/species.json | summoning | `test/summoning.test.ts` |
 | creature | golemSubstance | 10 | 1 | 0 | 0 | 9 | data/catalog/orsino/species.json, data/generation/tables/creatures.json#constructMaterial | works' guardians | `test/creature-generation.test.ts` |
 | creature | monsterClass | 10 | 0 | 3 | 0 | 7 | data/catalog/classes.json (monster classes) | generated creatures' classes | `test/creature-generation.test.ts` |
@@ -161,7 +161,7 @@ For each family with entries not met in play: its blockers, with how many entrie
 
 ### companion
 
-- 27 × Orsino gives each ancestry its animal companions; Kyr's companions are the animals of the country (tame species in data/catalog/species.json) befriended in play, not a list by ancestry.
+- 27 × Orsino gives each ancestry its animal companions; Kyr's companions are the animals of the country (tame species in data/catalog/animals.json) befriended in play, not a list by ancestry.
 
 ### difficultyTier
 

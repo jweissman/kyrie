@@ -9,7 +9,8 @@ import organisms from '../../data/catalog/organisms.json';
 import religion from '../../data/catalog/religion.json';
 import rules from '../../data/catalog/vocabulary.json';
 import skills from '../../data/catalog/skills.json';
-import species from '../../data/catalog/species.json';
+import animals from '../../data/catalog/animals.json';
+import monsters from '../../data/catalog/monsters.json';
 import orsinoSpecies from '../../data/catalog/orsino/species.json';
 import traits from '../../data/catalog/traits.json';
 import orsinoAbilities from '../../data/catalog/orsino/abilities.json';
@@ -66,8 +67,9 @@ export class Canon {
     { ...conditions.conditions, ...Canon.favours() });
   static readonly traits = Canon.merge<Trait>('trait', orsinoTraits.traits, traits.traits);
   static readonly ancestries = ancestries.ancestries as unknown as Record<string, Ancestry>;
+  // The base creatures: the hand's animals and monsters (animals.json, monsters.json), over Orsino's generated kinds.
   static readonly species = Canon.merge<Species>('species', orsinoSpecies.species as unknown as Record<string, unknown>,
-    species.species as unknown as Record<string, unknown>);
+    { ...animals.species, ...monsters.species } as unknown as Record<string, unknown>);
   static readonly classes = classes.classes as unknown as Record<string, CharacterClass>;
   static readonly skills = skills.skills as unknown as Record<string, Skill>;
   static readonly items = Canon.fine(Canon.merge<ItemKind>('item', orsinoItems.items, items.items));
@@ -113,7 +115,7 @@ export class Canon {
   // its own (a hare, a moth) has none, and lets the company be.
   static temperament(id: string): string | undefined {
     if (!this.isSpecies(id)) { return undefined; }
-    const s = this.creature(id), byType = species.temperaments as Record<string, string>;
+    const s = this.creature(id), byType = monsters.temperaments as Record<string, string>;
     return s.temperament ?? (s.kind === 'monster' ? byType[s.type ?? ''] : undefined);
   }
   static isAncestry(id: string): boolean { return Object.hasOwn(this.ancestries, id); }

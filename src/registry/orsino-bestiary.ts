@@ -5,7 +5,8 @@ import type { RegistryEntry } from './orsino-extract';
 import { OrsinoMonsters } from './orsino-monsters';
 import { OrsinoTranslate } from './orsino-translate';
 import type { Bestiary } from './orsino-effects';
-import handSpecies from '../../data/catalog/species.json';
+import animals from '../../data/catalog/animals.json';
+import monsters from '../../data/catalog/monsters.json';
 import orsinoSpecies from '../../data/catalog/orsino/species.json';
 
 type Raw = Record<string, unknown>;
@@ -110,7 +111,7 @@ export class OrsinoBestiary {
   // catalog, so the summons see every species.
   static vocabulary(entries: RegistryEntry[]): Bestiary {
     const all: Record<string, Species> = { ...orsinoSpecies.species as unknown as Record<string, Species>,
-      ...handSpecies.species as unknown as Record<string, Species> };
+      ...{ ...animals.species, ...monsters.species } as unknown as Record<string, Species> };
     const ids = Object.keys(all).sort();
     const byOrsino = Object.fromEntries(ids.filter(id => all[id]!.source.orsino)
       .map(id => [all[id]!.source.orsino!, id]));

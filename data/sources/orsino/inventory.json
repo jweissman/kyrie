@@ -195,7 +195,7 @@
   },
   "combatEntity": {
    "concept": "creature",
-   "destination": "data/catalog/species.json (antimagic_ward, barrier, bomb, phylactery, turret)",
+   "destination": "data/catalog/monsters.json (antimagic_ward, barrier, bomb, phylactery, turret)",
    "representation": "a construct species that takes its turn in a fight with the object's abilities and traits",
    "generative": "none yet: an author's Person of the species",
    "tests": [
@@ -217,7 +217,7 @@
    "generative": "none",
    "tests": [],
    "status": "reference",
-   "blocker": "Orsino gives each ancestry its animal companions; Kyr's companions are the animals of the country (tame species in data/catalog/species.json) befriended in play, not a list by ancestry.",
+   "blocker": "Orsino gives each ancestry its animal companions; Kyr's companions are the animals of the country (tame species in data/catalog/animals.json) befriended in play, not a list by ancestry.",
    "rule": "family",
    "counts": {
     "integrated": 0,
@@ -398,7 +398,7 @@
   },
   "dragonColor": {
    "concept": "creature",
-   "destination": "data/catalog/species.json (dragons) and data/generation/tables/dragons.json",
+   "destination": "data/catalog/monsters.json (dragons) and data/generation/tables/dragons.json",
    "representation": "dragon species by lineage",
    "generative": "a great work's dragon",
    "tests": [
@@ -5926,7 +5926,7 @@
    "status": "reference",
    "mechanics": "catalogued",
    "blockers": [
-    "Orsino gives each ancestry its animal companions; Kyr's companions are the animals of the country (tame species in data/catalog/species.json) befriended in play, not a list by ancestry."
+    "Orsino gives each ancestry its animal companions; Kyr's companions are the animals of the country (tame species in data/catalog/animals.json) befriended in play, not a list by ancestry."
    ]
   },
   {
@@ -5934,7 +5934,7 @@
    "status": "reference",
    "mechanics": "catalogued",
    "blockers": [
-    "Orsino gives each ancestry its animal companions; Kyr's companions are the animals of the country (tame species in data/catalog/species.json) befriended in play, not a list by ancestry."
+    "Orsino gives each ancestry its animal companions; Kyr's companions are the animals of the country (tame species in data/catalog/animals.json) befriended in play, not a list by ancestry."
    ]
   },
   {
@@ -5942,7 +5942,7 @@
    "status": "reference",
    "mechanics": "catalogued",
    "blockers": [
-    "Orsino gives each ancestry its animal companions; Kyr's companions are the animals of the country (tame species in data/catalog/species.json) befriended in play, not a list by ancestry."
+    "Orsino gives each ancestry its animal companions; Kyr's companions are the animals of the country (tame species in data/catalog/animals.json) befriended in play, not a list by ancestry."
    ]
   },
   {
@@ -5950,7 +5950,7 @@
    "status": "reference",
    "mechanics": "catalogued",
    "blockers": [
-    "Orsino gives each ancestry its animal companions; Kyr's companions are the animals of the country (tame species in data/catalog/species.json) befriended in play, not a list by ancestry."
+    "Orsino gives each ancestry its animal companions; Kyr's companions are the animals of the country (tame species in data/catalog/animals.json) befriended in play, not a list by ancestry."
    ]
   },
   {
@@ -5958,7 +5958,7 @@
    "status": "reference",
    "mechanics": "catalogued",
    "blockers": [
-    "Orsino gives each ancestry its animal companions; Kyr's companions are the animals of the country (tame species in data/catalog/species.json) befriended in play, not a list by ancestry."
+    "Orsino gives each ancestry its animal companions; Kyr's companions are the animals of the country (tame species in data/catalog/animals.json) befriended in play, not a list by ancestry."
    ]
   },
   {
@@ -5966,7 +5966,7 @@
    "status": "reference",
    "mechanics": "catalogued",
    "blockers": [
-    "Orsino gives each ancestry its animal companions; Kyr's companions are the animals of the country (tame species in data/catalog/species.json) befriended in play, not a list by ancestry."
+    "Orsino gives each ancestry its animal companions; Kyr's companions are the animals of the country (tame species in data/catalog/animals.json) befriended in play, not a list by ancestry."
    ]
   },
   {
@@ -5974,7 +5974,7 @@
    "status": "reference",
    "mechanics": "catalogued",
    "blockers": [
-    "Orsino gives each ancestry its animal companions; Kyr's companions are the animals of the country (tame species in data/catalog/species.json) befriended in play, not a list by ancestry."
+    "Orsino gives each ancestry its animal companions; Kyr's companions are the animals of the country (tame species in data/catalog/animals.json) befriended in play, not a list by ancestry."
    ]
   },
   {
@@ -5982,7 +5982,7 @@
    "status": "reference",
    "mechanics": "catalogued",
    "blockers": [
-    "Orsino gives each ancestry its animal companions; Kyr's companions are the animals of the country (tame species in data/catalog/species.json) befriended in play, not a list by ancestry."
+    "Orsino gives each ancestry its animal companions; Kyr's companions are the animals of the country (tame species in data/catalog/animals.json) befriended in play, not a list by ancestry."
    ]
   },
   {
@@ -5990,7 +5990,7 @@
    "status": "reference",
    "mechanics": "catalogued",
    "blockers": [
-    "Orsino gives each ancestry its animal companions; Kyr's companions are the animals of the country (tame species in data/catalog/species.json) befriended in play, not a list by ancestry."
+    "Orsino gives each ancestry its animal companions; Kyr's companions are the animals of the country (tame species in data/catalog/animals.json) befriended in play, not a list by ancestry."
    ]
   },
   {
@@ -5998,7 +5998,7 @@
    "status": "reference",
    "mechanics": "catalogued",
    "blockers": [
-    "Orsino gives each ancestry its animal companions; Kyr's companions are the animals of the country (tame species in data/catalog/species.json) befriended in play, not a list by ancestry."
+    "Orsino gives each ancestry its animal companions; Kyr's companions are the animals of the country (tame species in data/catalog/animals.json) befriended in play, not a list by ancestry."
    ]
   },
   {
@@ -6006,7 +6006,7 @@
    "status": "reference",
    "mechanics": "catalogued",
    "blockers": [
-    "Orsino gives each ancestry its animal companions; Kyr's companions are the animals of the country (tame species in data/catalog/species.json) befriended in play, not a list by ancestry."
+    "Orsino gives each ancestry its animal companions; Kyr's companions are the animals of the country (tame species in data/catalog/animals.json) befriended in play, not a list by ancestry."
    ]
   },
   {
@@ -6014,7 +6014,7 @@
    "status": "reference",
    "mechanics": "catalogued",
    "blockers": [
-    "Orsino gives each ancestry its animal companions; Kyr's companions are the animals of the country (tame species in data/catalog/species.json) befriended in play, not a list by ancestry."
+    "Orsino gives each ancestry its animal companions; Kyr's companions are the animals of the country (tame species in data/catalog/animals.json) befriended in play, not a list by ancestry."
    ]
   },
   {
@@ -6022,7 +6022,7 @@
    "status": "reference",
    "mechanics": "catalogued",
    "blockers": [
-    "Orsino gives each ancestry its animal companions; Kyr's companions are the animals of the country (tame species in data/catalog/species.json) befriended in play, not a list by ancestry."
+    "Orsino gives each ancestry its animal companions; Kyr's companions are the animals of the country (tame species in data/catalog/animals.json) befriended in play, not a list by ancestry."
    ]
   },
   {
@@ -6030,7 +6030,7 @@
    "status": "reference",
    "mechanics": "catalogued",
    "blockers": [
-    "Orsino gives each ancestry its animal companions; Kyr's companions are the animals of the country (tame species in data/catalog/species.json) befriended in play, not a list by ancestry."
+    "Orsino gives each ancestry its animal companions; Kyr's companions are the animals of the country (tame species in data/catalog/animals.json) befriended in play, not a list by ancestry."
    ]
   },
   {
@@ -6038,7 +6038,7 @@
    "status": "reference",
    "mechanics": "catalogued",
    "blockers": [
-    "Orsino gives each ancestry its animal companions; Kyr's companions are the animals of the country (tame species in data/catalog/species.json) befriended in play, not a list by ancestry."
+    "Orsino gives each ancestry its animal companions; Kyr's companions are the animals of the country (tame species in data/catalog/animals.json) befriended in play, not a list by ancestry."
    ]
   },
   {
@@ -6046,7 +6046,7 @@
    "status": "reference",
    "mechanics": "catalogued",
    "blockers": [
-    "Orsino gives each ancestry its animal companions; Kyr's companions are the animals of the country (tame species in data/catalog/species.json) befriended in play, not a list by ancestry."
+    "Orsino gives each ancestry its animal companions; Kyr's companions are the animals of the country (tame species in data/catalog/animals.json) befriended in play, not a list by ancestry."
    ]
   },
   {
@@ -6054,7 +6054,7 @@
    "status": "reference",
    "mechanics": "catalogued",
    "blockers": [
-    "Orsino gives each ancestry its animal companions; Kyr's companions are the animals of the country (tame species in data/catalog/species.json) befriended in play, not a list by ancestry."
+    "Orsino gives each ancestry its animal companions; Kyr's companions are the animals of the country (tame species in data/catalog/animals.json) befriended in play, not a list by ancestry."
    ]
   },
   {
@@ -6062,7 +6062,7 @@
    "status": "reference",
    "mechanics": "catalogued",
    "blockers": [
-    "Orsino gives each ancestry its animal companions; Kyr's companions are the animals of the country (tame species in data/catalog/species.json) befriended in play, not a list by ancestry."
+    "Orsino gives each ancestry its animal companions; Kyr's companions are the animals of the country (tame species in data/catalog/animals.json) befriended in play, not a list by ancestry."
    ]
   },
   {
@@ -6070,7 +6070,7 @@
    "status": "reference",
    "mechanics": "catalogued",
    "blockers": [
-    "Orsino gives each ancestry its animal companions; Kyr's companions are the animals of the country (tame species in data/catalog/species.json) befriended in play, not a list by ancestry."
+    "Orsino gives each ancestry its animal companions; Kyr's companions are the animals of the country (tame species in data/catalog/animals.json) befriended in play, not a list by ancestry."
    ]
   },
   {
@@ -6078,7 +6078,7 @@
    "status": "reference",
    "mechanics": "catalogued",
    "blockers": [
-    "Orsino gives each ancestry its animal companions; Kyr's companions are the animals of the country (tame species in data/catalog/species.json) befriended in play, not a list by ancestry."
+    "Orsino gives each ancestry its animal companions; Kyr's companions are the animals of the country (tame species in data/catalog/animals.json) befriended in play, not a list by ancestry."
    ]
   },
   {
@@ -6086,7 +6086,7 @@
    "status": "reference",
    "mechanics": "catalogued",
    "blockers": [
-    "Orsino gives each ancestry its animal companions; Kyr's companions are the animals of the country (tame species in data/catalog/species.json) befriended in play, not a list by ancestry."
+    "Orsino gives each ancestry its animal companions; Kyr's companions are the animals of the country (tame species in data/catalog/animals.json) befriended in play, not a list by ancestry."
    ]
   },
   {
@@ -6094,7 +6094,7 @@
    "status": "reference",
    "mechanics": "catalogued",
    "blockers": [
-    "Orsino gives each ancestry its animal companions; Kyr's companions are the animals of the country (tame species in data/catalog/species.json) befriended in play, not a list by ancestry."
+    "Orsino gives each ancestry its animal companions; Kyr's companions are the animals of the country (tame species in data/catalog/animals.json) befriended in play, not a list by ancestry."
    ]
   },
   {
@@ -6102,7 +6102,7 @@
    "status": "reference",
    "mechanics": "catalogued",
    "blockers": [
-    "Orsino gives each ancestry its animal companions; Kyr's companions are the animals of the country (tame species in data/catalog/species.json) befriended in play, not a list by ancestry."
+    "Orsino gives each ancestry its animal companions; Kyr's companions are the animals of the country (tame species in data/catalog/animals.json) befriended in play, not a list by ancestry."
    ]
   },
   {
@@ -6110,7 +6110,7 @@
    "status": "reference",
    "mechanics": "catalogued",
    "blockers": [
-    "Orsino gives each ancestry its animal companions; Kyr's companions are the animals of the country (tame species in data/catalog/species.json) befriended in play, not a list by ancestry."
+    "Orsino gives each ancestry its animal companions; Kyr's companions are the animals of the country (tame species in data/catalog/animals.json) befriended in play, not a list by ancestry."
    ]
   },
   {
@@ -6118,7 +6118,7 @@
    "status": "reference",
    "mechanics": "catalogued",
    "blockers": [
-    "Orsino gives each ancestry its animal companions; Kyr's companions are the animals of the country (tame species in data/catalog/species.json) befriended in play, not a list by ancestry."
+    "Orsino gives each ancestry its animal companions; Kyr's companions are the animals of the country (tame species in data/catalog/animals.json) befriended in play, not a list by ancestry."
    ]
   },
   {
@@ -6126,7 +6126,7 @@
    "status": "reference",
    "mechanics": "catalogued",
    "blockers": [
-    "Orsino gives each ancestry its animal companions; Kyr's companions are the animals of the country (tame species in data/catalog/species.json) befriended in play, not a list by ancestry."
+    "Orsino gives each ancestry its animal companions; Kyr's companions are the animals of the country (tame species in data/catalog/animals.json) befriended in play, not a list by ancestry."
    ]
   },
   {
@@ -6134,7 +6134,7 @@
    "status": "reference",
    "mechanics": "catalogued",
    "blockers": [
-    "Orsino gives each ancestry its animal companions; Kyr's companions are the animals of the country (tame species in data/catalog/species.json) befriended in play, not a list by ancestry."
+    "Orsino gives each ancestry its animal companions; Kyr's companions are the animals of the country (tame species in data/catalog/animals.json) befriended in play, not a list by ancestry."
    ]
   },
   {

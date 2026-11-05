@@ -75,7 +75,7 @@
   ],
   "field:combatEntityAbilities": [
    "faithful",
-   "A fighting object's abilities are its species' abilities (data/catalog/species.json): it uses them on its turn as any creature does."
+   "A fighting object's abilities are its species' abilities (data/catalog/monsters.json): it uses them on its turn as any creature does."
   ],
   "field:combatEntityTraits": [
    "faithful",
