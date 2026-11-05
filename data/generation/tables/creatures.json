@@ -165,7 +165,7 @@
       "cave_spider": [
         {
           "raceId": "cave_spider",
-          "hitDie": 8,
+          "hitDie": 4,
           "weapon": "bite",
           "armor": "chitin",
           "abilities": [

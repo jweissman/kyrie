@@ -46,6 +46,12 @@
       "says": "lean and dun-coloured, bred where the sun is hard",
       "traits": ["fire_lineage"], "hint": "#climate == 'arid'"
     },
+    "cave": {
+      "axis": "haunt", "word": "cave", "kinds": ["animal"],
+      "says": "of the deep dark, pale and long in the leg, stringing lines where nothing sees",
+      "attributes": { "dexterity": 1 }, "abilities": ["ensnare"],
+      "hint": "#habitat == 'cave' || #habitat == 'barrow' || #habitat == 'ruin'"
+    },
     "starving": {
       "axis": "disposition", "word": "starving", "kinds": ["animal"],
       "says": "ribs showing; it will not wait to be sure of you",

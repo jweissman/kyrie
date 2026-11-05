@@ -1076,7 +1076,7 @@
       "squirrel",
       "hedgehog",
       "rat",
-      "cave_spider",
+      "spider",
       "cave_hound",
       "rabbit",
       "ferret",
@@ -1164,7 +1164,7 @@
       "goblin": [
        "rat",
        "wolf",
-       "cave_spider"
+       "spider"
       ],
       "half_elf": [
        "fox",
@@ -1191,11 +1191,11 @@
       ],
       "insectoid": [
        "beetle",
-       "cave_spider",
+       "spider",
        "centipede"
       ],
       "kobold": [
-       "cave_spider",
+       "spider",
        "rat",
        "bat"
       ],
@@ -5342,7 +5342,7 @@
      "target": "self",
      "from": [
       "rat",
-      "cave_spider",
+      "spider",
       "centipede"
      ],
      "amount": {

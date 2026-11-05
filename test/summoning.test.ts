@@ -47,7 +47,7 @@ describe('summoning', () => {
     expect(called.length).toBeGreaterThanOrEqual(2);
     const summoned = battle.state.combatants.filter(f => called.includes(f.id));
     expect(summoned.every(f => f.team === 'fighters' && f.summoner === 'caster')).toBe(true);
-    expect(summoned.every(f => ['rat', 'cave_spider', 'centipede'].includes(f.raceId))).toBe(true);
+    expect(summoned.every(f => ['rat', 'spider', 'cave_spider', 'centipede'].includes(f.raceId))).toBe(true);
   });
   it('holds at most three and a third of the level, sending the oldest back', () => {
     const owner = Field.caster('summon_vermin', 1);

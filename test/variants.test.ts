@@ -60,8 +60,8 @@ describe('a creature of its kind, varied', () => {
     const buck = m.people![0]!;
     expect(buck.variations).toEqual(['elder', 'great']);
     expect(ModuleWriter.person(buck)).toContain('Variant elder. Variant great.');
-    const plain = new Content('x').createCreature('r', { raceId: 'great_rat', level: 2 }, 'r');
-    const old = new Content('x').createCreature('r', { raceId: 'great_rat', level: 2, variations: ['elder', 'great'] }, 'r');
+    const plain = new Content('x').createCreature('r', { raceId: 'rat', level: 2 }, 'r');
+    const old = new Content('x').createCreature('r', { raceId: 'rat', level: 2, variations: ['elder', 'great'] }, 'r');
     expect(old.base.strength).toBe(plain.base.strength + 4);
     expect(old.base.maxHp).toBe(plain.base.maxHp + 6);
     expect(old.traits).toContain('sturdy');

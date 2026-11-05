@@ -262,10 +262,10 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 #### Cave spider
 
-*Adapted · beast* · `species:cave_spider`
+*Kyr · a spider, altered* · `species:cave_spider`
 
 - Type: beast (animal)
-- Hit points: d8 a level
+- Hit points: d4 a level
 - Qualities: rolled (3d6 each)
 - Attack: bite, 1d6 piercing
 - Hide: Chitin Armor, armour 2
@@ -275,13 +275,9 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 Venomous Bite: 1d6 (1–6) poison damage to one enemy (halved if resisted; may cause poison: a Constitution save against 15 avoids it); it gains poison for 3 turns (a Constitution save against 12 + level + the caster's spell bonus avoids it). Poison: takes 1d4 (1–4) true damage each turn. A divine spell of the first level. Takes a first-level slot.
 
-Ensnare: One enemy is entangled for 3 turns (a Dexterity save against 12 + level + the caster's spell bonus avoids it). Entangled: −2 to hit, −5 evasion, −5 initiative, Dexterity −5. Again after 3 turns.
-
 Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A dog-sized spider that strings the dark with sticky lines and waits for something to blunder into them.
-
-*Adapted: Orsino's spider: bite and chitin. Kyr enlarges it to a cave hunter, rolls its attributes and gives it Orsino's venomous bite and ensnare.*
 
 #### Centipede
 
@@ -625,12 +621,12 @@ Of deep water: Immune to reflex.
 
 - Type: beast (animal)
 - Hit points: d3 a level
-- Qualities: rolled (3d6 each)
+- Qualities: +4 strength, +14 dexterity, +8 constitution, +3 intelligence, +10 wisdom, +3 charisma
 - Attack: bite, 1d6 piercing
 - Hide: Fur Armor, armour 0
 - Temperament: territorial
 - Found in: settlement, cave
-- Worth: 10 experience a level
+- Worth: 150 experience a level
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
@@ -1050,20 +1046,24 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 #### Rat
 
-*Faithful · beast* · `species:rat`
+*Adapted · beast* · `species:rat`
 
 - Type: beast (animal)
-- Hit points: 2
-- Qualities: +4 strength, +5 dexterity, +4 constitution, +4 intelligence, +4 wisdom, +4 charisma
+- Hit points: d3 a level
+- Qualities: +4 strength, +14 dexterity, +8 constitution, +3 intelligence, +10 wisdom, +3 charisma
 - Attack: bite, 1d6 piercing
 - Hide: Fur Armor, armour 0
-- Worth: 10 experience a level
+- Temperament: wary
+- Found in: settlement, cave, riverbank
+- Worth: 150 experience a level
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
 Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
-> A small rodent of great adaptability and resourcefulness.
+> A rat of the barns and cellars: quick, bold in numbers, and never far from grain.
+
+*Adapted: Orsino's rat (bite and fur) with a hit die, so that it grows with its level: Orsino's fixed two hit points had made a rat of any level one blow (M19-60).*
 
 #### Raven
 
@@ -1115,6 +1115,27 @@ Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 
 Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A legless reptile of profound stealth and, in some species, venomous bite.
+
+#### Spider
+
+*Adapted · beast* · `species:spider`
+
+- Type: beast (animal)
+- Hit points: d4 a level
+- Qualities: rolled (3d6 each)
+- Attack: bite, 1d6 piercing
+- Hide: Chitin Armor, armour 2
+- Temperament: ambush
+- Found in: woodland, cave
+- Worth: 150 experience a level
+
+Venomous Bite: 1d6 (1–6) poison damage to one enemy (halved if resisted; may cause poison: a Constitution save against 15 avoids it); it gains poison for 3 turns (a Constitution save against 12 + level + the caster's spell bonus avoids it). Poison: takes 1d4 (1–4) true damage each turn. A divine spell of the first level. Takes a first-level slot.
+
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
+
+> A hunting spider as big as a cat, all legs and patience: it bites, and its bite is venomous.
+
+*Adapted: Orsino's spider: bite and chitin. Kyr's base spider, a hunting spider as big as a cat with Orsino's venomous bite; the cave spider is this one great and of the dark (variations great and cave), not a kind of its own (the owner, 5 November).*
 
 #### Squirrel
 
@@ -2885,6 +2906,7 @@ A creature is its kind with any of these laid over it, one of each axis: an old 
 | frost | region | frost | thick-coated and pale, bred where the winters are long | Frost adapted | #climate == 'cold' \|\| #habitat == 'snow' |
 | marsh | region | fen | dark and slick with the mud of the fens it was bred in | Marsh adapted | #habitat == 'fen' |
 | sunburnt | region | sun-scorched | lean and dun-coloured, bred where the sun is hard | Fire lineage | #climate == 'arid' |
+| cave | haunt | cave | of the deep dark, pale and long in the leg, stringing lines where nothing sees | Dexterity +1, Ensnare | #habitat == 'cave' \|\| #habitat == 'barrow' \|\| #habitat == 'ruin' |
 | starving | disposition | starving | ribs showing; it will not wait to be sure of you | Strength -1, Constitution -2, Dexterity +1, Berserker Rage | #habitat == 'snow' \|\| #habitat == 'fells' \|\| #habitat == 'heights' |
 | blighted | corruption | blighted | something has got into it: patchy, weeping, and wrong in the way it moves | Constitution +1, Charisma -3, Poison lineage | #habitat == 'barrow' \|\| #habitat == 'ruin' |
 
@@ -4433,7 +4455,7 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 
 #### Rat
 
-*Faithful · animal* · `orsino:animal:rat`
+*Represented · animal* · `orsino:animal:rat`
 
 - Stat line: hp 2, str +1, dex +2, con +1, int +1, wis +1, cha +1
 - Weapon: bite
@@ -4441,7 +4463,11 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 
 > A small rodent of great adaptability and resourcefulness.
 
-*Generated by the Orsino translator.*
+*Orsino's bite and fur become the species' natural weapon and armour; Kyr gives the rat a hit die so that it grows with its level (Orsino's fixed two hit points had made a rat of any level one blow), and its own qualities.*
+
+*Left out: The weapon and body become the species' natural weapon and armour.*
+
+*Left out: Kyr gives the rat a hit die; the Orsino animal stat line's hit points are not used.*
 
 #### Raven
 

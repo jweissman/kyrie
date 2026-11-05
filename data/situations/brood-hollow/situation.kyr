@@ -20,7 +20,7 @@ Module brood_hollow "A brood under the hill" {
     State gorged "The spiders hang heavy and still in the silk, too full to stir.".
   }
   Person mother "the brood-mother" at nest {
-    Role "the brood-mother". Species cave_spider. Variant great. Variant brood_mother. Level 3. Peaceable. Pronouns she.
+    Role "the brood-mother". Species cave_spider. Variant brood_mother. Level 3. Peaceable. Pronouns she.
     State starving "{mother} crouches at the back of {nest}, big as a pony and thin as a rake, turning all her eyes on you at once.".
     State fed "{mother} has dragged the ewe into the dark, and is busy with it.".
     Change feed "Leave the dead ewe for {self}, slowly" from starving to fed consuming ewe.

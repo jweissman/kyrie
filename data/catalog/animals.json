@@ -302,42 +302,65 @@
         "notes": "Uses the existing claws and fur profiles and executable Smash action. Kyr rolls its attributes; the Deem animal grammar composes the body."
       }
     },
-    "cave_spider": {
-      "name": "Cave spider",
+    "spider": {
+      "name": "Spider",
       "type": "beast",
       "kind": "animal",
-      "description": "A dog-sized spider that strings the dark with sticky lines and waits for something to blunder into them.",
+      "description": "A hunting spider as big as a cat, all legs and patience: it bites, and its bite is venomous.",
       "statistics": {
         "attributes": "rolled",
-        "hitDie": 8,
+        "hitDie": 4,
         "primary": "dexterity",
         "weapon": "bite",
         "armor": "chitin"
       },
       "abilities": [
         "venomous_bite",
-        "ensnare",
         "flee"
       ],
+      "temperament": "ambush",
+      "habitats": [
+        "woodland",
+        "cave"
+      ],
+      "source": {
+        "orsino": "animal:spider",
+        "fidelity": "adapted",
+        "notes": "Orsino's spider: bite and chitin. Kyr's base spider, a hunting spider as big as a cat with Orsino's venomous bite; the cave spider is this one great and of the dark (variations great and cave), not a kind of its own (the owner, 5 November)."
+      }
+    },
+    "cave_spider": {
+      "variantOf": "spider",
+      "variations": [
+        "great",
+        "cave"
+      ],
+      "name": "Cave spider",
+      "description": "A dog-sized spider that strings the dark with sticky lines and waits for something to blunder into them.",
       "temperament": "ambush",
       "habitats": [
         "cave",
         "woodland"
       ],
       "source": {
-        "orsino": "animal:spider",
-        "fidelity": "adapted",
-        "notes": "Orsino's spider: bite and chitin. Kyr enlarges it to a cave hunter, rolls its attributes and gives it Orsino's venomous bite and ensnare."
+        "kyr": true,
+        "notes": "A spider grown great in the dark (spider, with the variations great and cave): the name the undertown, the deep sites and the dens have used, kept so that what they say still means it."
       }
     },
-    "great_rat": {
-      "variantOf": "rat",
-      "name": "Great rat",
+    "rat": {
+      "name": "Rat",
       "type": "beast",
       "kind": "animal",
-      "description": "A rat the size of a cat, grown fat in the dark under a town on its grain and its dead: it bites to the bone and does not run from one man.",
+      "description": "A rat of the barns and cellars: quick, bold in numbers, and never far from grain.",
       "statistics": {
-        "attributes": "rolled",
+        "attributes": {
+          "strength": 4,
+          "dexterity": 14,
+          "constitution": 8,
+          "intelligence": 3,
+          "wisdom": 10,
+          "charisma": 3
+        },
         "hitDie": 3,
         "primary": "dexterity",
         "weapon": "bite",
@@ -347,6 +370,25 @@
         "defend",
         "flee"
       ],
+      "temperament": "wary",
+      "habitats": [
+        "settlement",
+        "cave",
+        "riverbank"
+      ],
+      "source": {
+        "orsino": "animal:rat",
+        "fidelity": "adapted",
+        "notes": "Orsino's rat (bite and fur) with a hit die, so that it grows with its level: Orsino's fixed two hit points had made a rat of any level one blow (M19-60)."
+      }
+    },
+    "great_rat": {
+      "variantOf": "rat",
+      "variations": [
+        "great"
+      ],
+      "name": "Great rat",
+      "description": "A rat the size of a cat, grown fat in the dark under a town on its grain and its dead: it bites to the bone and does not run from one man.",
       "temperament": "territorial",
       "habitats": [
         "settlement",
@@ -354,7 +396,7 @@
       ],
       "source": {
         "kyr": true,
-        "notes": "Orsino's rat (bite and fur) grown to the giant rats of the undertown, with rolled attributes and a hit die, since a rat's two hit points made four of them a single blow each (a1's corn-store, 3 November)."
+        "notes": "A rat grown great in the dark under a town (rat, with the variation great): the undertown's rats."
       }
     },
     "great_snake": {

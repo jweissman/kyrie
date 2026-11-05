@@ -107,6 +107,12 @@ export class Content {
   }
   // A request names a family-specific dimension (lineage, material, an adaptation…) that only Deem composition
   // honours. A class alone keeps the character-creation path.
+  // A kind named for what varies it is its base with those variations (see Species.variations), before any the author
+  // gives, each once.
+  private static implied(raceId: string, context: CreatureGenerationContext): CreatureGenerationContext {
+    const own = Canon.isSpecies(raceId) ? Canon.creature(raceId).variations ?? [] : [];
+    return own.length ? { ...context, variations: [...new Set([...own, ...context.variations ?? []])] } : context;
+  }
   private static composed(context: CreatureGenerationContext): boolean {
     if (Object.keys(context.parameters ?? {}).length) { return true; }
     const dimensions = new Set(Object.values(tables.creatureDimensions.groups).flat());
@@ -191,7 +197,7 @@ export class Content {
     creature.base.speed = Math.max(0, Fighting.statMod(creature.base.dexterity));
     if (!species) { this.equip(creature, chassis, context, randomIdentity); }
     Overlays.carry(creature, [...context.gear ?? [], ...species ? [] : Overlays.classGear({ classId })]);
-    CreatureSchema.validate(CreatureVariants.vary(creature, context));
+    CreatureSchema.validate(CreatureVariants.vary(creature, Content.implied(raceId, context)));
     return creature;
   }
   private stream(identity: string, domain: string): Content {

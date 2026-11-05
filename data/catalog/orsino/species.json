@@ -3625,41 +3625,6 @@
     "notes": "Orsino's animal template: every attribute 3 plus the kind's, its hit points, natural weapon and hide, defend and flee."
    }
   },
-  "rat": {
-   "name": "Rat",
-   "type": "beast",
-   "kind": "animal",
-   "description": "A small rodent of great adaptability and resourcefulness.",
-   "statistics": {
-    "attributes": {
-     "strength": 4,
-     "dexterity": 5,
-     "constitution": 4,
-     "intelligence": 4,
-     "wisdom": 4,
-     "charisma": 4
-    },
-    "hitPoints": 2,
-    "weapon": "bite",
-    "armor": "fur",
-    "primary": "strength",
-    "growth": {}
-   },
-   "abilities": [
-    "defend",
-    "flee"
-   ],
-   "traits": [],
-   "worth": {
-    "base": 0,
-    "perLevel": 10
-   },
-   "source": {
-    "orsino": "animal:rat",
-    "fidelity": "faithful",
-    "notes": "Orsino's animal template: every attribute 3 plus the kind's, its hit points, natural weapon and hide, defend and flee."
-   }
-  },
   "raven": {
    "name": "Raven",
    "type": "beast",

@@ -103,6 +103,9 @@ export interface Species {
   name: string; description: string; variantOf?: string; type?: string; kind?: 'animal' | 'monster' | 'spirit';
   statistics?: Statistics; abilities?: string[]; traits?: string[]; resistances?: Record<string, number>;
   temperament?: string; habitats?: string[];
+  // A kind named for what varies it (a great rat, a cave spider): its base (variantOf) with these variations
+  // (variations.json), which every creature of it is made with, as an author's Variant would make it.
+  variations?: string[];
   // Experience for defeating one (Orsino's monsterXp + 50 × level, an animal's 10 × level); else by type.
   worth?: { base: number; perLevel: number };
   omits?: Omissions; source: Source;

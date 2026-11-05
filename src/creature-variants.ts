@@ -40,7 +40,9 @@ export class CreatureVariants {
   // The variations that fit a creature of a species where it is met (its hints, on the place's facts), one of each
   // axis at most, each drawn by chance: how a generated country makes its dens' beasts its own.
   static fitting(species: string, where: Record<string, DeemValue>, chance: () => number): string[] {
-    const kind = Canon.creature(species).kind ?? 'animal', deem = new Deem({ seed: 1 }), taken = new Set<string>();
+    // A kind named for what varies it (a cave spider: great, of the caves) has those axes taken already.
+    const own = Canon.creature(species).variations ?? [], kind = Canon.creature(species).kind ?? 'animal';
+    const deem = new Deem({ seed: 1 }), taken = new Set<string>(own.map(id => this.variations[id]!.axis));
     return Object.entries(this.variations).filter(([, v]) => {
       if (!v.hint || taken.has(v.axis) || !v.kinds.includes(kind)) { return false; }
       const fits = deem.evaluate(v.hint, where) === true && chance() < 0.5;

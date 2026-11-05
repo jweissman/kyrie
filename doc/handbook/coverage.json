@@ -38,8 +38,8 @@
     "total": 44,
     "feasible": 44,
     "catalogued": 0,
-    "represented": 5,
-    "executable": 39,
+    "represented": 6,
+    "executable": 38,
     "play-validated": 0
    },
    {
@@ -1060,10 +1060,10 @@
   "mm": {
    "title": "Monster Manual",
    "counts": {
-    "faithful": 105,
-    "adapted": 158,
-    "represented": 9,
-    "kyr": 32,
+    "faithful": 103,
+    "adapted": 159,
+    "represented": 10,
+    "kyr": 33,
     "unsupported": 5,
     "unreachable": 0,
     "data-only": 123
@@ -1073,10 +1073,10 @@
      "id": "species",
      "title": "Creatures",
      "counts": {
-      "faithful": 40,
-      "adapted": 69,
+      "faithful": 39,
+      "adapted": 70,
       "represented": 0,
-      "kyr": 15,
+      "kyr": 16,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -1138,9 +1138,9 @@
      "id": "orsino-bestiary",
      "title": "Appendix: Orsino's bestiary",
      "counts": {
-      "faithful": 40,
+      "faithful": 39,
       "adapted": 87,
-      "represented": 9,
+      "represented": 10,
       "kyr": 0,
       "unsupported": 0,
       "unreachable": 0,
@@ -18787,7 +18787,7 @@
   {
    "id": "species:cave_spider",
    "title": "Cave spider",
-   "status": "adapted",
+   "status": "kyr",
    "book": "mm",
    "section": "species/species-beast"
   },
@@ -19081,7 +19081,7 @@
   {
    "id": "species:rat",
    "title": "Rat",
-   "status": "faithful",
+   "status": "adapted",
    "book": "mm",
    "section": "species/species-beast"
   },
@@ -19103,6 +19103,13 @@
    "id": "species:snake",
    "title": "Snake",
    "status": "faithful",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:spider",
+   "title": "Spider",
+   "status": "adapted",
    "book": "mm",
    "section": "species/species-beast"
   },
@@ -20509,7 +20516,7 @@
   {
    "id": "orsino:animal:rat",
    "title": "Rat",
-   "status": "faithful",
+   "status": "represented",
    "book": "mm",
    "section": "orsino-bestiary/orsino-animal"
   },

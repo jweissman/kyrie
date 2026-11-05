@@ -5079,7 +5079,7 @@ Drain 1d6 (1–6) health from one enemy (halved if resisted). An arcane spell of
 
 *Faithful · level 1 arcane spell, conjuration* · `ability:summon_vermin`
 
-Call 1d4 + floor((level / 2)) creatures, each one of: rat, cave spider, centipede, to fight for you until the fight ends. An arcane spell of the first level. Takes a first-level slot.
+Call 1d4 + floor((level / 2)) creatures, each one of: rat, spider, centipede, to fight for you until the fight ends. An arcane spell of the first level. Takes a first-level slot.
 
 > Summon a swarm of vermin to harass your enemies.
 
