@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "source": "situation.kyr",
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "imports": [
+    "party",
+    "taproom"
+  ],
+  "roles": {
+    "party": {
+      "type": "group"
+    },
+    "taproom": {
+      "type": "place"
+    }
+  },
+  "generation": {
+    "type": "factors",
+    "templates": "templates.json",
+    "tables": "tables.json"
+  },
+  "exports": {
+    "factor": "factor",
+    "carter": "carter",
+    "south_road": "south_road",
+    "rumour": "rumour"
+  },
+  "experience": 300
+}

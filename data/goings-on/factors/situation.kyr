@@ -1,0 +1,58 @@
+Module factors "The factor who buys old bronze" {
+  Description "A factor of the Founders' Exchange sits in the best taproom in the country and buys old bronze by the pound: bells, weir-metal, the green fittings that farmers turn up with the plough, and asks no questions about where it came from. The carter takes the lots south on a run of the carter's own, and what is carried is sold to whoever in the south pays most for working metal.".
+  Entity party: group "Your company".
+  Place taproom "The taproom" is room.
+  Entity rumour: fact "A factor at the inn buys old bronze by the pound and asks no questions: bells, weir-metal, green fittings from the plough.".
+  Initially Assert established(rumour).
+  // Where the carter is once gone: on the south road, with the cart, a place like another and not a flag. The
+  // yard gate opens on it; a company that follows finds the road, and, a day on, nothing it can overtake.
+  Place south_road "The south road, past the Exchange's yard" is room.
+  Passage yard_gate "the Exchange's yard gate" is door between taproom and south_road.
+  Measure run(entity). Measure dueAt(entity). Measure stock(entity).
+  Relation lotKnown(group). Relation turnedAway(group). Relation facedWith(group).
+
+  Person factor "The factor" at taproom {
+    Role "a factor of the Founders' Exchange, who buys old bronze". Peaceable. Manner jovial.
+    Greets "{factor} looks up from a ledger and weighs you with a look before weighing anything else. 'Founders' Exchange,' says {factor}. 'Bells, fittings, weir-metal, anything green. Fourteen to the pound for good bronze, nine for scrap, and no questions. I do not ask where a thing was, only what it weighs.'".
+    Buys bell_teeth for 9 coin.
+  }
+  Person hands "the factor's hands" at taproom {
+    Role "the Exchange's yardmen". Peaceable. Numbers 2.
+  }
+  Person carter "the carter" at taproom {
+    Role "the factor's carter, who takes the lots south". Peaceable. Manner stoic.
+    Greets "At the end of the bench {carter} looks at your boots, and then at a cup. That is the carter, someone says, who goes south on the first fine day of the week with whatever the factor has bought, and comes back with the money.".
+  }
+
+  // What the Exchange is, said in a taproom, by someone who has said it for years and has stopped hearing it.
+  Topic factor_exchange with factor "Ask {factor} what the Founders' Exchange is" when true once {
+    Says "'A dozen houses, from here down to the sea,' says {factor}. 'Every founder who ever hung a bell wants old bronze for the melt, and every founder is too proud to go and dig it. So they pay me.' {factor} turns a pen over. 'Some of the lots do not go to the melt. A learned society in the south pays double for the ones that ring. They want them whole.' A shrug. 'I find that sort of buyer is the more interesting kind.'".
+  }
+  Topic factor_north with factor "Ask {factor} where the bronze comes from, in the north" when true once {
+    Says "'From farmers, mostly. From stewards, when a house is short of money.' {factor} does not blink. 'A steward is the best seller there is. A steward has the key, and a sense of how little to say.' The pen goes down. 'If you are asking whether I have bought from a great wall, I do not know a wall from a gatepost. I know what is brought to me, and what it weighs.'".
+    On discuss { Assert lotKnown(actor). }
+  }
+
+  // The Exchange does not hurry. A lot that comes to the factor is held for the carter's next run, and the carter goes
+  // when the carter goes. If the company is elsewhere, the carter goes anyway.
+  Rule lot_noted when keeps(factor, ?t) and itemKind(?t, bell_teeth) and dueAt(factor) == 0 {
+    Set dueAt(factor) to watch(clock). Increase dueAt(factor) by run(factor).
+  }
+  Rule lot_collected at taproom when keeps(factor, ?t) and itemKind(?t, bell_teeth) and dueAt(factor) > 0 and watch(clock) >= dueAt(factor) and at(carter, taproom) and able(carter) and not carterGone(carter)
+    says "{carter} finishes a cup, and nods to the factor, and goes out to the yard. A while later a cart goes by on the south road under a tarpaulin, low on its springs." {
+    Retract keeps(factor, ?t). Assert keeps(carter, ?t). Retract at(carter, taproom). Assert at(carter, south_road). Assert carterGone(carter).
+  }
+  Relation carterGone(group).
+  // The company may buy a lot back before the cart goes: at a profit to the Exchange, and the factor's good opinion.
+  Action buy_back(actor: group, site: place, ware: item) "Buy {ware} back from {factor} at fourteen to the pound" {
+    Description "Twelve teeth at a pound apiece. Anything the factor is holding will be sold back, at a profit.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(factor, site) and keeps(factor, ware) and itemKind(ware, bell_teeth) and quantity(actor, gold) >= 14.
+    Time 2 minutes.
+    On success { Decrease quantity(actor, gold) by 14. Increase quantity(factor, gold) by 14. Retract keeps(factor, ware). Assert keeps(actor, ware). Set dueAt(factor) to 0. }
+    Result "{factor} weighs it in front of you, to the ounce, and writes the sum in the ledger, and gives you the lot in a sack. 'Fourteen,' says {factor}. 'I would have paid nine for them if you had come last week.'".
+  }
+  Observe lot_held at taproom when keeps(factor, ?t) and itemKind(?t, bell_teeth) and not carterGone(carter) "In the corner behind the factor's chair, in a sack with a tin tag, lies a lot of green bronze teeth. The tag says NORTH. The carter will have it on the next fine day.".
+  Observe gone_south at taproom when carterGone(carter) "The corner behind the factor's chair is clear, and the carter's place on the bench is empty.".
+  Objective lot when lotKnown(party) and keeps(factor, ?t) and itemKind(?t, bell_teeth) and not carterGone(carter) "A lot of bronze teeth from the north is waiting in the factor's corner for the carter.".
+  Goal carterGone(carter).
+}

@@ -113,7 +113,7 @@ Module hollins "Behind the Wainscot" {
     On discuss { Assert knows(actor, sovereign_wanted). }
   }
   Discovery sovereign_wanted "Hob Ludd will give thirty coin for one gold Whitbread sovereign out of the Lady's purse, which he supposes lies on her bedside table.".
-  Kind sovereign_kind "a Whitbread sovereign" is treasure worth 30 weighing 6 described "A gold coin a foot across and as thick as a finger, with a bearded giant in profile on one face and on the other a tower on a hill and the words HOLLINS · WHITLOCK. It is the heaviest single thing you have ever picked up that was not a stone.".
+  Kind sovereign_kind "a Whitbread sovereign" is treasure worth 30 weighing 6 described "A gold coin a foot across and as thick as a finger, with a bearded giant in profile on one face and on the other a tower on a hill and the words HOLLINS · WHITBREAD. It is the heaviest single thing you have ever picked up that was not a stone.".
   Item sovereign "a Whitbread sovereign" is sovereign_kind in lady_purse.
   Action sell_sovereign(actor: group, site: place) "Sell Hob Ludd the Whitbread sovereign" {
     Requires able(actor) and company(actor) and at(actor, site) and at(hob, site) and carries(actor, sovereign).

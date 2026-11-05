@@ -15,10 +15,12 @@
   ],
   "imports": [
     "party",
-    "word"
+    "word",
+    "factor"
   ],
   "optional": [
-    "word"
+    "word",
+    "factor"
   ],
   "roles": {
     "party": {

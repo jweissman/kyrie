@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "id": "factors",
+  "name": "The factor who buys old bronze",
+  "kind": "town",
+  "instances": 1,
+  "weight": 1,
+  "places": {
+    "town": { "settlement": "largest" }
+  },
+  "modules": [
+    {
+      "id": "factors",
+      "bundle": "../goings-on/factors/module.json",
+      "imports": { "party": "@party", "taproom": "@town.taproom" }
+    }
+  ],
+  "hooks": [
+    { "fact": "factors.rumour", "topic": "the factor who buys old bronze at {town}", "channels": ["tavern", "market"], "opens": false }
+  ]
+}

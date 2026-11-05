@@ -290,8 +290,10 @@ export class WorldAssembler {
   // The heralds of the countries a first region lies beside (see Countries.heralds): scenarios kept out of the
   // library's draw, one for each country that sends one.
   static async heralds(base: BundleSource, region: Region, seed: string): Promise<Entry[]> {
-    return Promise.all(Countries.heralds(region.terrain, seed).map(({ country }) =>
-      StoryPeople.entry(base, base.resolve(`data/scenarios/${country.herald!.scenario}`))));
+    // One herald may go ahead of several countries (the factor who buys old bronze is the same factor to each): placed
+    // once, bound to every country that names it.
+    const scenarios = [...new Set(Countries.heralds(region.terrain, seed).map(({ country }) => country.herald!.scenario))];
+    return Promise.all(scenarios.map(scenario => StoryPeople.entry(base, base.resolve(`data/scenarios/${scenario}`))));
   }
   static async library(base: BundleSource, index: string): Promise<Entry[]> {
     const path = base.resolve(index);

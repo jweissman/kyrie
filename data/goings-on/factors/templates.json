@@ -1,0 +1,18 @@
+{
+  "factors": {
+    "__no_id": true,
+    "terrain": "forest",
+    "name": "The factor who buys old bronze",
+    "creatures": [],
+    "actors": { "order": [] },
+    "casting": "=gen(factors_casting)",
+    "initial": "=concat(gen(factors_run), gen(factors_stock))",
+    "outcomes": [{ "id": "sent", "predicate": "carterGone(carter)" }]
+  },
+  "factors_casting": { "__no_id": true, "factor": "=gen(factors_factor)", "carter": "=gen(factors_carter)", "hands": "=gen(factors_hands)" },
+  "factors_factor": { "__no_id": true, "_folk": "=lookup(factorFolk, #terrain)", "_drawn": "=lookup(townsfolkName, #_folk)", ">name": "=defined('taken') ? apart(#_drawn, #taken, #_folk, 'factors_factor') : #_drawn", "raceId": "=#_folk" },
+  "factors_carter": { "__no_id": true, "_folk": "=lookup(carterFolk, #terrain)", "_drawn": "=lookup(townsfolkName, #_folk)", ">name": "=defined('taken') ? apart(#_drawn, #taken, #_folk, 'factors_carter') : #_drawn", "raceId": "=#_folk" },
+  "factors_hands": { "__no_id": true, "raceId": "=lookup(carterFolk, #terrain)", "count": "=2 + 1d3" },
+  "factors_run": { "__no_id": true, ">name": "run", "args": ["factor"], "value": "=144 * (2 + 1d3)" },
+  "factors_stock": { "__no_id": true, ">name": "stock", "args": ["factor"], "value": "=2d6" }
+}

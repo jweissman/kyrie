@@ -30,6 +30,12 @@
    "after": {
     "talk": "A notice from Merrowdale still hangs where travellers will see it, curling at the corners. Nobody talks of the forty crowns now: the word down the north road is that the Long Man is quiet.",
     "told": "{keeper} hears you out, all of it, without a word. 'There was word of it already,' {keeper} says then. 'Off the north road: the thing on the ridge is quiet, and nobody up there talks of forty crowns any more. Nobody said who.' {keeper} looks at you a while longer, then reaches up and takes the notice from Merrowdale down, and puts it on the fire."
+   },
+   "herald": {
+    "scenario": "factors.scenario.json",
+    "exports": [
+     "factor"
+    ]
    }
   },
   {
@@ -139,7 +145,14 @@
    "rumour": "'Away in the south of the country there's a city down the inside of a crater, Ammerlin,' says {keeper}. 'Their lake's been going down three years, and nobody there will believe anybody else about why. So they've sent out for someone from outside to measure it, and put their name to the answer. The Office of Measures pays, if you can count.'",
    "heard": "Away in the south of the country lies the Bowl of Ammerlin, a city down the inside of a crater, whose lake has been falling for three years; its Office of Measures wants someone from outside to measure it and say why.",
    "skyline": "the rim of a great crater, with smoke going up out of it",
-   "far": "a city down the inside of a crater is losing its lake, and nobody there believes anybody else about why"
+   "far": "a city down the inside of a crater is losing its lake, and nobody there believes anybody else about why",
+   "herald": {
+    "scenario": "factors.scenario.json",
+    "exports": [
+     "carter",
+     "south_road"
+    ]
+   }
   },
   {
    "id": "tessary",
