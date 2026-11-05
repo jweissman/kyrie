@@ -118,13 +118,23 @@
 .focus .also-here .chips { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
 .focus .yours-here .acts.small { display: flex; flex-wrap: wrap; gap: 6px; }
 .focus .yours-here .acts.small .act { min-height: 36px; padding: 6px 12px 6px 28px; font-size: 13.5px; }
-/* The wild: the board is the whole stage under the bar, and what the company attends to floats over it at the right;
-   a town chosen on it is entered from its card (the owner, 4 November evening). */
-.world-page.scale-board .world-body { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr); }
-.world-page.scale-board .world-body > .surface { grid-area: 1 / 1; }
-.world-page.scale-board .focus { grid-area: 1 / 1; justify-self: end; align-self: start; z-index: 2; position: relative;
-  width: min(25rem, calc(100% - 32px)); max-height: calc(100% - 32px); margin: 16px; border: 1px solid var(--edge-strong);
-  background: rgba(16, 17, 21, .9); backdrop-filter: blur(8px); box-shadow: 0 18px 50px rgba(0, 0, 0, .5); }
+/* The world map: the whole screen, edge to edge, with no frame about it (the owner, 5 November); where and when, the
+   books, the board's own keys and what is chosen on it all float over it. A town chosen is travelled to from its
+   card, and entered from it once the company is there. */
+.shell.overworld { --gx: 0px; --gy: 0px; --frame-w: 100vw; --frame-h: 100dvh; }
+.shell.overworld .frame { border: 0; box-shadow: none; background: var(--ground); }
+.shell.overworld .frame::after { display: none; }
+.world-page.scale-board { grid-template-rows: minmax(0, 1fr); }
+.world-page.scale-board .world-bar { position: absolute; z-index: 3; top: 0; left: 0; right: 0; border: 0;
+  padding-top: max(16px, env(safe-area-inset-top)); pointer-events: none;
+  background: linear-gradient(180deg, rgba(10, 11, 14, .82), rgba(10, 11, 14, .4) 62%, transparent); }
+.world-page.scale-board .world-bar .title-block { max-width: calc(100% - 22rem); }
+.world-page.scale-board .world-body { grid-row: 1; grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr); }
+.world-page.scale-board .world-body > .surface { grid-area: 1 / 1; background: none; }
+.world-page.scale-board .focus { grid-area: 1 / 1; justify-self: end; align-self: end; z-index: 2; position: relative;
+  width: min(25rem, calc(100% - 40px)); max-height: calc(100% - 150px); margin: 20px; border: 1px solid var(--edge);
+  background: rgba(14, 15, 19, .84); backdrop-filter: blur(10px); box-shadow: 0 18px 50px rgba(0, 0, 0, .45); }
+.world-page.scale-board .board-surface .field-tools { top: auto; bottom: 24px; left: 20px; }
 .enter-card { padding: 0 20px 20px; display: grid; gap: 12px; overflow-y: auto; }
 .enter-card .enter-view { position: relative; height: 150px; margin: 0 -20px 4px; overflow: hidden; }
 .enter-card .enter-view .scenery { position: absolute; inset: 0; margin: 0; }
@@ -137,7 +147,10 @@
   background: var(--gold); border: 1px solid var(--gold); }
 .enter-card .enter:hover, .enter-card .enter:focus-visible { filter: brightness(1.08); outline: 2px solid var(--ivory); }
 @media (max-width: 899px), (orientation: portrait) {
-  .world-page.scale-board .focus { justify-self: stretch; align-self: end; width: auto; max-height: 52%; }
+  .world-page.scale-board .focus { justify-self: center; align-self: end; width: min(34rem, calc(100% - 32px));
+    max-height: 46%; margin: 16px; }
+  .world-page.scale-board .world-bar .title-block { max-width: none; padding-top: 44px; }
+  .world-page.scale-board .board-surface .field-tools { bottom: auto; top: 50%; transform: translateY(-50%); }
 }
 /* The board's own controls stand at its left, clear of what floats at its right. */
 .board-surface .field-tools { left: 16px; right: auto; }

@@ -27,8 +27,6 @@ export class PlanView {
           {chart.levels.map(l => <li key={l.name} {...l.here ? { 'aria-current': 'location' as const } : {}}>
             {Typography.curl(l.name)}</li>)}</ol>}
         <PlanView.Drawn chart={chart} />
-        <p className="key">Where you are is ringed; a room you have not been in is hollow; a way you have not taken is
-          broken; an arrow is a way out of this level.</p>
       </section>
     );
   }

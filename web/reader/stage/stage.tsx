@@ -55,6 +55,11 @@ export class Stage {
     // map when come to, and entered to deal with whatever stopped the journey there.
     return 'explore';
   }
+  // Whether the world map is the whole stage: the company out on it, and nothing come over it.
+  static overworld(app: ReaderApp): boolean {
+    const s = app.state;
+    return s.phase === 'play' && !!s.frame && !!s.outdoors && !!s.frame.screen.region?.land && Stage.mode(app) === 'explore';
+  }
   // Whether a new game's opening is being told, before its first place: then the keys are the opening's.
   static prologue(app: ReaderApp): boolean {
     const s = app.state;

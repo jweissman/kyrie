@@ -9,13 +9,15 @@ import { Flame } from './stage/flame';
 // The lantern: a dark ground with the country's painting far behind it, dim and out of focus and tinted by the hour,
 // and on it one bounded stage, lit, where the game is played. Every page is held inside the stage, with its margins
 // kept (about a fifth of a desktop's width, less on a tablet, none on a phone); the title, the choice of a life in
-// a drawn country (OWN-14: no window frame), the setting out from it and a new game's opening (OWN-17) break out of it.
+// a drawn country (OWN-14: no window frame), the setting out from it, a new game's opening (OWN-17) and the world map
+// (the owner, 5 November: edge to edge, all else over it) break out of it.
 export class Shell {
   static View({ app, children }: { app: ReaderApp; children: ReactNode }) {
     const s = app.state, plate = Shell.plate(app);
     const creating = (s.phase === 'company' || (s.phase === 'loading' && !!s.leaving)) && !!s.setting?.generated;
     const style = { '--plate': plate ? `url(paintings/large/${plate}.webp)` : 'none' } as CSSProperties;
-    const apart = `${creating ? ' creating' : ''}${Stage.prologue(app) ? ' prologue' : ''}`;
+    const apart = `${creating ? ' creating' : ''}${Stage.prologue(app) ? ' prologue' : ''}`
+      + `${Stage.overworld(app) ? ' overworld' : ''}`;
     return (
       <div className={`shell phase-${s.phase} hour-${Shell.hour(app)}${apart}`} style={style}>
         <div className="ambient" aria-hidden="true" />

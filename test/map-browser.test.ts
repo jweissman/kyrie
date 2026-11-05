@@ -36,10 +36,17 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the map and the notes, to plan with
     const card = await page.textContent('.enter-card');
     expect(card).toContain('Brockfield');
     expect(card).toMatch(/by the ways you know/);
-    await page.click('.enter-card [data-action="enter"]');
+    // Seen is not there: travelled to and come to on the map, still outside it, then entered (the owner, 5 November).
+    await page.click('.enter-card [data-action="travel"]');
     await driver.settle();
+    // Come to it, or stopped on the way where the map marks it (kite's bridge over the Redwater): either way the map
+    // stays up over where the company is, and it is entered from there.
+    await page.waitForSelector('.enter-card[data-state="arrived"], .world-page.interrupted', { timeout: 30000 });
+    expect(await page.locator('.world-page.scale-board').count()).toBe(1);
+    await page.click('[data-action="enter-hex"]');
     const after = await driver.inspect();
     expect([after.mode, after.place?.id !== from]).toEqual(['explore', true]);
+    expect(await page.locator('.world-page.scale-scene').count()).toBe(1);
     // Going anywhere is the map's alone: the notes set out for nowhere (the owner, 4 November).
     await driver.mode('j');
     expect(await page.locator('.journal [data-action="set-out"]').count()).toBe(0);

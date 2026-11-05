@@ -72,11 +72,13 @@ export class BoardLabels {
       l.el.setAttribute('aria-label', `${l.el.getAttribute('aria-label') ?? ''}, where you are`);
     }
   }
-  // Your mark set walking along the way, a hex in about a third of a second, the whole in no less than one and no more
-  // than about as long as the page waits before telling where it comes to (see ReaderApp.walk).
-  walk(way: Vector3[]): void {
-    if (!this.you || way.length < 2) { return; }
-    this.walking = { way, from: performance.now(), ms: Math.min(1400, Math.max(1000, 320 * (way.length - 1))) };
+  // Your mark set walking along the way, a hex in about a quarter of a second, the whole in no less than four fifths
+  // of one and no more than about three (the page tells where it came to once it has: see ReaderApp.walk); how long.
+  walk(way: Vector3[]): number {
+    if (!this.you || way.length < 2) { return 0; }
+    const ms = Math.min(3200, Math.max(800, 260 * (way.length - 1)));
+    this.walking = { way, from: performance.now(), ms };
+    return ms;
   }
   // Your mark a step further along the way as the board is drawn; whether it is still walking.
   step(now: number): boolean {

@@ -77,11 +77,11 @@ export class BoardField {
       || region.areas.some(t => t.id === x && t.kind === 'settlement'));
     return marked ?? (a ? `hex:${a.y * land.width + a.x}` : undefined);
   }
-  // The board, given where the company is bound as the maps know it (see whither), and where it is setting out for,
-  // that your mark walk the way there.
-  static View({ region, chosen, choose, bound, face, walking, point }: { region: RegionChart; chosen?: string;
-    choose: (id: string, keyed?: boolean) => void; bound?: string; face?: string; walking?: string;
-    point?: (id?: string) => void }) {
+  // The board, given where the company is bound as the maps know it (see whither), and the way a journey went, that
+  // your mark walk it, and the page be told when it has.
+  static View({ region, chosen, choose, bound, face, walking, walked, point }: { region: RegionChart; chosen?: string;
+    choose: (id: string, keyed?: boolean) => void; bound?: string; face?: string; walking?: number[];
+    walked?: () => void; point?: (id?: string) => void }) {
     const host = useRef<HTMLDivElement>(null), board = useRef<BoardApi | undefined>(undefined), pick = useRef(choose);
     const over = useRef(point); over.current = point;
     // Each failure (a drawing lost, the script not fetched) makes the board again, a moment later; only a browser with
@@ -116,7 +116,12 @@ export class BoardField {
     // BoardCamera.dispose).
     useLayoutEffect(() => () => { board.current?.dispose(); board.current = undefined; }, []);
     useEffect(() => { board.current?.show(chosen, bound); }, [chosen, bound, ready]);
-    useEffect(() => { if (walking) { board.current?.walk(walking); } }, [walking, ready]);
+    const done = useRef(walked); done.current = walked;
+    useEffect(() => {
+      if (!walking || able && !ready) { return; }
+      const ms = board.current?.walk(walking) ?? 0, at = setTimeout(() => done.current?.(), ms);
+      return () => { clearTimeout(at); };
+    }, [walking, ready, able]);
     if (!able) {
       return <div className="field-land board" data-board="unable"><p className="none">This browser cannot draw the map
         (it needs WebGL). Every way you know is still under Every way.</p></div>;

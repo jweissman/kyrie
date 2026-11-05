@@ -3,6 +3,7 @@ import { Component, type ReactNode } from 'react';
 import type { Choice } from '../../src/ui/choice-list';
 import type { Catalog, CompanyView, Entry, Frame, Member, Message, Setting } from '../engine/protocol';
 import { EngineClient } from './engine-client';
+import { JourneyCourse } from './journey-course';
 import { MenuModel, type Menu, type View } from './menu-model';
 import { WorldStage } from './stage/world-stage';
 import { Conversation, type TalkLine } from './conversation';
@@ -53,11 +54,15 @@ export interface AppState {
   // Whether the explorer is open over a place, and on which part of it first: where to go, or what to do here (the
   // owner, 4 November, late: the place at rest, its apparatus opened when wanted).
   exploring?: 'go' | 'here';
+  // A journey made on the map: the way it went, to the hex it came to (the town, or where on the road it was stopped),
+  // your mark walking it before what came of it is told, and told when it has (see JourneyCourse).
+  walking?: { way: number[]; done: () => void };
   // The choices that are open, showing what can be done with them (what to say to someone, what to buy).
   open: string[];
   // Whether the keys are being used: only then is the choice they are on shown.
   keyed?: boolean;
-  pending?: { said: string; travel?: Travel };
+  // What is under way, as it is said; a journey, by what way (where it is known), and that it is one.
+  pending?: { said: string; travel?: Travel; going?: boolean };
   // What the player is attending to (the place, someone spoken with, one thing looked at), what has been said in
   // the conversation under way, and which of its questions have been put already.
   attention: Attention; talk: TalkLine[]; asked: string[];
@@ -235,16 +240,17 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     this.setState({ pending: undefined, error: error instanceof Error ? error.message : String(error) });
   };
   private async perform(choice: Choice, said: string, turning?: Attention) {
-    const frame = this.state.frame!, travel = MenuModel.travel(choice, frame);
-    this.setState({ pending: { said, ...travel ? { travel } : {} }, error: '' });
+    const frame = this.state.frame!, travel = MenuModel.travel(choice, frame), going = /^travel:/.test(choice.command!);
+    this.setState({ pending: { said, ...travel ? { travel } : {}, ...going ? { going } : {} }, error: '' });
     try {
       const journey = /^travel:(.+)$/.exec(choice.command!)?.[1], unbind = choice.command === MenuModel.unbind;
-      // Set out from the map, the way is walked on it before where it comes to is told.
-      const walked = journey && (this.state.view === 'map' || this.state.outdoors) ? ReaderApp.walk() : undefined;
       const next = journey ? await this.engine.request<Frame>({ kind: 'travel', destination: journey })
         : unbind ? await this.engine.request<Frame>({ kind: 'unbind' })
           : await this.engine.request<Frame>({ kind: 'perform', command: choice.command! });
-      await walked;
+      // A journey over the land is walked on the map, wherever it was set out from, to the hex it came to: where it
+      // arrived, or where it was stopped; what came of it is told once the company is there.
+      const walked = journey ? JourneyCourse.of(frame, next) : undefined;
+      if (walked) { await this.walk(walked); }
       // What is done from the pack or the company page in the middle of a conversation is not said in it: the follow-up
       // review tended a wound from the pack and was put back in the creditor's dialogue, the bandaging told there.
       const aside = !turning && (this.state.view === 'pack' || this.state.view === 'company');
@@ -255,8 +261,10 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
         // Set out from the map, the journey is told where it arrives; anything else done from the map or the company
         // leaves it open.
         view: !journey && ['map', 'company'].includes(this.state.view) ? this.state.view : 'here', stage: '', attention, talk,
-        asked: person && !turning ? [...this.state.asked, choice.id] : [], outdoors: ReaderApp.outdoors(frame, next),
-        exploring: undefined,
+        asked: person && !turning ? [...this.state.asked, choice.id] : [],
+        // Come to a town on the map, the company is at its gate and not yet in it: entering is the player's.
+        outdoors: journey && frame.screen.region?.land && next.screen.region?.land ? !next.combat
+          : ReaderApp.outdoors(frame, next), exploring: undefined, walking: undefined,
         acted: this.state.attention.kind === 'thing' ? this.state.attention.id : undefined });
     } catch (error) { this.failed(error); }
   }
@@ -270,11 +278,15 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
   // The map up, or put away (entering where the company stands, or backing out of it to the map).
   readonly outdoor = (up: boolean) => { this.setState({ outdoors: up, view: 'here', attention: Conversation.place, cursor: 0,
     open: [], hovered: undefined, exploring: undefined }); };
-  // As long as your mark takes to walk the way on the map; no time where nothing moves on it.
-  private static walk(): Promise<void> | undefined {
-    if (typeof matchMedia === 'undefined' || matchMedia('(prefers-reduced-motion: reduce)').matches) { return undefined; }
-    return new Promise(resolve => { setTimeout(resolve, 1500); });
+  // The map up and your mark walked there, for as long as the board takes to walk it (no time at all where it does
+  // not move: no drawing, or reduced motion), and never longer than a board that is slow to come up is waited for.
+  private walk(way: number[]): Promise<void> {
+    const { promise, resolve } = Promise.withResolvers<void>();
+    setTimeout(resolve, ReaderApp.longest);
+    this.setState({ outdoors: true, view: 'here', exploring: undefined, walking: { way, done: resolve } });
+    return promise;
   }
+  static readonly longest = 6000;
   // A conversation goes on: what was open with someone (what to buy from them) stays open, if they are still there
   // with more to offer. Anything else is put away.
   private kept(next: Frame, attention: Attention): string[] {

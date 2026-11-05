@@ -38,8 +38,6 @@ export class TownPlanView {
           {plan.lanes.map(l => TownPlanView.lane(plan, l, at))}
           {plan.cells.map(c => TownPlanView.cell(app, c, at(c), TownPlanView.way(screen, choices, c)))}
         </svg>
-        <p className="key">You are ringed in gold. Walls are hatched, open ground is stippled; a place you have not been
-          to is faint. Choose a place to go there.</p>
       </section>
     );
   }

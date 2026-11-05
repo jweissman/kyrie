@@ -43,7 +43,6 @@ export class MapView {
       const go = again && region?.land && MapView.way(screen, id).go;
       if (go && !Act.asks(go)) { app.choose(go); }
     }, [app, screen, region]);
-    const walking = app.state.pending ? chosen : undefined;
     const forget = useCallback(() => { MapView.forget(dialog.current, choose); }, []);
     useEffect(() => {
       const before = MapView.hold(dialog.current);
@@ -54,7 +53,8 @@ export class MapView {
       <section className="field-map" data-region="map" aria-label="The map" role="dialog" aria-modal="true"
         tabIndex={-1} ref={dialog} onKeyDown={e => MapView.escape(e, app, chosen ? forget : undefined)}>
         {region?.land ? <BoardField.View region={region} chosen={chosen} choose={pick} bound={bound}
-          face={screen.party[0]?.face?.src} walking={walking} point={point} />
+          face={screen.party[0]?.face?.src} walking={app.state.walking?.way} walked={app.state.walking?.done}
+          point={point} />
           : <p className="none">You have no map of this country yet.</p>}
         <header className="field-head"><p className="where"><span className="title">{app.state.frame!.title}</span>
           <span>The map</span></p><h1 className="place">{Typography.curl(Words.upper(screen.place.name))}</h1></header>
@@ -133,11 +133,9 @@ export class MapView {
       // The aim followed, when the map cannot show where it is: said so, not left out (the product-design review's
       // PD-12: following the crown, the map stayed on the town and said nothing of it).
       const aim = Followed.of(screen) && !MapView.aim(app, screen) ? Followed.of(screen) : undefined;
-      return <aside className="plan" aria-label="A place on the map" aria-live="polite">
-        {aim && <><p className="label">Your aim</p><p className="aim-unplaced">{Typography.curl(aim)}</p>
-          <p className="how">Where this is, the map does not show yet: ask about it, or follow what you know.</p></>}
-        <p className="label">Somewhere to go</p>
-        <p className="how">Choose a hex or a place to see the way there; choose it again to set out.</p></aside>;
+      return aim ? <aside className="plan" aria-label="A place on the map" aria-live="polite">
+        <p className="label">Your aim</p><p className="aim-unplaced">{Typography.curl(aim)}</p>
+        <p className="how">Not yet on your map.</p></aside> : null;
     }
     const { cell, name, d, here, go } = MapView.way(screen, chosen);
     return (
@@ -153,7 +151,6 @@ export class MapView {
             : cell !== undefined && !MapView.walkable(land, Number(cell)) ? 'There is no going there on foot.'
               : MapView.heard(screen, chosen) ? 'You know no way there yet: go into the country beside it, and the way will show.'
                 : 'You know no way there yet.'}</p>
-        {over && go && <p className="note">Choose it to see the way; choose it again to set out.</p>}
         {!over && go && <button type="button" className="act go" data-action="set-out" onClick={() => app.choose(go)}>
           {Typography.curl(go.label)}</button>}
         {clear && !over && <button type="button" className="unchoose" data-action="map-unchoose" aria-label={`Let go of ${name}`}

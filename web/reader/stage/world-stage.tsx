@@ -53,7 +53,8 @@ export class WorldStage {
                 {frame.leaf.glance && <WorldStage.Portraits app={app} draw={draw} />}</>}
           </section>
           <aside className="focus" aria-label={overworld ? 'On the map' : 'What you are attending to'}>
-            {overworld ? <WorldStage.Hex app={app} screen={screen} id={focus} clear={() => pick()}
+            {overworld && (app.state.walking || app.state.pending?.going) ? <WorldStage.Going app={app} />
+              : overworld ? <WorldStage.Hex app={app} screen={screen} id={focus} clear={() => pick()}
               enter={() => app.outdoor(false)} />
               : <>{WorldStage.wild(screen) && <button type="button" className="option quiet back-to-map"
                 data-action="back-to-map" onClick={() => app.outdoor(true)}>Back out to the map</button>}
@@ -106,8 +107,9 @@ export class WorldStage {
       if (chosen === id) { const go = MapView.way(screen, id).go; if (go && !Act.asks(go)) { app.choose(go); return; } }
       choose(id);
     };
+    const walking = app.state.walking, bound = BoardField.whither(screen.region!, app.state.frame?.bound?.id);
     return <div className="board-surface"><BoardField.View region={screen.region!} chosen={chosen} choose={pick}
-      face={screen.party[0]?.face?.src} /></div>;
+      bound={bound} face={screen.party[0]?.face?.src} walking={walking?.way} walked={walking?.done} /></div>;
   }
   // What the map says of a hex: the one the company stands in (what it is, whether anyone is about, and entering it);
   // a town (entered from here); or anywhere else, as the map's own card says it (what is known of it, the way there).
@@ -134,9 +136,7 @@ export class WorldStage {
         {g?.sight && <p className="sight">{Typography.curl(g.sight.text)}</p>}
         <WorldStage.Stopped app={app} danger={danger} />
         {people > 0 && <p className="about">{people === 1 ? 'Someone is here.' : 'There are people here.'}</p>}
-        <button type="button" className="enter" data-action="enter-hex" onClick={enter}>
-          Enter {Typography.curl(name.replace(/^the /, ''))}</button>
-        <p className="how">Choose a hex on the map to see what is known of it, and the way there.</p>
+        <button type="button" className="enter" data-action="enter-hex" onClick={enter}>Enter</button>
       </section>
     );
   }
@@ -167,24 +167,39 @@ export class WorldStage {
     });
     return `Should it come to a fight, getting away is ${[...tries, 'sure'].join(', then ')}.`;
   }
-  // A town chosen on the map: seen whole, how far and by what way, and entered by one large button (the owner,
-  // 4 November evening: from the world map a town is entered, from a card over it).
+  // A town chosen on the map: seen whole, how far and by what way, and travelled to; entered only once the company
+  // has come to it (the owner, 5 November: seeing a town is not being there). Chosen, set out for, come to, entered:
+  // each its own state, the journey between walked on the map (see ReaderApp.walk).
   static Town({ app, screen, town, clear }: { app: ReaderApp; screen: Screen;
     town: NonNullable<Screen['region']>['areas'][number]; clear?: () => void }) {
     const { d, here, go } = MapView.way(screen, town.id), views = Scenery.views.settlement ?? [];
     const view = views.length ? views[Scenery.hash(town.id) % views.length] : undefined;
+    const come = here && app.state.frame?.travel?.arrived;
     return (
-      <section className="enter-card" data-id={town.id} aria-live="polite">
+      <section className="enter-card" data-id={town.id} data-state={here ? come ? 'arrived' : 'here' : 'chosen'}
+        aria-live="polite">
         {view && <div className="enter-view"><PlaceStage.Country view={view} /></div>}
-        <p className="label">{town.visited ? 'A town you know' : 'A town'}</p>
+        <p className="label">{come ? 'You have come to' : here ? 'You are at' : town.visited ? 'A town you know' : 'A town'}</p>
         <h2 className="to">{Typography.curl(town.name)}</h2>
-        <p className="how">{here ? 'You are here.' : d ? `${Words.upper(Words.span(d.minutes))} by the ways you know. `
-          + MapView.arrival(screen, d.minutes) : go ? 'Across the country you can see.' : 'You know no way there yet.'}</p>
-        {(here || go) && <button type="button" className="enter" data-action={here ? 'enter-hex' : 'enter'}
-          onClick={() => { if (here) { app.outdoor(false); } else { app.choose(go!); } }}>
-          Enter {Typography.curl(town.name)}</button>}
-        {clear ? <button type="button" className="option quiet" data-action="unchoose" onClick={clear}>Back</button>
-          : <p className="how">Choose a hex on the map to see what is known of it, and the way there.</p>}
+        <p className="how">{here ? 'You stand at its gate.' : d ? `${Words.upper(Words.span(d.minutes))} by the ways `
+          + `you know. ${MapView.arrival(screen, d.minutes)}` : go ? 'Across the country you can see.'
+          : 'You know no way there yet.'}</p>
+        {here ? <button type="button" className="enter" data-action="enter-hex" onClick={() => { app.outdoor(false); }}>
+          Enter {Typography.curl(town.name)}</button>
+          : go && <button type="button" className="enter travel" data-action="travel" onClick={() => { app.choose(go); }}>
+            Travel to {Typography.curl(town.name)}</button>}
+        {clear && <button type="button" className="option quiet" data-action="unchoose" onClick={clear}>Back</button>}
+      </section>
+    );
+  }
+  // On the way: where to and by what way, while your mark walks it; nothing to choose until the company is there.
+  static Going({ app }: { app: ReaderApp }) {
+    const s = app.state, travel = s.pending?.travel;
+    return (
+      <section className="hex-card going" data-state="travelling" aria-live="polite">
+        <p className="label">On the way</p>
+        <h2 className="to">{Typography.curl(Words.upper(s.pending?.said ?? 'Travelling'))}</h2>
+        {travel && <p className="how">{Typography.curl(`${Words.upper(travel.way)}: ${Words.span(travel.minutes)}.`)}</p>}
       </section>
     );
   }

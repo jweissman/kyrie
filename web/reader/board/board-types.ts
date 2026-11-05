@@ -23,8 +23,8 @@ export interface BoardLand {
 export interface BoardHooks { choose(id: string, keyed?: boolean): void; lost?(): void; point?(id?: string): void }
 export interface BoardApi {
   show(chosen?: string, bound?: string): void;
-  // Your mark walked along the way to a hex or a place, as the company sets out for it.
-  walk(to: string): void;
+  // Your mark walked along the way a journey went, hex by hex; how long it takes.
+  walk(way: number[]): number;
   zoom(by: number): void;
   home(): void;
   dispose(): void;
