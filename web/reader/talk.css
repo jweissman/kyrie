@@ -112,3 +112,15 @@
   .dialogue { width: 100%; max-width: 46rem; margin: 0 auto; padding: 16px max(20px, env(safe-area-inset-right))
     max(14px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left)); }
 }
+/* What else could be said, a touch away under the few things that are salient; trading apart from it. */
+.more-talk { margin: 10px 0 0; }
+.more-talk > summary { cursor: pointer; list-style: none; font: 500 12px/1 var(--do); letter-spacing: .18em;
+  text-transform: uppercase; color: var(--dim); padding: 10px 0; }
+.more-talk > summary::-webkit-details-marker { display: none; }
+.more-talk > summary:hover, .more-talk > summary:focus-visible { color: var(--gold); outline: none; }
+.more-talk[open] > summary { color: var(--ivory); }
+.replies .fresh .act { border-left: 2px solid var(--verdigris); }
+.to-trade { margin: 14px 0 0; display: flex; gap: 10px; }
+.trading .label { margin: 14px 0 8px; color: var(--gold); display: flex; justify-content: space-between; gap: 12px; }
+.trading .label:first-child { margin-top: 0; }
+.trading .label .purse { color: var(--dim); }

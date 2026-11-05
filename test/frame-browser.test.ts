@@ -95,8 +95,11 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('play held to the screen', () => {
     await driver.pick(c => /#talk$/.test(c.id) && /Aspen/.test(c.label), 'the innkeeper');
     const talk = await page.evaluate(() => {
       const d = document.querySelector('.dialogue')!.getBoundingClientRect(), l = document.querySelector('.dialogue .lines')!;
+      // Three things to say at most, the rest under Something else (the owner, 5 November: an innkeeper had stood
+      // with twenty-five at once).
+      const shown = document.querySelectorAll('.dialogue .choosing > .replies > li').length;
       return { foot: innerHeight - d.bottom < 40, said: l.scrollHeight - l.clientHeight <= 1,
-        replies: document.querySelectorAll('.dialogue .replies li').length > 8 };
+        replies: shown > 0 && shown <= 3 && !!document.querySelector('.dialogue .more-talk') };
     });
     expect([talk, await Frame.inView(page, '.dialogue .leave .act')])
       .toEqual([{ foot: true, said: true, replies: true }, true]);

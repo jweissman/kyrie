@@ -1,4 +1,5 @@
 import { ChoiceList, type Choice, type Section } from '../../src/ui/choice-list';
+import { TalkFocus } from './talk-focus';
 import { ChoiceTree } from '../../src/ui/choice-tree';
 import { SceneModel, type Scene } from '../../src/ui/scene';
 import { Attending, type Attention, type Examined, type Talk } from '../../src/ui/attention';
@@ -31,13 +32,13 @@ export interface Sheets { look: string[]; ways: string[]; more: string[] }
 
 export class MenuModel {
   static build(frame: Frame | undefined, view: View, open: string[],
-    at: { attention?: Attention; member?: string; asked?: string[] } = {}): Menu {
+    at: { attention?: Attention; member?: string; asked?: string[]; heard?: string[]; trading?: boolean } = {}): Menu {
     const { attention, member } = at;
     if (!frame) { return { sections: [], choices: [] }; }
     const opened = new Set(open);
     if (!frame.combat && !['pack', 'company'].includes(view)) {
       const scene = SceneModel.build(frame.screen);
-      return this.attending(scene, opened, { attention, asked: at.asked }, frame)
+      return this.attending(scene, opened, { attention, asked: at.asked, heard: at.heard, trading: at.trading }, frame)
         ?? this.place(Attending.place(scene), opened, frame);
     }
     const sections = frame.combat ? ChoiceList.combat(frame.combat)
@@ -230,27 +231,22 @@ export class MenuModel {
   }
   // Someone spoken with: what can be said to them, and taking leave. Something looked at: what can be done with it, by
   // kind, and turning away. The scene is kept whole, so what is said is said to them by name.
-  // What has been asked already goes after what has not, taking leave last of all: the page led with "Ask again about
-  // the road your father took" for as long as a player went on pressing what it led with (the owner, 31 October).
-  private static attending(scene: Scene, opened: Set<string>, { attention, asked = [] }: { attention?: Attention;
-    asked?: string[] }, frame?: Frame): Menu | undefined {
+  // In the order the page draws them (see TalkFocus): an answer owed, the few salient things to say, the rest to say,
+  // what has been said; or, trading, the wares that can be had, the services, the rest of the wares; taking leave last
+  // of all, unless everything has been said, when it leads (the page led with "Ask again about the road your father
+  // took" for as long as a player went on pressing what it led with: the owner, 31 October).
+  private static attending(scene: Scene, opened: Set<string>, { attention, asked = [], heard, trading }: {
+    attention?: Attention; asked?: string[]; heard?: string[]; trading?: boolean }, frame?: Frame): Menu | undefined {
     if (attention?.kind === 'person') {
-      const said = Attending.talk(scene, attention.id), done = new Set(asked);
-      const talk = said && { ...said,
-        replies: [...said.replies].sort((a, b) => Number(done.has(a.id)) - Number(done.has(b.id))) };
-      // What is for sale is on the counter, each thing a control, in the counter's order before what can be said, as
-      // the page draws them: among the choices, never folded (play 7).
+      const talk = Attending.talk(scene, attention.id);
       const sold = talk && Wares.of(frame?.screen.trade.find(c => c.id === talk.subject.id), talk.replies);
-      // What is new to ask first, then what can be bought, then what has been asked and what cannot be afforded (a
-      // counter had led the page, and a player following it spent the last coin on candles, or stood at it for ever);
-      // everything asked, taking leave leads.
+      const led = talk && frame?.leaf.glance?.acts.find(a => a.subject === talk.subject.id)?.for;
+      const focus = TalkFocus.of(sold?.rest ?? [], { ...led ? { led } : {}, ...heard ? { heard } : {}, asked });
       const buys = (sold?.wares ?? []).flatMap(w => w.buy ? [w.buy] : []), can = buys.filter(b => !b.disabled);
-      const rest = sold?.rest ?? [], spent = talk && rest.every(c => done.has(c.id));
-      const choices = talk && [...spent ? [talk.leave] : [],
-        ...rest.filter(c => !done.has(c.id)).flatMap(c => this.unfold(c, opened)),
-        ...can.flatMap(w => this.ware(w, opened)),
-        ...rest.filter(c => done.has(c.id)).flatMap(c => this.unfold(c, opened)),
-        ...buys.filter(b => b.disabled).flatMap(w => this.ware(w, opened)), ...spent ? [] : [talk.leave]];
+      const said = [...focus.answers, ...focus.salient, ...focus.more], spent = said.every(c => asked.includes(c.id));
+      const choices = talk && (trading ? [...can, ...focus.services, ...buys.filter(b => b.disabled)]
+        .flatMap(c => this.ware(c, opened)).concat(talk.leave)
+        : [...spent ? [talk.leave] : [], ...said.flatMap(c => this.unfold(c, opened)), ...spent ? [] : [talk.leave]]);
       return talk && { scene, talk, choices: choices!, sections: [{ id: talk.subject.id, title: talk.subject.name,
         tone: 'person', glyph: '☺', choices: choices! }] };
     }

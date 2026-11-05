@@ -57,9 +57,9 @@ class Glancing {
   // can do of itself.
   static async atRest(page: Page) {
     const at = (s: string) => page.locator(`.world-page ${s}`).count();
-    const rest = { portraits: await at('.surface .portraits .portrait') > 0, explore: await at('[data-action="explore"]'),
+    const rest = { portraits: await at('.surface .portraits .portrait') > 0, explore: await at('.explore-open'),
       listed: await at('.focus .ways-here'), keys: await page.locator('.glance-keys').count() };
-    await page.click('[data-action="explore"][data-part="go"]');
+    await page.click('.explore-open');
     const opened = { ways: await at('.explorer .ways-here .way-tile') > 0, yourself: await at('.explorer .yours-here .act') > 0 };
     await page.click('[data-action="explore-shut"]');
     return { ...rest, ...opened };
@@ -87,7 +87,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a place at a glance', () => {
       expect(await Glancing.quiet(page)).toEqual({ scroll: false, panes: 0, led: true });
       expect((await d.inspect()).glance?.arrival).toBe('first');
       await Glancing.shot(page, 'first-arrival');
-      expect(await Glancing.atRest(page)).toEqual({ portraits: true, explore: 2, listed: 0, keys: 0, ways: true,
+      // One control opens the explorer (the owner, 5 November: Go… and Explore… had opened the same).
+      expect(await Glancing.atRest(page)).toEqual({ portraits: true, explore: 1, listed: 0, keys: 0, ways: true,
         yourself: true });
       // A digit beyond what it leads with does nothing out of sight.
       if (!pointer) {
@@ -118,7 +119,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a place at a glance', () => {
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
     // Among the ways in the explorer, the way says what it risks in its line, and asks before it is taken.
-    await page.click('[data-action="explore"][data-part="go"]');
+    await page.click('.explore-open');
     const drop = '.explorer .ways-here [data-choice^="exit:"][data-choice*="pool"]';
     await page.hover(`${drop} >> nth=0`);
     expect(await page.locator('.explorer .way-detail').innerText()).toMatch(/no coming back/i);

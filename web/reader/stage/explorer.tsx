@@ -35,6 +35,8 @@ export class Explorer {
         <div className="explorer-body">
           <section className={`explorer-go${part === 'go' ? ' first' : ''}`} aria-label="Where to go">
             <p className="part">Go</p>
+            {/* The aim followed, with where to go: not on the place at rest (the owner, 5 November). */}
+            <GlanceStage.Aim app={app} said={g.aim} />
             <GlanceStage.Row app={app} draw={draw} glance={g} />
             <Explorer.AtWays app={app} draw={draw} />
           </section>

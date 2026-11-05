@@ -10,7 +10,7 @@ import { MonoBrowser } from './support/mono-browser';
 class Grave {
   // A thing turned to by a touch: where the place at rest draws it, else in its explorer (Explore…).
   static async touch(page: Page, selector: string) {
-    if (!(await page.locator(selector).count())) { await page.click('[data-action="explore"][data-part="here"]'); }
+    if (!(await page.locator(selector).count())) { await page.click('.explore-open'); }
     await page.click(selector);
   }
 }

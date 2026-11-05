@@ -66,6 +66,9 @@ export interface AppState {
   // What the player is attending to (the place, someone spoken with, one thing looked at), what has been said in
   // the conversation under way, and which of its questions have been put already.
   attention: Attention; talk: TalkLine[]; asked: string[];
+  // In a conversation: what could be said before the last thing said (what is new since stands out: see TalkFocus),
+  // and whether the trading is open (wares and services, apart from what is said).
+  heard?: string[]; trading?: boolean;
   fight?: FightMark;
   // A choice that cannot be undone, chosen once: its cost is said, and it is done if chosen again.
   confirming?: string;
@@ -153,17 +156,17 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     }
   }
   private built?: { frame?: Frame; view: View; open: string[]; attention: Attention; member: string; asked: string[];
-    menu: Menu };
+    heard?: string[]; trading?: boolean; menu: Menu };
   // What can be chosen now, built once for each frame, view, attention, member shown, set of open choices and what has
   // been asked in a conversation.
   get menu(): Menu {
-    const { frame, view, open, attention, member, asked } = this.state, b = this.built;
+    const { frame, view, open, attention, member, asked, heard, trading } = this.state, b = this.built;
     if (b && b.frame === frame && b.view === view && b.open === open && b.attention === attention && b.member === member
-      && b.asked === asked) {
+      && b.asked === asked && b.heard === heard && b.trading === trading) {
       return b.menu;
     }
-    this.built = { frame, view, open, attention, member, asked,
-      menu: MenuModel.build(frame, view, open, { attention, member, asked }) };
+    this.built = { frame, view, open, attention, member, asked, heard, trading,
+      menu: MenuModel.build(frame, view, open, { attention, member, asked, heard, trading }) };
     return this.built.menu;
   }
   // A choice made: what it opens is shown beneath it (or put away again); a fight goes on; or the company does it.
@@ -241,6 +244,7 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
   };
   private async perform(choice: Choice, said: string, turning?: Attention) {
     const frame = this.state.frame!, travel = MenuModel.travel(choice, frame), going = /^travel:/.test(choice.command!);
+    const heard = this.menu.talk?.replies.map(c => c.id), was = this.state.attention;
     this.setState({ pending: { said, ...travel ? { travel } : {}, ...going ? { going } : {} }, error: '' });
     try {
       const journey = /^travel:(.+)$/.exec(choice.command!)?.[1], unbind = choice.command === MenuModel.unbind;
@@ -262,9 +266,12 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
         // leaves it open.
         view: !journey && ['map', 'company'].includes(this.state.view) ? this.state.view : 'here', stage: '', attention, talk,
         asked: person && !turning ? [...this.state.asked, choice.id] : [],
-        // Come to a town on the map, the company is at its gate and not yet in it: entering is the player's.
-        outdoors: journey && frame.screen.region?.land && next.screen.region?.land ? !next.combat
-          : ReaderApp.outdoors(frame, next), exploring: undefined, walking: undefined,
+        heard: person && was.kind === 'person' ? heard : undefined,
+        trading: person && was.kind === 'person' && was.id === attention.id ? this.state.trading : undefined,
+        // A journey across the land (from one hex to another) is told on the map, and come to a town the company is at
+        // its gate, not yet in it: entering is the player's. A walk within a town or a site never raises the map (the
+        // owner, 5 November: the inn to the smithy had gone by way of the whole country's map).
+        outdoors: walked ? !next.combat : ReaderApp.outdoors(frame, next), exploring: undefined, walking: undefined,
         acted: this.state.attention.kind === 'thing' ? this.state.attention.id : undefined });
     } catch (error) { this.failed(error); }
   }
@@ -273,6 +280,8 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
   static outdoors(before: Frame, after: Frame): boolean {
     return after.screen.place.id !== before.screen.place.id && !after.combat && WorldStage.wild(after.screen);
   }
+  // The trading opened in a conversation, or shut (back to what is said).
+  readonly trade = (open: boolean) => { this.setState({ trading: open || undefined, cursor: 0, hovered: undefined }); };
   // The explorer opened over the place, on one of its parts, or shut.
   readonly explore = (part?: 'go' | 'here') => { this.setState({ exploring: part, hovered: undefined }); };
   // The map up, or put away (entering where the company stands, or backing out of it to the map).
@@ -298,6 +307,7 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     if (s.frame?.combat?.outcome) { this.onward(); }
     else if (s.help) { this.setState({ help: false }); }
     else if (s.exploring) { this.setState({ exploring: undefined }); }
+    else if (s.trading) { this.setState({ trading: undefined, cursor: 0 }); }
     else if (s.open.length) { this.setState({ open: s.open.slice(0, -1), cursor: 0 }); }
     else if (s.view !== 'here') { this.setState({ view: 'here', cursor: 0 }); }
     else if (s.attention.kind === 'person' && this.menu.talk) { this.choose(this.menu.talk.leave); }

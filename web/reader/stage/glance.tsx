@@ -69,7 +69,7 @@ export class GlanceStage {
         {/* What can be done here, held in view beside what is told (the owner, 4 November: never a scroll away). */}
         <div className="do-col" data-region="do">
           <div className="do-list">
-            <GlanceStage.Aim app={app} said={g.aim} />
+            {!apart && <GlanceStage.Aim app={app} said={g.aim} />}
             {g.need && <p className="need" data-id="need">{g.need.map(n => <span key={n}>{Typography.curl(n)}</span>)}</p>}
             {apart ? <GlanceStage.Resting app={app} draw={draw} acts={acts} top={top} />
               : <><GlanceStage.Acts app={app} draw={draw} acts={acts} top={top} />
@@ -105,26 +105,26 @@ export class GlanceStage {
       </div>
     );
   }
-  // At rest in a place (the owner, 4 November, late: a settled principle): only what will not wait — a danger, an
-  // answer owed, a warning, the dark — and the aim's next step, each one line; then Go… and Explore…, which open the
-  // explorer (see Explorer). The rest of what can be done is there, not here.
+  // At rest in a place (the owner, 4 November, late, and 5 November: a settled contract): only what will not wait — a
+  // danger, an answer owed, a warning, the dark — each one line, never a way; then Explore…, which opens the explorer
+  // (see Explorer): the ways and what can be done here, together. Go… beside it had opened the same (the owner, 5
+  // November: one control, not two that mean one thing). The rest of what can be done is there, not here.
   static Resting({ app, draw, acts, top }: { app: ReaderApp; draw: Draw; acts: Promoted[]; top?: string }) {
     const shown = GlanceStage.pressing(acts);
     return <>
       {shown.length > 0 && <GlanceStage.Acts app={app} draw={draw} acts={shown} top={top} />}
       <p className="explore-keys">
-        <button type="button" className="explore-open" data-action="explore" data-part="go"
-          onClick={() => app.explore('go')}>Go…</button>
         <button type="button" className="explore-open" data-action="explore" data-part="here"
           onClick={() => app.explore('here')}>Explore…</button>
       </p>
     </>;
   }
-  // What will not wait (a danger, an answer owed, a warning, the dark), else the aim's next step.
+  // What will not wait (a danger, an answer owed, a warning, the dark), as a situation, never a way: a place at rest
+  // shows its name, its picture, a few words of it, who is here and Explore…, and nothing of where to go or what is
+  // ranked next (the owner, 5 November: a settled contract; the ways, the aim's next step and the rest are in the
+  // explorer).
   static pressing(acts: Promoted[]): Promoted[] {
-    const urgent = acts.filter(a => a.tier === 0).slice(0, 2);
-    const next = acts.find(a => ['bound', 'kin', 'about', 'named', 'toward'].includes(a.why));
-    return urgent.length ? urgent : next ? [next] : [];
+    return acts.filter(a => a.tier === 0 && !a.exit && !a.choice.startsWith('travel:')).slice(0, 2);
   }
   // What a place at rest draws that can be chosen: whoever is here, on the picture, and what is pressing.
   static atRest(app: ReaderApp): Set<string> {

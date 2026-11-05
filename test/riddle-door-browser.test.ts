@@ -26,7 +26,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a riddle on a way', () => {
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
     // The door is on a way: Go…, and at the ways, the door and its words.
-    await page.click('[data-action="explore"][data-part="go"]');
+    await page.click('.explore-open');
     const opener = page.locator('.explorer [aria-expanded]', { hasText: /speaking door/ });
     if (await opener.count()) { await opener.first().click(); await driver.settle(); }
     for (const word of ['Lute', 'Piano', 'Trumpet']) {

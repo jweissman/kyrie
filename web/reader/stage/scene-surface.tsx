@@ -20,16 +20,13 @@ export class SceneSurface {
       </div>
     );
   }
-  // In the dark, or where a place has no picture, what the company can still tell of where it is: how deep, and which
-  // ways it knows lead from here, by where they go (the owner, 4 November, late: an interior without artwork as
-  // deliberate a scene as one with). Words to orient by, not controls: the ways are taken by Go….
+  // In the dark, or where a place has no picture, what the company can still tell of where it is: how deep, and where
+  // (the owner, 4 November, late: an interior without artwork as deliberate a scene as one with). Not its ways: they
+  // are the explorer's (5 November: no route on the scene).
   static Bearings({ screen }: { screen: Screen }) {
-    const known = screen.exits.filter(e => e.visited || e.transition === 'ascend' || e.transition === 'leave');
     return <div className="bearings">
       {screen.place.depth ? <p className="deep">{screen.place.depth === 1 ? 'One storey down' : `${screen.place.depth} storeys down`}</p> : null}
       <p className="here">{screen.place.name}</p>
-      {known.length > 0 && <ul>{known.slice(0, 5).map(e => <li key={e.id}>
-        <span className="glyph">{SceneSurface.glyph(SceneSurface.whither(e))}</span>{e.destination.name}</li>)}</ul>}
     </div>;
   }
   // A way's direction as a mark: up, down, in, out, away, on.

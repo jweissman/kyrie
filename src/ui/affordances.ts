@@ -272,7 +272,8 @@ export class Affordances {
       ...kind === 'search' && r.named.has(r.here) && !r.done.has(c.command ?? '') && !this.onward(screen)
         && !screen.people.some(p => r.named.has(p.id)) ? ['named' as const] : [],
       ...this.ownWhy([c], r), ...this.answers(c, at) ? ['danger' as const] : []];
-    return [this.candidate(c, { kind, whys, r, notes: { dark: lit ? 'until first light' : 'in the dark',
+    // A light lit in the dark says nothing more: the page says there is no light above it (M19-57).
+    return [this.candidate(c, { kind, whys, r, notes: { ...lit ? { dark: 'until first light' } : {},
       hungry: 'you are hungry', exposed: n.weary ? 'you are weary' : 'night in the open', named: 'where your aim is',
       hurt: kind === 'tend' ? c.note ?? '' : 'you are hurt' }, ...lit?.command ? { command: lit.command } : {} })];
   }

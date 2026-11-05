@@ -241,12 +241,14 @@ export class ChoiceGrouping {
     const [today, time] = [FictionalTime.at(now).split(', ')[0], FictionalTime.at(end).split(', ')];
     return { until: time[0] === today ? time[1]! : `${time[1]!} tomorrow` };
   }
+  // One that cannot be done now: why, and what kind of act it would be.
+  private static withheld(row: Row) { return { disabled: row.wanting!, does: row.action.schema ?? row.action.id }; }
   private static place(out: Grouped, row: Row, context: GroupingContext) {
     const { choice, action } = row;
     const bound = Object.entries(action.bindings ?? {}).filter(([k]) => !['actor', 'site'].includes(k))
       .map(([, v]) => context.names.get(v) ?? '').filter(Boolean);
     const minutes = context.world ? ActionTime.minutes(action, context.world) : choice.time * 10;
-    const leaf = { ...(row.wanting ? { disabled: row.wanting } : { command: choice.id }), minutes,
+    const leaf = { ...(row.wanting ? ChoiceGrouping.withheld(row) : { command: choice.id }), minutes,
       ...ChoiceGrouping.until(action, minutes, context.world),
       ...(action.description ? { about: action.description } : {}),
       ...(row.by?.length && !context.solo ? { by: row.by } : {}),

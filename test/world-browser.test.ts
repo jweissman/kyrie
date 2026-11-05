@@ -91,7 +91,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a generated world in the browser', 
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
     await driver.pick(c => /^To the market-place/.test(c.label), 'the market-place');
-    await page.click('[data-action="explore"][data-part="go"]');
+    await page.click('.explore-open');
     const names = await page.$$eval('.explorer .ways-here .way-tile', tiles => tiles.map(t => {
       const n = t.querySelector('.n')!, box = t.getBoundingClientRect();
       return n.scrollWidth <= n.clientWidth + 1 && box.right <= innerWidth && box.left >= 0;

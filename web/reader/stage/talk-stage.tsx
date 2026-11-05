@@ -12,6 +12,7 @@ import { Stage } from './stage';
 import { Moments } from './moments';
 import { Told } from './told';
 import { Wares, type Ware } from '../wares';
+import { TalkFocus } from '../talk-focus';
 
 // Speaking with someone. Their painting, large, with their name on it; beside it the conversation: what they were
 // doing when you came over, what they said to you and you to them, in order, and what you came to know, which scrolls
@@ -23,6 +24,8 @@ export class TalkStage {
     const s = app.state, frame = s.frame!, who = talk.subject, draw = Act.draw(app);
     const [name, ...role] = [Words.short(who.name), who.note].filter(Boolean) as string[];
     const counter = frame.screen.trade.find(c => c.id === who.id), { wares, rest } = Wares.of(counter, talk.replies);
+    const led = frame.leaf.glance?.acts.find(a => a.subject === who.id)?.for;
+    const focus = TalkFocus.of(rest, { ...led ? { led } : {}, ...s.heard ? { heard: s.heard } : {}, asked: s.asked });
     return (
       <div className="talk" id="page">
         <TalkStage.Sitter app={app} name={name!} role={role.join(' · ')}>
@@ -31,17 +34,27 @@ export class TalkStage {
           <TalkStage.Lines lines={s.talk} pending={s.pending?.said} ready={Moments.ready(frame.screen)} app={app} />
           <div className="answer">
             <div className="choosing">
-              <TalkStage.Counter wares={wares} buys={counter?.buys ?? []} coin={frame.screen.purse.coin} draw={draw} />
-              {who.recruit && <TalkStage.Recruit recruit={who.recruit} coin={frame.screen.purse.coin} />}
-              {/* A question put to the company is answered first, by its answers (Low Water's 5, the Liberty of the
-                  Ice's 10: three answers to Callow's question had stood among the rest, as topics). */}
-              {rest.some(c => c.answer) && <><p className="answering">Your answer</p>
-                <ol className="replies answers" aria-label="Your answer">{rest.filter(c => c.answer)
-                  .map(c => <TalkStage.Reply key={c.id} choice={c} draw={draw} />)}</ol></>}
-              <ol className="replies" aria-label={`What you might say to ${name}`}>
-                {rest.filter(c => !c.answer).map(c => <TalkStage.Reply key={c.id} choice={c} draw={draw}
-                  asked={s.asked.includes(c.id)} />)}
-              </ol>
+              {s.trading ? <TalkStage.Trading app={app} wares={wares} services={focus.services} buys={counter?.buys ?? []}
+                draw={draw} /> : <>
+                {who.recruit && <TalkStage.Recruit recruit={who.recruit} coin={frame.screen.purse.coin} />}
+                {/* A question put to the company is answered first, by its answers (Low Water's 5, the Liberty of the
+                    Ice's 10: three answers to Callow's question had stood among the rest, as topics). */}
+                {focus.answers.length > 0 && <><p className="answering">Your answer</p>
+                  <ol className="replies answers" aria-label="Your answer">{focus.answers
+                    .map(c => <TalkStage.Reply key={c.id} choice={c} draw={draw} />)}</ol></>}
+                <ol className="replies" aria-label={`What you might say to ${name}`}>
+                  {focus.salient.map(c => <TalkStage.Reply key={c.id} choice={c} draw={draw}
+                    fresh={focus.opened.has(c.id)} />)}
+                </ol>
+                {focus.more.length > 0 && <details className="more-talk">
+                  <summary>Something else…</summary>
+                  <ol className="replies">{focus.more.map(c => <TalkStage.Reply key={c.id} choice={c} draw={draw}
+                    asked={s.asked.includes(c.id) || /_again(\(|$)/.test(c.command ?? '')} />)}</ol>
+                </details>}
+                {(wares.length > 0 || focus.services.length > 0 || (counter?.buys.length ?? 0) > 0)
+                  && <p className="to-trade"><button type="button" className="option" data-action="trade"
+                    onClick={() => app.trade(true)}>Trade</button></p>}
+              </>}
             </div>
             <p className="leave"><Act.View choice={talk.leave} draw={draw}>
               <i>{(draw.index.get(talk.leave.id) ?? 0) + 1}</i>{talk.leave.label}</Act.View></p>
@@ -155,10 +168,25 @@ export class TalkStage {
       </section>
     );
   }
-  // A question already put stays to be put again, quieter, and says so.
-  static Reply({ choice: c, draw, asked }: { choice: Choice; draw: Draw; asked?: boolean }) {
+  // What is had of someone for coin or work, apart from what is said: their wares, what they will buy, and their
+  // services (a bed, care, a lesson), with the company's purse once; Back returns to the conversation (the owner, 5
+  // November: goods had stood among the topics as if they were something to discuss).
+  static Trading({ app, wares, services, buys, draw }: { app: ReaderApp; wares: Ware[]; services: Choice[];
+    buys: Counter['buys']; draw: Draw }) {
+    const coin = app.state.frame!.screen.purse.coin;
+    return <section className="trading" aria-label="Trade">
+      <TalkStage.Counter wares={wares} buys={buys} coin={coin} draw={draw} />
+      {services.length > 0 && <><p className="label">Services{wares.length ? '' : <span className="purse">{`you have ${coin} coin`}</span>}</p>
+        <ol className="replies">{services.map(c => <TalkStage.Reply key={c.id} choice={c} draw={draw} />)}</ol></>}
+      {!wares.length && !services.length && <p className="label">You have {coin} coin</p>}
+      <p className="to-trade"><button type="button" className="option quiet" data-action="trade-back"
+        onClick={() => app.trade(false)}>Back</button></p>
+    </section>;
+  }
+  // A question already put stays to be put again, quieter, and says so; one the last answer opened is marked new.
+  static Reply({ choice: c, draw, asked, fresh }: { choice: Choice; draw: Draw; asked?: boolean; fresh?: boolean }) {
     return (
-      <li className={asked ? 'asked' : undefined}>
+      <li className={asked ? 'asked' : fresh ? 'fresh' : undefined}>
         <Act.View choice={c} draw={draw}><i>{(draw.index.get(c.id) ?? 0) + 1}</i>{Typography.curl(c.label)}
           {c.note && <small> · {c.note}</small>}{asked && <small> · asked</small>}</Act.View>
         {c.children && draw.open.has(c.id) && <ol className="opened-list">{c.children.map(k => <TalkStage.Reply key={k.id}

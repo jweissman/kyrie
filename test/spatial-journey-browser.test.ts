@@ -20,7 +20,7 @@ class Walk {
   // A way from here, taken as a player takes it: Go…, then its name in the explorer (its own going, or the first of
   // its acts).
   async to(place: string) {
-    await this.page.click('[data-action="explore"][data-part="go"]');
+    await this.page.click('.explore-open');
     await this.page.click(`.explorer .ways-here :is([data-choice="exit:${place}"], [data-choice^="exit:${place}/"])`);
     await this.d.settle();
     expect(await this.here()).toBe(place);
@@ -64,7 +64,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a journey through the world, laid o
     expect(await page.locator('[data-id="depth"]').textContent()).toBe('One storey down');
     await driver.pick(c => /light|Light/.test(c.label), 'a light');
     expect(await page.locator('.scene-surface .scenery img').count()).toBe(1);
-    await page.click('[data-action="explore"][data-part="go"]');
+    await page.click('.explore-open');
     expect(await page.locator('.explorer .ways-here .glyph.whither-up').count()).toBe(1);
     await page.click('[data-action="explore-shut"]');
     await w.to('region__s2_u_warren');

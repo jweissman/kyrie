@@ -12,6 +12,8 @@ export interface Choice {
   id: string; label: string; tone: Tone;
   command?: string; children?: Choice[];
   note?: string; about?: string; risk?: boolean; minutes?: number; disabled?: string;
+  // One that cannot be done now: what kind of act it would be (see Act.does).
+  does?: string;
   // A way about the settlement or site the company is in, however long it takes (see ExitRow).
   local?: boolean;
   // What cannot be undone by it: the page says so, and asks again, before it is done.
@@ -274,6 +276,7 @@ export class ChoiceList {
     return { id, label, tone, ...(a.command ? { command: a.command } : {}), ...(note ? { note } : {}),
       ...(a.minutes ? { minutes: a.minutes } : {}), ...(about ? { about } : {}),
       ...(a.risk ? { risk: true } : {}), ...(a.disabled ? { disabled: a.disabled } : {}),
+      ...(a.does ? { does: a.does } : {}),
       ...(a.grave ? { grave: a.grave } : {}), ...(a.answer ? { answer: true } : {}), ...(a.own ? { own: true } : {}),
       ...(a.deed ? { deed: true } : {}) };
   }

@@ -55,7 +55,7 @@ export class MonoDriver {
   }
   // The place told whole: its explorer opened, and what is said about it there (at rest it is told in brief).
   async lookAbout() {
-    const explore = '[data-action="explore"][data-part="here"]';
+    const explore = '.explore-open';
     if (await this.page.locator(explore).count()) { await this.click(explore); }
     if (await this.page.locator('.about-here:not([open]) > summary').count()) { await this.click('.about-here > summary'); }
   }
@@ -68,13 +68,15 @@ export class MonoDriver {
     const raised = `${sheet} ${choice} >> visible=true`, shown = `.intentions ${choice} >> visible=true`;
     const has = async (s: string) => (await this.page.locator(s).count()) > 0;
     if (await has(raised)) { await this.click(raised); return; }
+    // In a conversation, what is not among the few things salient is under Something else.
+    if (!await has(shown) && await has('.more-talk:not([open]) > summary')) { await this.click('.more-talk > summary'); }
     // Out in the wild, on the world map, the hex the company stands in is entered first.
     if (!await has(shown) && await has('[data-action="enter-hex"]')) { await this.click('[data-action="enter-hex"]'); }
     // An explorer (or an old sheet) up that does not hold it is put away, and the place at rest looked at again.
     if (await has(sheet)) { await this.click(`${sheet} :is(.sheet-shut, [data-action="explore-shut"])`); }
     if (await has(shown)) { await this.click(shown); return; }
     // A place at rest draws only who is here and what is pressing: anything else is in its explorer.
-    const explore = '[data-action="explore"][data-part="here"]';
+    const explore = '.explore-open';
     if (await has(explore)) {
       await this.click(explore);
       if (await has(raised)) { await this.click(raised); return; }
@@ -94,8 +96,12 @@ export class MonoDriver {
   // A choice that asks again before it is done (what cannot be undone, a fight that could be lost) is chosen again,
   // as a player who has read what it risks.
   async pick(test: (c: ChoiceShape) => boolean, what: string) {
-    const state = await this.inspect();
-    const index = state.choices.findIndex(test);
+    let state = await this.inspect(), index = state.choices.findIndex(test);
+    // What is bought or had for coin is in the trading, opened from the conversation as a player opens it.
+    if (index < 0 && (await this.page.locator('[data-action="trade"]').count()) > 0) {
+      await this.click('[data-action="trade"]');
+      state = await this.inspect(); index = state.choices.findIndex(test);
+    }
     if (index < 0) { throw new Error(`No choice ${what}: ${state.choices.map(c => `${c.id} "${c.label}"`).join(' | ')}`); }
     for (let again = 0; again < 2; again++) {
       if (this.pointer) { await this.tap(index); }

@@ -11,6 +11,8 @@ export type Passage = 'open' | 'guarded' | 'hazard' | 'climb' | 'hidden' | 'door
 
 export interface Act {
   key: string; label: string; command?: string; minutes?: number; risk?: boolean; children?: Act[];
+  // One that cannot be done now: what kind of act it would be (its action's schema), having no command to say so.
+  does?: string;
   // What the action's author says it means, shown before it is chosen.
   about?: string;
   // Who in the company makes it possible (the one with the skill it needs), or why it cannot be done.
