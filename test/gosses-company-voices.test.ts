@@ -78,7 +78,6 @@ describe("Gosse's Company: the requiem", () => {
     const g = await Pent.start(build('cleric'));
     lamplighter(g);
     g.stage(['at', 'tunstall', 'nave']);
-    await g.play(wait);
     const before = g.measure('clemTrust', 'clemency');
     await g.play('the office for Abel Tunstall the lamplighter, aloud');
     expect(g.holds('requiemAloud', 'party')).toBe(true);
@@ -93,9 +92,9 @@ describe("Gosse's Company: the requiem", () => {
     expect(t.j.offers('the office for Abel Tunstall')).toBe(false);
   }, 120000);
 
-  it('Tunstall polishes the plate at five of an evening', async () => {
+  it('Tunstall polishes the plate at six of a morning', async () => {
     const g = await Pent.start(build('cleric'));
-    await g.play('=54');
+    await g.play('=132');
     expect(g.j.campaign.world.one('at', p('tunstall'))).toBe(p('nave'));
   }, 120000);
 });
