@@ -46,7 +46,7 @@ describe('Behind the Wainscot: the Winders\' account and the warrior\'s word', (
     expect(g.holds('ladyKnows', 'lady')).toBe(true);
     await g.play('To the Library floor', 'To the Hall floor', 'To the foot of the Long Clock', 'Search here');
     expect(g.knows('notch_tally')).toBe(true);
-    await g.play('To the Library floor', 'To the chart table');
+    await g.play('To the Hall floor', 'To the Library floor', 'To the chart table');
     expect(g.at('lady')).toBe('hollins__chart_table');
     await g.play('Talk to the Lady', 'Tell the Lady about the eleven notches');
     expect(g.page).toMatch(/I was eleven\. I meant to do the twelfth/);
