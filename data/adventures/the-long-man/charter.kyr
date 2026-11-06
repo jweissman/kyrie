@@ -43,11 +43,11 @@ Module longman "The Long Man" {
   }
   Topic venn_charter with venn "Read Aldous Venn his own charter, line by line" when knows(actor, charter_read) and not exposed(venn) and not hostile(venn, actor) and not reeveRoused(nell) {
     Says "He takes the card down from under the frame, and reads it aloud, and then you read him the Latin above it. He does not interrupt. At custodia his mouth moves, and at the sheaf in forty he sits down. 'Every Michaelmas,' he says. 'Thirty years the dale has brought it to the Hall barn, and the late Lord said it was the Hall's due, and I said it was the Hall's due.' He looks at the key at his belt. 'It is a wage. We have been taking a wage for a job nobody told us we had.' He unhooks the key. 'If this goes to the Chancery, the suit is lost, and the Hall with it. And if I do not do something with it, the water takes the dale.' He hangs the key on the hook and does not look at it. 'Do what you must. I will write to Dame Isolde tonight, and tell her I have been a fool in her service.'".
-    On discuss { Assert exposed(venn). Assert lends(venn, key, actor). Assert state(key_hook, hung). }
+    On discuss { Assert exposed(venn). Give key to actor. Assert state(key_hook, hung). }
   }
   Topic venn_charter_reeve with venn "Tell Aldous Venn the reeve of the waters has read his charter" when knows(actor, charter_read) and not exposed(venn) and not hostile(venn, actor) and reeveRoused(nell) {
     Says "Venn is still reading the card when Gammer Coller comes in behind you with the rod across her arm and her good shawl on. She does not sit. 'Mr Venn,' she says. 'I am to watch the keeping. I am come to watch it.' He starts to say something about the estate, and she lifts the rod an inch, not high, and he does not say it. 'Give the key to this company,' she says. 'And give Dunnet his wages out of the sheaf in forty, which is the dale's, as I read it, and has been since the Prefect.' Venn looks from the rod to the card to the old woman, and unhooks the key with fingers that are almost steady. 'Dame Isolde will be ruined,' he says. 'Mistress Coller, she will be ruined, and she did not know.' 'No,' says Gammer Coller, not unkindly. 'None of you did. That is what a card is for.'".
-    On discuss { Assert exposed(venn). Assert lends(venn, key, actor). Assert state(key_hook, hung). }
+    On discuss { Assert exposed(venn). Give key to actor. Assert state(key_hook, hung). }
   }
 
   // ── The bell ─────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -86,10 +86,10 @@ Module longman "The Long Man" {
   // clerkly hand of her nuns, the Latin above and her own plain English below; it is hers to give or to keep.
   Place beyond_map "beyond the map" is wilderness within dale at 9, 9.
   Place nowhere "nowhere" is room within beyond_map at 0, 0.
-  Item writ_copy "a fair copy of the Prefect's writ" is prefects_writ at nowhere.
+  Item writ_copy "a fair copy of the Prefect's writ" is prefects_writ at nowhere owned by ysolt.
   Topic ysolt_copy with ysolt "Ask Mother Ysolt for a fair copy of the charter" when knows(actor, charter_read) and valeTold(ysolt) and not copied(ysolt) once {
     Says "She looks at you for a while, over the top of the register. 'It is the Hall's,' she says. 'It is also the dale's, which is what it says. I would sooner it were in two houses than one.' She takes a clean leaf from the back of the register, and ink, and writes it out in the vestry without sitting down, the Latin above and her own plain English under, line for line, in the hand the nuns gave her. When she has sanded it she folds it in three. 'Do not let anyone burn it,' she says, 'in either house.'".
-    On discuss { Assert lends(ysolt, writ_copy, actor). Assert copied(ysolt). }
+    On discuss { Give writ_copy to actor. Assert copied(ysolt). }
   }
   Relation copied(group).
 }

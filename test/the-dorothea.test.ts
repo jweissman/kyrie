@@ -140,9 +140,11 @@ describe('The Dorothea, Skerrow and the way home', () => {
     await j.play('^Into the Gull', 'Buy .*rag paper', '^Out to', '^To the path up Pharos Hill', '^To the foot of the Pharos', '^To the lamp room');
     await j.play('Take a rubbing');
     expect(j.holds(k('rubbed'), 'party')).toBe(true);
+    // Given into the company's hands, not merely recorded: the rubbing is carried.
+    expect(j.holds('holding', 'party', 'pharos_rubbing')).toBe(true);
     expect(j.holds(k('keptLamp'), 'party')).toBe(true);
     // The lamp is not sold, ever, however long we stay.
-    await j.play('=330');
+    await j.play('=420');
     expect(j.holds(k('tableSold'), 'party')).toBe(false);
   }, 400000);
 
@@ -150,7 +152,7 @@ describe('The Dorothea, Skerrow and the way home', () => {
     const j = await Sea.start();
     await reachIsle(j);
     await j.play('^Into the Gull', 'Ask Silas Quillon what he wants');
-    await j.play('=300');
+    await j.play('=380');
     expect(j.holds(k('tableSold'), 'party')).toBe(true);
     expect(j.holds(k('lampOut'), 'party')).toBe(true);
   }, 300000);
@@ -160,16 +162,16 @@ describe('The Dorothea, Skerrow and the way home', () => {
     await reachIsle(j);
     await j.play('^To the jetty road|^To Skerrow jetty', '^To the Dorothea');
     expect(Sea.party(j)).toBe(k('deck'));
-    await j.play('=362');
+    await j.play('=435');
     expect(Sea.at(j, 'hull')).toBe(k('roads'));
-    await j.play('=470');
+    await j.play('=540');
     expect(['teeth', 'open_sea']).toContain((Sea.at(j, 'hull') ?? '').replace('dorothea__', ''));
-    await j.play('=720');
+    await j.play('=800');
     expect(Sea.at(j, 'hull')).toBe(k('quay'));
     expect(Sea.party(j)).toBe(k('deck'));
     const left = await Sea.start();
     await reachIsle(left);
-    await left.play('=362');
+    await left.play('=435');
     expect(Sea.at(left, 'hull')).toBe(k('roads'));
     expect(Sea.party(left)).toBe(k('green'));
     expect(left.holds(k('stranded'), 'party')).toBe(true);

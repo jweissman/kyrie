@@ -79,21 +79,23 @@ describe('the Remainder', () => {
     const { j } = await down();
     await j.play('^Into the Remainder');
     expect(j.campaign.world.one('at', 'party')).toBe('psennet__rem_deck');
-    await j.play('Ask Captain Sabe where the ship is', 'Ask Captain Sabe about the names on the ship\'s roll');
+    // Nobody speaks to a stranger before the second bell.
+    expect(j.matches('Ask Captain Sabe where the ship is').length).toBe(0);
+    await j.play('=+7', 'Ask Captain Sabe where the ship is', 'Ask Captain Sabe about the names on the ship\'s roll');
     expect(j.holds('knows', 'party', 'psennet__roll_two')).toBe(true);
     await j.play('count-room', 'Ask Tamsin Quaye what she is trying to break', 'Ask Tamsin Quaye what she wants done');
     expect(j.holds('knows', 'party', 'psennet__surety_asked')).toBe(true);
   }, 900000);
   it('stands surety in the Prefect\'s formula, and the world records that a ship was harboured', async () => {
     const { j } = await down();
-    await j.play('^Into the Remainder', 'Ask Captain Sabe where the ship is', 'count-room', 'Ask Tamsin Quaye what she is trying to break',
+    await j.play('^Into the Remainder', '=+7', 'Ask Captain Sabe where the ship is', 'count-room', 'Ask Tamsin Quaye what she is trying to break',
       'Ask Tamsin Quaye what she wants done', 'Stand surety for the Remainder in the Prefect');
     expect(j.holds('befell', 'remainder_harboured')).toBe(true);
     expect(j.holds('befell', 'remainder_kept')).toBe(false);
   }, 900000);
   it('sails to Mechanus with the Captain, leaves a company ashore when she goes, and fetches it on her next call', async () => {
     const { j } = await down();
-    await j.play('^Into the Remainder', 'Ask Captain Sabe where the ship is', 'Put out for Mechanus');
+    await j.play('^Into the Remainder', '=+7', '=+7', 'Ask Captain Sabe where the ship is', 'Put out for Mechanus');
     expect(j.holds('at', 'psennet__remainder', 'outer_mechanus_threshold')).toBe(true);
     expect(j.holds('befell', 'mechanus_seen')).toBe(true);
     await j.play('^Through to|^Out to|Remainder.s gangway on Mechanus');
@@ -113,7 +115,7 @@ describe('the Remainder', () => {
     j.give('pskeel__bench_rubbing'); j.give('ptolleth__rubbing'); j.give('plongman__rod'); j.give('plongman__writ_copy');
     if (withNote) { j.give('ptessary__surety_note'); }
     await j.play('Lay a keeper\'s tally and a Prefect\'s table', 'Lay the dyke-reeve\'s rod', 'Say the keeper\'s formula', 'Open the black square',
-      'Through to the foot of the black stair', 'the Quay of Hours', '^Into the Remainder', 'Ask Captain Sabe where the ship is', 'count-room',
+      'Through to the foot of the black stair', 'the Quay of Hours', '^Into the Remainder', '=+7', 'Ask Captain Sabe where the ship is', 'count-room',
       'Ask Tamsin Quaye what she is trying to break', 'Ask Tamsin Quaye what she wants done', 'Stand surety for the Remainder in the Prefect');
     j.coin(40);
     return world;
@@ -132,5 +134,65 @@ describe('the Remainder', () => {
     const { j } = await harbour(true);
     await j.play('^Wait › An hour');
     expect(j.holds('psennet__liable', 'party')).toBe(false);
+  }, 900000);
+});
+
+describe('the Slack, when it is lingered in', () => {
+  const aboard = async (extra: string[] = []) => {
+    const world = await Slack.world(['sennet', 'longman', 'lowwater', 'tolleth', 'skeel']);
+    const { j } = world;
+    j.put('party', 'psennet__nexus');
+    j.give('pskeel__bench_rubbing'); j.give('ptolleth__rubbing'); j.give('plongman__rod'); j.give('plongman__writ_copy');
+    j.give('plongman__mask');
+    await j.play('Lay a keeper\'s tally and a Prefect\'s table', 'Lay the dyke-reeve\'s rod', 'Say the keeper\'s formula', 'Open the black square',
+      'Through to the foot of the black stair', 'the Quay of Hours', '^Into the Remainder', '=+7', 'Ask Captain Sabe where the ship is', ...extra);
+    return world;
+  };
+  const wait = (j: Journey, n: number) => j.play(`=${j.campaign.state.elapsed + n}`);
+  it('sends the count\'s Divider up the gangway after two days below', async () => {
+    const { j } = await aboard();
+    expect(j.holds('psennet__dividerCame', 'party')).toBe(false);
+    await wait(j, 60);
+    expect(j.holds('psennet__dividerCame', 'party')).toBe(true);
+    expect(j.holds('at', 'psennet__divider', 'psennet__rem_deck')).toBe(true);
+  }, 900000);
+  it('can be answered with a complete count, which costs the slack something', async () => {
+    const { j } = await aboard();
+    await wait(j, 60);
+    j.roll('pass');
+    await j.play('Ask Captain Sabe for the bell-cord, and ring the twelfth');
+    j.roll();
+    expect(j.holds('at', 'psennet__divider', 'psennet__rem_deck')).toBe(false);
+    expect(j.holds('psennet__thin', 'psennet__remainder')).toBe(true);
+  }, 900000);
+  it('can be turned by a sentence that does not divide, which the tern then has no more of', async () => {
+    const { j } = await aboard();
+    await j.play('^To the hold', 'Listen to the tern', '^To the Remainder|^Up to|deck');
+    await wait(j, 60);
+    await j.play('Say the tern.s sentence to the Divider');
+    expect(j.holds('at', 'psennet__divider', 'psennet__rem_deck')).toBe(false);
+    expect(j.holds('at', 'psennet__tern', 'psennet__rem_hold')).toBe(false);
+  }, 900000);
+  it('can be met by a Quartermaster who has been given a face, and who does not come back', async () => {
+    const { j } = await aboard();
+    await j.play('Into the Quay of Hours', 'Fit .* grey face to the Quartermaster', '^Into the Remainder');
+    await wait(j, 70);
+    expect(j.holds('psennet__stilled', 'psennet__quartermaster')).toBe(true);
+    expect(j.holds('at', 'psennet__divider', 'psennet__rem_deck')).toBe(false);
+  }, 900000);
+});
+
+describe('the lamp that was lent', () => {
+  it('is carried for by a tally cut in the Slack and shown on Skerrow, and fitted to the mast, and the world records it', async () => {
+    const { j } = await Slack.world(['sennet', 'tolleth']);
+    j.put('party', 'ptolleth__pharos_lamp');
+    j.give('psennet__tally_stick');
+    await j.play('Show Marren Kestle the Watch.s tally-stick');
+    expect(j.holds('ptolleth__lensGiven', 'ptolleth__kestle')).toBe(true);
+    await j.play('^Take the green lens');
+    j.put('party', 'psennet__rem_deck');
+    await j.play('Fit the green lens of the Pharos');
+    expect(j.holds('psennet__steadied', 'psennet__remainder')).toBe(true);
+    expect(j.holds('befell', 'remainder_steadied')).toBe(true);
   }, 900000);
 });

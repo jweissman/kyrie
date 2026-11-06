@@ -5,7 +5,7 @@ Module dorothea "The Dorothea" {
   // not aboard when she goes is on Skerrow; the next sail is the Mary Ann's, twelve days after, and a crown dearer.
   Measure back(entity). Measure leftAt(entity).
   Relation homeward(entity). Relation stranded(group).
-  Rule hull_returns when arrived(hull) and not homeward(hull) and not safeHome(hull) and watch(clock) >= reachedAt(hull) + 144
+  Rule hull_returns when arrived(hull) and not homeward(hull) and not safeHome(hull) and watch(clock) >= reachedAt(hull) + 217
     says "At the top of the morning ebb Bascom comes down the jetty with the pipe unlit, and the lines come off the rings, and the Dorothea goes out of Skerrow roads with her bow turned east." {
     Assert homeward(hull). Retract at(hull, jetty). Assert at(hull, roads). Set back(hull) to 0. Set leftAt(hull) to watch(clock). Retract arrived(hull). Retract troubled(hull). Assert state(hull, underway).
     Retract at(bascom, jetty). Assert at(bascom, helm).

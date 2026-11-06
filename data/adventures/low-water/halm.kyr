@@ -124,10 +124,10 @@ Module lowwater "Low Water" {
   // what the Reckoner says, is as much a gift as he can make.
   Place beyond_map "beyond the map" is wilderness within bowl at 9, 9.
   Place nowhere "nowhere" is room within beyond_map at 0, 0.
-  Item halm_letter "Halm's letter of introduction" is collegium_letter at nowhere.
+  Item halm_letter "Halm's letter of introduction" is collegium_letter at nowhere owned by halm.
   Topic halm_letter_ask with halm "Ask Halm for a letter of introduction to the Collegium's friends" when knows(actor, census_read) and not letterWritten(halm) once {
     Says "'A letter!' says Halm, delighted, and is already looking for ink. 'To everyone. To the Fellows at Corran, to the Collegium of Measures at Sennet, to the Rector, to anyone who can read.' He writes it in four minutes on the back of a tally, folds it with the seal of the Collegium, and gives it to you with both hands. 'It will open fewer doors than I believe,' he says, with real candour. 'But it will open some. They like to be written to by someone who has heard the Reckoner.'".
-    On discuss { Assert lends(halm, halm_letter, actor). Assert letterWritten(halm). }
+    On discuss { Give halm_letter to actor. Assert letterWritten(halm). }
   }
   Relation letterWritten(group).
 }

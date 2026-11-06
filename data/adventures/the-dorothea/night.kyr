@@ -1,0 +1,140 @@
+Module dorothea "The Dorothea" {
+  Description "The second night on Skerrow: the men who come for the bronze, the paper on the Gull's wall that nobody has read, the lens, and the boy who is out in the weather when the lamp is dark.".
+
+  // ── The paper nobody has read ───────────────────────────────────────────────────────────────────────────────────
+  // The Gull's framed paper is the island's oldest document and its least consulted. It is not a lease, whatever the
+  // Kestles say. It is a receipt, in two hands, one of them a steward's, and what it receipts is the lamp. It does not
+  // say who is to ask, or how. It says that someone will.
+  Discovery receipt_seen "On the wall of the Gull's kitchen hangs a framed paper nobody on Skerrow has read in living memory: two hands, one of them very formal, and in the corner a small device, a fish with a flame over it." {
+    }
+  Discovery receipt_read "The Gull's framed paper is a receipt: RECEIVED OF LUCANUS, STEWARD OF THE PREFECT'S HOUSEHOLD, ONE LAMP, TO BE KEPT BY THE KEEPERS OF THIS ROCK UNTIL IT BE ASKED FOR. Beneath it a row of eleven strokes and a blank, and the device of a fish and a flame." {
+    Found by searching gull_room with lore "The upper hand is a clerk's Aenean, and says what a receipt says. RECEPI A LUCANO PRAEFECTI DOMUS PROCURATORE LUCERNAM UNAM, SERVANDAM CUSTODIBUS HUIUS SCOPULI DONEC POSCATUR: received of Lucanus, steward of the Prefect's household, one lamp, to be kept by the keepers of this rock until it be asked for. Under it, in a hand that is not a clerk's, are eleven strokes and a space, and a fish with a flame over it, cut with a knife. A receipt is a small and sad thing. It means that someone expected to come back.".
+  }
+  Topic gull_paper with gull "Ask Hester Gull about the framed paper on the wall" when true once {
+    Says "'The lease,' says Hester Gull. 'Or the charter. Or the will of somebody. Marren says it's a lease and Jory says it's a joke and my mother said it was the first thing the island ever owned, and that's why it's framed.' She wipes the glass with her apron, which has not been done in years. 'Nobody's ever been able to read it. I'm told it's foreign.'".
+    On discuss { Assert knows(actor, receipt_seen). }
+  }
+  Topic quint_receipt with quint "Ask Odile Quint to read the paper on the Gull's wall" when knows(actor, receipt_seen) once {
+    Says "She stands in front of it with her hands behind her back for a time that Hester Gull plainly finds improper, and then she reads it aloud, plainly, a line at a time, as a surveyor reads a boundary. When she has finished she says nothing at all. Then: 'It is a receipt,' she says. 'For the lamp. It does not say what lamp.' She looks at the row of strokes at the foot. 'Eleven and a blank. I have seen that arrangement on a table in a lamp room an hour ago, and I did not know it was a number.'".
+    On discuss { Assert knows(actor, receipt_read). }
+  }
+  Observe device_seen at pharos_foot when true "Cut small into the keystone of the arch, worn almost smooth by two thousand winters of salt: a fish, and over it a flame. You have seen it before, you think, or something very like it, on the iron foot of a lamp-stand in a place you cannot at once name." teaches device_known.
+  Discovery device_known "A fish, and over it a flame: the device cut on the keystone of the Pharos on Skerrow, and on the lamp-stand of the Holm Lantern on the Gannet Reach, and on the ring of the great lens.".
+
+  // ── The lens ────────────────────────────────────────────────────────────────────────────────────────────────────
+  // The reflector is bronze and is Quillon's to buy. The lens is something else: green, heavy, set in a ring that is
+  // marked, with eleven stones round its rim and a socket for a twelfth. It is the thing on the receipt. Marren will
+  // not give it to a stranger who asks, because a stranger is not who was foretold. She will give it to a Watch's
+  // tally, which she has never seen and will know.
+  Topic kestle_lens with kestle "Ask Marren Kestle about the green lens" when true once {
+    Says "'It is not ours,' says Marren Kestle. She says it at once, as if she had practised, in her bed, for years. 'My grandmother's grandmother kept the lamp for it. We were told that it was a lamp to be kept, not a lamp to be given, and that someone would ask for it, and that we would know them.' She looks at the green glass with something that is not fondness. 'I thought it would be a soldier. I thought it would be someone with a seal. I have been wrong about a number of things in my life, but I have never been so wrong as I am about that.'".
+    On discuss { Assert knows(actor, lens_asked_for). }
+  }
+  Discovery lens_asked_for "Marren Kestle keeps the lens of the Pharos as a lamp to be kept and not given, until someone she will know comes to ask for it.".
+  Item lens "the green lens of the Pharos" is pharos_lens at nowhere owned by kestle.
+  Relation lensGiven(group).
+  Topic kestle_give_lens with kestle "Show Marren Kestle the Watch's tally-stick" when holding(actor, watch_tally) and not lensGiven(kestle) once {
+    Says "She takes it in both hands. She counts the notches with her thumb, aloud, to eleven, and stops, and her thumb stays on the blank. 'I knew it would be wood,' she says. She does not weep. She goes up the stair to the lamp room, and you hear her up there for a quarter of an hour, doing a thing with a spanner that she has not done in thirty years, and when she comes down she is carrying the lens against her chest like a sleeping child. 'Tell them it was kept,' she says. 'Tell them it was kept the whole time.' She puts it into your arms. It is warmer than glass has any right to be. 'The lamp will burn without it,' she says. 'Not as far.'".
+    On discuss { Give lens to actor. Assert lensGiven(kestle). }
+  }
+  Observe lamp_dimmer at pharos_lamp when lensGiven(kestle) "The lamp burns in the lamp room as it always did. It does not throw as far. The window seems to have more dark in it than a window should.".
+
+  // ── The men who come for the plate ──────────────────────────────────────────────────────────────────────────────
+  // Signed, the paper is not yet done. It is done when two of Quillon's men have been up the hill with a bar, and a
+  // barrow, and have been let. They can be stopped. They are not wicked; they are paid by the barrow.
+  Person quillon_men "Quillon's hired men" at nowhere {
+    Role "two hired men with a barrow and a bar". Ancestry human. Calling warrior. Level 2. Numbers 2. Temperament territorial.
+    Warns "Two men are standing in the doorway of the Pharos with a barrow between them and a bar over one shoulder. The taller one looks at you as a man looks at a fence that is not his and may be in the way.".
+    Comes "The taller man lowers the bar to the horizontal and says, quite politely, 'We've been paid for the plate. Don't make it into a thing.'".
+  }
+  Relation voided(group). Relation plateTaken(group). Relation menCame(group). Relation islandCalled(group).
+  Rule men_come when marlSold(party) and not menCame(party) and watch(clock) >= reachedAt(hull) + 138
+    says "At dusk two of Quillon's men go up Pharos Hill with a barrow and a bar. Marren Kestle is standing at the tower door with the trimming-knife in her hand, and has not used it, and does not look as if she will." {
+    Assert menCame(party). Retract at(quillon_men, nowhere). Assert at(quillon_men, pharos_foot).
+  }
+  Action bluff_the_men(actor: group, site: place) "Tell Quillon's men the plate is an Aenean antiquity under the Collegium of Measures' claim" {
+    Description "A man paid by the barrow does not read the paper he is carrying a plate for. He reads the face of whoever tells him it is not his to take.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, pharos_foot) and at(quillon_men, site) and not voided(actor) and not plateTaken(actor).
+    Time 2.
+    Resolve check(actor, deception, dc_fair).
+    On success { Assert voided(actor). Retract at(quillon_men, pharos_foot). Assert at(quillon_men, green). }
+    Result "You say it as one says a thing that is not a lie, and then one more thing, and the taller man's face does the sum. 'Collegium,' he says, to the other. 'Antiquity.' 'We were hired for scrap,' says the other. They look at the plate and the barrow and at you and at Marren Kestle's knife, which is now quite slightly higher. They put the bar down. 'We'll go and ask Mr Quillon,' says the taller man. 'He'll be wanting to know what a Collegium is.'".
+    Otherwise "The taller man listens politely to the end. 'Is that so,' he says. 'And I'm the Prefect.'".
+  }
+  Action call_the_island(actor: group, site: place) "Go down to the green, and call the island up the hill" {
+    Description "Forty-one people. Most of them would never lift a hand to a neighbour's hired man, and all of them have a view.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, pharos_foot) and at(quillon_men, site) and not voided(actor) and not plateTaken(actor) and not islandCalled(actor).
+    Time 6.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert islandCalled(actor). Assert voided(actor). Retract at(quillon_men, pharos_foot). Assert at(quillon_men, green). }
+    Result "You go down to the green and say it to Hester Gull, who says it to the Gull, who says it to the lane, and they come up the hill by ones and twos with their lanterns and their boy-children, not to do anything, only to stand there in a half circle on the grass, forty-one people with their arms folded. The taller man looks at the half circle for a long time. 'It's a great deal to ask for sixty down,' he says, at last, and picks up his bar.".
+    Otherwise "You say it to the Gull, and the Gull listens, and says that Jory has signed, and that a signature is a signature, and goes back to its tea.".
+  }
+  Rule plate_taken when menCame(party) and not voided(party) and not plateTaken(party) and watch(clock) >= reachedAt(hull) + 150
+    says "By nightfall the plate is off the wall, and the reflector off its mount, and the barrow is going down the hill on its one wheel with a sound like a small bell struck over and over. The lamp room window is dark." {
+    Assert plateTaken(party). Assert tableSold(party). Assert lampOut(party).
+  }
+  Rule sale_voided when voided(party) and marlSold(party) and not keptLamp(party)
+    says "At the Gull Silas Quillon is told what happened on the hill. He closes the ledger, and after a while opens it again, and draws a line through a number. 'I do not enjoy being wrong in public,' he says. 'I enjoy it somewhat less when it was a lighthouse.'" {
+    Assert keptLamp(party). Retract marlSold(party). Retract at(marl, gull_room).
+  }
+
+  // ── The night the lamp is for ──────────────────────────────────────────────────────────────────────────────────
+  // Marren said it is for whoever is out there tonight. On the second night someone is: Jory's eldest, fourteen, has
+  // gone out in the boat for the pots at the turn of the weather. If the lamp is lit he is brought home by it, and
+  // that is the whole of the lamp. If it is dark, a company that is awake can do something about it, in four ways.
+  Place off_skerrow "the black water off Skerrow" is room within lane at 4, 0.
+  Person wen "Wen Kestle" at kestle_house {
+    Role "Jory Kestle's eldest, fourteen". Ancestry human. Peaceable. Pronouns he. Manner jovial.
+    Greets "A long boy, all wrists, with his father's shoulders not yet arrived. 'You came on the Dorothea,' he says. 'Is it true she's got a gun? Da says no, but Da says no about most things.'".
+  }
+  Place kestle_house "Jory Kestle's house" is room within hamlet at 2, 1.
+  Passage kestle_door "Jory Kestle's door" is door between green and kestle_house.
+  Observe kestle_scene at kestle_house when true "Jory Kestle's house: one room, four beds in two tiers, a table with a net spread over it, a stove, a framed picture of a woman in a cap with the glass cracked across and mended with a strip of tape. The children's boots stand in a row from big to small.".
+  Relation stormOn(group). Relation wenOut(group). Relation wenSafe(group). Relation wenLost(group). Relation beaconLit(group). Relation shipLit(group).
+  Rule storm_rises when arrived(hull) and not stormOn(party) and not wenSafe(party) and watch(clock) >= reachedAt(hull) + 152
+    says "The wind goes round in the evening, as it does on Skerrow when it has finished with the sea and means to start on the land, and the rain comes in flat. Down at the jetty the Dorothea's lines groan. Somewhere on the green a woman is shouting a boy's name into the weather." {
+    Assert stormOn(party). Assert wenOut(party). Retract at(wen, kestle_house). Assert at(wen, off_skerrow).
+  }
+  Observe storm_green at green when stormOn(party) and wenOut(party) "It is a black night and a roaring one. Jory Kestle is at the end of the jetty with a lantern that keeps going out, calling, and the island is standing behind him in its oilskins, not speaking.".
+  Observe lamp_lit_night at green when stormOn(party) and wenOut(party) and not lampOut(party) "High on the hill, the Pharos is burning. It does not seem to notice the weather. It goes out over the water in a long hard road, and the road goes a long way out.".
+  Rule wen_comes_by_the_light when stormOn(party) and wenOut(party) and not lampOut(party) and not wenSafe(party) and watch(clock) >= reachedAt(hull) + 166
+    says "A small black shape comes up out of the dark on the long road of the lamp: a boat, with a boy at the oars who is crying and laughing and has lost his cap. Jory Kestle wades out to his waist and takes the bow-line out of his son's hand. Marren Kestle has come down the hill in her oilskins, and she stands at the edge of the lantern-light and looks at the boy and does not say a word. After a time she says, to nobody, 'That is what it is for.'" {
+    Assert wenSafe(party). Retract wenOut(party). Retract at(wen, off_skerrow). Assert at(wen, jetty).
+  }
+  Action light_beacon(actor: group, site: place) "Build a beacon of the island's driftwood and oil on the hill" {
+    Description "A fire the weather cannot put out is a thing that takes wood, and oil, and a person who has built one before.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hill_path) and stormOn(party) and wenOut(party) and lampOut(party) and not beaconLit(actor) and not shipLit(actor).
+    Time 6.
+    Resolve check(actor, woodcraft, dc_fair).
+    On success { Assert beaconLit(actor). Assert wenSafe(actor). Retract wenOut(actor). Retract at(wen, off_skerrow). Assert at(wen, jetty). }
+    Result "You pile the island's driftwood in the lee of the wall, the dry under the wet, and soak it with the lamp-oil from the tower store, and the third attempt takes. It goes up with a roar that is a kind of joy. A quarter-mile out on the black water a small light that had been going the wrong way turns, and comes in. Marren Kestle has watched you do it from the tower door with the trimming-knife hanging from her hand. 'It's not the lamp,' she says. 'But it's the right idea.'".
+    Otherwise "The wood is wet, the wind is round the wrong side, and what you get is a column of smoke and a smell. You will have to try again with something that burns.".
+  }
+  Action light_the_ship(actor: group, site: place) "Ask Captain Bascom to hang every lantern the Dorothea has from her yards, and fire her gun" {
+    Description "The Captain's oil is the Captain's. A ship lit like a church can be seen a long way. It will cost her.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, helm) and at(bascom, helm) and stormOn(party) and wenOut(party) and lampOut(party) and not beaconLit(actor) and not shipLit(actor).
+    Time 2.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert shipLit(actor). Assert wenSafe(actor). Retract wenOut(actor). Retract at(wen, off_skerrow). Assert at(wen, jetty). Decrease cargo(hull) by 3. }
+    Result "'It's lamp-oil,' says Captain Bascom, 'and the Orsett man counts it,' and then she looks at Jory Kestle at the end of the jetty with the lantern and says a word you will not repeat. She goes up the shrouds like a girl. In ten minutes the Dorothea is lit from deck to truck like a church at Easter, and Rune fires the gun, and the sound goes out over the black water, and in the wake of it a small voice a long way off, a boy shouting, cracked with cold, is answered. Bascom comes down, wet through. 'Three casks,' she says. 'I'll have it off somebody.'".
+    Otherwise "'My oil,' says Bascom, 'is the only thing between me and the Orsett man's attorney.' She looks at the water. She does not look at you.".
+  }
+  Hazard gale "The gale off Skerrow" means "Deal (2d6) physical damage to ally unless dexterity save against (14).".
+  Action row_out(actor: group, site: place) "Take the island's boat out into the weather with a lantern, and look for the boy" {
+    Description "In a gale, in the dark, off a rock. It is the thing most likely to drown a second person.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, jetty) and stormOn(party) and wenOut(party) and lampOut(party) and not beaconLit(actor) and not shipLit(actor).
+    Time 12.
+    Resolve check(actor, wayfinding, dc_hard).
+    On success { Assert wenSafe(actor). Retract wenOut(actor). Retract at(wen, off_skerrow). Assert at(wen, jetty). }
+    On failure { Assert strikes(gale, party). }
+    Result "You take the boat out past the jetty with a lantern between your knees and the sea coming over the bow, and for what feels like a day you row at nothing, and then a boy is shouting, off to starboard, and a dark thing is a boat, and you have him by the collar. Jory's lantern at the jetty is a low yellow star. You do not know how you get back. You do.".
+    Otherwise "The sea takes the oar, and the boat, and a good part of your afternoon. You come back to the jetty on your hands and knees, with someone else's lantern and no boy.".
+  }
+  Rule wen_lost when stormOn(party) and wenOut(party) and not wenSafe(party) and not wenLost(party) and watch(clock) >= reachedAt(hull) + 200
+    says "At the end of the jetty Jory Kestle lowers the lantern. It is not a decision. His arm is tired. Nobody on Skerrow says anything at all, and presently Marren Kestle goes up the hill in her oilskins to the dark tower, and the dark tower swallows her." {
+    Assert wenLost(party). Retract wenOut(party). Retract at(wen, off_skerrow). Assert at(wen, nowhere).
+  }
+  Observe grief_green at green when wenLost(party) "The island is very quiet. Jory Kestle sits on the sea-wall with his hands between his knees. Nobody has touched the net that is spread over his table.".
+  Observe saved_green at green when wenSafe(party) and stormOn(party) "In the grey of the morning Jory Kestle is asleep on the jetty bench with a boy's head in his lap and an old man's coat over them both. The rain has stopped. Nobody is going to wake them.".
+}

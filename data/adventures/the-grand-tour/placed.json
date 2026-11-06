@@ -9,7 +9,8 @@
     "slack_opened",
     "remainder_harboured",
     "remainder_kept",
-    "mechanus_seen"
+    "mechanus_seen",
+    "remainder_steadied"
   ],
   "source": [
     "clock.kyr",

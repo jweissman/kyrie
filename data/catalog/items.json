@@ -649,6 +649,24 @@
       "source": {
         "kyr": true
       }
+    },
+    "pharos_lens": {
+      "name": "The green lens of a Pharos",
+      "category": "treasure",
+      "description": "A lens of green glass the width of a dinner plate, in an iron ring, heavy as a sleeping child. Round its rim are twelve settings for small stones; eleven hold a pale stone each, and the twelfth is an empty socket, bright, as if something had been taken out of it not long ago or a very long time ago. On the iron ring, cut small: a fish, and over it a flame.",
+      "value": 40,
+      "source": {
+        "kyr": true
+      }
+    },
+    "watch_tally": {
+      "name": "A Watch's tally-stick",
+      "category": "treasure",
+      "description": "A stick of grey wood the length of a forearm, cut with eleven close notches and a space for a twelfth. It is warm to the hand. It was cut by someone who has not been asked, in a very long time, for anything.",
+      "value": 3,
+      "source": {
+        "kyr": true
+      }
     }
   }
 }

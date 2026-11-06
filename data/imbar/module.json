@@ -112,7 +112,8 @@
     "slack_opened",
     "remainder_harboured",
     "remainder_kept",
-    "mechanus_seen"
+    "mechanus_seen",
+    "remainder_steadied"
   ],
   "exports": {
     "imbar": "imbar",
@@ -217,6 +218,7 @@
     "slack_opened": "slack_opened",
     "remainder_harboured": "remainder_harboured",
     "remainder_kept": "remainder_kept",
-    "mechanus_seen": "mechanus_seen"
+    "mechanus_seen": "mechanus_seen",
+    "remainder_steadied": "remainder_steadied"
   }
 }

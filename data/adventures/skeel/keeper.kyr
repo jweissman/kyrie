@@ -46,10 +46,10 @@ Module skeel "Fair Weather" {
 
   // Parson Hosken takes a rubbing of the bench, because he has been a clerk and cannot help it. A bilingual of a kind: the
   // Aenean numerals gloss the strokes. He gives it to whoever sat with him in the cell.
-  Item bench_rubbing "a wax rubbing of the keeper's bench" is tally_rubbing at nowhere.
+  Item bench_rubbing "a wax rubbing of the keeper's bench" is tally_rubbing at nowhere owned by hosken.
   Topic hosken_rubbing with hosken "Ask Parson Hosken to take a rubbing of the tally, for the Court's keeping" when knows(actor, tally_read) and not rubbed(hosken) once {
     Says "'The Court's keeping is a drawer in Hender's parlour,' says Hosken. 'Mine is a vestry cupboard.' He takes a lump of wax and a square of linen out of his cassock, where he had it all along, and goes back to the cell on his knees. It takes him an hour. When he gives it to you it is a piece of the underside of the bench, in cloth, three notations deep and the length of a forearm. 'Take it where it can be read by someone who isn't me,' he says. 'I am afraid I should read it for the rest of my life.'".
-    On discuss { Assert lends(hosken, bench_rubbing, actor). Assert rubbed(hosken). }
+    On discuss { Give bench_rubbing to actor. Assert rubbed(hosken). }
   }
   Relation rubbed(group).
 }
