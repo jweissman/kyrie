@@ -3,7 +3,7 @@ Module hhg "The House That Grows" {
 
   // The count the house is keeping is the Seventh's age in rooms; its first page (why a girl of fourteen was left to dream
   // a house for two and a half thousand years) is missing and is never read out. The price of reading it is that
-  // whoever reads the Reckoning becomes the next to keep it: the tally has a blank, and the blank is waiting.
+  // whoever answers the knocking becomes the next to be asked.
 
   // ---- Places ----
   Place slope "the Slope" is room within decks at 0, 2 indoors.
@@ -65,13 +65,6 @@ Module hhg "The House That Grows" {
   }
   Item sabe_rope "ten fathoms of Netters' rope" is rope at nowhere owned by sabe.
 
-  // ---- The Reckoning on the wall: eleven strokes and a blank ----
-  Thing reckoning "the Reckoning" at slope {
-    State rows "The glass wall by the gate is scored from the floor to the height of a standing woman with rows of strokes, in elevens, each row ending in a space left blank the width of one stroke. There are more rows than can be counted before the eyes ache, and no row is crossed out.".
-  }
-  Observe reckoning_read at slope as revelation when tried(reckoning, looking) "Every row is eleven strokes and a space. In the space of the newest row, so fresh the glass dust has not settled on it, someone has put the point of a nail to the glass and not pressed.".
-  Discovery reckoning_blank "Every row of the Reckoning on the Slope is eleven strokes and a blank; the blank is the twelfth, missing and not lost. In the newest row someone has set a nail to it and not pressed.".
-
   // ---- Voices of the company, by calling ----
   Relation heardShelf(group). Relation heardLamps(group). Relation heardHall(group). Relation heardSlope(group).
   Relation heardSlopeB(group). Relation heardHallB(group). Relation heardGate(group). Relation heardGateB(group).
@@ -92,7 +85,7 @@ Module hhg "The House That Grows" {
     Assert heardHallB(party).
   }
   Rule voice_cleric_slope at slope when memberOf(?m, party) and hasCalling(?m, calling_cleric) and awake(?m) and at(party, slope) and not heardSlope(party)
-    says "{?m} reads the nearest row of strokes with the flat of a hand, as a priest reads a roll of the dead. 'A name for each,' {?m} says. 'Eleven names and the twelfth not yet said. It is a roll of the dying with the next one left open.'" {
+    says "{?m} lays a palm on the glass of the wall, as a priest lays it on a sickbed, and keeps it there through two rounds of the knocking. 'Warm,' {?m} says. 'Not from the lamp. It is warm the way a door is warm when someone has just let go of the handle.'" {
     Assert heardSlope(party).
   }
   Rule voice_warrior_slope at slope when memberOf(?m, party) and hasCalling(?m, calling_warrior) and awake(?m) and at(party, slope) and not heardSlopeB(party)
@@ -160,7 +153,7 @@ Module hhg "The House That Grows" {
   }
   Discovery neme_asked "Neme asked Kezu, across a night of staring, to look away and let the little door open, because no one has ever come into her house by the front door.".
   Topic neme_knock with neme "Ask Neme why she knocks eleven and not twelve" when true once {
-    Says "'Because the twelfth is yours,' says Neme, as if you were being slow. 'I've done mine eleven times a night for ever. It isn't polite to do all the knocking.'".
+    Says "'Because it isn't polite to do all the knocking,' says Neme, as if you were being slow.".
   }
   Topic neme_marble with neme "Ask Neme about the coat with her name on it, and the orange marble" when knows(actor, door_opened) {
     Says "Neme looks at her collar. 'It's got a name on it because I kept losing it,' she says. 'I put the marble in the pocket so I could find the coat. It's a bad system.' She laughs, once. 'If you've got the marble, I'd like it back.'".
@@ -248,9 +241,6 @@ Module hhg "The House That Grows" {
   Chapter ch_slope "IV. The Slope" when at(party, slope) or at(party, front_hall) "At the foot of the Long Hall the floor tilts, the knocking is loud, and an old woman minds a lamp for someone who is not coming. There is only one door left, and the whole house is built to keep you from using it.".
 
   // ---- Two further links outward, and a comic scene in a grave house ----
-  Topic sabe_tower with sabe "Ask Sabe where such a lamp is lit elsewhere" when true once {
-    Says "'The Ithren lit them in the south too, on the sea,' says Sabe. 'My mother's mother heard of a tower where one is kept in a window for nobody in particular, and the keeper never asks. They are that sort of lamp.' She sets her can down. 'I have often thought of walking there. It is a long way for an old woman with a bucket.'".
-  }
   Topic dace_exchange with dace "Ask Dace where the Company sends what falls out of the city" when true once {
     Says "'The Founders' Exchange sells it on at Corran,' says Dace, 'and the Lesser Instruments there buy anything that still ticks, and a few things that only used to.' He rolls his cord. 'Mister Lisle sells dreg to lens-grinders at Low Water by the pound. He says it takes the edge off a lens. He does not say off what.'".
   }
@@ -263,5 +253,5 @@ Module hhg "The House That Grows" {
   // ---- The endings ----
   Ending the_front_door "The Front Door" when nemeFree(party) "Nobody in Cobble Ring was watching the sky, and so nobody saw a girl in a torn coat come down the last long stair of the Keel into Haddo's barley on the morning after the third night. The house in the field is glass now and nothing more; the doors are only doors, and they open where they are looked at. Kezu sleeps through the night and wakes at dawn like anyone, and the first thing she does is climb to the loft, and sit in the seat that has been Hanu's, and look at the room in the barley, and at the girl on the stool beside it with a dreg marble in her fist, and not look away. The council kept or sold the house as it did. It does not matter now. In the Keel, a lamp has gone out on the Slope, and an old woman has gone up the stair to see whether Wenn is in his bunk.".
   Ending the_chair "The Chair" when nemeSits(party) "Tobu sits in the child's chair in the middle of the Long Hall and counts forty doors, and the house does not grow. Neme goes down the stair into the Strewnfield with her coat buttoned wrong, and is looked after by Hanu, who has been a week without a patient and is glad of one. Kezu sleeps, and wakes, and goes to the hall every noon with a cup of something hot, and sits on the glass beside her sister's boy for an hour, not speaking, and goes home again. Cobble Ring does not speak of it, as a town does not speak of the stool it keeps empty for someone.".
-  Ending the_gate_shut "The Knocking Goes On" when nemeLeft(party) "You went back up the Slope, as you had said you would, to see to your own affairs, and the gate shut behind you. The house goes on as it did. Kezu is walked back to her bed by Hanu every morning; the council meets; the barley is not sown. At the foot of the Slope an old woman minds a lamp for a boy called Wenn, and eleven knocks come up the glass, and a gap, and eleven. Some night the twelfth will be given. Whether it is given by someone who has been told is only a matter of who comes by.".
+  Ending the_gate_shut "The Knocking Goes On" when nemeLeft(party) "You went back up the Slope, as you had said you would, to see to your own affairs, and the gate shut behind you. The house goes on as it did. Kezu is walked back to her bed by Hanu every morning; the council meets; the barley is not sown. At the foot of the Slope an old woman minds a lamp for a boy called Wenn, and the knocking comes up the glass, and stops, and comes again. Some night it will be answered. Whether by someone who has been told is only a matter of who comes by.".
 }
