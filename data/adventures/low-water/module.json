@@ -23,7 +23,8 @@
     "echoes.kyr",
     "endings.kyr",
     "company.kyr",
-    "lore.kyr"
+    "lore.kyr",
+    "callings.kyr"
   ],
   "rules": [
     "world"

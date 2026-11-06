@@ -1,0 +1,44 @@
+Module sennet "The Grand Tour" {
+  Description "What a company's bard hears in Sennet that nobody else would, and the one thing only a bard can do for the North Wind: sing him the Quay's song of the girl who stood on nothing.".
+
+  // ── The bard's ear ──────────────────────────────────────────────────────────────────────────────────────────────
+  // Said once for the company, by whoever it has of the calling. A company without a bard has nobody to hear any of it.
+  Relation heardQuayCries(group). Relation heardRoll(group). Relation heardDrownedStreet(group). Relation heardBalustrade(group).
+  Rule bard_quay at quay when memberOf(?m, party) and hasCalling(?m, calling_bard) and awake(?m) and at(party, quay) and not heardQuayCries(party)
+    says "{?m} stands at the end of the Quay with eyes shut for the length of three street-cries. 'Eel pie, a penny,' {?m} says at last, to nobody. 'Always the same four notes, down to the last one, and then she drops the last one. Twenty years of it. Somebody taught her the whole tune, and she has kept the part that sells.'" {
+    Assert heardQuayCries(party).
+  }
+  Rule bard_roll at hall_of_doors when memberOf(?m, party) and hasCalling(?m, calling_bard) and awake(?m) and at(party, hall_of_doors) and not heardRoll(party)
+    says "{?m} reads the gilt of the Roll aloud, under the breath, and stops at the entry for 1088. 'DECLARED NOTHING,' {?m} says. 'A clerk wrote that. A clerk who had been told nothing, and did not like it, and found the only verdict he had. Nobody declares nothing. You declare nothing when what you have to say will not go into a column.'" {
+    Assert heardRoll(party).
+  }
+  Rule bard_drowned at drowned_street when memberOf(?m, party) and hasCalling(?m, calling_bard) and awake(?m) and at(party, drowned_street) and not heardDrownedStreet(party)
+    says "{?m} tilts a head toward the water and listens to the shop-signs knock on their chains. 'Four of them in tune,' {?m} says, pleased in spite of the cold. 'Somebody hung the signs by pitch, a long time before there were merfolk to name themselves out of them. I would not have thought a draper cared.'" {
+    Assert heardDrownedStreet(party).
+  }
+  Rule bard_balustrade at balustrade when memberOf(?m, party) and hasCalling(?m, calling_bard) and awake(?m) and at(party, balustrade) and aloft() and not heardBalustrade(party)
+    says "{?m} leans on the rail where the young man went over it, and does not look down. 'No echo,' {?m} says. 'You can shout off any rail in the world and the sea shouts back. Here the cloud eats it.' A pause. 'He would have heard nothing at all on the way down. Not even himself.'" {
+    Assert heardBalustrade(party).
+  }
+
+  // ── The Quay's song ─────────────────────────────────────────────────────────────────────────────────────────────
+  // A tune that old women on the Quay hum over the eels and cut off before the end; they will give the end to someone who
+  // can carry it. Only a bard asks the right question, because only a bard knows that a tune cut off is a tune with a
+  // last verse in it.
+  Discovery ysabeau_ballad "The Quay has a song of the girl from the hill who stood on nothing; the last verse says that every night of her life she left the north casement unlatched, and her daughters after her.".
+  Topic bethan_ballad with bethan "Ask Old Bethan for the last verse of the song she hums over the eels" when memberOf(?m, actor) and hasCalling(?m, calling_bard) and hour(clock) >= 8 and hour(clock) < 18 once {
+    Says "Old Bethan stops with the knife in an eel. 'Who told you there was a last verse?' She looks at you, and at your hands, and decides. 'Nobody sings it. The girl from the hill, that went up the arch on a dare.' Her voice is cracked and perfectly true. 'She stood on nothing and she was not afraid, and she came home with the wind in her skirts. She never went back up the arch, but her window faces north, and every night of her life she left it latched to nothing, and her daughters after her, and the Halyard women to this day.' She goes back to the eel. 'That is all of it. It never rhymed. I put the rhyme on myself.'".
+    On discuss { Assert knows(actor, ysabeau_ballad). }
+  }
+  Discovery casement_known "In the drawing room of Halyard House the northmost casement is found unlatched every morning, though the footmen shut it every night, and the household has long ago given up asking why.".
+  Observe casement_unlatched at drawing_room when aloft() and not knows(party, casement_known) "At the northmost end of the long row of windows one casement stands a hand's breadth open on the cloud, and the draught from it moves the fringe of the nearest chair. A footman, passing with a duster, shuts it with his thumb without breaking step. 'Every night,' he says, not to you. 'And every morning.'" teaches casement_known.
+  Action sing_to_the_wind(actor: group, site: place, b: member) "Sing the North Wind the last verse, as the Quay has it" {
+    Description "Not a letter, and not an apology. A custom that has been kept in the dark for two hundred years by people who could not have said what for.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, eyrie) and memberOf(b, actor) and hasCalling(b, calling_bard) and awake(b)
+      and tramontaneHeard(tramontane) and knows(actor, ysabeau_ballad) and knows(actor, casement_known)
+      and not giftRenewed(sennet_bay) and not airHome(sennet_bay).
+    Time 6.
+    On success { Assert giftRenewed(sennet_bay). }
+    Result "{b} sings it the way Bethan has it, without the rhyme, flat, to the edge of the world. The North Wind does not turn round. At the last verse, the one about the casement, the cold in the eyrie goes still, as if it were listening with its whole body. 'Latched to nothing,' says Tramontane. 'Every night.' It is a long time before he speaks again. 'The footmen shut it, and she opened it. And the daughters.' Far below, over Sennet, in June, it begins to snow. 'Then she meant it,' he says. 'Tell them it is a keepsake. Tell them it is not theirs.'".
+  }
+}

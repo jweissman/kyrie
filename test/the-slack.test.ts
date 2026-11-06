@@ -57,6 +57,18 @@ describe('the way down', () => {
     await j.play('Through to the foot of the black stair', 'the Quay of Hours');
     expect(j.campaign.world.one('at', 'party')).toBe('psennet__hours_quay');
   }, 600000);
+  it('charges its interest on the stair: the climb takes as many watches as were spent below', async () => {
+    const { j } = await open('kinds');
+    await j.play('Open the black square', 'Through to the foot of the black stair', 'the Quay of Hours');
+    await j.play(`=${j.campaign.state.elapsed + 30}`);
+    const owed = j.measure('psennet__interestOwed', 'party');
+    expect(owed).toBeGreaterThanOrEqual(30);
+    await j.play('^To the foot of the black stair');
+    const before = j.campaign.state.elapsed;
+    await j.play('Climb the black stair back to the Nexus');
+    expect(j.campaign.state.elapsed - before).toBeGreaterThanOrEqual(owed);
+    expect(j.measure('psennet__interestOwed', 'party')).toBe(0);
+  }, 600000);
   it('goes down by costly routes too: paid scribes, a keeper\'s face, the Prefect\'s table', async () => {
     const { j } = await open('costly');
     await j.play('Open the black square');

@@ -42,6 +42,7 @@
     "history.kyr",
     "growth.kyr",
     "lore.kyr",
+    "callings.kyr",
     "placed.kyr"
   ],
   "rules": [

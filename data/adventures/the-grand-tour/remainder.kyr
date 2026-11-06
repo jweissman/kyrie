@@ -6,20 +6,22 @@ Module sennet "The Grand Tour" {
     State out "The Remainder is away from the quay.".
   }
   Initially Assert state(remainder, berthed).
-  Measure slackWatches(group). Measure mechAt(entity). Measure trust(group). Measure boardedAt(group). Measure pinned(group).
+  Measure slackWatches(group). Measure interestOwed(group). Measure mechAt(entity). Measure trust(group). Measure boardedAt(group). Measure pinned(group).
   Relation allowed(group). Relation counted(group). Relation tariffed(group). Relation surety(group). Relation faceGiven(group).
   Relation harboured(entity). Relation keptInSlack(entity). Relation mechanusSeen(entity). Relation boarded(group).
 
   // ── The Slack keeps its own interest ───────────────────────────────────────────────────────────────────────────
-  // Hours spent below are paid twice: once as they pass, and again as a fee of the same size, six times over, when the
-  // company climbs the stair. The Count keeps its books. (The world's clock goes on all the while.)
+  // Hours spent below are paid twice: once as they pass, and again, as long on the stair, when the company climbs
+  // it. The Count keeps its books. (The world's clock goes on all the while.)
   Query inSlack(g: group) means at(g, shaft_head) or at(g, hours_quay) or at(g, rem_deck) or at(g, rem_count) or at(g, rem_watch) or at(g, rem_hold).
   Rule slack_tick when company(party) and inSlack(party) { Increase slackWatches(party) by 1. }
+  // The interest is charged for real: the climb takes as many watches as were spent below, to a ceiling of a day.
+  Rule slack_interest_accrues when company(party) and inSlack(party) and interestOwed(party) < 144 { Increase interestOwed(party) by 1. }
   Action climb_out(actor: group, site: place) "Climb the black stair back to the Nexus" {
     Description "A long stair, and the light at the top growing gold. The Count will have its interest.".
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, shaft_head).
-    Time 12.
-    On success { Retract at(actor, shaft_head). Assert at(actor, nexus). Assert tariffed(actor). }
+    Time interestOwed(actor).
+    On success { Retract at(actor, shaft_head). Assert at(actor, nexus). Assert tariffed(actor). Set interestOwed(actor) to 0. }
     Result "You climb. It is a very long stair and it takes the whole of the afternoon, and when you come out into the Nexus there are lamps lit that were not lit when you went down, and Mr Threlkeld is sitting on the stair of the tower with his hat in his lap, looking at the black square as if it had been rude to him.".
   }
   Rule slack_interest when tariffed(party) and at(party, nexus) and slackWatches(party) > 0 and not interestPaid(party)

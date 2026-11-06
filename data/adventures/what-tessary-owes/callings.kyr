@@ -1,0 +1,39 @@
+Module tessary "What Tessary Owes" {
+  Description "What a thief hears in a city of seals and queues, and the one thing a thief can do on the ebb-runners' quay that costs neither five coin nor a lie: read the slate, and answer it in chalk.".
+
+  // ── The thief's ear ─────────────────────────────────────────────────────────────────────────────────────────────
+  // Said once for the company, by whoever it has of the calling. A company without a thief walks through all of it.
+  Relation heardStrongbox(group). Relation heardQueue(group). Relation heardStilts(group). Relation heardQuay(group).
+  Rule thief_strongbox at sault_office when memberOf(?m, party) and hasCalling(?m, calling_thief) and awake(?m) and at(party, sault_office) and not heardStrongbox(party)
+    says "{?m} looks once at the strongbox behind the Factor's desk and then not again, which is how a thief looks at a thing. 'Iron outside, oak inside, and a lock a child could shim,' {?m} says, very low. 'She did not buy that to keep anything in it. She bought it to be seen to own something that locks.'" {
+    Assert heardStrongbox(party).
+  }
+  Rule thief_queue at seals_hall when memberOf(?m, party) and hasCalling(?m, calling_thief) and awake(?m) and at(party, seals_hall) and not heardQueue(party)
+    says "{?m} stands at the end of the Office of Seals' queue for the length of one slow breath and is bored beyond bearing. 'Seven hundred people, and not a purse out of place,' {?m} says. 'They are too frightened of the clerks to be robbed. The only living in this hall is for whoever sells the places in the line.'" {
+    Assert heardQueue(party).
+  }
+  Rule thief_stilts at withies when memberOf(?m, party) and hasCalling(?m, calling_thief) and awake(?m) and at(party, withies) and not heardStilts(party)
+    says "{?m} walks the length of one gangway with a hand on the rail, and counts the doors. 'Not one bolt on the outside of any door,' {?m} says. 'Not one in the whole ward. Either they have nothing worth the taking, or everyone here has agreed on a thing they will not tell a stranger.'" {
+    Assert heardStilts(party).
+  }
+  Rule thief_quay at landing when memberOf(?m, party) and hasCalling(?m, calling_thief) and awake(?m) and at(party, landing) and not heardQuay(party)
+    says "{?m} looks at the board of notches by the tunnel mouth, and does not look at the woman with the cutlass at all. 'A tally, in cant,' {?m} says. 'It is not for counting. It says who has paid, and who may come and go, and who is not to be touched. If that were mine, I would want to know it by heart.'" {
+    Assert heardQuay(party).
+  }
+
+  // ── The thief's way on the quay ─────────────────────────────────────────────────────────────────────────────────
+  // Bettany Slake will let a company use her quay for five coin, or if it works for the Factor. She has a third rule that
+  // she does not say aloud, because it is a rule of her old trade: whoever can read the board and chalk the right sign
+  // on it is one of the quay's, and is let by without a word. Anyone may stand and look at the slate. It is a thief who
+  // can read what it is for.
+  Relation chalkedSign(group).
+  Action chalk_the_sign(actor: group, site: place, c: member) "Chalk the quay's own sign on the board by the tunnel mouth" {
+    Description "Read the slate for what it is, a tally of who may pass, and answer it in the same cant.".
+    Speaker slake.
+    Requires able(actor) and company(actor) and at(actor, site) and at(slake, site) and able(slake) and memberOf(c, actor)
+      and hasCalling(c, calling_thief) and awake(c) and not tolerates(slake, actor) and not hostile(slake, actor) and not chalkedSign(actor).
+    Time 2 minutes.
+    On success { Assert chalkedSign(actor). Assert tolerates(slake, actor). Assert tolerates(runners, actor). Assert slakeLetsPass(actor). }
+    Result "{c} takes the chalk from its string, thumbs out a stroke at the end of the bottom row, a crossed stroke through it, and a small round mark that is not a number. It takes four seconds. Bettany Slake's eyes come up from her crate, and go to the board, and to {c}'s hand, and stay on it. She says nothing at all for as long as it takes to breathe in and out. 'Quay's yours,' she says. 'Not the crates. And if anyone asks you where you learned that, you learned it from nobody, and I never saw it.'".
+  }
+}

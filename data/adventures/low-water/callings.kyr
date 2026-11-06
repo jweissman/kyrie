@@ -1,0 +1,58 @@
+Module lowwater "Low Water" {
+  Description "What the Assessor's company hears and can do by what it is: the warrior counting bailiffs, the bard in the nave, the cleric at the Ward, and the one thing only a cleric can do for the Reflected.".
+
+  // ── The company's ear ───────────────────────────────────────────────────────────────────────────────────────────
+  // Said once, by whoever the company has of the calling. A company without the calling does not hear it.
+  Relation heardBailiffs(group). Relation heardNave(group). Relation heardWardWell(group). Relation heardMoot(group).
+  Rule voice_bailiffs at quill_outer when memberOf(?m, party) and hasCalling(?m, calling_warrior) and awake(?m) and at(party, quill_outer) and not heardBailiffs(party)
+    says "{?m} does not look at the bailiffs, which is how {?m} counts them. 'Six by the door, two on the stair, none who would use it on a customer,' {?m} says. 'They are here for the books. A man who guards ledgers with that many staves has a great deal in them he would sooner not have counted.'" {
+    Assert heardBailiffs(party).
+  }
+  Rule voice_nave at nave when memberOf(?m, party) and hasCalling(?m, calling_bard) and awake(?m) and at(party, nave) and not heardNave(party)
+    says "{?m} stands under the vault and hums, very low, until the nave hums back. 'A fifth short,' {?m} says. 'The room was built for seven voices and it is being sung to by six. You can hear where the missing one would sit, the way you can hear a dropped stitch.'" {
+    Assert heardNave(party).
+  }
+  Rule voice_ward_well at ward_well when memberOf(?m, party) and hasCalling(?m, calling_cleric) and awake(?m) and at(party, ward_well) and not heardWardWell(party)
+    says "{?m} looks into the Ward well a while and then at the people queueing with their buckets, and counts neither. 'They are not afraid of the water,' {?m} says. 'They are afraid of being the ones who are seen to take it. That is an older fear, and I have buried a great many people who died of it.'" {
+    Assert heardWardWell(party).
+  }
+  Rule voice_moot at moot_hall when memberOf(?m, party) and hasCalling(?m, calling_bard) and awake(?m) and at(party, moot_hall) and not heardMoot(party)
+    says "{?m} walks the length of the Moot Hall and back without speaking, and stops at the dais. 'Three chairs face the room,' {?m} says, 'and the room's chairs face them, and nothing in between but floor. Nobody has ever been persuaded in a hall like this. They are arranged to be convicted.'" {
+    Assert heardMoot(party).
+  }
+
+  // ── The cleric's way ────────────────────────────────────────────────────────────────────────────────────────────
+  // The Reflected can be sung down, which stills them for a night, and the Ear's bell can break them, which takes the
+  // approach back by one. A cleric knows a third thing, because a cleric knows the difference between quieting the dead
+  // and laying them: the office, said by name, takes the approach back by two and needs neither the hymn nor the bell.
+  // The price is the reading itself: the office is long, the company stands at the water in the dark for the whole of
+  // it, and the Reflected say the cleric's own name back at the end, once, in the cleric's voice.
+  Relation officeSaid(group).
+  Action say_the_office(actor: group, site: place, c: member) "Say the office of the dead over the Reflected, and name them" {
+    Description "They are water that was people. The hymn quiets them; a bell breaks them; only the office tells them they are done.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(reflected, site) and dark() and memberOf(c, actor)
+      and hasCalling(c, calling_cleric) and awake(c) and approach(bowl) >= 1 and not reflectedStilled(bowl).
+    Time 4.
+    On success { Assert reflectedStilled(bowl). Assert officeSaid(actor). Decrease approach(bowl) by 2. }
+    Result "{c} says it standing at the water's edge, bareheaded, in the low plain voice of someone who has said it over a great many beds. It is not the hymn; it has no verses. It has names, and {c} gives them whatever names there are: a girl with a basket, if she is there, and the rest as the rest, the diggers, the dyers, a woman with a rod under the wrong arm. They stand and hear it. When {c} says the last line they do not come apart and they do not lie down. They go out like lamps in a row. Then, from the black water, in {c}'s own voice, once, very quietly: the name.".
+  }
+
+  // ── A companion's choice ────────────────────────────────────────────────────────────────────────────────────────
+  // Isaura Vant, travelling with the company, sees her own figure among the Reflected. What she is told decides what
+  // she does next. The truth steels her: she will sign the Finding unasked, and she goes back up alone to the Office to
+  // do it, so the company goes on without her figures, her rod and her remarks. The kindness keeps her at its side and
+  // takes nothing from her, and costs the Finding a signature unless she is asked, on the morning, as she asked to be.
+  Relation isauraToldTruth(group). Relation isauraToldKindly(group).
+  Topic isaura_water with isaura travelling "Ask Isaura what she sees at the water" when at(party, ward_landing) and dark() and approach(bowl) >= 3 and not reflectedStilled(bowl) once {
+    Says "She does not take her eyes off the figure with the rod. 'It has my coat,' she says. 'It has the rod on the wrong arm, and it stands the way I stand when the Registrar is speaking and I have a figure she will not like.' Her voice is perfectly level. 'Tell me what it is. Not what is kind. I have been told what is kind all my working life.'".
+  }
+  Topic isaura_truth with isaura travelling "Tell her it is what the Office will make of her if the count is allowed to finish" answering isaura_water when at(party, ward_landing) once {
+    Grave "She will believe you, and she will not stay.".
+    Says "'Yes,' says Isaura. She nods once, as at a figure that has come out as she feared. 'Then I know what the Finding is for.' She takes the brass rod from under her arm and looks at it. 'I will sign it. I do not need to be asked in the morning; I need to be somewhere with a desk, tonight, and not here, being agreed with.' She goes up the Ward steps alone, and does not look back, and at the top she is a woman in a grey coat carrying a rod on the right arm.".
+    On discuss { Assert isauraToldTruth(isaura). Assert isauraSigns(isaura). Retract travelsWith(isaura, party). Retract willing(isaura, party). Assert at(isaura, office_hall). }
+  }
+  Topic isaura_kindness with isaura travelling "Tell her it is only the water, and the dark, and it is nobody" answering isaura_water when at(party, ward_landing) once {
+    Says "'Of course.' She says it too quickly, and then, more slowly, as if she were laying down a weight she had meant to keep carrying: 'Of course it is.' She puts the rod back under her arm, the right one. 'Thank you.' She stays at your side the rest of the night, a half-step nearer than before, and says nothing about it in the morning.".
+    On discuss { Assert isauraToldKindly(isaura). }
+  }
+}

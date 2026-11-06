@@ -14,7 +14,7 @@ one, of three lines.*
 | An item `at nowhere` needs a place called `nowhere` in the module | tested | Hollins declares one. Every module that wants to give a thing by a topic must declare its own. |
 | Local `Kind`/`Species` names are **global** in a world | tested | two modules declaring `conger_kind` (Sennet, Tessary) or `brock_kind` (The Hive, The Lull) differently made a world unplayable the moment a company visited both. Fixed by renaming. `test/all-in-one-world.test.ts` now installs every province in one world. |
 | Person names are a global namespace (lint) | tested | `bin/kyrie lint` refuses a second Pellow, Treloar, Voss, Pip, Wick, Marl, Tarrant. Fine; a cost of a shared world. |
-| An action's `Time` cannot be a measure | **blocked** | I did not find a way to make a climb take as many watches as the company had spent below. The Slack's "interest" is announced and not charged. Smallest capability: `Time <expression>` on actions (the waits already take `untilLight(clock)`). |
+| An action's `Time` cannot be a measure | **wrong, corrected in `18-engine-spec.md`: `Time <measure>` works; only arithmetic does not parse** | I did not find a way to make a climb take as many watches as the company had spent below. The Slack's "interest" is announced and not charged. Smallest capability: `Time <expression>` on actions (the waits already take `untilLight(clock)`). |
 
 ## 11.2 Deem and module-local generation
 
