@@ -1111,7 +1111,7 @@
     {
       "orsino": "monsterClass:construct",
       "kyr": [
-        "species:bronze_construct"
+        "variation:custodian"
       ],
       "support": "represented",
       "fidelity": "adapted",
@@ -1645,7 +1645,7 @@
     {
       "orsino": "animal:hound",
       "kyr": [
-        "species:cave_hound"
+        "species:hound"
       ],
       "support": "represented",
       "fidelity": "adapted",

@@ -367,6 +367,193 @@
         "fidelity": "adapted",
         "notes": "Orsino's 2d6 fire on the enemies, then the charge gone; its damage to the enemies is the shape Arrow Volley plays, which the generated record had not."
       }
+    },
+    "breathe_disintegration": {
+      "name": "Disintegrating breath",
+      "kind": "natural",
+      "description": "A breath that unmakes what it touches strikes every enemy; a breath save halves it. Recharges in three turns.",
+      "effects": [
+        {
+          "kind": "damage",
+          "amount": {
+            "kind": "deem",
+            "expression": "2d6 + 2 * #level"
+          },
+          "damageType": "force",
+          "target": "enemies",
+          "save": {
+            "kind": "breath",
+            "difficulty": {
+              "kind": "deem",
+              "expression": "15 + #level"
+            },
+            "success": "half"
+          }
+        }
+      ],
+      "recharge": 3,
+      "source": {
+        "kyr": true,
+        "notes": "A dragon lineage's breath weapon, of the shape every breath has: all its foes, a save vs breath for half, three turns to breathe again."
+      }
+    },
+    "breathe_thunder": {
+      "name": "Deafening breath",
+      "kind": "natural",
+      "description": "A roar of breath strikes every enemy and deafens those who do not save; a breath save halves it. Recharges in three turns.",
+      "effects": [
+        {
+          "kind": "damage",
+          "amount": {
+            "kind": "deem",
+            "expression": "2d6 + 2 * #level"
+          },
+          "damageType": "thunder",
+          "target": "enemies",
+          "save": {
+            "kind": "breath",
+            "difficulty": {
+              "kind": "deem",
+              "expression": "15 + #level"
+            },
+            "success": "half"
+          }
+        },
+        {
+          "kind": "apply",
+          "status": "deafened",
+          "duration": 2,
+          "target": "enemies",
+          "save": {
+            "kind": "breath",
+            "difficulty": {
+              "kind": "deem",
+              "expression": "15 + #level"
+            },
+            "success": "negate"
+          }
+        }
+      ],
+      "recharge": 3,
+      "source": {
+        "kyr": true,
+        "notes": "A dragon lineage's breath weapon, of the shape every breath has: all its foes, a save vs breath for half, three turns to breathe again."
+      }
+    },
+    "breathe_blinding": {
+      "name": "Blinding breath",
+      "kind": "natural",
+      "description": "A glare of breath strikes every enemy and blinds those who do not save; a breath save halves it. Recharges in three turns.",
+      "effects": [
+        {
+          "kind": "damage",
+          "amount": {
+            "kind": "deem",
+            "expression": "2d6 + 2 * #level"
+          },
+          "damageType": "radiant",
+          "target": "enemies",
+          "save": {
+            "kind": "breath",
+            "difficulty": {
+              "kind": "deem",
+              "expression": "15 + #level"
+            },
+            "success": "half"
+          }
+        },
+        {
+          "kind": "apply",
+          "status": "blinded",
+          "duration": 2,
+          "target": "enemies",
+          "save": {
+            "kind": "breath",
+            "difficulty": {
+              "kind": "deem",
+              "expression": "15 + #level"
+            },
+            "success": "negate"
+          }
+        }
+      ],
+      "recharge": 3,
+      "source": {
+        "kyr": true,
+        "notes": "A dragon lineage's breath weapon, of the shape every breath has: all its foes, a save vs breath for half, three turns to breathe again."
+      }
+    },
+    "breathe_holy": {
+      "name": "Holy breath",
+      "kind": "natural",
+      "description": "A breath of searing light strikes every enemy; a breath save halves it. Recharges in three turns.",
+      "effects": [
+        {
+          "kind": "damage",
+          "amount": {
+            "kind": "deem",
+            "expression": "2d6 + 2 * #level"
+          },
+          "damageType": "radiant",
+          "target": "enemies",
+          "save": {
+            "kind": "breath",
+            "difficulty": {
+              "kind": "deem",
+              "expression": "15 + #level"
+            },
+            "success": "half"
+          }
+        }
+      ],
+      "recharge": 3,
+      "source": {
+        "kyr": true,
+        "notes": "A dragon lineage's breath weapon, of the shape every breath has: all its foes, a save vs breath for half, three turns to breathe again."
+      }
+    },
+    "breathe_madness": {
+      "name": "Maddening breath",
+      "kind": "natural",
+      "description": "A breath that turns the mind strikes every enemy and confuses those who do not save; a breath save halves it. Recharges in three turns.",
+      "effects": [
+        {
+          "kind": "damage",
+          "amount": {
+            "kind": "deem",
+            "expression": "2d6 + 2 * #level"
+          },
+          "damageType": "psychic",
+          "target": "enemies",
+          "save": {
+            "kind": "breath",
+            "difficulty": {
+              "kind": "deem",
+              "expression": "15 + #level"
+            },
+            "success": "half"
+          }
+        },
+        {
+          "kind": "apply",
+          "status": "confused",
+          "duration": 2,
+          "target": "enemies",
+          "save": {
+            "kind": "breath",
+            "difficulty": {
+              "kind": "deem",
+              "expression": "15 + #level"
+            },
+            "success": "negate"
+          }
+        }
+      ],
+      "recharge": 3,
+      "source": {
+        "kyr": true,
+        "notes": "A dragon lineage's breath weapon, of the shape every breath has: all its foes, a save vs breath for half, three turns to breathe again."
+      }
     }
   }
 }

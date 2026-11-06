@@ -27,15 +27,18 @@ const worlds = async (seeds: string[]) => Promise.all(seeds.map(async seed => {
 describe('the bestiary', () => {
   it('makes a qualified kind from its base and what varies it, keeping the ids content uses', () => {
     const base = (id: string) => [Canon.creature(id).variantOf, Canon.creature(id).variations ?? []];
+    // Each a base with what varies it, and never a record of its own (the owner, 6 November: great is a variation);
+    // the old names are aliases, so content and saves that name them read as before.
+    for (const [old, kind] of [['great_rat', 'rat/great'], ['great_centipede', 'centipede/great'],
+      ['great_snake', 'snake/great'], ['great_pike', 'pike/great/elder'], ['frost_wolf', 'wolf/frost/great'],
+      ['cave_spider', 'spider/great/cave'], ['cave_hound', 'hound/cave'], ['bone_hound', 'hound/skeletal'],
+      ['stag', 'deer/male'], ['bronze_construct', 'golem/bronze/custodian']] as const) {
+      expect([old, Canon.resolve('species', old), Object.hasOwn(Canon.species, old)]).toEqual([old, kind, false]);
+      expect(base(old)).toEqual([kind.split('/')[0], kind.split('/').slice(1)]);
+    }
     expect(base('dog')).toEqual(['hound', []]);
-    expect(base('cave_hound')).toEqual(['hound', ['cave']]);
-    expect(base('bone_hound')).toEqual(['hound', ['skeletal']]);
-    expect(base('great_rat')).toEqual(['rat', ['great']]);
-    expect(base('great_centipede')).toEqual(['centipede', ['great']]);
-    expect(base('great_snake')).toEqual(['snake', ['great']]);
-    expect(base('great_pike')).toEqual(['pike', ['great', 'elder']]);
-    expect(base('frost_wolf')).toEqual(['wolf', ['frost', 'great']]);
-    expect(base('bronze_construct')).toEqual(['golem', ['bronze']]);
+    const animals = JSON.parse(readFileSync('data/catalog/animals.json', 'utf8')) as { species: Record<string, unknown> };
+    expect(Object.keys(animals.species).filter(k => /^(great|cave|frost)_/.test(k))).toEqual([]);
     // One archetype each for the Elemental, the Golem and the Dragon: their elements, materials and lineages are
     // variations, and a kind of them is the base with one (golem/glass), never a record; the old names are aliases.
     for (const [old, kind] of [['iron_golem', 'golem/iron'], ['red_dragon', 'dragon/red_lineage'],

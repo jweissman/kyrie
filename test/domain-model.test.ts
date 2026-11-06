@@ -66,7 +66,8 @@ describe('1-3: peoples, species, variants and aspects', () => {
     expect(frost.variantOf).toBe('wolf');
     expect(frost.type).toBe(wolf.type);
     expect(frost.habitats).toEqual(wolf.habitats);
-    expect(frost.abilities).toContain('rime_bite');
+    // Its cold bite is the frost's, laid on as one is made (data/catalog/variations.json, frost).
+    expect(new Content('dm').createCreature('f', { raceId: 'frost_wolf' } as never).base.abilities).toContain('rime_bite');
     const red = Canon.creature('red_dragon'), dragon = Canon.creature('dragon');
     expect(red.statistics).toEqual(dragon.statistics);
     // Its fire is its lineage's, laid on as it is made (data/catalog/variations.json, red_lineage).

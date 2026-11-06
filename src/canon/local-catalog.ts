@@ -75,7 +75,7 @@ export class LocalKinds {
     }
     for (const [id, species] of Object.entries(catalog?.species ?? {})) {
       this.same('species', id, Canon.species[id], species);
-      this.installed.add(`species:${id}`);
+      this.installed.add(`species:${id}`); Canon.installed.add(id);
       (Canon.species as Record<string, Species>)[id] = species;
     }
   }
@@ -111,7 +111,7 @@ export class LocalKinds {
     if (family === 'item') {
       delete (Canon.items as Record<string, ItemKind>)[id];
       delete (ItemCatalog.definitions as Record<string, unknown>)[id];
-    } else { delete (Canon.species as Record<string, Species>)[id]; }
+    } else { delete (Canon.species as Record<string, Species>)[id]; Canon.installed.delete(id); }
   }
   // The campaign in play: its modules' kinds, and no other campaign's.
   static activate(catalog: LocalCatalog | undefined, owner?: object) {

@@ -5096,7 +5096,6 @@
      "target": "self",
      "from": [
       "automaton",
-      "bronze_construct",
       "clockwork_soldier",
       "golem/clay",
       "golem/stone",
@@ -5180,7 +5179,6 @@
       "mouther",
       "ooze",
       "automaton",
-      "bronze_construct",
       "clockwork_soldier",
       "golem/clay",
       "golem/stone",
@@ -10363,8 +10361,7 @@
      "from": [
       "bear",
       "wolf",
-      "eagle",
-      "stag"
+      "eagle"
      ]
     }
    ],

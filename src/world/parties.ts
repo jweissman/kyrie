@@ -44,7 +44,9 @@ export class Parties {
   // golem of a material, a dragon of a lineage) as each of the things it can be of (golem/glass), so that a variation
   // written into variations.json is met with nothing else to write; never such a base bare.
   static kinds(): string[] {
-    return Object.keys(Canon.species).flatMap(id => {
+    // The catalog's own kinds, never a module's (a circus's dancing bear, installed as its module loads, belongs to the
+    // world that wrote it: drawn into another, it is a kind that world does not have).
+    return Canon.catalogued.flatMap(id => {
       const of = CreatureVariants.structurals(id);
       return of.length ? of.map(v => `${id}/${v}`) : CreatureVariants.wanting(id) ? [] : [id];
     });

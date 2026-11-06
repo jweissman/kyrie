@@ -1,0 +1,62 @@
+# prologue: what is going on on the way in, for a new life to meet before the first town (the owner, 6 November: a brief playable opening, not a told one).
+// A Kyr template (see src/world/kyr-template.ts), written into an origin's module (see src/world/origins.ts) at the way
+// into the first town ({approach}); one option drawn for each country by its seed. Each is a small human situation
+// with more than one answer (walking on among them), one a calling or a thing carried can meet that another cannot,
+// and what was done remembered in the town ({inn}, the inn's taproom; {green}, its green), where whoever was met goes
+// on to and says so. {home} is the town; {folk} its people. Add an option to add an
+// opening; nothing in the engine needs to change.
+--- base
+  // The town's inn, where whoever was met goes on to (the region's own, as the way in is).
+  Place {inn} "the inn" is room.
+  // What was done on the way in, once.
+  Relation wayIn(entity).
+--- road carter 2
+  // A carter whose wheel has gone off the crown of the road into the ditch: put a shoulder to it, lever it with
+  // something long, or walk on; or, while his back is to you, take something off the load. What was done goes into
+  // {home} with him.
+  Person carter "the carter" at {approach} {
+    Role "a carter up to his knees in the ditch, his shoulder to a wheel that will not come". Ancestry {folk}. Peaceable. Pronouns he. Manner grim.
+  }
+  Thing cart "the cart" at {approach} {
+    State ditched "A cart stands canted at the side of the road, one wheel down in the ditch to the hub, the horse in the shafts blowing and stamping. Sacks of meal are roped on the bed; one has burst.".
+    State righted "The cart stands square on the road again, its load roped down, the horse quiet.".
+    Change heave "Put your shoulder to the wheel with him" from ditched to righted needing brawn or crowbar.
+    }
+  Topic carter_ask with carter "Ask the carter what he is carrying, and where" when state(cart, ditched) once {
+    Says "'Meal, for {home}, and late with it,' he says, and spits. 'Three days on the road and the last mile does this. You'd not have a back on you that could lift?'".
+  }
+  Topic carter_thanks with carter "Tell the carter the cart is on the road again" when state(cart, righted) and not wayIn(cart_righted) once {
+    Says "'You'll eat at my cost, then,' says the carter, wiping his hands down his coat. 'Ask for me at the inn tonight; there's always a bowl for whoever gets a man out of a ditch.' He presses two coins on you as well, and will not have them back.".
+    On discuss { Assert wayIn(cart_righted). Increase quantity(actor, gold) by 2. }
+  }
+  Topic carter_leave with carter "Tell the carter you cannot stop" when state(cart, ditched) and not wayIn(cart_left) once {
+    Says "'No more could the last six,' says the carter, and turns back to his wheel without looking at you.".
+    On discuss { Assert wayIn(cart_left). }
+  }
+  // The cart on the road again, the carter goes on into {home} ahead of whoever is still on the way in, to the inn.
+  Rule carter_goes_on when state(cart, righted) and at(carter, {approach}) and not at(party, {approach}) {
+    Retract at(carter, {approach}). Assert at(carter, {inn}).
+  }
+  Entity cart_righted: fact "You got the carter's wheel out of the ditch on the way into {home}.".
+  Entity cart_left: fact "You left the carter in the ditch on the way into {home}.".
+  Entity cart_robbed: fact "You lifted a sack off the carter's load on the way into {home}, while his back was to you.".
+  // One who can go unseen can lift a sack while his back is to the road: something to sell, and a man in {home} who
+  // counts his sacks.
+  Action carter_lift(actor: group, site: place) "Lift a sack of meal off the back of the cart while he is at the wheel" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {approach}) and capable(actor, stealth) and state(cart, ditched) and not wayIn(cart_robbed).
+    Time 1.
+    On success { Assert wayIn(cart_robbed). Give rations to actor. }
+    Result "The sack comes off the tail of the cart without a sound. The carter, shoulder to the wheel, curses the wheel and does not turn round.".
+  }
+  // Anyone can take the horse's head while he heaves: slower, and the horse has its own mind.
+  Action carter_lead(actor: group, site: place) "Take the horse's head and lead it on while the carter heaves" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {approach}) and state(cart, ditched).
+    Time 3.
+    On success { Retract state(cart, ditched). Assert state(cart, righted). }
+    Result "The horse throws its head twice and then leans into the collar, and with the carter roaring at the wheel the cart comes up out of the ditch with a lurch and a slither of meal.".
+  }
+  // In {home}, at the inn, what was done on the road is remembered.
+  Topic carter_inn with carter "Sit with the carter" when at(carter, {inn}) and wayIn(cart_righted) once {
+    Says "'Here's the one,' says the carter to the room, and pushes a bowl along the board to you. 'Got me out of the ditch at the top of the hill. Eat.' He knows the road and the town both, and talks while you eat.".
+    On discuss { Retract hungry(actor). }
+  }

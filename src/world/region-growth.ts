@@ -23,6 +23,8 @@ export class RegionGrowth {
       if (around.some(n => wet.has(n) || ['lake', 'sea'].includes(cover[n] ?? ''))) {
         for (const [id] of all.filter(([, h]) => h.water)) { out.add(id); }
       }
+      // The shore of the sea: what lives in it is seen from there (a whale blowing offshore).
+      if (around.some(n => cover[n] === 'sea')) { for (const [id] of all.filter(([, h]) => h.shore)) { out.add(id); } }
       for (const [id] of all.filter(([, h]) => h.covers?.includes(cover[c] ?? ''))) { out.add(id); }
     }
     return out;

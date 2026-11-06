@@ -63,7 +63,8 @@ export class RegionEcology {
   // else to write). How it can be dealt with is its nature: the dead are laid to rest, an animal smoked out, anything
   // else neither.
   static recorded(habitat: string): (Row & Omit<Beast, 'species'>)[] {
-    return Object.entries(Canon.species).filter(([id, s]) => s.abundance && s.habitats?.includes(habitat)
+    return Canon.catalogued.map(id => [id, Canon.species[id]!] as const)
+      .filter(([id, s]) => s.abundance && s.habitats?.includes(habitat)
       && this.keeps(id))
       .map(([id, s]) => { const name = s.name.toLowerCase(), beyond = Challenge.of(id) > this.budget;
         // One beyond a first den's danger (a drake on the heights) is rare there, and alone: a danger to go round.
@@ -84,7 +85,8 @@ export class RegionEcology {
   // The animals that keep no den (a hind, a hare, a curlew), with how common each is, that live in any of these
   // habitats: met in the open country where they live (see RegionAnimals).
   static seen(habitats: Set<string>): [string, Species][] {
-    return Object.entries(Canon.species).filter(([id, s]) => s.abundance && Canon.creature(id).kind === 'animal'
+    return Canon.catalogued.map(id => [id, Canon.species[id]!] as [string, Species]).filter(([id, s]) => s.abundance
+      && Canon.creature(id).kind === 'animal'
       && !this.keeps(id) && Canon.temperament(id) !== 'tame' && s.habitats?.some(h => habitats.has(h)));
   }
   // What makes the beasts of one den other than their kind: in a barrow or a ruin, sometimes the dead of it (skeletal

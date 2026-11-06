@@ -104,6 +104,8 @@ export interface Statistics {
 // commonly.
 export interface Overlay {
   axis: string; word: string; says: string; kinds: string[]; types?: string[]; habitats?: string[]; abundance?: number;
+  // The temper and the type a kind made with it has (a great kind stands its ground; the skeletal are undead).
+  temperament?: string; type?: string;
 }
 export interface Species {
   name: string; description: string; variantOf?: string; type?: string; kind?: 'animal' | 'monster' | 'spirit' | 'device';
@@ -204,6 +206,8 @@ export interface Plant {
 export interface Habitat {
   name: string; orsino?: string; covers?: string[]; terrains?: string[]; sites?: string[]; forms?: string[];
   water?: boolean;
+  // A habitat of the ground beside the sea (what lives in the sea is seen from its shore).
+  shore?: boolean;
 }
 export interface Procedure { name: string; effect: string; description: string }
 // The numbers and ids the rules of a fight turn on (data/catalog/vocabulary.json's combat): see its about.

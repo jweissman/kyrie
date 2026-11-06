@@ -31,15 +31,16 @@ it('a person may be a numbered group of creatures composed by the Deem generator
   const c = await Brood.load();
   const npcs = c.state.creatures.filter(x => !x.id.includes('party'));
   expect(npcs.map(x => [x.name, x.raceId, x.base.level])).toEqual([
-    ['Cave spider 1', 'cave_spider', 1], ['Cave spider 2', 'cave_spider', 1], ['Cave spider 3', 'cave_spider', 1],
-    ['the brood-mother', 'cave_spider', 3], ['a drake', 'dragon', 1], ['the sow', 'bear', 1], ['the cub', 'bear', 1],
+    ['Cave spider 1', 'spider/great/cave', 1], ['Cave spider 2', 'spider/great/cave', 1],
+    ['Cave spider 3', 'spider/great/cave', 1], ['the brood-mother', 'spider/great/cave', 3], ['a drake', 'dragon', 1], ['the sow', 'bear', 1], ['the cub', 'bear', 1],
     // A role that describes the whole group does not name each member; their kind does.
     ['Wolf 1', 'wolf', 1], ['Wolf 2', 'wolf', 1]]);
   // A dragon of the green lineage, a wyrmling: the dragon with its lineage (a breath of poison, and proof against it)
   // and its youth, as variations (Deem's creature grammar, which once read these words, is retired).
   const drake = npcs.find(x => x.raceId === 'dragon')!;
   expect([drake.variations, drake.traits]).toEqual([['green_lineage', 'young'], expect.arrayContaining(['poison_lineage'])]);
-  expect(ItemCatalog.equipment(drake).weapon.id).toBe('poison_breath');
+  // Its breath a breath weapon (all its foes, a save vs breath), its bite its weapon.
+  expect([ItemCatalog.equipment(drake).weapon.id, drake.base.abilities.includes('breathe_poison')]).toEqual(['bite', true]);
   const attack = c.available().find(a => a.resolve?.name === 'combat' && a.resolve.args[0] === 'cave__brood')!;
   const battle = c.encounterBattle(attack.id);
   expect(battle.state.combatants.filter(f => f.team === 'goblins').map(f => f.name))

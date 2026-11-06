@@ -71,6 +71,7 @@
 .wf-preview .wf-aim { font: 500 11px/1.4 var(--do); letter-spacing: .2em; text-transform: uppercase; color: var(--gold); }
 .wf-preview .wf-how { font: 500 12.5px/1.5 var(--do); letter-spacing: .08em; color: var(--dim); }
 .wf-preview .wf-been, .wf-preview .wf-keeps { font: italic 400 15px/1.45 var(--told); color: var(--dim); }
+.wf-preview .wf-holds { font: 400 16px/1.5 var(--told); color: var(--ivory); margin: 0 0 6px; }
 .wf-preview .wf-shut { font: 400 15px/1.45 var(--told); color: var(--ember, #c4552e); }
 .wf-preview .wf-risk { font: 400 14px/1.45 var(--told); color: var(--gold); }
 .wf-preview .act.wf-go { margin: 12px 0 0; align-self: flex-start; min-width: 11rem; justify-content: center;

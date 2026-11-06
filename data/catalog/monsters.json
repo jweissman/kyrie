@@ -321,54 +321,6 @@
         "notes": "Composed by OrsinoMonsters (giant class, Behemoth type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template."
       }
     },
-    "bone_hound": {
-      "variantOf": "hound",
-      "variations": [
-        "skeletal"
-      ],
-      "name": "Knitted bone hound",
-      "type": "undead",
-      "kind": "monster",
-      "description": "A hound-shape of grave bones wired together and moved by a necromancer's binding. It has no eyes and does not tire.",
-      "looks": "A hound of bare yellowed bone held together by sinew and old malice, its eye-pits lit faintly.",
-      "abilities": [
-        "rending_bite"
-      ],
-      "temperament": "territorial",
-      "habitats": [
-        "barrow"
-      ],
-      "source": {
-        "kyr": true,
-        "notes": "Orsino's hound, skeletal (the undead template as a variation): a necromancer's watchdog for Holt keep's bone store. What the dead are hurt by is the template's."
-      }
-    },
-    "bronze_construct": {
-      "variantOf": "golem",
-      "variations": [
-        "bronze"
-      ],
-      "name": "Funerary bronze construct",
-      "type": "construct",
-      "kind": "monster",
-      "description": "A bounded guardian of registered burials.",
-      "looks": "A broad figure of cast bronze, green at the seams, with a blank face and arms like temple columns.",
-      "abilities": [
-        "custodian_sweep",
-        "custodian_chain",
-        "defend"
-      ],
-      "resistances": {
-        "physical": 0.35,
-        "poison": 1,
-        "radiant": -0.25
-      },
-      "source": {
-        "orsino": "monsterType:Golem",
-        "fidelity": "adapted",
-        "notes": "The Golem in bronze (material bronze), set to keep a place: the custodian's sweep and chain are its own, its proof against blows the bronze's and the construct's."
-      }
-    },
     "chimera": {
       "name": "Chimera",
       "type": "beast",
@@ -956,6 +908,9 @@
       "traits": [
         "construct"
       ],
+      "resistances": {
+        "poison": 1
+      },
       "abilities": [
         "smash",
         "defend"

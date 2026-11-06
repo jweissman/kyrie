@@ -24,7 +24,9 @@ describe('the ending', () => {
     const told = Obituary.of(s.campaign);
     expect(told.title).toBe('Wenna is dead');
     expect(told.lines).toContain('You were set upon as you went to wait a while.');
-    const blow = /^The (first|second) [a-z ]*bone hound struck the last blow/;
+    // Whoever keeps the haulage way (the bone hounds when this was written; a party drawn from the bestiary now).
+    // What struck the last blow, as known: one of the band, or a wound one of them gave (bleeding from a hound's bite).
+    const blow = /^(The (first|second|third) [a-z ]+|Bleeding|Poison) struck the last blow/;
     expect(told.lines.some(l => blow.test(l))).toBe(true);
     expect(told.lines.join(' ')).not.toMatch(/hound \d/);
   }, 60000);

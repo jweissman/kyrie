@@ -17,9 +17,17 @@ import type { MonoDriver } from './support/mono-driver';
 class Walk {
   constructor(readonly page: Page, readonly d: MonoDriver) {}
   async here(): Promise<string | undefined> { return (await this.d.inspect()).place?.id; }
-  // A way from here, taken as a player takes it: Go…, its name chosen in the wayfinder, then its Go.
+  // A way from here, taken as a player takes it: Go…, its name chosen in the wayfinder, then its Go; a place in another
+  // quarter of the town by that quarter first (its row says what it holds), then from there.
   async to(place: string) {
     await this.page.click('.opens-go');
+    const quarter = this.page.locator(`.wayfinder [data-holds~="${place}"]`);
+    if (await quarter.count()) {
+      await quarter.click(); await this.page.click('.wf-go'); await this.d.settle();
+      // The place may be the quarter's heart, where its row goes.
+      if (await this.here() === place) { return; }
+      await this.page.click('.opens-go');
+    }
     await this.page.click(`.wayfinder :is([data-pick="exit:${place}"], [data-pick^="exit:${place}/"])`);
     await this.page.click('.wf-go');
     await this.d.settle();

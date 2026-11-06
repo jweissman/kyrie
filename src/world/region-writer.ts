@@ -24,6 +24,7 @@ import { SettlementWriter } from './settlement-writer';
 import { RegionTraffic } from './region-traffic';
 import { RegionTracts } from './region-tracts';
 import { RegionAnimals } from './region-animals';
+import { RegionQuarters } from './region-quarters';
 import { RegionMeetings } from './region-meetings';
 import { ModuleCanon } from '../campaign/module-canon';
 // A generated region (the Deem `region` generator's output, plus sites scenarios asked for) written as an ordinary
@@ -168,6 +169,8 @@ export class RegionWriter {
       // What is met with in the open country, a stretch here and there (the owner's OWN-27).
       ...RegionMeetings.lines(region), ...RegionAnimals.lines(region));
     region.settlements.forEach(s => lines.push(...this.economy(s, region)));
+    // Each town's quarters, by the places it was written with (see RegionQuarters).
+    lines.push(...RegionQuarters.lines(region, lines));
     return lines;
   }
   // Who comes into the country, and where: a region beyond the first has no company of its own.

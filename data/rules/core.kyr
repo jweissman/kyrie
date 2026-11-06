@@ -1,5 +1,8 @@
 Module world_core "Bodies, places, time and the shared catalog" {
   Kind group. Kind place. Kind good. Kind clock. Kind capability.
+  // A part of a town (the green, the market, the waterside): the places in it, and the one it is walked to (see
+  // data/generation/town/quarters.json). A place keeps its containment; a quarter is only where it lies.
+  Kind quarter. Relation inQuarter(place, quarter). Relation heartOf(quarter, place).
   // An ending an author writes (Ending … when … "epilogue"): reached once, and the book closes on it.
   Kind ending. Relation reached(ending).
   // A chapter of a module's story, opened once (see Chapter).

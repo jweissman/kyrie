@@ -36,7 +36,9 @@ describe('two fights in one', () => {
     const leaf = Narrator.leaf(s.campaign, ScreenModel.build(s.campaign), told);
     const lines = (leaf.exchange?.lines ?? []).map(l => l.text);
     expect(lines.some(l => /^The (first|second|third|fourth) [a-z ]*rat falls\.$/.test(l))).toBe(true);
-    expect(lines.some(l => /bone hounds/.test(l))).toBe(true);
+    // Whatever keeps the haulage way (the bone hounds when this was written; a party drawn from the bestiary now).
+    const keeper = s.campaign.module.entities.find(e => e.id === hounds)!.name.replace(/^the /, '').split(' ').at(-1)!;
+    expect(lines.some(l => l.toLowerCase().includes(keeper.replace(/s$/, '').toLowerCase()))).toBe(true);
     expect(lines.filter(l => /^The fight is won/.test(l))).toEqual(['The fight is won.']);
   }, 60000);
   // The fight's own page closes as its last blow lands, so the account after it keeps the blow that felled each who

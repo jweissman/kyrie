@@ -38,8 +38,9 @@ describe('a creature and its variations', () => {
   it('gives a dragon its lineage\'s breath and its proof against what it breathes', () => {
     const red = CombatProjection.fighter(make('dragon', ['red_lineage']), 'goblins');
     const white = CombatProjection.fighter(make('dragon', ['white_lineage']), 'goblins');
-    expect([red.equipment.weapon.id, white.equipment.weapon.id, red.abilities.includes('breathe_fire')])
-      .toEqual(['bite', 'ice_breath', true]);
+    // Every lineage a breath weapon (all its foes, a save vs breath), and its bite besides (the owner, 6 November).
+    expect([red.equipment.weapon.id, white.equipment.weapon.id, red.abilities.includes('breathe_fire'),
+      white.abilities.includes('breathe_cold')]).toEqual(['bite', 'bite', true, true]);
     expect([Effects.modifiers(red).resistances?.fire, Effects.modifiers(white).resistances?.cold])
       .toEqual([0.75, 0.75]);
     expect(make('red_dragon').variations).toEqual(['red_lineage']);
@@ -83,7 +84,7 @@ describe('a creature and its variations', () => {
       con: c.base.constitution, weapon: ItemCatalog.equipment(c).weapon.id });
     const made = () => s.campaign.readout.creatures.filter(c => ['golem', 'dragon'].includes(c.raceId)).map(shape);
     expect(made().map(m => [m.kind, m.variations, m.weapon])).toEqual([['golem', ['stone'], 'slam'],
-      ['dragon', ['green_lineage', 'young'], 'poison_breath']]);
+      ['dragon', ['green_lineage', 'young'], 'bite']]);
     const again = PlaySession.resume(JSON.parse(JSON.stringify(s.checkpoint())));
     expect(again.campaign.readout.creatures.filter(c => ['golem', 'dragon'].includes(c.raceId)).map(shape)).toEqual(made());
   }, 60000);

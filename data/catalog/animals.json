@@ -7,6 +7,7 @@
       "kind": "animal",
       "description": "A small but fierce mammal with fine digging ability and extreme tenacity.",
       "looks": "A low, heavy grey body on short digging legs; a long white face with two black stripes from nose to ear.",
+      "portrait": "animals/badger",
       "statistics": {
         "attributes": {
           "strength": 6,
@@ -52,6 +53,7 @@
       "kind": "animal",
       "description": "A nocturnal flying mammal that uses echolocation to navigate in the dark.",
       "looks": "A small brown body hung on leather wings with long finger-bones; big ears, a pug nose, tiny bright teeth.",
+      "portrait": "animals/bat",
       "statistics": {
         "attributes": {
           "strength": 4,
@@ -97,6 +99,7 @@
       "kind": "animal",
       "description": "A powerful woodland omnivore, dangerous when its young or feeding ground are threatened.",
       "looks": "A great brown bear, shoulder-humped and long-clawed, rising on its hind legs with its jaws open.",
+      "portrait": "animals/bear",
       "statistics": {
         "attributes": "rolled",
         "hitDie": 12,
@@ -127,6 +130,7 @@
       "kind": "animal",
       "description": "A small insect with a hard exoskeleton and strong mandibles for biting.",
       "looks": "A beetle as big as a hand, its black shell glossed green, jaws like pincers and legs fringed with spines.",
+      "portrait": "animals/beetle",
       "statistics": {
         "attributes": {
           "strength": 5,
@@ -172,6 +176,7 @@
       "kind": "animal",
       "description": "A territorial animal along reed margins.",
       "looks": "A bristle-backed wild boar, dark and narrow-flanked, with curved yellow tusks and small red eyes.",
+      "portrait": "animals/boar",
       "statistics": {
         "attributes": "rolled",
         "hitDie": 6,
@@ -200,6 +205,7 @@
       "kind": "animal",
       "description": "A delicate insect with colorful wings. Its flight is graceful and mesmerizing.",
       "looks": "A butterfly with wide wings of brown and orange, eye-spots on the hindwings, settled on a flower.",
+      "portrait": "animals/butterfly",
       "statistics": {
         "attributes": {
           "strength": 4,
@@ -244,6 +250,7 @@
       "kind": "animal",
       "description": "A cat about the house: it keeps the mice down and goes where it likes.",
       "looks": "A lean tabby cat on a wall-top, striped grey and brown, tail curled about its feet, eyes half shut.",
+      "portrait": "animals/cat",
       "statistics": {
         "attributes": "rolled",
         "hitDie": 2,
@@ -269,6 +276,7 @@
       "kind": "animal",
       "description": "A big rough-coated hound, bred to run game down and hold it.",
       "looks": "A long-legged rough-coated hound, grey-brindled, deep in the chest, with a long jaw.",
+      "portrait": "animals/hound",
       "statistics": {
         "attributes": "rolled",
         "hitDie": 6,
@@ -277,36 +285,19 @@
         "armor": "fur"
       },
       "abilities": [
-        "flee"
+        "flee",
+        "rending_bite"
       ],
       "source": {
         "orsino": "animal:hound",
         "fidelity": "adapted",
         "notes": "Orsino's hound: bite and fur, its attributes rolled and a hit die so that it grows with its level. The dog, the cave hound and the knitted bone hound are made from it."
-      }
-    },
-    "cave_hound": {
-      "variantOf": "hound",
-      "variations": [
-        "cave"
-      ],
-      "name": "Feral cave hound",
-      "type": "beast",
-      "kind": "animal",
-      "description": "A scavenging dog descended from abandoned working animals.",
-      "looks": "A gaunt, pale hound bred in the dark: long-legged, wide-eared, its coat thin and its eyes clouded.",
-      "abilities": [
-        "rending_bite",
-        "flee"
-      ],
-      "temperament": "territorial",
+      },
       "habitats": [
+        "wood",
+        "fells",
         "cave"
-      ],
-      "source": {
-        "kyr": true,
-        "notes": "Orsino's hound gone feral in the dark (hound, with the variation cave), with the rending bite of a hound that hunts for itself."
-      }
+      ]
     },
     "centipede": {
       "name": "Centipede",
@@ -314,6 +305,7 @@
       "kind": "animal",
       "description": "A long, segmented insect with many legs and a venomous bite.",
       "looks": "A long, many-legged centipede, red-brown and segmented, its feelers raised and its fangs curved.",
+      "portrait": "animals/centipede",
       "statistics": {
         "attributes": {
           "strength": 5,
@@ -335,7 +327,8 @@
       },
       "abilities": [
         "defend",
-        "flee"
+        "flee",
+        "venomous_bite"
       ],
       "traits": [],
       "habitats": [
@@ -358,6 +351,7 @@
       "kind": "animal",
       "description": "A milk cow, slow and certain.",
       "looks": "A red-and-white milk cow with short horns, heavy in the bag, standing in long grass.",
+      "portrait": "animals/cow",
       "statistics": {
         "attributes": "rolled",
         "hitDie": 8,
@@ -384,6 +378,7 @@
       "kind": "animal",
       "description": "A large aquatic reptile with powerful jaws and stealthy hunting.",
       "looks": "A long grey-green crocodile half out of brown water, its back ridged and its jaws a row of teeth.",
+      "portrait": "animals/crocodile",
       "statistics": {
         "attributes": "rolled",
         "hitDie": 10,
@@ -418,6 +413,7 @@
       "kind": "animal",
       "description": "A highly intelligent bird remarkable for its problem-solving skills and adaptability.",
       "looks": "A glossy black crow with a heavy bill, head cocked, standing on a fence post.",
+      "portrait": "animals/crow",
       "statistics": {
         "attributes": {
           "strength": 5,
@@ -463,6 +459,7 @@
       "kind": "animal",
       "description": "A graceful herbivore with exquisite agility and keen senses.",
       "looks": "A slender red deer, a hind, red-brown with a pale rump, ears up and a forefoot lifted.",
+      "portrait": "animals/deer",
       "statistics": {
         "attributes": {
           "strength": 5,
@@ -508,6 +505,7 @@
       "kind": "animal",
       "description": "A swift flying insect with iridescent wings and excellent maneuverability.",
       "looks": "A dragonfly with a long blue body and four clear wings veined like leaded glass, hanging over water.",
+      "portrait": "animals/dragonfly",
       "statistics": {
         "attributes": {
           "strength": 4,
@@ -553,7 +551,7 @@
       "kind": "animal",
       "description": "A majestic bird of prey renowned for keen eyesight and capable of powerful flight.",
       "looks": "A golden eagle with dark brown plumage, a gold nape and a hooked yellow-based bill, talons spread.",
-      "portrait": "eagle",
+      "portrait": "animals/eagle",
       "statistics": {
         "attributes": {
           "strength": 5,
@@ -599,6 +597,7 @@
       "kind": "animal",
       "description": "An eel of the rivers and the still water, long as an arm and thick as a wrist, that lies in the weed by day and takes what comes down to it.",
       "looks": "A long, slick, olive-brown eel, its back dark and its belly yellow, twisting in shallow water.",
+      "portrait": "animals/eel",
       "statistics": {
         "attributes": "rolled",
         "hitDie": 4,
@@ -626,6 +625,7 @@
       "kind": "animal",
       "description": "A swift bird of prey possessing extreme speed and remarkable hunting prowess.",
       "looks": "A peregrine falcon, slate-blue above and barred below, with a dark hood and a hooked bill.",
+      "portrait": "animals/falcon",
       "statistics": {
         "attributes": {
           "strength": 6,
@@ -671,6 +671,7 @@
       "kind": "animal",
       "description": "A small, agile mammal with great curiosity and playful nature.",
       "looks": "A long, sinuous ferret, cream and sable, with a masked face and bright black eyes.",
+      "portrait": "animals/ferret",
       "statistics": {
         "attributes": {
           "strength": 5,
@@ -715,7 +716,7 @@
       "kind": "animal",
       "description": "A cunning and adaptable mammal of remarkable intelligence.",
       "looks": "A red fox with a white throat, black legs and a full brush, looking back over its shoulder.",
-      "portrait": "fox",
+      "portrait": "animals/fox",
       "statistics": {
         "attributes": {
           "strength": 6,
@@ -762,6 +763,7 @@
       "kind": "animal",
       "description": "A small amphibian with a powerful jumping ability and croaking calls.",
       "looks": "A mottled green-brown frog with gold eyes, squatting on a wet stone.",
+      "portrait": "animals/frog",
       "statistics": {
         "attributes": {
           "strength": 4,
@@ -807,7 +809,7 @@
       "kind": "animal",
       "description": "A sure-footed and hardy herbivore with a curious nature.",
       "looks": "A shaggy brown-and-white goat with swept-back horns and a beard, on a rock.",
-      "portrait": "goat",
+      "portrait": "animals/goat",
       "statistics": {
         "attributes": {
           "strength": 6,
@@ -847,34 +849,13 @@
         "notes": "Orsino's animal template: every attribute 3 plus the kind's, its hit points, natural weapon and hide, defend and flee. Its hit points are Orsino's at the first level and grow by one a level (Orsino's were the same at every level)."
       }
     },
-    "great_centipede": {
-      "variantOf": "centipede",
-      "variations": [
-        "great"
-      ],
-      "name": "Great centipede",
-      "type": "beast",
-      "kind": "animal",
-      "description": "A centipede as long as a man is tall, pale from the dark, that comes fast and bites.",
-      "abilities": [
-        "venomous_bite",
-        "defend"
-      ],
-      "temperament": "territorial",
-      "habitats": [
-        "cave"
-      ],
-      "source": {
-        "kyr": true,
-        "notes": "A centipede grown great (centipede, with the variation great), its bite venomous; Orsino's centipede has the fixed line of a small animal."
-      }
-    },
     "pike": {
       "name": "Pike",
       "type": "beast",
       "kind": "animal",
       "description": "A long lean fish of still water and slow rivers, that lies among the weed and takes what passes.",
       "looks": "A long green-barred fish with a flat duck-bill jaw, lying still in the weed.",
+      "portrait": "animals/pike",
       "statistics": {
         "attributes": "rolled",
         "hitDie": 6,
@@ -883,6 +864,7 @@
         "armor": "hide_armor"
       },
       "abilities": [
+        "rending_bite",
         "flee"
       ],
       "traits": [
@@ -898,62 +880,13 @@
         "notes": "Kyr's own; Orsino has no fish. The base of the great pike."
       }
     },
-    "great_pike": {
-      "variantOf": "pike",
-      "variations": [
-        "great",
-        "elder"
-      ],
-      "name": "Great pike",
-      "type": "beast",
-      "kind": "animal",
-      "description": "A pike grown old and huge in cold deep water, long as a boat, that takes whatever falls in.",
-      "looks": "A great pike as long as a man, green-barred and gold-flecked, its long jaw full of backward teeth.",
-      "abilities": [
-        "rending_bite"
-      ],
-      "traits": [
-        "deep_water"
-      ],
-      "temperament": "ambush",
-      "habitats": [
-        "river"
-      ],
-      "source": {
-        "kyr": true,
-        "notes": "A pike grown great and old (pike, with the variations great and elder): the Old Jack of Hollow Water."
-      }
-    },
-    "great_snake": {
-      "variantOf": "snake",
-      "variations": [
-        "great"
-      ],
-      "name": "Great snake",
-      "type": "beast",
-      "kind": "animal",
-      "description": "A snake grown old and huge in the dark on whatever comes to it, as long as a hall and as thick as a man.",
-      "portrait": "python",
-      "abilities": [
-        "venomous_bite",
-        "ensnare"
-      ],
-      "temperament": "territorial",
-      "habitats": [
-        "cave",
-        "fen"
-      ],
-      "source": {
-        "kyr": true,
-        "notes": "A snake grown great (snake, with the variation great): venomous, and long enough to wrap a man."
-      }
-    },
     "hawk": {
       "name": "Hawk",
       "type": "beast",
       "kind": "animal",
       "description": "A sharp-eyed bird of prey with excellent hunting skills.",
       "looks": "A goshawk, grey above and finely barred below, with a fierce orange eye and yellow feet.",
+      "portrait": "animals/hawk",
       "statistics": {
         "attributes": {
           "strength": 6,
@@ -999,6 +932,7 @@
       "kind": "animal",
       "description": "A small mammal covered in spines. When threatened it exhibits its defensive curling behavior.",
       "looks": "A small brown hedgehog with a coat of pale-tipped spines and a pointed, whiskered snout.",
+      "portrait": "animals/hedgehog",
       "statistics": {
         "attributes": {
           "strength": 5,
@@ -1044,6 +978,7 @@
       "kind": "animal",
       "description": "A hen scratching about a yard.",
       "looks": "A speckled brown hen with a red comb, scratching in the dust of a yard.",
+      "portrait": "animals/hen",
       "statistics": {
         "attributes": "rolled",
         "hitDie": 1,
@@ -1069,7 +1004,7 @@
       "kind": "animal",
       "description": "A horse broken to saddle or to the cart.",
       "looks": "A bay horse, broken to the cart, with a black mane and tail and a white blaze on its face.",
-      "portrait": "horse",
+      "portrait": "animals/horse",
       "statistics": {
         "attributes": "rolled",
         "hitDie": 8,
@@ -1096,6 +1031,7 @@
       "kind": "animal",
       "description": "A tiny bird capable of hovering in mid-air thanks to its rapid wing flapping.",
       "looks": "A tiny bird with a needle bill and a throat of iridescent green and red, hovering on blurred wings.",
+      "portrait": "animals/hummingbird",
       "statistics": {
         "attributes": {
           "strength": 4,
@@ -1140,6 +1076,7 @@
       "kind": "animal",
       "description": "A scavenging carnivore with powerful jaws and distinctive laugh-like vocalizations.",
       "looks": "A spotted hyena, sloping-backed and thick-necked, with round ears and heavy bone-cracking jaws.",
+      "portrait": "animals/hyena",
       "statistics": {
         "attributes": "rolled",
         "hitDie": 6,
@@ -1168,7 +1105,7 @@
       "kind": "animal",
       "description": "A majestic big cat of enormous strength and courage.",
       "looks": "A tawny lion with a dark full mane, lying with its head up and its paws crossed.",
-      "portrait": "lion",
+      "portrait": "animals/lion",
       "statistics": {
         "attributes": "rolled",
         "hitDie": 10,
@@ -1202,6 +1139,7 @@
       "kind": "animal",
       "description": "A small reptile known with exquisite agility and unusual ability to regenerate lost tails.",
       "looks": "A green lizard with a long tail and a throat of blue, basking on a warm stone.",
+      "portrait": "animals/lizard",
       "statistics": {
         "attributes": {
           "strength": 5,
@@ -1247,6 +1185,7 @@
       "kind": "animal",
       "description": "A small burrowing mammal with powerful forelimbs for digging and poor eyesight.",
       "looks": "A velvet-black mole with broad pink digging hands and a pointed snout, half out of a heap of earth.",
+      "portrait": "animals/mole",
       "statistics": {
         "attributes": {
           "strength": 5,
@@ -1291,6 +1230,7 @@
       "kind": "animal",
       "description": "A nocturnal flying insect attracted to light, with soft, furry wings.",
       "looks": "A large moth with soft grey-brown wings marked with eyes, its feathered feelers spread.",
+      "portrait": "animals/moth",
       "statistics": {
         "attributes": {
           "strength": 4,
@@ -1335,6 +1275,7 @@
       "kind": "animal",
       "description": "A playful aquatic mammal with great agility in water and dexterous forepaws.",
       "looks": "A sleek brown otter with a pale throat and a thick tapering tail, rising from the river.",
+      "portrait": "animals/otter",
       "statistics": {
         "attributes": {
           "strength": 6,
@@ -1380,7 +1321,7 @@
       "kind": "animal",
       "description": "A nocturnal bird of prey with night vision and silent flight.",
       "looks": "A tawny owl, mottled brown, with a round face and black eyes, on a branch at dusk.",
-      "portrait": "owl",
+      "portrait": "animals/owl",
       "statistics": {
         "attributes": {
           "strength": 5,
@@ -1425,7 +1366,7 @@
       "kind": "animal",
       "description": "A sleek and stealthy big cat with great agility and hunting prowess.",
       "looks": "A black leopard, lean and long-tailed, its coat showing faint rosettes where the light falls.",
-      "portrait": "leopard",
+      "portrait": "animals/panther",
       "statistics": {
         "attributes": "rolled",
         "hitDie": 8,
@@ -1459,6 +1400,7 @@
       "kind": "animal",
       "description": "A pig in its sty, or rooting in the wood under the swineherd's eye.",
       "looks": "A pink-and-black spotted pig with flapping ears, rooting in a muddy yard.",
+      "portrait": "animals/pig",
       "statistics": {
         "attributes": "rolled",
         "hitDie": 6,
@@ -1485,6 +1427,7 @@
       "kind": "animal",
       "description": "A small horse with surprising strength and endurance. It has a gentle temperament.",
       "looks": "A small, stocky hill pony with a thick shaggy mane, dun-coloured with a dark stripe down its back.",
+      "portrait": "animals/pony",
       "statistics": {
         "attributes": {
           "strength": 7,
@@ -1530,6 +1473,7 @@
       "kind": "animal",
       "description": "A small dragon-like creature with keen intelligence and magical resistance.",
       "looks": "A dragon no bigger than a cat, copper-scaled with bat-like wings and a barbed tail curled about it.",
+      "portrait": "animals/pseudodragon",
       "statistics": {
         "attributes": {
           "strength": 8,
@@ -1575,7 +1519,7 @@
       "kind": "animal",
       "description": "A small herbivorous mammal possessing excellent speed and agility.",
       "looks": "A brown wild rabbit with long ears and a white scut, sitting up at the edge of a field.",
-      "portrait": "hare",
+      "portrait": "animals/rabbit",
       "statistics": {
         "attributes": {
           "strength": 4,
@@ -1621,6 +1565,7 @@
       "kind": "animal",
       "description": "A sturdy sure-footed herbivore capable of powerful headbutts.",
       "looks": "A heavy hill ram with great spiralled horns and a thick grey fleece.",
+      "portrait": "animals/ram",
       "statistics": {
         "attributes": {
           "strength": 7,
@@ -1666,6 +1611,7 @@
       "kind": "animal",
       "description": "A rat of the barns and cellars: quick, bold in numbers, and never far from grain.",
       "looks": "A brown rat of the barns, long-tailed and sharp-faced, with bright black eyes and yellow teeth.",
+      "portrait": "animals/rat",
       "statistics": {
         "attributes": {
           "strength": 4,
@@ -1702,6 +1648,7 @@
       "kind": "animal",
       "description": "A highly intelligent bird with exceptional problem-solving skills and adaptability.",
       "looks": "A big black raven with a thick shaggy throat and a heavy bill, on a stone.",
+      "portrait": "animals/raven",
       "statistics": {
         "attributes": {
           "strength": 5,
@@ -1747,6 +1694,7 @@
       "kind": "animal",
       "description": "A sheep of the hill flocks, in its heavy coat.",
       "looks": "A hill sheep in a heavy cream fleece, black-faced, standing among the heather.",
+      "portrait": "animals/sheep",
       "statistics": {
         "attributes": "rolled",
         "hitDie": 4,
@@ -1774,7 +1722,7 @@
       "kind": "animal",
       "description": "A legless reptile of profound stealth and, in some species, venomous bite.",
       "looks": "An adder, grey-brown with a dark zigzag down its back, coiled with its head raised.",
-      "portrait": "snake",
+      "portrait": "animals/snake",
       "statistics": {
         "attributes": {
           "strength": 7,
@@ -1796,12 +1744,15 @@
       },
       "abilities": [
         "defend",
-        "flee"
+        "flee",
+        "venomous_bite"
       ],
       "traits": [],
       "habitats": [
         "heath",
-        "desert"
+        "desert",
+        "fen",
+        "cave"
       ],
       "abundance": 1,
       "worth": {
@@ -1820,6 +1771,7 @@
       "kind": "animal",
       "description": "A hunting spider as big as a cat, all legs and patience: it bites, and its bite is venomous.",
       "looks": "A big hairy brown spider with long banded legs, in the middle of its web.",
+      "portrait": "animals/spider",
       "statistics": {
         "attributes": "rolled",
         "hitDie": 4,
@@ -1829,7 +1781,8 @@
       },
       "abilities": [
         "venomous_bite",
-        "flee"
+        "flee",
+        "ensnare"
       ],
       "temperament": "ambush",
       "habitats": [
@@ -1848,7 +1801,7 @@
       "kind": "animal",
       "description": "A small rodent of great agility and bushy tail. It is an excellent climber.",
       "looks": "A red squirrel with tufted ears and a bushy tail, sitting up with a nut in its paws.",
-      "portrait": "squirrel",
+      "portrait": "animals/squirrel",
       "statistics": {
         "attributes": {
           "strength": 4,
@@ -1893,6 +1846,7 @@
       "kind": "animal",
       "description": "A small carnivorous mammal with exceptional agility and clever hunting techniques.",
       "looks": "A slender stoat, chestnut above and cream below, with a black-tipped tail, standing up to look.",
+      "portrait": "animals/stoat",
       "statistics": {
         "attributes": {
           "strength": 5,
@@ -1939,7 +1893,7 @@
       "kind": "animal",
       "description": "A powerful big cat with great strength, agility, and striking striped coat.",
       "looks": "A great striped tiger, orange and black with a white belly, moving through long grass.",
-      "portrait": "tiger",
+      "portrait": "animals/tiger",
       "statistics": {
         "attributes": "rolled",
         "hitDie": 10,
@@ -1974,6 +1928,7 @@
       "kind": "animal",
       "description": "A slow-moving reptile with a hard protective shell and long lifespan.",
       "looks": "A pond turtle with a dark domed shell and yellow-streaked head and legs, on a log.",
+      "portrait": "animals/turtle",
       "statistics": {
         "attributes": {
           "strength": 5,
@@ -2019,7 +1974,7 @@
       "kind": "animal",
       "description": "A grey wolf of the uplands: a pack hunter with a rending bite.",
       "looks": "A grey wolf of the uplands, rangy and long-legged, with a pale muzzle and amber eyes.",
-      "portrait": "wolf",
+      "portrait": "animals/wolf",
       "statistics": {
         "attributes": "rolled",
         "hitDie": 6,
@@ -2042,34 +1997,10 @@
         "notes": "Orsino's wolf stat line (base 3 + kind) is not used; Kyr wolves roll their attributes."
       }
     },
-    "cave_spider": {
-      "variantOf": "spider",
-      "variations": [
-        "great",
-        "cave"
-      ],
-      "name": "Cave spider",
-      "description": "A dog-sized spider that strings the dark with sticky lines and waits for something to blunder into them.",
-      "temperament": "ambush",
-      "habitats": [
-        "cave",
-        "wood"
-      ],
-      "source": {
-        "kyr": true,
-        "notes": "A spider grown great in the dark (spider, with the variations great and cave): the name the undertown, the deep sites and the dens have used, kept so that what they say still means it."
-      },
-      "abilities": [
-        "venomous_bite",
-        "ensnare",
-        "flee"
-      ]
-    },
     "dog": {
       "variantOf": "hound",
       "name": "Dog",
       "description": "A working dog of a farm, a drove or an inn: it knows people, and keeps an eye on what is theirs.",
-      "portrait": "dog",
       "abilities": [
         "flee"
       ],
@@ -2082,62 +2013,8 @@
       "source": {
         "kyr": true,
         "notes": "Orsino's hound kept: the same bite and fur, tame."
-      }
-    },
-    "frost_wolf": {
-      "variantOf": "wolf",
-      "variations": [
-        "frost",
-        "great"
-      ],
-      "name": "Frost-altered wolf",
-      "description": "A living wolf altered by an old winter shrine: a freezing bite and a howl that stops the heart.",
-      "abilities": [
-        "rime_bite",
-        "winter_howl",
-        "rending_bite",
-        "defend"
-      ],
-      "source": {
-        "kyr": true,
-        "notes": "A wolf of the long winters grown great (wolf, with the variations frost and great); its proof against cold is the frost's, its rime bite and winter howl its own."
-      }
-    },
-    "great_rat": {
-      "variantOf": "rat",
-      "variations": [
-        "great"
-      ],
-      "name": "Great rat",
-      "description": "A rat the size of a cat, grown fat in the dark under a town on its grain and its dead: it bites to the bone and does not run from one man.",
-      "temperament": "territorial",
-      "habitats": [
-        "settlement",
-        "cave"
-      ],
-      "source": {
-        "kyr": true,
-        "notes": "A rat grown great in the dark under a town (rat, with the variation great): the undertown's rats."
-      }
-    },
-    "stag": {
-      "variantOf": "deer",
-      "variations": [
-        "male"
-      ],
-      "name": "Stag",
-      "description": "A majestic herbivore with impressive antlers and graceful movements.",
-      "looks": "A red stag in his prime, heavy in the neck, with a dark rough mane and a wide spread of antlers.",
-      "habitats": [
-        "wood",
-        "heath"
-      ],
-      "abundance": 1,
-      "source": {
-        "orsino": "animal:stag",
-        "fidelity": "faithful",
-        "notes": "Orsino's stag: the deer, the male (its differences from the deer are the variation male)."
-      }
+      },
+      "portrait": "animals/dog"
     },
     "grouse": {
       "name": "Grouse",
@@ -2145,6 +2022,7 @@
       "kind": "animal",
       "description": "A red grouse of the heather, that gets up at your feet and goes off low, scolding.",
       "looks": "A plump red-brown moorland bird, feathered to the toes, with a scarlet comb over the eye.",
+      "portrait": "animals/grouse",
       "statistics": {
         "attributes": {
           "strength": 3,
@@ -2183,6 +2061,7 @@
       "kind": "animal",
       "description": "A curlew of the moor and the wet meadows, whose call carries for miles.",
       "looks": "A tall brown-streaked wader with long legs and a long down-curved bill.",
+      "portrait": "animals/curlew",
       "statistics": {
         "attributes": {
           "strength": 3,
@@ -2222,6 +2101,7 @@
       "kind": "animal",
       "description": "A skylark that goes up singing over the open fields and does not seem to come down.",
       "looks": "A small streaked brown bird with a short crest, singing high in the air over open ground.",
+      "portrait": "animals/lark",
       "statistics": {
         "attributes": {
           "strength": 3,
@@ -2260,6 +2140,7 @@
       "kind": "animal",
       "description": "A small dragon-like creature with intelligence and magical resistance.",
       "looks": "A small serpentine dragon, the length of a dog, green-scaled and wingless, with a frilled neck.",
+      "portrait": "animals/wyrmling",
       "statistics": {
         "attributes": {
           "strength": 10,
@@ -2297,6 +2178,237 @@
         "orsino": "animal:wyrm",
         "fidelity": "faithful",
         "notes": "Orsino's animal template: every attribute 3 plus the kind's, its hit points, natural weapon and hide, defend and flee. Its hit points are Orsino's at the first level and grow by one a level (Orsino's were the same at every level). Orsino calls it a wyrm among its animals; it is a small dragon of the animal template, not the great Wyrm (monsters.json), and is called a wyrmling here (aliases.json keeps wyrm_animal)."
+      }
+    },
+    "rhino": {
+      "name": "Rhinoceros",
+      "type": "beast",
+      "kind": "animal",
+      "description": "A great grey beast of the hot scrub, short-sighted and short-tempered, that charges whatever it cannot make out.",
+      "looks": "A huge grey beast in folds of armoured hide, with a great horn on its nose and a smaller behind it, small eyes, and ears turning.",
+      "portrait": "animals/rhino",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 12,
+        "primary": "strength",
+        "weapon": "horns",
+        "armor": "hide_armor"
+      },
+      "abilities": [
+        "prepare_charge",
+        "charge",
+        "defend"
+      ],
+      "temperament": "territorial",
+      "habitats": [
+        "desert"
+      ],
+      "abundance": 1,
+      "worth": {
+        "base": 0,
+        "perLevel": 10
+      },
+      "source": {
+        "kyr": true,
+        "notes": "A beast of the hot scrub, met where the desert country has its scrub and water; it charges what it does not know."
+      }
+    },
+    "zebra": {
+      "name": "Zebra",
+      "type": "beast",
+      "kind": "animal",
+      "description": "A striped wild horse of the hot plains, that runs in herds and kicks hard when cornered.",
+      "looks": "A small wild horse barred black and white from muzzle to hoof, with a stiff upright mane.",
+      "portrait": "animals/zebra",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 6,
+        "primary": "dexterity",
+        "weapon": "kick",
+        "armor": "fur"
+      },
+      "abilities": [
+        "flee",
+        "defend"
+      ],
+      "habitats": [
+        "desert",
+        "meadow"
+      ],
+      "abundance": 2,
+      "worth": {
+        "base": 0,
+        "perLevel": 10
+      },
+      "source": {
+        "kyr": true,
+        "notes": "A wild animal of its own, added by its record (the owner, 6 November)."
+      }
+    },
+    "elephant": {
+      "name": "Elephant",
+      "type": "beast",
+      "kind": "animal",
+      "description": "The greatest beast that walks: wise, long-lived, slow to anger and terrible in it.",
+      "looks": "A beast as tall as a cottage roof, grey and wrinkled, with great fanned ears, curving ivory tusks and a long trunk.",
+      "portrait": "animals/elephant",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 12,
+        "primary": "strength",
+        "weapon": "tusks",
+        "armor": "hide_armor"
+      },
+      "abilities": [
+        "smash",
+        "defend"
+      ],
+      "temperament": "defensive",
+      "habitats": [
+        "desert",
+        "wood"
+      ],
+      "abundance": 1,
+      "worth": {
+        "base": 0,
+        "perLevel": 10
+      },
+      "source": {
+        "kyr": true,
+        "notes": "Kept to the hot country; it defends its herd and lets a company be that keeps its distance."
+      }
+    },
+    "leopard": {
+      "name": "Leopard",
+      "type": "beast",
+      "kind": "animal",
+      "description": "A spotted hunting cat that lies along a branch or in the rocks, and drags its kill up a tree.",
+      "looks": "A long golden cat spotted with black rosettes, lying along a bough with one paw hanging.",
+      "portrait": "animals/leopard",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 8,
+        "primary": "dexterity",
+        "weapon": "claws",
+        "armor": "fur"
+      },
+      "abilities": [
+        "rending_bite",
+        "hide",
+        "flee"
+      ],
+      "temperament": "ambush",
+      "habitats": [
+        "wood",
+        "heights",
+        "desert"
+      ],
+      "abundance": 1,
+      "worth": {
+        "base": 0,
+        "perLevel": 10
+      },
+      "source": {
+        "kyr": true,
+        "notes": "A wild animal of its own, added by its record (the owner, 6 November)."
+      }
+    },
+    "monkey": {
+      "name": "Monkey",
+      "type": "beast",
+      "kind": "animal",
+      "description": "A clever chattering tree-dweller that travels in troops and steals what is left unwatched.",
+      "looks": "A small brown long-tailed monkey with a wizened black face, hanging by one hand and staring.",
+      "portrait": "animals/monkey",
+      "statistics": {
+        "attributes": {
+          "strength": 4,
+          "dexterity": 12,
+          "constitution": 6,
+          "intelligence": 7,
+          "wisdom": 10,
+          "charisma": 6
+        },
+        "hitDie": 4,
+        "primary": "dexterity",
+        "weapon": "bite",
+        "armor": "fur"
+      },
+      "abilities": [
+        "flee"
+      ],
+      "habitats": [
+        "wood",
+        "grove"
+      ],
+      "abundance": 2,
+      "worth": {
+        "base": 0,
+        "perLevel": 10
+      },
+      "source": {
+        "kyr": true,
+        "notes": "A wild animal of its own, added by its record (the owner, 6 November)."
+      }
+    },
+    "dolphin": {
+      "name": "Dolphin",
+      "type": "beast",
+      "kind": "animal",
+      "description": "A sleek grey creature of the sea, quick and playful, that rides the bow-wave of boats.",
+      "looks": "A sleek blue-grey back curving out of the swell and under again, a fin, a beaked smiling face.",
+      "portrait": "animals/dolphin",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 8,
+        "primary": "dexterity",
+        "weapon": "headbutt",
+        "armor": "hide_armor"
+      },
+      "abilities": [
+        "flee"
+      ],
+      "habitats": [
+        "sea"
+      ],
+      "abundance": 2,
+      "worth": {
+        "base": 0,
+        "perLevel": 10
+      },
+      "source": {
+        "kyr": true,
+        "notes": "A wild animal of its own, added by its record (the owner, 6 November)."
+      }
+    },
+    "whale": {
+      "name": "Whale",
+      "type": "beast",
+      "kind": "animal",
+      "description": "The great beast of the open sea, longer than a ship, that blows a plume of spray where it surfaces.",
+      "looks": "A long dark back rising out of the sea like a reef, and a plume of white spray blowing high above it.",
+      "portrait": "animals/whale",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 20,
+        "primary": "strength",
+        "weapon": "headbutt",
+        "armor": "hide_armor"
+      },
+      "abilities": [
+        "defend"
+      ],
+      "habitats": [
+        "sea"
+      ],
+      "abundance": 1,
+      "worth": {
+        "base": 0,
+        "perLevel": 10
+      },
+      "source": {
+        "kyr": true,
+        "notes": "A wild animal of its own, added by its record (the owner, 6 November)."
       }
     }
   }

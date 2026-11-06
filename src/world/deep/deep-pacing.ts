@@ -47,7 +47,7 @@ export class DeepPacing {
       if (draw.next() < odds.encounter && groups.length && !kept.has(room.role)) {
         content.dwellers = this.dwellers({ room, groups: odds.challenging ? elites : groups, depth: level.index, i },
           !!odds.challenging, draw);
-        content.dwellers = this.composed(content.dwellers, purpose);
+        if (level.index > 0) { content.dwellers = this.composed(content.dwellers, purpose); }
       }
       if (way && !way.between && draw.next() < odds.trap) { content.trap = this.trap(way, level.index, draw, laid); }
       if (draw.next() < odds.puzzle) { content.riddle = this.riddle(level.index, draw); }
@@ -93,8 +93,9 @@ export class DeepPacing {
       ...elite ? { elite: true } : {},
       group };
   }
-  // Half the rooms of a site whose purpose says where its dwellers may have come from hold a party of the canon's
-  // creatures of those habitats instead of a group of creatures written for it, composed for the room's danger (its
+  // Below its first level (the way in, its dwellers written for a company new to it), half the rooms of a site whose
+  // purpose says where its dwellers may have come from hold a party of the canon's creatures of those habitats instead
+  // of a group of creatures written for it, composed for the room's danger (its
   // level as Orsino's challenge): the bestiary met in the deep, not only what the purpose names.
   // Drawn by the room apart from the rest of its level, so what else the level holds is as it was.
   private static composed(d: DeepDwellers, purpose: DeepPurpose): DeepDwellers {

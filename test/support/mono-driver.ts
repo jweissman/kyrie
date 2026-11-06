@@ -114,6 +114,17 @@ export class MonoDriver {
         await this.click('.wf-go');
         return true;
       }
+      // A place in another quarter of the town is gone to by that quarter (its row says what it holds), then from
+      // there, as a player finds it.
+      const dest = id.replace(/^(travel|exit):/, '').split('/')[0] ?? '';
+      if (part === 'go' && dest && await has(`.wayfinder [data-holds~="${dest}"]`)) {
+        await this.click(`.wayfinder [data-holds~="${dest}"]`);
+        await this.click('.wf-go'); await this.settle();
+        if ((await this.inspect()).place?.id === dest) { return true; }
+        await this.click(opener);
+        const row = `.wayfinder :is([data-pick="exit:${dest}"], [data-pick^="exit:${dest}/"], [data-pick="travel:${dest}"])`;
+        if (await has(row)) { await this.click(row); await this.click('.wf-go'); return true; }
+      }
       if (await has(raised)) { await this.click(raised); return true; }
       // Turning to a thing is choosing it among what is at hand: its pane is its own view.
       const thing = /^(.+)#look$/.exec((await this.inspect()).choices[index]?.id ?? '')?.[1];

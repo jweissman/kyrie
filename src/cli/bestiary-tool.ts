@@ -1,6 +1,5 @@
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
-import animals from '../../data/catalog/animals.json';
-import monsters from '../../data/catalog/monsters.json';
+import { Canon } from '../canon/canon';
 import { Content } from '../content';
 import { CombatProjection } from '../combat-projection';
 import { Battle } from '../battle';
@@ -45,7 +44,7 @@ export class BestiaryTool {
   // Every creature of the catalog's own files that fights: not a device, nor a kind only ever met with what it requires
   // (an elemental's element); not a module's own kinds, installed as it loads.
   static measurable(): string[] {
-    return Object.keys({ ...animals.species, ...monsters.species }).flatMap(id => {
+    return Canon.catalogued.flatMap(id => {
       const of = CreatureVariants.structurals(id);
       return of.length ? of.map(v => `${id}/${v}`) : CreatureVariants.wanting(id) ? [] : [id];
     });

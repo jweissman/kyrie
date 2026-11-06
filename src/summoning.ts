@@ -17,7 +17,7 @@ export class Summoning {
     const expressions = context.expressions!;
     const count = effect.amount ? Math.max(0, expressions.amount(effect.amount, Summoning.values(owner))) : 1;
     for (let i = 0; i < count; i++) {
-      const pool = effect.byAncestry?.[owner.raceId] ?? effect.from ?? [effect.creature];
+      const pool = Summoning.pool(effect, owner);
       const species = pool[pool.length > 1 ? expressions.number(`1d${pool.length}`) - 1 : 0]!;
       const id = Summoning.fresh(context);
       const creature = { ...context.content.creature(species, id, owner.team, effect.level), summoner: owner.id };
@@ -25,6 +25,29 @@ export class Summoning {
       context.events.push({ type: 'summon', turn: context.turn, actor: owner.id, target: id, detail: creature.name });
     }
     Summoning.trim(owner, context);
+  }
+  // What answers a call where the fight is (the owner, 6 November: a ranger calls the animals of the country): of those
+  // it could call, the ones that live there; a call of animals any of the catalog's wild animals that live there (an
+  // animal added by its record answers in its own country); where none does, any it could call.
+  static pool(effect: Summon, owner: Fighter): string[] {
+    const called = effect.byAncestry?.[owner.raceId] ?? effect.from ?? [effect.creature];
+    const here = Summoning.habitat(owner.environment);
+    if (!here) { return called; }
+    const animals = called.every(id => Canon.isSpecies(id) && Canon.creature(id).kind === 'animal');
+    const wild = animals ? Canon.catalogued.filter(id => Canon.creature(id).kind === 'animal' && Summoning.lives(id, here)
+      && Canon.temperament(id) !== 'tame' && !Canon.creature(id).variantOf) : [];
+    const local = [...new Set([...called.filter(id => Summoning.lives(id, here)), ...wild])];
+    return local.length ? local : called;
+  }
+  private static lives(id: string, here: string): boolean {
+    return Canon.isSpecies(id) && !!Canon.creature(id).habitats?.includes(here);
+  }
+  // The kind of country a fight's ground is (Orsino's environment: a town, a cave, the region's terrain).
+  static habitat(environment?: string): string | undefined {
+    if (!environment) { return undefined; }
+    if (environment === 'urban') { return 'settlement'; }
+    return Object.entries(Canon.habitats).find(([id, h]) => id === environment || h.terrains?.includes(environment)
+      || h.sites?.includes(environment))?.[0];
   }
   // Past the limit the oldest go back whence they came, and leave the fight.
   static trim(owner: Fighter, context: EffectContext) {

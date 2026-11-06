@@ -30,7 +30,7 @@ import { ObservationText } from '../lang/observation-text';
 import { ChartModel } from './chart-model'; import { Carriers } from './carriers'; import { CarriedFlame } from './carried-flame';
 import { Overlays } from '../overlays'; import { PerkText } from '../presentation/perk-text'; import { Exposure } from './exposure';
 import { Services } from './services'; import { Headings } from './headings'; import { TradeModel } from './trade-model'; import { ItemUses } from './item-uses'; import { Skies } from './skies';
-import { Stakes } from './stakes'; import { TownPlan } from './town-plan'; import { Undertakings } from '../presentation/undertakings';
+import { Stakes } from './stakes'; import { Quarters } from './quarters'; import { TownPlan } from './town-plan'; import { Undertakings } from '../presentation/undertakings';
 import type { Act, ItemRow, MemberRow, Screen, TargetRow } from './screen-types';
 
 // Builds the renderer-independent game screen from the authoritative campaign. Pure: same campaign, same screen.
@@ -91,7 +91,7 @@ export class ScreenModel {
       expedition: this.expedition(world, view, items, here),
       map: view.map.places.map(p => ({ id: p.id, name: p.name, visited: p.visited, here: p.id === here,
         zone: passages.path(p.id).slice(0, -1).at(-1)?.name ?? p.zone ?? '' })),
-      ...Itineraries.shown(campaign, entities, charted.region),
+      ...Itineraries.shown(campaign, entities, charted.region), ...Quarters.shown(world, entities, here),
       unplaced: [...grouped.unplaced, ...[...unclaimed.entries()].flatMap(([id, acts]) =>
         acts.map(a => ({ ...a, label: `${entities.get(id)?.name ?? id}: ${a.label}` })))],
     };

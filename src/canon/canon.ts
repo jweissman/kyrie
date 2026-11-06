@@ -73,6 +73,10 @@ export class Canon {
   // The base creatures, every one in one of two authored files (animals.json, monsters.json): Orsino's kinds among
   // them by provenance (source.orsino), none generated beside them (the owner, 5 November: one authoritative record).
   static readonly species = { ...animals.species, ...monsters.species } as unknown as Record<string, Species>;
+  // The kinds a module installed as it loaded (see LocalCatalog), belonging to the world that wrote them.
+  static readonly installed = new Set<string>();
+  // The catalog's own kinds: what generation draws from, never a module's own.
+  static get catalogued(): string[] { return Object.keys(this.species).filter(id => !this.installed.has(id)); }
   // The devices that fight without being creatures (data/catalog/devices.json): a turret, a ward, a bomb.
   static readonly devices = devices.devices as unknown as Record<string, Species>;
   // The stuff things are made of (data/catalog/materials.json): named once, and by its id wherever something is of it.
@@ -151,10 +155,17 @@ export class Canon {
     const words = over.map(v => v!.word).filter(Boolean).join(' '), name = b.name.toLowerCase();
     const habitats = [...new Set([...b.habitats ?? [], ...over.flatMap(v => v!.habitats ?? [])])];
     const abundance = over.map(v => v!.abundance).find(a => a !== undefined) ?? b.abundance;
+    // A variation's temper where its base has none or only slips away (a great rat stands its ground); its type where
+    // it makes the kind another (the skeletal are undead).
+    const temper = over.map(v => v!.temperament).find(Boolean), type = over.map(v => v!.type).find(Boolean);
+    const said = over.map(v => v!.says).join(', and ');
     return { ...b, name: words ? `${words.charAt(0).toUpperCase()}${words.slice(1)} ${name}` : b.name, variantOf: base!,
       variations: [...b.variations ?? [], ...ids], ...habitats.length ? { habitats } : {},
       ...abundance !== undefined ? { abundance } : {},
-      description: `${b.description} This one is ${over.map(v => v!.says).join(', and ')}.` };
+      ...temper && (!b.temperament || b.temperament === 'wary') ? { temperament: temper } : {},
+      ...type ? { type } : {},
+      description: `${b.description} This one is ${said}.`,
+      looks: `${b.looks ?? b.description} ${said.charAt(0).toUpperCase()}${said.slice(1)}.` };
   }
   // A body made from its own record, not a person of a people: a creature or a device.
   static isBody(id: string): boolean { return this.isSpecies(id) || this.isDevice(id); }

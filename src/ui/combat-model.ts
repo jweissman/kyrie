@@ -16,6 +16,7 @@ import { DangerSense } from '../presentation/danger-sense';
 import { ItemCatalog } from '../item-catalog';
 import { ItemNames } from '../item-names';
 import type { CombatantRow, CombatScreen } from './screen-types';
+import { CreaturePortraits } from '../paintings/creature-portraits';
 import type { Face } from '../paintings/company-portraits';
 
 // Encounter projection for the game screen. Abilities and targets come from Battle.legalCommands only. Who is in the
@@ -29,8 +30,10 @@ export class CombatModel {
     const choices = ours && !state.outcome ? CombatChoices.actions(battle.legalCommands(), battle.repertoire) : [];
     return {
       turn: state.turn, actor: state.actor, actorName: actor?.name ?? '', ours, outcome: state.outcome,
-      foes: state.combatants.filter(f => f.team !== 'fighters').map(f => this.row(f, state)),
-      allies: state.combatants.filter(f => f.team === 'fighters').map(f => this.row(f, state, faces?.get(f.id))),
+      // A creature by its kind's painting (a summoned hawk, a den's wolves), as one of the company by their portrait.
+      foes: state.combatants.filter(f => f.team !== 'fighters').map(f => this.row(f, state, CreaturePortraits.face(f.raceId))),
+      allies: state.combatants.filter(f => f.team === 'fighters')
+        .map(f => this.row(f, state, faces?.get(f.id) ?? CreaturePortraits.face(f.raceId))),
       abilities: choices.map(c => ({ id: c.ability.id, name: this.named(c.ability, actor),
         text: MechanicsText.full(c.ability, actor && Effects.context(actor)),
         cost: c.ability.cost ?? 0, price: MechanicsText.price(c.ability),

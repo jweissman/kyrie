@@ -38,8 +38,9 @@ describe('one creature pipeline', () => {
     const great = variations.variations.great.attributes;
     expect(make('great_rat').base.strength).toBe(make('rat').base.strength + great.strength);
     const cave = make('cave_spider');
+    // Its web and its venom are the spider's; the cave and its size are what vary it.
     expect(cave.base.abilities).toEqual(expect.arrayContaining(['venomous_bite', 'ensnare']));
-    expect(make('spider').base.abilities).not.toContain('ensnare');
+    expect([cave.raceId, cave.variations]).toEqual(['spider/great/cave', ['great', 'cave']]);
   });
   it('makes a kind added by its record alone in an author’s Person and from what generation casts, alike', async () => {
     const [cast] = Cast.group(ModuleParser.parse(`Module e "E" { Place pool "the pool" is room.
@@ -64,9 +65,9 @@ describe('one creature pipeline', () => {
     expect(again.campaign.readout.creatures.filter(c => c.raceId === 'eel').map(shape)).toEqual(eels());
   }, 60000);
   it('shows a creature by its kind’s painting, a named variant by its base’s', () => {
-    // The bear's painting shows crags over a lake and no bear: the bear has none yet, and says so by naming none.
-    expect(['wolf', 'frost_wolf', 'dog', 'vampire', 'bear'].map(id => CreaturePortraits.painting(id)))
-      .toEqual(['wolf', 'wolf', 'dog', 'vampyre', undefined]);
-    expect(CreaturePortraits.painting('rat')).toBeUndefined();
+    // Every animal by its painting from the menagerie (data/paintings/animals.json); a kind composed of one by its
+    // base's (a frost wolf, a wolf); a monster by its own where it has one.
+    expect(['wolf', 'frost_wolf', 'dog', 'vampire', 'bear', 'rat'].map(id => CreaturePortraits.painting(id)))
+      .toEqual(['animals/wolf', 'animals/wolf', 'animals/dog', 'vampyre', 'animals/bear', 'animals/rat']);
   });
 });

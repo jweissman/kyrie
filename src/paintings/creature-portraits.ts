@@ -8,13 +8,19 @@ export class CreaturePortraits {
   static painting(raceId: string): string | undefined {
     const seen = new Set<string>();
     // An old name or a composed kind (golem/glass) by what it is: a composed kind by its base's.
-    for (let id: string | undefined = Canon.resolve('species', raceId).split('/')[0]; id && !seen.has(id)
-      && Canon.isSpecies(id); id = Canon.species[id]!.variantOf) {
+    // Each step by what it names (a module's kind may be like an old name: like cave_hound, the hound in the cave).
+    for (let id = this.named(raceId); id && !seen.has(id) && Canon.species[id];
+      id = this.named(Canon.species[id]!.variantOf)) {
       seen.add(id);
-      const own = Canon.species[id]!;
-      if (own.portrait) { return own.portrait; }
+      if (Canon.species[id]!.portrait) { return Canon.species[id]!.portrait; }
     }
     return undefined;
+  }
+  private static named(id?: string): string | undefined { return id && Canon.resolve('species', id).split('/')[0]; }
+  // As a fight's card shows a face (see CompanyPortraits): the small copy, and the large for a page.
+  static face(raceId: string): { id: string; src: string; medium: string } | undefined {
+    const painting = Canon.isBody(raceId) ? this.painting(raceId) : undefined;
+    return painting ? { id: painting, src: Likeness.src(painting), medium: Likeness.src(painting) } : undefined;
   }
   static of(raceId: string): ReturnType<typeof Likeness.portrait> | undefined {
     const painting = this.painting(raceId);

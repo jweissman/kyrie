@@ -1,3 +1,4 @@
+import type { QuarterRow } from './quarters';
 import type { Counter } from './trade-model';
 import type { Danger } from '../presentation/danger-sense';
 import type { CharacterSheet, Development, Recruit } from '../presentation/character-sheet';
@@ -178,6 +179,8 @@ export interface Screen {
   roads?: NonNullable<Screen['destinations']>;
   // The other places of the town the company is in, further than a step (by its square), to walk to directly.
   around?: NonNullable<Screen['destinations']>;
+  // The quarters of the town the company is in, its own first (see Quarters): what Go… sets the town out by.
+  quarters?: QuarterRow[];
   // Every other place the map draws that the company knows a way to (see Itineraries.mapped), to set out for from it.
   mapped?: NonNullable<Screen['destinations']>;
   // Where in the settlement the company is in what anyone needs is found (see Services): each need, who meets it,

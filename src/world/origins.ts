@@ -9,6 +9,8 @@ import { RegionSites } from './region-sites';
 import { RegionGeography } from './region-geography';
 import tables from '../../data/origins/tables.json';
 import arrivals from '../../data/origins/wanderer/arrivals.json';
+import { OriginPrologue } from './origin-prologue';
+import { SettlementWriter } from './settlement-writer';
 
 // Why one person has come into a generated country, and who and what there already concerns them: a father who did
 // not come home, a debt, an errand for an order, a sick child who needs what they carry. Each origin is a module of
@@ -67,14 +69,26 @@ export class Origins {
     const bound = this.bind(o.manifest.binder, at.region, at.placements);
     if (!bound) { return undefined; }
     const values = { ...bound.values, protagonist: Origins.said(at.protagonist) };
+    const prologue = this.prologue(bound, at.region);
+    if (prologue) { bound.imports.inn = prologue.inn; }
     const names = Object.keys(bound.imports), dir = `${at.root}/origin`;
     at.files[`${dir}/module.json`] = JSON.stringify({ version: 1, source: 'origin.kyr', rules: ['world'],
       globals: ['party'], imports: ['party', ...names], ...o.manifest.experience ? { experience: o.manifest.experience } : {},
       roles: Object.fromEntries([['party', { type: 'group' }], ...names.map(n => [n, { type: bound.imports[n]![1] }])]) });
-    at.files[`${dir}/origin.kyr`] = this.fill(o.source, values);
+    const source = this.fill(o.source, values);
+    at.files[`${dir}/origin.kyr`] = prologue
+      ? source.replace(/\}\s*$/, `${prologue.lines.join('\n')}\n}\n`) : source;
     return { request: { id: 'origin', bundle: `${dir}/module.json`,
       imports: { party: 'region.party', ...Object.fromEntries(names.map(n => [n, bound.imports[n]![0]])) } },
     start: bound.start, coin: o.manifest.coin ?? 10 };
+  }
+  // A life that begins on the way into a town meets something going on there first (see OriginPrologue), its people
+  // going on to the town's inn.
+  private static prologue(bound: Bound, region: Region): { lines: string[]; inn: [string, string] } | undefined {
+    const s = region.settlements.find(x => x.id === bound.start.approach?.settlement);
+    if (!s || !bound.imports.approach || !SettlementWriter.rooms(region, s).taproom) { return undefined; }
+    const lines = OriginPrologue.lines(region.name, { approach: 'approach', inn: 'inn', home: s.name, folk: region.ancestry });
+    return lines.length ? { lines, inn: [`region.${s.id}_taproom`, 'place'] } : undefined;
   }
   // A name as it can stand in the module's text: no braces (which would name an entity, or be filled again as a
   // template word) and its quotes and backslashes escaped (Wen"na and {creditor} broke Begin: the architecture

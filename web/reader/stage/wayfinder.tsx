@@ -9,7 +9,11 @@ import { PlaceStage } from './place-stage';
 import { SceneSurface } from './scene-surface';
 
 // A way: what goes by it (c), and the way's own choice where that is a group of its acts (a door to listen at).
-export interface Way { c: Choice; way: Choice; exit?: ExitRow; whither: string; name: string; aim: boolean; group: string }
+export interface Way {
+  c: Choice; way: Choice; exit?: ExitRow; whither: string; name: string; aim: boolean; group: string;
+  // A quarter of the town as one way: what is in it (its places' names, and their ids), gone to by its heart.
+  quarter?: string[]; holds?: string[];
+}
 
 // Go…: where you are, where you can go from here, how those places lie, and what choosing one would mean, and nothing
 // else (the owner, 5 November, late: the explorer had become a catalogue of everything the place at rest left out;
@@ -36,6 +40,7 @@ export class Wayfinder {
             <ul>{ways.filter(w => w.group === g).map(w => <li key={w.c.id}>
               <button type="button" className={`wf-row${w.c.id === chosen?.c.id ? ' chosen' : ''}${w.c.disabled ? ' shut' : ''}`
                 + `${w.aim ? ' aimed' : ''}`} data-pick={w.c.id} data-pick-index={draw.index.get(w.way.id) ?? draw.index.get(w.c.id) ?? -1}
+                data-holds={w.holds?.join(' ')}
                 aria-pressed={w.c.id === chosen?.c.id} onClick={() => Wayfinder.pick(app, w)}
                 onDoubleClick={() => { if (!w.c.disabled) { app.choose(w.c); } }}>
                 <span className={`glyph whither-${w.whither.toLowerCase()}`} aria-hidden="true">
@@ -61,6 +66,7 @@ export class Wayfinder {
         {w.aim && <p className="wf-aim">Your aim</p>}
         <h3>{Typography.curl(Words.upper(w.name))}</h3>
         {how && <p className="wf-how">{Typography.curl(Words.upper(how))}</p>}
+        {w.quarter && <p className="wf-holds">{Typography.curl(Words.upper(Words.listed(w.quarter)))}</p>}
         {w.exit && <p className="wf-been">{w.exit.visited ? 'You have been there.' : 'You have not been there.'}</p>}
         {keep.map(k => <p key={k} className="wf-keeps">{Typography.curl(k)}</p>)}
         {c.disabled && <p className="wf-shut">{Typography.curl(Words.upper(c.disabled))}</p>}
@@ -101,9 +107,31 @@ export class Wayfinder {
       return { c, way, exit, whither, group, name: exit?.destination.name ?? c.label.replace(/^To /, ''),
         aim: aimed.some(id => id === c.id || id.startsWith(`${exit?.id}/`)) };
     });
-    // By how they lie, and by name within each, to be found as in a gazetteer.
-    const order = [near, about, out], key = (w: Way) => w.name.replace(/^(the|a|an) /i, '').toLowerCase();
-    return ways.sort((a, b) => order.indexOf(a.group) - order.indexOf(b.group) || key(a).localeCompare(key(b)));
+    // By how they lie, and by name within each, to be found as in a gazetteer; a town with quarters by its parts.
+    const parted = Wayfinder.quartered(screen, ways, { near, about });
+    const order = [near, ...parted.groups, about, out];
+    const key = (w: Way) => w.name.replace(/^(the|a|an) /i, '').toLowerCase();
+    return parted.ways.sort((a, b) => order.indexOf(a.group) - order.indexOf(b.group) || key(a).localeCompare(key(b)));
+  }
+  // A town set out by its quarters (the owner, 6 November: a town a player can learn, not a directory of its places):
+  // the places of the quarter you are in, each; every other quarter as one way, to its heart, saying what is there.
+  // Its places are close by when you are there.
+  static quartered(screen: Screen, ways: Way[], at: { near: string; about: string }): { ways: Way[]; groups: string[] } {
+    const quarters = screen.quarters ?? [], mine = quarters.find(q => q.here);
+    if (!quarters.length) { return { ways, groups: [] }; }
+    const to = (w: Way) => w.exit?.destination.id ?? w.c.id.replace(/^travel:/, '');
+    const town = (w: Way) => [at.near, at.about].includes(w.group);
+    const of = (w: Way) => town(w) ? quarters.find(q => q.places.includes(to(w))) : undefined;
+    const own = mine ? `In ${mine.name}` : at.about, out: Way[] = [];
+    for (const w of ways) {
+      const q = of(w);
+      if (!q || q.here) { out.push(q ? { ...w, group: own } : w); continue; }
+      if (out.some(o => o.quarter && o.name === q.name)) { continue; }
+      const held = ways.filter(x => of(x) === q);
+      const heart = held.find(x => to(x) === q.heart) ?? held[0]!;
+      out.push({ ...heart, name: q.name, group: at.about, quarter: held.map(x => x.name), holds: held.map(to) });
+    }
+    return { ways: out, groups: mine ? [own] : [] };
   }
   // The way chosen: the one the keys or a touch last came to, else your aim's, else the first.
   static chosen(app: ReaderApp, ways: Way[]): Way | undefined {
