@@ -42,12 +42,12 @@ Module hhg "The House That Grows" {
   Discovery eleven_strokes "The knocking at the front door of the house is eleven knocks and a gap of the same length where the twelfth should be. Whoever is inside has never been answered with the twelfth.".
   Topic sabe_undal with sabe "Ask Sabe whether she can read the Undal letters on the bunk shelves" when not gaveLetter(sabe) {
     Says "'Undal.' Sabe laughs, short. 'It's what the Ballast-Reeve forbids on the nets, so everyone on the nets can read it.' She takes from her harness a square of folded cord-paper, dark with years. 'The Lifted children wrote to their mothers on the shelves and never had a way to send it. I took this one off the end bunk before the glass grew over. It is to the reeve of Cobble Ring from her brother, who was taken up as a Netter in the famine year, and who writes in Undal because he had no one to teach him the other. I can read you it. You can carry it down.'".
-    On discuss { Assert gaveLetter(sabe). Give undal_letter to actor. Assert knows(actor, brother_letter). }
+    On discuss { Assert gaveLetter(sabe). Give hhg_undal_letter to actor. Assert knows(actor, brother_letter). }
   }
   Relation gaveLetter(group). Relation gaveToken(group). Relation gaveRope(group).
   Discovery brother_letter "Sabe Orrel holds a letter in Undal letters from the reeve of Cobble Ring's brother, taken up to the Keel as a child in the famine year: he writes that the house in the barley is not a thing to sell but a thing to answer, and that the city has no one who knows how.".
-  Kind undal_letter "a Lifted child's letter in Undal" is gear worth 1 described "A square of cord-paper folded small, written in the narrow Undal letters the Ballast-Reeve forbids on the nets, in a child's careful hand; the creases are brown with years of a harness.".
-  Item letter "a Lifted child's letter in Undal" is undal_letter at nowhere owned by sabe.
+  Kind hhg_undal_letter "a Lifted child's letter in Undal" is gear worth 1 described "A square of cord-paper folded small, written in the narrow Undal letters the Ballast-Reeve forbids on the nets, in a child's careful hand; the creases are brown with years of a harness.".
+  Item letter "a Lifted child's letter in Undal" is hhg_undal_letter at nowhere owned by sabe.
   Topic sabe_tea with sabe "Ask Sabe about the Netters, Captain Isele, and the Knot House" when true once {
     Says "'The Knot House ties the net, and unties whoever ties wrong,' says Sabe. 'Isele's span has the hatch at the foot of Rigging Row, and she'll hear a knot cut from the wrong side before the rope has stopped swinging. Cut it from the right side, with a Netter, and it's a favour. From below, it's theft.' She sips from the can. 'A rope would help you out along the edge. A Netter's token would help you with Isele.'".
     On discuss { Assert knows(actor, knot_custom). }
@@ -57,8 +57,8 @@ Module hhg "The House That Grows" {
     Says "Sabe unclips a knotted loop of tarred cord from her harness and puts it in your hand. 'Isele knows my knot,' she says. 'Show it, and say Sabe sent the floor-dirt. She'll swear. She won't strike.'".
     On discuss { Assert gaveToken(sabe). Give sabe_token to actor. }
   }
-  Kind netters_token "a Netters' token" is gear worth 1 described "A loop of tarred cord tied in the knot the Knot House calls a keeper's: it means that the holder is a guest of the span, and that Sabe Orrel has stood for them.".
-  Item sabe_token "a Netters' token" is netters_token at nowhere owned by sabe.
+  Kind hhg_netters_token "a Netters' token" is gear worth 1 described "A loop of tarred cord tied in the knot the Knot House calls a keeper's: it means that the holder is a guest of the span, and that Sabe Orrel has stood for them.".
+  Item sabe_token "a Netters' token" is hhg_netters_token at nowhere owned by sabe.
   Topic sabe_rope with sabe "Ask Sabe if she has a rope for the wind along the edge" when knows(actor, knot_custom) and not gaveRope(sabe) once {
     Says "She pulls a hank of Netters' rope from under the bucket, ten fathoms, and does not say where she got it. 'For the edge,' she says. 'Tie off on the bunk-room shelf and walk it. The wind's no worse than it was when I was a girl and no kinder.'".
     On discuss { Assert gaveRope(sabe). Give sabe_rope to actor. }
@@ -203,9 +203,9 @@ Module hhg "The House That Grows" {
   Entity letter_read: fact "the brother's letter".
   Action give_letter_reeve(actor: group, site: place) "Give the reeve the Lifted brother's letter, with Sabe's reading of it" {
     Description "The reeve has not heard from her brother since the famine year. The letter is not about the sale; it changes how the sale feels.".
-    Requires able(actor) and company(actor) and at(actor, site) and at(tessa, site) and holding(actor, undal_letter)
+    Requires able(actor) and company(actor) and at(actor, site) and at(tessa, site) and holding(actor, hhg_undal_letter)
       and not voted(tessa) and not persuaded(tessa, letter_read) and sellVotes(tessa) >= 2.
-    On success { Spend undal_letter from actor. Assert persuaded(tessa, letter_read). Decrease sellVotes(tessa) by 2. }
+    On success { Spend hhg_undal_letter from actor. Assert persuaded(tessa, letter_read). Decrease sellVotes(tessa) by 2. }
     Result "The reeve reads it standing, with her lips moving on the Undal, which she taught herself from a child's primer in the year he went. She reads it twice. Then she goes to the window, and stands there with her back to you for a time. 'He says it's a thing to be answered,' she says at last. 'Not a thing to be sold.' She does not turn round. 'Four arcs for selling. I'll have to speak to the other five.'".
   }
 
@@ -220,7 +220,7 @@ Module hhg "The House That Grows" {
   Rule riggers_come when knotBroken(rigging_foot) and at(party, rigging_foot) and at(riggers, nowhere) and not riggersSettled(party) { Retract at(riggers, nowhere). Assert at(riggers, rigging_foot). }
   Relation riggersSettled(group).
   Action show_token(actor: group, site: place) "Show the riggers Sabe Orrel's knot, and say that Sabe sent you" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, rigging_foot) and at(riggers, rigging_foot) and holding(actor, netters_token) and not riggersSettled(party).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, rigging_foot) and at(riggers, rigging_foot) and holding(actor, hhg_netters_token) and not riggersSettled(party).
     Time 1 minutes.
     On success { Assert riggersSettled(party). Assert tolerates(riggers, actor). Assert at(riggers, nowhere). }
     Result "The one in front takes the tarred loop, turns it in the light, and swears, at length and without repeating herself. 'That's Sabe's,' she says. 'That's Sabe's own keeper's.' She gives it back as if it were hot. 'Isele will have a word anyway. It will be a different one.' They go back along the net with their pins hanging, and one of them looks over his shoulder at you the whole way.".
