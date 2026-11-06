@@ -21,6 +21,7 @@
     "endings.kyr",
     "growth.kyr",
     "wake.kyr",
+    "lore.kyr",
     "placed.kyr"
   ],
   "rules": [
@@ -46,5 +47,9 @@
   "experience": 800,
   "optional": [
     "word"
+  ],
+  "canon": [
+    "imbar",
+    "remainder_harboured"
   ]
 }

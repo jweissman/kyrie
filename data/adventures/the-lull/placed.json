@@ -18,6 +18,7 @@
     "endings.kyr",
     "after.kyr",
     "fellowship.kyr",
+    "lore.kyr",
     "placed.kyr"
   ],
   "rules": [
@@ -43,5 +44,9 @@
   "experience": 1000,
   "optional": [
     "word"
+  ],
+  "canon": [
+    "imbar",
+    "remainder_kept"
   ]
 }

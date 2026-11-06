@@ -15,6 +15,7 @@
     "ways.kyr",
     "week.kyr",
     "aftermath.kyr",
+    "lore.kyr",
     "placed.kyr"
   ],
   "rules": [
@@ -24,7 +25,8 @@
     "party"
   ],
   "canon": [
-    "imbar"
+    "imbar",
+    "remainder_harboured"
   ],
   "exports": {
     "party": "party",

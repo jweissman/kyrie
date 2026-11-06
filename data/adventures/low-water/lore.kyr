@@ -1,0 +1,28 @@
+Module lowwater "Low Water" {
+  Description "Links outward from the Bowl: a black stair in a college read by Halm from afar, a Prefect's writ of keeping laid before him, a notice calling surveyors to a lighthouse, and the almanack woman.".
+
+  // ── A world event, read: Halm hears of the square ───────────────────────────────────────────────────────────────
+  Observe lore_taproom_square at taproom when befell(slack_opened) "A fat envelope with a Corran seal has been left against the Full Measure's tap by a carter who did not wait. Ruan Tell has read the outside, which is as far as he reads. 'For Teodor Halm,' he says. 'Third this month. They are all in the same hand, and all say the same thing in the corner: URGENT, THE SQUARE.'".
+  Discovery lore_halm_square "Halm has heard from a fellow at the Collegium that a black square in the floor of a college at Sennet has been opened and a stair found under it. He says it is the same stone as the Reckoner, and that nobody has asked the Reckoner what it thinks.".
+  Topic lore_halm_black with halm "Ask Halm what the letters from Corran say" when befell(slack_opened) once {
+    Says "Halm has them fanned in one hand like cards. 'A square,' he says. 'Black. Let into a floor at Sennet, under a college that has been sitting on it for six hundred years and calling it a paving stone. They have opened it. There is a stair.' He is delighted and appalled in about equal parts. 'Dun Rì has always said the Aeneans built its engines. It is the Collegium's one article of faith. It is not true, and I have been saying so since I was twenty-five, and now a lot of people in good coats are standing on a floor and finding out. Nothing there is Aenean but the lettering.' He puts the letters down. 'I should like to go. I will not. I have a Reckoner.'".
+    On discuss { Assert knows(actor, lore_halm_square). }
+  }
+
+  // ── A visitor from elsewhere: a writ of keeping ─────────────────────────────────────────────────────────────────
+  Discovery lore_writ_kept "A fair copy of the Prefect's writ of keeping, shown to Halm, says KEPT where the Collegium's footnotes say owed. Halm believes the Collegium has been mistranslating one word for four hundred years.".
+  Topic lore_halm_writ with halm "Show Halm the fair copy of the Prefect's writ" when holding(actor, prefects_writ) once {
+    Says "Halm reads it standing, which he never does, and then sits down on the dig's wet edge. 'Servandam,' he says. 'Servandam, servandam. Not debendam.' He looks up with the wild patience of a man who has found his own mistake in someone else's handwriting. 'Every footnote in four hundred years of the Collegium says OWED. We have been turning custodire into debere because a copyist at Corran had a debtor's nerves. KEPT. Kept, not owed. It changes the hymn.' He hands the copy back at arm's length, as if it might go off. 'Who wrote this out? A woman in a chapel, you said? Tell her the Lesser Instruments collects things, and has just been shown it was holding the wrong thing for four hundred years.'".
+    On discuss { Assert knows(actor, lore_writ_kept). }
+  }
+
+  // ── An entry point: a call for surveyors ────────────────────────────────────────────────────────────────────────
+  Observe lore_measures_notice at measures_square when true "Pinned under the Office's lamp, in a printed hand: THE COLLEGIUM OF MEASURES AT SENNET WOULD HAVE SURVEYORS, CHAIN-BEARERS AND ANY HAND THAT CAN READ A FOOT-RULE AT THE PHAROS ON SKERROW, TO TAKE THE LAMP-ROOM TABLE. PASSAGE FROM TOLLETH ON THE PACKET DOROTHEA, SAILINGS CHALKED ON THE QUAY BOARD. APPLY TO MISTRESS ODILE QUINT. Under it a clerk has written, in pencil: the Registrar says this is not our Office. Someone else has written: it is the Office's foot.".
+
+  // ── The almanack woman ──────────────────────────────────────────────────────────────────────────────────────────
+  Discovery lore_cattermole_bowl "Jessamy Cattermole, who sells almanacks, left a wax rubbing for Halm from a church on the coast and has gone up to Merrowdale, where, she says, there is a notice offering forty crowns for a giant.".
+  Topic lore_ruan_cattermole with ruan "Ask Ruan Tell who has been through lately with something to sell" when true once {
+    Says "'Cattermole,' says Ruan. 'Five almanacks and a rubbing. All five say a different year and she sold the lot, so somebody in Ammerlin is eleven years late or twenty-two years early, and I do not like to ask which.' He wipes the bar. 'The rubbing was off a bench in a church by the sea, wax on rag, with notches on it like a gate-tally. She left it for Halm. Halm has not slept. She went on north to Merrowdale. She said there is a notice there: forty crowns, for a giant. She said, a pedlar can always do business where a giant is wanted.'".
+    On discuss { Assert knows(actor, lore_cattermole_bowl). }
+  }
+}

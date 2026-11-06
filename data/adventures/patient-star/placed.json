@@ -14,6 +14,7 @@
     "keeping.kyr",
     "masonry.kyr",
     "kept_season.kyr",
+    "lore.kyr",
     "placed.kyr"
   ],
   "rules": [
@@ -25,7 +26,8 @@
     "party"
   ],
   "canon": [
-    "imbar"
+    "imbar",
+    "cloudgate_fell"
   ],
   "imports": [
     "party"

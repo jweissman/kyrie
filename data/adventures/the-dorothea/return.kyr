@@ -22,6 +22,14 @@ Module dorothea "The Dorothea" {
     Assert homeward(hull). Retract at(hull, antler_ledge). Assert at(hull, antler_race). Set back(hull) to 0. Set leftAt(hull) to watch(clock). Retract arrived(hull). Retract troubled(hull). Assert state(hull, underway).
     Retract at(bascom, antler_ledge). Assert at(bascom, helm). Set seaDrawn(hull) to 0. Retract squallDone(hull). Retract raftDone(hull). Retract feverDone(hull). Retract calmDone(hull). Retract fleetDone(hull).
   }
+  Rule hull_returns_ashkeld when arrived(hull) and not homeward(hull) and not safeHome(hull) and at(hull, ashkeld_beach) and watch(clock) >= reachedAt(hull) + stayFor(hull)
+    says "The boat is hauled up and the anchors come in black and warm. The Dorothea stands off Ashkeld, and the cone makes a farewell of sparks, and she turns her bow to the north-east and the long road." {
+    Assert homeward(hull). Retract at(hull, ashkeld_beach). Assert at(hull, ashkeld_roads). Set back(hull) to 0. Set leftAt(hull) to watch(clock). Retract arrived(hull). Retract troubled(hull). Assert state(hull, underway).
+    Retract at(bascom, ashkeld_beach). Assert at(bascom, helm). Set seaDrawn(hull) to 0. Retract squallDone(hull). Retract raftDone(hull). Retract feverDone(hull). Retract calmDone(hull). Retract fleetDone(hull).
+  }
+  Rule home_open_ashkeld when homeward(hull) and bound(hull) == 4 and at(hull, ashkeld_roads) and back(hull) >= 8 says "The cone goes down the sea by degrees until it is a smudge, and then a darker place in the sky, and then a thing you remember." {
+    Retract at(hull, ashkeld_roads). Assert at(hull, open_sea).
+  }
   Rule home_tick when homeward(hull) and not troubled(hull) and not safeHome(hull) { Increase back(hull) by 1. }
   Rule home_open_ness when homeward(hull) and bound(hull) == 2 and at(hull, ness_roads) and back(hull) >= 6 says "The salt shore sinks into its own steam. Ahead, nothing but the grey road home." {
     Retract at(hull, ness_roads). Assert at(hull, open_sea).

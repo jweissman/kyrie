@@ -1,0 +1,13 @@
+Module hume "Half the Hive" {
+  Description "Links outward from the Wold: a ship's people who keep their own hours, and a Dame who is shown a keeper's face.".
+
+  // ── A world event, read: a story for the Smoker's Rest ──────────────────────────────────────────────────────────
+  Observe lore_rest_ship at taproom when befell(remainder_harboured) "A drover from the south is telling the room about a ship's company who came ashore in a town on the coast and would not sleep when the town slept. 'They keep their own hours,' he says. 'Twelve to a watch, like bees to a shift, and they hum when they are thinking.' Martin Sayle stops his cloth. 'That is a thing the Leavers would have liked to know,' he says, 'seventy year back.' The drover asks what they did. 'Nothing,' says Martin, 'that anyone wrote down.'".
+
+  // ── A visitor from elsewhere: a keeper's face ───────────────────────────────────────────────────────────────────
+  Discovery lore_brenna_face "A keeper's grey face, shown to the Dame of the Brood, is a face the Brood has no word for, because it has a face.".
+  Topic lore_brenna_mask with brenna "Show Dame Brenna the grey keeper's face" when holding(actor, keeper_mask) once {
+    Says "The Dame turns it to the light on her palm, and the escort around her goes still. 'A face,' she says, 'that does not do anything.' She does not touch it again. 'We have the Leaving, which is a face going away. We have the Capped, which is a face that was never asked. This is a face that stayed, and has been made to stay.' The royal gallery hums, once, on a note you can feel in your teeth. 'Whoever carried this carried it for someone who could not,' says Brenna, and gives it back with the tips of two fingers. 'I do not want to know who. Put it away before the Daughters see.'".
+    On discuss { Assert knows(actor, lore_brenna_face). }
+  }
+}

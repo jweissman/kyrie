@@ -29,6 +29,7 @@
     "tithe.kyr",
     "lore.kyr",
     "endings.kyr",
+    "links.kyr",
     "placed.kyr",
     "voices.kyr",
     "depth.kyr"
@@ -41,7 +42,9 @@
   ],
   "canon": [
     "imbar",
-    "slack_opened"
+    "slack_opened",
+    "remainder_harboured",
+    "remainder_kept"
   ],
   "exports": {
     "party": "party",

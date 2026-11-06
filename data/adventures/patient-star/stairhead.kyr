@@ -259,6 +259,6 @@ Module season "The Patient Star" {
   Initially Assert onTable(motion_cover). Initially Assert onTable(motion_descend). Initially Assert onTable(motion_bargain).
   Rule motion_passes when voting(chapter) and onTable(?m) and tally_of(?m) >= 4 and not blocked(?m) and not passed(?m)
     says "The Concord resolves: {?m}." { Assert passed(?m). }
-  Observe concord_descend at chapter when passed(motion_descend) and not knows(party, way_found) "The Concord has sanctioned a descent. The prior, very stiffly, tells the seats what the mother-church has always suspected and he has lately confirmed: there is a stair under his platform." teaches way_found.
+  Observe concord_descend at chapter when passed(motion_descend) and not knows(party, way_found) "The Concord, the chorus of the seats, has sanctioned a descent. The prior, very stiffly, tells the seats what the mother-church has always suspected and he has lately confirmed: there is a stair under his platform." teaches way_found.
   Rule descent_sanctioned when passed(motion_descend) and not admits(aske, party) { Assert admits(aske, party). }
 }

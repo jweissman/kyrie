@@ -13,7 +13,8 @@
     "endings.kyr",
     "growth.kyr",
     "season.kyr",
-    "company.kyr"
+    "company.kyr",
+    "lore.kyr"
   ],
   "rules": [
     "world"

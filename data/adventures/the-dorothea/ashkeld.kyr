@@ -1,0 +1,80 @@
+Module dorothea "The Dorothea" {
+  Description "Ashkeld: three days out on the south-west road, a black cone that has smoked for as long as there has been a Tolleth, hot springs, ash on every roof, and a people who sell yellow stone and have not seen the House's agent in two seasons. The one light on the Reach nobody leases.".
+
+  Place ashkeld "Ashkeld" is region.
+  Place ashkeld_village "the boiling-houses" is settlement within ashkeld at 0, 0.
+  Place ashkeld_cone "the cone" is wilderness within ashkeld at 1, 0.
+  Place ashkeld_beach "Ashkeld's black beach" is room within ashkeld_village at 0, 1.
+  Place ashkeld_springs "the hot springs" is room within ashkeld_village at 1, 1.
+  Place ashkeld_works "the sulphur-house" is room within ashkeld_village at 2, 0.
+  Place ashkeld_rim "the crater rim" is room within ashkeld_cone at 0, 0.
+
+  Passage beach_way "the beach road" is path between ashkeld_beach and ashkeld_springs taking 10 minutes.
+  Passage works_way "the ash track" is path between ashkeld_springs and ashkeld_works taking 10 minutes.
+  Passage rim_way "the path up the cone" is path between ashkeld_works and ashkeld_rim taking 1 hour.
+
+  Observe ash_beach_scene at ashkeld_beach when not at(hull, ashkeld_beach) "Ashkeld's black beach: sand like gunpowder, a line of tide-wrack of pale pumice that bobs, and a plume of steam going straight up from the hill. The sea at the edge is warm. The air tastes of a struck match.".
+  Observe ash_springs_scene at ashkeld_springs when true "The hot springs: a hillside of terraces, each a pool the colour of milk or turquoise or rust, with steam standing over it in rags. Women sit in them to the shoulders with their washing. Ash lies on every ledge like a grey flour, and when it rains it smells of eggs.".
+  Observe ash_works_scene at ashkeld_works when true "The sulphur-house: a long shed of lava blocks roofed in tarred sailcloth, floored with yellow dust, and heaped to the rafters with crates of yellow stone. Every crate has a key-and-ring stencilled on it. None has been moved in a year; the stencil is faded to a ghost.".
+  Observe ash_rim_scene at ashkeld_rim when true "The crater rim: a crust of cooled black over a bowl you cannot see the floor of. Vents hiss from cracks, yellow-lipped, and the air comes in slow warm breaths that make your eyes run. Beyond the lip, far down, a dull red eye opens and shuts.".
+  Observe cone_night at ashkeld_beach when dark() and not at(hull, ashkeld_beach) "In the dark, the underside of the cone's cloud is red. It glows and fades like a coal blown on. Of all the lights on the Reach it is the only one that has never needed a keeper, or been leased.".
+
+  Person merrow "Merrow Gantry" at ashkeld_works {
+    Role "headwoman of the Ashkeld gatherers". Ancestry human. Level 3. Peaceable. Pronouns she. Manner acerbic.
+    Likeness "farmer".
+    Greets "A broad woman in a leather apron stands on a stool, nailing a lid onto a crate with a hammer, and not looking up. 'Merrow Gantry. I gather, I don't sell. The House sells. The House hasn't sent an Agent in two seasons and I'd as soon it didn't send one now. You came on the Dorothea? Then you have come a long way to pay for the stone I have been sitting on.'".
+  }
+  Person ansel "Ansel Hallow" at ashkeld_springs {
+    Role "bath-keeper, who reads the cone". Ancestry human. Level 2. Peaceable. Pronouns he. Manner stoic.
+    Likeness "abbess".
+    Greets "A very thin man sits on the lip of a milk-white pool with his eyes shut, his feet in it, and a stick of charcoal in his hand with which he is, you see, keeping a tally on his knee of something that is not time. 'Ansel Hallow,' he says without opening his eyes. 'I keep the baths. I keep a count of the mountain's breaths. You'll want to know when it breathes in.'".
+  }
+  Relation anselTip(group). Relation belled(group). Relation crateGiven(group).
+  Hazard vent_gas "The breath of the vents" means "Deal (2d6) physical damage to ally unless constitution save against (13).".
+
+  Topic merrow_house with merrow "Ask Merrow Gantry what the House owes Ashkeld" when true once {
+    Says "'Two seasons of stone,' says Merrow, nailing. 'Crated, stencilled, waiting for the Dorothea, who has not called. A clerk in Tolleth writes to me every quarter-day: the shipment will be fetched. It will be fetched.' She puts the hammer down. 'I will give it to whoever carries it to him. At a price. I do not eat on a clerk's promises.'".
+  }
+  Topic merrow_cone with merrow "Ask Merrow Gantry about the cone" when true once {
+    Says "'It has smoked since the roads,' she says. 'Longer. My grandmother said the Aeneans came and drew a line round it and said it was theirs, and went away, and it went on smoking. It lights the sea to the north at night for forty miles. The House wants to buy everything on the Reach that is a light. It sent a man to ask about the cone once. He went up it. He came down sooner.'".
+  }
+  Topic ansel_breath with ansel "Ask Ansel Hallow when the cone breathes in" when true once {
+    Says "'At noon,' says Ansel, 'the vents take in for the space of a pot coming to the boil. Then the rim is as safe as a kitchen. At any other hour you want a wet cloth, and a strong constitution, and no hurry.' He opens one eye. 'Merrow's mule-bell is up there. It went over the lip in the spring with a mule on the end of it. She wants the bell. Fetch the bell at noon, and she will give you what she has.'".
+    On discuss { Assert anselTip(actor). }
+  }
+  Action fetch_the_bell(actor: group, site: place) "Go to the rim at noon and fetch Merrow Gantry's mule-bell from the lip" {
+    Description "Ansel's breath. The vents take in for the space of a pot coming to the boil.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, ashkeld_rim) and anselTip(actor) and not belled(actor).
+    Time 2.
+    On success { Assert belled(actor). }
+    Result "You stand on the lip counting, and at the count Ansel gave you the hiss falls, and the air goes cool and clean and tastes of nothing, and you go down the three yards of crust with a rope round your middle and take the bell off its rotten strap. The vent behind you takes its breath in; the next one, out, is full of yellow. You are on the lip before it reaches you.".
+  }
+  Action fetch_the_bell_blind(actor: group, site: place) "Go down to the lip for the bell with a wet cloth and no counting" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, ashkeld_rim) and not anselTip(actor) and not belled(actor).
+    Time 2.
+    Resolve check(actor, woodcraft, dc_hard).
+    On success { Assert belled(actor). }
+    On failure { Assert strikes(vent_gas, party). }
+    Result "You tie the cloth and go, and the vents all behave. The bell is where it fell. The sweat has a yellow taste on your lip.".
+    Otherwise "The vent behind you breathes out, and the world goes yellow, and you are on your hands and knees on a hot crust, being sick.".
+  }
+  Topic merrow_bell with merrow "Give Merrow Gantry her mule-bell" when belled(actor) and not crateGiven(actor) once {
+    Says "She takes the bell and turns it over and rings it once, and a woman in the sulphur-house looks up and puts her hand to her mouth. 'That was the old mule's,' says Merrow. 'Take the Tolleth crate. The one on the left with the faded ring.' She stops. 'Tell the clerk what it cost.'".
+    On discuss { Give dorothea_sulphur_crate to actor. Assert crateGiven(actor). }
+  }
+  Action pay_for_crate(actor: group, site: place) "Pay Merrow Gantry twelve coin for the Tolleth crate" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, ashkeld_works) and at(merrow, site) and not crateGiven(actor) and quantity(actor, gold) >= 12.
+    Time 1.
+    On success { Decrease quantity(actor, gold) by 12. Increase quantity(merrow, gold) by 12. Give dorothea_sulphur_crate to actor. Assert crateGiven(actor). }
+    Result "She counts it, grunts, and shoves the crate across the dust with her boot. 'Twelve,' she says. 'And the clerk will give you twenty-five, and say it was nothing.'".
+  }
+  Action argue_for_crate(actor: group, site: place) "Argue Merrow Gantry out of the crate on the clerk's good name" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, ashkeld_works) and at(merrow, site) and not crateGiven(actor).
+    Time 2.
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Give dorothea_sulphur_crate to actor. Assert crateGiven(actor). }
+    Result "You say it is the House's crate and the House's clerk and the House's debt, and that she will have the money when the crate is on his desk; that she has two seasons of stone to see sold. She looks at you for a long time with her hammer on her shoulder. 'You've a face for a lie,' she says. 'But you have not told me one.' The crate is yours.".
+    Otherwise "'I sell stone,' says Merrow, 'not sentences.'".
+  }
+  Kind dorothea_sulphur_crate "a crate of Ashkeld sulphur" is gear worth 10 weighing 3 described "A tarred crate of yellow stone with a faded key-and-ring on the lid, and underneath it, burned in with a hot iron, a clerk's number and the word TOLLETH.".
+}

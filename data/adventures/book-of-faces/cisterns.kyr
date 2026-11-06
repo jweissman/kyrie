@@ -165,7 +165,7 @@ Module ombra "The Book of Faces" {
   // ── The chimney and the Siphon, to the stair-head ─────────────────────────────────────────────────────────────────
   Observe ci_eelrun_scene at ci_eelrun when true "The Drain widens into a long cold room with a pool in it, a ledge on either side a hand wide, and the pool black and dead level, as if poured. On the far side a low arch lets the pool go on into the dark: the Siphon. High on the right a second way goes up by a hand-cut ledge to a dark shaft in the roof. Something in the pool is looking at you, from under the water, with all the time in the world.".
   Observe ci_chimney_scene at ci_chimney when true "A square shaft, going up out of sight and down into the dark, with iron staples let into one wall at a spacing that suited somebody with longer arms than yours. The Brewers built it to draw the Drain's air; it draws it still, and the draught that goes up past you smells of nothing at all. Far over your head, very small and very square, there is something that is not dark: a gleam of light, a slot of grey, a grating at the Drip's street-level a very long way off. A child's voice, once, would carry down it.".
-  Observe ci_aenean_scene at ci_aenean when true "The Drain ends here, and something older begins. The brick gives way to black stone fitted without mortar, plain and square and cut with a precision that hurts the eye, and in the floor of the stair-head, before a door of the same black stone, there is a single paving-slab that is not quite the colour of the others. Water runs down the walls in lines.".
+  Observe ci_aenean_scene at ci_aenean when true "The Drain ends here, and something older begins. The brick gives way to black stone fitted without mortar, plain and square and cut with a precision that hurts the eye (the Aeneans' lettering over the door is cut into it afterward, as a notice is nailed to a door someone else hung), and in the floor of the stair-head, before a door of the same black stone, there is a single paving-slab that is not quite the colour of the others. Water runs down the walls in lines.".
   Hazard ci_stone "the Aenean counterweight, falling" means "Deal (2d6) physical damage to ally unless dexterity save against (13).".
   Discovery ci_plate_known "The paving-slab before the Aenean door is a pressure-plate: stood on, it lets a counterweight fall from the lintel.".
   Thing ci_plate "the slab before the Aenean door" on ci_door_way {
@@ -187,8 +187,8 @@ Module ombra "The Book of Faces" {
   Discovery ci_eel_toll "The lamp-boys pay the eel in the Drain a toll of fish-heads, which they keep in a bucket on the shelf of their den, and she lets them by.".
 
   // ── The Aenean pump ───────────────────────────────────────────────────────────────────────────────────────────────
-  // Older than the Drain: a wheel and a piston in a hall of black stone, which the Aeneans built to keep this end of
-  // their city dry, and left. It was kept going by the Brewers, and then not. Three things are wrong with it, and it
+  // Older than the Drain: a wheel and a piston in a hall of black stone, which the Aeneans found and learned to start, and used to keep this end of
+  // their city dry, and wrote their plaque beside, and left. It was kept going by the Brewers, and then not. Three things are wrong with it, and it
   // can be put right by each of three crafts. When it runs it holds the Siphon low (and so keeps the Drain open on the
   // third to fifth days) and drains the Drain's water to wherever its valve is set: the lagoon, through the Heronry,
   // which it has done since the Aeneans and which the Heronry has never asked for; or to the Weighhouse Yard on the

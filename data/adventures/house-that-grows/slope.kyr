@@ -27,7 +27,7 @@ Module hhg "The House That Grows" {
     Greets "A small old woman in a Netters' harness gone grey with age sits on an upturned bucket with a lamp on the floor between her feet and her back against the gate. She does not look round. 'Don't open it,' she says. 'And don't sit on the floor, it slides. There's tea in the can, if the can's still hot, and if it isn't it's been a long day.'".
   }
   Thing sabe_lamp "the keeper's lamp" at slope {
-    State lit "A lamp of selm-glass the size of a pear burns on the floor beside the bucket: a small steady flame the colour of pond-ice, that does not move when the knocking comes. Under the foot, scratched small, a fish and over it a flame.".
+    State lit "A lamp of selm-glass the size of a pear burns on the floor beside the bucket: a small steady flame the colour of pond-ice, that does not move when the knocking comes. Under the foot, scratched small, a name: WENN.".
   }
   Initially Assert state(sabe_lamp, lit).
   // She wants the knocking to stop in her lifetime; she is afraid of being the one who stopped it; she says she only minds

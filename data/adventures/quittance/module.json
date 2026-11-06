@@ -31,7 +31,8 @@
     "endings.kyr",
     "voices.kyr",
     "depth.kyr",
-    "company.kyr"
+    "company.kyr",
+    "links.kyr"
   ],
   "rules": [
     "world"
@@ -41,7 +42,9 @@
   ],
   "canon": [
     "imbar",
-    "slack_opened"
+    "slack_opened",
+    "remainder_harboured",
+    "remainder_kept"
   ],
   "exports": {
     "party": "party",

@@ -1,0 +1,13 @@
+Module season "The Patient Star" {
+  Description "Links outward from the Ghessil Uplands: a piece of sky reported fallen, and Lenna Marsh at the plumb tower shown the lens of a lamp.".
+
+  // ── A world event, read: the Counter hears of a gap ─────────────────────────────────────────────────────────────
+  Observe lore_counter_sky at counter_platform when befell(cloudgate_fell) "Coombe has been given a figure he does not know where to enter. A carter off the south road says a piece of the sky came down into a bay; a slab, with a house on it, and no weather. 'There is no column for that,' says Coombe. 'I count the days the star has held. If a piece of the sky has been taken down by somebody else, whose count is it?' He writes it, finally, in the margin, with a small question mark, where the Counter writes what it cannot count.".
+
+  // ── A visitor from elsewhere: the lens of a lamp ────────────────────────────────────────────────────────────────
+  Discovery lore_lens_plumb "The lens of the lamp of a rock far to the south is ground to the same curve as the plumb tower's: a lens that can only be read by the one who keeps the light.".
+  Topic lore_lenna_lens with lenna "Show Lenna Marsh the lens of the lamp" when holding(actor, pharos_lens) once {
+    Says "Lenna takes the lens in both hands, the way you hold a bird, and lifts it to the window and looks through it at the plumb line. The line doubles, then resolves, with the weight at the bottom exactly where the weight should be. 'Whoever ground this,' she says, 'knew what true was. This is not a lamp's lens. This is a plumb-glass that has been put to a lamp.' She lowers it. 'The tower is for knowing where down is. A lamp is for knowing where you are. I never thought they were the same business.' She gives it back and wipes her hands on her apron. 'Keep it from damp.'".
+    On discuss { Assert knows(actor, lore_lens_plumb). }
+  }
+}

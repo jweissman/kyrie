@@ -20,7 +20,8 @@
     "aftermath.kyr",
     "growth.kyr",
     "voices.kyr",
-    "company.kyr"
+    "company.kyr",
+    "lore.kyr"
   ],
   "rules": [
     "world"

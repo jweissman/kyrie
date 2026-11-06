@@ -1,0 +1,13 @@
+Module corrow "Let One Remember" {
+  Description "Links outward from the Corrow: a man given out for dead who is alive, and the Finder shown a letter from the Lesser Instruments.".
+
+  // ── A world event, read: a name struck from the dead ────────────────────────────────────────────────────────────
+  Observe lore_registry_perrin at counting_house when befell(perrin_lives) "A clerk has pinned a slip to the end of a row, in a southern hand that is not the Registry's: PERRIN HALYARD, ENTERED AMONG THE DEAD, IS ALIVE. STRIKE. The head clerk reads it twice. 'We do not strike the dead,' he says. 'We have no mark for it.' The slip stays on the board all week. Nobody takes it down, and nobody can say whose it is to take.".
+
+  // ── A visitor from elsewhere: a letter of the Lesser Instruments ────────────────────────────────────────────────
+  Discovery lore_finder_collects "The Finder of Wendmouth, shown a letter of the Collegium of Lesser Instruments, says that Corran collects, and the Finder keeps: a lost thing found is held for its owner, a collected thing is held for the collection.".
+  Topic lore_finder_letter with finder "Show the Finder the letter of the Lesser Instruments" when holding(actor, collegium_letter) once {
+    Says "Pannick holds the letter at arm's length, as if it might be contagious. 'Corran,' he says. 'Collects. They collect brass off me every year and pay in thanks. I hold it for its owner, you understand. It is on the label.' He taps one of his eleven pockets. 'Lesser Instruments. Greater instruments are all broken, so they say. It is a joke. I do not understand it. I have found four of them in the lost-and-found.' He reads on, and frowns, and refolds it with the fastidious care of a man who has found a thing that does not belong to him and has decided what to do about it. 'Keep it by you. If Corran writes to say it wants anything back, I will say it was held.'".
+    On discuss { Assert knows(actor, lore_finder_collects). }
+  }
+}

@@ -90,4 +90,27 @@ Module dorothea "The Dorothea" {
     says "A letter has come on the Dorothea's mail-bag for Silas Quillon, from Orsett, and he reads it standing in the Gull's kitchen with his tea going cold. 'The Exchange has closed its yard,' he says, to the room. 'It seems I am a man with a lease and no foundry.' He closes the ledger and thanks Hester Gull for the tea." {
     Assert keptLamp(party). Retract at(marl, gull_room).
   }
+
+  // ── The House at Skerrow: the Agent, and his ledger ─────────────────────────────────────────────────────────────
+  Action read_quillon_ledger(actor: group, site: place) "Read Silas Quillon's open ledger upside down while he pours his tea" {
+    Description "It is open on the Gull's long table. He reads it as a priest reads a psalter: with his eyes closed.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, gull_room) and at(marl, site) and not leafSkerrow(actor).
+    Time 2.
+    Resolve check(actor, insight, dc_fair).
+    On success { Assert leafSkerrow(actor). Increase leaves(actor) by 1. Assert knows(actor, leaf_skerrow_d). }
+    Result "A green ledger, a neat hand, and in the right-hand margin a column headed LUM. with four lines in it. Three are struck through in a different ink. The fourth is the Pharos, and beside it, in capitals, PENDING. You have time to read the last thing before he sets the cup down: THE LAMP ROOM TO BE LEFT EMPTY.".
+    Otherwise "Quillon puts a hand flat on the page, pleasantly, as one covers a wound. 'It is not interesting,' he says.".
+  }
+  Topic marl_book with marl "Put what you have read to Silas Quillon" when leaves(actor) >= 2 and not leafSkerrow(actor) once {
+    Says "He does not close the ledger. He turns it round to face you, and pushes it across, which is the rudest thing he has ever done. 'I was told it was scrap,' he says. 'Bronze, and old glass, and a lease on a landing. I counted. I did not ask what the glass was for.' He taps the right-hand margin. 'I see I am the last of four.' He takes his tea. 'Read what you like.'".
+    On discuss { Assert leafSkerrow(actor). Increase leaves(actor) by 1. Assert knows(actor, leaf_skerrow_d). }
+  }
+  Topic marl_ranks with marl "Ask Silas Quillon whom he answers to" when true once {
+    Says "'The Factor, who is in Orsett at this season, or at the Ness,' says Quillon. 'And over her the Principal, whom I have seen twice, at a distance, in a good light.' He closes the green cover for emphasis. 'I am an Agent. It is a post. The rank above is a sort of weather.'".
+    On discuss { Assert knowsRanks(actor). }
+  }
+  Topic kestle_oil with kestle "Tell Marren Kestle what the House's ledgers say of the other lights" when leaves(actor) >= 2 and not lampOut(actor) once {
+    Says "She listens with the rag in her hand, and when you have finished she sits for some time. 'Three,' she says. 'Three lights dark, and the Pharos the fourth. I thought we were the only one.' She gets up. 'There is a store under the tower. Oil, in kegs. A keeper's oil is for whoever is out there. Take three. Don't tell me where they go; tell me when they are lit.'".
+    On discuss { Give 3 dorothea_oil_keg to actor. }
+  }
 }

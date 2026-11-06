@@ -110,7 +110,7 @@ Module corrow "Let One Remember" {
     Says "'The water bill,' says Aron. 'The spring the mountain carried up is failing, and has been for a century. We buy water by the hoist with wool, and the wool will not stretch another generation.' He taps the chalk on the floor. 'My grandmother was born up here and died up here and never once stood on soil. I'd like my son to have the choice.' He does not say what he suspects about the lake. You can see him not saying it.".
   }
   Relation roster(group). Measure nextRoster(place).
-  Topic aron_method with aron "Tell Aron Fennimore what the Concord engineers cut in the Drag: let one remember at a time" when knows(actor, method_known) and not roster(aron) and not crashed(hightown) and not lost(hightown) {
+  Topic aron_method with aron "Tell Aron Fennimore what the Concord Warden's engineers cut in the Drag: let one remember at a time" when knows(actor, method_known) and not roster(aron) and not crashed(hightown) and not lost(hightown) {
     Says "Aron sits down on a bench as if his knees had gone. 'One at a time,' he says. 'Not the hall. Not a sermon from the rim. One, and then wait, and then one more.' He laughs, once, without much breath. 'I was going to tell them all. When the lake came under us. I had the speech written.' He gets up. 'A roster, then. One a day. Who first? Not me; I'm done. My sister's done. Someone who'll keep it.' He is already writing names. Then he remembers, and digs twenty silver out of the hall's box for you, and will not hear a word against it.".
     On discuss { Assert roster(aron). Set nextRoster(hightown) to watch(clock) + 144. Increase quantity(actor, gold) by 20. }
   }
@@ -137,7 +137,7 @@ Module corrow "Let One Remember" {
       and knows(actor, method_known).
     Time 2.
     On success { Retract gathering(grounders). Assert steadied(grounders). Assert roster(aron). Set nextRoster(hightown) to watch(clock) + 144. Assert at(grounders, grounders_hall). Assert at(aron, grounders_hall). }
-    Result "You climb up beside him. You have to shout over the bells. You tell them what the Concord engineers cut into the Drag two thousand six hundred years ago, in their own words, and Aron Fennimore reads the chain's words out after you from his paper, slowly, and then he tears up his speech. 'One a day,' he says. 'Who's first?' Three hundred people turn their backs on the lake, one by one, and go down the terrace steps without looking.".
+    Result "You climb up beside him. You have to shout over the bells. You tell them what the Concord Warden's engineers cut into the Drag two thousand six hundred years ago, in their own words, and Aron Fennimore reads the chain's words out after you from his paper, slowly, and then he tears up his speech. 'One a day,' he says. 'Who's first?' Three hundred people turn their backs on the lake, one by one, and go down the terrace steps without looking.".
   }
   Rule grounders_tell_all when gathering(grounders) and watch(clock) >= tellAt(hightown) and not crashed(hightown) and not lost(hightown)
     says "The bells stop. On Hightown's rim three hundred people look down at the lake, and Aron Fennimore tells them what it is, and they understand; and on the terraces behind them the people who came out to see what the bells were for look down too." {

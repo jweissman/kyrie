@@ -1,0 +1,69 @@
+Module dorothea "The Dorothea" {
+  Description "Wrack Holm: a hump of black rock a mile out across the Ness flats, reached by a drowned causeway for five hours in twelve, with the stump of an older lamp upon it and a widow who has been paid for twenty years to leave it dark.".
+
+  Place holm "Wrack Holm" is wilderness within portness at 3, 0.
+  Place holm_beach "the Holm's beach" is room within holm at 0, 0.
+  Place holm_stump "the lamp-stump" is room within holm at 1, 0.
+
+  // The tide is a number the clock keeps: twelve hours round, seventy-two watches, and the causeway is dry for the five
+  // hours (thirty watches) in the middle of the ebb. Anyone on the Holm when it closes waits for the next.
+  Entity tide: scenery "the tide over the Wrack Road.".
+  Measure phase(entity).
+  Rule tide_runs when true { Set phase(tide) to watch(clock) - watch(clock) / 72 * 72. }
+  Passage wrack_road "the Wrack Road" is causeway between ness_strand and holm_beach
+    opening when phase(tide) >= 30 and phase(tide) < 60 "The Wrack Road is under green water, the black stones showing a little in the troughs, and a line of weed on the top of the swell. It will be out again in a few hours; the gauge on the wall says when.".
+  Passage stump_door "the stump's low door" is door between holm_beach and holm_stump.
+
+  Observe holm_beach_scene at holm_beach when true "The Holm: black rock, a beach of broken shell, a drift-line of rope and planking a man could build a house from. It is built from. A boat's ribs stand up out of the sand like a hand. Everything is wet, and everything is arranged.".
+  Observe holm_stump_scene at holm_stump when not lampLit(lamp_holm) "The stump: the bottom three men's heights of a round tower of black stone, fitted without mortar, the top of it broken off level. A stove and a hammock in the base, a iron lamp-stand in the middle of the floor as tall as a child with nothing on it, and on the stand's foot, when you kneel, a fish with a flame over it, cut in the iron, and filled with rust.".
+  Observe holm_stump_lit at holm_stump when lampLit(lamp_holm) "The stump has a light in it again. It stands on the iron, in the broken top of the tower, a hard small flame that does not seem to mind the wind. Marit Oake sits under it with her knitting and does not look up. It is not that she has stopped looking.".
+
+  Person marit "Marit Oake" at holm_stump {
+    Role "widow, paid by the House to keep the Holm". Ancestry human. Level 2. Peaceable. Pronouns she. Manner proud.
+    Likeness "farmer".
+    Greets "A woman of sixty with a gull on her shoulder and a net half knitted on her knee does not get up. 'Mind the step,' she says. 'It has had worse than you.' She looks at you for a while the way a person looks at the sea to see which of its moods it is in. 'You came across the Wrack Road. Most don't. They think they have time.'".
+  }
+  Relation maritWilling(group). Relation raftLantern(group).
+  Topic marit_rent with marit "Ask Marit Oake what the House pays her for" when true once {
+    Says "'Four crowns the quarter,' she says, 'for the Holm. It was for my husband, before; he was a wrecker, God rest him, and the House bought him off the trade with a rent, and when he went the rent came to me.' She does not say it with shame. 'The rent's for no light. That is on the paper. The Holm is to show no light, the stump is to be left cold, and I'm to keep the beach clear of any who'd come to put one on it. I've kept it clear for twenty years.' She strokes the gull. 'You'll have seen the weed on the bar, from the Ness. I don't look at it any more.'".
+  }
+  Topic marit_stand with marit "Ask Marit Oake about the lamp-stand" when true once {
+    Says "'Older than the tower, they say. Older than the stump, I'd say, if you've a mind to say. There was a lantern on that iron once. It went out on the tide one winter on a raft of casks, with a board nailed to it, and a good many people have claimed to see it since.' She shrugs. 'People claim a lot, near the Wrack Road.'".
+  }
+  Topic quint_holm with quint "Ask Odile Quint to read the device on the lamp-stand" when at(actor, holm_stump) once {
+    Says "Quint kneels with her ell-rod across her knees and wipes the rust with a thumb. 'The same mark,' she says. 'As the Pharos keystone. As the Gull's paper. A fish, and a flame over it.' She is quiet for a moment. 'There is a line round the foot, in the old imperial. It reads, roughly: KEPT, FOR THEM THAT COME HOME. They do not say who by.' She stands up and puts her knees back where they belong. 'I would not have it taken for scrap.'".
+  }
+  // The Holm's problem: a light, a widow, and a rent. Marit must be willing, and the stump must be fuelled.
+  Action argue_marit(actor: group, site: place) "Tell Marit Oake what the stump was for, and ask her to let it be lit" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, holm_stump) and houseHolds(lamp_holm) and not maritWilling(actor).
+    Time 3.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert maritWilling(actor). }
+    Result "You say it badly and plainly. She listens with the gull's beak at her ear. 'My man built wrecks,' she says. 'He didn't build lights. And he'd be the first to say so.' She looks at the stand. 'The rent is four crowns. The Rosa Lind was forty-one hands.' She puts down the knitting. 'Light it, then. I'll not stop you.'".
+    Otherwise "'The rent is four crowns,' says Marit Oake, 'and I am sixty.' She goes on knitting. She is not unkind.".
+  }
+  Action pay_marit_rent(actor: group, site: place) "Pay Marit Oake six coin against the House's rent, so that she need not be paid for the dark" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, holm_stump) and houseHolds(lamp_holm) and not maritWilling(actor) and quantity(actor, gold) >= 6.
+    Time 1.
+    On success { Decrease quantity(actor, gold) by 6. Increase quantity(marit, gold) by 6. Assert maritWilling(actor). }
+    Result "She counts the six coin into a tin that once held tea. 'That is a year and a bit of the House's money,' she says, 'at the other price.' She shuts the tin. 'Light it.'".
+  }
+  Action show_marit_lantern(actor: group, site: place) "Show Marit Oake the lantern from the raft" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, holm_stump) and houseHolds(lamp_holm) and not maritWilling(actor) and holding(actor, lantern) and raftLantern(actor).
+    Time 1.
+    On success { Assert maritWilling(actor). }
+    Result "She takes it in both hands, and the flame does not lean. She turns it, and finds the ring on its top, worn bright by a hand she cannot have known. 'That is the Holm's,' she says. 'It is the Holm's.' The gull moves to the other shoulder. 'Don't ask me how it came to be on a raft. Put it back.'".
+  }
+  Action oil_the_holm(actor: group, site: place) "Fill the stump's lamp-stand from a keg of the Pharos's oil, and light it" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, holm_stump) and houseHolds(lamp_holm) and maritWilling(actor) and holding(actor, dorothea_oil_keg).
+    Time 4.
+    On success { Spend dorothea_oil_keg from actor. Retract houseHolds(lamp_holm). Assert lampLit(lamp_holm). Increase freed(actor) by 1. }
+    Result "You set the iron lamp on the stand and fill it, and Marit Oake strikes the light herself. It takes the third try. She stands with her hands cold on the stand and says nothing for as long as she likes.".
+  }
+  Action set_the_lantern(actor: group, site: place) "Set the raft's lantern on the stand where it came from" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, holm_stump) and houseHolds(lamp_holm) and maritWilling(actor) and holding(actor, lantern) and raftLantern(actor).
+    Time 2.
+    On success { Spend lantern from actor. Retract houseHolds(lamp_holm). Assert lampLit(lamp_holm). Increase freed(actor) by 1. }
+    Result "The lantern sits on the iron as if it had never been off. The flame stands up and does not lean to the draught from the door. Marit says nothing at all, and presently the gull begins, quietly, to preen.".
+  }
+}

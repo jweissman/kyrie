@@ -204,7 +204,7 @@ Module corrow "Let One Remember" {
     On success { Decrease quantity(actor, gold) by 5. Increase quantity(jory, gold) by 5. Assert gatePaid(actor). }
     Result "Jory pockets it without counting. 'Read away,' he says. 'Whatever it says, it's still my gatepost.'".
   }
-  Discovery method_known "The anchor tally of the Drag, station 56, in the hand of the Concord engineers: how they would bring the mountain down if ever they had to. Not all at once. Let the mountain's own people come to know its place one at a time, and it will come down as slowly as they do. 'Let one remember at a time.'".
+  Discovery method_known "The anchor tally of the Drag, station 56, in the hand of the Concord Warden's engineers: how they would bring the mountain down if ever they had to. Not all at once. Let the mountain's own people come to know its place one at a time, and it will come down as slowly as they do. 'Let one remember at a time.'".
   Action read_station(actor: group, site: place) "Ask Teshen to read the chain in the gatepost" {
     Description "Link-script, read by touch. A Keld reads it as you read print.".
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, askew_gate) and travelsWith(teshen, actor)

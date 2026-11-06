@@ -1,0 +1,7 @@
+Module quittance "Quittance" {
+  Description "Links outward from the Arch: a ship left in the Slack, and a ship given a quay.".
+
+  // ── World events, read: the Honest Bell and the Roll ────────────────────────────────────────────────────────────
+  Observe lore_bell_ship at arch_hall when befell(remainder_harboured) and not befell(remainder_kept) "Mr Prest has a new column in the Roll, ruled that morning, headed ARRIVALS WITHOUT AN ARCH. There are forty-odd entries in it, in forty hands, none of them his. 'They came ashore,' he says, 'in the south, off a ship. A town found them a quay. They declared nothing. The Bell was not asked.' He looks at the Bell. 'I have never wished so much that it had been.'".
+  Observe lore_bell_kept at arch_hall when befell(remainder_kept) "The Honest Bell has been wrapped, overnight, in a cloth that was not there at close. Mr Prest says he did not do it. 'A ship that was not harboured,' he says. 'Left. With her people. It has made the Bell shy.' He lifts the cloth and lets it drop. 'It does not like to hear of a declaration that nobody was there to make.'".
+}

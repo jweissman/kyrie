@@ -21,6 +21,7 @@
     "auditor.kyr",
     "citadel.kyr",
     "echoes.kyr",
+    "lore.kyr",
     "placed.kyr"
   ],
   "rules": [
@@ -51,5 +52,9 @@
     "carter",
     "south_road",
     "ring"
+  ],
+  "canon": [
+    "imbar",
+    "slack_opened"
   ]
 }

@@ -41,6 +41,7 @@
     "aftermath.kyr",
     "history.kyr",
     "growth.kyr",
+    "lore.kyr",
     "placed.kyr"
   ],
   "rules": [

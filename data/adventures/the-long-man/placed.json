@@ -6,6 +6,7 @@
     "water.kyr",
     "charter.kyr",
     "voices.kyr",
+    "lore.kyr",
     "placed.kyr"
   ],
   "rules": [
@@ -34,5 +35,10 @@
     "green": "green",
     "road_end": "road_end"
   },
-  "experience": 1000
+  "experience": 1000,
+  "canon": [
+    "imbar",
+    "slack_opened",
+    "remainder_harboured"
+  ]
 }

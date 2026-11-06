@@ -46,7 +46,7 @@ Module dorothea "The Dorothea" {
     Retract at(hull, open_sea). Assert at(hull, antler_race).
   }
   Rule race_with_pilot when at(hull, antler_race) and pilotAboard(hull) and not raceMet(hull) and not homeward(hull)
-    says "Fenwick Rudd, who was asleep on a coil of rope an hour ago, stands up at the wheel as sober as a bell. He does not look at the stacks. He looks at the water between them, and takes the Dorothea up the race with his hands as light as a man playing a flute." {
+    says "Fenwick Pelham, who was asleep on a coil of rope an hour ago, stands up at the wheel as sober as a bell. He does not look at the stacks. He looks at the water between them, and takes the Dorothea up the race with his hands as light as a man playing a flute." {
     Assert raceMet(hull).
   }
   Rule race_trouble when at(hull, antler_race) and not pilotAboard(hull) and not raceMet(hull) and not homeward(hull)
@@ -56,6 +56,15 @@ Module dorothea "The Dorothea" {
   Rule reaches_antlers when at(hull, antler_race) and raceMet(hull) and not troubled(hull) and progress(hull) >= 104 and not arrived(hull) and not homeward(hull) and sailed(hull) says "She comes in under the biggest stack with the birds going up off it in a sheet, and a plank is run out to a ledge of wet rock no wider than a cart. Two anchors go down. A boy in a sack apron is already waving." {
     Retract at(hull, antler_race). Assert at(hull, antler_ledge). Assert arrived(hull). Assert state(hull, moored_antlers). Set reachedAt(hull) to watch(clock).
   }
+  // ── Ashkeld: three days south-west, and the loneliest light on the Reach ────────────────────────────────────────
+  Rule enters_ashkeld when at(hull, open_sea) and bound(hull) == 4 and progress(hull) >= 380 and not homeward(hull) says "On the third morning there is a cloud that does not move, standing on the sea ahead of the bow like a tree. As the Dorothea closes it, it has a foot: a black cone, a brown wash of ash on the water, and a smell like struck matches. Rune says, with real respect, that he would not live there for a thousand crowns. Mab says she would not either, and has already put a pot of the water aside to taste it." {
+    Retract at(hull, open_sea). Assert at(hull, ashkeld_roads).
+  }
+  Rule reaches_ashkeld when at(hull, ashkeld_roads) and progress(hull) >= 396 and not arrived(hull) and not homeward(hull) and sailed(hull) says "The boat goes down on its falls and the company goes ashore in the surf, with the ketch rolling off the black beach on her anchors. Warm water runs up the sand, and steam stands up in rags from the rocks above. A woman in a leather apron has already come down with a barrow." {
+    Retract at(hull, ashkeld_roads). Assert at(hull, ashkeld_beach). Assert arrived(hull). Assert state(hull, moored_ashkeld). Set reachedAt(hull) to watch(clock).
+  }
+  Observe deck_ashkeld_roads at deck when at(hull, ashkeld_roads) "Ashkeld roads: black sand, grey sea, ash drifting down on the deck like a thin snow, and the cone above it all with a flat red smear on the underside of its cloud that is not sunset.".
+  Observe deck_ashkeld at deck when at(hull, ashkeld_beach) "Ashkeld: black beach, white steam, a smell of eggs. Women in leather aprons and men with their trousers rolled stand in the surf with barrows of yellow stone.".
   Observe deck_ness_roads at deck when at(hull, ness_roads) "Port Ness roads: a long shore with pans on it, square after square of grey water, and over them a haze of steam from the boiling-houses. Gulls stand on every post.".
   Observe deck_ness_quay at deck when at(hull, ness_quay) "Port Ness pier. Salt lighters lie three deep, their loads heaped white, and a gang of women in rag gloves are shovelling it down a chute into the dark of a barn. Nobody looks up.".
   Observe deck_race at deck when at(hull, antler_race) and not troubled(hull) "The race. Stacks go by close enough to touch, the guano white as a frost down their faces, the birds a roar of wings. Every few cables there is a rope hanging down one, and the end of it is in the sea.".

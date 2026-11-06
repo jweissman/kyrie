@@ -1,0 +1,24 @@
+Module wrayford "The Third Night" {
+  Description "Links outward from the vale of the Wray: Corbin shown a lamplighter's seal from another town, a rumour of the Tolleth coast, and the almanack woman, who paid the penny twice.".
+
+  // ── A visitor from elsewhere: a seal of the lamplighters ────────────────────────────────────────────────────────
+  Discovery lore_corbin_seal "Corbin, who lights a lamp for the drowned each night as his father did, has seen a seal like a lamp with a hand closed round it before: his father's was the same, and was lost in the flood.".
+  Topic lore_corbin_seal_show with corbin "Show Corbin the lamplighters' seal" when holding(actor, lamplighter_seal) once {
+    Says "Corbin turns the seal over on its chain, brass, a lamp with a hand closed around it, and the hand shakes. 'My father had one,' he says. 'Went in the flood. I thought it was ours.' He gives it back as if it were hot. 'It is not ours. It is somebody's who does what I do, and is not known to me.' He looks at the water. 'There is a town, you say. With a Charter. Where the lamps are lit by Order.' He is silent. 'Mine is lit by nobody. I have been very proud of that.'".
+    On discuss { Assert knows(actor, lore_corbin_seal). }
+  }
+
+  // ── An entry point: the coast ───────────────────────────────────────────────────────────────────────────────────
+  Discovery lore_pell_coast "A carter says raiders are taking salt-boats on the western coast beyond the Orsett shore, and that the Dorothea, a packet out of Tolleth, is late with the Orsett factors' money.".
+  Topic lore_pell_coast_ask with pell "Ask Pell what the carters from the coast are saying" when true once {
+    Says "'Salt,' says Pell. 'It is always salt with the coast carters, and this year it is raiders in it. Boats taken off the Orsett shore and the crews sent home in their shirts.' She draws a pint. 'And a packet out of Tolleth, the Dorothea, that is late with the factors' money, and a captain who is a woman and a temper. They say she has not missed a tide in her life. They say the notice board on the quay at Tolleth has her sailings in chalk, and that they are always right and always an hour earlier than anybody expects.' She puts the pint down. 'If you are going that way, take your own bread.'".
+    On discuss { Assert knows(actor, lore_pell_coast). }
+  }
+
+  // ── The almanack woman ──────────────────────────────────────────────────────────────────────────────────────────
+  Discovery lore_cattermole_wray "Jessamy Cattermole crossed the Wray bridge and paid the penny twice, to see if the Company would notice; they did not. She has gone on to the sea, to Skeel, for the wreck.".
+  Topic lore_pell_cattermole with pell "Ask Pell whether a pedlar has crossed the bridge lately" when true once {
+    Says "'The almanack woman,' says Pell. 'Cattermole. She paid the penny twice at the bridge, once for herself and once for her satchel, which she says has a right to cross. The Bench noted it and said nothing. They did not know what to enter.' She laughs. 'She told me it is 1312 on the coast, or 1290 at Sennet, or 1121 where the Bishop went away, or 612 here, and the Third Night falls on the same night anyway. She went off south and west, to Skeel, for the wreck. She says a wreck is good for business: everyone wants to know what year it is when it went.'".
+    On discuss { Assert knows(actor, lore_cattermole_wray). }
+  }
+}

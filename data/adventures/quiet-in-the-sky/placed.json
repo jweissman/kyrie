@@ -25,6 +25,7 @@
     "after.kyr",
     "growth.kyr",
     "fellowship.kyr",
+    "lore.kyr",
     "placed.kyr"
   ],
   "rules": [
@@ -34,7 +35,9 @@
     "party"
   ],
   "canon": [
-    "outer_ysgard"
+    "outer_ysgard",
+    "imbar",
+    "cloudgate_fell"
   ],
   "imports": [
     "party",

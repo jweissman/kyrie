@@ -1,0 +1,24 @@
+Module hessel "The Banns at Hessel" {
+  Description "Links outward from the Lim valley: the pumper shown a rubbing of a keeper's bench, a rumour of raiders on the coast, a letter-carrying commission, and the almanack woman's visit.".
+
+  // ── A visitor from elsewhere: eleven and a blank, somewhere else ────────────────────────────────────────────────
+  Discovery lore_pumper_kin "A wax rubbing of a keeper's bench shown to the pumper has the Season's count on it: eleven strokes and a space, in three hands, over two thousand years.".
+  Topic lore_pumper_rubbing with pumper "Show the pumper the wax rubbing of a keeper's bench" when holding(actor, tally_rubbing) once {
+    Says "The pumper wipes his hands on his apron, which makes them no cleaner, and takes the wax with two fingers. He holds it up against the slate by the urn. 'Eleven,' he says, 'and the space. My father said the space was for whoever came next, and I said, there is always somebody next, in Hessel, it is the whole point of the Season.' He turns the wax over, and back. 'Three hands,' he says. 'Mine only goes back to my grandfather. Who is this?' You tell him. 'A church by the sea. A parson.' He shakes his head slowly. 'Somebody else is chalking a slate, then, and nobody told them they were not alone.' He hands it back and says nothing for a moment. 'Do not tell Mr Twiss. He will want it in the Rule.'".
+    On discuss { Assert knows(actor, lore_pumper_kin). }
+  }
+
+  // ── An entry point: raiders, and a Tolleth packet delayed ───────────────────────────────────────────────────────
+  Discovery lore_raiders_rumour "It is said in the Pump Room that raiders have been taking salt-boats off the western coast, and that the Tolleth packet, the Dorothea, is a week behind and her owners are not saying why.".
+  Topic lore_scrope_raiders with scrope "Ask Mrs Scrope what is said of the coast beyond the valley" when true once {
+    Says "'The coast,' says Mrs Scrope, with a delighted shudder. 'Raiders. Salt-boats taken off the Orsett shore, and not a soul hanged, which is what makes it so shocking. I have it from a lady whose son writes the manifests at Tolleth. The packet, the Dorothea, with a Captain Bascom, a woman, imagine, is a week behind. They say the Orsett factors have put a man aboard to count her oil.' She leans forward. 'Anyone with a good strong back and no engagements might take a passage. I should never. The sea is so very damp.'".
+    On discuss { Assert knows(actor, lore_raiders_rumour). }
+  }
+
+  // ── The almanack woman ──────────────────────────────────────────────────────────────────────────────────────────
+  Discovery lore_cattermole_hessel "Jessamy Cattermole sold Mrs Scrope the Season's only almanack that gives the moon right, and says the fourth change of Saint Ebba's peal is the same tune a ferryman hums at a town on the Wray.".
+  Topic lore_scrope_cattermole with scrope "Ask Mrs Scrope about the woman with the almanacks" when true once {
+    Says "'Mrs Cattermole!' Mrs Scrope claps her hands. 'Such a person. Six calendars and no two of them the same year, and she said, my dear, the year is a local arrangement, like a dialect. I bought the one that has the moon right. She told me the fourth change of the Sunday peal is wrong and always was wrong, and that a ferryman at a river town she calls the Wray hums it on his stage as a thing he was taught, and has no notion why.' She sits back. 'Imagine anyone humming anything on purpose. She has gone on to the Wray for the Third Night, she said. People do like a bridge-penny.'".
+    On discuss { Assert knows(actor, lore_cattermole_hessel). }
+  }
+}

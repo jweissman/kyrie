@@ -21,7 +21,8 @@
     "endings.kyr",
     "growth.kyr",
     "wake.kyr",
-    "company.kyr"
+    "company.kyr",
+    "lore.kyr"
   ],
   "rules": [
     "world"
@@ -34,5 +35,9 @@
     "region": "hume_wold",
     "drove_end": "drove_end"
   },
-  "experience": 800
+  "experience": 800,
+  "canon": [
+    "imbar",
+    "remainder_harboured"
+  ]
 }

@@ -6,7 +6,8 @@
     "water.kyr",
     "charter.kyr",
     "voices.kyr",
-    "company.kyr"
+    "company.kyr",
+    "lore.kyr"
   ],
   "rules": [
     "world"
@@ -19,5 +20,10 @@
     "region": "dale",
     "green": "green"
   },
-  "experience": 1000
+  "experience": 1000,
+  "canon": [
+    "imbar",
+    "slack_opened",
+    "remainder_harboured"
+  ]
 }

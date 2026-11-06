@@ -22,4 +22,14 @@ Module skeel "Fair Weather" {
     Says "'Cattermole,' says Jago at once, as if the name were a plate she had been waiting to put down. 'The almanack woman. Six towns' worth in a leather satchel, and no two of them agree what year it is. She says it does not matter, they all keep Michaelmas on the same night.' She wipes her hands. 'Sold the Reeve a calendar he did not want and Parson Hosken a stub of rubbing-wax he did. Went off up the north road to a place called Ammerlin, to a man called Halm who pays by the inch for marks that are not writing. If you see her, she owes me for four pints and a stable.'".
     On discuss { Assert knows(actor, lore_cattermole_skeel). }
   }
+
+  // ── An entry point: a letter for the Tolleth packet ─────────────────────────────────────────────────────────────
+  // Mother Jago's man cooks aboard a packet out of Tolleth, the Dorothea, and writes once a year. She has a letter and
+  // nobody to carry it south. The Dorothea sails on the noon ebb from the quay at Tolleth; Captain Bascom will know him.
+  Item lore_jago_letter "Mother Jago's letter, folded in a sketch of the Admiral" is map at limbo owned by jago.
+  Relation lore_jagoLetter(group).
+  Topic lore_jago_packet with jago "Ask Mother Jago whether she has word for anyone on the Tolleth packet" when true once {
+    Says "'Now who told you?' says Jago, and puts down the pot. 'My man is cook on the Dorothea, Tolleth packet, Captain Bascom, salt south and lamp-oil to the rock at Skerrow and back. He writes at Michaelmas and I write at Lady Day and it has not once crossed.' She digs under the counter and brings up a letter folded inside a drawing of the Admiral, the roof, the sign, a cat. 'If you are going that way. The board on the quay at Tolleth gives her sailings in chalk. Tell Bascom it is for her cook, and tell him the cat is well. Do not tell him the roof.'".
+    On discuss { Give lore_jago_letter to actor. Assert lore_jagoLetter(actor). }
+  }
 }

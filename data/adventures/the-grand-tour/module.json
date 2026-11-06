@@ -41,7 +41,8 @@
     "aftermath.kyr",
     "history.kyr",
     "growth.kyr",
-    "company.kyr"
+    "company.kyr",
+    "lore.kyr"
   ],
   "rules": [
     "world"

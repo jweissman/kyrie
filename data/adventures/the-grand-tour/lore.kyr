@@ -1,0 +1,19 @@
+Module sennet "The Grand Tour" {
+  Description "What Sennet says of itself once the black square has been opened: the Roll in the Hall of Doors, the Remainder's name, and the lamp-keeper's name.".
+
+  // ── World events, read from the House's own Hall ────────────────────────────────────────────────────────────────
+  Observe lore_roll_chalk at hall_of_doors when befell(remainder_harboured) "Under the last gilt line of the Roll of the Grand Tour someone has chalked, not very straight: RELIQUA, OF THE SLACK. HARBOURED. Mr Threlkeld says it was not him, and that the House does not chalk. The chalk is rubbed off every morning and is back by noon.".
+  Observe lore_roll_gone at hall_of_doors when befell(remainder_kept) "Under the last gilt line of the Roll someone has pencilled: RELIQUA, NOT HARBOURED. SAILING. Mr Threlkeld rubs it out each morning. It does not come back, but a smear stays, in the shape of a ship.".
+
+  // ── A name, and where it goes ───────────────────────────────────────────────────────────────────────────────────
+  Discovery lore_sabe_title "Sabe, among the Watch of the Remainder, is what the keeper of the lamp is called; Orrel is the keeper's own name, and has been for eleven generations.".
+  Topic lore_sabe_name with sabe "Ask Orrel Sabe why his name is the wrong way round" when true once {
+    Says "'It isn't,' says Sabe, mildly. 'The Orrels keep the lamp. The one who keeps it is called Sabe, as the one who keeps the log is called Pursey and the one who rings the bell is called Tolly. It is a post.' He looks at his hands. 'I have heard it said that there is another Orrel somewhere, a woman, who keeps a lamp on a stair, a long way up and a long way off, and is called Sabe by her mother. If there is, I would like her to know that the post was not meant to be hereditary. It is only that there has never been anyone to hand it on to.'".
+    On discuss { Assert knows(actor, lore_sabe_title). }
+  }
+  Discovery lore_ship_name "The ship is called the Remainder, in the old marks and in Aenean capitals RELIQUA, after the ninth column of a count whose other eight were filled long ago.".
+  Topic lore_tamsin_name with tamsin "Ask Tamsin Quaye how the ship came by her name" when true once {
+    Says "'Remainder?' says Tamsin. 'What is left when the sum is done.' She puts her pen behind her ear. 'Eleven generations ago the Watch were told to count something. They counted. When they had counted everything they could, there was a remainder, and the remainder was the ship. It is not a name so much as an entry.' She smiles, a little crookedly. 'There is a place somewhere with a wheel for each kind of being that is counted, and a ninth that is empty. My grandmother used to say that was ours.'".
+    On discuss { Assert knows(actor, lore_ship_name). }
+  }
+}

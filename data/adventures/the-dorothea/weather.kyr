@@ -42,7 +42,7 @@ Module dorothea "The Dorothea" {
     Description "It is warm. It has been burning some while, and its oil, which should have been done a long time ago, is not.".
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, deck) and raft(hull).
     Time 2.
-    On success { Give lantern to actor. Retract raft(hull). Retract troubled(hull). }
+    On success { Give lantern to actor. Assert raftLantern(actor). Retract raft(hull). Retract troubled(hull). }
     Result "Rune gets the hook through the ring, and you bring it over the rail. The flame does not lean to the wind. Nobody aboard says a word about it for the rest of the watch. Mab sets it on a cask in the galley, where it is lit when she goes to bed, and lit when she wakes.".
   }
   Action leave_the_raft(actor: group, site: place) "Sail on, and leave it burning" {

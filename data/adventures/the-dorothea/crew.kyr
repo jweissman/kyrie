@@ -122,4 +122,19 @@ Module dorothea "The Dorothea" {
     On success { Assert handsSent(actor). Retract at(kestrel_hands, deck). Assert at(kestrel_hands, nowhere). Retract at(jago, deck). Assert sold(hull). }
     Result "'Davy,' says Rune. 'Pike. Hobb.' He is not loud. 'She has a keel and a debt and one cask less than I have wronged her for. Go home.' There is a short and terrible silence in which three hard men look at a mate they have known for ten years, and at the company he has chosen, and then at each other. 'Aye,' says the one called Davy, with something not quite like shame, and they go.".
   }
+
+  // ── The Dorothea's leaf: the House form on the cabin shelf ──────────────────────────────────────────────────────
+  Action read_cabin_ledgers(actor: group, site: place) "Read the ledgers on Bascom's cabin shelf" {
+    Description "She is at the wheel. It is her private shelf, and it is also the House's paper.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, cabin) and not at(bascom, cabin) and not leafDorothea(actor).
+    Time 2.
+    Resolve check(actor, stealth, dc_fair).
+    On success { Assert leafDorothea(actor). Increase leaves(actor) by 1. Assert knows(actor, leaf_dorothea_d). }
+    Result "A House form, folded in four and soft with handling: the keel, sixty crowns, PLEDGED. Sailing orders, in a clerk's round hand, to call at the House's ports only. To carry no oil to any unleased light. And an instruction in the margin that makes you read it twice: on default of a light, to stand by for salvage. One part in three to the master. Bascom has underlined the last line, once, in pencil, and then rubbed the underlining out.".
+    Otherwise "A voice comes down the ladder: 'That is a private shelf.' You are on the deck again before she has reached the top of it.".
+  }
+  Topic bascom_note with bascom "Ask Bascom to show you the House's paper on her keel" when told(actor) or shamed(actor) or wheelTaken(actor) once {
+    Says "She takes the pipe out. She goes below, and comes up with a House form folded in four, and puts it in your hand without looking at it. 'I was told it was a keel,' she says. 'Sixty crowns, and a call at the House's ports. I did not read the margin until the night the Mary Ann went. I have read it every night since.' She looks at the grey road. 'I made fourteen casks of oil for the Pharos, once. I carried eight. I have been told which ones to leave at the quay.'".
+    On discuss { Assert leafDorothea(actor). Increase leaves(actor) by 1. Assert knows(actor, leaf_dorothea_d). }
+  }
 }

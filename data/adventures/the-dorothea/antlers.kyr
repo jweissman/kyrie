@@ -1,0 +1,140 @@
+Module dorothea "The Dorothea" {
+  Description "The Antlers: a drowned forest of sea-stacks a night north of Tolleth, white with guano and loud with birds; a harvest of eggs, down and fat that the House buys at its own price; a rope-ladder older than the lease; a cresset on the biggest stack that the lease forbids anyone to light.".
+
+  Place antlers "the Antlers" is region.
+  Place antler_camp "the harvest camp" is settlement within antlers at 0, 0.
+  Place stacks "the Great Stack" is wilderness within antlers at 1, 0.
+  Place antler_ledge "the Antlers' ledge" is room within antler_camp at 0, 1.
+  Place hut_room "the harvest hut" is room within antler_camp at 1, 0.
+  Place stack_foot "the foot of the Great Stack" is room within stacks at 0, 0.
+  Place stack_top "the top of the Great Stack" is room within stacks at 1, 0.
+
+  Passage ledge_way "the ledge path" is path between antler_ledge and hut_room taking 10 minutes.
+  Passage stack_way "the path round the stack-foot" is path between hut_room and stack_foot taking 20 minutes.
+  Passage stack_ladder "the rope ladder" is ladder between stack_foot and stack_top
+    opening when ladderSound(party) "The ladder hangs down the stack face in a long frayed S, the lashings of the lower rungs eaten through by salt and the upper ones nested in. A rung as it swings goes black with birds. Nobody sensible puts a foot on it as it is.".
+  Query onAntlers(g: group) means at(g, antler_ledge) or at(g, hut_room) or at(g, stack_foot) or at(g, stack_top).
+
+  Observe ledge_scene at antler_ledge when not at(hull, antler_ledge) "The Antlers' ledge: a wet shelf of rock, a plank-stump, ropes going up and down the faces of the stacks like rigging on a stone ship. The noise is a wall. Down drifts through it like snow in a draught.".
+  Observe hut_scene at hut_room when true "The harvest hut: a long low room roofed in turf and whalebone, hammocks in tiers, egg-trays to the rafters with straw between, a barrel of fat, and on a shelf two day-books, a green one and a grey one, with a key-and-ring branded in the covers. The air tastes of ammonia and fish and warm feathers.".
+  Observe foot_scene_antlers at stack_foot when true "The foot of the Great Stack: guano like frozen milk to the ankle, the cliff going up out of sight into a roar, and from a ring-bolt a ladder of rope and driftwood rungs, more repaired than made, going up into the cloud of wings. Beside it, a hoist-basket on a long rope, and a boy-sized hole in the rock where the harvesters sleep when the weather turns.".
+  Observe top_scene at stack_top when not lampLit(lamp_antlers) "The top of the Great Stack: a green roof of turf and thrift, and on it a crowd of gannets, standing shoulder to shoulder, who regard you with great calm. At the middle an iron cresset on a post, rusted and cold. A board is nailed to the post: THE HOUSE OF MARCHBANK. LEASE OF THIS STACK. CLAUSE 7: NO FIRE UPON THIS STACK WITHOUT THE HOUSE'S LEAVE. A key-and-ring in one corner. The sea goes away on all sides without end, and not a light on it.".
+  Observe top_lit at stack_top when lampLit(lamp_antlers) "The cresset burns on the top of the Great Stack and the gannets have not moved. Hob Sedge's boys are sitting round it eating the House's sandwiches, and the sea in the dark below is full of the shapes of stones, each one showing now.".
+
+  Person deane "Osric Deane" at hut_room {
+    Role "agent of the House at the Antlers". Ancestry human. Level 2. Peaceable. Pronouns he. Manner jovial.
+    Likeness "merchant".
+    Greets "A big soft man in a green waistcoat is lying in a hammock in the harvest hut with a green-bound ledger on his chest, rising and falling with his breath. He does not get up. 'Osric Deane,' he says. 'Agent. Post of the House. Excuse my not rising. I am not well, in the way of a man who has been well too long.' He lifts one finger from the green book. 'You'll want to see the Prentice. Everyone does. I just have the title.'".
+  }
+  Person wick "Wick Bligh" at hut_room {
+    Role "prentice of the House, keeper of the Antlers' day-book". Ancestry human. Level 1. Peaceable. Pronouns she. Manner jovial.
+    Likeness "scholar".
+    Greets "A girl of twelve in a sack apron, grey cuffs to the elbow, sits cross-legged on the egg-tray with a grey-bound book on her knee and a pencil behind each ear. 'Wick Bligh,' she says. 'Prentice. Bound for seven years, four to go. I do the day-book. Mr Deane does the other book, which has a green cover, and a different number in it.'".
+  }
+  Person hob "Hob Sedge" at stack_foot {
+    Role "headman of the Antlers' harvest". Ancestry human. Level 3. Peaceable. Pronouns he. Manner stoic.
+    Likeness "sailor".
+    Greets "A man with a face like a shut door and a rope round his waist coiled six times looks up from splicing. He has a missing finger on each hand. 'Hob Sedge,' he says. 'Stack-man. We go up for the eggs in the dark, and down for the down in the day, and never up the same way twice. You'll want the hoist. Everyone does, the first time. Most of them only the once.'".
+  }
+  Initially Set quantity(deane, gold) to 12.
+
+  Relation ladderSound(group). Relation cressetFree(group). Relation birdsCounted(group). Relation hobWilling(group).
+  Hazard rung_fall "The rung that gives" means "Deal (2d6) physical damage to ally unless dexterity save against (13).".
+
+  // ── The ladder: three ways up, one of them a danger ─────────────────────────────────────────────────────────────
+  Topic hob_hoist with hob "Ask Hob Sedge to take you up in the egg-basket" when true once {
+    Says "'It holds two,' says Hob, 'and a boy to work the winch. You go up sitting on the eggs and you don't look down and you don't talk.' He considers you. 'Four of you will take three trips. I'll bill the House.'".
+    On discuss { Assert ladderSound(actor). }
+  }
+  Action mend_the_ladder(actor: group, site: place) "Re-lash the rope ladder's lower rungs with new rope" {
+    Description "It wants a coil of good rope, and a hand that knows a lashing.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, stack_foot) and not ladderSound(actor) and holding(actor, rope).
+    Time 6.
+    On success { Spend rope from actor. Assert ladderSound(actor). }
+    Result "You pull the worn lashings out and put new ones in, each rung in turn, the way the seamen do, with the birds screaming round your head. Hob Sedge watches, and says nothing, and then gets up and tries the first rung with his whole weight. 'Aye,' he says, which is a speech.".
+  }
+  Action climb_old_ladder(actor: group, site: place) "Climb the old rope ladder as it is" {
+    Description "Eighty feet. The lashings are salt-rotten. Hob Sedge says he has not been up it in three seasons.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, stack_foot) and not ladderSound(actor).
+    Time 4.
+    Resolve check(actor, climbing, dc_fair).
+    On success { Retract at(actor, stack_foot). Assert at(actor, stack_top). }
+    On failure { Assert strikes(rung_fall, party). }
+    Result "You go up by feel and nerve, with the birds exploding off the rock round you and the ladder swinging out under your weight and back, until a hand comes over the lip and hauls, and you are lying face down in thrift, with a gannet looking at you from a yard away as at a poor relation.".
+    Otherwise "A rung goes under your foot with a sound like a knuckle, and then another, and you are on your hands on the rope, and then the ground arrives. Hob Sedge has not moved. 'Told you,' he says, quite kindly.".
+  }
+
+  // ── The cresset, and clause seven ───────────────────────────────────────────────────────────────────────────────
+  Topic deane_clause with deane "Ask Osric Deane why no fire may be lit on the stack" when true once {
+    Says "'Clause seven,' says Deane, to the ceiling. 'A fire on the stack puts the birds off the ledges, and a stack without birds is worth nothing, and the lease is on the harvest. That is what I am told. I have never seen a fire on the stack.' He turns a page. 'Hob's boys used to light it for the boats, in my predecessor's time. A ship came in by it once in a gale, I'm told. There has not been a fire since I came. And the Tern went on the race, in the dark, at Whitsun, and I went up the ladder myself next day and stood by a cold basket and wrote it in the other book.'".
+  }
+  Topic deane_books with deane "Ask Osric Deane about the two books" when leafAntlers(actor) once {
+    Says "He is quiet for so long you think he has gone back to sleep. 'The green book goes to the Factor,' he says. 'It says the birds are put off by fire, and the cresset is kept cold for the harvest. The grey one is Wick's. It says what happened.' He opens his eyes. 'I should like it if it was never said that I knew. I should like it more if it was never said that I could have lit it.'".
+  }
+  Action pay_antler_rent(actor: group, site: place) "Pay the Antlers' rent arrears, fifteen coin, and buy out clause seven" {
+    Description "The House sells the leave it will not grant. It takes coin for it, in Deane's hand, on the quarter.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hut_room) and at(deane, site) and houseHolds(lamp_antlers) and not cressetFree(actor) and quantity(actor, gold) >= 15.
+    Time 2.
+    On success { Decrease quantity(actor, gold) by 15. Increase quantity(deane, gold) by 15. Assert cressetFree(actor). }
+    Result "Deane writes it in the green book, and then, after a moment, in the grey one, which Wick holds out to him without a word. He tears a slip from the back of the lease and writes on it: LEAVE GIVEN, CLAUSE 7, THE CRESSET, FOR SO LONG AS THE ARREARS ARE PAID. 'It is the House's leave,' he says. 'I have signed it as the House.' He gives it to Wick to put in the day-book.".
+  }
+  Action count_the_birds(actor: group, site: place) "Walk the stack top and count what the birds do round a flame" {
+    Description "The lease says fire puts them off. A hawk of a ranger can say whether a bird minds.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, stack_top) and houseHolds(lamp_antlers) and not birdsCounted(actor) and capable(actor, woodcraft).
+    Time 6.
+    Resolve check(actor, woodcraft, dc_fair).
+    On success { Assert birdsCounted(actor). }
+    Result "You go along the nests with a stick of charcoal and the back of a shirt, and you count: the old nests, the new ones, the places where the nests are thickest. The thick places are the south edge, where the House's board faces. It is the windward face; the fire would stand on the lee. You count the gannets that have stood there for the last two seasons without moving, at a quarter-mile from the lee of the nearest sea-fire in the Reach: none have moved. It is a count a man can show.".
+    Otherwise "The birds are many, and you are not a bird. You come down with a number you do not trust.".
+  }
+  Topic deane_release with deane "Show Osric Deane the count of the nests" when birdsCounted(actor) once {
+    Says "He reads it, and then reads it again, and puts his thumb on the number as if it might fall off the page. 'The birds don't mind,' he says. 'No. They never did.' He signs the leave, his own name, not the House's, in a hand that has not been used that way for years. 'I will be dismissed,' he says, with a cheerfulness that surprises both of you. 'Posts are not hard to come by, only to keep.'".
+    On discuss { Assert cressetFree(actor). }
+  }
+  Action pull_the_board(actor: group, site: place) "Pull the House's board off the cresset-post and throw it into the sea" {
+    Description "Nobody has ever been put in gaol for a board. The House will remember it.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, stack_top) and houseHolds(lamp_antlers) and not cressetFree(actor).
+    Time 1.
+    On success { Assert cressetFree(actor). Assert marked(actor). }
+    Result "It comes away with a screech of nails. The gannets do not look round. You carry it to the edge and throw it, and it spins out over the sea, key-and-ring and all, and does not splash for a very long time. You have just made an enemy of a counting-house.".
+  }
+  Action light_the_cresset(actor: group, site: place) "Light the Antlers' cresset" {
+    Description "Hob's boys have kept the fat in the barrel and the wick in the tin for twenty years. They have not been asked.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, stack_top) and houseHolds(lamp_antlers) and cressetFree(actor).
+    Time 3.
+    On success { Retract houseHolds(lamp_antlers). Assert lampLit(lamp_antlers). Increase freed(actor) by 1. Assert hobWilling(actor). }
+    Result "It takes the three of you and a coat held for a windbreak. When it goes, it goes with a roar, and the gannets lift as one white sheet off the whole top of the stack and settle again, one by one, and look at the flame. Hob Sedge's boys have come up the hoist and stand along the edge, saying nothing. Hob himself puts his hand on the cold iron post and then takes it away. 'My father lit it,' he says. 'Twenty years.' The Tern's lights, you think, would have been just there.".
+  }
+
+  // ── What the Prentice knows ─────────────────────────────────────────────────────────────────────────────────────
+  Topic wick_book with wick "Ask Wick Bligh to read you the day-book" when true once {
+    Says "She has been waiting, you think, to be asked for years. 'Down, ninety stone. Eggs, eleven great hundred. The Tern, at Whitsun, on the race, no light on the stack, forty-two hands.' She turns the page. 'Lamps and Lights: the cresset, clause seven. Rent arrears fifteen crowns. Mr Deane to send the Factor Book One.' She looks up. 'Book Two is this one. He doesn't say that. I do.'".
+    On discuss { Assert leafAntlers(actor). Increase leaves(actor) by 1. Assert knows(actor, leaf_antlers_d). }
+  }
+  Topic wick_ranks with wick "Ask Wick Bligh who is above whom in the House" when true once {
+    Says "'Prentice, that's me,' says Wick, ticking on her fingers. 'Clerk, that's Mr Pym at Port Ness, he writes the day-book fair so the Factor can read it. Agent, that's Mr Deane, and Mr Quillon at Skerrow. Factor is Miss Stannard in Orsett, and sometimes at the Ness. Principal is Mr Marchbank, who has a seal. Each one owes the one above, and is owed by the one below. I'm owed by nobody.' She considers. 'Hob's boys owe me eggs.'".
+    On discuss { Assert knowsRanks(actor). }
+  }
+
+  // ── The race, if there is no pilot ──────────────────────────────────────────────────────────────────────────────
+  Action hail_harvest_boats(actor: group, site: place) "Fire the gun and hail the harvesters' boats to tow her up the race" {
+    Description "Hob Sedge's boys row a lugger of eggs up that lane twice a day. They will not row for nothing, but they will row.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, deck) and at(hull, antler_race) and troubled(hull) and not towCalled(hull).
+    Time 1.
+    On success { Assert towCalled(hull). }
+    Result "Rune fires the little gun, and the sound goes up the lane and comes back a dozen times off the stacks, and a flock of something lifts. After a long while a black dot appears in the white, and then four, and then there are boats, small and low, with a man in each who rows as if the lane were his own garden.".
+  }
+  Rule tow_comes when towCalled(hull) and troubled(hull) and watch(clock) >= raceAt(hull) + 14
+    says "The harvesters' boats get a line aboard and take her up the race as a boy takes a cow home: cheerfully, and without asking her opinion. Bascom lets out a breath. 'Pay them in eggs,' she says, 'since I can't in cash.'" {
+    Retract troubled(hull). Decrease cargo(hull) by 2.
+  }
+  Action run_the_race(actor: group, site: place) "Take the wheel and run the race yourselves" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, helm) and at(hull, antler_race) and troubled(hull) and not towCalled(hull).
+    Time 2.
+    Resolve check(actor, wayfinding, dc_hard).
+    On success { Retract troubled(hull). }
+    On failure { Retract troubled(hull). Increase water(hull) by 10. Assert holed(hull). }
+    Result "The stacks go by at a pace of your own choosing, which turns out to be too fast. Somewhere in the white you find the lane, and the lane finds you. Bascom, at your elbow, says nothing, and goes on saying it.".
+    Otherwise "The Dorothea takes a stone on her larboard bilge with a sound like a barrel breaking. Bascom takes the wheel with a word you will not repeat. She gets her through. There is water in the hold, and the pump will be wanted.".
+  }
+}
