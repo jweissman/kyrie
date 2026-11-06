@@ -20,6 +20,7 @@
         "notes": "Willow bark breaks a fever; the herb-wives of every country know it."
       },
       "looks": "Grey-green leaves, long whippy shoots, and roots in the bank.",
+      "portrait": "plants/willow",
       "uses": [
         "medicine",
         "material"
@@ -39,6 +40,7 @@
         "notes": "Dried and packed into wounds, as field dressings have been."
       },
       "looks": "Red and green moss in the wet hollows, holding water like a sponge.",
+      "portrait": "plants/sphagnum",
       "uses": [
         "medicine"
       ]
@@ -58,6 +60,7 @@
         "notes": "For pain and the stomach; strewn on floors."
       },
       "looks": "Froth of cream flowers, smelling of almonds.",
+      "portrait": "plants/meadowsweet",
       "uses": [
         "medicine"
       ]
@@ -77,6 +80,7 @@
       "count": 2,
       "stand": "Yarrow grows in the grass at the wayside, flat white heads over feathery leaves: a soldier's herb, for cuts.",
       "looks": "Flat pale flower heads above feathery leaves.",
+      "portrait": "plants/yarrow",
       "uses": [
         "medicine"
       ]
@@ -91,6 +95,7 @@
         "kyr": true
       },
       "looks": "Dark cone-like catkins and roots at the water line.",
+      "portrait": "plants/alder",
       "uses": [
         "material"
       ]
@@ -98,6 +103,7 @@
     "heather_plant": {
       "name": "Heather",
       "looks": "Low wiry shrubs covered in tiny purple-pink bells.",
+      "portrait": "plants/heather",
       "habitats": [
         "heath",
         "fells"
@@ -120,6 +126,7 @@
     "dandelion_plant": {
       "name": "Dandelion",
       "looks": "A rosette of toothed leaves and a bright yellow flower that goes to a clock of seed.",
+      "portrait": "plants/dandelion",
       "habitats": [
         "meadow",
         "settlement"
@@ -143,6 +150,7 @@
     "comfrey_plant": {
       "name": "Comfrey",
       "looks": "Tall hairy leaves and hanging bells of purple or cream, by wet ground.",
+      "portrait": "plants/comfrey",
       "habitats": [
         "river",
         "meadow"
@@ -165,6 +173,7 @@
     "cloudberry_plant": {
       "name": "Cloudberry",
       "looks": "A low plant of the high bogs with a single amber berry like a raspberry.",
+      "portrait": "plants/cloudberry",
       "habitats": [
         "heights",
         "fells",
@@ -189,6 +198,7 @@
     "goodberry_plant": {
       "name": "Goodberry",
       "looks": "A bramble with small, glossy red berries that ripen sweet.",
+      "portrait": "plants/goodberry",
       "habitats": [
         "wood",
         "heath"
@@ -212,6 +222,7 @@
     "foxglove_plant": {
       "name": "Foxglove",
       "looks": "A tall spire of hanging purple bells, speckled inside, over a rosette of soft leaves.",
+      "portrait": "plants/foxglove",
       "habitats": [
         "wood",
         "heath"
@@ -235,6 +246,7 @@
     "feverwort_plant": {
       "name": "Feverwort",
       "looks": "A small plant with pale, bitter leaves and white flowers in a flat head.",
+      "portrait": "plants/feverwort",
       "habitats": [
         "meadow",
         "wood"
@@ -256,6 +268,7 @@
     "kingsfoil_plant": {
       "name": "Kingsfoil",
       "looks": "A low three-leaved herb with a clean, sharp scent when crushed.",
+      "portrait": "plants/kingsfoil",
       "habitats": [
         "grove",
         "wood"
@@ -274,26 +287,828 @@
         "notes": "Orsino's herb, a thing sold and used, here the plant it is gathered from."
       }
     },
-    "selfheal_plant": {
-      "name": "Self-heal",
+    "amaranth": {
+      "name": "Amaranth",
+      "looks": "A tall plant with broad leaves and clusters of small, colorful flowers.",
+      "portrait": "plants/amaranth",
       "habitats": [
         "meadow",
-        "heath"
+        "garden"
       ],
-      "grounds": ["limestone"],
-      "yields": "selfheal",
-      "gathered": "a handful of self-heal",
-      "count": 2,
-      "stand": "Self-heal grows low in the short turf here, its purple flower-heads like little clubs among the grass.",
-      "abundance": 4,
-      "looks": "A low creeping herb of short turf, with square stems and close heads of purple, lipped flowers.",
+      "grounds": ["loam", "clay_vale"],
+      "abundance": 2,
+      "yields": "amaranth",
+      "gathered": "a handful of amaranth",
+      "count": 1,
+      "stand": "Amaranth grows here in the open, its colorful flower clusters standing out among the grass.",
       "uses": [
-        "medicine"
+        "medicine",
+        "food",
+        "protection",
+        "invisibility"
       ],
       "source": {
         "kyr": true,
-        "notes": "An author's own plant, added by its record alone (the owner, 6 November: the authoring experiment), with the item it gives (items.json, selfheal)."
+        "notes": "An author's own plant, added by its record alone (the owner, 6 November: the authoring experiment), with the item it gives (items.json, amaranth)."
+      }
+    },
+    "aster": {
+      "name": "Aster",
+      "looks": "A tall plant with daisy-like flowers, often purple or blue.",
+      "portrait": "plants/aster",
+      "habitats": [
+        "meadow",
+        "garden"
+      ],
+      "grounds": ["loam", "clay_vale"],
+      "abundance": 3,
+      "yields": "aster",
+      "gathered": "a handful of aster",
+      "count": 1,
+      "stand": "Asters grow here in clusters, their colorful flowers bright among the grass.",
+      "uses": [
+        "medicine",
+        "decoration",
+        "love"
+      ],
+      "source": {
+        "kyr": true,
+        "notes": "An author's own plant, added by its record alone (the owner, 6 November: the authoring experiment), with the item it gives (items.json, aster)."
+      }
+    },
+    "bamboo": {
+      "name": "Bamboo",
+      "looks": "A tall, woody grass with jointed stems.",
+      "portrait": "plants/bamboo",
+      "habitats": [
+        "forest",
+        "garden"
+      ],
+      "grounds": ["loam", "clay_vale"],
+      "abundance": 3,
+      "yields": "bamboo",
+      "gathered": "a stalk of bamboo",
+      "count": 1,
+      "stand": "Bamboo grows here in dense clumps, its tall stems swaying in the breeze.",
+      "uses": [
+        "construction",
+        "crafting",
+        "protection",
+        "luck",
+        "wishes"
+      ],
+      "source": {
+        "kyr": true,
+        "notes": "An author's own plant, added by its record alone (the owner, 6 November: the authoring experiment), with the item it gives (items.json, bamboo)."
+      }
+    },
+    "bay": {
+      "name": "Bay",
+      "looks": "A shrub with aromatic leaves and small yellow flowers.",
+      "portrait": "plants/bay",
+      "habitats": [
+        "forest",
+        "garden"
+      ],
+      "grounds": ["loam", "clay_vale"],
+      "abundance": 2,
+      "yields": "bay",
+      "gathered": "a sprig of bay",
+      "count": 1,
+      "stand": "Bay grows here with its aromatic leaves and small yellow flowers.",
+      "uses": [
+        "medicine",
+        "cooking",
+        "protection",
+        "purification",
+        "healing"
+      ],
+      "source": {
+        "kyr": true,
+        "notes": "An author's own plant, added by its record alone (the owner, 6 November: the authoring experiment), with the item it gives (items.json, bay)."
+      }
+    },
+    "banewort": {
+      "name": "Banewort",
+      "looks": "A low-growing plant with dark green leaves and small, inconspicuous flowers.",
+      "portrait": "plants/banewort",
+      "habitats": [
+        "forest",
+        "meadow"
+      ],
+      "grounds": ["loam", "clay_vale"],
+      "abundance": 2,
+      "yields": "banewort",
+      "gathered": "a sprig of banewort",
+      "count": 1,
+      "stand": "Banewort grows here with its dark green leaves and small flowers.",
+      "uses": [
+        "medicine",
+        "protection",
+        "curses",
+        "poison"
+      ],
+      "source": {
+        "kyr": true,
+        "notes": "An author's own plant, added by its record alone (the owner, 6 November: the authoring experiment), with the item it gives (items.json, banewort)."
+      }
+    },
+    "dragonwort": {
+      "name": "Dragonwort",
+      "looks": "A striking plant with vibrant red flowers and spiky leaves.",
+      "portrait": "plants/dragonwort",
+      "habitats": [
+        "forest",
+        "garden"
+      ],
+      "grounds": ["loam", "clay_vale"],
+      "abundance": 2,
+      "yields": "dragonwort",
+      "gathered": "a sprig of dragonwort",
+      "count": 1,
+      "stand": "Dragonwort grows here with its vibrant red flowers and spiky leaves.",
+      "uses": [
+        "medicine",
+        "protection",
+        "fertility"
+      ],
+      "source": {
+        "kyr": true,
+        "notes": "An author's own plant, added by its record alone (the owner, 6 November: the authoring experiment), with the item it gives (items.json, dragonwort)."
+      }
+    },
+    "bloodroot": {
+      "name": "Bloodroot",
+      "looks": "A perennial plant with large leaves and clusters of white flowers.",
+      "portrait": "plants/bloodroot",
+      "habitats": [
+        "forest",
+        "meadow"
+      ],
+      "grounds": ["loam", "clay_vale"],
+      "abundance": 2,
+      "yields": "bloodroot",
+      "gathered": "a sprig of bloodroot",
+      "count": 1,
+      "stand": "Bloodroot grows here with its large leaves and clusters of white flowers.",
+      "uses": [
+        "medicine",
+        "protection",
+        "healing",
+        "purification",
+        "love"
+      ],
+      "source": {
+        "kyr": true,
+        "notes": "An author's own plant, added by its record alone (the owner, 6 November: the authoring experiment), with the item it gives (items.json, bloodroot)."
+      }
+    },
+    "gilliflower": {
+      "name": "Gilliflower",
+      "looks": "A fragrant plant with clusters of small, colorful flowers.",
+      "portrait": "plants/gilliflower",
+      "habitats": [
+        "garden",
+        "meadow"
+      ],
+      "grounds": ["loam", "clay_vale"],
+      "abundance": 2,
+      "yields": "gilliflower",
+      "gathered": "a sprig of gilliflower",
+      "count": 1,
+      "stand": "Gilliflower grows here with its clusters of small, colorful flowers.",
+      "uses": [
+        "medicine",
+        "protection",
+        "love",
+        "strength",
+        "healing"
+      ],
+      "source": {
+        "kyr": true,
+        "notes": "An author's own plant, added by its record alone (the owner, 6 November: the authoring experiment), with the item it gives (items.json, gilliflower)."
+      }
+    },
+    "celandine": {
+      "name": "Celandine",
+      "looks": "A small plant with bright yellow flowers and lobed leaves.",
+      "portrait": "plants/celandine",
+      "habitats": [
+        "forest",
+        "meadow"
+      ],
+      "grounds": ["loam", "clay_vale"],
+      "abundance": 2,
+      "yields": "celandine",
+      "gathered": "a sprig of celandine",
+      "count": 1,
+      "stand": "Celandine grows here with its bright yellow flowers and lobed leaves.",
+      "uses": [
+        "medicine",
+        "protection",
+        "healing",
+        "escape",
+        "happiness"
+      ],
+      "source": {
+        "kyr": true,
+        "notes": "An author's own plant, added by its record alone (the owner, 6 November: the authoring experiment), with the item it gives (items.json, celandine)."
+      }
+    },
+    "cinquefoil": {
+      "name": "Cinquefoil",
+      "looks": "A low-growing plant with five-petaled yellow flowers and serrated leaves.",
+      "portrait": "plants/cinquefoil",
+      "habitats": [
+        "meadow",
+        "forest"
+      ],
+      "grounds": ["loam", "clay_vale"],
+      "abundance": 2,
+      "yields": "cinquefoil",
+      "gathered": "a sprig of cinquefoil",
+      "count": 1,
+      "stand": "Cinquefoil grows here with its five-petaled yellow flowers and serrated leaves.",
+      "uses": [
+        "medicine",
+        "protection",
+        "prophecy",
+        "sleep"
+      ],
+      "source": {
+        "kyr": true,
+        "notes": "An author's own plant, added by its record alone (the owner, 6 November: the authoring experiment), with the item it gives (items.json, cinquefoil)."
+      }
+    },
+    "daffodil": {
+      "name": "Daffodil",
+      "looks": "A bulbous plant with bright yellow trumpet-shaped flowers.",
+      "portrait": "plants/daffodil",
+      "habitats": [
+        "garden",
+        "meadow"
+      ],
+      "grounds": ["loam", "clay_vale"],
+      "abundance": 2,
+      "yields": "daffodil",
+      "gathered": "a sprig of daffodil",
+      "count": 1,
+      "stand": "Daffodil grows here with its bright yellow trumpet-shaped flowers.",
+      "uses": [
+        "medicine",
+        "love",
+        "luck",
+        "fertility"
+      ],
+      "source": {
+        "kyr": true,
+        "notes": "An author's own plant, added by its record alone (the owner, 6 November: the authoring experiment), with the item it gives (items.json, daffodil)."
+      }
+    },
+    "dulse": {
+      "name": "Dulse",
+      "looks": "A red seaweed with a leathery texture, commonly found along rocky shores.",
+      "portrait": "plants/dulse",
+      "habitats": [
+        "coast",
+        "rocky_shore"
+      ],
+      "grounds": ["sand", "rocky_vale"],
+      "abundance": 2,
+      "yields": "dulse",
+      "gathered": "a handful of dulse",
+      "count": 1,
+      "stand": "Dulse grows here along the rocky shores.",
+      "uses": [
+        "food",
+        "lust",
+        "harmony",
+        "fertility"
+      ],
+      "source": {
+        "kyr": true,
+        "notes": "An author's own plant, added by its record alone (the owner, 6 November: the authoring experiment), with the item it gives (items.json, dulse)."
+      }
+    },
+    "alhuren": {
+      "name": "Alhuren",
+      "looks": "A mystical plant with silver leaves and glowing blue flowers.",
+      "portrait": "plants/alhuren",
+      "habitats": [
+        "forest",
+        "mountain"
+      ],
+      "grounds": ["loam", "rocky_vale"],
+      "abundance": 1,
+      "yields": "alhuren",
+      "gathered": "a sprig of alhuren",
+      "count": 1,
+      "stand": "Alhuren grows here with its silver leaves and glowing blue flowers.",
+      "uses": [
+        "magic",
+        "protection",
+        "divination"
+      ],
+      "source": {
+        "kyr": true,
+        "notes": "An author's own plant, added by its record alone (the owner, 6 November: the authoring experiment), with the item it gives (items.json, alhuren)."
+      }
+    },
+    "euphrosyne": {
+      "name": "Euphrosyne",
+      "looks": "A delicate plant with small white flowers and a sweet fragrance.",
+      "portrait": "plants/euphrosyne",
+      "habitats": [
+        "meadow",
+        "garden"
+      ],
+      "grounds": ["loam", "clay_vale"],
+      "abundance": 2,
+      "yields": "euphrosyne",
+      "gathered": "a sprig of eyebright",
+      "count": 1,
+      "stand": "Euphrosyne grows here with its small white flowers.",
+      "uses": [
+        "medicine",
+        "prophecy"
+      ],
+      "source": {
+        "kyr": true,
+        "notes": "An author's own plant, added by its record alone (the owner, 6 November: the authoring experiment), with the item it gives (items.json, euphrosyne)."
+      }
+    },
+    "rosenoble": {
+      "name": "Rosenoble",
+      "looks": "A striking plant with deep red roses and thorny stems.",
+      "portrait": "plants/rosenoble",
+      "habitats": [
+        "garden",
+        "forest"
+      ],
+      "grounds": ["loam", "clay_vale"],
+      "abundance": 2,
+      "yields": "rosenoble",
+      "gathered": "a sprig of rosenoble",
+      "count": 1,
+      "stand": "Rosenoble grows here with its deep red roses.",
+      "uses": [
+        "love",
+        "healthy",
+        "protection"
+      ],
+      "source": {
+        "kyr": true,
+        "notes": "An author's own plant, added by its record alone (the owner, 6 November: the authoring experiment), with the item it gives (items.json, rosenoble)."
+      }
+    },
+    "gentian": {
+      "name": "Gentian",
+      "looks": "A vibrant blue flower with a trumpet-like shape.",
+      "portrait": "plants/gentian",
+      "habitats": [
+        "mountain",
+        "meadow"
+      ],
+      "grounds": ["loam", "rocky_vale"],
+      "abundance": 2,
+      "yields": "gentian",
+      "gathered": "a sprig of gentian",
+      "count": 1,
+      "stand": "Bitter Root grows here with its vibrant blue flowers.",
+      "uses": [
+        "medicine",
+        "love",
+        "protection"
+      ],
+      "source": {
+        "kyr": true,
+        "notes": "An author's own plant, added by its record alone (the owner, 6 November: the authoring experiment), with the item it gives (items.json, gentian)."
+      }
+    },
+    "furze": {
+      "name": "Furze",
+      "looks": "A spiny shrub with bright yellow flowers.",
+      "portrait": "plants/furze",
+      "habitats": [
+        "heath",
+        "moor"
+      ],
+      "grounds": ["loam", "rocky_vale"],
+      "abundance": 2,
+      "yields": "furze",
+      "gathered": "a sprig of furze",
+      "count": 1,
+      "stand": "Ruffet grows here with its bright yellow flowers.",
+      "uses": [
+        "protection",
+        "magic"
+      ],
+      "source": {
+        "kyr": true,
+        "notes": "An author's own plant, added by its record alone (the owner, 6 November: the authoring experiment), with the item it gives (items.json, furze)."
+      }
+    },
+    "hazel": {
+      "name": "Hazel",
+      "looks": "A small tree with broad leaves and clusters of nuts.",
+      "portrait": "plants/hazel",
+      "habitats": [
+        "forest",
+        "garden"
+      ],
+      "grounds": ["loam", "clay_vale"],
+      "abundance": 2,
+      "yields": "hazel",
+      "gathered": "a sprig of hazel",
+      "count": 1,
+      "stand": "Hazel grows here with its broad leaves and clusters of nuts.",
+      "uses": [
+        "medicine",
+        "magic",
+        "protection",
+        "luck",
+        "fertility",
+        "wishes"
+      ],
+      "source": {
+        "kyr": true,
+        "notes": "An author's own plant, added by its record alone (the owner, 6 November: the authoring experiment), with the item it gives (items.json, hazel)."
+      }
+    },
+    "woodbine": {
+      "name": "Woodbine",
+      "looks": "A climbing plant with clusters of fragrant flowers.",
+      "habitats": [
+        "forest",
+        "garden"
+      ],
+      "grounds": ["loam", "clay_vale"],
+      "abundance": 2,
+      "yields": "woodbine",
+      "gathered": "a sprig of woodbine",
+      "count": 1,
+      "stand": "Honeysuckle grows here with its fragrant flowers.",
+      "uses": [
+        "love",
+        "protection",
+        "magic"
+      ],
+      "source": {
+        "kyr": true,
+        "notes": "An author's own plant, added by its record alone (the owner, 6 November: the authoring experiment), with the item it gives (items.json, woodbine)."
+      }
+    },
+    "hyssop": {
+      "name": "Hyssop",
+      "looks": "A small herb with spikes of blue flowers.",
+      "portrait": "plants/hyssop",
+      "habitats": [
+        "garden",
+        "meadow"
+      ],
+      "grounds": ["loam", "clay_vale"],
+      "abundance": 2,
+      "yields": "hyssop",
+      "gathered": "a sprig of hyssop",
+      "count": 1,
+      "stand": "Hyssop grows here with its spikes of blue flowers.",
+      "uses": [
+        "medicine",
+        "protection",
+        "magic",
+        "purification"
+      ],
+      "source": {
+        "kyr": true,
+        "notes": "An author's own plant, added by its record alone (the owner, 6 November: the authoring experiment), with the item it gives (items.json, hyssop)."
+      }
+    },
+    "stellaria": {
+      "name": "Stellaria",
+      "looks": "A small herb with star-shaped white flowers.",
+      "portrait": "plants/stellaria",
+      "habitats": [
+        "garden",
+        "meadow"
+      ],
+      "grounds": ["loam", "clay_vale"],
+      "abundance": 2,
+      "yields": "stellaria",
+      "gathered": "a sprig of stellaria",
+      "count": 1,
+      "stand": "Stellaria grows here with its star-shaped white flowers.",
+      "uses": [
+        "medicine",
+        "love"
+      ],
+      "source": {
+        "kyr": true,
+        "notes": "An author's own plant, added by its record alone (the owner, 6 November: the authoring experiment), with the item it gives (items.json, stellaria)."
+      }
+    },
+    "staggerweed": {
+      "name": "Staggerweed",
+      "looks": "A low-growing herb with small, inconspicuous flowers.",
+      "portrait": "plants/staggerweed",
+      "habitats": [
+        "meadow",
+        "forest"
+      ],
+      "grounds": ["loam", "clay_vale"],
+      "abundance": 2,
+      "yields": "staggerweed",
+      "gathered": "a sprig of staggerweed",
+      "count": 1,
+      "stand": "Larkspur grows here with its small, inconspicuous flowers.",
+      "uses": [
+        "medicine",
+        "magic",
+        "health",
+        "protection"
+      ],
+      "source": {
+        "kyr": true,
+        "notes": "An author's own plant, added by its record alone (the owner, 6 November: the authoring experiment), with the item it gives (items.json, staggerweed)."
+      }
+    },
+    "cedron": {
+      "name": "Cedron",
+      "looks": "A tall herb with aromatic leaves.",
+      "portrait": "plants/cedron",
+      "habitats": [
+        "garden",
+        "meadow"
+      ],
+      "grounds": ["loam", "clay_vale"],
+      "abundance": 2,
+      "yields": "cedron",
+      "gathered": "a sprig of cedron",
+      "count": 1,
+      "stand": "Lemon Verbena grows here with its aromatic leaves.",
+      "uses": [
+        "medicine",
+        "purification",
+        "love"
+      ],
+      "source": {
+        "kyr": true,
+        "notes": "An author's own plant, added by its record alone (the owner, 6 November: the authoring experiment), with the item it gives (items.json, cedron)."
+      }
+    },
+    "pennyroyal": {
+      "name": "Pennyroyal",
+      "looks": "A low-growing herb with small, purple flowers.",
+      "portrait": "plants/pennyroyal",
+      "habitats": [
+        "garden",
+        "meadow"
+      ],
+      "grounds": ["loam", "clay_vale"],
+      "abundance": 2,
+      "yields": "pennyroyal",
+      "gathered": "a sprig of pennyroyal",
+      "count": 1,
+      "stand": "Pennyroyal grows here with its small, purple flowers.",
+      "uses": [
+        "strength",
+        "protection",
+        "peace"
+      ],
+      "source": {
+        "kyr": true,
+        "notes": "An author's own plant, added by its record alone (the owner, 6 November: the authoring experiment), with the item it gives (items.json, pennyroyal)."
+      }
+    },
+    "poppy": {
+      "name": "Poppy",
+      "looks": "A tall herb with bright red flowers.",
+      "portrait": "plants/poppy",
+      "habitats": [
+        "garden",
+        "meadow"
+      ],
+      "grounds": ["loam", "clay_vale"],
+      "abundance": 2,
+      "yields": "poppy",
+      "gathered": "a sprig of poppy",
+      "count": 1,
+      "stand": "Poppy grows here with its bright red flowers.",
+      "uses": [
+        "fertility",
+        "love",
+        "sleep",
+        "luck",
+        "invisibility"
+      ],
+      "source": {
+        "kyr": true,
+        "notes": "An author's own plant, added by its record alone (the owner, 6 November: the authoring experiment), with the item it gives (items.json, poppy)."
+      }
+    },
+    "purslane": {
+      "name": "Purslane",
+      "looks": "A low-growing succulent with small, fleshy leaves.",
+      "portrait": "plants/purslane",
+      "habitats": [
+        "garden",
+        "meadow"
+      ],
+      "grounds": ["loam", "clay_vale"],
+      "abundance": 2,
+      "yields": "purslane",
+      "gathered": "a sprig of purslane",
+      "count": 1,
+      "stand": "Purslane grows here with its small, fleshy leaves.",
+      "uses": [
+        "sleep",
+        "protection",
+        "love",
+        "luck",
+        "happiness"
+      ],
+      "source": {
+        "kyr": true,
+        "notes": "An author's own plant, added by its record alone (the owner, 6 November: the authoring experiment), with the item it gives (items.json, purslane)."
+      }
+    },
+    "rosemary": {
+      "name": "Rosemary",
+      "looks": "A woody herb with needle-like leaves and small blue flowers.",
+      "portrait": "plants/rosemary",
+      "habitats": [
+        "garden",
+        "meadow"
+      ],
+      "grounds": ["loam", "clay_vale"],
+      "abundance": 2,
+      "yields": "rosemary",
+      "gathered": "a sprig of rosemary",
+      "count": 1,
+      "stand": "Rosemary grows here with its needle-like leaves and small blue flowers.",
+      "uses": [
+        "protection",
+        "love",
+        "purification",
+        "healing",
+        "sleep"
+      ],
+      "source": {
+        "kyr": true,
+        "notes": "An author's own plant, added by its record alone (the owner, 6 November: the authoring experiment), with the item it gives (items.json, rosemary)."
+      }
+    },
+    "rue": {
+      "name": "Rue",
+      "looks": "A bushy herb with bluish-green leaves and yellow flowers.",
+      "portrait": "plants/rue",
+      "habitats": [
+        "garden",
+        "meadow"
+      ],
+      "grounds": ["loam", "clay_vale"],
+      "abundance": 2,
+      "yields": "rue",
+      "gathered": "a sprig of rue",
+      "count": 1,
+      "stand": "Rue grows here with its bluish-green leaves and yellow flowers.",
+      "uses": [
+        "healing",
+        "love",
+        "health",
+        "magic"
+      ],
+      "source": {
+        "kyr": true,
+        "notes": "An author's own plant, added by its record alone (the owner, 6 November: the authoring experiment), with the item it gives (items.json, rue)."
+      }
+    },
+
+    "thistle": {
+      "name": "Thistle",
+      "looks": "A spiny plant with purple flowers.",
+      "portrait": "plants/thistle",
+      "habitats": [
+        "garden",
+        "meadow"
+      ],
+      "grounds": ["loam", "clay_vale"],
+      "abundance": 2,
+      "yields": "thistle",
+      "gathered": "a sprig of thistle",
+      "count": 1,
+      "stand": "Thistle grows here with its spiny leaves and purple flowers.",
+      "uses": [
+        "protection",
+        "love",
+        "healing",
+        "magic"
+      ],
+      "source": {
+        "kyr": true,
+        "notes": "An author's own plant, added by its record alone (the owner, 6 November: the authoring experiment), with the item it gives (items.json, thistle)."
+      }
+    },
+    "thyme": {
+      "name": "Thyme",
+      "looks": "A low-growing herb with small green leaves and tiny purple flowers.",
+      "portrait": "plants/thyme",
+      "habitats": [
+        "garden",
+        "meadow"
+      ],
+      "grounds": ["loam", "clay_vale"],
+      "abundance": 2,
+      "yields": "thyme",
+      "gathered": "a sprig of thyme",
+      "count": 1,
+      "stand": "Thyme grows here with its small green leaves and tiny purple flowers.",
+      "uses": [
+        "protection",
+        "love",
+        "healing",
+        "purification"
+      ],
+      "source": {
+        "kyr": true,
+        "notes": "An author's own plant, added by its record alone (the owner, 6 November: the authoring experiment), with the item it gives (items.json, thyme)."
+      }
+    }, 
+    "tansy": {
+      "name": "Tansy",
+      "looks": "A tall plant with yellow button-like flowers and feathery leaves.",
+      "portrait": "plants/tansy",
+      "habitats": [
+        "garden",
+        "meadow"
+      ],
+      "grounds": ["loam", "clay_vale"],
+      "abundance": 2,
+      "yields": "tansy",
+      "gathered": "a sprig of tansy",
+      "count": 1,
+      "stand": "Tansy grows here with its yellow button-like flowers and feathery leaves.",
+      "uses": [
+        "protection",
+        "love",
+        "healing",
+        "magic"
+      ],
+      "source": {
+        "kyr": true,
+        "notes": "An author's own plant, added by its record alone (the owner, 6 November: the authoring experiment), with the item it gives (items.json, tansy)."
+      }
+    },
+    "sweetgrass": {
+      "name": "Sweetgrass",
+      "looks": "A tall grass with long, fragrant green blades.",
+      "portrait": "plants/sweetgrass",
+      "habitats": [
+        "garden",
+        "meadow"
+      ],
+      "grounds": ["loam", "clay_vale"],
+      "abundance": 2,
+      "yields": "sweetgrass",
+      "gathered": "a sprig of sweetgrass",
+      "count": 1,
+      "stand": "Sweetgrass grows here with its long, fragrant green blades.",
+      "uses": [
+        "protection",
+        "love",
+        "healing",
+        "magic"
+      ],
+      "source": {
+        "kyr": true,
+        "notes": "An author's own plant, added by its record alone (the owner, 6 November: the authoring experiment), with the item it gives (items.json, sweetgrass)."
+      }
+    },
+    "dropberry": {
+      "name": "Dropberry",
+      "looks": "A small shrub with red berries that hang down from the branches.",
+      "portrait": "plants/dropberry",
+      "habitats": [
+        "garden",
+        "meadow"
+      ],
+      "grounds": ["loam", "clay_vale"],
+      "abundance": 2,
+      "yields": "dropberry",
+      "gathered": "a handful of dropberries",
+      "count": 1,
+      "stand": "Dropberry grows here with its red berries hanging down from the branches.",
+      "uses": [
+        "protection",
+        "love",
+        "healing",
+        "magic"
+      ],
+      "source": {
+        "kyr": true,
+        "notes": "An author's own plant, added by its record alone (the owner, 6 November: the authoring experiment), with the item it gives (items.json, dropberry)."
       }
     }
+
+
   }
 }

@@ -139,13 +139,13 @@ describe('the bestiary', () => {
     expect(seen.length).toBeGreaterThan(0);
     expect(seen[0]!.base.abilities).toEqual(expect.arrayContaining(Canon.creature('hollow_stalker').abilities!));
   }, 600000);
-  it('grows a plant written into plants.json in a generated country, gathered as the item it gives (self-heal)', async () => {
+  // The owner's hazel (6 November), written into plants.json alone: what it gives is made from its record.
+  it('grows a plant written into plants.json in a generated country, gathered as the item it gives (hazel)', async () => {
     const lines = (await Promise.all(['a1', 'b2', 'kite'].map(async seed =>
       (await WorldAssembler.assemble(seed, NodeBundleSource.shared, {})).report.region as Region)))
-      .flatMap(r => RegionGrowth.lines(r)).filter(l => l.includes('selfheal'));
-    expect(lines.some(l => /Thing \w+_selfheal_plant "the self-heal" at \w+ is scenery/.test(l))).toBe(true);
-    expect(lines.some(l => /Item \w+_selfheal_plant_1 "a handful of self-heal" is selfheal in/.test(l))).toBe(true);
-    // What it gives heals as its item says (items.json: Heal (1d4) health to ally).
-    expect(Content.abilities.some(a => a.id === 'selfheal' || a.id === 'item:selfheal') || !!Canon.items.selfheal).toBe(true);
+      .flatMap(r => RegionGrowth.lines(r)).filter(l => l.includes('_hazel'));
+    expect(lines.some(l => /Thing \w+_hazel "the hazel" at \w+ is scenery/.test(l))).toBe(true);
+    expect(lines.some(l => /Item \w+_hazel_1 "a sprig of hazel" is hazel_gathered in/.test(l))).toBe(true);
+    expect(Canon.items.hazel_gathered?.name).toBe('Hazel');
   }, 300000);
 });

@@ -46,8 +46,10 @@ export class Encyclopedia {
         ...EncyclopediaLore.making()], lede: [
         'What can be carried, bought and sold: weapons and armour, the gear an expedition lives by, and the things '
         + 'worth bringing back.'] },
-      { id: 'creatures', title: 'Creatures', sections: mm.sections, lede: [
+      { id: 'creatures', title: 'Creatures', sections: mm.sections.filter(x => x.id !== 'plants'), lede: [
         'The beasts, monsters and strange folk of Imbar: what each is, how it fights, and what it is born with.'] },
+      { id: 'plants', title: 'Plants', sections: mm.sections.filter(x => x.id === 'plants'), lede: [
+        'What grows wild in Imbar, and where to look for it: by the water, on the heath, in the woods and the gardens.'] },
       { id: 'conditions', title: 'Conditions', sections: Encyclopedia.take(phb, ['conditions']), lede: [
         'What can come over a body in a fight or after it: wounds, poisons, curses, blessings, and how long each lasts.'] },
       { id: 'history', title: 'The old makers, and after', sections: EncyclopediaLore.history(), lede: [

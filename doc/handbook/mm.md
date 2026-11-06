@@ -3255,6 +3255,667 @@ Resists 75% of lightning.
 
 Resists 75% of poison.
 
+## Plants
+
+What grows wild in Imbar, and where: each is met where its country is, and more often on the rock it likes; what is gathered from it is carried away.
+
+### Alder
+
+*Kyr · plant* · `plant:alder`
+
+<img src="../../web/reader/paintings/plants/alder.webp" alt="" width="128">
+
+- Grows in: river and bank, fen
+- Good for: material
+- Found: wherever it can grow
+
+> Dark cone-like catkins and roots at the water line.
+
+### Alhuren
+
+*Kyr · plant* · `plant:alhuren`
+
+<img src="../../web/reader/paintings/plants/alhuren.webp" alt="" width="128">
+
+- Grows in: wood, fells
+- Does best on: loam, rocky
+- Gathered: a sprig of alhuren
+- Good for: magic, protection, divination
+- Found: seldom
+
+> A mystical plant with silver leaves and glowing blue flowers.
+
+### Amaranth
+
+*Kyr · plant* · `plant:amaranth`
+
+<img src="../../web/reader/paintings/plants/amaranth.webp" alt="" width="128">
+
+- Grows in: meadow, farm and settlement
+- Does best on: loam, clay_vale
+- Gathered: a handful of amaranth
+- Good for: medicine, food, protection, invisibility
+- Found: seldom
+
+> A tall plant with broad leaves and clusters of small, colorful flowers.
+
+### Aster
+
+*Kyr · plant* · `plant:aster`
+
+<img src="../../web/reader/paintings/plants/aster.webp" alt="" width="128">
+
+- Grows in: meadow, farm and settlement
+- Does best on: loam, clay_vale
+- Gathered: a handful of aster
+- Good for: medicine, decoration, love
+- Found: here and there
+
+> A tall plant with daisy-like flowers, often purple or blue.
+
+### Bamboo
+
+*Kyr · plant* · `plant:bamboo`
+
+<img src="../../web/reader/paintings/plants/bamboo.webp" alt="" width="128">
+
+- Grows in: wood, farm and settlement
+- Does best on: loam, clay_vale
+- Gathered: a stalk of bamboo
+- Good for: construction, crafting, protection, luck, wishes
+- Found: here and there
+
+> A tall, woody grass with jointed stems.
+
+### Banewort
+
+*Kyr · plant* · `plant:banewort`
+
+<img src="../../web/reader/paintings/plants/banewort.webp" alt="" width="128">
+
+- Grows in: wood, meadow
+- Does best on: loam, clay_vale
+- Gathered: a sprig of banewort
+- Good for: medicine, protection, curses, poison
+- Found: seldom
+
+> A low-growing plant with dark green leaves and small, inconspicuous flowers.
+
+### Bay
+
+*Kyr · plant* · `plant:bay`
+
+<img src="../../web/reader/paintings/plants/bay.webp" alt="" width="128">
+
+- Grows in: wood, farm and settlement
+- Does best on: loam, clay_vale
+- Gathered: a sprig of bay
+- Good for: medicine, cooking, protection, purification, healing
+- Found: seldom
+
+> A shrub with aromatic leaves and small yellow flowers.
+
+### Bloodroot
+
+*Kyr · plant* · `plant:bloodroot`
+
+<img src="../../web/reader/paintings/plants/bloodroot.webp" alt="" width="128">
+
+- Grows in: wood, meadow
+- Does best on: loam, clay_vale
+- Gathered: a sprig of bloodroot
+- Good for: medicine, protection, healing, purification, love
+- Found: seldom
+
+> A perennial plant with large leaves and clusters of white flowers.
+
+### Cedron
+
+*Kyr · plant* · `plant:cedron`
+
+<img src="../../web/reader/paintings/plants/cedron.webp" alt="" width="128">
+
+- Grows in: farm and settlement, meadow
+- Does best on: loam, clay_vale
+- Gathered: a sprig of cedron
+- Good for: medicine, purification, love
+- Found: seldom
+
+> A tall herb with aromatic leaves.
+
+### Celandine
+
+*Kyr · plant* · `plant:celandine`
+
+<img src="../../web/reader/paintings/plants/celandine.webp" alt="" width="128">
+
+- Grows in: wood, meadow
+- Does best on: loam, clay_vale
+- Gathered: a sprig of celandine
+- Good for: medicine, protection, healing, escape, happiness
+- Found: seldom
+
+> A small plant with bright yellow flowers and lobed leaves.
+
+### Cinquefoil
+
+*Kyr · plant* · `plant:cinquefoil`
+
+<img src="../../web/reader/paintings/plants/cinquefoil.webp" alt="" width="128">
+
+- Grows in: meadow, wood
+- Does best on: loam, clay_vale
+- Gathered: a sprig of cinquefoil
+- Good for: medicine, protection, prophecy, sleep
+- Found: seldom
+
+> A low-growing plant with five-petaled yellow flowers and serrated leaves.
+
+### Cloudberry
+
+*Adapted · plant* · `plant:cloudberry_plant`
+
+<img src="../../web/reader/paintings/plants/cloudberry.webp" alt="" width="128">
+
+- Grows in: heights, fells, snowfields
+- Does best on: peat_moor, granite
+- Gathered: a few cloudberries
+- Good for: food, medicine
+- Found: here and there
+
+Cloudberry: Heal (1d4+1) health to ally.
+
+> A low plant of the high bogs with a single amber berry like a raspberry.
+
+### Comfrey
+
+*Adapted · plant* · `plant:comfrey_plant`
+
+<img src="../../web/reader/paintings/plants/comfrey.webp" alt="" width="128">
+
+- Grows in: river and bank, meadow
+- Does best on: clay_vale
+- Gathered: some comfrey leaves
+- Good for: medicine
+- Found: here and there
+
+Comfrey: Heal (2d4) health to ally. Remove bleed from ally.
+
+> Tall hairy leaves and hanging bells of purple or cream, by wet ground.
+
+### Daffodil
+
+*Kyr · plant* · `plant:daffodil`
+
+<img src="../../web/reader/paintings/plants/daffodil.webp" alt="" width="128">
+
+- Grows in: farm and settlement, meadow
+- Does best on: loam, clay_vale
+- Gathered: a sprig of daffodil
+- Good for: medicine, love, luck, fertility
+- Found: seldom
+
+> A bulbous plant with bright yellow trumpet-shaped flowers.
+
+### Dandelion
+
+*Adapted · plant* · `plant:dandelion_plant`
+
+<img src="../../web/reader/paintings/plants/dandelion.webp" alt="" width="128">
+
+- Grows in: meadow, farm and settlement
+- Does best on: clay_vale, limestone
+- Gathered: a handful of dandelion
+- Good for: medicine, food
+- Found: often
+
+Dandelion: Heal (1d3) health to ally. Remove poison from ally.
+
+> A rosette of toothed leaves and a bright yellow flower that goes to a clock of seed.
+
+### Dragonwort
+
+*Kyr · plant* · `plant:dragonwort`
+
+<img src="../../web/reader/paintings/plants/dragonwort.webp" alt="" width="128">
+
+- Grows in: wood, farm and settlement
+- Does best on: loam, clay_vale
+- Gathered: a sprig of dragonwort
+- Good for: medicine, protection, fertility
+- Found: seldom
+
+> A striking plant with vibrant red flowers and spiky leaves.
+
+### Dropberry
+
+*Kyr · plant* · `plant:dropberry`
+
+<img src="../../web/reader/paintings/plants/dropberry.webp" alt="" width="128">
+
+- Grows in: farm and settlement, meadow
+- Does best on: loam, clay_vale
+- Gathered: a handful of dropberries
+- Good for: protection, love, healing, magic
+- Found: seldom
+
+> A small shrub with red berries that hang down from the branches.
+
+### Dulse
+
+*Kyr · plant* · `plant:dulse`
+
+<img src="../../web/reader/paintings/plants/dulse.webp" alt="" width="128">
+
+- Grows in: sea and shore
+- Does best on: sand, rocky
+- Gathered: a handful of dulse
+- Good for: food, lust, harmony, fertility
+- Found: seldom
+
+> A red seaweed with a leathery texture, commonly found along rocky shores.
+
+### Euphrosyne
+
+*Kyr · plant* · `plant:euphrosyne`
+
+<img src="../../web/reader/paintings/plants/euphrosyne.webp" alt="" width="128">
+
+- Grows in: meadow, farm and settlement
+- Does best on: loam, clay_vale
+- Gathered: a sprig of eyebright
+- Good for: medicine, prophecy
+- Found: seldom
+
+> A delicate plant with small white flowers and a sweet fragrance.
+
+### Feverwort
+
+*Kyr · plant* · `plant:feverwort_plant`
+
+<img src="../../web/reader/paintings/plants/feverwort.webp" alt="" width="128">
+
+- Grows in: meadow, wood
+- Does best on: limestone, clay_vale
+- Gathered: some feverwort
+- Good for: medicine
+- Found: here and there
+
+Feverwort: Heal (1d6) health to ally.
+
+> A small plant with pale, bitter leaves and white flowers in a flat head.
+
+### Foxglove
+
+*Adapted · plant* · `plant:foxglove_plant`
+
+<img src="../../web/reader/paintings/plants/foxglove.webp" alt="" width="128">
+
+- Grows in: wood, heath and moor
+- Does best on: granite, slate, sandstone
+- Gathered: a foxglove spire
+- Good for: poison, medicine
+- Found: here and there
+
+> A tall spire of hanging purple bells, speckled inside, over a rosette of soft leaves.
+
+### Furze
+
+*Kyr · plant* · `plant:furze`
+
+<img src="../../web/reader/paintings/plants/furze.webp" alt="" width="128">
+
+- Grows in: heath and moor
+- Does best on: loam, rocky
+- Gathered: a sprig of furze
+- Good for: protection, magic
+- Found: seldom
+
+> A spiny shrub with bright yellow flowers.
+
+### Gentian
+
+*Kyr · plant* · `plant:gentian`
+
+<img src="../../web/reader/paintings/plants/gentian.webp" alt="" width="128">
+
+- Grows in: fells, meadow
+- Does best on: loam, rocky
+- Gathered: a sprig of gentian
+- Good for: medicine, love, protection
+- Found: seldom
+
+> A vibrant blue flower with a trumpet-like shape.
+
+### Gilliflower
+
+*Kyr · plant* · `plant:gilliflower`
+
+<img src="../../web/reader/paintings/plants/gilliflower.webp" alt="" width="128">
+
+- Grows in: farm and settlement, meadow
+- Does best on: loam, clay_vale
+- Gathered: a sprig of gilliflower
+- Good for: medicine, protection, love, strength, healing
+- Found: seldom
+
+> A fragrant plant with clusters of small, colorful flowers.
+
+### Goodberry
+
+*Adapted · plant* · `plant:goodberry_plant`
+
+<img src="../../web/reader/paintings/plants/goodberry.webp" alt="" width="128">
+
+- Grows in: wood, heath and moor
+- Does best on: sandstone, ironstone
+- Gathered: a handful of goodberries
+- Good for: food, medicine
+- Found: here and there
+
+Goodberry: Heal (1d4+1) health to ally.
+
+> A bramble with small, glossy red berries that ripen sweet.
+
+### Hazel
+
+*Kyr · plant* · `plant:hazel`
+
+<img src="../../web/reader/paintings/plants/hazel.webp" alt="" width="128">
+
+- Grows in: wood, farm and settlement
+- Does best on: loam, clay_vale
+- Gathered: a sprig of hazel
+- Good for: medicine, magic, protection, luck, fertility, wishes
+- Found: seldom
+
+> A small tree with broad leaves and clusters of nuts.
+
+### Heather
+
+*Adapted · plant* · `plant:heather_plant`
+
+<img src="../../web/reader/paintings/plants/heather.webp" alt="" width="128">
+
+- Grows in: heath and moor, fells
+- Does best on: granite, sandstone, peat_moor
+- Gathered: a bunch of heather
+- Good for: medicine
+- Found: often
+
+Heather: Heal (1d3+1) health to ally. Remove fatigue from ally.
+
+> Low wiry shrubs covered in tiny purple-pink bells.
+
+### Hyssop
+
+*Kyr · plant* · `plant:hyssop`
+
+<img src="../../web/reader/paintings/plants/hyssop.webp" alt="" width="128">
+
+- Grows in: farm and settlement, meadow
+- Does best on: loam, clay_vale
+- Gathered: a sprig of hyssop
+- Good for: medicine, protection, magic, purification
+- Found: seldom
+
+> A small herb with spikes of blue flowers.
+
+### Kingsfoil
+
+*Adapted · plant* · `plant:kingsfoil_plant`
+
+<img src="../../web/reader/paintings/plants/kingsfoil.webp" alt="" width="128">
+
+- Grows in: grove, wood
+- Gathered: a sprig of kingsfoil
+- Good for: medicine
+- Found: seldom
+
+Kingsfoil: Heal (2d4+2) health to ally. Remove poison from ally.
+
+> A low three-leaved herb with a clean, sharp scent when crushed.
+
+### Meadowsweet
+
+*Kyr · plant* · `plant:meadowsweet`
+
+<img src="../../web/reader/paintings/plants/meadowsweet.webp" alt="" width="128">
+
+- Grows in: river and bank, fen
+- Gathered: a handful of meadowsweet
+- Good for: medicine
+- Found: wherever it can grow
+
+Healing herbs: Heal (1d6) health to ally.
+
+> Froth of cream flowers, smelling of almonds.
+
+### Pennyroyal
+
+*Kyr · plant* · `plant:pennyroyal`
+
+<img src="../../web/reader/paintings/plants/pennyroyal.webp" alt="" width="128">
+
+- Grows in: farm and settlement, meadow
+- Does best on: loam, clay_vale
+- Gathered: a sprig of pennyroyal
+- Good for: strength, protection, peace
+- Found: seldom
+
+> A low-growing herb with small, purple flowers.
+
+### Poppy
+
+*Kyr · plant* · `plant:poppy`
+
+<img src="../../web/reader/paintings/plants/poppy.webp" alt="" width="128">
+
+- Grows in: farm and settlement, meadow
+- Does best on: loam, clay_vale
+- Gathered: a sprig of poppy
+- Good for: fertility, love, sleep, luck, invisibility
+- Found: seldom
+
+> A tall herb with bright red flowers.
+
+### Purslane
+
+*Kyr · plant* · `plant:purslane`
+
+<img src="../../web/reader/paintings/plants/purslane.webp" alt="" width="128">
+
+- Grows in: farm and settlement, meadow
+- Does best on: loam, clay_vale
+- Gathered: a sprig of purslane
+- Good for: sleep, protection, love, luck, happiness
+- Found: seldom
+
+> A low-growing succulent with small, fleshy leaves.
+
+### Rosemary
+
+*Kyr · plant* · `plant:rosemary`
+
+<img src="../../web/reader/paintings/plants/rosemary.webp" alt="" width="128">
+
+- Grows in: farm and settlement, meadow
+- Does best on: loam, clay_vale
+- Gathered: a sprig of rosemary
+- Good for: protection, love, purification, healing, sleep
+- Found: seldom
+
+> A woody herb with needle-like leaves and small blue flowers.
+
+### Rosenoble
+
+*Kyr · plant* · `plant:rosenoble`
+
+<img src="../../web/reader/paintings/plants/rosenoble.webp" alt="" width="128">
+
+- Grows in: farm and settlement, wood
+- Does best on: loam, clay_vale
+- Gathered: a sprig of rosenoble
+- Good for: love, healthy, protection
+- Found: seldom
+
+> A striking plant with deep red roses and thorny stems.
+
+### Rue
+
+*Kyr · plant* · `plant:rue`
+
+<img src="../../web/reader/paintings/plants/rue.webp" alt="" width="128">
+
+- Grows in: farm and settlement, meadow
+- Does best on: loam, clay_vale
+- Gathered: a sprig of rue
+- Good for: healing, love, health, magic
+- Found: seldom
+
+> A bushy herb with bluish-green leaves and yellow flowers.
+
+### Sphagnum moss
+
+*Kyr · plant* · `plant:sphagnum`
+
+<img src="../../web/reader/paintings/plants/sphagnum.webp" alt="" width="128">
+
+- Grows in: fen
+- Gathered: a wad of sphagnum moss
+- Good for: medicine
+- Found: wherever it can grow
+
+Bandages: Heal (1d4 + 1) health to ally.
+
+> Red and green moss in the wet hollows, holding water like a sponge.
+
+### Staggerweed
+
+*Kyr · plant* · `plant:staggerweed`
+
+<img src="../../web/reader/paintings/plants/staggerweed.webp" alt="" width="128">
+
+- Grows in: meadow, wood
+- Does best on: loam, clay_vale
+- Gathered: a sprig of staggerweed
+- Good for: medicine, magic, health, protection
+- Found: seldom
+
+> A low-growing herb with small, inconspicuous flowers.
+
+### Stellaria
+
+*Kyr · plant* · `plant:stellaria`
+
+<img src="../../web/reader/paintings/plants/stellaria.webp" alt="" width="128">
+
+- Grows in: farm and settlement, meadow
+- Does best on: loam, clay_vale
+- Gathered: a sprig of stellaria
+- Good for: medicine, love
+- Found: seldom
+
+> A small herb with star-shaped white flowers.
+
+### Sweetgrass
+
+*Kyr · plant* · `plant:sweetgrass`
+
+<img src="../../web/reader/paintings/plants/sweetgrass.webp" alt="" width="128">
+
+- Grows in: farm and settlement, meadow
+- Does best on: loam, clay_vale
+- Gathered: a sprig of sweetgrass
+- Good for: protection, love, healing, magic
+- Found: seldom
+
+> A tall grass with long, fragrant green blades.
+
+### Tansy
+
+*Kyr · plant* · `plant:tansy`
+
+<img src="../../web/reader/paintings/plants/tansy.webp" alt="" width="128">
+
+- Grows in: farm and settlement, meadow
+- Does best on: loam, clay_vale
+- Gathered: a sprig of tansy
+- Good for: protection, love, healing, magic
+- Found: seldom
+
+> A tall plant with yellow button-like flowers and feathery leaves.
+
+### Thistle
+
+*Kyr · plant* · `plant:thistle`
+
+<img src="../../web/reader/paintings/plants/thistle.webp" alt="" width="128">
+
+- Grows in: farm and settlement, meadow
+- Does best on: loam, clay_vale
+- Gathered: a sprig of thistle
+- Good for: protection, love, healing, magic
+- Found: seldom
+
+> A spiny plant with purple flowers.
+
+### Thyme
+
+*Kyr · plant* · `plant:thyme`
+
+<img src="../../web/reader/paintings/plants/thyme.webp" alt="" width="128">
+
+- Grows in: farm and settlement, meadow
+- Does best on: loam, clay_vale
+- Gathered: a sprig of thyme
+- Good for: protection, love, healing, purification
+- Found: seldom
+
+> A low-growing herb with small green leaves and tiny purple flowers.
+
+### Willow
+
+*Kyr · plant* · `plant:willow`
+
+<img src="../../web/reader/paintings/plants/willow.webp" alt="" width="128">
+
+- Grows in: river and bank
+- Gathered: some willow bark
+- Good for: medicine, material
+- Found: wherever it can grow
+
+Willow bark: Heal (1d6) health to ally.
+
+> Grey-green leaves, long whippy shoots, and roots in the bank.
+
+### Woodbine
+
+*Kyr · plant* · `plant:woodbine`
+
+- Grows in: wood, farm and settlement
+- Does best on: loam, clay_vale
+- Gathered: a sprig of woodbine
+- Good for: love, protection, magic
+- Found: seldom
+
+> A climbing plant with clusters of fragrant flowers.
+
+### Yarrow
+
+*Kyr · plant* · `plant:yarrow`
+
+<img src="../../web/reader/paintings/plants/yarrow.webp" alt="" width="128">
+
+- Grows in: meadow, river and bank, wood
+- Gathered: a handful of yarrow
+- Good for: medicine
+- Found: wherever it can grow
+
+Prepared yarrow poultice: Remove bleeding from ally. Heal (1d3) health to ally.
+
+> Flat pale flower heads above feathery leaves.
+
 ## Appendix: Orsino's bestiary
 
 Orsino composes a monster from a class (its stat line, weapon, hide, attacks a turn and worth), a type, an aspect, a terrain and a rank, with a colour for dragons and a substance for golems. Animals and elementals are their own tables. Each is listed with how much of it Kyr holds: most are still Orsino's data only.

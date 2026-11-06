@@ -4476,16 +4476,6 @@ Used: Heal one ally for 1d6 (1–6).
 
 > Strips of bark from a riverbank willow. Steeped, it breaks a fever; chewed, it eases a hurt a little. One use.
 
-#### Self-heal
-
-*Kyr · consumable* · `item:selfheal`
-
-- Worth: 1
-
-Used: Heal one ally for 1d4 (1–4).
-
-> A handful of self-heal, the herb of the short turf. Bruised and bound on, it closes a small cut. One use.
-
 #### Feverwort
 
 *Kyr · consumable* · `item:feverwort`
@@ -4764,6 +4754,270 @@ Brings Lore to whoever carries it equipped.
 Brings The singers' knell to whoever carries it equipped.
 
 > A small bell of grey bronze with a clapper of bone, the Stone-Singers' own, rung over their dead. Whoever carries it and rings it as they rang it rings their knell.
+
+#### Amaranth
+
+*Kyr · gear* · `item:amaranth_gathered`
+
+- Worth: 1
+
+> A tall plant with broad leaves and clusters of small, colorful flowers. Gathered where it grows.
+
+#### Aster
+
+*Kyr · gear* · `item:aster_gathered`
+
+- Worth: 1
+
+> A tall plant with daisy-like flowers, often purple or blue. Gathered where it grows.
+
+#### Bamboo
+
+*Kyr · gear* · `item:bamboo_gathered`
+
+- Worth: 1
+
+> A tall, woody grass with jointed stems. Gathered where it grows.
+
+#### Bay
+
+*Kyr · gear* · `item:bay_gathered`
+
+- Worth: 1
+
+> A shrub with aromatic leaves and small yellow flowers. Gathered where it grows.
+
+#### Banewort
+
+*Kyr · gear* · `item:banewort_gathered`
+
+- Worth: 1
+
+> A low-growing plant with dark green leaves and small, inconspicuous flowers. Gathered where it grows.
+
+#### Dragonwort
+
+*Kyr · gear* · `item:dragonwort_gathered`
+
+- Worth: 1
+
+> A striking plant with vibrant red flowers and spiky leaves. Gathered where it grows.
+
+#### Bloodroot
+
+*Kyr · gear* · `item:bloodroot_gathered`
+
+- Worth: 1
+
+> A perennial plant with large leaves and clusters of white flowers. Gathered where it grows.
+
+#### Gilliflower
+
+*Kyr · gear* · `item:gilliflower_gathered`
+
+- Worth: 1
+
+> A fragrant plant with clusters of small, colorful flowers. Gathered where it grows.
+
+#### Celandine
+
+*Kyr · gear* · `item:celandine_gathered`
+
+- Worth: 1
+
+> A small plant with bright yellow flowers and lobed leaves. Gathered where it grows.
+
+#### Cinquefoil
+
+*Kyr · gear* · `item:cinquefoil_gathered`
+
+- Worth: 1
+
+> A low-growing plant with five-petaled yellow flowers and serrated leaves. Gathered where it grows.
+
+#### Daffodil
+
+*Kyr · gear* · `item:daffodil_gathered`
+
+- Worth: 1
+
+> A bulbous plant with bright yellow trumpet-shaped flowers. Gathered where it grows.
+
+#### Dulse
+
+*Kyr · gear* · `item:dulse_gathered`
+
+- Worth: 1
+
+> A red seaweed with a leathery texture, commonly found along rocky shores. Gathered where it grows.
+
+#### Alhuren
+
+*Kyr · gear* · `item:alhuren_gathered`
+
+- Worth: 1
+
+> A mystical plant with silver leaves and glowing blue flowers. Gathered where it grows.
+
+#### Euphrosyne
+
+*Kyr · gear* · `item:euphrosyne_gathered`
+
+- Worth: 1
+
+> A delicate plant with small white flowers and a sweet fragrance. Gathered where it grows.
+
+#### Rosenoble
+
+*Kyr · gear* · `item:rosenoble_gathered`
+
+- Worth: 1
+
+> A striking plant with deep red roses and thorny stems. Gathered where it grows.
+
+#### Gentian
+
+*Kyr · gear* · `item:gentian_gathered`
+
+- Worth: 1
+
+> A vibrant blue flower with a trumpet-like shape. Gathered where it grows.
+
+#### Furze
+
+*Kyr · gear* · `item:furze_gathered`
+
+- Worth: 1
+
+> A spiny shrub with bright yellow flowers. Gathered where it grows.
+
+#### Hazel
+
+*Kyr · gear* · `item:hazel_gathered`
+
+- Worth: 1
+
+> A small tree with broad leaves and clusters of nuts. Gathered where it grows.
+
+#### Woodbine
+
+*Kyr · gear* · `item:woodbine_gathered`
+
+- Worth: 1
+
+> A climbing plant with clusters of fragrant flowers. Gathered where it grows.
+
+#### Hyssop
+
+*Kyr · gear* · `item:hyssop_gathered`
+
+- Worth: 1
+
+> A small herb with spikes of blue flowers. Gathered where it grows.
+
+#### Stellaria
+
+*Kyr · gear* · `item:stellaria_gathered`
+
+- Worth: 1
+
+> A small herb with star-shaped white flowers. Gathered where it grows.
+
+#### Staggerweed
+
+*Kyr · gear* · `item:staggerweed_gathered`
+
+- Worth: 1
+
+> A low-growing herb with small, inconspicuous flowers. Gathered where it grows.
+
+#### Cedron
+
+*Kyr · gear* · `item:cedron_gathered`
+
+- Worth: 1
+
+> A tall herb with aromatic leaves. Gathered where it grows.
+
+#### Pennyroyal
+
+*Kyr · gear* · `item:pennyroyal_gathered`
+
+- Worth: 1
+
+> A low-growing herb with small, purple flowers. Gathered where it grows.
+
+#### Poppy
+
+*Kyr · gear* · `item:poppy_gathered`
+
+- Worth: 1
+
+> A tall herb with bright red flowers. Gathered where it grows.
+
+#### Purslane
+
+*Kyr · gear* · `item:purslane_gathered`
+
+- Worth: 1
+
+> A low-growing succulent with small, fleshy leaves. Gathered where it grows.
+
+#### Rosemary
+
+*Kyr · gear* · `item:rosemary_gathered`
+
+- Worth: 1
+
+> A woody herb with needle-like leaves and small blue flowers. Gathered where it grows.
+
+#### Rue
+
+*Kyr · gear* · `item:rue_gathered`
+
+- Worth: 1
+
+> A bushy herb with bluish-green leaves and yellow flowers. Gathered where it grows.
+
+#### Thistle
+
+*Kyr · gear* · `item:thistle_gathered`
+
+- Worth: 1
+
+> A spiny plant with purple flowers. Gathered where it grows.
+
+#### Thyme
+
+*Kyr · gear* · `item:thyme_gathered`
+
+- Worth: 1
+
+> A low-growing herb with small green leaves and tiny purple flowers. Gathered where it grows.
+
+#### Tansy
+
+*Kyr · gear* · `item:tansy_gathered`
+
+- Worth: 1
+
+> A tall plant with yellow button-like flowers and feathery leaves. Gathered where it grows.
+
+#### Sweetgrass
+
+*Kyr · gear* · `item:sweetgrass_gathered`
+
+- Worth: 1
+
+> A tall grass with long, fragrant green blades. Gathered where it grows.
+
+#### Dropberry
+
+*Kyr · gear* · `item:dropberry_gathered`
+
+- Worth: 1
+
+> A small shrub with red berries that hang down from the branches. Gathered where it grows.
 
 ## Combat
 

@@ -72,17 +72,31 @@ export class RegionGrowth {
   private static apart(a: number, b: number, W: number): number {
     return Math.max(Math.abs(a % W - b % W), Math.abs(Math.floor(a / W) - Math.floor(b / W)));
   }
+  // What grows in a town's gardens, seen from its green (the owner's garden herbs, 6 November: rosemary and rue,
+  // hyssop and gilliflower): two at most of what lives by houses, by the same chance, on the town's own rock.
+  static readonly gardens = 2;
+  private static planted(region: Region): { place: { id: string; cells: number[] }; here: [string, Plant][] }[] {
+    return region.settlements.filter(t => t.cell !== undefined).map(t => {
+      const place = { id: `${t.id}_green`, cells: [t.cell!] };
+      return { place, here: this.grown(place, new Set(['settlement']), this.rocks(region, place.cells))
+        .filter(([, o]) => o.abundance).slice(0, this.gardens) };
+    });
+  }
   static lines(region: Region): string[] {
     const q = JSON.stringify, lines: string[] = [];
-    const roads = new Set(RegionGeography.roads(region).map(r => r.way));
-    for (const place of this.places(region)) {
-      const habitats = this.habitats(region, place.cells);
-      const here = this.grown(place, habitats, this.rocks(region, place.cells));
+    const roads = new Set(RegionGeography.roads(region).map(r => r.way)), greens = new Set<string>();
+    const wild = this.places(region).map(place => ({ place,
+      here: this.grown(place, this.habitats(region, place.cells), this.rocks(region, place.cells)) }));
+    const gardens = this.planted(region);
+    for (const g of gardens) { greens.add(g.place.id); }
+    for (const { place, here } of [...wild, ...gardens]) {
       for (const [id, o] of here) {
         const stand = `${place.id}_${id}`;
+        // A stand by a road is somewhere along it, not wherever the road is seen from; one of a town's, in its gardens.
+        const said = roads.has(place.id) ? o.stand!.replace(/ here\b/, ' along the road')
+          : greens.has(place.id) ? o.stand!.replace(/ here\b/, ' in the gardens about the green') : o.stand!;
         lines.push(`  Thing ${stand} ${q(`the ${o.name.toLowerCase()}`)} at ${place.id} is scenery {`,
-          // A stand by a road is somewhere along it, not wherever the road is seen from.
-          `    State growing ${q(roads.has(place.id) ? o.stand!.replace(/ here\b/, ' along the road') : o.stand!)}.`, '  }',
+          `    State growing ${q(said)}.`, '  }',
           `  Initially Assert grows(${stand}).`,
           `  Discovery ${stand}_hid ${q(`What grows at ${place.id} is gathered, not found.`)}.`);
         for (let n = 1; n <= (o.count ?? 1); n++) {

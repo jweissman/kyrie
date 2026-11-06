@@ -195,6 +195,8 @@ export interface Deity {
 export interface Material { name: string; kind: string; hardness: number; looks: string; source: Source }
 export interface Plant {
   name: string; looks: string; habitats: string[]; source: Source;
+  // Its plate (data/paintings/plants.json: plants/<id>), where one is drawn.
+  portrait?: string;
   // What it is good for (medicine, food, poison, material), and how common it is where it grows: a plant with an
   // abundance is set wherever its habitat is, after the plants written before it (see RegionGrowth).
   uses?: string[]; abundance?: number;

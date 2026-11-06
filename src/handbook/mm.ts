@@ -27,7 +27,8 @@ export class MonsterManual {
       'A species acts as many times a turn as its kind does: most once, an owlbear or an angel twice, a dragon three '
         + 'times. Most of the bestiary is composed from Orsino\'s monster template and grows with level as the template '
         + 'does: every quality rises by one at levels 4, 12 and 20, and hit points by three a level.'],
-    sections: [this.species(), this.devices(), this.variations(), this.natural(), this.traits(), this.orsino()] };
+    sections: [this.species(), this.devices(), this.variations(), this.natural(), this.traits(), MonsterManual.plants(),
+      this.orsino()] };
   }
   species(): Section {
     const types = [...new Set(Canon.catalogued.map(id => Canon.creature(id).type ?? 'monster'))].sort();
@@ -109,6 +110,26 @@ export class MonsterManual {
   static resistances(r: Record<string, number>): string {
     return Object.entries(r).map(([k, v]) => v >= 1 ? `immune to ${k}` : v > 0 ? `${k} ${Math.round(v * 100)}%`
       : `${k} takes ${Math.round(-v * 100)}% more`).join(', ');
+  }
+  // What grows wild (data/catalog/plants.json): where, on what ground, what it gives and what it is good for, by its
+  // plate (the owner's plants, 6 November: flavour, gathered where they grow; nothing yet made of them).
+  static plants(): Section {
+    const entries = Object.entries(Canon.plants).sort(([, a], [, b]) => a.name.localeCompare(b.name))
+      .map(([id, p]): Entry => {
+        const gives = p.yields ? Canon.items[p.yields] : undefined;
+        const facts: [string, string][] = [['Grows in', p.habitats.map(h => Canon.habitats[h]?.name.toLowerCase() ?? h)
+          .join(', ')], ...p.grounds?.length ? [['Does best on', p.grounds.join(', ')] as [string, string]] : [],
+          ...gives ? [['Gathered', p.gathered ?? gives.name.toLowerCase()] as [string, string]] : [],
+          ...p.uses?.length ? [['Good for', p.uses.join(', ')] as [string, string]] : [],
+          ['Found', !p.abundance ? 'wherever it can grow' : p.abundance >= 5 ? 'often' : p.abundance >= 3 ? 'here and there'
+            : 'seldom']];
+        return { id: `plant:${id}`, title: p.name, status: HandbookStatus.of(p), kind: 'plant', facts,
+          text: [p.looks], ...p.portrait ? { painting: p.portrait } : {},
+          ...p.yields && gives?.use ? { rules: [`${gives.name}: ${HandbookText.mechanics(`item:${p.yields}`) ?? gives.use}`] }
+            : {} };
+      });
+    return { id: 'plants', title: 'Plants', intro: ['What grows wild in Imbar, and where: each is met where its country is, '
+      + 'and more often on the rock it likes; what is gathered from it is carried away.'], entries };
   }
   // A trait of a creature's nature or affinity, which this book has an entry for.
   static natured(id: string): boolean { return ['nature', 'affinity'].includes(Canon.traits[id]?.category ?? ''); }

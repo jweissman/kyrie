@@ -1,5 +1,6 @@
 import animalPaintings from '../../data/paintings/animals.json';
 import monsterPaintings from '../../data/paintings/monsters.json';
+import plantPaintings from '../../data/paintings/plants.json';
 import geology from '../../data/catalog/geology.json';
 import { Canon } from './canon';
 import type { Modifiers } from './schema';
@@ -17,7 +18,8 @@ export class CanonValidation {
   static readonly deviceTypes = ['engine', 'ward', 'barrier', 'charge', 'vessel'];
   // A creature is painted by one of the collection's creature concepts.
   static readonly paintings = new Set([...PaintingConcepts.creatures,
-    ...[...animalPaintings.portraits, ...monsterPaintings.portraits].map(p => p.file.replace(/^paintings\/|\.webp$/g, ''))]);
+    ...[...animalPaintings.portraits, ...monsterPaintings.portraits, ...plantPaintings.portraits]
+      .map(p => p.file.replace(/^paintings\/|\.webp$/g, ''))]);
   // What a plant's grounds may name: a formation (granite), or a soil one makes (loam, sand).
   static readonly grounds = new Set([...Object.keys(geology.formations), ...Object.values(geology.formations)
     .flatMap(f => (f as { soils?: string[] }).soils ?? [])]);
@@ -245,6 +247,7 @@ export class CanonValidation {
       }
       if (o.stand && (!o.yields || !o.gathered)) { this.fail(where, 'a stand gathers something it yields'); }
       for (const h of o.habitats.filter(h => !Canon.habitats[h])) { this.fail(where, `unknown habitat ${h}`); }
+      if (o.portrait && !CanonValidation.paintings.has(o.portrait)) { this.fail(where, `no painting ${o.portrait}`); }
       for (const g of (o.grounds ?? []).filter(g => !CanonValidation.grounds.has(g))) { this.fail(where, `unknown ground ${g}`); }
     }
   }

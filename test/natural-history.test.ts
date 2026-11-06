@@ -97,4 +97,18 @@ describe('natural history', () => {
     expect(['loam', 'rocky', 'sand', 'granite'].filter(g => !CanonValidation.grounds.has(g))).toEqual([]);
     expect(Object.values(Canon.plants).filter(p => p.yields && !Canon.items[p.yields]).map(p => p.name)).toEqual([]);
   });
+  // A town's gardens, seen from its green (the owner's garden herbs, 6 November): two at most of what lives by houses.
+  it('grows a few garden herbs about each town\'s green', () => {
+    const region = WorldAssembler.region('a1', [0, 0]);
+    const greens = new Map<string, string[]>();
+    for (const l of RegionGrowth.lines(region)) {
+      const m = /^ {2}Thing (\w+_green)_(\w+) ".*" at \1 is scenery/.exec(l);
+      if (m) { greens.set(m[1]!, [...greens.get(m[1]!) ?? [], m[2]!]); }
+    }
+    expect(greens.size).toBeGreaterThan(1);
+    for (const [, grown] of greens) {
+      expect(grown.length).toBeLessThanOrEqual(RegionGrowth.gardens);
+      expect(grown.every(id => Canon.plants[id]!.habitats.includes('settlement'))).toBe(true);
+    }
+  });
 });

@@ -801,7 +801,7 @@
     "faithful": 777,
     "adapted": 366,
     "represented": 4,
-    "kyr": 507,
+    "kyr": 539,
     "unsupported": 70,
     "unreachable": 4,
     "data-only": 12
@@ -892,7 +892,7 @@
       "faithful": 249,
       "adapted": 73,
       "represented": 0,
-      "kyr": 57,
+      "kyr": 89,
       "unsupported": 9,
       "unreachable": 0,
       "data-only": 0
@@ -1061,9 +1061,9 @@
    "title": "Monster Manual",
    "counts": {
     "faithful": 126,
-    "adapted": 136,
+    "adapted": 143,
     "represented": 10,
-    "kyr": 41,
+    "kyr": 80,
     "unsupported": 4,
     "unreachable": 0,
     "data-only": 104
@@ -1130,6 +1130,19 @@
       "represented": 0,
       "kyr": 8,
       "unsupported": 4,
+      "unreachable": 0,
+      "data-only": 0
+     }
+    },
+    {
+     "id": "plants",
+     "title": "Plants",
+     "counts": {
+      "faithful": 0,
+      "adapted": 7,
+      "represented": 0,
+      "kyr": 39,
+      "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
      }
@@ -8607,13 +8620,6 @@
    "section": "equipment/gear"
   },
   {
-   "id": "item:selfheal",
-   "title": "Self-heal",
-   "status": "kyr",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
    "id": "item:feverwort",
    "title": "Feverwort",
    "status": "kyr",
@@ -8826,6 +8832,237 @@
   {
    "id": "item:dirge_bell",
    "title": "Dirge bell",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:amaranth_gathered",
+   "title": "Amaranth",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:aster_gathered",
+   "title": "Aster",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:bamboo_gathered",
+   "title": "Bamboo",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:bay_gathered",
+   "title": "Bay",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:banewort_gathered",
+   "title": "Banewort",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:dragonwort_gathered",
+   "title": "Dragonwort",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:bloodroot_gathered",
+   "title": "Bloodroot",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:gilliflower_gathered",
+   "title": "Gilliflower",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:celandine_gathered",
+   "title": "Celandine",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:cinquefoil_gathered",
+   "title": "Cinquefoil",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:daffodil_gathered",
+   "title": "Daffodil",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:dulse_gathered",
+   "title": "Dulse",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:alhuren_gathered",
+   "title": "Alhuren",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:euphrosyne_gathered",
+   "title": "Euphrosyne",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:rosenoble_gathered",
+   "title": "Rosenoble",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:gentian_gathered",
+   "title": "Gentian",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:furze_gathered",
+   "title": "Furze",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:hazel_gathered",
+   "title": "Hazel",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:woodbine_gathered",
+   "title": "Woodbine",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:hyssop_gathered",
+   "title": "Hyssop",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:stellaria_gathered",
+   "title": "Stellaria",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:staggerweed_gathered",
+   "title": "Staggerweed",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:cedron_gathered",
+   "title": "Cedron",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:pennyroyal_gathered",
+   "title": "Pennyroyal",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:poppy_gathered",
+   "title": "Poppy",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:purslane_gathered",
+   "title": "Purslane",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:rosemary_gathered",
+   "title": "Rosemary",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:rue_gathered",
+   "title": "Rue",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:thistle_gathered",
+   "title": "Thistle",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:thyme_gathered",
+   "title": "Thyme",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:tansy_gathered",
+   "title": "Tansy",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:sweetgrass_gathered",
+   "title": "Sweetgrass",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:dropberry_gathered",
+   "title": "Dropberry",
    "status": "kyr",
    "book": "phb",
    "section": "equipment/gear"
@@ -19875,6 +20112,328 @@
    "status": "kyr",
    "book": "mm",
    "section": "creature-traits"
+  },
+  {
+   "id": "plant:alder",
+   "title": "Alder",
+   "status": "kyr",
+   "book": "mm",
+   "section": "plants"
+  },
+  {
+   "id": "plant:alhuren",
+   "title": "Alhuren",
+   "status": "kyr",
+   "book": "mm",
+   "section": "plants"
+  },
+  {
+   "id": "plant:amaranth",
+   "title": "Amaranth",
+   "status": "kyr",
+   "book": "mm",
+   "section": "plants"
+  },
+  {
+   "id": "plant:aster",
+   "title": "Aster",
+   "status": "kyr",
+   "book": "mm",
+   "section": "plants"
+  },
+  {
+   "id": "plant:bamboo",
+   "title": "Bamboo",
+   "status": "kyr",
+   "book": "mm",
+   "section": "plants"
+  },
+  {
+   "id": "plant:banewort",
+   "title": "Banewort",
+   "status": "kyr",
+   "book": "mm",
+   "section": "plants"
+  },
+  {
+   "id": "plant:bay",
+   "title": "Bay",
+   "status": "kyr",
+   "book": "mm",
+   "section": "plants"
+  },
+  {
+   "id": "plant:bloodroot",
+   "title": "Bloodroot",
+   "status": "kyr",
+   "book": "mm",
+   "section": "plants"
+  },
+  {
+   "id": "plant:cedron",
+   "title": "Cedron",
+   "status": "kyr",
+   "book": "mm",
+   "section": "plants"
+  },
+  {
+   "id": "plant:celandine",
+   "title": "Celandine",
+   "status": "kyr",
+   "book": "mm",
+   "section": "plants"
+  },
+  {
+   "id": "plant:cinquefoil",
+   "title": "Cinquefoil",
+   "status": "kyr",
+   "book": "mm",
+   "section": "plants"
+  },
+  {
+   "id": "plant:cloudberry_plant",
+   "title": "Cloudberry",
+   "status": "adapted",
+   "book": "mm",
+   "section": "plants"
+  },
+  {
+   "id": "plant:comfrey_plant",
+   "title": "Comfrey",
+   "status": "adapted",
+   "book": "mm",
+   "section": "plants"
+  },
+  {
+   "id": "plant:daffodil",
+   "title": "Daffodil",
+   "status": "kyr",
+   "book": "mm",
+   "section": "plants"
+  },
+  {
+   "id": "plant:dandelion_plant",
+   "title": "Dandelion",
+   "status": "adapted",
+   "book": "mm",
+   "section": "plants"
+  },
+  {
+   "id": "plant:dragonwort",
+   "title": "Dragonwort",
+   "status": "kyr",
+   "book": "mm",
+   "section": "plants"
+  },
+  {
+   "id": "plant:dropberry",
+   "title": "Dropberry",
+   "status": "kyr",
+   "book": "mm",
+   "section": "plants"
+  },
+  {
+   "id": "plant:dulse",
+   "title": "Dulse",
+   "status": "kyr",
+   "book": "mm",
+   "section": "plants"
+  },
+  {
+   "id": "plant:euphrosyne",
+   "title": "Euphrosyne",
+   "status": "kyr",
+   "book": "mm",
+   "section": "plants"
+  },
+  {
+   "id": "plant:feverwort_plant",
+   "title": "Feverwort",
+   "status": "kyr",
+   "book": "mm",
+   "section": "plants"
+  },
+  {
+   "id": "plant:foxglove_plant",
+   "title": "Foxglove",
+   "status": "adapted",
+   "book": "mm",
+   "section": "plants"
+  },
+  {
+   "id": "plant:furze",
+   "title": "Furze",
+   "status": "kyr",
+   "book": "mm",
+   "section": "plants"
+  },
+  {
+   "id": "plant:gentian",
+   "title": "Gentian",
+   "status": "kyr",
+   "book": "mm",
+   "section": "plants"
+  },
+  {
+   "id": "plant:gilliflower",
+   "title": "Gilliflower",
+   "status": "kyr",
+   "book": "mm",
+   "section": "plants"
+  },
+  {
+   "id": "plant:goodberry_plant",
+   "title": "Goodberry",
+   "status": "adapted",
+   "book": "mm",
+   "section": "plants"
+  },
+  {
+   "id": "plant:hazel",
+   "title": "Hazel",
+   "status": "kyr",
+   "book": "mm",
+   "section": "plants"
+  },
+  {
+   "id": "plant:heather_plant",
+   "title": "Heather",
+   "status": "adapted",
+   "book": "mm",
+   "section": "plants"
+  },
+  {
+   "id": "plant:hyssop",
+   "title": "Hyssop",
+   "status": "kyr",
+   "book": "mm",
+   "section": "plants"
+  },
+  {
+   "id": "plant:kingsfoil_plant",
+   "title": "Kingsfoil",
+   "status": "adapted",
+   "book": "mm",
+   "section": "plants"
+  },
+  {
+   "id": "plant:meadowsweet",
+   "title": "Meadowsweet",
+   "status": "kyr",
+   "book": "mm",
+   "section": "plants"
+  },
+  {
+   "id": "plant:pennyroyal",
+   "title": "Pennyroyal",
+   "status": "kyr",
+   "book": "mm",
+   "section": "plants"
+  },
+  {
+   "id": "plant:poppy",
+   "title": "Poppy",
+   "status": "kyr",
+   "book": "mm",
+   "section": "plants"
+  },
+  {
+   "id": "plant:purslane",
+   "title": "Purslane",
+   "status": "kyr",
+   "book": "mm",
+   "section": "plants"
+  },
+  {
+   "id": "plant:rosemary",
+   "title": "Rosemary",
+   "status": "kyr",
+   "book": "mm",
+   "section": "plants"
+  },
+  {
+   "id": "plant:rosenoble",
+   "title": "Rosenoble",
+   "status": "kyr",
+   "book": "mm",
+   "section": "plants"
+  },
+  {
+   "id": "plant:rue",
+   "title": "Rue",
+   "status": "kyr",
+   "book": "mm",
+   "section": "plants"
+  },
+  {
+   "id": "plant:sphagnum",
+   "title": "Sphagnum moss",
+   "status": "kyr",
+   "book": "mm",
+   "section": "plants"
+  },
+  {
+   "id": "plant:staggerweed",
+   "title": "Staggerweed",
+   "status": "kyr",
+   "book": "mm",
+   "section": "plants"
+  },
+  {
+   "id": "plant:stellaria",
+   "title": "Stellaria",
+   "status": "kyr",
+   "book": "mm",
+   "section": "plants"
+  },
+  {
+   "id": "plant:sweetgrass",
+   "title": "Sweetgrass",
+   "status": "kyr",
+   "book": "mm",
+   "section": "plants"
+  },
+  {
+   "id": "plant:tansy",
+   "title": "Tansy",
+   "status": "kyr",
+   "book": "mm",
+   "section": "plants"
+  },
+  {
+   "id": "plant:thistle",
+   "title": "Thistle",
+   "status": "kyr",
+   "book": "mm",
+   "section": "plants"
+  },
+  {
+   "id": "plant:thyme",
+   "title": "Thyme",
+   "status": "kyr",
+   "book": "mm",
+   "section": "plants"
+  },
+  {
+   "id": "plant:willow",
+   "title": "Willow",
+   "status": "kyr",
+   "book": "mm",
+   "section": "plants"
+  },
+  {
+   "id": "plant:woodbine",
+   "title": "Woodbine",
+   "status": "kyr",
+   "book": "mm",
+   "section": "plants"
+  },
+  {
+   "id": "plant:yarrow",
+   "title": "Yarrow",
+   "status": "kyr",
+   "book": "mm",
+   "section": "plants"
   },
   {
    "id": "orsino:monsterClass:aberration",

@@ -1,5 +1,6 @@
 import { afterEach, describe, expect, it } from 'bun:test';
 import { Canon } from '../src/canon/canon';
+import { CanonValidation } from '../src/canon/canon-validation';
 import { Geology, type Formation } from '../src/world/land/geology';
 import { Terrain } from '../src/world/land/terrain';
 import { Atlases } from '../src/world/land/atlas';
@@ -72,7 +73,8 @@ describe('the ground under a country', () => {
   // What grows on it (M19-68): heather twice as common on granite as on the heath's other rock, and a plant's grounds
   // formations there are.
   it('grows a plant more often on the rock it does best on', () => {
-    expect(Object.values(Canon.plants).flatMap(o => o.grounds ?? []).filter(g => !Geology.formations[g])).toEqual([]);
+    expect(Object.values(Canon.plants).flatMap(o => o.grounds ?? []).filter(g => !CanonValidation.grounds.has(g)))
+      .toEqual([]);
     const heather = (rocks: string[]) => Array.from({ length: 400 }, (_, i) => RegionGrowth
       .grown({ id: `heath${i}` }, new Set(['heath']), new Set(rocks)).some(([id]) => id === 'heather_plant'))
       .filter(Boolean).length;
