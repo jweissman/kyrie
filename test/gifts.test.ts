@@ -7,8 +7,9 @@ import { Frontier } from '../src/world/frontier';
 import { GeneratedWorld } from './support/generated';
 
 // The pieces of evidence that pass between adventures are things a person gives: each must be asked for, offered, and
-// taken, as a player would (asked for; given into the company's hands), before it can be carried to a door. (A first pass checked that the kinds existed and gave
-// them to the company by the test's hand; this one asks every giver.)
+// taken, as a player would (asked for; given into the company's hands), before it can be carried to a door.
+// (A first pass checked that the kinds existed and gave them to the company by the test's hand; this one asks every
+// giver.)
 describe('what the givers give', () => {
   it('hands over the writ, the rubbing, the letter, the note, the tally and the lens to a company that asks, and the company can take each', async () => {
     const w = await WorldAssembler.assemble('thorn', NodeBundleSource.shared, { region: { terrain: 'mountain' } });

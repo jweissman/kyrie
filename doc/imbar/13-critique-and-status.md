@@ -110,3 +110,19 @@ a journey again after a boar stops it). A merge that adds a province on `main` w
 5. Project race and background into the world, and give the preset party their own voices.
 6. Give two other adventures the treatment the Long Man got: Hessel (a protagonist who is courted, and may refuse)
    and The Third Night (a bridge that once was a ferry).
+
+## 13.7 Third pass: reviewed again, severely
+
+**What I was not happy with, and what I did.** The sea was a stage set; the Slack explained itself; the evidence chain
+was partly decorative; fights were absent. Done: Skerrow's night (a receipt, a device, a lens, Quillon's men, a storm and
+a boy, each with a noncombat exit); the Slack's second bell, mast-bracket, tally and lens, and the Divider (four answers,
+two of them without a blow); the Kestrel's hands boarding on a failed unloading (fight, bribe eight coin, or Rune who
+drank with them); a lamp seen burning at the Combs at dawn, and a quay notice board with a column of ships lost this year
+(texture that says the world is bigger than the story). The most important finding was not literary: **the gifts did not
+work** (`friction.md` #1). The first two passes' relationship map was, in that respect, partly untrue until this one.
+
+**Still not right.** The Remainder still explains itself (no scene with no one to ask). The sea is still a schedule plus
+three set pieces. The Orsett reckoning, the Long Man's "eleven and a blank" foreshadow and the Slack's pin clock are
+unwritten (`friction.md`, last section). Tone is still elegiac; the comic register is absent. Verification of this pass:
+targeted tests (`the-dorothea`, `skerrow-night` 17 pass) and lint/typecheck clean; **the whole suite was not re-run at the
+final tree**, so the 2720/0 figure in §13.5 belongs to commit `5e34337` only.

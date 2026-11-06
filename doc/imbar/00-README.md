@@ -1,6 +1,6 @@
 # Imbar: deep history, selective connection, a voyage, and a ship in the pause between counts
 
-*Branch `adventure/imbar-deep-time`, from `main` at `fb24f94`. Two passes. Read `13-critique-and-status.md` for the
+*Branch `adventure/imbar-deep-time`, from `main` at `fb24f94`. Two passes. Read `13-critique-and-status.md` (and `friction.md`) for the
 honest account; this file is the map.*
 
 ## First pass (charter, keeper, Exchange)
