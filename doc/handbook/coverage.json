@@ -48,8 +48,8 @@
     "total": 131,
     "feasible": 123,
     "catalogued": 1,
-    "represented": 25,
-    "executable": 105,
+    "represented": 23,
+    "executable": 107,
     "play-validated": 0
    },
    {
@@ -228,8 +228,8 @@
     "total": 154,
     "feasible": 147,
     "catalogued": 0,
-    "represented": 15,
-    "executable": 139,
+    "represented": 13,
+    "executable": 141,
     "play-validated": 0
    },
    {
@@ -648,8 +648,8 @@
     "total": 141,
     "feasible": 124,
     "catalogued": 0,
-    "represented": 17,
-    "executable": 123,
+    "represented": 14,
+    "executable": 126,
     "play-validated": 1
    },
    {
@@ -798,11 +798,11 @@
   "phb": {
    "title": "Player's Handbook",
    "counts": {
-    "faithful": 764,
+    "faithful": 771,
     "adapted": 365,
     "represented": 4,
     "kyr": 506,
-    "unsupported": 84,
+    "unsupported": 77,
     "unreachable": 4,
     "data-only": 12
    },
@@ -915,11 +915,11 @@
      "id": "magic",
      "title": "Magic",
      "counts": {
-      "faithful": 239,
+      "faithful": 243,
       "adapted": 4,
       "represented": 0,
       "kyr": 2,
-      "unsupported": 39,
+      "unsupported": 35,
       "unreachable": 0,
       "data-only": 0
      }
@@ -967,11 +967,11 @@
      "id": "conditions",
      "title": "Conditions",
      "counts": {
-      "faithful": 123,
+      "faithful": 126,
       "adapted": 25,
       "represented": 0,
       "kyr": 32,
-      "unsupported": 24,
+      "unsupported": 21,
       "unreachable": 0,
       "data-only": 0
      }
@@ -994,9 +994,9 @@
   "dmg": {
    "title": "Dungeon Master's Guide",
    "counts": {
-    "faithful": 233,
+    "faithful": 236,
     "adapted": 25,
-    "represented": 36,
+    "represented": 33,
     "kyr": 278,
     "unsupported": 0,
     "unreachable": 0,
@@ -1046,9 +1046,9 @@
      "id": "orsino-world",
      "title": "Appendix: Orsino's world material",
      "counts": {
-      "faithful": 233,
+      "faithful": 236,
       "adapted": 25,
-      "represented": 36,
+      "represented": 33,
       "kyr": 0,
       "unsupported": 0,
       "unreachable": 0,
@@ -9421,7 +9421,7 @@
   {
    "id": "ability:reflection",
    "title": "Reflection",
-   "status": "unsupported",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-arcane/spells-arcane-5"
   },
@@ -9652,7 +9652,7 @@
   {
    "id": "ability:major_reflection",
    "title": "Major Reflection",
-   "status": "unsupported",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-arcane/spells-arcane-8"
   },
@@ -10324,7 +10324,7 @@
   {
    "id": "ability:minor_deflection",
    "title": "Minor Deflection",
-   "status": "unsupported",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-divine/spells-divine-4"
   },
@@ -10499,7 +10499,7 @@
   {
    "id": "ability:major_deflection",
    "title": "Major Deflection",
-   "status": "unsupported",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-divine/spells-divine-6"
   },
@@ -12144,7 +12144,7 @@
   {
    "id": "condition:major_reflect",
    "title": "Major Reflect",
-   "status": "unsupported",
+   "status": "faithful",
    "book": "phb",
    "section": "conditions"
   },
@@ -12235,7 +12235,7 @@
   {
    "id": "condition:minor_reflect",
    "title": "Minor Reflect",
-   "status": "unsupported",
+   "status": "faithful",
    "book": "phb",
    "section": "conditions"
   },
@@ -12438,7 +12438,7 @@
   {
    "id": "condition:reflect",
    "title": "Reflect",
-   "status": "unsupported",
+   "status": "faithful",
    "book": "phb",
    "section": "conditions"
   },
@@ -18206,7 +18206,7 @@
   {
    "id": "orsino:status:major_reflect",
    "title": "Major Reflect",
-   "status": "represented",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-status"
   },
@@ -18297,7 +18297,7 @@
   {
    "id": "orsino:status:minor_reflect",
    "title": "Minor Reflect",
-   "status": "represented",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-status"
   },
@@ -18430,7 +18430,7 @@
   {
    "id": "orsino:status:reflect",
    "title": "Reflect",
-   "status": "represented",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-status"
   },

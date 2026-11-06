@@ -3296,7 +3296,7 @@ Orsino's planes, traps, wonders, treasure and magic items, with how much of each
 | Greater Focus | toHit 4 saveVersusMagic 5 bonusSpellDC 4 bonusSpellSlots 2 | represented |
 | Archmage's Insight | int 6 allRolls 3 saveVersusAll 5 bonusSpellDC 4 bonusSpellSlots 1 | represented |
 | Greatly Inspired | toHit 4 bonusDamage 2 tempHp 15 saveVersusAll 2 | faithful |
-| Major Reflect | reflectDamagePercent 0.75 | represented |
+| Major Reflect | reflectDamagePercent 0.75 | faithful |
 | Major Spellturn | reflectSpellChance 0.75 | represented |
 | Phoenix's Splendor | cha 4 toHit 2 bonusDamage 1 | faithful |
 | Giant's Strength | str 6 bonusMeleeDamage =1d3 | faithful |
@@ -3309,7 +3309,7 @@ Orsino's planes, traps, wonders, treasure and magic items, with how much of each
 | Mind Blank | resistPsychic 0.5 saveVersusWill 2 immuneCharm true immuneInsanity true immuneFear true immuneSleep true | faithful |
 | Mindproof | resistPsychic 0.5 immuneCharm true immuneInsanity true immuneFear true immuneSleep true | faithful |
 | Insight | saveVersusAll 2 bonusSpellDC 1 | faithful |
-| Minor Reflect | reflectDamagePercent 0.25 | represented |
+| Minor Reflect | reflectDamagePercent 0.25 | faithful |
 | Minor Warded | saveVersusMagic 1 resistForce 0.25 tempHp =7 + #level | faithful |
 | Mirror Images | ac -2 saveVersusAll 2 evasion 15 | faithful |
 | Mocked | toHit -1 bonusDamage -1 saveVersusAll -1 | faithful |
@@ -3328,7 +3328,7 @@ Orsino's planes, traps, wonders, treasure and magic items, with how much of each
 | Raging | toHit 1 bonusDamage 2 ac 3 | faithful |
 | Rallied | con 2 toHit 1 saveVersusAll 1 | faithful |
 | Reckless | toHit -2 ac 2 | faithful |
-| Reflect | reflectDamagePercent 0.5 | represented |
+| Reflect | reflectDamagePercent 0.5 | faithful |
 | Riposting | evasion 3 ac 1 onMissReceived [{"type":"attack","target":"attacker","description":"riposte"}] | faithful |
 | Scalded | allRolls -1 | faithful |
 | Scaleskin | ac -8 resistFire 0.25 | faithful |

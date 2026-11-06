@@ -12,6 +12,8 @@ export interface Modifiers {
   toHit?: number; ac?: number; evasion?: number; bonusDamage?: Dice; bonusMeleeDamage?: Dice;
   damageReduction?: number; criticalRangeIncrease?: number; initiative?: number; allRolls?: number;
   saveVersusAll?: number; saves?: Record<string, number>; attributes?: Partial<Record<Attribute, number>>;
+  // The share of a blow its holder sends back on whoever dealt it (Orsino's reflect).
+  reflectDamagePercent?: number;
   resistances?: Record<string, number>; immune?: string[]; noActions?: boolean; noSpellcasting?: boolean;
   bonusHealing?: Dice; bonusSpellDC?: number; tempHp?: string; onTurnEnd?: Periodic[];
   // Added to the harm of every spell its bearer casts (Orsino's bonusSpellDamage: a singing stone's one).
@@ -24,13 +26,15 @@ export interface Modifiers {
 }
 export type DiceModifier = 'bonusDamage' | 'bonusMeleeDamage' | 'bonusHealing';
 export type NumericModifier = 'toHit' | 'ac' | 'evasion' | 'damageReduction' | 'criticalRangeIncrease' | 'initiative'
-  | 'allRolls' | 'saveVersusAll' | 'bonusSpellDC' | 'bonusSpellDamage' | 'extraAttacksPerTurn';
+  | 'allRolls' | 'saveVersusAll' | 'bonusSpellDC' | 'bonusSpellDamage' | 'extraAttacksPerTurn' | 'reflectDamagePercent';
 export type FlagModifier = 'noActions' | 'noSpellcasting' | 'randomActions' | 'changeAllegiance' | 'controlledActions'
   | 'flee';
 
 export class ModifierSet {
   static readonly numeric: NumericModifier[] = ['toHit', 'ac', 'evasion', 'damageReduction', 'criticalRangeIncrease',
-    'initiative', 'allRolls', 'saveVersusAll', 'bonusSpellDC', 'bonusSpellDamage', 'extraAttacksPerTurn'];
+    'initiative', 'allRolls', 'saveVersusAll', 'bonusSpellDC', 'bonusSpellDamage', 'extraAttacksPerTurn',
+    // Orsino's reflect: the share of a blow (0.25, 0.5, 0.75) its holder sends back on whoever dealt it.
+    'reflectDamagePercent'];
   static readonly dice: DiceModifier[] = ['bonusDamage', 'bonusMeleeDamage', 'bonusHealing'];
   static readonly flags: FlagModifier[] = ['noActions', 'noSpellcasting', 'randomActions', 'changeAllegiance',
     'controlledActions', 'flee'];

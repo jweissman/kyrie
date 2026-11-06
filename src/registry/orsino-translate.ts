@@ -25,7 +25,7 @@ const OMITTED: Record<string, string> = {
   disarmTrapBonus: 'Kyr skill checks are deterministic.', gatherInformationBonus: 'Kyr skill checks are deterministic.',
 };
 const NUMERIC = ['toHit', 'ac', 'evasion', 'damageReduction', 'criticalRangeIncrease', 'initiative', 'allRolls',
-  'saveVersusAll', 'bonusSpellDC', 'bonusSpellDamage', 'extraAttacksPerTurn'] as const;
+  'saveVersusAll', 'bonusSpellDC', 'bonusSpellDamage', 'extraAttacksPerTurn', 'reflectDamagePercent'] as const;
 const HOOKS = ['onAttack', 'onAttackHit', 'onAttacked', 'onMissReceived', 'onCombatStart', 'onExpire', 'onOffensiveCasting',
   'onHeal'];
 const FLAGS = ['noActions', 'noSpellcasting', 'randomActions', 'changeAllegiance', 'controlledActions', 'flee'] as const;

@@ -1013,6 +1013,10 @@
    "faithful",
    "Actions a turn are one plus the extra, never fewer than one (Orsino’s attacksPerTurn for a creature with one attack); a hasted creature acts twice before its turn ends."
   ],
+  "modifier:reflectDamagePercent": [
+   "faithful",
+   "A share of each blow (Orsino's quarter, half or three quarters) goes back on whoever dealt it, through its own defences, and the holder takes the rest; never true damage, nor a blow itself sent back."
+  ],
   "modifier:randomActions": [
    "faithful",
    "The creature falls on one of the things it could do, at random, whoever controls it."

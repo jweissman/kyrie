@@ -3436,9 +3436,6 @@
     "level": 8,
     "school": "abjuration"
    },
-   "unsupported": {
-    "status:major_reflect": "Applies major_reflect, which Kyr cannot execute."
-   },
    "source": {
     "orsino": "arcaneSpell:major_reflection",
     "fidelity": "faithful"
@@ -4469,9 +4466,6 @@
     "tradition": "arcane",
     "level": 5,
     "school": "abjuration"
-   },
-   "unsupported": {
-    "status:reflect": "Applies reflect, which Kyr cannot execute."
    },
    "source": {
     "orsino": "arcaneSpell:reflection",
@@ -8822,9 +8816,6 @@
     "level": 6,
     "domain": "war"
    },
-   "unsupported": {
-    "status:reflect": "Applies reflect, which Kyr cannot execute."
-   },
    "source": {
     "orsino": "divineSpell:major_deflection",
     "fidelity": "faithful"
@@ -9019,9 +9010,6 @@
     "tradition": "divine",
     "level": 4,
     "domain": "war"
-   },
-   "unsupported": {
-    "status:minor_reflect": "Applies minor_reflect, which Kyr cannot execute."
    },
    "source": {
     "orsino": "divineSpell:minor_deflection",

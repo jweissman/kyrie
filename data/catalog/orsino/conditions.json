@@ -1317,9 +1317,8 @@
    "name": "Major Reflect",
    "description": "Reflecting a large portion of damage back to attackers.",
    "lifetime": "encounter",
-   "modifiers": {},
-   "unsupported": {
-    "reflectDamagePercent": "Kyr does not execute this Orsino effect yet."
+   "modifiers": {
+    "reflectDamagePercent": 0.75
    },
    "source": {
     "orsino": "status:major_reflect",
@@ -1542,9 +1541,8 @@
    "name": "Minor Reflect",
    "description": "Reflecting a small portion of damage back to attackers.",
    "lifetime": "encounter",
-   "modifiers": {},
-   "unsupported": {
-    "reflectDamagePercent": "Kyr does not execute this Orsino effect yet."
+   "modifiers": {
+    "reflectDamagePercent": 0.25
    },
    "source": {
     "orsino": "status:minor_reflect",
@@ -1886,9 +1884,8 @@
    "name": "Reflect",
    "description": "Reflecting a portion of damage back to attackers.",
    "lifetime": "encounter",
-   "modifiers": {},
-   "unsupported": {
-    "reflectDamagePercent": "Kyr does not execute this Orsino effect yet."
+   "modifiers": {
+    "reflectDamagePercent": 0.5
    },
    "source": {
     "orsino": "status:reflect",

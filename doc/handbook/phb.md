@@ -5573,11 +5573,11 @@ One ally is mindproof for 3 turns. Mindproof: resists 50% of psychic, immune to 
 
 ##### Reflection
 
-*Not playable · level 5 arcane spell, abjuration* · `ability:reflection`
+*Faithful · level 5 arcane spell, abjuration* · `ability:reflection`
+
+You gain reflect for 3 turns. Reflect: reflecting a portion of damage back to attackers. An arcane spell of the fifth level. Takes a fifth-level slot.
 
 > Create a magical shield that reflects some incoming damage.
-
-*Not playable — status:reflect: Applies reflect, which Kyr cannot execute.*
 
 ##### Revelation
 
@@ -5849,11 +5849,11 @@ Every enemy is severely distracted for 7 turns (a Wisdom save against 18 + level
 
 ##### Major Reflection
 
-*Not playable · level 8 arcane spell, abjuration* · `ability:major_reflection`
+*Faithful · level 8 arcane spell, abjuration* · `ability:major_reflection`
+
+You gain major reflect for 3 turns. Major Reflect: reflecting a large portion of damage back to attackers. An arcane spell of the eighth level. Takes an eighth-level slot.
 
 > Create a powerful magical shield that reflects a large portion of incoming damage.
-
-*Not playable — status:major_reflect: Applies major_reflect, which Kyr cannot execute.*
 
 ##### Mass Mind Blank
 
@@ -6643,11 +6643,11 @@ Drain 3d6 (3–18) health from one enemy (none if resisted; may cause diseased: 
 
 ##### Minor Deflection
 
-*Not playable · level 4 divine spell, war domain* · `ability:minor_deflection`
+*Faithful · level 4 divine spell, war domain* · `ability:minor_deflection`
+
+You gain deflection for 3 turns; you gain minor reflect for 3 turns. Deflection: 3 harder to hit, +10 evasion. Minor Reflect: reflecting a small portion of damage back to attackers. A divine spell of the fourth level. Takes a fourth-level slot.
 
 > Create a magical barrier that deflects incoming attacks and reflects a portion of damage back to attackers.
-
-*Not playable — status:minor_reflect: Applies minor_reflect, which Kyr cannot execute.*
 
 ##### Neptune's Blessing
 
@@ -6847,11 +6847,11 @@ Heal one ally for 4d8 (4–32). A divine spell of the sixth level. Takes a sixth
 
 ##### Major Deflection
 
-*Not playable · level 6 divine spell, war domain* · `ability:major_deflection`
+*Faithful · level 6 divine spell, war domain* · `ability:major_deflection`
+
+You gain major deflection for 3 turns; you gain reflect for 3 turns. Major Deflection: 5 harder to hit, +15 evasion. Reflect: reflecting a portion of damage back to attackers. A divine spell of the sixth level. Takes a sixth-level slot.
 
 > Create a powerful magical barrier that greatly deflects incoming attacks and reflects a significant portion of damage back to attackers.
-
-*Not playable — status:reflect: Applies reflect, which Kyr cannot execute.*
 
 ##### Overwhelming Chaos
 
@@ -9195,11 +9195,9 @@ Spells 1 harder to resist.
 
 ### Major Reflect
 
-*Not playable · lasts the fight at most* · `condition:major_reflect`
+*Faithful · lasts the fight at most* · `condition:major_reflect`
 
 > Reflecting a large portion of damage back to attackers.
-
-*Not playable — reflectDamagePercent: Kyr does not execute this Orsino effect yet.*
 
 ### Major Spellturn
 
@@ -9305,11 +9303,9 @@ Resists 50% of psychic, immune to charm, immune to insanity, immune to fear, imm
 
 ### Minor Reflect
 
-*Not playable · lasts the fight at most* · `condition:minor_reflect`
+*Faithful · lasts the fight at most* · `condition:minor_reflect`
 
 > Reflecting a small portion of damage back to attackers.
-
-*Not playable — reflectDamagePercent: Kyr does not execute this Orsino effect yet.*
 
 ### Minor Warded
 
@@ -9565,11 +9561,9 @@ Resists 50% of necrotic, immune to charm.
 
 ### Reflect
 
-*Not playable · lasts the fight at most* · `condition:reflect`
+*Faithful · lasts the fight at most* · `condition:reflect`
 
 > Reflecting a portion of damage back to attackers.
-
-*Not playable — reflectDamagePercent: Kyr does not execute this Orsino effect yet.*
 
 ### Riposting
 

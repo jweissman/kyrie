@@ -19,6 +19,8 @@ export interface EffectContext {
   content: Content; abilities: string[]; retreat: boolean; location: string | null;
   // The seeded stream dice bonuses (bonusDamage "1d4") and temporary hit points are rolled from.
   expressions?: Expressions;
+  // A blow sent back by a reflection, which is not reflected again.
+  reflected?: boolean;
   // Runs a creature's status or item hooks (set by AbilityUse); hooking marks effects already inside a hook.
   hook?: (holder: Fighter, key: HookKey, subject: Fighter, context: EffectContext) => void;
   hooking?: boolean;
@@ -203,7 +205,13 @@ export class Effects {
       + (context.spell ? Effects.modifiers(actor).bonusSpellDamage ?? 0 : 0) : 0;
     const mitigated = Fighting.mitigate(rolled, type, { bonus, defender: Effects.modifiers(target),
       physical: Content.rules.physicalDamage });
-    const { applied, absorbed } = Effects.hp(target, mitigated.amount, context);
+    // Orsino's reflect: a share of the blow goes back on whoever dealt it, through its own defences, and the holder
+    // takes the rest; never true damage, nor a blow itself reflected.
+    const share = actor && actor.id !== target.id && type !== 'true' && !context.reflected
+      ? Effects.modifiers(target).reflectDamagePercent ?? 0 : 0;
+    const back = Math.floor(mitigated.amount * share);
+    const kept = share ? Math.floor(mitigated.amount * (1 - share)) : mitigated.amount;
+    const { applied, absorbed } = Effects.hp(target, kept, context);
     const event = context.events.findLast(e => e.type === 'damage');
     if (event?.type === 'damage') {
       event.rolled = rolled; event.damageType = type;
@@ -211,6 +219,7 @@ export class Effects {
         ...absorbed ? { absorbed } : {}, ...hit.critical ? { critical: hit.critical } : {} };
     }
     Effects.aftermath(target, type, context);
+    if (back > 0) { Effects.damage(actor!, { amount: back, type }, { ...context, actor: target, reflected: true }); }
     return applied;
   }
   // The rest of handleHit. A creature brought to 0 saves vs death at DC 25 and stays at 1 hit point if it succeeds.

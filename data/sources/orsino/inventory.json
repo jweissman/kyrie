@@ -84,8 +84,8 @@
    "status": "integrated",
    "rule": "ledger",
    "counts": {
-    "integrated": 105,
-    "represented": 25,
+    "integrated": 107,
+    "represented": 23,
     "reference": 0,
     "blocked": 1
    }
@@ -391,8 +391,8 @@
    "status": "integrated",
    "rule": "ledger",
    "counts": {
-    "integrated": 139,
-    "represented": 15,
+    "integrated": 141,
+    "represented": 13,
     "reference": 0,
     "blocked": 0
    }
@@ -1099,8 +1099,8 @@
    "status": "integrated",
    "rule": "ledger",
    "counts": {
-    "integrated": 124,
-    "represented": 17,
+    "integrated": 127,
+    "represented": 14,
     "reference": 0,
     "blocked": 0
    }
@@ -3028,13 +3028,10 @@
   },
   {
    "id": "arcaneSpell:major_reflection",
-   "status": "represented",
-   "mechanics": "represented",
+   "status": "integrated",
+   "mechanics": "executable",
    "kyr": [
     "ability:major_reflection"
-   ],
-   "blockers": [
-    "Generated; not executable: status:major_reflect."
    ]
   },
   {
@@ -3311,13 +3308,10 @@
   },
   {
    "id": "arcaneSpell:reflection",
-   "status": "represented",
-   "mechanics": "represented",
+   "status": "integrated",
+   "mechanics": "executable",
    "kyr": [
     "ability:reflection"
-   ],
-   "blockers": [
-    "Generated; not executable: status:reflect."
    ]
   },
   {
@@ -8550,13 +8544,10 @@
   },
   {
    "id": "divineSpell:major_deflection",
-   "status": "represented",
-   "mechanics": "represented",
+   "status": "integrated",
+   "mechanics": "executable",
    "kyr": [
     "ability:major_deflection"
-   ],
-   "blockers": [
-    "Generated; not executable: status:reflect."
    ]
   },
   {
@@ -8609,13 +8600,10 @@
   },
   {
    "id": "divineSpell:minor_deflection",
-   "status": "represented",
-   "mechanics": "represented",
+   "status": "integrated",
+   "mechanics": "executable",
    "kyr": [
     "ability:minor_deflection"
-   ],
-   "blockers": [
-    "Generated; not executable: status:minor_reflect."
    ]
   },
   {
@@ -16308,13 +16296,10 @@
   },
   {
    "id": "status:major_reflect",
-   "status": "represented",
-   "mechanics": "represented",
+   "status": "integrated",
+   "mechanics": "executable",
    "kyr": [
     "condition:major_reflect"
-   ],
-   "blockers": [
-    "Generated; not executable: reflectDamagePercent."
    ]
   },
   {
@@ -16421,13 +16406,10 @@
   },
   {
    "id": "status:minor_reflect",
-   "status": "represented",
-   "mechanics": "represented",
+   "status": "integrated",
+   "mechanics": "executable",
    "kyr": [
     "condition:minor_reflect"
-   ],
-   "blockers": [
-    "Generated; not executable: reflectDamagePercent."
    ]
   },
   {
@@ -16576,13 +16558,10 @@
   },
   {
    "id": "status:reflect",
-   "status": "represented",
-   "mechanics": "represented",
+   "status": "integrated",
+   "mechanics": "executable",
    "kyr": [
     "condition:reflect"
-   ],
-   "blockers": [
-    "Generated; not executable: reflectDamagePercent."
    ]
   },
   {

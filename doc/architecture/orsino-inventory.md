@@ -10,7 +10,7 @@ reaches it with declared omissions), **reference** (kept in the registry only, b
 computed from what Kyr has and draws, not claimed: the ledger and generated catalogs for rules and things, what
 a generated country draws for wonders and traps, the voice tables for barks.
 
-2651 entries in 79 families: 1594 integrated, 191 represented, 745 reference, 121 blocked.
+2651 entries in 79 families: 1601 integrated, 184 represented, 745 reference, 121 blocked.
 
 ## By family
 
@@ -22,7 +22,7 @@ a generated country draws for wonders and traps, the voice tables for barks.
 | character | class | 7 | 0 | 7 | 0 | 0 | data/catalog/classes.json | protagonist and recruit callings; residents' callings | `test/progression.test.ts` `test/fellows.test.ts` |
 | character | nobility | 3 | 0 | 0 | 3 | 0 | none | none | — |
 | character | trait | 100 | 78 | 22 | 0 | 0 | data/catalog/orsino/traits.json | ancestries' and callings' traits | `test/effects.test.ts` `test/handbook.test.ts` |
-| condition | status | 141 | 124 | 17 | 0 | 0 | data/catalog/orsino/conditions.json | applied by abilities, traps and wonders | `test/effects.test.ts` `test/marvels.test.ts` |
+| condition | status | 141 | 127 | 14 | 0 | 0 | data/catalog/orsino/conditions.json | applied by abilities, traps and wonders | `test/effects.test.ts` `test/marvels.test.ts` |
 | creature | animal | 44 | 38 | 6 | 0 | 0 | data/catalog/animals.json | wild country dens and creatures (data/generation/tables/ecology.json) | `test/wild-country.test.ts` `test/creature-generation.test.ts` `test/creature-variation.test.ts` |
 | creature | aspect | 31 | 31 | 0 | 0 | 0 | data/catalog/orsino/variants.json#aspects, applied by src/creature-variants.ts | a den's beasts, sometimes, drawn by rarity (src/world/region-ecology.ts); an author's Aspect in a Person | `test/variants.test.ts` |
 | creature | aspectRarity | 5 | 5 | 0 | 0 | 0 | data/catalog/orsino/variants.json#rarity, drawn by src/creature-variants.ts | a den's aspect, drawn by rarity | `test/variants.test.ts` |
@@ -65,8 +65,8 @@ a generated country draws for wonders and traps, the voice tables for barks.
 | language | personalName | 4 | 0 | 0 | 4 | 0 | none | none | — |
 | language | surname | 7 | 0 | 0 | 7 | 0 | none | none | — |
 | magic | ability | 57 | 52 | 4 | 0 | 1 | data/catalog/orsino/abilities.json | callings and creatures | `test/effects.test.ts` `test/arena.test.ts` |
-| magic | arcaneSpell | 131 | 105 | 25 | 0 | 1 | data/catalog/orsino/abilities.json | callings' spell lists; wonders that teach | `test/spellcasting.test.ts` |
-| magic | divineSpell | 154 | 139 | 15 | 0 | 0 | data/catalog/orsino/abilities.json | callings' spell lists | `test/spellcasting.test.ts` `test/devotion.test.ts` |
+| magic | arcaneSpell | 131 | 107 | 23 | 0 | 1 | data/catalog/orsino/abilities.json | callings' spell lists; wonders that teach | `test/spellcasting.test.ts` |
+| magic | divineSpell | 154 | 141 | 13 | 0 | 0 | data/catalog/orsino/abilities.json | callings' spell lists | `test/spellcasting.test.ts` `test/devotion.test.ts` |
 | rule | rule.damageKind | 15 | 14 | 0 | 0 | 1 | data/catalog/vocabulary.json#damageTypes | every damaging effect | `test/effects.test.ts` |
 | rule | rule.effectType | 23 | 23 | 0 | 0 | 0 | src/effects.ts, src/registry/orsino-effects.ts | every effect | `test/effects.test.ts` |
 | rule | rule.formula | 8 | 8 | 0 | 0 | 0 | src/expressions.ts | every roll | `test/effects.test.ts` `test/deem-cli.test.ts` |
@@ -138,7 +138,6 @@ For each family with entries not met in play: its blockers, with how many entrie
 ### status
 
 - 4 × Generated; not executable: bonusSpellSlots.
-- 3 × Generated; not executable: reflectDamagePercent.
 - 3 × Generated; not executable: untargetable.
 - 2 × Generated; not executable: reflectSpellChance.
 - 1 × Generated; not executable: extraTurns, triggerReactions.
@@ -286,8 +285,8 @@ For each family with entries not met in play: its blockers, with how many entrie
 - 1 × Generated; not executable: status:focus.
 - 1 × Generated; not executable: status:invisible.
 - 1 × Generated; not executable: status:invulnerable.
-- 1 × Generated; not executable: status:major_reflect.
-- and 9 more, each in inventory.json
+- 1 × Generated; not executable: status:major_spellturn.
+- and 7 more, each in inventory.json
 
 ### divineSpell
 
@@ -302,8 +301,8 @@ For each family with entries not met in play: its blockers, with how many entrie
 - 1 × Generated; not executable: status:greater_toxicity.
 - 1 × Generated; not executable: status:invulnerable.
 - 1 × Generated; not executable: status:major_insight.
-- 1 × Generated; not executable: status:minor_reflect.
-- and 4 more, each in inventory.json
+- 1 × Generated; not executable: status:spellturn.
+- and 2 more, each in inventory.json
 
 ### rule.damageKind
 
