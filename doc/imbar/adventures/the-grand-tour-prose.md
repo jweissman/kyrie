@@ -40,3 +40,7 @@ Rector (keys chime, "my dear", steals from everybody), Florian (stammering enthu
 ## What a structural fix would need
 
 A rule that a Divider is met only once; the Remainder's hold has three jars (a bend of the Lune, a winter, a tern) and each could have a scene where the item does something rather than being looked at; the 'Slack opened' event is read by only two modules.
+
+## Tests
+
+Campaign lint: 0 errors. Passed: the-grand-tour-company, -placed, -outcomes, -second. Not run here: the-slack (slow; CI), the-grand-tour, -builds, -autoplay. No test assertions changed.

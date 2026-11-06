@@ -39,3 +39,7 @@ Jago, Tonkin, Cuddy, Jinny Rowse, Hosken, Hender, Kerensa, Loveday Kitto, Consta
 ## What a structural fix would need
 
 Give the Court rules a second reaction channel (one named townsperson) so the loft is not always "the loft"; a different painted warning on the tide-board for each lag.
+
+## Tests
+
+Campaign lint: 0 errors. `skeel` passes (14). No assertions changed.

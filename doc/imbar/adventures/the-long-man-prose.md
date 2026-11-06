@@ -39,3 +39,7 @@ Venn ("friend"; straightens a straight ledger), Ysolt (counts the dead by parish
 ## What a structural fix would need
 
 Give the Mower a footfall that the game can announce on the crest at night (an Observe keyed to `at(mower, crest)` already exists: add a second sensory channel); turn one of the charter speeches into an action with Ysolt carrying the register to the font.
+
+## Tests
+
+Campaign lint: 0 errors. `the-long-man`, `the-long-man-charter` pass after two assertions were updated from "sound like a bell" to "every dog in Merrow lifts its head" (the Mower mending the wall).

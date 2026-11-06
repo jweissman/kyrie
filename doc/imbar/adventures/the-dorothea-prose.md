@@ -56,3 +56,7 @@ R. (deflection, "I am told"), the cellar-men (prices), Marchbank (lists and pric
 ## What a structural fix would need
 
 An island that does *not* have a House agent; one island where the conflict is among the islanders, with the company only a witness; one scene where the player cannot act (Ashkeld's cone, say, simply goes off). A second language for the ring's speech tables so Deem-cast officials differ in phrasing, not just in names and numbers.
+
+## Tests
+
+Campaign lint: 0 errors. Passed: dorothea-antlers, -boarding, -entries, -house, -mangrow, -ness, -oil, -voices, the-dorothea, ring-hierarchy, ring-lamp, ring-responds, factors-handoff. One test line updated (`test/ring-lamp.test.ts`: the seal-cutting line now asserts "drops into the dust like a dead bird"). Not run here (load): dorothea-routes, dorothea-sea.
