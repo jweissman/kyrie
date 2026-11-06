@@ -179,7 +179,8 @@ describe('Thrume: the Paymasters\' hall', () => {
 });
 
 describe('Thrume: Act IV voices', () => {
-  // The Hush and the Tomb are a long walk below the Mouth's edge (see the mouth tests): the company is put at each place
+  // The Hush and the Tomb are a long walk below the Mouth's edge (see the mouth tests): the company is put at each
+  // place
   // (asserted travel) and the rule that speaks for its calling is what is tested. Preset: ranger, warrior, cleric.
   it('has a ranger read the Street of Hands, a cleric the Thrall-Market and a warrior the hall of hammers, once each', async () => {
     const { s, j } = await T.start(depth);
@@ -229,7 +230,8 @@ describe('Thrume: what it reads of the world, and the payoffs at the Mouth', () 
     expect(await j.play('^To the Gauge')).toContain('had paused and this one had stopped to listen');
   }, 120000);
 
-  // The knowledge is gained by play in the hold (Wenna's hall) and at the pay-window (the office); the walk from there to
+  // The knowledge is gained by play in the hold (Wenna's hall) and at the pay-window (the office); the walk from there
+  // to
   // the Mouth is ~500 steps through the Hush and the Tomb, so the company is *put* at the edge and handed the keepers'
   // song (Rememberer's topic, tested in thrume.test.ts). Those two are asserted; the rhyme and the names are not.
   it('sings the smiths\' names after the old ones\' only for a company that read the office at the pay-window', async () => {

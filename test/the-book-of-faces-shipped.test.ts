@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'bun:test';
 import { Journey } from '../src/session/journey';
 
-// The campaign as shipped: a company of one, Wren the warrior. The calling-unique route (a thief feels the second lock) is
+// The campaign as shipped: a company of one, Wren the warrior. The calling-unique route (a thief feels the second
+// lock) is
 // not hers; the lone route is the bar. Played by labels, walking the passages; no j.give, no j.assert, no teleport.
 const campaign = 'data/campaigns/the-book-of-faces.campaign.json';
 const k = (id: string) => `ombra__${id}`;

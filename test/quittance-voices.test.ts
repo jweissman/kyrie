@@ -137,7 +137,8 @@ describe('Quittance: depth, persons and links', () => {
     expect(Ds.accord(j) - a0).toBe(1);
     await Ds.ask(j, 'Ask the Fire about the eleven strokes');
     expect(Ds.knows(j, 'qv_twelfth_place')).toBe(true);
-    // The twelfth place, filled by a Hearthkeeper who stays: the Fire's own term is made (accord and Auberon following are set).
+    // The twelfth place, filled by a Hearthkeeper who stays: the Fire's own term is made (accord and Auberon following
+    // are set).
     Ds.num(j, 'ds_accord', ['party'], 5);
     Ds.put(j, 'assert', 'following', 'auberon', 'party');
     await j.step('^the Fire.*: Ask the Fire what it would take');

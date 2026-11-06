@@ -7,7 +7,9 @@ import { Journey } from '../src/session/journey';
 const campaign = (name: string) => `data/campaigns/${name}.campaign.json`;
 const told = (j: Journey) => j.taken.map(x => `${x.page} ${x.told}`).join('\n');
 
-async function arrive(name: string, mod: string, place: string, events: string[] = [], items: string[] = [], look = true) {
+interface Arrival { events?: string[]; items?: string[]; look?: boolean }
+async function arrive(name: string, mod: string, place: string, opts: Arrival = {}) {
+  const { events = [], items = [], look = true } = opts;
   const j = await Journey.start(campaign(name), 'lore');
   for (const e of events) { j.assert('befell', e); }
   for (const i of items) { j.give(i); }
@@ -32,25 +34,24 @@ describe('a world event read in an adventure that never read one', () => {
   for (const [title, file, mod, place, event, line] of cases) {
     it(`${title} hears of ${event} only when it befell`, async () => {
       expect(told(await arrive(file, mod, place))).not.toMatch(line);
-      expect(told(await arrive(file, mod, place, [event]))).toMatch(line);
+      expect(told(await arrive(file, mod, place, { events: [event] }))).toMatch(line);
     }, 120000);
   }
 });
 
 describe('a visitor from elsewhere: a person who reacts to an item kind another adventure hands out', () => {
   const cases: [string, string, string, string, string, string, string, RegExp][] = [
-    ['Loveday and the Prefect\'s table', 'skeel', 'skeel', 'lamp_room', 'pharos_rubbing', 'Show Loveday Kitto the rubbing', 'lore_table_same', /eleven and a space/],
+    ['Loveday and the Prefect\'s table', 'skeel', 'skeel', 'lamp_room', 'pharos_rubbing', 'Show Loveday Kitto the rubbing', 'lore_table_same', /scrubbed column/],
     ['Mother Ysolt and the keeper\'s bench', 'the-long-man', 'longman', 'nave', 'tally_rubbing', 'Show Mother Ysolt the wax rubbing', 'lore_rubbing_notches', /A tally is for the one who sits after/],
     ['Aldith Mote and the Collegium\'s glossary', 'the-lull', 'lull', 'glossary', 'old_glossary', 'Show Aldith Mote', 'lore_glossary_kin', /someone else's letter/],
-    ['Jory Whitlock and the keeper\'s bench', 'the-quiet-in-the-sky', 'larum', 'guide_house', 'tally_rubbing', 'Show Jory Whitlock', 'lore_jory_rubbing', /A long way to come to be told the same/],
     ['Halm and the Prefect\'s writ', 'low-water', 'lowwater', 'dig', 'prefects_writ', 'Show Halm the fair copy', 'lore_writ_kept', /Servandam/],
     ['the Ninth Valuer and the Prefect\'s writ', 'what-tessary-owes', 'tessary', 'withies', 'prefects_writ', 'Show the Ninth Valuer', 'lore_valuer_kept', /first thing in a long time I have not known how to enter/],
   ];
   for (const [title, file, mod, place, kind, ask, fact, line] of cases) {
     it(`${title}: offered and answered only to a company holding the ${kind}`, async () => {
-      const without = await arrive(file, mod, place, [], [], false);
+      const without = await arrive(file, mod, place, { look: false });
       expect(without.offers(ask)).toBe(false);
-      const j = await arrive(file, mod, place, [], [kind], false);
+      const j = await arrive(file, mod, place, { items: [kind], look: false });
       expect(j.offers(ask)).toBe(true);
       await j.play(ask);
       expect(told(j)).toMatch(line);

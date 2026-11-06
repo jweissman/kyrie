@@ -2,8 +2,10 @@ import { describe, expect, it } from 'bun:test';
 import { Journey } from '../src/session/journey';
 import phases from './fixtures/patient/journeys.json';
 
-// The campaign as shipped (a lone first-level thief, Tamsin), from the cutter of Quell with a debt to the twelfth word at
-// Doran's brick. The thief's door is hers; nothing on this path is locked behind another calling. No put, no assert, no give.
+// The campaign as shipped (a lone first-level thief, Tamsin), from the cutter of Quell with a debt to the twelfth word
+// at
+// Doran's brick. The thief's door is hers; nothing on this path is locked behind another calling. No put, no assert,
+// no give.
 const quell = phases.quell_to_hour as string[];
 const toRing = quell.slice(0, quell.indexOf('To the Granary Ring') + 1);
 const homeToEnnick = ['To the Granary Ring', 'Up to the Plate Hall', 'Mirror Road, south stretch', 'Mirror Road, north stretch', 'To the West Gate', 'To the West Gallery, at the Neck',

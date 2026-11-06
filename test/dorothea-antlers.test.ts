@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'bun:test';
 import { Journey } from '../src/session/journey';
 
-// The Antlers: stacks, birds, a rope-ladder with a real danger, and a cresset the House's lease forbids anyone to light.
+// The Antlers: stacks, birds, a rope-ladder with a real danger, and a cresset the House's lease forbids anyone to
+// light.
 const campaign = 'data/campaigns/the-dorothea.campaign.json';
 const k = (id: string) => `dorothea__${id}`;
 const party = (j: Journey) => j.campaign.world.one('at', 'party');

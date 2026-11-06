@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'bun:test';
 import { Journey } from '../src/session/journey';
 
-// The Kestrel's night call (the-dorothea/crew.kyr): Jago Pendry's coin, the casks put back or not, the three hands on the
+// The Kestrel's night call (the-dorothea/crew.kyr): Jago Pendry's coin, the casks put back or not, the three hands on
+// the
 // deck and the four things a company can do about them (pay them, have Rune speak, fight them, or lose the casks).
 const campaign = 'data/campaigns/the-dorothea.campaign.json';
 const k = (id: string) => `dorothea__${id}`;
@@ -113,7 +114,8 @@ describe('The Kestrel, Jago Pendry and the casks', () => {
     expect(j.holds('at', k('jago'), k('deck'))).toBe(false);
     expect(j.holds(k('sold'), k('hull'))).toBe(true);
     expect(cargo(j)).toBe(hold);
-    // Hale, Mirel and Tam, the preset company with its own kit: at least two still stand (a seed in six loses the fight).
+    // Hale, Mirel and Tam, the preset company with its own kit: at least two still stand (a seed in six loses the
+    // fight).
     expect(j.campaign.readout.creatures.filter(c => ['Hale', 'Mirel', 'Tam'].includes(c.name) && c.state.hp > 0).length).toBeGreaterThanOrEqual(2);
   }, 400000);
 });

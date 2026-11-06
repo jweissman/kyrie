@@ -143,7 +143,8 @@ describe('Entries: a black lugger and the House\'s price (Port Ness)', () => {
 });
 
 describe('Entries: the Gannet\'s Widow, fought (Port Ness)', () => {
-  // Two men and a woman, thieves of the second rank, with cutlasses: the preset company in its own kit, on the pier, warned.
+  // Two men and a woman, thieves of the second rank, with cutlasses: the preset company in its own kit, on the pier,
+  // warned.
   const onThePier = async (seed: string) => {
     const j = await Journey.start(campaign, seed);
     j.assert(k('seaQuiet'), k('hull'));

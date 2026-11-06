@@ -111,7 +111,8 @@ describe("Gosse's Company: the requiem", () => {
     await j.play('Sing the couplet on the plate to Tunstall');
     const page = j.taken.map(x => `${x.page} ${x.told}`).join('\n');
     expect(page).toMatch(/Not that fast/);
-    // What the priest gets for nothing he gets by asking, and the Ordinance is his; but no seal, no warmth in the Master,
+    // What the priest gets for nothing he gets by asking, and the Ordinance is his; but no seal, no warmth in the
+    // Master,
     // and a man who cannot afterwards be bought.
     expect(j.holds('knows', 'party', p('ordinance_dead'))).toBe(true);
     expect(j.holds(p('requiemSung'), 'party')).toBe(true);

@@ -2,8 +2,10 @@ import { describe, expect, it } from 'bun:test';
 import { Journey } from '../src/session/journey';
 
 // Mangrow (the-dorothea/mangrow.kyr): the jungle call, five days south. A heat measure (swelter) climbs in the green, a
-// river fever strikes at four and a collapse carries the company out at eight; the House's bark is shut in a strong-room
-// the fig has grown through; three ways in (Osk's key, lockwork, fire) and a ranger's own bale; the notice-board lists it.
+// river fever strikes at four and a collapse carries the company out at eight; the House's bark is shut in a strong-
+// room
+// the fig has grown through; three ways in (Osk's key, lockwork, fire) and a ranger's own bale; the notice-board lists
+// it.
 const campaign = 'data/campaigns/the-dorothea.campaign.json';
 const k = (id: string) => `dorothea__${id}`;
 const at = (j: Journey) => j.campaign.world.one('at', 'party');
@@ -11,7 +13,8 @@ const hull = (j: Journey) => j.campaign.world.one('at', k('hull'));
 const swelter = (j: Journey) => j.measure(k('swelter'), 'party');
 // How many bales the pack says it holds ("A bale", "Two bales").
 const bales = (j: Journey) => {
-  const word = j.choices().map(c => /^Pack › (\w+) bales? of Mangrow bark › Set down here/.exec(c.label)?.[1]).find(Boolean);
+  const packed = /^Pack › (\w+) bales? of Mangrow bark › Set down here/;
+  const word = j.choices().map(c => packed.exec(c.label)?.[1]).find(Boolean);
   return word ? ['', 'A', 'Two', 'Three', 'Four'].indexOf(word) : 0;
 };
 const start = async () => {

@@ -6,7 +6,8 @@ import { Journey } from '../src/session/journey';
 import { Frontier } from '../src/world/frontier';
 import { GeneratedWorld } from './support/generated';
 
-// The entry points toward Tolleth (doc/imbar/15-lore-ledger.md): a mariner's wife on the Gannet Reach and a Factor in the
+// The entry points toward Tolleth (doc/imbar/15-lore-ledger.md): a mariner's wife on the Gannet Reach and a Factor in
+// the
 // Ossel each hand a company, in a generated world, a thing to carry to Captain Bascom at the Tolleth quay. Asked for,
 // and given into the company's hands, as a player would; nothing is set for another module to read by name.
 describe('entry points toward Tolleth, in a generated world', () => {

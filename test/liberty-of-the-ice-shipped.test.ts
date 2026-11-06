@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'bun:test';
 import { Pellam, home } from './support/pellam';
 
-// The campaign as shipped (a lone bard, Tamsin): the office for the drowned is a cleric's. The bard's way is a wake-song at
+// The campaign as shipped (a lone bard, Tamsin): the office for the drowned is a cleric's. The bard's way is a wake-
+// song at
 // the black hole, for a price. Played by the labels a player sees; no put, no assert, no give.
 describe('The Liberty of the Ice as shipped (a lone bard)', () => {
   it('learns of Davy from the widow at the hole, sings the wake-song, pays three coin, and the searchers still stop at her light', async () => {

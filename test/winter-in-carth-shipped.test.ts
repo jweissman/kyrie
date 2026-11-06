@@ -8,7 +8,7 @@ describe('A Winter in Carth as shipped (a lone bard)', () => {
   it('cannot read the rubric, takes it down by ear, and gives the woodmen the grant wrong: a year and a day', async () => {
     const g = await Gaunt.start();
     const p = phases('above');
-    await g.play(...p.road, ...p.carth, ...p.row, 'Into the Penitentiary');
+    await g.play(...p.road!, ...p.carth!, ...p.row!, 'Into the Penitentiary');
     expect(g.j.offers('read the first leaf of the Register')).toBe(false);
     expect(g.j.offers('Lay the nine lines of the first leaf before Dame Hawise')).toBe(false);
     await g.play('Have Wren sit with the clerks');
