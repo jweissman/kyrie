@@ -51,7 +51,8 @@ describe('exploring the open country', () => {
     expect([towns.length > 0, html.match(/data-action="set-out"/g)?.length]).toEqual([true, towns.length]);
     // Set out toward it, across the country seen: it is reached, and the country stays known.
     expect(Itineraries.plan(j.campaign, tower!.id)).toBeDefined();
-    // A meeting on the way (a boar, in this draw of the country) stops a journey; it is taken up again from where it stopped.
+    // A meeting on the way (a boar, in this draw of the country) stops a journey; it is taken up again from
+    // where it stopped.
     const go = () => Travel.go({ campaign: j.campaign, perform: (c: string) => j.session.perform(c) }, tower!.id);
     let done = await go();
     for (let k = 0; k < 4 && !done.arrived && done.stopped && !j.campaign.encounter; k++) { done = await go(); }
