@@ -194,7 +194,7 @@ Module hume "Half the Hive" {
     Description "Go with them, behind the swarm, to wherever she has gone.".
     Requires able(actor) and company(actor) and (within(actor, hume_brow) or within(actor, smoke_end)) and walkable(dest) and siteRoom(dest, camp) and not walkedWith(actor).
     Time 24.
-    On success { Assert walkedWith(actor). Retract at(actor, ?p). Assert at(actor, camp). }
+    On success { Assert walkedWith(actor). Assert at(actor, camp). }
     Result "You walk with them. The talk dies away after the first mile. The swarm goes ahead of you like a weather-front, low, roaring, settling on a tree to rest and lifting off again, and the Leaving follows it at a walk, two hundred people strung out over the turf with their bundles, the old on sticks and on each other's arms, the children riding on shoulders, the little bells on everyone's wrists going all the way along the line, so that from a distance you would think a flock of sheep was crossing the Wold. Twice someone stops and turns round and looks back at the Brow. Then they turn round again and walk on.".
   }
   Action walk_with_far(actor: group, camp: place) "Walk with the Leaving, east over the moor" {
@@ -202,7 +202,7 @@ Module hume "Half the Hive" {
     Requires able(actor) and company(actor) and (within(actor, hume_brow) or within(actor, smoke_end)) and left(far_brow) and siteRoom(far_brow, camp)
       and day(clock) == leftDay(hume_wold) and hour(clock) < 16 and not walkedWith(actor).
     Time 54.
-    On success { Assert walkedWith(actor). Retract at(actor, ?p). Assert at(actor, camp). }
+    On success { Assert walkedWith(actor). Assert at(actor, camp). }
     Result "You walk with them, all the long afternoon and into the evening, east over the moor behind a roaring cloud. The heather is waist-high and the bees in it are wild and small and indifferent. The line stretches and stretches; the old fall behind and the young go back for them; the little bells on everyone's wrists go on, all down the moor, a mile of bells. Near sunset, ahead, you see the Far Brow catch the light; and the swarm, which has been going in long low loops all day, goes straight at it, like water finding a drain, and pours in under the rock.".
   }
 }

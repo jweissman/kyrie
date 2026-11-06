@@ -31,10 +31,13 @@ export class FantasyRules {
     const name = String(drawn), had = new Set(Array.isArray(taken) ? taken.map(String) : []);
     const [pronoun = 'she', part = ''] = String(who).split(':');
     const folk = FantasyRules.given[String(ancestry)] ?? FantasyRules.given.human!;
-    const free = (folk[pronoun] ?? folk.she ?? []).filter(n => !had.has(n));
+    const all = folk[pronoun] ?? folk.she ?? [], free = all.filter(n => !had.has(n));
     let h = 2166136261;
     for (const ch of [name, part].join('|')) { h = Math.imul(h ^ ch.charCodeAt(0), 16777619); }
-    return free.length ? free[(h >>> 0) % free.length]! : FantasyRules.apart(drawn, taken, ancestry, part);
+    // Every given name of theirs taken already (a dwarf town's ten women's names), one of them with a family's to it,
+    // never a name of the other sex (the fever's mother had been Brottor Strakeln: OWN-51).
+    return free.length ? free[(h >>> 0) % free.length]!
+      : FantasyRules.apart(all.length ? all[(h >>> 0) % all.length]! : drawn, taken, ancestry, part);
   }
   static readonly functions = { statMod: FantasyRules.statMod, apart: FantasyRules.apart,
     another: FantasyRules.another };

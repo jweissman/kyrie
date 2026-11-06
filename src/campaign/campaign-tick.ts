@@ -233,8 +233,12 @@ export class CampaignTick {
   // the following (Gosse's bear put back in her pen) does.
   private static yielding(host: TickHost, rule: WorldRule, effects: Change[]): Change[] {
     const player = host.playerActor, world = host.world, ties = ['following', 'travelsWith'];
-    if (!player || !world.relates('following') || effects.some(c => ties.includes(c.call.name))) { return effects; }
-    const followers = new Set(world.related('following').filter(r => r.args[1] === player).map(r => r.args[0]!));
+    const held = ties.filter(t => world.relates(t));
+    if (!player || !held.length || effects.some(c => ties.includes(c.call.name))) { return effects; }
+    // Whoever travels with it too: a recruit hired at the inn had been walked off by a rule placing the inn's folk
+    // (WPC-X05).
+    const followers = new Set(held.flatMap(t => world.related(t)).filter(r => r.args[1] === player)
+      .map(r => r.args[0]!));
     const reads = this.idle.get(rule)?.reads ?? Reads.names(world.module, [rule.when]);
     if (!followers.size || reads.some(n => ties.includes(n))) { return effects; }
     const moved = new Set(effects.filter(c => c.kind === 'assert' && c.call.name === 'at' && followers.has(c.call.args[0]!))

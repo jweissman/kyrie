@@ -326,7 +326,12 @@ export class WorldAssembler {
     try {
       const id = new Content(seed, setting).generate('scenario_choice', context).id;
       return open.find(e => e.manifest.id === id);
-    } catch { return undefined; }
+    } catch (error) { return WorldAssembler.none(error); }
+  }
+  // Nothing fitting is no choice; any other failure of the setting (a table broken, a function unknown) is said, never
+  // a scenario quietly left out of the world (ARV-M8).
+  private static none(error: unknown): undefined {
+    if (/No matching options/.test(String(error))) { return undefined; } throw error;
   }
   private static placeable(s: ScenarioManifest, region: Region, claimed: Set<string>): boolean {
     return Object.values(s.places).every(p => !p.site || p.site.some(kind =>
@@ -340,7 +345,7 @@ export class WorldAssembler {
     try {
       const site = new Content(seed).generate('site', { terrain: region.terrain, kind }) as unknown as Site;
       return { ...site, id: `w${region.sites.length + 1}` };
-    } catch { return undefined; }
+    } catch (error) { return WorldAssembler.none(error); }
   }
   // Binds each place a scenario needs: a free region site of a kind it accepts (or a newly generated one), or the
   // settlement nearest one of those sites. A site that can stand nowhere in the land, and the scenario is not placed,
@@ -424,12 +429,13 @@ export class WorldAssembler {
   }
   static requests(entry: Entry, placement: Placement, base: BundleSource,
     at: { context: Record<string, DeemValue>; region?: Region }): BundleRequest[] {
-    const context = at.context;
     return entry.manifest.modules.filter(m => !m.when || placement.bindings[m.when]).map((m, i) => ({
       id: placement.modules[i]!, bundle: base.resolve(m.bundle, entry.path),
       imports: Object.fromEntries(Object.entries(m.imports)
         .map(([name, value]) => [name, this.ref(value, placement, at.region)])),
-      context: { ...context, ...m.context } }));
+      // Each a chapter of the book, as a country beyond a march is: an Ending of its own closes its story, not the
+      // book (WPC-X06).
+      context: { ...at.context, ...m.context }, chapter: true }));
   }
   // The people of the settlement a placement is set in, for its modules to name their own people by; and the names
   // the country's people have already, which its people are drawn apart from (two Caelynns on one quay: PT-28).

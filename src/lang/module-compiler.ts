@@ -137,6 +137,8 @@ export class ModuleCompiler {
     if (action.interrupt) { this.predicate(module, action.interrupt, bindings); }
     for (const call of action.meanwhile ?? []) { this.predicate(module, call, bindings); }
     [...action.success, ...action.failure].forEach(change => this.change(module, change, bindings));
+    // What it writes is what its requirement binds, as a rule's is (ARV-A9: `Assert stale(?nobody)` had loaded).
+    ModuleCompiler.writes(`Action ${action.id}`, action.requires, [...action.success, ...action.failure]);
     if (action.speaker && !module.entities.some(e => e.id === action.speaker && e.type === 'group')) {
       throw new Error(`Unknown topic speaker ${action.speaker}`);
     }

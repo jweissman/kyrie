@@ -63,6 +63,9 @@ export class Proposer {
     try {
       const drawn = new Content(seed, setting).generate(name, context as Record<string, DeemValue>) as { key: string };
       return String(drawn.key);
-    } catch { return undefined; }
+    } catch (error) {
+      // Nothing fitting is no proposal; a setting that fails otherwise is said.
+      if (/No matching options/.test(String(error))) { return undefined; } throw error;
+    }
   }
 }
