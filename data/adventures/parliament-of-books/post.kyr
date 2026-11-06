@@ -24,7 +24,13 @@ Module calamy "A Parliament of Books" {
 
   // ── The drowned ridge, read ────────────────────────────────────────────────────────────────────────────────────
   Discovery post_script "The letters on the drowned ridge in the Calamies are the courier script, and say HOUSE OF THE POSTS, and a stage-mark, and a word that is both FORD and CROSSING and also the verb for a thing changing hands. A glossary of the old measures can read them. The Collegium of Measures has one, and does not know what else it reads.".
-  Observe ridge_glossary at reed_heart of ridge when tried(ridge, looking) and holding(party, old_glossary) "The surveyor's glossary opens at the right page without being asked, which surprises you. The square flat letters on the ridge go into it line by line: HOUSE OF THE POSTS. STAGE ELEVEN. RECEIVED. And a last line cut a little deeper than the rest, which the glossary renders as: THE TWELFTH IS WHERE IT IS DELIVERED." teaches post_script.
+  Action read_ridge_glossary(actor: group, site: place) "Read the carved ridge with the Collegium's glossary of the old script" {
+    Description "A glossary of the old measures, made for the Aenean tables, carries a short list of the courier script's marks. Someone made it, once, from this road.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, reed_heart) and holding(actor, old_glossary) and not knows(actor, post_script).
+    Time 3.
+    On success { Assert knows(actor, post_script). }
+    Result "The surveyor's glossary opens at the right page without being asked, which surprises you. The square flat letters on the ridge go into it line by line: HOUSE OF THE POSTS. STAGE ELEVEN. RECEIVED. And a last line cut a little deeper than the rest, which the glossary renders as: THE TWELFTH IS WHERE IT IS DELIVERED.".
+  }
   Observe ridge_hatch_seen at reed_heart when deadLow() "At dead low water the ridge shows more of itself than it did: a square dark gap in its slope, with stone steps going down out of the mud into a room, and the mud on the steps drying in the shape of a boot.".
 
   // ── The post-house: a cold room, a count, a courier ───────────────────────────────────────────────────────────

@@ -3,7 +3,7 @@ Module calamy "A Parliament of Books" {
 
   // Voices keyed by calling (doc/imbar/11-technical-report.md 11.6). Said once, by whoever the company has of the calling.
   Relation heardTides(group). Relation heardRope(group). Relation heardStacks(group). Relation heardRoll(group). Relation heardCrowd(group).
-  Relation heardLocks(group). Relation heardFlats(group). Relation heardLamp(group). Relation heardIron(group). Relation heardPyre(group).
+  Relation heardLocks(group). Relation heardFlats(group). Relation heardLamp(group). Relation heardPyre(group).
 
   // Act I: the Hithe. The bard hears the Almanack's tides.
   Rule voice_tides at taproom when memberOf(?m, party) and hasCalling(?m, calling_bard) and awake(?m) and at(party, taproom) and knows(party, almanack_one) and not heardTides(party)
