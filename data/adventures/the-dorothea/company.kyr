@@ -1,4 +1,4 @@
 Module dorothea "The Dorothea" {
   Company party "Your company" of 3 at road_end.
-  Initially Set quantity(party, gold) to 14. Initially Set quantity(party, rations) to 2.
+  Initially Set quantity(party, gold) to 34. Initially Set quantity(party, rations) to 2.
 }

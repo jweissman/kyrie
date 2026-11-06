@@ -93,6 +93,59 @@ describe('The Dorothea', () => {
   }, 300000);
 });
 
+describe('The Dorothea, Skerrow and the way home', () => {
+  const reachIsle = async (j: Journey, way = 'lie off') => {
+    await Sea.board(j);
+    await j.play('=180', '^To the quarterdeck', way, '=215', "^To the Dorothea's waist", '^To Skerrow jetty', '^To Skerrow green');
+  };
+  it('lets the company keep the island\'s lamp, take a rubbing of the table, and sail home with a surveyor', async () => {
+    const j = await Sea.start();
+    await Sea.board(j);
+    await j.play('Ask her to come with you');
+    await j.play('=180', '^To the quarterdeck', 'lie off', '=215', "^To the Dorothea's waist", '^To Skerrow jetty', '^To Skerrow green');
+    expect(j.holds('following', k('quint'), 'party')).toBe(true);
+    await j.play('^Into the Gull', 'Ask Silas Quillon what he wants', '^Out to');
+    await j.play('Offer to stand Jory Kestle');
+    expect(j.holds(k('jorySways'), 'party')).toBe(true);
+    await j.play('^Into the Gull', 'Buy .*rag paper', '^Out to', '^To the path up Pharos Hill', '^To the foot of the Pharos', '^To the lamp room');
+    await j.play('Take a rubbing');
+    expect(j.holds(k('rubbed'), 'party')).toBe(true);
+    expect(j.holds(k('keptLamp'), 'party')).toBe(true);
+    // The lamp is not sold, ever, however long we stay.
+    await j.play('=330');
+    expect(j.holds(k('tableSold'), 'party')).toBe(false);
+  }, 400000);
+
+  it('sells the Pharos\'s bronze to the factor\'s agent on the second evening if nobody speaks for it', async () => {
+    const j = await Sea.start();
+    await reachIsle(j);
+    await j.play('^Into the Gull', 'Ask Silas Quillon what he wants');
+    await j.play('=300');
+    expect(j.holds(k('tableSold'), 'party')).toBe(true);
+    expect(j.holds(k('lampOut'), 'party')).toBe(true);
+  }, 300000);
+
+  it('goes home on the ebb two mornings after, station by station; a company ashore is left on Skerrow', async () => {
+    const j = await Sea.start();
+    await reachIsle(j);
+    await j.play('^To the jetty road|^To Skerrow jetty', '^To the Dorothea');
+    expect(Sea.party(j)).toBe(k('deck'));
+    await j.play('=362');
+    expect(Sea.at(j, 'hull')).toBe(k('roads'));
+    await j.play('=470');
+    expect(['teeth', 'open_sea']).toContain((Sea.at(j, 'hull') ?? '').replace('dorothea__', ''));
+    await j.play('=720');
+    expect(Sea.at(j, 'hull')).toBe(k('quay'));
+    expect(Sea.party(j)).toBe(k('deck'));
+    const left = await Sea.start();
+    await reachIsle(left);
+    await left.play('=362');
+    expect(Sea.at(left, 'hull')).toBe(k('roads'));
+    expect(Sea.party(left)).toBe(k('green'));
+    expect(left.holds(k('stranded'), 'party')).toBe(true);
+  }, 400000);
+});
+
 describe('The Dorothea, in the ordinary world', () => {
   it('is a province of a generated country: the company walks in from the road and sails from the quay to Skerrow', async () => {
     const w = await WorldAssembler.assemble('thorn', NodeBundleSource.shared, { region: { terrain: 'mountain' } });

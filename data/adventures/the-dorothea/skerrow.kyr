@@ -4,6 +4,7 @@ Module dorothea "The Dorothea" {
   Person gull "Hester Gull" at gull_room {
     Role "keeper of the Gull". Ancestry human. Peaceable. Pronouns she. Manner acerbic.
     Sells rations for 2 coin from 6.
+    Sells rag_paper for 1 coin from 4.
     Greets "Hester Gull has kept the Gull for thirty years and the debts of the island for thirty-one, and she keeps both with the same flat hand. 'You came on the Dorothea,' she says. 'Then you'll want to know who owes what. Everybody owes everything. It's how an island holds together.'".
   }
   Person kestle_jory "Jory Kestle" at green {
@@ -42,7 +43,6 @@ Module dorothea "The Dorothea" {
   Discovery table_seen "In the lamp room of the Pharos is a bronze table: a column of Aenean numerals, and beside it a second column, in marks that have been scrubbed and polished by generations of keepers, which nobody on Skerrow can read.".
 
   // ── The rubbing, and the table ─────────────────────────────────────────────────────────────────────────────────
-  Item rubbing_source "a clean sheet of rag paper" is rag_paper at gull_room.
   Kind rag_paper "a sheet of rag paper" is gear worth 1 weighing 0 described "A sheet of rag paper from the Gull's ledgers, with a stick of charcoal rolled in it.".
   Action rub_the_table(actor: group, site: place) "Take a rubbing of the Prefect's Table" {
     Description "Charcoal, a sheet of paper, and an hour with the lamp turned low. A rubbing keeps what a table says even when the table is sold.".

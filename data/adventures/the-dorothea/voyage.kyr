@@ -19,7 +19,7 @@ Module dorothea "The Dorothea" {
     Retract at(hull, teeth). Assert at(hull, roads).
   }
   Rule reaches_jetty when at(hull, roads) and progress(hull) >= 140 and not arrived(hull) and not homeward(hull) and sailed(hull) says "A boy on the jetty catches the Dorothea's bow-line, and makes it fast to the third ring, and the whole ship settles against the stone with a sound like a long breath." {
-    Retract at(hull, roads). Assert at(hull, jetty). Assert arrived(hull). Assert state(hull, afloat_out). Set reachedAt(hull) to watch(clock).
+    Retract at(hull, roads). Assert at(hull, jetty). Assert arrived(hull). Assert state(hull, moored_isle). Set reachedAt(hull) to watch(clock).
   }
 
   // ── Fog in the Sound ────────────────────────────────────────────────────────────────────────────────────────────

@@ -17,6 +17,9 @@ Module dorothea "The Dorothea" {
   Person quint "Odile Quint" at deck {
     Role "a surveyor of the Collegium of Measures, bound for the Pharos". Ancestry human. Calling mage. Level 2. Peaceable. Pronouns she. Manner stoic.
     Likeness "scholar".
+    Joins "Odile Quint closes her pocket-book on a finger, takes her ell-rod under her arm, and falls in at your elbow, a little too close, as someone who measures people measures them.".
+    Leaves "Odile Quint nods once. 'I shall be at the Collegium of Measures at Sennet,' she says. 'Ask for the junior Fellow who is always right.'".
+    Carries old_glossary.
     Greets "A narrow woman in a grey coat is seated on a cask with a brass ell-rod across her knees, looking not at the sea but at a pocket-book of figures. She does not look up. 'Odile Quint,' she says. 'Collegium of Measures, Sennet. If you're sick, be sick to leeward. If you're not, I'd like a word about your idea of a straight line.'".
   }
   Initially Assert acceptsEscort(quint, party).

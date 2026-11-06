@@ -20,7 +20,6 @@ Module dorothea "The Dorothea" {
   Passage lamp_stair "the lamp stair" is passage between pharos_foot and pharos_lamp.
 
   Observe jetty_scene at jetty when not at(hull, jetty) "Skerrow's jetty: a hundred feet of dry-stone wall running out into green water, with a ring in it every ten feet and a rowing boat tied to the third. Nothing else is moored here.".
-  Observe jetty_ship at jetty when at(hull, jetty) "The Dorothea lies against Skerrow's jetty, lines out, her gangway down. Her crew are rolling casks along the stone.".
   Observe green_scene at green when true "Skerrow green: a dozen low houses with their backs to the west, a well, a flagpole with nothing on it, and sheep who do not see why you should be there. Above the roofs, on the island's one hill, a white tower.".
   Observe gull_scene at gull_room when true "The Gull's kitchen is the island's inn, shop, post office and court. A black range, a long scrubbed table, a ledger of debts in a hand that has never forgiven anyone, and on the wall a framed paper nobody has read since the frame was bought.".
   Observe path_scene at hill_path when true "The path climbs between walls of grey stone fitted without mortar, and the sheep keep to the lee of them. Far below, the jetty, and past it the sea to every side of the world.".

@@ -29,7 +29,7 @@ Module dorothea "The Dorothea" {
   Thing hull "the Dorothea" at quay {
     State alongside "The ketch Dorothea lies alongside Tolleth quay, her gangway down, her hatches off, casks going down into her hold.".
     State underway "The ketch Dorothea is under way.".
-    State afloat_out "The ketch Dorothea lies off the quay of Tolleth, her ship's boat alongside.".
+    State moored_isle "The ketch Dorothea lies against Skerrow's jetty, lines out, her gangway down, her crew rolling casks along the stone.".
   }
   Initially Assert state(hull, alongside).
   Measure departedAt(entity). Measure delay(entity). Measure reachedAt(entity). Measure bound(entity).
@@ -51,7 +51,7 @@ Module dorothea "The Dorothea" {
   // She goes on the noon ebb. A company on the quay at noon is left on it; the hours before are to book a passage, pay
   // or work it, and get aboard.
   Query aboardNow(g: group) means at(g, deck) or at(g, helm) or at(g, cabin) or at(g, forecastle) or at(g, hold).
-  Rule hull_sails when state(hull, alongside) and watch(clock) >= 24 and at(hull, quay)
+  Rule hull_sails when state(hull, alongside) and watch(clock) >= 24 and at(hull, quay) and not sailed(hull)
     says "At the foot of the quay Captain Bascom takes the pipe out of her mouth and says one word, and the Dorothea's lines come off the bollards as if they had been waiting to. The gangway comes in. The quay slides away astern, and Tolleth with it." {
     Assert state(hull, underway). Assert sailed(hull). Retract at(bascom, quay). Assert at(bascom, helm). Set departedAt(hull) to watch(clock). Retract at(hull, quay). Assert at(hull, sound).
   }

@@ -23,7 +23,7 @@ Module dorothea "The Dorothea" {
   Passage office_door "the harbourmaster's door" is door between quay and harbourmaster.
 
   Observe road_scene at road_end when true "The coast road comes down off the moor to a harbour the colour of slate, with a smell of tar and herring on the wind. Masts stand in it close as reeds, and beyond the harbour mouth a grey line that might be cloud or might be an island.".
-  Observe quay_scene at quay when not state(hull, afloat_out) "Tolleth quay: a curved stone wall, bollards worn to the shape of ropes, barrels in rows, gulls. A notice board outside the harbourmaster's door gives the tides and the sailings in chalk.".
+  Observe quay_scene at quay when true "Tolleth quay: a curved stone wall, bollards worn to the shape of ropes, barrels in rows, gulls. A notice board outside the harbourmaster's door gives the tides and the sailings in chalk.".
   Observe taproom_scene at taproom when true "A low taproom full of men with salt in their hair, and a fire that smokes when the wind is in the west. A slate by the door has names on it, and sums.".
   Observe shop_scene at shop when true "Garrick's: rope in coils like sleeping snakes, tar in kegs, oilskins on pegs, a rack of lead-lines. The smell is enough to give a landsman a headache and a seaman a sentimental turn.".
   Observe office_scene at harbourmaster when true "A narrow room with a tide-table on the wall as long as a man, a barometer that has not been believed since it was hung, and a ledger of sailings in a neat hand.".
