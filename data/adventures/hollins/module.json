@@ -15,6 +15,7 @@
     "lady.kyr",
     "pye.kyr",
     "plots.kyr",
+    "winders.kyr",
     "endings.kyr",
     "after.kyr",
     "company.kyr"
@@ -24,6 +25,10 @@
   ],
   "globals": [
     "party"
+  ],
+  "canon": [
+    "imbar",
+    "rose_made_whole"
   ],
   "exports": {
     "party": "party",
