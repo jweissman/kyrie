@@ -120,6 +120,18 @@ Module dorothea "The Dorothea" {
     On success { Set bound(hull) to 4. Set seaEnd(hull) to 370. Set stayFor(hull) to 150. Set homeOpenAt(hull) to 8. Set homeSoundAt(hull) to 352. Set homeQuayAt(hull) to 388. }
     Result "'Ashkeld.' Bascom says it the way people say the name of a relative who has been in prison. 'Three days out and three back, and the House has not called there in two seasons. Twelve coin. I will not tell you it is a pretty place.'".
   }
+  Action course_mangrow(actor: group, site: place) "Ask Captain Bascom to put in at Mangrow, up the river (sixteen coin)" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(bascom, site) and at(actor, quay) and asked(actor) and not booked(actor) and not sailed(hull) and askedCalls(actor) and bound(hull) < 5.
+    Time 0.
+    On success { Set bound(hull) to 5. Set seaEnd(hull) to 660. Set stayFor(hull) to 200. Set homeOpenAt(hull) to 8. Set homeSoundAt(hull) to 656. Set homeQuayAt(hull) to 692. }
+    Result "'Mangrow.' Bascom takes the pipe out and looks into the bowl as into a well. 'Five days south and five back, and a pier I will not trust with a line. Sixteen coin. Buy netting from Garrick. I am not saying it for your sake, I am saying it because Mab will not stop.'".
+  }
+  Action pay_fare_mangrow(actor: group, site: place) "Pay Captain Bascom sixteen coin for a passage to Mangrow" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(bascom, site) and at(actor, quay) and asked(actor) and not booked(actor) and bound(hull) == 5 and quantity(actor, gold) >= 16.
+    Time 1.
+    On success { Decrease quantity(actor, gold) by 16. Increase quantity(bascom, gold) by 16. Assert booked(actor). Assert paidFare(actor). }
+    Result "Sixteen coin, counted three times. 'South,' says Bascom, 'until the sea goes the colour of tea. Mind your hats.'".
+  }
   Action pay_fare_ashkeld(actor: group, site: place) "Pay Captain Bascom twelve coin for a passage to Ashkeld" {
     Requires able(actor) and company(actor) and at(actor, site) and at(bascom, site) and at(actor, quay) and asked(actor) and not booked(actor) and bound(hull) == 4 and quantity(actor, gold) >= 12.
     Time 1.
