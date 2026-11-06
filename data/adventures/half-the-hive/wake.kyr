@@ -40,9 +40,6 @@ Module hume "Half the Hive" {
   Observe cappers_board at capped_gallery as feature when not knows(party, merrit_found) "Beside the board that forbids flame, another is pegged, with names burnt into it in a column, one beneath another: the Cappers of the Brow, by their years. Six are cut clean. The seventh place is smooth wax, rubbed flat with a thumb, with nothing on it at all; the eighth is Tobit Mellor, and a long line of Mellors below.".
   Observe cappers_board_read at capped_gallery as feature when knows(party, merrit_found) "Beside the board that forbids flame, the Cappers' names in their column. Six are cut clean. In the seventh place, knowing what to feel for, you press your thumb into the smooth wax and under it, small and square, you find it: M. COKE. Somebody smoothed it over, carefully, not to destroy it, and the Cappers have kept the board that way, a name shut under wax, for eighty-one years.".
 
-  // ── The kept light ─────────────────────────────────────────────────────────────────────────────────────────────────
-  Observe foot_lantern at apron as feature when true "At the foot of the foot stair, in a niche cut in the living rock, a horn lantern with a Brow candle in it, lit. A slate beside it carries the rota in chalk, household by household, a name for every night, the oldest rota scratched under the newer ones in layers like a ledger. It faces west. Ask anyone on the Apron what it is for and they say, 'The Brow keeps it,' with the tone of people who have never been asked.".
-
   // ── Capping Merrit Coke ────────────────────────────────────────────────────────────────────────────────────────────
   // The one by the door was never capped, because nobody was left to do it. A company that has a cleric can say the
   // Capper's office over her, and must decide in what wax: the seventh Leaving's own white comb, or Brow wax. The white

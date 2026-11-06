@@ -28,11 +28,11 @@ Module hollins "Behind the Wainscot" {
   Relation hvClockA(group). Relation hvClockB(group). Relation hvClockC(group). Relation hvHallA(group). Relation hvHallB(group).
   Relation hvFortA(group). Relation hvFortB(group). Relation hvKitchenA(group). Relation hvKitchenB(group). Relation hvBedA(group). Relation hvBedB(group). Relation hvNan(group).
   Rule hv_warrior_clock at clock_foot when memberOf(?m, party) and hasCalling(?m, calling_warrior) and awake(?m) and at(party, clock_foot) and not hvClockA(party)
-    says "{?m} walks round the plinth once and looks up at the case as a soldier looks at a siege-tower. 'Forty turns of the key and a weight that size,' {?m} says. 'You could set a garrison by it. Somebody has kept this in order for three hundred years and has never once been asked to.'" {
+    says "{?m} walks round the plinth once and looks up at the case as a soldier looks at a siege-tower. 'Forty turns of the key and a weight that size,' {?m} says. 'You could set a garrison by it.'" {
     Assert hvClockA(party).
   }
   Rule hv_cleric_clock at clock_foot when memberOf(?m, party) and hasCalling(?m, calling_cleric) and awake(?m) and at(party, clock_foot) and not hvClockB(party)
-    says "{?m} reads the painted words on the plinth with a lifted eyebrow, and then the velvet door, and then the little worn place on the boards where kneelers kneel. 'It is a chantry,' {?m} says. 'They have made a chantry of a clock, for a person who is not dead. I have never seen that done, and I know the form.'" {
+    says "{?m} reads the painted words on the plinth with a lifted eyebrow, and then the velvet door, and then the little worn place on the boards where kneelers kneel. 'It is a chantry,' {?m} says. 'They have made a chantry of a clock, for a person who is not dead.'" {
     Assert hvClockB(party).
   }
   Rule hv_thief_clock at clock_foot when memberOf(?m, party) and hasCalling(?m, calling_thief) and awake(?m) and at(party, clock_foot) and not hvClockC(party)
@@ -40,15 +40,15 @@ Module hollins "Behind the Wainscot" {
     Assert hvClockC(party).
   }
   Rule hv_warrior_hall at hall_flags when memberOf(?m, party) and hasCalling(?m, calling_warrior) and awake(?m) and at(party, hall_flags) and not hvHallA(party)
-    says "{?m} goes down on one knee to the claw-marks and counts the sets with a gauntleted hand. 'Four to a stroke, eighteen foot of reach, always out from the Stair,' {?m} says. 'It comes down the Hall at a trot and turns at the clock. I know a patrol route. I did not expect to find one on a floor.'" {
+    says "{?m} goes down on one knee to the claw-marks and counts the sets with a gauntleted hand. 'Four to a stroke, eighteen foot of reach, always out from the Stair,' {?m} says. 'It comes down the Hall at a trot and turns at the clock.'" {
     Assert hvHallA(party).
   }
   Rule hv_ranger_hall at hall_flags when memberOf(?m, party) and hasCalling(?m, calling_ranger) and awake(?m) and at(party, hall_flags) and not hvHallB(party)
-    says "{?m} breathes in, slowly, and turns toward the drift. 'Fish, and old fur, and a smell like warm bread,' {?m} says. 'It likes it here. It has been coming for a year without being fed, and that is a thing that has decided it lives somewhere.'" {
+    says "{?m} breathes in, slowly, and turns toward the drift. 'Fish, and old fur, and a smell like warm bread,' {?m} says. 'It likes it here. It has been coming for a year without being fed.'" {
     Assert hvHallB(party).
   }
   Rule hv_warrior_fort at fort when memberOf(?m, party) and hasCalling(?m, calling_warrior) and awake(?m) and at(party, fort) and not hvFortA(party)
-    says "{?m} stops at the drawbridge and looks the Regiment over rank by rank, as one soldier looks at another's. 'Keys wound to the same mark,' {?m} says. 'Heads dressed to the left. That is a good regiment and a tired one, and I would not like to be the officer who had to tell it the war was over.'" {
+    says "{?m} stops at the drawbridge and looks the Regiment over rank by rank, as one soldier looks at another's. 'Keys wound to the same mark,' {?m} says. 'Heads dressed to the left.'" {
     Assert hvFortA(party).
   }
   Rule hv_bard_fort at fort when memberOf(?m, party) and hasCalling(?m, calling_bard) and awake(?m) and at(party, fort) and not hvFortB(party)
@@ -60,7 +60,7 @@ Module hollins "Behind the Wainscot" {
     Assert hvKitchenA(party).
   }
   Rule hv_cleric_kitchen at kitchen_floor when memberOf(?m, party) and hasCalling(?m, calling_cleric) and awake(?m) and at(party, kitchen_floor) and not hvKitchenB(party)
-    says "{?m} watches the Jarl's men carry a jar of honey across the tiles with their caps off. 'Grace,' {?m} says. 'They are saying a grace, under their breath, and not one of them knows to whom. It has outlived the god it was for.'" {
+    says "{?m} watches the Jarl's men carry a jar of honey across the tiles with their caps off. 'Grace,' {?m} says. 'They are saying a grace, under their breath, and not one of them knows to whom.'" {
     Assert hvKitchenB(party).
   }
   Rule hv_warrior_bed at counterpane when memberOf(?m, party) and hasCalling(?m, calling_warrior) and awake(?m) and at(party, counterpane) and not hvBedA(party)
@@ -68,7 +68,7 @@ Module hollins "Behind the Wainscot" {
     Assert hvBedA(party).
   }
   Rule hv_bard_bed at counterpane when memberOf(?m, party) and hasCalling(?m, calling_bard) and awake(?m) and at(party, counterpane) and not hvBedB(party)
-    says "{?m} listens to the room: the breath, the clock below, the faint clear note from the piano through the floor. 'It is nearly in tune,' {?m} says. 'The house, I mean. The clock and the keys and her breath. They are all keeping the same time. I would not change a note of it.'" {
+    says "{?m} listens to the room: the breath, the clock below, the faint clear note from the piano through the floor. 'It is nearly in tune,' {?m} says. 'The house, I mean. The clock and the keys and her breath. They are all keeping the same time.'" {
     Assert hvBedB(party).
   }
   Rule hv_nan_clock at clock_foot when following(nan, party) and at(party, clock_foot) and not hvNan(party)

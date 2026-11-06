@@ -12,7 +12,7 @@ Module hessel "The Banns at Hessel" {
     Says "'Because the right is the hand a gentleman drinks with,' says the pumper, 'and he keeps it bare for the glass, so it has nothing to lose.' He lifts the lid so you can see: forty gloves, all of them left, and every one worn through at the thumb of the hand that holds a glass.".
   }
   Topic pyne_peal with pyne "Ask Mr Pyne why the ringers of Orm call the peal wrong in the fourth change" when true once {
-    Says "Mr Pyne closes the bell-book on his finger. 'Because it is wrong,' he says. 'And because it has been wrong since the abbey was a sty, and the ringers of Orm say they will ring it right the day Saint Ebba's does. We say we will the day they stop saying it.' He laughs, and stops. 'The odd thing is that the wrong change is what everyone hums afterwards. A change that was right would be forgotten by dinner.'".
+    Says "Mr Pyne closes the bell-book on his finger. 'Because it is wrong,' he says. 'And because it has been wrong since the abbey was a sty, and the ringers of Orm say they will ring it right the day Saint Ebba's does. We say we will the day they stop saying it.'".
   }
   Observe cross_custom at cross_bath when true "Everyone who comes down to the Cross Bath turns once, at the north pillar, before going in: a quarter-turn on the left heel, like a man remembering something. A boy sitting on the step with his boots in his lap says it is so you don't hit your head on the pillar going in, and that he has told them, and that there is no pillar there to hit, and that they do it anyway.".
 
@@ -27,11 +27,11 @@ Module hessel "The Banns at Hessel" {
   Relation hrdPump(group). Relation hrdPumpB(group). Relation hrdStall(group). Relation hrdStallB(group). Relation hrdNave(group).
   Relation hrdNaveB(group). Relation hrdHall(group). Relation hrdHallB(group). Relation hrdBeacon(group). Relation hrdBath(group).
   Rule hv_bard_pump at pump_room when memberOf(?m, party) and hasCalling(?m, calling_bard) and awake(?m) and at(party, pump_room) and not hrdPump(party)
-    says "{?m} listens to the room for a minute with the pleased attention of a person at a rehearsal. 'Do you hear it?' {?m} says. 'Four conversations, and every one of them has the same rhythm. They all say a sentence, and then a name, and then 'dear.' The whole room is a chorus, and nobody has told it.'" {
+    says "{?m} listens to the room for a minute with the pleased attention of a person at a rehearsal. 'Do you hear it?' {?m} says. 'Four conversations, and every one of them has the same rhythm. They all say a sentence, and then a name, and then 'dear.''" {
     Assert hrdPump(party).
   }
   Rule hv_thief_pump at pump_room when memberOf(?m, party) and hasCalling(?m, calling_thief) and awake(?m) and at(party, pump_room) and not hrdPumpB(party)
-    says "{?m} lets a hand brush the frame of the little slate by the urn, and takes it away. 'Everyone touches it,' {?m} says. 'Nobody looks. It is the only thing in the room nobody is pretending about.'" {
+    says "{?m} lifts the lid of the lost-property box with one finger, and lets it fall. 'Forty left-hand gloves,' {?m} says. 'Somebody takes the right of every pair on the way out. It is not luck. It is a tidy small income.'" {
     Assert hrdPumpB(party).
   }
   Rule hv_warrior_stall at stall_street when memberOf(?m, party) and hasCalling(?m, calling_warrior) and awake(?m) and at(party, stall_street) and not hrdStall(party)
@@ -43,19 +43,19 @@ Module hessel "The Banns at Hessel" {
     Assert hrdStallB(party).
   }
   Rule hv_cleric_nave at ebba_nave when memberOf(?m, party) and hasCalling(?m, calling_cleric) and awake(?m) and at(party, ebba_nave) and not hrdNave(party)
-    says "{?m} stops at the foot of the west window and looks at the two tablets side by side, the white one and the slate. 'One of those is a memorial to a person who is still alive,' {?m} says. 'I know the look of a lie cut in marble. It is always a little deeper than the truth.'" {
+    says "{?m} stops at the foot of the west window and looks at the two tablets side by side, the white one and the slate. 'One of those is a memorial to a person who is still alive,' {?m} says." {
     Assert hrdNave(party).
   }
   Rule hv_thief_nave at ebba_nave when memberOf(?m, party) and hasCalling(?m, calling_thief) and awake(?m) and at(party, ebba_nave) and not hrdNaveB(party)
-    says "{?m} runs a thumbnail down the edge of the poor-box. 'Nobody has ever tried this,' {?m} says, a little sadly. 'It is a church in a town where everyone is watching everyone else, and the box is as safe as the Bank.'" {
+    says "{?m} runs a thumbnail down the edge of the poor-box, and is a little sorry to find that it would not be worth the trouble." {
     Assert hrdNaveB(party).
   }
   Rule hv_mage_hall at hospital when memberOf(?m, party) and hasCalling(?m, calling_mage) and awake(?m) and at(party, hospital) and not hrdHall(party)
-    says "{?m} stands at the end of the ward and counts, lips moving. 'Twenty beds,' {?m} says. 'Eleven vinegar jugs. One window in four is shut, and it is always the same four. Somebody has built a method into this room and forgotten to write it down.'" {
+    says "{?m} stands at the end of the ward and counts, lips moving. 'Twenty beds,' {?m} says. 'Eleven vinegar jugs. One window in four is shut, and it is always the same four.'" {
     Assert hrdHall(party).
   }
   Rule hv_monk_hall at hospital when memberOf(?m, party) and hasCalling(?m, calling_monk) and awake(?m) and at(party, hospital) and not hrdHallB(party)
-    says "{?m} stands very still among the beds and does not speak. After a time someone coughs, and then someone sleeps. 'They can feel it,' {?m} says, low. 'A person standing quietly in a room is a kind of medicine. It is the only kind that wants nothing.'" {
+    says "{?m} stands very still among the beds and does not speak. After a time someone coughs, and then someone sleeps. 'They can feel it,' {?m} says, low." {
     Assert hrdHallB(party).
   }
   Rule hv_ranger_beacon at beacon when memberOf(?m, party) and hasCalling(?m, calling_ranger) and awake(?m) and at(party, beacon) and not hrdBeacon(party)
@@ -63,7 +63,7 @@ Module hessel "The Banns at Hessel" {
     Assert hrdBeacon(party).
   }
   Rule hv_bard_bath at cross_bath when memberOf(?m, party) and hasCalling(?m, calling_bard) and awake(?m) and at(party, cross_bath) and not hrdBath(party)
-    says "{?m} turns once, at the north pillar, without deciding to, and laughs at {?m}self. 'I caught it,' {?m} says. 'That is how a custom travels. You do it for three seconds and the body thinks it is a thing you have always done.'" {
+    says "{?m} turns once, at the north pillar, without deciding to, and laughs at {?m}self. 'I caught it,' {?m} says." {
     Assert hrdBath(party).
   }
 

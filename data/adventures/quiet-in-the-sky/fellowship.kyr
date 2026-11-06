@@ -8,7 +8,7 @@ Module larum "The Quiet in the Sky" {
   Relation heardBellOffice(group). Relation heardHarness(group). Relation heardLocks(group). Relation heardWatch(group). Relation heardBallads(group).
 
   Rule voice_bell_office at larum_chapel when memberOf(?m, party) and hasCalling(?m, calling_cleric) and awake(?m) and at(party, larum_chapel) and not heardBellOffice(party)
-    says "{?m} takes the rope in both hands without ringing it, and feels the weight of the bell come down it. 'Three and three,' {?m} says, to the board over the door. 'That is not a mending bell. That is a passing bell: three for the one, three for the road. We ring it for the dying, in the parishes I know, and for nobody else.' {?m} lets the rope go up. 'Somebody changed one word in the founder's will, and was kind about it. It was never for the living. It was for whoever was going.'" teaches bell_is_passing {
+    says "{?m} takes the rope in both hands without ringing it, and feels the weight of the bell come down it. 'Three and three,' {?m} says, to the board over the door. 'That is not a mending bell. That is a passing bell: three for the one, three for the road. We ring it for the dying, in the parishes I know, and for nobody else.' {?m} lets the rope go up. 'Somebody changed one word in the founder's will, and was kind about it. It was never for the living.'" teaches bell_is_passing {
     Assert heardBellOffice(party).
   }
   Discovery bell_is_passing "The Mending Bell of Larum rings three and three, which is the form of a passing bell, rung for the dying and not for the living; someone long ago changed its name to something kinder.".
@@ -17,7 +17,7 @@ Module larum "The Quiet in the Sky" {
     Assert heardHarness(party).
   }
   Rule voice_locks at halt_cross when memberOf(?m, party) and hasCalling(?m, calling_thief) and awake(?m) and at(party, halt_cross) and not heardLocks(party)
-    says "{?m} walks the length of Trophy Row with a hand trailing along the pegs, and slows, and goes back. 'There isn't a lock,' {?m} says. 'Not on a door, not on a chest, not on a purse. Nine hundred years of the dead and nobody has ever needed one.' {?m} takes a bronze cup off a peg, looks at it, and puts it back exactly where it was. 'I find that harder to be in than a street full of thieves,' {?m} says. 'It means nothing here is anybody's but what they are standing in.'" {
+    says "{?m} walks the length of Trophy Row with a hand trailing along the pegs, and slows, and goes back. 'There isn't a lock,' {?m} says. 'Not on a door, not on a chest, not on a purse. Nine hundred years of the dead and nobody has ever needed one.' {?m} takes a bronze cup off a peg, looks at it, and puts it back exactly where it was. 'I find that harder to be in than a street full of thieves,' {?m} says." {
     Assert heardLocks(party).
   }
   Rule voice_watch at the_ring when memberOf(?m, party) and hasCalling(?m, calling_warrior) and awake(?m) and at(party, the_ring) and state(halvard, lying) and not heardWatch(party)
@@ -25,7 +25,7 @@ Module larum "The Quiet in the Sky" {
     Assert heardWatch(party).
   }
   Rule voice_ballads at hark when memberOf(?m, party) and hasCalling(?m, calling_bard) and awake(?m) and at(party, hark) and not heardBallads(party)
-    says "{?m} runs an eye along the beams, lips moving, and stops under the woodcut of Halvard Eld. 'Look,' {?m} says. 'Every ballad on the wall is in the same metre, the penny-press metre, because old Habakkuk sets them all himself. Except this one. The first verse and the last are one man's work, and the middle is a patch by another, with a worse ear. Somebody put a middle in a ballad that did not have one.' {?m} taps the beam. 'I would very much like to hear the version without it.'" {
+    says "{?m} runs an eye along the beams, lips moving, and stops under the woodcut of Halvard Eld. 'Look,' {?m} says. 'Every ballad on the wall is in the same metre, the penny-press metre, because old Habakkuk sets them all himself. Except this one. The first verse and the last are one man's work, and the middle is a patch by another, with a worse ear. Somebody put a middle in a ballad that did not have one.' {?m} taps the beam." {
     Assert heardBallads(party).
   }
 

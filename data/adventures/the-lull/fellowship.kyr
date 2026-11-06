@@ -8,11 +8,11 @@ Module lull "The Lull" {
   Relation heardPiers(group). Relation heardBrock(group). Relation heardBeam(group). Relation heardWasting(group). Relation heardBirds(group).
 
   Rule voice_piers at mill_bridge when memberOf(?m, party) and hasCalling(?m, calling_warrior) and awake(?m) and at(party, mill_bridge) and not bridgeBuilt(club) and not heardPiers(party)
-    says "{?m} walks to the edge of the leat and looks at the two piers for a long time, and then at the eight young people on the near end, who are watching {?m} with the hope of the very bored. 'The piers are sound,' {?m} says. 'Dressed stone, laid dry, and not a course moved in fifty-seven years. It wants oak, forty feet of it, and ropes, and a day's honest hauling from people who know which end of a timber is which.' {?m} glances at them. 'They do not. They would be glad to learn. It is the first thing in this valley I have seen that needs doing and can be done by lifting.'" {
+    says "{?m} walks to the edge of the leat and looks at the two piers for a long time, and then at the eight young people on the near end, who are watching {?m} with the hope of the very bored. 'The piers are sound,' {?m} says. 'Dressed stone, laid dry, and not a course moved in fifty-seven years. It wants oak, forty feet of it, and ropes, and a day's honest hauling from people who know which end of a timber is which.' {?m} glances at them. 'They do not. They would be glad to learn.'" {
     Assert heardPiers(party).
   }
   Rule voice_sett at hanger_path when memberOf(?m, party) and hasCalling(?m, calling_ranger) and awake(?m) and at(party, hanger_path) and not heardBrock(party)
-    says "{?m} crouches by a spoil-heap with the leaf-litter scraped back, and does not touch the paw-print in the black earth, which is wider than a hand and a half. 'Old,' {?m} says. 'He is old and he has been hurt, and he is not hungry, which is the odd part. See the dung? Honey and beech-mast. Somebody has been feeding him, years back, and stopped, and he has not forgotten.' {?m} gets up slowly, looking at the trees and not the hole. 'He is not wicked. He remembers being killed. Nothing in this valley frightens me as much as a thing that has been wronged and has a good memory. Give him what he wants, and keep your hands where he can see them.'" {
+    says "{?m} crouches by a spoil-heap with the leaf-litter scraped back, and does not touch the paw-print in the black earth, which is wider than a hand and a half. 'Old,' {?m} says. 'He is old and he has been hurt, and he is not hungry, which is the odd part. See the dung? Honey and beech-mast. Somebody has been feeding him, years back, and stopped, and he has not forgotten.' {?m} gets up slowly, looking at the trees and not the hole. 'He is not wicked. He remembers being killed. Give him what he wants, and keep your hands where he can see them.'" {
     Assert heardBrock(party).
   }
   Rule voice_beam at mill_floor when memberOf(?m, party) and hasCalling(?m, calling_thief) and awake(?m) and at(party, mill_floor) and not heardBeam(party)
@@ -25,7 +25,7 @@ Module lull "The Lull" {
     Assert heardWasting(party).
   }
   Rule voice_birds at chapel when memberOf(?m, party) and hasCalling(?m, calling_bard) and awake(?m) and at(party, chapel) and not heardBirds(party)
-    says "{?m} stands in the arch and listens to the starlings in the basin without trying to name them. 'They are not copying anything,' {?m} says, and tips an ear. 'Starlings borrow. This one has a car-door in it, and a kettle, and the smith's third hammer. These are only doing the one tune, and it is the hymn the Old Shift taught me, with the end taken off, going up where you expect it to go down.' {?m} sings the first line back under the breath, and a starling answers from the rim, exactly. 'Somebody taught them and they never forgot,' {?m} says. 'Fifty-seven years of starlings. That is a very long time to hold a note.'" {
+    says "{?m} stands in the arch and listens to the starlings in the basin without trying to name them. 'They are not copying anything,' {?m} says, and tips an ear. 'Starlings borrow. This one has a car-door in it, and a kettle, and the smith's third hammer. These are only doing the one tune, and it is the hymn the Old Shift taught me, with the end taken off, going up where you expect it to go down.' {?m} sings the first line back under the breath, and a starling answers from the rim, exactly. 'Somebody taught them and they never forgot,' {?m} says." {
     Assert heardBirds(party).
   }
 

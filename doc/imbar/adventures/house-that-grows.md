@@ -6,10 +6,10 @@
 
 | | |
 |---|---|
-| **Count** | The Seventh's age *in rooms*: the Choir counts panes under its lullaby, the Reckoning on the Slope scores them in rows of **eleven strokes and a blank**, and the child's chair in the Long Hall has twelve years of nights tallied on its floor. |
-| **Keeper** | Three, nested: Cobble Ring's watchers on their stools (the town), the child's chair (a person), and Sabe Orrel on the Slope with a lamp lit for a boy called Wenn who never came off his watch (the kept light, unexplained). |
+| **Count** | The Seventh's age *in rooms*: the Choir counts panes under its lullaby, the knocking at the front door is **eleven and the wait** (the one instance of the motif here; the Reckoning wall that restated it is cut), and the child's chair in the Long Hall has twelve years of nights tallied on its floor. |
+| **Keeper** | Three, nested: Cobble Ring's watchers on their stools (the town), the child's chair (a person), and Sabe Orrel on the Slope with a lamp lit for a boy called Wenn who never came off his watch (the one kept light here, unexplained; Sabe's second-hand rumour of a tower lit "for nobody in particular" is cut). |
 | **First page (missing)** | Why a girl of fourteen was left to dream a house for two and a half thousand years, and why no one has ever come into it by the front door. Never read out. |
-| **Price of reading** | Whoever reads the Reckoning takes the blank: either the watcher's chair (Tobu) or the girl's place (she walks out; the house stops growing and a town loses the thing it watched). |
+| **Price of reading** | Whoever answers the knocking takes the next of it: either the watcher's chair (Tobu) or the girl's place (she walks out; the house stops growing and a town loses the thing it watched). |
 
 ## Acts and scenes (with a face and a place each)
 
@@ -18,14 +18,14 @@
 | **I. Cobble Ring** | Kezu's kitchen and loft (Tobu, Hanu, Kezu asleep); the sleeping-hall (Wenu, Bolt the dog); the reeve's room (Ammu Tessa, the vote). |
 | **II. The House in the Barley** | the flattened barley (the watchers, Old Pammu, Dace, Haddo); the glass bedroom, cup shelf, hall of coats, root cellar and Haddo's well; the folded man in the drawer. |
 | **III. The Keel** | the Long Hall and the child's chair; the bunk room (Undal names, glass mice); the lamp store (Ottie); the Choir room; the dormitory stair and Rigging Row (the Knot House). |
-| **IV. The Slope** (new) | the Slope (**Sabe Orrel**, her lamp, the Reckoning); the gate with two locks; the front hall (**Neme**, back to a front door, one hand raised for a knock); the sill over the drop. Told by four in-game `Chapter`s. |
+| **IV. The Slope** (new) | the Slope (**Sabe Orrel**, her lamp); the gate with two locks; the front hall (**Neme**, back to a front door, one hand raised for a knock); the sill over the drop. Told by four in-game `Chapter`s. |
 
 Lowmere (Sennu's red door) stays the epilogue of the Ottie thread.
 
 ## What changed (before → after)
 
 * **Ending**: none → **three** (`the_front_door`, `the_chair`, `the_gate_shut`), each closing the Account differently (Kezu stops dreaming in two of them). They do not branch on the vote, Ottie or Pammu; that is a shortfall (below).
-* **Gate** (new): three ways in, each leaving a different girl. *Knock the eleven and wait the twelfth* (anyone who heard Sabe; Neme trusts you at once); *pick the brass lock* (anyone with lockwork; Neme is hurt, `gateForced`); **stare it open** (monk only, see below).
+* **Gate** (new): three ways in, each leaving a different girl. *Knock the eleven and wait the twelfth* (anyone who heard Sabe; Neme trusts you at once); *pick the brass lock* (anyone with lockwork, which the shipped monk does not have: a thief or other lockwork company only; Neme is hurt, `gateForced`; played in the slope test with a lone thief); **stare it open** (monk only, see below).
 * **Choice at the front door**: let Neme out by the front door (house stops growing; Kezu stops dreaming) / ask **Tobu** to take the chair for good (he is the price) / shut the gate and go (nothing resolved; Sabe's lamp stays lit).
 * **Undal letters**: Sabe reads the Lifted brother's letter to the reeve (`give_letter_reeve`, `Give hhg_undal_letter`); it moves two arcs off the sale (the vote now has a third lever beyond `house_one` and `well_reached`).
 * **Danger with a way round** (new): the Knot House riggers appear if the Netters' knot is undone from below. A fight is possible (three riggers, level 2). Noncombat exits: **pay the fee** (4 coin) or **show Sabe's token** (she gives it by `Give`). The wind on the ledge to the sill (`edge_to_sill`) is a second hazard: it drops at a fixed hour of the night (wait it out); Sabe's rope is given for it but is flavour, not a requirement.
@@ -36,7 +36,7 @@ Lowmere (Sennu's red door) stays the epilogue of the Ottie thread.
 | Person | Want | Fear | Lie | Surprise when pressed |
 |---|---|---|---|---|
 | **Sabe Orrel** | the knocking to stop in her lifetime | being the one who stopped it | "I only mind the lamp" | hands you her Netters' token and her rope unasked once you know the custom |
-| **Neme** | someone to come in *by the door* | being fixed by being watched | "I'm only knocking to see who answers" | trusts a marble over an argument; wants the twelfth knock left to the visitor ("it isn't polite to do all the knocking") |
+| **Neme** | someone to come in *by the door* | being fixed by being watched | "I'm only knocking to see who answers" | trusts a marble over an argument; "it isn't polite to do all the knocking" |
 | **Kezu** | to have been right | that she is walking toward the knocking in her sleep | "I'm too old to be dreaming" (kept) | tells the dream when shown the twin of her cup |
 | **Tobu** | to understand why she shut her eyes | being a boy who sleeps like an ox | "I'm only here to look at the doors" | volunteers for the chair, if asked, without being argued with |
 
@@ -52,8 +52,8 @@ Sabe's Wenn and the lamp that is for no one; the Knot House's rule that a knot c
 
 ## Links
 
-* **Out**: Sabe's lamp is of a kind "kept in a window, on a tower on the southern sea, for nobody in particular" (the Pharos); Dace's Company sells dreg on through **the Founders' Exchange at Corran and the Lesser Instruments there**, and to lens-grinders at **Low Water** (right college, right verb: *collects*). Items: `rope` (catalog kind) from Sabe by `Give`.
-* **In**: what would bring a visitor from elsewhere: a Company factor who "buys things that fall out of the city", and a pilot looking for the Pharos lamp's twin. Cobble Ring is a place a passing Exchange herald would be told of.
+* **Out**: (cut: Sabe no longer speaks of a lamp in a tower on the southern sea); Dace's Company sells dreg on through **the Founders' Exchange at Corran and the Lesser Instruments there**, and to lens-grinders at **Low Water** (right college, right verb: *collects*). Items: `rope` (catalog kind) from Sabe by `Give`.
+* **In**: what would bring a visitor from elsewhere: a Company factor who "buys things that fall out of the city", and a pilot looking for another house with a stair that is lit. Cobble Ring is a place a passing Exchange herald would be told of.
 
 ## Foreshadow and payoff
 
@@ -63,7 +63,7 @@ Sabe's Wenn and the lamp that is for no one; the Knot House's rule that a knot c
 
 ## Tests
 
-`test/house-that-grows.test.ts` (17, unchanged, passing) and `test/house-that-grows-slope.test.ts` (new): the Slope and the eleven; the monk's stare; the knock and the front door; the gate shut; Tobu's chair; the letter to the reeve (vote down by two); the Knot House riggers, both exits; chapters and outward links. `bin/kyrie lint`: 0 errors, 0 warnings.
+`test/house-that-grows.test.ts` (17, unchanged, passing) and `test/house-that-grows-slope.test.ts` (new): the Slope and the eleven; the monk's stare; the knock and the front door; the **pick** route with a lone thief (the gate opens, `gateForced` holds, Neme does not trust the company, and Neme says "hand lifted for a knock") (second pass); the gate shut; Tobu's chair; the letter to the reeve (vote down by two); the Knot House riggers, both exits; chapters and outward links. `bin/kyrie lint`: 0 errors, 0 warnings.
 
 ## Honest shortfalls
 

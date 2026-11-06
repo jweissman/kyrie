@@ -25,15 +25,19 @@ declare the canon events they read. Tests: `test/thrume-depth.test.ts` (14), fix
 ## What changed (before, then after)
 
 **Companion arc.** Before: none (the party was three presets and the module said nothing about them). After, in `voices.kyr`, by calling and
-once each: **ranger** reads the snow of the gate-yard (hostages fed from the hold's own plate), the meadow of the Dream-Hollows (a place kept,
-not made); **warrior** reads the long hall (no wall-walk: "built to be sat in"), the cold forge (hammers worn on the heel: "afraid every day
-they worked"); **cleric** counts the sleepers' breath in the Red Lantern (six hours in, six out), knows the pulse again in the red gallery,
-and stands in the Smith-Master's cell ("nobody has said a word over him"); plus a bard (inn), a mage (the Gauge) and a thief (the pegs), for
-other parties. Six of these are heard by the presets, across all five acts.
+once each: **ranger** reads the snow of the gate-yard (hostages fed from the hold's own plate), the dust of the Street of Hands in the Hush (the thralls'
+small prints, always at a Court-walker's heel) and the meadow of the Dream-Hollows (a place kept, not made); **warrior** reads the long hall
+(no wall-walk: "built to be sat in"), the cold forge (hammers worn on the heel) and the hall of the hammers in the Tomb (cut to a man's
+shoulders); **cleric** counts the sleepers' breath in the Red Lantern, knows the pulse again in the red gallery, stands in the Smith-Master's cell
+("nobody has said a word over him") and goes along the niches of the Thrall-Market ("there is no office for it"); plus a bard (inn), a mage
+(the Gauge) and a thief (the pegs), for other parties. Ten of these are heard by the presets, in Acts I, II, III, IV and V. Act IV (the Hush
+and the Tomb) was silent in the first version of this ledger and is now voiced (`voice_street`, `voice_niches`, `voice_hammers`); the Hush's
+*scenes* are otherwise unchanged. The one test of the Act IV voices puts the company at each place (asserted travel) and tests that the rule
+speaks, once.
 
 *The calling-unique beat:* the cleric alone can say **the office for the dead at their work** over the Paid (`read_the_office`): it takes
-three hours and lights the names; it closes the account, ends the danger, and is the only way to learn `smith_names`. The ranger alone can calm
-the wolves (`calm_wolves`).
+three hours and lights the names; it closes the account, ends the danger, and is the only way to learn `smith_names`. The ranger can calm
+the wolves (`calm_wolves`), as can anyone Skarn has given his bone whistle (`skarn_pressed`): not ranger-alone.
 
 *The consequential choice:* the warrior and the cleric quarrel in the Paymasters' hall once the pay-roll is read (`quarrel_over_wage`):
 **pay** (twelve crowns, or hand over the bars from the tray: instant, the Paid keep the window, no names) or **read the office** (an afternoon and a
@@ -41,7 +45,7 @@ torch, the Paid go, the names are learned and *sung at the Mouth*). One closes t
 after the old ones' only for a company that read them (`smiths_sung`).
 
 **Danger with ways round.** The Paid: two Hollow Smiths, Level 3, territorial, in a hall with no back door. The fight is possible and costly (tested:
-it is won, one of the three is down and the others on a hit point or two, and the sleeper *stirs*, because "what kills, wakes"). Ways round, all
+it is won, at least one of the three is down, and the sleeper *stirs* by one, because "what kills, wakes"; "the others on a hit point or two" is not asserted). Ways round, all
 tested: pay in crowns; hand over the starmetal bars from the tray (the wage was always on the counter); show the Smith-Master's hammer; the
 cleric's office; and the shared rules' own "ask them to let you by". They give a company an hour to say its business before the line decides it is
 not on the roll. The wolves in the wolf-pens, which had no exit: now the ranger, or Skarn's bone whistle.
@@ -59,13 +63,13 @@ not on the roll. The wolves in the wolf-pens, which had no exit: now the ranger,
 At least two are shown in play, not only here: Hauk, Skarn, Brannoc, Mórrach (all four tested).
 
 **Depth beyond the frame** (all off the critical path): the Paymasters' hall itself (108 pegs, a lintel that says *she was not*, a tallow dip nobody lit);
-the boots on the adit props (112); the pinch of white salt owed the shrine by the Office, a two-century quarrel that broke every axle the third time it
-was tried; the ham that cannot be eaten twice ("the second slice is the pig's own last dream"); the miners' lanterns hung in the wolf-pens with black wool on
+the boots on the adit props (112); the pinch of white salt owed the shrine by the Office (the carters' explanation, a toll to a road-saint, is wrong, and Agathe says so; the boots on the props are
+explained, unasked, by a boy with an apple); the ham that cannot be eaten twice ("the second slice is the pig's own last dream"); the miners' lanterns hung in the wolf-pens with black wool on
 the handles; the pebbles at the foot of the hearth pillars (grey, white, red for the three cut down by smiths, and one socket empty); Wenna's wooden hall.
 
-**Links.** *Out:* Sister Agathe's fire is named as the same kind as the lamp on a rock beyond the Combs (Skerrow, the Pharos); Tamsin Quarrow
+**Links.** *Out:* (cut in the second pass: Sister Agathe's fire is no longer tied to a lamp beyond the Combs; pilgrims simply come and sit by it); Maud Quarrow
 says a Founders' Exchange factor at Orsett has asked three springs running for unmarked red salt (the Dorothea's Orsett; the Exchange's errand);
-the Gauge of Sleep marks a twelfth stroke when `befell(slack_opened)` (the black square in the House of Doors); the cloud landing thins when
+the Gauge of Sleep's brass hand moves a hair when `befell(slack_opened)` (the "twelfth stroke" of the first pass is cut) (the black square in the House of Doors); the cloud landing thins when
 `befell(cloudgate_fell)`. *In:* the Orsett factor's carter is what would bring a company from the river countries; a surveyor with the old glossary
 would find the Delving's script legible. Neither module sets a flag for the other by name: both are reads of the canon.
 
@@ -74,7 +78,10 @@ middle of the grimmest hold in the dale (`play_house`).
 
 **Foreshadowing.** *Early, pays off in the last act:* Wenna's counting-out rhyme, learned in the hold, which a child's voice finishes at the Mouth
 (`rhyme_sung`). *Only if the player went looking:* the pay-roll and the names, learned in the Delving, sung in the Mouth (`smiths_sung`). Neither
-appears in the finale for a company that did not hear them (tested).
+appears in the finale for a company that did not hear them (tested, the negative from the Mouth fixture). The positive cases are now each played
+as far as is feasible: `knows(wenna_rhyme)` is reached by *Let Wenna put the company to bed* in the hold fixture, and `knows(smith_names)` by *Say the
+office* at the pay-window in the depth fixture; the walk from either to the Mouth (Hush, Tomb, the long throat: ~500 steps) is **asserted**, as is
+`song_known`, which is the Rememberer's topic tested in `thrume.test.ts`. The knowledge is played, the travel is put.
 
 **Playability.** Every new action is reachable from the shipped campaign; every item is obtainable (`Give`, `Take` from a tray or a wall; the
 whistle is `Give thrume_whistle to actor`, the wage is `Spend thrume_starbar`). Fixtures start the company at the Smiths' gate, the hold's yard, the
@@ -82,14 +89,14 @@ Mouth's edge and Brannoc's camp, because a full play to each is five hundred ste
 
 ## Tests
 
-`test/thrume.test.ts` (existing, 6) and `test/thrume-depth.test.ts` (new, 14 including a fight and a company that dithers). `bin/kyrie lint
+`test/thrume.test.ts` (existing, 6) and `test/thrume-depth.test.ts` (new, 16 including a fight, a company that dithers, the Act IV voices and the two Mouth payoffs). `bin/kyrie lint
 data/campaigns/thrume.campaign.json`: 0 errors.
 
 ## Honest shortfalls
 
 - The Wound's warden and the hunger in the cold shaft were not given second exits (the warden only waits to see whether you will come closer; the hunger is `ambush`).
-- The Hush is unchanged. The Court's dossiers are the thinnest in the module and I did not thicken them.
-- The ranger's "calm the wolves" is the only ranger-unique solution; the warrior has voices but no unique problem-solver.
+- The Hush's scenes are unchanged (it has three voices now, no new persons). The Court's dossiers are the thinnest in the module and I did not thicken them.
+- The ranger's "calm the wolves" is the only ranger-first solution, and Skarn's whistle gives it to anyone; the warrior has voices but no unique problem-solver.
 - `smith_names` pays off in the finale as a sentence; it does not change an ending.
 - The brannoc_after / Salt Office scene is an Observe, not a person to talk to.
 - No new items in the shared catalog; the only catalog kind used is `lantern`.

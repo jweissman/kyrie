@@ -218,7 +218,7 @@ describe('Thrume: a company that dithers', () => {
 });
 
 describe('Thrume: what it reads of the world, and the payoffs at the Mouth', () => {
-  it('moves the Gauge's hand when a black square has been opened a long way off', async () => {
+  it('moves the Gauge hand when a black square has been opened a long way off', async () => {
     const { s, j } = await T.start(depth);
     await j.play('?a torch: Light', '^To the cold forge');
     const quiet = await j.play('^To the Gauge');

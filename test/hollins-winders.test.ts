@@ -5,7 +5,7 @@ import { Hollins } from './support/hollins';
 // Winders'
 // account (the eleven notches), the warrior's word to the Regiment, and the small depth and outward links.
 describe('Behind the Wainscot: the Winders\' account and the warrior\'s word', () => {
-  it('speaks to a warrior at the Long Clock, in the Hall, and at the Fort, and posts the Market's quiet', async () => {
+  it('speaks to a warrior at the Long Clock, in the Hall, and at the Fort, and posts the quiet minute', async () => {
     const g = await Hollins.start();
     await g.play('To Bootscrape street', 'Into the Mat', '=10:10', 'Talk to Mrs Pyecroft', 'Ask Mrs Pyecroft about the position', 'Take Mrs', 'Take your leave',
       'Out to Bootscrape street', 'To the top of the doorstep', 'by the Slot', 'To the Letterdrift', 'To the Hall floor');
@@ -16,6 +16,9 @@ describe('Behind the Wainscot: the Winders\' account and the warrior\'s word', (
     await g.play('Search here');
     expect(g.knows('notch_tally')).toBe(true);
     expect(g.page).toMatch(/eleven of them, evenly spaced/);
+    // The Market's quiet minute is posted before it is reached.
+    await g.play('To the Hall floor', 'To the Skirting');
+    expect(g.page).toMatch(/STALLS CLOSE AT TEN PAST FOUR FOR ONE MINUTE/);
   }, 240000);
 
   it('lets a warrior with the Regiment\'s word order it to stand easy, years before the Lady could', async () => {

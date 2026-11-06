@@ -52,7 +52,7 @@ received; says "I do not ask a name" of whoever carries the year's book. Crake a
 Ys; Quarles: "the Receiving", and she would be glad if you did not write it down), the contradiction left unreconciled on purpose. Rhule and the
 Almanack were already well drawn (see the existing arcs tests) and I did not touch them.
 
-**Depth beyond the frame.** The dead-letter hook; the stable lamp Jonah lights every dusk for a packet that has not come for sixty years; the cut cross on
+**Depth beyond the frame.** The dead-letter hook; (the stable lamp Jonah lit every dusk for a packet is cut in the second pass, so the Church of the Lamp is the one kept light); the cut cross on
 every eleventh stone of the causeway, which the board in the post-house explains and does not explain; the black stones across the flats laid eleven
 paces to a stone; the pigeon-holes, each with a name; the Road's one law (sealed, sent, read once at each stage and left alone).
 
@@ -76,3 +76,9 @@ the die are given and taken, not lent. `post_the_almanack` spends the company's 
 - The Undelivered is the only new physical danger. Wren is a lone six-hit-point bard and every fight here is a coin that may kill her; I did not make that gentler.
 - The 3,000-kitchen, Cinderfield, Index and Rhule arcs are as they were. I did not rewrite the Stacks or the Commonplace members.
 - Characterization is added for two persons, not five.
+
+## Second pass (critical review, `16-critical-review.md`)
+
+- Motif: the eleven stages and the twelfth that was never cut are this adventure's **one** instance (the board, the die, the Roll's reading); the reviewer's suggestion to renumber the stages to nine or thirteen was **not taken** (the label "the twelfth stage" is in the tests and the Calamy support). The stable lamp at the ferry-stairs is cut; the Church of the Lamp is the one kept light.
+- Prose: two closing-line tics cut in `post.kyr` and two in `voices.kyr`.
+- Not done: renaming Hester Rhule (three other Hesters elsewhere in the corpus); the labels `Talk to Hester` are in `test/support/calamy.ts` and four test files.

@@ -8,3 +8,5 @@
 | 4 | `go:black_reach` from the North Road | "No way from north_road to black_reach": the ice is behind the penny-a-stair plank | Used `j.put` for ice rooms | Fine; a `go:` that explains the plank would help |
 | 5 | Wait to the end of the book with the company standing at the North Road | The morning's news never fired (`inPellam()` is false on the North Road) | One failing test; add `go:cheaping` first | None needed; worth a comment in `aftermath.kyr` |
 | 6 | Lint advice `anchor` on a `Rule … at <place>` | Not hit here, but voices must put `at(party, place)` in their condition as well as `at <place>` | None | – |
+
+| 6 | Lone-company office (review item 1) | The cleric's office for Davy Saffery is locked for the shipped bard | Added `sing_office` (wake-song, three coin, widow affronted, no second light); played in `liberty-of-the-ice-shipped` | – |

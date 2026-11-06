@@ -6,3 +6,5 @@
 4. **A level-3 construct dies to one hit**, and a won fight pays 542 experience each, so the fight beat the ways round. Raised to level 6, made costly by consequence (Bursar, chit, vigil). Smallest repair: an experience cap for sub-par foes (data only: not done).
 5. **A stash by a stray command** nearly lost shared work; shared tree is edited by other authors at once. Not repeated.
 6. Slate check at Thole is a coin flip: tests use seed `b`.
+
+7. **Lone-company route (review item 1).** Worked round in data: `rv_force_case` lets a warrior break the case (cracked mould, cold Bursar). The shipped test (`test/the-book-of-faces-shipped.test.ts`) plays it. The quarrel and the choice between sides still need a thief and a cleric together.
