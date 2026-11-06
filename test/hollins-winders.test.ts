@@ -51,7 +51,7 @@ describe('Behind the Wainscot: the Winders\' account and the warrior\'s word', (
     await g.play('Talk to the Lady', 'Tell the Lady about the eleven notches');
     expect(g.page).toMatch(/I was eleven\. I meant to do the twelfth/);
     expect(g.holds('notchesTold', 'lady')).toBe(true);
-    expect(g.j.holds('holding', 'party', 'hollins__lady_map_kind')).toBe(true);
+    expect(g.j.holds('holding', 'party', 'hollins_lady_map_kind')).toBe(true);
     await g.play('=day 11 02:00');
     expect(g.page).toMatch(/The twelfth notch was scratched at the foot of the Long Clock/);
   }, 600000);

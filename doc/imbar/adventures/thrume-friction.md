@@ -1,0 +1,13 @@
+# Thrume: friction
+
+| # | What I tried | What happened | Cost | Smallest repair | Status |
+|---|---|---|---|---|---|
+| 1 | `Observe … when befell(slack_opened)` | `Invalid argument slack_opened in befell(slack_opened)` at load | a lint cycle | The module must list the event in `"canon": ["imbar", "slack_opened", …]` (Wrayford and Quittance do). Undocumented in `14-bible.md`; add a line. | worked round |
+| 2 | A territorial group warned the company; the company then read a pay-roll (a time-taking action) | The shared rules give a warned company one watch (`patience = watch + 1`); reading took a watch and the Paid fell on it | a failed test, then a design choice | A module rule `warned(g, party) → Set patience(g) to watch(clock)+6`. It works; a `Patience 6.` field on a Person would be the right construct. | worked round |
+| 3 | Test a fight from `Journey` | `Journey.choices()` is empty during a fight; `Attack` is a command and the fight is the next screen | a lot of reading | `session.perform(command, runner)`, with `runner` choosing `melee` first (see `test/thrume-depth.test.ts`). No helper in `Journey`. | worked round |
+| 4 | Pick a "costly but winnable" level for a fight | The party is level 1 and a Level 3 ×3 or Level 5 ×3 `revenant` kills it every time; Level 3 ×2 is won with one down; no gradient between | tuning by trial | A "danger rating" printed by lint for a Person against the campaign's party. | worked round |
+| 5 | Assert absolute gold in tests | The company starts with 38, not the 30 in `Company … Initially Set` (the presets' backgrounds add 8) | two failures | Tests read gold before and after. | worked round |
+| 6 | `holding(actor, kind)` in an `Observe` (a catalog kind: `old_glossary`) | Invalid argument at load; the same call in a `Requires` is fine | a rewrite (an Observe became an Action) | Resolve catalog kinds in every condition, not only in `Requires`. | **blocked** (as an Observe; worked round as an Action) |
+| 7 | A clerk named Tamsin Pell | `bin/kyrie lint` refuses a second Pell (Book of Faces) | trivial | Renamed Quarrow. The shared-name lint is doing its job. | worked round |
+| 8 | A rule to give a Person a `Role` that is true only in one place | The advice `role: … wherever they are` names the Paid and Col | cosmetic | `Role "…" when at(…)`; not taken up. | left |
+| 9 | Calling-unique problems for the *warrior* | Kyr can see the calling and print the name, but not "the locksmith", the dwarf or the medic | the warrior has voices and no solver | `hasBackground` / `hasKind` projection (11.6 repair 1). Not done: shared fact projection. | **blocked** |
