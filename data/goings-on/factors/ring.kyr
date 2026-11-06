@@ -6,7 +6,7 @@ Module factors "The factor who buys old bronze" {
   // their folk by the terrain, their names, their levels, how long the Principal stays, how much nerve he has, and the
   // lieutenant's temper and his secret.
   Measure stay(entity). Measure away(entity). Measure temper(entity). Measure secret(entity). Measure nerve(entity).
-  Measure leaveAt(entity). Measure cutAt(entity). Measure seenAbroad(entity). Measure hireAt(entity). Measure burnAt(entity).
+  Measure leaveAt(entity). Measure cutAt(entity). Measure standAt(entity). Measure seenAbroad(entity). Measure hireAt(entity). Measure burnAt(entity).
   Relation turned(group). Relation cellLooked(group). Relation pressed(group). Relation toldPrincipal(group). Relation hired(group). Relation seenSearch(group).
   Relation fenceSeen(group). Relation talkedLieutenant(group). Relation lieutenantCut(group). Relation burnt(group). Relation offered(group).
 
@@ -187,24 +187,34 @@ Module factors "The factor who buys old bronze" {
   // Four ways the Principal can be got past, or put down. A fight is the fifth.
   Action expose_principal(actor: group, site: place) "Lay the waybill, the leaf and the lieutenant's word before the Principal" {
     Description "All three ranks read: the cellar, the book, the coast. He cannot say it is only a waybill.".
-    Requires able(actor) and company(actor) and at(actor, site) and at(principal, site) and knows(actor, waybill_read) and knows(actor, ledger_read) and knows(actor, principal_traced) and not routed(principal) and not offered(principal).
+    Requires able(actor) and company(actor) and at(actor, site) and at(principal, site) and knows(actor, waybill_read) and knows(actor, ledger_read) and knows(actor, principal_traced) and not routed(principal) and not offered(principal) and not stood(principal).
     Time 2.
-    Grave "If he runs, he runs for good; the ring will have no head. If he does not run, he will do what a man does who has nowhere else to go.".
+    Grave "If he runs, he runs for good, and the ring has no head. If he has more nerve than that he may buy you, or he may say that he will not go; and a man who will not go, in a loft at the end of a pier, is a fighter of the fourth or fifth rank. A lieutenant who has gone over to you takes the nerve out of him.".
     On success { Assert principalMet(actor). }
     Result "You put them in a row on the table, as you would lay out a hand of cards: the waybill from the cellar, the leaf from the strongbox, the lieutenant's account of where he sits. The Principal reads them in that order, and does not touch any. Then they look up, and the face has gone quiet in a way that a man's face goes when he is adding.".
   }
-  Relation principalMet(group).
+  Relation principalMet(group). Relation stood(group).
+  // A lieutenant who has gone over to the company is the one thing the Principal cannot stand against: it is his own side
+  // that has laid the paper on the table. Without that, his nerve is what Deem drew.
+  Rule principal_breaks when principalMet(party) and at(principal, ?p) and nerve(principal) > 1 and turned(lieutenant) and not routed(principal) and not dead(principal)
+    says "The Principal reads the three papers in their order and stops at the third. 'My man signed,' they say. It is not a question. The pen goes down. 'Then there is no ring to be head of; there is only a book.' They close it and put it under their arm, and take their hat from the peg with a care that is worse than haste. 'I have a boat. You will find that it is already gone.' They go out by the way you came in, and nobody on the ladder lifts a hand, and by the next tide the coast has forgotten the name." {
+    Assert routed(principal). Retract at(principal, ?p). Assert at(principal, abroad). Retract principalMet(party).
+  }
   Rule principal_nerve_flees when principalMet(party) and at(principal, ?p) and nerve(principal) == 1 and not routed(principal) and not dead(principal)
     says "'Well,' says the Principal. 'That is what happens when one has too many ranks.' They close the black book, and stand, and pick up their hat. 'I have a boat.' They go out by the way you came in, quite calmly, and you do not stop them, because nothing has been done that anyone could point to. By the next tide nobody on the coast will own to having heard the name." {
     Assert routed(principal). Retract at(principal, ?p). Assert at(principal, abroad). Retract principalMet(party).
   }
-  Rule principal_nerve_buys when principalMet(party) and nerve(principal) == 3 and not offered(principal) and not routed(principal) and not dead(principal)
+  Rule principal_nerve_buys when principalMet(party) and nerve(principal) == 3 and not turned(lieutenant) and not offered(principal) and not routed(principal) and not dead(principal)
     says "'Sixty,' says the Principal. 'Sixty crowns, and the Dorothea's note struck off, and a clerkship in Orsett. It is the House's usual figure.' The black book does not move. 'I would take it, if I were a company. And if I were a company that did not, I would see to it that I was not alone on the road tonight.'" {
-    Assert offered(principal). Retract principalMet(party).
+    Assert offered(principal). Assert tolerates(principal, party). Retract principalMet(party).
   }
-  Rule principal_nerve_fights when principalMet(party) and nerve(principal) == 2 and not routed(principal) and not dead(principal)
-    says "The Principal stands and takes their coat off the chair. 'No,' they say. 'No, I shall not go. I have a good many years in this, and I do not run from a waybill.' The door behind you opens and shuts." {
-    Retract tolerates(principal, party). Retract principalMet(party).
+  Rule principal_nerve_fights when principalMet(party) and nerve(principal) == 2 and not turned(lieutenant) and not routed(principal) and not dead(principal)
+    says "The Principal stands and takes their coat off the chair. 'No,' they say. 'No, I shall not go. I have a good many years in this, and I do not run from a waybill.' The black book goes into the trunk and the trunk is locked, and the door behind you opens and shuts on a man who has been waiting on the ladder. 'Go down it,' says the Principal, not unkindly. 'An hour. After that I shall not be able to help what is done in this room.'" {
+    Assert stood(principal). Assert tolerates(principal, party). Set standAt(principal) to watch(clock). Increase standAt(principal) by 6. Retract principalMet(party).
+  }
+  Rule principal_door_closes when stood(principal) and standAt(principal) > 0 and watch(clock) >= standAt(principal) and together(principal, party) and tolerates(principal, party) and not routed(principal) and not dead(principal)
+    says "The man on the ladder has come up it. The Principal puts on the coat, and the black trunk is under the table, and the hour is over." {
+    Retract tolerates(principal, party). Set standAt(principal) to 0.
   }
   Action take_principal_silver(actor: group, site: place) "Take the Principal's sixty crowns, and write nothing" {
     Requires able(actor) and company(actor) and at(actor, site) and at(principal, site) and offered(principal) and not routed(principal).
@@ -224,12 +234,12 @@ Module factors "The factor who buys old bronze" {
   // the lieutenant sees who comes to his store. Nothing here is told it by magic.
   // R-A: the cellar is beaten or bought and searched. The Principal hires muscle for the counting-room.
   Rule muscle_hired when (seenSearch(cell) or routed(cell) or dead(cell)) and not hired(principal) and not routed(principal) and not dead(principal)
-    says "In the Anchor's yard, after dark, a boat's lantern goes out, and a cart comes in under a tarpaulin. There are more men in the Exchange's yard in the morning than there were, and they are not here for the bronze." {
+    says "In the Exchange's yard, after dark, a boat's lantern goes out, and a cart comes in under a tarpaulin. There are more men in the yard in the morning than there were, and they are not here for the bronze. Somebody is carrying coal up the back stair, and it is not cold." {
     Assert hired(principal). Set hireAt(principal) to watch(clock). Increase hireAt(principal) by 18. Set burnAt(principal) to watch(clock). Increase burnAt(principal) by 144.
   }
   Person bravos "the hired men" at abroad {
     Role "hired for the winter by the ring". Calling warrior. Temperament territorial. Refuge abroad.
-    Arrives "Three or four men come down the stair from the counting-room together, and fan out across the floor without a word.".
+    Arrives "Three or four men come in together, and fan out across the floor without a word.".
     Warns "'We're paid,' says one, 'to see that nobody goes up. Not paid enough to be hurt. Five coin to be somewhere else.'".
     Comes "The hired men stop being polite.".
     Flinches "The hired men put away their knives and say that nobody told them the Exchange had so many enemies.".
