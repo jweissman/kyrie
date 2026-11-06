@@ -94,7 +94,32 @@ Module dorothea "The Dorothea" {
     Time 3.
     Resolve check(actor, intimidation, dc_fair).
     On success { Assert sold(hull). Retract at(jago, deck). }
+    On failure { Retract at(kestrel_hands, nowhere). Assert at(kestrel_hands, deck). }
     Result "Rune lifts the first cask back onto his shoulder and carries it to the hatch, and Jago Pendry watches him do it, and watches the company's faces, and does a sum. 'Another time,' he says, with real regret, and steps over the rail. The cutter's light goes out as it left, one thing at a time.".
     Otherwise "Pendry only smiles, and holds out his hand for the purse he has already paid, and Rune cannot give it back because he has already spent it.".
+  }
+
+  // If the company pushes and cannot push hard enough, Pendry does not argue. He whistles, and his hands come over the rail
+  // with belaying-pins. They can be fought; they can be paid; the Captain can be fetched; or the mate, if he is the
+  // company's, can say a word, and they are Rune's old friends.
+  Person kestrel_hands "the Kestrel's hands" at nowhere {
+    Role "three hard men off the cutter with belaying-pins". Ancestry human. Calling thief. Level 2. Numbers 3. Temperament territorial.
+    Warns "Three men are over the rail and on the deck of the Dorothea before anyone saw the cutter's boat. The nearest hefts a belaying-pin, not as a threat but as a sort of punctuation.".
+    Comes "The nearest says, 'Don't make it into a thing,' and the belaying-pin comes round in a flat, practised arc.".
+  }
+  Relation handsPaid(group). Relation handsSent(group).
+  Action pay_the_hands(actor: group, site: place) "Pay the Kestrel's hands eight coin to go back over the rail" {
+    Description "It is cheaper than a head. It is also eight coin that will be spent on drink by the next watch.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, deck) and at(kestrel_hands, site) and quantity(actor, gold) >= 8 and not handsPaid(actor).
+    Time 1.
+    On success { Decrease quantity(actor, gold) by 8. Assert handsPaid(actor). Retract at(kestrel_hands, deck). Assert at(kestrel_hands, nowhere). Retract at(jago, deck). Assert sold(hull). Decrease cargo(hull) by 4. }
+    Result "The tallest looks at the coin, and at the company, and does a sum his face is not used to doing. 'Eight,' he says. 'For the trouble.' He pockets it with the dignity of a man being paid a fee. They go back over the rail one at a time, and the cutter takes her boat in, and four casks are not in the hold in the morning.".
+  }
+  Action rune_speaks(actor: group, site: place) "Have Rune speak to the Kestrel's hands, who drank with him in Orsett" {
+    Description "He has sold them four casks and a good deal of rum. They like him.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, deck) and at(kestrel_hands, site) and indebted(rune, actor) and not handsSent(actor).
+    Time 1.
+    On success { Assert handsSent(actor). Retract at(kestrel_hands, deck). Assert at(kestrel_hands, nowhere). Retract at(jago, deck). Assert sold(hull). }
+    Result "'Davy,' says Rune. 'Pike. Hobb.' He is not loud. 'She has a keel and a debt and one cask less than I have wronged her for. Go home.' There is a short and terrible silence in which three hard men look at a mate they have known for ten years, and at the company he has chosen, and then at each other. 'Aye,' says the one called Davy, with something not quite like shame, and they go.".
   }
 }
