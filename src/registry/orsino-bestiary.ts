@@ -7,7 +7,6 @@ import { OrsinoTranslate } from './orsino-translate';
 import type { Bestiary } from './orsino-effects';
 import animals from '../../data/catalog/animals.json';
 import monsters from '../../data/catalog/monsters.json';
-import orsinoSpecies from '../../data/catalog/orsino/species.json';
 
 type Raw = Record<string, unknown>;
 const SCORES: [string, Attribute][] = [['str', 'strength'], ['dex', 'dexterity'], ['con', 'constitution'],
@@ -110,8 +109,7 @@ export class OrsinoBestiary {
   // What a summon can call, from the species catalogs as they stand (hand-written first): run the bestiary before the
   // catalog, so the summons see every species.
   static vocabulary(entries: RegistryEntry[]): Bestiary {
-    const all: Record<string, Species> = { ...orsinoSpecies.species as unknown as Record<string, Species>,
-      ...{ ...animals.species, ...monsters.species } as unknown as Record<string, Species> };
+    const all = { ...animals.species, ...monsters.species } as unknown as Record<string, Species>;
     const ids = Object.keys(all).sort();
     const byOrsino = Object.fromEntries(ids.filter(id => all[id]!.source.orsino)
       .map(id => [all[id]!.source.orsino!, id]));
@@ -119,13 +117,23 @@ export class OrsinoBestiary {
     // bomb, a turret, a barrier, a phylactery) is set where it stands by an ability of its own, and is not called by a
     // summoning of its type (COR-20: regenerated, a summoning of constructs would have called up bombs and turrets).
     const byType: Record<string, string[]> = {};
-    for (const id of ids.filter(id => all[id]!.kind === 'monster' && !all[id]!.variantOf
+    for (const id of ids.filter(id => OrsinoBestiary.of(all, id, 'kind') === 'monster' && OrsinoBestiary.whole(all, id)
       && !all[id]!.source.orsino?.startsWith('combatEntity:'))) {
-      (byType[all[id]!.type ?? 'monster'] ??= []).push(id);
+      (byType[OrsinoBestiary.of(all, id, 'type') ?? 'monster'] ??= []).push(id);
     }
     const companions = Object.fromEntries(entries.filter(e => e.family === 'companion').map(e =>
       [e.key, (e.definition as string[]).map(k => byOrsino[`animal:${k}`]).filter((x): x is string => !!x)]));
     return { byOrsino, byType, companions };
+  }
+  // A kind of a base that is never made bare (an elemental of fire) is called by its own name; that base is not.
+  private static whole(all: Record<string, Species>, id: string): boolean {
+    const s = all[id]!;
+    return !s.variantOf ? !s.requires : !!all[s.variantOf]?.requires && !!s.variations?.length;
+  }
+  // A kind's kind and type are its base's where it does not say its own.
+  private static of(all: Record<string, Species>, id: string, k: 'kind' | 'type'): string | undefined {
+    const s = all[id]!;
+    return s[k] ?? (s.variantOf ? all[s.variantOf]?.[k] : undefined);
   }
   static scores(s: Record<string, number>): Record<Attribute, number> {
     return Object.fromEntries(SCORES.map(([k, name]) => [name, s[k]!])) as Record<Attribute, number>;

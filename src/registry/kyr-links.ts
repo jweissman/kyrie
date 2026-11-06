@@ -26,6 +26,8 @@ export class KyrLinks {
       case 'aspect': return !!CreatureVariants.aspect(id);
       case 'undead': return !!CreatureVariants.template(id);
       case 'rarity': return Object.hasOwn(CreatureVariants.table.rarity, id);
+      case 'variation': return Object.hasOwn(CreatureVariants.variations, id);
+      case 'material': return Object.hasOwn(Canon.materials, id);
       default: return false;
     }
   }

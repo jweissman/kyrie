@@ -14,23 +14,1616 @@
     "celestial": "defensive"
   },
   "species": {
-    "wisp": {
-      "name": "Wisp",
-      "type": "spirit",
-      "kind": "spirit",
-      "description": "A drifting mote of light that answers a summoner's call.",
+    "angel": {
+      "name": "Angel",
+      "type": "celestial",
+      "kind": "monster",
+      "description": "A celestial of Orsino's bestiary. It fights with longsword, armoured in chain mail, and knows Smite Evil, Heal Ally, Bless and Inspire.",
       "statistics": {
-        "attributes": "rolled",
-        "hitDie": 4,
+        "attributes": {
+          "strength": 20,
+          "dexterity": 19,
+          "constitution": 16,
+          "intelligence": 15,
+          "wisdom": 22,
+          "charisma": 22
+        },
+        "weapon": "longsword",
+        "armor": "chainmail",
+        "primary": "strength",
+        "actions": 2,
+        "growth": {
+          "hitPoints": {
+            "base": 25,
+            "perLevel": 3
+          }
+        }
+      },
+      "abilities": [
+        "smite",
+        "heal",
+        "bless",
+        "inspire"
+      ],
+      "traits": [
+        "celestial",
+        "formidable"
+      ],
+      "worth": {
+        "base": 450,
+        "perLevel": 50
+      },
+      "omits": {
+        "trait:piety": "Divine Favor is not a nature Kyr plays.",
+        "field:monsterGold": "Orsino's 3d10 gold for the kill is not carried."
+      },
+      "source": {
+        "orsino": "monsterType:Angel",
+        "fidelity": "adapted",
+        "notes": "Composed by OrsinoMonsters (celestial class, Angel type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template."
+      }
+    },
+    "antimagic_ward": {
+      "name": "Antimagic ward",
+      "type": "construct",
+      "kind": "monster",
+      "description": "A circle of cut stones that hums when magic is near, and silences it.",
+      "statistics": {
+        "attributes": {
+          "strength": 10,
+          "dexterity": 3,
+          "constitution": 16,
+          "intelligence": 1,
+          "wisdom": 10,
+          "charisma": 1
+        },
+        "hitDie": 10,
         "primary": "constitution",
-        "weapon": "flutter"
+        "weapon": "slam"
+      },
+      "traits": [
+        "counter_arcane",
+        "wall"
+      ],
+      "abilities": [
+        "silence",
+        "pure_beam",
+        "dispel_magic",
+        "magebane"
+      ],
+      "temperament": "obedient",
+      "source": {
+        "orsino": "combatEntity:antimagic_ward",
+        "fidelity": "adapted",
+        "notes": "A fighting object: in Kyr a creature of the construct type that takes its turn in a fight like any other, with Orsino's abilities and traits for it. It does not move or answer; where it stands is where it was put."
+      }
+    },
+    "archon": {
+      "name": "Archon",
+      "type": "celestial",
+      "kind": "monster",
+      "description": "A celestial of Orsino's bestiary. It fights with longsword, armoured in chain mail, and knows Smite Evil, Heal Ally, Bless and Defend.",
+      "statistics": {
+        "attributes": {
+          "strength": 21,
+          "dexterity": 20,
+          "constitution": 16,
+          "intelligence": 15,
+          "wisdom": 21,
+          "charisma": 21
+        },
+        "weapon": "longsword",
+        "armor": "chainmail",
+        "primary": "strength",
+        "actions": 2,
+        "growth": {
+          "hitPoints": {
+            "base": 25,
+            "perLevel": 3
+          }
+        }
+      },
+      "abilities": [
+        "smite",
+        "heal",
+        "bless",
+        "defend"
+      ],
+      "traits": [
+        "celestial"
+      ],
+      "worth": {
+        "base": 450,
+        "perLevel": 50
+      },
+      "omits": {
+        "field:monsterGold": "Orsino's 3d10 gold for the kill is not carried."
+      },
+      "source": {
+        "orsino": "monsterType:Archon",
+        "fidelity": "adapted",
+        "notes": "Composed by OrsinoMonsters (celestial class, Archon type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template."
+      }
+    },
+    "automaton": {
+      "name": "Automaton",
+      "type": "construct",
+      "kind": "monster",
+      "description": "A construct of Orsino's bestiary. It fights with slam, armoured in plate mail, and knows Defend, Charge, Hide and Rapid Strike.",
+      "statistics": {
+        "attributes": {
+          "strength": 15,
+          "dexterity": 7,
+          "constitution": 15,
+          "intelligence": 9,
+          "wisdom": 9,
+          "charisma": 8
+        },
+        "weapon": "slam",
+        "armor": "plate",
+        "primary": "strength",
+        "actions": 1,
+        "growth": {
+          "hitPoints": {
+            "base": 6,
+            "perLevel": 3
+          }
+        }
       },
       "abilities": [
         "defend",
-        "flee"
+        "prepare_charge",
+        "charge",
+        "hide",
+        "rapid_strike"
+      ],
+      "traits": [
+        "construct"
+      ],
+      "worth": {
+        "base": 350,
+        "perLevel": 50
+      },
+      "omits": {
+        "field:monsterGold": "Orsino's 2d10 gold for the kill is not carried."
+      },
+      "source": {
+        "orsino": "monsterType:Automaton",
+        "fidelity": "adapted",
+        "notes": "Composed by OrsinoMonsters (construct class, Automaton type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template."
+      }
+    },
+    "balor": {
+      "name": "Balor",
+      "type": "demon",
+      "kind": "monster",
+      "description": "A demon of Orsino's bestiary. It fights with claws, armoured in leather armor, and knows Curse, Terror, Burning Hands and Mass Curse.",
+      "statistics": {
+        "attributes": {
+          "strength": 20,
+          "dexterity": 17,
+          "constitution": 17,
+          "intelligence": 12,
+          "wisdom": 11,
+          "charisma": 9
+        },
+        "weapon": "claws",
+        "armor": "leather",
+        "primary": "strength",
+        "actions": 2,
+        "growth": {
+          "hitPoints": {
+            "base": 20,
+            "perLevel": 3
+          }
+        }
+      },
+      "abilities": [
+        "curse",
+        "terror",
+        "burning_hands",
+        "mass_curse"
+      ],
+      "traits": [
+        "fiendish"
+      ],
+      "worth": {
+        "base": 400,
+        "perLevel": 50
+      },
+      "omits": {
+        "field:monsterGold": "Orsino's 3d10 gold for the kill is not carried."
+      },
+      "source": {
+        "orsino": "monsterType:Balor",
+        "fidelity": "adapted",
+        "notes": "Composed by OrsinoMonsters (demon class, Balor type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template."
+      }
+    },
+    "banshee": {
+      "name": "Banshee",
+      "type": "undead",
+      "kind": "monster",
+      "description": "An undead of Orsino's bestiary. It fights with claws, armoured in clothing, and knows Curse, Scream and Life Drain.",
+      "statistics": {
+        "attributes": {
+          "strength": 8,
+          "dexterity": 8,
+          "constitution": 6,
+          "intelligence": 10,
+          "wisdom": 13,
+          "charisma": 11
+        },
+        "weapon": "claws",
+        "armor": "cloth",
+        "primary": "strength",
+        "actions": 1,
+        "growth": {
+          "hitPoints": {
+            "base": 10,
+            "perLevel": 3
+          }
+        }
+      },
+      "abilities": [
+        "curse",
+        "fear",
+        "life_drain"
+      ],
+      "traits": [
+        "undead",
+        "incorporeal"
+      ],
+      "worth": {
+        "base": 300,
+        "perLevel": 50
+      },
+      "omits": {
+        "field:monsterGold": "Orsino's 2d10 gold for the kill is not carried."
+      },
+      "source": {
+        "orsino": "monsterType:Banshee",
+        "fidelity": "adapted",
+        "notes": "Composed by OrsinoMonsters (undead class, Banshee type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template."
+      }
+    },
+    "barrier": {
+      "name": "Barrier",
+      "type": "construct",
+      "kind": "monster",
+      "description": "A wall of force or of stone set across the way, which does nothing but stand there and be in it.",
+      "statistics": {
+        "attributes": {
+          "strength": 10,
+          "dexterity": 3,
+          "constitution": 16,
+          "intelligence": 1,
+          "wisdom": 10,
+          "charisma": 1
+        },
+        "hitDie": 10,
+        "primary": "constitution",
+        "weapon": "slam"
+      },
+      "traits": [
+        "wall"
+      ],
+      "abilities": [
+        "defend"
+      ],
+      "temperament": "obedient",
+      "source": {
+        "orsino": "combatEntity:barrier",
+        "fidelity": "adapted",
+        "notes": "A fighting object: in Kyr a creature of the construct type that takes its turn in a fight like any other, with Orsino's abilities and traits for it. It does not move or answer; where it stands is where it was put."
+      }
+    },
+    "behemoth": {
+      "name": "Behemoth",
+      "type": "giant",
+      "kind": "monster",
+      "description": "A giant of Orsino's bestiary. It fights with greatsword, armoured in chain mail, and knows Maul, Charge, Taunt, Stomp and Dig In.",
+      "statistics": {
+        "attributes": {
+          "strength": 27,
+          "dexterity": 16,
+          "constitution": 24,
+          "intelligence": 16,
+          "wisdom": 18,
+          "charisma": 17
+        },
+        "weapon": "greatsword",
+        "armor": "chainmail",
+        "primary": "strength",
+        "actions": 1,
+        "growth": {
+          "hitPoints": {
+            "base": 48,
+            "perLevel": 3
+          }
+        }
+      },
+      "abilities": [
+        "maul",
+        "prepare_charge",
+        "charge",
+        "taunt",
+        "stomp",
+        "dig_in"
+      ],
+      "traits": [
+        "huge",
+        "formidable"
+      ],
+      "worth": {
+        "base": 500,
+        "perLevel": 50
+      },
+      "omits": {
+        "field:monsterGold": "Orsino's 5d10 gold for the kill is not carried."
+      },
+      "source": {
+        "orsino": "monsterType:Behemoth",
+        "fidelity": "adapted",
+        "notes": "Composed by OrsinoMonsters (giant class, Behemoth type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template."
+      }
+    },
+    "bomb": {
+      "name": "Bomb",
+      "type": "construct",
+      "kind": "monster",
+      "description": "A thing that ticks, and will not tick for long.",
+      "statistics": {
+        "attributes": {
+          "strength": 10,
+          "dexterity": 3,
+          "constitution": 16,
+          "intelligence": 1,
+          "wisdom": 10,
+          "charisma": 1
+        },
+        "hitDie": 10,
+        "primary": "constitution",
+        "weapon": "slam"
+      },
+      "traits": [],
+      "abilities": [
+        "countdown"
+      ],
+      "temperament": "obedient",
+      "source": {
+        "orsino": "combatEntity:bomb",
+        "fidelity": "adapted",
+        "notes": "A fighting object: in Kyr a creature of the construct type that takes its turn in a fight like any other, with Orsino's abilities and traits for it. It does not move or answer; where it stands is where it was put."
+      }
+    },
+    "bone_hound": {
+      "name": "Knitted bone hound",
+      "type": "undead",
+      "kind": "monster",
+      "description": "A hound-shape of grave bones wired together and moved by a necromancer's binding. It has no eyes and does not tire.",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 8,
+        "primary": "strength",
+        "weapon": "bite",
+        "armor": "spine"
+      },
+      "abilities": [
+        "rending_bite"
+      ],
+      "resistances": {
+        "radiant": -1,
+        "fire": -0.5
+      },
+      "temperament": "territorial",
+      "source": {
+        "kyr": true,
+        "notes": "Kyr's own: a necromancer's watchdog for Holt keep's bone store."
+      }
+    },
+    "bronze_construct": {
+      "name": "Funerary bronze construct",
+      "type": "construct",
+      "kind": "monster",
+      "description": "A bounded guardian of registered burials.",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 16,
+        "primary": "strength",
+        "weapon": "slam",
+        "armor": "plate"
+      },
+      "abilities": [
+        "custodian_sweep",
+        "custodian_chain",
+        "defend"
+      ],
+      "resistances": {
+        "physical": 0.35,
+        "poison": 1,
+        "radiant": -0.25
+      },
+      "source": {
+        "orsino": "monsterClass:construct",
+        "fidelity": "adapted",
+        "notes": "Kyr creature of the construct type. It does not carry Orsino's construct trait; its poison immunity and physical resistance are Kyr's."
+      }
+    },
+    "chimera": {
+      "name": "Chimera",
+      "type": "beast",
+      "kind": "monster",
+      "description": "A beast of Orsino's bestiary. It fights with claws, armoured in hide armor, and knows Maul, Charge, Rage, Poison Bite, Fireball and Lightning Bolt.",
+      "statistics": {
+        "attributes": {
+          "strength": 17,
+          "dexterity": 12,
+          "constitution": 11,
+          "intelligence": 3,
+          "wisdom": 3,
+          "charisma": 3
+        },
+        "weapon": "claws",
+        "armor": "hide_armor",
+        "primary": "strength",
+        "actions": 2,
+        "growth": {
+          "hitPoints": {
+            "base": 9,
+            "perLevel": 3
+          }
+        }
+      },
+      "abilities": [
+        "maul",
+        "prepare_charge",
+        "charge",
+        "enrage",
+        "poison_bite",
+        "fireball",
+        "lightning_bolt"
+      ],
+      "traits": [
+        "wild"
+      ],
+      "worth": {
+        "base": 150,
+        "perLevel": 50
+      },
+      "omits": {
+        "field:monsterGold": "Orsino's 0 gold for the kill is not carried."
+      },
+      "source": {
+        "orsino": "monsterType:Chimera",
+        "fidelity": "adapted",
+        "notes": "Composed by OrsinoMonsters (beast class, Chimera type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template."
+      }
+    },
+    "clockwork_soldier": {
+      "name": "Clockwork Soldier",
+      "type": "construct",
+      "kind": "monster",
+      "description": "A construct of Orsino's bestiary. It fights with slam, armoured in plate mail, and knows Defend, Charge, Hide and Smash.",
+      "statistics": {
+        "attributes": {
+          "strength": 15,
+          "dexterity": 7,
+          "constitution": 16,
+          "intelligence": 9,
+          "wisdom": 9,
+          "charisma": 8
+        },
+        "weapon": "slam",
+        "armor": "plate",
+        "primary": "strength",
+        "actions": 1,
+        "growth": {
+          "hitPoints": {
+            "base": 6,
+            "perLevel": 3
+          }
+        }
+      },
+      "abilities": [
+        "defend",
+        "prepare_charge",
+        "charge",
+        "hide",
+        "smash"
+      ],
+      "traits": [
+        "construct",
+        "disciplined"
+      ],
+      "worth": {
+        "base": 350,
+        "perLevel": 50
+      },
+      "omits": {
+        "field:monsterGold": "Orsino's 2d10 gold for the kill is not carried."
+      },
+      "source": {
+        "orsino": "monsterType:Clockwork Soldier",
+        "fidelity": "adapted",
+        "notes": "Composed by OrsinoMonsters (construct class, Clockwork Soldier type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template."
+      }
+    },
+    "colossus": {
+      "name": "Colossus",
+      "type": "giant",
+      "kind": "monster",
+      "description": "A giant of Orsino's bestiary. It fights with greatsword, armoured in chain mail, and knows Maul, Charge, Taunt and Smash.",
+      "statistics": {
+        "attributes": {
+          "strength": 26,
+          "dexterity": 16,
+          "constitution": 23,
+          "intelligence": 16,
+          "wisdom": 18,
+          "charisma": 17
+        },
+        "weapon": "greatsword",
+        "armor": "chainmail",
+        "primary": "strength",
+        "actions": 1,
+        "growth": {
+          "hitPoints": {
+            "base": 48,
+            "perLevel": 3
+          }
+        }
+      },
+      "abilities": [
+        "maul",
+        "prepare_charge",
+        "charge",
+        "taunt",
+        "smash"
+      ],
+      "traits": [
+        "huge",
+        "formidable"
+      ],
+      "worth": {
+        "base": 500,
+        "perLevel": 50
+      },
+      "omits": {
+        "field:monsterGold": "Orsino's 5d10 gold for the kill is not carried."
+      },
+      "source": {
+        "orsino": "monsterType:Colossus",
+        "fidelity": "adapted",
+        "notes": "Composed by OrsinoMonsters (giant class, Colossus type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template."
+      }
+    },
+    "deva": {
+      "name": "Deva",
+      "type": "celestial",
+      "kind": "monster",
+      "description": "A celestial of Orsino's bestiary. It fights with longsword, armoured in chain mail, and knows Smite Evil, Heal Ally, Bless and Inspire.",
+      "statistics": {
+        "attributes": {
+          "strength": 20,
+          "dexterity": 19,
+          "constitution": 16,
+          "intelligence": 15,
+          "wisdom": 23,
+          "charisma": 21
+        },
+        "weapon": "longsword",
+        "armor": "chainmail",
+        "primary": "strength",
+        "actions": 2,
+        "growth": {
+          "hitPoints": {
+            "base": 25,
+            "perLevel": 3
+          }
+        }
+      },
+      "abilities": [
+        "smite",
+        "heal",
+        "bless",
+        "inspire"
+      ],
+      "traits": [
+        "celestial",
+        "formidable"
+      ],
+      "worth": {
+        "base": 450,
+        "perLevel": 50
+      },
+      "omits": {
+        "field:monsterGold": "Orsino's 3d10 gold for the kill is not carried."
+      },
+      "source": {
+        "orsino": "monsterType:Deva",
+        "fidelity": "adapted",
+        "notes": "Composed by OrsinoMonsters (celestial class, Deva type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template."
+      }
+    },
+    "discerner": {
+      "name": "Discerner",
+      "type": "aberration",
+      "kind": "monster",
+      "description": "An aberration of Orsino's bestiary. It fights with tentacles, armoured in hide armor, and knows Terror, Curse, Sleep, Charm Person, Mind Melt, Confuse, Flesh to Stone, Paralyzing Touch and Scream.",
+      "statistics": {
+        "attributes": {
+          "strength": 18,
+          "dexterity": 17,
+          "constitution": 18,
+          "intelligence": 24,
+          "wisdom": 23,
+          "charisma": 14
+        },
+        "weapon": "tentacles",
+        "armor": "hide_armor",
+        "primary": "strength",
+        "actions": 2,
+        "growth": {
+          "hitPoints": {
+            "base": 34,
+            "perLevel": 3
+          }
+        }
+      },
+      "abilities": [
+        "terror",
+        "curse",
+        "sleep",
+        "charm",
+        "psionic_blast",
+        "confuse",
+        "flesh_to_stone",
+        "paralyzing_touch",
+        "fear"
+      ],
+      "traits": [
+        "outsider"
+      ],
+      "worth": {
+        "base": 600,
+        "perLevel": 50
+      },
+      "omits": {
+        "field:monsterGold": "Orsino's 4d10 gold for the kill is not carried."
+      },
+      "source": {
+        "orsino": "monsterType:Discerner",
+        "fidelity": "adapted",
+        "notes": "Composed by OrsinoMonsters (aberration class, Discerner type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template."
+      }
+    },
+    "dragon": {
+      "name": "Dragon",
+      "type": "dragon",
+      "kind": "monster",
+      "description": "A great winged reptile: scaled, clawed, cunning and proud.",
+      "statistics": {
+        "attributes": {
+          "strength": 35,
+          "dexterity": 28,
+          "constitution": 32,
+          "intelligence": 29,
+          "wisdom": 27,
+          "charisma": 31
+        },
+        "hitDie": 20,
+        "primary": "strength",
+        "weapon": "bite",
+        "armor": "scale",
+        "growth": {
+          "hitPoints": {
+            "base": 85,
+            "perLevel": 3
+          }
+        }
+      },
+      "traits": [
+        "formidable",
+        "flying"
+      ],
+      "abilities": [
+        "flight",
+        "maul"
+      ],
+      "temperament": "proud",
+      "habitats": [
+        "mountain",
+        "cave"
       ],
       "source": {
-        "kyr": true
+        "orsino": "monsterClass:dragon",
+        "fidelity": "adapted",
+        "notes": "Orsino's dragon class (85 hit points, three a level more, flight and maul); its colour is its lineage (data/catalog/variations.json, axis lineage, from Orsino's dragonColors), which gives its breath."
+      }
+    },
+    "drake": {
+      "name": "Drake",
+      "type": "dragon",
+      "kind": "monster",
+      "description": "A dragon of Orsino's bestiary. It fights with bite, armoured in scale mail, and knows Fly and Maul.",
+      "statistics": {
+        "attributes": {
+          "strength": 31,
+          "dexterity": 29,
+          "constitution": 30,
+          "intelligence": 28,
+          "wisdom": 27,
+          "charisma": 29
+        },
+        "weapon": "bite",
+        "armor": "scale",
+        "primary": "strength",
+        "actions": 3,
+        "growth": {
+          "hitPoints": {
+            "base": 85,
+            "perLevel": 3
+          }
+        }
+      },
+      "abilities": [
+        "flight",
+        "maul"
+      ],
+      "traits": [
+        "formidable",
+        "flying"
+      ],
+      "worth": {
+        "base": 800,
+        "perLevel": 50
+      },
+      "omits": {
+        "field:monsterGold": "Orsino's 10d100 gold for the kill is not carried."
+      },
+      "source": {
+        "orsino": "monsterType:Drake",
+        "fidelity": "adapted",
+        "notes": "Composed by OrsinoMonsters (dragon class, Drake type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template."
+      }
+    },
+    "dryad": {
+      "name": "Dryad",
+      "type": "fey",
+      "kind": "monster",
+      "description": "A fey of Orsino's bestiary. It fights with dagger, armoured in leather armor, and knows Charm Person, Sleep, Hide and Call Animal Companion.",
+      "statistics": {
+        "attributes": {
+          "strength": 9,
+          "dexterity": 17,
+          "constitution": 10,
+          "intelligence": 11,
+          "wisdom": 12,
+          "charisma": 18
+        },
+        "weapon": "dagger",
+        "armor": "leather",
+        "primary": "strength",
+        "actions": 1,
+        "growth": {
+          "hitPoints": {
+            "base": 12,
+            "perLevel": 3
+          }
+        }
+      },
+      "abilities": [
+        "charm",
+        "sleep",
+        "hide",
+        "summon_animal"
+      ],
+      "traits": [],
+      "worth": {
+        "base": 250,
+        "perLevel": 50
+      },
+      "omits": {
+        "trait:enchanting": "Faerie Charm is not a nature Kyr plays.",
+        "field:monsterGold": "Orsino's 1d10 gold for the kill is not carried."
+      },
+      "source": {
+        "orsino": "monsterType:Dryad",
+        "fidelity": "adapted",
+        "notes": "Composed by OrsinoMonsters (fey class, Dryad type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template."
+      }
+    },
+    "elemental": {
+      "name": "Elemental",
+      "type": "elemental",
+      "kind": "monster",
+      "description": "A body of one of the elements, given will and anger: earth that walks, fire that reaches, water that stands up.",
+      "statistics": {
+        "attributes": {
+          "strength": 16,
+          "dexterity": 19,
+          "constitution": 16,
+          "intelligence": 12,
+          "wisdom": 13,
+          "charisma": 12
+        },
+        "weapon": "slam",
+        "armor": "scale",
+        "primary": "strength",
+        "actions": 1,
+        "growth": {
+          "hitPoints": {
+            "base": 16,
+            "perLevel": 3
+          }
+        }
+      },
+      "abilities": [
+        "defend"
+      ],
+      "traits": [
+        "elemental"
+      ],
+      "worth": {
+        "base": 200,
+        "perLevel": 50
+      },
+      "omits": {
+        "field:monsterGold": "Orsino's 1d10 gold for the kill is not carried."
+      },
+      "requires": "element",
+      "source": {
+        "orsino": "monsterType:Elemental",
+        "fidelity": "adapted",
+        "notes": "Orsino's Elemental type (elemental class), composed at the wildtype aspect, any terrain, level 1; what each element gives (an affinity, a weakness and a gift) is its element overlay (data/catalog/variations.json, axis element)."
+      }
+    },
+    "fiend": {
+      "name": "Fiend",
+      "type": "demon",
+      "kind": "monster",
+      "description": "A demon of Orsino's bestiary. It fights with claws, armoured in leather armor, and knows Curse, Terror and Burning Hands.",
+      "statistics": {
+        "attributes": {
+          "strength": 18,
+          "dexterity": 16,
+          "constitution": 16,
+          "intelligence": 12,
+          "wisdom": 11,
+          "charisma": 9
+        },
+        "weapon": "claws",
+        "armor": "leather",
+        "primary": "strength",
+        "actions": 2,
+        "growth": {
+          "hitPoints": {
+            "base": 20,
+            "perLevel": 3
+          }
+        }
+      },
+      "abilities": [
+        "curse",
+        "terror",
+        "burning_hands"
+      ],
+      "traits": [
+        "fiendish"
+      ],
+      "worth": {
+        "base": 400,
+        "perLevel": 50
+      },
+      "omits": {
+        "field:monsterGold": "Orsino's 3d10 gold for the kill is not carried."
+      },
+      "source": {
+        "orsino": "monsterType:Fiend",
+        "fidelity": "adapted",
+        "notes": "Composed by OrsinoMonsters (demon class, Fiend type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template."
+      }
+    },
+    "ghoul": {
+      "name": "Ghoul",
+      "type": "undead",
+      "kind": "monster",
+      "description": "An undead of Orsino's bestiary. It fights with claws, armoured in clothing, and knows Curse, Scream, Life Drain and Paralyzing Touch.",
+      "statistics": {
+        "attributes": {
+          "strength": 11,
+          "dexterity": 11,
+          "constitution": 10,
+          "intelligence": 10,
+          "wisdom": 9,
+          "charisma": 5
+        },
+        "weapon": "claws",
+        "armor": "cloth",
+        "primary": "strength",
+        "actions": 1,
+        "growth": {
+          "hitPoints": {
+            "base": 10,
+            "perLevel": 3
+          }
+        }
+      },
+      "abilities": [
+        "curse",
+        "fear",
+        "life_drain",
+        "paralyzing_touch"
+      ],
+      "traits": [
+        "undead",
+        "regeneration"
+      ],
+      "worth": {
+        "base": 300,
+        "perLevel": 50
+      },
+      "omits": {
+        "field:monsterGold": "Orsino's 2d10 gold for the kill is not carried."
+      },
+      "source": {
+        "orsino": "monsterType:Ghoul",
+        "fidelity": "adapted",
+        "notes": "Composed by OrsinoMonsters (undead class, Ghoul type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template."
+      }
+    },
+    "golem": {
+      "name": "Golem",
+      "type": "construct",
+      "kind": "monster",
+      "description": "A body shaped by a maker out of one stuff (clay, stone, iron) and set to work: it does not tire, and does not stop.",
+      "statistics": {
+        "attributes": {
+          "strength": 17,
+          "dexterity": 7,
+          "constitution": 17,
+          "intelligence": 9,
+          "wisdom": 9,
+          "charisma": 8
+        },
+        "hitDie": 10,
+        "primary": "strength",
+        "weapon": "slam",
+        "armor": "plate",
+        "growth": {
+          "hitPoints": {
+            "base": 6,
+            "perLevel": 3
+          }
+        }
+      },
+      "traits": [
+        "construct"
+      ],
+      "abilities": [
+        "smash",
+        "defend"
+      ],
+      "temperament": "obedient",
+      "habitats": [
+        "cave"
+      ],
+      "source": {
+        "orsino": "monsterType:Golem",
+        "fidelity": "adapted",
+        "notes": "Orsino's Golem type; what it is made of is its material (data/catalog/variations.json, axis material, from Orsino's golemSubstances). Thirteen hit points at the first level, three more a level, as the construct line."
+      }
+    },
+    "ifrit": {
+      "name": "Ifrit",
+      "type": "demon",
+      "kind": "monster",
+      "description": "A demon of Orsino's bestiary. It fights with claws, armoured in leather armor, and knows Curse, Terror, Burning Hands and Fireball.",
+      "statistics": {
+        "attributes": {
+          "strength": 19,
+          "dexterity": 18,
+          "constitution": 17,
+          "intelligence": 12,
+          "wisdom": 11,
+          "charisma": 9
+        },
+        "weapon": "claws",
+        "armor": "leather",
+        "primary": "strength",
+        "actions": 2,
+        "growth": {
+          "hitPoints": {
+            "base": 20,
+            "perLevel": 3
+          }
+        }
+      },
+      "abilities": [
+        "curse",
+        "terror",
+        "burning_hands",
+        "fireball"
+      ],
+      "traits": [
+        "fiendish"
+      ],
+      "worth": {
+        "base": 400,
+        "perLevel": 50
+      },
+      "omits": {
+        "field:monsterGold": "Orsino's 3d10 gold for the kill is not carried."
+      },
+      "source": {
+        "orsino": "monsterType:Ifrit",
+        "fidelity": "adapted",
+        "notes": "Composed by OrsinoMonsters (demon class, Ifrit type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template."
+      }
+    },
+    "lich": {
+      "name": "Lich",
+      "type": "undead",
+      "kind": "monster",
+      "description": "An undead of Orsino's bestiary. It fights with claws, armoured in clothing, and knows Curse, Scream, Life Drain, Animate Dead and Death.",
+      "statistics": {
+        "attributes": {
+          "strength": 8,
+          "dexterity": 8,
+          "constitution": 16,
+          "intelligence": 16,
+          "wisdom": 12,
+          "charisma": 5
+        },
+        "weapon": "claws",
+        "armor": "cloth",
+        "primary": "strength",
+        "actions": 1,
+        "growth": {
+          "hitPoints": {
+            "base": 10,
+            "perLevel": 3
+          }
+        }
+      },
+      "abilities": [
+        "curse",
+        "fear",
+        "life_drain",
+        "animate_dead",
+        "death"
+      ],
+      "traits": [
+        "undead",
+        "formidable",
+        "fiendish",
+        "skeletal"
+      ],
+      "worth": {
+        "base": 300,
+        "perLevel": 50
+      },
+      "omits": {
+        "field:monsterGold": "Orsino's 2d10 gold for the kill is not carried."
+      },
+      "source": {
+        "orsino": "monsterType:Lich",
+        "fidelity": "adapted",
+        "notes": "Composed by OrsinoMonsters (undead class, Lich type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template."
+      }
+    },
+    "marilith": {
+      "name": "Marilith",
+      "type": "demon",
+      "kind": "monster",
+      "description": "A demon of Orsino's bestiary. It fights with claws, armoured in leather armor, and knows Curse, Terror, Burning Hands and Rapid Strike.",
+      "statistics": {
+        "attributes": {
+          "strength": 19,
+          "dexterity": 18,
+          "constitution": 16,
+          "intelligence": 12,
+          "wisdom": 11,
+          "charisma": 9
+        },
+        "weapon": "claws",
+        "armor": "leather",
+        "primary": "strength",
+        "actions": 2,
+        "growth": {
+          "hitPoints": {
+            "base": 20,
+            "perLevel": 3
+          }
+        }
+      },
+      "abilities": [
+        "curse",
+        "terror",
+        "burning_hands",
+        "rapid_strike"
+      ],
+      "traits": [
+        "fiendish"
+      ],
+      "worth": {
+        "base": 400,
+        "perLevel": 50
+      },
+      "omits": {
+        "field:monsterGold": "Orsino's 3d10 gold for the kill is not carried."
+      },
+      "source": {
+        "orsino": "monsterType:Marilith",
+        "fidelity": "adapted",
+        "notes": "Composed by OrsinoMonsters (demon class, Marilith type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template."
+      }
+    },
+    "mephit": {
+      "name": "Mephit",
+      "type": "elemental",
+      "kind": "monster",
+      "description": "An elemental of Orsino's bestiary. It fights with slam, armoured in scale mail, and knows Defend.",
+      "statistics": {
+        "attributes": {
+          "strength": 12,
+          "dexterity": 20,
+          "constitution": 8,
+          "intelligence": 12,
+          "wisdom": 13,
+          "charisma": 12
+        },
+        "weapon": "slam",
+        "armor": "scale",
+        "primary": "strength",
+        "actions": 1,
+        "growth": {
+          "hitPoints": {
+            "base": 16,
+            "perLevel": 3
+          }
+        }
+      },
+      "abilities": [
+        "defend"
+      ],
+      "traits": [
+        "elemental"
+      ],
+      "worth": {
+        "base": 200,
+        "perLevel": 50
+      },
+      "omits": {
+        "field:monsterGold": "Orsino's 1d10 gold for the kill is not carried."
+      },
+      "source": {
+        "orsino": "monsterType:Mephit",
+        "fidelity": "adapted",
+        "notes": "Composed by OrsinoMonsters (elemental class, Mephit type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template."
+      }
+    },
+    "mind_destroyer": {
+      "name": "Mind Destroyer",
+      "type": "aberration",
+      "kind": "monster",
+      "description": "An aberration of Orsino's bestiary. It fights with tentacles, armoured in hide armor, and knows Terror, Curse, Sleep, Charm Person, Mind Melt, Command and Confuse.",
+      "statistics": {
+        "attributes": {
+          "strength": 18,
+          "dexterity": 17,
+          "constitution": 18,
+          "intelligence": 25,
+          "wisdom": 22,
+          "charisma": 14
+        },
+        "weapon": "tentacles",
+        "armor": "hide_armor",
+        "primary": "strength",
+        "actions": 2,
+        "growth": {
+          "hitPoints": {
+            "base": 34,
+            "perLevel": 3
+          }
+        }
+      },
+      "abilities": [
+        "terror",
+        "curse",
+        "sleep",
+        "charm",
+        "psionic_blast",
+        "command",
+        "confuse"
+      ],
+      "traits": [
+        "outsider"
+      ],
+      "worth": {
+        "base": 600,
+        "perLevel": 50
+      },
+      "omits": {
+        "field:monsterGold": "Orsino's 4d10 gold for the kill is not carried."
+      },
+      "source": {
+        "orsino": "monsterType:Mind Destroyer",
+        "fidelity": "adapted",
+        "notes": "Composed by OrsinoMonsters (aberration class, Mind Destroyer type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template."
+      }
+    },
+    "mouther": {
+      "name": "Mouther",
+      "type": "aberration",
+      "kind": "monster",
+      "description": "An aberration of Orsino's bestiary. It fights with tentacles, armoured in hide armor, and knows Terror, Curse, Sleep, Charm Person, Mind Melt and Acid Spray.",
+      "statistics": {
+        "attributes": {
+          "strength": 18,
+          "dexterity": 17,
+          "constitution": 23,
+          "intelligence": 23,
+          "wisdom": 20,
+          "charisma": 14
+        },
+        "weapon": "tentacles",
+        "armor": "hide_armor",
+        "primary": "strength",
+        "actions": 2,
+        "growth": {
+          "hitPoints": {
+            "base": 34,
+            "perLevel": 3
+          }
+        }
+      },
+      "abilities": [
+        "terror",
+        "curse",
+        "sleep",
+        "charm",
+        "psionic_blast",
+        "acid_spray"
+      ],
+      "traits": [
+        "outsider",
+        "regeneration"
+      ],
+      "worth": {
+        "base": 600,
+        "perLevel": 50
+      },
+      "omits": {
+        "field:monsterGold": "Orsino's 4d10 gold for the kill is not carried."
+      },
+      "source": {
+        "orsino": "monsterType:Mouther",
+        "fidelity": "adapted",
+        "notes": "Composed by OrsinoMonsters (aberration class, Mouther type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template."
+      }
+    },
+    "mummy": {
+      "name": "Mummy",
+      "type": "undead",
+      "kind": "monster",
+      "description": "An undead of Orsino's bestiary. It fights with claws, armoured in clothing, and knows Curse, Scream, Life Drain, Mass Curse and Reckless Attack.",
+      "statistics": {
+        "attributes": {
+          "strength": 12,
+          "dexterity": 8,
+          "constitution": 12,
+          "intelligence": 10,
+          "wisdom": 12,
+          "charisma": 5
+        },
+        "weapon": "claws",
+        "armor": "cloth",
+        "primary": "strength",
+        "actions": 1,
+        "growth": {
+          "hitPoints": {
+            "base": 10,
+            "perLevel": 3
+          }
+        }
+      },
+      "abilities": [
+        "curse",
+        "fear",
+        "life_drain",
+        "mass_curse",
+        "reckless_attack"
+      ],
+      "traits": [
+        "undead",
+        "regeneration"
+      ],
+      "worth": {
+        "base": 300,
+        "perLevel": 50
+      },
+      "omits": {
+        "trait:cursed": "Kyr has no cursed.",
+        "field:monsterGold": "Orsino's 2d10 gold for the kill is not carried."
+      },
+      "source": {
+        "orsino": "monsterType:Mummy",
+        "fidelity": "adapted",
+        "notes": "Composed by OrsinoMonsters (undead class, Mummy type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template."
+      }
+    },
+    "nightmare": {
+      "name": "Nightmare",
+      "type": "beast",
+      "kind": "monster",
+      "description": "A beast of Orsino's bestiary. It fights with claws, armoured in hide armor, and knows Maul, Charge, Rage, Poison Bite and Scream.",
+      "statistics": {
+        "attributes": {
+          "strength": 16,
+          "dexterity": 13,
+          "constitution": 11,
+          "intelligence": 3,
+          "wisdom": 3,
+          "charisma": 3
+        },
+        "weapon": "claws",
+        "armor": "hide_armor",
+        "primary": "strength",
+        "actions": 2,
+        "growth": {
+          "hitPoints": {
+            "base": 9,
+            "perLevel": 3
+          }
+        }
+      },
+      "abilities": [
+        "maul",
+        "prepare_charge",
+        "charge",
+        "enrage",
+        "poison_bite",
+        "fear"
+      ],
+      "traits": [
+        "wild"
+      ],
+      "worth": {
+        "base": 150,
+        "perLevel": 50
+      },
+      "omits": {
+        "field:monsterGold": "Orsino's 0 gold for the kill is not carried."
+      },
+      "source": {
+        "orsino": "monsterType:Nightmare",
+        "fidelity": "adapted",
+        "notes": "Composed by OrsinoMonsters (beast class, Nightmare type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template."
+      }
+    },
+    "nymph": {
+      "name": "Nymph",
+      "type": "fey",
+      "kind": "monster",
+      "description": "A fey of Orsino's bestiary. It fights with dagger, armoured in leather armor, and knows Charm Person, Sleep, Hide and Call Animal Companion.",
+      "statistics": {
+        "attributes": {
+          "strength": 9,
+          "dexterity": 12,
+          "constitution": 10,
+          "intelligence": 11,
+          "wisdom": 16,
+          "charisma": 19
+        },
+        "weapon": "dagger",
+        "armor": "leather",
+        "primary": "strength",
+        "actions": 1,
+        "growth": {
+          "hitPoints": {
+            "base": 12,
+            "perLevel": 3
+          }
+        }
+      },
+      "abilities": [
+        "charm",
+        "sleep",
+        "hide",
+        "summon_animal"
+      ],
+      "traits": [],
+      "worth": {
+        "base": 250,
+        "perLevel": 50
+      },
+      "omits": {
+        "trait:enchanting": "Faerie Charm is not a nature Kyr plays.",
+        "field:monsterGold": "Orsino's 1d10 gold for the kill is not carried."
+      },
+      "source": {
+        "orsino": "monsterType:Nymph",
+        "fidelity": "adapted",
+        "notes": "Composed by OrsinoMonsters (fey class, Nymph type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template."
+      }
+    },
+    "ooze": {
+      "name": "Ooze",
+      "type": "aberration",
+      "kind": "monster",
+      "description": "An aberration of Orsino's bestiary. It fights with tentacles, armoured in hide armor, and knows Terror, Curse, Sleep, Charm Person, Mind Melt and Engulf.",
+      "statistics": {
+        "attributes": {
+          "strength": 18,
+          "dexterity": 17,
+          "constitution": 24,
+          "intelligence": 19,
+          "wisdom": 17,
+          "charisma": 14
+        },
+        "weapon": "tentacles",
+        "armor": "hide_armor",
+        "primary": "strength",
+        "actions": 2,
+        "growth": {
+          "hitPoints": {
+            "base": 34,
+            "perLevel": 3
+          }
+        }
+      },
+      "abilities": [
+        "terror",
+        "curse",
+        "sleep",
+        "charm",
+        "psionic_blast",
+        "engulf"
+      ],
+      "traits": [
+        "outsider"
+      ],
+      "worth": {
+        "base": 600,
+        "perLevel": 50
+      },
+      "omits": {
+        "field:monsterGold": "Orsino's 4d10 gold for the kill is not carried."
+      },
+      "source": {
+        "orsino": "monsterType:Ooze",
+        "fidelity": "adapted",
+        "notes": "Composed by OrsinoMonsters (aberration class, Ooze type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template."
+      }
+    },
+    "owlbear": {
+      "name": "Owlbear",
+      "type": "beast",
+      "kind": "monster",
+      "description": "A beast of Orsino's bestiary. It fights with claws, armoured in hide armor, and knows Maul, Charge, Rage, Poison Bite and Stomp.",
+      "statistics": {
+        "attributes": {
+          "strength": 17,
+          "dexterity": 8,
+          "constitution": 11,
+          "intelligence": 3,
+          "wisdom": 3,
+          "charisma": 3
+        },
+        "weapon": "claws",
+        "armor": "hide_armor",
+        "primary": "strength",
+        "actions": 2,
+        "growth": {
+          "hitPoints": {
+            "base": 9,
+            "perLevel": 3
+          }
+        }
+      },
+      "abilities": [
+        "maul",
+        "prepare_charge",
+        "charge",
+        "enrage",
+        "poison_bite",
+        "stomp"
+      ],
+      "traits": [
+        "wild"
+      ],
+      "worth": {
+        "base": 150,
+        "perLevel": 50
+      },
+      "omits": {
+        "field:monsterGold": "Orsino's 0 gold for the kill is not carried."
+      },
+      "source": {
+        "orsino": "monsterType:Owlbear",
+        "fidelity": "adapted",
+        "notes": "Composed by OrsinoMonsters (beast class, Owlbear type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template."
+      }
+    },
+    "phylactery": {
+      "name": "Phylactery",
+      "type": "construct",
+      "kind": "monster",
+      "description": "A small dark vessel that holds what keeps something from staying dead.",
+      "statistics": {
+        "attributes": {
+          "strength": 10,
+          "dexterity": 3,
+          "constitution": 16,
+          "intelligence": 1,
+          "wisdom": 10,
+          "charisma": 1
+        },
+        "hitDie": 10,
+        "primary": "constitution",
+        "weapon": "slam"
+      },
+      "traits": [
+        "fiendish"
+      ],
+      "abilities": [
+        "animate_dead",
+        "life_drain",
+        "black_ritual"
+      ],
+      "temperament": "obedient",
+      "source": {
+        "orsino": "combatEntity:phylactery",
+        "fidelity": "adapted",
+        "notes": "A fighting object: in Kyr a creature of the construct type that takes its turn in a fight like any other, with Orsino's abilities and traits for it. It does not move or answer; where it stands is where it was put."
+      }
+    },
+    "pixie": {
+      "name": "Pixie",
+      "type": "fey",
+      "kind": "monster",
+      "description": "A fey of Orsino's bestiary. It fights with dagger, armoured in leather armor, and knows Charm Person, Sleep, Hide and Confuse.",
+      "statistics": {
+        "attributes": {
+          "strength": 9,
+          "dexterity": 18,
+          "constitution": 10,
+          "intelligence": 11,
+          "wisdom": 12,
+          "charisma": 18
+        },
+        "weapon": "dagger",
+        "armor": "leather",
+        "primary": "strength",
+        "actions": 1,
+        "growth": {
+          "hitPoints": {
+            "base": 12,
+            "perLevel": 3
+          }
+        }
+      },
+      "abilities": [
+        "charm",
+        "sleep",
+        "hide",
+        "confuse"
+      ],
+      "traits": [],
+      "worth": {
+        "base": 250,
+        "perLevel": 50
+      },
+      "omits": {
+        "trait:enchanting": "Faerie Charm is not a nature Kyr plays.",
+        "field:monsterGold": "Orsino's 1d10 gold for the kill is not carried."
+      },
+      "source": {
+        "orsino": "monsterType:Pixie",
+        "fidelity": "adapted",
+        "notes": "Composed by OrsinoMonsters (fey class, Pixie type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template."
       }
     },
     "revenant": {
@@ -62,168 +1655,49 @@
         "notes": "Orsino undead monster class: claws, cloth, curse, fear and life drain. It does not carry Orsino's undead trait; its resistances are Kyr's."
       }
     },
-    "bronze_construct": {
-      "name": "Funerary bronze construct",
-      "type": "construct",
+    "satyr": {
+      "name": "Satyr",
+      "type": "fey",
       "kind": "monster",
-      "description": "A bounded guardian of registered burials.",
-      "statistics": {
-        "attributes": "rolled",
-        "hitDie": 16,
-        "primary": "strength",
-        "weapon": "slam",
-        "armor": "plate"
-      },
-      "abilities": [
-        "custodian_sweep",
-        "custodian_chain",
-        "defend"
-      ],
-      "resistances": {
-        "physical": 0.35,
-        "poison": 1,
-        "radiant": -0.25
-      },
-      "source": {
-        "orsino": "monsterClass:construct",
-        "fidelity": "adapted",
-        "notes": "Kyr creature of the construct type. It does not carry Orsino's construct trait; its poison immunity and physical resistance are Kyr's."
-      }
-    },
-    "dragon": {
-      "name": "Dragon",
-      "type": "dragon",
-      "kind": "monster",
-      "description": "A great winged reptile: scaled, clawed, cunning and proud.",
+      "description": "A fey of Orsino's bestiary. It fights with dagger, armoured in leather armor, and knows Charm Person, Sleep and Hide.",
       "statistics": {
         "attributes": {
-          "strength": 35,
-          "dexterity": 28,
-          "constitution": 32,
-          "intelligence": 29,
-          "wisdom": 27,
-          "charisma": 31
+          "strength": 9,
+          "dexterity": 16,
+          "constitution": 10,
+          "intelligence": 11,
+          "wisdom": 12,
+          "charisma": 17
         },
-        "hitPoints": 99,
-        "hitDie": 20,
+        "weapon": "dagger",
+        "armor": "leather",
         "primary": "strength",
-        "weapon": "bite",
-        "armor": "scale"
-      },
-      "traits": [
-        "formidable",
-        "flying"
-      ],
-      "abilities": [],
-      "temperament": "proud",
-      "habitats": [
-        "mountain",
-        "cave"
-      ],
-      "source": {
-        "orsino": "monsterClass:dragon",
-        "fidelity": "adapted",
-        "notes": "Composed by OrsinoMonsters (Dragon type, wildtype aspect, mountain terrain, minor rank, level 1). Natural armour, three attacks a turn, maul and the gold hoard are not modelled."
-      }
-    },
-    "red_dragon": {
-      "variantOf": "dragon",
-      "name": "Red dragon",
-      "description": "Its crimson scales shimmer like molten lava.",
-      "abilities": [
-        "breathe_fire"
-      ],
-      "source": {
-        "orsino": "dragonColor:red",
-        "fidelity": "adapted",
-        "notes": "The red colour gives the fire breath; Kyr keeps the bite for when the breath is spent."
-      }
-    },
-    "golem": {
-      "name": "Golem",
-      "type": "construct",
-      "kind": "monster",
-      "description": "A body of clay or metal, shaped and set to work by a maker.",
-      "statistics": {
-        "attributes": {
-          "strength": 17,
-          "dexterity": 7,
-          "constitution": 17,
-          "intelligence": 9,
-          "wisdom": 9,
-          "charisma": 8
-        },
-        "hitPoints": 13,
-        "hitDie": 10,
-        "primary": "strength",
-        "weapon": "slam",
-        "armor": "plate"
-      },
-      "traits": [
-        "construct"
-      ],
-      "abilities": [
-        "smash",
-        "defend"
-      ],
-      "temperament": "obedient",
-      "habitats": [
-        "cave"
-      ],
-      "source": {
-        "orsino": "monsterType:Golem",
-        "fidelity": "adapted",
-        "notes": "Composed by OrsinoMonsters (construct class, Golem type, wildtype aspect, cave terrain, minor rank, level 1). Plate natural armour and the charge and hide abilities are not modelled. Its line grows three hit points a level above the first, as Orsino's monster template grows a line (34 at level 8): a fixed 13 made the Stone-Singers' Unsung, a keeper of level 8, as easy to fell as a ghoul."
-      }
-    },
-    "iron_golem": {
-      "variantOf": "golem",
-      "name": "Iron golem",
-      "description": "A golem of riveted iron plates: slow, and very hard to break.",
-      "statistics": {
-        "attributes": {
-          "strength": 18,
-          "dexterity": 4,
-          "constitution": 21,
-          "intelligence": 9,
-          "wisdom": 9,
-          "charisma": 8
-        },
-        "hitPoints": 15,
-        "hitDie": 10,
-        "primary": "strength",
-        "weapon": "slam",
-        "armor": "plate"
-      },
-      "source": {
-        "orsino": "golemSubstance:iron",
-        "fidelity": "faithful",
-        "notes": "The iron substance overlay (+1 Str, −3 Dex, +4 Con) applied by OrsinoMonsters before hit points, as in the template."
-      }
-    },
-    "bone_hound": {
-      "name": "Knitted bone hound",
-      "type": "undead",
-      "kind": "monster",
-      "description": "A hound-shape of grave bones wired together and moved by a necromancer's binding. It has no eyes and does not tire.",
-      "statistics": {
-        "attributes": "rolled",
-        "hitDie": 8,
-        "primary": "strength",
-        "weapon": "bite",
-        "armor": "spine"
+        "actions": 1,
+        "growth": {
+          "hitPoints": {
+            "base": 12,
+            "perLevel": 3
+          }
+        }
       },
       "abilities": [
-        "rending_bite"
+        "charm",
+        "sleep",
+        "hide"
       ],
-      "resistances": {
-        "radiant": -1,
-        "fire": -0.5
+      "traits": [],
+      "worth": {
+        "base": 250,
+        "perLevel": 50
       },
-      "temperament": "territorial",
+      "omits": {
+        "trait:enchanting": "Faerie Charm is not a nature Kyr plays.",
+        "field:monsterGold": "Orsino's 1d10 gold for the kill is not carried."
+      },
       "source": {
-        "kyr": true,
-        "notes": "Kyr's own: a necromancer's watchdog for Holt keep's bone store."
+        "orsino": "monsterType:Satyr",
+        "fidelity": "adapted",
+        "notes": "Composed by OrsinoMonsters (fey class, Satyr type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template."
       }
     },
     "slump": {
@@ -263,132 +1737,198 @@
         "notes": "Kyr's own: the Wet under the Long Man. Orsino's mud elemental is as quick as all its elementals (dexterity 19), which made a mass of wet clay nimbler than a cat and nearly impossible for a new company to strike."
       }
     },
-    "antimagic_ward": {
-      "name": "Antimagic ward",
-      "type": "construct",
+    "solar": {
+      "name": "Solar",
+      "type": "celestial",
       "kind": "monster",
-      "description": "A circle of cut stones that hums when magic is near, and silences it.",
+      "description": "A celestial of Orsino's bestiary. It fights with longsword, armoured in chain mail, and knows Smite Evil, Heal Ally, Bless, Inspire and Rally the Faithful.",
       "statistics": {
         "attributes": {
-          "strength": 10,
-          "dexterity": 3,
+          "strength": 22,
+          "dexterity": 20,
           "constitution": 16,
-          "intelligence": 1,
-          "wisdom": 10,
-          "charisma": 1
+          "intelligence": 15,
+          "wisdom": 22,
+          "charisma": 22
         },
-        "hitDie": 10,
-        "primary": "constitution",
-        "weapon": "slam"
+        "weapon": "longsword",
+        "armor": "chainmail",
+        "primary": "strength",
+        "actions": 2,
+        "growth": {
+          "hitPoints": {
+            "base": 25,
+            "perLevel": 3
+          }
+        }
       },
-      "traits": [
-        "counter_arcane",
-        "wall"
-      ],
       "abilities": [
-        "silence",
-        "pure_beam",
-        "dispel_magic",
-        "magebane"
+        "smite",
+        "heal",
+        "bless",
+        "inspire",
+        "rally"
       ],
-      "temperament": "obedient",
+      "traits": [
+        "celestial",
+        "formidable"
+      ],
+      "worth": {
+        "base": 450,
+        "perLevel": 50
+      },
+      "omits": {
+        "field:monsterGold": "Orsino's 3d10 gold for the kill is not carried."
+      },
       "source": {
-        "orsino": "combatEntity:antimagic_ward",
+        "orsino": "monsterType:Solar",
         "fidelity": "adapted",
-        "notes": "A fighting object: in Kyr a creature of the construct type that takes its turn in a fight like any other, with Orsino's abilities and traits for it. It does not move or answer; where it stands is where it was put."
+        "notes": "Composed by OrsinoMonsters (celestial class, Solar type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template."
       }
     },
-    "barrier": {
-      "name": "Barrier",
-      "type": "construct",
+    "spirit": {
+      "name": "Spirit",
+      "type": "undead",
       "kind": "monster",
-      "description": "A wall of force or of stone set across the way, which does nothing but stand there and be in it.",
+      "description": "An undead of Orsino's bestiary. It fights with claws, armoured in clothing, and knows Curse, Scream, Life Drain, Slow, Paralyzing Touch and Hide.",
       "statistics": {
         "attributes": {
-          "strength": 10,
-          "dexterity": 3,
-          "constitution": 16,
-          "intelligence": 1,
-          "wisdom": 10,
-          "charisma": 1
+          "strength": 8,
+          "dexterity": 8,
+          "constitution": 6,
+          "intelligence": 14,
+          "wisdom": 14,
+          "charisma": 5
         },
-        "hitDie": 10,
-        "primary": "constitution",
-        "weapon": "slam"
+        "weapon": "claws",
+        "armor": "cloth",
+        "primary": "strength",
+        "actions": 1,
+        "growth": {
+          "hitPoints": {
+            "base": 10,
+            "perLevel": 3
+          }
+        }
       },
-      "traits": [
-        "wall"
-      ],
       "abilities": [
-        "defend"
-      ],
-      "temperament": "obedient",
-      "source": {
-        "orsino": "combatEntity:barrier",
-        "fidelity": "adapted",
-        "notes": "A fighting object: in Kyr a creature of the construct type that takes its turn in a fight like any other, with Orsino's abilities and traits for it. It does not move or answer; where it stands is where it was put."
-      }
-    },
-    "bomb": {
-      "name": "Bomb",
-      "type": "construct",
-      "kind": "monster",
-      "description": "A thing that ticks, and will not tick for long.",
-      "statistics": {
-        "attributes": {
-          "strength": 10,
-          "dexterity": 3,
-          "constitution": 16,
-          "intelligence": 1,
-          "wisdom": 10,
-          "charisma": 1
-        },
-        "hitDie": 10,
-        "primary": "constitution",
-        "weapon": "slam"
-      },
-      "traits": [],
-      "abilities": [
-        "countdown"
-      ],
-      "temperament": "obedient",
-      "source": {
-        "orsino": "combatEntity:bomb",
-        "fidelity": "adapted",
-        "notes": "A fighting object: in Kyr a creature of the construct type that takes its turn in a fight like any other, with Orsino's abilities and traits for it. It does not move or answer; where it stands is where it was put."
-      }
-    },
-    "phylactery": {
-      "name": "Phylactery",
-      "type": "construct",
-      "kind": "monster",
-      "description": "A small dark vessel that holds what keeps something from staying dead.",
-      "statistics": {
-        "attributes": {
-          "strength": 10,
-          "dexterity": 3,
-          "constitution": 16,
-          "intelligence": 1,
-          "wisdom": 10,
-          "charisma": 1
-        },
-        "hitDie": 10,
-        "primary": "constitution",
-        "weapon": "slam"
-      },
-      "traits": [
-        "fiendish"
-      ],
-      "abilities": [
-        "animate_dead",
+        "curse",
+        "fear",
         "life_drain",
-        "black_ritual"
+        "slow",
+        "paralyzing_touch",
+        "hide"
       ],
-      "temperament": "obedient",
+      "traits": [
+        "undead",
+        "incorporeal"
+      ],
+      "worth": {
+        "base": 300,
+        "perLevel": 50
+      },
+      "omits": {
+        "field:monsterGold": "Orsino's 2d10 gold for the kill is not carried."
+      },
       "source": {
-        "orsino": "combatEntity:phylactery",
+        "orsino": "monsterType:Spirit",
         "fidelity": "adapted",
-        "notes": "A fighting object: in Kyr a creature of the construct type that takes its turn in a fight like any other, with Orsino's abilities and traits for it. It does not move or answer; where it stands is where it was put."
+        "notes": "Composed by OrsinoMonsters (undead class, Spirit type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template."
+      }
+    },
+    "sprite": {
+      "name": "Sprite",
+      "type": "fey",
+      "kind": "monster",
+      "description": "A fey of Orsino's bestiary. It fights with dagger, armoured in leather armor, and knows Charm Person, Sleep, Hide and Magic Missile.",
+      "statistics": {
+        "attributes": {
+          "strength": 9,
+          "dexterity": 18,
+          "constitution": 10,
+          "intelligence": 11,
+          "wisdom": 12,
+          "charisma": 17
+        },
+        "weapon": "dagger",
+        "armor": "leather",
+        "primary": "strength",
+        "actions": 1,
+        "growth": {
+          "hitPoints": {
+            "base": 12,
+            "perLevel": 3
+          }
+        }
+      },
+      "abilities": [
+        "charm",
+        "sleep",
+        "hide",
+        "magic_missile"
+      ],
+      "traits": [],
+      "worth": {
+        "base": 250,
+        "perLevel": 50
+      },
+      "omits": {
+        "trait:enchanting": "Faerie Charm is not a nature Kyr plays.",
+        "field:monsterGold": "Orsino's 1d10 gold for the kill is not carried."
+      },
+      "source": {
+        "orsino": "monsterType:Sprite",
+        "fidelity": "adapted",
+        "notes": "Composed by OrsinoMonsters (fey class, Sprite type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template."
+      }
+    },
+    "titan": {
+      "name": "Titan",
+      "type": "giant",
+      "kind": "monster",
+      "description": "A giant of Orsino's bestiary. It fights with greatsword, armoured in chain mail, and knows Maul, Charge, Taunt and Earthquake.",
+      "statistics": {
+        "attributes": {
+          "strength": 30,
+          "dexterity": 16,
+          "constitution": 27,
+          "intelligence": 16,
+          "wisdom": 18,
+          "charisma": 17
+        },
+        "weapon": "greatsword",
+        "armor": "chainmail",
+        "primary": "strength",
+        "actions": 1,
+        "growth": {
+          "hitPoints": {
+            "base": 48,
+            "perLevel": 3
+          }
+        }
+      },
+      "abilities": [
+        "maul",
+        "prepare_charge",
+        "charge",
+        "taunt",
+        "earthquake"
+      ],
+      "traits": [
+        "huge",
+        "formidable"
+      ],
+      "worth": {
+        "base": 500,
+        "perLevel": 50
+      },
+      "omits": {
+        "field:monsterGold": "Orsino's 5d10 gold for the kill is not carried."
+      },
+      "source": {
+        "orsino": "monsterType:Titan",
+        "fidelity": "adapted",
+        "notes": "Composed by OrsinoMonsters (giant class, Titan type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template."
       }
     },
     "turret": {
@@ -420,6 +1960,511 @@
         "orsino": "combatEntity:turret",
         "fidelity": "adapted",
         "notes": "A fighting object: in Kyr a creature of the construct type that takes its turn in a fight like any other, with Orsino's abilities and traits for it. It does not move or answer; where it stands is where it was put."
+      }
+    },
+    "vampire": {
+      "name": "Vampire",
+      "type": "undead",
+      "kind": "monster",
+      "description": "An undead of Orsino's bestiary. It fights with claws, armoured in clothing, and knows Curse, Scream, Life Drain and Charm Person.",
+      "statistics": {
+        "attributes": {
+          "strength": 8,
+          "dexterity": 12,
+          "constitution": 6,
+          "intelligence": 10,
+          "wisdom": 9,
+          "charisma": 10
+        },
+        "weapon": "claws",
+        "armor": "cloth",
+        "primary": "strength",
+        "actions": 1,
+        "growth": {
+          "hitPoints": {
+            "base": 10,
+            "perLevel": 3
+          }
+        }
+      },
+      "abilities": [
+        "curse",
+        "fear",
+        "life_drain",
+        "charm"
+      ],
+      "traits": [
+        "undead",
+        "regeneration"
+      ],
+      "worth": {
+        "base": 300,
+        "perLevel": 50
+      },
+      "omits": {
+        "field:monsterGold": "Orsino's 2d10 gold for the kill is not carried."
+      },
+      "source": {
+        "orsino": "monsterType:Vampire",
+        "fidelity": "adapted",
+        "notes": "Composed by OrsinoMonsters (undead class, Vampire type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template."
+      }
+    },
+    "wendigo": {
+      "name": "Wendigo",
+      "type": "beast",
+      "kind": "monster",
+      "description": "A beast of Orsino's bestiary. It fights with claws, armoured in hide armor, and knows Maul, Charge, Rage, Poison Bite and Life Drain.",
+      "statistics": {
+        "attributes": {
+          "strength": 18,
+          "dexterity": 8,
+          "constitution": 12,
+          "intelligence": 3,
+          "wisdom": 3,
+          "charisma": 3
+        },
+        "weapon": "claws",
+        "armor": "hide_armor",
+        "primary": "strength",
+        "actions": 2,
+        "growth": {
+          "hitPoints": {
+            "base": 9,
+            "perLevel": 3
+          }
+        }
+      },
+      "abilities": [
+        "maul",
+        "prepare_charge",
+        "charge",
+        "enrage",
+        "poison_bite",
+        "life_drain"
+      ],
+      "traits": [
+        "wild"
+      ],
+      "worth": {
+        "base": 150,
+        "perLevel": 50
+      },
+      "omits": {
+        "field:monsterGold": "Orsino's 0 gold for the kill is not carried."
+      },
+      "source": {
+        "orsino": "monsterType:Wendigo",
+        "fidelity": "adapted",
+        "notes": "Composed by OrsinoMonsters (beast class, Wendigo type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template."
+      }
+    },
+    "wraith": {
+      "name": "Wraith",
+      "type": "undead",
+      "kind": "monster",
+      "description": "An undead of Orsino's bestiary. It fights with claws, armoured in clothing, and knows Curse, Scream and Life Drain.",
+      "statistics": {
+        "attributes": {
+          "strength": 8,
+          "dexterity": 13,
+          "constitution": 6,
+          "intelligence": 10,
+          "wisdom": 13,
+          "charisma": 5
+        },
+        "weapon": "claws",
+        "armor": "cloth",
+        "primary": "strength",
+        "actions": 1,
+        "growth": {
+          "hitPoints": {
+            "base": 10,
+            "perLevel": 3
+          }
+        }
+      },
+      "abilities": [
+        "curse",
+        "fear",
+        "life_drain"
+      ],
+      "traits": [
+        "undead",
+        "incorporeal"
+      ],
+      "worth": {
+        "base": 300,
+        "perLevel": 50
+      },
+      "omits": {
+        "field:monsterGold": "Orsino's 2d10 gold for the kill is not carried."
+      },
+      "source": {
+        "orsino": "monsterType:Wraith",
+        "fidelity": "adapted",
+        "notes": "Composed by OrsinoMonsters (undead class, Wraith type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template."
+      }
+    },
+    "wyrm": {
+      "name": "Wyrm",
+      "type": "dragon",
+      "kind": "monster",
+      "description": "A dragon of Orsino's bestiary. It fights with bite, armoured in scale mail, and knows Fly and Maul.",
+      "statistics": {
+        "attributes": {
+          "strength": 34,
+          "dexterity": 28,
+          "constitution": 32,
+          "intelligence": 30,
+          "wisdom": 28,
+          "charisma": 30
+        },
+        "weapon": "bite",
+        "armor": "scale",
+        "primary": "strength",
+        "actions": 3,
+        "growth": {
+          "hitPoints": {
+            "base": 85,
+            "perLevel": 3
+          }
+        }
+      },
+      "abilities": [
+        "flight",
+        "maul"
+      ],
+      "traits": [
+        "formidable",
+        "flying"
+      ],
+      "worth": {
+        "base": 800,
+        "perLevel": 50
+      },
+      "omits": {
+        "field:monsterGold": "Orsino's 10d100 gold for the kill is not carried."
+      },
+      "source": {
+        "orsino": "monsterType:Wyrm",
+        "fidelity": "adapted",
+        "notes": "Composed by OrsinoMonsters (dragon class, Wyrm type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template."
+      }
+    },
+    "wyvern": {
+      "name": "Wyvern",
+      "type": "dragon",
+      "kind": "monster",
+      "description": "A dragon of Orsino's bestiary. It fights with bite, armoured in scale mail, and knows Fly and Maul.",
+      "statistics": {
+        "attributes": {
+          "strength": 32,
+          "dexterity": 30,
+          "constitution": 30,
+          "intelligence": 27,
+          "wisdom": 27,
+          "charisma": 29
+        },
+        "weapon": "bite",
+        "armor": "scale",
+        "primary": "strength",
+        "actions": 3,
+        "growth": {
+          "hitPoints": {
+            "base": 85,
+            "perLevel": 3
+          }
+        }
+      },
+      "abilities": [
+        "flight",
+        "maul"
+      ],
+      "traits": [
+        "formidable",
+        "flying"
+      ],
+      "worth": {
+        "base": 800,
+        "perLevel": 50
+      },
+      "omits": {
+        "field:monsterGold": "Orsino's 10d100 gold for the kill is not carried."
+      },
+      "source": {
+        "orsino": "monsterType:Wyvern",
+        "fidelity": "adapted",
+        "notes": "Composed by OrsinoMonsters (dragon class, Wyvern type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template."
+      }
+    },
+    "air_elemental": {
+      "variantOf": "elemental",
+      "variations": [
+        "air_element"
+      ],
+      "name": "Air elemental",
+      "description": "An elemental of air.",
+      "source": {
+        "orsino": "elemental:air",
+        "fidelity": "faithful",
+        "notes": "The Elemental with the element overlay; the name modules, dens and summons have used."
+      }
+    },
+    "ash_elemental": {
+      "variantOf": "elemental",
+      "variations": [
+        "ash_element"
+      ],
+      "name": "Ash elemental",
+      "description": "An elemental of ash.",
+      "source": {
+        "orsino": "elemental:ash",
+        "fidelity": "faithful",
+        "notes": "The Elemental with the element overlay; the name modules, dens and summons have used."
+      }
+    },
+    "crystal_elemental": {
+      "variantOf": "elemental",
+      "variations": [
+        "crystal_element"
+      ],
+      "name": "Crystal elemental",
+      "description": "An elemental of crystal.",
+      "source": {
+        "orsino": "elemental:crystal",
+        "fidelity": "faithful",
+        "notes": "The Elemental with the element overlay; the name modules, dens and summons have used."
+      }
+    },
+    "dust_elemental": {
+      "variantOf": "elemental",
+      "variations": [
+        "dust_element"
+      ],
+      "name": "Dust elemental",
+      "description": "An elemental of dust.",
+      "source": {
+        "orsino": "elemental:dust",
+        "fidelity": "faithful",
+        "notes": "The Elemental with the element overlay; the name modules, dens and summons have used."
+      }
+    },
+    "earth_elemental": {
+      "variantOf": "elemental",
+      "variations": [
+        "earth_element"
+      ],
+      "name": "Earth elemental",
+      "description": "An elemental of earth.",
+      "source": {
+        "orsino": "elemental:earth",
+        "fidelity": "faithful",
+        "notes": "The Elemental with the element overlay; the name modules, dens and summons have used."
+      }
+    },
+    "fire_elemental": {
+      "variantOf": "elemental",
+      "variations": [
+        "fire_element"
+      ],
+      "name": "Fire elemental",
+      "description": "An elemental of fire.",
+      "source": {
+        "orsino": "elemental:fire",
+        "fidelity": "faithful",
+        "notes": "The Elemental with the element overlay; the name modules, dens and summons have used."
+      }
+    },
+    "ice_elemental": {
+      "variantOf": "elemental",
+      "variations": [
+        "ice_element"
+      ],
+      "name": "Ice elemental",
+      "description": "An elemental of ice.",
+      "source": {
+        "orsino": "elemental:ice",
+        "fidelity": "faithful",
+        "notes": "The Elemental with the element overlay; the name modules, dens and summons have used."
+      }
+    },
+    "iron_golem": {
+      "variantOf": "golem",
+      "variations": [
+        "iron"
+      ],
+      "name": "Iron golem",
+      "description": "A golem of riveted iron plates: slow, and very hard to break.",
+      "source": {
+        "orsino": "golemSubstance:iron",
+        "fidelity": "faithful",
+        "notes": "The Golem with the iron material: the name the works and modules have used."
+      }
+    },
+    "jewel_elemental": {
+      "variantOf": "elemental",
+      "variations": [
+        "jewel_element"
+      ],
+      "name": "Jewel elemental",
+      "description": "An elemental of jewel.",
+      "source": {
+        "orsino": "elemental:jewel",
+        "fidelity": "faithful",
+        "notes": "The Elemental with the element overlay; the name modules, dens and summons have used."
+      }
+    },
+    "lava_elemental": {
+      "variantOf": "elemental",
+      "variations": [
+        "lava_element"
+      ],
+      "name": "Lava elemental",
+      "description": "An elemental of lava.",
+      "source": {
+        "orsino": "elemental:lava",
+        "fidelity": "faithful",
+        "notes": "The Elemental with the element overlay; the name modules, dens and summons have used."
+      }
+    },
+    "mud_elemental": {
+      "variantOf": "elemental",
+      "variations": [
+        "mud_element"
+      ],
+      "name": "Mud elemental",
+      "description": "An elemental of mud.",
+      "source": {
+        "orsino": "elemental:mud",
+        "fidelity": "faithful",
+        "notes": "The Elemental with the element overlay; the name modules, dens and summons have used."
+      }
+    },
+    "red_dragon": {
+      "variantOf": "dragon",
+      "name": "Red dragon",
+      "description": "Its crimson scales shimmer like molten lava.",
+      "abilities": [
+        "breathe_fire"
+      ],
+      "source": {
+        "orsino": "dragonColor:red",
+        "fidelity": "adapted",
+        "notes": "The Dragon of the red lineage; Kyr keeps its fire breath as a power too, for when it is in reach."
+      },
+      "variations": [
+        "red_lineage"
+      ]
+    },
+    "salt_elemental": {
+      "variantOf": "elemental",
+      "variations": [
+        "salt_element"
+      ],
+      "name": "Salt elemental",
+      "description": "An elemental of salt.",
+      "source": {
+        "orsino": "elemental:salt",
+        "fidelity": "faithful",
+        "notes": "The Elemental with the element overlay; the name modules, dens and summons have used."
+      }
+    },
+    "sand_elemental": {
+      "variantOf": "elemental",
+      "variations": [
+        "sand_element"
+      ],
+      "name": "Sand elemental",
+      "description": "An elemental of sand.",
+      "source": {
+        "orsino": "elemental:sand",
+        "fidelity": "faithful",
+        "notes": "The Elemental with the element overlay; the name modules, dens and summons have used."
+      }
+    },
+    "smoke_elemental": {
+      "variantOf": "elemental",
+      "variations": [
+        "smoke_element"
+      ],
+      "name": "Smoke elemental",
+      "description": "An elemental of smoke.",
+      "source": {
+        "orsino": "elemental:smoke",
+        "fidelity": "faithful",
+        "notes": "The Elemental with the element overlay; the name modules, dens and summons have used."
+      }
+    },
+    "steam_elemental": {
+      "variantOf": "elemental",
+      "variations": [
+        "steam_element"
+      ],
+      "name": "Steam elemental",
+      "description": "An elemental of steam.",
+      "source": {
+        "orsino": "elemental:steam",
+        "fidelity": "faithful",
+        "notes": "The Elemental with the element overlay; the name modules, dens and summons have used."
+      }
+    },
+    "storm_elemental": {
+      "variantOf": "elemental",
+      "variations": [
+        "storm_element"
+      ],
+      "name": "Storm elemental",
+      "description": "An elemental of storm.",
+      "source": {
+        "orsino": "elemental:storm",
+        "fidelity": "faithful",
+        "notes": "The Elemental with the element overlay; the name modules, dens and summons have used."
+      }
+    },
+    "water_elemental": {
+      "variantOf": "elemental",
+      "variations": [
+        "water_element"
+      ],
+      "name": "Water elemental",
+      "description": "An elemental of water.",
+      "source": {
+        "orsino": "elemental:water",
+        "fidelity": "faithful",
+        "notes": "The Elemental with the element overlay; the name modules, dens and summons have used."
+      }
+    },
+    "wisp": {
+      "name": "Wisp",
+      "type": "spirit",
+      "kind": "spirit",
+      "description": "A drifting mote of light that answers a summoner's call.",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 4,
+        "primary": "constitution",
+        "weapon": "flutter"
+      },
+      "abilities": [
+        "defend",
+        "flee"
+      ],
+      "source": {
+        "kyr": true
+      }
+    },
+    "wood_elemental": {
+      "variantOf": "elemental",
+      "variations": [
+        "wood_element"
+      ],
+      "name": "Wood elemental",
+      "description": "An elemental of wood.",
+      "source": {
+        "orsino": "elemental:wood",
+        "fidelity": "faithful",
+        "notes": "The Elemental with the element overlay; the name modules, dens and summons have used."
       }
     }
   }

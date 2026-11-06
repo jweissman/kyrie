@@ -18,6 +18,8 @@ export interface Creature {
   traits?: string[]; generation?: { trace: string[] };
   // A painting chosen to be them, by its id in the collection: the protagonist's, chosen at creation.
   likeness?: string;
+  // What it is beside its kind (data/catalog/variations.json): old, of iron, of the red lineage; kept as it was made.
+  variations?: string[];
   base: Attributes & {
     maxHp: number; maxMana: number; speed: number; level: number; abilities: string[];
     // A caster's spell slots by spell level (index 0 is first level); state.slots are those not yet spent.

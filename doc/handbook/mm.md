@@ -157,7 +157,7 @@ Planar Adaptation: +2 against magic, resists 50% of fire, resists 50% of cold, r
 *Faithful · beast* · `species:badger`
 
 - Type: beast (animal)
-- Hit points: 3
+- Hit points: 4 + Constitution modifier + 1 a level
 - Qualities: +6 strength, +5 dexterity, +6 constitution, +5 intelligence, +5 wisdom, +5 charisma
 - Attack: claws, 1d4 slashing
 - Hide: Hide Armor, armour 1
@@ -174,7 +174,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 *Faithful · beast* · `species:bat`
 
 - Type: beast (animal)
-- Hit points: 1
+- Hit points: 3 + Constitution modifier + 1 a level
 - Qualities: +4 strength, +6 dexterity, +4 constitution, +4 intelligence, +5 wisdom, +6 charisma
 - Attack: bite, 1d6 piercing
 - Hide: Fur Armor, armour 0
@@ -214,7 +214,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 *Faithful · beast* · `species:beetle`
 
 - Type: beast (animal)
-- Hit points: 2
+- Hit points: 3 + Constitution modifier + 1 a level
 - Qualities: +5 strength, +5 dexterity, +6 constitution, +4 intelligence, +5 wisdom, +4 charisma
 - Attack: mandibles, 1d6 piercing
 - Hide: Chitin Armor, armour 2
@@ -231,7 +231,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 *Faithful · beast* · `species:butterfly`
 
 - Type: beast (animal)
-- Hit points: 2
+- Hit points: 3 + Constitution modifier + 1 a level
 - Qualities: +4 strength, +8 dexterity, +5 constitution, +5 intelligence, +6 wisdom, +7 charisma
 - Attack: flutter, 1d2 bludgeoning
 - Hide: Chitin Armor, armour 2
@@ -284,7 +284,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 *Faithful · beast* · `species:centipede`
 
 - Type: beast (animal)
-- Hit points: 2
+- Hit points: 3 + Constitution modifier + 1 a level
 - Qualities: +5 strength, +7 dexterity, +5 constitution, +4 intelligence, +5 wisdom, +4 charisma
 - Attack: bite, 1d6 piercing
 - Hide: Chitin Armor, armour 2
@@ -352,7 +352,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 *Faithful · beast* · `species:crocodile`
 
 - Type: beast (animal)
-- Hit points: 5
+- Hit points: 4 + Constitution modifier + 1 a level
 - Qualities: +9 strength, +5 dexterity, +9 constitution, +5 intelligence, +6 wisdom, +5 charisma
 - Attack: bite, 1d6 piercing
 - Hide: Scale Mail, armour 4
@@ -369,7 +369,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 *Faithful · beast* · `species:crow`
 
 - Type: beast (animal)
-- Hit points: 2
+- Hit points: 3 + Constitution modifier + 1 a level
 - Qualities: +5 strength, +8 dexterity, +5 constitution, +8 intelligence, +6 wisdom, +6 charisma
 - Attack: beak, 1d4 piercing
 - Hide: Feather Armor, armour -1
@@ -386,7 +386,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 *Faithful · beast* · `species:deer`
 
 - Type: beast (animal)
-- Hit points: 3
+- Hit points: 4 + Constitution modifier + 1 a level
 - Qualities: +5 strength, +7 dexterity, +5 constitution, +5 intelligence, +6 wisdom, +5 charisma
 - Attack: antlers, 1d6 piercing
 - Hide: Hide Armor, armour 1
@@ -420,7 +420,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 *Faithful · beast* · `species:dragonfly`
 
 - Type: beast (animal)
-- Hit points: 2
+- Hit points: 3 + Constitution modifier + 1 a level
 - Qualities: +4 strength, +8 dexterity, +5 constitution, +5 intelligence, +6 wisdom, +9 charisma
 - Attack: flutter, 1d2 bludgeoning
 - Hide: Chitin Armor, armour 2
@@ -437,7 +437,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 *Faithful · beast* · `species:eagle`
 
 - Type: beast (animal)
-- Hit points: 3
+- Hit points: 4 + Constitution modifier + 1 a level
 - Qualities: +5 strength, +8 dexterity, +5 constitution, +5 intelligence, +6 wisdom, +5 charisma
 - Attack: talons, 1d8 piercing
 - Hide: Feather Armor, armour -1
@@ -473,7 +473,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 *Faithful · beast* · `species:falcon`
 
 - Type: beast (animal)
-- Hit points: 3
+- Hit points: 4 + Constitution modifier + 1 a level
 - Qualities: +6 strength, +6 dexterity, +6 constitution, +6 intelligence, +6 wisdom, +6 charisma
 - Attack: talons, 1d8 piercing
 - Hide: Feather Armor, armour -1
@@ -511,7 +511,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 *Faithful · beast* · `species:ferret`
 
 - Type: beast (animal)
-- Hit points: 3
+- Hit points: 4 + Constitution modifier + 1 a level
 - Qualities: +5 strength, +7 dexterity, +6 constitution, +6 intelligence, +6 wisdom, +6 charisma
 - Attack: bite, 1d6 piercing
 - Hide: Fur Armor, armour 0
@@ -528,7 +528,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 *Faithful · beast* · `species:fox`
 
 - Type: beast (animal)
-- Hit points: 3
+- Hit points: 4 + Constitution modifier + 1 a level
 - Qualities: +6 strength, +7 dexterity, +6 constitution, +6 intelligence, +6 wisdom, +6 charisma
 - Attack: bite, 1d6 piercing
 - Hide: Fur Armor, armour 0
@@ -545,7 +545,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 *Faithful · beast* · `species:frog`
 
 - Type: beast (animal)
-- Hit points: 2
+- Hit points: 3 + Constitution modifier + 1 a level
 - Qualities: +4 strength, +6 dexterity, +5 constitution, +4 intelligence, +5 wisdom, +5 charisma
 - Attack: tongue, 1d4 bludgeoning
 - Hide: Hide Armor, armour 1
@@ -586,7 +586,7 @@ Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 
 *Faithful · beast* · `species:goat`
 
 - Type: beast (animal)
-- Hit points: 3
+- Hit points: 4 + Constitution modifier + 1 a level
 - Qualities: +6 strength, +5 dexterity, +6 constitution, +5 intelligence, +5 wisdom, +6 charisma
 - Attack: headbutt, 1d4 bludgeoning
 - Hide: Fur Armor, armour 0
@@ -600,7 +600,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 #### Great centipede
 
-*Kyr · beast* · `species:great_centipede`
+*Kyr · a centipede, altered* · `species:great_centipede`
 
 - Type: beast (animal)
 - Hit points: d8 a level
@@ -609,7 +609,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Hide: Chitin Armor, armour 2
 - Temperament: territorial
 - Found in: cave
-- Worth: 150 experience a level
+- Worth: 10 experience a level
 
 Venomous Bite: 1d6 (1–6) poison damage to one enemy (halved if resisted; may cause poison: a Constitution save against 15 avoids it); it gains poison for 3 turns (a Constitution save against 12 + level + the caster's spell bonus avoids it). Poison: takes 1d4 (1–4) true damage each turn. A divine spell of the first level. Takes a first-level slot.
 
@@ -639,8 +639,8 @@ Of deep water: Immune to reflex.
 *Kyr · a rat, altered* · `species:great_rat`
 
 - Type: beast (animal)
-- Hit points: d3 a level
-- Qualities: +4 strength, +14 dexterity, +8 constitution, +3 intelligence, +10 wisdom, +3 charisma
+- Hit points: d2 a level
+- Qualities: +4 strength, +10 dexterity, +6 constitution, +3 intelligence, +10 wisdom, +3 charisma
 - Attack: bite, 1d6 piercing
 - Hide: Fur Armor, armour 0
 - Temperament: territorial
@@ -655,7 +655,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 #### Great snake
 
-*Kyr · beast* · `species:great_snake`
+*Kyr · a snake, altered* · `species:great_snake`
 
 - Type: beast (animal)
 - Hit points: d10 a level
@@ -664,7 +664,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Hide: Scale Mail, armour 4
 - Temperament: territorial
 - Found in: cave, marsh
-- Worth: 150 experience a level
+- Worth: 10 experience a level
 
 Venomous Bite: 1d6 (1–6) poison damage to one enemy (halved if resisted; may cause poison: a Constitution save against 15 avoids it); it gains poison for 3 turns (a Constitution save against 12 + level + the caster's spell bonus avoids it). Poison: takes 1d4 (1–4) true damage each turn. A divine spell of the first level. Takes a first-level slot.
 
@@ -677,7 +677,7 @@ Ensnare: One enemy is entangled for 3 turns (a Dexterity save against 12 + level
 *Faithful · beast* · `species:hawk`
 
 - Type: beast (animal)
-- Hit points: 3
+- Hit points: 4 + Constitution modifier + 1 a level
 - Qualities: +6 strength, +7 dexterity, +6 constitution, +6 intelligence, +7 wisdom, +6 charisma
 - Attack: talons, 1d8 piercing
 - Hide: Feather Armor, armour -1
@@ -694,7 +694,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 *Faithful · beast* · `species:hedgehog`
 
 - Type: beast (animal)
-- Hit points: 2
+- Hit points: 3 + Constitution modifier + 1 a level
 - Qualities: +5 strength, +5 dexterity, +6 constitution, +5 intelligence, +6 wisdom, +5 charisma
 - Attack: spines, 1d6 piercing
 - Hide: Spine Armor, armour 1
@@ -745,7 +745,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 *Faithful · beast* · `species:hummingbird`
 
 - Type: beast (animal)
-- Hit points: 2
+- Hit points: 3 + Constitution modifier + 1 a level
 - Qualities: +4 strength, +8 dexterity, +5 constitution, +5 intelligence, +6 wisdom, +7 charisma
 - Attack: beak, 1d4 piercing
 - Hide: Feather Armor, armour -1
@@ -762,7 +762,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 *Faithful · beast* · `species:hyena`
 
 - Type: beast (animal)
-- Hit points: 4
+- Hit points: 4 + Constitution modifier + 1 a level
 - Qualities: +8 strength, +6 dexterity, +8 constitution, +5 intelligence, +5 wisdom, +5 charisma
 - Attack: bite, 1d6 piercing
 - Hide: Fur Armor, armour 0
@@ -779,7 +779,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 *Faithful · beast* · `species:lion`
 
 - Type: beast (animal)
-- Hit points: 4
+- Hit points: 4 + Constitution modifier + 1 a level
 - Qualities: +7 strength, +6 dexterity, +7 constitution, +5 intelligence, +5 wisdom, +7 charisma
 - Attack: bite, 1d6 piercing
 - Hide: Fur Armor, armour 0
@@ -796,7 +796,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 *Faithful · beast* · `species:lizard`
 
 - Type: beast (animal)
-- Hit points: 2
+- Hit points: 3 + Constitution modifier + 1 a level
 - Qualities: +5 strength, +6 dexterity, +5 constitution, +5 intelligence, +5 wisdom, +5 charisma
 - Attack: bite, 1d6 piercing
 - Hide: Scale Mail, armour 4
@@ -834,7 +834,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 *Faithful · beast* · `species:mole`
 
 - Type: beast (animal)
-- Hit points: 3
+- Hit points: 4 + Constitution modifier + 1 a level
 - Qualities: +5 strength, +6 dexterity, +5 constitution, +5 intelligence, +5 wisdom, +5 charisma
 - Attack: bite, 1d6 piercing
 - Hide: Fur Armor, armour 0
@@ -851,7 +851,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 *Faithful · beast* · `species:moth`
 
 - Type: beast (animal)
-- Hit points: 2
+- Hit points: 3 + Constitution modifier + 1 a level
 - Qualities: +4 strength, +8 dexterity, +5 constitution, +5 intelligence, +6 wisdom, +7 charisma
 - Attack: flutter, 1d2 bludgeoning
 - Hide: Chitin Armor, armour 2
@@ -900,7 +900,7 @@ Wild: +2 to hit, +2 damage, +2 evasion, +1 to every roll, resists 10% of all.
 *Faithful · beast* · `species:otter`
 
 - Type: beast (animal)
-- Hit points: 3
+- Hit points: 4 + Constitution modifier + 1 a level
 - Qualities: +6 strength, +7 dexterity, +6 constitution, +6 intelligence, +6 wisdom, +6 charisma
 - Attack: bite, 1d6 piercing
 - Hide: Fur Armor, armour 0
@@ -917,7 +917,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 *Faithful · beast* · `species:owl`
 
 - Type: beast (animal)
-- Hit points: 3
+- Hit points: 4 + Constitution modifier + 1 a level
 - Qualities: +5 strength, +7 dexterity, +5 constitution, +6 intelligence, +7 wisdom, +5 charisma
 - Attack: talons, 1d8 piercing
 - Hide: Feather Armor, armour -1
@@ -966,7 +966,7 @@ Wild: +2 to hit, +2 damage, +2 evasion, +1 to every roll, resists 10% of all.
 *Faithful · beast* · `species:panther`
 
 - Type: beast (animal)
-- Hit points: 4
+- Hit points: 5 + Constitution modifier + 1 a level
 - Qualities: +6 strength, +7 dexterity, +6 constitution, +6 intelligence, +6 wisdom, +6 charisma
 - Attack: claws, 1d4 slashing
 - Hide: Fur Armor, armour 0
@@ -1000,7 +1000,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 *Faithful · beast* · `species:pony`
 
 - Type: beast (animal)
-- Hit points: 4
+- Hit points: 4 + Constitution modifier + 1 a level
 - Qualities: +7 strength, +6 dexterity, +7 constitution, +5 intelligence, +5 wisdom, +6 charisma
 - Attack: kick, 1d2 bludgeoning
 - Hide: Hide Armor, armour 1
@@ -1017,7 +1017,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 *Faithful · beast* · `species:pseudodragon`
 
 - Type: beast (animal)
-- Hit points: 3
+- Hit points: 3 + Constitution modifier + 1 a level
 - Qualities: +8 strength, +7 dexterity, +8 constitution, +8 intelligence, +8 wisdom, +8 charisma
 - Attack: bite, 1d6 piercing
 - Hide: Scale Mail, armour 4
@@ -1034,7 +1034,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 *Faithful · beast* · `species:rabbit`
 
 - Type: beast (animal)
-- Hit points: 4
+- Hit points: 5 + Constitution modifier + 1 a level
 - Qualities: +4 strength, +6 dexterity, +5 constitution, +5 intelligence, +6 wisdom, +5 charisma
 - Attack: bite, 1d6 piercing
 - Hide: Fur Armor, armour 0
@@ -1051,7 +1051,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 *Faithful · beast* · `species:ram`
 
 - Type: beast (animal)
-- Hit points: 4
+- Hit points: 4 + Constitution modifier + 1 a level
 - Qualities: +7 strength, +5 dexterity, +7 constitution, +5 intelligence, +5 wisdom, +5 charisma
 - Attack: horns, 1d4 bludgeoning
 - Hide: Hide Armor, armour 1
@@ -1068,8 +1068,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 *Adapted · beast* · `species:rat`
 
 - Type: beast (animal)
-- Hit points: d3 a level
-- Qualities: +4 strength, +14 dexterity, +8 constitution, +3 intelligence, +10 wisdom, +3 charisma
+- Hit points: d2 a level
+- Qualities: +4 strength, +10 dexterity, +6 constitution, +3 intelligence, +10 wisdom, +3 charisma
 - Attack: bite, 1d6 piercing
 - Hide: Fur Armor, armour 0
 - Temperament: wary
@@ -1082,14 +1082,14 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A rat of the barns and cellars: quick, bold in numbers, and never far from grain.
 
-*Adapted: Orsino's rat (bite and fur) with a hit die, so that it grows with its level: Orsino's fixed two hit points had made a rat of any level one blow (M19-60).*
+*Adapted: Orsino's rat (bite and fur), with its two hit points at the first level, and a hit die, so that it grows with its level: Orsino's fixed two had made a rat of any level one blow (M19-60). A swarm of rats at the first level is a nuisance, as every adventure that has them was written for.*
 
 #### Raven
 
 *Faithful · beast* · `species:raven`
 
 - Type: beast (animal)
-- Hit points: 2
+- Hit points: 3 + Constitution modifier + 1 a level
 - Qualities: +5 strength, +7 dexterity, +5 constitution, +6 intelligence, +6 wisdom, +6 charisma
 - Attack: beak, 1d4 piercing
 - Hide: Feather Armor, armour -1
@@ -1123,7 +1123,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 *Faithful · beast* · `species:snake`
 
 - Type: beast (animal)
-- Hit points: 3
+- Hit points: 3 + Constitution modifier + 1 a level
 - Qualities: +7 strength, +6 dexterity, +7 constitution, +6 intelligence, +6 wisdom, +6 charisma
 - Attack: bite, 1d6 piercing
 - Hide: Scale Mail, armour 4
@@ -1161,7 +1161,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 *Faithful · beast* · `species:squirrel`
 
 - Type: beast (animal)
-- Hit points: 1
+- Hit points: 2 + Constitution modifier + 1 a level
 - Qualities: +4 strength, +7 dexterity, +5 constitution, +6 intelligence, +6 wisdom, +5 charisma
 - Attack: bite, 1d6 piercing
 - Hide: Fur Armor, armour 0
@@ -1175,11 +1175,11 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 #### Stag
 
-*Faithful · beast* · `species:stag`
+*Faithful · a deer, altered* · `species:stag`
 
 - Type: beast (animal)
-- Hit points: 4
-- Qualities: +7 strength, +6 dexterity, +7 constitution, +5 intelligence, +6 wisdom, +6 charisma
+- Hit points: 4 + Constitution modifier + 1 a level
+- Qualities: +5 strength, +7 dexterity, +5 constitution, +5 intelligence, +6 wisdom, +5 charisma
 - Attack: antlers, 1d6 piercing
 - Hide: Hide Armor, armour 1
 - Worth: 10 experience a level
@@ -1195,7 +1195,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 *Faithful · beast* · `species:stoat`
 
 - Type: beast (animal)
-- Hit points: 3
+- Hit points: 4 + Constitution modifier + 1 a level
 - Qualities: +5 strength, +7 dexterity, +6 constitution, +6 intelligence, +6 wisdom, +6 charisma
 - Attack: bite, 1d6 piercing
 - Hide: Fur Armor, armour 0
@@ -1212,7 +1212,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 *Faithful · beast* · `species:tiger`
 
 - Type: beast (animal)
-- Hit points: 5
+- Hit points: 5 + Constitution modifier + 1 a level
 - Qualities: +7 strength, +7 dexterity, +7 constitution, +6 intelligence, +6 wisdom, +6 charisma
 - Attack: claws, 1d4 slashing
 - Hide: Fur Armor, armour 0
@@ -1229,7 +1229,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 *Faithful · beast* · `species:turtle`
 
 - Type: beast (animal)
-- Hit points: 4
+- Hit points: 4 + Constitution modifier + 1 a level
 - Qualities: +5 strength, +4 dexterity, +8 constitution, +5 intelligence, +6 wisdom, +5 charisma
 - Attack: bite, 1d6 piercing
 - Hide: Shell Armor, armour 4
@@ -1299,7 +1299,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 *Faithful · beast* · `species:wyrm_animal`
 
 - Type: beast (animal)
-- Hit points: 3
+- Hit points: 2 + Constitution modifier + 1 a level
 - Qualities: +10 strength, +5 dexterity, +9 constitution, +11 intelligence, +11 wisdom, +10 charisma
 - Attack: bite, 1d6 piercing
 - Hide: Scale Mail, armour 4
@@ -1587,7 +1587,7 @@ Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 
 *Adapted · construct* · `species:golem`
 
 - Type: construct (monster)
-- Hit points: 13
+- Hit points: 6 + Constitution modifier + 3 a level
 - Qualities: +17 strength, +7 dexterity, +17 constitution, +9 intelligence, +9 wisdom, +8 charisma
 - Attack: slam, 1d6 piercing
 - Hide: Plate Mail, armour 7
@@ -1601,17 +1601,17 @@ Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 
 
 Constructed Resilience: Resists 50% of bludgeoning, resists 50% of piercing, resists 50% of slashing, immune to poison, immune to disease, immune to sleep, immune to bleed.
 
-> A body of clay or metal, shaped and set to work by a maker.
+> A body shaped by a maker out of one stuff (clay, stone, iron) and set to work: it does not tire, and does not stop.
 
-*Adapted: Composed by OrsinoMonsters (construct class, Golem type, wildtype aspect, cave terrain, minor rank, level 1). Plate natural armour and the charge and hide abilities are not modelled. Its line grows three hit points a level above the first, as Orsino's monster template grows a line (34 at level 8): a fixed 13 made the Stone-Singers' Unsung, a keeper of level 8, as easy to fell as a ghoul.*
+*Adapted: Orsino's Golem type; what it is made of is its material (data/catalog/variations.json, axis material, from Orsino's golemSubstances). Thirteen hit points at the first level, three more a level, as the construct line.*
 
 #### Iron golem
 
 *Faithful · a golem, altered* · `species:iron_golem`
 
 - Type: construct (monster)
-- Hit points: 15
-- Qualities: +18 strength, +4 dexterity, +21 constitution, +9 intelligence, +9 wisdom, +8 charisma
+- Hit points: 6 + Constitution modifier + 3 a level
+- Qualities: +17 strength, +7 dexterity, +17 constitution, +9 intelligence, +9 wisdom, +8 charisma
 - Attack: slam, 1d6 piercing
 - Hide: Plate Mail, armour 7
 - Temperament: obedient
@@ -1785,7 +1785,7 @@ Fiendish Resilience: Resists 50% of fire, resists 50% of poison, immune to charm
 *Adapted · dragon* · `species:dragon`
 
 - Type: dragon (monster)
-- Hit points: 99
+- Hit points: 85 + Constitution modifier + 3 a level
 - Qualities: +35 strength, +28 dexterity, +32 constitution, +29 intelligence, +27 wisdom, +31 charisma
 - Attack: bite, 1d6 piercing
 - Hide: Scale Mail, armour 4
@@ -1793,13 +1793,17 @@ Fiendish Resilience: Resists 50% of fire, resists 50% of poison, immune to charm
 - Found in: mountain, cave
 - Worth: 800 experience a level
 
+Fly: One ally gains flight for 3 turns. Flight: 5 harder to hit, +20 evasion. An arcane spell of the third level. Takes a third-level slot.
+
+Maul: Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to it (may cause stunned: a Constitution save against 15 avoids it); it is bleeding for 3 turns (a Constitution save against 15 + level + the caster's spell bonus avoids it). Stunned: −2 to every roll, cannot act. Bleeding: takes 1d2 (1–2) bleed damage each turn. Again after 2 turns.
+
 Formidable: +3 to hit, +3 damage, +2 to will saves, resists 10% of bludgeoning, resists 10% of piercing, resists 10% of slashing.
 
 Aerial Mobility: +1 to hit, +5 evasion.
 
 > A great winged reptile: scaled, clawed, cunning and proud.
 
-*Adapted: Composed by OrsinoMonsters (Dragon type, wildtype aspect, mountain terrain, minor rank, level 1). Natural armour, three attacks a turn, maul and the gold hoard are not modelled.*
+*Adapted: Orsino's dragon class (85 hit points, three a level more, flight and maul); its colour is its lineage (data/catalog/variations.json, axis lineage, from Orsino's dragonColors), which gives its breath.*
 
 #### Drake
 
@@ -1832,7 +1836,7 @@ Aerial Mobility: +1 to hit, +5 evasion.
 *Adapted · a dragon, altered* · `species:red_dragon`
 
 - Type: dragon (monster)
-- Hit points: 99
+- Hit points: 85 + Constitution modifier + 3 a level
 - Qualities: +35 strength, +28 dexterity, +32 constitution, +29 intelligence, +27 wisdom, +31 charisma
 - Attack: bite, 1d6 piercing
 - Hide: Scale Mail, armour 4
@@ -1848,7 +1852,7 @@ Aerial Mobility: +1 to hit, +5 evasion.
 
 > Its crimson scales shimmer like molten lava.
 
-*Adapted: The red colour gives the fire breath; Kyr keeps the bite for when the breath is spent.*
+*Adapted: The Dragon of the red lineage; Kyr keeps its fire breath as a power too, for when it is in reach.*
 
 #### Wyrm
 
@@ -1906,7 +1910,7 @@ Aerial Mobility: +1 to hit, +5 evasion.
 
 #### Air elemental
 
-*Adapted · elemental* · `species:air_elemental`
+*Faithful · a elemental, altered* · `species:air_elemental`
 
 - Type: elemental (monster)
 - Hit points: 16 + Constitution modifier + 3 a level
@@ -1917,23 +1921,15 @@ Aerial Mobility: +1 to hit, +5 evasion.
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Lightning Bolt: 3d8 (3–24) electric damage to 2 different enemies, drawn at random (halved if resisted); each of them is paralyzed for 3 turns (a Strength save against 15 + level + the caster's spell bonus avoids it). Paralyzed: Strength −5, Dexterity −5, cannot act. An arcane spell of the fourth level. Takes a fourth-level slot.
-
 Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
 
-Air Affinity: Resists 50% of lightning, resists 50% of cold, takes 100% more fire, immune to paralyze.
-
-Fire Vulnerability: Takes 100% more fire.
-
-> An elemental of Orsino's bestiary. It fights with slam, armoured in scale mail, and knows Defend and Lightning Bolt.
+> An elemental of air.
 
 *Left out — field:monsterGold: Orsino's 1d10 gold for the kill is not carried.*
-
-*Adapted: Composed by OrsinoMonsters (elemental class, Elemental type, air, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
 
 #### Ash elemental
 
-*Adapted · elemental* · `species:ash_elemental`
+*Faithful · a elemental, altered* · `species:ash_elemental`
 
 - Type: elemental (monster)
 - Hit points: 16 + Constitution modifier + 3 a level
@@ -1944,23 +1940,15 @@ Fire Vulnerability: Takes 100% more fire.
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Hide: You are hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion; and on attacking, it ends. Again after 3 turns.
-
 Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
 
-Air Affinity: Resists 50% of lightning, resists 50% of cold, takes 100% more fire, immune to paralyze.
-
-Fire Vulnerability: Takes 100% more fire.
-
-> An elemental of Orsino's bestiary. It fights with slam, armoured in scale mail, and knows Defend and Hide.
+> An elemental of ash.
 
 *Left out — field:monsterGold: Orsino's 1d10 gold for the kill is not carried.*
-
-*Adapted: Composed by OrsinoMonsters (elemental class, Elemental type, ash, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
 
 #### Crystal elemental
 
-*Adapted · elemental* · `species:crystal_elemental`
+*Faithful · a elemental, altered* · `species:crystal_elemental`
 
 - Type: elemental (monster)
 - Hit points: 16 + Constitution modifier + 3 a level
@@ -1971,23 +1959,15 @@ Fire Vulnerability: Takes 100% more fire.
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Prismatic Spray: On 7 + round((level / 2)) different enemies, drawn at random, each the next of these in turn: 1d3 + 1 (2–4) fire damage to it (halved if resisted; may cause burning: a Constitution save against 15 avoids it) / 1d4 (1–4) force damage to it (halved if resisted; may cause fatigued: a Constitution save against 15 avoids it) / 1d3 (1–3) poison damage to it (halved if resisted; may cause poison: a Constitution save against 15 avoids it) / 1d3 (1–3) lightning damage to it (halved if resisted; may cause paralyzed: a Strength save against 15 avoids it) / 1d2 (1–2) acid damage to it (halved if resisted; may cause acid burn: a Constitution save against 15 avoids it) / 1d4 (1–4) cold damage to it (halved if resisted; may cause frozen: a Dexterity save against 15 avoids it) / Flesh to Stone, at no cost / 1d4 (1–4) psychic damage to it (halved if resisted; may cause confused: a Wisdom save against 15 avoids it; may cause insane: an Intelligence save against 15 avoids it) / 1d2 + 1 (2–3) radiant damage to it (halved if resisted; may cause blinded: a Dexterity save against 15 avoids it) / 1d2 (1–2) necrotic damage to it (halved if resisted; may cause diseased: a Constitution save against 15 avoids it). An arcane spell of the second level. Takes a second-level slot.
-
 Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
 
-Water Affinity: Resists 50% of cold, takes 100% more fire, takes 100% more lightning, immune to will.
-
-Earth Vulnerability: Takes 100% more bludgeoning.
-
-> An elemental of Orsino's bestiary. It fights with slam, armoured in scale mail, and knows Defend and Prismatic Spray.
+> An elemental of crystal.
 
 *Left out — field:monsterGold: Orsino's 1d10 gold for the kill is not carried.*
-
-*Adapted: Composed by OrsinoMonsters (elemental class, Elemental type, crystal, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
 
 #### Dust elemental
 
-*Adapted · elemental* · `species:dust_elemental`
+*Faithful · a elemental, altered* · `species:dust_elemental`
 
 - Type: elemental (monster)
 - Hit points: 16 + Constitution modifier + 3 a level
@@ -1998,23 +1978,15 @@ Earth Vulnerability: Takes 100% more bludgeoning.
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Poison Cloud: 3d4 + level poison damage to every enemy (may cause poison: a Constitution save against 15 avoids it). Poison: takes 1d4 (1–4) true damage each turn. An arcane spell of the fifth level. Takes a fifth-level slot.
-
 Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
 
-Earth Affinity: Resists 50% of bludgeoning, takes 100% more lightning, immune to stun.
-
-Air Vulnerability: Takes 100% more lightning, takes 100% more cold.
-
-> An elemental of Orsino's bestiary. It fights with slam, armoured in scale mail, and knows Defend and Poison Cloud.
+> An elemental of dust.
 
 *Left out — field:monsterGold: Orsino's 1d10 gold for the kill is not carried.*
-
-*Adapted: Composed by OrsinoMonsters (elemental class, Elemental type, dust, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
 
 #### Earth elemental
 
-*Adapted · elemental* · `species:earth_elemental`
+*Faithful · a elemental, altered* · `species:earth_elemental`
 
 - Type: elemental (monster)
 - Hit points: 16 + Constitution modifier + 3 a level
@@ -2025,23 +1997,36 @@ Air Vulnerability: Takes 100% more lightning, takes 100% more cold.
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Earthquake: 3d8 (3–24) bludgeoning damage to every enemy (none if resisted; may cause stunned: a Constitution save against 15 avoids it); every enemy is prone for 3 turns (a Constitution save against 12 + level + the caster's spell bonus avoids it). Stunned: −2 to every roll, cannot act. Prone: Dexterity −2, cannot act. An arcane spell of the fourth level. Takes a fourth-level slot.
-
 Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
 
-Earth Affinity: Resists 50% of bludgeoning, takes 100% more lightning, immune to stun.
-
-Air Vulnerability: Takes 100% more lightning, takes 100% more cold.
-
-> An elemental of Orsino's bestiary. It fights with slam, armoured in scale mail, and knows Defend and Earthquake.
+> An elemental of earth.
 
 *Left out — field:monsterGold: Orsino's 1d10 gold for the kill is not carried.*
 
-*Adapted: Composed by OrsinoMonsters (elemental class, Elemental type, earth, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
+#### Elemental
+
+*Adapted · elemental* · `species:elemental`
+
+- Type: elemental (monster)
+- Hit points: 16 + Constitution modifier + 3 a level
+- Qualities: +16 strength, +19 dexterity, +16 constitution, +12 intelligence, +13 wisdom, +12 charisma
+- Attack: slam, 1d6 piercing
+- Hide: Scale Mail, armour 4
+- Worth: 200 + 50 experience a level
+
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
+
+Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
+
+> A body of one of the elements, given will and anger: earth that walks, fire that reaches, water that stands up.
+
+*Left out — field:monsterGold: Orsino's 1d10 gold for the kill is not carried.*
+
+*Adapted: Orsino's Elemental type (elemental class), composed at the wildtype aspect, any terrain, level 1; what each element gives (an affinity, a weakness and a gift) is its element overlay (data/catalog/variations.json, axis element).*
 
 #### Fire elemental
 
-*Adapted · elemental* · `species:fire_elemental`
+*Faithful · a elemental, altered* · `species:fire_elemental`
 
 - Type: elemental (monster)
 - Hit points: 16 + Constitution modifier + 3 a level
@@ -2052,23 +2037,15 @@ Air Vulnerability: Takes 100% more lightning, takes 100% more cold.
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Burning Hands: 2d6 (2–12) fire damage to every enemy (may cause burning: a Constitution save against 15 avoids it). Burning: takes 1d3 (1–3) fire damage each turn. An arcane spell of the second level. Takes a second-level slot.
-
 Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
 
-Fire Affinity: Resists 50% of fire, takes 100% more cold, immune to breath.
-
-Water Vulnerability: Takes 100% more cold.
-
-> An elemental of Orsino's bestiary. It fights with slam, armoured in scale mail, and knows Defend and Burning Hands.
+> An elemental of fire.
 
 *Left out — field:monsterGold: Orsino's 1d10 gold for the kill is not carried.*
-
-*Adapted: Composed by OrsinoMonsters (elemental class, Elemental type, fire, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
 
 #### Ice elemental
 
-*Adapted · elemental* · `species:ice_elemental`
+*Faithful · a elemental, altered* · `species:ice_elemental`
 
 - Type: elemental (monster)
 - Hit points: 16 + Constitution modifier + 3 a level
@@ -2079,23 +2056,15 @@ Water Vulnerability: Takes 100% more cold.
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Ray of Frost: 2d6 (2–12) cold damage to one enemy (may cause frozen: a Dexterity save against 15 avoids it). Frozen: Dexterity −5, cannot act. An arcane spell of the second level. Takes a second-level slot.
-
 Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
 
-Water Affinity: Resists 50% of cold, takes 100% more fire, takes 100% more lightning, immune to will.
-
-Earth Vulnerability: Takes 100% more bludgeoning.
-
-> An elemental of Orsino's bestiary. It fights with slam, armoured in scale mail, and knows Defend and Ray of Frost.
+> An elemental of ice.
 
 *Left out — field:monsterGold: Orsino's 1d10 gold for the kill is not carried.*
-
-*Adapted: Composed by OrsinoMonsters (elemental class, Elemental type, ice, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
 
 #### Jewel elemental
 
-*Adapted · elemental* · `species:jewel_elemental`
+*Faithful · a elemental, altered* · `species:jewel_elemental`
 
 - Type: elemental (monster)
 - Hit points: 16 + Constitution modifier + 3 a level
@@ -2106,23 +2075,15 @@ Earth Vulnerability: Takes 100% more bludgeoning.
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Prismatic Spray: On 7 + round((level / 2)) different enemies, drawn at random, each the next of these in turn: 1d3 + 1 (2–4) fire damage to it (halved if resisted; may cause burning: a Constitution save against 15 avoids it) / 1d4 (1–4) force damage to it (halved if resisted; may cause fatigued: a Constitution save against 15 avoids it) / 1d3 (1–3) poison damage to it (halved if resisted; may cause poison: a Constitution save against 15 avoids it) / 1d3 (1–3) lightning damage to it (halved if resisted; may cause paralyzed: a Strength save against 15 avoids it) / 1d2 (1–2) acid damage to it (halved if resisted; may cause acid burn: a Constitution save against 15 avoids it) / 1d4 (1–4) cold damage to it (halved if resisted; may cause frozen: a Dexterity save against 15 avoids it) / Flesh to Stone, at no cost / 1d4 (1–4) psychic damage to it (halved if resisted; may cause confused: a Wisdom save against 15 avoids it; may cause insane: an Intelligence save against 15 avoids it) / 1d2 + 1 (2–3) radiant damage to it (halved if resisted; may cause blinded: a Dexterity save against 15 avoids it) / 1d2 (1–2) necrotic damage to it (halved if resisted; may cause diseased: a Constitution save against 15 avoids it). An arcane spell of the second level. Takes a second-level slot.
-
 Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
 
-Water Affinity: Resists 50% of cold, takes 100% more fire, takes 100% more lightning, immune to will.
-
-Earth Vulnerability: Takes 100% more bludgeoning.
-
-> An elemental of Orsino's bestiary. It fights with slam, armoured in scale mail, and knows Defend and Prismatic Spray.
+> An elemental of jewel.
 
 *Left out — field:monsterGold: Orsino's 1d10 gold for the kill is not carried.*
-
-*Adapted: Composed by OrsinoMonsters (elemental class, Elemental type, jewel, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
 
 #### Lava elemental
 
-*Adapted · elemental* · `species:lava_elemental`
+*Faithful · a elemental, altered* · `species:lava_elemental`
 
 - Type: elemental (monster)
 - Hit points: 16 + Constitution modifier + 3 a level
@@ -2133,19 +2094,11 @@ Earth Vulnerability: Takes 100% more bludgeoning.
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Burning Hands: 2d6 (2–12) fire damage to every enemy (may cause burning: a Constitution save against 15 avoids it). Burning: takes 1d3 (1–3) fire damage each turn. An arcane spell of the second level. Takes a second-level slot.
-
 Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
 
-Fire Affinity: Resists 50% of fire, takes 100% more cold, immune to breath.
-
-Water Vulnerability: Takes 100% more cold.
-
-> An elemental of Orsino's bestiary. It fights with slam, armoured in scale mail, and knows Defend and Burning Hands.
+> An elemental of lava.
 
 *Left out — field:monsterGold: Orsino's 1d10 gold for the kill is not carried.*
-
-*Adapted: Composed by OrsinoMonsters (elemental class, Elemental type, lava, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
 
 #### Mephit
 
@@ -2170,7 +2123,7 @@ Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of fo
 
 #### Mud elemental
 
-*Adapted · elemental* · `species:mud_elemental`
+*Faithful · a elemental, altered* · `species:mud_elemental`
 
 - Type: elemental (monster)
 - Hit points: 16 + Constitution modifier + 3 a level
@@ -2181,23 +2134,15 @@ Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of fo
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Slow: Every enemy gains slow for 4 turns (a Dexterity save against 14 + level + the caster's spell bonus avoids it). Slow: −10 initiative, Dexterity −5, -1 more blows a turn. An arcane spell of the second level. Takes a second-level slot.
-
 Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
 
-Earth Affinity: Resists 50% of bludgeoning, takes 100% more lightning, immune to stun.
-
-Air Vulnerability: Takes 100% more lightning, takes 100% more cold.
-
-> An elemental of Orsino's bestiary. It fights with slam, armoured in scale mail, and knows Defend and Slow.
+> An elemental of mud.
 
 *Left out — field:monsterGold: Orsino's 1d10 gold for the kill is not carried.*
-
-*Adapted: Composed by OrsinoMonsters (elemental class, Elemental type, mud, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
 
 #### Salt elemental
 
-*Adapted · elemental* · `species:salt_elemental`
+*Faithful · a elemental, altered* · `species:salt_elemental`
 
 - Type: elemental (monster)
 - Hit points: 16 + Constitution modifier + 3 a level
@@ -2208,23 +2153,15 @@ Air Vulnerability: Takes 100% more lightning, takes 100% more cold.
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Acid Spray: 3d6 (3–18) acid damage to every enemy (halved if resisted; may cause acid burn: a Constitution save against 15 avoids it). Acid Burn: takes 1d6 (1–6) acid damage each turn. An arcane spell of the second level. Takes a second-level slot.
-
 Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
 
-Fire Affinity: Resists 50% of fire, takes 100% more cold, immune to breath.
-
-Water Vulnerability: Takes 100% more cold.
-
-> An elemental of Orsino's bestiary. It fights with slam, armoured in scale mail, and knows Defend and Acid Spray.
+> An elemental of salt.
 
 *Left out — field:monsterGold: Orsino's 1d10 gold for the kill is not carried.*
-
-*Adapted: Composed by OrsinoMonsters (elemental class, Elemental type, salt, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
 
 #### Sand elemental
 
-*Adapted · elemental* · `species:sand_elemental`
+*Faithful · a elemental, altered* · `species:sand_elemental`
 
 - Type: elemental (monster)
 - Hit points: 16 + Constitution modifier + 3 a level
@@ -2235,19 +2172,11 @@ Water Vulnerability: Takes 100% more cold.
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Sandstorm: 3d6 (3–18) bludgeoning damage to every enemy (may cause stunned: a Constitution save against 15 avoids it); every enemy is blinded for 3 turns (a Constitution save against 15 + level + the caster's spell bonus avoids it). Stunned: −2 to every roll, cannot act. Blinded: −4 to hit, −10 evasion, −2 to every roll. An arcane spell of the third level. Takes a third-level slot.
-
 Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
 
-Earth Affinity: Resists 50% of bludgeoning, takes 100% more lightning, immune to stun.
-
-Air Vulnerability: Takes 100% more lightning, takes 100% more cold.
-
-> An elemental of Orsino's bestiary. It fights with slam, armoured in scale mail, and knows Defend and Sandstorm.
+> An elemental of sand.
 
 *Left out — field:monsterGold: Orsino's 1d10 gold for the kill is not carried.*
-
-*Adapted: Composed by OrsinoMonsters (elemental class, Elemental type, sand, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
 
 #### Slump
 
@@ -2271,7 +2200,7 @@ Earth Affinity: Resists 50% of bludgeoning, takes 100% more lightning, immune to
 
 #### Smoke elemental
 
-*Adapted · elemental* · `species:smoke_elemental`
+*Faithful · a elemental, altered* · `species:smoke_elemental`
 
 - Type: elemental (monster)
 - Hit points: 16 + Constitution modifier + 3 a level
@@ -2282,23 +2211,15 @@ Earth Affinity: Resists 50% of bludgeoning, takes 100% more lightning, immune to
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Hide: You are hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion; and on attacking, it ends. Again after 3 turns.
-
 Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
 
-Air Affinity: Resists 50% of lightning, resists 50% of cold, takes 100% more fire, immune to paralyze.
-
-Fire Vulnerability: Takes 100% more fire.
-
-> An elemental of Orsino's bestiary. It fights with slam, armoured in scale mail, and knows Defend and Hide.
+> An elemental of smoke.
 
 *Left out — field:monsterGold: Orsino's 1d10 gold for the kill is not carried.*
-
-*Adapted: Composed by OrsinoMonsters (elemental class, Elemental type, smoke, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
 
 #### Steam elemental
 
-*Adapted · elemental* · `species:steam_elemental`
+*Faithful · a elemental, altered* · `species:steam_elemental`
 
 - Type: elemental (monster)
 - Hit points: 16 + Constitution modifier + 3 a level
@@ -2309,23 +2230,15 @@ Fire Vulnerability: Takes 100% more fire.
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Scald: 1d4 (1–4) fire damage to one enemy (halved if resisted; may cause burning: a Constitution save against 15 avoids it); it is scalded for 3 turns (a Constitution save against 14 + level + the caster's spell bonus avoids it). Burning: takes 1d3 (1–3) fire damage each turn. Scalded: −1 to every roll. An arcane cantrip, cast at will.
-
 Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
 
-Fire Affinity: Resists 50% of fire, takes 100% more cold, immune to breath.
-
-Water Vulnerability: Takes 100% more cold.
-
-> An elemental of Orsino's bestiary. It fights with slam, armoured in scale mail, and knows Defend and Scald.
+> An elemental of steam.
 
 *Left out — field:monsterGold: Orsino's 1d10 gold for the kill is not carried.*
-
-*Adapted: Composed by OrsinoMonsters (elemental class, Elemental type, steam, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
 
 #### Storm elemental
 
-*Adapted · elemental* · `species:storm_elemental`
+*Faithful · a elemental, altered* · `species:storm_elemental`
 
 - Type: elemental (monster)
 - Hit points: 16 + Constitution modifier + 3 a level
@@ -2336,23 +2249,15 @@ Water Vulnerability: Takes 100% more cold.
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Lightning Bolt: 3d8 (3–24) electric damage to 2 different enemies, drawn at random (halved if resisted); each of them is paralyzed for 3 turns (a Strength save against 15 + level + the caster's spell bonus avoids it). Paralyzed: Strength −5, Dexterity −5, cannot act. An arcane spell of the fourth level. Takes a fourth-level slot.
-
 Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
 
-Air Affinity: Resists 50% of lightning, resists 50% of cold, takes 100% more fire, immune to paralyze.
-
-Fire Vulnerability: Takes 100% more fire.
-
-> An elemental of Orsino's bestiary. It fights with slam, armoured in scale mail, and knows Defend and Lightning Bolt.
+> An elemental of storm.
 
 *Left out — field:monsterGold: Orsino's 1d10 gold for the kill is not carried.*
-
-*Adapted: Composed by OrsinoMonsters (elemental class, Elemental type, storm, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
 
 #### Water elemental
 
-*Adapted · elemental* · `species:water_elemental`
+*Faithful · a elemental, altered* · `species:water_elemental`
 
 - Type: elemental (monster)
 - Hit points: 16 + Constitution modifier + 3 a level
@@ -2363,23 +2268,15 @@ Fire Vulnerability: Takes 100% more fire.
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Drench: One enemy is drenched for 3 turns (a Dexterity save against 10 + level + the caster's spell bonus avoids it). Drenched: −2 to hit, takes 100% more lightning, takes 200% more cold. An arcane spell of the first level. Takes a first-level slot.
-
 Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
 
-Water Affinity: Resists 50% of cold, takes 100% more fire, takes 100% more lightning, immune to will.
-
-Earth Vulnerability: Takes 100% more bludgeoning.
-
-> An elemental of Orsino's bestiary. It fights with slam, armoured in scale mail, and knows Defend and Drench.
+> An elemental of water.
 
 *Left out — field:monsterGold: Orsino's 1d10 gold for the kill is not carried.*
-
-*Adapted: Composed by OrsinoMonsters (elemental class, Elemental type, water, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
 
 #### Wood elemental
 
-*Adapted · elemental* · `species:wood_elemental`
+*Faithful · a elemental, altered* · `species:wood_elemental`
 
 - Type: elemental (monster)
 - Hit points: 16 + Constitution modifier + 3 a level
@@ -2390,19 +2287,11 @@ Earth Vulnerability: Takes 100% more bludgeoning.
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Ensnare: One enemy is entangled for 3 turns (a Dexterity save against 12 + level + the caster's spell bonus avoids it). Entangled: −2 to hit, −5 evasion, −5 initiative, Dexterity −5. Again after 3 turns.
-
 Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
 
-Earth Affinity: Resists 50% of bludgeoning, takes 100% more lightning, immune to stun.
-
-Air Vulnerability: Takes 100% more lightning, takes 100% more cold.
-
-> An elemental of Orsino's bestiary. It fights with slam, armoured in scale mail, and knows Defend and Ensnare.
+> An elemental of wood.
 
 *Left out — field:monsterGold: Orsino's 1d10 gold for the kill is not carried.*
-
-*Adapted: Composed by OrsinoMonsters (elemental class, Elemental type, wood, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
 
 ### Feys
 
@@ -2928,6 +2817,45 @@ A creature is its kind with any of these laid over it, one of each axis: an old 
 | cave | haunt | cave | of the deep dark, pale and long in the leg, stringing lines where nothing sees | Dexterity +1, Ensnare | #habitat == 'cave' \|\| #habitat == 'barrow' \|\| #habitat == 'ruin' |
 | starving | disposition | starving | ribs showing; it will not wait to be sure of you | Strength -1, Constitution -2, Dexterity +1, Berserker Rage | #habitat == 'snow' \|\| #habitat == 'fells' \|\| #habitat == 'heights' |
 | blighted | corruption | blighted | something has got into it: patchy, weeping, and wrong in the way it moves | Constitution +1, Charisma -3, Poison lineage | #habitat == 'barrow' \|\| #habitat == 'ruin' |
+| clay | material | clay | made of clay: red-brown, smooth when wet and cracking when dry | Constitution +2, Dexterity -1 | only by an author |
+| stone | material | stone | made of stone: grey, rough-dressed | Constitution +3, Dexterity -2 | only by an author |
+| iron | material | iron | made of iron: grey-black, rust at the seams | Constitution +4, Dexterity -3, Strength +1 | only by an author |
+| wood | material | wood | made of wood: grained, brown to grey | Constitution +1, Strength -1 | only by an author |
+| gold | material | gold | made of gold: deep yellow that does not dull | Constitution +5, Dexterity -4, Strength +2 | only by an author |
+| bone | material | bone | made of bone: yellow-white, porous at the ends | Constitution +2, Dexterity -1, Strength +1 | only by an author |
+| crystal | material | crystal | made of crystal: clear, with the light caught in it | Constitution +3, Dexterity -2, Intelligence +1 | only by an author |
+| silver | material | silver | made of silver: white and bright, blackening in the air | Constitution +4, Dexterity -3, Charisma +1, Wisdom +1 | only by an author |
+| glass | material | glass | made of glass: clear or green, sharp where it breaks | Constitution +1, Charisma +2, Intelligence +1 | only by an author |
+| platinum | material | platinum | made of platinum: grey-white and very heavy | Constitution +5, Dexterity -4, Strength +2, Charisma +1 | only by an author |
+| bronze | material | bronze | made of bronze: brown-gold, dark with handling | Constitution +3, Dexterity -2, Strength +1 | only by an author |
+| black_lineage | lineage | black | its fine scales devour light | Acid lineage | only by an author |
+| blue_lineage | lineage | blue | its shining azure scales sparkle like the summer sky | Lightning lineage | only by an author |
+| brass_lineage | lineage | brass | its polished scales reflect like burnished steel | — | only by an author |
+| bronze_lineage | lineage | bronze | its scales gleam like polished metal | — | only by an author |
+| copper_lineage | lineage | copper | its scales glow like embers in a fire | — | only by an author |
+| gold_lineage | lineage | gold | its shimmering scales shine like the midday sun | — | only by an author |
+| green_lineage | lineage | green | its green and brown scales blend seamlessly with the forest foliage | Poison lineage | only by an author |
+| red_lineage | lineage | red | its crimson scales shimmer like molten lava | Fire lineage | only by an author |
+| silver_lineage | lineage | silver | its glowing scales shimmer like moonlight on water | — | only by an author |
+| white_lineage | lineage | white | its opalescent scales glisten like freshly fallen snow | Cold lineage | only by an author |
+| air_element | element | air | made of air | Air Affinity, Fire Vulnerability, Lightning Bolt | only by an author |
+| ash_element | element | ash | made of ash | Air Affinity, Fire Vulnerability, Hide | only by an author |
+| crystal_element | element | crystal | made of crystal | Water Affinity, Earth Vulnerability, Prismatic Spray | only by an author |
+| dust_element | element | dust | made of dust | Earth Affinity, Air Vulnerability, Poison Cloud | only by an author |
+| earth_element | element | earth | made of earth | Earth Affinity, Air Vulnerability, Earthquake | only by an author |
+| fire_element | element | fire | made of fire | Fire Affinity, Water Vulnerability, Burning Hands | only by an author |
+| ice_element | element | ice | made of ice | Water Affinity, Earth Vulnerability, Ray of Frost | only by an author |
+| jewel_element | element | jewel | made of jewel | Water Affinity, Earth Vulnerability, Prismatic Spray | only by an author |
+| lava_element | element | lava | made of lava | Fire Affinity, Water Vulnerability, Burning Hands | only by an author |
+| mud_element | element | mud | made of mud | Earth Affinity, Air Vulnerability, Slow | only by an author |
+| salt_element | element | salt | made of salt | Fire Affinity, Water Vulnerability, Acid Spray | only by an author |
+| sand_element | element | sand | made of sand | Earth Affinity, Air Vulnerability, Sandstorm | only by an author |
+| smoke_element | element | smoke | made of smoke | Air Affinity, Fire Vulnerability, Hide | only by an author |
+| steam_element | element | steam | made of steam | Fire Affinity, Water Vulnerability, Scald | only by an author |
+| storm_element | element | storm | made of storm | Air Affinity, Fire Vulnerability, Lightning Bolt | only by an author |
+| water_element | element | water | made of water | Water Affinity, Earth Vulnerability, Drench | only by an author |
+| wood_element | element | wood | made of wood | Earth Affinity, Air Vulnerability, Ensnare | only by an author |
+| male | sex |  | the male: heavier, horned or antlered, and readier to stand | Strength +2, Dexterity -1, Constitution +2, Charisma +1 | only by an author |
 
 ## Natural abilities
 
@@ -3327,39 +3255,6 @@ Resists 75% of lightning.
 
 Resists 75% of poison.
 
-## Generated creatures
-
-A world's generator draws creatures for its places from these families, by terrain. A kind may come adapted to frost or marsh (a trait that carries its resistances), and a construct may be made of a material or set to a role. Every drawn creature is a species above, altered; nothing is invented that the catalog cannot play.
-
-Dragons are drawn by lineage (red, blue, white, black, copper, green) and maturity (wyrmling, young, adult, ancient).
-
-### Animal family
-
-| Kind | Met in | Can be | Roles |
-|---|---|---|---|
-| Wolf | desert, forest, mountain, frost | frost-adapted, marsh-adapted | — |
-| Bear | forest, mountain, frost | frost-adapted, marsh-adapted | — |
-| Cave spider | desert, cave, forest | — | — |
-
-### Dragon family
-
-| Kind | Met in | Can be | Roles |
-|---|---|---|---|
-| Dragon | forest, cave, marsh, mountain, frost, desert, ruins | frost-adapted, marsh-adapted | — |
-
-### Humanoid family
-
-| Kind | Met in | Can be | Roles |
-|---|---|---|---|
-| human | forest, cave, marsh, mountain, frost, desert, settlement, ruins | frost-adapted, marsh-adapted | — |
-| elf | forest, mountain | frost-adapted, marsh-adapted | — |
-
-### Construct family
-
-| Kind | Met in | Can be | Roles |
-|---|---|---|---|
-| Golem | cave, ruins, settlement | frost-adapted | none, guardian |
-
 ## Appendix: Orsino's bestiary
 
 Orsino composes a monster from a class (its stat line, weapon, hide, attacks a turn and worth), a type, an aspect, a terrain and a rank, with a colour for dragons and a substance for golems. Animals and elementals are their own tables. Each is listed with how much of it Kyr holds: most are still Orsino's data only.
@@ -3530,7 +3425,7 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 
 ### Monster types
 
-40 in Orsino; 39 held by Kyr.
+40 in Orsino; 40 held by Kyr.
 
 #### Angel
 
@@ -3720,12 +3615,16 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 
 #### Elemental
 
-*Orsino data only · monsterType* · `orsino:monsterType:Elemental`
+*Adapted · monsterType* · `orsino:monsterType:Elemental`
 
 - Class: elemental
 - Changes: str +4, dex +4, con +4
 - Traits: —
 - Abilities: —
+
+*Generated by the Orsino translator.*
+
+*Left out: Orsino's 1d10 gold for the kill is not carried.*
 
 #### Fiend
 
@@ -4542,7 +4441,7 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 
 #### Stag
 
-*Faithful · animal* · `orsino:animal:stag`
+*Adapted · animal* · `orsino:animal:stag`
 
 - Stat line: hp 4, str +4, dex +3, con +4, int +2, wis +3, cha +3
 - Weapon: antlers
@@ -4622,190 +4521,156 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 
 #### Air
 
-*Adapted · elemental* · `orsino:elemental:air`
+*Faithful · elemental* · `orsino:elemental:air`
 
 - Traits: air affinity, fire vulnerability
 - Abilities: lightning bolt
 
 *Generated by the Orsino translator.*
 
-*Left out: Orsino's 1d10 gold for the kill is not carried.*
-
 #### Ash
 
-*Adapted · elemental* · `orsino:elemental:ash`
+*Faithful · elemental* · `orsino:elemental:ash`
 
 - Traits: air affinity, fire vulnerability
 - Abilities: hide
 
 *Generated by the Orsino translator.*
 
-*Left out: Orsino's 1d10 gold for the kill is not carried.*
-
 #### Crystal
 
-*Adapted · elemental* · `orsino:elemental:crystal`
+*Faithful · elemental* · `orsino:elemental:crystal`
 
 - Traits: water affinity, earth vulnerability
 - Abilities: prismatic spray
 
 *Generated by the Orsino translator.*
 
-*Left out: Orsino's 1d10 gold for the kill is not carried.*
-
 #### Dust
 
-*Adapted · elemental* · `orsino:elemental:dust`
+*Faithful · elemental* · `orsino:elemental:dust`
 
 - Traits: earth affinity, air vulnerability
 - Abilities: poison cloud
 
 *Generated by the Orsino translator.*
 
-*Left out: Orsino's 1d10 gold for the kill is not carried.*
-
 #### Earth
 
-*Adapted · elemental* · `orsino:elemental:earth`
+*Faithful · elemental* · `orsino:elemental:earth`
 
 - Traits: earth affinity, air vulnerability
 - Abilities: earthquake
 
 *Generated by the Orsino translator.*
 
-*Left out: Orsino's 1d10 gold for the kill is not carried.*
-
 #### Fire
 
-*Adapted · elemental* · `orsino:elemental:fire`
+*Faithful · elemental* · `orsino:elemental:fire`
 
 - Traits: fire affinity, water vulnerability
 - Abilities: burning hands
 
 *Generated by the Orsino translator.*
 
-*Left out: Orsino's 1d10 gold for the kill is not carried.*
-
 #### Ice
 
-*Adapted · elemental* · `orsino:elemental:ice`
+*Faithful · elemental* · `orsino:elemental:ice`
 
 - Traits: water affinity, earth vulnerability
 - Abilities: ray of frost
 
 *Generated by the Orsino translator.*
 
-*Left out: Orsino's 1d10 gold for the kill is not carried.*
-
 #### Jewel
 
-*Adapted · elemental* · `orsino:elemental:jewel`
+*Faithful · elemental* · `orsino:elemental:jewel`
 
 - Traits: water affinity, earth vulnerability
 - Abilities: prismatic spray
 
 *Generated by the Orsino translator.*
 
-*Left out: Orsino's 1d10 gold for the kill is not carried.*
-
 #### Lava
 
-*Adapted · elemental* · `orsino:elemental:lava`
+*Faithful · elemental* · `orsino:elemental:lava`
 
 - Traits: fire affinity, water vulnerability
 - Abilities: burning hands
 
 *Generated by the Orsino translator.*
 
-*Left out: Orsino's 1d10 gold for the kill is not carried.*
-
 #### Mud
 
-*Adapted · elemental* · `orsino:elemental:mud`
+*Faithful · elemental* · `orsino:elemental:mud`
 
 - Traits: earth affinity, air vulnerability
 - Abilities: slow
 
 *Generated by the Orsino translator.*
 
-*Left out: Orsino's 1d10 gold for the kill is not carried.*
-
 #### Salt
 
-*Adapted · elemental* · `orsino:elemental:salt`
+*Faithful · elemental* · `orsino:elemental:salt`
 
 - Traits: fire affinity, water vulnerability
 - Abilities: acid spray
 
 *Generated by the Orsino translator.*
 
-*Left out: Orsino's 1d10 gold for the kill is not carried.*
-
 #### Sand
 
-*Adapted · elemental* · `orsino:elemental:sand`
+*Faithful · elemental* · `orsino:elemental:sand`
 
 - Traits: earth affinity, air vulnerability
 - Abilities: sandstorm
 
 *Generated by the Orsino translator.*
 
-*Left out: Orsino's 1d10 gold for the kill is not carried.*
-
 #### Smoke
 
-*Adapted · elemental* · `orsino:elemental:smoke`
+*Faithful · elemental* · `orsino:elemental:smoke`
 
 - Traits: air affinity, fire vulnerability
 - Abilities: hide
 
 *Generated by the Orsino translator.*
 
-*Left out: Orsino's 1d10 gold for the kill is not carried.*
-
 #### Steam
 
-*Adapted · elemental* · `orsino:elemental:steam`
+*Faithful · elemental* · `orsino:elemental:steam`
 
 - Traits: fire affinity, water vulnerability
 - Abilities: scald
 
 *Generated by the Orsino translator.*
 
-*Left out: Orsino's 1d10 gold for the kill is not carried.*
-
 #### Storm
 
-*Adapted · elemental* · `orsino:elemental:storm`
+*Faithful · elemental* · `orsino:elemental:storm`
 
 - Traits: air affinity, fire vulnerability
 - Abilities: lightning bolt
 
 *Generated by the Orsino translator.*
 
-*Left out: Orsino's 1d10 gold for the kill is not carried.*
-
 #### Water
 
-*Adapted · elemental* · `orsino:elemental:water`
+*Faithful · elemental* · `orsino:elemental:water`
 
 - Traits: water affinity, earth vulnerability
 - Abilities: drench
 
 *Generated by the Orsino translator.*
 
-*Left out: Orsino's 1d10 gold for the kill is not carried.*
-
 #### Wood
 
-*Adapted · elemental* · `orsino:elemental:wood`
+*Faithful · elemental* · `orsino:elemental:wood`
 
 - Traits: earth affinity, air vulnerability
 - Abilities: ensnare
 
 *Generated by the Orsino translator.*
-
-*Left out: Orsino's 1d10 gold for the kill is not carried.*
 
 ### Aspects
 
@@ -4862,37 +4727,37 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 
 ### Dragon colours
 
-10 in Orsino; 1 held by Kyr.
+10 in Orsino; 10 held by Kyr.
 
 | Name | Breath | Description | In Kyr |
 |---|---|---|---|
-| Black | doom breath | Its fine scales devour light. | — |
-| Blue | lightning breath | Its shining azure scales sparkle like the summer sky. | — |
-| Brass | disintegrating breath | Its polished scales reflect like burnished steel. | — |
-| Bronze | deafening breath | Its scales gleam like polished metal. | — |
-| Copper | blinding breath | Its scales glow like embers in a fire. | — |
-| Gold | holy breath | Its shimmering scales shine like the midday sun. | — |
-| Green | poison breath | Its green and brown scales blend seamlessly with the forest foliage. | — |
+| Black | doom breath | Its fine scales devour light. | faithful |
+| Blue | lightning breath | Its shining azure scales sparkle like the summer sky. | faithful |
+| Brass | disintegrating breath | Its polished scales reflect like burnished steel. | faithful |
+| Bronze | deafening breath | Its scales gleam like polished metal. | faithful |
+| Copper | blinding breath | Its scales glow like embers in a fire. | faithful |
+| Gold | holy breath | Its shimmering scales shine like the midday sun. | faithful |
+| Green | poison breath | Its green and brown scales blend seamlessly with the forest foliage. | faithful |
 | Red | fire breath | Its crimson scales shimmer like molten lava. | adapted |
-| Silver | maddening breath | Its glowing scales shimmer like moonlight on water. | — |
-| White | ice breath | Its opalescent scales glisten like freshly fallen snow. | — |
+| Silver | maddening breath | Its glowing scales shimmer like moonlight on water. | faithful |
+| White | ice breath | Its opalescent scales glisten like freshly fallen snow. | faithful |
 
 ### Golem substances
 
-10 in Orsino; 1 held by Kyr.
+10 in Orsino; 10 held by Kyr.
 
 | Name | Changes | In Kyr |
 |---|---|---|
-| Bone | str +1, dex -1, con +2 | — |
-| Clay | dex -1, con +2 | — |
-| Crystal | dex -2, con +3, int +1 | — |
-| Glass | dex 0, con +1, int +1, cha +2 | — |
-| Gold | str +2, dex -4, con +5 | — |
+| Bone | str +1, dex -1, con +2 | faithful |
+| Clay | dex -1, con +2 | faithful |
+| Crystal | dex -2, con +3, int +1 | faithful |
+| Glass | dex 0, con +1, int +1, cha +2 | faithful |
+| Gold | str +2, dex -4, con +5 | faithful |
 | Iron | str +1, dex -3, con +4 | faithful |
-| Platinum | str +2, dex -4, con +5, cha +1 | — |
-| Silver | dex -3, con +4, wis +1, cha +1 | — |
-| Stone | dex -2, con +3 | — |
-| Wood | str -1, dex 0, con +1 | — |
+| Platinum | str +2, dex -4, con +5, cha +1 | faithful |
+| Silver | dex -3, con +4, wis +1, cha +1 | faithful |
+| Stone | dex -2, con +3 | faithful |
+| Wood | str -1, dex 0, con +1 | faithful |
 
 ### People by trade
 

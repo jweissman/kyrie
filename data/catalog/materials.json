@@ -1,0 +1,159 @@
+{
+ "about": "The stuff things are made of, one record each: what golems are made of (Orsino's golemSubstances), what the ground yields (see geology), what the catalog's things are worked from. Each is named here once, and everything that is of a material names it by its id.",
+ "materials": {
+  "iron": {
+   "name": "Iron",
+   "kind": "metal",
+   "hardness": 5,
+   "looks": "grey-black, rust at the seams",
+   "source": {
+    "orsino": "golemSubstance:iron",
+    "fidelity": "adapted"
+   }
+  },
+  "tin": {
+   "name": "Tin",
+   "kind": "metal",
+   "hardness": 2,
+   "looks": "pale and soft, crackling when bent",
+   "source": {
+    "kyr": true
+   }
+  },
+  "copper": {
+   "name": "Copper",
+   "kind": "metal",
+   "hardness": 3,
+   "looks": "red-gold, greening where it weathers",
+   "source": {
+    "kyr": true
+   }
+  },
+  "bronze": {
+   "name": "Bronze",
+   "kind": "metal",
+   "hardness": 4,
+   "looks": "brown-gold, dark with handling",
+   "source": {
+    "kyr": true
+   }
+  },
+  "lead": {
+   "name": "Lead",
+   "kind": "metal",
+   "hardness": 1,
+   "looks": "dull blue-grey and heavy for its size",
+   "source": {
+    "kyr": true
+   }
+  },
+  "silver": {
+   "name": "Silver",
+   "kind": "metal",
+   "hardness": 3,
+   "looks": "white and bright, blackening in the air",
+   "source": {
+    "orsino": "golemSubstance:silver",
+    "fidelity": "adapted"
+   }
+  },
+  "gold": {
+   "name": "Gold",
+   "kind": "metal",
+   "hardness": 2,
+   "looks": "deep yellow that does not dull",
+   "source": {
+    "orsino": "golemSubstance:gold",
+    "fidelity": "adapted"
+   }
+  },
+  "platinum": {
+   "name": "Platinum",
+   "kind": "metal",
+   "hardness": 4,
+   "looks": "grey-white and very heavy",
+   "source": {
+    "orsino": "golemSubstance:platinum",
+    "fidelity": "adapted"
+   }
+  },
+  "stone": {
+   "name": "Stone",
+   "kind": "stone",
+   "hardness": 6,
+   "looks": "grey, rough-dressed",
+   "source": {
+    "orsino": "golemSubstance:stone",
+    "fidelity": "adapted"
+   }
+  },
+  "slate": {
+   "name": "Slate",
+   "kind": "stone",
+   "hardness": 5,
+   "looks": "blue-grey, splitting in thin leaves",
+   "source": {
+    "kyr": true
+   }
+  },
+  "clay": {
+   "name": "Clay",
+   "kind": "earth",
+   "hardness": 1,
+   "looks": "red-brown, smooth when wet and cracking when dry",
+   "source": {
+    "orsino": "golemSubstance:clay",
+    "fidelity": "adapted"
+   }
+  },
+  "salt": {
+   "name": "Salt",
+   "kind": "mineral",
+   "hardness": 2,
+   "looks": "white crystals, grey where it is raw",
+   "source": {
+    "kyr": true
+   }
+  },
+  "crystal": {
+   "name": "Crystal",
+   "kind": "mineral",
+   "hardness": 7,
+   "looks": "clear, with the light caught in it",
+   "source": {
+    "orsino": "golemSubstance:crystal",
+    "fidelity": "adapted"
+   }
+  },
+  "glass": {
+   "name": "Glass",
+   "kind": "made",
+   "hardness": 5,
+   "looks": "clear or green, sharp where it breaks",
+   "source": {
+    "orsino": "golemSubstance:glass",
+    "fidelity": "adapted"
+   }
+  },
+  "wood": {
+   "name": "Wood",
+   "kind": "organic",
+   "hardness": 2,
+   "looks": "grained, brown to grey",
+   "source": {
+    "orsino": "golemSubstance:wood",
+    "fidelity": "adapted"
+   }
+  },
+  "bone": {
+   "name": "Bone",
+   "kind": "organic",
+   "hardness": 3,
+   "looks": "yellow-white, porous at the ends",
+   "source": {
+    "orsino": "golemSubstance:bone",
+    "fidelity": "adapted"
+   }
+  }
+ }
+}

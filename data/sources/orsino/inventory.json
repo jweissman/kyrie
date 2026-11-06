@@ -56,12 +56,13 @@
   },
   "animal": {
    "concept": "creature",
-   "destination": "data/catalog/orsino/species.json",
-   "representation": "species via the bestiary",
+   "destination": "data/catalog/animals.json",
+   "representation": "authored species, with Orsino provenance",
    "generative": "wild country dens and creatures (data/generation/tables/ecology.json)",
    "tests": [
     "test/wild-country.test.ts",
-    "test/creature-generation.test.ts"
+    "test/creature-generation.test.ts",
+    "test/creature-variation.test.ts"
    ],
    "status": "integrated",
    "rule": "ledger",
@@ -182,7 +183,7 @@
    "representation": "the weathers of each climate",
    "generative": "a region's weather, by watch (src/world/region-weather.ts)",
    "tests": [
-    "test/generative-kernel.test.ts"
+    "test/variants.test.ts"
    ],
    "status": "integrated",
    "rule": "climate",
@@ -398,19 +399,20 @@
   },
   "dragonColor": {
    "concept": "creature",
-   "destination": "data/catalog/monsters.json (dragons) and data/generation/tables/dragons.json",
-   "representation": "dragon species by lineage",
+   "destination": "data/catalog/variations.json (axis lineage)",
+   "representation": "a dragon's lineage: its breath, its proof, its look",
    "generative": "a great work's dragon",
    "tests": [
-    "test/great-works.test.ts"
+    "test/great-works.test.ts",
+    "test/creature-variation.test.ts"
    ],
    "status": "integrated",
    "rule": "ledger",
    "counts": {
-    "integrated": 1,
+    "integrated": 10,
     "represented": 0,
     "reference": 0,
-    "blocked": 9
+    "blocked": 0
    }
   },
   "dungeon": {
@@ -431,11 +433,12 @@
   },
   "elemental": {
    "concept": "creature",
-   "destination": "data/catalog/orsino/species.json",
-   "representation": "species via the bestiary",
+   "destination": "data/catalog/variations.json (axis element), data/catalog/monsters.json (the elementals by element)",
+   "representation": "the Elemental with an element overlay",
    "generative": "summoning",
    "tests": [
-    "test/summoning.test.ts"
+    "test/summoning.test.ts",
+    "test/creature-variation.test.ts"
    ],
    "status": "integrated",
    "rule": "ledger",
@@ -516,19 +519,19 @@
   },
   "golemSubstance": {
    "concept": "creature",
-   "destination": "data/catalog/orsino/species.json, data/generation/tables/creatures.json#constructMaterial",
-   "representation": "golem species",
+   "destination": "data/catalog/variations.json (axis material), data/catalog/materials.json",
+   "representation": "a construct's material",
    "generative": "works' guardians",
    "tests": [
-    "test/creature-generation.test.ts"
+    "test/creature-variation.test.ts"
    ],
-   "status": "represented",
+   "status": "integrated",
    "rule": "ledger",
    "counts": {
-    "integrated": 1,
+    "integrated": 10,
     "represented": 0,
     "reference": 0,
-    "blocked": 9
+    "blocked": 0
    }
   },
   "junk": {
@@ -618,8 +621,8 @@
   },
   "monsterType": {
    "concept": "creature",
-   "destination": "data/catalog/orsino/species.json",
-   "representation": "species via the bestiary",
+   "destination": "data/catalog/monsters.json",
+   "representation": "authored species, with Orsino provenance",
    "generative": "works and wild country",
    "tests": [
     "test/creature-generation.test.ts",
@@ -628,10 +631,10 @@
    "status": "integrated",
    "rule": "ledger",
    "counts": {
-    "integrated": 38,
+    "integrated": 39,
     "represented": 1,
     "reference": 0,
-    "blocked": 1
+    "blocked": 0
    }
   },
   "nobility": {
@@ -2442,7 +2445,8 @@
    "status": "integrated",
    "mechanics": "executable",
    "kyr": [
-    "species:stag"
+    "species:stag",
+    "variation:male"
    ]
   },
   {
@@ -9102,58 +9106,58 @@
   },
   {
    "id": "dragonColor:black",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "Every feature it uses runs in Kyr, but no Kyr definition translates it yet."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "variation:black_lineage"
    ]
   },
   {
    "id": "dragonColor:blue",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "Every feature it uses runs in Kyr, but no Kyr definition translates it yet."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "variation:blue_lineage"
    ]
   },
   {
    "id": "dragonColor:brass",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "Every feature it uses runs in Kyr, but no Kyr definition translates it yet."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "variation:brass_lineage"
    ]
   },
   {
    "id": "dragonColor:bronze",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "Every feature it uses runs in Kyr, but no Kyr definition translates it yet."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "variation:bronze_lineage"
    ]
   },
   {
    "id": "dragonColor:copper",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "Every feature it uses runs in Kyr, but no Kyr definition translates it yet."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "variation:copper_lineage"
    ]
   },
   {
    "id": "dragonColor:gold",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "Every feature it uses runs in Kyr, but no Kyr definition translates it yet."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "variation:gold_lineage"
    ]
   },
   {
    "id": "dragonColor:green",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "Every feature it uses runs in Kyr, but no Kyr definition translates it yet."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "variation:green_lineage"
    ]
   },
   {
@@ -9162,23 +9166,24 @@
    "mechanics": "play-validated",
    "kyr": [
     "species:red_dragon",
-    "ability:breathe_fire"
+    "ability:breathe_fire",
+    "variation:red_lineage"
    ]
   },
   {
    "id": "dragonColor:silver",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "Every feature it uses runs in Kyr, but no Kyr definition translates it yet."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "variation:silver_lineage"
    ]
   },
   {
    "id": "dragonColor:white",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "Every feature it uses runs in Kyr, but no Kyr definition translates it yet."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "variation:white_lineage"
    ]
   },
   {
@@ -9221,7 +9226,8 @@
    "status": "integrated",
    "mechanics": "executable",
    "kyr": [
-    "species:air_elemental"
+    "species:air_elemental",
+    "variation:air_element"
    ]
   },
   {
@@ -9229,7 +9235,8 @@
    "status": "integrated",
    "mechanics": "executable",
    "kyr": [
-    "species:ash_elemental"
+    "species:ash_elemental",
+    "variation:ash_element"
    ]
   },
   {
@@ -9237,7 +9244,8 @@
    "status": "integrated",
    "mechanics": "executable",
    "kyr": [
-    "species:crystal_elemental"
+    "species:crystal_elemental",
+    "variation:crystal_element"
    ]
   },
   {
@@ -9245,7 +9253,8 @@
    "status": "integrated",
    "mechanics": "executable",
    "kyr": [
-    "species:dust_elemental"
+    "species:dust_elemental",
+    "variation:dust_element"
    ]
   },
   {
@@ -9253,7 +9262,8 @@
    "status": "integrated",
    "mechanics": "executable",
    "kyr": [
-    "species:earth_elemental"
+    "species:earth_elemental",
+    "variation:earth_element"
    ]
   },
   {
@@ -9261,7 +9271,8 @@
    "status": "integrated",
    "mechanics": "executable",
    "kyr": [
-    "species:fire_elemental"
+    "species:fire_elemental",
+    "variation:fire_element"
    ]
   },
   {
@@ -9269,7 +9280,8 @@
    "status": "integrated",
    "mechanics": "executable",
    "kyr": [
-    "species:ice_elemental"
+    "species:ice_elemental",
+    "variation:ice_element"
    ]
   },
   {
@@ -9277,7 +9289,8 @@
    "status": "integrated",
    "mechanics": "executable",
    "kyr": [
-    "species:jewel_elemental"
+    "species:jewel_elemental",
+    "variation:jewel_element"
    ]
   },
   {
@@ -9285,7 +9298,8 @@
    "status": "integrated",
    "mechanics": "executable",
    "kyr": [
-    "species:lava_elemental"
+    "species:lava_elemental",
+    "variation:lava_element"
    ]
   },
   {
@@ -9293,7 +9307,8 @@
    "status": "integrated",
    "mechanics": "executable",
    "kyr": [
-    "species:mud_elemental"
+    "species:mud_elemental",
+    "variation:mud_element"
    ]
   },
   {
@@ -9301,7 +9316,8 @@
    "status": "integrated",
    "mechanics": "executable",
    "kyr": [
-    "species:salt_elemental"
+    "species:salt_elemental",
+    "variation:salt_element"
    ]
   },
   {
@@ -9309,7 +9325,8 @@
    "status": "integrated",
    "mechanics": "executable",
    "kyr": [
-    "species:sand_elemental"
+    "species:sand_elemental",
+    "variation:sand_element"
    ]
   },
   {
@@ -9317,7 +9334,8 @@
    "status": "integrated",
    "mechanics": "executable",
    "kyr": [
-    "species:smoke_elemental"
+    "species:smoke_elemental",
+    "variation:smoke_element"
    ]
   },
   {
@@ -9325,7 +9343,8 @@
    "status": "integrated",
    "mechanics": "executable",
    "kyr": [
-    "species:steam_elemental"
+    "species:steam_elemental",
+    "variation:steam_element"
    ]
   },
   {
@@ -9333,7 +9352,8 @@
    "status": "integrated",
    "mechanics": "executable",
    "kyr": [
-    "species:storm_elemental"
+    "species:storm_elemental",
+    "variation:storm_element"
    ]
   },
   {
@@ -9341,7 +9361,8 @@
    "status": "integrated",
    "mechanics": "executable",
    "kyr": [
-    "species:water_elemental"
+    "species:water_elemental",
+    "variation:water_element"
    ]
   },
   {
@@ -9349,7 +9370,8 @@
    "status": "integrated",
    "mechanics": "executable",
    "kyr": [
-    "species:wood_elemental"
+    "species:wood_elemental",
+    "variation:wood_element"
    ]
   },
   {
@@ -10395,42 +10417,42 @@
   },
   {
    "id": "golemSubstance:bone",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "Every feature it uses runs in Kyr, but no Kyr definition translates it yet."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "variation:bone"
    ]
   },
   {
    "id": "golemSubstance:clay",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "Every feature it uses runs in Kyr, but no Kyr definition translates it yet."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "variation:clay"
    ]
   },
   {
    "id": "golemSubstance:crystal",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "Every feature it uses runs in Kyr, but no Kyr definition translates it yet."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "variation:crystal"
    ]
   },
   {
    "id": "golemSubstance:glass",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "Every feature it uses runs in Kyr, but no Kyr definition translates it yet."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "variation:glass"
    ]
   },
   {
    "id": "golemSubstance:gold",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "Every feature it uses runs in Kyr, but no Kyr definition translates it yet."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "variation:gold"
    ]
   },
   {
@@ -10438,39 +10460,40 @@
    "status": "integrated",
    "mechanics": "executable",
    "kyr": [
-    "species:iron_golem"
+    "species:iron_golem",
+    "variation:iron"
    ]
   },
   {
    "id": "golemSubstance:platinum",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "Every feature it uses runs in Kyr, but no Kyr definition translates it yet."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "variation:platinum"
    ]
   },
   {
    "id": "golemSubstance:silver",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "Every feature it uses runs in Kyr, but no Kyr definition translates it yet."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "variation:silver"
    ]
   },
   {
    "id": "golemSubstance:stone",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "Every feature it uses runs in Kyr, but no Kyr definition translates it yet."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "variation:stone"
    ]
   },
   {
    "id": "golemSubstance:wood",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "Every feature it uses runs in Kyr, but no Kyr definition translates it yet."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "variation:wood"
    ]
   },
   {
@@ -11484,10 +11507,10 @@
   },
   {
    "id": "monsterType:Elemental",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "Every feature it uses runs in Kyr, but no Kyr definition translates it yet."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "species:elemental"
    ]
   },
   {

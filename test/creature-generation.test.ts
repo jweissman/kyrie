@@ -38,8 +38,6 @@ describe('compositional creature generation', () => {
     expect([low.base.maxSlots, high.base.maxSlots]).toEqual([[2], [3, 2]]);
     expect(low.state.slots).toEqual([2]);
     expect(high.base.abilities).toEqual(['defend', 'cure_minor', 'sanctify', ...spells]);
-    expect(new Content('alias').generate('character'))
-      .toEqual(new Content('alias').generate('creature', { family: 'humanoid' }));
     expect(new Content('attributes').generate('attributes', { strength: 18 }).strength).toBe(18);
   });
   it('keeps kind and class independent of allegiance, and a species free of any class', () => {
@@ -64,17 +62,5 @@ describe('compositional creature generation', () => {
     expect(() => content.createCreature('invalid', { strength: -1 })).toThrow();
     expect(() => content.createCreature('invalid', { raceId: 'missing' as never })).toThrow('context');
     expect(() => content.createCreature('invalid', { classId: 'missing' as never })).toThrow('context');
-  });
-  it('routes a family-specific request without a family to a family that owns it, and rejects impossible ones', () => {
-    const make = (seed: string, context: CreatureGenerationContext) => new Content(seed).createCreature('m', context);
-    for (const seed of ['a', 'b', 'c', 'd']) {
-      const red = make(seed, { lineage: 'red' });
-      expect([red.raceId, red.traits]).toEqual(['dragon', expect.arrayContaining(['fire_lineage'])]);
-      expect(make(seed, { parameters: { material: 'stone' } }).raceId).toBe('golem');
-      expect(make(seed, { maturity: 'wyrmling', parameters: { terrain: 'frost' } }).traits).toContain('cold_lineage');
-    }
-    expect(() => make('a', { lineage: 'red', parameters: { classId: 'ranger' } })).toThrow('No matching options');
-    expect(() => make('a', { family: 'animal', parameters: { classId: 'ranger' } })).toThrow('No matching options');
-    expect(make('a', { raceId: 'human', classId: 'ranger' }).classId).toBe('ranger');
   });
 });

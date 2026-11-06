@@ -10,7 +10,7 @@ reaches it with declared omissions), **reference** (kept in the registry only, b
 computed from what Kyr has and draws, not claimed: the ledger and generated catalogs for rules and things, what
 a generated country draws for wonders and traps, the voice tables for barks.
 
-2651 entries in 79 families: 1575 integrated, 191 represented, 745 reference, 140 blocked.
+2651 entries in 79 families: 1594 integrated, 191 represented, 745 reference, 121 blocked.
 
 ## By family
 
@@ -23,7 +23,7 @@ a generated country draws for wonders and traps, the voice tables for barks.
 | character | nobility | 3 | 0 | 0 | 3 | 0 | none | none | — |
 | character | trait | 100 | 78 | 22 | 0 | 0 | data/catalog/orsino/traits.json | ancestries' and callings' traits | `test/effects.test.ts` `test/handbook.test.ts` |
 | condition | status | 141 | 124 | 17 | 0 | 0 | data/catalog/orsino/conditions.json | applied by abilities, traps and wonders | `test/effects.test.ts` `test/marvels.test.ts` |
-| creature | animal | 44 | 38 | 6 | 0 | 0 | data/catalog/orsino/species.json | wild country dens and creatures (data/generation/tables/ecology.json) | `test/wild-country.test.ts` `test/creature-generation.test.ts` |
+| creature | animal | 44 | 38 | 6 | 0 | 0 | data/catalog/animals.json | wild country dens and creatures (data/generation/tables/ecology.json) | `test/wild-country.test.ts` `test/creature-generation.test.ts` `test/creature-variation.test.ts` |
 | creature | aspect | 31 | 31 | 0 | 0 | 0 | data/catalog/orsino/variants.json#aspects, applied by src/creature-variants.ts | a den's beasts, sometimes, drawn by rarity (src/world/region-ecology.ts); an author's Aspect in a Person | `test/variants.test.ts` |
 | creature | aspectRarity | 5 | 5 | 0 | 0 | 0 | data/catalog/orsino/variants.json#rarity, drawn by src/creature-variants.ts | a den's aspect, drawn by rarity | `test/variants.test.ts` |
 | creature | combatEntity | 5 | 5 | 0 | 0 | 0 | data/catalog/monsters.json (antimagic_ward, barrier, bomb, phylactery, turret) | none yet: an author's Person of the species | `test/fighting-objects.test.ts` |
@@ -31,12 +31,12 @@ a generated country draws for wonders and traps, the voice tables for barks.
 | creature | creatureOverlay | 1 | 1 | 0 | 0 | 0 | data/catalog/orsino/variants.json#templates (Undead in a Kyr Person) | a barrow's or a ruin's beasts, sometimes | `test/variants.test.ts` |
 | creature | creatureTemplate | 4 | 4 | 0 | 0 | 0 | data/catalog/orsino/variants.json#templates, applied by src/creature-variants.ts | a barrow's or a ruin's beasts, sometimes (skeletal, zombie), laid to rest by rites; an author's Undead in a Person | `test/variants.test.ts` |
 | creature | difficultyTier | 6 | 0 | 0 | 6 | 0 | src/handbook/dmg.ts (described) | none | `test/handbook.test.ts` |
-| creature | dragonColor | 10 | 1 | 0 | 0 | 9 | data/catalog/monsters.json (dragons) and data/generation/tables/dragons.json | a great work's dragon | `test/great-works.test.ts` |
-| creature | elemental | 17 | 17 | 0 | 0 | 0 | data/catalog/orsino/species.json | summoning | `test/summoning.test.ts` |
-| creature | golemSubstance | 10 | 1 | 0 | 0 | 9 | data/catalog/orsino/species.json, data/generation/tables/creatures.json#constructMaterial | works' guardians | `test/creature-generation.test.ts` |
+| creature | dragonColor | 10 | 10 | 0 | 0 | 0 | data/catalog/variations.json (axis lineage) | a great work's dragon | `test/great-works.test.ts` `test/creature-variation.test.ts` |
+| creature | elemental | 17 | 17 | 0 | 0 | 0 | data/catalog/variations.json (axis element), data/catalog/monsters.json (the elementals by element) | summoning | `test/summoning.test.ts` `test/creature-variation.test.ts` |
+| creature | golemSubstance | 10 | 10 | 0 | 0 | 0 | data/catalog/variations.json (axis material), data/catalog/materials.json | works' guardians | `test/creature-variation.test.ts` |
 | creature | monsterClass | 10 | 0 | 3 | 0 | 7 | data/catalog/classes.json (monster classes) | generated creatures' classes | `test/creature-generation.test.ts` |
 | creature | monsterRank | 8 | 0 | 0 | 8 | 0 | src/handbook/mm.ts (described) | none | `test/handbook.test.ts` |
-| creature | monsterType | 40 | 38 | 1 | 0 | 1 | data/catalog/orsino/species.json | works and wild country | `test/creature-generation.test.ts` `test/inhabitants.test.ts` |
+| creature | monsterType | 40 | 39 | 1 | 0 | 0 | data/catalog/monsters.json | works and wild country | `test/creature-generation.test.ts` `test/inhabitants.test.ts` |
 | creature | npcRace | 17 | 0 | 0 | 17 | 0 | none | none | — |
 | creature | npcRank | 12 | 0 | 0 | 12 | 0 | none | none | — |
 | creature | npcType | 89 | 0 | 0 | 89 | 0 | none | none | — |
@@ -73,7 +73,7 @@ a generated country draws for wonders and traps, the voice tables for barks.
 | rule | rule.saveKind | 15 | 15 | 0 | 0 | 0 | data/catalog/vocabulary.json#saveKinds | every save | `test/effects.test.ts` |
 | rule | rule.statusModifier | 149 | 149 | 0 | 0 | 0 | src/effects.ts (Modifiers), data/sources/orsino/kyr-support.json | conditions, traits, equipment | `test/effects.test.ts` `test/orsino-registry.test.ts` |
 | rule | rule.targetKind | 9 | 9 | 0 | 0 | 0 | src/lang/parse.ts (targets) | every effect | `test/effects.test.ts` |
-| world | climate | 9 | 9 | 0 | 0 | 0 | data/generation/tables/weather.json#climateWeather | a region's weather, by watch (src/world/region-weather.ts) | `test/generative-kernel.test.ts` |
+| world | climate | 9 | 9 | 0 | 0 | 0 | data/generation/tables/weather.json#climateWeather | a region's weather, by watch (src/world/region-weather.ts) | `test/variants.test.ts` |
 | world | deity | 15 | 0 | 15 | 0 | 0 | data/catalog/religion.json | a region's faith and shrines (src/world/region-faith.ts) | `test/devotion.test.ts` |
 | world | deityDraft | 14 | 0 | 0 | 14 | 0 | data/generation/tables/names.json#deityName | none | — |
 | world | deityDraftGender | 71 | 0 | 0 | 71 | 0 | none | none | — |
@@ -168,14 +168,6 @@ For each family with entries not met in play: its blockers, with how many entrie
 
 - 6 × Kyr scales a country by its level and its peoples; Orsino's hit-point and armour tiers are not applied to Kyr creatures.
 
-### dragonColor
-
-- 9 × Every feature it uses runs in Kyr, but no Kyr definition translates it yet.
-
-### golemSubstance
-
-- 9 × Every feature it uses runs in Kyr, but no Kyr definition translates it yet.
-
 ### monsterClass
 
 - 7 × field:monsterAttacksPerTurn: not supported
@@ -195,7 +187,6 @@ For each family with entries not met in play: its blockers, with how many entrie
 
 ### monsterType
 
-- 1 × Every feature it uses runs in Kyr, but no Kyr definition translates it yet.
 - 1 × field:monsterTypeAbilities: Flight and maul are not given; see monsterClass:dragon.
 
 ### npcRace

@@ -45,7 +45,6 @@ describe('one creature pipeline', () => {
     const [cast] = Cast.group(ModuleParser.parse(`Module e "E" { Place pool "the pool" is room.
       Person eels "the eels" at pool { Role "an eel". } }`).people![0]!, { raceId: 'eel', count: 1 });
     expect(cast!.context.raceId).toBe('eel');
-    expect(cast!.context.parameters).toBeUndefined();
     const source = new OverlayBundleSource(NodeBundleSource.shared, {
       'ee/site.kyr': `Module ee "Eels" { Place mere "the Mere" is settlement.
         Place pool "the eel-pool" is room within mere at 0, 0 outdoors. Company party "You" of 1 at pool.

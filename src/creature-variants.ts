@@ -4,12 +4,19 @@ import { Deem, type DeemValue } from 'deem';
 import { Canon } from './canon/canon';
 import type { Creature } from './model';
 import type { Variant, Variants } from './registry/orsino-variants';
+import { Creation } from './rules/creation';
 
 // One way a creature differs from its kind, on one axis (data/catalog/variations.json): the word it is called by, what
 // is seen of it, what it adds, the kinds of creature it can be, and where a generated country lays it on.
 export interface Variation {
   axis: string; word: string; says: string; kinds: string[]; attributes?: Record<string, number>; health?: number;
   abilities?: string[]; traits?: string[]; hint?: string;
+  // The types of creature it can be laid on (a material on a construct, an element on an elemental, a lineage on a
+  // dragon): any of its kinds, if none is said.
+  types?: string[];
+  // The natural weapon it gives (a dragon's breath, by its lineage), in place of its kind's; and the material it is of
+  // (data/catalog/materials.json).
+  weapon?: string; material?: string;
 }
 
 // What makes one creature of a kind other than the rest (Orsino's aspects: an agile wolf, a venomous spider), and
@@ -30,10 +37,15 @@ export class CreatureVariants {
     return list[pick(list.length)]!;
   }
   static readonly variations = variations.variations as Record<string, Variation>;
-  // A creature's variations, if they are known ones and none shares an axis with another: why not, else nothing.
-  static refused(ids: string[]): string | undefined {
+  // A creature's variations, if they are known ones, fit its kind and type, and none shares an axis with another: why
+  // not, else nothing.
+  static refused(ids: string[], species?: string): string | undefined {
     const unknown = ids.find(id => !this.variations[id]);
     if (unknown) { return `no variation ${unknown}`; }
+    const of = species && Canon.isSpecies(species) ? Canon.creature(species) : undefined;
+    const unfit = of && ids.find(id => { const v = this.variations[id]!;
+      return !v.kinds.includes(of.kind ?? 'animal') || (v.types && !v.types.includes(of.type ?? '')); });
+    if (unfit) { return `${this.variations[unfit]!.word || unfit} is not for ${Creation.a(species!)}`; }
     const axes = ids.map(id => this.variations[id]!.axis), twice = axes.find((a, i) => axes.indexOf(a) !== i);
     return twice ? `two variations of its ${twice}` : undefined;
   }
@@ -44,7 +56,8 @@ export class CreatureVariants {
     const own = Canon.creature(species).variations ?? [], kind = Canon.creature(species).kind ?? 'animal';
     const deem = new Deem({ seed: 1 }), taken = new Set<string>(own.map(id => this.variations[id]!.axis));
     return Object.entries(this.variations).filter(([, v]) => {
-      if (!v.hint || taken.has(v.axis) || !v.kinds.includes(kind)) { return false; }
+      if (!v.hint || taken.has(v.axis) || !v.kinds.includes(kind)
+        || (v.types && !v.types.includes(Canon.creature(species).type ?? ''))) { return false; }
       const fits = deem.evaluate(v.hint, where) === true && chance() < 0.5;
       if (fits) { taken.add(v.axis); }
       return fits;
@@ -66,8 +79,10 @@ export class CreatureVariants {
       if (!variant) { throw new Error(`${creature.id}: no aspect or undead template ${id}`); }
       this.apply(creature, variant);
     }
-    const ids = context.variations ?? [], refused = this.refused(ids);
+    const ids = context.variations ?? [], refused = this.refused(ids, creature.raceId);
     if (refused) { throw new Error(`${creature.id}: ${refused}`); }
+    // What it is, kept with it (saved and read again as it was made): its variations.
+    if (ids.length) { creature.variations = [...ids]; }
     for (const v of ids.map(id => this.variations[id]!)) {
       this.apply(creature, { attributes: v.attributes ?? {}, abilities: v.abilities ?? [], traits: v.traits ?? [] });
       // Its health at each level, and what it has now with it.
@@ -76,6 +91,10 @@ export class CreatureVariants {
       creature.state.hp = Math.max(1, Math.min(creature.base.maxHp, creature.state.hp + more));
     }
     return creature;
+  }
+  // A creature's natural weapon as its variations make it (a red dragon breathes fire), else its kind's.
+  static weapon(creature: Creature, own?: string): string | undefined {
+    return (creature.variations ?? []).map(id => this.variations[id]?.weapon).filter(Boolean).at(-1) ?? own;
   }
   static apply(creature: Creature, variant: Pick<Variant, 'attributes' | 'abilities' | 'traits'>) {
     for (const [key, value] of Object.entries(variant.attributes)) {

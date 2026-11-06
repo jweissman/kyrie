@@ -76,11 +76,12 @@ describe('1-3: peoples, species, variants and aspects', () => {
   it('composes a constructed guardian from Orsino tables: construct type, construct nature, iron substance', () => {
     const iron = OrsinoMonsters.compose(id => registry.entry(id), { monsterClass: 'construct', monsterType: 'Golem',
       aspect: 'wildtype', terrain: 'cave', rank: 'minor', level: 1, substance: 'iron' });
-    const golem = Canon.creature('iron_golem');
-    expect(golem.statistics!.attributes).toEqual({ strength: iron.scores.str, dexterity: iron.scores.dex,
-      constitution: iron.scores.con, intelligence: iron.scores.int, wisdom: iron.scores.wis,
-      charisma: iron.scores.cha });
-    expect(golem.statistics!.hitPoints).toBe(iron.hitPoints);
+    // The iron golem is the golem with the material iron (Orsino's golemSubstances), made as every creature is.
+    const golem = Canon.creature('iron_golem'), made = Probe.creature('iron', { raceId: 'iron_golem' });
+    expect([made.base.strength, made.base.dexterity, made.base.constitution, made.base.intelligence, made.base.wisdom,
+      made.base.charisma]).toEqual([iron.scores.str, iron.scores.dex, iron.scores.con, iron.scores.int, iron.scores.wis,
+      iron.scores.cha]);
+    expect(made.variations).toEqual(['iron']);
     expect([golem.type, golem.traits, golem.statistics!.armor]).toEqual(['construct', ['construct'], 'plate']);
     const body = CombatProjection.fighter(Probe.creature('hulk', { raceId: 'iron_golem' }), 'goblins');
     expect(Effects.immune(body, 'poison') && Effects.immune(body, 'sleep')).toBe(true);

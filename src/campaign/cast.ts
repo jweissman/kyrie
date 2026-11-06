@@ -37,15 +37,36 @@ export class Cast {
     context.prepared = true;
     // Creature constraints: generation may fill them in (a scenario's terrain or body); authored ones win. A species
     // generation chose from the catalog (a den's owlbear) is the creature itself: the author's open constraints ("a
-    // creature of the terrain") are met by it, and Deem's creature generator, which does not know it, is not asked.
+    // creature of the terrain") are met by it.
     const offered = Object.entries((generated.parameters ?? {}) as Record<string, unknown>)
       .filter(([, v]) => v != null);
-    const parameters = { ...Object.fromEntries(offered), ...p.creature };
+    const parameters = { ...Object.fromEntries(offered), ...p.creature } as Record<string, unknown>;
     const chosen = typeof generated.raceId === 'string' && Canon.isSpecies(generated.raceId);
     if (Object.keys(parameters).length && !chosen) {
-      context.parameters = parameters; provenance.parameters = p.creature ? 'authored' : 'generated';
+      Object.assign(context, Cast.creature(p.id, parameters, context));
+      provenance.raceId = p.creature ? 'authored' : 'generated';
     }
     return { id: `${p.id}_person`, context: context as CreatureGenerationContext, gold: 0, provenance };
+  }
+  // What an author's Creature words mean, on the one way a creature is made (its kind and its variations): a body is
+  // the kind; a dragon's lineage and maturity, a golem's material and an adaptation are variations (Deem's creature
+  // grammar, which once read them, is retired). A terrain alone, with no kind, is not a creature.
+  static creature(id: string, words: Record<string, unknown>, context: Record<string, unknown>) {
+    const lineage = Cast.said(words, 'lineage'), maturity = Cast.said(words, 'maturity');
+    const material = Cast.said(words, 'material');
+    const variations = [lineage && `${lineage}_lineage`, maturity && Cast.ages[maturity], material,
+      Cast.said(words, 'adaptation')].filter((v): v is string => !!v);
+    const raceId = Cast.said(words, 'body') ?? (context.raceId as string | undefined)
+      ?? (lineage || maturity ? 'dragon' : material ? 'golem' : undefined);
+    if (!raceId) { throw new Error(`${id}: a creature is of a kind (Species, or Creature body)`); }
+    const had = context.variations as string[] | undefined ?? [];
+    return { raceId, ...variations.length ? { variations: [...new Set([...had, ...variations])] } : {} };
+  }
+  // A dragon's age in Orsino's words, as the ages a creature can be.
+  private static readonly ages: Record<string, string> = { wyrmling: 'young', young: 'young', ancient: 'elder' };
+  private static said(words: Record<string, unknown>, key: string): string | undefined {
+    const v = words[key];
+    return typeof v === 'string' && !['any', 'none'].includes(v) ? v : undefined;
   }
   // Every creature of a person's group: one unless the person Numbers more. Each has its own identity and draws.
   static group(p: Person, generated: Record<string, unknown> = {}, conflicts: string[] = []): CastMember[] {

@@ -1682,7 +1682,7 @@
         "field:animalKind.wis": "Kyr rolls a species' attributes and hit points; the Orsino animal stat line is not used."
       },
       "evidence": [
-        "test/deem-cli.test.ts#generates a bear, copper dragon, frost bear and stone guardian through existing patterns"
+        "test/creature-pipeline.test.ts#makes every base creature from its own record, and only what it is asked to be"
       ]
     },
     {

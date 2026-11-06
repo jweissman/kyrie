@@ -11,7 +11,7 @@ import rules from '../../data/catalog/vocabulary.json';
 import skills from '../../data/catalog/skills.json';
 import animals from '../../data/catalog/animals.json';
 import monsters from '../../data/catalog/monsters.json';
-import orsinoSpecies from '../../data/catalog/orsino/species.json';
+import materials from '../../data/catalog/materials.json';
 import traits from '../../data/catalog/traits.json';
 import orsinoAbilities from '../../data/catalog/orsino/abilities.json';
 import orsinoConditions from '../../data/catalog/orsino/conditions.json';
@@ -23,7 +23,7 @@ import professions from '../../data/catalog/professions.json';
 import { BackgroundCatalog, type BackgroundTables, type CompiledBackground, type KyrProfession } from './background-catalog';
 import type {
   Ability, Ancestry, CharacterClass, Combat, Condition, Deity, Domain, ItemKind, Organism, Procedure, Skill,
-  Source, Species, Trait,
+  Material, Source, Species, Trait,
 } from './schema';
 
 export type Family = 'abilities' | 'conditions' | 'traits' | 'items' | 'organisms' | 'classes';
@@ -67,9 +67,11 @@ export class Canon {
     { ...conditions.conditions, ...Canon.favours() });
   static readonly traits = Canon.merge<Trait>('trait', orsinoTraits.traits, traits.traits);
   static readonly ancestries = ancestries.ancestries as unknown as Record<string, Ancestry>;
-  // The base creatures: the hand's animals and monsters (animals.json, monsters.json), over Orsino's generated kinds.
-  static readonly species = Canon.merge<Species>('species', orsinoSpecies.species as unknown as Record<string, unknown>,
-    { ...animals.species, ...monsters.species } as unknown as Record<string, unknown>);
+  // The base creatures, every one in one of two authored files (animals.json, monsters.json): Orsino's kinds among
+  // them by provenance (source.orsino), none generated beside them (the owner, 5 November: one authoritative record).
+  static readonly species = { ...animals.species, ...monsters.species } as unknown as Record<string, Species>;
+  // The stuff things are made of (data/catalog/materials.json): named once, and by its id wherever something is of it.
+  static readonly materials = materials.materials as unknown as Record<string, Material>;
   static readonly classes = classes.classes as unknown as Record<string, CharacterClass>;
   static readonly skills = skills.skills as unknown as Record<string, Skill>;
   static readonly items = Canon.fine(Canon.merge<ItemKind>('item', orsinoItems.items, items.items));

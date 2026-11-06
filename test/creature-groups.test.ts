@@ -4,6 +4,7 @@ import { MemoryBundleSource } from '../src/campaign/memory-bundle-source';
 import { ModuleBundle } from '../src/campaign/module-bundle';
 import { ModuleParser } from '../src/lang/module-parser';
 import { ModuleWriter } from '../src/lang/module-writer';
+import { ItemCatalog } from '../src/item-catalog';
 
 const site = `Module brood_site "A webbed cave" {
   Place nest "The nest" is room.
@@ -34,7 +35,11 @@ it('a person may be a numbered group of creatures composed by the Deem generator
     ['the brood-mother', 'cave_spider', 3], ['a drake', 'dragon', 1], ['the sow', 'bear', 1], ['the cub', 'bear', 1],
     // A role that describes the whole group does not name each member; their kind does.
     ['Wolf 1', 'wolf', 1], ['Wolf 2', 'wolf', 1]]);
-  expect(npcs.find(x => x.raceId === 'dragon')!.traits).toContain('poison_lineage');
+  // A dragon of the green lineage, a wyrmling: the dragon with its lineage (a breath of poison, and proof against it)
+  // and its youth, as variations (Deem's creature grammar, which once read these words, is retired).
+  const drake = npcs.find(x => x.raceId === 'dragon')!;
+  expect([drake.variations, drake.traits]).toEqual([['green_lineage', 'young'], expect.arrayContaining(['poison_lineage'])]);
+  expect(ItemCatalog.equipment(drake).weapon.id).toBe('poison_breath');
   const attack = c.available().find(a => a.resolve?.name === 'combat' && a.resolve.args[0] === 'cave__brood')!;
   const battle = c.encounterBattle(attack.id);
   expect(battle.state.combatants.filter(f => f.team === 'goblins').map(f => f.name))

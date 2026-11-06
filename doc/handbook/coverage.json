@@ -237,9 +237,9 @@
     "concept": "creature",
     "total": 10,
     "feasible": 10,
-    "catalogued": 9,
+    "catalogued": 0,
     "represented": 0,
-    "executable": 0,
+    "executable": 9,
     "play-validated": 1
    },
    {
@@ -307,9 +307,9 @@
     "concept": "creature",
     "total": 10,
     "feasible": 10,
-    "catalogued": 9,
+    "catalogued": 0,
     "represented": 0,
-    "executable": 1,
+    "executable": 10,
     "play-validated": 0
    },
    {
@@ -367,9 +367,9 @@
     "concept": "creature",
     "total": 40,
     "feasible": 40,
-    "catalogued": 1,
+    "catalogued": 0,
     "represented": 1,
-    "executable": 38,
+    "executable": 39,
     "play-validated": 0
    },
    {
@@ -1060,21 +1060,21 @@
   "mm": {
    "title": "Monster Manual",
    "counts": {
-    "faithful": 103,
-    "adapted": 159,
+    "faithful": 154,
+    "adapted": 128,
     "represented": 10,
     "kyr": 34,
     "unsupported": 5,
     "unreachable": 0,
-    "data-only": 123
+    "data-only": 104
    },
    "sections": [
     {
      "id": "species",
      "title": "Creatures",
      "counts": {
-      "faithful": 39,
-      "adapted": 70,
+      "faithful": 56,
+      "adapted": 54,
       "represented": 0,
       "kyr": 17,
       "unsupported": 0,
@@ -1122,29 +1122,16 @@
      }
     },
     {
-     "id": "generated",
-     "title": "Generated creatures",
-     "counts": {
-      "faithful": 0,
-      "adapted": 0,
-      "represented": 0,
-      "kyr": 0,
-      "unsupported": 0,
-      "unreachable": 0,
-      "data-only": 0
-     }
-    },
-    {
      "id": "orsino-bestiary",
      "title": "Appendix: Orsino's bestiary",
      "counts": {
-      "faithful": 39,
-      "adapted": 87,
+      "faithful": 73,
+      "adapted": 72,
       "represented": 10,
       "kyr": 0,
       "unsupported": 0,
       "unreachable": 0,
-      "data-only": 123
+      "data-only": 104
      }
     }
    ]
@@ -19340,34 +19327,41 @@
   {
    "id": "species:air_elemental",
    "title": "Air elemental",
-   "status": "adapted",
+   "status": "faithful",
    "book": "mm",
    "section": "species/species-elemental"
   },
   {
    "id": "species:ash_elemental",
    "title": "Ash elemental",
-   "status": "adapted",
+   "status": "faithful",
    "book": "mm",
    "section": "species/species-elemental"
   },
   {
    "id": "species:crystal_elemental",
    "title": "Crystal elemental",
-   "status": "adapted",
+   "status": "faithful",
    "book": "mm",
    "section": "species/species-elemental"
   },
   {
    "id": "species:dust_elemental",
    "title": "Dust elemental",
-   "status": "adapted",
+   "status": "faithful",
    "book": "mm",
    "section": "species/species-elemental"
   },
   {
    "id": "species:earth_elemental",
    "title": "Earth elemental",
+   "status": "faithful",
+   "book": "mm",
+   "section": "species/species-elemental"
+  },
+  {
+   "id": "species:elemental",
+   "title": "Elemental",
    "status": "adapted",
    "book": "mm",
    "section": "species/species-elemental"
@@ -19375,28 +19369,28 @@
   {
    "id": "species:fire_elemental",
    "title": "Fire elemental",
-   "status": "adapted",
+   "status": "faithful",
    "book": "mm",
    "section": "species/species-elemental"
   },
   {
    "id": "species:ice_elemental",
    "title": "Ice elemental",
-   "status": "adapted",
+   "status": "faithful",
    "book": "mm",
    "section": "species/species-elemental"
   },
   {
    "id": "species:jewel_elemental",
    "title": "Jewel elemental",
-   "status": "adapted",
+   "status": "faithful",
    "book": "mm",
    "section": "species/species-elemental"
   },
   {
    "id": "species:lava_elemental",
    "title": "Lava elemental",
-   "status": "adapted",
+   "status": "faithful",
    "book": "mm",
    "section": "species/species-elemental"
   },
@@ -19410,21 +19404,21 @@
   {
    "id": "species:mud_elemental",
    "title": "Mud elemental",
-   "status": "adapted",
+   "status": "faithful",
    "book": "mm",
    "section": "species/species-elemental"
   },
   {
    "id": "species:salt_elemental",
    "title": "Salt elemental",
-   "status": "adapted",
+   "status": "faithful",
    "book": "mm",
    "section": "species/species-elemental"
   },
   {
    "id": "species:sand_elemental",
    "title": "Sand elemental",
-   "status": "adapted",
+   "status": "faithful",
    "book": "mm",
    "section": "species/species-elemental"
   },
@@ -19438,35 +19432,35 @@
   {
    "id": "species:smoke_elemental",
    "title": "Smoke elemental",
-   "status": "adapted",
+   "status": "faithful",
    "book": "mm",
    "section": "species/species-elemental"
   },
   {
    "id": "species:steam_elemental",
    "title": "Steam elemental",
-   "status": "adapted",
+   "status": "faithful",
    "book": "mm",
    "section": "species/species-elemental"
   },
   {
    "id": "species:storm_elemental",
    "title": "Storm elemental",
-   "status": "adapted",
+   "status": "faithful",
    "book": "mm",
    "section": "species/species-elemental"
   },
   {
    "id": "species:water_elemental",
    "title": "Water elemental",
-   "status": "adapted",
+   "status": "faithful",
    "book": "mm",
    "section": "species/species-elemental"
   },
   {
    "id": "species:wood_elemental",
    "title": "Wood elemental",
-   "status": "adapted",
+   "status": "faithful",
    "book": "mm",
    "section": "species/species-elemental"
   },
@@ -20110,7 +20104,7 @@
   {
    "id": "orsino:monsterType:Elemental",
    "title": "Elemental",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-monsterType"
   },
@@ -20558,7 +20552,7 @@
   {
    "id": "orsino:animal:stag",
    "title": "Stag",
-   "status": "faithful",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-animal"
   },
@@ -20600,119 +20594,119 @@
   {
    "id": "orsino:elemental:air",
    "title": "Air",
-   "status": "adapted",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-elemental"
   },
   {
    "id": "orsino:elemental:ash",
    "title": "Ash",
-   "status": "adapted",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-elemental"
   },
   {
    "id": "orsino:elemental:crystal",
    "title": "Crystal",
-   "status": "adapted",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-elemental"
   },
   {
    "id": "orsino:elemental:dust",
    "title": "Dust",
-   "status": "adapted",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-elemental"
   },
   {
    "id": "orsino:elemental:earth",
    "title": "Earth",
-   "status": "adapted",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-elemental"
   },
   {
    "id": "orsino:elemental:fire",
    "title": "Fire",
-   "status": "adapted",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-elemental"
   },
   {
    "id": "orsino:elemental:ice",
    "title": "Ice",
-   "status": "adapted",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-elemental"
   },
   {
    "id": "orsino:elemental:jewel",
    "title": "Jewel",
-   "status": "adapted",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-elemental"
   },
   {
    "id": "orsino:elemental:lava",
    "title": "Lava",
-   "status": "adapted",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-elemental"
   },
   {
    "id": "orsino:elemental:mud",
    "title": "Mud",
-   "status": "adapted",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-elemental"
   },
   {
    "id": "orsino:elemental:salt",
    "title": "Salt",
-   "status": "adapted",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-elemental"
   },
   {
    "id": "orsino:elemental:sand",
    "title": "Sand",
-   "status": "adapted",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-elemental"
   },
   {
    "id": "orsino:elemental:smoke",
    "title": "Smoke",
-   "status": "adapted",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-elemental"
   },
   {
    "id": "orsino:elemental:steam",
    "title": "Steam",
-   "status": "adapted",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-elemental"
   },
   {
    "id": "orsino:elemental:storm",
    "title": "Storm",
-   "status": "adapted",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-elemental"
   },
   {
    "id": "orsino:elemental:water",
    "title": "Water",
-   "status": "adapted",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-elemental"
   },
   {
    "id": "orsino:elemental:wood",
    "title": "Wood",
-   "status": "adapted",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-elemental"
   },
@@ -20992,49 +20986,49 @@
   {
    "id": "orsino:dragonColor:black",
    "title": "Black",
-   "status": "data-only",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-dragonColor"
   },
   {
    "id": "orsino:dragonColor:blue",
    "title": "Blue",
-   "status": "data-only",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-dragonColor"
   },
   {
    "id": "orsino:dragonColor:brass",
    "title": "Brass",
-   "status": "data-only",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-dragonColor"
   },
   {
    "id": "orsino:dragonColor:bronze",
    "title": "Bronze",
-   "status": "data-only",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-dragonColor"
   },
   {
    "id": "orsino:dragonColor:copper",
    "title": "Copper",
-   "status": "data-only",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-dragonColor"
   },
   {
    "id": "orsino:dragonColor:gold",
    "title": "Gold",
-   "status": "data-only",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-dragonColor"
   },
   {
    "id": "orsino:dragonColor:green",
    "title": "Green",
-   "status": "data-only",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-dragonColor"
   },
@@ -21048,49 +21042,49 @@
   {
    "id": "orsino:dragonColor:silver",
    "title": "Silver",
-   "status": "data-only",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-dragonColor"
   },
   {
    "id": "orsino:dragonColor:white",
    "title": "White",
-   "status": "data-only",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-dragonColor"
   },
   {
    "id": "orsino:golemSubstance:bone",
    "title": "Bone",
-   "status": "data-only",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-golemSubstance"
   },
   {
    "id": "orsino:golemSubstance:clay",
    "title": "Clay",
-   "status": "data-only",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-golemSubstance"
   },
   {
    "id": "orsino:golemSubstance:crystal",
    "title": "Crystal",
-   "status": "data-only",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-golemSubstance"
   },
   {
    "id": "orsino:golemSubstance:glass",
    "title": "Glass",
-   "status": "data-only",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-golemSubstance"
   },
   {
    "id": "orsino:golemSubstance:gold",
    "title": "Gold",
-   "status": "data-only",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-golemSubstance"
   },
@@ -21104,28 +21098,28 @@
   {
    "id": "orsino:golemSubstance:platinum",
    "title": "Platinum",
-   "status": "data-only",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-golemSubstance"
   },
   {
    "id": "orsino:golemSubstance:silver",
    "title": "Silver",
-   "status": "data-only",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-golemSubstance"
   },
   {
    "id": "orsino:golemSubstance:stone",
    "title": "Stone",
-   "status": "data-only",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-golemSubstance"
   },
   {
    "id": "orsino:golemSubstance:wood",
    "title": "Wood",
-   "status": "data-only",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-golemSubstance"
   },

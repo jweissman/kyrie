@@ -101,6 +101,9 @@ export interface Statistics {
 }
 export interface Species {
   name: string; description: string; variantOf?: string; type?: string; kind?: 'animal' | 'monster' | 'spirit';
+  // The axis of variation it is never made without (an elemental is always of an element): its kinds that name one
+  // are what is called up and met, never it bare.
+  requires?: string;
   statistics?: Statistics; abilities?: string[]; traits?: string[]; resistances?: Record<string, number>;
   temperament?: string; habitats?: string[];
   // A kind named for what varies it (a great rat, a cave spider): its base (variantOf) with these variations
@@ -168,6 +171,9 @@ export interface Deity {
   name: string; domains: string[]; gender?: string; observance?: string;
   blessing?: { id: string; name: string; effect: string }; source: Source;
 }
+// A material (data/catalog/materials.json): what it is called, what kind of stuff, how hard (1 soft to 10), and how it
+// looks, for whoever paints or says it.
+export interface Material { name: string; kind: string; hardness: number; looks: string; source: Source }
 export interface Organism {
   name: string; kind: 'plant' | 'animal'; habitats: string[]; signs: string; species?: string; yields?: string;
   receptive?: boolean; source: Source;

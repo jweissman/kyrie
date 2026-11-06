@@ -7,7 +7,8 @@ import { runGeneration } from 'deem';
 import { Content } from '../src/content';
 
 class DeemBench {
-  static readonly families = ['dragon', 'animal', 'humanoid', 'construct'];
+  // One of each kind the catalog makes: a dragon, an animal, a construct, and a person of a people.
+  static readonly families = ['dragon', 'wolf', 'golem', 'human'];
   static rows: { label: string; ms: number; note?: string }[] = [];
   static time<T>(label: string, work: () => T, note?: (result: T) => string): T {
     const start = performance.now(), result = work();
@@ -15,17 +16,18 @@ class DeemBench {
     return result;
   }
   static run(count: number) {
-    // Cold: the public CLI reads the split setting folder, builds it and generates one creature, untraced then traced.
-    this.time('cold: CLI load + first creature', () => runGeneration({ settingDir: process.cwd(), scenario: 'generation',
-      type: 'creature', seed: 'bench', trace: false }));
+    // Cold: the public CLI reads the split setting folder, builds it and draws one creature's qualities, untraced then
+    // traced.
+    this.time('cold: CLI load + first draw', () => runGeneration({ settingDir: process.cwd(), scenario: 'generation',
+      type: 'attributes', seed: 'bench', trace: false }));
     this.time('cold: CLI, traced', () => runGeneration({ settingDir: process.cwd(), scenario: 'generation',
-      type: 'creature', seed: 'bench', trace: true }), r => `${r.trace.length} trace events`);
+      type: 'attributes', seed: 'bench', trace: true }), r => `${r.trace.length} trace events`);
     const content = this.time('warm: runtime bootstrap', () => new Content('bench'));
-    content.createCreature('warmup', { family: 'dragon' });
+    content.createCreature('warmup', { raceId: 'dragon' });
     const made: unknown[] = [];
     for (const family of this.families) {
       const total = this.time(`warm: ${count} × ${family}`, () => {
-        for (let i = 0; i < count; i++) { made.push(content.createCreature(`${family}-${i}`, { family })); }
+        for (let i = 0; i < count; i++) { made.push(content.createCreature(`${family}-${i}`, { raceId: family })); }
         return count;
       });
       const row = this.rows.at(-1)!;

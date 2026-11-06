@@ -5,6 +5,7 @@ import { parseAbility, type ArenaAbility, type Effect } from './lang/parse';
 import { ModifierSet, type Modifiers } from './rules/modifiers';
 import type { WeaponProfile } from './rules/fighting';
 import type { Creature } from './creature';
+import { CreatureVariants } from './creature-variants';
 export type ItemDefinition = RuntimeItem;
 export interface Equipment { modifiers: Modifiers; hooks: Hooks; weapon: WeaponProfile; armorAc: number }
 
@@ -64,7 +65,8 @@ export class ItemCatalog {
       }
     }
     return { modifiers: ModifierSet.sum(equipped.map(i => this.get(i.definition).modifiers ?? {})), hooks,
-      weapon: wielded ? this.weapon(wielded.definition) : this.weapon(natural?.weapon ?? 'fist'),
+      weapon: wielded ? this.weapon(wielded.definition)
+        : this.weapon(CreatureVariants.weapon(creature, natural?.weapon) ?? 'fist'),
       armorAc: worn ? this.get(worn.definition).armor!.ac : natural?.armor ? this.get(natural.armor).armor!.ac : 0 };
   }
 }

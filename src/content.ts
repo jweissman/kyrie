@@ -9,7 +9,6 @@ import { Canon } from './canon/canon';
 import { CanonRuntime } from './canon/canon-runtime';
 import { TraitGrants } from './canon/trait-grants';
 import { CanonValidation } from './canon/canon-validation';
-import { CreatureDefinition } from './creature-definition';
 import { CreatureSchema, type Attribute, type Creature } from './creature';
 import { CombatProjection } from './combat-projection';
 import { Overlays } from './overlays';
@@ -33,9 +32,7 @@ export type CreatureGenerationContext = Partial<Record<Attribute, number>> & {
   formations?: string[];
   spells?: string[]; gear?: string[]; weapon?: string; armor?: string;
   // An NPC prepares a sample of its spells (Orsino's enemy casters) instead of making a player's picks.
-  family?: string;
-  prepared?: boolean; adaptation?: string; parameters?: Record<string, DeemValue>;
-  lineage?: string; maturity?: string;
+  prepared?: boolean;
   // What makes it other than its kind (see CreatureVariants).
   aspect?: string; template?: string; variations?: string[];
   // The six qualities as the player placed them at creation, each three dice rolled, before what their people and
@@ -105,19 +102,11 @@ export class Content {
   character(classId: ClassId, id: string, team: Fighter['team'], raceId: RaceId = 'human'): Fighter {
     return CombatProjection.fighter(this.createCreature(id, { classId, raceId }), team);
   }
-  // A request names a family-specific dimension (lineage, material, an adaptation…) that only Deem composition
-  // honours. A class alone keeps the character-creation path.
   // A kind named for what varies it is its base with those variations (see Species.variations), before any the author
   // gives, each once.
   private static implied(raceId: string, context: CreatureGenerationContext): CreatureGenerationContext {
     const own = Canon.isSpecies(raceId) ? Canon.creature(raceId).variations ?? [] : [];
     return own.length ? { ...context, variations: [...new Set([...own, ...context.variations ?? []])] } : context;
-  }
-  private static composed(context: CreatureGenerationContext): boolean {
-    if (Object.keys(context.parameters ?? {}).length) { return true; }
-    const dimensions = new Set(Object.values(tables.creatureDimensions.groups).flat());
-    dimensions.delete('classId');
-    return [...Object.keys(context), ...Object.keys(context.parameters ?? {})].some(key => dimensions.has(key));
   }
   private static invalid(context: CreatureGenerationContext): boolean {
     return (context.backgroundId !== undefined && !Overlays.has(context.backgroundId))
@@ -133,17 +122,6 @@ export class Content {
   // Orsino's character creation: roll 3d6 per score, add the ancestry's, class's and background's modifiers, take the
   // ancestry's birth traits and a specialization, pick spells, draw a weapon and armour from the class's tables, and
   // derive hit points and spell slots. A species creature takes its own statistics, natural weapon and nature traits.
-  // Deem's creature generator makes the kind; what makes it other than its kind is Kyr's to add after.
-  private generatedKind(id: string, context: CreatureGenerationContext, randomIdentity: string): Creature {
-    if (context.backgroundId || context.professionId || context.spells || context.gear?.length) {
-      throw new Error('Specialized Deem creatures do not yet support background, profession, spell or extra gear overlays');
-    }
-    const asked: Record<string, unknown> = { ...context }, family = context.family;
-    delete asked.aspect; delete asked.template; delete asked.variations;
-    const generated = new Content(RandomStreams.key(this.seed, 'creature', randomIdentity), this.setting)
-      .generate('creature', { ...context.parameters, ...asked, ...family ? { family } : {} });
-    return CreatureVariants.vary(CreatureDefinition.accept(id, generated), context);
-  }
   createCreature(id: string, context: CreatureGenerationContext = {}, randomIdentity = id): Creature {
     if (Content.invalid(context)) { throw new Error(`Invalid creature generation context for ${id}`); }
     const speciesFamily = context.raceId && Canon.isSpecies(context.raceId)
@@ -151,11 +129,8 @@ export class Content {
     if (speciesFamily && context.classId !== undefined) {
       throw new Error(`${id}: ${Creation.a(speciesFamily)} is a species and takes no class`);
     }
-    // Every species is made from its catalog record, as every other is (the owner, 5 November: one pipeline; five
-    // bodies had gone by Deem's grammar instead). Deem makes a creature only when asked for one by its dimensions.
-    if (context.family || Content.composed(context)) {
-      return this.generatedKind(id, context, randomIdentity);
-    }
+    // Every creature is made from its catalog record (the owner, 5 November: one pipeline; Deem's creature grammar,
+    // which had made five bodies its own way, is retired): what makes it other than its kind is its variations.
     const stream = this.stream.bind(this, randomIdentity);
     const raceId = context.raceId ?? stream('population').generate('population', context.population ? { population: context.population } : {})
       .raceId as string;

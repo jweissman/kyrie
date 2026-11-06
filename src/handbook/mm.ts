@@ -1,7 +1,5 @@
 import { Canon } from '../canon/canon';
 import { Advancement } from '../rules/advancement';
-import creatureTables from '../../data/generation/tables/creatures.json';
-import dragonTables from '../../data/generation/tables/dragons.json';
 import { HandbookStatus, type Book, type Entry, type Problem, type Section } from './model';
 import { HandbookText } from './text';
 import { CompanyChapters } from './phb-company';
@@ -9,8 +7,6 @@ import type { OrsinoAppendix } from './orsino-appendix';
 import { MonsterDescribers } from './mm-describers';
 import { CreatureVariants } from '../creature-variants';
 
-interface Kind { family: string; body?: string; raceId?: string; classIds?: string[]; _terrains?: Record<string, true>;
-  _adaptations?: Record<string, true>; _roles?: Record<string, true> }
 
 // The Monster Manual: every creature Kyr can put in front of a company, from the species catalog and the creature
 // generator's tables, and Orsino's bestiary with how much of it Kyr holds.
@@ -30,7 +26,7 @@ export class MonsterManual {
       'A species acts as many times a turn as its kind does: most once, an owlbear or an angel twice, a dragon three '
         + 'times. Most of the bestiary is composed from Orsino\'s monster template and grows with level as the template '
         + 'does: every quality rises by one at levels 4, 12 and 20, and hit points by three a level.'],
-    sections: [this.species(), this.variations(), this.natural(), this.traits(), this.generated(), this.orsino()] };
+    sections: [this.species(), this.variations(), this.natural(), this.traits(), this.orsino()] };
   }
   species(): Section {
     const types = [...new Set(Object.keys(Canon.species).map(id => Canon.creature(id).type ?? 'monster'))].sort();
@@ -106,23 +102,6 @@ export class MonsterManual {
       });
     return { id: 'natural-abilities', title: 'Natural abilities', intro: ['What creatures do with their bodies: bites, '
       + 'breath, howls. A blow that must be wound up shows the turn before it falls.'], entries };
-  }
-  // The creature generator: each family's kinds, where they are met, and what can alter them.
-  generated(): Section {
-    const kinds = (creatureTables.creatureKinds.groups as unknown as Record<string, Kind[]>);
-    const sections = Object.entries(kinds).map(([family, list]): Section => ({ id: `generated-${family}`,
-      title: `${HandbookText.capital(family)} family`, table: { head: ['Kind', 'Met in', 'Can be', 'Roles'],
-        rows: list.map(k => [Canon.isSpecies(k.raceId ?? '') ? Canon.creature(k.raceId!).name : k.body ?? k.raceId ?? family,
-          Object.keys(k._terrains ?? {}).filter(t => t !== 'any').join(', '),
-          Object.keys(k._adaptations ?? {}).filter(a => a !== 'none').map(a => `${a}-adapted`).join(', ') || '—',
-          Object.keys(k._roles ?? {}).join(', ') || '—']) } }));
-    const dragons = dragonTables as unknown as Record<string, { groups?: Record<string, unknown> }>;
-    return { id: 'generated', title: 'Generated creatures', intro: [
-      'A world\'s generator draws creatures for its places from these families, by terrain. A kind may come adapted to '
-        + 'frost or marsh (a trait that carries its resistances), and a construct may be made of a material or set to a '
-        + 'role. Every drawn creature is a species above, altered; nothing is invented that the catalog cannot play.',
-      `Dragons are drawn by lineage (${Object.keys(dragons.dragonLineage?.groups ?? {}).join(', ')}) and maturity `
-        + `(${Object.keys(dragons.dragonMaturity?.groups ?? {}).join(', ')}).`], sections };
   }
   orsino(): Section {
     const a = this.appendix, d = MonsterDescribers;
