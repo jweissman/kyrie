@@ -38,8 +38,12 @@ export class AuthoredLand {
     const f: Frame = { x0, y0, width: (Math.max(...xs) - x0 + 1) * B + 2 * this.margin,
       height: (Math.max(...ys) - y0 + 1) * B + 2 * this.margin };
     const forms = this.forms(module), draw = new Draw(`land:${region}`);
-    const cover = this.ground(f, this.terrain(module, region), draw);
-    for (const a of areas) { this.lay(cover, a, { form: forms.get(a.id), f, draw }); }
+    const terrain = this.terrain(module, region), cover = this.ground(f, terrain, draw);
+    for (const a of areas) {
+      if (terrain === 'archipelago') { this.isle(cover, a, { form: forms.get(a.id), f, draw }); } else {
+        this.lay(cover, a, { form: forms.get(a.id), f, draw });
+      }
+    }
     const rivers = this.rivers(areas.filter(a => forms.get(a.id) === 'river').map(a => this.xy(this.centre(a, f), f)), f, draw);
     // A river an author names is a great one, the country's own (a fair is held on it): its water is a band four cells
     // wide, the width of a stretch of it less its banks.
@@ -59,6 +63,21 @@ export class AuthoredLand {
     if (form === 'wood') { for (const c of this.cells(a, f)) { if (draw.chance(0.8)) { cover[c] = 'w'; } } }
     if (form === 'peak' || form === 'pass') { for (const c of this.blob(mid, f.width, B / 2)) { cover[c] = form === 'peak' ? 'p' : 'f'; } }
     if (a.space!.kind === 'settlement') { for (const c of this.blob(mid, f.width, 1.6)) { cover[c] = '.'; } }
+  }
+  // A sea region (terrain archipelago): the water is the country and each area is an island of it, a block of three
+  // by three with, now and then, a spit one cell further east or south, so that however the author sets two areas on
+  // the grid (a block is six cells) at least two cells of open water lie between their islands. A peak is a cone in
+  // a ring of rock, a wood stands, a lake is a lagoon in the middle; anywhere else the island is open ground.
+  private static isle(cover: string[], a: Entity, at: { form?: string; f: Frame; draw: Draw }) {
+    const { form, f, draw } = at, mid = this.centre(a, f), W = f.width;
+    const land = form === 'wood' ? 'w' : '.';
+    for (const c of this.blob(mid, W, 1.6)) { cover[c] = land; }
+    for (const c of [mid + 2, mid + 2 * W]) { if (draw.chance(0.5)) { cover[c] = land; } }
+    if (form === 'peak' || form === 'pass') {
+      for (const c of this.blob(mid, W, 1.6)) { cover[c] = 'f'; }
+      cover[mid] = form === 'peak' ? 'p' : 'f';
+    }
+    if (form === 'lake') { cover[mid] = 'o'; }
   }
   // The cells of a river's water, to either side of its course: above and below where it runs across, else beside.
   private static band(cells: number[], f: Frame): number[] {
