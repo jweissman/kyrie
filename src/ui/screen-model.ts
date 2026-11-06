@@ -304,7 +304,9 @@ export class ScreenModel {
       // A creature is shown by its kind's painting, where its kind has one (see CreaturePortraits).
       const portrait = likened && at.campaign ? Portraits.of(at.campaign, p.id)
         : !playable && member && !dark ? CreaturePortraits.of(member.raceId) : undefined;
-      const emblem = animal ? 'animal' : playable && Emblems.has(member!.raceId) ? member!.raceId : undefined;
+      // A beast by the beast's emblem, keeping the peace or not (hounds denned in a room are beasts too).
+      const beast = !playable && !!member && Canon.isSpecies(member.raceId) && Canon.creature(member.raceId).kind === 'animal';
+      const emblem = animal || beast ? 'animal' : playable && Emblems.has(member!.raceId) ? member!.raceId : undefined;
       return { id: p.id, kind: playable || soul ? 'person' : animal ? 'animal' : 'creature', name, ...(note ? { note } : {}),
         ...portrait ? { portrait } : {}, ...emblem ? { emblem } : {},
         ...(p.members?.length ?? 0) > 1 ? { many: true } : {},

@@ -31,7 +31,10 @@ export class RegionStock {
     const beast = RegionEcology.varied(found, { habitat, climate: RegionWeather.climate(region) },
       new Draw(`${site.id}:denned`));
     const q = JSON.stringify, count = Math.max(1, Math.ceil(beast.count / 2));
-    return [`  Person ${site.id}_denned ${q(beast.label)} at ${room} {`,
+    // Half a den's number, and one is called as one ("the cave hound", not "the hounds" said of one: the candidate
+    // journey of 6 November).
+    const label = count > 1 ? beast.label : beast.role.replace(/^(a|an) /, 'the ');
+    return [`  Person ${site.id}_denned ${q(label)} at ${room} {`,
       `    Role ${q(`${beast.role}, denned in a room of ${site.name}`)}. Species ${beast.species}. Numbers ${count}. Level 1. Temperament territorial. Lair ${room}.`
         + (beast.variations ?? []).map(v => ` Variant ${v}.`).join(''),
       '  }'];

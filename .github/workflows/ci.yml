@@ -61,10 +61,12 @@ jobs:
         env: { KYRIE_LONG: "1" }
       - if: always()
         run: bun scripts/test-summary.ts junit.xml --title "Long descents" --none-skipped
+  # Two shards since the place's new grammar (6 November): the whole had passed in thirty minutes and then outgrew them.
   browser:
-    name: browser specs
+    name: browser specs ${{ matrix.shard }}/2
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    strategy: { fail-fast: false, matrix: { shard: [1, 2] } }
     steps:
       - uses: actions/checkout@v4
         with: { path: kyrie }
@@ -72,7 +74,7 @@ jobs:
         with: { bun-version: 1.4.3 }
       - run: bun install --frozen-lockfile
       - run: bunx playwright-core install --with-deps chromium
-      - run: bun test $(ls test/*-browser.test.ts) --reporter=junit --reporter-outfile=junit.xml
+      - run: bun test --shard=${{ matrix.shard }}/2 $(ls test/*-browser.test.ts) --reporter=junit --reporter-outfile=junit.xml
         env: { KYRIE_BROWSER: "1" }
       - if: always()
-        run: bun scripts/test-summary.ts junit.xml --title "Browser specs" --none-skipped
+        run: bun scripts/test-summary.ts junit.xml --title "Browser specs, shard ${{ matrix.shard }} of 2" --none-skipped
