@@ -57,8 +57,12 @@ export class Tactics {
   // Ties broken by the targets' ids as written, not as the host's language sorts them (a reader in Tallinn saw another
   // enemy struck: the architecture review's H6).
   static order(a: string, b: string): number { return a < b ? -1 : a > b ? 1 : 0; }
+  // A creature's own power is used before a plain blow when it hurts or holds (a drain, a paralysing touch), not one
+  // that only hinders (a curse, a fear), which would have the barrow-dead cursing instead of striking.
   private static own(actor: Fighter, c: Command): number {
-    return actor.innate?.includes(c.ability) && Content.abilities.find(a => a.id === c.ability)?.spell ? 12 : 0;
+    const power = actor.innate?.includes(c.ability) ? Content.abilities.find(a => a.id === c.ability) : undefined;
+    return power?.spell && power.effects.some(e => ['damage', 'drain'].includes(e.kind)
+      || (e.kind === 'apply' && Effects.skips(e.status))) ? 12 : 0;
   }
   static choose(state: BattleState, all: Command[]): Command {
     const actor = state.combatants.find(f => f.id === state.actor)!;

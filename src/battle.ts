@@ -254,7 +254,8 @@ export class Battle {
       return targets.map(target => ({ actor: actor.id, ability: ability.id, target: target.id }));
     });
     const forced = commands.filter(c => taunters.includes(c.target));
-    return forced.length ? forced : commands;
+    // One who can do nothing it would (charmed by the only foe there is, and set to charge at it) lets its turn go.
+    return forced.length ? forced : commands.length ? commands : [{ actor: actor.id, ability: 'wait', target: actor.id }];
   }
   step(command: Command): CombatEvent[] {
     const valid = this.legalCommands().some(c =>

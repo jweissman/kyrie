@@ -8,10 +8,11 @@ import { VisitedPlaces } from '../src/presentation/visited-places';
 // A player who does what the page leads with (the autoplay's "follow") is not led round in a ring: the page had led a
 // merchant's rumour asked again and again (160 times), lodging and working for one's keep at the same inn turn and turn
 // about, and from the dark of a crypt back into the ossuary its raiser was in, and back. Each step a new act or a new
-// place before long.
+// place before long. A warrior: led now to the merchant who gives the corn-store's job (M19-86), a lone cleric fights
+// its rats within a dozen steps, and they kill one in four (M19-87), which ends the walk before it has gone anywhere.
 describe('a player who follows the page', () => {
   it('is never led to do one thing over and over, and comes to new places', async () => {
-    const spec = { seed: 'a1', origin: 'wanderer', protagonist: { name: 'Wenna', raceId: 'human', classId: 'cleric' },
+    const spec = { seed: 'a1', origin: 'wanderer', protagonist: { name: 'Wenna', raceId: 'human', classId: 'warrior' },
       policy: 'follow' as const, steps: 120 };
     const s = await AutoplayRun.start(spec), c = s.campaign;
     const player = new AutoPlayer(spec.policy, new Draw('a1:wanderer:follow'));
