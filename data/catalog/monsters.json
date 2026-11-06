@@ -2258,7 +2258,6 @@
         "armor": "chitin"
       },
       "abilities": [
-        "rending_bite",
         "flee"
       ],
       "habitats": [

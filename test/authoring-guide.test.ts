@@ -69,7 +69,7 @@ describe('the authoring guide', () => {
     const spells = sister.base.abilities.map(a => Canon.abilities[a]?.spell).filter(x => x !== undefined);
     expect(spells.every(x => x.tradition === 'divine' && x.level <= 2)).toBe(true);
     expect(spells.some(x => x.level > 0 && x.domain === 'life')).toBe(true);
-    expect([wolf.raceId, wolf.classId, wolf.base.abilities]).toEqual(['wolf', undefined, ['rending_bite', 'flee']]);
+    expect([wolf.raceId, wolf.classId, wolf.base.abilities]).toEqual(['wolf', undefined, ['howl', 'flee']]);
     expect(s.campaign.module.entities.find(e => e.id === 'world__bone_slide')).toMatchObject({ type: 'hazard' });
   }, 60000);
 });

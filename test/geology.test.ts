@@ -7,6 +7,7 @@ import { WorldAssembler } from '../src/world/world-assembler';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import type { Region } from '../src/world/region-writer';
 import { Livelihoods } from '../src/world/livelihoods';
+import { RegionGrowth } from '../src/world/region-growth';
 
 // What a country is made of under what covers it (data/catalog/geology.json; the owner, 5 November, late): a layer
 // beside the hex geography, not another registry of terrain. Its formations lie in broad tracts under the covers they
@@ -67,5 +68,15 @@ describe('the ground under a country', () => {
     const copper = seeds.flatMap(seed => Object.values(Terrain.make(seed, 'forest').ground!.deposits))
       .filter(m => m === 'copper');
     expect(copper.length).toBeGreaterThan(0);
+  });
+  // What grows on it (M19-68): heather twice as common on granite as on the heath's other rock, and a plant's grounds
+  // formations there are.
+  it('grows a plant more often on the rock it does best on', () => {
+    expect(Object.values(Canon.plants).flatMap(o => o.grounds ?? []).filter(g => !Geology.formations[g])).toEqual([]);
+    const heather = (rocks: string[]) => Array.from({ length: 400 }, (_, i) => RegionGrowth
+      .grown({ id: `heath${i}` }, new Set(['heath']), new Set(rocks)).some(([id]) => id === 'heather_plant'))
+      .filter(Boolean).length;
+    const [granite, clay] = [heather(['granite']), heather(['clay_vale'])];
+    expect([granite > 300, clay > 180 && clay < 300]).toEqual([true, true]);
   });
 });

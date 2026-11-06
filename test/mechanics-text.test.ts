@@ -8,11 +8,10 @@ const actor = { strength: 14, dexterity: 12, constitution: 12, intelligence: 10,
 
 describe('ability text comes from the typed mechanics', () => {
   it('states amounts, targets, saves, conditions and costs, specialized to the actor', () => {
-    // A save is said by the quality the sheet says it rests on; the one bitten is "it" the second time; what it takes
-    // and when it can be used again come last (M16 read "one enemy gains bleeding", "(usable again in 1 turn)").
-    expect(MechanicsText.full(ability('rending_bite'))).toBe('1d6 (1–6) physical damage to one enemy; it is '
-      + 'bleeding for 2 turns (a Constitution save against 11 avoids it). '
-      + 'Bleeding: takes 1 bleed damage each turn. Again after a turn.');
+    // A save is said by the quality the sheet says it rests on; what a condition does is said with it; when it can be
+    // used again comes last (M16 read "one enemy gains bleeding", "(usable again in 1 turn)").
+    expect(MechanicsText.full(ability('howl'))).toBe('Every enemy is frightened for 2 turns (a Wisdom save against 12 '
+      + 'avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. Again after 3 turns.');
     expect(MechanicsText.ability(ability('second_wind'), actor).summary).toBe('Heal yourself for 1d10 + 3 (4–13).');
     expect(MechanicsText.full(ability('breathe_fire'), actor))
       .toBe('2d6 + 6 (8–18) fire damage to every enemy (a Constitution save against 18 halves it; may cause burning: a '

@@ -53,7 +53,7 @@ describe('1-3: peoples, species, variants and aspects', () => {
     expect([human.classId, wolf.classId]).toEqual(['warrior', undefined]);
     expect(human.base.abilities).toEqual(['defend', 'guard', 'taunt', 'vigor_up', 'cleave', 'prepare_charge', 'charge',
       'set_spear', 'second_wind', 'sweep']);
-    expect(wolf.base.abilities).toEqual(['rending_bite', 'flee']);
+    expect(wolf.base.abilities).toEqual(['howl', 'flee']);
     expect(CombatProjection.fighter(wolf, 'goblins').equipment.weapon).toMatchObject({ id: 'bite', damage: '1d6' });
     expect(() => Probe.creature('pup', { raceId: 'wolf', classId: 'warrior' })).toThrow('species and takes no class');
     expect(() => Probe.creature('sage', { raceId: 'elf', classId: 'cleric' })).toThrow('an elf cannot be a cleric');
@@ -66,8 +66,8 @@ describe('1-3: peoples, species, variants and aspects', () => {
     expect(frost.variantOf).toBe('wolf');
     expect(frost.type).toBe(wolf.type);
     expect(frost.habitats).toEqual(wolf.habitats);
-    // Its cold bite is the frost's, laid on as one is made (data/catalog/variations.json, frost).
-    expect(new Content('dm').createCreature('f', { raceId: 'frost_wolf' } as never).base.abilities).toContain('rime_bite');
+    // Its cold is the frost's, laid on as one is made (data/catalog/variations.json, frost): a nature, not a bite.
+    expect(new Content('dm').createCreature('f', { raceId: 'frost_wolf' } as never).traits).toContain('frost_adapted');
     const red = Canon.creature('red_dragon'), dragon = Canon.creature('dragon');
     expect(red.statistics).toEqual(dragon.statistics);
     // Its fire is its lineage's, laid on as it is made (data/catalog/variations.json, red_lineage).
@@ -212,16 +212,16 @@ describe('preventive validation', () => {
   it('rejects category errors and broken references', () => {
     Probe.rejects(() => { Canon.classes.wolf = Canon.classes.warrior!; return () => { delete Canon.classes.wolf; }; },
       /wolf: is both a species and a class/);
-    Probe.rejects(() => { const before = Canon.classes.warrior!.abilities; Canon.classes.warrior!.abilities = [...before, 'rending_bite'];
+    Probe.rejects(() => { const before = Canon.classes.warrior!.abilities; Canon.classes.warrior!.abilities = [...before, 'howl'];
       return () => { Canon.classes.warrior!.abilities = before; }; },
-    /rending_bite is a natural, not technique or spell/);
+    /howl is a natural, not technique or spell/);
     Probe.rejects(() => { Canon.species.snow_wolf = { variantOf: 'yeti', name: 'Snow wolf', description: '', source: { kyr: true } };
       return () => { delete Canon.species.snow_wolf; }; }, /variant of unknown species yeti/);
     Probe.rejects(() => { Canon.classes.thief!.specializations = ['abjurer'];
       return () => { delete Canon.classes.thief!.specializations; }; },
     /abjurer is not a specialization of this class/);
-    Probe.rejects(() => { Canon.aliases.abilities.rending_bite = 'smash'; return () => { delete Canon.aliases.abilities.rending_bite; }; },
-      /alias rending_bite: shadows a canonical abilities identifier/);
+    Probe.rejects(() => { Canon.aliases.abilities.howl = 'smash'; return () => { delete Canon.aliases.abilities.howl; }; },
+      /alias howl: shadows a canonical abilities identifier/);
     Probe.rejects(() => { Canon.items.rope!.weapon = { damage: '1d2', type: 'plasma' };
       return () => { delete Canon.items.rope!.weapon; }; }, /unknown damage type plasma/);
     Probe.rejects(() => { const spell = Canon.abilities.firebolt!.spell!; Canon.abilities.firebolt!.spell = { ...spell, school: 'pyromancy' };

@@ -185,7 +185,6 @@
         "armor": "hide_armor"
       },
       "abilities": [
-        "rending_bite",
         "flee"
       ],
       "temperament": "territorial",
@@ -285,8 +284,7 @@
         "armor": "fur"
       },
       "abilities": [
-        "flee",
-        "rending_bite"
+        "flee"
       ],
       "source": {
         "orsino": "animal:hound",
@@ -387,7 +385,6 @@
         "armor": "scale"
       },
       "abilities": [
-        "rending_bite",
         "flee"
       ],
       "traits": [],
@@ -864,7 +861,6 @@
         "armor": "hide_armor"
       },
       "abilities": [
-        "rending_bite",
         "flee"
       ],
       "traits": [
@@ -1085,7 +1081,6 @@
         "armor": "fur"
       },
       "abilities": [
-        "rending_bite",
         "flee"
       ],
       "traits": [],
@@ -1114,7 +1109,6 @@
         "armor": "fur"
       },
       "abilities": [
-        "rending_bite",
         "flee"
       ],
       "traits": [],
@@ -1375,7 +1369,6 @@
         "armor": "fur"
       },
       "abilities": [
-        "rending_bite",
         "flee"
       ],
       "traits": [],
@@ -1902,7 +1895,6 @@
         "armor": "fur"
       },
       "abilities": [
-        "rending_bite",
         "flee"
       ],
       "traits": [],
@@ -1983,7 +1975,7 @@
         "armor": "fur"
       },
       "abilities": [
-        "rending_bite",
+        "howl",
         "flee"
       ],
       "temperament": "wary",
@@ -2293,7 +2285,6 @@
         "armor": "fur"
       },
       "abilities": [
-        "rending_bite",
         "hide",
         "flee"
       ],

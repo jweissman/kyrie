@@ -29,6 +29,8 @@ export interface Entry {
   refs?: string[];
   // Its painting, under the site's paintings (a creature's: monsters/zombie), where it has one.
   painting?: string;
+  // The entry each of its rules tells of (a creature's: its abilities' and traits'), where each is one of its own.
+  rulesOf?: string[];
 }
 // A table may stand for entries too many and too alike to read one by one: ids and statuses then run with its rows.
 export interface Table { head: string[]; rows: string[][]; ids?: string[]; statuses?: Status[] }

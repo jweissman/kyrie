@@ -31,13 +31,22 @@ export class RegionGrowth {
   }
   // The plants that can be gathered, in the order data/catalog/plants.json gives them: a place grows the first two
   // written without an abundance whose habitat it has, most particular first, and beside them each with an abundance
-  // whose habitat it has, by that chance in ten (a rare herb is rare). A plant added there grows where it lives.
+  // whose habitat it has, by that chance in ten (a rare herb is rare), twice that on the rock it does best on (heather
+  // on the granite, selfheal on the limestone: M19-68). A plant added there grows where it lives.
   static get plants(): string[] { return Object.keys(Canon.plants).filter(id => Canon.plants[id]!.stand); }
-  static grown(place: { id: string }, habitats: Set<string>): [string, Plant][] {
+  static grown(place: { id: string }, habitats: Set<string>, rocks: Set<string> = new Set()): [string, Plant][] {
     const fits = this.plants.map(id => [id, Canon.plants[id]!] as [string, Plant])
       .filter(([, o]) => o.habitats.some(h => habitats.has(h)));
     return [...fits.filter(([, o]) => !o.abundance).slice(0, 2),
-      ...fits.filter(([id, o]) => o.abundance && new Draw(`${place.id}:${id}`).chance(o.abundance / 10))];
+      ...fits.filter(([id, o]) => o.abundance && new Draw(`${place.id}:${id}`).chance(this.odds(o, rocks)))];
+  }
+  private static odds(o: Plant, rocks: Set<string>): number {
+    return Math.min(1, (o.abundance ?? 0) / 10 * (o.grounds?.some(g => rocks.has(g)) ? 2 : 1));
+  }
+  // The rock under a place's cells (see Geology).
+  static rocks(region: Region, cells: number[]): Set<string> {
+    const rock = RegionGeography.atlas(region).land.ground?.rock ?? [];
+    return new Set(cells.flatMap(c => rock[c] ?? []));
   }
   static places(region: Region): { id: string; cells: number[]; name: string }[] {
     const atlas = RegionGeography.atlas(region);
@@ -66,7 +75,7 @@ export class RegionGrowth {
     const roads = new Set(RegionGeography.roads(region).map(r => r.way));
     for (const place of this.places(region)) {
       const habitats = this.habitats(region, place.cells);
-      const here = this.grown(place, habitats);
+      const here = this.grown(place, habitats, this.rocks(region, place.cells));
       for (const [id, o] of here) {
         const stand = `${place.id}_${id}`;
         lines.push(`  Thing ${stand} ${q(`the ${o.name.toLowerCase()}`)} at ${place.id} is scenery {`,

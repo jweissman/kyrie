@@ -1063,7 +1063,7 @@
     "faithful": 126,
     "adapted": 136,
     "represented": 10,
-    "kyr": 45,
+    "kyr": 41,
     "unsupported": 4,
     "unreachable": 0,
     "data-only": 104
@@ -1115,7 +1115,7 @@
       "faithful": 0,
       "adapted": 2,
       "represented": 0,
-      "kyr": 14,
+      "kyr": 10,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -19541,20 +19541,6 @@
    "section": "natural-abilities"
   },
   {
-   "id": "ability:custodian_sweep",
-   "title": "Bronze sweep",
-   "status": "kyr",
-   "book": "mm",
-   "section": "natural-abilities"
-  },
-  {
-   "id": "ability:custodian_chain",
-   "title": "Burial chain",
-   "status": "kyr",
-   "book": "mm",
-   "section": "natural-abilities"
-  },
-  {
    "id": "ability:breathe_cold",
    "title": "Cold breath",
    "status": "kyr",
@@ -19590,6 +19576,13 @@
    "section": "natural-abilities"
   },
   {
+   "id": "ability:howl",
+   "title": "Howl",
+   "status": "kyr",
+   "book": "mm",
+   "section": "natural-abilities"
+  },
+  {
    "id": "ability:breathe_lightning",
    "title": "Lightning breath",
    "status": "kyr",
@@ -19613,27 +19606,6 @@
   {
    "id": "ability:breathe_poison",
    "title": "Poison breath",
-   "status": "kyr",
-   "book": "mm",
-   "section": "natural-abilities"
-  },
-  {
-   "id": "ability:rending_bite",
-   "title": "Rending bite",
-   "status": "kyr",
-   "book": "mm",
-   "section": "natural-abilities"
-  },
-  {
-   "id": "ability:rime_bite",
-   "title": "Rime bite",
-   "status": "kyr",
-   "book": "mm",
-   "section": "natural-abilities"
-  },
-  {
-   "id": "ability:winter_howl",
-   "title": "Winter howl",
    "status": "kyr",
    "book": "mm",
    "section": "natural-abilities"

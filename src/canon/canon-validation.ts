@@ -1,5 +1,6 @@
 import animalPaintings from '../../data/paintings/animals.json';
 import monsterPaintings from '../../data/paintings/monsters.json';
+import geology from '../../data/catalog/geology.json';
 import { Canon } from './canon';
 import type { Modifiers } from './schema';
 import { ModifierSet } from '../rules/modifiers';
@@ -241,6 +242,7 @@ export class CanonValidation {
       }
       if (o.stand && (!o.yields || !o.gathered)) { this.fail(where, 'a stand gathers something it yields'); }
       for (const h of o.habitats.filter(h => !Canon.habitats[h])) { this.fail(where, `unknown habitat ${h}`); }
+      for (const g of (o.grounds ?? []).filter(g => !(g in geology.formations))) { this.fail(where, `unknown ground ${g}`); }
     }
   }
   private sources() {

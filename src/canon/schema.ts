@@ -203,6 +203,9 @@ export interface Plant {
   stand?: string; yields?: string; gathered?: string; count?: number;
   // And anything else cut from it that is not what it yields (a long pole from the willows), and how many.
   cut?: { yields: string; gathered: string; count?: number };
+  // The rock it does best on (data/catalog/geology.json's formations: heather on granite and peat, selfheal on the
+  // limestone), where it is twice as common (see RegionGrowth).
+  grounds?: string[];
 }
 // A kind of country (data/catalog/habitats.json): what it is on the land — the land covers, region terrains, kinds of
 // site and road forms that are it, and whether it is the ground beside water — and Orsino's terrain.

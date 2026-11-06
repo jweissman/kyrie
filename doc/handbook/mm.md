@@ -67,8 +67,6 @@ Planar Adaptation: +2 against magic, resists 50% of fire, resists 50% of cold, r
 - Found in: cave
 - Worth: 150 + 50 experience a level
 
-Rending bite: 1d6 (1–6) physical damage to one enemy; it is bleeding for 2 turns (a Constitution save against 11 avoids it). Bleeding: takes 1 bleed damage each turn. Again after a turn.
-
 Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A thing of the deep caves, eyeless and many-jointed, that hunts by the sound of breath and takes whatever comes down into the dark alone.
@@ -400,8 +398,6 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Temperament: ambush
 - Found in: fen, river
 - Worth: 10 experience a level
-
-Rending bite: 1d6 (1–6) physical damage to one enemy; it is bleeding for 2 turns (a Constitution save against 11 avoids it). Bleeding: takes 1 bleed damage each turn. Again after a turn.
 
 Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
@@ -798,8 +794,6 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
-Rending bite: 1d6 (1–6) physical damage to one enemy; it is bleeding for 2 turns (a Constitution save against 11 avoids it). Bleeding: takes 1 bleed damage each turn. Again after a turn.
-
 > A big rough-coated hound, bred to run game down and hold it.
 
 *Adapted: Orsino's hound: bite and fur, its attributes rolled and a hit die so that it grows with its level. The dog, the cave hound and the knitted bone hound are made from it.*
@@ -836,8 +830,6 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Attack: bite, 1d6 piercing
 - Hide: Fur Armor, armour 0
 - Worth: 10 experience a level
-
-Rending bite: 1d6 (1–6) physical damage to one enemy; it is bleeding for 2 turns (a Constitution save against 11 avoids it). Bleeding: takes 1 bleed damage each turn. Again after a turn.
 
 Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
@@ -878,8 +870,6 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Found in: wood, heights, desert
 - Worth: 10 experience a level
 
-Rending bite: 1d6 (1–6) physical damage to one enemy; it is bleeding for 2 turns (a Constitution save against 11 avoids it). Bleeding: takes 1 bleed damage each turn. Again after a turn.
-
 Hide: You are hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion; and on attacking, it ends. Again after 3 turns.
 
 Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
@@ -900,8 +890,6 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Temperament: territorial
 - Found in: desert
 - Worth: 10 experience a level
-
-Rending bite: 1d6 (1–6) physical damage to one enemy; it is bleeding for 2 turns (a Constitution save against 11 avoids it). Bleeding: takes 1 bleed damage each turn. Again after a turn.
 
 Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
@@ -943,8 +931,6 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Temperament: territorial
 - Found in: fen, river
 - Worth: 150 experience a level
-
-Rending bite: 1d6 (1–6) physical damage to one enemy; it is bleeding for 2 turns (a Constitution save against 11 avoids it). Bleeding: takes 1 bleed damage each turn. Again after a turn.
 
 Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
@@ -1134,8 +1120,6 @@ Wild: +2 to hit, +2 damage, +2 evasion, +1 to every roll, resists 10% of all.
 - Found in: wood
 - Worth: 10 experience a level
 
-Rending bite: 1d6 (1–6) physical damage to one enemy; it is bleeding for 2 turns (a Constitution save against 11 avoids it). Bleeding: takes 1 bleed damage each turn. Again after a turn.
-
 Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A sleek and stealthy big cat with great agility and hunting prowess.
@@ -1175,8 +1159,6 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Temperament: ambush
 - Found in: river, lake
 - Worth: 150 experience a level
-
-Rending bite: 1d6 (1–6) physical damage to one enemy; it is bleeding for 2 turns (a Constitution save against 11 avoids it). Bleeding: takes 1 bleed damage each turn. Again after a turn.
 
 Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
@@ -1431,8 +1413,6 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Found in: wood, snow
 - Worth: 10 experience a level
 
-Rending bite: 1d6 (1–6) physical damage to one enemy; it is bleeding for 2 turns (a Constitution save against 11 avoids it). Bleeding: takes 1 bleed damage each turn. Again after a turn.
-
 Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A powerful big cat with great strength, agility, and striking striped coat.
@@ -1526,7 +1506,7 @@ Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 
 - Found in: wood, fells
 - Worth: 150 experience a level
 
-Rending bite: 1d6 (1–6) physical damage to one enemy; it is bleeding for 2 turns (a Constitution save against 11 avoids it). Bleeding: takes 1 bleed damage each turn. Again after a turn.
+Howl: Every enemy is frightened for 2 turns (a Wisdom save against 12 avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. Again after 3 turns.
 
 Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
@@ -2812,7 +2792,7 @@ A creature is its kind with any of these laid over it, one of each axis: an old 
 | great | size | great | twice the size of the rest of its kind | Strength +3, Constitution +2, Dexterity -2, health +2 a level | only by an author |
 | brood_mother | role | brood-mother | swollen and slow, keeping to her eggs and not leaving them | Strength +1, Constitution +3, Dexterity -2, health +3 a level | only by an author |
 | pack_leader | role | lead | the one the rest follow, and watch | Strength +1, Constitution +1, Charisma +2, health +1 a level, Berserker Rage | only by an author |
-| frost | region | frost | thick-coated and pale, bred where the winters are long | Frost adapted, Rime bite, Winter howl | #climate == 'cold' \|\| #habitat == 'snow' |
+| frost | region | frost | thick-coated and pale, bred where the winters are long | Frost adapted | #climate == 'cold' \|\| #habitat == 'snow' |
 | marsh | region | fen | dark and slick with the mud of the fens it was bred in | Marsh adapted | #habitat == 'fen' |
 | sunburnt | region | sun-scorched | lean and dun-coloured, bred where the sun is hard | Fire lineage | #climate == 'arid' |
 | cave | haunt | cave | of the deep dark: pale, long in the leg, at home where nothing sees | Dexterity +1 | #habitat == 'cave' \|\| #habitat == 'barrow' \|\| #habitat == 'ruin' |
@@ -2822,7 +2802,7 @@ A creature is its kind with any of these laid over it, one of each axis: an old 
 | spectral | undeath | spectral | a cold grey shape of what it was, which blows go through | Undead Nature, Ethereal Form | only by an author |
 | vampiric | undeath | vampiric | pale and red-mouthed, quicker than it was alive, and hungry for blood | Strength +1, Dexterity +1, Charisma +2, Wisdom +1, Constitution -1, Undead Nature, Regeneration, Life Drain, Charm Person, Dominate Person | only by an author |
 | zombie | undeath | rotting | dead flesh walking, slow and stinking, falling apart as it comes | Dexterity -2, Intelligence -4, Wisdom -2, Undead Nature, Infect | only by an author |
-| custodian | role | custodian | set to keep a place, with a sweep of the arm and a chain for whoever will not go | Bronze sweep, Burial chain | only by an author |
+| custodian | role | custodian | set to keep a place, with a sweep of the arm and a chain for whoever will not go | Sweeping Strike | only by an author |
 | clay | material | clay | made of clay: red-brown, smooth when wet and cracking when dry | Constitution +2, Dexterity -1 | only by an author |
 | stone | material | stone | made of stone: grey, rough-dressed | Constitution +3, Dexterity -2 | only by an author |
 | iron | material | iron | made of iron: grey-black, rust at the seams | Constitution +4, Dexterity -3, Strength +1 | only by an author |
@@ -2883,20 +2863,6 @@ What creatures do with their bodies: bites, breath, howls. A blow that must be w
 
 > A glare of breath strikes every enemy and blinds those who do not save; a breath save halves it. Recharges in three turns.
 
-### Bronze sweep
-
-*Kyr · natural ability* · `ability:custodian_sweep`
-
-- Wound up: raises its bronze arms for a great sweep
-
-1d6 (1–6) physical damage to every enemy (a Dexterity save against 11 avoids it). Again after 3 turns.
-
-### Burial chain
-
-*Kyr · natural ability* · `ability:custodian_chain`
-
-1d6 (1–6) physical damage to one enemy; it is weakened for 3 turns (a Strength save against 12 avoids it). Weakened: −2 damage, Strength −2. Again after a turn.
-
 ### Cold breath
 
 *Kyr · natural ability* · `ability:breathe_cold`
@@ -2939,6 +2905,14 @@ What creatures do with their bodies: bites, breath, howls. A blow that must be w
 
 > A breath of searing light strikes every enemy; a breath save halves it. Recharges in three turns.
 
+### Howl
+
+*Kyr · natural ability* · `ability:howl`
+
+Every enemy is frightened for 2 turns (a Wisdom save against 12 avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. Again after 3 turns.
+
+> A long howl that turns the blood cold: whoever hears it fights afraid for a while.
+
 ### Lightning breath
 
 *Kyr · natural ability* · `ability:breathe_lightning`
@@ -2974,24 +2948,6 @@ Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to i
 2d6 + 2 × level poison damage to every enemy (a Constitution save against 15 + level halves it; may cause poison: a Constitution save against 15 avoids it). Poison: takes 1d4 (1–4) true damage each turn. Again after 3 turns.
 
 > Breath strikes every enemy; a breath save halves damage. Recharges in three turns.
-
-### Rending bite
-
-*Kyr · natural ability* · `ability:rending_bite`
-
-1d6 (1–6) physical damage to one enemy; it is bleeding for 2 turns (a Constitution save against 11 avoids it). Bleeding: takes 1 bleed damage each turn. Again after a turn.
-
-### Rime bite
-
-*Kyr · natural ability* · `ability:rime_bite`
-
-2d6 (2–12) cold damage to one enemy (may cause frozen: a Dexterity save against 15 avoids it); it is weakened for 3 turns (a Constitution save against 11 avoids it). Frozen: Dexterity −5, cannot act. Weakened: −2 damage, Strength −2. Again after a turn.
-
-### Winter howl
-
-*Kyr · natural ability* · `ability:winter_howl`
-
-Every enemy is stunned for a turn (a Wisdom save against 12 avoids it). Stunned: −2 to every roll, cannot act. Again after 3 turns.
 
 ## Creature traits
 

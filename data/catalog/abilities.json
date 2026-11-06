@@ -30,50 +30,15 @@
         "notes": "Kyr technique granted by a ward focus; applies fireproof on the world clock for twelve units."
       }
     },
-    "rending_bite": {
-      "name": "Rending bite",
+    "howl": {
+      "name": "Howl",
       "kind": "natural",
-      "effect": "Deal (1d6) physical damage to enemy. Apply bleeding to enemy for 2 turns unless constitution save against (11).",
-      "recharge": 1,
-      "source": {
-        "kyr": true
-      }
-    },
-    "rime_bite": {
-      "name": "Rime bite",
-      "kind": "natural",
-      "effect": "Deal (2d6) cold damage to enemy. Apply weakened to enemy for 3 turns unless constitution save against (11).",
-      "recharge": 1,
-      "source": {
-        "kyr": true
-      }
-    },
-    "winter_howl": {
-      "name": "Winter howl",
-      "kind": "natural",
-      "effect": "Apply stun to enemies for 1 turn unless wisdom save against (12).",
+      "description": "A long howl that turns the blood cold: whoever hears it fights afraid for a while.",
+      "effect": "Apply fear to enemies for 2 turns unless wisdom save against (12).",
       "recharge": 3,
       "source": {
-        "kyr": true
-      }
-    },
-    "custodian_sweep": {
-      "name": "Bronze sweep",
-      "kind": "natural",
-      "effect": "Deal (1d6) physical damage to enemies unless dexterity save against (11).",
-      "recharge": 3,
-      "source": {
-        "kyr": true
-      },
-      "windup": "raises its bronze arms for a great sweep"
-    },
-    "custodian_chain": {
-      "name": "Burial chain",
-      "kind": "natural",
-      "effect": "Deal (1d6) physical damage to enemy. Apply weakened to enemy for 3 turns unless strength save against (12).",
-      "recharge": 1,
-      "source": {
-        "kyr": true
+        "kyr": true,
+        "notes": "A wolf's howl, whatever wolf (the owner, 6 November: not a winter howl). The bites, rime and rending, and the bronze custodian's sweep and chain are gone: a beast bites with its natural weapon, and a custodian sweeps as a fighter does and strikes with its chain."
       }
     },
     "breathe_fire": {

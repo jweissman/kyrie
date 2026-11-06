@@ -5,6 +5,7 @@ import type { Entity } from '../lang/module';
 import type { Handbooks } from './handbooks';
 import type { Book, Entry, Section, Status } from './model';
 import { EncyclopediaLore } from './encyclopedia-lore';
+import { Canon } from '../canon/canon';
 
 export interface Chapter { id: string; title: string; lede: string[]; sections: Section[] }
 // A land an adventure lies in, as its own folk and its neighbours speak of it (countries.json): never what is found
@@ -77,6 +78,20 @@ export class Encyclopedia {
     }
     return undefined;
   }
+  // How many of the catalog's kinds have each ability and trait.
+  private static counted?: Map<string, number>;
+  private static get shared(): Map<string, number> {
+    if (this.counted) { return this.counted; }
+    const counts = new Map<string, number>();
+    this.counted = counts;
+    for (const id of Canon.catalogued) {
+      const s = Canon.creature(id);
+      for (const ref of [...(s.abilities ?? []).map(a => `ability:${a}`), ...(s.traits ?? []).map(t => `trait:${t}`)]) {
+        counts.set(ref, (counts.get(ref) ?? 0) + 1);
+      }
+    }
+    return counts;
+  }
   // A section as the reader sees it: only what is played, nothing of how it was made; none, when nothing is left.
   static kept(s: Section): Section | undefined {
     if (this.making.test(s.title)) { return undefined; }
@@ -94,10 +109,14 @@ export class Encyclopedia {
     return { id: s.id, title: s.title, ...intro.length ? { intro } : {}, ...entries.length ? { entries } : {},
       ...table ? { table } : {}, ...sections.length ? { sections } : {} };
   }
-  // An entry without the making of it: its notes (why it was adapted) are the handbooks'.
+  // An entry without the making of it: its notes (why it was adapted) are the handbooks'. A creature's is brief (the
+  // owner, 6 November): what it does that is its own is told there, and what others do too (a bite, a fear, what the
+  // dead are) is a link to where that is told once.
   private static entry(e: Entry): Entry {
+    const rules = (e.rules ?? []).filter((_, i) => !e.rulesOf?.[i]
+      || (Encyclopedia.shared.get(e.rulesOf[i]!) ?? 0) < 2);
     return { id: e.id, title: e.title, status: e.status, ...e.kind ? { kind: e.kind } : {},
-      ...e.facts?.length ? { facts: e.facts } : {}, ...e.rules?.length ? { rules: e.rules } : {},
+      ...e.facts?.length ? { facts: e.facts } : {}, ...rules.length ? { rules } : {},
       ...e.text?.length ? { text: e.text.filter(p => !this.making.test(p)) } : {}, ...e.refs ? { refs: e.refs } : {},
       ...e.painting ? { painting: e.painting } : {} };
   }

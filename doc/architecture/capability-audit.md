@@ -10,7 +10,7 @@ Kyr's capability audit against Orsino, one family of rules at a time. Each famil
 | Action timing, reactions, conditions, costs and targeting | 180 faithful, 29 adapted, 37 kyr, 21 not playable |
 | Spells: traditions, slots, durations and unusual magic | 246 faithful, 4 adapted, 2 kyr, 32 not playable |
 | Summoning, transformation, domination, movement, divination and travel | 38 faithful, 4 adapted, 7 represented, 13 not playable |
-| Creatures: families, special attacks, resistances, behaviour and difficulty | 126 faithful, 131 adapted, 10 represented, 45 kyr, 4 not playable, 104 orsino data only |
+| Creatures: families, special attacks, resistances, behaviour and difficulty | 126 faithful, 131 adapted, 10 represented, 41 kyr, 4 not playable, 104 orsino data only |
 | Equipment, treasure and magic items | 360 faithful, 94 adapted, 11 represented, 57 kyr, 9 not playable, 7 orsino data only |
 | Environment, world and planar rules | 3 adapted, 7 represented, 254 kyr, 180 orsino data only |
 | Content authoring and generation | 26 kyr |
@@ -137,7 +137,7 @@ Handbook sections: `dmg:orsino-world/orsino-plane`.
 
 ## Creatures: families, special attacks, resistances, behaviour and difficulty
 
-Entries: 126 faithful, 131 adapted, 10 represented, 45 kyr, 4 not playable, 104 orsino data only.
+Entries: 126 faithful, 131 adapted, 10 represented, 41 kyr, 4 not playable, 104 orsino data only.
 
 **What Orsino defines.** 10 monster classes (stat line, weapon, hide, up to three attacks a turn, worth, gold) × 40 types × 31 aspects × 8 ranks, 44 animals, 17 elementals, dragons by colour, golems by substance, 89 kinds of person by trade.
 

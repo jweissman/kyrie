@@ -55,7 +55,7 @@ describe('what a technique says', () => {
     for (let s = 0; s < 60; s++) {
       const content = new Content(`stun-${s}`);
       const b = new Battle({ id: 'stun', combatants: [content.character('warrior', 'hero', 'fighters'),
-        content.creature('frost_wolf', 'wolf', 'goblins')], abilities: Content.abilities }, `stun-${s}`, 200);
+        content.creature('bear', 'bear', 'goblins')], abilities: Content.abilities }, `stun-${s}`, 200);
       while (!b.state.outcome) { b.step(b.chosen()); }
       b.events.forEach((e, i) => {
         if (e.type !== 'status' || e.detail !== 'stun' || e.target !== 'hero') { return; }

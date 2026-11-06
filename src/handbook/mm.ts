@@ -71,8 +71,11 @@ export class MonsterManual {
       kind: s.variantOf ? `a ${Canon.creature(s.variantOf).name.toLowerCase()}, altered` : s.type, facts,
       rules: [...(s.abilities ?? []).map(a => `${HandbookText.ability(a)}: ${HandbookText.mechanics(a) ?? 'no mechanics'}`),
         ...(s.traits ?? []).flatMap(t => HandbookText.trait(t).map(line => `${Canon.traits[t]?.name ?? t}: ${line}`))],
+      rulesOf: [...(s.abilities ?? []).map(a => `ability:${a}`),
+        ...(s.traits ?? []).flatMap(t => HandbookText.trait(t).map(() => `trait:${t}`))],
       text: [s.description], notes: HandbookStatus.notes(s as Parameters<typeof HandbookStatus.notes>[0]),
-      refs: [...(s.abilities ?? []).map(a => `ability:${a}`), ...s.variantOf ? [`species:${Canon.resolve('species', s.variantOf).split('/')[0]}`] : []],
+      refs: [...(s.abilities ?? []).map(a => `ability:${a}`), ...(s.traits ?? []).filter(t => MonsterManual.natured(t))
+        .map(t => `trait:${t}`), ...s.variantOf ? [`species:${Canon.resolve('species', s.variantOf).split('/')[0]}`] : []],
       ...this.painted(id) };
   }
   // Its blow, or each of the blows of its round, one roll each (a dragon's claws, claws and bite: see AttackRoutine).
@@ -107,8 +110,10 @@ export class MonsterManual {
     return Object.entries(r).map(([k, v]) => v >= 1 ? `immune to ${k}` : v > 0 ? `${k} ${Math.round(v * 100)}%`
       : `${k} takes ${Math.round(-v * 100)}% more`).join(', ');
   }
+  // A trait of a creature's nature or affinity, which this book has an entry for.
+  static natured(id: string): boolean { return ['nature', 'affinity'].includes(Canon.traits[id]?.category ?? ''); }
   traits(): Section {
-    const entries = Object.entries(Canon.traits).filter(([, t]) => t.category === 'nature' || t.category === 'affinity')
+    const entries = Object.entries(Canon.traits).filter(([id]) => MonsterManual.natured(id))
       .map(([id, t]) => CompanyChapters.trait(id, t.name, `${t.category} trait`));
     return { id: 'creature-traits', title: 'Creature traits', intro: ['What a creature\'s nature gives it: flight, size, an '
       + 'element it draws on or fears.'], entries };
