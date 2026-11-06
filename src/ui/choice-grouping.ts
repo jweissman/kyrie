@@ -16,6 +16,8 @@ type Slot = 'exit' | 'target' | 'item' | 'member' | 'camp';
 interface Rule {
   slot: Slot; param?: string; path: string[]; passage?: Passage; via?: string; risk?: boolean;
   also?: { param: string; path: string[] };
+  // Whether doing it is going by the way (a walk, a journey), not something done at it.
+  moves?: boolean;
   // The binding whose own account (a spell's) is what the choice means, rather than the action's description.
   tells?: string;
   // The path when the subject stands on a way rather than in the place: tries gather under one entry per thing.
@@ -52,8 +54,8 @@ export interface GroupingContext {
 // an unrecognized schema falls back to its own authored label under its first present binding, or "Other".
 export class ChoiceGrouping {
   static readonly rules: Record<string, Rule> = {
-    travel: { slot: 'exit', param: 'destination', path: ['Go'] },
-    go: { slot: 'exit', param: 'destination', path: ['Go'] },
+    travel: { slot: 'exit', param: 'destination', path: ['Go'], moves: true },
+    go: { slot: 'exit', param: 'destination', path: ['Go'], moves: true },
     // Beside the way in, how to meet what is heard there: go in to it, or draw it out (the follow-up review).
     draw_out: { slot: 'exit', param: 'whence', path: ['Draw out what is in there, and wait for it here'] },
     risk: { slot: 'exit', param: 'destination', path: ['Risk {trap}', '{victim} goes first'], passage: 'hazard',
@@ -70,7 +72,7 @@ export class ChoiceGrouping {
     camp: { slot: 'camp', path: ['Make camp for the night'] },
     part_ways: { slot: 'target', param: 'companion', path: ['Let {them} make {their} own way'] },
     send_off: { slot: 'target', param: 'companion', path: ['Tell {them} not to wait for you'] },
-    walk: { slot: 'exit', param: 'destination', path: ['Walk'] },
+    walk: { slot: 'exit', param: 'destination', path: ['Walk'], moves: true },
     cross: { slot: 'exit', param: 'destination', path: ['Go past {defender}'], passage: 'guarded', via: '{defender}' },
     slip_past: { slot: 'exit', param: 'destination', path: ['Slip past {gatekeeper}'], passage: 'guarded', via: '{gatekeeper}' },
     passage: { slot: 'exit', param: 'destination', path: ['Take the concealed way'], passage: 'hidden' },
@@ -241,14 +243,21 @@ export class ChoiceGrouping {
     const [today, time] = [FictionalTime.at(now).split(', ')[0], FictionalTime.at(end).split(', ')];
     return { until: time[0] === today ? time[1]! : `${time[1]!} tomorrow` };
   }
-  // One that cannot be done now: why, and what kind of act it would be.
-  private static withheld(row: Row) { return { disabled: row.wanting!, does: row.action.schema ?? row.action.id }; }
+  // The act itself: its command, or why it cannot be done now; and what kind of act it is, either way.
+  private static withheld(row: Row) {
+    const does = row.action.schema ?? row.action.id;
+    const targets = Object.entries(row.action.bindings ?? {}).filter(([k]) => !['actor', 'site'].includes(k))
+      .map(([, v]) => v);
+    return { ...row.wanting ? { disabled: row.wanting } : { command: row.choice.id }, does,
+      ...targets.length ? { targets } : {},
+      ...row.action.movement || ChoiceGrouping.rules[does]?.moves ? { moves: true } : {} };
+  }
   private static place(out: Grouped, row: Row, context: GroupingContext) {
     const { choice, action } = row;
     const bound = Object.entries(action.bindings ?? {}).filter(([k]) => !['actor', 'site'].includes(k))
       .map(([, v]) => context.names.get(v) ?? '').filter(Boolean);
     const minutes = context.world ? ActionTime.minutes(action, context.world) : choice.time * 10;
-    const leaf = { ...(row.wanting ? ChoiceGrouping.withheld(row) : { command: choice.id }), minutes,
+    const leaf = { ...ChoiceGrouping.withheld(row), minutes,
       ...ChoiceGrouping.until(action, minutes, context.world),
       ...(action.description ? { about: action.description } : {}),
       ...(row.by?.length && !context.solo ? { by: row.by } : {}),

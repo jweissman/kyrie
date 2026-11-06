@@ -7,8 +7,9 @@ import type { Choice } from '../../src/ui/choice-list';
 // work (a bed, care, a song for supper, a lesson, a sale) set apart for trading, not among what is said.
 export class TalkFocus {
   static readonly most = 3;
-  static readonly services =
-    /^(take_lodging|take_healing|work_keep|sing_supper|sell|buy_goods|train_member|learn_spell|repair)/;
+  // The kinds of act had of someone for coin or work (Choice.does, never the command's words).
+  static readonly services = new Set(['take_lodging', 'take_lodging_guest', 'take_healing', 'work_keep', 'sing_supper',
+    'sell', 'sell_valuable', 'buy_goods', 'train_member', 'learn_skill', 'learn_spell', 'learn_reward']);
   static of(replies: Choice[], at: { led?: string; heard?: string[]; asked: string[] }) {
     const answers = replies.filter(c => c.answer);
     const services = replies.filter(c => !c.answer && TalkFocus.service(c));
@@ -36,8 +37,6 @@ export class TalkFocus {
   }
   // Had of them for coin or work: by what it does, or a group of such (a lesson in each skill).
   private static service(c: Choice): boolean {
-    // One that cannot be had now has no command, but its id is what it would do.
-    const does = c.command ?? c.does ?? c.id;
-    return TalkFocus.services.test(does) || (!!c.children?.length && c.children.every(k => TalkFocus.service(k)));
+    return TalkFocus.services.has(c.does ?? '') || (!!c.children?.length && c.children.every(k => TalkFocus.service(k)));
   }
 }

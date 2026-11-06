@@ -4,7 +4,8 @@ import type { World } from '../lang/world';
 // out for sale), at what price and how many are left, what kinds of thing they buy and for how much, and their coin.
 export interface Counter {
   id: string; name: string;
-  sells: { name: string; price: number; stock: number }[];
+  // Each thing sold: its kind (a good's id, or an item's kind) and whether it is a good sold by the measure.
+  sells: { name: string; price: number; stock: number; kind: string; good?: true }[];
   buys: { name: string; price: number }[];
   coin: number;
 }
@@ -25,12 +26,12 @@ export class TradeModel {
   private static counter(world: World, id: string, names: Map<string, string>): Counter {
     const goods = world.related('sells', id).map(r => r.args[1]!)
       .map(g => ({ name: this.name(g, names), price: this.value(world, 'goodsPrice', id, g),
-        stock: this.value(world, 'quantity', id, g) }));
+        stock: this.value(world, 'quantity', id, g), kind: g, good: true as const }));
     const laid = world.relatedTo('soldBy', id).map(r => r.args[0]!).filter(i => world.related('forSale', i).length > 0);
     const kinds = [...new Set(laid.map(i => this.kind(world, i)))];
     const things = kinds.map(k => {
       const of = laid.filter(i => this.kind(world, i) === k);
-      return { name: this.name(k, names), price: this.value(world, 'price', of[0]!), stock: of.length };
+      return { name: this.name(k, names), price: this.value(world, 'price', of[0]!), stock: of.length, kind: k };
     });
     const buys = world.measured('pays').filter(m => m.call.args[0] === id && m.value > 0)
       .map(m => ({ name: this.name(m.call.args[1]!, names), price: m.value })).sort((a, b) => b.price - a.price);

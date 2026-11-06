@@ -6,7 +6,7 @@ import { TalkFocus } from '../web/reader/talk-focus';
 // about at once, a herb-wife with nine): three salient things at most, the rest a touch away, what is had of them
 // for coin set apart for trading, and the countries beyond one thing to ask about.
 const said = (id: string, command?: string, more: Partial<Choice> = {}): Choice =>
-  ({ id, label: id, tone: 'person', ...command ? { command } : {}, ...more });
+  ({ id, label: id, tone: 'person', ...command ? { command, does: command.replace(/\(.*$/, '') } : {}, ...more });
 describe('what is said, as attention holds it', () => {
   const replies = [said('well', 'ask(inn,word2)'), said('mound', 'ask(inn,word4)'),
     ...['crowns', 'saltgrave', 'glass'].map(x => said(x, `gate_${x}_beyond_told_s2`)), said('tower', 'w9_asked'),

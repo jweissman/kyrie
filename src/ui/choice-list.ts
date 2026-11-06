@@ -12,8 +12,8 @@ export interface Choice {
   id: string; label: string; tone: Tone;
   command?: string; children?: Choice[];
   note?: string; about?: string; risk?: boolean; minutes?: number; disabled?: string;
-  // One that cannot be done now: what kind of act it would be (see Act.does).
-  does?: string;
+  // What kind of act it is, and what it is done to or with (see Act.does, Act.targets).
+  does?: string; targets?: string[];
   // A way about the settlement or site the company is in, however long it takes (see ExitRow).
   local?: boolean;
   // What cannot be undone by it: the page says so, and asks again, before it is done.
@@ -167,7 +167,7 @@ export class ChoiceList {
     // Where the company has not been is on the map; the note is how long the way takes.
     const note = minutes > 10 ? this.minutes(minutes) : '';
     const barred: Choice = { id, label, tone: 'way', disabled: e.blocked ?? 'Not possible from here right now.', about,
-      note: 'barred' };
+      note: 'barred', does: 'go' };
     if (!e.acts.length) { return [barred]; }
     // A way that is barred, with something to try on what bars it, is the way, barred, saying what bars it (and what
     // another way there would want), and then those tries: "Into the bailey" had opened on looking closely, pushing
@@ -180,7 +180,9 @@ export class ChoiceList {
     // pit) is said, so a choice never pretends to lead somewhere it does not.
     const only = e.acts.length === 1 && !e.acts[0]!.children && this.moves(e.acts[0]!) ? e.acts[0]! : undefined;
     if (only) {
-      return [{ id, label, tone: 'way', ...(only.command ? { command: only.command } : {}), about: only.about ?? about,
+      return [{ id, label, tone: 'way', ...(only.command ? { command: only.command } : {}),
+        ...(only.does ? { does: only.does } : {}), ...(only.targets ? { targets: only.targets } : {}),
+        about: only.about ?? about,
         ...(note ? { note } : {}), ...(only.minutes ? { minutes: only.minutes } : {}),
         ...(only.risk ? { risk: true } : {}), ...(only.grave ? { grave: only.grave } : {}) }];
     }
@@ -195,7 +197,7 @@ export class ChoiceList {
       const c = this.choice(a, id, 'way');
       const how = this.moves(a) && !a.label.startsWith('Go by ') ? label : a.label.startsWith('Go by ') ? `${label}, ${a.label.slice(3)}`
         : `${label} — ${c.label.charAt(0).toLowerCase()}${c.label.slice(1)}`;
-      const blind = this.risky(a) && this.leaves([a]).some(k => unlooked.has(/^\w+\(([^,)]+)/.exec(k.command ?? '')?.[1] ?? ''));
+      const blind = this.risky(a) && this.leaves([a]).some(k => (k.targets ?? []).some(t => unlooked.has(t)));
       return { ...c, label: how, about: c.about ?? about,
         ...blind ? { note: [c.note, ChoiceList.unexamined].filter(Boolean).join(' · ') } : {} };
     });
@@ -206,9 +208,10 @@ export class ChoiceList {
   }
   // What could still be looked at closely, by its id.
   private static unlooked(acts: Act[]): Set<string> {
-    return new Set(this.leaves(acts).flatMap(a => /^look_closely\(([^)]+)\)$/.exec(a.command ?? '')?.[1] ?? []));
+    return new Set(this.leaves(acts).flatMap(a => a.command && a.does === 'look_closely' ? a.targets ?? [] : []));
   }
-  private static moves(a: Act): boolean { return a.label === 'Go' || a.label === 'Walk'; }
+  // Whether an act at a way is going by it: its action moves the company (Act.moves), never its label's word.
+  private static moves(a: Act): boolean { return !!a.moves; }
   // A place whose name says where it is ("among the trees of Beorquudu", "under the bridge") is gone to without a
   // "to": the navigation review's march-stone had offered "To among the trees of …" (NVR-05).
   static readonly whereabouts = new RegExp(`^(${['among', 'amid', 'amongst', 'by', 'under', 'over', 'beneath', 'below',
@@ -276,7 +279,7 @@ export class ChoiceList {
     return { id, label, tone, ...(a.command ? { command: a.command } : {}), ...(note ? { note } : {}),
       ...(a.minutes ? { minutes: a.minutes } : {}), ...(about ? { about } : {}),
       ...(a.risk ? { risk: true } : {}), ...(a.disabled ? { disabled: a.disabled } : {}),
-      ...(a.does ? { does: a.does } : {}),
+      ...(a.does ? { does: a.does } : {}), ...(a.targets ? { targets: a.targets } : {}),
       ...(a.grave ? { grave: a.grave } : {}), ...(a.answer ? { answer: true } : {}), ...(a.own ? { own: true } : {}),
       ...(a.deed ? { deed: true } : {}) };
   }

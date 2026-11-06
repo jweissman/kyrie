@@ -11,8 +11,14 @@ export type Passage = 'open' | 'guarded' | 'hazard' | 'climb' | 'hidden' | 'door
 
 export interface Act {
   key: string; label: string; command?: string; minutes?: number; risk?: boolean; children?: Act[];
-  // One that cannot be done now: what kind of act it would be (its action's schema), having no command to say so.
+  // What kind of act it is (its action's schema: talk_to, take_lodging, look_closely…), whether or not it can be done
+  // now: what the page goes by, never the command's or the label's words (the architecture review's P0).
   does?: string;
+  // What it is done to or with: the entities its action binds, besides who does it and where (an item, its kind, a
+  // merchant), by id.
+  targets?: string[];
+  // Whether doing it takes the company somewhere (its action moves it), as against what is done at a way.
+  moves?: boolean;
   // What the action's author says it means, shown before it is chosen.
   about?: string;
   // Who in the company makes it possible (the one with the skill it needs), or why it cannot be done.
