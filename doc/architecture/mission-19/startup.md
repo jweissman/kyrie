@@ -77,3 +77,21 @@ A first visit is ready under three seconds after Set out for anyone who reads cr
 player who sets out at once waits the whole of the parse. (The earlier table's runs had kept their parses between
 visits: a page opened again in the same browser keeps its IndexedDB.)
 
+
+## The first world ever, 6 November: its critical path, and the cure not yet built
+
+The 9.3 s the first world takes when a player sets out at once (the architecture review asks for its critical path)
+is parsing: a world's start parses about 123 Kyr texts (its rules, its region's own files and the adventures it
+installs), about nine seconds of V8 in the browser, and nothing else on the path is above half a second (drawing the
+world 0.2–0.4 s, the first screen 0.5–0.6 s). Every later start reads those parses from IndexedDB in ≈ 0.4 s.
+
+Measured headless over the whole bundle (`/var/tmp/kyrie/m19/parse-size2.ts`): 472 texts, 8.8 MB of source, parse to
+21 MB of JSON in ≈ 20 s. So shipping parsed Kyr with the site in place of parsing it on a first visit costs about 2.4
+times the source's size (gzipped far less), a few megabytes for a world, and turns nine seconds of parsing into well
+under one of reading JSON.
+
+The cure is a build step: the site writes each text's parse, under the same key `ParseKeep` uses, as a static file;
+the engine reads it before it would parse. The key is the text with the local kinds whose ids it names
+(`LocalKinds.seen`), so the build must parse each text among exactly the kinds a start would have installed when it
+reaches it: the rules and the adventures name only their own kinds, and can be built; a generated region's own files
+are particular to its seed, and keep being parsed while the last page of creation is read. Not built yet.
