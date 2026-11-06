@@ -55,7 +55,7 @@ describe('exploring the open country', () => {
     // where it stopped.
     const go = () => Travel.go({ campaign: j.campaign, perform: (c: string) => j.session.perform(c) }, tower!.id);
     let done = await go();
-    for (let k = 0; k < 4 && !done.arrived && done.stopped && !j.campaign.encounter; k++) { done = await go(); }
+    for (let k = 0; k < 4 && !done.arrived && done.stopped; k++) { done = await go(); }
     expect(done.arrived).toBe(true);
     const land = j.screen().region!.land!;
     expect(land.known).toEqual(expect.arrayContaining(after.known));
