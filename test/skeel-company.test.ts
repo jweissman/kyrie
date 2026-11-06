@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'bun:test';
 import { Journey } from '../src/session/journey';
 
-// Fair Weather, what the company is for (doc/imbar/adventures/skeel.md): the shipped ranger, Tamar, alone, played by the
+// Fair Weather, what the company is for (doc/imbar/adventures/skeel.md): the shipped ranger, Tamar, alone, played by
+// the
 // labels a player sees. Nothing is given, put or asserted.
 const home = 'data/campaigns/skeel.campaign.json';
 const toPulpit = ['>cliff_road', '>clifftop', '^To the Pulpit'];

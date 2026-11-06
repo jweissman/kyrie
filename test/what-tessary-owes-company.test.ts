@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'bun:test';
 import { Journey } from '../src/session/journey';
 
-// What Tessary Owes, what the company is for (doc/imbar/adventures/what-tessary-owes.md): the shipped thief, Ivo, alone,
+// What Tessary Owes, what the company is for (doc/imbar/adventures/what-tessary-owes.md): the shipped thief, Ivo,
+// alone,
 // played by the labels a player sees. Nothing is given, put or asserted.
 const home = 'data/campaigns/what-tessary-owes.campaign.json';
 const t = (id: string) => `tessary__${id}`;

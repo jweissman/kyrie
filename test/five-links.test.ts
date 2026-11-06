@@ -3,7 +3,8 @@ import { Journey } from '../src/session/journey';
 
 // The Long Man, Fair Weather, Low Water and What Tessary Owes, tied to one another by the things they hand
 // out (doc/imbar/adventures/*.md). Each case is a person who reacts to an item kind another of the five gives: offered
-// only to a company holding it, answered once, and silent without. As in test/lore-links.test.ts the item is handed to the
+// only to a company holding it, answered once, and silent without. As in test/lore-links.test.ts the item is handed to
+// the
 // company with j.give and the company placed with j.put, since the item's own adventure is another province; those two
 // are ASSERTED setup. What is under test is the reaction.
 const campaign = (name: string) => `data/campaigns/${name}.campaign.json`;
