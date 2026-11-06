@@ -794,7 +794,13 @@ Also kept, without comment: matterOpen, matterDone, at, able, dead, distinct, cl
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 20 | 48 | 17 | 5 | 5 | 8 |
+| 21 | 50 | 17 | 5 | 5 | 8 |
+
+#### quarter, inQuarter, heartOf
+
+*Kyr · kind; relation(place, quarter); relation(quarter, place)* · `rule:world_core.quarter`
+
+A part of a town (the green, the market, the waterside): the places in it, and the one it is walked to (see data/generation/town/quarters.json). A place keeps its containment; a quarter is only where it lies.
 
 #### ending, reached
 

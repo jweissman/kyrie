@@ -38,8 +38,8 @@
     "total": 44,
     "feasible": 44,
     "catalogued": 0,
-    "represented": 5,
-    "executable": 39,
+    "represented": 6,
+    "executable": 38,
     "play-validated": 0
    },
    {
@@ -997,7 +997,7 @@
     "faithful": 239,
     "adapted": 25,
     "represented": 30,
-    "kyr": 279,
+    "kyr": 280,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 198
@@ -1010,7 +1010,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 253,
+      "kyr": 254,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -1060,10 +1060,10 @@
   "mm": {
    "title": "Monster Manual",
    "counts": {
-    "faithful": 127,
-    "adapted": 138,
-    "represented": 9,
-    "kyr": 40,
+    "faithful": 126,
+    "adapted": 136,
+    "represented": 10,
+    "kyr": 44,
     "unsupported": 4,
     "unreachable": 0,
     "data-only": 104
@@ -1073,10 +1073,10 @@
      "id": "species",
      "title": "Creatures",
      "counts": {
-      "faithful": 33,
-      "adapted": 53,
+      "faithful": 32,
+      "adapted": 52,
       "represented": 0,
-      "kyr": 23,
+      "kyr": 22,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -1115,7 +1115,7 @@
       "faithful": 0,
       "adapted": 2,
       "represented": 0,
-      "kyr": 9,
+      "kyr": 14,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -1139,8 +1139,8 @@
      "title": "Appendix: Orsino's bestiary",
      "counts": {
       "faithful": 68,
-      "adapted": 78,
-      "represented": 9,
+      "adapted": 77,
+      "represented": 10,
       "kyr": 0,
       "unsupported": 0,
       "unreachable": 0,
@@ -13864,6 +13864,13 @@
    "section": "world-rules/rules-care"
   },
   {
+   "id": "rule:world_core.quarter",
+   "title": "quarter, inQuarter, heartOf",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-core"
+  },
+  {
    "id": "rule:world_core.ending",
    "title": "ending, reached",
    "status": "kyr",
@@ -18806,13 +18813,6 @@
    "section": "species/species-beast"
   },
   {
-   "id": "species:cave_spider",
-   "title": "Cave spider",
-   "status": "kyr",
-   "book": "mm",
-   "section": "species/species-beast"
-  },
-  {
    "id": "species:centipede",
    "title": "Centipede",
    "status": "faithful",
@@ -18869,6 +18869,13 @@
    "section": "species/species-beast"
   },
   {
+   "id": "species:dolphin",
+   "title": "Dolphin",
+   "status": "kyr",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
    "id": "species:dragonfly",
    "title": "Dragonfly",
    "status": "faithful",
@@ -18890,16 +18897,16 @@
    "section": "species/species-beast"
   },
   {
-   "id": "species:falcon",
-   "title": "Falcon",
-   "status": "faithful",
+   "id": "species:elephant",
+   "title": "Elephant",
+   "status": "kyr",
    "book": "mm",
    "section": "species/species-beast"
   },
   {
-   "id": "species:cave_hound",
-   "title": "Feral cave hound",
-   "status": "kyr",
+   "id": "species:falcon",
+   "title": "Falcon",
+   "status": "faithful",
    "book": "mm",
    "section": "species/species-beast"
   },
@@ -18925,44 +18932,9 @@
    "section": "species/species-beast"
   },
   {
-   "id": "species:frost_wolf",
-   "title": "Frost-altered wolf",
-   "status": "kyr",
-   "book": "mm",
-   "section": "species/species-beast"
-  },
-  {
    "id": "species:goat",
    "title": "Goat",
    "status": "faithful",
-   "book": "mm",
-   "section": "species/species-beast"
-  },
-  {
-   "id": "species:great_centipede",
-   "title": "Great centipede",
-   "status": "kyr",
-   "book": "mm",
-   "section": "species/species-beast"
-  },
-  {
-   "id": "species:great_pike",
-   "title": "Great pike",
-   "status": "kyr",
-   "book": "mm",
-   "section": "species/species-beast"
-  },
-  {
-   "id": "species:great_rat",
-   "title": "Great rat",
-   "status": "kyr",
-   "book": "mm",
-   "section": "species/species-beast"
-  },
-  {
-   "id": "species:great_snake",
-   "title": "Great snake",
-   "status": "kyr",
    "book": "mm",
    "section": "species/species-beast"
   },
@@ -19030,6 +19002,13 @@
    "section": "species/species-beast"
   },
   {
+   "id": "species:leopard",
+   "title": "Leopard",
+   "status": "kyr",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
    "id": "species:lion",
    "title": "Lion",
    "status": "adapted",
@@ -19054,6 +19033,13 @@
    "id": "species:mole",
    "title": "Mole",
    "status": "faithful",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:monkey",
+   "title": "Monkey",
+   "status": "kyr",
    "book": "mm",
    "section": "species/species-beast"
   },
@@ -19149,6 +19135,13 @@
    "section": "species/species-beast"
   },
   {
+   "id": "species:rhino",
+   "title": "Rhinoceros",
+   "status": "kyr",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
    "id": "species:sheep",
    "title": "Sheep",
    "status": "kyr",
@@ -19172,13 +19165,6 @@
   {
    "id": "species:squirrel",
    "title": "Squirrel",
-   "status": "faithful",
-   "book": "mm",
-   "section": "species/species-beast"
-  },
-  {
-   "id": "species:stag",
-   "title": "Stag",
    "status": "faithful",
    "book": "mm",
    "section": "species/species-beast"
@@ -19212,9 +19198,23 @@
    "section": "species/species-beast"
   },
   {
+   "id": "species:whale",
+   "title": "Whale",
+   "status": "kyr",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
    "id": "species:wolf",
    "title": "Wolf",
    "status": "adapted",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:zebra",
+   "title": "Zebra",
+   "status": "kyr",
    "book": "mm",
    "section": "species/species-beast"
   },
@@ -19256,13 +19256,6 @@
   {
    "id": "species:clockwork_soldier",
    "title": "Clockwork Soldier",
-   "status": "adapted",
-   "book": "mm",
-   "section": "species/species-construct"
-  },
-  {
-   "id": "species:bronze_construct",
-   "title": "Funerary bronze construct",
    "status": "adapted",
    "book": "mm",
    "section": "species/species-construct"
@@ -19443,13 +19436,6 @@
    "section": "species/species-undead"
   },
   {
-   "id": "species:bone_hound",
-   "title": "Knitted bone hound",
-   "status": "kyr",
-   "book": "mm",
-   "section": "species/species-undead"
-  },
-  {
    "id": "species:lich",
    "title": "Lich",
    "status": "adapted",
@@ -19534,6 +19520,13 @@
    "section": "natural-abilities"
   },
   {
+   "id": "ability:breathe_blinding",
+   "title": "Blinding breath",
+   "status": "kyr",
+   "book": "mm",
+   "section": "natural-abilities"
+  },
+  {
    "id": "ability:custodian_sweep",
    "title": "Bronze sweep",
    "status": "kyr",
@@ -19555,6 +19548,20 @@
    "section": "natural-abilities"
   },
   {
+   "id": "ability:breathe_thunder",
+   "title": "Deafening breath",
+   "status": "kyr",
+   "book": "mm",
+   "section": "natural-abilities"
+  },
+  {
+   "id": "ability:breathe_disintegration",
+   "title": "Disintegrating breath",
+   "status": "kyr",
+   "book": "mm",
+   "section": "natural-abilities"
+  },
+  {
    "id": "ability:breathe_fire",
    "title": "Fire breath",
    "status": "adapted",
@@ -19562,8 +19569,22 @@
    "section": "natural-abilities"
   },
   {
+   "id": "ability:breathe_holy",
+   "title": "Holy breath",
+   "status": "kyr",
+   "book": "mm",
+   "section": "natural-abilities"
+  },
+  {
    "id": "ability:breathe_lightning",
    "title": "Lightning breath",
+   "status": "kyr",
+   "book": "mm",
+   "section": "natural-abilities"
+  },
+  {
+   "id": "ability:breathe_madness",
+   "title": "Maddening breath",
    "status": "kyr",
    "book": "mm",
    "section": "natural-abilities"
@@ -20355,7 +20376,7 @@
   {
    "id": "orsino:animal:hound",
    "title": "Hound",
-   "status": "adapted",
+   "status": "represented",
    "book": "mm",
    "section": "orsino-bestiary/orsino-animal"
   },

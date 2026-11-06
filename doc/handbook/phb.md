@@ -5369,7 +5369,7 @@ Every enemy is asleep for 3 turns (a Wisdom save against 16 + level + the caster
 
 *Faithful · level 3 arcane spell, conjuration* · `ability:summon_monster_ii`
 
-Call one of: automaton, funerary bronze construct, clockwork soldier, clay golem, stone golem, iron golem, wood golem, gold golem, bone golem, crystal golem, silver golem, glass golem, platinum golem, bronze golem, behemoth, colossus, titan, balor, fiend, ifrit, marilith, of level 5, to fight for you until the fight ends. An arcane spell of the third level. Takes a third-level slot.
+Call one of: automaton, clockwork soldier, clay golem, stone golem, iron golem, wood golem, gold golem, bone golem, crystal golem, silver golem, glass golem, platinum golem, bronze golem, behemoth, colossus, titan, balor, fiend, ifrit, marilith, of level 5, to fight for you until the fight ends. An arcane spell of the third level. Takes a third-level slot.
 
 > Summon a more powerful random monster (construct, giant, or demon) to fight for you.
 
@@ -5721,7 +5721,7 @@ Call one of: mephit, slump, air elemental, ash elemental, crystal elemental, dus
 
 *Faithful · level 6 arcane spell, conjuration* · `ability:summon_monster_iv`
 
-Call one of: discerner, hollow-stalker, mind destroyer, mouther, ooze, automaton, funerary bronze construct, clockwork soldier, clay golem, stone golem, iron golem, wood golem, gold golem, bone golem, crystal golem, silver golem, glass golem, platinum golem, bronze golem, of level 12, to fight for you until the fight ends. An arcane spell of the sixth level. Takes a sixth-level slot.
+Call one of: discerner, hollow-stalker, mind destroyer, mouther, ooze, automaton, clockwork soldier, clay golem, stone golem, iron golem, wood golem, gold golem, bone golem, crystal golem, silver golem, glass golem, platinum golem, bronze golem, of level 12, to fight for you until the fight ends. An arcane spell of the sixth level. Takes a sixth-level slot.
 
 > Summon a mighty random construct or aberration to fight for you.
 
@@ -6571,7 +6571,7 @@ You gain stoneskin for 3 turns. Stoneskin: 3 harder to hit. A divine spell of th
 
 *Faithful · level 3 divine spell, nature domain* · `ability:summon_natural_guardian`
 
-Call one of: bear, wolf, eagle, stag, to fight for you until the fight ends. A divine spell of the third level. Takes a third-level slot.
+Call one of: bear, wolf, eagle, to fight for you until the fight ends. A divine spell of the third level. Takes a third-level slot.
 
 > Summon a powerful natural guardian to aid you in battle.
 

@@ -286,27 +286,6 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A cat about the house: it keeps the mice down and goes where it likes.
 
-#### Cave spider
-
-*Kyr · a spider, altered* · `species:cave_spider`
-
-- Type: beast (animal)
-- Hit points: d4 a level
-- Qualities: rolled (3d6 each)
-- Attack: bite, 1d6 piercing
-- Hide: Chitin Armor, armour 2
-- Temperament: ambush
-- Found in: cave, wood
-- Worth: 150 experience a level
-
-Venomous Bite: 1d6 (1–6) poison damage to one enemy (halved if resisted; may cause poison: a Constitution save against 15 avoids it); it gains poison for 3 turns (a Constitution save against 12 + level + the caster's spell bonus avoids it). Poison: takes 1d4 (1–4) true damage each turn. A divine spell of the first level. Takes a first-level slot.
-
-Ensnare: One enemy is entangled for 3 turns (a Dexterity save against 12 + level + the caster's spell bonus avoids it). Entangled: −2 to hit, −5 evasion, −5 initiative, Dexterity −5. Again after 3 turns.
-
-Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
-
-> A dog-sized spider that strings the dark with sticky lines and waits for something to blunder into them.
-
 #### Centipede
 
 *Faithful · beast* · `species:centipede`
@@ -322,6 +301,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
 Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
+
+Venomous Bite: 1d6 (1–6) poison damage to one enemy (halved if resisted; may cause poison: a Constitution save against 15 avoids it); it gains poison for 3 turns (a Constitution save against 12 + level + the caster's spell bonus avoids it). Poison: takes 1d4 (1–4) true damage each turn. A divine spell of the first level. Takes a first-level slot.
 
 > A long, segmented insect with many legs and a venomous bite.
 
@@ -467,6 +448,22 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A working dog of a farm, a drove or an inn: it knows people, and keeps an eye on what is theirs.
 
+#### Dolphin
+
+*Kyr · beast* · `species:dolphin`
+
+- Type: beast (animal)
+- Hit points: d8 a level
+- Qualities: rolled (3d6 each)
+- Attack: headbutt, 1d4 bludgeoning
+- Hide: Hide Armor, armour 1
+- Found in: sea
+- Worth: 10 experience a level
+
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
+
+> A sleek grey creature of the sea, quick and playful, that rides the bow-wave of boats.
+
 #### Dragonfly
 
 *Faithful · beast* · `species:dragonfly`
@@ -522,6 +519,25 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > An eel of the rivers and the still water, long as an arm and thick as a wrist, that lies in the weed by day and takes what comes down to it.
 
+#### Elephant
+
+*Kyr · beast* · `species:elephant`
+
+- Type: beast (animal)
+- Hit points: d12 a level
+- Qualities: rolled (3d6 each)
+- Attack: tusks, 1d8 piercing
+- Hide: Hide Armor, armour 1
+- Temperament: defensive
+- Found in: desert, wood
+- Worth: 10 experience a level
+
+Smash: 2d6 + level bludgeoning damage to one enemy (may cause stunned: a Constitution save against 15 avoids it). Stunned: −2 to every roll, cannot act. Again after 3 turns.
+
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
+
+> The greatest beast that walks: wise, long-lived, slow to anger and terrible in it.
+
 #### Falcon
 
 *Faithful · beast* · `species:falcon`
@@ -539,25 +555,6 @@ Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 
 Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A swift bird of prey possessing extreme speed and remarkable hunting prowess.
-
-#### Feral cave hound
-
-*Kyr · a hound, altered* · `species:cave_hound`
-
-- Type: beast (animal)
-- Hit points: d6 a level
-- Qualities: rolled (3d6 each)
-- Attack: bite, 1d6 piercing
-- Hide: Fur Armor, armour 0
-- Temperament: territorial
-- Found in: cave
-- Worth: 150 experience a level
-
-Rending bite: 1d6 (1–6) physical damage to one enemy; it is bleeding for 2 turns (a Constitution save against 11 avoids it). Bleeding: takes 1 bleed damage each turn. Again after a turn.
-
-Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
-
-> A scavenging dog descended from abandoned working animals.
 
 #### Ferret
 
@@ -613,29 +610,6 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A small amphibian with a powerful jumping ability and croaking calls.
 
-#### Frost-altered wolf
-
-*Kyr · a wolf, altered* · `species:frost_wolf`
-
-- Type: beast (animal)
-- Hit points: d6 a level
-- Qualities: rolled (3d6 each)
-- Attack: bite, 1d6 piercing
-- Hide: Fur Armor, armour 0
-- Temperament: wary
-- Found in: wood, fells
-- Worth: 150 experience a level
-
-Rime bite: 2d6 (2–12) cold damage to one enemy (may cause frozen: a Dexterity save against 15 avoids it); it is weakened for 3 turns (a Constitution save against 11 avoids it). Frozen: Dexterity −5, cannot act. Weakened: −2 damage, Strength −2. Again after a turn.
-
-Winter howl: Every enemy is stunned for a turn (a Wisdom save against 12 avoids it). Stunned: −2 to every roll, cannot act. Again after 3 turns.
-
-Rending bite: 1d6 (1–6) physical damage to one enemy; it is bleeding for 2 turns (a Constitution save against 11 avoids it). Bleeding: takes 1 bleed damage each turn. Again after a turn.
-
-Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
-
-> A living wolf altered by an old winter shrine: a freezing bite and a howl that stops the heart.
-
 #### Goat
 
 *Faithful · beast* · `species:goat`
@@ -653,82 +627,6 @@ Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 
 Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A sure-footed and hardy herbivore with a curious nature.
-
-#### Great centipede
-
-*Kyr · a centipede, altered* · `species:great_centipede`
-
-- Type: beast (animal)
-- Hit points: 3 + Constitution modifier + 1 a level
-- Qualities: +5 strength, +7 dexterity, +5 constitution, +4 intelligence, +5 wisdom, +4 charisma
-- Attack: bite, 1d6 piercing
-- Hide: Chitin Armor, armour 2
-- Temperament: territorial
-- Found in: cave
-- Worth: 10 experience a level
-
-Venomous Bite: 1d6 (1–6) poison damage to one enemy (halved if resisted; may cause poison: a Constitution save against 15 avoids it); it gains poison for 3 turns (a Constitution save against 12 + level + the caster's spell bonus avoids it). Poison: takes 1d4 (1–4) true damage each turn. A divine spell of the first level. Takes a first-level slot.
-
-Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
-
-> A centipede as long as a man is tall, pale from the dark, that comes fast and bites.
-
-#### Great pike
-
-*Kyr · a pike, altered* · `species:great_pike`
-
-- Type: beast (animal)
-- Hit points: d6 a level
-- Qualities: rolled (3d6 each)
-- Attack: bite, 1d6 piercing
-- Hide: Hide Armor, armour 1
-- Temperament: ambush
-- Found in: river
-- Worth: 150 experience a level
-
-Rending bite: 1d6 (1–6) physical damage to one enemy; it is bleeding for 2 turns (a Constitution save against 11 avoids it). Bleeding: takes 1 bleed damage each turn. Again after a turn.
-
-Of deep water: Immune to reflex.
-
-> A pike grown old and huge in cold deep water, long as a boat, that takes whatever falls in.
-
-#### Great rat
-
-*Kyr · a rat, altered* · `species:great_rat`
-
-- Type: beast (animal)
-- Hit points: d2 a level
-- Qualities: +4 strength, +10 dexterity, +6 constitution, +3 intelligence, +10 wisdom, +3 charisma
-- Attack: bite, 1d6 piercing
-- Hide: Fur Armor, armour 0
-- Temperament: territorial
-- Found in: settlement, cave
-- Worth: 150 experience a level
-
-Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
-
-Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
-
-> A rat the size of a cat, grown fat in the dark under a town on its grain and its dead: it bites to the bone and does not run from one man.
-
-#### Great snake
-
-*Kyr · a snake, altered* · `species:great_snake`
-
-- Type: beast (animal)
-- Hit points: 3 + Constitution modifier + 1 a level
-- Qualities: +7 strength, +6 dexterity, +7 constitution, +6 intelligence, +6 wisdom, +6 charisma
-- Attack: bite, 1d6 piercing
-- Hide: Scale Mail, armour 4
-- Temperament: territorial
-- Found in: cave, fen
-- Worth: 10 experience a level
-
-Venomous Bite: 1d6 (1–6) poison damage to one enemy (halved if resisted; may cause poison: a Constitution save against 15 avoids it); it gains poison for 3 turns (a Constitution save against 12 + level + the caster's spell bonus avoids it). Poison: takes 1d4 (1–4) true damage each turn. A divine spell of the first level. Takes a first-level slot.
-
-Ensnare: One enemy is entangled for 3 turns (a Dexterity save against 12 + level + the caster's spell bonus avoids it). Entangled: −2 to hit, −5 evasion, −5 initiative, Dexterity −5. Again after 3 turns.
-
-> A snake grown old and huge in the dark on whatever comes to it, as long as a hall and as thick as a man.
 
 #### Grouse
 
@@ -825,9 +723,12 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Qualities: rolled (3d6 each)
 - Attack: bite, 1d6 piercing
 - Hide: Fur Armor, armour 0
+- Found in: wood, fells, cave
 - Worth: 150 experience a level
 
 Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
+
+Rending bite: 1d6 (1–6) physical damage to one enemy; it is bleeding for 2 turns (a Constitution save against 11 avoids it). Bleeding: takes 1 bleed damage each turn. Again after a turn.
 
 > A big rough-coated hound, bred to run game down and hold it.
 
@@ -885,6 +786,27 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A skylark that goes up singing over the open fields and does not seem to come down.
+
+#### Leopard
+
+*Kyr · beast* · `species:leopard`
+
+- Type: beast (animal)
+- Hit points: d8 a level
+- Qualities: rolled (3d6 each)
+- Attack: claws, 1d4 slashing
+- Hide: Fur Armor, armour 0
+- Temperament: ambush
+- Found in: wood, heights, desert
+- Worth: 10 experience a level
+
+Rending bite: 1d6 (1–6) physical damage to one enemy; it is bleeding for 2 turns (a Constitution save against 11 avoids it). Bleeding: takes 1 bleed damage each turn. Again after a turn.
+
+Hide: You are hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion; and on attacking, it ends. Again after 3 turns.
+
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
+
+> A spotted hunting cat that lies along a branch or in the rocks, and drags its kill up a tree.
 
 #### Lion
 
@@ -963,6 +885,22 @@ Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 
 Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A small burrowing mammal with powerful forelimbs for digging and poor eyesight.
+
+#### Monkey
+
+*Kyr · beast* · `species:monkey`
+
+- Type: beast (animal)
+- Hit points: d4 a level
+- Qualities: +4 strength, +12 dexterity, +6 constitution, +7 intelligence, +10 wisdom, +6 charisma
+- Attack: bite, 1d6 piercing
+- Hide: Fur Armor, armour 0
+- Found in: wood, grove
+- Worth: 10 experience a level
+
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
+
+> A clever chattering tree-dweller that travels in troops and steals what is left unwatched.
 
 #### Moth
 
@@ -1134,6 +1072,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Found in: river, lake
 - Worth: 150 experience a level
 
+Rending bite: 1d6 (1–6) physical damage to one enemy; it is bleeding for 2 turns (a Constitution save against 11 avoids it). Bleeding: takes 1 bleed damage each turn. Again after a turn.
+
 Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 Of deep water: Immune to reflex.
@@ -1233,6 +1173,27 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A highly intelligent bird with exceptional problem-solving skills and adaptability.
 
+#### Rhinoceros
+
+*Kyr · beast* · `species:rhino`
+
+- Type: beast (animal)
+- Hit points: d12 a level
+- Qualities: rolled (3d6 each)
+- Attack: horns, 1d4 bludgeoning
+- Hide: Hide Armor, armour 1
+- Temperament: territorial
+- Found in: desert
+- Worth: 10 experience a level
+
+Prepare Charge: You are preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage; and the next turn can only be Charge, nothing else. Again after 3 turns.
+
+Charge: End preparing to charge on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may cause stunned: a Constitution save against 15 avoids it). Stunned: −2 to every roll, cannot act. Again after 3 turns.
+
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
+
+> A great grey beast of the hot scrub, short-sighted and short-tempered, that charges whatever it cannot make out.
+
 #### Sheep
 
 *Kyr · beast* · `species:sheep`
@@ -1259,12 +1220,14 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Qualities: +7 strength, +6 dexterity, +7 constitution, +6 intelligence, +6 wisdom, +6 charisma
 - Attack: bite, 1d6 piercing
 - Hide: Scale Mail, armour 4
-- Found in: heath, desert
+- Found in: heath, desert, fen, cave
 - Worth: 10 experience a level
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
 Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
+
+Venomous Bite: 1d6 (1–6) poison damage to one enemy (halved if resisted; may cause poison: a Constitution save against 15 avoids it); it gains poison for 3 turns (a Constitution save against 12 + level + the caster's spell bonus avoids it). Poison: takes 1d4 (1–4) true damage each turn. A divine spell of the first level. Takes a first-level slot.
 
 > A legless reptile of profound stealth and, in some species, venomous bite.
 
@@ -1284,6 +1247,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 Venomous Bite: 1d6 (1–6) poison damage to one enemy (halved if resisted; may cause poison: a Constitution save against 15 avoids it); it gains poison for 3 turns (a Constitution save against 12 + level + the caster's spell bonus avoids it). Poison: takes 1d4 (1–4) true damage each turn. A divine spell of the first level. Takes a first-level slot.
 
 Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
+
+Ensnare: One enemy is entangled for 3 turns (a Dexterity save against 12 + level + the caster's spell bonus avoids it). Entangled: −2 to hit, −5 evasion, −5 initiative, Dexterity −5. Again after 3 turns.
 
 > A hunting spider as big as a cat, all legs and patience: it bites, and its bite is venomous.
 
@@ -1306,24 +1271,6 @@ Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 
 Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A small rodent of great agility and bushy tail. It is an excellent climber.
-
-#### Stag
-
-*Faithful · a deer, altered* · `species:stag`
-
-- Type: beast (animal)
-- Hit points: 4 + Constitution modifier + 1 a level
-- Qualities: +5 strength, +7 dexterity, +5 constitution, +5 intelligence, +6 wisdom, +5 charisma
-- Attack: antlers, 1d6 piercing
-- Hide: Hide Armor, armour 1
-- Found in: wood, heath
-- Worth: 10 experience a level
-
-Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
-
-Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
-
-> A majestic herbivore with impressive antlers and graceful movements.
 
 #### Stoat
 
@@ -1414,6 +1361,22 @@ Wild: +2 to hit, +2 damage, +2 evasion, +1 to every roll, resists 10% of all.
 
 *Adapted: Composed by OrsinoMonsters (beast class, Wendigo type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
 
+#### Whale
+
+*Kyr · beast* · `species:whale`
+
+- Type: beast (animal)
+- Hit points: d20 a level
+- Qualities: rolled (3d6 each)
+- Attack: headbutt, 1d4 bludgeoning
+- Hide: Hide Armor, armour 1
+- Found in: sea
+- Worth: 10 experience a level
+
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
+
+> The great beast of the open sea, longer than a ship, that blows a plume of spray where it surfaces.
+
 #### Wolf
 
 *Adapted · beast* · `species:wolf`
@@ -1434,6 +1397,24 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 > A grey wolf of the uplands: a pack hunter with a rending bite.
 
 *Adapted: Orsino's wolf stat line (base 3 + kind) is not used; Kyr wolves roll their attributes.*
+
+#### Zebra
+
+*Kyr · beast* · `species:zebra`
+
+- Type: beast (animal)
+- Hit points: d6 a level
+- Qualities: rolled (3d6 each)
+- Attack: kick, 1d2 bludgeoning
+- Hide: Fur Armor, armour 0
+- Found in: desert, meadow
+- Worth: 10 experience a level
+
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
+
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
+
+> A striped wild horse of the hot plains, that runs in herds and kicks hard when cornered.
 
 ### Celestials
 
@@ -1621,32 +1602,6 @@ Disciplined: +1 to hit, +1 damage, +3 evasion, +2 against magic.
 
 *Adapted: Composed by OrsinoMonsters (construct class, Clockwork Soldier type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
 
-#### Funerary bronze construct
-
-*Adapted · a golem, altered* · `species:bronze_construct`
-
-- Type: construct (monster)
-- Hit points: 6 + Constitution modifier + 3 a level
-- Qualities: +17 strength, +7 dexterity, +17 constitution, +9 intelligence, +9 wisdom, +8 charisma
-- Attack: slam, 1d6 piercing
-- Hide: Plate Mail, armour 7
-- Resists: physical 35%, immune to poison, radiant takes 25% more
-- Temperament: obedient
-- Found in: cave
-- Worth: 350 experience a level
-
-Bronze sweep: 1d6 (1–6) physical damage to every enemy (a Dexterity save against 11 avoids it). Again after 3 turns.
-
-Burial chain: 1d6 (1–6) physical damage to one enemy; it is weakened for 3 turns (a Strength save against 12 avoids it). Weakened: −2 damage, Strength −2. Again after a turn.
-
-Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
-
-Constructed Resilience: Resists 50% of bludgeoning, resists 50% of piercing, resists 50% of slashing, immune to poison, immune to disease, immune to sleep, immune to bleed.
-
-> A bounded guardian of registered burials.
-
-*Adapted: The Golem in bronze (material bronze), set to keep a place: the custodian's sweep and chain are its own, its proof against blows the bronze's and the construct's.*
-
 #### Golem
 
 *Adapted · construct* · `species:golem`
@@ -1656,6 +1611,7 @@ Constructed Resilience: Resists 50% of bludgeoning, resists 50% of piercing, res
 - Qualities: +17 strength, +7 dexterity, +17 constitution, +9 intelligence, +9 wisdom, +8 charisma
 - Attack: slam, 1d6 piercing
 - Hide: Plate Mail, armour 7
+- Resists: immune to poison
 - Temperament: obedient
 - Found in: cave
 - Worth: 350 experience a level
@@ -2296,23 +2252,6 @@ Regeneration: Heal 1d2 - 1 (0–1) each turn.
 
 *Adapted: Composed by OrsinoMonsters (undead class, Ghoul type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
 
-#### Knitted bone hound
-
-*Kyr · a hound, altered* · `species:bone_hound`
-
-- Type: undead (monster)
-- Hit points: d6 a level
-- Qualities: rolled (3d6 each)
-- Attack: bite, 1d6 piercing
-- Hide: Fur Armor, armour 0
-- Temperament: territorial
-- Found in: barrow
-- Worth: 300 experience a level
-
-Rending bite: 1d6 (1–6) physical damage to one enemy; it is bleeding for 2 turns (a Constitution save against 11 avoids it). Bleeding: takes 1 bleed damage each turn. Again after a turn.
-
-> A hound-shape of grave bones wired together and moved by a necromancer's binding. It has no eyes and does not tire.
-
 #### Lich
 
 *Adapted · undead* · `species:lich`
@@ -2639,7 +2578,7 @@ A creature is its kind with any of these laid over it, one of each axis: an old 
 | great | size | great | twice the size of the rest of its kind | Strength +3, Constitution +2, Dexterity -2, health +2 a level | only by an author |
 | brood_mother | role | brood-mother | swollen and slow, keeping to her eggs and not leaving them | Strength +1, Constitution +3, Dexterity -2, health +3 a level | only by an author |
 | pack_leader | role | lead | the one the rest follow, and watch | Strength +1, Constitution +1, Charisma +2, health +1 a level, Berserker Rage | only by an author |
-| frost | region | frost | thick-coated and pale, bred where the winters are long | Frost adapted | #climate == 'cold' \|\| #habitat == 'snow' |
+| frost | region | frost | thick-coated and pale, bred where the winters are long | Frost adapted, Rime bite, Winter howl | #climate == 'cold' \|\| #habitat == 'snow' |
 | marsh | region | fen | dark and slick with the mud of the fens it was bred in | Marsh adapted | #habitat == 'fen' |
 | sunburnt | region | sun-scorched | lean and dun-coloured, bred where the sun is hard | Fire lineage | #climate == 'arid' |
 | cave | haunt | cave | of the deep dark: pale, long in the leg, at home where nothing sees | Dexterity +1 | #habitat == 'cave' \|\| #habitat == 'barrow' \|\| #habitat == 'ruin' |
@@ -2649,6 +2588,7 @@ A creature is its kind with any of these laid over it, one of each axis: an old 
 | spectral | undeath | spectral | a cold grey shape of what it was, which blows go through | Undead Nature, Ethereal Form | only by an author |
 | vampiric | undeath | vampiric | pale and red-mouthed, quicker than it was alive, and hungry for blood | Strength +1, Dexterity +1, Charisma +2, Wisdom +1, Constitution -1, Undead Nature, Regeneration, Life Drain, Charm Person, Dominate Person | only by an author |
 | zombie | undeath | rotting | dead flesh walking, slow and stinking, falling apart as it comes | Dexterity -2, Intelligence -4, Wisdom -2, Undead Nature, Infect | only by an author |
+| custodian | role | custodian | set to keep a place, with a sweep of the arm and a chain for whoever will not go | Bronze sweep, Burial chain | only by an author |
 | clay | material | clay | made of clay: red-brown, smooth when wet and cracking when dry | Constitution +2, Dexterity -1 | only by an author |
 | stone | material | stone | made of stone: grey, rough-dressed | Constitution +3, Dexterity -2 | only by an author |
 | iron | material | iron | made of iron: grey-black, rust at the seams | Constitution +4, Dexterity -3, Strength +1 | only by an author |
@@ -2660,16 +2600,16 @@ A creature is its kind with any of these laid over it, one of each axis: an old 
 | glass | material | glass | made of glass: clear or green, sharp where it breaks | Constitution +1, Charisma +2, Intelligence +1 | only by an author |
 | platinum | material | platinum | made of platinum: grey-white and very heavy | Constitution +5, Dexterity -4, Strength +2, Charisma +1 | only by an author |
 | bronze | material | bronze | made of bronze: brown-gold, dark with handling | Constitution +3, Dexterity -2, Strength +1 | only by an author |
-| black_lineage | lineage | black | its fine scales devour light | Acid lineage | only by an author |
-| blue_lineage | lineage | blue | its shining azure scales sparkle like the summer sky | Lightning lineage | only by an author |
-| brass_lineage | lineage | brass | its polished scales reflect like burnished steel | — | only by an author |
-| bronze_lineage | lineage | bronze | its scales gleam like polished metal | — | only by an author |
-| copper_lineage | lineage | copper | its scales glow like embers in a fire | — | only by an author |
-| gold_lineage | lineage | gold | its shimmering scales shine like the midday sun | — | only by an author |
-| green_lineage | lineage | green | its green and brown scales blend seamlessly with the forest foliage | Poison lineage | only by an author |
+| black_lineage | lineage | black | its fine scales devour light | Acid lineage, Acid breath | only by an author |
+| blue_lineage | lineage | blue | its shining azure scales sparkle like the summer sky | Lightning lineage, Lightning breath | only by an author |
+| brass_lineage | lineage | brass | its polished scales reflect like burnished steel | Disintegrating breath | only by an author |
+| bronze_lineage | lineage | bronze | its scales gleam like polished metal | Deafening breath | only by an author |
+| copper_lineage | lineage | copper | its scales glow like embers in a fire | Blinding breath | only by an author |
+| gold_lineage | lineage | gold | its shimmering scales shine like the midday sun | Holy breath | only by an author |
+| green_lineage | lineage | green | its green and brown scales blend seamlessly with the forest foliage | Poison lineage, Poison breath | only by an author |
 | red_lineage | lineage | red | its crimson scales shimmer like molten lava | Fire lineage, Fire breath | only by an author |
-| silver_lineage | lineage | silver | its glowing scales shimmer like moonlight on water | — | only by an author |
-| white_lineage | lineage | white | its opalescent scales glisten like freshly fallen snow | Cold lineage | only by an author |
+| silver_lineage | lineage | silver | its glowing scales shimmer like moonlight on water | Maddening breath | only by an author |
+| white_lineage | lineage | white | its opalescent scales glisten like freshly fallen snow | Cold lineage, Cold breath | only by an author |
 | air_element | element | air | made of air | Air Affinity, Fire Vulnerability, Lightning Bolt | only by an author |
 | ash_element | element | ash | made of ash | Air Affinity, Fire Vulnerability, Hide | only by an author |
 | crystal_element | element | crystal | made of crystal | Water Affinity, Earth Vulnerability, Prismatic Spray | only by an author |
@@ -2701,6 +2641,14 @@ What creatures do with their bodies: bites, breath, howls. A blow that must be w
 
 > Breath strikes every enemy; a breath save halves damage. Recharges in three turns.
 
+### Blinding breath
+
+*Kyr · natural ability* · `ability:breathe_blinding`
+
+2d6 + 2 × level radiant damage to every enemy (a Constitution save against 15 + level halves it; may cause blinded: a Dexterity save against 15 avoids it); every enemy is blinded for 2 turns (a Constitution save against 15 + level avoids it). Blinded: −4 to hit, −10 evasion, −2 to every roll. Again after 3 turns.
+
+> A glare of breath strikes every enemy and blinds those who do not save; a breath save halves it. Recharges in three turns.
+
 ### Bronze sweep
 
 *Kyr · natural ability* · `ability:custodian_sweep`
@@ -2723,6 +2671,22 @@ What creatures do with their bodies: bites, breath, howls. A blow that must be w
 
 > Breath strikes every enemy; a breath save halves damage. Recharges in three turns.
 
+### Deafening breath
+
+*Kyr · natural ability* · `ability:breathe_thunder`
+
+2d6 + 2 × level thunder damage to every enemy (a Constitution save against 15 + level halves it); every enemy is deafened for 2 turns (a Constitution save against 15 + level avoids it). Deafened: −2 to hit, 2 easier to hit, −2 damage, −1 to every save, resists 50% of sonic. Again after 3 turns.
+
+> A roar of breath strikes every enemy and deafens those who do not save; a breath save halves it. Recharges in three turns.
+
+### Disintegrating breath
+
+*Kyr · natural ability* · `ability:breathe_disintegration`
+
+2d6 + 2 × level force damage to every enemy (a Constitution save against 15 + level halves it; may cause fatigued: a Constitution save against 15 avoids it). Fatigued: −1 to every roll, Strength −1, Dexterity −1, Constitution −1. Again after 3 turns.
+
+> A breath that unmakes what it touches strikes every enemy; a breath save halves it. Recharges in three turns.
+
 ### Fire breath
 
 *Adapted · natural ability* · `ability:breathe_fire`
@@ -2733,6 +2697,14 @@ What creatures do with their bodies: bites, breath, howls. A blow that must be w
 
 *Adapted: Area fire damage scales as 2d6 + 2 per creature level, with a breath save for half and a three-turn recharge. Maturity supplies a generated dragon level; its natural bite remains available.*
 
+### Holy breath
+
+*Kyr · natural ability* · `ability:breathe_holy`
+
+2d6 + 2 × level radiant damage to every enemy (a Constitution save against 15 + level halves it; may cause blinded: a Dexterity save against 15 avoids it). Blinded: −4 to hit, −10 evasion, −2 to every roll. Again after 3 turns.
+
+> A breath of searing light strikes every enemy; a breath save halves it. Recharges in three turns.
+
 ### Lightning breath
 
 *Kyr · natural ability* · `ability:breathe_lightning`
@@ -2740,6 +2712,14 @@ What creatures do with their bodies: bites, breath, howls. A blow that must be w
 2d6 + 2 × level lightning damage to every enemy (a Constitution save against 15 + level halves it; may cause paralyzed: a Strength save against 15 avoids it). Paralyzed: Strength −5, Dexterity −5, cannot act. Again after 3 turns.
 
 > Breath strikes every enemy; a breath save halves damage. Recharges in three turns.
+
+### Maddening breath
+
+*Kyr · natural ability* · `ability:breathe_madness`
+
+2d6 + 2 × level psychic damage to every enemy (a Constitution save against 15 + level halves it; may cause confused: a Wisdom save against 15 avoids it; may cause insane: an Intelligence save against 15 avoids it); every enemy is confused for 2 turns (a Constitution save against 15 + level avoids it). Confused: acts at random. Insane: −1 to every roll, −2 to will saves, acts at random. Again after 3 turns.
+
+> A breath that turns the mind strikes every enemy and confuses those who do not save; a breath save halves it. Recharges in three turns.
 
 ### Maul
 
@@ -3493,8 +3473,6 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 
 *Composed by OrsinoMonsters (construct class, Golem type, wildtype aspect, cave terrain, minor rank, level 1). Plate natural armour and the charge and hide abilities are not modelled.*
 
-*Generated by the Orsino translator.*
-
 #### Ifrit
 
 *Adapted · monsterType* · `orsino:monsterType:Ifrit`
@@ -4033,7 +4011,7 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 
 #### Hound
 
-*Adapted · animal* · `orsino:animal:hound`
+*Represented · animal* · `orsino:animal:hound`
 
 - Stat line: hp 3, str +4, dex +4, con +4, int +4, wis +4, cha +4
 - Weapon: bite
@@ -4046,8 +4024,6 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 *Left out: The weapon and body become the species' natural weapon and armour.*
 
 *Left out: Kyr rolls a species' attributes and hit points; the Orsino animal stat line is not used.*
-
-*Generated by the Orsino translator.*
 
 #### Hummingbird
 

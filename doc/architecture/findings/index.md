@@ -25,8 +25,8 @@ page since the repairs; that acceptance is PD-14 (open).
 | [M17](../mission-17/register.md) | 289 | Fixed 216, Partial 61, Open 11, Not reproduced 1 |
 | [M18](../mission-18/register.md) | 430 | Fixed 383, Not reproduced 13, Partial 7, Superseded 3, held elsewhere 24 |
 | [M18 wishlist](../mission-18/wishlist.md) | 138 | Wishlist 138 |
-| [M19 inherited](../mission-19/inherited.md) | 138 | Open risk 52, Deferred 44, Partial 22, Fixed 14, Not reproduced 6 |
-| [M19](../mission-19/register.md) | 85 | Fixed 66, Partial 14, Open 2, Superseded 1, Not reproduced 1, Open risk 1 |
+| [M19 inherited](../mission-19/inherited.md) | 145 | Open risk 51, Deferred 44, Partial 28, Fixed 15, Not reproduced 6, Superseded 1 |
+| [M19](../mission-19/register.md) | 95 | Fixed 71, Partial 16, Open 5, Superseded 1, Not reproduced 1, Open risk 1 |
 
 Held elsewhere: Mission 18's Grand Tour and Wapshott's Circus tables, whose rows name the row or commit
 that holds them instead of a status (the register's own table counts 25 held and 12 not reproduced: one held
@@ -39,7 +39,7 @@ row's cell begins with the words, and is read here as one).
 | M16 (Open/Partial) | 105 | M17 | none |
 | M17 (Not reproduced/Open/Partial) | 73 | M18, M18 wishlist | none |
 | M18 wishlist (Wishlist) | 138 | M19 inherited | none |
-| M18 (Partial) | 7 | M19 inherited | NVR-23, OWN-55, OWN-76, OWN-77, OWN-78, OWN-79, OWN-81 (carried in the owner's working tree, 6 November, not yet committed) |
+| M18 (Partial) | 7 | M19 inherited | none |
 
 Mission 16's two **Deferred** rows were not carried by Mission 17, which carried only Open and Partial:
 COR-15 (Choices grounded afresh in every new world (22 ms in the frontier)), CMB-10 (The economy dissolves the stakes). The Mission 18 audit named them
@@ -49,8 +49,8 @@ COR-15 (Choices grounded afresh in every new world (22 ms in the frontier)), CMB
 listed 136, omitting M17-73 and M17-99; the process audit found it, and both were restored (the generator adds
 them, M19-43). On 6 November the owner's review of Mission 18's obligations found seven Partial rows its
 register kept but its wishlist never carried (OWN-55, OWN-76 to OWN-79, OWN-81, NVR-23): with them the ledger has
-145 rows. That change is in the owner's working tree (triage.json, done.tsv, closures.md) and not
-committed at `fbf38d58`; this index lists the seven in §3 as pending until it is. M17-73 is Partial and M17-99 Fixed in the
+145 rows, committed.
+ M17-73 is Partial and M17-99 Fixed in the
 ledger, each re-examined on 4 November.
 
 **The committed ledger is not reproducible from its sources.** At `fbf38d58`, `inherited.md` holds a paragraph and
@@ -69,8 +69,8 @@ report).
 | [M16](../mission-16/register.md) | 93 | 46 | 8 | 33 | 6 | none | none |
 | [M17](../mission-17/register.md) | 216 | 161 | 45 | 5 | 5 | none | M17-19 `arms` |
 | [M18](../mission-18/register.md) | 383 | 65 | 105 | 86 | 127 | none | none |
-| [M19 inherited](../mission-19/inherited.md) | 14 | 1 | 8 | 0 | 5 | none | none |
-| [M19](../mission-19/register.md) | 66 | 5 | 41 | 2 | 18 | M19-22 `41785644748` | none |
+| [M19 inherited](../mission-19/inherited.md) | 15 | 1 | 9 | 0 | 5 | none | none |
+| [M19](../mission-19/register.md) | 71 | 5 | 41 | 2 | 23 | M19-22 `41785644748` | none |
 
 A Fixed row citing neither is not therefore false: most of these cite a guide section, a play, or the row
 that answered it. They are the rows least able to be re-checked, and the first to re-examine when their area
@@ -91,12 +91,12 @@ there is **Open risk**.
 | Kind | Rows | Of which unregistered until now |
 |---|---|---|
 | defect | 32 | 21 |
-| foundational architecture obligation | 31 | 8 |
-| gameplay requirement | 59 | 12 |
-| authorability blocker | 61 | 22 |
-| aesthetic/UX problem | 12 | 6 |
+| foundational architecture obligation | 33 | 8 |
+| gameplay requirement | 48 | 12 |
+| authorability blocker | 62 | 22 |
+| aesthetic/UX problem | 11 | 6 |
 | creative aspiration | 35 | 5 |
-| **all** | **230** | **74** |
+| **all** | **221** | **74** |
 
 ### Defect (32)
 
@@ -105,7 +105,7 @@ there is **Open risk**.
 | ARV-A5 | [M19 inherited](../mission-19/inherited.md) | Partial | Cures by display name, stance endings that hit the attacker, stuns that cost nothing, a drainer healed after death |
 | IND-01 | [M19 inherited](../mission-19/inherited.md) | Open risk | Generated settlements have texture before they have drama |
 | IND-06 | [M19 inherited](../mission-19/inherited.md) | Open risk | Situations without initiative; generic actions not contextual under pressure; no aftermath surfaces |
-| M19-75 | M19 (pending) | Open | Preset parties reachable by a player; the default company a trio; `kyrie new` scaffolds a trio; no fact tells companions from the one who plays |
+| M19-75 | [M19](../mission-19/register.md) | Open | Standalone campaigns with preset parties are reachable by a player (Escape on creation, a failed pick, `?campaign=`); the generated world's default company is a trio; `bin/kyrie ne… |
 | NAR-12 | [M19 inherited](../mission-19/inherited.md) | Open risk | Notes knowing what nobody said |
 | NAR-14 | [M19 inherited](../mission-19/inherited.md) | Open risk | Exceptional events in the ordinary register (a body found, a betrayal, a revelation) |
 | PD-03 | [M19](../mission-19/register.md) | Partial | After "Follow this" on the crown aim (What is owed), the salt-house page did not show the undertaking or its next uncertainty; the map stayed on Brightcarr; the barrow was "a barro… |
@@ -135,7 +135,7 @@ there is **Open risk**.
 | UNT-236 | [gaps](gaps.md) | Open risk (unregistered) | "A scene true only in a window of time is missed by any wait across it ... observations are read only when a command ends." |
 | UNT-237 | [gaps](gaps.md) | Open risk (unregistered) | "Two campaigns sharing a module's files break each other ... the slice failed at run time with \"Unknown item definition trowel_kind\"; lint had passed it." |
 
-### Foundational architecture obligation (31)
+### Foundational architecture obligation (33)
 
 | ID | Where | Status | Finding |
 |---|---|---|---|
@@ -159,8 +159,10 @@ there is **Open risk**.
 | M19-49 | [M19](../mission-19/register.md) | Partial | Setting out took 5–10 s with a busy page and no account of where the time went |
 | M19-60 | [M19](../mission-19/register.md) | Partial | Creatures are made by two engines behind one door: a list of five bodies (dragon, wolf, golem, bear, cave_spider) goes by Deem's grammar, every other species by the catalog chassis… |
 | M19-69 | [M19](../mission-19/register.md) | Open risk | ModuleShadow renames a module's names by rewriting its source text |
-| M19-77 | M19 (pending) | Open | No two adventures can contribute to one persistent city |
+| M19-77 | [M19](../mission-19/register.md) | Open | No two adventures can contribute to one persistent city: authored adventures each bring their own town; nothing exports a town's parts or names a city by identity |
+| M19-81 | [M19](../mission-19/register.md) | Partial | Creatures lose their old-school mechanics in migration: nine of ten dragon lineages breathed as a bite (an attack roll, one foe, no save, no recharge); regeneration traits never ru… |
 | OWN-41 | [M19 inherited](../mission-19/inherited.md) | Open risk | Every name through one mechanism: the Common names of the human heartland from a true "common" tongue in the `languages` package that echoes the conce |
+| OWN-79 | [M19 inherited](../mission-19/inherited.md) | Partial | More is wrong that cannot yet be named, because play cannot get deep enough to see it; first passes on every open row |
 | PD-08 | [M19](../mission-19/register.md) | Open | Heard, lead, undertaking, route knowledge and immediate action are not separate records the journal, map and page all project |
 | UNT-102 | [gaps](gaps.md) | Open risk (unregistered) | The diagnosis's structural guards for gated interiors were never given a row: a check that "every gate blocking the way into a work has keys of two kinds, or an after-learning key"… |
 | UNT-113 | [gaps](gaps.md) | Open risk (unregistered) | What each member of the company knows, and "claims two sources tell differently", promised since M14 F-05 and R25-D1, was never given a row or a stated boundary |
@@ -171,7 +173,7 @@ there is **Open risk**.
 | UNT-130 | [gaps](gaps.md) | Open risk (unregistered) | Fixed rows contradicted or not re-proved after a redesign: PT-09, PRE-03, PT-42, NAV-12 still read Fixed though the 45-command arrival contradicted them; M17's fixed UI rows not re… |
 | UNT-201 | [gaps](gaps.md) | Open risk (unregistered) | M18's register says the Parliament of Books' friction was "Carried in earlier missions ... (Mission 17's register; their open rows inherited above)", but no register (M16-M19) cite… |
 
-### Gameplay requirement (59)
+### Gameplay requirement (48)
 
 | ID | Where | Status | Finding |
 |---|---|---|---|
@@ -185,27 +187,16 @@ there is **Open risk**.
 | M19-46 | [M19](../mission-19/register.md) | Partial | Play is a page of descriptions, buttons and lists, not a world moved through: the owner asks that the place itself be the surface, a focus on what the company attends to, salient c… |
 | M19-57 | [M19](../mission-19/register.md) | Partial | The interface explains itself: generic instructions under buttons ("Choose a hex on the map…" under Enter), legends of rings and hatching, a place's name said twice |
 | M19-59 | [M19](../mission-19/register.md) | Partial | A lone company following the page is drawn back to an aim it cannot yet meet (a fight it would lose, a dark it has no light for) and earns no level in 200 steps; the page had also … |
-| M19-73 | M19 (pending) | Open | Go… lists every place of a town flat: no quarters, no geography a player can learn |
-| M19-78 | M19 (pending) | Open | The fight reads as a ledger |
-| M19-79 | M19 (pending) | Open | A new life is dropped into its first town: the way in told, never played |
+| M19-78 | [M19](../mission-19/register.md) | Open | The fight reads as a ledger: foes without likeness, the dice in hover text only, instructions under the controls, no plain danger line |
 | NAR-01 | [M19 inherited](../mission-19/inherited.md) | Open risk | Characters and institutions dramatically thin; generic people in a commons |
 | NAR-17 | [M19 inherited](../mission-19/inherited.md) | Open risk | Independent undertakings must leave traces and reports |
 | NAV-10 | [M19 inherited](../mission-19/inherited.md) | Open risk | Hidden or unreachable authored content |
-| NVR-23 | [M18](../mission-18/register.md) | Partial | The road page (a road's two ends, its ways beneath them) is no longer reached in a drawn country: travel across the country is the map's, and a journey arrives whole, by morning or… |
-| OWN-55 | [M18](../mission-18/register.md) | Partial | Success judged by ordinary play: a fresh character through creation, a recognizable origin, word of an adventure, the map, a real site and its obstacles, and back with understandab… |
-| OWN-55 | M19 inherited (pending) | Partial | The ordinary loop judged in play (carried from Mission 18; dropped from its wishlist) |
+| OWN-55 | [M19 inherited](../mission-19/inherited.md) | Partial | Success judged by ordinary play: a fresh character through creation, a recognizable origin, word of an adventure, the map, a real site and its obstacles, and back with understandab… |
 | OWN-75 | [M19 inherited](../mission-19/inherited.md) | Partial | The owner, 3 November (later): the missions should be much deeper than one fight and 'it is done', with rewards worth having |
-| OWN-76 | [M18](../mission-18/register.md) | Partial | The owner, 3 November (later): it still does not feel like a game, an adventuring flow |
-| OWN-76 | M19 inherited (pending) | Partial | Ordinary play to feel like a game (carried from Mission 18; dropped from its wishlist) |
-| OWN-77 | [M18](../mission-18/register.md) | Partial | The owner, 3 November (evening): ordinary play decidedly does not feel like a game yet; the typical town still reads like a web app or a wiki, not a game's interface |
-| OWN-77 | M19 inherited (pending) | Partial | The town page (carried from Mission 18; dropped from its wishlist) |
-| OWN-78 | [M18](../mission-18/register.md) | Partial | The owner, 3 November (evening): the adventuring loop is distended and incoherent: little depth even once somewhere is reached, and reaching it is usually blocked or confusing |
-| OWN-78 | M19 inherited (pending) | Partial | Depth past the first town (carried from Mission 18; dropped from its wishlist) |
-| OWN-79 | [M18](../mission-18/register.md) | Partial | The owner, 3 November (evening): more is wrong that cannot yet be named, because play cannot get deep enough to see it; M18 is not to close leaving a large workload, so most remain… |
-| OWN-79 | M19 inherited (pending) | Partial | Every row given a first pass; what cannot yet be named is for independent players (carried from Mission 18) |
+| OWN-76 | [M19 inherited](../mission-19/inherited.md) | Partial | It still does not feel like a game, an adventuring flow (the owner, 3 November) |
+| OWN-77 | [M19 inherited](../mission-19/inherited.md) | Partial | The typical town still reads like a web app or a wiki, not a game's interface (the owner, 3 November) |
 | OWN-80 | [M19 inherited](../mission-19/inherited.md) | Open risk | The owner, 3 November (evening): with one map, what does a march-stone mean? A boundless map, regions not yet seen hinting their terrain under a fog; |
-| OWN-81 | [M18](../mission-18/register.md) | Partial | The owner, 3 November (evening): navigation is very puzzling and difficult, and it is not known whether the authored places, the way the page presents them, or something else is th… |
-| OWN-81 | M19 inherited (pending) | Partial | Navigation between hexes and in towns (carried from Mission 18; dropped from its wishlist) |
+| OWN-81 | [M19 inherited](../mission-19/inherited.md) | Partial | Navigation is very puzzling and difficult; whether the authored places, the page, or something else is the true blocker |
 | PD-14 | [M19](../mission-19/register.md) | Open | The acceptance protocol: five cold players, comprehension, orientation, intention, action integrity, continuity, pacing, motivation |
 | PT-11 | [M19 inherited](../mission-19/inherited.md) | Partial | Alone at level 1, the big ruin's fights are won by a warrior 80% of the time, a cleric 25%, a thief and a mage never |
 | REV-03 | [M19 inherited](../mission-19/inherited.md) | Partial | The wild is connective tissue: travel compresses into prose; no turn asks a decision of route, camp, supplies, signs or travellers |
@@ -235,7 +226,7 @@ there is **Open risk**.
 | UNT-241 | [gaps](gaps.md) | Open risk (unregistered) | "The engine's dark is nine to six in every season. A winter fair is dusk at four." |
 | UNT-242 | [gaps](gaps.md) | Open risk (unregistered) | "A won fight kills. `Human 1 falls` is `dead`, not `routed`; `Pleads` never fires"; hill: "No mercy for the beaten (the severe one)" |
 
-### Authorability blocker (61)
+### Authorability blocker (62)
 
 | ID | Where | Status | Finding |
 |---|---|---|---|
@@ -263,8 +254,9 @@ there is **Open risk**.
 | M19-20 | [M19](../mission-19/register.md) | Partial | Ruins, barrows and towers are named in the makers' old tongue, transparently descriptive to a Latin reader (Tenebraetumulo, the dark barrow) |
 | M19-40 | [M19](../mission-19/register.md) | Partial | The undertown should be one connected place: the rats' run toward the catacombs |
 | M19-68 | [M19](../mission-19/register.md) | Partial | No geology: deposits, rock and the minerals a country holds did not exist; a settlement by the fells mined tin wherever it stood |
-| M19-76 | M19 (pending) | Partial | The bestiary imported, not operational (measured danger, composed parties: landing on main) |
+| M19-76 | [M19](../mission-19/register.md) | Partial | The bestiary was imported, not operational: deep sites drew about 25 kinds from their purposes' own lists; nothing measured a kind's danger; summon-only kinds never met; qualifiers… |
 | OWN-51 | [M19 inherited](../mission-19/inherited.md) | Partial | Common the default tongue of ordinary generated settlements, through the `languages` library's Common passthrough (its real API and version); elven an |
+| OWN-78 | [M19 inherited](../mission-19/inherited.md) | Partial | The adventuring loop is distended and incoherent: little depth once somewhere is reached, and reaching it blocked or confusing |
 | QTC-19 | [M19 inherited](../mission-19/inherited.md) | Open risk | A recruited companion has `at` retracted, so every rule about where they are must ask `travelsWith`; `memberOf` is engine-owned |
 | QTC-21 | [M19 inherited](../mission-19/inherited.md) | Open risk | `Level` does not scale a fixed-stat species; the catalogue has no elemental and no talking bird |
 | QTC-A04 | [M19 inherited](../mission-19/inherited.md) | Open risk | Write-only / no-target advice is permanent noise for relations other modules read; there is no Exports declaration (an 13, bg 13, ll 12, ms 15, ds 11) |
@@ -301,11 +293,10 @@ there is **Open risk**.
 | UNT-238 | [gaps](gaps.md) | Open risk (unregistered) | "Every speaker is a body; no one is immune to anything ... Saro's bones are stillglass and heat does not trouble her; the Steam Stair scalded her" |
 | UNT-243 | [gaps](gaps.md) | Open risk (unregistered) | WPC-14 ("A module's own kinds of thing share one namespace"), WPC-X05 ("A rule that sends a module's people to their places pulls a recruit out of the company"), WPC-X06 ("A story … |
 
-### Aesthetic/UX problem (12)
+### Aesthetic/UX problem (11)
 
 | ID | Where | Status | Finding |
 |---|---|---|---|
-| OWN-42 | [M19 inherited](../mission-19/inherited.md) | Open risk | The intro and studio stab given care, with words (a studio name such as "Freehaven" or "Seventh Star"); the product's own name not to stay "Kyrie", ca |
 | OWN-44 | [M19 inherited](../mission-19/inherited.md) | Open risk | Varied terrain on the map and in the land: tundra, snowfield and ice for frost countries, desert (dunes, scrub, stony waste, oases) and steppe, open o |
 | PD-04 | [M19](../mission-19/register.md) | Partial | Inside Lunalac, ways named as edges, not places: the way opened by the speaking door appeared as "Lunalac", the site's own name; a door labelled "toward Out to Lunalac"; the next c… |
 | PD-09 | [M19](../mission-19/register.md) | Partial | A settlement and a site have no plan of their own: the town's and the dungeon's ways are lists |

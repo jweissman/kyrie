@@ -8,7 +8,7 @@ mechanics omitted), **executable** (every source mechanic runs through canonical
 adaptation), **play-validated** (exercised in recorded play). *Feasible* counts entries whose every rule feature
 Kyr can already execute (faithfully or by documented adaptation); it is not a claim that a Kyr definition exists.
 
-2651 entries in 79 families. 1358 represented or better; 1239 executable or better; 16 play-validated; 2406 feasible.
+2651 entries in 79 families. 1358 represented or better; 1238 executable or better; 16 play-validated; 2406 feasible.
 
 ## By family
 
@@ -21,7 +21,7 @@ Kyr can already execute (faithfully or by documented adaptation); it is not a cl
 | character | nobility | 3 | 0 | 0 | 0 | 0 |
 | character | trait | 100 | 21 | 79 | 0 | 85 |
 | condition | status | 141 | 12 | 128 | 1 | 129 |
-| creature | animal | 44 | 5 | 39 | 0 | 44 |
+| creature | animal | 44 | 6 | 38 | 0 | 44 |
 | creature | aspect | 31 | 0 | 31 | 0 | 31 |
 | creature | aspectRarity | 5 | 0 | 5 | 0 | 5 |
 | creature | combatEntity | 5 | 0 | 5 | 0 | 5 |
@@ -294,7 +294,7 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `animal:rat` | `species:rat` | represented | adapted | Orsino's bite and fur become the species' natural weapon and armour; Kyr gives the rat a hit die so that it grows with its level (Orsino's fixed two hit points had made a rat of any level one blow), and its own qualities. |
 | `animal:wolf` | `species:wolf` | represented | adapted | The natural weapon and armour are Orsino's; the species' attributes are rolled, and its Kyr abilities are its own. |
 | `monsterClass:undead` | `species:revenant` | represented | adapted | Kyr creature of the undead type. It does not carry Orsino's undead trait (its immunities); its resistances are Kyr's. |
-| `monsterClass:construct` | `species:bronze_construct` | represented | adapted | Kyr creature of the construct type. It does not carry Orsino's construct trait; its poison immunity and physical resistance are Kyr's. |
+| `monsterClass:construct` | `variation:custodian` | represented | adapted | Kyr creature of the construct type. It does not carry Orsino's construct trait; its poison immunity and physical resistance are Kyr's. |
 | `monsterType:Golem` | `species:golem` | executable | adapted | Composed by OrsinoMonsters (construct class, Golem type, wildtype aspect, cave terrain, minor rank, level 1). Plate natural armour and the charge and hide abilities are not modelled. |
 | `class:warrior` | `class:warrior` | represented | adapted | Orsino chassis executed: hit die, attribute modifiers, class abilities, starting weapon and armour tables, weapon and armour proficiencies, specialization choices and spell slots. |
 | `class:cleric` | `class:cleric` | represented | adapted | Orsino chassis executed: hit die, attribute modifiers, class abilities, starting weapon and armour tables, weapon and armour proficiencies, specialization choices and spell slots. |
@@ -334,7 +334,7 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `class:bard` | `class:bard` | represented | adapted | Orsino chassis executed: hit die, attribute modifiers, class abilities, starting weapon and armour tables and weapon and armour proficiencies. Kyr gives the bard a lesser caster's slot table on charisma so that its cure and charm spells can be cast. |
 | `class:monk` | `class:monk` | represented | adapted | Orsino chassis executed: hit die, attribute modifiers, class abilities, starting weapon and armour tables, weapon and armour proficiencies, specialization choices and spell slots. |
 | `animal:boar` | `species:boar` | represented | adapted | The natural weapon and armour are Orsino's; the species' attributes are rolled, and its Kyr abilities are its own. |
-| `animal:hound` | `species:cave_hound` | represented | adapted | The natural weapon and armour are Orsino's; the species' attributes are rolled, and its Kyr abilities are its own. |
+| `animal:hound` | `species:hound` | represented | adapted | The natural weapon and armour are Orsino's; the species' attributes are rolled, and its Kyr abilities are its own. |
 | `animal:bear` | `species:bear` | represented | adapted | Retains claws, fur and a defensive disposition. Kyr rolls scores, uses a 12-point hit die and the existing executable Smash action; the original animal stat line is not transcribed. |
 | `animal:spider` | `species:spider` | represented | adapted | Orsino's bite and chitin become the species' natural weapon and armour; Kyr enlarges it into a cave hunter with rolled attributes and Orsino's venomous bite and ensnare. |
 | `ability:maul` | `ability:maul` | represented | adapted | Orsino's attack, 1d6 + Strength bludgeoning and bleed are kept; the slow it also inflicts is not, as Kyr cannot execute slow. |
@@ -1283,7 +1283,6 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `animal:bat` | `species:bat` | executable | faithful | Generated by the Orsino translator. |
 | `animal:beetle` | `species:beetle` | executable | faithful | Generated by the Orsino translator. |
 | `animal:butterfly` | `species:butterfly` | executable | faithful | Generated by the Orsino translator. |
-| `animal:hound` | `species:hound` | executable | adapted | Generated by the Orsino translator. |
 | `animal:centipede` | `species:centipede` | executable | faithful | Generated by the Orsino translator. |
 | `animal:crocodile` | `species:crocodile` | executable | adapted | Generated by the Orsino translator. |
 | `animal:crow` | `species:crow` | executable | faithful | Generated by the Orsino translator. |
@@ -1316,7 +1315,6 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `animal:stoat` | `species:stoat` | executable | faithful | Generated by the Orsino translator. |
 | `animal:tiger` | `species:tiger` | executable | adapted | Generated by the Orsino translator. |
 | `animal:turtle` | `species:turtle` | executable | faithful | Generated by the Orsino translator. |
-| `animal:stag` | `species:stag` | executable | faithful | Generated by the Orsino translator. |
 | `animal:wyrm` | `species:wyrmling` | executable | faithful | Generated by the Orsino translator. |
 | `monsterType:Angel` | `species:angel` | executable | adapted | Generated by the Orsino translator. |
 | `monsterType:Archon` | `species:archon` | executable | adapted | Generated by the Orsino translator. |
@@ -1324,7 +1322,6 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `monsterType:Balor` | `species:balor` | executable | adapted | Generated by the Orsino translator. |
 | `monsterType:Banshee` | `species:banshee` | executable | adapted | Generated by the Orsino translator. |
 | `monsterType:Behemoth` | `species:behemoth` | executable | adapted | Generated by the Orsino translator. |
-| `monsterType:Golem` | `species:bronze_construct` | executable | adapted | Generated by the Orsino translator. |
 | `monsterType:Chimera` | `species:chimera` | executable | adapted | Generated by the Orsino translator. |
 | `monsterType:Clockwork Soldier` | `species:clockwork_soldier` | executable | adapted | Generated by the Orsino translator. |
 | `monsterType:Colossus` | `species:colossus` | executable | adapted | Generated by the Orsino translator. |

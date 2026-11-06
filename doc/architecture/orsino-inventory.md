@@ -10,7 +10,7 @@ reaches it with declared omissions), **reference** (kept in the registry only, b
 computed from what Kyr has and draws, not claimed: the ledger and generated catalogs for rules and things, what
 a generated country draws for wonders and traps, the voice tables for barks.
 
-2651 entries in 79 families: 1609 integrated, 176 represented, 745 reference, 121 blocked.
+2651 entries in 79 families: 1608 integrated, 177 represented, 745 reference, 121 blocked.
 
 ## By family
 
@@ -23,7 +23,7 @@ a generated country draws for wonders and traps, the voice tables for barks.
 | character | nobility | 3 | 0 | 0 | 3 | 0 | none | none | — |
 | character | trait | 100 | 79 | 21 | 0 | 0 | data/catalog/orsino/traits.json | ancestries' and callings' traits | `test/effects.test.ts` `test/handbook.test.ts` |
 | condition | status | 141 | 129 | 12 | 0 | 0 | data/catalog/orsino/conditions.json | applied by abilities, traps and wonders | `test/effects.test.ts` `test/marvels.test.ts` |
-| creature | animal | 44 | 39 | 5 | 0 | 0 | data/catalog/animals.json | wild country dens and creatures (data/generation/tables/ecology.json) | `test/wild-country.test.ts` `test/creature-generation.test.ts` `test/creature-variation.test.ts` |
+| creature | animal | 44 | 38 | 6 | 0 | 0 | data/catalog/animals.json | wild country dens and creatures (data/generation/tables/ecology.json) | `test/wild-country.test.ts` `test/creature-generation.test.ts` `test/creature-variation.test.ts` |
 | creature | aspect | 31 | 31 | 0 | 0 | 0 | data/catalog/orsino/variants.json#aspects, applied by src/creature-variants.ts | a den's beasts, sometimes, drawn by rarity (src/world/region-ecology.ts); an author's Aspect in a Person | `test/variants.test.ts` |
 | creature | aspectRarity | 5 | 5 | 0 | 0 | 0 | data/catalog/orsino/variants.json#rarity, drawn by src/creature-variants.ts | a den's aspect, drawn by rarity | `test/variants.test.ts` |
 | creature | combatEntity | 5 | 5 | 0 | 0 | 0 | data/catalog/monsters.json (antimagic_ward, barrier, bomb, phylactery, turret) | none yet: an author's Person of the species | `test/fighting-objects.test.ts` |
@@ -146,15 +146,15 @@ For each family with entries not met in play: its blockers, with how many entrie
 
 ### animal
 
-- 5 × field:animalKind.body: The weapon and body become the species' natural weapon and armour.
-- 5 × field:animalKind.weapon: The weapon and body become the species' natural weapon and armour.
-- 4 × field:animalKind.cha: Kyr rolls a species' attributes and hit points; the Orsino animal stat line is not used.
-- 4 × field:animalKind.con: Kyr rolls a species' attributes and hit points; the Orsino animal stat line is not used.
-- 4 × field:animalKind.dex: Kyr rolls a species' attributes and hit points; the Orsino animal stat line is not used.
-- 4 × field:animalKind.hp: Kyr rolls a species' attributes and hit points; the Orsino animal stat line is not used.
-- 4 × field:animalKind.int: Kyr rolls a species' attributes and hit points; the Orsino animal stat line is not used.
-- 4 × field:animalKind.str: Kyr rolls a species' attributes and hit points; the Orsino animal stat line is not used.
-- 4 × field:animalKind.wis: Kyr rolls a species' attributes and hit points; the Orsino animal stat line is not used.
+- 6 × field:animalKind.body: The weapon and body become the species' natural weapon and armour.
+- 6 × field:animalKind.weapon: The weapon and body become the species' natural weapon and armour.
+- 5 × field:animalKind.cha: Kyr rolls a species' attributes and hit points; the Orsino animal stat line is not used.
+- 5 × field:animalKind.con: Kyr rolls a species' attributes and hit points; the Orsino animal stat line is not used.
+- 5 × field:animalKind.dex: Kyr rolls a species' attributes and hit points; the Orsino animal stat line is not used.
+- 5 × field:animalKind.hp: Kyr rolls a species' attributes and hit points; the Orsino animal stat line is not used.
+- 5 × field:animalKind.int: Kyr rolls a species' attributes and hit points; the Orsino animal stat line is not used.
+- 5 × field:animalKind.str: Kyr rolls a species' attributes and hit points; the Orsino animal stat line is not used.
+- 5 × field:animalKind.wis: Kyr rolls a species' attributes and hit points; the Orsino animal stat line is not used.
 - 1 × field:animalKind.hp: Kyr gives the rat a hit die; the Orsino animal stat line's hit points are not used.
 
 ### companion
