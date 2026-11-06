@@ -13,11 +13,12 @@ import { Narration } from '../src/presentation/narration';
 // A fight the company chose, then one that came at it straight after, told as one: found in cov2's mine, where the
 // company attacked the mud in the haulage way and the Delvers' bone hounds, who had stood their ground, came at it
 // when the mud was down. The page told the hounds falling, and not the mud, nor the thief who fell to it. Here the
-// rats of the smithy, come into the hounds' haulage way, are attacked there.
+// rats of the smithy, come into the hounds' haulage way, are attacked there, by a thief seasoned enough to see both
+// fights through (at the first level a rat's bite or two could end her, and whether it did was the dice's).
 describe('two fights in one', () => {
   it('tells the fight the company chose, and the one that came at it after', async () => {
     const w = await WorldAssembler.assemble('cov2', NodeBundleSource.shared,
-      { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: 'thief' }] });
+      { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: 'thief', level: 3 }] });
     const s = await PlaySession.start(w.path, 'cov2', w.source), way = 'region__w8_haulage_haulage';
     const hounds = 'region__w8_haulage_haulage_dwellers';
     const c = s.campaign as unknown as { world: { apply(c: Change[]): unknown }; commit(w: unknown): void };

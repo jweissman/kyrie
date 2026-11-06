@@ -73,7 +73,7 @@ export class ScreenModel {
       dark: view.observations.some(o => o.id === 'darkness'),
       exits: here ? Headings.of(world.module, passages.path(here), here, passages.exits(here, grouped.exits,
         { ...(view.spatial ? { spatial: view.spatial } : {}), visited })) : [],
-      people: [...rows.filter(r => ['person', 'creature', 'animal'].includes(r.kind)), ...companions],
+      people: CreaturePortraits.once([...rows.filter(r => ['person', 'creature', 'animal'].includes(r.kind)), ...companions]),
       things: rows.filter(r => r.kind === 'thing' || r.kind === 'feature'),
       party: this.party(view, campaign, grouped), items, camp: grouped.camp,
       purse: { coin: view.resources?.find(r => r.id === 'gold')?.amount ?? 0,

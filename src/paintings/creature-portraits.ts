@@ -22,4 +22,17 @@ export class CreaturePortraits {
     const painting = this.painting(raceId);
     return painting ? Likeness.portrait(painting) : undefined;
   }
+  // No two on one page in one painting (see the people on a page): a second creature of a kind already painted there
+  // (the inn's dog and the drover's, both the dog's) is drawn by its emblem, as one of a kind with no painting is. A
+  // person's likeness is their own already (see Portraits), and kept.
+  static once<T extends { kind: string; portrait?: { src: string } }>(rows: T[]): T[] {
+    const shown = new Set<string>();
+    return rows.map(r => {
+      if (!r.portrait) { return r; }
+      if (r.kind === 'person' || !shown.has(r.portrait.src)) { shown.add(r.portrait.src); return r; }
+      const rest = { ...r };
+      delete rest.portrait;
+      return rest;
+    });
+  }
 }

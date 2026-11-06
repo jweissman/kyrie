@@ -355,14 +355,14 @@
       "statistics": {
         "attributes": {
           "strength": 4,
-          "dexterity": 14,
-          "constitution": 8,
+          "dexterity": 10,
+          "constitution": 6,
           "intelligence": 3,
           "wisdom": 10,
           "charisma": 3
         },
-        "hitDie": 3,
-        "primary": "dexterity",
+        "hitDie": 2,
+        "primary": "strength",
         "weapon": "bite",
         "armor": "fur"
       },
@@ -379,7 +379,7 @@
       "source": {
         "orsino": "animal:rat",
         "fidelity": "adapted",
-        "notes": "Orsino's rat (bite and fur) with a hit die, so that it grows with its level: Orsino's fixed two hit points had made a rat of any level one blow (M19-60)."
+        "notes": "Orsino's rat (bite and fur), with its two hit points at the first level, and a hit die, so that it grows with its level: Orsino's fixed two had made a rat of any level one blow (M19-60). A swarm of rats at the first level is a nuisance, as every adventure that has them was written for."
       }
     },
     "great_rat": {
