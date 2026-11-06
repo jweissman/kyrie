@@ -3,4 +3,6 @@ Module dorothea "The Dorothea" {
   Entity party: group "Your company".
   Entity word: fact "What is said of Tolleth and the Skerrow passage in the country behind it.".
   Rule word_old when arrived(hull) and not stale(word) { Assert stale(word). }
+  // The Founders' Exchange of the country this passage is in, when the world holds one: Quillon's buyer.
+  Entity ring: group "The Founders' Exchange.".
 }

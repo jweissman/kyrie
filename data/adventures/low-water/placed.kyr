@@ -6,6 +6,7 @@ Module lowwater "Low Water" {
   // once the carter has gone (the Exchange says so in the world, not here), is in Halm's by the time the company
   // has crossed the Rim, to be shown, rung, and wondered at. It is the same lot, from the same wall; it is not made
   // here. If the company has bought the lot back or the carter never went, the tray is empty.
+  Entity ring: group "The Founders' Exchange.".
   Entity carter: group "The carter of the Founders' Exchange.".
   Place south_road "The south road, past the Exchange's yard" is room.
   Rule halm_buys_lot when keeps(carter, ?t) and itemKind(?t, bell_teeth) and at(carter, south_road) {
@@ -19,5 +20,9 @@ Module lowwater "Low Water" {
   Observe halm_tray at dig when exchangeLot() "Apart from the day's finds, on a clean cloth, lie twelve teeth of green bronze, each the shape of a small bell, laid out in a row by someone who has rung every one. Beside them a sack with a tin tag, in a factor's hand: NORTH.".
   Topic halm_tray_ask with halm "Ask Halm where the bell-teeth on the cloth came from" when exchangeLot() once {
     Says "'A cart,' says Halm, without looking round from the tray. 'Last week, from a Founders' Exchange in the north, a factor who buys by the pound and sells to the Collegium by the ring. They always have the stuff that rings.' He picks up a tooth and flicks it; the note goes on and on. 'Twelve. Each a voice, each pitched to the next. They come out of a wheel, and a wheel with twelve teeth missing is a wheel that has stopped doing something.' He puts it down very carefully. 'I paid double. I paid for it. I'd like, if you have any idea where the wheel is, to have it back where it belongs, and to have never been paid for it.'".
+  }
+  Observe halm_bare_cloth at dig when routed(ring) and not exchangeLot() "On a clean cloth at the edge of the dig, laid out and left, there is nothing. A tin tag lies on it, with NORTH on it in a factor's hand, and no sack.".
+  Topic halm_bare_ask with halm "Ask Halm about the empty cloth" when routed(ring) and not exchangeLot() once {
+    Says "'The lots have stopped,' says Halm, in the voice of a man at a funeral. 'The Exchange's carter came down every month for three years. Bell-metal, a tooth, a face. It was never much, and it was never the same twice, and it was the only reason the Collegium knew anything was still being found in the north.' He puts the tag down. 'Somebody did something. I don't know what. I don't know whether to thank them.'".
   }
 }

@@ -2,14 +2,17 @@ Module factors "The factor who buys old bronze" {
   Description "A factor of the Founders' Exchange sits in the best taproom in the country and buys old bronze by the pound: bells, weir-metal, the green fittings that farmers turn up with the plough, and asks no questions about where it came from. The carter takes the lots south on a run of the carter's own, and what is carried is sold to whoever in the south pays most for working metal.".
   Entity party: group "Your company".
   Place taproom "The taproom" is room.
+  Entity keeper: group "Whoever keeps the inn".
   Entity rumour: fact "A factor at the inn buys old bronze by the pound and asks no questions: bells, weir-metal, green fittings from the plough.".
   Initially Assert established(rumour).
   // Where the carter is once gone: on the south road, with the cart, a place like another and not a flag. The
   // yard gate opens on it; a company that follows finds the road, and, a day on, nothing it can overtake.
   Place south_road "The south road, past the Exchange's yard" is room.
-  Passage yard_gate "the Exchange's yard gate" is door between taproom and south_road.
-  Measure run(entity). Measure dueAt(entity). Measure stock(entity).
-  Relation lotKnown(group). Relation turnedAway(group). Relation facedWith(group).
+  Passage yard_gate "the Exchange's yard gate" is door between taproom and south_road opening when not postedHand(hands) "".
+  Measure run(entity). Measure dueAt(entity). Measure stock(entity). Measure muscle(entity).
+  Relation lotKnown(group). Relation suspects(group, group). Relation dispatched(group). Relation postedHand(group).
+  Relation exposed(group). Relation quieted(group). Relation shutOut(group).
+  Place gone "gone" is room.
 
   Person factor "The factor" at taproom {
     Role "a factor of the Founders' Exchange, who buys old bronze". Peaceable. Manner jovial.
@@ -30,7 +33,7 @@ Module factors "The factor who buys old bronze" {
   }
   Topic factor_north with factor "Ask {factor} where the bronze comes from, in the north" when true once {
     Says "'From farmers, mostly. From stewards, when a house is short of money.' {factor} does not blink. 'A steward is the best seller there is. A steward has the key, and a sense of how little to say.' The pen goes down. 'If you are asking whether I have bought from a great wall, I do not know a wall from a gatepost. I know what is brought to me, and what it weighs.'".
-    On discuss { Assert lotKnown(actor). }
+    On discuss { Assert lotKnown(actor). Assert suspects(factor, actor). }
   }
 
   // The Exchange does not hurry. A lot that comes to the factor is held for the carter's next run, and the carter goes
@@ -43,15 +46,61 @@ Module factors "The factor who buys old bronze" {
     Retract keeps(factor, ?t). Assert keeps(carter, ?t). Retract at(carter, taproom). Assert at(carter, south_road). Assert carterGone(carter).
   }
   Relation carterGone(group).
-  // The company may buy a lot back before the cart goes: at a profit to the Exchange, and the factor's good opinion.
+  // The company may buy a lot back before the cart goes: at a profit to the Exchange, and at a higher one if the factor
+  // has reason to think the company is asking after the north.
   Action buy_back(actor: group, site: place, ware: item) "Buy {ware} back from {factor} at fourteen to the pound" {
     Description "Twelve teeth at a pound apiece. Anything the factor is holding will be sold back, at a profit.".
-    Requires able(actor) and company(actor) and at(actor, site) and at(factor, site) and keeps(factor, ware) and itemKind(ware, bell_teeth) and quantity(actor, gold) >= 14.
+    Requires able(actor) and company(actor) and at(actor, site) and at(factor, site) and keeps(factor, ware) and itemKind(ware, bell_teeth) and quantity(actor, gold) >= 14 and not suspects(factor, actor).
     Time 2 minutes.
-    On success { Decrease quantity(actor, gold) by 14. Increase quantity(factor, gold) by 14. Retract keeps(factor, ware). Assert keeps(actor, ware). Set dueAt(factor) to 0. }
-    Result "{factor} weighs it in front of you, to the ounce, and writes the sum in the ledger, and gives you the lot in a sack. 'Fourteen,' says {factor}. 'I would have paid nine for them if you had come last week.'".
+    On success { Decrease quantity(actor, gold) by 14. Increase quantity(factor, gold) by 14. Retract keeps(factor, ware). Assert keeps(actor, ware). Set dueAt(factor) to 0. Assert suspects(factor, actor). }
+    Result "{factor} weighs it in front of you, to the ounce, and writes the sum in the ledger, and gives you the lot in a sack. 'Fourteen,' says {factor}. 'I would have paid nine for them if you had come last week.' The pen stays a moment over the ledger. It writes your description in the margin.".
   }
-  Observe lot_held at taproom when keeps(factor, ?t) and itemKind(?t, bell_teeth) and not carterGone(carter) "In the corner behind the factor's chair, in a sack with a tin tag, lies a lot of green bronze teeth. The tag says NORTH. The carter will have it on the next fine day.".
+  Action buy_back_dear(actor: group, site: place, ware: item) "Buy {ware} back from {factor}, at the price of a customer who asks questions" {
+    Description "Twenty-two coin. The factor knows what you are about.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(factor, site) and keeps(factor, ware) and itemKind(ware, bell_teeth) and quantity(actor, gold) >= 22 and suspects(factor, actor) and not carterGone(carter).
+    Time 2 minutes.
+    On success { Decrease quantity(actor, gold) by 22. Increase quantity(factor, gold) by 22. Retract keeps(factor, ware). Assert keeps(actor, ware). Set dueAt(factor) to 0. }
+    Result "{factor} names the price without looking up. 'Twenty-two,' says {factor}. 'It is the price for those who have asked me where it came from.' It is a very reasonable voice. It is the voice of someone who has made a note of your face and of the hour.".
+  }
+  // What the factor does about being asked: she knows what is said at her table and what her carter and hands see,
+  // and nothing else. A lot she is holding is got out of the way; a rich house posts a hand at the yard gate; a poor
+  // one does not.
+  Rule factor_dispatches_early at taproom when suspects(factor, party) and keeps(factor, ?t) and itemKind(?t, bell_teeth) and at(carter, taproom) and not carterGone(carter) and not dispatched(factor) and dueAt(factor) > 0
+    says "The factor glances once at the corner behind the chair, and says a word to the carter, low. The carter finishes the cup, and gets up." {
+    Set dueAt(factor) to watch(clock). Assert dispatched(factor).
+  }
+  Rule factor_posts_a_hand when suspects(factor, party) and muscle(hands) >= 4 and not postedHand(hands) and not routed(hands) {
+    Assert postedHand(hands). Assert at(hands, south_road).
+  }
+  Observe hands_at_gate at taproom when postedHand(hands) and not carterGone(carter) "Two of the Exchange's yardmen stand across the yard gate with their arms folded, not unpleasantly. 'Yard's closed,' one says, 'for stocktaking.'".
+  Topic factor_why with factor "Ask {factor} why the yardmen watch you" when suspects(factor, actor) and not quieted(actor) once {
+    Says "{factor} puts the pen down. 'You ask where my bronze comes from,' says {factor}. 'You buy it back at a price. You have a look about you of someone with a cause.' A coin comes across the table: twelve, in a neat pile. 'The Exchange would like to be left to its weights. I would take it as a kindness.'".
+    On discuss { Assert offeredCoin(factor). }
+  }
+  Relation offeredCoin(group).
+  Topic take_coin with factor "Take the Exchange's twelve coin, and ask nothing more" when offeredCoin(factor) and not quieted(actor) once {
+    Says "The coin goes into your hand and the factor's face clears like a window being wiped. 'Thank you,' says {factor}, and turns the page of the ledger. You have been counted.".
+    On discuss { Increase quantity(actor, gold) by 12. Assert quieted(actor). Retract suspects(factor, actor). Retract postedHand(hands). }
+  }
+  Topic tell_keeper with keeper "Tell {keeper} the factor buys bronze that was not hers to sell" when lotKnown(actor) and not exposed(factor) once {
+    Says "{keeper} polishes a mug for a while. 'Is that so,' says {keeper}. 'It is a thing I have wondered.' A look goes across the taproom to the factor's corner. 'I will say a word to the reeve. Or I will not. Depends how the month has been.'".
+    On discuss { Assert exposed(factor). }
+  }
+  // The rest follows from what the Exchange has. A poor one cannot stand a word to the reeve; a rich one buys the
+  // inn's goodwill and the company's welcome ends with its custom.
+  Rule exposed_poor when exposed(factor) and stock(factor) < 9 and not routed(hands)
+    says "By morning the factor's chair in the taproom is bare, and the carter's place on the bench. There is a ring on the table of the yard gate where a ledger lay, and nobody in the Anchor can say when they went." {
+    Assert routed(hands). Retract at(factor, taproom). Assert at(factor, gone). Retract at(carter, taproom). Assert at(carter, gone). Retract at(hands, taproom). Retract at(hands, south_road). Retract postedHand(hands). Retract suspects(factor, party).
+  }
+  Rule exposed_rich when exposed(factor) and stock(factor) >= 9 and not shutOut(party) and not routed(hands)
+    says "The keeper does not meet your eye in the morning. 'The house is full,' says the keeper, and it is not, and the factor in her corner turns a page. A man from the yard is sitting by the door with an ale he is not drinking." {
+    Assert shutOut(party). Assert refusesService(keeper, party).
+  }
+  Observe shut_out_scene at taproom when shutOut(party) "The taproom is as it was, and nobody in it will serve you. The factor's ledger lies open in the corner, and there is a pen in it, and the pen is dry.".
+  Objective ring when exposed(factor) and not routed(hands) and not shutOut(party) "The Exchange knows it has been named in the taproom.".
+  Observe lot_held at taproom when keeps(factor, ?t) and itemKind(?t, bell_teeth) and not carterGone(carter) "In the corner behind the factor's chair, in a sack with a tin tag, lies a lot of green bronze teeth. The tag says NORTH. The carter will have it on the next fine day." teaches lot_seen.
+  Rule lot_seen_known when knows(party, lot_seen) and not lotKnown(party) { Assert lotKnown(party). }
+  Discovery lot_seen "A lot of green bronze teeth lies in a sack tagged NORTH in the factor's corner at the inn, waiting for the carter.".
   Observe gone_south at taproom when carterGone(carter) "The corner behind the factor's chair is clear, and the carter's place on the bench is empty.".
   Objective lot when lotKnown(party) and keeps(factor, ?t) and itemKind(?t, bell_teeth) and not carterGone(carter) "A lot of bronze teeth from the north is waiting in the factor's corner for the carter.".
   Goal carterGone(carter).

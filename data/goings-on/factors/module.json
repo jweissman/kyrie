@@ -9,7 +9,8 @@
   ],
   "imports": [
     "party",
-    "taproom"
+    "taproom",
+    "keeper"
   ],
   "roles": {
     "party": {
@@ -17,6 +18,9 @@
     },
     "taproom": {
       "type": "place"
+    },
+    "keeper": {
+      "type": "group"
     }
   },
   "generation": {
@@ -28,7 +32,8 @@
     "factor": "factor",
     "carter": "carter",
     "south_road": "south_road",
-    "rumour": "rumour"
+    "rumour": "rumour",
+    "ring": "hands"
   },
   "experience": 300
 }

@@ -32,7 +32,8 @@
   "imports": [
     "party",
     "carter",
-    "south_road"
+    "south_road",
+    "ring"
   ],
   "roles": {
     "party": {
@@ -48,6 +49,7 @@
   },
   "optional": [
     "carter",
-    "south_road"
+    "south_road",
+    "ring"
   ]
 }

@@ -6,16 +6,30 @@
   "instances": 1,
   "weight": 1,
   "places": {
-    "town": { "settlement": "largest" }
+    "town": {
+      "settlement": "largest"
+    }
   },
   "modules": [
     {
       "id": "factors",
       "bundle": "../goings-on/factors/module.json",
-      "imports": { "party": "@party", "taproom": "@town.taproom" }
+      "imports": {
+        "party": "@party",
+        "taproom": "@town.taproom",
+        "keeper": "@town.innkeeper"
+      }
     }
   ],
   "hooks": [
-    { "fact": "factors.rumour", "topic": "the factor who buys old bronze at {town}", "channels": ["tavern", "market"], "opens": false }
+    {
+      "fact": "factors.rumour",
+      "topic": "the factor who buys old bronze at {town}",
+      "channels": [
+        "tavern",
+        "market"
+      ],
+      "opens": false
+    }
   ]
 }

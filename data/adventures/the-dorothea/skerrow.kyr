@@ -76,7 +76,7 @@ Module dorothea "The Dorothea" {
     Result "You tell them, on the green, in the evening, with the sheep eating the grass round your boots: that a lamp is a promise, and a promise lets a place be forgiven for being nowhere. You are not eloquent. You say it plainly. Jory Kestle listens with the baby on his shoulder, and when you have finished he says: 'That's all very well. It's still February.' But he says it more quietly.".
     Otherwise "They hear you out, kindly. The sheep are more interested.".
   }
-  Rule marl_buys when watch(clock) >= reachedAt(hull) + 70 and arrived(hull) and not marlSold(party) and not jorySways(party) and marlOffered(party)
+  Rule marl_buys when watch(clock) >= reachedAt(hull) + 70 and arrived(hull) and not marlSold(party) and not jorySways(party) and marlOffered(party) and not routed(ring)
     says "On the second evening, at the Gull, Jory Kestle puts his name to Silas Quillon's paper. Nobody looks at him. The next morning two of Quillon's men are on the hill with a barrow and a bar, and Marren Kestle is standing at the tower door with the trimming-knife in her hand, and does not use it." {
     Assert marlSold(party). Assert tableSold(party). Assert lampOut(party).
   }
@@ -84,4 +84,10 @@ Module dorothea "The Dorothea" {
     Assert keptLamp(party). Retract at(marl, gull_room).
   }
   Observe lamp_out_scene at green when lampOut(party) and watch(clock) >= reachedAt(hull) + 80 "The Pharos hill is dark. Where the lamp-room window was, a rectangle of darker dark; and at the foot of the hill a barrow with a plate in it, green-black, polished. Marren Kestle is sitting on the wall with her knees up and her back to the sea.".
+  // Quillon sells what he buys. If the Exchange that would take the plate has fallen in the country behind the passage,
+  // Quillon has a lot of old bronze and nobody to sell it to, and the island's winter is the only winter.
+  Rule marl_no_buyer when routed(ring) and arrived(hull) and not keptLamp(party) and marlOffered(party)
+    says "A letter has come on the Dorothea's mail-bag for Silas Quillon, from Orsett, and he reads it standing in the Gull's kitchen with his tea going cold. 'The Exchange has closed its yard,' he says, to the room. 'It seems I am a man with a lease and no foundry.' He closes the ledger and thanks Hester Gull for the tea." {
+    Assert keptLamp(party). Retract at(marl, gull_room).
+  }
 }

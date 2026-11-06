@@ -1,4 +1,6 @@
 Module dorothea "The Dorothea" {
   Company party "Your company" of 3 at road_end.
   Initially Set quantity(party, gold) to 34. Initially Set quantity(party, rations) to 2.
+  // The Founders' Exchange of the country this passage is in, when the world holds one: Quillon's buyer.
+  Entity ring: group "The Founders' Exchange.".
 }

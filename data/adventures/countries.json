@@ -150,7 +150,8 @@
     "scenario": "factors.scenario.json",
     "exports": [
      "carter",
-     "south_road"
+     "south_road",
+     "ring"
     ]
    }
   },
@@ -553,7 +554,13 @@
    "rumour": "'Down the coast, at Tolleth, there's a ketch called the Dorothea,' says {keeper}, 'that sails for an island nobody goes to. Skerrow. A night and a morning out, past a reef they call the Combs. There's a lamp on it, older than the roads. The captain's short of hands, and short of money, and sails on the noon ebb whether you're aboard or no.'",
    "heard": "Down the coast at Tolleth the ketch Dorothea sails on the noon ebb for Skerrow, an island a night and a morning out past a reef called the Combs, where a lamp has burned since before the roads.",
    "skyline": "masts, close as reeds, in a harbour the colour of slate",
-   "far": "a ketch sails from a slate-grey harbour to an island with a lamp older than the roads"
+   "far": "a ketch sails from a slate-grey harbour to an island with a lamp older than the roads",
+   "herald": {
+    "scenario": "factors.scenario.json",
+    "exports": [
+     "ring"
+    ]
+   }
   }
  ]
 }

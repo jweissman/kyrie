@@ -29,10 +29,12 @@
   "experience": 1000,
   "imports": [
     "party",
-    "word"
+    "word",
+    "ring"
   ],
   "optional": [
-    "word"
+    "word",
+    "ring"
   ],
   "roles": {
     "party": {
