@@ -126,3 +126,38 @@ three set pieces. The Orsett reckoning, the Long Man's "eleven and a blank" fore
 unwritten (`friction.md`, last section). Tone is still elegiac; the comic register is absent. Verification of this pass:
 targeted tests (`the-dorothea`, `skerrow-night` 17 pass) and lint/typecheck clean; **the whole suite was not re-run at the
 final tree**, so the 2720/0 figure in §13.5 belongs to commit `5e34337` only.
+
+## 13.8 Fourth pass: the broad pass, an external review, and what it found
+
+**Done since 13.7.** A series bible (`14-bible.md`: theme "the Account", shared motifs, rulings on the contradictions);
+all 16 untouched adventures revised against it by parallel authors (each has a ledger in `adventures/` with count,
+keeper, first page and price, acts and scenes, characterization, companions, links, tests, shortfalls, and a friction
+file); a lore ledger and cross-reference sweep (`15-lore-ledger.md`: 23 rows, link matrices, world-event reads and
+item hooks in previously silent adventures, itinerants as talk, entry points toward Tolleth); the Dorothea grown into a
+six-call archipelago (Skerrow, Port Ness, the Antlers, Wrack Holm, Ashkeld, Mangrow) run by the House of Marchbank, with
+destination choice at booking, a sea-events table drawn by the ship's die, five entry points and a jungle island done
+in prose and mechanism; and a severe external review (`16-critical-review.md`), whose findings were then acted on.
+
+**What the review found, and what became of it.**
+
+| Finding | Status |
+|---|---|
+| Calling-unique flagship beats were locked to the shipped company of one (8 adventures) | Weaker, costly routes added for the shipped party in Book of Faces, Carth, Liberty, Gosse, the Hive, the Lull and the Quiet; each played by a test with no give/assert on the path. The Patient Star's shipped thief was not locked out |
+| "Eleven and a blank" in 12 adventures, kept lights in 14, fish-and-flame explained twice | Cut to about one of each per adventure; glosses removed. Not fully clean: the lore sweep counted about seventeen mentions before the cuts and I have not recounted |
+| Dorothea boarding routes untested; floorless cargo decrease | Tested (`dorothea-boarding`), floors added |
+| Payoffs set by hand (Thrume, Quittance, Carth) | Several now played; the rest are labelled asserted in the ledgers |
+| False ledger claims (Thrume "all five acts", House That Grows "three ways in") | Corrected; Thrume got Act IV voices; the `pick` route is tested but unreachable by the shipped monk |
+| The Remainder explained itself | One long speech replaced by a scene in which nobody answers (`rail_unasked`) |
+| Prose tics ("Nobody says why", the dry quoted closing line, "two hundred or two thousand years") | Varied and cut in part (about 17 percent of closing lines in wave C, about a third in waves A and B). **Not solved**; another pass is due |
+
+**Still wrong.** The Grand Tour, Skeel, the Long Man, Low Water and Tessary have no ledger file; Sabe Orrel / Orrel Sabe and
+the three Hesters are not renamed (tests depend on the labels); `hasCalling` voices did not fire in one standalone
+campaign (Gosse switched to `capable`) and I have not audited the others; three older long suites per author never
+finished under load; Orsett is not a place (a province would re-seed every world); the volcano and the jungle are prose
+(no terrain kinds); the archipelago has no world-map distance, only the clock; the Exchange still reacts and does not
+plan; the "institution hierarchy you roll up and defeat, whose fall opens a new authored adventure" is **not built**
+(the House of Marchbank is authored, not Deem-generated, and has no strategic agent that moves).
+
+**Verification.** Lint and typecheck clean on the final tree. `all-in-one-world` and the targeted tests named in each
+ledger pass; one full `bun test --parallel` was started on the final tree and its result is recorded below when it
+ends (not claimed before).
