@@ -95,6 +95,21 @@ describe('the Exchange answers being asked', () => {
 });
 
 
+describe('the Exchange\'s other answers', () => {
+  it('names a dearer price to a company it suspects, and offers it coin to stop asking', async () => {
+    const { j } = await Ring.lotAtTable('thorn', 'mountain');
+    j.coin(40);
+    await j.play('Ask .* where the bronze comes from, in the north');
+    // The carter has been told to go; before he does, the dear price is the only price.
+    expect(j.matches('Buy .* back from .* at fourteen to the pound').length).toBe(0);
+    await j.play('Ask .* why the yardmen watch you');
+    const before = j.measure('quantity', 'party', 'gold') as number;
+    await j.play('Take the Exchange.s twelve coin');
+    expect(j.measure('quantity', 'party', 'gold')).toBe(before + 12);
+    expect(j.holds('factors__suspects', 'factors__factor', 'party')).toBe(false);
+  }, 600000);
+});
+
 describe('what the Exchange\'s fall does on an island', () => {
   it('leaves the factor\'s agent on Skerrow with a lot of bronze and no foundry, so the lamp is not sold', async () => {
     const { s, j, frontier } = await Ring.lotAtTable('thorn', 'mountain');

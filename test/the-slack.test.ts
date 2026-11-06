@@ -38,7 +38,8 @@ describe('the way down', () => {
     const { j } = world;
     j.put('party', 'psennet__nexus');
     if (route === 'kinds') {
-      // A reading from two rubbings of two notations; the Hesk measure by the reeve's rod; a standing by a Prefect's writ.
+      // A reading from two rubbings of two notations; the Hesk measure by the reeve's rod;
+      // a standing by a Prefect's writ.
       j.give('pskeel__bench_rubbing'); j.give('ptolleth__rubbing'); j.give('plongman__rod'); j.give('plongman__writ_copy');
       await j.play('Lay a keeper\'s tally and a Prefect\'s table', 'Lay the dyke-reeve\'s rod', 'Say the keeper\'s formula');
     } else {
