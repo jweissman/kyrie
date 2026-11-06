@@ -43,6 +43,20 @@ Module lull "The Lull" {
     On success { Assert hesterEased(hester). Assert easedByOffice(hester). Assert hesterAsksAgain(hester). }
     Result "{c} says it in the plain low voice for it, with a hand on the sheet, not hurrying: the three parts of it, the naming, the laying down of the burden, and the letting go of the day. It does nothing you can see. Hester listens with her eyes shut and her mouth twitching, as she listens to the world. Somewhere in the second part her whole face changes, the way a field changes when the cloud goes off it. 'Oh,' she says. 'Somebody's said it.' Then she sleeps, deeply, with her hands open on the sheet, and in the doorway Tobias Lindsell has stood for the whole of it with his own hands hanging empty at his sides.".
   }
+  // A company with no priest in it can only sit. It is a lesser thing: she sleeps for the first part of the night and
+  // not for the rest, nothing is taken from her and nothing is given, and Tobias, who would have done it at ten,
+  // finds a stranger in his chair and cannot. It costs the whole evening, and it does not last.
+  Relation hesterSat(group).
+  Action sit_up_with_hester(actor: group, site: place) "Sit up with Hester Lindsell through the evening, and tell her where you have been" {
+    Speaker hester.
+    Description "You are not a priest, and you have nothing to give her. You can sit in the chair.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hester_room) and at(hester, hester_room) and lullOpen() and dayOne() and not hesterDead(hester) and not hesterEased(hester) and not hesterSat(hester)
+      and hesterTrust(hester) >= 1 and not capable(actor, rites).
+    Time 300 minutes.
+    On success { Assert hesterSat(hester). Assert hesterAsksAgain(hester). }
+    Result "You take the chair that is Tobias's and tell her where you have been, the road and the weather and the bad inn, in no order, and she corrects the distances. About ten she stops correcting and her breath goes long. Tobias comes to the door with the cup in his hand, and sees the chair is taken, and stands there, and goes back to the kitchen. You sit on. She wakes twice and each time looks for the other chair, and finds you. Near dawn she says, quite clearly, 'You are not who I asked,' and holds on to your sleeve until she is asleep again.".
+  }
+  Observe hester_sat_asks at hester_room when hesterSat(hester) and not hesterDead(hester) and dayTwo() "Hester is awake and looking at the chair. 'I did not die,' she says. 'It was kind of you. It was not what I asked for.' She is not angry, and she is looking past you at the other chair.".
   Topic tobias_office with tobias "Ask Tobias Lindsell about the Office" when easedByOffice(hester) and not hesterDead(hester) once {
     Says "Tobias is sitting on the settle with the cup in both hands. 'Nothing bought,' he says. 'Nothing carried over the Tump.' He turns the cup. 'I stood in that door and I thought, there is a way that is not mine and not Ruth Coll's. There is a thing that is just said.' He looks up. 'She knew my name this morning. She said, You've not shaved.' His mouth works. 'I'll not thank you. I will do your washing for a year.'".
     On discuss { Increase tobiasTrust(tobias) by 2. Assert tobiasSoftened(tobias). }

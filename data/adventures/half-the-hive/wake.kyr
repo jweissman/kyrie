@@ -66,14 +66,41 @@ Module hume "Half the Hive" {
     On success { Spend wax_cake from actor. Assert merritCapped(actor). Assert merritBrow(actor). }
     Result "{c} says it plainly, in the voice for the dead, by the door where the bones sit. The cake of yellow wax goes soft in your hands and is dull when it sets; it is not the colour of anything in that tree. {c} lays it over her all the same, and seals it, and she stands up capped in the Brow's wax with her hands folded, a Capper's girl at last among the Brow's own dead; and you have the feeling, which you do not say, of having signed something on her behalf.".
   }
-  Topic hannet_merrit_white with hannet "Tell Hannet that Merrit was capped in the white comb" when merritWhite(party) and hannetHasBee(hannet) once {
+  // A company with no cleric in it can still cap her. It has no office to say, so it says nothing, and caps her with
+  // its hands; Hannet will ask who spoke for her, and the account will say that nobody did.
+  Relation merritUnsaid(group).
+  Action cap_merrit_white_unsaid(actor: group, site: place) "Cap Merrit Coke in the seventh Leaving's own white comb, with no office to say" {
+    Description "You have no words for the dead. You have a slab of white comb and your hands, and a girl by a door.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, gallow_hollow) and knows(actor, merrit_found) and holding(actor, white_wax)
+      and not companyHasCleric(actor) and not merritCapped(actor).
+    Time 6.
+    Grave "Once Merrit is capped in the white, the Lantern Stair cannot have it; and she cannot be uncapped.".
+    On success { Spend white_wax from actor. Assert merritCapped(actor). Assert merritWhite(actor). Assert merritUnsaid(actor). }
+    Result "You do not know the Capper's office, so you do not say it. You warm the white comb until it will take a shape and lay it over her a hand at a time, from the knees up, the way you have seen it done on the wall behind you, and you seal the edge with her own iron because it is lying there. It is not neat. The shoulders are thick and one hand has lost a finger to your thumb. When it sets she is clear as milk, and there is a little hollow in the lap where something small was.".
+  }
+  Action cap_merrit_brow_unsaid(actor: group, site: place) "Cap Merrit Coke in a cake of Brow wax, with no office to say" {
+    Description "You have no words for the dead. A cake of yellow wax is a thing you can carry, and she has waited eighty-one years.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, gallow_hollow) and knows(actor, merrit_found) and holding(actor, wax_cake)
+      and not companyHasCleric(actor) and not merritCapped(actor).
+    Time 6.
+    Grave "Brow wax closes her into the Brow's account; she cannot be uncapped.".
+    On success { Spend wax_cake from actor. Assert merritCapped(actor). Assert merritBrow(actor). Assert merritUnsaid(actor). }
+    Result "You cannot say the office, so you do not. The cake goes soft between your palms and dull when it sets, and you press it over her in sheets, and the edge will not take her iron, so you leave the iron where it is in her hand. She stands up in the Brow's yellow with the seams showing.".
+  }
+  Rule company_has_cleric when memberOf(?m, party) and hasCalling(?m, calling_cleric) and not companyHasCleric(party) { Assert companyHasCleric(party). }
+  Relation companyHasCleric(group).
+  Topic hannet_merrit_unsaid with hannet "Tell Hannet that Merrit was capped, and that nobody said anything over her" when merritUnsaid(party) and hannetHasBee(hannet) once {
+    Says "Hannet turns the two bees over on their cord. 'Nobody said it,' she says. 'No.' She looks at your hands. 'You did it with those.' She is quiet for a time. 'My aunt capped forty-one of them and I do not suppose any of them was done with words, either, at the end.'".
+  }
+  Topic hannet_merrit_white with hannet "Tell Hannet that Merrit was capped in the white comb" when merritWhite(party) and not merritUnsaid(party) and hannetHasBee(hannet) once {
     Says "Hannet turns the two bees over on their cord. 'The white,' she says. 'The first comb. She drew that, you know, with her own hands, the first week, before they knew about the damp; she told me it was the cleanest wax in the world, and I was four.' She sits a while. 'She'd have chosen that. She never had a thing that was the Brow's.'".
   }
-  Topic hannet_merrit_brow with hannet "Tell Hannet that Merrit was capped in Brow wax" when merritBrow(party) and hannetHasBee(hannet) once {
+  Topic hannet_merrit_brow with hannet "Tell Hannet that Merrit was capped in Brow wax" when merritBrow(party) and not merritUnsaid(party) and hannetHasBee(hannet) once {
     Says "Hannet turns the two bees over on their cord. 'Brow wax,' she says, and her mouth does something. 'Well. The Brow never sent for her, and it's capped her anyway. That's the Brow.' She is quiet. 'It's more than it did for the other forty.' She does not say whether she is glad.".
   }
-  Rule fate_merrit_w within hume_wold when accounting() and merritWhite(party) and not spread(fate_merrit) says "By the door of the Gallowtree a woman stands in white wax with her hands folded, clear as milk, where the whole tree can see her. Nobody in the Brow has been told, and Hannet Coke knows, and says nothing, and keeps two bees on a cord." { Assert spread(fate_merrit). }
-  Rule fate_merrit_b within hume_wold when accounting() and merritBrow(party) and not spread(fate_merrit) says "By the door of the Gallowtree a woman stands in yellow wax with her hands folded. It is Brow wax, and the Brow has not been told whose, and the Cappers' board has a smooth place in its seventh line that one day someone will read." { Assert spread(fate_merrit). }
+  Rule fate_merrit_w within hume_wold when accounting() and merritWhite(party) and not merritUnsaid(party) and not spread(fate_merrit) says "By the door of the Gallowtree a woman stands in white wax with her hands folded, clear as milk, where the whole tree can see her. Nobody in the Brow has been told, and Hannet Coke knows, and says nothing, and keeps two bees on a cord." { Assert spread(fate_merrit). }
+  Rule fate_merrit_b within hume_wold when accounting() and merritBrow(party) and not merritUnsaid(party) and not spread(fate_merrit) says "By the door of the Gallowtree a woman stands in yellow wax with her hands folded. It is Brow wax, and the Brow has not been told whose, and the Cappers' board has a smooth place in its seventh line that one day someone will read." { Assert spread(fate_merrit). }
+  Rule fate_merrit_u within hume_wold when accounting() and merritUnsaid(party) and not spread(fate_merrit) says "By the door of the Gallowtree a woman stands in wax with her hands folded and the seams showing, capped by someone who did not know the words and did it anyway. Hannet Coke knows, and keeps two bees on a cord." { Assert spread(fate_merrit). }
   Entity fate_merrit: fact "Merrit".
 
   // ── A cleric's way through: the carrying office ───────────────────────────────────────────────────────────────────

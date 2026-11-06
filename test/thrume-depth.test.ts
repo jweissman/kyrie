@@ -178,6 +178,21 @@ describe('Thrume: the Paymasters\' hall', () => {
   }, 180000);
 });
 
+describe('Thrume: Act IV voices', () => {
+  // The Hush and the Tomb are a long walk below the Mouth's edge (see the mouth tests): the company is put at each place
+  // (asserted travel) and the rule that speaks for its calling is what is tested. Preset: ranger, warrior, cleric.
+  it('has a ranger read the Street of Hands, a cleric the Thrall-Market and a warrior the hall of hammers, once each', async () => {
+    const { s, j } = await T.start(depth);
+    for (const [place, heard, words] of [['hand_street', 'heardStreet', 'Thralls walk where they are walked'], ['thrall_market', 'heardNiches', 'there is no office for it'], ['hammer_hall', 'heardHammers', 'it would come alone']] as const) {
+      j.put('party', `thrume__${place}`);
+      await j.play('?a torch: Light');
+      await j.step('Wait › A while');
+      expect(T.holds(s, `thrume__${heard}`, 'party')).toBe(true);
+      expect(j.taken.map(t => t.told + t.page).join(' ')).toContain(words);
+    }
+  }, 240000);
+});
+
 describe('Thrume: the overseer', () => {
   it('is the worst liar in the Margravine\'s service, and is seen at the Salt Office door being one', async () => {
     const { s, j } = await T.start(camp);

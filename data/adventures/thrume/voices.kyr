@@ -6,7 +6,7 @@ Module thrume "Thrume" {
   // company has of the calling; a company without one has nobody to notice, and must notice it itself.
   Relation heardTracks(group). Relation heardBreath(group). Relation heardWalls(group). Relation heardPulse(group).
   Relation heardTongs(group). Relation heardBones(group). Relation heardMeadow(group). Relation heardInn(group).
-  Relation heardPegs(group). Relation heardDial(group).
+  Relation heardPegs(group). Relation heardDial(group). Relation heardStreet(group). Relation heardNiches(group). Relation heardHammers(group).
   Relation quarrelPaid(group).
 
   // Act II: the Shoulder. The ranger reads the ground the giants left.
@@ -41,6 +41,20 @@ Module thrume "Thrume" {
   Rule voice_pegs at wage_hall when memberOf(?m, party) and hasCalling(?m, calling_thief) and awake(?m) and at(party, wage_hall) and not heardPegs(party)
     says "{?m} counts the pegs on the wall with one finger, lips moving, and then counts them again, because the answer was not the one wanted. 'A hundred and eight,' {?m} says. 'A hundred and seven names, and one peg with nothing. The paymaster kept a place for himself, or for a man who was never quite on the roll, and I would very much like to know which.'" {
     Assert heardPegs(party).
+  }
+
+  // Act IV: the Hush and the Tomb. The ranger in the Street of Hands, the cleric at the Thrall-Market, the warrior among the hammers.
+  Rule voice_street at hand_street when memberOf(?m, party) and hasCalling(?m, calling_ranger) and awake(?m) and at(party, hand_street) and not heardStreet(party)
+    says "{?m} looks down before looking along the street. There is dust on the grey stone and nobody has left a print in it: the Court's feet do not touch it, or do not weigh. The only tracks are small, round and shallow, always at a Court-walker's heel, and they stop at every doorway and begin again on the far side. 'Thralls walk where they are walked,' {?m} says. 'Not one of them has turned left on his own.'" {
+    Assert heardStreet(party).
+  }
+  Rule voice_niches at thrall_market when memberOf(?m, party) and hasCalling(?m, calling_cleric) and awake(?m) and at(party, thrall_market) and not heardNiches(party)
+    says "{?m} goes along the niches with a thumb on one eyelid after another and does not find what was looked for. 'They are not sick and they are not dying,' {?m} says. 'They are being drunk a little at a time, and fed so that there will be more. I have sat with the dying. This is the other thing, and there is no office for it.'" {
+    Assert heardNiches(party).
+  }
+  Rule voice_hammers at hammer_hall when memberOf(?m, party) and hasCalling(?m, calling_warrior) and awake(?m) and at(party, hammer_hall) and not heardHammers(party)
+    says "{?m} stops under the first of the hammers and measures the swing of it with an arm held out, then the height of the door. 'Cut to the width of a man's shoulders,' {?m} says, 'not an inch to spare either side. Whoever made this knew exactly how big the thing coming in would be, and that it would come alone.'" {
+    Assert heardHammers(party).
   }
 
   // Act V: the Dream. The ranger in a meadow with no shadows.

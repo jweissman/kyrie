@@ -9,8 +9,8 @@ import type { CampaignEvent } from '../src/campaign/campaign';
 // labels
 // a player sees (doc/imbar/adventures/house-that-grows.md).
 class Ring {
-  static start() {
-    return PlaySession.start('data/campaigns/the-house-that-grows.campaign.json', 'noon', NodeBundleSource.shared);
+  static start(party?: Parameters<typeof PlaySession.start>[3]) {
+    return PlaySession.start('data/campaigns/the-house-that-grows.campaign.json', 'noon', NodeBundleSource.shared, party);
   }
   static choices(s: PlaySession) { return Journey.of(s).choices(); }
   static offered(s: PlaySession, label: string): boolean { return Journey.of(s).offers(label); }
@@ -59,6 +59,21 @@ describe('The House That Grows: the Slope', () => {
     expect(Ring.holds(s, 'state', 'hhg__gate_leaf', 'hhg__open')).toBe(true);
     expect(Ring.holds(s, 'hhg__gateStared', 'party')).toBe(true);
     expect(Ring.holds(s, 'hhg__gateAnswered', 'party')).toBe(false);
+  }, 120000);
+
+  it('lets the gate be picked by a company with lockwork (the shipped monk has none), which makes it forced: Neme is hurt, and does not trust them', async () => {
+    const s = await Ring.start([{ name: 'Isa Wennu', raceId: 'human', classId: 'thief' }]);
+    await Ring.up(s);
+    await Ring.act(s, '^To the Slope');
+    const labels = Ring.choices(s).map(c => c.label);
+    expect(labels.some(l => /pick the brass lock/.test(l))).toBe(true);
+    await Ring.act(s, 'pick the brass lock');
+    expect(Ring.holds(s, 'state', 'hhg__gate_leaf', 'hhg__open')).toBe(true);
+    expect(Ring.holds(s, 'hhg__gateForced', 'party')).toBe(true);
+    expect(Ring.holds(s, 'hhg__gateAnswered', 'party')).toBe(false);
+    const said = Ring.said(await Ring.act(s, '^To the front hall'));
+    expect(Ring.holds(s, 'hhg__nemeTrusts', 'party')).toBe(false);
+    expect(said + Journey.of(s).taken.map(t => t.page).join(' ')).toContain('hand lifted for a knock');
   }, 120000);
 
   it('opens the gate to the knock counted out, finds Neme, and walks out by the front door with her', async () => {

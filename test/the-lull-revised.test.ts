@@ -49,4 +49,21 @@ describe('The Lull: the Account, kept', () => {
     await w.play('Into the Lindsells', 'Hester Lindsell.s room', 'Talk to Hester', 'Talk to Hester Lindsell about something else');
     expect(w.j.matches('Office for the Easing').length).toBe(0);
   }, 300000);
+
+  it('the shipped warrior, alone, can only sit with Hester: she lives the night, is not eased, and says it was not what she asked', async () => {
+    const w = await Lull.start();
+    await w.fixture('phial', 'arrive');
+    await w.play('Into the Lindsells', 'Hester Lindsell.s room', 'Talk to Hester', 'Talk to Hester Lindsell about something else', '^Take your leave');
+    expect(w.j.matches('Office for the Easing').length).toBe(0);
+    expect(w.j.matches('Sit up with Hester Lindsell').length).toBe(1);
+    await w.play('Sit up with Hester Lindsell');
+    expect(w.page).toMatch(/You are not who I asked/);
+    expect(w.holds('hesterSat', 'hester')).toBe(true);
+    expect(w.holds('hesterEased', 'hester')).toBe(false);
+    expect(w.holds('hesterAsksAgain', 'hester')).toBe(true);
+    // Tobias, who would have done it at ten, did not.
+    await w.play('=23:00');
+    expect(w.holds('hesterDead', 'hester')).toBe(false);
+    expect(w.holds('diedBy', 'hester', 'tobias')).toBe(false);
+  }, 300000);
 });

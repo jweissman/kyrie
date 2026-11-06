@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { Hume, build } from './support/hume';
+import { Hume, alone, build } from './support/hume';
 
 // Half the Hive, revised against doc/imbar/14-bible.md (see doc/imbar/adventures/half-the-hive.md): a company of
 // five callings finds what each of them would find (data/adventures/half-the-hive/wake.kyr), a cleric has two ways
@@ -66,5 +66,25 @@ describe('Half the Hive: the Account, kept', () => {
     expect(g.page).toMatch(/M\. COKE/);
     await g.until();
     expect(g.page).toMatch(/stands in white wax with her hands folded/);
+  }, 300000);
+
+  it('the shipped ranger, alone: no office to say, but he can cap Merrit with his hands, and Hannet and the account say nobody spoke', async () => {
+    const g = await Hume.start(alone);
+    await g.play(...scent, '>hume__gallow_hollow',
+      'the capped of the seventh Leaving: Examine \u2014 Look closely', 'the one by the door: Examine \u2014 Look closely',
+      'Take the little wax bee', '?Climb the old comb', '?Climb the old comb', '?Climb the old comb');
+    // A cleric's offices are not offered to a company without one; the plain capping is.
+    expect(g.j.matches('Say the Capper.s office').length).toBe(0);
+    expect(g.j.matches('Cap Merrit Coke in the seventh Leaving.s own white comb, with no office').length).toBe(1);
+    expect(g.j.matches('Cap Merrit Coke in a cake of Brow wax').length).toBe(0);
+    await g.play("Cap Merrit Coke in the seventh Leaving's own white");
+    expect(g.page).toMatch(/you do not say it/);
+    expect(g.holds('merritWhite', 'party')).toBe(true);
+    expect(g.holds('merritUnsaid', 'party')).toBe(true);
+    await g.play('>hume__dancing_hall', 'Give Hannet the little wax bee', 'Talk to Hannet', 'Tell Hannet that Merrit was capped, and that nobody');
+    expect(g.page).toMatch(/You did it with those/);
+    expect(g.j.matches('Tell Hannet that Merrit was capped in the white comb').length).toBe(0);
+    await g.until();
+    expect(g.page).toMatch(/capped by someone who did not know the words/);
   }, 300000);
 });

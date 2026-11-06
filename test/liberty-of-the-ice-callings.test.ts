@@ -129,7 +129,7 @@ describe('The Liberty of the Ice: what lies under the Fair', () => {
     expect(g.page).toMatch(/Why would you cut a leaf before you wrote on it/);
     expect(g.page).toMatch(/a canon from Veyra/);
     await g.play('go:calf_taproom', 'Ask Nab Pollard why a Bankside child');
-    expect(g.page).toMatch(/Two hundred winters and it has not dropped/);
+    expect(g.page).toMatch(/It has not dropped in my time/);
   }, 300000);
 
   it('the Exchange floor holds the Collegium of Measures\' ell and a board for the Founders\' Exchange', async () => {

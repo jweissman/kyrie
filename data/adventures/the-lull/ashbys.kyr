@@ -69,7 +69,7 @@ Module lull "The Lull" {
 
   // Unless something else has been done, Tobias does it himself, on the night of the company's first Lullday, after
   // the Watching. He tells nobody.
-  Rule tobias_does_it when dayOne() and lullOpen() and hour(clock) >= 22 and not hesterDead(hester) and not hesterEased(hester) and not hesterHasPhial(hester) { Assert hesterDead(hester). Assert diedBy(hester, tobias). Assert at(hester, limbo). Assert tobiasCarries(tobias). }
+  Rule tobias_does_it when dayOne() and lullOpen() and hour(clock) >= 22 and not hesterDead(hester) and not hesterEased(hester) and not hesterSat(hester) and not hesterHasPhial(hester) { Assert hesterDead(hester). Assert diedBy(hester, tobias). Assert at(hester, limbo). Assert tobiasCarries(tobias). }
   Relation tobiasCarries(group).
   // Her Watching, on the next Lullday: the town believes the wasting took her at last.
   Observe hester_watching at green when dayTwo() and lullOpen() and hour(clock) >= 19 and hour(clock) < 21 and hesterDead(hester) "Tonight there is a space at the top of the Long Table, by the Old Shift, with a cup set at it and a weaver's shirt folded on the bench. It is Hester Lindsell's Watching. They set her shirt out on the grass with the day's makings, and they watch it with the rest, and it holds, because it was always going to: it was woven fifty-seven years ago by a woman who meant it.".

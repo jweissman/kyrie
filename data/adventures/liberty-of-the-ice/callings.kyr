@@ -80,6 +80,19 @@ Module pellam "The Liberty of the Ice" {
     On success { Assert officeRead(lisk). Assert knows(actor, saffery_office). }
     Result "Widow Saffery does not turn the lantern down. She holds it out over the black water at the length of her arm, and {m} kneels on the ice at the rope with no book, and says the office for the drowned in the plain voice of someone who has said it for strangers before, and means it for this one. Davy. Nine. A bone skate on one foot. In the middle, where the words ask the water to give up what it holds or else to keep it kindly, a second light comes up beside the lantern, small and low, the height of a child's hand; and stays; and at the last word is not there. Widow Saffery has not moved. 'Well,' she says, after a long time, in the voice of the rope-walk. 'He was always slow to go to bed.' She does not stop walking the Reach. She says, 'Tomorrow night, if you are going down it, come with me.'".
   }
+  // The lone company's way: a bard has no office, but has a wake-song, and the Lisk Wife has heard worse. It is said for
+  // her son by someone with no right to say it, at the hole, and it costs: three coin laid on the ice as the watermen lay
+  // pennies, and the widow, who knows what was and was not the office, does not speak to them again. The searchers stop at
+  // her light all the same. No second light comes up; the skate is carried in and the hook is left empty.
+  Relation officeSung(place).
+  Action sing_office(actor: group, site: place, m: member) "Have {m} sing a wake-song for Davy Saffery at the black hole, having no office to say, and lay three coin on the ice" {
+    Description "It is not the words. It is what a stranger has, and the Lisk Wife will know the difference.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, black_reach) and at(saffery, black_reach) and dark() and knows(actor, saffery_davy) and quantity(actor, gold) >= 3
+      and memberOf(m, actor) and hasCalling(m, calling_bard) and awake(m) and not officeRead(lisk) and not safferyAffronted(saffery) and not safferyTaken(saffery) and not iceGone().
+    Time 6.
+    On success { Assert officeRead(lisk). Assert officeSung(lisk). Assert safferyAffronted(saffery). Decrease quantity(actor, gold) by 3. }
+    Result "{m} sings it low, the one the Garthwaite women sing at a wake, with the verse for a drowned child that the Row sings when a drover's child goes under. It is a good song. Widow Saffery holds the lantern out over the black water and does not turn her head. At the end {m} lays three coin on the ice, as the watermen lay pennies, and she looks at them. 'That is a wake-song,' she says. 'It is not the office.' She takes the lantern in, close to her chest. 'He was never waked. You have been kind.' She says nothing else, and walks the Reach away from you, and does not look back.".
+  }
   // Said, she walks the Reach by the lantern and not alone; Harker's men are watermen's sons, and stop at the edge of her light.
   Rule lisk_wife_walks when officeRead(lisk) and searchNight() and not searchersDiverted(lisk) and not iceGone() and able(searchers) {
     Assert searchersDiverted(lisk).

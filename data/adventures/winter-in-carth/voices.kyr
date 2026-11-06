@@ -41,13 +41,32 @@ Module gaunt "A Winter in Carth" {
   // for nine lines in the rubric the Minster stopped teaching two hundred years ago, which every clerk copies, letter by
   // letter, at the head of each new book, and not one has read. A cleric can read it. Nobody else in Gaunt can, and no
   // one will have asked.
-  Discovery first_leaf "Under the first line of the Register, the original goes on for nine lines in the old rubric: In the year the Bishop went away, the Penitentiary took up his keys, to keep and not to have, until they be asked for. Thirty-two keys are named; thirty-one were received. The Minster is of two towers, whereof the one shall carry the bell and the other the light, when it is asked for. To the poor of Gaunt the fallen wood, for ever. At the foot, cut small: a fish, and over it a flame.".
+  Discovery first_leaf "Under the first line of the Register, the original goes on for nine lines in the old rubric: In the year the Bishop went away, the Penitentiary took up his keys, to keep and not to have, until they be asked for. Thirty-two keys are named; thirty-one were received. The Minster is of two towers, whereof the one shall carry the bell and the other the light, when it is asked for. To the poor of Gaunt the fallen wood, for ever.".
   Action read_first_leaf(actor: group, site: place, m: member) "Have {m} read the first leaf of the Register in the old rubric, under the clerks' copy" {
     Description "The clerks copy it at the head of every new book and not one of them has read it. It is nine lines. It will take an hour at the lectern with the Lady Penitentiary looking up from her desk.".
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, penitentiary) and daytime() and memberOf(m, actor) and hasCalling(m, calling_cleric) and awake(m) and not knows(actor, first_leaf).
     Time 6.
     On success { Assert knows(actor, first_leaf). }
-    Result "{m} stands at the first lectern with a finger under the rubric, and reads it a line at a time, under the breath, the way one reads a thing one has been taught as a boy and never needed. At her desk by the fire Dame Hawise has stopped writing. Nine lines. The year the Bishop went away: the keys, taken up to keep and not to have, until they be asked for. Thirty-two named; thirty-one received. A Minster of two towers, the one to carry the bell and the other the light, when it is asked for. To the poor of Gaunt the fallen wood, for ever. At the foot, cut small in the vellum before the ink went on, a fish and over it a flame. {m} reads the last word aloud, and nobody in the room moves. 'It does not say where he went,' {m} says. 'It does not say who is to ask.'".
+    Result "{m} stands at the first lectern with a finger under the rubric, and reads it a line at a time, under the breath, the way one reads a thing one has been taught as a boy and never needed. At her desk by the fire Dame Hawise has stopped writing. Nine lines. The year the Bishop went away: the keys, taken up to keep and not to have, until they be asked for. Thirty-two named; thirty-one received. A Minster of two towers, the one to carry the bell and the other the light, when it is asked for. To the poor of Gaunt the fallen wood, for ever. {m} reads the last word aloud, and nobody in the room moves. 'It does not say where he went,' {m} says. 'It does not say who is to ask.'".
+  }
+  // The lone company's way: a bard cannot read the rubric, but a bard has an ear. The clerks mutter it as they copy, and
+  // an ear can hold nine lines of sound it does not understand. What comes out is the grant, with the words not quite right,
+  // and the keys and the towers lost; the woodmen stand down for the winter, not for ever. The cleric's reading stays whole.
+  Discovery first_leaf_ear "A bard's version of the first leaf, taken by ear from the clerks' muttering: the Bishop went away, the Penitentiary took up his keys, and to the poor of Gaunt the fallen wood, for a year and a day. The rest was lost in the sound of the pens.".
+  Relation grantYear(group).
+  Action recite_first_leaf(actor: group, site: place, m: member) "Have {m} sit with the clerks and take the old rubric down by ear, as they mutter it" {
+    Description "The clerks copy the first leaf at the head of every new book, mouthing as they go. It will take an hour of sitting where the Lady Penitentiary can see you, and what is got is a tune, not a text.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, penitentiary) and daytime() and memberOf(m, actor) and hasCalling(m, calling_bard) and awake(m) and not knows(actor, first_leaf) and not knows(actor, first_leaf_ear).
+    Time 6.
+    On success { Assert knows(actor, first_leaf_ear). }
+    Result "{m} takes a stool at the end of the long bench and shuts both eyes, and the clerks go on mouthing at their lecterns, a murmur like a mill-race. After an hour {m} has a run of sounds that scan and mean nothing, and under them, twice, three words that do: the keys, and the wood, and a year. 'For ever, or for a year and a day,' {m} says, quietly, at the door. 'It does not carry. I have the grant, as a song has a grant.' At her desk by the fire Dame Hawise has watched all of it, and has not looked down once.".
+  }
+  Action grant_to_woodmen_ear(actor: group, site: place) "Sing the Wood-reeve's woodmen the grant as you took it down: the fallen wood to the poor of Gaunt, for a year and a day" {
+    Description "It opens the wood by right, but a right you cannot swear to, and only as long as the winter. It tells the Lady Penitentiary nothing.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, wood_edge) and at(woodmen, site) and able(woodmen) and knows(actor, first_leaf_ear) and not knows(actor, first_leaf) and not leafUsed(actor).
+    Time 2.
+    On success { Assert leafUsed(actor). Assert grantShown(actor). Assert grantYear(actor). Assert at(woodmen, limbo). }
+    Result "You give them what you have, as it came to you, in the tune it came in. The biggest woodman listens with his billhook on his shoulder, and at 'a year and a day' he shakes his head. 'Ever, my father said,' he says. 'Not a year.' He looks at the board on its post for some time. 'But you've the right of it, near enough, and I'll not be the one to say the Reeve's is better.' The three go back into the holly. In the morning, you suppose, they will be cutting.".
   }
   Rule leaf_known at penitentiary when at(party, penitentiary) and knows(party, first_leaf) and not leafHeard(party)
     says "The clerks have stopped copying. Nobody in the Penitentiary has ever heard the rubric read aloud, and the sound of it in the long room, with forty books standing in the quiet, is like a step on a stair someone had forgotten was there." {
@@ -61,16 +80,20 @@ Module gaunt "A Winter in Carth" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, wood_edge) and at(woodmen, site) and able(woodmen) and knows(actor, first_leaf) and not leafUsed(actor).
     Time 2.
     On success { Assert leafUsed(actor). Assert grantShown(actor). Assert at(woodmen, limbo). }
-    Result "You give them the nine lines as you read them, the rubric and then the plain, standing in the snow before the board on its post. The biggest of the woodmen listens with his billhook on his shoulder, and when you have finished he goes to the post and puts his hand on the old cut letters under the Wood-reeve's board, TO THE POOR OF GAUNT, THE FALLEN WOOD, FOR EVER, as if they had just that moment appeared. 'I knew that,' he says, in an odd voice. 'My father said. I never knew it was wrote.' The three of them go back into the holly without another word, and do not come out. Nobody has told Thackray. Nobody has told the Lady.".
+    Result "You give them the nine lines as you read them, the rubric and then the plain, standing in the snow before the board on its post. The biggest of the woodmen listens with his billhook on his shoulder, and when you have finished he goes to the post and puts his hand on the old cut letters under the Wood-reeve's board, TO THE POOR OF GAUNT, THE FALLEN WOOD, FOR EVER, as if they had just that moment appeared. 'I knew that,' he says, in an odd voice. 'My father said. I never knew it was wrote.' The three of them go back into the holly without another word, and do not come out. Thackray has not been told.".
   }
   Action leaf_to_hawise(actor: group, site: place) "Lay the nine lines of the first leaf before Dame Hawise, as the Bishop wrote them" {
     Description "It tells the Lady Penitentiary what her keys are for. It opens nothing at the Wood.".
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, penitentiary) and at(hawise, penitentiary) and not masked(hawise) and knows(actor, first_leaf) and not leafUsed(actor) and not hawiseReadLeaf(hawise).
     Time 3.
     On success { Assert leafUsed(actor). Assert hawiseReadLeaf(hawise). Increase hawiseReasons(hawise) by 1. }
-    Result "Dame Hawise listens with her pen laid across the page. When you have finished she gets up, and unhooks the billet of keys from her belt, and counts them aloud on the desk, one by one, in the voice of the Row, which she uses when she is frightened. 'Thirty-one,' she says. 'I have counted them every Michaelmas for eleven years, and never once asked why a Lady carries thirty-one of a thing whose first line is a number.' She puts them in your hand. 'Try them,' says the Lady Penitentiary, 'if you can think where.' You cannot. She takes them back. 'To keep and not to have,' she says. 'I have been had, by these, for eleven years. I have been so busy turning vanity into bread.' She sits down. 'Thank you. I do not know yet for what.'".
+    Result "Dame Hawise listens with her pen laid across the page. When you have finished she gets up, and unhooks the billet of keys from her belt, and counts them aloud on the desk, one by one, in the voice of the Row, which she uses when she is frightened. 'Thirty-one,' she says. 'I have counted them every Michaelmas for eleven years, and never once asked why a Lady carries thirty-one of a thing whose first line is a number.' She puts them in your hand. 'Try them,' says the Lady Penitentiary, 'if you can think where.' You cannot. She takes them back. 'To keep and not to have,' she says. 'I have been had, by these, for eleven years.' She sits down.".
   }
-  Rule fate_grant when accounting() and grantShown(party) and not spread(fate_grant)
+  Rule fate_grant_year when accounting() and grantYear(party) and not spread(fate_grant)
+    says "Of the Bishop's Wood: the woodmen have stopped asking for four shillings for this winter, on the word of a stranger who sang it wrong. The board is back on its post face outward by Lady Day, and the Row's children are told it was a year and a day." {
+    Assert spread(fate_grant).
+  }
+  Rule fate_grant when accounting() and grantShown(party) and not grantYear(party) and not spread(fate_grant)
     says "Of the Bishop's Wood: nobody knows who told the woodmen. They have stopped asking for four shillings, and keep the board on its post face inward, and the Row's children go out with their sledges on any afternoon they like, singing, and come back with the dead oak a sled at a time." {
     Assert spread(fate_grant).
   }
