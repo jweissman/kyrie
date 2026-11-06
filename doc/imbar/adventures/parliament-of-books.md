@@ -1,7 +1,7 @@
 # A Parliament of Books: the broad pass
 
 *Revised against `14-bible.md`. Data only. New files: `post.kyr` (the Road), `voices.kyr` (calling-keyed voices); `module.json` and `placed.json`
-list them and add `slack_opened` to the canon. Tests: `test/parliament-of-books-post.test.ts`.*
+list them and add `slack_opened` to the canon. Tests: `test/parliament-of-books-post.test.ts` (10, passing), with the existing eight parliament files (35 more) re-run green.*
 
 The adventure was literary and mostly texture; its "empire nobody remembers" was one Observe on a drowned ridge. The pass gives that empire a
 **law, a house, a courier and a count**, and ties it into the Colophon so that the Kindling means more than it did.
