@@ -18,7 +18,8 @@
     "after.kyr",
     "growth.kyr",
     "company.kyr",
-    "lore.kyr"
+    "lore.kyr",
+    "tracks.kyr"
   ],
   "rules": [
     "world"

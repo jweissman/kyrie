@@ -1,0 +1,21 @@
+Module skeel "Fair Weather" {
+  Description "What a ranger can read in the Pulpit that nobody else would look at: the print of a boot in the red clay, and whose boot it was. A second way to the same truth as the boy's, by the ground and not the sea.".
+
+  // ── The ranger's way ────────────────────────────────────────────────────────────────────────────────────────────
+  // The boy on Seal Skerry saw what the Reeve did on the Strand. The ground in the Pulpit saw what he did before it:
+  // the hook, the lantern, and the man who stood there a long time, and then ran. Anyone can see the hook (it is on the
+  // Pulpit's list of things to look at). Only someone who reads ground sees the man.
+  Discovery boot_prints "In the lee of the Pulpit's back wall, in a skin of red clay that the wind cannot reach, the print of a left boot, iron-heeled, with the third nail of the heel missing: a tall man, standing a long time, and then going down the edge faster than he came up.".
+  Action read_pulpit_ground(actor: group, site: place, r: member) "Read the clay in the lee of the Pulpit's back wall" {
+    Description "Everything else up here has been scoured by the wind. There is one place it does not reach.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, pulpit) and memberOf(r, actor)
+      and hasCalling(r, calling_ranger) and awake(r) and knows(actor, hook_found) and not knows(actor, boot_prints).
+    Time 3.
+    On success { Assert knows(actor, boot_prints). }
+    Result "{r} goes down on hands and knees in the niche, with the wind shouting overhead, and puts a cheek almost to the rock. In the angle of the back wall the clay is red and damp and has kept something. 'There,' {r} says. 'One man, tall, left foot a shade turned in. He stood here from before the moon was up till the ship struck. Look how deep the toes are: he was leaning on the hook.' A finger hovers over the heel. 'Iron on the heel, and the third nail gone, so the print has a bite out of it.' Then, lower: 'And the next prints are twice as far apart.'".
+  }
+  Observe boots_by_the_stove at reeve_parlour when knows(party, boot_prints) "A pair of big black boots stands by the parlour stove, drying, the left one worn down on its outer edge. The iron on the left heel is short of a nail; the third one is gone, and has left a bite. Red clay is dried in the welt, the red that is only on the Craigs path." teaches boots_match.
+  Discovery boots_match "The Reeve's left boot has its third heel-nail missing, and Craigs clay in the welt: the same boot that stood in the Pulpit.".
+  Rule put_together_boots when knows(party, hook_found) and knows(party, boot_prints) and knows(party, boots_match) and not knows(party, hender_did)
+    says "A hook driven new into a crack, and a boot-print with a bite out of the heel, and the same bite in a boot that dries by a stove in Fore Street. You did not need a boy on a hatch to tell you whose. You need only to know that he stood there a long time first." teaches hender_did { }
+}

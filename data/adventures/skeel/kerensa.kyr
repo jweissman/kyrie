@@ -60,7 +60,7 @@ Module skeel "Fair Weather" {
   Rule kerensa_rows_not when rowsFor(kerensa, party) and not travelsWith(kerensa, party) { Retract rowsFor(kerensa, party). }
 
   // ── The inference ─────────────────────────────────────────────────────────────────────────────────────────────────
-  Discovery hender_did "Hender Brask put the sea in the Lantern's oil on the Saturday he brought it, and hung a horn lantern in his father's place in the Pulpit, so that the Constancy would take it for the Holm and steer onto Scarth Bank; and when she struck he covered it. Afterwards he walked the Strand with it at low water among the wreck, and saw a boy alive on a hatch, and turned his back.".
+  Discovery hender_did "Hender Brask put the sea in the Lantern's oil on the Saturday he brought it, and hung a horn lantern in his father's place in the Pulpit, so that the Constancy would take it for the Holm and steer onto Scarth Bank; and when she struck he covered it.".
   Rule put_together when knows(party, nye_saw) and (knows(party, kerensa_saw) or knows(party, only_four) or knows(party, oil_watered) and knows(party, oil_by_hender) or knows(party, withies_moved) and knows(party, hook_found)) and not knows(party, hender_did)
     says "A tall man in a black coat, with marks under his eyes like bruises, who walked away from a boy in the sea. You have met him. He oils the charter board himself, every week." teaches hender_did { }
 }

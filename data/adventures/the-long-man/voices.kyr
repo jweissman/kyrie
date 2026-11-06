@@ -36,7 +36,7 @@ Module longman "The Long Man" {
   // A disagreement the company has with itself: only a company with both a warrior and a cleric has it, and each is right.
   // The money is forty crowns; the Hall owes the warrior's trade nothing; the cleric has seen the font.
   Rule quarrel_over_bounty at green when memberOf(?w, party) and hasCalling(?w, calling_warrior) and awake(?w)
-    and memberOf(?c, party) and hasCalling(?c, calling_cleric) and awake(?c) and knows(party, bounty_known) and knows(party, notches_known)
+    and memberOf(?c, party) and hasCalling(?c, calling_cleric) and awake(?c) and at(party, green) and knows(party, bounty_known) and knows(party, notches_known)
     and not paidBounty(venn) and not quarrelled(party)
     says "{?w} says it first, because somebody must. 'Forty crowns is forty crowns. It walks the crest at night and it has hit a man; lay it and be paid.' {?c} does not raise a voice. 'It keeps the wall that keeps the lake that keeps the chapel dry,' says {?c}. 'I would like to be certain what it is before I put a bar under its chin.' Neither looks at you, and both are waiting for you to say which of them is right." {
     Assert quarrelled(party).
