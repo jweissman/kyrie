@@ -10,7 +10,7 @@ reaches it with declared omissions), **reference** (kept in the registry only, b
 computed from what Kyr has and draws, not claimed: the ledger and generated catalogs for rules and things, what
 a generated country draws for wonders and traps, the voice tables for barks.
 
-2651 entries in 79 families: 1609 integrated, 176 represented, 745 reference, 121 blocked.
+2651 entries in 79 families: 1611 integrated, 174 represented, 745 reference, 121 blocked.
 
 ## By family
 
@@ -41,12 +41,12 @@ a generated country draws for wonders and traps, the voice tables for barks.
 | creature | npcRank | 12 | 0 | 0 | 12 | 0 | none | none | — |
 | creature | npcType | 89 | 0 | 0 | 89 | 0 | none | none | — |
 | equipment | armor | 15 | 15 | 0 | 0 | 0 | data/catalog/items/armour.json | shops, gear, finds | `test/treasure.test.ts` |
-| equipment | consumable | 28 | 22 | 6 | 0 | 0 | data/catalog/items/consumables.json | shops and finds | `test/treasure.test.ts` `test/shared-item-effects.test.ts` |
+| equipment | consumable | 28 | 24 | 4 | 0 | 0 | data/catalog/items/consumables.json | shops and finds | `test/treasure.test.ts` `test/shared-item-effects.test.ts` |
 | equipment | equipment | 48 | 45 | 3 | 0 | 0 | data/catalog/items/wonders.json | shops and finds | `test/treasure.test.ts` |
 | equipment | gear | 68 | 66 | 1 | 0 | 1 | data/catalog/items/gear.json | shops, starting gear | `test/treasure.test.ts` |
-| equipment | gem | 5 | 5 | 0 | 0 | 0 | data/catalog/items/valuables.json | finds in works | `test/treasure.test.ts` |
+| equipment | gem | 5 | 5 | 0 | 0 | 0 | data/catalog/items/gems.json | stones found in deep sites (src/world/deep/stones.ts) | `test/treasure.test.ts` |
 | equipment | junk | 71 | 71 | 0 | 0 | 0 | data/catalog/items/valuables.json | finds in works | `test/treasure.test.ts` |
-| equipment | treasureTier | 6 | 6 | 0 | 0 | 0 | data/generation/scenes/orsino-world.json#dungeon.treasure, drawn by src/world/deep/deep-pacing.ts and a riddle's casket (deep-rooms.ts) | every deep site's rooms, narrowed by what its purpose says its makers and those after them left | `test/deep-treasure.test.ts` |
+| equipment | treasureTier | 6 | 6 | 0 | 0 | 0 | data/generation/tables/treasure.json (with its loot template, data/generation/templates/treasure.json), drawn by src/world/deep/deep-pacing.ts and a riddle's casket (deep-rooms.ts) | every deep site's rooms, narrowed by what its purpose says its makers and those after them left | `test/deep-treasure.test.ts` |
 | equipment | weapon | 83 | 83 | 0 | 0 | 0 | data/catalog/items/arms.json, data/catalog/items/natural.json | shops, gear, finds | `test/treasure.test.ts` |
 | generation | legendaryWonderRoll | 20 | 0 | 0 | 20 | 0 | none | none | — |
 | generation | roomDecoration | 100 | 0 | 0 | 100 | 0 | none | none | — |
@@ -200,7 +200,7 @@ For each family with entries not met in play: its blockers, with how many entrie
 
 ### consumable
 
-- 6 × An authored record migrated from Orsino; not executable: use.
+- 4 × An authored record migrated from Orsino; not executable: use.
 
 ### equipment
 
@@ -408,15 +408,13 @@ For each family with entries not met in play: its blockers, with how many entrie
 ### wonder
 
 - 21 × upgrade: A lasting raise of a quality: Kyr raises qualities only by advancement.
+- 3 × No meeting is written for it in data/generation/scenes/wonders.json.
 - 3 × planeshift: Travel to another plane or room: a generated country has no planes, and a wonder has no rooms to send anyone to.
 - 3 × teleport: Travel to another plane or room: a generated country has no planes, and a wonder has no rooms to send anyone to.
 - 2 × grantPassive: A trait granted outside advancement: Kyr has no effect that grants one.
 - 1 × learn: The ability dispel_magic is not one Kyr has.
-- 1 × learn: The ability invisibility is not one Kyr has.
 - 1 × learn: The ability maze is not one Kyr has.
 - 1 × learn: The ability plane_shift is not one Kyr has.
 - 1 × learn: The ability polymorph is not one Kyr has.
-- 1 × learn: The ability reflection is not one Kyr has.
 - 1 × learn: The ability time_stop is not one Kyr has.
-- 1 × learn: The ability true_sight is not one Kyr has.
 

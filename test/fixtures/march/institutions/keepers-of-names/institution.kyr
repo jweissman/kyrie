@@ -1,4 +1,5 @@
 Module keepers_of_names "The Keepers of Names" {
+  Kind burial_register "burial register" is gear worth 2 described "A waxed register of the named dead, in a keeper's careful hand.".
   Description "A burial society that holds the river settlements' dead in custody: their registers, their shrines and the guardians they set over them. It claims no treasure, only that the named dead stay named.".
   Entity party: group "Your company".
   Place shrine "Where the keepers keep their shrine" is room.

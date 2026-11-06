@@ -1,0 +1,16 @@
+{
+ "loot": {
+  "__no_id": true,
+  "_epic": "=1d100 > 95",
+  "tier": "=defined('tier') ? #tier : (#_epic ? oneOf(major, grand, legendary) : oneOf(basic, negligible, minor))",
+  "key": "=lookup(treasure, #tier)"
+ },
+ "gemstone": {
+  "__no_id": true,
+  "rank": "=defined('type') ? findGroup(gems, #type) : ((1d20 < 19) ? oneOf(common, uncommon) : oneOf(rare, very_rare, legendary))",
+  "type": "=defined('type') ? #type : lookup(gems, #rank)",
+  "quality": "=lookup(gemQuality, any)",
+  "cut": "=lookup(gemCut, any)",
+  "size": "=lookup(gemSize, any)"
+ }
+}

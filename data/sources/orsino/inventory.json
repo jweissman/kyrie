@@ -255,8 +255,8 @@
    "status": "integrated",
    "rule": "ledger",
    "counts": {
-    "integrated": 22,
-    "represented": 6,
+    "integrated": 24,
+    "represented": 4,
     "reference": 0,
     "blocked": 0
    }
@@ -502,9 +502,9 @@
   },
   "gem": {
    "concept": "equipment",
-   "destination": "data/catalog/items/valuables.json",
-   "representation": "treasure items",
-   "generative": "finds in works",
+   "destination": "data/catalog/items/gems.json",
+   "representation": "stones by rank, with Orsino's cuts, sizes and clarities",
+   "generative": "stones found in deep sites (src/world/deep/stones.ts)",
    "tests": [
     "test/treasure.test.ts"
    ],
@@ -1275,7 +1275,7 @@
   },
   "treasureTier": {
    "concept": "equipment",
-   "destination": "data/generation/scenes/orsino-world.json#dungeon.treasure, drawn by src/world/deep/deep-pacing.ts and a riddle's casket (deep-rooms.ts)",
+   "destination": "data/generation/tables/treasure.json (with its loot template, data/generation/templates/treasure.json), drawn by src/world/deep/deep-pacing.ts and a riddle's casket (deep-rooms.ts)",
    "representation": "the tiers a deep site's rooms and caskets hold their finds by, by depth",
    "generative": "every deep site's rooms, narrowed by what its purpose says its makers and those after them left",
    "tests": [
@@ -6513,13 +6513,10 @@
   },
   {
    "id": "consumable:foxglove",
-   "status": "represented",
-   "mechanics": "represented",
+   "status": "integrated",
+   "mechanics": "executable",
    "kyr": [
     "item:foxglove"
-   ],
-   "blockers": [
-    "An authored record migrated from Orsino; not executable: use."
    ]
   },
   {
@@ -6573,13 +6570,10 @@
   },
   {
    "id": "consumable:oil_flask",
-   "status": "represented",
-   "mechanics": "represented",
+   "status": "integrated",
+   "mechanics": "executable",
    "kyr": [
     "item:oil_flask"
-   ],
-   "blockers": [
-    "An authored record migrated from Orsino; not executable: use."
    ]
   },
   {
@@ -10357,7 +10351,8 @@
     "item:spinel",
     "item:topaz",
     "item:tourmaline",
-    "item:zircon"
+    "item:zircon",
+    "item:zircon_blue"
    ]
   },
   {
@@ -20023,7 +20018,7 @@
    "id": "wonder:arcane_lantern",
    "status": "blocked",
    "blockers": [
-    "learn: The ability true_sight is not one Kyr has."
+    "No meeting is written for it in data/generation/scenes/wonders.json."
    ]
   },
   {
@@ -20120,7 +20115,7 @@
    "id": "wonder:enchanted_mirror",
    "status": "blocked",
    "blockers": [
-    "learn: The ability reflection is not one Kyr has."
+    "No meeting is written for it in data/generation/scenes/wonders.json."
    ]
   },
   {
@@ -20142,7 +20137,7 @@
    "id": "wonder:enchanted_tapestry",
    "status": "blocked",
    "blockers": [
-    "learn: The ability invisibility is not one Kyr has."
+    "No meeting is written for it in data/generation/scenes/wonders.json."
    ]
   },
   {

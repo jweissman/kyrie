@@ -92,7 +92,7 @@ Also kept, without comment: itemKind, ownedItem, wearing, forSale, soldBy, weara
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 2 | 30 | 12 | 2 | 9 | 21 |
+| 3 | 32 | 12 | 2 | 9 | 22 |
 
 #### relieves
 
@@ -129,6 +129,12 @@ What a member has learned, of the abilities the world names: a spell, a song, a 
 *Kyr · measure(itemkind); measure(itemkind); relation(group); relation(item)* · `rule:belongings.worth`
 
 What a kind of thing is worth (its catalog value), and those who deal in valuables: a merchant who buys any treasure brought in, at half its worth (what a dealer pays), if they have the coin. A treasure found is the company's experience, the first time it is taken up (see FieldResolver.take); sold, it is coin and no more (the cold review of 1 November: a sale paid coin and experience at once, and one delve made money meaningless).
+
+#### tradeclass, dealsIn, tradeOf
+
+*Kyr · kind; relation(group, tradeclass); relation(itemkind, tradeclass)* · `rule:belongings.tradeclass`
+
+The trades that buy back what they sell, at half its worth (the item audit's G1: a blade or a wand brought up from below had no one to buy it): a smith arms and armour, a chandler gear and tools, a remedies shop what is drunk or eaten, a dealer in rare things the wonders. What kind of thing a kind is, Overlays.declareWorth says.
 
 #### mass
 
@@ -491,6 +497,20 @@ Someone who buys this kind of thing pays what they said they would, if they have
 Someone who deals in valuables pays half what a thing is worth, if they have the coin.
 
 > Needs: able(actor); at(actor, site); able(buyer); at(buyer, site); distinct(actor, buyer); memberOf(carrier, actor); awake(carrier); ownedItem(ware, carrier); itemKind(ware, form); buysValuables(buyer); valuable(form); dealerPays(form) >= 1; pays(buyer, form) < 1; quantity(buyer, gold) >= dealerPays(form); not (refusesService(buyer, actor))
+
+> Then: Assert keeps(buyer, ware). Assert realized(ware). Decrease quantity(buyer, gold) by dealerPays(form). Increase quantity(actor, gold) by dealerPays(form).
+
+#### sell ware
+
+*Kyr · action (group, item, itemkind, member, group, tradeclass, place)* · `rule:belongings.sell_ware`
+
+- Shown as: Sell {ware} to {buyer}
+- Takes: 10 minutes
+- Costs: 1
+
+Someone of the trade buys back what they deal in, at half what it is worth, if they have the coin.
+
+> Needs: able(actor); at(actor, site); able(buyer); at(buyer, site); distinct(actor, buyer); memberOf(carrier, actor); awake(carrier); ownedItem(ware, carrier); itemKind(ware, form); dealsIn(buyer, trade); tradeOf(form, trade); not (valuable(form)); dealerPays(form) >= 1; pays(buyer, form) < 1; quantity(buyer, gold) >= dealerPays(form); not (refusesService(buyer, actor))
 
 > Then: Assert keeps(buyer, ware). Assert realized(ware). Decrease quantity(buyer, gold) by dealerPays(form). Increase quantity(actor, gold) by dealerPays(form).
 
@@ -3133,14 +3153,14 @@ Orsino's planes, traps, wonders, treasure and magic items, with how much of each
 | Deck of Multiplicity | special | type randomEffect randomEffects [{"description":"Ace of Clubs","type":"buff","status":"haste","target":"self"},{"description":"King of Clubs","type":"buff","status":"scaleskin","target":"self"},{"description":"Dame of Clubs","type":"buff","status":"major_strength","target":"self"},{"description":"Jack of Clubs","type":"buff","status":"wisdom","target":"self"},{"description":"Ten of Clubs","type":"buff","status":"clarity","target":"self"},{"description":"Nine of Clubs","type":"buff","status":"focus","target":"self"},{"description":"Eight of Clubs","type":"buff","status":"rage","target":"self"},{"description":"Seven of Clubs","type":"buff","status":"steelskin","target":"self"},{"description":"Six of Clubs","type":"buff","status":"strength","target":"self"},{"description":"Five of Clubs","type":"buff","status":"ironskin","target":"self"},{"description":"Four of Clubs","type":"buff","status":"cunning","target":"self"},{"description":"Three of Clubs","type":"buff","status":"splendor","target":"self"},{"description":"Two of Clubs","type":"buff","status":"courage","target":"self"},{"description":"One of Clubs","type":"buff","status":"barkskin","target":"self"},{"description":"Ace of Coins","type":"cast","spellName":"death"},{"description":"King of Coins","type":"cast","spellName":"disintegrate"},{"description":"Dame of Coins","type":"cast","spellName":"flesh_to_stone"},{"description":"Jack of Coins","type":"cast","spellName":"meteor_swarm"},{"description":"Ten of Coins","type":"cast","spellName":"polymorph"},{"description":"Nine of Coins","type":"cast","spellName":"sandstorm"},{"description":"Eight of Coins","type":"cast","spellName":"chain_lightning"},{"description":"Seven of Coins","type":"cast","spellName":"ice_storm"},{"description":"Six of Coins","type":"cast","spellName":"fire_storm"},{"description":"Five of Coins","type":"cast","spellName":"cone_of_cold"},{"description":"Four of Coins","type":"cast","spellName":"dispel_magic"},{"description":"Three of Coins","type":"cast","spellName":"lightning_bolt"},{"description":"Two of Coins","type":"cast","spellName":"fireball"},{"description":"One of Coins","type":"cast","spellName":"ice_bolt"},{"description":"Ace of Swords","type":"damage","amount":"1d100","kind":"radiant"},{"description":"King of Swords","type":"damage","amount":"1d60","kind":"psychic"},{"description":"Dame of Swords","type":"damage","amount":"1d20","kind":"true"},{"description":"Jack of Swords","type":"damage","amount":"1d12","kind":"acid"},{"description":"Ten of Swords","type":"damage","amount":"1d10","kind":"sonic"},{"description":"Nine of Swords","type":"damage","amount":"2d8","kind":"poison"},{"description":"Eight of Swords","type":"damage","amount":"2d8","kind":"cold"},{"description":"Seven of Swords","type":"damage","amount":"3d6","kind":"fire"},{"description":"Six of Swords","type":"damage","amount":"3d6","kind":"necrotic"},{"description":"Five of Swords","type":"damage","amount":"3d6","kind":"lightning"},{"description":"Four of Swords","type":"damage","amount":"4d4","kind":"force"},{"description":"Three of Swords","type":"damage","amount":"4d3","kind":"slashing"},{"description":"Two of Swords","type":"damage","amount":"6d2","kind":"piercing"},{"description":"One of Swords","type":"damage","amount":"8d2","kind":"bludgeoning"},{"description":"Ace of Cups","type":"debuff","status":"asleep","saveDC":30},{"description":"King of Cups","type":"debuff","status":"confused","saveDC":30},{"description":"Dame of Cups","type":"debuff","status":"fatigue","saveDC":30},{"description":"Jack of Cups","type":"debuff","status":"fear","saveDC":30},{"description":"Ten of Cups","type":"debuff","status":"slow","saveDC":30},{"description":"Nine of Cups","type":"debuff","status":"weakened","saveDC":30},{"description":"Eight of Cups","type":"debuff","status":"feebleminded","saveDC":30},{"description":"Seven of Cups","type":"debuff","status":"petrified","saveDC":30},{"description":"Six of Cups","type":"debuff","status":"charmed","saveDC":30},{"description":"Five of Cups","type":"debuff","status":"blinded","saveDC":30},{"description":"Four of Cups","type":"debuff","status":"deafened","saveDC":30},{"description":"Three of Cups","type":"debuff","status":"paralyzed","saveDC":30},{"description":"Two of Cups","type":"debuff","status":"poison","saveDC":30},{"description":"One of Cups","type":"debuff","status":"silence","saveDC":30},{"description":"Ace of Hearts","type":"heal","amount":"3d20","target":"self"},{"description":"King of Hearts","type":"heal","amount":"4d12","target":"self"},{"description":"Dame of Hearts","type":"heal","amount":"4d10","target":"self"},{"description":"Jack of Hearts","type":"heal","amount":"4d8","target":"self"},{"description":"Ten of Hearts","type":"heal","amount":"3d8","target":"self"},{"description":"Nine of Hearts","type":"heal","amount":"4d6","target":"self"},{"description":"Eight of Hearts","type":"heal","amount":"5d4","target":"self"},{"description":"Seven of Hearts","type":"heal","amount":"6d3","target":"self"},{"description":"Six of Hearts","type":"heal","amount":"8d2","target":"self"},{"description":"Five of Hearts","type":"heal","amount":"14","target":"self"},{"description":"Four of Hearts","type":"heal","amount":"10","target":"self"},{"description":"Three of Hearts","type":"heal","amount":"9","target":"self"},{"description":"Two of Hearts","type":"heal","amount":"8","target":"self"},{"description":"One of Hearts","type":"heal","amount":"6","target":"self"},{"description":"Ace of Shields","type":"summon","creature":"dragon"},{"description":"King of Shields","type":"summon","creature":"pc"},{"description":"Dame of Shields","type":"summon","creature":"monster","options":{"_class":"elemental"}},{"description":"Jack of Shields","type":"summon","creature":"monster","options":{"_class":"aberration"}},{"description":"Ten of Shields","type":"summon","creature":"monster","options":{"_class":"fey"}},{"description":"Nine of Shields","type":"summon","creature":"monster","options":{"_class":"demon"}},{"description":"Eight of Shields","type":"summon","creature":"monster","options":{"_class":"giant"}},{"description":"Seven of Shields","type":"summon","creature":"monster","options":{"_class":"celestial"}},{"description":"Six of Shields","type":"summon","creature":"monster","options":{"_class":"construct"}},{"description":"Five of Shields","type":"summon","creature":"monster","options":{"_class":"beast"}},{"description":"Four of Shields","type":"summon","creature":"npc","options":{"race":"human"}},{"description":"Three of Shields","type":"summon","creature":"npc","options":{"race":"elf"}},{"description":"Two of Shields","type":"summon","creature":"npc","options":{"race":"dwarf"}},{"description":"One of Shields","type":"summon","creature":"animal"}] | represented |
 | Elixir of Strength | potion | type buff status strength | faithful |
 | First Aid Kit | kit | type heal amount 1d4+1; type removeStatus statusName Bleeding | faithful |
-| Foxglove | herb | type heal amount 1d4+2; type removeStatus statusName Poison\|Fatigue\|Weakened | represented |
+| Foxglove | herb | type heal amount 1d4+2; type removeStatus statusName Poison\|Fatigue\|Weakened | adapted |
 | Goodberry | food | type heal amount 1d4+1 | faithful |
 | Potion of Healing | potion | type heal amount 3d4+3 | faithful |
 | Heather | herb | type heal amount 1d3+1; type removeStatus statusName Fatigue | faithful |
 | Kingsfoil | herb | type heal amount 2d4+2; type removeStatus statusName Poison | faithful |
 | Major Potion of Healing | potion | type heal amount 4d4+4 | faithful |
 | Minor Potion of Healing | potion | type heal amount 2d4+2 | adapted |
-| Flask of Oil | flask | type debuff status oiled saveDC 25 | represented |
+| Flask of Oil | flask | type debuff status oiled saveDC 25 | adapted |
 | Potion of Barkskin | potion | type cast spellName Barkskin | faithful |
 | Rashers of Bacon | food | type heal amount 1d3 | faithful |
 | Scroll of Apocalypse | scroll | type cast spellName Apocalypse | faithful |

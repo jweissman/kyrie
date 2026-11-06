@@ -52,7 +52,7 @@
       "woodwright": {
         "trades": ["tools"],
         "role": "woodwright", "shop": "wood-yard", "scene": "Stacked timber, the smell of sawn oak, shavings underfoot, and half a cart on trestles in the middle of the floor.",
-        "stock": [["pole", 1, 4], ["torch", 1, 6], ["handaxe", 3, 1], ["shovel", 2, 1]],
+        "stock": [["pole", 1, 4], ["torch", 1, 6], ["handaxe", 3, 1], ["shovel", 2, 1], ["yoke", 5, 1]],
         "buys": []
       }
     }

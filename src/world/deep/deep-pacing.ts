@@ -6,6 +6,7 @@ import { RegionMarvels, type Trap } from '../region-marvels';
 import type { DungeonTables } from '../../registry/orsino-world';
 import type { DeepGroup, DeepPurpose } from './deep-purposes';
 import type { DeepLayout, DeepLevel, DeepLink, DeepRoom } from './deep-layout';
+import { Stones, type DeepStone } from './stones';
 
 // Who is met in a room: a group of a depth's dwellers, at a level, perhaps with an aspect; an elite is fewer and
 // stronger.
@@ -15,7 +16,8 @@ export interface DeepDwellers { id: string; group: DeepGroup; level: number; asp
 // What a room holds, by its place in its level's run (Orsino's room guide: entrance, mob, trap, treasure, elite…).
 export interface DeepContent {
   room: DeepRoom; guide: string; dwellers?: DeepDwellers; trap?: { way: DeepLink; trap: Trap; key: string };
-  treasure?: { items: string[]; coin: number }; riddle?: string; wonder?: string; special?: boolean;
+  treasure?: { items: string[]; coin: number; stones?: DeepStone[] };
+  riddle?: string; wonder?: string; special?: boolean;
 }
 
 // How a deep site is paced, as Orsino paced a dungeon (roomSequences, roomOverlays): each level takes a run of room
@@ -52,7 +54,7 @@ export class DeepPacing {
       if (way && !way.between && draw.next() < odds.trap) { content.trap = this.trap(way, level.index, draw, laid); }
       if (draw.next() < odds.puzzle) { content.riddle = this.riddle(level.index, draw); }
       if (draw.next() < odds.wonder) { content.wonder = draw.pick(this.wonders(purpose)); }
-      content.treasure = this.treasure({ purpose, depth: level.index }, odds.treasure, draw);
+      content.treasure = this.treasure({ purpose, depth: level.index, key: room.id }, odds.treasure, draw);
       if (guide === 'special') { content.special = true; }
       return content;
     });
@@ -135,21 +137,32 @@ export class DeepPacing {
   }
   // Orsino's treasure for a room, at Orsino's odds for its guide (a treasure room is generous, an empty one is not)
   // and of the depth's tier (mostly the lesser of the depth's two); what it is, its purpose says: what its makers and
-  // those after them would have left there; else Orsino's own tier. And coin, on a village's scale: one ruin held
-  // 8.75 times every shop's stock, and paid off a fifty-coin debt before noon (the play-structure investigation's
-  // PT-02).
-  private static treasure(at: { purpose: DeepPurpose; depth: number }, generosity: number, draw: Draw):
-    { items: string[]; coin: number } {
+  // those after them would have left there; else, and one time in three beside it, Orsino's own loot of the tier,
+  // whose better tier is reached deeper whatever the purpose has. A stone is a stone of its own (Stones). And coin, on
+  // a village's scale: one ruin held 8.75 times every shop's stock, and paid off a fifty-coin debt before noon (the
+  // play-structure investigation's PT-02).
+  private static treasure(at: { purpose: DeepPurpose; depth: number; key: string }, generosity: number, draw: Draw):
+    { items: string[]; coin: number; stones?: DeepStone[] } {
     const { purpose, depth } = at, low = this.tiers[Math.min(depth, 3)]!, better = this.tiers[Math.min(depth + 1, 4)]!;
     // No better than the purpose has: a mine of the Delvers has no Orsino legendary hoard at its bottom.
     const high = !purpose.finds || purpose.finds[better] ? better : low;
     const tier = draw.next() < 0.8 ? low : high;
-    const list = purpose.finds?.[tier] ?? this.tables.treasure[tier] ?? [];
+    const list = purpose.finds?.[tier] ?? Stones.tiers[tier] ?? [];
     const own = (purpose.valuables?.[tier] ?? []).map(v => v.id);
     const count = (draw.next() < 0.3 * generosity ? 1 : 0) + (draw.next() < 0.06 * generosity ? 1 : 0);
-    // Most of what is worth carrying home is the makers' own; the rest is gear left lying.
-    return { items: Array.from({ length: Math.min(count, list.length) },
-      () => own.length && draw.next() < 0.6 ? draw.pick(own) : draw.pick(list)),
-      coin: Math.round((1 + draw.int(6) + 3 * depth) * generosity) };
+    // Most of what is worth carrying home is the makers' own; the rest is gear left lying, by those after them one
+    // time in three Orsino's (drawn aside, so that the rest of the room is as it was).
+    const aside = new Draw(`${at.key}:loot`), deep = aside.next() < 0.8 ? low : better;
+    const drawn = Array.from({ length: Math.min(count, list.length) }, (_, n) => {
+      if (own.length && draw.next() < 0.6) { return draw.pick(own); }
+      const found = draw.pick(list);
+      return purpose.finds && aside.next() < 1 / 3 ? Stones.loot(deep, `${at.key}:${n}`) ?? found : found;
+    });
+    // A stone besides, one time in four where there is anything, as Orsino's gemstone draws one: mostly common or
+    // uncommon, now and then rare or better.
+    const stones = [...drawn.filter(k => Stones.kinds.has(k)).map((k, n) => Stones.drawn(`${at.key}:${n}`, k)),
+      ...count && aside.next() < 0.25 ? [Stones.drawn(`${at.key}:besides`)] : []];
+    const coin = Math.round((1 + draw.int(6) + 3 * depth) * generosity);
+    return { items: drawn.filter(k => !Stones.kinds.has(k)), coin, ...stones.length ? { stones } : {} };
   }
 }

@@ -130,6 +130,7 @@ export class ChoiceGrouping {
     // What it fetches is said before it is sold (the follow-up review sold a lamp and learned its price after).
     sell: { slot: 'target', param: 'buyer', path: ['Sell {ware} — {sellfee} coin'] },
     sell_valuable: { slot: 'target', param: 'buyer', path: ['Sell {ware} — {worthfee} coin'] },
+    sell_ware: { slot: 'target', param: 'buyer', path: ['Sell {ware} — {worthfee} coin'] },
     open_door: { slot: 'target', param: 'door', path: ['Open'] },
     close_door: { slot: 'target', param: 'door', path: ['Close'] },
     unlock_door: { slot: 'target', param: 'door', path: ['Unlock with {key}'] },

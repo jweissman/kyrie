@@ -4,6 +4,8 @@ import { MechanicsText } from '../presentation/mechanics-text';
 import { Formations } from '../rules/formations';
 import { HandbookStatus, type Entry, type Section } from './model';
 import { HandbookText } from './text';
+import { CanonValidation } from '../canon/canon-validation';
+import type { ItemKind } from '../canon/schema';
 
 // The Player's Handbook, first part: who can be in a company and what they bring. Every line is read from the
 // catalog the game plays from.
@@ -103,7 +105,7 @@ export class CompanyChapters {
     const weapons = items.filter(([, i]) => i.weapon && !i.weapon.natural)
       .sort(([, a], [, b]) => a.name.localeCompare(b.name));
     const armor = items.filter(([, i]) => i.armor);
-    const other = items.filter(([, i]) => !i.weapon && !i.armor);
+    const other = items.filter(([, i]) => !i.weapon && !i.armor && !i.rank), stones = items.filter(([, i]) => i.rank);
     return { id: 'equipment', title: 'Equipment', intro: ['Each thing is carried by one companion. A weapon or armour '
       + 'works only for a calling proficient with its kind and weight.'], sections: [
       { id: 'weapons', title: 'Weapons', table: { head: ['Weapon', 'Damage', 'Type', 'Kind', 'Weight', 'Notes', 'Status'],
@@ -121,6 +123,19 @@ export class CompanyChapters {
         rules: [...i.grants?.skill ? [`Brings ${Canon.skills[i.grants.skill]?.name ?? i.grants.skill} to whoever carries it equipped.`] : [],
           ...i.grants?.ability ? [`Lets its bearer use ${HandbookText.ability(i.grants.ability)}.`] : [],
           ...i.use ? [`Used: ${HandbookText.use(i.use)}.`] : [], ...MechanicsText.modifiers(i.modifiers ?? {}).map(m => `${m}.`)],
-        text: [i.description], notes: HandbookStatus.notes(i) })) }] };
+        ...CompanyChapters.plate(i), text: [i.description], notes: HandbookStatus.notes(i) })) },
+      CompanyChapters.stones(stones)] };
+  }
+  // The stones, each by its plate: what one of its rank is worth, which a stone found is by its cut, size and clarity.
+  private static stones(stones: [string, ItemKind][]): Section {
+    return { id: 'stones', title: 'Stones', intro: ['A stone found is cut or rough, of a size, and clear or clouded: '
+      + 'a huge flawless one is worth three times one of middling size and good water, a tiny clouded one a quarter.'],
+    entries: stones.map(([id, i]): Entry => ({ id: `item:${id}`, title: i.name, status: HandbookStatus.of(i),
+      kind: 'stone', facts: [['Rank', i.rank!.replace('_', ' ')], ['Worth', `${i.value}`]],
+      ...CompanyChapters.plate(i), text: [i.description], notes: HandbookStatus.notes(i) })) };
+  }
+  // A thing's plate, where one is cut.
+  private static plate(i: ItemKind): Pick<Entry, 'painting'> {
+    return i.portrait && CanonValidation.paintings.has(i.portrait) ? { painting: i.portrait } : {};
   }
 }

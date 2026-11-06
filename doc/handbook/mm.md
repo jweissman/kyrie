@@ -3627,6 +3627,8 @@ Feverwort: Heal (1d6) health to ally.
 - Good for: poison, medicine
 - Found: here and there
 
+Foxglove: Heal (1d4+2) health to ally. Remove poison from ally. Remove fatigue from ally. Remove weakened from ally.
+
 > A tall spire of hanging purple bells, speckled inside, over a rosette of soft leaves.
 
 ### Furze

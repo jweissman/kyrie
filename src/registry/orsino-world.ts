@@ -15,14 +15,14 @@ export interface WorldTables {
   riddleAnswers: Record<string, string[]>;
   dungeon: DungeonTables;
 }
-// Orsino's dungeon design (roomSequences, roomOverlays, specialRooms, treasure tiers, trap difficulties): how a run of
-// rooms is paced, what each kind of room is likely to hold, the set pieces, and the treasure of each tier that Kyr has.
+// Orsino's dungeon design (roomSequences, roomOverlays, specialRooms, trap difficulties): how a run of rooms is paced,
+// what each kind of room is likely to hold, and the set pieces. Its treasure tiers are authored tables now
+// (data/generation/tables/treasure.json).
 export interface DungeonTables {
   sequences: Record<string, string[][]>;
   overlays: Record<string, { encounter: number; puzzle: number; trap: number; treasure: number; wonder: number;
     challenging?: boolean }>;
   specials: Record<string, { npcs: string[]; treasure: string[]; text: string; source: string }>;
-  treasure: Record<string, string[]>;
   trapDc: Record<string, { alert: number; disable: number }>;
 }
 
@@ -131,8 +131,6 @@ export class OrsinoWorld {
     }));
     return { sequences: Object.fromEntries(this.family('roomSequence').map(e => [e.key, e.definition as string[][]])),
       overlays, specials,
-      treasure: Object.fromEntries(this.family('treasureTier').map(e => [e.key, [...new Set(
-        ((e.definition as Raw).treasure as string[][]).flat().filter(i => this.known.items.has(i)))]])),
       trapDc: Object.fromEntries(this.family('trapDc').map(e => [e.key, e.definition as { alert: number; disable: number }])) };
   }
   // Plain words only (a letter, a word): no rotated letters.

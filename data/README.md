@@ -70,7 +70,7 @@ A conflict module gives powers their own aims and the means to pursue them, in t
   map until they arrive.
 - **What the company knows follows evidence.** `Observe … teaches fact` makes a scene teach what it shows; objectives
   are conditioned on what the company knows, never on what happened out of its sight.
-- **Requests and trade** use the standard `give` (`Wants burial_register.`) and `sell` (`Buys grave_rings for 8 coin.`);
+- **Requests and trade** use the standard `give` (`Wants old_glossary.`) and `sell` (`Buys grave_rings for 8 coin.`);
   reactions are events on `keeps`.
 - **Activities can be interrupted**: `Interrupted when threatened(actor).` on a wait, a rest or a rite.
 

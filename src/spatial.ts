@@ -93,9 +93,9 @@ export class Spatial {
       const line = this.ancestry(entities, place.id).slice(1), above = line.map(e => e.space!.kind);
       // The nearest that says: the place's own shelter, else the nearest above it that declares one or encloses it (a
       // building, a level not a terrace), as the page reads it (Narrator.shelter): a level declared outdoors had
-      // been indoors to the rules and outdoors to the page (LOR-16).
-      const near = [place, ...line].find(e => e.space!.shelter || e.space!.kind === 'building'
-        || e.space!.kind === 'level' && !this.terrace(e, entities));
+      // been indoors to the rules and outdoors to the page (LOR-16). Elsewhere above (a book's country) says nothing.
+      const near = [place, ...line].find(e => e.space!.shelter && (e === place || e.space!.shelter !== 'elsewhere')
+        || e.space!.kind === 'building' || e.space!.kind === 'level' && !this.terrace(e, entities));
       const inside = near?.space!.shelter ? near.space.shelter !== 'outdoors' : !!near && near !== place;
       if (inside) { module.initial.push({ kind: 'assert', call: { kind: 'call', name: 'indoors', args: [place.id] } }); }
       if (above.includes('settlement')) { module.initial.push({ kind: 'assert', call: { kind: 'call', name: 'settled', args: [place.id] } }); }

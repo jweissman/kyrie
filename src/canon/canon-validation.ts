@@ -1,6 +1,8 @@
 import animalPaintings from '../../data/paintings/animals.json';
 import monsterPaintings from '../../data/paintings/monsters.json';
 import plantPaintings from '../../data/paintings/plants.json';
+import gemPaintings from '../../data/paintings/gems.json';
+import gearPaintings from '../../data/paintings/gear.json';
 import geology from '../../data/catalog/geology.json';
 import { Canon } from './canon';
 import type { Modifiers } from './schema';
@@ -18,7 +20,8 @@ export class CanonValidation {
   static readonly deviceTypes = ['engine', 'ward', 'barrier', 'charge', 'vessel'];
   // A creature is painted by one of the collection's creature concepts.
   static readonly paintings = new Set([...PaintingConcepts.creatures,
-    ...[...animalPaintings.portraits, ...monsterPaintings.portraits, ...plantPaintings.portraits]
+    ...[...animalPaintings.portraits, ...monsterPaintings.portraits, ...plantPaintings.portraits,
+      ...gemPaintings.portraits, ...gearPaintings.portraits]
       .map(p => p.file.replace(/^paintings\/|\.webp$/g, ''))]);
   // What a plant's grounds may name: a formation (granite), or a soil one makes (loam, sand).
   static readonly grounds = new Set([...Object.keys(geology.formations), ...Object.values(geology.formations)
@@ -217,7 +220,8 @@ export class CanonValidation {
       if (i.grants?.skill && !Canon.skills[i.grants.skill] && !LocalKinds.local(id)) {
         this.fail(where, `grants unknown skill ${i.grants.skill}`);
       }
-      if (i.category === 'consumable' && !i.use) { this.fail(where, 'a consumable needs a use'); }
+      // A use Kyr cannot run yet is said (unsupported.use: a wand of wonder's random effect), never left out.
+      if (i.category === 'consumable' && !i.use && !i.unsupported?.use) { this.fail(where, 'a consumable needs a use'); }
       if (i.fuel && !Canon.items[i.fuel]?.use) { this.fail(where, `burns ${i.fuel}, which gives no light`); }
       if (i.weapon && !i.unsupported && !Canon.rules.damageTypes.includes(i.weapon.type)) {
         this.fail(where, `unknown damage type ${i.weapon.type}`);

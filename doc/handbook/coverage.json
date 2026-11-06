@@ -148,8 +148,8 @@
     "total": 28,
     "feasible": 28,
     "catalogued": 0,
-    "represented": 6,
-    "executable": 20,
+    "represented": 4,
+    "executable": 22,
     "play-validated": 2
    },
    {
@@ -799,10 +799,10 @@
    "title": "Player's Handbook",
    "counts": {
     "faithful": 777,
-    "adapted": 366,
+    "adapted": 369,
     "represented": 4,
     "kyr": 537,
-    "unsupported": 70,
+    "unsupported": 68,
     "unreachable": 4,
     "data-only": 12
    },
@@ -890,10 +890,10 @@
      "title": "Equipment",
      "counts": {
       "faithful": 249,
-      "adapted": 73,
+      "adapted": 76,
       "represented": 0,
       "kyr": 87,
-      "unsupported": 9,
+      "unsupported": 7,
       "unreachable": 0,
       "data-only": 0
      }
@@ -995,9 +995,9 @@
    "title": "Dungeon Master's Guide",
    "counts": {
     "faithful": 238,
-    "adapted": 27,
-    "represented": 29,
-    "kyr": 281,
+    "adapted": 29,
+    "represented": 27,
+    "kyr": 283,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 198
@@ -1010,7 +1010,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 255,
+      "kyr": 257,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -1047,8 +1047,8 @@
      "title": "Appendix: Orsino's world material",
      "counts": {
       "faithful": 238,
-      "adapted": 27,
-      "represented": 29,
+      "adapted": 29,
+      "represented": 27,
       "kyr": 0,
       "unsupported": 0,
       "unreachable": 0,
@@ -6919,13 +6919,6 @@
    "section": "equipment/gear"
   },
   {
-   "id": "item:burial_register",
-   "title": "Burial register",
-   "status": "kyr",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
    "id": "item:caltrops",
    "title": "Caltrops",
    "status": "faithful",
@@ -6996,13 +6989,6 @@
    "section": "equipment/gear"
   },
   {
-   "id": "item:deck_of_multiplicity",
-   "title": "Deck of Multiplicity",
-   "status": "unsupported",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
    "id": "item:dice",
    "title": "Dice",
    "status": "faithful",
@@ -7048,13 +7034,6 @@
    "id": "item:flint_and_steel",
    "title": "Flint and steel",
    "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:foxglove",
-   "title": "Foxglove",
-   "status": "unsupported",
    "book": "phb",
    "section": "equipment/gear"
   },
@@ -7171,13 +7150,6 @@
    "section": "equipment/gear"
   },
   {
-   "id": "item:oil_flask",
-   "title": "Flask of Oil",
-   "status": "unsupported",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
    "id": "item:pack_mule",
    "title": "Pack mule",
    "status": "kyr",
@@ -7265,13 +7237,6 @@
    "id": "item:satchel",
    "title": "Satchel",
    "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:scroll_of_shapechange",
-   "title": "Scroll of Shapechange",
-   "status": "unsupported",
    "book": "phb",
    "section": "equipment/gear"
   },
@@ -7374,20 +7339,6 @@
    "section": "equipment/gear"
   },
   {
-   "id": "item:wand_of_polymorph",
-   "title": "Wand of Polymorph",
-   "status": "unsupported",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:wand_of_wonder",
-   "title": "Wand of Wonder",
-   "status": "unsupported",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
    "id": "item:waterskin",
    "title": "Waterskin",
    "status": "adapted",
@@ -7405,6 +7356,13 @@
    "id": "item:wind_chime",
    "title": "Wind chime",
    "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:yoke",
+   "title": "Yoke",
+   "status": "kyr",
    "book": "phb",
    "section": "equipment/gear"
   },
@@ -7570,57 +7528,8 @@
    "section": "equipment/gear"
   },
   {
-   "id": "item:scroll_of_apocalypse",
-   "title": "Scroll of Apocalypse",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:scroll_of_cure_disease",
-   "title": "Scroll of Cure Disease",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:scroll_of_domination",
-   "title": "Scroll of Domination",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:scroll_of_fireball",
-   "title": "Scroll of Fireball",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
    "id": "item:vinegar",
    "title": "Vinegar",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:wand_of_cure_minor_wounds",
-   "title": "Wand of Cure Minor Wounds",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:wand_of_magic_missile",
-   "title": "Wand of Magic Missile",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:wand_of_paralyzing_touch",
-   "title": "Wand of Paralyzing Touch",
    "status": "faithful",
    "book": "phb",
    "section": "equipment/gear"
@@ -7643,6 +7552,20 @@
    "id": "item:yarrow_poultice",
    "title": "Prepared yarrow poultice",
    "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:foxglove",
+   "title": "Foxglove",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:oil_flask",
+   "title": "Flask of Oil",
+   "status": "adapted",
    "book": "phb",
    "section": "equipment/gear"
   },
@@ -7906,23 +7829,79 @@
    "section": "equipment/gear"
   },
   {
-   "id": "item:agate",
-   "title": "Agate",
-   "status": "adapted",
+   "id": "item:deck_of_multiplicity",
+   "title": "Deck of Multiplicity",
+   "status": "unsupported",
    "book": "phb",
    "section": "equipment/gear"
   },
   {
-   "id": "item:alexandrite",
-   "title": "Alexandrite",
-   "status": "adapted",
+   "id": "item:scroll_of_shapechange",
+   "title": "Scroll of Shapechange",
+   "status": "unsupported",
    "book": "phb",
    "section": "equipment/gear"
   },
   {
-   "id": "item:amethyst",
-   "title": "Amethyst",
-   "status": "adapted",
+   "id": "item:wand_of_polymorph",
+   "title": "Wand of Polymorph",
+   "status": "unsupported",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:wand_of_wonder",
+   "title": "Wand of Wonder",
+   "status": "unsupported",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:scroll_of_apocalypse",
+   "title": "Scroll of Apocalypse",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:scroll_of_cure_disease",
+   "title": "Scroll of Cure Disease",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:scroll_of_domination",
+   "title": "Scroll of Domination",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:scroll_of_fireball",
+   "title": "Scroll of Fireball",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:wand_of_cure_minor_wounds",
+   "title": "Wand of Cure Minor Wounds",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:wand_of_magic_missile",
+   "title": "Wand of Magic Missile",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:wand_of_paralyzing_touch",
+   "title": "Wand of Paralyzing Touch",
+   "status": "faithful",
    "book": "phb",
    "section": "equipment/gear"
   },
@@ -7962,37 +7941,9 @@
    "section": "equipment/gear"
   },
   {
-   "id": "item:aquamarine",
-   "title": "Aquamarine",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
    "id": "item:bell_teeth",
    "title": "Bell-teeth",
    "status": "kyr",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:black_diamond",
-   "title": "Black diamond",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:black_opal",
-   "title": "Black opal",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:blue_diamond",
-   "title": "Blue diamond",
-   "status": "adapted",
    "book": "phb",
    "section": "equipment/gear"
   },
@@ -8053,13 +8004,6 @@
    "section": "equipment/gear"
   },
   {
-   "id": "item:carnelian",
-   "title": "Carnelian",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
    "id": "item:celestial_chart",
    "title": "Celestial chart",
    "status": "faithful",
@@ -8070,20 +8014,6 @@
    "id": "item:chapel_plate",
    "title": "Chapel plate",
    "status": "kyr",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:chrysoberyl",
-   "title": "Chrysoberyl",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:citrine",
-   "title": "Citrine",
-   "status": "adapted",
    "book": "phb",
    "section": "equipment/gear"
   },
@@ -8112,13 +8042,6 @@
    "id": "item:crystal_orb",
    "title": "Crystal orb",
    "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:diamond",
-   "title": "Diamond",
-   "status": "adapted",
    "book": "phb",
    "section": "equipment/gear"
   },
@@ -8172,13 +8095,6 @@
    "section": "equipment/gear"
   },
   {
-   "id": "item:emerald",
-   "title": "Emerald",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
    "id": "item:eternal_flame",
    "title": "Eternal flame",
    "status": "faithful",
@@ -8214,37 +8130,9 @@
    "section": "equipment/gear"
   },
   {
-   "id": "item:fire_opal",
-   "title": "Fire opal",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:fluorite",
-   "title": "Fluorite",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:garnet",
-   "title": "Garnet",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
    "id": "item:golden_idol",
    "title": "Golden idol",
    "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:grandidierite",
-   "title": "Grandidierite",
-   "status": "adapted",
    "book": "phb",
    "section": "equipment/gear"
   },
@@ -8263,13 +8151,6 @@
    "section": "equipment/gear"
   },
   {
-   "id": "item:hematite",
-   "title": "Hematite",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
    "id": "item:intelligent_book",
    "title": "Intelligent book",
    "status": "faithful",
@@ -8280,13 +8161,6 @@
    "id": "item:intelligent_painting",
    "title": "Intelligent painting",
    "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:iolite",
-   "title": "Iolite",
-   "status": "adapted",
    "book": "phb",
    "section": "equipment/gear"
   },
@@ -8312,23 +8186,9 @@
    "section": "equipment/gear"
   },
   {
-   "id": "item:jade",
-   "title": "Jade",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
    "id": "item:jade_idol",
    "title": "Jade idol",
    "status": "kyr",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:jasper",
-   "title": "Jasper",
-   "status": "adapted",
    "book": "phb",
    "section": "equipment/gear"
   },
@@ -8389,13 +8249,6 @@
    "section": "equipment/gear"
   },
   {
-   "id": "item:lapis_lazuli",
-   "title": "Lapis lazuli",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
    "id": "item:lensing_crystal",
    "title": "Lensing crystal",
    "status": "faithful",
@@ -8410,27 +8263,6 @@
    "section": "equipment/gear"
   },
   {
-   "id": "item:malachite",
-   "title": "Malachite",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:moonstone",
-   "title": "Moonstone",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:musgravite",
-   "title": "Musgravite",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
    "id": "item:music_box",
    "title": "Music box",
    "status": "faithful",
@@ -8438,37 +8270,9 @@
    "section": "equipment/gear"
   },
   {
-   "id": "item:obsidian",
-   "title": "Obsidian",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:onyx",
-   "title": "Onyx",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
    "id": "item:opalescent_skull",
    "title": "Opalescent skull",
    "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:painite",
-   "title": "Painite",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:peridot",
-   "title": "Peridot",
-   "status": "adapted",
    "book": "phb",
    "section": "equipment/gear"
   },
@@ -8494,34 +8298,6 @@
    "section": "equipment/gear"
   },
   {
-   "id": "item:pyrite",
-   "title": "Pyrite",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:quartz",
-   "title": "Quartz",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:red_diamond",
-   "title": "Red diamond",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:rose_quartz",
-   "title": "Rose quartz",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
    "id": "item:royal_crown",
    "title": "Royal crown",
    "status": "faithful",
@@ -8536,23 +8312,9 @@
    "section": "equipment/gear"
   },
   {
-   "id": "item:ruby",
-   "title": "Ruby",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
    "id": "item:sacred_idol",
    "title": "Sacred idol",
    "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:sapphire",
-   "title": "Sapphire",
-   "status": "adapted",
    "book": "phb",
    "section": "equipment/gear"
   },
@@ -8571,37 +8333,9 @@
    "section": "equipment/gear"
   },
   {
-   "id": "item:smoky_quartz",
-   "title": "Smoky quartz",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
    "id": "item:soul_gem",
    "title": "Soul gem",
    "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:spinel",
-   "title": "Spinel",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:spinel_red",
-   "title": "Spinel red",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:star_ruby",
-   "title": "Star ruby",
-   "status": "adapted",
    "book": "phb",
    "section": "equipment/gear"
   },
@@ -8620,13 +8354,6 @@
    "section": "equipment/gear"
   },
   {
-   "id": "item:tanzanite",
-   "title": "Tanzanite",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
    "id": "item:tattered_map",
    "title": "Tattered map",
    "status": "faithful",
@@ -8637,13 +8364,6 @@
    "id": "item:tattered_tome",
    "title": "Tattered tome",
    "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:tiger_eye",
-   "title": "Tiger eye",
-   "status": "adapted",
    "book": "phb",
    "section": "equipment/gear"
   },
@@ -8669,30 +8389,9 @@
    "section": "equipment/gear"
   },
   {
-   "id": "item:topaz",
-   "title": "Topaz",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:tourmaline",
-   "title": "Tourmaline",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
    "id": "item:triskelion_amulet",
    "title": "Triskelion amulet",
    "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:turquoise",
-   "title": "Turquoise",
-   "status": "adapted",
    "book": "phb",
    "section": "equipment/gear"
   },
@@ -8742,13 +8441,6 @@
    "id": "item:wooden_idol",
    "title": "Wooden idol",
    "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:zircon",
-   "title": "Zircon",
-   "status": "adapted",
    "book": "phb",
    "section": "equipment/gear"
   },
@@ -9052,6 +8744,321 @@
    "status": "kyr",
    "book": "phb",
    "section": "equipment/gear"
+  },
+  {
+   "id": "item:agate",
+   "title": "Agate",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/stones"
+  },
+  {
+   "id": "item:alexandrite",
+   "title": "Alexandrite",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/stones"
+  },
+  {
+   "id": "item:amethyst",
+   "title": "Amethyst",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/stones"
+  },
+  {
+   "id": "item:aquamarine",
+   "title": "Aquamarine",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/stones"
+  },
+  {
+   "id": "item:black_diamond",
+   "title": "Black diamond",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/stones"
+  },
+  {
+   "id": "item:black_opal",
+   "title": "Black opal",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/stones"
+  },
+  {
+   "id": "item:blue_diamond",
+   "title": "Blue diamond",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/stones"
+  },
+  {
+   "id": "item:carnelian",
+   "title": "Carnelian",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/stones"
+  },
+  {
+   "id": "item:chrysoberyl",
+   "title": "Chrysoberyl",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/stones"
+  },
+  {
+   "id": "item:citrine",
+   "title": "Citrine",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/stones"
+  },
+  {
+   "id": "item:diamond",
+   "title": "Diamond",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/stones"
+  },
+  {
+   "id": "item:emerald",
+   "title": "Emerald",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/stones"
+  },
+  {
+   "id": "item:fire_opal",
+   "title": "Fire opal",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/stones"
+  },
+  {
+   "id": "item:fluorite",
+   "title": "Fluorite",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/stones"
+  },
+  {
+   "id": "item:garnet",
+   "title": "Garnet",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/stones"
+  },
+  {
+   "id": "item:grandidierite",
+   "title": "Grandidierite",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/stones"
+  },
+  {
+   "id": "item:hematite",
+   "title": "Hematite",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/stones"
+  },
+  {
+   "id": "item:iolite",
+   "title": "Iolite",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/stones"
+  },
+  {
+   "id": "item:jade",
+   "title": "Jade",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/stones"
+  },
+  {
+   "id": "item:jasper",
+   "title": "Jasper",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/stones"
+  },
+  {
+   "id": "item:lapis_lazuli",
+   "title": "Lapis lazuli",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/stones"
+  },
+  {
+   "id": "item:malachite",
+   "title": "Malachite",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/stones"
+  },
+  {
+   "id": "item:moonstone",
+   "title": "Moonstone",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/stones"
+  },
+  {
+   "id": "item:musgravite",
+   "title": "Musgravite",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/stones"
+  },
+  {
+   "id": "item:obsidian",
+   "title": "Obsidian",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/stones"
+  },
+  {
+   "id": "item:onyx",
+   "title": "Onyx",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/stones"
+  },
+  {
+   "id": "item:painite",
+   "title": "Painite",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/stones"
+  },
+  {
+   "id": "item:peridot",
+   "title": "Peridot",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/stones"
+  },
+  {
+   "id": "item:pyrite",
+   "title": "Pyrite",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/stones"
+  },
+  {
+   "id": "item:quartz",
+   "title": "Quartz",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/stones"
+  },
+  {
+   "id": "item:red_diamond",
+   "title": "Red diamond",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/stones"
+  },
+  {
+   "id": "item:rose_quartz",
+   "title": "Rose quartz",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/stones"
+  },
+  {
+   "id": "item:ruby",
+   "title": "Ruby",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/stones"
+  },
+  {
+   "id": "item:sapphire",
+   "title": "Sapphire",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/stones"
+  },
+  {
+   "id": "item:smoky_quartz",
+   "title": "Smoky quartz",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/stones"
+  },
+  {
+   "id": "item:spinel",
+   "title": "Spinel",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/stones"
+  },
+  {
+   "id": "item:spinel_red",
+   "title": "Spinel red",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/stones"
+  },
+  {
+   "id": "item:star_ruby",
+   "title": "Star ruby",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/stones"
+  },
+  {
+   "id": "item:tanzanite",
+   "title": "Tanzanite",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/stones"
+  },
+  {
+   "id": "item:tiger_eye",
+   "title": "Tiger eye",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/stones"
+  },
+  {
+   "id": "item:topaz",
+   "title": "Topaz",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/stones"
+  },
+  {
+   "id": "item:tourmaline",
+   "title": "Tourmaline",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/stones"
+  },
+  {
+   "id": "item:turquoise",
+   "title": "Turquoise",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/stones"
+  },
+  {
+   "id": "item:zircon",
+   "title": "Zircon",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/stones"
+  },
+  {
+   "id": "item:zircon_blue",
+   "title": "Zircon blue",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/stones"
   },
   {
    "id": "ability:animate_animal",
@@ -13660,6 +13667,13 @@
    "section": "world-rules/rules-belongings"
   },
   {
+   "id": "rule:belongings.tradeclass",
+   "title": "tradeclass, dealsIn, tradeOf",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-belongings"
+  },
+  {
    "id": "rule:belongings.mass",
    "title": "mass",
    "status": "kyr",
@@ -13893,6 +13907,13 @@
   {
    "id": "rule:belongings.sell_valuable",
    "title": "sell valuable",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-belongings"
+  },
+  {
+   "id": "rule:belongings.sell_ware",
+   "title": "sell ware",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-belongings"
@@ -17288,7 +17309,7 @@
   {
    "id": "orsino:consumable:foxglove",
    "title": "Foxglove",
-   "status": "represented",
+   "status": "adapted",
    "book": "dmg",
    "section": "orsino-world/orsino-consumable"
   },
@@ -17337,7 +17358,7 @@
   {
    "id": "orsino:consumable:oil_flask",
    "title": "Flask of Oil",
-   "status": "represented",
+   "status": "adapted",
    "book": "dmg",
    "section": "orsino-world/orsino-consumable"
   },

@@ -9,6 +9,9 @@ import peopleTables from '../data/generation/tables/peoples.json';
 import ecologyTables from '../data/generation/tables/ecology.json';
 import faithTables from '../data/generation/tables/faith.json';
 import weatherTables from '../data/generation/tables/weather.json';
+import treasureTables from '../data/generation/tables/treasure.json';
+import treasureTemplates from '../data/generation/templates/treasure.json';
+import gems from '../data/catalog/items/gems.json';
 
 // Kyr's Deem setting, split by domain (who a creature is drawn as, names, places) as the Deem CLI reads the folder:
 // each file adds tables or templates, and no name may be defined twice.
@@ -27,13 +30,23 @@ export class GenerationSetting {
   // background of a kind: lookup(backgroundKind, wild).
   static readonly tables = GenerationSetting.merge<Record<string, unknown>>(creatureTables, nameTables,
     placeTables, tradeTables, peopleTables, ecologyTables, faithTables, weatherTables,
+    treasureTables, GenerationSetting.stones(),
     GenerationSetting.tablesOf(backgroundTables)) as typeof creatureTables
     & typeof nameTables & typeof placeTables & typeof tradeTables;
+  // Orsino's gemstone tables, from the catalog's stones (data/catalog/items/gems.json): the stones by rank, and the
+  // cuts, sizes and clarities a stone found may have.
+  static stones(): Record<string, unknown> {
+    const byRank: Record<string, string[]> = {}, any = GenerationSetting.any;
+    for (const [id, g] of Object.entries(gems.items)) { (byRank[g.rank] ??= []).push(id); }
+    return { gems: { discriminator: 'tier', groups: byRank }, gemCut: any(gems.cuts), gemSize: any(gems.sizes),
+      gemQuality: any(gems.qualities) };
+  }
+  private static any(of: object) { return { discriminator: 'any', groups: { any: Object.keys(of) } }; }
   static tablesOf<T extends { about?: string }>(file: T): Omit<T, 'about'> {
     const tables = { ...file };
     delete tables.about;
     return tables;
   }
   static readonly templates = GenerationSetting.merge<Record<string, unknown>>(creatureTemplates,
-    placeTemplates) as typeof creatureTemplates & typeof placeTemplates;
+    placeTemplates, treasureTemplates) as typeof creatureTemplates & typeof placeTemplates;
 }

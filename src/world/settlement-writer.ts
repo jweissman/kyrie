@@ -147,7 +147,8 @@ export class SettlementWriter {
     return `  Person ${s.id}_merchant ${q(s.merchant)} at ${s.id}_${f.selling === 'shop' ? 'shop' : 'green'} { Role ${q(role)}. ${this.of(s, 'merchant', region)}`
       + `${t.profession ? ` Profession ${t.profession}.` : ''} Peaceable.${this.pronoun(s, 'merchant', f)} ${sells}${buys ? ` ${buys}` : ''} }\n`
       + `  Initially Assert buysValuables(${s.id}_merchant). Initially Set purse(${s.id}_merchant) to ${purse}.`
-      + ` Initially Set quantity(${s.id}_merchant, gold) to ${purse}.`;
+      + ` Initially Set quantity(${s.id}_merchant, gold) to ${purse}.`
+      + RegionShops.dealsIn(`${s.id}_merchant`, RegionShops.merchants[s.merchantType ?? 'chandler']);
   }
   // The merchant a settlement's trade supports.
   static trade(s: Settlement): MerchantType {

@@ -11,6 +11,7 @@ import gear from '../../data/catalog/items/gear.json';
 import consumables from '../../data/catalog/items/consumables.json';
 import wonders from '../../data/catalog/items/wonders.json';
 import valuables from '../../data/catalog/items/valuables.json';
+import gems from '../../data/catalog/items/gems.json';
 import plants from '../../data/catalog/plants.json';
 import habitats from '../../data/catalog/habitats.json';
 import religion from '../../data/catalog/religion.json';
@@ -102,10 +103,12 @@ export class Canon {
   static readonly classes = classes.classes as unknown as Record<string, CharacterClass>;
   static readonly skills = skills.skills as unknown as Record<string, Skill>;
   // Every kind of thing, one authored catalog (data/catalog/items/: arms, armour, gear, consumables, wonders,
-  // valuables, and the natural weapons of bodies): Orsino's among them by provenance (source.orsino), none generated
-  // beside them (the owner, 6 November: one authoritative, authorable item system).
+  // valuables, gems, and the natural weapons of bodies): Orsino's among them by provenance (source.orsino), none
+  // generated beside them (the owner, 6 November: one authoritative, authorable item system).
   static readonly items = Canon.gathered(Canon.fine(Canon.shelved([arms, armour, naturalArms, gear, consumables,
-    wonders, valuables].map(f => f.items as unknown as Record<string, ItemKind>))));
+    wonders, valuables, gems].map(f => f.items as unknown as Record<string, ItemKind>))));
+  // What is a wonder: what the wonders' file holds (a ring of power, a wand), which a dealer in rare things buys.
+  static readonly wonders = new Set(Object.keys(wonders.items));
   // The catalog's files as one, each kind once.
   private static shelved(files: Record<string, ItemKind>[]): Record<string, ItemKind> {
     const out: Record<string, ItemKind> = {};

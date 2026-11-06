@@ -23,6 +23,13 @@ export class RegionShops {
     variety: 'general', provisions: 'general', tools: 'general', kitchen: 'general', armory: 'arms', weapons: 'arms',
     fabrics: 'cloth', exotician: 'rare', magic_items: 'rare', scrolls: 'rare', jewelry: 'rare' };
   static readonly merchants: Record<string, string> = { herbwife: 'remedies', chandler: 'general', smith: 'arms' };
+  // What each family buys back of what it sells (data/rules/belongings.kyr, sell_ware).
+  static readonly trades: Record<string, string> = { remedies: 'trade_remedies', general: 'trade_gear',
+    arms: 'trade_arms', rare: 'trade_rare' };
+  static dealsIn(who: string, family?: string): string {
+    const trade = family && this.trades[family];
+    return trade ? ` Initially Assert dealsIn(${who}, ${trade}).` : '';
+  }
   // The kinds a town keeps, drawn for the town: none of the family its merchant or chandler already sells.
   static chosen(region: Region, i: number): string[] {
     const s = region.settlements[i]!;
@@ -88,7 +95,7 @@ export class RegionShops {
       `  Person ${keeper} ${q(name)} at ${id} { Role ${q(k.role)}. Ancestry ${ancestry}.${likeness} Peaceable.`
         + ` Pronouns ${pronoun}. Manner ${draw.pick(['proud', 'cheerful', 'acerbic', 'stoic', 'jovial'])}. ${sells} }`,
       `  Initially Assert buysValuables(${keeper}). Initially Set purse(${keeper}) to 300.`
-        + ` Initially Set quantity(${keeper}, gold) to 300.`,
+        + ` Initially Set quantity(${keeper}, gold) to 300.${RegionShops.dealsIn(keeper, RegionShops.families[at.kind])}`,
       `  Observe ${id}_scene at ${id} as fixture when true ${q(k.scene)}.`];
   }
 }

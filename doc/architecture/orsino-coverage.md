@@ -8,7 +8,7 @@ mechanics omitted), **executable** (every source mechanic runs through canonical
 adaptation), **play-validated** (exercised in recorded play). *Feasible* counts entries whose every rule feature
 Kyr can already execute (faithfully or by documented adaptation); it is not a claim that a Kyr definition exists.
 
-2651 entries in 79 families. 1358 represented or better; 1239 executable or better; 16 play-validated; 2406 feasible.
+2651 entries in 79 families. 1358 represented or better; 1241 executable or better; 16 play-validated; 2406 feasible.
 
 ## By family
 
@@ -39,7 +39,7 @@ Kyr can already execute (faithfully or by documented adaptation); it is not a cl
 | creature | npcRank | 12 | 0 | 0 | 0 | 0 |
 | creature | npcType | 89 | 0 | 0 | 0 | 0 |
 | equipment | armor | 15 | 0 | 15 | 0 | 15 |
-| equipment | consumable | 28 | 6 | 20 | 2 | 28 |
+| equipment | consumable | 28 | 4 | 22 | 2 | 28 |
 | equipment | equipment | 48 | 3 | 44 | 1 | 45 |
 | equipment | gear | 68 | 1 | 63 | 3 | 53 |
 | equipment | gem | 5 | 0 | 5 | 0 | 5 |
@@ -960,7 +960,6 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `gear:chalk` | `item:chalk` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `gear:cloak` | `item:cloak` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `gear:cloak_pin` | `item:cloak_pin` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
-| `consumable:deck_of_multiplicity` | `item:deck_of_multiplicity` | represented | adapted | An authored record migrated from Orsino; not executable: use. |
 | `gear:dice` | `item:dice` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `gear:doublet` | `item:doublet` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `gear:firewood` | `item:firewood` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
@@ -968,7 +967,6 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `gear:fishing_net` | `item:fishing_net` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `gear:flask` | `item:flask` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
 | `gear:flint_and_steel` | `item:flint_and_steel` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
-| `consumable:foxglove` | `item:foxglove` | represented | adapted | An authored record migrated from Orsino; not executable: use. |
 | `gear:gloves` | `item:gloves` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `gear:gown` | `item:gown` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `gear:hammer` | `item:hammer` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
@@ -983,7 +981,6 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `gear:mirror` | `item:mirror` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `gear:musical_instrument` | `item:musical_instrument` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `gear:needle_and_thread` | `item:needle_and_thread` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
-| `consumable:oil_flask` | `item:oil_flask` | represented | adapted | An authored record migrated from Orsino; not executable: use. |
 | `gear:piton` | `item:piton` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `gear:pole` | `item:pole` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
 | `gear:pot` | `item:pot` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
@@ -993,7 +990,6 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `gear:robe` | `item:robe` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `gear:sack` | `item:sack` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
 | `gear:satchel` | `item:satchel` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
-| `consumable:scroll_of_shapechange` | `item:scroll_of_shapechange` | represented | adapted | An authored record migrated from Orsino; not executable: use. |
 | `gear:scrollcase` | `item:scrollcase` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
 | `gear:shoes` | `item:shoes` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `gear:signal_whistle` | `item:signal_whistle` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
@@ -1004,8 +1000,6 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `gear:tunic` | `item:tunic` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `gear:twine` | `item:twine` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `gear:vellum` | `item:vellum` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
-| `consumable:wand_of_polymorph` | `item:wand_of_polymorph` | represented | adapted | An authored record migrated from Orsino; not executable: use. |
-| `consumable:wand_of_wonder` | `item:wand_of_wonder` | represented | adapted | An authored record migrated from Orsino; not executable: use. |
 | `gear:waterskin` | `item:waterskin` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
 | `gear:whetstone` | `item:whetstone` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `gear:wind_chime` | `item:wind_chime` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
@@ -1025,15 +1019,10 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `consumable:minor_healing_potion` | `item:minor_healing_potion` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `consumable:potion_of_barkskin` | `item:potion_of_barkskin` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `consumable:rashers` | `item:rashers` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
-| `consumable:scroll_of_apocalypse` | `item:scroll_of_apocalypse` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
-| `consumable:scroll_of_cure_disease` | `item:scroll_of_cure_disease` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
-| `consumable:scroll_of_domination` | `item:scroll_of_domination` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
-| `consumable:scroll_of_fireball` | `item:scroll_of_fireball` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `gear:vinegar` | `item:vinegar` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
-| `consumable:wand_of_cure_minor_wounds` | `item:wand_of_cure_minor_wounds` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
-| `consumable:wand_of_magic_missile` | `item:wand_of_magic_missile` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
-| `consumable:wand_of_paralyzing_touch` | `item:wand_of_paralyzing_touch` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `gear:wine` | `item:wine` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
+| `consumable:foxglove` | `item:foxglove` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
+| `consumable:oil_flask` | `item:oil_flask` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
 | `equipment:aegis_of_eternity` | `item:aegis_of_eternity` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `equipment:aeon_stone` | `item:aeon_stone` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `equipment:amulet_of_focus` | `item:amulet_of_focus` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
@@ -1081,18 +1070,22 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `equipment:sword_of_goblinkind` | `item:sword_of_goblinkind` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `equipment:tirions_fury` | `item:tirions_fury` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `equipment:wardstone` | `item:wardstone` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
-| `gem:common` | `item:agate` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
-| `gem:uncommon` | `item:alexandrite` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
-| `gem:uncommon` | `item:amethyst` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
+| `consumable:deck_of_multiplicity` | `item:deck_of_multiplicity` | represented | adapted | An authored record migrated from Orsino; not executable: use. |
+| `consumable:scroll_of_shapechange` | `item:scroll_of_shapechange` | represented | adapted | An authored record migrated from Orsino; not executable: use. |
+| `consumable:wand_of_polymorph` | `item:wand_of_polymorph` | represented | adapted | An authored record migrated from Orsino; not executable: use. |
+| `consumable:wand_of_wonder` | `item:wand_of_wonder` | represented | adapted | An authored record migrated from Orsino; not executable: use. |
+| `consumable:scroll_of_apocalypse` | `item:scroll_of_apocalypse` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
+| `consumable:scroll_of_cure_disease` | `item:scroll_of_cure_disease` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
+| `consumable:scroll_of_domination` | `item:scroll_of_domination` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
+| `consumable:scroll_of_fireball` | `item:scroll_of_fireball` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
+| `consumable:wand_of_cure_minor_wounds` | `item:wand_of_cure_minor_wounds` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
+| `consumable:wand_of_magic_missile` | `item:wand_of_magic_missile` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
+| `consumable:wand_of_paralyzing_touch` | `item:wand_of_paralyzing_touch` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:ancient_crown` | `item:ancient_crown` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:ancient_map` | `item:ancient_map` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:ancient_orrery` | `item:ancient_orrery` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:ancient_tome` | `item:ancient_tome` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:antique_compass` | `item:antique_compass` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
-| `gem:rare` | `item:aquamarine` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
-| `gem:very_rare` | `item:black_diamond` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
-| `gem:legendary` | `item:black_opal` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
-| `gem:legendary` | `item:blue_diamond` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:broken_crown` | `item:broken_crown` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:broken_dagger` | `item:broken_dagger` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:broken_flute` | `item:broken_flute` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
@@ -1100,15 +1093,11 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `junk:broken_scepter` | `item:broken_scepter` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:bronze_bracelet` | `item:bronze_bracelet` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:bronze_statue` | `item:bronze_statue` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
-| `gem:common` | `item:carnelian` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:celestial_chart` | `item:celestial_chart` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
-| `gem:common` | `item:chrysoberyl` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
-| `gem:common` | `item:citrine` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:cloth_pouch` | `item:cloth_pouch` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:cloth_tunic` | `item:cloth_tunic` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:crystal_eye` | `item:crystal_eye` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:crystal_orb` | `item:crystal_orb` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
-| `gem:legendary` | `item:diamond` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:diamond_eye` | `item:diamond_eye` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:diamond_necklace` | `item:diamond_necklace` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:divine_scepter` | `item:divine_scepter` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
@@ -1116,27 +1105,18 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `junk:dowsing_rod` | `item:dowsing_rod` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:dragons_egg` | `item:dragons_egg` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:dragons_tooth` | `item:dragons_tooth` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
-| `gem:rare` | `item:emerald` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:eternal_flame` | `item:eternal_flame` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:faded_map` | `item:faded_map` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:faded_painting` | `item:faded_painting` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:faded_tome` | `item:faded_tome` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:fallen_star` | `item:fallen_star` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
-| `gem:legendary` | `item:fire_opal` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
-| `gem:common` | `item:fluorite` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
-| `gem:uncommon` | `item:garnet` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:golden_idol` | `item:golden_idol` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
-| `gem:very_rare` | `item:grandidierite` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:hand_mirror` | `item:hand_mirror` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
-| `gem:common` | `item:hematite` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:intelligent_book` | `item:intelligent_book` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:intelligent_painting` | `item:intelligent_painting` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
-| `gem:common` | `item:iolite` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:iron_figurine` | `item:iron_figurine` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:iron_idol` | `item:iron_idol` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:iron_torc` | `item:iron_torc` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
-| `gem:common` | `item:jade` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
-| `gem:common` | `item:jasper` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:jeweled_box` | `item:jeweled_box` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:jeweled_crown` | `item:jeweled_crown` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:jeweled_dagger` | `item:jeweled_dagger` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
@@ -1144,48 +1124,25 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `junk:jeweled_torc` | `item:jeweled_torc` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:jeweled_zodiac` | `item:jeweled_zodiac` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:kraken_claw` | `item:kraken_claw` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
-| `gem:common` | `item:lapis_lazuli` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:lensing_crystal` | `item:lensing_crystal` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:lost_tome` | `item:lost_tome` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
-| `gem:common` | `item:malachite` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
-| `gem:common` | `item:moonstone` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
-| `gem:very_rare` | `item:musgravite` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:music_box` | `item:music_box` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
-| `gem:common` | `item:obsidian` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
-| `gem:common` | `item:onyx` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:opalescent_skull` | `item:opalescent_skull` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
-| `gem:very_rare` | `item:painite` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
-| `gem:uncommon` | `item:peridot` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:philosophers_stone` | `item:philosophers_stone` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:phoenix_feather` | `item:phoenix_feather` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:priceless_painting` | `item:priceless_painting` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
-| `gem:common` | `item:pyrite` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
-| `gem:common` | `item:quartz` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
-| `gem:very_rare` | `item:red_diamond` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
-| `gem:common` | `item:rose_quartz` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:royal_crown` | `item:royal_crown` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:royal_scepter` | `item:royal_scepter` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
-| `gem:rare` | `item:ruby` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:sacred_idol` | `item:sacred_idol` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
-| `gem:rare` | `item:sapphire` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:simple_ring` | `item:simple_ring` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:smoking_pipe` | `item:smoking_pipe` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
-| `gem:common` | `item:smoky_quartz` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:soul_gem` | `item:soul_gem` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
-| `gem:uncommon` | `item:spinel` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
-| `gem:rare` | `item:spinel_red` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
-| `gem:legendary` | `item:star_ruby` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:steel_coin` | `item:steel_coin` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:steel_torc` | `item:steel_torc` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
-| `gem:rare` | `item:tanzanite` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:tattered_map` | `item:tattered_map` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:tattered_tome` | `item:tattered_tome` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
-| `gem:common` | `item:tiger_eye` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:titan_statue` | `item:titan_statue` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
-| `gem:uncommon` | `item:topaz` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
-| `gem:uncommon` | `item:tourmaline` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:triskelion_amulet` | `item:triskelion_amulet` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
-| `gem:common` | `item:turquoise` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:unholy_symbol` | `item:unholy_symbol` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:unusual_seashell` | `item:unusual_seashell` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:vial_of_phoenix_tears` | `item:vial_of_phoenix_tears` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
@@ -1193,9 +1150,53 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `junk:wooden_bowl` | `item:wooden_bowl` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:wooden_figurine` | `item:wooden_figurine` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:wooden_idol` | `item:wooden_idol` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
-| `gem:uncommon` | `item:zircon` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:zodiac_medallion` | `item:zodiac_medallion` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:zoological_manual` | `item:zoological_manual` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
+| `gem:common` | `item:agate` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
+| `gem:uncommon` | `item:alexandrite` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
+| `gem:uncommon` | `item:amethyst` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
+| `gem:rare` | `item:aquamarine` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
+| `gem:very_rare` | `item:black_diamond` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
+| `gem:legendary` | `item:black_opal` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
+| `gem:legendary` | `item:blue_diamond` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
+| `gem:common` | `item:carnelian` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
+| `gem:common` | `item:chrysoberyl` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
+| `gem:common` | `item:citrine` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
+| `gem:legendary` | `item:diamond` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
+| `gem:rare` | `item:emerald` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
+| `gem:legendary` | `item:fire_opal` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
+| `gem:common` | `item:fluorite` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
+| `gem:uncommon` | `item:garnet` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
+| `gem:very_rare` | `item:grandidierite` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
+| `gem:common` | `item:hematite` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
+| `gem:common` | `item:iolite` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
+| `gem:common` | `item:jade` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
+| `gem:common` | `item:jasper` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
+| `gem:common` | `item:lapis_lazuli` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
+| `gem:common` | `item:malachite` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
+| `gem:common` | `item:moonstone` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
+| `gem:very_rare` | `item:musgravite` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
+| `gem:common` | `item:obsidian` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
+| `gem:common` | `item:onyx` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
+| `gem:very_rare` | `item:painite` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
+| `gem:uncommon` | `item:peridot` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
+| `gem:common` | `item:pyrite` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
+| `gem:common` | `item:quartz` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
+| `gem:very_rare` | `item:red_diamond` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
+| `gem:common` | `item:rose_quartz` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
+| `gem:rare` | `item:ruby` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
+| `gem:rare` | `item:sapphire` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
+| `gem:common` | `item:smoky_quartz` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
+| `gem:uncommon` | `item:spinel` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
+| `gem:rare` | `item:spinel_red` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
+| `gem:legendary` | `item:star_ruby` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
+| `gem:rare` | `item:tanzanite` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
+| `gem:common` | `item:tiger_eye` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
+| `gem:uncommon` | `item:topaz` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
+| `gem:uncommon` | `item:tourmaline` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
+| `gem:common` | `item:turquoise` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
+| `gem:uncommon` | `item:zircon` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
+| `gem:uncommon` | `item:zircon_blue` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
 | `trait:academician` | `trait:academician` | executable | faithful | Generated by the Orsino translator. |
 | `trait:accordant` | `trait:accordant` | executable | adapted | Generated by the Orsino translator. |
 | `trait:adventurer` | `trait:adventurer` | executable | adapted | Generated by the Orsino translator. |

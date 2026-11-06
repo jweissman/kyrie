@@ -2090,6 +2090,8 @@ Each thing is carried by one companion. A weapon or armour works only for a call
 
 *Adapted · gear* · `item:backpack`
 
+<img src="../../web/reader/paintings/gear/backpack.webp" alt="" width="128">
+
 - Worth: 5
 
 > A sturdy backpack for carrying your gear on your adventures.
@@ -2099,6 +2101,8 @@ Each thing is carried by one companion. A weapon or armour works only for a call
 #### Barrel
 
 *Adapted · gear* · `item:barrel`
+
+<img src="../../web/reader/paintings/gear/barrel.webp" alt="" width="128">
 
 - Worth: 10
 
@@ -2110,6 +2114,8 @@ Each thing is carried by one companion. A weapon or armour works only for a call
 
 *Faithful · gear* · `item:bedroll`
 
+<img src="../../web/reader/paintings/gear/bedroll.webp" alt="" width="128">
+
 - Worth: 1
 
 > A comfortable bedroll for sleeping outdoors.
@@ -2117,6 +2123,8 @@ Each thing is carried by one companion. A weapon or armour works only for a call
 #### Bell
 
 *Adapted · gear* · `item:bell`
+
+<img src="../../web/reader/paintings/gear/bell.webp" alt="" width="128">
 
 - Worth: 1
 
@@ -2128,6 +2136,8 @@ Each thing is carried by one companion. A weapon or armour works only for a call
 
 *Faithful · gear* · `item:blanket`
 
+<img src="../../web/reader/paintings/gear/blanket.webp" alt="" width="128">
+
 - Worth: 1
 
 > A warm blanket for cold nights around the campfire.
@@ -2136,6 +2146,8 @@ Each thing is carried by one companion. A weapon or armour works only for a call
 
 *Faithful · gear* · `item:boots`
 
+<img src="../../web/reader/paintings/gear/boots.webp" alt="" width="128">
+
 - Worth: 2
 
 > A sturdy pair of boots for trekking through rough terrain.
@@ -2143,6 +2155,8 @@ Each thing is carried by one companion. A weapon or armour works only for a call
 #### Box
 
 *Adapted · gear* · `item:box`
+
+<img src="../../web/reader/paintings/gear/box.webp" alt="" width="128">
 
 - Worth: 3
 
@@ -2154,21 +2168,17 @@ Each thing is carried by one companion. A weapon or armour works only for a call
 
 *Faithful · gear* · `item:bracers`
 
+<img src="../../web/reader/paintings/gear/bracers.webp" alt="" width="128">
+
 - Worth: 4
 
 > A pair of leather bracers for protecting your forearms in combat.
 
-#### Burial register
-
-*Kyr · gear* · `item:burial_register`
-
-- Worth: 2
-
-> A waxed register of the named dead, in a keeper's careful hand.
-
 #### Caltrops
 
 *Faithful · tool* · `item:caltrops`
+
+<img src="../../web/reader/paintings/gear/caltrops.webp" alt="" width="128">
 
 - Worth: 1
 
@@ -2177,6 +2187,8 @@ Each thing is carried by one companion. A weapon or armour works only for a call
 #### Candle
 
 *Adapted · gear* · `item:candle`
+
+<img src="../../web/reader/paintings/gear/candle.webp" alt="" width="128">
 
 - Worth: 1
 
@@ -2192,6 +2204,8 @@ Used: You are candlelit for 2 hours.
 
 *Faithful · tool* · `item:canvas`
 
+<img src="../../web/reader/paintings/gear/canvas.webp" alt="" width="128">
+
 - Worth: 2
 
 > A roll of canvas for making tents, sails, or other fabric items.
@@ -2200,11 +2214,15 @@ Used: You are candlelit for 2 hours.
 
 *Kyr · gear* · `item:cell_key`
 
+<img src="../../web/reader/paintings/gear/cell_key.webp" alt="" width="128">
+
 > A heavy iron key on a loop of grave-cord.
 
 #### Chain
 
 *Faithful · tool* · `item:chain`
+
+<img src="../../web/reader/paintings/gear/chain.webp" alt="" width="128">
 
 - Worth: 5
 
@@ -2214,6 +2232,8 @@ Used: You are candlelit for 2 hours.
 
 *Faithful · tool* · `item:chalk`
 
+<img src="../../web/reader/paintings/gear/chalk.webp" alt="" width="128">
+
 - Worth: 1
 
 > A piece of chalk for marking walls or drawing maps.
@@ -2221,6 +2241,8 @@ Used: You are candlelit for 2 hours.
 #### Climber's harness
 
 *Kyr · tool* · `item:climbing_harness`
+
+<img src="../../web/reader/paintings/gear/climbing_harness.webp" alt="" width="128">
 
 - Worn: tool
 
@@ -2232,6 +2254,8 @@ Brings Climbing to whoever carries it equipped.
 
 *Faithful · gear* · `item:cloak`
 
+<img src="../../web/reader/paintings/gear/cloak.webp" alt="" width="128">
+
 - Worth: 3
 
 > A warm cloak for protection against the elements.
@@ -2239,6 +2263,8 @@ Brings Climbing to whoever carries it equipped.
 #### Cloak pin
 
 *Faithful · tool* · `item:cloak_pin`
+
+<img src="../../web/reader/paintings/gear/cloak_pin.webp" alt="" width="128">
 
 - Worth: 2
 
@@ -2248,25 +2274,19 @@ Brings Climbing to whoever carries it equipped.
 
 *Adapted · tool* · `item:crowbar`
 
+<img src="../../web/reader/paintings/gear/crowbar.webp" alt="" width="128">
+
 - Worth: 2
 
 > A sturdy crowbar for prying open doors or crates.
 
 *Adapted: Orsino gives a description and price; Kyr gives the tool meaning through world rules.*
 
-#### Deck of Multiplicity
-
-*Not playable · gear* · `item:deck_of_multiplicity`
-
-- Worth: 5000
-
-> A magical deck of cards with many uses.
-
-*Not playable — use: A summon aimed at enemy is not supported.*
-
 #### Dice
 
 *Faithful · tool* · `item:dice`
+
+<img src="../../web/reader/paintings/gear/dice.webp" alt="" width="128">
 
 - Worth: 1
 
@@ -2276,6 +2296,8 @@ Brings Climbing to whoever carries it equipped.
 
 *Faithful · gear* · `item:doublet`
 
+<img src="../../web/reader/paintings/gear/doublet.webp" alt="" width="128">
+
 - Worth: 3
 
 > A stylish doublet for formal occasions or impressing nobles.
@@ -2283,6 +2305,8 @@ Brings Climbing to whoever carries it equipped.
 #### Firewood
 
 *Faithful · gear* · `item:firewood`
+
+<img src="../../web/reader/paintings/gear/firewood.webp" alt="" width="128">
 
 - Worth: 1
 
@@ -2292,6 +2316,8 @@ Brings Climbing to whoever carries it equipped.
 
 *Faithful · tool* · `item:fish_hook`
 
+<img src="../../web/reader/paintings/gear/fish_hook.webp" alt="" width="128">
+
 - Worth: 1
 
 > A sharp fish hook for catching fish.
@@ -2300,6 +2326,8 @@ Brings Climbing to whoever carries it equipped.
 
 *Faithful · tool* · `item:fishing_net`
 
+<img src="../../web/reader/paintings/gear/fishing_net.webp" alt="" width="128">
+
 - Worth: 3
 
 > A sturdy fishing net for catching multiple fish at once.
@@ -2307,6 +2335,8 @@ Brings Climbing to whoever carries it equipped.
 #### Flask
 
 *Adapted · gear* · `item:flask`
+
+<img src="../../web/reader/paintings/gear/flask.webp" alt="" width="128">
 
 - Worth: 1
 
@@ -2318,23 +2348,17 @@ Brings Climbing to whoever carries it equipped.
 
 *Faithful · tool* · `item:flint_and_steel`
 
+<img src="../../web/reader/paintings/gear/flint_and_steel.webp" alt="" width="128">
+
 - Worth: 2
 
 > A flint and steel for starting fires.
 
-#### Foxglove
-
-*Not playable · gear* · `item:foxglove`
-
-- Worth: 50
-
-> A beautiful but poisonous flower. When prepared correctly, it can be used to create a potent healing salve.
-
-*Not playable — use: Kyr cannot use a remove effect from an item.*
-
 #### Gloves
 
 *Faithful · gear* · `item:gloves`
+
+<img src="../../web/reader/paintings/gear/gloves.webp" alt="" width="128">
 
 - Worth: 2
 
@@ -2344,6 +2368,8 @@ Brings Climbing to whoever carries it equipped.
 
 *Faithful · gear* · `item:gown`
 
+<img src="../../web/reader/paintings/gear/gown.webp" alt="" width="128">
+
 - Worth: 3
 
 > An elegant gown for formal occasions.
@@ -2351,6 +2377,8 @@ Brings Climbing to whoever carries it equipped.
 #### Hammer
 
 *Faithful · tool* · `item:hammer`
+
+<img src="../../web/reader/paintings/gear/hammer.webp" alt="" width="128">
 
 - Worth: 2
 
@@ -2360,6 +2388,8 @@ Brings Climbing to whoever carries it equipped.
 
 *Faithful · tool* · `item:holy_symbol`
 
+<img src="../../web/reader/paintings/gear/holy_symbol.webp" alt="" width="128">
+
 - Worth: 5
 
 > A holy symbol for religious ceremonies or warding off evil.
@@ -2367,6 +2397,8 @@ Brings Climbing to whoever carries it equipped.
 #### Hose
 
 *Faithful · tool* · `item:hose`
+
+<img src="../../web/reader/paintings/gear/hose.webp" alt="" width="128">
 
 - Worth: 2
 
@@ -2376,6 +2408,8 @@ Brings Climbing to whoever carries it equipped.
 
 *Faithful · tool* · `item:iron_spikes`
 
+<img src="../../web/reader/paintings/gear/iron_spikes.webp" alt="" width="128">
+
 - Worth: 1
 
 > A set of iron spikes for securing tents or climbing walls.
@@ -2384,6 +2418,8 @@ Brings Climbing to whoever carries it equipped.
 
 *Faithful · tool* · `item:ladder`
 
+<img src="../../web/reader/paintings/gear/ladder.webp" alt="" width="128">
+
 - Worth: 4
 
 > A portable ladder for reaching high places.
@@ -2391,6 +2427,8 @@ Brings Climbing to whoever carries it equipped.
 #### Lamp
 
 *Adapted · equipment* · `item:lamp`
+
+<img src="../../web/reader/paintings/gear/lamp.webp" alt="" width="128">
 
 - Worth: 3
 
@@ -2404,6 +2442,8 @@ Brings Climbing to whoever carries it equipped.
 
 *Kyr · gear* · `item:lamp_oil`
 
+<img src="../../web/reader/paintings/gear/lamp_oil.webp" alt="" width="128">
+
 - Worth: 1
 
 Used: You are lamplit for 6 hours.
@@ -2413,6 +2453,8 @@ Used: You are lamplit for 6 hours.
 #### Lantern
 
 *Adapted · equipment* · `item:lantern`
+
+<img src="../../web/reader/paintings/gear/lantern.webp" alt="" width="128">
 
 - Worth: 7
 
@@ -2426,6 +2468,8 @@ Used: You are lamplit for 6 hours.
 
 *Faithful · tool* · `item:lock`
 
+<img src="../../web/reader/paintings/gear/lock.webp" alt="" width="128">
+
 - Worth: 10
 
 > A sturdy lock for securing doors or chests.
@@ -2434,6 +2478,8 @@ Used: You are lamplit for 6 hours.
 
 *Faithful · tool* · `item:manacles`
 
+<img src="../../web/reader/paintings/gear/manacles.webp" alt="" width="128">
+
 - Worth: 8
 
 > A pair of manacles for restraining prisoners.
@@ -2441,6 +2487,8 @@ Used: You are lamplit for 6 hours.
 #### Map of the district
 
 *Adapted · gear* · `item:map`
+
+<img src="../../web/reader/paintings/gear/map.webp" alt="" width="128">
 
 - Worth: 5
 
@@ -2452,6 +2500,8 @@ Used: You are lamplit for 6 hours.
 
 *Faithful · tool* · `item:mirror`
 
+<img src="../../web/reader/paintings/gear/mirror.webp" alt="" width="128">
+
 - Worth: 5
 
 > A small mirror for signaling or personal grooming.
@@ -2459,6 +2509,8 @@ Used: You are lamplit for 6 hours.
 #### Musical instrument
 
 *Faithful · tool* · `item:musical_instrument`
+
+<img src="../../web/reader/paintings/gear/musical_instrument.webp" alt="" width="128">
 
 - Worth: 10
 
@@ -2468,23 +2520,17 @@ Used: You are lamplit for 6 hours.
 
 *Faithful · tool* · `item:needle_and_thread`
 
+<img src="../../web/reader/paintings/gear/needle_and_thread.webp" alt="" width="128">
+
 - Worth: 1
 
 > A needle and thread for repairing clothing or gear.
 
-#### Flask of Oil
-
-*Not playable · gear* · `item:oil_flask`
-
-- Worth: 20
-
-> A flask of slippery oil that can be thrown onto a surface or creature to make it more vulnerable to fire.
-
-*Not playable — use: Kyr cannot use a apply effect from an item.*
-
 #### Pack mule
 
 *Kyr · gear* · `item:pack_mule`
+
+<img src="../../web/reader/paintings/gear/pack_mule.webp" alt="" width="128">
 
 - Worth: 30
 
@@ -2494,6 +2540,8 @@ Used: You are lamplit for 6 hours.
 
 *Faithful · tool* · `item:piton`
 
+<img src="../../web/reader/paintings/gear/piton.webp" alt="" width="128">
+
 - Worth: 1
 
 > A metal spike for anchoring ropes in rock or ice.
@@ -2501,6 +2549,8 @@ Used: You are lamplit for 6 hours.
 #### Ten-foot pole
 
 *Adapted · gear* · `item:pole`
+
+<img src="../../web/reader/paintings/gear/pole.webp" alt="" width="128">
 
 - Worth: 1
 
@@ -2512,6 +2562,8 @@ Used: You are lamplit for 6 hours.
 
 *Adapted · gear* · `item:pot`
 
+<img src="../../web/reader/paintings/gear/pot.webp" alt="" width="128">
+
 - Worth: 3
 
 > A cooking pot for preparing meals while traveling.
@@ -2521,6 +2573,8 @@ Used: You are lamplit for 6 hours.
 #### Pouch
 
 *Adapted · gear* · `item:pouch`
+
+<img src="../../web/reader/paintings/gear/pouch.webp" alt="" width="128">
 
 - Worth: 2
 
@@ -2532,6 +2586,8 @@ Used: You are lamplit for 6 hours.
 
 *Faithful · tool* · `item:quill`
 
+<img src="../../web/reader/paintings/gear/quill.webp" alt="" width="128">
+
 - Worth: 1
 
 > A feather quill for writing or drawing.
@@ -2539,6 +2595,8 @@ Used: You are lamplit for 6 hours.
 #### Quiver
 
 *Adapted · gear* · `item:quiver`
+
+<img src="../../web/reader/paintings/gear/quiver.webp" alt="" width="128">
 
 - Worth: 3
 
@@ -2550,6 +2608,8 @@ Used: You are lamplit for 6 hours.
 
 *Kyr · gear* · `item:ratsbane`
 
+<img src="../../web/reader/paintings/gear/ratsbane.webp" alt="" width="128">
+
 - Worth: 2
 
 > A twist of paper holding meal mixed with something bitter, for vermin. Laid where they run, it does its work overnight.
@@ -2558,6 +2618,8 @@ Used: You are lamplit for 6 hours.
 
 *Faithful · gear* · `item:robe`
 
+<img src="../../web/reader/paintings/gear/robe.webp" alt="" width="128">
+
 - Worth: 4
 
 > A flowing robe for wizards or priests.
@@ -2565,6 +2627,8 @@ Used: You are lamplit for 6 hours.
 #### Coil of rope
 
 *Adapted · gear* · `item:rope`
+
+<img src="../../web/reader/paintings/gear/rope.webp" alt="" width="128">
 
 - Worth: 1
 
@@ -2576,6 +2640,8 @@ Used: You are lamplit for 6 hours.
 
 *Adapted · gear* · `item:sack`
 
+<img src="../../web/reader/paintings/gear/sack.webp" alt="" width="128">
+
 - Worth: 2
 
 > A large sack for carrying bulky items.
@@ -2586,11 +2652,15 @@ Used: You are lamplit for 6 hours.
 
 *Kyr · gear* · `item:sandbag`
 
+<img src="../../web/reader/paintings/gear/sandbag.webp" alt="" width="128">
+
 > A tied sack of dry sand, about as heavy as a small child. Useless, until it is not.
 
 #### Satchel
 
 *Adapted · gear* · `item:satchel`
+
+<img src="../../web/reader/paintings/gear/satchel.webp" alt="" width="128">
 
 - Worth: 3
 
@@ -2598,19 +2668,11 @@ Used: You are lamplit for 6 hours.
 
 *Left out — field:masterGear.capacity: Kyr does not count what a container holds.*
 
-#### Scroll of Shapechange
-
-*Not playable · gear* · `item:scroll_of_shapechange`
-
-- Worth: 1500
-
-> A powerful scroll that allows the caster to transform into a fearsome dragon.
-
-*Not playable — use: It casts shapechange, which Kyr cannot run.*
-
 #### Scrollcase
 
 *Adapted · gear* · `item:scrollcase`
+
+<img src="../../web/reader/paintings/gear/scrollcase.webp" alt="" width="128">
 
 - Worth: 2
 
@@ -2622,6 +2684,8 @@ Used: You are lamplit for 6 hours.
 
 *Faithful · gear* · `item:shoes`
 
+<img src="../../web/reader/paintings/gear/shoes.webp" alt="" width="128">
+
 - Worth: 2
 
 > A comfortable pair of shoes for everyday wear.
@@ -2629,6 +2693,8 @@ Used: You are lamplit for 6 hours.
 #### Shovel
 
 *Adapted · tool* · `item:shovel`
+
+<img src="../../web/reader/paintings/gear/shovel.webp" alt="" width="128">
 
 - Worth: 3
 
@@ -2640,6 +2706,8 @@ Used: You are lamplit for 6 hours.
 
 *Faithful · tool* · `item:signal_whistle`
 
+<img src="../../web/reader/paintings/gear/signal_whistle.webp" alt="" width="128">
+
 - Worth: 1
 
 > A whistle for signaling allies or alerting to danger.
@@ -2647,6 +2715,8 @@ Used: You are lamplit for 6 hours.
 #### Skillet
 
 *Faithful · tool* · `item:skillet`
+
+<img src="../../web/reader/paintings/gear/skillet.webp" alt="" width="128">
 
 - Worth: 2
 
@@ -2656,6 +2726,8 @@ Used: You are lamplit for 6 hours.
 
 *Faithful · tool* · `item:soap`
 
+<img src="../../web/reader/paintings/gear/soap.webp" alt="" width="128">
+
 - Worth: 1
 
 > A bar of soap for personal hygiene while traveling.
@@ -2663,6 +2735,8 @@ Used: You are lamplit for 6 hours.
 #### Spellbook
 
 *Faithful · tool* · `item:spellbook`
+
+<img src="../../web/reader/paintings/gear/spellbook.webp" alt="" width="128">
 
 - Worth: 15
 
@@ -2672,6 +2746,8 @@ Used: You are lamplit for 6 hours.
 
 *Kyr · gear* · `item:spyglass`
 
+<img src="../../web/reader/paintings/gear/spyglass.webp" alt="" width="128">
+
 - Worth: 15
 
 > A brass tube of three draws with a glass at either end. Drawn out and held steady from somewhere high on a clear day, it brings near what lies past the edge of sight, and shows what is a long way off well enough to know it.
@@ -2680,6 +2756,8 @@ Used: You are lamplit for 6 hours.
 
 *Faithful · gear* · `item:tent`
 
+<img src="../../web/reader/paintings/gear/tent.webp" alt="" width="128">
+
 - Worth: 10
 
 > A portable tent for shelter while camping outdoors.
@@ -2687,6 +2765,8 @@ Used: You are lamplit for 6 hours.
 #### Thieves' tools
 
 *Adapted · tool* · `item:thieves_tools`
+
+<img src="../../web/reader/paintings/gear/thieves_tools.webp" alt="" width="128">
 
 - Worth: 25
 
@@ -2697,6 +2777,8 @@ Used: You are lamplit for 6 hours.
 #### Torch
 
 *Adapted · gear* · `item:torch`
+
+<img src="../../web/reader/paintings/gear/torch.webp" alt="" width="128">
 
 - Worth: 1
 
@@ -2710,6 +2792,8 @@ Used: You are torchlit for 1 hour.
 
 *Faithful · gear* · `item:tunic`
 
+<img src="../../web/reader/paintings/gear/tunic.webp" alt="" width="128">
+
 - Worth: 2
 
 > A simple tunic for everyday wear.
@@ -2717,6 +2801,8 @@ Used: You are torchlit for 1 hour.
 #### Twine
 
 *Faithful · tool* · `item:twine`
+
+<img src="../../web/reader/paintings/gear/twine.webp" alt="" width="128">
 
 - Worth: 1
 
@@ -2726,33 +2812,17 @@ Used: You are torchlit for 1 hour.
 
 *Faithful · tool* · `item:vellum`
 
+<img src="../../web/reader/paintings/gear/vellum.webp" alt="" width="128">
+
 - Worth: 3
 
 > A sheet of vellum for writing or drawing.
 
-#### Wand of Polymorph
-
-*Not playable · gear* · `item:wand_of_polymorph`
-
-- Worth: 250
-
-> A slender wand that can transform a target into a different creature.
-
-*Not playable — use: It casts Polymorph Other, which Kyr cannot run.*
-
-#### Wand of Wonder
-
-*Not playable · gear* · `item:wand_of_wonder`
-
-- Worth: 500
-
-> A whimsical wand that produces random magical effects when used.
-
-*Not playable — use: Kyr cannot use a random effect from an item.*
-
 #### Waterskin
 
 *Adapted · gear* · `item:waterskin`
+
+<img src="../../web/reader/paintings/gear/waterskin.webp" alt="" width="128">
 
 - Worth: 2
 
@@ -2764,6 +2834,8 @@ Used: You are torchlit for 1 hour.
 
 *Faithful · tool* · `item:whetstone`
 
+<img src="../../web/reader/paintings/gear/whetstone.webp" alt="" width="128">
+
 - Worth: 1
 
 > A whetstone for sharpening blades and tools.
@@ -2772,9 +2844,21 @@ Used: You are torchlit for 1 hour.
 
 *Faithful · tool* · `item:wind_chime`
 
+<img src="../../web/reader/paintings/gear/wind_chime.webp" alt="" width="128">
+
 - Worth: 3
 
 > A decorative wind chime that produces soothing sounds when the wind blows.
+
+#### Yoke
+
+*Kyr · tool* · `item:yoke`
+
+<img src="../../web/reader/paintings/gear/yoke.webp" alt="" width="128">
+
+- Worth: 5
+
+> A wooden yoke for harnessing animals to pull carts or plows.
 
 #### Alchemist's Fire
 
@@ -3012,46 +3096,6 @@ Used: Heal one ally for 1d3 (1–3).
 
 > Cured strips of pork that can be cooked and eaten for sustenance.
 
-#### Scroll of Apocalypse
-
-*Faithful · consumable* · `item:scroll_of_apocalypse`
-
-- Worth: 2000
-
-Used: Apocalypse, at no cost.
-
-> An ancient scroll that unleashes catastrophic energy upon all enemies in the area.
-
-#### Scroll of Cure Disease
-
-*Faithful · consumable* · `item:scroll_of_cure_disease`
-
-- Worth: 150
-
-Used: End diseased on one ally.
-
-> A magical scroll that can cure a target of any disease afflicting them.
-
-#### Scroll of Domination
-
-*Faithful · consumable* · `item:scroll_of_domination`
-
-- Worth: 100
-
-Used: Dominate Person, at no cost.
-
-> A magical scroll that allows the caster to control the mind of a target creature.
-
-#### Scroll of Fireball
-
-*Faithful · consumable* · `item:scroll_of_fireball`
-
-- Worth: 200
-
-Used: Fireball, at no cost.
-
-> A magical scroll that allows the caster to unleash a fiery explosion at a target location.
-
 #### Vinegar
 
 *Faithful · consumable* · `item:vinegar`
@@ -3061,36 +3105,6 @@ Used: Fireball, at no cost.
 Used: Heal one ally for 1d4 (1–4).
 
 > A bottle of vinegar for cooking or cleaning wounds.
-
-#### Wand of Cure Minor Wounds
-
-*Faithful · consumable* · `item:wand_of_cure_minor_wounds`
-
-- Worth: 100
-
-Used: Cure Minor Wounds, at no cost.
-
-> A slender wand that can channel healing energy to mend minor wounds.
-
-#### Wand of Magic Missile
-
-*Faithful · consumable* · `item:wand_of_magic_missile`
-
-- Worth: 250
-
-Used: Magic Missile, at no cost.
-
-> A slender wand that can fire magical darts of force energy at a target.
-
-#### Wand of Paralyzing Touch
-
-*Faithful · consumable* · `item:wand_of_paralyzing_touch`
-
-- Worth: 150
-
-Used: Paralyzing Touch, at no cost.
-
-> A slender wand that can deliver a paralyzing touch to a target.
 
 #### Willow bark
 
@@ -3119,6 +3133,26 @@ Used: Heal one ally for 2d4 (2–8).
 Used: End bleeding on one ally; heal that ally for 1d3 (1–3).
 
 > Crushed yarrow bound in a cloth. It stops bleeding and eases a small wound.
+
+#### Foxglove
+
+*Adapted · consumable* · `item:foxglove`
+
+- Worth: 50
+
+Used: Heal one ally for 1d4 + 2 (3–6); end poison on that ally; end fatigued on that ally; end weakened on that ally.
+
+> A beautiful but poisonous flower. When prepared correctly, it can be used to create a potent healing salve.
+
+#### Flask of Oil
+
+*Adapted · consumable* · `item:oil_flask`
+
+- Worth: 20
+
+Used: One enemy is oiled for 3 turns (a Dexterity save against 25 avoids it).
+
+> A flask of slippery oil that can be thrown onto a surface or creature to make it more vulnerable to fire.
 
 #### Aegis of Eternity
 
@@ -3561,35 +3595,115 @@ Lets its bearer use Fire ward.
 
 > A mystical stone that provides a protective barrier to the bearer.
 
-#### Agate
+#### Deck of Multiplicity
 
-*Adapted · treasure* · `item:agate`
+*Not playable · consumable* · `item:deck_of_multiplicity`
 
-- Worth: 15
+- Worth: 5000
 
-> A common gemstone, cut and polished: agate.
+> A magical deck of cards with many uses.
 
-*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+*Not playable — use: A summon aimed at enemy is not supported.*
 
-#### Alexandrite
+#### Scroll of Shapechange
 
-*Adapted · treasure* · `item:alexandrite`
+*Not playable · consumable* · `item:scroll_of_shapechange`
 
-- Worth: 60
+- Worth: 1500
 
-> An uncommon gemstone, cut and polished: alexandrite.
+> A powerful scroll that allows the caster to transform into a fearsome dragon.
 
-*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+*Not playable — use: It casts shapechange, which Kyr cannot run.*
 
-#### Amethyst
+#### Wand of Polymorph
 
-*Adapted · treasure* · `item:amethyst`
+*Not playable · consumable* · `item:wand_of_polymorph`
 
-- Worth: 60
+- Worth: 250
 
-> An uncommon gemstone, cut and polished: amethyst.
+> A slender wand that can transform a target into a different creature.
 
-*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+*Not playable — use: It casts Polymorph Other, which Kyr cannot run.*
+
+#### Wand of Wonder
+
+*Not playable · consumable* · `item:wand_of_wonder`
+
+- Worth: 500
+
+> A whimsical wand that produces random magical effects when used.
+
+*Not playable — use: Kyr cannot use a random effect from an item.*
+
+#### Scroll of Apocalypse
+
+*Faithful · consumable* · `item:scroll_of_apocalypse`
+
+- Worth: 2000
+
+Used: Apocalypse, at no cost.
+
+> An ancient scroll that unleashes catastrophic energy upon all enemies in the area.
+
+#### Scroll of Cure Disease
+
+*Faithful · consumable* · `item:scroll_of_cure_disease`
+
+- Worth: 150
+
+Used: End diseased on one ally.
+
+> A magical scroll that can cure a target of any disease afflicting them.
+
+#### Scroll of Domination
+
+*Faithful · consumable* · `item:scroll_of_domination`
+
+- Worth: 100
+
+Used: Dominate Person, at no cost.
+
+> A magical scroll that allows the caster to control the mind of a target creature.
+
+#### Scroll of Fireball
+
+*Faithful · consumable* · `item:scroll_of_fireball`
+
+- Worth: 200
+
+Used: Fireball, at no cost.
+
+> A magical scroll that allows the caster to unleash a fiery explosion at a target location.
+
+#### Wand of Cure Minor Wounds
+
+*Faithful · consumable* · `item:wand_of_cure_minor_wounds`
+
+- Worth: 100
+
+Used: Cure Minor Wounds, at no cost.
+
+> A slender wand that can channel healing energy to mend minor wounds.
+
+#### Wand of Magic Missile
+
+*Faithful · consumable* · `item:wand_of_magic_missile`
+
+- Worth: 250
+
+Used: Magic Missile, at no cost.
+
+> A slender wand that can fire magical darts of force energy at a target.
+
+#### Wand of Paralyzing Touch
+
+*Faithful · consumable* · `item:wand_of_paralyzing_touch`
+
+- Worth: 150
+
+Used: Paralyzing Touch, at no cost.
+
+> A slender wand that can deliver a paralyzing touch to a target.
 
 #### Ancient crown
 
@@ -3631,16 +3745,6 @@ Lets its bearer use Fire ward.
 
 > An antique compass that always points true north.
 
-#### Aquamarine
-
-*Adapted · treasure* · `item:aquamarine`
-
-- Worth: 250
-
-> A rare gemstone, cut and polished: aquamarine.
-
-*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
-
 #### Bell-teeth
 
 *Kyr · treasure* · `item:bell_teeth`
@@ -3648,36 +3752,6 @@ Lets its bearer use Fire ward.
 - Worth: 8
 
 > Teeth of old bronze, each the size of a fist and shaped like a small bell, prised out of a wheel of grey stone. Worth good money to a barge-master.
-
-#### Black diamond
-
-*Adapted · treasure* · `item:black_diamond`
-
-- Worth: 800
-
-> A very rare gemstone, cut and polished: black diamond.
-
-*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
-
-#### Black opal
-
-*Adapted · treasure* · `item:black_opal`
-
-- Worth: 2500
-
-> A legendary gemstone, cut and polished: black opal.
-
-*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
-
-#### Blue diamond
-
-*Adapted · treasure* · `item:blue_diamond`
-
-- Worth: 2500
-
-> A legendary gemstone, cut and polished: blue diamond.
-
-*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
 
 #### Broken crown
 
@@ -3743,16 +3817,6 @@ Lets its bearer use Fire ward.
 
 > A small statue made of bronze, depicting a forgotten deity.
 
-#### Carnelian
-
-*Adapted · treasure* · `item:carnelian`
-
-- Worth: 15
-
-> A common gemstone, cut and polished: carnelian.
-
-*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
-
 #### Celestial chart
 
 *Faithful · treasure* · `item:celestial_chart`
@@ -3768,26 +3832,6 @@ Lets its bearer use Fire ward.
 - Worth: 24
 
 > A garrison chapel's silver: a censer, a paten and a cup, black with tarnish.
-
-#### Chrysoberyl
-
-*Adapted · treasure* · `item:chrysoberyl`
-
-- Worth: 15
-
-> A common gemstone, cut and polished: chrysoberyl.
-
-*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
-
-#### Citrine
-
-*Adapted · treasure* · `item:citrine`
-
-- Worth: 15
-
-> A common gemstone, cut and polished: citrine.
-
-*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
 
 #### Cloth pouch
 
@@ -3820,16 +3864,6 @@ Lets its bearer use Fire ward.
 - Worth: 100
 
 > A small crystalline sphere that glimmers faintly in the light.
-
-#### Diamond
-
-*Adapted · treasure* · `item:diamond`
-
-- Worth: 2500
-
-> A legendary gemstone, cut and polished: diamond.
-
-*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
 
 #### Diamond eye
 
@@ -3887,16 +3921,6 @@ Lets its bearer use Fire ward.
 
 > A large tooth from a dragon, sharp and slightly curved.
 
-#### Emerald
-
-*Adapted · treasure* · `item:emerald`
-
-- Worth: 250
-
-> A rare gemstone, cut and polished: emerald.
-
-*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
-
 #### Eternal flame
 
 *Faithful · treasure* · `item:eternal_flame`
@@ -3937,36 +3961,6 @@ Lets its bearer use Fire ward.
 
 > A fragment of a fallen star, radiating a faint magical aura.
 
-#### Fire opal
-
-*Adapted · treasure* · `item:fire_opal`
-
-- Worth: 2500
-
-> A legendary gemstone, cut and polished: fire opal.
-
-*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
-
-#### Fluorite
-
-*Adapted · treasure* · `item:fluorite`
-
-- Worth: 15
-
-> A common gemstone, cut and polished: fluorite.
-
-*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
-
-#### Garnet
-
-*Adapted · treasure* · `item:garnet`
-
-- Worth: 60
-
-> An uncommon gemstone, cut and polished: garnet.
-
-*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
-
 #### Golden idol
 
 *Faithful · treasure* · `item:golden_idol`
@@ -3974,16 +3968,6 @@ Lets its bearer use Fire ward.
 - Worth: 400
 
 > A small idol made of pure gold, intricately crafted.
-
-#### Grandidierite
-
-*Adapted · treasure* · `item:grandidierite`
-
-- Worth: 800
-
-> A very rare gemstone, cut and polished: grandidierite.
-
-*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
 
 #### Grave rings
 
@@ -4001,16 +3985,6 @@ Lets its bearer use Fire ward.
 
 > A small hand mirror with a cracked glass surface.
 
-#### Hematite
-
-*Adapted · treasure* · `item:hematite`
-
-- Worth: 15
-
-> A common gemstone, cut and polished: hematite.
-
-*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
-
 #### Intelligent book
 
 *Faithful · treasure* · `item:intelligent_book`
@@ -4026,16 +4000,6 @@ Lets its bearer use Fire ward.
 - Worth: 2500
 
 > A painting that seems to change and shift when observed closely.
-
-#### Iolite
-
-*Adapted · treasure* · `item:iolite`
-
-- Worth: 15
-
-> A common gemstone, cut and polished: iolite.
-
-*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
 
 #### Iron figurine
 
@@ -4061,16 +4025,6 @@ Lets its bearer use Fire ward.
 
 > A simple iron torc, slightly bent and rusted.
 
-#### Jade
-
-*Adapted · treasure* · `item:jade`
-
-- Worth: 15
-
-> A common gemstone, cut and polished: jade.
-
-*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
-
 #### Jade idol
 
 *Kyr · treasure* · `item:jade_idol`
@@ -4078,16 +4032,6 @@ Lets its bearer use Fire ward.
 - Worth: 30
 
 > A squat idol of green jade with a hollow belly and an expression of polite disappointment.
-
-#### Jasper
-
-*Adapted · treasure* · `item:jasper`
-
-- Worth: 15
-
-> A common gemstone, cut and polished: jasper.
-
-*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
 
 #### Jeweled box
 
@@ -4153,16 +4097,6 @@ Lets its bearer use Fire ward.
 
 > A massive claw from a kraken, still dripping with seawater.
 
-#### Lapis lazuli
-
-*Adapted · treasure* · `item:lapis_lazuli`
-
-- Worth: 15
-
-> A common gemstone, cut and polished: lapis lazuli.
-
-*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
-
 #### Lensing crystal
 
 *Faithful · treasure* · `item:lensing_crystal`
@@ -4179,36 +4113,6 @@ Lets its bearer use Fire ward.
 
 > A lost tome containing forgotten knowledge and secrets.
 
-#### Malachite
-
-*Adapted · treasure* · `item:malachite`
-
-- Worth: 15
-
-> A common gemstone, cut and polished: malachite.
-
-*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
-
-#### Moonstone
-
-*Adapted · treasure* · `item:moonstone`
-
-- Worth: 15
-
-> A common gemstone, cut and polished: moonstone.
-
-*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
-
-#### Musgravite
-
-*Adapted · treasure* · `item:musgravite`
-
-- Worth: 800
-
-> A very rare gemstone, cut and polished: musgravite.
-
-*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
-
 #### Music box
 
 *Faithful · treasure* · `item:music_box`
@@ -4217,26 +4121,6 @@ Lets its bearer use Fire ward.
 
 > A beautifully crafted music box that plays a haunting melody.
 
-#### Obsidian
-
-*Adapted · treasure* · `item:obsidian`
-
-- Worth: 15
-
-> A common gemstone, cut and polished: obsidian.
-
-*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
-
-#### Onyx
-
-*Adapted · treasure* · `item:onyx`
-
-- Worth: 15
-
-> A common gemstone, cut and polished: onyx.
-
-*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
-
 #### Opalescent skull
 
 *Faithful · treasure* · `item:opalescent_skull`
@@ -4244,26 +4128,6 @@ Lets its bearer use Fire ward.
 - Worth: 2500
 
 > A skull made of opalescent material, shimmering with various colors.
-
-#### Painite
-
-*Adapted · treasure* · `item:painite`
-
-- Worth: 800
-
-> A very rare gemstone, cut and polished: painite.
-
-*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
-
-#### Peridot
-
-*Adapted · treasure* · `item:peridot`
-
-- Worth: 60
-
-> An uncommon gemstone, cut and polished: peridot.
-
-*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
 
 #### Philosophers stone
 
@@ -4289,46 +4153,6 @@ Lets its bearer use Fire ward.
 
 > A priceless painting by a renowned artist, its value immeasurable.
 
-#### Pyrite
-
-*Adapted · treasure* · `item:pyrite`
-
-- Worth: 15
-
-> A common gemstone, cut and polished: pyrite.
-
-*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
-
-#### Quartz
-
-*Adapted · treasure* · `item:quartz`
-
-- Worth: 15
-
-> A common gemstone, cut and polished: quartz.
-
-*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
-
-#### Red diamond
-
-*Adapted · treasure* · `item:red_diamond`
-
-- Worth: 800
-
-> A very rare gemstone, cut and polished: red diamond.
-
-*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
-
-#### Rose quartz
-
-*Adapted · treasure* · `item:rose_quartz`
-
-- Worth: 15
-
-> A common gemstone, cut and polished: rose quartz.
-
-*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
-
 #### Royal crown
 
 *Faithful · treasure* · `item:royal_crown`
@@ -4345,16 +4169,6 @@ Lets its bearer use Fire ward.
 
 > An ornate scepter once wielded by royalty, encrusted with jewels.
 
-#### Ruby
-
-*Adapted · treasure* · `item:ruby`
-
-- Worth: 250
-
-> A rare gemstone, cut and polished: ruby.
-
-*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
-
 #### Sacred idol
 
 *Faithful · treasure* · `item:sacred_idol`
@@ -4362,16 +4176,6 @@ Lets its bearer use Fire ward.
 - Worth: 3000
 
 > A sacred idol revered by an ancient civilization.
-
-#### Sapphire
-
-*Adapted · treasure* · `item:sapphire`
-
-- Worth: 250
-
-> A rare gemstone, cut and polished: sapphire.
-
-*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
 
 #### Simple ring
 
@@ -4389,16 +4193,6 @@ Lets its bearer use Fire ward.
 
 > A well-used smoking pipe made of clay, with a few chips and cracks.
 
-#### Smoky quartz
-
-*Adapted · treasure* · `item:smoky_quartz`
-
-- Worth: 15
-
-> A common gemstone, cut and polished: smoky quartz.
-
-*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
-
 #### Soul gem
 
 *Faithful · treasure* · `item:soul_gem`
@@ -4406,36 +4200,6 @@ Lets its bearer use Fire ward.
 - Worth: 1000
 
 > A gem that contains a trapped soul, pulsating with dark energy.
-
-#### Spinel
-
-*Adapted · treasure* · `item:spinel`
-
-- Worth: 60
-
-> An uncommon gemstone, cut and polished: spinel.
-
-*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
-
-#### Spinel red
-
-*Adapted · treasure* · `item:spinel_red`
-
-- Worth: 250
-
-> A rare gemstone, cut and polished: spinel red.
-
-*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
-
-#### Star ruby
-
-*Adapted · treasure* · `item:star_ruby`
-
-- Worth: 2500
-
-> A legendary gemstone, cut and polished: star ruby.
-
-*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
 
 #### Steel coin
 
@@ -4453,16 +4217,6 @@ Lets its bearer use Fire ward.
 
 > A simple steel torc, slightly bent and tarnished.
 
-#### Tanzanite
-
-*Adapted · treasure* · `item:tanzanite`
-
-- Worth: 250
-
-> A rare gemstone, cut and polished: tanzanite.
-
-*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
-
 #### Tattered map
 
 *Faithful · treasure* · `item:tattered_map`
@@ -4478,16 +4232,6 @@ Lets its bearer use Fire ward.
 - Worth: 15
 
 > A tattered tome with frayed pages and a broken spine.
-
-#### Tiger eye
-
-*Adapted · treasure* · `item:tiger_eye`
-
-- Worth: 15
-
-> A common gemstone, cut and polished: tiger eye.
-
-*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
 
 #### Tin lantern
 
@@ -4513,26 +4257,6 @@ Lets its bearer use Fire ward.
 
 > A sack of mixed coin and hack-silver: a season of the Toll.
 
-#### Topaz
-
-*Adapted · treasure* · `item:topaz`
-
-- Worth: 60
-
-> An uncommon gemstone, cut and polished: topaz.
-
-*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
-
-#### Tourmaline
-
-*Adapted · treasure* · `item:tourmaline`
-
-- Worth: 60
-
-> An uncommon gemstone, cut and polished: tourmaline.
-
-*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
-
 #### Triskelion amulet
 
 *Faithful · treasure* · `item:triskelion_amulet`
@@ -4540,16 +4264,6 @@ Lets its bearer use Fire ward.
 - Worth: 6
 
 > An amulet bearing a spiraling symbol with threefold symmetry, made of bronze.
-
-#### Turquoise
-
-*Adapted · treasure* · `item:turquoise`
-
-- Worth: 15
-
-> A common gemstone, cut and polished: turquoise.
-
-*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
 
 #### Unholy symbol
 
@@ -4606,16 +4320,6 @@ Lets its bearer use Fire ward.
 - Worth: 15
 
 > A small idol carved from wood, depicting a nature deity.
-
-#### Zircon
-
-*Adapted · treasure* · `item:zircon`
-
-- Worth: 60
-
-> An uncommon gemstone, cut and polished: zircon.
-
-*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
 
 #### Zodiac medallion
 
@@ -4960,6 +4664,595 @@ Lets its bearer use Fire ward.
 - Worth: 1
 
 > A small plant with delicate blue flowers and thin stems. Gathered where it grows.
+
+### Stones
+
+A stone found is cut or rough, of a size, and clear or clouded: a huge flawless one is worth three times one of middling size and good water, a tiny clouded one a quarter.
+
+#### Agate
+
+*Adapted · stone* · `item:agate`
+
+<img src="../../web/reader/paintings/gems/agate.webp" alt="" width="128">
+
+- Rank: common
+- Worth: 15
+
+> A common gemstone, cut and polished: agate.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Alexandrite
+
+*Adapted · stone* · `item:alexandrite`
+
+<img src="../../web/reader/paintings/gems/alexandrite.webp" alt="" width="128">
+
+- Rank: uncommon
+- Worth: 60
+
+> An uncommon gemstone, cut and polished: alexandrite.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Amethyst
+
+*Adapted · stone* · `item:amethyst`
+
+<img src="../../web/reader/paintings/gems/amethyst.webp" alt="" width="128">
+
+- Rank: uncommon
+- Worth: 60
+
+> An uncommon gemstone, cut and polished: amethyst.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Aquamarine
+
+*Adapted · stone* · `item:aquamarine`
+
+<img src="../../web/reader/paintings/gems/aquamarine.webp" alt="" width="128">
+
+- Rank: rare
+- Worth: 250
+
+> A rare gemstone, cut and polished: aquamarine.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Black diamond
+
+*Adapted · stone* · `item:black_diamond`
+
+<img src="../../web/reader/paintings/gems/black_diamond.webp" alt="" width="128">
+
+- Rank: very rare
+- Worth: 800
+
+> A very rare gemstone, cut and polished: black diamond.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Black opal
+
+*Adapted · stone* · `item:black_opal`
+
+<img src="../../web/reader/paintings/gems/black_opal.webp" alt="" width="128">
+
+- Rank: legendary
+- Worth: 2500
+
+> A legendary gemstone, cut and polished: black opal.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Blue diamond
+
+*Adapted · stone* · `item:blue_diamond`
+
+<img src="../../web/reader/paintings/gems/blue_diamond.webp" alt="" width="128">
+
+- Rank: legendary
+- Worth: 2500
+
+> A legendary gemstone, cut and polished: blue diamond.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Carnelian
+
+*Adapted · stone* · `item:carnelian`
+
+<img src="../../web/reader/paintings/gems/carnelian.webp" alt="" width="128">
+
+- Rank: common
+- Worth: 15
+
+> A common gemstone, cut and polished: carnelian.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Chrysoberyl
+
+*Adapted · stone* · `item:chrysoberyl`
+
+<img src="../../web/reader/paintings/gems/chrysoberyl.webp" alt="" width="128">
+
+- Rank: common
+- Worth: 15
+
+> A common gemstone, cut and polished: chrysoberyl.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Citrine
+
+*Adapted · stone* · `item:citrine`
+
+<img src="../../web/reader/paintings/gems/citrine.webp" alt="" width="128">
+
+- Rank: common
+- Worth: 15
+
+> A common gemstone, cut and polished: citrine.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Diamond
+
+*Adapted · stone* · `item:diamond`
+
+<img src="../../web/reader/paintings/gems/diamond.webp" alt="" width="128">
+
+- Rank: legendary
+- Worth: 2500
+
+> A legendary gemstone, cut and polished: diamond.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Emerald
+
+*Adapted · stone* · `item:emerald`
+
+<img src="../../web/reader/paintings/gems/emerald.webp" alt="" width="128">
+
+- Rank: rare
+- Worth: 250
+
+> A rare gemstone, cut and polished: emerald.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Fire opal
+
+*Adapted · stone* · `item:fire_opal`
+
+<img src="../../web/reader/paintings/gems/fire_opal.webp" alt="" width="128">
+
+- Rank: legendary
+- Worth: 2500
+
+> A legendary gemstone, cut and polished: fire opal.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Fluorite
+
+*Adapted · stone* · `item:fluorite`
+
+<img src="../../web/reader/paintings/gems/fluorite.webp" alt="" width="128">
+
+- Rank: common
+- Worth: 15
+
+> A common gemstone, cut and polished: fluorite.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Garnet
+
+*Adapted · stone* · `item:garnet`
+
+<img src="../../web/reader/paintings/gems/garnet.webp" alt="" width="128">
+
+- Rank: uncommon
+- Worth: 60
+
+> An uncommon gemstone, cut and polished: garnet.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Grandidierite
+
+*Adapted · stone* · `item:grandidierite`
+
+<img src="../../web/reader/paintings/gems/grandidierite.webp" alt="" width="128">
+
+- Rank: very rare
+- Worth: 800
+
+> A very rare gemstone, cut and polished: grandidierite.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Hematite
+
+*Adapted · stone* · `item:hematite`
+
+<img src="../../web/reader/paintings/gems/hematite.webp" alt="" width="128">
+
+- Rank: common
+- Worth: 15
+
+> A common gemstone, cut and polished: hematite.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Iolite
+
+*Adapted · stone* · `item:iolite`
+
+<img src="../../web/reader/paintings/gems/iolite.webp" alt="" width="128">
+
+- Rank: common
+- Worth: 15
+
+> A common gemstone, cut and polished: iolite.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Jade
+
+*Adapted · stone* · `item:jade`
+
+<img src="../../web/reader/paintings/gems/jade.webp" alt="" width="128">
+
+- Rank: common
+- Worth: 15
+
+> A common gemstone, cut and polished: jade.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Jasper
+
+*Adapted · stone* · `item:jasper`
+
+<img src="../../web/reader/paintings/gems/jasper.webp" alt="" width="128">
+
+- Rank: common
+- Worth: 15
+
+> A common gemstone, cut and polished: jasper.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Lapis lazuli
+
+*Adapted · stone* · `item:lapis_lazuli`
+
+<img src="../../web/reader/paintings/gems/lapis_lazuli.webp" alt="" width="128">
+
+- Rank: common
+- Worth: 15
+
+> A common gemstone, cut and polished: lapis lazuli.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Malachite
+
+*Adapted · stone* · `item:malachite`
+
+<img src="../../web/reader/paintings/gems/malachite.webp" alt="" width="128">
+
+- Rank: common
+- Worth: 15
+
+> A common gemstone, cut and polished: malachite.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Moonstone
+
+*Adapted · stone* · `item:moonstone`
+
+<img src="../../web/reader/paintings/gems/moonstone.webp" alt="" width="128">
+
+- Rank: common
+- Worth: 15
+
+> A common gemstone, cut and polished: moonstone.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Musgravite
+
+*Adapted · stone* · `item:musgravite`
+
+<img src="../../web/reader/paintings/gems/musgravite.webp" alt="" width="128">
+
+- Rank: very rare
+- Worth: 800
+
+> A very rare gemstone, cut and polished: musgravite.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Obsidian
+
+*Adapted · stone* · `item:obsidian`
+
+<img src="../../web/reader/paintings/gems/obsidian.webp" alt="" width="128">
+
+- Rank: common
+- Worth: 15
+
+> A common gemstone, cut and polished: obsidian.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Onyx
+
+*Adapted · stone* · `item:onyx`
+
+<img src="../../web/reader/paintings/gems/onyx.webp" alt="" width="128">
+
+- Rank: common
+- Worth: 15
+
+> A common gemstone, cut and polished: onyx.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Painite
+
+*Adapted · stone* · `item:painite`
+
+<img src="../../web/reader/paintings/gems/painite.webp" alt="" width="128">
+
+- Rank: very rare
+- Worth: 800
+
+> A very rare gemstone, cut and polished: painite.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Peridot
+
+*Adapted · stone* · `item:peridot`
+
+<img src="../../web/reader/paintings/gems/peridot.webp" alt="" width="128">
+
+- Rank: uncommon
+- Worth: 60
+
+> An uncommon gemstone, cut and polished: peridot.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Pyrite
+
+*Adapted · stone* · `item:pyrite`
+
+<img src="../../web/reader/paintings/gems/pyrite.webp" alt="" width="128">
+
+- Rank: common
+- Worth: 15
+
+> A common gemstone, cut and polished: pyrite.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Quartz
+
+*Adapted · stone* · `item:quartz`
+
+<img src="../../web/reader/paintings/gems/quartz.webp" alt="" width="128">
+
+- Rank: common
+- Worth: 15
+
+> A common gemstone, cut and polished: quartz.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Red diamond
+
+*Adapted · stone* · `item:red_diamond`
+
+<img src="../../web/reader/paintings/gems/red_diamond.webp" alt="" width="128">
+
+- Rank: very rare
+- Worth: 800
+
+> A very rare gemstone, cut and polished: red diamond.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Rose quartz
+
+*Adapted · stone* · `item:rose_quartz`
+
+<img src="../../web/reader/paintings/gems/rose_quartz.webp" alt="" width="128">
+
+- Rank: common
+- Worth: 15
+
+> A common gemstone, cut and polished: rose quartz.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Ruby
+
+*Adapted · stone* · `item:ruby`
+
+<img src="../../web/reader/paintings/gems/ruby.webp" alt="" width="128">
+
+- Rank: rare
+- Worth: 250
+
+> A rare gemstone, cut and polished: ruby.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Sapphire
+
+*Adapted · stone* · `item:sapphire`
+
+<img src="../../web/reader/paintings/gems/sapphire.webp" alt="" width="128">
+
+- Rank: rare
+- Worth: 250
+
+> A rare gemstone, cut and polished: sapphire.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Smoky quartz
+
+*Adapted · stone* · `item:smoky_quartz`
+
+<img src="../../web/reader/paintings/gems/smoky_quartz.webp" alt="" width="128">
+
+- Rank: common
+- Worth: 15
+
+> A common gemstone, cut and polished: smoky quartz.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Spinel
+
+*Adapted · stone* · `item:spinel`
+
+<img src="../../web/reader/paintings/gems/spinel.webp" alt="" width="128">
+
+- Rank: uncommon
+- Worth: 60
+
+> An uncommon gemstone, cut and polished: spinel.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Spinel red
+
+*Adapted · stone* · `item:spinel_red`
+
+<img src="../../web/reader/paintings/gems/spinel_red.webp" alt="" width="128">
+
+- Rank: rare
+- Worth: 250
+
+> A rare gemstone, cut and polished: spinel red.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Star ruby
+
+*Adapted · stone* · `item:star_ruby`
+
+<img src="../../web/reader/paintings/gems/star_ruby.webp" alt="" width="128">
+
+- Rank: legendary
+- Worth: 2500
+
+> A legendary gemstone, cut and polished: star ruby.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Tanzanite
+
+*Adapted · stone* · `item:tanzanite`
+
+<img src="../../web/reader/paintings/gems/tanzanite.webp" alt="" width="128">
+
+- Rank: rare
+- Worth: 250
+
+> A rare gemstone, cut and polished: tanzanite.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Tiger eye
+
+*Adapted · stone* · `item:tiger_eye`
+
+<img src="../../web/reader/paintings/gems/tiger_eye.webp" alt="" width="128">
+
+- Rank: common
+- Worth: 15
+
+> A common gemstone, cut and polished: tiger eye.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Topaz
+
+*Adapted · stone* · `item:topaz`
+
+<img src="../../web/reader/paintings/gems/topaz.webp" alt="" width="128">
+
+- Rank: uncommon
+- Worth: 60
+
+> An uncommon gemstone, cut and polished: topaz.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Tourmaline
+
+*Adapted · stone* · `item:tourmaline`
+
+<img src="../../web/reader/paintings/gems/tourmaline.webp" alt="" width="128">
+
+- Rank: uncommon
+- Worth: 60
+
+> An uncommon gemstone, cut and polished: tourmaline.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Turquoise
+
+*Adapted · stone* · `item:turquoise`
+
+<img src="../../web/reader/paintings/gems/turquoise.webp" alt="" width="128">
+
+- Rank: common
+- Worth: 15
+
+> A common gemstone, cut and polished: turquoise.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Zircon
+
+*Adapted · stone* · `item:zircon`
+
+<img src="../../web/reader/paintings/gems/zircon.webp" alt="" width="128">
+
+- Rank: uncommon
+- Worth: 60
+
+> An uncommon gemstone, cut and polished: zircon.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Zircon blue
+
+*Adapted · stone* · `item:zircon_blue`
+
+<img src="../../web/reader/paintings/gems/zircon_blue.webp" alt="" width="128">
+
+- Rank: uncommon
+- Worth: 60
+
+> An uncommon gemstone, cut and polished: blue zircon.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
 
 ## Combat
 

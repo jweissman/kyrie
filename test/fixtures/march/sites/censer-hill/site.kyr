@@ -99,7 +99,7 @@ Module censer_hill "Censer Hill" {
 
   Item ward_focus "the warder's copper focus" is warding_focus at workshop.
   Item line_cache "a surveyor's harness and pitons" is climbing_harness at stores.
-  Kind lantern_of_names "lantern of names" like lantern granting reading_the_dead described "A hooded lantern whose consecrated flame shows the names and markings the keepers wrote in light.".
+  Kind lantern_of_names "lantern of names" like lantern granting reading_the_dead worn as light described "A hooded lantern whose consecrated flame shows the names and markings the keepers wrote in light.".
   Item names_lantern "the lantern of names" is lantern_of_names at name_room.
   Item register_copy "the waxed refuge register" is burial_register at name_room.
 

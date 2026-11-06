@@ -9,7 +9,7 @@ export class TalkFocus {
   static readonly most = 3;
   // The kinds of act had of someone for coin or work (Choice.does, never the command's words).
   static readonly services = new Set(['take_lodging', 'take_lodging_guest', 'take_healing', 'work_keep', 'sing_supper',
-    'sell', 'sell_valuable', 'buy_goods', 'train_member', 'learn_skill', 'learn_spell', 'learn_reward']);
+    'sell', 'sell_valuable', 'sell_ware', 'buy_goods', 'train_member', 'learn_skill', 'learn_spell', 'learn_reward']);
   static of(replies: Choice[], at: { led?: string; heard?: string[]; asked: string[] }) {
     const answers = replies.filter(c => c.answer);
     const services = replies.filter(c => !c.answer && TalkFocus.service(c));

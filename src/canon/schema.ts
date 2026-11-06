@@ -181,6 +181,9 @@ export interface ItemKind {
   grants?: { ability?: string; skill?: string }; unsupported?: Omissions; source: Source;
   // What of the source a generated item leaves out, and why (a container's capacity: Kyr does not count it).
   omits?: Omissions;
+  // A stone's rank (data/catalog/items/gems.json): what one of it is worth, before its cut, size and clarity; and
+  // a thing's plate, where one is drawn (data/paintings/gems.json and gear.json: gems/<id>, gear/<id>).
+  rank?: string; portrait?: string;
 }
 export interface Domain {
   name: string; alignment: 'good' | 'neutral' | 'evil'; description?: string; spellDomain?: string;

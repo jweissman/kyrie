@@ -28,6 +28,12 @@ Module belongings "What the company carries" {
   // cold review of 1 November: a sale paid coin and experience at once, and one delve made money meaningless).
   Measure worth(itemkind). Measure dealerPays(itemkind). Relation buysValuables(group). Relation realized(item).
   Relation valuable(itemkind). Relation recovered(item).
+  // The trades that buy back what they sell, at half its worth (the item audit's G1: a blade or a wand brought up
+  // from below had no one to buy it): a smith arms and armour, a chandler gear and tools, a remedies shop what is
+  // drunk or eaten, a dealer in rare things the wonders. What kind of thing a kind is, Overlays.declareWorth says.
+  Kind tradeclass. Relation dealsIn(group, tradeclass). Relation tradeOf(itemkind, tradeclass).
+  Entity trade_arms: tradeclass "arms and armour". Entity trade_gear: tradeclass "gear and tools".
+  Entity trade_remedies: tradeclass "remedies". Entity trade_rare: tradeclass "rare things".
   // What a kind of thing weighs, where it says (a module's own kind, "weighing 2"); selm weighs less than nothing.
   Measure mass(itemkind).
   // What each member carries, and can carry (see Burden): a company with anyone carrying more is laden, and goes
@@ -234,6 +240,18 @@ Module belongings "What the company carries" {
     On success { Assert keeps(buyer, ware). Assert realized(ware). Decrease quantity(buyer, gold) by dealerPays(form).
       Increase quantity(actor, gold) by dealerPays(form). }
     Result "{buyer} turns {ware} over in the light, names a price, and counts out the coin.".
+  }
+  Action sell_ware(actor: group, ware: item, form: itemkind, carrier: member, buyer: group, trade: tradeclass, site: place) "Sell {ware} to {buyer}" {
+    Time 3 minutes.
+    Description "Someone of the trade buys back what they deal in, at half what it is worth, if they have the coin.".
+    Requires able(actor) and at(actor, site) and able(buyer) and at(buyer, site) and distinct(actor, buyer)
+      and memberOf(carrier, actor) and awake(carrier) and ownedItem(ware, carrier) and itemKind(ware, form)
+      and dealsIn(buyer, trade) and tradeOf(form, trade) and not valuable(form) and dealerPays(form) >= 1
+      and pays(buyer, form) < 1 and quantity(buyer, gold) >= dealerPays(form) and not refusesService(buyer, actor).
+    Resolve realize(ware, carrier, actor).
+    On success { Assert keeps(buyer, ware). Assert realized(ware). Decrease quantity(buyer, gold) by dealerPays(form).
+      Increase quantity(actor, gold) by dealerPays(form). }
+    Result "{buyer} looks {ware} over, names a price, and counts out the coin.".
   }
   // A dealer without the coin for a treasure still says what it is worth, and whether to wait or go elsewhere.
   Action appraise(actor: group, ware: item, form: itemkind, carrier: member, buyer: group, site: place) "Show {ware} to {buyer}" {

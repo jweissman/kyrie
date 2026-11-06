@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Cuts the portraits of animals and monsters, and the plates of plants, out of the matrices in assets/animals,
-assets/monsters and assets/plants (see data/paintings/animals.json, monsters.json and plants.json).
+assets/monsters, assets/plants, assets/gems and assets/gear (see data/paintings/animals.json, monsters.json,
+plants.json, gems.json and gear.json).
 
-  python3 scripts/animal-portraits.py [animals|monsters|plants]
+  python3 scripts/animal-portraits.py [animals|monsters|plants|gems|gear]
 
 Each sheet is three by three paintings in gold frames, a kind to a cell in the order the manifest gives. A cell's
 opening is found by its frame as the portraits of player characters are (scripts/pc-portraits.py); the whole opening
@@ -12,7 +13,8 @@ its box is written back to the manifest. Needs Pillow. A development aid only: t
 manifest, never the sheets.
 """
 import importlib.util, json, os, sys
-from PIL import Image
+from collections import deque
+from PIL import Image, ImageChops, ImageFilter, ImageStat
 
 ROOT = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
 SET = sys.argv[1] if len(sys.argv) > 1 else 'animals'
@@ -63,8 +65,8 @@ def mend(img):
     return img
 
 
-# Sheets of plates with no frames (the botanical sheets): each a third of the sheet each way.
-PLATES = {'plants'}
+# Sheets of plates with no frames (the botanical, gemstone and gear sheets): each a third of the sheet each way.
+PLATES = {'plants', 'gems', 'gear'}
 
 
 def gutters(image, axis):
@@ -89,6 +91,62 @@ def square(cut):
     return out
 
 
+# Sheets whose things are cut out of their cells, not cut whole (the gear sheets: a crowbar's tip or a cloak's hem
+# crosses into the next cell, and some sheets are ruled): the thing alone, on a square of its own parchment.
+ISOLATED = {'gear'}
+# How far a pixel's colour is from the parchment's to be of the thing, and the scale its pieces are found at.
+INK, SCALE = 34, 4
+
+
+def isolate(cell):
+    """The thing a cell shows: where the cell differs from its parchment, thin rules and specks opened away, the pieces
+    near together joined, and of those the one with most of the thing near the middle kept (not a neighbour's sliver at
+    the edge); laid with a soft edge on a square of the parchment's own colour, centred, with a margin."""
+    w, h = cell.size
+    # The parchment is what the cell's edges mostly are (a thing filling its cell is most of the cell).
+    band = Image.new('L', cell.size, 0)
+    band.paste(255, (0, 0, w, 14)); band.paste(255, (0, h - 14, w, h))
+    band.paste(255, (0, 0, 14, h)); band.paste(255, (w - 14, 0, w, h))
+    paper = tuple(int(v) for v in ImageStat.Stat(cell, band).median)
+    diff = ImageChops.difference(cell, Image.new('RGB', cell.size, paper)).convert('L')
+    ink = diff.point(lambda v: 255 if v > INK else 0).filter(ImageFilter.MinFilter(5)).filter(ImageFilter.MaxFilter(5))
+    small = ink.resize((w // SCALE, h // SCALE), Image.BOX).point(lambda v: 255 if v > 40 else 0)
+    joined = small.filter(ImageFilter.MaxFilter(5))
+    sw, sh = small.size
+    px, seen, best = joined.load(), set(), None
+    for y in range(sh):
+        for x in range(sw):
+            if px[x, y] and (x, y) not in seen:
+                piece, todo = [], deque([(x, y)])
+                seen.add((x, y))
+                while todo:
+                    a, b = todo.popleft()
+                    piece.append((a, b))
+                    for c, d in ((a + 1, b), (a - 1, b), (a, b + 1), (a, b - 1)):
+                        if 0 <= c < sw and 0 <= d < sh and px[c, d] and (c, d) not in seen:
+                            seen.add((c, d))
+                            todo.append((c, d))
+                # Its weight: how much of it there is, less the further its middle is from the cell's.
+                mx, my = sum(p[0] for p in piece) / len(piece), sum(p[1] for p in piece) / len(piece)
+                off = ((mx - sw / 2) ** 2 + (my - sh / 2) ** 2) ** 0.5 / (min(sw, sh) / 2)
+                weight = len(piece) * max(0.05, 1 - off)
+                if not best or weight > best[0]:
+                    best = (weight, piece)
+    keep = Image.new('L', small.size, 0)
+    kp = keep.load()
+    for a, b in best[1] if best else []:
+        kp[a, b] = 255
+    keep = ImageChops.multiply(keep.resize(cell.size, Image.NEAREST).filter(ImageFilter.MaxFilter(9)),
+                               ink.filter(ImageFilter.MaxFilter(15)))
+    box = keep.getbbox() or (0, 0, w, h)
+    soft = keep.filter(ImageFilter.GaussianBlur(6))
+    side = int(max(box[2] - box[0], box[3] - box[1]) * 1.12)
+    out = Image.new('RGB', (side, side), paper)
+    at = ((side - (box[2] - box[0])) // 2, (side - (box[3] - box[1])) // 2)
+    out.paste(cell.crop(box), at, soft.crop(box))
+    return out
+
+
 def write(p, cut):
     for key, size in SIZES.items():
         path = os.path.join(OUT, p[key])
@@ -110,8 +168,12 @@ def main():
             cols, rows = gutters(image, 0), gutters(image, 1)
             r, c = p['cell']
             x0, x1, y0, y1 = cols[c], cols[c + 1], rows[r], rows[r + 1]
+            # A plate whose neighbour reaches over the gutter says how much of its cell to leave off (trim: of the
+            # cell's height, from the bottom: the chain's, by the hem of the cloak below it).
+            y1 -= int((y1 - y0) * p.get('trim', 0))
             p['crop'] = [x0, y0, x1, y1]
-            write(p, square(image.crop((x0, y0, x1, y1))))
+            cut = image.crop((x0, y0, x1, y1))
+            write(p, isolate(cut) if SET in ISOLATED else square(cut))
             continue
         x0, y0, x1, y1 = cells[tuple(p['cell'])]
         # A cell whose frame comes further in (the discerner's gilt corner) says how far in its own square sits.

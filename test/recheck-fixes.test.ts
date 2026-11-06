@@ -59,12 +59,12 @@ describe('rows the recheck found still open', () => {
   Place sea "the sea" is region. Place ship "the ship" is site within sea.
   Place top "the upper deck" is level within ship outdoors. Place bow "the bow" is room within top.
   Place hold "the hold" is level within ship. Place bilge "the bilge" is room within hold.
+  Place book "the book" is wilderness within sea elsewhere. Place leaf "a leaf of it" is room within book.
   Company party "You" of 1 at bow.
   Goal false.
 }`);
-    const w = s.campaign.world;
-    expect([w.test(ModuleWriter.call('indoors', 'p__bow')), w.test(ModuleWriter.call('indoors', 'p__bilge'))])
-      .toEqual([false, true]);
+    const w = s.campaign.world, inside = (p: string) => w.test(ModuleWriter.call('indoors', `p__${p}`));
+    expect(['bow', 'bilge', 'leaf'].map(inside)).toEqual([false, true, false]);
   }, 60000);
   // ARV-M8: a failure of the generation setting had become a scenario quietly left out of the world; only nothing
   // fitting is no choice.

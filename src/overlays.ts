@@ -4,6 +4,8 @@ import { ItemCatalog } from './item-catalog';
 import { ItemTraits } from './campaign/item-traits';
 import type { Attribute, Creature } from './creature';
 import type { Instance } from './lang/module';
+import { ModuleWriter } from './lang/module-writer';
+import type { ItemKind } from './canon/schema';
 
 export interface Overlay {
   role: 'background' | 'profession'; name: string;
@@ -110,22 +112,38 @@ export class Overlays {
     return this.contributions(c).filter(x => x.kind === 'skill').map(x => x.value);
   }
   // Gear exists in the world as item entities so that rules can see who holds what.
-  // What each kind of treasure a module knows of is worth (its catalog value), so that whoever deals in valuables
-  // will pay it: set once, by the module that first names the kind.
+  // What each kind of thing a module knows of is worth (its catalog value), so that whoever deals in it will pay:
+  // set once, by the module that first names the kind. A treasure is any dealer's in valuables; anything else is
+  // the trade's that sells its like (data/rules/belongings.kyr, sell_ware), and a wonder the dealer's in rare things.
   static declareWorth(instance: Instance) {
-    const module = instance.module;
-    if (!module.measures.some(m => m.name === 'worth')) { return; }
+    const module = instance.module, measured = new Set(module.measures.map(m => m.name)), set = Overlays.set;
+    if (!measured.has('worth')) { return; }
+    // A trade by whatever name the rules were installed under (rules__trade_arms), under each if more than once.
+    const classes = module.entities.filter(x => x.type === 'tradeclass').map(x => x.id);
+    const traded = module.relations.some(r => r.name === 'tradeOf') && classes.length > 0;
     for (const e of module.entities.filter(x => x.type === 'itemkind')) {
-      const item = Canon.items[e.id];
-      if (item?.category !== 'treasure' || !item.value) { continue; }
-      module.initial.push({ kind: 'set', call: { kind: 'call', name: 'worth', args: [e.id] },
-        value: { kind: 'number', value: item.value } },
-      { kind: 'assert', call: { kind: 'call', name: 'valuable', args: [e.id] } },
-      // What a dealer pays: half its worth, at least one.
-      ...module.measures.some(m => m.name === 'dealerPays') ? [{ kind: 'set' as const,
-        call: { kind: 'call' as const, name: 'dealerPays', args: [e.id] },
-        value: { kind: 'number' as const, value: Math.max(1, Math.floor(item.value / 2)) } }] : []);
+      const item = Canon.items[e.id], trades = item?.category === 'treasure' ? [] : this.trades(e.id, item);
+      if (!item?.value || item.category !== 'treasure' && !(traded && trades.length)) { continue; }
+      module.initial.push(set('worth', e.id, item.value),
+        ...item.category === 'treasure' ? [{ kind: 'assert' as const, call: ModuleWriter.call('valuable', e.id) }] : [],
+        ...classes.filter(c => trades.some(t => c === t || c.endsWith(`__${t}`)))
+          .map(t => ({ kind: 'assert' as const, call: ModuleWriter.call('tradeOf', e.id, t) })),
+        // What a dealer pays: half its worth, at least one.
+        ...measured.has('dealerPays') ? [set('dealerPays', e.id, Math.max(1, Math.floor(item.value / 2)))] : []);
     }
+  }
+  private static set(name: string, id: string, value: number) {
+    return { kind: 'set' as const, call: ModuleWriter.call(name, id), value: { kind: 'number' as const, value } };
+  }
+  // The trades that buy a kind of thing back: what it is, and a wonder (data/catalog/items/wonders.json) the dealer's
+  // in rare things besides. What a body fights with is no one's to buy.
+  static trades(id: string, item?: ItemKind): string[] {
+    if (!item || item.weapon?.natural) { return []; }
+    const by: Record<string, string> = { weapon: 'trade_arms', armor: 'trade_arms', gear: 'trade_gear',
+      tool: 'trade_gear', equipment: 'trade_gear', consumable: 'trade_remedies' }, wonder = Canon.wonders.has(id);
+    // A magic sword is a smith's to buy as well; a ring or a wand only the rare dealer's.
+    const own = wonder && ['equipment', 'consumable'].includes(item.category) ? undefined : by[item.category];
+    return [...own ? [own] : [], ...wonder ? ['trade_rare'] : []];
   }
   static declareGear(instance: Instance) {
     const module = instance.module;

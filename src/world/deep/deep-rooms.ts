@@ -9,6 +9,7 @@ import type { DeepContent, DeepDwellers } from './deep-pacing';
 import type { DeepPurpose } from './deep-purposes';
 import { Counted } from '../../presentation/counted';
 import { KyrTemplates } from '../kyr-template';
+import { Stones } from './stones';
 
 interface Riddle { question: string; answer: string; kind: string }
 
@@ -38,6 +39,8 @@ export class DeepRooms {
       ...c.riddle ? this.casket(r.id, { difficulty: c.riddle, purpose: at.purpose }) : [],
       ...c.wonder ? this.wonder(c.wonder, r.id) : [],
       ...(c.treasure?.items ?? []).map((kind, n) => `  Item ${r.id}_find${n} ${this.q(this.called(kind, at.purpose))} is ${kind} at ${r.id}.`),
+      ...(c.treasure?.stones ?? []).flatMap((g, n) => [`  Kind ${r.id}_stone${n} ${this.q(g.name)} like ${g.type}`
+        + ` worth ${g.worth} described ${this.q(g.text)}.`, `  Item ${r.id}_gem${n} ${this.q(g.name)} is ${r.id}_stone${n} at ${r.id}.`]),
       ...c.treasure?.coin && ['treasure', 'elite', 'special', 'mob'].includes(c.guide) ? this.coins(r.id, c.treasure.coin) : [],
       ...c.special ? this.camp(r.id, { level: r.level, purpose: at.purpose, first: at.first === r.id }) : [],
       ...c.special ? this.left(r.id) : []];
@@ -79,8 +82,7 @@ export class DeepRooms {
     if (!pool.length) { return []; }
     const riddle = draw.pick(pool), wrong = draw.shuffle(this.answers[riddle.kind]!
       .filter(a => a.toLowerCase() !== riddle.answer.toLowerCase())).slice(0, 3);
-    const tiers = (world as unknown as { dungeon: { treasure: Record<string, string[]> } }).dungeon.treasure;
-    const tier = at.purpose.finds?.[this.paid[difficulty]!] ?? tiers[this.paid[difficulty]!] ?? [];
+    const tier = at.purpose.finds?.[this.paid[difficulty]!] ?? Stones.tiers[this.paid[difficulty]!] ?? [];
     const own = (at.purpose.valuables?.[this.paid[difficulty]!] ?? []).map(v => v.id);
     const reward = own.length && draw.next() < 0.6 ? draw.pick(own) : tier.length ? draw.pick(tier) : undefined;
     return [...this.section('casket', { id, room, breath: this.breath[difficulty]!, question: riddle.question,
