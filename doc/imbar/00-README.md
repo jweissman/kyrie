@@ -44,7 +44,7 @@ file with 1-space indent, matching the file's existing style, which should minim
 
 | Check | Result |
 |---|---|
-| `bin/kyrie lint` (every recommended campaign) | 0 errors; the only new advice are none; Quittance's 9 `unbound` warnings predate this branch (verified identical at `fb24f94`) |
+| `bin/kyrie lint` (every recommended campaign) | 0 errors. Warnings remain in four campaigns this branch does not touch (Quittance 9, The Book of Faces 3, The Liberty of the Ice 1, Thrume 1); Quittance's 9 were counted identical at `fb24f94` in a clean worktree, the others I did not re-baseline |
 | `eslint . --max-warnings=0` and `tsc --noEmit` (both configs) | clean after fixing three style errors in my own files |
 | The seven new tests | pass |
 | Regression: `the-long-man`, `skeel`, `skeel-placed`, `low-water`, `low-water-placed`, `merrow-to-ammerlin`, `frontier`, `goings-on`, `countries`, `world-assembly`, `hollins`, `the-grand-tour`, `the-grand-tour-outcomes` | pass (42 + 16 + 54 tests across the three batches) |
