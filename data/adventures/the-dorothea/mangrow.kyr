@@ -42,7 +42,7 @@ Module dorothea "The Dorothea" {
     Likeness "sailor".
     Greets "A woman as thin and dark as a pole leans on the pier's last good bollard, a cheroot unlit in one hand and a slapping-cloth in the other. 'Sula Weir. I pole the creek. You will have come about the Agent, or the bark, or because Bascom said it was an adventure.' She slaps her neck and looks at the palm. 'Three coin and I take you up it. Walk and you pay the cane instead.'".
   }
-  Person vail "Ennis Vail" at mangrow_hide {
+  Person ennis_vail "Ennis Vail" at mangrow_hide {
     Role "naturalist, struck off the rolls of the Collegium of Measures, and counting". Ancestry human. Level 2. Peaceable. Pronouns he. Manner stoic.
     Likeness "scholar".
     Greets "A man so brown and so thin that he seems made of the same stuff as the hide stands up from the trestle with a pin in his teeth and does not take it out until he has put the moth down. 'Vail,' he says. 'You are not the Collegium. The Collegium would have sent a boat with a flag. You are not the House either, because the House has sent nothing for eleven months, and I have a very good ear for the absence of the House.'".
@@ -133,26 +133,26 @@ Module dorothea "The Dorothea" {
   }
 
   // ── Vail and his count ──────────────────────────────────────────────────────────────────────────────────────────
-  Topic vail_count with vail "Ask Ennis Vail what he is counting" when true once {
+  Topic vail_count with ennis_vail "Ask Ennis Vail what he is counting" when true once {
     Says "'Moths,' says Vail, and the word comes out like a thing he has been saving. 'Twelve hundred and four kinds on this river, in six years, of which the Collegium would grant me eight hundred, and has struck the whole table out of the Tables on the ground that a man cannot see so many in a place so small.' He lays a pin down very straight. 'I have the pins. They can come and look at the pins.' He glances at the hammock behind the cloth. 'I count the Agent too. Sixty-one days since he last sat up. He is a man who sits up when he is ashamed.'".
     On discuss { Assert vailTrusts(actor). }
   }
-  Topic vail_bark with vail "Ask Ennis Vail what cures the river fever" when true once {
+  Topic vail_bark with ennis_vail "Ask Ennis Vail what cures the river fever" when true once {
     Says "'The bark of the white fig-leaf. It weeps red where it is cut. A pinch in a pannikin, and the river lets go.' He waves at the hide. 'I take a cup a day. Perrin takes what I can keep in him. The House bought every bale on this coast two seasons running and shut them in a stone room. I would call it hoarding, but the House would call it a position.'".
   }
   Topic quint_vail with quint "Ask Odile Quint whether she knows Ennis Vail" when at(actor, mangrow_hide) once {
     Says "Quint has been standing very straight since you climbed the ladder. 'Ennis Vail,' she says, and then, to him, in a different voice: 'You wrote the note on the unequal wings. You said a measure that cannot be repeated is a rumour. I put it on the wall of my room at Sennet.' Vail takes the pin out of his teeth. 'It was wrong,' he says. 'It was a rumour.' 'It was the best thing in the Tables,' says Quint. He sits down on the trestle rather quickly. When he has found his voice again he is making a pannikin of the bark for the whole company without being asked.".
     On discuss { Assert vailTrusts(actor). Assert barked(actor). Set swelter(actor) to 0. Set barkEnds(actor) to watch(clock) + 90. }
   }
-  Topic vail_tea with vail "Ask Ennis Vail for a pannikin of the bark for the company" when vailTrusts(actor) and not barked(actor) once {
+  Topic vail_tea with ennis_vail "Ask Ennis Vail for a pannikin of the bark for the company" when vailTrusts(actor) and not barked(actor) once {
     Says "'You have asked about the moths,' says Vail. 'Nobody does. It is the price.' He puts the kettle on. 'Drink it all. It will do your tongue a permanent injury and the river will leave you alone for most of a day.'".
     On discuss { Assert barked(actor). Set swelter(actor) to 0. Set barkEnds(actor) to watch(clock) + 90. }
   }
   Action pay_vail(actor: group, site: place) "Pay Ennis Vail four coin for a pannikin of the bark and an hour of his ear" {
     Description "He is a man of principle. His principle is that he has not been paid for six years.".
-    Requires able(actor) and company(actor) and at(actor, site) and at(vail, site) and not vailTrusts(actor) and quantity(actor, gold) >= 4.
+    Requires able(actor) and company(actor) and at(actor, site) and at(ennis_vail, site) and not vailTrusts(actor) and quantity(actor, gold) >= 4.
     Time 2.
-    On success { Decrease quantity(actor, gold) by 4. Increase quantity(vail, gold) by 4. Assert vailTrusts(actor). Assert barked(actor). Set swelter(actor) to 0. Set barkEnds(actor) to watch(clock) + 90. }
+    On success { Decrease quantity(actor, gold) by 4. Increase quantity(ennis_vail, gold) by 4. Assert vailTrusts(actor). Assert barked(actor). Set swelter(actor) to 0. Set barkEnds(actor) to watch(clock) + 90. }
     Result "He looks at the coin as at a moth he has not seen before. 'It is not enough,' he says, 'and it is the most anyone has given me since I wrote to the Collegium.' He puts it in a packet and labels it. The pannikin, when it comes, is bitter beyond the language.".
   }
 

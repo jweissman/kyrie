@@ -1,18 +1,144 @@
 {
-  "factorFolk": { "discriminator": "terrain", "groups": {
-    "forest": ["human", "half_elf", { "__weight": 2, "__value": "elf" }],
-    "mountain": ["human", { "__weight": 2, "__value": "dwarf" }, "gnome"],
-    "marsh": ["human", "half_elf", "gnome"],
-    "frost": ["human", "dwarf"],
-    "desert": ["human", "half_elf"],
-    "default": ["human", "half_elf", "dwarf", "gnome"]
-  } },
-  "carterFolk": { "discriminator": "terrain", "groups": {
-    "forest": ["human", "half_orc"],
-    "mountain": ["human", "dwarf", "half_orc"],
-    "marsh": ["human", "half_orc"],
-    "frost": ["human", "half_orc"],
-    "desert": ["human", "half_orc"],
-    "default": ["human", "half_orc"]
-  } }
+ "factorFolk": {
+  "discriminator": "terrain",
+  "groups": {
+   "forest": [
+    "human",
+    "half_elf",
+    {
+     "__weight": 2,
+     "__value": "elf"
+    }
+   ],
+   "mountain": [
+    "human",
+    {
+     "__weight": 2,
+     "__value": "dwarf"
+    },
+    "gnome"
+   ],
+   "marsh": [
+    "human",
+    "half_elf",
+    "gnome"
+   ],
+   "frost": [
+    "human",
+    "dwarf"
+   ],
+   "desert": [
+    "human",
+    "half_elf"
+   ],
+   "default": [
+    "human",
+    "half_elf",
+    "dwarf",
+    "gnome"
+   ]
+  }
+ },
+ "carterFolk": {
+  "discriminator": "terrain",
+  "groups": {
+   "forest": [
+    "human",
+    "half_orc"
+   ],
+   "mountain": [
+    "human",
+    "dwarf",
+    "half_orc"
+   ],
+   "marsh": [
+    "human",
+    "half_orc"
+   ],
+   "frost": [
+    "human",
+    "half_orc"
+   ],
+   "desert": [
+    "human",
+    "half_orc"
+   ],
+   "default": [
+    "human",
+    "half_orc"
+   ]
+  }
+ },
+ "lieutenantFolk": {
+  "discriminator": "terrain",
+  "groups": {
+   "forest": [
+    "human",
+    "half_elf",
+    {
+     "__weight": 2,
+     "__value": "elf"
+    },
+    "half_orc"
+   ],
+   "mountain": [
+    "human",
+    "dwarf",
+    {
+     "__weight": 2,
+     "__value": "half_orc"
+    }
+   ],
+   "marsh": [
+    "human",
+    "half_orc",
+    "gnome"
+   ],
+   "frost": [
+    "human",
+    "dwarf",
+    "half_orc"
+   ],
+   "desert": [
+    "human",
+    "half_elf",
+    "half_orc"
+   ],
+   "default": [
+    "human",
+    "half_elf",
+    "half_orc",
+    "dwarf"
+   ]
+  }
+ },
+ "principalFolk": {
+  "discriminator": "terrain",
+  "groups": {
+   "forest": [
+    "human",
+    "half_elf"
+   ],
+   "mountain": [
+    "human",
+    "dwarf"
+   ],
+   "marsh": [
+    "human",
+    "half_elf"
+   ],
+   "frost": [
+    "human",
+    "dwarf"
+   ],
+   "desert": [
+    "human",
+    "half_elf"
+   ],
+   "default": [
+    "human",
+    "half_elf"
+   ]
+  }
+ }
 }

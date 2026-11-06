@@ -1,6 +1,9 @@
 {
   "version": 1,
-  "source": "situation.kyr",
+  "source": [
+    "situation.kyr",
+    "ring.kyr"
+  ],
   "rules": [
     "world"
   ],
@@ -33,7 +36,15 @@
     "carter": "carter",
     "south_road": "south_road",
     "rumour": "rumour",
-    "ring": "hands"
+    "ring": "hands",
+    "lieutenant": "lieutenant",
+    "principal": "principal",
+    "abroad": "abroad",
+    "ledger_read": "ledger_read",
+    "lieutenant_named": "lieutenant_named",
+    "principal_traced": "principal_traced",
+    "seal_seen": "seal_seen",
+    "waybill_read": "waybill_read"
   },
   "experience": 300
 }

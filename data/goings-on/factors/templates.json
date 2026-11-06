@@ -1,19 +1,140 @@
 {
-  "factors": {
-    "__no_id": true,
-    "terrain": "forest",
-    "name": "The factor who buys old bronze",
-    "creatures": [],
-    "actors": { "order": [] },
-    "casting": "=gen(factors_casting)",
-    "initial": "=concat(gen(factors_run), gen(factors_stock), gen(factors_muscle))",
-    "outcomes": [{ "id": "sent", "predicate": "carterGone(carter)" }]
+ "factors": {
+  "__no_id": true,
+  "terrain": "forest",
+  "name": "The factor who buys old bronze",
+  "creatures": [],
+  "actors": {
+   "order": []
   },
-  "factors_casting": { "__no_id": true, "factor": "=gen(factors_factor)", "carter": "=gen(factors_carter)", "hands": "=gen(factors_hands)" },
-  "factors_factor": { "__no_id": true, "_folk": "=lookup(factorFolk, #terrain)", "_drawn": "=lookup(townsfolkName, #_folk)", ">name": "=defined('taken') ? apart(#_drawn, #taken, #_folk, 'factors_factor') : #_drawn", "raceId": "=#_folk" },
-  "factors_carter": { "__no_id": true, "_folk": "=lookup(carterFolk, #terrain)", "_drawn": "=lookup(townsfolkName, #_folk)", ">name": "=defined('taken') ? apart(#_drawn, #taken, #_folk, 'factors_carter') : #_drawn", "raceId": "=#_folk" },
-  "factors_hands": { "__no_id": true, "raceId": "=lookup(carterFolk, #terrain)", "count": "=2 + 1d3" },
-  "factors_run": { "__no_id": true, ">name": "run", "args": ["factor"], "value": "=144 * (2 + 1d3)" },
-  "factors_muscle": { "__no_id": true, ">name": "muscle", "args": ["hands"], "value": "=2 + 1d3" },
-  "factors_stock": { "__no_id": true, ">name": "stock", "args": ["factor"], "value": "=2d6" }
+  "casting": "=gen(factors_casting)",
+  "initial": "=concat(gen(factors_run), gen(factors_stock), gen(factors_muscle), gen(factors_stay), gen(factors_away), gen(factors_temper), gen(factors_secret), gen(factors_nerve))",
+  "outcomes": [
+   {
+    "id": "sent",
+    "predicate": "carterGone(carter)"
+   }
+  ]
+ },
+ "factors_casting": {
+  "__no_id": true,
+  "factor": "=gen(factors_factor)",
+  "carter": "=gen(factors_carter)",
+  "hands": "=gen(factors_hands)",
+  "cell": "=gen(factors_cell)",
+  "lieutenant": "=gen(factors_lieutenant)",
+  "principal": "=gen(factors_principal)",
+  "bravos": "=gen(factors_bravos)"
+ },
+ "factors_factor": {
+  "__no_id": true,
+  "_folk": "=lookup(factorFolk, #terrain)",
+  "_drawn": "=lookup(townsfolkName, #_folk)",
+  ">name": "=defined('taken') ? apart(#_drawn, #taken, #_folk, 'factors_factor') : #_drawn",
+  "raceId": "=#_folk"
+ },
+ "factors_carter": {
+  "__no_id": true,
+  "_folk": "=lookup(carterFolk, #terrain)",
+  "_drawn": "=lookup(townsfolkName, #_folk)",
+  ">name": "=defined('taken') ? apart(#_drawn, #taken, #_folk, 'factors_carter') : #_drawn",
+  "raceId": "=#_folk"
+ },
+ "factors_hands": {
+  "__no_id": true,
+  "raceId": "=lookup(carterFolk, #terrain)",
+  "count": "=2 + 1d3"
+ },
+ "factors_run": {
+  "__no_id": true,
+  ">name": "run",
+  "args": [
+   "factor"
+  ],
+  "value": "=144 * (2 + 1d3)"
+ },
+ "factors_muscle": {
+  "__no_id": true,
+  ">name": "muscle",
+  "args": [
+   "hands"
+  ],
+  "value": "=2 + 1d3"
+ },
+ "factors_stock": {
+  "__no_id": true,
+  ">name": "stock",
+  "args": [
+   "factor"
+  ],
+  "value": "=2d6"
+ },
+ "factors_lieutenant": {
+  "__no_id": true,
+  "_folk": "=lookup(lieutenantFolk, #terrain)",
+  "_drawn": "=lookup(townsfolkName, #_folk)",
+  ">name": "=defined('taken') ? apart(#_drawn, #taken, #_folk, 'factors_lieutenant') : #_drawn",
+  "raceId": "=#_folk",
+  "level": "=3 + 1d2"
+ },
+ "factors_principal": {
+  "__no_id": true,
+  "_folk": "=lookup(principalFolk, #terrain)",
+  "_drawn": "=lookup(townsfolkName, #_folk)",
+  ">name": "=defined('taken') ? apart(#_drawn, #taken, #_folk, 'factors_principal') : #_drawn",
+  "raceId": "=#_folk",
+  "level": "=4 + 1d2"
+ },
+ "factors_cell": {
+  "__no_id": true,
+  "raceId": "=lookup(carterFolk, #terrain)",
+  "count": "=2 + 1d2",
+  "level": "=1d3"
+ },
+ "factors_bravos": {
+  "__no_id": true,
+  "raceId": "=lookup(carterFolk, #terrain)",
+  "count": "=2 + 1d2",
+  "level": "=2 + 1d2"
+ },
+ "factors_stay": {
+  "__no_id": true,
+  ">name": "stay",
+  "args": [
+   "principal"
+  ],
+  "value": "=144 * (1 + 1d2)"
+ },
+ "factors_away": {
+  "__no_id": true,
+  ">name": "away",
+  "args": [
+   "principal"
+  ],
+  "value": "=144 * (2 + 1d3)"
+ },
+ "factors_temper": {
+  "__no_id": true,
+  ">name": "temper",
+  "args": [
+   "lieutenant"
+  ],
+  "value": "=1d3"
+ },
+ "factors_secret": {
+  "__no_id": true,
+  ">name": "secret",
+  "args": [
+   "lieutenant"
+  ],
+  "value": "=1d3"
+ },
+ "factors_nerve": {
+  "__no_id": true,
+  ">name": "nerve",
+  "args": [
+   "principal"
+  ],
+  "value": "=1d3"
+ }
 }

@@ -1,0 +1,267 @@
+Module factors "The factor who buys old bronze" {
+  // ── The ring behind the Exchange ──────────────────────────────────────────────────────────────────────────────────
+  // The Founders' Exchange is the front of a smuggling ring, the criminal arm of the House of Marchbank (the Dorothea's
+  // counting-house): the cellar-men are the muscle, the factor is the fence, a lieutenant keeps a coast, and a
+  // Principal at the top goes round the whole circuit, town to Tolleth to Port Ness and home. Deem casts every rank:
+  // their folk by the terrain, their names, their levels, how long the Principal stays, how much nerve he has, and the
+  // lieutenant's temper and his secret.
+  Measure stay(entity). Measure away(entity). Measure temper(entity). Measure secret(entity). Measure nerve(entity).
+  Measure leaveAt(entity). Measure seenAbroad(entity). Measure hireAt(entity). Measure burnAt(entity).
+  Relation turned(group). Relation pressed(group). Relation toldPrincipal(group). Relation hired(group). Relation seenSearch(group).
+  Relation fenceSeen(group). Relation talkedLieutenant(group). Relation lieutenantCut(group). Relation burnt(group). Relation offered(group).
+
+  Place counting_room "The counting-room over the taproom" is room.
+  Place cellar "The Exchange's cellar" is room.
+  Place abroad "Abroad" is room.
+
+  // What the company can learn, and which rank it comes from. Exported: the Dorothea reads and teaches the same facts.
+  Discovery cellar_known "Behind the bar of the largest inn in the country a hatch opens on the Exchange's cellar, where the cellar-men keep the lots." { Found by searching taproom. }
+  Discovery counting_known "There is a stair behind the factor's chair, up to a counting-room where she keeps the Exchange's book." { Known by factor. }
+  Discovery waybill_read "A waybill from the cellar: lots of green bronze and old metal, consigned in a clerk's hand to 'R., the bonded store, Tolleth', each stamped with a key and a ring. The factor's book, upstairs, enters them all.".
+  Discovery ledger_read "A leaf of the factor's day-book: every lot sent to 'R. at the bonded store behind the chandler's, Tolleth', and a margin in a second hand, with sums that do not agree.".
+  Discovery lieutenant_named "The ring's man on the coast is the one the factor writes to as R.; he sits in a bonded store at Tolleth, behind the chandler's.".
+  Discovery principal_traced "Above R. there is a Principal, who goes round the ring from the town to Tolleth to Port Ness and home again, and sits in a loft over the boiling-house at the Ness.".
+  Discovery seal_seen "The ring's mark is a key and a ring: the House of Marchbank's own seal, cut small, on a wax that is not the House's.".
+
+  // ── The rank of muscle: the cellar-men ───────────────────────────────────────────────────────────────────────────
+  Person cell "the cellar-men" at cellar {
+    Role "who keep the Exchange's lots". Calling warrior. Temperament territorial. Refuge gone.
+    Warns "Three or four men in leather aprons turn from the barrels with the unhurried look of men who are paid by the week to be looked at. 'Cellar's private,' says the biggest. 'Six coin to have not seen it, or the word of the one upstairs. Or the stairs.'".
+    Comes "The cellar-men put down what they are carrying and come across the flags with their sleeves back.".
+    Flinches "The cellar-men look at each other, and one of them says, quite quietly, that there is no money in this.".
+    Pleads "'All right,' says the big one, on his knees among the barrel-staves, 'all right. It's the factor's book, upstairs. It's all in the book.'".
+  }
+  Observe cellar_scene at cellar when true "The cellar runs back under the whole yard: barrels on their sides, sacks stencilled NORTH, a bell with its clapper wrapped in felt, a trestle with a scale and a stamp. Every sack has a key and a ring pressed into its lead seal.".
+  Item waybill "a cellar waybill" is ring_waybill at gone.
+  Kind ring_waybill "a cellar waybill" is document teaching waybill_read described "A greasy waybill in a clerk's round hand, stamped with a key and a ring.".
+  Action pay_cell(actor: group, site: place) "Pay the cellar-men six coin to have not seen you" {
+    Description "The cheapest way into any cellar.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(cell, site) and able(cell) and quantity(actor, gold) >= 6 and not tolerates(cell, actor).
+    Time 1.
+    On success { Decrease quantity(actor, gold) by 6. Increase quantity(cell, gold) by 6. Assert tolerates(cell, actor). Assert seenSearch(cell). }
+    Result "The big one weighs the coin in his hand and puts it in his apron. 'You were never here,' he says, 'and neither was the bell.' Behind him the others go back to their barrels. The Exchange has taken a note of your face.".
+  }
+  Action lie_to_cell(actor: group, site: place) "Say the factor sent you down to count the lot" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(cell, site) and able(cell) and not tolerates(cell, actor) and not turned(lieutenant).
+    Time 1.
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert tolerates(cell, actor). }
+    On failure { Assert suspects(factor, actor). Retract tolerates(cell, actor). }
+    Result "The big one looks at your hands for a ledger, and finds a plausible one. 'Count quietly,' he says.".
+    Otherwise "'Funny,' says the big one. 'She counts it herself.' He does not hurry. He has all day to be unconvinced.".
+  }
+  Action search_cellar(actor: group, site: place) "Look through the cellar for the lot's waybill" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, cellar) and not holding(actor, ring_waybill) and not searched(actor) and (tolerates(cell, actor) or routed(cell) or dead(cell)).
+    Time 6.
+    On success { Give waybill to actor. Assert searched(actor). Assert seenSearch(cell). }
+    Result "On the trestle, under the scale, is the waybill: twelve teeth of green bronze, a hundredweight of weir-metal, fifty pounds of 'old fittings', every line carried over to 'the book, up'. The last column is a consignee, and it is not a name but an initial, R., and a place: the bonded store at Tolleth.".
+  }
+  Relation searched(group).
+  Topic cell_who with cell "Ask the cellar-men whom they answer to" when tolerates(cell, actor) once {
+    Says "'The factor,' says the big one, 'and the factor's book, which is upstairs and which I have never seen open. The lots go out with the carter. They come in with a mark.' He shows it, on a sack: a key, and a ring. 'Somebody on the coast sends the mark. I don't say who. I don't know who. If I did I'd be paid more.'".
+    On discuss { Assert knows(actor, seal_seen). Assert knows(actor, counting_known). }
+  }
+  Topic cell_pay with cell "Ask the cellar-men what the Exchange pays them" when tolerates(cell, actor) once {
+    Says "'Four a week, and the fire in winter,' says the big one. 'And a shilling for the nights. The nights are when the Principal's boat comes in. Don't ask me who the Principal is. I was told to put the lamp out and I put it out.'".
+    On discuss { Assert knows(actor, principal_rumour). }
+  }
+  Discovery principal_rumour "The cellar-men have a night when the lamp is put out: when 'the Principal's boat' comes.".
+
+  // ── The rank of the fence: the counting-room ────────────────────────────────────────────────────────────────────
+  Passage stair_up "the stair behind the factor's chair" is stair between taproom and counting_room hidden until counting_known.
+  Passage cellar_hatch "the hatch behind the bar" is door between taproom and cellar hidden until cellar_known.
+  Observe counting_scene at counting_room when true "A low room under the slates with a table, a high stool, a lamp, a cold grate, and a strongbox bolted to the floor. A key and a ring are cut in the table's edge, as another man would cut his initials.".
+  Kind ring_key "the strongbox key" is gear worth 0 weighing 0 described "A flat iron key on a loop of string.".
+  Kind ring_leaf "a leaf of the Exchange's day-book" is document teaching ledger_read described "One leaf of a day-book, ruled in red: every lot, its weight, its consignee 'R., Tolleth', and a second hand in the margin, correcting the sums downward.".
+  Item box_key "the strongbox key" is ring_key at gone.
+  Thing strongbox "the factor's strongbox" at counting_room {
+    Holds.
+    State locked closed "An iron strongbox is bolted to the floor, locked.".
+    State open "The strongbox stands open.".
+    Change pick "Pick the strongbox's lock" from locked to open needing lockwork.
+    Change unlock "Open the strongbox with its key" from locked to open needing ring_key.
+  }
+  Item leaf "a leaf of the Exchange's day-book" is ring_leaf in strongbox.
+  Topic factor_answers with factor "Ask {factor} whom the Exchange answers to" when true once {
+    Says "'To its weights,' says {factor}, and there is not a flicker. 'A founder pays for old bronze. A carter carries it. A man on the coast who sells it on is a customer, and I don't ask my customers their business.' She looks at the stair behind her chair, and then, deliberately, at nothing at all.".
+  }
+  Action press_factor(actor: group, site: place) "Put the cellar waybill to {factor}, and ask for the book" {
+    Speaker factor.
+    Requires able(actor) and company(actor) and at(actor, site) and at(factor, site) and holding(actor, ring_waybill) and not pressed(factor) and not routed(hands).
+    Time 2.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert pressed(factor). Give box_key to actor. Assert knows(actor, counting_known). Assert knows(actor, lieutenant_named). Assert seenSearch(cell). }
+    On failure { Assert suspects(factor, actor). }
+    Result "{factor} reads it to the end, and puts it down square on the blotter. 'You have been in my cellar,' she says. 'It is only a waybill.' A long breath. 'The key is on a string, on a nail, behind the chair. And the man at the end of it is called R. because that is the only name he has ever given me, and the House he serves is the House you think.' She does not look pleased. She looks like someone who has done sums.".
+    Otherwise "'Cellars,' says {factor}, 'are damp.' The pen goes down. She is writing your description in the margin.".
+  }
+
+  // ── The rank of the coast: the lieutenant (Deem-cast, with his own table) ─────────────────────────────────────────
+  // His folk by terrain, his name, his level, his temper (1 greedy, 2 proud, 3 frightened) and his secret (1 he skims
+  // the ring's money, 2 he has a child at a school in Orsett the Principal could reach, 3 he sells the ring to the Watch).
+  // The Dorothea puts him in a store in Tolleth; until then he is abroad.
+  Person lieutenant "R., the coast lieutenant" at abroad {
+    Role "the ring's man on the coast". Calling thief. Temperament territorial. Refuge abroad. Manner jovial.
+    Known as "a man in a good coat behind the chandler's back-table" when not knows(party, lieutenant_named).
+    Greets "The man at the back-table stands as you come in, and does not offer a hand. 'I am told I am called R.,' he says. 'It is the only thing about me that the ring has ever got right.'".
+    Warns "R. closes the day-book on a finger. 'This is a bonded store,' he says, 'and I am bonded to it. I should hate to have you hurt on the House's account. Say what you have to say, or the door is behind you.'".
+    Comes "R. says a word over his shoulder, and the crates behind him are not crates.".
+    Flinches "R. puts both hands flat on the table, and says that he is a man of business, and that nobody has said anything about blood.".
+    Pleads "R. slides down the crate with a hand on his side. 'The book,' he says. 'The desk. Take it. I'm not paid for this.'".
+  }
+  Action lt_bribe(actor: group, site: place) "Offer {lieutenant} twenty coin to say where the Principal is" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(lieutenant, site) and temper(lieutenant) == 1 and quantity(actor, gold) >= 20 and not toldPrincipal(lieutenant) and able(lieutenant).
+    Time 1.
+    On success { Decrease quantity(actor, gold) by 20. Increase quantity(lieutenant, gold) by 20. Assert tolerates(lieutenant, actor). Assert toldPrincipal(lieutenant). Assert talkedLieutenant(lieutenant). Assert knows(actor, principal_traced). }
+    Result "R. counts it twice, with his lips moving. 'I had a mind,' he says, 'that it would be thirty.' The coins go into a drawer that opens by a trick. 'He is on the circuit. The town, here, the Ness, and home. Ask me where he is tonight and I'll tell you, because I am a man who believes in honest weights.'".
+  }
+  Action lt_challenge(actor: group, site: place) "Tell {lieutenant} that a man of his rank should not be sitting at a chandler's table" {
+    Speaker lieutenant.
+    Requires able(actor) and company(actor) and at(actor, site) and at(lieutenant, site) and temper(lieutenant) == 2 and not toldPrincipal(lieutenant) and able(lieutenant).
+    Time 1.
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert tolerates(lieutenant, actor). Assert toldPrincipal(lieutenant). Assert talkedLieutenant(lieutenant). Assert knows(actor, principal_traced). }
+    Result "The jovial face stiffens, and then, slowly, goes in the other direction. 'A chandler's,' says R. 'Yes. I had a coast once. They gave me a bonded store behind a rope-walk and said it was a promotion.' He takes the stopper out of something. 'He goes round, the Principal. It is a long way, and not as often as the books say. Ask.'".
+    Otherwise "R. smiles with a good deal of teeth. 'I am quite comfortable,' he says.".
+  }
+  Action lt_frighten(actor: group, site: place) "Lay the factor's day-book leaf before {lieutenant}" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(lieutenant, site) and temper(lieutenant) == 3 and holding(actor, ring_leaf) and not toldPrincipal(lieutenant) and able(lieutenant).
+    Time 1.
+    On success { Assert tolerates(lieutenant, actor). Assert toldPrincipal(lieutenant). Assert talkedLieutenant(lieutenant). Assert knows(actor, principal_traced). }
+    Result "R. reads the second hand in the margin, and sits down on a crate as if the crate had been pulled from under him. 'That is mine,' he says. 'That is my hand. He will see that. He sees everything that has a sum in it.' His mouth works. 'I will tell you where he is. I will tell you every night he is. And you will say, afterward, that I was frightened into it, which is true.'".
+  }
+  Action lt_secret_skim(actor: group, site: place) "Put the margin of the leaf to {lieutenant}, line by line" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(lieutenant, site) and secret(lieutenant) == 1 and holding(actor, ring_leaf) and not turned(lieutenant) and able(lieutenant).
+    Time 2.
+    On success { Assert turned(lieutenant). Assert tolerates(lieutenant, actor). Assert talkedLieutenant(lieutenant). }
+    Result "R. goes through the margin with you, line by line, and by the eleventh he has stopped denying it. 'A tenth,' he says. 'A tenth off every lot, since the spring. He does not know. He will know when somebody who can add shows him.' He looks at the stair, and at you. 'I should like that somebody not to be you, but if it must be: I will sign a paper, and I will be at the Ness when it is read.'".
+  }
+  Action lt_secret_school(actor: group, site: place) "Put the margin of the leaf to {lieutenant}, line by line" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(lieutenant, site) and secret(lieutenant) == 2 and holding(actor, ring_leaf) and not turned(lieutenant) and able(lieutenant).
+    Time 2.
+    On success { Assert turned(lieutenant). Assert tolerates(lieutenant, actor). Assert talkedLieutenant(lieutenant). }
+    Result "One line in the margin is not a sum. It is a fee: a half-year, to a school in Orsett, entered against a lot of weir-metal. R. does not say anything for some time. 'She is nine,' he says. 'The Principal pays it. He sends me the receipt.' He looks at the leaf as at a hostage. 'If he is not there to pay it, then I am not afraid of him. Say he is not going to be there.'".
+  }
+  Action lt_secret_watch(actor: group, site: place) "Put the margin of the leaf to {lieutenant}, line by line" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(lieutenant, site) and secret(lieutenant) == 3 and holding(actor, ring_leaf) and not turned(lieutenant) and able(lieutenant).
+    Time 2.
+    On success { Assert turned(lieutenant). Assert tolerates(lieutenant, actor). Assert talkedLieutenant(lieutenant). }
+    Result "The margin has a small mark against every third line: a dot, in red. R. covers it with a hand, and then takes the hand away. 'Every lot that went wrong,' he says, 'I told the harbourmaster. Not Dacey Hoe, a man she is not told about. A year of it.' A twist of a smile. 'I have been trying to be arrested very slowly. Take him at the Ness, and let me be in the dock beside him.'".
+  }
+  Topic lt_where_town with lieutenant "Ask {lieutenant} where the Principal is tonight" when tolerates(lieutenant, actor) and toldPrincipal(lieutenant) and at(principal, counting_room) {
+    Says "'In the town, in the counting-room over the taproom,' says R., 'with a lamp and a pen, being wearied by the factor. He goes on in two or three days.'".
+  }
+  Topic lt_where_abroad with lieutenant "Ask {lieutenant} where the Principal is tonight" when tolerates(lieutenant, actor) and toldPrincipal(lieutenant) and at(principal, abroad) {
+    Says "'On the road,' says R. 'Between the town and the coast, on one of the House's boats, or between the Ness and the town on another. Nobody has ever seen him on a road. He is a rumour, between.'".
+  }
+  Topic lt_secret_flavour with lieutenant "Ask {lieutenant} what the ring is for" when tolerates(lieutenant, actor) once {
+    Says "'Lamps,' says R. 'The House leases the lights and does not light them. A dark light is a wreck. A wreck is a right. The ring brings what the wrecks put ashore up the coast to the one man who can sell it on, and who is not a man you want to be the last to speak to.' He scratches his jaw. 'I work for him. I have not said I like it.'".
+  }
+
+  // ── The rank at the top: the Principal (Deem-cast), who goes round the world ───────────────────────────────────────
+  Person principal "the Principal" at abroad {
+    Role "the ring's Principal, who keeps the black book". Calling warrior. Temperament territorial. Refuge abroad. Manner stoic.
+    Known as "a tall man in a black coat, who is not called anything" when not knows(party, principal_traced).
+    Greets "A tall person in a black coat is writing in a black book, and does not stop. When the pen has reached the end of the line they put it down. 'The ring,' they say, 'does not have a Principal. It has a book, and I am who keeps it. You have been counting in other people's ledgers.'".
+    Warns "The Principal closes the black book with a flat hand. 'Whatever you have read,' they say, 'you have read in pieces. Put it down, and go out the way you came in, and nothing is written. Or do not.'".
+    Comes "The Principal does not raise their voice. They put the book under their arm and come round the table.".
+    Flinches "The Principal looks at the ring on their own finger, and then, deliberately, at the door.".
+    Pleads "'Enough,' says the Principal. 'The book is yours. Take it. The seal is in the lining.'".
+  }
+  Topic principal_what with principal "Ask the Principal what the ring is" when tolerates(principal, actor) once {
+    Says "'A convenience,' says the Principal. 'A House with a lamp it will not light and a coast with a wreck it will not weep for needs a way to turn the second into money without the first being on the bill. A ring. It goes from hand to hand, and nobody holds it long. It is very efficient. It is not at all a crime if you look at it by the pound.'".
+    On discuss { Assert knows(actor, seal_seen). }
+  }
+  Topic principal_marchbank with principal "Ask the Principal whether Josselin Marchbank knows" when tolerates(principal, actor) once {
+    Says "'The House is above me,' says the Principal, 'in the way the sky is above a drain. Marchbank has never asked what the ring is. He signs what is put before him and reads the totals. I find that a satisfactory arrangement, and so, I think, does he.'".
+  }
+  // Four ways the Principal can be got past, or put down. A fight is the fifth.
+  Action expose_principal(actor: group, site: place) "Lay the waybill, the leaf and the lieutenant's word before the Principal" {
+    Description "All three ranks read: the cellar, the book, the coast. He cannot say it is only a waybill.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(principal, site) and knows(actor, waybill_read) and knows(actor, ledger_read) and knows(actor, principal_traced) and not routed(principal) and not offered(principal).
+    Time 2.
+    Grave "If he runs, he runs for good; the ring will have no head. If he does not run, he will do what a man does who has nowhere else to go.".
+    On success { Assert principalMet(actor). }
+    Result "You put them in a row on the table, as you would lay out a hand of cards: the waybill from the cellar, the leaf from the strongbox, the lieutenant's account of where he sits. The Principal reads them in that order, and does not touch any. Then they look up, and the face has gone quiet in a way that a man's face goes when he is adding.".
+  }
+  Relation principalMet(group).
+  Rule principal_nerve_flees when principalMet(party) and at(principal, ?p) and nerve(principal) == 1 and not routed(principal) and not dead(principal)
+    says "'Well,' says the Principal. 'That is what happens when one has too many ranks.' They close the black book, and stand, and pick up their hat. 'I have a boat.' They go out by the way you came in, quite calmly, and you do not stop them, because nothing has been done that anyone could point to. By the next tide the Principal's name is a thing the ring has never owned." {
+    Assert routed(principal). Retract at(principal, ?p). Assert at(principal, abroad). Retract principalMet(party).
+  }
+  Rule principal_nerve_buys when principalMet(party) and nerve(principal) == 3 and not offered(principal) and not routed(principal) and not dead(principal)
+    says "'Sixty,' says the Principal. 'Sixty crowns, and the Dorothea's note struck off, and a clerkship in Orsett. It is the House's usual figure.' The black book does not move. 'I would take it, if I were a company. And if I were a company that did not, I would see to it that I was not alone on the road tonight.'" {
+    Assert offered(principal). Retract principalMet(party).
+  }
+  Rule principal_nerve_fights when principalMet(party) and nerve(principal) == 2 and not routed(principal) and not dead(principal)
+    says "The Principal stands and takes their coat off the chair. 'No,' they say. 'No, I shall not go. I have a good many years in this, and I do not run from a waybill.' The door behind you opens and shuts." {
+    Retract tolerates(principal, party). Retract principalMet(party).
+  }
+  Action take_principal_silver(actor: group, site: place) "Take the Principal's sixty crowns, and write nothing" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(principal, site) and offered(principal) and not routed(principal).
+    Time 1.
+    On success { Increase quantity(actor, gold) by 60. Assert tolerates(principal, actor). Retract offered(principal). }
+    Result "The crowns are counted into your hand, new-minted, from a bag with a key and a ring on it. 'You are sensible,' says the Principal, 'and the coast will be quiet.' They do not smile. They have written you down.".
+  }
+  Action refuse_principal(actor: group, site: place) "Refuse the Principal's sixty crowns" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(principal, site) and offered(principal) and not routed(principal).
+    Time 1.
+    On success { Retract offered(principal). Retract tolerates(principal, actor). }
+    Result "'Then it is not a matter of money,' says the Principal, and puts the book away, slowly, and you understand that you have been given a courtesy and that it has been used up.".
+  }
+
+  // ── What the ring does about being rolled up (the adversary's responses; see doc/imbar/17-the-ring.md) ─────────────
+  // The ring knows only what its people see. The cellar-men saw you in the cellar, the factor heard you at her table,
+  // the lieutenant sees who comes to his store. Nothing here is told it by magic.
+  // R-A: the cellar is beaten or bought and searched. The Principal hires muscle for the counting-room.
+  Rule muscle_hired when seenSearch(cell) and not hired(principal) and not routed(principal) and not dead(principal)
+    says "In the Anchor's yard, after dark, a boat's lantern goes out, and a cart comes in under a tarpaulin. There are more men in the Exchange's yard in the morning than there were, and they are not here for the bronze." {
+    Assert hired(principal). Set hireAt(principal) to watch(clock). Increase hireAt(principal) by 18.
+  }
+  Person bravos "the hired men" at abroad {
+    Role "hired for the winter by the ring". Calling warrior. Temperament territorial. Refuge abroad.
+    Arrives "Three or four men come down the stair from the counting-room together, and fan out across the floor without a word.".
+    Warns "'We're paid,' says one, 'to see that nobody goes up. Not paid enough to be hurt. Five coin to be somewhere else.'".
+    Comes "The hired men stop being polite.".
+    Flinches "The hired men put away their knives and say that nobody told them the Exchange had so many enemies.".
+    Pleads "'We're paid by the week,' says one, with his hands up, 'not by the wound.'".
+  }
+  Rule bravos_posted when hired(principal) and watch(clock) >= hireAt(principal) and at(bravos, abroad) and not routed(bravos) {
+    Retract at(bravos, abroad). Assert at(bravos, counting_room).
+  }
+  // R-B: sends hands at night to where the company sleeps, if it has beaten the cellar and slept in the largest town.
+  Rule bravos_by_night when hired(principal) and at(bravos, counting_room) and dark() and at(party, taproom) and not routed(bravos) and not tolerates(bravos, party) says "The taproom's lamp has been put out. On the stair, a board that always creaked does not." {
+    Retract at(bravos, counting_room). Assert at(bravos, taproom).
+  }
+  Action pay_bravos(actor: group, site: place) "Pay the hired men five coin to be somewhere else" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(bravos, site) and able(bravos) and quantity(actor, gold) >= 5 and not tolerates(bravos, actor).
+    Time 1.
+    On success { Decrease quantity(actor, gold) by 5. Increase quantity(bravos, gold) by 5. Assert tolerates(bravos, actor). }
+    Result "The hired men take it without looking at it. 'Might be cold on the stair,' says one, and they sit down on it.".
+  }
+  // R-C: the evidence is burned if the cellar was searched and the leaf is still in the box; and the book goes with it.
+  Rule evidence_burned when seenSearch(cell) and hired(principal) and not burnt(principal) and inside(leaf, strongbox) and not holding(party, ring_leaf) {
+    Retract inside(leaf, strongbox). Assert burnt(principal).
+  }
+  Observe ash_scene at counting_room when burnt(principal) "The grate is full of fresh ash, still faintly warm, and a corner of ruled red paper has curled up out of it. The strongbox is open and has nothing in it.".
+  // R-D: the lieutenant is sacrificed. Once he has told the company where the Principal sits, the Principal, who has
+  // a letter from him every week, hears it from the house's own side: R. is cut loose, and the Watch is told he is the
+  // House's embezzler. (Read in the Dorothea: routed(lieutenant), and the Principal's circuit leaves Tolleth out.)
+  Rule lieutenant_cut when talkedLieutenant(lieutenant) and not turned(lieutenant) and not lieutenantCut(lieutenant) and not routed(lieutenant) and not dead(lieutenant) and at(lieutenant, ?q)
+    says "A letter goes down the coast on the evening boat, in a clerk's hand, to the harbourmaster's office, and it is about R. It says that the House's accounts at the bonded store do not agree, and that the man who kept them has absconded." {
+    Assert lieutenantCut(lieutenant). Assert routed(lieutenant). Retract at(lieutenant, ?q). Assert at(lieutenant, abroad).
+  }
+  // The Principal's circuit: town, then abroad (the Dorothea takes him on from here), then home after Deem's days away.
+  Rule abroad_noted when at(principal, abroad) and seenAbroad(principal) == 0 and not routed(principal) and not dead(principal) {
+    Set seenAbroad(principal) to watch(clock). Increase seenAbroad(principal) by 1.
+  }
+  Rule abroad_left when not at(principal, abroad) and seenAbroad(principal) > 0 { Set seenAbroad(principal) to 0. }
+  Rule principal_returns when at(principal, abroad) and seenAbroad(principal) > 0 and watch(clock) >= seenAbroad(principal) + away(principal) and not routed(principal) and not dead(principal)
+    says "A lantern turns in the yard, and a boat's crew carries a black trunk across it. Somebody has come in over the back wall of the Exchange who does not use the front." {
+    Retract at(principal, abroad). Assert at(principal, counting_room). Set seenAbroad(principal) to 0. Set leaveAt(principal) to watch(clock). Increase leaveAt(principal) by stay(principal).
+  }
+  Rule principal_leaves when at(principal, counting_room) and leaveAt(principal) > 0 and watch(clock) >= leaveAt(principal) and not routed(principal) and not dead(principal) {
+    Retract at(principal, counting_room). Assert at(principal, abroad). Set leaveAt(principal) to 0.
+  }
+  Observe principal_scene at counting_room when at(principal, counting_room) and not dead(principal) "A black trunk stands against the wall, strapped, and the lamp is lit on the table although it is day.".
+}
