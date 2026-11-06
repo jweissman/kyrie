@@ -100,5 +100,6 @@ set up in `countries.json`, so a new meeting-place for two adventures is a new s
 - `data/imbar/events.kyr`, `data/imbar/module.json`: four world events (`slack_opened`, `remainder_harboured`,
   `remainder_kept`, `mechanus_seen`).
 - Species renamed in `what-tessary-owes/ways.kyr` and `the-lull/*.kyr`.
+**Adding a province re-seeds every drawn world** (any side): a branch that adds one must rebuild the page bundle (`bun run web:build`), re-record `wren-tower-climbed` (`bun scripts/redigest-trace.ts`), and may need to move seeded tests (`wild-meetings`, `exploration` here).
 No engine type, no generator and no UI was changed. If `main` changes `herald`, `canon` or `Kind`, the three above
 need the same change.

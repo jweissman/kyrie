@@ -88,11 +88,18 @@ Written after playing them. Severe, as the commission asked.*
 (33 of 34 on their first run; the one failure was the same test running during an edit of the Exchange's file and
 passes on rerun).
 
-**Whole-suite:** the full `bun run check` (lint, typecheck, `bun test --parallel`) is the check that matters. It
-was run to completion twice and lost twice: once to the container's restart, once because I killed a run on seeing
-that I had changed files under it; a third run stopped at lint on a 123-character line in one of my tests (fixed);
-a fourth was started on the final tree. **Its result is recorded at the foot of this file when it exists; until then
-nothing in this document should be read as a completed whole-suite verification.**
+**Whole-suite: complete.** `bun run check` (eslint with zero warnings, `tsc --noEmit` for both configs, then
+`bun test --parallel` over the whole repository), run on the final tree at commit `5e34337`: **2720 pass, 115 skip,
+0 fail, exit 0.** The 115 skips are the repository's own opt-in tiers (browser, long-expedition, `KYRIE_LONG`),
+which I did not enable; they are not claimed.
+
+How it got there, because the path matters to a merge: earlier runs were lost to a container restart and to my own
+edits under them; one stopped on lint, one on a typecheck error in my own test. The first complete run found 29
+failures, and all were consequences of this branch: 24 were a stale page bundle (`bun run web:build` rewrites
+`web/bundles.generated.json`); **adding any province to `countries.json` re-seeds every drawn world** (I tried all
+four sides), which broke one recorded trace (`wren-tower-climbed`, re-recorded with `scripts/redigest-trace.ts`:
+"it comes where it came") and two tests tied to a seed (`wild-meetings` now draws seed `jade`; `exploration` takes up
+a journey again after a boar stops it). A merge that adds a province on `main` will need the same three steps.
 
 ## 13.6 What I would do next, in order
 
