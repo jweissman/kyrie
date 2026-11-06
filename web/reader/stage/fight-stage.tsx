@@ -30,7 +30,9 @@ export class FightStage {
     return (
       <div className="fight" id="page">
         <p className="status"><span>A fight</span><span>Round {Math.max(1, combat.round)}</span>
-          <span data-id="place">{Typography.curl(frame.screen.place.name)}</span></p>
+          <span data-id="place">{Typography.curl(frame.screen.place.name)}</span>
+          {combat.standing && <span className={`standing ${combat.standing.danger}`} data-region="standing">
+            {Typography.curl(combat.standing.text.split(/(?<=\.) /)[0]!)}</span>}</p>
         {(combat.laws ?? []).map(l => <p key={l.name} className="law"><b>{l.name}.</b> {l.text}</p>)}
         <div className="sides">
           <ul className="side ours" aria-label="The company">{combat.allies.map(f => <FightStage.Card key={`${f.id}:${f.hp}`} fighter={f}

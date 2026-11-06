@@ -14,9 +14,10 @@ import type { Region, Settlement, Site } from './region-writer';
 // of itself (the talk of it on the green had been lost under an arrival's news). Read, the notice is an aim for each.
 export class RegionUndertown {
   static readonly template = KyrTemplates.parse(text);
-  static lines(region: Region, s: Settlement): string[] {
-    // Where each who pays is to be found (their own room, or the green), for the aim that says what is owed.
-    const t = s.id, q = JSON.stringify, values = { t, town: s.name,
+  static lines(region: Region, s: Settlement, company = 3): string[] {
+    // Where each who pays is to be found (their own room, or the green), for the aim that says what is owed; and how
+    // many of the first foes a trouble sets, for the company that takes it (M19-87).
+    const t = s.id, q = JSON.stringify, values = { t, town: s.name, brood: company > 1 ? '2' : '1',
       ...Object.fromEntries((['merchant', 'priest', 'innkeeper'] as const)
         .map(role => [`${role}at`, SettlementWriter.standing(region, s, role)])) };
     const sections = KyrTemplates.choose(this.template, `${region.name}:${t}:undertown`);

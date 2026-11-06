@@ -2,6 +2,8 @@
 // A Kyr template (see src/world/kyr-template.ts). {t} is the town's id, {town} its name; "{{t}_merchant}" is
 // written "{s2_merchant}", the merchant's name when it is read. The base and below are always written; of each other
 // group one option is drawn for the town. An option of the store, the yard or the pit is a trouble: its name is the
+// {brood} is how many of the first foes each trouble sets: two for a company of more than one, one for a company of
+// one, as a player begins (a lone first-level mage had died to the corn-store's two great rats three times in four).
 // id of the foe it sets there ({t}_u_<option>) and of the job of being rid of it ({t}_u_<option>_job), and its ">>"
 // lines are what is said of it on the notice on the green. Add an option to add a trouble; nothing in the engine
 // needs to change.
@@ -78,7 +80,7 @@
   // the section below).
   Observe {t}_u_store_scene at {t}_u_store as fixture when true "Sacks stacked to the rafters, and the smell of mice; a trapdoor in the floor with a sack of grain weighting it down, and gnawed holes along the foot of every wall.".
   Person {t}_u_rats "the rats under the corn-store" at {t}_u_warren {
-    Role "rats as big as cats, that have eaten their way into the corn-store from below". Species great_rat. Numbers 2. Level 1. Temperament territorial. Lair {t}_u_warren.
+    Role "rats as big as cats, that have eaten their way into the corn-store from below". Species great_rat. Numbers {brood}. Level 1. Temperament territorial. Lair {t}_u_warren.
   }
   Initially Set encounterXp({t}_u_rats) to 20.
   Person {t}_u_buck "the old buck rat" at {t}_u_nest {
@@ -146,7 +148,7 @@
   Observe {t}_u_yard_graves at {t}_u_yard as sign when not knows(party, {t}_u_dead_robbed) "Three graves by the wall have been dug into and filled again badly, and the grass is trodden flat from them to the stone door." teaches {t}_u_dead_robbed.
   Observe {t}_u_crypt_circle at {t}_u_crypt as sign when not knows(party, {t}_u_dead_raised) "On the crypt floor is a ring of chalk with marks round it, and inside it the ends of black candles, burned to the floor." teaches {t}_u_dead_raised.
   Person {t}_u_dead "the hungry dead of the ossuary" at {t}_u_ossuary {
-    Role "dead things raised out of the bone-heaps, hungry". Species ghoul. Numbers 2. Level 1. Temperament territorial. Lair {t}_u_ossuary.
+    Role "dead things raised out of the bone-heaps, hungry". Species ghoul. Numbers {brood}. Level 1. Temperament territorial. Lair {t}_u_ossuary.
   }
   Initially Assert tolerates({t}_u_dead, party).
   Initially Set encounterXp({t}_u_dead) to 25.
@@ -225,7 +227,7 @@
   // a company going on needs, and the knife given back is the Hobbs' to repay.
   Observe {t}_u_pit_scene at {t}_u_pit as fixture when true "A bowl of grey stone cut out of the hill long ago, ivy over its faces; at the bottom, a square adit goes back into the rock behind a barred gate, and a board on the gate says KEEP OUT in three hands.".
   Person {t}_u_spiders "the spiders in the old workings" at {t}_u_gallery {
-    Role "cave spiders the size of dogs, that have strung the old workings with web". Species cave_spider. Numbers 2. Level 1. Temperament territorial. Lair {t}_u_gallery.
+    Role "cave spiders the size of dogs, that have strung the old workings with web". Species cave_spider. Numbers {brood}. Level 1. Temperament territorial. Lair {t}_u_gallery.
   }
   Initially Set encounterXp({t}_u_spiders) to 20.
   Person {t}_u_mother "the spiders' mother" at {t}_u_brood {

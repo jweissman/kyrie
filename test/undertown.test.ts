@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'bun:test';
+import { Journey } from '../src/session/journey';
 import { WorldAssembler } from '../src/world/world-assembler';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { PlaySession } from '../src/session/play-session';
@@ -111,6 +112,10 @@ describe('under the town the company begins in', () => {
     expect(shown().some(n => /lettered flag/.test(n))).toBe(false);
     await Town.take(s, /^Light a torch/, /^Search the undercroft/);
     expect(shown().some(n => /stair under the lettered flag/.test(n))).toBe(true);
+    // One place under the town (M19-40): from the rats' run, by the drain, the undercroft and the steps up behind
+    // the bone-heaps, into the crypt.
+    expect(Journey.way(c.world, 'region__s1_u_warren', 'region__s1_u_crypt').map(([, to]) => to))
+      .toEqual(expect.arrayContaining(['region__s1_u_drain', 'region__s1_u_undercroft', 'region__s1_u_ossuary']));
   }, 120000);
   // Below the vault, behind its keeper's chair, it goes on: the country's first dead under the town, three levels more,
   // more of them and more treasure than one company carries out at a go (the owner, 2 November).

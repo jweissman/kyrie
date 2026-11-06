@@ -98,15 +98,17 @@ describe('kite at a glance', () => {
     expect(glance.sight).toEqual({ id: 'region__s2_night', text: 'Brightbridge is shuttered for the night.' });
     expect(glance.changed).toEqual([]);
   });
-  it('meets the den with what can be done about it, the attack weighed, and the way back', async () => {
+  // The way back is led with only from a fight the company would lose (see Glance): the den's hounds, biting with
+  // their jaws and no rending bite beside them (the owner, 6 November), are a fight a warrior should win.
+  it('meets the den with what can be done about it, and the attack weighed', async () => {
     const glance = await Kite.g.to('region__w11');
     expect(glance.life).toMatchObject({ subject: 'den__beasts', danger: true });
-    expect(glance.acts.map(a => [a.why, a.subject ?? a.exit])).toEqual([['danger', 'den__beasts'],
-      ['danger', 'den__beasts'], ['retreat', 'exit:region__t2']]);
-    const [gentle, attack, back] = glance.acts;
+    expect(glance.acts.slice(0, 2).map(a => [a.why, a.subject ?? a.exit])).toEqual([['danger', 'den__beasts'],
+      ['danger', 'den__beasts']]);
+    const [gentle, attack] = glance.acts;
     expect(gentle!.command).toMatch(/^den__smoke_out\(/);
-    expect(attack!.marks).toEqual([expect.objectContaining({ kind: 'fight' })]);
-    expect(back!.note).toBe('the way you came');
+    expect(attack!.marks).toEqual([expect.objectContaining({ kind: 'fight', danger: 'fair' })]);
+    expect(glance.acts.some(a => a.why === 'retreat')).toBe(false);
     Kite.drawn(Kite.g, glance);
   });
   it('on the fells leads with their own act, and rows the compass', async () => {

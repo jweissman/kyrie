@@ -188,11 +188,12 @@ export class Battle {
     const m = Effects.modifiers(f);
     return (f.team === 'fighters' && !m.changeAllegiance) !== !!m.controlledActions;
   }
-  // A creature acting at random (Orsino's randomActions) falls on one of the things it could do.
+  // A creature acting at random (Orsino's randomActions) falls on one of the things it could do: never on getting away,
+  // which a mind gone astray does not happen into (a confused pike had fled the company that was killing it).
   private impulsive(actor: Fighter) {
     delete this.impulse;
     if (!Effects.modifiers(actor).randomActions) { return; }
-    const legal = this.commandsFor(actor);
+    const legal = this.commandsFor(actor).filter((c, _, all) => c.ability !== 'flee' || all.every(x => x.ability === 'flee'));
     if (!legal.length) { return; }
     const own = this.plain(legal);
     this.impulse = own[this.expressions.number(`1d${own.length}`) - 1]!;

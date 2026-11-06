@@ -190,7 +190,7 @@ export class RegionWriter {
     // Under the town the company begins in, an adventure a step from its door (see RegionUndertown).
     const home = region.settlements.find(t => t.id === (a?.settlement ?? /^(s\d+)_/.exec(company.start?.place ?? '')?.[1]))
       ?? region.settlements[0]!;
-    lines.push(...RegionUndertown.lines(region, home));
+    lines.push(...RegionUndertown.lines(region, home, company.size));
     lines.push(`  Company party ${q(company.size > 1 ? 'Your company' : 'You')} of ${company.size} at ${company.start?.place ?? `${region.settlements[0]!.id}_green`}.`,
       `  Initially Set quantity(party, gold) to ${company.coin ?? 12}. Initially Set quantity(party, rations) to 2.`, '  Goal false.');
     return lines;

@@ -19,7 +19,7 @@ describe('the ending', () => {
     const c = s.campaign as unknown as { world: { apply(c: Change[]): unknown }; commit(w: unknown): void };
     c.commit(c.world.apply([{ kind: 'assert', call: ModuleWriter.call('at', 'party', hall) },
       { kind: 'retract', call: ModuleWriter.call('unlit', hall) }]));
-    for (let i = 0; i < 12 && s.campaign.readout.creatures.some(x => s.campaign.readout.partyIds.includes(x.id)
+    for (let i = 0; i < 30 && s.campaign.readout.creatures.some(x => s.campaign.readout.partyIds.includes(x.id)
       && x.state.hp > 0); i++) { await s.perform('wait'); }
     const told = Obituary.of(s.campaign);
     expect(told.title).toBe('Wenna is dead');

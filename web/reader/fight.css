@@ -10,6 +10,11 @@
   padding: 18px clamp(20px, 3.4vw, 44px) 14px; border-bottom: 1px solid var(--edge); font: 500 11px var(--do);
   letter-spacing: .2em; text-transform: uppercase; color: var(--dim); }
 .fight > .status span:first-child { color: var(--ember); }
+/* How the fight stands now, in a word of its danger's colour (M19-78). */
+.fight > .status .standing { margin-left: auto; font-style: italic; color: var(--dim); text-transform: none;
+  letter-spacing: 0; }
+.fight > .status .standing.grave, .fight > .status .standing.deadly { color: var(--ember); }
+.fight > .status .standing.slight { color: var(--faint, var(--dim)); }
 .fight > .status span:first-child::before { content: ''; display: inline-block; width: 7px; height: 7px; margin-right: 10px;
   background: var(--ember); transform: rotate(45deg); box-shadow: 0 0 10px var(--ember); }
 .fight > .law { flex: none; margin: 10px clamp(20px, 3.4vw, 44px) 0; font: 400 14px/1.45 var(--do); color: var(--dim); }

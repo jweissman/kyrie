@@ -46,6 +46,7 @@ export class CombatModel {
         ...c.ability.effects.some(e => e.kind === 'flee') ? { odds: battle.flight() } : {},
         ...actor?.stock?.[c.ability.id] ? { carried: actor.stock[c.ability.id]!.length } : {} })),
       ...battle.opening && !state.outcome ? { moment: battle.opening, reckoned: DangerSense.of(battle).text } : {},
+      ...!battle.opening && !state.outcome ? { standing: DangerSense.of(battle) } : {},
       // Who is still to act this round: not those who have fallen since it began (play 8's "then the second of the
       // risen dead", down).
       order: (state.order ?? []).filter((id, i) => !i || state.combatants.some(f => f.id === id && f.hp > 0))

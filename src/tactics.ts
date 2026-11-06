@@ -70,7 +70,9 @@ export class Tactics {
     // no judgement to weigh a blow against it.
     const powers = Canon.isDevice(actor.raceId) ? all.filter(c => !['melee', 'ranged', 'wait'].includes(c.ability)) : [];
     const legal = powers.length ? powers : all;
-    const order = [...actor.abilities, 'melee', 'ranged'];
+    // Running is the last of what it might do, never a blow's equal (a pike with no bite of its own beside its jaws had
+    // fled the company it was holding level with, its flee written before them).
+    const order = [...actor.abilities.filter(a => a !== 'flee'), 'melee', 'ranged', 'flee'];
     // A creature's own powers (a ghoul's paralysing touch, a vampire's charm) are what makes it what it is: used when
     // they are ready, before a plain blow; their rest keeps them from every turn (see AbilityUse).
     const ranked = legal.map(command => ({ command,

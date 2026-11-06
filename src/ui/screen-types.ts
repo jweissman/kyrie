@@ -261,6 +261,9 @@ export interface CombatScreen {
   // The moment before a fight that came at the company closes: it acts first, and can get back the way it came; and
   // how the company reckons the fight from there ("It is more than you can take.").
   moment?: 'seen' | 'sprung'; reckoned?: string;
+  // How the fight stands as the company reckons it now, every round it is not over (the owner, 6 November: a plain
+  // danger line, not a ledger to read the odds from).
+  standing?: { danger: Danger; text: string };
   // Who is still to act this round, in order, the one acting first.
   order: string[];
   // The laws of the place the fight is fought in, held by everyone in it.

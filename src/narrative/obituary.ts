@@ -27,7 +27,7 @@ export class Obituary {
       .sort((a, b) => Number(b === first) - Number(a === first)).map(id => names.get(id) ?? 'You');
     const at = campaign.world.one('at', campaign.playerActor ?? 'party');
     const place = at && ObservationText.label(campaign.world, at);
-    const title = party.size > 1 ? 'No one is left standing' : `${who} is dead`;
+    const title = party.size > 1 ? 'No one is left standing' : who === 'You' ? 'You are dead' : `${who} is dead`;
     if (!last || !one) { return { title, lines: [`It is over${place ? `, at ${place}` : ''}.`] }; }
     // Where they fell, and where they lie, which is where the company is: it may have carried them on.
     const where = campaign.world.one('at', campaign.playerActor ?? 'party') ?? '';
