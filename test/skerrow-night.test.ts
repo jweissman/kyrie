@@ -7,6 +7,7 @@ const campaign = 'data/campaigns/the-dorothea.campaign.json';
 const k = (id: string) => `dorothea__${id}`;
 const isle = async (seed = 's1', gold = 0) => {
   const j = await Journey.start(campaign, seed);
+  j.assert(k('seaQuiet'), k('hull'));
   await j.play('^To Tolleth quay', 'Ask Captain Bascom for passage', 'Pay Captain Bascom six', "^To the Dorothea's waist");
   await j.play('Ask her to come with you', '=180', '^To the quarterdeck', 'lie off', '=215', "^To the Dorothea's waist",
     '^To Skerrow jetty', '^To Skerrow green');

@@ -12,7 +12,12 @@ import { GeneratedWorld } from './support/generated';
 const campaign = 'data/campaigns/the-dorothea.campaign.json';
 const k = (id: string) => `dorothea__${id}`;
 class Sea {
-  static async start(seed = 's1') { return Journey.start(campaign, seed); }
+  // The first pass's journeys keep a fixed timeline: the sea table (weather.kyr, test/dorothea-sea.test.ts) is off.
+  static async start(seed = 's1') {
+    const j = await Journey.start(campaign, seed);
+    j.assert(k('seaQuiet'), k('hull'));
+    return j;
+  }
   static at(j: Journey, id: string) { return j.campaign.world.one('at', k(id)); }
   static party(j: Journey) { return j.campaign.world.one('at', 'party'); }
   static async board(j: Journey, how = 'Pay Captain Bascom six') {
@@ -190,6 +195,7 @@ describe('The Dorothea, in the ordinary world', () => {
     await s.perform(c.choice.id);
     const t0 = Math.ceil(s.campaign.state.elapsed / 144) * 144;
     await j.play('^To Tolleth quay', 'Ask Captain Bascom for passage', 'Pay Captain Bascom six', "^To the Dorothea's waist");
+    j.assert('ptolleth__seaQuiet', 'ptolleth__hull'); // a fixed timeline: the sea table is off here
     const at = (id: string) => s.campaign.world.one('at', `ptolleth__${id}`);
     await j.play(`=${t0 + 26}`);
     expect(at('hull')).toBe('ptolleth__sound');

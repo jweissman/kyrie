@@ -24,3 +24,18 @@ Honest list: the Orsett reckoning on return (the cargo's shortfall is counted bu
 Long Man's "eleven strokes and a blank" foreshadow; the Slack's pin clock written as a succession of Observes; the
 new boarding party has a test for the bribe route only through the Skerrow suite, not its own. Each is a data change
 and none needed an engine change.
+
+## Sea-events table (third pass, `the-dorothea/weather.kyr`)
+
+**Done in the module, no engine change.** The ship's own die (`dice(hull)`, per thing per watch) selects among five
+sea events by range (squall, drifting lantern, fever, calm, a fishing fleet); two at most per passage, in the open-sea
+window only. Different seeds draw different events at different watches (`test/dorothea-sea.test.ts` sweeps six seeds
+and answers each trouble by every exit it promises). Findings:
+
+| # | Friction | Status | Smallest repair |
+|---|---|---|---|
+| 13 | A "table" in Kyr is a set of rules with mutually exclusive `dice(x)` ranges, one per row; there is no weighted `Draw from <table>` inside a rule, and Deem tables roll at install, not per watch. | tested | `Draw <row> from <table>` in a rule, with the row's effects as the rule body. |
+| 14 | An answer takes a watch, and the table may draw again in that same watch (a raft left astern met a calm at once): emergent, but tests must expect chained draws. | tested | Optional `after <n> watches` guard (today `seaAt` and arithmetic). |
+| 15 | Fixed-timeline tests break the moment a chance table exists (seven failed): they needed a `seaQuiet` switch the author must invent. | tested | A test-level `Journey` option to pin `dice()` high. |
+| 16 | Not built: more islands, a trading-house hierarchy, a sea passage kind, route choice. The Dorothea is one route between two places. | blocked/not done | Agent route to a not-yet-installed region (§11.4) for the trade; a `sea` passage kind for the chart. |
+| 17 | `hasCalling` voices did not fire in a standalone campaign (the Gosse agent: callings installed under another module's prefix); `capable(party, rites…)` works. My Long Man and Dorothea voices pass their tests; I have not checked them in other campaigns. | read | Document which form is portable; or alias `calling_*` globally. |
