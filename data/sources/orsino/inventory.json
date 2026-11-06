@@ -84,8 +84,8 @@
    "status": "integrated",
    "rule": "ledger",
    "counts": {
-    "integrated": 107,
-    "represented": 23,
+    "integrated": 110,
+    "represented": 20,
     "reference": 0,
     "blocked": 1
    }
@@ -460,8 +460,8 @@
    "status": "integrated",
    "rule": "ledger",
    "counts": {
-    "integrated": 44,
-    "represented": 4,
+    "integrated": 45,
+    "represented": 3,
     "reference": 0,
     "blocked": 0
    }
@@ -1099,8 +1099,8 @@
    "status": "integrated",
    "rule": "ledger",
    "counts": {
-    "integrated": 127,
-    "represented": 14,
+    "integrated": 129,
+    "represented": 12,
     "reference": 0,
     "blocked": 0
    }
@@ -1181,8 +1181,8 @@
    "status": "integrated",
    "rule": "ledger",
    "counts": {
-    "integrated": 78,
-    "represented": 22,
+    "integrated": 79,
+    "represented": 21,
     "reference": 0,
     "blocked": 0
    }
@@ -2973,13 +2973,10 @@
   },
   {
    "id": "arcaneSpell:invisibility",
-   "status": "represented",
-   "mechanics": "represented",
+   "status": "integrated",
+   "mechanics": "executable",
    "kyr": [
     "ability:invisibility"
-   ],
-   "blockers": [
-    "Generated; not executable: status:invisible."
    ]
   },
   {
@@ -3348,15 +3345,11 @@
   },
   {
    "id": "arcaneSpell:second_sight",
-   "status": "represented",
-   "mechanics": "represented",
+   "status": "integrated",
+   "mechanics": "executable",
    "kyr": [
     "ability:second_sight",
     "condition:second_sight"
-   ],
-   "blockers": [
-    "Generated; not executable: status:second_sight.",
-    "Generated; not executable: seeInvisible."
    ]
   },
   {
@@ -3582,13 +3575,10 @@
   },
   {
    "id": "arcaneSpell:true_sight",
-   "status": "represented",
-   "mechanics": "represented",
+   "status": "integrated",
+   "mechanics": "executable",
    "kyr": [
     "ability:true_sight"
-   ],
-   "blockers": [
-    "Generated; not executable: status:truesight."
    ]
   },
   {
@@ -9669,13 +9659,10 @@
   },
   {
    "id": "equipment:ring_of_true_sight",
-   "status": "represented",
-   "mechanics": "represented",
+   "status": "integrated",
+   "mechanics": "executable",
    "kyr": [
     "item:ring_of_true_sight"
-   ],
-   "blockers": [
-    "Generated; not executable: seeInvisible."
    ]
   },
   {
@@ -16132,13 +16119,10 @@
   },
   {
    "id": "status:invisible",
-   "status": "represented",
-   "mechanics": "represented",
+   "status": "integrated",
+   "mechanics": "executable",
    "kyr": [
     "condition:invisible"
-   ],
-   "blockers": [
-    "Generated; not executable: invisible."
    ]
   },
   {
@@ -16743,13 +16727,10 @@
   },
   {
    "id": "status:truesight",
-   "status": "represented",
-   "mechanics": "represented",
+   "status": "integrated",
+   "mechanics": "executable",
    "kyr": [
     "condition:truesight"
-   ],
-   "blockers": [
-    "Generated; not executable: seeInvisible."
    ]
   },
   {
@@ -17626,13 +17607,10 @@
   },
   {
    "id": "trait:imperceptible",
-   "status": "represented",
-   "mechanics": "represented",
+   "status": "integrated",
+   "mechanics": "executable",
    "kyr": [
     "trait:imperceptible"
-   ],
-   "blockers": [
-    "Generated; not executable: invisible."
    ]
   },
   {

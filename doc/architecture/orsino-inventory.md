@@ -10,7 +10,7 @@ reaches it with declared omissions), **reference** (kept in the registry only, b
 computed from what Kyr has and draws, not claimed: the ledger and generated catalogs for rules and things, what
 a generated country draws for wonders and traps, the voice tables for barks.
 
-2651 entries in 79 families: 1601 integrated, 184 represented, 745 reference, 121 blocked.
+2651 entries in 79 families: 1608 integrated, 177 represented, 745 reference, 121 blocked.
 
 ## By family
 
@@ -21,8 +21,8 @@ a generated country draws for wonders and traps, the voice tables for barks.
 | character | background | 215 | 215 | 0 | 0 | 0 | data/catalog/backgrounds.json (compiled from Orsino's rows) | residents' backgrounds in generated communities (src/world/community) | `test/backgrounds.test.ts` `test/community.test.ts` |
 | character | class | 7 | 0 | 7 | 0 | 0 | data/catalog/classes.json | protagonist and recruit callings; residents' callings | `test/progression.test.ts` `test/fellows.test.ts` |
 | character | nobility | 3 | 0 | 0 | 3 | 0 | none | none | — |
-| character | trait | 100 | 78 | 22 | 0 | 0 | data/catalog/orsino/traits.json | ancestries' and callings' traits | `test/effects.test.ts` `test/handbook.test.ts` |
-| condition | status | 141 | 127 | 14 | 0 | 0 | data/catalog/orsino/conditions.json | applied by abilities, traps and wonders | `test/effects.test.ts` `test/marvels.test.ts` |
+| character | trait | 100 | 79 | 21 | 0 | 0 | data/catalog/orsino/traits.json | ancestries' and callings' traits | `test/effects.test.ts` `test/handbook.test.ts` |
+| condition | status | 141 | 129 | 12 | 0 | 0 | data/catalog/orsino/conditions.json | applied by abilities, traps and wonders | `test/effects.test.ts` `test/marvels.test.ts` |
 | creature | animal | 44 | 38 | 6 | 0 | 0 | data/catalog/animals.json | wild country dens and creatures (data/generation/tables/ecology.json) | `test/wild-country.test.ts` `test/creature-generation.test.ts` `test/creature-variation.test.ts` |
 | creature | aspect | 31 | 31 | 0 | 0 | 0 | data/catalog/orsino/variants.json#aspects, applied by src/creature-variants.ts | a den's beasts, sometimes, drawn by rarity (src/world/region-ecology.ts); an author's Aspect in a Person | `test/variants.test.ts` |
 | creature | aspectRarity | 5 | 5 | 0 | 0 | 0 | data/catalog/orsino/variants.json#rarity, drawn by src/creature-variants.ts | a den's aspect, drawn by rarity | `test/variants.test.ts` |
@@ -42,7 +42,7 @@ a generated country draws for wonders and traps, the voice tables for barks.
 | creature | npcType | 89 | 0 | 0 | 89 | 0 | none | none | — |
 | equipment | armor | 15 | 15 | 0 | 0 | 0 | data/catalog/orsino/items.json | shops, gear, finds | `test/treasure.test.ts` |
 | equipment | consumable | 28 | 22 | 6 | 0 | 0 | data/catalog/orsino/items.json | shops and finds | `test/treasure.test.ts` `test/shared-item-effects.test.ts` |
-| equipment | equipment | 48 | 44 | 4 | 0 | 0 | data/catalog/orsino/items.json | shops and finds | `test/treasure.test.ts` |
+| equipment | equipment | 48 | 45 | 3 | 0 | 0 | data/catalog/orsino/items.json | shops and finds | `test/treasure.test.ts` |
 | equipment | gear | 68 | 65 | 2 | 0 | 1 | data/catalog/orsino/items.json | shops, starting gear | `test/treasure.test.ts` |
 | equipment | gem | 5 | 5 | 0 | 0 | 0 | data/catalog/orsino/items.json | finds in works | `test/treasure.test.ts` |
 | equipment | junk | 71 | 71 | 0 | 0 | 0 | data/catalog/orsino/items.json | finds in works | `test/treasure.test.ts` |
@@ -65,7 +65,7 @@ a generated country draws for wonders and traps, the voice tables for barks.
 | language | personalName | 4 | 0 | 0 | 4 | 0 | none | none | — |
 | language | surname | 7 | 0 | 0 | 7 | 0 | none | none | — |
 | magic | ability | 57 | 52 | 4 | 0 | 1 | data/catalog/orsino/abilities.json | callings and creatures | `test/effects.test.ts` `test/arena.test.ts` |
-| magic | arcaneSpell | 131 | 107 | 23 | 0 | 1 | data/catalog/orsino/abilities.json | callings' spell lists; wonders that teach | `test/spellcasting.test.ts` |
+| magic | arcaneSpell | 131 | 110 | 20 | 0 | 1 | data/catalog/orsino/abilities.json | callings' spell lists; wonders that teach | `test/spellcasting.test.ts` |
 | magic | divineSpell | 154 | 141 | 13 | 0 | 0 | data/catalog/orsino/abilities.json | callings' spell lists | `test/spellcasting.test.ts` `test/devotion.test.ts` |
 | rule | rule.damageKind | 15 | 14 | 0 | 0 | 1 | data/catalog/vocabulary.json#damageTypes | every damaging effect | `test/effects.test.ts` |
 | rule | rule.effectType | 23 | 23 | 0 | 0 | 0 | src/effects.ts, src/registry/orsino-effects.ts | every effect | `test/effects.test.ts` |
@@ -128,12 +128,12 @@ For each family with entries not met in play: its blockers, with how many entrie
 - 1 × effect:upgrade: Not yet modelled in Kyr.
 - 1 × Generated; not executable: bonusSpellSlots.
 - 1 × Generated; not executable: consumableMultiplier.
-- 1 × Generated; not executable: invisible.
 - 1 × Generated; not executable: reflectSpellChance, statuses.
 - 1 × Generated; not executable: rerollNaturalOnes.
 - 1 × Generated; not executable: resurrectable, hasPrimaryAttack, mayBeHealed.
 - 1 × modifier:bonusHealing: No healing bonus modifier yet.
-- and 15 more, each in inventory.json
+- 1 × modifier:disarmTrapBonus: As searchBonus.
+- and 14 more, each in inventory.json
 
 ### status
 
@@ -141,10 +141,8 @@ For each family with entries not met in play: its blockers, with how many entrie
 - 3 × Generated; not executable: untargetable.
 - 2 × Generated; not executable: reflectSpellChance.
 - 1 × Generated; not executable: extraTurns, triggerReactions.
-- 1 × Generated; not executable: invisible.
 - 1 × Generated; not executable: mayUseItems.
 - 1 × Generated; not executable: noStatusExpiry.
-- 1 × Generated; not executable: seeInvisible.
 
 ### animal
 
@@ -209,7 +207,6 @@ For each family with entries not met in play: its blockers, with how many entrie
 - 1 × Generated; not executable: reflectSpellChance, onSaveVersusMagic.
 - 1 × Generated; not executable: reflectSpellChance.
 - 1 × Generated; not executable: revealLocation.
-- 1 × Generated; not executable: seeInvisible.
 
 ### gear
 
@@ -281,12 +278,12 @@ For each family with entries not met in play: its blockers, with how many entrie
 - 1 × Every feature it uses runs in Kyr, but no Kyr definition translates it yet.
 - 1 × Generated; not executable: effect:planeshift, effects.
 - 1 × Generated; not executable: readThoughts.
-- 1 × Generated; not executable: seeInvisible.
 - 1 × Generated; not executable: status:focus.
-- 1 × Generated; not executable: status:invisible.
 - 1 × Generated; not executable: status:invulnerable.
 - 1 × Generated; not executable: status:major_spellturn.
-- and 7 more, each in inventory.json
+- 1 × Generated; not executable: status:mazed, condition:notTrait.
+- 1 × Generated; not executable: status:mind_reading.
+- and 3 more, each in inventory.json
 
 ### divineSpell
 

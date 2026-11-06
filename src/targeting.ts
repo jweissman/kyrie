@@ -14,6 +14,11 @@ export class Targeting {
       if (target === 'self') { return f.id === actor.id; }
       if (target === 'all') { return true; }
       const enemy = ['enemy', 'enemies', 'random enemy', 'random enemies'].includes(target);
+      // The one foe gone for is never one unseen (Orsino's invisible), unless the invisible are seen; what falls on
+      // every foe falls on them too.
+      if (target === 'enemy' && !friend && Effects.modifiers(f).invisible && !Effects.modifiers(actor).seeInvisible) {
+        return false;
+      }
       return enemy ? !friend && f.id !== actor.id : friend || f.id === actor.id;
     });
   }

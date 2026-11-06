@@ -3171,11 +3171,9 @@ Resists 50% of psychic, immune to poison, immune to disease, immune to sleep, im
 
 ### Hidden Presence
 
-*Not playable · nature trait* · `trait:imperceptible`
+*Faithful · nature trait* · `trait:imperceptible`
 
 > Difficult to detect and hit.
-
-*Not playable — invisible: Kyr does not execute this Orsino effect yet.*
 
 ### Inanimate Nature
 

@@ -1017,6 +1017,14 @@
    "faithful",
    "A share of each blow (Orsino's quarter, half or three quarters) goes back on whoever dealt it, through its own defences, and the holder takes the rest; never true damage, nor a blow itself sent back."
   ],
+  "modifier:invisible": [
+   "faithful",
+   "No one picks an invisible creature out as the one foe they go for, unless they see the invisible; what falls on every foe falls on it too."
+  ],
+  "modifier:seeInvisible": [
+   "faithful",
+   "Its holder picks out the invisible as any other foe."
+  ],
   "modifier:randomActions": [
    "faithful",
    "The creature falls on one of the things it could do, at random, whoever controls it."

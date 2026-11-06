@@ -23,12 +23,14 @@ export interface Modifiers {
   extraAttacksPerTurn?: number; randomActions?: boolean; changeAllegiance?: boolean; controlledActions?: boolean;
   // Orsino's flee status: a foe so marked leaves the fight when the next round begins.
   flee?: boolean;
+  // Orsino's invisible: no one picks it out as the one foe they go for, unless they see the invisible (truesight).
+  invisible?: boolean; seeInvisible?: boolean;
 }
 export type DiceModifier = 'bonusDamage' | 'bonusMeleeDamage' | 'bonusHealing';
 export type NumericModifier = 'toHit' | 'ac' | 'evasion' | 'damageReduction' | 'criticalRangeIncrease' | 'initiative'
   | 'allRolls' | 'saveVersusAll' | 'bonusSpellDC' | 'bonusSpellDamage' | 'extraAttacksPerTurn' | 'reflectDamagePercent';
 export type FlagModifier = 'noActions' | 'noSpellcasting' | 'randomActions' | 'changeAllegiance' | 'controlledActions'
-  | 'flee';
+  | 'flee' | 'invisible' | 'seeInvisible';
 
 export class ModifierSet {
   static readonly numeric: NumericModifier[] = ['toHit', 'ac', 'evasion', 'damageReduction', 'criticalRangeIncrease',
@@ -37,7 +39,7 @@ export class ModifierSet {
     'reflectDamagePercent'];
   static readonly dice: DiceModifier[] = ['bonusDamage', 'bonusMeleeDamage', 'bonusHealing'];
   static readonly flags: FlagModifier[] = ['noActions', 'noSpellcasting', 'randomActions', 'changeAllegiance',
-    'controlledActions', 'flee'];
+    'controlledActions', 'flee', 'invisible', 'seeInvisible'];
   static readonly keys = [...ModifierSet.numeric, ...ModifierSet.dice, ...ModifierSet.flags, 'saves', 'attributes',
     'resistances', 'immune', 'tempHp', 'onTurnEnd'];
   // Orsino's gatherEffects: numbers add, maps add per key, flags and lists accumulate.

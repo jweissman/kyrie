@@ -46,10 +46,10 @@
     "family": "arcaneSpell",
     "concept": "magic",
     "total": 131,
-    "feasible": 123,
+    "feasible": 124,
     "catalogued": 1,
-    "represented": 23,
-    "executable": 107,
+    "represented": 20,
+    "executable": 110,
     "play-validated": 0
    },
    {
@@ -266,10 +266,10 @@
     "family": "equipment",
     "concept": "equipment",
     "total": 48,
-    "feasible": 44,
+    "feasible": 45,
     "catalogued": 0,
-    "represented": 4,
-    "executable": 43,
+    "represented": 3,
+    "executable": 44,
     "play-validated": 1
    },
    {
@@ -646,10 +646,10 @@
     "family": "status",
     "concept": "condition",
     "total": 141,
-    "feasible": 124,
+    "feasible": 129,
     "catalogued": 0,
-    "represented": 14,
-    "executable": 126,
+    "represented": 12,
+    "executable": 128,
     "play-validated": 1
    },
    {
@@ -696,10 +696,10 @@
     "family": "trait",
     "concept": "character",
     "total": 100,
-    "feasible": 84,
+    "feasible": 85,
     "catalogued": 0,
-    "represented": 22,
-    "executable": 78,
+    "represented": 21,
+    "executable": 79,
     "play-validated": 0
    },
    {
@@ -798,11 +798,11 @@
   "phb": {
    "title": "Player's Handbook",
    "counts": {
-    "faithful": 771,
-    "adapted": 365,
+    "faithful": 777,
+    "adapted": 366,
     "represented": 4,
     "kyr": 506,
-    "unsupported": 77,
+    "unsupported": 70,
     "unreachable": 4,
     "data-only": 12
    },
@@ -889,11 +889,11 @@
      "id": "equipment",
      "title": "Equipment",
      "counts": {
-      "faithful": 248,
+      "faithful": 249,
       "adapted": 73,
       "represented": 0,
       "kyr": 56,
-      "unsupported": 10,
+      "unsupported": 9,
       "unreachable": 0,
       "data-only": 0
      }
@@ -915,11 +915,11 @@
      "id": "magic",
      "title": "Magic",
      "counts": {
-      "faithful": 243,
+      "faithful": 246,
       "adapted": 4,
       "represented": 0,
       "kyr": 2,
-      "unsupported": 35,
+      "unsupported": 32,
       "unreachable": 0,
       "data-only": 0
      }
@@ -967,11 +967,11 @@
      "id": "conditions",
      "title": "Conditions",
      "counts": {
-      "faithful": 126,
-      "adapted": 25,
+      "faithful": 128,
+      "adapted": 26,
       "represented": 0,
       "kyr": 32,
-      "unsupported": 21,
+      "unsupported": 18,
       "unreachable": 0,
       "data-only": 0
      }
@@ -994,9 +994,9 @@
   "dmg": {
    "title": "Dungeon Master's Guide",
    "counts": {
-    "faithful": 236,
+    "faithful": 239,
     "adapted": 25,
-    "represented": 33,
+    "represented": 30,
     "kyr": 278,
     "unsupported": 0,
     "unreachable": 0,
@@ -1046,9 +1046,9 @@
      "id": "orsino-world",
      "title": "Appendix: Orsino's world material",
      "counts": {
-      "faithful": 236,
+      "faithful": 239,
       "adapted": 25,
-      "represented": 33,
+      "represented": 30,
       "kyr": 0,
       "unsupported": 0,
       "unreachable": 0,
@@ -1060,11 +1060,11 @@
   "mm": {
    "title": "Monster Manual",
    "counts": {
-    "faithful": 154,
+    "faithful": 155,
     "adapted": 128,
     "represented": 10,
     "kyr": 37,
-    "unsupported": 5,
+    "unsupported": 4,
     "unreachable": 0,
     "data-only": 104
    },
@@ -1125,11 +1125,11 @@
      "id": "creature-traits",
      "title": "Creature traits",
      "counts": {
-      "faithful": 25,
+      "faithful": 26,
       "adapted": 0,
       "represented": 0,
       "kyr": 8,
-      "unsupported": 5,
+      "unsupported": 4,
       "unreachable": 0,
       "data-only": 0
      }
@@ -8511,7 +8511,7 @@
   {
    "id": "item:ring_of_true_sight",
    "title": "Ring of True Sight",
-   "status": "unsupported",
+   "status": "faithful",
    "book": "phb",
    "section": "equipment/gear"
   },
@@ -8980,7 +8980,7 @@
   {
    "id": "ability:second_sight",
    "title": "Second Sight",
-   "status": "unsupported",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-arcane/spells-arcane-1"
   },
@@ -9330,7 +9330,7 @@
   {
    "id": "ability:true_sight",
    "title": "True Seeing",
-   "status": "unsupported",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-arcane/spells-arcane-4"
   },
@@ -9491,7 +9491,7 @@
   {
    "id": "ability:invisibility",
    "title": "Invisibility",
-   "status": "unsupported",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-arcane/spells-arcane-6"
   },
@@ -12025,7 +12025,7 @@
   {
    "id": "condition:invisible",
    "title": "Invisible",
-   "status": "unsupported",
+   "status": "faithful",
    "book": "phb",
    "section": "conditions"
   },
@@ -12480,7 +12480,7 @@
   {
    "id": "condition:second_sight",
    "title": "Second Sight",
-   "status": "unsupported",
+   "status": "adapted",
    "book": "phb",
    "section": "conditions"
   },
@@ -12655,7 +12655,7 @@
   {
    "id": "condition:truesight",
    "title": "True Sight",
-   "status": "unsupported",
+   "status": "faithful",
    "book": "phb",
    "section": "conditions"
   },
@@ -16904,7 +16904,7 @@
   {
    "id": "orsino:equipment:ring_of_true_sight",
    "title": "Ring of True Sight",
-   "status": "represented",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-equipment"
   },
@@ -18073,7 +18073,7 @@
   {
    "id": "orsino:status:invisible",
    "title": "Invisible",
-   "status": "represented",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-status"
   },
@@ -18584,7 +18584,7 @@
   {
    "id": "orsino:status:truesight",
    "title": "True Sight",
-   "status": "represented",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-status"
   },
@@ -19830,7 +19830,7 @@
   {
    "id": "trait:imperceptible",
    "title": "Hidden Presence",
-   "status": "unsupported",
+   "status": "faithful",
    "book": "mm",
    "section": "creature-traits"
   },

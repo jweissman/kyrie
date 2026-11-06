@@ -3089,7 +3089,7 @@ Orsino's planes, traps, wonders, treasure and magic items, with how much of each
 | Ring of Strength | ring | uncommon | str 2 | faithful |
 | Ring of the Firmament | ring | rare | resistFire 0.5 resistCold 0.5 resistLightning 0.5 | faithful |
 | Ring of Thorns | ring | rare | onAttacked [{"type":"attack","target":"attacker","kind":"force"}] | faithful |
-| Ring of True Sight | ring | legendary | seeInvisible true | represented |
+| Ring of True Sight | ring | legendary | seeInvisible true | faithful |
 | Robe of Elvenkind | body | rare | dex 2 evasion 10 onAttacked [{"type":"debuff","status":"blinded","target":"attacker","saveDC":25},{"type":"debuff","status":"slow","target":"attacker","saveDC":25}] | faithful |
 | Robe of the Archmagi | body | legendary | int 4 wis 4 bonusSpellDC 4 resistAll 0.15 | faithful |
 | Silvered Bracers | bracers | common | ac -1 | faithful |
@@ -3277,7 +3277,7 @@ Orsino's planes, traps, wonders, treasure and magic items, with how much of each
 | Insane | randomActions true allRolls -1 saveVersusWill -2 | faithful |
 | Sage's Insight | int 4 allRolls 2 saveVersusAll 3 bonusSpellDC 2 | faithful |
 | Inspired | toHit 2 tempHp 5 saveVersusAll 1 | faithful |
-| Invisible | invisible true onAttack [{"type":"removeStatus","statusName":"Invisible"}] onOffensiveCasting [{"type":"removeStatus","statusName":"Invisible"}] | represented |
+| Invisible | invisible true onAttack [{"type":"removeStatus","statusName":"Invisible"}] onOffensiveCasting [{"type":"removeStatus","statusName":"Invisible"}] | faithful |
 | Invulnerable | untargetable true | represented |
 | Ironskin | ac -5 | faithful |
 | Keen Weapon | toHit 2 bonusDamage 2 criticalRangeIncrease 2 | faithful |
@@ -3350,7 +3350,7 @@ Orsino's planes, traps, wonders, treasure and magic items, with how much of each
 | Thirst | con -2 saveVersusAll -1 resistFire -1 | faithful |
 | Time Stopped | extraTurns 3 triggerReactions false | represented |
 | Time Walk | untargetable true ac -5 evasion 20 extraAttacksPerTurn 4 | represented |
-| True Sight | seeInvisible true | represented |
+| True Sight | seeInvisible true | faithful |
 | Vigorous | toHit 1 criticalRangeIncrease 2 con 2 tempHp 10 saveVersusAll 1 bonusDamage 1 | faithful |
 | Vital Boost | con 4 tempHp 20 saveVersusAll 2 | faithful |
 | Warded | saveVersusMagic 1 resistFire 0.15 resistCold 0.15 resistLightning 0.15 resistForce 0.5 tempHp =14 + 2 * #level | faithful |

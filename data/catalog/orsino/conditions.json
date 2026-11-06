@@ -1002,7 +1002,9 @@
    "name": "Invisible",
    "description": "Unable to be seen by enemies.",
    "lifetime": "encounter",
-   "modifiers": {},
+   "modifiers": {
+    "invisible": true
+   },
    "hooks": {
     "onAttack": [
      {
@@ -1020,9 +1022,6 @@
       "target": "enemy"
      }
     ]
-   },
-   "unsupported": {
-    "invisible": "Kyr does not execute this Orsino effect yet."
    },
    "source": {
     "orsino": "status:invisible",
@@ -2224,9 +2223,8 @@
    "name": "True Sight",
    "description": "Seeing through illusions and invisibility.",
    "lifetime": "encounter",
-   "modifiers": {},
-   "unsupported": {
-    "seeInvisible": "Kyr does not execute this Orsino effect yet."
+   "modifiers": {
+    "seeInvisible": true
    },
    "source": {
     "orsino": "status:truesight",
@@ -2588,12 +2586,10 @@
    "lifetime": "encounter",
    "modifiers": {
     "evasion": 10,
-    "toHit": 5
+    "toHit": 5,
+    "seeInvisible": true
    },
    "duration": 2,
-   "unsupported": {
-    "seeInvisible": "Kyr does not execute this Orsino effect yet."
-   },
    "source": {
     "orsino": "arcaneSpell:second_sight",
     "fidelity": "adapted",

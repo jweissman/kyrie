@@ -47,7 +47,7 @@ describe('a module teaching a spell', () => {
   }, 60000);
   // One of Orsino's spells that Kyr cannot run is refused with why (BOF-05: it had been an invalid argument, no more).
   it('refuses a spell Kyr cannot run, and says why', async () => {
-    await expect(Taught.start('mage', 'true_sight')).rejects.toThrow(/True Seeing is Orsino's, and Kyr cannot run it/);
+    await expect(Taught.start('mage', 'dispel_magic')).rejects.toThrow(/Dispel Magic is Orsino's, and Kyr cannot run it/);
   }, 60000);
 });
 

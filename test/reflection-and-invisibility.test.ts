@@ -3,6 +3,7 @@ import { Canon } from '../src/canon/canon';
 import { CombatProjection } from '../src/combat-projection';
 import { Content } from '../src/content';
 import { Effects, type EffectContext } from '../src/effects';
+import { Targeting } from '../src/targeting';
 
 // Orsino's reflect, executed (it had been only represented): a share of each blow its holder takes goes back on
 // whoever dealt it, through that one's own defences, and the holder takes the rest; never true damage, nor a blow
@@ -28,5 +29,23 @@ describe('a reflection', () => {
     // True damage is not reflected.
     Effects.damage(mage, { amount: 4, type: 'true' }, context(brute));
     expect([mageHp - mage.hp, bruteHp - brute.hp]).toEqual([9, back]);
+  });
+});
+
+// Orsino's invisible, executed: no one picks an invisible creature out as the one foe they go for, unless they see
+// the invisible (truesight); what falls on every foe falls on it too.
+describe('the invisible', () => {
+  it('are not gone for one by one, unless the invisible are seen', () => {
+    const content = new Content('unseen');
+    const thief = CombatProjection.fighter(content.createCreature('thief', { raceId: 'human', classId: 'thief', level: 3 }),
+      'fighters');
+    const guard = CombatProjection.fighter(content.createCreature('guard', { raceId: 'human', classId: 'warrior', level: 3 }),
+      'goblins');
+    thief.statuses.push({ id: 'invisible', remaining: 3 });
+    const fighters = [thief, guard];
+    expect(Targeting.candidates('enemy', guard, fighters).map(f => f.id)).toEqual([]);
+    expect(Targeting.candidates('enemies', guard, fighters).map(f => f.id)).toEqual(['thief']);
+    guard.statuses.push({ id: 'truesight', remaining: 3 });
+    expect(Targeting.candidates('enemy', guard, fighters).map(f => f.id)).toEqual(['thief']);
   });
 });

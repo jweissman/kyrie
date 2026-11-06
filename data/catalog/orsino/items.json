@@ -4610,12 +4610,12 @@
    "description": "A magical ring that allows the wearer to see through illusions and invisibility.",
    "value": 1500,
    "slot": "ring",
-   "unsupported": {
-    "seeInvisible": "Kyr does not execute this Orsino effect yet."
+   "modifiers": {
+    "seeInvisible": true
    },
    "source": {
     "orsino": "equipment:ring_of_true_sight",
-    "fidelity": "adapted"
+    "fidelity": "faithful"
    }
   },
   "robe_of_elvenkind": {

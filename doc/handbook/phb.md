@@ -4337,14 +4337,12 @@ resists 50% of lightning.
 
 #### Ring of True Sight
 
-*Not playable · equipment* · `item:ring_of_true_sight`
+*Faithful · equipment* · `item:ring_of_true_sight`
 
 - Worth: 1500
 - Worn: ring
 
 > A magical ring that allows the wearer to see through illusions and invisibility.
-
-*Not playable — seeInvisible: Kyr does not execute this Orsino effect yet.*
 
 #### Robe of Elvenkind
 
@@ -5045,11 +5043,11 @@ You are mage-armored for 20 turns. Mage-Armored: 4 harder to hit, 20 more hit po
 
 ##### Second Sight
 
-*Not playable · level 1 arcane spell, divination* · `ability:second_sight`
+*Faithful · level 1 arcane spell, divination* · `ability:second_sight`
+
+One ally gains second sight for 3 turns. Second Sight: +5 to hit, +10 evasion. An arcane spell of the first level. Takes a first-level slot.
 
 > For a moment, perceive the true nature of things, gaining enhanced evasion and accuracy.
-
-*Not playable — status:second_sight: Applies second_sight, which Kyr cannot execute.*
 
 ##### Shrieking Missile
 
@@ -5461,11 +5459,11 @@ One enemy is major weakened for 3 turns (a Constitution save against 20 + level 
 
 ##### True Seeing
 
-*Not playable · level 4 arcane spell, divination* · `ability:true_sight`
+*Faithful · level 4 arcane spell, divination* · `ability:true_sight`
+
+One ally gains true sight for 3 turns. True Sight: seeing through illusions and invisibility. An arcane spell of the fourth level. Takes a fourth-level slot.
 
 > See through illusions, invisibility, and magical darkness for 10 minutes.
-
-*Not playable — status:truesight: Applies truesight, which Kyr cannot execute.*
 
 #### Level 5
 
@@ -5655,11 +5653,11 @@ One enemy is petrified for 10 turns (a Constitution save against 18 + level + th
 
 ##### Invisibility
 
-*Not playable · level 6 arcane spell, illusion* · `ability:invisibility`
+*Faithful · level 6 arcane spell, illusion* · `ability:invisibility`
+
+One ally is invisible for 3 turns. Invisible: on attacking, it ends; and on casting against an enemy, it ends. An arcane spell of the sixth level. Takes a sixth-level slot.
 
 > Turn invisible for 5 rounds or until you attack or cast a spell.
-
-*Not playable — status:invisible: Applies invisible, which Kyr cannot execute.*
 
 ##### Major Distraction
 
@@ -9061,11 +9059,9 @@ Cannot act.
 
 ### Invisible
 
-*Not playable · lasts the fight at most* · `condition:invisible`
+*Faithful · lasts the fight at most* · `condition:invisible`
 
 > Unable to be seen by enemies.
-
-*Not playable — invisible: Kyr does not execute this Orsino effect yet.*
 
 ### Invulnerable
 
@@ -9609,13 +9605,11 @@ Resists 50% of necrotic, immune to charm.
 
 ### Second Sight
 
-*Not playable · lasts the fight at most* · `condition:second_sight`
+*Adapted · lasts the fight at most* · `condition:second_sight`
 
 +5 to hit, +10 evasion.
 
 > Second Sight
-
-*Not playable — seeInvisible: Kyr does not execute this Orsino effect yet.*
 
 *Adapted: Defined inline by an Orsino ability; Kyr names it after its display name.*
 
@@ -9835,11 +9829,9 @@ Immune to poison.
 
 ### True Sight
 
-*Not playable · lasts the fight at most* · `condition:truesight`
+*Faithful · lasts the fight at most* · `condition:truesight`
 
 > Seeing through illusions and invisibility.
-
-*Not playable — seeInvisible: Kyr does not execute this Orsino effect yet.*
 
 ### Unbarring
 

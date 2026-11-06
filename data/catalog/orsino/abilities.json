@@ -3255,9 +3255,6 @@
     "level": 6,
     "school": "illusion"
    },
-   "unsupported": {
-    "status:invisible": "Applies invisible, which Kyr cannot execute."
-   },
    "source": {
     "orsino": "arcaneSpell:invisibility",
     "fidelity": "faithful"
@@ -4640,9 +4637,6 @@
     "level": 1,
     "school": "divination"
    },
-   "unsupported": {
-    "status:second_sight": "Applies second_sight, which Kyr cannot execute."
-   },
    "source": {
     "orsino": "arcaneSpell:second_sight",
     "fidelity": "faithful"
@@ -5473,9 +5467,6 @@
     "tradition": "arcane",
     "level": 4,
     "school": "divination"
-   },
-   "unsupported": {
-    "status:truesight": "Applies truesight, which Kyr cannot execute."
    },
    "source": {
     "orsino": "arcaneSpell:true_sight",

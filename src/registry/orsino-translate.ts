@@ -28,7 +28,8 @@ const NUMERIC = ['toHit', 'ac', 'evasion', 'damageReduction', 'criticalRangeIncr
   'saveVersusAll', 'bonusSpellDC', 'bonusSpellDamage', 'extraAttacksPerTurn', 'reflectDamagePercent'] as const;
 const HOOKS = ['onAttack', 'onAttackHit', 'onAttacked', 'onMissReceived', 'onCombatStart', 'onExpire', 'onOffensiveCasting',
   'onHeal'];
-const FLAGS = ['noActions', 'noSpellcasting', 'randomActions', 'changeAllegiance', 'controlledActions', 'flee'] as const;
+const FLAGS = ['noActions', 'noSpellcasting', 'randomActions', 'changeAllegiance', 'controlledActions', 'flee', 'invisible',
+  'seeInvisible'] as const;
 const DICE = ['bonusDamage', 'bonusMeleeDamage', 'bonusHealing'] as const;
 const ATTRIBUTES: Record<string, string> = { str: 'strength', dex: 'dexterity', con: 'constitution',
   int: 'intelligence', wis: 'wisdom', cha: 'charisma' };

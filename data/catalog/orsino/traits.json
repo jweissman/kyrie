@@ -1086,9 +1086,8 @@
    "name": "Hidden Presence",
    "category": "nature",
    "description": "Difficult to detect and hit.",
-   "modifiers": {},
-   "unsupported": {
-    "invisible": "Kyr does not execute this Orsino effect yet."
+   "modifiers": {
+    "invisible": true
    },
    "source": {
     "orsino": "trait:imperceptible",
