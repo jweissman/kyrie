@@ -66,7 +66,8 @@ export class RegionEcology {
     Beast & { aspect?: string; template?: string } {
     const draw = new Draw(`${site.id}:variant`), habitat = at.habitat;
     if (['barrow', 'ruin'].includes(habitat) && beast.nature === 'wild' && draw.chance(0.4)) {
-      const template = draw.pick(['skeletal', 'zombie']);
+      // Any of Orsino's undead templates (data/catalog/orsino/variants.json), not two of them written here.
+      const template = draw.pick(Object.keys(CreatureVariants.table.templates));
       return { ...this.named(beast, template), nature: 'unquiet', template };
     }
     const varied = this.varied(beast, { habitat, climate: RegionWeather.climate(at.region) }, draw);

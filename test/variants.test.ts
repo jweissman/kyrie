@@ -39,7 +39,7 @@ describe('a creature other than its kind', () => {
     expect(RegionEcology.variant({ id: 'w7' } as Site, wolf, at)).toEqual(drawn[7]!);
     const dead = drawn.filter(d => d.template), aspected = drawn.filter(d => d.aspect);
     expect(dead.length).toBeGreaterThan(40);
-    expect(dead.every(d => d.nature === 'unquiet' && /^a (skeletal|zombie) wolf$/.test(d.role))).toBe(true);
+    expect(dead.every(d => d.nature === 'unquiet' && /^a (skeletal|spectral|vampiric|zombie) wolf$/.test(d.role))).toBe(true);
     // Common aspects are met far more than legendary ones.
     const tier = (a: string) => Object.entries(CreatureVariants.table.rarity).find(([, list]) => list.includes(a))![0];
     const counts = aspected.map(d => tier(d.aspect!));
