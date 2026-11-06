@@ -6,9 +6,13 @@
   },
   "traits": {},
   "items": {},
-  "organisms": {},
   "classes": {
     "fighter": "warrior",
     "magic_user": "mage"
+  },
+  "plants": {},
+  "species": {
+    "red_deer": "deer",
+    "grey_wolf": "wolf"
   }
 }

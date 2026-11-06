@@ -259,6 +259,23 @@
           "role": "a bone hound",
           "nature": "unquiet"
         }
+      ],
+      "desert": [
+        {
+          "_key": "hyena",
+          "__weight": 2,
+          "count": 3,
+          "label": "the hyenas",
+          "role": "a hyena",
+          "nature": "wild"
+        },
+        {
+          "_key": "great_snake",
+          "count": 1,
+          "label": "the great snake",
+          "role": "a great snake",
+          "nature": "wild"
+        }
       ]
     }
   },
@@ -389,7 +406,7 @@
           "text": "A grouse gets up out of the heather at your feet and goes off low, scolding."
         },
         {
-          "_key": "adder",
+          "_key": "snake",
           "text": "An adder lies across the warm stones of the road, and takes its time about leaving."
         },
         {
@@ -397,7 +414,7 @@
           "text": "Somewhere out on the moor a curlew calls, and another answers."
         },
         {
-          "_key": "hare",
+          "_key": "rabbit",
           "text": "A hare sits up in the heather to watch you by, ears like two blades."
         }
       ],
@@ -407,7 +424,7 @@
           "text": "A lark goes up singing out of the grass and does not stop."
         },
         {
-          "_key": "rook",
+          "_key": "crow",
           "text": "Rooks walk the furrows behind nobody, looking for what the plough turned up."
         },
         {
@@ -473,6 +490,24 @@
         {
           "_key": "owl",
           "text": "An owl roosts where a roof-beam was."
+        }
+      ],
+      "desert": [
+        {
+          "_key": "lizard",
+          "text": "A lizard flattens itself on a hot stone and watches you go by without moving."
+        },
+        {
+          "_key": "snake",
+          "text": "A snake's track crosses the sand in loops and is gone under a rock."
+        },
+        {
+          "_key": "hawk",
+          "text": "A hawk hangs high over the waste, not moving its wings."
+        },
+        {
+          "_key": "hyena",
+          "text": "Something laughed out in the dunes last night; this morning there are prints round the fire."
         }
       ]
     }

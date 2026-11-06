@@ -25,7 +25,7 @@ export class CanonValidation {
     const v = new CanonValidation();
     v.identities(); v.ancestries(); v.species(); v.variations(); v.classes(); v.traits(); v.abilities();
     v.conditions(); v.items();
-    v.backgrounds(); v.religion(); v.organisms(); v.sources();
+    v.backgrounds(); v.religion(); v.plants(); v.sources();
     return [...Canon.conflicts, ...v.problems];
   }
   static assert() {
@@ -36,13 +36,13 @@ export class CanonValidation {
   private identities() {
     const entityFamilies = { ability: Object.keys(Canon.abilities), item: Object.keys(Canon.items),
       skill: Object.keys(Canon.skills),
-      deity: Object.keys(Canon.deities), organism: Object.keys(Canon.organisms) };
+      deity: Object.keys(Canon.deities), plant: Object.keys(Canon.plants) };
     this.disjoint(entityFamilies);
     this.disjoint({ ancestry: Object.keys(Canon.ancestries), species: Object.keys(Canon.species),
       class: Object.keys(Canon.classes) });
     this.disjoint({ condition: Object.keys(Canon.conditions), trait: Object.keys(Canon.traits) });
     const families = { abilities: Canon.abilities, conditions: Canon.conditions, traits: Canon.traits,
-      items: Canon.items, organisms: Canon.organisms } as const;
+      items: Canon.items, plants: Canon.plants, species: Canon.species } as const;
     for (const [family, entries] of Object.entries(families)) {
       for (const [alias, target] of Object.entries(Canon.aliases[family as keyof typeof families] ?? {})) {
         if (Object.hasOwn(entries, alias)) { this.fail(`alias ${alias}`, `shadows a canonical ${family} identifier`); }
@@ -226,12 +226,14 @@ export class CanonValidation {
     }
     for (const [id, d] of Object.entries(Canon.domains)) { this.modifiers(`domain ${id}`, d.blessing?.modifiers); }
   }
-  private organisms() {
-    for (const [id, o] of Object.entries(Canon.organisms)) {
-      const where = `organism ${id}`;
-      if (o.species && !Canon.isSpecies(o.species)) { this.fail(where, `represented by unknown species ${o.species}`); }
-      if (o.kind === 'plant' && o.species) { this.fail(where, 'a plant is not a creature species'); }
-      if (o.yields && Canon.items[o.yields]?.category !== 'consumable') { this.fail(where, `yields ${o.yields}, not a consumable`); }
+  // A plant grows in habitats there are, and what is gathered or cut from it is a thing of the catalog.
+  private plants() {
+    for (const [id, o] of Object.entries(Canon.plants)) {
+      const where = `plant ${id}`;
+      for (const it of [o.yields, o.cut?.yields].filter((x): x is string => !!x && !Canon.items[x])) {
+        this.fail(where, `yields ${it}, which is no item`);
+      }
+      if (o.stand && (!o.yields || !o.gathered)) { this.fail(where, 'a stand gathers something it yields'); }
       for (const h of o.habitats.filter(h => !Canon.habitats[h])) { this.fail(where, `unknown habitat ${h}`); }
     }
   }
@@ -239,7 +241,7 @@ export class CanonValidation {
     const families = { ability: Canon.abilities, ancestry: Canon.ancestries, species: Canon.species,
       class: Canon.classes,
       trait: Canon.traits, background: Canon.backgrounds, skill: Canon.skills, item: Canon.items, deity: Canon.deities,
-      organism: Canon.organisms } as Record<string, Record<string, { source?: { orsino?: string; kyr?: true } }>>;
+      plant: Canon.plants } as Record<string, Record<string, { source?: { orsino?: string; kyr?: true } }>>;
     for (const [family, entries] of Object.entries(families)) {
       for (const [id, e] of Object.entries(entries)) {
         if (!e.source || (!e.source.orsino && !e.source.kyr)) { this.fail(`${family} ${id}`, 'has no source'); }

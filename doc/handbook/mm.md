@@ -196,7 +196,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Attack: claws, 1d4 slashing
 - Hide: Fur Armor, armour 0
 - Temperament: defensive
-- Found in: woodland, mountain
+- Found in: wood, heights
 - Worth: 150 experience a level
 
 Smash: 2d6 + level bludgeoning damage to one enemy (may cause stunned: a Constitution save against 15 avoids it). Stunned: −2 to every roll, cannot act. Again after 3 turns.
@@ -270,7 +270,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Attack: bite, 1d6 piercing
 - Hide: Chitin Armor, armour 2
 - Temperament: ambush
-- Found in: cave, woodland
+- Found in: cave, wood
 - Worth: 150 experience a level
 
 Venomous Bite: 1d6 (1–6) poison damage to one enemy (halved if resisted; may cause poison: a Constitution save against 15 avoids it); it gains poison for 3 turns (a Constitution save against 12 + level + the caster's spell bonus avoids it). Poison: takes 1d4 (1–4) true damage each turn. A divine spell of the first level. Takes a first-level slot.
@@ -381,6 +381,22 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A highly intelligent bird remarkable for its problem-solving skills and adaptability.
 
+#### Curlew
+
+*Kyr · beast* · `species:curlew`
+
+- Type: beast (animal)
+- Hit points: 3 + Constitution modifier + 1 a level
+- Qualities: +3 strength, +7 dexterity, +3 constitution, +3 intelligence, +6 wisdom, +4 charisma
+- Attack: flutter, 1d2 bludgeoning
+- Temperament: wary
+- Found in: heath, meadow, fen
+- Worth: 150 experience a level
+
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
+
+> A curlew of the moor and the wet meadows, whose call carries for miles.
+
 #### Deer
 
 *Faithful · beast* · `species:deer`
@@ -408,7 +424,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Attack: bite, 1d6 piercing
 - Hide: Fur Armor, armour 0
 - Temperament: tame
-- Found in: settlement, meadow, upland
+- Found in: settlement, meadow, fells
 - Worth: 150 experience a level
 
 Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
@@ -459,7 +475,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Attack: bite, 1d6 piercing
 - Hide: Hide Armor, armour 1
 - Temperament: ambush
-- Found in: riverbank, marsh
+- Found in: river, fen
 - Worth: 150 experience a level
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
@@ -568,7 +584,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Hide: Fur Armor, armour 0
 - Resists: physical 25%, cold 75%, fire takes 50% more
 - Temperament: wary
-- Found in: woodland, upland
+- Found in: wood, fells
 - Worth: 150 experience a level
 
 Rime bite: 2d6 (2–12) cold damage to one enemy (may cause frozen: a Dexterity save against 15 avoids it); it is weakened for 3 turns (a Constitution save against 11 avoids it). Frozen: Dexterity −5, cannot act. Weakened: −2 damage, Strength −2. Again after a turn.
@@ -625,7 +641,7 @@ Venomous Bite: 1d6 (1–6) poison damage to one enemy (halved if resisted; may c
 - Attack: bite, 1d6 piercing
 - Hide: Hide Armor, armour 1
 - Temperament: ambush
-- Found in: riverbank
+- Found in: river
 - Worth: 150 experience a level
 
 Rending bite: 1d6 (1–6) physical damage to one enemy; it is bleeding for 2 turns (a Constitution save against 11 avoids it). Bleeding: takes 1 bleed damage each turn. Again after a turn.
@@ -663,7 +679,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Attack: bite, 1d6 piercing
 - Hide: Scale Mail, armour 4
 - Temperament: territorial
-- Found in: cave, marsh
+- Found in: cave, fen
 - Worth: 10 experience a level
 
 Venomous Bite: 1d6 (1–6) poison damage to one enemy (halved if resisted; may cause poison: a Constitution save against 15 avoids it); it gains poison for 3 turns (a Constitution save against 12 + level + the caster's spell bonus avoids it). Poison: takes 1d4 (1–4) true damage each turn. A divine spell of the first level. Takes a first-level slot.
@@ -671,6 +687,22 @@ Venomous Bite: 1d6 (1–6) poison damage to one enemy (halved if resisted; may c
 Ensnare: One enemy is entangled for 3 turns (a Dexterity save against 12 + level + the caster's spell bonus avoids it). Entangled: −2 to hit, −5 evasion, −5 initiative, Dexterity −5. Again after 3 turns.
 
 > A snake grown old and huge in the dark on whatever comes to it, as long as a hall and as thick as a man.
+
+#### Grouse
+
+*Kyr · beast* · `species:grouse`
+
+- Type: beast (animal)
+- Hit points: 3 + Constitution modifier + 1 a level
+- Qualities: +3 strength, +7 dexterity, +3 constitution, +3 intelligence, +6 wisdom, +4 charisma
+- Attack: flutter, 1d2 bludgeoning
+- Temperament: wary
+- Found in: heath, fells
+- Worth: 150 experience a level
+
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
+
+> A red grouse of the heather, that gets up at your feet and goes off low, scolding.
 
 #### Hawk
 
@@ -774,6 +806,22 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A scavenging carnivore with powerful jaws and distinctive laugh-like vocalizations.
 
+#### Lark
+
+*Kyr · beast* · `species:lark`
+
+- Type: beast (animal)
+- Hit points: 3 + Constitution modifier + 1 a level
+- Qualities: +3 strength, +7 dexterity, +3 constitution, +3 intelligence, +6 wisdom, +4 charisma
+- Attack: flutter, 1d2 bludgeoning
+- Temperament: wary
+- Found in: meadow, heath
+- Worth: 150 experience a level
+
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
+
+> A skylark that goes up singing over the open fields and does not seem to come down.
+
 #### Lion
 
 *Faithful · beast* · `species:lion`
@@ -818,7 +866,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Attack: tusks, 1d8 piercing
 - Hide: Hide Armor, armour 1
 - Temperament: territorial
-- Found in: marsh, riverbank
+- Found in: fen, river
 - Worth: 150 experience a level
 
 Rending bite: 1d6 (1–6) physical damage to one enemy; it is bleeding for 2 turns (a Constitution save against 11 avoids it). Bleeding: takes 1 bleed damage each turn. Again after a turn.
@@ -988,7 +1036,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Attack: tusks, 1d8 piercing
 - Hide: Hide Armor, armour 1
 - Temperament: tame
-- Found in: settlement, woodland
+- Found in: settlement, wood
 - Worth: 150 experience a level
 
 Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
@@ -1073,7 +1121,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Attack: bite, 1d6 piercing
 - Hide: Fur Armor, armour 0
 - Temperament: wary
-- Found in: settlement, cave, riverbank
+- Found in: settlement, cave, river
 - Worth: 150 experience a level
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
@@ -1111,7 +1159,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Attack: headbutt, 1d4 bludgeoning
 - Hide: Fur Armor, armour 0
 - Temperament: tame
-- Found in: settlement, upland, meadow
+- Found in: settlement, fells, meadow
 - Worth: 150 experience a level
 
 Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
@@ -1145,7 +1193,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Attack: bite, 1d6 piercing
 - Hide: Chitin Armor, armour 2
 - Temperament: ambush
-- Found in: woodland, cave
+- Found in: wood, cave
 - Worth: 150 experience a level
 
 Venomous Bite: 1d6 (1–6) poison damage to one enemy (halved if resisted; may cause poison: a Constitution save against 15 avoids it); it gains poison for 3 turns (a Constitution save against 12 + level + the caster's spell bonus avoids it). Poison: takes 1d4 (1–4) true damage each turn. A divine spell of the first level. Takes a first-level slot.
@@ -1283,7 +1331,7 @@ Wild: +2 to hit, +2 damage, +2 evasion, +1 to every roll, resists 10% of all.
 - Attack: bite, 1d6 piercing
 - Hide: Fur Armor, armour 0
 - Temperament: wary
-- Found in: woodland, upland
+- Found in: wood, fells
 - Worth: 150 experience a level
 
 Rending bite: 1d6 (1–6) physical damage to one enemy; it is bleeding for 2 turns (a Constitution save against 11 avoids it). Bleeding: takes 1 bleed damage each turn. Again after a turn.
@@ -1687,7 +1735,7 @@ Fiendish Resilience: Resists 50% of fire, resists 50% of poison, immune to charm
 - Attack: bite, 1d6 piercing
 - Hide: Scale Mail, armour 4
 - Temperament: proud
-- Found in: mountain, cave
+- Found in: heights, cave
 - Worth: 800 experience a level
 
 Fly: One ally gains flight for 3 turns. Flight: 5 harder to hit, +20 evasion. An arcane spell of the third level. Takes a third-level slot.
@@ -1738,7 +1786,7 @@ Aerial Mobility: +1 to hit, +5 evasion.
 - Attack: bite, 1d6 piercing
 - Hide: Scale Mail, armour 4
 - Temperament: proud
-- Found in: mountain, cave
+- Found in: heights, cave
 - Worth: 800 experience a level
 
 Fire breath: 2d6 + 2 × level fire damage to every enemy (a Constitution save against 15 + level halves it; may cause burning: a Constitution save against 15 avoids it). Burning: takes 1d3 (1–3) fire damage each turn. Again after 3 turns.
@@ -2086,7 +2134,7 @@ Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of fo
 - Attack: slam, 1d6 piercing
 - Hide: Hide Armor, armour 1
 - Temperament: territorial
-- Found in: marsh, riverbank, cave
+- Found in: fen, river, cave
 - Worth: 200 experience a level
 
 Slow: Every enemy gains slow for 4 turns (a Dexterity save against 14 + level + the caster's spell bonus avoids it). Slow: −10 initiative, Dexterity −5, -1 more blows a turn. An arcane spell of the second level. Takes a second-level slot.

@@ -1,33 +1,42 @@
 import { Canon } from '../canon/canon';
+import { Draw } from './land/draw';
 import { RegionGeography } from './region-geography';
 import { RegionZones } from './region-zones';
 import { RegionRoads } from './region-roads';
 import type { Region } from './region-writer';
-import type { Organism } from '../canon/schema';
+import type { Plant } from '../canon/schema';
 
 // What grows wild in a country, where the land lets it: willows and meadowsweet where a road or a wood runs by water,
 // sphagnum in the fen, yarrow at the waysides of open country. Each is a stand at a place on the land, seen there,
 // that gives a little of what it yields (willow bark for a fever, moss for a wound) to whoever gathers it. Only what
 // grows on a place's own cells is there: a herb-wife who says the willow grows by water is right.
 export class RegionGrowth {
-  // The habitats a place on the land has, from its cells: by water, fen, meadow, wood, upland.
+  // The habitats a place on the land has, from its cells, as the one vocabulary says each is on the land
+  // (data/catalog/habitats.json): the ground beside water, and what each cell's cover is (fen, meadow, wood, fells,
+  // heath, heights).
   static habitats(region: Region, cells: number[]): Set<string> {
     const atlas = RegionGeography.atlas(region), W = atlas.land.width, cover = atlas.land.cover;
     const wet = new Set([...atlas.rivers.flatMap(r => r.cells), ...atlas.lakes.flatMap(l => l.cells)]);
-    const out = new Set<string>();
+    const out = new Set<string>(), all = Object.entries(Canon.habitats);
     for (const c of cells) {
       const around = [c, c - 1, c + 1, c - W, c + W];
-      if (around.some(n => wet.has(n) || ['lake', 'sea'].includes(cover[n] ?? ''))) { out.add('riverbank'); }
-      const here = cover[c] ?? '';
-      if (here === 'fen') { out.add('marsh'); }
-      if (here === 'meadow') { out.add('meadow'); }
-      if (here === 'wood') { out.add('woodland'); }
-      if (['fell', 'heath', 'peak'].includes(here)) { out.add('upland'); }
+      if (around.some(n => wet.has(n) || ['lake', 'sea'].includes(cover[n] ?? ''))) {
+        for (const [id] of all.filter(([, h]) => h.water)) { out.add(id); }
+      }
+      for (const [id] of all.filter(([, h]) => h.covers?.includes(cover[c] ?? ''))) { out.add(id); }
     }
     return out;
   }
-  // The plants that can be gathered, most particular first: a place grows the first two whose habitat it has.
-  static readonly plants = ['willow', 'sphagnum', 'meadowsweet', 'yarrow'];
+  // The plants that can be gathered, in the order data/catalog/plants.json gives them: a place grows the first two
+  // written without an abundance whose habitat it has, most particular first, and beside them each with an abundance
+  // whose habitat it has, by that chance in ten (a rare herb is rare). A plant added there grows where it lives.
+  static get plants(): string[] { return Object.keys(Canon.plants).filter(id => Canon.plants[id]!.stand); }
+  static grown(place: { id: string }, habitats: Set<string>): [string, Plant][] {
+    const fits = this.plants.map(id => [id, Canon.plants[id]!] as [string, Plant])
+      .filter(([, o]) => o.habitats.some(h => habitats.has(h)));
+    return [...fits.filter(([, o]) => !o.abundance).slice(0, 2),
+      ...fits.filter(([id, o]) => o.abundance && new Draw(`${place.id}:${id}`).chance(o.abundance / 10))];
+  }
   static places(region: Region): { id: string; cells: number[]; name: string }[] {
     const atlas = RegionGeography.atlas(region);
     return [...RegionGeography.roads(region)
@@ -37,7 +46,7 @@ export class RegionGrowth {
   }
   // Where a plant grows near a settlement, nearest first: what someone who knows the water would say.
   static near(region: Region, plant: string, cell: number): { id: string; name: string }[] {
-    const W = RegionGeography.atlas(region).land.width, o = Canon.organisms[plant]!;
+    const W = RegionGeography.atlas(region).land.width, o = Canon.plants[plant]!;
     return this.places(region).filter(p => o.habitats.some(h => this.habitats(region, p.cells).has(h)))
       .map(p => ({ p, d: Math.min(...p.cells.map(c => this.apart(c, cell, W))) })).filter(x => x.d <= 8)
       .sort((a, b) => a.d - b.d).map(x => ({ id: x.p.id, name: x.p.name }))
@@ -55,8 +64,7 @@ export class RegionGrowth {
     const roads = new Set(RegionGeography.roads(region).map(r => r.way));
     for (const place of this.places(region)) {
       const habitats = this.habitats(region, place.cells);
-      const here = this.plants.map(id => [id, Canon.organisms[id]!] as [string, Organism])
-        .filter(([, o]) => o.stand && o.habitats.some(h => habitats.has(h))).slice(0, 2);
+      const here = this.grown(place, habitats);
       for (const [id, o] of here) {
         const stand = `${place.id}_${id}`;
         lines.push(`  Thing ${stand} ${q(`the ${o.name.toLowerCase()}`)} at ${place.id} is scenery {`,

@@ -106,6 +106,9 @@ export interface Species {
   // The axis of variation it is never made without (an elemental is always of an element): its kinds that name one
   // are what is called up and met, never it bare.
   requires?: string;
+  // How common it is where it lives, as a weight among what dens there (see RegionEcology.recorded): a creature with
+  // one dens in its habitats by its record alone.
+  abundance?: number;
   statistics?: Statistics; abilities?: string[]; traits?: string[]; resistances?: Record<string, number>;
   temperament?: string; habitats?: string[];
   // A kind named for what varies it (a great rat, a cave spider): its base (variantOf) with these variations
@@ -176,14 +179,22 @@ export interface Deity {
 // A material (data/catalog/materials.json): what it is called, what kind of stuff, how hard (1 soft to 10), and how it
 // looks, for whoever paints or says it.
 export interface Material { name: string; kind: string; hardness: number; looks: string; source: Source }
-export interface Organism {
-  name: string; kind: 'plant' | 'animal'; habitats: string[]; signs: string; species?: string; yields?: string;
-  receptive?: boolean; source: Source;
+export interface Plant {
+  name: string; looks: string; habitats: string[]; source: Source;
+  // What it is good for (medicine, food, poison, material), and how common it is where it grows: a plant with an
+  // abundance is set wherever its habitat is, after the plants written before it (see RegionGrowth).
+  uses?: string[]; abundance?: number;
   // A plant that can be gathered: what a stand of it looks like where it grows, what is gathered from it (an item of
   // the kind it yields), and how much a stand gives before it is stripped.
-  stand?: string; gathered?: string; count?: number;
+  stand?: string; yields?: string; gathered?: string; count?: number;
   // And anything else cut from it that is not what it yields (a long pole from the willows), and how many.
   cut?: { yields: string; gathered: string; count?: number };
+}
+// A kind of country (data/catalog/habitats.json): what it is on the land — the land covers, region terrains, kinds of
+// site and road forms that are it, and whether it is the ground beside water — and Orsino's terrain.
+export interface Habitat {
+  name: string; orsino?: string; covers?: string[]; terrains?: string[]; sites?: string[]; forms?: string[];
+  water?: boolean;
 }
 export interface Procedure { name: string; effect: string; description: string }
 // The numbers and ids the rules of a fight turn on (data/catalog/vocabulary.json's combat): see its about.

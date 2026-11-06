@@ -71,7 +71,7 @@ export class ScenarioTowns {
     const roads = RegionGeography.roads(region);
     if (!need.startsWith('between:')) {
       const town = bindings[need.replace(/^near:/, '')], out = roads.filter(r => this.touches(r, town));
-      return (out.find(r => RegionGrowth.habitats(region, r.route.cells).has('riverbank')) ?? out[0])?.way;
+      return (out.find(r => RegionGrowth.habitats(region, r.route.cells).has('river')) ?? out[0])?.way;
     }
     const [a, b] = need.slice(8).split(',').map(role => bindings[role]), taken = Object.values(bindings);
     return (roads.find(r => this.touches(r, a) && this.touches(r, b))

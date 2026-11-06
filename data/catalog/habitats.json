@@ -1,0 +1,125 @@
+{
+  "about": "The kinds of country life is met in, one vocabulary for everything that lives (the owner, 5 November, late): a creature's and a plant's habitats name these, and the ecology places them by them. Each says what it is on the land: the land covers it is (data/world: sea lake fen meadow wood heath fell peak), the region terrains it is a country of, the kinds of site it is, the road forms that cross it, and whether it is the ground beside water; and Orsino's terrain where there is one.",
+  "habitats": {
+    "wood": {
+      "name": "Wood",
+      "orsino": "forest",
+      "covers": [
+        "wood"
+      ],
+      "terrains": [
+        "forest"
+      ],
+      "forms": [
+        "wood"
+      ]
+    },
+    "grove": {
+      "name": "Grove",
+      "orsino": "forest",
+      "sites": [
+        "grove"
+      ]
+    },
+    "river": {
+      "name": "River and bank",
+      "forms": [
+        "river"
+      ],
+      "water": true
+    },
+    "lake": {
+      "name": "Lake and shore",
+      "forms": [
+        "lake"
+      ]
+    },
+    "fen": {
+      "name": "Fen",
+      "orsino": "swamp",
+      "covers": [
+        "fen"
+      ],
+      "terrains": [
+        "marsh"
+      ],
+      "sites": [
+        "bog"
+      ]
+    },
+    "fells": {
+      "name": "Fells",
+      "orsino": "mountain",
+      "covers": [
+        "fell"
+      ],
+      "terrains": [
+        "mountain"
+      ]
+    },
+    "heights": {
+      "name": "Heights",
+      "orsino": "mountain",
+      "covers": [
+        "peak"
+      ],
+      "forms": [
+        "pass",
+        "peak"
+      ]
+    },
+    "heath": {
+      "name": "Heath and moor",
+      "orsino": "plains",
+      "covers": [
+        "heath"
+      ]
+    },
+    "meadow": {
+      "name": "Meadow",
+      "orsino": "plains",
+      "covers": [
+        "meadow"
+      ]
+    },
+    "snow": {
+      "name": "Snowfields",
+      "orsino": "snow",
+      "terrains": [
+        "frost"
+      ]
+    },
+    "desert": {
+      "name": "Waste and dunes",
+      "orsino": "desert",
+      "terrains": [
+        "desert"
+      ]
+    },
+    "cave": {
+      "name": "Cave",
+      "orsino": "cave",
+      "sites": [
+        "cave",
+        "mine",
+        "sinkhole"
+      ]
+    },
+    "barrow": {
+      "name": "Barrow",
+      "sites": [
+        "barrow"
+      ]
+    },
+    "ruin": {
+      "name": "Ruin",
+      "sites": [
+        "ruin"
+      ]
+    },
+    "settlement": {
+      "name": "Farm and settlement",
+      "orsino": "urban"
+    }
+  }
+}

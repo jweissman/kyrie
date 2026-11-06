@@ -124,7 +124,7 @@ describe('what grows wild', () => {
     for (const place of RegionGrowth.places(region)) {
       const habitats = RegionGrowth.habitats(region, place.cells);
       const willow = RegionGrowth.lines(region).some(l => l.includes(`Thing ${place.id}_willow `));
-      if (willow) { expect(habitats.has('riverbank')).toBe(true); }
+      if (willow) { expect(habitats.has('river')).toBe(true); }
     }
     expect(RegionGrowth.lines(region).some(l => /_willow "the willow"/.test(l))).toBe(true);
   }, 60000);
@@ -157,7 +157,7 @@ describe('what people know by their work', () => {
     const said = told.response ?? '';
     const named = RegionGrowth.places(region).filter(p => said.includes(p.name));
     expect(named.length).toBeGreaterThan(0);
-    for (const p of named) { expect(RegionGrowth.habitats(region, p.cells).has('riverbank')).toBe(true); }
+    for (const p of named) { expect(RegionGrowth.habitats(region, p.cells).has('river')).toBe(true); }
   }, 60000);
   it('someone who has done the same kind of work knows the company for it', async () => {
     // Somewhere in the country someone does the herbalist's work, and knows one of their own.

@@ -5,7 +5,8 @@ import backgrounds from '../../data/catalog/backgrounds.json';
 import classes from '../../data/catalog/classes.json';
 import conditions from '../../data/catalog/conditions.json';
 import items from '../../data/catalog/items.json';
-import organisms from '../../data/catalog/organisms.json';
+import plants from '../../data/catalog/plants.json';
+import habitats from '../../data/catalog/habitats.json';
 import religion from '../../data/catalog/religion.json';
 import rules from '../../data/catalog/vocabulary.json';
 import skills from '../../data/catalog/skills.json';
@@ -23,11 +24,11 @@ import orsinoBackgrounds from '../../data/catalog/orsino/backgrounds.json';
 import professions from '../../data/catalog/professions.json';
 import { BackgroundCatalog, type BackgroundTables, type CompiledBackground, type KyrProfession } from './background-catalog';
 import type {
-  Ability, Ancestry, CharacterClass, Combat, Condition, Deity, Domain, ItemKind, Organism, Procedure, Skill,
+  Ability, Ancestry, CharacterClass, Combat, Condition, Deity, Domain, Habitat, ItemKind, Plant, Procedure, Skill,
   Material, Source, Species, Trait,
 } from './schema';
 
-export type Family = 'abilities' | 'conditions' | 'traits' | 'items' | 'organisms' | 'classes';
+export type Family = 'abilities' | 'conditions' | 'traits' | 'items' | 'plants' | 'species' | 'classes';
 
 // The canonical fantasy domain, read from data/catalog. Every other module reads content through this class; no
 // runtime code imports a catalog file directly. Abilities, conditions, items and traits combine the generated Orsino
@@ -97,8 +98,10 @@ export class Canon {
       source: { kyr: true, notes: `Orsino's shrine favour: the ${id} blessing of deityBlessings, for the turns the shrine gives.` },
     }]));
   }
-  static readonly habitats = organisms.habitats as unknown as Record<string, { name: string; terrain?: string }>;
-  static readonly organisms = organisms.organisms as unknown as Record<string, Organism>;
+  // The kinds of country life is met in, one vocabulary (data/catalog/habitats.json), and the plants that grow in them
+  // (data/catalog/plants.json): organisms.json, which had held both and three animals again, is retired.
+  static readonly habitats = habitats.habitats as unknown as Record<string, Habitat>;
+  static readonly plants = plants.plants as unknown as Record<string, Plant>;
   static readonly aliases = aliases as unknown as Record<Family, Record<string, string>>;
   static resolve(family: Family, id: string): string { return this.aliases[family]?.[id] ?? id; }
   // Orsino's background rows composed with Kyr's background kinds (see BackgroundCatalog).

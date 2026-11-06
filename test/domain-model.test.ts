@@ -183,11 +183,15 @@ describe('7-11: equipment, monsters, theology, ecology and local mechanisms', ()
     expect(Content.abilities.some(a => a.id === 'wayfarer_blessing')).toBe(true);
   });
 
-  it('keeps organisms apart from creature definitions while linking each to what represents it in play', () => {
-    const yarrow = Canon.organisms.yarrow!, wolf = Canon.organisms.grey_wolf!;
-    expect([yarrow.kind, yarrow.yields, Canon.items[yarrow.yields!]!.category]).toEqual(['plant', 'yarrow_poultice', 'consumable']);
-    expect([wolf.kind, wolf.species, Canon.creature(wolf.species!).type]).toEqual(['animal', 'wolf', 'beast']);
-    expect(Canon.habitats.woodland!.terrain).toBe('forest');
+  it('keeps one record of each plant and each creature, and one vocabulary of where they live', () => {
+    const yarrow = Canon.plants.yarrow!;
+    expect([yarrow.yields, Canon.items[yarrow.yields!]!.category]).toEqual(['yarrow_poultice', 'consumable']);
+    // organisms.json's grey wolf and red deer were the wolf and the deer again: their ids now name those.
+    expect([Canon.resolve('species', 'grey_wolf'), Canon.resolve('species', 'red_deer')]).toEqual(['wolf', 'deer']);
+    expect(Canon.habitats.wood!.terrains).toEqual(['forest']);
+    for (const s of [...Object.values(Canon.species), ...Object.values(Canon.plants)]) {
+      expect((s.habitats ?? []).filter(h => !Canon.habitats[h])).toEqual([]);
+    }
   });
 
   it('declares a site mechanism inside its site, never in the global ability catalog', () => {

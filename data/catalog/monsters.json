@@ -655,7 +655,7 @@
       ],
       "temperament": "proud",
       "habitats": [
-        "mountain",
+        "heights",
         "cave"
       ],
       "source": {
@@ -1642,8 +1642,8 @@
       ],
       "temperament": "territorial",
       "habitats": [
-        "marsh",
-        "riverbank",
+        "fen",
+        "river",
         "cave"
       ],
       "source": {

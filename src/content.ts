@@ -122,7 +122,9 @@ export class Content {
   // Orsino's character creation: roll 3d6 per score, add the ancestry's, class's and background's modifiers, take the
   // ancestry's birth traits and a specialization, pick spells, draw a weapon and armour from the class's tables, and
   // derive hit points and spell slots. A species creature takes its own statistics, natural weapon and nature traits.
-  createCreature(id: string, context: CreatureGenerationContext = {}, randomIdentity = id): Creature {
+  createCreature(id: string, asked: CreatureGenerationContext = {}, randomIdentity = id): Creature {
+    // A kind by a name it was once known by (organisms.json's grey wolf is the wolf: data/catalog/aliases.json).
+    const context = asked.raceId ? { ...asked, raceId: Canon.resolve('species', asked.raceId) as RaceId } : asked;
     if (Content.invalid(context)) { throw new Error(`Invalid creature generation context for ${id}`); }
     const speciesFamily = context.raceId && Canon.isBody(context.raceId)
       ? context.raceId : undefined;

@@ -1,0 +1,271 @@
+{
+  "about": "The plants Westernesse knows, one record each (the owner, 5 November, late: one authoritative definition; organisms.json retired): what each looks like, where it grows (data/catalog/habitats.json), what is gathered from it (an item of the catalog), how much a stand gives, what it is good for; a stand of it is set where a country has its habitat: the plants written without an abundance, most particular first, two to a place at most; and beside them any with an abundance (one to ten), by that chance at each place.",
+  "plants": {
+    "willow": {
+      "name": "Willow",
+      "habitats": [
+        "river"
+      ],
+      "yields": "willow_bark",
+      "gathered": "some willow bark",
+      "count": 3,
+      "stand": "Willows lean out over the water here, grey-green, their roots in the bank and their long shoots trailing in the current.",
+      "cut": {
+        "yields": "pole",
+        "gathered": "a long willow pole",
+        "count": 1
+      },
+      "source": {
+        "kyr": true,
+        "notes": "Willow bark breaks a fever; the herb-wives of every country know it."
+      },
+      "looks": "Grey-green leaves, long whippy shoots, and roots in the bank.",
+      "uses": [
+        "medicine",
+        "material"
+      ]
+    },
+    "sphagnum": {
+      "name": "Sphagnum moss",
+      "habitats": [
+        "fen"
+      ],
+      "yields": "bandages",
+      "gathered": "a wad of sphagnum moss",
+      "count": 3,
+      "stand": "Sphagnum moss lies in the wet hollows, red and green, holding water like a sponge: it binds a wound better than linen.",
+      "source": {
+        "kyr": true,
+        "notes": "Dried and packed into wounds, as field dressings have been."
+      },
+      "looks": "Red and green moss in the wet hollows, holding water like a sponge.",
+      "uses": [
+        "medicine"
+      ]
+    },
+    "meadowsweet": {
+      "name": "Meadowsweet",
+      "habitats": [
+        "river",
+        "fen"
+      ],
+      "yields": "herbs",
+      "gathered": "a handful of meadowsweet",
+      "count": 2,
+      "stand": "Meadowsweet grows thick along the wet ground, a froth of cream flowers that smells of almonds and honey.",
+      "source": {
+        "kyr": true,
+        "notes": "For pain and the stomach; strewn on floors."
+      },
+      "looks": "Froth of cream flowers, smelling of almonds.",
+      "uses": [
+        "medicine"
+      ]
+    },
+    "yarrow": {
+      "name": "Yarrow",
+      "habitats": [
+        "meadow",
+        "river",
+        "wood"
+      ],
+      "yields": "yarrow_poultice",
+      "source": {
+        "kyr": true
+      },
+      "gathered": "a handful of yarrow",
+      "count": 2,
+      "stand": "Yarrow grows in the grass at the wayside, flat white heads over feathery leaves: a soldier's herb, for cuts.",
+      "looks": "Flat pale flower heads above feathery leaves.",
+      "uses": [
+        "medicine"
+      ]
+    },
+    "alder": {
+      "name": "Alder",
+      "habitats": [
+        "river",
+        "fen"
+      ],
+      "source": {
+        "kyr": true
+      },
+      "looks": "Dark cone-like catkins and roots at the water line.",
+      "uses": [
+        "material"
+      ]
+    },
+    "heather_plant": {
+      "name": "Heather",
+      "looks": "Low wiry shrubs covered in tiny purple-pink bells.",
+      "habitats": [
+        "heath",
+        "fells"
+      ],
+      "abundance": 6,
+      "yields": "heather",
+      "gathered": "a bunch of heather",
+      "count": 2,
+      "stand": "Heather covers the ground here, low and wiry, purple with its small bells: steeped, it eases an ache.",
+      "uses": [
+        "medicine"
+      ],
+      "source": {
+        "orsino": "consumable:heather",
+        "fidelity": "adapted",
+        "notes": "Orsino's herb, a thing sold and used, here the plant it is gathered from."
+      }
+    },
+    "dandelion_plant": {
+      "name": "Dandelion",
+      "looks": "A rosette of toothed leaves and a bright yellow flower that goes to a clock of seed.",
+      "habitats": [
+        "meadow",
+        "settlement"
+      ],
+      "abundance": 6,
+      "yields": "dandelion",
+      "gathered": "a handful of dandelion",
+      "count": 2,
+      "stand": "Dandelions stand in the grass, yellow and seeding: a tea of them cleans the blood.",
+      "uses": [
+        "medicine",
+        "food"
+      ],
+      "source": {
+        "orsino": "consumable:dandelion",
+        "fidelity": "adapted",
+        "notes": "Orsino's herb, a thing sold and used, here the plant it is gathered from."
+      }
+    },
+    "comfrey_plant": {
+      "name": "Comfrey",
+      "looks": "Tall hairy leaves and hanging bells of purple or cream, by wet ground.",
+      "habitats": [
+        "river",
+        "meadow"
+      ],
+      "abundance": 4,
+      "yields": "comfrey",
+      "gathered": "some comfrey leaves",
+      "count": 1,
+      "stand": "Comfrey grows rank by the water, hairy-leaved, its bells hanging: knitbone, the herb-wives call it.",
+      "uses": [
+        "medicine"
+      ],
+      "source": {
+        "orsino": "consumable:comfrey",
+        "fidelity": "adapted",
+        "notes": "Orsino's herb, a thing sold and used, here the plant it is gathered from."
+      }
+    },
+    "cloudberry_plant": {
+      "name": "Cloudberry",
+      "looks": "A low plant of the high bogs with a single amber berry like a raspberry.",
+      "habitats": [
+        "heights",
+        "fells",
+        "snow"
+      ],
+      "abundance": 3,
+      "yields": "cloudberry",
+      "gathered": "a few cloudberries",
+      "count": 2,
+      "stand": "Cloudberries grow low among the moss up here, one amber berry to a plant.",
+      "uses": [
+        "food",
+        "medicine"
+      ],
+      "source": {
+        "orsino": "consumable:cloudberry",
+        "fidelity": "adapted",
+        "notes": "Orsino's herb, a thing sold and used, here the plant it is gathered from."
+      }
+    },
+    "goodberry_plant": {
+      "name": "Goodberry",
+      "looks": "A bramble with small, glossy red berries that ripen sweet.",
+      "habitats": [
+        "wood",
+        "heath"
+      ],
+      "abundance": 4,
+      "yields": "goodberry_consumable",
+      "gathered": "a handful of goodberries",
+      "count": 2,
+      "stand": "A bramble of goodberries grows along the edge of the trees, the berries small and red.",
+      "uses": [
+        "food",
+        "medicine"
+      ],
+      "source": {
+        "orsino": "consumable:goodberry",
+        "fidelity": "adapted",
+        "notes": "Orsino's herb, a thing sold and used, here the plant it is gathered from."
+      }
+    },
+    "foxglove_plant": {
+      "name": "Foxglove",
+      "looks": "A tall spire of hanging purple bells, speckled inside, over a rosette of soft leaves.",
+      "habitats": [
+        "wood",
+        "heath"
+      ],
+      "abundance": 3,
+      "yields": "foxglove",
+      "gathered": "a foxglove spire",
+      "count": 1,
+      "stand": "Foxgloves stand tall at the wood's edge, purple bells speckled inside: they heal, prepared rightly, and kill otherwise.",
+      "uses": [
+        "poison",
+        "medicine"
+      ],
+      "source": {
+        "orsino": "consumable:foxglove",
+        "fidelity": "adapted",
+        "notes": "Orsino's herb, a thing sold and used, here the plant it is gathered from."
+      }
+    },
+    "feverwort_plant": {
+      "name": "Feverwort",
+      "looks": "A small plant with pale, bitter leaves and white flowers in a flat head.",
+      "habitats": [
+        "meadow",
+        "wood"
+      ],
+      "abundance": 3,
+      "yields": "feverwort",
+      "gathered": "some feverwort",
+      "count": 1,
+      "stand": "Feverwort grows here in the rough grass, bitter-leaved: the herb-wives dry it for a child's fever.",
+      "uses": [
+        "medicine"
+      ],
+      "source": {
+        "kyr": true,
+        "notes": "The plant the herb-wives' feverwort is dried from."
+      }
+    },
+    "kingsfoil_plant": {
+      "name": "Kingsfoil",
+      "looks": "A low three-leaved herb with a clean, sharp scent when crushed.",
+      "habitats": [
+        "grove",
+        "wood"
+      ],
+      "abundance": 1,
+      "yields": "kingsfoil",
+      "gathered": "a sprig of kingsfoil",
+      "count": 1,
+      "stand": "Kingsfoil grows in the shade here, three-leaved and sharp-scented when crushed: it is prized, and rare.",
+      "uses": [
+        "medicine"
+      ],
+      "source": {
+        "orsino": "consumable:kingsfoil",
+        "fidelity": "adapted",
+        "notes": "Orsino's herb, a thing sold and used, here the plant it is gathered from."
+      }
+    }
+  }
+}

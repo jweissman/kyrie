@@ -101,8 +101,8 @@
       ],
       "temperament": "defensive",
       "habitats": [
-        "woodland",
-        "mountain"
+        "wood",
+        "heights"
       ],
       "source": {
         "orsino": "animal:bear",
@@ -169,8 +169,8 @@
       ],
       "temperament": "territorial",
       "habitats": [
-        "marsh",
-        "riverbank"
+        "fen",
+        "river"
       ],
       "source": {
         "orsino": "animal:boar",
@@ -556,8 +556,8 @@
       ],
       "temperament": "ambush",
       "habitats": [
-        "riverbank",
-        "marsh"
+        "river",
+        "fen"
       ],
       "source": {
         "kyr": true,
@@ -812,7 +812,7 @@
       ],
       "temperament": "ambush",
       "habitats": [
-        "riverbank"
+        "river"
       ],
       "source": {
         "kyr": true,
@@ -840,7 +840,7 @@
       "temperament": "territorial",
       "habitats": [
         "cave",
-        "marsh"
+        "fen"
       ],
       "source": {
         "kyr": true,
@@ -1361,7 +1361,7 @@
       "temperament": "tame",
       "habitats": [
         "settlement",
-        "woodland"
+        "wood"
       ],
       "source": {
         "kyr": true,
@@ -1557,7 +1557,7 @@
       "habitats": [
         "settlement",
         "cave",
-        "riverbank"
+        "river"
       ],
       "source": {
         "orsino": "animal:rat",
@@ -1624,7 +1624,7 @@
       "temperament": "tame",
       "habitats": [
         "settlement",
-        "upland",
+        "fells",
         "meadow"
       ],
       "source": {
@@ -1692,7 +1692,7 @@
       ],
       "temperament": "ambush",
       "habitats": [
-        "woodland",
+        "wood",
         "cave"
       ],
       "source": {
@@ -1883,8 +1883,8 @@
       ],
       "temperament": "wary",
       "habitats": [
-        "woodland",
-        "upland"
+        "wood",
+        "fells"
       ],
       "source": {
         "orsino": "animal:wolf",
@@ -1943,7 +1943,7 @@
       "temperament": "ambush",
       "habitats": [
         "cave",
-        "woodland"
+        "wood"
       ],
       "source": {
         "kyr": true,
@@ -1962,7 +1962,7 @@
       "habitats": [
         "settlement",
         "meadow",
-        "upland"
+        "fells"
       ],
       "source": {
         "kyr": true,
@@ -2023,6 +2023,118 @@
         "orsino": "animal:stag",
         "fidelity": "faithful",
         "notes": "Orsino's stag: the deer, the male (its differences from the deer are the variation male)."
+      }
+    },
+    "grouse": {
+      "name": "Grouse",
+      "type": "beast",
+      "kind": "animal",
+      "description": "A red grouse of the heather, that gets up at your feet and goes off low, scolding.",
+      "looks": "A plump red-brown moorland bird, feathered to the toes, with a scarlet comb over the eye.",
+      "statistics": {
+        "attributes": {
+          "strength": 3,
+          "dexterity": 7,
+          "constitution": 3,
+          "intelligence": 3,
+          "wisdom": 6,
+          "charisma": 4
+        },
+        "primary": "dexterity",
+        "weapon": "flutter",
+        "growth": {
+          "hitPoints": {
+            "base": 3,
+            "perLevel": 1
+          }
+        }
+      },
+      "abilities": [
+        "flee"
+      ],
+      "temperament": "wary",
+      "habitats": [
+        "heath",
+        "fells"
+      ],
+      "source": {
+        "kyr": true,
+        "notes": "A bird the ecology's signs of the heath and the meadow had named with no record (data/generation/tables/ecology.json, wildSign); Orsino has no such bird."
+      }
+    },
+    "curlew": {
+      "name": "Curlew",
+      "type": "beast",
+      "kind": "animal",
+      "description": "A curlew of the moor and the wet meadows, whose call carries for miles.",
+      "looks": "A tall brown-streaked wader with long legs and a long down-curved bill.",
+      "statistics": {
+        "attributes": {
+          "strength": 3,
+          "dexterity": 7,
+          "constitution": 3,
+          "intelligence": 3,
+          "wisdom": 6,
+          "charisma": 4
+        },
+        "primary": "dexterity",
+        "weapon": "flutter",
+        "growth": {
+          "hitPoints": {
+            "base": 3,
+            "perLevel": 1
+          }
+        }
+      },
+      "abilities": [
+        "flee"
+      ],
+      "temperament": "wary",
+      "habitats": [
+        "heath",
+        "meadow",
+        "fen"
+      ],
+      "source": {
+        "kyr": true,
+        "notes": "A bird the ecology's signs of the heath and the meadow had named with no record (data/generation/tables/ecology.json, wildSign); Orsino has no such bird."
+      }
+    },
+    "lark": {
+      "name": "Lark",
+      "type": "beast",
+      "kind": "animal",
+      "description": "A skylark that goes up singing over the open fields and does not seem to come down.",
+      "looks": "A small streaked brown bird with a short crest, singing high in the air over open ground.",
+      "statistics": {
+        "attributes": {
+          "strength": 3,
+          "dexterity": 7,
+          "constitution": 3,
+          "intelligence": 3,
+          "wisdom": 6,
+          "charisma": 4
+        },
+        "primary": "dexterity",
+        "weapon": "flutter",
+        "growth": {
+          "hitPoints": {
+            "base": 3,
+            "perLevel": 1
+          }
+        }
+      },
+      "abilities": [
+        "flee"
+      ],
+      "temperament": "wary",
+      "habitats": [
+        "meadow",
+        "heath"
+      ],
+      "source": {
+        "kyr": true,
+        "notes": "A bird the ecology's signs of the heath and the meadow had named with no record (data/generation/tables/ecology.json, wildSign); Orsino has no such bird."
       }
     }
   }
