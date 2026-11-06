@@ -103,7 +103,8 @@ export class DeepPacing {
     // give way to a party of the canon.
     const draw = new Draw(`${d.id}:party`);
     if (!purpose.dwellerHabitats?.length || d.group.ancestry || !draw.chance(0.5)) { return d; }
-    const party = Parties.compose({ habitats: purpose.dwellerHabitats, challenge: d.level, draw,
+    // For a company of one, as the written dwellers of these depths were (two ghouls of the second level).
+    const party = Parties.compose({ habitats: purpose.dwellerHabitats, challenge: d.level, draw, company: 1,
       ...d.elite ? { most: 3 } : {} });
     if (!party) { return d; }
     const [first, second] = party.members.map(({ level, variations, ...m }) => ({ level,

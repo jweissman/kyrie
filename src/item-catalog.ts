@@ -7,7 +7,11 @@ import type { WeaponProfile } from './rules/fighting';
 import type { Creature } from './creature';
 import { CreatureVariants } from './creature-variants';
 export type ItemDefinition = RuntimeItem;
-export interface Equipment { modifiers: Modifiers; hooks: Hooks; weapon: WeaponProfile; armorAc: number }
+export interface Equipment {
+  modifiers: Modifiers; hooks: Hooks; weapon: WeaponProfile; armorAc: number;
+  // A kind's natural attacks in a round, each its own weapon (a dragon's claw, claw and bite; see Species).
+  routine?: WeaponProfile[];
+}
 
 export class ItemCatalog {
   static readonly definitions: Record<string, ItemDefinition> = CanonRuntime.items();
@@ -67,6 +71,7 @@ export class ItemCatalog {
     return { modifiers: ModifierSet.sum(equipped.map(i => this.get(i.definition).modifiers ?? {})), hooks,
       weapon: wielded ? this.weapon(wielded.definition)
         : this.weapon(CreatureVariants.weapon(creature, natural?.weapon) ?? 'fist'),
-      armorAc: worn ? this.get(worn.definition).armor!.ac : natural?.armor ? this.get(natural.armor).armor!.ac : 0 };
+      armorAc: worn ? this.get(worn.definition).armor!.ac : natural?.armor ? this.get(natural.armor).armor!.ac : 0,
+      ...!wielded && natural?.attacks?.length ? { routine: natural.attacks.map(id => this.weapon(id)) } : {} };
   }
 }

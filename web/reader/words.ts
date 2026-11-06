@@ -95,6 +95,11 @@ export class Words {
   // How many of a thing, in words: "three torches", "two sacks of bell-teeth".
   static many(n: number, noun: string): string { return Counted.many(n, noun); }
   // The subject of a person or thing named with what they are: "Wren, ferry-keeper" is Wren.
+  // What someone is, as a line under their name (the owner, 6 November: "the scrivener" was described in lowercase,
+  // a clause): a role written to follow a name ("who writes letters for those who cannot") stands as its own line.
+  static described(note: string): string {
+    return Words.upper(note.replace(/^(who|that|whose)\s+(?=\S)/i, m => (/^whose/i.test(m) ? 'Whose ' : '')));
+  }
   static short(name: string): string { return name.split(', ')[0]!; }
   // Choices that differ in one part only (four words to press on a casket) are said once, the words apart: what they
   // share before and after, and each one's own part; nothing when they have too little in common to be worth it.

@@ -64,6 +64,9 @@
 .wf-row:hover, .wf-row:focus-visible { background: rgba(236, 230, 217, .05); }
 .wf-row.chosen { border-left-color: var(--gold); background: rgba(236, 230, 217, .07); }
 .wf-row.aimed .n::after { content: ' ◆'; font-size: 9px; color: var(--gold); vertical-align: 2px; }
+/* The way the page leads by, where no aim says: deeper in, not yet been. */
+.wf-row.led:not(.aimed) .n { color: var(--ivory); }
+.wf-row.led:not(.aimed) .glyph { color: var(--gold); }
 .wf-row.shut { color: var(--dim); }
 .wf-preview { min-height: 0; overflow-y: auto; padding: 14px 0 0; display: flex; flex-direction: column; gap: 6px; }
 .wf-preview h3 { margin: 0; font: 400 clamp(22px, 2.2vw, 28px)/1.2 var(--told); color: var(--ivory); }

@@ -81,8 +81,6 @@
 ^Collect a hand mirror for Wenna
 ^Look closely at the enchanted object
 ^Risk the enchanted object on the way to the pipe gallery; Arlen goes first
-^Take the walkway to the pipe gallery
-^Take the walkway to the colonnade
 ^Take the conduit to the foot of the stair
 ^Take the gap over the bronze gate
 ^Take the passage to the reading-room
@@ -126,6 +124,7 @@
 ^Work the seized gate-wheel free
 ^Take the stair behind the bronze gate
 ^Take the conduit to the colonnade
+^Rest and recover at the colonnade
 ^Take the walkway to the pipe gallery
 ^Take the magical rune|^Take the passage to the end of the gallery|^Take the walkway to the end
 ^Tear the bronze plate from the gate
@@ -158,3 +157,4 @@
 ^Take the passage to the gate-hall
 ^Take the conduit to the doorway
 ^Take the way in to Albuslac
+^Wait until first light

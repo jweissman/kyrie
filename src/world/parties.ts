@@ -51,8 +51,11 @@ export class Parties {
       return of.length ? of.map(v => `${id}/${v}`) : CreatureVariants.wanting(id) ? [] : [id];
     });
   }
-  static compose(at: { habitats: readonly string[]; challenge: number; draw: Draw; most?: number }): Party | undefined {
-    const budget = 2 * at.challenge, kinds = this.eligible(at.habitats), draw = at.draw;
+  // Orsino's budget was twice the room's challenge for a party of four; a company here is often one, a lone life and a
+  // fellow or two, and the budget is that share of it (company, 4 if unsaid).
+  static compose(at: { habitats: readonly string[]; challenge: number; draw: Draw; most?: number; company?: number }):
+    Party | undefined {
+    const budget = 2 * at.challenge * (at.company ?? 4) / 4, kinds = this.eligible(at.habitats), draw = at.draw;
     const within = kinds.filter(([id]) => Challenge.of(id) <= budget);
     const beyond = kinds.filter(([id]) => Challenge.of(id) > budget && Challenge.of(id) <= budget * 4);
     if (beyond.length && draw.chance(this.overwhelming)) {
@@ -83,6 +86,7 @@ export class Parties {
     const [species, ...variations] = kind.split('/'), name = Canon.creature(kind).name.toLowerCase();
     const role = `${/^[aeiou]/.test(name) ? 'an' : 'a'} ${name}`;
     return { species: species!, count, level, label: `the ${count > 1 ? Counted.plural(name) : name}`, role,
-      temperament: Canon.temperament(kind) ?? 'territorial', ...variations.length ? { variations } : {} };
+      // One with no temper of its own (a snake, a beetle) defends where it lives, and does not go looking for anyone.
+      temperament: Canon.temperament(kind) ?? 'defensive', ...variations.length ? { variations } : {} };
   }
 }

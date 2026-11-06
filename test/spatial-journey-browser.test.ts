@@ -28,7 +28,7 @@ class Walk {
       if (await this.here() === place) { return; }
       await this.page.click('.opens-go');
     }
-    await this.page.click(`.wayfinder :is([data-pick="exit:${place}"], [data-pick^="exit:${place}/"])`);
+    await this.page.click(`.wayfinder :is([data-pick="exit:${place}"], [data-pick^="exit:${place}/"], [data-pick="travel:${place}"])`);
     await this.page.click('.wf-go');
     await this.d.settle();
     expect(await this.here()).toBe(place);

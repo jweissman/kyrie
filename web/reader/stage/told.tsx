@@ -111,9 +111,12 @@ export class Told {
     const situation = leaf.situation.filter(p => !beside.has(Typography.curl(p)));
     return <div className="setting" data-region="setting">
       {situation.map((p, i) => <p key={i} className={i ? undefined : 'lead'}>{Typography.curl(p)}</p>)}
-      <Told.Presence app={app} lines={leaf.presence} subjects={subjects} quiet={false} />
+      <Told.Presence app={app} lines={leaf.presence.slice(0, Told.presenceAtRest)} subjects={subjects} quiet={false} />
     </div>;
   }
+  // How many of what is about the place the scene tells (the owner, 6 November: the scene still too busy); the rest is
+  // what Look… shows.
+  static readonly presenceAtRest = 2;
   static Presence({ lines, subjects, quiet }: { app: ReaderApp; lines: string[]; subjects: SceneSubject[];
     quiet: boolean }) {
     // A danger's first line is told in its own block, with how a fight would go ("A boar has rooted up the low path"

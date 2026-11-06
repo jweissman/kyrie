@@ -14,23 +14,23 @@
   // A carter whose wheel has gone off the crown of the road into the ditch: put a shoulder to it, lever it with
   // something long, or walk on; or, while his back is to you, take something off the load. What was done goes into
   // {home} with him.
-  Person carter "the carter" at {approach} {
-    Role "a carter up to his knees in the ditch, his shoulder to a wheel that will not come". Ancestry {folk}. Peaceable. Pronouns he. Manner grim.
+  Person carter "the wagoner" at {approach} {
+    Role "a wagoner up to his knees in the ditch, his shoulder to a wheel that will not come". Ancestry {folk}. Peaceable. Pronouns he. Manner grim.
   }
   Thing cart "the cart" at {approach} {
     State ditched "A cart stands canted at the side of the road, one wheel down in the ditch to the hub, the horse in the shafts blowing and stamping. Sacks of meal are roped on the bed; one has burst.".
     State righted "The cart stands square on the road again, its load roped down, the horse quiet.".
     Change heave "Put your shoulder to the wheel with him" from ditched to righted needing brawn or crowbar.
     }
-  Topic carter_ask with carter "Ask the carter what he is carrying, and where" when state(cart, ditched) once {
+  Topic carter_ask with carter "Ask the wagoner what he is carrying, and where" when state(cart, ditched) once {
     Says "'Meal, for {home}, and late with it,' he says, and spits. 'Three days on the road and the last mile does this. You'd not have a back on you that could lift?'".
   }
-  Topic carter_thanks with carter "Tell the carter the cart is on the road again" when state(cart, righted) and not wayIn(cart_righted) once {
-    Says "'You'll eat at my cost, then,' says the carter, wiping his hands down his coat. 'Ask for me at the inn tonight; there's always a bowl for whoever gets a man out of a ditch.' He presses two coins on you as well, and will not have them back.".
+  Topic carter_thanks with carter "Tell the wagoner the wagon is on the road again" when state(cart, righted) and not wayIn(cart_righted) once {
+    Says "'You'll eat at my cost, then,' says the wagoner, wiping his hands down his coat. 'Ask for me at the inn tonight; there's always a bowl for whoever gets a man out of a ditch.' He presses two coins on you as well, and will not have them back.".
     On discuss { Assert wayIn(cart_righted). Increase quantity(actor, gold) by 2. }
   }
-  Topic carter_leave with carter "Tell the carter you cannot stop" when state(cart, ditched) and not wayIn(cart_left) once {
-    Says "'No more could the last six,' says the carter, and turns back to his wheel without looking at you.".
+  Topic carter_leave with carter "Tell the wagoner you cannot stop" when state(cart, ditched) and not wayIn(cart_left) once {
+    Says "'No more could the last six,' says the wagoner, and turns back to his wheel without looking at you.".
     On discuss { Assert wayIn(cart_left). }
   }
   // The cart on the road again, the carter goes on into {home} ahead of whoever is still on the way in, to the inn.
@@ -46,17 +46,17 @@
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, {approach}) and capable(actor, stealth) and state(cart, ditched) and not wayIn(cart_robbed).
     Time 1.
     On success { Assert wayIn(cart_robbed). Give rations to actor. }
-    Result "The sack comes off the tail of the cart without a sound. The carter, shoulder to the wheel, curses the wheel and does not turn round.".
+    Result "The sack comes off the tail of the cart without a sound. The wagoner, shoulder to the wheel, curses the wheel and does not turn round.".
   }
   // Anyone can take the horse's head while he heaves: slower, and the horse has its own mind.
-  Action carter_lead(actor: group, site: place) "Take the horse's head and lead it on while the carter heaves" {
+  Action carter_lead(actor: group, site: place) "Take the horse's head and lead it on while the wagoner heaves" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, {approach}) and state(cart, ditched).
     Time 3.
     On success { Retract state(cart, ditched). Assert state(cart, righted). }
-    Result "The horse throws its head twice and then leans into the collar, and with the carter roaring at the wheel the cart comes up out of the ditch with a lurch and a slither of meal.".
+    Result "The horse throws its head twice and then leans into the collar, and with the wagoner roaring at the wheel the cart comes up out of the ditch with a lurch and a slither of meal.".
   }
   // In {home}, at the inn, what was done on the road is remembered.
-  Topic carter_inn with carter "Sit with the carter" when at(carter, {inn}) and wayIn(cart_righted) once {
-    Says "'Here's the one,' says the carter to the room, and pushes a bowl along the board to you. 'Got me out of the ditch at the top of the hill. Eat.' He knows the road and the town both, and talks while you eat.".
+  Topic carter_inn with carter "Sit with the wagoner" when at(carter, {inn}) and wayIn(cart_righted) once {
+    Says "'Here's the one,' says the wagoner to the room, and pushes a bowl along the board to you. 'Got me out of the ditch at the top of the hill. Eat.' He knows the road and the town both, and talks while you eat.".
     On discuss { Retract hungry(actor). }
   }

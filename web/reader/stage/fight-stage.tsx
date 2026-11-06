@@ -98,7 +98,8 @@ export class FightStage {
   }
   static Card({ fighter: f, took, foe }: { fighter: CombatantRow; took: number; foe?: boolean }) {
     const hurt = Words.hurt(f.hp, f.maxHp);
-    const marks = [foe ? '' : ' faced', f.down ? ' down' : '', f.acting ? ' acting' : '', took > 0 ? ' struck' : ''];
+    // A face panel for one of the company, and for a foe that has a painting (a den's wolves, the rats).
+    const marks = [!foe || f.face ? ' faced' : '', f.down ? ' down' : '', f.acting ? ' acting' : '', took > 0 ? ' struck' : ''];
     return (
       <li className={`fighter${marks.join('')}`} data-fighter={f.id}>
         {(!foe || f.face) && <FightStage.Face fighter={f} />}

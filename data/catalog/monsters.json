@@ -608,6 +608,11 @@
         "hitDie": 20,
         "primary": "strength",
         "weapon": "bite",
+        "attacks": [
+          "claws",
+          "claws",
+          "bite"
+        ],
         "armor": "scale"
       },
       "traits": [
@@ -624,7 +629,7 @@
       "source": {
         "orsino": "monsterType:Dragon",
         "fidelity": "adapted",
-        "notes": "Orsino's Dragon (of the dragon class); Kyr keeps ninety-nine hit points at any level, which the fights with dragons were written for (Orsino's grow from eighty-five by three a level). Its flying is its trait; its colour is its lineage (data/catalog/variations.json, axis lineage, from Orsino's dragonColors), which gives its breath. Orsino's maul is left out: a dragon of Kyr fights by its bite and its lineage's breath."
+        "notes": "Orsino's Dragon (of the dragon class); Kyr keeps ninety-nine hit points at any level, which the fights with dragons were written for (Orsino's grow from eighty-five by three a level). Its flying is its trait; its colour is its lineage (data/catalog/variations.json, axis lineage, from Orsino's dragonColors), which gives its breath. Orsino's maul is left out: a dragon of Kyr fights by its bite and its lineage's breath. It claws twice and bites in a round (the old-school routine), or breathes by its lineage."
       }
     },
     "drake": {

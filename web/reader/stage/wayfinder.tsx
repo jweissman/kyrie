@@ -24,7 +24,7 @@ export interface Way {
 export class Wayfinder {
   static View({ app, draw }: { app: ReaderApp; draw: Draw }) {
     const screen = app.state.frame!.screen, ways = Wayfinder.ways(app), town = Wayfinder.town(screen);
-    const chosen = Wayfinder.chosen(app, ways);
+    const chosen = Wayfinder.chosen(app, ways), led = Wayfinder.led(app, ways);
     const groups = [...new Set(ways.map(w => w.group))];
     return (
       <div className="wayfinder" data-region="wayfinder">
@@ -39,7 +39,7 @@ export class Wayfinder {
             <h3>{Typography.curl(g)}</h3>
             <ul>{ways.filter(w => w.group === g).map(w => <li key={w.c.id}>
               <button type="button" className={`wf-row${w.c.id === chosen?.c.id ? ' chosen' : ''}${w.c.disabled ? ' shut' : ''}`
-                + `${w.aim ? ' aimed' : ''}`} data-pick={w.c.id} data-pick-index={draw.index.get(w.way.id) ?? draw.index.get(w.c.id) ?? -1}
+                + `${w.aim ? ' aimed' : ''}${w.c.id === led?.c.id ? ' led' : ''}`} data-pick={w.c.id} data-pick-index={draw.index.get(w.way.id) ?? draw.index.get(w.c.id) ?? -1}
                 data-holds={w.holds?.join(' ')}
                 aria-pressed={w.c.id === chosen?.c.id} onClick={() => Wayfinder.pick(app, w)}
                 onDoubleClick={() => { if (!w.c.disabled) { app.choose(w.c); } }}>
@@ -133,11 +133,21 @@ export class Wayfinder {
     }
     return { ways: out, groups: mine ? [own] : [] };
   }
-  // The way chosen: the one the keys or a touch last came to, else your aim's, else the first.
+  // The way chosen: the one the keys or a touch last came to, else your aim's, else the way the page leads by (deeper
+  // in, where not yet been: the owner, 6 November, found Go… in the corn-store offering the way back out), else the first.
   static chosen(app: ReaderApp, ways: Way[]): Way | undefined {
     const keyed = app.state.keyed ? app.menu.choices[app.state.cursor]?.id : undefined;
     return ways.find(w => w.c.id === keyed) ?? ways.find(w => w.c.id === app.state.hovered) ?? ways.find(w => w.aim)
-      ?? ways[0];
+      ?? Wayfinder.led(app, ways) ?? ways[0];
+  }
+  // The way the page leads by: the first of the glance's ways that is one of these.
+  static led(app: ReaderApp, ways: Way[]): Way | undefined {
+    const g = app.state.frame!.leaf.glance, ranked = g ? [...g.acts.map(a => a.choice), ...g.ways] : [];
+    for (const id of ranked) {
+      const w = ways.find(x => x.c.id === id || x.way.id === id || id.startsWith(`${x.way.id}/`));
+      if (w) { return w; }
+    }
+    return undefined;
   }
   static pick(app: ReaderApp, w: Way) {
     const i = app.menu.choices.findIndex(c => c.id === w.c.id);

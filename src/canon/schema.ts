@@ -95,6 +95,9 @@ export interface Statistics {
   level?: number; weapon: string; armor?: string; primary: Attribute;
   // Actions a turn (Orsino's monsterAttacksPerTurn); one when unstated.
   actions?: number;
+  // Its natural attacks in a round, in order, each a natural weapon of the catalog (a dragon's claws, claws, bite):
+  // its plain blow is all of them, a roll each, as one action. Its weapon alone when unstated.
+  attacks?: string[];
   // Orsino's template growth for a creature made above first level: every fixed attribute rises by round(level / 8),
   // and a monster's hit points are base + Constitution modifier + perLevel × level (an animal's stay fixed).
   growth?: { hitPoints?: { base: number; perLevel: number } };

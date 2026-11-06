@@ -1,14 +1,13 @@
 import { Canon } from './canon/canon';
 import { Spellcasting } from './rules/spellcasting';
-import { AbilityUse } from './ability-use';
+import { AttackRoutine } from './attack-routine'; import { AbilityUse } from './ability-use';
 import { CreatureStore, type CreatureLease } from './creature-store';
 import type { Creature } from './creature';
 import { CombatProjection } from './combat-projection';
 import { Content } from './content';
 import { Expressions } from './expressions';
 import { Effects, type EffectContext } from './effects';
-import { Targeting } from './targeting';
-import { Fighting } from './rules/fighting';
+import { Targeting } from './targeting'; import { Fighting } from './rules/fighting';
 import { Morale } from './rules/morale';
 import { Tactics } from './tactics';
 import { Quarry } from './quarry';
@@ -275,7 +274,8 @@ export class Battle {
     delete actor.windup;
     const context = this.context(actor);
     if (actor.abilitySources?.[ability.id]) { context.source = actor.abilitySources[ability.id]; }
-    AbilityUse.perform(ability, command.target, this.expressions, context);
+    AttackRoutine.strike(actor, ability.id, this.history, { perform: () => AbilityUse.perform(ability, command.target,
+      this.expressions, context), down: () => (this.fighters.find(f => f.id === command.target)?.hp ?? 0) <= 0 });
     this.spend(actor, ability.id);
     if (actor.team === 'fighters' && ability.effects.some(e => e.kind === 'flee') && !context.retreat) { this.held++; }
     // One foe of several getting away leaves the fight alone, and the rest fight on; the last, or the company, ends

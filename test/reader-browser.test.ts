@@ -96,12 +96,15 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the reader', () => {
     expect((await d.inspect()).mode).toBe('combat');
     expect(await page.locator('.foes .intent').count()).toBeGreaterThan(0);
     // Each of the company by their portrait as the card's left panel, the whole height of it and about a quarter of
-    // its width (the owner, 2026-10-30: not a little square); no foe has one.
-    const panels = await page.locator('.ours .fighter .face').evaluateAll(faces => faces.map(f => {
+    // its width (the owner, 2026-10-30: not a little square); a foe with a painting (a beast) the same, never laid over
+    // its words (the owner, 6 November).
+    const panel = (side: string) => page.locator(`.${side} .fighter .face`).evaluateAll(faces => faces.map(f => {
       const p = f.getBoundingClientRect(), card = f.parentElement!.getBoundingClientRect();
-      return [!!f.querySelector('img'), card.height - p.height <= 2, p.width / card.width > 0.2 && p.width / card.width < 0.36];
+      return [card.height - p.height <= 2, p.width / card.width > 0.2 && p.width / card.width < 0.36];
     }));
-    expect([panels, await page.locator('.foes .face').count()]).toEqual([Array(3).fill([true, true, true]), 0]);
+    const ours = await page.locator('.ours .fighter .face').evaluateAll(faces => faces.map(f => !!f.querySelector('img')));
+    expect([ours, await panel('ours')]).toEqual([Array(3).fill(true), Array(3).fill([true, true])]);
+    expect((await panel('foes')).every(([tall, wide]) => tall && wide)).toBe(true);
     // The company seen whole above the hand, each face with its card, on a phone and on a small laptop (at 1180 by 820
     // the third of three had been cut at the mouth).
     const seen = [await Reading.whole(page)];

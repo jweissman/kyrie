@@ -90,7 +90,9 @@ export class WorldStage {
       </ul>
     );
   }
-  static readonly room = 10;
+  // Few enough to take in at a glance (the owner, 6 November: the scene was still too busy): those the page leads by
+  // first, then the rest of the room's six, and anyone more a touch away.
+  static readonly room = 6;
   // Those who mean harm last, so that they stand apart at the right of the picture.
   static present(app: ReaderApp): SceneSubject[] {
     return (app.menu.scene?.subjects ?? []).filter(x => ['companion', 'person', 'animal', 'creature'].includes(x.kind))

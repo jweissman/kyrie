@@ -22,7 +22,7 @@ import { TalkFocus } from '../talk-focus';
 export class TalkStage {
   static View({ app, talk }: { app: ReaderApp; talk: Talk }) {
     const s = app.state, frame = s.frame!, who = talk.subject, draw = Act.draw(app);
-    const [name, ...role] = [Words.short(who.name), who.note].filter(Boolean) as string[];
+    const [name, ...role] = [Words.short(who.name), who.note && Words.described(who.note)].filter(Boolean) as string[];
     const counter = frame.screen.trade.find(c => c.id === who.id), { wares, rest } = Wares.of(counter, talk.replies);
     const led = frame.leaf.glance?.acts.find(a => a.subject === who.id)?.for;
     const focus = TalkFocus.of(rest, { ...led ? { led } : {}, ...s.heard ? { heard: s.heard } : {}, asked: s.asked });
