@@ -11,11 +11,11 @@
   Observe {w}_cut at {w} when true "Along the brow of the great face the letters of the old script flow into the stone: {oldup}." teaches {w}_named.
 --- base
   Place {w}_site "{name}" is site within {land} at {x}, {y}.
-  Place {w}_throat "the throat" is room within {w}_site at 0, 0.
-  Place {w}_masks "the hall of masks" is room within {w}_site at 1, 0.
-  Place {w}_choir "the choir" is room within {w}_site at 2, 0.
-  Place {w}_unfinished "the unfinished hall" is room within {w}_site at 2, 1.
-  Place {w}_heart "the heart of the hill" is room within {w}_site at 3, 0.
+  Place {w}_throat "the throat" is room within {w}_site at 0, 0 underground.
+  Place {w}_masks "the hall of masks" is room within {w}_site at 1, 0 underground.
+  Place {w}_choir "the choir" is room within {w}_site at 2, 0 underground.
+  Place {w}_unfinished "the unfinished hall" is room within {w}_site at 2, 1 underground.
+  Place {w}_heart "the heart of the hill" is room within {w}_site at 3, 0 underground.
   Passage {w}_in "the mouth" is doorway between {w} and {w}_throat.
   Passage {w}_on "the long rising passage" is passage between {w}_throat and {w}_masks.
   Passage {w}_choir_door "a doorway of notes" is door between {w}_masks and {w}_choir.

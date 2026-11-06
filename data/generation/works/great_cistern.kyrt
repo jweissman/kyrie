@@ -12,12 +12,12 @@
   Observe {w}_cut at {w} when true "Along the crest of the dam runs a line of the old script, each letter as tall as a man, to be read from the far side of the valley: {oldup}." teaches {w}_named.
 --- base
   Place {w}_site "{name}" is site within {land} at {x}, {y}.
-  Place {w}_crest "the crest of the dam" is room within {w}_site at 0, 0.
-  Place {w}_tower "the gate-tower" is room within {w}_site at 1, 0.
-  Place {w}_face "the stair down the mere's side" is room within {w}_site at 1, 1.
-  Place {w}_street "the drowned street" is room within {w}_site at 2, 1.
-  Place {w}_hall "the hall of still water" is room within {w}_site at 3, 1.
-  Place {w}_vault "the wardens' vault" is room within {w}_site at 3, 2.
+  Place {w}_crest "the crest of the dam" is room within {w}_site at 0, 0 outdoors.
+  Place {w}_tower "the gate-tower" is room within {w}_site at 1, 0 indoors.
+  Place {w}_face "the stair down the mere's side" is room within {w}_site at 1, 1 outdoors.
+  Place {w}_street "the drowned street" is room within {w}_site at 2, 1 outdoors.
+  Place {w}_hall "the hall of still water" is room within {w}_site at 3, 1 underground.
+  Place {w}_vault "the wardens' vault" is room within {w}_site at 3, 2 underground.
   Passage {w}_up "the steps cut up the end of the dam" is steps between {w} and {w}_crest.
   Passage {w}_along "the walk along the crest" is passage between {w}_crest and {w}_tower.
   Passage {w}_down "the stair down the dam's inner face" is stair between {w}_tower and {w}_face.

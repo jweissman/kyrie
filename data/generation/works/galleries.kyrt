@@ -19,13 +19,13 @@
   Place {w}_site "{name}" is site within {land} at {x}, {y}.
   Place {w}_works "the upper galleries" is level within {w}_site.
   Place {w}_deep "the deep galleries" is level within {w}_site.
-  Place {w}_adit "the adit gallery" is room within {w}_works at 0, 0.
-  Place {w}_head "the lift-head" is room within {w}_works at 1, 0.
-  Place {w}_fall "the fallen gallery" is room within {w}_works at 1, 1.
-  Place {w}_foot "the foot of the shaft" is room within {w}_deep at 0, 0.
-  Place {w}_dressing "the dressing-hall" is room within {w}_deep at 1, 0.
-  Place {w}_door_room "the end of the last gallery" is room within {w}_deep at 2, 0.
-  Place {w}_vein "the pale vein" is room within {w}_works at 2, 1.
+  Place {w}_adit "the adit gallery" is room within {w}_works at 0, 0 underground.
+  Place {w}_head "the lift-head" is room within {w}_works at 1, 0 underground.
+  Place {w}_fall "the fallen gallery" is room within {w}_works at 1, 1 underground.
+  Place {w}_foot "the foot of the shaft" is room within {w}_deep at 0, 0 underground.
+  Place {w}_dressing "the dressing-hall" is room within {w}_deep at 1, 0 underground.
+  Place {w}_door_room "the end of the last gallery" is room within {w}_deep at 2, 0 underground.
+  Place {w}_vein "the pale vein" is room within {w}_works at 2, 1 underground.
   Passage {w}_in "the adit mouth" is drift between {w} and {w}_adit.
   Passage {w}_on "the railed gallery" is passage between {w}_adit and {w}_head.
   Passage {w}_side "the side gallery" is passage between {w}_head and {w}_fall.
@@ -54,7 +54,7 @@
     State dug "A gap has been dug through the fall, low enough to crawl.".
     Change dig "Dig through the fall" from fallen to dug needing digging or shovel.
   }
-  Place {w}_beyond "the dark behind the iron door" is room within {w}_deep at 3, 0.
+  Place {w}_beyond "the dark behind the iron door" is room within {w}_deep at 3, 0 underground.
   Passage {w}_iron "the iron door" is door between {w}_door_room and {w}_beyond.
   Thing {w}_bars "the bars across the iron door" on {w}_iron {
     State set blocking "Three great bars lie across the iron door in their hasps.".

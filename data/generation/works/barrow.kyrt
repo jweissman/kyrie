@@ -48,10 +48,10 @@
   // diagnosis: twelve of thirteen works had no aim, so arriving at one asked nothing).
   Objective {w}_sought when knows(party, {w}_named) and not been(party, {w}_end) "Whatever was buried with the dead of {{w}} lies there still.".
 --- shape long 1 if shape0
-  Place {w}_passage "the stone passage" is room within {w}_site at 0, 0.
-  Place {w}_left "the north chamber" is room within {w}_site at 0, 1.
-  Place {w}_right "the south chamber" is room within {w}_site at 1, 1.
-  Place {w}_end "the end chamber" is room within {w}_site at 1, 0.
+  Place {w}_passage "the stone passage" is room within {w}_site at 0, 0 underground.
+  Place {w}_left "the north chamber" is room within {w}_site at 0, 1 underground.
+  Place {w}_right "the south chamber" is room within {w}_site at 1, 1 underground.
+  Place {w}_end "the end chamber" is room within {w}_site at 1, 0 underground.
   Passage {w}_north "the north opening" is doorway between {w}_passage and {w}_left.
   Passage {w}_south "the south opening" is doorway between {w}_passage and {w}_right.
   Passage {w}_far "the end of the passage" is passage between {w}_passage and {w}_end.
@@ -60,10 +60,10 @@
   Observe {w}_right_scene at {w}_right when true "A small chamber off the passage, the bones in it heaped as if swept aside. Pots stand along the wall, sealed.".
   Observe {w}_end_scene at {w}_end when true "The end chamber is larger, and higher. One of the dead lies alone on a slab, not heaped with the others: whoever it was, they were laid down last and laid down carefully.".
 --- shape grave 1 if shape1
-  Place {w}_passage "the sun-passage" is room within {w}_site at 0, 1.
-  Place {w}_end "the round chamber" is room within {w}_site at 1, 1.
-  Place {w}_left "the west recess" is room within {w}_site at 1, 0.
-  Place {w}_right "the east recess" is room within {w}_site at 2, 1.
+  Place {w}_passage "the sun-passage" is room within {w}_site at 0, 1 underground.
+  Place {w}_end "the round chamber" is room within {w}_site at 1, 1 underground.
+  Place {w}_left "the west recess" is room within {w}_site at 1, 0 underground.
+  Place {w}_right "the east recess" is room within {w}_site at 2, 1 underground.
   Passage {w}_far "the inner end of the passage" is passage between {w}_passage and {w}_end.
   Passage {w}_north "the mouth of the west recess" is doorway between {w}_end and {w}_left.
   Passage {w}_south "the mouth of the east recess" is doorway between {w}_end and {w}_right.
@@ -72,10 +72,10 @@
   Observe {w}_left_scene at {w}_left when true "A recess off the round chamber. Bones lie on a shelf of stone, laid out with care, the skulls together at one end.".
   Observe {w}_right_scene at {w}_right when true "A recess off the round chamber, the bones in it heaped as if swept aside. Pots stand along the wall, sealed.".
 --- shape cairn 1 if shape2
-  Place {w}_passage "the entrance passage" is room within {w}_site at 0, 0.
-  Place {w}_left "the side cell" is room within {w}_site at 0, 1.
-  Place {w}_end "the upper chamber" is room within {w}_site at 1, 0.
-  Place {w}_right "the lower chamber" is room within {w}_site at 1, 1.
+  Place {w}_passage "the entrance passage" is room within {w}_site at 0, 0 underground.
+  Place {w}_left "the side cell" is room within {w}_site at 0, 1 underground.
+  Place {w}_end "the upper chamber" is room within {w}_site at 1, 0 underground.
+  Place {w}_right "the lower chamber" is room within {w}_site at 1, 1 underground.
   Passage {w}_north "the side cell" is doorway between {w}_passage and {w}_left.
   Passage {w}_far "the step up into the chamber" is steps between {w}_passage and {w}_end.
   Passage {w}_south "the drop into the lower chamber" is shaft between {w}_end and {w}_right needing rope or climbing.
@@ -87,7 +87,7 @@
   Observe {w}_answered at {w}_passage as revelation when state({w}_flute_bone, played) "Then, from very far off, faint as breath, another flute answers: from {greatwhere}, where the greatest of the barrows of {epithet} must lie." teaches {greatfound}.
 --- successors robbed 2
   Observe {w}_robbed at {w}_right when true "The kingdom of {successors} knew there was gold in the old mounds: a robbers' shaft comes down through the roof here, and the pots along the wall are smashed. The robbers left the bones.".
-  Place {w}_shaft_top "the robbers' hole" is room within {w}_site at 2, 0.
+  Place {w}_shaft_top "the robbers' hole" is room within {w}_site at 2, 0 underground.
   Passage {w}_robbers "the robbers' shaft" is shaft between {w}_shaft_top and {w}_right needing rope or climbing.
   Passage {w}_hole "the hole in the top of the mound" is path between {w} and {w}_shaft_top.
   Observe {w}_hole_scene at {w}_shaft_top when true "A hole has been cut through the turf on the crown of the mound, and under it a shaft goes down between the roofing stones, about a rope's length.".

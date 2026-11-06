@@ -11,12 +11,12 @@
   Observe {w}_cut at {w} when true "On the lintel of the entrance, cut deep in the old script and filled with something dark: {oldup}." teaches {w}_named.
 --- base
   Place {w}_site "{name}" is site within {land} at {x}, {y}.
-  Place {w}_forecourt "the forecourt" is room within {w}_site at 0, 1.
-  Place {w}_kings "the gallery of kings" is room within {w}_site at 1, 1.
-  Place {w}_horses "the horse-hall" is room within {w}_site at 1, 0.
-  Place {w}_flutes "the chamber of flutes" is room within {w}_site at 2, 1.
-  Place {w}_throne "the high chamber" is room within {w}_site at 3, 1.
-  Place {w}_last "the room behind the seat" is room within {w}_site at 3, 2.
+  Place {w}_forecourt "the forecourt" is room within {w}_site at 0, 1 outdoors.
+  Place {w}_kings "the gallery of kings" is room within {w}_site at 1, 1 underground.
+  Place {w}_horses "the horse-hall" is room within {w}_site at 1, 0 underground.
+  Place {w}_flutes "the chamber of flutes" is room within {w}_site at 2, 1 underground.
+  Place {w}_throne "the high chamber" is room within {w}_site at 3, 1 underground.
+  Place {w}_last "the room behind the seat" is room within {w}_site at 3, 2 underground.
   Passage {w}_ring "the way through the ring" is path between {w} and {w}_forecourt.
   Passage {w}_door "the great door" is passage between {w}_forecourt and {w}_kings.
   Passage {w}_stalls "a side passage" is passage between {w}_kings and {w}_horses.

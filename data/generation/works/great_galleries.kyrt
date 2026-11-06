@@ -11,12 +11,12 @@
   Observe {w}_cut at {w} when true "On the iron of the great wheel's hub, cast in the old script and polished by a thousand years of wind: {oldup}." teaches {w}_named.
 --- base
   Place {w}_site "{name}" is site within {land} at {x}, {y}.
-  Place {w}_head "the pit-head" is room within {w}_site at 0, 0.
-  Place {w}_floor "the pit floor" is room within {w}_site at 0, 1.
-  Place {w}_forge "the great forge" is room within {w}_site at 1, 1.
-  Place {w}_moulds "the hall of moulds" is room within {w}_site at 1, 2.
-  Place {w}_vein "the star-iron vein" is room within {w}_site at 2, 1.
-  Place {w}_deepest "the deepest gallery" is room within {w}_site at 3, 1.
+  Place {w}_head "the pit-head" is room within {w}_site at 0, 0 outdoors.
+  Place {w}_floor "the pit floor" is room within {w}_site at 0, 1 outdoors.
+  Place {w}_forge "the great forge" is room within {w}_site at 1, 1 underground.
+  Place {w}_moulds "the hall of moulds" is room within {w}_site at 1, 2 underground.
+  Place {w}_vein "the star-iron vein" is room within {w}_site at 2, 1 underground.
+  Place {w}_deepest "the deepest gallery" is room within {w}_site at 3, 1 underground.
   Passage {w}_edge "the lip of the pit" is path between {w} and {w}_head.
   Passage {w}_cage "the great cage" is shaft between {w}_head and {w}_floor.
   Passage {w}_hearth "the forge arch" is arch between {w}_floor and {w}_forge.

@@ -38,10 +38,10 @@
   // diagnosis: twelve of thirteen works had no aim, so arriving at one asked nothing).
   Objective {w}_sought when knows(party, {w}_named) and not been(party, {w}_head) "The springs the country once drank from were held somewhere under {{w}}, and nobody has been down to them.".
 --- shape stair 1 if shape0
-  Place {w}_stair "the long stair" is room within {w}_site at 0, 0.
-  Place {w}_hall "the pillared hall" is room within {w}_site at 1, 0.
-  Place {w}_wheel_room "the wheel-room" is room within {w}_site at 1, 1.
-  Place {w}_head "the spring-head" is room within {w}_site at 2, 0.
+  Place {w}_stair "the long stair" is room within {w}_site at 0, 0 underground.
+  Place {w}_hall "the pillared hall" is room within {w}_site at 1, 0 underground.
+  Place {w}_wheel_room "the wheel-room" is room within {w}_site at 1, 1 underground.
+  Place {w}_head "the spring-head" is room within {w}_site at 2, 0 underground.
   Passage {w}_in "the square doorway" is doorway between {w} and {w}_stair.
   Passage {w}_down "the foot of the long stair" is steps between {w}_stair and {w}_hall.
   Passage {w}_ledge "the ledge along the wall" is passage between {w}_hall and {w}_wheel_room.
@@ -55,10 +55,10 @@
     State drained "The water has gone down out of the hall. Silt lies in ridges between the pillars, and the low arch stands open, streaming.".
   }
 --- shape well 1 if shape1
-  Place {w}_stair "the head of the steps" is room within {w}_site at 0, 0.
-  Place {w}_hall "the water-stair" is room within {w}_site at 0, 1.
-  Place {w}_wheel_room "the sluice-niche" is room within {w}_site at 1, 1.
-  Place {w}_head "the spring-pool" is room within {w}_site at 0, 2.
+  Place {w}_stair "the head of the steps" is room within {w}_site at 0, 0 underground.
+  Place {w}_hall "the water-stair" is room within {w}_site at 0, 1 underground.
+  Place {w}_wheel_room "the sluice-niche" is room within {w}_site at 1, 1 underground.
+  Place {w}_head "the spring-pool" is room within {w}_site at 0, 2 underground.
   Passage {w}_in "the square doorway" is doorway between {w} and {w}_stair.
   Passage {w}_down "the flights down the shaft" is steps between {w}_stair and {w}_hall.
   Passage {w}_ledge "the ledge round the shaft" is passage between {w}_hall and {w}_wheel_room.
@@ -73,10 +73,10 @@
   }
 --- shape outfall 1 if shape2
   Observe {w}_outfall_seen at {w} when true "Lower down the hillside a stone channel comes out of the ground into a culvert, dry now, just big enough to crawl into.".
-  Place {w}_stair "the long stair" is room within {w}_site at 0, 0.
-  Place {w}_hall "the hall of round pillars" is room within {w}_site at 1, 0.
-  Place {w}_wheel_room "the wheel-room" is room within {w}_site at 1, 1.
-  Place {w}_head "the spring-head" is room within {w}_site at 2, 0.
+  Place {w}_stair "the long stair" is room within {w}_site at 0, 0 underground.
+  Place {w}_hall "the hall of round pillars" is room within {w}_site at 1, 0 underground.
+  Place {w}_wheel_room "the wheel-room" is room within {w}_site at 1, 1 underground.
+  Place {w}_head "the spring-head" is room within {w}_site at 2, 0 underground.
   Passage {w}_in "the square doorway" is doorway between {w} and {w}_stair.
   Passage {w}_outfall "the culvert under the hill" is crawl between {w} and {w}_wheel_room.
   Passage {w}_down "the foot of the long stair" is steps between {w}_stair and {w}_hall.

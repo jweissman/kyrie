@@ -12,9 +12,9 @@
   Observe {w}_cut at {w} when true "Over the doorway, letters flow into the stone rather than being cut in it, in the old script: {oldup}." teaches {w}_named.
 --- base
   Place {w}_site "{name}" is site within {land} at {x}, {y}.
-  Place {w}_porch "the smooth porch" is room within {w}_site at 0, 0.
-  Place {w}_hall "the round hall" is room within {w}_site at 1, 0.
-  Place {w}_inner "the silent hall" is room within {w}_site at 2, 0.
+  Place {w}_porch "the smooth porch" is room within {w}_site at 0, 0 outdoors.
+  Place {w}_hall "the round hall" is room within {w}_site at 1, 0 underground.
+  Place {w}_inner "the silent hall" is room within {w}_site at 2, 0 underground.
   Passage {w}_in "the smooth doorway" is doorway between {w} and {w}_porch.
   Initially Assert unlit({w}_hall). Initially Assert unlit({w}_inner).
   Passage {w}_through "the round arch" is arch between {w}_porch and {w}_hall.
