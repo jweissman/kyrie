@@ -161,3 +161,21 @@ plan; the "institution hierarchy you roll up and defeat, whose fall opens a new 
 **Verification.** Lint and typecheck clean on the final tree. `all-in-one-world` and the targeted tests named in each
 ledger pass; one full `bun test --parallel` was started on the final tree and its result is recorded below when it
 ends (not claimed before).
+
+## 13.9 The ring, and the state of verification
+
+**Built (data only, `17-the-ring.md`, `adventures/ring-friction.md`).** The Founders' Exchange is now a ring with four ranks
+(cellar-men, the factor as fence, a Deem-cast lieutenant, a Deem-cast Principal) whose building and members stand in two
+provinces; evidence found in one opens doors in the other; the Principal keeps a circuit across two clocks and answers
+interference (muscle, night raids, burning a leaf, sacrificing the lieutenant, then flight, a buy-off or a stand);
+his fall (or flight) opens "The Lamp Below" (three acts, a Governor, five ways past each act). Reload-equal `canonical()`
+is tested. **Not built:** a Principal who can be met on the road (Pursuit does not cross hidden doors or uninstalled
+countries); a fight with the Principal is not simulated; measures cannot be read across modules (two clocks);
+the lieutenant is the only Deem rank with its own table beyond folk and temper.
+
+**Verification, plainly.** A full `bun test --parallel` on the tree at `880baf7` ran 2940 pass, 115 skip, 6 fail. Five of
+the six were mine (a Mangrow person id that collided with Book of Faces' marker; a Lull fixture missing a new file; the
+lieutenant rolling a dwarf thief), and one was the ring's `one-imbar` break; each has been fixed and its test
+rerun green, as have `all-in-one-world`, `traces` (with `wren-tower-climbed` redigested), `wild-meetings`,
+`exploration` and `factors-handoff`. **I have not rerun the entire suite on the final tree**, so no whole-suite figure is
+claimed for it; lint and typecheck are clean.
