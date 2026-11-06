@@ -78,4 +78,7 @@ asserted). The `unbound site` warnings in Quittance and Book of Faces predate th
 
 ## 6. Verification log
 
-(appended at the end of the run; see below)
+Run file by file on the final tree (commit `5e40073`), each reporting 0 failures: `ombra-gate` 23, `ombra-maskers` 21,
+`ombra-thief` 24, `ombra-counting` 15, `ombra-mage` 10, `low-water-replay` 2, `sea-region` 3, `repository` 4,
+`dorothea-routes` 6, `dorothea-sea` 1, `the-grand-tour` 3, `the-slack` 14, `all-in-one-world` 1. Not run: the whole suite,
+the two browser specs.
