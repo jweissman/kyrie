@@ -64,8 +64,9 @@ describe('one creature pipeline', () => {
     expect(again.campaign.readout.creatures.filter(c => c.raceId === 'eel').map(shape)).toEqual(eels());
   }, 60000);
   it('shows a creature by its kind’s painting, a named variant by its base’s', () => {
-    expect(['wolf', 'frost_wolf', 'dog', 'bear'].map(id => CreaturePortraits.painting(id)))
-      .toEqual(['wolf', 'wolf', 'dog', 'bear']);
+    // The bear's painting shows crags over a lake and no bear: the bear has none yet, and says so by naming none.
+    expect(['wolf', 'frost_wolf', 'dog', 'vampire', 'bear'].map(id => CreaturePortraits.painting(id)))
+      .toEqual(['wolf', 'wolf', 'dog', 'vampyre', undefined]);
     expect(CreaturePortraits.painting('rat')).toBeUndefined();
   });
 });

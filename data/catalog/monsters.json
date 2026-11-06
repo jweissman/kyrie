@@ -19,6 +19,8 @@
       "type": "celestial",
       "kind": "monster",
       "description": "A celestial of Orsino's bestiary. It fights with longsword, armoured in chain mail, and knows Smite Evil, Heal Ally, Bless and Inspire.",
+      "looks": "A tall winged figure in white, its wings of swan feathers, its face calm and its sword drawn and bright.",
+      "portrait": "angel",
       "statistics": {
         "attributes": {
           "strength": 20,
@@ -68,6 +70,7 @@
       "type": "celestial",
       "kind": "monster",
       "description": "A celestial of Orsino's bestiary. It fights with longsword, armoured in chain mail, and knows Smite Evil, Heal Ally, Bless and Defend.",
+      "looks": "A celestial in burnished armour with a great helm, a lantern of light at its heart, wings folded.",
       "statistics": {
         "attributes": {
           "strength": 21,
@@ -115,6 +118,7 @@
       "type": "construct",
       "kind": "monster",
       "description": "A construct of Orsino's bestiary. It fights with slam, armoured in plate mail, and knows Defend, Charge, Hide and Rapid Strike.",
+      "looks": "A man-shaped engine of brass and iron plates, gears showing at its joints and a glass lamp for eyes.",
       "statistics": {
         "attributes": {
           "strength": 15,
@@ -163,6 +167,7 @@
       "type": "demon",
       "kind": "monster",
       "description": "A demon of Orsino's bestiary. It fights with claws, armoured in leather armor, and knows Curse, Terror, Burning Hands and Mass Curse.",
+      "looks": "A huge winged fiend wreathed in flame, red-skinned and horned, a whip of fire in one hand and a sword in the other.",
       "statistics": {
         "attributes": {
           "strength": 20,
@@ -210,6 +215,7 @@
       "type": "undead",
       "kind": "monster",
       "description": "An undead of Orsino's bestiary. It fights with claws, armoured in clothing, and knows Curse, Scream and Life Drain.",
+      "looks": "A thin grey woman of mist with long white hair streaming, her mouth wide in a scream, her feet not touching the ground.",
       "statistics": {
         "attributes": {
           "strength": 8,
@@ -257,6 +263,7 @@
       "type": "giant",
       "kind": "monster",
       "description": "A giant of Orsino's bestiary. It fights with greatsword, armoured in chain mail, and knows Maul, Charge, Taunt, Stomp and Dig In.",
+      "looks": "A beast as big as a barn, thick-hided and tusked, its back mossed like a hill.",
       "statistics": {
         "attributes": {
           "strength": 27,
@@ -307,6 +314,7 @@
       "type": "undead",
       "kind": "monster",
       "description": "A hound-shape of grave bones wired together and moved by a necromancer's binding. It has no eyes and does not tire.",
+      "looks": "A hound of bare yellowed bone held together by sinew and old malice, its eye-pits lit faintly.",
       "statistics": {
         "attributes": "rolled",
         "hitDie": 8,
@@ -332,6 +340,7 @@
       "type": "construct",
       "kind": "monster",
       "description": "A bounded guardian of registered burials.",
+      "looks": "A broad figure of cast bronze, green at the seams, with a blank face and arms like temple columns.",
       "statistics": {
         "attributes": "rolled",
         "hitDie": 16,
@@ -360,6 +369,8 @@
       "type": "beast",
       "kind": "monster",
       "description": "A beast of Orsino's bestiary. It fights with claws, armoured in hide armor, and knows Maul, Charge, Rage, Poison Bite, Fireball and Lightning Bolt.",
+      "looks": "A beast with a lion's body and head, a goat's head rising from its back and a serpent for a tail.",
+      "portrait": "chimera",
       "statistics": {
         "attributes": {
           "strength": 17,
@@ -410,6 +421,7 @@
       "type": "construct",
       "kind": "monster",
       "description": "A construct of Orsino's bestiary. It fights with slam, armoured in plate mail, and knows Defend, Charge, Hide and Smash.",
+      "looks": "A soldier of riveted plates and springs, a key in its back, marching with a spear at the slope.",
       "statistics": {
         "attributes": {
           "strength": 15,
@@ -459,6 +471,7 @@
       "type": "giant",
       "kind": "monster",
       "description": "A giant of Orsino's bestiary. It fights with greatsword, armoured in chain mail, and knows Maul, Charge, Taunt and Smash.",
+      "looks": "A giant of worked stone or bronze, taller than a tower, its features weathered smooth.",
       "statistics": {
         "attributes": {
           "strength": 26,
@@ -508,6 +521,7 @@
       "type": "celestial",
       "kind": "monster",
       "description": "A celestial of Orsino's bestiary. It fights with longsword, armoured in chain mail, and knows Smite Evil, Heal Ally, Bless and Inspire.",
+      "looks": "A winged celestial with skin like polished silver, robed in light, holding a mace.",
       "statistics": {
         "attributes": {
           "strength": 20,
@@ -556,6 +570,7 @@
       "type": "aberration",
       "kind": "monster",
       "description": "An aberration of Orsino's bestiary. It fights with tentacles, armoured in hide armor, and knows Terror, Curse, Sleep, Charm Person, Mind Melt, Confuse, Flesh to Stone, Paralyzing Touch and Scream.",
+      "looks": "A floating mass of flesh crowded with eyes of every size, each looking somewhere else.",
       "statistics": {
         "attributes": {
           "strength": 18,
@@ -608,6 +623,8 @@
       "type": "dragon",
       "kind": "monster",
       "description": "A great winged reptile: scaled, clawed, cunning and proud.",
+      "looks": "A great winged reptile with horned head, long neck and tail, clawed limbs and armoured scales.",
+      "portrait": "dragon",
       "statistics": {
         "attributes": {
           "strength": 35,
@@ -652,6 +669,7 @@
       "type": "dragon",
       "kind": "monster",
       "description": "A dragon of Orsino's bestiary. It fights with bite, armoured in scale mail, and knows Fly and Maul.",
+      "looks": "A wingless dragon the size of a horse, heavy-jawed and thick-scaled, its tail dragging.",
       "statistics": {
         "attributes": {
           "strength": 31,
@@ -698,6 +716,7 @@
       "type": "fey",
       "kind": "monster",
       "description": "A fey of Orsino's bestiary. It fights with dagger, armoured in leather armor, and knows Charm Person, Sleep, Hide and Call Animal Companion.",
+      "looks": "A woman whose skin is bark and whose hair is leaves, half stepping out of an oak.",
       "statistics": {
         "attributes": {
           "strength": 9,
@@ -744,6 +763,7 @@
       "type": "elemental",
       "kind": "monster",
       "description": "A body of one of the elements, given will and anger: earth that walks, fire that reaches, water that stands up.",
+      "looks": "A body of one element given shape and will: a mass of stone, flame or water standing like a man.",
       "statistics": {
         "attributes": {
           "strength": 16,
@@ -789,6 +809,8 @@
       "type": "demon",
       "kind": "monster",
       "description": "A demon of Orsino's bestiary. It fights with claws, armoured in leather armor, and knows Curse, Terror and Burning Hands.",
+      "looks": "A horned, red-skinned fiend with bat wings and a barbed tail, grinning.",
+      "portrait": "demon",
       "statistics": {
         "attributes": {
           "strength": 18,
@@ -835,6 +857,7 @@
       "type": "undead",
       "kind": "monster",
       "description": "An undead of Orsino's bestiary. It fights with claws, armoured in clothing, and knows Curse, Scream, Life Drain and Paralyzing Touch.",
+      "looks": "A gaunt grey thing that was a man, long-nailed and hollow-cheeked, crouched over bones.",
       "statistics": {
         "attributes": {
           "strength": 11,
@@ -883,6 +906,7 @@
       "type": "construct",
       "kind": "monster",
       "description": "A body shaped by a maker out of one stuff (clay, stone, iron) and set to work: it does not tire, and does not stop.",
+      "looks": "A heavy man-shaped body of worked stuff (clay, stone, iron), faceless, standing at a door.",
       "statistics": {
         "attributes": {
           "strength": 17,
@@ -925,6 +949,7 @@
       "type": "demon",
       "kind": "monster",
       "description": "A demon of Orsino's bestiary. It fights with claws, armoured in leather armor, and knows Curse, Terror, Burning Hands and Fireball.",
+      "looks": "A towering spirit of smoke and fire, its lower body a column of flame, its eyes like coals.",
       "statistics": {
         "attributes": {
           "strength": 19,
@@ -972,6 +997,8 @@
       "type": "undead",
       "kind": "monster",
       "description": "An undead of Orsino's bestiary. It fights with claws, armoured in clothing, and knows Curse, Scream, Life Drain, Animate Dead and Death.",
+      "looks": "A dead sorcerer in rotting robes of state, skin dried to the skull, a crown on its brow and light in its eye-pits.",
+      "portrait": "lich",
       "statistics": {
         "attributes": {
           "strength": 8,
@@ -1023,6 +1050,7 @@
       "type": "demon",
       "kind": "monster",
       "description": "A demon of Orsino's bestiary. It fights with claws, armoured in leather armor, and knows Curse, Terror, Burning Hands and Rapid Strike.",
+      "looks": "A fiend with a woman's body above and a great snake's below, six arms each holding a blade.",
       "statistics": {
         "attributes": {
           "strength": 19,
@@ -1070,6 +1098,7 @@
       "type": "elemental",
       "kind": "monster",
       "description": "An elemental of Orsino's bestiary. It fights with slam, armoured in scale mail, and knows Defend.",
+      "looks": "A small winged imp of one element, impish-faced, with spindly limbs and a mocking grin.",
       "statistics": {
         "attributes": {
           "strength": 12,
@@ -1114,6 +1143,7 @@
       "type": "aberration",
       "kind": "monster",
       "description": "An aberration of Orsino's bestiary. It fights with tentacles, armoured in hide armor, and knows Terror, Curse, Sleep, Charm Person, Mind Melt, Command and Confuse.",
+      "looks": "A robed figure with a head like an octopus, four feelers about its mouth and white, pupilless eyes.",
       "statistics": {
         "attributes": {
           "strength": 18,
@@ -1164,6 +1194,7 @@
       "type": "aberration",
       "kind": "monster",
       "description": "An aberration of Orsino's bestiary. It fights with tentacles, armoured in hide armor, and knows Terror, Curse, Sleep, Charm Person, Mind Melt and Acid Spray.",
+      "looks": "A heap of flesh covered in mouths and eyes, gibbering, flowing over the floor.",
       "statistics": {
         "attributes": {
           "strength": 18,
@@ -1214,6 +1245,7 @@
       "type": "undead",
       "kind": "monster",
       "description": "An undead of Orsino's bestiary. It fights with claws, armoured in clothing, and knows Curse, Scream, Life Drain, Mass Curse and Reckless Attack.",
+      "looks": "A dead body bound in brown linen, the wrappings loose and stained, reaching out with dried hands.",
       "statistics": {
         "attributes": {
           "strength": 12,
@@ -1264,6 +1296,7 @@
       "type": "beast",
       "kind": "monster",
       "description": "A beast of Orsino's bestiary. It fights with claws, armoured in hide armor, and knows Maul, Charge, Rage, Poison Bite and Scream.",
+      "looks": "A black horse with a mane and hooves of flame and eyes like burning coals.",
       "statistics": {
         "attributes": {
           "strength": 16,
@@ -1313,6 +1346,8 @@
       "type": "fey",
       "kind": "monster",
       "description": "A fey of Orsino's bestiary. It fights with dagger, armoured in leather armor, and knows Charm Person, Sleep, Hide and Call Animal Companion.",
+      "looks": "A young woman of the springs, barefoot, in a shift of water-light, beautiful and wild.",
+      "portrait": "nymph",
       "statistics": {
         "attributes": {
           "strength": 9,
@@ -1359,6 +1394,7 @@
       "type": "aberration",
       "kind": "monster",
       "description": "An aberration of Orsino's bestiary. It fights with tentacles, armoured in hide armor, and knows Terror, Curse, Sleep, Charm Person, Mind Melt and Engulf.",
+      "looks": "A glistening mass of grey-green slime, shapeless, carrying half-dissolved bones in it.",
       "statistics": {
         "attributes": {
           "strength": 18,
@@ -1408,6 +1444,7 @@
       "type": "beast",
       "kind": "monster",
       "description": "A beast of Orsino's bestiary. It fights with claws, armoured in hide armor, and knows Maul, Charge, Rage, Poison Bite and Stomp.",
+      "looks": "A hulking bear with an owl's face and hooked beak, feathered at the head and shoulders.",
       "statistics": {
         "attributes": {
           "strength": 17,
@@ -1457,6 +1494,7 @@
       "type": "fey",
       "kind": "monster",
       "description": "A fey of Orsino's bestiary. It fights with dagger, armoured in leather armor, and knows Charm Person, Sleep, Hide and Confuse.",
+      "looks": "A tiny winged person with gossamer wings and pointed ears, laughing, glowing faintly.",
       "statistics": {
         "attributes": {
           "strength": 9,
@@ -1503,6 +1541,7 @@
       "type": "undead",
       "kind": "monster",
       "description": "A barrow's dead warden, risen to drain the living and lull them to sleep.",
+      "looks": "A dead man risen in the clothes he was buried in, grave-mud on him, with a look of fixed purpose.",
       "statistics": {
         "attributes": "rolled",
         "hitDie": 12,
@@ -1532,6 +1571,8 @@
       "type": "fey",
       "kind": "monster",
       "description": "A fey of Orsino's bestiary. It fights with dagger, armoured in leather armor, and knows Charm Person, Sleep and Hide.",
+      "looks": "A man with goat's legs, horns and a beard, playing pipes.",
+      "portrait": "satyr",
       "statistics": {
         "attributes": {
           "strength": 9,
@@ -1577,6 +1618,7 @@
       "type": "elemental",
       "kind": "monster",
       "description": "Clay that water has worked loose and set moving: slow, heavy, and hard to hurt with a blunt blow. It holds its ground, and falls back into mud when the water leaves it.",
+      "looks": "A bank of wet grey mud that heaves up into a shape like a man and slumps forward.",
       "statistics": {
         "attributes": {
           "strength": 18,
@@ -1614,6 +1656,7 @@
       "type": "celestial",
       "kind": "monster",
       "description": "A celestial of Orsino's bestiary. It fights with longsword, armoured in chain mail, and knows Smite Evil, Heal Ally, Bless, Inspire and Rally the Faithful.",
+      "looks": "A tall celestial of golden skin and white wings, robed and crowned with light, a great bow in hand.",
       "statistics": {
         "attributes": {
           "strength": 22,
@@ -1663,6 +1706,7 @@
       "type": "undead",
       "kind": "monster",
       "description": "An undead of Orsino's bestiary. It fights with claws, armoured in clothing, and knows Curse, Scream, Life Drain, Slow, Paralyzing Touch and Hide.",
+      "looks": "A pale, half-seen figure of mist in the clothes of its life, its face sorrowful.",
       "statistics": {
         "attributes": {
           "strength": 8,
@@ -1713,6 +1757,7 @@
       "type": "fey",
       "kind": "monster",
       "description": "A fey of Orsino's bestiary. It fights with dagger, armoured in leather armor, and knows Charm Person, Sleep, Hide and Magic Missile.",
+      "looks": "A tiny winged creature with dragonfly wings and green skin, darting.",
       "statistics": {
         "attributes": {
           "strength": 9,
@@ -1759,6 +1804,7 @@
       "type": "giant",
       "kind": "monster",
       "description": "A giant of Orsino's bestiary. It fights with greatsword, armoured in chain mail, and knows Maul, Charge, Taunt and Earthquake.",
+      "looks": "A giant of noble bearing, many times a man's height, crowned and robed, with a great spear.",
       "statistics": {
         "attributes": {
           "strength": 30,
@@ -1808,6 +1854,8 @@
       "type": "undead",
       "kind": "monster",
       "description": "An undead of Orsino's bestiary. It fights with claws, armoured in clothing, and knows Curse, Scream, Life Drain and Charm Person.",
+      "looks": "A pale lord in dark old-fashioned clothes, handsome and cold, red-lipped, with long canine teeth.",
+      "portrait": "vampyre",
       "statistics": {
         "attributes": {
           "strength": 8,
@@ -1856,6 +1904,7 @@
       "type": "beast",
       "kind": "monster",
       "description": "A beast of Orsino's bestiary. It fights with claws, armoured in hide armor, and knows Maul, Charge, Rage, Poison Bite and Life Drain.",
+      "looks": "A gaunt, antlered thing of the winter woods, emaciated and grey, its lips eaten away.",
       "statistics": {
         "attributes": {
           "strength": 18,
@@ -1905,6 +1954,7 @@
       "type": "undead",
       "kind": "monster",
       "description": "An undead of Orsino's bestiary. It fights with claws, armoured in clothing, and knows Curse, Scream and Life Drain.",
+      "looks": "A shadow in the shape of a hooded figure, with cold points of light for eyes and grasping hands.",
       "statistics": {
         "attributes": {
           "strength": 8,
@@ -1952,6 +2002,7 @@
       "type": "dragon",
       "kind": "monster",
       "description": "A dragon of Orsino's bestiary. It fights with bite, armoured in scale mail, and knows Fly and Maul.",
+      "looks": "A vast, ancient, limbless dragon coiled about a hoard, its scales dulled and scarred.",
       "statistics": {
         "attributes": {
           "strength": 34,
@@ -1998,6 +2049,7 @@
       "type": "dragon",
       "kind": "monster",
       "description": "A dragon of Orsino's bestiary. It fights with bite, armoured in scale mail, and knows Fly and Maul.",
+      "looks": "A two-legged dragon with leathery wings, a long neck and a stinging tail.",
       "statistics": {
         "attributes": {
           "strength": 32,
@@ -2184,6 +2236,9 @@
     },
     "red_dragon": {
       "variantOf": "dragon",
+      "variations": [
+        "red_lineage"
+      ],
       "name": "Red dragon",
       "description": "Its crimson scales shimmer like molten lava.",
       "abilities": [
@@ -2193,10 +2248,7 @@
         "orsino": "dragonColor:red",
         "fidelity": "adapted",
         "notes": "The Dragon of the red lineage; Kyr keeps its fire breath as a power too, for when it is in reach."
-      },
-      "variations": [
-        "red_lineage"
-      ]
+      }
     },
     "salt_elemental": {
       "variantOf": "elemental",
@@ -2281,6 +2333,7 @@
       "type": "spirit",
       "kind": "spirit",
       "description": "A drifting mote of light that answers a summoner's call.",
+      "looks": "A pale floating light over the marsh, blue at its heart, that bobs away when approached.",
       "statistics": {
         "attributes": "rolled",
         "hitDie": 4,

@@ -6,6 +6,7 @@
       "type": "beast",
       "kind": "animal",
       "description": "A small but fierce mammal with fine digging ability and extreme tenacity.",
+      "looks": "A low, heavy grey body on short digging legs; a long white face with two black stripes from nose to ear.",
       "statistics": {
         "attributes": {
           "strength": 6,
@@ -45,6 +46,7 @@
       "type": "beast",
       "kind": "animal",
       "description": "A nocturnal flying mammal that uses echolocation to navigate in the dark.",
+      "looks": "A small brown body hung on leather wings with long finger-bones; big ears, a pug nose, tiny bright teeth.",
       "statistics": {
         "attributes": {
           "strength": 4,
@@ -84,6 +86,7 @@
       "type": "beast",
       "kind": "animal",
       "description": "A powerful woodland omnivore, dangerous when its young or feeding ground are threatened.",
+      "looks": "A great brown bear, shoulder-humped and long-clawed, rising on its hind legs with its jaws open.",
       "statistics": {
         "attributes": "rolled",
         "hitDie": 12,
@@ -112,6 +115,7 @@
       "type": "beast",
       "kind": "animal",
       "description": "A small insect with a hard exoskeleton and strong mandibles for biting.",
+      "looks": "A beetle as big as a hand, its black shell glossed green, jaws like pincers and legs fringed with spines.",
       "statistics": {
         "attributes": {
           "strength": 5,
@@ -151,6 +155,7 @@
       "type": "beast",
       "kind": "animal",
       "description": "A territorial animal along reed margins.",
+      "looks": "A bristle-backed wild boar, dark and narrow-flanked, with curved yellow tusks and small red eyes.",
       "statistics": {
         "attributes": "rolled",
         "hitDie": 6,
@@ -178,6 +183,7 @@
       "type": "beast",
       "kind": "animal",
       "description": "A delicate insect with colorful wings. Its flight is graceful and mesmerizing.",
+      "looks": "A butterfly with wide wings of brown and orange, eye-spots on the hindwings, settled on a flower.",
       "statistics": {
         "attributes": {
           "strength": 4,
@@ -217,6 +223,7 @@
       "type": "beast",
       "kind": "animal",
       "description": "A cat about the house: it keeps the mice down and goes where it likes.",
+      "looks": "A lean tabby cat on a wall-top, striped grey and brown, tail curled about its feet, eyes half shut.",
       "statistics": {
         "attributes": "rolled",
         "hitDie": 2,
@@ -241,6 +248,7 @@
       "type": "beast",
       "kind": "animal",
       "description": "A scavenging dog descended from abandoned working animals.",
+      "looks": "A gaunt, pale hound bred in the dark: long-legged, wide-eared, its coat thin and its eyes clouded.",
       "statistics": {
         "attributes": "rolled",
         "hitDie": 6,
@@ -267,6 +275,7 @@
       "type": "beast",
       "kind": "animal",
       "description": "A long, segmented insect with many legs and a venomous bite.",
+      "looks": "A long, many-legged centipede, red-brown and segmented, its feelers raised and its fangs curved.",
       "statistics": {
         "attributes": {
           "strength": 5,
@@ -306,6 +315,7 @@
       "type": "beast",
       "kind": "animal",
       "description": "A milk cow, slow and certain.",
+      "looks": "A red-and-white milk cow with short horns, heavy in the bag, standing in long grass.",
       "statistics": {
         "attributes": "rolled",
         "hitDie": 8,
@@ -331,6 +341,7 @@
       "type": "beast",
       "kind": "animal",
       "description": "A large aquatic reptile with powerful jaws and stealthy hunting.",
+      "looks": "A long grey-green crocodile half out of brown water, its back ridged and its jaws a row of teeth.",
       "statistics": {
         "attributes": {
           "strength": 9,
@@ -370,6 +381,7 @@
       "type": "beast",
       "kind": "animal",
       "description": "A highly intelligent bird remarkable for its problem-solving skills and adaptability.",
+      "looks": "A glossy black crow with a heavy bill, head cocked, standing on a fence post.",
       "statistics": {
         "attributes": {
           "strength": 5,
@@ -409,6 +421,7 @@
       "type": "beast",
       "kind": "animal",
       "description": "A graceful herbivore with exquisite agility and keen senses.",
+      "looks": "A slender red deer, a hind, red-brown with a pale rump, ears up and a forefoot lifted.",
       "statistics": {
         "attributes": {
           "strength": 5,
@@ -448,6 +461,7 @@
       "type": "beast",
       "kind": "animal",
       "description": "A swift flying insect with iridescent wings and excellent maneuverability.",
+      "looks": "A dragonfly with a long blue body and four clear wings veined like leaded glass, hanging over water.",
       "statistics": {
         "attributes": {
           "strength": 4,
@@ -487,6 +501,8 @@
       "type": "beast",
       "kind": "animal",
       "description": "A majestic bird of prey renowned for keen eyesight and capable of powerful flight.",
+      "looks": "A golden eagle with dark brown plumage, a gold nape and a hooked yellow-based bill, talons spread.",
+      "portrait": "eagle",
       "statistics": {
         "attributes": {
           "strength": 5,
@@ -526,6 +542,7 @@
       "type": "beast",
       "kind": "animal",
       "description": "An eel of the rivers and the still water, long as an arm and thick as a wrist, that lies in the weed by day and takes what comes down to it.",
+      "looks": "A long, slick, olive-brown eel, its back dark and its belly yellow, twisting in shallow water.",
       "statistics": {
         "attributes": "rolled",
         "hitDie": 4,
@@ -552,6 +569,7 @@
       "type": "beast",
       "kind": "animal",
       "description": "A swift bird of prey possessing extreme speed and remarkable hunting prowess.",
+      "looks": "A peregrine falcon, slate-blue above and barred below, with a dark hood and a hooked bill.",
       "statistics": {
         "attributes": {
           "strength": 6,
@@ -591,6 +609,7 @@
       "type": "beast",
       "kind": "animal",
       "description": "A small, agile mammal with great curiosity and playful nature.",
+      "looks": "A long, sinuous ferret, cream and sable, with a masked face and bright black eyes.",
       "statistics": {
         "attributes": {
           "strength": 5,
@@ -630,6 +649,8 @@
       "type": "beast",
       "kind": "animal",
       "description": "A cunning and adaptable mammal of remarkable intelligence.",
+      "looks": "A red fox with a white throat, black legs and a full brush, looking back over its shoulder.",
+      "portrait": "fox",
       "statistics": {
         "attributes": {
           "strength": 6,
@@ -669,6 +690,7 @@
       "type": "beast",
       "kind": "animal",
       "description": "A small amphibian with a powerful jumping ability and croaking calls.",
+      "looks": "A mottled green-brown frog with gold eyes, squatting on a wet stone.",
       "statistics": {
         "attributes": {
           "strength": 4,
@@ -708,6 +730,8 @@
       "type": "beast",
       "kind": "animal",
       "description": "A sure-footed and hardy herbivore with a curious nature.",
+      "looks": "A shaggy brown-and-white goat with swept-back horns and a beard, on a rock.",
+      "portrait": "goat",
       "statistics": {
         "attributes": {
           "strength": 6,
@@ -772,6 +796,7 @@
       "type": "beast",
       "kind": "animal",
       "description": "A pike grown old and huge in cold deep water, long as a boat, that takes whatever falls in.",
+      "looks": "A great pike as long as a man, green-barred and gold-flecked, its long jaw full of backward teeth.",
       "statistics": {
         "attributes": "rolled",
         "hitDie": 12,
@@ -800,6 +825,7 @@
       "type": "beast",
       "kind": "animal",
       "description": "A snake grown old and huge in the dark on whatever comes to it, as long as a hall and as thick as a man.",
+      "portrait": "python",
       "statistics": {
         "attributes": "rolled",
         "hitDie": 10,
@@ -826,6 +852,7 @@
       "type": "beast",
       "kind": "animal",
       "description": "A sharp-eyed bird of prey with excellent hunting skills.",
+      "looks": "A goshawk, grey above and finely barred below, with a fierce orange eye and yellow feet.",
       "statistics": {
         "attributes": {
           "strength": 6,
@@ -865,6 +892,7 @@
       "type": "beast",
       "kind": "animal",
       "description": "A small mammal covered in spines. When threatened it exhibits its defensive curling behavior.",
+      "looks": "A small brown hedgehog with a coat of pale-tipped spines and a pointed, whiskered snout.",
       "statistics": {
         "attributes": {
           "strength": 5,
@@ -904,6 +932,7 @@
       "type": "beast",
       "kind": "animal",
       "description": "A hen scratching about a yard.",
+      "looks": "A speckled brown hen with a red comb, scratching in the dust of a yard.",
       "statistics": {
         "attributes": "rolled",
         "hitDie": 1,
@@ -928,6 +957,8 @@
       "type": "beast",
       "kind": "animal",
       "description": "A horse broken to saddle or to the cart.",
+      "looks": "A bay horse, broken to the cart, with a black mane and tail and a white blaze on its face.",
+      "portrait": "horse",
       "statistics": {
         "attributes": "rolled",
         "hitDie": 8,
@@ -953,6 +984,7 @@
       "type": "beast",
       "kind": "animal",
       "description": "A tiny bird capable of hovering in mid-air thanks to its rapid wing flapping.",
+      "looks": "A tiny bird with a needle bill and a throat of iridescent green and red, hovering on blurred wings.",
       "statistics": {
         "attributes": {
           "strength": 4,
@@ -992,6 +1024,7 @@
       "type": "beast",
       "kind": "animal",
       "description": "A scavenging carnivore with powerful jaws and distinctive laugh-like vocalizations.",
+      "looks": "A spotted hyena, sloping-backed and thick-necked, with round ears and heavy bone-cracking jaws.",
       "statistics": {
         "attributes": {
           "strength": 8,
@@ -1031,6 +1064,8 @@
       "type": "beast",
       "kind": "animal",
       "description": "A majestic big cat of enormous strength and courage.",
+      "looks": "A tawny lion with a dark full mane, lying with its head up and its paws crossed.",
+      "portrait": "lion",
       "statistics": {
         "attributes": {
           "strength": 7,
@@ -1070,6 +1105,7 @@
       "type": "beast",
       "kind": "animal",
       "description": "A small reptile known with exquisite agility and unusual ability to regenerate lost tails.",
+      "looks": "A green lizard with a long tail and a throat of blue, basking on a warm stone.",
       "statistics": {
         "attributes": {
           "strength": 5,
@@ -1109,6 +1145,7 @@
       "type": "beast",
       "kind": "animal",
       "description": "A small burrowing mammal with powerful forelimbs for digging and poor eyesight.",
+      "looks": "A velvet-black mole with broad pink digging hands and a pointed snout, half out of a heap of earth.",
       "statistics": {
         "attributes": {
           "strength": 5,
@@ -1148,6 +1185,7 @@
       "type": "beast",
       "kind": "animal",
       "description": "A nocturnal flying insect attracted to light, with soft, furry wings.",
+      "looks": "A large moth with soft grey-brown wings marked with eyes, its feathered feelers spread.",
       "statistics": {
         "attributes": {
           "strength": 4,
@@ -1187,6 +1225,7 @@
       "type": "beast",
       "kind": "animal",
       "description": "A playful aquatic mammal with great agility in water and dexterous forepaws.",
+      "looks": "A sleek brown otter with a pale throat and a thick tapering tail, rising from the river.",
       "statistics": {
         "attributes": {
           "strength": 6,
@@ -1226,6 +1265,8 @@
       "type": "beast",
       "kind": "animal",
       "description": "A nocturnal bird of prey with night vision and silent flight.",
+      "looks": "A tawny owl, mottled brown, with a round face and black eyes, on a branch at dusk.",
+      "portrait": "owl",
       "statistics": {
         "attributes": {
           "strength": 5,
@@ -1265,6 +1306,8 @@
       "type": "beast",
       "kind": "animal",
       "description": "A sleek and stealthy big cat with great agility and hunting prowess.",
+      "looks": "A black leopard, lean and long-tailed, its coat showing faint rosettes where the light falls.",
+      "portrait": "leopard",
       "statistics": {
         "attributes": {
           "strength": 6,
@@ -1304,6 +1347,7 @@
       "type": "beast",
       "kind": "animal",
       "description": "A pig in its sty, or rooting in the wood under the swineherd's eye.",
+      "looks": "A pink-and-black spotted pig with flapping ears, rooting in a muddy yard.",
       "statistics": {
         "attributes": "rolled",
         "hitDie": 6,
@@ -1329,6 +1373,7 @@
       "type": "beast",
       "kind": "animal",
       "description": "A small horse with surprising strength and endurance. It has a gentle temperament.",
+      "looks": "A small, stocky hill pony with a thick shaggy mane, dun-coloured with a dark stripe down its back.",
       "statistics": {
         "attributes": {
           "strength": 7,
@@ -1368,6 +1413,7 @@
       "type": "beast",
       "kind": "animal",
       "description": "A small dragon-like creature with keen intelligence and magical resistance.",
+      "looks": "A dragon no bigger than a cat, copper-scaled with bat-like wings and a barbed tail curled about it.",
       "statistics": {
         "attributes": {
           "strength": 8,
@@ -1407,6 +1453,8 @@
       "type": "beast",
       "kind": "animal",
       "description": "A small herbivorous mammal possessing excellent speed and agility.",
+      "looks": "A brown wild rabbit with long ears and a white scut, sitting up at the edge of a field.",
+      "portrait": "hare",
       "statistics": {
         "attributes": {
           "strength": 4,
@@ -1446,6 +1494,7 @@
       "type": "beast",
       "kind": "animal",
       "description": "A sturdy sure-footed herbivore capable of powerful headbutts.",
+      "looks": "A heavy hill ram with great spiralled horns and a thick grey fleece.",
       "statistics": {
         "attributes": {
           "strength": 7,
@@ -1485,6 +1534,7 @@
       "type": "beast",
       "kind": "animal",
       "description": "A rat of the barns and cellars: quick, bold in numbers, and never far from grain.",
+      "looks": "A brown rat of the barns, long-tailed and sharp-faced, with bright black eyes and yellow teeth.",
       "statistics": {
         "attributes": {
           "strength": 4,
@@ -1520,6 +1570,7 @@
       "type": "beast",
       "kind": "animal",
       "description": "A highly intelligent bird with exceptional problem-solving skills and adaptability.",
+      "looks": "A big black raven with a thick shaggy throat and a heavy bill, on a stone.",
       "statistics": {
         "attributes": {
           "strength": 5,
@@ -1559,6 +1610,7 @@
       "type": "beast",
       "kind": "animal",
       "description": "A sheep of the hill flocks, in its heavy coat.",
+      "looks": "A hill sheep in a heavy cream fleece, black-faced, standing among the heather.",
       "statistics": {
         "attributes": "rolled",
         "hitDie": 4,
@@ -1585,6 +1637,8 @@
       "type": "beast",
       "kind": "animal",
       "description": "A legless reptile of profound stealth and, in some species, venomous bite.",
+      "looks": "An adder, grey-brown with a dark zigzag down its back, coiled with its head raised.",
+      "portrait": "snake",
       "statistics": {
         "attributes": {
           "strength": 7,
@@ -1624,6 +1678,7 @@
       "type": "beast",
       "kind": "animal",
       "description": "A hunting spider as big as a cat, all legs and patience: it bites, and its bite is venomous.",
+      "looks": "A big hairy brown spider with long banded legs, in the middle of its web.",
       "statistics": {
         "attributes": "rolled",
         "hitDie": 4,
@@ -1651,6 +1706,8 @@
       "type": "beast",
       "kind": "animal",
       "description": "A small rodent of great agility and bushy tail. It is an excellent climber.",
+      "looks": "A red squirrel with tufted ears and a bushy tail, sitting up with a nut in its paws.",
+      "portrait": "squirrel",
       "statistics": {
         "attributes": {
           "strength": 4,
@@ -1690,6 +1747,7 @@
       "type": "beast",
       "kind": "animal",
       "description": "A small carnivorous mammal with exceptional agility and clever hunting techniques.",
+      "looks": "A slender stoat, chestnut above and cream below, with a black-tipped tail, standing up to look.",
       "statistics": {
         "attributes": {
           "strength": 5,
@@ -1729,6 +1787,8 @@
       "type": "beast",
       "kind": "animal",
       "description": "A powerful big cat with great strength, agility, and striking striped coat.",
+      "looks": "A great striped tiger, orange and black with a white belly, moving through long grass.",
+      "portrait": "tiger",
       "statistics": {
         "attributes": {
           "strength": 7,
@@ -1768,6 +1828,7 @@
       "type": "beast",
       "kind": "animal",
       "description": "A slow-moving reptile with a hard protective shell and long lifespan.",
+      "looks": "A pond turtle with a dark domed shell and yellow-streaked head and legs, on a log.",
       "statistics": {
         "attributes": {
           "strength": 5,
@@ -1807,6 +1868,8 @@
       "type": "beast",
       "kind": "animal",
       "description": "A grey wolf of the uplands: a pack hunter with a rending bite.",
+      "looks": "A grey wolf of the uplands, rangy and long-legged, with a pale muzzle and amber eyes.",
+      "portrait": "wolf",
       "statistics": {
         "attributes": "rolled",
         "hitDie": 6,
@@ -1834,6 +1897,7 @@
       "type": "beast",
       "kind": "animal",
       "description": "A small dragon-like creature with intelligence and magical resistance.",
+      "looks": "A small serpentine dragon, the length of a dog, green-scaled and wingless, with a frilled neck.",
       "statistics": {
         "attributes": {
           "strength": 10,
@@ -1890,6 +1954,7 @@
       "variantOf": "cave_hound",
       "name": "Dog",
       "description": "A working dog of a farm, a drove or an inn: it knows people, and keeps an eye on what is theirs.",
+      "portrait": "dog",
       "abilities": [
         "flee"
       ],

@@ -2,6 +2,8 @@ import { Canon } from './canon';
 import type { Modifiers } from './schema';
 import { ModifierSet } from '../rules/modifiers';
 import { LocalKinds } from './local-catalog';
+import { CreatureVariants } from '../creature-variants';
+import { PaintingConcepts } from '../paintings/painting-concepts';
 
 // Category and reference checks over the canonical catalogs. A creature species cannot be a class, a natural attack
 // cannot be a class technique, a specialization must belong to a real class and open a real school or domain, a
@@ -9,6 +11,9 @@ import { LocalKinds } from './local-catalog';
 export class CanonValidation {
   static readonly creatureTypes = ['beast', 'humanoid', 'undead', 'construct', 'dragon', 'giant', 'demon', 'elemental',
     'aberration', 'celestial', 'fey', 'spirit'];
+  static readonly deviceTypes = ['engine', 'ward', 'barrier', 'charge', 'vessel'];
+  // A creature is painted by one of the collection's creature concepts.
+  static readonly paintings = new Set(PaintingConcepts.creatures);
   static readonly schools = ['abjuration', 'conjuration', 'divination', 'enchantment', 'evocation', 'illusion',
     'necromancy', 'transmutation'];
   static readonly traitCategories = ['lineage', 'nature', 'affinity', 'character', 'feat', 'party', 'specialization',
@@ -18,7 +23,8 @@ export class CanonValidation {
   private problems: string[] = [];
   static problems(): string[] {
     const v = new CanonValidation();
-    v.identities(); v.ancestries(); v.species(); v.classes(); v.traits(); v.abilities(); v.conditions(); v.items();
+    v.identities(); v.ancestries(); v.species(); v.variations(); v.classes(); v.traits(); v.abilities();
+    v.conditions(); v.items();
     v.backgrounds(); v.religion(); v.organisms(); v.sources();
     return [...Canon.conflicts, ...v.problems];
   }
@@ -69,14 +75,19 @@ export class CanonValidation {
       }
     }
   }
+  // Every body the chassis makes (a creature's, a device's): its record whole, its painting a painting of the
+  // collection, its material a material.
   private species() {
-    for (const [id, own] of Object.entries(Canon.species)) {
-      const where = `species ${id}`;
+    for (const [id, own] of [...Object.entries(Canon.species), ...Object.entries(Canon.devices)]) {
+      const where = `${Canon.isDevice(id) ? 'device' : 'species'} ${id}`;
+      if (own.portrait && !CanonValidation.paintings.has(own.portrait)) { this.fail(where, `no painting ${own.portrait}`); }
+      if (own.material && !Canon.materials[own.material]) { this.fail(where, `unknown material ${own.material}`); }
       if (own.variantOf && !Canon.isSpecies(own.variantOf)) { this.fail(where, `is a variant of unknown species ${own.variantOf}`); continue; }
       let s;
       try { s = Canon.creature(id); } catch (error) { this.fail(where, (error as Error).message); continue; }
       if (!s.statistics) { this.fail(where, 'has no statistics'); continue; }
-      if (!s.type || !CanonValidation.creatureTypes.includes(s.type)) { this.fail(where, `has unknown creature type ${s.type}`); }
+      const types = Canon.isDevice(id) ? CanonValidation.deviceTypes : CanonValidation.creatureTypes;
+      if (!s.type || !types.includes(s.type)) { this.fail(where, `has unknown type ${s.type}`); }
       if (!Canon.items[s.statistics.weapon]?.weapon) { this.fail(where, `natural weapon ${s.statistics.weapon} is not a weapon`); }
       if (s.statistics.armor && !Canon.items[s.statistics.armor]?.armor) { this.fail(where, `natural armour ${s.statistics.armor} is not armour`); }
       (s.abilities ?? []).forEach(a => this.ability(where, a, ['natural', 'technique', 'spell']));
@@ -87,6 +98,20 @@ export class CanonValidation {
       }
       for (const h of (s.habitats ?? []).filter(h => !Canon.habitats[h])) { this.fail(where, `unknown habitat ${h}`); }
       this.resistances(where, s.resistances);
+    }
+  }
+  // A variation's kinds and types are kinds and types, its weapon a weapon, its material a material, and what it adds
+  // abilities and traits there are.
+  private variations() {
+    for (const [id, v] of Object.entries(CreatureVariants.variations)) {
+      const where = `variation ${id}`;
+      for (const t of (v.types ?? []).filter(t => !CanonValidation.creatureTypes.includes(t))) {
+        this.fail(where, `unknown type ${t}`);
+      }
+      if (v.weapon && !Canon.items[v.weapon]?.weapon) { this.fail(where, `${v.weapon} is not a weapon`); }
+      if (v.material && !Canon.materials[v.material]) { this.fail(where, `unknown material ${v.material}`); }
+      for (const a of (v.abilities ?? []).filter(a => !Canon.abilities[a])) { this.fail(where, `unknown ability ${a}`); }
+      for (const t of (v.traits ?? []).filter(t => !Canon.traits[t])) { this.fail(where, `unknown trait ${t}`); }
     }
   }
   // A calling's features come at distinct levels from 2 to 20, in order, with executable techniques and calling traits.
