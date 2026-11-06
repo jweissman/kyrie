@@ -67,8 +67,8 @@
    "status": "integrated",
    "rule": "ledger",
    "counts": {
-    "integrated": 38,
-    "represented": 6,
+    "integrated": 39,
+    "represented": 5,
     "reference": 0,
     "blocked": 0
    }
@@ -2263,21 +2263,11 @@
   },
   {
    "id": "animal:hound",
-   "status": "represented",
-   "mechanics": "represented",
+   "status": "integrated",
+   "mechanics": "executable",
    "kyr": [
-    "species:cave_hound"
-   ],
-   "blockers": [
-    "field:animalKind.body: The weapon and body become the species' natural weapon and armour.",
-    "field:animalKind.cha: Kyr rolls a species' attributes and hit points; the Orsino animal stat line is not used.",
-    "field:animalKind.con: Kyr rolls a species' attributes and hit points; the Orsino animal stat line is not used.",
-    "field:animalKind.dex: Kyr rolls a species' attributes and hit points; the Orsino animal stat line is not used.",
-    "field:animalKind.hp: Kyr rolls a species' attributes and hit points; the Orsino animal stat line is not used.",
-    "field:animalKind.int: Kyr rolls a species' attributes and hit points; the Orsino animal stat line is not used.",
-    "field:animalKind.str: Kyr rolls a species' attributes and hit points; the Orsino animal stat line is not used.",
-    "field:animalKind.weapon: The weapon and body become the species' natural weapon and armour.",
-    "field:animalKind.wis: Kyr rolls a species' attributes and hit points; the Orsino animal stat line is not used."
+    "species:cave_hound",
+    "species:hound"
    ]
   },
   {
@@ -2497,7 +2487,7 @@
    "status": "integrated",
    "mechanics": "executable",
    "kyr": [
-    "species:wyrm_animal"
+    "species:wyrmling"
    ]
   },
   {
@@ -6704,6 +6694,7 @@
    "status": "integrated",
    "mechanics": "executable",
    "kyr": [
+    "variation:skeletal",
     "undead:skeletal"
    ]
   },
@@ -6712,6 +6703,7 @@
    "status": "integrated",
    "mechanics": "executable",
    "kyr": [
+    "variation:spectral",
     "undead:spectral"
    ]
   },
@@ -6720,6 +6712,7 @@
    "status": "integrated",
    "mechanics": "executable",
    "kyr": [
+    "variation:vampiric",
     "undead:vampiric"
    ]
   },
@@ -6728,6 +6721,7 @@
    "status": "integrated",
    "mechanics": "executable",
    "kyr": [
+    "variation:zombie",
     "undead:zombie"
    ]
   },
@@ -11509,7 +11503,8 @@
    "status": "integrated",
    "mechanics": "executable",
    "kyr": [
-    "species:golem"
+    "species:golem",
+    "species:bronze_construct"
    ]
   },
   {

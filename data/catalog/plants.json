@@ -266,6 +266,26 @@
         "fidelity": "adapted",
         "notes": "Orsino's herb, a thing sold and used, here the plant it is gathered from."
       }
+    },
+    "selfheal_plant": {
+      "name": "Self-heal",
+      "habitats": [
+        "meadow",
+        "heath"
+      ],
+      "yields": "selfheal",
+      "gathered": "a handful of self-heal",
+      "count": 2,
+      "stand": "Self-heal grows low in the short turf here, its purple flower-heads like little clubs among the grass.",
+      "abundance": 4,
+      "looks": "A low creeping herb of short turf, with square stems and close heads of purple, lipped flowers.",
+      "uses": [
+        "medicine"
+      ],
+      "source": {
+        "kyr": true,
+        "notes": "An author's own plant, added by its record alone (the owner, 6 November: the authoring experiment), with the item it gives (items.json, selfheal)."
+      }
     }
   }
 }

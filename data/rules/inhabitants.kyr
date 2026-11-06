@@ -18,6 +18,9 @@ Module inhabitants "How creatures that live somewhere answer those who come into
   Relation temperament(group, temperament).
   // Where it lives and what it defends; where it goes when beaten or frightened off.
   Relation lair(group, place). Relation refuge(group, place).
+  // One of a party that fights beside another (a chief's guards, his shaman, his wolf): a fight with any of them where
+  // they stand together is with all of them (src/campaign/beside.ts).
+  Relation beside(group, group).
   // What it does, in the place's own words: its warning, its onslaught, what makes it flinch, how it yields; and how it
   // comes where the company is, said as it comes, before it warns (Arrives).
   Relation warning(group, entity). Relation onslaught(group, entity). Relation flinch(group, entity).

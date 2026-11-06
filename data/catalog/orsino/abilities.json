@@ -1059,7 +1059,7 @@
       "tiger",
       "lion",
       "fox",
-      "wyrm_animal",
+      "wyrmling",
       "pseudodragon",
       "snake",
       "mole",
@@ -1077,7 +1077,7 @@
       "hedgehog",
       "rat",
       "spider",
-      "cave_hound",
+      "hound",
       "rabbit",
       "ferret",
       "pony",
@@ -1111,12 +1111,12 @@
        "fox"
       ],
       "draconic": [
-       "wyrm_animal",
+       "wyrmling",
        "pseudodragon",
        "snake"
       ],
       "dragon": [
-       "wyrm_animal",
+       "wyrmling",
        "snake",
        "pseudodragon"
       ],
@@ -1176,7 +1176,7 @@
        "boar",
        "wolf",
        "bear",
-       "cave_hound"
+       "hound"
       ],
       "halfling": [
        "rabbit",
@@ -1185,7 +1185,7 @@
        "goat"
       ],
       "human": [
-       "cave_hound",
+       "hound",
        "falcon",
        "wolf"
       ],
@@ -5096,7 +5096,6 @@
      "target": "self",
      "from": [
       "automaton",
-      "bronze_construct",
       "clockwork_soldier",
       "golem",
       "behemoth",
@@ -5165,11 +5164,11 @@
      "target": "self",
      "from": [
       "discerner",
+      "hollow_stalker",
       "mind_destroyer",
       "mouther",
       "ooze",
       "automaton",
-      "bronze_construct",
       "clockwork_soldier",
       "golem"
      ],
@@ -5213,6 +5212,7 @@
       "ifrit",
       "marilith",
       "discerner",
+      "hollow_stalker",
       "mind_destroyer",
       "mouther",
       "ooze"
@@ -5257,6 +5257,7 @@
       "ifrit",
       "marilith",
       "discerner",
+      "hollow_stalker",
       "mind_destroyer",
       "mouther",
       "ooze"
@@ -5301,6 +5302,7 @@
       "ifrit",
       "marilith",
       "discerner",
+      "hollow_stalker",
       "mind_destroyer",
       "mouther",
       "ooze"

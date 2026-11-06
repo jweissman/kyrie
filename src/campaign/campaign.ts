@@ -20,7 +20,7 @@ import { CampaignPlan } from './campaign-plan'; import { Battle } from '../arena
 import { LoadCache } from './load-cache'; import { CombatProjection } from '../combat-projection';
 import { Content, type CreatureGenerationContext } from '../content';
 import type { CombatEvent, Fighter } from '../model'; import type { Instance, Module } from '../lang/module';
-import { World } from '../lang/world'; import { Checks } from '../rules/checks';
+import { World } from '../lang/world'; import { Beside } from './beside'; import { Checks } from '../rules/checks';
 import type { Operator } from './planner'; import { RuntimeCapabilities } from './runtime-capabilities';
 import { Overlays } from '../overlays'; import { CampaignTick } from './campaign-tick'; import { Mercy } from './mercy';
 import { WatchLoop, type WatchHost } from './watch-loop'; import { Environment } from './environment';
@@ -216,7 +216,7 @@ export class Campaign implements WatchHost {
     if (action?.resolve?.name !== 'combat') { throw new Error('Action does not resolve a combat encounter'); }
     const seed = this.randomSeed(action, 'combat'), group = action.resolve.args[0]!;
     const attacker = action.actor && this.definition ? this.live.find(a => a.id === action.actor) : undefined;
-    const members = attacker?.members ?? this.current.partyIds, foes = this.current.inhabitants[group]!;
+    const members = attacker?.members ?? this.current.partyIds, foes = Beside.foes(this.world, this.readout, group);
     return Battle.encounter(this.creatures, [...members.map(creatureId => ({ creatureId, team: 'fighters' as const })),
       ...foes.map(creatureId => ({ creatureId, team: 'goblins' as const }))],
     { seed, ...Environment.encounter(this.world, this.playerActor, members, group),
@@ -340,7 +340,7 @@ export class Campaign implements WatchHost {
     const opponent = action.resolve?.args[0];
     if (won && action.resolve?.name === 'combat' && opponent) {
       FieldUse.award(this.creatures, this.current.partyIds, this.world, { opponent, events: combat,
-        members: (this.current.inhabitants[opponent] ?? []).filter(id => this.creatures.get(id).state.hp === 0) });
+        members: Beside.fallen(this.world, this.readout, opponent) });
     }
     if (action.resolve && Membership.resolves(action.resolve)) {
       this.commit(Membership.resolve({ current: this.current, company: this.playerActor, module: this.module,

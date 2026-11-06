@@ -142,13 +142,62 @@ types in 10 classes, 17 elements, 10 dragon colours, 10 golem substances, 4 unde
 
 Specs: `creature-pipeline`, `creature-variation`, `devices`, `natural-history`, `geology`.
 
+## Operational, 6 November (the owner: a bestiary the game uses, not one imported)
+
+**What Orsino did.** Orsino composed each dungeon room's encounter as a party within a budget: twice the room's
+challenge (`_levelBudget = targetCr*2`), the room's challenge rising one a dungeon and more a third of the way along its
+rooms (templates.json:482, 525), the levels spread over two to five members given roles in order (tank, then support or
+controller…), the enemy people by the challenge's band (goblins and kobolds, then orcs, lizardfolk, humans, then ogres
+and trolls, then the draconic), a companion animal sometimes, a device one time in five; the boss room its own
+generator (one leader, one companion, one monster at two thirds of the room's challenge). Its ranks were names only (their
+hit points and armour were set after both were reckoned), and its bestiary monsters came into dungeons only as a boss's
+undead, the catacombs' mummy and the ossuary's bone golem (`/var/tmp/kyrie/m19/orsino-encounters.md`, cited).
+
+**What Kyrie had.** A deep site's dwellers were the four purposes' own lists by depth (about 25 kinds in all); the
+dens a table by habitat; nothing measured how dangerous a kind was, so nothing could spend a budget.
+
+**What it has now.**
+
+| Step | Where |
+|---|---|
+| Each kind's danger, measured: the game's own fights against a lone human warrior of the standard kit, at the kind's first level and its fifth (a rat 0.17 of a first-level warrior, a wolf 0.5, a bear 1, a golem 5, a drake beyond a twentieth-level warrior) | `data/catalog/challenge.json`, `bin/kyrie bestiary challenge`, `src/world/challenge.ts` |
+| Eligibility from the record alone: the habitats it lives in and how common it is there; never tame, never a device, never a kind met only with what it requires bare (the Elemental) | `Parties.eligible` |
+| Composition as Orsino's: a budget of twice the room's challenge, two to five of a kind (one of a kind met `alone`), each at the highest level its share allows and no higher than its share; a second kind beside the first one time in three; one time in twelve a kind beyond the budget, alone, to be gone round | `src/world/parties.ts` |
+| A party fought as one: a fight with any of its groups where they stand together is with all of them | `beside(group, group)` in `data/rules/inhabitants.kyr`, `src/campaign/beside.ts` |
+| Structure laid on as it is drawn: a golem of a material, a dragon of a lineage, where the record does not say | `CreatureVariants.structural` |
+| Deep sites: half the rooms of creatures (never a site's own people, who are its faction with their own words) hold a composed party from the purpose's `dwellerHabitats` | `DeepPacing.composed` |
+| Dens: a kind whose record has an abundance and keeps a den dens by its share beside the table; one beyond a first den's danger is rare there and alone | `RegionEcology.den`, `recorded` |
+| The open country: an animal that keeps no den is met where it lives, by its record | `data/generation/wild/animals.kyrt`, `RegionAnimals` |
+
+**The ontology.** Qualifiers became variations of a base wherever they modify one: the hound (Orsino's) is the base of
+the dog, the cave hound (cave) and the knitted bone hound (skeletal); the great rat, centipede and snake are their bases
+made great, with only what is truly theirs (a venomous bite, the snake's coils); the great pike is a pike great and
+old (a pike added as its base); the frost wolf is a wolf of the frost made great; the bronze custodian is the Golem in
+bronze; Orsino's four undead templates are the variations of an undeath axis (what the dead are hurt by is their traits');
+Orsino's small animal wyrm is a wyrmling, a dragon of the animal template (`wyrm_animal` kept as an alias); the drake,
+wyrm and wyvern no longer carry the Fly spell. The tiger, lion, panther, crocodile and hyena were Orsino's companion
+template (a squirrel's hit points) and are adapted as beasts of the wild. Kept distinct where warranted: the slump (the
+Long Man's Wet), the eel, the dragon's ninety-nine hit points.
+
+**Authoring.** The hollow-stalker (monsters.json) was added by its record alone, measured by `bin/kyrie bestiary
+challenge hollow_stalker`, and is met in generated deep sites; self-heal (plants.json) with the item it gives
+(items.json, selfheal) grows in generated meadows and heaths, is gathered as any stand's crop, and heals as its item
+says. Boundaries named: a plant's `uses` are descriptive (no rule reads them); nothing identifies a plant (a stand is
+seen and named outright); a new kind not yet measured is taken as a first-level warrior's match until it is.
+
+Specs: `bestiary` (ontology, templates, measured danger, composition within budget, deep sites of four countries with
+the parties fought together, the hollow-stalker in a generated deep site, self-heal in generated countries),
+`natural-history`, `creature-pipeline`, `creature-variation`, `devices`. Coverage: `bin/kyrie bestiary report`
+([bestiary.md](bestiary.md)); the inventory of Orsino's entries: [bestiary-inventory.md](bestiary-inventory.md).
+
 ## Not yet
 
-- **Placement of the summon-only kinds.** 34 bases (the deer, the otter, the hare, the angels, the vampire…) are made
-  correctly but met only by summoning; the ecology places by record only what declares an abundance, and none of them
-  does yet. To give them habitats and abundance kind by kind, as play wants them.
-- **Ranks** (Orsino's eight, by hit points and armour) are not carried: Kyr has no armour-class delta for a variation.
-- **Authored adjective-kinds** (`pantry_rat` like cave_hound; the eels like great_pike; `umber_wolf`, `young_owlbear`):
-  to reconcile in their adventures, fight by fight.
+- **Named compositions still literal**: `fire_elemental` and its sixteen siblings, `iron_golem`, `red_dragon` are records
+  that name a base and its variation (no chassis of their own, but generation reaches them by their names, not by
+  composition). Next: aliases to `base/variation` ids, generation drawing the base with its structural variation, the
+  summons by the variation's Orsino source (the owner, 6 November, late).
+- **Ranks** (Orsino's eight) are not carried: in Orsino they changed only the name (see above); Kyr's measured challenge
+  and level do their work.
+- **Authored adjective-kinds** in adventures (`pantry_rat` like cave_hound; the eels like great_pike; `umber_wolf`,
+  `young_owlbear`): to reconcile in their adventures.
 - **The dragon** keeps Kyr's 99 hit points and no maul: the fights with dragons were written for it.
-- The great snake and centipede, the frost wolf, the ram and the pony keep their own statistics beside their bases.

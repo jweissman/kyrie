@@ -38,8 +38,8 @@
     "total": 44,
     "feasible": 44,
     "catalogued": 0,
-    "represented": 6,
-    "executable": 38,
+    "represented": 5,
+    "executable": 39,
     "play-validated": 0
    },
    {
@@ -801,7 +801,7 @@
     "faithful": 777,
     "adapted": 366,
     "represented": 4,
-    "kyr": 506,
+    "kyr": 507,
     "unsupported": 70,
     "unreachable": 4,
     "data-only": 12
@@ -892,7 +892,7 @@
       "faithful": 249,
       "adapted": 73,
       "represented": 0,
-      "kyr": 56,
+      "kyr": 57,
       "unsupported": 9,
       "unreachable": 0,
       "data-only": 0
@@ -997,7 +997,7 @@
     "faithful": 239,
     "adapted": 25,
     "represented": 30,
-    "kyr": 278,
+    "kyr": 279,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 198
@@ -1010,7 +1010,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 252,
+      "kyr": 253,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -1060,10 +1060,10 @@
   "mm": {
    "title": "Monster Manual",
    "counts": {
-    "faithful": 155,
-    "adapted": 128,
-    "represented": 10,
-    "kyr": 37,
+    "faithful": 145,
+    "adapted": 139,
+    "represented": 9,
+    "kyr": 40,
     "unsupported": 4,
     "unreachable": 0,
     "data-only": 104
@@ -1073,10 +1073,10 @@
      "id": "species",
      "title": "Creatures",
      "counts": {
-      "faithful": 56,
-      "adapted": 49,
+      "faithful": 51,
+      "adapted": 54,
       "represented": 0,
-      "kyr": 20,
+      "kyr": 23,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -1138,9 +1138,9 @@
      "id": "orsino-bestiary",
      "title": "Appendix: Orsino's bestiary",
      "counts": {
-      "faithful": 73,
-      "adapted": 72,
-      "represented": 10,
+      "faithful": 68,
+      "adapted": 78,
+      "represented": 9,
       "kyr": 0,
       "unsupported": 0,
       "unreachable": 0,
@@ -8607,6 +8607,13 @@
    "section": "equipment/gear"
   },
   {
+   "id": "item:selfheal",
+   "title": "Self-heal",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
    "id": "item:feverwort",
    "title": "Feverwort",
    "status": "kyr",
@@ -14361,6 +14368,13 @@
    "section": "world-rules/rules-inhabitants"
   },
   {
+   "id": "rule:inhabitants.beside",
+   "title": "beside",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-inhabitants"
+  },
+  {
    "id": "rule:inhabitants.warning",
    "title": "warning, onslaught, flinch",
    "status": "kyr",
@@ -18722,6 +18736,13 @@
    "section": "species/species-aberration"
   },
   {
+   "id": "species:hollow_stalker",
+   "title": "Hollow-stalker",
+   "status": "kyr",
+   "book": "mm",
+   "section": "species/species-aberration"
+  },
+  {
    "id": "species:mind_destroyer",
    "title": "Mind Destroyer",
    "status": "adapted",
@@ -18815,7 +18836,7 @@
   {
    "id": "species:crocodile",
    "title": "Crocodile",
-   "status": "faithful",
+   "status": "adapted",
    "book": "mm",
    "section": "species/species-beast"
   },
@@ -18878,7 +18899,7 @@
   {
    "id": "species:cave_hound",
    "title": "Feral cave hound",
-   "status": "adapted",
+   "status": "kyr",
    "book": "mm",
    "section": "species/species-beast"
   },
@@ -18981,6 +19002,13 @@
    "section": "species/species-beast"
   },
   {
+   "id": "species:hound",
+   "title": "Hound",
+   "status": "adapted",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
    "id": "species:hummingbird",
    "title": "Hummingbird",
    "status": "faithful",
@@ -18990,7 +19018,7 @@
   {
    "id": "species:hyena",
    "title": "Hyena",
-   "status": "faithful",
+   "status": "adapted",
    "book": "mm",
    "section": "species/species-beast"
   },
@@ -19004,7 +19032,7 @@
   {
    "id": "species:lion",
    "title": "Lion",
-   "status": "faithful",
+   "status": "adapted",
    "book": "mm",
    "section": "species/species-beast"
   },
@@ -19067,7 +19095,7 @@
   {
    "id": "species:panther",
    "title": "Panther",
-   "status": "faithful",
+   "status": "adapted",
    "book": "mm",
    "section": "species/species-beast"
   },
@@ -19079,15 +19107,15 @@
    "section": "species/species-beast"
   },
   {
-   "id": "species:pony",
-   "title": "Pony",
-   "status": "faithful",
+   "id": "species:pike",
+   "title": "Pike",
+   "status": "kyr",
    "book": "mm",
    "section": "species/species-beast"
   },
   {
-   "id": "species:pseudodragon",
-   "title": "Pseudodragon",
+   "id": "species:pony",
+   "title": "Pony",
    "status": "faithful",
    "book": "mm",
    "section": "species/species-beast"
@@ -19165,7 +19193,7 @@
   {
    "id": "species:tiger",
    "title": "Tiger",
-   "status": "faithful",
+   "status": "adapted",
    "book": "mm",
    "section": "species/species-beast"
   },
@@ -19187,13 +19215,6 @@
    "id": "species:wolf",
    "title": "Wolf",
    "status": "adapted",
-   "book": "mm",
-   "section": "species/species-beast"
-  },
-  {
-   "id": "species:wyrm_animal",
-   "title": "Wyrm",
-   "status": "faithful",
    "book": "mm",
    "section": "species/species-beast"
   },
@@ -19303,6 +19324,13 @@
    "section": "species/species-dragon"
   },
   {
+   "id": "species:pseudodragon",
+   "title": "Pseudodragon",
+   "status": "faithful",
+   "book": "mm",
+   "section": "species/species-dragon"
+  },
+  {
    "id": "species:red_dragon",
    "title": "Red dragon",
    "status": "adapted",
@@ -19313,6 +19341,13 @@
    "id": "species:wyrm",
    "title": "Wyrm",
    "status": "adapted",
+   "book": "mm",
+   "section": "species/species-dragon"
+  },
+  {
+   "id": "species:wyrmling",
+   "title": "Wyrmling",
+   "status": "faithful",
    "book": "mm",
    "section": "species/species-dragon"
   },
@@ -20369,7 +20404,7 @@
   {
    "id": "orsino:animal:crocodile",
    "title": "Crocodile",
-   "status": "faithful",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-animal"
   },
@@ -20453,7 +20488,7 @@
   {
    "id": "orsino:animal:hound",
    "title": "Hound",
-   "status": "represented",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-animal"
   },
@@ -20467,14 +20502,14 @@
   {
    "id": "orsino:animal:hyena",
    "title": "Hyena",
-   "status": "faithful",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-animal"
   },
   {
    "id": "orsino:animal:lion",
    "title": "Lion",
-   "status": "faithful",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-animal"
   },
@@ -20516,7 +20551,7 @@
   {
    "id": "orsino:animal:panther",
    "title": "Panther",
-   "status": "faithful",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-animal"
   },
@@ -20600,7 +20635,7 @@
   {
    "id": "orsino:animal:tiger",
    "title": "Tiger",
-   "status": "faithful",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-animal"
   },

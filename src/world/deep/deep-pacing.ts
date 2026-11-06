@@ -1,6 +1,7 @@
 import world from '../../../data/generation/scenes/orsino-world.json';
 import { Draw } from '../land/draw';
 import { CreatureVariants } from '../../creature-variants';
+import { Parties } from '../parties';
 import { RegionMarvels, type Trap } from '../region-marvels';
 import type { DungeonTables } from '../../registry/orsino-world';
 import type { DeepGroup, DeepPurpose } from './deep-purposes';
@@ -8,7 +9,9 @@ import type { DeepLayout, DeepLevel, DeepLink, DeepRoom } from './deep-layout';
 
 // Who is met in a room: a group of a depth's dwellers, at a level, perhaps with an aspect; an elite is fewer and
 // stronger.
-export interface DeepDwellers { id: string; group: DeepGroup; level: number; aspect?: string; elite?: boolean }
+export interface DeepDwellers { id: string; group: DeepGroup; level: number; aspect?: string; elite?: boolean;
+  // A party's second kind, beside the first (see Parties); and a party beyond the room's danger.
+  beside?: { id: string; group: DeepGroup; level: number }; overwhelming?: boolean }
 // What a room holds, by its place in its level's run (Orsino's room guide: entrance, mob, trap, treasure, elite…).
 export interface DeepContent {
   room: DeepRoom; guide: string; dwellers?: DeepDwellers; trap?: { way: DeepLink; trap: Trap; key: string };
@@ -44,6 +47,7 @@ export class DeepPacing {
       if (draw.next() < odds.encounter && groups.length && !kept.has(room.role)) {
         content.dwellers = this.dwellers({ room, groups: odds.challenging ? elites : groups, depth: level.index, i },
           !!odds.challenging, draw);
+        content.dwellers = this.composed(content.dwellers, purpose);
       }
       if (way && !way.between && draw.next() < odds.trap) { content.trap = this.trap(way, level.index, draw, laid); }
       if (draw.next() < odds.puzzle) { content.riddle = this.riddle(level.index, draw); }
@@ -88,6 +92,25 @@ export class DeepPacing {
     return { id: `${room.id}_dwellers`, level, ...aspect && aspect !== 'wildtype' ? { aspect } : {},
       ...elite ? { elite: true } : {},
       group };
+  }
+  // Half the rooms of a site whose purpose says where its dwellers may have come from hold a party of the canon's
+  // creatures of those habitats instead of a group of creatures written for it, composed for the room's danger (its
+  // level as Orsino's challenge): the bestiary met in the deep, not only what the purpose names.
+  // Drawn by the room apart from the rest of its level, so what else the level holds is as it was.
+  private static composed(d: DeepDwellers, purpose: DeepPurpose): DeepDwellers {
+    // The site's own people (its goblins, its tomb-robbers) are its faction, with their own words; only its creatures
+    // give way to a party of the canon.
+    const draw = new Draw(`${d.id}:party`);
+    if (!purpose.dwellerHabitats?.length || d.group.ancestry || !draw.chance(0.5)) { return d; }
+    const party = Parties.compose({ habitats: purpose.dwellerHabitats, challenge: d.level, draw,
+      ...d.elite ? { most: 3 } : {} });
+    if (!party) { return d; }
+    const [first, second] = party.members.map(({ level, variations, ...m }) => ({ level,
+      group: { species: m.species, count: m.count, label: m.label, role: m.role, temperament: m.temperament,
+        ...variations ? { variations } : {} } }));
+    const { aspect } = d;
+    return { id: d.id, ...first!, ...aspect ? { aspect } : {}, ...d.elite ? { elite: true } : {},
+      ...second ? { beside: { id: `${d.id}_beside`, ...second } } : {}, ...party.overwhelming ? { overwhelming: true } : {} };
   }
   // A level's traps are of as many mechanisms as it can have: not two pressure plates where one room's ways meet.
   private static trap(way: DeepLink, depth: number, draw: Draw, laid: Set<string>): DeepContent['trap'] {

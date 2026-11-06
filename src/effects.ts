@@ -1,6 +1,7 @@
 import { Spellcasting } from './rules/spellcasting';
 import { Summoning } from './summoning';
 import { Content } from './content';
+import variations from '../data/catalog/variations.json';
 import { Canon } from './canon/canon';
 import { CanonRuntime } from './canon/canon-runtime';
 import { Perks } from './rules/perks';
@@ -57,14 +58,19 @@ export class Effects {
     return s.clock === 'world-time' || s.clock === 'until-removed' || Effects.status(s.id).lifetime === 'persistent';
   }
   static skips(id: string): boolean { return Effects.status(id).modifiers.noActions === true; }
-  // Orsino's gatherEffects: conditions held, the traits the creature has, its equipment and its kind's resistances.
+  // Orsino's gatherEffects: conditions held, the traits the creature has, its equipment and its kind's resistances,
+  // and those of what varies it (the frost's proof against cold, what the dead are hurt by).
   static modifiers(fighter: Fighter): Modifiers {
     const conditions = [...new Set(fighter.statuses.map(s => s.id))].map(id => Effects.status(id).modifiers);
     const kind = Canon.isBody(fighter.raceId) ? Canon.creature(fighter.raceId).resistances : undefined;
+    const varied = (fighter.variations ?? []).flatMap(id => {
+      const r = (variations.variations as Record<string, { resistances?: Record<string, number> }>)[id]?.resistances;
+      return r ? [{ resistances: r }] : [];
+    });
     const at = { ...fighter.environment ? { environment: fighter.environment } : {},
       ...fighter.equipment?.weapon ? { weapon: fighter.equipment.weapon } : {} };
     return ModifierSet.sum([...conditions, ...CanonRuntime.passives(fighter.traits, at).modifiers,
-      fighter.equipment?.modifiers ?? {}, ...kind ? [{ resistances: kind }] : []]);
+      fighter.equipment?.modifiers ?? {}, ...kind ? [{ resistances: kind }] : [], ...varied]);
   }
   static hooks(fighter: Fighter, key: HookKey): Effect[] {
     return [...[...new Set(fighter.statuses.map(s => s.id))].flatMap(id => Effects.status(id).hooks?.[key] ?? []),

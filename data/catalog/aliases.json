@@ -13,6 +13,7 @@
   "plants": {},
   "species": {
     "red_deer": "deer",
-    "grey_wolf": "wolf"
+    "grey_wolf": "wolf",
+    "wyrm_animal": "wyrmling"
   }
 }

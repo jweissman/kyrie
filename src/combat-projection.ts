@@ -56,6 +56,7 @@ export class CombatProjection {
       ...(Object.keys(stock).length ? { stock } : {}), ...CombatProjection.charges(creature, stock),
       statuses: structuredClone(creature.state.conditions), equipment: ItemCatalog.equipment(creature),
       ...(creature.traits ? { traits: [...creature.traits] } : {}),
+      ...(creature.variations ? { variations: [...creature.variations] } : {}),
       team, cooldowns: {} };
   }
   // The uses left in each charged thing it carries into the fight (a wand): its own count, or its kind's when new.

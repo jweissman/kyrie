@@ -72,6 +72,7 @@
     "heart": { "names": ["the last hall"], "scenes": ["At the bottom of the still halls a round hall with a single stone at its centre, set on a stone stem like a flower, and the stone is humming: the one sound in the still halls, low and steady, the last note the Stone-Singers held."] },
     "root": { "names": ["the root of the hill"], "scenes": ["Behind the last hall the cut stone gives out into the hill's own rock, cracked and raw, a long way down, as if the hill had been opened here by something leaving."] }
   },
+  "dwellerHabitats": ["cave"],
   "dwellers": [
     { "depth": 0, "groups": [
       { "species": "bat", "count": 4, "label": "the bats", "role": "bats that roost in the hall of doors", "temperament": "wary" },

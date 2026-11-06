@@ -48,8 +48,8 @@
     },
     "cave": {
       "axis": "haunt", "word": "cave", "kinds": ["animal"],
-      "says": "of the deep dark, pale and long in the leg, stringing lines where nothing sees",
-      "attributes": { "dexterity": 1 }, "abilities": ["ensnare"],
+      "says": "of the deep dark: pale, long in the leg, at home where nothing sees",
+      "attributes": { "dexterity": 1 },
       "hint": "#habitat == 'cave' || #habitat == 'barrow' || #habitat == 'ruin'"
     },
     "starving": {
@@ -64,6 +64,10 @@
       "attributes": { "constitution": 1, "charisma": -3 }, "traits": ["poison_lineage"],
       "hint": "#habitat == 'barrow' || #habitat == 'ruin'"
     },
+    "skeletal": {"axis": "undeath", "word": "skeletal", "kinds": ["animal", "monster"], "says": "bare bone held together by what raised it, nothing in its eye-pits but a faint light", "attributes": {"strength": -2, "constitution": -3}, "abilities": [], "traits": ["undead", "skeletal"], "source": {"orsino": "creatureTemplate:skeletal", "fidelity": "faithful", "notes": "Orsino's undead template, as a variation of its own axis; what the dead are proof against or hurt by is their traits' (undead, skeletal, incorporeal)."}},
+    "spectral": {"axis": "undeath", "word": "spectral", "kinds": ["animal", "monster"], "says": "a cold grey shape of what it was, which blows go through", "attributes": {}, "abilities": [], "traits": ["undead", "incorporeal"], "source": {"orsino": "creatureTemplate:spectral", "fidelity": "faithful", "notes": "Orsino's undead template, as a variation of its own axis; what the dead are proof against or hurt by is their traits' (undead, skeletal, incorporeal)."}},
+    "vampiric": {"axis": "undeath", "word": "vampiric", "kinds": ["animal", "monster"], "says": "pale and red-mouthed, quicker than it was alive, and hungry for blood", "attributes": {"strength": 1, "dexterity": 1, "charisma": 2, "wisdom": 1, "constitution": -1}, "abilities": ["life_drain", "charm", "dominate_person"], "traits": ["undead", "regeneration"], "source": {"orsino": "creatureTemplate:vampiric", "fidelity": "faithful", "notes": "Orsino's undead template, as a variation of its own axis; what the dead are proof against or hurt by is their traits' (undead, skeletal, incorporeal)."}},
+    "zombie": {"axis": "undeath", "word": "rotting", "kinds": ["animal", "monster"], "says": "dead flesh walking, slow and stinking, falling apart as it comes", "attributes": {"dexterity": -2, "intelligence": -4, "wisdom": -2}, "abilities": ["infect"], "traits": ["undead"], "source": {"orsino": "creatureTemplate:zombie", "fidelity": "faithful", "notes": "Orsino's undead template, as a variation of its own axis; what the dead are proof against or hurt by is their traits' (undead, skeletal, incorporeal)."}},
     "clay": {"axis": "material", "word": "clay", "says": "made of clay: red-brown, smooth when wet and cracking when dry", "kinds": ["monster"], "types": ["construct"], "material": "clay", "attributes": {"constitution": 2, "dexterity": -1}, "source": {"orsino": "golemSubstance:clay", "fidelity": "faithful"}},
     "stone": {"axis": "material", "word": "stone", "says": "made of stone: grey, rough-dressed", "kinds": ["monster"], "types": ["construct"], "material": "stone", "attributes": {"constitution": 3, "dexterity": -2}, "source": {"orsino": "golemSubstance:stone", "fidelity": "faithful"}},
     "iron": {"axis": "material", "word": "iron", "says": "made of iron: grey-black, rust at the seams", "kinds": ["monster"], "types": ["construct"], "material": "iron", "attributes": {"constitution": 4, "dexterity": -3, "strength": 1}, "source": {"orsino": "golemSubstance:iron", "fidelity": "faithful"}},

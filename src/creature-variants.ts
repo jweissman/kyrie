@@ -11,6 +11,8 @@ import { Creation } from './rules/creation';
 export interface Variation {
   axis: string; word: string; says: string; kinds: string[]; attributes?: Record<string, number>; health?: number;
   abilities?: string[]; traits?: string[]; hint?: string;
+  // What it makes the creature proof against (a fraction) or hurt by (a negative one), as its kind's are.
+  resistances?: Record<string, number>;
   // The types of creature it can be laid on (a material on a construct, an element on an elemental, a lineage on a
   // dragon): any of its kinds, if none is said.
   types?: string[];
@@ -27,7 +29,12 @@ export class CreatureVariants {
   static readonly table = variants as unknown as Variants;
   static readonly weights: Record<string, number> = { common: 50, uncommon: 25, rare: 15, epic: 7, legendary: 3 };
   static aspect(id: string): Variant | undefined { return this.table.aspects[id]; }
-  static template(id: string): Variant | undefined { return this.table.templates[id]; }
+  // Orsino's undead templates are variations of their own axis (undeath: skeletal, spectral, vampiric, rotting).
+  static template(id: string): Variation | undefined {
+    const v = this.variations[id];
+    return v?.axis === 'undeath' ? v : undefined;
+  }
+  static get templates(): string[] { return Object.keys(this.variations).filter(id => this.template(id)); }
   // An aspect drawn from a roll of 1 to 100: by rarity, then one of that rarity.
   static draw(roll: number, pick: (n: number) => number): string {
     let left = roll;
@@ -63,23 +70,48 @@ export class CreatureVariants {
       return fits;
     }).map(([id]) => id);
   }
+  // Whether a kind is only ever met with what it lacks: it requires a variation of an axis (an elemental, an element)
+  // and its record gives it none (the Elemental bare; not the fire elemental).
+  static wanting(kind: string): boolean {
+    const s = Canon.creature(kind);
+    return !!s.requires && !(s.variations ?? []).some(id => this.variations[id]?.axis === s.requires);
+  }
+  // What a kind is always made of or descended from, where its record does not say (a golem's material, a dragon's
+  // lineage): one variation of each axis laid only on its type and never by where it is met, drawn.
+  static structural(kind: string, draw: { pick<T>(list: readonly T[]): T }): string[] {
+    const s = Canon.creature(kind), had = new Set((s.variations ?? []).map(id => this.variations[id]!.axis));
+    const axes = new Map<string, string[]>();
+    for (const [id, v] of Object.entries(this.variations)) {
+      if (!v.types?.includes(s.type ?? '') || v.hint || had.has(v.axis) || !v.kinds.includes(s.kind ?? 'animal')) {
+        continue;
+      }
+      axes.set(v.axis, [...axes.get(v.axis) ?? [], id]);
+    }
+    return [...axes.values()].map(ids => draw.pick(ids));
+  }
   // What a creature is called with its variations: "a wolf", old and frost, is "an old frost wolf".
   static called(role: string, ids: string[]): string {
-    const words = ids.map(id => this.variations[id]!.word).join(' ');
+    const bare = role.replace(/^(a|an|the) /, ''), named = new Set(bare.toLowerCase().split(/\W+/));
+    // A word the kind's own name has already (the cave hound, of the caves) is not said again.
+    const words = ids.map(id => this.variations[id]!.word).filter(w => w && !named.has(w.toLowerCase())).join(' ');
     if (!words) { return role; }
-    const bare = role.replace(/^(a|an|the) /, ''), article = /^(the) /.exec(role)?.[1]
+    const article = /^(the) /.exec(role)?.[1]
       ?? (/^[aeiou]/.test(words) ? 'an' : 'a');
     return `${article} ${words} ${bare}`;
   }
   // A creature as its context makes it: with its aspect, its template and its variations, which must be known ones.
   static vary(creature: Creature, context: { aspect?: string; template?: string; variations?: string[] }): Creature {
-    for (const [id, variant] of [[context.aspect, context.aspect && this.aspect(context.aspect)],
-      [context.template, context.template && this.template(context.template)]] as const) {
-      if (!id) { continue; }
-      if (!variant) { throw new Error(`${creature.id}: no aspect or undead template ${id}`); }
-      this.apply(creature, variant);
+    if (context.aspect) {
+      const aspect = this.aspect(context.aspect);
+      if (!aspect) { throw new Error(`${creature.id}: no aspect ${context.aspect}`); }
+      this.apply(creature, aspect);
     }
-    const ids = context.variations ?? [], refused = this.refused(ids, creature.raceId);
+    if (context.template && !this.template(context.template)) {
+      throw new Error(`${creature.id}: no undead template ${context.template}`);
+    }
+    // Made of the dead: the template is one more of its variations, kept with it.
+    const ids = [...new Set([...context.variations ?? [], ...context.template ? [context.template] : []])];
+    const refused = this.refused(ids, creature.raceId);
     if (refused) { throw new Error(`${creature.id}: ${refused}`); }
     // What it is, kept with it (saved and read again as it was made): its variations.
     if (ids.length) { creature.variations = [...ids]; }

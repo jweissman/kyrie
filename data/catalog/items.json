@@ -174,6 +174,17 @@
         "notes": "What a willow gives whoever gathers it (organisms.json); the fever on the green wants it, or herbs."
       }
     },
+    "selfheal": {
+      "name": "Self-heal",
+      "category": "consumable",
+      "description": "A handful of self-heal, the herb of the short turf. Bruised and bound on, it closes a small cut. One use.",
+      "value": 1,
+      "use": "Heal (1d4) health to ally.",
+      "source": {
+        "kyr": true,
+        "notes": "What self-heal gives whoever gathers it (plants.json, selfheal_plant)."
+      }
+    },
     "feverwort": {
       "name": "Feverwort",
       "category": "consumable",

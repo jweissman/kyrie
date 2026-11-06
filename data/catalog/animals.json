@@ -31,6 +31,11 @@
         "flee"
       ],
       "traits": [],
+      "habitats": [
+        "wood",
+        "meadow"
+      ],
+      "abundance": 2,
       "worth": {
         "base": 0,
         "perLevel": 10
@@ -71,6 +76,11 @@
         "flee"
       ],
       "traits": [],
+      "habitats": [
+        "wood",
+        "cave"
+      ],
+      "abundance": 1,
       "worth": {
         "base": 0,
         "perLevel": 10
@@ -102,7 +112,8 @@
       "temperament": "defensive",
       "habitats": [
         "wood",
-        "heights"
+        "heights",
+        "cave"
       ],
       "source": {
         "orsino": "animal:bear",
@@ -140,6 +151,11 @@
         "flee"
       ],
       "traits": [],
+      "habitats": [
+        "wood",
+        "cave"
+      ],
+      "abundance": 1,
       "worth": {
         "base": 0,
         "perLevel": 10
@@ -208,6 +224,10 @@
         "flee"
       ],
       "traits": [],
+      "habitats": [
+        "meadow"
+      ],
+      "abundance": 2,
       "worth": {
         "base": 0,
         "perLevel": 10
@@ -243,12 +263,12 @@
         "notes": "A Kyr domestic animal; Orsino has none."
       }
     },
-    "cave_hound": {
-      "name": "Feral cave hound",
+    "hound": {
+      "name": "Hound",
       "type": "beast",
       "kind": "animal",
-      "description": "A scavenging dog descended from abandoned working animals.",
-      "looks": "A gaunt, pale hound bred in the dark: long-legged, wide-eared, its coat thin and its eyes clouded.",
+      "description": "A big rough-coated hound, bred to run game down and hold it.",
+      "looks": "A long-legged rough-coated hound, grey-brindled, deep in the chest, with a long jaw.",
       "statistics": {
         "attributes": "rolled",
         "hitDie": 6,
@@ -256,6 +276,25 @@
         "weapon": "bite",
         "armor": "fur"
       },
+      "abilities": [
+        "flee"
+      ],
+      "source": {
+        "orsino": "animal:hound",
+        "fidelity": "adapted",
+        "notes": "Orsino's hound: bite and fur, its attributes rolled and a hit die so that it grows with its level. The dog, the cave hound and the knitted bone hound are made from it."
+      }
+    },
+    "cave_hound": {
+      "variantOf": "hound",
+      "variations": [
+        "cave"
+      ],
+      "name": "Feral cave hound",
+      "type": "beast",
+      "kind": "animal",
+      "description": "A scavenging dog descended from abandoned working animals.",
+      "looks": "A gaunt, pale hound bred in the dark: long-legged, wide-eared, its coat thin and its eyes clouded.",
       "abilities": [
         "rending_bite",
         "flee"
@@ -265,9 +304,8 @@
         "cave"
       ],
       "source": {
-        "orsino": "animal:hound",
-        "fidelity": "adapted",
-        "notes": "Orsino's hound: bite and fur. Feral, with the Kyr rending bite."
+        "kyr": true,
+        "notes": "Orsino's hound gone feral in the dark (hound, with the variation cave), with the rending bite of a hound that hunts for itself."
       }
     },
     "centipede": {
@@ -300,6 +338,10 @@
         "flee"
       ],
       "traits": [],
+      "habitats": [
+        "wood",
+        "cave"
+      ],
       "worth": {
         "base": 0,
         "perLevel": 10
@@ -343,37 +385,31 @@
       "description": "A large aquatic reptile with powerful jaws and stealthy hunting.",
       "looks": "A long grey-green crocodile half out of brown water, its back ridged and its jaws a row of teeth.",
       "statistics": {
-        "attributes": {
-          "strength": 9,
-          "dexterity": 5,
-          "constitution": 9,
-          "intelligence": 5,
-          "wisdom": 6,
-          "charisma": 5
-        },
-        "weapon": "bite",
-        "armor": "scale",
+        "attributes": "rolled",
+        "hitDie": 10,
         "primary": "strength",
-        "growth": {
-          "hitPoints": {
-            "base": 4,
-            "perLevel": 1
-          }
-        }
+        "weapon": "bite",
+        "armor": "scale"
       },
       "abilities": [
-        "defend",
+        "rending_bite",
         "flee"
       ],
       "traits": [],
+      "temperament": "ambush",
+      "habitats": [
+        "fen",
+        "river"
+      ],
+      "abundance": 1,
       "worth": {
         "base": 0,
         "perLevel": 10
       },
       "source": {
         "orsino": "animal:crocodile",
-        "fidelity": "faithful",
-        "notes": "Orsino's animal template: every attribute 3 plus the kind's, its hit points, natural weapon and hide, defend and flee. Its hit points are Orsino's at the first level and grow by one a level (Orsino's were the same at every level)."
+        "fidelity": "adapted",
+        "notes": "Orsino's animal template made it a companion's size (fixed hit points no more than a squirrel's); as a beast of the wild Kyr rolls its qualities with a hit die of 10, as it does a wolf's, with a rending bite."
       }
     },
     "crow": {
@@ -406,6 +442,11 @@
         "flee"
       ],
       "traits": [],
+      "habitats": [
+        "meadow",
+        "fells"
+      ],
+      "abundance": 2,
       "worth": {
         "base": 0,
         "perLevel": 10
@@ -446,6 +487,11 @@
         "flee"
       ],
       "traits": [],
+      "habitats": [
+        "wood",
+        "heath"
+      ],
+      "abundance": 3,
       "worth": {
         "base": 0,
         "perLevel": 10
@@ -486,6 +532,11 @@
         "flee"
       ],
       "traits": [],
+      "habitats": [
+        "fen",
+        "river"
+      ],
+      "abundance": 1,
       "worth": {
         "base": 0,
         "perLevel": 10
@@ -527,6 +578,11 @@
         "flee"
       ],
       "traits": [],
+      "habitats": [
+        "heights",
+        "fells"
+      ],
+      "abundance": 1,
       "worth": {
         "base": 0,
         "perLevel": 10
@@ -594,6 +650,11 @@
         "flee"
       ],
       "traits": [],
+      "habitats": [
+        "heath",
+        "heights"
+      ],
+      "abundance": 1,
       "worth": {
         "base": 0,
         "perLevel": 10
@@ -634,6 +695,10 @@
         "flee"
       ],
       "traits": [],
+      "habitats": [
+        "heath"
+      ],
+      "abundance": 1,
       "worth": {
         "base": 0,
         "perLevel": 10
@@ -675,6 +740,12 @@
         "flee"
       ],
       "traits": [],
+      "habitats": [
+        "wood",
+        "meadow",
+        "heath"
+      ],
+      "abundance": 3,
       "worth": {
         "base": 0,
         "perLevel": 10
@@ -715,6 +786,11 @@
         "flee"
       ],
       "traits": [],
+      "habitats": [
+        "fen",
+        "river"
+      ],
+      "abundance": 1,
       "worth": {
         "base": 0,
         "perLevel": 10
@@ -756,6 +832,11 @@
         "flee"
       ],
       "traits": [],
+      "habitats": [
+        "fells",
+        "heights"
+      ],
+      "abundance": 2,
       "worth": {
         "base": 0,
         "perLevel": 10
@@ -768,19 +849,16 @@
     },
     "great_centipede": {
       "variantOf": "centipede",
+      "variations": [
+        "great"
+      ],
       "name": "Great centipede",
       "type": "beast",
       "kind": "animal",
       "description": "A centipede as long as a man is tall, pale from the dark, that comes fast and bites.",
-      "statistics": {
-        "attributes": "rolled",
-        "hitDie": 8,
-        "primary": "dexterity",
-        "weapon": "bite",
-        "armor": "chitin"
-      },
       "abilities": [
-        "venomous_bite"
+        "venomous_bite",
+        "defend"
       ],
       "temperament": "territorial",
       "habitats": [
@@ -788,22 +866,49 @@
       ],
       "source": {
         "kyr": true,
-        "notes": "Kyr's own: Orsino's centipede is an animal's fixed line, 2 hit points at any level."
+        "notes": "A centipede grown great (centipede, with the variation great), its bite venomous; Orsino's centipede has the fixed line of a small animal."
+      }
+    },
+    "pike": {
+      "name": "Pike",
+      "type": "beast",
+      "kind": "animal",
+      "description": "A long lean fish of still water and slow rivers, that lies among the weed and takes what passes.",
+      "looks": "A long green-barred fish with a flat duck-bill jaw, lying still in the weed.",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 6,
+        "primary": "strength",
+        "weapon": "bite",
+        "armor": "hide_armor"
+      },
+      "abilities": [
+        "flee"
+      ],
+      "traits": [
+        "deep_water"
+      ],
+      "temperament": "ambush",
+      "habitats": [
+        "river",
+        "lake"
+      ],
+      "source": {
+        "kyr": true,
+        "notes": "Kyr's own; Orsino has no fish. The base of the great pike."
       }
     },
     "great_pike": {
+      "variantOf": "pike",
+      "variations": [
+        "great",
+        "elder"
+      ],
       "name": "Great pike",
       "type": "beast",
       "kind": "animal",
       "description": "A pike grown old and huge in cold deep water, long as a boat, that takes whatever falls in.",
       "looks": "A great pike as long as a man, green-barred and gold-flecked, its long jaw full of backward teeth.",
-      "statistics": {
-        "attributes": "rolled",
-        "hitDie": 12,
-        "primary": "strength",
-        "weapon": "bite",
-        "armor": "hide_armor"
-      },
       "abilities": [
         "rending_bite"
       ],
@@ -816,23 +921,19 @@
       ],
       "source": {
         "kyr": true,
-        "notes": "Kyr's own: the Old Jack of Hollow Water."
+        "notes": "A pike grown great and old (pike, with the variations great and elder): the Old Jack of Hollow Water."
       }
     },
     "great_snake": {
       "variantOf": "snake",
+      "variations": [
+        "great"
+      ],
       "name": "Great snake",
       "type": "beast",
       "kind": "animal",
       "description": "A snake grown old and huge in the dark on whatever comes to it, as long as a hall and as thick as a man.",
       "portrait": "python",
-      "statistics": {
-        "attributes": "rolled",
-        "hitDie": 10,
-        "primary": "strength",
-        "weapon": "bite",
-        "armor": "scale"
-      },
       "abilities": [
         "venomous_bite",
         "ensnare"
@@ -844,7 +945,7 @@
       ],
       "source": {
         "kyr": true,
-        "notes": "Kyr's own: Orsino's snake is an animal's fixed line, 3 hit points at any level, so the great snake that keeps a deep's first level would be great in name only."
+        "notes": "A snake grown great (snake, with the variation great): venomous, and long enough to wrap a man."
       }
     },
     "hawk": {
@@ -877,6 +978,11 @@
         "flee"
       ],
       "traits": [],
+      "habitats": [
+        "heath",
+        "fells"
+      ],
+      "abundance": 2,
       "worth": {
         "base": 0,
         "perLevel": 10
@@ -917,6 +1023,11 @@
         "flee"
       ],
       "traits": [],
+      "habitats": [
+        "meadow",
+        "wood"
+      ],
+      "abundance": 1,
       "worth": {
         "base": 0,
         "perLevel": 10
@@ -1009,6 +1120,10 @@
         "flee"
       ],
       "traits": [],
+      "habitats": [
+        "desert"
+      ],
+      "abundance": 1,
       "worth": {
         "base": 0,
         "perLevel": 10
@@ -1026,26 +1141,14 @@
       "description": "A scavenging carnivore with powerful jaws and distinctive laugh-like vocalizations.",
       "looks": "A spotted hyena, sloping-backed and thick-necked, with round ears and heavy bone-cracking jaws.",
       "statistics": {
-        "attributes": {
-          "strength": 8,
-          "dexterity": 6,
-          "constitution": 8,
-          "intelligence": 5,
-          "wisdom": 5,
-          "charisma": 5
-        },
+        "attributes": "rolled",
+        "hitDie": 6,
+        "primary": "constitution",
         "weapon": "bite",
-        "armor": "fur",
-        "primary": "strength",
-        "growth": {
-          "hitPoints": {
-            "base": 4,
-            "perLevel": 1
-          }
-        }
+        "armor": "fur"
       },
       "abilities": [
-        "defend",
+        "rending_bite",
         "flee"
       ],
       "traits": [],
@@ -1055,8 +1158,8 @@
       },
       "source": {
         "orsino": "animal:hyena",
-        "fidelity": "faithful",
-        "notes": "Orsino's animal template: every attribute 3 plus the kind's, its hit points, natural weapon and hide, defend and flee. Its hit points are Orsino's at the first level and grow by one a level (Orsino's were the same at every level)."
+        "fidelity": "adapted",
+        "notes": "Orsino's animal template made it a companion's size (fixed hit points no more than a squirrel's); as a beast of the wild Kyr rolls its qualities with a hit die of 6, as it does a wolf's, with a rending bite."
       }
     },
     "lion": {
@@ -1067,37 +1170,30 @@
       "looks": "A tawny lion with a dark full mane, lying with its head up and its paws crossed.",
       "portrait": "lion",
       "statistics": {
-        "attributes": {
-          "strength": 7,
-          "dexterity": 6,
-          "constitution": 7,
-          "intelligence": 5,
-          "wisdom": 5,
-          "charisma": 7
-        },
-        "weapon": "bite",
-        "armor": "fur",
+        "attributes": "rolled",
+        "hitDie": 10,
         "primary": "strength",
-        "growth": {
-          "hitPoints": {
-            "base": 4,
-            "perLevel": 1
-          }
-        }
+        "weapon": "bite",
+        "armor": "fur"
       },
       "abilities": [
-        "defend",
+        "rending_bite",
         "flee"
       ],
       "traits": [],
+      "temperament": "territorial",
+      "habitats": [
+        "desert"
+      ],
+      "abundance": 1,
       "worth": {
         "base": 0,
         "perLevel": 10
       },
       "source": {
         "orsino": "animal:lion",
-        "fidelity": "faithful",
-        "notes": "Orsino's animal template: every attribute 3 plus the kind's, its hit points, natural weapon and hide, defend and flee. Its hit points are Orsino's at the first level and grow by one a level (Orsino's were the same at every level)."
+        "fidelity": "adapted",
+        "notes": "Orsino's animal template made it a companion's size (fixed hit points no more than a squirrel's); as a beast of the wild Kyr rolls its qualities with a hit die of 10, as it does a wolf's, with a rending bite."
       }
     },
     "lizard": {
@@ -1130,6 +1226,11 @@
         "flee"
       ],
       "traits": [],
+      "habitats": [
+        "desert",
+        "heath"
+      ],
+      "abundance": 2,
       "worth": {
         "base": 0,
         "perLevel": 10
@@ -1170,6 +1271,10 @@
         "flee"
       ],
       "traits": [],
+      "habitats": [
+        "meadow"
+      ],
+      "abundance": 1,
       "worth": {
         "base": 0,
         "perLevel": 10
@@ -1210,6 +1315,10 @@
         "flee"
       ],
       "traits": [],
+      "habitats": [
+        "wood"
+      ],
+      "abundance": 1,
       "worth": {
         "base": 0,
         "perLevel": 10
@@ -1250,6 +1359,11 @@
         "flee"
       ],
       "traits": [],
+      "habitats": [
+        "river",
+        "lake"
+      ],
+      "abundance": 2,
       "worth": {
         "base": 0,
         "perLevel": 10
@@ -1291,6 +1405,10 @@
         "flee"
       ],
       "traits": [],
+      "habitats": [
+        "wood"
+      ],
+      "abundance": 2,
       "worth": {
         "base": 0,
         "perLevel": 10
@@ -1309,37 +1427,30 @@
       "looks": "A black leopard, lean and long-tailed, its coat showing faint rosettes where the light falls.",
       "portrait": "leopard",
       "statistics": {
-        "attributes": {
-          "strength": 6,
-          "dexterity": 7,
-          "constitution": 6,
-          "intelligence": 6,
-          "wisdom": 6,
-          "charisma": 6
-        },
+        "attributes": "rolled",
+        "hitDie": 8,
+        "primary": "dexterity",
         "weapon": "claws",
-        "armor": "fur",
-        "primary": "strength",
-        "growth": {
-          "hitPoints": {
-            "base": 5,
-            "perLevel": 1
-          }
-        }
+        "armor": "fur"
       },
       "abilities": [
-        "defend",
+        "rending_bite",
         "flee"
       ],
       "traits": [],
+      "temperament": "ambush",
+      "habitats": [
+        "wood"
+      ],
+      "abundance": 1,
       "worth": {
         "base": 0,
         "perLevel": 10
       },
       "source": {
         "orsino": "animal:panther",
-        "fidelity": "faithful",
-        "notes": "Orsino's animal template: every attribute 3 plus the kind's, its hit points, natural weapon and hide, defend and flee. Its hit points are Orsino's at the first level and grow by one a level (Orsino's were the same at every level)."
+        "fidelity": "adapted",
+        "notes": "Orsino's animal template made it a companion's size (fixed hit points no more than a squirrel's); as a beast of the wild Kyr rolls its qualities with a hit die of 8, as it does a wolf's, with a rending bite."
       }
     },
     "pig": {
@@ -1398,6 +1509,11 @@
         "flee"
       ],
       "traits": [],
+      "habitats": [
+        "heath",
+        "fells"
+      ],
+      "abundance": 2,
       "worth": {
         "base": 0,
         "perLevel": 10
@@ -1410,7 +1526,7 @@
     },
     "pseudodragon": {
       "name": "Pseudodragon",
-      "type": "beast",
+      "type": "dragon",
       "kind": "animal",
       "description": "A small dragon-like creature with keen intelligence and magical resistance.",
       "looks": "A dragon no bigger than a cat, copper-scaled with bat-like wings and a barbed tail curled about it.",
@@ -1438,6 +1554,11 @@
         "flee"
       ],
       "traits": [],
+      "habitats": [
+        "wood",
+        "heights"
+      ],
+      "abundance": 1,
       "worth": {
         "base": 0,
         "perLevel": 10
@@ -1479,6 +1600,11 @@
         "flee"
       ],
       "traits": [],
+      "habitats": [
+        "meadow",
+        "heath"
+      ],
+      "abundance": 3,
       "worth": {
         "base": 0,
         "perLevel": 10
@@ -1519,6 +1645,11 @@
         "flee"
       ],
       "traits": [],
+      "habitats": [
+        "fells",
+        "heights"
+      ],
+      "abundance": 1,
       "worth": {
         "base": 0,
         "perLevel": 10
@@ -1595,6 +1726,11 @@
         "flee"
       ],
       "traits": [],
+      "habitats": [
+        "fells",
+        "heights"
+      ],
+      "abundance": 2,
       "worth": {
         "base": 0,
         "perLevel": 10
@@ -1663,6 +1799,11 @@
         "flee"
       ],
       "traits": [],
+      "habitats": [
+        "heath",
+        "desert"
+      ],
+      "abundance": 1,
       "worth": {
         "base": 0,
         "perLevel": 10
@@ -1732,6 +1873,10 @@
         "flee"
       ],
       "traits": [],
+      "habitats": [
+        "wood"
+      ],
+      "abundance": 2,
       "worth": {
         "base": 0,
         "perLevel": 10
@@ -1772,6 +1917,12 @@
         "flee"
       ],
       "traits": [],
+      "habitats": [
+        "heath",
+        "fells",
+        "snow"
+      ],
+      "abundance": 1,
       "worth": {
         "base": 0,
         "perLevel": 10
@@ -1790,37 +1941,31 @@
       "looks": "A great striped tiger, orange and black with a white belly, moving through long grass.",
       "portrait": "tiger",
       "statistics": {
-        "attributes": {
-          "strength": 7,
-          "dexterity": 7,
-          "constitution": 7,
-          "intelligence": 6,
-          "wisdom": 6,
-          "charisma": 6
-        },
-        "weapon": "claws",
-        "armor": "fur",
+        "attributes": "rolled",
+        "hitDie": 10,
         "primary": "strength",
-        "growth": {
-          "hitPoints": {
-            "base": 5,
-            "perLevel": 1
-          }
-        }
+        "weapon": "claws",
+        "armor": "fur"
       },
       "abilities": [
-        "defend",
+        "rending_bite",
         "flee"
       ],
       "traits": [],
+      "temperament": "territorial",
+      "habitats": [
+        "wood",
+        "snow"
+      ],
+      "abundance": 1,
       "worth": {
         "base": 0,
         "perLevel": 10
       },
       "source": {
         "orsino": "animal:tiger",
-        "fidelity": "faithful",
-        "notes": "Orsino's animal template: every attribute 3 plus the kind's, its hit points, natural weapon and hide, defend and flee. Its hit points are Orsino's at the first level and grow by one a level (Orsino's were the same at every level)."
+        "fidelity": "adapted",
+        "notes": "Orsino's animal template made it a companion's size (fixed hit points no more than a squirrel's); as a beast of the wild Kyr rolls its qualities with a hit die of 10, as it does a wolf's, with a rending bite."
       }
     },
     "turtle": {
@@ -1853,6 +1998,11 @@
         "flee"
       ],
       "traits": [],
+      "habitats": [
+        "river",
+        "lake"
+      ],
+      "abundance": 1,
       "worth": {
         "base": 0,
         "perLevel": 10
@@ -1892,46 +2042,6 @@
         "notes": "Orsino's wolf stat line (base 3 + kind) is not used; Kyr wolves roll their attributes."
       }
     },
-    "wyrm_animal": {
-      "name": "Wyrm",
-      "type": "beast",
-      "kind": "animal",
-      "description": "A small dragon-like creature with intelligence and magical resistance.",
-      "looks": "A small serpentine dragon, the length of a dog, green-scaled and wingless, with a frilled neck.",
-      "statistics": {
-        "attributes": {
-          "strength": 10,
-          "dexterity": 5,
-          "constitution": 9,
-          "intelligence": 11,
-          "wisdom": 11,
-          "charisma": 10
-        },
-        "weapon": "bite",
-        "armor": "scale",
-        "primary": "strength",
-        "growth": {
-          "hitPoints": {
-            "base": 2,
-            "perLevel": 1
-          }
-        }
-      },
-      "abilities": [
-        "defend",
-        "flee"
-      ],
-      "traits": [],
-      "worth": {
-        "base": 0,
-        "perLevel": 10
-      },
-      "source": {
-        "orsino": "animal:wyrm",
-        "fidelity": "faithful",
-        "notes": "Orsino's animal template: every attribute 3 plus the kind's, its hit points, natural weapon and hide, defend and flee. Its hit points are Orsino's at the first level and grow by one a level (Orsino's were the same at every level)."
-      }
-    },
     "cave_spider": {
       "variantOf": "spider",
       "variations": [
@@ -1948,10 +2058,15 @@
       "source": {
         "kyr": true,
         "notes": "A spider grown great in the dark (spider, with the variations great and cave): the name the undertown, the deep sites and the dens have used, kept so that what they say still means it."
-      }
+      },
+      "abilities": [
+        "venomous_bite",
+        "ensnare",
+        "flee"
+      ]
     },
     "dog": {
-      "variantOf": "cave_hound",
+      "variantOf": "hound",
       "name": "Dog",
       "description": "A working dog of a farm, a drove or an inn: it knows people, and keeps an eye on what is theirs.",
       "portrait": "dog",
@@ -1966,33 +2081,26 @@
       ],
       "source": {
         "kyr": true,
-        "notes": "Orsino's hound (as the feral cave hound has it), kept: the same bite and fur, tame, without the rending bite."
+        "notes": "Orsino's hound kept: the same bite and fur, tame."
       }
     },
     "frost_wolf": {
       "variantOf": "wolf",
+      "variations": [
+        "frost",
+        "great"
+      ],
       "name": "Frost-altered wolf",
       "description": "A living wolf altered by an old winter shrine: a freezing bite and a howl that stops the heart.",
-      "statistics": {
-        "attributes": "rolled",
-        "hitDie": 10,
-        "primary": "constitution",
-        "weapon": "bite",
-        "armor": "fur"
-      },
       "abilities": [
         "rime_bite",
         "winter_howl",
         "rending_bite",
         "defend"
       ],
-      "resistances": {
-        "physical": 0.25,
-        "cold": 0.75,
-        "fire": -0.5
-      },
       "source": {
-        "kyr": true
+        "kyr": true,
+        "notes": "A wolf of the long winters grown great (wolf, with the variations frost and great); its proof against cold is the frost's, its rime bite and winter howl its own."
       }
     },
     "great_rat": {
@@ -2019,6 +2127,12 @@
       ],
       "name": "Stag",
       "description": "A majestic herbivore with impressive antlers and graceful movements.",
+      "looks": "A red stag in his prime, heavy in the neck, with a dark rough mane and a wide spread of antlers.",
+      "habitats": [
+        "wood",
+        "heath"
+      ],
+      "abundance": 1,
       "source": {
         "orsino": "animal:stag",
         "fidelity": "faithful",
@@ -2057,6 +2171,7 @@
         "heath",
         "fells"
       ],
+      "abundance": 2,
       "source": {
         "kyr": true,
         "notes": "A bird the ecology's signs of the heath and the meadow had named with no record (data/generation/tables/ecology.json, wildSign); Orsino has no such bird."
@@ -2095,6 +2210,7 @@
         "meadow",
         "fen"
       ],
+      "abundance": 2,
       "source": {
         "kyr": true,
         "notes": "A bird the ecology's signs of the heath and the meadow had named with no record (data/generation/tables/ecology.json, wildSign); Orsino has no such bird."
@@ -2132,9 +2248,55 @@
         "meadow",
         "heath"
       ],
+      "abundance": 2,
       "source": {
         "kyr": true,
         "notes": "A bird the ecology's signs of the heath and the meadow had named with no record (data/generation/tables/ecology.json, wildSign); Orsino has no such bird."
+      }
+    },
+    "wyrmling": {
+      "name": "Wyrmling",
+      "type": "dragon",
+      "kind": "animal",
+      "description": "A small dragon-like creature with intelligence and magical resistance.",
+      "looks": "A small serpentine dragon, the length of a dog, green-scaled and wingless, with a frilled neck.",
+      "statistics": {
+        "attributes": {
+          "strength": 10,
+          "dexterity": 5,
+          "constitution": 9,
+          "intelligence": 11,
+          "wisdom": 11,
+          "charisma": 10
+        },
+        "weapon": "bite",
+        "armor": "scale",
+        "primary": "strength",
+        "growth": {
+          "hitPoints": {
+            "base": 2,
+            "perLevel": 1
+          }
+        }
+      },
+      "abilities": [
+        "defend",
+        "flee"
+      ],
+      "traits": [],
+      "habitats": [
+        "heights",
+        "desert"
+      ],
+      "abundance": 1,
+      "worth": {
+        "base": 0,
+        "perLevel": 10
+      },
+      "source": {
+        "orsino": "animal:wyrm",
+        "fidelity": "faithful",
+        "notes": "Orsino's animal template: every attribute 3 plus the kind's, its hit points, natural weapon and hide, defend and flee. Its hit points are Orsino's at the first level and grow by one a level (Orsino's were the same at every level). Orsino calls it a wyrm among its animals; it is a small dragon of the animal template, not the great Wyrm (monsters.json), and is called a wyrmling here (aliases.json keeps wyrm_animal)."
       }
     }
   }

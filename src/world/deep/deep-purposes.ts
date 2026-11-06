@@ -36,6 +36,8 @@ export interface DeepConnector {
 export interface DeepGroup {
   species?: string; ancestry?: string; calling?: string; count: number; label: string; role: string;
   temperament: string;
+  // What a kind is always made of or descended from, where a party was composed for the room (see Parties).
+  variations?: string[];
 }
 import type { Alteration } from './deep-history';
 
@@ -66,6 +68,9 @@ export interface DeepPurpose {
   hook: { topic: string; trade?: { topic: string; says: string }; home?: string };
   levels: DeepLevelSpec[]; connectors: DeepConnector[]; roles: Record<string, DeepRole>;
   dwellers: { depth: number; groups: DeepGroup[] }[];
+  // The habitats (data/catalog/habitats.json) whose creatures may also have come to live here: a room's dwellers are
+  // either one of the groups written above or a party of them composed for the room's danger (see Parties).
+  dwellerHabitats?: string[];
   // The devices set among those who live here, by what the place was (Orsino's: a tomb's charge, a temple's ward):
   // one in a fifth of the rooms with dwellers (see DeepRooms.device).
   devices?: { id: string; label: string; role: string }[];

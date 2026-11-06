@@ -34,6 +34,12 @@ class Barrow {
     this.set(s, [...here.map(r => ({ kind: 'retract' as const, call: ModuleWriter.call('at', ...r.args) })),
       { kind: 'retract', call: ModuleWriter.call('unlit', room) }, { kind: 'assert', call: ModuleWriter.call('at', 'party', room) }]);
   }
+  // No one of the site moving about it (its wanderers come to whoever waits there): a test of the room's light, not of
+  // what lives below.
+  static still(s: PlaySession) {
+    const about = s.campaign.world.related('at').filter(r => /_(dwellers|beside)$/.test(r.args[0]!));
+    this.set(s, about.map(r => ({ kind: 'retract' as const, call: ModuleWriter.call('at', ...r.args) })));
+  }
   static async take(s: PlaySession, pattern: RegExp) {
     const c = PlayerView.choices(s.campaign).find(x => pattern.test(x.choice.name));
     if (!c) { throw new Error(`No ${pattern}: ${this.names(s).join(' | ')}`); }
@@ -84,6 +90,7 @@ describe('a king-barrow from the same generator as the mine', () => {
     const { s, room } = await Barrow.world('a1');
     const seen = () => PlayerView.observe(s.campaign).observations.map(o => o.text).join(' ');
     Barrow.enter(s, room('barrow_passage'));
+    Barrow.still(s);
     expect(seen()).toContain('A thread of grey daylight lies along the floor of the passage');
     await Barrow.take(s, /^Wait until dark$/);
     expect(seen()).toContain('A breath of night air comes along the floor of the passage');

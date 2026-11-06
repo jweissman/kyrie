@@ -32,6 +32,9 @@ export interface Fighter {
   cycles?: Record<string, number>;
   // Every trait the creature holds: birth or nature traits and the ones it chose.
   traits?: string[];
+  // What it is beside its kind (data/catalog/variations.json): frost, skeletal, of iron; what each makes it proof
+  // against or hurt by is its own.
+  variations?: string[];
   // Where it fights (urban, forest, cave...), for perks that hold only there.
   environment?: string;
   // Successful category saves in this encounter; Orsino fails a fourth success of one category automatically.

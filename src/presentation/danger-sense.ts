@@ -1,5 +1,6 @@
 import { Canon } from '../canon/canon';
 import { Battle } from '../battle';
+import { Beside } from '../campaign/beside';
 import { CombatProjection } from '../combat-projection';
 import { CreatureStore } from '../creature-store';
 import { Tactics } from '../tactics';
@@ -32,7 +33,8 @@ export class DangerSense {
   private static readonly reckoned = new Map<string, Reckoning>();
   static reckon(campaign: Campaign, group: string): Reckoning | undefined {
     const read = campaign.readout;
-    const foes = this.standing(campaign, read.inhabitants[group] ?? []), ours = this.standing(campaign, read.partyIds);
+    const foes = this.standing(campaign, Beside.members(campaign.world, read.inhabitants, group));
+    const ours = this.standing(campaign, read.partyIds);
     if (!foes.length || !ours.length) { return undefined; }
     // What each has in hand is part of it: a sword bought since is a different fight.
     const key = JSON.stringify([group, ...[...ours, ...foes].map(c => [c.id, c.state.hp, c.state.mana, c.base.level,

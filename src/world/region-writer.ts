@@ -23,6 +23,7 @@ import { RegionMarvels } from './region-marvels';
 import { SettlementWriter } from './settlement-writer';
 import { RegionTraffic } from './region-traffic';
 import { RegionTracts } from './region-tracts';
+import { RegionAnimals } from './region-animals';
 import { RegionMeetings } from './region-meetings';
 import { ModuleCanon } from '../campaign/module-canon';
 // A generated region (the Deem `region` generator's output, plus sites scenarios asked for) written as an ordinary
@@ -165,7 +166,7 @@ export class RegionWriter {
         + ` when been(party, ${w.id}).`),
       ...region.calendar ? RegionWeather.lines(region, region.calendar) : [], ...RegionTracts.lines(region),
       // What is met with in the open country, a stretch here and there (the owner's OWN-27).
-      ...RegionMeetings.lines(region));
+      ...RegionMeetings.lines(region), ...RegionAnimals.lines(region));
     region.settlements.forEach(s => lines.push(...this.economy(s, region)));
     return lines;
   }

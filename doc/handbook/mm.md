@@ -22,6 +22,7 @@ Each kind, with what it fights with, by type. Habitat says where it is met. Temp
 - Qualities: +18 strength, +17 dexterity, +18 constitution, +24 intelligence, +23 wisdom, +14 charisma
 - Attack: tentacles, 1d4+1 bludgeoning
 - Hide: Hide Armor, armour 1
+- Found in: cave
 - Worth: 600 + 50 experience a level
 
 Terror: One enemy is frightened for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. A divine spell of the second level. Takes a second-level slot.
@@ -50,6 +51,24 @@ Planar Adaptation: +2 against magic, resists 50% of fire, resists 50% of cold, r
 
 *Adapted: Composed by OrsinoMonsters (aberration class, Discerner type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
 
+#### Hollow-stalker
+
+*Kyr · aberration* · `species:hollow_stalker`
+
+- Type: aberration (monster)
+- Hit points: d8 a level
+- Qualities: rolled (3d6 each)
+- Attack: bite, 1d6 piercing
+- Hide: Chitin Armor, armour 2
+- Found in: cave
+- Worth: 150 + 50 experience a level
+
+Rending bite: 1d6 (1–6) physical damage to one enemy; it is bleeding for 2 turns (a Constitution save against 11 avoids it). Bleeding: takes 1 bleed damage each turn. Again after a turn.
+
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
+
+> A thing of the deep caves, eyeless and many-jointed, that hunts by the sound of breath and takes whatever comes down into the dark alone.
+
 #### Mind Destroyer
 
 *Adapted · aberration* · `species:mind_destroyer`
@@ -60,6 +79,7 @@ Planar Adaptation: +2 against magic, resists 50% of fire, resists 50% of cold, r
 - Qualities: +18 strength, +17 dexterity, +18 constitution, +25 intelligence, +22 wisdom, +14 charisma
 - Attack: tentacles, 1d4+1 bludgeoning
 - Hide: Hide Armor, armour 1
+- Found in: cave
 - Worth: 600 + 50 experience a level
 
 Terror: One enemy is frightened for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. A divine spell of the second level. Takes a second-level slot.
@@ -94,6 +114,7 @@ Planar Adaptation: +2 against magic, resists 50% of fire, resists 50% of cold, r
 - Qualities: +18 strength, +17 dexterity, +23 constitution, +23 intelligence, +20 wisdom, +14 charisma
 - Attack: tentacles, 1d4+1 bludgeoning
 - Hide: Hide Armor, armour 1
+- Found in: cave
 - Worth: 600 + 50 experience a level
 
 Terror: One enemy is frightened for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. A divine spell of the second level. Takes a second-level slot.
@@ -128,6 +149,7 @@ Regeneration: Heal 1d2 - 1 (0–1) each turn.
 - Qualities: +18 strength, +17 dexterity, +24 constitution, +19 intelligence, +17 wisdom, +14 charisma
 - Attack: tentacles, 1d4+1 bludgeoning
 - Hide: Hide Armor, armour 1
+- Found in: cave
 - Worth: 600 + 50 experience a level
 
 Terror: One enemy is frightened for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. A divine spell of the second level. Takes a second-level slot.
@@ -161,6 +183,7 @@ Planar Adaptation: +2 against magic, resists 50% of fire, resists 50% of cold, r
 - Qualities: +6 strength, +5 dexterity, +6 constitution, +5 intelligence, +5 wisdom, +5 charisma
 - Attack: claws, 1d4 slashing
 - Hide: Hide Armor, armour 1
+- Found in: wood, meadow
 - Worth: 10 experience a level
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
@@ -178,6 +201,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Qualities: +4 strength, +6 dexterity, +4 constitution, +4 intelligence, +5 wisdom, +6 charisma
 - Attack: bite, 1d6 piercing
 - Hide: Fur Armor, armour 0
+- Found in: wood, cave
 - Worth: 10 experience a level
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
@@ -196,7 +220,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Attack: claws, 1d4 slashing
 - Hide: Fur Armor, armour 0
 - Temperament: defensive
-- Found in: wood, heights
+- Found in: wood, heights, cave
 - Worth: 150 experience a level
 
 Smash: 2d6 + level bludgeoning damage to one enemy (may cause stunned: a Constitution save against 15 avoids it). Stunned: −2 to every roll, cannot act. Again after 3 turns.
@@ -218,6 +242,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Qualities: +5 strength, +5 dexterity, +6 constitution, +4 intelligence, +5 wisdom, +4 charisma
 - Attack: mandibles, 1d6 piercing
 - Hide: Chitin Armor, armour 2
+- Found in: wood, cave
 - Worth: 10 experience a level
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
@@ -235,6 +260,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Qualities: +4 strength, +8 dexterity, +5 constitution, +5 intelligence, +6 wisdom, +7 charisma
 - Attack: flutter, 1d2 bludgeoning
 - Hide: Chitin Armor, armour 2
+- Found in: meadow
 - Worth: 10 experience a level
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
@@ -275,6 +301,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 Venomous Bite: 1d6 (1–6) poison damage to one enemy (halved if resisted; may cause poison: a Constitution save against 15 avoids it); it gains poison for 3 turns (a Constitution save against 12 + level + the caster's spell bonus avoids it). Poison: takes 1d4 (1–4) true damage each turn. A divine spell of the first level. Takes a first-level slot.
 
+Ensnare: One enemy is entangled for 3 turns (a Dexterity save against 12 + level + the caster's spell bonus avoids it). Entangled: −2 to hit, −5 evasion, −5 initiative, Dexterity −5. Again after 3 turns.
+
 Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A dog-sized spider that strings the dark with sticky lines and waits for something to blunder into them.
@@ -288,6 +316,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Qualities: +5 strength, +7 dexterity, +5 constitution, +4 intelligence, +5 wisdom, +4 charisma
 - Attack: bite, 1d6 piercing
 - Hide: Chitin Armor, armour 2
+- Found in: wood, cave
 - Worth: 10 experience a level
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
@@ -306,6 +335,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Qualities: +17 strength, +12 dexterity, +11 constitution, +3 intelligence, +3 wisdom, +3 charisma
 - Attack: claws, 1d4 slashing
 - Hide: Hide Armor, armour 1
+- Found in: heights
 - Worth: 150 + 50 experience a level
 
 Maul: Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to it (may cause stunned: a Constitution save against 15 avoids it); it is bleeding for 3 turns (a Constitution save against 15 + level + the caster's spell bonus avoids it). Stunned: −2 to every roll, cannot act. Bleeding: takes 1d2 (1–2) bleed damage each turn. Again after 2 turns.
@@ -349,20 +379,24 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 #### Crocodile
 
-*Faithful · beast* · `species:crocodile`
+*Adapted · beast* · `species:crocodile`
 
 - Type: beast (animal)
-- Hit points: 4 + Constitution modifier + 1 a level
-- Qualities: +9 strength, +5 dexterity, +9 constitution, +5 intelligence, +6 wisdom, +5 charisma
+- Hit points: d10 a level
+- Qualities: rolled (3d6 each)
 - Attack: bite, 1d6 piercing
 - Hide: Scale Mail, armour 4
+- Temperament: ambush
+- Found in: fen, river
 - Worth: 10 experience a level
 
-Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
+Rending bite: 1d6 (1–6) physical damage to one enemy; it is bleeding for 2 turns (a Constitution save against 11 avoids it). Bleeding: takes 1 bleed damage each turn. Again after a turn.
 
 Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A large aquatic reptile with powerful jaws and stealthy hunting.
+
+*Adapted: Orsino's animal template made it a companion's size (fixed hit points no more than a squirrel's); as a beast of the wild Kyr rolls its qualities with a hit die of 10, as it does a wolf's, with a rending bite.*
 
 #### Crow
 
@@ -373,6 +407,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Qualities: +5 strength, +8 dexterity, +5 constitution, +8 intelligence, +6 wisdom, +6 charisma
 - Attack: beak, 1d4 piercing
 - Hide: Feather Armor, armour -1
+- Found in: meadow, fells
 - Worth: 10 experience a level
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
@@ -406,6 +441,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Qualities: +5 strength, +7 dexterity, +5 constitution, +5 intelligence, +6 wisdom, +5 charisma
 - Attack: antlers, 1d6 piercing
 - Hide: Hide Armor, armour 1
+- Found in: wood, heath
 - Worth: 10 experience a level
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
@@ -416,7 +452,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 #### Dog
 
-*Kyr · a feral cave hound, altered* · `species:dog`
+*Kyr · a hound, altered* · `species:dog`
 
 - Type: beast (animal)
 - Hit points: d6 a level
@@ -440,6 +476,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Qualities: +4 strength, +8 dexterity, +5 constitution, +5 intelligence, +6 wisdom, +9 charisma
 - Attack: flutter, 1d2 bludgeoning
 - Hide: Chitin Armor, armour 2
+- Found in: fen, river
 - Worth: 10 experience a level
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
@@ -457,6 +494,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Qualities: +5 strength, +8 dexterity, +5 constitution, +5 intelligence, +6 wisdom, +5 charisma
 - Attack: talons, 1d8 piercing
 - Hide: Feather Armor, armour -1
+- Found in: heights, fells
 - Worth: 10 experience a level
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
@@ -493,6 +531,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Qualities: +6 strength, +6 dexterity, +6 constitution, +6 intelligence, +6 wisdom, +6 charisma
 - Attack: talons, 1d8 piercing
 - Hide: Feather Armor, armour -1
+- Found in: heath, heights
 - Worth: 10 experience a level
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
@@ -503,7 +542,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 #### Feral cave hound
 
-*Adapted · beast* · `species:cave_hound`
+*Kyr · a hound, altered* · `species:cave_hound`
 
 - Type: beast (animal)
 - Hit points: d6 a level
@@ -520,8 +559,6 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A scavenging dog descended from abandoned working animals.
 
-*Adapted: Orsino's hound: bite and fur. Feral, with the Kyr rending bite.*
-
 #### Ferret
 
 *Faithful · beast* · `species:ferret`
@@ -531,6 +568,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Qualities: +5 strength, +7 dexterity, +6 constitution, +6 intelligence, +6 wisdom, +6 charisma
 - Attack: bite, 1d6 piercing
 - Hide: Fur Armor, armour 0
+- Found in: heath
 - Worth: 10 experience a level
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
@@ -548,6 +586,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Qualities: +6 strength, +7 dexterity, +6 constitution, +6 intelligence, +6 wisdom, +6 charisma
 - Attack: bite, 1d6 piercing
 - Hide: Fur Armor, armour 0
+- Found in: wood, meadow, heath
 - Worth: 10 experience a level
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
@@ -565,6 +604,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Qualities: +4 strength, +6 dexterity, +5 constitution, +4 intelligence, +5 wisdom, +5 charisma
 - Attack: tongue, 1d4 bludgeoning
 - Hide: Hide Armor, armour 1
+- Found in: fen, river
 - Worth: 10 experience a level
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
@@ -578,11 +618,10 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 *Kyr · a wolf, altered* · `species:frost_wolf`
 
 - Type: beast (animal)
-- Hit points: d10 a level
+- Hit points: d6 a level
 - Qualities: rolled (3d6 each)
 - Attack: bite, 1d6 piercing
 - Hide: Fur Armor, armour 0
-- Resists: physical 25%, cold 75%, fire takes 50% more
 - Temperament: wary
 - Found in: wood, fells
 - Worth: 150 experience a level
@@ -606,6 +645,7 @@ Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 
 - Qualities: +6 strength, +5 dexterity, +6 constitution, +5 intelligence, +5 wisdom, +6 charisma
 - Attack: headbutt, 1d4 bludgeoning
 - Hide: Fur Armor, armour 0
+- Found in: fells, heights
 - Worth: 10 experience a level
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
@@ -619,8 +659,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 *Kyr · a centipede, altered* · `species:great_centipede`
 
 - Type: beast (animal)
-- Hit points: d8 a level
-- Qualities: rolled (3d6 each)
+- Hit points: 3 + Constitution modifier + 1 a level
+- Qualities: +5 strength, +7 dexterity, +5 constitution, +4 intelligence, +5 wisdom, +4 charisma
 - Attack: bite, 1d6 piercing
 - Hide: Chitin Armor, armour 2
 - Temperament: territorial
@@ -629,14 +669,16 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 Venomous Bite: 1d6 (1–6) poison damage to one enemy (halved if resisted; may cause poison: a Constitution save against 15 avoids it); it gains poison for 3 turns (a Constitution save against 12 + level + the caster's spell bonus avoids it). Poison: takes 1d4 (1–4) true damage each turn. A divine spell of the first level. Takes a first-level slot.
 
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
+
 > A centipede as long as a man is tall, pale from the dark, that comes fast and bites.
 
 #### Great pike
 
-*Kyr · beast* · `species:great_pike`
+*Kyr · a pike, altered* · `species:great_pike`
 
 - Type: beast (animal)
-- Hit points: d12 a level
+- Hit points: d6 a level
 - Qualities: rolled (3d6 each)
 - Attack: bite, 1d6 piercing
 - Hide: Hide Armor, armour 1
@@ -674,8 +716,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 *Kyr · a snake, altered* · `species:great_snake`
 
 - Type: beast (animal)
-- Hit points: d10 a level
-- Qualities: rolled (3d6 each)
+- Hit points: 3 + Constitution modifier + 1 a level
+- Qualities: +7 strength, +6 dexterity, +7 constitution, +6 intelligence, +6 wisdom, +6 charisma
 - Attack: bite, 1d6 piercing
 - Hide: Scale Mail, armour 4
 - Temperament: territorial
@@ -713,6 +755,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Qualities: +6 strength, +7 dexterity, +6 constitution, +6 intelligence, +7 wisdom, +6 charisma
 - Attack: talons, 1d8 piercing
 - Hide: Feather Armor, armour -1
+- Found in: heath, fells
 - Worth: 10 experience a level
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
@@ -730,6 +773,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Qualities: +5 strength, +5 dexterity, +6 constitution, +5 intelligence, +6 wisdom, +5 charisma
 - Attack: spines, 1d6 piercing
 - Hide: Spine Armor, armour 1
+- Found in: meadow, wood
 - Worth: 10 experience a level
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
@@ -772,6 +816,23 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A horse broken to saddle or to the cart.
 
+#### Hound
+
+*Adapted · beast* · `species:hound`
+
+- Type: beast (animal)
+- Hit points: d6 a level
+- Qualities: rolled (3d6 each)
+- Attack: bite, 1d6 piercing
+- Hide: Fur Armor, armour 0
+- Worth: 150 experience a level
+
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
+
+> A big rough-coated hound, bred to run game down and hold it.
+
+*Adapted: Orsino's hound: bite and fur, its attributes rolled and a hit die so that it grows with its level. The dog, the cave hound and the knitted bone hound are made from it.*
+
 #### Hummingbird
 
 *Faithful · beast* · `species:hummingbird`
@@ -781,6 +842,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Qualities: +4 strength, +8 dexterity, +5 constitution, +5 intelligence, +6 wisdom, +7 charisma
 - Attack: beak, 1d4 piercing
 - Hide: Feather Armor, armour -1
+- Found in: desert
 - Worth: 10 experience a level
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
@@ -791,20 +853,22 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 #### Hyena
 
-*Faithful · beast* · `species:hyena`
+*Adapted · beast* · `species:hyena`
 
 - Type: beast (animal)
-- Hit points: 4 + Constitution modifier + 1 a level
-- Qualities: +8 strength, +6 dexterity, +8 constitution, +5 intelligence, +5 wisdom, +5 charisma
+- Hit points: d6 a level
+- Qualities: rolled (3d6 each)
 - Attack: bite, 1d6 piercing
 - Hide: Fur Armor, armour 0
 - Worth: 10 experience a level
 
-Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
+Rending bite: 1d6 (1–6) physical damage to one enemy; it is bleeding for 2 turns (a Constitution save against 11 avoids it). Bleeding: takes 1 bleed damage each turn. Again after a turn.
 
 Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A scavenging carnivore with powerful jaws and distinctive laugh-like vocalizations.
+
+*Adapted: Orsino's animal template made it a companion's size (fixed hit points no more than a squirrel's); as a beast of the wild Kyr rolls its qualities with a hit die of 6, as it does a wolf's, with a rending bite.*
 
 #### Lark
 
@@ -824,20 +888,24 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 #### Lion
 
-*Faithful · beast* · `species:lion`
+*Adapted · beast* · `species:lion`
 
 - Type: beast (animal)
-- Hit points: 4 + Constitution modifier + 1 a level
-- Qualities: +7 strength, +6 dexterity, +7 constitution, +5 intelligence, +5 wisdom, +7 charisma
+- Hit points: d10 a level
+- Qualities: rolled (3d6 each)
 - Attack: bite, 1d6 piercing
 - Hide: Fur Armor, armour 0
+- Temperament: territorial
+- Found in: desert
 - Worth: 10 experience a level
 
-Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
+Rending bite: 1d6 (1–6) physical damage to one enemy; it is bleeding for 2 turns (a Constitution save against 11 avoids it). Bleeding: takes 1 bleed damage each turn. Again after a turn.
 
 Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A majestic big cat of enormous strength and courage.
+
+*Adapted: Orsino's animal template made it a companion's size (fixed hit points no more than a squirrel's); as a beast of the wild Kyr rolls its qualities with a hit die of 10, as it does a wolf's, with a rending bite.*
 
 #### Lizard
 
@@ -848,6 +916,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Qualities: +5 strength, +6 dexterity, +5 constitution, +5 intelligence, +5 wisdom, +5 charisma
 - Attack: bite, 1d6 piercing
 - Hide: Scale Mail, armour 4
+- Found in: desert, heath
 - Worth: 10 experience a level
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
@@ -886,6 +955,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Qualities: +5 strength, +6 dexterity, +5 constitution, +5 intelligence, +5 wisdom, +5 charisma
 - Attack: bite, 1d6 piercing
 - Hide: Fur Armor, armour 0
+- Found in: meadow
 - Worth: 10 experience a level
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
@@ -903,6 +973,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Qualities: +4 strength, +8 dexterity, +5 constitution, +5 intelligence, +6 wisdom, +7 charisma
 - Attack: flutter, 1d2 bludgeoning
 - Hide: Chitin Armor, armour 2
+- Found in: wood
 - Worth: 10 experience a level
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
@@ -952,6 +1023,7 @@ Wild: +2 to hit, +2 damage, +2 evasion, +1 to every roll, resists 10% of all.
 - Qualities: +6 strength, +7 dexterity, +6 constitution, +6 intelligence, +6 wisdom, +6 charisma
 - Attack: bite, 1d6 piercing
 - Hide: Fur Armor, armour 0
+- Found in: river, lake
 - Worth: 10 experience a level
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
@@ -969,6 +1041,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Qualities: +5 strength, +7 dexterity, +5 constitution, +6 intelligence, +7 wisdom, +5 charisma
 - Attack: talons, 1d8 piercing
 - Hide: Feather Armor, armour -1
+- Found in: wood
 - Worth: 10 experience a level
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
@@ -987,6 +1060,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Qualities: +17 strength, +8 dexterity, +11 constitution, +3 intelligence, +3 wisdom, +3 charisma
 - Attack: claws, 1d4 slashing
 - Hide: Hide Armor, armour 1
+- Found in: wood
 - Worth: 150 + 50 experience a level
 
 Maul: Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to it (may cause stunned: a Constitution save against 15 avoids it); it is bleeding for 3 turns (a Constitution save against 15 + level + the caster's spell bonus avoids it). Stunned: −2 to every roll, cannot act. Bleeding: takes 1d2 (1–2) bleed damage each turn. Again after 2 turns.
@@ -1011,20 +1085,24 @@ Wild: +2 to hit, +2 damage, +2 evasion, +1 to every roll, resists 10% of all.
 
 #### Panther
 
-*Faithful · beast* · `species:panther`
+*Adapted · beast* · `species:panther`
 
 - Type: beast (animal)
-- Hit points: 5 + Constitution modifier + 1 a level
-- Qualities: +6 strength, +7 dexterity, +6 constitution, +6 intelligence, +6 wisdom, +6 charisma
+- Hit points: d8 a level
+- Qualities: rolled (3d6 each)
 - Attack: claws, 1d4 slashing
 - Hide: Fur Armor, armour 0
+- Temperament: ambush
+- Found in: wood
 - Worth: 10 experience a level
 
-Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
+Rending bite: 1d6 (1–6) physical damage to one enemy; it is bleeding for 2 turns (a Constitution save against 11 avoids it). Bleeding: takes 1 bleed damage each turn. Again after a turn.
 
 Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A sleek and stealthy big cat with great agility and hunting prowess.
+
+*Adapted: Orsino's animal template made it a companion's size (fixed hit points no more than a squirrel's); as a beast of the wild Kyr rolls its qualities with a hit die of 8, as it does a wolf's, with a rending bite.*
 
 #### Pig
 
@@ -1043,6 +1121,24 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A pig in its sty, or rooting in the wood under the swineherd's eye.
 
+#### Pike
+
+*Kyr · beast* · `species:pike`
+
+- Type: beast (animal)
+- Hit points: d6 a level
+- Qualities: rolled (3d6 each)
+- Attack: bite, 1d6 piercing
+- Hide: Hide Armor, armour 1
+- Temperament: ambush
+- Worth: 150 experience a level
+
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
+
+Of deep water: Immune to reflex.
+
+> A long lean fish of still water and slow rivers, that lies among the weed and takes what passes.
+
 #### Pony
 
 *Faithful · beast* · `species:pony`
@@ -1052,6 +1148,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Qualities: +7 strength, +6 dexterity, +7 constitution, +5 intelligence, +5 wisdom, +6 charisma
 - Attack: kick, 1d2 bludgeoning
 - Hide: Hide Armor, armour 1
+- Found in: heath, fells
 - Worth: 10 experience a level
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
@@ -1059,23 +1156,6 @@ Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 
 Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A small horse with surprising strength and endurance. It has a gentle temperament.
-
-#### Pseudodragon
-
-*Faithful · beast* · `species:pseudodragon`
-
-- Type: beast (animal)
-- Hit points: 3 + Constitution modifier + 1 a level
-- Qualities: +8 strength, +7 dexterity, +8 constitution, +8 intelligence, +8 wisdom, +8 charisma
-- Attack: bite, 1d6 piercing
-- Hide: Scale Mail, armour 4
-- Worth: 10 experience a level
-
-Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
-
-Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
-
-> A small dragon-like creature with keen intelligence and magical resistance.
 
 #### Rabbit
 
@@ -1086,6 +1166,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Qualities: +4 strength, +6 dexterity, +5 constitution, +5 intelligence, +6 wisdom, +5 charisma
 - Attack: bite, 1d6 piercing
 - Hide: Fur Armor, armour 0
+- Found in: meadow, heath
 - Worth: 10 experience a level
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
@@ -1103,6 +1184,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Qualities: +7 strength, +5 dexterity, +7 constitution, +5 intelligence, +5 wisdom, +5 charisma
 - Attack: horns, 1d4 bludgeoning
 - Hide: Hide Armor, armour 1
+- Found in: fells, heights
 - Worth: 10 experience a level
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
@@ -1141,6 +1223,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Qualities: +5 strength, +7 dexterity, +5 constitution, +6 intelligence, +6 wisdom, +6 charisma
 - Attack: beak, 1d4 piercing
 - Hide: Feather Armor, armour -1
+- Found in: fells, heights
 - Worth: 10 experience a level
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
@@ -1175,6 +1258,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Qualities: +7 strength, +6 dexterity, +7 constitution, +6 intelligence, +6 wisdom, +6 charisma
 - Attack: bite, 1d6 piercing
 - Hide: Scale Mail, armour 4
+- Found in: heath, desert
 - Worth: 10 experience a level
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
@@ -1213,6 +1297,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Qualities: +4 strength, +7 dexterity, +5 constitution, +6 intelligence, +6 wisdom, +5 charisma
 - Attack: bite, 1d6 piercing
 - Hide: Fur Armor, armour 0
+- Found in: wood
 - Worth: 10 experience a level
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
@@ -1230,6 +1315,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Qualities: +5 strength, +7 dexterity, +5 constitution, +5 intelligence, +6 wisdom, +5 charisma
 - Attack: antlers, 1d6 piercing
 - Hide: Hide Armor, armour 1
+- Found in: wood, heath
 - Worth: 10 experience a level
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
@@ -1247,6 +1333,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Qualities: +5 strength, +7 dexterity, +6 constitution, +6 intelligence, +6 wisdom, +6 charisma
 - Attack: bite, 1d6 piercing
 - Hide: Fur Armor, armour 0
+- Found in: heath, fells, snow
 - Worth: 10 experience a level
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
@@ -1257,20 +1344,24 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 #### Tiger
 
-*Faithful · beast* · `species:tiger`
+*Adapted · beast* · `species:tiger`
 
 - Type: beast (animal)
-- Hit points: 5 + Constitution modifier + 1 a level
-- Qualities: +7 strength, +7 dexterity, +7 constitution, +6 intelligence, +6 wisdom, +6 charisma
+- Hit points: d10 a level
+- Qualities: rolled (3d6 each)
 - Attack: claws, 1d4 slashing
 - Hide: Fur Armor, armour 0
+- Temperament: territorial
+- Found in: wood, snow
 - Worth: 10 experience a level
 
-Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
+Rending bite: 1d6 (1–6) physical damage to one enemy; it is bleeding for 2 turns (a Constitution save against 11 avoids it). Bleeding: takes 1 bleed damage each turn. Again after a turn.
 
 Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A powerful big cat with great strength, agility, and striking striped coat.
+
+*Adapted: Orsino's animal template made it a companion's size (fixed hit points no more than a squirrel's); as a beast of the wild Kyr rolls its qualities with a hit die of 10, as it does a wolf's, with a rending bite.*
 
 #### Turtle
 
@@ -1281,6 +1372,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Qualities: +5 strength, +4 dexterity, +8 constitution, +5 intelligence, +6 wisdom, +5 charisma
 - Attack: bite, 1d6 piercing
 - Hide: Shell Armor, armour 4
+- Found in: river, lake
 - Worth: 10 experience a level
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
@@ -1341,23 +1433,6 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 > A grey wolf of the uplands: a pack hunter with a rending bite.
 
 *Adapted: Orsino's wolf stat line (base 3 + kind) is not used; Kyr wolves roll their attributes.*
-
-#### Wyrm
-
-*Faithful · beast* · `species:wyrm_animal`
-
-- Type: beast (animal)
-- Hit points: 2 + Constitution modifier + 1 a level
-- Qualities: +10 strength, +5 dexterity, +9 constitution, +11 intelligence, +11 wisdom, +10 charisma
-- Attack: bite, 1d6 piercing
-- Hide: Scale Mail, armour 4
-- Worth: 10 experience a level
-
-Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
-
-Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
-
-> A small dragon-like creature with intelligence and magical resistance.
 
 ### Celestials
 
@@ -1547,14 +1622,16 @@ Disciplined: +1 to hit, +1 damage, +3 evasion, +2 against magic.
 
 #### Funerary bronze construct
 
-*Adapted · construct* · `species:bronze_construct`
+*Adapted · a golem, altered* · `species:bronze_construct`
 
 - Type: construct (monster)
-- Hit points: d16 a level
-- Qualities: rolled (3d6 each)
+- Hit points: 6 + Constitution modifier + 3 a level
+- Qualities: +17 strength, +7 dexterity, +17 constitution, +9 intelligence, +9 wisdom, +8 charisma
 - Attack: slam, 1d6 piercing
 - Hide: Plate Mail, armour 7
 - Resists: physical 35%, immune to poison, radiant takes 25% more
+- Temperament: obedient
+- Found in: cave
 - Worth: 350 experience a level
 
 Bronze sweep: 1d6 (1–6) physical damage to every enemy (a Dexterity save against 11 avoids it). Again after 3 turns.
@@ -1563,9 +1640,11 @@ Burial chain: 1d6 (1–6) physical damage to one enemy; it is weakened for 3 tur
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
+Constructed Resilience: Resists 50% of bludgeoning, resists 50% of piercing, resists 50% of slashing, immune to poison, immune to disease, immune to sleep, immune to bleed.
+
 > A bounded guardian of registered burials.
 
-*Adapted: Kyr creature of the construct type. It does not carry Orsino's construct trait; its poison immunity and physical resistance are Kyr's.*
+*Adapted: The Golem in bronze (material bronze), set to keep a place: the custodian's sweep and chain are its own, its proof against blows the bronze's and the construct's.*
 
 #### Golem
 
@@ -1744,7 +1823,7 @@ Aerial Mobility: +1 to hit, +5 evasion.
 
 > A great winged reptile: scaled, clawed, cunning and proud.
 
-*Adapted: Orsino's dragon class; Kyr keeps ninety-nine hit points at any level, which the fights with dragons were written for (Orsino's grow from eighty-five by three a level). Its flying is its trait; its colour is its lineage (data/catalog/variations.json, axis lineage, from Orsino's dragonColors), which gives its breath. Orsino's maul is left out: a dragon of Kyr fights by its bite and its lineage's breath.*
+*Adapted: Orsino's Dragon (of the dragon class); Kyr keeps ninety-nine hit points at any level, which the fights with dragons were written for (Orsino's grow from eighty-five by three a level). Its flying is its trait; its colour is its lineage (data/catalog/variations.json, axis lineage, from Orsino's dragonColors), which gives its breath. Orsino's maul is left out: a dragon of Kyr fights by its bite and its lineage's breath.*
 
 #### Drake
 
@@ -1756,9 +1835,8 @@ Aerial Mobility: +1 to hit, +5 evasion.
 - Qualities: +31 strength, +29 dexterity, +30 constitution, +28 intelligence, +27 wisdom, +29 charisma
 - Attack: bite, 1d6 piercing
 - Hide: Scale Mail, armour 4
+- Found in: fells, heights
 - Worth: 800 + 50 experience a level
-
-Fly: One ally gains flight for 3 turns. Flight: 5 harder to hit, +20 evasion. An arcane spell of the third level. Takes a third-level slot.
 
 Maul: Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to it (may cause stunned: a Constitution save against 15 avoids it); it is bleeding for 3 turns (a Constitution save against 15 + level + the caster's spell bonus avoids it). Stunned: −2 to every roll, cannot act. Bleeding: takes 1d2 (1–2) bleed damage each turn. Again after 2 turns.
 
@@ -1771,6 +1849,24 @@ Aerial Mobility: +1 to hit, +5 evasion.
 *Left out — field:monsterGold: Orsino's 10d100 gold for the kill is not carried.*
 
 *Adapted: Composed by OrsinoMonsters (dragon class, Drake type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
+
+#### Pseudodragon
+
+*Faithful · dragon* · `species:pseudodragon`
+
+- Type: dragon (animal)
+- Hit points: 3 + Constitution modifier + 1 a level
+- Qualities: +8 strength, +7 dexterity, +8 constitution, +8 intelligence, +8 wisdom, +8 charisma
+- Attack: bite, 1d6 piercing
+- Hide: Scale Mail, armour 4
+- Found in: wood, heights
+- Worth: 10 experience a level
+
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
+
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
+
+> A small dragon-like creature with keen intelligence and magical resistance.
 
 #### Red dragon
 
@@ -1803,9 +1899,8 @@ Aerial Mobility: +1 to hit, +5 evasion.
 - Qualities: +34 strength, +28 dexterity, +32 constitution, +30 intelligence, +28 wisdom, +30 charisma
 - Attack: bite, 1d6 piercing
 - Hide: Scale Mail, armour 4
+- Found in: heights
 - Worth: 800 + 50 experience a level
-
-Fly: One ally gains flight for 3 turns. Flight: 5 harder to hit, +20 evasion. An arcane spell of the third level. Takes a third-level slot.
 
 Maul: Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to it (may cause stunned: a Constitution save against 15 avoids it); it is bleeding for 3 turns (a Constitution save against 15 + level + the caster's spell bonus avoids it). Stunned: −2 to every roll, cannot act. Bleeding: takes 1d2 (1–2) bleed damage each turn. Again after 2 turns.
 
@@ -1819,6 +1914,24 @@ Aerial Mobility: +1 to hit, +5 evasion.
 
 *Adapted: Composed by OrsinoMonsters (dragon class, Wyrm type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
 
+#### Wyrmling
+
+*Faithful · dragon* · `species:wyrmling`
+
+- Type: dragon (animal)
+- Hit points: 2 + Constitution modifier + 1 a level
+- Qualities: +10 strength, +5 dexterity, +9 constitution, +11 intelligence, +11 wisdom, +10 charisma
+- Attack: bite, 1d6 piercing
+- Hide: Scale Mail, armour 4
+- Found in: heights, desert
+- Worth: 10 experience a level
+
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
+
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
+
+> A small dragon-like creature with intelligence and magical resistance.
+
 #### Wyvern
 
 *Adapted · dragon* · `species:wyvern`
@@ -1829,9 +1942,8 @@ Aerial Mobility: +1 to hit, +5 evasion.
 - Qualities: +32 strength, +30 dexterity, +30 constitution, +27 intelligence, +27 wisdom, +29 charisma
 - Attack: bite, 1d6 piercing
 - Hide: Scale Mail, armour 4
+- Found in: heights
 - Worth: 800 + 50 experience a level
-
-Fly: One ally gains flight for 3 turns. Flight: 5 harder to hit, +20 evasion. An arcane spell of the third level. Takes a third-level slot.
 
 Maul: Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to it (may cause stunned: a Constitution save against 15 avoids it); it is bleeding for 3 turns (a Constitution save against 15 + level + the caster's spell bonus avoids it). Stunned: −2 to every roll, cannot act. Bleeding: takes 1d2 (1–2) bleed damage each turn. Again after 2 turns.
 
@@ -1856,6 +1968,7 @@ Aerial Mobility: +1 to hit, +5 evasion.
 - Qualities: +16 strength, +19 dexterity, +16 constitution, +12 intelligence, +13 wisdom, +12 charisma
 - Attack: slam, 1d6 piercing
 - Hide: Scale Mail, armour 4
+- Found in: heights
 - Worth: 200 + 50 experience a level
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
@@ -1932,6 +2045,7 @@ Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of fo
 - Qualities: +16 strength, +19 dexterity, +16 constitution, +12 intelligence, +13 wisdom, +12 charisma
 - Attack: slam, 1d6 piercing
 - Hide: Scale Mail, armour 4
+- Found in: cave
 - Worth: 200 + 50 experience a level
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
@@ -1991,6 +2105,7 @@ Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of fo
 - Qualities: +16 strength, +19 dexterity, +16 constitution, +12 intelligence, +13 wisdom, +12 charisma
 - Attack: slam, 1d6 piercing
 - Hide: Scale Mail, armour 4
+- Found in: snow
 - Worth: 200 + 50 experience a level
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
@@ -2069,6 +2184,7 @@ Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of fo
 - Qualities: +16 strength, +19 dexterity, +16 constitution, +12 intelligence, +13 wisdom, +12 charisma
 - Attack: slam, 1d6 piercing
 - Hide: Scale Mail, armour 4
+- Found in: fen
 - Worth: 200 + 50 experience a level
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
@@ -2107,6 +2223,7 @@ Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of fo
 - Qualities: +16 strength, +19 dexterity, +16 constitution, +12 intelligence, +13 wisdom, +12 charisma
 - Attack: slam, 1d6 piercing
 - Hide: Scale Mail, armour 4
+- Found in: desert
 - Worth: 200 + 50 experience a level
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
@@ -2184,6 +2301,7 @@ Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of fo
 - Qualities: +16 strength, +19 dexterity, +16 constitution, +12 intelligence, +13 wisdom, +12 charisma
 - Attack: slam, 1d6 piercing
 - Hide: Scale Mail, armour 4
+- Found in: heights
 - Worth: 200 + 50 experience a level
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
@@ -2203,6 +2321,7 @@ Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of fo
 - Qualities: +16 strength, +19 dexterity, +16 constitution, +12 intelligence, +13 wisdom, +12 charisma
 - Attack: slam, 1d6 piercing
 - Hide: Scale Mail, armour 4
+- Found in: lake
 - Worth: 200 + 50 experience a level
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
@@ -2222,6 +2341,7 @@ Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of fo
 - Qualities: +16 strength, +19 dexterity, +16 constitution, +12 intelligence, +13 wisdom, +12 charisma
 - Attack: slam, 1d6 piercing
 - Hide: Scale Mail, armour 4
+- Found in: grove
 - Worth: 200 + 50 experience a level
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
@@ -2243,6 +2363,7 @@ Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of fo
 - Qualities: +9 strength, +17 dexterity, +10 constitution, +11 intelligence, +12 wisdom, +18 charisma
 - Attack: dagger, 1d4 piercing
 - Hide: Leather Armor, armour 2
+- Found in: grove
 - Worth: 250 + 50 experience a level
 
 Charm Person: One enemy is charmed for 3 turns (only humanoid creatures; a Wisdom save against 18 + level + the caster's spell bonus avoids it). Charmed: fights for the other side. An arcane spell of the first level. Takes a first-level slot.
@@ -2270,6 +2391,7 @@ Call Animal Companion: Call the beast your people keep company with, to fight fo
 - Qualities: +9 strength, +12 dexterity, +10 constitution, +11 intelligence, +16 wisdom, +19 charisma
 - Attack: dagger, 1d4 piercing
 - Hide: Leather Armor, armour 2
+- Found in: grove, lake
 - Worth: 250 + 50 experience a level
 
 Charm Person: One enemy is charmed for 3 turns (only humanoid creatures; a Wisdom save against 18 + level + the caster's spell bonus avoids it). Charmed: fights for the other side. An arcane spell of the first level. Takes a first-level slot.
@@ -2297,6 +2419,7 @@ Call Animal Companion: Call the beast your people keep company with, to fight fo
 - Qualities: +9 strength, +18 dexterity, +10 constitution, +11 intelligence, +12 wisdom, +18 charisma
 - Attack: dagger, 1d4 piercing
 - Hide: Leather Armor, armour 2
+- Found in: grove
 - Worth: 250 + 50 experience a level
 
 Charm Person: One enemy is charmed for 3 turns (only humanoid creatures; a Wisdom save against 18 + level + the caster's spell bonus avoids it). Charmed: fights for the other side. An arcane spell of the first level. Takes a first-level slot.
@@ -2324,6 +2447,7 @@ Confuse: One enemy is confused for 3 turns (a Wisdom save against 15 + level + t
 - Qualities: +9 strength, +16 dexterity, +10 constitution, +11 intelligence, +12 wisdom, +17 charisma
 - Attack: dagger, 1d4 piercing
 - Hide: Leather Armor, armour 2
+- Found in: grove, wood
 - Worth: 250 + 50 experience a level
 
 Charm Person: One enemy is charmed for 3 turns (only humanoid creatures; a Wisdom save against 18 + level + the caster's spell bonus avoids it). Charmed: fights for the other side. An arcane spell of the first level. Takes a first-level slot.
@@ -2349,6 +2473,7 @@ Hide: You are hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion; and on a
 - Qualities: +9 strength, +18 dexterity, +10 constitution, +11 intelligence, +12 wisdom, +17 charisma
 - Attack: dagger, 1d4 piercing
 - Hide: Leather Armor, armour 2
+- Found in: grove
 - Worth: 250 + 50 experience a level
 
 Charm Person: One enemy is charmed for 3 turns (only humanoid creatures; a Wisdom save against 18 + level + the caster's spell bonus avoids it). Charmed: fights for the other side. An arcane spell of the first level. Takes a first-level slot.
@@ -2378,6 +2503,7 @@ Magic Missile: 1d4 + floor((level / 3)) force damage to 2 + round((level / 2)) d
 - Qualities: +27 strength, +16 dexterity, +24 constitution, +16 intelligence, +18 wisdom, +17 charisma
 - Attack: greatsword, 1d10 slashing
 - Hide: Chain Mail, armour 5
+- Found in: fells
 - Worth: 500 + 50 experience a level
 
 Maul: Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to it (may cause stunned: a Constitution save against 15 avoids it); it is bleeding for 3 turns (a Constitution save against 15 + level + the caster's spell bonus avoids it). Stunned: −2 to every roll, cannot act. Bleeding: takes 1d2 (1–2) bleed damage each turn. Again after 2 turns.
@@ -2493,6 +2619,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Qualities: +8 strength, +8 dexterity, +6 constitution, +10 intelligence, +13 wisdom, +11 charisma
 - Attack: claws, 1d4 slashing
 - Hide: Clothing, armour 0
+- Found in: barrow
 - Worth: 300 + 50 experience a level
 
 Curse: One enemy is cursed for 3 turns (a Wisdom save against 10 + level + the caster's spell bonus avoids it). Cursed: Strength −1, Dexterity −1, Intelligence −1, Wisdom −1, Charisma −1, Constitution −1. A divine cantrip, cast at will.
@@ -2520,6 +2647,7 @@ Ethereal Form: +5 evasion, resists 50% of bludgeoning, resists 50% of piercing, 
 - Qualities: +11 strength, +11 dexterity, +10 constitution, +10 intelligence, +9 wisdom, +5 charisma
 - Attack: claws, 1d4 slashing
 - Hide: Clothing, armour 0
+- Found in: barrow, ruin, fen
 - Worth: 300 + 50 experience a level
 
 Curse: One enemy is cursed for 3 turns (a Wisdom save against 10 + level + the caster's spell bonus avoids it). Cursed: Strength −1, Dexterity −1, Intelligence −1, Wisdom −1, Charisma −1, Constitution −1. A divine cantrip, cast at will.
@@ -2542,15 +2670,15 @@ Regeneration: Heal 1d2 - 1 (0–1) each turn.
 
 #### Knitted bone hound
 
-*Kyr · undead* · `species:bone_hound`
+*Kyr · a hound, altered* · `species:bone_hound`
 
 - Type: undead (monster)
-- Hit points: d8 a level
+- Hit points: d6 a level
 - Qualities: rolled (3d6 each)
 - Attack: bite, 1d6 piercing
-- Hide: Spine Armor, armour 1
-- Resists: radiant takes 100% more, fire takes 50% more
+- Hide: Fur Armor, armour 0
 - Temperament: territorial
+- Found in: barrow
 - Worth: 300 experience a level
 
 Rending bite: 1d6 (1–6) physical damage to one enemy; it is bleeding for 2 turns (a Constitution save against 11 avoids it). Bleeding: takes 1 bleed damage each turn. Again after a turn.
@@ -2566,6 +2694,7 @@ Rending bite: 1d6 (1–6) physical damage to one enemy; it is bleeding for 2 tur
 - Qualities: +8 strength, +8 dexterity, +16 constitution, +16 intelligence, +12 wisdom, +5 charisma
 - Attack: claws, 1d4 slashing
 - Hide: Clothing, armour 0
+- Found in: barrow
 - Worth: 300 + 50 experience a level
 
 Curse: One enemy is cursed for 3 turns (a Wisdom save against 10 + level + the caster's spell bonus avoids it). Cursed: Strength −1, Dexterity −1, Intelligence −1, Wisdom −1, Charisma −1, Constitution −1. A divine cantrip, cast at will.
@@ -2601,6 +2730,7 @@ Bone Resilience: Resists 50% of piercing, takes 100% more bludgeoning, immune to
 - Qualities: +12 strength, +8 dexterity, +12 constitution, +10 intelligence, +12 wisdom, +5 charisma
 - Attack: claws, 1d4 slashing
 - Hide: Clothing, armour 0
+- Found in: barrow
 - Worth: 300 + 50 experience a level
 
 Curse: One enemy is cursed for 3 turns (a Wisdom save against 10 + level + the caster's spell bonus avoids it). Cursed: Strength −1, Dexterity −1, Intelligence −1, Wisdom −1, Charisma −1, Constitution −1. A divine cantrip, cast at will.
@@ -2635,6 +2765,7 @@ Regeneration: Heal 1d2 - 1 (0–1) each turn.
 - Attack: claws, 1d4 slashing
 - Hide: Clothing, armour 0
 - Resists: physical 50%, radiant takes 100% more, fire takes 50% more
+- Found in: fen, barrow
 - Worth: 300 experience a level
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
@@ -2658,6 +2789,7 @@ Life Drain: Drain 1d6 (1–6) health from one enemy (none if resisted; may cause
 - Qualities: +8 strength, +8 dexterity, +6 constitution, +14 intelligence, +14 wisdom, +5 charisma
 - Attack: claws, 1d4 slashing
 - Hide: Clothing, armour 0
+- Found in: ruin, barrow
 - Worth: 300 + 50 experience a level
 
 Curse: One enemy is cursed for 3 turns (a Wisdom save against 10 + level + the caster's spell bonus avoids it). Cursed: Strength −1, Dexterity −1, Intelligence −1, Wisdom −1, Charisma −1, Constitution −1. A divine cantrip, cast at will.
@@ -2691,6 +2823,7 @@ Ethereal Form: +5 evasion, resists 50% of bludgeoning, resists 50% of piercing, 
 - Qualities: +8 strength, +12 dexterity, +6 constitution, +10 intelligence, +9 wisdom, +10 charisma
 - Attack: claws, 1d4 slashing
 - Hide: Clothing, armour 0
+- Found in: ruin
 - Worth: 300 + 50 experience a level
 
 Curse: One enemy is cursed for 3 turns (a Wisdom save against 10 + level + the caster's spell bonus avoids it). Cursed: Strength −1, Dexterity −1, Intelligence −1, Wisdom −1, Charisma −1, Constitution −1. A divine cantrip, cast at will.
@@ -2720,6 +2853,7 @@ Regeneration: Heal 1d2 - 1 (0–1) each turn.
 - Qualities: +8 strength, +13 dexterity, +6 constitution, +10 intelligence, +13 wisdom, +5 charisma
 - Attack: claws, 1d4 slashing
 - Hide: Clothing, armour 0
+- Found in: barrow, ruin
 - Worth: 300 + 50 experience a level
 
 Curse: One enemy is cursed for 3 turns (a Wisdom save against 10 + level + the caster's spell bonus avoids it). Cursed: Strength −1, Dexterity −1, Intelligence −1, Wisdom −1, Charisma −1, Constitution −1. A divine cantrip, cast at will.
@@ -2880,9 +3014,13 @@ A creature is its kind with any of these laid over it, one of each axis: an old 
 | frost | region | frost | thick-coated and pale, bred where the winters are long | Frost adapted | #climate == 'cold' \|\| #habitat == 'snow' |
 | marsh | region | fen | dark and slick with the mud of the fens it was bred in | Marsh adapted | #habitat == 'fen' |
 | sunburnt | region | sun-scorched | lean and dun-coloured, bred where the sun is hard | Fire lineage | #climate == 'arid' |
-| cave | haunt | cave | of the deep dark, pale and long in the leg, stringing lines where nothing sees | Dexterity +1, Ensnare | #habitat == 'cave' \|\| #habitat == 'barrow' \|\| #habitat == 'ruin' |
+| cave | haunt | cave | of the deep dark: pale, long in the leg, at home where nothing sees | Dexterity +1 | #habitat == 'cave' \|\| #habitat == 'barrow' \|\| #habitat == 'ruin' |
 | starving | disposition | starving | ribs showing; it will not wait to be sure of you | Strength -1, Constitution -2, Dexterity +1, Berserker Rage | #habitat == 'snow' \|\| #habitat == 'fells' \|\| #habitat == 'heights' |
 | blighted | corruption | blighted | something has got into it: patchy, weeping, and wrong in the way it moves | Constitution +1, Charisma -3, Poison lineage | #habitat == 'barrow' \|\| #habitat == 'ruin' |
+| skeletal | undeath | skeletal | bare bone held together by what raised it, nothing in its eye-pits but a faint light | Strength -2, Constitution -3, Undead Nature, Bone Resilience | only by an author |
+| spectral | undeath | spectral | a cold grey shape of what it was, which blows go through | Undead Nature, Ethereal Form | only by an author |
+| vampiric | undeath | vampiric | pale and red-mouthed, quicker than it was alive, and hungry for blood | Strength +1, Dexterity +1, Charisma +2, Wisdom +1, Constitution -1, Undead Nature, Regeneration, Life Drain, Charm Person, Dominate Person | only by an author |
+| zombie | undeath | rotting | dead flesh walking, slow and stinking, falling apart as it comes | Dexterity -2, Intelligence -4, Wisdom -2, Undead Nature, Infect | only by an author |
 | clay | material | clay | made of clay: red-brown, smooth when wet and cracking when dry | Constitution +2, Dexterity -1 | only by an author |
 | stone | material | stone | made of stone: grey, rough-dressed | Constitution +3, Dexterity -2 | only by an author |
 | iron | material | iron | made of iron: grey-black, rust at the seams | Constitution +4, Dexterity -3, Strength +1 | only by an author |
@@ -3727,6 +3865,8 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 
 *Composed by OrsinoMonsters (construct class, Golem type, wildtype aspect, cave terrain, minor rank, level 1). Plate natural armour and the charge and hide abilities are not modelled.*
 
+*Generated by the Orsino translator.*
+
 #### Ifrit
 
 *Adapted · monsterType* · `orsino:monsterType:Ifrit`
@@ -4121,7 +4261,7 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 
 #### Crocodile
 
-*Faithful · animal* · `orsino:animal:crocodile`
+*Adapted · animal* · `orsino:animal:crocodile`
 
 - Stat line: hp 5, str +6, dex +2, con +6, int +2, wis +3, cha +2
 - Weapon: bite
@@ -4265,7 +4405,7 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 
 #### Hound
 
-*Represented · animal* · `orsino:animal:hound`
+*Adapted · animal* · `orsino:animal:hound`
 
 - Stat line: hp 3, str +4, dex +4, con +4, int +4, wis +4, cha +4
 - Weapon: bite
@@ -4278,6 +4418,8 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 *Left out: The weapon and body become the species' natural weapon and armour.*
 
 *Left out: Kyr rolls a species' attributes and hit points; the Orsino animal stat line is not used.*
+
+*Generated by the Orsino translator.*
 
 #### Hummingbird
 
@@ -4293,7 +4435,7 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 
 #### Hyena
 
-*Faithful · animal* · `orsino:animal:hyena`
+*Adapted · animal* · `orsino:animal:hyena`
 
 - Stat line: hp 4, str +5, dex +3, con +5, int +2, wis +2, cha +2
 - Weapon: bite
@@ -4305,7 +4447,7 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 
 #### Lion
 
-*Faithful · animal* · `orsino:animal:lion`
+*Adapted · animal* · `orsino:animal:lion`
 
 - Stat line: hp 4, str +4, dex +3, con +4, int +2, wis +2, cha +4
 - Weapon: bite
@@ -4377,7 +4519,7 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 
 #### Panther
 
-*Faithful · animal* · `orsino:animal:panther`
+*Adapted · animal* · `orsino:animal:panther`
 
 - Stat line: hp 4, str +3, dex +4, con +3, int +3, wis +3, cha +3
 - Weapon: claws
@@ -4529,7 +4671,7 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 
 #### Tiger
 
-*Faithful · animal* · `orsino:animal:tiger`
+*Adapted · animal* · `orsino:animal:tiger`
 
 - Stat line: hp 5, str +4, dex +4, con +4, int +3, wis +3, cha +3
 - Weapon: claws

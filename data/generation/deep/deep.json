@@ -512,6 +512,7 @@
       ]
     }
   },
+  "dwellerHabitats": ["cave"],
   "dwellers": [
     {
       "depth": 0,

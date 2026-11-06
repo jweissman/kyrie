@@ -4476,6 +4476,16 @@ Used: Heal one ally for 1d6 (1–6).
 
 > Strips of bark from a riverbank willow. Steeped, it breaks a fever; chewed, it eases a hurt a little. One use.
 
+#### Self-heal
+
+*Kyr · consumable* · `item:selfheal`
+
+- Worth: 1
+
+Used: Heal one ally for 1d4 (1–4).
+
+> A handful of self-heal, the herb of the short turf. Bruised and bound on, it closes a small cut. One use.
+
 #### Feverwort
 
 *Kyr · consumable* · `item:feverwort`
@@ -5359,7 +5369,7 @@ Every enemy is asleep for 3 turns (a Wisdom save against 16 + level + the caster
 
 *Faithful · level 3 arcane spell, conjuration* · `ability:summon_monster_ii`
 
-Call one of: automaton, funerary bronze construct, clockwork soldier, golem, behemoth, colossus, titan, balor, fiend, ifrit, marilith, of level 5, to fight for you until the fight ends. An arcane spell of the third level. Takes a third-level slot.
+Call one of: automaton, clockwork soldier, golem, behemoth, colossus, titan, balor, fiend, ifrit, marilith, of level 5, to fight for you until the fight ends. An arcane spell of the third level. Takes a third-level slot.
 
 > Summon a more powerful random monster (construct, giant, or demon) to fight for you.
 
@@ -5711,7 +5721,7 @@ Call one of: air elemental, ash elemental, crystal elemental, dust elemental, ea
 
 *Faithful · level 6 arcane spell, conjuration* · `ability:summon_monster_iv`
 
-Call one of: discerner, mind destroyer, mouther, ooze, automaton, funerary bronze construct, clockwork soldier, golem, of level 12, to fight for you until the fight ends. An arcane spell of the sixth level. Takes a sixth-level slot.
+Call one of: discerner, hollow-stalker, mind destroyer, mouther, ooze, automaton, clockwork soldier, golem, of level 12, to fight for you until the fight ends. An arcane spell of the sixth level. Takes a sixth-level slot.
 
 > Summon a mighty random construct or aberration to fight for you.
 
@@ -5791,7 +5801,7 @@ Every enemy is confused for 3 turns (a Wisdom save against 18 + level + the cast
 
 *Faithful · level 7 arcane spell, conjuration* · `ability:summon_monster_v`
 
-Call one of: dragon, drake, wyrm, wyvern, behemoth, colossus, titan, angel, archon, deva, solar, balor, fiend, ifrit, marilith, discerner, mind destroyer, mouther, ooze, of level 15, to fight for you until the fight ends. An arcane spell of the seventh level. Takes a seventh-level slot.
+Call one of: dragon, drake, wyrm, wyvern, behemoth, colossus, titan, angel, archon, deva, solar, balor, fiend, ifrit, marilith, discerner, hollow-stalker, mind destroyer, mouther, ooze, of level 15, to fight for you until the fight ends. An arcane spell of the seventh level. Takes a seventh-level slot.
 
 > Summon a champion random creature to fight for you.
 
@@ -5875,7 +5885,7 @@ Every ally gains mind blank for 20 turns. Mind Blank: +2 to will saves, resists 
 
 *Faithful · level 8 arcane spell, conjuration* · `ability:summon_monster_vi`
 
-Call one of: dragon, drake, wyrm, wyvern, behemoth, colossus, titan, angel, archon, deva, solar, balor, fiend, ifrit, marilith, discerner, mind destroyer, mouther, ooze, of level 20, to fight for you until the fight ends. An arcane spell of the eighth level. Takes an eighth-level slot.
+Call one of: dragon, drake, wyrm, wyvern, behemoth, colossus, titan, angel, archon, deva, solar, balor, fiend, ifrit, marilith, discerner, hollow-stalker, mind destroyer, mouther, ooze, of level 20, to fight for you until the fight ends. An arcane spell of the eighth level. Takes an eighth-level slot.
 
 > Summon a epic random creature to fight for you.
 
@@ -5951,7 +5961,7 @@ Every enemy is dominated for 3 turns (only humanoid creatures). Dominated: fight
 
 *Faithful · level 9 arcane spell, conjuration* · `ability:summon_monster_vii`
 
-Call one of: dragon, drake, wyrm, wyvern, behemoth, colossus, titan, angel, archon, deva, solar, balor, fiend, ifrit, marilith, discerner, mind destroyer, mouther, ooze, of level 25, to fight for you until the fight ends. An arcane spell of the ninth level. Takes a ninth-level slot.
+Call one of: dragon, drake, wyrm, wyvern, behemoth, colossus, titan, angel, archon, deva, solar, balor, fiend, ifrit, marilith, discerner, hollow-stalker, mind destroyer, mouther, ooze, of level 25, to fight for you until the fight ends. An arcane spell of the ninth level. Takes a ninth-level slot.
 
 > Summon a legendary random creature to fight for you.
 

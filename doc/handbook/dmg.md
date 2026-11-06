@@ -1402,7 +1402,7 @@ Also kept, without comment: arrival, plea, greeting, greeted, petted, warned, yi
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 1 | 24 | 2 | 1 | 20 | 5 |
+| 1 | 25 | 2 | 1 | 20 | 5 |
 
 #### temperament
 
@@ -1421,6 +1421,12 @@ A tame creature (a dog, a horse, a cat about a house) knows people: it comes to 
 *Kyr · relation(group, place); relation(group, place)* · `rule:inhabitants.lair`
 
 Where it lives and what it defends; where it goes when beaten or frightened off.
+
+#### beside
+
+*Kyr · relation(group, group)* · `rule:inhabitants.beside`
+
+One of a party that fights beside another (a chief's guards, his shaman, his wolf): a fight with any of them where they stand together is with all of them (src/campaign/beside.ts).
 
 #### warning, onslaught, flinch
 

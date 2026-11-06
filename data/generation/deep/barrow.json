@@ -71,6 +71,7 @@
     "heart": { "names": ["the king's hall"], "scenes": ["The grave of the first king is a hall, not a grave: a ring of standing stones under the rock, and in the middle of the ring a bier of stone, with a cloak gone to dust on it in the shape of whoever lay there."] },
     "deep_grave": { "names": ["the deep grave"], "scenes": ["Behind the ring a pit goes down into the rock, its sides smooth, and a smell comes up out of it like turned earth. Whatever lies at the bottom of it is not the king, or is not only the king."] }
   },
+  "dwellerHabitats": ["barrow", "cave"],
   "dwellers": [
     { "depth": 0, "groups": [
       { "species": "rat", "count": 5, "label": "the rats", "role": "rats that live on what the mound gives up", "temperament": "wary" },

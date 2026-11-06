@@ -13,6 +13,7 @@ import { WorldTool } from './world';
 import { VoiceTool } from './voice';
 import { HandbookTool } from './handbook';
 import { OrsinoRegistryTool } from './orsino-registry';
+import { BestiaryTool } from './bestiary-tool';
 import { Playtext } from './playtext';
 import { PlayTool } from './play-tool';
 import { InspectTool } from './inspect-tool';
@@ -63,6 +64,7 @@ export class KyrieCli {
       case 'voice': return VoiceTool.main(rest);
       case 'handbook': return HandbookTool.main(rest);
       case 'orsino': return OrsinoRegistryTool.main(rest);
+      case 'bestiary': return BestiaryTool.main(rest);
       case 'playtext': await Playtext.main(rest); return 0;
       case 'play': return PlayTool.main(rest);
       case 'inspect': return InspectTool.main(rest);

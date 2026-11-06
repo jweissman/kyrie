@@ -50,8 +50,17 @@ export class DeepRooms {
   private static dwellers(d: DeepDwellers, room: string): string[] {
     const q = this.q, g = d.group, label = d.aspect ? g.label.replace(/^the /, `the ${d.aspect} `) : g.label;
     const who = g.species ? `Species ${g.species}.` : `Ancestry ${g.ancestry}. Calling ${g.calling ?? 'warrior'}.`;
+    // A party's second kind stands beside the first, and is fought with it (data/rules/inhabitants.kyr, beside).
+    const b = d.beside, varied = DeepRooms.varied;
     return [`  Person ${d.id} ${q(label)} at ${room} { Role ${q(g.role)}. ${who} Numbers ${g.count}. Level ${d.level}.`
-      + ` Temperament ${g.temperament}.${d.aspect && g.species ? ` Aspect ${d.aspect}.` : ''} Lair ${room}. }`];
+      + ` Temperament ${g.temperament}.${d.aspect && g.species ? ` Aspect ${d.aspect}.` : ''}${varied(g.variations)}`
+      + ` Lair ${room}. }`,
+    ...b ? [`  Person ${b.id} ${q(b.group.label)} at ${room} { Role ${q(b.group.role)}. Species ${b.group.species}.`
+      + ` Numbers ${b.group.count}. Level ${b.level}.${varied(b.group.variations)} Lair ${room}. }`,
+    `  Initially Assert beside(${b.id}, ${d.id}).`] : []];
+  }
+  private static varied(this: void, ids?: string[]): string {
+    return (ids ?? []).map(id => ` Variant ${id}.`).join('');
   }
   // A device among the dwellers, as Orsino sets one in a fifth of its encounters, of the kind the place keeps (a tomb's
   // charge, a temple's ward): set where it stands, and never a creature (data/catalog/devices.json).

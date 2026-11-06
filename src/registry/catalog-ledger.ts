@@ -8,6 +8,7 @@ import monsters from '../../data/catalog/monsters.json';
 import variations from '../../data/catalog/variations.json';
 import devices from '../../data/catalog/devices.json';
 import variants from '../../data/catalog/orsino/variants.json';
+import { CreatureVariants } from '../creature-variants';
 import type { AdaptationRecord, Ledger } from './orsino-registry';
 import { Canon } from '../canon/canon';
 
@@ -49,10 +50,12 @@ export class CatalogLedger {
   // drawn for a den when its country is made, not at each meeting; and the rarities they are drawn by.
   static variants(): AdaptationRecord[] {
     const table = variants as unknown as { aspects: Record<string, { source: string }>;
-      templates: Record<string, { source: string }>; rarity: Record<string, string[]> };
+      rarity: Record<string, string[]> };
+    const templates = Object.fromEntries(CreatureVariants.templates.map(id =>
+      [id, { source: (CreatureVariants.variations[id] as { source?: { orsino?: string } }).source?.orsino ?? id }]));
     return [...Object.entries(table.aspects).map(([id, v]) => this.record(v.source, `aspect:${id}`, 'adapted',
       'Its attributes and abilities applied to the creature; drawn by rarity for a den when the country is made.')),
-    ...Object.entries(table.templates).map(([id, v]) => this.record(v.source, `undead:${id}`, 'faithful',
+    ...Object.entries(templates).map(([id, v]) => this.record(v.source, `undead:${id}`, 'faithful',
       'Its attributes, traits and abilities applied to the creature (Undead in Kyr), and its den laid to rest by rites.')),
     ...Object.keys(table.rarity).map(id => this.record(`aspectRarity:${id}`, `rarity:${id}`, 'faithful',
       'The aspects of this rarity, drawn with the weights in CreatureVariants.'))];

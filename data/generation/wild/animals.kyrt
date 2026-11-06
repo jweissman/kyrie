@@ -1,0 +1,10 @@
+# animals: the animals of a country where they live, one in a stretch of its open country here and there.
+// A Kyr template (see src/world/kyr-template.ts), written for a stretch of open country that no meeting holds (see
+// src/world/region-animals.ts, which chooses the stretches and the animal). The animal is drawn from the records of
+// data/catalog/animals.json whose habitats the stretch has and that say how common they are (abundance), and that keep
+// no den (no temperament: a hare, a hind, a heron lets the company be); one that keeps a den is placed by the ecology's
+// dens instead. Nothing here names an animal: one added to animals.json with its habitats and abundance is met where
+// it lives. {a} is its id, {tract} the stretch, {species} its kind, {name} what it is called, {looks} how it looks.
+--- animal
+  // There, and let be: it does not stop a journey, and it is seen by whoever stands where it is.
+  Person {a} "{name}" at {tract} { Role "{looks}". Species {species}. Lair {tract}. }

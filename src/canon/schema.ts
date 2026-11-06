@@ -109,6 +109,9 @@ export interface Species {
   // How common it is where it lives, as a weight among what dens there (see RegionEcology.recorded): a creature with
   // one dens in its habitats by its record alone.
   abundance?: number;
+  // A kind met one at a time, never in a band (a lich, a vampire, a dragon): what composes an encounter (Parties) never
+  // makes more than one of it.
+  alone?: boolean;
   statistics?: Statistics; abilities?: string[]; traits?: string[]; resistances?: Record<string, number>;
   temperament?: string; habitats?: string[];
   // A kind named for what varies it (a great rat, a cave spider): its base (variantOf) with these variations

@@ -82,6 +82,7 @@
     "heart": { "names": ["the still water"], "scenes": ["A pool as wide as a hall lies under the hill, perfectly still, and your light does not go into it but lies on top of it. In the middle of the pool, on a pillar a hand under the surface, there is something that glints."] },
     "source": { "names": ["the source"], "scenes": ["Behind the pool the rock opens on a crack where the water comes up from somewhere much deeper, silently, without a sound or a ripple. The air in the crack is warm."] }
   },
+  "dwellerHabitats": ["cave", "lake", "river", "fen"],
   "dwellers": [
     { "depth": 0, "groups": [
       { "species": "rat", "count": 5, "label": "the rats", "role": "rats that live on the dry ledges", "temperament": "wary" },

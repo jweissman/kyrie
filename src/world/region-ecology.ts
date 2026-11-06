@@ -3,9 +3,11 @@ import { Counted } from '../presentation/counted';
 import { Expressions } from '../expressions';
 import { GenerationSetting } from '../generation-setting';
 import type { Region, Site } from './region-writer';
+import type { Species } from '../canon/schema';
 import { Draw } from './land/draw';
 import { CreatureVariants } from '../creature-variants';
 import { RegionWeather } from './region-weather';
+import { Challenge } from './challenge';
 
 export interface Beast { species: string; count: number; label: string; role: string; nature: string;
   variations?: string[] }
@@ -42,21 +44,48 @@ export class RegionEcology {
   // What has made its den at a site: drawn by the region and the kind of country alone, so two dens in the same
   // kind of country in one region hold the same kind of beast.
   static den(region: Region, habitat: string): Beast | undefined {
-    const own = [...this.tables.denBeast.groups[habitat] ?? [], ...RegionEcology.recorded(habitat)];
-    const rows = own.length ? own : this.tables.denBeast.groups[this.country(region)];
-    const row = rows && this.weighed(rows, new Expressions(`${region.name}:den:${habitat}`));
+    const table = this.tables.denBeast.groups[habitat] ?? [], recorded = RegionEcology.recorded(habitat);
+    const kept = new Draw(`${region.name}:den:${habitat}:recorded`);
+    const rows = table.length ? table : this.tables.denBeast.groups[this.country(region)];
+    let row = !table.length && recorded.length ? kept.weighted(recorded.map(r => [r, r.__weight ?? 1] as const))
+      : rows && this.weighed(rows, new Expressions(`${region.name}:den:${habitat}`));
+    // What dens there by its own record, beside the table, by its share of the weight of both: drawn apart from the
+    // table's draw, so what the table gives a country is not shifted by a kind added to the records.
+    if (table.length && recorded.length
+      && kept.chance(this.weight(recorded) / (this.weight(table) + this.weight(recorded)))) {
+      row = kept.weighted(recorded.map(r => [r, r.__weight ?? 1] as const));
+    }
     return row && { species: row._key, count: row.count, label: row.label, role: row.role, nature: row.nature };
   }
   // What dens in a kind of country by its own record, beside the ecology's table: a creature whose record says how
-  // common it is (abundance) dens wherever its habitats are, a pair of them (the owner, 5 November, late: an animal
-  // added to animals.json is met where it lives, with nothing else to write). How it can be dealt with is its nature:
-  // the dead are laid to rest, an animal smoked out, anything else neither.
+  // common it is (abundance), and that meets a company in some temper (a den is kept), dens wherever its habitats are,
+  // a pair of them (the owner, 5 November, late: an animal added to animals.json is met where it lives, with nothing
+  // else to write). How it can be dealt with is its nature: the dead are laid to rest, an animal smoked out, anything
+  // else neither.
   static recorded(habitat: string): (Row & Omit<Beast, 'species'>)[] {
-    return Object.entries(Canon.species).filter(([, s]) => s.abundance && s.habitats?.includes(habitat))
-      .map(([id, s]) => { const name = s.name.toLowerCase();
-        return { _key: id, __weight: s.abundance!, count: 2, label: `the ${Counted.plural(name)}`,
+    return Object.entries(Canon.species).filter(([id, s]) => s.abundance && s.habitats?.includes(habitat)
+      && this.keeps(id))
+      .map(([id, s]) => { const name = s.name.toLowerCase(), beyond = Challenge.of(id) > this.budget;
+        // One beyond a first den's danger (a drake on the heights) is rare there, and alone: a danger to go round.
+        return { _key: id, __weight: beyond ? s.abundance! / 6 : s.abundance!, count: beyond ? 1 : 2,
+          label: beyond ? `the ${name}` : `the ${Counted.plural(name)}`,
           role: `${/^[aeiou]/.test(name) ? 'an' : 'a'} ${name}`,
           nature: s.type === 'undead' ? 'unquiet' : s.kind === 'animal' ? 'wild' : 'stubborn' }; });
+  }
+  private static weight(all: Row[]): number { return all.reduce((n, r) => n + (r.__weight ?? 1), 0); }
+  // A first den's danger, as Orsino's budget for a first-level room (twice its challenge, see Parties).
+  static readonly budget = 2;
+  // Whether a kind keeps a den: one that meets a company in some temper, save a tame one, and an animal that only
+  // slips away (a curlew, a hare); a wary dryad keeps her grove.
+  static keeps(id: string): boolean {
+    const temper = Canon.temperament(id);
+    return !!temper && temper !== 'tame' && !(temper === 'wary' && Canon.creature(id).kind === 'animal');
+  }
+  // The animals that keep no den (a hind, a hare, a curlew), with how common each is, that live in any of these
+  // habitats: met in the open country where they live (see RegionAnimals).
+  static seen(habitats: Set<string>): [string, Species][] {
+    return Object.entries(Canon.species).filter(([id, s]) => s.abundance && Canon.creature(id).kind === 'animal'
+      && !this.keeps(id) && Canon.temperament(id) !== 'tame' && s.habitats?.some(h => habitats.has(h)));
   }
   // What makes the beasts of one den other than their kind: in a barrow or a ruin, sometimes the dead of it (skeletal
   // wolves, which the rites will lay down); else the variations its country gives it (data/catalog/variations.json:
@@ -66,8 +95,8 @@ export class RegionEcology {
     Beast & { aspect?: string; template?: string } {
     const draw = new Draw(`${site.id}:variant`), habitat = at.habitat;
     if (['barrow', 'ruin'].includes(habitat) && beast.nature === 'wild' && draw.chance(0.4)) {
-      // Any of Orsino's undead templates (data/catalog/orsino/variants.json), not two of them written here.
-      const template = draw.pick(Object.keys(CreatureVariants.table.templates));
+      // Any of Orsino's undead templates (the undeath variations), not two of them written here.
+      const template = draw.pick(CreatureVariants.templates);
       return { ...this.named(beast, template), nature: 'unquiet', template };
     }
     const varied = this.varied(beast, { habitat, climate: RegionWeather.climate(at.region) }, draw);

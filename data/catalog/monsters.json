@@ -51,6 +51,7 @@
         "celestial",
         "formidable"
       ],
+      "alone": true,
       "worth": {
         "base": 450,
         "perLevel": 50
@@ -100,6 +101,7 @@
       "traits": [
         "celestial"
       ],
+      "alone": true,
       "worth": {
         "base": 450,
         "perLevel": 50
@@ -197,6 +199,7 @@
       "traits": [
         "fiendish"
       ],
+      "alone": true,
       "worth": {
         "base": 400,
         "perLevel": 50
@@ -245,6 +248,10 @@
         "undead",
         "incorporeal"
       ],
+      "habitats": [
+        "barrow"
+      ],
+      "abundance": 1,
       "worth": {
         "base": 300,
         "perLevel": 50
@@ -296,6 +303,11 @@
         "huge",
         "formidable"
       ],
+      "habitats": [
+        "fells"
+      ],
+      "abundance": 1,
+      "alone": true,
       "worth": {
         "base": 500,
         "perLevel": 50
@@ -310,44 +322,37 @@
       }
     },
     "bone_hound": {
+      "variantOf": "hound",
+      "variations": [
+        "skeletal"
+      ],
       "name": "Knitted bone hound",
       "type": "undead",
       "kind": "monster",
       "description": "A hound-shape of grave bones wired together and moved by a necromancer's binding. It has no eyes and does not tire.",
       "looks": "A hound of bare yellowed bone held together by sinew and old malice, its eye-pits lit faintly.",
-      "statistics": {
-        "attributes": "rolled",
-        "hitDie": 8,
-        "primary": "strength",
-        "weapon": "bite",
-        "armor": "spine"
-      },
       "abilities": [
         "rending_bite"
       ],
-      "resistances": {
-        "radiant": -1,
-        "fire": -0.5
-      },
       "temperament": "territorial",
+      "habitats": [
+        "barrow"
+      ],
       "source": {
         "kyr": true,
-        "notes": "Kyr's own: a necromancer's watchdog for Holt keep's bone store."
+        "notes": "Orsino's hound, skeletal (the undead template as a variation): a necromancer's watchdog for Holt keep's bone store. What the dead are hurt by is the template's."
       }
     },
     "bronze_construct": {
+      "variantOf": "golem",
+      "variations": [
+        "bronze"
+      ],
       "name": "Funerary bronze construct",
       "type": "construct",
       "kind": "monster",
       "description": "A bounded guardian of registered burials.",
       "looks": "A broad figure of cast bronze, green at the seams, with a blank face and arms like temple columns.",
-      "statistics": {
-        "attributes": "rolled",
-        "hitDie": 16,
-        "primary": "strength",
-        "weapon": "slam",
-        "armor": "plate"
-      },
       "abilities": [
         "custodian_sweep",
         "custodian_chain",
@@ -359,9 +364,9 @@
         "radiant": -0.25
       },
       "source": {
-        "orsino": "monsterClass:construct",
+        "orsino": "monsterType:Golem",
         "fidelity": "adapted",
-        "notes": "Kyr creature of the construct type. It does not carry Orsino's construct trait; its poison immunity and physical resistance are Kyr's."
+        "notes": "The Golem in bronze (material bronze), set to keep a place: the custodian's sweep and chain are its own, its proof against blows the bronze's and the construct's."
       }
     },
     "chimera": {
@@ -403,6 +408,11 @@
       "traits": [
         "wild"
       ],
+      "habitats": [
+        "heights"
+      ],
+      "abundance": 1,
+      "alone": true,
       "worth": {
         "base": 150,
         "perLevel": 50
@@ -503,6 +513,7 @@
         "huge",
         "formidable"
       ],
+      "alone": true,
       "worth": {
         "base": 500,
         "perLevel": 50
@@ -552,6 +563,7 @@
         "celestial",
         "formidable"
       ],
+      "alone": true,
       "worth": {
         "base": 450,
         "perLevel": 50
@@ -605,6 +617,11 @@
       "traits": [
         "outsider"
       ],
+      "habitats": [
+        "cave"
+      ],
+      "abundance": 1,
+      "alone": true,
       "worth": {
         "base": 600,
         "perLevel": 50
@@ -650,10 +667,11 @@
         "heights",
         "cave"
       ],
+      "alone": true,
       "source": {
-        "orsino": "monsterClass:dragon",
+        "orsino": "monsterType:Dragon",
         "fidelity": "adapted",
-        "notes": "Orsino's dragon class; Kyr keeps ninety-nine hit points at any level, which the fights with dragons were written for (Orsino's grow from eighty-five by three a level). Its flying is its trait; its colour is its lineage (data/catalog/variations.json, axis lineage, from Orsino's dragonColors), which gives its breath. Orsino's maul is left out: a dragon of Kyr fights by its bite and its lineage's breath."
+        "notes": "Orsino's Dragon (of the dragon class); Kyr keeps ninety-nine hit points at any level, which the fights with dragons were written for (Orsino's grow from eighty-five by three a level). Its flying is its trait; its colour is its lineage (data/catalog/variations.json, axis lineage, from Orsino's dragonColors), which gives its breath. Orsino's maul is left out: a dragon of Kyr fights by its bite and its lineage's breath."
       }
     },
     "drake": {
@@ -683,13 +701,18 @@
         }
       },
       "abilities": [
-        "flight",
         "maul"
       ],
       "traits": [
         "formidable",
         "flying"
       ],
+      "habitats": [
+        "fells",
+        "heights"
+      ],
+      "abundance": 1,
+      "alone": true,
       "worth": {
         "base": 800,
         "perLevel": 50
@@ -736,6 +759,10 @@
         "summon_animal"
       ],
       "traits": [],
+      "habitats": [
+        "grove"
+      ],
+      "abundance": 2,
       "worth": {
         "base": 250,
         "perLevel": 50
@@ -879,6 +906,11 @@
       "traits": [
         "undead",
         "regeneration"
+      ],
+      "habitats": [
+        "barrow",
+        "ruin",
+        "fen"
       ],
       "worth": {
         "base": 300,
@@ -1024,6 +1056,10 @@
         "fiendish",
         "skeletal"
       ],
+      "habitats": [
+        "barrow"
+      ],
+      "alone": true,
       "worth": {
         "base": 300,
         "perLevel": 50
@@ -1072,6 +1108,7 @@
       "traits": [
         "fiendish"
       ],
+      "alone": true,
       "worth": {
         "base": 400,
         "perLevel": 50
@@ -1168,6 +1205,11 @@
       "traits": [
         "outsider"
       ],
+      "habitats": [
+        "cave"
+      ],
+      "abundance": 1,
+      "alone": true,
       "worth": {
         "base": 600,
         "perLevel": 50
@@ -1219,6 +1261,10 @@
         "outsider",
         "regeneration"
       ],
+      "habitats": [
+        "cave"
+      ],
+      "abundance": 1,
       "worth": {
         "base": 600,
         "perLevel": 50
@@ -1269,6 +1315,11 @@
         "undead",
         "regeneration"
       ],
+      "habitats": [
+        "barrow"
+      ],
+      "abundance": 1,
+      "alone": true,
       "worth": {
         "base": 300,
         "perLevel": 50
@@ -1320,6 +1371,7 @@
       "traits": [
         "wild"
       ],
+      "alone": true,
       "worth": {
         "base": 150,
         "perLevel": 50
@@ -1367,6 +1419,11 @@
         "summon_animal"
       ],
       "traits": [],
+      "habitats": [
+        "grove",
+        "lake"
+      ],
+      "abundance": 1,
       "worth": {
         "base": 250,
         "perLevel": 50
@@ -1418,6 +1475,10 @@
       "traits": [
         "outsider"
       ],
+      "habitats": [
+        "cave"
+      ],
+      "abundance": 1,
       "worth": {
         "base": 600,
         "perLevel": 50
@@ -1468,6 +1529,10 @@
       "traits": [
         "wild"
       ],
+      "habitats": [
+        "wood"
+      ],
+      "abundance": 1,
       "worth": {
         "base": 150,
         "perLevel": 50
@@ -1514,6 +1579,10 @@
         "confuse"
       ],
       "traits": [],
+      "habitats": [
+        "grove"
+      ],
+      "abundance": 1,
       "worth": {
         "base": 250,
         "perLevel": 50
@@ -1552,6 +1621,12 @@
         "radiant": -1,
         "fire": -0.5
       },
+      "habitats": [
+        "fen",
+        "barrow"
+      ],
+      "abundance": 1,
+      "alone": true,
       "source": {
         "orsino": "monsterClass:undead",
         "fidelity": "adapted",
@@ -1591,6 +1666,11 @@
         "hide"
       ],
       "traits": [],
+      "habitats": [
+        "grove",
+        "wood"
+      ],
+      "abundance": 1,
       "worth": {
         "base": 250,
         "perLevel": 50
@@ -1680,6 +1760,7 @@
         "celestial",
         "formidable"
       ],
+      "alone": true,
       "worth": {
         "base": 450,
         "perLevel": 50
@@ -1731,6 +1812,11 @@
         "undead",
         "incorporeal"
       ],
+      "habitats": [
+        "ruin",
+        "barrow"
+      ],
+      "abundance": 1,
       "worth": {
         "base": 300,
         "perLevel": 50
@@ -1777,6 +1863,10 @@
         "magic_missile"
       ],
       "traits": [],
+      "habitats": [
+        "grove"
+      ],
+      "abundance": 1,
       "worth": {
         "base": 250,
         "perLevel": 50
@@ -1828,6 +1918,7 @@
         "huge",
         "formidable"
       ],
+      "alone": true,
       "worth": {
         "base": 500,
         "perLevel": 50
@@ -1878,6 +1969,11 @@
         "undead",
         "regeneration"
       ],
+      "habitats": [
+        "ruin"
+      ],
+      "abundance": 1,
+      "alone": true,
       "worth": {
         "base": 300,
         "perLevel": 50
@@ -1976,6 +2072,10 @@
         "undead",
         "incorporeal"
       ],
+      "habitats": [
+        "barrow",
+        "ruin"
+      ],
       "worth": {
         "base": 300,
         "perLevel": 50
@@ -2016,13 +2116,17 @@
         }
       },
       "abilities": [
-        "flight",
         "maul"
       ],
       "traits": [
         "formidable",
         "flying"
       ],
+      "habitats": [
+        "heights"
+      ],
+      "abundance": 1,
+      "alone": true,
       "worth": {
         "base": 800,
         "perLevel": 50
@@ -2063,13 +2167,17 @@
         }
       },
       "abilities": [
-        "flight",
         "maul"
       ],
       "traits": [
         "formidable",
         "flying"
       ],
+      "habitats": [
+        "heights"
+      ],
+      "abundance": 1,
+      "alone": true,
       "worth": {
         "base": 800,
         "perLevel": 50
@@ -2090,6 +2198,10 @@
       ],
       "name": "Air elemental",
       "description": "An elemental of air.",
+      "habitats": [
+        "heights"
+      ],
+      "abundance": 1,
       "source": {
         "orsino": "elemental:air",
         "fidelity": "faithful",
@@ -2142,6 +2254,10 @@
       ],
       "name": "Earth elemental",
       "description": "An elemental of earth.",
+      "habitats": [
+        "cave"
+      ],
+      "abundance": 1,
       "source": {
         "orsino": "elemental:earth",
         "fidelity": "faithful",
@@ -2168,6 +2284,10 @@
       ],
       "name": "Ice elemental",
       "description": "An elemental of ice.",
+      "habitats": [
+        "snow"
+      ],
+      "abundance": 1,
       "source": {
         "orsino": "elemental:ice",
         "fidelity": "faithful",
@@ -2220,6 +2340,10 @@
       ],
       "name": "Mud elemental",
       "description": "An elemental of mud.",
+      "habitats": [
+        "fen"
+      ],
+      "abundance": 1,
       "source": {
         "orsino": "elemental:mud",
         "fidelity": "faithful",
@@ -2259,6 +2383,10 @@
       ],
       "name": "Sand elemental",
       "description": "An elemental of sand.",
+      "habitats": [
+        "desert"
+      ],
+      "abundance": 1,
       "source": {
         "orsino": "elemental:sand",
         "fidelity": "faithful",
@@ -2298,6 +2426,10 @@
       ],
       "name": "Storm elemental",
       "description": "An elemental of storm.",
+      "habitats": [
+        "heights"
+      ],
+      "abundance": 1,
       "source": {
         "orsino": "elemental:storm",
         "fidelity": "faithful",
@@ -2311,6 +2443,10 @@
       ],
       "name": "Water elemental",
       "description": "An elemental of water.",
+      "habitats": [
+        "lake"
+      ],
+      "abundance": 1,
       "source": {
         "orsino": "elemental:water",
         "fidelity": "faithful",
@@ -2344,10 +2480,45 @@
       ],
       "name": "Wood elemental",
       "description": "An elemental of wood.",
+      "habitats": [
+        "grove"
+      ],
+      "abundance": 1,
       "source": {
         "orsino": "elemental:wood",
         "fidelity": "faithful",
         "notes": "The Elemental with the element overlay; the name modules, dens and summons have used."
+      }
+    },
+    "hollow_stalker": {
+      "name": "Hollow-stalker",
+      "type": "aberration",
+      "kind": "monster",
+      "description": "A thing of the deep caves, eyeless and many-jointed, that hunts by the sound of breath and takes whatever comes down into the dark alone.",
+      "looks": "A long pale body slung between eight jointed legs, each longer than a man, with no eyes at all: only a ring of wet pits round the mouth that turn towards any sound.",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 8,
+        "primary": "dexterity",
+        "weapon": "bite",
+        "armor": "chitin"
+      },
+      "abilities": [
+        "rending_bite",
+        "flee"
+      ],
+      "habitats": [
+        "cave"
+      ],
+      "abundance": 2,
+      "alone": true,
+      "worth": {
+        "base": 150,
+        "perLevel": 50
+      },
+      "source": {
+        "kyr": true,
+        "notes": "An author's own kind, added by its record alone (the owner, 6 November: the authoring experiment): it lives in caves and is fairly common there, an aberration (so it lies in wait), and nothing else is written for it anywhere."
       }
     }
   }
