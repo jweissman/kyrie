@@ -1,0 +1,133 @@
+Module dorothea "The Dorothea" {
+  Description "Port Ness: a salt island, flat as a table, eleven miles of pans and boiling-houses, forty lighters, and the counting-room of a house whose paper is on all the Reach. A long afternoon from Tolleth; a light on the point that has not been what it was since Lammas.".
+
+  Place portness "Port Ness" is region.
+  Place ness_town "Port Ness" is settlement within portness at 0, 0.
+  Place ness_flats "the Ness flats" is wilderness within portness at 1, 0.
+  Place ness_light_site "the Ness Light" is site within portness at 2, 0.
+  Place counting_house "the House's counting-house" is building within ness_town.
+  Place ness_quay "Port Ness pier" is room within ness_town at 0, 1.
+  Place ness_row "Salt Row" is room within ness_town at 1, 1.
+  Place counting_room "the counting-room" is room within counting_house at 2, 0.
+  Place salt_pans "the salt pans" is room within ness_flats at 0, 0.
+  Place ness_strand "the Ness strand" is room within ness_flats at 1, 0.
+  Place ness_light_foot "the foot of the Ness Light" is room within ness_light_site at 0, 0.
+  Place ness_lantern "the Ness Light's lantern" is room within ness_light_site at 1, 0.
+
+  Passage ness_pier_way "the pier road" is path between ness_quay and ness_row taking 5 minutes.
+  Passage counting_door "the counting-house door" is door between ness_row and counting_room
+    opening when not marked(party) "The counting-house door is shut and bolted, and the brass plate has been turned to the wall. Somebody inside has been told about you.".
+  Passage pans_way "the causeway through the pans" is path between ness_row and salt_pans taking 15 minutes.
+  Passage strand_way "the sea-wall path" is path between salt_pans and ness_strand taking 10 minutes.
+  Passage light_way "the cliff path to the Ness Light" is path between ness_row and ness_light_foot taking 30 minutes.
+  Passage light_stair "the Ness Light stair" is stair between ness_light_foot and ness_lantern.
+
+  // Everywhere on this island, for a rule that asks where the company is.
+  Query onNess(g: group) means at(g, ness_quay) or at(g, ness_row) or at(g, counting_room) or at(g, salt_pans) or at(g, ness_strand) or at(g, ness_light_foot) or at(g, ness_lantern) or at(g, holm_beach) or at(g, holm_stump).
+
+  Observe ness_quay_scene at ness_quay when true "Port Ness pier. Salt lighters lie three deep, black flat barges with their sides white to the waterline, and a gang of women in rag gloves are shovelling a white mountain down a chute into a barn. The smell is boiled brine, coal smoke, and under it the sweet rot of wrack. Every sack has a key-and-ring stencilled on it, and the stencil is newer than the sacks.".
+  Observe ness_row_scene at ness_row when true "Salt Row: a street of low houses whitened to the eaves by the blown salt, every window glazed with a crust. A chandlery with a green door. At the end, the only house on the Row with a slate roof, and a brass plate beside its door that has been polished so often the letters have gone soft: THE HOUSE OF MARCHBANK, ORSETT. In the house-fronts there is the sound of raking, from the pans behind: steady as breathing.".
+  Observe counting_scene at counting_room when true "A long panelled room with two high desks, a stove, and an iron-bound strongbox on a stone shelf. On the wall a chart of the coast under glass, with brass pins stuck in it like a surgeon's tray: a key-and-ring pin beside the Ness, one beside the Antlers, one by a speck of land marked THE HOLM. A fourth pin lies loose on the sill under the chart, beside SKERROW, and has not been pushed in yet.".
+  Observe pans_scene at salt_pans when true "The pans: a hundred acres of shallow squares, clay-lined, each a different grey where the brine stands in it, the rakers moving along the dams with their long wooden rakes and their heads down. Steam from the boiling-houses lies over it like a lid. Behind every raker, set on a post, a tin disc stamped with a key-and-ring.".
+  Observe strand_scene at ness_strand when true "The Ness strand: pale sand, wrack, and then a causeway of black stones going out across the flat towards a low hump of rock a mile away, with a stump of a tower on it. The causeway is dry now. A tide-gauge on the sea-wall, painted in fathoms and in a hand-width of something older, shows where the water will be when it comes.".
+  Observe ness_foot_scene at ness_light_foot when true "The Ness Light: a round stone tower the height of three houses on the end of the point, with a stove-chimney at its foot, a hen run, and a stair you can see through the cracks. The wind has a habit of leaning on it. Over the door someone has chalked a tally of nights: a row of strokes, and the last few of them not struck through.".
+  Observe ness_lantern_scene at ness_lantern when not lampLit(lamp_ness) "The lantern of the Ness Light: glass cloudy with salt, an iron lamp the size of a bucket, a smell of fish-oil and cold wick. The reservoir is nearly dry. Somebody has been burning rush-lights in a saucer in the middle of the great lamp, and the saucer is black.".
+  Observe ness_lantern_lit at ness_lantern when lampLit(lamp_ness) "The lantern of the Ness Light: the glass wiped clear, the reservoir full, the great lamp burning with a hard white flame that throws the room's shadow out over the flats. Kit Skail has set a hen on the sill, and the hen does not mind.".
+
+  // ── The factor, and the clerk ───────────────────────────────────────────────────────────────────────────────────
+  Person thane "Ysolde Thane" at ness_row {
+    Role "factor of the House of Marchbank (the Orsett factor), come to Port Ness for the pans". Ancestry human. Level 3. Peaceable. Pronouns she. Manner acerbic.
+    Likeness "merchant".
+    Greets "A woman of fifty in a plain dark dress stands on the step of the counting-house with a red-bound book under one arm, counting lighters as they pull out. She counts them all, and her lips do not move. 'Ysolde Thane,' she says. 'Factor, of the House of Marchbank. Orsett is my seat; I come to Port Ness for the pans, as a bishop to a bad parish. Is it salt you want, or a signature?' The red of the book is the red of a good cherry, and she holds it the way some women hold a child.".
+  }
+  Person pym "Ewart Pym" at counting_room {
+    Role "clerk to the Factor at Port Ness". Ancestry human. Level 1. Peaceable. Pronouns he. Manner stoic.
+    Likeness "scholar".
+    Greets "A thin young man with ink to the elbow and a blue cuff on his right sleeve sits at the high desk with a blue-bound day-book open before him. He gets down off the stool a good deal too fast. 'Ewart Pym, Clerk,' he says. 'I only copy. If it is anything about the salt, it is the Factor, on the step. If it is anything about anything else, it is also the Factor.'".
+  }
+  Person auld "Dunstan Auld" at salt_pans {
+    Role "reeve of the Port Ness rakers". Ancestry human. Level 2. Peaceable. Pronouns he. Manner stoic.
+    Likeness "farmer".
+    Greets "A heavy man with salt-cracked hands and the squint of one who has looked at white ground all his life leans on a rake at the end of the nearest dam. 'Dunstan Auld,' he says. 'Reeve. That means I go and tell the Factor when they are tired, and then I go and tell them she's said no.' He taps a tin disc on its post. 'You'll not be paid in coin on this island, mind. Not unless you're passing through.'".
+  }
+  Person skail "Kit Skail" at ness_lantern {
+    Role "keeper of the Ness Light". Ancestry human. Level 2. Peaceable. Pronouns she. Manner proud.
+    Likeness "abbess".
+    Greets "A very old woman in three cardigans and a man's cap is sitting on the lamp-room floor with a saucer of rush-lights, which she is trimming with a pair of nail-scissors. 'Go careful on the stair,' she says. 'I've swept it. No one comes. It is a thing I do for the look of the thing.' She puts one rush-light in the saucer and watches it as other people watch a sleeping child. 'It isn't much,' she says. 'It's what there is.'".
+  }
+  Initially Set quantity(thane, gold) to 90. Initially Set quantity(pym, gold) to 2.
+
+  // ── The ranks of the House, as learnt on a stool in a counting-room ─────────────────────────────────────────────
+  Relation knowsRanks(group).
+  Topic pym_ranks with pym "Ask Ewart Pym how the House is arranged" when true once {
+    Says "'Five ranks,' says Pym, glad to be asked something he is allowed to answer. 'Prentice, in grey boards: she keeps the day-book on an island, and mostly nobody reads it. Clerk, in blue, which is me: we copy the day-book into the ledger. Agent, in green: he keeps a post, and gives the orders on it. Factor, in red: she keeps a coast, and answers for the sums. And the Principal, in Orsett, whose book is black, and nobody I know has seen it, only the seal.' He touches the blue cuff. 'Each owes the one above and is owed by the one below. It is how you know where you are, in a House.'".
+    On discuss { Assert knowsRanks(actor). }
+  }
+  Topic pym_house with pym "Ask Ewart Pym what the House does on the Reach" when true once {
+    Says "'Salt, here,' says Pym. 'Down, eggs, and fat, at the Antlers; the landing at Skerrow; the carrying, that's the Dorothea. And the lights.' He stops. 'The paper on the lights is a sort of ground-rent. I don't write that book. The Factor writes that book.'".
+  }
+  Topic thane_salt with thane "Ask Ysolde Thane about the salt" when true once {
+    Says "'It is the one honest thing on the coast,' says Thane. 'Sea, sun, and a woman with a rake. I pay the rakers in the House's scrip because coin goes to the Row's alehouse and scrip goes to the House's chandlery and the House's chandlery gets them through a winter. You may call that a system. I do.' She turns a page without looking at it. 'The fleet is in tonight. You'll hear it.'".
+  }
+  Topic thane_lights with thane "Ask Ysolde Thane about the Ness Light" when true once {
+    Says "'Kit Skail keeps it, on the House's oil, on the House's book,' says Thane. 'The book has been closed since Lammas. Eighteen crowns, in her debit. I am not a hard woman. I am a woman with a book.' She looks at the point, where the tower stands with its small, sour flame. 'Nobody steers by the Ness Light. They steer by the pans. They've steered by the pans since before the House had a name.'".
+  }
+  Topic auld_scrip with auld "Ask Dunstan Auld about the tin discs" when true once {
+    Says "'Scrip,' says Auld. 'A rake a day is a disc. Ten discs and the House's chandlery gives you a sack of meal. You can't take a disc to the Row's ale-house, and you can't take it to Tolleth. You can take it to the chandlery.' He looks at the disc on the post. 'We'd not have starved. But we'd not have owned a boat, either. There's forty lighters at Port Ness and not a one of them is a raker's.'".
+  }
+  Topic auld_fleet with auld "Ask Dunstan Auld about the fleet and the Mary Ann" when true once {
+    Says "'Fleet's the same forty boats it's been all my life,' says Auld. 'We lose one every year or two. This year the Mary Ann, on the Combs, at Lammas; and the Rosa Lind on the Holm bar, on a clear night. A clear night.' He rakes a stroke, and another. 'There was no light on the Holm. There never is. But there was a light at the Ness, and Kit Skail's, and she was trimming it. We saw it. It was out by midnight.'".
+  }
+
+  // ── The Ness Light: Kit Skail's bond ────────────────────────────────────────────────────────────────────────────
+  Topic skail_light with skail "Ask Kit Skail about the light" when true once {
+    Says "'The House gave me the oil on the quarter's book for forty years,' she says. 'Since Lammas the book is shut. Eighteen crowns, and Mr Pym says there's a bond on it, in the strongbox, with my mark.' She puts the nail-scissors down. 'I don't know what a bond is. I put my mark on a paper when my husband died.' She looks at the saucer. 'Rush-lights don't throw. It's like trying to light a coal-hole with a match.'".
+  }
+  Topic skail_wrecks with skail "Ask Kit Skail what she saw the night the Rosa Lind went" when true once {
+    Says "'A clear night,' says Kit Skail, 'and the Ness gone out because my oil gave. You can see the Holm bar from the lantern on a clear night, if there's a light to see by. I saw her lights go down on it like a row of stars being let fall.' She does not weep. 'Forty-one hands. Five were Ness men. I know all their mothers.' She picks up the scissors again. 'There's a man of the House who comes on the quarter-day with a barrow, for salvage. He doesn't look at me.'".
+  }
+
+  // ── Setting the Ness Light free of the House's book ─────────────────────────────────────────────────────────────
+  // Five ways: pay the bond, fill the lamp with the Pharos's oil, lay the reckoning before the Factor, take the
+  // bond out of the strongbox, or have the House's own book exposed on the Tolleth quay (house.kyr). Each puts
+  // the Ness Light out of the House's keeping and lights it.
+  Action pay_skail_bond(actor: group, site: place) "Pay Kit Skail's eighteen coin at Pym's desk, and have the bond cancelled" {
+    Description "The House does not forgive a debt. It does take it paid.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, counting_room) and at(pym, site) and houseHolds(lamp_ness) and quantity(actor, gold) >= 18.
+    Time 2.
+    On success { Decrease quantity(actor, gold) by 18. Increase quantity(pym, gold) by 18. Retract houseHolds(lamp_ness). Assert lampLit(lamp_ness). Increase freed(actor) by 1. Assert nessPaid(actor). }
+    Result "Pym counts the coin with his lips moving, finds it right, and writes PAID in the margin of a page in the blue book. He opens the strongbox, takes out a stiff paper with a thumb-mark on it, and tears it across, once, and again, in a way he has not done before. 'I am not to do that without the Factor,' he says. 'I find I am doing it.'".
+  }
+  Relation nessPaid(group). Relation nessOiled(group). Relation nessBond(group).
+  Action oil_ness_light(actor: group, site: place) "Fill the Ness Light's lamp from a keg of the Pharos's oil" {
+    Description "Marren Kestle trims a lamp that burns clean. A keg of what she burns would last the Ness Light a winter.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, ness_lantern) and houseHolds(lamp_ness) and holding(actor, pharos_oil_keg).
+    Time 3.
+    On success { Spend pharos_oil_keg from actor. Retract houseHolds(lamp_ness). Assert lampLit(lamp_ness). Increase freed(actor) by 1. Assert nessOiled(actor). }
+    Result "Kit Skail takes the stopper out, and smells it, and shuts her eyes. 'That is not fish,' she says. You help her tip it into the reservoir, and she trims the wick with the nail-scissors, and strikes a light. The flame stands up white, and does not lean. 'There,' she says. 'Let the House send a man to say it is not on the book.'".
+  }
+  Action lift_ness_bond(actor: group, site: place) "Take Kit Skail's bond out of the Factor's strongbox" {
+    Description "The Factor is on the step, and the clerk is at his desk. A strongbox is a strongbox. A bond is a piece of paper.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, counting_room) and houseHolds(lamp_ness) and capable(actor, lockwork).
+    Time 4.
+    Resolve check(actor, lockwork, dc_hard).
+    On success { Retract houseHolds(lamp_ness). Assert lampLit(lamp_ness). Increase freed(actor) by 1. Assert nessBond(actor). Assert missingBond(actor). }
+    On failure { Assert marked(actor). }
+    Result "The lock has a second lever, set back under the first, such as a clerk would use who does not trust his Factor. You find it by the sound. The bond is on top, in a fold of the Factor's own paper: a thumb-mark, and a line of print. You put it in your sleeve and shut the lid without a click. Pym, who has been very carefully reading his day-book upside down, turns a page.".
+    Otherwise "The lock bites, and the lid thuds, and Pym says, in a high small voice, 'Factor!' Ysolde Thane's step is on the stair before the echo. 'The door,' she says, in a voice you will remember, 'will be bolted behind this company.'".
+  }
+  Relation missingBond(group).
+  Topic kit_thanks with skail "Ask Kit Skail how the light is" when lampLit(lamp_ness) once {
+    Says "'It throws,' says Kit Skail. She says it twice, to be sure. 'I went out at dusk and stood on the point and looked back, and it was a thing I had never done, not once in forty years, because I had always been in it. It goes right across the flats. It goes to the Holm.' She sits down on the step, and rises again at once. 'There is a man on the Holm who ought to know. I'll send the hen.'".
+  }
+
+  // ── The way home, if left ───────────────────────────────────────────────────────────────────────────────────────
+  Observe ness_stranded at ness_quay when strandedNess(party) "The Dorothea is a smudge going north. At the end of the pier a salt lighter lies with its lines doubled, and a man in the stern calls out that she goes to Tolleth on the next tide, and that four coin is four coin.".
+  Action take_the_lighter(actor: group, site: place) "Take a place on the salt lighter back to Tolleth, four coin" {
+    Description "A black flat barge loaded to the gunwale with white. You will be the third-worst-smelling thing on her.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, ness_quay) and not at(hull, ness_quay) and quantity(actor, gold) >= 4.
+    Time 24.
+    On success { Decrease quantity(actor, gold) by 4. Retract at(actor, ness_quay). Assert at(actor, quay). Retract strandedNess(actor). }
+    Result "The lighter goes out on the ebb and comes in on the flood, white to the gunwale and salt to the eyebrows. The Tolleth quay is exactly where you left it.".
+  }
+}

@@ -1,0 +1,25 @@
+Module skeel "Fair Weather" {
+  Description "Links outward from the Reach: a light seen at sea after a ship was left in the Slack, a stranger's rubbing of the Prefect's table, and the almanack woman who walks from here to the Bowl.".
+
+  // ── A world event, read: the Holm Lantern's night log ───────────────────────────────────────────────────────────
+  // If, in the world, the ship Remainder was left in the Slack (the Grand Tour's), a lamp-keeper who has kept the log
+  // of an empty sea for years is the first to put it down. Said once, for the room.
+  Observe lore_log_light at lamp_room when befell(remainder_kept) "Under the night log of the Lantern, in Loveday Kitto's round hand, a line that is not about weather: LIGHT AT THE EDGE OF THE SEA, 2 A.M., NO SHIP. IT WAS STILL. It is entered again the next night, and the next, always at the same hour, with the same three words after it, and the third night a small mark in the margin, like a tally, that is not Loveday's.".
+  Observe lore_taproom_south at taproom when befell(slack_opened) "In the corner by the settle two drovers are explaining to a pilot who has not asked that a great house in a town on the south coast has a black square let into its floor. The pilot is looking at his beer. 'A hole in a floor,' he says. 'We have the sea for that.' Mother Jago, polishing a pot, says that if the sea ever lets a house keep a stair she would like to be told.".
+
+  // ── A visitor from elsewhere: the Prefect's table ───────────────────────────────────────────────────────────────
+  Discovery lore_table_same "The device cast into the foot of the Lantern's lamp-stand, a fish with a flame over it, is the one the keepers of a rock a long way off cut into a keystone. Loveday has seen the rubbing of the Prefect's table and says the foot-rule on it is the same as the one on the lamp-room wall.".
+  Topic lore_loveday_table with loveday "Show Loveday Kitto the rubbing of the Prefect's table" when holding(actor, pharos_rubbing) once {
+    Says "Loveday lays it on the lamp-room floor and weights the corners with the tin of wicks, the matches, and two boots. She reads it with her whole arm, the way she reads the sea. 'Columns of numbers,' she says, 'and beside them a column that was scrubbed and never came clean. I know a scrubbed column. Look.' She turns the lamp-stand a quarter so that the light slants, and on the iron foot, beside the fish and the flame, under fifty years of polish, there is a row of short strokes, eleven and a space. 'I thought it was a maker's count. I do not think it is.' She rolls the rubbing carefully and does not hand it back at once. 'Whoever kept the other light kept it the way I keep this one. For somebody. I would not like to be the one who found out for whom.'".
+    On discuss { Assert knows(actor, lore_table_same). }
+  }
+
+  // ── The almanack woman ──────────────────────────────────────────────────────────────────────────────────────────
+  // Jessamy Cattermole walks a loop that no map draws: the Reach, the Bowl of Ammerlin, Merrowdale, the Lim valley,
+  // the Wray, and back to the sea. She sells almanacks, each printed in a different town, each for a different year.
+  Discovery lore_cattermole_skeel "Jessamy Cattermole, who sells almanacks, was at the Admiral at Michaelmas and has gone up the coast road to the Bowl of Ammerlin, where a man named Halm pays by the inch for anything with a mark on it that is not writing. Parson Hosken gave her a stub of wax.".
+  Topic lore_jago_cattermole with jago "Ask Mother Jago who else has come down the coast road this autumn" when true once {
+    Says "'Cattermole,' says Jago at once, as if the name were a plate she had been waiting to put down. 'The almanack woman. Six towns' worth in a leather satchel, and no two of them agree what year it is. She says it does not matter, they all keep Michaelmas on the same night.' She wipes her hands. 'Sold the Reeve a calendar he did not want and Parson Hosken a stub of rubbing-wax he did. Went off up the north road to a place called Ammerlin, to a man called Halm who pays by the inch for marks that are not writing. If you see her, she owes me for four pints and a stable.'".
+    On discuss { Assert knows(actor, lore_cattermole_skeel). }
+  }
+}
