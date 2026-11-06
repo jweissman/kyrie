@@ -26,7 +26,7 @@ describe('The Holm', () => {
     expect(party(j)).toBe(k('holm_stump'));
     expect(j.page).toContain('fish with a flame');
     await j.play('Ask Odile Quint to read the device');
-    expect(j.page).toContain('KEPT, FOR THEM THAT COME HOME');
+    expect(j.page).toContain('I can give you two words and I would not swear to the second');
     // The tide turns; the way back is shut until the next low water.
     await j.play('=until phase(tide) >= 60');
     await j.play('^To the Holm.s beach|^Out to');
