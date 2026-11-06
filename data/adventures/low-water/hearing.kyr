@@ -108,7 +108,7 @@ Module lowwater "Low Water" {
     Requires able(actor) and at(actor, site) and at(actor, moot_hall) and giving(actor) and knows(actor, grammar_known) and laid(ex_engine) and not laid(ex_grammar).
     Time 1.
     On success { Assert laid(ex_grammar). Increase credence(council) by 1. Decrease rebuttal(council) by 1. }
-    Result "The arch in the Dyers' Basin, the keystone in the Listening Hall, the four voices of the Sounding's hymnal. The Seventh is deep and deep: the mouth, least. A cupful. You watch it go round the hall and come back as a murmur, and then as Tamsin Reed on the Cantors' bench saying, quite clearly, 'Oh.'".
+    Result "The arch in the Dyers' Basin, the keystone in the Listening Hall, the four voices of the Sounding's hymnal. The Seventh is deep and deep: the mouth, least. A cupful. You watch it go round the hall and come back as a murmur, and then as Merrin Reed on the Cantors' bench saying, quite clearly, 'Oh.'".
   }
   Action lay_census(actor: group, site: place) "Lay before the Council what the Reckoner counts, as Halm reads it: what is bound" {
     Requires able(actor) and at(actor, site) and at(actor, moot_hall) and giving(actor) and knows(actor, census_read) and laid(ex_engine) and not laid(ex_census).

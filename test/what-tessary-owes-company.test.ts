@@ -48,3 +48,14 @@ describe('What Tessary Owes, the thief on the quay', () => {
     expect(j.page.match(/Iron outside, oak inside/g)?.length).toBe(1);
   }, 300000);
 });
+
+describe('What Tessary Owes, off the road', () => {
+  it('smells the Row and reads the lintel of the Drum', async () => {
+    const j = await Journey.start(home, 'row');
+    await j.play('To the Landgate', 'To Scriveners');
+    expect(j.page).toMatch(/three hundred nibs, all going/);
+    await j.play('To the Landgate', 'To the Withies');
+    await j.play('>drum_taproom');
+    expect(j.page).toMatch(/HELD\. QUIT\./);
+  }, 300000);
+});

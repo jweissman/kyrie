@@ -36,4 +36,9 @@ Module tessary "What Tessary Owes" {
     On success { Assert chalkedSign(actor). Assert tolerates(slake, actor). Assert tolerates(runners, actor). Assert slakeLetsPass(actor). }
     Result "{c} takes the chalk from its string, thumbs out a stroke at the end of the bottom row, a crossed stroke through it, and a small round mark that is not a number. It takes four seconds. Bettany Slake's eyes come up from her crate, and go to the board, and to {c}'s hand, and stay on it. She says nothing at all for as long as it takes to breathe in and out. 'Quay's yours,' she says. 'Not the crates. And if anyone asks you where you learned that, you learned it from nobody, and I never saw it.'".
   }
+
+  // ── Off the road ────────────────────────────────────────────────────────────────────────────────────────────────
+  // Something to smell, and something carved that nobody can explain.
+  Observe row_smell at scriveners_row when not dark() "Scriveners' Row smells of reed-paper drying on every sill, a flat green smell like wet hay, and of the iron-gall ink that comes off the pens in the hot afternoon. Under it all runs a sound you take at first for rain: three hundred nibs, all going.".
+  Observe drum_lintel at drum_taproom when true "Cut into the lintel over the Muffled Drum's door, one under another, are a dozen sets of initials, each with a year, and under every set the same two words in the Row's formal hand: HELD. QUIT. Hannelore Rackham says it is the way the Third Company's old sergeants signed out of the house, and that she has never known which of the two words they meant.".
 }

@@ -39,3 +39,23 @@ describe('Fair Weather, the ranger reads the Pulpit', () => {
     expect(j.offers('Read the clay in the lee')).toBe(false);
   }, 120000);
 });
+
+describe('Fair Weather, the ranger\'s ear', () => {
+  it('has Tamar read the gannets, the sand, the Holm\'s shingle and the seals, once each', async () => {
+    const j = await Journey.start(home, 'ear');
+    await j.play('>cliff_road', '>clifftop');
+    expect(j.holds('heardGannets', 'party')).toBe(true);
+    await j.play('>fore_street', '>quay', '>slip', '=until lowWater()', '>flats');
+    expect(j.holds('heardSand', 'party')).toBe(true);
+    await j.play('>holm_shore');
+    expect(j.holds('heardHolmShore', 'party')).toBe(true);
+    await j.play('>quay', '=until boatsRun() and hour(clock) >= 13', 'Pay Jinny', '^To the Skerry landing', '^To the haul-out');
+    expect(j.holds('heardHaulout', 'party')).toBe(true);
+    expect(j.page.match(/Everything on this sand is a day old/g)?.length).toBe(1);
+  }, 300000);
+  it('says none of it to a company without a ranger', async () => {
+    const j = await Journey.start('test/fixtures/skeel/thief.campaign.json', 'ear-thief');
+    await j.play('>cliff_road', '>clifftop');
+    expect(j.holds('heardGannets', 'party')).toBe(false);
+  }, 120000);
+});

@@ -33,7 +33,7 @@ Module sennet "The Grand Tour" {
   Discovery casement_known "In the drawing room of Halyard House the northmost casement is found unlatched every morning, though the footmen shut it every night, and the household has long ago given up asking why.".
   Observe casement_unlatched at drawing_room when aloft() and not knows(party, casement_known) "At the northmost end of the long row of windows one casement stands a hand's breadth open on the cloud, and the draught from it moves the fringe of the nearest chair. A footman, passing with a duster, shuts it with his thumb without breaking step. 'Every night,' he says, not to you. 'And every morning.'" teaches casement_known.
   Action sing_to_the_wind(actor: group, site: place, b: member) "Sing the North Wind the last verse, as the Quay has it" {
-    Description "Not a letter, and not an apology. A custom that has been kept in the dark for two hundred years by people who could not have said what for.".
+    Description "Not a letter, and not an apology. A custom that has been kept up in the dark by people who could not have said what for.".
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, eyrie) and memberOf(b, actor) and hasCalling(b, calling_bard) and awake(b)
       and tramontaneHeard(tramontane) and knows(actor, ysabeau_ballad) and knows(actor, casement_known)
       and not giftRenewed(sennet_bay) and not airHome(sennet_bay).

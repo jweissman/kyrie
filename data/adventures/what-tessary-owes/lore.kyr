@@ -25,4 +25,21 @@ Module tessary "What Tessary Owes" {
     Says "'Pym,' says Sedge. 'Surveyor, Collegium of Measures, which weighs things and will tell you so before you ask. He set his chain along the Causeway at low water and found it four feet longer than it was in his tables, and wrote it down, and said the tables were wrong. I said, the tide was wrong. He said the tide is never wrong, it is merely early.' She almost smiles. 'He has gone north with a boy to carry the stake. He wants the Lull, and the Pass beyond it, he says. A man who measures things for his bread will measure anything that holds still.'".
     On discuss { Assert knows(actor, lore_pym_tessary). }
   }
+
+  // ── Three things from elsewhere ─────────────────────────────────────────────────────────────────────────────────
+  Discovery lore_rubbing_valuer "The Ninth Valuer, shown a keeper's tally rubbed from a bench by the sea, has no column for the oldest rows, and enters them as 'unruled'.".
+  Topic lore_valuer_rubbing with tally "Show the Ninth Valuer the rubbing of a keeper's tally" when holding(actor, tally_rubbing) once {
+    Says "The Valuer follows the rows with one ruled finger, top to bottom, as the faintly ruled do. 'A stroke for a ship, a mark for whatever the sea gave back,' they say. 'And here, nothing owed.' They stop at the oldest rows and do not go on. 'I have no category for these. They are not receipts. They are not debts. They are the other thing, the one that is not in the ledger.' They take out their pen. 'May I enter them as unruled? It is not an honour I give lightly.'".
+    On discuss { Assert knows(actor, lore_rubbing_valuer). }
+  }
+  Discovery lore_letter_deckle "Ulric Deckle, Keeper of the Great Seal, shown a letter bearing the seal of the Collegium of Lesser Instruments, says nobody forges it, because nobody wishes to be a friend of working things.".
+  Topic lore_deckle_letter with deckle "Show the Keeper the letter of the Collegium of Lesser Instruments" when holding(actor, collegium_letter) once {
+    Says "Deckle takes the letter and does not read a word of it. He looks at the seal, a cog in a ring, for a long, professional minute. 'Pressed from the left,' he says. 'Wax too cool when it was struck, so the ring has a seam. A good seal, honestly made, by a hand that does not care how it looks.' 'Nobody has ever forged a seal as plain as that; there is nothing to be got by it.' He gives the letter back the way one hands back a child, and wipes his fingers.".
+    On discuss { Assert knows(actor, lore_letter_deckle). }
+  }
+  Discovery lore_teeth_pitch "Lemuel Pitch, shown a sack of green bronze teeth, says they are not chandler's metal and not ship's metal, and that the grain in them is a clock's.".
+  Topic lore_pitch_teeth with pitch "Show Lemuel Pitch the bell-teeth" when holding(actor, bell_teeth) once {
+    Says "Pitch takes one tooth between a thumb and a finger and holds it to the lamp, and then bites it, which he never does. 'Bronze,' he says. 'But not tin and copper as my father mixed it. This has something in it besides, and it has been struck, not cast.' He rings it on the counter. The note goes on a very long time. 'I sell old bronze by the pound to a man who does not ask. I would not sell these to him.' He pushes them back across the counter with one finger, and does not look at them again, and from the back of the shop a clock he has never wound seems to tick a little louder.".
+    On discuss { Assert knows(actor, lore_teeth_pitch). }
+  }
 }

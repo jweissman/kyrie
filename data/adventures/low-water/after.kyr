@@ -61,8 +61,8 @@ Module lowwater "Low Water" {
   }
 
   // The Sounding, after.
-  Topic tamsin_after with tamsin "Ask Tamsin how the singing is now" when restoredForGood(bowl) once {
-    Says "'Packed.' Tamsin is glowing. 'More than before. People come to hear the Seventh. The counting one.' She giggles. 'Jessa says we're the lock-keepers now, all of us, and the boys at the back have started calling the low notes the Cupful.' Then, seriously: 'Cantor Orr says if we sing it wrong the Ward goes dry. She's joking. She's mostly joking. Nobody sings it wrong.'".
+  Topic tamsin_after with tamsin "Ask Merrin how the singing is now" when restoredForGood(bowl) once {
+    Says "'Packed.' Merrin is glowing. 'More than before. People come to hear the Seventh. The counting one.' She giggles. 'Jessa says we're the lock-keepers now, all of us, and the boys at the back have started calling the low notes the Cupful.' Then, seriously: 'Cantor Orr says if we sing it wrong the Ward goes dry. She's joking. She's mostly joking. Nobody sings it wrong.'".
   }
   Topic fisk_right with fisk "Ask Precentor Penhale whether he was right" when knows(actor, hymn_cause) and restoredForGood(bowl) once {
     Says "Penhale draws himself up for a speech, and then, unexpectedly, does not make it. 'I said it was the Remainders,' he says. 'I said the dead were going down and away.' He looks down through the grating at the black water. 'It was the Remainders. It was not the dead. It was a gate, and a machine, and a girl's reform, and a boy's book.' He is silent. 'I had the conclusion and none of the reasons. That's not faith, Assessor. That's luck wearing a cassock.' And then, with a flicker of his old self: 'Still. I'll take the luck.'".

@@ -46,12 +46,12 @@ Module longman "The Long Man" {
   // ── Papers from elsewhere ───────────────────────────────────────────────────────────────────────────────────────
   Discovery kin_letter_read "The Collegium of Lesser Instruments counts the instruments of a place: a letter of the Collegium, shown to Gammer Coller, makes the reeve's rod a working thing of a kind the Collegium asks after, and she is plainly more frightened by that than flattered.".
   Topic nell_letter with nell "Show Gammer Coller the letter of the Collegium of Lesser Instruments" when holding(actor, collegium_letter) once {
-    Says "She holds it at arm's length, then close. 'Working things,' she reads. 'They collect them.' She looks at the rod on its pegs. 'They are welcome to write it down. They are not welcome to take it. There is a difference, and I had it from the Hall's own charter.' She gives the letter back. 'If you meet a clerk of theirs who can tell me what the notches measure, I will give him a pot of lard and my whole attention.'".
+    Says "She holds it at arm's length, then close. 'Working things,' she reads. 'They collect them.' She looks at the rod on its pegs. 'They are welcome to write it down. They are not welcome to take it. There is a difference, and I had it from the Hall's own charter.' She gives the letter back, and straightens the rod on its pegs a quarter-inch, as if it had been looked at.".
     On discuss { Assert knows(actor, kin_letter_read). }
   }
   Discovery kin_surety_read "A surety answers for the keeping named, and where none is named, for all: shown the Ninth Valuer's note, Mother Ysolt thinks of the bell the parish gave as a surety, and of who was never asked to give it back.".
   Topic ysolt_surety with ysolt "Show Mother Ysolt the Ninth Valuer's note on a surety" when holding(actor, surety_terms) once {
-    Says "'A surety.' Mother Ysolt reads the strip twice. 'Answers for the keeping named, and where none is named, for all.' She sets it on the register. 'The year the water wept, this parish gave its bell to the Keeper on those terms, I think, though nobody wrote them. We named no keeping. So we answered for all of it.' She almost laughs. 'And now a man with the bell-teeth in his cellar thinks the account is his to close.' She gives it back, carefully, by the edge. 'Whoever wrote this knows what a promise weighs.'".
+    Says "'A surety.' Mother Ysolt reads the strip twice. 'Answers for the keeping named, and where none is named, for all.' She sets it on the register. 'The year the water wept, this parish gave its bell to the Keeper on those terms, I think, though nobody wrote them. We named no keeping. So we answered for all of it.' She almost laughs. 'And now a man with the bell-teeth in his cellar thinks the account is his to close.' She gives it back, carefully, by the edge, and for a moment the register in front of her seems heavier than it was.".
     On discuss { Assert knows(actor, kin_surety_read). }
   }
 }

@@ -69,7 +69,7 @@ Module dorothea "The Dorothea" {
     Otherwise "You say it to the Gull, and the Gull listens, and says that Jory has signed, and that a signature is a signature, and goes back to its tea.".
   }
   Rule plate_taken when menCame(party) and not voided(party) and not plateTaken(party) and watch(clock) >= reachedAt(hull) + 150
-    says "By nightfall the plate is off the wall, and the reflector off its mount, and the barrow is going down the hill on its one wheel with a sound like a small bell struck over and over. The lamp room window is dark." {
+    says "By nightfall the plate is off the wall, and the reflector off its mount, and the barrow is going down the hill on its one wheel, ringing, ringing, ringing off every stone. The lamp room window is dark." {
     Assert plateTaken(party). Assert tableSold(party). Assert lampOut(party).
   }
   Rule sale_voided when voided(party) and marlSold(party) and not keptLamp(party)

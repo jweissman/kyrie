@@ -61,7 +61,7 @@ Module dorothea "The Dorothea" {
     On success { Retract at(actor, stack_foot). Assert at(actor, stack_top). }
     On failure { Assert strikes(rung_fall, party). }
     Result "You go up by feel and nerve, with the birds exploding off the rock round you and the ladder swinging out under your weight and back, until a hand comes over the lip and hauls, and you are lying face down in thrift, with a gannet looking at you from a yard away as at a poor relation.".
-    Otherwise "A rung goes under your foot with a sound like a knuckle, and then another, and you are on your hands on the rope, and then the ground arrives. Hob Sedge has not moved. 'Told you,' he says, quite kindly.".
+    Otherwise "A rung gives under your foot, a knuckle of wood, and then another, and you are on your hands on the rope, and then the ground arrives. Hob Sedge has not moved. 'Told you,' he says, quite kindly.".
   }
 
   // ── The cresset, and clause seven ───────────────────────────────────────────────────────────────────────────────
@@ -135,6 +135,6 @@ Module dorothea "The Dorothea" {
     On success { Retract troubled(hull). }
     On failure { Retract troubled(hull). Increase water(hull) by 10. Assert holed(hull). }
     Result "The stacks go by at a pace of your own choosing, which turns out to be too fast. Somewhere in the white you find the lane, and the lane finds you. Bascom, at your elbow, says nothing, and goes on saying it.".
-    Otherwise "The Dorothea takes a stone on her larboard bilge with a sound like a barrel breaking. Bascom takes the wheel with a word you will not repeat. She gets her through. There is water in the hold, and the pump will be wanted.".
+    Otherwise "The Dorothea takes a stone on her larboard bilge, and a barrel's worth of her goes. Bascom takes the wheel with a word you will not repeat. She gets her through. There is water in the hold, and the pump will be wanted.".
   }
 }

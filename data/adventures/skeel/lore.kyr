@@ -32,4 +32,21 @@ Module skeel "Fair Weather" {
     Says "'Now who told you?' says Jago, and puts down the pot. 'My man is cook on the Dorothea, Tolleth packet, Captain Bascom, salt south and lamp-oil to the rock at Skerrow and back. He writes at Michaelmas and I write at Lady Day and it has not once crossed.' She digs under the counter and brings up a letter folded inside a drawing of the Admiral, the roof, the sign, a cat. 'If you are going that way. The board on the quay at Tolleth gives her sailings in chalk. Tell Bascom it is for her cook, and tell him the cat is well. Do not tell him the roof.'".
     On discuss { Give lore_jago_letter to actor. Assert lore_jagoLetter(actor). }
   }
+
+  // ── Three papers and a face from elsewhere, each shown to someone who would know what to do with it ───────────────
+  Discovery lore_mask_notch "Parson Hosken, shown a grey mask with a single notch for a brow, says the notch is a count of one, and that he has preached over the Holm's cell for twenty years without once asking what it kept.".
+  Topic lore_hosken_mask with hosken "Show Parson Hosken the grey mask with the notch" when holding(actor, keeper_mask) once {
+    Says "Hosken holds it by the rim, as he holds the chalice, and turns it to the window. 'No eyes,' he says. 'No mouth. A face made to be looked at and not to look.' His thumb finds the notch. 'One,' he says. 'Not a sin, not a saint's day. One. As on the bench in the cell, where the strokes come in rows and the rows end.' 'Somebody was meant to keep this count and stand where it could see the sea.' He sets the mask on the pew very gently, face up, and does not take his hand away from it for some time.".
+    On discuss { Assert knows(actor, lore_mask_notch). }
+  }
+  Discovery lore_letter_lead "Bartle Tonkin, shown a letter from the Collegium of Lesser Instruments, says the Collegium wants things that work and that the only working thing on the ropewalk is his one lead-line, which he casts once a year and writes down.".
+  Topic lore_bartle_letter with bartle "Show Bartle Tonkin the letter of the Collegium of Lesser Instruments" when holding(actor, collegium_letter) once {
+    Says "Bartle reads it with his lips, and then reads the seal. 'Friend of working things,' he says. 'There is a college that thinks well of a hank of tarred cord. I never knew.' He wipes his hands on his apron for longer than they need. 'I have a lead-line. One. I take it out over the bar every Michaelmas, a cast to the foot, and put the numbers in a book that nobody has asked for in thirty years.' He looks at the letter, and at the book on its nail, and takes the book down and wipes its cover with his sleeve before he puts it back.".
+    On discuss { Assert knows(actor, lore_letter_lead). }
+  }
+  Discovery lore_surety_jago "Mother Jago, shown the Ninth Valuer's note on a surety, says she stood surety once for a boat's caulking and that nobody wrote down which keeping she was standing for.".
+  Topic lore_jago_surety with jago "Show Mother Jago the Ninth Valuer's note on a surety" when holding(actor, surety_terms) once {
+    Says "Jago reads the strip at arm's length and then holds it to the lamp. 'Answers for the keeping named,' she says, 'and where none is named, for all.' She puts a thumb on the last words. 'I put my name to the Patience's new planking, the spring Skeel was short. Nobody wrote what I was standing for. I thought I was standing for a plank.' She hands it back, and goes to see to a pot that does not need seeing to, and for a while the taproom hears her thinking about the whole ship.".
+    On discuss { Assert knows(actor, lore_surety_jago). }
+  }
 }

@@ -88,7 +88,7 @@ Module dorothea "The Dorothea" {
     On success { Retract calm(hull). Retract troubled(hull). }
     Result "You and Rune and the cook take a sweep apiece. It is slow, wet, and unlovely. By the time a breath of wind comes, you have moved the Dorothea half a mile and your hands will not close.".
   }
-  Rule calm_ends when calm(hull) and watch(clock) >= seaAt(hull) + 12 says "A cat's paw crosses the plate, and another, and the topsail fills with a sound like a man clearing his throat. Bascom lets out a breath. 'There,' she says, as if she had arranged it." {
+  Rule calm_ends when calm(hull) and watch(clock) >= seaAt(hull) + 12 says "A cat's paw crosses the plate, and another, and the topsail fills, and someone aft clears his throat as if he had done it. Bascom lets out a breath. 'There,' she says, as if she had arranged it." {
     Retract calm(hull). Retract troubled(hull).
   }
 

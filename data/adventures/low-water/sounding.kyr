@@ -25,8 +25,8 @@ Module lowwater "Low Water" {
   }
   Rule orr_to_loft when hour(clock) == 18 and at(orr, cantor_room) { Retract at(orr, cantor_room). Assert at(orr, choir_loft). }
   Rule orr_to_room when hour(clock) == 21 and at(orr, choir_loft) { Retract at(orr, choir_loft). Assert at(orr, cantor_room). }
-  Person tamsin "Tamsin Reed" at choir_loft {
-    Greets "Tamsin Reed jumps down off the loft bench, all elbows, and then remembers she is in the Sounding and walks the last two steps.".
+  Person tamsin "Merrin Reed" at choir_loft {
+    Greets "Merrin Reed jumps down off the loft bench, all elbows, and then remembers she is in the Sounding and walks the last two steps.".
     Role "a chorister of sixteen, from the Dyers' Terrace". Ancestry human. Peaceable. Pronouns she. Manner cheerful.
   }
   Person fisk "Precentor Aldo Penhale" at nave {
@@ -75,12 +75,12 @@ Module lowwater "Low Water" {
     Says "'Because I have faith,' he says, and then, seeing your face, rather less grandly: 'And because I can count. The Mere stood still for as long as there has been a Cantor. Then it moved. The only thing that changed in the Bowl that autumn was the hymn.' He looks at you sidelong. 'The Guild's Channel was the next year. Nobody remembers that. Everybody remembers the Channel.'".
   }
 
-  // Tamsin, who came because of the reform.
-  Topic tamsin_why with tamsin "Ask Tamsin why she sings" when true once {
-    Says "'Because it's the best thing in the world,' says Tamsin, as if you were slow. 'My mum used to say the Hymn was two hours of old men moaning. Then Cantor Orr made it short and my friend Jessa dragged me, and.' She stops, and starts again. 'When we all breathe in together it's like the whole dome breathes in. You can't do that on your own. You can't do it with five people. You need everybody.' She grins. 'Even Precentor Penhale.'".
+  // Merrin, who came because of the reform.
+  Topic tamsin_why with tamsin "Ask Merrin why she sings" when true once {
+    Says "'Because it's the best thing in the world,' says Merrin, as if you were slow. 'My mum used to say the Hymn was two hours of old men moaning. Then Cantor Orr made it short and my friend Jessa dragged me, and.' She stops, and starts again. 'When we all breathe in together it's like the whole dome breathes in. You can't do that on your own. You can't do it with five people. You need everybody.' She grins. 'Even Precentor Penhale.'".
   }
-  Topic tamsin_seventh with tamsin "Ask Tamsin what she would think if the Seventh Remainder came back" when knows(actor, hymn_cause) once {
-    Says "Tamsin pulls a face, and then thinks about it properly, which you like her for. 'The counting one? It's dull. Everybody says so.' She chews her lip. 'But if it was for something. If it actually did something.' She looks down through the grating at the black water. 'I'd sing it. I'd sing it every night. It'd be like, like being the lock-keeper. Only all of us.'".
+  Topic tamsin_seventh with tamsin "Ask Merrin what she would think if the Seventh Remainder came back" when knows(actor, hymn_cause) once {
+    Says "Merrin pulls a face, and then thinks about it properly, which you like her for. 'The counting one? It's dull. Everybody says so.' She chews her lip. 'But if it was for something. If it actually did something.' She looks down through the grating at the black water. 'I'd sing it. I'd sing it every night. It'd be like, like being the lock-keeper. Only all of us.'".
   }
 
   // After the hymn is known for what it does.

@@ -55,4 +55,11 @@ Module lowwater "Low Water" {
     Says "'Of course.' She says it too quickly, and then, more slowly, as if she were laying down a weight she had meant to keep carrying: 'Of course it is.' She puts the rod back under her arm, the right one. 'Thank you.' She stays at your side the rest of the night, a half-step nearer than before, and says nothing about it in the morning.".
     On discuss { Assert isauraToldKindly(isaura). }
   }
+
+  // ── A comic scene, in a grave adventure ─────────────────────────────────────────────────────────────────────────
+  // The Full Measure serves to the Office's own standard, and the standard is the cupful.
+  Observe measure_pots at taproom when true "Every pot in the Full Measure has a brass line riveted inside it, a finger below the rim, and a card behind the tap that reads, in a clerk's hand, THE STANDARD POT IS FILLED TO THE LINE AND NOT TO THE BRIM. The regulars drink down to the line, pause with a certain dignity, and hold the pot out to be topped up from the brim, which is legal as long as the pot is not carried out of the room.".
+  Topic ruan_line with ruan "Ask Ruan Tell about the brass line in the pots" when true once {
+    Says "'Ah,' says Ruan Tell, and comes round the bar in a manner that means a story. 'The Office sent a clerk with a gauge four years ago, to see I was serving a standard pot, and he stayed three days, and measured every pint I poured, and at the end of it he said the Full Measure was serving nine tenths of a pot, and that the Office's own pot was nine tenths of a pot, and that therefore I was in perfect order.' He sets down the rag. 'I asked him what the missing tenth was for. He said it was for the foam. I said there is no foam on that pot. He said that is the foam.' He folds his arms. 'He is a Third Grade now.'".
+  }
 }

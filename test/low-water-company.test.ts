@@ -49,6 +49,17 @@ describe('Low Water, Isaura at the water', () => {
   }, 300000);
 });
 
+describe('Low Water, the Full Measure', () => {
+  it('has Ruan Tell tell the story of the brass line in the pots, once', async () => {
+    const j = await Bowl.start('pots');
+    await j.play(...Bowl.arrive, '^To Measures Square', '>taproom');
+    expect(Bowl.pages(j)).toMatch(/THE STANDARD POT IS FILLED TO THE LINE/);
+    await j.play('Ask Ruan Tell about the brass line');
+    expect(Bowl.said(j)).toMatch(/He is a Third Grade now/);
+    expect(j.offers('Ask Ruan Tell about the brass line')).toBe(false);
+  }, 300000);
+});
+
 describe('Low Water, what the company hears', () => {
   it('has the warrior count the bailiffs, the bard hear the nave and the Moot Hall, and the cleric the Ward well, once each', async () => {
     const j = await Bowl.start('voices');

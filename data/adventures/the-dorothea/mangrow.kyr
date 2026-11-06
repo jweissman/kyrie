@@ -176,7 +176,7 @@ Module dorothea "The Dorothea" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, mangrow_yard) and holding(actor, dorothea_strong_key) and not storeOpen(actor).
     Time 2.
     On success { Spend dorothea_strong_key from actor. Assert storeOpen(actor). }
-    Result "The fig has fought for the lock, but the key was cut for it, and it turns with a sound like a long-held breath let go. The door swings in on cloves and dry stone.".
+    Result "The fig has fought for the lock, but the key was cut for it, and it turns. The door swings in on cloves and dry stone.".
   }
   Action pick_the_strongroom(actor: group, site: place) "Work the strong-room lock free of the fig's roots" {
     Description "A thief's job, and a patient one. The roots have been at the wards for most of a year.".

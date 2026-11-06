@@ -112,7 +112,7 @@ Module dorothea "The Dorothea" {
     Requires able(actor) and company(actor) and at(actor, site) and at(bascom, site) and at(actor, quay) and asked(actor) and not booked(actor) and not sailed(hull) and (bound(hull) < 3 or bound(hull) > 3).
     Time 0.
     On success { Set bound(hull) to 3. Set seaEnd(hull) to 88. Set stayFor(hull) to 130. Set homeOpenAt(hull) to 8. Set homeSoundAt(hull) to 64. Set homeQuayAt(hull) to 100. }
-    Result "'The Antlers.' Bascom takes the pipe out and looks at it. 'Eight coin. There's a pilot, if he's sober. If he isn't I'll be asking you for a favour at the race.'".
+    Result "'The Antlers.' Bascom turns the pipe over and looks at it. 'Eight coin. There's a pilot, if he's sober. If he isn't I'll be asking you for a favour at the race.'".
   }
   Action course_ashkeld(actor: group, site: place) "Ask Captain Bascom to put in at Ashkeld, the burning island (twelve coin)" {
     Requires able(actor) and company(actor) and at(actor, site) and at(bascom, site) and at(actor, quay) and asked(actor) and not booked(actor) and not sailed(hull) and askedCalls(actor) and (bound(hull) < 4 or bound(hull) > 4).

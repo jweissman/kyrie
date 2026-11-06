@@ -67,7 +67,7 @@ Module dorothea "The Dorothea" {
   // or work it, and get aboard.
   Query aboardNow(g: group) means at(g, deck) or at(g, helm) or at(g, cabin) or at(g, forecastle) or at(g, hold).
   Rule hull_sails when state(hull, alongside) and watch(clock) >= sailAfter(hull) and watch(clock) >= holdUntil(hull) and at(hull, quay) and not sailed(hull)
-    says "At the foot of the quay Captain Bascom takes the pipe out of her mouth and says one word, and the Dorothea's lines come off the bollards as if they had been waiting to. The gangway comes in. The quay slides away astern, and Tolleth with it." {
+    says "At the foot of the quay Captain Bascom says one word round the stem of her pipe, and the Dorothea's lines come off the bollards as if they had been waiting to. The gangway comes in. The quay slides away astern, and Tolleth with it." {
     Assert state(hull, underway). Assert sailed(hull). Retract at(bascom, quay). Assert at(bascom, helm). Set departedAt(hull) to watch(clock). Retract at(hull, quay). Assert at(hull, sound).
   }
   Observe left_behind at quay when sailed(hull) and not aboardNow(party) "The Dorothea is gone. A last gull sits on the empty bollard. On the chalk-board the next sailing for Skerrow is the Mary Ann, a week from Thursday, and a crown dearer.".
