@@ -63,7 +63,7 @@ describe('The Long Man, the charter', () => {
     // The wall is then mended as ever: the bronze from the cellar chest back to its keeper.
     await Dale.until(s, 100);
     await Dale.act(s, '^Out to the Hall yard', '^Into the Hall cellar', '^Take from', '^Out to the Hall yard');
-    expect(Dale.said(await Dale.act(s, '^Give a sack of bell-teeth'))).toContain('sound like a bell');
+    expect(Dale.said(await Dale.act(s, '^Give a sack of bell-teeth'))).toContain('every dog in Merrow lifts its head');
     await Dale.until(s, 440);
     expect(Dale.said(await Dale.act(s, '^To Merrow green'))).toContain('THE KEEPING');
     expect(Dale.holds(s, 'longman__broke', 'longman__long_man')).toBe(false);

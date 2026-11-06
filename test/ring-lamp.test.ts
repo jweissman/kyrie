@@ -37,7 +37,7 @@ describe('the Lamp Below', () => {
     await fall(j);
     expect(j.holds(k('ringFallen'), 'party')).toBe(true);
     expect(j.matches('Into the Lamp Below').length).toBe(1);
-    expect(j.page).toContain('A seal is brass');
+    expect(j.page).toContain('drops into the dust like a dead bird');
     await j.play('Into the Lamp Below');
     expect(j.at('party')).toBe(k('lb_head'));
   }, 300000);
