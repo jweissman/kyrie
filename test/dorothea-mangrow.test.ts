@@ -159,6 +159,7 @@ describe('Mangrow: the strong-room, three ways', () => {
     const r = await start();
     await landed(r);
     await r.play('Pay Sula Weir three', '^To the creek mouth');
+    expect(r.page).toContain('White underleaf');
     r.roll('pass');
     await r.play('Find the white fig-leaf tree');
     r.roll();

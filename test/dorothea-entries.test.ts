@@ -142,6 +142,33 @@ describe('Entries: a black lugger and the House\'s price (Port Ness)', () => {
   }, 600000);
 });
 
+describe('Entries: the Gannet\'s Widow, fought (Port Ness)', () => {
+  // Two men and a woman, thieves of the second rank, with cutlasses: the preset company in its own kit, on the pier, warned.
+  const onThePier = async (seed: string) => {
+    const j = await Journey.start(campaign, seed);
+    j.assert(k('seaQuiet'), k('hull'));
+    await j.play('^To Tolleth quay', '^Into the Anchor', 'Ask Corwin Latch about the black lugger', '^Out to', 'Ask Captain Bascom for passage', 'Ask Captain Bascom where else',
+      'Ask Captain Bascom to put in at Port Ness', 'Pay Captain Bascom four', "^To the Dorothea's waist", '=until at(dorothea__hull, dorothea__ness_quay)', '^To Port Ness pier');
+    await j.play('=until at(dorothea__raiders, dorothea__ness_quay)');
+    expect(j.matches('^Attack').length).toBeGreaterThanOrEqual(1);
+    return j;
+  };
+  const standing = (j: Journey) => j.campaign.readout.creatures.filter(c => ['Hale', 'Mirel', 'Tam'].includes(c.name) && c.state.hp > 0).length;
+  it('is won by the company on the pier: the boarders fall, the raid is turned, and most of the company stands', async () => {
+    const j = await onThePier('s1');
+    await j.play('Attack');
+    expect(j.holds(k('raidTurned'), 'party')).toBe(true);
+    expect(j.holds(k('raided'), 'party')).toBe(false);
+    expect(standing(j)).toBeGreaterThanOrEqual(2);
+  }, 600000);
+  it('is not safe: on a bad seed the same fight takes the company', async () => {
+    const j = await onThePier('d');
+    await j.play('Attack');
+    expect(standing(j)).toBe(0);
+    expect(j.holds(k('raidTurned'), 'party')).toBe(false);
+  }, 600000);
+});
+
 describe('Entries: a bottle on the harbourmaster\'s desk (the Holm)', () => {
   it('hands the bottle to the company, which carries it across the Wrack Road at low water to the woman who threw it', async () => {
     const j = await start();

@@ -22,7 +22,7 @@ worked round it) or **read**.*
 
 Honest list: the Orsett reckoning on return (the cargo's shortfall is counted but no one at Orsett acts on it); the
 Long Man's "eleven strokes and a blank" foreshadow; the Slack's pin clock written as a succession of Observes; the
-new boarding party has a test for the bribe route only through the Skerrow suite, not its own. Each is a data change
+new boarding party had no test of its own (an earlier version of this note said the Skerrow suite covered the bribe route; it did not). The Kestrel's hands, Jago's coin and the fight are now played by `test/dorothea-boarding.test.ts`. Each is a data change
 and none needed an engine change.
 
 ## Sea-events table (third pass, `the-dorothea/weather.kyr`)
