@@ -90,8 +90,12 @@ Measured headless over the whole bundle (`/var/tmp/kyrie/m19/parse-size2.ts`): 4
 times the source's size (gzipped far less), a few megabytes for a world, and turns nine seconds of parsing into well
 under one of reading JSON.
 
-The cure is a build step: the site writes each text's parse, under the same key `ParseKeep` uses, as a static file;
-the engine reads it before it would parse. The key is the text with the local kinds whose ids it names
-(`LocalKinds.seen`), so the build must parse each text among exactly the kinds a start would have installed when it
-reaches it: the rules and the adventures name only their own kinds, and can be built; a generated region's own files
-are particular to its seed, and keep being parsed while the last page of creation is read. Not built yet.
+**Measured further, the same day, and the cure above withdrawn.** Recording what a start parses
+(`/var/tmp/kyrie/m19/pack2.ts`): of a1's 97 parses (6.7 MB parsed), only about 20 are of fixed texts — the shared
+rules and situations, about 300 KB parsed, the same keys in a1, kite and b2 — and the rest are the country's own
+generated Kyr: the region's places, people, works and sites, written out by the generators as text a moment before
+they are parsed. Shipping parses with the site would save a few hundred milliseconds. The nine seconds are parsing what
+was just generated; the cures that would remove them are the generators building parsed modules directly (they write
+Kyr text so that what they make is what an author could write, and the parser checks it), or a start parsing first
+only what its first page needs and the rest while the player reads. Neither is built; both are larger than this
+mission's remaining work, and the first changes what the generators guarantee.
