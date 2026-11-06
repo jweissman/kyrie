@@ -15,7 +15,7 @@ export interface LocalCatalog {
 type Declared = { source?: object };
 export interface LocalKindSpec {
   id: string; name: string; base: { category?: ItemKind['category']; like?: string }; worth?: number; mass?: number;
-  description?: string; grants?: string; teaches?: string;
+  description?: string; grants?: string; teaches?: string; slot?: string;
 }
 export interface LocalSpeciesSpec {
   id: string; name: string; like: string; temperament?: string; description?: string; habitats?: string[];
@@ -43,7 +43,11 @@ export class LocalKinds {
     if (spec.grants && !Canon.skills[spec.grants] && !capabilities.has(spec.grants)) {
       throw new Error(`Kind ${spec.id} is granting ${spec.grants}, which is no skill nor a capability of the module's`);
     }
-    const inherited: Partial<ItemKind> = { ...like, ...spec.grants ? { grants: { skill: spec.grants } } : {} };
+    if (spec.slot && !Object.values(Canon.items).some(i => i.slot === spec.slot)) {
+      throw new Error(`Kind ${spec.id} is worn as ${spec.slot}, where nothing of the catalog is worn`);
+    }
+    const inherited: Partial<ItemKind> = { ...like, ...spec.grants ? { grants: { skill: spec.grants } } : {},
+      ...spec.slot ? { slot: spec.slot } : {} };
     delete inherited.source;
     return { ...inherited, name: spec.name, category, description: spec.description ?? like?.description ?? spec.name,
       ...spec.worth !== undefined ? { value: spec.worth } : {}, ...spec.mass !== undefined ? { mass: spec.mass } : {},

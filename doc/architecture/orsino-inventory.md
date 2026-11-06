@@ -10,7 +10,7 @@ reaches it with declared omissions), **reference** (kept in the registry only, b
 computed from what Kyr has and draws, not claimed: the ledger and generated catalogs for rules and things, what
 a generated country draws for wonders and traps, the voice tables for barks.
 
-2651 entries in 79 families: 1608 integrated, 177 represented, 745 reference, 121 blocked.
+2651 entries in 79 families: 1609 integrated, 176 represented, 745 reference, 121 blocked.
 
 ## By family
 
@@ -40,14 +40,14 @@ a generated country draws for wonders and traps, the voice tables for barks.
 | creature | npcRace | 17 | 0 | 0 | 17 | 0 | none | none | — |
 | creature | npcRank | 12 | 0 | 0 | 12 | 0 | none | none | — |
 | creature | npcType | 89 | 0 | 0 | 89 | 0 | none | none | — |
-| equipment | armor | 15 | 15 | 0 | 0 | 0 | data/catalog/orsino/items.json | shops, gear, finds | `test/treasure.test.ts` |
-| equipment | consumable | 28 | 22 | 6 | 0 | 0 | data/catalog/orsino/items.json | shops and finds | `test/treasure.test.ts` `test/shared-item-effects.test.ts` |
-| equipment | equipment | 48 | 45 | 3 | 0 | 0 | data/catalog/orsino/items.json | shops and finds | `test/treasure.test.ts` |
-| equipment | gear | 68 | 65 | 2 | 0 | 1 | data/catalog/orsino/items.json | shops, starting gear | `test/treasure.test.ts` |
-| equipment | gem | 5 | 5 | 0 | 0 | 0 | data/catalog/orsino/items.json | finds in works | `test/treasure.test.ts` |
-| equipment | junk | 71 | 71 | 0 | 0 | 0 | data/catalog/orsino/items.json | finds in works | `test/treasure.test.ts` |
+| equipment | armor | 15 | 15 | 0 | 0 | 0 | data/catalog/items/armour.json | shops, gear, finds | `test/treasure.test.ts` |
+| equipment | consumable | 28 | 22 | 6 | 0 | 0 | data/catalog/items/consumables.json | shops and finds | `test/treasure.test.ts` `test/shared-item-effects.test.ts` |
+| equipment | equipment | 48 | 45 | 3 | 0 | 0 | data/catalog/items/wonders.json | shops and finds | `test/treasure.test.ts` |
+| equipment | gear | 68 | 66 | 1 | 0 | 1 | data/catalog/items/gear.json | shops, starting gear | `test/treasure.test.ts` |
+| equipment | gem | 5 | 5 | 0 | 0 | 0 | data/catalog/items/valuables.json | finds in works | `test/treasure.test.ts` |
+| equipment | junk | 71 | 71 | 0 | 0 | 0 | data/catalog/items/valuables.json | finds in works | `test/treasure.test.ts` |
 | equipment | treasureTier | 6 | 6 | 0 | 0 | 0 | data/generation/scenes/orsino-world.json#dungeon.treasure, drawn by src/world/deep/deep-pacing.ts and a riddle's casket (deep-rooms.ts) | every deep site's rooms, narrowed by what its purpose says its makers and those after them left | `test/deep-treasure.test.ts` |
-| equipment | weapon | 83 | 83 | 0 | 0 | 0 | data/catalog/orsino/items.json | shops, gear, finds | `test/treasure.test.ts` |
+| equipment | weapon | 83 | 83 | 0 | 0 | 0 | data/catalog/items/arms.json, data/catalog/items/natural.json | shops, gear, finds | `test/treasure.test.ts` |
 | generation | legendaryWonderRoll | 20 | 0 | 0 | 20 | 0 | none | none | — |
 | generation | roomDecoration | 100 | 0 | 0 | 100 | 0 | none | none | — |
 | generation | roomOverlay | 9 | 0 | 0 | 9 | 0 | none | none | — |
@@ -200,19 +200,18 @@ For each family with entries not met in play: its blockers, with how many entrie
 
 ### consumable
 
-- 6 × Generated; not executable: use.
+- 6 × An authored record migrated from Orsino; not executable: use.
 
 ### equipment
 
-- 1 × Generated; not executable: reflectSpellChance, onSaveVersusMagic.
-- 1 × Generated; not executable: reflectSpellChance.
-- 1 × Generated; not executable: revealLocation.
+- 1 × An authored record migrated from Orsino; not executable: reflectSpellChance, onSaveVersusMagic.
+- 1 × An authored record migrated from Orsino; not executable: reflectSpellChance.
+- 1 × An authored record migrated from Orsino; not executable: revealLocation.
 
 ### gear
 
 - 1 × Every feature it uses runs in Kyr, but no Kyr definition translates it yet.
 - 1 × field:masterGear.duration: A Kyr torch does not burn down; it is a tool that changes need, not a light that runs out.
-- 1 × Generated; not executable: use.
 
 ### legendaryWonderRoll
 

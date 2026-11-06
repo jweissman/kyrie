@@ -30,6 +30,9 @@ export class CatalogParser {
   // What reading one teaches (`Kind playbill "a playbill" is document teaching bill_read`): an item read where it is
   // carried, not an action offered everywhere (Quittance's pm 10, QTC-A26).
   static Teaching(_t: Node, fact: Node) { return { teaches: fact.sourceString }; }
+  // Where it is worn (`Kind dirge_bell "a dirge bell" like holy_symbol worn as charm`): a thing of the module's own an
+  // author would have put on, and what it grants granted while it is (see PartyCapabilities).
+  static Worn(_w: Node, _as: Node, slot: Node) { return { slot: slot.sourceString }; }
   static LocalSpecies(_s: Node, id: Node, name: Node, body: Node): Field {
     return { field: 'localspecies', value: { id: id.sourceString, name: ModuleParser.ast(name) as string,
       ...ModuleParser.ast(body) as object } as LocalSpeciesSpec };
@@ -48,7 +51,8 @@ export class CatalogParser {
     KindBase_is: CatalogParser.KindIs, KindBase_like: CatalogParser.KindLike,
     KindPart_worth: CatalogParser.Worth, KindPart_weighing: CatalogParser.Weighing,
     KindPart_described: CatalogParser.Described, KindPart_granting: CatalogParser.Granting,
-    KindPart_teaching: CatalogParser.Teaching, LocalSpecies: CatalogParser.LocalSpecies,
+    KindPart_teaching: CatalogParser.Teaching, KindPart_worn: CatalogParser.Worn,
+    LocalSpecies: CatalogParser.LocalSpecies,
     SpeciesPart_tame: CatalogParser.Tame, SpeciesPart_temperament: CatalogParser.Temperament,
     SpeciesPart_described: CatalogParser.Described, SpeciesPart_living: CatalogParser.Living,
   };

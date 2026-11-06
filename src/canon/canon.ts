@@ -4,7 +4,13 @@ import ancestries from '../../data/catalog/ancestries.json';
 import backgrounds from '../../data/catalog/backgrounds.json';
 import classes from '../../data/catalog/classes.json';
 import conditions from '../../data/catalog/conditions.json';
-import items from '../../data/catalog/items.json';
+import arms from '../../data/catalog/items/arms.json';
+import armour from '../../data/catalog/items/armour.json';
+import naturalArms from '../../data/catalog/items/natural.json';
+import gear from '../../data/catalog/items/gear.json';
+import consumables from '../../data/catalog/items/consumables.json';
+import wonders from '../../data/catalog/items/wonders.json';
+import valuables from '../../data/catalog/items/valuables.json';
 import plants from '../../data/catalog/plants.json';
 import habitats from '../../data/catalog/habitats.json';
 import religion from '../../data/catalog/religion.json';
@@ -18,7 +24,6 @@ import devices from '../../data/catalog/devices.json';
 import traits from '../../data/catalog/traits.json';
 import orsinoAbilities from '../../data/catalog/orsino/abilities.json';
 import orsinoConditions from '../../data/catalog/orsino/conditions.json';
-import orsinoItems from '../../data/catalog/orsino/items.json';
 import orsinoTraits from '../../data/catalog/orsino/traits.json';
 import orsinoBlessings from '../../data/catalog/orsino/blessings.json';
 import orsinoBackgrounds from '../../data/catalog/orsino/backgrounds.json';
@@ -96,7 +101,22 @@ export class Canon {
   static readonly materials = materials.materials as unknown as Record<string, Material>;
   static readonly classes = classes.classes as unknown as Record<string, CharacterClass>;
   static readonly skills = skills.skills as unknown as Record<string, Skill>;
-  static readonly items = Canon.gathered(Canon.fine(Canon.merge<ItemKind>('item', orsinoItems.items, items.items)));
+  // Every kind of thing, one authored catalog (data/catalog/items/: arms, armour, gear, consumables, wonders,
+  // valuables, and the natural weapons of bodies): Orsino's among them by provenance (source.orsino), none generated
+  // beside them (the owner, 6 November: one authoritative, authorable item system).
+  static readonly items = Canon.gathered(Canon.fine(Canon.shelved([arms, armour, naturalArms, gear, consumables,
+    wonders, valuables].map(f => f.items as unknown as Record<string, ItemKind>))));
+  // The catalog's files as one, each kind once.
+  private static shelved(files: Record<string, ItemKind>[]): Record<string, ItemKind> {
+    const out: Record<string, ItemKind> = {};
+    for (const file of files) {
+      for (const [id, item] of Object.entries(file)) {
+        if (out[id]) { Canon.conflicts.push(`item ${id}: in two of the item catalog's files`); }
+        out[id] = item;
+      }
+    }
+    return out;
+  }
   // A domain's blessing is Orsino's, generated; the domain itself (name, alignment, spell domain) is hand-written.
   static readonly domains = Object.fromEntries(Object.entries(religion.domains as unknown as Record<string, Domain>)
     .map(([id, d]) => [id, { ...d, ...(orsinoBlessings.blessings as Record<string, Domain['blessing']>)[id]

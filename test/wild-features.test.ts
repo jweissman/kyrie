@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'bun:test';
+import { Canon } from '../src/canon/canon';
 import { WorldAssembler } from '../src/world/world-assembler';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { PlaySession } from '../src/session/play-session';
@@ -7,7 +8,6 @@ import { ScreenModel } from '../src/ui/screen-model';
 import { GeneratedWorld } from './support/generated';
 import type { Feature } from '../src/world/features';
 import wilds from '../data/generation/scenes/wilds.json';
-import items from '../data/catalog/items.json';
 import skills from '../data/catalog/skills.json';
 
 // The landmarks of wild country (a charcoal-burners' clearing, a shepherds' bothy, a cairn) were a scene and nothing
@@ -41,7 +41,7 @@ describe('the landmarks of wild country', () => {
     const kinds = ['wood', 'fen', 'heath', 'fell'].flatMap(w => [...table[w]!.landmarks, ...table[w]!.water]);
     expect(kinds.filter(k => !k.things?.length)).toEqual([]);
     const all = kinds.flatMap(k => k.things ?? []);
-    expect(all.filter(t => t.find && !(t.find.kind in items.items)).map(t => t.id)).toEqual([]);
+    expect(all.filter(t => t.find && !Canon.items[t.find.kind]).map(t => t.id)).toEqual([]);
     expect(all.filter(t => t.by && !(t.by in skills.skills)).map(t => t.id)).toEqual([]);
   });
   it('show what is there to one who looks, and something left there to take', async () => {

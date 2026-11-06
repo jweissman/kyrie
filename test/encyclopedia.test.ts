@@ -14,7 +14,7 @@ describe('the Encyclopedia of Imbar', () => {
   const book = new Encyclopedia(handbooks, lands, Encyclopedia.canon(process.cwd()), HandbookPublisher.tongues());
   const html = new EncyclopediaHtml(book);
   it('has its chapters, each with entries', () => {
-    expect(book.chapters.map(c => c.id)).toEqual(['peoples', 'lives', 'magic', 'arms', 'creatures', 'conditions',
+    expect(book.chapters.map(c => c.id)).toEqual(['peoples', 'lives', 'magic', 'arms', 'creatures', 'plants', 'conditions',
       'history', 'gods', 'tongues', 'planes', 'lands']);
     for (const c of book.chapters) { expect(html.chapter(c)).toContain('class="item'); }
   });

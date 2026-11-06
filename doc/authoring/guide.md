@@ -502,7 +502,7 @@ holds and the page says so; a Second killed on the Stair in the night is `Slay u
 `Assert keeps(actor, heart)` does not do it for the company: what it carries is in its members' packs, so what it
 keeps is in nobody's hands, and `kyrie lint` says so (Low Water's 3). What someone else keeps is theirs.
 
-`Wants burial_register.` makes the standard `give` available to that person; `Buys … for … coin.` the standard
+`Wants old_glossary.` makes the standard `give` available to that person; `Buys … for … coin.` the standard
 `sell`. A long activity that someone arriving should break off says so: `Interrupted when threatened(actor).` Its
 time passes a watch at a time, and its success applies only if it runs its course.
 
@@ -971,7 +971,16 @@ glossary's reading of the old script:
 What it grants may be a skill of the catalog's or a capability the module declares itself (`Entity breath: capability
 "Breath under water".`; the Grand Tour's 9, which had written a rule on `holding` for its helm). A kind with nothing to
 wear it by (`is gear`, `is document`) brings what it grants to whoever carries it; one like a thing worn, while it is
-worn.
+worn. `worn as` says where a kind of the module's own is worn when its like is not (a ring, a charm, the neck, a
+cloak, the light): the Stone-Singers' dirge bell is like a holy symbol, hung as a charm, and rings their knell while
+it is:
+
+```text
+  Kind dirge_bell "a dirge bell" like holy_symbol granting knell worn as charm described "A small bell of grey bronze…".
+```
+
+A thing only one adventure or one generator uses is declared there, as such a kind, never in the catalog
+(data/catalog/items/), which holds the kinds of thing more than one place uses (the item-catalog spec).
 
 A paper of the module's own (a list, a playbill, a letter) `is document`: carried, never equipped, and granting
 nothing unless it says so (Wapshott's Circus's 12: one like the glossary was offered "Equip", and taught the old

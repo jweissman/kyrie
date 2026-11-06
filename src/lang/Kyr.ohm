@@ -182,6 +182,7 @@ Kyr {
            | "described" string -- described
            | "granting" ident -- granting
            | "teaching" ident -- teaching
+           | "worn" "as" ident -- worn
   LocalSpecies = "Species" ident string SpeciesBody
   SpeciesBody = "like" ident SpeciesPart* "."
   SpeciesPart = "tame" -- tame

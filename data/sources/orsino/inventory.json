@@ -92,7 +92,7 @@
   },
   "armor": {
    "concept": "equipment",
-   "destination": "data/catalog/orsino/items.json",
+   "destination": "data/catalog/items/armour.json",
    "representation": "armour items",
    "generative": "shops, gear, finds",
    "tests": [
@@ -245,7 +245,7 @@
   },
   "consumable": {
    "concept": "equipment",
-   "destination": "data/catalog/orsino/items.json",
+   "destination": "data/catalog/items/consumables.json",
    "representation": "consumable items",
    "generative": "shops and finds",
    "tests": [
@@ -451,7 +451,7 @@
   },
   "equipment": {
    "concept": "equipment",
-   "destination": "data/catalog/orsino/items.json",
+   "destination": "data/catalog/items/wonders.json",
    "representation": "equipment items",
    "generative": "shops and finds",
    "tests": [
@@ -485,7 +485,7 @@
   },
   "gear": {
    "concept": "equipment",
-   "destination": "data/catalog/orsino/items.json",
+   "destination": "data/catalog/items/gear.json",
    "representation": "gear items",
    "generative": "shops, starting gear",
    "tests": [
@@ -494,15 +494,15 @@
    "status": "integrated",
    "rule": "ledger",
    "counts": {
-    "integrated": 65,
-    "represented": 2,
+    "integrated": 66,
+    "represented": 1,
     "reference": 0,
     "blocked": 1
    }
   },
   "gem": {
    "concept": "equipment",
-   "destination": "data/catalog/orsino/items.json",
+   "destination": "data/catalog/items/valuables.json",
    "representation": "treasure items",
    "generative": "finds in works",
    "tests": [
@@ -536,7 +536,7 @@
   },
   "junk": {
    "concept": "equipment",
-   "destination": "data/catalog/orsino/items.json",
+   "destination": "data/catalog/items/valuables.json",
    "representation": "junk items",
    "generative": "finds in works",
    "tests": [
@@ -1292,7 +1292,7 @@
   },
   "weapon": {
    "concept": "equipment",
-   "destination": "data/catalog/orsino/items.json",
+   "destination": "data/catalog/items/arms.json, data/catalog/items/natural.json",
    "representation": "weapon items",
    "generative": "shops, gear, finds",
    "tests": [
@@ -6492,7 +6492,7 @@
     "item:deck_of_multiplicity"
    ],
    "blockers": [
-    "Generated; not executable: use."
+    "An authored record migrated from Orsino; not executable: use."
    ]
   },
   {
@@ -6519,7 +6519,7 @@
     "item:foxglove"
    ],
    "blockers": [
-    "Generated; not executable: use."
+    "An authored record migrated from Orsino; not executable: use."
    ]
   },
   {
@@ -6579,7 +6579,7 @@
     "item:oil_flask"
    ],
    "blockers": [
-    "Generated; not executable: use."
+    "An authored record migrated from Orsino; not executable: use."
    ]
   },
   {
@@ -6638,7 +6638,7 @@
     "item:scroll_of_shapechange"
    ],
    "blockers": [
-    "Generated; not executable: use."
+    "An authored record migrated from Orsino; not executable: use."
    ]
   },
   {
@@ -6673,7 +6673,7 @@
     "item:wand_of_polymorph"
    ],
    "blockers": [
-    "Generated; not executable: use."
+    "An authored record migrated from Orsino; not executable: use."
    ]
   },
   {
@@ -6684,7 +6684,7 @@
     "item:wand_of_wonder"
    ],
    "blockers": [
-    "Generated; not executable: use."
+    "An authored record migrated from Orsino; not executable: use."
    ]
   },
   {
@@ -9489,7 +9489,7 @@
     "item:dun_rierdan_waystone"
    ],
    "blockers": [
-    "Generated; not executable: revealLocation."
+    "An authored record migrated from Orsino; not executable: revealLocation."
    ]
   },
   {
@@ -9588,7 +9588,7 @@
     "item:ring_of_perfect_turning"
    ],
    "blockers": [
-    "Generated; not executable: reflectSpellChance."
+    "An authored record migrated from Orsino; not executable: reflectSpellChance."
    ]
   },
   {
@@ -9615,7 +9615,7 @@
     "item:ring_of_spell_turning"
    ],
    "blockers": [
-    "Generated; not executable: reflectSpellChance, onSaveVersusMagic."
+    "An authored record migrated from Orsino; not executable: reflectSpellChance, onSaveVersusMagic."
    ]
   },
   {
@@ -9972,13 +9972,10 @@
   },
   {
    "id": "gear:holy_water",
-   "status": "represented",
-   "mechanics": "represented",
+   "status": "integrated",
+   "mechanics": "executable",
    "kyr": [
     "item:holy_water"
-   ],
-   "blockers": [
-    "Generated; not executable: use."
    ]
   },
   {
@@ -10303,24 +10300,24 @@
    "kyr": [
     "item:agate",
     "item:carnelian",
-    "item:jasper",
-    "item:moonstone",
-    "item:onyx",
-    "item:quartz",
-    "item:tiger_eye",
-    "item:turquoise",
     "item:chrysoberyl",
     "item:citrine",
     "item:fluorite",
     "item:hematite",
     "item:iolite",
     "item:jade",
+    "item:jasper",
     "item:lapis_lazuli",
     "item:malachite",
+    "item:moonstone",
     "item:obsidian",
+    "item:onyx",
     "item:pyrite",
+    "item:quartz",
     "item:rose_quartz",
-    "item:smoky_quartz"
+    "item:smoky_quartz",
+    "item:tiger_eye",
+    "item:turquoise"
    ]
   },
   {
@@ -10328,11 +10325,11 @@
    "status": "integrated",
    "mechanics": "executable",
    "kyr": [
-    "item:diamond",
     "item:black_opal",
-    "item:star_ruby",
     "item:blue_diamond",
-    "item:fire_opal"
+    "item:diamond",
+    "item:fire_opal",
+    "item:star_ruby"
    ]
   },
   {
@@ -10344,8 +10341,8 @@
     "item:emerald",
     "item:ruby",
     "item:sapphire",
-    "item:tanzanite",
-    "item:spinel_red"
+    "item:spinel_red",
+    "item:tanzanite"
    ]
   },
   {
@@ -10353,14 +10350,14 @@
    "status": "integrated",
    "mechanics": "executable",
    "kyr": [
+    "item:alexandrite",
     "item:amethyst",
     "item:garnet",
     "item:peridot",
-    "item:topaz",
-    "item:zircon",
     "item:spinel",
+    "item:topaz",
     "item:tourmaline",
-    "item:alexandrite"
+    "item:zircon"
    ]
   },
   {
@@ -10369,10 +10366,10 @@
    "mechanics": "executable",
    "kyr": [
     "item:black_diamond",
-    "item:red_diamond",
+    "item:grandidierite",
     "item:musgravite",
     "item:painite",
-    "item:grandidierite"
+    "item:red_diamond"
    ]
   },
   {

@@ -160,7 +160,7 @@
   "finds": {
     "negligible": ["broken_dagger", "cloth_pouch", "wooden_figurine", "iron_figurine", "candle", "chalk", "hand_mirror", "bell", "simple_ring"],
     "minor": ["bronze_bracelet", "iron_torc", "steel_torc", "broken_flute", "grave_rings", "bronze_statue", "cloak_pin", "iron_idol", "jade_idol"],
-    "major": ["jeweled_dagger", "golden_idol", "ring_of_minor_protection", "silvered_bracers", "toll_silver"],
+    "major": ["jeweled_dagger", "golden_idol", "ring_of_minor_protection", "silvered_bracers", "toll_silver", "wardens_blade"],
     "grand": ["jeweled_torc", "ring_of_protection", "helm_of_the_stars", "ring_of_strength"]
   },
   "valuables": {

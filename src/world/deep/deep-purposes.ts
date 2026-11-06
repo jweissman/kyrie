@@ -84,7 +84,7 @@ export interface DeepPurpose {
   bane?: { item: string; role: string; seen: string; cut: string; fact: string;
     // A kind of the site's own, made like a catalog item it is carried as (an oath-tablet, as a book is), and what it
     // brings whoever carries it, which is what the keeper fears.
-    like?: { name: string; base: string; text: string; grants?: string } };
+    like?: { name: string; base: string; text: string; grants?: string; worn?: string } };
   // What they died for: the thing at the bottom, what it is, what it is to bring it up, and how that is told.
   objective: { item: string; kind: string; text: string; goal?: string; raised?: string; worth?: number;
     weight?: number };

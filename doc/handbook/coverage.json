@@ -288,8 +288,8 @@
     "total": 68,
     "feasible": 53,
     "catalogued": 1,
-    "represented": 2,
-    "executable": 62,
+    "represented": 1,
+    "executable": 63,
     "play-validated": 3
    },
    {
@@ -801,7 +801,7 @@
     "faithful": 777,
     "adapted": 366,
     "represented": 4,
-    "kyr": 547,
+    "kyr": 537,
     "unsupported": 70,
     "unreachable": 4,
     "data-only": 12
@@ -892,7 +892,7 @@
       "faithful": 249,
       "adapted": 73,
       "represented": 0,
-      "kyr": 97,
+      "kyr": 87,
       "unsupported": 9,
       "unreachable": 0,
       "data-only": 0
@@ -994,9 +994,9 @@
   "dmg": {
    "title": "Dungeon Master's Guide",
    "counts": {
-    "faithful": 239,
-    "adapted": 25,
-    "represented": 30,
+    "faithful": 238,
+    "adapted": 27,
+    "represented": 29,
     "kyr": 281,
     "unsupported": 0,
     "unreachable": 0,
@@ -1046,9 +1046,9 @@
      "id": "orsino-world",
      "title": "Appendix: Orsino's world material",
      "counts": {
-      "faithful": 239,
-      "adapted": 25,
-      "represented": 30,
+      "faithful": 238,
+      "adapted": 27,
+      "represented": 29,
       "kyr": 0,
       "unsupported": 0,
       "unreachable": 0,
@@ -6828,8 +6828,29 @@
    "section": "equipment/armour"
   },
   {
+   "id": "item:angelmail",
+   "title": "Angelmail",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/armour"
+  },
+  {
    "id": "item:bone_armor",
    "title": "Bone Armor",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/armour"
+  },
+  {
+   "id": "item:galvorn_mail",
+   "title": "Galvorn Mail",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/armour"
+  },
+  {
+   "id": "item:robe_of_elvenkind",
+   "title": "Robe of Elvenkind",
    "status": "faithful",
    "book": "phb",
    "section": "equipment/armour"
@@ -6840,818 +6861,6 @@
    "status": "faithful",
    "book": "phb",
    "section": "equipment/armour"
-  },
-  {
-   "id": "item:ancient_crown",
-   "title": "Ancient crown",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:ancient_map",
-   "title": "Ancient map",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:ancient_orrery",
-   "title": "Ancient orrery",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:ancient_tome",
-   "title": "Ancient tome",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:antique_compass",
-   "title": "Antique compass",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:broken_crown",
-   "title": "Broken crown",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:broken_dagger",
-   "title": "Broken dagger",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:broken_flute",
-   "title": "Broken flute",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:broken_pipe",
-   "title": "Broken pipe",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:broken_scepter",
-   "title": "Broken scepter",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:bronze_bracelet",
-   "title": "Bronze bracelet",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:bronze_statue",
-   "title": "Bronze statue",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:celestial_chart",
-   "title": "Celestial chart",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:cloth_pouch",
-   "title": "Cloth pouch",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:cloth_tunic",
-   "title": "Cloth tunic",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:crystal_eye",
-   "title": "Crystal eye",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:crystal_orb",
-   "title": "Crystal orb",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:diamond_eye",
-   "title": "Diamond eye",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:diamond_necklace",
-   "title": "Diamond necklace",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:divine_scepter",
-   "title": "Divine scepter",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:diviners_eye",
-   "title": "Diviners eye",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:dowsing_rod",
-   "title": "Dowsing rod",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:dragons_egg",
-   "title": "Dragons egg",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:dragons_tooth",
-   "title": "Dragons tooth",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:eternal_flame",
-   "title": "Eternal flame",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:faded_map",
-   "title": "Faded map",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:faded_painting",
-   "title": "Faded painting",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:faded_tome",
-   "title": "Faded tome",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:fallen_star",
-   "title": "Fallen star",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:golden_idol",
-   "title": "Golden idol",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:hand_mirror",
-   "title": "Hand mirror",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:intelligent_book",
-   "title": "Intelligent book",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:intelligent_painting",
-   "title": "Intelligent painting",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:iron_figurine",
-   "title": "Iron figurine",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:iron_idol",
-   "title": "Iron idol",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:iron_torc",
-   "title": "Iron torc",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:jeweled_box",
-   "title": "Jeweled box",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:jeweled_crown",
-   "title": "Jeweled crown",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:jeweled_dagger",
-   "title": "Jeweled dagger",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:jeweled_statue",
-   "title": "Jeweled statue",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:jeweled_torc",
-   "title": "Jeweled torc",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:jeweled_zodiac",
-   "title": "Jeweled zodiac",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:kraken_claw",
-   "title": "Kraken claw",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:lensing_crystal",
-   "title": "Lensing crystal",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:lost_tome",
-   "title": "Lost tome",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:music_box",
-   "title": "Music box",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:opalescent_skull",
-   "title": "Opalescent skull",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:philosophers_stone",
-   "title": "Philosophers stone",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:phoenix_feather",
-   "title": "Phoenix feather",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:priceless_painting",
-   "title": "Priceless painting",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:royal_crown",
-   "title": "Royal crown",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:royal_scepter",
-   "title": "Royal scepter",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:sacred_idol",
-   "title": "Sacred idol",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:simple_ring",
-   "title": "Simple ring",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:smoking_pipe",
-   "title": "Smoking pipe",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:soul_gem",
-   "title": "Soul gem",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:steel_coin",
-   "title": "Steel coin",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:steel_torc",
-   "title": "Steel torc",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:tattered_map",
-   "title": "Tattered map",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:tattered_tome",
-   "title": "Tattered tome",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:titan_statue",
-   "title": "Titan statue",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:triskelion_amulet",
-   "title": "Triskelion amulet",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:unholy_symbol",
-   "title": "Unholy symbol",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:unusual_seashell",
-   "title": "Unusual seashell",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:vial_of_phoenix_tears",
-   "title": "Vial of phoenix tears",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:vial_of_unicorn_blood",
-   "title": "Vial of unicorn blood",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:wooden_bowl",
-   "title": "Wooden bowl",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:wooden_figurine",
-   "title": "Wooden figurine",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:wooden_idol",
-   "title": "Wooden idol",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:zodiac_medallion",
-   "title": "Zodiac medallion",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:zoological_manual",
-   "title": "Zoological manual",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:agate",
-   "title": "Agate",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:carnelian",
-   "title": "Carnelian",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:jasper",
-   "title": "Jasper",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:moonstone",
-   "title": "Moonstone",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:onyx",
-   "title": "Onyx",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:quartz",
-   "title": "Quartz",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:tiger_eye",
-   "title": "Tiger eye",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:turquoise",
-   "title": "Turquoise",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:chrysoberyl",
-   "title": "Chrysoberyl",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:citrine",
-   "title": "Citrine",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:fluorite",
-   "title": "Fluorite",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:hematite",
-   "title": "Hematite",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:iolite",
-   "title": "Iolite",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:jade",
-   "title": "Jade",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:lapis_lazuli",
-   "title": "Lapis lazuli",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:malachite",
-   "title": "Malachite",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:obsidian",
-   "title": "Obsidian",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:pyrite",
-   "title": "Pyrite",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:rose_quartz",
-   "title": "Rose quartz",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:smoky_quartz",
-   "title": "Smoky quartz",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:diamond",
-   "title": "Diamond",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:black_opal",
-   "title": "Black opal",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:star_ruby",
-   "title": "Star ruby",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:blue_diamond",
-   "title": "Blue diamond",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:fire_opal",
-   "title": "Fire opal",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:aquamarine",
-   "title": "Aquamarine",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:emerald",
-   "title": "Emerald",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:ruby",
-   "title": "Ruby",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:sapphire",
-   "title": "Sapphire",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:tanzanite",
-   "title": "Tanzanite",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:spinel_red",
-   "title": "Spinel red",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:amethyst",
-   "title": "Amethyst",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:garnet",
-   "title": "Garnet",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:peridot",
-   "title": "Peridot",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:topaz",
-   "title": "Topaz",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:zircon",
-   "title": "Zircon",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:spinel",
-   "title": "Spinel",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:tourmaline",
-   "title": "Tourmaline",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:alexandrite",
-   "title": "Alexandrite",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:black_diamond",
-   "title": "Black diamond",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:red_diamond",
-   "title": "Red diamond",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:musgravite",
-   "title": "Musgravite",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:painite",
-   "title": "Painite",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:grandidierite",
-   "title": "Grandidierite",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:ale",
-   "title": "Ale",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
   },
   {
    "id": "item:backpack",
@@ -7710,6 +6919,13 @@
    "section": "equipment/gear"
   },
   {
+   "id": "item:burial_register",
+   "title": "Burial register",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
    "id": "item:caltrops",
    "title": "Caltrops",
    "status": "faithful",
@@ -7731,6 +6947,13 @@
    "section": "equipment/gear"
   },
   {
+   "id": "item:cell_key",
+   "title": "Iron cell key",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
    "id": "item:chain",
    "title": "Chain",
    "status": "faithful",
@@ -7741,6 +6964,13 @@
    "id": "item:chalk",
    "title": "Chalk",
    "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:climbing_harness",
+   "title": "Climber's harness",
+   "status": "kyr",
    "book": "phb",
    "section": "equipment/gear"
   },
@@ -7762,6 +6992,13 @@
    "id": "item:crowbar",
    "title": "Crowbar",
    "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:deck_of_multiplicity",
+   "title": "Deck of Multiplicity",
+   "status": "unsupported",
    "book": "phb",
    "section": "equipment/gear"
   },
@@ -7815,6 +7052,13 @@
    "section": "equipment/gear"
   },
   {
+   "id": "item:foxglove",
+   "title": "Foxglove",
+   "status": "unsupported",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
    "id": "item:gloves",
    "title": "Gloves",
    "status": "faithful",
@@ -7839,13 +7083,6 @@
    "id": "item:holy_symbol",
    "title": "Holy symbol",
    "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:holy_water",
-   "title": "Holy water",
-   "status": "adapted",
    "book": "phb",
    "section": "equipment/gear"
   },
@@ -7878,6 +7115,13 @@
    "section": "equipment/gear"
   },
   {
+   "id": "item:lamp_oil",
+   "title": "Flask of lamp oil",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
    "id": "item:lantern",
    "title": "Lantern",
    "status": "adapted",
@@ -7899,6 +7143,13 @@
    "section": "equipment/gear"
   },
   {
+   "id": "item:map",
+   "title": "Map of the district",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
    "id": "item:mirror",
    "title": "Mirror",
    "status": "faithful",
@@ -7916,6 +7167,20 @@
    "id": "item:needle_and_thread",
    "title": "Needle and thread",
    "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:oil_flask",
+   "title": "Flask of Oil",
+   "status": "unsupported",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:pack_mule",
+   "title": "Pack mule",
+   "status": "kyr",
    "book": "phb",
    "section": "equipment/gear"
   },
@@ -7962,6 +7227,13 @@
    "section": "equipment/gear"
   },
   {
+   "id": "item:ratsbane",
+   "title": "Twist of ratsbane",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
    "id": "item:robe",
    "title": "Robe",
    "status": "faithful",
@@ -7983,9 +7255,23 @@
    "section": "equipment/gear"
   },
   {
+   "id": "item:sandbag",
+   "title": "Sack of sand",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
    "id": "item:satchel",
    "title": "Satchel",
    "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:scroll_of_shapechange",
+   "title": "Scroll of Shapechange",
+   "status": "unsupported",
    "book": "phb",
    "section": "equipment/gear"
   },
@@ -8039,6 +7325,13 @@
    "section": "equipment/gear"
   },
   {
+   "id": "item:spyglass",
+   "title": "Spyglass",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
    "id": "item:tent",
    "title": "Tent",
    "status": "faithful",
@@ -8081,9 +7374,16 @@
    "section": "equipment/gear"
   },
   {
-   "id": "item:vinegar",
-   "title": "Vinegar",
-   "status": "faithful",
+   "id": "item:wand_of_polymorph",
+   "title": "Wand of Polymorph",
+   "status": "unsupported",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:wand_of_wonder",
+   "title": "Wand of Wonder",
+   "status": "unsupported",
    "book": "phb",
    "section": "equipment/gear"
   },
@@ -8109,13 +7409,6 @@
    "section": "equipment/gear"
   },
   {
-   "id": "item:wine",
-   "title": "Wine",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
    "id": "item:alchemist_fire",
    "title": "Alchemist's Fire",
    "status": "faithful",
@@ -8123,8 +7416,22 @@
    "section": "equipment/gear"
   },
   {
+   "id": "item:ale",
+   "title": "Ale",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
    "id": "item:antidote",
    "title": "Antidote",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:bandages",
+   "title": "Bandages",
    "status": "adapted",
    "book": "phb",
    "section": "equipment/gear"
@@ -8151,13 +7458,6 @@
    "section": "equipment/gear"
   },
   {
-   "id": "item:deck_of_multiplicity",
-   "title": "Deck of Multiplicity",
-   "status": "unsupported",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
    "id": "item:elixir_of_strength",
    "title": "Elixir of Strength",
    "status": "faithful",
@@ -8165,16 +7465,30 @@
    "section": "equipment/gear"
   },
   {
-   "id": "item:first_aid_kit",
-   "title": "First Aid Kit",
-   "status": "faithful",
+   "id": "item:feverwort",
+   "title": "Feverwort",
+   "status": "kyr",
    "book": "phb",
    "section": "equipment/gear"
   },
   {
-   "id": "item:foxglove",
-   "title": "Foxglove",
-   "status": "unsupported",
+   "id": "item:fire_flask",
+   "title": "Fire flask",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:fireproof_salve",
+   "title": "Fireproof salve",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:first_aid_kit",
+   "title": "First Aid Kit",
+   "status": "faithful",
    "book": "phb",
    "section": "equipment/gear"
   },
@@ -8193,9 +7507,30 @@
    "section": "equipment/gear"
   },
   {
+   "id": "item:healingdraught",
+   "title": "Minor healing potion",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
    "id": "item:heather",
    "title": "Heather",
    "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:herbs",
+   "title": "Healing herbs",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:holy_water",
+   "title": "Holy water",
+   "status": "adapted",
    "book": "phb",
    "section": "equipment/gear"
   },
@@ -8217,13 +7552,6 @@
    "id": "item:minor_healing_potion",
    "title": "Minor Potion of Healing",
    "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:oil_flask",
-   "title": "Flask of Oil",
-   "status": "unsupported",
    "book": "phb",
    "section": "equipment/gear"
   },
@@ -8270,9 +7598,9 @@
    "section": "equipment/gear"
   },
   {
-   "id": "item:scroll_of_shapechange",
-   "title": "Scroll of Shapechange",
-   "status": "unsupported",
+   "id": "item:vinegar",
+   "title": "Vinegar",
+   "status": "faithful",
    "book": "phb",
    "section": "equipment/gear"
   },
@@ -8298,16 +7626,23 @@
    "section": "equipment/gear"
   },
   {
-   "id": "item:wand_of_polymorph",
-   "title": "Wand of Polymorph",
-   "status": "unsupported",
+   "id": "item:willow_bark",
+   "title": "Willow bark",
+   "status": "kyr",
    "book": "phb",
    "section": "equipment/gear"
   },
   {
-   "id": "item:wand_of_wonder",
-   "title": "Wand of Wonder",
-   "status": "unsupported",
+   "id": "item:wine",
+   "title": "Wine",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:yarrow_poultice",
+   "title": "Prepared yarrow poultice",
+   "status": "kyr",
    "book": "phb",
    "section": "equipment/gear"
   },
@@ -8354,9 +7689,9 @@
    "section": "equipment/gear"
   },
   {
-   "id": "item:angelmail",
-   "title": "Angelmail",
-   "status": "faithful",
+   "id": "item:ashwood_charm",
+   "title": "Ashwood ward charm",
+   "status": "kyr",
    "book": "phb",
    "section": "equipment/gear"
   },
@@ -8417,13 +7752,6 @@
    "section": "equipment/gear"
   },
   {
-   "id": "item:galvorn_mail",
-   "title": "Galvorn Mail",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
    "id": "item:gloves_of_dexterity",
    "title": "Gloves of Dexterity",
    "status": "faithful",
@@ -8448,6 +7776,27 @@
    "id": "item:mantle_of_charisma",
    "title": "Mantle of Charisma",
    "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:moonlight",
+   "title": "Jar of moonlight",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:noonlight",
+   "title": "Jar of noonlight",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:old_glossary",
+   "title": "Glossary of the old script",
+   "status": "kyr",
    "book": "phb",
    "section": "equipment/gear"
   },
@@ -8529,13 +7878,6 @@
    "section": "equipment/gear"
   },
   {
-   "id": "item:robe_of_elvenkind",
-   "title": "Robe of Elvenkind",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
    "id": "item:silvered_bracers",
    "title": "Silvered Bracers",
    "status": "faithful",
@@ -8550,90 +7892,6 @@
    "section": "equipment/gear"
   },
   {
-   "id": "item:wardstone",
-   "title": "Wardstone",
-   "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:ratsbane",
-   "title": "Twist of ratsbane",
-   "status": "kyr",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:spyglass",
-   "title": "Spyglass",
-   "status": "kyr",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:sandbag",
-   "title": "Sack of sand",
-   "status": "kyr",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:map",
-   "title": "Map of the district",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:bandages",
-   "title": "Bandages",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:herbs",
-   "title": "Healing herbs",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:healingdraught",
-   "title": "Minor healing potion",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:fireproof_salve",
-   "title": "Fireproof salve",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:willow_bark",
-   "title": "Willow bark",
-   "status": "kyr",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:feverwort",
-   "title": "Feverwort",
-   "status": "kyr",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:yarrow_poultice",
-   "title": "Prepared yarrow poultice",
-   "status": "kyr",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
    "id": "item:warding_focus",
    "title": "Foundry ward focus",
    "status": "adapted",
@@ -8641,156 +7899,72 @@
    "section": "equipment/gear"
   },
   {
-   "id": "item:ashwood_charm",
-   "title": "Ashwood ward charm",
-   "status": "kyr",
+   "id": "item:wardstone",
+   "title": "Wardstone",
+   "status": "faithful",
    "book": "phb",
    "section": "equipment/gear"
   },
   {
-   "id": "item:lantern_of_names",
-   "title": "Lantern of names",
-   "status": "kyr",
+   "id": "item:agate",
+   "title": "Agate",
+   "status": "adapted",
    "book": "phb",
    "section": "equipment/gear"
   },
   {
-   "id": "item:climbing_harness",
-   "title": "Climber's harness",
-   "status": "kyr",
+   "id": "item:alexandrite",
+   "title": "Alexandrite",
+   "status": "adapted",
    "book": "phb",
    "section": "equipment/gear"
   },
   {
-   "id": "item:bronze_bearing",
-   "title": "Bronze bearing",
-   "status": "kyr",
+   "id": "item:amethyst",
+   "title": "Amethyst",
+   "status": "adapted",
    "book": "phb",
    "section": "equipment/gear"
   },
   {
-   "id": "item:burial_register",
-   "title": "Burial register",
-   "status": "kyr",
+   "id": "item:ancient_crown",
+   "title": "Ancient crown",
+   "status": "faithful",
    "book": "phb",
    "section": "equipment/gear"
   },
   {
-   "id": "item:grave_rings",
-   "title": "Grave rings",
-   "status": "kyr",
+   "id": "item:ancient_map",
+   "title": "Ancient map",
+   "status": "faithful",
    "book": "phb",
    "section": "equipment/gear"
   },
   {
-   "id": "item:chapel_plate",
-   "title": "Chapel plate",
-   "status": "kyr",
+   "id": "item:ancient_orrery",
+   "title": "Ancient orrery",
+   "status": "faithful",
    "book": "phb",
    "section": "equipment/gear"
   },
   {
-   "id": "item:jade_idol",
-   "title": "Jade idol",
-   "status": "kyr",
+   "id": "item:ancient_tome",
+   "title": "Ancient tome",
+   "status": "faithful",
    "book": "phb",
    "section": "equipment/gear"
   },
   {
-   "id": "item:cell_key",
-   "title": "Iron cell key",
-   "status": "kyr",
+   "id": "item:antique_compass",
+   "title": "Antique compass",
+   "status": "faithful",
    "book": "phb",
    "section": "equipment/gear"
   },
   {
-   "id": "item:lamp_oil",
-   "title": "Flask of lamp oil",
-   "status": "kyr",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:fire_flask",
-   "title": "Fire flask",
-   "status": "kyr",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:pack_mule",
-   "title": "Pack mule",
-   "status": "kyr",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:noonlight",
-   "title": "Jar of noonlight",
-   "status": "kyr",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:moonlight",
-   "title": "Jar of moonlight",
-   "status": "kyr",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:first_light",
-   "title": "The First Light",
-   "status": "kyr",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:toll_silver",
-   "title": "Toll silver",
-   "status": "kyr",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:gilt_crown",
-   "title": "Gilded crown",
-   "status": "kyr",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:gilt_sceptre",
-   "title": "Gilded sceptre",
-   "status": "kyr",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:sun_disc",
-   "title": "Sun-disc",
-   "status": "kyr",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:lamplighter_seal",
-   "title": "Lamplighters' seal",
-   "status": "kyr",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:exchange_ledger",
-   "title": "The Exchange's black ledger",
-   "status": "kyr",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:hollow_regalia",
-   "title": "The Lamplighters' regalia",
-   "status": "kyr",
+   "id": "item:aquamarine",
+   "title": "Aquamarine",
+   "status": "adapted",
    "book": "phb",
    "section": "equipment/gear"
   },
@@ -8802,16 +7976,401 @@
    "section": "equipment/gear"
   },
   {
-   "id": "item:sluice_rod",
-   "title": "Notched rod",
+   "id": "item:black_diamond",
+   "title": "Black diamond",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:black_opal",
+   "title": "Black opal",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:blue_diamond",
+   "title": "Blue diamond",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:broken_crown",
+   "title": "Broken crown",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:broken_dagger",
+   "title": "Broken dagger",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:broken_flute",
+   "title": "Broken flute",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:broken_pipe",
+   "title": "Broken pipe",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:broken_scepter",
+   "title": "Broken scepter",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:bronze_bearing",
+   "title": "Bronze bearing",
    "status": "kyr",
    "book": "phb",
    "section": "equipment/gear"
   },
   {
-   "id": "item:tin_lantern",
-   "title": "Tin lantern",
+   "id": "item:bronze_bracelet",
+   "title": "Bronze bracelet",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:bronze_statue",
+   "title": "Bronze statue",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:carnelian",
+   "title": "Carnelian",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:celestial_chart",
+   "title": "Celestial chart",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:chapel_plate",
+   "title": "Chapel plate",
    "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:chrysoberyl",
+   "title": "Chrysoberyl",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:citrine",
+   "title": "Citrine",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:cloth_pouch",
+   "title": "Cloth pouch",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:cloth_tunic",
+   "title": "Cloth tunic",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:crystal_eye",
+   "title": "Crystal eye",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:crystal_orb",
+   "title": "Crystal orb",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:diamond",
+   "title": "Diamond",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:diamond_eye",
+   "title": "Diamond eye",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:diamond_necklace",
+   "title": "Diamond necklace",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:divine_scepter",
+   "title": "Divine scepter",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:diviners_eye",
+   "title": "Diviners eye",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:dowsing_rod",
+   "title": "Dowsing rod",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:dragons_egg",
+   "title": "Dragons egg",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:dragons_tooth",
+   "title": "Dragons tooth",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:emerald",
+   "title": "Emerald",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:eternal_flame",
+   "title": "Eternal flame",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:faded_map",
+   "title": "Faded map",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:faded_painting",
+   "title": "Faded painting",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:faded_tome",
+   "title": "Faded tome",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:fallen_star",
+   "title": "Fallen star",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:fire_opal",
+   "title": "Fire opal",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:fluorite",
+   "title": "Fluorite",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:garnet",
+   "title": "Garnet",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:golden_idol",
+   "title": "Golden idol",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:grandidierite",
+   "title": "Grandidierite",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:grave_rings",
+   "title": "Grave rings",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:hand_mirror",
+   "title": "Hand mirror",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:hematite",
+   "title": "Hematite",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:intelligent_book",
+   "title": "Intelligent book",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:intelligent_painting",
+   "title": "Intelligent painting",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:iolite",
+   "title": "Iolite",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:iron_figurine",
+   "title": "Iron figurine",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:iron_idol",
+   "title": "Iron idol",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:iron_torc",
+   "title": "Iron torc",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:jade",
+   "title": "Jade",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:jade_idol",
+   "title": "Jade idol",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:jasper",
+   "title": "Jasper",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:jeweled_box",
+   "title": "Jeweled box",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:jeweled_crown",
+   "title": "Jeweled crown",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:jeweled_dagger",
+   "title": "Jeweled dagger",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:jeweled_statue",
+   "title": "Jeweled statue",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:jeweled_torc",
+   "title": "Jeweled torc",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:jeweled_zodiac",
+   "title": "Jeweled zodiac",
+   "status": "faithful",
    "book": "phb",
    "section": "equipment/gear"
   },
@@ -8823,16 +8382,387 @@
    "section": "equipment/gear"
   },
   {
-   "id": "item:old_glossary",
-   "title": "Glossary of the old script",
+   "id": "item:kraken_claw",
+   "title": "Kraken claw",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:lapis_lazuli",
+   "title": "Lapis lazuli",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:lensing_crystal",
+   "title": "Lensing crystal",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:lost_tome",
+   "title": "Lost tome",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:malachite",
+   "title": "Malachite",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:moonstone",
+   "title": "Moonstone",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:musgravite",
+   "title": "Musgravite",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:music_box",
+   "title": "Music box",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:obsidian",
+   "title": "Obsidian",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:onyx",
+   "title": "Onyx",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:opalescent_skull",
+   "title": "Opalescent skull",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:painite",
+   "title": "Painite",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:peridot",
+   "title": "Peridot",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:philosophers_stone",
+   "title": "Philosophers stone",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:phoenix_feather",
+   "title": "Phoenix feather",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:priceless_painting",
+   "title": "Priceless painting",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:pyrite",
+   "title": "Pyrite",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:quartz",
+   "title": "Quartz",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:red_diamond",
+   "title": "Red diamond",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:rose_quartz",
+   "title": "Rose quartz",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:royal_crown",
+   "title": "Royal crown",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:royal_scepter",
+   "title": "Royal scepter",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:ruby",
+   "title": "Ruby",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:sacred_idol",
+   "title": "Sacred idol",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:sapphire",
+   "title": "Sapphire",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:simple_ring",
+   "title": "Simple ring",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:smoking_pipe",
+   "title": "Smoking pipe",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:smoky_quartz",
+   "title": "Smoky quartz",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:soul_gem",
+   "title": "Soul gem",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:spinel",
+   "title": "Spinel",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:spinel_red",
+   "title": "Spinel red",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:star_ruby",
+   "title": "Star ruby",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:steel_coin",
+   "title": "Steel coin",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:steel_torc",
+   "title": "Steel torc",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:tanzanite",
+   "title": "Tanzanite",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:tattered_map",
+   "title": "Tattered map",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:tattered_tome",
+   "title": "Tattered tome",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:tiger_eye",
+   "title": "Tiger eye",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:tin_lantern",
+   "title": "Tin lantern",
    "status": "kyr",
    "book": "phb",
    "section": "equipment/gear"
   },
   {
-   "id": "item:dirge_bell",
-   "title": "Dirge bell",
+   "id": "item:titan_statue",
+   "title": "Titan statue",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:toll_silver",
+   "title": "Toll silver",
    "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:topaz",
+   "title": "Topaz",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:tourmaline",
+   "title": "Tourmaline",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:triskelion_amulet",
+   "title": "Triskelion amulet",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:turquoise",
+   "title": "Turquoise",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:unholy_symbol",
+   "title": "Unholy symbol",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:unusual_seashell",
+   "title": "Unusual seashell",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:vial_of_phoenix_tears",
+   "title": "Vial of phoenix tears",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:vial_of_unicorn_blood",
+   "title": "Vial of unicorn blood",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:wooden_bowl",
+   "title": "Wooden bowl",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:wooden_figurine",
+   "title": "Wooden figurine",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:wooden_idol",
+   "title": "Wooden idol",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:zircon",
+   "title": "Zircon",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:zodiac_medallion",
+   "title": "Zodiac medallion",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:zoological_manual",
+   "title": "Zoological manual",
+   "status": "faithful",
    "book": "phb",
    "section": "equipment/gear"
   },
@@ -17694,7 +17624,7 @@
   {
    "id": "orsino:gear:holy_water",
    "title": "Holy water",
-   "status": "represented",
+   "status": "adapted",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
@@ -17778,7 +17708,7 @@
   {
    "id": "orsino:gear:pole",
    "title": "Pole",
-   "status": "faithful",
+   "status": "adapted",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },

@@ -3188,7 +3188,7 @@ Orsino's planes, traps, wonders, treasure and magic items, with how much of each
 | Gown | 3 | An elegant gown for formal occasions. | faithful |
 | Hammer | 2 | A sturdy hammer for driving nails or breaking objects. | faithful |
 | Holy symbol | 5 | A holy symbol for religious ceremonies or warding off evil. | faithful |
-| Holy water | 25 | type damage kind radiant amount 2d6 condition {"trait":"undead"} | represented |
+| Holy water | 25 | type damage kind radiant amount 2d6 condition {"trait":"undead"} | adapted |
 | Hose | 2 | A length of hose for carrying water or other liquids. | faithful |
 | Iron spikes | 1 | A set of iron spikes for securing tents or climbing walls. | faithful |
 | Ladder | 4 | A portable ladder for reaching high places. | faithful |
@@ -3200,7 +3200,7 @@ Orsino's planes, traps, wonders, treasure and magic items, with how much of each
 | Musical instrument | 10 | A musical instrument for entertainment or rituals. | faithful |
 | Needle and thread | 1 | A needle and thread for repairing clothing or gear. | faithful |
 | Piton | 1 | A metal spike for anchoring ropes in rock or ice. | faithful |
-| Pole | 2 | A long pole for support or investigation. | faithful |
+| Pole | 2 | A long pole for support or investigation. | adapted |
 | Pot | 3 | A cooking pot for preparing meals while traveling. | adapted |
 | Pouch | 2 | A small pouch for carrying personal items. | adapted |
 | Quill | 1 | A feather quill for writing or drawing. | faithful |

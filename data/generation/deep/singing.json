@@ -116,6 +116,7 @@
   },
   "bane": {
     "item": "dirge_bell",
+    "like": { "name": "a dirge bell", "base": "holy_symbol", "grants": "knell", "worn": "charm", "text": "A small bell of grey bronze with a clapper of bone, the Stone-Singers' own, rung over their dead. Whoever carries it and rings it as they rang it rings their knell." },
     "role": "unfinished",
     "seen": "In the dust at the end of the unfinished hall lies what is left of a cantor who did not go into the stone with the rest: grey robes over grey bones, and in one hand a small bell of grey bronze with a clapper of bone.",
     "cut": "WE ARE IN THE STONE. RING FOR US AS FOR THE DEAD, AND THE SONG WILL BE STILL. THE LAST OF THE CANTORS HAS THE BELL.",

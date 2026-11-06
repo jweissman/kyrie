@@ -333,6 +333,7 @@ Module longman "The Long Man" {
     Says "She listens without a word while you tell her what the Mower does. Then she lays the rod on the table. 'I always thought it walked like a reeve,' she says. 'Bring it back.'".
     On discuss { Assert lends(nell, rod, actor). }
   }
+  Kind sluice_rod "notched rod" is gear worth 1 weighing 2 described "A staff of black wood shod at both ends in bronze, the bronze notched along its edge in a close, careful pattern.".
   Item rod "the dyke-reeve's rod" is sluice_rod at reeve_room hidden until rod_seen owned by nell.
   Discovery rod_seen "Gammer Coller keeps an old rod shod in notched bronze, the dyke-reeve's rod, by her door.".
 

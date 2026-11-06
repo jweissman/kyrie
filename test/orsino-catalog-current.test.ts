@@ -22,7 +22,8 @@ describe('the generated Orsino catalog', () => {
     const vocabulary = read('data/catalog/vocabulary.json') as { saveKinds: Record<string, string>; damageTypes: string[] };
     const generated = new OrsinoTranslate(entries, { saveKinds: Object.keys(vocabulary.saveKinds),
       damageTypes: vocabulary.damageTypes, bestiary: OrsinoBestiary.vocabulary(entries) }).generate();
-    for (const [family, made] of Object.entries(generated)) {
+    // Its items are authored records now (data/catalog/items/), no longer generated.
+    for (const [family, made] of Object.entries(generated).filter(([f]) => f !== 'items')) {
       expect(JSON.parse(JSON.stringify(made)), family)
         .toEqual((read(`data/catalog/orsino/${family}.json`) as Record<string, unknown>)[family]);
     }

@@ -83,19 +83,20 @@ describe('what a technique says', () => {
   it('one foe of several getting away leaves the fight alone', () => {
     // The kinds a campaign run before in this process declared are its own, not these wolves' (the review's H7).
     LocalKinds.reset();
-    const randomly = Object.entries(Content.statuses).find(([, c]) => c.modifiers.randomActions)![0];
+    // One of three wolves turned to flight (Orsino's fleeing: gone when the next round begins); a creature out of its
+    // wits no longer happens into getting away.
     let fled = 0;
-    for (let s = 0; s < 120; s++) {
+    for (let s = 0; s < 40; s++) {
       const content = new Content(`flee-${s}`);
       const combatants = [content.character('warrior', 'hero', 'fighters'), content.character('warrior', 'hero2', 'fighters'),
         ...['w1', 'w2', 'w3'].map(id => content.creature('wolf', id, 'goblins'))];
-      combatants.slice(2).forEach(w => w.statuses.push({ id: randomly, remaining: 3 }));
+      combatants[2]!.statuses.push({ id: 'fleeing', remaining: 2 });
       const b = new Battle({ id: 'flee', combatants, abilities: Content.abilities }, `flee-${s}`, 300);
       while (!b.state.outcome) { b.step(b.chosen()); }
       const end = b.events.find(e => e.type === 'end') as { fled?: { team: string } } | undefined;
+      if (b.events.some(e => e.type === 'flee' && e.actor === 'w1')) { fled++; }
       // Ended by a foe's getting away only when it was the last of them standing.
       if (end?.fled?.team === 'goblins') {
-        fled++;
         expect(b.state.combatants.filter(f => f.team === 'goblins' && f.hp > 0).length).toBeLessThanOrEqual(1);
       }
     }
