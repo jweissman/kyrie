@@ -3,7 +3,8 @@ import { ModuleWriter } from '../src/lang/module-writer';
 import type { Change } from '../src/lang/module';
 import { Wrayford, build, home } from './support/wrayford';
 
-// The Third Night, broad pass (doc/imbar/adventures/wrayford.md): the company's callings speak in the city, a lamp is kept
+// The Third Night, broad pass (doc/imbar/adventures/wrayford.md): the company's callings speak in the city, a lamp is
+// kept
 // for no one living, a tale comes up the drove road from the south, and the Bargeman is put at its ease in two ways.
 const toStep = ["To Northgate", "To the Market Cross", "Shambles", "Wharf", "bank under", "=103", "To Wade's Step"];
 const wheels = ["To Northgate", "Into the Nine Wheels"];

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { Lull, k } from './support/lull';
+import { Lull } from './support/lull';
 
 // The Lull, revised against doc/imbar/14-bible.md (see doc/imbar/adventures/the-lull.md): a company of five callings,
 // what each sees (data/adventures/the-lull/fellowship.kyr), and the cleric's Office for the Easing.

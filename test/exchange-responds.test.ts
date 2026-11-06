@@ -120,6 +120,7 @@ describe('what the Exchange\'s fall does on an island', () => {
     await s.perform(c.choice.id);
     const t0 = Math.ceil(s.campaign.state.elapsed / 144) * 144;
     await j.play('^To Tolleth quay', 'Ask Captain Bascom for passage', 'Pay Captain Bascom six', "^To the Dorothea's waist");
+    j.assert('ptolleth__seaQuiet', 'ptolleth__hull'); // fixed timeline: the sea table (weather.kyr) is off
     await j.play(`=${t0 + 180}`, '^To the quarterdeck', 'lie off', `=${t0 + 216}`, "^To the Dorothea's waist", '^To Skerrow jetty', '^To Skerrow green', '^Into the Gull');
     await j.play('Ask Silas Quillon what he wants');
     await j.play(`=${t0 + 222}`);

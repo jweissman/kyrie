@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { Hume, build, h } from './support/hume';
+import { Hume, build } from './support/hume';
 
 // Half the Hive, revised against doc/imbar/14-bible.md (see doc/imbar/adventures/half-the-hive.md): a company of
 // five callings finds what each of them would find (data/adventures/half-the-hive/wake.kyr), a cleric has two ways

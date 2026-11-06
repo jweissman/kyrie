@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { Calamy, C, Steps } from './support/calamy';
+import { Calamy, C } from './support/calamy';
 import type { Journey } from '../src/session/journey';
 import { ModuleWriter } from '../src/lang/module-writer';
 

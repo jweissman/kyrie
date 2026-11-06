@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'bun:test';
 import { Journey } from '../src/session/journey';
 
-// The Pound's first page (doc/imbar/adventures/book-of-faces.md): the Collegium of Measures' Bursar, the assay stair and
+// The Pound's first page (doc/imbar/adventures/book-of-faces.md): the Collegium of Measures' Bursar, the assay stair
+// and
 // its Counterpoise, the case with a second lock, the company's quarrel, the voices. Played by the labels a player sees,
 // with a company of four (Elen the ranger, Mirel the thief, Dori the cleric, Tam the warrior).
 const campaign = 'test/fixtures/book-of-faces/company.campaign.json';

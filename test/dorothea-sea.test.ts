@@ -43,7 +43,7 @@ describe('the sea table', () => {
           await j.play('=+14');
         } else {
           let done = false;
-          for (const e of exits[kind]) {
+          for (const e of exits[kind] ?? []) {
             if (j.matches(e).length) { await j.play(e); done = true; break; }
           }
           expect(done).toBe(true);

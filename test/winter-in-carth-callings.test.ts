@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'bun:test';
 import { Gaunt, build } from './support/gaunt';
 
-// A Winter in Carth, revised against the series bible (doc/imbar/14-bible.md): what each calling makes of Carth and Gaunt
+// A Winter in Carth, revised against the series bible (doc/imbar/14-bible.md): what each calling makes of Carth and
+// Gaunt
 // (data/adventures/winter-in-carth/voices.kyr), the one thing only a cleric can read, and who she tells; the Bishop's
 // Wood at dusk with two ways that are not a fight; and the seam kept open (seam.kyr). Each starts at the Penitent's
 // Cross and puts the company where the story would have brought it.

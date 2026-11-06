@@ -5,7 +5,8 @@ import { ModuleWriter } from '../src/lang/module-writer';
 import { Journey } from '../src/session/journey';
 import type { CampaignEvent } from '../src/campaign/campaign';
 
-// The House That Grows, Act III: the Slope, the gate, the front door, and the three answers to Neme, played by the labels
+// The House That Grows, Act III: the Slope, the gate, the front door, and the three answers to Neme, played by the
+// labels
 // a player sees (doc/imbar/adventures/house-that-grows.md).
 class Ring {
   static start() {
@@ -18,7 +19,9 @@ class Ring {
     await j.play(...labels);
     return j.taken.map(t => t.event);
   }
-  static holds(s: PlaySession, name: string, ...args: string[]) { return s.campaign.world.test(ModuleWriter.call(name, ...args)); }
+  static holds(s: PlaySession, name: string, ...args: string[]) {
+    return s.campaign.world.test(ModuleWriter.call(name, ...args));
+  }
   static said(events: CampaignEvent[]) {
     return events.flatMap(e => [...(e.perceptions ?? []).map(p => p.text), e.response ?? '']).join(' ');
   }

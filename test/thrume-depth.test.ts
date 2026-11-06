@@ -6,9 +6,11 @@ import { Journey } from '../src/session/journey';
 import type { Battle } from '../src/battle';
 import type { Command } from '../src/model';
 
-// Thrume's second pass (doc/imbar/adventures/thrume.md), played by the labels a player sees: the Paymasters' hall and its
+// Thrume's second pass (doc/imbar/adventures/thrume.md), played by the labels a player sees: the Paymasters' hall and
+// its
 // four ways round, the Shoulder Hall's child, its young blood and its wolves, the Saltgrave faces, the company's own
-// voices, the world events Thrume reads, and the two payoffs at the edge of the Mouth. Starts that are not Saltgrave are
+// voices, the world events Thrume reads, and the two payoffs at the edge of the Mouth. Starts that are not Saltgrave
+// are
 // fixtures (test/fixtures/thrume-depth); the first two tests use the shipped campaign.
 const saltgrave = 'data/campaigns/thrume.campaign.json';
 const depth = 'test/fixtures/thrume-depth/depth.campaign.json';
@@ -20,8 +22,12 @@ class T {
     const s = await PlaySession.start(campaign, 'saltgrave', NodeBundleSource.shared);
     return { s, j: Journey.of(s) };
   }
-  static holds(s: PlaySession, name: string, ...args: string[]) { return s.campaign.world.test(ModuleWriter.call(name, ...args)); }
-  static measure(s: PlaySession, name: string, ...args: string[]) { return s.campaign.world.number(ModuleWriter.call(name, ...args)); }
+  static holds(s: PlaySession, name: string, ...args: string[]) {
+    return s.campaign.world.test(ModuleWriter.call(name, ...args));
+  }
+  static measure(s: PlaySession, name: string, ...args: string[]) {
+    return s.campaign.world.number(ModuleWriter.call(name, ...args));
+  }
   static fallen(s: PlaySession) {
     return s.campaign.readout.creatures.filter(c => s.campaign.readout.partyIds.includes(c.id) && !c.state.hp).length;
   }
@@ -108,7 +114,9 @@ describe('Thrume: the Paymasters\' hall', () => {
     expect(T.holds(s, 'knows', 'party', 'thrume__gods_wage')).toBe(true);
     expect(T.holds(s, 'thrume__quarrelPaid', 'party')).toBe(true);
     // Four ways round, and a fifth that is not: all offered.
-    for (const l of [/^Pay the Paid/, /^Say the office/, /^Attack/, /^Take/]) { expect(T.labels(j).some(x => l.test(x))).toBe(true); }
+    for (const l of [/^Pay the Paid/, /^Say the office/, /^Attack/, /^Take/]) {
+      expect(T.labels(j).some(x => l.test(x))).toBe(true);
+    }
   }, 120000);
 
   it('is paid in crowns: twelve spent, the Paid stand down and keep the window, and no office can be said afterwards', async () => {

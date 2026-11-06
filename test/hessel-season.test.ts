@@ -2,7 +2,8 @@ import { describe, expect, it } from 'bun:test';
 import { readFileSync } from 'node:fs';
 import { Hessel, build } from './support/hessel';
 
-// The Banns at Hessel: the layer added in the broad pass (doc/imbar/adventures/hessel.md): the Season's slate, the peal on
+// The Banns at Hessel: the layer added in the broad pass (doc/imbar/adventures/hessel.md): the Season's slate, the
+// peal on
 // Sunday, the King's Hesitation at the Ball, the Colonel on the end bed, and calling voices.
 const phases = JSON.parse(readFileSync('test/fixtures/hessel/rooms.json', 'utf8')) as Record<string, string[]>;
 const upTo = ['arrive', 'up', 'twiss', 'noon', 'dusk', 'sleep', 'day2', 'afternoon2', 'night2', 'day3'];

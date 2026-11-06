@@ -5,12 +5,15 @@ import { ModuleWriter } from '../src/lang/module-writer';
 import { Journey } from '../src/session/journey';
 
 // The revision pass on Let One Remember: calling-keyed voices, the empty niche at Keld (a choice with a price), the dry
-// shelf round the Old Silver (a way only a ranger reads), and the Finder of Wendmouth. Played by labels, as a player would.
+// shelf round the Old Silver (a way only a ranger reads), and the Finder of Wendmouth. Played by labels, as a player
+// would.
 class W {
   static start(campaign = 'data/campaigns/let-one-remember.campaign.json') { return PlaySession.start(campaign, 'corrow', NodeBundleSource.shared); }
   static play(s: PlaySession, steps: string[]) { return Journey.of(s).play(...steps); }
   static choices(s: PlaySession) { return Journey.of(s).choices(); }
-  static holds(s: PlaySession, name: string, ...args: string[]) { return s.campaign.world.test(ModuleWriter.call(name, ...args)); }
+  static holds(s: PlaySession, name: string, ...args: string[]) {
+    return s.campaign.world.test(ModuleWriter.call(name, ...args));
+  }
   static is(s: PlaySession, rel: string, ...args: string[]) { return this.holds(s, `corrow__${rel}`, ...args.map(a => a === 'party' ? a : `corrow__${a}`)); }
   static num(s: PlaySession, measure: string, of: string) { return s.campaign.world.number(ModuleWriter.call(measure, `corrow__${of}`)); }
 }

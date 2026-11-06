@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'bun:test';
 import { Hollins } from './support/hollins';
 
-// Behind the Wainscot: the layer added in the broad pass (doc/imbar/adventures/hollins.md): voices by calling, the Winders'
+// Behind the Wainscot: the layer added in the broad pass (doc/imbar/adventures/hollins.md): voices by calling, the
+// Winders'
 // account (the eleven notches), the warrior's word to the Regiment, and the small depth and outward links.
 describe('Behind the Wainscot: the Winders\' account and the warrior\'s word', () => {
   it('speaks to a warrior at the Long Clock, in the Hall, and at the Fort, and shows the pencilled twelfth hand', async () => {
@@ -20,7 +21,8 @@ describe('Behind the Wainscot: the Winders\' account and the warrior\'s word', (
   it('lets a warrior with the Regiment\'s word order it to stand easy, years before the Lady could', async () => {
     const g = await Hollins.start();
     await g.fixture('regiment');
-    // The fixture marches the Regiment on Mrs Pyecroft; a company that does not tell the Captain that has the order instead.
+    // The fixture marches the Regiment on Mrs Pyecroft; a company that does not tell the Captain that has the order
+    // instead.
     const h = await Hollins.start();
     const steps = (await Bun.file('test/fixtures/hollins/regiment.json').json() as { in: string[] }).in;
     await h.play(...steps.slice(0, steps.indexOf('Tell Captain Ordinance')));

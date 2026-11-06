@@ -18,7 +18,10 @@ class Pent {
   get page() { return this.j.taken.map(x => `[${x.label}] ${x.page} ${x.told}`).join('\n'); }
   // Sets a scene directly: who is where, and what is so. `canon` facts and `knows` keep their own names.
   stage(...facts: [string, ...string[]][]) {
-    type Staged = { world: { one(r: string, a: string): string | undefined; apply(c: Change[]): unknown }; commit(w: unknown): void };
+    type Staged = {
+      world: { one(r: string, a: string): string | undefined; apply(c: Change[]): unknown };
+      commit(w: unknown): void;
+    };
     const c = this.j.campaign as unknown as Staged;
     const id = (a: string) => a === 'party' || a.startsWith('slack') || a.startsWith('remainder') ? a : p(a);
     const changes: Change[] = facts.flatMap(([name, ...args]): Change[] => {
