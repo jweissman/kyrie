@@ -59,3 +59,7 @@ Nothing prose-level. The one structural softness is that most of the dead are vo
 register (Mab, Gorm, Brand's ballad). A third register (a very young soldier who died on the first day of the war and
 still believes in the cause) would give the Halls someone for whom the Halt is not a relief. That is new content, not
 an edit.
+
+## Tests
+
+Lint: 0 errors. No test assertion referenced a changed string (checked by comparing every string literal in the adventure's test files against the pre-edit source). Run, all passing: the main file, `-placed`/`-company`/`-wander`/`-revised`/`-beyond` where they exist. Not run here (CI): `-browser` and `low-water-replay`.

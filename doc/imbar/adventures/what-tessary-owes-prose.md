@@ -62,3 +62,7 @@ The Valuer, the Comptroller and the Notary are three servants of one Balance and
 be made *unable* to (the Notary reads out clauses only; the Comptroller refuses all questions about the compact), so
 the player assembles the old city's story from three partial witnesses instead of being given it by two. Doing that
 requires deciding which of the `compact_read`/`census`-type Discoveries each would still teach.
+
+## Tests
+
+Lint: 0 errors. No test assertion referenced a changed string (checked by comparing every string literal in the adventure's test files against the pre-edit source). Run, all passing: the main file, `-placed`/`-company`/`-wander`/`-revised`/`-beyond` where they exist. Not run here (CI): `-browser` and `low-water-replay`.

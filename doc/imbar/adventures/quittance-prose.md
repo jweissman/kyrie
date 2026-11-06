@@ -108,8 +108,10 @@ asked to face it, and is the first thing in the adventure with someone getting c
 Topic labels, ids, conditions and mechanics were not touched. Every phrase a test asserts (`Rain`, `about one time in three`,
 `Every lamp in the Quarter goes out in the same instant`, `It means there is a lender`, `hum like a hive`, `I do not complain.
 I count.`, and so on) was kept; the one test-asserted line with a neighbouring tic (the Skell exchange) kept its asserted word.
-Lint: `bin/kyrie lint data/campaigns/quittance.campaign.json` 0 errors (the same warnings as before). Tests: see the end of this
-file for the file-by-file run.
+Lint: `bin/kyrie lint data/campaigns/quittance.campaign.json` 0 errors (the same warnings as before). Tests: all 21 `test/quittance*.test.ts`
+files run one by one after the last edit and pass (annuitant 18, arch 10, bakery 13, barge 33, barge-2 4, coldlamp 27, descent 20,
+descent-2 16, forger 11, lamplighter 23, markstreet 18, pennymutual 21, pip 19, queue 14, spine 8, surveyor 14, tithe 3, voices 9,
+wake 20, world 1, quittance 2). Under load several files take 5 to 9 minutes each.
 
 ## What is still weak
 

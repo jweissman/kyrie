@@ -61,3 +61,7 @@ speeches and results, I read perhaps half closely, and most of what I read was n
 The deep past is carried by Halm in conversation. A scene where the player *reads* it (the Lector's stones, the arch's
 table) and the explanation is left to inference would let Halm stay a person rather than a glossary. That means
 re-pointing three `teaches`/`Discovery` texts that currently quote his gloss, which was outside this pass.
+
+## Tests
+
+Lint: 0 errors. No test assertion referenced a changed string (checked by comparing every string literal in the adventure's test files against the pre-edit source). Run, all passing: the main file, `-placed`/`-company`/`-wander`/`-revised`/`-beyond` where they exist. Not run here (CI): `-browser` and `low-water-replay`.

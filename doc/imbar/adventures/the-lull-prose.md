@@ -61,3 +61,9 @@ his knees), Hester (dry), Corin (clocks). Faults:
 A scene in which the Glosser's law is *disproved on the player's hands* before Aldith states it. Today the player is
 told "it is meaning, not love or wages" by Aldith (law.kyr) after three small experiments; the experiments are good,
 the summary is not needed. Removing it needs the Simeon topic to be reachable without it.
+
+## Tests
+
+Lint: 0 errors on all four campaigns. One assertion needed updating: `test/the-lull.test.ts:98` matched the removed
+sentence "this is what the strikers stopped"; it now matches "you look up for a window, and there is none". Run, all
+passing: `the-lull`, `the-lull-revised`, `the-lull-placed`, `the-lull-wander`. Not run here (CI): the `-browser` files.
