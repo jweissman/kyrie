@@ -17,7 +17,9 @@ export class AuthoredLand {
   static readonly margin = 3;
   // What each region's country mostly is, low ground to high, as a chart writes covers (see Atlas.covers).
   static readonly country: Record<string, string[]> = { frost: ['.', 'h', 'h', 'f'], hills: ['.', '.', 'h', 'f'],
-    marsh: [',', ',', '.', 'w'], forest: ['.', 'w', 'w', 'h'], mountain: ['.', 'h', 'f', 'p'], desert: ['.', 'h', 'h', 'f'] };
+    marsh: [',', ',', '.', 'w'], forest: ['.', 'w', 'w', 'h'], mountain: ['.', 'h', 'f', 'p'], desert: ['.', 'h', 'h', 'f'],
+    volcanic: ['.', 'h', 'f', 'p'], jungle: ['w', 'w', '.', 'h'], saltflat: ['.', '.', ',', 'h'], reef: ['.', ',', '.', 'h'],
+    archipelago: ['~'] };
   // A region's land: its own, where it was drawn with it (a generated country's), else drawn from where its author
   // set its places, once for the world as assembled (a region holds the places other modules set in it too).
   private static readonly drawn = new WeakMap<Module, Map<string, LandChart | undefined>>();

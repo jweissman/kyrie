@@ -28,7 +28,7 @@ export class BoardFlora {
   }
   private grow(c: number): void {
     if (this.ground.land.terrain === 'frost') { this.cold(c); return; }
-    if (this.ground.land.terrain === 'desert') { this.dry(c); return; }
+    if (['desert', 'saltflat', 'volcanic'].includes(this.ground.land.terrain ?? '')) { this.dry(c); return; }
     const cover = this.ground.cover(c),
       nearTown = [...this.towns].some(t => this.ground.grid.centres[t]!.distanceTo(this.ground.grid.centres[c]!) < 1.6);
     if (cover === 'w') { this.wood(c); }
