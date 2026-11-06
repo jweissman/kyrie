@@ -42,9 +42,13 @@ describe('one city, two adventures', () => {
     expect(restored.module.actions.some(a => a.id === `${rid}quarrel__keeper_stones` && a.speaker === k('gully')))
       .toBe(true);
   }, 240000);
-  it('is played there: asked at the Two Poles, the old holes found in its garden, and Hetty brought to set them back', async () => {
+  // By two companies such as a player begins with (the owner, 6 November: never a ready-made party), each alone and
+  // of another calling, and what each did kept across a save (M19-75).
+  it.each([['bard', 'Wenna'], ['warrior', 'Garm']] as const)('is played there by a lone %s: asked at the Two Poles, '
+    + 'the old holes found in its garden, and Hetty brought to set them back, and kept so', async (classId, name) => {
     const { s, c, rid, k } = await ProvincePlay.enter('h14', 'hessel',
-      { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: 'bard' }] });
+      { origin: 'wanderer', party: [{ name, raceId: 'human', classId }] });
+    expect(c.state.party.map(m => m.name)).toEqual([name]);
     const q = (x: string) => `${rid}quarrel__${x}`;
     const take = async (part: string) => {
       const row = PlayerView.choices(c).find(x => x.choice.id.includes(part));
@@ -58,6 +62,9 @@ describe('one city, two adventures', () => {
     c.commitWorld(c.world.apply([{ kind: 'assert', call: ModuleWriter.call('at', 'party', k('hetty_shop')) }]));
     expect((await take(q('trader_holes'))).response).toContain('I will set them back');
     expect(c.world.test(ModuleWriter.call(q('restored'), k('hetty')))).toBe(true);
+    const restored = Campaign.restore(c.save());
+    expect([restored.world.test(ModuleWriter.call(q('restored'), k('hetty'))), restored.state.party.map(m => m.name)])
+      .toEqual([true, [name]]);
   }, 240000);
   it('names only a city whose country exports every part of it its scenarios import', async () => {
     for (const entry of await CityResidents.library(NodeBundleSource.shared)) {
