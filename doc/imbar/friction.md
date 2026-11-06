@@ -39,3 +39,32 @@ and answers each trouble by every exit it promises). Findings:
 | 15 | Fixed-timeline tests break the moment a chance table exists (seven failed): they needed a `seaQuiet` switch the author must invent. | tested | A test-level `Journey` option to pin `dice()` high. |
 | 16 | Not built: more islands, a trading-house hierarchy, a sea passage kind, route choice. The Dorothea is one route between two places. | blocked/not done | Agent route to a not-yet-installed region (§11.4) for the trade; a `sea` passage kind for the chart. |
 | 17 | `hasCalling` voices did not fire in the Gosse agent's campaign (callings installed under another module's prefix); `capable(party, rites…)` works there. **Not reproduced in the Dorothea:** its calling-keyed voices (`memberOf(?m, party) and hasCalling(?m, calling_ranger)` and the thief, cleric, warrior, mage and bard ones in `voices.kyr`) fire in the standalone `the-dorothea` campaign, played by `test/the-dorothea.test.ts` and `test/dorothea-voices.test.ts`. The failure is the Gosse campaign's, not general; the Long Man's is in its own tests. Other campaigns were not checked here. | read; closed for the Dorothea | Document which form is portable; or alias `calling_*` globally. |
+
+## Start here, builder: the consolidated asks
+
+*This file began as one author's notes and grew twenty-four per-adventure siblings (`adventures/*-friction.md`). The
+builder-facing version is `18-engine-spec.md` (12 items, each with where-in-`src/`, a diff sketch, risk, and what to run
+locally vs in CI) and `19-sea-region.md` (the one change that was tried). This is the short list, in the order I would do it.*
+
+**Is the engine the blocker for a seagoing adventure? No for playing it; yes for the world around it.** The Dorothea
+archipelago plays today with no engine change (a ship is a thing at station rooms; gangways open when it is there; a
+counter advances per watch; a die-drawn sea table; six calls; a trading house; save/reload tested). What the engine cannot
+yet do is make the **world** a sea:
+
+| # | Ask | Why it matters to a sea adventure | Status |
+|---|---|---|---|
+| 1 | **Terrain kinds** `volcanic`, `jungle`, `saltflat`, `reef`, `archipelago` | islands that look and read different | **Tried and built**, opt-in, no seed changed (`19`); board palettes never viewed in a browser; no legend; combat has no environment for them |
+| 2 | **An ocean/archipelago region mode** | far-flung islands separated by many sea hexes | **Tried and built** as an opt-in chart (islands 3x3, at least 2 water hexes apart). **Not wired to the Dorothea**: its islands are separate regions, and joining them re-parents ids and moves canonical strings and traces; needs a new `reach` region first |
+| 3 | **Tolleth must be on a coast** (a forced-coast / shore requirement in placement) | today a "coast road" harbour appears inland in ~83% of worlds; the voyage then lives only inside the module | **Not built**; re-seeds worlds with an east sea (`18` item 12/plan step 7) |
+| 4 | **A vessel / sea passage kind** | replaces "ship = a Thing at stations"; interruptible legs; one concept for travel, chart and map | **Not built** (`18` item 3); the pattern in `07-voyage.md` is the workaround |
+| 5 | **`Draw <row> from <table>`** in a rule | today a table is mutually exclusive `dice()` rules; fine for 5 rows, awkward for 20 | **Not built**; the sea table works without it (`weather.kyr`) |
+| 6 | **`Time` arithmetic** | `Time <measure>` already works (I used it for the Slack's interest); `Time x + 2` does not parse | small parser change |
+| 7 | **Agent routes to uninstalled regions; Pursuit through hidden doors** | the ring's Principal cannot be met between places | **Not built** (`ring-friction.md`) |
+| 8 | **Cross-module measures** | the ring runs on two clocks | **Not built** |
+| 9 | **Kits for adventures** (`placed.json`/`countries.json`) | companies cannot be equipped by an adventure | **Not built** |
+| 10 | **`hasCalling` portability** | calling-keyed voices did not fire in one standalone campaign (callings installed under another module's prefix); `capable(...)` is the portable form but loses the member's name | **Not built**; audit the other campaigns |
+| 11 | **Dice pinning in `Journey`** | fixed-timeline tests break once a chance table exists; I invented a `seaQuiet` switch | small test-helper change |
+| 12 | **Orsett as a place** | the House's seat is only a name; a province would re-seed every world | blocked on a province decision |
+
+Everything else the sea adventure wanted (islands, a House, five entry points, two threats, a descent) is data, and is
+in the tree. The cost of the data-only route is that the sea is invisible on the world map.
