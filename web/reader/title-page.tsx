@@ -13,8 +13,8 @@ type Place = { x: number; y: number; w: number };
 // The title. Once a session, the studio's mark draws itself and goes out; a moment of black; then the game's name is
 // lit from its middle letter outward while the country's painting comes up slowly out of the dark behind it, a gold
 // horizon is drawn under it and its diamond kindled (the mark's star again), and the few ways in arrive one after
-// another, centred: carry on, begin, the encyclopedia, options. Any key or touch skips straight to them, and is only
-// that: a tap where Begin is about to be begins nothing. One who asks for less motion is shown them at once, and so is
+// another, centred: carry on, a new game, the encyclopedia, options. Any key or touch skips straight to them, and is
+// only that, save a touch on a way in already there, which is that way at once (New game in one click). One who asks for less motion is shown them at once, and so is
 // one coming back to the title from Options. A gold diamond before the chosen way's name and a short line after it
 // close about the way the pointer or the keys are on, and slide and widen to the next. Nothing here says how a
 // country is made; a save file brought from elsewhere is opened from Options, and the ways in for testing (a named
@@ -47,7 +47,7 @@ export class TitlePage {
                 {...item(n++)}><span className="n">Continue</span>
                 <span className="why">{[saved.where, saved.when].filter(Boolean).join(' · ')}</span></button></li>}
               <li><button type="button" className="way-in" data-nav data-action="begin" onClick={app.opening.anew} {...item(n++)}>
-                <span className="n">{saved ? 'Begin anew' : 'Begin'}</span></button></li>
+                <span className="n">New game</span></button></li>
               <li><a className="way-in" data-nav data-action="encyclopedia" href="encyclopedia/index.html" {...item(n++)}>
                 <span className="n">The encyclopedia</span></a></li>
               <li><button type="button" className="way-in" data-nav data-action="options" {...item(n++)}
@@ -116,7 +116,13 @@ export class TitlePage {
       const next: Record<Beat, [Beat, number]> = { ident: ['dark', Ident.length], dark: ['reveal', 500],
         reveal: ['ready', TitlePage.reveal], ready: ['ready', 0] };
       const [to, after] = next[beat], timer = setTimeout(() => go(to), after);
-      const skip = (e: Event) => { e.stopImmediatePropagation(); e.preventDefault();
+      // A touch on a way in already coming up (the reveal) is that way, at once (the owner, 6 November: New Game in
+      // one click); anything else only brings the ways in.
+      const skip = (e: Event) => {
+        if (beat === 'reveal' && e.type === 'pointerdown' && (e.target as Element | null)?.closest?.('.way-in')) {
+          go('ready'); return;
+        }
+        e.stopImmediatePropagation(); e.preventDefault();
         if (e.type === 'pointerdown') { TitlePage.swallow(); }
         go('ready'); };
       window.addEventListener('keydown', skip, { capture: true });

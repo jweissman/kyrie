@@ -88,7 +88,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the opening and the choice of a lif
     await page.close();
   }, 120000);
 
-  it('lets a tap or a click that skips the opening do nothing else, where Begin is about to be', async () => {
+  it('lets a tap that skips the mark do nothing else, and one on New game as it comes up begin at once', async () => {
     const { page, errors } = await MonoBrowser.page(browser, { width: 1024, height: 1366 },
       { site, pointer: true, query: '?ident' });
     const tapped: string[] = [];
@@ -97,12 +97,17 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the opening and the choice of a lif
       await page.waitForSelector(`.beat-${beat}`, { timeout: 30000 });
       const begin = await Stage.begin(page);
       await (how === 'tap' ? page.touchscreen.tap(begin.x, begin.y) : page.mouse.click(begin.x, begin.y));
-      await page.waitForSelector('.beat-ready', { timeout: 5000 });
+      await page.waitForSelector('.beat-ready, [data-mode="create"]', { timeout: 120000 });
       await page.waitForTimeout(600);
       tapped.push(`${begin.beat === 'ready' ? 'too late' : 'opening'} ${how}: ${
         await page.getAttribute('[data-mode]', 'data-mode')}`);
     }
-    expect(tapped).toEqual(['opening tap: title', 'opening tap: title', 'opening tap: title', 'opening click: title']);
+    // Before the ways in are there, only the title; on New game as it comes up, the new game (the owner, 6 November).
+    expect(tapped).toEqual(['opening tap: title', 'opening tap: title', 'opening tap: create', 'opening click: create']);
+    await page.reload();
+    await page.waitForSelector('.beat-ident', { timeout: 30000 });
+    await page.keyboard.press('Space');
+    await page.waitForSelector('.beat-ready', { timeout: 5000 });
     // Once the ways in are there, a tap on Begin begins.
     const begin = await Stage.begin(page);
     await page.touchscreen.tap(begin.x, begin.y);

@@ -43,7 +43,9 @@ export class ReaderOpening {
         editing: -1, origin: first?.id, named: false });
       this.readySoon();
       await this.preview(party);
-    } catch (error) { this.fail(error, 'campaigns'); }
+    // A pick that fails goes back where it came from: the title, or for development (?dev) the list of campaigns (a
+    // player never sees a campaign with a party ready made: the owner, 6 November).
+    } catch (error) { this.fail(error, this.app.props.query.has('dev') ? 'campaigns' : 'title'); }
   }
   async preview(party: Member[]) {
     const generated = !!this.app.state.setting?.generated;

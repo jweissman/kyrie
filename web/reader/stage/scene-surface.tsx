@@ -5,29 +5,20 @@ import type { ReaderApp } from '../reader-app';
 import { PlaceStage } from './place-stage';
 
 // A place as it is seen, the play's surface wherever the company is not out in the wild (the owner, 4 November,
-// evening: the painting is the place; a graph of rooms is not a map). Its painting: of the country it stands in (a
-// town, a site above ground), or of a room of its kind (a dim room, a vault) under a roof or the ground; in the dark,
-// only the dark. Nothing is set over the picture (the owner, 4 November evening: it is sacrosanct); what is said of the
-// place, and its ways, are beside it, in the focus (see GlanceStage.Row).
+// evening: the painting is the place; a graph of rooms is not a map). Its painting, always (the owner, 6 November:
+// never words where the picture goes): of the country it stands in (a town, a site above ground), or of a room of its
+// kind (a cave, a crypt, a dim room) under a roof or the ground; in the dark, the same barely seen, its shapes only.
+// Nothing is set over the picture (it is sacrosanct); what is said of the place is beside it (see Told.Setting), and how
+// deep it is at the page's head.
 export class SceneSurface {
   static View({ screen }: { screen: Screen }) {
-    const view = screen.dark ? undefined : Scenery.of(screen) ?? Scenery.inside(screen);
+    const view = Scenery.seen(screen);
     return (
-      <div className={`scene-surface ${view ? 'painted' : 'unpainted'}${screen.place.underground ? ' under' : ''}`}
+      <div className={`scene-surface painted${screen.dark ? ' unlit' : ''}${screen.place.underground ? ' under' : ''}`}
         data-region="scene-surface">
-        {view ? <div className="scene-view"><PlaceStage.Country view={view} /></div>
-          : <div className="scene-dark"><SceneSurface.Bearings screen={screen} /></div>}
+        <div className="scene-view"><PlaceStage.Country view={view} /></div>
       </div>
     );
-  }
-  // In the dark, or where a place has no picture, what the company can still tell of where it is: how deep, and where
-  // (the owner, 4 November, late: an interior without artwork as deliberate a scene as one with). Not its ways: they
-  // are the explorer's (5 November: no route on the scene).
-  static Bearings({ screen }: { screen: Screen }) {
-    return <div className="bearings">
-      {screen.place.depth ? <p className="deep">{screen.place.depth === 1 ? 'One storey down' : `${screen.place.depth} storeys down`}</p> : null}
-      <p className="here">{screen.place.name}</p>
-    </div>;
   }
   // A way's direction as a mark: up, down, in, out, away, on.
   static glyph(whither: string): string {

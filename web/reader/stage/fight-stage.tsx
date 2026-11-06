@@ -38,11 +38,12 @@ export class FightStage {
           <div className="beat" aria-live="polite">{log ? <FightLog.Memo exchanges={combat.exchanges} /> : <>
             {first && frame.opening.filter(Boolean).map((l, i) => <p key={`o${i}`} className="began">{Typography.curl(l)}</p>)}
             {combat.moment && <p className="moment">{Typography.curl([combat.reckoned ?? '', combat.moment === 'seen'
-              ? 'It has not reached you yet: there is still time to get back the way you came.'
-              : 'It is on you, but not yet round you: there is still time to get back the way you came.']
-              .filter(Boolean).join(' '))}</p>}
-            {earlier.map(e => <p key={e.n} className="what earlier" title={e.detail}>{Typography.curl(e.text)}</p>)}
-            {recent.map(e => <p key={e.n} className="what" title={e.detail}>{Typography.curl(e.text)}</p>)}
+              ? 'It has not reached you yet.' : 'It is on you, but not yet round you.'].filter(Boolean).join(' '))}</p>}
+            {earlier.map(e => <p key={e.n} className="what earlier">{Typography.curl(e.text)}</p>)}
+            {/* What just happened, and beneath it how it fell (the rolls), on the page and not in a hover (the owner,
+                6 November: no guidance a tooltip alone holds). */}
+            {recent.map(e => <div key={e.n} className="what"><p>{Typography.curl(e.text)}</p>
+              {e.detail && <p className="how">{Typography.curl(e.detail)}</p>}</div>)}
             {after.map(l => <p key={l} className="after">{Typography.curl(l)}</p>)}
             {combat.outcome && <FightStage.Aftermath app={app} />}
             {!recent.length && !first && !after.length && <p className="quiet">Nothing has changed.</p>}
@@ -60,11 +61,12 @@ export class FightStage {
             {sec.title && <p className="label">{sec.title}</p>}
             <Act.List choices={sec.choices} draw={draw} className="cards" />
           </section>)}
-          {combat.ours && !combat.outcome && app.menu.sections.length > 0 && <p className="auto">T lets {combat.actorName} fight
-            this turn on their own.</p>}
+          {combat.ours && !combat.outcome && app.menu.sections.length > 0 && <p className="auto">
+            <button type="button" className="option quiet" data-action="auto" onClick={app.auto}>
+              Let {combat.actorName} fight this turn <kbd>T</kbd></button></p>}
           {combat.ours && !combat.outcome && FightStage.decided(combat) && <p className="through">
             <button type="button" className="option" data-action="press-on" onClick={app.through}>Press on to the end</button>
-            <span className="why">The fight is as good as won: the rest fought out at once, unless it turns.</span></p>}
+            <span className="why">As good as won.</span></p>}
         </div>
         <p className="fight-log-toggle"><button type="button" className="option quiet" data-action="fight-log"
           aria-pressed={log} onClick={() => show(!log)}>{log ? 'Back to what just happened' : 'The fight so far'}</button></p>

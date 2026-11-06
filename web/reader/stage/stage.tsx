@@ -1,7 +1,6 @@
 import type { Frame } from '../../engine/protocol';
 import type { Screen } from '../../../src/ui/screen-types';
 import type { ReaderApp } from '../reader-app';
-import { Routes } from '../../../src/ui/route';
 import { FictionalTime } from '../../../src/campaign/fictional-time';
 import { Typography } from '../../../src/presentation/typography';
 import { Words } from '../words';
@@ -9,13 +8,12 @@ import { PlanView } from '../plan-view';
 import { WorldStage } from './world-stage';
 import { TalkStage } from './talk-stage';
 import { ThingStage } from './thing-stage';
-import { RoadStage } from './road-stage';
 import { FightStage } from './fight-stage';
 import { BookStage } from './book-stage';
 import { Held } from './held';
 import { PrologueStage } from './prologue-stage';
 
-export type Mode = 'prologue' | 'explore' | 'talk' | 'examine' | 'road' | 'combat' | 'book' | 'fallen';
+export type Mode = 'prologue' | 'explore' | 'talk' | 'examine' | 'combat' | 'book' | 'fallen';
 
 // Play, one composition at a time, chosen by what the player is attending to: a place (the page of it, with who and
 // what is there and the ways out), a road (the line across the country), someone spoken with (their painting when
@@ -27,10 +25,10 @@ export type Mode = 'prologue' | 'explore' | 'talk' | 'examine' | 'road' | 'comba
 // whole screen with nothing across it, not even the book (see PrologueStage).
 export class Stage {
   static View({ app }: { app: ReaderApp }) {
-    const s = app.state, menu = app.menu, mode = Stage.mode(app), frame = s.frame!;
+    const s = app.state, menu = app.menu, mode = Stage.mode(app);
     return (
       <div className={`stage mode-${mode}`} data-mode={Stage.inspected(app, mode)} aria-busy={s.pending ? true : undefined}>
-        {['explore', 'road', 'talk', 'examine'].includes(mode) && <Stage.Corner app={app} full={mode === 'explore'} />}
+        {['explore', 'talk', 'examine'].includes(mode) && <Stage.Corner app={app} full={mode === 'explore'} />}
         <div className="intentions" data-region="choices">
           {mode === 'prologue' && <PrologueStage.View app={app} />}
           {mode === 'fallen' && <BookStage.Ending app={app} />}
@@ -38,7 +36,6 @@ export class Stage {
           {mode === 'book' && <BookStage.View app={app} />}
           {mode === 'talk' && menu.talk && <TalkStage.View app={app} talk={menu.talk} />}
           {mode === 'examine' && menu.examined && <ThingStage.View app={app} examined={menu.examined} />}
-          {mode === 'road' && <RoadStage.View app={app} route={Routes.of(frame.screen)!} />}
           {mode === 'explore' && <WorldStage.View app={app} />}
         </div>
       </div>
@@ -71,9 +68,8 @@ export class Stage {
     return app.state.view === 'map' && !!app.state.frame && Stage.mode(app) === 'book'
       && !PlanView.inside(app.state.frame.screen);
   }
-  // What automation knows the stage as: the place and the road are both exploring; a book is what it holds.
+  // What automation knows the stage as: a book is what it holds.
   private static inspected(app: ReaderApp, mode: Mode): string {
-    if (mode === 'road') { return 'explore'; }
     if (mode === 'book') {
       return { here: 'explore', company: 'party', pack: 'pack', journal: 'journal', map: 'map', story: 'story' }[app.state.view];
     }

@@ -23,7 +23,7 @@ reference (a1, Coming Home, a human warrior).
 
 **What it found** (registered as M19-70, M19-71): a den's single beast was called by its pair's name and told in
 the singular ("The hounds is here", "stands its ground"), fixed; the wheel-room, under the ground and lit by the
-company's torch, was painted as a ruin under a blue sky (open). Its likeness was a person's emblem, now a beast's.
+company's torch, was painted as a ruin under a blue sky (fixed, M19-71). Its likeness was a person's emblem, now a beast's.
 
 **For the players of the protocol.** Begin at the title page with the country kite; choose Feverwort, birdfolk and
 thief; then play without help. The steps above are where each question of the protocol is asked.

@@ -52,13 +52,18 @@ export class Scenery {
     return views && views[this.hash(screen.place.id) % views.length];
   }
   // Under a roof or under the ground, a painting of a room of the kind, not of the country (the owner, 4 November:
-  // the cellar's page had only words where a picture should be): a dim room, a vault; none in the dark, where the
-  // company sees nothing.
+  // the cellar's page had only words where a picture should be): a cave, a crypt, a vault, a dim room.
   static inside(screen: Screen): string | undefined {
-    if (screen.dark) { return undefined; }
     const site = screen.path.some(p => p.kind === 'site'), under = !!screen.place.underground;
     const views = under ? this.within[site ? 'underground:site' : 'underground'] : this.within.indoors;
     return views?.length ? views[this.hash(screen.place.id) % views.length] : undefined;
+  }
+  // What the scene shows, always a painting (the owner, 6 November: never words where the picture goes): the country,
+  // or a room of the kind; in the dark the same room, which the page draws barely seen (SceneSurface).
+  static seen(screen: Screen): string {
+    const lit = screen.dark ? { ...screen, dark: false } : screen;
+    return (screen.dark && !screen.place.underground && !screen.path.some(p => ['building', 'level'].includes(p.kind))
+      ? this.of(screen) : undefined) ?? this.of(lit) ?? this.inside(lit) ?? this.within.indoors![0]!;
   }
   private static seasonal(views: string[], season?: string): string[] {
     const cold = views.filter(v => this.winter.has(v));

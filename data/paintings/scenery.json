@@ -115,16 +115,22 @@
   "within": {
     "indoors": [
       "meditation",
-      "well"
+      "well",
+      "library",
+      "dissolution"
     ],
     "underground": [
       "meditation",
-      "well"
+      "well",
+      "dissolution",
+      "grotto"
     ],
     "underground:site": [
       "perdition",
       "meditation",
-      "colonnade"
+      "colonnade",
+      "dissolution",
+      "grotto"
     ]
   }
 }

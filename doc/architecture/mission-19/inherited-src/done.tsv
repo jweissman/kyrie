@@ -43,3 +43,11 @@ BOF-15	Fixed 2cbca24e: a refused service is shown without its command, saying wh
 QTC-10	Fixed (4 November): come back to, what the company left changed in a place (a chest it opened) is said with what has changed, by the world's changedBy record and the line's own subject (come-back spec, probe come-back); the brief recall of the place's own line stays by design
 BOF-20	Fixed (4 November): the prose lint takes "state flag" and "the game engine", not a flagstone's "flag" nor a siege engine (author-lint spec)
 BOF-22	Not reproduced 4 November: in both, teaches follows the words (Rule … says "…" teaches x { … }; Observe … "…" teaches x.); a Rule's braces come after, as its effects always do
+OWN-42	Fixed 02625e4c: the studio's mark and the title with words (src/presentation/identity.ts: WESTERNESSE, SEVENTH STAR; the ident before the title); the names are the owner's to confirm
+OWN-55	Partial: carried from Mission 18 (it had been dropped from the wishlist, the M18 obligations review of 6 November); the ordinary loop now played by the candidate journey (candidate-journey.md) and asked again by the owner's journeys A-D of 6 November (M19-72 onward)
+OWN-76	Partial: carried from Mission 18 (dropped from the wishlist); the owner's experience pass of 6 November restates it as one design problem (M19-72 onward)
+OWN-77	Partial: carried from Mission 18 (dropped from the wishlist); the resting scene and the wayfinder (M19-48, M19-61, M19-65), and the town's quarters of the experience pass (M19-73)
+OWN-78	Partial: carried from Mission 18 (dropped from the wishlist); the first town's jobs, the deep sites' composed parties (M19-60) and the candidate journey; depth past the first town still thin
+OWN-79	Partial: carried from Mission 18 (dropped from the wishlist); first passes made on every row (this ledger); what cannot yet be named is the independent players' to find (PD-14, not run)
+OWN-81	Partial: carried from Mission 18 (dropped from the wishlist); the map as the one way between hexes (M19-31, M19-47), the wayfinder (M19-65), and the town's quarters (M19-73)
+NVR-23	Superseded by M19-50: the road page retired (a journey is walked on the map and stops on the hex where something is met); its dead branch in the stage removed

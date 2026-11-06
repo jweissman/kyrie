@@ -436,9 +436,7 @@
 .thing .away { margin: 26px 0 0; }
 .thing .away .act { display: flex; width: 100%; color: var(--dim); border-style: dashed; }
 
-/* ---- On a road: its line across the country as the head of the stage (the country in bands, you on it), the telling
-   and who is by the road under it, the two ways on beside it, back and forward. ---- */
-.road-page .place-head { flex-direction: column; align-items: stretch; gap: 14px; min-height: 0; }
+/* ---- A road's line across the country (the country in bands, you on it). ---- */
 .strip { margin: 0; }
 .strip .ends { display: flex; justify-content: space-between; font: 500 11px var(--do); letter-spacing: .18em;
   text-transform: uppercase; color: var(--dim); margin-bottom: 8px; }

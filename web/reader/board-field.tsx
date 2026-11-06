@@ -33,14 +33,14 @@ export class BoardField {
       if (g.KyrieBoard) { resolve(g.KyrieBoard); return; }
       s.src = 'board.js'; s.async = true;
       s.addEventListener('load', () => resolve(g.KyrieBoard));
-      // Not fetched (the connection dropped, say): the flat map this time, and the board asked for again the next.
+      // Not fetched (the connection dropped, say): no board this time, and the board asked for again the next.
       s.addEventListener('error', () => { s.remove(); BoardField.loading = undefined; resolve(undefined); });
       document.head.appendChild(s);
     });
     return BoardField.loading;
   }
   // What the board is given of the region's land: its hexes, rivers and roads, what is known, where you are, and each
-  // town and place known of with the sign of its kind (as the flat map has them) and how much is known of it; and the
+  // town and place known of with the sign of its kind and how much is known of it; and the
   // protagonist's face, for your mark.
   static land(region: RegionChart, face?: string): BoardLand {
     const land = region.land!, W = land.width;
@@ -142,7 +142,7 @@ export class BoardField {
     }, [walking, ready, able]);
     if (!able) {
       return <div className="field-land board" data-board="unable"><p className="none">This browser cannot draw the map
-        (it needs WebGL). Every way you know is still under Every way.</p></div>;
+        (it needs WebGL). Go… still takes you anywhere you know the way to.</p></div>;
     }
     return (
       <div className="field-land board" ref={host} data-board={ready ? 'ready' : 'loading'}>

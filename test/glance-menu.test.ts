@@ -16,7 +16,7 @@ class Menus {
   }
   static check(g: Glanced) {
     const frame = g.frame(), glance = frame.leaf.glance!, menu = MenuModel.build(frame, 'here', []);
-    // A road draws no glance (see RoadStage), and keeps its own order.
+    // A road draws no glance, and keeps its own order.
     expect(Routes.of(frame.screen)).toBeUndefined();
     // In a town or a site, a way out into the country the glance leads with is drawn as going out to it.
     const ids = menu.choices.map(c => c.id), out = (id: string) => menu.overland?.has(id) ? MenuModel.country.id : id;

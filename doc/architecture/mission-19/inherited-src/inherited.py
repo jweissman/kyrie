@@ -53,7 +53,11 @@ out = ['# Mission 18\'s wishlist, reconciled', '',
  'yet resolved: open, with its re-entry), **Deferred** (an ambition or recommendation only, with why). A parent\'s fix',
  'does not close a child: each row is closed only when its own symptom is checked. Mission 19\'s own findings are in',
  '[register.md](register.md); the evidence for what was played is in [evidence.md](evidence.md).', '',
- f'**{len(rows)} rows**: ' + ', '.join(f'{k} {v}' for k, v in sorted(counts.items(), key=lambda kv: -kv[1])) + '.', '',
+ f'**{len(rows)} rows**: ' + ', '.join(f'{k} {v}' for k, v in sorted(counts.items(), key=lambda kv: -kv[1]))
+ + '. The 138 carried at the start of the mission, and the seven Partial rows of Mission 18 its wishlist had dropped'
+ + ' (OWN-55, OWN-76 to OWN-79, OWN-81, NVR-23; found by the review of Mission 18\'s obligations, 6 November). Open'
+ + ' risk and Deferred are not repairs.', '',
+ *open(os.path.join(here, 'closures.md')).read().rstrip('\n').split('\n'), '',
  '| ID | Class | Kind | Cluster | Finding | Disposition |', '|---|---|---|---|---|---|']
 for i, c, k, cl, f, cell in rows:
     out.append(f'| {i} | {c} | {k} | {cl} | {f} | {cell} |')

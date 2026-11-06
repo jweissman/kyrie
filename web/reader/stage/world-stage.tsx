@@ -40,13 +40,12 @@ export class WorldStage {
     // Whether the map is up is the app's (see ReaderApp.outdoors): play begins on it, open country raises it, entering
     // or doing anything where the company is puts it away.
     const overworld = !!app.state.outdoors && !!screen.region?.land, focus = chosen.at === here ? chosen.id : undefined;
-    const view = screen.dark ? undefined : Scenery.of(screen) ?? Scenery.inside(screen);
     // A journey stopped here (a toll, a band on the road, a cart gone off it), and whether what stopped it means harm:
     // the map marks where, and says so (the owner, 4 November, night).
     const stopped = frame.travel && !frame.travel.arrived, threat = (app.menu.scene?.subjects ?? []).some(x => x.danger);
     return (
       <article className={`world-page scale-${overworld ? 'board' : 'scene'} kind-${PlaceStage.kind(screen)}`
-        + `${view ? '' : ' unpainted'}${screen.dark ? ' dark' : ''}${up ? ` raised-${up}` : ''}`
+        + `${screen.dark ? ' dark' : ''}${up ? ` raised-${up}` : ''}`
         + `${stopped ? ' interrupted' : ''}${threat ? ' threatened' : ''}`} id="page">
         <header className="world-bar"><div className="title-block"><Told.Heading frame={frame} /></div></header>
         <div className="world-body">

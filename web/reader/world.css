@@ -66,9 +66,9 @@
 .chosen-place .at-way .acts.column { list-style: none; margin: 0; padding: 0; }
 .chosen-place .at-way .act .note { flex-basis: 100%; font-size: 12.5px; color: var(--dim); }
 
-/* The scene: the place as it is seen (the owner, 4 November evening). Painted, the painting fills the surface and the
-   ways lie along its foot over a dark fall of shade; unpainted (indoors, under the ground), the dark the company's
-   light opens, warm at its middle, the place's name set in it, and the ways as openings round it. */
+/* The scene: the place as it is seen (the owner, 4 November evening). The painting fills the surface, always: of the
+   country, or of a room of its kind under a roof or the ground; unlit, the same painting barely seen, its shapes only,
+   for in the dark that is what there is to see (the owner, 6 November: never words where the painting goes). */
 .scene-surface { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; }
 .scene-surface .scene-view { position: absolute; inset: 0; }
 .scene-surface .scene-view .scenery { position: absolute; inset: 0; margin: 0; overflow: hidden; }
@@ -76,13 +76,11 @@
   filter: saturate(.9) brightness(.9); }
 .scene-surface .scene-view .scenery::after { content: ''; position: absolute; inset: 0;
   background: linear-gradient(180deg, transparent 45%, rgba(12, 13, 17, .55) 72%, rgba(12, 13, 17, .92)); }
+.scene-surface.unlit .scene-view .scenery img { filter: brightness(.16) saturate(.35) contrast(1.15); }
+.scene-surface.unlit .scene-view .scenery::after {
+  background: radial-gradient(ellipse 58% 62% at 50% 46%, transparent 20%, rgba(6, 6, 8, .82) 78%, #050506); }
 .scene-surface .scene-view .scenery figcaption { position: absolute; top: 10px; right: 14px; z-index: 1;
   font-size: 10.5px; color: rgba(236, 230, 217, .55); }
-.scene-surface .scene-dark { position: absolute; inset: 0; display: grid; place-items: center;
-  background: radial-gradient(ellipse 46% 52% at 50% 46%, rgba(242, 189, 76, .13), rgba(242, 160, 60, .04) 55%, transparent 78%),
-    radial-gradient(ellipse at 50% 50%, #17181d, #0c0d10 80%); }
-.scene-surface.under .scene-dark { background: radial-gradient(ellipse 40% 46% at 50% 46%, rgba(242, 170, 70, .16),
-  rgba(200, 120, 40, .04) 55%, transparent 76%), radial-gradient(ellipse at 50% 50%, #141417, #08080a 80%); }
 .scene-surface .scene-words { max-width: 30rem; margin: 0 clamp(24px, 6vw, 72px) 6vh; text-align: center;
   font: italic 400 clamp(19px, 1.7vw, 24px)/1.6 var(--told); color: rgba(236, 230, 217, .86);
   text-shadow: 0 0 30px rgba(242, 189, 76, .22); text-wrap: balance; }
@@ -103,7 +101,6 @@
 /* Openings by where they lead: up at the top of the surface, down at its foot, the rest along the foot beside them. */
 .scene-surface .openings.up { position: absolute; top: clamp(14px, 2.6vh, 26px); left: 0; right: 0; justify-content: center; }
 .scene-surface .openings.down { justify-content: center; padding-top: 6px; }
-.scene-surface.unpainted .openings.level { justify-content: center; }
 /* The surface carries the ways from here: the focus does not row them again. */
 .world-page:is(.scale-scene, .scale-board) .focus .glance-row { display: none; }
 .scene-surface .opening .risk { grid-column: 1 / -1; font: 600 10px/1.2 var(--do); letter-spacing: .12em;
@@ -274,10 +271,3 @@
 .hex-card .go { margin: 0; }
 .world-page .surface .portraits li.danger:not(.danger ~ .danger) { margin-left: auto; }
 .portraits .danger .portrait .face { border-width: 3px; box-shadow: 0 0 0 2px rgba(196, 85, 46, .35), 0 4px 14px rgba(0, 0, 0, .55); }
-/* The dark, or a place with no picture: where you are and the ways you know, set quietly in the middle of it. */
-.scene-dark { display: grid; place-items: center; height: 100%; }
-.scene-dark .bearings { text-align: center; color: rgba(236, 230, 217, .55); font: 400 14px/1.6 var(--do); letter-spacing: .04em; }
-.scene-dark .bearings .deep { margin: 0 0 4px; font-size: 11.5px; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); opacity: .7; }
-.scene-dark .bearings .here { margin: 0 0 14px; font: 300 26px/1.2 var(--do); color: rgba(236, 230, 217, .8); }
-.scene-dark .bearings ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
-.scene-dark .bearings .glyph { display: inline-block; width: 1.4em; color: rgba(236, 230, 217, .4); }

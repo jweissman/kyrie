@@ -82,7 +82,7 @@ export class MenuModel {
     const kept = { ...found, you: found.you.map(c => /^advance:/.test(c.id) ? this.developing(c, screen)
       : /^prepare:/.test(c.id) ? this.preparing(c, screen) : c) };
     // On a road the page draws what the glance leads with, as a place does (the fresh ruts the father's cart went off
-    // by had been one of four things under "By the road": Mission 19), beside its two ends (see RoadStage).
+    // by had been one of four things under "By the road": Mission 19).
     const glance = frame.leaf.glance;
     const aimed = frame.leaf.glance?.aimed;
     const journeys = [...this.onward(frame.bound), ...this.destinations(screen, frame.bound?.id, aimed)];
