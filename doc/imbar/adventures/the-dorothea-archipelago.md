@@ -2,7 +2,7 @@
 
 *`data/adventures/the-dorothea/` (module only; no new province, no `src/` change). Tests: `test/the-dorothea.test.ts`,
 `test/skerrow-night.test.ts`, `test/dorothea-sea.test.ts` (unchanged and green), and new `test/dorothea-routes.test.ts`,
-`-ness`, `-antlers`, `-house`, `-entries`, `-oil`, `-voices`. Frictions: `the-dorothea-archipelago-friction.md`.*
+`-ness`, `-antlers`, `-house`, `-entries`, `-oil`, `-voices`, and, from the review pass, `-boarding` (the Kestrel's hands) and `-mangrow` (the jungle call). Frictions: `the-dorothea-archipelago-friction.md`.*
 
 ## Ledger (bible 14.1)
 
@@ -25,17 +25,43 @@ country. Everything else is reached by the Dorothea, which now makes **one call 
 | the Holm (on foot from Port Ness) | -- | tide: the Wrack Road is dry 30 watches in 72 | black islet, lamp-stump, fish-and-flame device | the Holm stump (dark; rent *for no light* to Marit Oake) | the rent, and the wreck-rights on the Holm bar |
 | the Antlers | 8 (+ a pilot) | 104 watches (a night, a race between stacks) | sea-stacks, guano, seabirds, rope-ladder | the cresset (dark; lease clause 7) | the Agent Deane (green), the Prentice Wick Bligh (grey) |
 | Ashkeld | 12 | 396 watches (three days south-west) | volcanic: black beach, hot springs, ash, vents, a smoking cone | the cone itself (unleasable) | none: the House has not called in two seasons |
+| Mangrow | 16 (+ 3 for the ferry, + netting from Garrick) | 700 watches (five days south; the longest leg) | jungle: river mouth under cane and fig, a rotting pier, mosquito heat | none: the lesson is the House's *stone room of bark*, not a lamp | the outstation, eleven months without its Agent (Perrin Osk, ill at Vail's hide); bales stencilled HELD |
 
 The sea table (squall, lantern raft, fever, calm, fleet) now applies on every open-sea leg, out and home, two draws a
 leg (`seaWindow`).
 
 ## Route choice and second voyage
 
-At the quay Bascom is asked where else she calls (`bound(hull)` 1-4). The course action sets `bound`, how long the sea
+At the quay Bascom is asked where else she calls (`bound(hull)` 1-5; the notice-board outside the harbourmaster's door now chalks every call, Ashkeld and Mangrow included, with days and cargo). The course action sets `bound`, how long the sea
 table runs (`seaEnd`), how long she lies at the island (`stayFor`) and the stations home (`homeOpenAt`, `homeSoundAt`,
 `homeQuayAt`); the fare is paid by the call. A day after she is home, with the company ashore, she is re-laden, the
 pump dry, the count at nothing, `booked` cleared, and the sailing fixed for the next noon (`hull_turns_round`). A company
 left abroad meets her coming back to where it is (the Antlers, Ashkeld); at Port Ness a salt lighter takes it home for four.
+
+## Mangrow: the jungle call
+
+Five days south (700 watches; day-marker lines on the second to fifth day), sixteen coin, the sea table drawing on the
+way out and home. No terrain kind exists (friction A1): the heat is a measure. While the company is in the four green
+rooms (the outstation yard, the strong-room, the creek mouth, Vail's hide) a sting is added every hour (`swelter`);
+under netting every two; none under the bark. At **four** the river fever takes the company (a constitution hazard, 2d6);
+at **eight** Sula Weir carries it out to the pier and the count falls to three. The pier's breeze takes two off for an hour.
+
+- **The problem:** the House bought two seasons of fever-bark and shut it in the outstation's strong-room, price to be
+  kept (the day-book on the top bale, with the Tolleth physic's price and the lower town's burials), while the Agent who
+  carried the key walked out with the petty cash and paid the gatherers with it. The fig has grown through the lock.
+- **The ways in, none of them a fight:** *Osk's key* (ask Vail about his moths, or pay him four, or let **Quint**, who
+  had his note on the unequal wings on her wall, say so; carry his pannikin to Osk; he gives the key and asks to be left
+  to turn himself in); *lockwork* (the thief; a failure costs two stings); *fire* (a torch; one scorched bale, the
+  veranda burns). A **ranger** can also cut a bale of her own at the creek, without the strong-room. Two bales by the key
+  or the lock, one by fire or the knife.
+- **What the bale is for:** a pannikin clears the swelter for ninety watches; it is a third exit from the sea table's
+  fever (`brew_for_the_boy`, beside the cleric's office and the sitting-up); Wat Garrick buys one for ten coin, the
+  physic's price.
+- **The danger:** the heat and the fever, and Sula's flat boat is the fast way in (three coin) or the track costs an hour
+  of stings. **A guide, not a fight:** Sula is the guide and the only way off if the company is left (the *Hesper*, nine
+  coin, written; Ashkeld's equivalent is not).
+- **Signposts:** the quay board; Bascom's list; the regulars (a one-eyed man: "Bark island"); Mab ("netting from Garrick,
+  and tar").
 
 ## The House: ranks and what a player can learn
 
@@ -72,7 +98,7 @@ Each of the four lights has at least two non-combat ways; freed lights count in 
 |---|---|---|---|
 | A clerk with a crate | Latch, the Anchor | Ashkeld (three days; fare advanced twelve) | the crate by coin, argument, or the mule-bell fetched at the breath-in; delivered, Ashkeld's door is chalked SETTLED |
 | A mariner's wife | Dilys Ketteridge, the quay | the Antlers | Joss mends the ladder and defies the Agent; her answer pays eight coin home |
-| A black lugger | Latch / the pilots | Port Ness | bond (30 owed, a guard-boat), warn the reeve, parley (persuasion), fight (deadly to novices), or three lighters burn |
+| A black lugger | Latch / the pilots | Port Ness | bond (30 owed, a guard-boat), warn the reeve, parley (persuasion), fight (three thieves of the second rank: **tested as a win on one seed and a wipe on another**; six of eight seeds are wins), or three lighters burn |
 | A bottle | Dacey Hoe's desk | the Holm | Marit consents to the lamp at once |
 | A runaway prentice | Pip Vosper, Garrick's | the Antlers | taken home, Hob gives the headman's leave for the cresset; or sold back for five |
 
@@ -86,15 +112,39 @@ buy the leave; sell Pip back or take him home; take the silver or the board.
 ## Foreshadowing and links
 
 The key-and-ring on the board, the sacks, the cask-heads; the board's LOST THIS YEAR column naming the Mary Ann, the
-Rosa Lind, the Tern, each at a place a player later stands; the loose pin on the sill; the raft lantern and its board
-(FOR THE ONES COMING HOME) answered by the Holm device. Outward: the Founders' Exchange by wording (Quillon's buyer, the
+Rosa Lind, the Tern, each at a place a player later stands; the loose pin on the sill; the raft lantern and its one-word
+board (HOLM), answered by the ring worn bright on the lantern Marit knows. Outward: the Founders' Exchange by wording (Quillon's buyer, the
 Pharos bronze) and shared catalog kinds (`rope`, `lantern`, `lamp_oil`). Inward: Skerrow's `routed(ring)` unchanged.
+
+## Review pass (doc/imbar/16-critical-review.md, items 3, 4, 8, 12, 14)
+
+- **3 (the Aenean gloss):** the Lucanus receipt and its Latin are gone from `night.kyr`. Quint reads the Gull's paper aloud
+  and refuses to translate it; the device is mentioned, never glossed. The Holm's inscription is "two words and I would
+  not swear to the second". (The Grand Tour's Tamsin speech, not this module's, still carries a gloss.)
+- **4 (the Kestrel's hands unplayed, and the cargo floor):** `test/dorothea-boarding.test.ts` plays Jago's coin
+  (`take_cut`), the unloading both ways, the hands paid, Rune speaking to them, and the fight (a win for the preset company on
+  its own kit, five seeds in six). `take_cut`, `pay_the_hands`, `light_the_ship`, `jago_leaves` and the boy's fever
+  now say `Decrease cargo(hull) by N or to nothing`; the three lint "lowered" advices are gone.
+- **8 (motif tics):** one kept light in this module, the Pharos (source). The raft lantern is a fisherman's, filled this
+  week, with a board that says HOLM; the Holm's "kept for them that come home" is gone; the lantern's flame no longer
+  refuses to lean. One "eleven and a blank": the watch-tally the Kestles count to eleven on. The fever office is "short,
+  with a gap for the sick person's name", not "eleven lines and a blank".
+- **12 (formula, "nobody says"):** Hester's "nobody's ever been able to read it", Jago's "it is not mentioned again", the
+  island's "nobody says anything", "nobody has touched the net", "nobody is going to wake them", Bascom's "that is the worst of
+  it" rewritten.
+- **14 (ledger claims):** friction.md #17 corrected (the standalone Dorothea's voices fire; Gosse's was a different
+  campaign); the "Skerrow suite covers the bribe" line in friction.md corrected; this ledger's "not tested to a win" corrected.
+- **Not done:** the Principal's scene is still short; the Grand Tour's and other modules' copies of the motifs belong to their owners.
 
 ## Honest shortfalls
 
-- No jungle island; no volcano terrain kind exists (all `wilderness`). See the friction file.
-- The fight with the lugger is deadly to novices and is not tested to a win.
+- Mangrow has no terrain kind; the heat is a measure and a list of four rooms. The volcano and salt flats are likewise
+  prose. See friction A1.
+- The sea table still draws two events a passage whatever the leg (A14), so five days at sea read as days by markers,
+  not as weather.
 - The Rune/Jago/Combs subplots and the fog fire only on the first voyage or the first Skerrow call; later voyages have the table.
 - The Principal's scene is short; Orsett is a name on a board, not a place.
-- Stranded at Ashkeld waits for the Dorothea's next turn; the strand rule for it is not written.
+- Stranded at Ashkeld waits for the Dorothea's next turn; the strand rule for it is not written (Mangrow's is).
 - The raft lantern's use at the Holm is tested with a fixture standing for the random draw.
+- The pirate fight is dangerous (two seeds in eight wipe the company) and so is not safe for a lone novice; that is intended.
+- Mangrow's second voyage: the strong-room, once emptied, stays emptied; Osk is not re-met; the heat resets.
