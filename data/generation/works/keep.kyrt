@@ -13,12 +13,12 @@
   Observe {w}_arms at {w} when true "Over the gate a shield is cut in the stone, a tower with a star over it, and under the shield the keep's name in the kingdom's letters, which anyone who reads at all can read: {oldup}." teaches {w}_named.
 --- base
   Place {w}_site "{name}" is site within {land} at {x}, {y}.
-  Place {w}_gate "the gate-passage" is room within {w}_site at 0, 1.
-  Place {w}_bailey "the bailey" is room within {w}_site at 1, 1.
-  Place {w}_hall "the great hall" is room within {w}_site at 1, 0.
-  Place {w}_solar "the lord's chamber" is room within {w}_site at 2, 0.
-  Place {w}_walk "the wall-walk" is room within {w}_site at 2, 1.
-  Place {w}_cellar "the undercroft" is room within {w}_site at 1, 2.
+  Place {w}_gate "the gate-passage" is room within {w}_site at 0, 1 indoors.
+  Place {w}_bailey "the bailey" is room within {w}_site at 1, 1 outdoors.
+  Place {w}_hall "the great hall" is room within {w}_site at 1, 0 indoors.
+  Place {w}_solar "the lord's chamber" is room within {w}_site at 2, 0 indoors.
+  Place {w}_walk "the wall-walk" is room within {w}_site at 2, 1 outdoors.
+  Place {w}_cellar "the undercroft" is room within {w}_site at 1, 2 underground.
   Passage {w}_in "the gate" is gate between {w} and {w}_gate.
   Passage {w}_yard "the inner arch" is arch between {w}_gate and {w}_bailey.
   Passage {w}_breach "a breach in the curtain wall" is climb between {w} and {w}_bailey needing climbing or rope.

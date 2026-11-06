@@ -13,12 +13,12 @@
   Observe {w}_cut at {w} when true "Over the door a carved board, the paint long gone from the letters but the letters still deep: {oldup}, and under it, BY RIGHT OF THE PRINCES OF {kingdomup}." teaches {w}_named.
 --- base
   Place {w}_site "{name}" is site within {land} at {x}, {y}.
-  Place {w}_hall "the toll-hall" is room within {w}_site at 0, 0.
-  Place {w}_counting "the counting-room" is room within {w}_site at 1, 0.
-  Place {w}_strong "the strongroom" is room within {w}_site at 2, 0.
-  Place {w}_store "the warehouse" is room within {w}_site at 0, 1.
-  Place {w}_quay "the water-stair" is room within {w}_site at 1, 1.
-  Place {w}_cellar "the bonded cellar" is room within {w}_site at 0, 2.
+  Place {w}_hall "the toll-hall" is room within {w}_site at 0, 0 indoors.
+  Place {w}_counting "the counting-room" is room within {w}_site at 1, 0 indoors.
+  Place {w}_strong "the strongroom" is room within {w}_site at 2, 0 indoors.
+  Place {w}_store "the warehouse" is room within {w}_site at 0, 1 indoors.
+  Place {w}_quay "the water-stair" is room within {w}_site at 1, 1 outdoors.
+  Place {w}_cellar "the bonded cellar" is room within {w}_site at 0, 2 underground.
   Passage {w}_in "the toll-house door" is door between {w} and {w}_hall.
   Passage {w}_counter "the counter-gate" is gate between {w}_hall and {w}_counting.
   Passage {w}_strong_door "the strongroom door" is door between {w}_counting and {w}_strong.

@@ -36,9 +36,9 @@
   Objective {w}_sought when knows(party, {w}_named) and not been(party, {w}_top) "Nobody has climbed {{w}} in living memory, to see what its makers watched for.".
 --- shape round 1 if shape0
   Observe {w}_round_seen at {w} when true "It is round, and its door is high in the wall, where a stair of stones once climbed to it.".
-  Place {w}_floor "the floor of the tower" is room within {w}_site at 0, 1.
-  Place {w}_undercroft "the undercroft" is room within {w}_site at 0, 2.
-  Place {w}_top "the ring-room" is room within {w}_site at 0, 0.
+  Place {w}_floor "the floor of the tower" is room within {w}_site at 0, 1 indoors.
+  Place {w}_undercroft "the undercroft" is room within {w}_site at 0, 2 underground.
+  Place {w}_top "the ring-room" is room within {w}_site at 0, 0 indoors.
   Passage {w}_up "the broken stair to the door" is steps between {w} and {w}_floor needing climbing or rope.
   Passage {w}_down "the trapdoor in the floor" is ladder between {w}_floor and {w}_undercroft.
   Passage {w}_spiral "the stair in the wall" is stair between {w}_floor and {w}_top.
@@ -47,9 +47,9 @@
   Observe {w}_under_scene at {w}_undercroft when true "A low room under the tower, dry as a bone. Stone tablets stand in racks along the walls, hundreds of them, each cut close with the old script.".
 --- shape square 1 if shape1
   Observe {w}_square_seen at {w} when true "It is square, of three storeys, and a door stands at the foot of it, its timbers long gone.".
-  Place {w}_floor "the guard-floor" is room within {w}_site at 0, 1.
-  Place {w}_undercroft "the well-chamber" is room within {w}_site at 0, 2.
-  Place {w}_top "the sighting-roof" is room within {w}_site at 0, 0.
+  Place {w}_floor "the guard-floor" is room within {w}_site at 0, 1 indoors.
+  Place {w}_undercroft "the well-chamber" is room within {w}_site at 0, 2 underground.
+  Place {w}_top "the sighting-roof" is room within {w}_site at 0, 0 outdoors.
   Passage {w}_up "the door at the foot of the tower" is doorway between {w} and {w}_floor.
   Passage {w}_down "the hatch over the well-chamber" is ladder between {w}_floor and {w}_undercroft.
   Passage {w}_spiral "the stair turning in the corner" is stair between {w}_floor and {w}_top needing climbing or rope.
@@ -58,9 +58,9 @@
   Observe {w}_under_scene at {w}_undercroft when true "Under the tower a chamber is cut round a well-shaft, dry now. The tablets were kept here, out of the weather: hundreds of them, in racks, each cut close with the old script.".
 --- shape broken 1 if shape2
   Observe {w}_broken_seen at {w} when true "Half of it has fallen down the slope in a fan of stones, and you can see into it like a house with its front taken away.".
-  Place {w}_floor "the floor among the rubble" is room within {w}_site at 0, 1.
-  Place {w}_undercroft "the hollow under the paving" is room within {w}_site at 0, 2.
-  Place {w}_top "the last of the wall" is room within {w}_site at 0, 0.
+  Place {w}_floor "the floor among the rubble" is room within {w}_site at 0, 1 outdoors.
+  Place {w}_undercroft "the hollow under the paving" is room within {w}_site at 0, 2 underground.
+  Place {w}_top "the last of the wall" is room within {w}_site at 0, 0 outdoors.
   Passage {w}_up "the slope of fallen stone" is path between {w} and {w}_floor.
   Passage {w}_down "the gap in the paving" is crawl between {w}_floor and {w}_undercroft.
   Passage {w}_spiral "the broken wall" is climb between {w}_floor and {w}_top needing climbing or rope.
@@ -75,7 +75,7 @@
 --- sight alone 1 unless twin
   Observe {w}_sightline at {w}_top when state({w}_ring, set) "The sight-line runs to a bare height far off. Whatever the ring was made to see there has fallen.".
 --- successors keep 2
-  Place {w}_hall "the hall against the tower" is room within {w}_site at 1, 1.
+  Place {w}_hall "the hall against the tower" is room within {w}_site at 1, 1 indoors.
   Passage {w}_hall_door "the door into the hall" is door between {w} and {w}_hall.
   Passage {w}_hall_in "a doorway knocked through the tower wall" is doorway between {w}_hall and {w}_floor.
   Observe {w}_hall_scene at {w}_hall when true "Against the foot of the tower the kingdom of {successors} built a hall of rough stone, its roof long gone, a hearth at one end black with old fires. They knocked a door through into the tower to save themselves the climb.".

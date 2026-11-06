@@ -11,10 +11,10 @@
   Observe {w}_cut at {w} when true "Over the door, in the old script, a single line, and under it a mark like the sun with a notch cut in it: {oldup}." teaches {w}_named.
 --- base
   Place {w}_site "{name}" is site within {land} at {x}, {y}.
-  Place {w}_door "the door-stage" is room within {w}_site at 0, 3.
-  Place {w}_count "the hall of the count" is room within {w}_site at 0, 2.
-  Place {w}_beacon "the beacon-stage" is room within {w}_site at 0, 1.
-  Place {w}_orrery "the orrery" is room within {w}_site at 0, 0.
+  Place {w}_door "the door-stage" is room within {w}_site at 0, 3 indoors.
+  Place {w}_count "the hall of the count" is room within {w}_site at 0, 2 indoors.
+  Place {w}_beacon "the beacon-stage" is room within {w}_site at 0, 1 outdoors.
+  Place {w}_orrery "the orrery" is room within {w}_site at 0, 0 indoors.
   Passage {w}_outer "the stair round the outside" is steps between {w} and {w}_door.
   Passage {w}_up "the stair in the wall" is stair between {w}_door and {w}_count.
   Passage {w}_higher "the stair on up" is stair between {w}_count and {w}_beacon.

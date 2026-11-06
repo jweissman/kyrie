@@ -13,12 +13,12 @@
   Observe {w}_cut at {w} when true "Over the gatehouse arch, in the kingdom's letters, a line from the order's rule, and the house's name: {oldup}." teaches {w}_named.
 --- base
   Place {w}_site "{name}" is site within {land} at {x}, {y}.
-  Place {w}_lodge "the gatehouse" is room within {w}_site at 0, 1.
-  Place {w}_cloister "the cloister" is room within {w}_site at 1, 1.
-  Place {w}_church "the church" is room within {w}_site at 1, 0.
-  Place {w}_chapter "the chapter house" is room within {w}_site at 2, 1.
-  Place {w}_scriptorium "the scriptorium" is room within {w}_site at 2, 0.
-  Place {w}_cellar "the cellarium" is room within {w}_site at 1, 2.
+  Place {w}_lodge "the gatehouse" is room within {w}_site at 0, 1 indoors.
+  Place {w}_cloister "the cloister" is room within {w}_site at 1, 1 outdoors.
+  Place {w}_church "the church" is room within {w}_site at 1, 0 indoors.
+  Place {w}_chapter "the chapter house" is room within {w}_site at 2, 1 indoors.
+  Place {w}_scriptorium "the scriptorium" is room within {w}_site at 2, 0 indoors.
+  Place {w}_cellar "the cellarium" is room within {w}_site at 1, 2 underground.
   Passage {w}_in "the gatehouse arch" is arch between {w} and {w}_lodge.
   Passage {w}_walk "the cloister door" is door between {w}_lodge and {w}_cloister.
   Passage {w}_nave "the processional door" is door between {w}_cloister and {w}_church.
