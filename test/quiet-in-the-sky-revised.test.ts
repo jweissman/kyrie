@@ -59,4 +59,27 @@ describe('The Quiet in the Sky: the Account, kept', () => {
     expect(j.holds('larum__buriedIce', k('torold'))).toBe(true);
     expect(j.page).toMatch(/said the lowland office over a man of the Field/);
   }, 600000);
+
+  it('the shipped warrior, alone, can try the countersign on the bear and bury Halvard by the plain topic, with nobody to say the office', async () => {
+    const home = 'data/campaigns/the-quiet-in-the-sky.campaign.json';
+    const j = await Journey.start(home, 'q2');
+    await j.play('^To Larum street', 'Into the Hark', 'Ask Bet Garside about the chapel bell', 'Out to Larum street', "Into the guide's house", 'Buy a sheepskin coat', 'Pay Jory Whitlock six coin', '>larum__the_ring');
+    await j.play('Talk to Torold', 'Ask Torold Hame who lies', '=18:10', 'Ask Torold Hame why he wants', 'Ask Torold Hame what Halvard was', '^Take your leave');
+    await j.play('>larum__ice_stair');
+    // No ranger, so no talking to it: but a soldier may stand to, at a price.
+    expect(j.matches('speak to the bear').length).toBe(0);
+    expect(j.matches('stand to, give the sentry').length).toBe(1);
+    await j.play('stand to, give the sentry');
+    expect(j.holds('tolerates', k('bear'), 'party')).toBe(true);
+    expect(j.page).toMatch(/not the right army\. The bear listens/);
+    // The grave in the ice is still the Sitters' to tell; with no cleric there is no quarrel, only a topic.
+    await j.play('?Search the back of the ice shelf', '?Search the back of the ice shelf', '?Search the back of the ice shelf', '>larum__sitters_cave', 'Talk to Aulus', '^Take your leave');
+    for (let i = 0; i < 4 && !j.holds('knows', 'party', k('ice_burial')); i++) { await j.play('Play Aulus a game'); }
+    expect(j.holds('knows', 'party', k('ice_burial'))).toBe(true);
+    await j.play('>larum__the_ring', 'Talk to Torold', 'Offer to help Torold Hame bury', 'Tell Torold Hame of the grave the Sitters cut', '^Take your leave');
+    expect(j.holds('larum__quarrelledGrave', 'party')).toBe(false);
+    await j.play('Carry Halvard Eld to the Old Ice');
+    expect(j.holds('larum__buriedIce', k('torold'))).toBe(true);
+    expect(j.page).toMatch(/Nobody says the lowland office over him/);
+  }, 600000);
 });

@@ -20,17 +20,17 @@ Module thrume "Thrume" {
     On discuss { Assert hauksTurned(hauk). Increase quantity(actor, gold) by 20. }
   }
   Topic agathe_tithe with agathe "Ask Sister Agathe why the Salt Office leaves a pinch at her door" when true once {
-    Says "'The first salt out of every cart,' says Agathe. 'A pinch of white for the sill, since before there was an Office or a town. The Office has twice tried to end it, once in my predecessor's day and once in her predecessor's, and each time the carts broke an axle on the road up. Nobody has said why. Nobody has tried a third time.' She smiles. 'I do not say it is the Hearth-Mother. I say that Sorrow at the Saltcellar lost a wagon of hams the week the provost drew up the paper, and the paper was burnt.'".
+    Says "'The first salt out of every cart,' says Agathe. 'A pinch of white for the sill, since before there was an Office or a town. The carters will tell you it is a toll for the road-saint, and that you pay it so the axle holds. There is no road-saint. I have looked.' She smiles. 'The Office has twice tried to end it, and each time the carts broke an axle on the road up, so the carters think they were right. I do not say it is the Hearth-Mother. I say that Sorrow at the Saltcellar lost a wagon of hams the week the provost drew up the paper, and the paper was burnt.'".
   }
   Topic agathe_fire with agathe "Ask Sister Agathe about the fire that never goes out" when true once {
-    Says "'Nobody lit it,' says Agathe, and then, at the way you look: 'Somebody lit it. Nobody in this town knows who, and the Office has no record, and I have not asked the fire.' She turns a splinter over in her fingers. 'Pilgrims come through in summer from the west with ash on their sleeves. They say there is a lamp on a rock out beyond the Combs that is kept the same way, by a family that has forgotten what for. A lamp for no one living. They say it is the same kind of fire as ours.' She shrugs. 'They always say that. But they came all this way to sit by ours.'".
+    Says "'Nobody lit it,' says Agathe, and then, at the way you look: 'Somebody lit it. Nobody in this town knows who, and the Office has no record, and I have not asked the fire.' She turns a splinter over in her fingers. 'Pilgrims come through in summer from the west with ash on their sleeves, and sit by it, and go home.'".
   }
   Topic sorrow_ham with landlord "Ask Gil Sorrow about the hams on the beams" when true once {
     Says "'Cured in red,' says Gil Sorrow. 'You can't hang a ham in a town with salt like ours and not. It keeps forever, and it is the only ham I know of that you cannot eat a second time.' He cuts you a curl of it. It is dark, and sweet, and tastes of something you cannot quite put a name to: a summer, perhaps, not one of yours. 'The first slice, it's pork,' he says. 'The second, it's the pig's own last dream. Nobody orders it twice.'".
   }
 
   // ── The workings: the boots, and the man who lies badly ────────────────────────────────────────────────────────
-  Observe adit_boots at adit_head when true "Hung from the props at head height, boot after boot, pairs knotted by the laces: a hundred and twelve, by the count of anyone who counts. A boot for every man the Number Four has taken, in the way of the miners. Nobody can say who began it, and nobody takes one down.".
+  Observe adit_boots at adit_head when true "Hung from the props at head height, boot after boot, pairs knotted by the laces: a hundred and twelve, by the count of anyone who counts. A boot for every man the Number Four has taken, in the way of the miners. A boy of about nine is sitting under them eating an apple, and says, without being asked, that you hang the boots up so the man has something to come back for.".
   Relation brannocLies(group).
   Topic brannoc_after with brannoc "Ask Overseer Brannoc what he will tell the Margravine" when stopped(brannoc) and not brannocLies(brannoc) once {
     Says "Brannoc takes a long time over the answer. He is not a man who tells lies; he has built his life on the ground being where the chalk says it is. 'That the Number Four has run dry,' he says. 'That the red was a pocket. That I am a good judge of ground and the roof is bad and I will lose no more men to it.' He looks at the clean board. 'My brother was under the Ebb roof in the spring. I told the Margravine it would hold. It is the second time I have been wrong about her mountain, and I would like not to be right about the third.' He spits. 'I will tell it badly. You will find I am no use at it.'".
@@ -90,7 +90,7 @@ Module thrume "Thrume" {
   }
 
   // ── Outward: what Thrume reads of the world ─────────────────────────────────────────────────────────────────────
-  Observe gauge_slack at gauge_room when befell(slack_opened) "Round the rim of the dial the smiths scored eleven hours, and left the twelfth blank. Tonight the twelfth is not blank. A stroke has appeared in it, fine as a hair, as though a count somewhere very far away had paused and this one, in sympathy, had marked the pause.".
+  Observe gauge_slack at gauge_room when befell(slack_opened) "The brass hand of the dial, which has stood at the same mark since the smiths went, has moved. A hair's breadth, backward, as though a count somewhere very far away had paused and this one had stopped to listen.".
   Observe landing_cloudgate at cloud_landing when befell(cloudgate_fell) "The cloud is thinner at one edge than it was, as if a great piece of the sky had been taken from the dream. Far off, in the white, something the size of a city has come down out of the weather and is lying on the water with its lamps on, and Thrume has noticed it, and cannot decide whether to dream it.".
 
   // ── Where the story is read, once it is over ───────────────────────────────────────────────────────────────────

@@ -40,6 +40,6 @@ Module thrume "Thrume" {
   Relation sealed(place). Relation sungClean(place). Relation cutOut(place).
   Observe end_woken at market when woken(fells) "Saltgrave is gone. Where the town was, a slope of new scree runs down into a valley that was not there yesterday, and the fells to the north are not where they were. Something vast is walking away into the west, taking its time.".
   Observe end_sung at market when sungClean(fells) and not woken(fells) "The fells are quiet, the right kind of quiet. The red salt in the Salt Office's cellar has gone grey and crumbles at a touch. People who never slept well in Saltgrave sleep now.".
-  Observe end_sealed at market when sealed(fells) and not sungClean(fells) "The fells are still. Nobody in Saltgrave sleeps well, and nobody can say why, and the dream-houses stay shut.".
+  Observe end_sealed at market when sealed(fells) and not sungClean(fells) "The fells are still. Nobody in Saltgrave sleeps well, and the dream-houses stay shut.".
   Observe end_cut at market when cutOut(fells) "The Salt Office is loading wagons of red salt for the river, under guard, day and night. The springs above the town are running low, though it has rained.".
 }

@@ -40,6 +40,25 @@ Module larum "The Quiet in the Sky" {
     Result "{r} goes down on one knee in the trodden snow, palms out, and talks, in the flat even voice of someone reporting to a superior: no names, no hurry, a list of who is on the stair and why and when they will go. The bear listens with its head on one side, and its breath, which does not steam, goes in and out. At the end {r} says, quietly, 'Relieved.' The great head dips. It lies down on the shelf, crosswise, so that you may pass behind it, and puts its chin on its paws like a dog in a doorway.".
   }
 
+  // A company with no ranger has a poorer road: a soldier knows what a sentry is owed, if not what this one is owed.
+  // Standing to, giving the countersign of the wrong army and asking to relieve the post is a gamble, and a bear that
+  // is not relieved takes it out of whoever asked.
+  Hazard bear_cuff "a blow from the war-bear" means "Deal (2d6) physical damage to ally unless dexterity save against (12).".
+  Relation saluteFailed(group).
+  Action salute_bear(actor: group, site: place, w: member) "Have {w} stand to, give the sentry's countersign, and ask to relieve the post" {
+    Description "Not the bear's army, and not the bear's tongue. A soldier's voice, and a soldier's back.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(bear, site) and able(bear) and not tolerates(bear, actor) and not saluteFailed(actor)
+      and memberOf(w, actor) and hasCalling(w, calling_warrior) and not companyHasRanger(actor).
+    Time 3.
+    Resolve check(actor, intimidation, dc_hard).
+    On success { Assert tolerates(bear, actor). Retract warned(bear, actor). }
+    On failure { Assert saluteFailed(actor). Assert strikes(bear_cuff, actor). }
+    Result "{w} comes to attention in the trodden snow, heels together, and says it in the voice that carries across a parade-ground: who is relieved, and by whom, and at what hour. It is not the right army. The bear listens with its head on one side and the breath not steaming, and then goes down on all fours, slowly, and turns its flank to you, and the shelf is clear. It does not lie down. It watches you the whole way past.".
+    Otherwise "{w} says it, loud and correct, and it is the wrong army. The bear lets the word finish, and then reaches out almost gently and sets one paw across {w}'s chest and leans, and you are in the snow at the foot of the steps with the wind out of you and your ribs in a new order.".
+  }
+  Rule company_has_ranger when memberOf(?m, party) and hasCalling(?m, calling_ranger) and not companyHasRanger(party) { Assert companyHasRanger(party). }
+  Relation companyHasRanger(group).
+
   // ── Where the grave is: the warrior and the cleric disagree, and are both right ───────────────────────────────────────
   // Torold Hame will bury Halvard up in the Old Ice among his own, or down at Larum under the bell. A company that has a
   // warrior and a cleric and has learned of both graves hears each of them say so; siding with one chooses the grave, and
@@ -69,6 +88,9 @@ Module larum "The Quiet in the Sky" {
   }
   Observe grave_up_after at ice_foot as feature when buriedIce(torold) and sidedUp(party) "At the foot of the Old Ice, by the two cairns, a pair of footprints go up to the new grave and stop, and a third pair, smaller, are drawn up beside them, side by side. Whoever stood here at the Hour said the lowland office over a man of the Field, in the Field's own snow, and it is the first time in nine hundred years that the sound of it has carried there.".
   Observe grave_down_after at larum_chapel as feature when buriedLarum(torold) and sidedDown(party) "In the corner of the chapel yard, by the new grave, someone has laid a soldier's spear flat on the turf, point to the Pass, where a mourner would put a stone. The parson rings the bell at dusk, three and three, and Bet Garside says it is the first time in forty days it has sounded like it was for somebody.".
+
+  Observe grave_up_unsaid at ice_foot as feature when buriedIce(torold) and not sidedUp(party) "At the foot of the Old Ice, by the two cairns, the Sitters stand with their picks grounded. Nobody says the lowland office over him. Torold says what he has: Halvard Eld, of Wendmere, of the Evenhall; his number; the day he came in at noon. The Sitters take their hats off, which they have not done for anything in three hundred years, and put them on again.".
+  Observe grave_down_unsaid at larum_chapel as feature when buriedLarum(torold) and not sidedDown(party) "In the corner of the chapel yard the new grave has no stone. The parson has said what the book says, and the company has stood by with its hats off, and Bet Garside, afterwards, has rung it three and three on her own account.".
 
   // ── The Whitlocks' lintel ──────────────────────────────────────────────────────────────────────────────────────────
   // Eleven notches and a blank: a foreshadow for anyone who looks, and its payoff when Jory has found his son.

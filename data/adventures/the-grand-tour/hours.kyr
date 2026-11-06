@@ -21,7 +21,7 @@ Module sennet "The Grand Tour" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, nexus) and state(black_square, sealed) and not squareRead(actor) and capable(actor, lore).
     Time 6.
     On success { Assert squareRead(actor). }
-    Result "The Aenean is easy: HORARIUM, it says, and under it QUOD RESTAT CUSTODITUR. The hour-place. What remains is kept. It is an Aenean's gloss, a clerk's: it does not say who made the plate, only what the Aeneans thought it was for. The row beneath it is longer, and you cannot read it, but you can see how it is arranged: eleven strokes and a space, eleven and a space, as if a very patient hand had been counting to eleven for a very long time and never reached twelve.".
+    Result "The Aenean is easy: HORARIUM, it says, and under it QUOD RESTAT CUSTODITUR. The hour-place. What remains is kept. It is an Aenean's gloss, a clerk's: it does not say who made the plate, only what the Aeneans thought it was for. The row beneath it is longer, and you cannot read it; you can only see that it is cut very evenly, by a hand that did not hurry.".
   }
   Action read_by_rubbings(actor: group, site: place) "Lay a keeper's tally and a Prefect's table against the black square" {
     Description "Two rubbings of two notations. A bilingual is a bilingual wherever it is laid.".
@@ -79,7 +79,7 @@ Module sennet "The Grand Tour" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, nexus) and state(black_square, sealed) and not squareVouched(actor) and holding(actor, keeper_mask).
     Time 2.
     On success { Assert squareVouched(actor). }
-    Result "The grey face rings against the black metal like a bell struck underwater. The square answers it, a note lower, and then the two notes beat together and are one, and you know that you are standing in the presence of two parts of the same kind of thing, and that one of them has been taken from something that is now lying quite still in a niche under a hill.".
+    Result "The grey face rings against the black metal like a bell struck underwater. The square answers it, a note lower, and then the two notes beat together and are one, and the note it sets up under your feet is the same note, a size larger.".
   }
   Action vouch_by_letter(actor: group, site: place) "Show the black square a Fellow's letter of introduction" {
     Description "A folded letter with a seal on it, from a man who believes it will open fewer doors than it does.".

@@ -2,7 +2,7 @@ Module corrow "Let One Remember" {
   Description "Links outward from the Corrow: a man given out for dead who is alive, and the Finder shown a letter from the Lesser Instruments.".
 
   // ── A world event, read: a name struck from the dead ────────────────────────────────────────────────────────────
-  Observe lore_registry_perrin at counting_house when befell(perrin_lives) "A clerk has pinned a slip to the end of a row, in a southern hand that is not the Registry's: PERRIN HALYARD, ENTERED AMONG THE DEAD, IS ALIVE. STRIKE. The head clerk reads it twice. 'We do not strike the dead,' he says. 'We have no mark for it.' The slip stays on the board all week. Nobody takes it down, and nobody can say whose it is to take.".
+  Observe lore_registry_perrin at counting_house when befell(perrin_lives) "A clerk has pinned a slip to the end of a row, in a southern hand that is not the Registry's: PERRIN HALYARD, ENTERED AMONG THE DEAD, IS ALIVE. STRIKE. The head clerk reads it twice. 'We do not strike the dead,' he says. 'We have no mark for it.' The slip stays on the board all week.".
 
   // ── A visitor from elsewhere: a letter of the Lesser Instruments ────────────────────────────────────────────────
   Discovery lore_finder_collects "The Finder of Wendmouth, shown a letter of the Collegium of Lesser Instruments, says that Corran collects, and the Finder keeps: a lost thing found is held for its owner, a collected thing is held for the collection.".

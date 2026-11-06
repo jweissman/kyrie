@@ -9,20 +9,19 @@ Module quittance "Quittance" {
   // ── Foreshadow, for everyone: the saucers of salt ───────────────────────────────────────────────────────
   // A thing every house on Policy Row does and nobody can explain. Paid off in the Hearth Below, and on the Row on the
   // morning after, if the city has made its terms.
-  Discovery qv_saucers "On every sill on Policy Row stands a saucer with a pinch of salt in it, set out on the first of the month by the Offices' housemaids. Nobody can say what it is for.".
-  Observe qv_saucers_seen at row_street when true "On every sill along the Row, under the gilt marks, stands a saucer with a pinch of salt in it, white and level, as a thing is set out for someone who may arrive in the night. A housemaid on a step is wiping the rim of one with her apron. 'First of the month,' she says, when you look. 'My mother did it. Nobody takes it, mind. It's only that you couldn't not.'" teaches qv_saucers.
+  Discovery qv_saucers "On every sill on Policy Row stands a saucer with a pinch of salt in it, set out on the first of the month by the Offices' housemaids.".
+  Observe qv_saucers_seen at row_street when true "On every sill along the Row, under the gilt marks, stands a saucer with a pinch of salt in it, white and level, as a thing is set out for someone who may arrive in the night. A housemaid on a step is wiping the rim of one with her apron. 'First of the month,' she says, when you look. 'My mother did it.' A small boy on the step below, who has been counting the saucers on his fingers, says it is for the one who comes in last, so they won't have to ask, and is told to hush." teaches qv_saucers.
   Observe qv_saucers_licked at row_street when fireTerms(party) and day(clock) >= 9 and hour(clock) >= 6 "The saucers on the sills of Policy Row are clean. Not emptied: licked, as a cat licks a dish. The housemaid on her step has one in each hand and is looking from one to the other, and does not say anything at all.".
 
   // ── Foreshadow, for those who look: eleven strokes and a blank ──────────────────────────────────────────
   Discovery qv_strokes "Cut in the lintel of the Exchange cellar stair, in a script of straight notches that Ianthe Corbett calls Hesk, there are eleven strokes and a space for a twelfth.".
   Discovery qv_twelfth_place "The Fire says eleven came down the stair on the second night, and that a twelfth place was left, as a host leaves one.".
   Observe qv_strokes_seen at cellar_foot when true "Cut small into the lintel of the stair you came down, under a century of soot, there is a row of straight notches in a script that is not a clerk's: eleven strokes, close and even, and after them a space exactly their width, with nothing in it. The edges of the space are cleaner than the rest. Something has been rubbed there, or kept from soot." teaches qv_strokes.
-  Observe qv_keeper_stroke at hearth_below when fireTermKeeper(party) and knows(party, qv_twelfth_place) "On the stair behind you, in the lintel, you would swear there is one stroke more than there was.".
 
   // ── New history, away from the critical path ────────────────────────────────────────────────────────────
   Thing qv_steps "the Brokers' Stair" at brokers_stair {
     Tries looking.
-    State steps "The Stair that gives the quarter its name has ninety-four steps, and a boy comes at dawn with a bucket of whitewash and does one of them over. The last, at the top, is brighter than the rest, and cracks at the edge from this year's frost. The broker nearest says they do one a year, from the bottom, and that when the boy reaches the top they will start again at the bottom, and that no broker has ever asked why it is ninety-four.".
+    State steps "The Stair that gives the quarter its name has ninety-four steps, and a boy comes at dawn with a bucket of whitewash and does one of them over. The last, at the top, is brighter than the rest, and cracks at the edge from this year's frost. The broker nearest says they do one a year, from the bottom, and that when the boy reaches the top they will start again at the bottom.".
   }
   Observe qv_plate_painter at gate_plaza when hour(clock) >= 5 and hour(clock) < 8 "A man with a lantern on his hat is going from door to door along the Plaza repainting the little gilt birds, one coat to a bird, by candlelight, not letting the paint dry in the sun. He says the Phoenix pays a farthing a bird and that he is the thirty-first of his family to hold the brush. 'The colour's the Chief Underwriter's,' he says. 'But the hand is ours. You can tell a Pargeter bird by the left wing.'".
   Observe qv_orange_peel at wards_gate when true "The Cinderwall smells of burnt orange. The Wards sell the peel, dried and twisted on a wick, as a light that costs a farthing and gives the smell of a hearth, because a flame is a nuisance under the Ordinance and a peel is, by a long judicial hair, a vegetable.".
@@ -90,19 +89,19 @@ Module quittance "Quittance" {
     Result "The paper takes light and goes, and the salt lies on the hot ash in a small white mound that does not melt. 'The Hen,' says the Fire, reading it as it reads everything. 'The one that insures the cat.' It sounds, for a moment, almost amused. 'A guest's portion. It has been laid. You may tell them it was eaten.'".
   }
   Topic qv_t_strokes with ds_fire "Ask the Fire about the eleven strokes and the empty place on the cellar stair" when fireHeard(actor) and knows(actor, qv_strokes) and not fireWrathful(actor) once {
-    Says "'Eleven came down with her on the second night,' says the Fire. 'Notary, clerk, the founders. They cut their number in the stone going down, one stroke each, so that they should be counted when they came up.' The coal ticks. 'They came up. A place was left for a twelfth, as a host leaves one. I was told it was for whoever kept me. I have been keeping the place.' It is not an answer. It is the exact size of a question.".
+    Says "'Eleven came down with her on the second night,' says the Fire. 'Notary, clerk, the founders. They cut their number in the stone going down, one stroke each, so that they should be counted when they came up.' The coal ticks. 'They came up. A place was left for a twelfth, as a host leaves one. I was told it was for whoever kept me. I have been keeping the place.'".
     On discuss { Assert knows(actor, qv_twelfth_place). Increase ds_accord(actor) by 1. }
   }
   Rule qv_keeper_stays when fireTermKeeper(party) and knows(party, qv_twelfth_place) and not qv_placeCounted(city)
-    says "'Twelve,' says the Fire, quite softly, to nobody, and a stroke that was not there before is on the lintel, and the lintel is warm." {
+    says "'Twelve,' says the Fire, quite softly, and on the stair behind you there is one stroke more than there was, and the lintel is warm." {
     Assert qv_placeCounted(city).
   }
-  Action qv_show_tally(actor: group, site: place) "Show the Fire a Watch's tally-stick: eleven notches and a space" {
+  Action qv_show_tally(actor: group, site: place) "Show the Fire a Watch's tally-stick" {
     Speaker ds_fire.
     Requires able(actor) and company(actor) and at(actor, site) and at(ds_fire, site) and fireHeard(actor) and not fireWrathful(actor) and holding(actor, watch_tally) and not qv_tallyShown(actor).
     Time 5 minutes.
     On success { Assert qv_tallyShown(actor). Increase ds_accord(actor) by 2. Assert fireFed(actor). }
-    Result "The Fire has no hands. The stick lifts a little off your palm in the heat and turns once in the air, and it counts the notches, and stops at the blank. 'Kept,' says the Fire. 'Not owned. Someone has been keeping a count a long way from here for a great many years, and has not been thanked.' It sets the stick down. 'My Offices do not know the word. They say owed. Owed is what you have of a thing you were lent. Kept is what you do for it.' It says, after a moment, almost shyly: 'It is a better word. I should like to have been kept.'".
+    Result "The Fire has no hands. The stick lifts a little off your palm in the heat and turns once in the air, and it goes along the notches, and stops where they stop. 'Kept,' says the Fire. 'Not owned. Someone has been keeping a count a long way from here for a great many years, and has not been thanked.' It sets the stick down. 'My Offices do not know the word. They say owed. Owed is what you have of a thing you were lent. Kept is what you do for it.' It says, after a moment, almost shyly: 'It is a better word. I should like to have been kept.'".
   }
   Topic qv_t_draught with ds_fire "Ask the Fire whether there are others like it" when fireHeard(actor) and not fireWrathful(actor) once {
     Says "'Others,' says the Fire. 'Hearths, who keep a count? There are always others. There was an Auditor, once, a long way from any hearth, who counted the tide and was thanked by nobody, and I am told he thinks it is a mercy.' The coal brightens a little. 'I do not envy him. I have a stair.'".

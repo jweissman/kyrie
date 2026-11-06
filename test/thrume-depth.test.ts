@@ -61,7 +61,7 @@ describe('Thrume: Saltgrave, the faces and the company\'s voices', () => {
     const { j } = await T.start(saltgrave);
     let said = await j.play('^To the market', '^Into the Saltcellar', 'about the hams', '^Out', '^Into the Hearth-Mother', 'why the Salt Office leaves a pinch', 'the fire that never goes out');
     expect(said).toContain('the pig\'s own last dream');
-    expect(said).toContain('a lamp on a rock out beyond the Combs');
+    expect(said).toContain('Pilgrims come through in summer');
     said = await j.play('^Out', '^To the carters', '^To the cart road', '?a torch: Light', '^To the old adit');
     expect(said).toContain('a hundred and twelve');
   }, 120000);
@@ -218,15 +218,15 @@ describe('Thrume: a company that dithers', () => {
 });
 
 describe('Thrume: what it reads of the world, and the payoffs at the Mouth', () => {
-  it('marks a twelfth stroke on the Gauge when a black square has been opened a long way off', async () => {
+  it('moves the Gauge's hand when a black square has been opened a long way off', async () => {
     const { s, j } = await T.start(depth);
     await j.play('?a torch: Light', '^To the cold forge');
     const quiet = await j.play('^To the Gauge');
-    expect(quiet).not.toContain('twelfth is not blank');
+    expect(quiet).not.toContain('had paused and this one had stopped to listen');
     const c = s.campaign as unknown as { world: { apply(c: unknown[]): unknown }; commit(w: unknown): void };
     c.commit(c.world.apply([{ kind: 'assert', call: ModuleWriter.call('befell', 'slack_opened') }]));
     await j.play('^To the cold forge');
-    expect(await j.play('^To the Gauge')).toContain('twelfth is not blank');
+    expect(await j.play('^To the Gauge')).toContain('had paused and this one had stopped to listen');
   }, 120000);
 
   // The knowledge is gained by play in the hold (Wenna's hall) and at the pay-window (the office); the walk from there to

@@ -49,19 +49,19 @@ Module sennet "The Grand Tour" {
   Initially Assert allowed(sabe).
   Observe quartermaster_scene at hours_quay when not faceGiven(party) "At the head of the gangway stands a tall grey figure with its long arms at its sides and a smooth blank oval where a face should be. It does not move. It has been waiting a very long time and gives no sign of having minded.".
   Topic sabe_slack with sabe "Ask Captain Sabe where the ship is" when secondBell(actor) once {
-    Says "'Between,' says Sabe. He holds up the stylus. 'There is a count, and everything is counted in it. When you divide, there is what comes out, and there is what is left over.' He lowers it. 'We are what is left over. She carries what would not divide. The slack is where the count is not looking.' He does not say anything for some time. 'Do not,' he says, 'ask me how long.'".
+    Says "Sabe does not answer at once. He gets up, which takes him a while, and walks you to the lee rail, and stands with you looking at the low place in the sky where the ruling thins. At the dishes the old woman draws her line a third time in the first heap. 'She carries what would not divide,' he says at last. 'That is all of it that can be said in a sentence.' He nods at the sky, and lets you look.".
     On discuss { Assert counted(actor). }
   }
   Topic sabe_roll with sabe "Ask Captain Sabe about the names on the ship's roll" when counted(actor) once {
-    Says "'There are two rolls,' says Sabe. 'The first is in the marks we do not read. We keep it, and copy it, and we have copied it so many times that no one can say what it was.' He pauses. 'The second is in the Aenean hand, and has forty names, and a date I cannot read, and against thirty-eight of them a line has been drawn. It is the second roll that says a Prefect came aboard with his household at the Counting and was lost. It is in a hand a thousand years younger than the ship.' He looks at the slate. 'Tamsin says the Watch wrote it to explain the names painted on the bulkhead. I say it was written by someone who was there. We have agreed to count it either way. Do you know,' he says, 'what is most remarkable? That nobody ever came to ask.'".
+    Says "'There are two rolls,' says Sabe. 'The first is in the marks we do not read. We copy it, and we have copied it so many times that no one can say what it was.' He turns the slate over. 'The second is in a hand that is not the Watch's. Forty names; against thirty-eight of them a line has been drawn. Tamsin says the Watch wrote it to explain the names painted on the bulkhead. I say someone was there. We have agreed to count it either way.'".
     On discuss { Assert knows(actor, roll_two). }
   }
-  Discovery roll_two "The Remainder keeps two rolls: one in marks nobody reads, one in the Aeneans' hand, forty names, thirty-eight struck through, saying a Prefect's household came aboard and was lost. The Captain believes it was written by someone who was there. The Reckoner thinks the Watch wrote it to explain the Aenean names on the bulkhead. Nobody knows which.".
+  Discovery roll_two "The Remainder keeps two rolls: one in marks nobody reads, one in a hand that is not the Watch's, forty names, thirty-eight struck through. The Captain believes it was written by someone who was there. The Reckoner thinks the Watch wrote it to explain the names on the bulkhead.".
   Topic sabe_want with sabe "Ask Captain Sabe what the Watch wants" when counted(actor) once {
     Says "'Nothing,' says Sabe. 'We keep the hours. We keep the remainders. I was born on this deck and my mother before me, and each of us has said to the next, as the Watch is passed, that nothing is required but that the count be kept.' His hands are folded on the slate. 'My Reckoner thinks otherwise. She is young.'".
   }
   Topic tamsin_count with tamsin "Ask Tamsin Quaye what she is trying to break" when secondBell(actor) once {
-    Says "'The count,' she says. 'Ours. The ship's.' She puts down a bead. 'For nine hundred of our years the pin on that chart has been in the same place. Eleven strokes and a space. Last year it moved. A hair.' She looks at it. 'The Captain says it is a cold week. When the slack ends the count has us, and everything in the hold, and it will not be unkind about it. It will simply divide.'".
+    Says "'The count,' she says. 'Ours. The ship's.' She puts down a bead. 'For nine hundred of our years the pin on that chart has been in the same place. Last year it moved. A hair.' She looks at it. 'The Captain says it is a cold week. When the slack ends the count has us, and everything in the hold, and it will not be unkind about it. It will simply divide.'".
     On discuss { Assert counted(actor). Assert knows(actor, slack_thin). }
   }
   Discovery slack_thin "The Reckoner of the Remainder says the Slack is thinning: the pin on the chart has moved by a hair, and when the slack ends the count will take the ship and everything in her hold, and her Watch.".
@@ -94,10 +94,10 @@ Module sennet "The Grand Tour" {
     Greets "The tern puts its head on one side, and says, clearly, in a human voice, a short sentence in a tongue you do not know, in the manner of a bird that has said it a hundred thousand times and has never once been answered.".
   }
   Topic tern_listen with tern "Listen to the tern, and write down what it says" when true once {
-    Says "The tern says it again. And again. It says: a word, a space, the same word, a space, and eleven times, and then a sentence of eight syllables, which ends in a rising sound that is, in every language you have ever heard, a question. Odile Quint, if she were here, would weep. You write it down phonetically on the back of your hand. It is the only remainder on the ship that can be taken away by a person with a pen.".
+    Says "The tern says it again. And again. It says: a word, a space, the same word, a space, over and over, and then a sentence of eight syllables, which ends in a rising sound that is, in every language you have ever heard, a question. Odile Quint, if she were here, would weep. You write it down phonetically on the back of your hand. It is the only remainder on the ship that can be taken away by a person with a pen.".
     On discuss { Assert knows(actor, tern_sentence). }
   }
-  Discovery tern_sentence "The tern in the hold speaks a dead tongue, eleven repetitions and a question, which you have written down by sound.".
+  Discovery tern_sentence "The tern in the hold speaks a dead tongue, a word said over and over and then a question, which you have written down by sound.".
 
   // ── The Quartermaster ──────────────────────────────────────────────────────────────────────────────────────────
   Kind keeper_face "a keeper's face" like keeper_mask described "A smooth face of grey fired clay, without eyes or mouth, with a single notch where a brow would be.".
@@ -155,14 +155,14 @@ Module sennet "The Grand Tour" {
     Assert mechanusSeen(remainder). Assert befell(mechanus_seen).
   }
   Rule remainder_returns when state(remainder, out) and at(remainder, outer_mechanus_threshold) and watch(clock) >= mechAt(remainder) + 12
-    says "Orrel Sabe takes the bell-cord in his hand, and says, to nobody, 'The twelfth.' The deck-bell rings eleven times, and then, for the first time in your hearing, a twelfth. The lines come in. The Remainder goes off the berth like a leaf off a stone." {
+    says "Orrel Sabe takes the bell-cord in his hand and rings the deck-bell. The lines come in. The Remainder goes off the berth like a leaf off a stone." {
     Retract at(remainder, outer_mechanus_threshold). Assert at(remainder, hours_quay). Set leftAt(remainder) to watch(clock).
   }
   Rule remainder_comes_again when state(remainder, out) and at(remainder, hours_quay) and watch(clock) >= leftAt(remainder) + 48 and at(party, outer_mechanus_threshold)
-    says "A long way off, across the squares, a bell strikes eleven, and a twelfth, and a ship is coming in over a floor that has no water, at the speed of a thought being remembered." {
+    says "A long way off, across the squares, a bell is struck, and a ship is coming in over a floor that has no water, at the speed of a thought being remembered." {
     Retract at(remainder, hours_quay). Assert at(remainder, outer_mechanus_threshold). Set mechAt(remainder) to watch(clock).
   }
-  Observe stranded_mech at outer_mechanus_threshold when not at(remainder, outer_mechanus_threshold) and mechanusSeen(remainder) and at(party, outer_mechanus_threshold) "The Remainder is gone. The quay she lay at is a square of black metal in a floor of squares, and on it an eleven of notches has been cut, fresh. Eleven, and then a blank, as if for a twelfth.".
+  Observe stranded_mech at outer_mechanus_threshold when not at(remainder, outer_mechanus_threshold) and mechanusSeen(remainder) and at(party, outer_mechanus_threshold) "The Remainder is gone. The quay she lay at is a square of black metal in a floor of squares, and on it a short row of marks has been cut with a knife, fresh, the way you mark a place you mean to come back to.".
 
   // The cost of a harbour. A surety named in the Prefect's formula or in the Collegium's keeping is bounded by it, if the
   // company has taken the trouble to learn what a surety is: a clerk of the Balance wrote it down for anyone who asked.
@@ -186,6 +186,12 @@ Module sennet "The Grand Tour" {
   Relation onboard(group).
   Query secondBell(g: group) means boardedAt(g) > 0 and watch(clock) >= boardedAt(g) + 6.
   Observe first_hour at rem_deck when onboard(party) and not secondBell(party) "Nobody speaks. Twenty-odd people stand along the rail and in the hatches and watch you with an unhurried courtesy, as a congregation watches someone who has come in late to a funeral and sat down, and is not sure whether it is theirs. The old man counts. The deck-bell hangs from the mast on its cord and does not move, and you realise that you have been listening for it since the stair.".
+  // The hour with nobody to ask: the Watch is at its work, and the company sees something of the ship and is not told.
+  Relation railSeen(group).
+  Rule rail_unasked at rem_deck when onboard(party) and not secondBell(party) and watch(clock) >= boardedAt(party) + 2 and not railSeen(party)
+    says "Along the lee rail someone has set out a row of shallow dishes, and in each a heap of something grey and fine as flour. A woman goes down the row with a feather, drawing in every heap a short straight line, and when she has done the last she stands back to wait. The first heap is smoothing itself flat again, slowly, from the edges in. She draws her line in it a second time. You say 'Excuse me,' and then, 'What is it for?' She glances at you as one glances at a child who has spoken in church, and bends to the third dish. At the hatch a man has a hand lifted to his brow, as if for a sail, and is looking at the low place in the sky where the ruling thins. You look where he looks. There is a colour there, faint, for which you have no name, and something in your chest does what it does at the first line of a hymn you were never taught. You ask him. He lowers his hand and goes below. Whatever it is, you will have to look at it without being told." {
+    Assert railSeen(party).
+  }
   Rule second_bell at rem_deck when onboard(party) and secondBell(party) and not belled(party)
     says "The deck-bell is struck, once. It is not a loud sound, and it goes on. Along the rail the Watch lets out a breath it has been holding for an hour, and several people sit down, and a child who has been watching you from behind a hatch-cover comes out and stands in front of you and says, with enormous dignity, 'You may speak now.'" {
     Assert belled(party).
@@ -194,17 +200,17 @@ Module sennet "The Grand Tour" {
 
   // ── What hangs on the mast ─────────────────────────────────────────────────────────────────────────────────────
   Observe bracket_scene at rem_deck when not steadied(remainder) "At the masthead, above the bell, there is a bracket: an iron ring, as wide as a dinner plate, with nothing in it. It has been polished. Cut small on the inside of the ring, where only someone looking for it would look, is a fish, and over the fish a flame." teaches bracket_seen.
-  Discovery bracket_seen "At the masthead of the Remainder there is an empty iron ring, polished and waiting, cut on the inside with a fish and a flame: the device on the keystone of the Pharos on Skerrow, and on the lamp-stand of the Holm.".
+  Discovery bracket_seen "At the masthead of the Remainder there is an empty iron ring, polished and waiting, cut on the inside with a fish and a flame.".
   Relation steadied(entity).
   Topic tamsin_bracket with tamsin "Ask Tamsin Quaye about the empty ring on the mast" when knows(actor, bracket_seen) once {
-    Says "'The lamp,' says Tamsin. She does not look up from the rods. 'The masthead lamp. The pin on that chart does not move because of the count, the Captain thinks; I think the pin moves because we have no light. A ship in the slack with a light is a ship the count can see, I thought, and then I thought, no, a ship with a light is a ship that has a place. The second roll says a steward named Lucanus took it ashore to be mended. It is not a mending. It is a lending.' Her voice is perfectly even. 'There is a name on the roll that is not struck. His. Everyone else is a line. He has a question mark.'".
+    Says "'The masthead lamp,' says Tamsin, not looking up from the rods. 'It was taken ashore to be mended. That is what the roll says, in the second hand.' She sets a bead. 'One name on it isn't struck through. It has a question mark.'".
     On discuss { Assert knows(actor, lamp_lent). }
   }
-  Discovery lamp_lent "The Remainder's masthead lamp was taken ashore by a steward named Lucanus, the second roll says, and the entry has a question mark where the others have a line. Tamsin thinks the ship's pin is slow because she has no light.".
+  Discovery lamp_lent "The Remainder's masthead lamp was taken ashore to be mended, the second roll says; one name on that roll has a question mark where the others have a line. Tamsin thinks the ship's pin is slow because she has no light.".
   Item tally_stick "a Watch's tally-stick" is watch_tally at offstage owned by tamsin.
   Relation tallyCut(group).
   Topic tamsin_tally with tamsin "Ask Tamsin Quaye whether someone could carry the Watch's asking" when knows(actor, lamp_lent) and not tallyCut(tamsin) once {
-    Says "'Asking,' says Tamsin Quaye, and puts down the rod, and for the first time since you came aboard is not doing anything with her hands. 'Eleven generations of us have said it would be asked for when the Prefect's steward came back. I think he did not come back. I think the island has the lamp. I think the island has kept it, because we are the kind of people who keep things.' She takes a stick of grey wood from the table and a knife, and cuts it, eleven notches, steady, and stops, and leaves the twelfth. 'This is how the Watch asks. They will know. They have the other half of it on the wall.' She puts it in your hand. It is warm. 'Do not,' she says, 'tell them it is urgent. They have kept it a long time, and they will be afraid.'".
+    Says "'Asking,' says Tamsin Quaye, and puts down the rod, and for the first time since you came aboard is not doing anything with her hands. 'We have said for generations that it would be asked for when the man with the question mark came back. I think he did not come back. I think the island has the lamp.' She takes a stick of grey wood from the table and a knife and cuts a row of notches in it, steady, and stops in the middle of a stroke. 'This is how the Watch asks. They will know. They have the other half of it on the wall.' She puts it in your hand. It is warm. 'Do not,' she says, 'tell them it is urgent. They have kept it a long time, and they will be afraid.'".
     On discuss { Give tally_stick to actor. Assert tallyCut(tamsin). }
   }
   Place nowhere_slack "nowhere" is room within descent at 9, 9.
@@ -249,12 +255,12 @@ Module sennet "The Grand Tour" {
     Result "Orrel Sabe looks at the cord for some time. 'It was not rung in my mother's time,' he says. 'Or her mother's.' Then he puts it into your hand, and the rest of the Watch makes a sound like a held breath leaving. You pull it: eleven, as it has always been, and then, with the whole of your weight, a twelfth. The Divider stands where it is. The lines on it slow. It looks at the bell, at the cord, at you, as a clerk looks at a sum that has come out even, and it folds, from the top down, like a ledger being closed. The sound of the twelfth goes on in the ruled sky a long time. 'We have used something,' says Sabe, quietly. 'I do not know what.'".
     Otherwise "'No,' says Sabe, very gently, and takes the cord out of your hand. 'Not by one who has not yet learned what it is for.'".
   }
-  Action speak_the_sentence(actor: group, site: place) "Say the tern's sentence to the Divider, eleven times and a question" {
+  Action speak_the_sentence(actor: group, site: place) "Say the tern's sentence to the Divider" {
     Description "A remainder is a thing that does not divide. A sentence in a dead tongue, said as it has been said for a hundred thousand years, is a thing that does not.".
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, rem_deck) and at(divider, site) and knows(actor, tern_sentence) and not turned(actor).
     Time 2.
     On success { Assert turned(actor). Retract at(divider, rem_deck). Assert at(divider, nowhere_slack). Retract at(tern, rem_hold). Assert at(tern, nowhere_slack). }
-    Result "You say it. You say it as you wrote it down, by sound, with the tern's rise at the end like a question, eleven times, in a voice that is not yours. The Divider listens with its head on one side. On the tenth repetition its lines begin to slow; on the eleventh it opens its hands. You say the question. It takes the sentence out of the air as a priest takes a wafer, and goes down the gangway with it carefully, as if carrying water. Below, in the hold, a grey tern in a wicker cage opens its beak and nothing comes out of it at all.".
+    Result "You say it. You say it as you wrote it down, by sound, with the tern's rise at the end like a question, again and again, in a voice that is not yours. The Divider listens with its head on one side. Its lines begin to slow; at the last it opens its hands. You say the question. It takes the sentence out of the air as a priest takes a wafer, and goes down the gangway with it carefully, as if carrying water. Below, in the hold, a grey tern in a wicker cage opens its beak and nothing comes out of it at all.".
   }
   Rule quartermaster_stands when faceGiven(party) and at(divider, rem_deck) and not turned(party) and not stilled(quartermaster)
     says "The Quartermaster steps between. It does not hurry. It has had a face for a very short time and is not sure what to do with it, but it knows what a gangway is for. It puts both long arms out. The Divider lays a ruled hand on its chest, and the Quartermaster takes the hand, and holds it, and the lines on the Divider go slack, and stop. Both figures stand quite still at the head of the gangway. Neither moves again. The grey face has not changed expression, having none." {

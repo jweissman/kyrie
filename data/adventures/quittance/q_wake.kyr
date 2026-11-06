@@ -189,8 +189,8 @@ Module quittance "Quittance" {
     Resolve check(actor, deception, dc_hard).
     On success { Assert wk_plantL(actor). Assert wk_fraud(actor). }
     On failure { Assert wk_exposed(actor). }
-    Result "You say it to him eleven times in a dead man's gruff patience, with the cloth half down, and on the twelfth he says it back, word-perfect, in a voice that Mr Teague would have owned. He looks pleased with himself.".
-    Otherwise "You say it eleven times and on the twelfth Fusby says it back in your voice. It is quite unmistakably your voice. He is delighted with it.".
+    Result "You say it to him nine times in a dead man's gruff patience, with the cloth half down, and on the tenth he says it back, word-perfect, in a voice that Mr Teague would have owned. He looks pleased with himself.".
+    Otherwise "You say it nine times and on the tenth Fusby says it back in your voice. It is quite unmistakably your voice. He is delighted with it.".
   }
   Action wk_plant_wife(actor: group, site: place) "Teach Fusby a sentence for the adjuster: 'To the Admiral, all of it, Rosalind'" {
     Requires able(actor) and company(actor) and at(actor, site) and at(wk_fusby, site) and state(wk_cage, open) and wk_pos(wk_fusby) >= 6 and wk_mood(wk_fusby) >= 2 and not wk_plantL(actor) and not wk_plantW(actor) and not wk_exposed(actor).
@@ -198,8 +198,8 @@ Module quittance "Quittance" {
     Resolve check(actor, deception, dc_hard).
     On success { Assert wk_plantW(actor). Assert wk_fraud(actor). }
     On failure { Assert wk_exposed(actor). }
-    Result "You say it to him eleven times, with feeling, and on the twelfth he says it back in Mr Teague's own breathy bass. It would not stand up in a court. It will stand up in a front room.".
-    Otherwise "You say it eleven times and on the twelfth Fusby says it back in your voice. It is quite unmistakably your voice. He is delighted with it.".
+    Result "You say it to him nine times, with feeling, and on the tenth he says it back in Mr Teague's own breathy bass. It would not stand up in a court. It will stand up in a front room.".
+    Otherwise "You say it nine times and on the tenth Fusby says it back in your voice. It is quite unmistakably your voice. He is delighted with it.".
   }
 
   // The whim: easy, uncovered, in company, Fusby may speak of his own accord; coaxed, he speaks at once; showy, he runs.
