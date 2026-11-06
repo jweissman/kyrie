@@ -189,7 +189,6 @@ describe('the lamp that was lent', () => {
     j.give('psennet__tally_stick');
     await j.play('Show Marren Kestle the Watch.s tally-stick');
     expect(j.holds('ptolleth__lensGiven', 'ptolleth__kestle')).toBe(true);
-    await j.play('^Take the green lens');
     j.put('party', 'psennet__rem_deck');
     await j.play('Fit the green lens of the Pharos');
     expect(j.holds('psennet__steadied', 'psennet__remainder')).toBe(true);
