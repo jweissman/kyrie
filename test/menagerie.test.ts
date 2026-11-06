@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'bun:test';
 import { existsSync } from 'node:fs';
 import animalPaintings from '../data/paintings/animals.json';
+import monsterPaintings from '../data/paintings/monsters.json';
+import { CreaturePortraits } from '../src/paintings/creature-portraits';
 import { Battle } from '../src/arena';
 import { Canon } from '../src/canon/canon';
 import { CombatModel } from '../src/ui/combat-model';
@@ -26,6 +28,17 @@ describe('the menagerie', () => {
     for (const p of animalPaintings.portraits) {
       expect([p.kind, existsSync(`web/reader/${p.file}`), existsSync(`web/reader/${p.large}`)]).toEqual([p.kind, true, true]);
     }
+  });
+  // And every monster by its own, from the bestiary sheets (the owner, 6 November), the zombie added last among them,
+  // and a kind composed of one (a red dragon, an iron golem) by its base's.
+  it('paints every monster by its own picture, and a composed one by its base\'s', () => {
+    const monsters = Canon.catalogued.filter(id => Canon.creature(id).kind === 'monster');
+    expect(monsters.filter(id => Canon.creature(id).portrait !== `monsters/${id}`)).toEqual([]);
+    for (const p of monsterPaintings.portraits) {
+      expect([p.kind, existsSync(`web/reader/${p.file}`), existsSync(`web/reader/${p.large}`)]).toEqual([p.kind, true, true]);
+    }
+    expect(['dragon/red_lineage', 'golem/iron', 'fire_elemental'].map(id => CreaturePortraits.painting(id)))
+      .toEqual(['monsters/dragon', 'monsters/golem', 'monsters/elemental']);
   });
   it('places the seven new animals where they live', () => {
     const seen = (habitat: string) => RegionEcology.seen(new Set([habitat])).map(([id]) => id);

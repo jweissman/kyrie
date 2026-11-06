@@ -19,6 +19,7 @@ export class HandbookMarkdown {
   static entry(e: Entry, depth: number): string[] {
     return [`${'#'.repeat(Math.min(depth, 6))} ${e.title}`, '',
       `*${HandbookStatus.label(e.status)}${e.kind ? ` · ${e.kind}` : ''}* · \`${e.id}\``, '',
+      ...e.painting ? [`<img src="../../web/reader/paintings/${e.painting}.webp" alt="" width="128">`, ''] : [],
       ...e.facts?.length ? [...e.facts.map(([k, v]) => `- ${k}: ${v}`), ''] : [],
       ...(e.rules ?? []).flatMap(r => [r, '']), ...(e.text ?? []).flatMap(t => [`> ${t}`, '']),
       ...(e.notes ?? []).flatMap(n => [`*${n}*`, ''])];

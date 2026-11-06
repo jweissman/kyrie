@@ -18,7 +18,8 @@ describe('the handbooks', () => {
       ...Object.keys(Canon.ancestries).map(id => `ancestry:${id}`),
       ...Object.entries(Canon.classes).filter(([, c]) => c.playable).map(([id]) => `class:${id}`),
       ...Object.keys(Canon.backgrounds).map(id => `background:${id}`),
-      ...Object.keys(Canon.species).map(id => `species:${id}`),
+      // The catalog's kinds, not a module's installed beside them by a game played before in the same process.
+      ...Canon.catalogued.map(id => `species:${id}`),
       ...Object.keys(Canon.conditions).map(id => `condition:${id}`),
       ...Object.keys(Canon.skills).map(id => `skill:${id}`),
       ...Object.keys(Canon.abilities).map(id => `ability:${id}`),

@@ -997,7 +997,7 @@
     "faithful": 239,
     "adapted": 25,
     "represented": 30,
-    "kyr": 280,
+    "kyr": 281,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 198
@@ -1010,7 +1010,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 254,
+      "kyr": 255,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -1063,7 +1063,7 @@
     "faithful": 126,
     "adapted": 136,
     "represented": 10,
-    "kyr": 44,
+    "kyr": 45,
     "unsupported": 4,
     "unreachable": 0,
     "data-only": 104
@@ -1076,7 +1076,7 @@
       "faithful": 32,
       "adapted": 52,
       "represented": 0,
-      "kyr": 22,
+      "kyr": 23,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -13752,6 +13752,13 @@
    "section": "world-rules/rules-care"
   },
   {
+   "id": "rule:care.companion",
+   "title": "companion",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-care"
+  },
+  {
    "id": "rule:care.awake",
    "title": "awake, fallen, slain, needsCare, canCast, treatable",
    "status": "kyr",
@@ -19474,6 +19481,13 @@
    "id": "species:wraith",
    "title": "Wraith",
    "status": "adapted",
+   "book": "mm",
+   "section": "species/species-undead"
+  },
+  {
+   "id": "species:zombie",
+   "title": "Zombie",
+   "status": "kyr",
    "book": "mm",
    "section": "species/species-undead"
   },

@@ -6,6 +6,7 @@ import { CompanyChapters } from './phb-company';
 import type { OrsinoAppendix } from './orsino-appendix';
 import { MonsterDescribers } from './mm-describers';
 import { CreatureVariants } from '../creature-variants';
+import { CreaturePortraits } from '../paintings/creature-portraits';
 
 
 // The Monster Manual: every creature Kyr can put in front of a company, from the species catalog and the creature
@@ -29,9 +30,9 @@ export class MonsterManual {
     sections: [this.species(), this.devices(), this.variations(), this.natural(), this.traits(), this.orsino()] };
   }
   species(): Section {
-    const types = [...new Set(Object.keys(Canon.species).map(id => Canon.creature(id).type ?? 'monster'))].sort();
+    const types = [...new Set(Canon.catalogued.map(id => Canon.creature(id).type ?? 'monster'))].sort();
     const sections = types.map((type): Section => ({ id: `species-${type}`, title: `${HandbookText.capital(type)}s`,
-      entries: Object.keys(Canon.species).filter(id => (Canon.creature(id).type ?? 'monster') === type)
+      entries: Canon.catalogued.filter(id => (Canon.creature(id).type ?? 'monster') === type)
         .sort((a, b) => Canon.creature(a).name.localeCompare(Canon.creature(b).name)).map(id => this.creature(id)) }));
     return { id: 'species', title: 'Creatures', intro: ['Each kind, with what it fights with, by type. Habitat says where '
       + 'it is met. Temperament says how it meets a company that comes where it lives (the inhabitants rules in the '
@@ -72,7 +73,13 @@ export class MonsterManual {
       rules: [...(s.abilities ?? []).map(a => `${HandbookText.ability(a)}: ${HandbookText.mechanics(a) ?? 'no mechanics'}`),
         ...(s.traits ?? []).flatMap(t => HandbookText.trait(t).map(line => `${Canon.traits[t]?.name ?? t}: ${line}`))],
       text: [s.description], notes: HandbookStatus.notes(s as Parameters<typeof HandbookStatus.notes>[0]),
-      refs: [...(s.abilities ?? []).map(a => `ability:${a}`), ...s.variantOf ? [`species:${s.variantOf}`] : []] };
+      refs: [...(s.abilities ?? []).map(a => `ability:${a}`), ...s.variantOf ? [`species:${Canon.resolve('species', s.variantOf).split('/')[0]}`] : []],
+      ...this.painted(id) };
+  }
+  // A kind's painting, as play shows it (see CreaturePortraits); a device has none.
+  private painted(id: string): Pick<Entry, 'painting'> {
+    const painting = Canon.isBody(id) ? CreaturePortraits.painting(id) : undefined;
+    return painting ? { painting } : {};
   }
   // What can make a creature other than its kind, one of each axis (data/catalog/variations.json).
   variations(): Section {

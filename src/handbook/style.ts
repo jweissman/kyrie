@@ -40,6 +40,8 @@ main h1 { font-size: 2.4rem; font-variant-caps: small-caps; letter-spacing: 0.01
 .entry { border: 1px solid var(--rule); border-left: 3px solid var(--rule-2); background: var(--sheet); border-radius: 3px;
   padding: 0.75rem 1rem; margin: 0.6rem 0; max-width: 70rem; }
 .entry:target { border-color: var(--amber); }
+.entry .painting { float: right; width: 128px; height: 128px; object-fit: cover; margin: 0 0 0.5rem 1rem; border-radius: 3px;
+  border: 1px solid var(--rule); }
 .entry header { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.6ch 1.2ch; margin-bottom: 0.35rem; }
 .entry h4 a { color: var(--ink); } .kind { color: var(--dim); font-size: 0.8rem; }
 .entry dl { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 0.1rem 2ch; margin: 0.4rem 0; font-size: 0.85rem; }

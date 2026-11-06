@@ -592,7 +592,7 @@ Also kept, without comment: swappable, improvable, learnable, skillOpen, featOpe
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 7 | 21 | 2 | 0 | 2 | 10 |
+| 7 | 22 | 2 | 0 | 2 | 10 |
 
 #### levelOf
 
@@ -605,6 +605,12 @@ How far a companion has come (their level), for what asks it before it will teac
 *Kyr · kind* · `rule:care.degree`
 
 How much a work that reads its reader back (a Manual) raises a quality, outside a level's development (Resolve endow(reader, intelligence, by_two)): never past twenty-five.
+
+#### companion
+
+*Kyr · relation(member)* · `rule:care.companion`
+
+One of the player's company who is not the one who plays: a fellow, a recruit, a hireling (kept by the engine). An authored line given to whoever of the company qualifies binds a companion by it, never a slot of a ready-made party: Rule … when memberOf(?m, party) and companion(?m) and awake(?m) and brings(?m, lore) says "{?m} …".
 
 #### awake, fallen, slain, needsCare, canCast, treatable
 

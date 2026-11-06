@@ -66,8 +66,8 @@ describe('one creature pipeline', () => {
   }, 60000);
   it('shows a creature by its kind’s painting, a named variant by its base’s', () => {
     // Every animal by its painting from the menagerie (data/paintings/animals.json); a kind composed of one by its
-    // base's (a frost wolf, a wolf); a monster by its own where it has one.
+    // base's (a frost wolf, a wolf); a monster by its own from the bestiary (data/paintings/monsters.json).
     expect(['wolf', 'frost_wolf', 'dog', 'vampire', 'bear', 'rat'].map(id => CreaturePortraits.painting(id)))
-      .toEqual(['animals/wolf', 'animals/wolf', 'animals/dog', 'vampyre', 'animals/bear', 'animals/rat']);
+      .toEqual(['animals/wolf', 'animals/wolf', 'animals/dog', 'monsters/vampire', 'animals/bear', 'animals/rat']);
   });
 });

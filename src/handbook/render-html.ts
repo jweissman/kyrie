@@ -64,7 +64,9 @@ export class HandbookHtml {
     const refs = (e.refs ?? []).filter(r => this.index.has(r));
     return `<article id="${HandbookHtml.anchor(e.id)}" class="item entry" data-status="${e.status}">`
       + `<header><h4><a href="#${HandbookHtml.anchor(e.id)}">${HandbookHtml.esc(e.title)}</a></h4>${HandbookHtml.badge(e.status)}`
-      + `${e.kind ? `<span class="kind">${HandbookHtml.esc(e.kind)}</span>` : ''}</header>${facts}`
+      + `${e.kind ? `<span class="kind">${HandbookHtml.esc(e.kind)}</span>` : ''}</header>`
+      + (e.painting ? `<img class="painting" src="../paintings/${HandbookHtml.esc(e.painting)}.webp" alt="" loading="lazy">` : '')
+      + facts
       + (e.rules ?? []).map(r => `<p class="rule">${HandbookHtml.esc(r)}</p>`).join('')
       + (e.text ?? []).map(t => `<p class="desc">${HandbookHtml.esc(t)}</p>`).join('')
       + (e.notes ?? []).map(n => `<p class="note${/^Not playable|^No calling/.test(n) ? ' bad' : ''}">${HandbookHtml.esc(n)}</p>`).join('')

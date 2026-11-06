@@ -27,6 +27,8 @@ export interface Entry {
   notes?: string[];
   // Ids of other entries this one names, for cross-references.
   refs?: string[];
+  // Its painting, under the site's paintings (a creature's: monsters/zombie), where it has one.
+  painting?: string;
 }
 // A table may stand for entries too many and too alike to read one by one: ids and statuses then run with its rows.
 export interface Table { head: string[]; rows: string[][]; ids?: string[]; statuses?: Status[] }

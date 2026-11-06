@@ -1,4 +1,5 @@
 import animalPaintings from '../../data/paintings/animals.json';
+import monsterPaintings from '../../data/paintings/monsters.json';
 import { Canon } from './canon';
 import type { Modifiers } from './schema';
 import { ModifierSet } from '../rules/modifiers';
@@ -15,7 +16,7 @@ export class CanonValidation {
   static readonly deviceTypes = ['engine', 'ward', 'barrier', 'charge', 'vessel'];
   // A creature is painted by one of the collection's creature concepts.
   static readonly paintings = new Set([...PaintingConcepts.creatures,
-    ...animalPaintings.portraits.map(p => p.file.replace(/^paintings\/|\.webp$/g, ''))]);
+    ...[...animalPaintings.portraits, ...monsterPaintings.portraits].map(p => p.file.replace(/^paintings\/|\.webp$/g, ''))]);
   static readonly schools = ['abjuration', 'conjuration', 'divination', 'enchantment', 'evocation', 'illusion',
     'necromancy', 'transmutation'];
   static readonly traitCategories = ['lineage', 'nature', 'affinity', 'character', 'feat', 'party', 'specialization',

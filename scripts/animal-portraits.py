@@ -1,20 +1,22 @@
 #!/usr/bin/env python3
-"""Cuts the portraits of animals out of the matrices in assets/animals (see data/paintings/animals.json).
+"""Cuts the portraits of animals and monsters out of the matrices in assets/animals and assets/monsters (see
+data/paintings/animals.json and monsters.json).
 
-  python3 scripts/animal-portraits.py
+  python3 scripts/animal-portraits.py [animals|monsters]
 
-Each sheet is three by three paintings in gold frames, an animal to a cell in the order the manifest gives. A cell's
+Each sheet is three by three paintings in gold frames, a kind to a cell in the order the manifest gives. A cell's
 opening is found by its frame as the portraits of player characters are (scripts/pc-portraits.py); the whole opening
 is kept, a square inset from it clear of the frame's corners, for an animal is its shape (a bat's wings, a centipede's
 length), not a face. Each is written small, for a card, and large, for a page, as WebP under web/reader/paintings;
 its box is written back to the manifest. Needs Pillow. A development aid only: the game reads the copies and the
 manifest, never the sheets.
 """
-import importlib.util, json, os
+import importlib.util, json, os, sys
 from PIL import Image
 
 ROOT = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
-MANIFEST = os.path.join(ROOT, 'data/paintings/animals.json')
+SET = sys.argv[1] if len(sys.argv) > 1 else 'animals'
+MANIFEST = os.path.join(ROOT, f'data/paintings/{SET}.json')
 OUT = os.path.join(ROOT, 'web/reader')
 spec = importlib.util.spec_from_file_location('pc', os.path.join(ROOT, 'scripts/pc-portraits.py'))
 pc = importlib.util.module_from_spec(spec); spec.loader.exec_module(pc)
@@ -31,7 +33,7 @@ def main():
     sheets = {}
     for p in manifest['portraits']:
         if p['source'] not in sheets:
-            image = Image.open(os.path.join(ROOT, 'assets/animals', p['source'])).convert('RGB')
+            image = Image.open(os.path.join(ROOT, 'assets', SET, p['source'])).convert('RGB')
             sheets[p['source']] = (image, pc.openings(image.load(), *image.size))
         image, cells = sheets[p['source']]
         x0, y0, x1, y1 = cells[tuple(p['cell'])]

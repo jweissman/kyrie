@@ -16,6 +16,8 @@ Each kind, with what it fights with, by type. Habitat says where it is met. Temp
 
 *Adapted · aberration* · `species:discerner`
 
+<img src="../../web/reader/paintings/monsters/discerner.webp" alt="" width="128">
+
 - Type: aberration (monster)
 - Hit points: 34 + Constitution modifier + 3 a level
 - Actions a turn: 2
@@ -55,6 +57,8 @@ Planar Adaptation: +2 against magic, resists 50% of fire, resists 50% of cold, r
 
 *Kyr · aberration* · `species:hollow_stalker`
 
+<img src="../../web/reader/paintings/monsters/hollow_stalker.webp" alt="" width="128">
+
 - Type: aberration (monster)
 - Hit points: d8 a level
 - Qualities: rolled (3d6 each)
@@ -72,6 +76,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 #### Mind Destroyer
 
 *Adapted · aberration* · `species:mind_destroyer`
+
+<img src="../../web/reader/paintings/monsters/mind_destroyer.webp" alt="" width="128">
 
 - Type: aberration (monster)
 - Hit points: 34 + Constitution modifier + 3 a level
@@ -108,6 +114,8 @@ Planar Adaptation: +2 against magic, resists 50% of fire, resists 50% of cold, r
 
 *Adapted · aberration* · `species:mouther`
 
+<img src="../../web/reader/paintings/monsters/mouther.webp" alt="" width="128">
+
 - Type: aberration (monster)
 - Hit points: 34 + Constitution modifier + 3 a level
 - Actions a turn: 2
@@ -142,6 +150,8 @@ Regeneration: Heal 1d2 - 1 (0–1) each turn.
 #### Ooze
 
 *Adapted · aberration* · `species:ooze`
+
+<img src="../../web/reader/paintings/monsters/ooze.webp" alt="" width="128">
 
 - Type: aberration (monster)
 - Hit points: 34 + Constitution modifier + 3 a level
@@ -178,6 +188,8 @@ Planar Adaptation: +2 against magic, resists 50% of fire, resists 50% of cold, r
 
 *Faithful · beast* · `species:badger`
 
+<img src="../../web/reader/paintings/animals/badger.webp" alt="" width="128">
+
 - Type: beast (animal)
 - Hit points: 4 + Constitution modifier + 1 a level
 - Qualities: +6 strength, +5 dexterity, +6 constitution, +5 intelligence, +5 wisdom, +5 charisma
@@ -196,6 +208,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 *Faithful · beast* · `species:bat`
 
+<img src="../../web/reader/paintings/animals/bat.webp" alt="" width="128">
+
 - Type: beast (animal)
 - Hit points: 3 + Constitution modifier + 1 a level
 - Qualities: +4 strength, +6 dexterity, +4 constitution, +4 intelligence, +5 wisdom, +6 charisma
@@ -213,6 +227,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 #### Bear
 
 *Adapted · beast* · `species:bear`
+
+<img src="../../web/reader/paintings/animals/bear.webp" alt="" width="128">
 
 - Type: beast (animal)
 - Hit points: d12 a level
@@ -237,6 +253,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 *Faithful · beast* · `species:beetle`
 
+<img src="../../web/reader/paintings/animals/beetle.webp" alt="" width="128">
+
 - Type: beast (animal)
 - Hit points: 3 + Constitution modifier + 1 a level
 - Qualities: +5 strength, +5 dexterity, +6 constitution, +4 intelligence, +5 wisdom, +4 charisma
@@ -254,6 +272,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 #### Butterfly
 
 *Faithful · beast* · `species:butterfly`
+
+<img src="../../web/reader/paintings/animals/butterfly.webp" alt="" width="128">
 
 - Type: beast (animal)
 - Hit points: 3 + Constitution modifier + 1 a level
@@ -273,6 +293,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 *Kyr · beast* · `species:cat`
 
+<img src="../../web/reader/paintings/animals/cat.webp" alt="" width="128">
+
 - Type: beast (animal)
 - Hit points: d2 a level
 - Qualities: rolled (3d6 each)
@@ -289,6 +311,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 #### Centipede
 
 *Faithful · beast* · `species:centipede`
+
+<img src="../../web/reader/paintings/animals/centipede.webp" alt="" width="128">
 
 - Type: beast (animal)
 - Hit points: 3 + Constitution modifier + 1 a level
@@ -309,6 +333,8 @@ Venomous Bite: 1d6 (1–6) poison damage to one enemy (halved if resisted; may c
 #### Chimera
 
 *Adapted · beast* · `species:chimera`
+
+<img src="../../web/reader/paintings/monsters/chimera.webp" alt="" width="128">
 
 - Type: beast (monster)
 - Hit points: 9 + Constitution modifier + 3 a level
@@ -345,6 +371,8 @@ Wild: +2 to hit, +2 damage, +2 evasion, +1 to every roll, resists 10% of all.
 
 *Kyr · beast* · `species:cow`
 
+<img src="../../web/reader/paintings/animals/cow.webp" alt="" width="128">
+
 - Type: beast (animal)
 - Hit points: d8 a level
 - Qualities: rolled (3d6 each)
@@ -361,6 +389,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 #### Crocodile
 
 *Adapted · beast* · `species:crocodile`
+
+<img src="../../web/reader/paintings/animals/crocodile.webp" alt="" width="128">
 
 - Type: beast (animal)
 - Hit points: d10 a level
@@ -383,6 +413,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 *Faithful · beast* · `species:crow`
 
+<img src="../../web/reader/paintings/animals/crow.webp" alt="" width="128">
+
 - Type: beast (animal)
 - Hit points: 3 + Constitution modifier + 1 a level
 - Qualities: +5 strength, +8 dexterity, +5 constitution, +8 intelligence, +6 wisdom, +6 charisma
@@ -401,6 +433,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 *Kyr · beast* · `species:curlew`
 
+<img src="../../web/reader/paintings/animals/curlew.webp" alt="" width="128">
+
 - Type: beast (animal)
 - Hit points: 3 + Constitution modifier + 1 a level
 - Qualities: +3 strength, +7 dexterity, +3 constitution, +3 intelligence, +6 wisdom, +4 charisma
@@ -416,6 +450,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 #### Deer
 
 *Faithful · beast* · `species:deer`
+
+<img src="../../web/reader/paintings/animals/deer.webp" alt="" width="128">
 
 - Type: beast (animal)
 - Hit points: 4 + Constitution modifier + 1 a level
@@ -435,6 +471,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 *Kyr · a hound, altered* · `species:dog`
 
+<img src="../../web/reader/paintings/animals/dog.webp" alt="" width="128">
+
 - Type: beast (animal)
 - Hit points: d6 a level
 - Qualities: rolled (3d6 each)
@@ -452,6 +490,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 *Kyr · beast* · `species:dolphin`
 
+<img src="../../web/reader/paintings/animals/dolphin.webp" alt="" width="128">
+
 - Type: beast (animal)
 - Hit points: d8 a level
 - Qualities: rolled (3d6 each)
@@ -467,6 +507,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 #### Dragonfly
 
 *Faithful · beast* · `species:dragonfly`
+
+<img src="../../web/reader/paintings/animals/dragonfly.webp" alt="" width="128">
 
 - Type: beast (animal)
 - Hit points: 3 + Constitution modifier + 1 a level
@@ -486,6 +528,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 *Faithful · beast* · `species:eagle`
 
+<img src="../../web/reader/paintings/animals/eagle.webp" alt="" width="128">
+
 - Type: beast (animal)
 - Hit points: 4 + Constitution modifier + 1 a level
 - Qualities: +5 strength, +8 dexterity, +5 constitution, +5 intelligence, +6 wisdom, +5 charisma
@@ -503,6 +547,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 #### Eel
 
 *Kyr · beast* · `species:eel`
+
+<img src="../../web/reader/paintings/animals/eel.webp" alt="" width="128">
 
 - Type: beast (animal)
 - Hit points: d4 a level
@@ -523,6 +569,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 *Kyr · beast* · `species:elephant`
 
+<img src="../../web/reader/paintings/animals/elephant.webp" alt="" width="128">
+
 - Type: beast (animal)
 - Hit points: d12 a level
 - Qualities: rolled (3d6 each)
@@ -542,6 +590,8 @@ Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 
 
 *Faithful · beast* · `species:falcon`
 
+<img src="../../web/reader/paintings/animals/falcon.webp" alt="" width="128">
+
 - Type: beast (animal)
 - Hit points: 4 + Constitution modifier + 1 a level
 - Qualities: +6 strength, +6 dexterity, +6 constitution, +6 intelligence, +6 wisdom, +6 charisma
@@ -559,6 +609,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 #### Ferret
 
 *Faithful · beast* · `species:ferret`
+
+<img src="../../web/reader/paintings/animals/ferret.webp" alt="" width="128">
 
 - Type: beast (animal)
 - Hit points: 4 + Constitution modifier + 1 a level
@@ -578,6 +630,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 *Faithful · beast* · `species:fox`
 
+<img src="../../web/reader/paintings/animals/fox.webp" alt="" width="128">
+
 - Type: beast (animal)
 - Hit points: 4 + Constitution modifier + 1 a level
 - Qualities: +6 strength, +7 dexterity, +6 constitution, +6 intelligence, +6 wisdom, +6 charisma
@@ -595,6 +649,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 #### Frog
 
 *Faithful · beast* · `species:frog`
+
+<img src="../../web/reader/paintings/animals/frog.webp" alt="" width="128">
 
 - Type: beast (animal)
 - Hit points: 3 + Constitution modifier + 1 a level
@@ -614,6 +670,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 *Faithful · beast* · `species:goat`
 
+<img src="../../web/reader/paintings/animals/goat.webp" alt="" width="128">
+
 - Type: beast (animal)
 - Hit points: 4 + Constitution modifier + 1 a level
 - Qualities: +6 strength, +5 dexterity, +6 constitution, +5 intelligence, +5 wisdom, +6 charisma
@@ -632,6 +690,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 *Kyr · beast* · `species:grouse`
 
+<img src="../../web/reader/paintings/animals/grouse.webp" alt="" width="128">
+
 - Type: beast (animal)
 - Hit points: 3 + Constitution modifier + 1 a level
 - Qualities: +3 strength, +7 dexterity, +3 constitution, +3 intelligence, +6 wisdom, +4 charisma
@@ -647,6 +707,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 #### Hawk
 
 *Faithful · beast* · `species:hawk`
+
+<img src="../../web/reader/paintings/animals/hawk.webp" alt="" width="128">
 
 - Type: beast (animal)
 - Hit points: 4 + Constitution modifier + 1 a level
@@ -666,6 +728,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 *Faithful · beast* · `species:hedgehog`
 
+<img src="../../web/reader/paintings/animals/hedgehog.webp" alt="" width="128">
+
 - Type: beast (animal)
 - Hit points: 3 + Constitution modifier + 1 a level
 - Qualities: +5 strength, +5 dexterity, +6 constitution, +5 intelligence, +6 wisdom, +5 charisma
@@ -684,6 +748,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 *Kyr · beast* · `species:hen`
 
+<img src="../../web/reader/paintings/animals/hen.webp" alt="" width="128">
+
 - Type: beast (animal)
 - Hit points: d1 a level
 - Qualities: rolled (3d6 each)
@@ -701,6 +767,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 *Kyr · beast* · `species:horse`
 
+<img src="../../web/reader/paintings/animals/horse.webp" alt="" width="128">
+
 - Type: beast (animal)
 - Hit points: d8 a level
 - Qualities: rolled (3d6 each)
@@ -717,6 +785,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 #### Hound
 
 *Adapted · beast* · `species:hound`
+
+<img src="../../web/reader/paintings/animals/hound.webp" alt="" width="128">
 
 - Type: beast (animal)
 - Hit points: d6 a level
@@ -738,6 +808,8 @@ Rending bite: 1d6 (1–6) physical damage to one enemy; it is bleeding for 2 tur
 
 *Faithful · beast* · `species:hummingbird`
 
+<img src="../../web/reader/paintings/animals/hummingbird.webp" alt="" width="128">
+
 - Type: beast (animal)
 - Hit points: 3 + Constitution modifier + 1 a level
 - Qualities: +4 strength, +8 dexterity, +5 constitution, +5 intelligence, +6 wisdom, +7 charisma
@@ -755,6 +827,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 #### Hyena
 
 *Adapted · beast* · `species:hyena`
+
+<img src="../../web/reader/paintings/animals/hyena.webp" alt="" width="128">
 
 - Type: beast (animal)
 - Hit points: d6 a level
@@ -775,6 +849,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 *Kyr · beast* · `species:lark`
 
+<img src="../../web/reader/paintings/animals/lark.webp" alt="" width="128">
+
 - Type: beast (animal)
 - Hit points: 3 + Constitution modifier + 1 a level
 - Qualities: +3 strength, +7 dexterity, +3 constitution, +3 intelligence, +6 wisdom, +4 charisma
@@ -790,6 +866,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 #### Leopard
 
 *Kyr · beast* · `species:leopard`
+
+<img src="../../web/reader/paintings/animals/leopard.webp" alt="" width="128">
 
 - Type: beast (animal)
 - Hit points: d8 a level
@@ -812,6 +890,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 *Adapted · beast* · `species:lion`
 
+<img src="../../web/reader/paintings/animals/lion.webp" alt="" width="128">
+
 - Type: beast (animal)
 - Hit points: d10 a level
 - Qualities: rolled (3d6 each)
@@ -833,6 +913,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 *Faithful · beast* · `species:lizard`
 
+<img src="../../web/reader/paintings/animals/lizard.webp" alt="" width="128">
+
 - Type: beast (animal)
 - Hit points: 3 + Constitution modifier + 1 a level
 - Qualities: +5 strength, +6 dexterity, +5 constitution, +5 intelligence, +5 wisdom, +5 charisma
@@ -850,6 +932,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 #### Marsh boar
 
 *Adapted · beast* · `species:boar`
+
+<img src="../../web/reader/paintings/animals/boar.webp" alt="" width="128">
 
 - Type: beast (animal)
 - Hit points: d6 a level
@@ -872,6 +956,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 *Faithful · beast* · `species:mole`
 
+<img src="../../web/reader/paintings/animals/mole.webp" alt="" width="128">
+
 - Type: beast (animal)
 - Hit points: 4 + Constitution modifier + 1 a level
 - Qualities: +5 strength, +6 dexterity, +5 constitution, +5 intelligence, +5 wisdom, +5 charisma
@@ -890,6 +976,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 *Kyr · beast* · `species:monkey`
 
+<img src="../../web/reader/paintings/animals/monkey.webp" alt="" width="128">
+
 - Type: beast (animal)
 - Hit points: d4 a level
 - Qualities: +4 strength, +12 dexterity, +6 constitution, +7 intelligence, +10 wisdom, +6 charisma
@@ -905,6 +993,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 #### Moth
 
 *Faithful · beast* · `species:moth`
+
+<img src="../../web/reader/paintings/animals/moth.webp" alt="" width="128">
 
 - Type: beast (animal)
 - Hit points: 3 + Constitution modifier + 1 a level
@@ -923,6 +1013,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 #### Nightmare
 
 *Adapted · beast* · `species:nightmare`
+
+<img src="../../web/reader/paintings/monsters/nightmare.webp" alt="" width="128">
 
 - Type: beast (monster)
 - Hit points: 9 + Constitution modifier + 3 a level
@@ -956,6 +1048,8 @@ Wild: +2 to hit, +2 damage, +2 evasion, +1 to every roll, resists 10% of all.
 
 *Faithful · beast* · `species:otter`
 
+<img src="../../web/reader/paintings/animals/otter.webp" alt="" width="128">
+
 - Type: beast (animal)
 - Hit points: 4 + Constitution modifier + 1 a level
 - Qualities: +6 strength, +7 dexterity, +6 constitution, +6 intelligence, +6 wisdom, +6 charisma
@@ -974,6 +1068,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 *Faithful · beast* · `species:owl`
 
+<img src="../../web/reader/paintings/animals/owl.webp" alt="" width="128">
+
 - Type: beast (animal)
 - Hit points: 4 + Constitution modifier + 1 a level
 - Qualities: +5 strength, +7 dexterity, +5 constitution, +6 intelligence, +7 wisdom, +5 charisma
@@ -991,6 +1087,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 #### Owlbear
 
 *Adapted · beast* · `species:owlbear`
+
+<img src="../../web/reader/paintings/monsters/owlbear.webp" alt="" width="128">
 
 - Type: beast (monster)
 - Hit points: 9 + Constitution modifier + 3 a level
@@ -1025,6 +1123,8 @@ Wild: +2 to hit, +2 damage, +2 evasion, +1 to every roll, resists 10% of all.
 
 *Adapted · beast* · `species:panther`
 
+<img src="../../web/reader/paintings/animals/panther.webp" alt="" width="128">
+
 - Type: beast (animal)
 - Hit points: d8 a level
 - Qualities: rolled (3d6 each)
@@ -1046,6 +1146,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 *Kyr · beast* · `species:pig`
 
+<img src="../../web/reader/paintings/animals/pig.webp" alt="" width="128">
+
 - Type: beast (animal)
 - Hit points: d6 a level
 - Qualities: rolled (3d6 each)
@@ -1062,6 +1164,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 #### Pike
 
 *Kyr · beast* · `species:pike`
+
+<img src="../../web/reader/paintings/animals/pike.webp" alt="" width="128">
 
 - Type: beast (animal)
 - Hit points: d6 a level
@@ -1084,6 +1188,8 @@ Of deep water: Immune to reflex.
 
 *Faithful · beast* · `species:pony`
 
+<img src="../../web/reader/paintings/animals/pony.webp" alt="" width="128">
+
 - Type: beast (animal)
 - Hit points: 4 + Constitution modifier + 1 a level
 - Qualities: +7 strength, +6 dexterity, +7 constitution, +5 intelligence, +5 wisdom, +6 charisma
@@ -1101,6 +1207,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 #### Rabbit
 
 *Faithful · beast* · `species:rabbit`
+
+<img src="../../web/reader/paintings/animals/rabbit.webp" alt="" width="128">
 
 - Type: beast (animal)
 - Hit points: 5 + Constitution modifier + 1 a level
@@ -1120,6 +1228,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 *Faithful · beast* · `species:ram`
 
+<img src="../../web/reader/paintings/animals/ram.webp" alt="" width="128">
+
 - Type: beast (animal)
 - Hit points: 4 + Constitution modifier + 1 a level
 - Qualities: +7 strength, +5 dexterity, +7 constitution, +5 intelligence, +5 wisdom, +5 charisma
@@ -1137,6 +1247,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 #### Rat
 
 *Adapted · beast* · `species:rat`
+
+<img src="../../web/reader/paintings/animals/rat.webp" alt="" width="128">
 
 - Type: beast (animal)
 - Hit points: d2 a level
@@ -1159,6 +1271,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 *Faithful · beast* · `species:raven`
 
+<img src="../../web/reader/paintings/animals/raven.webp" alt="" width="128">
+
 - Type: beast (animal)
 - Hit points: 3 + Constitution modifier + 1 a level
 - Qualities: +5 strength, +7 dexterity, +5 constitution, +6 intelligence, +6 wisdom, +6 charisma
@@ -1176,6 +1290,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 #### Rhinoceros
 
 *Kyr · beast* · `species:rhino`
+
+<img src="../../web/reader/paintings/animals/rhino.webp" alt="" width="128">
 
 - Type: beast (animal)
 - Hit points: d12 a level
@@ -1198,6 +1314,8 @@ Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 
 
 *Kyr · beast* · `species:sheep`
 
+<img src="../../web/reader/paintings/animals/sheep.webp" alt="" width="128">
+
 - Type: beast (animal)
 - Hit points: d4 a level
 - Qualities: rolled (3d6 each)
@@ -1214,6 +1332,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 #### Snake
 
 *Faithful · beast* · `species:snake`
+
+<img src="../../web/reader/paintings/animals/snake.webp" alt="" width="128">
 
 - Type: beast (animal)
 - Hit points: 3 + Constitution modifier + 1 a level
@@ -1234,6 +1354,8 @@ Venomous Bite: 1d6 (1–6) poison damage to one enemy (halved if resisted; may c
 #### Spider
 
 *Adapted · beast* · `species:spider`
+
+<img src="../../web/reader/paintings/animals/spider.webp" alt="" width="128">
 
 - Type: beast (animal)
 - Hit points: d4 a level
@@ -1258,6 +1380,8 @@ Ensnare: One enemy is entangled for 3 turns (a Dexterity save against 12 + level
 
 *Faithful · beast* · `species:squirrel`
 
+<img src="../../web/reader/paintings/animals/squirrel.webp" alt="" width="128">
+
 - Type: beast (animal)
 - Hit points: 2 + Constitution modifier + 1 a level
 - Qualities: +4 strength, +7 dexterity, +5 constitution, +6 intelligence, +6 wisdom, +5 charisma
@@ -1276,6 +1400,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 *Faithful · beast* · `species:stoat`
 
+<img src="../../web/reader/paintings/animals/stoat.webp" alt="" width="128">
+
 - Type: beast (animal)
 - Hit points: 4 + Constitution modifier + 1 a level
 - Qualities: +5 strength, +7 dexterity, +6 constitution, +6 intelligence, +6 wisdom, +6 charisma
@@ -1293,6 +1419,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 #### Tiger
 
 *Adapted · beast* · `species:tiger`
+
+<img src="../../web/reader/paintings/animals/tiger.webp" alt="" width="128">
 
 - Type: beast (animal)
 - Hit points: d10 a level
@@ -1315,6 +1443,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 *Faithful · beast* · `species:turtle`
 
+<img src="../../web/reader/paintings/animals/turtle.webp" alt="" width="128">
+
 - Type: beast (animal)
 - Hit points: 4 + Constitution modifier + 1 a level
 - Qualities: +5 strength, +4 dexterity, +8 constitution, +5 intelligence, +6 wisdom, +5 charisma
@@ -1332,6 +1462,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 #### Wendigo
 
 *Adapted · beast* · `species:wendigo`
+
+<img src="../../web/reader/paintings/monsters/wendigo.webp" alt="" width="128">
 
 - Type: beast (monster)
 - Hit points: 9 + Constitution modifier + 3 a level
@@ -1365,6 +1497,8 @@ Wild: +2 to hit, +2 damage, +2 evasion, +1 to every roll, resists 10% of all.
 
 *Kyr · beast* · `species:whale`
 
+<img src="../../web/reader/paintings/animals/whale.webp" alt="" width="128">
+
 - Type: beast (animal)
 - Hit points: d20 a level
 - Qualities: rolled (3d6 each)
@@ -1380,6 +1514,8 @@ Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 
 #### Wolf
 
 *Adapted · beast* · `species:wolf`
+
+<img src="../../web/reader/paintings/animals/wolf.webp" alt="" width="128">
 
 - Type: beast (animal)
 - Hit points: d6 a level
@@ -1402,6 +1538,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 *Kyr · beast* · `species:zebra`
 
+<img src="../../web/reader/paintings/animals/zebra.webp" alt="" width="128">
+
 - Type: beast (animal)
 - Hit points: d6 a level
 - Qualities: rolled (3d6 each)
@@ -1421,6 +1559,8 @@ Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 
 #### Angel
 
 *Adapted · celestial* · `species:angel`
+
+<img src="../../web/reader/paintings/monsters/angel.webp" alt="" width="128">
 
 - Type: celestial (monster)
 - Hit points: 25 + Constitution modifier + 3 a level
@@ -1454,6 +1594,8 @@ Formidable: +3 to hit, +3 damage, +2 to will saves, resists 10% of bludgeoning, 
 
 *Adapted · celestial* · `species:archon`
 
+<img src="../../web/reader/paintings/monsters/archon.webp" alt="" width="128">
+
 - Type: celestial (monster)
 - Hit points: 25 + Constitution modifier + 3 a level
 - Actions a turn: 2
@@ -1481,6 +1623,8 @@ Celestial Radiance: +1d4 healing, resists 50% of radiant, resists 50% of necroti
 #### Deva
 
 *Adapted · celestial* · `species:deva`
+
+<img src="../../web/reader/paintings/monsters/deva.webp" alt="" width="128">
 
 - Type: celestial (monster)
 - Hit points: 25 + Constitution modifier + 3 a level
@@ -1511,6 +1655,8 @@ Formidable: +3 to hit, +3 damage, +2 to will saves, resists 10% of bludgeoning, 
 #### Solar
 
 *Adapted · celestial* · `species:solar`
+
+<img src="../../web/reader/paintings/monsters/solar.webp" alt="" width="128">
 
 - Type: celestial (monster)
 - Hit points: 25 + Constitution modifier + 3 a level
@@ -1546,6 +1692,8 @@ Formidable: +3 to hit, +3 damage, +2 to will saves, resists 10% of bludgeoning, 
 
 *Adapted · construct* · `species:automaton`
 
+<img src="../../web/reader/paintings/monsters/automaton.webp" alt="" width="128">
+
 - Type: construct (monster)
 - Hit points: 6 + Constitution modifier + 3 a level
 - Qualities: +15 strength, +7 dexterity, +15 constitution, +9 intelligence, +9 wisdom, +8 charisma
@@ -1574,6 +1722,8 @@ Constructed Resilience: Resists 50% of bludgeoning, resists 50% of piercing, res
 #### Clockwork Soldier
 
 *Adapted · construct* · `species:clockwork_soldier`
+
+<img src="../../web/reader/paintings/monsters/clockwork_soldier.webp" alt="" width="128">
 
 - Type: construct (monster)
 - Hit points: 6 + Constitution modifier + 3 a level
@@ -1606,6 +1756,8 @@ Disciplined: +1 to hit, +1 damage, +3 evasion, +2 against magic.
 
 *Adapted · construct* · `species:golem`
 
+<img src="../../web/reader/paintings/monsters/golem.webp" alt="" width="128">
+
 - Type: construct (monster)
 - Hit points: 6 + Constitution modifier + 3 a level
 - Qualities: +17 strength, +7 dexterity, +17 constitution, +9 intelligence, +9 wisdom, +8 charisma
@@ -1631,6 +1783,8 @@ Constructed Resilience: Resists 50% of bludgeoning, resists 50% of piercing, res
 #### Balor
 
 *Adapted · demon* · `species:balor`
+
+<img src="../../web/reader/paintings/monsters/balor.webp" alt="" width="128">
 
 - Type: demon (monster)
 - Hit points: 20 + Constitution modifier + 3 a level
@@ -1660,6 +1814,8 @@ Fiendish Resilience: Resists 50% of fire, resists 50% of poison, immune to charm
 
 *Adapted · demon* · `species:fiend`
 
+<img src="../../web/reader/paintings/monsters/fiend.webp" alt="" width="128">
+
 - Type: demon (monster)
 - Hit points: 20 + Constitution modifier + 3 a level
 - Actions a turn: 2
@@ -1685,6 +1841,8 @@ Fiendish Resilience: Resists 50% of fire, resists 50% of poison, immune to charm
 #### Ifrit
 
 *Adapted · demon* · `species:ifrit`
+
+<img src="../../web/reader/paintings/monsters/ifrit.webp" alt="" width="128">
 
 - Type: demon (monster)
 - Hit points: 20 + Constitution modifier + 3 a level
@@ -1713,6 +1871,8 @@ Fiendish Resilience: Resists 50% of fire, resists 50% of poison, immune to charm
 #### Marilith
 
 *Adapted · demon* · `species:marilith`
+
+<img src="../../web/reader/paintings/monsters/marilith.webp" alt="" width="128">
 
 - Type: demon (monster)
 - Hit points: 20 + Constitution modifier + 3 a level
@@ -1744,6 +1904,8 @@ Fiendish Resilience: Resists 50% of fire, resists 50% of poison, immune to charm
 
 *Adapted · dragon* · `species:dragon`
 
+<img src="../../web/reader/paintings/monsters/dragon.webp" alt="" width="128">
+
 - Type: dragon (monster)
 - Hit points: 99
 - Qualities: +35 strength, +28 dexterity, +32 constitution, +29 intelligence, +27 wisdom, +31 charisma
@@ -1759,11 +1921,13 @@ Aerial Mobility: +1 to hit, +5 evasion.
 
 > A great winged reptile: scaled, clawed, cunning and proud.
 
-*Adapted: Orsino's Dragon (of the dragon class); Kyr keeps ninety-nine hit points at any level, which the fights with dragons were written for (Orsino's grow from eighty-five by three a level). Its flying is its trait; its colour is its lineage (data/catalog/variations.json, axis lineage, from Orsino's dragonColors), which gives its breath. Orsino's maul is left out: a dragon of Kyr fights by its bite and its lineage's breath.*
+*Adapted: Orsino's Dragon (of the dragon class); Kyr keeps ninety-nine hit points at any level, which the fights with dragons were written for (Orsino's grow from eighty-five by three a level). Its flying is its trait; its colour is its lineage (data/catalog/variations.json, axis lineage, from Orsino's dragonColors), which gives its breath. Orsino's maul is left out: a dragon of Kyr fights by its bite and its lineage's breath. It claws twice and bites in a round (the old-school routine), or breathes by its lineage.*
 
 #### Drake
 
 *Adapted · dragon* · `species:drake`
+
+<img src="../../web/reader/paintings/monsters/drake.webp" alt="" width="128">
 
 - Type: dragon (monster)
 - Hit points: 85 + Constitution modifier + 3 a level
@@ -1790,6 +1954,8 @@ Aerial Mobility: +1 to hit, +5 evasion.
 
 *Faithful · dragon* · `species:pseudodragon`
 
+<img src="../../web/reader/paintings/animals/pseudodragon.webp" alt="" width="128">
+
 - Type: dragon (animal)
 - Hit points: 3 + Constitution modifier + 1 a level
 - Qualities: +8 strength, +7 dexterity, +8 constitution, +8 intelligence, +8 wisdom, +8 charisma
@@ -1807,6 +1973,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 #### Wyrm
 
 *Adapted · dragon* · `species:wyrm`
+
+<img src="../../web/reader/paintings/monsters/wyrm.webp" alt="" width="128">
 
 - Type: dragon (monster)
 - Hit points: 85 + Constitution modifier + 3 a level
@@ -1833,6 +2001,8 @@ Aerial Mobility: +1 to hit, +5 evasion.
 
 *Faithful · dragon* · `species:wyrmling`
 
+<img src="../../web/reader/paintings/animals/wyrmling.webp" alt="" width="128">
+
 - Type: dragon (animal)
 - Hit points: 2 + Constitution modifier + 1 a level
 - Qualities: +10 strength, +5 dexterity, +9 constitution, +11 intelligence, +11 wisdom, +10 charisma
@@ -1850,6 +2020,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 #### Wyvern
 
 *Adapted · dragon* · `species:wyvern`
+
+<img src="../../web/reader/paintings/monsters/wyvern.webp" alt="" width="128">
 
 - Type: dragon (monster)
 - Hit points: 85 + Constitution modifier + 3 a level
@@ -1878,6 +2050,8 @@ Aerial Mobility: +1 to hit, +5 evasion.
 
 *Adapted · elemental* · `species:elemental`
 
+<img src="../../web/reader/paintings/monsters/elemental.webp" alt="" width="128">
+
 - Type: elemental (monster)
 - Hit points: 16 + Constitution modifier + 3 a level
 - Qualities: +16 strength, +19 dexterity, +16 constitution, +12 intelligence, +13 wisdom, +12 charisma
@@ -1898,6 +2072,8 @@ Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of fo
 #### Mephit
 
 *Adapted · elemental* · `species:mephit`
+
+<img src="../../web/reader/paintings/monsters/mephit.webp" alt="" width="128">
 
 - Type: elemental (monster)
 - Hit points: 16 + Constitution modifier + 3 a level
@@ -1920,6 +2096,8 @@ Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of fo
 
 *Kyr · elemental* · `species:slump`
 
+<img src="../../web/reader/paintings/monsters/slump.webp" alt="" width="128">
+
 - Type: elemental (monster)
 - Hit points: d12 a level
 - Actions a turn: 2
@@ -1941,6 +2119,8 @@ Earth Affinity: Resists 50% of bludgeoning, takes 100% more lightning, immune to
 #### Dryad
 
 *Adapted · fey* · `species:dryad`
+
+<img src="../../web/reader/paintings/monsters/dryad.webp" alt="" width="128">
 
 - Type: fey (monster)
 - Hit points: 12 + Constitution modifier + 3 a level
@@ -1970,6 +2150,8 @@ Call Animal Companion: Call the beast your people keep company with, to fight fo
 
 *Adapted · fey* · `species:nymph`
 
+<img src="../../web/reader/paintings/monsters/nymph.webp" alt="" width="128">
+
 - Type: fey (monster)
 - Hit points: 12 + Constitution modifier + 3 a level
 - Qualities: +9 strength, +12 dexterity, +10 constitution, +11 intelligence, +16 wisdom, +19 charisma
@@ -1997,6 +2179,8 @@ Call Animal Companion: Call the beast your people keep company with, to fight fo
 #### Pixie
 
 *Adapted · fey* · `species:pixie`
+
+<img src="../../web/reader/paintings/monsters/pixie.webp" alt="" width="128">
 
 - Type: fey (monster)
 - Hit points: 12 + Constitution modifier + 3 a level
@@ -2026,6 +2210,8 @@ Confuse: One enemy is confused for 3 turns (a Wisdom save against 15 + level + t
 
 *Adapted · fey* · `species:satyr`
 
+<img src="../../web/reader/paintings/monsters/satyr.webp" alt="" width="128">
+
 - Type: fey (monster)
 - Hit points: 12 + Constitution modifier + 3 a level
 - Qualities: +9 strength, +16 dexterity, +10 constitution, +11 intelligence, +12 wisdom, +17 charisma
@@ -2051,6 +2237,8 @@ Hide: You are hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion; and on a
 #### Sprite
 
 *Adapted · fey* · `species:sprite`
+
+<img src="../../web/reader/paintings/monsters/sprite.webp" alt="" width="128">
 
 - Type: fey (monster)
 - Hit points: 12 + Constitution modifier + 3 a level
@@ -2081,6 +2269,8 @@ Magic Missile: 1d4 + floor((level / 3)) force damage to 2 + round((level / 2)) d
 #### Behemoth
 
 *Adapted · giant* · `species:behemoth`
+
+<img src="../../web/reader/paintings/monsters/behemoth.webp" alt="" width="128">
 
 - Type: giant (monster)
 - Hit points: 48 + Constitution modifier + 3 a level
@@ -2116,6 +2306,8 @@ Formidable: +3 to hit, +3 damage, +2 to will saves, resists 10% of bludgeoning, 
 
 *Adapted · giant* · `species:colossus`
 
+<img src="../../web/reader/paintings/monsters/colossus.webp" alt="" width="128">
+
 - Type: giant (monster)
 - Hit points: 48 + Constitution modifier + 3 a level
 - Qualities: +26 strength, +16 dexterity, +23 constitution, +16 intelligence, +18 wisdom, +17 charisma
@@ -2146,6 +2338,8 @@ Formidable: +3 to hit, +3 damage, +2 to will saves, resists 10% of bludgeoning, 
 #### Titan
 
 *Adapted · giant* · `species:titan`
+
+<img src="../../web/reader/paintings/monsters/titan.webp" alt="" width="128">
 
 - Type: giant (monster)
 - Hit points: 48 + Constitution modifier + 3 a level
@@ -2180,6 +2374,8 @@ Formidable: +3 to hit, +3 damage, +2 to will saves, resists 10% of bludgeoning, 
 
 *Kyr · spirit* · `species:wisp`
 
+<img src="../../web/reader/paintings/monsters/wisp.webp" alt="" width="128">
+
 - Type: spirit (spirit)
 - Hit points: d4 a level
 - Qualities: rolled (3d6 each)
@@ -2197,6 +2393,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 #### Banshee
 
 *Adapted · undead* · `species:banshee`
+
+<img src="../../web/reader/paintings/monsters/banshee.webp" alt="" width="128">
 
 - Type: undead (monster)
 - Hit points: 10 + Constitution modifier + 3 a level
@@ -2225,6 +2423,8 @@ Ethereal Form: +5 evasion, resists 50% of bludgeoning, resists 50% of piercing, 
 #### Ghoul
 
 *Adapted · undead* · `species:ghoul`
+
+<img src="../../web/reader/paintings/monsters/ghoul.webp" alt="" width="128">
 
 - Type: undead (monster)
 - Hit points: 10 + Constitution modifier + 3 a level
@@ -2255,6 +2455,8 @@ Regeneration: Heal 1d2 - 1 (0–1) each turn.
 #### Lich
 
 *Adapted · undead* · `species:lich`
+
+<img src="../../web/reader/paintings/monsters/lich.webp" alt="" width="128">
 
 - Type: undead (monster)
 - Hit points: 10 + Constitution modifier + 3 a level
@@ -2292,6 +2494,8 @@ Bone Resilience: Resists 50% of piercing, takes 100% more bludgeoning, immune to
 
 *Adapted · undead* · `species:mummy`
 
+<img src="../../web/reader/paintings/monsters/mummy.webp" alt="" width="128">
+
 - Type: undead (monster)
 - Hit points: 10 + Constitution modifier + 3 a level
 - Qualities: +12 strength, +8 dexterity, +12 constitution, +10 intelligence, +12 wisdom, +5 charisma
@@ -2326,6 +2530,8 @@ Regeneration: Heal 1d2 - 1 (0–1) each turn.
 
 *Adapted · undead* · `species:revenant`
 
+<img src="../../web/reader/paintings/monsters/revenant.webp" alt="" width="128">
+
 - Type: undead (monster)
 - Hit points: d12 a level
 - Qualities: rolled (3d6 each)
@@ -2350,6 +2556,8 @@ Life Drain: Drain 1d6 (1–6) health from one enemy (none if resisted; may cause
 #### Spirit
 
 *Adapted · undead* · `species:spirit`
+
+<img src="../../web/reader/paintings/monsters/spirit.webp" alt="" width="128">
 
 - Type: undead (monster)
 - Hit points: 10 + Constitution modifier + 3 a level
@@ -2385,6 +2593,8 @@ Ethereal Form: +5 evasion, resists 50% of bludgeoning, resists 50% of piercing, 
 
 *Adapted · undead* · `species:vampire`
 
+<img src="../../web/reader/paintings/monsters/vampire.webp" alt="" width="128">
+
 - Type: undead (monster)
 - Hit points: 10 + Constitution modifier + 3 a level
 - Qualities: +8 strength, +12 dexterity, +6 constitution, +10 intelligence, +9 wisdom, +10 charisma
@@ -2415,6 +2625,8 @@ Regeneration: Heal 1d2 - 1 (0–1) each turn.
 
 *Adapted · undead* · `species:wraith`
 
+<img src="../../web/reader/paintings/monsters/wraith.webp" alt="" width="128">
+
 - Type: undead (monster)
 - Hit points: 10 + Constitution modifier + 3 a level
 - Qualities: +8 strength, +13 dexterity, +6 constitution, +10 intelligence, +13 wisdom, +5 charisma
@@ -2438,6 +2650,28 @@ Ethereal Form: +5 evasion, resists 50% of bludgeoning, resists 50% of piercing, 
 *Left out — field:monsterGold: Orsino's 2d10 gold for the kill is not carried.*
 
 *Adapted: Composed by OrsinoMonsters (undead class, Wraith type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
+
+#### Zombie
+
+*Kyr · undead* · `species:zombie`
+
+<img src="../../web/reader/paintings/monsters/zombie.webp" alt="" width="128">
+
+- Type: undead (monster)
+- Hit points: d6 a level
+- Qualities: rolled (3d6 each)
+- Attack: claws, 1d4 slashing
+- Hide: Clothing, armour 0
+- Found in: barrow, ruin
+- Worth: 100 + 25 experience a level
+
+Rage: You are raging for 3 turns. Raging: +1 to hit, 3 easier to hit, +2 damage. Again after 3 turns.
+
+Infect: Inflict Disease, at no cost. Again after 3 turns.
+
+Undead Nature: Takes 100% more radiant, immune to poison, immune to charm, immune to sleep, immune to disease.
+
+> A reanimated corpse, mindless and driven by hunger for the living.
 
 ## Devices
 
