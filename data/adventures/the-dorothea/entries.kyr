@@ -111,7 +111,7 @@ Module dorothea "The Dorothea" {
     On discuss { Give dorothea_bottle to actor. Assert bottleTaken(actor). }
   }
   Topic marit_bottle with marit "Give Marit Oake the bottle" when holding(actor, dorothea_bottle) once {
-    Says "She turns it over in the lamp of the door. 'The night the Rosa Lind went,' she says. 'I put it in the water myself. I never thought it would go anywhere but down.' She holds it a while longer. 'Eleven years. And now somebody's brought it back.' She sets it on the sill. 'The stand,' she says. 'You'll be wanting to see the stand. The iron is loose. It always was.'".
+    Says "She turns it over in the lamp of the door. 'The night the Rosa Lind went,' she says. 'I put it in the water myself. I never thought it would go anywhere but down.' She holds it a while longer. 'Since Lammas. I thought it was in the bar with the rest. And now somebody has brought it back.' She sets it on the sill. 'The stand,' she says. 'You'll be wanting to see the stand. The iron is loose. It always was.'".
     On discuss { Spend dorothea_bottle from actor. Assert maritWilling(actor). }
   }
 

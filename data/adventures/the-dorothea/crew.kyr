@@ -32,6 +32,9 @@ Module dorothea "The Dorothea" {
     On discuss { Assert knows(actor, rune_sells). }
   }
   Discovery rune_sells "The mate, Tobias Rune, has been selling the Pharos's lamp-oil out of the Dorothea's hold, two casks at a time, to make up the Captain's debt before she finds out how deep it is.".
+  Topic nipper_gun with nipper "Ask Nipper about the gun" when true once {
+    Says "He looks at you for the first time as if you might be worth the bother. 'It's a swivel. Brass. It's under the tarpaulin on the starboard rail and nobody's to touch it but Mr Rune.' He lowers his voice. 'It's fired for the Combs, and for funerals, and once for a bishop. It's not for fighting. The Captain says a gun's not for killing anyone, it's for telling the whole sea you are here.' He scratches his ankle with the other foot. 'I'd like to hear it once when it isn't somebody dead.'".
+  }
   Topic quint_rod with quint "Ask Odile Quint what the Collegium wants with the Pharos" when true once {
     Says "'It is a unit,' she says. 'A very good one. Seven feet and some inches of a measure that is not a foot and not a yard, and has its own sixths, and has been the length of the Pharos stair and the width of its door and the height of its lamp for as long as anybody has measured. The Aeneans wrote it on a bronze table in the tower, and thought it was theirs.' She taps the ell-rod. 'I would like to lay mine against it. I would like to know whether we have been using the right one.'".
   }
@@ -136,7 +139,7 @@ Module dorothea "The Dorothea" {
     Resolve check(actor, stealth, dc_fair).
     On success { Assert leafDorothea(actor). Increase leaves(actor) by 1. Assert knows(actor, leaf_dorothea_d). }
     Result "A House form, folded in four and soft with handling: the keel, sixty crowns, PLEDGED. Sailing orders, in a clerk's round hand, to call at the House's ports only. To carry no oil to any unleased light. And an instruction in the margin that makes you read it twice: on default of a light, to stand by for salvage. One part in three to the master. Bascom has underlined the last line, once, in pencil, and then rubbed the underlining out.".
-    Otherwise "A voice comes down the ladder: 'That is a private shelf.' You are on the deck again before she has reached the top of it.".
+    Otherwise "A voice comes down the ladder: 'That is a private shelf.' You have the ledger shut and your hands behind you before she has reached the top of it.".
   }
   Topic bascom_note with bascom "Ask Bascom to show you the House's paper on her keel" when told(actor) or shamed(actor) or wheelTaken(actor) once {
     Says "She takes the pipe out. She goes below, and comes up with a House form folded in four, and puts it in your hand without looking at it. 'I was told it was a keel,' she says. 'Sixty crowns, and a call at the House's ports. I did not read the margin until the night the Mary Ann went. I have read it every night since.' She looks at the grey road. 'I made fourteen casks of oil for the Pharos, once. I carried eight. I have been told which ones to leave at the quay.'".

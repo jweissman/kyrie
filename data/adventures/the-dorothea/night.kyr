@@ -87,14 +87,22 @@ Module dorothea "The Dorothea" {
     Greets "A long boy, all wrists, with his father's shoulders not yet arrived. 'You came on the Dorothea,' he says. 'Is it true she's got a gun? Da says no, but Da says no about most things.'".
   }
   Place kestle_house "Jory Kestle's house" is room within hamlet at 2, 1.
+  // Wen is a boy with a boat and a grievance, and he says so a day before it matters.
+  Topic wen_pots with wen "Ask Wen Kestle about the pots he has set" when true once {
+    Says "'Eleven pots on the black rocks, off the point,' says Wen, 'and Da says leave them till the weather settles, because Da says leave everything.' He scowls at the stove. 'The glass has been going down since the Dorothea came in. If it turns I'll have to get them in tonight, or the sea will, and then it's a winter of cold porridge. I can see the rocks from the hill. The light's on them, if it's lit. It's the one thing it's good for, Da says, and then he says he didn't say it.'".
+  }
   Passage kestle_door "Jory Kestle's door" is door between green and kestle_house.
   Observe kestle_scene at kestle_house when true "Jory Kestle's house: one room, four beds in two tiers, a table with a net spread over it, a stove, a framed picture of a woman in a cap with the glass cracked across and mended with a strip of tape. The children's boots stand in a row from big to small.".
   Relation stormOn(group). Relation wenOut(group). Relation wenSafe(group). Relation wenLost(group). Relation beaconLit(group). Relation shipLit(group).
   Rule storm_rises when arrived(hull) and not stormOn(party) and not wenSafe(party) and watch(clock) >= reachedAt(hull) + 152
-    says "The wind goes round in the evening, as it does on Skerrow when it has finished with the sea and means to start on the land, and the rain comes in flat. Down at the jetty the Dorothea's lines groan. Somewhere on the green a woman is shouting a boy's name into the weather." {
+    says "The wind goes round in the evening, as it does on Skerrow when it has finished with the sea and means to start on the land, and the rain comes in flat. Down at the jetty the Dorothea's lines groan. Somewhere on the green a woman is shouting a boy's name into the weather. The island's pot-boat is gone from the shingle." {
     Assert stormOn(party). Assert wenOut(party). Retract at(wen, kestle_house). Assert at(wen, off_skerrow).
   }
   Observe storm_green at green when stormOn(party) and wenOut(party) "It is a black night and a roaring one. Jory Kestle is at the end of the jetty with a lantern that keeps going out, calling, and the island is standing behind him in its oilskins, not speaking.".
+  // What each place offers on that night, said where the company stands, so that it is not a puzzle to find.
+  Observe storm_hill at hill_path when stormOn(party) and wenOut(party) and lampOut(party) "The wind comes over the shoulder of the hill like a hand. Below you the whole black water lies open, and a fire up here, in the lee of the wall, would be seen from every rock off the point. The island's driftwood is stacked under the wall. The oil is under the tower.".
+  Observe storm_jetty at jetty when stormOn(party) and wenOut(party) and lampOut(party) "The island's second boat is drawn up on the shingle with a lantern lashed in her bows. Jory Kestle stands at the end of the jetty with another and does not look round. Out in this a man might find a boy. He might as easily be a second thing for the island to look for.".
+  Observe storm_helm at helm when stormOn(party) and wenOut(party) and lampOut(party) and arrived(hull) "From the wheel the Dorothea's yards are bare black spars and her lanterns are in their locker. The little gun is under its tarpaulin on the rail. Bascom is looking at the jetty, and at Jory Kestle's one small light on it, with her pipe gone cold.".
   Observe lamp_lit_night at green when stormOn(party) and wenOut(party) and not lampOut(party) "High on the hill, the Pharos is burning. It does not seem to notice the weather. It goes out over the water in a long hard road, and the road goes a long way out.".
   Rule wen_comes_by_the_light when stormOn(party) and wenOut(party) and not lampOut(party) and not wenSafe(party) and watch(clock) >= reachedAt(hull) + 166
     says "A small black shape comes up out of the dark on the long road of the lamp: a boat, with a boy at the oars who is crying and laughing and has lost his cap. Jory Kestle wades out to his waist and takes the bow-line out of his son's hand. Marren Kestle has come down the hill in her oilskins, and she stands at the edge of the lantern-light and looks at the boy and does not say a word. After a time she says, to nobody, 'That is what it is for.'" {

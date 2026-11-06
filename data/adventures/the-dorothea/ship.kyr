@@ -60,7 +60,7 @@ Module dorothea "The Dorothea" {
   Observe helm_scene at helm when true "The quarterdeck: a big wheel with a brass boss worn bright, a compass in a box, a log-slate, a lead-line coiled on a pin. Whoever steers can see everything and be seen from everywhere.".
   Observe cabin_scene at cabin when true "A cabin the size of a wardrobe and kept like a chapel: a chart table, a bunk with the blanket squared, a shelf of ledgers, a sea-chest with a padlock, and above the bunk a woodcut of a woman in a cap, pinned up small by a hand that had wanted to pin it larger.".
   Observe forecastle_scene at forecastle when true "The forecastle: six bunks in two tiers, a stove, a table fixed to the floor, sea-boots on a rack, and the permanent smell of wet wool. Somebody has cut a notch in the beam for every voyage. It is a long beam.".
-  Observe hold_scene at hold when true "The hold: casks lashed in tiers, bales of canvas, a ladder, and the sound of the sea very close through the planks, like something breathing in the next room.".
+  Observe hold_scene at hold when true "The hold: casks lashed in tiers, bales of canvas, a ladder, and the sound of the sea very close through the planks, like something breathing in the next room. Forward of the salt, lashed apart, is a short tier of small casks, each branded with a lamp, PHAROS, in the Captain's square hand. The tally chalked on the end of the tier has been rubbed with a thumb. The stow-marks on the planking show where more have stood.".
 
   // ── Casting off ─────────────────────────────────────────────────────────────────────────────────────────────────
   // She goes on the noon ebb. A company on the quay at noon is left on it; the hours before are to book a passage, pay

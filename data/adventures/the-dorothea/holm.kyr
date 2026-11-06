@@ -28,7 +28,7 @@ Module dorothea "The Dorothea" {
     Says "'Four crowns the quarter,' she says, 'for the Holm. It was for my husband, before; he was a wrecker, God rest him, and the House bought him off the trade with a rent, and when he went the rent came to me.' She does not say it with shame. 'The rent's for no light. That is on the paper. The Holm is to show no light, the stump is to be left cold, and I'm to keep the beach clear of any who'd come to put one on it. I've kept it clear for twenty years.' She strokes the gull. 'You'll have seen the weed on the bar, from the Ness. I don't look at it any more.'".
   }
   Topic marit_stand with marit "Ask Marit Oake about the lamp-stand" when true once {
-    Says "'Older than the tower, they say. Older than the stump, I'd say, if you've a mind to say. There was a lantern on that iron once. It went out on the tide one winter on a raft of casks, with a board nailed to it, and a good many people have claimed to see it since.' She shrugs. 'People claim a lot, near the Wrack Road.'".
+    Says "'Older than the tower, they say. Older than the stump, I'd say, if you've a mind to say. There was a lantern on that iron once. It went out on the tide one winter on a raft of casks, with a board nailed to it, and a good many people have claimed to see it since.' She shrugs. 'People claim a lot, near the Wrack Road.' She taps the iron. 'It would take a clean oil to light it. Not tallow; there's a reason this one went out. The Dorothea carries a white oil up from Skerrow, or used to.'".
   }
   Topic quint_holm with quint "Ask Odile Quint to read the device on the lamp-stand" when at(actor, holm_stump) once {
     Says "Quint kneels with her ell-rod across her knees and wipes the rust with a thumb. 'The same mark,' she says. 'As the Pharos keystone. As the Gull's paper. A fish, and a flame over it.' She is quiet for a moment. 'There is a line cut round the foot, in the old imperial, and the salt has had most of it. I can give you two words and I would not swear to the second.' She stands up and puts her knees back where they belong. 'I would not have it taken for scrap.'".
@@ -39,7 +39,7 @@ Module dorothea "The Dorothea" {
     Time 3.
     Resolve check(actor, persuasion, dc_fair).
     On success { Assert maritWilling(actor). }
-    Result "You say it badly and plainly. She listens with the gull's beak at her ear. 'My man built wrecks,' she says. 'He didn't build lights. And he'd be the first to say so.' She looks at the stand. 'The rent is four crowns. The Rosa Lind was forty-one hands.' She puts down the knitting. 'Light it, then. I'll not stop you.'".
+    Result "You say it badly and plainly. She listens with the gull's beak at her ear. 'My man built wrecks,' she says. 'He didn't build lights. And he'd be the first to say so.' She looks at the stand. 'The rent is four crowns. The Rosa Lind was forty-one hands.' She puts down the knitting. 'Light it, then. I'll not stop you.' She looks at the empty iron. 'It wants oil that burns clean. Fish and tallow would only make it a thing to be put out. There is a white oil goes up and down this coast in the Dorothea. Ask where it is kept.'".
     Otherwise "'The rent is four crowns,' says Marit Oake, 'and I am sixty.' She goes on knitting. She is not unkind.".
   }
   Action pay_marit_rent(actor: group, site: place) "Pay Marit Oake six coin against the House's rent, so that she need not be paid for the dark" {

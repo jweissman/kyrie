@@ -10,27 +10,27 @@ Module corrow "Let One Remember" {
   Relation remChapel(group). Relation remField(group). Relation remTail(group). Relation remDesk(group).
   Relation remPlace(group). Relation remLedge(group).
 
-  Rule voice_niche at keld_chapel when memberOf(?m, party) and hasCalling(?m, calling_cleric) and awake(?m) and at(party, keld_chapel) and not remChapel(party)
+  Rule voice_niche at keld_chapel when memberOf(?m, party) and brings(?m, rites) and awake(?m) and at(party, keld_chapel) and not remChapel(party)
     says "{?m} goes round the wall as one goes round a roll, lips moving over the scratched names, and touches each sprig in passing. 'A skull for each, and a sprig for each,' {?m} says. 'And this one has a sprig and a lamp and no skull.' A stop. 'Somebody has been burying nobody for a very long time, with great care. I know the form for it. It is not an easy one to keep.'" {
     Assert remChapel(party).
   }
-  Rule voice_field at west_field when memberOf(?m, party) and hasCalling(?m, calling_ranger) and awake(?m) and at(party, west_field) and not remField(party)
+  Rule voice_field at west_field when memberOf(?m, party) and brings(?m, woodcraft) and awake(?m) and at(party, west_field) and not remField(party)
     says "{?m} walks the length of the wall and comes back. 'No track in, no track out,' {?m} says. 'Grass not pressed in the middle in a hundred years. The sheep go round the place the way sheep go round a grave.' {?m} looks at the fork standing upright in the turf. 'Whatever stands here at dawn, it is not walking here.'" {
     Assert remField(party).
   }
-  Rule voice_files at tail when memberOf(?m, party) and hasCalling(?m, calling_warrior) and awake(?m) and at(party, tail) and not remTail(party)
+  Rule voice_files at tail when memberOf(?m, party) and brings(?m, brawn) and awake(?m) and at(party, tail) and not remTail(party)
     says "{?m} runs a thumb down the bright face of the newest cut. 'All from the east side,' {?m} says. 'Every stroke from the shoulder of a right-handed man who is tired.' A grunt. 'They leave the west face to last, and thin, so the link goes of itself. That is how I would drop a wall, if I had been told not to.'" {
     Assert remTail(party).
   }
-  Rule voice_desk at consulate when memberOf(?m, party) and hasCalling(?m, calling_thief) and awake(?m) and at(party, consulate) and not remDesk(party)
+  Rule voice_desk at consulate when memberOf(?m, party) and brings(?m, lockwork) and awake(?m) and at(party, consulate) and not remDesk(party)
     says "{?m} squats and looks at the legs of the secretary's chair, then at the legs of the desk. 'Chair's been sawn down two fingers,' {?m} says. 'Short man. The desk was made for a tall one.' A thumb goes to the blotter. 'Worn at the left, where a tall man's cuff drags. So whoever draws this wage is not the one who sits here.' {?m} straightens. 'Nicely done, whoever did it. I would have liked to meet him.'" {
     Assert remDesk(party).
   }
-  Rule voice_place at mountain_place when memberOf(?m, party) and hasCalling(?m, calling_mage) and awake(?m) and at(party, mountain_place) and not remPlace(party)
+  Rule voice_place at mountain_place when memberOf(?m, party) and brings(?m, lore) and awake(?m) and at(party, mountain_place) and not remPlace(party)
     says "{?m} holds a palm out over the lip and takes it back. 'I would not call it a hole,' {?m} says. 'A hole is made by taking something out, and one can feel where it went. This has no edge of removal. It was never put in. It is the exact shape of a thing that was lifted, and I have no instrument for that.'" {
     Assert remPlace(party).
   }
-  Rule voice_ledge at silver_sump when memberOf(?m, party) and hasCalling(?m, calling_ranger) and awake(?m) and at(party, silver_sump) and not remLedge(party) and not fed(old_silver)
+  Rule voice_ledge at silver_sump when memberOf(?m, party) and brings(?m, woodcraft) and awake(?m) and at(party, silver_sump) and not remLedge(party) and not fed(old_silver)
     says "{?m} goes down on one knee at the ledge and looks at the bones. 'Dog at the mouth, sheep behind it, the small ones along the wall,' {?m} says. 'It strikes where the water moves and nowhere else. It is blind.' Knuckles rap the rock on the far side. 'That dry shelf is wider than it looks. The stones on it have never been wet.'" {
     Assert remLedge(party).
   }
@@ -41,7 +41,7 @@ Module corrow "Let One Remember" {
   Action round_the_silver(actor: group, site: place, r: member) "Have {r} lead the company along the dry shelf, round the Old Silver" {
     Description "It strikes where the water moves. The shelf on the far side has never been wet, and does not carry the sound of feet.".
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, silver_sump) and at(old_silver, site) and not fed(old_silver)
-      and memberOf(r, actor) and hasCalling(r, calling_ranger).
+      and memberOf(r, actor) and brings(r, woodcraft).
     Time 2.
     On success { Assert tolerates(old_silver, actor). }
     Result "{r} goes first, one hand flat to the wall, and you put your feet where {r} puts them. The water beside you is black and perfectly still; in it, a long pale shape turns its blind face toward the sound of the river, and toward the river only. You are past it before it has finished deciding. Behind you {r} lets out a breath. 'Eighty years in the dark,' {r} says. 'You would think it would be quicker.'".
@@ -64,7 +64,7 @@ Module corrow "Let One Remember" {
   Action close_the_niche(actor: group, site: place, c: member) "Have {c} say the office for the dead over the empty niche, and close it" {
     Description "The Keld do not close a niche while anyone could still be looked for. {c} could close this one, and it would be an act of mercy and of ending.".
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, keld_chapel) and knows(actor, hollow_missing)
-      and memberOf(c, actor) and hasCalling(c, calling_cleric) and not nicheClosed(keld) and not nicheKept(keld) and not webbNamed(webb).
+      and memberOf(c, actor) and brings(c, rites) and not nicheClosed(keld) and not nicheKept(keld) and not webbNamed(webb).
     Time 4.
     On success { Assert nicheClosed(keld). Set hire(teshen) to 0. }
     Result "{c} says it plainly, without the Keld's careful grammar, and when it is done puts out the lamp with a wetted finger. Nobody is in the chapel. By the time you are out on the green the whole of Keld knows, the way Keld knows things: every face that turns to you has been told. Mother Saska, at her door, does not speak. Teshen takes her hands out of her pockets and looks at them. 'Nobody is waiting,' she says. 'Nobody is waiting for anything. I do not know what I am for.' She says she will walk with you for nothing, and she looks, just then, nineteen.".
@@ -72,7 +72,7 @@ Module corrow "Let One Remember" {
   Action keep_the_niche(actor: group, site: place, c: member) "Have {c} trim the lamp, lay a fresh sprig, and say nothing" {
     Description "The lamp is not for the dead. It is for the chance that the mark is wrong.".
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, keld_chapel) and knows(actor, hollow_missing)
-      and memberOf(c, actor) and hasCalling(c, calling_cleric) and not nicheClosed(keld) and not nicheKept(keld) and not webbNamed(webb).
+      and memberOf(c, actor) and brings(c, rites) and not nicheClosed(keld) and not nicheKept(keld) and not webbNamed(webb).
     Time 1.
     On success { Assert nicheKept(keld). }
     Result "{c} turns the wick up with a thumbnail, tops the oil from the little can on the sill, and lays the sprig. Mother Saska is in the doorway; nobody heard her come. 'The last who did that wanted something,' she says. 'What do you want?' {c} says, truthfully, that {c} does not know. She considers this for a good while. 'Then it is a clean one,' she says, and goes away across the green without another word.".
@@ -105,7 +105,7 @@ Module corrow "Let One Remember" {
 
   // ── Calvessan, and a woman who got it wrong ──────────────────────────────────────────────────────────────────────
   // The low road's marks are only the first place the grammar bites: it is how Keld talk to this day. A cleric hears it.
-  Rule voice_grammar at keld_green when memberOf(?m, party) and hasCalling(?m, calling_cleric) and awake(?m) and at(party, keld_green) and knows(party, evidential_known) and not remGrammar(party)
+  Rule voice_grammar at keld_green when memberOf(?m, party) and brings(?m, rites) and awake(?m) and at(party, keld_green) and knows(party, evidential_known) and not remGrammar(party)
     says "{?m} has been listening to the green for some time. 'They all do it,' {?m} says, surprised. 'Every sentence. The child with the ball said her ball was lost, and then said let, not kept. She did not see it go. Somebody told her.' {?m} watches the children play. 'It must be dreadful to be lied to, in that grammar.'" {
     Assert remGrammar(party).
   }

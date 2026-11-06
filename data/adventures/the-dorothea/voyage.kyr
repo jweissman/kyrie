@@ -19,7 +19,7 @@ Module dorothea "The Dorothea" {
   Rule sail_tick when sailed(hull) and not troubled(hull) and not arrived(hull) and not homeward(hull) and not safeHome(hull) { Increase progress(hull) by 1. }
 
   // The stations of her passage.
-  Rule enters_open when at(hull, sound) and progress(hull) >= 36 and not homeward(hull) says "The headlands of the Sound fall away on either hand and the Dorothea lifts to her first real swell. Bascom puts the pipe back in her mouth, which Rune says means she is satisfied." {
+  Rule enters_open when at(hull, sound) and progress(hull) >= 36 and not homeward(hull) says "That was the last of the Sound's headlands, a minute since; and the Dorothea lifts to her first real swell. Bascom puts the pipe back in her mouth, which Rune says means she is satisfied." {
     Retract at(hull, sound). Assert at(hull, open_sea).
   }
   Rule enters_combs when at(hull, open_sea) and bound(hull) == 1 and progress(hull) >= 108 and not homeward(hull) says "Dawn comes up grey and cold, and in it, dead ahead and from rim to rim of the sea, a line of white. The Combs." {

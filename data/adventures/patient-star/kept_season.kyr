@@ -12,23 +12,23 @@ Module season "Hold One Season" {
   Relation sawSecondBolt(group).
 
   // The thief sees what the vault doors do not say. This one beat is a way in that nobody else has.
-  Rule voice_cleat at ring when memberOf(?m, party) and hasCalling(?m, calling_thief) and awake(?m) and at(party, ring) and not benighted(party) and not kvCleat(party)
+  Rule voice_cleat at ring when memberOf(?m, party) and brings(?m, lockwork) and awake(?m) and at(party, ring) and not benighted(party) and not kvCleat(party)
     says "{?m} runs a thumb round the bronze cleat by the ninth vault and then along the wall, doorway by doorway, lips moving. 'Polished on the near side, every one,' {?m} says. 'Left hand, season after season. That is a job. Somebody drew a wage for it.' The thumb stops at a cleat with no door under it. 'And this one is polished too. See the lime? Same wash as the wall, only newer.' {?m} tips the head back. 'And the second bolt is up in the lintel, where nobody looks. Which is where I would put it.'" {
     Assert kvCleat(party). Assert sawSecondBolt(party).
   }
-  Rule voice_doran at doran_place when memberOf(?m, party) and hasCalling(?m, calling_cleric) and awake(?m) and at(party, doran_place) and not kvDoran(party)
+  Rule voice_doran at doran_place when memberOf(?m, party) and brings(?m, rites) and awake(?m) and at(party, doran_place) and not kvDoran(party)
     says "{?m} kneels by the brick and lays a palm on the knot cut in it. 'I have said the office over a hundred people,' {?m} says. 'Every rite ends. It tells the dead they may go, or tells the living they may stop.' {?m} listens to the line the clerk's mouth is shaped around. 'The words they say over him end neither way. That is not a prayer. That is a question left standing.'" {
     Assert kvDoran(party).
   }
-  Rule voice_cord at cord when memberOf(?m, party) and hasCalling(?m, calling_ranger) and awake(?m) and at(party, cord) and not kvCord(party)
+  Rule voice_cord at cord when memberOf(?m, party) and brings(?m, woodcraft) and awake(?m) and at(party, cord) and not kvCord(party)
     says "{?m} goes along the red rope in the last of the light and stops at the cairn. 'Wolf-sign. All along the outside of the cord.' {?m} walks twenty paces and back. 'Not one print inside. Three hundred years of it, by the depth of the ground. They do not cross because the holders do not. They wait where the slow ones come back.' {?m} looks at the niche in the cairn, and says nothing about the lamp." {
     Assert kvCord(party).
   }
-  Rule voice_pit at pit_floor when memberOf(?m, party) and hasCalling(?m, calling_warrior) and awake(?m) and at(party, pit_floor) and not kvPit(party)
+  Rule voice_pit at pit_floor when memberOf(?m, party) and brings(?m, brawn) and awake(?m) and at(party, pit_floor) and not kvPit(party)
     says "{?m} looks up the shaft of light at the thing hung in the cloud, then at the ground, and does a sum with a thumb. 'Two metres a day,' {?m} says. 'It is not hunting us. It is a siege, and the engine is the calendar.' The thumb moves again. 'Which means there is a day it arrives, and I can count to it. Good. I can do something with a date.'" {
     Assert kvPit(party).
   }
-  Rule voice_lintel at lintel_room when memberOf(?m, party) and hasCalling(?m, calling_mage) and awake(?m) and at(party, lintel_room) and not kvLintel(party)
+  Rule voice_lintel at lintel_room when memberOf(?m, party) and brings(?m, lore) and awake(?m) and at(party, lintel_room) and not kvLintel(party)
     says "{?m} stands with the flat of a hand toward the black wall. 'No spell has ever been laid on this,' {?m} says. 'It is not cast. It is built: a courser laid a course, and then a courser laid the next.' A frown, correcting a figure. 'I would say. One cannot dispel a masonry. One can only unlay it from the other end.'" {
     Assert kvLintel(party).
   }

@@ -7,24 +7,24 @@ Module larum "The Quiet in the Sky" {
   // ── Voices ────────────────────────────────────────────────────────────────────────────────────────────────────────
   Relation heardBellOffice(group). Relation heardHarness(group). Relation heardLocks(group). Relation heardWatch(group). Relation heardBallads(group).
 
-  Rule voice_bell_office at larum_chapel when memberOf(?m, party) and hasCalling(?m, calling_cleric) and awake(?m) and at(party, larum_chapel) and not heardBellOffice(party)
+  Rule voice_bell_office at larum_chapel when memberOf(?m, party) and brings(?m, rites) and awake(?m) and at(party, larum_chapel) and not heardBellOffice(party)
     says "{?m} takes the rope in both hands without ringing it, and feels the weight of the bell come down it. 'Three and three,' {?m} says, to the board over the door. 'That is not a mending bell. That is a passing bell: three for the one, three for the road. We ring it for the dying, in the parishes I know, and for nobody else.' {?m} lets the rope go up. 'Somebody changed one word in the founder's will, and was kind about it. It was never for the living.'" teaches bell_is_passing {
     Assert heardBellOffice(party).
   }
   Discovery bell_is_passing "The Mending Bell of Larum rings three and three, which is the form of a passing bell, rung for the dying and not for the living; someone long ago changed its name to something kinder.".
-  Rule voice_harness at ice_stair when memberOf(?m, party) and hasCalling(?m, calling_ranger) and awake(?m) and at(party, ice_stair) and not heardHarness(party)
+  Rule voice_harness at ice_stair when memberOf(?m, party) and brings(?m, woodcraft) and awake(?m) and at(party, ice_stair) and not heardHarness(party)
     says "{?m} stays where {?m} is, and looks at the white shape on the shelf for a long time before looking at anything else. 'A war-bear,' {?m} says, very low. 'Dwarvish. That is a bridle-ring on the harness, and those are brass studs where the girths went. It was trained to guard a stair and to be fed by one hand.' {?m} lets out a breath. 'It is not angry. It is on duty. It has been on duty for nine hundred years and has not once been relieved. Do not run. Do not throw anything but food. I can talk to it, if you let me, and it may let us by on the strength of that.'" {
     Assert heardHarness(party).
   }
-  Rule voice_locks at halt_cross when memberOf(?m, party) and hasCalling(?m, calling_thief) and awake(?m) and at(party, halt_cross) and not heardLocks(party)
+  Rule voice_locks at halt_cross when memberOf(?m, party) and brings(?m, lockwork) and awake(?m) and at(party, halt_cross) and not heardLocks(party)
     says "{?m} walks the length of Trophy Row with a hand trailing along the pegs, and slows, and goes back. 'There isn't a lock,' {?m} says. 'Not on a door, not on a chest, not on a purse. Nine hundred years of the dead and nobody has ever needed one.' {?m} takes a bronze cup off a peg, looks at it, and puts it back exactly where it was. 'I find that harder to be in than a street full of thieves,' {?m} says." {
     Assert heardLocks(party).
   }
-  Rule voice_watch at the_ring when memberOf(?m, party) and hasCalling(?m, calling_warrior) and awake(?m) and at(party, the_ring) and state(halvard, lying) and not heardWatch(party)
+  Rule voice_watch at the_ring when memberOf(?m, party) and brings(?m, brawn) and awake(?m) and at(party, the_ring) and state(halvard, lying) and not heardWatch(party)
     says "{?m} stands at the edge of the ring and watches the watch for a quarter of an hour, the way a sergeant would. 'Forty days,' {?m} says. 'Nobody has sat down. They changed the guard four times a night for the first week, and then stopped changing, and just stood. That is a watch that has forgotten what it is watching for.' {?m} nods at Torold Hame, whose hands have not left the sword-hilt. 'Do not give that man an order. Give him a reason to put it down. A man who has stood that long wants relieving, and does not know it.'" {
     Assert heardWatch(party).
   }
-  Rule voice_ballads at hark when memberOf(?m, party) and hasCalling(?m, calling_bard) and awake(?m) and at(party, hark) and not heardBallads(party)
+  Rule voice_ballads at hark when memberOf(?m, party) and brings(?m, performance) and awake(?m) and at(party, hark) and not heardBallads(party)
     says "{?m} runs an eye along the beams, lips moving, and stops under the woodcut of Halvard Eld. 'Look,' {?m} says. 'Every ballad on the wall is in the same metre, the penny-press metre, because old Habakkuk sets them all himself. Except this one. The first verse and the last are one man's work, and the middle is a patch by another, with a worse ear. Somebody put a middle in a ballad that did not have one.' {?m} taps the beam." {
     Assert heardBallads(party).
   }
@@ -34,7 +34,7 @@ Module larum "The Quiet in the Sky" {
   Action calm_bear(actor: group, site: place, r: member) "Have {r} speak to the bear, low, from where {r} stands, as to a guard on duty" {
     Description "It has been on watch nine hundred years. It may be glad to be spoken to by someone who knows what a watch is.".
     Requires able(actor) and company(actor) and at(actor, site) and at(bear, site) and able(bear) and not tolerates(bear, actor)
-      and memberOf(r, actor) and hasCalling(r, calling_ranger).
+      and memberOf(r, actor) and brings(r, woodcraft).
     Time 3.
     On success { Assert tolerates(bear, actor). Retract warned(bear, actor). }
     Result "{r} goes down on one knee in the trodden snow, palms out, and talks, in the flat even voice of someone reporting to a superior: no names, no hurry, a list of who is on the stair and why and when they will go. The bear listens with its head on one side, and its breath, which does not steam, goes in and out. At the end {r} says, quietly, 'Relieved.' The great head dips. It lies down on the shelf, crosswise, so that you may pass behind it, and puts its chin on its paws like a dog in a doorway.".
@@ -48,7 +48,7 @@ Module larum "The Quiet in the Sky" {
   Action salute_bear(actor: group, site: place, w: member) "Have {w} stand to, give the sentry's countersign, and ask to relieve the post" {
     Description "Not the bear's army, and not the bear's tongue. A soldier's voice, and a soldier's back.".
     Requires able(actor) and company(actor) and at(actor, site) and at(bear, site) and able(bear) and not tolerates(bear, actor) and not saluteFailed(actor)
-      and memberOf(w, actor) and hasCalling(w, calling_warrior) and not companyHasRanger(actor).
+      and memberOf(w, actor) and brings(w, brawn) and not companyHasRanger(actor).
     Time 3.
     Resolve check(actor, intimidation, dc_hard).
     On success { Assert tolerates(bear, actor). Retract warned(bear, actor). }
@@ -56,7 +56,7 @@ Module larum "The Quiet in the Sky" {
     Result "{w} comes to attention in the trodden snow, heels together, and says it in the voice that carries across a parade-ground: who is relieved, and by whom, and at what hour. It is not the right army. The bear listens with its head on one side and the breath not steaming, and then goes down on all fours, slowly, and turns its flank to you, and the shelf is clear. It does not lie down. It watches you the whole way past.".
     Otherwise "{w} says it, loud and correct, and it is the wrong army. The bear lets the word finish, and then reaches out almost gently and sets one paw across {w}'s chest and leans, and you are in the snow at the foot of the steps with the wind out of you and your ribs in a new order.".
   }
-  Rule company_has_ranger when memberOf(?m, party) and hasCalling(?m, calling_ranger) and not companyHasRanger(party) { Assert companyHasRanger(party). }
+  Rule company_has_ranger when memberOf(?m, party) and brings(?m, woodcraft) and not companyHasRanger(party) { Assert companyHasRanger(party). }
   Relation companyHasRanger(group).
 
   // ── Where the grave is: the warrior and the cleric disagree, and are both right ───────────────────────────────────────
@@ -64,8 +64,8 @@ Module larum "The Quiet in the Sky" {
   // warrior and a cleric and has learned of both graves hears each of them say so; siding with one chooses the grave, and
   // the other keeps their silence all the way to the end of the carrying.
   Relation quarrelledGrave(group). Relation sidedUp(group). Relation sidedDown(group).
-  Rule grave_quarrel at the_ring when memberOf(?w, party) and hasCalling(?w, calling_warrior) and awake(?w)
-    and memberOf(?c, party) and hasCalling(?c, calling_cleric) and awake(?c) and at(party, the_ring) and state(halvard, lying) and toroldConsents(torold)
+  Rule grave_quarrel at the_ring when memberOf(?w, party) and brings(?w, brawn) and awake(?w)
+    and memberOf(?c, party) and brings(?c, rites) and awake(?c) and at(party, the_ring) and state(halvard, lying) and toroldConsents(torold)
     and knows(party, ice_burial) and knows(party, bell_heard) and not iceChosen(torold) and not larumChosen(torold) and not quarrelledGrave(party)
     says "{?w} says it first, because somebody must. 'Up. The Hour is up there; the Sitters are up there; it is the only grave in Ysgard, and he is a man of the Field. You bury a soldier in his own country.' {?c} does not raise a voice. 'He cut WENDMERE into a cairn for twelve years,' {?c} says. 'There is a bell down there that rings three and three. I would put him where somebody rings for him, and has ever since the founder, and did not know whom.' Neither of them looks at you, and Torold Hame, who is listening to both, is waiting to be told." {
     Assert quarrelledGrave(party).
@@ -73,7 +73,7 @@ Module larum "The Quiet in the Sky" {
   Action side_up(actor: group, site: place, w: member, c: member) "Tell {c} that {w} is right, and carry Halvard up to the Old Ice" {
     Description "Among his own, under the blue, beside the one grave there has ever been. {c} will say the office all the same.".
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, the_ring) and quarrelledGrave(party) and not sidedUp(party) and not sidedDown(party) and not iceChosen(torold) and not larumChosen(torold)
-      and memberOf(w, actor) and hasCalling(w, calling_warrior) and memberOf(c, actor) and hasCalling(c, calling_cleric).
+      and memberOf(w, actor) and brings(w, brawn) and memberOf(c, actor) and brings(c, rites).
     Time 1.
     On success { Assert sidedUp(party). Assert iceChosen(torold). Increase toroldTrust(torold) by 1. }
     Result "{c} says nothing for a long moment, and then inclines the head, and goes and stands at the foot of the bier with a hand on the shields. 'Then I will say it there,' {c} says. {w} lets out a breath and goes to take a pole. Torold looks from one to the other, and takes his hands from the sword at last, and says to the watch, not loudly, 'Up. We carry him up.'".
@@ -81,7 +81,7 @@ Module larum "The Quiet in the Sky" {
   Action side_down(actor: group, site: place, w: member, c: member) "Tell {w} that {c} is right, and carry Halvard down to Larum churchyard" {
     Description "Under the bell, in ground with a name. {w} will take the front pole all the way down through the White.".
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, the_ring) and quarrelledGrave(party) and not sidedUp(party) and not sidedDown(party) and not iceChosen(torold) and not larumChosen(torold)
-      and memberOf(w, actor) and hasCalling(w, calling_warrior) and memberOf(c, actor) and hasCalling(c, calling_cleric).
+      and memberOf(w, actor) and brings(w, brawn) and memberOf(c, actor) and brings(c, rites).
     Time 1.
     On success { Assert sidedDown(party). Assert larumChosen(torold). Increase toroldTrust(torold) by 1. }
     Result "{w} says nothing against it, which is not agreeing, and takes up the front pole as if it were a spear, and shifts the weight of it onto a shoulder. 'Down, then,' {w} says, to nobody, in the voice of a soldier giving up a hill. {c} puts a hand on the dead man's chest, briefly. Torold watches them both, and takes his hands from the sword at last, and says, 'Down. To the white. We carry him as far as we can.'".

@@ -42,6 +42,9 @@ Module dorothea "The Dorothea" {
     Says "'At noon,' says Ansel, 'the vents take in for the space of a pot coming to the boil. Then the rim is as safe as a kitchen. At any other hour you want a wet cloth, and a strong constitution, and no hurry.' He opens one eye. 'Merrow's mule-bell is up there. It went over the lip in the spring with a mule on the end of it. She wants the bell. Fetch the bell at noon, and she will give you what she has.'".
     On discuss { Assert anselTip(actor). }
   }
+  Topic ansel_count with ansel "Ask Ansel Hallow what he is counting on his knee" when true once {
+    Says "'Breaths,' says Ansel. 'In, then out, then in. My father cut notches on the lintel, and his father before him; there are eleven hundred on the door of the bath-house, and I have the twelve hundredth on my knee.' He turns the charcoal over. 'It takes in later every year. The interval was a pot to the boil in my father's time. It is a pot and a little more. I do not say what it is a count of. I say that the women stopped bringing their washing to the top pool in the spring, and that nobody told them to.' He opens the other eye. 'Somebody ought to tell the House. The House does not ask.'".
+  }
   Action fetch_the_bell(actor: group, site: place) "Go to the rim at noon and fetch Merrow Gantry's mule-bell from the lip" {
     Description "Ansel's breath. The vents take in for the space of a pot coming to the boil.".
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, ashkeld_rim) and anselTip(actor) and not belled(actor).

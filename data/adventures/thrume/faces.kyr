@@ -45,7 +45,7 @@ Module thrume "Thrume" {
   Relation wolvesCalmed(group). Relation wolvesWhistled(group).
   Action calm_wolves(actor: group, site: place, r: member) "Let the ranger go in among the wolves, hands open" {
     Description "{r} has never been afraid of a thing in its own country. The wolves of the Shoulder Hall are in theirs.".
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, kennels) and at(wolves, kennels) and memberOf(r, actor) and hasCalling(r, calling_ranger) and awake(r) and not wolvesCalmed(actor) and not wolvesWhistled(actor).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, kennels) and at(wolves, kennels) and memberOf(r, actor) and brings(r, woodcraft) and awake(r) and not wolvesCalmed(actor) and not wolvesWhistled(actor).
     Time 2.
     On success { Assert wolvesCalmed(actor). Assert tolerates(wolves, actor). }
     Result "{r} goes in alone, slowly, with the hands low and the eyes down and a noise in the throat that is not a word. The nearer wolf puts its head over {r}'s shoulder as a horse does, and breathes. 'They were pups when they came up the scree,' {r} says quietly, with the wolf's weight against one hip. 'Orphans. Nobody has touched one of them in a year but the girl.' The other wolf sits. The straw settles.".

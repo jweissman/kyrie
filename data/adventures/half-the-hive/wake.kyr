@@ -8,25 +8,25 @@ Module hume "Half the Hive" {
   // ── Voices: the company, by what it is ───────────────────────────────────────────────────────────────────────────────
   Relation heardRows(group). Relation heardKnoll(group). Relation heardBeam(group). Relation heardSett(group). Relation heardWalls(group).
 
-  Rule voice_rows at capped_gallery when memberOf(?m, party) and hasCalling(?m, calling_cleric) and awake(?m) and at(party, capped_gallery) and not heardRows(party)
+  Rule voice_rows at capped_gallery when memberOf(?m, party) and brings(?m, rites) and awake(?m) and at(party, capped_gallery) and not heardRows(party)
     says "{?m} stops at the end of the first row and does not go on. 'Standing,' {?m} says, low. 'In every office I know the dead are laid down, because the dead are resting. These are kept on their feet with their hands folded, like people in a room waiting to be called.' {?m} looks along the clear wax, four hundred years of it. 'Whoever made this custom did not think death was a rest. Who says the words over them? Somebody must; the hands are all done the same way.'" {
     Assert heardRows(party).
   }
-  Rule voice_knoll at gallow_knoll when memberOf(?m, party) and hasCalling(?m, calling_ranger) and awake(?m) and at(party, gallow_knoll) and not heardKnoll(party)
+  Rule voice_knoll at gallow_knoll when memberOf(?m, party) and brings(?m, woodcraft) and awake(?m) and at(party, gallow_knoll) and not heardKnoll(party)
     says "{?m} walks the foot of the knoll once, slowly, head down, and stops where the turf is a different green. 'A cart-road,' {?m} says. 'Under the grass, going east. Iron tyres, eighty years of rain filling the ruts.' {?m} follows it a hundred paces to a bank of turf, where it ends. The wheels did not turn round there. The cart was tipped over the bank and left, and the only way back is a line of footprints, small ones, one person's, going the other way to the tree. 'Somebody made a road that goes east and stops,' {?m} says. 'And then walked home along the side of it so as not to spoil it. I'd say it was made to be found, by anyone who came looking for where they'd gone.'" teaches east_staged {
     Assert heardKnoll(party).
   }
   Discovery east_staged "Eighty-one years ago someone made a cart-road east from the Gallowtree that ends at a bank where a cart was tipped over, and walked back alone along the edge of it: the seventh Leaving's 'gone on east' was laid on the ground, by a small foot, to be found.".
-  Rule voice_beam at leavers_yard when memberOf(?m, party) and hasCalling(?m, calling_thief) and awake(?m) and at(party, leavers_yard) and not heardBeam(party)
+  Rule voice_beam at leavers_yard when memberOf(?m, party) and brings(?m, lockwork) and awake(?m) and at(party, leavers_yard) and not heardBeam(party)
     says "{?m} drifts along the rows to the weighing-beam, as if looking at the cradles, and runs a thumbnail under the near pan. 'Filed,' {?m} says, not moving the lips. 'Underneath, where the stamp doesn't cover. Four strokes, fresh bright metal. That pan weighs light by a sixth, and the Measures' mark above it says it has been proved.' {?m} moves on to a chest and admires it loudly. 'Don't look at him. Look at the chests. We'll have to decide what to do about the Drewes.'" teaches beam_filed {
     Assert heardBeam(party).
   }
   Discovery beam_filed "The near pan of the Chandlers' weighing-beam in the Leavers' Market has been filed underneath, four fresh strokes, so that it weighs light by a sixth beneath the Collegium of Measures' stamp.".
-  Rule voice_sett at sett_mouth when memberOf(?m, party) and hasCalling(?m, calling_warrior) and awake(?m) and at(party, sett_mouth) and not heardSett(party)
+  Rule voice_sett at sett_mouth when memberOf(?m, party) and brings(?m, brawn) and awake(?m) and at(party, sett_mouth) and not heardSett(party)
     says "{?m} lays a hand flat against the highest of the grooves, well above {?m}'s own head, and measures it with the span of the other. 'She stood to this,' {?m} says. 'Sow, on her back legs, to scratch. That puts the first blow at the height of a man's neck, and a boar-spear's reach is no more than hers.' {?m} takes the hand away and looks at the dark mouth. 'Moss is nineteen and it is a very good spear,' {?m} says. 'I would not go in there with a spear for anything that could be had by some other road.'" {
     Assert heardSett(party).
   }
-  Rule voice_walls at dancing_hall when memberOf(?m, party) and hasCalling(?m, calling_bard) and awake(?m) and at(party, dancing_hall) and not heardWalls(party)
+  Rule voice_walls at dancing_hall when memberOf(?m, party) and brings(?m, performance) and awake(?m) and at(party, dancing_hall) and not heardWalls(party)
     says "{?m} tips an ear to the slope while the Searchers argue, and then hums a little under the breath, a figure and a loop and a figure and a loop, to see how it goes. 'It scans,' {?m} says, surprised. 'Every dance on this wall is the same measure: a run, a waggle, a loop, a rest of one breath. The old ones are cut deep and the new ones shallow, but the breath is always in the same place.' {?m} walks down to the lowest marks, by the door, where the children's hands reach. 'Count them. Six of these are a song. The seventh has had its breath taken out.'" {
     Assert heardWalls(party).
   }
@@ -48,7 +48,7 @@ Module hume "Half the Hive" {
   Action cap_merrit_white(actor: group, site: place, c: member) "Say the Capper's office over Merrit Coke, and cap her in the seventh Leaving's own white comb" {
     Description "{c} knows the words. The white is the first wax they drew, and it is the only white in the Wold; Eben's Lantern Stair wants it too.".
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, gallow_hollow) and knows(actor, merrit_found) and holding(actor, white_wax)
-      and memberOf(c, actor) and hasCalling(c, calling_cleric) and not merritCapped(actor).
+      and memberOf(c, actor) and brings(c, rites) and not merritCapped(actor).
     Time 4.
     Grave "Once Merrit is capped in the white, the Lantern Stair cannot have it; and she cannot be uncapped.".
     On success { Spend white_wax from actor. Assert merritCapped(actor). Assert merritWhite(actor). }
@@ -57,7 +57,7 @@ Module hume "Half the Hive" {
   Action cap_merrit_brow(actor: group, site: place, c: member) "Say the Capper's office over Merrit Coke, and cap her in a cake of Brow wax" {
     Description "{c} knows the words. Brow wax is the Brow's: it will make her the Brow's, after eighty-one years of nobody's.".
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, gallow_hollow) and knows(actor, merrit_found) and holding(actor, wax_cake)
-      and memberOf(c, actor) and hasCalling(c, calling_cleric) and not merritCapped(actor).
+      and memberOf(c, actor) and brings(c, rites) and not merritCapped(actor).
     Time 4.
     Grave "Brow wax closes her into the Brow's account; she cannot be uncapped.".
     On success { Spend wax_cake from actor. Assert merritCapped(actor). Assert merritBrow(actor). }
@@ -84,7 +84,7 @@ Module hume "Half the Hive" {
     On success { Spend wax_cake from actor. Assert merritCapped(actor). Assert merritBrow(actor). Assert merritUnsaid(actor). }
     Result "You cannot say the office, so you do not. The cake goes soft between your palms and dull when it sets, and you press it over her in sheets, and the edge will not take her iron, so you leave the iron where it is in her hand. She stands up in the Brow's yellow with the seams showing.".
   }
-  Rule company_has_cleric when memberOf(?m, party) and hasCalling(?m, calling_cleric) and not companyHasCleric(party) { Assert companyHasCleric(party). }
+  Rule company_has_cleric when memberOf(?m, party) and brings(?m, rites) and not companyHasCleric(party) { Assert companyHasCleric(party). }
   Relation companyHasCleric(group).
   Topic hannet_merrit_unsaid with hannet "Tell Hannet that Merrit was capped, and that nobody said anything over her" when merritUnsaid(party) and hannetHasBee(hannet) once {
     Says "Hannet turns the two bees over on their cord. 'Nobody said it,' she says. 'No.' She looks at your hands. 'You did it with those.' She is quiet for a time. 'My aunt capped forty-one of them and I do not suppose any of them was done with words, either, at the end.'".
@@ -108,7 +108,7 @@ Module hume "Half the Hive" {
     Speaker linnet.
     Description "In the lowland office the living say, over the bier, 'We take you.' The Brow has the custom of the dead staying; it has never had the words for the other.".
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, mothers_chamber) and at(linnet, mothers_chamber) and wantsTobit(agnes)
-      and memberOf(c, actor) and hasCalling(c, calling_cleric) and not linnetPermitsDead(linnet) and not leavingBegun().
+      and memberOf(c, actor) and brings(c, rites) and not linnetPermitsDead(linnet) and not leavingBegun().
     Time 2.
     On success { Assert linnetPermitsDead(linnet). }
     Result "{c} does not argue. {c} says it, in the plain low voice for it, with a hand on the Mother's cold flank because that is where the keeper's hand is: the office for carrying the dead, with its three lines. We take you. You will not be left. We carry what is ours. Linnet Amory's hands stop on the old queen's back. 'That is written down?' she says. 'Somewhere that is written down?' {c} says it is written in every parish below the march. 'We kept the dead because nobody ever told us we could take them,' Linnet says, not to you. 'Tell Agnes. Tell her I will walk beside the litter.'".

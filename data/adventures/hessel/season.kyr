@@ -19,50 +19,50 @@ Module hessel "The Banns at Hessel" {
   // ── The peal on the third morning: heard by everyone, understood by a bard ────────────────────────────────────────
   // Foreshadowed in the Sunday chapter ("a peal the ringers of Orm have called wrong in the fourth change"); paid at the Ball.
   Observe peal_heard at abbey_yard when thirdDay() and hour(clock) >= 6 and hour(clock) < 11 "The ringers are at it from first light on the third morning, and by now all eight bells of Saint Ebba's are going over the Yard in the long rolling peal, and at the fourth change the sixth bell falls a half-beat behind the rest and the peal stumbles, exactly where it always has, and goes on as if nothing had happened.".
-  Observe peal_understood at abbey_yard as revelation when thirdDay() and hour(clock) >= 6 and hour(clock) < 11 and memberOf(?m, party) and hasCalling(?m, calling_bard) and awake(?m)
+  Observe peal_understood at abbey_yard as revelation when thirdDay() and hour(clock) >= 6 and hour(clock) < 11 and memberOf(?m, party) and brings(?m, performance) and awake(?m)
     "The stumble in the fourth change is not a fault. Heard as a musician hears it, it is the last bar of a tune: eleven bars played and a twelfth rung wrong." teaches fourth_change.
   Discovery fourth_change "The fourth change of the peal of Saint Ebba's, that the ringers of Orm have called wrong for two hundred years, is the missing twelfth bar of an old minuet.".
 
   // ── Voices by calling: what each of the company makes of the Season ──────────────────────────────────────────────
   Relation hrdPump(group). Relation hrdPumpB(group). Relation hrdStall(group). Relation hrdStallB(group). Relation hrdNave(group).
   Relation hrdNaveB(group). Relation hrdHall(group). Relation hrdHallB(group). Relation hrdBeacon(group). Relation hrdBath(group).
-  Rule hv_bard_pump at pump_room when memberOf(?m, party) and hasCalling(?m, calling_bard) and awake(?m) and at(party, pump_room) and not hrdPump(party)
+  Rule hv_bard_pump at pump_room when memberOf(?m, party) and brings(?m, performance) and awake(?m) and at(party, pump_room) and not hrdPump(party)
     says "{?m} listens to the room for a minute with the pleased attention of a person at a rehearsal. 'Do you hear it?' {?m} says. 'Four conversations, and every one of them has the same rhythm. They all say a sentence, and then a name, and then 'dear.''" {
     Assert hrdPump(party).
   }
-  Rule hv_thief_pump at pump_room when memberOf(?m, party) and hasCalling(?m, calling_thief) and awake(?m) and at(party, pump_room) and not hrdPumpB(party)
+  Rule hv_thief_pump at pump_room when memberOf(?m, party) and brings(?m, lockwork) and awake(?m) and at(party, pump_room) and not hrdPumpB(party)
     says "{?m} lifts the lid of the lost-property box with one finger, and lets it fall. 'Forty left-hand gloves,' {?m} says. 'Somebody takes the right of every pair on the way out. It is not luck. It is a tidy small income.'" {
     Assert hrdPumpB(party).
   }
-  Rule hv_warrior_stall at stall_street when memberOf(?m, party) and hasCalling(?m, calling_warrior) and awake(?m) and at(party, stall_street) and not hrdStall(party)
+  Rule hv_warrior_stall at stall_street when memberOf(?m, party) and brings(?m, brawn) and awake(?m) and at(party, stall_street) and not hrdStall(party)
     says "{?m} watches two chairmen swing a lady off the kerb between them, and nods slowly, the way one soldier nods to another. 'Left pole and right pole, in step, and the one at the back calls it,' {?m} says. 'That is a drill. I have seen worse in a regiment.'" {
     Assert hrdStall(party).
   }
-  Rule hv_bard_stall at stall_street when memberOf(?m, party) and hasCalling(?m, calling_bard) and awake(?m) and at(party, stall_street) and not hrdStallB(party)
+  Rule hv_bard_stall at stall_street when memberOf(?m, party) and brings(?m, performance) and awake(?m) and at(party, stall_street) and not hrdStallB(party)
     says "{?m} stands with a thumb under the chin. 'They are calling the Parade,' {?m} says. 'Not out loud. In the knees. Seventeen steps up, a rest at the Abbey Yard, and a hitch at the seventh step where the paving is wrong. I could set that to a tune in an afternoon.'" {
     Assert hrdStallB(party).
   }
-  Rule hv_cleric_nave at ebba_nave when memberOf(?m, party) and hasCalling(?m, calling_cleric) and awake(?m) and at(party, ebba_nave) and not hrdNave(party)
+  Rule hv_cleric_nave at ebba_nave when memberOf(?m, party) and brings(?m, rites) and awake(?m) and at(party, ebba_nave) and not hrdNave(party)
     says "{?m} stops at the foot of the west window and looks at the two tablets side by side, the white one and the slate. 'One of those is a memorial to a person who is still alive,' {?m} says." {
     Assert hrdNave(party).
   }
-  Rule hv_thief_nave at ebba_nave when memberOf(?m, party) and hasCalling(?m, calling_thief) and awake(?m) and at(party, ebba_nave) and not hrdNaveB(party)
+  Rule hv_thief_nave at ebba_nave when memberOf(?m, party) and brings(?m, lockwork) and awake(?m) and at(party, ebba_nave) and not hrdNaveB(party)
     says "{?m} runs a thumbnail down the edge of the poor-box, and is a little sorry to find that it would not be worth the trouble." {
     Assert hrdNaveB(party).
   }
-  Rule hv_mage_hall at hospital when memberOf(?m, party) and hasCalling(?m, calling_mage) and awake(?m) and at(party, hospital) and not hrdHall(party)
+  Rule hv_mage_hall at hospital when memberOf(?m, party) and brings(?m, lore) and awake(?m) and at(party, hospital) and not hrdHall(party)
     says "{?m} stands at the end of the ward and counts, lips moving. 'Twenty beds,' {?m} says. 'Eleven vinegar jugs. One window in four is shut, and it is always the same four.'" {
     Assert hrdHall(party).
   }
-  Rule hv_monk_hall at hospital when memberOf(?m, party) and hasCalling(?m, calling_monk) and awake(?m) and at(party, hospital) and not hrdHallB(party)
+  Rule hv_monk_hall at hospital when memberOf(?m, party) and brings(?m, tumbling) and awake(?m) and at(party, hospital) and not hrdHallB(party)
     says "{?m} stands very still among the beds and does not speak. After a time someone coughs, and then someone sleeps. 'They can feel it,' {?m} says, low." {
     Assert hrdHallB(party).
   }
-  Rule hv_ranger_beacon at beacon when memberOf(?m, party) and hasCalling(?m, calling_ranger) and awake(?m) and at(party, beacon) and not hrdBeacon(party)
+  Rule hv_ranger_beacon at beacon when memberOf(?m, party) and brings(?m, woodcraft) and awake(?m) and at(party, beacon) and not hrdBeacon(party)
     says "{?m} crouches by a trodden patch of turf and picks up a pinch of it. 'Everyone walks the Beacon in pairs,' {?m} says. 'I can see which ones were not on speaking terms. The path is wider where they kept apart.'" {
     Assert hrdBeacon(party).
   }
-  Rule hv_bard_bath at cross_bath when memberOf(?m, party) and hasCalling(?m, calling_bard) and awake(?m) and at(party, cross_bath) and not hrdBath(party)
+  Rule hv_bard_bath at cross_bath when memberOf(?m, party) and brings(?m, performance) and awake(?m) and at(party, cross_bath) and not hrdBath(party)
     says "{?m} turns once, at the north pillar, without deciding to, and laughs at {?m}self. 'I caught it,' {?m} says." {
     Assert hrdBath(party).
   }
@@ -75,7 +75,7 @@ Module hessel "The Banns at Hessel" {
   Action hum_bar_privately(actor: group, site: place, m: member) "Hum the missing twelfth bar to Mr Twiss, under your breath, as the band stops" {
     Description "{m} heard it in the peal. It is the bar that ends the King's minuet.".
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, ballroom) and at(twiss, ballroom) and afterEleven() and knows(actor, fourth_change)
-      and memberOf(m, actor) and hasCalling(m, calling_bard) and awake(m) and not barHummed(party).
+      and memberOf(m, actor) and brings(m, performance) and awake(m) and not barHummed(party).
     Time 2 minutes.
     On success { Assert barHummed(party). Assert barPrivate(party). Increase twissFavour(twiss) by 2. }
     Result "{m} hums it, close, to Mr Twiss's collar: eleven bars he knows, and a twelfth that he has always heard as a mistake in the bells. He goes still. 'Again,' he says, very low, and {m} does. His eyes are shut, and his foot, in its dove-grey shoe, is beating the bar. 'I was seven,' he says. 'My father hummed it, wrong, to put me to sleep.' He opens his eyes. 'I shall remember that you did not do it aloud.'".
@@ -83,7 +83,7 @@ Module hessel "The Banns at Hessel" {
   Action hum_bar_aloud(actor: group, site: place, m: member) "Hum the missing twelfth bar aloud, to the stopped band, and let the Rooms hear the minuet end" {
     Description "It finishes the tune. It also finishes the reason for the Rule.".
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, ballroom) and at(twiss, ballroom) and afterEleven() and knows(actor, fourth_change)
-      and memberOf(m, actor) and hasCalling(m, calling_bard) and awake(m) and not barHummed(party).
+      and memberOf(m, actor) and brings(m, performance) and awake(m) and not barHummed(party).
     Time 2 minutes.
     On success { Assert barHummed(party). Assert ruleBroken(party). Increase twissFavour(twiss) by 3. Assert cherrettDanced(cherrett). }
     Result "{m} sings it, out, across the emptying floor, the twelfth bar, which is a falling third and a held note. The first violin takes it, and the second, and the band comes in under it as a person comes in at a door they had forgotten was a door. The Season, with its shawls, stops. Mr Twiss stands in the middle of the floor with his hand still lifted to stop the music, and does not lower it, and the minuet finishes, for the first time in a hundred and twenty years, at the bar it was always meant to. He turns slowly to Mrs Cherrett's chair. 'Madam,' he says, in a voice nobody in the Rooms has heard. 'I think we are going to have to dance.'".

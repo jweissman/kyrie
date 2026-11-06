@@ -2,50 +2,50 @@ Module dorothea "The Dorothea" {
   Description "What the company's members make of the sea, by what they are.".
 
   Relation vSky(group). Relation vHatch(group). Relation vPump(group). Relation vCombs(group). Relation vLamp(group). Relation vGull(group).
-  Rule voice_sky at deck when memberOf(?m, party) and hasCalling(?m, calling_ranger) and awake(?m) and at(hull, open_sea) and not vSky(party)
+  Rule voice_sky at deck when memberOf(?m, party) and brings(?m, woodcraft) and awake(?m) and at(hull, open_sea) and not vSky(party)
     says "{?m} stands at the rail with the wind in the face and does not speak for a while. 'Glass is falling,' {?m} says at last, 'and the swell has changed its mind about where it is coming from. It will be thick by the morning, and the Captain knows. She has the look.'" {
     Assert vSky(party).
   }
-  Rule voice_hatch at deck when memberOf(?m, party) and hasCalling(?m, calling_thief) and awake(?m) and at(jago, deck) and not vHatch(party)
+  Rule voice_hatch at deck when memberOf(?m, party) and brings(?m, lockwork) and awake(?m) and at(jago, deck) and not vHatch(party)
     says "{?m} does not look at the two men at the hatch. {?m} looks at the cutter's mast, and the way the cutter has taken the lee, and the men on her deck who are not showing lights. 'He does this twice a month,' {?m} says, low. 'Look at the mate's hands. They are not frightened. They are practised.'" {
     Assert vHatch(party).
   }
-  Rule voice_pump at hold when memberOf(?m, party) and hasCalling(?m, calling_cleric) and awake(?m) and water(hull) >= 6 and at(party, hold) and not vPump(party)
+  Rule voice_pump at hold when memberOf(?m, party) and brings(?m, rites) and awake(?m) and water(hull) >= 6 and at(party, hold) and not vPump(party)
     says "{?m} stands ankle-deep in the black water and says a short plain prayer for the planks. It is the sort of prayer a sailor would say, with no great hope and no great shame: that the keel hold, that the pump hold, that the hands hold. 'Pump,' {?m} says then, in an entirely different voice. 'Prayer is for after.'" {
     Assert vPump(party).
   }
-  Rule voice_combs at deck when memberOf(?m, party) and hasCalling(?m, calling_warrior) and awake(?m) and troubled(hull) and at(hull, teeth) and not vCombs(party)
+  Rule voice_combs at deck when memberOf(?m, party) and brings(?m, brawn) and awake(?m) and troubled(hull) and at(hull, teeth) and not vCombs(party)
     says "{?m} looks at the gap for a long time, as a soldier looks at a ford. 'A thing that kills you at six knots,' {?m} says, 'and merely hurts you at slack. I would wait the five hours. But I would not be the one to tell her.'" {
     Assert vCombs(party).
   }
-  Rule voice_lamp at pharos_lamp when memberOf(?m, party) and hasCalling(?m, calling_mage) and awake(?m) and not vLamp(party)
+  Rule voice_lamp at pharos_lamp when memberOf(?m, party) and brings(?m, lore) and awake(?m) and not vLamp(party)
     says "{?m} puts a palm near the great bronze reflector and takes it away again. 'Nothing in it,' {?m} says. 'No working. It is a shape. It throws the light out in a way that shows you where it is, and the way it does that is so exactly right that I cannot find where the sorcery is hiding.'" {
     Assert vLamp(party).
   }
-  Rule voice_gull at gull_room when memberOf(?m, party) and hasCalling(?m, calling_bard) and awake(?m) and not vGull(party)
+  Rule voice_gull at gull_room when memberOf(?m, party) and brings(?m, performance) and awake(?m) and not vGull(party)
     says "{?m} listens to the Gull's kitchen for a while: the range, the ledger, the sheep through the wall. 'This is how a place like this sings,' {?m} says. 'The sum of what it owes. If you wrote it down it would scan.'" {
     Assert vGull(party).
   }
 
   // ── The archipelago ─────────────────────────────────────────────────────────────────────────────────────────────
   Relation vLock(group). Relation vBirds(group). Relation vTide(group). Relation vLadder(group). Relation vRim(group).
-  Rule voice_lock at counting_room when memberOf(?m, party) and hasCalling(?m, calling_thief) and awake(?m) and at(party, counting_room) and houseHolds(lamp_ness) and not vLock(party)
+  Rule voice_lock at counting_room when memberOf(?m, party) and brings(?m, lockwork) and awake(?m) and at(party, counting_room) and houseHolds(lamp_ness) and not vLock(party)
     says "{?m} does not look at the clerk. {?m} looks at the strongbox, and at the keyhole, and at the way the brass about it is worn on the left only. 'Two levers,' {?m} says, low. 'The second one is set back under the first. Somebody who didn't trust his Factor put it there. It would take a quiet hour.'" {
     Assert vLock(party).
   }
-  Rule voice_birds at stack_top when memberOf(?m, party) and hasCalling(?m, calling_ranger) and awake(?m) and at(party, stack_top) and houseHolds(lamp_antlers) and not vBirds(party)
+  Rule voice_birds at stack_top when memberOf(?m, party) and brings(?m, woodcraft) and awake(?m) and at(party, stack_top) and houseHolds(lamp_antlers) and not vBirds(party)
     says "{?m} walks to the edge of the turf with the wind in the face and watches the gannets for a time. 'They're on the lee side,' {?m} says. 'Thickest. The board is on the windward, where they're thin. Whoever wrote that clause never stood here. A fire on the lee side would not put these off, it would warm them.'" {
     Assert vBirds(party).
   }
-  Rule voice_tide at ness_strand when memberOf(?m, party) and hasCalling(?m, calling_ranger) and awake(?m) and at(party, ness_strand) and not vTide(party)
+  Rule voice_tide at ness_strand when memberOf(?m, party) and brings(?m, woodcraft) and awake(?m) and at(party, ness_strand) and not vTide(party)
     says "{?m} crouches by the tide-gauge and puts a hand on the weed-line. 'Low water at about this hour,' {?m} says, 'and five hours of road, no more. After that the road drowns. Weed lies on it a handsbreadth deep by the next high. Whoever goes out should come back with the ebb still running.'" {
     Assert vTide(party).
   }
-  Rule voice_ladder at stack_foot when memberOf(?m, party) and hasCalling(?m, calling_warrior) and awake(?m) and at(party, stack_foot) and not ladderSound(party) and not vLadder(party)
+  Rule voice_ladder at stack_foot when memberOf(?m, party) and brings(?m, brawn) and awake(?m) and at(party, stack_foot) and not ladderSound(party) and not vLadder(party)
     says "{?m} takes the ladder in both fists and leans back on it, and a rung comes away in the hand. 'No,' {?m} says. 'I have seen men go up worse. I have seen them come down faster.' {?m} looks at the hoist-basket and the boy at the winch. 'I will go in the basket, and I will not say that I like it.'" {
     Assert vLadder(party).
   }
-  Rule voice_rim at ashkeld_rim when memberOf(?m, party) and hasCalling(?m, calling_ranger) and awake(?m) and at(party, ashkeld_rim) and not vRim(party)
+  Rule voice_rim at ashkeld_rim when memberOf(?m, party) and brings(?m, woodcraft) and awake(?m) and at(party, ashkeld_rim) and not vRim(party)
     says "{?m} stands on the lip with a wet cloth over the face and listens, as one listens to a sleeping animal. 'It breathes,' {?m} says. 'Slow. In, hold, out. There is a gap in it. If I had a clock I could use it. If I had the bath-keeper I could ask.'" {
     Assert vRim(party).
   }

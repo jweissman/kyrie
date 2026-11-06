@@ -257,7 +257,7 @@ Module dorothea "The Dorothea" {
 
   // ── A voice: the ranger at the creek ────────────────────────────────────────────────────────────────────────────
   Relation vCreek(group).
-  Rule voice_creek at mangrow_creek when memberOf(?m, party) and hasCalling(?m, calling_ranger) and awake(?m) and at(party, mangrow_creek) and not vCreek(party)
+  Rule voice_creek at mangrow_creek when memberOf(?m, party) and brings(?m, woodcraft) and awake(?m) and at(party, mangrow_creek) and not vCreek(party)
     says "{?m} stands in the green glare with a hand on a trunk and looks up it. 'There,' {?m} says, to nobody. 'White underleaf. That one weeps. If the man in the tree is right, that is the bark, and I do not need the House's stone room for a bale of it. I need an hour and a good knife and not to mind the biters.'" {
     Assert vCreek(party).
   }
