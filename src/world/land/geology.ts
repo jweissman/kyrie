@@ -4,6 +4,8 @@ import type { Cover } from './land-cover';
 
 export interface Formation {
   name: string; rock: string; soil: string; covers: string[]; terrains: string[]; deposits: Record<string, number>;
+  // The kinds of soil it makes, by the words a plant's grounds may use (loam, sand, peat, chalk).
+  soils?: string[];
   looks: string;
 }
 // What a country's ground is made of, cell by cell: the formation under each (where any lies under its cover), and

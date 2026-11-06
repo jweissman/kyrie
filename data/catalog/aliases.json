@@ -44,5 +44,35 @@
     "stag": "deer/male",
     "bone_hound": "hound/skeletal",
     "bronze_construct": "golem/bronze/custodian"
+  },
+  "habitats": {
+    "forest": "wood",
+    "woodland": "wood",
+    "mountain": "fells",
+    "mountains": "fells",
+    "hills": "fells",
+    "moor": "heath",
+    "moorland": "heath",
+    "plains": "meadow",
+    "grassland": "meadow",
+    "coast": "sea",
+    "shore": "sea",
+    "rocky_shore": "sea",
+    "marsh": "fen",
+    "swamp": "fen",
+    "bog": "fen",
+    "garden": "settlement",
+    "farm": "settlement",
+    "town": "settlement",
+    "village": "settlement"
+  },
+  "grounds": {
+    "rocky_vale": "rocky",
+    "rock": "rocky",
+    "stony": "rocky",
+    "chalk_down": "chalk",
+    "sandy": "sand",
+    "clay_soil": "clay",
+    "peat_bog": "peat"
   }
 }

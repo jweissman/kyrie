@@ -4,7 +4,7 @@
     "granite": {
       "name": "Granite",
       "rock": "stone",
-      "soil": "thin and sour",
+      "soil": "thin and sour", "soils": ["rocky", "sour"],
       "covers": [
         "peak",
         "fell",
@@ -23,7 +23,7 @@
     "slate": {
       "name": "Slate country",
       "rock": "slate",
-      "soil": "thin, over broken rock",
+      "soil": "thin, over broken rock", "soils": ["rocky"],
       "covers": [
         "fell",
         "peak",
@@ -43,7 +43,7 @@
     "ironstone": {
       "name": "Ironstone",
       "rock": "stone",
-      "soil": "red and heavy",
+      "soil": "red and heavy", "soils": ["loam", "clay"],
       "covers": [
         "fell",
         "heath",
@@ -62,7 +62,7 @@
     "limestone": {
       "name": "Limestone",
       "rock": "stone",
-      "soil": "sweet and thin, good for sheep",
+      "soil": "sweet and thin, good for sheep", "soils": ["chalk", "loam"],
       "covers": [
         "fell",
         "heath",
@@ -83,7 +83,7 @@
     "sandstone": {
       "name": "Sandstone",
       "rock": "stone",
-      "soil": "light and dry",
+      "soil": "light and dry", "soils": ["sand", "loam"],
       "covers": [
         "heath",
         "wood",
@@ -104,7 +104,7 @@
     "clay_vale": {
       "name": "Clay vale",
       "rock": "clay",
-      "soil": "heavy and wet, rich when it is drained",
+      "soil": "heavy and wet, rich when it is drained", "soils": ["clay", "loam"],
       "covers": [
         "meadow",
         "wood",
@@ -122,7 +122,7 @@
     "peat_moor": {
       "name": "Peat moor",
       "rock": "peat",
-      "soil": "black and sodden",
+      "soil": "black and sodden", "soils": ["peat"],
       "covers": [
         "fen",
         "heath"
@@ -140,7 +140,7 @@
     "salt_flats": {
       "name": "Salt ground",
       "rock": "salt",
-      "soil": "bitter",
+      "soil": "bitter", "soils": ["salt", "sand"],
       "covers": [
         "fen",
         "heath",

@@ -1,5 +1,6 @@
 import { Canon } from '../canon/canon';
 import { Draw } from './land/draw';
+import { Geology } from './land/geology';
 import { RegionGeography } from './region-geography';
 import { RegionZones } from './region-zones';
 import { RegionRoads } from './region-roads';
@@ -43,10 +44,11 @@ export class RegionGrowth {
   private static odds(o: Plant, rocks: Set<string>): number {
     return Math.min(1, (o.abundance ?? 0) / 10 * (o.grounds?.some(g => rocks.has(g)) ? 2 : 1));
   }
-  // The rock under a place's cells (see Geology).
+  // The rock under a place's cells (see Geology), and the soils it makes.
   static rocks(region: Region, cells: number[]): Set<string> {
     const rock = RegionGeography.atlas(region).land.ground?.rock ?? [];
-    return new Set(cells.flatMap(c => rock[c] ?? []));
+    const under = cells.flatMap(c => rock[c] ?? []);
+    return new Set([...under, ...under.flatMap(id => Geology.formations[id]?.soils ?? [])]);
   }
   static places(region: Region): { id: string; cells: number[]; name: string }[] {
     const atlas = RegionGeography.atlas(region);

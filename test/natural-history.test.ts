@@ -84,4 +84,17 @@ describe('natural history', () => {
     // The kinds of Orsino's that were met only when summoned are among them: the deer, the otter, the dryad.
     expect(['deer', 'otter', 'rabbit', 'dryad', 'vampire', 'drake'].filter(id => !placed.has(id))).toEqual([]);
   });
+  // A plant written in its author's own words (the owner's plants, 6 November): where it lives by any common word for
+  // it (a forest is the wood, a moor the heath, a garden by houses and farms), the ground it likes by its soil (loam,
+  // or rocky_vale for rocky), and what it gives by its record alone, with no item written for it.
+  it('takes a plant written in its author\'s words, and gives what it yields from its record', () => {
+    type Grown = Record<string, { habitats: string[]; grounds?: string[]; yields?: string; name: string;
+      looks: string }>;
+    const read = (Canon as unknown as { grown(r: Grown): Grown }).grown({ hazel: { name: 'Hazel', looks: 'A small tree.',
+      habitats: ['forest', 'garden', 'moor'], grounds: ['loam', 'rocky_vale'], yields: 'hazel' } }).hazel!;
+    expect([read.habitats, read.grounds, read.yields]).toEqual([['wood', 'settlement', 'heath'], ['loam', 'rocky'],
+      'hazel_gathered']);
+    expect(['loam', 'rocky', 'sand', 'granite'].filter(g => !CanonValidation.grounds.has(g))).toEqual([]);
+    expect(Object.values(Canon.plants).filter(p => p.yields && !Canon.items[p.yields]).map(p => p.name)).toEqual([]);
+  });
 });

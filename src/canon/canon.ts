@@ -39,6 +39,18 @@ export class Canon {
   static readonly conflicts: string[] = [];
   // A fine make of each ordinary weapon, a smith's best work: a point more on every blow, four times the price
   // (REV-04, the owner's note of 31 October: "no real way to improve weapons").
+  // What a plant gives that no item is written for (the owner's plants, 6 November, each added by its record alone): a
+  // thing of its own, named for the plant and looking as it does, worth a coin. One written in items.json is that.
+  private static gathered(items: Record<string, ItemKind>): Record<string, ItemKind> {
+    const made = Object.entries(plants.plants as unknown as Record<string, Plant>)
+      .filter(([, p]) => p.yields && !items[p.yields])
+      .map(([id, p]): [string, ItemKind] => [Canon.yielded(id, p.yields!), { name: p.name, category: 'gear', value: 1,
+        description: `${p.looks} Gathered where it grows.`,
+        source: { kyr: true, notes: `What the plant ${id} gives, made from its record (data/catalog/plants.json).` } }]);
+    return { ...items, ...Object.fromEntries(made) };
+  }
+  // The item a plant yields by its own name is its gathered thing (an item and a plant are never one id).
+  private static yielded(plant: string, yields: string): string { return yields === plant ? `${plant}_gathered` : yields; }
   private static fine(items: Record<string, ItemKind>): Record<string, ItemKind> {
     const made = Object.entries(items).filter(([id, i]) => i.category === 'weapon' && i.weapon && !id.startsWith('fine_')
       && /^\d+d\d+$/.test(i.weapon.damage.replace(/\s/g, '')) && (i.value ?? 0) > 0 && (i.value ?? 0) <= 50)
@@ -72,7 +84,8 @@ export class Canon {
   static readonly ancestries = ancestries.ancestries as unknown as Record<string, Ancestry>;
   // The base creatures, every one in one of two authored files (animals.json, monsters.json): Orsino's kinds among
   // them by provenance (source.orsino), none generated beside them (the owner, 5 November: one authoritative record).
-  static readonly species = { ...animals.species, ...monsters.species } as unknown as Record<string, Species>;
+  static readonly species = Canon.lived({ ...animals.species, ...monsters.species } as unknown as
+    Record<string, Species>);
   // The kinds a module installed as it loaded (see LocalCatalog), belonging to the world that wrote them.
   static readonly installed = new Set<string>();
   // The catalog's own kinds: what generation draws from, never a module's own.
@@ -83,7 +96,7 @@ export class Canon {
   static readonly materials = materials.materials as unknown as Record<string, Material>;
   static readonly classes = classes.classes as unknown as Record<string, CharacterClass>;
   static readonly skills = skills.skills as unknown as Record<string, Skill>;
-  static readonly items = Canon.fine(Canon.merge<ItemKind>('item', orsinoItems.items, items.items));
+  static readonly items = Canon.gathered(Canon.fine(Canon.merge<ItemKind>('item', orsinoItems.items, items.items)));
   // A domain's blessing is Orsino's, generated; the domain itself (name, alignment, spell domain) is hand-written.
   static readonly domains = Object.fromEntries(Object.entries(religion.domains as unknown as Record<string, Domain>)
     .map(([id, d]) => [id, { ...d, ...(orsinoBlessings.blessings as Record<string, Domain['blessing']>)[id]
@@ -106,7 +119,21 @@ export class Canon {
   // The kinds of country life is met in, one vocabulary (data/catalog/habitats.json), and the plants that grow in them
   // (data/catalog/plants.json): organisms.json, which had held both and three animals again, is retired.
   static readonly habitats = habitats.habitats as unknown as Record<string, Habitat>;
-  static readonly plants = plants.plants as unknown as Record<string, Plant>;
+  static readonly plants = Canon.grown(plants.plants as unknown as Record<string, Plant>);
+  // Where a record says it lives, by the vocabulary's own words, in whatever words its author used (aliases.json,
+  // habitats: a forest is the wood, a moor the heath, a garden is by houses and farms; the owner's plants, 6 November).
+  private static lived<T extends { habitats?: string[] }>(records: Record<string, T>): Record<string, T> {
+    const words = (aliases as unknown as { habitats?: Record<string, string> }).habitats ?? {};
+    return Object.fromEntries(Object.entries(records).map(([id, r]) => [id,
+      r.habitats ? { ...r, habitats: [...new Set(r.habitats.map(h => words[h] ?? h))] } : r]));
+  }
+  // And the ground it does best on in its author's words too (rocky_vale is rocky), and what it yields by its id.
+  private static grown(records: Record<string, Plant>): Record<string, Plant> {
+    const words = (aliases as unknown as { grounds?: Record<string, string> }).grounds ?? {};
+    return Object.fromEntries(Object.entries(Canon.lived(records)).map(([id, p]) => [id, { ...p,
+      ...p.yields ? { yields: Canon.yielded(id, p.yields) } : {},
+      ...p.grounds ? { grounds: [...new Set(p.grounds.map(g => words[g] ?? g))] } : {} }]));
+  }
   static readonly aliases = aliases as unknown as Record<Family, Record<string, string>>;
   static resolve(family: Family, id: string): string { return this.aliases[family]?.[id] ?? id; }
   // Orsino's background rows composed with Kyr's background kinds (see BackgroundCatalog).

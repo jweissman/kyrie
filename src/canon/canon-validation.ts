@@ -18,6 +18,9 @@ export class CanonValidation {
   // A creature is painted by one of the collection's creature concepts.
   static readonly paintings = new Set([...PaintingConcepts.creatures,
     ...[...animalPaintings.portraits, ...monsterPaintings.portraits].map(p => p.file.replace(/^paintings\/|\.webp$/g, ''))]);
+  // What a plant's grounds may name: a formation (granite), or a soil one makes (loam, sand).
+  static readonly grounds = new Set([...Object.keys(geology.formations), ...Object.values(geology.formations)
+    .flatMap(f => (f as { soils?: string[] }).soils ?? [])]);
   static readonly schools = ['abjuration', 'conjuration', 'divination', 'enchantment', 'evocation', 'illusion',
     'necromancy', 'transmutation'];
   static readonly traitCategories = ['lineage', 'nature', 'affinity', 'character', 'feat', 'party', 'specialization',
@@ -242,7 +245,7 @@ export class CanonValidation {
       }
       if (o.stand && (!o.yields || !o.gathered)) { this.fail(where, 'a stand gathers something it yields'); }
       for (const h of o.habitats.filter(h => !Canon.habitats[h])) { this.fail(where, `unknown habitat ${h}`); }
-      for (const g of (o.grounds ?? []).filter(g => !(g in geology.formations))) { this.fail(where, `unknown ground ${g}`); }
+      for (const g of (o.grounds ?? []).filter(g => !CanonValidation.grounds.has(g))) { this.fail(where, `unknown ground ${g}`); }
     }
   }
   private sources() {
